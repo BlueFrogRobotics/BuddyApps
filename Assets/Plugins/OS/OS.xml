@@ -1,0 +1,1296 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OS</name>
+    </assembly>
+    <members>
+        <member name="P:BuddyOS.Battery.MaxVoltage">
+            <summary>
+            Maximum value of the battery in volts.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Battery.MinVoltage">
+            <summary>
+            Minimum value of the battery in volts.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Battery.Volts">
+            <summary>
+            Returns battery's value in volts.
+            </summary>
+            <returns>Instant battery's voltage, in volts</returns>
+        </member>
+        <member name="P:BuddyOS.Battery.EnergyLevel">
+            <summary>
+            Returns the purcentage of the battery's recharge.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Battery.SuppliesPower">
+            <summary>
+            Let the battery provide power to the robot or not.
+            </summary>
+            <remarks> You have to put the value to true tu use Buddy's functionnalities.</remarks>
+        </member>
+        <member name="P:BuddyOS.CliffSensor.Distance">
+            <summary>
+            Returns the distance detected by the sensor, in meters. 
+            </summary>
+        </member>
+        <member name="P:BuddyOS.CliffSensor.IsCliff">
+            <summary>
+            Returns True if a cliff is detected by the sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.CliffSensor.MaxDistance">
+            <summary>
+            Returns the maximum distance for detection of the cliff sensor, in meters.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.CliffSensor.MinDistance">
+            <summary>
+            Returns the minimum distance for detection of the cliff sensor, in meters.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.CliffSensors.FrontLeft">
+            <summary>
+            Accessor to the structure for the front left cliff sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.CliffSensors.FrontRight">
+            <summary>
+            Accessor to the structure for the front right cliff sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.CliffSensors.BackLeft">
+            <summary>
+            Accessor to the structure for the back left cliff sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.CliffSensors.BackRight">
+            <summary>
+            Accessor to the structure for the back right cliff sensor.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.DepthCam.Open(DepthMode)">
+            <summary>
+            Opens the camera device. Should be called once by session.
+            </summary>
+            <param name="iMode">Mode of the camera</param>
+        </member>
+        <member name="M:BuddyOS.DepthCam.Open(System.Int32)">
+            <summary>
+            Opens the camera device. Should be called once by session.
+            </summary>
+            <param name="iMode">Mode of the camera</param>
+        </member>
+        <member name="M:BuddyOS.DepthCam.Close">
+            <summary>
+            Closes the current opened camera. Must be call when you don't use the camera anymore. 
+            </summary>
+        </member>
+        <member name="P:BuddyOS.DepthCam.FieldOfView">
+            <summary>
+            Field of view of the camera
+            </summary>
+        </member>
+        <member name="P:BuddyOS.DepthCam.FrameMat">
+            <summary>
+            Gets the current frame as a Mat OpenCVUnity format.
+            </summary>
+            <returns>Mat format of the current frame</returns>
+        </member>
+        <member name="P:BuddyOS.DepthCam.FrameTexture2D">
+            <summary>
+            Gets the current frame as a Texture2D format.
+            </summary>
+            <returns>Texture2D format of the current frame</returns>
+        </member>
+        <member name="P:BuddyOS.DepthCam.DepthMat">
+            <summary>
+            Gets the current frame as a Mat OpenCVUnity format in grayscale.
+            </summary>
+            <returns>Mat format of the current frame</returns>
+        </member>
+        <member name="P:BuddyOS.DepthCam.DepthTexture2D">
+            <summary>
+            Gets the current frame as a Texture2D format in grayscale.
+            </summary>
+            <returns>Texture2D format of the current frame</returns>
+        </member>
+        <member name="P:BuddyOS.DepthCam.Width">
+            <summary>
+            Gets the width of the camera output.
+            </summary>
+            <returns>Number of pixels corresponding to the width of the frame</returns>
+        </member>
+        <member name="P:BuddyOS.DepthCam.Height">
+            <summary>
+            Gets the height of the camera output.
+            </summary>
+            <returns>Number of pixels corresponding to the height of the frame</returns>
+        </member>
+        <member name="P:BuddyOS.DepthCam.FrameID">
+            <summary>
+            Gets the id of the current frame.
+            </summary>
+            <returns>ID of the frame</returns>
+        </member>
+        <member name="P:BuddyOS.DepthCam.IsOpen">
+            <summary>
+            Checks if the camera is open.
+            </summary>
+            <remarks>
+            An opened camera will update its frame depending to the input view
+            </remarks>
+            <returns>Return true if the camera is open</returns>
+        </member>
+        <member name="P:BuddyOS.DepthCam.PointCloud">
+            <summary>
+            Return the point cloud of the 
+            </summary>
+            <returns>The point cloud</returns>
+        </member>
+        <member name="M:BuddyOS.Face.SetMood(FaceMood)">
+            <summary>
+            Commands the face to switch to the mood defined in a string.
+            </summary>
+            <param name="iMood">The name of the mood to switch to</param>
+        </member>
+        <member name="M:BuddyOS.Face.SetEvent(FaceEvent)">
+            <summary>
+            Commands the face to play the event defined in a string.
+            </summary>
+            <param name="iEvent">The name of the event to play</param>
+        </member>
+        <member name="P:BuddyOS.Face.IsSpeaking">
+            <summary>
+            Indicates if the mouth is currently simulating a speech. 
+            </summary>
+            <remarks>
+            There is a variable delay between the command sent to the face and the actual motion of the mouth. This accessor allows you to know when this delay is over.
+            See the method "Speak" to send an order.
+            </remarks>
+        </member>
+        <member name="P:BuddyOS.Face.IsStable">
+            <summary>
+            Indicates if the animator is in a state considered as "stable".
+            </summary>
+            <remarks>
+            A stable state is a state which can directly transit to another stable state or a speak state or an event.
+            </remarks>
+        </member>
+        <member name="P:BuddyOS.IRSensor.Value">
+            <summary>
+            Get the value sent by the infrared sensor.
+            </summary>
+            <remarks>
+            The value means the lightning measured by the infrared sensor.
+            </remarks>
+        </member>
+        <member name="P:BuddyOS.IRSensor.Distance">
+            <summary>
+            Get the distance calculated by the sensor.
+            </summary>
+            <remarks>
+            The distance is calculated using the lightning value sent by the sensor.
+            See "Value" to get this value.
+            </remarks>
+        </member>
+        <member name="P:BuddyOS.IRSensor.MaxDistance">
+            <summary>
+            Access to the maximum distance which can be measured by the sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.IRSensor.MinDistance">
+            <summary>
+            Access to the minimum distance which can be measured by the sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.IRSensor.Angle">
+            <summary>
+            Access to the angle in degrees of the sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.IRSensors.Left">
+            <summary>
+            Access to structure data for the left infrared sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.IRSensors.Middle">
+            <summary>
+            Access to structure data for the middle infrared sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.IRSensors.Right">
+            <summary>
+            Access to structure data for the right infrared sensor.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.LED.SetBodyLight(MoodColor)">
+            <summary>
+            Set the body light based on the mood.
+            </summary>
+            <param name="iMoodColor">Color coresponding to the mood</param>
+        </member>
+        <member name="M:BuddyOS.LED.SetBodyLight(UnityEngine.Color,System.Single,System.Single)">
+            <summary>
+            Set the body light value and oscillation with UnityEngine Color.
+            </summary>
+            <param name="iColor">Color of the lights in RGB</param>
+            <param name="iVariation">Amplitude of the oscillation in purcentage (0.0f to 1f with step of 0.01f)</param>
+            <param name="iFrequency">Frequency of oscillation in Hertz (0.0f to 5.10f with step of 0.02f)</param>
+        </member>
+        <member name="M:BuddyOS.LED.SetBodyLight(System.Int32,System.Int32,System.Int32,System.Single,System.Single)">
+            <summary>
+            Set the body light value and oscillation with HSV Color.
+            </summary>
+            <param name="iH">Hue value in degrees (0.0f to 360.0f)</param>
+            <param name="iS">Saturation purcentage (0.0f to 100f)</param>
+            <param name="iV">Brightness of the color  (0.0f to 100f)</param>
+            <param name="iVariation">>Amplitude of the oscillation in purcentage (0.0f to 1f with step of 0.01f)</param>
+            <param name="iFrequency">Frequency of oscillation in Hertz (0.0f to 5.10f with step of 0.02f)</param>
+        </member>
+        <member name="M:BuddyOS.Micro.StartMicro(System.String,System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Starts Recording. 
+            Returns an AudioClip, or NULL if recording fails to start.
+            </summary>
+            <param name="iDeviceName">Name of the device</param>
+            <param name="iLoop">Indicates whether the recording should continue recording if lengthSec is reached, and wrap around and record from the beginning of the AudioClip.</param>
+            <param name="iLenghtSec">Time record in seconds</param>
+            <param name="iFrequency">The sample rate of the AudioClip produced by the recording.</param>
+        </member>
+        <member name="M:BuddyOS.Micro.StopMicro(System.String)">
+            <summary>
+            Stops Recording.
+            </summary>
+            <param name="iDeviceName">Name of the device</param>
+        </member>
+        <member name="M:BuddyOS.Micro.IsRecordingMicro(System.String)">
+            <summary>
+            Asks if a device is currently recording.
+            </summary>
+            <param name="iDeviceName">Name of the device</param>
+        </member>
+        <member name="M:BuddyOS.Micro.GetPositionMicro(System.String)">
+            <summary>
+            Get the position in samples of the recording.
+            </summary>
+            <param name="iDeviceName">Name of the device</param>        
+        </member>
+        <member name="M:BuddyOS.Micro.GetDeviceCapsMicro(System.String)">
+            <summary>
+            Get the frequency capabilities of a device.
+            Returns min and max frequency that the device supports.
+            </summary>
+            <param name="iDeviceName">Name of the device</param>
+        </member>
+        <member name="P:BuddyOS.Micro.Record">
+            <summary>
+            The current recording
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Hinge.DestinationAnglePosition">
+            <summary>
+            Get the setted angular position of the motor in degrees
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Hinge.CurrentAnglePosition">
+            <summary>
+            Get the current angular position of the motor in degrees
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Hinge.TargetSpeed">
+            <summary>
+            Current target velocity in degrees per second
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Hinge.MaximumAngle">
+            <summary>
+            Maximum possible angular position of the motor in degrees
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Hinge.MinimumAngle">
+            <summary>
+            Minimum possible angular position of the motor in degrees
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Hinge.MaximumSpeed">
+            <summary>
+            Maximum possible velocity of the motor in degrees per second
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Hinge.SetPosition(System.Single,System.Single)">
+            <summary>
+            Set the angular position in degrees of the motor at a specific speed in degrees per second
+            </summary>
+            <param name="iAngleDeg">Angle in degrees of the angular</param>
+            <param name="iSpeed">Speed in degrees/sec of the motor</param>
+        </member>
+        <member name="M:BuddyOS.Hinge.SetPosition(System.Single)">
+            <summary>
+            Set the angular position in degrees of the motor
+            </summary>
+            <param name="iAngleDeg">Angle in degrees of the angular position</param>
+        </member>
+        <member name="P:BuddyOS.Wheels.LeftWheelAngle">
+            <summary>
+            Actual angle of left wheel, in degrees.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Wheels.RightWheelAngle">
+            <summary>
+            Actual angle of right wheel, in degrees.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Wheels.LeftWheelDeltaAngle">
+            <summary>
+            Rotation of left wheel since the last frame, in degrees.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Wheels.RightWheelDeltaAngle">
+            <summary>
+            Rotation of right wheel since the last frame, in degrees.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Wheels.LeftWheelAngularVelocity">
+            <summary>
+            Angular velocity of the left wheel, in degrees per seconds.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Wheels.RightWheelAngularVelocity">
+            <summary>
+            Angular velocity of the right wheel, in degrees per seconds.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Wheels.Radius">
+            <summary>
+            Radius of Buddy's wheels in meters.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Wheels.Entrax">
+            <summary>
+            Buddy's mobile base's entrax : The distance between the center of the left wheel and the center of the right wheel, in meters.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Wheels.MaxSpeed">
+            <summary>
+            The maximum speed, in degrees per seconds, possible for Buddy's wheels.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Wheels.Speed">
+            <summary>
+            Current Speed in meters by second.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Wheels.GetRobotPoseBelieves">
+            <summary>
+            Returns the actual robot's pose estimated using odometry.
+            </summary>
+            <returns>Robot's pose (X, Y, Tetha), the position (X,Y) in meters and the orientation Theta in degrees</returns>
+            <remarks>Motors is the use of data from motion sensors to estimate change in position over time</remarks>
+            <remarks>The robot's pose is a 3D vector that contains (X, Y, Theta). (X, Y) being the robot's position in horizontal plane and Theta the orientation of the robot.</remarks>
+        </member>
+        <member name="P:BuddyOS.Wheels.Status">
+            <summary>
+            Enumeration corresponding to the current mobile base status
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Wheels.SetWheelsSpeed(System.Single,System.Single,System.Int32)">
+            <summary>
+            Controls the speed of the wheels, stops after the timeout.
+            </summary>
+            <param name="iLeft">Desired left wheel speed, in degrees per seconds</param>
+            <param name="iRight">Desired right wheel speed, in degrees per seconds</param>
+            <param name="iTimeout">Timeout in milliseconds</param>
+        </member>
+        <member name="M:BuddyOS.Wheels.SetWheelsSpeedAtLow(System.Int32)">
+            <summary>
+            Apply wheels speed to low value (observation, human interaction, precision, docking...).
+            </summary>
+            <param name="iTimeout">Optional timeout (in milliseconds)</param>
+        </member>
+        <member name="M:BuddyOS.Wheels.SetWheelsSpeedAtMedium(System.Int32)">
+            <summary>
+            Apply wheels speed to medium value (roaming, navigation...).
+            </summary>
+            <param name="iTimeout">Optional timeout (in milliseconds)</param>
+        </member>
+        <member name="M:BuddyOS.Wheels.SetWheelsSpeedAtHigh(System.Int32)">
+            <summary>
+            Apply wheels speed to high value (games, alert...).
+            </summary>
+            <param name="iTimeout">Optional timeout (in milliseconds)</param>
+        </member>
+        <member name="M:BuddyOS.Wheels.TurnAbsoluteAngle(System.Single,System.Single,System.Single)">
+            <summary>
+            Turns until the desired angle is reached in world space (based Buddy's odometry).
+            </summary>
+            <param name="iAngle">Desired angle in degrees</param>
+            <param name="iSpeed">Desired wheels speed in degrees per seconds</param>
+            <param name="iTolerance">Tolerance, in degrees, around the final angle where the robot would stop</param>
+            <remarks>The absolute target angle defines the robot orientation in world space (relative to the first position when the robot woke up)</remarks>
+            <remarks>The robot's pose in world space at time = 0 is (x = 0, z = 0, theta = 0).</remarks>
+        </member>
+        <member name="M:BuddyOS.Wheels.TurnAngle(System.Single,System.Single,System.Single)">
+            <summary>
+            Turns with a target angle (in degrees) from the current orientation.
+            </summary>
+            <param name="iAngle">Desired angle in degrees</param>
+            <param name="iSpeed">Desired wheels speed in degrees per seconds</param>
+            <param name="iTolerance">Tolerance, in degrees, around the final angle where the robot would stop</param>
+            <remarks>The target angle defines the robot orientation in local space (relative to its actual orientation)</remarks>
+        </member>
+        <member name="M:BuddyOS.Wheels.MoveToAbsolutePosition(UnityEngine.Vector2,System.Single,System.Single)">
+            <summary>
+            Makes the robot go to a target position in world space (relative to the first position when the robot woke up).
+            </summary>
+            <param name="iPosition">x and y coordinate in meters</param>
+            <param name="iSpeed">Desired wheels speed in degrees per seconds</param>
+            <param name="iTolerance">Tolerance, in meters, around the final position where the robot would stop</param>
+            <remarks>The absolute target position defines the robot position in world space (relative to the first position when the robot woke up)</remarks>
+            <remarks>The robot's pose in world space at time = 0 is (x = 0, z = 0, theta = 0).</remarks>
+        </member>
+        <member name="M:BuddyOS.Wheels.MoveToPosition(UnityEngine.Vector2,System.Single,System.Single)">
+            <summary>
+            Makes the robot go to a desired position relative to the actual position.
+            </summary>
+            <param name="iPosition">x and y coordinate in meter</param>
+            <param name="iSpeed">Desired whees speed in degrees per seconds</param>
+            <param name="iTolerance">Tolerance, in meters, around the final position where the robot would stop</param>
+            <remarks>The target position defines the robot position in local space (relative to its actual orientation)</remarks>
+            <remarks>The robot's pose in world space at time = 0 is (x = 0, z = 0, theta = 0).</remarks>
+        </member>
+        <member name="M:BuddyOS.Wheels.MoveDistance(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Sets the speeds of the wheels for a desired distance.
+            </summary>
+            <param name="iLeft">Left wheel speed in degrees per seconds</param>
+            <param name="iRight">Right wheel speed in degrees per seconds</param>
+            <param name="iDistance">Distance to reach until the robot stops</param>
+            <param name="iTolerance">Tolerance, in meters, around the final position where the robot would stop</param>
+        </member>
+        <member name="M:BuddyOS.Wheels.StopWheels">
+            <summary>
+            Stops the wheels by setting their speed values to 0f.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Motors.Wheels">
+            <summary>
+            Accessor to control wheels
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Motors.NoHinge">
+            <summary>
+            Accessor to control the Head Hinge
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Motors.YesHinge">
+            <summary>
+            Accessor to control the Neck Hinge
+            </summary>
+        </member>
+        <member name="M:BuddyOS.RGBCam.Open">
+            <summary>
+            Open the camera device. 
+            </summary>
+            <remarks>
+            Should be called only when the camera is closed.
+            See "IsOpen" accessor to know this.
+            </remarks>
+        </member>
+        <member name="M:BuddyOS.RGBCam.Close">
+            <summary>
+            Closes the current opened video stream. 
+            </summary>
+            <remarks>
+            Must be called when you will not use the camera anymore. 
+            </remarks>
+        </member>
+        <member name="P:BuddyOS.RGBCam.CameraID">
+            <summary>
+            ID of the selected Camera
+            </summary>
+        </member>
+        <member name="P:BuddyOS.RGBCam.FieldOfView">
+            <summary>
+            Field of view of the webcam
+            </summary>
+        </member>
+        <member name="P:BuddyOS.RGBCam.Orientation">
+            <summary>
+            Get the current angle of the camera around its normal axis in degrees.
+            </summary>
+            <returns>Angle in degrees</returns>
+        </member>
+        <member name="P:BuddyOS.RGBCam.FrameTexture2D">
+            <summary>
+            Returns the current frame.
+            </summary>
+            <returns>The current frame in a Texture2D format</returns>
+        </member>
+        <member name="P:BuddyOS.RGBCam.FrameMat">
+            <summary>
+            Returns the current frame as a Mat OpenCVUnity format.
+            </summary>
+            <returns>The current frame in a Mat OpenCVUnity format</returns>
+        </member>
+        <member name="P:BuddyOS.RGBCam.Width">
+            <summary>
+            Returns the width of the video stream output.
+            </summary>
+            <returns>The width of the video stream output in pixels</returns>
+        </member>
+        <member name="P:BuddyOS.RGBCam.Height">
+            <summary>
+            Returns the height of the video stream output.
+            </summary>
+            <returns>The height of the video stream output in pixels</returns>
+        </member>
+        <member name="P:BuddyOS.RGBCam.FrameID">
+            <summary>
+            Returns the ID of the current frame.
+            </summary>
+            <returns>ID of the frame</returns>
+        </member>
+        <member name="P:BuddyOS.RGBCam.IsOpen">
+            <summary>
+            Checks if the camera is opened.
+            An opened video stream will update its frame depending to the input view.
+            </summary>
+            <returns>Return true if the video stream  is opened, and false if not.</returns>
+        </member>
+        <member name="P:BuddyOS.RGBCam.Resolution">
+            <summary>
+            The resolution of the webcam 640x480, 320x240 or 176x144
+            When setted, close and re-open automaticaly the camera.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SoundChannel.Play(UnityEngine.AudioClip)">
+            <summary>
+            Play the current Audio Clip, or the selected AudioClip
+            </summary>
+            <param name="iAudioClip">Selected audio clip to play.</param>
+        </member>
+        <member name="M:BuddyOS.SoundChannel.Pause">
+            <summary>
+            Pause the audio clip.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SoundChannel.Resume">
+            <summary>
+            If paused, replay the audio clip
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SoundChannel.Stop">
+            <summary>
+            Stop the current Audio Clip
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SoundChannel.Kill">
+            <summary>
+            Kill the Audio clip (stop + audio source = null)
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SoundChannel.LoadSource(System.String)">
+            <summary>
+            Load an audioclip from the folder Resources/Sounds/
+            </summary>
+            <param name="iUrlSource">Filename of the audio source without the extension</param>
+        </member>
+        <member name="P:BuddyOS.SoundChannel.Loop">
+            <summary>
+            Loop state of the audiosource
+            </summary>
+        </member>
+        <member name="P:BuddyOS.SoundChannel.Volume">
+            <summary>
+            Volume of the audiosource
+            </summary>
+        </member>
+        <member name="P:BuddyOS.SoundChannel.Mute">
+            <summary>
+            Mute state of the audiosource
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Speaker.Voice">
+            <summary>
+            Sound Chanel to manage the voice
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Speaker.Media">
+            <summary>
+            Sound Chanel to manage the media sounds
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Speaker.SoundFx">
+            <summary>
+            Sound Chanel to manage the FX sounds
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Speaker.GetVolume">
+            <summary>
+            Gets the volume of the speaker. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BuddyOS.Speaker.VolumeUp(System.Boolean)">
+            <summary>
+            Increases the volume by 1
+            </summary>
+            <param name="iSound">Whether to play sound when changin volume</param>
+        </member>
+        <member name="M:BuddyOS.Speaker.VolumeDown(System.Boolean)">
+            <summary>
+            Decreases the volume by 1
+            </summary>
+            <param name="iSound">Whether to play sound when changin volume</param>
+        </member>
+        <member name="M:BuddyOS.Speaker.ChangeVolume(System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Changes the volume accordingly
+            </summary>
+            <param name="iVolume">Volume (1-100)</param>
+            <param name="iSound">Whether to play sound when changin volume</param>
+            <param name="iShowUI">Whether to show the Volume UI or not</param>
+        </member>
+        <member name="M:BuddyOS.Speaker.KillAllSounds">
+            <summary>
+            Kill the sound to all Sound Chanel
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SpeechToText.SetLanguage(Language)">
+            <summary>
+            Set the language of the Speech To Text
+            </summary>
+            <param name="iLanguage">The language to set in Locale Codes (e.g. "en-US" for english from United-States, "fr-FR" for french from France)</param>
+        </member>
+        <member name="M:BuddyOS.SpeechToText.Request">
+            <summary>
+            Launch the request call for the Speech To Text. Has to be done whenever you want the recognition to begin.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SpeechToText.Stop">
+            <summary>
+            Launch the request call for the Speech To Text. Has to be done whenever you want the recognition to begin.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.SpeechToText.LastAnswer">
+            <summary>
+            Get the best answer heard by the Speech To Text
+            </summary>
+            <returns>String of the text recognized</returns>
+        </member>
+        <member name="P:BuddyOS.SpeechToText.LastRecoText">
+            <summary>
+            Get the answers list heard by the Speech To Text
+            </summary>
+            <returns>String of the text recognized. All the suggestions of what seemed to be heard are listed</returns>
+        </member>
+        <member name="P:BuddyOS.SpeechToText.LastRecoConfidence">
+            <summary>
+            Get the confidence of the best answer recognized by the Speech To Text 
+            </summary>
+            <returns>float from 0.0f to 1.0f specifying the amount of confidence in the suggested answer</returns>
+        </member>
+        <member name="P:BuddyOS.SpeechToText.HasFinished">
+            <summary>
+            Is the listening finished?
+            </summary>
+            <returns>Is the listening finished?</returns>
+        </member>
+        <member name="P:BuddyOS.SpeechToText.LastRMS">
+            <summary>
+            Get the last decibel listened
+            </summary>
+            <returns>DB in float</returns>
+        </member>
+        <member name="P:BuddyOS.SpeechToText.LastError">
+            <summary>
+            Retrieve the last error sent by the Speech To Text
+            </summary>
+            <returns>Returns the error in string</returns>
+        </member>
+        <member name="M:BuddyOS.SphinxTrigger.LaunchRecognition">
+            <summary>
+            Launches the voice recognition.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SphinxTrigger.StopRecognition">
+            <summary>
+            Ends the voice recognition.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SphinxTrigger.SetKeyphrase(System.String)">
+            <summary>
+            Set the trigger key phrase.
+            </summary>
+            <param name="iKeyphrase">The key phrase</param>
+        </member>
+        <member name="M:BuddyOS.SphinxTrigger.SetLanguage(Language)">
+            <summary>
+            Update the current detected language.
+            </summary>
+            <param name="iLanguage"></param>
+        </member>
+        <member name="M:BuddyOS.SphinxTrigger.ChangeThreshold(System.Single)">
+            <summary>
+            Set the threshold of the sphinx trigger
+            Shouldn't be called continously
+            </summary>
+            <param name="iThreshold">Threshold of the trigger, default is 1e-30f</param>
+        </member>
+        <member name="M:BuddyOS.SphinxTrigger.HasTriggered">
+            <summary>
+            Detects if the trigger has been activated.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BuddyOS.SphinxTrigger.FinishedSetup">
+            <summary>
+            Update all new setup.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.ConnectToNetwork(System.String,System.String)">
+            <summary>
+            Connects to wanted Access Point
+            </summary>
+            <param name="iSSID">Name of the Access Point</param>
+            <param name="iPassword">Password to this Access Point</param>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.GetWifiAPName(System.Int32)">
+            <summary>
+            Gets the Wifi Access Point Name at index iPosition
+            </summary>
+            <param name="iPosition">Index of the Wifi Access Point</param>
+            <returns>Name of the Access Point</returns>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.GetWifiForce(System.Int32)">
+            <summary>
+            Gets the Force of the Wifi Access Point at index iPosition
+            </summary>
+            <param name="iPosition">Index of the Wifi Access Point</param>
+            <returns>Integer of the force</returns>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.GetWifiCount">
+            <summary>
+            Gets the number of Wifi Access Point
+            </summary>
+            <returns>Number of Wifi Access Point</returns>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.EnableBluetooth">
+            <summary>
+            Enables Bluetooth connection
+            </summary>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.DisableBluetooth">
+            <summary>
+            Disables Bluetooth connection
+            </summary>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.StartWifiScan">
+            <summary>
+            Starts a Wifi Scan
+            </summary>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.HasScannedWifi">
+            <summary>
+            Has the Wifi finish scanning
+            </summary>
+            <returns>True if the wifi was scanned</returns>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.GetAvailableInternalStorage">
+            <summary>
+            Gets the available internal storage
+            </summary>
+            <returns>Value in bytes</returns>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.GetAvailableExternalStorage">
+            <summary>
+            Gets the available external storage
+            </summary>
+            <returns>Value in bytes</returns>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.GetTotalInternalStorage">
+            <summary>
+            Gets the total internal storage
+            </summary>
+            <returns>Value in bytes</returns>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.GetTotalExternalStorage">
+            <summary>
+            Gets the total external storage
+            </summary>
+            <returns>Value in bytes</returns>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.GetXAccelerometer">
+            <summary>
+            Gets the X axis force of the accelerometer, including gravity force
+            </summary>
+            <returns>Value in float</returns>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.GetYAccelerometer">
+            <summary>
+            Gets the Y axis force of the accelerometer, including gravity force
+            </summary>
+            <returns>Value in float</returns>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.GetZAccelerometer">
+            <summary>
+            Gets the Z axis force of the accelerometer, including gravity force
+            </summary>
+            <returns>Value in float</returns>
+        </member>
+        <member name="M:BuddyOS.TabletParameters.GetTabletBatteryPercentage">
+            <summary>
+            Gets tablet battery value
+            </summary>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.Say(System.String,System.Boolean)">
+            <summary>
+            Makes the robot speaking the input string in the set language and can add to queue
+            </summary>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.Silence(System.Int32,System.Boolean)">
+            <summary>
+            Launch silence and can add to queue
+            </summary>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.IsSpeaking">
+            <summary>
+            Checks if the TTS is currently speaking
+            </summary>
+            <returns>True if a sentence is spoken</returns>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.HasFinishedTalking">
+            <summary>
+            Checks if the TTS has stoped speaking and has finished queue
+            </summary>
+            <returns>True if a sentence is finished</returns>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.SetPitch(System.Single)">
+            <summary>
+            Sets the pitch
+            </summary>
+            <param name="iPitch">The pitch</param>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.SetSpeechRate(System.Single)">
+            <summary>
+            Sets the speech rate
+            </summary>
+            <param name="iRate">The rate</param>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.SetLanguage(Language)">
+            <summary>
+            Sets the speak language
+            </summary>
+            <param name="iPitch">The language</param>
+        </member>
+        <member name="P:BuddyOS.ThermalSensor.Matrix">
+            <summary>
+            Gets the matrix of the thermal sensor. Currently 4x4 resolution.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.USSensor.Value">
+            <summary>
+            Get the value sent by the infrared sensor.
+            </summary>
+            <remarks>
+            The value means the lightning measured by the infrared sensor.
+            </remarks>
+        </member>
+        <member name="P:BuddyOS.USSensor.Distance">
+            <summary>
+            Get the distance calculated by the sensor.
+            </summary>
+            <remarks>
+            The distance is calculated using the lightning value sent by the sensor.
+            See "Value" to get this value.
+            </remarks>
+        </member>
+        <member name="P:BuddyOS.USSensor.MaxDistance">
+            <summary>
+            Access to the maximum distance which can be measured by the sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.USSensor.MinDistance">
+            <summary>
+            Access to the minimum distance which can be measured by the sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.USSensor.Angle">
+            <summary>
+            Access to the angle in degrees of the sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.USSensors.Left">
+            <summary>
+            Access to structure data for the left ultrasound sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.USSensors.Right">
+            <summary>
+            Access to structure data for the right ultrasound sensor.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.USSensors.Back">
+            <summary>
+            Access to structure data for the back ultrasound sensor.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.ClsDepthCamCmd.Create">
+            <summary>
+            Closes the current opened camera. Must be call when you don't use the camera anymore. 
+            </summary>
+        </member>
+        <member name="M:BuddyOS.ClsMicroCmd.Create(System.String)">
+            <summary>
+            Stops Recording.
+            </summary>
+            <param name="iDeviceName">Name of the device</param>
+        </member>
+        <member name="T:BuddyOS.ClsRGBCamCmd">
+            <summary>
+            Closes the current opened video stream. 
+            </summary>
+            <remarks>
+            Must be called when you will not use the camera anymore. 
+            </remarks>
+        </member>
+        <member name="M:BuddyOS.DownVolCmd.Create(System.Boolean)">
+            <summary>
+            Decreases the volume by 1
+            </summary>
+            <param name="iSound">Whether to play sound when changin volume</param>
+        </member>
+        <member name="M:BuddyOS.KillSndsCmd.Create">
+            <summary>
+            Kill the sound to all Sound Channels
+            </summary>
+        </member>
+        <member name="M:BuddyOS.MvAbsPosCmd.Create(UnityEngine.Vector2,System.Single,System.Single)">
+            <summary>
+            Make the robot go to a desired global position.
+            </summary>
+            <param name="iPosition">x and y coordinate in meter</param>
+            <param name="iSpeed">Speed desired in degrees per second</param>
+            <param name="iTolerance">The distance tolerance to reach to stop command in meters</param>
+        </member>
+        <member name="M:BuddyOS.MvDistCmd.Create(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Indicate speeds of wheels during a desired distance.
+            </summary>
+            <param name="iLeft">Left speed in degrees per second</param>
+            <param name="iRight">right speed in degrees per second</param>
+            <param name="iDistance">distance to reach until the command is done in meter</param>
+            <param name="iTolerance">distance tolerance in meter to stop the command</param>
+        </member>
+        <member name="M:BuddyOS.MvPosCmd.Create(UnityEngine.Vector2,System.Single,System.Single)">
+            <summary>
+            Make the robot go to a desired position.
+            </summary>
+            <param name="iPosition">x and y coordinate in meter</param>
+            <param name="iSpeed">Speed desired in degrees per second</param>
+            <param name="iTolerance">The distance tolerance to reach to stop command in meters</param>
+        </member>
+        <member name="M:BuddyOS.OpDepthCamCmd.Create(System.Int32)">
+            <summary>
+            Opens the camera device. Should be called once by session.
+            </summary>
+            <param name="iMode">Mode of the camera</param>
+        </member>
+        <member name="M:BuddyOS.OpDepthCamCmd.Create(DepthMode)">
+            <summary>
+            Opens the camera device. Should be called once by session.
+            </summary>
+            <param name="iMode">Mode of the camera</param>
+        </member>
+        <member name="M:BuddyOS.OpMicroCmd.Create(System.String,System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Starts Recording. 
+            </summary>
+            <param name="iDeviceName">Name of the device</param>
+            <param name="iLoop">Indicates whether the recording should continue recording if lengthSec is reached, and wrap around and record from the beginning of the AudioClip.</param>
+            <param name="iLenghtSec">Time record in seconds</param>
+            <param name="iFrequency">The sample rate of the AudioClip produced by the recording.</param>
+        </member>
+        <member name="M:BuddyOS.OpRGBCamCmd.Create">
+            <summary>
+            Open the camera device. 
+            </summary>
+            <remarks>
+            Should be called only when the camera is closed.
+            See "IsOpen" accessor to know this.
+            </remarks>
+        </member>
+        <member name="M:BuddyOS.SayTTSCmd.Create(System.String,System.Boolean)">
+            <summary>
+            Makes the robot speaking the input string in the set language
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SetEvntFaceCmd.Create(FaceEvent)">
+            <summary>
+            Opens the camera device. Should be called once by session.
+            </summary>
+            <param name="iMode">Mode of the camera</param>
+        </member>
+        <member name="M:BuddyOS.SetHSVLEDCmd.Create(System.Int32,System.Int32,System.Int32,System.Single,System.Single)">
+            <summary>
+            Set the body light value and oscillation with HSV Color.
+            </summary>
+            <param name="iH">Hue value in degrees (0.0f to 360.0f)</param>
+            <param name="iS">Saturation purcentage (0.0f to 100f)</param>
+            <param name="iV">Brightness of the color  (0.0f to 100f)</param>
+            <param name="iVariation">>Amplitude of the oscillation in purcentage (0.0f to 1f with step of 0.01f)</param>
+            <param name="iFrequency">Frequency of oscillation in Hertz (0.0f to 5.10f with step of 0.02f)</param>
+        </member>
+        <member name="M:BuddyOS.SetIDRGBCamCmd.Create(System.Int32)">
+            <summary>
+            Set ID of the selected Camera
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SetKeyPhrSphinxCmd.Create(System.String)">
+            <summary>
+            Set the trigger key phrase.
+            </summary>
+            <param name="iKeyphrase">The key phrase</param>
+        </member>
+        <member name="M:BuddyOS.SetLangSphinxCmd.Create(Language)">
+            <summary>
+            Sets the recognized language
+            </summary>
+            <param name="iLang">The language</param>
+        </member>
+        <member name="M:BuddyOS.SetLangSTTCmd.Create(Language)">
+            <summary>
+            Sets the recognized language
+            </summary>
+            <param name="iLang">The language</param>
+        </member>
+        <member name="M:BuddyOS.SetLangTTSCmd.Create(Language)">
+            <summary>
+            Sets the speak language
+            </summary>
+            <param name="iLang">The language</param>
+        </member>
+        <member name="M:BuddyOS.SetMoodFaceCmd.Create(FaceMood)">
+            <summary>
+            Opens the camera device. Should be called once by session.
+            </summary>
+            <param name="iMode">Mode of the camera</param>
+        </member>
+        <member name="M:BuddyOS.SetMoodLEDCmd.Create(MoodColor)">
+            <summary>
+            Set the body light based on the mood.
+            </summary>
+            <param name="iMoodColor">Color coresponding to the mood</param>
+        </member>
+        <member name="M:BuddyOS.SetPitchTTSCmd.Create(System.Single)">
+            <summary>
+            Sets the pitch
+            </summary>
+            <param name="iPitch">The pitch</param>
+        </member>
+        <member name="M:BuddyOS.SetPosNoCmd.Create(System.Single,System.Single)">
+            <summary>
+            Set the angular position of the motor at a specific speed
+            </summary>
+            <param name="iAngleDeg">Angle in degrees of the angular position</param>
+            <param name="iSpeed">Speed in degrees/sec of the motor</param>
+        </member>
+        <member name="M:BuddyOS.SetPosNoCmd.Create(System.Single)">
+            <summary>
+            Set the angular position of the motor at a specific speed
+            </summary>
+            <param name="iAngleDeg">Angle in degrees of the angular position</param>
+        </member>
+        <member name="M:BuddyOS.SetPosYesCmd.Create(System.Single,System.Single)">
+            <summary>
+            Set the angular position of the motor at a specific speed
+            </summary>
+            <param name="iAngleDeg">Angle in degrees of the angular position</param>
+            <param name="iSpeed">Speed in degrees/sec of the motor</param>
+        </member>
+        <member name="M:BuddyOS.SetPosYesCmd.Create(System.Single)">
+            <summary>
+            Set the angular position of the motor at a specific speed
+            </summary>
+            <param name="iAngleDeg">Angle in degrees of the angular position</param>
+        </member>
+        <member name="M:BuddyOS.SetPowerCmd.Create(System.Boolean)">
+            <summary>
+            Let the battery provide power to the robot or not.
+            </summary>
+            <remarks> You have to put the value to true tu use Buddy's functionnalities.</remarks>
+        </member>
+        <member name="M:BuddyOS.SetRateTTSCmd.Create(System.Single)">
+            <summary>
+            Sets the speech rate
+            </summary>
+            <param name="iRate">The rate</param>
+        </member>
+        <member name="M:BuddyOS.SetResCmd.Create(RGBCamResolution)">
+            <summary>
+            Set the resolution of the webcam 640x480, 320x240 or 176x144
+            When setted, close and re-open automaticaly the camera.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SetRGBLEDCmd.Create(UnityEngine.Color,System.Single,System.Single)">
+            <summary>
+            Set the body light value and oscillation with UnityEngine Color.
+            </summary>
+            <param name="iColor">Color of the lights in RGB</param>
+            <param name="iVariation">Amplitude of the oscillation in purcentage (0.0f to 1f with step of 0.01f)</param>
+            <param name="iFrequency">Frequency of oscillation in Hertz (0.0f to 5.10f with step of 0.02f)</param>
+        </member>
+        <member name="M:BuddyOS.SetThreshSphinxCmd.Create(System.Single)">
+            <summary>
+            Set the threshold of the sphinx trigger
+            Shouldn't be called continously
+            </summary>
+            <param name="iThreshold">Threshold of the trigger, default is 1e-30f</param>
+        </member>
+        <member name="M:BuddyOS.SetVolCmd.Create(System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Changes the volume accordingly
+            </summary>
+            <param name="iVolume">Volume (1-100)</param>
+            <param name="iSound">Whether to play sound when changin volume</param>
+            <param name="iShowUI">Whether to show the Volume UI or not</param>
+        </member>
+        <member name="M:BuddyOS.SetWheelsSpeedCmd.Create(System.Single,System.Single,System.Int32)">
+            <summary>
+            Controls the speed of the wheels, stops after the timeout.
+            </summary>
+            <param name="iLeft">Desired left wheel speed, in degrees per seconds</param>
+            <param name="iRight">Desired right wheel speed, in degrees per seconds</param>
+            <param name="iTimeout">Timeout in milliseconds</param>
+        </member>
+        <member name="M:BuddyOS.SilenceTTSCmd.Create(System.Int32,System.Boolean)">
+            <summary>
+            Makes the robot speaking the input string in the set language
+            </summary>
+        </member>
+        <member name="M:BuddyOS.StartBluetoothCmd.Create">
+            <summary>
+            Enables Bluetooth connection
+            </summary>
+        </member>
+        <member name="M:BuddyOS.StartNetworkCmd.Create(System.String,System.String)">
+            <summary>
+            Connects to wanted Access Point
+            </summary>
+            <param name="iSSID">Name of the Access Point</param>
+            <param name="iPassword">Password to this Access Point</param>
+        </member>
+        <member name="M:BuddyOS.StartRecoSphinxCmd.Create">
+            <summary>
+            Launches the voice recognition.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.StartRecoSTTCmd.Create">
+            <summary>
+            Launch the request call for the Speech To Text. Has to be done whenever you want the recognition to begin.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.StartWifiScanCmd.Create">
+            <summary>
+            Starts a Wifi Scan
+            </summary>
+        </member>
+        <member name="M:BuddyOS.StpBluetoothCmd.Create">
+            <summary>
+            Disables Bluetooth connection
+            </summary>
+        </member>
+        <member name="M:BuddyOS.StpRecoSphinxCmd.Create">
+            <summary>
+            Ends the voice recognition.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.StpSTTCmd.Create">
+            <summary>
+            Launch the request call for the Speech To Text. Has to be done whenever you want the recognition to begin.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.StpWheelsCmd.Create">
+            <summary>
+            Stop wheels by setting their speed values to 0F.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.TurnAbsCmd.Create(System.Single,System.Single,System.Single)">
+            <summary>
+            Turns until the desired angle is reached in world space (based Buddy's odometry).
+            </summary>
+            <param name="iAngle">Desired angle in degrees</param>
+            <param name="iSpeed">Desired wheels speed in degrees per seconds</param>
+            <param name="iTolerance">Tolerance, in degrees, around the final angle where the robot would stop</param>
+            <remarks>The absolute target angle defines the robot orientation in world space (relative to the first position when the robot woke up)
+            The robot's pose in world space at time = 0 is (x = 0, z = 0, theta = 0).</remarks>
+        </member>
+        <member name="M:BuddyOS.TurnRelaCmd.Create(System.Single,System.Single,System.Single)">
+            <summary>
+            Turns with a target angle (in degrees) from the current orientation.
+            </summary>
+            <param name="iAngle">Desired angle in degrees</param>
+            <param name="iSpeed">Desired wheels speed in degrees per seconds</param>
+            <param name="iTolerance">Tolerance, in degrees, around the final angle where the robot would stop</param>
+            <remarks>The target angle defines the robot orientation in local space (relative to its actual orientation)</remarks>
+        </member>
+        <member name="M:BuddyOS.UpVolCmd.Create(System.Boolean)">
+            <summary>
+            Increases the volume by 1
+            </summary>
+            <param name="iSound">Whether to play sound when changin volume</param>
+        </member>
+        <member name="P:BuddyOS.CommandParam.Integers">
+            <summary>
+            Integer storage.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.CommandParam.Singles">
+            <summary>
+            Float storage.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.CommandParam.Strings">
+            <summary>
+            Unicode string storage.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.CommandParam.Objects">
+            <summary>
+            Miscellaneous object storage. Won't be serialized.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.TrackedObjectType">
+            <summary>
+            Tracked object kind
+            </summary>
+        </member>
+        <member name="T:BuddyOS.TrackedObject">
+            <summary>
+            Data class of currently tracked object
+            </summary>
+        </member>
+        <member name="M:BuddyOS.TrackedObject.#ctor">
+            <summary>
+            Create an unknown tracked object
+            </summary>
+        </member>
+        <member name="M:BuddyOS.TrackedObject.#ctor(BuddyOS.TrackedObjectType,System.Boolean)">
+            <summary>
+            Create a specific tracked object
+            </summary>
+            <param name="iType">Type of the object</param>
+        </member>
+        <member name="M:BuddyOS.TrackedObject.#ctor(BuddyOS.TrackedObjectType,OpenCVUnity.Rect,System.Boolean)">
+            <summary>
+            Create a currently tracked object
+            </summary>
+            <param name="iType">Type of the object</param>
+            <param name="iRect">Rect of the layout of the object in the frame</param>
+        </member>
+    </members>
+</doc>

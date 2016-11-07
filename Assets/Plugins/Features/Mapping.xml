@@ -1,0 +1,408 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Mapping</name>
+    </assembly>
+    <members>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.DETECT_STEP">
+            <summary>
+            Progression value when an obstacle is detected at a specific point.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.REFRESH_PERIOD">
+            <summary>
+            Time before refresh mapping.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mMotion">
+            <summary>
+            Motion control of the robot.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mMapMat">
+            <summary>
+            Map of the generated mapping.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mFlippedMat">
+            <summary>
+            Mat used for vertical-flip of the map.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mMapTexture">
+            <summary>
+            Texture used for display purpose.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mMapRobotPosition">
+            <summary>
+            Global position of the robot in the map.
+            Format : (x, y, th)
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mOldMapRobotPosition">
+            <summary>
+            Old global position of the robot in the map.
+            Format : (x, y, th)
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mRealRobotPosition">
+            <summary>
+            Relative position of the robot.
+            The first position of the robot will be (x = 0, y = 0, theta = 0).
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mMapHeight">
+            <summary>
+            Height of the map.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mMapWidth">
+            <summary>
+            Width of the map.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mInitXRobotPositionOnMap">
+            <summary>
+            Base x position of the robot in the global map.
+            Arbitrary setting.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mInitYRobotPositionOnMap">
+            <summary>
+            Base y position of the robot in the global map.
+            Arbitrary setting.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mScale">
+            <summary>
+            Multiplicative coefficient for local values to global values.
+            Arbitrary setting.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.mUpdateTimer">
+            <summary>
+            Timer of update.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.AMetricalMapping.MapMat">
+            <summary>
+            Gets the map in mat format.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.AMetricalMapping.MapTexture">
+            <summary>
+            Gets the map in texture2D format.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.Awake">
+            <summary>
+            Called once at the start
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.Start">
+            <summary>
+            Called once at the start after the Awake method
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.Update">
+            <summary>
+            Called at each frame
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.IncrementObstacleAt(UnityEngine.Vector2)">
+            <summary>
+            Increases the detection value of the position (x, y)
+            </summary>
+            <param name="iPosition">The position to increase by a DetectStep value</param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.IncrementObstacleAt(UnityEngine.Vector3)">
+            <summary>
+            Increases the detection value of the position (x, 0, y)
+            </summary>
+            <param name="iPosition">The position to increase by a DetectStep value</param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.IncrementObstacleAt(OpenCVUnity.Point)">
+            <summary>
+            Increases the detection value of the position (x, y)
+            </summary>
+            <param name="iPosition">The position to increase by a DetectStep value</param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.DrawRobotPosition">
+            <summary>
+            Removes considered obstacles on the robot path.
+            Display robot position on the map in red.
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Metrical.BasicSensorMapping">
+            <summary>Create a basic mapping of the environment.</summary>
+            <remarks>
+            This mapping is based on the Unity transform and sensor values of the robot.
+            You can easly use this mapping for path finding or segmentation purposes by
+            using the mMapMat matrix output. In this 1-channel output, a low value means an obstacle.
+            </remarks>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.BasicSensorMapping.mUltraSoundSensors">
+            <summary>
+            Ultra sound sensors.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Metrical.BasicSensorMapping.mInfraRedSensors">
+            <summary>
+            Infrared sensors.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.BasicSensorMapping.Init">
+            <summary>
+            Called once at the beginning.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.BasicSensorMapping.ProcessMapping">
+            <summary>
+            Called at each frame.
+            </summary>
+            <remarks>
+            Gets all current odometric and sensor value in order
+            to apply a basic mapping of the environment.
+            The resulting mapping is stocked in mMapMat, then converted to mMapTexture for Unity display.
+            </remarks>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.BasicSensorMapping.UpdatePosition(System.Single,System.Single,System.Single)">
+            <summary>
+            Updates the absolute position of the robot in the map.
+            </summary>
+            <param name="iX"></param>
+            <param name="iY"></param>
+            <param name="iTheta"></param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.BasicSensorMapping.UpdateObstacles(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Process a basic mapping based on input datas.
+            </summary>
+            <param name="iUSLeft">Value of the left ultrasound sensor</param>
+            <param name="iUSRight">Value of the right ultrasound sensor</param>
+            <param name="iIRLeft">Value of the left infrared sensor</param>
+            <param name="iIRMiddle">Value of the middle infrared sensor</param>
+            <param name="iIRRight">Value of the right infrared sensor</param>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Metrical.FakeLaserScanMapping">
+            <summary>
+            Mapping generated from depth camera used as a LIDAR laser
+            The fake LIDAR is limited to the field of view of the camera
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.FakeLaserScanMapping.Init">
+            <summary>
+            Called once at the beginning.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.FakeLaserScanMapping.ProcessMapping">
+            <summary>
+            Called at each frame.
+            </summary>
+            <remarks>
+            Gets all current odometric and sensor value in order
+            to apply a basic mapping of the environment.
+            The resulting mapping is stocked in mMapMat, then converted to mMapTexture for Unity display.
+            </remarks>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.FakeLaserScanMapping.UpdatePosition(System.Single,System.Single,System.Single)">
+            <summary>
+            Updates the absolute position of the robot in the map.
+            </summary>
+            <param name="iX"></param>
+            <param name="iY"></param>
+            <param name="iTheta"></param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.FakeLaserScanMapping.UpdateObstacles(System.Byte[])">
+            <summary>
+            Process a basic mapping based on input datas.
+            </summary>
+            <param name="iLaserScan">Fake laser scan array from depth camera</param>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization">
+            <summary>
+            Particle Swarm Optimization algorithm described as https://en.wikipedia.org/wiki/Particle_swarm_optimization
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.PuzzleSLAM.ExtractROIFromBuildingMap">
+            <summary>
+            Extracts the ROI of the current map to simplify further computes
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.PuzzleSLAM.Cost(BuddyFeature.Mapping.Metrical.Impl.SwarmParticle)">
+            <summary>
+            Estimates the value of the particle (x, y, th).
+            </summary>
+            <param name="iParticle">The particle to evaluate</param>
+            <returns>Cost of the particle. Lower is better</returns>
+        </member>
+        <member name="F:BuddyFeature.Mapping.FakeLaserScanDevice.mDepthCamera">
+            <summary>
+            3D depth camera.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.FakeLaserScanDevice.mScanMat">
+            <summary>
+            Mat used for fake laser scan display
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.FakeLaserScanDevice.mScanTexture">
+            <summary>
+            Texture2D used for fake laser scan display
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.FakeLaserScanDevice.SCAN_HEIGH_DISPLAY">
+            <summary>
+            Default height of the scan display for debug
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.FakeLaserScanDevice.mScan">
+            <summary>
+            Scan of the fake LIDAR
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.FakeLaserScanDevice.ScanTexture">
+            <summary>
+            Get the scan texture
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.FakeLaserScanDevice.FieldOfView">
+            <summary>
+            External getter of field of view
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.FakeLaserScanDevice.Scan">
+            <summary>
+            Gets the scan of the fake LIDAR
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.FakeLaserScanDevice.Start">
+            <summary>
+            Called once at the start
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.FakeLaserScanDevice.Update">
+            <summary>
+            Called once per frame
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.FakeLaserScanDevice.CreateLaserScanFromDepthCamView(OpenCVUnity.Mat)">
+            <summary>
+            Create a fake laser scan from the depth camera input
+            </summary>
+            <param name="iDepthCamView">Frame of the depth camera</param>
+            <returns>Array of value range from 0 to 255</returns>
+        </member>
+        <member name="M:BuddyFeature.Mapping.FakeLaserScanDevice.DrawScan(System.Byte[])">
+            <summary>
+            Display fake laser scan into mScanMat
+            </summary>
+            <param name="iLaserScan">The fake laser scan</param>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Topological.Impl.Localization">
+            <summary>
+            Represents a localization in the map.
+            An accuracy (probability to be the current localization of the robot) is attached to the localization.
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Topological.Impl.MapGraph">
+            <summary>
+            Graph representing the topological map
+            A graph can be build from a serialized file with DeSerialize(str).
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Topological.Impl.MapNode">
+            <summary>
+            Node for topological mapping.
+            Each node represents a place in a global graph. 
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Topological.Impl.Observation">
+            <summary>
+            Observations of the robot at a given orientation
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Topological.LandmarkSLAMMode">
+            <summary>
+            Mode of the topological SLAM.
+            <para>NONE : Do nothing. You can simply disable the script otherwise.</para>
+            <para>SLAM : Load an existing map, build an other map and processed to a localization at each LOCALIZATION_PERIOD and try to find match with existing node 
+            for building a bigger map. Only use this mode if Buddy has an incomplete map.</para>
+            <para>MAPPING : Only the Landmark mapping will be called.</para>
+            <para>AUTO_LOC : Load the map and processed to a localization at each LOCALIZATION_PERIOD.</para>
+            <para>MANUAL_LOC : Load the map and processed to localization only when Localization() is called.</para>
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Topological.LandmarkSLAMMode.NONE">
+            <summary>
+            Do nothing. You can simply disable the script otherwise
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Topological.LandmarkSLAMMode.SLAM">
+            <summary>
+            Load an existing map, build an other map and processed to a localization at each LOCALIZATION_PERIOD and try to find match with existing node 
+            for building a bigger map. Only use this mode if Buddy has an incomplete map
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Topological.LandmarkSLAMMode.MAPPING">
+            <summary>
+            Only the Landmark mapping will be called
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Topological.LandmarkSLAMMode.AUTO_LOC">
+            <summary>
+            Load the map and processed to a localization at each LOCALIZATION_PERIOD
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Topological.LandmarkSLAMMode.MANUAL_LOC">
+            <summary>
+            Load the map and processed to localization only when Localization() is called
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Topological.LandmarkSLAM">
+            <summary>
+            Topological SLAM based on a landmark mapping and a landmark localization through an existing map.
+            Use SetMode(mode) to switch mode 
+            A basic localization can be processed by calling Localization()
+            For localization and find overlapping map (existing map + building map from unknown area), use LocalizationAndMapping()
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkSLAM.LocalizationStrategy">
+            <summary>
+            The estimate localization strategy from a set of localization
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkSLAM.ConjecturalLocalizations">
+            <summary>
+            Assumption of localization
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkSLAM.EstimatedLocalization">
+            <summary>
+            Estimated position of the robot. The localization is weighted with accuracy of conjectural localizations
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkSLAM.EstimatedOrientation">
+            <summary>
+            Estimated orientation of the robot. The orientation is weighted with accuracy of each observation's orientation 
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.LandmarkSLAM.LocalizationAndMapping">
+            <summary>
+            Checks if the current (building) localization is similare to an existing node.
+            If so for two differents localizations, the method will makes a remapping of the whole building graph to 
+            to the coordinate system of the existing map.
+            Use it only if a map was already created previously and is uncompleted.
+            Estimated localization and orientation are updated as processed in Localization().
+            </summary>
+            <returns>Enumerator waiting gcv response</returns>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.LandmarkSLAM.Localization">
+            <summary>
+            Update estimated localization and orientation based on current point of view of the robot. 
+            </summary>
+            <returns>Enumerator</returns>
+        </member>
+    </members>
+</doc>

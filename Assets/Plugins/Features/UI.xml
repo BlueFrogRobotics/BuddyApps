@@ -1,0 +1,518 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UI</name>
+    </assembly>
+    <members>
+        <member name="T:BuddyFeature.UI.DepthCamShow">
+            <summary>
+            HUD Feature used to display Cam 3D render on a GUI RawImage.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.UI.DepthCamShow.color">
+            <summary>
+            Colorized depth or not;
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.DepthCamShow.Start">
+            <summary>
+            Called once at the beginning.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.DepthCamShow.Update">
+            <summary>
+            Called at each frame.
+            Display the render of the 3D Cam.
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.UI.RGBCamShow">
+            <summary>
+            HUD Feature used to display the RGB camera render on a GUI RawImage.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.UI.RGBCamShow.mWebcam">
+            <summary>
+            RGB webcam (real or simulated) of the robot.
+            Must be opened before usage.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.RGBCamShow.Start">
+            <summary>
+            Called once at the beginning.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.RGBCamShow.Update">
+            <summary>
+            Called at each frame.
+            Display the render of the RGB Camera.
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.UI.VisionAlgorithmShow">
+            <summary>
+            HUD Feature used to display different types of image processing algorithm on a GUI RawImage.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.UI.VisionAlgorithmShow.mWebcam">
+            <summary>
+            RGB webcam (real or simulated) of the robot.
+            Must be opened before usage.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.VisionAlgorithmShow.Start">
+            <summary>
+            Called once at the beginning.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.VisionAlgorithmShow.Update">
+            <summary>
+            Called at each frame.
+            Display the active computer vision feature.
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.UI.AInteractive">
+            <summary>
+            The properties for selectable components
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.UI.AInteractive.mSelectable">
+            <summary>
+            Reference to an ui Object.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.TransitionSelected">
+            <summary>
+            Get/Set transition 
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.Interactable">
+            <summary>
+            Get/Set if it's an interactable selectable object
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.TargetGraphic">
+            <summary>
+            Get/Set the target graphic of selectable object, for color tint Transition and sprite swap Transition
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.NormalColor">
+            <summary>
+            Get/Set a color of button in normal mode. For color tint Transition.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.HighLightedColor">
+            <summary>
+            Get/Set a color of button in HighLighted mode. For color tint Transition.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.PressedColor">
+            <summary>
+            Get/Set a color of button in Pressed mode. For color tint Transition.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.DisabledColor">
+            <summary>
+            Get/Set a color of button in Disabled mode. For color tint Transition.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.ColorMultiplier">
+            <summary>
+            Get/Set a multiplier applied to colors of button. For color tint Transition.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.FadeDuration">
+            <summary>
+            Get/Set fade duration of button. For color tint Transition.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.HighLightedSprite">
+            <summary>
+            Get/Set HighLighted Sprite. For sprite swap Transition.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.PressedSprite">
+            <summary>
+            Get/Set pressed Sprite. For sprite swap Transition.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.DisabledSprite">
+            <summary>
+            Get/Set disabled Sprite. For sprite swap Transition.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.NormalTrigger">
+            <summary>
+            Get/Set Normal trigger. For animation Transition.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.HighLightedTrigger">
+            <summary>
+            Get/Set highlighted trigger. For animation Transition.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.PressedTrigger">
+            <summary>
+            Get/Set pressed trigger. For animation Transition.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.AInteractive.DisabledTrigger">
+            <summary>
+            Get/Set disabled trigger. For animation Transition.
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.UI.ButtonDisplay">
+            <summary>
+            Properties to display Button
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.ButtonDisplay.EnableButton(System.Boolean)">
+            <summary>
+            Enable or disable the button
+            </summary>
+            <param name="iEnable">Enabled or disable</param>
+        </member>
+        <member name="T:BuddyFeature.UI.ImageDisplay">
+            <summary>
+            Properties to display an image
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.ImageDisplay.EnabledImage(System.Boolean)">
+            <summary>
+            Enable or disable the image
+            </summary>
+            <param name="iEnable">Enabled or disabled</param>
+        </member>
+        <member name="P:BuddyFeature.UI.ImageDisplay.SetImage">
+            <summary>
+            The sprite that is used to render this image 
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.ImageDisplay.SetColor">
+            <summary>
+            Image color
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.ImageDisplay.MaterialText">
+            <summary>
+            Material set by the user
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.ImageDisplay.RaycastTarget">
+            <summary>
+            Is it a target for raycasting
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.UI.InputFieldDisplay">
+            <summary>
+            Properties to display an input field
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.InputFieldDisplay.EnableInputText(System.Boolean)">
+            <summary>
+            Enable or disable the input field 
+            </summary>
+            <param name="iEnable">Enable Or Disable</param>
+        </member>
+        <member name="P:BuddyFeature.UI.InputFieldDisplay.CurrentText">
+            <summary>
+            The current value of the input field
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.InputFieldDisplay.CharacterLimit">
+            <summary>
+            How many character the input field is limited, 0 = infinite
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.InputFieldDisplay.CaretBlinkRate">
+            <summary>
+            The blinking rate of the input caret, defined as the number of times the blink cycle occurs per seconds
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.InputFieldDisplay.CaretWidth">
+            <summary>
+            The width of the carret in pixels
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.InputFieldDisplay.CustomCaretColor">
+            <summary>
+            Should a custom caret color be used  or should the textComponent.color be used
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.InputFieldDisplay.SelectionColor">
+            <summary>
+            The color of the hightlight to show whitch characters are selected
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.InputFieldDisplay.HideMobileInput">
+            <summary>
+            Should the mobile keyboard input be hidden 
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.InputFieldDisplay.IsReadOnly">
+            <summary>
+            Set the input field to be read only
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.InputFieldDisplay.PlaceholderDisplay">
+            <summary>
+            The place holder of the input text
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.InputFieldDisplay.TextDisplay">
+            <summary>
+            The text of the input text 
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.UI.TextDisplay">
+            <summary>
+            Properties to display text
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.TextDisplay.EnabledText(System.Boolean)">
+            <summary>
+            Enable or disable the text
+            </summary>
+            <param name="iEnable">Enabled or disabled</param>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.TextValue">
+            <summary>
+            The string value this text will display
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.TextFont">
+            <summary>
+            The font used by the text
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.TextFontStyle">
+            <summary>
+            Font style used by the text
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.TextFontSize">
+            <summary>
+            The size of the font used by the text
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.LineSpacing">
+            <summary>
+            Line spacing, a value of 1 will produce normal line spacing
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.IsRichText">
+            <summary>
+            Whether this Text will support rich text or not
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.Alignment">
+            <summary>
+            The alignement of the text relative to its RectTransform
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.AlignByGeometry">
+            <summary>
+            Use the extents of glyph geometry to perform horizontal alignment rather than glyph metrics.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.HorizontalOverflow">
+            <summary>
+            Horizontal overflow mode
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.VerticalOverflow">
+            <summary>
+            Vertical overflow mode
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.ResizeForBestFit">
+            <summary>
+            Can auto resize 
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.ResizeMaxSize">
+            <summary>
+            Max size for auto resize
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.ResizeMinSize">
+            <summary>
+            Min size for auto resize
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.TextColor">
+            <summary>
+            Color of the text 
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.MaterialText">
+            <summary>
+            Material set by the user
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.TextDisplay.RaycastTarget">
+            <summary>
+            Is a target for raycasting
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.UI.ToggleDisplay">
+            <summary>
+            Properties for Display toggle
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.ToggleDisplay.TextToggle">
+            <summary>
+            Get / Set the toggle text
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.ToggleDisplay.EnableToggle(System.Boolean)">
+            <summary>
+            Enable or disable the toggle
+            </summary>
+            <param name="iEnable">Enabled or disabled</param>
+        </member>
+        <member name="P:BuddyFeature.UI.ToggleDisplay.IsCheck">
+            <summary>
+            Get/Set the toggle state (on or off)
+            </summary>
+            <returns>Is on or not</returns>
+        </member>
+        <member name="P:BuddyFeature.UI.ToggleDisplay.Transition">
+            <summary>
+            Get/Set the transition mode
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.ToggleDisplay.SetToggleGroup">
+            <summary>
+            Get/Set the toggle group
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.ToggleDisplay.SetGraphicSprite(UnityEngine.Sprite)">
+            <summary>
+            Graphic affected by the toggle
+            </summary>
+            <param name="iNewSprite">New sprite</param>
+        </member>
+        <member name="F:BuddyFeature.UI.FakeLaserScanShow.mLaserMapping">
+            <summary>
+            Reference the fake LIDAR Mapping algorithm
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.FakeLaserScanShow.Update">
+            <summary>
+            Called at each frame.
+            Display the on-the-fly mapping.
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.UI.ClosedQuestionDisplay">
+            <summary>
+            Properties to display a closed questiond
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.ClosedQuestionDisplay.Question">
+            <summary>
+            Get/Set the Question text
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.ClosedQuestionDisplay.YesButton">
+            <summary>
+            The button Yes
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.ClosedQuestionDisplay.NoButton">
+            <summary>
+            The button No
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.ClosedQuestionDisplay.BackgroundQuestion">
+            <summary>
+            Background of the question 
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.ClosedQuestionDisplay.Init(System.String)">
+            <summary>
+            Init the question text
+            </summary>
+            <param name="iQuestion">String question</param>
+        </member>
+        <member name="M:BuddyFeature.UI.ClosedQuestionDisplay.SetEnabled(System.Boolean)">
+            <summary>
+            Enable the question
+            </summary>
+            <param name="iActive">Enabled or not</param>
+        </member>
+        <member name="T:BuddyFeature.UI.MultiChoiceQuestionDisplay">
+            <summary>
+            Properties to display a multiple choice question
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.MultiChoiceQuestionDisplay.OkButton">
+            <summary>
+            Get the button Ok
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.MultiChoiceQuestionDisplay.Question">
+            <summary>
+            Get the Question
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.MultiChoiceQuestionDisplay.BackgroundQuestion">
+            <summary>
+            Background of the question 
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.MultiChoiceQuestionDisplay.AnswerDisplay">
+            <summary>
+            Get the list of toggles
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.MultiChoiceQuestionDisplay.Init(System.String,System.String[])">
+            <summary>
+            Init the question text with its answers
+            </summary>
+            <param name="iQuestion">String question</param>
+            <param name="iAnswer">Array with answer possible</param>
+        </member>
+        <member name="M:BuddyFeature.UI.MultiChoiceQuestionDisplay.SetEnabled(System.Boolean)">
+            <summary>
+            Enable the question
+            </summary>
+            <param name="iActive">Enabled or not</param>
+        </member>
+        <member name="T:BuddyFeature.UI.OpenQuestionDisplay">
+            <summary>
+            Properties for Display Open Question
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.OpenQuestionDisplay.OkButton">
+            <summary>
+            Get the button Ok
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.OpenQuestionDisplay.Question">
+            <summary>
+            Get the Question
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.OpenQuestionDisplay.InputFieldQuestion">
+            <summary>
+            Input field of question
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.UI.OpenQuestionDisplay.BackgroundQuestion">
+            <summary>
+            Background of the question 
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.UI.OpenQuestionDisplay.Init(System.String)">
+            <summary>
+            Init the question text
+            </summary>
+            <param name="iQuestion">String question</param>
+        </member>
+        <member name="M:BuddyFeature.UI.OpenQuestionDisplay.SetEnabled(System.Boolean)">
+            <summary>
+            Enable the question
+            </summary>
+            <param name="iActive">Enabled or not</param>
+        </member>
+    </members>
+</doc>

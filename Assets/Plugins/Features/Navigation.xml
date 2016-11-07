@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Navigation</name>
+    </assembly>
+    <members>
+        <member name="M:BuddyFeature.Navigation.Impl.Dijkstra.ShortestPath(BuddyFeature.Navigation.Impl.Node,BuddyFeature.Navigation.Impl.Node,System.Collections.Generic.List{BuddyFeature.Navigation.Impl.Node},System.Boolean)">
+            <summary>
+            Gets the shortest path between the sourcenode and the destination node with Dijkstra algorithm.
+            It has a polynomial complexity.
+            </summary>
+            <param name="iSourceNode">The source node of the path</param>
+            <param name="iDestinationNode">The destination node of the path</param>
+            <param name="iGraph">The graph with all nodes and weight between them</param>
+            <param name="iReset">Can be false the first time, must be true (default) otherwise</param>
+            <returns></returns>
+        </member>
+        <member name="M:BuddyFeature.Navigation.Impl.Dijkstra.ComputePaths(BuddyFeature.Navigation.Impl.Node)">
+            <summary>
+            Computes paths from the source node.
+            </summary>
+            <param name="iSourceNode">The source node</param>
+        </member>
+        <member name="M:BuddyFeature.Navigation.Impl.Dijkstra.ShortestPathTo(BuddyFeature.Navigation.Impl.Node,BuddyFeature.Navigation.Impl.Node)">
+            <summary>
+            Gets the shorstest path between iSource and iDestination
+            </summary>
+            <param name="iSourceNode">The source node</param>
+            <param name="iDestinationNode">the destination node</param>
+            <returns>The list including the shorstest path between iSource and iDestination</returns>
+        </member>
+        <member name="M:BuddyFeature.Navigation.Impl.Dijkstra.ResetGraph(System.Collections.Generic.List{BuddyFeature.Navigation.Impl.Node})">
+            <summary>
+            Reset the graph for compute.
+            </summary>
+            <param name="iGraph">The graph</param>
+        </member>
+        <member name="T:BuddyFeature.Navigation.Impl.Node">
+            <summary>
+            Unit node for graph algorithms.
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Navigation.RoombaNavigation">
+            <summary>
+            Ultra basic random navigation for navigation tests
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Navigation.RoombaNavigation.mMotors">
+            <summary>
+            Motion control of the robot.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Navigation.RoombaNavigation.mInfraredSensors">
+            <summary>
+            Infrared sensors.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Navigation.RoombaNavigation.mUltrasoundSensors">
+            <summary>
+            Ultra sound sensors.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Navigation.RoombaNavigation.mVelocity">
+            <summary>
+            The current setted velocity of the robot
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Navigation.RoombaNavigation.Start">
+            <summary>
+            Called once at the start
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Navigation.RoombaNavigation.Update">
+            <summary>
+            Called at each freame
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Navigation.RoombaNavigation.PreventCollision">
+            <summary>
+            Stops the robot and change the direction
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Navigation.RoombaNavigation.RandomDirection">
+            <summary>
+            Return a random direction
+            </summary>
+            <returns>A random direction in degrees</returns>
+        </member>
+        <member name="M:BuddyFeature.Navigation.RoombaNavigation.AnyObstructions">
+            <summary>
+            Checks for any obstruction
+            </summary>
+            <returns>True for any obstruction</returns>
+        </member>
+        <member name="M:BuddyFeature.Navigation.RoombaNavigation.AnyObstructionsInfrared">
+            <summary>
+            Checks if infrared sensors detect obstructions
+            </summary>
+            <returns>True for any obstruction</returns>
+        </member>
+        <member name="M:BuddyFeature.Navigation.RoombaNavigation.AnyObstructionsUltrasound">
+            <summary>
+            Checks if ultrasound sensors detect obstructions
+            </summary>
+            <returns>True for any obstruction</returns>
+        </member>
+        <member name="M:BuddyFeature.Navigation.RoombaNavigation.IsCollisionEminent(System.Single)">
+            <summary>
+            Detect if the collision is eminent
+            </summary>
+            <param name="iCollisionDistance">Distance detected by the sensor</param>
+            <returns></returns>
+        </member>
+        <member name="M:BuddyFeature.Navigation.RoombaNavigation.MoveBuddy">
+            <summary>
+            Makes Buddy goes forward at mVelocity
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Navigation.RoombaNavigation.FaceDirection(System.Single)">
+            <summary>
+            Change the orientation of the robot
+            </summary>
+            <param name="iDirection">The orientation in degrees</param>
+        </member>
+    </members>
+</doc>
