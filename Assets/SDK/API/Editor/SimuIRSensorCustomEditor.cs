@@ -10,8 +10,8 @@ namespace BuddyAPI
     {
         void InspectorGUI(Simulation.SimuIRSensor iTarget)
         {
-            iTarget.MaxDistanceIR = EditorGUILayout.Slider("MaxDistance", iTarget.MaxDistanceIR, 0f, 1f);
-            iTarget.MinDistanceIR = EditorGUILayout.Slider("MinDistance", iTarget.MinDistanceIR, 0f, 3f);
+            iTarget.MaxDistanceIR = EditorGUILayout.Slider("MaxDistance", iTarget.MaxDistanceIR, 0F, 1F);
+            iTarget.MinDistanceIR = EditorGUILayout.Slider("MinDistance", iTarget.MinDistanceIR, 0F, 3F);
             iTarget.InfinityIsZeroIR = EditorGUILayout.Toggle("Infinity is Zero", iTarget.InfinityIsZeroIR);
         }
 

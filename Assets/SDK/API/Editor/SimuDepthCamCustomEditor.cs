@@ -7,7 +7,7 @@ namespace BuddyAPI
 #if UNITY_EDITOR
     using UnityEditor;
     [CustomEditor(typeof(Simulation.SimuInputDepthCam))]
-    public class Simu3DCamCustomEditor : Editor
+    public class SimuDepthCamCustomEditor : Editor
     {
         public override void OnInspectorGUI()
         {
