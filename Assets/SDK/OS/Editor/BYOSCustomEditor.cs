@@ -15,11 +15,15 @@ namespace BuddyOS
         {
             mOS = (BYOS)target;
 
-            mOS.EnableCommandLog = EditorGUILayout.Toggle("Command log", mOS.EnableCommandLog);
+            mOS.EnableCommandLogs = EditorGUILayout.Toggle("Command logs", mOS.EnableCommandLogs);
+            mOS.EnableNetworkLogs = EditorGUILayout.Toggle("Network logs", mOS.EnableNetworkLogs);
             EditorGUILayout.Space();
             mOS.EnableLoadDefaultApp = EditorGUILayout.BeginToggleGroup("Start with app", mOS.EnableLoadDefaultApp);
             mOS.DefaultApp = EditorGUILayout.TextField("    Scene name", mOS.DefaultApp);
             EditorGUILayout.EndToggleGroup();
+
+            if (GUI.changed)
+                EditorUtility.SetDirty(mOS);
         }
     }
 #endif

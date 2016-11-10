@@ -23,8 +23,8 @@ GENERALITIES
 	
 	Global within-hierarchy file :
 	- public Const attributes
-	- private Static attributes
 	- private Const attributes
+	- private Static attributes
 	- Serialized attributes
 	- Protected attributes
 	- Private attributes
@@ -35,9 +35,12 @@ GENERALITIES
 	- [Update for Mono]
 	- [OnEnable for Mono]
 	- [OnDisable for Mono]
+    - [OnDestroy for Mono]
 	- [Constructor for logic class]
 	- Inherited (override) public methods
 	- Public methods
+    - Inherited (override) internal methods
+    - Internal methods
 	- Inherited (override) protected methods
 	- Protected methods
 	- Private methods
@@ -58,6 +61,12 @@ namespace BuddySample.Doc
     /* ALWAYS keep basic type member in struct */
     /* DO NOT use struct if the total byte count if higher than 16 bytes */
     /* DO NOT use object as member in struct */
+    /* DO NOT create struct constructor, use instead : 
+        Point lPoint = new Point() { 
+            X = 5,
+            Y = 3
+        };
+    */
     public struct Point
     {
         public int X { get; set; }
@@ -182,7 +191,7 @@ namespace BuddySample.Doc
         /// Concat the input char with the 'Poney' prefix
         /// </summary>
         /// <param name="iCharToConcat">The input char to concat</param>
-        /// <returns>Poney followed by a space then the input char</returns>
+        /// <returns>The string "Poney" followed by a space then the input char</returns>
         public string MyCommentedMethod(char iCharToConcat)
         {
             return "Poney " + iCharToConcat; /* No obligation to declare explicit output variable for short methods */

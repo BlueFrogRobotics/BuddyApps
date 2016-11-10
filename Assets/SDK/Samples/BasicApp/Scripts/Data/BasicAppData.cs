@@ -4,7 +4,7 @@ using BuddyOS;
 namespace BuddyApp.Basic
 {
     /* Data are stored in xml file for persistent data purpose */
-    /* Data base values are retrieve from the default_app_data.xml file in persistent data path. Streamingassets folder otherwise */
+    /* Data base values are retrieve from the basic_app_data.xml file in persistent data path. Streamingassets folder otherwise */
     /* Data are saved when you quit app. Data are saved in persistent data path */
     public class BasicAppData : AAppData
     {

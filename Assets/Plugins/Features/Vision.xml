@@ -109,7 +109,7 @@
             Write your computer vision algorithm inside this method.
             </summary>
             <param name="iInputFrameMat">The current frame (in CV_8UC3) to process</param>
-            <param name="iFrameFrameTexture">The current frame (in 2D texture format) to process</param>
+            <param name="iInputFrameTexture">The current frame (in 2D texture format) to process</param>
         </member>
         <member name="T:BuddyFeature.Vision.GoogleCloudVision">
             <summary>

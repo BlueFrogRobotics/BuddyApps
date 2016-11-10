@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
+using UnityEngine;
 using BuddyOS;
 
 namespace BuddyApp.Basic
@@ -21,19 +21,19 @@ namespace BuddyApp.Basic
 
         /*
          * API of the robot
-         */ 
+         */
         private TextToSpeech mTextToSpeech;
         private Motors mMotors;
         private Face mFace;
 
         /*
-         * Data of the application. Save in real time.
-         */ 
+         * Data of the application. Save on disc when app quit happened
+         */
         private BasicAppData mAppData;
 
         /*
          * Init refs to API and your app data
-         */ 
+         */
         void Start()
         {
             mMotors = BYOS.Instance.Motors;
@@ -44,7 +44,7 @@ namespace BuddyApp.Basic
 
         /*
          * A sample of use of data (here for basic display purpose)
-         */ 
+         */
         void Update()
         {
             textOneActive.text = mAppData.OneIsActive ? "First val is active" : "First val not active";
@@ -53,32 +53,32 @@ namespace BuddyApp.Basic
         }
 
         /*
-         * Want to make Buddy tell something ?
-         */ 
+        * Want to make Buddy tell something ?
+        */
         public void Speak()
         {
             mTextToSpeech.Say("Hello world");
         }
 
         /*
-         * Basic forward order with a medium speed (degrees / sec) for 2 secs.
-         */ 
+        * Basic forward order with a medium speed (degrees / sec) for 2 secs.
+        */
         public void Forward()
         {
             mMotors.Wheels.SetWheelsSpeed(150F, 150F, 2000);
         }
 
         /*
-         * Basic backward order with a medium speed (degrees / sec) for 2 secs.
-         */
+        * Basic backward order with a medium speed (degrees / sec) for 2 secs.
+        */
         public void Backward()
         {
             mMotors.Wheels.SetWheelsSpeed(-150F, -150F, 2000);
         }
 
         /*
-         * Change the mood of the robot randomly
-         */ 
+        * Change the mood of the robot randomly
+        */
         public void RandomMood()
         {
             FaceMood lMood = (FaceMood)Random.Range(0, 10);
