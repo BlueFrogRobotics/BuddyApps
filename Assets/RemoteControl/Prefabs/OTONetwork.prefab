@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 440734}
-  - 114: {fileID: 11470164}
+  - 114: {fileID: 11483030}
   m_Layer: 0
   m_Name: JoystickOTOReceiver
   m_TagString: Untagged
@@ -27,22 +27,6 @@ GameObject:
   - 114: {fileID: 11421654}
   m_Layer: 0
   m_Name: VideoOTOReceiver
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &147192
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 406442}
-  - 114: {fileID: 11455296}
-  m_Layer: 0
-  m_Name: WebcamManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +72,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 423838}
-  - 114: {fileID: 11478972}
+  - 114: {fileID: 11416756}
+  - 114: {fileID: 11458574}
   m_Layer: 0
   m_Name: VideoOTOSender
   m_TagString: Untagged
@@ -108,18 +93,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 416556}
   m_RootOrder: 0
---- !u!4 &406442
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147192}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 416556}
-  m_RootOrder: 2
 --- !u!4 &416556
 Transform:
   m_ObjectHideFlags: 1
@@ -132,7 +105,6 @@ Transform:
   m_Children:
   - {fileID: 405608}
   - {fileID: 423838}
-  - {fileID: 406442}
   - {fileID: 440734}
   - {fileID: 484228}
   m_Father: {fileID: 0}
@@ -160,7 +132,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 416556}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!4 &484228
 Transform:
   m_ObjectHideFlags: 1
@@ -172,7 +144,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 416556}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!114 &11416210
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -185,6 +157,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OTO: {fileID: 11426992}
+--- !u!114 &11416756
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2e19fc062a7500428432343a2a4d922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  compressQuality: 30
+  mDebugScreen: {fileID: 0}
 --- !u!114 &11421654
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,39 +202,15 @@ MonoBehaviour:
   - sensor
   channel_type: 010000000300000003000000
   channel_senders:
-  - {fileID: 11478972}
+  - {fileID: 11458574}
   - {fileID: 0}
   - {fileID: 11416210}
   channel_receivers:
   - {fileID: 11421654}
-  - {fileID: 11470164}
+  - {fileID: 11483030}
   - {fileID: 0}
   IsServer: 1
---- !u!114 &11455296
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2e19fc062a7500428432343a2a4d922, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  compressQuality: 30
-  mDebugScreen: {fileID: 0}
---- !u!114 &11470164
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 112962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 489025759a2d0d14b9f9d5d9bb46a8c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11478972
+--- !u!114 &11458574
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -261,9 +222,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OTO: {fileID: 11426992}
-  Webcam: {fileID: 11455296}
   mCompressQuality: 30
   mRequestedFPS: 20
+--- !u!114 &11483030
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489025759a2d0d14b9f9d5d9bb46a8c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

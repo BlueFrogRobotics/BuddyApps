@@ -3,12 +3,12 @@ using OpenCVUnity;
 
 namespace BuddyApp.Remote
 {
+    [RequireComponent(typeof(WebcamManager))]
     public class VideoOTOSender : OTONetSender
     {
         [SerializeField]
         private OTONetwork OTO;
-        [SerializeField]
-        private WebcamManager Webcam;
+        private WebcamManager mWebcam;
         private MatOfByte mBuffer;
         [Range(1, 100)]
         public int mCompressQuality;
@@ -18,6 +18,7 @@ namespace BuddyApp.Remote
 
         void Start()
         {
+            mWebcam = GetComponent<WebcamManager>();
             mLastTime = Time.time;
         }
 
@@ -29,8 +30,8 @@ namespace BuddyApp.Remote
             if (Time.time - mLastTime < 1 / mRequestedFPS) return;
             mLastTime = Time.time;
 
-            Webcam.CompressQuality = mCompressQuality;
-            mBuffer = Webcam.GetBuffer();
+            mWebcam.CompressQuality = mCompressQuality;
+            mBuffer = mWebcam.GetBuffer();
             byte[] lData = mBuffer.toArray();
             if (lData == null) return;
             SendData(lData, lData.Length);
