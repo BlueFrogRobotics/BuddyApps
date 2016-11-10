@@ -29,9 +29,9 @@ namespace BuddyAPI.Switch
             if (GUILayout.Button(iType.ToString())) {
                 if (mSwitch.Simulation != null)
                     mSwitch.Simulation.SetActive(iType == InstanceType.SIMU);
-                foreach (AComponent lSwitch in mSwitch.Components) {
-                    lSwitch.InstanceType = iType;
-                    EditorUtility.SetDirty(lSwitch);
+                foreach (AComponent lComponent in mSwitch.Components) {
+                    lComponent.InstanceType = iType;
+                    EditorUtility.SetDirty(lComponent);
                 }
             }
         }

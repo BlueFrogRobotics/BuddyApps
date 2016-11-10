@@ -10,8 +10,8 @@ namespace BuddyAPI
     {
         void InspectorGUI(Simulation.SimuUSSensor target)
         {
-            target.MaxDistanceUS = EditorGUILayout.Slider("MaxDistance", target.MaxDistanceUS, 0f, 1f);
-            target.MinDistanceUS = EditorGUILayout.Slider("MinDistance", target.MinDistanceUS, 0f, 3f);
+            target.MaxDistanceUS = EditorGUILayout.Slider("MaxDistance", target.MaxDistanceUS, 0F, 1F);
+            target.MinDistanceUS = EditorGUILayout.Slider("MinDistance", target.MinDistanceUS, 0F, 3F);
             target.StepUS = EditorGUILayout.FloatField("Step", target.StepUS);
             target.ApertureSizeUS = EditorGUILayout.Vector3Field("Aperture", target.ApertureSizeUS);
             target.InfinityIsZeroUS = EditorGUILayout.Toggle("Infinity is Zero", target.InfinityIsZeroUS);
@@ -19,10 +19,10 @@ namespace BuddyAPI
 
         public override void OnInspectorGUI()
         {
-            Simulation.SimuUSSensor mTarget = (Simulation.SimuUSSensor)target;
-            InspectorGUI(mTarget);
+            Simulation.SimuUSSensor lTarget = (Simulation.SimuUSSensor)target;
+            InspectorGUI(lTarget);
             if (GUI.changed)
-                EditorUtility.SetDirty(mTarget);
+                EditorUtility.SetDirty(lTarget);
         }
     }
 #endif
