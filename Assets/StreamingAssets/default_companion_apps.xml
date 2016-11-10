@@ -3,6 +3,23 @@
   <AppInfo>
     <name />
     <hideFlags>None</hideFlags>
+    <DisplayName>COMPANION</DisplayName>
+    <Scene>CompanionApp</Scene>
+    <Icon>Spin</Icon>
+    <VocalKeys>
+      <string>compagnon</string>
+      <string>normal</string>
+      <string>défaut</string>
+      <string>ami</string>
+    </VocalKeys>
+    <Atlas>AtlasUI</Atlas>
+    <OptionsLayoutStr>BuddyApp.Companion.CompanionAppLayout</OptionsLayoutStr>
+    <DataFile>companion_app_data.xml</DataFile>
+    <Assembly>Assembly-CSharp</Assembly>
+  </AppInfo>
+  <AppInfo>
+    <name />
+    <hideFlags>None</hideFlags>
     <DisplayName>BASIC</DisplayName>
     <Scene>BasicApp</Scene>
     <Icon>LightOn</Icon>
@@ -20,23 +37,6 @@
     <Atlas>AtlasUI</Atlas>
     <OptionsLayoutStr>BuddyApp.Remote.RemoteControlLayout</OptionsLayoutStr>
     <DataFile>remote_control_data.xml</DataFile>
-    <Assembly>Assembly-CSharp</Assembly>
-  </AppInfo>
-    <AppInfo>
-    <name />
-    <hideFlags>None</hideFlags>
-    <DisplayName>COMPANION</DisplayName>
-    <Scene>CompanionApp</Scene>
-    <Icon>Spin</Icon>
-    <VocalKeys>
-      <string>compagnon</string>
-      <string>normal</string>
-      <string>défaut</string>
-      <string>ami</string>
-    </VocalKeys>
-    <Atlas>AtlasUI</Atlas>
-    <OptionsLayoutStr>BuddyApp.Companion.CompanionAppLayout</OptionsLayoutStr>
-    <DataFile>companion_app_data.xml</DataFile>
     <Assembly>Assembly-CSharp</Assembly>
   </AppInfo>
 </ArrayOfAppInfo>
