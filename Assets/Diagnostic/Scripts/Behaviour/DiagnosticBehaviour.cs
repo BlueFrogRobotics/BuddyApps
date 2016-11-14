@@ -4,6 +4,17 @@ using BuddyOS;
 
 namespace BuddyApp.Diagnostic
 {
+    public enum WindowType : int
+    {
+        VOCAL,
+        LED,
+        MOTORS,
+        FACE,
+        CAMERAS,
+        THERMAL,
+        SENSORS
+    }
+
     public class DiagnosticBehaviour : MonoBehaviour
     {
         private RGBCam mRGBCam;

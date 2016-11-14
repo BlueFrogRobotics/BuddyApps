@@ -2,33 +2,32 @@
 using UnityEngine.UI;
 using System.Collections;
 
-namespace BuddySample.Basic
+namespace BuddyApp.Diagnostic
 {
     public class ThermalPixel : MonoBehaviour
     {
         private Image mImage;
         private Text mText;
-
         private float mDegrees;
 
-        public float mMinExpected { get; set; }
-        public float mMaxExpected { get; set; }
-        public string mUnite { get; set; }
-        public string mForm { get; set; }
+        public float MinExpected { get; set; }
+        public float MaxExpected { get; set; }
+        public string Unite { get; set; }
+        public string Form { get; set; }
 
         public ThermalPixel()
         {
-            mMinExpected = 20; 
-            mMaxExpected = 40; 
-            mUnite = "°";
-            mForm = "0.0";
+            MinExpected = 20; 
+            MaxExpected = 40; 
+            Unite = "°";
+            Form = "0.0";
         }
 
         // Use this for initialization
         void Awake()
         {
-            mImage = this.GetComponentInChildren<Image>();
-            mText = this.GetComponentInChildren<Text>();
+            mImage = GetComponentInChildren<Image>();
+            mText = GetComponentInChildren<Text>();
         }
 
         public float Value
@@ -42,16 +41,16 @@ namespace BuddySample.Basic
                 mDegrees = value;
                 float lPurcent = DegreesToPurcent(mDegrees);
                 mImage.color = new Color(lPurcent, 0, (1f - lPurcent), 0.85f);
-                mText.text = mDegrees.ToString(mForm) + mUnite;
+                mText.text = mDegrees.ToString(Form) + Unite;
             }
         }
 
         public float DegreesToPurcent(float iValue)
         {
-            float lV = (iValue - mMinExpected) / (mMaxExpected - mMinExpected);
-            if (lV > 1f) lV = 1f;
-            if (lV < 0f) lV = 0f;
-            return lV;
+            float oV = (iValue - MinExpected) / (MaxExpected - MinExpected);
+            if (oV > 1F) oV = 1F;
+            if (oV < 0F) oV = 0F;
+            return oV;
         }
     }
 }
