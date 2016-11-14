@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using BuddyOS;
 
 namespace BuddyApp.Diagnostic
@@ -17,49 +18,78 @@ namespace BuddyApp.Diagnostic
 
     public class DiagnosticBehaviour : MonoBehaviour
     {
-        private RGBCam mRGBCam;
-        private DepthCam mDepthCam;
-        private TextToSpeech mTTS;
-        private SpeechToText mSTT;
-        private SphinxTrigger mSphinx;
-        private USSensor mLeftUSSensor;
-        private USSensor mRightUSSensor;
-        private USSensor mBackUSSensor;
-        private IRSensor mLeftIRSensor;
-        private IRSensor mMiddleIRSensor;
-        private IRSensor mRightIRSensor;
-        private ThermalSensor mThermalSensor;
-        private LED mLED;
-        private Face mFace;
-        private Wheels mWheels;
-        private Hinge mYesHinge;
-        private Hinge mNoHinge;
+        [SerializeField]
+        private GameObject vocalRoot;
+
+        [SerializeField]
+        private GameObject ledRoot;
+
+        [SerializeField]
+        private GameObject motorsRoot;
+
+        [SerializeField]
+        private GameObject faceRoot;
+
+        [SerializeField]
+        private GameObject camerasRoot;
+
+        [SerializeField]
+        private GameObject thermalRoot;
+
+        [SerializeField]
+        private GameObject sensorsRoot;
+
+        private List<GameObject> mRoots;
+
+        private WindowType mCurrentWindow;
 
         // Use this for initialization
         void Start()
-        {
-            mRGBCam = BYOS.Instance.RGBCam;
-            mDepthCam = BYOS.Instance.DepthCam;
-            mTTS = BYOS.Instance.TextToSpeech;
-            mSTT = BYOS.Instance.SpeechToText;
-            mSphinx = BYOS.Instance.SphinxTrigger;
-            mLeftUSSensor = BYOS.Instance.USSensors.Left;
-            mRightUSSensor = BYOS.Instance.USSensors.Right;
-            mBackUSSensor = BYOS.Instance.USSensors.Back;
-            mLeftIRSensor = BYOS.Instance.IRSensors.Left;
-            mMiddleIRSensor = BYOS.Instance.IRSensors.Middle;
-            mRightIRSensor = BYOS.Instance.IRSensors.Right;
-            mThermalSensor = BYOS.Instance.ThermalSensor;
-            mLED = BYOS.Instance.LED;
-            mFace = BYOS.Instance.Face;
-            mWheels = BYOS.Instance.Motors.Wheels;
-            mYesHinge = BYOS.Instance.Motors.YesHinge;
-            mNoHinge = BYOS.Instance.Motors.NoHinge;
+        {            
+            mRoots = new List<GameObject>() { vocalRoot,
+                ledRoot, motorsRoot, faceRoot,
+                camerasRoot, thermalRoot, sensorsRoot
+            };
+
+            mCurrentWindow = WindowType.FACE;
+            SetWindow((int)WindowType.VOCAL);
         }
 
-        // Update is called once per frame
-        void Update()
+        public void SetWindow(int iIndex)
         {
+            WindowType lType = (WindowType)iIndex;
+            if (mCurrentWindow != lType) {
+                mCurrentWindow = lType;
+                switch (mCurrentWindow) {
+                    case WindowType.VOCAL:
+                        DisableAllExcept(vocalRoot);
+                        break;
+                    case WindowType.LED:
+                        DisableAllExcept(ledRoot);
+                        break;
+                    case WindowType.MOTORS:
+                        DisableAllExcept(motorsRoot);
+                        break;
+                    case WindowType.FACE:
+                        DisableAllExcept(faceRoot);
+                        break;
+                    case WindowType.CAMERAS:
+                        DisableAllExcept(camerasRoot);
+                        break;
+                    case WindowType.THERMAL:
+                        DisableAllExcept(thermalRoot);
+                        break;
+                    case WindowType.SENSORS:
+                        DisableAllExcept(sensorsRoot);
+                        break;
+                }
+            }
+        }
+
+        private void DisableAllExcept(GameObject iGOToKeep)
+        {
+            foreach (GameObject lRoot in mRoots)
+                lRoot.SetActive(lRoot == iGOToKeep);
         }
     }
 }
