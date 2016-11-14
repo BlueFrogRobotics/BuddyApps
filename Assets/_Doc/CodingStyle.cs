@@ -47,6 +47,7 @@ GENERALITIES
  */
 
 using UnityEngine;
+using System.Collections.Generic;
 
 /* Use namespaces for naming and hierarchy */
 namespace BuddySample.Doc
@@ -231,7 +232,7 @@ OPTIMIZATIONS
 
 /*
 - Use System.String.Empty, not ""
-- For quick fill and clear operation, use List, not Dictionnary
+- For quick fill and clear operation, use Dictionnary, not List
 - Avoid LINQ
      
 */

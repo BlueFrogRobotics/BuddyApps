@@ -1,16 +1,13 @@
 ﻿using UnityEngine;
 using BuddyOS;
 
-
 namespace BuddyApp.Remote
 {
-
     public class JoystickOTOReceiver : OTONetReceiver
     {
-        public override void ReceiveData(byte[] data, int ndata)
+        public override void ReceiveData(byte[] iData, int iNbData)
         {
-            ACommand cmd = ACommand.Deserialize(data);
-            cmd.Execute();
+            ACommand.Deserialize(iData).Execute();
         }
     }
 }

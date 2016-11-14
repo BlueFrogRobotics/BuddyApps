@@ -6,15 +6,15 @@ using BuddyOS;
 
 namespace BuddyApp.Companion
 {
-    internal class CompanionAppData : AAppData
+    internal class CompanionData : AAppData
     {
-        public static CompanionAppData Instance
+        public static CompanionData Instance
         {
             get
             {
                 if (sInstance == null)
-                    sInstance = GetInstance<CompanionAppData>();
-                return sInstance as CompanionAppData;
+                    sInstance = GetInstance<CompanionData>();
+                return sInstance as CompanionData;
             }
         }
     }

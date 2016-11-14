@@ -6,7 +6,7 @@ using BuddyOS.UI;
 
 namespace BuddyApp.Companion
 {
-    public class CompanionAppLayout : AWindowLayout
+    public class CompanionLayout : AWindowLayout
     {
         public override void Build()
         {
