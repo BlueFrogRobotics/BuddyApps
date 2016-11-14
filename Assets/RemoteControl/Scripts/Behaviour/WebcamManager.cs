@@ -7,24 +7,18 @@ namespace BuddyApp.Remote
 {
     public class WebcamManager : MonoBehaviour
     {
-        private RGBCam mWebcam;
-        private MatOfByte mBuffer = new MatOfByte();
-        //public RawImage mDebugScreen;
-        public int CompressQuality { get { return compressQuality; } set { compressQuality = value; } }
         [Range(1, 100)]
         public int compressQuality;
-
+        private RGBCam mWebcam;
+        private MatOfByte mBuffer = new MatOfByte();
         public RawImage mDebugScreen;
-
-        // Use this for initialization
+        
         void Start()
         {
-
             mWebcam = BYOS.Instance.RGBCam;
             mWebcam.Open();
         }
-
-        // Update is called once per frame
+        
         void Update()
         {
             if (mWebcam.FrameMat != null)

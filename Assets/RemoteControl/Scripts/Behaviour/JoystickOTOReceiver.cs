@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using BuddyOS;
+﻿using BuddyOS;
 
 namespace BuddyApp.Remote
 {

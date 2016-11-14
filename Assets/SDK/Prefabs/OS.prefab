@@ -2889,7 +2889,7 @@ MonoBehaviour:
   m_Script: {fileID: -1740989898, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceType: 2
+  instanceType: 0
 --- !u!114 &11405014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3214,7 +3214,7 @@ MonoBehaviour:
   m_Script: {fileID: 266876562, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceType: 2
+  instanceType: 0
 --- !u!114 &11423534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3510,7 +3510,7 @@ MonoBehaviour:
   m_Script: {fileID: -2101848868, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceType: 2
+  instanceType: 0
 --- !u!114 &11430098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3770,7 +3770,7 @@ MonoBehaviour:
   m_Script: {fileID: -1489113115, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceType: 2
+  instanceType: 0
   voiceSource: {fileID: 8227574}
   mediaSource: {fileID: 8265984}
   soundFxSource: {fileID: 8211618}
@@ -4132,7 +4132,7 @@ MonoBehaviour:
   m_Script: {fileID: -1754428059, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceType: 2
+  instanceType: 0
 --- !u!114 &11450770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4148,7 +4148,7 @@ MonoBehaviour:
   poolManager: {fileID: 11405014}
   enableCommandLogs: 0
   enableNetworkLogs: 0
-  enableLoadDefaultApp: 0
+  enableLoadDefaultApp: 1
   defaultApp: CompanionApp
 --- !u!114 &11452192
 MonoBehaviour:
@@ -4363,7 +4363,7 @@ MonoBehaviour:
   m_Script: {fileID: 2060803495, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceType: 2
+  instanceType: 0
 --- !u!114 &11461480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4710,7 +4710,7 @@ MonoBehaviour:
   m_Script: {fileID: -1794787542, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceType: 2
+  instanceType: 0
 --- !u!114 &11472950
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4769,7 +4769,7 @@ MonoBehaviour:
   m_Script: {fileID: -583552671, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceType: 2
+  instanceType: 0
 --- !u!114 &11477206
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4908,7 +4908,7 @@ MonoBehaviour:
   m_Script: {fileID: 1183737224, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceType: 2
+  instanceType: 0
   isRelative: 0
 --- !u!114 &11482224
 MonoBehaviour:
@@ -4964,7 +4964,7 @@ MonoBehaviour:
   m_Script: {fileID: -1635949654, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceType: 2
+  instanceType: 0
 --- !u!114 &11482764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5110,7 +5110,7 @@ MonoBehaviour:
   m_Script: {fileID: 560053249, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceType: 2
+  instanceType: 0
 --- !u!114 &11491556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5122,9 +5122,9 @@ MonoBehaviour:
   m_Script: {fileID: -1933814538, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceType: 2
-  deviceID: 0
-  resolution: 0
+  instanceType: 0
+  deviceID: 1
+  resolution: 1
 --- !u!114 &11491702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7446,7 +7446,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &22479552

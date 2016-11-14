@@ -5,13 +5,12 @@ namespace BuddyApp.Remote
 {
     public class SensorOTOSender : OTONetSender
     {
+        private float mTime;
+
         [SerializeField]
         private OTONetwork OTO;
-
         private USSensors mUSSensors;
         private IRSensors mIRSensors;
-
-        private float mTime;
 
         void Start()
         {
@@ -23,7 +22,8 @@ namespace BuddyApp.Remote
 
         void Update()
         {
-            if (!OTO.HasAPeer || Time.time - mTime < 0.1f) return;
+            if (!OTO.HasAPeer || Time.time - mTime < 0.1f)
+                return;
 
             byte[] lSensorsValue = GetSensorsValue();
             SendData(lSensorsValue, lSensorsValue.Length);
@@ -61,7 +61,6 @@ namespace BuddyApp.Remote
                 else
                     lSensorsLevel[i] = 0;
             }
-
             return lSensorsLevel;
         }
     }
