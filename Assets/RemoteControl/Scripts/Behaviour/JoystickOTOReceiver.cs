@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-using BuddyOS;
+﻿using BuddyOS;
 
 
 namespace BuddyApp.Remote
 {
-
     public class JoystickOTOReceiver : OTONetReceiver
     {
         public override void ReceiveData(byte[] data, int ndata)

@@ -6,15 +6,15 @@ namespace BuddyApp.Remote
     [RequireComponent(typeof(WebcamManager))]
     public class VideoOTOSender : OTONetSender
     {
-        [SerializeField]
-        private OTONetwork OTO;
-        private WebcamManager mWebcam;
-        private MatOfByte mBuffer;
         [Range(1, 100)]
         public int mCompressQuality;
         [Range(5, 30)]
         public float mRequestedFPS;
         private float mLastTime;
+        [SerializeField]
+        private OTONetwork OTO;
+        private WebcamManager mWebcam;
+        private MatOfByte mBuffer;
 
         void Start()
         {
@@ -27,13 +27,17 @@ namespace BuddyApp.Remote
             if (!OTO.HasAPeer || !isActiveAndEnabled)
                 return;
 
-            if (Time.time - mLastTime < 1 / mRequestedFPS) return;
-            mLastTime = Time.time;
+            if (Time.time - mLastTime < 1 / mRequestedFPS)
+                return;
 
-            mWebcam.CompressQuality = mCompressQuality;
+            mLastTime = Time.time;
+            mWebcam.compressQuality = mCompressQuality;
             mBuffer = mWebcam.GetBuffer();
             byte[] lData = mBuffer.toArray();
-            if (lData == null) return;
+
+            if (lData == null)
+                return;
+
             SendData(lData, lData.Length);
         }
     }
