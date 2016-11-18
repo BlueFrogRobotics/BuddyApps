@@ -383,6 +383,11 @@
             Current Speed in meters by second.
             </summary>
         </member>
+        <member name="P:BuddyOS.Wheels.Status">
+            <summary>
+            Enumeration corresponding to the current mobile base status
+            </summary>
+        </member>
         <member name="M:BuddyOS.Wheels.GetRobotPoseBelieves">
             <summary>
             Returns the actual robot's pose estimated using odometry.
@@ -390,11 +395,6 @@
             <returns>Robot's pose (X, Y, Tetha), the position (X,Y) in meters and the orientation Theta in degrees</returns>
             <remarks>Motors is the use of data from motion sensors to estimate change in position over time</remarks>
             <remarks>The robot's pose is a 3D vector that contains (X, Y, Theta). (X, Y) being the robot's position in horizontal plane and Theta the orientation of the robot.</remarks>
-        </member>
-        <member name="P:BuddyOS.Wheels.Status">
-            <summary>
-            Enumeration corresponding to the current mobile base status
-            </summary>
         </member>
         <member name="M:BuddyOS.Wheels.SetWheelsSpeed(System.Single,System.Single,System.Int32)">
             <summary>
@@ -939,18 +939,18 @@
             Access to structure data for the back ultrasound sensor.
             </summary>
         </member>
-        <member name="M:BuddyOS.ClsDepthCamCmd.Create">
+        <member name="M:BuddyOS.Command.ClsDepthCamCmd.Create">
             <summary>
             Closes the current opened camera. Must be call when you don't use the camera anymore. 
             </summary>
         </member>
-        <member name="M:BuddyOS.ClsMicroCmd.Create(System.String)">
+        <member name="M:BuddyOS.Command.ClsMicroCmd.Create(System.String)">
             <summary>
             Stops Recording.
             </summary>
             <param name="iDeviceName">Name of the device</param>
         </member>
-        <member name="T:BuddyOS.ClsRGBCamCmd">
+        <member name="T:BuddyOS.Command.ClsRGBCamCmd">
             <summary>
             Closes the current opened video stream. 
             </summary>
@@ -958,18 +958,18 @@
             Must be called when you will not use the camera anymore. 
             </remarks>
         </member>
-        <member name="M:BuddyOS.DownVolCmd.Create(System.Boolean)">
+        <member name="M:BuddyOS.Command.DownVolCmd.Create(System.Boolean)">
             <summary>
             Decreases the volume by 1
             </summary>
             <param name="iSound">Whether to play sound when changin volume</param>
         </member>
-        <member name="M:BuddyOS.KillSndsCmd.Create">
+        <member name="M:BuddyOS.Command.KillSndsCmd.Create">
             <summary>
             Kill the sound to all Sound Channels
             </summary>
         </member>
-        <member name="M:BuddyOS.MvAbsPosCmd.Create(UnityEngine.Vector2,System.Single,System.Single)">
+        <member name="M:BuddyOS.Command.MvAbsPosCmd.Create(UnityEngine.Vector2,System.Single,System.Single)">
             <summary>
             Make the robot go to a desired global position.
             </summary>
@@ -977,7 +977,7 @@
             <param name="iSpeed">Speed desired in degrees per second</param>
             <param name="iTolerance">The distance tolerance to reach to stop command in meters</param>
         </member>
-        <member name="M:BuddyOS.MvDistCmd.Create(System.Single,System.Single,System.Single,System.Single)">
+        <member name="M:BuddyOS.Command.MvDistCmd.Create(System.Single,System.Single,System.Single,System.Single)">
             <summary>
             Indicate speeds of wheels during a desired distance.
             </summary>
@@ -986,7 +986,7 @@
             <param name="iDistance">distance to reach until the command is done in meter</param>
             <param name="iTolerance">distance tolerance in meter to stop the command</param>
         </member>
-        <member name="M:BuddyOS.MvPosCmd.Create(UnityEngine.Vector2,System.Single,System.Single)">
+        <member name="M:BuddyOS.Command.MvPosCmd.Create(UnityEngine.Vector2,System.Single,System.Single)">
             <summary>
             Make the robot go to a desired position.
             </summary>
@@ -994,19 +994,19 @@
             <param name="iSpeed">Speed desired in degrees per second</param>
             <param name="iTolerance">The distance tolerance to reach to stop command in meters</param>
         </member>
-        <member name="M:BuddyOS.OpDepthCamCmd.Create(System.Int32)">
+        <member name="M:BuddyOS.Command.OpDepthCamCmd.Create(System.Int32)">
             <summary>
             Opens the camera device. Should be called once by session.
             </summary>
             <param name="iMode">Mode of the camera</param>
         </member>
-        <member name="M:BuddyOS.OpDepthCamCmd.Create(DepthMode)">
+        <member name="M:BuddyOS.Command.OpDepthCamCmd.Create(DepthMode)">
             <summary>
             Opens the camera device. Should be called once by session.
             </summary>
             <param name="iMode">Mode of the camera</param>
         </member>
-        <member name="M:BuddyOS.OpMicroCmd.Create(System.String,System.Boolean,System.Int32,System.Int32)">
+        <member name="M:BuddyOS.Command.OpMicroCmd.Create(System.String,System.Boolean,System.Int32,System.Int32)">
             <summary>
             Starts Recording. 
             </summary>
@@ -1015,7 +1015,7 @@
             <param name="iLenghtSec">Time record in seconds</param>
             <param name="iFrequency">The sample rate of the AudioClip produced by the recording.</param>
         </member>
-        <member name="M:BuddyOS.OpRGBCamCmd.Create">
+        <member name="M:BuddyOS.Command.OpRGBCamCmd.Create">
             <summary>
             Open the camera device. 
             </summary>
@@ -1024,18 +1024,18 @@
             See "IsOpen" accessor to know this.
             </remarks>
         </member>
-        <member name="M:BuddyOS.SayTTSCmd.Create(System.String,System.Boolean)">
+        <member name="M:BuddyOS.Command.SayTTSCmd.Create(System.String,System.Boolean)">
             <summary>
             Makes the robot speaking the input string in the set language
             </summary>
         </member>
-        <member name="M:BuddyOS.SetEvntFaceCmd.Create(FaceEvent)">
+        <member name="M:BuddyOS.Command.SetEvntFaceCmd.Create(FaceEvent)">
             <summary>
             Opens the camera device. Should be called once by session.
             </summary>
             <param name="iMode">Mode of the camera</param>
         </member>
-        <member name="M:BuddyOS.SetHSVLEDCmd.Create(System.Int32,System.Int32,System.Int32,System.Single,System.Single)">
+        <member name="M:BuddyOS.Command.SetHSVLEDCmd.Create(System.Int32,System.Int32,System.Int32,System.Single,System.Single)">
             <summary>
             Set the body light value and oscillation with HSV Color.
             </summary>
@@ -1045,98 +1045,98 @@
             <param name="iVariation">>Amplitude of the oscillation in purcentage (0.0f to 1f with step of 0.01f)</param>
             <param name="iFrequency">Frequency of oscillation in Hertz (0.0f to 5.10f with step of 0.02f)</param>
         </member>
-        <member name="M:BuddyOS.SetIDRGBCamCmd.Create(System.Int32)">
+        <member name="M:BuddyOS.Command.SetIDRGBCamCmd.Create(System.Int32)">
             <summary>
             Set ID of the selected Camera
             </summary>
         </member>
-        <member name="M:BuddyOS.SetKeyPhrSphinxCmd.Create(System.String)">
+        <member name="M:BuddyOS.Command.SetKeyPhrSphinxCmd.Create(System.String)">
             <summary>
             Set the trigger key phrase.
             </summary>
             <param name="iKeyphrase">The key phrase</param>
         </member>
-        <member name="M:BuddyOS.SetLangSphinxCmd.Create(Language)">
+        <member name="M:BuddyOS.Command.SetLangSphinxCmd.Create(Language)">
             <summary>
             Sets the recognized language
             </summary>
             <param name="iLang">The language</param>
         </member>
-        <member name="M:BuddyOS.SetLangSTTCmd.Create(Language)">
+        <member name="M:BuddyOS.Command.SetLangSTTCmd.Create(Language)">
             <summary>
             Sets the recognized language
             </summary>
             <param name="iLang">The language</param>
         </member>
-        <member name="M:BuddyOS.SetLangTTSCmd.Create(Language)">
+        <member name="M:BuddyOS.Command.SetLangTTSCmd.Create(Language)">
             <summary>
             Sets the speak language
             </summary>
             <param name="iLang">The language</param>
         </member>
-        <member name="M:BuddyOS.SetMoodFaceCmd.Create(FaceMood)">
+        <member name="M:BuddyOS.Command.SetMoodFaceCmd.Create(FaceMood)">
             <summary>
             Opens the camera device. Should be called once by session.
             </summary>
             <param name="iMode">Mode of the camera</param>
         </member>
-        <member name="M:BuddyOS.SetMoodLEDCmd.Create(MoodColor)">
+        <member name="M:BuddyOS.Command.SetMoodLEDCmd.Create(MoodColor)">
             <summary>
             Set the body light based on the mood.
             </summary>
             <param name="iMoodColor">Color coresponding to the mood</param>
         </member>
-        <member name="M:BuddyOS.SetPitchTTSCmd.Create(System.Single)">
+        <member name="M:BuddyOS.Command.SetPitchTTSCmd.Create(System.Single)">
             <summary>
             Sets the pitch
             </summary>
             <param name="iPitch">The pitch</param>
         </member>
-        <member name="M:BuddyOS.SetPosNoCmd.Create(System.Single,System.Single)">
+        <member name="M:BuddyOS.Command.SetPosNoCmd.Create(System.Single,System.Single)">
             <summary>
             Set the angular position of the motor at a specific speed
             </summary>
             <param name="iAngleDeg">Angle in degrees of the angular position</param>
             <param name="iSpeed">Speed in degrees/sec of the motor</param>
         </member>
-        <member name="M:BuddyOS.SetPosNoCmd.Create(System.Single)">
+        <member name="M:BuddyOS.Command.SetPosNoCmd.Create(System.Single)">
             <summary>
             Set the angular position of the motor at a specific speed
             </summary>
             <param name="iAngleDeg">Angle in degrees of the angular position</param>
         </member>
-        <member name="M:BuddyOS.SetPosYesCmd.Create(System.Single,System.Single)">
+        <member name="M:BuddyOS.Command.SetPosYesCmd.Create(System.Single,System.Single)">
             <summary>
             Set the angular position of the motor at a specific speed
             </summary>
             <param name="iAngleDeg">Angle in degrees of the angular position</param>
             <param name="iSpeed">Speed in degrees/sec of the motor</param>
         </member>
-        <member name="M:BuddyOS.SetPosYesCmd.Create(System.Single)">
+        <member name="M:BuddyOS.Command.SetPosYesCmd.Create(System.Single)">
             <summary>
             Set the angular position of the motor at a specific speed
             </summary>
             <param name="iAngleDeg">Angle in degrees of the angular position</param>
         </member>
-        <member name="M:BuddyOS.SetPowerCmd.Create(System.Boolean)">
+        <member name="M:BuddyOS.Command.SetPowerCmd.Create(System.Boolean)">
             <summary>
             Let the battery provide power to the robot or not.
             </summary>
             <remarks> You have to put the value to true tu use Buddy's functionnalities.</remarks>
         </member>
-        <member name="M:BuddyOS.SetRateTTSCmd.Create(System.Single)">
+        <member name="M:BuddyOS.Command.SetRateTTSCmd.Create(System.Single)">
             <summary>
             Sets the speech rate
             </summary>
             <param name="iRate">The rate</param>
         </member>
-        <member name="M:BuddyOS.SetResCmd.Create(RGBCamResolution)">
+        <member name="M:BuddyOS.Command.SetResCmd.Create(RGBCamResolution)">
             <summary>
             Set the resolution of the webcam 640x480, 320x240 or 176x144
             When setted, close and re-open automaticaly the camera.
             </summary>
         </member>
-        <member name="M:BuddyOS.SetRGBLEDCmd.Create(UnityEngine.Color,System.Single,System.Single)">
+        <member name="M:BuddyOS.Command.SetRGBLEDCmd.Create(UnityEngine.Color,System.Single,System.Single)">
             <summary>
             Set the body light value and oscillation with UnityEngine Color.
             </summary>
@@ -1144,14 +1144,14 @@
             <param name="iVariation">Amplitude of the oscillation in purcentage (0.0f to 1f with step of 0.01f)</param>
             <param name="iFrequency">Frequency of oscillation in Hertz (0.0f to 5.10f with step of 0.02f)</param>
         </member>
-        <member name="M:BuddyOS.SetThreshSphinxCmd.Create(System.Single)">
+        <member name="M:BuddyOS.Command.SetThreshSphinxCmd.Create(System.Single)">
             <summary>
             Set the threshold of the sphinx trigger
             Shouldn't be called continously
             </summary>
             <param name="iThreshold">Threshold of the trigger, default is 1e-30f</param>
         </member>
-        <member name="M:BuddyOS.SetVolCmd.Create(System.Int32,System.Boolean,System.Boolean)">
+        <member name="M:BuddyOS.Command.SetVolCmd.Create(System.Int32,System.Boolean,System.Boolean)">
             <summary>
             Changes the volume accordingly
             </summary>
@@ -1159,7 +1159,7 @@
             <param name="iSound">Whether to play sound when changin volume</param>
             <param name="iShowUI">Whether to show the Volume UI or not</param>
         </member>
-        <member name="M:BuddyOS.SetWheelsSpeedCmd.Create(System.Single,System.Single,System.Int32)">
+        <member name="M:BuddyOS.Command.SetWheelsSpeedCmd.Create(System.Single,System.Single,System.Int32)">
             <summary>
             Controls the speed of the wheels, stops after the timeout.
             </summary>
@@ -1167,59 +1167,59 @@
             <param name="iRight">Desired right wheel speed, in degrees per seconds</param>
             <param name="iTimeout">Timeout in milliseconds</param>
         </member>
-        <member name="M:BuddyOS.SilenceTTSCmd.Create(System.Int32,System.Boolean)">
+        <member name="M:BuddyOS.Command.SilenceTTSCmd.Create(System.Int32,System.Boolean)">
             <summary>
             Makes the robot stop speaking
             </summary>
         </member>
-        <member name="M:BuddyOS.StartBluetoothCmd.Create">
+        <member name="M:BuddyOS.Command.StartBluetoothCmd.Create">
             <summary>
             Enables Bluetooth connection
             </summary>
         </member>
-        <member name="M:BuddyOS.StartNetworkCmd.Create(System.String,System.String)">
+        <member name="M:BuddyOS.Command.StartNetworkCmd.Create(System.String,System.String)">
             <summary>
             Connects to wanted Access Point
             </summary>
             <param name="iSSID">Name of the Access Point</param>
             <param name="iPassword">Password to this Access Point</param>
         </member>
-        <member name="M:BuddyOS.StartRecoSphinxCmd.Create">
+        <member name="M:BuddyOS.Command.StartRecoSphinxCmd.Create">
             <summary>
             Launches the voice recognition.
             </summary>
         </member>
-        <member name="M:BuddyOS.StartRecoSTTCmd.Create">
+        <member name="M:BuddyOS.Command.StartRecoSTTCmd.Create">
             <summary>
             Launch the request call for the Speech To Text. Has to be done whenever you want the recognition to begin.
             </summary>
         </member>
-        <member name="M:BuddyOS.StartWifiScanCmd.Create">
+        <member name="M:BuddyOS.Command.StartWifiScanCmd.Create">
             <summary>
             Starts a Wifi Scan
             </summary>
         </member>
-        <member name="M:BuddyOS.StpBluetoothCmd.Create">
+        <member name="M:BuddyOS.Command.StpBluetoothCmd.Create">
             <summary>
             Disables Bluetooth connection
             </summary>
         </member>
-        <member name="M:BuddyOS.StpRecoSphinxCmd.Create">
+        <member name="M:BuddyOS.Command.StpRecoSphinxCmd.Create">
             <summary>
             Ends the voice recognition.
             </summary>
         </member>
-        <member name="M:BuddyOS.StpSTTCmd.Create">
+        <member name="M:BuddyOS.Command.StpSTTCmd.Create">
             <summary>
             Launch the request call for the Speech To Text. Has to be done whenever you want the recognition to begin.
             </summary>
         </member>
-        <member name="M:BuddyOS.StpWheelsCmd.Create">
+        <member name="M:BuddyOS.Command.StpWheelsCmd.Create">
             <summary>
             Stop wheels by setting their speed values to 0F.
             </summary>
         </member>
-        <member name="M:BuddyOS.TurnAbsCmd.Create(System.Single,System.Single,System.Single)">
+        <member name="M:BuddyOS.Command.TurnAbsCmd.Create(System.Single,System.Single,System.Single)">
             <summary>
             Turns until the desired angle is reached in world space (based Buddy's odometry).
             </summary>
@@ -1229,7 +1229,7 @@
             <remarks>The absolute target angle defines the robot orientation in world space (relative to the first position when the robot woke up)
             The robot's pose in world space at time = 0 is (x = 0, z = 0, theta = 0).</remarks>
         </member>
-        <member name="M:BuddyOS.TurnRelaCmd.Create(System.Single,System.Single,System.Single)">
+        <member name="M:BuddyOS.Command.TurnRelaCmd.Create(System.Single,System.Single,System.Single)">
             <summary>
             Turns with a target angle (in degrees) from the current orientation.
             </summary>
@@ -1238,28 +1238,28 @@
             <param name="iTolerance">Tolerance, in degrees, around the final angle where the robot would stop</param>
             <remarks>The target angle defines the robot orientation in local space (relative to its actual orientation)</remarks>
         </member>
-        <member name="M:BuddyOS.UpVolCmd.Create(System.Boolean)">
+        <member name="M:BuddyOS.Command.UpVolCmd.Create(System.Boolean)">
             <summary>
             Increases the volume by 1
             </summary>
             <param name="iSound">Whether to play sound when changin volume</param>
         </member>
-        <member name="P:BuddyOS.CommandParam.Integers">
+        <member name="P:BuddyOS.Command.CommandParam.Integers">
             <summary>
             Integer storage.
             </summary>
         </member>
-        <member name="P:BuddyOS.CommandParam.Singles">
+        <member name="P:BuddyOS.Command.CommandParam.Singles">
             <summary>
             Float storage.
             </summary>
         </member>
-        <member name="P:BuddyOS.CommandParam.Strings">
+        <member name="P:BuddyOS.Command.CommandParam.Strings">
             <summary>
             Unicode string storage.
             </summary>
         </member>
-        <member name="P:BuddyOS.CommandParam.Objects">
+        <member name="P:BuddyOS.Command.CommandParam.Objects">
             <summary>
             Miscellaneous object storage. Won't be serialized.
             </summary>

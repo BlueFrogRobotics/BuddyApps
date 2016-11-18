@@ -1,5 +1,6 @@
 ﻿using BuddyOS;
 using BuddyOS.UI;
+using BuddyOS.Command;
 
 namespace BuddyApp.Basic
 {
