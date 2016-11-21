@@ -11,6 +11,9 @@ namespace BuddyApp.BabyPhone
         [SerializeField]
         private GameObject startScreen;
 
+        [SerializeField]
+        private Animator animator;
+
         // Use this for initialization
         void Start()
         {
@@ -19,10 +22,11 @@ namespace BuddyApp.BabyPhone
 
         private IEnumerator LoadingScreen()
         {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(3F);
             startScreen.SetActive(true);
 
-            yield return new WaitForSeconds(1f);
+            animator.SetBool("Close_WLoading", true);
+            yield return new WaitForSeconds(1F);
             loadingScreen.SetActive(false);
         }
     }

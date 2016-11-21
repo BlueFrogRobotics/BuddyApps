@@ -20,9 +20,6 @@ namespace BuddyApp.BabyPhone
         [SerializeField]
         private Text notificationAmount;
 
-        [SerializeField]
-        private Text startListningCount;
-
         private TextToSpeech mTTS;
         private RGBCam mRGBCam;
         private Face mFace;
@@ -97,11 +94,11 @@ namespace BuddyApp.BabyPhone
 
             mMove = false;
             mTTS = new TextToSpeech();
+            mRGBCam.Open();
         }
 
         void Update()
         {
-
             mTime += Time.deltaTime;
 
             if ((mTime >= 4F) && (!mStartCaringBaby) && (!mSayTuto)) {
@@ -115,7 +112,7 @@ namespace BuddyApp.BabyPhone
             }
 
             if ((mTime > 10F) && (!mSayYesOrNo)) {
-                mTTS.Say("Veux-tu commencer la surveillance de bébé?");
+                mTTS.Say("Veux-tu commencer la surveillance du bébé?");
                 mSayYesOrNo = true;
             }
 
@@ -129,19 +126,19 @@ namespace BuddyApp.BabyPhone
                 canvas[2].SetActive(false);
                 canvas[3].SetActive(true);
                 if (mTime >= 2F)
-                    startListningCount.text = "4";
+                    notificationAmount.text = "4";
 
                 if (mTime >= 4F)
-                    startListningCount.text = "3";
+                    notificationAmount.text = "3";
 
                 if (mTime >= 6F)
-                    startListningCount.text = "2";
+                    notificationAmount.text = "2";
 
                 if (mTime >= 8F)
-                    startListningCount.text = "1";
+                    notificationAmount.text = "1";
 
                 if (mTime >= 10F)
-                    startListningCount.text = "0";
+                    notificationAmount.text = "0";
 
                 if (mTime >= 10.5F) {
                     canvas[3].SetActive(false);
@@ -158,7 +155,7 @@ namespace BuddyApp.BabyPhone
 
                 if (mCount > 50F) {
                     mMean = mMean / 50F;
-                    if (mMean >= 0.1f)
+                    if (mMean >= 0.1F)
                         mIsBabyCrying = true;
                     else
                         mIsBabyCrying = false;
@@ -168,7 +165,6 @@ namespace BuddyApp.BabyPhone
             }
 
             if ((mIsBabyCrying) && (mIsBuddyListening)) {
-                mRGBCam.Open();
                 StartCoroutine(SetSadMood());
 
                 mCountNotification = mCountNotification + 1;
@@ -221,11 +217,10 @@ namespace BuddyApp.BabyPhone
             mRGBCam.Open();
             yield return new WaitForSeconds(0.5F);
             MailSender lSender = new MailSender("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL);
-            Mail lEmail = new Mail("BUDDY ALERT - BABYPHONE", "Your baby seems to cry =(");
+            Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", "Your baby seems to cry =(");
+            lEmail.Addresses.Add("buddy.bluefrog@gmail.com");
             lEmail.AddTexture2D(mRGBCam.FrameTexture2D, "image.png");
             lSender.Send(lEmail);
-
-            //mSendMail.Send();
             yield return new WaitForSeconds(0.5F);
             mRGBCam.Close();
         }

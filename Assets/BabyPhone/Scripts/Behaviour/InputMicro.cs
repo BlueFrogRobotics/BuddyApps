@@ -22,10 +22,8 @@ namespace BuddyApp.BabyPhone
 
         void Update()
         {
-            // levelMax equals to the highest normalized value power 2, a small number because < 1
             Loudness = LevelMax();
         }
-
 
         // start mic when scene starts
         void OnEnable()
@@ -54,20 +52,14 @@ namespace BuddyApp.BabyPhone
         public void OnApplicationFocus(bool iIsFocus)
         {
             if (iIsFocus) {
-                Debug.Log("Focus");
-
                 if (!mIsInitialized) {
-                    Debug.Log("Init Mic");
                     InitMic();
                     mIsInitialized = true;
                 }
             }
             if (!iIsFocus) {
-                Debug.Log("Pause");
                 StopMicrophone();
-                Debug.Log("Stop Mic");
                 mIsInitialized = false;
-
             }
         }
 
@@ -88,17 +80,17 @@ namespace BuddyApp.BabyPhone
         public float LevelMax()
         {
             float lLevelMax = 0;
-            int mMicroPosition = Microphone.GetPosition(null) - (mSampleWindow + 1); // null means the first microphone
-            if (mMicroPosition < 0) return 0;
-            mClipRecord.GetData(mWaveData, mMicroPosition);
+            int lMicroPosition = Microphone.GetPosition(null) - (mSampleWindow + 1); // null means the first microphone
+            if (lMicroPosition < 0)
+                return 0;
+            mClipRecord.GetData(mWaveData, lMicroPosition);
 
             // Getting a peak on the last 128 samples
             for (int i = 0; i < mSampleWindow; ++i) {
                 float lWave = mWaveData[i];
                 float lWavePeak = lWave * lWave;
-                if (lLevelMax < lWavePeak) {
+                if (lLevelMax < lWavePeak)
                     lLevelMax = lWavePeak;
-                }
             }
             return lLevelMax;
         }
