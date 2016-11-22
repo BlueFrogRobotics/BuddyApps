@@ -83,7 +83,10 @@ namespace BuddyApp.BabyPhone
             int lMicroPosition = Microphone.GetPosition(null) - (mSampleWindow + 1); // null means the first microphone
             if (lMicroPosition < 0)
                 return 0;
-            mClipRecord.GetData(mWaveData, lMicroPosition);
+            if (mClipRecord != null)
+                mClipRecord.GetData(mWaveData, lMicroPosition);
+            else
+                InitMic();
 
             // Getting a peak on the last 128 samples
             for (int i = 0; i < mSampleWindow; ++i) {

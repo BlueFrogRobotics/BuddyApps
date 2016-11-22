@@ -29,10 +29,8 @@ namespace BuddyApp.BabyPhone
         private int mCountNotification;
 
         private bool mLeft;
-        private bool mMove;
         private bool mSayTuto;
         private bool mSayYesOrNo;
-        private bool mRight;
 
         /// <summary>
         /// passe à true quand le buddy entend un bruit fort 
@@ -90,9 +88,7 @@ namespace BuddyApp.BabyPhone
             mCountNotification = 0;
             mSayTuto = false;
             mSayYesOrNo = false;
-            mRight = false;
 
-            mMove = false;
             mTTS = new TextToSpeech();
             mRGBCam.Open();
         }
@@ -172,7 +168,6 @@ namespace BuddyApp.BabyPhone
                     notifications.SetActive(true);
                     notificationAmount.text = "1";
                     StartCoroutine(SendMessage());
-                    mMove = true;
                 }
 
                 if ((mTime >= 300) && (mIsBuddyListening) && (!mIsBabyCrying)) {

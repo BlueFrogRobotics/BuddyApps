@@ -333,7 +333,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1338945690}
-        m_MethodName: startCounter
+        m_MethodName: StartCounter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -541,76 +541,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 456033921}
---- !u!1001 &564208775
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 427440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 427440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 22482902, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 22482902, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 22478786, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_SizeDelta.y
-      value: -665.22125
-      objectReference: {fileID: 0}
-    - target: {fileID: 11450770, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: enableLoadDefaultApp
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22482440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_SizeDelta.y
-      value: -560
-      objectReference: {fileID: 0}
-    - target: {fileID: 22412740, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_SizeDelta.y
-      value: -557
-      objectReference: {fileID: 0}
-    - target: {fileID: 178300, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &641883345
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,55 +812,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b788af1850ef048b6a5cb4b9badcaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mLoadingScreen: {fileID: 753747432}
-  mStartScreen: {fileID: 424857045}
-  mGlobalIA: {fileID: 1338945688}
---- !u!1001 &990400292
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 400000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
-  m_IsPrefabParent: 0
+  animator: {fileID: 753747435}
+  loadingScreen: {fileID: 753747432}
+  startScreen: {fileID: 424857045}
+  globalIA: {fileID: 1338945688}
+--- !u!95 &753747435 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 9501490, guid: 3eee25f7289159b4daf43256f44f6c14,
+    type: 2}
+  m_PrefabInternal: {fileID: 753747431}
 --- !u!1 &1125875757
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,7 +935,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1338945689}
-        m_MethodName: stopAlarm
+        m_MethodName: StopAlarm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1298,12 +1188,12 @@ GameObject:
   - 4: {fileID: 1338945692}
   - 114: {fileID: 1338945691}
   - 114: {fileID: 1338945690}
-  - 114: {fileID: 1338945689}
   - 114: {fileID: 1338945695}
   - 81: {fileID: 1338945693}
   - 114: {fileID: 1338945694}
+  - 114: {fileID: 1338945689}
   m_Layer: 0
-  m_Name: globalAlarmAI
+  m_Name: AIBehaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1320,9 +1210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d03d91c5373a745a3cf62fe00f40fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAlarmStarted: 0
-  isAlarmStopped: 0
-  mRinger: {fileID: 153393382}
+  ringer: {fileID: 153393382}
   pauseScreen: {fileID: 1447333731}
   pauseButton: {fileID: 1467527295}
   halo1: {fileID: 2030464073}
@@ -1345,7 +1233,7 @@ MonoBehaviour:
   isDueDateSet: 0
   publicDate: 
   publicDueDate: 
-  alarmFunctions: {fileID: 1338945689}
+  mAlarmFunctions: {fileID: 1338945689}
 --- !u!114 &1338945691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1357,7 +1245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65742f1542284184189125c077d87a6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mListener: {fileID: 1338945695}
+  listener: {fileID: 1338945695}
 --- !u!4 &1338945692
 Transform:
   m_ObjectHideFlags: 0
@@ -1400,8 +1288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d19b9a2925a6af41aff3de342428130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugText: {fileID: 1248484888}
-  mCounter: {fileID: 1338945690}
+  counter: {fileID: 1338945690}
 --- !u!1 &1387450654
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,7 +1540,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1338945689}
-          m_MethodName: stopAlarm
+          m_MethodName: StopAlarm
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1775,7 +1662,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1338945689}
-        m_MethodName: stopAlarm
+        m_MethodName: StopAlarm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2088,7 +1975,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1338945690}
-        m_MethodName: setCounter
+        m_MethodName: SetCounter
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
