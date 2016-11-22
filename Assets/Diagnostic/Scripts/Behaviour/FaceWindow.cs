@@ -16,7 +16,11 @@ namespace BuddyApp.Diagnostic
             mFace = BYOS.Instance.Face;
         }
 
-        void Update()
+        void SetMood()
+        {
+        }
+
+        void SetEvent()
         {
         }
     }
