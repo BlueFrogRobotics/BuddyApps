@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using BuddyOS;
+using BuddyOS.Command;
 
 namespace BuddyApp.Remote
 {

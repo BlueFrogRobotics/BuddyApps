@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Web</name>
+    </assembly>
+    <members>
+        <member name="T:BuddyFeature.Web.SMTP">
+            <summary>
+            Enum of the different smtp that can be used to send mail
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Web.MailSender">
+            <summary>
+            Class that connect to an smtp server to send a mail
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Web.MailSender.CanSend">
+            <summary>
+            Return true if it can send a mail
+            </summary>
+        </member>
+        <member name="E:BuddyFeature.Web.MailSender.OnMailSent">
+            <summary>
+            Event called when the mail has been sent
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Web.MailSender.#ctor(System.String,System.String,BuddyFeature.Web.SMTP)">
+            <summary>
+            Create an smtp client with the user adress
+            </summary>
+            <param name="iAddress">mail adress of the user</param>
+            <param name="iPassword">password of the mail adress</param>
+            <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
+        </member>
+        <member name="M:BuddyFeature.Web.MailSender.Send(BuddyFeature.Web.Mail)">
+            <summary>
+            Send the mail. This method will do nothing if the previous mail has not yet been sent
+            </summary>
+            <param name="iMail">mail that will be send</param>
+        </member>
+        <member name="M:BuddyFeature.Web.MailSender.SmtpClient_OnCompleted(System.Object,System.ComponentModel.AsyncCompletedEventArgs)">
+            <summary>
+            Callback called when the mail has been sent
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:BuddyFeature.Web.Mail">
+            <summary>
+            Class which contains the message, the subject and the list of attachements that will be sent by using MailSender
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Web.Mail.ListFilePath">
+            <summary>
+            List of file path attached to the mail
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Web.Mail.ListAddress">
+            <summary>
+            List of adresses to send the mail
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Web.Mail.Subject">
+            <summary>
+            Subject of the mail
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Web.Mail.Body">
+            <summary>
+            Body of the mail
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Web.Mail.#ctor(System.String,System.String)">
+            <summary>
+            create a mail with provided parameters
+            </summary>
+            <param name="iSubject">subject of the mail</param>
+            <param name="iBody">body of the mail</param>
+        </member>
+        <member name="M:BuddyFeature.Web.Mail.#ctor">
+            <summary>
+            Create a mail with default parameters
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Web.Mail.AddTexture2D(UnityEngine.Texture2D,System.String)">
+            <summary>
+            Save a texture 2d as a png in the streaming asset folder then add it to the mail
+            </summary>
+            <param name="iTexture">texture to add to save and add to the mail</param>
+            <param name="iNameFile"></param>
+        </member>
+        <member name="M:BuddyFeature.Web.Mail.AddFile(System.String)">
+            <summary>
+            Add file in the streaming asset folder
+            </summary>
+            <param name="iNameFile">name of the file to add</param>
+        </member>
+        <member name="M:BuddyFeature.Web.Mail.AddTo(System.String)">
+            <summary>
+            Add a receiver af the mail
+            </summary>
+            <param name="iAddress">adress to send to</param>
+        </member>
+        <member name="M:BuddyFeature.Web.Mail.ClearTo">
+            <summary>
+            Clear the list of adress to send to
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Web.Mail.ClearFileAttachement">
+            <summary>
+            Clear the list of file attached to the mail
+            </summary>
+        </member>
+    </members>
+</doc>

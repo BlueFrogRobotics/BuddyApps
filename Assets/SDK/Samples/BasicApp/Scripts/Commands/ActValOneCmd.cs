@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using BuddyOS;
+using BuddyOS.Command;
 
 namespace BuddyApp.Basic
 {
@@ -8,7 +8,7 @@ namespace BuddyApp.Basic
     {
         public static ActValOneCmd Create()
         {
-            return CreateInstance<ActValOneCmd>();
+            return new ActValOneCmd();
         }
 
         protected override void ExecuteImpl()
