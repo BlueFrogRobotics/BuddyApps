@@ -1,4 +1,5 @@
-﻿using BuddyOS.Command;
+﻿using BuddyOS;
+using BuddyOS.Command;
 
 namespace BuddyApp.Remote
 {

@@ -101,7 +101,7 @@ PlayerSettings:
   AndroidMinSdkVersion: 19
   AndroidPreferredInstallLocation: 1
   aotOptions: 
-  apiCompatibilityLevel: 2
+  apiCompatibilityLevel: 1
   stripEngineCode: 1
   iPhoneStrippingLevel: 0
   iPhoneScriptCallOptimization: 0
@@ -423,9 +423,6 @@ PlayerSettings:
   - WebGL::exceptionSupport
   - WebGL::memorySize
   - WebPlayer::ScriptingBackend
-  - iOS::Architecture
-  - iOS::EnableIncrementalBuildSupportForIl2cpp
-  - iOS::ScriptingBackend
   Android::ScriptingBackend: 0
   Standalone::ScriptingBackend: 0
   WebGL::ScriptingBackend: 1
@@ -433,9 +430,6 @@ PlayerSettings:
   WebGL::exceptionSupport: 1
   WebGL::memorySize: 256
   WebPlayer::ScriptingBackend: 0
-  iOS::Architecture: 2
-  iOS::EnableIncrementalBuildSupportForIl2cpp: 1
-  iOS::ScriptingBackend: 1
   boolPropertyNames:
   - WebGL::analyzeBuildSize
   - WebGL::dataCaching

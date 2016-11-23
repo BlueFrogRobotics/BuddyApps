@@ -38,24 +38,24 @@
             </summary>
             <param name="iMail">mail that will be send</param>
         </member>
-        <member name="M:BuddyFeature.Web.MailSender.SmtpClient_OnCompleted(System.Object,System.ComponentModel.AsyncCompletedEventArgs)">
+        <member name="M:BuddyFeature.Web.MailSender.SmtpClientOnCompleted(System.Object,System.ComponentModel.AsyncCompletedEventArgs)">
             <summary>
             Callback called when the mail has been sent
             </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
+            <param name="iSender"></param>
+            <param name="iEvent"></param>
         </member>
         <member name="T:BuddyFeature.Web.Mail">
             <summary>
             Class which contains the message, the subject and the list of attachements that will be sent by using MailSender
             </summary>
         </member>
-        <member name="P:BuddyFeature.Web.Mail.ListFilePath">
+        <member name="P:BuddyFeature.Web.Mail.FilePaths">
             <summary>
             List of file path attached to the mail
             </summary>
         </member>
-        <member name="P:BuddyFeature.Web.Mail.ListAddress">
+        <member name="P:BuddyFeature.Web.Mail.Addresses">
             <summary>
             List of adresses to send the mail
             </summary>
@@ -87,13 +87,13 @@
             Save a texture 2d as a png in the streaming asset folder then add it to the mail
             </summary>
             <param name="iTexture">texture to add to save and add to the mail</param>
-            <param name="iNameFile"></param>
+            <param name="iFileName"></param>
         </member>
         <member name="M:BuddyFeature.Web.Mail.AddFile(System.String)">
             <summary>
             Add file in the streaming asset folder
             </summary>
-            <param name="iNameFile">name of the file to add</param>
+            <param name="iFileName">name of the file to add</param>
         </member>
         <member name="M:BuddyFeature.Web.Mail.AddTo(System.String)">
             <summary>

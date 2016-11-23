@@ -234,7 +234,7 @@ namespace BuddyApp.Remote
                         break;
 
                     case NetworkEventType.DisconnectEvent:
-                        HomeCmd.Create().Execute();
+                        new HomeCmd().Execute();
                         break;
                 }
             }

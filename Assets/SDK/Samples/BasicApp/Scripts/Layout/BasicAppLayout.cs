@@ -1,5 +1,6 @@
 ﻿using BuddyOS.Command;
 using BuddyOS.UI;
+using BuddyOS.Command;
 
 namespace BuddyApp.Basic
 {
@@ -36,11 +37,11 @@ namespace BuddyApp.Basic
              * At each interaction with a widget, a command will be updated with the current widget (input) value and will be executed
              * ==> What must happen when I interacted with a widget ?
              */ 
-            lGaugeValOne.UpdateCommands.Add(SetValOneCmd.Create());
-            lGaugeValOne.OnCommands.Add(ActValOneCmd.Create());
-            lGaugeValOne.OffCommands.Add(DsactValOneCmd.Create());
-            lSearchFieldValTwo.UpdateCommands.Add(SetValTwoCmd.Create());
-            lQuitButton.ClickCommands.Add(HomeCmd.Create());
+            lGaugeValOne.UpdateCommands.Add(new SetValOneCmd());
+            lGaugeValOne.OnCommands.Add(new ActValOneCmd());
+            lGaugeValOne.OffCommands.Add(new DsactValOneCmd());
+            lSearchFieldValTwo.UpdateCommands.Add(new SetValTwoCmd());
+            lQuitButton.ClickCommands.Add(new HomeCmd());
         }
 
         public override void Labelize()
