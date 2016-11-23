@@ -90,6 +90,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 416556}
   m_RootOrder: 0
@@ -102,6 +103,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 405608}
   - {fileID: 423838}
@@ -118,6 +120,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 416556}
   m_RootOrder: 1
@@ -130,6 +133,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 416556}
   m_RootOrder: 2
@@ -142,6 +146,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 416556}
   m_RootOrder: 3
@@ -193,19 +198,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86365eb620a494147808809ae7ba4ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IP: 
-  Port: 7015
-  channel_ids: 000000000100000002000000
-  channel_name:
+  mPort: 7015
+  mIP: 
+  mChannel_ids: 000000000100000002000000
+  mChannel_name:
   - video
   - command
   - sensor
-  channel_type: 010000000300000003000000
-  channel_senders:
+  mChannel_type: 010000000300000003000000
+  mChannel_senders:
   - {fileID: 11458574}
   - {fileID: 0}
   - {fileID: 11416210}
-  channel_receivers:
+  mChannel_receivers:
   - {fileID: 11421654}
   - {fileID: 11483030}
   - {fileID: 0}
@@ -221,9 +226,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0ced6911759684e97eef68c1789ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OTO: {fileID: 11426992}
   mCompressQuality: 30
   mRequestedFPS: 20
+  OTO: {fileID: 11426992}
 --- !u!114 &11483030
 MonoBehaviour:
   m_ObjectHideFlags: 1
