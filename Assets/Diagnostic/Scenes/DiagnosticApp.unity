@@ -6307,6 +6307,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6012f7074484ab4a96f47a6c9e9c4ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropdownMood: {fileID: 0}
+  dropdownEvent: {fileID: 0}
 --- !u!1 &914750997
 GameObject:
   m_ObjectHideFlags: 0
@@ -14747,15 +14749,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22412740, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -557
       objectReference: {fileID: 0}
     - target: {fileID: 22482440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -560
       objectReference: {fileID: 0}
     - target: {fileID: 178300, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22478786, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_AnchoredPosition.y
