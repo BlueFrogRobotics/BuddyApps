@@ -85,8 +85,6 @@ namespace BuddyApp.Jukebox
 
         void Update()
         {
-
-
             if (mIsRandom) {
                 if (mIsMusicRap) {
 
@@ -123,13 +121,13 @@ namespace BuddyApp.Jukebox
         public void UpVolume()
         {
             //use buddy api speaker
-            source.volume += 0.05f;
+            source.volume += 0.05F;
         }
 
         public void DownVolume()
         {
             //use buddy api speaker
-            source.volume -= 0.05f;
+            source.volume -= 0.05F;
         }
 
         public void IsRandom()
@@ -154,11 +152,9 @@ namespace BuddyApp.Jukebox
 
         private void PlayMusic(AudioClip[] IAudioClip, int iIndex)
         {
-            if (!source.isPlaying) {
-                for (int i = 0; i < IAudioClip.Length - 1; ++i) {
+            if (!source.isPlaying)
+                for (int i = 0; i < IAudioClip.Length - 1; ++i)
                     source.PlayOneShot(IAudioClip[Random.Range(0, IAudioClip.Length - 1)], mVolume);
-                }
-            }
         }
 
         private void PlayRandomMusicArr(AudioClip[] iAudioClip, AudioClip[] iAudioClipRandom, int iIndex)
@@ -166,14 +162,13 @@ namespace BuddyApp.Jukebox
             if (!source.isPlaying)
                 if (iIndex == 0) {
                     iAudioClipRandom = iAudioClip;
-                    ShuffleMusic<AudioClip>(iAudioClipRandom);
+                    ShuffleMusic(iAudioClipRandom);
                 }
 
             for (int i = iIndex; i < iAudioClipRandom.Length - 1; ++i) {
                 source.PlayOneShot(iAudioClipRandom[i], this.mVolume);
                 mActualIndexMusic = i;
             }
-
         }
     }
 }

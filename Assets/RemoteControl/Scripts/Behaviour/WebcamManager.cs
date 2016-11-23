@@ -9,6 +9,7 @@ namespace BuddyApp.Remote
     {
         [Range(1, 100)]
         public int compressQuality;
+
         private RGBCam mWebcam;
         private MatOfByte mBuffer = new MatOfByte();
         public RawImage mDebugScreen;
