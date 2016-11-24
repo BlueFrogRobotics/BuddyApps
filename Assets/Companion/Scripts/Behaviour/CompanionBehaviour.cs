@@ -14,6 +14,9 @@ namespace BuddyApp.Companion
             mVocalActivation = BYOS.Instance.VocalActivation;
             mVocalActivation.VocalProcessing = VocalProcessing;
             mVocalActivation.StartRecoWithTrigger();
+
+            SpeechToText lSTT = BYOS.Instance.SpeechToText;
+            lSTT.OnBestRecognition.Add(VocalProcessing);
         }
 
         private void VocalProcessing(string iRequest)

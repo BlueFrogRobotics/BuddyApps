@@ -29,6 +29,9 @@ namespace BuddyApp.FreezeDance
         private Animator victoryAnim;
 
         [SerializeField]
+        private Animator restartAnim;
+
+        [SerializeField]
         private GameObject pauseScreen;
 
         [SerializeField]
@@ -113,6 +116,7 @@ namespace BuddyApp.FreezeDance
                     victoryAnim.SetBool("victory", true);
                     StartCoroutine(RestartYESNO());
                     victory.SetActive(true);
+                    victoryAnim.SetTrigger("Open");
                     mSayOnce = true;
                 }
             }
@@ -123,6 +127,7 @@ namespace BuddyApp.FreezeDance
                     mTTS.Say("tu a perdu! dommage!");
                     pauseScreenText.SetActive(false);
                     defeat.SetActive(true);
+                    defeatAnim.SetTrigger("Open");
                     StartCoroutine(RestartYESNO());
                     mSayOnce = true;
                 }
@@ -144,8 +149,11 @@ namespace BuddyApp.FreezeDance
             mTime = Time.time;
             pauseScreen.SetActive(false);
             restartScreen.SetActive(false);
+            restartAnim.SetTrigger("Close_WQuestion");
             victory.SetActive(false);
+            victoryAnim.SetTrigger("Close");
             defeat.SetActive(false);
+            defeatAnim.SetTrigger("Close");
             StartMusic();
         }
 
@@ -154,7 +162,7 @@ namespace BuddyApp.FreezeDance
             mIsOccupied = true;
             mFace.SetMood(FaceMood.SAD);
             mIsSad = true;
-            yield return new WaitForSeconds(.3f);
+            yield return new WaitForSeconds(0.3F);
             mIsOccupied = false;
         }
 
@@ -162,7 +170,7 @@ namespace BuddyApp.FreezeDance
         {
             mIsOccupied = true;
             mFace.SetMood(FaceMood.NEUTRAL);
-            yield return new WaitForSeconds(.3f);
+            yield return new WaitForSeconds(0.3F);
             mIsOccupied = false;
         }
 
@@ -171,7 +179,7 @@ namespace BuddyApp.FreezeDance
             mIsOccupied = true;
             mFace.SetMood(FaceMood.FOCUS);
             mTTS.Say("Pourquoi tu ne bouge pas?");
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(2F);
             mIsOccupied = false;
         }
 
@@ -236,18 +244,21 @@ namespace BuddyApp.FreezeDance
             yield return new WaitForSeconds(5f);
             if (!restartScreen.activeSelf)
                 restartScreen.SetActive(true);
+            restartAnim.SetTrigger("Open_WQuestion");
         }
 
         private IEnumerator LaunchDefeatAnim()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1F);
             defeat.SetActive(true);
+            defeatAnim.SetTrigger("Open");
         }
 
         private IEnumerator LaunchVictoryAnim()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1F);
             victory.SetActive(true);
+            victoryAnim.SetTrigger("Open");
         }
     }
 }

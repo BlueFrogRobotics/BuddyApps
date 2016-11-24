@@ -21,8 +21,6 @@ namespace BuddyApp.Alarm
         // Use this for initialization
         void Start()
         {
-            mSynthesis = new TextToSpeech();
-            mRecognition = new SpeechToText();
             mRecognition.OnBestRecognition.Add(CallBackRecognition);
         }
 

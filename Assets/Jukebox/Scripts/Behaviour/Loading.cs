@@ -22,13 +22,15 @@ namespace BuddyApp.Jukebox
 
         private IEnumerator LoadingScreen()
         {
-            yield return new WaitForSeconds(3f);
+            animator.SetBool("Open_WLoading", true);
+            yield return new WaitForSeconds(3F);
             startScreen.SetActive(true);
 
+            animator.SetBool("Open_WLoading", false);
             animator.SetBool("Close_WLoading", true);
-
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1F);
             loadingScreen.SetActive(false);
+            animator.SetBool("Close_WLoading", false);
         }
     }
 }
