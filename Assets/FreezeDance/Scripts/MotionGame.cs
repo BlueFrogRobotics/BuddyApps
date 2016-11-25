@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using OpenCVUnity;
 using BuddyFeature.Vision;
 using BuddyOS;
+using BuddyTools;
 
 
 public class MotionGame : AVisionAlgorithm
@@ -54,17 +55,24 @@ public class MotionGame : AVisionAlgorithm
 
     private RGBCam mRGBCam;
 
+    void OnEnable()
+    {
+        mRGBCam = BYOS.Instance.RGBCam;
+        if (!mRGBCam.IsOpen)
+            mRGBCam.Open();
+    }
+
     protected override void Init()
     {
 
         //Game
         mIsMoving = false;
         //Motion Detector
-        mCurrentFrame = new Mat();
-        mPreviousFrame = new Mat();
+        //mCurrentFrame = new Mat();
+        //mPreviousFrame = new Mat();
         mDiffResult = new Mat();
         mRawImage = new Mat();
-        mTest = new Mat();
+        //mTest = new Mat();
 
         mBlurredImage = new Mat();
         mBinaryImage = new Mat();
@@ -72,7 +80,6 @@ public class MotionGame : AVisionAlgorithm
         mPositionOLD = new Point(1000, 1000);
         mSobelKernelSize = 3;
 
- 
         mTime = Time.time;
 
         #region Kernel Shape: Testing different kernel Shape
@@ -81,31 +88,23 @@ public class MotionGame : AVisionAlgorithm
         mKernelEllipse = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_ELLIPSE, new Size(11, 11));
         mKernelCustom = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_CUSTOM, new Size(11, 11));
         #endregion
-
-        mRGBCam = BYOS.Instance.RGBCam;
-        mRGBCam.Open();
-
     }
+
     // Update is called once per frame
     protected override void ProcessFrameImpl(Mat iInputFrameMat, Texture2D iInputFrameTexture)
     {
-        mThresh = mThreshBar.value;
-        mRawImage = iInputFrameMat.clone();
-        mTest = iInputFrameMat.clone();
-        
-        Imgproc.cvtColor(mRawImage, mCurrentFrame, Imgproc.COLOR_BGR2GRAY);
-        if (mPreviousFrame.width() != 0)
+        if (mPreviousFrame != null)
         {
-            Core.absdiff(mCurrentFrame, mPreviousFrame, mDiffResult);
-            Imgproc.blur(mDiffResult, mBlurredImage, new Size(3, 3));
-            Imgproc.threshold(mBlurredImage, mBinaryImage, mThresh, 255, Imgproc.THRESH_BINARY);
-
+            Imgproc.cvtColor(iInputFrameMat, iInputFrameMat, Imgproc.COLOR_BGR2GRAY);
+            Core.absdiff(iInputFrameMat, mPreviousFrame, mDiffResult);
+            //Imgproc.blur(mDiffResult, mBlurredImage, new Size(3, 3));
+            Imgproc.threshold(mDiffResult, mBinaryImage, 35, 255, Imgproc.THRESH_BINARY);
+            mDebugScreen.texture = Utils.MatToTexture2D(mDiffResult);
             Point lCenterOfMass = new Point();
             Moments M = Imgproc.moments(mBinaryImage);
             lCenterOfMass.x = (int)(M.get_m10() / M.get_m00());
             lCenterOfMass.y = (int)(M.get_m01() / M.get_m00());
-            Imgproc.circle(mTest, lCenterOfMass, 10, new Scalar(254, 254, 254), -1);
-            if (mPositionOLD.x!=1000)
+            if (mPositionOLD.x != 1000)
             {
                 float lDiffX = Mathf.Abs((float)(lCenterOfMass.x - mPositionOLD.x));
                 float lDiffY = Mathf.Abs((float)(lCenterOfMass.y - mPositionOLD.y));
@@ -115,17 +114,18 @@ public class MotionGame : AVisionAlgorithm
                     mIsMoving = true;
             }
             mPositionOLD = lCenterOfMass;
-
         }
-        
-       mPreviousFrame = mCurrentFrame.clone();
-       mPreviousFrame.convertTo(mPreviousFrame, CvType.CV_8UC1);
-       mOutputFrameMat = mTest;
-       //mDebugScreen.texture = mOutputFrameTexture;
+        mPreviousFrame = iInputFrameMat.clone();
+
     }
     public bool IsMoving()
     {
         return mIsMoving;
+    }
+
+    void OnDisable()
+    {
+        mRGBCam.Close();
     }
 }
 

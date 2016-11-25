@@ -3,9 +3,9 @@ using System.Collections;
 
 namespace BuddyApp.RLGL
 {
-    public class LoadingBabyphone : MonoBehaviour
+    public class RLGLLoading : MonoBehaviour
     {
-
+        //public Animator animator;
         [SerializeField]
         private GameObject mLoadingScreen;
         [SerializeField]
@@ -22,6 +22,7 @@ namespace BuddyApp.RLGL
             yield return new WaitForSeconds(3f);
             mStartScreen.SetActive(true);
 
+            //animator.SetBool();
             yield return new WaitForSeconds(1f);
             mLoadingScreen.SetActive(false);
         }
