@@ -1,4 +1,4 @@
-﻿using BuddyOS;
+﻿using BuddyOS.Command;
 using BuddyOS.UI;
 
 namespace BuddyApp.Remote
@@ -8,7 +8,7 @@ namespace BuddyApp.Remote
         public override void Build()
         {
             Button lQuitButton = AddWidget<Button>(THIRD_LINE);            
-            lQuitButton.ClickCommands.Add(HomeCmd.Create());
+            lQuitButton.ClickCommands.Add(new HomeCmd());
         }
 
         public override void Labelize()

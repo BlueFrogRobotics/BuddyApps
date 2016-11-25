@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 using BuddyOS;
 
 namespace BuddyApp.Diagnostic
 {
     public class FaceWindow : MonoBehaviour
     {
+        [SerializeField]
+        private Dropdown dropdownMood;
+
+        [SerializeField]
+        private Dropdown dropdownEvent;
+
         private Face mFace;
 
         void Start()
@@ -16,8 +23,14 @@ namespace BuddyApp.Diagnostic
             mFace = BYOS.Instance.Face;
         }
 
-        void Update()
+        public void SetMood()
         {
+            //mFace.SetMood();
+        }
+
+        public void SetEvent()
+        {
+            //mFace.SetEvent((FaceEvent)iEvent);
         }
     }
 }

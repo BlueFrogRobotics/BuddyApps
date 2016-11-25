@@ -1,16 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
-using BuddyOS;
+using BuddyOS.Command;
 
 namespace BuddyApp.Basic
 {
     internal class ActValOneCmd : ACommand
     {
-        public static ActValOneCmd Create()
-        {
-            return CreateInstance<ActValOneCmd>();
-        }
-
         protected override void ExecuteImpl()
         {
             BasicAppData.Instance.OneIsActive = true;

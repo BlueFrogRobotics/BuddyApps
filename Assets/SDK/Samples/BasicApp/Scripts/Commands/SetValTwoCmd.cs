@@ -1,16 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
-using BuddyOS;
+using BuddyOS.Command;
 
 namespace BuddyApp.Basic
 {
     internal class SetValTwoCmd : ACommand
     {
-        public static SetValTwoCmd Create()
-        {
-            return CreateInstance<SetValTwoCmd>();
-        }
-
         protected override void ExecuteImpl()
         {
             string lVal = Parameters.Strings[0];

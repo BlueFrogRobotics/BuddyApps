@@ -39,4 +39,22 @@
     <DataFile>remote_control_data.xml</DataFile>
     <Assembly>Assembly-CSharp</Assembly>
   </AppInfo>
+  <AppInfo>
+    <name />
+    <hideFlags>None</hideFlags>
+    <DisplayName>ALARM</DisplayName>
+    <Scene>AlarmApp</Scene>
+    <Icon>Ico_Alarm</Icon>
+    <Atlas>AtlasAlarm</Atlas>
+  </AppInfo>
+  <AppInfo>
+    <name />
+    <hideFlags>None</hideFlags>
+    <DisplayName>BABY</DisplayName>
+    <Scene>BabyPhoneApp</Scene>
+    <Icon>Ico_BabyPhone</Icon>
+    <Atlas>AtlasBabyPhone</Atlas>
+    <OptionsLayoutStr>BuddyApp.BabyPhone.BabyPhoneLayout</OptionsLayoutStr>
+    <DataFile>baby_phone_data.xml</DataFile>
+  </AppInfo>
 </ArrayOfAppInfo>

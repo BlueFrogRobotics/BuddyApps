@@ -1,4 +1,5 @@
 ﻿using BuddyOS;
+using BuddyOS.Command;
 
 namespace BuddyApp.Remote
 {
@@ -6,7 +7,7 @@ namespace BuddyApp.Remote
     {
         public static ActivateCmd Create()
         {
-            return CreateInstance<ActivateCmd>();
+            return new ActivateCmd();
         }
 
         protected override void ExecuteImpl()

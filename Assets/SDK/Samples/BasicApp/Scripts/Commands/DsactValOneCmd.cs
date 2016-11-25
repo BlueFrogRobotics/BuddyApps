@@ -1,16 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
-using BuddyOS;
+using BuddyOS.Command;
 
 namespace BuddyApp.Basic
 {
     internal class DsactValOneCmd : ACommand
     {
-        public static DsactValOneCmd Create()
-        {
-            return CreateInstance<DsactValOneCmd>();
-        }
-
         protected override void ExecuteImpl()
         {
             BasicAppData.Instance.OneIsActive = false;

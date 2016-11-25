@@ -14,7 +14,6 @@ namespace BuddyApp.Remote
 
 #if UNITY_EDITOR
 
-
     [CustomEditor(typeof(OTONetwork))]
     public class OTONetworkTransportEditor : Editor
     {
@@ -63,12 +62,12 @@ namespace BuddyApp.Remote
                 EditorGUILayout.Separator();
 
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("ID : " + script.channel_ids[i] + ", name :", _layoutOption3);
-                script.channel_name[i] = EditorGUILayout.TextField(script.channel_name[i]);
+                EditorGUILayout.LabelField("ID : " + script.Channel_ids[i] + ", name :", _layoutOption3);
+                script.Channel_name[i] = EditorGUILayout.TextField(script.Channel_name[i]);
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
-                script.channel_type[i] = (QosType)EditorGUILayout.EnumPopup(script.channel_type[i]);
+                script.Channel_type[i] = (QosType)EditorGUILayout.EnumPopup(script.Channel_type[i]);
                 if (GUILayout.Button("X", _layoutOption1))
                 {
                     script.DeleteAChannel(i);
@@ -78,12 +77,12 @@ namespace BuddyApp.Remote
 
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Receiver", _layoutOption1);
-                script.channel_receivers[i] = (OTONetReceiver)EditorGUILayout.ObjectField(script.channel_receivers[i], typeof(OTONetReceiver), true);
+                script.Channel_receivers[i] = (OTONetReceiver)EditorGUILayout.ObjectField(script.Channel_receivers[i], typeof(OTONetReceiver), true);
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Sender", _layoutOption1);
-                script.channel_senders[i] = (OTONetSender)EditorGUILayout.ObjectField(script.channel_senders[i], typeof(OTONetSender), true);
+                script.Channel_senders[i] = (OTONetSender)EditorGUILayout.ObjectField(script.Channel_senders[i], typeof(OTONetSender), true);
                 EditorGUILayout.EndHorizontal();
 
 
@@ -95,7 +94,7 @@ namespace BuddyApp.Remote
             if (GUILayout.Button("Add a channel"))
             {
                 int at = (int)script.AddAChannel("", QosType.Reliable, null, null);
-                script.channel_name[at] = "Channel " + (int)script.channel_ids[at];
+                script.Channel_name[at] = "Channel " + (int)script.Channel_ids[at];
             }
 
             EditorGUI.EndDisabledGroup();
