@@ -88,12 +88,15 @@ public class ShowTemperature : MonoBehaviour {
     {
         //int[] lLocalThermic = mThermalSensor.Matrix;
         string test = "";
-        for (int i = 0; i < lLocalThermic.Length; i++)
+        if (lLocalThermic != null)
         {
-            temperature[i] = lLocalThermic[i];
+            for (int i = 0; i < lLocalThermic.Length; i++)
+            {
+                temperature[i] = lLocalThermic[i];
                 test += " " + temperature[i];
+            }
         }
-        //Debug.Log(test);
+        Debug.Log(test);
     }
 
     Mat temperatureToColor()

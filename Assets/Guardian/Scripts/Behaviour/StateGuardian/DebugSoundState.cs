@@ -46,10 +46,13 @@ public class DebugSoundState : AStateGuardian {
             float lThreshold = (1.0f - mGauge.Slider.value / mGauge.Slider.maxValue) * lMaxThreshold;
             mSoundDetector.SetThreshold(lThreshold);
 
-            Imgproc.line(mMatShow, new Point(0, 480.0f - lThreshold * 480), new Point(640, 480.0f - lThreshold * 480), new Scalar(255, 0, 0, 255));
+            
 
             float lLevelSound = (mSoundDetector.Value ) * 480.0f;
-            Imgproc.line(mMatShow, new Point(0, 480.0f - lLevelSound), new Point(640, 480.0f - lLevelSound), new Scalar(0, 0, 255, 255));
+            //Imgproc.line(mMatShow, new Point(0, 480.0f - lLevelSound), new Point(640, 480.0f - lLevelSound), new Scalar(0, 0, 255, 255));
+            Imgproc.rectangle(mMatShow, new Point(0, 480), new Point(640, 480.0f - lLevelSound), new Scalar(0, 0, 255, 255), -1);
+            Imgproc.line(mMatShow, new Point(0, 480.0f - lThreshold * 480), new Point(640, 480.0f - lThreshold * 480), new Scalar(255, 0, 0, 255), 3);
+
             BuddyTools.Utils.MatToTexture2D(mMatShow, mTexture);
             mRaw.texture = mTexture;
             if (mHasDetectedSound)
