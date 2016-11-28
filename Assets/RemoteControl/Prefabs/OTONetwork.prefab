@@ -56,7 +56,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 416556}
-  - 114: {fileID: 11426992}
+  - 114: {fileID: 11410142}
   m_Layer: 0
   m_Name: OTONetwork
   m_TagString: Untagged
@@ -150,6 +150,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 416556}
   m_RootOrder: 3
+--- !u!114 &11410142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86365eb620a494147808809ae7ba4ac8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsServer: 1
+  mPort: 7015
+  mIP: 
+  mChannel_ids: 000000000100000002000000
+  mChannel_name:
+  - video
+  - command
+  - sensor
+  mChannel_type: 010000000300000003000000
+  mChannel_senders:
+  - {fileID: 11458574}
+  - {fileID: 0}
+  - {fileID: 11416210}
+  mChannel_receivers:
+  - {fileID: 11421654}
+  - {fileID: 11483030}
+  - {fileID: 0}
 --- !u!114 &11416210
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -161,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7efe3ed2e7485b40adc4ec67901c12d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OTO: {fileID: 11426992}
+  OTO: {fileID: 11410142}
 --- !u!114 &11416756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -187,34 +215,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WebcamShowStream: {fileID: 0}
---- !u!114 &11426992
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 175156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86365eb620a494147808809ae7ba4ac8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mPort: 7015
-  mIP: 
-  mChannel_ids: 000000000100000002000000
-  mChannel_name:
-  - video
-  - command
-  - sensor
-  mChannel_type: 010000000300000003000000
-  mChannel_senders:
-  - {fileID: 11458574}
-  - {fileID: 0}
-  - {fileID: 11416210}
-  mChannel_receivers:
-  - {fileID: 11421654}
-  - {fileID: 11483030}
-  - {fileID: 0}
-  IsServer: 1
 --- !u!114 &11458574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mCompressQuality: 30
   mRequestedFPS: 20
-  OTO: {fileID: 11426992}
+  OTO: {fileID: 11410142}
 --- !u!114 &11483030
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -17,7 +17,8 @@ namespace BuddyApp.Remote
         void Start()
         {
             mWebcam = BYOS.Instance.RGBCam;
-            mWebcam.Open();
+            if(!mWebcam.IsOpen)
+                mWebcam.Open();
         }
         
         void Update()

@@ -25,6 +25,7 @@ namespace BuddyApp.Remote
             if (!OTO.HasAPeer || Time.time - mTime < 0.1f)
                 return;
 
+            //Debug.Log("Sensor OTO has peer " + OTO.HasAPeer + " and sending");
             byte[] lSensorsValue = GetSensorsValue();
             SendData(lSensorsValue, lSensorsValue.Length);
 
