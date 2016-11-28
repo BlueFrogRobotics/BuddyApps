@@ -111,11 +111,331 @@
             <param name="iInputFrameMat">The current frame (in CV_8UC3) to process</param>
             <param name="iInputFrameTexture">The current frame (in 2D texture format) to process</param>
         </member>
+        <member name="T:BuddyFeature.Vision.DetectionType">
+            <summary>
+            Kind of detection request for Google Cloud Vision API
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.DetectionType.TYPE_UNSPECIFIED">
+            <summary>
+            Misc
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.DetectionType.FACE_DETECTION">
+            <summary>
+            Face information
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.DetectionType.LANDMARK_DETECTION">
+            <summary>
+            Landmark (Eiffel tower, Golden Bridge, left eye, right hand...)
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.DetectionType.LOGO_DETECTION">
+            <summary>
+            Logo detection (Coca cola ...)
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.DetectionType.LABEL_DETECTION">
+            <summary>
+            Labelization (desk, floor, robot, window, hand ...)
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.DetectionType.TEXT_DETECTION">
+            <summary>
+            Optical Character Recognition
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.DetectionType.SAFE_SEARCH_DETECTION">
+            <summary>
+            Does this content is safe for children ? (blood, violence, explicit scene ...)
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.DetectionType.IMAGE_PROPERTIES">
+            <summary>
+            Image properties (main color, )
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Vision.LandmarkType">
+            <summary>
+            Kind of landmark
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.UNKNOWN_LANDMARK">
+            <summary>
+            Unknown landmark
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.LEFT_EYE">
+            <summary>
+            Left eye
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.RIGHT_EYE">
+            <summary>
+            Right eye
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.LEFT_OF_LEFT_EYEBROW">
+            <summary>
+            Left of left eyebrow
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.RIGHT_OF_LEFT_EYEBROW">
+            <summary>
+            Right of left eyebrow
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.LEFT_OF_RIGHT_EYEBROW">
+            <summary>
+            Left of right eyebrow
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.RIGHT_OF_RIGHT_EYEBROW">
+            <summary>
+            Right of left eyebrow
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.MIDPOINT_BETWEEN_EYES">
+            <summary>
+            Space between eyes
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.NOSE_TIP">
+            <summary>
+            Nose tip
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.UPPER_LIP">
+            <summary>
+            Upper lip
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.LOWER_LIP">
+            <summary>
+            Lower lip
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.MOUTH_LEFT">
+            <summary>
+            Mouse left side
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.MOUTH_RIGHT">
+            <summary>
+            Mouse right side
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.MOUTH_CENTER">
+            <summary>
+            Center of the mouse
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.NOSE_BOTTOM_RIGHT">
+            <summary>
+            Bottom right side of the nose
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.NOSE_BOTTOM_LEFT">
+            <summary>
+            Bottom left side of the nose
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.NOSE_BOTTOM_CENTER">
+            <summary>
+            Bottom center side of the nose
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.LEFT_EYE_TOP_BOUNDARY">
+            <summary>
+            Left eye top boundary
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.LEFT_EYE_RIGHT_CORNER">
+            <summary>
+            Left eye right corner
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.LEFT_EYE_BOTTOM_BOUNDARY">
+            <summary>
+            Left eye bottom boundary
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.LEFT_EYE_LEFT_CORNER">
+            <summary>
+            Left eye left corner
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.RIGHT_EYE_TOP_BOUNDARY">
+            <summary>
+            Right eye top boundary
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.RIGHT_EYE_RIGHT_CORNER">
+            <summary>
+            RIght eye right corner
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.RIGHT_EYE_BOTTOM_BOUNDARY">
+            <summary>
+            Right eye bottom boundary
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.RIGHT_EYE_LEFT_CORNER">
+            <summary>
+            Right eye left corner 
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.LEFT_EYEBROW_UPPER_MIDPOINT">
+            <summary>
+            Left eyebrown upper midpoint
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.RIGHT_EYEBROW_UPPER_MIDPOINT">
+            <summary>
+            Right eyebrown upper midpoint
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.LEFT_EAR_TRAGION">
+            <summary>
+            Left ear tragion
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.RIGHT_EAR_TRAGION">
+            <summary>
+            Right eear tragion
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.LEFT_EYE_PUPIL">
+            <summary>
+            Left eye pupil
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.RIGHT_EYE_PUPIL">
+            <summary>
+            Right eye pupil
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.FOREHEAD_GLABELLA">
+            <summary>
+            Glabella
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.CHIN_GNATHION">
+            <summary>
+            Chin gnathion
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.CHIN_LEFT_GONION">
+            <summary>
+            Chin left gonion
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.LandmarkType.CHIN_RIGHT_GONION">
+            <summary>
+            Chin right gonion
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Vision.Likelihood">
+            <summary>
+            Rate likelihood
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.Likelihood.UNKNOWN">
+            <summary>
+            Unknown
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.Likelihood.VERY_UNLIKELY">
+            <summary>
+            Very low rate
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.Likelihood.UNLIKELY">
+            <summary>
+            Low rate
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.Likelihood.POSSIBLE">
+            <summary>
+            Medium rate 
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.Likelihood.LIKELY">
+            <summary>
+            Correct rate
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.Likelihood.VERY_LIKELY">
+            <summary>
+            Very credible
+            </summary>
+        </member>
         <member name="T:BuddyFeature.Vision.GoogleCloudVision">
             <summary>
             To use this feature, you must assign GOOGLE_API_KEY with your own Google vision API key.
             Available at https://console.cloud.google.com/projectselector/apis/credentials
             </summary>
+        </member>
+        <member name="M:BuddyFeature.Vision.GoogleCloudVision.Detect(OpenCVUnity.Mat,BuddyFeature.Vision.DetectionType,BuddyFeature.Vision.Impl.AnnotateImageResponses,System.Int32)">
+            <summary>
+            Detect the wanted feature in the input image
+            </summary>
+            <param name="iImage">The image to retrieve info</param>
+            <param name="iFeatureType">The kind of feature</param>
+            <param name="ioResponses">The output Annotate response</param>
+            <param name="iMaxResult">Max wish results</param>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="M:BuddyFeature.Vision.GoogleCloudVision.Detect(UnityEngine.Texture2D,BuddyFeature.Vision.DetectionType,BuddyFeature.Vision.Impl.AnnotateImageResponses,System.Int32)">
+            <summary>
+            Detect the wanted feature in the input image
+            </summary>
+            <param name="iImage">The image to retrieve info</param>
+            <param name="iFeatureType">The kind of feature</param>
+            <param name="ioResponses">The output Annotate response</param>
+            <param name="iMaxResult">Max wish results</param>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="M:BuddyFeature.Vision.GoogleCloudVision.Detect(System.Byte[],BuddyFeature.Vision.DetectionType,BuddyFeature.Vision.Impl.AnnotateImageResponses,System.Int32)">
+            <summary>
+            Detect the wanted feature in the input image
+            </summary>
+            <param name="iImage">The image to retrieve info</param>
+            <param name="iFeatureType">The kind of feature</param>
+            <param name="ioResponses">The output Annotate response</param>
+            <param name="iMaxResult">Max wish results</param>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="M:BuddyFeature.Vision.GoogleCloudVision.DetectImpl(OpenCVUnity.Mat,BuddyFeature.Vision.DetectionType,BuddyFeature.Vision.Impl.AnnotateImageResponses,System.Int32)">
+            <summary>
+            Detect the wanted feature in the input image
+            </summary>
+            <param name="iImage">The image to retrieve info</param>
+            <param name="iFeatureType">The kind of feature</param>
+            <param name="ioResponses">The output Annotate response</param>
+            <param name="iMaxResult">Max wish results</param>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="M:BuddyFeature.Vision.GoogleCloudVision.DetectImpl(UnityEngine.Texture2D,BuddyFeature.Vision.DetectionType,BuddyFeature.Vision.Impl.AnnotateImageResponses,System.Int32)">
+            <summary>
+            Detect the wanted feature in the input image
+            </summary>
+            <param name="iImage">The image to retrieve info</param>
+            <param name="iFeatureType">The kind of feature</param>
+            <param name="ioResponses">The output Annotate response</param>
+            <param name="iMaxResult">Max wish results</param>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="M:BuddyFeature.Vision.GoogleCloudVision.DetectImpl(System.Byte[],BuddyFeature.Vision.DetectionType,BuddyFeature.Vision.Impl.AnnotateImageResponses,System.Int32)">
+            <summary>
+            Detect the wanted feature in the input image
+            </summary>
+            <param name="iImage">The image to retrieve info</param>
+            <param name="iFeatureType">The kind of feature</param>
+            <param name="ioResponses">The output Annotate response</param>
+            <param name="iMaxResult">Max wish results</param>
+            <returns>IEnumerator for yield return</returns>
         </member>
         <member name="T:BuddyFeature.Vision.Impl.DQrCode">
             <summary>
@@ -181,6 +501,16 @@
             Abstract class for recognition behaviour model
             </summary>
         </member>
+        <member name="F:BuddyFeature.Vision.ARecognizer.mIsTrained">
+            <summary>
+            Is the model is trained ?
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Vision.ARecognizer.IsTrained">
+            <summary>
+            Is the model is trained ?
+            </summary>
+        </member>
         <member name="M:BuddyFeature.Vision.ARecognizer.Predict(System.Collections.Generic.List{OpenCVUnity.Mat})">
             <summary>
             Predict the class of the input data
@@ -194,6 +524,12 @@
             </summary>
             <param name="iImages">Input data</param>
             <returns>Class of each input data</returns>
+        </member>
+        <member name="M:BuddyFeature.Vision.ARecognizer.Load(System.String)">
+            <summary>
+            Asynchronous model loading
+            </summary>
+            <param name="iPathToModel">Path to the xml model</param>
         </member>
         <member name="M:BuddyFeature.Vision.ARecognizer.Predict(OpenCVUnity.Mat)">
             <summary>
@@ -209,6 +545,39 @@
             <param name="iTrainingSet">Set of data</param>
             <param name="iLabelSet">Label corresponding to each data</param>
         </member>
+        <member name="M:BuddyFeature.Vision.ARecognizer.Train(System.String)">
+            <summary>
+            Train data with LBPH algorithm from the input directory of data. 
+            Directory must contains sub directories with face images.
+            </summary>
+            <param name="iPathToDirectory">Path to the root directory containing profil directories</param>
+        </member>
+        <member name="M:BuddyFeature.Vision.ARecognizer.LoadModel(System.String)">
+            <summary>
+            Load the existing model in a xml file
+            </summary>
+            <param name="iPathToModel">Path to file model</param>
+        </member>
+        <member name="T:BuddyFeature.Vision.FaceRecoMode">
+            <summary>
+            Recognition mode
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.FaceRecoMode.RECOGNITION">
+            <summary>
+            Algorithm will recognize input faces using the FaceShiftTracker
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.FaceRecoMode.TRACKING">
+            <summary>
+            Track face and add continuous face as a same profil
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Vision.FaceRecoMode.NONE">
+            <summary>
+            Do nothing
+            </summary>
+        </member>
         <member name="T:BuddyFeature.Vision.FaceRecognizer">
             <summary>
             Use the Local Binary Patterns Histograms for face recognition
@@ -222,6 +591,31 @@
         <member name="F:BuddyFeature.Vision.FaceRecognizer.mMatcher">
             <summary>
             Profil matcher in order to merge profils
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Vision.FaceRecognizer.RecognizedProfils">
+            <summary>
+            Instant recognized profils
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Vision.FaceRecognizer.StabilizedRecognizedProfils">
+            <summary>
+            Recognized profils after stabilization
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Vision.FaceRecognizer.UnRecognizedFaces">
+            <summary>
+            Tracked face but unrecognized 
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Vision.FaceRecognizer.FaceRecoMode">
+            <summary>
+            Current mode
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Vision.FaceRecognizer.Init">
+            <summary>
+            Initialization
             </summary>
         </member>
         <member name="M:BuddyFeature.Vision.FaceRecognizer.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D)">
@@ -244,6 +638,19 @@
             </summary>
             <param name="iTrainingSet">The set of preprocessed images</param>
             <param name="iLabelSet">Corresponding labels of each image</param>
+        </member>
+        <member name="M:BuddyFeature.Vision.FaceRecognizer.Train(System.String)">
+            <summary>
+            Train data with LBPH algorithm from the input directory of data. 
+            Directory must contains sub directories with face images.
+            </summary>
+            <param name="iPathToDirectory">Path to the root directory containing profil directories</param>
+        </member>
+        <member name="M:BuddyFeature.Vision.FaceRecognizer.LoadModel(System.String)">
+            <summary>
+            Load the existing model in a xml file
+            </summary>
+            <param name="iPathToModel">Path to file model</param>
         </member>
         <member name="M:BuddyFeature.Vision.FaceRecognizer.RegisterProfils(OpenCVUnity.Mat)">
             <summary>
@@ -278,6 +685,22 @@
             Learn Data base profils.
             </summary>
         </member>
+        <member name="T:BuddyFeature.Vision.GenderRecognizer">
+            <summary>
+            Gender recognition based on the Local Binary Pattern Histogram learning.
+            This component use a face shift tracker for localization and tracking.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Vision.GenderRecognizer.RecognizedGender">
+            <summary>
+            Current recognized tracked gender
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Vision.GenderRecognizer.Init">
+            <summary>
+            Initialization
+            </summary>
+        </member>
         <member name="M:BuddyFeature.Vision.GenderRecognizer.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D)">
             <summary>
             Predict if the preprocessed input frame contains a face of a male or female (not 100% accurate...)
@@ -298,6 +721,29 @@
             </summary>
             <param name="iTrainingSet">Set of images containing face of male or female</param>
             <param name="iLabelSet">Corresponding labels</param>
+        </member>
+        <member name="M:BuddyFeature.Vision.GenderRecognizer.Train(System.String)">
+            <summary>
+            Train data with LBPH algorithm from the input directory of data. 
+            Directory must contains sub directories with face images.
+            </summary>
+            <param name="iPathToDirectory">Path to the root directory containing profil directories</param>
+        </member>
+        <member name="M:BuddyFeature.Vision.GenderRecognizer.LoadModel(System.String)">
+            <summary>
+            Load the existing model in a xml file
+            </summary>
+            <param name="iPathToModel">Path to file model</param>
+        </member>
+        <member name="T:BuddyFeature.Vision.FaceCascadeTracker">
+            <summary>
+            Face tracker using continuous Haar cascade feature and local CascadeClassifier algorithm
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Vision.FaceCascadeTracker.TrackedObjects">
+            <summary>
+            Current tracked objects on the current frame
+            </summary>
         </member>
         <member name="M:BuddyFeature.Vision.FaceCascadeTracker.Init">
             <summary>
@@ -334,6 +780,19 @@
             Called at each valuable frame.
             </summary>
         </member>
+        <member name="M:BuddyFeature.Vision.AShiftTracker.ResetTracking">
+            <summary>
+            Reset all current tracking
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Vision.AShiftTracker.DetectObjectsImpl(OpenCVUnity.Mat,UnityEngine.Texture2D)">
+            <summary>
+            Retrieve tracked object in the frame
+            </summary>
+            <param name="iInputFrameMat">The current frame (OpenCVUnity)</param>
+            <param name="iInputFrameTexture">The current frame (Unity3D)</param>
+            <returns>Retrieve tracked objects</returns>
+        </member>
         <member name="T:BuddyFeature.Vision.FaceShiftTracker">
             <summary>
             Simple face detection algorithm.
@@ -348,6 +807,14 @@
             <summary>
             Called one time at the start.
             </summary>
+        </member>
+        <member name="M:BuddyFeature.Vision.FaceShiftTracker.DetectObjectsImpl(OpenCVUnity.Mat,UnityEngine.Texture2D)">
+            <summary>
+            Retrieve tracked object in the frame
+            </summary>
+            <param name="iInputFrameMat">The current frame (OpenCVUnity)</param>
+            <param name="iInputFrameTexture">The current frame (Unity3D)</param>
+            <returns>Retrieve tracked objects</returns>
         </member>
         <member name="T:BuddyFeature.Vision.QrCodeReader">
             <summary>

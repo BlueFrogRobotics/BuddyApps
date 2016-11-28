@@ -28,17 +28,17 @@ namespace BuddyApp.FreezeDance
 
         private IEnumerator LoadingScreen()
         {
+            startScreen.SetActive(true);
             animator.SetBool("Open_WLoading", true);
             yield return new WaitForSeconds(3F);
-            startScreen.SetActive(true);
             aiFreezeDance.SetActive(true);
             canvasQuit.SetActive(true);
 
             animator.SetBool("Open_WLoading", false);
             animator.SetBool("Close_WLoading", true);
             yield return new WaitForSeconds(1F);
-            loadScreen.SetActive(false);
             animator.SetBool("Close_WLoading", false);
+            loadScreen.SetActive(false);
         }
     }
 }

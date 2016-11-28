@@ -1,8 +1,8 @@
-﻿using BuddyOS;
+﻿using BuddyOS.App;
 
 namespace BuddyApp.BabyPhone
 {
-    internal class BabyPhoneData : AAppData
+    public class BabyPhoneData : AAppData
     {
         public int Timer { get; set; }
         public bool TimerIsActive { get; set; }
