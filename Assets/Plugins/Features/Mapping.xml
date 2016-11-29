@@ -4,6 +4,11 @@
         <name>Mapping</name>
     </assembly>
     <members>
+        <member name="T:BuddyFeature.Mapping.Metrical.AMetricalMapping">
+            <summary>
+            Abstract class helper for metrical mapping
+            </summary>
+        </member>
         <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.DETECT_STEP">
             <summary>
             Progression value when an obstacle is detected at a specific point.
@@ -126,12 +131,22 @@
             <summary>
             Increases the detection value of the position (x, y)
             </summary>
-            <param name="iPosition">The position to increase by a DetectStep value</param>
+            <param name="iPoint">The position to increase by a DetectStep value</param>
         </member>
         <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.DrawRobotPosition">
             <summary>
             Removes considered obstacles on the robot path.
             Display robot position on the map in red.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.Init">
+            <summary>
+            Initialization, called at the start
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.ProcessMapping">
+            <summary>
+            Update function
             </summary>
         </member>
         <member name="T:BuddyFeature.Mapping.Metrical.BasicSensorMapping">
@@ -220,9 +235,118 @@
             </summary>
             <param name="iLaserScan">Fake laser scan array from depth camera</param>
         </member>
+        <member name="T:BuddyFeature.Mapping.Metrical.Impl.Distribution">
+            <summary>
+            Represents a uniform distribution by its min, max and marge
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.Distribution.Min">
+            <summary>
+            Min val of the distribution
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.Distribution.Max">
+            <summary>
+            Max val of the distribution
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.Distribution.Marge">
+            <summary>
+            The tolerate marge (for stockastic purposes)
+            </summary>
+        </member>
         <member name="T:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization">
             <summary>
             Particle Swarm Optimization algorithm described as https://en.wikipedia.org/wiki/Particle_swarm_optimization
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization.Particles">
+            <summary>
+            Swarm particles
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization.BestSwarmParticle">
+            <summary>
+            The best Swarm particle
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization.ObjectiveFunction">
+            <summary>
+            The objective function. The swarm will search to find the lowest value
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization.#ctor(System.Collections.Generic.IList{BuddyFeature.Mapping.Metrical.Impl.Distribution},System.Int32,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Base constructor, see https://en.wikipedia.org/wiki/Particle_swarm_optimization
+            </summary>
+            <param name="iSearchSpace">Search space</param>
+            <param name="iNbParticles">Number of particles</param>
+            <param name="iO">The Omega factor</param>
+            <param name="iNf">The neighbor factor</param>
+            <param name="iBf">The best find factor</param>
+            <param name="iRf">The random factor</param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization.Resample">
+            <summary>
+            Resample all particles
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization.Update">
+            <summary>
+            Update the swarm
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle">
+            <summary>
+            Swarm particle unit element
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle.SearchSpaceValues">
+            <summary>
+            Position of the particle in the search space
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle.SearchSpaceVelocity">
+            <summary>
+            Velocity of the particle in the search space
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle.Value">
+            <summary>
+            The value of the partcile depending on the ObjectiveFunction
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle.BestNeighborhood">
+            <summary>
+            Best known neighbor of the particle
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle.#ctor(System.Int32)">
+            <summary>
+            Base constructor
+            </summary>
+            <param name="iNbDimension"></param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle.ToString">
+            <summary>
+            Serialization tool
+            </summary>
+            <returns>The string with search space values and the obj value</returns>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Metrical.PuzzleSLAM">
+            <summary>
+            The Puzzle SLAM uses a partcile swarm optimization in order to find the 
+            best area match in an existing 2D map.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.PuzzleSLAM.Init">
+            <summary>
+            Initialization, called at the start
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.PuzzleSLAM.ProcessMapping">
+            <summary>
+            Update function
             </summary>
         </member>
         <member name="M:BuddyFeature.Mapping.Metrical.PuzzleSLAM.ExtractROIFromBuildingMap">
@@ -236,6 +360,11 @@
             </summary>
             <param name="iParticle">The particle to evaluate</param>
             <returns>Cost of the particle. Lower is better</returns>
+        </member>
+        <member name="T:BuddyFeature.Mapping.FakeLaserScanDevice">
+            <summary>
+            Create a fake laser scan "LIDAR" like from the depth cam
+            </summary>
         </member>
         <member name="F:BuddyFeature.Mapping.FakeLaserScanDevice.mDepthCamera">
             <summary>
@@ -510,16 +639,209 @@
             A graph can be build from a serialized file with DeSerialize(str).
             </summary>
         </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapGraph.Nodes">
+            <summary>
+            Node of the graph
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapGraph.Count">
+            <summary>
+            Number of node in the graph
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapGraph.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapGraph.#ctor(System.String)">
+            <summary>
+            Constructor, create a graph from the input file
+            </summary>
+            <param name="iFilename"></param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapGraph.Serialize(System.String)">
+            <summary>
+            Save the current graph in the specified file
+            </summary>
+            <param name="iFilename">Path to file</param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapGraph.DeSerialize(System.String)">
+            <summary>
+            Fill the current graph with the graph contained in the specified file
+            </summary>
+            <param name="iFilename">Path to file</param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapGraph.ToString">
+            <summary>
+            Serialization tool
+            </summary>
+            <returns>The corresponding string</returns>
+        </member>
         <member name="T:BuddyFeature.Mapping.Topological.Impl.MapNode">
             <summary>
             Node for topological mapping.
             Each node represents a place in a global graph. 
             </summary>
         </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapNode.ID">
+            <summary>
+            ID of the node
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapNode.Position">
+            <summary>
+            Position of the node
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapNode.AdjacentNodes">
+            <summary>
+            Adjacent nodes
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapNode.Observations">
+            <summary>
+            Observations of the node
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapNode.Weight">
+            <summary>
+            Weight of the node ==> Weight of the observation
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapNode.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapNode.ToString">
+            <summary>
+            Serialization tool
+            </summary>
+            <returns>The corresponding string</returns>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Topological.Impl.MinTriLocalizationStrategy">
+            <summary>
+            Best localization strategy by searching for the minimal area triangle
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MinTriLocalizationStrategy.Execute(System.Collections.Generic.List{BuddyFeature.Mapping.Topological.Impl.Localization})">
+            <summary>
+            Best localization strategy by searching for the minimal area triangle
+            </summary>
+            <param name="iConjecturalLocalizations">Best find position of the robot</param>
+            <returns>Hypothetical position of the robot</returns>
+        </member>
         <member name="T:BuddyFeature.Mapping.Topological.Impl.Observation">
             <summary>
             Observations of the robot at a given orientation
             </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.Observation.Orientation">
+            <summary>
+            Orientation of the observation
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.Observation.Weight">
+            <summary>
+            Weight (rate) of the observation
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.Observation.Descriptors">
+            <summary>
+            Descriptor of the observation
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.Observation.Landmarks">
+            <summary>
+            Landmarks of the observation
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.Observation.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.Observation.ToString">
+            <summary>
+            Serialization tool
+            </summary>
+            <returns>The corresponding string</returns>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Topological.LandmarkMappingMode">
+            <summary>
+            Landmark maping modes
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Topological.LandmarkMappingMode.NONE">
+            <summary>
+            Do nothing
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Topological.LandmarkMappingMode.CREATE_WHEN_MIN_DIST">
+            <summary>
+            The robot will create a node a each BETWEEN_NODE_DIST (1 meter)
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Topological.LandmarkMappingMode.DETECT_LANDMARKS">
+            <summary>
+            Landmark detection, the robot is rotating and retrieving info about the current area
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Topological.LandmarkMapping">
+            <summary>
+            The mapping builds the topological map (with a graph).
+            Nodes of the map contains 2D points when builded, ORB descriptors and Google Cloud Vision labels if enabled.
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkMapping.Mode">
+            <summary>
+            The current mode
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkMapping.Last60View">
+            <summary>
+            The last 60° capture from the robot
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkMapping.Graph">
+            <summary>
+            The graph of the mapping
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkMapping.CurrentNode">
+            <summary>
+            The current node where the robot belongs
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkMapping.WithGCV">
+            <summary>
+            Does the mapping use Google Cloud Vision ?
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.LandmarkMapping.Make360Analysis">
+            <summary>
+            The robot processed a 360 analysis at the current position
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.LandmarkMapping.MakeGCVAnalysis(System.Int32)">
+            <summary>
+            Call Google Cloud Vision API for labelization
+            </summary>
+            <param name="iMaxResult">Max asked results</param>
+            <returns></returns>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.LandmarkMapping.Make60Analysis">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.LandmarkMapping.ApplyBlackListLandmarks(BuddyFeature.Vision.Impl.AnnotateImageResponses)">
+            <summary>
+            Remove blacklisted elements in ioResponse
+            </summary>
+            <param name="ioResponse">The annotateImageResponses to check</param>
         </member>
         <member name="T:BuddyFeature.Mapping.Topological.LandmarkSLAMMode">
             <summary>

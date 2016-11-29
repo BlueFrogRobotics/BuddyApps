@@ -4,6 +4,11 @@
         <name>Navigation</name>
     </assembly>
     <members>
+        <member name="T:BuddyFeature.Navigation.Impl.Dijkstra">
+            <summary>
+            Diskstra algorithm implementation in C#. Polynomial complexity : 2^(log(n))
+            </summary>
+        </member>
         <member name="M:BuddyFeature.Navigation.Impl.Dijkstra.ShortestPath(BuddyFeature.Navigation.Impl.Node,BuddyFeature.Navigation.Impl.Node,System.Collections.Generic.List{BuddyFeature.Navigation.Impl.Node},System.Boolean)">
             <summary>
             Gets the shortest path between the sourcenode and the destination node with Dijkstra algorithm.
@@ -39,6 +44,44 @@
             <summary>
             Unit node for graph algorithms.
             </summary>
+        </member>
+        <member name="F:BuddyFeature.Navigation.Impl.Node.Comparer">
+            <summary>
+            Comparer pour node comparaison
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Navigation.Impl.Node.Index">
+            <summary>
+            Index of the node
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Navigation.Impl.Node.MinDistance">
+            <summary>
+            Min known distance
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Navigation.Impl.Node.PrievousNode">
+            <summary>
+            Previous node (Dijkstra algo)
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Navigation.Impl.Node.AdjacentNodes">
+            <summary>
+            AdjacentNodes
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Navigation.Impl.Node.#ctor">
+            <summary>
+            Base constructor
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Navigation.Impl.Node.Compare(BuddyFeature.Navigation.Impl.Node,BuddyFeature.Navigation.Impl.Node)">
+            <summary>
+            Comparaison function
+            </summary>
+            <param name="iFirstNode"></param>
+            <param name="iSecondNode"></param>
+            <returns></returns>
         </member>
         <member name="T:BuddyFeature.Navigation.RoombaNavigation">
             <summary>

@@ -110,6 +110,7 @@ namespace BuddyApp.BabyPhone
             if ((mTime > 10F) && (!mSayYesOrNo)) {
                 mSayYesOrNo = true;
                 mTTS.Say("Veux-tu commencer la surveillance du bébé?");
+                canvas[2].SetActive(true);
                 startWatching.SetTrigger("Open_WQuestion");
             }
 
@@ -137,7 +138,7 @@ namespace BuddyApp.BabyPhone
                 if (mTime >= 10F)
                     notificationAmount.text = "0";
 
-                if (mTime >= 10.5F) {
+                if (mTime >= 10.5F && !mIsBuddyListening) {
                     canvas[3].SetActive(false);
                     canvas[2].SetActive(false);
                     BuddyListen();
