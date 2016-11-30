@@ -2,14 +2,18 @@
 using System.Collections;
 using System;
 
-public interface IDetector  {
+namespace BuddyApp.Guardian
+{
+    public interface IDetector
+    {
 
-    event Action OnDetection;
+        event Action OnDetection;
 
-    float GetMinThreshold();
-    float GetMaxThreshold();
-    float GetThreshold();
-    void SetThreshold(float iThreshold);
+        float GetMinThreshold();
+        float GetMaxThreshold();
+        float GetThreshold();
+        void SetThreshold(float iThreshold);
 
 
+    }
 }

@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class AStateGuardian : StateMachineBehaviour {
+namespace BuddyApp.Guardian
+{
+    public abstract class AStateGuardian : StateMachineBehaviour
+    {
 
-    public StatePatrolManager mStatePatrolManager;
-	
+        public StatePatrolManager mStatePatrolManager;
+
+    }
 }
