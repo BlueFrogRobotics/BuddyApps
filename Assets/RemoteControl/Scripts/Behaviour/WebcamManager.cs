@@ -11,20 +11,21 @@ namespace BuddyApp.Remote
         public int compressQuality;
 
         private RGBCam mWebcam;
-        private MatOfByte mBuffer = new MatOfByte();
+        private MatOfByte mBuffer;
         public RawImage mDebugScreen;
         
         void Start()
         {
+            mBuffer = new MatOfByte();
             mWebcam = BYOS.Instance.RGBCam;
+
             if(!mWebcam.IsOpen)
                 mWebcam.Open();
         }
         
         void Update()
         {
-            if (mWebcam.FrameMat != null)
-            {
+            if (mWebcam.FrameMat != null) {
                 Mat lFrame = mWebcam.FrameMat;
                 mDebugScreen.texture = mWebcam.FrameTexture2D;
                 Imgproc.resize(lFrame, lFrame, new Size(320, 240));

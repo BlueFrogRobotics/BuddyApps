@@ -11,8 +11,10 @@ namespace BuddyApp.Remote
 
         public void SendData(byte[] iData, int iNdata)
         {
-            if (ToSendEvent == null) throw new InvalidOperationException("Send event has not been defined");
-            else ToSendEvent(this, iData, iNdata);
+            if (ToSendEvent == null)
+                throw new InvalidOperationException("Send event has not been defined");
+            else
+                ToSendEvent(this, iData, iNdata);
         }
 
         public void Subscribe(ToSendEventHandler iEvent)
