@@ -20,6 +20,9 @@ namespace BuddyApp.BabyPhone
         [SerializeField]
         private Text notificationAmount;
 
+        [SerializeField]
+        private Animator startWatching;
+
         private TextToSpeech mTTS;
         private RGBCam mRGBCam;
         private Face mFace;
@@ -88,9 +91,6 @@ namespace BuddyApp.BabyPhone
             mCountNotification = 0;
             mSayTuto = false;
             mSayYesOrNo = false;
-
-            mTTS = new TextToSpeech();
-            mRGBCam.Open();
         }
 
         void Update()
@@ -108,8 +108,10 @@ namespace BuddyApp.BabyPhone
             }
 
             if ((mTime > 10F) && (!mSayYesOrNo)) {
-                mTTS.Say("Veux-tu commencer la surveillance du bébé?");
                 mSayYesOrNo = true;
+                mTTS.Say("Veux-tu commencer la surveillance du bébé?");
+                canvas[2].SetActive(true);
+                startWatching.SetTrigger("Open_WQuestion");
             }
 
             if ((mTime > 10F) && (!mStartCaringBaby)) {
@@ -136,7 +138,7 @@ namespace BuddyApp.BabyPhone
                 if (mTime >= 10F)
                     notificationAmount.text = "0";
 
-                if (mTime >= 10.5F) {
+                if (mTime >= 10.5F && !mIsBuddyListening) {
                     canvas[3].SetActive(false);
                     canvas[2].SetActive(false);
                     BuddyListen();
@@ -171,9 +173,8 @@ namespace BuddyApp.BabyPhone
                 }
 
                 if ((mTime >= 300) && (mIsBuddyListening) && (!mIsBabyCrying)) {
-                    if (mSpeaker.isPlaying) {
+                    if (mSpeaker.isPlaying)
                         mSpeaker.Stop();
-                    }
                 }
             }
         }
@@ -185,6 +186,7 @@ namespace BuddyApp.BabyPhone
         {
             mStartCaringBaby = true;
             mTime = 0;
+            startWatching.SetTrigger("Close_WQuestion");
         }
 
         private void BuddyListen()
@@ -210,13 +212,13 @@ namespace BuddyApp.BabyPhone
         private IEnumerator SendMessage()
         {
             mRGBCam.Open();
-            yield return new WaitForSeconds(0.5F);
+            yield return new WaitForSeconds(1.5F);
             MailSender lSender = new MailSender("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL);
             Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", "Your baby seems to cry =(");
             lEmail.Addresses.Add("buddy.bluefrog@gmail.com");
             lEmail.AddTexture2D(mRGBCam.FrameTexture2D, "image.png");
             lSender.Send(lEmail);
-            yield return new WaitForSeconds(0.5F);
+            yield return new WaitForSeconds(1.5F);
             mRGBCam.Close();
         }
     }

@@ -18,9 +18,9 @@ namespace BuddyOS
             mOS.EnableLogs = EditorGUILayout.Toggle("Enable logs", mOS.EnableLogs);
             EditorGUILayout.Space();
             mOS.EnableLoadApps = EditorGUILayout.BeginToggleGroup("Load apps", mOS.EnableLoadApps);
-                mOS.EnableLoadDefaultApp = EditorGUILayout.BeginToggleGroup("   Start with app", mOS.EnableLoadDefaultApp);
-                    mOS.DefaultApp = EditorGUILayout.TextField("            Scene name", mOS.DefaultApp);
-                EditorGUILayout.EndToggleGroup();
+            mOS.EnableLoadDefaultApp = EditorGUILayout.BeginToggleGroup("   Start with app", mOS.EnableLoadDefaultApp);
+            mOS.DefaultApp = EditorGUILayout.TextField("            Scene name", mOS.DefaultApp);
+            EditorGUILayout.EndToggleGroup();
             EditorGUILayout.EndToggleGroup();
 
             if (GUI.changed)

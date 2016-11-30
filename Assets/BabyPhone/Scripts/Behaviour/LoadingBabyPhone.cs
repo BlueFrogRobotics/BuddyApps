@@ -22,11 +22,14 @@ namespace BuddyApp.BabyPhone
 
         private IEnumerator LoadingScreen()
         {
-            yield return new WaitForSeconds(3F);
             startScreen.SetActive(true);
+            animator.SetBool("Open_WLoading", true);
+            yield return new WaitForSeconds(3F);
 
+            animator.SetBool("Open_WLoading", false);
             animator.SetBool("Close_WLoading", true);
             yield return new WaitForSeconds(1F);
+            animator.SetBool("Close_WLoading", false);
             loadingScreen.SetActive(false);
         }
     }

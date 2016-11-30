@@ -7,10 +7,11 @@ namespace BuddyApp.Remote
 {
     public class VideoOTOReceiver : OTONetReceiver
     {
-        private int mNbReceived = 0;
-        private float mTime;
         [SerializeField]
         private RawImage WebcamShowStream;
+
+        private int mNbReceived = 0;
+        private float mTime;
         private Mat mDecodedImage;
         private Texture2D mTemp2DTexture;
 
@@ -23,8 +24,7 @@ namespace BuddyApp.Remote
 
         void Update()
         {
-            if (WebcamShowStream.IsActive())
-            {
+            if (WebcamShowStream.IsActive()) {
                 if (Time.time - mTime > 2f)
                     WebcamShowStream.gameObject.SetActive(false);
             }
@@ -39,8 +39,7 @@ namespace BuddyApp.Remote
             
             mDecodedImage = Highgui.imdecode(new MatOfByte(data), 3);
 
-            if (mDecodedImage.total() != 0)
-            {
+            if (mDecodedImage.total() != 0) {
                 Utils.MatToTexture2D(mDecodedImage, mTemp2DTexture);
                 WebcamShowStream.texture = mTemp2DTexture;
                 mTime = Time.time;

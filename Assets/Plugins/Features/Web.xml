@@ -9,9 +9,34 @@
             Enum of the different smtp that can be used to send mail
             </summary>
         </member>
+        <member name="F:BuddyFeature.Web.SMTP.GMAIL">
+            <summary>
+            GMail serv
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Web.SMTP.YAHOO">
+            <summary>
+            Yahoo serv
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Web.SMTP.HOTMAIL">
+            <summary>
+            Hotmail serv
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Web.SMTP.BFR">
+            <summary>
+            BlueFrog serv
+            </summary>
+        </member>
         <member name="T:BuddyFeature.Web.MailSender">
             <summary>
             Class that connect to an smtp server to send a mail
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Web.MailSender.MailSent">
+            <summary>
+            Callback after mail sending
             </summary>
         </member>
         <member name="P:BuddyFeature.Web.MailSender.CanSend">

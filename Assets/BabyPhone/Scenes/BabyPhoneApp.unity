@@ -1020,6 +1020,7 @@ MonoBehaviour:
   - {fileID: 1431271902}
   notifications: {fileID: 1988310548}
   notificationAmount: {fileID: 278874743}
+  startWatching: {fileID: 1961830346}
 --- !u!114 &1180623363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1672,6 +1673,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5f55f97f05bb3df40865d2898b7dffc3, type: 2}
   m_IsPrefabParent: 0
+--- !u!95 &1961830346 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 9536132, guid: 5f55f97f05bb3df40865d2898b7dffc3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1961830345}
 --- !u!1 &1988310548
 GameObject:
   m_ObjectHideFlags: 0

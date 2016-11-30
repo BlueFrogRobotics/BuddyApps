@@ -7,74 +7,57 @@ using BuddyOS.Command;
 
 namespace BuddyApp.Remote
 {
-    public delegate void ToSendEventHandler(OTONetSender iSender, byte[] iData, int iNdata);
-    public class OTONetSender : MonoBehaviour
-    {
-        private event ToSendEventHandler ToSendEvent;
-
-        public void SendData(byte[] iData, int iNdata)
-        {
-            if (ToSendEvent == null) throw new InvalidOperationException("Send event has not been defined");
-            else ToSendEvent(this, iData, iNdata);
-        }
-
-        public void Subscribe(ToSendEventHandler iEvent)
-        {
-            ToSendEvent += iEvent;
-        }
-
-        public void Unsubscribe(ToSendEventHandler iEvent)
-        {
-            ToSendEvent -= iEvent;
-        }
-    }
-
-    public class OTONetReceiver : MonoBehaviour
-    {
-        public virtual void ReceiveData(byte[] iData, int iNdata)
-        {
-            throw new NotImplementedException("ReceiveData not implemented");
-        }
-    }
-
     public class OTONetwork : MonoBehaviour
     {
-        public int Port;
-        public string IP;
-
-        public List<int> channel_ids;
-        public List<string> channel_name;
-        public List<QosType> channel_type;
-        public List<OTONetSender> channel_senders;
-        public List<OTONetReceiver> channel_receivers;
-
-        public bool IsServer;
+        public bool IsServer { get { return mIsServer; } set { mIsServer = value; } }
         public bool Communicating { get; protected set; }
         public bool HasAPeer { get; protected set; }
-        public int NChannels { get { return channel_ids.Count; } }
+        public int NChannels { get { return mChannel_ids.Count; } }
+        public int Port { get { return mPort; } set { mPort = value; } }
+        public string IP { get { return mIP; } set { mIP = value; } }
+        public List<int> Channel_ids { get { return mChannel_ids; } set { mChannel_ids = value; } }
+        public List<string> Channel_name { get { return mChannel_name; } set { mChannel_name = value; } }
+        public List<QosType> Channel_type { get { return mChannel_type; } set { mChannel_type = value; } }
+        public List<OTONetSender> Channel_senders { get { return mChannel_senders; } set { mChannel_senders = value; } }
+        public List<OTONetReceiver> Channel_receivers { get { return mChannel_receivers; } set { mChannel_receivers = value; } }
+
+        private const int MAX_FRAME_PER_UPDATE = 10;
+        private static ushort mBufferSize = 15000;
+
+        [SerializeField, HideInInspector]
+        private bool mIsServer;
+
+        [SerializeField, HideInInspector]
+        private int mPort;
+
+        [SerializeField, HideInInspector]
+        private string mIP;
+
+        [SerializeField, HideInInspector]
+        private List<int> mChannel_ids;
+
+        [SerializeField, HideInInspector]
+        private List<string> mChannel_name;
+
+        [SerializeField, HideInInspector]
+        private List<QosType> mChannel_type;
+
+        [SerializeField, HideInInspector]
+        private List<OTONetSender> mChannel_senders;
+
+        [SerializeField, HideInInspector]
+        private List<OTONetReceiver> mChannel_receivers;
 
         private bool mIsCorou = false;
-        private bool mRsconnect = false;
-        private byte[] mRecBuffer = new byte[sBufferSize];
-        static ushort sBufferSize = 15000;
-        private const int MAX_FRAME_PER_UPDATE = 10;
+        private bool mIsConnected = false;
+        private byte[] mRecBuffer = new byte[mBufferSize];
         private int mGenericHostId;
         private int mDistantHostID;
         private int mDistantConnectionID;
         private ConnectionConfig mConfig = new ConnectionConfig();
         private GlobalConfig mGConfig = new GlobalConfig();
 
-        void Update()
-        {
-            if (!Communicating)
-                return;
-
-            else if (!mIsCorou)
-            {
-                StartCoroutine("UpdateOto");
-                mIsCorou = true;
-            }
-        }
+        private float mTime;
 
         void Start()
         {
@@ -82,192 +65,50 @@ namespace BuddyApp.Remote
             Connect();
         }
 
+        void Update()
+        {
+            if (!Communicating)
+                return;
+            else if (!mIsCorou) {
+                StartCoroutine(UpdateOto());
+                mIsCorou = true;
+            }
+        }
 
         void OnDisable()
         {
-            if (mRsconnect)
+            if(mIsConnected)
                 Disconnect();
-        }
-
-        private IEnumerator UpdateOto()
-        {
-            while (true)
-            {
-                if (sBufferSize < (ushort.MaxValue - 1000) && mRsconnect)
-                    sBufferSize = ushort.MaxValue - 1;
-
-                if (sBufferSize >= (ushort.MaxValue - 1000) && mRsconnect && !HasAPeer)
-                {
-                    mRecBuffer = new byte[sBufferSize];
-                    HasAPeer = true;
-                }
-
-                ReceiveData();
-                yield return null;
-            }
-        }
-
-        private void Configure()
-        {
-            mConfig = new ConnectionConfig();
-
-            // Verify the number of each lists
-            if (channel_name.Count != NChannels
-                || channel_type.Count != NChannels
-                || channel_senders.Count != NChannels
-                || channel_receivers.Count != NChannels)
-                throw new IndexOutOfRangeException("Counter of channels lists are not equal");
-
-            // Fill config
-            string lStr = "";
-            for (int i = 0; i < NChannels; i++)
-            {
-                channel_ids[i] = mConfig.AddChannel(channel_type[i]);
-
-                if (channel_senders[i] != null)
-                    channel_senders[i].Subscribe(ToSendEvent);
-
-                lStr += "Configure (" + i + ")";
-                lStr += "\nid = " + channel_ids[i];
-                lStr += "\nname = " + channel_name[i];
-                lStr += "\ntype = " + channel_type[i];
-
-                if (channel_receivers[i] != null)
-                    lStr += "\nreceiver = " + channel_receivers[i].gameObject.name;
-
-                if (channel_senders[i] != null)
-                    lStr += "\nsender = " + channel_senders[i].gameObject.name;
-
-                lStr += "\n\n";
-            }
-            Debug.Log(lStr);
-
-            mConfig.PacketSize = ushort.MaxValue;
-            mConfig.MaxSentMessageQueueSize = 1024;
-            // Global config
-            mGConfig = new GlobalConfig();
-            mGConfig.MaxPacketSize = 65000;
-            mGConfig.ReactorMaximumReceivedMessages = 1; //Initial value of 256
-            mGConfig.ReactorMaximumSentMessages = 1; //Initial value of 256
-        }
-
-        private void Connect()
-        {
-            if (Communicating)
-                Disconnect();
-
-            if (IsServer)
-            {
-                NetworkTransport.Init(mGConfig);
-                HostTopology lTopology = new HostTopology(mConfig, 1);
-
-                mGenericHostId = NetworkTransport.AddHost(lTopology, Port, null);
-            }
-            else
-            {
-                NetworkTransport.Init(mGConfig);
-
-                HostTopology lTopology = new HostTopology(mConfig, 1);
-                mGenericHostId = NetworkTransport.AddHost(lTopology, 0);
-                byte lError;
-                mDistantConnectionID = NetworkTransport.Connect(mGenericHostId, IP, Port, 0, out lError);
-                if (lError != 0)
-                {
-                    throw new Exception("Error on connection : " + lError);
-                }
-            }
-            Communicating = true;
-        }
-
-        void Disconnect()
-        {
-            NetworkTransport.RemoveHost(mGenericHostId);
-            NetworkTransport.Shutdown();
-
-            foreach (OTONetSender lOtosender in channel_senders)
-                if (lOtosender != null) lOtosender.Unsubscribe(ToSendEvent);
-
-            Communicating = false;
-            HasAPeer = false;
-            mRsconnect = false;
-            sBufferSize = 15000;
-            mIsCorou = false;
-
-            Debug.Log("OTONetwork Disconnected");
-        }
-
-        void ReceiveData()
-        {
-            int lRecChannelID;
-            byte lError;
-            int lDataSize;
-            int lCount = 0;
-            while (lCount++ < MAX_FRAME_PER_UPDATE)
-            {
-                NetworkEventType lRecData = NetworkTransport.Receive(out mDistantHostID, out mDistantConnectionID, 
-                                                    out lRecChannelID, mRecBuffer, 
-                                                    sBufferSize, out lDataSize, out lError);
-                if (lError != 0)
-                    Debug.Log("Error = " + ((NetworkError)lError).ToString() +
-                        " from distantHostID " + mDistantConnectionID + " on distantConnectionID " +
-                        mDistantConnectionID + " on recChannelID " + lRecChannelID);
-
-                if (lDataSize >= mRecBuffer.Length)
-                    return;
-
-                switch (lRecData)
-                {
-                    case NetworkEventType.Nothing:
-                        return;
-
-                    case NetworkEventType.ConnectEvent:
-                        mRsconnect = true;
-                        break;
-
-                    case NetworkEventType.DataEvent:
-                        HasAPeer = true;
-                        for (int i = 0; i < NChannels; i++)
-                        {
-                            if (channel_ids[i] == lRecChannelID)
-                                channel_receivers[i].ReceiveData(mRecBuffer, lDataSize);
-                        }
-                        break;
-
-                    case NetworkEventType.DisconnectEvent:
-                        new HomeCmd().Execute();
-                        break;
-                }
-            }
         }
 
         public int AddAChannel(string iName, QosType iType, OTONetReceiver iOTONetReceiver, OTONetSender iOTONetSender)
         {
             int lID = mConfig.AddChannel(iType);
-            channel_ids.Add(lID);
-            channel_type.Add(iType);
-            channel_name.Add(iName);
-            channel_receivers.Add(iOTONetReceiver);
-            channel_senders.Add(iOTONetSender);
+            mChannel_ids.Add(lID);
+            mChannel_type.Add(iType);
+            mChannel_name.Add(iName);
+            mChannel_receivers.Add(iOTONetReceiver);
+            mChannel_senders.Add(iOTONetSender);
 
-            return channel_ids.Count - 1;
+            return mChannel_ids.Count - 1;
         }
 
         public void DeleteAChannel(int iAt)
         {
-            channel_ids.RemoveAt(iAt);
-            channel_type.RemoveAt(iAt);
-            channel_name.RemoveAt(iAt);
-            channel_receivers.RemoveAt(iAt);
-            channel_senders.RemoveAt(iAt);
+            mChannel_ids.RemoveAt(iAt);
+            mChannel_type.RemoveAt(iAt);
+            mChannel_name.RemoveAt(iAt);
+            mChannel_receivers.RemoveAt(iAt);
+            mChannel_senders.RemoveAt(iAt);
         }
 
         public void DeleteAllChannels()
         {
-            channel_ids = new List<int>();
-            channel_type = new List<QosType>();
-            channel_name = new List<string>();
-            channel_receivers = new List<OTONetReceiver>();
-            channel_senders = new List<OTONetSender>();
+            mChannel_ids = new List<int>();
+            mChannel_type = new List<QosType>();
+            mChannel_name = new List<string>();
+            mChannel_receivers = new List<OTONetReceiver>();
+            mChannel_senders = new List<OTONetSender>();
         }
 
         public void ResetCom()
@@ -282,22 +123,176 @@ namespace BuddyApp.Remote
             return NetworkTransport.GetPacketSentRate(mGenericHostId, mDistantConnectionID, out iError);
         }
 
-        void ToSendEvent(OTONetSender iSender, byte[] iData, int iNdata)
+        public int GetReceivedRate(out byte iError)
+        {
+            return NetworkTransport.GetPacketReceivedRate(mGenericHostId, mDistantConnectionID, out iError);
+        }
+
+        IEnumerator UpdateOto()
+        {
+            while (true) {
+                if (mBufferSize < (ushort.MaxValue - 1000) && mIsConnected)
+                    mBufferSize = ushort.MaxValue - 1;
+
+                if (mBufferSize >= (ushort.MaxValue - 1000) && mIsConnected && !HasAPeer) {
+                    mRecBuffer = new byte[mBufferSize];
+                    HasAPeer = true;
+                }
+
+                ReceiveData();
+                yield return null;
+            }
+        }
+
+        private void Configure()
+        {
+            mConfig = new ConnectionConfig();
+
+            // Verify the number of each list
+            if (mChannel_name.Count != NChannels
+                || mChannel_type.Count != NChannels
+                || mChannel_senders.Count != NChannels
+                || mChannel_receivers.Count != NChannels)
+                throw new IndexOutOfRangeException("Counters of channels are not equal");
+
+            // Fill config
+            string lStr = "";
+
+            for (int i = 0; i < NChannels; i++) {
+                mChannel_ids[i] = mConfig.AddChannel(mChannel_type[i]);
+
+                if (mChannel_senders[i] != null)
+                    mChannel_senders[i].Subscribe(ToSendEvent);
+
+                lStr += "Configure (" + i + ")";
+                lStr += "\nid = " + mChannel_ids[i];
+                lStr += "\nname = " + mChannel_name[i];
+                lStr += "\ntype = " + mChannel_type[i];
+
+                if (mChannel_receivers[i] != null)
+                    lStr += "\nreceiver = " + mChannel_receivers[i].gameObject.name;
+
+                if (mChannel_senders[i] != null)
+                    lStr += "\nsender = " + mChannel_senders[i].gameObject.name;
+
+                lStr += "\n\n";
+            }
+            Debug.Log(lStr);
+
+            mConfig.PacketSize = ushort.MaxValue;
+            mConfig.MaxSentMessageQueueSize = 1024;
+            // Global config
+            mGConfig = new GlobalConfig();
+            mGConfig.MaxPacketSize = 65000;
+            mGConfig.ReactorMaximumReceivedMessages = 1;//valeur initiale a 256
+            mGConfig.ReactorMaximumSentMessages = 1;//valeur initiale a 256
+        }
+
+        private void Connect()
+        {
+            if (Communicating)
+                Disconnect();
+
+            if (IsServer) {
+                NetworkTransport.Init(mGConfig);
+                HostTopology lTopology = new HostTopology(mConfig, 1);
+
+                mGenericHostId = NetworkTransport.AddHost(lTopology, Port, null);
+            }
+            else {
+                NetworkTransport.Init(mGConfig);
+
+                HostTopology lTopology = new HostTopology(mConfig, 1);
+                mGenericHostId = NetworkTransport.AddHost(lTopology, 0);
+                byte lError;
+                mDistantConnectionID = NetworkTransport.Connect(mGenericHostId, IP, Port, 0, out lError);
+
+                if (lError != 0)
+                    throw new Exception("Error on connection : " + lError);
+            }
+            Communicating = true;
+
+            Debug.Log("OTO Connected");
+            mTime = Time.time;
+        }
+
+        public void Disconnect()
+        {
+            NetworkTransport.RemoveHost(mGenericHostId);
+            NetworkTransport.Shutdown();
+
+            foreach (OTONetSender otosender in mChannel_senders)
+                if (otosender != null) otosender.Unsubscribe(ToSendEvent);
+
+            Communicating = false;
+            HasAPeer = false;
+            mIsConnected = false;
+            mBufferSize = 15000;
+            mIsCorou = false;
+
+            Debug.Log("OTO Disconnected");
+        }
+
+        private void ReceiveData()
+        {
+            int lRecChannelID;
+            byte lError;
+            int lDataSize;
+            int lCount = 0;
+
+            while (lCount++ < MAX_FRAME_PER_UPDATE) {
+                NetworkEventType lRecData = NetworkTransport.Receive(out mDistantHostID, out mDistantConnectionID,
+                                                out lRecChannelID, mRecBuffer,
+                                                mBufferSize, out lDataSize, out lError);
+                if (lError != 0)
+                    Debug.Log("Error = " + ((NetworkError)lError).ToString() +
+                        " from distantHostID " + mDistantConnectionID + " on distantConnectionID " +
+                        mDistantConnectionID + " on recChannelID " + lRecChannelID);
+
+                if (lDataSize >= mRecBuffer.Length)
+                    return;
+
+                switch (lRecData) {
+                    case NetworkEventType.Nothing:
+                        return;
+
+                    case NetworkEventType.ConnectEvent:
+                        mIsConnected = true;
+                        break;
+
+                    case NetworkEventType.DataEvent:
+                        HasAPeer = true;
+                        for (int i = 0; i < NChannels; i++) {
+                            if (mChannel_ids[i] == lRecChannelID)
+                                mChannel_receivers[i].ReceiveData(mRecBuffer, lDataSize);
+                        }
+                        break;
+
+                    case NetworkEventType.DisconnectEvent:
+                        Debug.Log("Received DisconnectEvent");
+                        Disconnect();
+                        new HomeCmd().Execute();
+                        break;
+                }
+            }
+        }
+
+        void ToSendEvent(OTONetSender iSender, byte[] iData, int iNData)
         {
             if (!HasAPeer)
                 throw new InvalidOperationException("Tried to send without being connected!");
 
             byte lError;
-
-            for (int i = 0; i < NChannels; i++)
-            {
-                if (channel_senders[i] == iSender)
-                {
-                    NetworkTransport.Send(mGenericHostId, mDistantConnectionID, channel_ids[i], iData, iData.Length, out lError);
+            for (int i = 0; i < NChannels; i++) {
+                if (mChannel_senders[i] == iSender) {
+                    //Debug.Log("Sending data " + GetString(data) + " to hostID " + _genericHostId + " on connection " + _distantConnectionID + " on channel " + channel_ids[i]);
+                    NetworkTransport.Send(mGenericHostId, mDistantConnectionID, mChannel_ids[i], iData, iData.Length, out lError);
+                    
                     if (lError != 0)
-                        throw new Exception("Error on send : " + ((NetworkError)lError).ToString()
-                            + " Chanel = " + channel_ids[i] + " Data size = "
-                            + iData.Length + " _genericHostId " + mGenericHostId + " _distantConnectionID " + mDistantConnectionID);
+                        throw new Exception("Error on send : " + ((NetworkError)lError).ToString() +
+                            " Channel = " + mChannel_ids[i] + " Data size = " + iData.Length +
+                            " GenericHostId " + mGenericHostId + " DistantConnectionID " + mDistantConnectionID +
+                            " after " + (Time.time-mTime) + "s");
                 }
             }
         }
