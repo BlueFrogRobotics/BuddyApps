@@ -206,7 +206,7 @@ namespace BuddyApp.BabyPhone
         private IEnumerator SetListenMood()
         {
             yield return new WaitForSeconds(0.5F);
-            mFace.SetMood(FaceMood.LISTEN);
+            mFace.SetMood(FaceMood.LISTENING);
         }
 
         private IEnumerator SendMessage()
