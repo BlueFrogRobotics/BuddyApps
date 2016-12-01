@@ -9,7 +9,7 @@ namespace BuddyApp.Remote
 {
     public class OTONetwork : MonoBehaviour
     {
-        public bool IsServer;
+        public bool IsServer { get { return mIsServer; } set { mIsServer = value; } }
         public bool Communicating { get; protected set; }
         public bool HasAPeer { get; protected set; }
         public int NChannels { get { return mChannel_ids.Count; } }
@@ -22,8 +22,10 @@ namespace BuddyApp.Remote
         public List<OTONetReceiver> Channel_receivers { get { return mChannel_receivers; } set { mChannel_receivers = value; } }
 
         private const int MAX_FRAME_PER_UPDATE = 10;
-
         private static ushort mBufferSize = 15000;
+
+        [SerializeField, HideInInspector]
+        private bool mIsServer;
 
         [SerializeField, HideInInspector]
         private int mPort;
@@ -55,6 +57,8 @@ namespace BuddyApp.Remote
         private ConnectionConfig mConfig = new ConnectionConfig();
         private GlobalConfig mGConfig = new GlobalConfig();
 
+        private float mTime;
+
         void Start()
         {
             Configure();
@@ -65,9 +69,8 @@ namespace BuddyApp.Remote
         {
             if (!Communicating)
                 return;
-            else if (!mIsCorou)
-            {
-                StartCoroutine("UpdateOto");
+            else if (!mIsCorou) {
+                StartCoroutine(UpdateOto());
                 mIsCorou = true;
             }
         }
@@ -127,15 +130,15 @@ namespace BuddyApp.Remote
 
         IEnumerator UpdateOto()
         {
-            while (true)
-            {
+            while (true) {
                 if (mBufferSize < (ushort.MaxValue - 1000) && mIsConnected)
                     mBufferSize = ushort.MaxValue - 1;
-                if (mBufferSize >= (ushort.MaxValue - 1000) && mIsConnected && !HasAPeer)
-                {
+
+                if (mBufferSize >= (ushort.MaxValue - 1000) && mIsConnected && !HasAPeer) {
                     mRecBuffer = new byte[mBufferSize];
                     HasAPeer = true;
                 }
+
                 ReceiveData();
                 yield return null;
             }
@@ -145,18 +148,19 @@ namespace BuddyApp.Remote
         {
             mConfig = new ConnectionConfig();
 
-            // Verify the number of each lists
+            // Verify the number of each list
             if (mChannel_name.Count != NChannels
                 || mChannel_type.Count != NChannels
                 || mChannel_senders.Count != NChannels
                 || mChannel_receivers.Count != NChannels)
-                throw new IndexOutOfRangeException("Counter of channels lists are not equals");
+                throw new IndexOutOfRangeException("Counters of channels are not equal");
 
             // Fill config
             string lStr = "";
-            for (int i = 0; i < NChannels; i++)
-            {
+
+            for (int i = 0; i < NChannels; i++) {
                 mChannel_ids[i] = mConfig.AddChannel(mChannel_type[i]);
+
                 if (mChannel_senders[i] != null)
                     mChannel_senders[i].Subscribe(ToSendEvent);
 
@@ -202,14 +206,14 @@ namespace BuddyApp.Remote
                 mGenericHostId = NetworkTransport.AddHost(lTopology, 0);
                 byte lError;
                 mDistantConnectionID = NetworkTransport.Connect(mGenericHostId, IP, Port, 0, out lError);
+
                 if (lError != 0)
-                {
                     throw new Exception("Error on connection : " + lError);
-                }
             }
             Communicating = true;
 
             Debug.Log("OTO Connected");
+            mTime = Time.time;
         }
 
         public void Disconnect()
@@ -235,8 +239,8 @@ namespace BuddyApp.Remote
             byte lError;
             int lDataSize;
             int lCount = 0;
-            while (lCount++ < MAX_FRAME_PER_UPDATE)
-            {
+
+            while (lCount++ < MAX_FRAME_PER_UPDATE) {
                 NetworkEventType lRecData = NetworkTransport.Receive(out mDistantHostID, out mDistantConnectionID,
                                                 out lRecChannelID, mRecBuffer,
                                                 mBufferSize, out lDataSize, out lError);
@@ -248,9 +252,7 @@ namespace BuddyApp.Remote
                 if (lDataSize >= mRecBuffer.Length)
                     return;
 
-                switch (lRecData)
-                {
-
+                switch (lRecData) {
                     case NetworkEventType.Nothing:
                         return;
 
@@ -260,14 +262,15 @@ namespace BuddyApp.Remote
 
                     case NetworkEventType.DataEvent:
                         HasAPeer = true;
-                        for (int i = 0; i < NChannels; i++)
-                        {
+                        for (int i = 0; i < NChannels; i++) {
                             if (mChannel_ids[i] == lRecChannelID)
                                 mChannel_receivers[i].ReceiveData(mRecBuffer, lDataSize);
                         }
                         break;
 
                     case NetworkEventType.DisconnectEvent:
+                        Debug.Log("Received DisconnectEvent");
+                        Disconnect();
                         new HomeCmd().Execute();
                         break;
                 }
@@ -280,17 +283,16 @@ namespace BuddyApp.Remote
                 throw new InvalidOperationException("Tried to send without being connected!");
 
             byte lError;
-            for (int i = 0; i < NChannels; i++)
-            {
-                if (mChannel_senders[i] == iSender)
-                {
+            for (int i = 0; i < NChannels; i++) {
+                if (mChannel_senders[i] == iSender) {
                     //Debug.Log("Sending data " + GetString(data) + " to hostID " + _genericHostId + " on connection " + _distantConnectionID + " on channel " + channel_ids[i]);
                     NetworkTransport.Send(mGenericHostId, mDistantConnectionID, mChannel_ids[i], iData, iData.Length, out lError);
                     
                     if (lError != 0)
                         throw new Exception("Error on send : " + ((NetworkError)lError).ToString() +
                             " Channel = " + mChannel_ids[i] + " Data size = " + iData.Length +
-                            " GenericHostId " + mGenericHostId + " DistantConnectionID " + mDistantConnectionID);
+                            " GenericHostId " + mGenericHostId + " DistantConnectionID " + mDistantConnectionID +
+                            " after " + (Time.time-mTime) + "s");
                 }
             }
         }

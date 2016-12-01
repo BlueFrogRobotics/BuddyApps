@@ -185,6 +185,7 @@ namespace BuddyApp.BabyPhone
         public void StartCaringBaby()
         {
             mStartCaringBaby = true;
+            mIsBuddyListening = false;
             mTime = 0;
             startWatching.SetTrigger("Close_WQuestion");
         }
