@@ -16,12 +16,13 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mBackgroundPrefab = mStatePatrolManager.BackgroundPrefab;
-            mQuestionPrefab = mStatePatrolManager.QuestionPrefab;
-            mHaloPrefab = mStatePatrolManager.HaloPrefab;
-            mBackgroundAnimator = mStatePatrolManager.BackgroundAnimator;
-            mQuestionAnimator = mStatePatrolManager.QuestionAnimator;
-            mHaloAnimator = mStatePatrolManager.HaloAnimator;
+            SetWindowAppOverBuddyColor(0);
+            mBackgroundPrefab = StateManager.BackgroundPrefab;
+            mQuestionPrefab = StateManager.QuestionPrefab;
+            mHaloPrefab = StateManager.HaloPrefab;
+            mBackgroundAnimator = StateManager.BackgroundAnimator;
+            mQuestionAnimator = StateManager.QuestionAnimator;
+            mHaloAnimator = StateManager.HaloAnimator;
 
             animator.SetBool("ChangeState", false);
         }

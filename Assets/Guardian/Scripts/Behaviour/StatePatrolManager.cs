@@ -100,8 +100,14 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private ShowTemperature showTemperature;
 
-        private Face mFace;
-        private TextToSpeech mTTS;
+        [SerializeField]
+        private GameObject windowAppOverBuddyBlack;
+
+        [SerializeField]
+        private GameObject windowAppOverBuddyWhite;
+
+        //private Face mFace;
+        //private TextToSpeech mTTS;
         private Animator mAnimator;
 
         public DetectionManager DetectorManager { get { return detectorManager; } }
@@ -133,8 +139,10 @@ namespace BuddyApp.Guardian
         public DebugSoundWindow DebugSoundWindow { get { return debugSoundWindow; } }
         public DebugMovementWindow DebugMovementWindow { get { return debugMovementWindow; } }
         public ShowTemperature ShowTemperature { get { return showTemperature; } }
+        public GameObject WindowAppOverBuddyBlack { get { return windowAppOverBuddyBlack; } }
+        public GameObject WindowAppOverBuddyWhite { get { return windowAppOverBuddyWhite; } }
 
-        private GuardianData mGuardianData;
+        //private GuardianData mGuardianData;
         void Awake()
         {
             // Find a reference to the Animator component in Awake since it exists in the scene.
@@ -144,14 +152,14 @@ namespace BuddyApp.Guardian
         // Use this for initialization
         void Start()
         {
-            mGuardianData = GuardianData.Instance;
+           // mGuardianData = GuardianData.Instance;
             
-            mFace = BYOS.Instance.Face;
-            mTTS = BYOS.Instance.TextToSpeech;
+            //mFace = BYOS.Instance.Face;
+            //mTTS = BYOS.Instance.TextToSpeech;
             AStateGuardian[] lStatesGuardian = mAnimator.GetBehaviours<AStateGuardian>();
             for (int i = 0; i < lStatesGuardian.Length; i++)
             {
-                lStatesGuardian[i].mStatePatrolManager = this;
+                lStatesGuardian[i].StateManager = this;
             }
 
         }
@@ -159,7 +167,7 @@ namespace BuddyApp.Guardian
         // Update is called once per frame
         void Update()
         {
-            Debug.Log("is active: "+mGuardianData.FireDetectionIsActive);
+            //Debug.Log("is active: "+mGuardianData.FireDetectionIsActive);
         }
 
         void OnEnable()
@@ -187,6 +195,7 @@ namespace BuddyApp.Guardian
         public void QuitApplication()
         {
             //UnLoadAppCmd.Create().Execute();
+            Debug.Log("exit magique");
             new HomeCmd().Execute();
         }
 

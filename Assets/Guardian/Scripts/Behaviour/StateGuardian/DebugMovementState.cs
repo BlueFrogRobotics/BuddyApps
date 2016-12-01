@@ -27,11 +27,12 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            SetWindowAppOverBuddyColor(0);
             //Application.targetFrameRate = 10;
             mAnimator = animator;
             Init();
-            mStatePatrolManager.DebugMovementWindow.gameObject.SetActive(true);
-            mStatePatrolManager.DebugMovementWindow.ButtonBack.onClick.AddListener(GoBack);
+            StateManager.DebugMovementWindow.gameObject.SetActive(true);
+            StateManager.DebugMovementWindow.ButtonBack.onClick.AddListener(GoBack);
             mTimer = 0.0f;
             mMatRed = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3, new Scalar(254, 0, 0));
             mMovementDetector.OnDetection += OnMovementDetected;
@@ -68,12 +69,12 @@ namespace BuddyApp.Guardian
                 mRaw.texture = mTexture;
                 if (mHasDetectedMouv)
                 {
-                    mStatePatrolManager.PlayBeep();
+                    StateManager.PlayBeep();
                     mHasDetectedMouv = false;
-                    mStatePatrolManager.DebugMovementWindow.IcoMouv.enabled = true;
+                    StateManager.DebugMovementWindow.IcoMouv.enabled = true;
                 }
                 else
-                    mStatePatrolManager.DebugMovementWindow.IcoMouv.enabled = false;
+                    StateManager.DebugMovementWindow.IcoMouv.enabled = false;
             }
         }
 
@@ -81,16 +82,16 @@ namespace BuddyApp.Guardian
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mMovementDetector.OnDetection -= OnMovementDetected;
-            mStatePatrolManager.DebugMovementWindow.ButtonBack.onClick.RemoveAllListeners();
-            mStatePatrolManager.DebugMovementWindow.gameObject.SetActive(false);
+            StateManager.DebugMovementWindow.ButtonBack.onClick.RemoveAllListeners();
+            StateManager.DebugMovementWindow.gameObject.SetActive(false);
         }
 
         private void Init()
         {
             mCam = BYOS.Instance.RGBCam;
-            mMovementDetector = mStatePatrolManager.DetectorManager.MovementDetector;
-            mRaw = mStatePatrolManager.DebugMovementWindow.Raw;
-            mGauge = mStatePatrolManager.DebugMovementWindow.GaugeSensibility;
+            mMovementDetector = StateManager.DetectorManager.MovementDetector;
+            mRaw = StateManager.DebugMovementWindow.Raw;
+            mGauge = StateManager.DebugMovementWindow.GaugeSensibility;
             mMask = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3);
             mTexture = new Texture2D(mCam.Width, mCam.Height);
             mHasDetectedMouv = false;

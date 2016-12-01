@@ -13,7 +13,7 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mRoomba = mStatePatrolManager.Roomba;
+            mRoomba = StateManager.Roomba;
 
             mMotors = BYOS.Instance.Motors;
             mRoomba.enabled = false;

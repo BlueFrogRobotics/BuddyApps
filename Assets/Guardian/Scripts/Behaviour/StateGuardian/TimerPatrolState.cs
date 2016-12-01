@@ -31,7 +31,7 @@ namespace BuddyApp.Guardian
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             InitLink();
-
+            SetWindowAppOverBuddyColor(1);
             animator.SetBool("ChangeState", false);
             mTimer = Timer;
             //mTTS = new BuddyFeature.Vocal.TextToSpeech();
@@ -109,19 +109,19 @@ namespace BuddyApp.Guardian
 
         private void InitLink()
         {
-            mText = mStatePatrolManager.TextCounter;
-            mBackgroundPrefab = mStatePatrolManager.BackgroundPrefab;
-            mQuestionPrefab = mStatePatrolManager.QuestionPrefab;
-            mHaloPrefab = mStatePatrolManager.HaloPrefab;
-            mBackgroundAnimator = mStatePatrolManager.BackgroundAnimator;
-            mQuestionAnimator = mStatePatrolManager.QuestionAnimator;
-            mHaloAnimator = mStatePatrolManager.HaloAnimator;
-            mCancelButton = mStatePatrolManager.CancelButton;
-            mValidateButton = mStatePatrolManager.ValidateButton;
-            mHaloImages = mStatePatrolManager.HaloImages;
-            mIcoMessage = mStatePatrolManager.IcoMessage;
-            mMessage = mStatePatrolManager.MessageText;
-            mCounterTime = mStatePatrolManager.CounterTime;
+            mText = StateManager.TextCounter;
+            mBackgroundPrefab = StateManager.BackgroundPrefab;
+            mQuestionPrefab = StateManager.QuestionPrefab;
+            mHaloPrefab = StateManager.HaloPrefab;
+            mBackgroundAnimator = StateManager.BackgroundAnimator;
+            mQuestionAnimator = StateManager.QuestionAnimator;
+            mHaloAnimator = StateManager.HaloAnimator;
+            mCancelButton = StateManager.CancelButton;
+            mValidateButton = StateManager.ValidateButton;
+            mHaloImages = StateManager.HaloImages;
+            mIcoMessage = StateManager.IcoMessage;
+            mMessage = StateManager.MessageText;
+            mCounterTime = StateManager.CounterTime;
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

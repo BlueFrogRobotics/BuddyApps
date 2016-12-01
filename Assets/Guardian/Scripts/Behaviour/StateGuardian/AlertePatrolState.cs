@@ -41,6 +41,7 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            SetWindowAppOverBuddyColor(1);
             InitLink();
             mBackgroundPrefab.GetComponent<Canvas>().enabled = true;
             //animator.SetBool("HasAlerted", false);
@@ -331,18 +332,18 @@ namespace BuddyApp.Guardian
 
         private void InitLink()
         {
-            mDetectorManager = mStatePatrolManager.DetectorManager;
-            mBackgroundAnimator = mStatePatrolManager.BackgroundAnimator;
-            mHaloPrefab = mStatePatrolManager.HaloPrefab;
-            mBackgroundPrefab = mStatePatrolManager.BackgroundPrefab;
-            mHaloAnimator = mStatePatrolManager.HaloAnimator;
-            mHaloImages = mStatePatrolManager.HaloImages;
-            mIcoMessage = mStatePatrolManager.IcoMessage;
-            mMessage = mStatePatrolManager.MessageText;
-            mListSpriteNotif = mStatePatrolManager.ListSpriteNotif;
-            mCounterTime = mStatePatrolManager.CounterTime;
-            mObjectButtonAskPassword = mStatePatrolManager.ObjectButtonAskPassword;
-            mDropListContact = mStatePatrolManager.DropListContact;
+            mDetectorManager = StateManager.DetectorManager;
+            mBackgroundAnimator = StateManager.BackgroundAnimator;
+            mHaloPrefab = StateManager.HaloPrefab;
+            mBackgroundPrefab = StateManager.BackgroundPrefab;
+            mHaloAnimator = StateManager.HaloAnimator;
+            mHaloImages = StateManager.HaloImages;
+            mIcoMessage = StateManager.IcoMessage;
+            mMessage = StateManager.MessageText;
+            mListSpriteNotif = StateManager.ListSpriteNotif;
+            mCounterTime = StateManager.CounterTime;
+            mObjectButtonAskPassword = StateManager.ObjectButtonAskPassword;
+            mDropListContact = StateManager.DropListContact;
         }
     }
 }

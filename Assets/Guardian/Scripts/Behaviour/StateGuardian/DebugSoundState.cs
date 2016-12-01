@@ -23,10 +23,11 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            SetWindowAppOverBuddyColor(0);
             Init();
             mAnimator = animator;
-            mStatePatrolManager.DebugSoundWindow.gameObject.SetActive(true);
-            mStatePatrolManager.DebugSoundWindow.ButtonBack.onClick.AddListener(GoBack);
+            StateManager.DebugSoundWindow.gameObject.SetActive(true);
+            StateManager.DebugSoundWindow.ButtonBack.onClick.AddListener(GoBack);
             mSoundDetector.OnDetection += OnSoundDetected;
         }
 
@@ -61,10 +62,10 @@ namespace BuddyApp.Guardian
                 if (mHasDetectedSound)
                 {
                     mHasDetectedSound = false;
-                    mStatePatrolManager.DebugSoundWindow.Ico.enabled = true;
+                    StateManager.DebugSoundWindow.Ico.enabled = true;
                 }
                 else
-                    mStatePatrolManager.DebugSoundWindow.Ico.enabled = false;
+                    StateManager.DebugSoundWindow.Ico.enabled = false;
             }
         }
 
@@ -72,17 +73,17 @@ namespace BuddyApp.Guardian
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mSoundDetector.OnDetection -= OnSoundDetected;
-            mStatePatrolManager.DebugSoundWindow.ButtonBack.onClick.RemoveAllListeners();
-            mStatePatrolManager.DebugSoundWindow.gameObject.SetActive(false);
+            StateManager.DebugSoundWindow.ButtonBack.onClick.RemoveAllListeners();
+            StateManager.DebugSoundWindow.gameObject.SetActive(false);
             mSoundDetector.Stop();
         }
 
         private void Init()
         {
             mTimer = 0.0f;
-            mSoundDetector = mStatePatrolManager.DetectorManager.SoundDetector;
-            mRaw = mStatePatrolManager.DebugSoundWindow.Raw;
-            mGauge = mStatePatrolManager.DebugSoundWindow.GaugeSensibility;
+            mSoundDetector = StateManager.DetectorManager.SoundDetector;
+            mRaw = StateManager.DebugSoundWindow.Raw;
+            mGauge = StateManager.DebugSoundWindow.GaugeSensibility;
             mMatShow = new Mat(480, 640, CvType.CV_8UC3);
             mTexture = new Texture2D(640, 480);
             mSoundDetector.Init();

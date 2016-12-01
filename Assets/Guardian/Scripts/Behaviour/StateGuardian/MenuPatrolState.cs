@@ -22,7 +22,8 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mMenu = mStatePatrolManager.Menu;
+            SetWindowAppOverBuddyColor(0);
+            mMenu = StateManager.Menu;
 
             animator.SetBool("ChangeState", false);
             mTTS = BYOS.Instance.TextToSpeech;
@@ -52,6 +53,7 @@ namespace BuddyApp.Guardian
             mTimer -= Time.deltaTime;
             if (mTimer < 0.0f && (!mHasAskedOnce || mSTT.HasFinished))
             {
+                SetWindowAppOverBuddyColor(1);
                 Debug.Log("ask");
                 mHasAskedOnce = true;
                 mMenu.SetActive(true);

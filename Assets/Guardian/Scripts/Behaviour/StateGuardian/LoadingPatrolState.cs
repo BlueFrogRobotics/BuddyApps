@@ -19,9 +19,9 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mLoadingAnimator = mStatePatrolManager.LoadingAnimator;
-            mDetectorManager = mStatePatrolManager.DetectorManager;
-            mLoadingObject = mStatePatrolManager.Loading;
+            mLoadingAnimator = StateManager.LoadingAnimator;
+            mDetectorManager = StateManager.DetectorManager;
+            mLoadingObject = StateManager.Loading;
             //BYOS.Instance.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
 
             animator.SetBool("ChangeState", false);

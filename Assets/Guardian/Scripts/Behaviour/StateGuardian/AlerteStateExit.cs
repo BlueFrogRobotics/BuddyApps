@@ -18,11 +18,11 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mBackgroundPrefab = mStatePatrolManager.BackgroundPrefab;
-            mHaloPrefab = mStatePatrolManager.HaloPrefab;
-            mBackgroundAnimator = mStatePatrolManager.BackgroundAnimator;
-            mHaloAnimator = mStatePatrolManager.HaloAnimator;
-            mObjectButtonAskPassword = mStatePatrolManager.ObjectButtonAskPassword;
+            mBackgroundPrefab = StateManager.BackgroundPrefab;
+            mHaloPrefab = StateManager.HaloPrefab;
+            mBackgroundAnimator = StateManager.BackgroundAnimator;
+            mHaloAnimator = StateManager.HaloAnimator;
+            mObjectButtonAskPassword = StateManager.ObjectButtonAskPassword;
 
             animator.SetBool("ChangeState", false);
             mButtonPassword = mObjectButtonAskPassword.GetComponentInChildren<Button>();

@@ -29,6 +29,7 @@ namespace BuddyApp.Guardian
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             InitLink();
+            SetWindowAppOverBuddyColor(1);
 
             //ParametersGuardian lParamGuardian = mParameterObject.GetComponent<ParametersGuardian>();
             mPassword = mParameters.Password.text;
@@ -73,6 +74,7 @@ namespace BuddyApp.Guardian
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            SetWindowAppOverBuddyColor(0);
             mAnimator.SetBool("PasswordTrue", false);
             mAnimator.SetBool("ChangeState", false);
             mObjectPasswordWriter.SetActive(false);
@@ -111,17 +113,17 @@ namespace BuddyApp.Guardian
 
         private void InitLink()
         {
-            mObjectPasswordWriter = mStatePatrolManager.ObjectPasswordWriter;
-            mBackgroundPrefab = mStatePatrolManager.BackgroundPrefab;
-            mParameters = mStatePatrolManager.Parameters;
-            mBackgroundAnimator = mStatePatrolManager.BackgroundAnimator;
-            mButtonValidate = mStatePatrolManager.ButtonValidatePassword;
-            mButtonCancel = mStatePatrolManager.ButtonCancelPassword;
-            mHaloPrefab = mStatePatrolManager.HaloPrefab;
-            mHaloAnimator = mStatePatrolManager.HaloAnimator;
-            mIcoMessage = mStatePatrolManager.IcoMessage;
-            mMessage = mStatePatrolManager.MessageText;
-            mHaloImages = mStatePatrolManager.HaloImages;
+            mObjectPasswordWriter = StateManager.ObjectPasswordWriter;
+            mBackgroundPrefab = StateManager.BackgroundPrefab;
+            mParameters = StateManager.Parameters;
+            mBackgroundAnimator = StateManager.BackgroundAnimator;
+            mButtonValidate = StateManager.ButtonValidatePassword;
+            mButtonCancel = StateManager.ButtonCancelPassword;
+            mHaloPrefab = StateManager.HaloPrefab;
+            mHaloAnimator = StateManager.HaloAnimator;
+            mIcoMessage = StateManager.IcoMessage;
+            mMessage = StateManager.MessageText;
+            mHaloImages = StateManager.HaloImages;
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

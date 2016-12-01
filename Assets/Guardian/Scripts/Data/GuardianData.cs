@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BuddyOS;
+using BuddyOS.App;
 
 namespace BuddyApp.Guardian
 {

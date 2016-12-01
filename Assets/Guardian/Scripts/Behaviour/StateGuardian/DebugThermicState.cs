@@ -12,7 +12,8 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mShowTemperature = mStatePatrolManager.ShowTemperature;
+            SetWindowAppOverBuddyColor(0);
+            mShowTemperature = StateManager.ShowTemperature;
             mShowTemperature.gameObject.SetActive(true);
             mAnimator = animator;
             mShowTemperature.mButtonBack.onClick.AddListener(GoBack);
