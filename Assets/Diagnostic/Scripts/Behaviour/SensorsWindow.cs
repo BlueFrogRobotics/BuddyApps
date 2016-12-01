@@ -68,16 +68,16 @@ namespace BuddyApp.Diagnostic
             leftUSError.text = "" + mLeftUSSensor.Error;
             rightUSError.text = "" + mRightUSSensor.Error;
             backUSError.text = "" + mBackUSSensor.Error;
-            leftUSValue.text = "" + mLeftUSSensor.Value;
-            rightUSValue.text = "" + mRightUSSensor.Value;
-            backUSValue.text = "" + mBackUSSensor.Value;
+            leftUSValue.text = "" + mLeftUSSensor.Distance;
+            rightUSValue.text = "" + mRightUSSensor.Distance;
+            backUSValue.text = "" + mBackUSSensor.Distance;
 
             leftIRError.text = "" + mLeftIRSensor.Error;
             middleIRError.text = "" + mMiddleIRSensor.Error;
             rightIRError.text = "" + mRightIRSensor.Error;
-            leftIRValue.text = "" + mLeftIRSensor.Value;
-            middleIRValue.text = "" + mMiddleIRSensor.Value;
-            rightIRValue.text = "" + mRightIRSensor.Value;
+            leftIRValue.text = "" + mLeftIRSensor.Distance;
+            middleIRValue.text = "" + mMiddleIRSensor.Distance;
+            rightIRValue.text = "" + mRightIRSensor.Distance;
         }
     }
 }
