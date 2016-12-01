@@ -8,11 +8,14 @@ namespace BuddyApp.Remote
     {
         [Range(1, 100)]
         public int mCompressQuality;
+
         [Range(5, 30)]
         public float mRequestedFPS;
-        private float mLastTime;
+
         [SerializeField]
         private OTONetwork OTO;
+
+        private float mLastTime;
         private WebcamManager mWebcam;
         private MatOfByte mBuffer;
 

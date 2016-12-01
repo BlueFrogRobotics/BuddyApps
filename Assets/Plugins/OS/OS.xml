@@ -1293,6 +1293,21 @@
             Simple access to tablet parameters
             </summary>
         </member>
+        <member name="F:BuddyOS.App.AStateMachineBehaviour.mVocalActivation">
+            <summary>
+            Vocal activation wrapper for Sphinx/STT facilities
+            </summary>
+        </member>
+        <member name="F:BuddyOS.App.AStateMachineBehaviour.mDictionary">
+            <summary>
+            The current language dictionnary
+            </summary>
+        </member>
+        <member name="F:BuddyOS.App.AStateMachineBehaviour.mNotification">
+            <summary>
+            Notification will be printed at the screen top
+            </summary>
+        </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.OnStateEnter(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
             <summary>
             Method called when the current execution switch to the current state.
@@ -1577,7 +1592,12 @@
         </member>
         <member name="P:BuddyOS.BYOS.Geolocation">
             <summary>
-            Geolocation allow you to know the robot current position
+            Geolocation allows you to know the robot current position
+            </summary>
+        </member>
+        <member name="P:BuddyOS.BYOS.Notification">
+            <summary>
+            Notifications are displayed on the screen top for misc info
             </summary>
         </member>
         <member name="P:BuddyOS.BYOS.FontManager">
@@ -1588,6 +1608,11 @@
         <member name="P:BuddyOS.BYOS.SpriteManager">
             <summary>
             Use this to (un)load specific atlas
+            </summary>
+        </member>
+        <member name="P:BuddyOS.BYOS.Dictionary">
+            <summary>
+            Hosts all global_keyword -> currentlanguage_word matchings
             </summary>
         </member>
         <member name="P:BuddyOS.BYOS.Face">
@@ -2395,7 +2420,7 @@
         </member>
         <member name="T:BuddyOS.Command.StartWifiScanCmd">
             <summary>
-            Starts a Wifi Scan
+            When executed : Starts a Wifi Scan
             </summary>
         </member>
         <member name="M:BuddyOS.Command.StartWifiScanCmd.ExecuteImpl">
@@ -2891,6 +2916,32 @@
             Time when the geolocation was taken in seconds from 1970
             </summary>
         </member>
+        <member name="T:BuddyOS.Lang.Dictionary">
+            <summary>
+            Hosts all global_keyword -> currentlanguage_word matchings
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Lang.Dictionary.AddWordsToDictionary(Language,System.String)">
+            <summary>
+            Add dictionary in given folder to the dictionary of the given language
+            </summary>
+            <param name="iLanguage">Language to fill</param>
+            <param name="iFilePath">The directioary to load</param>
+        </member>
+        <member name="M:BuddyOS.Lang.Dictionary.AddWordsToDictionary(Language,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Add input dictionary to the dictionary of the given language
+            </summary>
+            <param name="iLanguage">Language to fill</param>
+            <param name="iNewWords">The dictionary to add</param>
+        </member>
+        <member name="M:BuddyOS.Lang.Dictionary.WordFromKey(System.String)">
+            <summary>
+            Retrieve the corresponding word from the input key word
+            </summary>
+            <param name="iKey">The key word corresponding to the wished word</param>
+            <returns>The word in the current language</returns>
+        </member>
         <member name="T:BuddyOS.System.GarbageManager">
             <summary>
             Unloads unused assets, detects zombie scene and close them
@@ -3008,6 +3059,39 @@
         <member name="T:BuddyOS.UI.FrontPanel">
             <summary>
             Modal window
+            </summary>
+        </member>
+        <member name="T:BuddyOS.UI.Notification">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Notification.Display(System.String,System.Single)">
+            <summary>
+            Display a notification with the specified content for a limited time
+            </summary>
+            <param name="iContent">The content</param>
+            <param name="iTimer">Time to display</param>
+        </member>
+        <member name="M:BuddyOS.UI.Notification.Display(System.String,UnityEngine.Sprite,UnityEngine.Color32,System.Single)">
+            <summary>
+            Display a notification with the specified content for a limited time
+            </summary>
+            <param name="iContent">The content</param>
+            <param name="iSprite">the sprite of the icon</param>
+            <param name="iColor">The background color if the icon</param>
+            <param name="iTimer">Time to display</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:BuddyOS.UI.Notification.Display(System.String,System.String,UnityEngine.Sprite,UnityEngine.Color32,System.Action,System.Single)" -->
+        <!-- Badly formed XML comment ignored for member "M:BuddyOS.UI.Notification.Display(System.String,System.String,UnityEngine.Sprite,UnityEngine.Color32,System.Action,System.Action,System.Single)" -->
+        <member name="M:BuddyOS.UI.Notification.Cancel">
+            <summary>
+            Call cancel and hide the notification
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Notification.Validate">
+            <summary>
+            Call validate and hide the notification
             </summary>
         </member>
         <member name="T:BuddyOS.UI.FontManager">
@@ -3141,6 +3225,11 @@
         <member name="F:BuddyOS.UI.AWidget.DEFAULT_INT">
             <summary>
             Default int
+            </summary>
+        </member>
+        <member name="F:BuddyOS.UI.AWidget.mDictionnary">
+            <summary>
+            Dictionnary to retrieve word in the current language
             </summary>
         </member>
         <member name="M:BuddyOS.UI.AWidget.IsEmpty">
@@ -3406,6 +3495,11 @@
         <member name="F:BuddyOS.UI.AWindowLayout.TENTH_LINE">
             <summary>
             Menu tenth line index
+            </summary>
+        </member>
+        <member name="F:BuddyOS.UI.AWindowLayout.mDictionnary">
+            <summary>
+            Dictionnary to retrieve word in the current language
             </summary>
         </member>
         <member name="P:BuddyOS.UI.AWindowLayout.Title">
