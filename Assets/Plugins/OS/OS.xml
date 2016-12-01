@@ -1566,6 +1566,11 @@
             Can be setted by using LoadAppBySceneCmd or LoadAppByVocalCmd
             </summary>
         </member>
+        <member name="M:BuddyOS.App.AppManager.Quit">
+            <summary>
+            Quit the current app and load the default app
+            </summary>
+        </member>
         <member name="T:BuddyOS.BYOS">
             <summary>
             Core the BuddY Operating System (BYOS).
@@ -1611,6 +1616,11 @@
         <member name="P:BuddyOS.BYOS.Geolocation">
             <summary>
             Geolocation allows you to know the robot current position
+            </summary>
+        </member>
+        <member name="P:BuddyOS.BYOS.NotManager">
+            <summary>
+            Notifications are displayed on the screen top for misc info
             </summary>
         </member>
         <member name="P:BuddyOS.BYOS.FontManager">
@@ -3106,39 +3116,6 @@
             Modal window
             </summary>
         </member>
-        <member name="T:BuddyOS.UI.Notification">
-            <summary>
-            Display a notification on the Top of the robot screen
-            </summary>
-        </member>
-        <member name="M:BuddyOS.UI.Notification.Display(System.String,System.Single)">
-            <summary>
-            Display a notification with the specified content for a limited time
-            </summary>
-            <param name="iContent">The content</param>
-            <param name="iTimer">Time to display</param>
-        </member>
-        <member name="M:BuddyOS.UI.Notification.Display(System.String,UnityEngine.Sprite,UnityEngine.Color32,System.Single)">
-            <summary>
-            Display a notification with the specified content for a limited time
-            </summary>
-            <param name="iContent">The content</param>
-            <param name="iSprite">the sprite of the icon</param>
-            <param name="iColor">The background color if the icon</param>
-            <param name="iTimer">Time to display</param>
-        </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BuddyOS.UI.Notification.Display(System.String,System.String,UnityEngine.Sprite,UnityEngine.Color32,System.Action,System.Single)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BuddyOS.UI.Notification.Display(System.String,System.String,UnityEngine.Sprite,UnityEngine.Color32,System.Action,System.Action,System.Single)" -->
-        <member name="M:BuddyOS.UI.Notification.Cancel">
-            <summary>
-            Call cancel and hide the notification
-            </summary>
-        </member>
-        <member name="M:BuddyOS.UI.Notification.Validate">
-            <summary>
-            Call validate and hide the notification
-            </summary>
-        </member>
         <member name="T:BuddyOS.UI.FontManager">
             <summary>
             Font tool for (un)load fonts
@@ -3704,6 +3681,46 @@
         <member name="M:BuddyOS.UI.WindowPanelWrapper.UpdateWindowInfo">
             <summary>
             Just update display info
+            </summary>
+        </member>
+        <member name="T:BuddyOS.TimerNot">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.ValidationNot">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.MeteoNot">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.ConfirmationNot">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.MessageNot">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.SimpleNot">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.ANotification">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.NotificationManager">
+            <summary>
+            Display a notification on the Top of the robot screen
             </summary>
         </member>
         <member name="T:BuddyOS.VocalActivation">

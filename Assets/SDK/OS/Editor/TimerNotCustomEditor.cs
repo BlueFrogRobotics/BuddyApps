@@ -6,8 +6,8 @@ namespace BuddyOS.UI
 #if UNITY_EDITOR
     using UnityEditor;
 
-    [CustomEditor(typeof(NotificationManager))]
-    public class NotificationCustomEditor : Editor
+    [CustomEditor(typeof(TimerNot))]
+    public class TimerNotCustomEditor : Editor
     {
         public override void OnInspectorGUI()
         {
