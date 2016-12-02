@@ -14,9 +14,10 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(ThermalDetector))]
     [RequireComponent(typeof(USDetector))]
     [RequireComponent(typeof(VocalChat))]
+    [RequireComponent(typeof(BuddyFaceDetector))]
     public class BehaviorManager : MonoBehaviour
     {
-        private Stack<Action> mActionStack;
+        private BuddyFaceDetector mBuddyFaceDetector;
         private CliffDetector mCliffDetector;
         private FaceDetector mFaceDetector;
         private IRDetector mIRDetector;
@@ -26,9 +27,16 @@ namespace BuddyApp.Companion
         private USDetector mUSDetector;
         private VocalChat mVocalChat;
 
+        private bool mActionInProgress;
+        private Stack<Action> mActionStack;
+        private Action mCurrentAction;
+        private VocalActivation mVocalActivation;
+
         void Start()
         {
+            mCurrentAction = null;
             mActionStack = new Stack<Action>();
+            mBuddyFaceDetector = GetComponent<BuddyFaceDetector>();
             mCliffDetector = GetComponent<CliffDetector>();
             mFaceDetector = GetComponent<FaceDetector>();
             mIRDetector = GetComponent<IRDetector>();
@@ -38,25 +46,58 @@ namespace BuddyApp.Companion
             mUSDetector = GetComponent<USDetector>();
             mVocalChat = GetComponent<VocalChat>();
 
-            mReaction.ActionFinished = PopHead;
+            mActionInProgress = false;
+            //mReaction.ActionFinished = PopHead;
+            mReaction.ActionFinished = OnActionFinished;
             mVocalChat.OnQuestionTypeFound = SortQuestionType;
         }
 
         void Update()
         {
-            //if (mThermalDetector.ThermalDetected)
-            //    mActionStack.Push(mReaction.HelloReaction);
+            if (mThermalDetector.ThermalDetected)
+                PushInStack(mReaction.StepBackHelloReaction);
+
+            //if (mIRDetector.IRDetected || mUSDetector.USFrontDetected)
+            //    mReaction.StopWheels();
+
             if (mSpeechDetector.SomeoneTalkingDetected)
                 Debug.Log("Someone started to talk !");
+
+            if (mBuddyFaceDetector.FaceSmashed)
+                PushInStack(mReaction.Pout);
+
+            Behave();
+        }
+
+        private void OnActionFinished()
+        {
+            Debug.Log("Current reaction is finished");
+            mCurrentAction = null;
+            mActionInProgress = false;
+        }
+
+        private void Behave()
+        {
+            if(!mActionInProgress && mActionStack.Count != 0) {
+                mActionInProgress = true;
+                mCurrentAction = mActionStack.Pop();
+                mCurrentAction.Invoke();
+            }
         }
 
         private void PushInStack(Action iAction)
         {
+            if(iAction == mCurrentAction)
+            {
+                Debug.Log("Tried to insert same action. Will break");
+                return;
+            }
             foreach (Action lStackAction in mActionStack)
             {
                 if (lStackAction == iAction)
-                    break;
+                    return;
             }
+            Debug.Log("Inserted new Action " + iAction.Method.Name);
             mActionStack.Push(iAction);
         }
         
