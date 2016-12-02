@@ -15,7 +15,7 @@ namespace BuddyApp.Basic
             GaugeOnOff lGaugeValOne = AddWidget<GaugeOnOff>(FIRST_LINE);
             SearchField lSearchFieldValTwo = AddWidget<SearchField>(SECOND_LINE);
             Button lQuitButton = AddWidget<Button>(THIRD_LINE);
-
+			Dropdown lDropdown = AddWidget<Dropdown> (FOURTH_LINE);
             /*
              * Set widgets parameters
              */

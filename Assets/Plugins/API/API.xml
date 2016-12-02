@@ -49,175 +49,10 @@
             The yes axe
             </summary>
         </member>
-        <member name="T:BuddyAPI.AAnimFaceManager">
-            <summary>
-            Abstract class defining the methods to control a classic animator.
-            </summary>
-        </member>
-        <member name="F:BuddyAPI.AAnimFaceManager.mAnimator">
-            <summary>
-            Reference to the animator which controls the face.
-            </summary>
-        </member>
-        <member name="M:BuddyAPI.AAnimFaceManager.SetMood(FaceMood)">
-            <summary>
-            Commands the face to switch to the mood defined as a string.
-            </summary>
-            <remarks>
-            The string must be exactly the right name of the wanted mood.
-            Then you can write "Neutral", "Sad" ...
-            </remarks>
-            <param name="iMood">The name of the mood to switch to</param>
-        </member>
-        <member name="M:BuddyAPI.AAnimFaceManager.SetEvent(FaceEvent)">
-            <summary>
-            Commands the face to play the event defined as a string.
-            </summary>
-            <remarks>
-            The string must be exactly the right name of the wanted event.
-            Then you can write "Blink", "Sigh", ...
-            </remarks>
-            <param name="iEvent">The name of the event to play</param>
-        </member>
-        <member name="M:BuddyAPI.AAnimFaceManager.Speak(System.Boolean)">
-            <summary>
-            Indicates the face to simulate a speech with a motion of the mouth. There is a variable delay between the command and the actual action.
-            </summary>
-            <remarks>
-            See the accessor "IsSpeaking" to know when the mouth responded to the command.
-            </remarks>
-            <param name="iValue">True to command the speech simulation</param>
-        </member>
-        <member name="P:BuddyAPI.AAnimFaceManager.IsSpeaking">
-            <summary>
-            Indicates if the mouth is currently simulating a speech. 
-            </summary>
-            <remarks>
-            There is a variable delay between the command sent to the face and the actual motion of the mouth. This accessor allows you to know when this delay is over.
-            See the method "Speak" to send an order.
-            </remarks>
-        </member>
-        <member name="P:BuddyAPI.AAnimFaceManager.IsStable">
-            <summary>
-            Indicates if the animator is in a state considered as "stable".
-            </summary>
-            <remarks>
-            A stable state is a state which can directly transit to another stable state or a speak state or an event.
-            </remarks>
-        </member>
-        <member name="T:BuddyAPI.FaceManager">
+        <member name="T:BuddyAPI.RegularFace">
             <summary>
             Class which includes the speficities of the animator for the regular face and provides every methods to control it.
             </summary>
-        </member>
-        <member name="M:BuddyAPI.FaceManager.SetMood(FaceMood)">
-            <summary>
-            Commands the face to switch to the mood defined in a string.
-            </summary>
-            <remarks>
-            The string must be exactly the right name of the wanted mood.
-            Then you can write "Neutral", "Sad" ...
-            </remarks>
-            <param name="iMood">The name of the mood to switch to</param>
-        </member>
-        <member name="M:BuddyAPI.FaceManager.SetEvent(FaceEvent)">
-            <summary>
-            Commands the face to play the event defined in a string.
-            </summary>
-            <param name="iEvent">The name of the event to play</param>
-        </member>
-        <member name="M:BuddyAPI.FaceManager.Speak(System.Boolean)">
-            <summary>
-            Indicates the face to simulate a speech with a motion of the mouth.
-            </summary>
-            <remarks>
-            There is a variable delay between the command and the actual action.
-            See the accessor "IsSpeaking" to know when the mouth responded to the command.
-            </remarks>
-            <param name="iValue">True to command the speech simulation</param>
-        </member>
-        <member name="P:BuddyAPI.FaceManager.IsSpeaking">
-            <summary>
-            Indicates if the mouth is currently simulating a speech. 
-            </summary>
-            <remarks>
-            There is a variable delay between the command sent to the face and the actual motion of the mouth. This accessor allows you to know when this delay is over.
-            See the method "Speak" to send an order.
-            </remarks>
-        </member>
-        <member name="P:BuddyAPI.FaceManager.IsStable">
-            <summary>
-            Indicates if the animator is in a state considered as "stable".
-            </summary>
-            <remarks>
-            A stable state is a state which can directly transit to another stable state or a speak state or an event.
-            </remarks>
-        </member>
-        <member name="T:BuddyAPI.GlobalBehaviour">
-            <summary>
-            Script used at the top of the animator for the regular face of Buddy.
-            </summary>
-            <remarks>
-            Used to centralize data from the animator.
-            </remarks>
-        </member>
-        <member name="P:BuddyAPI.GlobalBehaviour.IsSpeaking">
-            <summary>
-            Accessor used to know if the animator is currently in a speak state.
-            </summary>
-        </member>
-        <member name="P:BuddyAPI.GlobalBehaviour.IsStable">
-            <summary>
-            Accessor to know if the current state is considered as "stable".
-            </summary>
-            <remarks>
-            A stable state is a state which can directly transit to another stable state or a "speak" state or an event.
-            </remarks>
-        </member>
-        <member name="T:BuddyAPI.IdleBehaviour">
-            <summary>
-            Script for the Idle states inside the animator for the regular face of buddy.
-            </summary>
-            <remarks>
-            Defines the properties of the state.
-            </remarks>
-        </member>
-        <member name="M:BuddyAPI.IdleBehaviour.OnStateEnter(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
-            <summary>
-            OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-            </summary>
-            <param name="iAnimator">Reference of the control animator</param>
-            <param name="iStateInfo">Reference of the enter state</param>
-            <param name="iLayerIndex">ID of the Layer</param>
-        </member>
-        <member name="M:BuddyAPI.IdleBehaviour.OnStateExit(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
-            <summary>
-            OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-            </summary>
-            <param name="iAnimator">Reference of the control animator</param>
-            <param name="iStateInfo">Reference of the Exit state</param>
-            <param name="iLayerIndex">ID of the Layer</param>
-        </member>
-        <member name="T:BuddyAPI.SpeakBehaviour">
-            <summary>
-            Script to define which states are "speak" state in the animator of the regular face of Buddy.
-            </summary>
-        </member>
-        <member name="M:BuddyAPI.SpeakBehaviour.OnStateEnter(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
-            <summary>
-            OnStateExit is called when a transition ends and the state machine finishes evaluating this state.
-            </summary>
-            <param name="iAnimator">Reference of the control animator</param>
-            <param name="iStateInfo">Reference of the Enter state</param>
-            <param name="iLayerIndex">ID of the Layer</param>
-        </member>
-        <member name="M:BuddyAPI.SpeakBehaviour.OnStateExit(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
-            <summary>
-            OnStateExit is called when a transition ends and the state machine finishes evaluating this state.
-            </summary>
-            <param name="iAnimator">Reference of the control animator</param>
-            <param name="iStateInfo">Reference of the Exit state</param>
-            <param name="iLayerIndex">ID of the Layer</param>
         </member>
         <member name="M:BuddyAPI.KittAITrigger.LaunchRecognition">
             <summary>
@@ -1242,7 +1077,7 @@
             Called once at the start.
             </summary>
         </member>
-        <member name="M:BuddyAPI.LED.SetBodyLight(MoodColor)">
+        <member name="M:BuddyAPI.LED.SetBodyLight(LEDColor)">
             <summary>
             Set the body light based on the mood.
             </summary>
@@ -2657,63 +2492,64 @@
             Back left position
             </summary>
         </member>
-        <member name="T:MoodColor">
+        <member name="T:LEDColor">
             <summary>
             Color enumeration corresponding to the mood of the robot.
             Can be easily combine with de Face.SetMood(FaceMood) component.
             </summary>
         </member>
-        <member name="F:MoodColor.RED_ANGRY">
+        <member name="F:LEDColor.RED_ANGRY">
             <summary>
             Will set the LED in red
             </summary>
         </member>
-        <member name="F:MoodColor.PURPLE_GRUMPY">
+        <member name="F:LEDColor.PURPLE_GRUMPY">
             <summary>
             Will set the LED in soft purple
             </summary>
         </member>
-        <member name="F:MoodColor.ORANGE_HAPPY">
+        <member name="F:LEDColor.ORANGE_HAPPY">
             <summary>
             Will set the LED in orange
             </summary>
         </member>
-        <member name="F:MoodColor.BLUE_LISTENING">
+        <member name="F:LEDColor.BLUE_LISTENING">
             <summary>
             Will set the LED in hard blue
             </summary>
         </member>
-        <member name="F:MoodColor.BLUE_NEUTRAL">
+        <member name="F:LEDColor.BLUE_NEUTRAL">
             <summary>
             Will set the LED in soft blue
             </summary>
         </member>
-        <member name="F:MoodColor.PURPLE_SAD">
+        <member name="F:LEDColor.PURPLE_SAD">
             <summary>
             Will set the LED in hard purple
             </summary>
         </member>
-        <member name="F:MoodColor.GREEN_SCARY">
+        <member name="F:LEDColor.ORANGE_SCARY">
             <summary>
-            Will set the LED in hard green
+            Will set the LED in hard orange
             </summary>
+            
         </member>
-        <member name="F:MoodColor.GREEN_SICK">
+        <member name="F:LEDColor.GREEN_SICK">
             <summary>
             Will set the LED in soft green
             </summary>
         </member>
-        <member name="F:MoodColor.YELLOW_SURPRISED">
+        <member name="F:LEDColor.YELLOW_SURPRISED">
             <summary>
             Will set the LED in hard yellow
             </summary>
         </member>
-        <member name="F:MoodColor.ROSE_THINKING">
+        <member name="F:LEDColor.GREEN_THINKING">
             <summary>
-            Will set the LED in pink
+            Will set the LED in green
             </summary>
         </member>
-        <member name="F:MoodColor.GREY_TIRED">
+        <member name="F:LEDColor.GREY_TIRED">
             <summary>
             Will set the LED in grey
             </summary>
@@ -2758,84 +2594,134 @@
             Short distance, use this for close interaction purpose
             </summary>
         </member>
-        <member name="T:FaceEvent">
+        <member name="T:MouthEvent">
             <summary>
-            Event that Buddy face can handle
+            Mouth events that Buddy face can handle
             </summary>
         </member>
-        <member name="F:FaceEvent.BLINK">
-            <summary>
-            Make the face blinking
-            </summary>
-        </member>
-        <member name="F:FaceEvent.SIGH">
-            <summary>
-            Make the face sighing
-            </summary>
-        </member>
-        <member name="F:FaceEvent.SMILE">
+        <member name="F:MouthEvent.SMILE">
             <summary>
             Make the face smiling
             </summary>
         </member>
-        <member name="F:FaceEvent.LOOK_RIGHT">
-            <summary>
-            Make the looking to the right 
-            </summary>
-        </member>
-        <member name="F:FaceEvent.LOOK_LEFT">
-            <summary>
-            Make the face looking to the left
-            </summary>
-        </member>
-        <member name="F:FaceEvent.BLINK_RIGHT">
-            <summary>
-            Make the face blinking the right eye
-            </summary>
-        </member>
-        <member name="F:FaceEvent.REFLECT">
-            <summary>
-            Make the face thinking
-            </summary>
-        </member>
-        <member name="F:FaceEvent.YAWN">
+        <member name="F:MouthEvent.YAWN">
             <summary>
             Make the face yawing
             </summary>
         </member>
-        <member name="F:FaceEvent.LAUGHT">
-            <summary>
-            Make the face laughting
-            </summary>
-        </member>
-        <member name="F:FaceEvent.LOOK">
-            <summary>
-            Make the face has a look
-            </summary>
-        </member>
-        <member name="F:FaceEvent.SWALLOW">
-            <summary>
-            Make the face swallowing
-            </summary>
-        </member>
-        <member name="F:FaceEvent.SCREAM">
+        <member name="F:MouthEvent.SCREAM">
             <summary>
             Make the face screaming like a barbarian
             </summary>
         </member>
-        <member name="F:FaceEvent.TONGUE">
+        <member name="T:EyeEvent">
             <summary>
-            Make the face show its nice tongue
+            Eye event concerning Buddy face
             </summary>
         </member>
-        <member name="F:FaceEvent.SHIVERS">
+        <member name="F:EyeEvent.BLINK_RIGHT">
             <summary>
-            Make the face shivering
+            Make the face blinking the right eye
+            </summary>
+        </member>
+        <member name="F:EyeEvent.BLINK_LEFT">
+            <summary>
+            Make the face blinking the left eye
+            </summary>
+        </member>
+        <member name="F:EyeEvent.BLINK_DOUBLE">
+            <summary>
+            Make the face blinking both eyes
+            </summary>
+        </member>
+        <member name="T:FaceLookAt">
+            <summary>
+            Facility enum for face LookAt() method
+            </summary>
+        </member>
+        <member name="F:FaceLookAt.CENTER">
+            <summary>
+            Look at center
+            </summary>
+        </member>
+        <member name="F:FaceLookAt.TOP_LEFT">
+            <summary>
+            Look at top left
+            </summary>
+        </member>
+        <member name="F:FaceLookAt.TOP_RIGHT">
+            <summary>
+            Look at top right
+            </summary>
+        </member>
+        <member name="F:FaceLookAt.BOTTOM_RIGHT">
+            <summary>
+            Look at bottom rigth
+            </summary>
+        </member>
+        <member name="F:FaceLookAt.BOTTOM_LEFT">
+            <summary>
+            Look at bottom left
             </summary>
         </member>
         <member name="T:FaceMood">
             <summary>
-            Represents face mode of Buddy
+            Represents different expression that Buddy can show
+            </summary>
+        </member>
+        <member name="F:FaceMood.NEUTRAL">
+            <summary>
+            Neutral
+            </summary>
+        </member>
+        <member name="F:FaceMood.ANGRY">
+            <summary>
+            Angry
+            </summary>
+        </member>
+        <member name="F:FaceMood.GRUMPY">
+            <summary>
+            Grumpy
+            </summary>
+        </member>
+        <member name="F:FaceMood.HAPPY">
+            <summary>
+            Happy
+            </summary>
+        </member>
+        <member name="F:FaceMood.LISTENING">
+            <summary>
+            Listening
+            </summary>
+        </member>
+        <member name="F:FaceMood.SAD">
+            <summary>
+            Sad
+            </summary>
+        </member>
+        <member name="F:FaceMood.SCARED">
+            <summary>
+            Scared
+            </summary>
+        </member>
+        <member name="F:FaceMood.SICK">
+            <summary>
+            Sick
+            </summary>
+        </member>
+        <member name="F:FaceMood.SURPRISED">
+            <summary>
+            Surprised
+            </summary>
+        </member>
+        <member name="F:FaceMood.THINKING">
+            <summary>
+            Thinking
+            </summary>
+        </member>
+        <member name="F:FaceMood.TIRED">
+            <summary>
+            Tired
             </summary>
         </member>
         <member name="T:IRPosition">
@@ -2860,7 +2746,7 @@
         </member>
         <member name="T:Language">
             <summary>
-            Language for Speech to text, text to speech and sphinx settings. Only FRA and ENG are currently manages
+            Language for Speech to text, text to speech and sphinx settings. Only FRA and ENG are currently managed
             </summary>
         </member>
         <member name="F:Language.ENG">

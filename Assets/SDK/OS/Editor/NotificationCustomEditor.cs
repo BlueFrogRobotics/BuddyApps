@@ -6,7 +6,7 @@ namespace BuddyOS.UI
 #if UNITY_EDITOR
     using UnityEditor;
 
-    [CustomEditor(typeof(Notification))]
+    [CustomEditor(typeof(NotificationManager))]
     public class NotificationCustomEditor : Editor
     {
         public override void OnInspectorGUI()

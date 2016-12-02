@@ -177,7 +177,7 @@ namespace BuddyApp.FreezeDance
         private IEnumerator SetFocus()
         {
             mIsOccupied = true;
-            mFace.SetMood(FaceMood.FOCUS);
+            mFace.SetMood(FaceMood.THINKING);
             mTTS.Say("Pourquoi tu ne bouge pas?");
             yield return new WaitForSeconds(2F);
             mIsOccupied = false;

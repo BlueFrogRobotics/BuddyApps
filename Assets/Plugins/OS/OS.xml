@@ -205,33 +205,51 @@
             If you use the Text to speech component, the robot face will automaticaly "talk".
             </summary>
         </member>
+        <member name="P:BuddyOS.Face.ClickedMouth">
+            <summary>
+            Does is mouth is touched by the user ?
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Face.ClickedLeftEye">
+            <summary>
+            Does the left eye is touched by the user ?
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Face.ClickedRightEye">
+            <summary>
+            Does the right eye is touched by the user ?
+            </summary>
+        </member>
         <member name="M:BuddyOS.Face.SetMood(FaceMood)">
             <summary>
-            Commands the face to switch to the specified mood.
+            Ask the face to switch to the specified mood.
             </summary>
             <param name="iMood">The name of the mood to switch to</param>
         </member>
-        <member name="M:BuddyOS.Face.SetEvent(FaceEvent)">
+        <member name="M:BuddyOS.Face.SetEyeEvent(EyeEvent)">
             <summary>
-            Commands the face to play the wanted event.
+            Buddy will make an eye event
             </summary>
-            <param name="iEvent">The name of the event to play</param>
+            <param name="iEvent">The eye event</param>
         </member>
-        <member name="P:BuddyOS.Face.IsSpeaking">
+        <member name="M:BuddyOS.Face.SetMouthEvent(MouthEvent)">
             <summary>
-            Indicates if the mouth is currently simulating a speech. 
+            Buddy will make a mouth event. Last until MouthEvent.NONE or speak
             </summary>
-            <remarks>
-            There is a variable delay between the command sent to the face and the actual motion of the mouth. This accessor allows you to know when this delay is over.
-            </remarks>
+            <param name="iEvent">The mouth event</param>
         </member>
-        <member name="P:BuddyOS.Face.IsStable">
+        <member name="M:BuddyOS.Face.LookAt(System.Int32,System.Int32)">
             <summary>
-            Indicates if the animator is in a state considered as "stable".
+            Look at the specified location (bottom left => 0, 0)
             </summary>
-            <remarks>
-            A stable state is a state which can directly transit to another stable state or a speak state or an event.
-            </remarks>
+            <param name="iX">X coordinate, max val = Screen.width</param>
+            <param name="iY">Y coordinate, max val = Screen.height</param>
+        </member>
+        <member name="M:BuddyOS.Face.LookAt(FaceLookAt)">
+            <summary>
+            Facility to LookAt(X, Y) method
+            </summary>
+            <param name="iLookAt">The location to look at</param>
         </member>
         <member name="T:BuddyOS.IRSensor">
             <summary>
@@ -301,7 +319,7 @@
             the right arm base light and the robot heart light.
             </summary>
         </member>
-        <member name="M:BuddyOS.LED.SetBodyLight(MoodColor)">
+        <member name="M:BuddyOS.LED.SetBodyLight(LEDColor)">
             <summary>
             Set the body light based on the mood.
             </summary>
@@ -1548,6 +1566,11 @@
             Can be setted by using LoadAppBySceneCmd or LoadAppByVocalCmd
             </summary>
         </member>
+        <member name="M:BuddyOS.App.AppManager.Quit">
+            <summary>
+            Quit the current app and load the default app
+            </summary>
+        </member>
         <member name="T:BuddyOS.BYOS">
             <summary>
             Core the BuddY Operating System (BYOS).
@@ -1595,7 +1618,7 @@
             Geolocation allows you to know the robot current position
             </summary>
         </member>
-        <member name="P:BuddyOS.BYOS.Notification">
+        <member name="P:BuddyOS.BYOS.NotManager">
             <summary>
             Notifications are displayed on the screen top for misc info
             </summary>
@@ -2010,18 +2033,50 @@
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:BuddyOS.Command.SetEvntFaceCmd">
+        <member name="T:BuddyOS.Command.LookAtCmd">
             <summary>
-            When executed : Opens the camera device. Should be called once by session.
+            When executed : The robot changes its mood
             </summary>
         </member>
-        <member name="M:BuddyOS.Command.SetEvntFaceCmd.#ctor(FaceEvent)">
+        <member name="M:BuddyOS.Command.LookAtCmd.#ctor(FaceLookAt)">
             <summary>
-            When executed : Opens the camera device. Should be called once by session.
+            When executed : The robot changes its mood
             </summary>
-            <param name="iMode">Mode of the camera</param>
+            <param name="iMode">The mood to switch to</param>
         </member>
-        <member name="M:BuddyOS.Command.SetEvntFaceCmd.ExecuteImpl">
+        <member name="M:BuddyOS.Command.LookAtCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.SetMouthEvntCmd">
+            <summary>
+            When executed : The robot executes a mouth event
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetMouthEvntCmd.#ctor(MouthEvent)">
+            <summary>
+            When executed : The robot executes an mouth event
+            </summary>
+            <param name="iMode">The mouth to trigger</param>
+        </member>
+        <member name="M:BuddyOS.Command.SetMouthEvntCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.SetEyeEvntCmd">
+            <summary>
+            When executed : The robot executes an eye event
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetEyeEvntCmd.#ctor(EyeEvent)">
+            <summary>
+            When executed : The robot executes an eye event
+            </summary>
+            <param name="iMode">The event to trigger</param>
+        </member>
+        <member name="M:BuddyOS.Command.SetEyeEvntCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -2127,32 +2182,32 @@
         </member>
         <member name="T:BuddyOS.Command.SetMoodFaceCmd">
             <summary>
-            When executed : Opens the camera device. Should be called once by session.
+            When executed : The robot changes its mood
             </summary>
         </member>
         <member name="M:BuddyOS.Command.SetMoodFaceCmd.#ctor(FaceMood)">
             <summary>
-            When executed : Opens the camera device. Should be called once by session.
+            When executed : The robot changes its mood
             </summary>
-            <param name="iMode">Mode of the camera</param>
+            <param name="iMode">The mood to switch to</param>
         </member>
         <member name="M:BuddyOS.Command.SetMoodFaceCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:BuddyOS.Command.SetMoodLEDCmd">
+        <member name="T:BuddyOS.Command.SetColorLEDCmd">
             <summary>
             When executed : Set the body light based on the mood.
             </summary>
         </member>
-        <member name="M:BuddyOS.Command.SetMoodLEDCmd.#ctor(MoodColor)">
+        <member name="M:BuddyOS.Command.SetColorLEDCmd.#ctor(LEDColor)">
             <summary>
             When executed : Set the body light based on the mood.
             </summary>
             <param name="iColor">Color coresponding to the mood</param>
         </member>
-        <member name="M:BuddyOS.Command.SetMoodLEDCmd.ExecuteImpl">
+        <member name="M:BuddyOS.Command.SetColorLEDCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -3061,39 +3116,6 @@
             Modal window
             </summary>
         </member>
-        <member name="T:BuddyOS.UI.Notification">
-            <summary>
-            Display a notification on the Top of the robot screen
-            </summary>
-        </member>
-        <member name="M:BuddyOS.UI.Notification.Display(System.String,System.Single)">
-            <summary>
-            Display a notification with the specified content for a limited time
-            </summary>
-            <param name="iContent">The content</param>
-            <param name="iTimer">Time to display</param>
-        </member>
-        <member name="M:BuddyOS.UI.Notification.Display(System.String,UnityEngine.Sprite,UnityEngine.Color32,System.Single)">
-            <summary>
-            Display a notification with the specified content for a limited time
-            </summary>
-            <param name="iContent">The content</param>
-            <param name="iSprite">the sprite of the icon</param>
-            <param name="iColor">The background color if the icon</param>
-            <param name="iTimer">Time to display</param>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:BuddyOS.UI.Notification.Display(System.String,System.String,UnityEngine.Sprite,UnityEngine.Color32,System.Action,System.Single)" -->
-        <!-- Badly formed XML comment ignored for member "M:BuddyOS.UI.Notification.Display(System.String,System.String,UnityEngine.Sprite,UnityEngine.Color32,System.Action,System.Action,System.Single)" -->
-        <member name="M:BuddyOS.UI.Notification.Cancel">
-            <summary>
-            Call cancel and hide the notification
-            </summary>
-        </member>
-        <member name="M:BuddyOS.UI.Notification.Validate">
-            <summary>
-            Call validate and hide the notification
-            </summary>
-        </member>
         <member name="T:BuddyOS.UI.FontManager">
             <summary>
             Font tool for (un)load fonts
@@ -3225,11 +3247,6 @@
         <member name="F:BuddyOS.UI.AWidget.DEFAULT_INT">
             <summary>
             Default int
-            </summary>
-        </member>
-        <member name="F:BuddyOS.UI.AWidget.mDictionnary">
-            <summary>
-            Dictionnary to retrieve word in the current language
             </summary>
         </member>
         <member name="M:BuddyOS.UI.AWidget.IsEmpty">
@@ -3497,11 +3514,6 @@
             Menu tenth line index
             </summary>
         </member>
-        <member name="F:BuddyOS.UI.AWindowLayout.mDictionnary">
-            <summary>
-            Dictionnary to retrieve word in the current language
-            </summary>
-        </member>
         <member name="P:BuddyOS.UI.AWindowLayout.Title">
             <summary>
             Title of the menu that will be displayed when the window is opened, mostly the app name will be setted automaticaly
@@ -3669,6 +3681,46 @@
         <member name="M:BuddyOS.UI.WindowPanelWrapper.UpdateWindowInfo">
             <summary>
             Just update display info
+            </summary>
+        </member>
+        <member name="T:BuddyOS.TimerNot">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.ValidationNot">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.MeteoNot">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.ConfirmationNot">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.MessageNot">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.SimpleNot">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.ANotification">
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="T:BuddyOS.NotificationManager">
+            <summary>
+            Display a notification on the Top of the robot screen
             </summary>
         </member>
         <member name="T:BuddyOS.VocalActivation">

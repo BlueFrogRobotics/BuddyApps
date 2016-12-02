@@ -6,7 +6,7 @@ namespace BuddyApp.Remote
     {
         public override void ReceiveData(byte[] iData, int iNbData)
         {
-            ACommand.Deserialize(iData).Execute();
+            //ACommand.Deserialize(iData).Execute();
         }
     }
 }
