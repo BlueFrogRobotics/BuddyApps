@@ -12,7 +12,7 @@ namespace BuddyApp.BabyPhone
     public class BabyPhone : MonoBehaviour
     {
         [SerializeField]
-        private List<GameObject> canvas = new List<GameObject>();
+        private List<GameObject> screen = new List<GameObject>();
 
         [SerializeField]
         private GameObject notifications;
@@ -97,32 +97,37 @@ namespace BuddyApp.BabyPhone
         {
             mTime += Time.deltaTime;
 
-            if ((mTime >= 4F) && (!mStartCaringBaby) && (!mSayTuto)) {
+            if ((mTime >= 4F) && (!mStartCaringBaby) && (!mSayTuto))
+            {
                 mTTS.Say("Place-moi à environ un maitre du lit du bébé, en orientant mon visage vers lui.");
                 mSayTuto = true;
             }
 
-            if ((mTime >= 4F) && (mTime <= 10F) && (!mStartCaringBaby)) {
-                canvas[0].SetActive(true);
-                canvas[1].SetActive(true);
+            if ((mTime >= 4F) && (mTime <= 10F) && (!mStartCaringBaby))
+            {
+                screen[0].SetActive(true);
+                screen[1].SetActive(true);
             }
 
-            if ((mTime > 10F) && (!mSayYesOrNo)) {
+            if ((mTime > 10F) && (!mSayYesOrNo))
+            {
                 mSayYesOrNo = true;
                 mTTS.Say("Veux-tu commencer la surveillance du bébé?");
-                canvas[2].SetActive(true);
+                screen[2].SetActive(true);
                 startWatching.SetTrigger("Open_WQuestion");
             }
 
-            if ((mTime > 10F) && (!mStartCaringBaby)) {
-                canvas[1].SetActive(false);
-                canvas[2].SetActive(true);
+            if ((mTime > 10F) && (!mStartCaringBaby))
+            {
+                screen[1].SetActive(false);
+                screen[2].SetActive(true);
             }
 
-            if (mStartCaringBaby) {
+            if (mStartCaringBaby)
+            {
                 mTime += Time.deltaTime;
-                canvas[2].SetActive(false);
-                canvas[3].SetActive(true);
+                screen[2].SetActive(false);
+                screen[3].SetActive(true);
                 if (mTime >= 2F)
                     notificationAmount.text = "4";
 
@@ -138,20 +143,24 @@ namespace BuddyApp.BabyPhone
                 if (mTime >= 10F)
                     notificationAmount.text = "0";
 
-                if (mTime >= 10.5F && !mIsBuddyListening) {
-                    canvas[3].SetActive(false);
-                    canvas[2].SetActive(false);
+                if (mTime >= 10.5F && !mIsBuddyListening)
+                {
+                    screen[2].SetActive(false);
+                    screen[3].SetActive(false);
                     BuddyListen();
                     mIsBuddyListening = true;
                 }
             }
 
-            if (mIsBuddyListening) {
+            if (mIsBuddyListening)
+            {
+                screen[3].SetActive(false);
                 mSound = mMicro.Loudness;
                 mMean += mSound;
                 mCount = mCount + 1;
 
-                if (mCount > 50F) {
+                if (mCount > 50F)
+                {
                     mMean = mMean / 50F;
                     if (mMean >= 0.1F)
                         mIsBabyCrying = true;
@@ -162,21 +171,30 @@ namespace BuddyApp.BabyPhone
                 }
             }
 
-            if ((mIsBabyCrying) && (mIsBuddyListening)) {
+            if ((mIsBabyCrying) && (mIsBuddyListening))
+            {
                 StartCoroutine(SetSadMood());
 
                 mCountNotification = mCountNotification + 1;
-                if (mCountNotification == 100) {
+                Debug.Log(mCountNotification);
+                if (mCountNotification == 100)
+                {
                     notifications.SetActive(true);
                     notificationAmount.text = "1";
                     StartCoroutine(SendMessage());
                 }
 
-                if ((mTime >= 300) && (mIsBuddyListening) && (!mIsBabyCrying)) {
+                if ((mTime >= 300) && (mIsBuddyListening) && (!mIsBabyCrying))
+                {
                     if (mSpeaker.isPlaying)
                         mSpeaker.Stop();
                 }
             }
+        }
+
+        public void Quit()
+        {
+            new BuddyOS.Command.HomeCmd().Execute();
         }
 
         /// <summary>
@@ -185,7 +203,6 @@ namespace BuddyApp.BabyPhone
         public void StartCaringBaby()
         {
             mStartCaringBaby = true;
-            mIsBuddyListening = false;
             mTime = 0;
             startWatching.SetTrigger("Close_WQuestion");
         }
@@ -193,9 +210,8 @@ namespace BuddyApp.BabyPhone
         private void BuddyListen()
         {
             StartCoroutine(SetListenMood());
-            if (!mSpeaker.isPlaying) {
+            if (!mSpeaker.isPlaying)
                 mSpeaker.Play();
-            }
         }
 
         private IEnumerator SetSadMood()
