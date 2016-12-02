@@ -9,16 +9,16 @@ namespace BuddyApp.Guardian
     {
 
         [SerializeField]
-        private Toggle toggleMovement;
+        private OnOff onOffMovement;
 
         [SerializeField]
-        private Toggle toggleSound;
+        private OnOff onOffSound;
 
         [SerializeField]
-        private Toggle toggleFire;
+        private OnOff onOffFire;
 
         [SerializeField]
-        private Toggle toggleKidnap;
+        private OnOff onOffKidnap;
 
         [SerializeField]
         private InputField password;
@@ -47,10 +47,13 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private UnityEngine.UI.Button buttonValidate;
 
-        public Toggle ToggleMovement { get { return toggleMovement; } }
-        public Toggle ToggleSound { get { return toggleSound; } }
-        public Toggle ToggleFire { get { return toggleFire; } }
-        public Toggle ToggleKidnap { get { return toggleKidnap; } }
+        [SerializeField]
+        private UnityEngine.UI.Button buttonBack;
+
+        public OnOff OnOffMovement { get { return onOffMovement; } }
+        public OnOff OnOffSound { get { return onOffSound; } }
+        public OnOff OnOffFire { get { return onOffFire; } }
+        public OnOff OnOffKidnap { get { return onOffKidnap; } }
         public InputField Password { get { return password; } }
 
         public Gauge GaugeMovement { get { return gaugeMovement; } }
@@ -63,6 +66,9 @@ namespace BuddyApp.Guardian
         public UnityEngine.UI.Button ButtonDebugTemperature { get { return buttonDebugTemperature; } }
 
         public UnityEngine.UI.Button ButtonValidate { get { return buttonValidate; } }
+        public UnityEngine.UI.Button ButtonBack { get { return buttonBack; } }
+
+        private bool mHasInitCommands=false;
 
 
         // Use this for initialization
@@ -72,12 +78,30 @@ namespace BuddyApp.Guardian
             gaugeKidnap.DisplayPercentage = true;
             gaugeMovement.DisplayPercentage = true;
             gaugeSound.DisplayPercentage = true;
+            
         }
 
         // Update is called once per frame
         void Update()
         {
+            if(!mHasInitCommands)
+            {
+                mHasInitCommands = true;
+                onOffFire.OnCommands.Add(new ActFireDetectionCmd());
+                onOffFire.OffCommands.Add(new DsactFireDetectionCmd());
+                onOffMovement.OnCommands.Add(new ActMovementDetectionCmd());
+                onOffMovement.OffCommands.Add(new DsactMovementDetectionCmd());
+                onOffKidnap.OnCommands.Add(new ActKidnappingDetectionCmd());
+                onOffKidnap.OffCommands.Add(new DsactKidnappingDetectionCmd());
+                
+            }
+        }
 
+        void OnEnable()
+        {
+            GuardianData.Instance.FireDetectionIsActive = onOffFire.IsActive;
+            GuardianData.Instance.MovementDetectionIsActive = onOffMovement.IsActive;
+            GuardianData.Instance.KidnappingDetectionIsActive = onOffKidnap.IsActive;
         }
     }
 }

@@ -167,7 +167,9 @@ namespace BuddyApp.Guardian
         // Update is called once per frame
         void Update()
         {
-            //Debug.Log("is active: "+mGuardianData.FireDetectionIsActive);
+            GuardianData mGuardianData;
+            mGuardianData = GuardianData.Instance;
+            Debug.Log("is active: "+mGuardianData.FireDetectionIsActive);
         }
 
         void OnEnable()
