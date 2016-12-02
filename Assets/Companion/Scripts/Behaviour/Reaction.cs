@@ -44,15 +44,15 @@ namespace BuddyApp.Companion
 
         public IEnumerator PoutCo()
         {
-            new SetMoodFaceCmd(FaceMood.ANGRY).Execute();
+            new SetMoodFaceCmd(MoodType.ANGRY).Execute();
             new SetWheelsSpeedCmd(200F, -200F, 90).Execute();
             yield return new WaitForSeconds(5F);
 
-            new SetMoodFaceCmd(FaceMood.GRUMPY).Execute();
+            new SetMoodFaceCmd(MoodType.GRUMPY).Execute();
             new SetWheelsSpeedCmd(200F, 200F, 600).Execute();
             yield return new WaitForSeconds(5F);
 
-            new SetMoodFaceCmd(FaceMood.NEUTRAL).Execute();
+            new SetMoodFaceCmd(MoodType.NEUTRAL).Execute();
             ActionFinished();
         }
 
