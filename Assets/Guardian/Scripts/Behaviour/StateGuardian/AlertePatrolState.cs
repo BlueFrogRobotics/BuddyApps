@@ -226,7 +226,7 @@ namespace BuddyApp.Guardian
 
         private void SayAlertType(Animator animator)
         {
-            mFaceManager.SetMood(FaceMood.AFRAID);
+            mFaceManager.SetMood(FaceMood.SCARED);
             int lAlerte = animator.GetInteger("Alerte");
             CultureInfo cultureFR = new CultureInfo("fr-FR");
             DateTime localDate = DateTime.Now;

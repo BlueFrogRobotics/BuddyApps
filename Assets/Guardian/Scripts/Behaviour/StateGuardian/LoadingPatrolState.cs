@@ -35,7 +35,7 @@ namespace BuddyApp.Guardian
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             //Debug.Log("face stable: "+ mFace.IsStable);
-            if (mFace.IsStable && !mStartTimer)
+            if (/*mFace.IsStable && */!mStartTimer)
             {
                 mStartTimer = true;
 

@@ -31,13 +31,13 @@ namespace BuddyApp.Guardian
             //Debug.Log("face stable: "+mFaceManager.IsStable);
             mTimer -= Time.deltaTime;
             //if (!mHasTalked && mFaceManager.IsStable && mTimer<0.0f)
-            if (mFaceManager.IsStable && !mHasTalked && !mTTS.IsSpeaking())
+            if (/*mFaceManager.IsStable && */!mHasTalked && !mTTS.IsSpeaking())
             {
                 Debug.Log("fixe ou mobile?");
                 mTTS.Say("Quel mode souhaite tu. Fixe ou mobile");
                 mHasTriedToTalked = true;
             }
-            else if (!mFaceManager.IsStable && mHasTriedToTalked && !mHasTalked)
+            else if (/*!mFaceManager.IsStable && */mHasTriedToTalked && !mHasTalked)
                 mHasTalked = true;
             else if (mHasTalked && !mTTS.IsSpeaking())
                 animator.SetBool("ChangeState", true);

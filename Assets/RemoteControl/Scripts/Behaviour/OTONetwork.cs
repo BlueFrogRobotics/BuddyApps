@@ -81,6 +81,12 @@ namespace BuddyApp.Remote
                 Disconnect();
         }
 
+        void OnDestroy()
+        {
+            if (mIsConnected || NetworkTransport.IsStarted)
+                Disconnect();
+        }
+
         public int AddAChannel(string iName, QosType iType, OTONetReceiver iOTONetReceiver, OTONetSender iOTONetSender)
         {
             int lID = mConfig.AddChannel(iType);
