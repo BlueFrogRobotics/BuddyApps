@@ -27,10 +27,10 @@ namespace BuddyApp.Guardian
             animator.GetBehaviour<DetectionPatrolState>().IsDetectingMovement = mActivate;
             if(mActivate)
             {
-                mFace.SetMood(FaceMood.LISTENING);
+                mFace.SetExpression(MoodType.LISTENING);
             }
             else
-                mFace.SetMood(FaceMood.NEUTRAL);
+                mFace.SetExpression(MoodType.NEUTRAL);
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
