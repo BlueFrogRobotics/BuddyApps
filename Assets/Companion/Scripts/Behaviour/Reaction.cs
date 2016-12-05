@@ -75,7 +75,7 @@ namespace BuddyApp.Companion
 
         private IEnumerator PoutBodyCo()
         {
-            new SetMoodFaceCmd(FaceMood.ANGRY).Execute();
+            new SetMoodFaceCmd(MoodType.ANGRY).Execute();
 
             //Small animation to make he seem angry
             for (int i = 0; i < 2; i++)
@@ -95,21 +95,21 @@ namespace BuddyApp.Companion
                 new SetWheelsSpeedCmd(200F, -200F, 200).Execute();
                 yield return new WaitForSeconds(0.2F);
             }
-            new SetMoodFaceCmd(FaceMood.GRUMPY).Execute();
+            new SetMoodFaceCmd(MoodType.GRUMPY).Execute();
 
             for (int i = 0; i < 50; i++)
             {
                 new SetWheelsSpeedCmd(200F, 200F, 200).Execute();
                 yield return new WaitForSeconds(0.2F);
             }
-            new SetMoodFaceCmd(FaceMood.NEUTRAL).Execute();
+            new SetMoodFaceCmd(MoodType.NEUTRAL).Execute();
             mIsPouting = false;
             ActionFinished();
         }
 
         private IEnumerator PoutHeadCo()
         {
-            new SetMoodFaceCmd(FaceMood.ANGRY).Execute();
+            new SetMoodFaceCmd(MoodType.ANGRY).Execute();
 
             yield return new WaitForSeconds(0.1F);
 
@@ -136,6 +136,7 @@ namespace BuddyApp.Companion
 
                 new SetPosYesCmd(5F).Execute();
             }
+            new SetMoodFaceCmd(MoodType.NEUTRAL).Execute();
             mIsPouting = false;
             ActionFinished();
         }
