@@ -36,8 +36,8 @@ namespace BuddySample
 
         public void RandomMood()
         {
-            FaceMood lMood = (FaceMood)Random.Range(0, 11);
-            mFace.SetMood(lMood);
+            MoodType lMood = (MoodType)Random.Range(0, 11);
+            mFace.SetExpression(lMood);
         }
     }
 }

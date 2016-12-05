@@ -4,6 +4,19 @@
         <name>OS</name>
     </assembly>
     <members>
+        <member name="T:BuddyOS.Mood">
+            <summary>
+            Mood element of the robot. It is an helper component combining Face, LED and moving commands.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Mood.Set(MoodType,System.Boolean,System.Collections.Generic.List{BuddyOS.Command.ACommand})">
+            <summary>
+            Ask the face to switch to the specified mood.
+            </summary>
+            <param name="iMood">The name of the mood to switch to</param>
+            <param name="iMove">Specify if the robot must move according to the wanted mood</param>
+            <param name="iScheduledMoveCommands">Moving commands to execute, if iMove is true, default move commands will be esxecuted</param>
+        </member>
         <member name="T:BuddyOS.ITrackable">
             <summary>
             Make the component Error-trackable
@@ -220,7 +233,7 @@
             Does the right eye is touched by the user ?
             </summary>
         </member>
-        <member name="M:BuddyOS.Face.SetMood(FaceMood)">
+        <member name="M:BuddyOS.Face.SetExpression(MoodType)">
             <summary>
             Ask the face to switch to the specified mood.
             </summary>
@@ -557,7 +570,7 @@
         </member>
         <member name="M:BuddyOS.Wheels.SetWheelsSpeed(System.Single,System.Single,System.Int32)">
             <summary>
-            Controls the speed of the wheels, stops after the timeout.
+            Controls the speed of the wheels, stops after the timeout in milliseconds.
             </summary>
             <param name="iLeft">Desired left wheel speed, in degrees per seconds</param>
             <param name="iRight">Desired right wheel speed, in degrees per seconds</param>
@@ -1321,9 +1334,14 @@
             The current language dictionnary
             </summary>
         </member>
-        <member name="F:BuddyOS.App.AStateMachineBehaviour.mNotification">
+        <member name="F:BuddyOS.App.AStateMachineBehaviour.mNotManager">
             <summary>
             Notification will be printed at the screen top
+            </summary>
+        </member>
+        <member name="F:BuddyOS.App.AStateMachineBehaviour.mMood">
+            <summary>
+            Helper in order to easily change the robot mood (LED and Face [and moving behaviour])
             </summary>
         </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.OnStateEnter(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
@@ -1574,7 +1592,7 @@
         <member name="T:BuddyOS.BYOS">
             <summary>
             Core the BuddY Operating System (BYOS).
-            Gave access to robot control and tools like cloud access, geolocalisation and managers.
+            Gave access to robot control and tools like cloud access, geolocation and managers.
             A Unique instance of the BYOS must be present in the whole application.
             </summary>
         </member>
@@ -1618,6 +1636,11 @@
             Geolocation allows you to know the robot current position
             </summary>
         </member>
+        <member name="P:BuddyOS.BYOS.Scheduler">
+            <summary>
+            Allows to execute commands one by one
+            </summary>
+        </member>
         <member name="P:BuddyOS.BYOS.NotManager">
             <summary>
             Notifications are displayed on the screen top for misc info
@@ -1636,6 +1659,11 @@
         <member name="P:BuddyOS.BYOS.Dictionary">
             <summary>
             Hosts all global_keyword -> currentlanguage_word matchings
+            </summary>
+        </member>
+        <member name="P:BuddyOS.BYOS.Mood">
+            <summary>
+            Helper in order to easily change the robot mood (LED and Face [and moving behaviour])
             </summary>
         </member>
         <member name="P:BuddyOS.BYOS.Face">
@@ -1744,6 +1772,11 @@
             Execute the command behaviour defined in ExecuteImpl
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.ACommand.ExecuteWhenAvailable">
+            <summary>
+            Add the command on the scheduler queue to be executed
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.ACommand.UpdateParams(System.Int32[])">
             <summary>
             Update params in existing command. Allows to avoid recreate a new command for the same purpose.
@@ -1813,6 +1846,11 @@
         <member name="M:BuddyOS.Command.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{BuddyOS.Command.ACommand})">
             <summary>
             Execute all command behaviours defined in ExecuteImpl
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.ACommandExtention.ExecuteWhenAvailable(System.Collections.Generic.IEnumerable{BuddyOS.Command.ACommand})">
+            <summary>
+            Add all commands on the scheduler queue in order to be executed
             </summary>
         </member>
         <member name="M:BuddyOS.Command.ACommandExtention.UpdateParams(System.Collections.Generic.IEnumerable{BuddyOS.Command.ACommand},System.Int32[])">
@@ -2185,7 +2223,7 @@
             When executed : The robot changes its mood
             </summary>
         </member>
-        <member name="M:BuddyOS.Command.SetMoodFaceCmd.#ctor(FaceMood)">
+        <member name="M:BuddyOS.Command.SetMoodFaceCmd.#ctor(MoodType)">
             <summary>
             When executed : The robot changes its mood
             </summary>
@@ -2655,6 +2693,28 @@
         <member name="M:BuddyOS.Command.UnLoadAppCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.Scheduler">
+            <summary>
+            As soon as commands are added to scheduler, these commands will be executed one after the other. 
+            Commands have no particular priority.
+            </summary>
+        </member>
+        <member name="F:BuddyOS.Command.Scheduler.MAX_COMMAND_IN_QUEUE">
+            <summary>
+            Max commands in the scheduled queue
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.Scheduler.Add(BuddyOS.Command.ACommand[])">
+            <summary>
+            Add commands to be executed
+            </summary>
+            <param name="iCommands">Commands to executed</param>
+        </member>
+        <member name="T:BuddyOS.Command.CommandTime">
+            <summary>
+            Represents the executed command timestamp
             </summary>
         </member>
         <member name="T:BuddyOS.Command.CommandParam">

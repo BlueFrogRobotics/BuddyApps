@@ -110,7 +110,7 @@ namespace BuddyApp.FreezeDance
             if (mElapsedTime > mAudioClipLength && !mIsSad && mStartMusic) {
                 mIsOnGame = false;
                 if (!mSayOnce) {
-                    mFace.SetMood(FaceMood.HAPPY);
+                    mFace.SetExpression(MoodType.HAPPY);
                     mTTS.Say("Bravo, Tu a gagné");
                     pauseScreenText.SetActive(false);
                     victoryAnim.SetBool("victory", true);
@@ -144,7 +144,7 @@ namespace BuddyApp.FreezeDance
             mIsSad = false;
             mIsOnGame = false;
             mIsSetRandomStop = false;
-            mFace.SetMood(FaceMood.NEUTRAL);
+            mFace.SetExpression(MoodType.NEUTRAL);
             //mFace.Neutral();
             mTime = Time.time;
             pauseScreen.SetActive(false);
@@ -160,7 +160,7 @@ namespace BuddyApp.FreezeDance
         private IEnumerator SetAngry()
         {
             mIsOccupied = true;
-            mFace.SetMood(FaceMood.SAD);
+            mFace.SetExpression(MoodType.SAD);
             mIsSad = true;
             yield return new WaitForSeconds(0.3F);
             mIsOccupied = false;
@@ -169,7 +169,7 @@ namespace BuddyApp.FreezeDance
         private IEnumerator SetNeutral()
         {
             mIsOccupied = true;
-            mFace.SetMood(FaceMood.NEUTRAL);
+            mFace.SetExpression(MoodType.NEUTRAL);
             yield return new WaitForSeconds(0.3F);
             mIsOccupied = false;
         }
@@ -177,7 +177,7 @@ namespace BuddyApp.FreezeDance
         private IEnumerator SetFocus()
         {
             mIsOccupied = true;
-            mFace.SetMood(FaceMood.THINKING);
+            mFace.SetExpression(MoodType.THINKING);
             mTTS.Say("Pourquoi tu ne bouge pas?");
             yield return new WaitForSeconds(2F);
             mIsOccupied = false;
