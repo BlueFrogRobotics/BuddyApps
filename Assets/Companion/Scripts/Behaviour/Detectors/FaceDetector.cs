@@ -4,7 +4,7 @@ using BuddyFeature.Vision;
 
 namespace BuddyApp.Companion
 {
-    [RequireComponent(typeof(FaceShiftTracker))]
+    [RequireComponent(typeof(FaceCascadeTracker))]
     public class FaceDetector : MonoBehaviour
     {
         public bool FaceRecognizedDetected { get { return mFaceRecognizedDetected; } }
@@ -14,14 +14,14 @@ namespace BuddyApp.Companion
         private bool mFaceDetected;
         private RGBCam mCamera;
         private FaceRecognizer mFaceReco;
-        private FaceShiftTracker mFaceTracker;
+        private FaceCascadeTracker mFaceTracker;
 
         void Start()
         {
             mFaceRecognizedDetected = false;
             mFaceDetected = false;
             mCamera = BYOS.Instance.RGBCam;
-            mFaceTracker = GetComponent<FaceShiftTracker>();
+            mFaceTracker = GetComponent<FaceCascadeTracker>();
 
             if (!mCamera.IsOpen)
                 mCamera.Open();
@@ -29,7 +29,12 @@ namespace BuddyApp.Companion
         
         void Update()
         {
-            if (mFaceTracker.NbTrackedObjects > 0)
+            if (!mCamera.IsOpen) {
+                mFaceDetected = false;
+                return;
+            }
+
+            if (mFaceTracker.TrackedObjects.Count > 0)
                 mFaceDetected = true;
             else
                 mFaceDetected = false;

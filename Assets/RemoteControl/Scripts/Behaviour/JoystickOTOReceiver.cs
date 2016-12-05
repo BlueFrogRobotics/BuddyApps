@@ -1,4 +1,5 @@
-﻿using BuddyOS.Command;
+﻿using UnityEngine;
+using BuddyOS.Command;
 
 namespace BuddyApp.Remote
 {
@@ -6,7 +7,9 @@ namespace BuddyApp.Remote
     {
         public override void ReceiveData(byte[] iData, int iNbData)
         {
-            //ACommand.Deserialize(iData).Execute();
+            ACommand lCmd = ACommand.Deserialize(iData);
+            Debug.Log("Received command " + lCmd.Parameters.Strings);
+            lCmd.Execute();
         }
     }
 }
