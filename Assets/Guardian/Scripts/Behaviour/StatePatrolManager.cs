@@ -169,7 +169,7 @@ namespace BuddyApp.Guardian
         {
             GuardianData mGuardianData;
             mGuardianData = GuardianData.Instance;
-            Debug.Log("is active: "+mGuardianData.FireDetectionIsActive);
+            //Debug.Log("is active: "+mGuardianData.FireDetectionIsActive);
         }
 
         void OnEnable()
@@ -204,6 +204,7 @@ namespace BuddyApp.Guardian
 
         public void ShowNotifMailSent()
         {
+            detectorManager.SoundDetector.CanSave = true;
             notifMail.IncrementNumber();
             Debug.Log("mail a ete envoye");
         }

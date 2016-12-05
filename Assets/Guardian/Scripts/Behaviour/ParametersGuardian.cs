@@ -93,7 +93,8 @@ namespace BuddyApp.Guardian
                 onOffMovement.OffCommands.Add(new DsactMovementDetectionCmd());
                 onOffKidnap.OnCommands.Add(new ActKidnappingDetectionCmd());
                 onOffKidnap.OffCommands.Add(new DsactKidnappingDetectionCmd());
-                
+                onOffSound.OnCommands.Add(new ActSoundDetectionCmd());
+                onOffSound.OffCommands.Add(new DsactSoundDetectionCmd());
             }
         }
 
@@ -102,6 +103,7 @@ namespace BuddyApp.Guardian
             GuardianData.Instance.FireDetectionIsActive = onOffFire.IsActive;
             GuardianData.Instance.MovementDetectionIsActive = onOffMovement.IsActive;
             GuardianData.Instance.KidnappingDetectionIsActive = onOffKidnap.IsActive;
+            GuardianData.Instance.SoundDetectionIsActive = onOffSound.IsActive;
         }
     }
 }

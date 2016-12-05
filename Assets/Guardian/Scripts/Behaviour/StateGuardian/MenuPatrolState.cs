@@ -16,6 +16,7 @@ namespace BuddyApp.Guardian
         private Action<string> mActionSetMode;
         private float mTimer = 2.2f;
         private bool mHasAskedOnce = false;
+        private Animator mMenuAnimator;
 
         public int Mode { get { return mMode; } set { mMode = value; } }
 
@@ -24,6 +25,7 @@ namespace BuddyApp.Guardian
         {
             SetWindowAppOverBuddyColor(0);
             mMenu = StateManager.Menu;
+            mMenuAnimator = mMenu.GetComponent<Animator>();
 
             animator.SetBool("ChangeState", false);
             mTTS = BYOS.Instance.TextToSpeech;
@@ -57,6 +59,9 @@ namespace BuddyApp.Guardian
                 Debug.Log("ask");
                 mHasAskedOnce = true;
                 mMenu.SetActive(true);
+                StateManager.BackgroundPrefab.SetActive(true);
+                StateManager.BackgroundAnimator.SetTrigger("Open_BG");
+                mMenuAnimator.SetTrigger("Open_WMenu3");
                 mSTT.Request();
                 mTimer = 4.2f;
             }
@@ -67,6 +72,9 @@ namespace BuddyApp.Guardian
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            StateManager.BackgroundAnimator.SetTrigger("Close_BG");
+            mMenuAnimator.SetTrigger("Close_WMenu3");
+            StateManager.BackgroundPrefab.SetActive(false);
             mSTT.OnBestRecognition.Clear();
             animator.SetInteger("Mode", mMode);
             mMenu.SetActive(false);

@@ -18,8 +18,8 @@ namespace BuddyApp.Guardian
             GaugeOnOff lGaugeFireDetection = AddWidget<GaugeOnOff>(FIRST_LINE);
             GaugeOnOff lGaugeMovementDetection = AddWidget<GaugeOnOff>(SECOND_LINE);
             GaugeOnOff lGaugeKidnappingDetection = AddWidget<GaugeOnOff>(THIRD_LINE);
-            //GaugeOnOff lGaugeSoundDetection = AddWidget<GaugeOnOff>(FIFTH_LINE);
-            Button lQuitButton = AddWidget<Button>(FOURTH_LINE);
+            GaugeOnOff lGaugeSoundDetection = AddWidget<GaugeOnOff>(FOURTH_LINE);
+            Button lQuitButton = AddWidget<Button>(FIFTH_LINE);
 
 
 
@@ -35,10 +35,10 @@ namespace BuddyApp.Guardian
             lGaugeMovementDetection.Slider.wholeNumbers = true;
             lGaugeMovementDetection.DisplayPercentage = true;
 
-            //lGaugeSoundDetection.Slider.minValue = 0;
-            //lGaugeSoundDetection.Slider.maxValue = 10;
-            //lGaugeSoundDetection.Slider.wholeNumbers = true;
-            //lGaugeSoundDetection.DisplayPercentage = true;
+            lGaugeSoundDetection.Slider.minValue = 0;
+            lGaugeSoundDetection.Slider.maxValue = 10;
+            lGaugeSoundDetection.Slider.wholeNumbers = true;
+            lGaugeSoundDetection.DisplayPercentage = true;
 
             lGaugeKidnappingDetection.Slider.minValue = 0;
             lGaugeKidnappingDetection.Slider.maxValue = 10;
@@ -51,7 +51,7 @@ namespace BuddyApp.Guardian
              */
             lGaugeFireDetection.IsActive = GuardianData.Instance.FireDetectionIsActive;
             lGaugeMovementDetection.IsActive = GuardianData.Instance.MovementDetectionIsActive;
-            //lGaugeSoundDetection.IsActive = GuardianData.Instance.SoundDetectionIsActive;
+            lGaugeSoundDetection.IsActive = GuardianData.Instance.SoundDetectionIsActive;
             lGaugeKidnappingDetection.IsActive = GuardianData.Instance.KidnappingDetectionIsActive;
 
             /*
@@ -72,9 +72,9 @@ namespace BuddyApp.Guardian
         {
             GetWidget<GaugeOnOff>(FIRST_LINE).Label.text = "FIRE DETECTION";
             GetWidget<GaugeOnOff>(SECOND_LINE).Label.text = "MOVEMENT DETECTION";
-            //GetWidget<GaugeOnOff>(FIFTH_LINE).Label.text = "SOUND DETECTION";
             GetWidget<GaugeOnOff>(THIRD_LINE).Label.text = "KIDNAPPING DETECTION";
-            GetWidget<Button>(FOURTH_LINE).Label.text = "QUIT APPLICATION";
+            GetWidget<GaugeOnOff>(FOURTH_LINE).Label.text = "SOUND DETECTION";
+            GetWidget<Button>(FIFTH_LINE).Label.text = "QUIT APPLICATION";
         }
     }
 }
