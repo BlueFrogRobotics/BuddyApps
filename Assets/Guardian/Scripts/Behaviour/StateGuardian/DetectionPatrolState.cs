@@ -52,6 +52,8 @@ namespace BuddyApp.Guardian
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             SetWindowAppOverBuddyColor(0);
+            SetParamDetection();
+            Debug.Log("peut detecter son: " + canDetectSound + " " + isDetectingSound);
             mDetectorManager = StateManager.DetectorManager;
 
             animator.SetBool("ChangeState", false);
@@ -93,6 +95,14 @@ namespace BuddyApp.Guardian
         //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         //
         //}
+
+        private void SetParamDetection()
+        {
+            canDetectFire = GuardianData.Instance.FireDetectionIsActive;
+            canDetectMovement = GuardianData.Instance.MovementDetectionIsActive;
+            canDetectKidnapping = GuardianData.Instance.KidnappingDetectionIsActive;
+            canDetectSound = GuardianData.Instance.SoundDetectionIsActive;
+        }
 
         private void OnSoundDetected()
         {

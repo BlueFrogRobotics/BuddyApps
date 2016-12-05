@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using BuddyOS;
 
 namespace BuddyApp.Guardian
 {
@@ -9,10 +10,12 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private bool mActivate = false;
 
+        private Face mFace;
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            mFace = BYOS.Instance.Face;
             Debug.Log("can detect MOUUUUUUUUUUUUUV: " + mActivate);
             animator.GetBehaviour<DetectionPatrolState>().IsDetectingMovement = mActivate;
             animator.GetBehaviour<DetectionPatrolState>().IsDetectingKidnapping = mActivate;
@@ -22,6 +25,12 @@ namespace BuddyApp.Guardian
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             animator.GetBehaviour<DetectionPatrolState>().IsDetectingMovement = mActivate;
+            if(mActivate)
+            {
+                mFace.SetExpression(MoodType.LISTENING);
+            }
+            else
+                mFace.SetExpression(MoodType.NEUTRAL);
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

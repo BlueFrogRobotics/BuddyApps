@@ -28,6 +28,7 @@ namespace BuddyApp.Guardian
             mParameters.ButtonDebugMovement.onClick.AddListener(ShowDebugMovementWindow);
             mParameters.ButtonDebugTemperature.onClick.AddListener(ShowDebugTemperatureWindow);
             mParameters.ButtonValidate.onClick.AddListener(Validate);
+            mParameters.ButtonBack.onClick.AddListener(Back);
             mHasInitSlider = false;
         }
 
@@ -50,20 +51,22 @@ namespace BuddyApp.Guardian
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             //ParametersGuardian  mParameters = mParameterObject.GetComponent<ParametersGuardian>();
-            DetectionPatrolState lDetectionState = animator.GetBehaviour<DetectionPatrolState>();
-            lDetectionState.CanDetectFire = mParameters.ToggleFire.isOn;
-            lDetectionState.CanDetectMovement = mParameters.ToggleMovement.isOn;
-            lDetectionState.CanDetectSound = mParameters.ToggleSound.isOn;
-            lDetectionState.CanDetectKidnapping = mParameters.ToggleKidnap.isOn;
+            //DetectionPatrolState lDetectionState = animator.GetBehaviour<DetectionPatrolState>();
+            //lDetectionState.CanDetectFire = mParameters.ToggleFire.isOn;
+            //lDetectionState.CanDetectMovement = mParameters.ToggleMovement.isOn;
+            //lDetectionState.CanDetectSound = mParameters.ToggleSound.isOn;
+            //lDetectionState.CanDetectKidnapping = mParameters.ToggleKidnap.isOn;
 
             SetDetectorsThreshold();
 
             mParameters.gameObject.SetActive(false);
             animator.SetBool("ChangeState", false);
+            mAnimator.SetBool("Back", false);
             mParameters.ButtonDebugSound.onClick.RemoveAllListeners();
             mParameters.ButtonDebugMovement.onClick.RemoveAllListeners();
             mParameters.ButtonDebugTemperature.onClick.RemoveAllListeners();
             mParameters.ButtonValidate.onClick.RemoveAllListeners();
+            mParameters.ButtonBack.onClick.RemoveAllListeners();
             Debug.Log("fin param");
         }
 
@@ -88,6 +91,11 @@ namespace BuddyApp.Guardian
         private void Validate()
         {
             mAnimator.SetBool("ChangeState", true);
+        }
+
+        private void Back()
+        {
+            mAnimator.SetBool("Back", true);
         }
 
         private void SetDetectorsThreshold()

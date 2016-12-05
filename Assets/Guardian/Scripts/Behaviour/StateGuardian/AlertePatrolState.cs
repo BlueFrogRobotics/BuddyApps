@@ -43,6 +43,7 @@ namespace BuddyApp.Guardian
         {
             SetWindowAppOverBuddyColor(1);
             InitLink();
+            mHasSentNotification = false;
             mBackgroundPrefab.GetComponent<Canvas>().enabled = true;
             //animator.SetBool("HasAlerted", false);
             mTTS = BYOS.Instance.TextToSpeech;
@@ -72,7 +73,8 @@ namespace BuddyApp.Guardian
         {
             mTimer -= Time.deltaTime;
             //mFaceManager.Speak(mTTS.IsSpeaking());
-
+            //mDetectorManager.SoundDetector.CanSave = mMailSender.CanSend;
+            Debug.Log("peut send: " + mMailSender.CanSend);
             if (!mHasAlerted)
             {
                 mHasAlerted = true;
@@ -109,7 +111,7 @@ namespace BuddyApp.Guardian
             animator.SetBool("ChangeState", false);
             animator.SetBool("HasAlerted", false);
             animator.SetInteger("Alerte", 0);
-            mFaceManager.SetMood(FaceMood.NEUTRAL);
+            mFaceManager.SetExpression(MoodType.NEUTRAL);
             mButtonPassword.onClick.RemoveAllListeners();
         }
 
@@ -160,6 +162,7 @@ namespace BuddyApp.Guardian
                         lMail.AddFile("noise.wav");
                         mCountPhoto++;
                         mMailSender.Send(lMail);
+                        mDetectorManager.SoundDetector.CanSave = false;
                     }
                     break;
                 case (int)DetectionManager.Alert.FIRE:
@@ -226,7 +229,7 @@ namespace BuddyApp.Guardian
 
         private void SayAlertType(Animator animator)
         {
-            mFaceManager.SetMood(FaceMood.SCARED);
+            mFaceManager.SetExpression(MoodType.SCARED);
             int lAlerte = animator.GetInteger("Alerte");
             CultureInfo cultureFR = new CultureInfo("fr-FR");
             DateTime localDate = DateTime.Now;

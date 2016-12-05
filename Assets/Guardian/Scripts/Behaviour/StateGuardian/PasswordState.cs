@@ -62,7 +62,7 @@ namespace BuddyApp.Guardian
                 mBackgroundAnimator.SetTrigger("Open_BG");
                 mHaloAnimator.SetTrigger("Open_WTimer");
                 mHasShownGrid = true;
-                mTimer = 6.0f;
+                mTimer = 8.0f;
             }
 
             if (mHasShownGrid && mTimer < 0.0f)

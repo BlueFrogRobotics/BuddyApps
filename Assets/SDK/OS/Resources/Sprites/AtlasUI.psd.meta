@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: be04090c3ca28a649911eca9b32f1316
-timeCreated: 1480517339
+timeCreated: 1480605450
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -95,6 +95,7 @@ TextureImporter:
     21300176: Meteo_Nuageux
     21300178: Meteo_Eclaircie
     21300180: Radial_Alpha
+    21300182: ScrollV
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -468,22 +469,22 @@ TextureImporter:
         serializedVersion: 2
         x: 100
         y: 1898
-        width: 48
-        height: 48
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 18, y: 5, z: 18, w: 5}
+      border: {x: 24, y: 24, z: 24, w: 24}
       outline:
-      - - {x: -24, y: 24}
-        - {x: -24, y: -21}
-        - {x: -18, y: -24}
-        - {x: 21, y: -24}
-        - {x: 24, y: -16}
-        - {x: 24, y: 24}
-      - - {x: -5, y: -13}
-        - {x: -13, y: 7}
-        - {x: 7, y: 15}
-        - {x: 15, y: -5}
+      - - {x: -17, y: 25}
+        - {x: -25, y: 23}
+        - {x: -25, y: -20}
+        - {x: -23, y: -25}
+        - {x: 25, y: -25}
+        - {x: 25, y: 25}
+      - - {x: -6, y: -14}
+        - {x: -14, y: 6}
+        - {x: 6, y: 14}
+        - {x: 14, y: -6}
     - name: SquareFull
       rect:
         serializedVersion: 2
@@ -1806,6 +1807,17 @@ TextureImporter:
         - {x: 25, y: -20}
         - {x: 25, y: 14}
         - {x: 21, y: 23}
+    - name: ScrollV
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 1649
+        width: 22
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 13, z: 11, w: 13}
+      outline: []
     outline: []
   spritePackingTag: 
   userData: 

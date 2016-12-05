@@ -167,6 +167,8 @@ namespace BuddyApp.Guardian
         // Update is called once per frame
         void Update()
         {
+            GuardianData mGuardianData;
+            mGuardianData = GuardianData.Instance;
             //Debug.Log("is active: "+mGuardianData.FireDetectionIsActive);
         }
 
@@ -202,6 +204,7 @@ namespace BuddyApp.Guardian
 
         public void ShowNotifMailSent()
         {
+            detectorManager.SoundDetector.CanSave = true;
             notifMail.IncrementNumber();
             Debug.Log("mail a ete envoye");
         }
