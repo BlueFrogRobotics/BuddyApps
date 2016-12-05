@@ -217,13 +217,13 @@ namespace BuddyApp.BabyPhone
         private IEnumerator SetSadMood()
         {
             yield return new WaitForSeconds(0.5F);
-            mFace.SetMood(FaceMood.SAD);
+            mFace.SetExpression(MoodType.SAD);
         }
 
         private IEnumerator SetListenMood()
         {
             yield return new WaitForSeconds(0.5F);
-            mFace.SetMood(FaceMood.LISTENING);
+            mFace.SetExpression(MoodType.LISTENING);
         }
 
         private IEnumerator SendMessage()

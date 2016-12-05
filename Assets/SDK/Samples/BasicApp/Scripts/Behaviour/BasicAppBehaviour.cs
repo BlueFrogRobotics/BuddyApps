@@ -81,8 +81,8 @@ namespace BuddyApp.Basic
         */
         public void RandomMood()
         {
-            FaceMood lMood = (FaceMood)Random.Range(0, 10);
-            mFace.SetMood(lMood);
+            MoodType lMood = (MoodType)Random.Range(0, 10);
+            mFace.SetExpression(lMood);
         }
     }
 }

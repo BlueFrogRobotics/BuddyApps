@@ -29,13 +29,13 @@ namespace BuddySample
         private Text mouthClicked;
 
         private Face mFace;
-        private LED mLED;
         private TextToSpeech mTTS;
+        private Mood mMood;
 
         // Use this for initialization
         void Start()
         {
-            mLED = BYOS.Instance.LED;
+            mMood = BYOS.Instance.Mood;
             mFace = BYOS.Instance.Face;
             mTTS = BYOS.Instance.TextToSpeech;
 
@@ -54,9 +54,9 @@ namespace BuddySample
         {
             int lX = (int)sliderX.value;
             int lY = (int)sliderY.value;
-            leftEyeClicked.text = "Left eye clicked ? " + mFace.ClickedLeftEye;
-            rightEyeClicked.text = "Right eye clicked ? " + mFace.ClickedRightEye;
-            mouthClicked.text = "Mouth clicked ? " + mFace.ClickedMouth;
+            leftEyeClicked.text = mFace.ClickedLeftEye ? "Left eye clicked !" : "Left eye";
+            rightEyeClicked.text = mFace.ClickedRightEye ? "Right eye clicked !" : "Right eye";
+            mouthClicked.text = mFace.ClickedMouth ? "Mouth clicked clicked !" : "Mouth ";
             feedbackX.text = "X = " + lX;
             feedbackY.text = "Y = " + lY;
             sliderX.maxValue = Screen.width;
@@ -84,70 +84,74 @@ namespace BuddySample
             mFace.SetMouthEvent(MouthEvent.SMILE);
         }
 
+        public void BlinkRight()
+        {
+            mFace.SetEyeEvent(EyeEvent.BLINK_RIGHT);
+        }
+
+        public void BlinkLeft()
+        {
+            mFace.SetEyeEvent(EyeEvent.BLINK_LEFT);
+        }
+
+        public void BlinkDouble()
+        {
+            mFace.SetEyeEvent(EyeEvent.BLINK_DOUBLE);
+        }
+
         public void Neutral()
         {
-            mFace.SetMood(FaceMood.NEUTRAL);
-            mLED.SetBodyLight(LEDColor.BLUE_NEUTRAL);
+            mMood.Set(MoodType.NEUTRAL);
         }
 
         public void Angry()
         {
-            mFace.SetMood(FaceMood.ANGRY);
-            mLED.SetBodyLight(LEDColor.RED_ANGRY);
+            mMood.Set(MoodType.ANGRY);
         }
 
         public void Grumpy()
         {
-            mFace.SetMood(FaceMood.GRUMPY);
-            mLED.SetBodyLight(LEDColor.PURPLE_GRUMPY);
+            mMood.Set(MoodType.GRUMPY);
         }
 
         public void Happy()
         {
-            mFace.SetMood(FaceMood.HAPPY);
-            mLED.SetBodyLight(LEDColor.ORANGE_HAPPY);
+            mMood.Set(MoodType.HAPPY);
         }
 
         public void Listening()
         {
-            mFace.SetMood(FaceMood.LISTENING);
-            mLED.SetBodyLight(LEDColor.BLUE_LISTENING);
+            mMood.Set(MoodType.LISTENING);
         }
 
         public void Sad()
         {
-            mFace.SetMood(FaceMood.SAD);
-            mLED.SetBodyLight(LEDColor.PURPLE_SAD);
+            mMood.Set(MoodType.SAD);
         }
 
         public void Scared()
         {
-            mFace.SetMood(FaceMood.SCARED);
-            mLED.SetBodyLight(LEDColor.ORANGE_SCARY);
+            mMood.Set(MoodType.SCARED);
         }
 
         public void Sick()
         {
-            mFace.SetMood(FaceMood.SICK);
-            mLED.SetBodyLight(LEDColor.GREEN_SICK);
+            mMood.Set(MoodType.SICK);
         }
 
         public void Surprised()
         {
-            mFace.SetMood(FaceMood.SURPRISED);
-            mLED.SetBodyLight(LEDColor.YELLOW_SURPRISED);
+            mMood.Set(MoodType.SURPRISED);
         }
 
         public void Think()
         {
-            mFace.SetMood(FaceMood.THINKING);
-            mLED.SetBodyLight(LEDColor.GREEN_THINKING);
+            mMood.Set(MoodType.THINKING);
         }
 
         public void Tired()
         {
-            mFace.SetMood(FaceMood.TIRED);
-            mLED.SetBodyLight(LEDColor.GREY_TIRED);
+            mMood.Set(MoodType.TIRED);
         }
     }
 }

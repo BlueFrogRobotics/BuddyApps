@@ -109,7 +109,7 @@ namespace BuddyApp.Guardian
             animator.SetBool("ChangeState", false);
             animator.SetBool("HasAlerted", false);
             animator.SetInteger("Alerte", 0);
-            mFaceManager.SetMood(FaceMood.NEUTRAL);
+            mFaceManager.SetExpression(MoodType.NEUTRAL);
             mButtonPassword.onClick.RemoveAllListeners();
         }
 
@@ -226,7 +226,7 @@ namespace BuddyApp.Guardian
 
         private void SayAlertType(Animator animator)
         {
-            mFaceManager.SetMood(FaceMood.SCARED);
+            mFaceManager.SetExpression(MoodType.SCARED);
             int lAlerte = animator.GetInteger("Alerte");
             CultureInfo cultureFR = new CultureInfo("fr-FR");
             DateTime localDate = DateTime.Now;
