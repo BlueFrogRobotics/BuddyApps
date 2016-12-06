@@ -19,7 +19,7 @@ namespace BuddyApp.Companion
         void Start()
         {
             mLiftDetected = false;
-            mThreshold = 3.5F;
+            mThreshold = 5F;
             mStack = new Queue<float>();
             mParameters = BYOS.Instance.TabletParameters;
         }
@@ -29,7 +29,7 @@ namespace BuddyApp.Companion
             float lAcceleroY = mParameters.GetYAccelerometer();
             float lAcceleroX = mParameters.GetXAccelerometer();
             float lAcceleroZ = mParameters.GetZAccelerometer();
-            float lAcceleroTotal = lAcceleroX + lAcceleroY + lAcceleroZ;
+            float lAcceleroTotal = lAcceleroZ + lAcceleroX + lAcceleroY ;
             mStack.Enqueue(lAcceleroTotal);
 
             if (mStack.Count > 100) {
@@ -42,6 +42,7 @@ namespace BuddyApp.Companion
 
                 lMean /= mStack.Count;
 
+                //Debug.Log("AcceleroZ mean : " + lMean);
                 if (Mathf.Abs(lAcceleroTotal - lMean) > mThreshold)
                 {
                     mLiftDetected = true;
