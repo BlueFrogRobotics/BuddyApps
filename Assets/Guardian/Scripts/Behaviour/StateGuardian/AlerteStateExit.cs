@@ -46,7 +46,7 @@ namespace BuddyApp.Guardian
             mBackgroundAnimator.SetTrigger("Close_BG");
             animator.SetBool("ChangeState", false);
             animator.SetBool("Cancelled", false);
-            mBackgroundPrefab.SetActive(false);
+            //mBackgroundPrefab.SetActive(false);
             mHaloPrefab.SetActive(false);
             mButtonPassword.onClick.RemoveAllListeners();
             mAnimator.SetBool("AskPassword", false);

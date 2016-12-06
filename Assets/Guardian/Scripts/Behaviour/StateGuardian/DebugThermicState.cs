@@ -16,7 +16,7 @@ namespace BuddyApp.Guardian
             mShowTemperature = StateManager.ShowTemperature;
             mShowTemperature.gameObject.SetActive(true);
             mAnimator = animator;
-            mShowTemperature.mButtonBack.onClick.AddListener(GoBack);
+            mShowTemperature.ButtonBack.onClick.AddListener(GoBack);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -29,7 +29,7 @@ namespace BuddyApp.Guardian
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mShowTemperature.mButtonBack.onClick.RemoveAllListeners();
+            mShowTemperature.ButtonBack.onClick.RemoveAllListeners();
             mShowTemperature.gameObject.SetActive(false);
         }
 

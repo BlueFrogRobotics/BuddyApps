@@ -91,6 +91,7 @@ namespace BuddyApp.Guardian
         private void Validate()
         {
             mAnimator.SetBool("ChangeState", true);
+            StateManager.BackgroundAnimator.SetTrigger("Close_BG");
         }
 
         private void Back()

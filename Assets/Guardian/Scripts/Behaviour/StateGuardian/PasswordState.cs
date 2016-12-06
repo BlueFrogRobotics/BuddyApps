@@ -57,7 +57,7 @@ namespace BuddyApp.Guardian
 
                 //mQuestionPrefab.SetActive(true);
                 mObjectPasswordWriter.SetActive(true);
-                mBackgroundPrefab.SetActive(true);
+                //mBackgroundPrefab.SetActive(true);
                 mHaloPrefab.SetActive(true);
                 mBackgroundAnimator.SetTrigger("Open_BG");
                 mHaloAnimator.SetTrigger("Open_WTimer");
@@ -78,7 +78,7 @@ namespace BuddyApp.Guardian
             mAnimator.SetBool("PasswordTrue", false);
             mAnimator.SetBool("ChangeState", false);
             mObjectPasswordWriter.SetActive(false);
-            mBackgroundPrefab.SetActive(false);
+            //mBackgroundPrefab.SetActive(false);
             mHaloPrefab.SetActive(false);
             mButtonValidate.onClick.RemoveAllListeners();
             mButtonCancel.onClick.RemoveAllListeners();
