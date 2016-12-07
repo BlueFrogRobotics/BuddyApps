@@ -13,10 +13,11 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(SpeechDetector))]
     [RequireComponent(typeof(ThermalDetector))]
     [RequireComponent(typeof(USDetector))]
-    [RequireComponent(typeof(VocalChat))]
     [RequireComponent(typeof(BuddyFaceDetector))]
+    [RequireComponent(typeof(AccelerometerDetector))]
     public class BehaviorManager : MonoBehaviour
     {
+        private AccelerometerDetector mAccelerometerDetector;
         private BuddyFaceDetector mBuddyFaceDetector;
         private CliffDetector mCliffDetector;
         private FaceDetector mFaceDetector;
@@ -25,17 +26,18 @@ namespace BuddyApp.Companion
         private SpeechDetector mSpeechDetector;
         private ThermalDetector mThermalDetector;
         private USDetector mUSDetector;
-        private VocalChat mVocalChat;
 
         private bool mActionInProgress;
+        private float mInactiveTime;
         private Stack<Action> mActionStack;
         private Action mCurrentAction;
-        private VocalActivation mVocalActivation;
+        //private VocalActivation mVocalActivation;
 
         void Start()
         {
             mCurrentAction = null;
             mActionStack = new Stack<Action>();
+            mAccelerometerDetector = GetComponent<AccelerometerDetector>();
             mBuddyFaceDetector = GetComponent<BuddyFaceDetector>();
             mCliffDetector = GetComponent<CliffDetector>();
             mFaceDetector = GetComponent<FaceDetector>();
@@ -44,18 +46,26 @@ namespace BuddyApp.Companion
             mSpeechDetector = GetComponent<SpeechDetector>();
             mThermalDetector = GetComponent<ThermalDetector>();
             mUSDetector = GetComponent<USDetector>();
-            mVocalChat = GetComponent<VocalChat>();
 
             mActionInProgress = false;
+            mInactiveTime = Time.time;
             //mReaction.ActionFinished = PopHead;
             mReaction.ActionFinished = OnActionFinished;
-            mVocalChat.OnQuestionTypeFound = SortQuestionType;
+            mAccelerometerDetector.OnDetection += mReaction.IsBeingLifted;
         }
 
         void Update()
         {
-            if (mThermalDetector.ThermalDetected)
-                PushInStack(mReaction.StepBackHelloReaction);
+            //if (mThermalDetector.ThermalDetected && !mFaceDetector.FaceDetected)
+            //    PushInStack(mReaction.StepBackHelloReaction);
+
+            //if (mThermalDetector.ThermalDetected && mFaceDetector.FaceDetected)
+            //    PushInStack(mReaction.FollowFace);
+
+            if (mFaceDetector.FaceDetected)
+                mReaction.FollowFace();
+            else
+                mReaction.StopFollowFace();
 
             //if (mIRDetector.IRDetected || mUSDetector.USFrontDetected)
             //    mReaction.StopWheels();
@@ -63,8 +73,22 @@ namespace BuddyApp.Companion
             if (mSpeechDetector.SomeoneTalkingDetected)
                 Debug.Log("Someone started to talk !");
 
+            //if (mBuddyFaceDetector.FaceTouched)
+            //    mReaction.StopEverything();
+
             if (mBuddyFaceDetector.FaceSmashed)
                 PushInStack(mReaction.Pout);
+
+            if (mCurrentAction != null) {
+                mInactiveTime = Time.time;
+                mReaction.StopWandering();
+            }
+
+            if (!mFaceDetector.FaceDetected && Time.time - mInactiveTime > 45F) {
+                //mReaction.AskSomething();
+                mReaction.StartWandering();
+                //mInactiveTime = Time.time;
+            }
 
             Behave();
         }
@@ -88,12 +112,9 @@ namespace BuddyApp.Companion
         private void PushInStack(Action iAction)
         {
             if(iAction == mCurrentAction)
-            {
-                Debug.Log("Tried to insert same action. Will break");
                 return;
-            }
-            foreach (Action lStackAction in mActionStack)
-            {
+
+            foreach (Action lStackAction in mActionStack) {
                 if (lStackAction == iAction)
                     return;
             }

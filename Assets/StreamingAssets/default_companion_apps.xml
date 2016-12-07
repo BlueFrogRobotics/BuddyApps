@@ -60,11 +60,22 @@
   <AppInfo>
     <name />
     <hideFlags>None</hideFlags>
+    <DisplayName>IOT</DisplayName>
+    <Scene>IOT</Scene>
+    <Icon>Ico_Security</Icon>
+    <Atlas>AtlasUI</Atlas>
+	<OptionsLayoutStr>BuddyApp.IOT.IOTLayout</OptionsLayoutStr>
+	<DataFile>iot_data.xml</DataFile>
+  </AppInfo>
+
+  <AppInfo>
+    <name />
+    <hideFlags>None</hideFlags>
     <DisplayName>GUARDIAN</DisplayName>
     <Scene>Guardian</Scene>
     <Icon>Ico_Security</Icon>
     <Atlas>AtlasUI</Atlas>
 	<OptionsLayoutStr>BuddyApp.Guardian.GuardianLayout</OptionsLayoutStr>
 	<DataFile>guardian_data.xml</DataFile>
-  </AppInfo>
+  </AppInfo>  
 </ArrayOfAppInfo>
