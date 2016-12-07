@@ -9,29 +9,30 @@ namespace BuddyApp.Guardian
     public class ShowTemperature : MonoBehaviour
     {
 
-        public int width = 8;
-        public int height = 8;
+        public int width = 4;
+        public int height = 4;
         public RawImage raw;
-        Mat grid;
-        float[] temperature;
-        Texture2D texture;
-        byte[] colorGrid;
         public ColorZone[] zones;
+        public bool interpolation = false;
+        public Button mButtonBack;
         //public float tempMin = 13.0f;
         //public float tempMax = 30.0f;
         public GameObject labelPrefab;
         public GameObject panel;
         public Canvas canvas;
-        int countChange = 0;
-
-        public bool interpolation = false;
-
-        Text[] listLabel;
         public bool showLabel = false;
-        ThermalSensor mThermalSensor;
-        float mTimer = 0.0f;
 
-        public Button mButtonBack;
+        private int countChange = 0;
+        private Mat grid;
+        private float[] temperature;
+        private Texture2D texture;
+        private byte[] colorGrid;
+
+
+        private Text[] listLabel;
+        private ThermalSensor mThermalSensor;
+        private float mTimer = 0.0f;
+
 
         // Use this for initialization
         void Start()
@@ -46,7 +47,7 @@ namespace BuddyApp.Guardian
             }
 
             texture = new Texture2D(width, height);
-            GameObject objet;
+            //GameObject objet;
             /*GridLayoutGroup gridLayoutGroup = panel.GetComponent<GridLayoutGroup>();
             UnityEngine.RectTransform rect = canvas.GetComponent<UnityEngine.RectTransform>();
             gridLayoutGroup.cellSize=new Vector2 (rect.rect.width/width, rect.rect.height/height);
@@ -63,11 +64,11 @@ namespace BuddyApp.Guardian
         void Update()
         {
 
-            mTimer += Time.deltaTime;
-            if (mTimer > 0.1f)
-            {
+            //mTimer += Time.deltaTime;
+            //if (mTimer > 0.2f)
+            //{
                 UpdateTexture();
-            }
+            //}
 
         }
 

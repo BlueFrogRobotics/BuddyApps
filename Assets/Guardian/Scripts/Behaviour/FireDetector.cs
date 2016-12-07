@@ -20,6 +20,7 @@ namespace BuddyApp.Guardian
         private float mMinThreshold = 20f;
         private float mMaxThreshold = 80f;
         private float mThreshold = 40.0f;
+        private float mTimer = 0.0f;
 
         void Awake()
         {
@@ -35,7 +36,12 @@ namespace BuddyApp.Guardian
         // Update is called once per frame
         void Update()
         {
-            mIsFireDetected = CheckFire();
+            mTimer += Time.deltaTime;
+            if (mTimer > 0.2f)
+            {
+                mIsFireDetected = CheckFire();
+                mTimer = 0.0f;
+            }
             if (mIsFireDetected)
             {
                 if (OnDetection != null)

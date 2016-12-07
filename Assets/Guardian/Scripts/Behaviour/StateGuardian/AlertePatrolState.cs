@@ -43,6 +43,7 @@ namespace BuddyApp.Guardian
         {
             SetWindowAppOverBuddyColor(1);
             InitLink();
+            mHasSentNotification = false;
             mBackgroundPrefab.GetComponent<Canvas>().enabled = true;
             //animator.SetBool("HasAlerted", false);
             mTTS = BYOS.Instance.TextToSpeech;
@@ -72,7 +73,8 @@ namespace BuddyApp.Guardian
         {
             mTimer -= Time.deltaTime;
             //mFaceManager.Speak(mTTS.IsSpeaking());
-
+            //mDetectorManager.SoundDetector.CanSave = mMailSender.CanSend;
+            Debug.Log("peut send: " + mMailSender.CanSend);
             if (!mHasAlerted)
             {
                 mHasAlerted = true;
@@ -160,6 +162,7 @@ namespace BuddyApp.Guardian
                         lMail.AddFile("noise.wav");
                         mCountPhoto++;
                         mMailSender.Send(lMail);
+                        mDetectorManager.SoundDetector.CanSave = false;
                     }
                     break;
                 case (int)DetectionManager.Alert.FIRE:

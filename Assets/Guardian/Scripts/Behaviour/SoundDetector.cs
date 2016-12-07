@@ -11,6 +11,8 @@ namespace BuddyApp.Guardian
 
         public event Action OnDetection;
 
+        public bool CanSave { get; set; }
+
         private bool mIsASoundDetected;
         private AudioClip mClipBefore;
         private AudioClip mClipMedium;
@@ -123,7 +125,8 @@ namespace BuddyApp.Guardian
                             mNumSeq++;
                             if (mNumSeq > 1)
                             {
-                                SaveWav("noise.wav");
+                                if(CanSave)
+                                    SaveWav("noise.wav");
                                 mIsRecording = false;
                                 mNumSeq = 0;
                                 mSoundSaved = true;
