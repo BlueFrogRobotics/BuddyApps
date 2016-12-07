@@ -257,7 +257,7 @@ public class LightHUE : MonoBehaviour
 
     public void askLightsCount()
     {
-        HTTP.Request theRequest = new HTTP.Request("GET", path + "/lights");
+        Request theRequest = new Request("GET", path + "/lights");
         theRequest.Send((request) =>
         {
             Debug.Log(request);
@@ -377,7 +377,7 @@ public class LightHUE : MonoBehaviour
 
     public void getAllValue()
     {
-        HTTP.Request theRequest = new HTTP.Request("GET", path + "/lights/" + (selectedLamp));
+        Request theRequest = new Request("GET", path + "/lights/" + (selectedLamp));
         theRequest.Send((request) =>
         {
             Hashtable result = request.response.Object;

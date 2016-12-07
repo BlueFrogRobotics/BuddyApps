@@ -50,5 +50,11 @@ namespace BuddyApp.IOT
                 }
             });
         }
+        
+        public void OnOffForAll(bool iState)
+        {
+            for(int i = 0; i < mLights.Count; ++i)
+                mLights[i].OnOff(iState);
+        }
     }
 }
