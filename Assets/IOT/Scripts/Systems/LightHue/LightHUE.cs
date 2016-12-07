@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using BuddyFeature.Web;
 
 public class LightHUE : MonoBehaviour
 {
@@ -123,7 +124,7 @@ public class LightHUE : MonoBehaviour
 
             }
             string path_ = path + "/lights/" + (lightsList[selectedLamp - 1].indice + 1) + "/state";
-            HTTP.Request theRequest = new HTTP.Request("PUT", path_, lightSettings);
+            Request theRequest = new Request("PUT", path_, lightSettings);
             theRequest.Send((request) =>
             {
             });

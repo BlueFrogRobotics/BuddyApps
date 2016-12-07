@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using BuddyOS.UI;
+using BuddyFeature.Web;
+
 namespace BuddyApp.IOT
 {
     public class IOTPhilipsHue : IOTSystems
@@ -29,7 +31,7 @@ namespace BuddyApp.IOT
 
         private void AskLightsCount()
         {
-            HTTP.Request theRequest = new HTTP.Request("GET", "http://" + Credentials[0] + "/api/" + Credentials[1] + "/lights");
+            Request theRequest = new Request("GET", "http://" + Credentials[0] + "/api/" + Credentials[1] + "/lights");
             theRequest.Send((request) =>
             {
                 Hashtable result = request.response.Object;
