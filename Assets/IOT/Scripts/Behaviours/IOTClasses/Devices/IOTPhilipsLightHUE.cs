@@ -25,5 +25,30 @@ namespace BuddyApp.IOT
         public Hashtable State { get { return mState; } set { mState = value; } }
         private int indice;
         public int Indice { get { return indice; } set { indice = value; } }
+
+        private void setValue(string[] iStr, object[] iVal)
+        {
+            Hashtable lLightSettings = new Hashtable();
+
+            for (int i = 0; i < iStr.Length; i++)
+            {
+                string lStr = iStr[i];
+                mState[lStr] = iVal[i];
+                lLightSettings.Add(lStr, mState[lStr]);
+            }
+
+            string lPath = "http://" + Credentials[0] + "/api/" + Credentials[1] + "/lights/" + (indice + 1) + "/state";
+            HTTP.Request theRequest = new HTTP.Request("PUT", lPath, lLightSettings);
+            theRequest.Send((request) =>
+            {
+            });
+        }
+
+        public void OnOff(bool iOnOff)
+        {
+            string[] lKey = new string[1] { "on" };
+            object[] value = new object[1] { iOnOff };
+            setValue(lKey, value);
+        }
     }
 }
