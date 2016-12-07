@@ -23,7 +23,8 @@ namespace BuddyApp.IOT
 
             IOTDropdownCmd lCmd = new IOTDropdownCmd(this);
 
-            lDropDownComponent.AddOption("Philips Hue", lCmd);
+            //lDropDownComponent.UpdatesCommands.Add(lCmd);
+            //lDropDownComponent.AddOption("Philips Hue", lCmd);
         }
 
         public void FillParamClasses()
