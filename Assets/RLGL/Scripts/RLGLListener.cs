@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BuddyOS;
+using BuddyOS.Command;
 using UnityEngine.UI;
 
 namespace BuddyApp.RLGL
@@ -16,8 +17,12 @@ namespace BuddyApp.RLGL
         [SerializeField]
         private GameObject WindowMenu;
 
+        private int mIndex;
+        
+
         void Awake()
         {
+            mIndex = 0;
             mTTS = BYOS.Instance.TextToSpeech;
             mSTT = BYOS.Instance.SpeechToText;
         }
@@ -25,7 +30,7 @@ namespace BuddyApp.RLGL
         void Start()
         {
             mSTT.OnBestRecognition.Add(FunctionTocallWhenBestRekon);
-            StartCoroutine(StartRequestAfterDelay(5f));
+            //StartCoroutine(StartRequestAfterDelay(5f));
         }
         void FunctionTocallWhenBestRekon(string iMsg)
         {
@@ -35,11 +40,26 @@ namespace BuddyApp.RLGL
                 WindowMenu.SetActive(false);
             }
             else if (iMsg.ToLower().Contains("quitter"))
-                UnLoadAppCmd.Create().Execute();
-            else if(iMsg.ToLower().Contains("oui"))
+                new HomeCmd().Execute();
+            else if (iMsg.ToLower().Contains("oui") && mIndex == 0)
             {
                 //Gameplay.GetComponent<Animator>().SetBool("IsReplayDone", true);
-                Gameplay.GetComponent<Animator>().GetBehaviour<ReplayState>().IsAnswerYes = true;
+                Gameplay.GetComponent<Animator>().GetBehaviour<StartState>().IsAnswerYes = true;
+            }
+            else if (iMsg.ToLower().Contains("non") && mIndex == 0)
+            {
+                //Gameplay.GetComponent<Animator>().SetBool("IsReplayDone", true);
+                Gameplay.GetComponent<Animator>().GetBehaviour<StartState>().IsAnswerNo = true;
+            }
+            else if (iMsg.ToLower().Contains("oui") && mIndex == 1)
+            {
+                //Gameplay.GetComponent<Animator>().SetBool("IsReplayDone", true);
+                Gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().IsAnswerRuleYes = true;
+            }
+            else if (iMsg.ToLower().Contains("non") && mIndex == 1)
+            {
+                //Gameplay.GetComponent<Animator>().SetBool("IsReplayDone", true);
+                Gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().IsAnswerRuleNo = true;
             }
             else
             {
@@ -59,8 +79,9 @@ namespace BuddyApp.RLGL
             mSTT.Request();
         }
 
-        public void STTRequest()
+        public void STTRequest(int iIndex)
         {
+            mIndex = iIndex;
             mSTT.Request();
         }
     }

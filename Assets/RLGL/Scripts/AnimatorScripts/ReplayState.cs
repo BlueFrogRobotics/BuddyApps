@@ -1,74 +1,68 @@
 ﻿using UnityEngine;
 using BuddyOS;
+using System;
 
 namespace BuddyApp.RLGL
 {
-    public class ReplayState : StateMachineBehaviour
+    public class ReplayState : AStateMachineBehaviour
     {
 
         private GameObject mWindowQuestion;
         private float mTimer;
         private bool mIsSentenceDone;
-        private TextToSpeech mTTS;
-        private bool mGOLinkerSentence;
-        private bool mGOLinkerDone;
-        
+        private bool mIsQuestionDone;
 
         private bool mIsAnswerYes;
         public bool IsAnswerYes { get { return mIsAnswerYes; } set { mIsAnswerYes = value; } }
 
 
-        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void Init()
         {
-            mTTS = BYOS.Instance.TextToSpeech;
+        }
+
+        protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            Debug.Log("On Enter replay state");
             mTimer = 0.0f;
-            mWindowQuestion = animator.GetComponent<GameObjectLinker>().WindowQuestion;
-            mWindowQuestion.SetActive(true);
-            mIsSentenceDone = false;
-            mGOLinkerSentence = animator.GetComponent<GameObjectLinker>().mIsSentenceDone;
-            mGOLinkerSentence = false;
-            mGOLinkerDone = animator.GetComponent<GameObjectLinker>().mReplay;
-            mGOLinkerDone = false;
-
-
-        }
-
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            mTimer += Time.deltaTime;
-
-            if(mTimer < 12.0f && mIsAnswerYes && !mIsSentenceDone )
-            {
-                mTTS.Say("Ok je te laisse 10 secondes pour te replacer.");
-                mIsSentenceDone = true;
-            }
-
-            if(mTimer > 22.0f && mTTS.HasFinishedTalking() && mIsAnswerYes)
-            {
-                animator.SetBool("IsReplayDone", true);
-            }
-        }
-
-        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            mWindowQuestion.SetActive(false);
-            animator.SetBool("IsReplayDone", false);
+            mWindowQuestion = GetGameObject(6);
+            mIsQuestionDone = false;
             mIsSentenceDone = false;
             mIsAnswerYes = false;
         }
 
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
+        protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iSateInfo, int iLayerIndex)
+        {
+            Debug.Log("On update replay state");
+            mTimer += Time.deltaTime;
 
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
+            if(mTimer < 12.0F && !mIsAnswerYes && !mIsQuestionDone)
+            {
+                mFace.SetMood(FaceMood.FOCUS);
+                mTTS.Say("Do you want to replay the game with me?");
+                mWindowQuestion.SetActive(true);
+                mIsQuestionDone = true;
+            }
+
+            if (mTTS.HasFinishedTalking() &&  mTimer < 12.0f && mIsAnswerYes && !mIsSentenceDone && mIsQuestionDone)
+            {
+                mFace.SetMood(FaceMood.NEUTRAL);
+                mTTS.Say("Ok I let you ten second to go back at the start!");
+                mIsSentenceDone = true;
+            }
+
+            if (mTimer > 22.0f && mTTS.HasFinishedTalking() && mIsAnswerYes)
+            {
+                iAnimator.SetBool("IsReplayDone", true);
+            }
+        }
+
+        protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            Debug.Log("On exit replay state");
+            mWindowQuestion.SetActive(false);
+            iAnimator.SetBool("IsReplayDone", false);
+        }
+
     }
 }
 

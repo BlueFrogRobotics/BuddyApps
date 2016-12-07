@@ -1,111 +1,95 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BuddyOS;
+using System;
 
 namespace BuddyApp.RLGL
 {
-    public class DetectionState : StateMachineBehaviour
+    public class DetectionState : AStateMachineBehaviour
     {
-
-        private GameObject mMotionDetector;
-        private Motors mMotors;
-        private bool mIsHeadUp = false;
-        private TextToSpeech mTTS;
-        private Face mFace;
-        private float mTimer;
         private bool mIsSentenceDone;
         private bool mIsDetected;
-        private int mCount;
-
-
-        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        private float mTimer;
+        private bool mIsStrong;
+        private bool mIsMovementActionDone;
+        private bool mIsMovementDone;
+        
+        public override void Init()
         {
-            mCount = 0;
+        }
+
+        protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            Debug.Log("On Enter Detection state");
+            mTimer = 0.0F;
             mIsSentenceDone = false;
-            mMotors = BYOS.Instance.Motors;
-            mTTS = BYOS.Instance.TextToSpeech;
-            mFace = BYOS.Instance.Face;
-            mTimer = 0.0f;
-
-            if (!mIsHeadUp)
-            {
-                mMotors.YesHinge.SetPosition(-5.0f, 100.0f);
-                mIsHeadUp = true;
-            }
-
-            if (mMotionDetector == null)
-            {
-                mMotionDetector = animator.gameObject.GetComponent<GameObjectLinker>().MotionDetector;
-            }
-            if (mIsHeadUp)
-            {
-                mMotionDetector.SetActive(true);
-            }
             mIsDetected = false;
-           
+            mIsMovementDone = false;
+            mIsStrong = false;
+            mIsMovementActionDone = false;
+            GetComponent<FreezeDance.MotionGame>().enabled = true;
         }
 
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mIsDetected = mMotionDetector.GetComponent<MotionGame>().IsMoving();
+            Debug.Log("On update Detection state");
             mTimer += Time.deltaTime;
-            Debug.Log(mTimer);
-            //Player detected by buddy
-            if(mTimer < 2.0f)
+            if (!mIsMovementActionDone)
             {
-                mIsDetected = false;
+                mTTS.Say("Red Light");
+                mWheels.TurnAngle(-180.0F, 250.0F, 0.3F);
+                mIsMovementActionDone = true;
             }
-            if (mIsDetected && !mIsSentenceDone && mTimer < 8.0f && mTimer > 2.0f)
+            Debug.Log("STATUS DETECTION STATE : " + mWheels.Status);
+
+            if (mWheels.Status == MobileBaseStatus.REACHED_GOAL )
             {
-                mFace.SetMood(FaceMood.HAPPY);
-                mFace.SetEvent(FaceEvent.SMILE);
-
-                mTTS.Say("ahah je t'ai vu avancer, retourne au point de daipart. Je te laisse 10 secondes pour retourner au point de daipart");
-
-                mIsSentenceDone = true;
+                mIsMovementDone = true;
+                Debug.Log("DETECTION UPDATE : MOVEMENT DONE");
             }
-            if(mIsSentenceDone  && mTTS.HasFinishedTalking() && mTimer > 20.0f)
+            
+            if ( mTTS.HasFinishedTalking() && mIsMovementDone)
             {
-                animator.SetBool("IsDetectedTrue", true);
-            }
+                mIsDetected = GetComponent<FreezeDance.MotionGame>().IsMoving();
 
-            if (!mIsSentenceDone && mTimer < 8.0f && mCount == 0 && mTimer < 2.0f)
-            {
-                mCount++;
-                mTTS.Say("hum tu es fort, je ne te vois pas bouger");
-                mFace.SetMood(FaceMood.FOCUS);
-            }
+                if(mIsDetected && !mIsSentenceDone && mTimer < 8.0f && mTimer > 3.0f)
+                {
+                    mFace.SetMood(FaceMood.HAPPY);
+                    mFace.SetEvent(FaceEvent.SMILE);
 
-            //player not detected by buddy
-            if (!mIsSentenceDone && mTimer > 8.0f && mTTS.HasFinishedTalking())
-            {
-                animator.SetBool("IsDetectedFalse", true);
+                    mTTS.Say("I saw you moving my friend, I let you ten seconds to go back at the start!");
+                    mIsSentenceDone = true;
+                }
+                if (mIsSentenceDone && mTTS.HasFinishedTalking() && mTimer > 20.0f)
+                {
+                    mFace.SetMood(FaceMood.NEUTRAL);
+                    GetComponent<FreezeDance.MotionGame>().enabled = false;
+                    iAnimator.SetBool("IsDetectedTrue", true);
+                }
+
+                if (!mIsDetected && !mIsSentenceDone && mTimer > 4.0F && mTimer < 8.0F && !mIsStrong)
+                {
+                    mTTS.Say("hum tu es fort, je ne te vois pas bouger");
+                    mFace.SetMood(FaceMood.FOCUS);
+                    mIsStrong = true;
+                }
+
+                if (!mIsSentenceDone && mTimer > 8.0f && mTTS.HasFinishedTalking() && mIsStrong)
+                {
+                    mFace.SetMood(FaceMood.NEUTRAL);
+                    GetComponent<FreezeDance.MotionGame>().enabled = false;
+                    iAnimator.SetBool("IsDetectedFalse", true);
+                }
             }
         }
 
-        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mIsSentenceDone = false;
-            animator.SetBool("IsDetectedTrue", false);
-            animator.SetBool("IsDetectedFalse", false);
-            mFace.SetMood(FaceMood.NEUTRAL);
-            if (mMotionDetector != null)
-                mMotionDetector.SetActive(false);
-
-        }
-
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
+            Debug.Log("On exit Detection state");
+            iAnimator.SetBool("IsDetectedTrue", false);
+            iAnimator.SetBool("IsDetectedFalse", false);
+            
+        }        
     }
 
 }

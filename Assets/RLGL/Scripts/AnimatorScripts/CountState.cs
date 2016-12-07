@@ -2,86 +2,117 @@
 using System.Collections;
 using BuddyOS;
 using UnityEngine.UI;
-
+using System;
 namespace BuddyApp.RLGL
 {
-    public class CountState : StateMachineBehaviour
+    public class CountState : AStateMachineBehaviour
     {
-
-        private Motors mMotors;
-        private GameObject mCanvasUI;
+        private GameObject mCanvasUIToWin;
         private Button mButtonToWin;
         private float mTimer;
-        private Face mFace;
-        private bool mIsCountDone;
-        private TextToSpeech mTTS;
         private bool mFirstSentence;
         private bool mSecondSentence;
+        private bool mIsCoroutineDone;
+        private bool mIsMovementDone;
 
-        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        private int mCount;
+
+
+        public override void Init()
         {
-            mTTS = BYOS.Instance.TextToSpeech;
+        }
+
+        protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            Debug.Log("ON ENTER COUNT STATE");
+            mCanvasUIToWin = GetGameObject(5);
+            mIsCoroutineDone = false;
+            mIsMovementDone = false;
             mFirstSentence = false;
             mSecondSentence = false;
-            mIsCountDone = false;
-            mTimer = 0.0f;
-            mMotors = BYOS.Instance.Motors;
-            mFace = BYOS.Instance.Face;
-            mMotors.YesHinge.SetPosition(45.0f, 100.0f);
-            mCanvasUI = animator.GetComponent<GameObjectLinker>().CanvasUI;
-            mCanvasUI.SetActive(true);
-
+            mCount = 0;
+            iAnimator.SetBool("IsCountDone", false);
+            iAnimator.SetBool("IsWon", false);
+            mFace.SetMood(FaceMood.HAPPY);
+            mTTS.Say("Okay let's play together!");
         }
 
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mTimer += Time.deltaTime;
-            //Debug.Log(mTimer);
-            if(!mIsCountDone && mTimer < 5.0f)
+            Debug.Log("ON update COUNT STATE");
+            if (mTTS.HasFinishedTalking() && !mFirstSentence)
             {
-                mTTS.SetSpeechRate(0.1f);
-                if (mTTS.HasFinishedTalking() && !mFirstSentence && !mSecondSentence)
-                {
-                    mTTS.Say("Un deux trois,");
-                    mFirstSentence = true;
-                }
-                else if(mTTS.HasFinishedTalking() && mFirstSentence && !mSecondSentence)
-                {
-                    mTTS.SetSpeechRate(1.0f);
-                    mTTS.Say("soleil");
-                    mIsCountDone = true;
-                    mSecondSentence = true;
-                }
+                StartCoroutine(WaitTenSecondsAtStart());
+            }
+            
+            if(mTTS.HasFinishedTalking() && mFirstSentence && !mSecondSentence)
+            {
+                mFace.SetMood(FaceMood.NEUTRAL);
+                mCount = 0;
+                mTTS.Say("Ok let's go!");
+                mSecondSentence = true;
             }
 
-            if(mTTS.HasFinishedTalking() && mIsCountDone)
+            if(mTTS.HasFinishedTalking() && mSecondSentence)
             {
-                animator.SetBool("IsCountDone", true);
+                StartCoroutine(GreenLightMomentAndTurn());
             }
+            
+            if (mWheels.Status == MobileBaseStatus.REACHED_GOAL && mIsCoroutineDone)
+            {
+                mIsMovementDone = true;
+            }
+
+            if (mIsMovementDone && mTTS.HasFinishedTalking())
+            {
+                StartCoroutine(ChangeState(6.0F, iAnimator));
+            }
+
         }
 
-        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mFirstSentence = false;
-            mSecondSentence = false;
-            mTTS.SetSpeechRate(1.0f);
-            animator.SetBool("IsCountDone", false);
-            animator.SetBool("IsWon", false);
-            mCanvasUI.SetActive(false);
+            
+            mCanvasUIToWin.SetActive(false);
+            //iAnimator.SetBool("IsCountDone", false);
+            //iAnimator.SetBool("IsWon", false);
+            //mIsCoroutineDone = false;
+            //mIsMovementDone = false;
+            //mFirstSentence = false;
+            //mSecondSentence = false;
+            //mCount = 0;
         }
 
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
+        private IEnumerator WaitTenSecondsAtStart()
+        {
+            if(mCount == 0 && mTTS.HasFinishedTalking())
+            {
+                mTTS.Say("You have ten seconds to go away by about fifteen feet, I will wait ten seconds gogo! ");
+                mCount++;
+            }
+            yield return new WaitForSeconds(15.0F);
+            mFirstSentence = true;
+        }
 
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
+        private IEnumerator GreenLightMomentAndTurn()
+        {
+            yield return new WaitForSeconds(3.0F);
+            if(mTTS.HasFinishedTalking() && mCount == 0)
+            {
+                mCanvasUIToWin.SetActive(true);
+                mTTS.Say("Green Light !");
+                mWheels.TurnAngle(180.0F, 250.0F, 0.3F);
+                mCount++;
+                mIsCoroutineDone = true;
+            }
+                        
+        }
+
+        private IEnumerator ChangeState(float iSecondToWait, Animator iAnimator)
+        {
+            yield return new WaitForSeconds(iSecondToWait);
+            iAnimator.SetBool("IsCountDone", true);
+        }
 
     }
 }

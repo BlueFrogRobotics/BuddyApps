@@ -1,65 +1,94 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BuddyOS;
-
+using System;
 namespace BuddyApp.RLGL
 {
-    public class RulesState : StateMachineBehaviour
+    public class RulesState : AStateMachineBehaviour
     {
+        private bool mIsSentenceDone;
+        private bool mIsQuestionDone;
 
-        private TextToSpeech mTTS;
-        private float mTimer;
-        private bool mIsSentenceDone = false;
+        private bool mIsAnswerRuleYes;
+        public bool IsAnswerRuleYes { get { return mIsAnswerRuleYes; } set { mIsAnswerRuleYes = value; } }
 
-        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        private bool mIsAnswerRuleNo;
+        public bool IsAnswerRuleNo { get { return mIsAnswerRuleNo; } set { mIsAnswerRuleNo = value; } }
+
+        private GameObject mWindowQuestionRule;
+
+        public override void Init()
         {
-            mTTS = BYOS.Instance.TextToSpeech;
-            mTimer = 0.0f;
             
         }
 
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mIsSentenceDone = false;
+            mIsQuestionDone = false;
+            mIsAnswerRuleYes = false;
+            mIsAnswerRuleNo = false;
+            mWindowQuestionRule = GetGameObject(4);
+            mWindowQuestionRule.SetActive(false);
+        }
 
-            mTimer += Time.deltaTime;
-            //Debug.Log("mtimer " + mTimer);
-
-            if (mTimer >= 2.0f && !mIsSentenceDone)
+        protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            if(!mIsSentenceDone)
+                StartCoroutine(SayRulesAndExit());   
+            if(mTTS.HasFinishedTalking() && mIsSentenceDone && !mIsQuestionDone )
             {
-                //mTTS.Say("Bonjour mon ami, on va jouer ensemble! Recule de six grand pas et quand je dirais 1 2 3 soleil, " +
-                //" il faudra que t'avance pour toucher mon visage mais attention si je te vois avancer quand j'ai les " +
-                //" yeux ouvert alors il faudra recommencer. Maintenant que j'ai donné les consignes, nous allons pouvoir " +
-                //" commencer à jouer dans 5 secondes. Cinq quatre, trois, deux, un, c'est parti");
+                StartCoroutine(Restart());
+            }
+            //mettre sil a finit de parler et deux coroutine done -> request + question
+            if(mTTS.HasFinishedTalking() && mIsSentenceDone && mIsQuestionDone)
+            {
+                if(!mWindowQuestionRule.activeSelf)
+                    mWindowQuestionRule.SetActive(true);
+                StartCoroutine(RestartAskingRule(1));
+                if(mIsAnswerRuleNo)
+                {
+                    iAnimator.SetBool("IsRulesDone", true);
+                }
+                else if(mIsAnswerRuleYes)
+                {
+                    iAnimator.Play("RulesState", 0, 0.0F);
+                }
+            }
+        }
 
-                mTTS.Say("salut mon ami, nous allons jouer à un deux trois soleil ensemble");
+        protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            iAnimator.SetBool("IsRulesDone", false);
+            mWindowQuestionRule.SetActive(false);
+        }
 
+        IEnumerator SayRulesAndExit()
+        {
+            yield return new WaitForSeconds(2.0F);
+            if(!mIsSentenceDone)
+            {
+                mTTS.Say("Okay, I will explain the game for you my friend. Decreases by about fifteen feets and sometimes I will say green light and your goal is to touch my face " +
+                        " before I say red light.");
                 mIsSentenceDone = true;
             }
-
-            if (mTimer > 10.0f && mIsSentenceDone && mTTS.HasFinishedTalking())
-            {
-                animator.SetBool("IsRulesDone", true);
-            }
-
         }
 
-        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        IEnumerator Restart()
         {
-            animator.SetBool("IsRulesDone", false);
+            mTTS.Say("Do you want me to repeat the rules?");
+            mIsQuestionDone = true;
+            yield return new WaitForSeconds(3.0F);
         }
 
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
+        private IEnumerator RestartAskingRule(int iIndex)
+        {
+            Debug.Log("RULE STATE STTREQUEST");
+            GetGameObject(2).GetComponent<RLGLListener>().STTRequest(iIndex);
+            while (!mIsAnswerRuleYes || !mIsAnswerRuleNo)
+            {
+                yield return null;
+            }
+        }
     }
 }

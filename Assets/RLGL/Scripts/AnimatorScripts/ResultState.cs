@@ -1,56 +1,58 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BuddyOS;
+using System;
 
 namespace BuddyApp.RLGL
 {
-    public class ResultState : StateMachineBehaviour
+    public class ResultState : AStateMachineBehaviour
     {
-
-        private Face mFace;
-        private TextToSpeech mTTS;
-        private SpeechToText mSTT;
         private float mTimer;
         private bool mIsSentenceDone;
-
-        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        private bool mIsMovementDone;
+        
+        public override void Init()
         {
-            mIsSentenceDone = false;
-            mTimer = 0.0f;
-            mFace = BYOS.Instance.Face;
-            mTTS = BYOS.Instance.TextToSpeech;
-            mSTT = BYOS.Instance.SpeechToText;
         }
 
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("On Enter result state");
+            mIsSentenceDone = false;
+            mIsMovementDone = false;
+            mTimer = 0.0f;
+            mWheels.TurnAngle(-180.0F, 250.0F, 0.5F);
+        }
+
+        protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iSateInfo, int iLayerIndex)
+        {
+            Debug.Log("On update result state");
             mTimer += Time.deltaTime;
-            if (!mTTS.IsSpeaking() && mTimer < 6.0f && !mIsSentenceDone)
+            if(mWheels.Status == MobileBaseStatus.REACHED_GOAL && !mIsMovementDone)
             {
-                mTTS.Say("Bravo tu as gagner, tu as été trop rapide pour moi!");
+                mIsMovementDone = true;
+                mFace.SetMood(FaceMood.HAPPY);
+            }
+
+            
+            if (mTTS.HasFinishedTalking() && mTimer < 6.0f && !mIsSentenceDone && mIsMovementDone)
+            {
+                mTTS.Say("Good job you won, you have been too fast for me!");
                 mIsSentenceDone = true;
             }
+            if (mTTS.HasFinishedTalking() && mIsSentenceDone)
+                mFace.SetMood(FaceMood.NEUTRAL);
             if (mTimer > 6.0f)
-                animator.SetBool("IsReplayTrue", true);
+                iAnimator.SetBool("IsReplayTrue", true);
+
         }
 
-        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            animator.SetBool("IsReplayTrue", false);
+            Debug.Log("On exit result state");
+            iAnimator.SetBool("IsReplayTrue", false);
         }
 
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
     }
 
 }

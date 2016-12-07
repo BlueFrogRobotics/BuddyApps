@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using BuddyOS;
+using BuddyOS.Command;
 
 namespace BuddyApp.Companion
 {
@@ -15,18 +16,20 @@ namespace BuddyApp.Companion
             mVocalActivation.VocalProcessing = VocalProcessing;
             mVocalActivation.StartRecoWithTrigger();
 
-            SpeechToText lSTT = BYOS.Instance.SpeechToText;
-            lSTT.OnBestRecognition.Add(VocalProcessing);
+            //SpeechToText lSTT = BYOS.Instance.SpeechToText;
+            //lSTT.OnBestRecognition.Add(VocalProcessing);
         }
 
         private void VocalProcessing(string iRequest)
         {
             if (iRequest.Contains("poney"))
                 mTTS.Say("Prout");
-            else if (iRequest.Contains("valentin"))
-                mTTS.Say("Moi c'est Beudi");
             else if (iRequest.Contains("vas tu") || iRequest.Contains("ça va"))
                 mTTS.Say("Je te mange la cervelle avec de la sauce samouraille");
+            //else if(iRequest.Contains("baby") || iRequest.Contains("babyphone"))
+            //new LoadAppByVocalCmd("BabyPhoneApp").Execute();
+            else
+                new LoadAppByVocalCmd(iRequest).Execute();
         }
     }
 }

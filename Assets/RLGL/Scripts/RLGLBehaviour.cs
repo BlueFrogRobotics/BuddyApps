@@ -1,40 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
 using BuddyOS;
 
 namespace BuddyApp.RLGL
 {
-    public class GameObjectLinker : MonoBehaviour
+    [RequireComponent(typeof(StateMachineAppLinker))]
+    [RequireComponent(typeof(FreezeDance.MotionGame))]
+    public class RLGLBehaviour : MonoBehaviour
     {
         private TextToSpeech mTTS;
-
-        [SerializeField]
-        private GameObject mCanvasUI;
-        public GameObject CanvasUI{ get { return mCanvasUI; } set  {mCanvasUI = value; } }
-        
-        [SerializeField]
-        private GameObject mWindowQuestion;
-        public GameObject WindowQuestion { get { return mWindowQuestion; } set { mWindowQuestion = value; } }
-
         private Animator mAnimator;
-
         [HideInInspector]
         public bool mReplay;
         [HideInInspector]
         public bool mIsSentenceDone;
 
+        //[SerializeField]
+        //private GameObject mCanvasRules;
+
+        // Use this for initialization
         void Start()
         {
             mTTS = BYOS.Instance.TextToSpeech;
             mAnimator = GetComponent<Animator>();
             mReplay = false;
             mIsSentenceDone = false;
+
         }
 
+        // Update is called once per frame
         void Update()
         {
-            if(mReplay && !mIsSentenceDone)
+            if (mReplay && !mIsSentenceDone)
             {
                 mTTS.Say("Wesh poto on va rejouer");
                 mIsSentenceDone = true;
@@ -49,15 +46,34 @@ namespace BuddyApp.RLGL
 
         public void OnClickedButtonTowin()
         {
-            //Debug.Log("GOLINKER BUTTON TO WIN");
             mAnimator.SetBool("IsWon", true);
-        } 
+        }
 
         public void OnClickedButtonReplay()
         {
             mReplay = true;
         }
+
+        public void ClickButtonYesRule()
+        {
+            mAnimator.GetBehaviour<RulesState>().IsAnswerRuleYes = true;
+            //mCanvasRules.SetActive(false);
+        }
+
+        public void CLickButtonNoRule()
+        {
+            mAnimator.GetBehaviour<RulesState>().IsAnswerRuleNo = true;
+            //mCanvasRules.SetActive(false);
+        }
+
+        public void ClickButtonYesStart()
+        {
+            mAnimator.GetBehaviour<StartState>().IsAnswerYes = true;
+        }
+
+        public void CLickButtonNoStart()
+        {
+            mAnimator.GetBehaviour<StartState>().IsAnswerNo = true;
+        }
     }
-
-
 }
