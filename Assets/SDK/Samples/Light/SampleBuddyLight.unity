@@ -852,7 +852,7 @@ Prefab:
       objectReference: {fileID: 1324265969}
     - target: {fileID: 22478786, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -664.99994
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11496892, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_Enabled
@@ -921,6 +921,14 @@ Prefab:
     - target: {fileID: 11450770, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: enableNetworkLogs
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22478786, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22317728, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
+      propertyPath: m_RenderMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}

@@ -9,7 +9,7 @@ namespace BuddyApp.Guardian
 
         protected override void ExecuteImpl()
         {
-            GuardianData.Instance.SoundDetectionIsActive = true;
+            GuardianData.Instance.SoundDetectionIsActive = Parameters.Integers[0] == 1;
         }
     }
 }
