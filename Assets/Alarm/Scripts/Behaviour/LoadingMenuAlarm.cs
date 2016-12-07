@@ -35,7 +35,6 @@ namespace BuddyApp.Alarm
 
             yield return new WaitForSeconds(1F);
             loadingScreen.SetActive(false);
-            animator.SetBool("Close_WLoading", false);
         }
     }
 }

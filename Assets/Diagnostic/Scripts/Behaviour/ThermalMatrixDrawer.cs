@@ -8,10 +8,12 @@ namespace BuddyApp.Diagnostic
     {
         private ThermalSensor mThermalSensor;
 
+        [SerializeField]
+        private List<ThermalPixel> pixels;
+
         private int mNbPixel;
         private float mTime;
         private int[] mThermalSensorDataArray;
-        private List<ThermalPixel> mPixels;
 
         void Start()
         {
@@ -21,12 +23,6 @@ namespace BuddyApp.Diagnostic
 
             mTime = 0F;
 
-            foreach (ThermalPixel lPixel in mPixels)
-                lPixel.Value = 0;
-
-            if (mPixels.Count == 0)
-                for (int i = 0; i < 4; ++i)
-                    mPixels.AddRange(transform.GetChild(i).GetComponentsInChildren<ThermalPixel>());
         }
 
         void Update()
@@ -35,14 +31,14 @@ namespace BuddyApp.Diagnostic
 
             // Avoid flashing
             if (mTime >= 0.2F) {
-                /// get data from thermal sensor 
+                // get data from thermal sensor 
                 mThermalSensorDataArray = mThermalSensor.Matrix;
 
-                /// put the appripriate color to the image raw fo the scene
+                // put the appropriate color to the image raw fo the scene
                 for (int i = 0; i < mNbPixel; ++i) {
                     int lValue = mThermalSensorDataArray[i];
                     if (lValue != 0)
-                        mPixels[i].Value = mThermalSensorDataArray[i];
+                        pixels[i].Value = mThermalSensorDataArray[i];
                 }
                 mTime = 0F;
             }

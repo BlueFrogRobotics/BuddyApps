@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using BuddyOS;
+using BuddyOS.App;
 
 namespace BuddyApp.Basic
 {

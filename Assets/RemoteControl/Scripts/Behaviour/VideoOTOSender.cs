@@ -8,11 +8,14 @@ namespace BuddyApp.Remote
     {
         [Range(1, 100)]
         public int mCompressQuality;
+
         [Range(5, 30)]
         public float mRequestedFPS;
-        private float mLastTime;
+
         [SerializeField]
         private OTONetwork OTO;
+
+        private float mLastTime;
         private WebcamManager mWebcam;
         private MatOfByte mBuffer;
 
@@ -30,6 +33,7 @@ namespace BuddyApp.Remote
             if (Time.time - mLastTime < 1 / mRequestedFPS)
                 return;
 
+            //Debug.Log("Video OTO has peer " + OTO.HasAPeer + " and sending");
             mLastTime = Time.time;
             mWebcam.compressQuality = mCompressQuality;
             mBuffer = mWebcam.GetBuffer();

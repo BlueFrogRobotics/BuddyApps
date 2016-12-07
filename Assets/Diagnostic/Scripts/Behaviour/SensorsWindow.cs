@@ -65,19 +65,19 @@ namespace BuddyApp.Diagnostic
 
         void Update()
         {
-            leftUSError.text = "Left US err : " + mLeftUSSensor.Error;
-            rightUSError.text = "Right US err : " + mRightUSSensor.Error;
-            backUSError.text = "Back US err : " + mBackUSSensor.Error;
-            leftUSValue.text = "Left US val : " + mLeftUSSensor.Value;
-            rightUSValue.text = "Right US val : " + mRightUSSensor.Value;
-            backUSValue.text = "Back US val : " + mBackUSSensor.Value;
+            leftUSError.text = "" + mLeftUSSensor.Error;
+            rightUSError.text = "" + mRightUSSensor.Error;
+            backUSError.text = "" + mBackUSSensor.Error;
+            leftUSValue.text = "" + mLeftUSSensor.Distance;
+            rightUSValue.text = "" + mRightUSSensor.Distance;
+            backUSValue.text = "" + mBackUSSensor.Distance;
 
-            leftIRError.text = "Left IR err : " + mLeftIRSensor.Error;
-            middleIRError.text = "Middle IR err : " + mMiddleIRSensor.Error;
-            rightIRError.text = "Right IR err : " + mRightIRSensor.Error;
-            leftIRValue.text = "Left IR val : " + mLeftIRSensor.Value;
-            middleIRValue.text = "Middle IR val : " + mMiddleIRSensor.Value;
-            rightIRValue.text = "Right IR val : " + mRightIRSensor.Value;
+            leftIRError.text = "" + mLeftIRSensor.Error;
+            middleIRError.text = "" + mMiddleIRSensor.Error;
+            rightIRError.text = "" + mRightIRSensor.Error;
+            leftIRValue.text = "" + mLeftIRSensor.Distance;
+            middleIRValue.text = "" + mMiddleIRSensor.Distance;
+            rightIRValue.text = "" + mRightIRSensor.Distance;
         }
     }
 }

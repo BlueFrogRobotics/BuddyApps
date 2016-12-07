@@ -4,6 +4,11 @@
         <name>Mapping</name>
     </assembly>
     <members>
+        <member name="T:BuddyFeature.Mapping.Metrical.AMetricalMapping">
+            <summary>
+            Abstract class helper for metrical mapping
+            </summary>
+        </member>
         <member name="F:BuddyFeature.Mapping.Metrical.AMetricalMapping.DETECT_STEP">
             <summary>
             Progression value when an obstacle is detected at a specific point.
@@ -126,12 +131,22 @@
             <summary>
             Increases the detection value of the position (x, y)
             </summary>
-            <param name="iPosition">The position to increase by a DetectStep value</param>
+            <param name="iPoint">The position to increase by a DetectStep value</param>
         </member>
         <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.DrawRobotPosition">
             <summary>
             Removes considered obstacles on the robot path.
             Display robot position on the map in red.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.Init">
+            <summary>
+            Initialization, called at the start
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.AMetricalMapping.ProcessMapping">
+            <summary>
+            Update function
             </summary>
         </member>
         <member name="T:BuddyFeature.Mapping.Metrical.BasicSensorMapping">
@@ -220,9 +235,118 @@
             </summary>
             <param name="iLaserScan">Fake laser scan array from depth camera</param>
         </member>
+        <member name="T:BuddyFeature.Mapping.Metrical.Impl.Distribution">
+            <summary>
+            Represents a uniform distribution by its min, max and marge
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.Distribution.Min">
+            <summary>
+            Min val of the distribution
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.Distribution.Max">
+            <summary>
+            Max val of the distribution
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.Distribution.Marge">
+            <summary>
+            The tolerate marge (for stockastic purposes)
+            </summary>
+        </member>
         <member name="T:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization">
             <summary>
             Particle Swarm Optimization algorithm described as https://en.wikipedia.org/wiki/Particle_swarm_optimization
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization.Particles">
+            <summary>
+            Swarm particles
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization.BestSwarmParticle">
+            <summary>
+            The best Swarm particle
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization.ObjectiveFunction">
+            <summary>
+            The objective function. The swarm will search to find the lowest value
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization.#ctor(System.Collections.Generic.IList{BuddyFeature.Mapping.Metrical.Impl.Distribution},System.Int32,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Base constructor, see https://en.wikipedia.org/wiki/Particle_swarm_optimization
+            </summary>
+            <param name="iSearchSpace">Search space</param>
+            <param name="iNbParticles">Number of particles</param>
+            <param name="iO">The Omega factor</param>
+            <param name="iNf">The neighbor factor</param>
+            <param name="iBf">The best find factor</param>
+            <param name="iRf">The random factor</param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization.Resample">
+            <summary>
+            Resample all particles
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.Impl.ParticleSwarmOptimization.Update">
+            <summary>
+            Update the swarm
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle">
+            <summary>
+            Swarm particle unit element
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle.SearchSpaceValues">
+            <summary>
+            Position of the particle in the search space
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle.SearchSpaceVelocity">
+            <summary>
+            Velocity of the particle in the search space
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle.Value">
+            <summary>
+            The value of the partcile depending on the ObjectiveFunction
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle.BestNeighborhood">
+            <summary>
+            Best known neighbor of the particle
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle.#ctor(System.Int32)">
+            <summary>
+            Base constructor
+            </summary>
+            <param name="iNbDimension"></param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.Impl.SwarmParticle.ToString">
+            <summary>
+            Serialization tool
+            </summary>
+            <returns>The string with search space values and the obj value</returns>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Metrical.PuzzleSLAM">
+            <summary>
+            The Puzzle SLAM uses a partcile swarm optimization in order to find the 
+            best area match in an existing 2D map.
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.PuzzleSLAM.Init">
+            <summary>
+            Initialization, called at the start
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Metrical.PuzzleSLAM.ProcessMapping">
+            <summary>
+            Update function
             </summary>
         </member>
         <member name="M:BuddyFeature.Mapping.Metrical.PuzzleSLAM.ExtractROIFromBuildingMap">
@@ -236,6 +360,11 @@
             </summary>
             <param name="iParticle">The particle to evaluate</param>
             <returns>Cost of the particle. Lower is better</returns>
+        </member>
+        <member name="T:BuddyFeature.Mapping.FakeLaserScanDevice">
+            <summary>
+            Create a fake laser scan "LIDAR" like from the depth cam
+            </summary>
         </member>
         <member name="F:BuddyFeature.Mapping.FakeLaserScanDevice.mDepthCamera">
             <summary>
@@ -381,6 +510,11 @@
             Measurement noise R 
             </summary>
         </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.EKFSLAM.mIdentity2x2">
+            <summary>
+            2 X 2 identity matrix [1 0; 0 1]
+            </summary>
+        </member>
         <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.EKFSLAM.mDiffState">
             <summary>
             The predicted displacement of the robot : (deltaX, deltaY, deltaT)
@@ -430,6 +564,215 @@
             <param name="iRobot">The robot pose (x,y,theta)</param>
             <param name="iLandmark">The landmark position</param>
             <returns></returns>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.INITIALDISTANCE">
+            <summary>
+            99999m is least initial distance.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.CONV">
+            <summary>
+            Constant to convert degrees to radians 
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.MAXLANDMARKS">
+            <summary>
+            Maximum landmarks that could be observed 
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.MAXERROR">
+            <summary>
+            If a landmark is within MAXERROR meter of another landmark its the same landmark
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.MINOBSERVATIONS">
+            <summary>
+            Number of times a landmark must be observed to be recognized as a landmark 
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.MAXRANGE">
+            <summary>
+            Maximum range value, in meters.
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.LIFE">
+            <summary>
+            Landmark's lifetime 
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.mDegreesPerScan">
+            <summary>
+            Degrees per laser scan
+            </summary>                  
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.MAXTRIALS">
+            <summary>
+            RANSAC : max times to run the algorithm
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.MAXSAMPLE">
+            <summary>
+            RANSAC: randomly select X points
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.MINLINEPOINTS">
+            <summary>
+            RANSAC: if less than MINLINEPOINTS points left don't bother trying to find consensus (stop algorithm)
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.RANSAC_TOLERANCE">
+            <summary>
+            RANSAC: if a point is within x distance of line its part of line
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.RANSAC_CONSENSUS">
+            <summary>
+            RANSAC: at least RANSAC_CONSENSUS votes required to determine if a line
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark">
+            <summary>
+            landmark class 
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark.mPos">
+            <summary>
+            landmarks (x,y) position (in meters) relative to map
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark.mId">
+            <summary>
+            The landmarks unique ID
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark.mLife">
+            <summary>
+            A life counter used to determine whether to discard a landmark
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark.mTotalTimesObserved">
+            <summary>
+            The number of times we have seen landmark
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark.mRange">
+            <summary>
+            Last observed range to landmark
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark.mBearing">
+            <summary>
+            Last observed bearing to landmark
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark.mA">
+            <summary>
+            RANSAC: equation of a line y = mA.X + mB
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark.mB">
+            <summary>
+            RANSAC: equation of a line y = mA.X + mB
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark.mRangeError">
+            <summary>
+            Distance, in meters, from robot position to the wall we are using as a landmark (to calculate error)
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark.mBearingError">
+            <summary>
+            Bearing from robot position to the wall we are using as a landmark (to calculate error)
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.mLandmarkDB">
+            <summary>
+            DataBase of landmarks, list of landmarks
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.mDataBaseSize">
+            <summary>
+            DataBase size
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.mEKFLandmarks">
+            <summary>
+            Number of landmark used for EKF
+            </summary>
+        </member>
+        <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.mIDtoID">
+            <summary>
+            List of Corresponding IDtoID from Landmark to SLAM
+            mIDtoID[mEKFLandmarks, 0] = Landmark ID
+            mIDtoID[mEKFLandmarks, 1] = SLAM ID
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.ExtractLineLandmarks(System.Single[],System.Single[])">
+            <summary>
+            Extract Lines from Laser Scan data.
+            </summary>
+            <param name="iLaserData">Laser Scan data, List of ranges expressed in meters</param>
+            <param name="iRobotPosition">Robot pose from odometry (x, y, theta)</param>
+            <returns>The List in the extracted Lines that will be added to Landmarks DataBase</returns>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.LeastSquaresLineEstimate(System.Single[],System.Single[],System.Int32[],System.Int32,System.Single@,System.Single@)">
+            <summary>
+            Least Square Estimate function 
+            Extract Detected Lines parametres A and B with Y = AX + B.
+            </summary>
+            <param name="iLaserdata">Laser Scan [range_0, range_1, ... range_n]</param>
+            <param name="iRobotPosition">Robot pose [x, y, theta] </param>
+            <param name="iRndSelectedPoints">Random selected points</param>
+            <param name="iCount">Size of the Sample seleced randomly</param>
+            <param name="oA">Detected line parameter y = Ax + B</param>
+            <param name="oB">Detected line parameter y = Ax + B</param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.GetLineLandmark(System.Single,System.Single,System.Single[])">
+            <summary>
+            The goal here is to calculate point on line closest to origin (0,0)
+            calculate line perpendicular to input line. a*a' = -1
+            </summary>
+            <param name="iA">A line parameter y = Ax + B</param>
+            <param name="iB">B line parameter y = Ax + B</param>
+            <param name="iRobotPosition">Robot pose [x, y, theta]</param>
+            <returns></returns>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.GetClosestAssociation(BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark,System.Int32@,System.Int32@)">
+            <summary>
+            Given a landmark we find the closest landmark in DataBase
+            </summary>
+            <param name="iLandmark"></param>
+            <param name="iId">Landmark iD</param>
+            <param name="iTotalTimesObserved"></param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.DistanceToLine(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            The goal here is to calculate point on line closest to (x,y)
+            then use this to calculate distance between them.
+            </summary>
+            <param name="iX">X coordinate for the selected point</param>
+            <param name="iY">Y coordinate for the selected point</param>
+            <param name="iA">Ceff (a), y = a.x + b </param>
+            <param name="iB">Ceff (b), y = a.x + b </param>
+            <returns>Distance, in meters, between P(x,y) and the line Delta : y = a.x + b.</returns>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.Distance(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Computes enclidien distance between two points.
+            </summary>
+            <param name="iX1">x coordinate of the first point, in meters</param>
+            <param name="iY1">y coordinate of the first point, in meters</param>
+            <param name="iX2">x coordinate of the second point, in meters</param>
+            <param name="iY2">y coordinate of the second point, in meters</param>
+            <returns>Distance between tow points, in meters.</returns>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.Distance(BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark,BuddyFeature.Mapping.Sources.SLAM.Impl.Landmarks.landmark)">
+            <summary>
+            Computes euclidien distance between two given Landmarks
+            </summary>
+            <param name="iLandmark1">First Landmark</param>
+            <param name="iLandmark2">Second Landmark</param>
+            <returns>Distance between landmarks, in meters.</returns>
         </member>
         <member name="F:BuddyFeature.Mapping.Sources.SLAM.Impl.Laser.mMaxRange">
             <summary>
@@ -510,16 +853,183 @@
             A graph can be build from a serialized file with DeSerialize(str).
             </summary>
         </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapGraph.Nodes">
+            <summary>
+            Node of the graph
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapGraph.Count">
+            <summary>
+            Number of node in the graph
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapGraph.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapGraph.#ctor(System.String)">
+            <summary>
+            Constructor, create a graph from the input file
+            </summary>
+            <param name="iFilename"></param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapGraph.Serialize(System.String)">
+            <summary>
+            Save the current graph in the specified file
+            </summary>
+            <param name="iFilename">Path to file</param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapGraph.DeSerialize(System.String)">
+            <summary>
+            Fill the current graph with the graph contained in the specified file
+            </summary>
+            <param name="iFilename">Path to file</param>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapGraph.ToString">
+            <summary>
+            Serialization tool
+            </summary>
+            <returns>The corresponding string</returns>
+        </member>
         <member name="T:BuddyFeature.Mapping.Topological.Impl.MapNode">
             <summary>
             Node for topological mapping.
             Each node represents a place in a global graph. 
             </summary>
         </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapNode.ID">
+            <summary>
+            ID of the node
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapNode.Position">
+            <summary>
+            Position of the node
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapNode.AdjacentNodes">
+            <summary>
+            Adjacent nodes
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapNode.Observations">
+            <summary>
+            Observations of the node
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.MapNode.Weight">
+            <summary>
+            Weight of the node ==> Weight of the observation
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapNode.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MapNode.ToString">
+            <summary>
+            Serialization tool
+            </summary>
+            <returns>The corresponding string</returns>
+        </member>
+        <member name="T:BuddyFeature.Mapping.Topological.Impl.MinTriLocalizationStrategy">
+            <summary>
+            Best localization strategy by searching for the minimal area triangle
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.MinTriLocalizationStrategy.Execute(System.Collections.Generic.List{BuddyFeature.Mapping.Topological.Impl.Localization})">
+            <summary>
+            Best localization strategy by searching for the minimal area triangle
+            </summary>
+            <param name="iConjecturalLocalizations">Best find position of the robot</param>
+            <returns>Hypothetical position of the robot</returns>
+        </member>
         <member name="T:BuddyFeature.Mapping.Topological.Impl.Observation">
             <summary>
             Observations of the robot at a given orientation
             </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.Observation.Orientation">
+            <summary>
+            Orientation of the observation
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.Observation.Weight">
+            <summary>
+            Weight (rate) of the observation
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.Observation.Descriptors">
+            <summary>
+            Descriptor of the observation
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.Impl.Observation.Landmarks">
+            <summary>
+            Landmarks of the observation
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.Observation.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.Impl.Observation.ToString">
+            <summary>
+            Serialization tool
+            </summary>
+            <returns>The corresponding string</returns>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkMapping.Mode">
+            <summary>
+            The current mode
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkMapping.Last60View">
+            <summary>
+            The last 60° capture from the robot 
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkMapping.Graph">
+            <summary>
+            The graph of the mapping 
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkMapping.CurrentNode">
+            <summary>
+            The current node where the robot belongs
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Mapping.Topological.LandmarkMapping.WithGCV">
+            <summary>
+            Does the mapping use GoogleCloudVision
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.LandmarkMapping.Make360Analysis">
+            <summary>
+            The robot processed a 360 analysis at the current position
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.LandmarkMapping.MakeGCVAnalysis(System.Int32)">
+            <summary>
+            Call GoogleCloudVision API for labelization
+            </summary>
+            <param name="iMaxResult">Max asked results</param>
+            <returns>Response of the GCV API</returns>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.LandmarkMapping.Make60Analysis">
+            <summary>
+            Make a 60 analysis, finding ORB descriptors
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.LandmarkMapping.ApplyBlackListLandmarks(BuddyFeature.Vision.Impl.AnnotateImageResponses)">
+            <summary>
+            Remove blacklisted elements in ioResponse
+            </summary>
+            <param name="ioResponse">The annotateImageResponses to check</param>
         </member>
         <member name="T:BuddyFeature.Mapping.Topological.LandmarkSLAMMode">
             <summary>
@@ -585,6 +1095,13 @@
             <summary>
             Estimated orientation of the robot. The orientation is weighted with accuracy of each observation's orientation 
             </summary>
+        </member>
+        <member name="M:BuddyFeature.Mapping.Topological.LandmarkSLAM.SetMode(BuddyFeature.Mapping.Topological.LandmarkSLAMMode,System.Boolean)">
+            <summary>
+            Switch to the specified mode
+            </summary>
+            <param name="iMode">Wanted mode</param>
+            <param name="iSaveCurrentMap">Check for end record the current building map</param>
         </member>
         <member name="M:BuddyFeature.Mapping.Topological.LandmarkSLAM.LocalizationAndMapping">
             <summary>

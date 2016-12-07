@@ -6,178 +6,53 @@
     <members>
         <member name="T:MobileBaseStatus">
             <summary>
-            Enumeration corresponding to the current mobile base status 
+            The current mobile base status 
             </summary>
         </member>
-        <member name="T:BuddyAPI.AAnimFaceManager">
+        <member name="F:MobileBaseStatus.MOTIONLESS">
             <summary>
-            Abstract class defining the methods to control a classic animator.
+            The robot is not moving
             </summary>
         </member>
-        <member name="F:BuddyAPI.AAnimFaceManager.mAnimator">
+        <member name="F:MobileBaseStatus.MOVING">
             <summary>
-            Reference to the animator which controls the face.
+            The robot is moving
             </summary>
         </member>
-        <member name="M:BuddyAPI.AAnimFaceManager.SetMood(FaceMood)">
+        <member name="F:MobileBaseStatus.REACHED_GOAL">
             <summary>
-            Commands the face to switch to the mood defined as a string.
+            The robot has reached your last hardware command
             </summary>
-            <remarks>
-            The string must be exactly the right name of the wanted mood.
-            Then you can write "Neutral", "Sad" ...
-            </remarks>
-            <param name="iMood">The name of the mood to switch to</param>
         </member>
-        <member name="M:BuddyAPI.AAnimFaceManager.SetEvent(FaceEvent)">
+        <member name="F:MobileBaseStatus.BLOCKED">
             <summary>
-            Commands the face to play the event defined as a string.
+            The robot seems to be blocked
             </summary>
-            <remarks>
-            The string must be exactly the right name of the wanted event.
-            Then you can write "Blink", "Sigh", ...
-            </remarks>
-            <param name="iEvent">The name of the event to play</param>
         </member>
-        <member name="M:BuddyAPI.AAnimFaceManager.Speak(System.Boolean)">
+        <member name="F:MobileBaseStatus.CANCELLED_ORDER">
             <summary>
-            Indicates the face to simulate a speech with a motion of the mouth. There is a variable delay between the command and the actual action.
+            The order has beend cancelled, currently not used
             </summary>
-            <remarks>
-            See the accessor "IsSpeaking" to know when the mouth responded to the command.
-            </remarks>
-            <param name="iValue">True to command the speech simulation</param>
         </member>
-        <member name="P:BuddyAPI.AAnimFaceManager.IsSpeaking">
+        <member name="T:HeadAxe">
             <summary>
-            Indicates if the mouth is currently simulating a speech. 
+            Head value position, use for internal purpose. You should never use it.
             </summary>
-            <remarks>
-            There is a variable delay between the command sent to the face and the actual motion of the mouth. This accessor allows you to know when this delay is over.
-            See the method "Speak" to send an order.
-            </remarks>
         </member>
-        <member name="P:BuddyAPI.AAnimFaceManager.IsStable">
+        <member name="F:HeadAxe.NO">
             <summary>
-            Indicates if the animator is in a state considered as "stable".
+            The no axe
             </summary>
-            <remarks>
-            A stable state is a state which can directly transit to another stable state or a speak state or an event.
-            </remarks>
         </member>
-        <member name="T:BuddyAPI.FaceManager">
+        <member name="F:HeadAxe.YES">
+            <summary>
+            The yes axe
+            </summary>
+        </member>
+        <member name="T:BuddyAPI.RegularFace">
             <summary>
             Class which includes the speficities of the animator for the regular face and provides every methods to control it.
             </summary>
-        </member>
-        <member name="M:BuddyAPI.FaceManager.SetMood(FaceMood)">
-            <summary>
-            Commands the face to switch to the mood defined in a string.
-            </summary>
-            <remarks>
-            The string must be exactly the right name of the wanted mood.
-            Then you can write "Neutral", "Sad" ...
-            </remarks>
-            <param name="iMood">The name of the mood to switch to</param>
-        </member>
-        <member name="M:BuddyAPI.FaceManager.SetEvent(FaceEvent)">
-            <summary>
-            Commands the face to play the event defined in a string.
-            </summary>
-            <param name="iEvent">The name of the event to play</param>
-        </member>
-        <member name="M:BuddyAPI.FaceManager.Speak(System.Boolean)">
-            <summary>
-            Indicates the face to simulate a speech with a motion of the mouth.
-            </summary>
-            <remarks>
-            There is a variable delay between the command and the actual action.
-            See the accessor "IsSpeaking" to know when the mouth responded to the command.
-            </remarks>
-            <param name="iValue">True to command the speech simulation</param>
-        </member>
-        <member name="P:BuddyAPI.FaceManager.IsSpeaking">
-            <summary>
-            Indicates if the mouth is currently simulating a speech. 
-            </summary>
-            <remarks>
-            There is a variable delay between the command sent to the face and the actual motion of the mouth. This accessor allows you to know when this delay is over.
-            See the method "Speak" to send an order.
-            </remarks>
-        </member>
-        <member name="P:BuddyAPI.FaceManager.IsStable">
-            <summary>
-            Indicates if the animator is in a state considered as "stable".
-            </summary>
-            <remarks>
-            A stable state is a state which can directly transit to another stable state or a speak state or an event.
-            </remarks>
-        </member>
-        <member name="T:BuddyAPI.GlobalBehaviour">
-            <summary>
-            Script used at the top of the animator for the regular face of Buddy.
-            </summary>
-            <remarks>
-            Used to centralize data from the animator.
-            </remarks>
-        </member>
-        <member name="P:BuddyAPI.GlobalBehaviour.IsSpeaking">
-            <summary>
-            Accessor used to know if the animator is currently in a speak state.
-            </summary>
-        </member>
-        <member name="P:BuddyAPI.GlobalBehaviour.IsStable">
-            <summary>
-            Accessor to know if the current state is considered as "stable".
-            </summary>
-            <remarks>
-            A stable state is a state which can directly transit to another stable state or a "speak" state or an event.
-            </remarks>
-        </member>
-        <member name="T:BuddyAPI.IdleBehaviour">
-            <summary>
-            Script for the Idle states inside the animator for the regular face of buddy.
-            </summary>
-            <remarks>
-            Defines the properties of the state.
-            </remarks>
-        </member>
-        <member name="M:BuddyAPI.IdleBehaviour.OnStateEnter(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
-            <summary>
-            OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-            </summary>
-            <param name="iAnimator">Reference of the control animator</param>
-            <param name="iStateInfo">Reference of the enter state</param>
-            <param name="iLayerIndex">ID of the Layer</param>
-        </member>
-        <member name="M:BuddyAPI.IdleBehaviour.OnStateExit(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
-            <summary>
-            OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-            </summary>
-            <param name="iAnimator">Reference of the control animator</param>
-            <param name="iStateInfo">Reference of the Exit state</param>
-            <param name="iLayerIndex">ID of the Layer</param>
-        </member>
-        <member name="T:BuddyAPI.SpeakBehaviour">
-            <summary>
-            Script to define which states are "speak" state in the animator of the regular face of Buddy.
-            </summary>
-        </member>
-        <member name="M:BuddyAPI.SpeakBehaviour.OnStateEnter(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
-            <summary>
-            OnStateExit is called when a transition ends and the state machine finishes evaluating this state.
-            </summary>
-            <param name="iAnimator">Reference of the control animator</param>
-            <param name="iStateInfo">Reference of the Enter state</param>
-            <param name="iLayerIndex">ID of the Layer</param>
-        </member>
-        <member name="M:BuddyAPI.SpeakBehaviour.OnStateExit(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
-            <summary>
-            OnStateExit is called when a transition ends and the state machine finishes evaluating this state.
-            </summary>
-            <param name="iAnimator">Reference of the control animator</param>
-            <param name="iStateInfo">Reference of the Exit state</param>
-            <param name="iLayerIndex">ID of the Layer</param>
         </member>
         <member name="M:BuddyAPI.KittAITrigger.LaunchRecognition">
             <summary>
@@ -1202,7 +1077,7 @@
             Called once at the start.
             </summary>
         </member>
-        <member name="M:BuddyAPI.LED.SetBodyLight(MoodColor)">
+        <member name="M:BuddyAPI.LED.SetBodyLight(LEDColor)">
             <summary>
             Set the body light based on the mood.
             </summary>
@@ -2592,29 +2467,430 @@
         <member name="P:BuddyAPI.SimuSideWheel.WheelSidewayFriction">
             <summary></summary>
         </member>
-        <member name="T:MoodColor">
+        <member name="T:CliffPosition">
             <summary>
-            Visage v2
+            Position of a cliff sensor, use for internal purpose. You should never use it.
             </summary>
         </member>
-        <member name="T:FaceEvent">
+        <member name="F:CliffPosition.FRONT_LEFT">
             <summary>
-            Represents face event of Buddy
+            Front left position
             </summary>
         </member>
-        <member name="T:FaceMood">
+        <member name="F:CliffPosition.FRONT_RIGHT">
             <summary>
-            Represents face mode of Buddy
+            Front right position
+            </summary>
+        </member>
+        <member name="F:CliffPosition.BACK_RIGHT">
+            <summary>
+            Back right position
+            </summary>
+        </member>
+        <member name="F:CliffPosition.BACK_LEFT">
+            <summary>
+            Back left position
+            </summary>
+        </member>
+        <member name="T:LEDColor">
+            <summary>
+            Color enumeration corresponding to the mood of the robot.
+            Can be easily combine with de Face.SetMood(FaceMood) component.
+            </summary>
+        </member>
+        <member name="F:LEDColor.RED_ANGRY">
+            <summary>
+            Will set the LED in red
+            </summary>
+        </member>
+        <member name="F:LEDColor.PURPLE_GRUMPY">
+            <summary>
+            Will set the LED in soft purple
+            </summary>
+        </member>
+        <member name="F:LEDColor.ORANGE_HAPPY">
+            <summary>
+            Will set the LED in orange
+            </summary>
+        </member>
+        <member name="F:LEDColor.BLUE_LISTENING">
+            <summary>
+            Will set the LED in hard blue
+            </summary>
+        </member>
+        <member name="F:LEDColor.BLUE_NEUTRAL">
+            <summary>
+            Will set the LED in soft blue
+            </summary>
+        </member>
+        <member name="F:LEDColor.PINK_SAD">
+            <summary>
+            Will set the LED in hard purple
+            </summary>
+        </member>
+        <member name="F:LEDColor.BROWN_SCARY">
+            <summary>
+            Will set the LED in hard orange
+            </summary>
+            
+        </member>
+        <member name="F:LEDColor.YELLOW_SICK">
+            <summary>
+            Will set the LED in soft green
+            </summary>
+        </member>
+        <member name="F:LEDColor.YELLOW_SURPRISED">
+            <summary>
+            Will set the LED in hard yellow
+            </summary>
+        </member>
+        <member name="F:LEDColor.GREEN_THINKING">
+            <summary>
+            Will set the LED in green
+            </summary>
+        </member>
+        <member name="F:LEDColor.GREY_TIRED">
+            <summary>
+            Will set the LED in grey
+            </summary>
+        </member>
+        <member name="T:DepthMode">
+            <summary>
+            Mode for the Depthcam component. Can only be used for the real robot
+            </summary>
+        </member>
+        <member name="F:DepthMode.MODE_INVALID">
+            <summary>
+            Bad mode
+            </summary>
+        </member>
+        <member name="F:DepthMode.MODE_9_5FPS_2000">
+            <summary>
+            Long distance, use this for mapping
+            </summary>
+        </member>
+        <member name="F:DepthMode.MODE_9_10FPS_1000">
+            <summary>
+            Long distance, use this for mapping or movement detection
+            </summary>
+        </member>
+        <member name="F:DepthMode.MODE_9_15FPS_700">
+            <summary>
+            Medium distance, use this for movement detection
+            </summary>
+        </member>
+        <member name="F:DepthMode.MODE_9_25FPS_450">
+            <summary>
+            Medium distance, use this for movement detection
+            </summary>
+        </member>
+        <member name="F:DepthMode.MODE_5_35FPS_600">
+            <summary>
+            Short distance, use this for medium interaction purpose
+            </summary>
+        </member>
+        <member name="F:DepthMode.MODE_5_45FPS_500">
+            <summary>
+            Short distance, use this for close interaction purpose
+            </summary>
+        </member>
+        <member name="T:MouthEvent">
+            <summary>
+            Mouth events that Buddy face can handle
+            </summary>
+        </member>
+        <member name="F:MouthEvent.SMILE">
+            <summary>
+            Make the face smiling
+            </summary>
+        </member>
+        <member name="F:MouthEvent.YAWN">
+            <summary>
+            Make the face yawing
+            </summary>
+        </member>
+        <member name="F:MouthEvent.SCREAM">
+            <summary>
+            Make the face screaming like a barbarian
+            </summary>
+        </member>
+        <member name="T:EyeEvent">
+            <summary>
+            Eye event concerning Buddy face
+            </summary>
+        </member>
+        <member name="F:EyeEvent.BLINK_RIGHT">
+            <summary>
+            Make the face blinking the right eye
+            </summary>
+        </member>
+        <member name="F:EyeEvent.BLINK_LEFT">
+            <summary>
+            Make the face blinking the left eye
+            </summary>
+        </member>
+        <member name="F:EyeEvent.BLINK_DOUBLE">
+            <summary>
+            Make the face blinking both eyes
+            </summary>
+        </member>
+        <member name="T:FaceLookAt">
+            <summary>
+            Facility enum for face LookAt() method
+            </summary>
+        </member>
+        <member name="F:FaceLookAt.CENTER">
+            <summary>
+            Look at center
+            </summary>
+        </member>
+        <member name="F:FaceLookAt.TOP_LEFT">
+            <summary>
+            Look at top left
+            </summary>
+        </member>
+        <member name="F:FaceLookAt.TOP_RIGHT">
+            <summary>
+            Look at top right
+            </summary>
+        </member>
+        <member name="F:FaceLookAt.BOTTOM_RIGHT">
+            <summary>
+            Look at bottom rigth
+            </summary>
+        </member>
+        <member name="F:FaceLookAt.BOTTOM_LEFT">
+            <summary>
+            Look at bottom left
+            </summary>
+        </member>
+        <member name="T:MoodType">
+            <summary>
+            Represents different expressions that Buddy can show
+            </summary>
+        </member>
+        <member name="F:MoodType.NEUTRAL">
+            <summary>
+            Neutral
+            </summary>
+        </member>
+        <member name="F:MoodType.ANGRY">
+            <summary>
+            Angry
+            </summary>
+        </member>
+        <member name="F:MoodType.GRUMPY">
+            <summary>
+            Grumpy
+            </summary>
+        </member>
+        <member name="F:MoodType.HAPPY">
+            <summary>
+            Happy
+            </summary>
+        </member>
+        <member name="F:MoodType.LISTENING">
+            <summary>
+            Listening
+            </summary>
+        </member>
+        <member name="F:MoodType.SAD">
+            <summary>
+            Sad
+            </summary>
+        </member>
+        <member name="F:MoodType.SCARED">
+            <summary>
+            Scared
+            </summary>
+        </member>
+        <member name="F:MoodType.SICK">
+            <summary>
+            Sick
+            </summary>
+        </member>
+        <member name="F:MoodType.SURPRISED">
+            <summary>
+            Surprised
+            </summary>
+        </member>
+        <member name="F:MoodType.THINKING">
+            <summary>
+            Thinking
+            </summary>
+        </member>
+        <member name="F:MoodType.TIRED">
+            <summary>
+            Tired
+            </summary>
+        </member>
+        <member name="T:IRPosition">
+            <summary>
+            Position of an ir sensor, use for internal purpose. You should never use it.
+            </summary>
+        </member>
+        <member name="F:IRPosition.LEFT">
+            <summary>
+            Left front position
+            </summary>
+        </member>
+        <member name="F:IRPosition.MIDDLE">
+            <summary>
+            Middle front positon
+            </summary>
+        </member>
+        <member name="F:IRPosition.RIGHT">
+            <summary>
+            Right front position
+            </summary>
+        </member>
+        <member name="T:Language">
+            <summary>
+            Language for Speech to text, text to speech and sphinx settings. Only FRA and ENG are currently managed
+            </summary>
+        </member>
+        <member name="F:Language.ENG">
+            <summary>
+            English language
+            </summary>
+        </member>
+        <member name="F:Language.FRA">
+            <summary>
+            French language
+            </summary>
+        </member>
+        <member name="F:Language.ITA">
+            <summary>
+            Italian language
+            </summary>
+        </member>
+        <member name="F:Language.GER">
+            <summary>
+            German language
+            </summary>
+        </member>
+        <member name="F:Language.SPA">
+            <summary>
+            Spanish language
             </summary>
         </member>
         <member name="T:RGBCamResolution">
             <summary>
-            Resolution (width, height) of the RGB camera in pixels
+            Resolution (width, height) of the RGB camera in pixels.
+            Can be setted with RGBCam.Resolution = RGBCamResolution
+            </summary>
+        </member>
+        <member name="F:RGBCamResolution.W_640_H_480">
+            <summary>
+            The highest resolution, use this only for photographs
+            </summary>
+        </member>
+        <member name="F:RGBCamResolution.W_320_H_240">
+            <summary>
+            Medium resolution, can be use for anything
+            </summary>
+        </member>
+        <member name="F:RGBCamResolution.W_176_H_144">
+            <summary>
+            The lowest resolution. You should mainly use this one. Useful for mapping, recognition, detection...
+            </summary>
+        </member>
+        <member name="T:FunctionCallbackWithString">
+            <summary>
+            Use this delegate in STT. Called after a voice recognition
+            </summary>
+            <param name="iMsg">The input voice as a string</param>
+        </member>
+        <member name="T:FunctionCallback">
+            <summary>
+            Use this delegate in STT. Called after any interaction this the STT
+            </summary>
+        </member>
+        <member name="T:FunctionVolumeCallback">
+            <summary>
+            Use this delegate in STT. Called after a volume modification
+            </summary>
+            <param name="iVolume"></param>
+        </member>
+        <member name="T:FunctionCallbackWithError">
+            <summary>
+            Use this delegate in STT. Called after any error during the STT process
+            </summary>
+            <param name="iError"></param>
+        </member>
+        <member name="T:STTError">
+            <summary>
+            Error that can rise during the STT process
+            </summary>
+        </member>
+        <member name="F:STTError.ERROR_NETWORK_TIMEOUT">
+            <summary>
+            The network has encounter a time out 
+            </summary>
+        </member>
+        <member name="F:STTError.ERROR_NETWORK">
+            <summary>
+            Are you correcly connected ?
+            </summary>
+        </member>
+        <member name="F:STTError.ERROR_AUDIO">
+            <summary>
+            Micro error. Another micro may be currently in use ?
+            </summary>
+        </member>
+        <member name="F:STTError.ERROR_SERVER">
+            <summary>
+            The server does not respond
+            </summary>
+        </member>
+        <member name="F:STTError.ERROR_CLIENT">
+            <summary>
+            Internal error during sending
+            </summary>
+        </member>
+        <member name="F:STTError.ERROR_SPEECH_TIMEOUT">
+            <summary>
+            STT has hear nothing
+            </summary>
+        </member>
+        <member name="F:STTError.ERROR_NO_MATCH">
+            <summary>
+            Unknown phrase, your sentence doesn't has any sence
+            </summary>
+        </member>
+        <member name="F:STTError.ERROR_RECOGNIZER_BUSY">
+            <summary>
+            Vocal recognition is buzy
+            </summary>
+        </member>
+        <member name="F:STTError.ERROR_INSUFFICIENT_PERMISSIONS">
+            <summary>
+            Cannot access to micro
+            </summary>
+        </member>
+        <member name="F:STTError.ERROR_REQUEST_AGAIN">
+            <summary>
+            A request has been asked while another is processing
             </summary>
         </member>
         <member name="T:USPosition">
             <summary>
-            Enumation to know on which sensor you focus.
+            Position of an ir sensor, use for internal purpose. You should never use it.
+            </summary>
+        </member>
+        <member name="F:USPosition.LEFT">
+            <summary>
+            Left front position
+            </summary>
+        </member>
+        <member name="F:USPosition.RIGHT">
+            <summary>
+            Right front position
+            </summary>
+        </member>
+        <member name="F:USPosition.BACK">
+            <summary>
+            Middle back position
             </summary>
         </member>
         <member name="T:BuddyTools.IIndexedObject">

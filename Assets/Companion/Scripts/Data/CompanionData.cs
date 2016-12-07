@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BuddyOS;
+﻿using BuddyOS.App;
 
 namespace BuddyApp.Companion
 {
-    internal class CompanionData : AAppData
+    public class CompanionData : AAppData
     {
+        public bool CanMoveBody { get; set; }
+        public bool CanMoveHead { get; set; }
+        public bool UseCamera { get; set; }
+
         public static CompanionData Instance
         {
             get

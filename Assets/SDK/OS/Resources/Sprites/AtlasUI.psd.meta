@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: be04090c3ca28a649911eca9b32f1316
-timeCreated: 1478776133
+timeCreated: 1480605450
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -92,6 +92,10 @@ TextureImporter:
     21300170: Ico_Score_01
     21300172: Ico_Score_02
     21300174: Ico_Score_03
+    21300176: Meteo_Nuageux
+    21300178: Meteo_Eclaircie
+    21300180: Radial_Alpha
+    21300182: ScrollV
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -465,22 +469,22 @@ TextureImporter:
         serializedVersion: 2
         x: 100
         y: 1898
-        width: 48
-        height: 48
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 18, y: 5, z: 18, w: 5}
+      border: {x: 24, y: 24, z: 24, w: 24}
       outline:
-      - - {x: -24, y: 24}
-        - {x: -24, y: -21}
-        - {x: -18, y: -24}
-        - {x: 21, y: -24}
-        - {x: 24, y: -16}
-        - {x: 24, y: 24}
-      - - {x: -5, y: -13}
-        - {x: -13, y: 7}
-        - {x: 7, y: 15}
-        - {x: 15, y: -5}
+      - - {x: -17, y: 25}
+        - {x: -25, y: 23}
+        - {x: -25, y: -20}
+        - {x: -23, y: -25}
+        - {x: 25, y: -25}
+        - {x: 25, y: 25}
+      - - {x: -6, y: -14}
+        - {x: -14, y: 6}
+        - {x: 6, y: 14}
+        - {x: 14, y: -6}
     - name: SquareFull
       rect:
         serializedVersion: 2
@@ -1652,25 +1656,24 @@ TextureImporter:
     - name: Ico_Twitter
       rect:
         serializedVersion: 2
-        x: 651
-        y: 1648
-        width: 100
-        height: 100
+        x: 662
+        y: 1660
+        width: 75
+        height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 23, y: 28}
-        - {x: 15, y: 31}
-        - {x: -4, y: 31}
-        - {x: -37, y: 25}
-        - {x: -41, y: 0}
-        - {x: -41, y: -14}
-        - {x: -26, y: -27}
-        - {x: 6, y: -27}
-        - {x: 15, y: -23}
-        - {x: 39, y: 1}
-        - {x: 39, y: 13}
+      - - {x: 37.5, y: 26.5}
+        - {x: 33.5, y: 31.5}
+        - {x: -26.5, y: 31.5}
+        - {x: -37.5, y: 22.5}
+        - {x: -37.5, y: -19.5}
+        - {x: -24.5, y: -26.5}
+        - {x: 5.5, y: -26.5}
+        - {x: 16.5, y: -21.5}
+        - {x: 25.5, y: -13.5}
+        - {x: 37.5, y: -1.5}
     - name: CircleFull_Big
       rect:
         serializedVersion: 2
@@ -1766,6 +1769,55 @@ TextureImporter:
         - {x: 48, y: -38}
         - {x: 48, y: 38}
         - {x: 26, y: 48}
+    - name: Meteo_Nuageux
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 1598
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20, y: 20}
+        - {x: -25, y: 14}
+        - {x: -25, y: -17}
+        - {x: -23, y: -21}
+        - {x: 20, y: -21}
+        - {x: 25, y: -18}
+        - {x: 25, y: 11}
+        - {x: 6, y: 20}
+    - name: Meteo_Eclaircie
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 1548
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 23}
+        - {x: -24, y: 13}
+        - {x: -25, y: 9}
+        - {x: -25, y: -21}
+        - {x: 19, y: -21}
+        - {x: 25, y: -20}
+        - {x: 25, y: 14}
+        - {x: 21, y: 23}
+    - name: ScrollV
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 1649
+        width: 22
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 13, z: 11, w: 13}
+      outline: []
     outline: []
   spritePackingTag: 
   userData: 

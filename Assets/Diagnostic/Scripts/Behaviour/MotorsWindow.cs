@@ -126,6 +126,10 @@ namespace BuddyApp.Diagnostic
             noHingeAngleSetter.wholeNumbers = true;
             noHingeAngleSetter.minValue = -74F;
             noHingeAngleSetter.maxValue = 74F;
+
+            hingeSpeedSetter.wholeNumbers = true;
+            hingeSpeedSetter.minValue = 0F;
+            hingeSpeedSetter.maxValue = 400F;
         }
 
         void Update()
@@ -191,7 +195,7 @@ namespace BuddyApp.Diagnostic
 
         public void SetNoPos()
         {
-            mYesHinge.SetPosition(noHingeAngleSetter.value, hingeSpeedSetter.value);
+            mNoHinge.SetPosition(noHingeAngleSetter.value, hingeSpeedSetter.value);
         }
     }
 }
