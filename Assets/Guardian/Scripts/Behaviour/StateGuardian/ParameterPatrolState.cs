@@ -12,6 +12,7 @@ namespace BuddyApp.Guardian
         private DetectionManager mDetectionManager;
         private Animator mAnimator;
         private bool mHasInitSlider = false;
+        private Animator mAnimatorParameter;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -20,7 +21,9 @@ namespace BuddyApp.Guardian
             mAnimator = animator;
             mParameters = StateManager.Parameters;
             mDetectionManager = StateManager.DetectorManager;
+            mAnimatorParameter = mParameters.gameObject.GetComponent<Animator>();
 
+            mAnimatorParameter.SetTrigger("Open_WParameters");
             mParameters.gameObject.SetActive(true);
             animator.SetBool("ChangeState", false);
             mTTS = BYOS.Instance.TextToSpeech;
@@ -35,12 +38,12 @@ namespace BuddyApp.Guardian
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!mHasInitSlider && mParameters.GaugeMovement.Slider)
+            if (!mHasInitSlider && mParameters.SliderMovement)
             {
-                mParameters.GaugeMovement.Slider.value = (1.0f - (mDetectionManager.MovementDetector.GetThreshold() / mDetectionManager.MovementDetector.GetMaxThreshold())) * mParameters.GaugeMovement.Slider.maxValue;
+                mParameters.SliderMovement.value = (1.0f - (mDetectionManager.MovementDetector.GetThreshold() / mDetectionManager.MovementDetector.GetMaxThreshold())) * mParameters.SliderMovement.maxValue;
                 mHasInitSlider = true;
 
-                mParameters.GaugeSound.Slider.value = (1.0f - (mDetectionManager.SoundDetector.GetThreshold() / mDetectionManager.SoundDetector.GetMaxThreshold())) * mParameters.GaugeSound.Slider.maxValue;
+                mParameters.SliderSound.value = (1.0f - (mDetectionManager.SoundDetector.GetThreshold() / mDetectionManager.SoundDetector.GetMaxThreshold())) * mParameters.SliderSound.maxValue;
             }
 
             SetDetectorsThreshold();
@@ -59,7 +62,8 @@ namespace BuddyApp.Guardian
 
             SetDetectorsThreshold();
 
-            mParameters.gameObject.SetActive(false);
+            //mParameters.gameObject.SetActive(false);
+            
             animator.SetBool("ChangeState", false);
             mAnimator.SetBool("Back", false);
             mParameters.ButtonDebugSound.onClick.RemoveAllListeners();
@@ -73,25 +77,32 @@ namespace BuddyApp.Guardian
         private void ShowDebugSoundWindow()
         {
             Debug.Log("show sound window");
+            mAnimatorParameter.SetTrigger("Close_WParameters");
             mAnimator.SetInteger("DebugMode", 0);
+            
         }
 
         private void ShowDebugMovementWindow()
         {
             Debug.Log("show mouv window");
+            mAnimatorParameter.SetTrigger("Close_WParameters");
             mAnimator.SetInteger("DebugMode", 1);
+            
         }
 
         private void ShowDebugTemperatureWindow()
         {
             Debug.Log("show temperature window");
+            mAnimatorParameter.SetTrigger("Close_WParameters");
             mAnimator.SetInteger("DebugMode", 2);
+            
         }
 
         private void Validate()
         {
             mAnimator.SetBool("ChangeState", true);
             StateManager.BackgroundAnimator.SetTrigger("Close_BG");
+            mAnimatorParameter.SetTrigger("Close_WParameters");
         }
 
         private void Back()
@@ -101,14 +112,14 @@ namespace BuddyApp.Guardian
 
         private void SetDetectorsThreshold()
         {
-            float lValue = 1.0f - (mParameters.GaugeFire.Slider.value / mParameters.GaugeFire.Slider.maxValue);
-            lValue = 1.0f - (mParameters.GaugeMovement.Slider.value / mParameters.GaugeMovement.Slider.maxValue);
+            float lValue = 1.0f - (mParameters.SliderFire.value / mParameters.SliderFire.maxValue);
+            lValue = 1.0f - (mParameters.SliderMovement.value / mParameters.SliderMovement.maxValue);
             mDetectionManager.MovementDetector.SetThreshold(lValue * mDetectionManager.MovementDetector.GetMaxThreshold());
 
-            lValue = 1.0f - (mParameters.GaugeSound.Slider.value / mParameters.GaugeSound.Slider.maxValue);
+            lValue = 1.0f - (mParameters.SliderSound.value / mParameters.SliderSound.maxValue);
             mDetectionManager.SoundDetector.SetThreshold(lValue * mDetectionManager.SoundDetector.GetMaxThreshold());
 
-            lValue = 1.0f - (mParameters.GaugeKidnap.Slider.value / mParameters.GaugeKidnap.Slider.maxValue);
+            lValue = 1.0f - (mParameters.SliderKidnap.value / mParameters.SliderKidnap.maxValue);
             mDetectionManager.KidnappingDetector.SetThreshold(lValue * mDetectionManager.KidnappingDetector.GetMaxThreshold());
         }
 

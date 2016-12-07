@@ -8,32 +8,35 @@ namespace BuddyApp.Guardian
     public class ParametersGuardian : MonoBehaviour
     {
 
-        [SerializeField]
-        private OnOff onOffMovement;
+        //[SerializeField]
+        //private OnOff onOffMovement;
 
-        [SerializeField]
-        private OnOff onOffSound;
+        //[SerializeField]
+        //private OnOff onOffSound;
 
-        [SerializeField]
-        private OnOff onOffFire;
+        //[SerializeField]
+        //private OnOff onOffFire;
 
-        [SerializeField]
-        private OnOff onOffKidnap;
+        //[SerializeField]
+        //private OnOff onOffKidnap;
 
         [SerializeField]
         private InputField password;
 
-        [SerializeField]
-        private Gauge gaugeMovement;
+        //[SerializeField]
+        //private Gauge gaugeMovement;
 
         [SerializeField]
-        private Gauge gaugeSound;
+        private GaugeOnOff gaugeOnOffMovement;
 
         [SerializeField]
-        private Gauge gaugeFire;
+        private GaugeOnOff gaugeOnOffSound;
 
         [SerializeField]
-        private Gauge gaugeKidnap;
+        private GaugeOnOff gaugeOnOffFire;
+
+        [SerializeField]
+        private GaugeOnOff gaugeOnOffKidnap;
 
         [SerializeField]
         private UnityEngine.UI.Button buttonDebugSound;
@@ -50,16 +53,16 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private UnityEngine.UI.Button buttonBack;
 
-        public OnOff OnOffMovement { get { return onOffMovement; } }
-        public OnOff OnOffSound { get { return onOffSound; } }
-        public OnOff OnOffFire { get { return onOffFire; } }
-        public OnOff OnOffKidnap { get { return onOffKidnap; } }
+        //public OnOff OnOffMovement { get { return gaugeOnOffMovement; } }
+        //public OnOff OnOffSound { get { return onOffSound; } }
+        //public OnOff OnOffFire { get { return onOffFire; } }
+        //public OnOff OnOffKidnap { get { return onOffKidnap; } }
         public InputField Password { get { return password; } }
 
-        public Gauge GaugeMovement { get { return gaugeMovement; } }
-        public Gauge GaugeSound { get { return gaugeSound; } }
-        public Gauge GaugeFire { get { return gaugeFire; } }
-        public Gauge GaugeKidnap { get { return gaugeKidnap; } }
+        public Slider SliderMovement { get { return gaugeOnOffMovement.Slider; } }
+        public Slider SliderSound { get { return gaugeOnOffSound.Slider; } }
+        public Slider SliderFire { get { return gaugeOnOffFire.Slider; } }
+        public Slider SliderKidnap { get { return gaugeOnOffKidnap.Slider; } }
 
         public UnityEngine.UI.Button ButtonDebugSound { get { return buttonDebugSound; } }
         public UnityEngine.UI.Button ButtonDebugMovement { get { return buttonDebugMovement; } }
@@ -74,10 +77,10 @@ namespace BuddyApp.Guardian
         // Use this for initialization
         void Start()
         {
-            gaugeFire.DisplayPercentage = true;
-            gaugeKidnap.DisplayPercentage = true;
-            gaugeMovement.DisplayPercentage = true;
-            gaugeSound.DisplayPercentage = true;
+            gaugeOnOffFire.DisplayPercentage = true;
+            gaugeOnOffKidnap.DisplayPercentage = true;
+            gaugeOnOffMovement.DisplayPercentage = true;
+            gaugeOnOffSound.DisplayPercentage = true;
             
         }
 
@@ -87,23 +90,23 @@ namespace BuddyApp.Guardian
             if(!mHasInitCommands)
             {
                 mHasInitCommands = true;
-                onOffFire.OnCommands.Add(new ActFireDetectionCmd());
-                onOffFire.OffCommands.Add(new DsactFireDetectionCmd());
-                onOffMovement.OnCommands.Add(new ActMovementDetectionCmd());
-                onOffMovement.OffCommands.Add(new DsactMovementDetectionCmd());
-                onOffKidnap.OnCommands.Add(new ActKidnappingDetectionCmd());
-                onOffKidnap.OffCommands.Add(new DsactKidnappingDetectionCmd());
-                onOffSound.OnCommands.Add(new ActSoundDetectionCmd());
-                onOffSound.OffCommands.Add(new DsactSoundDetectionCmd());
+                gaugeOnOffFire.OnCommands.Add(new ActFireDetectionCmd());
+                gaugeOnOffFire.OffCommands.Add(new DsactFireDetectionCmd());
+                gaugeOnOffMovement.OnCommands.Add(new ActMovementDetectionCmd());
+                gaugeOnOffMovement.OffCommands.Add(new DsactMovementDetectionCmd());
+                gaugeOnOffKidnap.OnCommands.Add(new ActKidnappingDetectionCmd());
+                gaugeOnOffKidnap.OffCommands.Add(new DsactKidnappingDetectionCmd());
+                gaugeOnOffSound.OnCommands.Add(new ActSoundDetectionCmd());
+                gaugeOnOffSound.OffCommands.Add(new DsactSoundDetectionCmd());
             }
         }
 
         void OnEnable()
         {
-            GuardianData.Instance.FireDetectionIsActive = onOffFire.IsActive;
-            GuardianData.Instance.MovementDetectionIsActive = onOffMovement.IsActive;
-            GuardianData.Instance.KidnappingDetectionIsActive = onOffKidnap.IsActive;
-            GuardianData.Instance.SoundDetectionIsActive = onOffSound.IsActive;
+            GuardianData.Instance.FireDetectionIsActive = gaugeOnOffFire.IsActive;
+            GuardianData.Instance.MovementDetectionIsActive = gaugeOnOffMovement.IsActive;
+            GuardianData.Instance.KidnappingDetectionIsActive = gaugeOnOffKidnap.IsActive;
+            GuardianData.Instance.SoundDetectionIsActive = gaugeOnOffSound.IsActive;
         }
     }
 }

@@ -14,7 +14,8 @@ namespace BuddyApp.Guardian
         {
             SetWindowAppOverBuddyColor(0);
             mShowTemperature = StateManager.ShowTemperature;
-            mShowTemperature.gameObject.SetActive(true);
+            StateManager.ShowTemperature.gameObject.GetComponent<Animator>().SetTrigger("Open_WDebugs");
+            //mShowTemperature.gameObject.SetActive(true);
             mAnimator = animator;
             mShowTemperature.ButtonBack.onClick.AddListener(GoBack);
         }
@@ -30,7 +31,8 @@ namespace BuddyApp.Guardian
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mShowTemperature.ButtonBack.onClick.RemoveAllListeners();
-            mShowTemperature.gameObject.SetActive(false);
+            StateManager.ShowTemperature.gameObject.GetComponent<Animator>().SetTrigger("Close_WDebugs");
+            //mShowTemperature.gameObject.SetActive(false);
         }
 
         private void GoBack()

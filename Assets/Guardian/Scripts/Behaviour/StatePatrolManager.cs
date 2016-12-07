@@ -206,6 +206,7 @@ namespace BuddyApp.Guardian
         {
             detectorManager.SoundDetector.CanSave = true;
             notifMail.IncrementNumber();
+            
             Debug.Log("mail a ete envoye");
         }
 

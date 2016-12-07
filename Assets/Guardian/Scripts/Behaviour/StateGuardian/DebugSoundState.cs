@@ -26,7 +26,8 @@ namespace BuddyApp.Guardian
             SetWindowAppOverBuddyColor(0);
             Init();
             mAnimator = animator;
-            StateManager.DebugSoundWindow.gameObject.SetActive(true);
+            //StateManager.DebugSoundWindow.gameObject.SetActive(true);
+            StateManager.DebugSoundWindow.gameObject.GetComponent<Animator>().SetTrigger("Open_WDebugs");
             StateManager.DebugSoundWindow.ButtonBack.onClick.AddListener(GoBack);
             mSoundDetector.OnDetection += OnSoundDetected;
         }
@@ -52,10 +53,11 @@ namespace BuddyApp.Guardian
 
 
 
-                float lLevelSound = (mSoundDetector.Value) * 480.0f;
+                float lLevelSound = (mSoundDetector.Value) * 400.0f / lMaxThreshold;
                 //Imgproc.line(mMatShow, new Point(0, 480.0f - lLevelSound), new Point(640, 480.0f - lLevelSound), new Scalar(0, 0, 255, 255));
                 Imgproc.rectangle(mMatShow, new Point(0, 480), new Point(640, 480.0f - lLevelSound), new Scalar(0, 0, 255, 255), -1);
-                Imgproc.line(mMatShow, new Point(0, 480.0f - lThreshold * 480), new Point(640, 480.0f - lThreshold * 480), new Scalar(255, 0, 0, 255), 3);
+                Imgproc.line(mMatShow, new Point(0, 480.0f - lThreshold * 400 / lMaxThreshold), new Point(640, 480.0f - lThreshold * 400 / lMaxThreshold), new Scalar(255, 0, 0, 255), 3);
+                Debug.Log("niveau: " + lThreshold);
 
                 BuddyTools.Utils.MatToTexture2D(mMatShow, mTexture);
                 mRaw.texture = mTexture;
@@ -74,7 +76,8 @@ namespace BuddyApp.Guardian
         {
             mSoundDetector.OnDetection -= OnSoundDetected;
             StateManager.DebugSoundWindow.ButtonBack.onClick.RemoveAllListeners();
-            StateManager.DebugSoundWindow.gameObject.SetActive(false);
+            StateManager.DebugSoundWindow.gameObject.GetComponent<Animator>().SetTrigger("Close_WDebugs");
+            //StateManager.DebugSoundWindow.gameObject.SetActive(false);
             mSoundDetector.Stop();
         }
 

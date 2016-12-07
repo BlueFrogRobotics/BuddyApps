@@ -88,13 +88,13 @@ namespace BuddyApp.Guardian
 
             else if (!mHasSentNotification)
             {
-                if (HasSavedProof())
-                {
+                //if (HasSavedProof())
+                //{
                     if (mMailSender.CanSend)
                         SendNotification();
                     mHasSentNotification = true;
                     Debug.Log("proof saved");
-                }
+                //}
             }
 
             else if (mTimer < 0.0f && mHasSentNotification)

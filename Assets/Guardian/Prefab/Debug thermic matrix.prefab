@@ -120,7 +120,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &9515382
 Animator:
   serializedVersion: 3
@@ -130,7 +130,7 @@ Animator:
   m_GameObject: {fileID: 191704}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9fda237e375e4ad419200b151d0cd0c0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -236,8 +236,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6305cbcf03ba10a48ab2f28278614aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 4
-  height: 4
   raw: {fileID: 11438208}
   zones:
   - maxTemp: 10
@@ -248,12 +246,7 @@ MonoBehaviour:
     color: {r: 0.9852941, g: 0.63454545, b: 0.0072448165, a: 0}
   - maxTemp: 50
     color: {r: 1, g: 0, b: 0, a: 0}
-  interpolation: 0
-  mButtonBack: {fileID: 0}
-  labelPrefab: {fileID: 0}
-  panel: {fileID: 0}
-  canvas: {fileID: 0}
-  showLabel: 0
+  buttonBack: {fileID: 11487266}
 --- !u!114 &11460070
 MonoBehaviour:
   m_ObjectHideFlags: 1
