@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using BuddyOS;
+using BuddyOS.App;
 using System;
 
 namespace BuddyApp.RLGL
@@ -17,7 +17,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("On Enter result state");
+            Debug.Log("RESULT STATE : ON ENTER");
             mIsSentenceDone = false;
             mIsMovementDone = false;
             mTimer = 0.0f;
@@ -26,12 +26,12 @@ namespace BuddyApp.RLGL
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iSateInfo, int iLayerIndex)
         {
-            Debug.Log("On update result state");
+            Debug.Log("RESULT STATE : ON UPDATE");
             mTimer += Time.deltaTime;
             if(mWheels.Status == MobileBaseStatus.REACHED_GOAL && !mIsMovementDone)
             {
                 mIsMovementDone = true;
-                mFace.SetMood(FaceMood.HAPPY);
+                mMood.Set(MoodType.HAPPY);
             }
 
             
@@ -41,7 +41,7 @@ namespace BuddyApp.RLGL
                 mIsSentenceDone = true;
             }
             if (mTTS.HasFinishedTalking() && mIsSentenceDone)
-                mFace.SetMood(FaceMood.NEUTRAL);
+                mMood.Set(MoodType.NEUTRAL);
             if (mTimer > 6.0f)
                 iAnimator.SetBool("IsReplayTrue", true);
 
@@ -49,7 +49,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("On exit result state");
+            Debug.Log("RESULT STATE : ON EXIT");
             iAnimator.SetBool("IsReplayTrue", false);
         }
 

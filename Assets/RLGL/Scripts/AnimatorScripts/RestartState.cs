@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using BuddyOS;
+using BuddyOS.App;
 
 namespace BuddyApp.RLGL
 {

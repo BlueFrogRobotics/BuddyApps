@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using BuddyOS;
+using BuddyOS.App;
 using System;
 
 namespace BuddyApp.RLGL
@@ -20,7 +20,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("On Enter Detection state");
+            Debug.Log("DETECTION STATE : ON ENTER");
             mTimer = 0.0F;
             mIsSentenceDone = false;
             mIsDetected = false;
@@ -32,7 +32,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("On update Detection state");
+            Debug.Log("DETECTION STATE : ON UPDATE");
             mTimer += Time.deltaTime;
             if (!mIsMovementActionDone)
             {
@@ -54,15 +54,14 @@ namespace BuddyApp.RLGL
 
                 if(mIsDetected && !mIsSentenceDone && mTimer < 8.0f && mTimer > 3.0f)
                 {
-                    mFace.SetMood(FaceMood.HAPPY);
-                    mFace.SetEvent(FaceEvent.SMILE);
+                    mMood.Set(MoodType.HAPPY);
 
                     mTTS.Say("I saw you moving my friend, I let you ten seconds to go back at the start!");
                     mIsSentenceDone = true;
                 }
                 if (mIsSentenceDone && mTTS.HasFinishedTalking() && mTimer > 20.0f)
                 {
-                    mFace.SetMood(FaceMood.NEUTRAL);
+                    mMood.Set(MoodType.NEUTRAL);
                     GetComponent<FreezeDance.MotionGame>().enabled = false;
                     iAnimator.SetBool("IsDetectedTrue", true);
                 }
@@ -70,13 +69,13 @@ namespace BuddyApp.RLGL
                 if (!mIsDetected && !mIsSentenceDone && mTimer > 4.0F && mTimer < 8.0F && !mIsStrong)
                 {
                     mTTS.Say("hum tu es fort, je ne te vois pas bouger");
-                    mFace.SetMood(FaceMood.FOCUS);
+                    mMood.Set(MoodType.THINKING);
                     mIsStrong = true;
                 }
 
                 if (!mIsSentenceDone && mTimer > 8.0f && mTTS.HasFinishedTalking() && mIsStrong)
                 {
-                    mFace.SetMood(FaceMood.NEUTRAL);
+                    mMood.Set(MoodType.NEUTRAL);
                     GetComponent<FreezeDance.MotionGame>().enabled = false;
                     iAnimator.SetBool("IsDetectedFalse", true);
                 }
@@ -85,7 +84,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("On exit Detection state");
+            Debug.Log("DETECTION STATE : ON EXIT");
             iAnimator.SetBool("IsDetectedTrue", false);
             iAnimator.SetBool("IsDetectedFalse", false);
             

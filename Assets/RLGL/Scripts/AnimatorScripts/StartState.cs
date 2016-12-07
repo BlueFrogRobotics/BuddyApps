@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using BuddyOS;
+using BuddyOS.App;
 using System;
 
 namespace BuddyApp.RLGL
@@ -31,12 +31,14 @@ namespace BuddyApp.RLGL
             mSentenceDone = false;
             mIsAnswerNo = false;
             mIsAnswerYes = false;
+            Debug.Log("START STATE : ON ENTER");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             if(!mSentenceDone)
             {
+                
                 StartCoroutine(SayStart());
             }
 
@@ -46,6 +48,7 @@ namespace BuddyApp.RLGL
                 if(!mWindowQuestion.activeSelf)
                     mWindowQuestion.SetActive(true);
                 StartCoroutine(StartRules(0));
+                Debug.Log("START STATE : ON UPDATE ACTIVATION CANVAS OUI NON");
             }
 
             if( mIsAnswerYes)
@@ -65,11 +68,11 @@ namespace BuddyApp.RLGL
             iAnimator.SetBool("IsStartDoneAndRules", false);
             iAnimator.SetBool("IsStartDoneAndNoRules", false);
             mWindowQuestion.SetActive(false);
+            Debug.Log("START STATE : ON EXIT");
         }
 
         private IEnumerator StartRules(int iIndex)
         {
-            Debug.Log("START STATE STTREQUEST");
             GetGameObject(2).GetComponent<RLGLListener>().STTRequest(iIndex);
             while (!mIsAnswerNo || !mIsAnswerYes)
             {

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using BuddyOS;
+using BuddyOS.App;
 using System;
 
 namespace BuddyApp.RLGL
@@ -22,7 +22,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("On Enter replay state");
+            Debug.Log("REPLAY STATE : ON ENTER");
             mTimer = 0.0f;
             mWindowQuestion = GetGameObject(6);
             mIsQuestionDone = false;
@@ -32,12 +32,12 @@ namespace BuddyApp.RLGL
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iSateInfo, int iLayerIndex)
         {
-            Debug.Log("On update replay state");
+            Debug.Log("REPLAY STATE : ON UPDATE");
             mTimer += Time.deltaTime;
 
             if(mTimer < 12.0F && !mIsAnswerYes && !mIsQuestionDone)
             {
-                mFace.SetMood(FaceMood.FOCUS);
+                mMood.Set(MoodType.THINKING);
                 mTTS.Say("Do you want to replay the game with me?");
                 mWindowQuestion.SetActive(true);
                 mIsQuestionDone = true;
@@ -45,7 +45,7 @@ namespace BuddyApp.RLGL
 
             if (mTTS.HasFinishedTalking() &&  mTimer < 12.0f && mIsAnswerYes && !mIsSentenceDone && mIsQuestionDone)
             {
-                mFace.SetMood(FaceMood.NEUTRAL);
+                mMood.Set(MoodType.NEUTRAL);
                 mTTS.Say("Ok I let you ten second to go back at the start!");
                 mIsSentenceDone = true;
             }
@@ -58,7 +58,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("On exit replay state");
+            Debug.Log("REPLAY STATE : ON EXIT");
             mWindowQuestion.SetActive(false);
             iAnimator.SetBool("IsReplayDone", false);
         }

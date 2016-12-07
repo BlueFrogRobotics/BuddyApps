@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using BuddyOS;
+using BuddyOS.App;
 using System;
 namespace BuddyApp.RLGL
 {
@@ -30,11 +30,13 @@ namespace BuddyApp.RLGL
             mIsAnswerRuleNo = false;
             mWindowQuestionRule = GetGameObject(4);
             mWindowQuestionRule.SetActive(false);
+            Debug.Log("RULES STATE : ON ENTER");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if(!mIsSentenceDone)
+            Debug.Log("RULES STATE : ON UPDATE");
+            if (!mIsSentenceDone)
                 StartCoroutine(SayRulesAndExit());   
             if(mTTS.HasFinishedTalking() && mIsSentenceDone && !mIsQuestionDone )
             {
@@ -61,6 +63,7 @@ namespace BuddyApp.RLGL
         {
             iAnimator.SetBool("IsRulesDone", false);
             mWindowQuestionRule.SetActive(false);
+            Debug.Log("RULES STATE : ON EXIT");
         }
 
         IEnumerator SayRulesAndExit()
@@ -83,7 +86,6 @@ namespace BuddyApp.RLGL
 
         private IEnumerator RestartAskingRule(int iIndex)
         {
-            Debug.Log("RULE STATE STTREQUEST");
             GetGameObject(2).GetComponent<RLGLListener>().STTRequest(iIndex);
             while (!mIsAnswerRuleYes || !mIsAnswerRuleNo)
             {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using BuddyOS;
+using BuddyOS.App;
 using UnityEngine.UI;
 using System;
 namespace BuddyApp.RLGL
@@ -24,7 +24,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("ON ENTER COUNT STATE");
+            Debug.Log("COUNT STATE : ON ENTER");
             mCanvasUIToWin = GetGameObject(5);
             mIsCoroutineDone = false;
             mIsMovementDone = false;
@@ -33,13 +33,14 @@ namespace BuddyApp.RLGL
             mCount = 0;
             iAnimator.SetBool("IsCountDone", false);
             iAnimator.SetBool("IsWon", false);
-            mFace.SetMood(FaceMood.HAPPY);
+            mMood.Set(MoodType.HAPPY);
+ 
             mTTS.Say("Okay let's play together!");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("ON update COUNT STATE");
+            Debug.Log("COUNT STATE : ON UPDATE");
             if (mTTS.HasFinishedTalking() && !mFirstSentence)
             {
                 StartCoroutine(WaitTenSecondsAtStart());
@@ -47,7 +48,7 @@ namespace BuddyApp.RLGL
             
             if(mTTS.HasFinishedTalking() && mFirstSentence && !mSecondSentence)
             {
-                mFace.SetMood(FaceMood.NEUTRAL);
+                mMood.Set(MoodType.NEUTRAL);
                 mCount = 0;
                 mTTS.Say("Ok let's go!");
                 mSecondSentence = true;
@@ -72,7 +73,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+            Debug.Log("COUNT STATE : ON EXIT");
             mCanvasUIToWin.SetActive(false);
             //iAnimator.SetBool("IsCountDone", false);
             //iAnimator.SetBool("IsWon", false);
@@ -89,6 +90,7 @@ namespace BuddyApp.RLGL
             {
                 mTTS.Say("You have ten seconds to go away by about fifteen feet, I will wait ten seconds gogo! ");
                 mCount++;
+                mYesHinge.SetPosition(45.0F, 150.0F);
             }
             yield return new WaitForSeconds(15.0F);
             mFirstSentence = true;
@@ -96,9 +98,11 @@ namespace BuddyApp.RLGL
 
         private IEnumerator GreenLightMomentAndTurn()
         {
+            Debug.Log("COUNTSTATE : COROUTINE GREENLIGHT BEFORE WAIT FOR SECOND");
             yield return new WaitForSeconds(3.0F);
             if(mTTS.HasFinishedTalking() && mCount == 0)
             {
+                Debug.Log("COUNTSTATE : COROUTINE GREENLIGHT AFTER WAIT FOR SECOND");
                 mCanvasUIToWin.SetActive(true);
                 mTTS.Say("Green Light !");
                 mWheels.TurnAngle(180.0F, 250.0F, 0.3F);
@@ -110,7 +114,9 @@ namespace BuddyApp.RLGL
 
         private IEnumerator ChangeState(float iSecondToWait, Animator iAnimator)
         {
+            Debug.Log("COUNTSTATE : COROUTINE CHANGESTATE BEFORE WAIT FOR SECOND");
             yield return new WaitForSeconds(iSecondToWait);
+            Debug.Log("COUNTSTATE : COROUTINE CHANGESTATE AFTER WAIT FOR SECOND");
             iAnimator.SetBool("IsCountDone", true);
         }
 

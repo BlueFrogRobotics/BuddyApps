@@ -488,6 +488,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11497462, guid: 5f55f97f05bb3df40865d2898b7dffc3, type: 2}
+      propertyPath: m_Text
+      value: 'Do you want to replay?
+
+'
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11499286, guid: 5f55f97f05bb3df40865d2898b7dffc3, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5f55f97f05bb3df40865d2898b7dffc3, type: 2}
@@ -587,15 +593,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22478786, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -665
       objectReference: {fileID: 0}
     - target: {fileID: 22412740, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -557
       objectReference: {fileID: 0}
     - target: {fileID: 22482440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -560
       objectReference: {fileID: 0}
     - target: {fileID: 22482902, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_AnchorMin.y
@@ -603,7 +609,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22478786, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 178300, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_IsActive
@@ -675,6 +681,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11449542, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11450770, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
+      propertyPath: mEnableLoadDefaultApp
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11450770, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
+      propertyPath: mEnableLoadApps
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -826,12 +840,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 841543039}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 180959496, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
+  m_Script: {fileID: 312347657, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameObjects:
   - {fileID: 12422179}
-  - {fileID: 841543039}
+  - {fileID: 12422179}
   - {fileID: 1975093211}
   - {fileID: 11387500}
   - {fileID: 1604475167}
