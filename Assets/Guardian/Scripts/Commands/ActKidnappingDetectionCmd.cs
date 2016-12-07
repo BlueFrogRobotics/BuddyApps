@@ -9,7 +9,7 @@ namespace BuddyApp.Guardian
 
         protected override void ExecuteImpl()
         {
-            GuardianData.Instance.KidnappingDetectionIsActive = true;
+            GuardianData.Instance.KidnappingDetectionIsActive = Parameters.Integers[0] == 1;
         }
     }
 }

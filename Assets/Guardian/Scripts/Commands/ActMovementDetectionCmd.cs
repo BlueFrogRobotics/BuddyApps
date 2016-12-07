@@ -9,7 +9,7 @@ namespace BuddyApp.Guardian
 
         protected override void ExecuteImpl()
         {
-            GuardianData.Instance.MovementDetectionIsActive = true;
+            GuardianData.Instance.MovementDetectionIsActive = Parameters.Integers[0] == 1;
         }
     }
 }

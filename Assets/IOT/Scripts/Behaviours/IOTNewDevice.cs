@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using BuddyOS.UI;
 
 namespace BuddyApp.IOT
 {
@@ -17,11 +18,24 @@ namespace BuddyApp.IOT
         // Use this for initialization
         void OnEnable()
         {
-            for(int i = 0; i < paramGameObjects.Count; ++i)
-                mIOTObject.ListParam.Add(paramGameObjects[i]);
+            GameObject lDropDown = GameObject.Instantiate(paramGameObjects[5]);
+            Dropdown lDropDownComponent = lDropDown.GetComponent<Dropdown>();
 
-            mIOTObject.initializeParams();
-            mIOTObject.placeParams(parametersGroup);
+            IOTDropdownCmd lCmd = new IOTDropdownCmd(this);
+
+            lDropDownComponent.AddOption("Philips Hue", lCmd);
+        }
+
+        public void FillParamClasses()
+        {
+            for (int i = 0; i < paramGameObjects.Count; ++i)
+                mIOTObject.ListParam.Add(paramGameObjects[i]);
+        }
+
+        public void InitiliazeParameters()
+        {
+            mIOTObject.InitializeParams();
+            mIOTObject.PlaceParams(parametersGroup);
         }
     }
 }
