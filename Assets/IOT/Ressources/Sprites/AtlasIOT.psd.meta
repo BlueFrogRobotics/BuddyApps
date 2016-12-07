@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 7c806f2743f341a419f642f3377a2e06
-timeCreated: 1481108179
+timeCreated: 1481119050
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -20,6 +20,13 @@ TextureImporter:
     21300026: IOT_Systeme_Big
     21300028: IOT_Account_Big
     21300030: IOT_Device_Big
+    21300032: IOT_Background_Big
+    21300034: IOT_Background_Small
+    21300036: IOT_Background_Empty_Small
+    21300038: IOT_System_Nest
+    21300040: IOT_System_Somfy
+    21300042: IOT_System_Hue
+    21300044: IOT_Fade
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -424,14 +431,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -18, y: -42}
-        - {x: 7, y: -42}
-        - {x: 38, y: -31}
-        - {x: 38, y: 26}
-        - {x: 33, y: 36}
-        - {x: -18, y: 36}
-        - {x: -40, y: 20}
-        - {x: -40, y: -20}
+      - - {x: -24, y: 40}
+        - {x: -38, y: 20}
+        - {x: -38, y: -21}
+        - {x: -7, y: -38}
+        - {x: 22, y: -38}
+        - {x: 40, y: -17}
+        - {x: 40, y: 27}
+        - {x: 17, y: 40}
     - name: IOT_Systeme_Big
       rect:
         serializedVersion: 2
@@ -501,6 +508,191 @@ TextureImporter:
         - {x: 106, y: -89}
         - {x: 125, y: -41}
         - {x: 125, y: -15}
+    - name: IOT_Background_Big
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 1016
+        width: 260
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 128, y: -21}
+        - {x: 128, y: 25}
+        - {x: 125, y: 40}
+        - {x: 108, y: 75}
+        - {x: 76, y: 107}
+        - {x: 49, y: 120}
+        - {x: 34, y: 126}
+        - {x: 20, y: 127}
+        - {x: -32, y: 127}
+        - {x: -64, y: 116}
+        - {x: -107, y: 75}
+        - {x: -126, y: 39}
+        - {x: -126, y: -37}
+        - {x: -113, y: -64}
+        - {x: -83, y: -99}
+        - {x: -68, y: -112}
+        - {x: -29, y: -127}
+        - {x: 28, y: -127}
+        - {x: 45, y: -125}
+        - {x: 77, y: -108}
+        - {x: 116, y: -65}
+        - {x: 127, y: -33}
+    - name: IOT_Background_Small
+      rect:
+        serializedVersion: 2
+        x: 1052
+        y: 1508
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 88, y: 70}
+        - {x: 51, y: 88}
+        - {x: -60, y: 88}
+        - {x: -86, y: 50}
+        - {x: -86, y: -42}
+        - {x: -39, y: -86}
+        - {x: 40, y: -86}
+        - {x: 85, y: -52}
+        - {x: 88, y: -34}
+    - name: IOT_Background_Empty_Small
+      rect:
+        serializedVersion: 2
+        x: 1232
+        y: 1868
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -58, y: 87}
+        - {x: -86, y: 79}
+        - {x: -86, y: -54}
+        - {x: -56, y: -87}
+        - {x: 59, y: -87}
+        - {x: 88, y: -55}
+        - {x: 88, y: 45}
+        - {x: 63, y: 87}
+      - - {x: -11, y: -73}
+        - {x: -72, y: 12}
+        - {x: -11, y: 73}
+        - {x: 64, y: 38}
+    - name: IOT_System_Nest
+      rect:
+        serializedVersion: 2
+        x: 1232
+        y: 1688
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 31}
+        - {x: -48, y: 24}
+        - {x: -61, y: 15}
+        - {x: -61, y: -28}
+        - {x: 73, y: -28}
+        - {x: 73, y: 6}
+        - {x: 65, y: 31}
+    - name: IOT_System_Somfy
+      rect:
+        serializedVersion: 2
+        x: 1232
+        y: 1508
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -42, y: -19}
+        - {x: -39, y: -22}
+        - {x: -14, y: -22}
+        - {x: -5, y: -15}
+        - {x: -5, y: 11}
+        - {x: -17, y: 17}
+        - {x: -38, y: 17}
+        - {x: -42, y: 15}
+      - - {x: 59, y: 21}
+        - {x: 35, y: 21}
+        - {x: 31, y: 13}
+        - {x: 31, y: -9}
+        - {x: 32, y: -14}
+        - {x: 44, y: -17}
+        - {x: 47, y: -12}
+        - {x: 50, y: -22}
+        - {x: 67, y: -22}
+        - {x: 78, y: -5}
+        - {x: 78, y: 10}
+        - {x: 72, y: 18}
+      - - {x: -59, y: 11}
+        - {x: -66, y: 9}
+        - {x: -65, y: -1}
+        - {x: -62, y: -5}
+        - {x: -55, y: -8}
+        - {x: -58, y: -7}
+        - {x: -64, y: -7}
+        - {x: -66, y: -9}
+        - {x: -66, y: -14}
+        - {x: -61, y: -17}
+        - {x: -46, y: -17}
+        - {x: -42, y: -13}
+        - {x: -42, y: 11}
+      - - {x: 28, y: 11}
+        - {x: -4, y: 11}
+        - {x: -5, y: 8}
+        - {x: -5, y: -16}
+        - {x: 31, y: -16}
+        - {x: 31, y: 7}
+    - name: IOT_System_Hue
+      rect:
+        serializedVersion: 2
+        x: 1412
+        y: 1868
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: -22}
+        - {x: -51, y: -46}
+        - {x: 55, y: -46}
+        - {x: 60, y: -42}
+        - {x: 60, y: -22}
+      - - {x: -51, y: 53}
+        - {x: -51, y: -20}
+        - {x: -16, y: -20}
+        - {x: -16, y: 36}
+        - {x: -30, y: 53}
+      - - {x: 51, y: -6}
+        - {x: 60, y: 5}
+        - {x: 60, y: 34}
+        - {x: -13, y: 34}
+        - {x: -13, y: -20}
+        - {x: 58, y: -20}
+        - {x: 60, y: -18}
+        - {x: 60, y: -10}
+        - {x: 54, y: -5}
+    - name: IOT_Fade
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 1287
+        width: 8
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     outline: []
   spritePackingTag: 
   userData: 
