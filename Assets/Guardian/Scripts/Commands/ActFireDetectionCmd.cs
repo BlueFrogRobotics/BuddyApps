@@ -9,7 +9,7 @@ namespace BuddyApp.Guardian
     {
         protected override void ExecuteImpl()
         {
-            GuardianData.Instance.FireDetectionIsActive = true;
+            GuardianData.Instance.FireDetectionIsActive = Parameters.Integers[0] == 1;
         }
     }
 }

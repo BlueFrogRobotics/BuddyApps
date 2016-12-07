@@ -6,7 +6,8 @@ namespace BuddyApp.Companion
     {
         protected override void ExecuteImpl()
         {
-            CompanionData.Instance.CanMoveBody = true;
+            bool lMoveBody = Parameters.Integers[0] == 1;
+            CompanionData.Instance.CanMoveBody = lMoveBody;
         }
     }
 }

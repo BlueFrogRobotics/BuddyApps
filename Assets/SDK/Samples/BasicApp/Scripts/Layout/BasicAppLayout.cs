@@ -38,8 +38,8 @@ namespace BuddyApp.Basic
              * ==> What must happen when I interacted with a widget ?
              */ 
             lGaugeValOne.UpdateCommands.Add(new SetValOneCmd());
-            lGaugeValOne.OnCommands.Add(new ActValOneCmd());
-            lGaugeValOne.OffCommands.Add(new DsactValOneCmd());
+            lGaugeValOne.SwitchCommands.Add(new ActValOneCmd());
+            //lGaugeValOne.OffCommands.Add(new DsactValOneCmd());
             lSearchFieldValTwo.UpdateCommands.Add(new SetValTwoCmd());
             lQuitButton.ClickCommands.Add(new HomeCmd());
         }

@@ -87,14 +87,10 @@ namespace BuddyApp.Guardian
             if(!mHasInitCommands)
             {
                 mHasInitCommands = true;
-                onOffFire.OnCommands.Add(new ActFireDetectionCmd());
-                onOffFire.OffCommands.Add(new DsactFireDetectionCmd());
-                onOffMovement.OnCommands.Add(new ActMovementDetectionCmd());
-                onOffMovement.OffCommands.Add(new DsactMovementDetectionCmd());
-                onOffKidnap.OnCommands.Add(new ActKidnappingDetectionCmd());
-                onOffKidnap.OffCommands.Add(new DsactKidnappingDetectionCmd());
-                onOffSound.OnCommands.Add(new ActSoundDetectionCmd());
-                onOffSound.OffCommands.Add(new DsactSoundDetectionCmd());
+                onOffFire.SwitchCommands.Add(new ActFireDetectionCmd());
+                onOffMovement.SwitchCommands.Add(new ActMovementDetectionCmd());
+                onOffKidnap.SwitchCommands.Add(new ActKidnappingDetectionCmd());
+                onOffSound.SwitchCommands.Add(new ActSoundDetectionCmd());
             }
         }
 

@@ -126,10 +126,5 @@ namespace BuddyApp.Companion
         {
             mActionStack.Pop();
         }
-
-        private void SortQuestionType(string iType)
-        {
-            Debug.Log("Question Type found : " + iType);
-        }
     }
 }

@@ -9,13 +9,19 @@
             Mood element of the robot. It is an helper component combining Face, LED and moving commands.
             </summary>
         </member>
-        <member name="M:BuddyOS.Mood.Set(MoodType,System.Boolean,System.Collections.Generic.List{BuddyOS.Command.ACommand})">
+        <member name="M:BuddyOS.Mood.Set(MoodType,System.Boolean)">
             <summary>
             Ask the face to switch to the specified mood.
             </summary>
             <param name="iMood">The name of the mood to switch to</param>
             <param name="iMove">Specify if the robot must move according to the wanted mood</param>
-            <param name="iScheduledMoveCommands">Moving commands to execute, if iMove is true, default move commands will be esxecuted</param>
+        </member>
+        <member name="M:BuddyOS.Mood.Set(MoodType,System.Collections.Generic.List{BuddyOS.Command.ACommand})">
+            <summary>
+            Ask the face to switch to the specified mood.
+            </summary>
+            <param name="iMood">The name of the mood to switch to</param>
+            <param name="iScheduledMoveCommands">Moving commands to execute</param>
         </member>
         <member name="T:BuddyOS.ITrackable">
             <summary>
@@ -956,6 +962,12 @@
             Sphinx is use as a trigger in voice recognition. You will need to use Sphinx before starting STT.Request() for example.
             </summary>
         </member>
+        <member name="P:BuddyOS.SphinxTrigger.HasTriggered">
+            <summary>
+            Detects if the trigger has been activated.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:BuddyOS.SphinxTrigger.LaunchRecognition">
             <summary>
             Launches the voice recognition.
@@ -984,12 +996,6 @@
             Shouldn't be called continously
             </summary>
             <param name="iThreshold">Threshold of the trigger, default is 1e-30f</param>
-        </member>
-        <member name="M:BuddyOS.SphinxTrigger.HasTriggered">
-            <summary>
-            Detects if the trigger has been activated.
-            </summary>
-            <returns></returns>
         </member>
         <member name="M:BuddyOS.SphinxTrigger.FinishedSetup">
             <summary>
@@ -1376,6 +1382,49 @@
             Begin a coroutine.
             </summary>
             <param name="iFunc">Your coroutine to start</param>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.StopCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Stop the coroutine
+            </summary>
+            <param name="iFunc">Your coroutine to stop</param>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.StopAllCoroutines">
+            <summary>
+            Stop all started coroutines
+            </summary>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.CancelInvoke">
+            <summary>
+            Cancels all Invoke calls on this MonoBehaviour.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.CancelInvoke(System.String)">
+            <summary>
+            Cancels all Invoke calls with name methodName on this behaviour.
+            </summary>
+            <param name="iMethodName"></param>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.Invoke(System.String,System.Single)">
+            <summary>
+            Invokes the method methodName in time seconds.
+            </summary>
+            <param name="iMethodName"></param>
+            <param name="iTime"></param>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.InvokeRepeating(System.String,System.Single,System.Single)">
+            <summary>
+            Invokes the method methodName in time seconds, then repeatedly every repeatRate
+            </summary>
+            <param name="iMethodName"></param>
+            <param name="iTime"></param>
+            <param name="iRepeatRate"></param>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.IsInvoking">
+            <summary>
+            Is any invoke pending on this MonoBehaviour?
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.GetComponent``1">
             <summary>
@@ -3326,7 +3375,7 @@
             Add dictionary in given folder to the dictionary of the given language
             </summary>
             <param name="iLanguage">Language to fill</param>
-            <param name="iFilePath">The directioary to load</param>
+            <param name="iFilePath">The directionary to load and add</param>
         </member>
         <member name="M:BuddyOS.Lang.Dictionary.AddWordsToDictionary(Language,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
@@ -3600,6 +3649,36 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:BuddyOS.UI.LabeledButton">
+            <summary>
+            Basic button for AWindowLayout with left label
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.LabeledButton.ClickCommands">
+            <summary>
+            Those commands will be called after a click
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.LabeledButton.OuterLabel">
+            <summary>
+            Label of the button
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.LabeledButton.InnerLabel">
+            <summary>
+            Label of the button
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.LabeledButton.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.LabeledButton.OnClick">
+            <summary>
+            Callback method that will be called when the mButton item will be clicked
+            </summary>
+        </member>
         <member name="T:BuddyOS.UI.Button">
             <summary>
             Basic button for AWindowLayout, will be replaced by a classier button
@@ -3623,6 +3702,61 @@
         <member name="M:BuddyOS.UI.Button.Clear">
             <summary>
             Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="T:BuddyOS.UI.Dropdown">
+            <summary>
+            Dropdown widget for menu. The integer[0] (idx), the string[0] (label) and the object[0] (param) 
+            parameter of assigned commands will be updated on value change.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.Dropdown.Label">
+            <summary>
+            Left side label text of the dropdown
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.Dropdown.UpdateCommands">
+            <summary>
+            Set of commands that will be updated and called after dropdown value modification
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.SetDefault(System.String)">
+            <summary>
+            Set the input label as default
+            </summary>
+            <param name="iLabel">The label</param>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.SetDefault(System.Int32)">
+            <summary>
+            Set the label corresponding to the index as default
+            </summary>
+            <param name="iLabelIdx">The index label</param>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.AddOption(System.String,System.Object)">
+            <summary>
+            Add a labeled option to the dropdown, with an optional parameter (object)
+            </summary>
+            <param name="iLabel">Displayed label for the option</param>
+            <param name="iParam">Optional param for the coresponding label. Will be stored at Objects[0] in updated commands</param>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.UpdateFeebackValue">
+            <summary>
+            Callback method that will be called when the dropdown value is changed
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.Display">
+            <summary>
+            Inner display purpose, do not call it
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.Hide">
+            <summary>
+            Inner display purpose, do not call it
             </summary>
         </member>
         <member name="T:BuddyOS.UI.Gauge">
@@ -3676,14 +3810,9 @@
             Slider component of the widget
             </summary>
         </member>
-        <member name="P:BuddyOS.UI.GaugeOnOff.OnCommands">
+        <member name="P:BuddyOS.UI.GaugeOnOff.SwitchCommands">
             <summary>
-            Commands that will be called after On switch
-            </summary>
-        </member>
-        <member name="P:BuddyOS.UI.GaugeOnOff.OffCommands">
-            <summary>
-            Commands that will be called after Off switch
+            Commands that will be called after On/Off switch. The first int parameter value will be set to 1/0
             </summary>
         </member>
         <member name="P:BuddyOS.UI.GaugeOnOff.UpdateCommands">
@@ -3722,14 +3851,9 @@
             Toggle widget for AWindowLayout
             </summary>
         </member>
-        <member name="P:BuddyOS.UI.OnOff.OnCommands">
+        <member name="P:BuddyOS.UI.OnOff.SwitchCommands">
             <summary>
-            Commands that will be called after On switch
-            </summary>
-        </member>
-        <member name="P:BuddyOS.UI.OnOff.OffCommands">
-            <summary>
-            Commands that will be called after Off switch
+            Commands that will be called after On/Off switch. The first int parameter value will be set to 1/0
             </summary>
         </member>
         <member name="P:BuddyOS.UI.OnOff.Label">
@@ -3907,13 +4031,12 @@
             <param name="iLine">Line index of the widget</param>
             <returns>The widget</returns>
         </member>
-        <member name="M:BuddyOS.UI.AWindowLayout.AddWidget``1(System.Int32,BuddyOS.UI.WindowLineParam)">
+        <member name="M:BuddyOS.UI.AWindowLayout.AddWidget``1(System.Int32)">
             <summary>
             Create a new widget at the specified line.
             </summary>
             <typeparam name="T">Type of the widget</typeparam>
             <param name="iLine">Line index of the widget</param>
-            <param name="iParam">Param of the line (height, width)</param>
             <returns></returns>
         </member>
         <member name="M:BuddyOS.UI.AWindowLayout.SwapWidgets(System.Int32,System.Int32)">
@@ -3982,7 +4105,7 @@
             Inner class that contains a AWindowLayout and line of the layout.
             </summary>
         </member>
-        <member name="F:BuddyOS.UI.WindowPanel.mLines">
+        <member name="F:BuddyOS.UI.WindowPanel.mWidgets">
             <summary>
             Lines containing widget of the layout
             </summary>
@@ -4002,9 +4125,9 @@
             Build the layout and convert the widgets inside the Layout to line that will be displayed in the panel
             </summary>
         </member>
-        <member name="M:BuddyOS.UI.WindowPanel.OptimizeLines">
+        <member name="M:BuddyOS.UI.WindowPanel.OptimizeWidgets">
             <summary>
-            Remove useless lines
+            Remove useless (empty) widgets
             </summary>
         </member>
         <member name="T:BuddyOS.UI.WindowPanelWrapper">
@@ -4068,6 +4191,23 @@
             Display a notification on the Top of the robot screen
             </summary>
         </member>
+        <member name="T:BuddyOS.VocalDebug">
+            <summary>
+            Vocal layer for easiest control for STT and Sphinx.
+            Set the VocalProcessing attribute for STT callback.
+            You can also set StartListenBehaviour and StopListenBehaviour.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalDebug.StartRecoWithTrigger">
+            <summary>
+            Set Vocal activation on Trigger Mode. Now, Buddy will need to here "Salut Buddy" or "Hello Buddy", before starting STT
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalDebug.StartInstantReco">
+            <summary>
+            Stop Trigger Mode and immediately starts STT request for instant listening
+            </summary>
+        </member>
         <member name="T:BuddyOS.VocalActivation">
             <summary>
             Vocal layer for easiest control for STT and Sphinx.
@@ -4090,9 +4230,24 @@
             Action will be called with the recognized string after STT listening
             </summary>
         </member>
+        <member name="P:BuddyOS.VocalActivation.PartialVocalProcessing">
+            <summary>
+            Action will be called when STT has recognized a word, BUT recognition is not finished
+            </summary>
+        </member>
+        <member name="P:BuddyOS.VocalActivation.VocalError">
+            <summary>
+            Action will be called upon STT completion with an error. Throws a STTEnum error
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalActivation.LaunchDebug">
+            <summary>
+            Open or close the debug window for STT and Sphinx
+            </summary>
+        </member>
         <member name="M:BuddyOS.VocalActivation.StartRecoWithTrigger">
             <summary>
-            Set Vocal activation on Trigger Mode. Now, Buddy will need to here "Salut Buddy" or "Hello Buddy", before starting STT
+            Set Vocal activation on Trigger Mode. Now, Buddy will need to hear "Salut Buddy" or "Hello Buddy", before starting STT
             </summary>
         </member>
         <member name="M:BuddyOS.VocalActivation.StartInstantReco">

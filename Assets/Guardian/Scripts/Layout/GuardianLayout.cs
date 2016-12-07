@@ -59,12 +59,12 @@ namespace BuddyApp.Guardian
              * At each interaction with a widget, a command will be updated with the current widget (input) value and will be executed
              * ==> What must happen when I interacted with a widget ?
              */
-            lGaugeFireDetection.OnCommands.Add(new ActFireDetectionCmd());
-            lGaugeFireDetection.OffCommands.Add(new DsactFireDetectionCmd());
-            lGaugeMovementDetection.OnCommands.Add(new ActMovementDetectionCmd());
-            lGaugeMovementDetection.OffCommands.Add(new DsactMovementDetectionCmd());
-            lGaugeKidnappingDetection.OnCommands.Add(new ActKidnappingDetectionCmd());
-            lGaugeKidnappingDetection.OffCommands.Add(new DsactKidnappingDetectionCmd());
+            lGaugeFireDetection.SwitchCommands.Add(new ActFireDetectionCmd());
+            //lGaugeFireDetection.OffCommands.Add(new DsactFireDetectionCmd());
+            lGaugeMovementDetection.SwitchCommands.Add(new ActMovementDetectionCmd());
+            //lGaugeMovementDetection.OffCommands.Add(new DsactMovementDetectionCmd());
+            lGaugeKidnappingDetection.SwitchCommands.Add(new ActKidnappingDetectionCmd());
+            //lGaugeKidnappingDetection.OffCommands.Add(new DsactKidnappingDetectionCmd());
             lQuitButton.ClickCommands.Add(new HomeCmd());
         }
 

@@ -18,8 +18,7 @@ namespace BuddyApp.BabyPhone
             lGaugeTimer.IsActive = BabyPhoneData.Instance.TimerIsActive;
 
             lGaugeTimer.UpdateCommands.Add(new SetTimerCmd());
-            lGaugeTimer.OnCommands.Add(new ActTimerCmd());
-            lGaugeTimer.OffCommands.Add(new DsactTimerCmd());
+            lGaugeTimer.SwitchCommands.Add(new ActTimerCmd());
             lQuitButton.ClickCommands.Add(new HomeCmd());
         }
 
