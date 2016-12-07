@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using BuddyFeature.Web;
 
 namespace BuddyApp.IOT
 {
@@ -38,7 +39,7 @@ namespace BuddyApp.IOT
             }
 
             string lPath = "http://" + Credentials[0] + "/api/" + Credentials[1] + "/lights/" + (indice + 1) + "/state";
-            HTTP.Request theRequest = new HTTP.Request("PUT", lPath, lLightSettings);
+            Request theRequest = new Request("PUT", lPath, lLightSettings);
             theRequest.Send((request) =>
             {
             });
