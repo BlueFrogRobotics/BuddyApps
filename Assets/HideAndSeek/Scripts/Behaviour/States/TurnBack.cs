@@ -1,48 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BuddyOS.App;
-using System;
 
 namespace BuddyApp.HideAndSeek
 {
-    public class TimerUpdate : AStateMachineBehaviour
+    public class TurnBack : AStateMachineBehaviour
     {
-
-        private float mTimer;
-        private int mNumPrec = 0;
 
         public override void Init()
         {
-            mTimer = 0.0f;
-            mNumPrec = 0;
+            
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Init();
+           // mWheels.MoveDistance(100, 100, 10, 0.1f);
+            mWheels.TurnAngle(180.0f, 100.0f, 0.02f);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mTimer += Time.deltaTime;
-            int lNumAct = Mathf.FloorToInt(mTimer);
-            if(lNumAct>mNumPrec)
+            //mWheels.TurnAngle(30.0f, 200.0f, 0.1f);
+            if (mWheels.Status==MobileBaseStatus.MOTIONLESS)
             {
-                mNumPrec = lNumAct;
-                mTTS.Say(""+lNumAct);
-            }
-            if(lNumAct>9)
-            {
-                
                 iAnimator.SetTrigger("ChangeState");
             }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mYesHinge.SetPosition(0);
+            
             iAnimator.ResetTrigger("ChangeState");
         }
-
     }
 }
