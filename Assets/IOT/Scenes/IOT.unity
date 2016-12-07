@@ -1133,6 +1133,7 @@ MonoBehaviour:
   - {fileID: 104338, guid: d473a9bca3ca93d47ac67ba73dfea8e3, type: 2}
   - {fileID: 120010, guid: cfd1906eda3789d4aa979067512f2af9, type: 2}
   - {fileID: 115774, guid: 515658dfe8443ed4090b274017c175ea, type: 2}
+  - {fileID: 141832, guid: 0af5c63536a8d9f4eab6bfd550759f6b, type: 2}
   parametersGroup: {fileID: 787601191}
 --- !u!1 &632915506
 GameObject:
@@ -2926,7 +2927,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1500086287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4116,11 +4117,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22412740, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -557
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22482440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -560
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11491556, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: instanceType
