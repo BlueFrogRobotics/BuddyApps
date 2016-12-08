@@ -11,7 +11,8 @@ namespace BuddyApp.IOT
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
-            GetGameObject(6).GetComponent<IOTDetails>().Object = GetGameObject(5).transform.GetChild(0).GetChild(0).GetChild(0).GetChild(iAnimator.GetInteger(HashList[(int)HashTrigger.Choice]) - 1).GetComponent<IOTObjectContainer>().Object;
+            Transform lIOTDeviceButton = GetGameObject(5).transform.GetChild(0).GetChild(0).GetChild(0).GetChild(iAnimator.GetInteger(HashList[(int)HashTrigger.Choice]) - 1);
+            GetGameObject(6).GetComponent<IOTDetails>().Object = lIOTDeviceButton.GetComponent<IOTObjectContainer>().Object;
             iAnimator.SetTrigger(HashList[(int)HashTrigger.NEXT]);
         }
 
