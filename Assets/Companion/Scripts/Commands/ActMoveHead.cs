@@ -6,7 +6,8 @@ namespace BuddyApp.Companion
     {
         protected override void ExecuteImpl()
         {
-            CompanionData.Instance.CanMoveHead = Parameters.Integers[0] == 1;
+            bool lMoveHead = Parameters.Integers[0] == 1;
+            CompanionData.Instance.CanMoveHead = lMoveHead;
         }
     }
 }

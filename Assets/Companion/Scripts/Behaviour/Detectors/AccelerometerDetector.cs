@@ -26,10 +26,10 @@ namespace BuddyApp.Companion
 
         void Update()
         {
-            float lAcceleroY = mParameters.GetYAccelerometer();
             float lAcceleroX = mParameters.GetXAccelerometer();
-            float lAcceleroZ = mParameters.GetZAccelerometer();
-            float lAcceleroTotal = lAcceleroZ + lAcceleroX + lAcceleroY ;
+            //float lAcceleroY = mParameters.GetYAccelerometer();
+            //float lAcceleroZ = mParameters.GetZAccelerometer();
+            float lAcceleroTotal = lAcceleroX;// + lAcceleroY + lAcceleroZ;
             mStack.Enqueue(lAcceleroTotal);
 
             if (mStack.Count > 100) {

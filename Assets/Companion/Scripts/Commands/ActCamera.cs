@@ -7,10 +7,13 @@ namespace BuddyApp.Companion
     {
         protected override void ExecuteImpl()
         {
-            CompanionData.Instance.UseCamera = Parameters.Integers[0] == 1;
+            bool lUseCamera = Parameters.Integers[0] == 1;
+            CompanionData.Instance.UseCamera = lUseCamera;
 
-            if (!BYOS.Instance.RGBCam.IsOpen)
+            if (lUseCamera && !BYOS.Instance.RGBCam.IsOpen)
                 BYOS.Instance.RGBCam.Open();
+            else if (!lUseCamera && !BYOS.Instance.RGBCam.IsOpen)
+                BYOS.Instance.RGBCam.Close();
         }
     }
 }
