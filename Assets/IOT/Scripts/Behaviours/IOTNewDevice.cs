@@ -15,16 +15,30 @@ namespace BuddyApp.IOT
 
         [SerializeField]
         private Transform parametersGroup;
+
+        bool start = false;
+        Dropdown lDropDownComponent;
         // Use this for initialization
         void OnEnable()
         {
-            GameObject lDropDown = GameObject.Instantiate(paramGameObjects[5]);
-            Dropdown lDropDownComponent = lDropDown.GetComponent<Dropdown>();
+            GameObject lDropDown = Instantiate(paramGameObjects[5]);
+            lDropDownComponent = lDropDown.GetComponent<Dropdown>();
 
-            IOTDropdownCmd lCmd = new IOTDropdownCmd(this);
+            lDropDown.transform.SetParent(parametersGroup, false);
+        }
 
-            //lDropDownComponent.UpdatesCommands.Add(lCmd);
-            //lDropDownComponent.AddOption("Philips Hue", lCmd);
+        void Update()
+        {
+            if (!start)
+            {
+
+                IOTDropdownCmd lCmd = new IOTDropdownCmd("IOTPhilipsHue");
+                //lDropDownComponent.UpdatesCommands.Add(lCmd);
+                lDropDownComponent.UpdateCommands.Add(lCmd);
+                lDropDownComponent.AddOption("Philips Hue", new object[] { this, "BuddyApp.IOT.IOTPhilipsHue" });
+                lDropDownComponent.AddOption("Philips Hue", new object[] { this, "BuddyApp.IOT.IOTPhilipsHue" });
+                start = true;
+            }
         }
 
         public void FillParamClasses()

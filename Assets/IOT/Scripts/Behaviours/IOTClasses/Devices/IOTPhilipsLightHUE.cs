@@ -39,10 +39,50 @@ namespace BuddyApp.IOT
             }
 
             string lPath = "http://" + Credentials[0] + "/api/" + Credentials[1] + "/lights/" + (indice + 1) + "/state";
-            Request theRequest = new Request("PUT", lPath, lLightSettings);
-            theRequest.Send((request) =>
+            Request lRequest = new Request("PUT", lPath, lLightSettings);
+            lRequest.Send((request) =>
             {
             });
+        }
+
+        public void GetValue()
+        {
+            string lPath = "http://" + Credentials[0] + "/api/" + Credentials[1] + "/lights/" + (indice + 1);
+            Request lRequest = new Request("GET", lPath);
+            lRequest.Send((request) =>
+            {
+                Hashtable lResult = request.response.Object;
+                Hashtable lRealState = (Hashtable)lResult["state"];
+
+                mState["on"] = lRealState["on"];
+                mState["bri"] = lRealState["bri"];
+                mState["hue"] = lRealState["hue"];
+                mState["sat"] = lRealState["sat"];
+                mState["effect"] = lRealState["effect"];
+                mState["ct"] = lRealState["ct"];
+                mState["alert"] = lRealState["alert"];
+                mState["colormode"] = lRealState["colormode"];
+                mState["reachable"] = lRealState["reachable"];
+
+                if (lResult == null)
+                {
+                    return;
+                }
+
+            });
+        }
+
+        public void SetColor(Color iColor)
+        {
+            float lH = 0.0f, lS = 0.0f, lV = 0.0f;
+            Color.RGBToHSV(iColor, out lH, out lS, out lV);
+            string[] lKey = new string[3] { "bri", "hue", "sat" };
+            object[] lValue = new object[3] {
+            (int)(lV * 255.0f),
+            (int)(lH * 65535.0f),
+            (int)(lS * 255.0f)
+        };
+            setValue(lKey, lValue);
         }
 
         public void OnOff(bool iOnOff)

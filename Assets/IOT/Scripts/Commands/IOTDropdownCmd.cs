@@ -16,10 +16,14 @@ namespace BuddyApp.IOT
 
         protected override void ExecuteImpl()
         {
-            string lVal = Parameters.Strings[0];
-            ((IOTNewDevice)Parameters.Objects[0]).IOTObject = (IOTObjects)Activator.CreateInstance(Type.GetType(lVal));
-            ((IOTNewDevice)Parameters.Objects[0]).FillParamClasses();
-            ((IOTNewDevice)Parameters.Objects[0]).InitiliazeParameters();
+            object[] lVal = (object[])Parameters.Objects[0];
+            IOTNewDevice lVal0 = (IOTNewDevice)lVal[0];
+            string lVal1 = (string)lVal[1];
+            Debug.Log(lVal1);
+            lVal0.IOTObject = (IOTObjects)Activator.CreateInstance(Type.GetType(lVal1));
+            Debug.Log(lVal0.IOTObject);
+            lVal0.FillParamClasses();
+            lVal0.InitiliazeParameters();
         }
     }
 }
