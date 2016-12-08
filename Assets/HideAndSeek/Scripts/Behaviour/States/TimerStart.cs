@@ -22,7 +22,7 @@ namespace BuddyApp.HideAndSeek
             if(mTTS.HasFinishedTalking())
             {
                 mYesHinge.SetPosition(40);
-                Debug.Log("angle max: " + mYesHinge.MaximumAngle);
+                //Debug.Log("angle max: " + mYesHinge.MaximumAngle);
                 iAnimator.SetTrigger("ChangeState");
             }
         }
