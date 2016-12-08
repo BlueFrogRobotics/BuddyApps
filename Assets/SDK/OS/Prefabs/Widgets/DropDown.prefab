@@ -526,8 +526,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: DisplayDropdown
+      - m_Target: {fileID: 11495760}
+        m_MethodName: UpdateFeebackValue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -993,7 +993,7 @@ MonoBehaviour:
   m_Script: {fileID: 1312003550, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localRectTransform: {fileID: 22472774}
+  localRectTransform: {fileID: 0}
   dropdownImage: {fileID: 11492140}
   arrowImage: {fileID: 11424888}
   imageLabel: {fileID: 11495334}

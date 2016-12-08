@@ -7,7 +7,7 @@ namespace BuddyApp.Companion
     {
         protected override void ExecuteImpl()
         {
-            CompanionData.Instance.UseCamera = true;
+            CompanionData.Instance.UseCamera = Parameters.Integers[0] == 1;
 
             if (!BYOS.Instance.RGBCam.IsOpen)
                 BYOS.Instance.RGBCam.Open();
