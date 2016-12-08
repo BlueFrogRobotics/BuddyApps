@@ -95,6 +95,18 @@ MonoBehaviour:
   when: 0
   setActive: 1
   gameobject: 07000000
+--- !u!114 &11403036
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a220f285d1ddf44ad023dd8038edc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeIn: 1
 --- !u!114 &11405234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -123,6 +135,18 @@ MonoBehaviour:
   Sentence: What do you want to do?
   trigger: 0
   triggerOrNotTrigger: 1
+--- !u!114 &11409016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a220f285d1ddf44ad023dd8038edc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeIn: 1
 --- !u!114 &11419976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -289,6 +313,18 @@ MonoBehaviour:
   when: 0
   setActive: 1
   gameobject: 07000000
+--- !u!114 &11445726
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a220f285d1ddf44ad023dd8038edc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeIn: 1
 --- !u!114 &11448296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -344,6 +380,30 @@ MonoBehaviour:
   when: 1
   setActive: 0
   gameobject: 05000000
+--- !u!114 &11459676
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a220f285d1ddf44ad023dd8038edc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeIn: 1
+--- !u!114 &11464762
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a220f285d1ddf44ad023dd8038edc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeIn: 1
 --- !u!114 &11466800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -381,6 +441,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resetTo: -1
   parameter: 9
+--- !u!114 &11482662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a220f285d1ddf44ad023dd8038edc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeIn: 1
 --- !u!114 &11484998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -917,6 +989,7 @@ AnimatorState:
   - {fileID: 11419976}
   - {fileID: 11437058}
   - {fileID: 11457306}
+  - {fileID: 11403036}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -969,6 +1042,7 @@ AnimatorState:
   - {fileID: 11493984}
   - {fileID: 11423706}
   - {fileID: 11453164}
+  - {fileID: 11482662}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1023,6 +1097,7 @@ AnimatorState:
   - {fileID: 11484998}
   - {fileID: 11407000}
   - {fileID: 11428830}
+  - {fileID: 11445726}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1048,6 +1123,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 11433956}
   - {fileID: 11402202}
+  - {fileID: 11464762}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1152,6 +1228,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 11468354}
   - {fileID: 11445624}
+  - {fileID: 11459676}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1232,6 +1309,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 11422168}
   - {fileID: 11405234}
+  - {fileID: 11409016}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

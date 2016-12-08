@@ -10,8 +10,7 @@ namespace BuddyApp.IOT
         public IOTDropdownCmd(object iObject)
         {
             Parameters = new CommandParam();
-            Parameters.Objects = new object[1];
-            Parameters.Objects[0] = iObject;
+            Parameters.Objects = new object[1] { iObject };
         }
 
         protected override void ExecuteImpl()

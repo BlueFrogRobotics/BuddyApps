@@ -5,16 +5,16 @@ using System;
 
 namespace BuddyApp.IOT
 {
-    public class IOTConnectCmd : ACommand
+    public class IOTOnOff : ACommand
     {
-        public IOTConnectCmd(IOTObjects iObject)
+        public IOTOnOff(IOTObjects iObject)
         {
             Parameters = new CommandParam();
             Parameters.Objects = new object[1] { iObject };
         }
         protected override void ExecuteImpl()
         {
-            ((IOTObjects)Parameters.Objects[0]).Connect();
+            ((IOTPhilipsLightHUE)Parameters.Objects[0]).OnOff(Parameters.Singles[0] > 0 ? true : false);
         }
     }
 }
