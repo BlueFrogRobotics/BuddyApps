@@ -60,16 +60,16 @@ namespace BuddyApp.Recipe
             mText.text = iName;
             string[] lWords = iName.Split(' ');
             List<Recipe> lRecipeList = new List<Recipe>();
-            int lIndex;
-            while (lWords[lIndex] && !SearchRecipe(mRecipeList, lWords[lIndex]))
+            int lIndex = 0;
+            while (lWords[lIndex] != null && SearchRecipe(mRecipeList, lWords[lIndex]) == null)
                 lIndex++;
-            if (lWords[lIndex])
+            if (lWords[lIndex] != null)
             {
                 lRecipeList = mRecipeList;
-                while (lWords[lIndex])
+                while (lWords[lIndex] != null)
                     lRecipeList = SearchRecipe(lRecipeList, lWords[lIndex]);
             }
-            if (!lRecipeList)
+            if (lRecipeList == null)
                 RecipeNotFound();
             else
                 RecipeFound(lRecipeList);
@@ -95,7 +95,7 @@ namespace BuddyApp.Recipe
 
         private void RecipeFound(List<Recipe> iRecipeList)
         {
-            if (iRecipeList.Count == 1 || )
+            
         }
 
         private List<Recipe> SearchRecipe(List<Recipe> iRecipeList, string word)

@@ -1,4 +1,4 @@
-﻿using BuddyOS;
+﻿using BuddyOS.App;
 
 namespace BuddyApp.Recipe
 {
