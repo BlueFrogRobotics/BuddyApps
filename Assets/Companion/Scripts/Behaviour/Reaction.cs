@@ -40,8 +40,10 @@ namespace BuddyApp.Companion
             mNavigation = GetComponent<RoombaNavigation>();
             mVocalChat = GetComponent<VocalChat>();
             mWander = GetComponent<WanderReaction>();
+
             mWander.enabled = false;
             mNavigation.enabled = false;
+            mVocalChat.OnQuestionTypeFound = SortQuestionType;
         }
 
         void Update()
@@ -258,6 +260,11 @@ namespace BuddyApp.Companion
             new SetPosYesCmd(0).Execute();
             mTTS.Say("Bonjour !");
             ActionFinished();
+        }
+
+        private void SortQuestionType(string iType)
+        {
+            Debug.Log("Question Type found : " + iType);
         }
     }
 }
