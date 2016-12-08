@@ -36,9 +36,9 @@ namespace BuddyApp.Remote
         {
             float[] lSensorsDistance = new float[4];
 
-            lSensorsDistance[0] = mUSSensors.Left.Distance;
+            lSensorsDistance[0] = mIRSensors.Left.Distance;
             lSensorsDistance[1] = mIRSensors.Middle.Distance;
-            lSensorsDistance[2] = mUSSensors.Right.Distance;
+            lSensorsDistance[2] = mIRSensors.Right.Distance;
             lSensorsDistance[3] = mUSSensors.Back.Distance;
 
             return SensorLvl(lSensorsDistance);
