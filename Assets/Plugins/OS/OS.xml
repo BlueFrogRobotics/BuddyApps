@@ -3489,6 +3489,11 @@
             Clear method when the component comes to desappeared
             </summary>
         </member>
+        <member name="M:BuddyOS.UI.ABaseView.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
         <member name="M:BuddyOS.UI.ABaseView.OnClick">
             <summary>
             Callback method that will be called when the mButton item will be clicked
@@ -3592,6 +3597,11 @@
             Represents an account element 
             </summary>
         </member>
+        <member name="M:BuddyOS.UI.AccountElement.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
         <member name="T:BuddyOS.UI.AppsContainer">
             <summary>
             Container for app icon
@@ -3600,6 +3610,11 @@
         <member name="P:BuddyOS.UI.AppsContainer.Label">
             <summary>
             Label of the container
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.AppsContainer.OnAwake">
+            <summary>
+            Called on awake
             </summary>
         </member>
         <member name="M:BuddyOS.UI.AppsContainer.Clear">
@@ -3621,6 +3636,11 @@
         <member name="M:BuddyOS.UI.AppShortcut.Clear">
             <summary>
             Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.AppShortcut.OnAwake">
+            <summary>
+            Called on awake
             </summary>
         </member>
         <member name="M:BuddyOS.UI.AppShortcut.OnClick">
@@ -3669,6 +3689,11 @@
             Label of the button
             </summary>
         </member>
+        <member name="M:BuddyOS.UI.LabeledButton.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
         <member name="M:BuddyOS.UI.LabeledButton.Clear">
             <summary>
             Clear method when the component comes to desappeared
@@ -3694,6 +3719,11 @@
             Label of the button
             </summary>
         </member>
+        <member name="M:BuddyOS.UI.Button.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
         <member name="M:BuddyOS.UI.Button.OnClick">
             <summary>
             Callback method that will be called when the mButton item will be clicked
@@ -3706,7 +3736,7 @@
         </member>
         <member name="T:BuddyOS.UI.Dropdown">
             <summary>
-            Dropdown widget for menu. The integer[0] (idx), the string[0] (label) and the object[0] (param) 
+            Dropdown widget for menu. The integer[0] (idx), the string[0] (label) and the object[0] (opt param) 
             parameter of assigned commands will be updated on value change.
             </summary>
         </member>
@@ -3718,6 +3748,11 @@
         <member name="P:BuddyOS.UI.Dropdown.UpdateCommands">
             <summary>
             Set of commands that will be updated and called after dropdown value modification
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.OnAwake">
+            <summary>
+            Called on awake
             </summary>
         </member>
         <member name="M:BuddyOS.UI.Dropdown.Clear">
@@ -3733,13 +3768,13 @@
         </member>
         <member name="M:BuddyOS.UI.Dropdown.SetDefault(System.Int32)">
             <summary>
-            Set the label corresponding to the index as default
+            Set the label (corresponding to the index) as default
             </summary>
             <param name="iLabelIdx">The index label</param>
         </member>
         <member name="M:BuddyOS.UI.Dropdown.AddOption(System.String,System.Object)">
             <summary>
-            Add a labeled option to the dropdown, with an optional parameter (object)
+            Add a labeled option to the dropdown, with an optional object parameter
             </summary>
             <param name="iLabel">Displayed label for the option</param>
             <param name="iParam">Optional param for the coresponding label. Will be stored at Objects[0] in updated commands</param>
@@ -3783,6 +3818,11 @@
         <member name="P:BuddyOS.UI.Gauge.DisplayPercentage">
             <summary>
             Specify if the slider value must be DISPLAYED in purcentage
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Gauge.OnAwake">
+            <summary>
+            Called on awake
             </summary>
         </member>
         <member name="M:BuddyOS.UI.Gauge.Clear">
@@ -3831,6 +3871,11 @@
             Set if the toggle must be active when displayed
             </summary>
         </member>
+        <member name="M:BuddyOS.UI.GaugeOnOff.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
         <member name="M:BuddyOS.UI.GaugeOnOff.Clear">
             <summary>
             Clear method when the component comes to desappeared
@@ -3866,6 +3911,11 @@
             Set if the toggle must be active when displayed
             </summary>
         </member>
+        <member name="M:BuddyOS.UI.OnOff.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
         <member name="M:BuddyOS.UI.OnOff.Clear">
             <summary>
             Clear method when the component comes to desappeared
@@ -3874,6 +3924,26 @@
         <member name="M:BuddyOS.UI.OnOff.StateChange">
             <summary>
             Modification callback
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.TextField.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.TextField.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Password.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Password.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
             </summary>
         </member>
         <member name="T:BuddyOS.UI.SearchField">
@@ -3897,6 +3967,11 @@
             The Strings[] attribute of Parameters will be updated.
             </summary>
         </member>
+        <member name="M:BuddyOS.UI.SearchField.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
         <member name="M:BuddyOS.UI.SearchField.Clear">
             <summary>
             Clear method when the component comes to desappeared
@@ -3907,17 +3982,22 @@
             Modification callback
             </summary>
         </member>
-        <member name="T:BuddyOS.UI.TextField">
+        <member name="T:BuddyOS.UI.Label">
             <summary>
             Simple text field
             </summary>
         </member>
-        <member name="P:BuddyOS.UI.TextField.Label">
+        <member name="P:BuddyOS.UI.Label.Text">
             <summary>
             Label of the field
             </summary>
         </member>
-        <member name="M:BuddyOS.UI.TextField.Clear">
+        <member name="M:BuddyOS.UI.Label.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Label.Clear">
             <summary>
             Clear method when the component comes to desappeared
             </summary>
