@@ -60,11 +60,8 @@ namespace BuddyApp.Guardian
              * ==> What must happen when I interacted with a widget ?
              */
             lGaugeFireDetection.SwitchCommands.Add(new ActFireDetectionCmd());
-            //lGaugeFireDetection.OffCommands.Add(new DsactFireDetectionCmd());
             lGaugeMovementDetection.SwitchCommands.Add(new ActMovementDetectionCmd());
-            //lGaugeMovementDetection.OffCommands.Add(new DsactMovementDetectionCmd());
             lGaugeKidnappingDetection.SwitchCommands.Add(new ActKidnappingDetectionCmd());
-            //lGaugeKidnappingDetection.OffCommands.Add(new DsactKidnappingDetectionCmd());
             lQuitButton.ClickCommands.Add(new HomeCmd());
         }
 

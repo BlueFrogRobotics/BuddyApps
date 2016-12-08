@@ -114,6 +114,11 @@ namespace BuddySample
             mMood.Set(MoodType.GRUMPY);
         }
 
+        public void Love()
+        {
+            mMood.Set(MoodType.LOVE);
+        }
+
         public void Happy()
         {
             mMood.Set(MoodType.HAPPY);

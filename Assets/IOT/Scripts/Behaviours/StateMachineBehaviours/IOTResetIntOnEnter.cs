@@ -15,7 +15,6 @@ namespace BuddyApp.IOT
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
-            Debug.Log(parameter);
             if (iAnimator.GetParameter((int)parameter).type == AnimatorControllerParameterType.Int)
                 iAnimator.SetInteger(HashList[(int)parameter], resetTo);
             else

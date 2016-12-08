@@ -39,7 +39,6 @@ namespace BuddyApp.Basic
              */ 
             lGaugeValOne.UpdateCommands.Add(new SetValOneCmd());
             lGaugeValOne.SwitchCommands.Add(new ActValOneCmd());
-            //lGaugeValOne.OffCommands.Add(new DsactValOneCmd());
             lSearchFieldValTwo.UpdateCommands.Add(new SetValTwoCmd());
             lQuitButton.ClickCommands.Add(new HomeCmd());
         }

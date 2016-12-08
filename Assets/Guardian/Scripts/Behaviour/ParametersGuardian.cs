@@ -68,7 +68,7 @@ namespace BuddyApp.Guardian
         public UnityEngine.UI.Button ButtonValidate { get { return buttonValidate; } }
         public UnityEngine.UI.Button ButtonBack { get { return buttonBack; } }
 
-        private bool mHasInitCommands=false;
+        private bool mHasInitCommands = false;
 
 
         // Use this for initialization
@@ -78,14 +78,13 @@ namespace BuddyApp.Guardian
             gaugeKidnap.DisplayPercentage = true;
             gaugeMovement.DisplayPercentage = true;
             gaugeSound.DisplayPercentage = true;
-            
+
         }
 
         // Update is called once per frame
         void Update()
         {
-            if(!mHasInitCommands)
-            {
+            if (!mHasInitCommands) {
                 mHasInitCommands = true;
                 onOffFire.SwitchCommands.Add(new ActFireDetectionCmd());
                 onOffMovement.SwitchCommands.Add(new ActMovementDetectionCmd());

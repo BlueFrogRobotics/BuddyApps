@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e0c074063cecb574d87d4d6a333920c3
-timeCreated: 1477493125
+timeCreated: 1481039155
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -25,6 +25,7 @@ TextureImporter:
     21300034: Eye_Lied_06
     21300036: Sad_Pupil_Big_V2
     21300038: Eye_Lied_Grumpy
+    21300040: InLove_Pupil_Big_V2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -697,29 +698,48 @@ TextureImporter:
       pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 177, y: -124}
-        - {x: 164, y: -94}
-        - {x: 122, y: -46}
-        - {x: 62, y: -15}
-        - {x: 33, y: -8}
-        - {x: -19, y: -8}
-        - {x: -34, y: -9}
-        - {x: -57, y: -16}
-        - {x: -96, y: -34}
-        - {x: -111, y: -44}
-        - {x: -139, y: -70}
-        - {x: -165, y: -106}
-        - {x: -179, y: -137}
-        - {x: -184, y: -164}
-        - {x: -184, y: -179}
-        - {x: -183, y: -180}
-        - {x: -85, y: -182}
-        - {x: 11, y: -195}
-        - {x: 175, y: -237}
-        - {x: 185, y: -237}
-        - {x: 188, y: -228}
-        - {x: 188, y: -173}
-        - {x: 187, y: -159}
+      - - {x: 177, y: -114}
+        - {x: 164, y: -84}
+        - {x: 122, y: -36}
+        - {x: 62, y: -5}
+        - {x: 42, y: 0}
+        - {x: -36, y: 0}
+        - {x: -57, y: -6}
+        - {x: -96, y: -24}
+        - {x: -123, y: -43}
+        - {x: -151, y: -75}
+        - {x: -168, y: -104}
+        - {x: -182, y: -140}
+        - {x: -184, y: -154}
+        - {x: -184, y: -169}
+        - {x: -183, y: -170}
+        - {x: -85, y: -172}
+        - {x: 11, y: -185}
+        - {x: 175, y: -227}
+        - {x: 185, y: -227}
+        - {x: 188, y: -218}
+        - {x: 188, y: -163}
+        - {x: 187, y: -149}
+    - name: InLove_Pupil_Big_V2
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 15
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -36, y: 63}
+        - {x: -62, y: 34}
+        - {x: -62, y: -42}
+        - {x: -58, y: -52}
+        - {x: -25, y: -62}
+        - {x: 42, y: -62}
+        - {x: 63, y: -43}
+        - {x: 63, y: 29}
+        - {x: 50, y: 63}
     outline: []
   spritePackingTag: 
   userData: 
