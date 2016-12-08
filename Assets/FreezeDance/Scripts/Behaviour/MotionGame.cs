@@ -3,19 +3,12 @@ using UnityEngine.UI;
 using OpenCVUnity;
 using BuddyFeature.Vision;
 using BuddyOS;
+using BuddyTools;
 
 namespace BuddyApp.FreezeDance
 {
     public class MotionGame : AVisionAlgorithm
     {
-        #region Var to adjust the moving mask
-        [Range(1, 100000)]
-        public int sobelKernelSize;
-
-        #endregion
-        [SerializeField]
-        private Slider threshBar;
-
         [SerializeField]
         private bool isMoving;
 
@@ -39,6 +32,10 @@ namespace BuddyApp.FreezeDance
         private Mat mTest;
         private Point mPositionOLD;
 
+        ////debug
+        //[SerializeField]
+        //private RawImage mDebugRawImg;
+
         #endregion
         private double mThresh;
 
@@ -54,11 +51,12 @@ namespace BuddyApp.FreezeDance
             mDiffResult = new Mat();
             mRawImage = new Mat();
             mTest = new Mat();
+            
 
             mBlurredImage = new Mat();
             mBinaryImage = new Mat();
             mPositionOLD = new Point(1000, 1000);
-            sobelKernelSize = 3;
+            //sobelKernelSize = 3;
 
             mRGBCam = BYOS.Instance.RGBCam;
             mRGBCam.Open();
@@ -67,7 +65,9 @@ namespace BuddyApp.FreezeDance
         // Update is called once per frame
         protected override void ProcessFrameImpl(Mat iInputFrameMat, Texture2D iInputFrameTexture)
         {
-            mThresh = threshBar.value;
+            //mThresh = threshBar.value;
+            //need to change mThresh to adjust difficulty
+            mThresh = 35;
             mRawImage = iInputFrameMat.clone();
             mTest = iInputFrameMat.clone();
 
@@ -76,6 +76,7 @@ namespace BuddyApp.FreezeDance
                 Core.absdiff(mCurrentFrame, mPreviousFrame, mDiffResult);
                 Imgproc.blur(mDiffResult, mBlurredImage, new Size(3, 3));
                 Imgproc.threshold(mBlurredImage, mBinaryImage, mThresh, 255, Imgproc.THRESH_BINARY);
+                //mDebugRawImg.texture = Utils.MatToTexture2D(mBinaryImage);
 
                 Point lCenterOfMass = new Point();
                 Moments lMoments = Imgproc.moments(mBinaryImage);

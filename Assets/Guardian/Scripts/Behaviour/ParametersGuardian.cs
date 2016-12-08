@@ -68,7 +68,7 @@ namespace BuddyApp.Guardian
         public UnityEngine.UI.Button ButtonValidate { get { return buttonValidate; } }
         public UnityEngine.UI.Button ButtonBack { get { return buttonBack; } }
 
-        private bool mHasInitCommands=false;
+        private bool mHasInitCommands = false;
 
 
         // Use this for initialization
@@ -78,23 +78,18 @@ namespace BuddyApp.Guardian
             gaugeKidnap.DisplayPercentage = true;
             gaugeMovement.DisplayPercentage = true;
             gaugeSound.DisplayPercentage = true;
-            
+
         }
 
         // Update is called once per frame
         void Update()
         {
-            if(!mHasInitCommands)
-            {
+            if (!mHasInitCommands) {
                 mHasInitCommands = true;
-                onOffFire.OnCommands.Add(new ActFireDetectionCmd());
-                onOffFire.OffCommands.Add(new DsactFireDetectionCmd());
-                onOffMovement.OnCommands.Add(new ActMovementDetectionCmd());
-                onOffMovement.OffCommands.Add(new DsactMovementDetectionCmd());
-                onOffKidnap.OnCommands.Add(new ActKidnappingDetectionCmd());
-                onOffKidnap.OffCommands.Add(new DsactKidnappingDetectionCmd());
-                onOffSound.OnCommands.Add(new ActSoundDetectionCmd());
-                onOffSound.OffCommands.Add(new DsactSoundDetectionCmd());
+                onOffFire.SwitchCommands.Add(new ActFireDetectionCmd());
+                onOffMovement.SwitchCommands.Add(new ActMovementDetectionCmd());
+                onOffKidnap.SwitchCommands.Add(new ActKidnappingDetectionCmd());
+                onOffSound.SwitchCommands.Add(new ActSoundDetectionCmd());
             }
         }
 

@@ -45,6 +45,9 @@
     <DisplayName>ALARM</DisplayName>
     <Scene>AlarmApp</Scene>
     <Icon>Ico_Alarm</Icon>
+    <VocalKeys>
+      <string>alarme</string>
+    </VocalKeys>
     <Atlas>AtlasAlarm</Atlas>
   </AppInfo>
   <AppInfo>
@@ -53,6 +56,10 @@
     <DisplayName>BABY</DisplayName>
     <Scene>BabyPhoneApp</Scene>
     <Icon>Ico_BabyPhone</Icon>
+    <VocalKeys>
+      <string>babyphone</string>
+      <string>baby</string>
+    </VocalKeys>
     <Atlas>AtlasBabyPhone</Atlas>
     <OptionsLayoutStr>BuddyApp.BabyPhone.BabyPhoneLayout</OptionsLayoutStr>
     <DataFile>baby_phone_data.xml</DataFile>
@@ -62,8 +69,8 @@
     <hideFlags>None</hideFlags>
     <DisplayName>IOT</DisplayName>
     <Scene>IOT</Scene>
-    <Icon>Ico_Security</Icon>
-    <Atlas>AtlasUI</Atlas>
+    <Icon>IOT_Ico_App</Icon>
+    <Atlas>AtlasIOT</Atlas>
 	<OptionsLayoutStr>BuddyApp.IOT.IOTLayout</OptionsLayoutStr>
 	<DataFile>iot_data.xml</DataFile>
   </AppInfo>

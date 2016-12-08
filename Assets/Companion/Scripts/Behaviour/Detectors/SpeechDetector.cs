@@ -19,7 +19,7 @@ namespace BuddyApp.Companion
 
         void Update()
         {
-            mSomeoneTalking = mSphinx.HasTriggered();
+            mSomeoneTalking = mSphinx.HasTriggered;
         }
     }
 }

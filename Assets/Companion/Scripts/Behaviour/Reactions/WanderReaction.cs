@@ -132,7 +132,9 @@ namespace BuddyApp.Companion
 
         private void FaceRandomDirection()
         {
-            float lRandomAngle = Random.Range(-160F, 160F);
+            float lRandomAngle = Random.Range(60F, 300F);
+            if (lRandomAngle > 180F)
+                lRandomAngle = -lRandomAngle + 180F;
             new TurnRelaCmd(lRandomAngle, 100F, 0.02F).Execute();
         }
     }

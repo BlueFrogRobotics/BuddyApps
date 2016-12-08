@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using BuddyOS.UI;
 namespace BuddyApp.IOT
 {
     public class IOTSystems : IOTObjects
     {
-        private string mIp;
-        private string mUsername;
-        private string mPassword;
     }
 }
