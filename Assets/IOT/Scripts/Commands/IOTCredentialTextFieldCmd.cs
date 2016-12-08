@@ -9,12 +9,9 @@ namespace BuddyApp.IOT {
         public IOTCredentialTextFieldCmd(IOTObjects iObject, int lIndex, string lString)
         {
             Parameters = new CommandParam();
-            Parameters.Strings = new string[1];
-            Parameters.Integers = new int[1];
-            Parameters.Objects = new object[1];
-            Parameters.Strings[0] = lString;
-            Parameters.Integers[0] = lIndex;
-            Parameters.Objects[0] = iObject;
+            Parameters.Strings = new string[1] { lString };
+            Parameters.Integers = new int[1] { lIndex };
+            Parameters.Objects = new object[1] { iObject };
         }
         protected override void ExecuteImpl()
         {

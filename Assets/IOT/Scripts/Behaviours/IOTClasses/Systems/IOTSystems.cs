@@ -7,5 +7,6 @@ namespace BuddyApp.IOT
     public class IOTSystems : IOTObjects
     {
         protected List<IOTDevices> mDevices = new List<IOTDevices>();
+        public List<IOTDevices> Devices { get { return mDevices; } }
     }
 }

@@ -55,10 +55,11 @@ namespace BuddyApp.IOT
                 for (int i = 0; i < mDevices.Count; ++i)
                 {
                     IOTPhilipsLightHUE lDevice = (IOTPhilipsLightHUE)mDevices[i];
-                    lDevice.Credentials[0] = Credentials[0];
-                    lDevice.Credentials[1] = Credentials[1];
-                    lDevice.Credentials[2] = Credentials[2];
+                    lDevice.Credentials[0] = mCredentials[0];
+                    lDevice.Credentials[1] = mCredentials[1];
+                    lDevice.Credentials[2] = mCredentials[2];
                     lDevice.Indice = i;
+                    lDevice.Name = "DEVICE " + i.ToString("D2");
                 }
 
                 if (lResult == null)
