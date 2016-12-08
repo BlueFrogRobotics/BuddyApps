@@ -14,12 +14,9 @@ namespace BuddyApp.Companion
             lCanMoveHead.IsActive = CompanionData.Instance.CanMoveHead;
             lUseCamera.IsActive = CompanionData.Instance.UseCamera;
 
-            lCanMoveBody.OnCommands.Add(new ActMoveBody());
-            lCanMoveBody.OffCommands.Add(new DsactMoveBody());
-            lCanMoveHead.OnCommands.Add(new ActMoveHead());
-            lCanMoveHead.OffCommands.Add(new DsactMoveHead());
-            lUseCamera.OnCommands.Add(new ActCamera());
-            lUseCamera.OffCommands.Add(new DsactCamera());
+            lCanMoveBody.SwitchCommands.Add(new ActMoveBody());
+            lCanMoveHead.SwitchCommands.Add(new ActMoveHead());
+            lUseCamera.SwitchCommands.Add(new ActCamera());
         }
 
         public override void Labelize()

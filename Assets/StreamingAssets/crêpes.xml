@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Content type="recette" >
+	<step id="0">
+		<sentenceToSay sentence="C'est parti pour les crêpes" />
+		<transitionList>
+			<transition type="timer" value="5" target="1" />
+			<transition type="button" target="1" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="1">
+		<sentenceToSay sentence="Le temps de préparation sera de 5 minutes" />
+		<sentenceToDisplay sentence="Temps de préparation : 5 minutes" />
+		<transitionList>
+			<transition type="timer" value="5" target="2"/>
+			<transition type="button" target="2" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="0" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="2">
+		<sentenceToSay sentence="Le temps de cuisson sera de 5 minutes" />
+		<sentenceToDisplay sentence="Temps de cuisson : 5 minutes" />
+		<transitionList>
+			<transition type="timer" value="5" target="2"/>
+			<transition type="button" target="3" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="1" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="3">
+		<sentenceToSay sentence="Les ingrédients suivant sont pour 6 personnes" />
+		<sentenceToDisplay sentence="Ingrédients pour 6 personnes" />
+		<transitionList>
+			<transition type="timer" value="5" target="1"/>
+			<transition type="button" target="4" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="2" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="4">
+		<media path="farine" />
+		<sentenceToSay sentence="375 grammes de farine" />
+		<sentenceToDisplay sentence="375g de farine" />
+		<transitionList>
+			<transition type="timer" value="5" target="5"/>
+			<transition type="button" target="5" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="3" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="5">
+		<media path="oeuf" />
+		<sentenceToSay sentence="4 oeufs" />
+		<sentenceToDisplay sentence="4 oeufs" />
+		<transitionList>
+			<transition type="timer" value="5" target="6"/>
+			<transition type="button" target="6" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="4" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="6">
+		<media path="huile" />
+		<sentenceToSay sentence="2 cuillères à soupe d'huile" />
+		<sentenceToDisplay sentence="2 cuillères à soupe d'huile" />
+		<transitionList>
+			<transition type="timer" value="5" target="7"/>
+			<transition type="button" target="7" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="5" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="7">
+		<media path="sel" />
+		<sentenceToSay sentence="2 pincées de sel" />
+		<sentenceToDisplay sentence="2 pincées de sel" />
+		<transitionList>
+			<transition type="timer" value="5" target="2"/>
+			<transition type="button" target="8" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="6" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="8">
+		<media path="lait" />
+		<sentenceToSay sentence="50 centilitre de lait" />
+		<sentenceToDisplay sentence="50 cl de lait" />
+		<transitionList>
+			<transition type="timer" value="5" target="2"/>
+			<transition type="button" target="9" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="7" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="9">
+		<media path="bierre" />
+		<sentenceToSay sentence="25 centilitre de bière" />
+		<sentenceToDisplay sentence="25 cl de bière" />
+		<transitionList>
+			<transition type="timer" value="5" target="2"/>
+			<transition type="button" target="10" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="8" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="10">
+		<media path="rhum" />
+		<sentenceToSay sentence="2 cuillères à soupe de rhum" />
+		<sentenceToDisplay sentence="2 cuillères à soupe de rhum" />
+		<transitionList>
+			<transition type="timer" value="5" target="2"/>
+			<transition type="button" target="11" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="9" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="11">
+		<media path="beurre" />
+		<sentenceToSay sentence="20 grammes de beurre" />
+		<sentenceToDisplay sentence="20 g de beurre" />
+		<transitionList>
+			<transition type="timer" value="5" target="2"/>
+			<transition type="button" target="12" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="10" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="12">
+		<sentenceToSay sentence="Mélanger la farine avec les oeufs, l'huile et le sel" />
+		<sentenceToDisplay sentence="Mélanger la farine avec les oeufs, l'huile et le sel" />
+		<transitionList>
+			<transition type="timer" value="5" target="2"/>
+			<transition type="button" target="13" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="11" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="13">
+		<sentenceToSay sentence="Ajoutez ensuite le lait, la bière et le rhum" />
+		<sentenceToDisplay sentence="Ajoutez ensuite le lait, la bière et le rhum" />
+		<transitionList>
+			<transition type="timer" value="5" target="2"/>
+			<transition type="button" target="14" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="12" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="14">
+		<sentenceToSay sentence="Mélangez le tout : c'est prêt en deux minutes avec un mixer !" />
+		<sentenceToDisplay sentence="Mélangez le tout : c'est prêt en deux minutes avec un mixer !" />
+		<transitionList>
+			<transition type="timer" value="5" target="2"/>
+			<transition type="button" target="15" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="13" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+	<step id="15">
+		<sentenceToSay sentence="Faites cuire à la poêle avec une noix de beurre" />
+		<sentenceToDisplay sentence="Faites cuire à la poêle avec une noix de beurre" />
+		<transitionList>
+			<transition type="timer" value="5" target="2"/>
+			<transition type="button" target="16" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="14" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+		</step>
+	<step id="16">
+		<media path="crepes" />
+		<sentenceToSay sentence="Bon appetit !" />
+		<sentenceToDisplay sentence="Bon appetit !" />
+		<transitionList>
+			<transition type="button" target="0" >
+				<position x="320" y="-160" width="160" height="30" />
+			</transition>
+			<transition type="button" target="15" >
+				<position x="-320" y="-160" width="160" height="30" />
+			</transition>
+		</transitionList>
+	</step>
+</Content>

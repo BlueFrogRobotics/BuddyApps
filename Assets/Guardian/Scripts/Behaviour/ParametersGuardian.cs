@@ -90,14 +90,10 @@ namespace BuddyApp.Guardian
             if(!mHasInitCommands)
             {
                 mHasInitCommands = true;
-                gaugeOnOffFire.OnCommands.Add(new ActFireDetectionCmd());
-                gaugeOnOffFire.OffCommands.Add(new DsactFireDetectionCmd());
-                gaugeOnOffMovement.OnCommands.Add(new ActMovementDetectionCmd());
-                gaugeOnOffMovement.OffCommands.Add(new DsactMovementDetectionCmd());
-                gaugeOnOffKidnap.OnCommands.Add(new ActKidnappingDetectionCmd());
-                gaugeOnOffKidnap.OffCommands.Add(new DsactKidnappingDetectionCmd());
-                gaugeOnOffSound.OnCommands.Add(new ActSoundDetectionCmd());
-                gaugeOnOffSound.OffCommands.Add(new DsactSoundDetectionCmd());
+                gaugeOnOffFire.SwitchCommands.Add(new ActFireDetectionCmd());
+                gaugeOnOffMovement.SwitchCommands.Add(new ActMovementDetectionCmd());
+                gaugeOnOffKidnap.SwitchCommands.Add(new ActKidnappingDetectionCmd());
+                gaugeOnOffSound.SwitchCommands.Add(new ActSoundDetectionCmd());
             }
         }
 

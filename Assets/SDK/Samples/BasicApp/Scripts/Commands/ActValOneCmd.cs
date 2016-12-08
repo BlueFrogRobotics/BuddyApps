@@ -8,7 +8,7 @@ namespace BuddyApp.Basic
     {
         protected override void ExecuteImpl()
         {
-            BasicAppData.Instance.OneIsActive = true;
+            BasicAppData.Instance.OneIsActive = Parameters.Integers[0] == 1;
         }
     }
 }

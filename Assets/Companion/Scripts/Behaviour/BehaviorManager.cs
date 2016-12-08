@@ -13,7 +13,6 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(SpeechDetector))]
     [RequireComponent(typeof(ThermalDetector))]
     [RequireComponent(typeof(USDetector))]
-    [RequireComponent(typeof(VocalChat))]
     [RequireComponent(typeof(BuddyFaceDetector))]
     [RequireComponent(typeof(AccelerometerDetector))]
     public class BehaviorManager : MonoBehaviour
@@ -27,7 +26,6 @@ namespace BuddyApp.Companion
         private SpeechDetector mSpeechDetector;
         private ThermalDetector mThermalDetector;
         private USDetector mUSDetector;
-        private VocalChat mVocalChat;
 
         private bool mActionInProgress;
         private float mInactiveTime;
@@ -48,13 +46,11 @@ namespace BuddyApp.Companion
             mSpeechDetector = GetComponent<SpeechDetector>();
             mThermalDetector = GetComponent<ThermalDetector>();
             mUSDetector = GetComponent<USDetector>();
-            mVocalChat = GetComponent<VocalChat>();
 
             mActionInProgress = false;
             mInactiveTime = Time.time;
             //mReaction.ActionFinished = PopHead;
             mReaction.ActionFinished = OnActionFinished;
-            mVocalChat.OnQuestionTypeFound = SortQuestionType;
             mAccelerometerDetector.OnDetection += mReaction.IsBeingLifted;
         }
 
@@ -68,6 +64,8 @@ namespace BuddyApp.Companion
 
             if (mFaceDetector.FaceDetected)
                 mReaction.FollowFace();
+            else
+                mReaction.StopFollowFace();
 
             //if (mIRDetector.IRDetected || mUSDetector.USFrontDetected)
             //    mReaction.StopWheels();
@@ -83,10 +81,10 @@ namespace BuddyApp.Companion
 
             if (mCurrentAction != null) {
                 mInactiveTime = Time.time;
-                //mReaction.StopWandering();
+                mReaction.StopWandering();
             }
 
-            if (Time.time - mInactiveTime > 45F) {
+            if (!mFaceDetector.FaceDetected && Time.time - mInactiveTime > 45F) {
                 //mReaction.AskSomething();
                 mReaction.StartWandering();
                 //mInactiveTime = Time.time;
@@ -127,11 +125,6 @@ namespace BuddyApp.Companion
         private void PopHead()
         {
             mActionStack.Pop();
-        }
-
-        private void SortQuestionType(string iType)
-        {
-            Debug.Log("Question Type found : " + iType);
         }
     }
 }

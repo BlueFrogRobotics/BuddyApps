@@ -9,13 +9,19 @@
             Mood element of the robot. It is an helper component combining Face, LED and moving commands.
             </summary>
         </member>
-        <member name="M:BuddyOS.Mood.Set(MoodType,System.Boolean,System.Collections.Generic.List{BuddyOS.Command.ACommand})">
+        <member name="M:BuddyOS.Mood.Set(MoodType,System.Boolean)">
             <summary>
             Ask the face to switch to the specified mood.
             </summary>
             <param name="iMood">The name of the mood to switch to</param>
             <param name="iMove">Specify if the robot must move according to the wanted mood</param>
-            <param name="iScheduledMoveCommands">Moving commands to execute, if iMove is true, default move commands will be esxecuted</param>
+        </member>
+        <member name="M:BuddyOS.Mood.Set(MoodType,System.Collections.Generic.List{BuddyOS.Command.ACommand})">
+            <summary>
+            Ask the face to switch to the specified mood.
+            </summary>
+            <param name="iMood">The name of the mood to switch to</param>
+            <param name="iScheduledMoveCommands">Moving commands to execute</param>
         </member>
         <member name="T:BuddyOS.ITrackable">
             <summary>
@@ -956,6 +962,12 @@
             Sphinx is use as a trigger in voice recognition. You will need to use Sphinx before starting STT.Request() for example.
             </summary>
         </member>
+        <member name="P:BuddyOS.SphinxTrigger.HasTriggered">
+            <summary>
+            Detects if the trigger has been activated.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:BuddyOS.SphinxTrigger.LaunchRecognition">
             <summary>
             Launches the voice recognition.
@@ -984,12 +996,6 @@
             Shouldn't be called continously
             </summary>
             <param name="iThreshold">Threshold of the trigger, default is 1e-30f</param>
-        </member>
-        <member name="M:BuddyOS.SphinxTrigger.HasTriggered">
-            <summary>
-            Detects if the trigger has been activated.
-            </summary>
-            <returns></returns>
         </member>
         <member name="M:BuddyOS.SphinxTrigger.FinishedSetup">
             <summary>
@@ -1377,6 +1383,49 @@
             </summary>
             <param name="iFunc">Your coroutine to start</param>
         </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.StopCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Stop the coroutine
+            </summary>
+            <param name="iFunc">Your coroutine to stop</param>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.StopAllCoroutines">
+            <summary>
+            Stop all started coroutines
+            </summary>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.CancelInvoke">
+            <summary>
+            Cancels all Invoke calls on this MonoBehaviour.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.CancelInvoke(System.String)">
+            <summary>
+            Cancels all Invoke calls with name methodName on this behaviour.
+            </summary>
+            <param name="iMethodName"></param>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.Invoke(System.String,System.Single)">
+            <summary>
+            Invokes the method methodName in time seconds.
+            </summary>
+            <param name="iMethodName"></param>
+            <param name="iTime"></param>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.InvokeRepeating(System.String,System.Single,System.Single)">
+            <summary>
+            Invokes the method methodName in time seconds, then repeatedly every repeatRate
+            </summary>
+            <param name="iMethodName"></param>
+            <param name="iTime"></param>
+            <param name="iRepeatRate"></param>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.IsInvoking">
+            <summary>
+            Is any invoke pending on this MonoBehaviour?
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.GetComponent``1">
             <summary>
             Retrieve the component (Monobehaviour) on the gameObject where the StateMachineAppLinker belongs.
@@ -1758,13 +1807,18 @@
         </member>
         <member name="T:BuddyOS.Command.ACommand">
             <summary>
-            Atomic behaviour. You can define your own commands by inherit from ACommand.
+            Atomic behaviour from the Command pattern. You can define your own commands by inherit from ACommand.
             Parameters can be setted with the Parameters attributes.
             </summary>
         </member>
         <member name="P:BuddyOS.Command.ACommand.Parameters">
             <summary>
             Parameters of the command
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.ACommand.#ctor">
+            <summary>
+            Base constructor for deserialization
             </summary>
         </member>
         <member name="M:BuddyOS.Command.ACommand.Execute">
@@ -1886,6 +1940,11 @@
             When executed : Closes the current opened camera. Must be call when you don't use the camera anymore. 
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.ClsDepthCamCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.ClsDepthCamCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
@@ -1894,6 +1953,11 @@
         <member name="T:BuddyOS.Command.ClsMicroCmd">
             <summary>
             When executed : Stops Recording.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.ClsMicroCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.ClsMicroCmd.#ctor(System.String)">
@@ -1915,6 +1979,11 @@
             Must be called when you will not use the camera anymore. 
             </remarks>
         </member>
+        <member name="M:BuddyOS.Command.ClsRGBCamCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.ClsRGBCamCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
@@ -1923,6 +1992,11 @@
         <member name="T:BuddyOS.Command.DownVolCmd">
             <summary>
             When executed : Decreases the volume by 1
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.DownVolCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.DownVolCmd.#ctor(System.Boolean)">
@@ -1941,6 +2015,11 @@
             When executed : Kill the sound to all Sound Channels
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.KillSndsCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.KillSndsCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
@@ -1949,6 +2028,11 @@
         <member name="T:BuddyOS.Command.MvAbsPosCmd">
             <summary>
             When executed : Make the robot go to a desired global position.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.MvAbsPosCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.MvAbsPosCmd.#ctor(UnityEngine.Vector2,System.Single,System.Single)">
@@ -1967,6 +2051,11 @@
         <member name="T:BuddyOS.Command.MvDistCmd">
             <summary>
             When executed : Indicate speeds of wheels during a desired distance.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.MvDistCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.MvDistCmd.#ctor(System.Single,System.Single,System.Single,System.Single)">
@@ -1988,6 +2077,11 @@
             When executed : Make the robot go to a desired position.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.MvPosCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.MvPosCmd.#ctor(UnityEngine.Vector2,System.Single,System.Single)">
             <summary>
             When executed : Make the robot go to a desired position.
@@ -2004,6 +2098,11 @@
         <member name="T:BuddyOS.Command.OpDepthCamCmd">
             <summary>
             When executed : Opens the camera device. Should be called once by session.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.OpDepthCamCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.OpDepthCamCmd.#ctor(System.Int32)">
@@ -2026,6 +2125,11 @@
         <member name="T:BuddyOS.Command.OpMicroCmd">
             <summary>
             When executed : Starts Recording.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.OpMicroCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.OpMicroCmd.#ctor(System.String,System.Boolean,System.Int32,System.Int32)">
@@ -2051,6 +2155,11 @@
             See "IsOpen" accessor to know this.
             </remarks>
         </member>
+        <member name="M:BuddyOS.Command.OpRGBCamCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.OpRGBCamCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
@@ -2059,6 +2168,11 @@
         <member name="T:BuddyOS.Command.SayTTSCmd">
             <summary>
             When executed : Makes the robot speaking the input string in the set language
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SayTTSCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.SayTTSCmd.#ctor(System.String,System.Boolean)">
@@ -2074,6 +2188,11 @@
         <member name="T:BuddyOS.Command.LookAtCmd">
             <summary>
             When executed : The robot changes its mood
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.LookAtCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.LookAtCmd.#ctor(FaceLookAt)">
@@ -2092,6 +2211,11 @@
             When executed : The robot executes a mouth event
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SetMouthEvntCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SetMouthEvntCmd.#ctor(MouthEvent)">
             <summary>
             When executed : The robot executes an mouth event
@@ -2108,6 +2232,11 @@
             When executed : The robot executes an eye event
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SetEyeEvntCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SetEyeEvntCmd.#ctor(EyeEvent)">
             <summary>
             When executed : The robot executes an eye event
@@ -2122,6 +2251,11 @@
         <member name="T:BuddyOS.Command.SetHSVLEDCmd">
             <summary>
             When executed : Set the body light value and oscillation with HSV Color.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetHSVLEDCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.SetHSVLEDCmd.#ctor(System.Int32,System.Int32,System.Int32,System.Single,System.Single)">
@@ -2144,6 +2278,11 @@
             When executed : Set ID of the selected Camera
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SetIDRGBCamCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SetIDRGBCamCmd.#ctor(System.Int32)">
             <summary>
             When executed : Set ID of the selected Camera
@@ -2157,6 +2296,11 @@
         <member name="T:BuddyOS.Command.SetKeyPhrSphinxCmd">
             <summary>
             When executed : Set the trigger key phrase.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetKeyPhrSphinxCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.SetKeyPhrSphinxCmd.#ctor(System.String)">
@@ -2175,6 +2319,11 @@
             When executed : Sets the recognized language
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SetLangSphinxCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SetLangSphinxCmd.#ctor(Language)">
             <summary>
             When executed : Sets the recognized language
@@ -2189,6 +2338,11 @@
         <member name="T:BuddyOS.Command.SetLangSTTCmd">
             <summary>
             When executed : Sets the recognized language
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetLangSTTCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.SetLangSTTCmd.#ctor(Language)">
@@ -2207,6 +2361,11 @@
             When executed : Sets the speak language
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SetLangTTSCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SetLangTTSCmd.#ctor(Language)">
             <summary>
             When executed : Sets the speak language
@@ -2221,6 +2380,11 @@
         <member name="T:BuddyOS.Command.SetMoodFaceCmd">
             <summary>
             When executed : The robot changes its mood
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetMoodFaceCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.SetMoodFaceCmd.#ctor(MoodType)">
@@ -2239,6 +2403,11 @@
             When executed : Set the body light based on the mood.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SetColorLEDCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SetColorLEDCmd.#ctor(LEDColor)">
             <summary>
             When executed : Set the body light based on the mood.
@@ -2255,6 +2424,11 @@
             When executed : Sets the pitch
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SetPitchTTSCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SetPitchTTSCmd.#ctor(System.Single)">
             <summary>
             When executed : Sets the pitch
@@ -2269,6 +2443,11 @@
         <member name="T:BuddyOS.Command.SetPosNoCmd">
             <summary>
             When executed : Set the angular position of the motor at a specific speed
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetPosNoCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.SetPosNoCmd.#ctor(System.Single,System.Single)">
@@ -2294,6 +2473,11 @@
             When executed : Set the angular position of the motor at a specific speed
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SetPosYesCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SetPosYesCmd.#ctor(System.Single,System.Single)">
             <summary>
             When executed : Set the angular position of the motor at a specific speed
@@ -2317,6 +2501,11 @@
             When executed : Let the battery provide power to the robot or not.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SetPowerCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SetPowerCmd.#ctor(System.Boolean)">
             <summary>
             When executed : Let the battery provide power to the robot or not.
@@ -2331,6 +2520,11 @@
         <member name="T:BuddyOS.Command.SetRateTTSCmd">
             <summary>
             When executed : Sets the speech rate
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetRateTTSCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.SetRateTTSCmd.#ctor(System.Single)">
@@ -2350,6 +2544,11 @@
             When setted, close and re-open automaticaly the camera.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SetResCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SetResCmd.#ctor(RGBCamResolution)">
             <summary>
             When executed : Set the resolution of the webcam 640x480, 320x240 or 176x144
@@ -2364,6 +2563,11 @@
         <member name="T:BuddyOS.Command.SetRGBLEDCmd">
             <summary>
             When executed : Set the body light value and oscillation with UnityEngine Color.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetRGBLEDCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.SetRGBLEDCmd.#ctor(UnityEngine.Color,System.Single,System.Single)">
@@ -2385,6 +2589,11 @@
             Shouldn't be called continously
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SetThreshSphinxCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SetThreshSphinxCmd.#ctor(System.Single)">
             <summary>
             When executed : Set the threshold of the sphinx trigger
@@ -2400,6 +2609,11 @@
         <member name="T:BuddyOS.Command.SetVolCmd">
             <summary>
             When executed : Changes the volume accordingly
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetVolCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.SetVolCmd.#ctor(System.Int32,System.Boolean,System.Boolean)">
@@ -2420,6 +2634,11 @@
             When executed : Controls the speed of the wheels, stops after the timeout.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SetWheelsSpeedCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SetWheelsSpeedCmd.#ctor(System.Single,System.Single,System.Int32)">
             <summary>
             When executed : Controls the speed of the wheels, stops after the timeout.
@@ -2438,6 +2657,11 @@
             When executed : Makes the robot stop speaking
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SilenceTTSCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.SilenceTTSCmd.#ctor(System.Int32,System.Boolean)">
             <summary>
             When executed : Makes the robot stop speaking
@@ -2451,6 +2675,11 @@
         <member name="T:BuddyOS.Command.SpeakFaceCmd">
             <summary>
             When executed : Make the face speaking or not
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SpeakFaceCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.SpeakFaceCmd.#ctor(System.Boolean)">
@@ -2469,6 +2698,11 @@
             When executed : Enables Bluetooth connection
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.StartBluetoothCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.StartBluetoothCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
@@ -2477,6 +2711,11 @@
         <member name="T:BuddyOS.Command.StartNetworkCmd">
             <summary>
             When executed : Connects to wanted Access Point
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.StartNetworkCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.StartNetworkCmd.#ctor(System.String,System.String)">
@@ -2496,6 +2735,11 @@
             When executed : Launches the voice recognition.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.StartRecoSphinxCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.StartRecoSphinxCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
@@ -2504,6 +2748,11 @@
         <member name="T:BuddyOS.Command.StartRecoSTTCmd">
             <summary>
             When executed : Launch the request call for the Speech To Text. Has to be done whenever you want the recognition to begin.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.StartRecoSTTCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.StartRecoSTTCmd.ExecuteImpl">
@@ -2516,6 +2765,11 @@
             When executed : Starts a Wifi Scan
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.StartWifiScanCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.StartWifiScanCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
@@ -2524,6 +2778,11 @@
         <member name="T:BuddyOS.Command.StpBluetoothCmd">
             <summary>
             When executed : Disables Bluetooth connection
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.StpBluetoothCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.StpBluetoothCmd.ExecuteImpl">
@@ -2536,6 +2795,11 @@
             When executed : Ends the voice recognition.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.StpRecoSphinxCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.StpRecoSphinxCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
@@ -2544,6 +2808,11 @@
         <member name="T:BuddyOS.Command.StpTTSCmd">
             <summary>
             When executed : Stop the current speech of the TTS
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.StpTTSCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.StpTTSCmd.ExecuteImpl">
@@ -2556,6 +2825,11 @@
             When executed : Launch the request call for the Speech To Text. Has to be done whenever you want the recognition to begin.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.StpSTTCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.StpSTTCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
@@ -2566,6 +2840,11 @@
             When executed : Stop wheels by setting their speed values to 0F.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.StpWheelsCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.StpWheelsCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
@@ -2574,6 +2853,11 @@
         <member name="T:BuddyOS.Command.TurnAbsCmd">
             <summary>
             When executed : Turns until the desired angle is reached in world space (based Buddy's odometry).
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.TurnAbsCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.TurnAbsCmd.#ctor(System.Single,System.Single,System.Single)">
@@ -2596,6 +2880,11 @@
             When executed : Turns with a target angle (in degrees) from the current orientation.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.TurnRelaCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.TurnRelaCmd.#ctor(System.Single,System.Single,System.Single)">
             <summary>
             When executed : Turns with a target angle (in degrees) from the current orientation.
@@ -2615,6 +2904,11 @@
             When executed : Increases the volume by 1
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.UpVolCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.UpVolCmd.#ctor(System.Boolean)">
             <summary>
             When executed : Increases the volume by 1
@@ -2631,6 +2925,11 @@
             When executed : Quit the app and launch the DEFAULT_APP
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.HomeCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.HomeCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
@@ -2639,6 +2938,11 @@
         <member name="T:BuddyOS.Command.LoadAppBySceneCmd">
             <summary>
             When executed : Launch the app defined by the scene name.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.LoadAppBySceneCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.LoadAppBySceneCmd.#ctor(System.String,System.Int32[],System.Single[],System.String[])">
@@ -2665,6 +2969,11 @@
             When executed : Launch the app defined by the vocal key.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.LoadAppByVocalCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.LoadAppByVocalCmd.#ctor(System.String,System.Int32[],System.Single[],System.String[])">
             <summary>
             When executed : Launch the app defined by the vocal key.
@@ -2688,6 +2997,11 @@
         <member name="T:BuddyOS.Command.UnLoadAppCmd">
             <summary>
             When executed : Unload the current app
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.UnLoadAppCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.UnLoadAppCmd.ExecuteImpl">
@@ -2767,6 +3081,11 @@
             Useless command
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.EmptyCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.EmptyCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
@@ -2777,9 +3096,19 @@
             When executed : Quit the Buddy app
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.ExitCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="T:BuddyOS.Command.ClsWinCmd">
             <summary>
             When executed : Close the current UI window 
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.ClsWinCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.ClsWinCmd.ExecuteImpl">
@@ -2790,6 +3119,11 @@
         <member name="T:BuddyOS.Command.OpWinCmd">
             <summary>
             When executed : Open an UI window 
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.OpWinCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="M:BuddyOS.Command.OpWinCmd.#ctor(System.Int32)">
@@ -3041,7 +3375,7 @@
             Add dictionary in given folder to the dictionary of the given language
             </summary>
             <param name="iLanguage">Language to fill</param>
-            <param name="iFilePath">The directioary to load</param>
+            <param name="iFilePath">The directionary to load and add</param>
         </member>
         <member name="M:BuddyOS.Lang.Dictionary.AddWordsToDictionary(Language,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
@@ -3315,6 +3649,36 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:BuddyOS.UI.LabeledButton">
+            <summary>
+            Basic button for AWindowLayout with left label
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.LabeledButton.ClickCommands">
+            <summary>
+            Those commands will be called after a click
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.LabeledButton.OuterLabel">
+            <summary>
+            Label of the button
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.LabeledButton.InnerLabel">
+            <summary>
+            Label of the button
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.LabeledButton.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.LabeledButton.OnClick">
+            <summary>
+            Callback method that will be called when the mButton item will be clicked
+            </summary>
+        </member>
         <member name="T:BuddyOS.UI.Button">
             <summary>
             Basic button for AWindowLayout, will be replaced by a classier button
@@ -3338,6 +3702,61 @@
         <member name="M:BuddyOS.UI.Button.Clear">
             <summary>
             Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="T:BuddyOS.UI.Dropdown">
+            <summary>
+            Dropdown widget for menu. The integer[0] (idx), the string[0] (label) and the object[0] (param) 
+            parameter of assigned commands will be updated on value change.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.Dropdown.Label">
+            <summary>
+            Left side label text of the dropdown
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.Dropdown.UpdateCommands">
+            <summary>
+            Set of commands that will be updated and called after dropdown value modification
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.SetDefault(System.String)">
+            <summary>
+            Set the input label as default
+            </summary>
+            <param name="iLabel">The label</param>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.SetDefault(System.Int32)">
+            <summary>
+            Set the label corresponding to the index as default
+            </summary>
+            <param name="iLabelIdx">The index label</param>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.AddOption(System.String,System.Object)">
+            <summary>
+            Add a labeled option to the dropdown, with an optional parameter (object)
+            </summary>
+            <param name="iLabel">Displayed label for the option</param>
+            <param name="iParam">Optional param for the coresponding label. Will be stored at Objects[0] in updated commands</param>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.UpdateFeebackValue">
+            <summary>
+            Callback method that will be called when the dropdown value is changed
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.Display">
+            <summary>
+            Inner display purpose, do not call it
+            </summary>
+        </member>
+        <member name="M:BuddyOS.UI.Dropdown.Hide">
+            <summary>
+            Inner display purpose, do not call it
             </summary>
         </member>
         <member name="T:BuddyOS.UI.Gauge">
@@ -3391,14 +3810,9 @@
             Slider component of the widget
             </summary>
         </member>
-        <member name="P:BuddyOS.UI.GaugeOnOff.OnCommands">
+        <member name="P:BuddyOS.UI.GaugeOnOff.SwitchCommands">
             <summary>
-            Commands that will be called after On switch
-            </summary>
-        </member>
-        <member name="P:BuddyOS.UI.GaugeOnOff.OffCommands">
-            <summary>
-            Commands that will be called after Off switch
+            Commands that will be called after On/Off switch. The first int parameter value will be set to 1/0
             </summary>
         </member>
         <member name="P:BuddyOS.UI.GaugeOnOff.UpdateCommands">
@@ -3437,14 +3851,9 @@
             Toggle widget for AWindowLayout
             </summary>
         </member>
-        <member name="P:BuddyOS.UI.OnOff.OnCommands">
+        <member name="P:BuddyOS.UI.OnOff.SwitchCommands">
             <summary>
-            Commands that will be called after On switch
-            </summary>
-        </member>
-        <member name="P:BuddyOS.UI.OnOff.OffCommands">
-            <summary>
-            Commands that will be called after Off switch
+            Commands that will be called after On/Off switch. The first int parameter value will be set to 1/0
             </summary>
         </member>
         <member name="P:BuddyOS.UI.OnOff.Label">
@@ -3622,13 +4031,12 @@
             <param name="iLine">Line index of the widget</param>
             <returns>The widget</returns>
         </member>
-        <member name="M:BuddyOS.UI.AWindowLayout.AddWidget``1(System.Int32,BuddyOS.UI.WindowLineParam)">
+        <member name="M:BuddyOS.UI.AWindowLayout.AddWidget``1(System.Int32)">
             <summary>
             Create a new widget at the specified line.
             </summary>
             <typeparam name="T">Type of the widget</typeparam>
             <param name="iLine">Line index of the widget</param>
-            <param name="iParam">Param of the line (height, width)</param>
             <returns></returns>
         </member>
         <member name="M:BuddyOS.UI.AWindowLayout.SwapWidgets(System.Int32,System.Int32)">
@@ -3697,7 +4105,7 @@
             Inner class that contains a AWindowLayout and line of the layout.
             </summary>
         </member>
-        <member name="F:BuddyOS.UI.WindowPanel.mLines">
+        <member name="F:BuddyOS.UI.WindowPanel.mWidgets">
             <summary>
             Lines containing widget of the layout
             </summary>
@@ -3717,9 +4125,9 @@
             Build the layout and convert the widgets inside the Layout to line that will be displayed in the panel
             </summary>
         </member>
-        <member name="M:BuddyOS.UI.WindowPanel.OptimizeLines">
+        <member name="M:BuddyOS.UI.WindowPanel.OptimizeWidgets">
             <summary>
-            Remove useless lines
+            Remove useless (empty) widgets
             </summary>
         </member>
         <member name="T:BuddyOS.UI.WindowPanelWrapper">
@@ -3783,6 +4191,23 @@
             Display a notification on the Top of the robot screen
             </summary>
         </member>
+        <member name="T:BuddyOS.VocalDebug">
+            <summary>
+            Vocal layer for easiest control for STT and Sphinx.
+            Set the VocalProcessing attribute for STT callback.
+            You can also set StartListenBehaviour and StopListenBehaviour.
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalDebug.StartRecoWithTrigger">
+            <summary>
+            Set Vocal activation on Trigger Mode. Now, Buddy will need to here "Salut Buddy" or "Hello Buddy", before starting STT
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalDebug.StartInstantReco">
+            <summary>
+            Stop Trigger Mode and immediately starts STT request for instant listening
+            </summary>
+        </member>
         <member name="T:BuddyOS.VocalActivation">
             <summary>
             Vocal layer for easiest control for STT and Sphinx.
@@ -3805,9 +4230,24 @@
             Action will be called with the recognized string after STT listening
             </summary>
         </member>
+        <member name="P:BuddyOS.VocalActivation.PartialVocalProcessing">
+            <summary>
+            Action will be called when STT has recognized a word, BUT recognition is not finished
+            </summary>
+        </member>
+        <member name="P:BuddyOS.VocalActivation.VocalError">
+            <summary>
+            Action will be called upon STT completion with an error. Throws a STTEnum error
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalActivation.LaunchDebug">
+            <summary>
+            Open or close the debug window for STT and Sphinx
+            </summary>
+        </member>
         <member name="M:BuddyOS.VocalActivation.StartRecoWithTrigger">
             <summary>
-            Set Vocal activation on Trigger Mode. Now, Buddy will need to here "Salut Buddy" or "Hello Buddy", before starting STT
+            Set Vocal activation on Trigger Mode. Now, Buddy will need to hear "Salut Buddy" or "Hello Buddy", before starting STT
             </summary>
         </member>
         <member name="M:BuddyOS.VocalActivation.StartInstantReco">
