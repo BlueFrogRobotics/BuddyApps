@@ -74,7 +74,17 @@
 	<OptionsLayoutStr>BuddyApp.IOT.IOTLayout</OptionsLayoutStr>
 	<DataFile>iot_data.xml</DataFile>
   </AppInfo>
-
+  <AppInfo>
+    <name />
+    <hideFlags>None</hideFlags>
+    <DisplayName>RECIPE</DisplayName>
+    <Scene>Recipe</Scene>
+    <Icon>LightOn</Icon>
+    <Atlas>AtlasUI</Atlas>
+    <OptionsLayoutStr>BuddyApp.Recipe.RecipeLayout</OptionsLayoutStr>
+    <DataFile>recipe_data.xml</DataFile>
+    <Assembly>Assembly-CSharp</Assembly>
+  </AppInfo>
   <AppInfo>
     <name />
     <hideFlags>None</hideFlags>
