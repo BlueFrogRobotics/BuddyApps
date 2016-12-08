@@ -7,6 +7,7 @@ namespace BuddyApp.IOT
     {
         [SerializeField]
         private bool fadeIn = false;
+
         public override void Init()
         {
         }
