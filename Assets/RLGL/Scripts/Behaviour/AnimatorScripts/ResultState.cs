@@ -22,6 +22,7 @@ namespace BuddyApp.RLGL
             mIsMovementDone = false;
             mTimer = 0.0f;
             mWheels.TurnAngle(-180.0F, 250.0F, 0.5F);
+            mYesHinge.SetPosition(0.0F, 150.0F);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iSateInfo, int iLayerIndex)
@@ -37,6 +38,7 @@ namespace BuddyApp.RLGL
             
             if (mTTS.HasFinishedTalking() && mTimer < 6.0f && !mIsSentenceDone && mIsMovementDone)
             {
+
                 mTTS.Say("Good job you won, you have been too fast for me!");
                 mIsSentenceDone = true;
             }

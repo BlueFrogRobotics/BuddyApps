@@ -14,6 +14,7 @@ namespace BuddyApp.RLGL
         [SerializeField]
         private GameObject Gameplay;
 
+
         [SerializeField]
         private GameObject WindowMenu;
 
@@ -34,8 +35,9 @@ namespace BuddyApp.RLGL
         }
         void FunctionTocallWhenBestRekon(string iMsg)
         {
-            if (iMsg.ToLower().Contains("jouer"))
+            if (iMsg.ToLower().Contains("jouer") && WindowMenu.activeSelf && mIndex == 5)
             {
+                WindowMenu.GetComponent<RLGLMenu>().IsAnswerPlayYes = true;
                 Gameplay.SetActive(true);
                 WindowMenu.SetActive(false);
             }
@@ -64,7 +66,7 @@ namespace BuddyApp.RLGL
             else
             {
                 mTTS.Say("Je n'ai pas compris, veux tu répéter?");
-                StartCoroutine(StartRequestAfterDelay(2f));
+                StartCoroutine(StartRequestAfterDelay(5F));
             }
 
         }
