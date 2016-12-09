@@ -29,6 +29,7 @@ namespace BuddyApp.Companion
         private USDetector mUSDetector;
         private VocalChat mVocalChat;
 
+        private bool mVocalWanderOrder;
         private bool mActionInProgress;
         private float mInactiveTime;
         private Stack<Action> mActionStack;
@@ -53,6 +54,7 @@ namespace BuddyApp.Companion
             mVocalChat.WithNotification = true;
             mVocalChat.OnQuestionTypeFound = SortQuestionType;
 
+            mVocalWanderOrder = false;
             mActionInProgress = false;
             mInactiveTime = Time.time;
             //mReaction.ActionFinished = PopHead;
@@ -67,12 +69,7 @@ namespace BuddyApp.Companion
 
             //if (mThermalDetector.ThermalDetected && mFaceDetector.FaceDetected)
             //    PushInStack(mReaction.FollowFace);
-
-            if (mFaceDetector.FaceDetected)
-                mReaction.FollowFace();
-            else
-                mReaction.StopFollowFace();
-
+            
             //if (mIRDetector.IRDetected || mUSDetector.USFrontDetected)
             //    mReaction.StopWheels();
 
@@ -82,16 +79,28 @@ namespace BuddyApp.Companion
             //if (mBuddyFaceDetector.FaceTouched)
             //    mReaction.StopEverything();
 
+            if (mFaceDetector.FaceDetected)
+                mReaction.FollowFace();
+            else
+                mReaction.StopFollowFace();
+
             if (mBuddyFaceDetector.FaceSmashed)
                 PushInStack(mReaction.Pout);
 
-            if (mCurrentAction != null || mSpeechDetector.SomeoneTalkingDetected || mBuddyFaceDetector.FaceTouched) {
+            if ((mSpeechDetector.SomeoneTalkingDetected && !mVocalWanderOrder)
+                || mBuddyFaceDetector.FaceTouched || mFaceDetector.FaceDetected ||
+                mCurrentAction != null ) {
+                //Debug.Log("Interaction with Buddy");
                 mInactiveTime = Time.time;
-                mReaction.StopWandering();
+                mReaction.StopMoving();
             }
 
-            if (!mFaceDetector.FaceDetected && Time.time - mInactiveTime > 45F) {
+            if(Time.time - mInactiveTime > 10F && Time.time - mInactiveTime < 50F) {
+                mReaction.StartIdle();
+            }
+            else if (Time.time - mInactiveTime > 50F) {
                 //mReaction.AskSomething();
+                mReaction.StopIdle();
                 mReaction.StartWandering();
                 //mInactiveTime = Time.time;
             }
@@ -136,11 +145,12 @@ namespace BuddyApp.Companion
         private void SortQuestionType(string iType)
         {
             Debug.Log("Question Type found : " + iType);
-
+            mVocalWanderOrder = false;
             switch(iType)
             {
                 case "Wander":
                     BYOS.Instance.TextToSpeech.Say("D'accord, je pars me promener");
+                    mVocalWanderOrder = true;
                     mReaction.StartWandering();
                     break;
 

@@ -8,17 +8,17 @@ namespace BuddyApp.Companion
         public bool SomeoneTalkingDetected { get { return mSomeoneTalking; } }
 
         private bool mSomeoneTalking;
-        private SphinxTrigger mSphinx;
+        private VocalActivation mVocalActivation;
 
         void Start()
         {
             mSomeoneTalking = false;
-            mSphinx = BYOS.Instance.SphinxTrigger;
+            mVocalActivation = BYOS.Instance.VocalActivation;
         }
 
         void Update()
         {
-            mSomeoneTalking = mSphinx.HasTriggered;
+            mSomeoneTalking = mVocalActivation.RecognitionTriggered;
         }
     }
 }
