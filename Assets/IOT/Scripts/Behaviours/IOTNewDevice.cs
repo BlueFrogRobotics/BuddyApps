@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using BuddyOS.UI;
 
 namespace BuddyApp.IOT
 {
@@ -8,20 +9,53 @@ namespace BuddyApp.IOT
     {
         private IOTObjects mIOTObject;
         public IOTObjects IOTObject { get { return mIOTObject; } set { mIOTObject = value; } }
-        
+
         [SerializeField]
-        private List<GameObject> paramGameObjects = new List<GameObject>();
+        private ParametersGameObjectContainer paramContainer;
+
+        [SerializeField]
+        private List<string> systemName = new List<string>();
+        [SerializeField]
+        private List<string> systemList = new List<string>();
 
         [SerializeField]
         private Transform parametersGroup;
+
+        bool start = false;
+        Dropdown lDropDownComponent;
         // Use this for initialization
         void OnEnable()
         {
-            for(int i = 0; i < paramGameObjects.Count; ++i)
-                mIOTObject.ListParam.Add(paramGameObjects[i]);
+            GameObject lDropDown = Instantiate(paramContainer.ParametersList[5]);
+            lDropDownComponent = lDropDown.GetComponent<Dropdown>();
 
-            mIOTObject.initializeParams();
-            mIOTObject.placeParams(parametersGroup);
+            lDropDown.transform.SetParent(parametersGroup, false);
+        }
+
+        void Update()
+        {
+            if (!start)
+            {
+
+                IOTDropdownCmd lCmd = new IOTDropdownCmd("IOTPhilipsHue");
+                //lDropDownComponent.UpdatesCommands.Add(lCmd);
+                lDropDownComponent.UpdateCommands.Add(lCmd);
+                for(int i = 0; i < systemList.Count; ++i)
+                    lDropDownComponent.AddOption(systemName[i], new object[] { this, systemList[i] });
+                start = true;
+            }
+        }
+
+        public void FillParamClasses()
+        {
+            for (int i = 0; i < paramContainer.ParametersList.Count; ++i)
+                mIOTObject.ListParam.Add(paramContainer.ParametersList[i]);
+        }
+
+        public void InitiliazeParameters()
+        {
+            mIOTObject.InitializeParams();
+            mIOTObject.PlaceParams(parametersGroup);
         }
     }
 }

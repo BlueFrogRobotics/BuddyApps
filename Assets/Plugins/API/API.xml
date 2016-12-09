@@ -2554,6 +2554,11 @@
             Will set the LED in grey
             </summary>
         </member>
+        <member name="F:LEDColor.PINK_LOVE">
+            <summary>
+            Will set the LED in pink
+            </summary>
+        </member>
         <member name="T:DepthMode">
             <summary>
             Mode for the Depthcam component. Can only be used for the real robot
@@ -2601,17 +2606,17 @@
         </member>
         <member name="F:MouthEvent.SMILE">
             <summary>
-            Make the face smiling
+            Make the face smile
             </summary>
         </member>
         <member name="F:MouthEvent.YAWN">
             <summary>
-            Make the face yawing
+            Make the face yawn
             </summary>
         </member>
         <member name="F:MouthEvent.SCREAM">
             <summary>
-            Make the face screaming like a barbarian
+            Make the face scream like a barbarian
             </summary>
         </member>
         <member name="T:EyeEvent">
@@ -2722,6 +2727,11 @@
         <member name="F:MoodType.TIRED">
             <summary>
             Tired
+            </summary>
+        </member>
+        <member name="F:MoodType.LOVE">
+            <summary>
+            In love !
             </summary>
         </member>
         <member name="T:IRPosition">

@@ -8,7 +8,7 @@ namespace BuddyApp.BabyPhone
     {
         protected override void ExecuteImpl()
         {
-            BabyPhoneData.Instance.TimerIsActive = true;
+            BabyPhoneData.Instance.TimerIsActive = Parameters.Integers[0] == 1;
         }
     }
 }

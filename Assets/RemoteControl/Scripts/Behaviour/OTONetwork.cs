@@ -61,6 +61,7 @@ namespace BuddyApp.Remote
 
         void Start()
         {
+            BuddyOS.BYOS.Instance.VocalActivation.enabled = false;
             Configure();
             Connect();
         }

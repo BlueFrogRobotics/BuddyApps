@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using BuddyFeature.Web;
 
 public class LightHUE : MonoBehaviour
 {
@@ -123,7 +124,7 @@ public class LightHUE : MonoBehaviour
 
             }
             string path_ = path + "/lights/" + (lightsList[selectedLamp - 1].indice + 1) + "/state";
-            HTTP.Request theRequest = new HTTP.Request("PUT", path_, lightSettings);
+            Request theRequest = new Request("PUT", path_, lightSettings);
             theRequest.Send((request) =>
             {
             });
@@ -256,7 +257,7 @@ public class LightHUE : MonoBehaviour
 
     public void askLightsCount()
     {
-        HTTP.Request theRequest = new HTTP.Request("GET", path + "/lights");
+        Request theRequest = new Request("GET", path + "/lights");
         theRequest.Send((request) =>
         {
             Debug.Log(request);
@@ -376,7 +377,7 @@ public class LightHUE : MonoBehaviour
 
     public void getAllValue()
     {
-        HTTP.Request theRequest = new HTTP.Request("GET", path + "/lights/" + (selectedLamp));
+        Request theRequest = new Request("GET", path + "/lights/" + (selectedLamp));
         theRequest.Send((request) =>
         {
             Hashtable result = request.response.Object;

@@ -14,12 +14,11 @@ namespace BuddyApp.Companion
         {
             mSomeoneTalking = false;
             mSphinx = BYOS.Instance.SphinxTrigger;
-            //mSphinx.LaunchRecognition();
         }
 
         void Update()
         {
-            mSomeoneTalking = mSphinx.HasTriggered();
+            mSomeoneTalking = mSphinx.HasTriggered;
         }
     }
 }
