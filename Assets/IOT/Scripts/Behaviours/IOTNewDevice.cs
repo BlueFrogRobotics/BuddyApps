@@ -9,28 +9,47 @@ namespace BuddyApp.IOT
     {
         private IOTObjects mIOTObject;
         public IOTObjects IOTObject { get { return mIOTObject; } set { mIOTObject = value; } }
-        
+
         [SerializeField]
-        private List<GameObject> paramGameObjects = new List<GameObject>();
+        private ParametersGameObjectContainer paramContainer;
+
+        [SerializeField]
+        private List<string> systemName = new List<string>();
+        [SerializeField]
+        private List<string> systemList = new List<string>();
 
         [SerializeField]
         private Transform parametersGroup;
+
+        bool start = false;
+        Dropdown lDropDownComponent;
         // Use this for initialization
         void OnEnable()
         {
-            GameObject lDropDown = GameObject.Instantiate(paramGameObjects[5]);
-            Dropdown lDropDownComponent = lDropDown.GetComponent<Dropdown>();
+            GameObject lDropDown = Instantiate(paramContainer.ParametersList[5]);
+            lDropDownComponent = lDropDown.GetComponent<Dropdown>();
 
-            IOTDropdownCmd lCmd = new IOTDropdownCmd(this);
+            lDropDown.transform.SetParent(parametersGroup, false);
+        }
 
-            //lDropDownComponent.UpdatesCommands.Add(lCmd);
-            //lDropDownComponent.AddOption("Philips Hue", lCmd);
+        void Update()
+        {
+            if (!start)
+            {
+
+                IOTDropdownCmd lCmd = new IOTDropdownCmd("IOTPhilipsHue");
+                //lDropDownComponent.UpdatesCommands.Add(lCmd);
+                lDropDownComponent.UpdateCommands.Add(lCmd);
+                for(int i = 0; i < systemList.Count; ++i)
+                    lDropDownComponent.AddOption(systemName[i], new object[] { this, systemList[i] });
+                start = true;
+            }
         }
 
         public void FillParamClasses()
         {
-            for (int i = 0; i < paramGameObjects.Count; ++i)
-                mIOTObject.ListParam.Add(paramGameObjects[i]);
+            for (int i = 0; i < paramContainer.ParametersList.Count; ++i)
+                mIOTObject.ListParam.Add(paramContainer.ParametersList[i]);
         }
 
         public void InitiliazeParameters()

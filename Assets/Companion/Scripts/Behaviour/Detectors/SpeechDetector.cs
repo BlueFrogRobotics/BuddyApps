@@ -14,7 +14,6 @@ namespace BuddyApp.Companion
         {
             mSomeoneTalking = false;
             mSphinx = BYOS.Instance.SphinxTrigger;
-            //mSphinx.LaunchRecognition();
         }
 
         void Update()

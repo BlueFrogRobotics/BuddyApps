@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 namespace BuddyApp.Companion
 {
+    [RequireComponent(typeof(AccelerometerDetector))]
+    [RequireComponent(typeof(BuddyFaceDetector))]
     [RequireComponent(typeof(CliffDetector))]
     [RequireComponent(typeof(FaceDetector))]
     [RequireComponent(typeof(IRDetector))]
@@ -13,8 +15,7 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(SpeechDetector))]
     [RequireComponent(typeof(ThermalDetector))]
     [RequireComponent(typeof(USDetector))]
-    [RequireComponent(typeof(BuddyFaceDetector))]
-    [RequireComponent(typeof(AccelerometerDetector))]
+    [RequireComponent(typeof(VocalChat))]
     public class BehaviorManager : MonoBehaviour
     {
         private AccelerometerDetector mAccelerometerDetector;
@@ -26,6 +27,7 @@ namespace BuddyApp.Companion
         private SpeechDetector mSpeechDetector;
         private ThermalDetector mThermalDetector;
         private USDetector mUSDetector;
+        private VocalChat mVocalChat;
 
         private bool mActionInProgress;
         private float mInactiveTime;
@@ -46,6 +48,10 @@ namespace BuddyApp.Companion
             mSpeechDetector = GetComponent<SpeechDetector>();
             mThermalDetector = GetComponent<ThermalDetector>();
             mUSDetector = GetComponent<USDetector>();
+            mVocalChat = GetComponent<VocalChat>();
+
+            mVocalChat.WithNotification = true;
+            mVocalChat.OnQuestionTypeFound = SortQuestionType;
 
             mActionInProgress = false;
             mInactiveTime = Time.time;
@@ -70,8 +76,8 @@ namespace BuddyApp.Companion
             //if (mIRDetector.IRDetected || mUSDetector.USFrontDetected)
             //    mReaction.StopWheels();
 
-            if (mSpeechDetector.SomeoneTalkingDetected)
-                Debug.Log("Someone started to talk !");
+            //if (mSpeechDetector.SomeoneTalkingDetected)
+            //    Debug.Log("Someone started to talk !");
 
             //if (mBuddyFaceDetector.FaceTouched)
             //    mReaction.StopEverything();
@@ -79,7 +85,7 @@ namespace BuddyApp.Companion
             if (mBuddyFaceDetector.FaceSmashed)
                 PushInStack(mReaction.Pout);
 
-            if (mCurrentAction != null) {
+            if (mCurrentAction != null || mSpeechDetector.SomeoneTalkingDetected || mBuddyFaceDetector.FaceTouched) {
                 mInactiveTime = Time.time;
                 mReaction.StopWandering();
             }
@@ -125,6 +131,37 @@ namespace BuddyApp.Companion
         private void PopHead()
         {
             mActionStack.Pop();
+        }
+
+        private void SortQuestionType(string iType)
+        {
+            Debug.Log("Question Type found : " + iType);
+
+            switch(iType)
+            {
+                case "Wander":
+                    BYOS.Instance.TextToSpeech.Say("D'accord, je pars me promener");
+                    mReaction.StartWandering();
+                    break;
+
+                case "DontMove":
+                    CompanionData.Instance.CanMoveBody = false;
+                    break;
+
+                case "Quizz":
+                    break;
+
+                case "Colors":
+                    break;
+
+                case "Memory":
+                    break;
+
+                default:
+                    break;
+            }
+
+            mInactiveTime = Time.time;
         }
     }
 }

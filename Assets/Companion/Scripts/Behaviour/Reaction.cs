@@ -12,9 +12,7 @@ namespace BuddyApp.Companion
 {
     internal delegate void ReactionFinished();
 
-    [RequireComponent(typeof(RoombaNavigation))]
     [RequireComponent(typeof(FollowFaceReaction))]
-    [RequireComponent(typeof(VocalChat))]
     [RequireComponent(typeof(WanderReaction))]
     public class Reaction : MonoBehaviour
     {
@@ -25,9 +23,7 @@ namespace BuddyApp.Companion
         internal ReactionFinished ActionFinished;
         private FollowFaceReaction mFollowFace;
         private FaceCascadeTracker mFaceTracker;
-        private RoombaNavigation mNavigation;
         private TextToSpeech mTTS;
-        private VocalChat mVocalChat;
         private WanderReaction mWander;
 
         void Start()
@@ -37,13 +33,9 @@ namespace BuddyApp.Companion
             mTTS = BYOS.Instance.TextToSpeech;
             mFollowFace = GetComponent<FollowFaceReaction>();
             mFaceTracker = GetComponent<FaceCascadeTracker>();
-            mNavigation = GetComponent<RoombaNavigation>();
-            mVocalChat = GetComponent<VocalChat>();
             mWander = GetComponent<WanderReaction>();
 
             mWander.enabled = false;
-            mNavigation.enabled = false;
-            mVocalChat.OnQuestionTypeFound = SortQuestionType;
         }
 
         void Update()
@@ -64,7 +56,7 @@ namespace BuddyApp.Companion
             mTTS.Say("Que puis-je faire pour vous ?");
             yield return new WaitForSeconds(2F);
 
-            mVocalChat.StartDialogue();
+            //mVocalChat.StartDialogue();
         }
 
         public void FollowFace()
@@ -130,8 +122,9 @@ namespace BuddyApp.Companion
 
         public void IsBeingLifted()
         {
-            new SetMoodFaceCmd(MoodType.SCARED).Execute();
-            BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
+            new SetMoodCmd(MoodType.SCARED).Execute();
+            new SetMouthEvntCmd(MouthEvent.SCREAM);
+            //BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
         }
         
         public void Pout()
@@ -144,13 +137,13 @@ namespace BuddyApp.Companion
 
             if (CompanionData.Instance.CanMoveBody)
                 StartCoroutine(PoutBodyCo());
-            else
+            else if (CompanionData.Instance.CanMoveHead)
                 StartCoroutine(PoutHeadCo());
         }
 
         private IEnumerator PoutBodyCo()
         {
-            new SetMoodFaceCmd(MoodType.ANGRY).Execute();
+            new SetMoodCmd(MoodType.ANGRY).Execute();
 
             //Small animation to make he seem angry
             for (int i = 0; i < 2; i++)
@@ -158,7 +151,8 @@ namespace BuddyApp.Companion
                 new SetWheelsSpeedCmd(200F, -200F, 200).Execute();
                 yield return new WaitForSeconds(0.2F);
             }
-            BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
+            new SetMouthEvntCmd(MouthEvent.SCREAM).Execute();
+            //BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
             for (int i = 0; i < 2; i++)
             {
                 new SetWheelsSpeedCmd(-200F, 200F, 200).Execute();
@@ -171,7 +165,7 @@ namespace BuddyApp.Companion
                 new SetWheelsSpeedCmd(200F, -200F, 200).Execute();
                 yield return new WaitForSeconds(0.2F);
             }
-            new SetMoodFaceCmd(MoodType.GRUMPY).Execute();
+            new SetMoodCmd(MoodType.GRUMPY).Execute();
 
             StartWandering();
             yield return new WaitForSeconds(5F);
@@ -183,14 +177,14 @@ namespace BuddyApp.Companion
             //}
 
             StopWandering();
-            new SetMoodFaceCmd(MoodType.NEUTRAL).Execute();
+            new SetMoodCmd(MoodType.NEUTRAL).Execute();
             mIsPouting = false;
             ActionFinished();
         }
 
         private IEnumerator PoutHeadCo()
         {
-            new SetMoodFaceCmd(MoodType.ANGRY).Execute();
+            new SetMoodCmd(MoodType.ANGRY).Execute();
 
             yield return new WaitForSeconds(0.1F);
 
@@ -217,14 +211,14 @@ namespace BuddyApp.Companion
 
                 new SetPosYesCmd(5F).Execute();
             }
-            new SetMoodFaceCmd(MoodType.NEUTRAL).Execute();
+            new SetMoodCmd(MoodType.NEUTRAL).Execute();
             mIsPouting = false;
             ActionFinished();
         }
 
         public void StartWandering()
         {
-            if (mWander.enabled)
+            if (mWander.enabled || !CompanionData.Instance.CanMoveBody)
                 return;
             Debug.Log("Start Wandering");
             //mNavigation.enabled = true;
@@ -244,7 +238,7 @@ namespace BuddyApp.Companion
         {
             StopAllCoroutines();
             StopWheels();
-            mNavigation.enabled = false;
+            mWander.enabled = false;
             mFollowFace.enabled = false;
         }
 
@@ -260,11 +254,6 @@ namespace BuddyApp.Companion
             new SetPosYesCmd(0).Execute();
             mTTS.Say("Bonjour !");
             ActionFinished();
-        }
-
-        private void SortQuestionType(string iType)
-        {
-            Debug.Log("Question Type found : " + iType);
         }
     }
 }
