@@ -40,6 +40,7 @@ namespace BuddyApp.BabyPhone
             mLeftButton = GetGameObject(5).GetComponent<Button>();
             mQuitButton = GetGameObject(6).GetComponent<Button>();
 
+
             mTopButton.onClick.AddListener(MoveYesToUp);
             mLowButton.onClick.AddListener(MoveYesToDown);
             mRightButton.onClick.AddListener(MoveNoToRight);
@@ -63,6 +64,7 @@ namespace BuddyApp.BabyPhone
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             HeadAdjustmentObject.SetActive(true);
+
             mRGBCam.Open();
         }
 
