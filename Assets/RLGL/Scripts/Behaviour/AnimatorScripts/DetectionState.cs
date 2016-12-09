@@ -55,11 +55,11 @@ namespace BuddyApp.RLGL
                 if(mIsDetected && !mIsSentenceDone && mTimer < 8.0f && mTimer > 3.0f)
                 {
                     mMood.Set(MoodType.HAPPY);
-
+                    iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;
                     mTTS.Say("I saw you moving my friend, I let you ten seconds to go back at the start!");
                     mIsSentenceDone = true;
                 }
-                if (mIsSentenceDone && mTTS.HasFinishedTalking() && mTimer > 20.0f)
+                if (mIsSentenceDone && mTTS.HasFinishedTalking() && mTimer > 10.0f)
                 {
                     mMood.Set(MoodType.NEUTRAL);
                     GetComponent<FreezeDance.MotionGame>().enabled = false;
@@ -68,7 +68,7 @@ namespace BuddyApp.RLGL
 
                 if (!mIsDetected && !mIsSentenceDone && mTimer > 4.0F && mTimer < 8.0F && !mIsStrong)
                 {
-                    mTTS.Say("hum tu es fort, je ne te vois pas bouger");
+                    mTTS.Say("Wow you are strong, I don't see you moving!");
                     mMood.Set(MoodType.THINKING);
                     mIsStrong = true;
                 }
@@ -77,6 +77,7 @@ namespace BuddyApp.RLGL
                 {
                     mMood.Set(MoodType.NEUTRAL);
                     GetComponent<FreezeDance.MotionGame>().enabled = false;
+                    iAnimator.GetBehaviour<CountState>().IsOneTurnDone = true;
                     iAnimator.SetBool("IsDetectedFalse", true);
                 }
             }

@@ -22,26 +22,12 @@ namespace BuddyApp.RLGL
         // Use this for initialization
         void Start()
         {
-            mTTS = BYOS.Instance.TextToSpeech;
             mAnimator = GetComponent<Animator>();
-            mReplay = false;
-            mIsSentenceDone = false;
-
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (mReplay && !mIsSentenceDone)
-            {
-                mTTS.Say("Wesh poto on va rejouer");
-                mIsSentenceDone = true;
-            }
-            if (mTTS.HasFinishedTalking() && mIsSentenceDone)
-            {
-                mAnimator.GetBehaviour<ReplayState>().IsAnswerYes = true;
-                mIsSentenceDone = false;
-            }
 
         }
 
@@ -75,6 +61,15 @@ namespace BuddyApp.RLGL
         public void CLickButtonNoStart()
         {
             mAnimator.GetBehaviour<StartState>().IsAnswerNo = true;
+        }
+
+        public void ClickButtonYesReplay()
+        {
+            mAnimator.GetBehaviour<ReplayState>().IsAnswerYes = true;
+        }
+
+        public void ClickButtonNoReplay()
+        {
         }
     }
 }
