@@ -3,54 +3,63 @@ using UnityEngine.UI;
 using BuddyOS;
 using BuddyOS.App;
 
-public class BabyPhoneParameters : AStateMachineBehaviour
+namespace BuddyApp.BabyPhone
 {
-    private GameObject mParameters;
-    private Animator mBackgroundBlack;
-
-    private Button mPlayButton;
-    private Button mQuitButton;
-
-    private bool mPlayParameters;
-
-    public override void Init()
+    public class BabyPhoneParameters : AStateMachineBehaviour
     {
-        mParameters = GetGameObject(0);
-        mBackgroundBlack = GetGameObject(9).GetComponent<Animator>();
-        mPlayButton = GetGameObject(6).GetComponent<Button>();
-        mQuitButton = GetGameObject(6).GetComponent<Button>();
+        //private GameObject mParameters;
+        private Animator mBackgroundBlackAnimator;
+        private Animator mParametresAnimator;
 
-        mPlayButton.onClick.AddListener(Play);
-        mQuitButton.onClick.AddListener(Quit);
+        //private Button mValidateButton;
+        //private Button mQuitButton;
 
-        mPlayParameters = false;
-    }
+        private bool mValidateParameters;
 
-    protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-    {
-        mParameters.SetActive(true);
-        mBackgroundBlack.SetTrigger("Open_BG");
-    }
+        public override void Init()
+        {
+            //mParameters = GetGameObject(12);
+            mBackgroundBlackAnimator = GetGameObject(2).GetComponent<Animator>();
+            mParametresAnimator = GetGameObject(3).GetComponent<Animator>();
+            //mValidateButton = GetGameObject(13).GetComponent<Button>();
+            //mQuitButton = GetGameObject(14).GetComponent<Button>();
 
-    protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-    {
-        mParameters.SetActive(false);
-        mBackgroundBlack.SetTrigger("Close_BG");
-    }
+            //mValidateButton.onClick.AddListener(Validate);
+            //mQuitButton.onClick.AddListener(Quit);
 
-    protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-    {
-        if (mPlayParameters) iAnimator.SetBool("DoPlaySettings", true);
+            mValidateParameters = false;
+        }
 
-    }
+        protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            //mParameters.SetActive(true);
+            Debug.Log("toto");
+            mBackgroundBlackAnimator.SetTrigger("Open_BG");
+            mParametresAnimator.SetTrigger("Open_WParametres");
+        }
 
-    public void Play()
-    {
-        mPlayParameters = true;
-    }
+        protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            //mParameters.SetActive(false);
+            mBackgroundBlackAnimator.SetTrigger("Close_BG");
+            mParametresAnimator.SetTrigger("Close_WParametres");
+        }
 
-    public void Quit()
-    {
-        BYOS.Instance.AppManager.Quit();
+        protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            if (mValidateParameters == true)
+                iAnimator.SetBool("DoHeadAdjust", true);
+
+        }
+
+        public void Validate()
+        {
+            mValidateParameters = true;
+        }
+
+        public void Quit()
+        {
+            BYOS.Instance.AppManager.Quit();
+        }
     }
 }

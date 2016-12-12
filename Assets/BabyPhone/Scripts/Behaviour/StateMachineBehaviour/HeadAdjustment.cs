@@ -21,6 +21,7 @@ namespace BuddyApp.BabyPhone
         private bool mNoRight;
 
         private GameObject HeadAdjustmentObject;
+        private GameObject mBackGround;
         private RawImage mRGBCamRawImage;
         private Button mTopButton;
         private Button mLowButton;
@@ -31,14 +32,15 @@ namespace BuddyApp.BabyPhone
 
         public override void Init()
         {
-            HeadAdjustmentObject = GetGameObject(0);
-            mRGBCamRawImage = GetGameObject(1).GetComponent<RawImage>();
+            HeadAdjustmentObject = GetGameObject(4);
+            mBackGround = GetGameObject(10);
+            mRGBCamRawImage = GetGameObject(9).GetComponent<RawImage>();
 
-            mTopButton = GetGameObject(2).GetComponent<Button>();
-            mLowButton = GetGameObject(3).GetComponent<Button>();
-            mRightButton = GetGameObject(4).GetComponent<Button>();
-            mLeftButton = GetGameObject(5).GetComponent<Button>();
-            mQuitButton = GetGameObject(6).GetComponent<Button>();
+            mTopButton = GetGameObject(5).GetComponent<Button>();
+            mLowButton = GetGameObject(6).GetComponent<Button>();
+            mRightButton = GetGameObject(7).GetComponent<Button>();
+            mLeftButton = GetGameObject(8).GetComponent<Button>();
+            mQuitButton = GetGameObject(11).GetComponent<Button>();
 
 
             mTopButton.onClick.AddListener(MoveYesToUp);
@@ -64,6 +66,7 @@ namespace BuddyApp.BabyPhone
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             HeadAdjustmentObject.SetActive(true);
+            mBackGround.SetActive(true);
 
             mRGBCam.Open();
         }
@@ -72,6 +75,7 @@ namespace BuddyApp.BabyPhone
         {
             mRGBCam.Close();
             HeadAdjustmentObject.SetActive(false);
+            mBackGround.SetActive(false);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
