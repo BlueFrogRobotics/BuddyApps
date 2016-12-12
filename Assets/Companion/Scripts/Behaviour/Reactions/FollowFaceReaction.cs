@@ -19,18 +19,15 @@ namespace BuddyApp.Companion
         private float mHeadNoAngle;
         List<Rect> mTrackedObjects;
         private FaceCascadeTracker mFaceTracker;
-        private TextToSpeech mTTS;
 
         void Start()
         {
-            mTTS = BYOS.Instance.TextToSpeech;
             mFaceTracker = GetComponent<FaceCascadeTracker>();
         }
 
         void OnEnable()
         {
             Debug.Log("FaceFollow Enabled");
-            mTTS.Say("Bonjour !");
 
             //Init the different variables
             mUpdateTime = Time.time;
