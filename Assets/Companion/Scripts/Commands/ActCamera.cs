@@ -12,7 +12,7 @@ namespace BuddyApp.Companion
 
             if (lUseCamera && !BYOS.Instance.RGBCam.IsOpen)
                 BYOS.Instance.RGBCam.Open();
-            else if (!lUseCamera && !BYOS.Instance.RGBCam.IsOpen)
+            else if (!lUseCamera && BYOS.Instance.RGBCam.IsOpen)
                 BYOS.Instance.RGBCam.Close();
         }
     }

@@ -23,7 +23,7 @@ namespace BuddyApp.RLGL
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("REPLAY STATE : ON ENTER");
-            mTimer = 0.0f;
+            mTimer = 0.0F;
             mWindowQuestion = GetGameObject(6);
             mIsQuestionDone = false;
             mIsSentenceDone = false;
@@ -45,14 +45,20 @@ namespace BuddyApp.RLGL
 
             if (mTTS.HasFinishedTalking() &&  mTimer < 12.0f && mIsAnswerYes && !mIsSentenceDone && mIsQuestionDone)
             {
-                mMood.Set(MoodType.NEUTRAL);
-                mTTS.Say("Ok I let you ten second to go back at the start!");
+                mMood.Set(MoodType.HAPPY);
+                mTTS.Say("Ok it will be fun!");
                 mIsSentenceDone = true;
             }
 
-            if (mTimer > 22.0f && mTTS.HasFinishedTalking() && mIsAnswerYes)
+            if (mTimer > 12.0f && mTTS.HasFinishedTalking() && mIsAnswerYes)
             {
+                iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;
                 iAnimator.SetBool("IsReplayDone", true);
+            }
+
+            if (mTimer > 12.0F && mTTS.HasFinishedTalking() && !mIsAnswerYes)
+            {
+                //quitter
             }
         }
 

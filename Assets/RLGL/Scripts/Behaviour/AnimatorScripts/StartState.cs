@@ -32,6 +32,7 @@ namespace BuddyApp.RLGL
             mIsAnswerNo = false;
             mIsAnswerYes = false;
             Debug.Log("START STATE : ON ENTER");
+            Debug.Log("YES FINGE : " + mYesHinge.CurrentAnglePosition + " NO HINGE : " + mNoHinge.CurrentAnglePosition);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

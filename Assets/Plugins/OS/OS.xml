@@ -2206,6 +2206,28 @@
             Execute the command behaviour.
             </summary>
         </member>
+        <member name="T:BuddyOS.Command.SetMoodCmd">
+            <summary>
+            When executed : The robot changes its mood (face + led) and moves according to the mood
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetMoodCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetMoodCmd.#ctor(MoodType,System.Boolean)">
+            <summary>
+            When executed : The robot changes its mood (face + led)
+            </summary>
+            <param name="iMode">The mood to switch to</param>
+            <param name="iMove">Specify if the robot must move according to the mood</param>
+        </member>
+        <member name="M:BuddyOS.Command.SetMoodCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
         <member name="T:BuddyOS.Command.SetMouthEvntCmd">
             <summary>
             When executed : The robot executes a mouth event
@@ -2377,23 +2399,23 @@
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:BuddyOS.Command.SetMoodFaceCmd">
+        <member name="T:BuddyOS.Command.SetExpressionCmd">
             <summary>
-            When executed : The robot changes its mood
+            When executed : The robot changes its face mood
             </summary>
         </member>
-        <member name="M:BuddyOS.Command.SetMoodFaceCmd.#ctor">
+        <member name="M:BuddyOS.Command.SetExpressionCmd.#ctor">
             <summary>
             Default constructor
             </summary>
         </member>
-        <member name="M:BuddyOS.Command.SetMoodFaceCmd.#ctor(MoodType)">
+        <member name="M:BuddyOS.Command.SetExpressionCmd.#ctor(MoodType)">
             <summary>
-            When executed : The robot changes its mood
+            When executed : The robot changes its face mood
             </summary>
             <param name="iMode">The mood to switch to</param>
         </member>
-        <member name="M:BuddyOS.Command.SetMoodFaceCmd.ExecuteImpl">
+        <member name="M:BuddyOS.Command.SetExpressionCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -4293,6 +4315,11 @@
             Vocal layer for easiest control for STT and Sphinx.
             Set the VocalProcessing attribute for STT callback.
             You can also set StartListenBehaviour and StopListenBehaviour.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.VocalActivation.RecognitionTriggered">
+            <summary>
+            Tells wether STT Recognition has been triggered or not.
             </summary>
         </member>
         <member name="P:BuddyOS.VocalActivation.StartListenBehaviour">
