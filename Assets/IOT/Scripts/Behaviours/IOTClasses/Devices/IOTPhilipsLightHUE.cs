@@ -31,10 +31,29 @@ namespace BuddyApp.IOT
         public override void InitializeParams()
         {
             GameObject lOnOff = InstanciateParam(ParamType.ONOFF);
-            GaugeOnOff lOnOffComponent = lOnOff.GetComponent<GaugeOnOff>();
+            OnOff lOnOffComponent = lOnOff.GetComponent<OnOff>();
             GameObject lIntensity = InstanciateParam(ParamType.GAUGE);
             Gauge lIntensityComponent = lIntensity.GetComponent<Gauge>();
+            GameObject lColors = InstanciateParam(ParamType.COLORS);
+            IOTColorButton lColorsComponent = lColors.GetComponent<IOTColorButton>();
 
+            lOnOffComponent.Label.text = "ON/OFF";
+            lOnOffComponent.Label.resizeTextForBestFit = true;
+            lOnOffComponent.IsActive = (bool)mState["on"];
+            IOTOnOffCmd lCmdOnOff = new IOTOnOffCmd(this);
+            lOnOffComponent.SwitchCommands.Add(lCmdOnOff);
+
+            lColorsComponent.Label.text = "COLORS";
+            lColorsComponent.Label.resizeTextForBestFit = true;
+            IOTColorsCmd lCmdColors = new IOTColorsCmd(this);
+            lColorsComponent.UpdateCommands.Add(lCmdColors);
+
+            lIntensityComponent.Label.text = "INTENSITY";
+            lIntensityComponent.Label.resizeTextForBestFit = true;
+            lIntensityComponent.DisplayPercentage = true;
+            lIntensityComponent.Slider.minValue = 0;
+            lIntensityComponent.Slider.maxValue = 100;
+            lIntensityComponent.Slider.value = (float)((int)mState["bri"]/255F)*100;
             IOTSetIntensityCmd lCmd = new IOTSetIntensityCmd(this);
             lIntensityComponent.UpdateCommands.Add(lCmd);
         }
@@ -75,6 +94,8 @@ namespace BuddyApp.IOT
                 mState["alert"] = lRealState["alert"];
                 mState["colormode"] = lRealState["colormode"];
                 mState["reachable"] = lRealState["reachable"];
+
+                mName = (string)lResult["name"];
 
                 if (lResult == null)
                 {
