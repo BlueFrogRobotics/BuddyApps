@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 namespace BuddyApp.Companion
 {
+    [RequireComponent(typeof(AccelerometerDetector))]
+    [RequireComponent(typeof(BuddyFaceDetector))]
     [RequireComponent(typeof(CliffDetector))]
     [RequireComponent(typeof(FaceDetector))]
     [RequireComponent(typeof(IRDetector))]
@@ -13,8 +15,7 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(SpeechDetector))]
     [RequireComponent(typeof(ThermalDetector))]
     [RequireComponent(typeof(USDetector))]
-    [RequireComponent(typeof(BuddyFaceDetector))]
-    [RequireComponent(typeof(AccelerometerDetector))]
+    [RequireComponent(typeof(VocalChat))]
     public class BehaviorManager : MonoBehaviour
     {
         private AccelerometerDetector mAccelerometerDetector;
@@ -26,7 +27,9 @@ namespace BuddyApp.Companion
         private SpeechDetector mSpeechDetector;
         private ThermalDetector mThermalDetector;
         private USDetector mUSDetector;
+        private VocalChat mVocalChat;
 
+        private bool mVocalWanderOrder;
         private bool mActionInProgress;
         private float mInactiveTime;
         private Stack<Action> mActionStack;
@@ -46,7 +49,12 @@ namespace BuddyApp.Companion
             mSpeechDetector = GetComponent<SpeechDetector>();
             mThermalDetector = GetComponent<ThermalDetector>();
             mUSDetector = GetComponent<USDetector>();
+            mVocalChat = GetComponent<VocalChat>();
 
+            mVocalChat.WithNotification = true;
+            mVocalChat.OnQuestionTypeFound = SortQuestionType;
+
+            mVocalWanderOrder = false;
             mActionInProgress = false;
             mInactiveTime = Time.time;
             //mReaction.ActionFinished = PopHead;
@@ -61,31 +69,38 @@ namespace BuddyApp.Companion
 
             //if (mThermalDetector.ThermalDetected && mFaceDetector.FaceDetected)
             //    PushInStack(mReaction.FollowFace);
+            
+            //if (mIRDetector.IRDetected || mUSDetector.USFrontDetected)
+            //    mReaction.StopWheels();
+
+            //if (mSpeechDetector.SomeoneTalkingDetected)
+            //    Debug.Log("Someone started to talk !");
+
+            //if (mBuddyFaceDetector.FaceTouched)
+            //    mReaction.StopEverything();
 
             if (mFaceDetector.FaceDetected)
                 mReaction.FollowFace();
             else
                 mReaction.StopFollowFace();
 
-            //if (mIRDetector.IRDetected || mUSDetector.USFrontDetected)
-            //    mReaction.StopWheels();
-
-            if (mSpeechDetector.SomeoneTalkingDetected)
-                Debug.Log("Someone started to talk !");
-
-            //if (mBuddyFaceDetector.FaceTouched)
-            //    mReaction.StopEverything();
-
             if (mBuddyFaceDetector.FaceSmashed)
                 PushInStack(mReaction.Pout);
 
-            if (mCurrentAction != null) {
+            if ((mSpeechDetector.SomeoneTalkingDetected && !mVocalWanderOrder)
+                || mBuddyFaceDetector.FaceTouched || mFaceDetector.FaceDetected ||
+                mCurrentAction != null ) {
+                //Debug.Log("Interaction with Buddy");
                 mInactiveTime = Time.time;
-                mReaction.StopWandering();
+                mReaction.StopMoving();
             }
 
-            if (!mFaceDetector.FaceDetected && Time.time - mInactiveTime > 45F) {
+            if(Time.time - mInactiveTime > 10F && Time.time - mInactiveTime < 50F) {
+                mReaction.StartIdle();
+            }
+            else if (Time.time - mInactiveTime > 50F) {
                 //mReaction.AskSomething();
+                mReaction.StopIdle();
                 mReaction.StartWandering();
                 //mInactiveTime = Time.time;
             }
@@ -125,6 +140,38 @@ namespace BuddyApp.Companion
         private void PopHead()
         {
             mActionStack.Pop();
+        }
+
+        private void SortQuestionType(string iType)
+        {
+            Debug.Log("Question Type found : " + iType);
+            mVocalWanderOrder = false;
+            switch(iType)
+            {
+                case "Wander":
+                    BYOS.Instance.TextToSpeech.Say("D'accord, je pars me promener");
+                    mVocalWanderOrder = true;
+                    mReaction.StartWandering();
+                    break;
+
+                case "DontMove":
+                    CompanionData.Instance.CanMoveBody = false;
+                    break;
+
+                case "Quizz":
+                    break;
+
+                case "Colors":
+                    break;
+
+                case "Memory":
+                    break;
+
+                default:
+                    break;
+            }
+
+            mInactiveTime = Time.time;
         }
     }
 }

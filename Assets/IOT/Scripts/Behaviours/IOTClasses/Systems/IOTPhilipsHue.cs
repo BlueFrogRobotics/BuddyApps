@@ -8,53 +8,77 @@ namespace BuddyApp.IOT
 {
     public class IOTPhilipsHue : IOTSystems
     {
-        private List<IOTPhilipsLightHUE> mLights = new List<IOTPhilipsLightHUE>();
-
         public override void InitializeParams()
         {
             GameObject lSearch = InstanciateParam(ParamType.TEXTFIELD);
             SearchField lSearchComponent = lSearch.GetComponent<SearchField>();
+            GameObject lSearch1 = InstanciateParam(ParamType.TEXTFIELD);
+            SearchField lSearch1Component = lSearch1.GetComponent<SearchField>();
+            GameObject lSearch2 = InstanciateParam(ParamType.TEXTFIELD);
+            SearchField lPasswordComponent = lSearch2.GetComponent<SearchField>();
+            GameObject lConnect = InstanciateParam(ParamType.BUTTON);
+            Button lConnectComponent = lConnect.GetComponent<Button>();
 
-            TextFieldCmd lCmd = new TextFieldCmd();
-            lCmd.Parameters.Objects = new object[1];
-            lCmd.Parameters.Objects[0] = this;
-            lCmd.Parameters.Integers = new int[1];
-            lCmd.Parameters.Integers[0] = 0;
+            IOTCredentialTextFieldCmd lCmd = new IOTCredentialTextFieldCmd(this, 0, "");
+            lSearchComponent.Label.text = "IP";
             lSearchComponent.UpdateCommands.Add(lCmd);
+
+            IOTCredentialTextFieldCmd lCmd1 = new IOTCredentialTextFieldCmd(this, 1, "");
+            lSearch1Component.Label.text = "USERNAME";
+            lSearch1Component.UpdateCommands.Add(lCmd1);
+
+            IOTCredentialTextFieldCmd lCmd2 = new IOTCredentialTextFieldCmd(this, 2, "");
+            lPasswordComponent.Label.text = "PASSWORD";
+            lPasswordComponent.UpdateCommands.Add(lCmd2);
+
+            IOTConnectCmd lCmd3 = new IOTConnectCmd(this);
+            lConnectComponent.Label.text = "CONNECT";
+            lConnectComponent.ClickCommands.Add(lCmd3);
         }
 
         public override void Connect()
         {
             AskLightsCount();
+            GetAllValues();
         }
 
 
         private void AskLightsCount()
         {
-            Request theRequest = new Request("GET", "http://" + Credentials[0] + "/api/" + Credentials[1] + "/lights");
-            theRequest.Send((request) =>
+            Request lRequest = new Request("GET", "http://" + Credentials[0] + "/api/" + Credentials[1] + "/lights");
+            lRequest.Send((request) =>
             {
-                Hashtable result = request.response.Object;
-                mLights = new List<IOTPhilipsLightHUE>(result.Count);
-                for (int i = 0; i < mLights.Count; ++i)
+                Hashtable lResult = request.response.Object;
+                mDevices.Clear();
+                for(int i = 0; i < lResult.Count; ++i)
+                    mDevices.Add(new IOTPhilipsLightHUE());
+                for (int i = 0; i < mDevices.Count; ++i)
                 {
-                    mLights[i].Credentials[0] = Credentials[0];
-                    mLights[i].Credentials[1] = Credentials[1];
-                    mLights[i].Credentials[2] = Credentials[2];
-                    mLights[i].Indice = i;
+                    IOTPhilipsLightHUE lDevice = (IOTPhilipsLightHUE)mDevices[i];
+                    lDevice.Credentials[0] = mCredentials[0];
+                    lDevice.Credentials[1] = mCredentials[1];
+                    lDevice.Credentials[2] = mCredentials[2];
+                    lDevice.Indice = i;
+                    lDevice.Name = "DEVICE " + i.ToString("D2");
                 }
 
-                if (result == null)
+                if (lResult == null)
                 {
                     return;
                 }
             });
         }
+
+        private void GetAllValues()
+        {
+            for (int i = 0; i < mDevices.Count; ++i)
+                ((IOTPhilipsLightHUE)mDevices[i]).GetValue();
+        }
         
         public void OnOffForAll(bool iState)
         {
-            for(int i = 0; i < mLights.Count; ++i)
-                mLights[i].OnOff(iState);
+            for(int i = 0; i < mDevices.Count; ++i)
+                ((IOTPhilipsLightHUE)mDevices[i]).OnOff(iState);
         }
     }
 }
