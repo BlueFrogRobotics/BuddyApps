@@ -5,21 +5,25 @@ using System;
 
 namespace BuddyApp.HideAndSeek
 {
-    public class TimerEnd : AStateMachineBehaviour
+    public class CheckHumanState : AStateMachineBehaviour
     {
+
+        private HumanDetector mHumanDetector;
+
         public override void Init()
         {
-            
+            mHumanDetector = GetComponent<HumanDetector>();
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mTTS.Say("J'y vais");
+            
+            
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (mTTS.HasFinishedTalking())
+            if (mHumanDetector.IsHumanDetected)
             {
                 iAnimator.SetTrigger("ChangeState");
             }
@@ -29,7 +33,6 @@ namespace BuddyApp.HideAndSeek
         {
             iAnimator.ResetTrigger("ChangeState");
         }
-
 
     }
 }

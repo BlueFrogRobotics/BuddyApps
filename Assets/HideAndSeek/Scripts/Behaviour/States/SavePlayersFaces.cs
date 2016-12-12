@@ -37,7 +37,7 @@ namespace BuddyApp.HideAndSeek
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mButtonTrain.onClick.RemoveAllListeners();
-            GetComponent<Players>().NumPlayer = mFaceReco.NbLabel;
+            //GetComponent<Players>().NumPlayer = mFaceReco.NbLabel;
             mFace.SetExpression(MoodType.NEUTRAL);
             iAnimator.ResetTrigger("ChangeState");
 

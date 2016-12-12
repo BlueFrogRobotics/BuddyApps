@@ -16,6 +16,8 @@ namespace BuddyApp.HideAndSeek
         public FaceCascadeTracker mFaceTracker;
         public FaceRecognizer mFaceReco;
         public InputField mInputPlayerSaved;
+        public InputField mInputPlayerName;
+        public Players mPlayers;
         public Button mButtonTrain;
         public bool IsTrained { get { return mIsTrained; } }
         private RGBCam mCam;
@@ -128,6 +130,8 @@ namespace BuddyApp.HideAndSeek
         {
             mIsLabelling = false;
             mLabelAct++;
+            //mPlayers.NamesPlayers.Add(mInputPlayerName.text);
+            mPlayers.AddOnePlayer(mInputPlayerName.text);
             Debug.Log("labelisation stopped");
         }
 

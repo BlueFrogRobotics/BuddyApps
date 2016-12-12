@@ -31,7 +31,7 @@ namespace BuddyApp.HideAndSeek
                 mNumPrec = lNumAct;
                 mTTS.Say(""+lNumAct);
             }
-            if(lNumAct>9)
+            if(lNumAct>2)
             {
                 
                 iAnimator.SetTrigger("ChangeState");

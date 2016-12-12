@@ -15,7 +15,7 @@ namespace BuddyApp.HideAndSeek
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mFace.SetExpression(MoodType.HAPPY);
-            mTTS.Say("J ai gagné");
+            mTTS.Say("J'ai gagné");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
