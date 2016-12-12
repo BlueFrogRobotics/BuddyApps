@@ -15,15 +15,20 @@ namespace BuddyApp.HideAndSeek
         public RawImage mRaw;
         public FaceCascadeTracker mFaceTracker;
         public FaceRecognizer mFaceReco;
+        public InputField mInputPlayerSaved;
+        public Button mButtonTrain;
+        public bool IsTrained { get { return mIsTrained; } }
         private RGBCam mCam;
         private Mat mMatFaces;
         private List<Mat> mListMat;
         private List<int> mListLabel;
         private List<OpenCVUnity.Rect> mFaces;
         private int mLabelAct = 0;
+        public int NbLabel { get { return mLabelAct; } }
         private bool mIsLabelling = false;
         private bool mIsTrained = false;
         private LBPHfaces mLBPHFaces;
+        private Texture2D mTexture;
 
         // Use this for initialization
         void Start()
@@ -40,17 +45,20 @@ namespace BuddyApp.HideAndSeek
         // Update is called once per frame
         void Update()
         {
+            mInputPlayerSaved.text = "nombre de joueurs: " + mLabelAct;
             mFaces = mFaceTracker.TrackedObjects;
             ShowFaceTracked();
             if (mIsLabelling)
                 AddInput();
-            if (mIsTrained)
-                Predict();
+            //if (mIsTrained)
+             //   Predict();
 
         }
 
-        void Predict()
+        public int Predict(out double oDist)
         {
+            int lLabel = -1;
+            oDist = 0;
             Mat lSub = new Mat();
             for (int i = 0; i < mFaces.Count; i++)
             {
@@ -65,10 +73,12 @@ namespace BuddyApp.HideAndSeek
                 Imgproc.equalizeHist(dst, dst);
                 MinDistancePredictCollector lPredictor = new MinDistancePredictCollector(200);
                 mLBPHFaces.predict(dst, lPredictor, 0);
-                int label = lPredictor.getLabel();
+                lLabel = lPredictor.getLabel();
+                oDist=lPredictor.getDist();
                 //int label = mFaceReco.Predict(dst);
-                Debug.Log("label: " + label);
+                //Debug.Log("label: " + label);
             }
+            return lLabel;
         }
 
         void ShowFaceTracked()
@@ -83,8 +93,8 @@ namespace BuddyApp.HideAndSeek
             {
                 Mat dst = new Mat();
                 Imgproc.resize(lSub, dst, new Size(100, 100));
-                Texture2D texture = Utils.MatToTexture2D(dst);
-                mRaw.texture = texture;
+                mTexture = Utils.MatToTexture2D(dst);
+                mRaw.texture = mTexture;
             }
         }
 
