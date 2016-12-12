@@ -31,15 +31,19 @@ namespace BuddyApp.Companion
             mIsSearchingPoint = true;
             mUpdateTime = Time.time;
             mWanderTime = Time.time;
-            mRandomWanderTime = Random.Range(10F, 25F);
-            new SetPosYesCmd(0F).Execute();
+            mRandomWanderTime = Random.Range(10F, 30F);
+            new SetMoodCmd(MoodType.NEUTRAL).Execute();
+            new SetPosYesCmd(10F).Execute();
             FaceRandomDirection();
         }
-        
+
         void Update()
         {
             if (Time.time - mUpdateTime < 0.1F)
                 return;
+
+            if (!CompanionData.Instance.CanMoveBody)
+                enabled = false;
 
             mUpdateTime = Time.time;
 
@@ -61,6 +65,9 @@ namespace BuddyApp.Companion
         {
             mHeadSearchPlaying = false;
             mIsSearchingPoint = false;
+            new SetPosNoCmd(0F).Execute();
+            new SetPosYesCmd(0F).Execute();
+            new SetWheelsSpeedCmd(0F, 0F).Execute();
             //StopAllCoroutines();
             GetComponent<Reaction>().ActionFinished();
         }
@@ -111,6 +118,7 @@ namespace BuddyApp.Companion
             yield return new WaitForSeconds(1.5F);
 
             mIsSearchingPoint = true;
+            mRandomWanderTime = Random.Range(15F, 30F);
             mWanderTime = Time.time;
             mChangingDirection = false;
         }
@@ -134,7 +142,7 @@ namespace BuddyApp.Companion
         {
             float lRandomAngle = Random.Range(60F, 300F);
             if (lRandomAngle > 180F)
-                lRandomAngle = -lRandomAngle + 180F;
+                lRandomAngle = 360F - lRandomAngle;
             new TurnRelaCmd(lRandomAngle, 100F, 0.02F).Execute();
         }
     }
