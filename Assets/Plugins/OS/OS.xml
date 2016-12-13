@@ -1350,6 +1350,21 @@
             Helper in order to easily change the robot mood (LED and Face [and moving behaviour])
             </summary>
         </member>
+        <member name="F:BuddyOS.App.AStateMachineBehaviour.mCommonIntegers">
+            <summary>
+            Common integers through the animator
+            </summary>
+        </member>
+        <member name="F:BuddyOS.App.AStateMachineBehaviour.mCommonSingles">
+            <summary>
+            Common float through the animator
+            </summary>
+        </member>
+        <member name="F:BuddyOS.App.AStateMachineBehaviour.mCommonStrings">
+            <summary>
+            Common strings through the animator
+            </summary>
+        </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.OnStateEnter(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
             <summary>
             Method called when the current execution switch to the current state.
@@ -1431,15 +1446,23 @@
             Retrieve the component (Monobehaviour) on the gameObject where the StateMachineAppLinker belongs.
             If the component doens't exist, it adds the component.
             </summary>
-            <typeparam name="T">Type of monobehaviour component</typeparam>
+            <typeparam name="T">Type component</typeparam>
             <returns>The component</returns>
         </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.GetGameObject(System.Int32)">
             <summary>
-            Retrieve the linked gameObject to the StateMachineLinker at the iIndex index.
+            Retrieve the linked gameObject to the StateMachineAppLinker at the iIndex index.
             </summary>
             <param name="iIndex">The index of the linked gameobject</param>
             <returns>The gameobject</returns>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.GetComponentInGameObject``1(System.Int32)">
+            <summary>
+            Retrieve the component in the linked gameObject to the StateMachineAppLinker at the iIndex index.
+            </summary>
+            <typeparam name="T">Type of the component</typeparam>
+            <param name="iIndex">The index of the linked gameobject</param>
+            <returns></returns>
         </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.Init">
             <summary>
@@ -1508,6 +1531,21 @@
             Custom Save method that will be called before the global serialization.
             </summary>
         </member>
+        <member name="T:BuddyOS.App.LangDictionary">
+            <summary>
+            Language dictionary for an app
+            </summary>
+        </member>
+        <member name="P:BuddyOS.App.LangDictionary.Language">
+            <summary>
+            Language of the input dictionary
+            </summary>
+        </member>
+        <member name="P:BuddyOS.App.LangDictionary.Path">
+            <summary>
+            Path to the asset containing the dictionary
+            </summary>
+        </member>
         <member name="T:BuddyOS.App.AppInfo">
             <summary>
             Meta data of an application. External dev should never explicitly use this class.
@@ -1532,6 +1570,11 @@
         <member name="P:BuddyOS.App.AppInfo.Icon">
             <summary>
             Icon name inside the specified atlas. Error if NULL.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.App.AppInfo.LangDictionaries">
+            <summary>
+            Needed dictionaries for the app
             </summary>
         </member>
         <member name="P:BuddyOS.App.AppInfo.VocalKeys">
@@ -1640,8 +1683,8 @@
         </member>
         <member name="T:BuddyOS.BYOS">
             <summary>
-            Core the BuddY Operating System (BYOS).
-            Gave access to robot control and tools like cloud access, geolocation and managers.
+            Core of the BuddY Operating System (BYOS).
+            Gave access to robot control and tools like cloud access, geolocation and misc managers.
             A Unique instance of the BYOS must be present in the whole application.
             </summary>
         </member>
@@ -3387,31 +3430,47 @@
             Time when the geolocation was taken in seconds from 1970
             </summary>
         </member>
-        <member name="T:BuddyOS.Lang.Dictionary">
+        <member name="T:BuddyOS.DictionaryEntry">
+            <summary>
+            Key-value dictionary base entry
+            </summary>
+        </member>
+        <member name="P:BuddyOS.DictionaryEntry.Key">
+            <summary>
+            Key of the value
+            </summary>
+        </member>
+        <member name="P:BuddyOS.DictionaryEntry.Value">
+            <summary>
+            String to store
+            </summary>
+        </member>
+        <member name="T:BuddyOS.LanguageThesaurus">
+            <summary>
+            Language dictionary scriptableobject
+            </summary>
+        </member>
+        <member name="P:BuddyOS.LanguageThesaurus.Entries">
+            <summary>
+            All entries of the thesaurus
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Dictionary">
             <summary>
             Hosts all global_keyword -> currentlanguage_word matchings
             </summary>
         </member>
-        <member name="M:BuddyOS.Lang.Dictionary.AddWordsToDictionary(Language,System.String)">
+        <member name="F:BuddyOS.Dictionary.DIRECTORY">
             <summary>
-            Add dictionary in given folder to the dictionary of the given language
+            All your language data must be inside this folder. i.e. : Resources/Lang/
             </summary>
-            <param name="iLanguage">Language to fill</param>
-            <param name="iFilePath">The directionary to load and add</param>
         </member>
-        <member name="M:BuddyOS.Lang.Dictionary.AddWordsToDictionary(Language,System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Add input dictionary to the dictionary of the given language
-            </summary>
-            <param name="iLanguage">Language to fill</param>
-            <param name="iNewWords">The dictionary to add</param>
-        </member>
-        <member name="M:BuddyOS.Lang.Dictionary.WordFromKey(System.String)">
+        <member name="M:BuddyOS.Dictionary.GetString(System.String)">
             <summary>
             Retrieve the corresponding word from the input key word
             </summary>
             <param name="iKey">The key word corresponding to the wished word</param>
-            <returns>The word in the current language</returns>
+            <returns>The word in the current language, default value if not found</returns>
         </member>
         <member name="T:BuddyOS.System.GarbageManager">
             <summary>
@@ -4285,13 +4344,21 @@
         </member>
         <member name="T:BuddyOS.ANotification">
             <summary>
-            Display a notification on the Top of the robot screen
+            Notification that will be displayed on the top of the robot screen
             </summary>
         </member>
         <member name="T:BuddyOS.NotificationManager">
             <summary>
             Display a notification on the Top of the robot screen
             </summary>
+        </member>
+        <member name="M:BuddyOS.NotificationManager.Display``1(System.Single)">
+            <summary>
+            Display the typed notification. After this call, use immediatly the With method to specify notification arguments
+            </summary>
+            <typeparam name="T">Type of the notification. Meteo, timer confirmation ... </typeparam>
+            <param name="iTimer">Default display timer. Exception for TimerNot, where the inner timer will be considered instead</param>
+            <returns>The not that will be displayed</returns>
         </member>
         <member name="T:BuddyOS.VocalDebug">
             <summary>
@@ -4303,6 +4370,11 @@
         <member name="M:BuddyOS.VocalDebug.StartRecoWithTrigger">
             <summary>
             Set Vocal activation on Trigger Mode. Now, Buddy will need to here "Salut Buddy" or "Hello Buddy", before starting STT
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalDebug.StopTrigger">
+            <summary>
+            Stop sphinx trigger
             </summary>
         </member>
         <member name="M:BuddyOS.VocalDebug.StartInstantReco">
