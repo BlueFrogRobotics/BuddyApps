@@ -566,7 +566,7 @@
             Error code if there is any error on the component
             </summary>
         </member>
-        <member name="M:BuddyOS.Wheels.GetRobotPoseBelieves">
+        <member name="P:BuddyOS.Wheels.Odometry">
             <summary>
             Actual robot's pose estimated using odometry.
             </summary>
@@ -905,12 +905,6 @@
             Called when the recognizer has recognized a word, but the complete recognition is not finished
             </summary>
         </member>
-        <member name="M:BuddyOS.SpeechToText.SetLanguage(Language)">
-            <summary>
-            Set the language of the Speech To Text
-            </summary>
-            <param name="iLanguage">The language to set in Locale Codes (e.g. "en-US" for english from United-States, "fr-FR" for french from France)</param>
-        </member>
         <member name="M:BuddyOS.SpeechToText.Request">
             <summary>
             Launch the request call for the Speech To Text. Has to be done whenever you want the recognition to begin.
@@ -957,6 +951,12 @@
             </summary>
             <returns>Returns the error in string</returns>
         </member>
+        <member name="M:BuddyOS.SpeechToText.SetLanguage(Language)">
+            <summary>
+            Set the language of the Speech To Text
+            </summary>
+            <param name="iLanguage">The language to set in Locale Codes (e.g. "en-US" for english from United-States, "fr-FR" for french from France)</param>
+        </member>
         <member name="T:BuddyOS.SphinxTrigger">
             <summary>
             Sphinx is use as a trigger in voice recognition. You will need to use Sphinx before starting STT.Request() for example.
@@ -984,12 +984,6 @@
             </summary>
             <param name="iKeyphrase">The key phrase</param>
         </member>
-        <member name="M:BuddyOS.SphinxTrigger.SetLanguage(Language)">
-            <summary>
-            Update the current detected language.
-            </summary>
-            <param name="iLanguage"></param>
-        </member>
         <member name="M:BuddyOS.SphinxTrigger.ChangeThreshold(System.Single)">
             <summary>
             Set the threshold of the sphinx trigger
@@ -1002,6 +996,12 @@
             Update all new setup.
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:BuddyOS.SphinxTrigger.SetLanguage(Language)">
+            <summary>
+            Update the current detected language.
+            </summary>
+            <param name="iLanguage"></param>
         </member>
         <member name="T:BuddyOS.TabletParameters">
             <summary>
@@ -1144,16 +1144,16 @@
             </summary>
             <param name="iSpeechRate">The rate</param>
         </member>
+        <member name="M:BuddyOS.TextToSpeech.Stop">
+            <summary>
+            Stop the current speech
+            </summary>
+        </member>
         <member name="M:BuddyOS.TextToSpeech.SetLanguage(Language)">
             <summary>
             Sets the speak language
             </summary>
             <param name="iLanguage">The language</param>
-        </member>
-        <member name="M:BuddyOS.TextToSpeech.Stop">
-            <summary>
-            Stop the current speech
-            </summary>
         </member>
         <member name="T:BuddyOS.ThermalSensor">
             <summary>
@@ -1345,22 +1345,27 @@
             Notification will be printed at the screen top
             </summary>
         </member>
+        <member name="F:BuddyOS.App.AStateMachineBehaviour.mSpriteManager">
+            <summary>
+            Sprite manager to access sprite in loaded atlases
+            </summary>
+        </member>
         <member name="F:BuddyOS.App.AStateMachineBehaviour.mMood">
             <summary>
             Helper in order to easily change the robot mood (LED and Face [and moving behaviour])
             </summary>
         </member>
-        <member name="F:BuddyOS.App.AStateMachineBehaviour.mCommonIntegers">
+        <member name="P:BuddyOS.App.AStateMachineBehaviour.CommonIntegers">
             <summary>
             Common integers through the animator
             </summary>
         </member>
-        <member name="F:BuddyOS.App.AStateMachineBehaviour.mCommonSingles">
+        <member name="P:BuddyOS.App.AStateMachineBehaviour.CommonSingles">
             <summary>
             Common float through the animator
             </summary>
         </member>
-        <member name="F:BuddyOS.App.AStateMachineBehaviour.mCommonStrings">
+        <member name="P:BuddyOS.App.AStateMachineBehaviour.CommonStrings">
             <summary>
             Common strings through the animator
             </summary>
@@ -1645,6 +1650,11 @@
             Scene name of the Remote control app
             </summary>
         </member>
+        <member name="F:BuddyOS.App.AppManager.CALL_APP">
+            <summary>
+            Scene name of the Call app
+            </summary>
+        </member>
         <member name="F:BuddyOS.App.AppManager.DEFAULT_ASSEMBLY">
             <summary>
             Name of the default assembly in Unity3D
@@ -1746,6 +1756,11 @@
         <member name="P:BuddyOS.BYOS.SpriteManager">
             <summary>
             Use this to (un)load specific atlas
+            </summary>
+        </member>
+        <member name="P:BuddyOS.BYOS.WiFiManager">
+            <summary>
+            Tools for retrieve WiFi networks, update every minutes
             </summary>
         </member>
         <member name="P:BuddyOS.BYOS.Dictionary">
@@ -1976,6 +1991,34 @@
             Update params in all commands. Allows to avoid recreate a new command for the same purpose.
             </summary>
             <param name="iObjects">Objects that will replace existing Objects in Parameters</param>
+            <returns>The updated command</returns>
+        </member>
+        <member name="M:BuddyOS.Command.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.Int32}},System.Int32)">
+            <summary>
+            Update params in existing command. Allows to avoid recreate a new command for the same purpose.
+            </summary>
+            <param name="iInteger">Integers that will replace existing Integers in Parameters</param>
+            <returns>The updated command</returns>
+        </member>
+        <member name="M:BuddyOS.Command.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.String}},System.String)">
+            <summary>
+            Update params in all commands. Allows to avoid recreate a new command for the same purpose.
+            </summary>
+            <param name="iString">Strings that will replace existing Strings in Parameters</param>
+            <returns>The updated command</returns>
+        </member>
+        <member name="M:BuddyOS.Command.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.Single}},System.Single)">
+            <summary>
+            Update params in all commands. Allows to avoid recreate a new command for the same purpose.
+            </summary>
+            <param name="iSingle">Singles that will replace existing Singles in Parameters</param>
+            <returns>The updated command</returns>
+        </member>
+        <member name="M:BuddyOS.Command.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.Object}},System.Object)">
+            <summary>
+            Update params in all commands. Allows to avoid recreate a new command for the same purpose.
+            </summary>
+            <param name="iObject">Objects that will replace existing Objects in Parameters</param>
             <returns>The updated command</returns>
         </member>
         <member name="T:BuddyOS.Command.ClsDepthCamCmd">
@@ -3156,6 +3199,26 @@
             Execute the command behaviour.
             </summary>
         </member>
+        <member name="T:BuddyOS.Command.ShowVocalDebugCmd">
+            <summary>
+            When executed : Display or hide the vocal debug
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.ShowVocalDebugCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.SetLangCmd">
+            <summary>
+            When executed : Change the language of all app / byos / stt / tts
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetLangCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="T:BuddyOS.Command.ExitCmd">
             <summary>
             When executed : Quit the Buddy app
@@ -3467,19 +3530,25 @@
         </member>
         <member name="M:BuddyOS.Dictionary.GetString(System.String)">
             <summary>
-            Retrieve the corresponding word from the input key word
+            Retrieve the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length)
             </summary>
             <param name="iKey">The key word corresponding to the wished word</param>
             <returns>The word in the current language, default value if not found</returns>
         </member>
-        <member name="T:BuddyOS.System.GarbageManager">
+        <member name="T:BuddyOS.Net.WiFiManager">
             <summary>
-            Unloads unused assets, detects zombie scene and close them
+            WiFi helper class. Use mainly TabletParameter wifi methods
             </summary>
         </member>
-        <member name="T:BuddyOS.System.AnomalySearcher">
+        <member name="P:BuddyOS.Net.WiFiManager.AvailableNetworks">
             <summary>
-            Search for hardware error. Those anomalies will be logged by the AnomalyLogger class.
+            Available network. List updated every minutes
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Net.WiFiManager.Network">
+            <summary>
+            Current WiFi network
             </summary>
         </member>
         <member name="T:BuddyOS.Net.SharedAccessSignature">
@@ -3550,6 +3619,16 @@
             Network listener for local network
             </summary>
         </member>
+        <member name="T:BuddyOS.System.GarbageManager">
+            <summary>
+            Unloads unused assets, detects zombie scene and close them
+            </summary>
+        </member>
+        <member name="T:BuddyOS.System.AnomalySearcher">
+            <summary>
+            Search for hardware error. Those anomalies will be logged by the AnomalyLogger class.
+            </summary>
+        </member>
         <member name="T:BuddyOS.UI.ABaseView">
             <summary>
             Base class for menu component
@@ -3596,82 +3675,10 @@
             Modal window
             </summary>
         </member>
-        <member name="T:BuddyOS.UI.FontManager">
-            <summary>
-            Font tool for (un)load fonts
-            </summary>
-        </member>
-        <member name="M:BuddyOS.UI.FontManager.AssignFont(UnityEngine.UI.Text,System.String)">
-            <summary>
-            Assign a font to the specified text
-            </summary>
-            <param name="iText">The text to set</param>
-            <param name="iFontName">The font to set</param>
-        </member>
-        <member name="M:BuddyOS.UI.FontManager.GetFont(System.String)">
-            <summary>
-            Retrieve font from its name
-            </summary>
-            <param name="iFontName">Font name</param>
-            <returns>The font</returns>
-        </member>
         <member name="T:BuddyOS.UI.Pool">
             <summary>
             Pool manager for widget (UI) gameobject
             </summary>
-        </member>
-        <member name="T:BuddyOS.UI.SpriteManager">
-            <summary>
-            Tool for (un)load atlases
-            </summary>
-        </member>
-        <member name="F:BuddyOS.UI.SpriteManager.DIRECTORY">
-            <summary>
-            All your atlases must be inside this folder. i.e. : Resources/Sprites/
-            </summary>
-        </member>
-        <member name="F:BuddyOS.UI.SpriteManager.DEFAULT_ATLAS">
-            <summary>
-            The default atlas for the UI
-            </summary>
-        </member>
-        <member name="M:BuddyOS.UI.SpriteManager.ExistAtlas(System.String)">
-            <summary>
-            Check if the named atlas exist
-            </summary>
-            <param name="iAtlas">The atlas name</param>
-            <returns>True if the atlas has been loaded</returns>
-        </member>
-        <member name="M:BuddyOS.UI.SpriteManager.ExistSpriteInAtlas(System.String,System.String)">
-            <summary>
-            Check if a sprite exist inside an atlas
-            </summary>
-            <param name="iAtlas">The atlas name</param>
-            <param name="iSprite">The sprite name</param>
-            <returns>True if the sprite exist within the atlas</returns>
-        </member>
-        <member name="M:BuddyOS.UI.SpriteManager.SpriteFromAtlas(System.String,System.String)">
-            <summary>
-            Retrieve a sprite from the specified atlas
-            </summary>
-            <param name="iAtlas">The atlas name</param>
-            <param name="iSprite">The sprite name</param>
-            <returns></returns>
-        </member>
-        <member name="M:BuddyOS.UI.SpriteManager.AssignSprite(System.String,UnityEngine.UI.Image)">
-            <summary>
-            Assign the sprite (in DEFAULT_ATLAS) to the image
-            </summary>
-            <param name="iSprite">The sprite name</param>
-            <param name="iImage">The image to assign</param>
-        </member>
-        <member name="M:BuddyOS.UI.SpriteManager.AssignSprite(System.String,System.String,UnityEngine.UI.Image)">
-            <summary>
-            Assign the sprite in atlas to the image 
-            </summary>
-            <param name="iAtlas">The atlas name</param>
-            <param name="iSprite">The sprite name</param>
-            <param name="iImage">The image to assign</param>
         </member>
         <member name="T:BuddyOS.UI.AccountElement">
             <summary>
@@ -4007,6 +4014,26 @@
             Modification callback
             </summary>
         </member>
+        <member name="T:BuddyOS.UI.TextField">
+            <summary>
+            Text field widget
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.TextField.UpdateCommands">
+            <summary>
+            Commands that will be updated after value modification
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.TextField.Label">
+            <summary>
+            Left side label
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.TextField.InputField">
+            <summary>
+            The input field of the text field widget
+            </summary>
+        </member>
         <member name="M:BuddyOS.UI.TextField.OnAwake">
             <summary>
             Called on awake
@@ -4015,6 +4042,26 @@
         <member name="M:BuddyOS.UI.TextField.Clear">
             <summary>
             Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="T:BuddyOS.UI.Password">
+            <summary>
+            Password widget
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.Password.Label">
+            <summary>
+            Left side label
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.Password.InputField">
+            <summary>
+            The password input field
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.Password.UpdateCommands">
+            <summary>
+            Commands called on updated password field 
             </summary>
         </member>
         <member name="M:BuddyOS.UI.Password.OnAwake">
@@ -4314,18 +4361,66 @@
         </member>
         <member name="T:BuddyOS.TimerNot">
             <summary>
-            Display a notification on the Top of the robot screen
+            Display a timed confirmation notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="M:BuddyOS.TimerNot.With(System.String,System.Int32,System.Action,System.Action)">
+            <summary>
+            Specify the parameters for the timer notification. Validate will be called by default if no anwser
+            </summary>
+            <param name="iText">Text to display</param>
+            <param name="iTimer">Timer in second. The notication will close after this timer. Validate will be called also. 3sec min</param>
+            <param name="iOnValidate">Callback function if user click on validate</param>
+            <param name="iOnCancel">Callback function if user click on cancel</param>
+        </member>
+        <member name="M:BuddyOS.TimerNot.Cancel">
+            <summary>
+            Inner method called after click on cancel. Do not call it manually
+            </summary>
+        </member>
+        <member name="M:BuddyOS.TimerNot.Validate">
+            <summary>
+            Inner method called after click on validate. Do not call it manually
             </summary>
         </member>
         <member name="T:BuddyOS.ValidationNot">
             <summary>
-            Display a notification on the Top of the robot screen
+            Display a validation notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="M:BuddyOS.ValidationNot.With(System.String,System.Action,System.Action)">
+            <summary>
+            Specify parameters for the validation notification
+            </summary>
+            <param name="iText">Text to display</param>
+            <param name="iOnValidate">Callback function if the user click on validate</param>
+            <param name="iOnDelay">Callback function if the user click on delay</param>
+        </member>
+        <member name="M:BuddyOS.ValidationNot.Delay">
+            <summary>
+            Inner method called after click on delay. Do not call it manually
+            </summary>
+        </member>
+        <member name="M:BuddyOS.ValidationNot.Validate">
+            <summary>
+            Inner method called after click on validate. Do not call it manually
             </summary>
         </member>
         <member name="T:BuddyOS.MeteoNot">
             <summary>
-            Display a notification on the Top of the robot screen
+            Display a weather notification on the Top of the robot screen
             </summary>
+        </member>
+        <member name="M:BuddyOS.MeteoNot.With(System.Int32,System.String,System.String,System.String,System.String,BuddyOS.WeatherInfo[])">
+            <summary>
+            Specify parameters for weather notification
+            </summary>
+            <param name="iTemperature">Current temperature</param>
+            <param name="iWeather">Current weather</param>
+            <param name="iDay">Current day</param>
+            <param name="iCityLocation">Current city location</param>
+            <param name="iCountryLocation">Current country location</param>
+            <param name="iWeathers">Weather info about the weather evolution during the day Min : 0, Max 6</param>
         </member>
         <member name="T:BuddyOS.ConfirmationNot">
             <summary>
@@ -4334,13 +4429,61 @@
         </member>
         <member name="T:BuddyOS.MessageNot">
             <summary>
-            Display a notification on the Top of the robot screen
+            Display a message callback notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="M:BuddyOS.MessageNot.With(System.String,System.Action,System.Action)">
+            <summary>
+            Specify parameters for a received message notifcation
+            </summary>
+            <param name="iText">The text to display</param>
+            <param name="iOnValidate">Callback method if user click on validate</param>
+            <param name="iOnResponse">Callback method if user click on response</param>
+        </member>
+        <member name="M:BuddyOS.MessageNot.Respond">
+            <summary>
+            Inner method called after click on response. Do not call it manually
+            </summary>
+        </member>
+        <member name="M:BuddyOS.MessageNot.Validate">
+            <summary>
+            Inner method called after click on validate. Do not call it manually
             </summary>
         </member>
         <member name="T:BuddyOS.SimpleNot">
             <summary>
-            Display a notification on the Top of the robot screen
+            Display a basic notification on the Top of the robot screen
             </summary>
+        </member>
+        <member name="M:BuddyOS.SimpleNot.With(System.String)">
+            <summary>
+            Specify parameters for simple notification
+            </summary>
+            <param name="iText">Text to display</param>
+        </member>
+        <member name="M:BuddyOS.SimpleNot.With(System.String,UnityEngine.Sprite)">
+            <summary>
+            Specify parameters for simple notification
+            </summary>
+            <param name="iText">Text to display</param>
+            <param name="iIcon">Left side sprite icon</param>
+        </member>
+        <member name="M:BuddyOS.SimpleNot.With(System.String,UnityEngine.Sprite,UnityEngine.Color32)">
+            <summary>
+            Specify parameters for simple notification
+            </summary>
+            <param name="iText">Text to display</param>
+            <param name="iIcon">Left side sprite icon</param>
+            <param name="iIconColor">Icon color</param>
+        </member>
+        <member name="M:BuddyOS.SimpleNot.With(System.String,UnityEngine.Sprite,UnityEngine.Color32,UnityEngine.Color32)">
+            <summary>
+            Specify parameters for simple notification
+            </summary>
+            <param name="iText">Text to display</param>
+            <param name="iIcon">Left side sprite icon</param>
+            <param name="iIconColor">Icon color</param>
+            <param name="iIconBackgroundColor">Icon background color</param>
         </member>
         <member name="T:BuddyOS.ANotification">
             <summary>
@@ -4359,6 +4502,78 @@
             <typeparam name="T">Type of the notification. Meteo, timer confirmation ... </typeparam>
             <param name="iTimer">Default display timer. Exception for TimerNot, where the inner timer will be considered instead</param>
             <returns>The not that will be displayed</returns>
+        </member>
+        <member name="T:BuddyOS.FontManager">
+            <summary>
+            Font tool for (un)load fonts
+            </summary>
+        </member>
+        <member name="M:BuddyOS.FontManager.AssignFont(UnityEngine.UI.Text,System.String)">
+            <summary>
+            Assign a font to the specified text
+            </summary>
+            <param name="iText">The text to set</param>
+            <param name="iFontName">The font to set</param>
+        </member>
+        <member name="M:BuddyOS.FontManager.GetFont(System.String)">
+            <summary>
+            Retrieve font from its name
+            </summary>
+            <param name="iFontName">Font name</param>
+            <returns>The font</returns>
+        </member>
+        <member name="T:BuddyOS.SpriteManager">
+            <summary>
+            Tool for (un)load atlases
+            </summary>
+        </member>
+        <member name="F:BuddyOS.SpriteManager.DIRECTORY">
+            <summary>
+            All your atlases must be inside this folder. i.e. : Resources/Sprites/
+            </summary>
+        </member>
+        <member name="F:BuddyOS.SpriteManager.DEFAULT_ATLAS">
+            <summary>
+            The default atlas for the UI
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SpriteManager.ExistAtlas(System.String)">
+            <summary>
+            Check if the named atlas exist
+            </summary>
+            <param name="iAtlas">The atlas name</param>
+            <returns>True if the atlas has been loaded</returns>
+        </member>
+        <member name="M:BuddyOS.SpriteManager.ExistSpriteInAtlas(System.String,System.String)">
+            <summary>
+            Check if a sprite exist inside an atlas
+            </summary>
+            <param name="iAtlas">The atlas name</param>
+            <param name="iSprite">The sprite name</param>
+            <returns>True if the sprite exist within the atlas</returns>
+        </member>
+        <member name="M:BuddyOS.SpriteManager.GetSprite(System.String,System.String)">
+            <summary>
+            Retrieve a sprite from the specified atlas
+            </summary>
+            <param name="iAtlas">The atlas name</param>
+            <param name="iSprite">The sprite name</param>
+            <returns></returns>
+        </member>
+        <member name="M:BuddyOS.SpriteManager.AssignSprite(System.String,UnityEngine.UI.Image)">
+            <summary>
+            Assign the sprite (in DEFAULT_ATLAS) to the image
+            </summary>
+            <param name="iSprite">The sprite name</param>
+            <param name="iImage">The image to assign</param>
+        </member>
+        <member name="M:BuddyOS.SpriteManager.AssignSprite(System.String,System.String,UnityEngine.UI.Image)">
+            <summary>
+            Assign the sprite in atlas to the image 
+            </summary>
+            <param name="iSprite">The sprite name</param>
+            <param name="iAtlas">The atlas name</param>
+            <param name="iImage">The image to assign</param>
         </member>
         <member name="T:BuddyOS.VocalDebug">
             <summary>
