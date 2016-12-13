@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using BuddyOS;
 using BuddyOS.UI;
 
 namespace BuddyApp.Guardian
@@ -8,23 +9,8 @@ namespace BuddyApp.Guardian
     public class ParametersGuardian : MonoBehaviour
     {
 
-        //[SerializeField]
-        //private OnOff onOffMovement;
-
-        //[SerializeField]
-        //private OnOff onOffSound;
-
-        //[SerializeField]
-        //private OnOff onOffFire;
-
-        //[SerializeField]
-        //private OnOff onOffKidnap;
-
         [SerializeField]
         private InputField password;
-
-        //[SerializeField]
-        //private Gauge gaugeMovement;
 
         [SerializeField]
         private GaugeOnOff gaugeOnOffMovement;
@@ -53,10 +39,24 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private UnityEngine.UI.Button buttonBack;
 
-        //public OnOff OnOffMovement { get { return gaugeOnOffMovement; } }
-        //public OnOff OnOffSound { get { return onOffSound; } }
-        //public OnOff OnOffFire { get { return onOffFire; } }
-        //public OnOff OnOffKidnap { get { return onOffKidnap; } }
+        [SerializeField]
+        private Text mTextFire;
+
+        [SerializeField]
+        private Text mTextSound;
+
+        [SerializeField]
+        private Text mTextMouv;
+
+        [SerializeField]
+        private Text mTextKidnap;
+
+        [SerializeField]
+        private Text mTextContact;
+
+        [SerializeField]
+        private Text mTextPassword;
+
         public InputField Password { get { return password; } }
 
         public Slider SliderMovement { get { return gaugeOnOffMovement.Slider; } }
@@ -72,16 +72,24 @@ namespace BuddyApp.Guardian
         public UnityEngine.UI.Button ButtonBack { get { return buttonBack; } }
 
         private bool mHasInitCommands=false;
+        private Dictionary mDictionnary;
 
 
         // Use this for initialization
         void Start()
         {
+            mDictionnary = BYOS.Instance.Dictionary;
             gaugeOnOffFire.DisplayPercentage = true;
             gaugeOnOffKidnap.DisplayPercentage = true;
             gaugeOnOffMovement.DisplayPercentage = true;
             gaugeOnOffSound.DisplayPercentage = true;
-            
+
+            mTextFire.text = mDictionnary.GetString("detectFire");
+            mTextMouv.text = mDictionnary.GetString("detectMouv");
+            mTextSound.text = mDictionnary.GetString("detectSound");
+            mTextKidnap.text = mDictionnary.GetString("detectKidnap");
+            mTextContact.text = mDictionnary.GetString("contact");
+            mTextContact.text = mDictionnary.GetString("password");
         }
 
         // Update is called once per frame

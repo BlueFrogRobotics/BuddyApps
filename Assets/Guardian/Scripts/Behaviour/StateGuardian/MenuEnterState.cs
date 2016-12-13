@@ -12,12 +12,14 @@ namespace BuddyApp.Guardian
         private bool mHasTriedToTalked = false;
         private Face mFaceManager;
         private float mTimer = 4.4f;
+        private Dictionary mDictionnary;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             SetWindowAppOverBuddyColor(0);
             mTTS = BYOS.Instance.TextToSpeech;
+            mDictionnary = BYOS.Instance.Dictionary;
             animator.SetBool("ChangeState", false);
             mFaceManager = BYOS.Instance.Face;
             mHasTalked = false;
@@ -34,7 +36,7 @@ namespace BuddyApp.Guardian
             if (/*mFaceManager.IsStable && */!mHasTalked && !mTTS.IsSpeaking())
             {
                 Debug.Log("fixe ou mobile?");
-                mTTS.Say("Quel mode souhaite tu. Fixe ou mobile");
+                mTTS.Say(mDictionnary.GetString("choiceMode"));//"Quel mode souhaite tu. Fixe ou mobile");
                 mHasTriedToTalked = true;
             }
             else if (/*!mFaceManager.IsStable && */mHasTriedToTalked && !mHasTalked)
