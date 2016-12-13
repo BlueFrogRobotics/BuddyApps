@@ -10,8 +10,6 @@ namespace BuddyApp.Guardian
         private PasswordWriter mPasswordWriter;
         private ParametersGuardian mParameters;
         private GameObject mObjectPasswordWriter;
-        private GameObject mBackgroundPrefab;
-        private GameObject mHaloPrefab;
         private Animator mHaloAnimator;
         private Animator mBackgroundAnimator;
         private Button mButtonValidate;
@@ -24,13 +22,14 @@ namespace BuddyApp.Guardian
         private bool mHasShownGrid;
         private float mTimer;
         private Animator mAnimator;
+        private bool mCanceled = false;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             InitLink();
             SetWindowAppOverBuddyColor(1);
-
+            mCanceled = false;
             //ParametersGuardian lParamGuardian = mParameterObject.GetComponent<ParametersGuardian>();
             mPassword = mParameters.Password.text;
             mPasswordWriter = mObjectPasswordWriter.GetComponent<PasswordWriter>();
@@ -59,15 +58,16 @@ namespace BuddyApp.Guardian
                 //mObjectPasswordWriter.SetActive(true);
                 mObjectPasswordWriter.GetComponent<Animator>().SetTrigger("Open_WPassword");
                 //mBackgroundPrefab.SetActive(true);
-                mHaloPrefab.SetActive(true);
+                //mHaloPrefab.SetActive(true);
                 mBackgroundAnimator.SetTrigger("Open_BG");
                 mHaloAnimator.SetTrigger("Open_WTimer");
                 mHasShownGrid = true;
                 mTimer = 8.0f;
             }
 
-            if (mHasShownGrid && mTimer < 0.0f)
+            if (!mCanceled && mHasShownGrid && mTimer < 0.0f)
             {
+                mCanceled = true;
                 Cancel();
             }
         }
@@ -81,7 +81,7 @@ namespace BuddyApp.Guardian
             mObjectPasswordWriter.GetComponent<Animator>().SetTrigger("Close_WPassword");
             //mObjectPasswordWriter.SetActive(false);
             //mBackgroundPrefab.SetActive(false);
-            mHaloPrefab.SetActive(false);
+            //mHaloPrefab.SetActive(false);
             mButtonValidate.onClick.RemoveAllListeners();
             mButtonCancel.onClick.RemoveAllListeners();
         }
@@ -116,12 +116,10 @@ namespace BuddyApp.Guardian
         private void InitLink()
         {
             mObjectPasswordWriter = StateManager.ObjectPasswordWriter;
-            mBackgroundPrefab = StateManager.BackgroundPrefab;
             mParameters = StateManager.Parameters;
             mBackgroundAnimator = StateManager.BackgroundAnimator;
             mButtonValidate = StateManager.ButtonValidatePassword;
             mButtonCancel = StateManager.ButtonCancelPassword;
-            mHaloPrefab = StateManager.HaloPrefab;
             mHaloAnimator = StateManager.HaloAnimator;
             mIcoMessage = StateManager.IcoMessage;
             mMessage = StateManager.MessageText;

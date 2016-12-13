@@ -9,8 +9,6 @@ namespace BuddyApp.Guardian
     public class LoadingPatrolState : AStateGuardian
     {
 
-        private GameObject mLoadingObject;
-        private Face mFace;
         private bool mStartTimer = false;
         private float mTimer = 1.0f;
         private Animator mLoadingAnimator;
@@ -20,14 +18,13 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            DisableWindowAppOverBuddy();
             mLoadingAnimator = StateManager.LoadingAnimator;
             mDetectorManager = StateManager.DetectorManager;
-            mLoadingObject = StateManager.Loading;
             mLoadingAnimator.SetTrigger("Open_WLoading");
             //BYOS.Instance.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
             mHasFinishedLoading = false;
             animator.SetBool("ChangeState", false);
-            mFace = BYOS.Instance.Face;
             mTimer = 5.0f;
             if (mDetectorManager.SoundDetector.IsInit)
                 mDetectorManager.SoundDetector.Stop();

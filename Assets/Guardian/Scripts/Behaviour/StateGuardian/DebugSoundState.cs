@@ -23,9 +23,10 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            SetWindowAppOverBuddyColor(0);
-            Init();
+            SetWindowAppOverBuddyColor(1);
+            
             mAnimator = animator;
+            Init();
             //StateManager.DebugSoundWindow.gameObject.SetActive(true);
             StateManager.DebugSoundWindow.gameObject.GetComponent<Animator>().SetTrigger("Open_WDebugs");
             StateManager.DebugSoundWindow.ButtonBack.onClick.AddListener(GoBack);

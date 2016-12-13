@@ -8,7 +8,6 @@ namespace BuddyApp.Guardian
     {
 
         private ParametersGuardian mParameters;
-        private TextToSpeech mTTS;
         private DetectionManager mDetectionManager;
         private Animator mAnimator;
         private bool mHasInitSlider = false;
@@ -26,7 +25,7 @@ namespace BuddyApp.Guardian
             mAnimatorParameter.SetTrigger("Open_WParameters");
             mParameters.gameObject.SetActive(true);
             animator.SetBool("ChangeState", false);
-            mTTS = BYOS.Instance.TextToSpeech;
+
             mParameters.ButtonDebugSound.onClick.AddListener(ShowDebugSoundWindow);
             mParameters.ButtonDebugMovement.onClick.AddListener(ShowDebugMovementWindow);
             mParameters.ButtonDebugTemperature.onClick.AddListener(ShowDebugTemperatureWindow);
@@ -108,6 +107,8 @@ namespace BuddyApp.Guardian
         private void Back()
         {
             mAnimator.SetBool("Back", true);
+            StateManager.BackgroundAnimator.SetTrigger("Close_BG");
+            mAnimatorParameter.SetTrigger("Close_WParameters");
         }
 
         private void SetDetectorsThreshold()

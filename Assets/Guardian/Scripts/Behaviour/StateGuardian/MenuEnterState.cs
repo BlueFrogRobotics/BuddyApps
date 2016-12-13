@@ -10,7 +10,6 @@ namespace BuddyApp.Guardian
         private TextToSpeech mTTS;
         private bool mHasTalked = false;
         private bool mHasTriedToTalked = false;
-        private Face mFaceManager;
         private float mTimer = 4.4f;
         private Dictionary mDictionnary;
 
@@ -21,7 +20,6 @@ namespace BuddyApp.Guardian
             mTTS = BYOS.Instance.TextToSpeech;
             mDictionnary = BYOS.Instance.Dictionary;
             animator.SetBool("ChangeState", false);
-            mFaceManager = BYOS.Instance.Face;
             mHasTalked = false;
             mHasTriedToTalked = false;
             mTimer = 1.5f;

@@ -21,7 +21,6 @@ namespace BuddyApp.Guardian
         private Face mFaceManager;
         private DetectionManager mDetectorManager;
 
-        private string mDetectedIssues = "";
         private GameObject mHaloPrefab;
         private GameObject mBackgroundPrefab;
         private Animator mBackgroundAnimator;
@@ -231,8 +230,7 @@ namespace BuddyApp.Guardian
         {
             mFaceManager.SetExpression(MoodType.SCARED);
             int lAlerte = animator.GetInteger("Alerte");
-            CultureInfo cultureFR = new CultureInfo("fr-FR");
-            DateTime localDate = DateTime.Now;
+
             switch (lAlerte)
             {
                 case (int)DetectionManager.Alert.SOUND:
