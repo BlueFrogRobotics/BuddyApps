@@ -5,11 +5,11 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/SDK/Scenes/Buddy.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/SDK/Samples/BasicApp/Scenes/BasicApp.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Companion/Scenes/CompanionApp.unity
   - enabled: 0
     path: Assets/BabyPhone/Scenes/BabyPhoneApp.unity
@@ -23,9 +23,11 @@ EditorBuildSettings:
     path: Assets/RemoteControl/Scenes/RemoteControlApp.unity
   - enabled: 0
     path: Assets/Diagnostic/Scenes/DiagnosticApp.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Guardian/Scene/Guardian.unity
   - enabled: 0
     path: Assets/IOT/Scenes/IOT.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/RLGL/Scenes/RLGL.unity
+  - enabled: 0
+    path: Assets/testuid.unity

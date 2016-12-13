@@ -70,6 +70,9 @@ namespace BuddyApp.Guardian
 
         public event Action OnDetection;
 
+        private Queue<Mat> mBufferVideo;
+        private float mMaxBufferSize;
+
         private float mMinThreshold = 0.0f;
         private float mMaxThreshold = 200f;
         private float mThreshold = 35f;
@@ -119,6 +122,8 @@ namespace BuddyApp.Guardian
                 mCam.Open();
                 //mPreviousFrame = mCam.FrameMat.clone();
             }
+            mBufferVideo = new Queue<Mat>();
+            mMaxBufferSize = 20.0f * 10.0f;
         }
         // Update is called once per frame
         protected override void ProcessFrameImpl(Mat iInputFrameMat, Texture2D iInputFrameTexture)
@@ -127,6 +132,10 @@ namespace BuddyApp.Guardian
             double lThresh = mThreshold;
             mRawImage = iInputFrameMat.clone();
             mTest = iInputFrameMat.clone();
+
+            mBufferVideo.Enqueue(mTest);
+            if (mBufferVideo.Count > mMaxBufferSize)
+                mBufferVideo.Dequeue();
 
             Imgproc.cvtColor(mRawImage, mCurrentFrame, Imgproc.COLOR_BGR2GRAY);
             if (mPreviousFrame.width() != 0)
@@ -197,6 +206,11 @@ namespace BuddyApp.Guardian
                 mThreshold = iThreshold;
 
             //Debug.Log("threshold sound: " + mThreshold);
+        }
+
+        public void Save()
+        {
+
         }
     }
 }

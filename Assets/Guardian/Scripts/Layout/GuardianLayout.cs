@@ -18,10 +18,8 @@ namespace BuddyApp.Guardian
             GaugeOnOff lGaugeFireDetection = AddWidget<GaugeOnOff>(FIRST_LINE);
             GaugeOnOff lGaugeMovementDetection = AddWidget<GaugeOnOff>(SECOND_LINE);
             GaugeOnOff lGaugeKidnappingDetection = AddWidget<GaugeOnOff>(THIRD_LINE);
-            GaugeOnOff lGaugeSoundDetection = AddWidget<GaugeOnOff>(FOURTH_LINE);
+            GaugeOnOff lGaugeSoundDetection = AddWidget<GaugeOnOff>(FOURTH_LINE); 
             Button lQuitButton = AddWidget<Button>(FIFTH_LINE);
-
-
 
 
             lGaugeFireDetection.Slider.minValue = 0;
@@ -39,6 +37,7 @@ namespace BuddyApp.Guardian
             lGaugeSoundDetection.Slider.maxValue = 10;
             lGaugeSoundDetection.Slider.wholeNumbers = true;
             lGaugeSoundDetection.DisplayPercentage = true;
+
 
             lGaugeKidnappingDetection.Slider.minValue = 0;
             lGaugeKidnappingDetection.Slider.maxValue = 10;

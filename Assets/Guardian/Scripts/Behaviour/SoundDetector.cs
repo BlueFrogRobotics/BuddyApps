@@ -87,7 +87,6 @@ namespace BuddyApp.Guardian
                     lGlobalSum += (float)lTempStack[i];
                 }
                 mGlobalMean = lGlobalSum / myQ.Count;
-
                 mActValue = Mathf.Abs(lSoundLevelReceived - mGlobalMean);
                 if (mActValue > mThreshold)
                 {
