@@ -104,5 +104,15 @@
     <Atlas>AtlasUI</Atlas>
 	<OptionsLayoutStr>BuddyApp.Guardian.GuardianLayout</OptionsLayoutStr>
 	<DataFile>guardian_data.xml</DataFile>
+	<LangDictionaries>
+      <LangDictionary>
+        <Language>FRA</Language>
+        <Path>FrenchGuardianAppDict</Path>
+      </LangDictionary>
+      <LangDictionary>
+        <Language>ENG</Language>
+        <Path>EnglishGuardianAppDict</Path>
+      </LangDictionary>
+    </LangDictionaries>
   </AppInfo>  
 </ArrayOfAppInfo>

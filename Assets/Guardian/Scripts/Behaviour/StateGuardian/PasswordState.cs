@@ -56,8 +56,9 @@ namespace BuddyApp.Guardian
             {
 
                 //mQuestionPrefab.SetActive(true);
-                mObjectPasswordWriter.SetActive(true);
-                mBackgroundPrefab.SetActive(true);
+                //mObjectPasswordWriter.SetActive(true);
+                mObjectPasswordWriter.GetComponent<Animator>().SetTrigger("Open_WPassword");
+                //mBackgroundPrefab.SetActive(true);
                 mHaloPrefab.SetActive(true);
                 mBackgroundAnimator.SetTrigger("Open_BG");
                 mHaloAnimator.SetTrigger("Open_WTimer");
@@ -77,8 +78,9 @@ namespace BuddyApp.Guardian
             SetWindowAppOverBuddyColor(0);
             mAnimator.SetBool("PasswordTrue", false);
             mAnimator.SetBool("ChangeState", false);
-            mObjectPasswordWriter.SetActive(false);
-            mBackgroundPrefab.SetActive(false);
+            mObjectPasswordWriter.GetComponent<Animator>().SetTrigger("Close_WPassword");
+            //mObjectPasswordWriter.SetActive(false);
+            //mBackgroundPrefab.SetActive(false);
             mHaloPrefab.SetActive(false);
             mButtonValidate.onClick.RemoveAllListeners();
             mButtonCancel.onClick.RemoveAllListeners();

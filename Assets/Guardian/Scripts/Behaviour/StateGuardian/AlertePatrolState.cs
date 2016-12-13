@@ -80,7 +80,7 @@ namespace BuddyApp.Guardian
                 mHasAlerted = true;
                 SayAlertType(animator);
                 mHaloPrefab.SetActive(true);
-                mBackgroundPrefab.SetActive(true);
+                //mBackgroundPrefab.SetActive(true);
                 mHaloAnimator.SetTrigger("Open_WTimer");
                 mBackgroundAnimator.SetTrigger("Open_BG");
                 mObjectButtonAskPassword.SetActive(true);
@@ -88,13 +88,13 @@ namespace BuddyApp.Guardian
 
             else if (!mHasSentNotification)
             {
-                if (HasSavedProof())
-                {
+                //if (HasSavedProof())
+                //{
                     if (mMailSender.CanSend)
                         SendNotification();
                     mHasSentNotification = true;
                     Debug.Log("proof saved");
-                }
+                //}
             }
 
             else if (mTimer < 0.0f && mHasSentNotification)
@@ -238,67 +238,16 @@ namespace BuddyApp.Guardian
                 case (int)DetectionManager.Alert.SOUND:
                     mTTS.Say("Bruit détecté");
                     mMessage.text = "ATTENTION SON DETECTE!";
-                    Debug.Log(localDate.ToString(cultureFR));
-                    if (mMailSender.CanSend && mMailAdress != "")
-                    {
-                        /*mDetectorManager.mSoundDetector.SaveWav("noise");
-                        string lTextMail = "On est le " + localDate.ToString(cultureFR) + ". Je viens de détecter du bruit";
-                        BuddyFeature.Web.Mail lMail = new BuddyFeature.Web.Mail("alerte bruit", lTextMail);
-                        lMail.AddTo(mMailAdress);
-                        if (mWebcam != null && !mWebcam.IsOpen)
-                        {
-                            mWebcam.Open();
-                        }
-                        lMail.AddFile("noise.wav");
-                        mCountPhoto++;
-                        mMailSender.Send(lMail);*/
-                    }
+
                     break;
                 case (int)DetectionManager.Alert.FIRE:
                     mTTS.Say("Feu détecté");
-                    //mDetectedIssues
-                    /* mMessage.text = "ATTENTION DEPART DE FEU POTENTIEL!";
-                     animator.SetBool("ChangeState", false);
-                     Debug.Log(localDate.ToString(cultureFR));
-                     if (mMailSender.CanSend && mMailAdress != "")
-                     {
-                         string lTextMail = "On est le " + localDate.ToString(cultureFR) + ". Je viens de détecter une forte chaleur";
-                         BuddyFeature.Web.Mail lMail = new BuddyFeature.Web.Mail("alerte incendie", lTextMail);
-                         lMail.AddTo(mMailAdress);
-                         if (mWebcam != null && !mWebcam.IsOpen)
-                         {
-                             mWebcam.Open();
-                         }
-                         if (mWebcam != null && mWebcam.IsOpen && mWebcam.FrameTexture2D!=null)
-                         {
-                             lMail.AddTexture2D(mWebcam.FrameTexture2D, "photocam.png");//+mCountPhoto+".png");
-                             mCountPhoto++;
-                             mMailSender.Send(lMail);
-                         }
-                     }*/
+  
                     break;
                 case (int)DetectionManager.Alert.MOVEMENT:
                     mMessage.text = "ATTENTION INTRUSION POTENTIELLE!";
                     mTTS.Say("Mouvement détecté");
-                    /*animator.SetBool("ChangeState", false);
-
-                    Debug.Log(localDate.ToString(cultureFR));
-                    if (mMailSender.CanSend && mMailAdress != "")
-                    {
-                        Debug.Log("can send");
-                        string lTextMail = "Il est " + localDate.ToString(cultureFR) + ". Je viens de détecter un mouvement";
-                        BuddyFeature.Web.Mail lMail = new BuddyFeature.Web.Mail("alerte mouvement", lTextMail);
-                        lMail.AddTo(mMailAdress);
-                        if (mWebcam != null && !mWebcam.IsOpen)
-                        {
-                            mWebcam.Open();
-                        }
-                        //lMail.AddTexture2D(mWebcam.FrameTexture2D, "photocam.png"); //+ mCountPhoto + ".png");
-                        //mCountPhoto++;
-                        //mMailSender.Send(lMail);
-                    }*/
-                    //else
-                    //    Debug.Log("peut pas send");
+  
                     break;
                 case (int)DetectionManager.Alert.KIDNAPPING:
                     mMessage.text = "ATTENTION VOL POTENTIEL!";

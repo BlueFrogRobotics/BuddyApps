@@ -58,9 +58,9 @@ namespace BuddyApp.Guardian
         void Start()
         {
             //Init();
-            mMinThreshold = 0.03f;
-            mMaxThreshold = 0.5f;
-            mThreshold = 0.1f;
+            mMinThreshold = 0.001f;
+            mMaxThreshold = 0.1f;
+            mThreshold = 0.05f;
         }
 
 
@@ -77,8 +77,8 @@ namespace BuddyApp.Guardian
 
                 // we put it in a FIFO stack
                 myQ.Enqueue(lSoundLevelReceived);
-                if (myQ.Count < 100) return;
-                if (myQ.Count > 100) myQ.Dequeue();
+                if (myQ.Count < 50) return;
+                if (myQ.Count > 50) myQ.Dequeue();
 
                 object[] lTempStack = myQ.ToArray();
                 float lGlobalSum = 0;
@@ -87,7 +87,6 @@ namespace BuddyApp.Guardian
                     lGlobalSum += (float)lTempStack[i];
                 }
                 mGlobalMean = lGlobalSum / myQ.Count;
-
                 mActValue = Mathf.Abs(lSoundLevelReceived - mGlobalMean);
                 if (mActValue > mThreshold)
                 {

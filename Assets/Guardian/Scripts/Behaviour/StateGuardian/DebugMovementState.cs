@@ -31,7 +31,8 @@ namespace BuddyApp.Guardian
             //Application.targetFrameRate = 10;
             mAnimator = animator;
             Init();
-            StateManager.DebugMovementWindow.gameObject.SetActive(true);
+            //StateManager.DebugMovementWindow.gameObject.SetActive(true);
+            StateManager.DebugMovementWindow.gameObject.GetComponent<Animator>().SetTrigger("Open_WDebugs");
             StateManager.DebugMovementWindow.ButtonBack.onClick.AddListener(GoBack);
             mTimer = 0.0f;
             mMatRed = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3, new Scalar(254, 0, 0));
@@ -83,7 +84,7 @@ namespace BuddyApp.Guardian
         {
             mMovementDetector.OnDetection -= OnMovementDetected;
             StateManager.DebugMovementWindow.ButtonBack.onClick.RemoveAllListeners();
-            StateManager.DebugMovementWindow.gameObject.SetActive(false);
+            //StateManager.DebugMovementWindow.gameObject.SetActive(false);
         }
 
         private void Init()
@@ -100,6 +101,7 @@ namespace BuddyApp.Guardian
 
         private void GoBack()
         {
+            StateManager.DebugMovementWindow.gameObject.GetComponent<Animator>().SetTrigger("Close_WDebugs");
             mAnimator.SetInteger("DebugMode", -1);
         }
 

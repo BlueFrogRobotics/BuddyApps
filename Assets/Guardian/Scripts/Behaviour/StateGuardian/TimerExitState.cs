@@ -41,9 +41,9 @@ namespace BuddyApp.Guardian
         {
             animator.SetBool("ChangeState", false);
             animator.SetBool("Cancelled", false);
-            mBackgroundPrefab.SetActive(false);
-            mQuestionPrefab.SetActive(false);
-            mHaloPrefab.SetActive(false);
+            //mBackgroundPrefab.SetActive(false);
+            //mQuestionPrefab.SetActive(false);
+            //mHaloPrefab.SetActive(false);
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
