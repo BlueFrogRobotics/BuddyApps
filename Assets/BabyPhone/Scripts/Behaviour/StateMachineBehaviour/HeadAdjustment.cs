@@ -33,9 +33,6 @@ namespace BuddyApp.BabyPhone
         private Button mRightButton;
         private Button mLeftButton;
 
-        private Button mValidateButton;
-
-
         public override void Init()
         {
             HeadAdjustmentObject = GetGameObject(4);
@@ -54,8 +51,6 @@ namespace BuddyApp.BabyPhone
             mRightButton.onClick.AddListener(MoveNoToRight);
             mLeftButton.onClick.AddListener(MoveNoToLeft);
 
-
-
             mNormalSpeed = 0.6F;
             mRotationSpeed = 0.2F;
             mNoSpeed = 20.0F;
@@ -69,8 +64,6 @@ namespace BuddyApp.BabyPhone
             mNoLeft = false;
             mNoRight = false;
 
-            mDoExitApp = false;
-            mDoGoToParameters = false;
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -86,7 +79,6 @@ namespace BuddyApp.BabyPhone
             mRGBCam.Close();
             HeadAdjustmentObject.SetActive(false);
             mWindoAppOverBlack.SetActive(false);
-            iAnimator.SetBool("DoHeadAdjust", false);
             iAnimator.SetFloat("ForwardState", 2);
         }
 
@@ -94,12 +86,7 @@ namespace BuddyApp.BabyPhone
         {
             ControlNoAxis();
             ControlYesAxis();
-            mRGBCamRawImage.texture = mRGBCam.FrameTexture2D;
-            if(mDoExitApp)
-                iAnimator.SetBool("DoExit", true);
-            if (mDoGoToParameters)
-                iAnimator.SetBool("DoSetParameters", true);
-                
+            mRGBCamRawImage.texture = mRGBCam.FrameTexture2D;             
         }
 
         /// <summary>

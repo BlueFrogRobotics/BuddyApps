@@ -15,9 +15,6 @@ namespace BuddyApp.BabyPhone
         private GameObject mListening;
         private GameObject mWindoAppOverBlack;
 
-        private Button mGoToParametersButton;
-        private Button mQuitButton;
-
         private Button mNotificationsButton;
         private Text mNotificationAmount;
 
@@ -39,14 +36,8 @@ namespace BuddyApp.BabyPhone
             mWindoAppOverBlack = GetGameObject(10);
             mListening = GetGameObject(22);
 
-            mQuitButton = GetGameObject(11).GetComponent<Button>();
-            mGoToParametersButton = GetGameObject(19).GetComponent<Button>();
-
             mNotificationsButton = GetGameObject(23).GetComponent<Button>();
             mNotificationAmount = GetGameObject(24).GetComponent<Text>();
-
-            mQuitButton.onClick.AddListener(Quit);
-            mGoToParametersButton.onClick.AddListener(GoToParameters);
 
             mMicro = mListening.GetComponent<InputMicro>();
 
@@ -71,7 +62,7 @@ namespace BuddyApp.BabyPhone
         {
             mListening.SetActive(false);
             mWindoAppOverBlack.SetActive(false);
-            iAnimator.SetBool("DoStartListening", false);
+
             iAnimator.SetFloat("ForwardState", 4);
         }
 
@@ -127,17 +118,6 @@ namespace BuddyApp.BabyPhone
         {
             yield return new WaitForSeconds(0.5F);
             mFace.SetExpression(MoodType.LISTENING);
-        }
-
-        public void GoToParameters()
-        {
-            mDoGoToParameters = true;
-            mDoExitApp = false;
-        }
-        public void Quit()
-        {
-            mDoExitApp = true;
-            mDoGoToParameters = false;
         }
 
         private IEnumerator SendMessage()

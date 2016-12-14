@@ -25,7 +25,6 @@ namespace BuddyApp.BabyPhone
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mStartState.SetActive(false);
-            iAnimator.SetBool("StartApp", false);
             iAnimator.SetFloat("ForwardState", 0);
         }
 

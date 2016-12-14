@@ -21,7 +21,7 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            iAnimator.SetBool("StartApp", true);
+
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
