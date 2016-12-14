@@ -6,31 +6,40 @@ namespace BuddyApp.IOT
 {
     public class IOTObjects
     {
-        protected List<string> mCredentials = new List<string>(3);
-        protected List<GameObject> mListParams = new List<GameObject>();
+        protected List<string> mCredentials = new List<string>();
+        protected ParametersGameObjectContainer mParamsGO;
         protected string mName;
 
         private List<GameObject> mListIntantParams = new List<GameObject>();
 
         public List<string> Credentials { get { return mCredentials; } }
-        public List<GameObject> ListParam { get { return mListParams; } }
+        public ParametersGameObjectContainer ParamGO { get { return mParamsGO; } set { mParamsGO = value; } }
         public string Name { get { return mName; } set { mName = value; } }
 
-        public enum ParamType : int { BUTTON, GAUGE, ONOFF, PASSWORD, TEXTFIELD, DROPDOWN};
+        public enum ParamType : int { BUTTON, GAUGE, ONOFF, PASSWORD, TEXTFIELD, DROPDOWN, COLORS };
 
-        protected GameObject InstanciateParam(ParamType iType) {
-            GameObject lTmp = GameObject.Instantiate(mListParams[(int)iType]);
+        protected GameObject InstanciateParam(ParamType iType)
+        {
+            GameObject lTmp = GameObject.Instantiate(mParamsGO.ParametersList[(int)iType]);
             mListIntantParams.Add(lTmp);
             return lTmp;
         }
 
         public virtual void InitializeParams() { }
 
-        public void PlaceParams(Transform iContent) {
-            for(int i = 0; i < mListIntantParams.Count; i++)
+        public void PlaceParams(Transform iContent)
+        {
+            for (int i = 0; i < mListIntantParams.Count; i++)
                 mListIntantParams[i].transform.SetParent(iContent, false);
         }
 
         public virtual void Connect() { }
+
+        public IOTObjects()
+        {
+            mCredentials.Add("");
+            mCredentials.Add("");
+            mCredentials.Add("");
+        }
     }
 }

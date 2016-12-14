@@ -27,6 +27,11 @@ namespace BuddyApp.Basic
         private Face mFace;
 
         /*
+         * Access to the language dictionary. Each app may has its own dictionary.
+         */ 
+        private Dictionary mDictionary;
+
+        /*
          * Data of the application. Save on disc when app quit happened
          */
         private BasicAppData mAppData;
@@ -39,6 +44,7 @@ namespace BuddyApp.Basic
             mMotors = BYOS.Instance.Motors;
             mTextToSpeech = BYOS.Instance.TextToSpeech;
             mFace = BYOS.Instance.Face;
+            mDictionary = BYOS.Instance.Dictionary;
             mAppData = BasicAppData.Instance;
         }
 
@@ -57,7 +63,7 @@ namespace BuddyApp.Basic
         */
         public void Speak()
         {
-            mTextToSpeech.Say("Hello world");
+            mTextToSpeech.Say(mDictionary.GetString("hello"));
         }
 
         /*

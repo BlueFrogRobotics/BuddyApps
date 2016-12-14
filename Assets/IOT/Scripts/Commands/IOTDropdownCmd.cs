@@ -18,9 +18,7 @@ namespace BuddyApp.IOT
             object[] lVal = (object[])Parameters.Objects[0];
             IOTNewDevice lVal0 = (IOTNewDevice)lVal[0];
             string lVal1 = (string)lVal[1];
-            Debug.Log(lVal1);
             lVal0.IOTObject = (IOTObjects)Activator.CreateInstance(Type.GetType(lVal1));
-            Debug.Log(lVal0.IOTObject);
             lVal0.FillParamClasses();
             lVal0.InitiliazeParameters();
         }

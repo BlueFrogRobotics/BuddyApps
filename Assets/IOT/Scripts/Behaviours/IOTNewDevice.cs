@@ -20,8 +20,7 @@ namespace BuddyApp.IOT
 
         [SerializeField]
         private Transform parametersGroup;
-
-        bool start = false;
+        
         Dropdown lDropDownComponent;
         // Use this for initialization
         void OnEnable()
@@ -30,26 +29,17 @@ namespace BuddyApp.IOT
             lDropDownComponent = lDropDown.GetComponent<Dropdown>();
 
             lDropDown.transform.SetParent(parametersGroup, false);
-        }
 
-        void Update()
-        {
-            if (!start)
-            {
-
-                IOTDropdownCmd lCmd = new IOTDropdownCmd("IOTPhilipsHue");
-                //lDropDownComponent.UpdatesCommands.Add(lCmd);
-                lDropDownComponent.UpdateCommands.Add(lCmd);
-                for(int i = 0; i < systemList.Count; ++i)
-                    lDropDownComponent.AddOption(systemName[i], new object[] { this, systemList[i] });
-                start = true;
-            }
+            IOTDropdownCmd lCmd = new IOTDropdownCmd("IOTPhilipsHue");
+            lDropDownComponent.UpdateCommands.Add(lCmd);
+            for (int i = 0; i < systemList.Count; ++i)
+                lDropDownComponent.AddOption(systemName[i], new object[] { this, systemList[i] });
         }
 
         public void FillParamClasses()
         {
             for (int i = 0; i < paramContainer.ParametersList.Count; ++i)
-                mIOTObject.ListParam.Add(paramContainer.ParametersList[i]);
+                mIOTObject.ParamGO = paramContainer;
         }
 
         public void InitiliazeParameters()

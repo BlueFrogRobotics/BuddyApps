@@ -27,16 +27,26 @@
     <OptionsLayoutStr>BuddyApp.Basic.BasicAppLayout</OptionsLayoutStr>
     <DataFile>basic_app_data.xml</DataFile>
     <Assembly>Assembly-CSharp</Assembly>
+    <LangDictionaries>
+      <LangDictionary>
+        <Language>FRA</Language>
+        <Path>FrenchBasicAppDict</Path>
+      </LangDictionary>
+      <LangDictionary>
+        <Language>ENG</Language>
+        <Path>EnglishBasicAppDict</Path>
+      </LangDictionary>
+    </LangDictionaries>
   </AppInfo>
   <AppInfo>
     <name />
     <hideFlags>None</hideFlags>
-    <DisplayName>REMOTE</DisplayName>
-    <Scene>RemoteControlApp</Scene>
-    <Icon>Spy</Icon>
+    <DisplayName>CALL</DisplayName>
+    <Scene>CallApp</Scene>
+    <Icon>Phone</Icon>
     <Atlas>AtlasUI</Atlas>
-    <OptionsLayoutStr>BuddyApp.Remote.RemoteControlLayout</OptionsLayoutStr>
-    <DataFile>remote_control_data.xml</DataFile>
+    <OptionsLayoutStr>BuddyApp.Call.CallLayout</OptionsLayoutStr>
+    <DataFile>call_data.xml</DataFile>
     <Assembly>Assembly-CSharp</Assembly>
   </AppInfo>
   <AppInfo>
@@ -94,5 +104,15 @@
     <Atlas>AtlasUI</Atlas>
 	<OptionsLayoutStr>BuddyApp.Guardian.GuardianLayout</OptionsLayoutStr>
 	<DataFile>guardian_data.xml</DataFile>
+	<LangDictionaries>
+      <LangDictionary>
+        <Language>FRA</Language>
+        <Path>FrenchGuardianAppDict</Path>
+      </LangDictionary>
+      <LangDictionary>
+        <Language>ENG</Language>
+        <Path>EnglishGuardianAppDict</Path>
+      </LangDictionary>
+    </LangDictionaries>
   </AppInfo>  
 </ArrayOfAppInfo>

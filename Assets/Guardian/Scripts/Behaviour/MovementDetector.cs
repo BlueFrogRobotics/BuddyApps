@@ -42,12 +42,7 @@ namespace BuddyApp.Guardian
         private Mat mBinaryImage;
 
         public Mat BinaryImage { get { return mBinaryImage; } }
-        private Mat mSobelResult;
 
-        private Mat mKernelRect;
-        private Mat mKernelCross;
-        private Mat mKernelEllipse;
-        private Mat mKernelCustom;
         private Mat mKernel;
 
         private Mat mRawImage;
@@ -63,12 +58,14 @@ namespace BuddyApp.Guardian
 
 
         #endregion
-        private float mTime;
 
         private RGBCam mCam;
 
 
         public event Action OnDetection;
+
+        private Queue<Mat> mBufferVideo;
+        private float mMaxBufferSize;
 
         private float mMinThreshold = 0.0f;
         private float mMaxThreshold = 200f;
@@ -98,19 +95,9 @@ namespace BuddyApp.Guardian
 
             mBlurredImage = new Mat();
             mBinaryImage = new Mat();
-            mSobelResult = new Mat();
 
             mSobelKernelSize = 3;
 
-
-            mTime = Time.time;
-
-            #region Kernel Shape: Testing different kernel Shape
-            mKernelRect = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_RECT, new Size(11, 11));
-            mKernelCross = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_CROSS, new Size(11, 11));
-            mKernelEllipse = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_ELLIPSE, new Size(11, 11));
-            mKernelCustom = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_CUSTOM, new Size(11, 11));
-            #endregion
 
             mCam = BYOS.Instance.RGBCam;
             mPreviousFrame = mCurrentFrame.clone();
@@ -119,6 +106,8 @@ namespace BuddyApp.Guardian
                 mCam.Open();
                 //mPreviousFrame = mCam.FrameMat.clone();
             }
+            mBufferVideo = new Queue<Mat>();
+            mMaxBufferSize = 20.0f * 10.0f;
         }
         // Update is called once per frame
         protected override void ProcessFrameImpl(Mat iInputFrameMat, Texture2D iInputFrameTexture)
@@ -127,6 +116,10 @@ namespace BuddyApp.Guardian
             double lThresh = mThreshold;
             mRawImage = iInputFrameMat.clone();
             mTest = iInputFrameMat.clone();
+
+            mBufferVideo.Enqueue(mTest);
+            if (mBufferVideo.Count > mMaxBufferSize)
+                mBufferVideo.Dequeue();
 
             Imgproc.cvtColor(mRawImage, mCurrentFrame, Imgproc.COLOR_BGR2GRAY);
             if (mPreviousFrame.width() != 0)
@@ -197,6 +190,11 @@ namespace BuddyApp.Guardian
                 mThreshold = iThreshold;
 
             //Debug.Log("threshold sound: " + mThreshold);
+        }
+
+        public void Save()
+        {
+
         }
     }
 }

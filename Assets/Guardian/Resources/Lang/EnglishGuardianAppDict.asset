@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -791307131, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
+  m_Name: EnglishGuardianAppDict
+  m_EditorClassIdentifier: 
+  entries:
+  - key: guardian
+    val: Guardian
+  - key: choiceMode
+    val: Which mode do you want. Fix or mobile
+  - key: fixMonitoring
+    val: Fix Monitoring
+  - key: mobileMonitoring
+    val: Mobile Monitoring
+  - key: quit
+    val: Quit
+  - key: detectFire
+    val: Fire detection
+  - key: detectSound
+    val: Noise detection
+  - key: detectKidnap
+    val: Kidnapping detection
+  - key: detectMouv
+    val: Movement detection
+  - key: contact
+    val: Who to contact?
+  - key: password
+    val: Code

@@ -5,24 +5,17 @@ namespace BuddyApp.Guardian
 {
     public class TimerExitState : AStateGuardian
     {
-
-        private GameObject mBackgroundPrefab;
-        private GameObject mQuestionPrefab;
-        private GameObject mHaloPrefab;
-        private Animator mBackgroundAnimator;
-        private Animator mQuestionAnimator;
-        private Animator mHaloAnimator;
+        //private Animator mBackgroundAnimator;
+        //private Animator mQuestionAnimator;
+        //private Animator mHaloAnimator;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             SetWindowAppOverBuddyColor(0);
-            mBackgroundPrefab = StateManager.BackgroundPrefab;
-            mQuestionPrefab = StateManager.QuestionPrefab;
-            mHaloPrefab = StateManager.HaloPrefab;
-            mBackgroundAnimator = StateManager.BackgroundAnimator;
-            mQuestionAnimator = StateManager.QuestionAnimator;
-            mHaloAnimator = StateManager.HaloAnimator;
+            //mBackgroundAnimator = StateManager.BackgroundAnimator;
+            //mQuestionAnimator = StateManager.QuestionAnimator;
+            //mHaloAnimator = StateManager.HaloAnimator;
 
             animator.SetBool("ChangeState", false);
         }
@@ -41,9 +34,9 @@ namespace BuddyApp.Guardian
         {
             animator.SetBool("ChangeState", false);
             animator.SetBool("Cancelled", false);
-            mBackgroundPrefab.SetActive(false);
-            mQuestionPrefab.SetActive(false);
-            mHaloPrefab.SetActive(false);
+            //mBackgroundPrefab.SetActive(false);
+            //mQuestionPrefab.SetActive(false);
+            //mHaloPrefab.SetActive(false);
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
