@@ -32,7 +32,6 @@ namespace BuddyApp.Guardian
 
         private int mNumSeq = 0;
         private float[] mDatabefore;
-        private float[] mDatamedium;
         private bool mIsRecording = false;
         private AudioClip[] mArrayAudioClip = new AudioClip[3];
         private bool mSoundSaved = false;
@@ -58,9 +57,9 @@ namespace BuddyApp.Guardian
         void Start()
         {
             //Init();
-            mMinThreshold = 0.03f;
-            mMaxThreshold = 0.5f;
-            mThreshold = 0.1f;
+            mMinThreshold = 0.001f;
+            mMaxThreshold = 0.1f;
+            mThreshold = 0.05f;
         }
 
 
@@ -77,8 +76,8 @@ namespace BuddyApp.Guardian
 
                 // we put it in a FIFO stack
                 myQ.Enqueue(lSoundLevelReceived);
-                if (myQ.Count < 100) return;
-                if (myQ.Count > 100) myQ.Dequeue();
+                if (myQ.Count < 50) return;
+                if (myQ.Count > 50) myQ.Dequeue();
 
                 object[] lTempStack = myQ.ToArray();
                 float lGlobalSum = 0;
@@ -87,7 +86,6 @@ namespace BuddyApp.Guardian
                     lGlobalSum += (float)lTempStack[i];
                 }
                 mGlobalMean = lGlobalSum / myQ.Count;
-
                 mActValue = Mathf.Abs(lSoundLevelReceived - mGlobalMean);
                 if (mActValue > mThreshold)
                 {
@@ -148,7 +146,6 @@ namespace BuddyApp.Guardian
             mGlobalMean = 0;
             mIsInit = true;
             mDatabefore = new float[mClipRecord.samples * mClipRecord.channels];
-            mDatamedium = new float[mClipRecord.samples * mClipRecord.channels];
             for (int i = 0; i < mArrayAudioClip.Length; i++)
             {
                 mArrayAudioClip[i] = AudioClip.Create("noise " + i, mClipRecord.samples, mClipRecord.channels, 44100, false);
@@ -197,7 +194,7 @@ namespace BuddyApp.Guardian
             if (lLength == 0)
                 return null;
 
-            AudioClip lResult = AudioClip.Create("Combine", lLength, 1, 44100, false, false);
+            AudioClip lResult = AudioClip.Create("Combine", lLength, 1, 44100, false);
             lResult.SetData(lData, 0);
 
             return lResult;

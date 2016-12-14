@@ -107,19 +107,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeIn: 1
---- !u!114 &11403736
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 242da8203d38a374bab912c29ef0b25c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resetTo: -1
-  parameter: 9
 --- !u!114 &11405234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -145,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b273174b36a3d4db2c9bc1aa991393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sentence: What do you want to do?
+  Sentence: What do you want to add?
   trigger: 0
   triggerOrNotTrigger: 1
 --- !u!114 &11409016
@@ -309,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b273174b36a3d4db2c9bc1aa991393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sentence: What do you want to do?
+  Sentence: Select or add a device
   trigger: 0
   triggerOrNotTrigger: 1
 --- !u!114 &11445624
@@ -379,6 +366,20 @@ MonoBehaviour:
   Sentence: I didn't understand
   trigger: 0
   triggerOrNotTrigger: 1
+--- !u!114 &11456098
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7077597048a1724a95e657849a045ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  when: 1
+  setActive: 0
+  gameobject: 07000000
 --- !u!114 &11457306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -540,6 +541,20 @@ MonoBehaviour:
   when: 0
   setActive: 1
   gameobject: 0000000006000000
+--- !u!114 &11499150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9b273174b36a3d4db2c9bc1aa991393, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sentence: What do you want to access
+  trigger: 0
+  triggerOrNotTrigger: 0
 --- !u!1101 &110103066
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1184,7 +1199,6 @@ AnimatorState:
   - {fileID: 110166522}
   m_StateMachineBehaviours:
   - {fileID: 11484538}
-  - {fileID: 11403736}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1427,6 +1441,7 @@ AnimatorState:
   - {fileID: 11468354}
   - {fileID: 11445624}
   - {fileID: 11459676}
+  - {fileID: 11456098}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1508,6 +1523,7 @@ AnimatorState:
   - {fileID: 11422168}
   - {fileID: 11405234}
   - {fileID: 11409016}
+  - {fileID: 11499150}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1606,4 +1622,4 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 288, y: -84, z: 0}
   m_ExitPosition: {x: 936, y: 204, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 110298214}
+  m_DefaultState: {fileID: 110266590}

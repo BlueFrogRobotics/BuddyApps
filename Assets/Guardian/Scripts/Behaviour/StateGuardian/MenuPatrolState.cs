@@ -7,8 +7,6 @@ namespace BuddyApp.Guardian
 {
     public class MenuPatrolState : AStateGuardian
     {
-
-        private bool mHasTalked = false;
         private int mMode;
         private GameObject mMenu;
         private TextToSpeech mTTS;
@@ -59,7 +57,7 @@ namespace BuddyApp.Guardian
                 Debug.Log("ask");
                 mHasAskedOnce = true;
                 mMenu.SetActive(true);
-                StateManager.BackgroundPrefab.SetActive(true);
+                //StateManager.BackgroundPrefab.SetActive(true);
                 StateManager.BackgroundAnimator.SetTrigger("Open_BG");
                 mMenuAnimator.SetTrigger("Open_WMenu3");
                 mSTT.Request();
@@ -72,9 +70,9 @@ namespace BuddyApp.Guardian
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            StateManager.BackgroundAnimator.SetTrigger("Close_BG");
+            //StateManager.BackgroundAnimator.SetTrigger("Close_BG");
             mMenuAnimator.SetTrigger("Close_WMenu3");
-            StateManager.BackgroundPrefab.SetActive(false);
+            //StateManager.BackgroundPrefab.SetActive(false);
             mSTT.OnBestRecognition.Clear();
             animator.SetInteger("Mode", mMode);
             mMenu.SetActive(false);

@@ -11,7 +11,6 @@ namespace BuddyApp.Guardian
         private float Timer = 5.0f;
 
         private float mTimer = 5.0f;
-        private bool mHasTalked = false;
         private Text mText;
         private GameObject mBackgroundPrefab;
         private GameObject mQuestionPrefab;
@@ -84,7 +83,6 @@ namespace BuddyApp.Guardian
         {
             Debug.Log("fin timer");
             //animator.SetBool("ChangeState", false);
-            mHasTalked = false;
             mTimer = Timer;
             mCancelButton.onClick.RemoveAllListeners();
             mValidateButton.onClick.RemoveAllListeners();
