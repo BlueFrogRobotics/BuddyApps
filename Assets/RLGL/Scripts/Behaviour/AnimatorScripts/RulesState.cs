@@ -50,7 +50,9 @@ namespace BuddyApp.RLGL
                 StartCoroutine(RestartAskingRule(1));
                 if(mIsAnswerRuleNo)
                 {
+                    iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;
                     iAnimator.SetBool("IsRulesDone", true);
+
                 }
                 else if(mIsAnswerRuleYes)
                 {
@@ -71,7 +73,8 @@ namespace BuddyApp.RLGL
             yield return new WaitForSeconds(2.0F);
             if(!mIsSentenceDone)
             {
-                mTTS.Say("Okay, I will explain the game for you my friend. Decreases by about fifteen feets and sometimes I will say green light and your goal is to touch my face " +
+                mTTS.Say("Okay, I will explain the game for you my friend. Decreases by about fifteen feets and" +
+                    " sometimes I will say green light and your goal is to touch my face " +
                         " before I say red light.");
                 mIsSentenceDone = true;
             }

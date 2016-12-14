@@ -7,42 +7,47 @@ namespace BuddyApp.BabyPhone
 {
     public class BabyPhoneParameters : AStateMachineBehaviour
     {
-        //private GameObject mParameters;
+        private BabyPhoneData mBabyPhoneData;
+        private GameObject mWindoAppOverWithe;
         private Animator mBackgroundBlackAnimator;
-        private Animator mParametresAnimator;
+        private Animator mParametersAnimator;
 
-        //private Button mValidateButton;
-        //private Button mQuitButton;
+        private Button mValidateButton;
+
 
         private bool mValidateParameters;
+        private bool mDoExitParameters;
 
         public override void Init()
         {
-            //mParameters = GetGameObject(12);
-            mBackgroundBlackAnimator = GetGameObject(2).GetComponent<Animator>();
-            mParametresAnimator = GetGameObject(3).GetComponent<Animator>();
-            //mValidateButton = GetGameObject(13).GetComponent<Button>();
-            //mQuitButton = GetGameObject(14).GetComponent<Button>();
+            mBabyPhoneData = BabyPhoneData.Instance;
 
-            //mValidateButton.onClick.AddListener(Validate);
-            //mQuitButton.onClick.AddListener(Quit);
+            mWindoAppOverWithe = GetGameObject(12);
+            mBackgroundBlackAnimator = GetGameObject(2).GetComponent<Animator>();
+            mParametersAnimator = GetGameObject(3).GetComponent<Animator>();
+            mValidateButton = GetGameObject(14).GetComponent<Button>();
+
+            mValidateButton.onClick.AddListener(Validate);
+
 
             mValidateParameters = false;
+            mDoExitParameters = false;
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //mParameters.SetActive(true);
-            Debug.Log("toto");
+            mWindoAppOverWithe.SetActive(true);
             mBackgroundBlackAnimator.SetTrigger("Open_BG");
-            mParametresAnimator.SetTrigger("Open_WParametres");
+            mParametersAnimator.SetTrigger("Open_WParameters");
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //mParameters.SetActive(false);
+            mWindoAppOverWithe.SetActive(false);
             mBackgroundBlackAnimator.SetTrigger("Close_BG");
-            mParametresAnimator.SetTrigger("Close_WParametres");
+            mParametersAnimator.SetTrigger("Close_WParameters");
+            iAnimator.SetBool("DoSetParameters", false);
+            iAnimator.SetFloat("ForwardState", 1);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -50,6 +55,9 @@ namespace BuddyApp.BabyPhone
             if (mValidateParameters == true)
                 iAnimator.SetBool("DoHeadAdjust", true);
 
+            if (mDoExitParameters == true)
+                iAnimator.SetBool("DoExit", true);
+                
         }
 
         public void Validate()
@@ -57,9 +65,6 @@ namespace BuddyApp.BabyPhone
             mValidateParameters = true;
         }
 
-        public void Quit()
-        {
-            BYOS.Instance.AppManager.Quit();
-        }
+
     }
 }

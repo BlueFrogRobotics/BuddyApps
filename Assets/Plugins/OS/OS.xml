@@ -4317,6 +4317,11 @@
             You can also set StartListenBehaviour and StopListenBehaviour.
             </summary>
         </member>
+        <member name="P:BuddyOS.VocalActivation.RecognitionTriggered">
+            <summary>
+            Tells wether STT Recognition has been triggered or not.
+            </summary>
+        </member>
         <member name="P:BuddyOS.VocalActivation.StartListenBehaviour">
             <summary>
             Action will be called when STT starts listening

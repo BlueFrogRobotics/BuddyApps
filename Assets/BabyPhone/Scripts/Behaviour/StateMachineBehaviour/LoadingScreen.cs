@@ -35,5 +35,10 @@ namespace BuddyApp.BabyPhone
             mLoadingAnimator.SetTrigger("Close_WLoading");
             yield return new WaitForSeconds(1f);
         }
+
+        //IEnumerator WaintEndOfLoading()
+        //{
+        //    yield return new WaitForSeconds(5f);
+        //}
     }
 }

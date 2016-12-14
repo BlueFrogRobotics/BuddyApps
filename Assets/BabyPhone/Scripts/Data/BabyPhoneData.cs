@@ -4,9 +4,26 @@ namespace BuddyApp.BabyPhone
 {
     public class BabyPhoneData : AAppData
     {
+        public string ContactName { get; set; }
+        public float Volume { get; set; }
+        public bool IsVolumeOn { get; set; }
+        public string LullabyToPlay { get; set; }
+        public float ScreenLightLevelForAnimation { get; set; }
+        public bool IsAnimationOn { get; set; }
+        public string AnimationToPlay { get; set; }
+        public float MicrophoneSensitivity { get; set; }
+        public int  TimeBeforSartListening { get; set; }
+        public float ScreenSaver { get; set; }
+        public bool IsScreanSaverOn { get; set; }
+        public bool IsMobilityOn { get; set; }
+        public bool DoSaveSetting { get; set; }
+
+
+
         public int Timer { get; set; }
         public bool TimerIsActive { get; set; }
-        public string SongToPlay { get; set; }
+
+        
         //sauvegarde des paramètres YES/NO ? 
         //choix du contact
         //berceuse ON/OFF
