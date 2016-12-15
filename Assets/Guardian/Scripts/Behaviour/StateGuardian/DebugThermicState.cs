@@ -5,18 +5,22 @@ namespace BuddyApp.Guardian
 {
     public class DebugThermicState : AStateGuardian
     {
-
+        private Animator mDebugTempAnimator;
         private ShowTemperature mShowTemperature;
         private Animator mAnimator;
+        private bool mGoBack = false;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            SetWindowAppOverBuddyColor(0);
+            SetWindowAppOverBuddyColor(1);
             mShowTemperature = StateManager.ShowTemperature;
-            mShowTemperature.gameObject.SetActive(true);
+            mDebugTempAnimator = StateManager.ShowTemperature.gameObject.GetComponent<Animator>();
+            mDebugTempAnimator.SetTrigger("Open_WDebugs");
+            //mShowTemperature.gameObject.SetActive(true);
             mAnimator = animator;
-            mShowTemperature.mButtonBack.onClick.AddListener(GoBack);
+            mShowTemperature.ButtonBack.onClick.AddListener(GoBack);
+            mGoBack = false;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -24,18 +28,27 @@ namespace BuddyApp.Guardian
         {
             //mShowTemperature.FillTemperature(null);
             mShowTemperature.UpdateTexture();
+
+            if (mDebugTempAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
+            {
+                Debug.Log("fin debug temp state");
+                mAnimator.SetInteger("DebugMode", -1);
+                mGoBack = false;
+            }
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mShowTemperature.mButtonBack.onClick.RemoveAllListeners();
-            mShowTemperature.gameObject.SetActive(false);
+            mShowTemperature.ButtonBack.onClick.RemoveAllListeners();
+            
+            //mShowTemperature.gameObject.SetActive(false);
         }
 
         private void GoBack()
         {
-            mAnimator.SetInteger("DebugMode", -1);
+            mDebugTempAnimator.SetTrigger("Close_WDebugs");
+            mGoBack = true;
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

@@ -87,7 +87,7 @@
         </member>
         <member name="T:BuddyAPI.SpeechToText">
             <summary>
-            Once the voice recognition is activated, use this class to get the last heared sentence.
+            Once the voice recognition is activated, use this class to get the last heard sentence.
             </summary>
         </member>
         <member name="M:BuddyAPI.SpeechToText.Awake">
@@ -699,24 +699,22 @@
             <param name="iSSID">Name of the Access Point</param>
             <param name="iPassword">Password to this Access Point</param>
         </member>
-        <member name="M:BuddyAPI.Parameters.GetWifiCount">
+        <member name="M:BuddyAPI.Parameters.GetWifiAPNames">
             <summary>
-            Gets the number of Wifi Access Point
+            Gets the Wifi Access Point Names after a scan
             </summary>
-            <returns>Number of Wifi Access Point</returns>
+            <returns>Names of the Access Point</returns>
         </member>
-        <member name="M:BuddyAPI.Parameters.GetWifiAPName(System.Int32)">
+        <member name="M:BuddyAPI.Parameters.GetCurrentWifiAPName">
             <summary>
-            Gets the Wifi Access Point Name at index iPosition
+            Gets the Wifi Access Point Name currently connected to
             </summary>
-            <param name="iPosition">Index of the Wifi Access Point</param>
             <returns>Name of the Access Point</returns>
         </member>
-        <member name="M:BuddyAPI.Parameters.GetWifiForce(System.Int32)">
+        <member name="M:BuddyAPI.Parameters.GetWifiLevel">
             <summary>
-            Gets the Force of the Wifi Access Point at index iPosition
+            Gets the Force list of the Wifi Access Point
             </summary>
-            <param name="iPosition">Index of the Wifi Access Point</param>
             <returns>Integer of the force</returns>
         </member>
         <member name="M:BuddyAPI.Parameters.StartWifiScan">
@@ -2769,21 +2767,6 @@
             French language
             </summary>
         </member>
-        <member name="F:Language.ITA">
-            <summary>
-            Italian language
-            </summary>
-        </member>
-        <member name="F:Language.GER">
-            <summary>
-            German language
-            </summary>
-        </member>
-        <member name="F:Language.SPA">
-            <summary>
-            Spanish language
-            </summary>
-        </member>
         <member name="T:RGBCamResolution">
             <summary>
             Resolution (width, height) of the RGB camera in pixels.
@@ -3169,14 +3152,6 @@
             <typeparam name="T">Type of the elements</typeparam>
             <param name="iOriginalSet">The original list of elements</param>
             <returns>A list of unique pairs of element id</returns>
-        </member>
-        <member name="M:BuddyTools.Utils.CheckIDInTransforms(System.Collections.Generic.List{UnityEngine.Transform},System.Int32)">
-            <summary>
-            Checks the existence of a specific ID in a List.
-            </summary>
-            <param name="iTransforms"></param>
-            <param name="iID">The ID to check for</param>
-            <returns>True if the check is successfull, false otherwise</returns>
         </member>
         <member name="M:BuddyTools.Utils.Interpolate(System.Single,System.Single,System.Single)">
             <summary>

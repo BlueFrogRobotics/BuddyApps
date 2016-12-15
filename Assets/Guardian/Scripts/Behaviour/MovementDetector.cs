@@ -42,12 +42,7 @@ namespace BuddyApp.Guardian
         private Mat mBinaryImage;
 
         public Mat BinaryImage { get { return mBinaryImage; } }
-        private Mat mSobelResult;
 
-        private Mat mKernelRect;
-        private Mat mKernelCross;
-        private Mat mKernelEllipse;
-        private Mat mKernelCustom;
         private Mat mKernel;
 
         private Mat mRawImage;
@@ -63,16 +58,20 @@ namespace BuddyApp.Guardian
 
 
         #endregion
-        private float mTime;
 
         private RGBCam mCam;
 
 
         public event Action OnDetection;
 
+        private Queue<Mat> mBufferVideo;
+        private float mMaxBufferSize;
+
         private float mMinThreshold = 0.0f;
         private float mMaxThreshold = 200f;
         private float mThreshold = 35f;
+
+        private VideoWriter mVideoWriter;
 
         //Kalman
 
@@ -98,19 +97,9 @@ namespace BuddyApp.Guardian
 
             mBlurredImage = new Mat();
             mBinaryImage = new Mat();
-            mSobelResult = new Mat();
 
             mSobelKernelSize = 3;
 
-
-            mTime = Time.time;
-
-            #region Kernel Shape: Testing different kernel Shape
-            mKernelRect = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_RECT, new Size(11, 11));
-            mKernelCross = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_CROSS, new Size(11, 11));
-            mKernelEllipse = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_ELLIPSE, new Size(11, 11));
-            mKernelCustom = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_CUSTOM, new Size(11, 11));
-            #endregion
 
             mCam = BYOS.Instance.RGBCam;
             mPreviousFrame = mCurrentFrame.clone();
@@ -119,6 +108,8 @@ namespace BuddyApp.Guardian
                 mCam.Open();
                 //mPreviousFrame = mCam.FrameMat.clone();
             }
+            mBufferVideo = new Queue<Mat>();
+            mMaxBufferSize = 30.0f * 10.0f;
         }
         // Update is called once per frame
         protected override void ProcessFrameImpl(Mat iInputFrameMat, Texture2D iInputFrameTexture)
@@ -127,6 +118,10 @@ namespace BuddyApp.Guardian
             double lThresh = mThreshold;
             mRawImage = iInputFrameMat.clone();
             mTest = iInputFrameMat.clone();
+
+            mBufferVideo.Enqueue(mTest);
+            if (mBufferVideo.Count > mMaxBufferSize)
+                mBufferVideo.Dequeue();
 
             Imgproc.cvtColor(mRawImage, mCurrentFrame, Imgproc.COLOR_BGR2GRAY);
             if (mPreviousFrame.width() != 0)
@@ -197,6 +192,44 @@ namespace BuddyApp.Guardian
                 mThreshold = iThreshold;
 
             //Debug.Log("threshold sound: " + mThreshold);
+        }
+
+        public void Save(string iFilename)
+        {
+            Mat[] lListMat = mBufferVideo.ToArray();
+            if (lListMat.Length > 0)
+            {
+                int codec = VideoWriter.fourcc('M', 'J', 'P', 'G');
+                //int codec = VideoWriter.fourcc('H', '2', '6', '4');
+                Debug.Log("codec: " + codec);
+                Debug.Log("3");
+                double fps = 30.0;                          // framerate of the created video stream
+                //string filename = "monitoring.avi";
+
+                string filepath = Application.persistentDataPath + "/" + iFilename;//Utils.GetStreamingAssetFilePath(filename);
+                
+                //File.Create(filepath);
+                if (mVideoWriter == null)
+                    mVideoWriter = new VideoWriter(filepath, codec, fps, lListMat[0].size());
+
+                if (!mVideoWriter.isOpened())
+                {
+                    mVideoWriter.open(filepath, codec, fps, lListMat[0].size());
+                    Debug.Log("a du open avec size: "+ lListMat[0].size());
+                }
+                if (mVideoWriter.isOpened())
+                {
+                    Debug.Log("truc");
+                    Mat lFrame = new Mat();
+                    for (int i = 0; i < lListMat.Length; i++)
+                    {
+                        Imgproc.cvtColor(lListMat[i], lFrame, Imgproc.COLOR_RGB2BGR);
+                        mVideoWriter.write(lFrame);
+                    }
+                }
+                mVideoWriter.Dispose();
+                mVideoWriter = null;
+            }
         }
     }
 }

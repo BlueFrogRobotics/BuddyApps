@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using BuddyOS;
+using BuddyOS.Command;
 using BuddyFeature.Vocal;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,10 @@ namespace BuddyApp.Companion
         private USDetector mUSDetector;
         private VocalChat mVocalChat;
 
+        private Dictionary mDictionary;
+        private CompanionData mCompanionData;
+
+        private bool mAskedSomething;
         private bool mVocalWanderOrder;
         private bool mActionInProgress;
         private float mInactiveTime;
@@ -51,6 +56,9 @@ namespace BuddyApp.Companion
             mUSDetector = GetComponent<USDetector>();
             mVocalChat = GetComponent<VocalChat>();
 
+            mDictionary = BYOS.Instance.Dictionary;
+            mCompanionData = CompanionData.Instance;
+
             mVocalChat.WithNotification = true;
             mVocalChat.OnQuestionTypeFound = SortQuestionType;
 
@@ -60,16 +68,15 @@ namespace BuddyApp.Companion
             //mReaction.ActionFinished = PopHead;
             mReaction.ActionFinished = OnActionFinished;
             mAccelerometerDetector.OnDetection += mReaction.IsBeingLifted;
+            mBuddyFaceDetector.RightSideTouched += mReaction.LookRight;
+            mBuddyFaceDetector.LeftSideTouched += mReaction.LookLeft;
         }
 
         void Update()
         {
-            //if (mThermalDetector.ThermalDetected && !mFaceDetector.FaceDetected)
-            //    PushInStack(mReaction.StepBackHelloReaction);
-
             //if (mThermalDetector.ThermalDetected && mFaceDetector.FaceDetected)
             //    PushInStack(mReaction.FollowFace);
-            
+
             //if (mIRDetector.IRDetected || mUSDetector.USFrontDetected)
             //    mReaction.StopWheels();
 
@@ -78,6 +85,9 @@ namespace BuddyApp.Companion
 
             //if (mBuddyFaceDetector.FaceTouched)
             //    mReaction.StopEverything();
+
+            if (mThermalDetector.ThermalDetected && !mFaceDetector.FaceDetected)
+                PushInStack(mReaction.StepBackHelloReaction);
 
             if (mFaceDetector.FaceDetected)
                 mReaction.FollowFace();
@@ -98,11 +108,16 @@ namespace BuddyApp.Companion
             if(Time.time - mInactiveTime > 10F && Time.time - mInactiveTime < 50F) {
                 mReaction.StartIdle();
             }
-            else if (Time.time - mInactiveTime > 50F) {
+            //else if(!mAskedSomething) {
+            //    mReaction.AskSomething();
+            //    mInactiveTime = Time.time;
+            //    mAskedSomething = true;
+            //}
+            else if (Time.time - mInactiveTime > 50F && mCompanionData.CanMoveBody) {
                 //mReaction.AskSomething();
+                //mInactiveTime = Time.time;
                 mReaction.StopIdle();
                 mReaction.StartWandering();
-                //mInactiveTime = Time.time;
             }
 
             Behave();
@@ -111,6 +126,7 @@ namespace BuddyApp.Companion
         private void OnActionFinished()
         {
             Debug.Log("Current reaction is finished");
+            mAskedSomething = false;
             mCurrentAction = null;
             mActionInProgress = false;
         }
@@ -149,13 +165,17 @@ namespace BuddyApp.Companion
             switch(iType)
             {
                 case "Wander":
-                    BYOS.Instance.TextToSpeech.Say("D'accord, je pars me promener");
+                    BYOS.Instance.TextToSpeech.Say(mDictionary.GetString("wander"));
                     mVocalWanderOrder = true;
                     mReaction.StartWandering();
                     break;
 
                 case "DontMove":
                     CompanionData.Instance.CanMoveBody = false;
+                    break;
+
+                case "LookAtMe":
+                    PushInStack(mReaction.SearchFace);
                     break;
 
                 case "Quizz":

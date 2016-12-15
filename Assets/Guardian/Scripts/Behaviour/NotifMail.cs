@@ -1,20 +1,27 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using BuddyOS;
 
 namespace BuddyApp.Guardian
 {
+    //[RequireComponent(typeof(CanvasGroup))]
     public class NotifMail : MonoBehaviour
     {
 
         int mCounter = 0;
-        public Text mText;
+        public Text[] mTexts;
+        public GameObject[] mNotifObjects;
         bool mMustIncrement = false;
 
         // Use this for initialization
         void Start()
         {
-            mText.text = "";
+            for(int i=0; i<mTexts.Length; i++)
+                mTexts[i].text = "0";
+            for (int i = 0; i < mNotifObjects.Length; i++)
+                mNotifObjects[i].SetActive(false);
+            //GetComponent<CanvasGroup>().alpha = 0;
         }
 
         // Update is called once per frame
@@ -22,10 +29,16 @@ namespace BuddyApp.Guardian
         {
             if (mMustIncrement)
             {
+                //GetComponent<CanvasGroup>().alpha = 1;
                 mCounter++;
-                mText.text = "" + mCounter;
+                for (int i = 0; i < mTexts.Length; i++)
+                    mTexts[i].text = "" + mCounter;
+                for (int i = 0; i < mNotifObjects.Length; i++)
+                    mNotifObjects[i].SetActive(true);
+                //mText.text = "" + mCounter;
                 Debug.Log("incremente");
                 mMustIncrement = false;
+                BYOS.Instance.NotManager.Display<SimpleNot>().With("Mail envoyé", null);
             }
         }
 
@@ -37,7 +50,12 @@ namespace BuddyApp.Guardian
         void Clear()
         {
             mCounter = 0;
-            mText.text = "";
+            for (int i = 0; i < mTexts.Length; i++)
+                mTexts[i].text = "0";
+            for (int i = 0; i < mNotifObjects.Length; i++)
+                mNotifObjects[i].SetActive(false);
+            //mText.text = "0";
+            //GetComponent<CanvasGroup>().alpha = 0;
         }
     }
 }

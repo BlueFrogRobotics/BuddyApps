@@ -15,20 +15,22 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(FollowFaceReaction))]
     [RequireComponent(typeof(IdleReaction))]
     [RequireComponent(typeof(SayHelloReaction))]
+    [RequireComponent(typeof(SearchFaceReaction))]
     [RequireComponent(typeof(WanderReaction))]
     public class Reaction : MonoBehaviour
     {
         private bool mIsPouting;
         private bool mIsTrackingFace;
-        private float mHeadNoAngle;
-        private float mHeadYesAngle;
         internal ReactionFinished ActionFinished;
         private FollowFaceReaction mFollowFace;
         private FaceCascadeTracker mFaceTracker;
         private IdleReaction mIdleReaction;
         private SayHelloReaction mHelloReaction;
+        private SearchFaceReaction mSearchFaceReaction;
         private TextToSpeech mTTS;
         private WanderReaction mWanderReaction;
+
+        private Dictionary mDictionary;
 
         void Start()
         {
@@ -39,7 +41,10 @@ namespace BuddyApp.Companion
             mFaceTracker = GetComponent<FaceCascadeTracker>();
             mIdleReaction = GetComponent<IdleReaction>();
             mHelloReaction = GetComponent<SayHelloReaction>();
+            mSearchFaceReaction = GetComponent<SearchFaceReaction>();
             mWanderReaction = GetComponent<WanderReaction>();
+
+            mDictionary = BYOS.Instance.Dictionary;
 
             mIdleReaction.enabled = false;
             mHelloReaction.enabled = false;
@@ -56,7 +61,8 @@ namespace BuddyApp.Companion
             if (mIsPouting)
                 return;
 
-            StartCoroutine(AskSomethingCo());
+            mTTS.Say(mDictionary.GetString("playWithMe"));
+            //StartCoroutine(AskSomethingCo());
         }
 
         private IEnumerator AskSomethingCo()
@@ -242,11 +248,31 @@ namespace BuddyApp.Companion
 
         public void StepBackHelloReaction()
         {
-            Debug.Log("Someone is there. I say hello !");
-            new SetWheelsSpeedCmd(-200F, -200F, 100).Execute();
-            new SetPosYesCmd(0).Execute();
-            mTTS.Say("Bonjour !");
-            ActionFinished();
+            if (mHelloReaction.enabled == true)
+                return;
+            mHelloReaction.enabled = true;
+        }
+
+        public void SearchFace()
+        {
+            if (mSearchFaceReaction.enabled)
+                return;
+
+            mSearchFaceReaction.enabled = false;
+        }
+        
+        public void LookRight()
+        {
+            float lHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
+            lHeadNoAngle -= 20;
+            new SetPosNoCmd(lHeadNoAngle).Execute();
+        }
+
+        public void LookLeft()
+        {
+            float lHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
+            lHeadNoAngle += 20;
+            new SetPosNoCmd(lHeadNoAngle).Execute();
         }
     }
 }

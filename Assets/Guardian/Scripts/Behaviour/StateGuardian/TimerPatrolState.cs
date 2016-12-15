@@ -11,7 +11,6 @@ namespace BuddyApp.Guardian
         private float Timer = 5.0f;
 
         private float mTimer = 5.0f;
-        private bool mHasTalked = false;
         private Text mText;
         private GameObject mBackgroundPrefab;
         private GameObject mQuestionPrefab;
@@ -26,6 +25,7 @@ namespace BuddyApp.Guardian
         private Image mIcoMessage;
         private Text mMessage;
         private GameObject mCounterTime;
+        private bool mHasValidate = false;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -34,6 +34,7 @@ namespace BuddyApp.Guardian
             SetWindowAppOverBuddyColor(1);
             animator.SetBool("ChangeState", false);
             mTimer = Timer;
+            mHasValidate = false;
             //mTTS = new BuddyFeature.Vocal.TextToSpeech();
             Debug.Log("debut timer state");
             mCounterTime.SetActive(true);
@@ -73,9 +74,10 @@ namespace BuddyApp.Guardian
                 mHaloPrefab.GetComponent<Canvas>().enabled = true;
             }
 
-            else if (mTimer < 0.0f)
+            else if (mTimer < 0.0f && !mHasValidate)
             {
                 Validate();
+                mHasValidate = true;
             }
         }
 
@@ -84,7 +86,6 @@ namespace BuddyApp.Guardian
         {
             Debug.Log("fin timer");
             //animator.SetBool("ChangeState", false);
-            mHasTalked = false;
             mTimer = Timer;
             mCancelButton.onClick.RemoveAllListeners();
             mValidateButton.onClick.RemoveAllListeners();

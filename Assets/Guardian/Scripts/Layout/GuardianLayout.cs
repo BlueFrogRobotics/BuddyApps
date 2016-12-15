@@ -19,9 +19,8 @@ namespace BuddyApp.Guardian
             GaugeOnOff lGaugeMovementDetection = AddWidget<GaugeOnOff>(SECOND_LINE);
             GaugeOnOff lGaugeKidnappingDetection = AddWidget<GaugeOnOff>(THIRD_LINE);
             GaugeOnOff lGaugeSoundDetection = AddWidget<GaugeOnOff>(FOURTH_LINE);
-            Button lQuitButton = AddWidget<Button>(FIFTH_LINE);
-
-
+            Dropdown lDropDownContact = AddWidget<Dropdown>(FIFTH_LINE);
+            Button lQuitButton = AddWidget<Button>(SIXTH_LINE);
 
 
             lGaugeFireDetection.Slider.minValue = 0;
@@ -40,10 +39,20 @@ namespace BuddyApp.Guardian
             lGaugeSoundDetection.Slider.wholeNumbers = true;
             lGaugeSoundDetection.DisplayPercentage = true;
 
+
             lGaugeKidnappingDetection.Slider.minValue = 0;
             lGaugeKidnappingDetection.Slider.maxValue = 10;
             lGaugeKidnappingDetection.Slider.wholeNumbers = true;
             lGaugeKidnappingDetection.DisplayPercentage = true;
+
+            lDropDownContact.AddOption(BYOS.Instance.Dictionary.GetString("nobody"), GuardianData.Contact.NOBODY);
+            lDropDownContact.AddOption("RODOLPHE HASSELVANDER", GuardianData.Contact.RODOLPHE);
+            lDropDownContact.AddOption("JEAN MICHEL MOURIER", GuardianData.Contact.J2M);
+            lDropDownContact.AddOption("MAUD VERRAES", GuardianData.Contact.MAUD);
+            lDropDownContact.AddOption("WALID ABDERRAHMANI", GuardianData.Contact.WALID);
+            lDropDownContact.SetDefault(1);
+            lDropDownContact.SetDefault(0);
+
 
             /*
              * Retrieve app data and display them inside the view
@@ -62,16 +71,19 @@ namespace BuddyApp.Guardian
             lGaugeFireDetection.SwitchCommands.Add(new ActFireDetectionCmd());
             lGaugeMovementDetection.SwitchCommands.Add(new ActMovementDetectionCmd());
             lGaugeKidnappingDetection.SwitchCommands.Add(new ActKidnappingDetectionCmd());
+            lGaugeSoundDetection.SwitchCommands.Add(new ActSoundDetectionCmd());
+            lDropDownContact.UpdateCommands.Add(new ContactGuardianCmd());
             lQuitButton.ClickCommands.Add(new HomeCmd());
         }
 
         public override void Labelize()
         {
-            GetWidget<GaugeOnOff>(FIRST_LINE).Label.text = "FIRE DETECTION";
-            GetWidget<GaugeOnOff>(SECOND_LINE).Label.text = "MOVEMENT DETECTION";
-            GetWidget<GaugeOnOff>(THIRD_LINE).Label.text = "KIDNAPPING DETECTION";
-            GetWidget<GaugeOnOff>(FOURTH_LINE).Label.text = "SOUND DETECTION";
-            GetWidget<Button>(FIFTH_LINE).Label.text = "QUIT APPLICATION";
+            GetWidget<GaugeOnOff>(FIRST_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectFire");
+            GetWidget<GaugeOnOff>(SECOND_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectMouv");
+            GetWidget<GaugeOnOff>(THIRD_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectKidnap");
+            GetWidget<GaugeOnOff>(FOURTH_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectSound");
+            GetWidget<Dropdown>(FIFTH_LINE).Label.text = BYOS.Instance.Dictionary.GetString("contact");
+            GetWidget<Button>(SIXTH_LINE).Label.text = BYOS.Instance.Dictionary.GetString("quit"); ;
         }
     }
 }

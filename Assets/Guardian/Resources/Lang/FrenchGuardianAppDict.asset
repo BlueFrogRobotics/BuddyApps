@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -791307131, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
+  m_Name: FrenchGuardianAppDict
+  m_EditorClassIdentifier: 
+  entries:
+  - key: guardian
+    val: Gardien
+  - key: choiceMode
+    val: Quel mode souhaite tu. Fixe ou mobile
+  - key: fixMonitoring
+    val: Surveillance Fixe
+  - key: mobileMonitoring
+    val: Surveillance Mobile
+  - key: quit
+    val: Quitter
+  - key: detectFire
+    val: "D\xE9tection de feu"
+  - key: detectSound
+    val: "D\xE9tection de bruit"
+  - key: detectKidnap
+    val: "D\xE9tection de kidnapping"
+  - key: detectMouv
+    val: "D\xE9tection de mouvement"
+  - key: contact
+    val: Qui contacter?
+  - key: password
+    val: Code
+  - key: nobody
+    val: Personne

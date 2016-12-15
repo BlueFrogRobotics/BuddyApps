@@ -15,18 +15,22 @@ namespace BuddyApp.Guardian
         private Mat mMatShow;
         private Texture2D mTexture;
         private Animator mAnimator;
+        private Animator mDebugSoundAnimator;
         private float mTimer;
 
         private bool mHasDetectedSound = false;
         private bool mHasInitSlider = false;
+        private bool mGoBack = false;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            SetWindowAppOverBuddyColor(0);
-            Init();
+            SetWindowAppOverBuddyColor(1);
+            
             mAnimator = animator;
-            StateManager.DebugSoundWindow.gameObject.SetActive(true);
+            Init();
+            //StateManager.DebugSoundWindow.gameObject.SetActive(true);
+            mDebugSoundAnimator.SetTrigger("Open_WDebugs");
             StateManager.DebugSoundWindow.ButtonBack.onClick.AddListener(GoBack);
             mSoundDetector.OnDetection += OnSoundDetected;
         }
@@ -52,10 +56,11 @@ namespace BuddyApp.Guardian
 
 
 
-                float lLevelSound = (mSoundDetector.Value) * 480.0f;
+                float lLevelSound = (mSoundDetector.Value) * 400.0f / lMaxThreshold;
                 //Imgproc.line(mMatShow, new Point(0, 480.0f - lLevelSound), new Point(640, 480.0f - lLevelSound), new Scalar(0, 0, 255, 255));
                 Imgproc.rectangle(mMatShow, new Point(0, 480), new Point(640, 480.0f - lLevelSound), new Scalar(0, 0, 255, 255), -1);
-                Imgproc.line(mMatShow, new Point(0, 480.0f - lThreshold * 480), new Point(640, 480.0f - lThreshold * 480), new Scalar(255, 0, 0, 255), 3);
+                Imgproc.line(mMatShow, new Point(0, 480.0f - lThreshold * 400 / lMaxThreshold), new Point(640, 480.0f - lThreshold * 400 / lMaxThreshold), new Scalar(0, 212, 209, 255), 3);
+                Debug.Log("niveau: " + lThreshold);
 
                 BuddyTools.Utils.MatToTexture2D(mMatShow, mTexture);
                 mRaw.texture = mTexture;
@@ -67,6 +72,12 @@ namespace BuddyApp.Guardian
                 else
                     StateManager.DebugSoundWindow.Ico.enabled = false;
             }
+
+            if (mHasInitSlider && mDebugSoundAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
+            {
+                mAnimator.SetInteger("DebugMode", -1);
+                mGoBack = false;
+            }
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -74,7 +85,8 @@ namespace BuddyApp.Guardian
         {
             mSoundDetector.OnDetection -= OnSoundDetected;
             StateManager.DebugSoundWindow.ButtonBack.onClick.RemoveAllListeners();
-            StateManager.DebugSoundWindow.gameObject.SetActive(false);
+            
+            //StateManager.DebugSoundWindow.gameObject.SetActive(false);
             mSoundDetector.Stop();
         }
 
@@ -89,11 +101,14 @@ namespace BuddyApp.Guardian
             mSoundDetector.Init();
             mHasInitSlider = false;
             mHasDetectedSound = false;
+            mGoBack = false;
+            mDebugSoundAnimator= StateManager.DebugSoundWindow.gameObject.GetComponent<Animator>();
         }
 
         private void GoBack()
         {
-            mAnimator.SetInteger("DebugMode", -1);
+            mDebugSoundAnimator.SetTrigger("Close_WDebugs");
+            mGoBack = true;
         }
 
         private void OnSoundDetected()

@@ -1,9 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RecipeList>
-  <recipe name="crêpes" xml="crepes.xml">
-    <ingredient name="farine" qantity="375" />
-    <ingredient name="oeuf" qantity="4" />
-    <ingredient name="beurre" qantity="20" />
+  <recipe name="crêpes" category="dessert" illustration="crepes/illustration" person="6" time="10MIN" stars="4" xml="crepes.xml">
+    <summary>La crêpe est un mets composé d'une très fine couche de pâte faite à base de farine (principalement de blé ou de sarrasin) agglomérée à un liquide (lait, parfois mélangé à de l'eau ou de la bière). Elle est généralement de forme ronde.</summary>
+    <ingredient name="farine" qantity="375" unit="grammes"/>
+    <ingredient name="oeuf" qantity="4"/>
+    <ingredient name="beurre" qantity="20" unit="grammes"/>
+    <ingredient name="huile" qantity="2" unit="cuillères à soupe"/>
+    <ingredient name="sel" qantity="2" unit="pincées"/>
+    <ingredient name="lait" qantity="50" unit="centilitres"/>
+    <ingredient name="bierre" qantity="25" unit="centilitres"/>
+    <ingredient name="rhum" qantity="2" unit="cuillères à soupe"/>
   </recipe>
   <recipe name="crêpes au fromage" >
   </recipe>

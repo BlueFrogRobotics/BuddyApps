@@ -30,6 +30,7 @@ namespace BuddyApp.Companion
             Debug.Log("FaceFollow Enabled");
 
             //Init the different variables
+            new SetMoodCmd(MoodType.NEUTRAL).Execute();
             mUpdateTime = Time.time;
             mTrackedObjects = mFaceTracker.TrackedObjects;
             mCameraWidthCenter = BYOS.Instance.RGBCam.Width / 2;
@@ -44,7 +45,7 @@ namespace BuddyApp.Companion
                 return;
 
             mTrackedObjects = mFaceTracker.TrackedObjects;
-            //Write here some code to make sure that one face is centered in the camera
+
             if (mTrackedObjects.Count > 0)
             {
                 float lXCenter = mTrackedObjects[0].x + mTrackedObjects[0].width / 2;
@@ -52,9 +53,9 @@ namespace BuddyApp.Companion
                 Debug.Log("Tracking face : XCenter " + lXCenter + " / YCenter " + lYCenter);
 
                 if (!(mCameraWidthCenter - 25 < lXCenter && lXCenter < mCameraWidthCenter + 5))
-                    mHeadNoAngle -= Mathf.Sign(lXCenter - mCameraWidthCenter) * 1.5F;
+                    mHeadNoAngle -= Mathf.Sign(lXCenter - mCameraWidthCenter) * 2F;
                 if (!(mCameraHeightCenter - 5 < lYCenter && lYCenter < mCameraHeightCenter + 25))
-                    mHeadYesAngle += Mathf.Sign(lYCenter - mCameraHeightCenter) * 1.5F;
+                    mHeadYesAngle += Mathf.Sign(lYCenter - mCameraHeightCenter) * 2F;
 
                 Debug.Log("Setting angles Yes : " + Mathf.Sign(lYCenter - mCameraHeightCenter) + 
                     " / No : " + Mathf.Sign(lXCenter - mCameraWidthCenter));

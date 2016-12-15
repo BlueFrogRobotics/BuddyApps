@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 using BuddyOS;
 
 namespace BuddyApp.Companion
@@ -14,6 +15,9 @@ namespace BuddyApp.Companion
         ///  This is to detect when Buddy's face is touched a lot
         /// </summary> 
         public bool FaceSmashed { get { return mFaceSmashed; } }
+
+        public event Action LeftSideTouched;
+        public event Action RightSideTouched;
 
         [SerializeField]
         private Button mLeftEye;
@@ -50,6 +54,17 @@ namespace BuddyApp.Companion
 
             if (mFaceSmashed)
                 Debug.Log("Face smashed !!");
+
+            //if (Input.GetMouseButtonDown(0))
+            //{
+            //    Vector2 pos = Input.mousePosition;
+            //    Debug.Log("Got a click at point X : " + pos.x + " / Y : " + pos.y);
+
+            //    if (pos.x > Screen.width * 0.8 && LeftSideTouched != null)
+            //        LeftSideTouched();
+            //    else if (pos.x < Screen.width * 0.2 && RightSideTouched != null)
+            //        RightSideTouched();
+            //}
         }
 
         private void LeftEyePoked()

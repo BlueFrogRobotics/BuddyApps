@@ -9,24 +9,23 @@ namespace BuddyApp.Guardian
     public class LoadingPatrolState : AStateGuardian
     {
 
-        private GameObject mLoadingObject;
-        private Face mFace;
         private bool mStartTimer = false;
         private float mTimer = 1.0f;
         private Animator mLoadingAnimator;
         private DetectionManager mDetectorManager;
+        private bool mHasFinishedLoading = false;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            DisableWindowAppOverBuddy();
             mLoadingAnimator = StateManager.LoadingAnimator;
             mDetectorManager = StateManager.DetectorManager;
-            mLoadingObject = StateManager.Loading;
+            mLoadingAnimator.SetTrigger("Open_WLoading");
             //BYOS.Instance.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
-
+            mHasFinishedLoading = false;
             animator.SetBool("ChangeState", false);
-            mFace = BYOS.Instance.Face;
-            mTimer = 1.0f;
+            mTimer = 5.0f;
             if (mDetectorManager.SoundDetector.IsInit)
                 mDetectorManager.SoundDetector.Stop();
         }
@@ -44,15 +43,28 @@ namespace BuddyApp.Guardian
                 mTimer -= Time.deltaTime;
 
             if (mTimer < 0.0f)
-                mLoadingAnimator.SetBool("Close", true);
+            {
+                mLoadingAnimator.SetTrigger("Close_WLoading");
+                mHasFinishedLoading = true;
+                
+            }
 
-            if (!mLoadingObject || !mLoadingObject.activeInHierarchy)
+            if(mHasFinishedLoading && mLoadingAnimator.GetCurrentAnimatorStateInfo(0).IsName("LoadingScreen_Off"))
+            {
+                mLoadingAnimator.ResetTrigger("Open_WLoading");
+                mLoadingAnimator.ResetTrigger("Close_WLoading");
                 animator.SetBool("ChangeState", true);
+            }
+            //mLoadingAnimator.SetBool("Close", true);
+
+            //if (!mLoadingObject || !mLoadingObject.activeInHierarchy)
+                //animator.SetBool("ChangeState", true);
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            
             animator.SetBool("ChangeState", false);
         }
 
