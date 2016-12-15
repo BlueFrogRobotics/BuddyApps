@@ -45,7 +45,7 @@ namespace BuddyApp.Companion
                 return;
 
             mTrackedObjects = mFaceTracker.TrackedObjects;
-            //Write here some code to make sure that one face is centered in the camera
+
             if (mTrackedObjects.Count > 0)
             {
                 float lXCenter = mTrackedObjects[0].x + mTrackedObjects[0].width / 2;

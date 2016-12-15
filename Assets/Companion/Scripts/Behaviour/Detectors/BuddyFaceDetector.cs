@@ -55,16 +55,16 @@ namespace BuddyApp.Companion
             if (mFaceSmashed)
                 Debug.Log("Face smashed !!");
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                Vector2 pos = Input.mousePosition;
-                Debug.Log("Got a click at point X : " + pos.x + " / Y : " + pos.y);
+            //if (Input.GetMouseButtonDown(0))
+            //{
+            //    Vector2 pos = Input.mousePosition;
+            //    Debug.Log("Got a click at point X : " + pos.x + " / Y : " + pos.y);
 
-                if (pos.x > Screen.width * 0.8 && LeftSideTouched != null)
-                    LeftSideTouched();
-                else if (pos.x < Screen.width * 0.2 && RightSideTouched != null)
-                    RightSideTouched();
-            }
+            //    if (pos.x > Screen.width * 0.8 && LeftSideTouched != null)
+            //        LeftSideTouched();
+            //    else if (pos.x < Screen.width * 0.2 && RightSideTouched != null)
+            //        RightSideTouched();
+            //}
         }
 
         private void LeftEyePoked()
