@@ -134,7 +134,7 @@ namespace BuddyApp.Diagnostic
 
         void Update()
         {
-            positionGetter.text = "Position : " + mWheels.GetRobotPoseBelieves();
+            positionGetter.text = "Position : " + mWheels.Odometry;
             leftSpeedGetter.text = "Left speed : " + mWheels.LeftWheelAngularVelocity;
             rightSpeedGetter.text = "Right speed : " + mWheels.RightWheelAngularVelocity;
             noHingeAngleGetter.text = "No angle : " + mNoHinge.CurrentAnglePosition;

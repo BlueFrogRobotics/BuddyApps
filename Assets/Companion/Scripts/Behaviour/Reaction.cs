@@ -20,8 +20,6 @@ namespace BuddyApp.Companion
     {
         private bool mIsPouting;
         private bool mIsTrackingFace;
-        private float mHeadNoAngle;
-        private float mHeadYesAngle;
         internal ReactionFinished ActionFinished;
         private FollowFaceReaction mFollowFace;
         private FaceCascadeTracker mFaceTracker;
@@ -29,6 +27,8 @@ namespace BuddyApp.Companion
         private SayHelloReaction mHelloReaction;
         private TextToSpeech mTTS;
         private WanderReaction mWanderReaction;
+
+        private Dictionary mDictionary;
 
         void Start()
         {
@@ -40,6 +40,8 @@ namespace BuddyApp.Companion
             mIdleReaction = GetComponent<IdleReaction>();
             mHelloReaction = GetComponent<SayHelloReaction>();
             mWanderReaction = GetComponent<WanderReaction>();
+
+            mDictionary = BYOS.Instance.Dictionary;
 
             mIdleReaction.enabled = false;
             mHelloReaction.enabled = false;
@@ -56,7 +58,8 @@ namespace BuddyApp.Companion
             if (mIsPouting)
                 return;
 
-            StartCoroutine(AskSomethingCo());
+            mTTS.Say(mDictionary.GetString("playWithMe"));
+            //StartCoroutine(AskSomethingCo());
         }
 
         private IEnumerator AskSomethingCo()
@@ -242,11 +245,23 @@ namespace BuddyApp.Companion
 
         public void StepBackHelloReaction()
         {
-            Debug.Log("Someone is there. I say hello !");
-            new SetWheelsSpeedCmd(-200F, -200F, 100).Execute();
-            new SetPosYesCmd(0).Execute();
-            mTTS.Say("Bonjour !");
-            ActionFinished();
+            if (mHelloReaction.enabled == true)
+                return;
+            mHelloReaction.enabled = true;
+        }
+        
+        public void LookRight()
+        {
+            float lHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
+            lHeadNoAngle += 15;
+            new SetPosNoCmd(lHeadNoAngle).Execute();
+        }
+
+        public void LookLeft()
+        {
+            float lHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
+            lHeadNoAngle -= 15;
+            new SetPosNoCmd(lHeadNoAngle).Execute();
         }
     }
 }
