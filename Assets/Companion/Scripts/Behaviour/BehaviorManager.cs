@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using BuddyOS;
+using BuddyOS.Command;
 using BuddyFeature.Vocal;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace BuddyApp.Companion
         private VocalChat mVocalChat;
 
         private Dictionary mDictionary;
+        private CompanionData mCompanionData;
 
         private bool mAskedSomething;
         private bool mVocalWanderOrder;
@@ -55,6 +57,7 @@ namespace BuddyApp.Companion
             mVocalChat = GetComponent<VocalChat>();
 
             mDictionary = BYOS.Instance.Dictionary;
+            mCompanionData = CompanionData.Instance;
 
             mVocalChat.WithNotification = true;
             mVocalChat.OnQuestionTypeFound = SortQuestionType;
@@ -105,16 +108,16 @@ namespace BuddyApp.Companion
             if(Time.time - mInactiveTime > 10F && Time.time - mInactiveTime < 50F) {
                 mReaction.StartIdle();
             }
-            else if(!mAskedSomething) {
-                mReaction.AskSomething();
-                mInactiveTime = Time.time;
-                mAskedSomething = true;
-            }
-            else if (Time.time - mInactiveTime > 50F) {
+            //else if(!mAskedSomething) {
+            //    mReaction.AskSomething();
+            //    mInactiveTime = Time.time;
+            //    mAskedSomething = true;
+            //}
+            else if (Time.time - mInactiveTime > 50F && mCompanionData.CanMoveBody) {
                 //mReaction.AskSomething();
+                //mInactiveTime = Time.time;
                 mReaction.StopIdle();
                 mReaction.StartWandering();
-                //mInactiveTime = Time.time;
             }
 
             Behave();
@@ -169,6 +172,10 @@ namespace BuddyApp.Companion
 
                 case "DontMove":
                     CompanionData.Instance.CanMoveBody = false;
+                    break;
+
+                case "LookAtMe":
+                    PushInStack(mReaction.SearchFace);
                     break;
 
                 case "Quizz":
