@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -791307131, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
+  m_Name: FrenchTakePhotoAppDict
+  m_EditorClassIdentifier: 
+  entries:
+  - key: takePhoto
+    val: "Ok, pr\xE9parez vous, je vais vous prendre en photo!"
+  - key: binaryCount
+    val: "Attention, je vais faire le d\xE9compte en binaires!"
+  - key: hereIsPic
+    val: Voici la photo!
+  - key: redo
+    val: Voulez-vous en refaire une?
+  - key: noRedo
+    val: C'est compris, pas d'autres photos
+  - key: didntUnderstand
+    val: "D\xE9sol\xE9, je ne vous ais pas compris"
+  - key: yesOrNo
+    val: "Veuillez r\xE9pondre par oui ou par non"
+  - key: mail
+    val: Voulez-vous recevoir cette photo par mail?
+  - key: okNP
+    val: D'accord, pas de soucis
+  - key: enterMail
+    val: Veuillez saisir votre adresse mail
+  - key: needMail
+    val: Vous devez saisir votre adresse mail
+  - key: emptyMail
+    val: Vous ne pouvez pas valider avec un champ d'adresse vide
+  - key: insist
+    val: "Cela ne sert \xE0 rien d'insister"
+  - key: validate
+    val: Ok
+  - key: nothingHappen
+    val: "Rien ne se passe, passons \xE0 autre chose!"
+  - key: mailBoxPhoto
+    val: "V\xE9rifiez votre bo\xEEte mail, vous devriez bient\xF4t recevoir votre
+      photo!"
+  - key: mailContent
+    val: "Bonjour! \\n\\n J'ai pass\xE9 un bon moment avec vous! \\n\\n Vous trouverez
+      la photo en pi\xE8ce jointe! \\n\\n A bient\xF4t j'esp\xE8re! \\n\\n\\n Buddy
+      \\n\\n--\\n Ceci est un mail automatique, merci de ne pas y r\xE9pondre"
+  - key: yes
+    val: oui
+  - key: no
+    val: non
+  - key: noThanks
+    val: non merci
+  - key: mailInput
+    val: Saisissez votre email...
+  - key: key
+    val: txt
