@@ -11,8 +11,6 @@ GameObject:
   - 222: {fileID: 22254956}
   - 114: {fileID: 11427590}
   - 114: {fileID: 11446352}
-  - 114: {fileID: 11473668}
-  - 225: {fileID: 22586342}
   m_Layer: 5
   m_Name: notif mail
   m_TagString: Untagged
@@ -352,18 +350,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11473668
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 109750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 660ad898011d1bc408103324e2547e87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mText: {fileID: 11413220}
 --- !u!114 &11482000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -684,17 +670,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!225 &22586342
-CanvasGroup:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 109750}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

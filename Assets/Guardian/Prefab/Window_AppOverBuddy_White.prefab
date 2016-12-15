@@ -28,8 +28,6 @@ GameObject:
   - 222: {fileID: 22261766}
   - 114: {fileID: 11427084}
   - 114: {fileID: 11433748}
-  - 114: {fileID: 11488860}
-  - 225: {fileID: 22509218}
   m_Layer: 5
   m_Name: notif mail
   m_TagString: Untagged
@@ -408,18 +406,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &11488860
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 129556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 660ad898011d1bc408103324e2547e87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mText: {fileID: 11463920}
 --- !u!114 &11497218
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -667,17 +653,6 @@ RectTransform:
   m_AnchoredPosition: {x: -30, y: -30}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 1, y: 1}
---- !u!225 &22509218
-CanvasGroup:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 129556}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
