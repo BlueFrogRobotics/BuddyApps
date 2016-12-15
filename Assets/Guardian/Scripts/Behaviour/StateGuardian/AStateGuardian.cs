@@ -26,5 +26,11 @@ namespace BuddyApp.Guardian
             }
         }
 
+        protected void DisableWindowAppOverBuddy()
+        {
+                StateManager.WindowAppOverBuddyBlack.SetActive(false);
+                StateManager.WindowAppOverBuddyWhite.SetActive(false);
+        }
+
     }
 }

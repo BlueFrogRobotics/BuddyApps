@@ -1355,17 +1355,17 @@
             Helper in order to easily change the robot mood (LED and Face [and moving behaviour])
             </summary>
         </member>
-        <member name="F:BuddyOS.App.AStateMachineBehaviour.mCommonIntegers">
+        <member name="P:BuddyOS.App.AStateMachineBehaviour.CommonIntegers">
             <summary>
             Common integers through the animator
             </summary>
         </member>
-        <member name="F:BuddyOS.App.AStateMachineBehaviour.mCommonSingles">
+        <member name="P:BuddyOS.App.AStateMachineBehaviour.CommonSingles">
             <summary>
             Common float through the animator
             </summary>
         </member>
-        <member name="F:BuddyOS.App.AStateMachineBehaviour.mCommonStrings">
+        <member name="P:BuddyOS.App.AStateMachineBehaviour.CommonStrings">
             <summary>
             Common strings through the animator
             </summary>
@@ -1650,6 +1650,11 @@
             Scene name of the Remote control app
             </summary>
         </member>
+        <member name="F:BuddyOS.App.AppManager.CALL_APP">
+            <summary>
+            Scene name of the Call app
+            </summary>
+        </member>
         <member name="F:BuddyOS.App.AppManager.DEFAULT_ASSEMBLY">
             <summary>
             Name of the default assembly in Unity3D
@@ -1751,6 +1756,11 @@
         <member name="P:BuddyOS.BYOS.SpriteManager">
             <summary>
             Use this to (un)load specific atlas
+            </summary>
+        </member>
+        <member name="P:BuddyOS.BYOS.WiFiManager">
+            <summary>
+            Tools for retrieve WiFi networks, update every minutes
             </summary>
         </member>
         <member name="P:BuddyOS.BYOS.Dictionary">
@@ -1981,6 +1991,34 @@
             Update params in all commands. Allows to avoid recreate a new command for the same purpose.
             </summary>
             <param name="iObjects">Objects that will replace existing Objects in Parameters</param>
+            <returns>The updated command</returns>
+        </member>
+        <member name="M:BuddyOS.Command.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.Int32}},System.Int32)">
+            <summary>
+            Update params in existing command. Allows to avoid recreate a new command for the same purpose.
+            </summary>
+            <param name="iInteger">Integers that will replace existing Integers in Parameters</param>
+            <returns>The updated command</returns>
+        </member>
+        <member name="M:BuddyOS.Command.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.String}},System.String)">
+            <summary>
+            Update params in all commands. Allows to avoid recreate a new command for the same purpose.
+            </summary>
+            <param name="iString">Strings that will replace existing Strings in Parameters</param>
+            <returns>The updated command</returns>
+        </member>
+        <member name="M:BuddyOS.Command.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.Single}},System.Single)">
+            <summary>
+            Update params in all commands. Allows to avoid recreate a new command for the same purpose.
+            </summary>
+            <param name="iSingle">Singles that will replace existing Singles in Parameters</param>
+            <returns>The updated command</returns>
+        </member>
+        <member name="M:BuddyOS.Command.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.Object}},System.Object)">
+            <summary>
+            Update params in all commands. Allows to avoid recreate a new command for the same purpose.
+            </summary>
+            <param name="iObject">Objects that will replace existing Objects in Parameters</param>
             <returns>The updated command</returns>
         </member>
         <member name="T:BuddyOS.Command.ClsDepthCamCmd">
@@ -3498,14 +3536,19 @@
             <param name="iKey">The key word corresponding to the wished word</param>
             <returns>The word in the current language, default value if not found</returns>
         </member>
-        <member name="T:BuddyOS.System.GarbageManager">
+        <member name="T:BuddyOS.Net.WiFiManager">
             <summary>
-            Unloads unused assets, detects zombie scene and close them
+            WiFi helper class. Use mainly TabletParameter wifi methods
             </summary>
         </member>
-        <member name="T:BuddyOS.System.AnomalySearcher">
+        <member name="P:BuddyOS.Net.WiFiManager.AvailableNetworks">
             <summary>
-            Search for hardware error. Those anomalies will be logged by the AnomalyLogger class.
+            Available network. List updated every minutes
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Net.WiFiManager.Network">
+            <summary>
+            Current WiFi network
             </summary>
         </member>
         <member name="T:BuddyOS.Net.SharedAccessSignature">
@@ -3574,6 +3617,16 @@
         <member name="T:BuddyOS.Net.NetworkLocalListener">
             <summary>
             Network listener for local network
+            </summary>
+        </member>
+        <member name="T:BuddyOS.System.GarbageManager">
+            <summary>
+            Unloads unused assets, detects zombie scene and close them
+            </summary>
+        </member>
+        <member name="T:BuddyOS.System.AnomalySearcher">
+            <summary>
+            Search for hardware error. Those anomalies will be logged by the AnomalyLogger class.
             </summary>
         </member>
         <member name="T:BuddyOS.UI.ABaseView">
@@ -3989,6 +4042,26 @@
         <member name="M:BuddyOS.UI.TextField.Clear">
             <summary>
             Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="T:BuddyOS.UI.Password">
+            <summary>
+            Password widget
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.Password.Label">
+            <summary>
+            Left side label
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.Password.InputField">
+            <summary>
+            The password input field
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.Password.UpdateCommands">
+            <summary>
+            Commands called on updated password field 
             </summary>
         </member>
         <member name="M:BuddyOS.UI.Password.OnAwake">

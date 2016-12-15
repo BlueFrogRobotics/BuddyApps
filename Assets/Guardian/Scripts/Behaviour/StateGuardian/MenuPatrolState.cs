@@ -7,8 +7,6 @@ namespace BuddyApp.Guardian
 {
     public class MenuPatrolState : AStateGuardian
     {
-
-        private bool mHasTalked = false;
         private int mMode;
         private GameObject mMenu;
         private TextToSpeech mTTS;

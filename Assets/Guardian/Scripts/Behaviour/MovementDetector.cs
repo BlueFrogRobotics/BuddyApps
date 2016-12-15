@@ -42,12 +42,7 @@ namespace BuddyApp.Guardian
         private Mat mBinaryImage;
 
         public Mat BinaryImage { get { return mBinaryImage; } }
-        private Mat mSobelResult;
 
-        private Mat mKernelRect;
-        private Mat mKernelCross;
-        private Mat mKernelEllipse;
-        private Mat mKernelCustom;
         private Mat mKernel;
 
         private Mat mRawImage;
@@ -63,7 +58,6 @@ namespace BuddyApp.Guardian
 
 
         #endregion
-        private float mTime;
 
         private RGBCam mCam;
 
@@ -101,19 +95,9 @@ namespace BuddyApp.Guardian
 
             mBlurredImage = new Mat();
             mBinaryImage = new Mat();
-            mSobelResult = new Mat();
 
             mSobelKernelSize = 3;
 
-
-            mTime = Time.time;
-
-            #region Kernel Shape: Testing different kernel Shape
-            mKernelRect = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_RECT, new Size(11, 11));
-            mKernelCross = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_CROSS, new Size(11, 11));
-            mKernelEllipse = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_ELLIPSE, new Size(11, 11));
-            mKernelCustom = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_CUSTOM, new Size(11, 11));
-            #endregion
 
             mCam = BYOS.Instance.RGBCam;
             mPreviousFrame = mCurrentFrame.clone();

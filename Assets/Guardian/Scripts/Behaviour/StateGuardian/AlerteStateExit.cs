@@ -7,10 +7,8 @@ namespace BuddyApp.Guardian
     public class AlerteStateExit : AStateGuardian
     {
 
-        private GameObject mBackgroundPrefab;
         private GameObject mHaloPrefab;
         private Animator mBackgroundAnimator;
-        private Animator mHaloAnimator;
         private GameObject mObjectButtonAskPassword;
         private Button mButtonPassword;
         private Animator mAnimator;
@@ -18,10 +16,8 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mBackgroundPrefab = StateManager.BackgroundPrefab;
             mHaloPrefab = StateManager.HaloPrefab;
             mBackgroundAnimator = StateManager.BackgroundAnimator;
-            mHaloAnimator = StateManager.HaloAnimator;
             mObjectButtonAskPassword = StateManager.ObjectButtonAskPassword;
 
             animator.SetBool("ChangeState", false);

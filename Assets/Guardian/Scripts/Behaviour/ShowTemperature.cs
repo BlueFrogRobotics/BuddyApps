@@ -29,14 +29,10 @@ namespace BuddyApp.Guardian
         private Texture2D mTexture;
         private byte[] mColorGrid;
 
-        private ThermalSensor mThermalSensor;
-        private float mTimer = 0.0f;
-
 
         // Use this for initialization
         void Start()
         {
-            mThermalSensor = BYOS.Instance.ThermalSensor;
             Interpolation = false;
             mTemperature = new float[mWidth * mHeight];
             for (int i = 0; i < mWidth * mHeight; i++)
@@ -57,7 +53,6 @@ namespace BuddyApp.Guardian
 
         public void UpdateTexture()
         {
-            mTimer = 0.0f;
             if (mTemperature != null)
             {
                 mGrid = temperatureToColor();
