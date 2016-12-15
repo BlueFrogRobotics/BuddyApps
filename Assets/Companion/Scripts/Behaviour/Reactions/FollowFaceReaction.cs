@@ -19,20 +19,18 @@ namespace BuddyApp.Companion
         private float mHeadNoAngle;
         List<Rect> mTrackedObjects;
         private FaceCascadeTracker mFaceTracker;
-        private TextToSpeech mTTS;
 
         void Start()
         {
-            mTTS = BYOS.Instance.TextToSpeech;
             mFaceTracker = GetComponent<FaceCascadeTracker>();
         }
 
         void OnEnable()
         {
             Debug.Log("FaceFollow Enabled");
-            mTTS.Say("Bonjour !");
 
             //Init the different variables
+            new SetMoodCmd(MoodType.NEUTRAL).Execute();
             mUpdateTime = Time.time;
             mTrackedObjects = mFaceTracker.TrackedObjects;
             mCameraWidthCenter = BYOS.Instance.RGBCam.Width / 2;
@@ -55,9 +53,9 @@ namespace BuddyApp.Companion
                 Debug.Log("Tracking face : XCenter " + lXCenter + " / YCenter " + lYCenter);
 
                 if (!(mCameraWidthCenter - 25 < lXCenter && lXCenter < mCameraWidthCenter + 5))
-                    mHeadNoAngle -= Mathf.Sign(lXCenter - mCameraWidthCenter) * 1.5F;
+                    mHeadNoAngle -= Mathf.Sign(lXCenter - mCameraWidthCenter) * 2F;
                 if (!(mCameraHeightCenter - 5 < lYCenter && lYCenter < mCameraHeightCenter + 25))
-                    mHeadYesAngle += Mathf.Sign(lYCenter - mCameraHeightCenter) * 1.5F;
+                    mHeadYesAngle += Mathf.Sign(lYCenter - mCameraHeightCenter) * 2F;
 
                 Debug.Log("Setting angles Yes : " + Mathf.Sign(lYCenter - mCameraHeightCenter) + 
                     " / No : " + Mathf.Sign(lXCenter - mCameraWidthCenter));

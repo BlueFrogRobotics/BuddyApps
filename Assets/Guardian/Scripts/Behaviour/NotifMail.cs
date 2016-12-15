@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using BuddyOS;
 
 namespace BuddyApp.Guardian
 {
@@ -26,6 +27,7 @@ namespace BuddyApp.Guardian
                 mText.text = "" + mCounter;
                 Debug.Log("incremente");
                 mMustIncrement = false;
+                BYOS.Instance.NotManager.Display<SimpleNot>().With("Mail envoyé", null);
             }
         }
 

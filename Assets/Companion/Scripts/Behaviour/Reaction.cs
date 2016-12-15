@@ -13,18 +13,22 @@ namespace BuddyApp.Companion
     internal delegate void ReactionFinished();
 
     [RequireComponent(typeof(FollowFaceReaction))]
+    [RequireComponent(typeof(IdleReaction))]
+    [RequireComponent(typeof(SayHelloReaction))]
     [RequireComponent(typeof(WanderReaction))]
     public class Reaction : MonoBehaviour
     {
         private bool mIsPouting;
         private bool mIsTrackingFace;
-        private float mHeadNoAngle;
-        private float mHeadYesAngle;
         internal ReactionFinished ActionFinished;
         private FollowFaceReaction mFollowFace;
         private FaceCascadeTracker mFaceTracker;
+        private IdleReaction mIdleReaction;
+        private SayHelloReaction mHelloReaction;
         private TextToSpeech mTTS;
-        private WanderReaction mWander;
+        private WanderReaction mWanderReaction;
+
+        private Dictionary mDictionary;
 
         void Start()
         {
@@ -33,9 +37,15 @@ namespace BuddyApp.Companion
             mTTS = BYOS.Instance.TextToSpeech;
             mFollowFace = GetComponent<FollowFaceReaction>();
             mFaceTracker = GetComponent<FaceCascadeTracker>();
-            mWander = GetComponent<WanderReaction>();
+            mIdleReaction = GetComponent<IdleReaction>();
+            mHelloReaction = GetComponent<SayHelloReaction>();
+            mWanderReaction = GetComponent<WanderReaction>();
 
-            mWander.enabled = false;
+            mDictionary = BYOS.Instance.Dictionary;
+
+            mIdleReaction.enabled = false;
+            mHelloReaction.enabled = false;
+            mWanderReaction.enabled = false;
         }
 
         void Update()
@@ -48,7 +58,8 @@ namespace BuddyApp.Companion
             if (mIsPouting)
                 return;
 
-            StartCoroutine(AskSomethingCo());
+            mTTS.Say(mDictionary.GetString("playWithMe"));
+            //StartCoroutine(AskSomethingCo());
         }
 
         private IEnumerator AskSomethingCo()
@@ -59,74 +70,13 @@ namespace BuddyApp.Companion
             //mVocalChat.StartDialogue();
         }
 
-        public void FollowFace()
-        {
-            if (mFollowFace.enabled)
-                return;
-
-            mFollowFace.enabled = true;
-
-            //if (mIsTrackingFace || !CompanionData.Instance.CanMoveHead)
-            //    return;
-            ////Debug.Log("Found a face to track");
-            //mIsTrackingFace = true;
-            //StartCoroutine(FollowFaceCo());
-        }
-
-        public void StopFollowFace()
-        {
-            if (!mFollowFace.enabled)
-                return;
-
-            mFollowFace.enabled = false;
-        }
-
-        //private IEnumerator FollowFaceCo()
-        //{
-        //    mTTS.Say("Bonjour !");
-        //    float mFaceAndTalkTime = Time.time;
-        //    //Write here some code to make sure that one face is centered in the camera
-        //    List<Rect> mTrackedObjects = mFaceTracker.TrackedObjects;
-        //    mHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
-        //    mHeadYesAngle = BYOS.Instance.Motors.YesHinge.CurrentAnglePosition;
-        //    int mCameraWidthCenter = BYOS.Instance.RGBCam.Width / 2;
-        //    int mCameraHeightCenter = BYOS.Instance.RGBCam.Height / 2;
-
-        //    while (mTrackedObjects.Count > 0)
-        //    {
-        //        float lXCenter = mTrackedObjects[0].x + mTrackedObjects[0].width / 2;
-        //        float lYCenter = mTrackedObjects[0].y + mTrackedObjects[0].height / 2;
-        //        Debug.Log("Tracking face : XCenter " + lXCenter);
-        //        Debug.Log("Tracking face : YCenter " + lYCenter);
-
-        //        if (!(mCameraWidthCenter - 25 < lXCenter && lXCenter < mCameraWidthCenter + 5))
-        //            mHeadNoAngle -= Mathf.Sign(lXCenter - mCameraWidthCenter) * 1.5F;
-        //        if (!(mCameraHeightCenter - 5 < lYCenter && lYCenter < mCameraHeightCenter + 25))
-        //            mHeadYesAngle += Mathf.Sign(lYCenter - mCameraHeightCenter) * 1.5F;
-
-        //        new SetPosYesCmd(mHeadYesAngle).Execute();
-        //        new SetPosNoCmd(mHeadNoAngle).Execute();
-        //        yield return new WaitForSeconds(0.1F);
-
-        //        if (Time.time - mFaceAndTalkTime > 30F)
-        //        {
-        //            AskSomething();
-        //            mFaceAndTalkTime = Time.time;
-        //        }
-
-        //        mTrackedObjects = mFaceTracker.TrackedObjects;
-        //    }
-        //    mIsTrackingFace = false;
-        //    ActionFinished();
-        //}
-
         public void IsBeingLifted()
         {
             new SetMoodCmd(MoodType.SCARED).Execute();
             new SetMouthEvntCmd(MouthEvent.SCREAM);
             //BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
         }
-        
+
         public void Pout()
         {
             if (mIsPouting)
@@ -216,29 +166,75 @@ namespace BuddyApp.Companion
             ActionFinished();
         }
 
+        public void FollowFace()
+        {
+            if (mFollowFace.enabled)
+                return;
+
+            mFollowFace.enabled = true;
+
+            //if (mIsTrackingFace || !CompanionData.Instance.CanMoveHead)
+            //    return;
+            ////Debug.Log("Found a face to track");
+            //mIsTrackingFace = true;
+            //StartCoroutine(FollowFaceCo());
+        }
+
+        public void StopFollowFace()
+        {
+            if (!mFollowFace.enabled)
+                return;
+
+            mFollowFace.enabled = false;
+        }
+
+        public void StartIdle()
+        {
+            if (mIdleReaction.enabled == true)
+                return;
+
+            Debug.Log("Starting Idle");
+            mIdleReaction.enabled = true;
+        }
+
+        public void StopIdle()
+        {
+            if (mIdleReaction.enabled == false)
+                return;
+
+            Debug.Log("Stopping Idle");
+            mIdleReaction.enabled = false;
+        }
+
         public void StartWandering()
         {
-            if (mWander.enabled || !CompanionData.Instance.CanMoveBody)
+            if (mWanderReaction.enabled || !CompanionData.Instance.CanMoveBody)
                 return;
             Debug.Log("Start Wandering");
             //mNavigation.enabled = true;
-            mWander.enabled = true;
+            mWanderReaction.enabled = true;
         }
 
         public void StopWandering()
         {
-            if (!mWander.enabled)
+            if (!mWanderReaction.enabled)
                 return;
             Debug.Log("Stop Wandering");
             //mNavigation.enabled = false;
-            mWander.enabled = false;
+            mWanderReaction.enabled = false;
+        }
+
+        public void StopMoving()
+        {
+            StopWandering();
+            StopIdle();
         }
 
         public void StopEverything()
         {
             StopAllCoroutines();
             StopWheels();
-            mWander.enabled = false;
+            mWanderReaction.enabled = false;
             mFollowFace.enabled = false;
         }
 
@@ -249,11 +245,23 @@ namespace BuddyApp.Companion
 
         public void StepBackHelloReaction()
         {
-            Debug.Log("Someone is there. I say hello !");
-            new SetWheelsSpeedCmd(-200F, -200F, 100).Execute();
-            new SetPosYesCmd(0).Execute();
-            mTTS.Say("Bonjour !");
-            ActionFinished();
+            if (mHelloReaction.enabled == true)
+                return;
+            mHelloReaction.enabled = true;
+        }
+        
+        public void LookRight()
+        {
+            float lHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
+            lHeadNoAngle += 15;
+            new SetPosNoCmd(lHeadNoAngle).Execute();
+        }
+
+        public void LookLeft()
+        {
+            float lHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
+            lHeadNoAngle -= 15;
+            new SetPosNoCmd(lHeadNoAngle).Execute();
         }
     }
 }

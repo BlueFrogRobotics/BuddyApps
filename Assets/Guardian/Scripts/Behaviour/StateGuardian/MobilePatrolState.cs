@@ -20,7 +20,6 @@ namespace BuddyApp.Guardian
         {
 
             mTimer -= Time.deltaTime;
-            int lTime = Mathf.FloorToInt(mTimer);
             //Debug.Log("timer: "+lTime);
             if (mTimer < 0.0f)
                 Debug.Log("mobile truc!!!!!");

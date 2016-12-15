@@ -31,11 +31,12 @@ namespace BuddyApp.Companion
             mIsSearchingPoint = true;
             mUpdateTime = Time.time;
             mWanderTime = Time.time;
-            mRandomWanderTime = Random.Range(15F, 30F);
+            mRandomWanderTime = Random.Range(10F, 30F);
+            new SetMoodCmd(MoodType.NEUTRAL).Execute();
             new SetPosYesCmd(10F).Execute();
             FaceRandomDirection();
         }
-        
+
         void Update()
         {
             if (Time.time - mUpdateTime < 0.1F)
@@ -49,7 +50,7 @@ namespace BuddyApp.Companion
             if(mIsSearchingPoint && Time.time - mWanderTime < mRandomWanderTime) {
                 PlaySearchingHeadAnimation();
                 if (!AnyObstructionsInfrared())
-                    new SetWheelsSpeedCmd(200F, 200F).Execute();
+                    new SetWheelsSpeedCmd(200F, 200F, 200).Execute();
                 else
                     FaceRandomDirection();
             }
@@ -64,6 +65,9 @@ namespace BuddyApp.Companion
         {
             mHeadSearchPlaying = false;
             mIsSearchingPoint = false;
+            new SetPosNoCmd(0F).Execute();
+            new SetPosYesCmd(0F).Execute();
+            //new SetWheelsSpeedCmd(0F, 0F).Execute();
             //StopAllCoroutines();
             GetComponent<Reaction>().ActionFinished();
         }

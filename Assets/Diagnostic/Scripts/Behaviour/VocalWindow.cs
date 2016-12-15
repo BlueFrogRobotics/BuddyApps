@@ -26,16 +26,16 @@ namespace BuddyApp.Diagnostic
 
         public void SetEnglish()
         {
-            mSTT.SetLanguage(Language.ENG);
-            mSphinx.SetLanguage(Language.ENG);
-            mTTS.SetLanguage(Language.ENG);
+            //mSTT.SetLanguage(Language.ENG);
+            //mSphinx.SetLanguage(Language.ENG);
+            //mTTS.SetLanguage(Language.ENG);
         }
 
         public void SetFrench()
         {
-            mSTT.SetLanguage(Language.FRA);
-            mSphinx.SetLanguage(Language.FRA);
-            mTTS.SetLanguage(Language.FRA);
+            //mSTT.SetLanguage(Language.FRA);
+            //mSphinx.SetLanguage(Language.FRA);
+            //mTTS.SetLanguage(Language.FRA);
         }
 
         public void STTRequest()
