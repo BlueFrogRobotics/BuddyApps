@@ -1015,25 +1015,23 @@
             <param name="iSSID">Name of the Access Point</param>
             <param name="iPassword">Password to this Access Point</param>
         </member>
-        <member name="M:BuddyOS.TabletParameters.GetWifiAPName(System.Int32)">
+        <member name="M:BuddyOS.TabletParameters.GetWifiAPNames">
             <summary>
-            WiFi Access Point Name at index iPosition
+            WiFi Access Point Names
             </summary>
-            <param name="iPosition">Index of the Wifi Access Point</param>
             <returns>Name of the Access Point</returns>
         </member>
-        <member name="M:BuddyOS.TabletParameters.GetWifiForce(System.Int32)">
+        <member name="M:BuddyOS.TabletParameters.GetCurrentWifiAPName">
             <summary>
-            The Force of the Wifi Access Point at index iPosition
+            The current acces point name 
             </summary>
-            <param name="iPosition">Index of the Wifi Access Point</param>
-            <returns>Integer of the force</returns>
+            <returns>The current ap name</returns>
         </member>
-        <member name="M:BuddyOS.TabletParameters.GetWifiCount">
+        <member name="M:BuddyOS.TabletParameters.GetWifiLevel">
             <summary>
-            The number of Wifi Access Point
+            The Force list of the Wifi Access Point at index iPosition
             </summary>
-            <returns>Number of Wifi Access Point</returns>
+            <returns>Integer of the force</returns>
         </member>
         <member name="M:BuddyOS.TabletParameters.EnableBluetooth">
             <summary>
@@ -1370,6 +1368,11 @@
             Common strings through the animator
             </summary>
         </member>
+        <member name="P:BuddyOS.App.AStateMachineBehaviour.CommonObjects">
+            <summary>
+            Common objects through the animator
+            </summary>
+        </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.OnStateEnter(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
             <summary>
             Method called when the current execution switch to the current state.
@@ -1698,6 +1701,11 @@
             A Unique instance of the BYOS must be present in the whole application.
             </summary>
         </member>
+        <member name="P:BuddyOS.BYOS.Version">
+            <summary>
+            The current OS version
+            </summary>
+        </member>
         <member name="P:BuddyOS.BYOS.EnableLogs">
             <summary>
             Check if logs are enables
@@ -1923,11 +1931,12 @@
             </summary>
             <returns>The command serialization</returns>
         </member>
-        <member name="M:BuddyOS.Command.ACommand.Deserialize(System.String,System.String)">
+        <member name="M:BuddyOS.Command.ACommand.Deserialize(System.String,System.Char,System.String)">
             <summary>
             Create a command from a string containing successive bytes, separate by ","
             </summary>
             <param name="iBytes">The byte string</param>
+            <param name="iSeparator">Separator character between each byte</param>
             <param name="iAssembly">The assembly where the command belongs</param>
             <returns>The command, created and init</returns>
         </member>
@@ -2958,6 +2967,16 @@
             Execute the command behaviour.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SynthesizeToFileCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SynthesizeToFileCmd.#ctor(System.String,System.String)">
+            <summary>
+            When executed : Makes the robot speaking the input string in the set language
+            </summary>
+        </member>
         <member name="T:BuddyOS.Command.TurnAbsCmd">
             <summary>
             When executed : Turns until the desired angle is reached in world space (based Buddy's odometry).
@@ -3197,6 +3216,36 @@
         <member name="M:BuddyOS.Command.EmptyCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.StartWifiCntCmd">
+            <summary>
+            When executed : Start connection to the WiFiManager.Network with WiFiManager.Password
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.StartWifiCntCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.SetWifiPwdCmd">
+            <summary>
+            When executed : Set the wished network password
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetWifiPwdCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.SetWifiNetCmd">
+            <summary>
+            When executed : Set the wifi wished network
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetWifiNetCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="T:BuddyOS.Command.ShowVocalDebugCmd">
@@ -3544,11 +3593,6 @@
         <member name="P:BuddyOS.Net.WiFiManager.AvailableNetworks">
             <summary>
             Available network. List updated every minutes
-            </summary>
-        </member>
-        <member name="P:BuddyOS.Net.WiFiManager.Network">
-            <summary>
-            Current WiFi network
             </summary>
         </member>
         <member name="T:BuddyOS.Net.SharedAccessSignature">
@@ -4029,7 +4073,7 @@
             Left side label
             </summary>
         </member>
-        <member name="P:BuddyOS.UI.TextField.InputField">
+        <member name="P:BuddyOS.UI.TextField.Field">
             <summary>
             The input field of the text field widget
             </summary>
@@ -4599,7 +4643,7 @@
         </member>
         <member name="T:BuddyOS.VocalActivation">
             <summary>
-            Vocal layer for easiest control for STT and Sphinx.
+            Vocal layer for easier control for STT and Sphinx.
             Set the VocalProcessing attribute for STT callback.
             You can also set StartListenBehaviour and StopListenBehaviour.
             </summary>
