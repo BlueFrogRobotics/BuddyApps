@@ -101,18 +101,6 @@ MonoBehaviour:
   when: 0
   setActive: 1
   gameobject: 04000000
---- !u!114 &11403036
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67a220f285d1ddf44ad023dd8038edc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeIn: 1
 --- !u!114 &11405234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -306,7 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   when: 0
   setActive: 0
-  gameobject: 09000000
+  gameobject: 06000000
 --- !u!114 &11445624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1316,7 +1304,6 @@ AnimatorState:
   - {fileID: 11419976}
   - {fileID: 11437058}
   - {fileID: 11457306}
-  - {fileID: 11403036}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
