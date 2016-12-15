@@ -16,7 +16,7 @@ namespace BuddyApp.IOT
         protected List<int> mHashList = new List<int>();
         public List<int> HashList { get { return mHashList; } }
 
-        protected enum HashTrigger : int { NEXT, NETWORK_ERROR, MATCH_ERROR, TIMEOUT_ERROR, LISTENED, iot_connect, iot_action, iot_add, iot_account, Choice};
+        protected enum HashTrigger : int { NEXT, NETWORK_ERROR, MATCH_ERROR, TIMEOUT_ERROR, LISTENED, iot_connect, iot_action, iot_add, iot_account, Choice, CLOSE};
 
         public override void Init()
         {
