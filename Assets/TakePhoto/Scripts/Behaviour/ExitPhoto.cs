@@ -3,6 +3,7 @@ using System.Collections;
 using BuddyOS.App;
 using BuddyOS;
 using System;
+using BuddyOS.Command;
 
 public class ExitPhoto : AStateMachineBehaviour
 {
@@ -15,7 +16,8 @@ public class ExitPhoto : AStateMachineBehaviour
 	{
 		//link.animationManager.Sigh ();
 		mMood.Set(MoodType.NEUTRAL);
-		BYOS.Instance.AppManager.Quit();
+		//BYOS.Instance.AppManager.Quit();
+		new HomeCmd().Execute();
 	}
 
 	protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

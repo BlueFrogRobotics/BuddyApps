@@ -151,7 +151,7 @@ public class WaitInput : SpeechStateBehaviour
 
 		Text[] textObjects = mCanvasMail.GetComponentsInChildren<Text>();
 
-		textObjects[0].text = mDictionary.GetString("enterMail").ToUpper();
+		textObjects[0].text = mDictionary.GetString("enterMailShort").ToUpper();
 		textObjects[2].text = mDictionary.GetString("mailInput");
 		textObjects[4].text = mDictionary.GetString("validate").ToUpper();
 		textObjects[5].text = mDictionary.GetString("noThanks").ToUpper();
