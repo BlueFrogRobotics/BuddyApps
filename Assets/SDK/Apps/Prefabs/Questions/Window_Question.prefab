@@ -185,6 +185,7 @@ GameObject:
   - 114: {fileID: 11450052}
   - 114: {fileID: 11479350}
   - 114: {fileID: 11405974}
+  - 114: {fileID: 11445096}
   m_Layer: 5
   m_Name: Window_Question
   m_TagString: Untagged
@@ -560,6 +561,22 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11445096
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &11447558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -896,7 +913,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!224 &22402916
 RectTransform:

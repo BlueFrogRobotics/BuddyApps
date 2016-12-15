@@ -11,6 +11,7 @@ namespace BuddyApp.Guardian
     {
 
         private Animator mAnimator;
+        private Animator mDebugMovementAnimator;
         private MovementDetector mMovementDetector;
 
         private RawImage mRaw;
@@ -23,6 +24,7 @@ namespace BuddyApp.Guardian
         private Mat mMatRed;
         private bool mHasDetectedMouv = false;
         private bool mHasInitSlider = false;
+        private bool mGoBack = false;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -32,7 +34,7 @@ namespace BuddyApp.Guardian
             mAnimator = animator;
             Init();
             //StateManager.DebugMovementWindow.gameObject.SetActive(true);
-            StateManager.DebugMovementWindow.gameObject.GetComponent<Animator>().SetTrigger("Open_WDebugs");
+            mDebugMovementAnimator.SetTrigger("Open_WDebugs");
             StateManager.DebugMovementWindow.ButtonBack.onClick.AddListener(GoBack);
             mTimer = 0.0f;
             mMatRed = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3, new Scalar(254, 0, 0));
@@ -77,6 +79,12 @@ namespace BuddyApp.Guardian
                 else
                     StateManager.DebugMovementWindow.IcoMouv.enabled = false;
             }
+
+            if(mHasInitSlider && mDebugMovementAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
+            {
+                mAnimator.SetInteger("DebugMode", -1);
+                mGoBack = false;
+            }
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -97,12 +105,14 @@ namespace BuddyApp.Guardian
             mTexture = new Texture2D(mCam.Width, mCam.Height);
             mHasDetectedMouv = false;
             mHasInitSlider = false;
+            mGoBack = false;
+            mDebugMovementAnimator = StateManager.DebugMovementWindow.gameObject.GetComponent<Animator>();
         }
 
         private void GoBack()
         {
-            StateManager.DebugMovementWindow.gameObject.GetComponent<Animator>().SetTrigger("Close_WDebugs");
-            mAnimator.SetInteger("DebugMode", -1);
+            mDebugMovementAnimator.SetTrigger("Close_WDebugs");
+            mGoBack = true;
         }
 
         private void OnMovementDetected()

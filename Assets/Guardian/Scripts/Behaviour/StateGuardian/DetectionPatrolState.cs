@@ -53,7 +53,7 @@ namespace BuddyApp.Guardian
         {
             SetWindowAppOverBuddyColor(0);
             SetParamDetection();
-            Debug.Log("peut detecter son: " + canDetectSound + " " + isDetectingSound);
+            //Debug.Log("peut detecter son: " + canDetectSound + " " + isDetectingSound);
             mDetectorManager = StateManager.DetectorManager;
 
             animator.SetBool("ChangeState", false);
@@ -102,6 +102,10 @@ namespace BuddyApp.Guardian
             canDetectMovement = GuardianData.Instance.MovementDetectionIsActive;
             canDetectKidnapping = GuardianData.Instance.KidnappingDetectionIsActive;
             canDetectSound = GuardianData.Instance.SoundDetectionIsActive;
+            if (GuardianData.Instance.Recever == GuardianData.Contact.NOBODY)
+                Debug.Log("vraiment lol");
+            else if (GuardianData.Instance.Recever == GuardianData.Contact.WALID)
+                Debug.Log("plutot lol");
         }
 
         private void OnSoundDetected()
