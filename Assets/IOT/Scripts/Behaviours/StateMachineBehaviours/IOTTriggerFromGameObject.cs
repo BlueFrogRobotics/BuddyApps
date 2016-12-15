@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
 namespace BuddyApp.IOT
 {
-    public class IOTActiveState : AIOTStateMachineBehaviours
+    public class IOTTriggerFromGameObject : AIOTStateMachineBehaviours
     {
-        public enum EnterOrExit { ONENTER, ONEXIT};
+        public enum EnterOrExit { ONENTER, ONEXIT };
 
         [SerializeField]
         private EnterOrExit when = EnterOrExit.ONENTER;
         [SerializeField]
-        private bool setActive = false;
+        private string trigger;
         [SerializeField]
         private List<int> gameobject = new List<int>();
 
@@ -20,18 +21,22 @@ namespace BuddyApp.IOT
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
-            if(when == EnterOrExit.ONENTER)
+            if (when == EnterOrExit.ONENTER)
             {
-                for(int i = 0; i < gameobject.Count; ++i)
+                for (int i = 0; i < gameobject.Count; ++i)
                 {
                     GameObject lGO = GetGameObject(gameobject[i]);
-                    lGO.SetActive(setActive);
                     Animator lAnim = lGO.GetComponent<Animator>();
-                    if(lAnim != null)
+                    if (lAnim != null)
                     {
-                        string[] lName = lGO.name.Split('_');
-                        string lWinName = lName[lName.Length - 1];
-                        lAnim.SetTrigger("Open_W" + lWinName);
+                        if (trigger == "")
+                        {
+                            string[] lName = lGO.name.Split('_');
+                            string lWinName = lName[lName.Length - 1];
+                            lAnim.SetTrigger("Open_W" + lWinName);
+                        }
+                        else
+                            lAnim.SetTrigger(trigger);
                     }
                 }
             }
@@ -47,27 +52,21 @@ namespace BuddyApp.IOT
                     Animator lAnim = lGO.GetComponent<Animator>();
                     if (lAnim != null)
                     {
-                        string[] lName = lGO.name.Split('_');
-                        string lWinName = lName[lName.Length - 1];
-                        lAnim.SetTrigger("Close_W" + lWinName);
+                        if (trigger == "")
+                        {
+                            string[] lName = lGO.name.Split('_');
+                            string lWinName = lName[lName.Length - 1];
+                            lAnim.SetTrigger("Close_W" + lWinName);
+                        }
+                        else
+                            lAnim.SetTrigger(trigger);
                     }
                 }
-                StartCoroutine(CloseObject());
             }
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
-        }
-
-        IEnumerator CloseObject()
-        {
-            yield return new WaitForSeconds(0.8F);
-
-            for (int i = 0; i < gameobject.Count; ++i)
-            {
-                GetGameObject(gameobject[i]).SetActive(setActive);
-            }
         }
     }
 }
