@@ -23,7 +23,17 @@ namespace BuddyApp.IOT
             if(when == EnterOrExit.ONENTER)
             {
                 for(int i = 0; i < gameobject.Count; ++i)
-                    GetGameObject(gameobject[i]).SetActive(setActive);
+                {
+                    GameObject lGO = GetGameObject(gameobject[i]);
+                    lGO.SetActive(setActive);
+                    Animator lAnim = lGO.GetComponent<Animator>();
+                    if(lAnim != null)
+                    {
+                        string[] lName = lGO.name.Split('_');
+                        string lWinName = lName[lName.Length - 1];
+                        lAnim.SetTrigger("Open_W" + lWinName);
+                    }
+                }
             }
         }
 
@@ -32,12 +42,32 @@ namespace BuddyApp.IOT
             if (when == EnterOrExit.ONEXIT)
             {
                 for (int i = 0; i < gameobject.Count; ++i)
-                    GetGameObject(gameobject[i]).SetActive(setActive);
+                {
+                    GameObject lGO = GetGameObject(gameobject[i]);
+                    Animator lAnim = lGO.GetComponent<Animator>();
+                    if (lAnim != null)
+                    {
+                        string[] lName = lGO.name.Split('_');
+                        string lWinName = lName[lName.Length - 1];
+                        lAnim.SetTrigger("Close_W" + lWinName);
+                    }
+                }
+                StartCoroutine(CloseObject());
             }
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
+        }
+
+        IEnumerator CloseObject()
+        {
+            yield return new WaitForSeconds(0.8F);
+
+            for (int i = 0; i < gameobject.Count; ++i)
+            {
+                GetGameObject(gameobject[i]).SetActive(setActive);
+            }
         }
     }
 }

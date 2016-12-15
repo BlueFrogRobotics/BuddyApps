@@ -15,6 +15,7 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(FollowFaceReaction))]
     [RequireComponent(typeof(IdleReaction))]
     [RequireComponent(typeof(SayHelloReaction))]
+    [RequireComponent(typeof(SearchFaceReaction))]
     [RequireComponent(typeof(WanderReaction))]
     public class Reaction : MonoBehaviour
     {
@@ -25,6 +26,7 @@ namespace BuddyApp.Companion
         private FaceCascadeTracker mFaceTracker;
         private IdleReaction mIdleReaction;
         private SayHelloReaction mHelloReaction;
+        private SearchFaceReaction mSearchFaceReaction;
         private TextToSpeech mTTS;
         private WanderReaction mWanderReaction;
 
@@ -39,6 +41,7 @@ namespace BuddyApp.Companion
             mFaceTracker = GetComponent<FaceCascadeTracker>();
             mIdleReaction = GetComponent<IdleReaction>();
             mHelloReaction = GetComponent<SayHelloReaction>();
+            mSearchFaceReaction = GetComponent<SearchFaceReaction>();
             mWanderReaction = GetComponent<WanderReaction>();
 
             mDictionary = BYOS.Instance.Dictionary;
@@ -249,18 +252,26 @@ namespace BuddyApp.Companion
                 return;
             mHelloReaction.enabled = true;
         }
+
+        public void SearchFace()
+        {
+            if (mSearchFaceReaction.enabled)
+                return;
+
+            mSearchFaceReaction.enabled = false;
+        }
         
         public void LookRight()
         {
             float lHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
-            lHeadNoAngle += 15;
+            lHeadNoAngle -= 20;
             new SetPosNoCmd(lHeadNoAngle).Execute();
         }
 
         public void LookLeft()
         {
             float lHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
-            lHeadNoAngle -= 15;
+            lHeadNoAngle += 20;
             new SetPosNoCmd(lHeadNoAngle).Execute();
         }
     }
