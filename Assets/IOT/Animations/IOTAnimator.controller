@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   when: 0
   setActive: 1
-  gameobject: 07000000
+  gameobject: 04000000
 --- !u!114 &11403036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   when: 1
   setActive: 0
-  gameobject: 08000000
+  gameobject: 05000000
 --- !u!114 &11407000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   when: 0
   setActive: 1
-  gameobject: 0000000005000000
+  gameobject: 0000000002000000
 --- !u!114 &11420612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   when: 0
   setActive: 1
-  gameobject: 0900000008000000
+  gameobject: 0600000005000000
 --- !u!114 &11423706
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   when: 1
   setActive: 0
-  gameobject: 04000000
+  gameobject: 01000000
 --- !u!114 &11429234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   when: 0
   setActive: 1
-  gameobject: 07000000
+  gameobject: 04000000
 --- !u!114 &11445726
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -359,7 +359,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   when: 1
   setActive: 0
-  gameobject: 06000000
+  gameobject: 03000000
 --- !u!114 &11455054
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -387,7 +387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   when: 1
   setActive: 0
-  gameobject: 07000000
+  gameobject: 04000000
 --- !u!114 &11457306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   when: 1
   setActive: 0
-  gameobject: 05000000
+  gameobject: 02000000
 --- !u!114 &11459676
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -474,6 +474,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resetTo: -1
   parameter: 9
+--- !u!114 &11476866
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd72ecb17c454a54787fe54d17f4b004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notification: 0
+  message: Do you want to connect to the device or add a new IOT device?
+  sprite: Message
+  timer: 0
 --- !u!114 &11482662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -510,7 +525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   when: 0
   setActive: 1
-  gameobject: 0000000004000000
+  gameobject: 0000000001000000
 --- !u!114 &11488742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -548,7 +563,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   when: 0
   setActive: 1
-  gameobject: 0000000006000000
+  gameobject: 0000000003000000
 --- !u!114 &11499150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1541,6 +1556,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 11429234}
   - {fileID: 11442192}
+  - {fileID: 11476866}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
