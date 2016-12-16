@@ -33,15 +33,21 @@ namespace BuddyApp.IOT {
             lLogo.GetChild(1).GetChild(2).GetComponent<Text>().text = iName;
         }
 
+        private void CleanParams()
+        {
+            for (int i = 0; i < content.childCount; ++i)
+                GameObject.Destroy(content.GetChild(i).gameObject);
+        }
+
         void OnEnable()
         {
+            CleanParams();
             GameObject lFirst = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/DevicePanel"));
             lFirst.transform.SetParent(content, false);
             lFirst.transform.GetChild(0).gameObject.SetActive(true);
             SetSystemLogo(lFirst.transform, mObject.Name);
 
             Transform lParams = ParamContainer(lFirst);
-            mObject.InitializeParams();
             mObject.PlaceParams(lParams);
 
             if (mObject is IOTSystems)

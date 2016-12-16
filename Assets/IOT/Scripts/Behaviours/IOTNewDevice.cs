@@ -25,6 +25,8 @@ namespace BuddyApp.IOT
         // Use this for initialization
         void OnEnable()
         {
+            Debug.Log("yo");
+            CleanParams(true);
             GameObject lDropDown = Instantiate(paramContainer.ParametersList[5]);
             lDropDownComponent = lDropDown.GetComponent<Dropdown>();
 
@@ -36,9 +38,9 @@ namespace BuddyApp.IOT
                 lDropDownComponent.AddOption(systemName[i], new object[] { this, systemList[i] });
         }
 
-        void OnDisable()
+        public void CleanParams(bool iAll)
         {
-            for(int i = 0; i < parametersGroup.childCount; ++i)
+            for (int i = iAll ? 0 : 1; i < parametersGroup.childCount; ++i)
                 GameObject.Destroy(parametersGroup.GetChild(i).gameObject);
         }
 
