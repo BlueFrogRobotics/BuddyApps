@@ -14,8 +14,13 @@ namespace BuddyApp.RLGL
 
         private bool mIsAnswerRuleNo;
         public bool IsAnswerRuleNo { get { return mIsAnswerRuleNo; } set { mIsAnswerRuleNo = value; } }
+        
+        private float mTimer;
 
         private GameObject mWindowQuestionRule;
+        private GameObject mBackground;
+
+        private bool mCanvasTrigger;
 
         public override void Init()
         {
@@ -24,47 +29,65 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            GetComponent<RLGLBehaviour>().Index = 1;
+            mTimer = 0.0F;
             mIsSentenceDone = false;
             mIsQuestionDone = false;
             mIsAnswerRuleYes = false;
             mIsAnswerRuleNo = false;
-            mWindowQuestionRule = GetGameObject(4);
-            mWindowQuestionRule.SetActive(false);
+            mCanvasTrigger = false;
+            mWindowQuestionRule = GetGameObject(3);
+            mBackground = GetGameObject(1);
+            //mWindowQuestionRule.SetActive(false);
+            mBackground.GetComponent<Animator>().ResetTrigger("Close_BG");
+            mWindowQuestionRule.GetComponent<Animator>().ResetTrigger("Close_WQuestion");
             Debug.Log("RULES STATE : ON ENTER");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("RULES STATE : ON UPDATE");
+            mTimer += Time.deltaTime;
             if (!mIsSentenceDone)
                 StartCoroutine(SayRulesAndExit());   
             if(mTTS.HasFinishedTalking() && mIsSentenceDone && !mIsQuestionDone )
             {
                 StartCoroutine(Restart());
             }
-            //mettre sil a finit de parler et deux coroutine done -> request + question
-            if(mTTS.HasFinishedTalking() && mIsSentenceDone && mIsQuestionDone)
-            {
-                if(!mWindowQuestionRule.activeSelf)
-                    mWindowQuestionRule.SetActive(true);
-                StartCoroutine(RestartAskingRule(1));
-                if(mIsAnswerRuleNo)
-                {
-                    iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;
-                    iAnimator.SetBool("IsRulesDone", true);
 
-                }
-                else if(mIsAnswerRuleYes)
+            if (mTTS.HasFinishedTalking() && mIsSentenceDone && mIsQuestionDone)
+            {
+                OpenCanvas();
+                //mBackground.GetComponent<Animator>().ResetTrigger("Close_BG");
+                if (mTimer > 5.0F)
                 {
-                    iAnimator.Play("RulesState", 0, 0.0F);
+                    if ((!mIsAnswerRuleYes || !mIsAnswerRuleNo) && mSTT.HasFinished)
+                    {
+                        mTimer = 0.0F;
+                        GetGameObject(2).GetComponent<RLGLListener>().STTRequest(1);
+                    }
                 }
+
+            }
+
+            if (mIsAnswerRuleNo)
+            {
+                iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;
+                iAnimator.SetBool("IsRulesDone", true);
+
+            }
+            if (mIsAnswerRuleYes)
+            {
+                iAnimator.Play("RulesState", 0, 0.0F);
             }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             iAnimator.SetBool("IsRulesDone", false);
-            mWindowQuestionRule.SetActive(false);
+            mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
+            mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Close_WQuestion");
+            //mBackground.GetComponent<Animator>().ResetTrigger("Close_BG");
             Debug.Log("RULES STATE : ON EXIT");
         }
 
@@ -87,13 +110,16 @@ namespace BuddyApp.RLGL
             yield return new WaitForSeconds(3.0F);
         }
 
-        private IEnumerator RestartAskingRule(int iIndex)
+        private void OpenCanvas()
         {
-            GetGameObject(2).GetComponent<RLGLListener>().STTRequest(iIndex);
-            while (!mIsAnswerRuleYes || !mIsAnswerRuleNo)
+            if (!mCanvasTrigger)
             {
-                yield return null;
+                mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
+                mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Open_WQuestion");
+                mCanvasTrigger = true;
             }
+
+
         }
     }
 }

@@ -9,9 +9,10 @@ namespace BuddyApp.RLGL
     {
         //private bool mIsRule;
         private GameObject mWindowQuestion;
+        private GameObject mBackground;
 
         //private bool mIsDone;
-        
+
         private bool mIsAnswerYes;
         public bool IsAnswerYes { get { return mIsAnswerYes; } set { mIsAnswerYes = value; } }
         private bool mIsAnswerNo;
@@ -20,6 +21,10 @@ namespace BuddyApp.RLGL
         private int mCount;
         private bool mSentenceDone;
 
+        private bool mCanvasTrigger;
+        
+        private float mTimer;
+
         public override void Init()
         {
 
@@ -27,37 +32,44 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            GetComponent<RLGLBehaviour>().Index = 0;
+            mTimer = 0.0F;
             mCount = 0;
             mSentenceDone = false;
             mIsAnswerNo = false;
             mIsAnswerYes = false;
             Debug.Log("START STATE : ON ENTER");
-            Debug.Log("YES FINGE : " + mYesHinge.CurrentAnglePosition + " NO HINGE : " + mNoHinge.CurrentAnglePosition);
+            mCanvasTrigger = false;
+            mWindowQuestion = GetGameObject(3);
+            mBackground = GetGameObject(1);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if(!mSentenceDone)
+            mTimer += Time.deltaTime;
+            if (!mSentenceDone)
             {
-                
                 StartCoroutine(SayStart());
             }
 
-            if (mTTS.HasFinishedTalking() && mSentenceDone)
+            if(mTTS.HasFinishedTalking() && mSentenceDone)
             {
-                mWindowQuestion = GetGameObject(3);
-                if(!mWindowQuestion.activeSelf)
-                    mWindowQuestion.SetActive(true);
-                StartCoroutine(StartRules(0));
-                Debug.Log("START STATE : ON UPDATE ACTIVATION CANVAS OUI NON");
+                OpenCanvas();
+                if (mTimer > 5.0F)
+                {
+                    if ((!mIsAnswerNo || !mIsAnswerYes) && mSTT.HasFinished)
+                    {
+                        mTimer = 0.0F;
+                        GetGameObject(2).GetComponent<RLGLListener>().STTRequest(0);
+                    }
+                }
+                
             }
 
-            if( mIsAnswerYes)
+            if (mIsAnswerYes)
             {
-                
                 StartRuleState(iAnimator);
             }
-
             if (mIsAnswerNo)
             {
                 StartCountState(iAnimator);
@@ -68,29 +80,23 @@ namespace BuddyApp.RLGL
         {
             iAnimator.SetBool("IsStartDoneAndRules", false);
             iAnimator.SetBool("IsStartDoneAndNoRules", false);
-            mWindowQuestion.SetActive(false);
+            mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
+            mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
+            
+            //mWindowQuestion.GetComponent<Animator>().ResetTrigger("Close_WQuestion");
             Debug.Log("START STATE : ON EXIT");
         }
-
-        private IEnumerator StartRules(int iIndex)
-        {
-            GetGameObject(2).GetComponent<RLGLListener>().STTRequest(iIndex);
-            while (!mIsAnswerNo || !mIsAnswerYes)
-            {
-                yield return null;
-            }
-        }
-
+        
         private IEnumerator SayStart()
         {
             yield return new WaitForSeconds(2.0F);
-            if(mCount < 1)
+            if (mCount < 1)
             {
-                mTTS.Say("Hey! Hello my friend, we will play together but before I need to know if you want to know the rules! So do you want to listen to the rules?");
+                mTTS.Say("Hello my friend, we will play together but before I need to know if you want to know the rules! So do you want to listen to the rules?");
                 mCount++;
             }
-           
-            if(mTTS.HasFinishedTalking() && mCount > 0)
+
+            if (mTTS.HasFinishedTalking() && mCount > 0)
             {
                 mSentenceDone = true;
                 yield return null;
@@ -107,5 +113,14 @@ namespace BuddyApp.RLGL
             iAnimator.SetBool("IsStartDoneAndNoRules", true);
         }
 
+        private void OpenCanvas()
+        {
+            if (!mCanvasTrigger)
+            {
+                mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
+                mWindowQuestion.GetComponent<Animator>().SetTrigger("Open_WQuestion");
+                mCanvasTrigger = true;
+            }
+        }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using BuddyOS.App;
-using BuddyOS;
 using System.Collections.Generic;
 
 namespace BuddyApp.Recipe

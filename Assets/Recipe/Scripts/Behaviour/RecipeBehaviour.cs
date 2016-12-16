@@ -1,11 +1,18 @@
 ﻿using UnityEngine;
 using BuddyOS;
+using BuddyOS.App;
 using System.Collections.Generic;
 
 namespace BuddyApp.Recipe
 {
+    //[RequireComponent(typeof(StateMachineAppLinker))]
     public class RecipeBehaviour : MonoBehaviour
     {
+        [SerializeField]
+        private GameObject RecipeListParent;
+        [SerializeField]
+        private GameObject prefabRecipe;
+        private GameObject mRecipeInstance;
         public string mAnswer { get; set; }
         public Recipe mRecipe { get; set; }
         public List<Recipe> mRecipeList { get; set; }
@@ -13,6 +20,7 @@ namespace BuddyApp.Recipe
 
         void Start()
         {
+            Debug.Log("resr");
         }
 
         public void Exit()
@@ -30,7 +38,19 @@ namespace BuddyApp.Recipe
                 if (recipe.category == category)
                     mRecipeList.Add(recipe);
             }
-            GetComponent<Animator>().SetTrigger("DisplayRecipeList");
+            if (mRecipeList.Count > 0)
+                GetComponent<Animator>().SetTrigger("DisplayRecipeList");
+            else
+                GetComponent<Animator>().SetTrigger("NoRecipeFound");
+        }
+
+        public void DisplayRecipe()
+        {
+            foreach (Recipe recipe in mRecipeList)
+            {
+                mRecipeInstance = Instantiate(prefabRecipe);
+                mRecipeInstance.GetComponent<RecipePrefab>().FillRecipe(gameObject, recipe);
+            }
         }
     }
 }

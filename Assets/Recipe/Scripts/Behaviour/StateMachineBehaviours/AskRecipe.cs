@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using BuddyOS.App;
 using BuddyOS;
 
@@ -14,13 +13,14 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            GetGameObject(2).SetActive(true);
+            //GetGameObject(2).SetActive(true);
+            mNotManager.Display<SimpleNot>().With("Alors qu'est ce que l'on prépare ? ");
             mTTS.Say("Alors qu'est ce que l'on prépare ?");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mTTS.IsSpeaking())
+            if (mTTS.HasFinishedTalking()) { }
                 iAnimator.SetTrigger("QuestionFinished");
         }
 

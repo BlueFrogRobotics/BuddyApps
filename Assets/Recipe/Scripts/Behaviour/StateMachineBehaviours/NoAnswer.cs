@@ -24,7 +24,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mTTS.IsSpeaking())
+            if (mTTS.HasFinishedTalking())
                 iAnimator.SetTrigger("AskRecipeAgain");
         }
 

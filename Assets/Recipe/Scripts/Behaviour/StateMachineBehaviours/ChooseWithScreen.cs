@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using BuddyOS.App;
-using BuddyOS;
 
 namespace BuddyApp.Recipe
 {
@@ -27,12 +25,12 @@ namespace BuddyApp.Recipe
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mTTS.IsSpeaking())
-                mTTS.Stop();
-            GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
+            if (!mTTS.HasFinishedTalking())
+                mTTS.Silence(0, false);
+            /*GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
             GetGameObject(1).SetActive(false);
             GetGameObject(2).SetActive(true);
-            GetGameObject(6).GetComponent<Animator>().SetTrigger("Close_WCategory");
+            GetGameObject(6).GetComponent<Animator>().SetTrigger("Close_WCategory");*/
         }
     }
 }
