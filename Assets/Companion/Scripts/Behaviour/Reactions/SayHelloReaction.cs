@@ -26,7 +26,7 @@ namespace BuddyApp.Companion
 
         private IEnumerator StepBackCo()
         {
-            new SetWheelsSpeedCmd(-200F, -200F, 1500).Execute();
+            new SetWheelsSpeedCmd(-200F, -200F, 500).Execute();
 
             yield return new WaitForSeconds(1F);
 
