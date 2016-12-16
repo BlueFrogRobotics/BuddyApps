@@ -71,6 +71,8 @@ namespace BuddyApp.Guardian
         private float mMaxThreshold = 200f;
         private float mThreshold = 35f;
 
+        private VideoWriter mVideoWriter;
+
         //Kalman
 
         //void Awake()
@@ -107,7 +109,7 @@ namespace BuddyApp.Guardian
                 //mPreviousFrame = mCam.FrameMat.clone();
             }
             mBufferVideo = new Queue<Mat>();
-            mMaxBufferSize = 20.0f * 10.0f;
+            mMaxBufferSize = 30.0f * 10.0f;
         }
         // Update is called once per frame
         protected override void ProcessFrameImpl(Mat iInputFrameMat, Texture2D iInputFrameTexture)
@@ -192,9 +194,42 @@ namespace BuddyApp.Guardian
             //Debug.Log("threshold sound: " + mThreshold);
         }
 
-        public void Save()
+        public void Save(string iFilename)
         {
+            Mat[] lListMat = mBufferVideo.ToArray();
+            if (lListMat.Length > 0)
+            {
+                int codec = VideoWriter.fourcc('M', 'J', 'P', 'G');
+                //int codec = VideoWriter.fourcc('H', '2', '6', '4');
+                Debug.Log("codec: " + codec);
+                Debug.Log("3");
+                double fps = 30.0;                          // framerate of the created video stream
+                //string filename = "monitoring.avi";
 
+                string filepath = Application.persistentDataPath + "/" + iFilename;//Utils.GetStreamingAssetFilePath(filename);
+                
+                //File.Create(filepath);
+                if (mVideoWriter == null)
+                    mVideoWriter = new VideoWriter(filepath, codec, fps, lListMat[0].size());
+
+                if (!mVideoWriter.isOpened())
+                {
+                    mVideoWriter.open(filepath, codec, fps, lListMat[0].size());
+                    Debug.Log("a du open avec size: "+ lListMat[0].size());
+                }
+                if (mVideoWriter.isOpened())
+                {
+                    Debug.Log("truc");
+                    Mat lFrame = new Mat();
+                    for (int i = 0; i < lListMat.Length; i++)
+                    {
+                        Imgproc.cvtColor(lListMat[i], lFrame, Imgproc.COLOR_RGB2BGR);
+                        mVideoWriter.write(lFrame);
+                    }
+                }
+                mVideoWriter.Dispose();
+                mVideoWriter = null;
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ namespace BuddyApp.Guardian
 {
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(AudioSource))]
+    [RequireComponent(typeof(NotifMail))]
     public class StatePatrolManager : MonoBehaviour
     {
 

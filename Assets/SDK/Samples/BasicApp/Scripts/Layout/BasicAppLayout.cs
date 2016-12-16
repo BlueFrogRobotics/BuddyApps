@@ -1,5 +1,4 @@
-﻿using BuddyOS;
-using BuddyOS.UI;
+﻿using BuddyOS.UI;
 using BuddyOS.Command;
 
 namespace BuddyApp.Basic
@@ -13,7 +12,7 @@ namespace BuddyApp.Basic
              * ==> Which widget do I need for my app settings
              */
             GaugeOnOff lGaugeValOne = AddWidget<GaugeOnOff>(FIRST_LINE);
-            SearchField lSearchFieldValTwo = AddWidget<SearchField>(SECOND_LINE);
+            TextField lSearchFieldValTwo = AddWidget<TextField>(SECOND_LINE);
             Button lQuitButton = AddWidget<Button>(THIRD_LINE);
 
             /*
@@ -46,7 +45,7 @@ namespace BuddyApp.Basic
         public override void Labelize()
         {
             GetWidget<GaugeOnOff>(FIRST_LINE).Label.text = "AN INTEGER";
-            GetWidget<SearchField>(SECOND_LINE).Label.text = "A STRING";
+            GetWidget<TextField>(SECOND_LINE).Label.text = "A STRING";
             GetWidget<Button>(THIRD_LINE).Label.text = "QUIT APPLICATION";
         }
     }

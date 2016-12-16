@@ -39,8 +39,8 @@ namespace BuddyApp.Guardian
         // Update is called once per frame
         void Update()
         {
-            if (mMovementDetector.IsMovementDetected)
-                Debug.Log("mouv detected");
+            //if (mMovementDetector.IsMovementDetected)
+              //  Debug.Log("mouv detected");
         }
     }
 }

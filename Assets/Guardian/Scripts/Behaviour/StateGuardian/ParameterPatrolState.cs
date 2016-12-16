@@ -11,7 +11,20 @@ namespace BuddyApp.Guardian
         private DetectionManager mDetectionManager;
         private Animator mAnimator;
         private bool mHasInitSlider = false;
+        private bool mHasSwitchedState = false;
         private Animator mAnimatorParameter;
+
+        private enum NextState : int
+        {
+            NONE,
+            DEBUG_TEMP,
+            DEBUG_MOV,
+            DEBUG_SOUND,
+            BACK,
+            VALIDATE
+        }
+
+        private NextState mNextState;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -32,6 +45,8 @@ namespace BuddyApp.Guardian
             mParameters.ButtonValidate.onClick.AddListener(Validate);
             mParameters.ButtonBack.onClick.AddListener(Back);
             mHasInitSlider = false;
+            mHasSwitchedState = false;
+            mNextState = NextState.NONE;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -45,7 +60,16 @@ namespace BuddyApp.Guardian
                 mParameters.SliderSound.value = (1.0f - (mDetectionManager.SoundDetector.GetThreshold() / mDetectionManager.SoundDetector.GetMaxThreshold())) * mParameters.SliderSound.maxValue;
             }
 
+            else if (mHasInitSlider && !mHasSwitchedState && mAnimatorParameter.GetCurrentAnimatorStateInfo(0).IsName("Window_Parameters_Off") && mNextState!=NextState.NONE)
+            {
+                Debug.Log("fin param");
+                mHasSwitchedState = true;
+                ChangeState();
+            }
+
             SetDetectorsThreshold();
+
+            
 
         }
 
@@ -73,11 +97,36 @@ namespace BuddyApp.Guardian
             Debug.Log("fin param");
         }
 
+        private void ChangeState()
+        {
+            switch(mNextState)
+            {
+                case NextState.BACK:
+                    mAnimator.SetBool("Back", true);
+                    break;
+                case NextState.DEBUG_MOV:
+                    mAnimator.SetInteger("DebugMode", 1);
+                    break;
+                case NextState.DEBUG_SOUND:
+                    mAnimator.SetInteger("DebugMode", 0);
+                    break;
+                case NextState.DEBUG_TEMP:
+                    mAnimator.SetInteger("DebugMode", 2);
+                    break;
+                case NextState.VALIDATE:
+                    mAnimator.SetBool("ChangeState", true);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void ShowDebugSoundWindow()
         {
             Debug.Log("show sound window");
             mAnimatorParameter.SetTrigger("Close_WParameters");
-            mAnimator.SetInteger("DebugMode", 0);
+            mNextState = NextState.DEBUG_SOUND;
+            //mAnimator.SetInteger("DebugMode", 0);
             
         }
 
@@ -85,30 +134,34 @@ namespace BuddyApp.Guardian
         {
             Debug.Log("show mouv window");
             mAnimatorParameter.SetTrigger("Close_WParameters");
-            mAnimator.SetInteger("DebugMode", 1);
-            
+            mNextState = NextState.DEBUG_MOV;
+            //mAnimator.SetInteger("DebugMode", 1);
+
         }
 
         private void ShowDebugTemperatureWindow()
         {
             Debug.Log("show temperature window");
             mAnimatorParameter.SetTrigger("Close_WParameters");
-            mAnimator.SetInteger("DebugMode", 2);
-            
+            mNextState = NextState.DEBUG_TEMP;
+            //mAnimator.SetInteger("DebugMode", 2);
+
         }
 
         private void Validate()
         {
-            mAnimator.SetBool("ChangeState", true);
+            //mAnimator.SetBool("ChangeState", true);
             StateManager.BackgroundAnimator.SetTrigger("Close_BG");
             mAnimatorParameter.SetTrigger("Close_WParameters");
+            mNextState = NextState.VALIDATE;
         }
 
         private void Back()
         {
-            mAnimator.SetBool("Back", true);
+            //mAnimator.SetBool("Back", true);
             StateManager.BackgroundAnimator.SetTrigger("Close_BG");
             mAnimatorParameter.SetTrigger("Close_WParameters");
+            mNextState = NextState.BACK;
         }
 
         private void SetDetectorsThreshold()
