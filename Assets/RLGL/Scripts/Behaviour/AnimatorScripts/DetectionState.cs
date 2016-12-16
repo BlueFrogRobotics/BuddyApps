@@ -13,7 +13,7 @@ namespace BuddyApp.RLGL
         private bool mIsStrong;
         private bool mIsMovementActionDone;
         private bool mIsMovementDone;
-        
+
         public override void Init()
         {
         }
@@ -37,12 +37,13 @@ namespace BuddyApp.RLGL
             if (!mIsMovementActionDone)
             {
                 mTTS.Say("Red Light");
-                mWheels.TurnAngle(-180.0F, 250.0F, 0.3F);
+                mWheels.TurnAngle(-180.0F, 250.0F, 0.02F);
                 mIsMovementActionDone = true;
+                mTimer = 0.0F;
             }
             Debug.Log("STATUS DETECTION STATE : " + mWheels.Status);
 
-            if (mWheels.Status == MobileBaseStatus.REACHED_GOAL )
+            if (mWheels.Status == MobileBaseStatus.REACHED_GOAL || (mTimer > 1.5F && mWheels.Status == MobileBaseStatus.MOTIONLESS))
             {
                 mIsMovementDone = true;
                 Debug.Log("DETECTION UPDATE : MOVEMENT DONE");
@@ -57,6 +58,7 @@ namespace BuddyApp.RLGL
                     mMood.Set(MoodType.HAPPY);
                     iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;
                     mTTS.Say("I saw you moving my friend, I let you ten seconds to go back at the start!");
+
                     mIsSentenceDone = true;
                 }
                 if (mIsSentenceDone && mTTS.HasFinishedTalking() && mTimer > 10.0f)

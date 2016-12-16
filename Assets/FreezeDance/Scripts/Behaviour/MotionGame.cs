@@ -43,6 +43,10 @@ namespace BuddyApp.FreezeDance
 
         // Use this for initialization
 
+        private Mat mDebugMatRLGL;
+        [SerializeField]
+        private RawImage mDebugRawImg;
+
         protected override void Init()
         {
             isMoving = false;
@@ -52,11 +56,13 @@ namespace BuddyApp.FreezeDance
             mRawImage = new Mat();
             mTest = new Mat();
             
-
             mBlurredImage = new Mat();
             mBinaryImage = new Mat();
             mPositionOLD = new Point(1000, 1000);
             //sobelKernelSize = 3;
+
+            //Debug for RLGL
+            mDebugMatRLGL = new Mat();
 
             mRGBCam = BYOS.Instance.RGBCam;
             mRGBCam.Open();
@@ -65,9 +71,10 @@ namespace BuddyApp.FreezeDance
         // Update is called once per frame
         protected override void ProcessFrameImpl(Mat iInputFrameMat, Texture2D iInputFrameTexture)
         {
+
             //mThresh = threshBar.value;
             //need to change mThresh to adjust difficulty
-            mThresh = 35;
+            mThresh = 150;
             mRawImage = iInputFrameMat.clone();
             mTest = iInputFrameMat.clone();
 
@@ -89,7 +96,11 @@ namespace BuddyApp.FreezeDance
                     if (lDiffX == 0 && lDiffY == 0)
                         isMoving = false;
                     else
+                    {
+                        mDebugRawImg.texture = Utils.MatToTexture2D(mBinaryImage);
                         isMoving = true;
+                    }
+                        
                 }
                 mPositionOLD = lCenterOfMass;
             }

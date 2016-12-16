@@ -20,7 +20,6 @@ namespace BuddyApp.IOT
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
             mTTS.Say(Sentence);
-            GetGameObject(1).GetComponent<IOTSayingThis>().showMessage(Sentence);
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)

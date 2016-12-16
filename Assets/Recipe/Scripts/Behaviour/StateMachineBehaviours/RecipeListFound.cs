@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using BuddyOS.App;
-using BuddyOS;
 
 namespace BuddyApp.Recipe
 {
@@ -19,7 +17,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mTTS.IsSpeaking())
+            if (mTTS.HasFinishedTalking())
                 iAnimator.SetTrigger("DisplayRecipeList");
         }
 

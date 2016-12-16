@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -791307131, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
+  m_Name: EnglishTakePhotoAppDict
+  m_EditorClassIdentifier: 
+  entries:
+  - key: takePhoto
+    val: Ok, get ready, I'm going to take a picture!
+  - key: binaryCount
+    val: Warning, I will make the countdown with binaries!
+  - key: hereIsPic
+    val: Here is the picture!
+  - key: redo
+    val: Do you want to take an other one?
+  - key: noRedo
+    val: Got it, no more photos
+  - key: didntUnderstand
+    val: Sorry, I didn't understand
+  - key: yesOrNo
+    val: Please answer yes or no
+  - key: mail
+    val: Do you want to get this picture by mail?
+  - key: okNP
+    val: Ok, no problem
+  - key: enterMail
+    val: Please, enter your email
+  - key: needMail
+    val: You have to give your email!
+  - key: emptyMail
+    val: You can't validate with an empty field
+  - key: insist
+    val: It's useless to insist
+  - key: validate
+    val: Ok
+  - key: nothingHappen
+    val: Nothing happened. Let's move on!
+  - key: mailBoxPhoto
+    val: Check your mail box, you should receive the picture soon!
+  - key: mailContent
+    val: Hello! \n\n I had a good time with you! \n\n You will find the picture attached
+      to this mail! \n\n See you soon! \n\n\n Buddy \n\n--\nThis is an automatically
+      generated mail, plesase don't answer
+  - key: yes
+    val: yes
+  - key: no
+    val: no
+  - key: noThanks
+    val: no thanks
+  - key: mailInput
+    val: Enter your email...
+  - key: enterMailShort
+    val: enter you mail

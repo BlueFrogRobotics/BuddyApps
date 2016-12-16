@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 using BuddyOS.App;
-using BuddyOS;
 
 namespace BuddyApp.Recipe
 {
     public class RecipeNotFound : AStateMachineBehaviour
     {
-        private int mCount;
+        private int mCount = 0;
 
         public override void Init()
         {
@@ -24,7 +22,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mTTS.IsSpeaking())
+            if (mTTS.HasFinishedTalking())
                 iAnimator.SetTrigger("AskRecipeAgain");
         }
 

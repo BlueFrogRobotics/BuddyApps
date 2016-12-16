@@ -33,6 +33,13 @@ namespace BuddyAPI.Switch
                     lComponent.InstanceType = iType;
                     EditorUtility.SetDirty(lComponent);
                 }
+                if (iType == InstanceType.SIMU) {
+                    mSwitch.Render.gameObject.SetActive(true);
+                    mSwitch.Regular.renderMode = RenderMode.ScreenSpaceCamera;
+                } else {
+                    mSwitch.Render.gameObject.SetActive(false);
+                    mSwitch.Regular.renderMode = RenderMode.ScreenSpaceOverlay;
+                }
             }
         }
     }
