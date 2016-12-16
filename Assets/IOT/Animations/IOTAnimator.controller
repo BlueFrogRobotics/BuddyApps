@@ -324,18 +324,6 @@ MonoBehaviour:
   when: 0
   setActive: 1
   gameobject: 04000000
---- !u!114 &11445726
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67a220f285d1ddf44ad023dd8038edc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeIn: 1
 --- !u!114 &11448296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -405,18 +393,6 @@ MonoBehaviour:
   when: 1
   setActive: 0
   gameobject: 02000000
---- !u!114 &11459676
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67a220f285d1ddf44ad023dd8038edc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeIn: 1
 --- !u!114 &11463732
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -432,18 +408,6 @@ MonoBehaviour:
   message: Could you repeat please?
   sprite: 
   timer: 0
---- !u!114 &11464762
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67a220f285d1ddf44ad023dd8038edc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeIn: 1
 --- !u!114 &11466800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -522,18 +486,6 @@ MonoBehaviour:
   message: I have a problem connecting to internet
   sprite: 
   timer: 0
---- !u!114 &11482662
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67a220f285d1ddf44ad023dd8038edc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeIn: 1
 --- !u!114 &11484538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1443,7 +1395,6 @@ AnimatorState:
   - {fileID: 11493984}
   - {fileID: 11423706}
   - {fileID: 11453164}
-  - {fileID: 11482662}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1500,7 +1451,6 @@ AnimatorState:
   - {fileID: 11484998}
   - {fileID: 11407000}
   - {fileID: 11428830}
-  - {fileID: 11445726}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1553,7 +1503,6 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 11433956}
   - {fileID: 11402202}
-  - {fileID: 11464762}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1664,7 +1613,6 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 11468354}
   - {fileID: 11445624}
-  - {fileID: 11459676}
   - {fileID: 11456098}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0

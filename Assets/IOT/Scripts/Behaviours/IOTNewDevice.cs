@@ -30,10 +30,16 @@ namespace BuddyApp.IOT
 
             lDropDown.transform.SetParent(parametersGroup, false);
 
-            IOTDropdownCmd lCmd = new IOTDropdownCmd("IOTPhilipsHue");
+            IOTDropdownCmd lCmd = new IOTDropdownCmd("");
             lDropDownComponent.UpdateCommands.Add(lCmd);
             for (int i = 0; i < systemList.Count; ++i)
                 lDropDownComponent.AddOption(systemName[i], new object[] { this, systemList[i] });
+        }
+
+        void OnDisable()
+        {
+            for(int i = 0; i < parametersGroup.childCount; ++i)
+                GameObject.Destroy(parametersGroup.GetChild(i).gameObject);
         }
 
         public void FillParamClasses()
