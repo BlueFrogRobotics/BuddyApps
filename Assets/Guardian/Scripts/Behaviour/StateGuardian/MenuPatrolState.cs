@@ -56,7 +56,7 @@ namespace BuddyApp.Guardian
                 SetWindowAppOverBuddyColor(1);
                 Debug.Log("ask");
                 mHasAskedOnce = true;
-                mMenu.SetActive(true);
+                //mMenu.SetActive(true);
                 //StateManager.BackgroundPrefab.SetActive(true);
                 StateManager.BackgroundAnimator.SetTrigger("Open_BG");
                 mMenuAnimator.SetTrigger("Open_WMenu3");
@@ -75,7 +75,7 @@ namespace BuddyApp.Guardian
             //StateManager.BackgroundPrefab.SetActive(false);
             mSTT.OnBestRecognition.Clear();
             animator.SetInteger("Mode", mMode);
-            mMenu.SetActive(false);
+            //mMenu.SetActive(false);
             animator.SetBool("ChangeState", false);
         }
 

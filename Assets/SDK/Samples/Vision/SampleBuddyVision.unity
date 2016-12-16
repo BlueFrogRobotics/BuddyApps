@@ -1045,6 +1045,14 @@ Prefab:
       propertyPath: instanceType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 22317728, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 163160, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
   m_IsPrefabParent: 0
@@ -1388,6 +1396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: 1
+  openOnStart: 0
 --- !u!114 &1137911217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1828,7 +1837,6 @@ GameObject:
   - 124: {fileID: 2133955305}
   - 92: {fileID: 2133955304}
   - 81: {fileID: 2133955303}
-  - 114: {fileID: 2133955308}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -1904,16 +1912,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 319052619}
   m_RootOrder: 1
---- !u!114 &2133955308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2133955302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cf62210524eb584cbd9f1f9a1513b3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  verticalSlide: 0.4
-  objectToLookAt: {fileID: 0}

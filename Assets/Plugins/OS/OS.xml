@@ -1648,11 +1648,6 @@
             Scene name of the Companion app
             </summary>
         </member>
-        <member name="F:BuddyOS.App.AppManager.REMOTE_CONTROL_APP">
-            <summary>
-            Scene name of the Remote control app
-            </summary>
-        </member>
         <member name="F:BuddyOS.App.AppManager.CALL_APP">
             <summary>
             Scene name of the Call app
@@ -4641,6 +4636,11 @@
             Stop Trigger Mode and immediately starts STT request for instant listening
             </summary>
         </member>
+        <member name="M:BuddyOS.VocalDebug.StopSTT">
+            <summary>
+            Stop the speach recognition
+            </summary>
+        </member>
         <member name="T:BuddyOS.VocalActivation">
             <summary>
             Vocal layer for easier control for STT and Sphinx.
@@ -4651,6 +4651,11 @@
         <member name="P:BuddyOS.VocalActivation.RecognitionTriggered">
             <summary>
             Tells wether STT Recognition has been triggered or not.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.VocalActivation.CurrentLanguage">
+            <summary>
+            Returns which language is used at call moment
             </summary>
         </member>
         <member name="P:BuddyOS.VocalActivation.StartListenBehaviour">
@@ -4675,7 +4680,7 @@
         </member>
         <member name="P:BuddyOS.VocalActivation.VocalError">
             <summary>
-            Action will be called upon STT completion with an error. Throws a STTEnum error
+            Action will be called upon STT completion with an error. Throws a STTEnum error. After 3 consecutive errors, will momentally disable Sphinx.
             </summary>
         </member>
         <member name="M:BuddyOS.VocalActivation.LaunchDebug">
