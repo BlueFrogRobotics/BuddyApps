@@ -1,22 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BuddyOS;
-using System;
 
 namespace BuddyApp.RLGL
 {
-    public class RLGLMenu : MonoBehaviour
+    public class RLGLTutorial : MonoBehaviour
     {
+
         [SerializeField]
         private GameObject Listener;
 
         private TextToSpeech mTTS;
         private SpeechToText mSTT;
+        private int mCountStep;
         private bool mIsQuestionDone;
-        private float mTimer;
 
         private bool mIsAnswerPlayYes;
         public bool IsAnswerPlayYes { get { return mIsAnswerPlayYes; } set { mIsAnswerPlayYes = value; } }
+
+        private float mTimer;
 
         // Use this for initialization
         void Start()
@@ -24,27 +26,26 @@ namespace BuddyApp.RLGL
             mSTT = BYOS.Instance.SpeechToText;
             mTTS = BYOS.Instance.TextToSpeech;
             mIsQuestionDone = false;
-            mIsAnswerPlayYes = true;
+            mCountStep = 0;
         }
 
         // Update is called once per frame
         void Update()
         {
             mTimer += Time.deltaTime;
-            if(!mIsQuestionDone && mTTS.HasFinishedTalking())
+            if (mCountStep == 4 && mTTS.HasFinishedTalking() && !mIsQuestionDone)
             {
-                mTTS.Say("What do you want to do?");
+                mTTS.Say("Do you want to play now?");
                 mIsQuestionDone = true;
             }
 
 
-            if(!mIsAnswerPlayYes && mTimer > 5.0F && mSTT.HasFinished)
+            if (mCountStep == 4 && mTimer > 5.0F && mSTT.HasFinished)
             {
                 mTimer = 0.0F;
                 Listener.GetComponent<RLGLListener>().STTRequest(5);
             }
         }
-
     }
 
 }

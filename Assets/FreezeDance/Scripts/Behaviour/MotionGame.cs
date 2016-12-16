@@ -90,14 +90,19 @@ namespace BuddyApp.FreezeDance
                 lCenterOfMass.x = (int)(lMoments.get_m10() / lMoments.get_m00());
                 lCenterOfMass.y = (int)(lMoments.get_m01() / lMoments.get_m00());
                 Imgproc.circle(mTest, lCenterOfMass, 10, new Scalar(254, 254, 254), -1);
+                //Imgproc.rectangle(mTest, );
                 if (mPositionOLD.x != 1000) {
                     float lDiffX = Mathf.Abs((float)(lCenterOfMass.x - mPositionOLD.x));
                     float lDiffY = Mathf.Abs((float)(lCenterOfMass.y - mPositionOLD.y));
                     if (lDiffX == 0 && lDiffY == 0)
+                    {
+                        //mDebugRawImg.enabled = false;
                         isMoving = false;
+                    }
                     else
                     {
-                        mDebugRawImg.texture = Utils.MatToTexture2D(mBinaryImage);
+                        //mDebugRawImg.enabled = true;
+                        mDebugRawImg.texture = Utils.MatToTexture2D(mTest);
                         isMoving = true;
                     }
                         

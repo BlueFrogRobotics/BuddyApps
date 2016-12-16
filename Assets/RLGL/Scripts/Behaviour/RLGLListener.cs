@@ -23,6 +23,9 @@ namespace BuddyApp.RLGL
         [SerializeField]
         private GameObject WindowQuestion;
 
+        [SerializeField]
+        private GameObject WindowTuto;
+
         private int mIndex;
         
         void Awake()
@@ -51,6 +54,20 @@ namespace BuddyApp.RLGL
                 Background.GetComponent<Animator>().SetTrigger("Close_BG");
                 WindowMenu.GetComponent<Animator>().SetTrigger("Close_WMenu3");
                 Gameplay.SetActive(true);
+                //WindowMenu.SetActive(false);
+            }
+            else if (iMsg.ToLower().Contains("tutorial") && WindowMenu.activeSelf && mIndex == 5)
+            {
+                if (Gameplay.GetComponent<RLGLBehaviour>().IsClicked)
+                {
+                    Gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
+                    return;
+                }
+
+                WindowMenu.GetComponent<RLGLMenu>().IsAnswerPlayYes = true;
+                //Background.GetComponent<Animator>().SetTrigger("Close_BG");
+                WindowMenu.GetComponent<Animator>().SetTrigger("Close_WMenu3");
+                WindowTuto.GetComponent<Animator>().SetTrigger("Open_WTuto");
                 //WindowMenu.SetActive(false);
             }
             else if (iMsg.ToLower().Contains("quitter"))

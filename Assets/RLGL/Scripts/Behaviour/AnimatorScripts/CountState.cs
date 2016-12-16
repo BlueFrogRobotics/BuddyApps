@@ -9,7 +9,6 @@ namespace BuddyApp.RLGL
     {
         private GameObject mCanvasUIToWin;
         private Button mButtonToWin;
-        private float mTimer;
         private bool mFirstSentence;
         private bool mSecondSentence;
         private bool mIsCoroutineDone;
@@ -23,6 +22,7 @@ namespace BuddyApp.RLGL
         private int mCount;
         private int mCountGreenLight;
 
+        private float mTimerDebug;
 
         public override void Init()
         {
@@ -30,6 +30,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mTimerDebug = 0;
             Debug.Log("COUNT STATE : ON ENTER");
             mCanvasUIToWin = GetGameObject(0);
             mIsCoroutineDone = false;
@@ -48,7 +49,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+            mTimerDebug += Time.deltaTime;
             if(!mIsOneTurnDone)
             {
                 if (mTTS.HasFinishedTalking() && !mFirstSentence)
@@ -105,9 +106,16 @@ namespace BuddyApp.RLGL
                 mTTS.Say("Okay let's play together! You have ten seconds to go away by about fifteen feet, I will wait ten seconds gogo! ");
                 mCount++;
                 mYesHinge.SetPosition(45.0F, 150.0F);
+                
             }
-            yield return new WaitForSeconds(15.0F);
-            mFirstSentence = true;
+
+            Debug.Log(mTimerDebug);
+            if(mTTS.HasFinishedTalking())
+            {
+                yield return new WaitForSeconds(10.0F);
+                mFirstSentence = true;
+            }
+
         }
 
         private IEnumerator NotDetected()

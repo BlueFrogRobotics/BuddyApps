@@ -93,6 +93,16 @@ namespace BuddyApp.RLGL
             }
         }
 
+        public void OnCLickTuto()
+        {
+            mIsClicked = true;
+        }
+
+        public void OnCLickMenu()
+        {
+            mIsClicked = true;
+        }
+
         public void OnClickedButtonTowin()
         {
             mAnimator.SetBool("IsWon", true);
