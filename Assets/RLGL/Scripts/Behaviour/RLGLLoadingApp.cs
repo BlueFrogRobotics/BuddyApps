@@ -5,6 +5,8 @@ namespace BuddyApp.RLGL
 {
     public class RLGLLoadingApp : MonoBehaviour
     {
+        [SerializeField]
+        private GameObject BackGroundBlack;
 
         [SerializeField]
         private GameObject loadingScreen;
@@ -24,15 +26,19 @@ namespace BuddyApp.RLGL
 
         private IEnumerator LoadingScreen()
         {
-            animator.SetBool("Open_WLoading", true);
+            //animator.SetBool("Open_WLoading", true);
+            animator.SetTrigger("Open_WLoading");
             yield return new WaitForSeconds(3F);
-            startScreen.SetActive(true);
-
-            animator.SetBool("Open_WLoading", false);
-            animator.SetBool("Close_WLoading", true);
+            //startScreen.SetActive(true);
+            //animator.SetBool("Open_WLoading", false);
+            //animator.SetBool("Close_WLoading", true);
+            animator.SetTrigger("Close_WLoading");
             yield return new WaitForSeconds(1F);
-            loadingScreen.SetActive(false);
-            animator.SetBool("Close_WLoading", false);
+            BackGroundBlack.GetComponent<Animator>().SetTrigger("Open_BG");
+            startScreen.GetComponent<Animator>().SetTrigger("Open_WMenu3");
+            startScreen.GetComponent<RLGLMenu>().IsAnswerPlayYes = false;
+            //loadingScreen.SetActive(false);
+            //animator.SetBool("Close_WLoading", false);
         }
     }
 }
