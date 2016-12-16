@@ -37,7 +37,7 @@ namespace BuddyApp.Recipe
         {
             mRecipe = iRecipe;
             aiBehaviour = iAiBehaviour;
-            transform.SetParent(aiBehaviour.GetComponent<RectTransform>());
+            //transform.SetParent(aiBehaviour.GetComponent<RectTransform>());
             string lString = string.Empty;
 
             for(int i = 0; i < mRecipe.stars; i++)

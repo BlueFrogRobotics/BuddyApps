@@ -32,6 +32,7 @@ namespace BuddyApp.Recipe
 
         private void GetAnswer(string iAnswer)
         {
+            mNotManager.Display<SimpleNot>().With("J'ai entendu: " + iAnswer, mSpriteManager.GetSprite("Message"));
             GetComponent<RecipeBehaviour>().mAnswer = iAnswer;
             mAnimator.SetTrigger("AnswerRecipe");
         }
