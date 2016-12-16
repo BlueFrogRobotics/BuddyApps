@@ -44,6 +44,8 @@ namespace BuddyApp.FreezeDance
         // Use this for initialization
 
         private Mat mDebugMatRLGL;
+        [SerializeField]
+        private RawImage mDebugRawImg;
 
         protected override void Init()
         {
@@ -94,7 +96,11 @@ namespace BuddyApp.FreezeDance
                     if (lDiffX == 0 && lDiffY == 0)
                         isMoving = false;
                     else
+                    {
+                        mDebugRawImg.texture = Utils.MatToTexture2D(mBinaryImage);
                         isMoving = true;
+                    }
+                        
                 }
                 mPositionOLD = lCenterOfMass;
             }
