@@ -182,7 +182,11 @@ namespace BuddyApp.Companion
                     PushInStack(mReaction.SearchFace);
                     break;
 
-                case "Quizz":
+				case "Photo":
+					new LoadAppBySceneCmd("TakePhotoApp").Execute();
+					break;
+
+				case "Quizz":
                     break;
 
                 case "Colors":
