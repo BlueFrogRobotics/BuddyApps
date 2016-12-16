@@ -170,6 +170,10 @@ namespace BuddyApp.Companion
                     mReaction.StartWandering();
                     break;
 
+                case "CanMove":
+                    CompanionData.Instance.CanMoveBody = true;
+                    break;
+
                 case "DontMove":
                     CompanionData.Instance.CanMoveBody = false;
                     break;
@@ -178,7 +182,11 @@ namespace BuddyApp.Companion
                     PushInStack(mReaction.SearchFace);
                     break;
 
-                case "Quizz":
+				case "Photo":
+					new LoadAppBySceneCmd("TakePhotoApp").Execute();
+					break;
+
+				case "Quizz":
                     break;
 
                 case "Colors":

@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &129994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 402556}
+  - 114: {fileID: 11449230}
+  m_Layer: 0
+  m_Name: CallAcceptOTOSender
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &135674
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,6 +97,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &402556
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129994}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 489866}
+  m_RootOrder: 4
 --- !u!4 &423504
 Transform:
   m_ObjectHideFlags: 1
@@ -135,6 +164,7 @@ Transform:
   - {fileID: 438602}
   - {fileID: 423504}
   - {fileID: 493792}
+  - {fileID: 402556}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &493792
@@ -164,19 +194,22 @@ MonoBehaviour:
   mIsServer: 1
   mPort: 7015
   mIP: 
-  mChannel_ids: 000000000100000002000000
+  mChannel_ids: 00000000010000000200000003000000
   mChannel_name:
   - video
   - command
   - sensor
-  mChannel_type: 010000000300000000000000
+  - call accept
+  mChannel_type: 01000000030000000000000003000000
   mChannel_senders:
   - {fileID: 11436336}
   - {fileID: 0}
   - {fileID: 11416414}
+  - {fileID: 11449230}
   mChannel_receivers:
   - {fileID: 11471052}
   - {fileID: 11486696}
+  - {fileID: 0}
   - {fileID: 0}
 --- !u!114 &11416414
 MonoBehaviour:
@@ -204,6 +237,17 @@ MonoBehaviour:
   mCompressQuality: 30
   mRequestedFPS: 20
   OTO: {fileID: 11408264}
+--- !u!114 &11449230
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4cea70fc1df442448dbb06e179961d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11471052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -216,6 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WebcamShowStream: {fileID: 0}
+  windowsManager: {fileID: 0}
 --- !u!114 &11486696
 MonoBehaviour:
   m_ObjectHideFlags: 1

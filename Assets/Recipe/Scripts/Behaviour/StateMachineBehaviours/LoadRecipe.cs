@@ -5,7 +5,7 @@ using BuddyOS;
 
 namespace BuddyApp.Recipe
 {
-    public class Loadrecipe : AStateMachineBehaviour
+    public class LoadRecipe : AStateMachineBehaviour
     {
 
         public override void Init()
@@ -14,7 +14,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

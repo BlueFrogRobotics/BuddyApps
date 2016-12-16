@@ -30,15 +30,15 @@ namespace BuddyApp.Call
             if (WebcamShowStream.IsActive()) {
                 if (Time.time - mTime > 2f)
                 {
-                    WebcamShowStream.gameObject.SetActive(false);
-                    windowsManager.StopCall();
+                    //WebcamShowStream.gameObject.SetActive(false);
+                    //windowsManager.StopCall();
                 }
             }
         }
 
         public override void ReceiveData(byte[] data, int ndata)
         {
-            windowsManager.GetIncomingCall();
+            //windowsManager.GetIncomingCall();
 
             mNbReceived++;
 

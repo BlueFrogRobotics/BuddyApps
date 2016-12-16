@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BuddyApp.Recipe
 {
-    //[RequireComponent(typeof(StateMachineAppLinker))]
+    [RequireComponent(typeof(StateMachineAppLinker))]
     public class RecipeBehaviour : MonoBehaviour
     {
         [SerializeField]
@@ -20,7 +20,6 @@ namespace BuddyApp.Recipe
 
         void Start()
         {
-            Debug.Log("resr");
         }
 
         public void Exit()
@@ -49,6 +48,7 @@ namespace BuddyApp.Recipe
             foreach (Recipe recipe in mRecipeList)
             {
                 mRecipeInstance = Instantiate(prefabRecipe);
+                mRecipeInstance.transform.SetParent(RecipeListParent.transform);
                 mRecipeInstance.GetComponent<RecipePrefab>().FillRecipe(gameObject, recipe);
             }
         }

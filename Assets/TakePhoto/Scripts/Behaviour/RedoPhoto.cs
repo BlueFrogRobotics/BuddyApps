@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using BuddyOS.App;
 using UnityEngine.UI;
+using BuddyOS;
 
 public class RedoPhoto : SpeechStateBehaviour
 {
@@ -58,11 +59,10 @@ public class RedoPhoto : SpeechStateBehaviour
 		mDidntUnderstandSpeech = new List<string>();
 
 		mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoEN.xml").text;
-
-		// TODO: put this back when possible
-		//if (VocalActivation.CurrentLanguage == Language.FRA) {
-		//	mSynonymesFile = Resources.Load<TextAsset>("synonymesPhotoFR.xml").text;
-		//}
+		
+		if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
+			mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoFR.xml").text;
+		}
 
 		FillListSyn("Accept", mAcceptSpeech);
 		FillListSyn("AnOther", mAnOtherSpeech);
