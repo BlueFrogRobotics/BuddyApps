@@ -281,6 +281,21 @@ MonoBehaviour:
   Sentence: Select or add a device
   trigger: 0
   triggerOrNotTrigger: 1
+--- !u!114 &11441180
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd72ecb17c454a54787fe54d17f4b004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notification: 0
+  message: I didn't understand, could you repeat please?
+  sprite: 
+  timer: 0
 --- !u!114 &11442192
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -402,6 +417,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeIn: 1
+--- !u!114 &11463732
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd72ecb17c454a54787fe54d17f4b004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notification: 0
+  message: Could you repeat please?
+  sprite: 
+  timer: 0
 --- !u!114 &11464762
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -476,6 +506,21 @@ MonoBehaviour:
   notification: 0
   message: Do you want to connect to the device or add a new IOT device?
   sprite: Message
+  timer: 0
+--- !u!114 &11481724
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd72ecb17c454a54787fe54d17f4b004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notification: 0
+  message: I have a problem connecting to internet
+  sprite: 
   timer: 0
 --- !u!114 &11482662
 MonoBehaviour:
@@ -552,6 +597,21 @@ MonoBehaviour:
   when: 0
   setActive: 1
   gameobject: 0000000003000000
+--- !u!114 &11496234
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd72ecb17c454a54787fe54d17f4b004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notification: 0
+  message: I didn't understand
+  sprite: 
+  timer: 0
 --- !u!114 &11499150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1329,6 +1389,7 @@ AnimatorState:
   - {fileID: 110114960}
   m_StateMachineBehaviours:
   - {fileID: 11420612}
+  - {fileID: 11481724}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1408,6 +1469,7 @@ AnimatorState:
   - {fileID: 110114042}
   m_StateMachineBehaviours:
   - {fileID: 11427856}
+  - {fileID: 11441180}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1517,6 +1579,7 @@ AnimatorState:
   - {fileID: 110103066}
   m_StateMachineBehaviours:
   - {fileID: 11424598}
+  - {fileID: 11463732}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1657,6 +1720,7 @@ AnimatorState:
   - {fileID: 110195264}
   m_StateMachineBehaviours:
   - {fileID: 11455054}
+  - {fileID: 11496234}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
