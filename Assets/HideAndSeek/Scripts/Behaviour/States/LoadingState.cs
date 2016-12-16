@@ -23,7 +23,7 @@ namespace BuddyApp.HideAndSeek
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
-            if (mTimer>2.0f)
+            if (mTimer>6.0f)
             {
                 mWindowLoading.GetComponent<Animator>().SetTrigger("Close_WLoading");
                 iAnimator.SetTrigger("ChangeState");
