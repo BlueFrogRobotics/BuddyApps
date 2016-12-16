@@ -41,6 +41,12 @@ namespace BuddyApp.RLGL
         {
             if (iMsg.ToLower().Contains("jouer") && WindowMenu.activeSelf && mIndex == 5)
             {
+                if (Gameplay.GetComponent<RLGLBehaviour>().IsClicked)
+                {
+                    Gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
+                    return;
+                }
+                    
                 WindowMenu.GetComponent<RLGLMenu>().IsAnswerPlayYes = true;
                 Background.GetComponent<Animator>().SetTrigger("Close_BG");
                 WindowMenu.GetComponent<Animator>().SetTrigger("Close_WMenu3");
@@ -51,6 +57,11 @@ namespace BuddyApp.RLGL
                 new HomeCmd().Execute();
             else if (iMsg.ToLower().Contains("oui") && mIndex == 0)
             {
+                if (Gameplay.GetComponent<RLGLBehaviour>().IsClicked)
+                {
+                    Gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
+                    return;
+                }
                 //Gameplay.GetComponent<Animator>().SetBool("IsReplayDone", true);
                 Gameplay.GetComponent<Animator>().GetBehaviour<StartState>().IsAnswerYes = true;
                 Background.GetComponent<Animator>().SetTrigger("Close_BG");
@@ -58,6 +69,11 @@ namespace BuddyApp.RLGL
             }
             else if (iMsg.ToLower().Contains("non") && mIndex == 0)
             {
+                if (Gameplay.GetComponent<RLGLBehaviour>().IsClicked)
+                {
+                    Gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
+                    return;
+                }
                 //Gameplay.GetComponent<Animator>().SetBool("IsReplayDone", true);
                 Gameplay.GetComponent<Animator>().GetBehaviour<StartState>().IsAnswerNo = true;
                 Background.GetComponent<Animator>().SetTrigger("Close_BG");
@@ -65,6 +81,11 @@ namespace BuddyApp.RLGL
             }
             else if (iMsg.ToLower().Contains("oui") && mIndex == 1)
             {
+                if (Gameplay.GetComponent<RLGLBehaviour>().IsClicked)
+                {
+                    Gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
+                    return;
+                }
                 //Gameplay.GetComponent<Animator>().SetBool("IsReplayDone", true);
                 Debug.Log("OUI DANS LE RULE STATE");
                 Gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().IsAnswerRuleYes = true;
@@ -73,6 +94,11 @@ namespace BuddyApp.RLGL
             }
             else if (iMsg.ToLower().Contains("non") && mIndex == 1)
             {
+                if (Gameplay.GetComponent<RLGLBehaviour>().IsClicked)
+                {
+                    Gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
+                    return;
+                }
                 //Gameplay.GetComponent<Animator>().SetBool("IsReplayDone", true);
                 Gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().IsAnswerRuleNo = true;
                 Background.GetComponent<Animator>().SetTrigger("Close_BG");
@@ -80,6 +106,11 @@ namespace BuddyApp.RLGL
             }
             else
             {
+                if (Gameplay.GetComponent<RLGLBehaviour>().IsClicked)
+                {
+                    Gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
+                    return;
+                }
                 mTTS.Say("Je n'ai pas compris, veux tu répéter?");
                 StartCoroutine(StartRequestAfterDelay(5.0F));
             }

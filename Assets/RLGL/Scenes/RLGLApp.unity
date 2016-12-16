@@ -230,7 +230,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22482902, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0.99999994
+      value: 0.9999999
       objectReference: {fileID: 0}
     - target: {fileID: 427440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_LocalPosition.x
@@ -266,7 +266,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22478786, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -665.1916
+      value: -664.8328
       objectReference: {fileID: 0}
     - target: {fileID: 22412740, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
@@ -282,7 +282,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22478786, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000030517578
+      value: 0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 178300, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_IsActive
@@ -979,7 +979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mReplay: 0
   Background: {fileID: 497429806}
-  WindowQuestion: {fileID: 0}
+  WindowQuestion: {fileID: 1828170889}
 --- !u!114 &841543045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1089,6 +1089,10 @@ Prefab:
     - target: {fileID: 22429612, guid: 3b5a495ce2758e74e8c6ecf89701eedf, type: 2}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22326168, guid: 3b5a495ce2758e74e8c6ecf89701eedf, type: 2}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3b5a495ce2758e74e8c6ecf89701eedf, type: 2}
@@ -1859,7 +1863,7 @@ MonoBehaviour:
   Gameplay: {fileID: 841543039}
   Background: {fileID: 497429806}
   WindowMenu: {fileID: 1545395724}
-  WindowQuestion: {fileID: 0}
+  WindowQuestion: {fileID: 1828170889}
 --- !u!224 &1975093213
 RectTransform:
   m_ObjectHideFlags: 0

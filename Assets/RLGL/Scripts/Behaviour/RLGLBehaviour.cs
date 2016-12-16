@@ -23,6 +23,9 @@ namespace BuddyApp.RLGL
         private int mIndex;
         public int Index { get { return mIndex; } set { mIndex = value; } }
 
+        private bool mIsClicked;
+        public bool IsClicked { get { return mIsClicked; } set { mIsClicked = value; } }
+
         //[SerializeField]
         //private GameObject mCanvasRules;
 
@@ -30,6 +33,7 @@ namespace BuddyApp.RLGL
         void Start()
         {
             mAnimator = GetComponent<Animator>();
+
         }
 
         // Update is called once per frame
@@ -40,6 +44,7 @@ namespace BuddyApp.RLGL
 
         public void OnClickedButtonYes()
         {
+            mIsClicked = true;
             if(mIndex == 0)
             {
                 mAnimator.GetBehaviour<StartState>().IsAnswerYes = true;
@@ -65,6 +70,7 @@ namespace BuddyApp.RLGL
 
         public void OnClickedButtonNo()
         {
+            mIsClicked = true;
             if (mIndex == 0)
             {
                 mAnimator.GetBehaviour<StartState>().IsAnswerNo = true;
