@@ -27,12 +27,12 @@ public class WaitInput : SpeechStateBehaviour
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		// If we already have a mail, propose it
-		if (CommonStrings.Count == 2) {
+		//// If we already have a mail, propose it
+		//if (CommonStrings.Count == 2) {
 
-			mCanvasMail.GetComponentInChildren<InputField>().GetComponentsInChildren<Text>()[1].text = CommonStrings[1];
+		//	mCanvasMail.GetComponentInChildren<InputField>().GetComponentsInChildren<Text>()[1].text = CommonStrings[1];
 
-		}
+		//}
 
 		DisplayCanvasMail();
 
@@ -95,11 +95,7 @@ public class WaitInput : SpeechStateBehaviour
 			clickValidationId += 1;
 		} else {
 			//link.animationManager.Smile ();
-			if (CommonStrings.Count == 2) {
-				CommonStrings[1] = lMailInput;
-			} else {
-				CommonStrings.Add(lMailInput);
-			}
+			CommonStrings["mailTo"] = lMailInput;
 			mAccepted = true;
 		}
 	}

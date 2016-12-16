@@ -115,11 +115,7 @@ public class TakePhoto : SpeechStateBehaviour
 #endif
 						Debug.Log(Application.persistentDataPath);
 						BuddyTools.Utils.SaveTextureToFile(lCameraShoot, lFilePath);
-						if (CommonStrings.Count > 0) {
-							CommonStrings[0] = lFilePath;
-						} else {
-							CommonStrings.Add(lFilePath);
-						}
+						CommonStrings["photoPath"] = lFilePath;
 
 						mVideo.texture = lCameraShoot;
 
@@ -187,7 +183,7 @@ public class TakePhoto : SpeechStateBehaviour
 	public void DisplayCanvasPicture()
 	{
 		Debug.Log("Display canvas Picture");
-		
+
 		Text[] textObjects = mCanvasYesNoPicture.GetComponentsInChildren<Text>();
 
 		textObjects[0].text = mDictionary.GetString("redo").ToUpper();

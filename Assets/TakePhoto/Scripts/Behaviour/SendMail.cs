@@ -37,13 +37,13 @@ public class SendMail : SpeechStateBehaviour
 	public void StartSendMail()
 	{
 		mSendingMail = true;
-		Debug.Log("Sending mail to " + CommonStrings[1]);
+		Debug.Log("Sending mail to " + CommonStrings["mailTo"]);
 		try {
 
 			MailMessage mail = new MailMessage();
 
 			mail.From = new MailAddress(mMailFrom);
-			mail.To.Add(CommonStrings[1]);
+			mail.To.Add(CommonStrings["mailTo"]);
 			mail.Subject = mSubject;
 			mail.Body = mMessage;
 
@@ -55,7 +55,7 @@ public class SendMail : SpeechStateBehaviour
 			smtpServer.EnableSsl = true;
 			ServicePointManager.ServerCertificateValidationCallback =
 				delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
-			string attachmentPath = @CommonStrings[0];
+			string attachmentPath = @CommonStrings["photoPath"];
 			System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment(attachmentPath);
 			mail.Attachments.Add(attachment);
 			//			object lUser = mail;
