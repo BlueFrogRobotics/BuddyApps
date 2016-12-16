@@ -7,6 +7,8 @@ namespace BuddyApp.Companion
     {
         public bool ThermalDetected { get { return mThermalDetected; } }
 
+        private const int THERMAL_THRESH = 6;
+
         private bool mThermalDetected;
         private ThermalSensor mSensor;
 
@@ -25,7 +27,7 @@ namespace BuddyApp.Companion
                     lActivePixel++;
             }
 
-            if (lActivePixel > 4)
+            if (lActivePixel > THERMAL_THRESH)
                 mThermalDetected = true;
             else
                 mThermalDetected = false;

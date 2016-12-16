@@ -78,6 +78,7 @@ namespace BuddyApp.Companion
             new SetMoodCmd(MoodType.SCARED).Execute();
             new SetMouthEvntCmd(MouthEvent.SCREAM);
             //BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
+            mTTS.Say(mDictionary.GetString("putMeDown"));
         }
 
         public void Pout()
@@ -119,8 +120,7 @@ namespace BuddyApp.Companion
                 yield return new WaitForSeconds(0.2F);
             }
             new SetMoodCmd(MoodType.GRUMPY).Execute();
-
-            StartWandering();
+            
             yield return new WaitForSeconds(5F);
 
             //for (int i = 0; i < 50; i++)
@@ -128,8 +128,7 @@ namespace BuddyApp.Companion
             //    new SetWheelsSpeedCmd(200F, 200F, 200).Execute();
             //    yield return new WaitForSeconds(0.2F);
             //}
-
-            StopWandering();
+            
             new SetMoodCmd(MoodType.NEUTRAL).Execute();
             mIsPouting = false;
             ActionFinished();

@@ -20,10 +20,10 @@ namespace BuddyApp.Call
 
         void Start()
         {
-            //receiveCallAnim.SetTrigger("Close_WReceiveCall");
+            receiveCallAnim.SetTrigger("Open_WReceiveCall");
             //receiveCallTimeAnim.SetTrigger("Close_WReceiveCallTime");
-            callAnimator.SetTrigger("Close_WCall");
-            backgroundAnim.SetTrigger("Open_BG");
+            //callAnimator.SetTrigger("Close_WCall");
+            //backgroundAnim.SetTrigger("Open_BG");
             mIncomingCallHandled = false;
         }
         

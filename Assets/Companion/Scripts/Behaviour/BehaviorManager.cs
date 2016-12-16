@@ -170,6 +170,10 @@ namespace BuddyApp.Companion
                     mReaction.StartWandering();
                     break;
 
+                case "CanMove":
+                    CompanionData.Instance.CanMoveBody = true;
+                    break;
+
                 case "DontMove":
                     CompanionData.Instance.CanMoveBody = false;
                     break;
