@@ -31,7 +31,7 @@ namespace BuddyApp.Guardian
         private Sprite[] mListSpriteNotif;
         private GameObject mCounterTime;
         private GameObject mObjectButtonAskPassword;
-        private Dropdown mDropListContact;
+        //private Dropdown mDropListContact;
 
         private Animator mAnimator;
         private Button mButtonPassword;
@@ -48,7 +48,7 @@ namespace BuddyApp.Guardian
             mTTS = BYOS.Instance.TextToSpeech;
             mFaceManager = BYOS.Instance.Face;
             mWebcam = BYOS.Instance.RGBCam;
-            mTimer = 5.0f;
+            mTimer = 3.0f;
             //mTTS = new BuddyFeature.Vocal.TextToSpeech();
             mHasAlerted = false;
             if (mMailSender == null)
@@ -73,7 +73,7 @@ namespace BuddyApp.Guardian
             mTimer -= Time.deltaTime;
             //mFaceManager.Speak(mTTS.IsSpeaking());
             //mDetectorManager.SoundDetector.CanSave = mMailSender.CanSend;
-            Debug.Log("peut send: " + mMailSender.CanSend);
+            //Debug.Log("peut send: " + mMailSender.CanSend);
             if (!mHasAlerted)
             {
                 mHasAlerted = true;
@@ -85,7 +85,7 @@ namespace BuddyApp.Guardian
                 mObjectButtonAskPassword.SetActive(true);
             }
 
-            else if (!mHasSentNotification)
+            else if (!mHasSentNotification && mTimer<0.0f)
             {
                 //if (HasSavedProof())
                 //{
@@ -93,6 +93,7 @@ namespace BuddyApp.Guardian
                         SendNotification();
                     mHasSentNotification = true;
                     Debug.Log("proof saved");
+                mTimer = 3.0f;
                 //}
             }
 
@@ -201,9 +202,11 @@ namespace BuddyApp.Guardian
                         {
                             mWebcam.Open();
                         }
+                        mDetectorManager.MovementDetector.Save("monitoring.avi");
+                        lMail.AddFile("monitoring.avi");
                         //lMail.AddTexture2D(mWebcam.FrameTexture2D, "photocam.png"); //+ mCountPhoto + ".png");
                         //mCountPhoto++;
-                        //mMailSender.Send(lMail);
+                        mMailSender.Send(lMail);
                     }
                     else
                         Debug.Log("peut pas send");
@@ -257,21 +260,48 @@ namespace BuddyApp.Guardian
 
         }
 
+        //private void SetMailAdress()
+        //{
+        //    switch (mDropListContact.captionText.text)
+        //    {
+        //        case "RODOLPHE HASSELVANDER":
+        //            mMailAdress = "rh@bluefrogrobotics.com";
+        //            Debug.Log("rodolphe");
+        //            break;
+        //        case "WALID ABDERRAHMANI":
+        //            mMailAdress = "tigrejounin@gmail.com";
+        //            Debug.Log("walid");
+        //            break;
+        //        case "JEAN MICHEL MOURIER":
+        //            mMailAdress = "jmm@bluefrogrobotics.com";
+        //            Debug.Log("jean michel");
+        //            break;
+        //        default:
+        //            mMailAdress = "";
+        //            Debug.Log("personne");
+        //            break;
+        //    }
+        //}
+
         private void SetMailAdress()
         {
-            switch (mDropListContact.captionText.text)
+            switch (GuardianData.Instance.Recever)
             {
-                case "RODOLPHE HASSELVANDER":
+                case GuardianData.Contact.RODOLPHE:
                     mMailAdress = "rh@bluefrogrobotics.com";
                     Debug.Log("rodolphe");
                     break;
-                case "WALID ABDERRAHMANI":
+                case GuardianData.Contact.WALID:
                     mMailAdress = "tigrejounin@gmail.com";
                     Debug.Log("walid");
                     break;
-                case "JEAN MICHEL MOURIER":
+                case GuardianData.Contact.J2M:
                     mMailAdress = "jmm@bluefrogrobotics.com";
                     Debug.Log("jean michel");
+                    break;
+                case GuardianData.Contact.MAUD:
+                    mMailAdress = "mv@bluefrogrobotics.com";
+                    Debug.Log("maud");
                     break;
                 default:
                     mMailAdress = "";
@@ -293,7 +323,7 @@ namespace BuddyApp.Guardian
             mListSpriteNotif = StateManager.ListSpriteNotif;
             mCounterTime = StateManager.CounterTime;
             mObjectButtonAskPassword = StateManager.ObjectButtonAskPassword;
-            mDropListContact = StateManager.DropListContact;
+            //mDropListContact = StateManager.DropListContact;
         }
     }
 }

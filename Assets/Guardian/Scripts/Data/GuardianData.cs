@@ -39,6 +39,16 @@ namespace BuddyApp.Guardian
 {
     public class GuardianData : AAppData
     {
+
+        public enum Contact : int
+        {
+            NOBODY,
+            RODOLPHE,
+            J2M,
+            MAUD,
+            WALID
+        }
+
         /*
          * Data getters / setters
          */
@@ -46,6 +56,7 @@ namespace BuddyApp.Guardian
         public bool MovementDetectionIsActive { get; set; }
         public bool SoundDetectionIsActive { get; set; }
         public bool KidnappingDetectionIsActive { get; set; }
+        public Contact Recever { get; set; }
 
         /*
          * Data singleton access
