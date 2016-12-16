@@ -5,30 +5,30 @@ using System;
 
 namespace BuddyApp.HideAndSeek
 {
-    public class CheckHumanState : AStateMachineBehaviour
+    public class StopWheelsState : AStateMachineBehaviour
     {
-
-        private HumanDetector mHumanDetector;
+        private float mTimer = 0.0f;
 
         public override void Init()
         {
-            mHumanDetector = GetComponent<HumanDetector>();
+
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
-            
+            mWheels.StopWheels();
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-                iAnimator.SetBool("IsHuman", mHumanDetector.IsHumanDetected);
+            mTimer += Time.deltaTime;
+            if (mTimer > 1.0f)
+                iAnimator.SetTrigger("ChangeState");
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //iAnimator.ResetTrigger("ChangeState");
+            iAnimator.ResetTrigger("ChangeState");
         }
 
     }

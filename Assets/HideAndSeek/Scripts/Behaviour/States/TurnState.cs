@@ -1,48 +1,47 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BuddyOS.App;
-using System;
 
 namespace BuddyApp.HideAndSeek
 {
-    public class TimerUpdate : AStateMachineBehaviour
+    public class TurnState : AStateMachineBehaviour
     {
-
         private float mTimer;
-        private int mNumPrec = 0;
 
         public override void Init()
         {
-            mTimer = 0.0f;
-            mNumPrec = 0;
+
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Init();
+            mTimer = 0.0f;
+
+            // mWheels.MoveDistance(100, 100, 10, 0.1f);
+            MovementDetector.Direction lDir = (MovementDetector.Direction)iAnimator.GetInteger("MovingDetect");
+            if (lDir != MovementDetector.Direction.NONE)
+                mTTS.Say("Je t'ai vu bouger");
+            if (lDir==MovementDetector.Direction.LEFT)
+                mWheels.TurnAngle(45.0f, 200.0f, 0.02f);
+            else if (lDir == MovementDetector.Direction.RIGHT)
+                mWheels.TurnAngle(-45.0f, 200.0f, 0.02f);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
-            int lNumAct = Mathf.FloorToInt(mTimer);
-            if(lNumAct>mNumPrec)
+
+            //mWheels.TurnAngle(30.0f, 200.0f, 0.1f);
+            if (mTimer>1.5f && mWheels.Status == MobileBaseStatus.MOTIONLESS)
             {
-                mNumPrec = lNumAct;
-                mTTS.Say(""+lNumAct);
-            }
-            if(lNumAct>9)
-            {
-                
                 iAnimator.SetTrigger("ChangeState");
             }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mYesHinge.SetPosition(0);
+
             iAnimator.ResetTrigger("ChangeState");
         }
-
     }
 }

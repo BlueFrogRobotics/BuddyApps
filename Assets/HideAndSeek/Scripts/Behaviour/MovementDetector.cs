@@ -13,7 +13,12 @@ namespace BuddyApp.HideAndSeek
     public class MovementDetector : AVisionAlgorithm
     {
 
-        //private List<Point> mPlayerPositions;
+        public enum Direction : int
+        {
+            NONE,
+            LEFT,
+            RIGHT
+        }
 
         #region Var to adjust the moving mask
 
@@ -42,12 +47,7 @@ namespace BuddyApp.HideAndSeek
         private Mat mBinaryImage;
 
         public Mat BinaryImage { get { return mBinaryImage; } }
-        private Mat mSobelResult;
 
-        private Mat mKernelRect;
-        private Mat mKernelCross;
-        private Mat mKernelEllipse;
-        private Mat mKernelCustom;
         private Mat mKernel;
 
         private Mat mRawImage;
@@ -63,9 +63,11 @@ namespace BuddyApp.HideAndSeek
 
 
         #endregion
-        private float mTime;
 
         private RGBCam mCam;
+
+        private Direction mDirectionMov;
+        public Direction DirectionMov { get { return mDirectionMov; } }
 
 
         public event Action OnDetection;
@@ -98,19 +100,9 @@ namespace BuddyApp.HideAndSeek
 
             mBlurredImage = new Mat();
             mBinaryImage = new Mat();
-            mSobelResult = new Mat();
 
             mSobelKernelSize = 3;
 
-
-            mTime = Time.time;
-
-            #region Kernel Shape: Testing different kernel Shape
-            mKernelRect = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_RECT, new Size(11, 11));
-            mKernelCross = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_CROSS, new Size(11, 11));
-            mKernelEllipse = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_ELLIPSE, new Size(11, 11));
-            mKernelCustom = Imgproc.getStructuringElement(Imgproc.CV_SHAPE_CUSTOM, new Size(11, 11));
-            #endregion
 
             mCam = BYOS.Instance.RGBCam;
             mPreviousFrame = mCurrentFrame.clone();
@@ -149,13 +141,21 @@ namespace BuddyApp.HideAndSeek
                 float lDiffX = Mathf.Abs((float)(lCenterOfMass.x - mPositionOLD.x));
                 float lDiffY = Mathf.Abs((float)(lCenterOfMass.y - mPositionOLD.y));
                 if (lDiffX == 0 && lDiffY == 0)
+                {
                     mIsMoving = false;
+                    mDirectionMov = Direction.NONE;
+                }
                 else
                 {
                     mIsMoving = true;
                     //Debug.Log("mouvement magique");
                     if (OnDetection != null)
                         OnDetection();
+                    //Debug.Log("pos center: " + lCenterOfMass.x);
+                    if (lCenterOfMass.x < mCurrentFrame.width()/2)
+                        mDirectionMov = Direction.LEFT;
+                    else
+                        mDirectionMov = Direction.RIGHT;
                     /*Debug.Log("moment: " + M.get_m00());
                     Debug.Log("centre masse x: " + lCenterOfMass.x + " y: " + lCenterOfMass.y);
                     Debug.Log("position old x: " + mPositionOLD.x + " y: " + mPositionOLD.y);
