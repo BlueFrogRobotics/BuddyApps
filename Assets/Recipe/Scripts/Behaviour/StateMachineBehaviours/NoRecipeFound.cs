@@ -3,8 +3,9 @@ using BuddyOS.App;
 
 namespace BuddyApp.Recipe
 {
-    public class RecipeListFound : AStateMachineBehaviour
+    public class NoRecipeFound : AStateMachineBehaviour
     {
+        private int mCount = 0;
 
         public override void Init()
         {
@@ -12,13 +13,13 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mTTS.Say("J'ai trouvé plusieurs recettes, laquelle veux tu faire ?");
+            mTTS.Say("Désolé je n'ai pas trouvé aucune recette correspondant à ces critères");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             if (mTTS.HasFinishedTalking())
-                iAnimator.SetTrigger("DisplayRecipeList");
+                iAnimator.SetTrigger("AskCategoryAgain");
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
