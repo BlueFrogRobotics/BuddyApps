@@ -957,6 +957,12 @@
             </summary>
             <param name="iLanguage">The language to set in Locale Codes (e.g. "en-US" for english from United-States, "fr-FR" for french from France)</param>
         </member>
+        <member name="M:BuddyOS.SpeechToText.SetText(System.String)">
+            <summary>
+            Call the callback recognition method with the input text
+            </summary>
+            <param name="iInputText">The input text</param>
+        </member>
         <member name="T:BuddyOS.SphinxTrigger">
             <summary>
             Sphinx is use as a trigger in voice recognition. You will need to use Sphinx before starting STT.Request() for example.
@@ -1112,6 +1118,13 @@
             <summary>
             Makes the robot speaking the input string in the set language and can add to queue
             </summary>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.SynthesizeToFile(System.String,System.String)">
+            <summary>
+            Synthesize the text to a wav file
+            </summary>
+            <param name="iText">Text to record</param>
+            <param name="iFilename">Sound file to record</param>
         </member>
         <member name="M:BuddyOS.TextToSpeech.Silence(System.Int32,System.Boolean)">
             <summary>
@@ -1447,7 +1460,7 @@
             <summary>
             Is any invoke pending on this MonoBehaviour?
             </summary>
-            <returns></returns>
+            <returns>True if invoking</returns>
         </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.GetComponent``1">
             <summary>
@@ -1471,6 +1484,11 @@
             <typeparam name="T">Type of the component</typeparam>
             <param name="iIndex">The index of the linked gameobject</param>
             <returns></returns>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.QuitApp">
+            <summary>
+            Quit the current application and get back to the default app
+            </summary>
         </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.Init">
             <summary>
@@ -2292,6 +2310,27 @@
             <param name="iMode">The mood to switch to</param>
         </member>
         <member name="M:BuddyOS.Command.LookAtCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.SetTextSTTCmd">
+            <summary>
+            When executed : Call the callback recognition method with the input text
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetTextSTTCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetTextSTTCmd.#ctor(System.String)">
+            <summary>
+            When executed : Call the callback recognition method with the input text
+            </summary>
+            <param name="iText">The input text</param>
+        </member>
+        <member name="M:BuddyOS.Command.SetTextSTTCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -4614,6 +4653,16 @@
             <param name="iAtlas">The atlas name</param>
             <param name="iImage">The image to assign</param>
         </member>
+        <member name="T:BuddyOS.VocalInputField">
+            <summary>
+            Input field text for STT debug / help purpose 
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalInputField.SendStringToActivation">
+            <summary>
+            Process the string command as speech text
+            </summary>
+        </member>
         <member name="T:BuddyOS.VocalDebug">
             <summary>
             Vocal layer for easiest control for STT and Sphinx.
@@ -4688,6 +4737,11 @@
             Open or close the debug window for STT and Sphinx
             </summary>
         </member>
+        <member name="M:BuddyOS.VocalActivation.LaunchInputField">
+            <summary>
+            Open or close the input field window for STT
+            </summary>
+        </member>
         <member name="M:BuddyOS.VocalActivation.StartRecoWithTrigger">
             <summary>
             Set Vocal activation on Trigger Mode. Now, Buddy will need to hear "Salut Buddy" or "Hello Buddy", before starting STT
@@ -4697,6 +4751,12 @@
             <summary>
             Stop Trigger Mode and immediately starts STT request for instant listening
             </summary>
+        </member>
+        <member name="M:BuddyOS.VocalActivation.SetText(System.String)">
+            <summary>
+            Fake the input vocal signal by the input text
+            </summary>
+            <param name="iInput">The input text that the speech to text will proceed</param>
         </member>
         <member name="M:BuddyOS.VocalActivation.StopReco">
             <summary>
