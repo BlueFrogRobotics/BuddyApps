@@ -53,9 +53,9 @@ namespace BuddyApp.Companion
                 Debug.Log("Tracking face : XCenter " + lXCenter + " / YCenter " + lYCenter);
 
                 if (!(mCameraWidthCenter - 25 < lXCenter && lXCenter < mCameraWidthCenter + 5))
-                    mHeadNoAngle -= Mathf.Sign(lXCenter - mCameraWidthCenter) * 2F;
+                    mHeadNoAngle -= Mathf.Sign(lXCenter - mCameraWidthCenter) * 1.5F;
                 if (!(mCameraHeightCenter - 5 < lYCenter && lYCenter < mCameraHeightCenter + 25))
-                    mHeadYesAngle += Mathf.Sign(lYCenter - mCameraHeightCenter) * 2F;
+                    mHeadYesAngle += Mathf.Sign(lYCenter - mCameraHeightCenter) * 1.5F;
 
                 Debug.Log("Setting angles Yes : " + Mathf.Sign(lYCenter - mCameraHeightCenter) + 
                     " / No : " + Mathf.Sign(lXCenter - mCameraWidthCenter));
