@@ -29,11 +29,14 @@ public class RedoPhoto : SpeechStateBehaviour
 
 	private AudioSource mButtonSound;
 
+	private AnimManager mAnimationManager;
+
 	public override void Init()
 	{
 		mCanvasYesNoPicture = GetComponentInGameObject<Canvas>(0);
 		mCanvasBackGround = GetComponentInGameObject<Canvas>(8);
 		mButtonSound = GetComponentInGameObject<AudioSource>(9);
+		mAnimationManager = GetComponentInGameObject<AnimManager>(10);
 	}
 
 
@@ -159,7 +162,7 @@ public class RedoPhoto : SpeechStateBehaviour
 
 		Debug.Log("OnSpeechReco");
 		mMood.Set(MoodType.NEUTRAL);
-		//link.animationManager.Blink ();
+		mAnimationManager.Blink ();
 		Debug.Log("[photo Heard] : " + iVoiceInput);
 
 		mErrorCount = 0;
@@ -186,7 +189,7 @@ public class RedoPhoto : SpeechStateBehaviour
 		Debug.Log("[question error] : " + iError);
 		++mErrorCount;
 		Debug.Log("[question error] : count " + mErrorCount);
-		//link.animationManager.Sigh ();
+		mAnimationManager.Sigh ();
 
 		// If too much erro (no answer), ask for answer. If still no answer, get back to IDLE
 		if (mErrorCount > 3) {
