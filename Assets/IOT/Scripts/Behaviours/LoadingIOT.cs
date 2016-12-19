@@ -14,6 +14,9 @@ namespace BuddyApp.IOT
         [SerializeField]
         private Animator animator;
 
+        [SerializeField]
+        private Animator iAAnimator;
+
         // Use this for initialization
         void Start()
         {
@@ -31,6 +34,7 @@ namespace BuddyApp.IOT
             yield return new WaitForSeconds(1F);
             animator.SetBool("Close_WLoading", false);
             loadingScreen.SetActive(false);
+            iAAnimator.SetTrigger("Next");
         }
     }
 }

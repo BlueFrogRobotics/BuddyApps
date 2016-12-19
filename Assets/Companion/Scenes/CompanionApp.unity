@@ -161,8 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 852c322d19fdedb459b4fff08b0b3ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mLeftEye: {fileID: 899532410}
-  mRightEye: {fileID: 779183252}
+  mLeftEye: {fileID: 779183252}
+  mRightEye: {fileID: 899532410}
 --- !u!114 &153035104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 153035099}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a2a19c6029ba3a44fa914696a2656d91, type: 3}
   m_Name: 
@@ -374,7 +374,7 @@ GameObject:
   - 114: {fileID: 779183253}
   - 114: {fileID: 779183252}
   m_Layer: 5
-  m_Name: Right eye button
+  m_Name: Left eye button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -485,7 +485,7 @@ GameObject:
   - 114: {fileID: 899532411}
   - 114: {fileID: 899532410}
   m_Layer: 5
-  m_Name: Left eye button
+  m_Name: Right eye button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

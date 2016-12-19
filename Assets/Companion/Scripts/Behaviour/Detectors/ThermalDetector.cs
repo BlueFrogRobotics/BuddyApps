@@ -7,6 +7,8 @@ namespace BuddyApp.Companion
     {
         public bool ThermalDetected { get { return mThermalDetected; } }
 
+        private const int THERMAL_THRESH = 10;
+
         private bool mThermalDetected;
         private ThermalSensor mSensor;
 
@@ -21,11 +23,11 @@ namespace BuddyApp.Companion
             int[] lMatrix = mSensor.Matrix;
 
             for(int i=0; i< lMatrix.Length; i++) {
-                if (lMatrix[i] > 27)
+                if (lMatrix[i] > 34)
                     lActivePixel++;
             }
 
-            if (lActivePixel > 4)
+            if (lActivePixel > THERMAL_THRESH)
                 mThermalDetected = true;
             else
                 mThermalDetected = false;

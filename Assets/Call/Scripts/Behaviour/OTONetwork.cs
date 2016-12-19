@@ -21,7 +21,7 @@ namespace BuddyApp.Call
         public List<OTONetSender> Channel_senders { get { return mChannel_senders; } set { mChannel_senders = value; } }
         public List<OTONetReceiver> Channel_receivers { get { return mChannel_receivers; } set { mChannel_receivers = value; } }
 
-        private const int MAX_FRAME_PER_UPDATE = 10;
+        private const int MAX_FRAME_PER_UPDATE = 20;
         private static ushort mBufferSize = 15000;
 
         [SerializeField, HideInInspector]

@@ -11,6 +11,7 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(BuddyFaceDetector))]
     [RequireComponent(typeof(CliffDetector))]
     [RequireComponent(typeof(FaceDetector))]
+    [RequireComponent(typeof(HeadForcedDetector))]
     [RequireComponent(typeof(IRDetector))]
     [RequireComponent(typeof(Reaction))]
     [RequireComponent(typeof(SpeechDetector))]
@@ -23,6 +24,7 @@ namespace BuddyApp.Companion
         private BuddyFaceDetector mBuddyFaceDetector;
         private CliffDetector mCliffDetector;
         private FaceDetector mFaceDetector;
+        private HeadForcedDetector mHeadForcedDetector;
         private IRDetector mIRDetector;
         private Reaction mReaction;
         private SpeechDetector mSpeechDetector;
@@ -45,10 +47,12 @@ namespace BuddyApp.Companion
         {
             mCurrentAction = null;
             mActionStack = new Stack<Action>();
+
             mAccelerometerDetector = GetComponent<AccelerometerDetector>();
             mBuddyFaceDetector = GetComponent<BuddyFaceDetector>();
             mCliffDetector = GetComponent<CliffDetector>();
             mFaceDetector = GetComponent<FaceDetector>();
+            mHeadForcedDetector = GetComponent<HeadForcedDetector>();
             mIRDetector = GetComponent<IRDetector>();
             mReaction = GetComponent<Reaction>();
             mSpeechDetector = GetComponent<SpeechDetector>();
@@ -57,6 +61,7 @@ namespace BuddyApp.Companion
             mVocalChat = GetComponent<VocalChat>();
 
             mDictionary = BYOS.Instance.Dictionary;
+            BYOS.Instance.VocalActivation.enabled = true;
             mCompanionData = CompanionData.Instance;
 
             mVocalChat.WithNotification = true;
@@ -86,6 +91,9 @@ namespace BuddyApp.Companion
             //if (mBuddyFaceDetector.FaceTouched)
             //    mReaction.StopEverything();
 
+            if (mHeadForcedDetector.HeadForcedDetected)
+                PushInStack(mReaction.HeadForced);
+
             if (mThermalDetector.ThermalDetected && !mFaceDetector.FaceDetected)
                 PushInStack(mReaction.StepBackHelloReaction);
 
@@ -105,7 +113,7 @@ namespace BuddyApp.Companion
                 mReaction.StopMoving();
             }
 
-            if(Time.time - mInactiveTime > 10F && Time.time - mInactiveTime < 50F) {
+            if(Time.time - mInactiveTime > 3F && Time.time - mInactiveTime < 30F) {
                 mReaction.StartIdle();
             }
             //else if(!mAskedSomething) {
@@ -113,7 +121,7 @@ namespace BuddyApp.Companion
             //    mInactiveTime = Time.time;
             //    mAskedSomething = true;
             //}
-            else if (Time.time - mInactiveTime > 50F && mCompanionData.CanMoveBody) {
+            else if (Time.time - mInactiveTime > 30F && mCompanionData.CanMoveBody) {
                 //mReaction.AskSomething();
                 //mInactiveTime = Time.time;
                 mReaction.StopIdle();
@@ -170,6 +178,10 @@ namespace BuddyApp.Companion
                     mReaction.StartWandering();
                     break;
 
+                case "CanMove":
+                    CompanionData.Instance.CanMoveBody = true;
+                    break;
+
                 case "DontMove":
                     CompanionData.Instance.CanMoveBody = false;
                     break;
@@ -178,7 +190,11 @@ namespace BuddyApp.Companion
                     PushInStack(mReaction.SearchFace);
                     break;
 
-                case "Quizz":
+				case "Photo":
+					new LoadAppBySceneCmd("TakePhotoApp").Execute();
+					break;
+
+				case "Quizz":
                     break;
 
                 case "Colors":
