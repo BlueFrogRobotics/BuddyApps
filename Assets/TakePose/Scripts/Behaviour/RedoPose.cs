@@ -6,7 +6,7 @@ using BuddyOS.App;
 using UnityEngine.UI;
 using BuddyOS;
 
-public class RedoPhoto : SpeechStateBehaviour
+public class RedoPose : SpeechStateBehaviour
 {
 
 	private bool mNeedListen;
@@ -24,26 +24,24 @@ public class RedoPhoto : SpeechStateBehaviour
 	private List<string> mRefuseSpeech;
 	private List<string> mDidntUnderstandSpeech;
 
-	private Canvas mCanvasYesNoPicture;
+	private Canvas mCanvasQuestion;
 	private Canvas mCanvasBackGround;
 
-	private AudioSource mButtonSound;
-
 	private AnimManager mAnimationManager;
+	private SoundManager mSoundManager;
 
 	public override void Init()
 	{
-		mCanvasYesNoPicture = GetComponentInGameObject<Canvas>(0);
-		mCanvasBackGround = GetComponentInGameObject<Canvas>(8);
-		mButtonSound = GetComponentInGameObject<AudioSource>(9);
-		mAnimationManager = GetComponentInGameObject<AnimManager>(10);
+		mSoundManager = GetComponentInGameObject<SoundManager>(1);
+		mAnimationManager = GetComponentInGameObject<AnimManager>(2);
+		mCanvasQuestion = GetComponentInGameObject<Canvas>(3);
+		mCanvasBackGround = GetComponentInGameObject<Canvas>(4);
 	}
 
 
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		Debug.Log("OnEnter redo");
 		mErrorCount = 0;
 		mNeedListen = true;
 		mFirst = true;
@@ -52,7 +50,7 @@ public class RedoPhoto : SpeechStateBehaviour
 		mPressedNo = false;
 
 
-		Button[] buttons = mCanvasYesNoPicture.GetComponentsInChildren<Button>();
+		Button[] buttons = mCanvasQuestion.GetComponentsInChildren<Button>();
 		buttons[0].onClick.AddListener(PressedNo);
 		buttons[1].onClick.AddListener(PressedYes);
 
@@ -62,10 +60,10 @@ public class RedoPhoto : SpeechStateBehaviour
 		mRefuseSpeech = new List<string>();
 		mDidntUnderstandSpeech = new List<string>();
 
-		mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoEN.xml").text;
-		
+		mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPoseEN.xml").text;
+
 		if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
-			mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoFR.xml").text;
+			mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPoseFR.xml").text;
 		}
 
 		FillListSyn("Accept", mAcceptSpeech);
@@ -75,7 +73,7 @@ public class RedoPhoto : SpeechStateBehaviour
 		FillListSyn("DidntUnderstand", mDidntUnderstandSpeech);
 
 		mLastSpeech = "";
-		SayInLang("redo", true);
+		SayInLang("redoPose", true);
 
 		// starting STT with callback
 		mSTT.OnBestRecognition.Add(OnSpeechRecognition);
@@ -88,10 +86,10 @@ public class RedoPhoto : SpeechStateBehaviour
 	protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		if (mPressedYes) {
-			animator.SetTrigger("Photo");
+			animator.SetTrigger("Pose");
 		} else if (mPressedNo) {
 			SayInLang("noRedo");
-            animator.SetTrigger("AskMail");
+			animator.SetTrigger("Exit");
 		} else {
 			if (mTTS.HasFinishedTalking()) {
 				if ((mSTT.HasFinished || mFirst) && mNeedListen) {
@@ -111,16 +109,16 @@ public class RedoPhoto : SpeechStateBehaviour
 					} else {
 						Debug.Log("LastAns != previous");
 						if (ContainsOneOf(mLastSpeech, mAcceptSpeech) || ContainsOneOf(mLastSpeech, mAnOtherSpeech)) {
-							animator.SetTrigger("Photo");
+							animator.SetTrigger("Pose");
 						} else if (ContainsOneOf(mLastSpeech, mRefuseSpeech) || ContainsOneOf(mLastSpeech, mQuitSpeech)) {
 							SayInLang("noRedo");
-							animator.SetTrigger("AskMail");
+							animator.SetTrigger("Exit");
 						} else {
-							SayInLang("didntUnderstand", true);
+							SayInLang("sorryDidntUnderstand", true);
 							mTTS.Silence(1000, true);
 							SayInLang("yesOrNo", true);
 							mTTS.Silence(1000, true);
-							SayInLang("redo", true);
+							SayInLang("redoPose", true);
 							mLastSpeech = "";
 							mNeedListen = true;
 						}
@@ -135,10 +133,11 @@ public class RedoPhoto : SpeechStateBehaviour
 
 	public void PressedYes()
 	{
-		mButtonSound.Play();
+
+		mSoundManager.PlaySound(SoundType.BEEP2);
 		Debug.Log("Pressed Button Yes");
 
-		HideCanvasPicture();
+		HideCanvasQuestion();
 		//Stop speech
 		mTTS.Silence(5, false);
 		mPressedYes = true;
@@ -147,10 +146,10 @@ public class RedoPhoto : SpeechStateBehaviour
 
 	public void PressedNo()
 	{
-		mButtonSound.Play();
+		mSoundManager.PlaySound(SoundType.BEEP2);
 		Debug.Log("Pressed Button No");
 
-		HideCanvasPicture();
+		HideCanvasQuestion();
 		//Stop speech
 		mTTS.Silence(5, false);
 		mPressedNo = true;
@@ -163,7 +162,7 @@ public class RedoPhoto : SpeechStateBehaviour
 
 		Debug.Log("OnSpeechReco");
 		mMood.Set(MoodType.NEUTRAL);
-		mAnimationManager.Blink ();
+		mAnimationManager.Blink();
 		Debug.Log("[photo Heard] : " + iVoiceInput);
 
 		mErrorCount = 0;
@@ -190,7 +189,7 @@ public class RedoPhoto : SpeechStateBehaviour
 		Debug.Log("[question error] : " + iError);
 		++mErrorCount;
 		Debug.Log("[question error] : count " + mErrorCount);
-		mAnimationManager.Sigh ();
+		mAnimationManager.Sigh();
 
 		// If too much erro (no answer), ask for answer. If still no answer, get back to IDLE
 		if (mErrorCount > 3) {
@@ -199,7 +198,6 @@ public class RedoPhoto : SpeechStateBehaviour
 		} else {
 			mMood.Set(MoodType.NEUTRAL);
 			//string lSentence = RdmStr(mDidntUnderstandSpeech);
-
 			string lSentence = mDictionary.GetString("sorryDidntUnderstand");
 
 			switch (iError) {
@@ -227,7 +225,7 @@ public class RedoPhoto : SpeechStateBehaviour
 		mMood.Set(MoodType.NEUTRAL);
 
 		if (!mPressedYes && !mPressedNo) {
-			HideCanvasPicture();
+			HideCanvasQuestion();
 		}
 
 		mSTT.OnBestRecognition.Remove(OnSpeechRecognition);
@@ -236,12 +234,27 @@ public class RedoPhoto : SpeechStateBehaviour
 
 	}
 
-	/********************** PICTURE TAKEN CANVAS **********************/
-	public void HideCanvasPicture()
+	/********************** question CANVAS **********************/
+
+	public void DisplayCanvasQuestion()
+	{
+		Debug.Log("Display canvas Picture");
+
+		Text[] textObjects = mCanvasQuestion.GetComponentsInChildren<Text>();
+
+		textObjects[0].text = mDictionary.GetString("redoPose").ToUpper();
+		textObjects[1].text = mDictionary.GetString("no").ToUpper();
+		textObjects[2].text = mDictionary.GetString("yes").ToUpper();
+
+		mCanvasBackGround.GetComponent<Animator>().SetTrigger("Open_BG");
+		mCanvasQuestion.GetComponent<Animator>().SetTrigger("Open_WQuestion");
+	}
+
+	public void HideCanvasQuestion()
 	{
 		Debug.Log("Hide canvas Picture");
 		mCanvasBackGround.GetComponent<Animator>().SetTrigger("Close_BG");
-		mCanvasYesNoPicture.GetComponent<Animator>().SetTrigger("Close_WQuestion_Image");
+		mCanvasQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
 	}
 
 }

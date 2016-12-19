@@ -5,19 +5,19 @@ using BuddyOS;
 using System;
 using BuddyOS.Command;
 
-public class ExitPhoto : AStateMachineBehaviour
+public class ExitPose : AStateMachineBehaviour
 {
 	private AnimManager mAnimationManager;
 
 	public override void Init()
 	{
-		mAnimationManager = GetComponentInGameObject<AnimManager>(10);
+		mAnimationManager = GetComponentInGameObject<AnimManager>(2);
 	}
 
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		mAnimationManager.Sigh ();
+		mAnimationManager.Sigh();
 		mMood.Set(MoodType.NEUTRAL);
 		QuitApp();
 	}
