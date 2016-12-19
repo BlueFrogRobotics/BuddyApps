@@ -56,6 +56,13 @@ namespace BuddyApp.Companion
 
         }
 
+        public void HeadForced()
+        {
+            new TurnRelaCmd(BYOS.Instance.Motors.NoHinge.CurrentAnglePosition, 80F, 0.5F).Execute();
+            new SayTTSCmd("Hey ! Arrête ça !").Execute();
+            ActionFinished();
+        }
+
         public void AskSomething()
         {
             if (mIsPouting)
@@ -114,11 +121,7 @@ namespace BuddyApp.Companion
             }
 
             //Turn around and run away (set route and avoid obstacles is better)
-            for (int i = 0; i < 5; i++)
-            {
-                new SetWheelsSpeedCmd(200F, -200F, 200).Execute();
-                yield return new WaitForSeconds(0.2F);
-            }
+            new TurnRelaCmd(180F, 120F, 0.2F).Execute();
             new SetMoodCmd(MoodType.GRUMPY).Execute();
             
             yield return new WaitForSeconds(5F);
@@ -128,7 +131,8 @@ namespace BuddyApp.Companion
             //    new SetWheelsSpeedCmd(200F, 200F, 200).Execute();
             //    yield return new WaitForSeconds(0.2F);
             //}
-            
+
+            new TurnRelaCmd(-180F, 80F, 0.2F).Execute();
             new SetMoodCmd(MoodType.NEUTRAL).Execute();
             mIsPouting = false;
             ActionFinished();
