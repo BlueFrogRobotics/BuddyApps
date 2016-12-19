@@ -32,7 +32,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: StartFallingAsleep
+  - m_Name: StartFallingAssleep
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -46,6 +46,24 @@ AnimatorController:
     m_Controller: {fileID: 0}
   - m_Name: DoExit
     m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: DoSetParameters
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: DoStartCount
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: DoPlayLullaby
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -78,6 +96,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5dd9f6d9b25eacd4aa6f3c3d2575da1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11417004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b32b2a8e83665d4abda586bde437898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11428284
@@ -144,6 +173,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36b5c4eee4b9aa745b726e14c6a65e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11470398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce451e2f366c4d24e92cdbad2cf1ebd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11472936
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790e667281b4864408187e2a68e6e1f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11486962
@@ -216,7 +267,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: SetParameters
+    m_ConditionEvent: DoSetParameters
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110273350}
@@ -263,8 +314,8 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 6
-    m_ConditionEvent: ForwardState
+  - m_ConditionMode: 1
+    m_ConditionEvent: SetParameters
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110273350}
@@ -311,8 +362,8 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 3
-    m_ConditionEvent: ForwardState
+  - m_ConditionMode: 1
+    m_ConditionEvent: StartFallingAssleep
     m_EventTreshold: 3
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110274588}
@@ -336,7 +387,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: StartFallingAsleep
+    m_ConditionEvent: StartFallingAssleep
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110274588}
@@ -407,8 +458,8 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 6
-    m_ConditionEvent: ForwardState
+  - m_ConditionMode: 1
+    m_ConditionEvent: StartListening
     m_EventTreshold: 4
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110264728}
@@ -479,8 +530,8 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: SetParameters
+  - m_ConditionMode: 2
+    m_ConditionEvent: DoSetParameters
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110212348}
@@ -527,8 +578,8 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 6
-    m_ConditionEvent: ForwardState
+  - m_ConditionMode: 1
+    m_ConditionEvent: StartApp
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110243222}
@@ -647,8 +698,8 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 6
-    m_ConditionEvent: ForwardState
+  - m_ConditionMode: 1
+    m_ConditionEvent: HeadAdjust
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110212348}
@@ -753,7 +804,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: 110181134}
   - {fileID: 110132694}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 11417004}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -830,7 +882,7 @@ AnimatorState:
   - {fileID: 110135406}
   - {fileID: 110156194}
   m_StateMachineBehaviours:
-  - {fileID: 11428284}
+  - {fileID: 11472936}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -849,7 +901,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: FallingAsleep
+  m_Name: FallingAssleep
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -886,7 +938,7 @@ AnimatorState:
   - {fileID: 110148724}
   - {fileID: 110170536}
   m_StateMachineBehaviours:
-  - {fileID: 11457798}
+  - {fileID: 11470398}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -927,7 +979,7 @@ AnimatorStateMachine:
     m_Position: {x: -60, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110299458}
-    m_Position: {x: 144, y: 348, z: 0}
+    m_Position: {x: 192, y: 360, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110261180}
     m_Position: {x: -348, y: 444, z: 0}

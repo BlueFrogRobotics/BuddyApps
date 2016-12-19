@@ -6,26 +6,30 @@ using System;
 
 namespace BuddyApp.BabyPhone
 {
-    public class StartBabyPhone : AStateMachineBehaviour
+    public class StartBabyPhoneState : AStateMachineBehaviour
     {
 
         private GameObject mStartState;
+        private GameObject mWindoAppOverBlack;
 
         public override void Init()
         {
-            mStartState = GetGameObject(1);
+            mStartState = GetGameObject(4);
+            mWindoAppOverBlack = GetGameObject(2);
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mStartState.SetActive(true);
-            mTTS.Say("Explication concernant lutilisation de lapplication");
+            mStartState.SetActive(true);         
+
+            mTTS.Say("BabyPhone");
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mStartState.SetActive(false);
-            iAnimator.SetFloat("ForwardState", 0);
+            mWindoAppOverBlack.SetActive(false);
+            iAnimator.SetInteger("ForwardState", 0);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

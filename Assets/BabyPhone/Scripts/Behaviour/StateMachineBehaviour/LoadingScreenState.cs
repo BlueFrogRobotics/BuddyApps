@@ -4,28 +4,36 @@ using BuddyOS.App;
 
 namespace BuddyApp.BabyPhone
 {
-    public class LoadingScreen : AStateMachineBehaviour
+    public class LoadingScreenState : AStateMachineBehaviour
     {
-
+        private const int LOADING_TIME = 4;
         private Animator mLoadingAnimator;
+        private GameObject mWindoAppOverBlack;
+        private float mTime;
 
         public override void Init()
         {
             mLoadingAnimator = GetGameObject(0).GetComponent<Animator>();
+            mWindoAppOverBlack = GetGameObject(2);
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mTime = 0;
+            
             StartCoroutine(LoadingScreenFunc());
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
+            mWindoAppOverBlack.SetActive(true);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mTime = Time.time;
+            if (mTime >= LOADING_TIME)
+                iAnimator.SetTrigger("StartApp");
         }
 
         IEnumerator LoadingScreenFunc()
@@ -35,10 +43,5 @@ namespace BuddyApp.BabyPhone
             mLoadingAnimator.SetTrigger("Close_WLoading");
             yield return new WaitForSeconds(1f);
         }
-
-        //IEnumerator WaintEndOfLoading()
-        //{
-        //    yield return new WaitForSeconds(5f);
-        //}
     }
 }

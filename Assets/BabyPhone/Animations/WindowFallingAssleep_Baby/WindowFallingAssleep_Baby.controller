@@ -5,16 +5,16 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WindowFallingAsleep_Baby
+  m_Name: WindowFallingAssleep_Baby
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Close_WFallingAsleep
+  - m_Name: Close_WFallingAssleep
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Open_WFallingAsleep
+  - m_Name: Open_WFallingAssleep
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -41,7 +41,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Close_WFallingAsleep
+    m_ConditionEvent: Close_WFallingAssleep
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110287856}
@@ -107,7 +107,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Open_WFallingAsleep
+    m_ConditionEvent: Open_WFallingAssleep
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110210060}
@@ -129,7 +129,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WindowFallingAsleep_Baby_Open
+  m_Name: WindowFallingAssleep_Baby_Open
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -153,7 +153,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WindowFallingAsleep_Baby_Off
+  m_Name: WindowFallingAssleep_Baby_Off
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -177,7 +177,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WindowFallingAsleep_Baby_Close
+  m_Name: WindowFallingAssleep_Baby_Close
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -201,7 +201,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WindowFallingAsleep_Baby_Idle
+  m_Name: WindowFallingAssleep_Baby_Idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

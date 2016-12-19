@@ -8,20 +8,18 @@ using System;
 namespace BuddyApp.BabyPhone
 {
     //écoute les eventuels bruits, et gère l'écran de vielle, si détecte un bruit, il envois un message
-    public class Listening : AStateMachineBehaviour
+    public class ListeningState : AStateMachineBehaviour
     {
         private BabyPhoneData mBabyPhoneData;
 
         private GameObject mListening;
         private GameObject mWindoAppOverBlack;
 
-        private Button mNotificationsButton;
-        private Text mNotificationAmount;
+        //private Button mNotificationsButton;
+        //private Text mNotificationAmount;
 
         private InputMicro mMicro;
 
-        private bool mDoExitApp;
-        private bool mDoGoToParameters;
         private bool mIsBabyCrying;
 
         private int mCountNotification;
@@ -33,16 +31,13 @@ namespace BuddyApp.BabyPhone
         {
             mBabyPhoneData = BabyPhoneData.Instance;
 
-            mWindoAppOverBlack = GetGameObject(10);
-            mListening = GetGameObject(22);
+            mWindoAppOverBlack = GetGameObject(2);
+            mListening = GetGameObject(9);
 
-            mNotificationsButton = GetGameObject(23).GetComponent<Button>();
-            mNotificationAmount = GetGameObject(24).GetComponent<Text>();
+            //mNotificationsButton = GetGameObject(23).GetComponent<Button>();
+            //mNotificationAmount = GetGameObject(24).GetComponent<Text>();
 
             mMicro = mListening.GetComponent<InputMicro>();
-
-            mDoExitApp = false;
-            mDoGoToParameters = false;
 
             mCount = 0;
             mMean = 0F;
@@ -63,7 +58,7 @@ namespace BuddyApp.BabyPhone
             mListening.SetActive(false);
             mWindoAppOverBlack.SetActive(false);
 
-            iAnimator.SetFloat("ForwardState", 4);
+            iAnimator.SetInteger("ForwardState", 4);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -76,8 +71,8 @@ namespace BuddyApp.BabyPhone
 
                 if (mCountNotification == 100)
                 {
-                    GetGameObject(23).SetActive(true);
-                    mNotificationAmount.text = "1";
+                    //GetGameObject(23).SetActive(true);
+                    //mNotificationAmount.text = "1";
                     StartCoroutine(SendMessage());
                 }
             }
