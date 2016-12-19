@@ -16,8 +16,8 @@ public class ExitPhoto : AStateMachineBehaviour
 	{
 		//link.animationManager.Sigh ();
 		mMood.Set(MoodType.NEUTRAL);
-		//BYOS.Instance.AppManager.Quit();
-		new HomeCmd().Execute();
+		BYOS.Instance.AppManager.Quit();
+		//new HomeCmd().Execute();
 	}
 
 	protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

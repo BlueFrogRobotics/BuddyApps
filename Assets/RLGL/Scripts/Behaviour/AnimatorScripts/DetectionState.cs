@@ -43,7 +43,7 @@ namespace BuddyApp.RLGL
             }
             Debug.Log("STATUS DETECTION STATE : " + mWheels.Status);
 
-            if (mWheels.Status == MobileBaseStatus.REACHED_GOAL || (mTimer > 1.5F && mWheels.Status == MobileBaseStatus.MOTIONLESS))
+            if (mWheels.Status == MovingState.REACHED_GOAL || (mTimer > 1.5F && mWheels.Status == MovingState.MOTIONLESS))
             {
                 mIsMovementDone = true;
                 Debug.Log("DETECTION UPDATE : MOVEMENT DONE");

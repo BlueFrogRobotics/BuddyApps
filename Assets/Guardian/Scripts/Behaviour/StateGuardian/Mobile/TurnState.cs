@@ -28,7 +28,7 @@ namespace BuddyApp.Guardian
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (mMotors.Wheels.Status != MobileBaseStatus.MOTIONLESS)
+            if (mMotors.Wheels.Status != MovingState.MOTIONLESS)
             {
                 animator.SetInteger(mParameterName, mParameterValue);
             }
