@@ -957,6 +957,12 @@
             </summary>
             <param name="iLanguage">The language to set in Locale Codes (e.g. "en-US" for english from United-States, "fr-FR" for french from France)</param>
         </member>
+        <member name="M:BuddyOS.SpeechToText.SetText(System.String)">
+            <summary>
+            Call the callback recognition method with the input text
+            </summary>
+            <param name="iInputText">The input text</param>
+        </member>
         <member name="T:BuddyOS.SphinxTrigger">
             <summary>
             Sphinx is use as a trigger in voice recognition. You will need to use Sphinx before starting STT.Request() for example.
@@ -1015,25 +1021,23 @@
             <param name="iSSID">Name of the Access Point</param>
             <param name="iPassword">Password to this Access Point</param>
         </member>
-        <member name="M:BuddyOS.TabletParameters.GetWifiAPName(System.Int32)">
+        <member name="M:BuddyOS.TabletParameters.GetWifiAPNames">
             <summary>
-            WiFi Access Point Name at index iPosition
+            WiFi Access Point Names
             </summary>
-            <param name="iPosition">Index of the Wifi Access Point</param>
             <returns>Name of the Access Point</returns>
         </member>
-        <member name="M:BuddyOS.TabletParameters.GetWifiForce(System.Int32)">
+        <member name="M:BuddyOS.TabletParameters.GetCurrentWifiAPName">
             <summary>
-            The Force of the Wifi Access Point at index iPosition
+            The current acces point name 
             </summary>
-            <param name="iPosition">Index of the Wifi Access Point</param>
-            <returns>Integer of the force</returns>
+            <returns>The current ap name</returns>
         </member>
-        <member name="M:BuddyOS.TabletParameters.GetWifiCount">
+        <member name="M:BuddyOS.TabletParameters.GetWifiLevel">
             <summary>
-            The number of Wifi Access Point
+            The Force list of the Wifi Access Point at index iPosition
             </summary>
-            <returns>Number of Wifi Access Point</returns>
+            <returns>Integer of the force</returns>
         </member>
         <member name="M:BuddyOS.TabletParameters.EnableBluetooth">
             <summary>
@@ -1114,6 +1118,13 @@
             <summary>
             Makes the robot speaking the input string in the set language and can add to queue
             </summary>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.SynthesizeToFile(System.String,System.String)">
+            <summary>
+            Synthesize the text to a wav file
+            </summary>
+            <param name="iText">Text to record</param>
+            <param name="iFilename">Sound file to record</param>
         </member>
         <member name="M:BuddyOS.TextToSpeech.Silence(System.Int32,System.Boolean)">
             <summary>
@@ -1370,6 +1381,11 @@
             Common strings through the animator
             </summary>
         </member>
+        <member name="P:BuddyOS.App.AStateMachineBehaviour.CommonObjects">
+            <summary>
+            Common objects through the animator
+            </summary>
+        </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.OnStateEnter(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
             <summary>
             Method called when the current execution switch to the current state.
@@ -1444,7 +1460,7 @@
             <summary>
             Is any invoke pending on this MonoBehaviour?
             </summary>
-            <returns></returns>
+            <returns>True if invoking</returns>
         </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.GetComponent``1">
             <summary>
@@ -1468,6 +1484,11 @@
             <typeparam name="T">Type of the component</typeparam>
             <param name="iIndex">The index of the linked gameobject</param>
             <returns></returns>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.QuitApp">
+            <summary>
+            Quit the current application and get back to the default app
+            </summary>
         </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.Init">
             <summary>
@@ -1645,11 +1666,6 @@
             Scene name of the Companion app
             </summary>
         </member>
-        <member name="F:BuddyOS.App.AppManager.REMOTE_CONTROL_APP">
-            <summary>
-            Scene name of the Remote control app
-            </summary>
-        </member>
         <member name="F:BuddyOS.App.AppManager.CALL_APP">
             <summary>
             Scene name of the Call app
@@ -1696,6 +1712,11 @@
             Core of the BuddY Operating System (BYOS).
             Gave access to robot control and tools like cloud access, geolocation and misc managers.
             A Unique instance of the BYOS must be present in the whole application.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.BYOS.Version">
+            <summary>
+            The current OS version
             </summary>
         </member>
         <member name="P:BuddyOS.BYOS.EnableLogs">
@@ -1923,11 +1944,12 @@
             </summary>
             <returns>The command serialization</returns>
         </member>
-        <member name="M:BuddyOS.Command.ACommand.Deserialize(System.String,System.String)">
+        <member name="M:BuddyOS.Command.ACommand.Deserialize(System.String,System.Char,System.String)">
             <summary>
             Create a command from a string containing successive bytes, separate by ","
             </summary>
             <param name="iBytes">The byte string</param>
+            <param name="iSeparator">Separator character between each byte</param>
             <param name="iAssembly">The assembly where the command belongs</param>
             <returns>The command, created and init</returns>
         </member>
@@ -2288,6 +2310,27 @@
             <param name="iMode">The mood to switch to</param>
         </member>
         <member name="M:BuddyOS.Command.LookAtCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.SetTextSTTCmd">
+            <summary>
+            When executed : Call the callback recognition method with the input text
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetTextSTTCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetTextSTTCmd.#ctor(System.String)">
+            <summary>
+            When executed : Call the callback recognition method with the input text
+            </summary>
+            <param name="iText">The input text</param>
+        </member>
+        <member name="M:BuddyOS.Command.SetTextSTTCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -2958,6 +3001,16 @@
             Execute the command behaviour.
             </summary>
         </member>
+        <member name="M:BuddyOS.Command.SynthesizeToFileCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SynthesizeToFileCmd.#ctor(System.String,System.String)">
+            <summary>
+            When executed : Makes the robot speaking the input string in the set language
+            </summary>
+        </member>
         <member name="T:BuddyOS.Command.TurnAbsCmd">
             <summary>
             When executed : Turns until the desired angle is reached in world space (based Buddy's odometry).
@@ -3197,6 +3250,36 @@
         <member name="M:BuddyOS.Command.EmptyCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.StartWifiCntCmd">
+            <summary>
+            When executed : Start connection to the WiFiManager.Network with WiFiManager.Password
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.StartWifiCntCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.SetWifiPwdCmd">
+            <summary>
+            When executed : Set the wished network password
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetWifiPwdCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.SetWifiNetCmd">
+            <summary>
+            When executed : Set the wifi wished network
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetWifiNetCmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="T:BuddyOS.Command.ShowVocalDebugCmd">
@@ -3544,11 +3627,6 @@
         <member name="P:BuddyOS.Net.WiFiManager.AvailableNetworks">
             <summary>
             Available network. List updated every minutes
-            </summary>
-        </member>
-        <member name="P:BuddyOS.Net.WiFiManager.Network">
-            <summary>
-            Current WiFi network
             </summary>
         </member>
         <member name="T:BuddyOS.Net.SharedAccessSignature">
@@ -4029,7 +4107,7 @@
             Left side label
             </summary>
         </member>
-        <member name="P:BuddyOS.UI.TextField.InputField">
+        <member name="P:BuddyOS.UI.TextField.Field">
             <summary>
             The input field of the text field widget
             </summary>
@@ -4575,6 +4653,16 @@
             <param name="iAtlas">The atlas name</param>
             <param name="iImage">The image to assign</param>
         </member>
+        <member name="T:BuddyOS.VocalInputField">
+            <summary>
+            Input field text for STT debug / help purpose 
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalInputField.SendStringToActivation">
+            <summary>
+            Process the string command as speech text
+            </summary>
+        </member>
         <member name="T:BuddyOS.VocalDebug">
             <summary>
             Vocal layer for easiest control for STT and Sphinx.
@@ -4597,9 +4685,14 @@
             Stop Trigger Mode and immediately starts STT request for instant listening
             </summary>
         </member>
+        <member name="M:BuddyOS.VocalDebug.StopSTT">
+            <summary>
+            Stop the speach recognition
+            </summary>
+        </member>
         <member name="T:BuddyOS.VocalActivation">
             <summary>
-            Vocal layer for easiest control for STT and Sphinx.
+            Vocal layer for easier control for STT and Sphinx.
             Set the VocalProcessing attribute for STT callback.
             You can also set StartListenBehaviour and StopListenBehaviour.
             </summary>
@@ -4607,6 +4700,11 @@
         <member name="P:BuddyOS.VocalActivation.RecognitionTriggered">
             <summary>
             Tells wether STT Recognition has been triggered or not.
+            </summary>
+        </member>
+        <member name="P:BuddyOS.VocalActivation.CurrentLanguage">
+            <summary>
+            Returns which language is used at call moment
             </summary>
         </member>
         <member name="P:BuddyOS.VocalActivation.StartListenBehaviour">
@@ -4631,12 +4729,17 @@
         </member>
         <member name="P:BuddyOS.VocalActivation.VocalError">
             <summary>
-            Action will be called upon STT completion with an error. Throws a STTEnum error
+            Action will be called upon STT completion with an error. Throws a STTEnum error. After 3 consecutive errors, will momentally disable Sphinx.
             </summary>
         </member>
         <member name="M:BuddyOS.VocalActivation.LaunchDebug">
             <summary>
             Open or close the debug window for STT and Sphinx
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalActivation.LaunchInputField">
+            <summary>
+            Open or close the input field window for STT
             </summary>
         </member>
         <member name="M:BuddyOS.VocalActivation.StartRecoWithTrigger">
@@ -4648,6 +4751,12 @@
             <summary>
             Stop Trigger Mode and immediately starts STT request for instant listening
             </summary>
+        </member>
+        <member name="M:BuddyOS.VocalActivation.SetText(System.String)">
+            <summary>
+            Fake the input vocal signal by the input text
+            </summary>
+            <param name="iInput">The input text that the speech to text will proceed</param>
         </member>
         <member name="M:BuddyOS.VocalActivation.StopReco">
             <summary>

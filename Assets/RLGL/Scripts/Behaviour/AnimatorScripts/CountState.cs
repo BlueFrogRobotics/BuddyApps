@@ -15,6 +15,7 @@ namespace BuddyApp.RLGL
         private bool mIsCoroutineDone;
         private bool mIsMovementDone;
         private bool mFirstSentenceNotDetected;
+        private bool mIsReachedGoal;
 
         private bool mIsOneTurnDone;
         public bool IsOneTurnDone { get { return mIsOneTurnDone; } set { mIsOneTurnDone = value; } }
@@ -30,19 +31,19 @@ namespace BuddyApp.RLGL
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("COUNT STATE : ON ENTER");
-            mCanvasUIToWin = GetGameObject(5);
+            mCanvasUIToWin = GetGameObject(0);
             mIsCoroutineDone = false;
             mIsMovementDone = false;
             mFirstSentence = false;
             mSecondSentence = false;
+            mIsReachedGoal = false;
             mFirstSentenceNotDetected = false;
             mCount = 0;
             mCountGreenLight = 0;
             iAnimator.SetBool("IsCountDone", false);
             iAnimator.SetBool("IsWon", false);
-            mMood.Set(MoodType.HAPPY);
+            //mMood.Set(MoodType.HAPPY);
  
-            
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -50,7 +51,6 @@ namespace BuddyApp.RLGL
             
             if(!mIsOneTurnDone)
             {
-                Debug.Log("COUNT STATE : ON UPDATE FIRST PLAY");
                 if (mTTS.HasFinishedTalking() && !mFirstSentence)
                 {
                     StartCoroutine(WaitTenSecondsAtStart());
@@ -65,7 +65,6 @@ namespace BuddyApp.RLGL
             }
             if(mIsOneTurnDone)
             {
-                Debug.Log("COUNT STATE : ON UPDATE SECOND PLAY");
                 if (mTTS.HasFinishedTalking() && !mFirstSentenceNotDetected)
                 {
                     StartCoroutine(NotDetected());
@@ -73,7 +72,6 @@ namespace BuddyApp.RLGL
                 }
 
             }
-            Debug.Log("mSecondSentence : " + mSecondSentence + " mFirstSentenceNotDetected : " + mFirstSentenceNotDetected);
             if (mSecondSentence || mFirstSentenceNotDetected)
             {
                 if (mTTS.HasFinishedTalking())
@@ -82,7 +80,7 @@ namespace BuddyApp.RLGL
                     mCountGreenLight = 0;
                 }
 
-                if (mWheels.Status == MobileBaseStatus.REACHED_GOAL && mIsCoroutineDone)
+                if ((mWheels.Status == MovingState.REACHED_GOAL || (mWheels.Status == MovingState.MOTIONLESS && mIsReachedGoal)) && mIsCoroutineDone)
                 {
                     mIsMovementDone = true;
                 }
@@ -92,21 +90,12 @@ namespace BuddyApp.RLGL
                     StartCoroutine(ChangeState(3.0F, iAnimator));
                 }
             }
-            
-            
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("COUNT STATE : ON EXIT");
             mCanvasUIToWin.SetActive(false);
-            //iAnimator.SetBool("IsCountDone", false);
-            //iAnimator.SetBool("IsWon", false);
-            //mIsCoroutineDone = false;
-            //mIsMovementDone = false;
-            //mFirstSentence = false;
-            //mSecondSentence = false;
-            //mCount = 0;
         }
 
         private IEnumerator WaitTenSecondsAtStart()
@@ -128,33 +117,32 @@ namespace BuddyApp.RLGL
                 mTTS.Say("You are really good at this game! Go again!");
                 mCountGreenLight++;
             }
-            yield return new WaitForSeconds(6.0F);
+            yield return new WaitForSeconds(2.0F);
             mFirstSentenceNotDetected = true;
             
         }
 
         private IEnumerator GreenLightMomentAndTurn()
         {
-            Debug.Log("COUNTSTATE : COROUTINE GREENLIGHT BEFORE WAIT FOR SECOND");
             yield return new WaitForSeconds(3.0F);
             if(mTTS.HasFinishedTalking() && mCount == 0 && mCountGreenLight == 0)
             {
-                Debug.Log("COUNTSTATE : COROUTINE GREENLIGHT AFTER WAIT FOR SECOND");
                 mCanvasUIToWin.SetActive(true);
                 mTTS.Say("Green Light !");
-                mWheels.TurnAngle(180.0F, 250.0F, 0.3F);
+                mWheels.TurnAngle(180.0F, 250.0F, 0.02F);
                 mCount++;
                 mIsCoroutineDone = true;
             }
+            yield return new WaitForSeconds(1.5F);
+            mIsReachedGoal = true;
+            
                         
         }
 
         private IEnumerator ChangeState(float iSecondToWait, Animator iAnimator)
         {
-            Debug.Log("COUNTSTATE : COROUTINE CHANGESTATE BEFORE WAIT FOR SECOND");
             mMood.Set(MoodType.NEUTRAL);
             yield return new WaitForSeconds(iSecondToWait);
-            Debug.Log("COUNTSTATE : COROUTINE CHANGESTATE AFTER WAIT FOR SECOND");
             iAnimator.SetBool("IsCountDone", true);
         }
 

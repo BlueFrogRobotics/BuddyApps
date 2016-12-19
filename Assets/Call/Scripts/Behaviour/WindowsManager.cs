@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using BuddyOS;
-using System.Collections;
 
 namespace BuddyApp.Call
 {
@@ -22,10 +20,10 @@ namespace BuddyApp.Call
 
         void Start()
         {
-            receiveCallAnim.SetTrigger("Close_WReceiveCall");
-            receiveCallTimeAnim.SetTrigger("Close_WReceiveCallTime");
-            callAnimator.SetTrigger("Close_WCall");
-            backgroundAnim.SetTrigger("Open_BG");
+            receiveCallAnim.SetTrigger("Open_WReceiveCall");
+            //receiveCallTimeAnim.SetTrigger("Close_WReceiveCallTime");
+            //callAnimator.SetTrigger("Close_WCall");
+            //backgroundAnim.SetTrigger("Open_BG");
             mIncomingCallHandled = false;
         }
         

@@ -34,6 +34,9 @@ namespace BuddyApp.Guardian
         private UnityEngine.UI.Button buttonDebugTemperature;
 
         [SerializeField]
+        private BuddyOS.UI.Dropdown contactList;
+
+        [SerializeField]
         private UnityEngine.UI.Button buttonValidate;
 
         [SerializeField]
@@ -89,7 +92,17 @@ namespace BuddyApp.Guardian
             mTextSound.text = mDictionnary.GetString("detectSound");
             mTextKidnap.text = mDictionnary.GetString("detectKidnap");
             mTextContact.text = mDictionnary.GetString("contact");
-            mTextContact.text = mDictionnary.GetString("password");
+            mTextPassword.text = mDictionnary.GetString("password");
+
+            //contactList.SetDefault("PERSONNE");
+            contactList.AddOption(mDictionnary.GetString("nobody"), GuardianData.Contact.NOBODY);
+            contactList.AddOption("RODOLPHE HASSELVANDER", GuardianData.Contact.RODOLPHE);
+            contactList.AddOption("JEAN MICHEL MOURIER", GuardianData.Contact.J2M);
+            contactList.AddOption("MAUD VERRAES", GuardianData.Contact.MAUD);
+            contactList.AddOption("WALID ABDERRAHMANI", GuardianData.Contact.WALID);
+            contactList.SetDefault(1);
+            contactList.SetDefault(0);
+
         }
 
         // Update is called once per frame
@@ -97,11 +110,13 @@ namespace BuddyApp.Guardian
         {
             if(!mHasInitCommands)
             {
+                //contactList.SetDefault("PERSONNE");
                 mHasInitCommands = true;
                 gaugeOnOffFire.SwitchCommands.Add(new ActFireDetectionCmd());
                 gaugeOnOffMovement.SwitchCommands.Add(new ActMovementDetectionCmd());
                 gaugeOnOffKidnap.SwitchCommands.Add(new ActKidnappingDetectionCmd());
                 gaugeOnOffSound.SwitchCommands.Add(new ActSoundDetectionCmd());
+                contactList.UpdateCommands.Add(new ContactGuardianCmd());
             }
         }
 

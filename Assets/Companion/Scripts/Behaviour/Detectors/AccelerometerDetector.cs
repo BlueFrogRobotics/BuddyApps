@@ -9,7 +9,8 @@ namespace BuddyApp.Companion
     {
         public bool LiftDetected { get { return mLiftDetected; } }
 
-        private float mThreshold;
+        private const float ACC_THRESHOLD = 7F;
+
         private bool mLiftDetected;
         private Queue<float> mStack;
         private TabletParameters mParameters;
@@ -19,7 +20,6 @@ namespace BuddyApp.Companion
         void Start()
         {
             mLiftDetected = false;
-            mThreshold = 5F;
             mStack = new Queue<float>();
             mParameters = BYOS.Instance.TabletParameters;
         }
@@ -43,7 +43,7 @@ namespace BuddyApp.Companion
                 lMean /= mStack.Count;
 
                 //Debug.Log("AcceleroZ mean : " + lMean);
-                if (Mathf.Abs(lAcceleroTotal - lMean) > mThreshold)
+                if (Mathf.Abs(lAcceleroTotal - lMean) > ACC_THRESHOLD)
                 {
                     mLiftDetected = true;
                     if (OnDetection != null)

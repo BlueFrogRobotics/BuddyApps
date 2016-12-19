@@ -15,6 +15,7 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(FollowFaceReaction))]
     [RequireComponent(typeof(IdleReaction))]
     [RequireComponent(typeof(SayHelloReaction))]
+    [RequireComponent(typeof(SearchFaceReaction))]
     [RequireComponent(typeof(WanderReaction))]
     public class Reaction : MonoBehaviour
     {
@@ -25,6 +26,7 @@ namespace BuddyApp.Companion
         private FaceCascadeTracker mFaceTracker;
         private IdleReaction mIdleReaction;
         private SayHelloReaction mHelloReaction;
+        private SearchFaceReaction mSearchFaceReaction;
         private TextToSpeech mTTS;
         private WanderReaction mWanderReaction;
 
@@ -39,6 +41,7 @@ namespace BuddyApp.Companion
             mFaceTracker = GetComponent<FaceCascadeTracker>();
             mIdleReaction = GetComponent<IdleReaction>();
             mHelloReaction = GetComponent<SayHelloReaction>();
+            mSearchFaceReaction = GetComponent<SearchFaceReaction>();
             mWanderReaction = GetComponent<WanderReaction>();
 
             mDictionary = BYOS.Instance.Dictionary;
@@ -75,6 +78,7 @@ namespace BuddyApp.Companion
             new SetMoodCmd(MoodType.SCARED).Execute();
             new SetMouthEvntCmd(MouthEvent.SCREAM);
             //BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
+            mTTS.Say(mDictionary.GetString("putMeDown"));
         }
 
         public void Pout()
@@ -116,8 +120,7 @@ namespace BuddyApp.Companion
                 yield return new WaitForSeconds(0.2F);
             }
             new SetMoodCmd(MoodType.GRUMPY).Execute();
-
-            StartWandering();
+            
             yield return new WaitForSeconds(5F);
 
             //for (int i = 0; i < 50; i++)
@@ -125,8 +128,7 @@ namespace BuddyApp.Companion
             //    new SetWheelsSpeedCmd(200F, 200F, 200).Execute();
             //    yield return new WaitForSeconds(0.2F);
             //}
-
-            StopWandering();
+            
             new SetMoodCmd(MoodType.NEUTRAL).Execute();
             mIsPouting = false;
             ActionFinished();
@@ -249,18 +251,26 @@ namespace BuddyApp.Companion
                 return;
             mHelloReaction.enabled = true;
         }
+
+        public void SearchFace()
+        {
+            if (mSearchFaceReaction.enabled)
+                return;
+
+            mSearchFaceReaction.enabled = false;
+        }
         
         public void LookRight()
         {
             float lHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
-            lHeadNoAngle += 15;
+            lHeadNoAngle -= 20;
             new SetPosNoCmd(lHeadNoAngle).Execute();
         }
 
         public void LookLeft()
         {
             float lHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
-            lHeadNoAngle -= 15;
+            lHeadNoAngle += 20;
             new SetPosNoCmd(lHeadNoAngle).Execute();
         }
     }
