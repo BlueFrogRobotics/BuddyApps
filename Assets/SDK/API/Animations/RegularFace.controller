@@ -367,8 +367,8 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: BlendTree_Eye_Follow
-    m_StateMachine: {fileID: 110768374}
+    m_Name: Commons_Expressions
+    m_StateMachine: {fileID: 110769162}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -379,8 +379,8 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Commons_Expressions
-    m_StateMachine: {fileID: 110769162}
+    m_Name: BlendTree_Eye_Follow
+    m_StateMachine: {fileID: 110768374}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -437,6 +437,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SuperAnimator: {fileID: 0}
   Face_V2: {fileID: 0}
+--- !u!114 &11471464
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1860323448, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11472130
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2565,7 +2576,8 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 11471464}
   m_AnyStatePosition: {x: 60, y: 12, z: 0}
   m_EntryPosition: {x: 60, y: 48, z: 0}
   m_ExitPosition: {x: 60, y: -36, z: 0}

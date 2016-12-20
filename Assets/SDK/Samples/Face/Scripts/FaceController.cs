@@ -28,6 +28,9 @@ namespace BuddySample
         [SerializeField]
         private Text mouthClicked;
 
+        [SerializeField]
+        private Text isStable;
+
         private Face mFace;
         private TextToSpeech mTTS;
         private Mood mMood;
@@ -57,11 +60,14 @@ namespace BuddySample
             leftEyeClicked.text = mFace.ClickedLeftEye ? "Left eye clicked !" : "Left eye";
             rightEyeClicked.text = mFace.ClickedRightEye ? "Right eye clicked !" : "Right eye";
             mouthClicked.text = mFace.ClickedMouth ? "Mouth clicked clicked !" : "Mouth ";
+            isStable.text = mFace.IsStable ? "Stable" : "Not stable";
             feedbackX.text = "X = " + lX;
             feedbackY.text = "Y = " + lY;
             sliderX.maxValue = Screen.width;
             sliderY.maxValue = Screen.height;
             mFace.LookAt(lX, lY);
+
+            Debug.Log(mFace.IsStable);
         }
 
         public void Speak()
