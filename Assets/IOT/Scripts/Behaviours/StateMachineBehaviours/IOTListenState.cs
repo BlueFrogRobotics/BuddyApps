@@ -18,7 +18,10 @@ namespace BuddyApp.IOT
 
             listenedTimes++;
             if (listenedTimes > 3)
+            {
                 iAnimator.SetTrigger(HashList[(int)HashTrigger.NEXT]);
+                listenedTimes = 0;
+            }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)

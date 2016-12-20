@@ -20,21 +20,18 @@
 		<Scene>TakePhotoApp</Scene>
     		<Icon>Ico_Jukebox</Icon>
 		<VocalKeys>
-			<string>roman-photo</string>
 			<string>prenons photo</string>
 			<string>prenons une photo</string>
-			<string>roman photo</string>
-			<string>30 photo</string>
-			<string>Promo photo</string>
 			<string>Prends-moi en photo</string>
-			<string>Prends moi</string>
 			<string>Prends-nous en photo</string>
-			<string>Prend nous</string>
 			<string>Prends une photo</string>
 			<string>Fait une photo</string>
 			<string>Prendre en photo</string>
 			<string>Prendre photo</string>
 			<string>prendre une photo</string>
+			<string>Take photo</string>
+			<string>Takea photo</string>
+			<string>Take a picture</string>
 		</VocalKeys>
     <LangDictionaries>
       <LangDictionary>
@@ -44,6 +41,26 @@
       <LangDictionary>
         <Language>ENG</Language>
         <Path>EnglishTakePhotoAppDict</Path>
+      </LangDictionary>
+    </LangDictionaries>
+	</AppInfo>
+  <AppInfo>
+		<name />
+		<hideFlags>None</hideFlags>
+		<DisplayName>TAKEPOSE</DisplayName>
+		<Scene>TakePoseApp</Scene>
+    		<Icon>Ico_Jukebox</Icon>
+		<VocalKeys>
+			<string>Prends la pose</string>
+		</VocalKeys>
+    <LangDictionaries>
+      <LangDictionary>
+        <Language>FRA</Language>
+        <Path>FrenchTakePoseAppDict</Path>
+      </LangDictionary>
+      <LangDictionary>
+        <Language>ENG</Language>
+        <Path>EnglishTakePoseAppDict</Path>
       </LangDictionary>
     </LangDictionaries>
 	</AppInfo>

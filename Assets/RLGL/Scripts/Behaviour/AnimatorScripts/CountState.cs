@@ -80,7 +80,7 @@ namespace BuddyApp.RLGL
                     mCountGreenLight = 0;
                 }
 
-                if ((mWheels.Status == MobileBaseStatus.REACHED_GOAL || (mWheels.Status == MobileBaseStatus.MOTIONLESS && mIsReachedGoal)) && mIsCoroutineDone)
+                if ((mWheels.Status == MovingState.REACHED_GOAL || (mWheels.Status == MovingState.MOTIONLESS && mIsReachedGoal)) && mIsCoroutineDone)
                 {
                     mIsMovementDone = true;
                 }

@@ -25,15 +25,23 @@ namespace BuddyApp.IOT
         // Use this for initialization
         void OnEnable()
         {
+            Debug.Log("yo");
+            CleanParams(true);
             GameObject lDropDown = Instantiate(paramContainer.ParametersList[5]);
             lDropDownComponent = lDropDown.GetComponent<Dropdown>();
 
             lDropDown.transform.SetParent(parametersGroup, false);
 
-            IOTDropdownCmd lCmd = new IOTDropdownCmd("IOTPhilipsHue");
+            IOTDropdownCmd lCmd = new IOTDropdownCmd("");
             lDropDownComponent.UpdateCommands.Add(lCmd);
             for (int i = 0; i < systemList.Count; ++i)
                 lDropDownComponent.AddOption(systemName[i], new object[] { this, systemList[i] });
+        }
+
+        public void CleanParams(bool iAll)
+        {
+            for (int i = iAll ? 0 : 1; i < parametersGroup.childCount; ++i)
+                GameObject.Destroy(parametersGroup.GetChild(i).gameObject);
         }
 
         public void FillParamClasses()

@@ -29,7 +29,7 @@ namespace BuddyApp.RLGL
         {
             Debug.Log("RESULT STATE : ON UPDATE");
             mTimer += Time.deltaTime;
-            if(mWheels.Status == MobileBaseStatus.REACHED_GOAL && !mIsMovementDone)
+            if(mWheels.Status == MovingState.REACHED_GOAL && !mIsMovementDone)
             {
                 mIsMovementDone = true;
                 mMood.Set(MoodType.HAPPY);
