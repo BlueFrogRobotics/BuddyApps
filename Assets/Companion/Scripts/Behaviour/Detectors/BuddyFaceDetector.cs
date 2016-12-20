@@ -30,7 +30,7 @@ namespace BuddyApp.Companion
         private short mTimesFaceTouched;
         private float mLastTimeFaceTouched;
         private Face mFace;
-        
+
         void Start()
         {
             mFace = BYOS.Instance.Face;
@@ -41,7 +41,7 @@ namespace BuddyApp.Companion
             mLeftEye.onClick.AddListener(LeftEyePoked);
             mRightEye.onClick.AddListener(RightEyePoked);
         }
-        
+
         void Update()
         {
             if (Time.time - mLastTimeFaceTouched >= 0.3F)
@@ -69,13 +69,13 @@ namespace BuddyApp.Companion
 
         private void LeftEyePoked()
         {
-            mFace.SetEyeEvent(EyeEvent.BLINK_LEFT);
+            mFace.SetEvent(FaceEvent.BLINK_LEFT);
             FacePoked();
         }
 
         private void RightEyePoked()
         {
-            mFace.SetEyeEvent(EyeEvent.BLINK_RIGHT);
+            mFace.SetEvent(FaceEvent.BLINK_RIGHT);
             FacePoked();
         }
 

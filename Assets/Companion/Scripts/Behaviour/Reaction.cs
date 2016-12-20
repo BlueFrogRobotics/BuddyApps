@@ -83,7 +83,7 @@ namespace BuddyApp.Companion
         public void IsBeingLifted()
         {
             new SetMoodCmd(MoodType.SCARED).Execute();
-            new SetMouthEvntCmd(MouthEvent.SCREAM);
+            new SetFaceEvntCmd(FaceEvent.SCREAM);
             //BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
             mTTS.Say(mDictionary.GetString("putMeDown"));
         }
@@ -112,7 +112,7 @@ namespace BuddyApp.Companion
                 new SetWheelsSpeedCmd(200F, -200F, 200).Execute();
                 yield return new WaitForSeconds(0.2F);
             }
-            new SetMouthEvntCmd(MouthEvent.SCREAM).Execute();
+            new SetFaceEvntCmd(FaceEvent.SCREAM).Execute();
             //BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
             for (int i = 0; i < 2; i++)
             {
@@ -159,7 +159,7 @@ namespace BuddyApp.Companion
 
                 yield return new WaitForSeconds(0.5F);
 
-                BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
+                BYOS.Instance.Face.SetEvent(FaceEvent.SCREAM);
                 new SetPosYesCmd(-5F).Execute();
                 new SetPosNoCmd(0F).Execute();
 

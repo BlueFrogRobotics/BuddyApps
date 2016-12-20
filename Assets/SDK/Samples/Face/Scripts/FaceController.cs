@@ -71,32 +71,32 @@ namespace BuddySample
 
         public void Yawn()
         {
-            mFace.SetMouthEvent(MouthEvent.YAWN);
+            mFace.SetEvent(FaceEvent.YAWN);
         }
 
         public void Screaming()
         {
-            mFace.SetMouthEvent(MouthEvent.SCREAM);
+            mFace.SetEvent(FaceEvent.SCREAM);
         }
 
         public void Smile()
         {
-            mFace.SetMouthEvent(MouthEvent.SMILE);
+            mFace.SetEvent(FaceEvent.SMILE);
         }
 
         public void BlinkRight()
         {
-            mFace.SetEyeEvent(EyeEvent.BLINK_RIGHT);
+            mFace.SetEvent(FaceEvent.BLINK_RIGHT);
         }
 
         public void BlinkLeft()
         {
-            mFace.SetEyeEvent(EyeEvent.BLINK_LEFT);
+            mFace.SetEvent(FaceEvent.BLINK_LEFT);
         }
 
         public void BlinkDouble()
         {
-            mFace.SetEyeEvent(EyeEvent.BLINK_DOUBLE);
+            mFace.SetEvent(FaceEvent.BLINK_DOUBLE);
         }
 
         public void Neutral()

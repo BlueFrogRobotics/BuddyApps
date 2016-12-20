@@ -38,7 +38,7 @@ namespace BuddyApp.Companion
             
             if (Time.time - mEmoteTime > 15F)
             {
-                new SetMouthEvntCmd(MouthEvent.SMILE).Execute();
+                new SetFaceEvntCmd(FaceEvent.SMILE).Execute();
                 mEmoteTime = Time.time;
             }
         }
@@ -73,7 +73,7 @@ namespace BuddyApp.Companion
                 yield return new WaitForSeconds(1.5F);
                 
                 if(Time.time - mEmoteTime > 15F) {
-                    new SetMouthEvntCmd(MouthEvent.SMILE);
+                    new SetFaceEvntCmd(FaceEvent.SMILE);
                     mEmoteTime = Time.time;
                 }
             }

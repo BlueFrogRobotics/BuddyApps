@@ -245,13 +245,7 @@
             </summary>
             <param name="iMood">The name of the mood to switch to</param>
         </member>
-        <member name="M:BuddyOS.Face.SetEyeEvent(EyeEvent)">
-            <summary>
-            Buddy will make an eye event
-            </summary>
-            <param name="iEvent">The eye event</param>
-        </member>
-        <member name="M:BuddyOS.Face.SetMouthEvent(MouthEvent)">
+        <member name="M:BuddyOS.Face.SetEvent(FaceEvent)">
             <summary>
             Buddy will make a mouth event. Last until MouthEvent.NONE or speak
             </summary>
@@ -2357,44 +2351,23 @@
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:BuddyOS.Command.SetMouthEvntCmd">
+        <member name="T:BuddyOS.Command.SetFaceEvntCmd">
             <summary>
-            When executed : The robot executes a mouth event
+            When executed : The robot executes a mouth  / eye event
             </summary>
         </member>
-        <member name="M:BuddyOS.Command.SetMouthEvntCmd.#ctor">
+        <member name="M:BuddyOS.Command.SetFaceEvntCmd.#ctor">
             <summary>
             Default constructor
             </summary>
         </member>
-        <member name="M:BuddyOS.Command.SetMouthEvntCmd.#ctor(MouthEvent)">
+        <member name="M:BuddyOS.Command.SetFaceEvntCmd.#ctor(FaceEvent)">
             <summary>
-            When executed : The robot executes an mouth event
+            When executed : The robot executes an mouth / eye event
             </summary>
             <param name="iMode">The mouth to trigger</param>
         </member>
-        <member name="M:BuddyOS.Command.SetMouthEvntCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:BuddyOS.Command.SetEyeEvntCmd">
-            <summary>
-            When executed : The robot executes an eye event
-            </summary>
-        </member>
-        <member name="M:BuddyOS.Command.SetEyeEvntCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:BuddyOS.Command.SetEyeEvntCmd.#ctor(EyeEvent)">
-            <summary>
-            When executed : The robot executes an eye event
-            </summary>
-            <param name="iMode">The event to trigger</param>
-        </member>
-        <member name="M:BuddyOS.Command.SetEyeEvntCmd.ExecuteImpl">
+        <member name="M:BuddyOS.Command.SetFaceEvntCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -3619,6 +3592,21 @@
             <param name="iKey">The key word corresponding to the wished word</param>
             <returns>The word in the current language, default value if not found</returns>
         </member>
+        <member name="T:BuddyOS.Lang.LanguageManager">
+            <summary>
+            Language managing
+            </summary>
+        </member>
+        <member name="F:BuddyOS.Lang.LanguageManager.TOTAL_LANG">
+            <summary>
+            Total nb supported language
+            </summary>
+        </member>
+        <member name="P:BuddyOS.Lang.LanguageManager.CurrentLang">
+            <summary>
+            Current OS language
+            </summary>
+        </member>
         <member name="T:BuddyOS.Net.WiFiManager">
             <summary>
             WiFi helper class. Use mainly TabletParameter wifi methods
@@ -4401,6 +4389,11 @@
             The layout to display
             </summary>
         </member>
+        <member name="P:BuddyOS.UI.WindowPanel.Sprite">
+            <summary>
+            Left side displayed image
+            </summary>
+        </member>
         <member name="M:BuddyOS.UI.WindowPanel.Clear">
             <summary>
             Clear method when the component comes to desappeared
@@ -4652,6 +4645,12 @@
             <param name="iSprite">The sprite name</param>
             <param name="iAtlas">The atlas name</param>
             <param name="iImage">The image to assign</param>
+        </member>
+        <member name="M:BuddyOS.SpriteManager.LoadAtlas(System.String)">
+            <summary>
+            Load the named atlas
+            </summary>
+            <param name="iAtlasName">Atlas to load located in Resources/Sprites/</param>
         </member>
         <member name="T:BuddyOS.VocalInputField">
             <summary>

@@ -2597,42 +2597,37 @@
             Short distance, use this for close interaction purpose
             </summary>
         </member>
-        <member name="T:MouthEvent">
+        <member name="T:FaceEvent">
             <summary>
-            Mouth events that Buddy face can handle
+            Mouth and eye events that Buddy face can handle
             </summary>
         </member>
-        <member name="F:MouthEvent.SMILE">
+        <member name="F:FaceEvent.SMILE">
             <summary>
             Make the face smile
             </summary>
         </member>
-        <member name="F:MouthEvent.YAWN">
+        <member name="F:FaceEvent.YAWN">
             <summary>
             Make the face yawn
             </summary>
         </member>
-        <member name="F:MouthEvent.SCREAM">
+        <member name="F:FaceEvent.SCREAM">
             <summary>
             Make the face scream like a barbarian
             </summary>
         </member>
-        <member name="T:EyeEvent">
-            <summary>
-            Eye event concerning Buddy face
-            </summary>
-        </member>
-        <member name="F:EyeEvent.BLINK_RIGHT">
+        <member name="F:FaceEvent.BLINK_RIGHT">
             <summary>
             Make the face blinking the right eye
             </summary>
         </member>
-        <member name="F:EyeEvent.BLINK_LEFT">
+        <member name="F:FaceEvent.BLINK_LEFT">
             <summary>
             Make the face blinking the left eye
             </summary>
         </member>
-        <member name="F:EyeEvent.BLINK_DOUBLE">
+        <member name="F:FaceEvent.BLINK_DOUBLE">
             <summary>
             Make the face blinking both eyes
             </summary>
