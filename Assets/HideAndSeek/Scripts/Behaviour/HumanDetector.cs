@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using BuddyOS;
 using System;
@@ -19,6 +20,8 @@ namespace BuddyApp.HideAndSeek
         private float mMaxThreshold = 80f;
         private float mThreshold = 40.0f;
         private float mTimer = 0.0f;
+
+        public Text mText;
 
         void Awake()
         {
@@ -51,19 +54,23 @@ namespace BuddyApp.HideAndSeek
         {
             int lMaxTemp = 0;
             int[] lLocalThermic = mThermal.Matrix;
+            float lAvgTemp = 0;
             if (lLocalThermic != null)
             {
                 string lText = "";
                 for (int i = 0; i < lLocalThermic.Length; i++)
                 {
                     lText += lLocalThermic[i] + " ";
+                    lAvgTemp += lLocalThermic[i];
                     if (lLocalThermic[i] > lMaxTemp)
                         lMaxTemp = lLocalThermic[i];
                 }
             }
+            lAvgTemp /= lLocalThermic.Length;
+            mText.text = "max temp: " + lMaxTemp + " avg: " + lAvgTemp;
             //Debug.Log("max temp: "+lMaxTemp);
             //Debug.Log("temp: " + lText);
-            if (lMaxTemp > 25 && lMaxTemp < 30)
+            if (lMaxTemp > 25 && lMaxTemp < 31 && lAvgTemp>22)
                 return true;
             else
                 return false;

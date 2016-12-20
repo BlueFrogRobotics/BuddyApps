@@ -7,7 +7,11 @@ namespace BuddyApp.HideAndSeek
 {
     public class WaitState : AStateMachineBehaviour
     {
+        [SerializeField]
+        private float timerLenght = 2.0f;
+
         private float mTimer = 0.0f;
+
 
         public override void Init()
         {
@@ -22,7 +26,7 @@ namespace BuddyApp.HideAndSeek
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
-            if(mTimer>15.0f)
+            if(mTimer>timerLenght)
                 iAnimator.SetTrigger("ChangeState");
         }
 

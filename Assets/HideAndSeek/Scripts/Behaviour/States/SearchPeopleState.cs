@@ -25,6 +25,7 @@ namespace BuddyApp.HideAndSeek
         {
             mTimer = 0.0f;
             mTTS.Say("Montre ton visage");
+            mFace.SetExpression(MoodType.THINKING);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -52,6 +53,7 @@ namespace BuddyApp.HideAndSeek
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             //mTTS.Say("Je t ai trouvé");
+            mFace.SetExpression(MoodType.NEUTRAL);
             if (mLabelFound != -1 && mDist < 100)
             {
                 

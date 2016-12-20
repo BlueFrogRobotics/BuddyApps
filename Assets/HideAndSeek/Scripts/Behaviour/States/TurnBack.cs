@@ -21,7 +21,7 @@ namespace BuddyApp.HideAndSeek
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             //mWheels.TurnAngle(30.0f, 200.0f, 0.1f);
-            if (mWheels.Status==MobileBaseStatus.MOTIONLESS)
+            if (mWheels.Status==MovingState.MOTIONLESS)
             {
                 iAnimator.SetTrigger("ChangeState");
             }

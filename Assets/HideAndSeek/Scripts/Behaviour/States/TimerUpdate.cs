@@ -40,7 +40,7 @@ namespace BuddyApp.HideAndSeek
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mYesHinge.SetPosition(0);
+            mYesHinge.SetPosition(20);
             iAnimator.ResetTrigger("ChangeState");
         }
 

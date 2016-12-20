@@ -21,7 +21,7 @@ namespace BuddyApp.HideAndSeek
         {
             if(mTTS.HasFinishedTalking())
             {
-                mYesHinge.SetPosition(40);
+                mYesHinge.SetPosition(45);
                 //Debug.Log("angle max: " + mYesHinge.MaximumAngle);
                 iAnimator.SetTrigger("ChangeState");
             }

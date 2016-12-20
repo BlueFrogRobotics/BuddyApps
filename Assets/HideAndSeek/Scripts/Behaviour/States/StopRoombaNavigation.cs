@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using BuddyOS;
 using BuddyOS.App;
 using System;
 
@@ -16,11 +17,12 @@ namespace BuddyApp.HideAndSeek
         {
             GetGameObject(0).SetActive(false);
             mWheels.StopWheels();
+            mFace.SetExpression(MoodType.NEUTRAL);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (mWheels.Status == MobileBaseStatus.MOTIONLESS)
+            if (mWheels.Status == MovingState.MOTIONLESS)
             {
                 iAnimator.SetTrigger("ChangeState");
             }
