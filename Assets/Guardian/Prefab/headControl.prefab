@@ -368,7 +368,7 @@ Animator:
   m_GameObject: {fileID: 164052}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c72061105542312439558c1c8b9b9a98, type: 2}
+  m_Controller: {fileID: 9100000, guid: 62b8591654b71764d885c083152c4cd8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1076,6 +1076,7 @@ MonoBehaviour:
   buttonDown: {fileID: 11469328}
   buttonBack: {fileID: 11463632}
   rawCamImage: {fileID: 11491740}
+  headControlAnimator: {fileID: 9521126}
 --- !u!114 &11491740
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1647,7 +1648,7 @@ RectTransform:
   m_RootOrder: 9
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 75, y: 47}
+  m_AnchoredPosition: {x: 30, y: 30}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0, y: 0}
 --- !u!225 &22512428

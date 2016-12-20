@@ -25,12 +25,16 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private RawImage rawCamImage;
 
+        [SerializeField]
+        private Animator headControlAnimator;
+
         public UnityEngine.UI.Button ButtonLeft { get { return buttonLeft; } }
         public UnityEngine.UI.Button ButtonRight { get { return buttonRight; } }
         public UnityEngine.UI.Button ButtonUp { get { return buttonUp; } }
         public UnityEngine.UI.Button ButtonDown { get { return buttonDown; } }
         public UnityEngine.UI.Button ButtonBack { get { return buttonBack; } }
         public RawImage RawCamImage { get { return rawCamImage; } }
+        public Animator HeadControlAnimator { get { return headControlAnimator; } }
 
         // Use this for initialization
         void Start()
