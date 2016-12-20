@@ -4753,13 +4753,13 @@
         </member>
         <member name="M:BuddyOS.VocalActivation.SetText(System.String)">
             <summary>
-            Fake the input vocal signal by the input text
+            Fake the input vocal signal with input text
             </summary>
-            <param name="iInput">The input text that the speech to text will proceed</param>
+            <param name="iInput">The input text that the Speech To Text will proceed</param>
         </member>
         <member name="M:BuddyOS.VocalActivation.StopReco">
             <summary>
-            Stop Trigger Mode
+            Stop Trigger Mode and disable VocalActivation
             </summary>
         </member>
     </members>
