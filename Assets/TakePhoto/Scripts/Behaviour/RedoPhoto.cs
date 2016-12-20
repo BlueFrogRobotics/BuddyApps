@@ -29,17 +29,21 @@ public class RedoPhoto : SpeechStateBehaviour
 
 	private AudioSource mButtonSound;
 
+	private AnimManager mAnimationManager;
+
 	public override void Init()
 	{
 		mCanvasYesNoPicture = GetComponentInGameObject<Canvas>(0);
 		mCanvasBackGround = GetComponentInGameObject<Canvas>(8);
 		mButtonSound = GetComponentInGameObject<AudioSource>(9);
+		mAnimationManager = GetComponentInGameObject<AnimManager>(10);
 	}
 
 
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
+		Debug.Log("OnEnter redo");
 		mErrorCount = 0;
 		mNeedListen = true;
 		mFirst = true;
@@ -159,7 +163,7 @@ public class RedoPhoto : SpeechStateBehaviour
 
 		Debug.Log("OnSpeechReco");
 		mMood.Set(MoodType.NEUTRAL);
-		//link.animationManager.Blink ();
+		mAnimationManager.Blink ();
 		Debug.Log("[photo Heard] : " + iVoiceInput);
 
 		mErrorCount = 0;
@@ -186,7 +190,7 @@ public class RedoPhoto : SpeechStateBehaviour
 		Debug.Log("[question error] : " + iError);
 		++mErrorCount;
 		Debug.Log("[question error] : count " + mErrorCount);
-		//link.animationManager.Sigh ();
+		mAnimationManager.Sigh ();
 
 		// If too much erro (no answer), ask for answer. If still no answer, get back to IDLE
 		if (mErrorCount > 3) {
@@ -195,13 +199,14 @@ public class RedoPhoto : SpeechStateBehaviour
 		} else {
 			mMood.Set(MoodType.NEUTRAL);
 			//string lSentence = RdmStr(mDidntUnderstandSpeech);
-			string lSentence = mDictionary.GetString("didntUnderstand");
+
+			string lSentence = mDictionary.GetString("sorryDidntUnderstand");
 
 			switch (iError) {
-				case STTError.ERROR_AUDIO: lSentence = "Il y a un problème avec le micro !"; break;
-				case STTError.ERROR_NETWORK: lSentence = "Il y a un problème de connexion !"; break;
-				case STTError.ERROR_RECOGNIZER_BUSY: lSentence = "La reconaissance vocale est déjà occupée !"; break;
-				case STTError.ERROR_SPEECH_TIMEOUT: lSentence = "Je n'ai rien entendu. Pouvez vous répéter ?"; break;
+				case STTError.ERROR_AUDIO: lSentence = mDictionary.GetString("microphoneIssue"); break;
+				case STTError.ERROR_NETWORK: lSentence = mDictionary.GetString("connexionIssue"); break;
+				case STTError.ERROR_RECOGNIZER_BUSY: lSentence = mDictionary.GetString("vocalRecoBusy"); break;
+				case STTError.ERROR_SPEECH_TIMEOUT: lSentence = mDictionary.GetString("hearNothing") + " " + mDictionary.GetString("repeatPls"); break;
 			}
 
 			if (UnityEngine.Random.value > 0.8) {

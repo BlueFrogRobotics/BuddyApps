@@ -38,7 +38,7 @@ namespace BuddyApp.Companion
             
             if (Time.time - mEmoteTime > 15F)
             {
-                new SetMouthEvntCmd(MouthEvent.SMILE).Execute();
+                new SetFaceEvntCmd(FaceEvent.SMILE).Execute();
                 mEmoteTime = Time.time;
             }
         }
@@ -53,12 +53,17 @@ namespace BuddyApp.Companion
         {
             new SetMoodCmd(MoodType.NEUTRAL);
 
-            Debug.Log("Can move head " + CompanionData.Instance.CanMoveHead);
-
             while(enabled && CompanionData.Instance.CanMoveHead) {
-                if(Random.Range(0, 1) == 0) {
+                bool lMoveNo = Random.Range(0, 1) == 0;
+                if ( lMoveNo ) {
                     float lRandomAngle = Random.Range(-45F, 45F);
                     new SetPosNoCmd(lRandomAngle).Execute();
+
+                    if (CompanionData.Instance.CanMoveBody)
+                    {
+                        yield return new WaitForSeconds(1.5F);
+                        new TurnRelaCmd(lRandomAngle, 150F, 0.2F).Execute();
+                    }
                 }
                 else {
                     float lRandomAngle = Random.Range(-30F, 15F);
@@ -66,9 +71,9 @@ namespace BuddyApp.Companion
                 }
 
                 yield return new WaitForSeconds(1.5F);
-
+                
                 if(Time.time - mEmoteTime > 15F) {
-                    new SetMouthEvntCmd(MouthEvent.SMILE);
+                    new SetFaceEvntCmd(FaceEvent.SMILE);
                     mEmoteTime = Time.time;
                 }
             }
