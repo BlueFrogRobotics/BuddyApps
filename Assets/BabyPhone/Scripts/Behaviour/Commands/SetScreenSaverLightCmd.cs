@@ -2,12 +2,12 @@
 
 namespace BuddyApp.BabyPhone
 {
-    internal class SetTimerCmd : ACommand
+    internal class SetScreenSaverLightCmd : ACommand
     {
         protected override void ExecuteImpl()
         {
             int lVal = Parameters.Integers[0];
-            BabyPhoneData.Instance.Timer = lVal;
+            BabyPhoneData.Instance.ScreenSaverLight = lVal;
         }
     }
 }

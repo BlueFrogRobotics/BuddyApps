@@ -2,11 +2,11 @@
 
 namespace BuddyApp.BabyPhone
 {
-    internal class ActTimerCmd : ACommand
+    internal class SetLullabyVolCmd : ACommand
     {
         protected override void ExecuteImpl()
         {
-            BabyPhoneData.Instance.TimerIsActive = Parameters.Integers[0] == 1;
+            BabyPhoneData.Instance.LullabyVolume = Parameters.Integers[0];
         }
     }
 }

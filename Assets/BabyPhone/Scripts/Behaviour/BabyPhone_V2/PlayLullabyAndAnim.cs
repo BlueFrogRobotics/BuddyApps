@@ -8,13 +8,16 @@ namespace BuddyApp.BabyPhone
     public class PlayLullabyAndAnim : MonoBehaviour
     {
         [SerializeField]
+        private RawImage mAnimation;
+        [SerializeField]
         private GameObject mProgressBar;
         [SerializeField]
         private AudioSource mSource;
         [SerializeField]
         private Animator mBabyPhoneAnimator;
 
-
+        private MovieTexture mMovie; 
+            
         private BabyPhoneData mBabyPhoneData;
 
         private AudioClip[] mLullabies;
@@ -38,6 +41,8 @@ namespace BuddyApp.BabyPhone
         void Start()
         {
             mLullabies = Resources.LoadAll<AudioClip>("Lullabies");
+            //mMovie = (MovieTexture)mAnimation.mainTexture;
+            ((MovieTexture)mAnimation.mainTexture).Play();
             mTimeElapsed = 0;
             //mSource.volume = mBabyPhoneData.Volume;
         }
@@ -66,11 +71,16 @@ namespace BuddyApp.BabyPhone
         {
             if (!mSource.isPlaying)
                 mSource.Play();
+
+            //if (!mMovie.isPlaying)
+                //mMovie.Play();
+
         }
 
         public void Return()
         {
             mSource.Play();
+            //mMovie.Play();
             mTimeElapsed = 0F;
         }
 
@@ -83,6 +93,9 @@ namespace BuddyApp.BabyPhone
         {           
             if (mSource.isPlaying)
                 mSource.Stop();
+
+            //if (mMovie.isPlaying)
+            //    mMovie.Stop();
             mBabyPhoneAnimator.SetBool("DoPlayLullaby", false);
         }
     }

@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace BuddyApp.BabyPhone
 {
-    public class Count : MonoBehaviour
+    public class BbPhCount : MonoBehaviour
     {
         [SerializeField]
         private Text mCounter;
