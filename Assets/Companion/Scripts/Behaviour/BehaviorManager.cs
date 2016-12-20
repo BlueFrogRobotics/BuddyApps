@@ -73,8 +73,6 @@ namespace BuddyApp.Companion
             //mReaction.ActionFinished = PopHead;
             mReaction.ActionFinished = OnActionFinished;
             mAccelerometerDetector.OnDetection += mReaction.IsBeingLifted;
-            mBuddyFaceDetector.RightSideTouched += mReaction.LookRight;
-            mBuddyFaceDetector.LeftSideTouched += mReaction.LookLeft;
         }
 
         void Update()
@@ -106,7 +104,7 @@ namespace BuddyApp.Companion
                 PushInStack(mReaction.Pout);
 
             if ((mSpeechDetector.SomeoneTalkingDetected && !mVocalWanderOrder)
-                || mBuddyFaceDetector.FaceTouched || mFaceDetector.FaceDetected ||
+                || mBuddyFaceDetector.EyeTouched || mFaceDetector.FaceDetected ||
                 mCurrentAction != null ) {
                 //Debug.Log("Interaction with Buddy");
                 mInactiveTime = Time.time;
