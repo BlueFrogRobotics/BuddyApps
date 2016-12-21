@@ -10,7 +10,7 @@ namespace BuddyApp.RLGL
         private float mTimer;
         private bool mIsSentenceDone;
         private bool mIsMovementDone;
-        
+
         public override void Init()
         {
         }
@@ -29,15 +29,13 @@ namespace BuddyApp.RLGL
         {
             Debug.Log("RESULT STATE : ON UPDATE");
             mTimer += Time.deltaTime;
-            if(mWheels.Status == MovingState.REACHED_GOAL && !mIsMovementDone)
-            {
+            if (mWheels.Status == MovingState.REACHED_GOAL && !mIsMovementDone) {
                 mIsMovementDone = true;
                 mMood.Set(MoodType.HAPPY);
             }
 
-            
-            if (mTTS.HasFinishedTalking() && mTimer < 6.0f && !mIsSentenceDone && mIsMovementDone)
-            {
+
+            if (mTTS.HasFinishedTalking() && mTimer < 6.0f && !mIsSentenceDone && mIsMovementDone) {
 
                 mTTS.Say("Good job you won, you have been too fast for me!");
                 mIsSentenceDone = true;

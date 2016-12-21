@@ -10,12 +10,24 @@ namespace BuddyApp.Companion
         private float mHeadMoveTime;
         private float mEmoteTime;
 
+        private Face mFace;
+        private Mood mMood;
+        private NoHinge mNoHinge;
+        private YesHinge mYesHinge;
+
+        void Start()
+        {
+            mFace = BYOS.Instance.Face;
+            mMood = BYOS.Instance.Mood;
+            mNoHinge = BYOS.Instance.Motors.NoHinge;
+            mYesHinge = BYOS.Instance.Motors.YesHinge;
+        }
+
         void OnEnable()
         {
             mHeadMoveTime = Time.time;
             mEmoteTime = Time.time;
-            new SetMoodCmd(MoodType.NEUTRAL).Execute();
-            //StartCoroutine(IdleBehaviorCo());
+            mMood.Set(MoodType.NEUTRAL);
         }
 
         void Update()
@@ -28,55 +40,25 @@ namespace BuddyApp.Companion
             if (Random.Range(0, 2) == 0)
             {
                 float lRandomAngle = Random.Range(-45F, 45F);
-                new SetPosNoCmd(lRandomAngle).Execute();
+                mNoHinge.SetPosition(lRandomAngle);
             }
             else
             {
                 float lRandomAngle = Random.Range(-20F, 15F);
-                new SetPosYesCmd(lRandomAngle).Execute();
+                mYesHinge.SetPosition(lRandomAngle);
             }
             
             if (Time.time - mEmoteTime > 15F)
             {
-                new SetMouthEvntCmd(MouthEvent.SMILE).Execute();
+                mFace.SetEvent(FaceEvent.SMILE);
                 mEmoteTime = Time.time;
             }
         }
 
         void OnDisable()
         {
-            new SetPosNoCmd(0F).Execute();
-            new SetPosYesCmd(0F).Execute();
-        }
-
-        private IEnumerator IdleBehaviorCo()
-        {
-            new SetMoodCmd(MoodType.NEUTRAL);
-
-            while(enabled && CompanionData.Instance.CanMoveHead) {
-                bool lMoveNo = Random.Range(0, 1) == 0;
-                if ( lMoveNo ) {
-                    float lRandomAngle = Random.Range(-45F, 45F);
-                    new SetPosNoCmd(lRandomAngle).Execute();
-
-                    if (CompanionData.Instance.CanMoveBody)
-                    {
-                        yield return new WaitForSeconds(1.5F);
-                        new TurnRelaCmd(lRandomAngle, 150F, 0.2F).Execute();
-                    }
-                }
-                else {
-                    float lRandomAngle = Random.Range(-30F, 15F);
-                    new SetPosYesCmd(lRandomAngle).Execute();
-                }
-
-                yield return new WaitForSeconds(1.5F);
-                
-                if(Time.time - mEmoteTime > 15F) {
-                    new SetMouthEvntCmd(MouthEvent.SMILE);
-                    mEmoteTime = Time.time;
-                }
-            }
+            mNoHinge.SetPosition(0F);
+            mYesHinge.SetPosition(0F);
         }
     }
 }
