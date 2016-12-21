@@ -2634,7 +2634,7 @@
         </member>
         <member name="T:FaceLookAt">
             <summary>
-            Facility enum for face LookAt() method
+            Facility enum for face LookAt(x, y) method
             </summary>
         </member>
         <member name="F:FaceLookAt.CENTER">
@@ -2813,7 +2813,7 @@
         </member>
         <member name="F:STTError.ERROR_NETWORK_TIMEOUT">
             <summary>
-            The network has encounter a time out 
+            The network has encountered a time out 
             </summary>
         </member>
         <member name="F:STTError.ERROR_NETWORK">
@@ -2823,7 +2823,7 @@
         </member>
         <member name="F:STTError.ERROR_AUDIO">
             <summary>
-            Micro error. Another micro may be currently in use ?
+            Microphone error. Another microphone may be currently in use ?
             </summary>
         </member>
         <member name="F:STTError.ERROR_SERVER">
@@ -2838,27 +2838,27 @@
         </member>
         <member name="F:STTError.ERROR_SPEECH_TIMEOUT">
             <summary>
-            STT has hear nothing
+            STT heard nothing
             </summary>
         </member>
         <member name="F:STTError.ERROR_NO_MATCH">
             <summary>
-            Unknown phrase, your sentence doesn't has any sence
+            Unknown phrase or your sentence doesn't make any sense
             </summary>
         </member>
         <member name="F:STTError.ERROR_RECOGNIZER_BUSY">
             <summary>
-            Vocal recognition is buzy
+            Vocal recognition is busy
             </summary>
         </member>
         <member name="F:STTError.ERROR_INSUFFICIENT_PERMISSIONS">
             <summary>
-            Cannot access to micro
+            Cannot access microphone
             </summary>
         </member>
         <member name="F:STTError.ERROR_REQUEST_AGAIN">
             <summary>
-            A request has been asked while another is processing
+            A request is made while another is processing
             </summary>
         </member>
         <member name="T:USPosition">
@@ -3032,11 +3032,12 @@
             </summary>
             <param name="iFileName">File to delete</param>
         </member>
-        <member name="M:BuddyTools.SerializeCSV.Load(System.String)">
+        <member name="M:BuddyTools.SerializeCSV.Load(System.String,System.Char)">
             <summary>
             Load the list of item from the specified csv file.
             </summary>
             <param name="iFileName">File to load from</param>
+            <param name="iSeparator">Separator token, ';' by default</param>
             <returns>The list of item. One string array per line.</returns>
         </member>
         <member name="T:BuddyTools.SerializeXML">
