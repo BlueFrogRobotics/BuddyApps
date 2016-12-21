@@ -15,7 +15,8 @@ namespace BuddyApp.Recipe
             GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
             GetGameObject(2).SetActive(false);
             GetGameObject(1).SetActive(true);
-            GetGameObject(6).GetComponent<Animator>().SetTrigger("Open_WCategory");
+            //GetGameObject(6).GetComponent<Animator>().SetTrigger("Open_WCategory");
+            GetGameObject(6).SetActive(true);
             mTTS.Say("Quelle type de recette veux tu faire ?");
         }
 
@@ -27,6 +28,7 @@ namespace BuddyApp.Recipe
         {
             if (!mTTS.HasFinishedTalking())
                 mTTS.Silence(0, false);
+            GetGameObject(6).SetActive(false);
             /*GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
             GetGameObject(1).SetActive(false);
             GetGameObject(2).SetActive(true);

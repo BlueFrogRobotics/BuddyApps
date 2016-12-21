@@ -34,8 +34,7 @@ namespace BuddyApp.RLGL
         {
             Debug.Log("DETECTION STATE : ON UPDATE");
             mTimer += Time.deltaTime;
-            if (!mIsMovementActionDone)
-            {
+            if (!mIsMovementActionDone) {
                 mTTS.Say("Red Light");
                 mWheels.TurnAngle(-180.0F, 250.0F, 0.02F);
                 mIsMovementActionDone = true;
@@ -43,40 +42,34 @@ namespace BuddyApp.RLGL
             }
             Debug.Log("STATUS DETECTION STATE : " + mWheels.Status);
 
-            if (mWheels.Status == MobileBaseStatus.REACHED_GOAL || (mTimer > 1.5F && mWheels.Status == MobileBaseStatus.MOTIONLESS))
-            {
+            if (mWheels.Status == MovingState.REACHED_GOAL || (mTimer > 1.5F && mWheels.Status == MovingState.MOTIONLESS)) {
                 mIsMovementDone = true;
                 Debug.Log("DETECTION UPDATE : MOVEMENT DONE");
             }
-            
-            if ( mTTS.HasFinishedTalking() && mIsMovementDone)
-            {
+
+            if (mTTS.HasFinishedTalking() && mIsMovementDone) {
                 mIsDetected = GetComponent<FreezeDance.MotionGame>().IsMoving();
 
-                if(mIsDetected && !mIsSentenceDone && mTimer < 8.0f && mTimer > 3.0f)
-                {
+                if (mIsDetected && !mIsSentenceDone && mTimer < 8.0f && mTimer > 3.0f) {
                     mMood.Set(MoodType.HAPPY);
                     iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;
                     mTTS.Say("I saw you moving my friend, I let you ten seconds to go back at the start!");
 
                     mIsSentenceDone = true;
                 }
-                if (mIsSentenceDone && mTTS.HasFinishedTalking() && mTimer > 10.0f)
-                {
+                if (mIsSentenceDone && mTTS.HasFinishedTalking() && mTimer > 10.0f) {
                     mMood.Set(MoodType.NEUTRAL);
                     GetComponent<FreezeDance.MotionGame>().enabled = false;
                     iAnimator.SetBool("IsDetectedTrue", true);
                 }
 
-                if (!mIsDetected && !mIsSentenceDone && mTimer > 4.0F && mTimer < 8.0F && !mIsStrong)
-                {
+                if (!mIsDetected && !mIsSentenceDone && mTimer > 4.0F && mTimer < 8.0F && !mIsStrong) {
                     mTTS.Say("Wow you are strong, I don't see you moving!");
                     mMood.Set(MoodType.THINKING);
                     mIsStrong = true;
                 }
 
-                if (!mIsSentenceDone && mTimer > 8.0f && mTTS.HasFinishedTalking() && mIsStrong)
-                {
+                if (!mIsSentenceDone && mTimer > 8.0f && mTTS.HasFinishedTalking() && mIsStrong) {
                     mMood.Set(MoodType.NEUTRAL);
                     GetComponent<FreezeDance.MotionGame>().enabled = false;
                     iAnimator.GetBehaviour<CountState>().IsOneTurnDone = true;
@@ -90,8 +83,8 @@ namespace BuddyApp.RLGL
             Debug.Log("DETECTION STATE : ON EXIT");
             iAnimator.SetBool("IsDetectedTrue", false);
             iAnimator.SetBool("IsDetectedFalse", false);
-            
-        }        
+
+        }
     }
 
 }

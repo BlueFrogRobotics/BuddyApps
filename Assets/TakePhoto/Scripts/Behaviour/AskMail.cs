@@ -64,13 +64,11 @@ public class AskMail : SpeechStateBehaviour
 		mRefuseSpeech = new List<string>();
 		mDidntUnderstandSpeech = new List<string>();
 
+		if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA)
+			mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoFR.xml").text;
+		else
+			mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoEN.xml").text;
 
-		mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoEN.xml").text;
-
-		// TODO: put this back when possible
-		//if (VocalActivation.CurrentLanguage == Language.FRA) {
-		//	mSynonymesFile = Resources.Load<TextAsset>("synonymesPhotoFR.xml").text;
-		//}
 
 		FillListSyn("Accept", mAcceptSpeech);
 		FillListSyn("AnOther", mAnOtherSpeech);
@@ -117,7 +115,7 @@ public class AskMail : SpeechStateBehaviour
 						if (ContainsOneOf(mLastSpeech, mAcceptSpeech) || ContainsOneOf(mLastSpeech, mAnOtherSpeech)) {
 							animator.SetTrigger("SendMailAccepted");
 						} else if (ContainsOneOf(mLastSpeech, mRefuseSpeech) || ContainsOneOf(mLastSpeech, mQuitSpeech)) {
-							SayInLang("mai", true);
+							SayInLang("okNP", true);
 							animator.SetTrigger("SendMailRefused");
 						} else {
 
@@ -225,7 +223,7 @@ public class AskMail : SpeechStateBehaviour
 		mNeedListen = true;
 	}
 
-	
+
 	protected override void OnExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		if (canvasDisplayed) {

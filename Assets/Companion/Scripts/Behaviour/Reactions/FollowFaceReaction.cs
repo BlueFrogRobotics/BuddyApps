@@ -18,11 +18,18 @@ namespace BuddyApp.Companion
         private float mHeadYesAngle;
         private float mHeadNoAngle;
         List<Rect> mTrackedObjects;
+
         private FaceCascadeTracker mFaceTracker;
+        private Mood mMood;
+        private NoHinge mNoHinge;
+        private YesHinge mYesHinge;
 
         void Start()
         {
             mFaceTracker = GetComponent<FaceCascadeTracker>();
+            mMood = BYOS.Instance.Mood;
+            mNoHinge = BYOS.Instance.Motors.NoHinge;
+            mYesHinge = BYOS.Instance.Motors.YesHinge;
         }
 
         void OnEnable()
@@ -30,13 +37,13 @@ namespace BuddyApp.Companion
             Debug.Log("FaceFollow Enabled");
 
             //Init the different variables
-            new SetMoodCmd(MoodType.NEUTRAL).Execute();
+            mMood.Set(MoodType.NEUTRAL);
             mUpdateTime = Time.time;
             mTrackedObjects = mFaceTracker.TrackedObjects;
             mCameraWidthCenter = BYOS.Instance.RGBCam.Width / 2;
             mCameraHeightCenter = BYOS.Instance.RGBCam.Height / 2;
-            mHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
-            mHeadYesAngle = BYOS.Instance.Motors.YesHinge.CurrentAnglePosition;
+            mHeadNoAngle = mNoHinge.CurrentAnglePosition;
+            mHeadYesAngle = mYesHinge.CurrentAnglePosition;
         }
 
         void Update()
@@ -53,15 +60,15 @@ namespace BuddyApp.Companion
                 Debug.Log("Tracking face : XCenter " + lXCenter + " / YCenter " + lYCenter);
 
                 if (!(mCameraWidthCenter - 25 < lXCenter && lXCenter < mCameraWidthCenter + 5))
-                    mHeadNoAngle -= Mathf.Sign(lXCenter - mCameraWidthCenter) * 2F;
+                    mHeadNoAngle -= Mathf.Sign(lXCenter - mCameraWidthCenter) * 1.5F;
                 if (!(mCameraHeightCenter - 5 < lYCenter && lYCenter < mCameraHeightCenter + 25))
-                    mHeadYesAngle += Mathf.Sign(lYCenter - mCameraHeightCenter) * 2F;
+                    mHeadYesAngle += Mathf.Sign(lYCenter - mCameraHeightCenter) * 1.5F;
 
                 Debug.Log("Setting angles Yes : " + Mathf.Sign(lYCenter - mCameraHeightCenter) + 
                     " / No : " + Mathf.Sign(lXCenter - mCameraWidthCenter));
-
-                new SetPosYesCmd(mHeadYesAngle).Execute();
-                new SetPosNoCmd(mHeadNoAngle).Execute();
+                
+                mYesHinge.SetPosition(mHeadYesAngle);
+                mNoHinge.SetPosition(mHeadNoAngle);
                 //yield return new WaitForSeconds(0.1F);
 
                 //if (Time.time - mFaceAndTalkTime > 30F)

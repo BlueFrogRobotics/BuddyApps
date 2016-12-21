@@ -5,7 +5,6 @@ namespace BuddyApp.Recipe
 {
     public class NoRecipeFound : AStateMachineBehaviour
     {
-        private int mCount = 0;
 
         public override void Init()
         {

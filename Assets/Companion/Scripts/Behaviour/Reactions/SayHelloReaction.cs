@@ -8,14 +8,20 @@ namespace BuddyApp.Companion
 {
     public class SayHelloReaction : MonoBehaviour
     {
-        private Dictionary mDictionary;
-        private TextToSpeech mTTS;
         private float mTime;
+        private Dictionary mDictionary;
+        private NoHinge mNoHinge;
+        private TextToSpeech mTTS;
+        private Wheels mWheels;
+        private YesHinge mYesHinge;
 
         void Start()
         {
             mDictionary = BYOS.Instance.Dictionary;
+            mNoHinge = BYOS.Instance.Motors.NoHinge;
             mTTS = BYOS.Instance.TextToSpeech;
+            mWheels = BYOS.Instance.Motors.Wheels;
+            mYesHinge = BYOS.Instance.Motors.YesHinge;
         }
 
         void OnEnable()
@@ -26,12 +32,12 @@ namespace BuddyApp.Companion
 
         private IEnumerator StepBackCo()
         {
-            new SetWheelsSpeedCmd(-200F, -200F, 1500).Execute();
+            mWheels.SetWheelsSpeed(-200F, -200F, 500);
 
             yield return new WaitForSeconds(1F);
-
-            new SetPosNoCmd(0F).Execute();
-            new SetPosYesCmd(-10F).Execute();
+            
+            mNoHinge.SetPosition(0F);
+            mYesHinge.SetPosition(-10F);
 
             yield return new WaitForSeconds(1F);
 
