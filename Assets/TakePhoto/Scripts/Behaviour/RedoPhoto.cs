@@ -116,7 +116,7 @@ public class RedoPhoto : SpeechStateBehaviour
 							SayInLang("noRedo");
 							animator.SetTrigger("AskMail");
 						} else {
-							SayInLang("didntUnderstand", true);
+							SayInLang("srynotunderstand", true);
 							mTTS.Silence(1000, true);
 							SayInLang("yesOrNo", true);
 							mTTS.Silence(1000, true);
@@ -200,13 +200,13 @@ public class RedoPhoto : SpeechStateBehaviour
 			mMood.Set(MoodType.NEUTRAL);
 			//string lSentence = RdmStr(mDidntUnderstandSpeech);
 
-			string lSentence = mDictionary.GetString("sorryDidntUnderstand");
+			string lSentence = mDictionary.GetString("srynotunderstand");
 
 			switch (iError) {
-				case STTError.ERROR_AUDIO: lSentence = mDictionary.GetString("microphoneIssue"); break;
-				case STTError.ERROR_NETWORK: lSentence = mDictionary.GetString("connexionIssue"); break;
-				case STTError.ERROR_RECOGNIZER_BUSY: lSentence = mDictionary.GetString("vocalRecoBusy"); break;
-				case STTError.ERROR_SPEECH_TIMEOUT: lSentence = mDictionary.GetString("hearNothing") + " " + mDictionary.GetString("repeatPls"); break;
+				case STTError.ERROR_AUDIO: lSentence = mDictionary.GetString("micissue"); break;
+				case STTError.ERROR_NETWORK: lSentence = mDictionary.GetString("connectissue"); break;
+				case STTError.ERROR_RECOGNIZER_BUSY: lSentence = mDictionary.GetString("vrecobusy"); break;
+				case STTError.ERROR_SPEECH_TIMEOUT: lSentence = mDictionary.GetString("hearnothing") + " " + mDictionary.GetString("repeatPls"); break;
 			}
 
 			if (UnityEngine.Random.value > 0.8) {
