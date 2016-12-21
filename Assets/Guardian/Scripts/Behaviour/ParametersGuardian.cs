@@ -37,6 +37,9 @@ namespace BuddyApp.Guardian
         private BuddyOS.UI.Dropdown contactList;
 
         [SerializeField]
+        private UnityEngine.UI.Button buttonHeadControl;
+
+        [SerializeField]
         private UnityEngine.UI.Button buttonValidate;
 
         [SerializeField]
@@ -70,6 +73,7 @@ namespace BuddyApp.Guardian
         public UnityEngine.UI.Button ButtonDebugSound { get { return buttonDebugSound; } }
         public UnityEngine.UI.Button ButtonDebugMovement { get { return buttonDebugMovement; } }
         public UnityEngine.UI.Button ButtonDebugTemperature { get { return buttonDebugTemperature; } }
+        public UnityEngine.UI.Button ButtonHeadControl { get { return buttonHeadControl; } }
 
         public UnityEngine.UI.Button ButtonValidate { get { return buttonValidate; } }
         public UnityEngine.UI.Button ButtonBack { get { return buttonBack; } }

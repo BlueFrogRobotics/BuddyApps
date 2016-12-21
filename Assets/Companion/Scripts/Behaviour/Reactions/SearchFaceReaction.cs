@@ -32,7 +32,7 @@ namespace BuddyApp.Companion
                 return;
             }
 
-            if (Time.time - mTime > 0.5F)
+            if (Time.time - mTime > 0.4F)
                 return;
 
             if(mLookLeft) {

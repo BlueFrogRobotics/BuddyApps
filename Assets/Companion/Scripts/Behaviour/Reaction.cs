@@ -21,22 +21,33 @@ namespace BuddyApp.Companion
     {
         private bool mIsPouting;
         private bool mIsTrackingFace;
+
         internal ReactionFinished ActionFinished;
-        private FollowFaceReaction mFollowFace;
+        private Dictionary mDictionary;
+        private Face mFace;
         private FaceCascadeTracker mFaceTracker;
-        private IdleReaction mIdleReaction;
+        private FollowFaceReaction mFollowFace;
         private SayHelloReaction mHelloReaction;
+        private IdleReaction mIdleReaction;
+        private Mood mMood;
+        private NoHinge mNoHinge;
         private SearchFaceReaction mSearchFaceReaction;
         private TextToSpeech mTTS;
         private WanderReaction mWanderReaction;
+        private Wheels mWheels;
+        private YesHinge mYesHinge;
 
-        private Dictionary mDictionary;
 
         void Start()
         {
-            mIsPouting = false;
-            mIsTrackingFace = false;
+            mDictionary = BYOS.Instance.Dictionary;
+            mFace = BYOS.Instance.Face;
+            mMood = BYOS.Instance.Mood;
+            mNoHinge = BYOS.Instance.Motors.NoHinge;
             mTTS = BYOS.Instance.TextToSpeech;
+            mWheels = BYOS.Instance.Motors.Wheels;
+            mYesHinge = BYOS.Instance.Motors.YesHinge;
+
             mFollowFace = GetComponent<FollowFaceReaction>();
             mFaceTracker = GetComponent<FaceCascadeTracker>();
             mIdleReaction = GetComponent<IdleReaction>();
@@ -44,8 +55,8 @@ namespace BuddyApp.Companion
             mSearchFaceReaction = GetComponent<SearchFaceReaction>();
             mWanderReaction = GetComponent<WanderReaction>();
 
-            mDictionary = BYOS.Instance.Dictionary;
-
+            mIsPouting = false;
+            mIsTrackingFace = false;
             mIdleReaction.enabled = false;
             mHelloReaction.enabled = false;
             mWanderReaction.enabled = false;
@@ -58,8 +69,8 @@ namespace BuddyApp.Companion
 
         public void HeadForced()
         {
-            new TurnRelaCmd(BYOS.Instance.Motors.NoHinge.CurrentAnglePosition, 80F, 0.5F).Execute();
-            new SayTTSCmd("Hey ! Arrête ça !").Execute();
+            mWheels.TurnAngle(BYOS.Instance.Motors.NoHinge.CurrentAnglePosition, 80F, 0.5F);
+            mTTS.Say("Hey ! Arrête ça !");
             ActionFinished();
         }
 
@@ -82,9 +93,8 @@ namespace BuddyApp.Companion
 
         public void IsBeingLifted()
         {
-            new SetMoodCmd(MoodType.SCARED).Execute();
-            new SetMouthEvntCmd(MouthEvent.SCREAM);
-            //BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
+            mMood.Set(MoodType.SCARED);
+            mFace.SetEvent(FaceEvent.SCREAM);
             mTTS.Say(mDictionary.GetString("putMeDown"));
         }
 
@@ -104,70 +114,63 @@ namespace BuddyApp.Companion
 
         private IEnumerator PoutBodyCo()
         {
-            new SetMoodCmd(MoodType.ANGRY).Execute();
+            mMood.Set(MoodType.ANGRY);
 
-            //Small animation to make he seem angry
+            //Small animation to make him seem angry
             for (int i = 0; i < 2; i++)
             {
-                new SetWheelsSpeedCmd(200F, -200F, 200).Execute();
+                mWheels.SetWheelsSpeed(200F, -200F, 200);
                 yield return new WaitForSeconds(0.2F);
             }
-            new SetMouthEvntCmd(MouthEvent.SCREAM).Execute();
-            //BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
+            mFace.SetEvent(FaceEvent.SCREAM);
+
             for (int i = 0; i < 2; i++)
             {
-                new SetWheelsSpeedCmd(-200F, 200F, 200).Execute();
+                mWheels.SetWheelsSpeed(-200F, 200F, 200);
                 yield return new WaitForSeconds(0.2F);
             }
 
-            //Turn around and run away (set route and avoid obstacles is better)
-            new TurnRelaCmd(180F, 120F, 0.2F).Execute();
-            new SetMoodCmd(MoodType.GRUMPY).Execute();
-            
+            //Turn around
+            mWheels.TurnAngle(180F, 120F, 0.2F);
+            mMood.Set(MoodType.GRUMPY);            
             yield return new WaitForSeconds(5F);
 
-            //for (int i = 0; i < 50; i++)
-            //{
-            //    new SetWheelsSpeedCmd(200F, 200F, 200).Execute();
-            //    yield return new WaitForSeconds(0.2F);
-            //}
-
-            new TurnRelaCmd(-180F, 80F, 0.2F).Execute();
-            new SetMoodCmd(MoodType.NEUTRAL).Execute();
+            mWheels.TurnAngle(-180F, 120F, 0.2F);
+            mMood.Set(MoodType.NEUTRAL);
             mIsPouting = false;
             ActionFinished();
         }
 
         private IEnumerator PoutHeadCo()
         {
-            new SetMoodCmd(MoodType.ANGRY).Execute();
-
+            mMood.Set(MoodType.ANGRY);
             yield return new WaitForSeconds(0.1F);
 
             if (CompanionData.Instance.CanMoveHead)
             {
-                new SetPosYesCmd(5F).Execute();
-                new SetPosNoCmd(0F).Execute();
+                mYesHinge.SetPosition(5F);
+                mNoHinge.SetPosition(0F);
+                
 
                 yield return new WaitForSeconds(0.5F);
-
-                new SetPosNoCmd(-5F).Execute();
-
-                yield return new WaitForSeconds(0.5F);
-
-                new SetPosNoCmd(5F).Execute();
+                
+                mYesHinge.SetPosition(-5F);
 
                 yield return new WaitForSeconds(0.5F);
-
-                BYOS.Instance.Face.SetMouthEvent(MouthEvent.SCREAM);
-                new SetPosYesCmd(-5F).Execute();
-                new SetPosNoCmd(0F).Execute();
+                
+                mYesHinge.SetPosition(5F);
 
                 yield return new WaitForSeconds(0.5F);
+                
+                mFace.SetEvent(FaceEvent.SCREAM);
+                mYesHinge.SetPosition(-5F);
+                mNoHinge.SetPosition(0F);
 
-                new SetPosYesCmd(5F).Execute();
+                yield return new WaitForSeconds(0.5F);
+                
+                mYesHinge.SetPosition(5F);
             }
-            new SetMoodCmd(MoodType.NEUTRAL).Execute();
+            mMood.Set(MoodType.NEUTRAL);
             mIsPouting = false;
             ActionFinished();
         }
@@ -246,7 +249,7 @@ namespace BuddyApp.Companion
 
         public void StopWheels()
         {
-            new SetWheelsSpeedCmd(0F, 0F).Execute();
+            mWheels.SetWheelsSpeed(0F, 0F);
         }
 
         public void StepBackHelloReaction()
@@ -266,16 +269,16 @@ namespace BuddyApp.Companion
         
         public void LookRight()
         {
-            float lHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
+            float lHeadNoAngle = mNoHinge.CurrentAnglePosition;
             lHeadNoAngle -= 20;
-            new SetPosNoCmd(lHeadNoAngle).Execute();
+            mNoHinge.SetPosition(lHeadNoAngle);
         }
 
         public void LookLeft()
         {
-            float lHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
+            float lHeadNoAngle = mNoHinge.CurrentAnglePosition;
             lHeadNoAngle += 20;
-            new SetPosNoCmd(lHeadNoAngle).Execute();
+            mNoHinge.SetPosition(lHeadNoAngle);
         }
     }
 }

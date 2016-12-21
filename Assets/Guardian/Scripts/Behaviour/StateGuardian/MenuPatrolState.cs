@@ -21,7 +21,7 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            SetWindowAppOverBuddyColor(0);
+            SetWindowAppOverBuddyColor(1);
             mMenu = StateManager.Menu;
             mMenuAnimator = mMenu.GetComponent<Animator>();
 
@@ -34,6 +34,9 @@ namespace BuddyApp.Guardian
             animator.SetInteger("Mode", 0);
             mMode = 0;
             mHasAskedOnce = false;
+
+            StateManager.BackgroundAnimator.SetTrigger("Open_BG");
+            mMenuAnimator.SetTrigger("Open_WMenu3");
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -51,15 +54,14 @@ namespace BuddyApp.Guardian
             }*/
 
             mTimer -= Time.deltaTime;
-            if (mTimer < 0.0f && (!mHasAskedOnce || mSTT.HasFinished))
+            if (mTimer < 0.0f && (!mHasAskedOnce || mSTT.HasFinished) && mMode==0)
             {
-                SetWindowAppOverBuddyColor(1);
+                //SetWindowAppOverBuddyColor(1);
                 Debug.Log("ask");
                 mHasAskedOnce = true;
                 //mMenu.SetActive(true);
                 //StateManager.BackgroundPrefab.SetActive(true);
-                StateManager.BackgroundAnimator.SetTrigger("Open_BG");
-                mMenuAnimator.SetTrigger("Open_WMenu3");
+                
                 mSTT.Request();
                 mTimer = 4.2f;
             }
