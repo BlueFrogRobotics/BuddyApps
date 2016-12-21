@@ -21,8 +21,7 @@ public class BabyPhoneExitYesNo : MonoBehaviour
 
     public void ExitBabyPhone()
     {
-        //BYOS.Instance.AppManager.Quit();
-        Debug.Log("Yes");
+        BYOS.Instance.AppManager.Quit();
     }
 
     public void ReturnLastState()

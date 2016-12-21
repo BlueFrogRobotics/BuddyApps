@@ -10,7 +10,7 @@ namespace BuddyApp.BabyPhone
         private BabyPhoneData mBabyPhoneData;
 
         private GameObject mFallingAssleep;
-        private GameObject mWindoAppOverBlack;
+        private GameObject mWindoAppOverWhite;
 
         private Animator mFallingAssleepAnimator;
 
@@ -18,7 +18,7 @@ namespace BuddyApp.BabyPhone
         {
             mBabyPhoneData = BabyPhoneData.Instance;
 
-            mWindoAppOverBlack = GetGameObject(2);
+            mWindoAppOverWhite = GetGameObject(3);
             mFallingAssleep = GetGameObject(7);
             mFallingAssleepAnimator = mFallingAssleep.GetComponent<Animator>();
 
@@ -26,9 +26,10 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mFallingAssleep.SetActive(true);
+            mWindoAppOverWhite.SetActive(true);
+            mFallingAssleep.SetActive(true);           
             mFallingAssleepAnimator.SetTrigger("Open_WFallingAssleep");
-            mWindoAppOverBlack.SetActive(true);
+            
             iAnimator.SetBool("DoPlayLullaby", true);
         }
 
@@ -36,7 +37,7 @@ namespace BuddyApp.BabyPhone
         {
             mFallingAssleep.SetActive(false);
             mFallingAssleepAnimator.SetTrigger("Close_WFallingAssleep");
-            mWindoAppOverBlack.SetActive(false);
+            mWindoAppOverWhite.SetActive(false);
             iAnimator.SetBool("DoPlayLullaby", false);
 
             iAnimator.SetInteger("ForwardState", 3);

@@ -34,7 +34,7 @@ namespace BuddyApp.BabyPhone
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mCounter.SetActive(false);
-            mWindoAppOverWithe.SetActive(false);
+            //mWindoAppOverWithe.SetActive(false);
             mBackgroundBlackAnimator.SetTrigger("Close_BG");
             mCounterAnimator.SetTrigger("Close_WTimer");
             iAnimator.SetFloat("ForwardState", 2);
