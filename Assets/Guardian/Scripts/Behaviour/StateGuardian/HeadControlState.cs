@@ -12,10 +12,10 @@ namespace BuddyApp.Guardian
 
         private float mNormalSpeed = 0.6F;
         private float mRotationSpeed = 0.2F;
-        private float mNoSpeed = 20.0F;
+        private float mNoSpeed = 30.0F;
 
 
-        private float mYesSpeed = 20.0F;
+        private float mYesSpeed = 30.0F;
         private float mYesAngle = 0.0F;
         private float mNoAngle = 0.0F;
 
@@ -32,7 +32,8 @@ namespace BuddyApp.Guardian
             mGoBack = false;
             mMotors = BYOS.Instance.Motors;
             mRGBCam = BYOS.Instance.RGBCam;
-            StateManager.HeadControlWindow.gameObject.SetActive(true);
+            //StateManager.HeadControlWindow.gameObject.SetActive(true);
+            StateManager.HeadControlWindow.HeadControlAnimator.SetTrigger("Open_WHeadController");
             StateManager.HeadControlWindow.ButtonBack.onClick.AddListener(GoBack);
             StateManager.HeadControlWindow.ButtonLeft.onClick.AddListener(MoveNoLeft);
             StateManager.HeadControlWindow.ButtonRight.onClick.AddListener(MoveNoRight);
@@ -49,8 +50,9 @@ namespace BuddyApp.Guardian
 
             StateManager.HeadControlWindow.RawCamImage.texture = mRGBCam.FrameTexture2D;
 
-            if (mGoBack)
+            if (mGoBack && StateManager.HeadControlWindow.HeadControlAnimator.GetCurrentAnimatorStateInfo(0).IsName("WindowHeadController_Gardien_Off"))
             {
+                StateManager.BackgroundAnimator.SetTrigger("Open_BG");
                 animator.SetInteger("DebugMode", -1);
                 mGoBack = false;
             }
@@ -64,7 +66,8 @@ namespace BuddyApp.Guardian
             StateManager.HeadControlWindow.ButtonRight.onClick.RemoveAllListeners();
             StateManager.HeadControlWindow.ButtonUp.onClick.RemoveAllListeners();
             StateManager.HeadControlWindow.ButtonDown.onClick.RemoveAllListeners();
-            StateManager.HeadControlWindow.gameObject.SetActive(false);
+            
+            //StateManager.HeadControlWindow.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -75,14 +78,14 @@ namespace BuddyApp.Guardian
             bool lChanged = false;
             if (mNoLeft)
             {
-                mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 1;
+                mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 10;
                 lChanged = true;
                 mNoLeft = false;
             }
 
             if (mNoRight)
             {
-                mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 1;
+                mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 10;
                 lChanged = true;
                 mNoRight = false;
             }
@@ -101,14 +104,14 @@ namespace BuddyApp.Guardian
             bool lChanged = false;
             if (mYesDown)
             {
-                mYesAngle = mMotors.YesHinge.CurrentAnglePosition + 2;
+                mYesAngle = mMotors.YesHinge.CurrentAnglePosition + 10;
                 lChanged = true;
                 mYesDown = false;
             }
 
             if (mYesUp)
             {
-                mYesAngle = mMotors.YesHinge.CurrentAnglePosition - 2;
+                mYesAngle = mMotors.YesHinge.CurrentAnglePosition - 10;
                 lChanged = true;
                 mYesUp = false;
             }
@@ -145,7 +148,8 @@ namespace BuddyApp.Guardian
         {
             //mDebugSoundAnimator.SetTrigger("Close_WDebugs");
             mGoBack = true;
-            StateManager.BackgroundAnimator.SetTrigger("Open_BG");
+            
+            StateManager.HeadControlWindow.HeadControlAnimator.SetTrigger("Close_WHeadController");
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
