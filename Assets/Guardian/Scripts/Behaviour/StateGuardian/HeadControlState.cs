@@ -10,10 +10,7 @@ namespace BuddyApp.Guardian
         private Motors mMotors;
         private RGBCam mRGBCam;
 
-        private float mNormalSpeed = 0.6F;
-        private float mRotationSpeed = 0.2F;
         private float mNoSpeed = 30.0F;
-
 
         private float mYesSpeed = 30.0F;
         private float mYesAngle = 0.0F;
