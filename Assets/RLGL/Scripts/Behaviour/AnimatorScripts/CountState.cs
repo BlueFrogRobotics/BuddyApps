@@ -15,12 +15,15 @@ namespace BuddyApp.RLGL
         private bool mIsMovementDone;
         private bool mFirstSentenceNotDetected;
         private bool mIsReachedGoal;
+        private bool mStartCount;
+        
 
         private bool mIsOneTurnDone;
         public bool IsOneTurnDone { get { return mIsOneTurnDone; } set { mIsOneTurnDone = value; } }
 
         private int mCount;
         private int mCountGreenLight;
+        private bool mCountTen;
 
         private float mTimerDebug;
 
@@ -30,6 +33,8 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mCountTen = false;
+            mStartCount = false;
             mTimerDebug = 0;
             Debug.Log("COUNT STATE : ON ENTER");
             mCanvasUIToWin = GetGameObject(0);
@@ -56,6 +61,32 @@ namespace BuddyApp.RLGL
                 {
                     StartCoroutine(WaitTenSecondsAtStart());
                 }
+
+                if(mStartCount)
+                {
+                    //Debug.Log(mTimerDebug + " " + mCountTen);
+                    if(!mCountTen)
+                    {
+                        GetGameObject(4).GetComponent<Animator>().SetTrigger("Open_WTimer");
+                        GetGameObject(1).GetComponent<Animator>().SetTrigger("Open_BG");
+                    }
+                    if(!mCountTen)
+                        mTimerDebug = 0.0F;
+                    mCountTen = true;
+                    if(mTimerDebug <= 11.0F)
+                    {
+                        GetGameObject(4).GetComponentInChildren<Text>().text = (10 - (int)mTimerDebug).ToString() ;
+                        //Debug.Log((10 - (int)mTimerDebug).ToString());
+                    }
+                    else if(mTimerDebug > 10.9F)
+                    {
+                        GetGameObject(4).GetComponent<Animator>().SetTrigger("Close_WTimer");
+                        GetGameObject(1).GetComponent<Animator>().SetTrigger("Close_BG");
+                        mStartCount = false;
+                    }
+                    
+                }
+
                 if (mTTS.HasFinishedTalking() && mFirstSentence && !mSecondSentence)
                 {
                     mMood.Set(MoodType.NEUTRAL);
@@ -109,9 +140,10 @@ namespace BuddyApp.RLGL
                 
             }
 
-            Debug.Log(mTimerDebug);
+            //Debug.Log(mTimerDebug);
             if(mTTS.HasFinishedTalking())
             {
+                mStartCount = true;
                 yield return new WaitForSeconds(10.0F);
                 mFirstSentence = true;
             }

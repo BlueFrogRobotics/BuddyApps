@@ -2,6 +2,7 @@
 using System.Collections;
 using BuddyOS.App;
 using System;
+using System.Collections.Generic;
 
 namespace BuddyApp.RLGL
 {
@@ -25,6 +26,9 @@ namespace BuddyApp.RLGL
         
         private float mTimer;
 
+        private bool mNeedListen;
+        public bool NeedListen { get { return mNeedListen; } set { mNeedListen = value; } }
+
         public override void Init()
         {
 
@@ -33,6 +37,7 @@ namespace BuddyApp.RLGL
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             GetComponent<RLGLBehaviour>().Index = 0;
+            mNeedListen = true;
             mTimer = 0.0F;
             mCount = 0;
             mSentenceDone = false;
@@ -57,13 +62,13 @@ namespace BuddyApp.RLGL
                 OpenCanvas();
                 if (mTimer > 5.0F)
                 {
-                    if ((!mIsAnswerNo || !mIsAnswerYes) && mSTT.HasFinished)
+                    if ((!mIsAnswerNo || !mIsAnswerYes) && mSTT.HasFinished && mNeedListen)
                     {
                         mTimer = 0.0F;
                         GetGameObject(2).GetComponent<RLGLListener>().STTRequest(0);
+                        mNeedListen = false;
                     }
                 }
-                
             }
 
             if (mIsAnswerYes)
@@ -80,8 +85,8 @@ namespace BuddyApp.RLGL
         {
             iAnimator.SetBool("IsStartDoneAndRules", false);
             iAnimator.SetBool("IsStartDoneAndNoRules", false);
-            mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
-            mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
+            //mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
+            //mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
             
             //mWindowQuestion.GetComponent<Animator>().ResetTrigger("Close_WQuestion");
             Debug.Log("START STATE : ON EXIT");
@@ -105,11 +110,15 @@ namespace BuddyApp.RLGL
 
         public void StartRuleState(Animator iAnimator)
         {
+            mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
+            mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
             iAnimator.SetBool("IsStartDoneAndRules", true);
         }
 
         public void StartCountState(Animator iAnimator)
         {
+            mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
+            mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
             iAnimator.SetBool("IsStartDoneAndNoRules", true);
         }
 

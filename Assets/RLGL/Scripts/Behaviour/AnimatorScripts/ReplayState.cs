@@ -14,13 +14,16 @@ namespace BuddyApp.RLGL
         private bool mIsSentenceDone;
         private bool mIsQuestionDone;
 
-        private bool mIsAnswerYes;
-        public bool IsAnswerYes { get { return mIsAnswerYes; } set { mIsAnswerYes = value; } }
+        private bool mIsAnswerReplayYes;
+        public bool IsAnswerReplayYes { get { return mIsAnswerReplayYes; } set { mIsAnswerReplayYes = value; } }
 
-        private bool mIsAnswerNo;
-        public bool IsAnswerNo { get { return mIsAnswerNo; } set { mIsAnswerNo = value; } }
+        private bool mIsAnswerReplayNo;
+        public bool IsAnswerReplayNo { get { return mIsAnswerReplayNo; } set { mIsAnswerReplayNo = value; } }
 
         private bool mCanvasTrigger;
+
+        private bool mNeedListen;
+        public bool NeedListen { get { return mNeedListen; } set { mNeedListen = value; } }
 
         public override void Init()
         {
@@ -28,16 +31,17 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            GetComponent<RLGLBehaviour>().Index = 2;
+            mNeedListen = true;
             Debug.Log("REPLAY STATE : ON ENTER");
             mTimer = 0.0F;
             mWindowQuestion = GetGameObject(3);
             mBackground = GetGameObject(1);
             mIsQuestionDone = false;
             mIsSentenceDone = false;
-            mCanvasTrigger = false; 
-            mIsAnswerYes = false;
-            mBackground.GetComponent<Animator>().ResetTrigger("Close_BG");
-            mWindowQuestion.GetComponent<Animator>().ResetTrigger("Close_WQuestion");
+            mCanvasTrigger = false;
+            mIsAnswerReplayNo = false;
+            mIsAnswerReplayYes = false;
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iSateInfo, int iLayerIndex)
@@ -57,36 +61,44 @@ namespace BuddyApp.RLGL
             if(mTTS.HasFinishedTalking() && mIsQuestionDone)
             {
                 OpenCanvas();
-
+                Debug.Log("update raplay state ");
+                Debug.Log("mneedlisten : " + mNeedListen + " mtimer : " + mTimer);
                 //LISTENER
                 if (mTimer > 5.0F)
                 {
-                    if ((!mIsAnswerNo || !mIsAnswerYes) && mSTT.HasFinished)
+                    if ((!mIsAnswerReplayNo || !mIsAnswerReplayYes) && mSTT.HasFinished && mNeedListen)
                     {
                         mTimer = 0.0F;
-                        GetGameObject(2).GetComponent<RLGLListener>().STTRequest(0);
+                        GetGameObject(2).GetComponent<RLGLListener>().STTRequest(2);
+                        mNeedListen = false;
                     }
                 }
             }
-            Debug.Log(mIsAnswerYes + " " + mIsAnswerNo);
-            if (mIsAnswerYes && !mIsSentenceDone)
+            if (mIsAnswerReplayYes && !mIsSentenceDone)
             {
                 Debug.Log("REPLAY STATE : UPDATE : HAPPY");
+                mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
+                mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
                 mMood.Set(MoodType.HAPPY);
-                mTTS.Say("Ok it will be fun!");
+                mTTS.Say("oh yeah I love games!");
                 mIsSentenceDone = true;
             }
 
-            if (mTTS.HasFinishedTalking() && mIsAnswerYes && mIsSentenceDone)
+            if (mTTS.HasFinishedTalking() && mIsAnswerReplayYes && mIsSentenceDone)
             {
                 Debug.Log("REPLAY STATE : UPDATE : REJOUER TRUE");
+                mMood.Set(MoodType.NEUTRAL);
                 iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;
                 iAnimator.SetBool("IsReplayDone", true);
             }
 
-            if (mIsAnswerNo )
+            if (mIsAnswerReplayNo)
             {
                 //quitter
+
+                mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
+                mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
+                Debug.Log("NO REPLAY UPDATE");
                 BYOS.Instance.AppManager.Quit();
             }
         }
@@ -94,8 +106,6 @@ namespace BuddyApp.RLGL
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("REPLAY STATE : ON EXIT");
-            mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
-            mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
             iAnimator.SetBool("IsReplayDone", false);
         }
 
