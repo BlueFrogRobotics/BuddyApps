@@ -54,7 +54,7 @@ namespace BuddyApp.RLGL
 
             }
 
-            if(mTTS.HasFinishedTalking() && mIsQuestionDone)
+            if(mTTS.HasFinishedTalking && mIsQuestionDone)
             {
                 OpenCanvas();
 
@@ -77,7 +77,7 @@ namespace BuddyApp.RLGL
                 mIsSentenceDone = true;
             }
 
-            if (mTTS.HasFinishedTalking() && mIsAnswerYes && mIsSentenceDone)
+            if (mTTS.HasFinishedTalking && mIsAnswerYes && mIsSentenceDone)
             {
                 Debug.Log("REPLAY STATE : UPDATE : REJOUER TRUE");
                 iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;

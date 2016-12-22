@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using BuddyOS;
 using BuddyOS.App;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 namespace BuddyApp.Recipe
@@ -12,15 +13,34 @@ namespace BuddyApp.Recipe
         private GameObject RecipeListParent;
         [SerializeField]
         private GameObject prefabRecipe;
+<<<<<<< HEAD
+        [SerializeField]
+        private List<GameObject> mPrefabIngredientList;
+        [SerializeField]
+        private List<GameObject> mPrefabIngredientTextList;
+        [SerializeField]
+        private List<GameObject> mPrefabIngredientIconList;
+=======
 
+>>>>>>> d346bb77686650c9ca9e76b69ee20fa765848371
         private GameObject mRecipeInstance;
         public string mAnswer { get; set; }
         public Recipe mRecipe { get; set; }
         public List<Recipe> mRecipeList { get; set; }
         public string mCategory { get; set; }
+        public int IngredientIndex { get; set; }
+        public int StepIndex { get; set; }
+        public bool IsBackgroundActivated { get; set; }
+        public int IngredientNbr { get; set; }
+        private TextToSpeech mTTS;
+        private List<GameObject> mRecipePrefabList;
 
+
+        //string lVal = mDictionary.GetString("prepare");
         void Start()
         {
+            IsBackgroundActivated = false;
+            mTTS = BYOS.Instance.TextToSpeech;
         }
 
         public void Exit()
@@ -45,10 +65,45 @@ namespace BuddyApp.Recipe
 
         public void DisplayRecipe()
         {
+<<<<<<< HEAD
+            mRecipePrefabList = new List<GameObject>();
+            foreach (Recipe recipe in mRecipeList)
+            {
+=======
             foreach (Recipe recipe in mRecipeList) {
+>>>>>>> d346bb77686650c9ca9e76b69ee20fa765848371
                 mRecipeInstance = Instantiate(prefabRecipe);
-                mRecipeInstance.transform.SetParent(RecipeListParent.transform);
+                mRecipePrefabList.Add(mRecipeInstance);
+                mRecipeInstance.GetComponent<RectTransform>().SetParent(RecipeListParent.GetComponent<RectTransform>(), false);
                 mRecipeInstance.GetComponent<RecipePrefab>().FillRecipe(gameObject, recipe);
+            }
+        }
+
+        public void OnClickBackToCategory()
+        {
+            foreach (GameObject recipe in mRecipePrefabList)
+                Destroy(recipe);
+            GetComponent<Animator>().SetTrigger("BackToCategory");
+        }
+
+        public void DisplayIngredient()
+        {
+            Ingredient lIngredient;
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (IngredientIndex < IngredientNbr)
+                {
+                    lIngredient = mRecipe.ingredient[IngredientIndex];
+                    mPrefabIngredientList[i].SetActive(true);
+                    mTTS.Say(lIngredient.name + ": " + lIngredient.quantity + " " + lIngredient.unit);
+                    mPrefabIngredientTextList[i].GetComponent<Text>().text = lIngredient.name + ": " + lIngredient.quantity + " " + lIngredient.unit;
+                    if (lIngredient.icon != null)
+                        mPrefabIngredientIconList[i].GetComponent<Image>().sprite = Resources.Load(lIngredient.icon) as Sprite;
+                }
+                else
+                    mPrefabIngredientList[i].SetActive(false);
+                IngredientIndex++;
             }
         }
     }

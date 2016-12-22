@@ -50,9 +50,7 @@ public class TakePose : SpeechStateBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
-
-        if (!mSpeechDone && !mTTS.IsSpeaking()) {
+        if (!mSpeechDone && !mTTS.IsSpeaking) {
             mTimer += Time.deltaTime;
 
             if (mTimer > 0.5f) {
