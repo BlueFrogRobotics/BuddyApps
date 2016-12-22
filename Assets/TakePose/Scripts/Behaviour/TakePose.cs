@@ -137,7 +137,7 @@ namespace BuddyApp.TakePose
 					switch (UnityEngine.Random.Range(0, 1)) {
 						case 0:
 							mFace.SetEvent(FaceEvent.SMILE);
-							mAnimationManager.Laught();
+							mAnimationManager.Laugh();
 							break;
 						case 1:
 							mFace.SetEvent(FaceEvent.BLINK_DOUBLE);
@@ -239,7 +239,7 @@ namespace BuddyApp.TakePose
 					switch (UnityEngine.Random.Range(0, 1)) {
 						case 0:
 							mFace.SetEvent(FaceEvent.SMILE);
-							mAnimationManager.Laught();
+							mAnimationManager.Laugh();
 							break;
 						case 1:
 							mFace.SetEvent(FaceEvent.BLINK_DOUBLE);

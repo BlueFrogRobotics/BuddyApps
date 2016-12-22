@@ -74,7 +74,7 @@ namespace BuddyApp.CalculGame
 			mAnimationManager = GetComponentInGameObject<AnimManager>(0);
 			mCanvasBackGround = GetComponentInGameObject<Canvas>(1);
 			mCanvasCalcul = GetComponentInGameObject<Canvas>(2);
-			mProgressBar = GetGameObject(4);
+			mProgressBar = GetGameObject(3);
 
 			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
 				mCalculsDialogFileName = "calculs_dialogs_fr.xml";
