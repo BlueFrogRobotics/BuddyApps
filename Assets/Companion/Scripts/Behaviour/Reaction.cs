@@ -40,12 +40,6 @@ namespace BuddyApp.Companion
 
         void Start()
         {
-            mIsPouting = false;
-            mIsTrackingFace = false;
-            mIdleReaction.enabled = false;
-            mHelloReaction.enabled = false;
-            mWanderReaction.enabled = false;
-
             mDictionary = BYOS.Instance.Dictionary;
             mFace = BYOS.Instance.Face;
             mMood = BYOS.Instance.Mood;
@@ -60,6 +54,12 @@ namespace BuddyApp.Companion
             mHelloReaction = GetComponent<SayHelloReaction>();
             mSearchFaceReaction = GetComponent<SearchFaceReaction>();
             mWanderReaction = GetComponent<WanderReaction>();
+
+            mIsPouting = false;
+            mIsTrackingFace = false;
+            mIdleReaction.enabled = false;
+            mHelloReaction.enabled = false;
+            mWanderReaction.enabled = false;
         }
 
         void Update()

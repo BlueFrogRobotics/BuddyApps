@@ -103,9 +103,8 @@ namespace BuddyApp.Companion
             if (mBuddyFaceDetector.FaceSmashed)
                 PushInStack(mReaction.Pout);
 
-            if ((mSpeechDetector.SomeoneTalkingDetected && !mVocalWanderOrder)
-                || mBuddyFaceDetector.EyeTouched || mFaceDetector.FaceDetected ||
-                mCurrentAction != null ) {
+            if (!mVocalWanderOrder || mBuddyFaceDetector.EyeTouched ||
+                mFaceDetector.FaceDetected || mCurrentAction != null ) {
                 //Debug.Log("Interaction with Buddy");
                 mInactiveTime = Time.time;
                 mReaction.StopMoving();
