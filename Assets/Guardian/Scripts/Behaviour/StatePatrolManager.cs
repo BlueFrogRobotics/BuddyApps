@@ -102,6 +102,9 @@ namespace BuddyApp.Guardian
         private ShowTemperature showTemperature;
 
         [SerializeField]
+        private HeadControllerWindow headControlWindow;
+
+        [SerializeField]
         private GameObject windowAppOverBuddyBlack;
 
         [SerializeField]
@@ -140,6 +143,7 @@ namespace BuddyApp.Guardian
         public DebugSoundWindow DebugSoundWindow { get { return debugSoundWindow; } }
         public DebugMovementWindow DebugMovementWindow { get { return debugMovementWindow; } }
         public ShowTemperature ShowTemperature { get { return showTemperature; } }
+        public HeadControllerWindow HeadControlWindow { get { return headControlWindow; } }
         public GameObject WindowAppOverBuddyBlack { get { return windowAppOverBuddyBlack; } }
         public GameObject WindowAppOverBuddyWhite { get { return windowAppOverBuddyWhite; } }
 

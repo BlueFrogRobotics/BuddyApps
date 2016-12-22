@@ -20,6 +20,7 @@ namespace BuddyApp.Guardian
             DEBUG_TEMP,
             DEBUG_MOV,
             DEBUG_SOUND,
+            HEAD_CONTROL,
             BACK,
             VALIDATE
         }
@@ -42,6 +43,7 @@ namespace BuddyApp.Guardian
             mParameters.ButtonDebugSound.onClick.AddListener(ShowDebugSoundWindow);
             mParameters.ButtonDebugMovement.onClick.AddListener(ShowDebugMovementWindow);
             mParameters.ButtonDebugTemperature.onClick.AddListener(ShowDebugTemperatureWindow);
+            mParameters.ButtonHeadControl.onClick.AddListener(ShowHeadControllerWindow);
             mParameters.ButtonValidate.onClick.AddListener(Validate);
             mParameters.ButtonBack.onClick.AddListener(Back);
             mHasInitSlider = false;
@@ -92,6 +94,7 @@ namespace BuddyApp.Guardian
             mParameters.ButtonDebugSound.onClick.RemoveAllListeners();
             mParameters.ButtonDebugMovement.onClick.RemoveAllListeners();
             mParameters.ButtonDebugTemperature.onClick.RemoveAllListeners();
+            mParameters.ButtonHeadControl.onClick.RemoveAllListeners();
             mParameters.ButtonValidate.onClick.RemoveAllListeners();
             mParameters.ButtonBack.onClick.RemoveAllListeners();
             Debug.Log("fin param");
@@ -112,6 +115,9 @@ namespace BuddyApp.Guardian
                     break;
                 case NextState.DEBUG_TEMP:
                     mAnimator.SetInteger("DebugMode", 2);
+                    break;
+                case NextState.HEAD_CONTROL:
+                    mAnimator.SetInteger("DebugMode", 3);
                     break;
                 case NextState.VALIDATE:
                     mAnimator.SetBool("ChangeState", true);
@@ -146,6 +152,13 @@ namespace BuddyApp.Guardian
             mNextState = NextState.DEBUG_TEMP;
             //mAnimator.SetInteger("DebugMode", 2);
 
+        }
+
+        private void ShowHeadControllerWindow()
+        {
+            mAnimatorParameter.SetTrigger("Close_WParameters");
+            StateManager.BackgroundAnimator.SetTrigger("Close_BG");
+            mNextState = NextState.HEAD_CONTROL;
         }
 
         private void Validate()

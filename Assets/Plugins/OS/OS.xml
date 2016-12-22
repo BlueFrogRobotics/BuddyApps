@@ -3574,6 +3574,13 @@
             All entries of the thesaurus
             </summary>
         </member>
+        <member name="M:BuddyOS.LanguageThesaurus.ContainsKey(System.String)">
+            <summary>
+            Check existing key in existing entries
+            </summary>
+            <param name="iKey">Key to check</param>
+            <returns>True if the key already exists in Entries</returns>
+        </member>
         <member name="T:BuddyOS.Dictionary">
             <summary>
             Hosts all global_keyword -> currentlanguage_word matchings
