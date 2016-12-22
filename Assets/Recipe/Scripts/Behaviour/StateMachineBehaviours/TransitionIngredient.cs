@@ -36,7 +36,10 @@ namespace BuddyApp.Recipe
         public void NextIngredient()
         {
             if (GetComponent<RecipeBehaviour>().IngredientIndex >= GetComponent<RecipeBehaviour>().mRecipe.ingredient.Count)
-                GetComponent<Animator>().SetTrigger("StartStep");
+            {
+                GetGameObject(3).GetComponent<Animator>().SetTrigger("Close_WList");
+                GetComponent<Animator>().SetTrigger("DisplayStep");
+            }
             else
                 GetComponent<Animator>().SetTrigger("DisplayIngredient");
         }
