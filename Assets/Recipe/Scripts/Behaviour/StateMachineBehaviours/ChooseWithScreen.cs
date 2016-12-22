@@ -12,11 +12,14 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
-            GetGameObject(2).SetActive(false);
-            GetGameObject(1).SetActive(true);
-            //GetGameObject(6).GetComponent<Animator>().SetTrigger("Open_WCategory");
-            GetGameObject(6).SetActive(true);
+            if (!GetComponent<RecipeBehaviour>().IsBackgroundActivated)
+            {
+                GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
+                GetGameObject(2).SetActive(false);
+                GetGameObject(1).SetActive(true);
+                GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
+            }
+            GetGameObject(6).GetComponent<Animator>().SetTrigger("Open_WList");
             mTTS.Say("Quelle type de recette veux tu faire ?");
         }
 
@@ -28,11 +31,11 @@ namespace BuddyApp.Recipe
         {
             if (!mTTS.HasFinishedTalking())
                 mTTS.Silence(0, false);
-            GetGameObject(6).SetActive(false);
-            /*GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
-            GetGameObject(1).SetActive(false);
+            GetGameObject(6).GetComponent<Animator>().SetTrigger("Close_WList");
+            GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
             GetGameObject(2).SetActive(true);
-            GetGameObject(6).GetComponent<Animator>().SetTrigger("Close_WCategory");*/
+            GetGameObject(1).SetActive(false);
+            GetComponent<RecipeBehaviour>().IsBackgroundActivated = false;
         }
     }
 }

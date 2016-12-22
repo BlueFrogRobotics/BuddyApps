@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using BuddyOS.App;
-using BuddyOS;
 
 namespace BuddyApp.Recipe
 {
@@ -16,7 +14,7 @@ namespace BuddyApp.Recipe
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mCount++;
-            if (mCount > 2)
+            if (mCount > 0)
                 iAnimator.SetTrigger("ChooseWithScreen");
             else
                 mTTS.Say("Désolé je n'ai rien entendu, veux tu bien répéter ?");

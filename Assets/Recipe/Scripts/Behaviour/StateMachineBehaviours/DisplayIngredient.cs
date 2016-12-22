@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using BuddyOS.App;
+using System.Collections.Generic;
 
 namespace BuddyApp.Recipe
 {
-    public class DisplayRecipeList : AStateMachineBehaviour
+    public class DisplayIngredient : AStateMachineBehaviour
     {
-        private List<Recipe> mRecipeList;
+        private bool mSentenceDone = false;
+        private List<Ingredient> mIngredientList;
 
         public override void Init()
         {
@@ -17,12 +18,20 @@ namespace BuddyApp.Recipe
             if (!GetComponent<RecipeBehaviour>().IsBackgroundActivated)
             {
                 GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
-                GetGameObject(2).SetActive(false);
                 GetGameObject(1).SetActive(true);
+                GetGameObject(2).SetActive(false);
                 GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
             }
-            GetComponent<RecipeBehaviour>().DisplayRecipe();
-            GetGameObject(5).GetComponent<Animator>().SetTrigger("Open_WRecipeList");
+            GetGameObject(3).GetComponent<Animator>().SetTrigger("Open_WList");
+            if (!mSentenceDone)
+            {
+                mTTS.Say("Pour commencer préparez les ingrédients suivants:");
+                GetComponent<RecipeBehaviour>().IngredientIndex = 0;
+                GetComponent<RecipeBehaviour>().IngredientNbr = GetComponent<RecipeBehaviour>().mRecipe.ingredient.Count;
+                mSentenceDone = true;
+            }
+            GetComponent<RecipeBehaviour>().DisplayIngredient();
+            iAnimator.SetTrigger("TransitionIngredient");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -31,7 +40,6 @@ namespace BuddyApp.Recipe
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            GetGameObject(5).GetComponent<Animator>().SetTrigger("Close_WRecipeList");
         }
     }
 }
