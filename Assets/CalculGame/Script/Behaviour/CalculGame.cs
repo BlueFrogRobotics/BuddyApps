@@ -181,7 +181,7 @@ public class CalculGame : SpeechStateBehaviour
 	protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		// main loop waits for the tts to be over
-		if (mTTS.HasFinishedTalking()) {
+		if (mTTS.HasFinishedTalking) {
 
 			// if STT is done and lastSpeech empty - means we need to restart the STT
 			if (mSTT.HasFinished && string.IsNullOrEmpty(mLastSpeech)) {

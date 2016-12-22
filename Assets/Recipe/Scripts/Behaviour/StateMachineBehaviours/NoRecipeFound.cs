@@ -12,12 +12,12 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mTTS.Say("Désolé je n'ai pas trouvé aucune recette correspondant à ces critères");
+            mTTS.Say("Désolé je n'ai trouvé aucune recette correspondant à ces critères");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (mTTS.HasFinishedTalking())
+            if (mTTS.HasFinishedTalking)
                 iAnimator.SetTrigger("AskCategoryAgain");
         }
 

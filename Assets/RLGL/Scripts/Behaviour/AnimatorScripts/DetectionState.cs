@@ -47,7 +47,7 @@ namespace BuddyApp.RLGL
                 Debug.Log("DETECTION UPDATE : MOVEMENT DONE");
             }
 
-            if (mTTS.HasFinishedTalking() && mIsMovementDone) {
+            if (mTTS.HasFinishedTalking && mIsMovementDone) {
                 mIsDetected = GetComponent<FreezeDance.MotionGame>().IsMoving();
 
                 if (mIsDetected && !mIsSentenceDone && mTimer < 8.0f && mTimer > 3.0f) {
@@ -57,7 +57,7 @@ namespace BuddyApp.RLGL
 
                     mIsSentenceDone = true;
                 }
-                if (mIsSentenceDone && mTTS.HasFinishedTalking() && mTimer > 10.0f) {
+                if (mIsSentenceDone && mTTS.HasFinishedTalking && mTimer > 10.0f) {
                     mMood.Set(MoodType.NEUTRAL);
                     GetComponent<FreezeDance.MotionGame>().enabled = false;
                     iAnimator.SetBool("IsDetectedTrue", true);
@@ -69,7 +69,7 @@ namespace BuddyApp.RLGL
                     mIsStrong = true;
                 }
 
-                if (!mIsSentenceDone && mTimer > 8.0f && mTTS.HasFinishedTalking() && mIsStrong) {
+                if (!mIsSentenceDone && mTimer > 8.0f && mTTS.HasFinishedTalking && mIsStrong) {
                     mMood.Set(MoodType.NEUTRAL);
                     GetComponent<FreezeDance.MotionGame>().enabled = false;
                     iAnimator.GetBehaviour<CountState>().IsOneTurnDone = true;

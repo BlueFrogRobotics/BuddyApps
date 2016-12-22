@@ -5,13 +5,6 @@ using BuddyTools;
 
 namespace BuddyApp.Recipe
 {
-    public class Step
-    {
-        [XmlElement("media")]
-        public string media { get; set; }
-        [XmlElement("sentence")]
-        public string sentence { get; set; }
-    }
 
     public class Content
     {
