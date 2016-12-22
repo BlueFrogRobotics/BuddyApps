@@ -11,8 +11,8 @@ namespace BuddyApp.RLGL
 
         [SerializeField]
         private GameObject mCanvasUI;
-        public GameObject CanvasUI{ get { return mCanvasUI; } set  {mCanvasUI = value; } }
-        
+        public GameObject CanvasUI { get { return mCanvasUI; } set { mCanvasUI = value; } }
+
         [SerializeField]
         private GameObject mWindowQuestion;
         public GameObject WindowQuestion { get { return mWindowQuestion; } set { mWindowQuestion = value; } }
@@ -34,30 +34,25 @@ namespace BuddyApp.RLGL
 
         void Update()
         {
-            if(mReplay && !mIsSentenceDone)
-            {
+            if (mReplay && !mIsSentenceDone) {
                 mTTS.Say("Wesh poto on va rejouer");
                 mIsSentenceDone = true;
             }
-            if (mTTS.HasFinishedTalking() && mIsSentenceDone)
-            {
+            if (mTTS.HasFinishedTalking && mIsSentenceDone) {
                 mAnimator.GetBehaviour<ReplayState>().IsAnswerYes = true;
                 mIsSentenceDone = false;
             }
-
         }
 
         public void OnClickedButtonTowin()
         {
             //Debug.Log("GOLINKER BUTTON TO WIN");
             mAnimator.SetBool("IsWon", true);
-        } 
+        }
 
         public void OnClickedButtonReplay()
         {
             mReplay = true;
         }
     }
-
-
 }

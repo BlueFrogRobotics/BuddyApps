@@ -26,7 +26,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mTTS.HasFinishedTalking())
+            if (!mTTS.HasFinishedTalking)
                 mTTS.Silence(0, false);
             GetGameObject(6).SetActive(false);
             /*GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");

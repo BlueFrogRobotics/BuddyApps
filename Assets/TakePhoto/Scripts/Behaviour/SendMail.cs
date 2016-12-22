@@ -77,7 +77,7 @@ public class SendMail : SpeechStateBehaviour
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		if (!mSendingMail && mTTS.HasFinishedTalking()) {
+		if (!mSendingMail && mTTS.HasFinishedTalking) {
 			Debug.Log("Done sending mail");
 			animator.SetTrigger("Exit");
 		}
