@@ -6,255 +6,258 @@ using BuddyOS.App;
 using UnityEngine.UI;
 using BuddyOS;
 
-public class RedoPose : SpeechStateBehaviour
+namespace BuddyApp.TakePose
 {
+	public class RedoPose : SpeechStateBehaviour
+	{
 
-    private bool mNeedListen;
-    private bool mFirst;
+		private bool mNeedListen;
+		private bool mFirst;
 
-    bool mPressedYes;
-    bool mPressedNo;
+		bool mPressedYes;
+		bool mPressedNo;
 
-    private string mLastSpeech;
-    private short mErrorCount;
+		private string mLastSpeech;
+		private short mErrorCount;
 
-    private List<string> mAcceptSpeech;
-    private List<string> mAnOtherSpeech;
-    private List<string> mQuitSpeech;
-    private List<string> mRefuseSpeech;
-    private List<string> mDidntUnderstandSpeech;
+		private List<string> mAcceptSpeech;
+		private List<string> mAnOtherSpeech;
+		private List<string> mQuitSpeech;
+		private List<string> mRefuseSpeech;
+		private List<string> mDidntUnderstandSpeech;
 
-    private Canvas mCanvasQuestion;
-    private Canvas mCanvasBackGround;
+		private Canvas mCanvasQuestion;
+		private Canvas mCanvasBackGround;
 
-    private AnimManager mAnimationManager;
-    private SoundManager mSoundManager;
+		private AnimManager mAnimationManager;
 
-    public override void Init()
-    {
-        mSoundManager = GetComponentInGameObject<SoundManager>(1);
-        mAnimationManager = GetComponentInGameObject<AnimManager>(2);
-        mCanvasQuestion = GetComponentInGameObject<Canvas>(3);
-        mCanvasBackGround = GetComponentInGameObject<Canvas>(4);
-    }
-
-
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        mErrorCount = 0;
-        mNeedListen = true;
-        mFirst = true;
-
-        mPressedYes = false;
-        mPressedNo = false;
+		public override void Init()
+		{
+			mAnimationManager = GetComponentInGameObject<AnimManager>(1);
+			mCanvasQuestion = GetComponentInGameObject<Canvas>(2);
+			mCanvasBackGround = GetComponentInGameObject<Canvas>(3);
+		}
 
 
-        Button[] buttons = mCanvasQuestion.GetComponentsInChildren<Button>();
-        buttons[0].onClick.AddListener(PressedNo);
-        buttons[1].onClick.AddListener(PressedYes);
+		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			mErrorCount = 0;
+			mNeedListen = true;
+			mFirst = true;
 
-        mAcceptSpeech = new List<string>();
-        mAnOtherSpeech = new List<string>();
-        mQuitSpeech = new List<string>();
-        mRefuseSpeech = new List<string>();
-        mDidntUnderstandSpeech = new List<string>();
-
-        mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPoseEN.xml").text;
-
-        if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
-            mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPoseFR.xml").text;
-        }
-
-        FillListSyn("Accept", mAcceptSpeech);
-        FillListSyn("AnOther", mAnOtherSpeech);
-        FillListSyn("Refuse", mRefuseSpeech);
-        FillListSyn("Quit", mQuitSpeech);
-        FillListSyn("DidntUnderstand", mDidntUnderstandSpeech);
-
-        mLastSpeech = "";
-        SayInLang("redoPose", true);
-
-        // starting STT with callback
-        mSTT.OnBestRecognition.Add(OnSpeechRecognition);
-        mSTT.OnPartial.Add(OnPartialRecognition);
-        mSTT.OnErrorEnum.Add(ErrorSTT);
-
-    }
-
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        if (mPressedYes) {
-            animator.SetTrigger("Pose");
-        } else if (mPressedNo) {
-            SayInLang("noRedo");
-            animator.SetTrigger("Exit");
-        } else {
-            if (mTTS.HasFinishedTalking) {
-                if ((mSTT.HasFinished || mFirst) && mNeedListen) {
-                    Debug.Log("pre listen");
-                    mSTT.Request();
-                    mMood.Set(MoodType.LISTENING);
-                    mNeedListen = false;
-                    mFirst = false;
-                    Debug.Log("post listen");
-                } else if (mSTT.HasFinished && !mNeedListen) {
-                    Debug.Log("pre deal with speech");
-
-                    if (string.IsNullOrEmpty(mLastSpeech)) {
-                        mNeedListen = true;
-                        Debug.Log("LastAns null");
-
-                    } else {
-                        Debug.Log("LastAns != previous");
-                        if (ContainsOneOf(mLastSpeech, mAcceptSpeech) || ContainsOneOf(mLastSpeech, mAnOtherSpeech)) {
-                            animator.SetTrigger("Pose");
-                        } else if (ContainsOneOf(mLastSpeech, mRefuseSpeech) || ContainsOneOf(mLastSpeech, mQuitSpeech)) {
-                            SayInLang("noRedo");
-                            animator.SetTrigger("Exit");
-                        } else {
-                            SayInLang("srynotunderstand", true);
-                            mTTS.Silence(1000, true);
-                            SayInLang("yesOrNo", true);
-                            mTTS.Silence(1000, true);
-                            SayInLang("redoPose", true);
-                            mLastSpeech = "";
-                            mNeedListen = true;
-                        }
-                        Debug.Log("LastAns != previous end");
-                    }
-                }
-
-            }
-        }
-    }
+			mPressedYes = false;
+			mPressedNo = false;
 
 
-    public void PressedYes()
-    {
+			Button[] buttons = mCanvasQuestion.GetComponentsInChildren<Button>();
+			buttons[0].onClick.AddListener(PressedNo);
+			buttons[1].onClick.AddListener(PressedYes);
 
-        mSoundManager.PlaySound(SoundType.BEEP2);
-        Debug.Log("Pressed Button Yes");
+			mAcceptSpeech = new List<string>();
+			mAnOtherSpeech = new List<string>();
+			mQuitSpeech = new List<string>();
+			mRefuseSpeech = new List<string>();
+			mDidntUnderstandSpeech = new List<string>();
 
-        HideCanvasQuestion();
-        //Stop speech
-        mTTS.Silence(5, false);
-        mPressedYes = true;
-    }
+			mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPoseEN.xml").text;
+
+			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
+				mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPoseFR.xml").text;
+			}
+
+			FillListSyn("Accept", mAcceptSpeech);
+			FillListSyn("AnOther", mAnOtherSpeech);
+			FillListSyn("Refuse", mRefuseSpeech);
+			FillListSyn("Quit", mQuitSpeech);
+			FillListSyn("DidntUnderstand", mDidntUnderstandSpeech);
+
+			mLastSpeech = "";
+			SayInLang("redoPose", true);
+
+			// starting STT with callback
+			mSTT.OnBestRecognition.Add(OnSpeechRecognition);
+			mSTT.OnPartial.Add(OnPartialRecognition);
+			mSTT.OnErrorEnum.Add(ErrorSTT);
+
+		}
+
+		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+		protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			if (mPressedYes) {
+				animator.SetTrigger("Pose");
+			} else if (mPressedNo) {
+				SayInLang("noRedo");
+				animator.SetTrigger("Exit");
+			} else {
+				if (mTTS.HasFinishedTalking) {
+					if ((mSTT.HasFinished || mFirst) && mNeedListen) {
+						Debug.Log("pre listen");
+						mSTT.Request();
+						mMood.Set(MoodType.LISTENING);
+						mNeedListen = false;
+						mFirst = false;
+						Debug.Log("post listen");
+					} else if (mSTT.HasFinished && !mNeedListen) {
+						Debug.Log("pre deal with speech");
+
+						if (string.IsNullOrEmpty(mLastSpeech)) {
+							mNeedListen = true;
+							Debug.Log("LastAns null");
+
+						} else {
+							Debug.Log("LastAns != previous");
+							if (ContainsOneOf(mLastSpeech, mAcceptSpeech) || ContainsOneOf(mLastSpeech, mAnOtherSpeech)) {
+								animator.SetTrigger("Pose");
+							} else if (ContainsOneOf(mLastSpeech, mRefuseSpeech) || ContainsOneOf(mLastSpeech, mQuitSpeech)) {
+								SayInLang("noRedo");
+								animator.SetTrigger("Exit");
+							} else {
+								SayInLang("srynotunderstand", true);
+								mTTS.Silence(1000, true);
+								SayInLang("yesOrNo", true);
+								mTTS.Silence(1000, true);
+								SayInLang("redoPose", true);
+								mLastSpeech = "";
+								mNeedListen = true;
+							}
+							Debug.Log("LastAns != previous end");
+						}
+					}
+
+				}
+			}
+		}
 
 
-    public void PressedNo()
-    {
-        mSoundManager.PlaySound(SoundType.BEEP2);
-        Debug.Log("Pressed Button No");
-
-        HideCanvasQuestion();
-        //Stop speech
-        mTTS.Silence(5, false);
-        mPressedNo = true;
-    }
+		public void PressedYes()
+		{
 
 
-    // speech reco callback
-    private void OnSpeechRecognition(string iVoiceInput)
-    {
+			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			Debug.Log("Pressed Button Yes");
 
-        Debug.Log("OnSpeechReco");
-        mMood.Set(MoodType.NEUTRAL);
-        mAnimationManager.Blink();
-        Debug.Log("[photo Heard] : " + iVoiceInput);
-
-        mErrorCount = 0;
-        // set active Answer in Dialog
-        mLastSpeech = iVoiceInput;
-    }
+			HideCanvasQuestion();
+			//Stop speech
+			mTTS.Silence(5, false);
+			mPressedYes = true;
+		}
 
 
-    private void OnPartialRecognition(string iVoiceInput)
-    {
-        Debug.Log("OnPartialReco");
-        Debug.Log("[photo Partial Reco] : " + iVoiceInput);
-        mMood.Set(MoodType.NEUTRAL);
+		public void PressedNo()
+		{
 
-        mErrorCount = 0;
-        // set active Answer in Dialog
-        mLastSpeech = iVoiceInput;
-    }
+			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			Debug.Log("Pressed Button No");
+
+			HideCanvasQuestion();
+			//Stop speech
+			mTTS.Silence(5, false);
+			mPressedNo = true;
+		}
 
 
+		// speech reco callback
+		private void OnSpeechRecognition(string iVoiceInput)
+		{
 
-    void ErrorSTT(STTError iError)
-    {
-        Debug.Log("[question error] : " + iError);
-        ++mErrorCount;
-        Debug.Log("[question error] : count " + mErrorCount);
-        mAnimationManager.Sigh();
+			Debug.Log("OnSpeechReco");
+			mMood.Set(MoodType.NEUTRAL);
+			mAnimationManager.Blink();
+			Debug.Log("[photo Heard] : " + iVoiceInput);
 
-        // If too much erro (no answer), ask for answer. If still no answer, get back to IDLE
-        if (mErrorCount > 3) {
-            //			mAnimator.SetTrigger("AskMail");
-            Debug.Log("too much errors");
-        } else {
-            mMood.Set(MoodType.NEUTRAL);
-            //string lSentence = RdmStr(mDidntUnderstandSpeech);
-            string lSentence = mDictionary.GetString("srynotunderstand");
+			mErrorCount = 0;
+			// set active Answer in Dialog
+			mLastSpeech = iVoiceInput;
+		}
 
-            switch (iError) {
-                case STTError.ERROR_AUDIO: lSentence = mDictionary.GetString("micissue"); break;
-                case STTError.ERROR_NETWORK: lSentence = mDictionary.GetString("connectissue"); break;
-                case STTError.ERROR_RECOGNIZER_BUSY: lSentence = mDictionary.GetString("vrecobusy"); break;
-                case STTError.ERROR_SPEECH_TIMEOUT: lSentence = mDictionary.GetString("hearnothing") + " " + mDictionary.GetString("repeatPls"); break;
-            }
 
-            if (UnityEngine.Random.value > 0.8) {
-                mMood.Set(MoodType.SAD);
-                mTTS.Say(lSentence);
-            }
-        }
+		private void OnPartialRecognition(string iVoiceInput)
+		{
+			Debug.Log("OnPartialReco");
+			Debug.Log("[photo Partial Reco] : " + iVoiceInput);
+			mMood.Set(MoodType.NEUTRAL);
 
-        mLastSpeech = "";
-        mNeedListen = true;
-    }
+			mErrorCount = 0;
+			// set active Answer in Dialog
+			mLastSpeech = iVoiceInput;
+		}
 
 
 
+		void ErrorSTT(STTError iError)
+		{
+			Debug.Log("[question error] : " + iError);
+			++mErrorCount;
+			Debug.Log("[question error] : count " + mErrorCount);
+			mAnimationManager.Sigh();
 
-    protected override void OnExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        mMood.Set(MoodType.NEUTRAL);
+			// If too much erro (no answer), ask for answer. If still no answer, get back to IDLE
+			if (mErrorCount > 3) {
+				//			mAnimator.SetTrigger("AskMail");
+				Debug.Log("too much errors");
+			} else {
+				mMood.Set(MoodType.NEUTRAL);
+				//string lSentence = RdmStr(mDidntUnderstandSpeech);
+				string lSentence = mDictionary.GetString("srynotunderstand");
 
-        if (!mPressedYes && !mPressedNo) {
-            HideCanvasQuestion();
-        }
+				switch (iError) {
+					case STTError.ERROR_AUDIO: lSentence = mDictionary.GetString("micissue"); break;
+					case STTError.ERROR_NETWORK: lSentence = mDictionary.GetString("connectissue"); break;
+					case STTError.ERROR_RECOGNIZER_BUSY: lSentence = mDictionary.GetString("vrecobusy"); break;
+					case STTError.ERROR_SPEECH_TIMEOUT: lSentence = mDictionary.GetString("hearnothing") + " " + mDictionary.GetString("repeatPls"); break;
+				}
 
-        mSTT.OnBestRecognition.Remove(OnSpeechRecognition);
-        mSTT.OnPartial.Remove(OnPartialRecognition);
-        mSTT.OnErrorEnum.Remove(ErrorSTT);
+				if (UnityEngine.Random.value > 0.8) {
+					mMood.Set(MoodType.SAD);
+					mTTS.Say(lSentence);
+				}
+			}
 
-    }
+			mLastSpeech = "";
+			mNeedListen = true;
+		}
 
-    /********************** question CANVAS **********************/
 
-    public void DisplayCanvasQuestion()
-    {
-        Debug.Log("Display canvas Picture");
 
-        Text[] textObjects = mCanvasQuestion.GetComponentsInChildren<Text>();
 
-        textObjects[0].text = mDictionary.GetString("redoPose").ToUpper();
-        textObjects[1].text = mDictionary.GetString("no").ToUpper();
-        textObjects[2].text = mDictionary.GetString("yes").ToUpper();
+		protected override void OnExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			mMood.Set(MoodType.NEUTRAL);
 
-        mCanvasBackGround.GetComponent<Animator>().SetTrigger("Open_BG");
-        mCanvasQuestion.GetComponent<Animator>().SetTrigger("Open_WQuestion");
-    }
+			if (!mPressedYes && !mPressedNo) {
+				HideCanvasQuestion();
+			}
 
-    public void HideCanvasQuestion()
-    {
-        Debug.Log("Hide canvas Picture");
-        mCanvasBackGround.GetComponent<Animator>().SetTrigger("Close_BG");
-        mCanvasQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
-    }
+			mSTT.OnBestRecognition.Remove(OnSpeechRecognition);
+			mSTT.OnPartial.Remove(OnPartialRecognition);
+			mSTT.OnErrorEnum.Remove(ErrorSTT);
 
+		}
+
+		/********************** question CANVAS **********************/
+
+		public void DisplayCanvasQuestion()
+		{
+			Debug.Log("Display canvas Picture");
+
+			Text[] textObjects = mCanvasQuestion.GetComponentsInChildren<Text>();
+
+			textObjects[0].text = mDictionary.GetString("redoPose").ToUpper();
+			textObjects[1].text = mDictionary.GetString("no").ToUpper();
+			textObjects[2].text = mDictionary.GetString("yes").ToUpper();
+
+			mCanvasBackGround.GetComponent<Animator>().SetTrigger("Open_BG");
+			mCanvasQuestion.GetComponent<Animator>().SetTrigger("Open_WQuestion");
+		}
+
+		public void HideCanvasQuestion()
+		{
+			Debug.Log("Hide canvas Picture");
+			mCanvasBackGround.GetComponent<Animator>().SetTrigger("Close_BG");
+			mCanvasQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
+		}
+
+	}
 }
