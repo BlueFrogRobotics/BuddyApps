@@ -6,7 +6,6 @@ namespace BuddyApp.Guardian
 {
     public class TurnState : AStateGuardian
     {
-
         [SerializeField]
         private string mParameterName = "";
 
@@ -28,8 +27,7 @@ namespace BuddyApp.Guardian
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (mMotors.Wheels.Status != MobileBaseStatus.MOTIONLESS)
-            {
+            if (mMotors.Wheels.Status != MovingState.MOTIONLESS) {
                 animator.SetInteger(mParameterName, mParameterValue);
             }
         }
@@ -39,15 +37,5 @@ namespace BuddyApp.Guardian
         {
 
         }
-
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
     }
 }

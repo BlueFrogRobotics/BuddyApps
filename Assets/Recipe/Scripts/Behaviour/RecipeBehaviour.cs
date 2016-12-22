@@ -13,12 +13,16 @@ namespace BuddyApp.Recipe
         private GameObject RecipeListParent;
         [SerializeField]
         private GameObject prefabRecipe;
+<<<<<<< HEAD
         [SerializeField]
         private List<GameObject> mPrefabIngredientList;
         [SerializeField]
         private List<GameObject> mPrefabIngredientTextList;
         [SerializeField]
         private List<GameObject> mPrefabIngredientIconList;
+=======
+
+>>>>>>> d346bb77686650c9ca9e76b69ee20fa765848371
         private GameObject mRecipeInstance;
         public string mAnswer { get; set; }
         public Recipe mRecipe { get; set; }
@@ -49,8 +53,7 @@ namespace BuddyApp.Recipe
             List<Recipe> lRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath("recipe_list.xml")).recipe;
             mRecipeList = new List<Recipe>();
 
-            foreach (Recipe recipe in lRecipeList)
-            {
+            foreach (Recipe recipe in lRecipeList) {
                 if (recipe.category == category)
                     mRecipeList.Add(recipe);
             }
@@ -62,9 +65,13 @@ namespace BuddyApp.Recipe
 
         public void DisplayRecipe()
         {
+<<<<<<< HEAD
             mRecipePrefabList = new List<GameObject>();
             foreach (Recipe recipe in mRecipeList)
             {
+=======
+            foreach (Recipe recipe in mRecipeList) {
+>>>>>>> d346bb77686650c9ca9e76b69ee20fa765848371
                 mRecipeInstance = Instantiate(prefabRecipe);
                 mRecipePrefabList.Add(mRecipeInstance);
                 mRecipeInstance.GetComponent<RectTransform>().SetParent(RecipeListParent.GetComponent<RectTransform>(), false);

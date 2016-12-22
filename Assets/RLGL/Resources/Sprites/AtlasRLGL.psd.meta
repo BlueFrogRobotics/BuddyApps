@@ -1,15 +1,18 @@
 fileFormatVersion: 2
 guid: 20fdce90ac9d0dc41b2cb6f9c58ea362
-timeCreated: 1481636805
+timeCreated: 1482337530
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: RLGL_Illustration
     21300002: RLGL_CircleBig
     21300004: RLGL_Ico_App
-    21300006: RLGL_OnePlayer
+    21300006: RLGL_Step01
     21300008: RLGL_Buddy
     21300010: RLGL_ArrowBig
+    21300012: RLGL_Step02
+    21300014: RLGL_Step03
+    21300016: RLGL_Step04
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -94,36 +97,48 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - serializedVersion: 2
-      name: RLGL_OnePlayer
+      name: RLGL_Step01
       rect:
         serializedVersion: 2
         x: 512
-        y: 1537
-        width: 360
-        height: 511
+        y: 1698
+        width: 750
+        height: 350
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - serializedVersion: 2
-      name: RLGL_Buddy
+      name: RLGL_Step02
       rect:
         serializedVersion: 2
-        x: 874
-        y: 1537
-        width: 360
-        height: 511
+        x: 512
+        y: 1306
+        width: 778
+        height: 365
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - serializedVersion: 2
-      name: RLGL_ArrowBig
+      name: RLGL_Step03
       rect:
         serializedVersion: 2
-        x: 1234
-        y: 1688
-        width: 360
+        x: 1327
+        y: 1303
+        width: 720
+        height: 370
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: RLGL_Step04
+      rect:
+        serializedVersion: 2
+        x: 1301
+        y: 1687
+        width: 390
         height: 360
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

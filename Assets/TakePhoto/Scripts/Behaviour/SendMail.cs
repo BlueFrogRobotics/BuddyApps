@@ -11,18 +11,19 @@ using BuddyOS.App;
 public class SendMail : SpeechStateBehaviour
 {
 
-	string mMailFrom = "buddy@bluefrogrobotics.com";
-	string mPassword = "buddySend1Email";
-	string mSubject = "Buddy - Photo";
+	private string mMailFrom = "buddy@bluefrogrobotics.com";
+	private string mPassword = "buddySend1Email";
+	private string mSubject = "Buddy - Photo";
 	//string mMessage = "Bonjour,\n\nJ'ai passé un très bon moment avec vous aujourd'hui. Vous trouverez votre photo ci-joint.\n\nJ'espère vous revoir bientôt.\n\nBuddy \n\n--\nAttention ceci est un message automatique merci de ne pas y répondre";
-	string mMessage;
-    bool mSendingMail;
+	private string mMessage;
+    private bool mSendingMail;
 
-
+	private AnimManager mAnimationManager;
 
 	public override void Init()
 	{
 		mMessage = mDictionary.GetString("mailContent");
+		mAnimationManager = GetComponentInGameObject<AnimManager>(10);
 	}
 
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -31,7 +32,7 @@ public class SendMail : SpeechStateBehaviour
 		mSendingMail = false;
 		SayInLang("mailBoxPhoto");
 		StartSendMail();
-		//link.animationManager.Blink ();
+		mAnimationManager.Blink ();
 	}
 
 	public void StartSendMail()
@@ -76,7 +77,7 @@ public class SendMail : SpeechStateBehaviour
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		if (!mSendingMail && mTTS.HasFinishedTalking()) {
+		if (!mSendingMail && mTTS.HasFinishedTalking) {
 			Debug.Log("Done sending mail");
 			animator.SetTrigger("Exit");
 		}

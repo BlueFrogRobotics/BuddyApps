@@ -9,19 +9,29 @@
             Mood element of the robot. It is an helper component combining Face, LED and moving commands.
             </summary>
         </member>
-        <member name="M:BuddyOS.Mood.Set(MoodType,System.Boolean)">
+        <member name="M:BuddyOS.Mood.Set(MoodType,System.Boolean,System.Boolean)">
             <summary>
             Ask the face to switch to the specified mood.
             </summary>
             <param name="iMood">The name of the mood to switch to</param>
             <param name="iMove">Specify if the robot must move according to the wanted mood</param>
+            <param name="iSound">Does the robot must make a sound with its mood ?</param>
         </member>
-        <member name="M:BuddyOS.Mood.Set(MoodType,System.Collections.Generic.List{BuddyOS.Command.ACommand})">
+        <member name="M:BuddyOS.Mood.Set(MoodType,System.Collections.Generic.List{BuddyOS.Command.ACommand},System.Boolean)">
             <summary>
             Ask the face to switch to the specified mood.
             </summary>
             <param name="iMood">The name of the mood to switch to</param>
             <param name="iScheduledMoveCommands">Moving commands to execute</param>
+            <param name="iSound">Does the robot must make a sound with its mood ?</param>
+        </member>
+        <member name="M:BuddyOS.Mood.Set(MoodType,System.Collections.Generic.List{BuddyOS.Command.ACommand},BuddyOS.SoundType)">
+            <summary>
+            Ask the face to switch to the specified mood.
+            </summary>
+            <param name="iMood">The name of the mood to switch to</param>
+            <param name="iScheduledMoveCommands">Moving commands to execute</param>
+            <param name="iSound">Does the robot must make a sound with its mood ?</param>
         </member>
         <member name="T:BuddyOS.ITrackable">
             <summary>
@@ -239,19 +249,18 @@
             Does the right eye is touched by the user ?
             </summary>
         </member>
+        <member name="P:BuddyOS.Face.IsStable">
+            <summary>
+            True if the face is not processing any expression swap / transition / interaction
+            </summary>
+        </member>
         <member name="M:BuddyOS.Face.SetExpression(MoodType)">
             <summary>
             Ask the face to switch to the specified mood.
             </summary>
             <param name="iMood">The name of the mood to switch to</param>
         </member>
-        <member name="M:BuddyOS.Face.SetEyeEvent(EyeEvent)">
-            <summary>
-            Buddy will make an eye event
-            </summary>
-            <param name="iEvent">The eye event</param>
-        </member>
-        <member name="M:BuddyOS.Face.SetMouthEvent(MouthEvent)">
+        <member name="M:BuddyOS.Face.SetEvent(FaceEvent)">
             <summary>
             Buddy will make a mouth event. Last until MouthEvent.NONE or speak
             </summary>
@@ -957,6 +966,12 @@
             </summary>
             <param name="iLanguage">The language to set in Locale Codes (e.g. "en-US" for english from United-States, "fr-FR" for french from France)</param>
         </member>
+        <member name="M:BuddyOS.SpeechToText.SetText(System.String)">
+            <summary>
+            Call the callback recognition method with the input text
+            </summary>
+            <param name="iInputText">The input text</param>
+        </member>
         <member name="T:BuddyOS.SphinxTrigger">
             <summary>
             Sphinx is use as a trigger in voice recognition. You will need to use Sphinx before starting STT.Request() for example.
@@ -1108,27 +1123,43 @@
             So, available methods have not the same behaviour on difference devices.
             </summary>
         </member>
-        <member name="M:BuddyOS.TextToSpeech.Say(System.String,System.Boolean)">
-            <summary>
-            Makes the robot speaking the input string in the set language and can add to queue
-            </summary>
-        </member>
-        <member name="M:BuddyOS.TextToSpeech.Silence(System.Int32,System.Boolean)">
-            <summary>
-            Launch silence and can add to queue
-            </summary>
-        </member>
-        <member name="M:BuddyOS.TextToSpeech.IsSpeaking">
+        <member name="P:BuddyOS.TextToSpeech.IsSpeaking">
             <summary>
             Checks if the TTS is currently speaking
             </summary>
             <returns>True if a sentence is spoken</returns>
         </member>
-        <member name="M:BuddyOS.TextToSpeech.HasFinishedTalking">
+        <member name="P:BuddyOS.TextToSpeech.HasFinishedTalking">
             <summary>
             Checks if the TTS has stoped speaking and has finished queue
             </summary>
             <returns>True if a sentence is finished</returns>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.Say(System.String,System.Boolean)">
+            <summary>
+            Makes the robot speak the input string. Can also be added to the queue
+            </summary>
+            <param name="iText"></param>
+            <param name="iQueue"></param>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.SayKey(System.String,System.Boolean)">
+            <summary>
+            Makes the robot speak the value corresponding to the input key. Can also be added to the queue
+            </summary>
+            <param name="iKey">Key of the word to say</param>
+            <param name="iQueue"></param>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.SynthesizeToFile(System.String,System.String)">
+            <summary>
+            Synthesize the text to a wav file
+            </summary>
+            <param name="iText">Text to record</param>
+            <param name="iFilename">Sound file to record</param>
+        </member>
+        <member name="M:BuddyOS.TextToSpeech.Silence(System.Int32,System.Boolean)">
+            <summary>
+            Launch silence and can add to queue
+            </summary>
         </member>
         <member name="M:BuddyOS.TextToSpeech.SetPitch(System.Single)">
             <summary>
@@ -1447,7 +1478,7 @@
             <summary>
             Is any invoke pending on this MonoBehaviour?
             </summary>
-            <returns></returns>
+            <returns>True if invoking</returns>
         </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.GetComponent``1">
             <summary>
@@ -1464,6 +1495,13 @@
             <param name="iIndex">The index of the linked gameobject</param>
             <returns>The gameobject</returns>
         </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.GetGameObject(System.String)">
+            <summary>
+            Retrieve the linked gameObject to the StateMacheAppLinker by its name.
+            </summary>
+            <param name="iName">Name of the gameobject</param>
+            <returns>The gameobject</returns>
+        </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.GetComponentInGameObject``1(System.Int32)">
             <summary>
             Retrieve the component in the linked gameObject to the StateMachineAppLinker at the iIndex index.
@@ -1471,6 +1509,11 @@
             <typeparam name="T">Type of the component</typeparam>
             <param name="iIndex">The index of the linked gameobject</param>
             <returns></returns>
+        </member>
+        <member name="M:BuddyOS.App.AStateMachineBehaviour.QuitApp">
+            <summary>
+            Quit the current application and get back to the default app
+            </summary>
         </member>
         <member name="M:BuddyOS.App.AStateMachineBehaviour.Init">
             <summary>
@@ -1689,6 +1732,34 @@
             Quit the current app and load the default app
             </summary>
         </member>
+        <member name="T:BuddyOS.SoundType">
+            <summary>
+            Kind of sound that Buddy can natively handle
+            </summary>
+        </member>
+        <member name="T:BuddyOS.SoundManager">
+            <summary>
+            Sound managing. Use it to make the robot sound something funny. Not synchronised with the face
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SoundManager.Play(BuddyOS.SoundType)">
+            <summary>
+            Play the wanted sound
+            </summary>
+            <param name="iSound">The sound to play</param>
+        </member>
+        <member name="M:BuddyOS.SoundManager.Play(System.String)">
+            <summary>
+            Play the wanted sound
+            </summary>
+            <param name="iSound">The sound to play</param>
+        </member>
+        <member name="M:BuddyOS.SoundManager.AddSound(System.String)">
+            <summary>
+            Add a sound to the base, can be play with Play(string)
+            </summary>
+            <param name="iPath"></param>
+        </member>
         <member name="T:BuddyOS.BYOS">
             <summary>
             Core of the BuddY Operating System (BYOS).
@@ -1763,12 +1834,22 @@
         </member>
         <member name="P:BuddyOS.BYOS.WiFiManager">
             <summary>
-            Tools for retrieve WiFi networks, update every minutes
+            Tools for retrieve WiFi networks, updated every minutes
+            </summary>
+        </member>
+        <member name="P:BuddyOS.BYOS.SoundManager">
+            <summary>
+            Tool for miscellaneous sounds
             </summary>
         </member>
         <member name="P:BuddyOS.BYOS.Dictionary">
             <summary>
             Hosts all global_keyword -> currentlanguage_word matchings
+            </summary>
+        </member>
+        <member name="P:BuddyOS.BYOS.LanguageManager">
+            <summary>
+            Language handler. The language can only by updated by a user input in Parameters
             </summary>
         </member>
         <member name="P:BuddyOS.BYOS.Mood">
@@ -1877,6 +1958,11 @@
             Parameters of the command
             </summary>
         </member>
+        <member name="P:BuddyOS.Command.ACommand.IsExecuted">
+            <summary>
+            Check if the command has been executed
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.ACommand.#ctor">
             <summary>
             Base constructor for deserialization
@@ -1948,6 +2034,11 @@
             String basic serialization of the command
             </summary>
             <returns>Command string value for debug</returns>
+        </member>
+        <member name="P:BuddyOS.Command.ACommand.IsExecutedImpl">
+            <summary>
+            Own implementation to check if the current command was executed
+            </summary>
         </member>
         <member name="M:BuddyOS.Command.ACommand.ExecuteImpl">
             <summary>
@@ -2167,6 +2258,11 @@
             When executed : Make the robot go to a desired position.
             </summary>
         </member>
+        <member name="P:BuddyOS.Command.MvPosCmd.IsExecutedImpl">
+            <summary>
+            Check if the command has been executed
+            </summary>
+        </member>
         <member name="M:BuddyOS.Command.MvPosCmd.#ctor">
             <summary>
             Default constructor
@@ -2296,6 +2392,27 @@
             Execute the command behaviour.
             </summary>
         </member>
+        <member name="T:BuddyOS.Command.SetTextSTTCmd">
+            <summary>
+            When executed : Call the callback recognition method with the input text
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetTextSTTCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.SetTextSTTCmd.#ctor(System.String)">
+            <summary>
+            When executed : Call the callback recognition method with the input text
+            </summary>
+            <param name="iText">The input text</param>
+        </member>
+        <member name="M:BuddyOS.Command.SetTextSTTCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
         <member name="T:BuddyOS.Command.SetMoodCmd">
             <summary>
             When executed : The robot changes its mood (face + led) and moves according to the mood
@@ -2318,44 +2435,23 @@
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:BuddyOS.Command.SetMouthEvntCmd">
+        <member name="T:BuddyOS.Command.SetFaceEvntCmd">
             <summary>
-            When executed : The robot executes a mouth event
+            When executed : The robot executes a mouth  / eye event
             </summary>
         </member>
-        <member name="M:BuddyOS.Command.SetMouthEvntCmd.#ctor">
+        <member name="M:BuddyOS.Command.SetFaceEvntCmd.#ctor">
             <summary>
             Default constructor
             </summary>
         </member>
-        <member name="M:BuddyOS.Command.SetMouthEvntCmd.#ctor(MouthEvent)">
+        <member name="M:BuddyOS.Command.SetFaceEvntCmd.#ctor(FaceEvent)">
             <summary>
-            When executed : The robot executes an mouth event
+            When executed : The robot executes an mouth / eye event
             </summary>
             <param name="iMode">The mouth to trigger</param>
         </member>
-        <member name="M:BuddyOS.Command.SetMouthEvntCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:BuddyOS.Command.SetEyeEvntCmd">
-            <summary>
-            When executed : The robot executes an eye event
-            </summary>
-        </member>
-        <member name="M:BuddyOS.Command.SetEyeEvntCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:BuddyOS.Command.SetEyeEvntCmd.#ctor(EyeEvent)">
-            <summary>
-            When executed : The robot executes an eye event
-            </summary>
-            <param name="iMode">The event to trigger</param>
-        </member>
-        <member name="M:BuddyOS.Command.SetEyeEvntCmd.ExecuteImpl">
+        <member name="M:BuddyOS.Command.SetFaceEvntCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -3562,6 +3658,13 @@
             All entries of the thesaurus
             </summary>
         </member>
+        <member name="M:BuddyOS.LanguageThesaurus.ContainsKey(System.String)">
+            <summary>
+            Check existing key in existing entries
+            </summary>
+            <param name="iKey">Key to check</param>
+            <returns>True if the key already exists in Entries</returns>
+        </member>
         <member name="T:BuddyOS.Dictionary">
             <summary>
             Hosts all global_keyword -> currentlanguage_word matchings
@@ -3666,6 +3769,26 @@
         <member name="T:BuddyOS.System.AnomalySearcher">
             <summary>
             Search for hardware error. Those anomalies will be logged by the AnomalyLogger class.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.LanguageManager">
+            <summary>
+            Language managing
+            </summary>
+        </member>
+        <member name="F:BuddyOS.LanguageManager.TOTAL_LANG">
+            <summary>
+            Total nb supported language
+            </summary>
+        </member>
+        <member name="P:BuddyOS.LanguageManager.OnChangeLang">
+            <summary>
+            Callbacks that will be called each time the current language will be updated. Use it for relabelization
+            </summary>
+        </member>
+        <member name="P:BuddyOS.LanguageManager.CurrentLang">
+            <summary>
+            Current OS/UI language
             </summary>
         </member>
         <member name="T:BuddyOS.UI.ABaseView">
@@ -3908,7 +4031,7 @@
         </member>
         <member name="M:BuddyOS.UI.Dropdown.UpdateFeebackValue">
             <summary>
-            Callback method that will be called when the dropdown value is changed
+            Callback method that will be called when the dropdown value is changed. Inner purpose, do not call it
             </summary>
         </member>
         <member name="M:BuddyOS.UI.Dropdown.Display">
@@ -3959,7 +4082,7 @@
         </member>
         <member name="M:BuddyOS.UI.Gauge.UpdateFeebackValue">
             <summary>
-            Modification callback for the slider
+            Modification callback for the slider. Inner purpose, do not call it
             </summary>
         </member>
         <member name="T:BuddyOS.UI.GaugeOnOff">
@@ -4010,12 +4133,12 @@
         </member>
         <member name="M:BuddyOS.UI.GaugeOnOff.StateChange">
             <summary>
-            Modification callback for the toggle
+            Modification callback for the toggle. Inner purpose, do not call it
             </summary>
         </member>
         <member name="M:BuddyOS.UI.GaugeOnOff.UpdateFeebackValue">
             <summary>
-            Modification callback for the slider
+            Modification callback for the slider. Inner purpose, do not call it
             </summary>
         </member>
         <member name="T:BuddyOS.UI.OnOff">
@@ -4050,7 +4173,7 @@
         </member>
         <member name="M:BuddyOS.UI.OnOff.StateChange">
             <summary>
-            Modification callback
+            Modification callback. Inner purpose, do not call it
             </summary>
         </member>
         <member name="T:BuddyOS.UI.TextField">
@@ -4146,7 +4269,7 @@
         </member>
         <member name="M:BuddyOS.UI.SearchField.OnUpdateField">
             <summary>
-            Modification callback
+            Modification callback. Inner purpose, do not call it
             </summary>
         </member>
         <member name="T:BuddyOS.UI.Label">
@@ -4360,6 +4483,11 @@
         <member name="P:BuddyOS.UI.WindowPanel.Layout">
             <summary>
             The layout to display
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.WindowPanel.Sprite">
+            <summary>
+            Left side displayed image
             </summary>
         </member>
         <member name="M:BuddyOS.UI.WindowPanel.Clear">
@@ -4614,6 +4742,22 @@
             <param name="iAtlas">The atlas name</param>
             <param name="iImage">The image to assign</param>
         </member>
+        <member name="M:BuddyOS.SpriteManager.LoadAtlas(System.String)">
+            <summary>
+            Load the named atlas
+            </summary>
+            <param name="iAtlasName">Atlas to load located in Resources/Sprites/</param>
+        </member>
+        <member name="T:BuddyOS.VocalInputField">
+            <summary>
+            Input field text for STT debug / help purpose 
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalInputField.SendStringToActivation">
+            <summary>
+            Process the string command as speech text
+            </summary>
+        </member>
         <member name="T:BuddyOS.VocalDebug">
             <summary>
             Vocal layer for easiest control for STT and Sphinx.
@@ -4688,6 +4832,11 @@
             Open or close the debug window for STT and Sphinx
             </summary>
         </member>
+        <member name="M:BuddyOS.VocalActivation.LaunchInputField">
+            <summary>
+            Open or close the input field window for STT
+            </summary>
+        </member>
         <member name="M:BuddyOS.VocalActivation.StartRecoWithTrigger">
             <summary>
             Set Vocal activation on Trigger Mode. Now, Buddy will need to hear "Salut Buddy" or "Hello Buddy", before starting STT
@@ -4698,9 +4847,15 @@
             Stop Trigger Mode and immediately starts STT request for instant listening
             </summary>
         </member>
+        <member name="M:BuddyOS.VocalActivation.SetText(System.String)">
+            <summary>
+            Fake the input vocal signal with input text
+            </summary>
+            <param name="iInput">The input text that the Speech To Text will proceed</param>
+        </member>
         <member name="M:BuddyOS.VocalActivation.StopReco">
             <summary>
-            Stop Trigger Mode
+            Stop Trigger Mode and disable VocalActivation
             </summary>
         </member>
     </members>

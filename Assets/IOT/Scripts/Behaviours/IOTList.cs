@@ -39,11 +39,13 @@ namespace BuddyApp.IOT
                 {
                     lButton = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/System_Button"));
                     lButton.GetComponent<IOTObjectContainer>().Object = mObjects[i];
+                    lButton.transform.GetChild(1).GetChild(2).GetComponent<Text>().text = mObjects[i].Name;
 
                 }else
                 {
                     lButton = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Device_Button"));
                     lButton.GetComponent<IOTObjectContainer>().Object = mObjects[i];
+                    lButton.transform.GetChild(1).GetChild(2).GetComponent<Text>().text = mObjects[i].Name;
                 }
                 lButton.transform.SetParent(content, false);
                 lButton.transform.SetSiblingIndex(content.childCount - 2);

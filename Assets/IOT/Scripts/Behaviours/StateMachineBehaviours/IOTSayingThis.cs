@@ -40,20 +40,16 @@ namespace BuddyApp.IOT
         // Update is called once per frame
         void Update()
         {
-            if (mTime < 1F && !mTTS.HasFinishedTalking())
-            {
+            if (mTime < 1F && !mTTS.HasFinishedTalking) {
                 mTime += Time.deltaTime * speed;
                 mMoving.localPosition = Vector3.Lerp(mStartPosition, mEndPosition, mTime);
-            }
-            else if (mTime > 1F && !mTTS.HasFinishedTalking())
+            } else if (mTime > 1F && !mTTS.HasFinishedTalking)
                 mMoving.localPosition = mEndPosition;
 
-            if (mTTS.HasFinishedTalking())
-            {
+            if (mTTS.HasFinishedTalking) {
                 mTime -= Time.deltaTime * speed;
                 mMoving.localPosition = Vector3.Lerp(mStartPosition, mEndPosition, mTime);
-                if (mTime < 0F)
-                {
+                if (mTime < 0F) {
                     mMoving.localPosition = mStartPosition;
                     gameObject.SetActive(false);
                 }

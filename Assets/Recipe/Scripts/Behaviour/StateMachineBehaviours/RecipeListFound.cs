@@ -17,7 +17,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (mTTS.HasFinishedTalking())
+            if (mTTS.HasFinishedTalking)
                 iAnimator.SetTrigger("DisplayRecipeList");
         }
 

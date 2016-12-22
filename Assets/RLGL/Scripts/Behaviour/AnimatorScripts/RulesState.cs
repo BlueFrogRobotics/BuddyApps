@@ -50,12 +50,12 @@ namespace BuddyApp.RLGL
             mTimer += Time.deltaTime;
             if (!mIsSentenceDone)
                 StartCoroutine(SayRulesAndExit());   
-            if(mTTS.HasFinishedTalking() && mIsSentenceDone && !mIsQuestionDone )
+            if(mTTS.HasFinishedTalking && mIsSentenceDone && !mIsQuestionDone )
             {
                 StartCoroutine(Restart());
             }
 
-            if (mTTS.HasFinishedTalking() && mIsSentenceDone && mIsQuestionDone)
+            if (mTTS.HasFinishedTalking && mIsSentenceDone && mIsQuestionDone)
             {
                 OpenCanvas();
                 //mBackground.GetComponent<Animator>().ResetTrigger("Close_BG");
