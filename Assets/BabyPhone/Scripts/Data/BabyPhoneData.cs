@@ -18,7 +18,8 @@ namespace BuddyApp.BabyPhone
             DEFAULT_LULL = 0,
             LULL_1 = 1,
             LULL_2 = 2,
-            LULL_3 = 3
+            LULL_3 = 3,
+            LULL_4 = 4
         }
 
         public enum Animation : int

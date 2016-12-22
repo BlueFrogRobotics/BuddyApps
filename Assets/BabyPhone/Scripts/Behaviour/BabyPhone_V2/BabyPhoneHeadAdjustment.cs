@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using BuddyOS;
 
 namespace BuddyApp.BabyPhone
@@ -7,7 +8,7 @@ namespace BuddyApp.BabyPhone
     public class BabyPhoneHeadAdjustment : MonoBehaviour
     {
         [SerializeField]
-        private RawImage mRGBCamRawImage;
+        private RawImage RGBCamRawImage;
 
         private Motors mMotors;
         private RGBCam mRGBCam;
@@ -35,7 +36,7 @@ namespace BuddyApp.BabyPhone
 
         void Update()
         {
-            mRGBCamRawImage.texture = mRGBCam.FrameTexture2D;
+            RGBCamRawImage.texture = mRGBCam.FrameTexture2D;
             ControlNoAxis();
             ControlYesAxis();
         }
@@ -48,14 +49,14 @@ namespace BuddyApp.BabyPhone
             bool lChanged = false;
             if (mNoLeft)
             {
-                mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 1;
+                mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 5;
                 lChanged = true;
                 mNoLeft = false;
             }
 
             if (mNoRight)
             {
-                mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 1;
+                mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 5;
                 lChanged = true;
                 mNoRight = false;
             }
@@ -74,14 +75,14 @@ namespace BuddyApp.BabyPhone
             bool lChanged = false;
             if (mYesDown)
             {
-                mYesAngle = mMotors.YesHinge.CurrentAnglePosition + 2;
+                mYesAngle = mMotors.YesHinge.CurrentAnglePosition + 5;
                 lChanged = true;
                 mYesDown = false;
             }
 
             if (mYesUp)
             {
-                mYesAngle = mMotors.YesHinge.CurrentAnglePosition - 2;
+                mYesAngle = mMotors.YesHinge.CurrentAnglePosition - 5;
                 lChanged = true;
                 mYesUp = false;
             }
@@ -106,5 +107,6 @@ namespace BuddyApp.BabyPhone
         {
             mYesDown = true;
         }
+
     }
 }

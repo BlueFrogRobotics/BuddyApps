@@ -7,16 +7,16 @@ namespace BuddyApp.BabyPhone
 {
     public class HeadAdjustmentState : AStateMachineBehaviour
     {
-        private GameObject HeadAdjustmentObject;
+        private GameObject mHeadAdjustmentObject;
         private GameObject mWindowAppOverWhite;
         private Animator mHeadAdjustmentAnimator;
 
         public override void Init()
         {
-            HeadAdjustmentObject = GetGameObject(6);
+            mHeadAdjustmentObject = GetGameObject(6);
             mWindowAppOverWhite = GetGameObject(3);
 
-            mHeadAdjustmentAnimator = HeadAdjustmentObject.GetComponent<Animator>();
+            mHeadAdjustmentAnimator = mHeadAdjustmentObject.GetComponent<Animator>();
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

@@ -57,8 +57,8 @@ namespace BuddyApp.BabyPhone
 
         void Start()
         {
-         
 
+            Init();
             Labelize();
         }
 
@@ -104,9 +104,9 @@ namespace BuddyApp.BabyPhone
             lullabySelection.AddOption("LULL_1", BabyPhoneData.Lullaby.LULL_1);
             lullabySelection.AddOption("LULL_2", BabyPhoneData.Lullaby.LULL_2);
             lullabySelection.AddOption("LULL_3", BabyPhoneData.Lullaby.LULL_3);
-            lullabySelection.SetDefault(1);
-            lullabySelection.SetDefault(0);
-            contactSelection.UpdateCommands.Add(new LullabyBabyPhoneCmd());
+            //lullabySelection.SetDefault(1);
+            lullabySelection.SetDefault((int)BabyPhoneData.Instance.LullabyToPlay);
+            lullabySelection.UpdateCommands.Add(new LullabyBabyPhoneCmd());
 
             ////animation's light
             animationBrightness.DisplayPercentage = true;
@@ -124,7 +124,7 @@ namespace BuddyApp.BabyPhone
             lullabySelection.AddOption(mDictionary.GetString("chris"), BabyPhoneData.Animation.CHRISTMAS);
             lullabySelection.SetDefault(1);
             lullabySelection.SetDefault(0);
-            contactSelection.UpdateCommands.Add(new LullabyBabyPhoneCmd());
+            lullabySelection.UpdateCommands.Add(new LullabyBabyPhoneCmd());
 
             ////microphone
             microphone.DisplayPercentage = true;

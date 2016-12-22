@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace BuddyApp.BabyPhone
@@ -8,102 +7,110 @@ namespace BuddyApp.BabyPhone
     public class BabyPhonePlayLullAndAnim : MonoBehaviour
     {
         [SerializeField]
-        private RawImage mAnimation;
+        private RawImage animation;
         [SerializeField]
-        private GameObject mProgressBar;
+        private GameObject progressBar;
         [SerializeField]
-        private AudioSource mSource;
+        private AudioSource source;
         [SerializeField]
-        private Animator mBabyPhoneAnimator;
+        private Animator babyPhoneAnimator;
 
-        private MovieTexture mMovie; 
+        //private MovieTexture mMovie; 
             
         private BabyPhoneData mBabyPhoneData;
 
         private AudioClip[] mLullabies;
+
         private List<string> mLullabyName;
 
-        private float mTimer;
+        private float mFallingAssleepTime;
         private float mTimeElapsed;
         private float mSongSize;
 
+
+        void Awake()
+        {
+            mLullabies = Resources.LoadAll<AudioClip>("Sounds");
+        }
         void OnEnable()
         {
-
+            source.clip = mLullabies[(int)mBabyPhoneData.LullabyToPlay];
+            mFallingAssleepTime = 60F;
         }
 
         void OnDisable()
         {
-            mLullabies = Resources.LoadAll<AudioClip>("Lullabies");
-            mMovie = (MovieTexture)mAnimation.mainTexture;
-            mMovie.loop = true;
-            mSource.loop = true;
+            
+            //mMovie = (MovieTexture)mAnimation.mainTexture;
+            //mMovie.loop = true;
+            source.loop = true;
             mTimeElapsed = 0;
 
-            if (mSource.isPlaying)
-                mSource.Stop();
+            if (source.isPlaying)
+                source.Stop();
         }
 
         void Start()
         {
             mLullabies = Resources.LoadAll<AudioClip>("Lullabies");
-            mMovie = (MovieTexture)mAnimation.mainTexture;
-            mMovie.loop = true;
-            mSource.loop = true;
+            //mMovie = (MovieTexture)mAnimation.mainTexture;
+            //mMovie.loop = true;
+            source.loop = true;
             mTimeElapsed = 0;
             //mSource.volume = mBabyPhoneData.Volume;
         }
 
         void Update()
         {
-            if ((mBabyPhoneAnimator.GetCurrentAnimatorStateInfo(0).IsName("FallingAssleep")) 
-                && (mBabyPhoneAnimator.GetBool("DoPlayLullaby")))
+            if ((babyPhoneAnimator.GetCurrentAnimatorStateInfo(0).IsName("FallingAssleep")) 
+                && (babyPhoneAnimator.GetBool("DoPlayLullaby")))
                 PlayLullabyAndAnimations();
 
-            if (mSource.isPlaying)
+            if (source.isPlaying)
             {
-                mSongSize = mSource.clip.length;
+                mSongSize = source.clip.length;
 
                 mTimeElapsed += Time.deltaTime;
-                float lValueX = mTimeElapsed / mSongSize;
-                mProgressBar.GetComponent<RectTransform>().anchorMax = new Vector2(lValueX, 0);
+                //float lValueX = mTimeElapsed / mSongSize;
+                
+                float lValueX = mTimeElapsed / mFallingAssleepTime;
+                progressBar.GetComponent<RectTransform>().anchorMax = new Vector2(lValueX, 0);
 
-
-                if (mTimeElapsed >= mSongSize)
-                    mBabyPhoneAnimator.SetTrigger("StartListening");
+                if (mTimeElapsed >= mFallingAssleepTime)
+                    babyPhoneAnimator.SetTrigger("StartListening");
             }
         }
 
         private void PlayLullabyAndAnimations()
         {
-            if (!mSource.isPlaying)
-                mSource.Play();
+            if (!source.isPlaying)
+                source.Play();
 
-            if (!mMovie.isPlaying)
-                mMovie.Play();
+            //if (!mMovie.isPlaying)
+            //    mMovie.Play();
 
         }
 
         public void Return()
         {
-            mSource.Play();
-            mMovie.Play();
+            source.Play();
+            //mMovie.Play();
             mTimeElapsed = 0F;
         }
 
         public void Play()
         {
-            mBabyPhoneAnimator.SetBool("DoPlayLullaby", true);
+            babyPhoneAnimator.SetBool("DoPlayLullaby", true);
         }
 
         public void Pause()
         {           
-            if (mSource.isPlaying)
-                mSource.Stop();
+            if (source.isPlaying)
+                source.Stop();
 
-            if (mMovie.isPlaying)
-                mMovie.Stop();
-            mBabyPhoneAnimator.SetBool("DoPlayLullaby", false);
+            //if (mMovie.isPlaying)
+            //    mMovie.Stop();
+            babyPhoneAnimator.SetBool("DoPlayLullaby", false);
         }
     }
 }
