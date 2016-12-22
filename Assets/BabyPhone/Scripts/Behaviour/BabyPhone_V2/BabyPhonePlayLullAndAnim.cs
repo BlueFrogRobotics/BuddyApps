@@ -35,7 +35,7 @@ namespace BuddyApp.BabyPhone
         void OnEnable()
         {
             source.clip = mLullabies[(int)mBabyPhoneData.LullabyToPlay];
-            mFallingAssleepTime = 60F;
+            mFallingAssleepTime = ((mBabyPhoneData.TimeBeforContact) * 60F); //convert from minutes to seconds
         }
 
         void OnDisable()
@@ -52,12 +52,11 @@ namespace BuddyApp.BabyPhone
 
         void Start()
         {
-            mLullabies = Resources.LoadAll<AudioClip>("Lullabies");
             //mMovie = (MovieTexture)mAnimation.mainTexture;
             //mMovie.loop = true;
             source.loop = true;
             mTimeElapsed = 0;
-            //mSource.volume = mBabyPhoneData.Volume;
+            source.volume = ((mBabyPhoneData.LullabyVolume)/100F);
         }
 
         void Update()
