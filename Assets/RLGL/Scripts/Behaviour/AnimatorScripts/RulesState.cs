@@ -25,7 +25,7 @@ namespace BuddyApp.RLGL
         private bool mNeedListen;
         public bool NeedListen { get { return mNeedListen; } set { mNeedListen = value; } }
 
-        private string mLastSpeech;
+
 
         public override void Init()
         {
@@ -37,7 +37,6 @@ namespace BuddyApp.RLGL
             GetComponent<RLGLBehaviour>().Index = 1;
             mNeedListen = true;
             mTimer = 0.0F;
-            mLastSpeech = "";
             mIsSentenceDone = false;
             mIsQuestionDone = false;
             mIsAnswerRuleYes = false;
