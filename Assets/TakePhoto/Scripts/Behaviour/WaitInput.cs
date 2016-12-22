@@ -154,6 +154,7 @@ namespace BuddyApp.TakePhoto
 			textObjects[5].text = mDictionary.GetString("noThanks").ToUpper();
 
 			Debug.Log("Display canvas mail");
+			mCanvasBackGround.GetComponent<Animator>().ResetTrigger("Close_BG");
 			mCanvasBackGround.GetComponent<Animator>().SetTrigger("Open_BG");
 			mCanvasMail.GetComponent<Animator>().SetTrigger("Open_WMenu3");
 		}

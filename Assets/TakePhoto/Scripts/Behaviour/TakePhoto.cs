@@ -36,8 +36,9 @@ namespace BuddyApp.TakePhoto
 			mCanvasTimer = GetComponentInGameObject<Canvas>(2);
 			mVideo = GetComponentInGameObject<RawImage>(5);
 			mPicture = GetComponentInGameObject<RawImage>(6);
-			mCanvasBackGround = GetComponentInGameObject<Canvas>(8);
+			mCanvasBackGround = GetComponentInGameObject<Canvas>(7);
 			mPictureSound = GetComponentInGameObject<AudioSource>(9);
+			Debug.Log("Init TakePhoto done");
 		}
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state

@@ -34,7 +34,7 @@ namespace BuddyApp.TakePhoto
 		private List<string> mDidntUnderstandSpeech;
 		private List<string> mTweetMsg;
 
-		private const string mHashtag = "!#BuddyCES";
+		private const string mHashtag = "#BuddyCES";
 
 		private Canvas mCanvasYesNo;
 		private Canvas mCanvasBackGround;

@@ -33,9 +33,11 @@ namespace BuddyApp.TakePhoto
 
 		public override void Init()
 		{
+			Debug.Log("init mail");
 			mCanvasYesNoPicture = GetComponentInGameObject<Canvas>(0);
 			mCanvasBackGround = GetComponentInGameObject<Canvas>(7);
-			mAnimationManager = GetComponentInGameObject<AnimManager>(10);
+			mAnimationManager = GetComponentInGameObject<AnimManager>(8);
+			Debug.Log("init mail");
 		}
 
 

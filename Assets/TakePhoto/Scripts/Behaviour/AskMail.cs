@@ -30,16 +30,15 @@ namespace BuddyApp.TakePhoto
 		private Canvas mCanvasYesNo;
 		private Canvas mCanvasBackGround;
 
-		private Button mAskYes;
-		private Button mAskNo;
-
 		bool canvasDisplayed;
 
 
 		public override void Init()
 		{
+			Debug.Log("init mail");
 			mCanvasYesNo = GetComponentInGameObject<Canvas>(4);
 			mCanvasBackGround = GetComponentInGameObject<Canvas>(7);
+			Debug.Log("init mail done");
 		}
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state

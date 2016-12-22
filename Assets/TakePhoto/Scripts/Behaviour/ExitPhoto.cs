@@ -14,7 +14,10 @@ namespace BuddyApp.TakePhoto
 
 		public override void Init()
 		{
+
+			Debug.Log("init exit");
 			mAnimationManager = GetComponentInGameObject<AnimManager>(8);
+			Debug.Log("init exit done");
 		}
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
