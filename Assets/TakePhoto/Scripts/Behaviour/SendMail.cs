@@ -24,7 +24,7 @@ namespace BuddyApp.TakePhoto
 
 		public override void Init()
 		{
-			mMessage = mDictionary.GetString("mailContent");
+			mMessage = mDictionary.GetString("mailContent").Replace("\\n", Environment.NewLine);
 			mAnimationManager = GetComponentInGameObject<AnimManager>(8);
 		}
 

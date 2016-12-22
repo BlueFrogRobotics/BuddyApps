@@ -135,7 +135,7 @@ namespace BuddyApp.TakePose
 		{
 
 
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			BYOS.Instance.SoundManager.Play(SoundType.BEEP_1);
 			Debug.Log("Pressed Button Yes");
 
 			HideCanvasQuestion();
@@ -148,7 +148,7 @@ namespace BuddyApp.TakePose
 		public void PressedNo()
 		{
 
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			BYOS.Instance.SoundManager.Play(SoundType.BEEP_1);
 			Debug.Log("Pressed Button No");
 
 			HideCanvasQuestion();

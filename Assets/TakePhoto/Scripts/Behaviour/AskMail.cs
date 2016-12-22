@@ -141,7 +141,7 @@ namespace BuddyApp.TakePhoto
 		public void PressedYes()
 		{
 
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			BYOS.Instance.SoundManager.Play(SoundType.BEEP_1);
 			Debug.Log("Pressed Button Yes");
 
 			//Stop speech
@@ -153,7 +153,7 @@ namespace BuddyApp.TakePhoto
 		public void PressedNo()
 		{
 
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			BYOS.Instance.SoundManager.Play(SoundType.BEEP_1);
 			Debug.Log("Pressed Button No");
 
 			//Stop speech

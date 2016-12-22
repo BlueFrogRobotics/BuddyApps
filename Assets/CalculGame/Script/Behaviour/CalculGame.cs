@@ -569,7 +569,7 @@ namespace BuddyApp.CalculGame
 		// called when clicking on a button
 		public void ProcessClickButton(string value)
 		{
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			BYOS.Instance.SoundManager.Play(SoundType.BEEP_1);
 			Debug.Log("Clicked button with value : " + value);
 			mTTS.Silence(5, false);
 			mClickedButtonValue = value;
