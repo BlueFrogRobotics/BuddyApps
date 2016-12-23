@@ -1742,6 +1742,11 @@
             Sound managing. Use it to make the robot sound something funny. Not synchronised with the face
             </summary>
         </member>
+        <member name="P:BuddyOS.SoundManager.Source">
+            <summary>
+            Audio source of the manager
+            </summary>
+        </member>
         <member name="M:BuddyOS.SoundManager.Play(BuddyOS.SoundType)">
             <summary>
             Play the wanted sound
@@ -2423,12 +2428,13 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:BuddyOS.Command.SetMoodCmd.#ctor(MoodType,System.Boolean)">
+        <member name="M:BuddyOS.Command.SetMoodCmd.#ctor(MoodType,System.Boolean,System.Boolean)">
             <summary>
-            When executed : The robot changes its mood (face + led)
+            When executed : Ask the face to switch to the specified mood.
             </summary>
-            <param name="iMode">The mood to switch to</param>
-            <param name="iMove">Specify if the robot must move according to the mood</param>
+            <param name="iMood">The name of the mood to switch to</param>
+            <param name="iMove">Specify if the robot must move according to the wanted mood</param>
+            <param name="iSound">Does the robot must make a sound with its mood ?</param>
         </member>
         <member name="M:BuddyOS.Command.SetMoodCmd.ExecuteImpl">
             <summary>
@@ -3673,6 +3679,11 @@
         <member name="F:BuddyOS.Dictionary.DIRECTORY">
             <summary>
             All your language data must be inside this folder. i.e. : Resources/Lang/
+            </summary>
+        </member>
+        <member name="F:BuddyOS.Dictionary.KEY_NOT_FOUND">
+            <summary>
+            Value returned if key not found
             </summary>
         </member>
         <member name="M:BuddyOS.Dictionary.GetString(System.String)">
