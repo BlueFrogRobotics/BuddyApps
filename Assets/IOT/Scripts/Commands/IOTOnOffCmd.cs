@@ -14,7 +14,7 @@ namespace BuddyApp.IOT
         }
         protected override void ExecuteImpl()
         {
-            ((IOTPhilipsLightHUE)Parameters.Objects[0]).OnOff(Parameters.Integers[0] > 0 ? true : false);
+            ((IOTDevices)Parameters.Objects[0]).OnOff(Parameters.Integers[0] > 0 ? true : false);
         }
     }
 }
