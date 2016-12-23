@@ -18,10 +18,6 @@ namespace BuddyApp.Recipe
             mAnswer = GetComponent<RecipeBehaviour>().mAnswer;
             mRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath("recipe_list.xml")).recipe;
             SearchRecipe(iAnimator);
-
-            //mNotManager.Display<SimpleNot>().With("Hello !! ", BYOS.Instance.SpriteManager.SpriteFromAtlas(BuddyOS.UI.SpriteManager.DEFAULT_ATLAS, "Message"));
-            //mNotManager.Display<SimpleNot>().With("Hello !! ", mSpriteManager.GetSprite("Message"));
-            //BYOS.Instance.AppManager.Quit();
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -43,14 +39,14 @@ namespace BuddyApp.Recipe
             {
                 lRecipeList = mRecipeList;
                 while (lWords[lIndex] != null)
-                    lRecipeList = SearchRecipe(lRecipeList, lWords[lIndex]);
+                    lRecipeList = SearchRecipe(lRecipeList, lWords[lIndex++]);
             }
             if (lRecipeList == null)
                 iAnimator.SetTrigger("RecipeNotFound");
             else if (lRecipeList.Count == 1)
             {
                 GetComponent<RecipeBehaviour>().mRecipe = lRecipeList[0];
-                iAnimator.SetTrigger("RecipeFound");
+                iAnimator.SetTrigger("StartRecipe");
             }
             else
             {

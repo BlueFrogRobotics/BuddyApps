@@ -103,6 +103,16 @@
     <OptionsLayoutStr>BuddyApp.Recipe.RecipeLayout</OptionsLayoutStr>
     <DataFile>recipe_data.xml</DataFile>
     <Assembly>Assembly-CSharp</Assembly>
+	<LangDictionaries>
+      <LangDictionary>
+        <Language>FRA</Language>
+        <Path>FrenchRecipeAppDict</Path>
+      </LangDictionary>
+      <LangDictionary>
+        <Language>ENG</Language>
+        <Path>EnglishRecipeAppDict</Path>
+      </LangDictionary>
+    </LangDictionaries>
   </AppInfo>
   <AppInfo>
     <name />

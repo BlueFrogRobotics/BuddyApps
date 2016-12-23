@@ -15,13 +15,22 @@ namespace BuddyApp.Companion
         private float mUpdateTime;
         private float mWanderTime;
         private float mRandomWanderTime;
+
         private IRSensors mIRSensors;
+        private Mood mMood;
+        private NoHinge mNoHinge;
         private USSensors mUSSensors;
+        private Wheels mWheels;
+        private YesHinge mYesHinge;
 
         void Start()
         {
             mIRSensors = BYOS.Instance.IRSensors;
+            mMood = BYOS.Instance.Mood;
+            mNoHinge = BYOS.Instance.Motors.NoHinge;
             mUSSensors = BYOS.Instance.USSensors;
+            mWheels = BYOS.Instance.Motors.Wheels;
+            mYesHinge = BYOS.Instance.Motors.YesHinge;
         }
 
         void OnEnable()
@@ -32,8 +41,8 @@ namespace BuddyApp.Companion
             mUpdateTime = Time.time;
             mWanderTime = Time.time;
             mRandomWanderTime = Random.Range(10F, 30F);
-            new SetMoodCmd(MoodType.NEUTRAL).Execute();
-            new SetPosYesCmd(10F).Execute();
+            mMood.Set(MoodType.NEUTRAL);
+            mYesHinge.SetPosition(10F);
             FaceRandomDirection();
         }
 
@@ -50,7 +59,7 @@ namespace BuddyApp.Companion
             if(mIsSearchingPoint && Time.time - mWanderTime < mRandomWanderTime) {
                 PlaySearchingHeadAnimation();
                 if (!AnyObstructionsInfrared())
-                    new SetWheelsSpeedCmd(200F, 200F, 200).Execute();
+                    mWheels.SetWheelsSpeed(200F, 200F, 200);
                 else
                     FaceRandomDirection();
             }
@@ -65,8 +74,8 @@ namespace BuddyApp.Companion
         {
             mHeadSearchPlaying = false;
             mIsSearchingPoint = false;
-            new SetPosNoCmd(0F).Execute();
-            new SetPosYesCmd(0F).Execute();
+            mNoHinge.SetPosition(0F);
+            mYesHinge.SetPosition(0F);
             //new SetWheelsSpeedCmd(0F, 0F).Execute();
             //StopAllCoroutines();
             GetComponent<Reaction>().ActionFinished();
@@ -90,7 +99,7 @@ namespace BuddyApp.Companion
         {
             while(mHeadSearchPlaying) {
                 float lHeadDirection = Random.Range(-45F, 45F);
-                new SetPosNoCmd(lHeadDirection).Execute();
+                mNoHinge.SetPosition(lHeadDirection);
 
                 yield return new WaitForSeconds(2F);
             }
@@ -108,12 +117,12 @@ namespace BuddyApp.Companion
         private IEnumerator ChangeDirectionCo()
         {
             float lRandomAngle = Random.Range(-45F, 45F);
-            new SetPosNoCmd(lRandomAngle).Execute();
+            mNoHinge.SetPosition(lRandomAngle);
 
             yield return new WaitForSeconds(1.5F);
-
-            new TurnRelaCmd(lRandomAngle, 100F, 0.02F);
-            new SetPosNoCmd(0F).Execute();
+            
+            mWheels.TurnAngle(lRandomAngle, 100F, 0.02F);
+            mNoHinge.SetPosition(0F);
 
             yield return new WaitForSeconds(1.5F);
 
@@ -143,7 +152,7 @@ namespace BuddyApp.Companion
             float lRandomAngle = Random.Range(60F, 300F);
             if (lRandomAngle > 180F)
                 lRandomAngle = 360F - lRandomAngle;
-            new TurnRelaCmd(lRandomAngle, 100F, 0.02F).Execute();
+            mWheels.TurnAngle(lRandomAngle, 100F, 0.02F);
         }
     }
 }
