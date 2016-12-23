@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using OpenCVUnity;
 
 namespace BuddyApp.BabyPhone
 {
@@ -27,6 +28,8 @@ namespace BuddyApp.BabyPhone
         private float mTimeElapsed;
         private float mSongSize;
 
+        //private VideoCapture mVideo;
+
 
         void Awake()
         {
@@ -40,7 +43,6 @@ namespace BuddyApp.BabyPhone
 
         void OnDisable()
         {
-            
             //mMovie = (MovieTexture)mAnimation.mainTexture;
             //mMovie.loop = true;
             source.loop = true;
