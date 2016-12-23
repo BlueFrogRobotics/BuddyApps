@@ -19,6 +19,7 @@ namespace BuddyApp.Companion
         private float mHeadNoAngle;
         List<Rect> mTrackedObjects;
 
+        private bool mInitialized;
         private FaceCascadeTracker mFaceTracker;
         private Mood mMood;
         private NoHinge mNoHinge;
@@ -26,6 +27,7 @@ namespace BuddyApp.Companion
 
         void Start()
         {
+            mInitialized = true;
             mFaceTracker = GetComponent<FaceCascadeTracker>();
             mMood = BYOS.Instance.Mood;
             mNoHinge = BYOS.Instance.Motors.NoHinge;
@@ -34,6 +36,11 @@ namespace BuddyApp.Companion
 
         void OnEnable()
         {
+            if (!mInitialized) {
+                Start();
+                mInitialized = true;
+            }
+
             Debug.Log("FaceFollow Enabled");
 
             //Init the different variables

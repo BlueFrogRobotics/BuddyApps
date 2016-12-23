@@ -29,7 +29,7 @@ namespace BuddyApp.IOT
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
             if (triggerOrNotTrigger)
-                if (!mTTS.IsSpeaking())
+                if (mTTS.HasFinishedTalking)
                     iAnimator.SetTrigger(mHashList[(int)trigger]);
         }
     }

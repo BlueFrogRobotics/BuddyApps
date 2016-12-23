@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using BuddyOS.App;
-using BuddyOS;
 
 namespace BuddyApp.Recipe
 {
@@ -32,7 +30,7 @@ namespace BuddyApp.Recipe
 
         private void GetAnswer(string iAnswer)
         {
-            mNotManager.Display<SimpleNot>().With("J'ai entendu: " + iAnswer, mSpriteManager.GetSprite("Message"));
+            //mNotManager.Display<SimpleNot>().With("J'ai entendu: " + iAnswer, mSpriteManager.GetSprite("Message"));
             GetComponent<RecipeBehaviour>().mAnswer = iAnswer;
             mAnimator.SetTrigger("AnswerRecipe");
         }
@@ -40,7 +38,6 @@ namespace BuddyApp.Recipe
         private void NoAnswer(STTError error)
         {
             mAnimator.SetTrigger("NoAnswerRecipe");
-            Debug.Log(error);
         }
     }
 }

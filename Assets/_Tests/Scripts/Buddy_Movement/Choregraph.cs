@@ -28,14 +28,6 @@ public class Choregraph : MonoBehaviour {
 	[SerializeField]
 	private float yesSpeed;
 
-	private float lastPosition;
-	private float DelayMotors;
-
-	private Hinge mYesHinge;
-	private Hinge mNoHinge;
-
-	Motors mMotors;
-
 	[SerializeField]
 	private Animator AIBehaviourMovement;
 
@@ -48,7 +40,15 @@ public class Choregraph : MonoBehaviour {
 	[SerializeField]
 	private bool Updating;
 
-	void AdditionNoHinge ()
+    private float lastPosition;
+    private float DelayMotors;
+
+    private Hinge mYesHinge;
+    private Hinge mNoHinge;
+
+    Motors mMotors;
+
+    void AdditionNoHinge ()
 	{
 		yesAngle = yesAngle01 + yesAngle02;
 		if (yesAngle > 60) {
@@ -70,7 +70,8 @@ public class Choregraph : MonoBehaviour {
 	void Start () {
 		mYesHinge = BYOS.Instance.Motors.YesHinge;	
 		mNoHinge = BYOS.Instance.Motors.NoHinge;
-	}
+        mMotors = BYOS.Instance.Motors;
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -97,12 +98,10 @@ public class Choregraph : MonoBehaviour {
 			DelayMotors = 0.0f;
 		}
 		if (Updating) {
-			mMotors = BYOS.Instance.Motors;
 			//mMotors.Wheels.TurnAngle (LeftWheel, RightWheel, 0.02f);
 			//mMotors.Wheels.MoveDistance (180,90, 0.5f, 0.02f);  
 			mMotors.Wheels.SetWheelsSpeed (LeftWheel, RightWheel, 500);
 			AIBehaviourMovement.SetBool ("Updating", false);
-
 		}
 	}
 }

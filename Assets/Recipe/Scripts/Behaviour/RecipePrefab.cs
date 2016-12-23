@@ -32,12 +32,12 @@ namespace BuddyApp.Recipe
         private Sprite fullStar;
         private GameObject aiBehaviour;
         private Recipe mRecipe;
+        private bool open = false;
 
         public void FillRecipe(GameObject iAiBehaviour, Recipe iRecipe)
         {
             mRecipe = iRecipe;
             aiBehaviour = iAiBehaviour;
-            //transform.SetParent(aiBehaviour.GetComponent<RectTransform>());
             string lString = string.Empty;
 
             for(int i = 0; i < mRecipe.stars; i++)
@@ -45,29 +45,40 @@ namespace BuddyApp.Recipe
                 maskStars[i].GetComponent<Image>().sprite = fullStar;
                 stars[i].GetComponent<Image>().sprite = fullStar;
             }
-            maskTime.GetComponent<Text>().text = mRecipe.time;
+            maskTime.GetComponent<Text>().text = (mRecipe.prep + mRecipe.cook).ToString() + "MIN";
             maskText.GetComponent<Text>().text = mRecipe.summary;
             maskIngredient.GetComponent<Text>().text = "Ingredients (pour " + mRecipe.person + " personnes) :";
             foreach (Ingredient ingredient in mRecipe.ingredient)
                 lString = lString + ingredient.name + ": " + ingredient.quantity + " " + ingredient.unit + '\n';
             maskDetail.GetComponent<Text>().text = lString;
             image.GetComponent<RawImage>().texture = Resources.Load(mRecipe.illustration) as Texture;
-            time.GetComponent<Text>().text = mRecipe.time;
-            //"..." only if summary > 90
-            text.GetComponent<Text>().text = mRecipe.summary.Substring(0, 90) + "...";
+            time.GetComponent<Text>().text = (mRecipe.prep + mRecipe.cook).ToString() + "MIN";
+            if (mRecipe.summary.Length > 93)
+                text.GetComponent<Text>().text = mRecipe.summary.Substring(0, 90) + "...";
+            else
+                text.GetComponent<Text>().text = mRecipe.summary;
             infosButton.GetComponent<Button>().onClick.AddListener(RecipeInfo);
             launchButton.GetComponent<Button>().onClick.AddListener(LaunchRecipe);
         }
 
         private void RecipeInfo()
         {
-            GetComponent<Animator>().SetTrigger("Open_Recipe");
+            if (!open)
+            {
+                open = !open;
+                GetComponent<Animator>().SetTrigger("Open_Recipe");
+            }
+            else
+            {
+                open = !open;
+                GetComponent<Animator>().SetTrigger("Close_Recipe");
+            }
         }
 
         private void LaunchRecipe()
         {
             aiBehaviour.GetComponent<RecipeBehaviour>().mRecipe = mRecipe;
-            aiBehaviour.GetComponent<Animator>().SetTrigger("LoadRecipe");
+            aiBehaviour.GetComponent<Animator>().SetTrigger("StartRecipe");
         }
     }
 }

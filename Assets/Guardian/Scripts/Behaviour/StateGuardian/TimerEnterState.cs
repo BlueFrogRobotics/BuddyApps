@@ -22,12 +22,10 @@ namespace BuddyApp.Guardian
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!mHasSpeaked)
-            {
+            if (!mHasSpeaked) {
                 mHasSpeaked = true;
                 mTTS.Say("Je commence dans cinq secondes");
-            }
-            else if (mHasSpeaked && !mTTS.IsSpeaking())
+            } else if (mHasSpeaked && !mTTS.IsSpeaking)
                 animator.SetBool("ChangeState", true);
         }
 

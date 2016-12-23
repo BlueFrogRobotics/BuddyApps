@@ -31,20 +31,16 @@ namespace BuddyApp.RLGL
         void Update()
         {
             mTimer += Time.deltaTime;
-            if(!mIsQuestionDone && mTTS.HasFinishedTalking())
-            {
+            if (!mIsQuestionDone && mTTS.HasFinishedTalking) {
                 mTTS.Say("What do you want to do?");
                 mIsQuestionDone = true;
             }
 
 
-            if(!mIsAnswerPlayYes && mTimer > 5.0F && mSTT.HasFinished)
-            {
+            if (!mIsAnswerPlayYes && mTimer > 5.0F && mSTT.HasFinished) {
                 mTimer = 0.0F;
                 Listener.GetComponent<RLGLListener>().STTRequest(5);
             }
         }
-
     }
-
 }

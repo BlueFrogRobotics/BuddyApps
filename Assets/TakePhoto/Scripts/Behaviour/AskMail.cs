@@ -6,259 +6,260 @@ using BuddyOS.App;
 using System;
 using BuddyOS;
 
-public class AskMail : SpeechStateBehaviour
+
+namespace BuddyApp.TakePhoto
 {
-
-	private bool mNeedListen;
-	private bool mFirst;
-
-	bool mPressedYes;
-	bool mPressedNo;
-
-	private string mLastSpeech;
-	private short mErrorCount;
-
-	private List<string> mAcceptSpeech;
-	private List<string> mAnOtherSpeech;
-	private List<string> mQuitSpeech;
-	private List<string> mRefuseSpeech;
-	private List<string> mDidntUnderstandSpeech;
-
-	private Canvas mCanvasYesNo;
-	private Canvas mCanvasBackGround;
-
-	private AudioSource mButtonSound;
-
-	private Button mAskYes;
-	private Button mAskNo;
-
-	bool canvasDisplayed;
-
-
-	public override void Init()
+	public class AskMail : SpeechStateBehaviour
 	{
-		mCanvasYesNo = GetComponentInGameObject<Canvas>(4);
-		mCanvasBackGround = GetComponentInGameObject<Canvas>(8);
-		mButtonSound = GetComponentInGameObject<AudioSource>(9);
-	}
 
-	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-	protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-	{
-		mErrorCount = 0;
-		mNeedListen = true;
-		mFirst = true;
+		private bool mNeedListen;
+		private bool mFirst;
 
-		mPressedYes = false;
-		mPressedNo = false;
+		bool mPressedYes;
+		bool mPressedNo;
 
-		canvasDisplayed = false;
+		private string mLastSpeech;
+		private short mErrorCount;
 
-		Button[] buttons = mCanvasYesNo.GetComponentsInChildren<Button>();
-		buttons[0].onClick.AddListener(PressedNo);
-		buttons[1].onClick.AddListener(PressedYes);
+		private List<string> mAcceptSpeech;
+		private List<string> mAnOtherSpeech;
+		private List<string> mQuitSpeech;
+		private List<string> mRefuseSpeech;
+		private List<string> mDidntUnderstandSpeech;
 
-		mAcceptSpeech = new List<string>();
-		mAnOtherSpeech = new List<string>();
-		mQuitSpeech = new List<string>();
-		mRefuseSpeech = new List<string>();
-		mDidntUnderstandSpeech = new List<string>();
+		private Canvas mCanvasYesNo;
+		private Canvas mCanvasBackGround;
 
-		if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA)
-			mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoFR.xml").text;
-		else
-			mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoEN.xml").text;
+		bool canvasDisplayed;
 
 
-		FillListSyn("Accept", mAcceptSpeech);
-		FillListSyn("AnOther", mAnOtherSpeech);
-		FillListSyn("Refuse", mRefuseSpeech);
-		FillListSyn("Quit", mQuitSpeech);
-		FillListSyn("DidntUnderstand", mDidntUnderstandSpeech);
+		public override void Init()
+		{
+			Debug.Log("init mail");
+			mCanvasYesNo = GetComponentInGameObject<Canvas>(4);
+			mCanvasBackGround = GetComponentInGameObject<Canvas>(7);
+			Debug.Log("init mail done");
+		}
 
-		mLastSpeech = "";
-		SayInLang("mail", true);
+		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			mErrorCount = 0;
+			mNeedListen = true;
+			mFirst = true;
 
-		// starting STT with callback
-		mSTT.OnBestRecognition.Add(OnSpeechRecognition);
-		mSTT.OnPartial.Add(OnPartialRecognition);
-		mSTT.OnErrorEnum.Add(ErrorSTT);
+			mPressedYes = false;
+			mPressedNo = false;
 
-	}
+			canvasDisplayed = false;
 
-	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-	protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-	{
-		if (mPressedYes) {
-			animator.SetTrigger("SendMailAccepted");
-		} else if (mPressedNo) {
-			SayInLang("okNP", true);
-			animator.SetTrigger("SendMailRefused");
-		} else {
-			if (mTTS.HasFinishedTalking()) {
-				if ((mSTT.HasFinished || mFirst) && mNeedListen) {
-					Debug.Log("pre listen");
-					mSTT.Request();
-					mMood.Set(MoodType.LISTENING);
-					mNeedListen = false;
-					mFirst = false;
-					Debug.Log("post listen");
-				} else if (mSTT.HasFinished && !mNeedListen) {
-					Debug.Log("pre deal with speech");
+			Button[] buttons = mCanvasYesNo.GetComponentsInChildren<Button>();
+			buttons[0].onClick.AddListener(PressedNo);
+			buttons[1].onClick.AddListener(PressedYes);
 
-					if (string.IsNullOrEmpty(mLastSpeech)) {
-						mNeedListen = true;
-						Debug.Log("LastAns null");
+			mAcceptSpeech = new List<string>();
+			mAnOtherSpeech = new List<string>();
+			mQuitSpeech = new List<string>();
+			mRefuseSpeech = new List<string>();
+			mDidntUnderstandSpeech = new List<string>();
 
-					} else {
-						Debug.Log("LastAns != previous");
-						if (ContainsOneOf(mLastSpeech, mAcceptSpeech) || ContainsOneOf(mLastSpeech, mAnOtherSpeech)) {
-							animator.SetTrigger("SendMailAccepted");
-						} else if (ContainsOneOf(mLastSpeech, mRefuseSpeech) || ContainsOneOf(mLastSpeech, mQuitSpeech)) {
-							SayInLang("okNP", true);
-							animator.SetTrigger("SendMailRefused");
-						} else {
+			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA)
+				mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoFR.xml").text;
+			else
+				mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoEN.xml").text;
 
-							SayInLang("didntUnderstand", true);
-							mTTS.Silence(1000, true);
-							SayInLang("yesOrNo", true);
-							mTTS.Silence(1000, true);
-							SayInLang("mail", true);
-							mLastSpeech = "";
+
+			FillListSyn("Accept", mAcceptSpeech);
+			FillListSyn("AnOther", mAnOtherSpeech);
+			FillListSyn("Refuse", mRefuseSpeech);
+			FillListSyn("Quit", mQuitSpeech);
+			FillListSyn("DidntUnderstand", mDidntUnderstandSpeech);
+
+			mLastSpeech = "";
+			SayInLang("mail", true);
+
+			// starting STT with callback
+			mSTT.OnBestRecognition.Add(OnSpeechRecognition);
+			mSTT.OnPartial.Add(OnPartialRecognition);
+			mSTT.OnErrorEnum.Add(ErrorSTT);
+
+		}
+
+		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+		protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			if (mPressedYes) {
+				animator.SetTrigger("SendMailAccepted");
+			} else if (mPressedNo) {
+				SayInLang("okNP", true);
+				animator.SetTrigger("SendMailRefused");
+			} else {
+				if (mTTS.HasFinishedTalking) {
+					if ((mSTT.HasFinished || mFirst) && mNeedListen) {
+						Debug.Log("pre listen");
+						mSTT.Request();
+						mMood.Set(MoodType.LISTENING);
+						mNeedListen = false;
+						mFirst = false;
+						Debug.Log("post listen");
+					} else if (mSTT.HasFinished && !mNeedListen) {
+						Debug.Log("pre deal with speech");
+
+						if (string.IsNullOrEmpty(mLastSpeech)) {
 							mNeedListen = true;
-							if (!canvasDisplayed) {
-								DisplayCanvasYesNo();
-								canvasDisplayed = true;
+							Debug.Log("LastAns null");
+
+						} else {
+							Debug.Log("LastAns != previous");
+							if (ContainsOneOf(mLastSpeech, mAcceptSpeech) || ContainsOneOf(mLastSpeech, mAnOtherSpeech)) {
+								animator.SetTrigger("SendMailAccepted");
+							} else if (ContainsOneOf(mLastSpeech, mRefuseSpeech) || ContainsOneOf(mLastSpeech, mQuitSpeech)) {
+								SayInLang("okNP", true);
+								animator.SetTrigger("SendMailRefused");
+							} else {
+
+								SayInLang("didntUnderstand", true);
+								mTTS.Silence(1000, true);
+								SayInLang("yesOrNo", true);
+								mTTS.Silence(1000, true);
+								SayInLang("mail", true);
+								mLastSpeech = "";
+								mNeedListen = true;
+								if (!canvasDisplayed) {
+									DisplayCanvasYesNo();
+									canvasDisplayed = true;
+								}
 							}
+							Debug.Log("LastAns != previous end");
 						}
-						Debug.Log("LastAns != previous end");
 					}
 				}
-
 			}
 		}
-	}
 
 
-	public void PressedYes()
-	{
-		mButtonSound.Play();
-		Debug.Log("Pressed Button Yes");
+		public void PressedYes()
+		{
 
-		//Stop speech
-		mTTS.Silence(5);
-		mPressedYes = true;
-	}
+			BYOS.Instance.SoundManager.Play(SoundType.BEEP_1);
+			Debug.Log("Pressed Button Yes");
 
-
-	public void PressedNo()
-	{
-		mButtonSound.Play();
-		Debug.Log("Pressed Button No");
-
-		//Stop speech
-		mTTS.Silence(5);
-		mPressedNo = true;
-	}
+			//Stop speech
+			mTTS.Silence(5);
+			mPressedYes = true;
+		}
 
 
-	// speech reco callback
-	private void OnSpeechRecognition(string iVoiceInput)
-	{
+		public void PressedNo()
+		{
 
-		Debug.Log("OnSpeechReco");
-		mMood.Set(MoodType.NEUTRAL);
-		Debug.Log("[photo Heard] : " + iVoiceInput);
+			BYOS.Instance.SoundManager.Play(SoundType.BEEP_1);
+			Debug.Log("Pressed Button No");
 
-		mErrorCount = 0;
-		// set active Answer in Dialog
-		mLastSpeech = iVoiceInput;
-	}
+			//Stop speech
+			mTTS.Silence(5);
+			mPressedNo = true;
+		}
 
 
-	private void OnPartialRecognition(string iVoiceInput)
-	{
-		Debug.Log("OnPartialReco");
-		Debug.Log("[photo Partial Reco] : " + iVoiceInput);
-		mMood.Set(MoodType.NEUTRAL);
+		// speech reco callback
+		private void OnSpeechRecognition(string iVoiceInput)
+		{
 
-		mErrorCount = 0;
-		// set active Answer in Dialog
-		mLastSpeech = iVoiceInput;
-	}
-
-
-
-	void ErrorSTT(STTError iError)
-	{
-		Debug.Log("[question error] : " + iError);
-		++mErrorCount;
-		Debug.Log("[question error] : count " + mErrorCount);
-
-
-		// If too much erro (no answer), ask for answer. If still no answer, get back to IDLE
-		if (mErrorCount > 3) {
-			//			mAnimator.SetTrigger("SendMailRefused");
-			Debug.Log("too much errors");
-		} else {
-
+			Debug.Log("OnSpeechReco");
 			mMood.Set(MoodType.NEUTRAL);
-			//string lSentence = RdmStr(mDidntUnderstandSpeech);
-			string lSentence = mDictionary.GetString("didntUnderstand");
+			Debug.Log("[photo Heard] : " + iVoiceInput);
 
-			switch (iError) {
-				case STTError.ERROR_AUDIO: lSentence = "Il y a un problème avec le micro !"; break;
-				case STTError.ERROR_NETWORK: lSentence = "Il y a un problème de connexion !"; break;
-				case STTError.ERROR_RECOGNIZER_BUSY: lSentence = "La reconaissance vocale est déjà occupée !"; break;
-				case STTError.ERROR_SPEECH_TIMEOUT: lSentence = "Je n'ai rien entendu. Pouvez vous répéter ?"; break;
-			}
-
-			if (UnityEngine.Random.value > 0.8) {
-				mMood.Set(MoodType.SAD);
-				mTTS.Say(lSentence);
-			}
+			mErrorCount = 0;
+			// set active Answer in Dialog
+			mLastSpeech = iVoiceInput;
 		}
 
-		mLastSpeech = "";
-		mNeedListen = true;
-	}
 
+		private void OnPartialRecognition(string iVoiceInput)
+		{
+			Debug.Log("OnPartialReco");
+			Debug.Log("[photo Partial Reco] : " + iVoiceInput);
+			mMood.Set(MoodType.NEUTRAL);
 
-	protected override void OnExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-	{
-		if (canvasDisplayed) {
-			HideCanvasYesNo();
+			mErrorCount = 0;
+			// set active Answer in Dialog
+			mLastSpeech = iVoiceInput;
 		}
-		mMood.Set(MoodType.NEUTRAL);
 
-		mSTT.OnBestRecognition.Remove(OnSpeechRecognition);
-		mSTT.OnPartial.Remove(OnPartialRecognition);
-		mSTT.OnErrorEnum.Remove(ErrorSTT);
 
-	}
 
-	/********************* Canvas Yes No *********************/
+		void ErrorSTT(STTError iError)
+		{
+			Debug.Log("[question error] : " + iError);
+			++mErrorCount;
+			Debug.Log("[question error] : count " + mErrorCount);
 
-	public void DisplayCanvasYesNo()
-	{
-		Debug.Log("Display canvas yesno");
 
-		Text[] textObjects = mCanvasYesNo.GetComponentsInChildren<Text>();
+			// If too much erro (no answer), ask for answer. If still no answer, get back to IDLE
+			if (mErrorCount > 3) {
+				//			mAnimator.SetTrigger("SendMailRefused");
+				Debug.Log("too much errors");
+			} else {
 
-		textObjects[0].text = mDictionary.GetString("mail").ToUpper();
-		textObjects[1].text = mDictionary.GetString("no").ToUpper();
-		textObjects[2].text = mDictionary.GetString("yes").ToUpper();
+				mMood.Set(MoodType.NEUTRAL);
+				//string lSentence = RdmStr(mDidntUnderstandSpeech);
+				string lSentence = mDictionary.GetString("didntUnderstand");
 
-		mCanvasBackGround.GetComponent<Animator>().SetTrigger("Open_BG");
-		mCanvasYesNo.GetComponent<Animator>().SetTrigger("Open_WQuestion");
-	}
+				switch (iError) {
+					case STTError.ERROR_AUDIO: lSentence = "Il y a un problème avec le micro !"; break;
+					case STTError.ERROR_NETWORK: lSentence = "Il y a un problème de connexion !"; break;
+					case STTError.ERROR_RECOGNIZER_BUSY: lSentence = "La reconaissance vocale est déjà occupée !"; break;
+					case STTError.ERROR_SPEECH_TIMEOUT: lSentence = "Je n'ai rien entendu. Pouvez vous répéter ?"; break;
+				}
 
-	public void HideCanvasYesNo()
-	{
-		Debug.Log("Hide canvas yesno");
-		mCanvasBackGround.GetComponent<Animator>().SetTrigger("Close_BG");
-		mCanvasYesNo.GetComponent<Animator>().SetTrigger("Close_WQuestion");
+				if (UnityEngine.Random.value > 0.8) {
+					mMood.Set(MoodType.SAD);
+					mTTS.Say(lSentence);
+				}
+			}
+
+			mLastSpeech = "";
+			mNeedListen = true;
+		}
+
+
+		protected override void OnExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			if (canvasDisplayed) {
+				HideCanvasYesNo();
+			}
+			mMood.Set(MoodType.NEUTRAL);
+
+			mSTT.OnBestRecognition.Remove(OnSpeechRecognition);
+			mSTT.OnPartial.Remove(OnPartialRecognition);
+			mSTT.OnErrorEnum.Remove(ErrorSTT);
+
+		}
+
+		/********************* Canvas Yes No *********************/
+
+		public void DisplayCanvasYesNo()
+		{
+			Debug.Log("Display canvas yesno");
+
+			Text[] textObjects = mCanvasYesNo.GetComponentsInChildren<Text>();
+
+			textObjects[0].text = mDictionary.GetString("mail").ToUpper();
+			textObjects[1].text = mDictionary.GetString("no").ToUpper();
+			textObjects[2].text = mDictionary.GetString("yes").ToUpper();
+
+			mCanvasBackGround.GetComponent<Animator>().SetTrigger("Open_BG");
+			mCanvasYesNo.GetComponent<Animator>().SetTrigger("Open_WQuestion");
+		}
+
+		public void HideCanvasYesNo()
+		{
+			Debug.Log("Hide canvas yesno");
+			mCanvasBackGround.GetComponent<Animator>().SetTrigger("Close_BG");
+			mCanvasYesNo.GetComponent<Animator>().SetTrigger("Close_WQuestion");
+		}
+
 	}
 
 }
-
