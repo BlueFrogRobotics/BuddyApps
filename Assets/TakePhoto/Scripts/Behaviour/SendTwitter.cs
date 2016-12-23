@@ -11,7 +11,6 @@ namespace BuddyApp.TakePhoto
 {
 	public class SendTwitter : SpeechStateBehaviour
 	{
-
 		private bool mNeedListen;
 		private bool mFirst;
 
@@ -25,7 +24,6 @@ namespace BuddyApp.TakePhoto
 		private const string mTokenSecret = "tszMyp6cFjeBb9k9raT7fxuHTCsw0g70eiMhJOmZYeJAG";
 		private const string mConsumerKey = "HbjgvAlxXb4F9vPcDHKtxOC6t";
 		private const string mConsumerSecret = "PQQrjxJcTs40QA9h5Rwr8rpQuoMp1J6gexgfjNXfJS8wTlC1Ey";
-
 
 		private List<string> mAcceptSpeech;
 		private List<string> mAnOtherSpeech;
@@ -74,7 +72,7 @@ namespace BuddyApp.TakePhoto
 
 			mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoEN.xml").text;
 
-			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
+			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA) {
 				mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoFR.xml").text;
 			}
 
@@ -165,7 +163,7 @@ namespace BuddyApp.TakePhoto
 		public void PressedYes()
 		{
 
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
 			Debug.Log("Pressed Button Yes");
 
 			HideCanvasYesNo();
@@ -178,7 +176,7 @@ namespace BuddyApp.TakePhoto
 		public void PressedNo()
 		{
 
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
 			Debug.Log("Pressed Button No");
 
 			HideCanvasYesNo();

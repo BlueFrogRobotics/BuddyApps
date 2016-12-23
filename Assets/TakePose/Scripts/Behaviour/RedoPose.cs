@@ -62,7 +62,7 @@ namespace BuddyApp.TakePose
 
 			mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPoseEN.xml").text;
 
-			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
+			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA) {
 				mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPoseFR.xml").text;
 			}
 
@@ -135,7 +135,7 @@ namespace BuddyApp.TakePose
 		{
 
 
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
 			Debug.Log("Pressed Button Yes");
 
 			HideCanvasQuestion();
@@ -148,7 +148,7 @@ namespace BuddyApp.TakePose
 		public void PressedNo()
 		{
 
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
 			Debug.Log("Pressed Button No");
 
 			HideCanvasQuestion();

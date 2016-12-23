@@ -25,7 +25,7 @@
             <param name="iScheduledMoveCommands">Moving commands to execute</param>
             <param name="iSound">Does the robot must make a sound with its mood ?</param>
         </member>
-        <member name="M:BuddyOS.Mood.Set(MoodType,System.Collections.Generic.List{BuddyOS.Command.ACommand},BuddyOS.SoundType)">
+        <member name="M:BuddyOS.Mood.Set(MoodType,System.Collections.Generic.List{BuddyOS.Command.ACommand},BuddyOS.VoiceSound)">
             <summary>
             Ask the face to switch to the specified mood.
             </summary>
@@ -770,56 +770,131 @@
             Error code if there is any error on the component
             </summary>
         </member>
-        <member name="T:BuddyOS.SoundChannel">
+        <member name="T:BuddyOS.VoiceSound">
+            <summary>
+            Kind of sound that Buddy can natively handle for voice acting
+            </summary>
+        </member>
+        <member name="T:BuddyOS.FXSound">
+            <summary>
+            Kind of sound that Buddy can natively handle for sound effect
+            </summary>
+        </member>
+        <member name="T:BuddyOS.MediaSound">
+            <summary>
+            Kind of sound that Buddy can natively handle for media purpurses
+            </summary>
+        </member>
+        <member name="T:BuddyOS.SoundChannel`1">
             <summary>
             Sound channel for the robot speaker component.
             </summary>
         </member>
-        <member name="M:BuddyOS.SoundChannel.Play(UnityEngine.AudioClip)">
+        <member name="P:BuddyOS.SoundChannel`1.Loop">
+            <summary>
+            Loop state of the audiosource
+            </summary>
+        </member>
+        <member name="P:BuddyOS.SoundChannel`1.Volume">
+            <summary>
+            Volume of the audiosource
+            </summary>
+        </member>
+        <member name="P:BuddyOS.SoundChannel`1.Mute">
+            <summary>
+            Mute state of the audiosource
+            </summary>
+        </member>
+        <member name="M:BuddyOS.SoundChannel`1.Play(UnityEngine.AudioClip)">
             <summary>
             Play the current Audio Clip, or the selected AudioClip
             </summary>
             <param name="iAudioClip">Selected audio clip to play.</param>
         </member>
-        <member name="M:BuddyOS.SoundChannel.Pause">
+        <member name="M:BuddyOS.SoundChannel`1.Pause">
             <summary>
             Pause the audio clip.
             </summary>
         </member>
-        <member name="M:BuddyOS.SoundChannel.Resume">
+        <member name="M:BuddyOS.SoundChannel`1.Resume">
             <summary>
             If paused, replay the audio clip
             </summary>
         </member>
-        <member name="M:BuddyOS.SoundChannel.Stop">
+        <member name="M:BuddyOS.SoundChannel`1.Stop">
             <summary>
             Stop the current Audio Clip
             </summary>
         </member>
-        <member name="M:BuddyOS.SoundChannel.Kill">
+        <member name="M:BuddyOS.SoundChannel`1.Kill">
             <summary>
             Kill the Audio clip (stop + audio source = null)
             </summary>
         </member>
-        <member name="M:BuddyOS.SoundChannel.LoadSource(System.String)">
+        <member name="M:BuddyOS.SoundChannel`1.Play(System.Int32)">
             <summary>
-            Load an audioclip from the folder Resources/Sounds/
+            Play the wanted clip
             </summary>
-            <param name="iUrlSource">Filename of the audio source without the extension</param>
+            <param name="iClipIndx">The index sound to play</param>
         </member>
-        <member name="P:BuddyOS.SoundChannel.Loop">
+        <member name="M:BuddyOS.SoundChannel`1.Play(System.String)">
             <summary>
-            Loop state of the audiosource
+            Play the wanted sound. Must be added by AddSound(string)
+            </summary>
+            <param name="iSound">The sound to play</param>
+        </member>
+        <member name="M:BuddyOS.SoundChannel`1.Play(`0)">
+            <summary>
+            Play the wanted sound
+            </summary>
+            <param name="iSound">The sound to play</param>
+        </member>
+        <member name="M:BuddyOS.SoundChannel`1.Load(System.String)">
+            <summary>
+            Add a sound to the base, can be play with Play(string)
+            </summary>
+            <param name="iPath">Name of the clip, does not need to precise the extension. Must be in Resources/Sounds</param>
+        </member>
+        <member name="M:BuddyOS.SoundChannel`1.Load(System.String,System.Int32)">
+            <summary>
+            Add a sound to the base, can be play with Play(int)
+            </summary>
+            <param name="iPath">Name of the clip, does not need to precise the extension. Must be in Resources/Sounds</param>
+            <param name="iIndex">Index of the sound to access</param>>
+        </member>
+        <member name="M:BuddyOS.SoundChannel`1.Load(UnityEngine.AudioClip,System.Int32)">
+            <summary>
+            Add a sound to the base, can be play with Play(int)
+            </summary>
+            <param name="iClip">Clip to store</param>
+            <param name="iIndex">Index to the clip</param>
+        </member>
+        <member name="M:BuddyOS.SoundChannel`1.Load(UnityEngine.AudioClip,System.String)">
+            <summary>
+            Add a sound to the base, can be play with Play(int)
+            </summary>
+            <param name="iClip">Clip to store</param>
+            <param name="iName">Clip name for further access</param>
+        </member>
+        <member name="T:BuddyOS.VoiceChannel">
+            <summary>
+            Channel for voice purposes
             </summary>
         </member>
-        <member name="P:BuddyOS.SoundChannel.Volume">
+        <member name="M:BuddyOS.VoiceChannel.Play(BuddyOS.VoiceSound)">
             <summary>
-            Volume of the audiosource
+            Play the wanted sound
+            </summary>
+            <param name="iSound">The sound to play</param>
+        </member>
+        <member name="T:BuddyOS.MediaChannel">
+            <summary>
+            Sound channel for media purposes
             </summary>
         </member>
-        <member name="P:BuddyOS.SoundChannel.Mute">
+        <member name="T:BuddyOS.FXChannel">
             <summary>
-            Mute state of the audiosource
+            Sound effect channel
             </summary>
         </member>
         <member name="T:BuddyOS.Speaker">
@@ -829,17 +904,17 @@
         </member>
         <member name="P:BuddyOS.Speaker.Voice">
             <summary>
-            Sound Chanel to manage the voice
+            Sound Channel to manage the voice
             </summary>
         </member>
         <member name="P:BuddyOS.Speaker.Media">
             <summary>
-            Sound Chanel to manage the media sounds
+            Sound Channel to manage the media sounds
             </summary>
         </member>
-        <member name="P:BuddyOS.Speaker.SoundFx">
+        <member name="P:BuddyOS.Speaker.FX">
             <summary>
-            Sound Chanel to manage the FX sounds
+            Sound Channel to manage the FX sounds
             </summary>
         </member>
         <member name="M:BuddyOS.Speaker.GetVolume">
@@ -1732,39 +1807,6 @@
             Quit the current app and load the default app
             </summary>
         </member>
-        <member name="T:BuddyOS.SoundType">
-            <summary>
-            Kind of sound that Buddy can natively handle
-            </summary>
-        </member>
-        <member name="T:BuddyOS.SoundManager">
-            <summary>
-            Sound managing. Use it to make the robot sound something funny. Not synchronised with the face
-            </summary>
-        </member>
-        <member name="P:BuddyOS.SoundManager.Source">
-            <summary>
-            Audio source of the manager
-            </summary>
-        </member>
-        <member name="M:BuddyOS.SoundManager.Play(BuddyOS.SoundType)">
-            <summary>
-            Play the wanted sound
-            </summary>
-            <param name="iSound">The sound to play</param>
-        </member>
-        <member name="M:BuddyOS.SoundManager.Play(System.String)">
-            <summary>
-            Play the wanted sound
-            </summary>
-            <param name="iSound">The sound to play</param>
-        </member>
-        <member name="M:BuddyOS.SoundManager.AddSound(System.String)">
-            <summary>
-            Add a sound to the base, can be play with Play(string)
-            </summary>
-            <param name="iPath"></param>
-        </member>
         <member name="T:BuddyOS.BYOS">
             <summary>
             Core of the BuddY Operating System (BYOS).
@@ -1840,11 +1882,6 @@
         <member name="P:BuddyOS.BYOS.WiFiManager">
             <summary>
             Tools for retrieve WiFi networks, updated every minutes
-            </summary>
-        </member>
-        <member name="P:BuddyOS.BYOS.SoundManager">
-            <summary>
-            Tool for miscellaneous sounds
             </summary>
         </member>
         <member name="P:BuddyOS.BYOS.Dictionary">
@@ -4806,11 +4843,6 @@
         <member name="P:BuddyOS.VocalActivation.RecognitionTriggered">
             <summary>
             Tells wether STT Recognition has been triggered or not.
-            </summary>
-        </member>
-        <member name="P:BuddyOS.VocalActivation.CurrentLanguage">
-            <summary>
-            Returns which language is used at call moment
             </summary>
         </member>
         <member name="P:BuddyOS.VocalActivation.StartListenBehaviour">

@@ -44,9 +44,9 @@ namespace BuddyApp
 			animator.SetTrigger("Tongue");
 		}
 
-		public void Laught()
+		public void Laugh()
 		{
-			animator.SetTrigger("Laught");
+			animator.SetTrigger("Laugh");
 		}
 
 		public void Shivers()
@@ -112,7 +112,7 @@ namespace BuddyApp
 					Sigh();
 					break;
 				case 5:
-					Laught();
+					Laugh();
 					break;
 				case 6:
 					Shivers();

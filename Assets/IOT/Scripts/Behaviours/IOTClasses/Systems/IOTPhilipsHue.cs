@@ -12,9 +12,11 @@ namespace BuddyApp.IOT
         public IOTPhilipsHue()
         {
             mName = "Philips HUE";
+            mSpriteName = "IOT_System_Hue";
         }
         public override void InitializeParams()
         {
+            base.InitializeParams();
             GameObject lSearch = InstanciateParam(ParamType.TEXTFIELD);
             SearchField lSearchComponent = lSearch.GetComponent<SearchField>();
             GameObject lSearch1 = InstanciateParam(ParamType.TEXTFIELD);
@@ -48,11 +50,14 @@ namespace BuddyApp.IOT
 
         public override void Connect()
         {
-            AskLightsCount();
+            base.Connect();
+
+            PlayerPrefs.SetString("philips_ip", mCredentials[0]);
+            PlayerPrefs.SetString("philips_user", mCredentials[1]);
+            PlayerPrefs.Save();
         }
 
-
-        private void AskLightsCount()
+        public override void GetDevices()
         {
             Request lRequest = new Request("GET", "http://" + Credentials[0] + "/api/" + Credentials[1] + "/lights");
             lRequest.Send((request) =>

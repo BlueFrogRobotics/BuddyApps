@@ -63,7 +63,7 @@ namespace BuddyApp.TakePhoto
 		public void ClickValidation()
 		{
 			mTimer = 0.0f;
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
 			Debug.Log("Clicked validation");
 			// check input
 			InputField lInput = mCanvasMail.GetComponentInChildren<InputField>();
@@ -103,7 +103,7 @@ namespace BuddyApp.TakePhoto
 		public void ClickRefuse()
 		{
 
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+			BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
 			Debug.Log("clicked refuse");
 			mRefused = true;
 		}
