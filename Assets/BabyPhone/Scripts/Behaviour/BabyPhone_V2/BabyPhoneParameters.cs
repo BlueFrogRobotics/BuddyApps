@@ -9,6 +9,7 @@ namespace BuddyApp.BabyPhone
     {
         [SerializeField]
         private TextField babyName;
+
         [SerializeField]
         private Dropdown contactSelection;
 
@@ -57,7 +58,6 @@ namespace BuddyApp.BabyPhone
 
         void Start()
         {
-
             Init();
             Labelize();
         }
@@ -75,18 +75,20 @@ namespace BuddyApp.BabyPhone
             ifBabyCry.Label.text = mDictionary.GetString("ifbb");
             screenSaver.Label.text = mDictionary.GetString("saver");
             canRobotMove.Label.text = mDictionary.GetString("mob");
-            //saveSettings.Label.text = mDictionary.GetString("mob");
+            saveSettings.Label.text = mDictionary.GetString("savesett");
         }
 
         public void Init()
         {
+            // baby name
+            babyName.UpdateCommands.Add(new SetBabyNameCmd());
+
             ////contact
             contactSelection.AddOption("DEFAULT", BabyPhoneData.Contact.DEFAULT); //mDictionary.GetString("default")
             contactSelection.AddOption("RODOLPHE", BabyPhoneData.Contact.RODOLPHE);
             contactSelection.AddOption("JEAN MICHEL MOURIER", BabyPhoneData.Contact.J2M);
             contactSelection.AddOption("MAUD VERRAES", BabyPhoneData.Contact.MAUD);
             contactSelection.SetDefault((int)BabyPhoneData.Instance.Recever);
-            //contactSelection.SetDefault(0);
             contactSelection.UpdateCommands.Add(new ContactBabyPhoneCmd());
 
             ////volume
@@ -121,10 +123,10 @@ namespace BuddyApp.BabyPhone
             animationBrightness.SwitchCommands.Add(new ActVolCmd());
 
             ////animation selection
-            lullabySelection.AddOption(mDictionary.GetString("owl"), BabyPhoneData.Animation.OWL);
-            lullabySelection.AddOption(mDictionary.GetString("chris"), BabyPhoneData.Animation.CHRISTMAS);
-            lullabySelection.SetDefault((int)BabyPhoneData.Instance.AnimationToPlay);
-            lullabySelection.UpdateCommands.Add(new LullabyBabyPhoneCmd());
+            animationSelection.AddOption(mDictionary.GetString("owl"), BabyPhoneData.Animation.OWL);
+            animationSelection.AddOption(mDictionary.GetString("chris"), BabyPhoneData.Animation.CHRISTMAS);
+            animationSelection.SetDefault((int)BabyPhoneData.Instance.AnimationToPlay);
+            animationSelection.UpdateCommands.Add(new LullabyBabyPhoneCmd());
 
             ////microphone
             microphone.DisplayPercentage = true;
@@ -135,7 +137,7 @@ namespace BuddyApp.BabyPhone
 
             ////time befor contact
             timeBeforContact.Slider.minValue = 0;
-            timeBeforContact.Slider.maxValue = 30; // 30 min
+            timeBeforContact.Slider.maxValue = 10; // 30 min
             timeBeforContact.Slider.value = BabyPhoneData.Instance.AnimationLight;
             timeBeforContact.UpdateCommands.Add(new SetMicroSensCmd());
 
@@ -143,6 +145,7 @@ namespace BuddyApp.BabyPhone
             ifBabyCry.AddOption(mDictionary.GetString("noact"), BabyPhoneData.Action.DEFAULT_ACTION);
             ifBabyCry.AddOption(mDictionary.GetString("playlul"), BabyPhoneData.Action.REPLAY_LULLABY);
             ifBabyCry.AddOption(mDictionary.GetString("playanim"), BabyPhoneData.Action.REPLAY_ANIMATION);
+            ifBabyCry.AddOption(mDictionary.GetString("playboth"), BabyPhoneData.Action.REPLAY_BOTH);
             ifBabyCry.SetDefault((int)BabyPhoneData.Instance.ActionWhenBabyCries);
             ifBabyCry.UpdateCommands.Add(new IfBabyCriesCmd());
 

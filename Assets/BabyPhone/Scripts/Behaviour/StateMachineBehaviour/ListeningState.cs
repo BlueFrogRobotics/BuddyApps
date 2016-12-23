@@ -26,6 +26,9 @@ namespace BuddyApp.BabyPhone
         private int mCount;
         private float mSound;
         private float mMean;
+        private float mMicroSensitivty;
+        private int mContactIndice;
+        private string mBabyName;
 
         public override void Init()
         {
@@ -38,7 +41,9 @@ namespace BuddyApp.BabyPhone
             //mNotificationAmount = GetGameObject(24).GetComponent<Text>();
 
             mMicro = mListening.GetComponent<InputMicro>();
-
+            mContactIndice = (int) mBabyPhoneData.Recever;
+            mBabyName = mBabyPhoneData.BabyName;
+            mMicroSensitivty = mBabyPhoneData.MicrophoneSensitivity;
             mCount = 0;
             mMean = 0F;
 
@@ -84,9 +89,9 @@ namespace BuddyApp.BabyPhone
                 mMean += mSound;
                 mCount = mCount + 1;
 
-                if (mCount > 50F)
+                if (mCount > mMicroSensitivty)
                 {
-                    mMean = mMean / 50F;
+                    mMean = mMean / mMicroSensitivty;
                     if (mMean >= 0.1F)
                         mIsBabyCrying = true;
                     else
@@ -120,12 +125,36 @@ namespace BuddyApp.BabyPhone
             mRGBCam.Open();
             yield return new WaitForSeconds(1.5F);
             MailSender lSender = new MailSender("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL);
-            Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", "Your baby seems to cry =(");
-            lEmail.Addresses.Add("buddy.bluefrog@gmail.com");
+            Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", mBabyName + " seems to cry =(");
+            lEmail.Addresses.Add(GetMailContact(mContactIndice));
             lEmail.AddTexture2D(mRGBCam.FrameTexture2D, "image.png");
             lSender.Send(lEmail);
             yield return new WaitForSeconds(1.5F);
             mRGBCam.Close();
+        }
+
+        private String GetMailContact(int iContact)
+        {
+            string lMailContact;
+            switch (iContact)
+            {
+                case 0:
+                    lMailContact = "buddy.bluefrog@gmail.com";
+                    break;
+                case 1:
+                    lMailContact = "rh@bluefrogrobotics.com";
+                    break;
+                case 2:
+                    lMailContact = "jmm@bluefrogrobotics.com";
+                    break;
+                case 3:
+                    lMailContact = "mv@bluefrogrobotics.com";
+                    break;
+                default:
+                    lMailContact = "buddy.bluefrog@gmail.com";
+                    break;
+            }
+            return lMailContact;
         }
     }
 }

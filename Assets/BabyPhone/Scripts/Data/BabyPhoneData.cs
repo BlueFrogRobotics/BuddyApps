@@ -41,6 +41,7 @@ namespace BuddyApp.BabyPhone
         public Animation AnimationToPlay { get; set; }
         public Action ActionWhenBabyCries { get; set; }
 
+        public string BabyName;
         public int LullabyVolume { get; set; }
         public bool IsVolumeOn { get; set; }
         public int AnimationLight { get; set; }

@@ -1,19 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using BuddyOS;
 
 namespace BuddyApp.BabyPhone
 {
     public class BabyPhoneCount : MonoBehaviour
     {
         [SerializeField]
-        private Text mCounter;
+        private Text label;
 
         [SerializeField]
-        private Animator mBabyPhoneAnimator;
+        private Text counter;
+
+        [SerializeField]
+        private Animator babyPhoneAnimator;
+
+        //private BabyPhoneData mBabyPhoneData;
+        private Dictionary mDictionary;
 
         void OnEnable()
         {
+            mDictionary = BYOS.Instance.Dictionary;
+            label.text = mDictionary.GetString("bbstart");
             StartCoroutine(StartCount());
         }
 
@@ -28,30 +37,30 @@ namespace BuddyApp.BabyPhone
 
         void Update()
         {
-            if ((mBabyPhoneAnimator.GetCurrentAnimatorStateInfo(0).IsName("CountBeforStart"))
-                && (mBabyPhoneAnimator.GetBool("DoStartCount")))
+            if ((babyPhoneAnimator.GetCurrentAnimatorStateInfo(0).IsName("CountBeforStart"))
+                && (babyPhoneAnimator.GetBool("DoStartCount")))
             {
-                mCounter.text = "5";
+                counter.text = "5";
                 StartCoroutine(StartCount());
-                mBabyPhoneAnimator.SetBool("DoStartCount", false);
+                babyPhoneAnimator.SetBool("DoStartCount", false);
             }
         }
 
         private IEnumerator StartCount()
         {
             yield return new WaitForSeconds(1F);
-            mCounter.text = "4";
+            counter.text = "4";
             yield return new WaitForSeconds(1F);
-            mCounter.text = "3";
+            counter.text = "3";
             yield return new WaitForSeconds(1F);
-            mCounter.text = "2";
+            counter.text = "2";
             yield return new WaitForSeconds(1F);
-            mCounter.text = "1";
+            counter.text = "1";
             yield return new WaitForSeconds(1F);
-            mCounter.text = "0";
+            counter.text = "0";
             yield return new WaitForSeconds(1F);
-            if(mBabyPhoneAnimator.GetCurrentAnimatorStateInfo(0).IsName("CountBeforStart"))
-                mBabyPhoneAnimator.SetTrigger("StartFallingAssleep");
+            if(babyPhoneAnimator.GetCurrentAnimatorStateInfo(0).IsName("CountBeforStart"))
+                babyPhoneAnimator.SetTrigger("StartFallingAssleep");
         }
     }
 }

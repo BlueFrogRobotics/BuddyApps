@@ -50,12 +50,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: DoSetParameters
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
   - m_Name: DoStartCount
     m_Type: 4
     m_DefaultFloat: 0
@@ -267,7 +261,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: DoSetParameters
+    m_ConditionEvent: SetParameters
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110273350}
@@ -530,8 +524,8 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: DoSetParameters
+  - m_ConditionMode: 1
+    m_ConditionEvent: HeadAdjust
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110212348}
@@ -973,7 +967,7 @@ AnimatorStateMachine:
     m_Position: {x: -108, y: 444, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110264728}
-    m_Position: {x: -108, y: 516, z: 0}
+    m_Position: {x: -108, y: 528, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110263720}
     m_Position: {x: -60, y: 120, z: 0}
