@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using BuddyTools;
 using BuddyOS.App;
 
 namespace BuddyApp.HideAndSeek
@@ -8,16 +9,20 @@ namespace BuddyApp.HideAndSeek
     {
 
         private FaceDetector mFaceDetector;
-        private FaceTrackerTest mFaceReco;
+        private FaceRecognition mFaceReco;
+        private SearchFacesWindow mSearchWindow;
         private Players mPlayers;
         private int mLabelFound=-1;
         private double mDist = 0;
         private float mTimer = 0.0f;
+        private bool mHasClosed = false;
 
         public override void Init()
         {
+            
             mFaceDetector = GetGameObject(1).GetComponent<FaceDetector>();
-            mFaceReco = GetGameObject(1).GetComponent<FaceTrackerTest>();
+            mFaceReco = GetGameObject(1).GetComponent<FaceRecognition>();
+            mSearchWindow = GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponentInChildren<SearchFacesWindow>();
             mPlayers = GetComponent<Players>();
         }
 
@@ -25,25 +30,33 @@ namespace BuddyApp.HideAndSeek
         {
             mTimer = 0.0f;
             mTTS.Say("Montre ton visage");
+            mHasClosed = false;
             mFace.SetExpression(MoodType.THINKING);
+            //GetGameObject(1).SetActive(true);
+            mSearchWindow.Open();
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
-            if (mFaceDetector.HasDetectedFace)
+            mSearchWindow.CamView.texture = Utils.MatToTexture2D(mFaceDetector.CamView);
+            if (mTimer > 3.0f)
             {
-                //double lDist = 0;
-                mLabelFound = mFaceReco.Predict(out mDist);
-                /* if (lLabel != -1 && lDist<100)
-                 {
-                     mTTS.Say("connu");
-                     Debug.Log("dist: " + lDist);
-                 }*/
-                iAnimator.SetTrigger("ChangeState");
+                if (mFaceDetector.HasDetectedFace)
+                {
+                    //double lDist = 0;
+                    mLabelFound = mFaceReco.Predict(out mDist);
+                    Debug.Log("label: " + mLabelFound + "dist: " + mDist);
+                    mHasClosed = true;
+                    /* if (lLabel != -1 && lDist<100)
+                     {
+                         mTTS.Say("connu");
+                         Debug.Log("dist: " + lDist);
+                     }*/
+                    iAnimator.SetTrigger("ChangeState");
+                }
             }
-
-            else if (mTimer > 5.0f)
+            if (mTimer > 5.0f)
             {
                 mLabelFound = -1;
                 iAnimator.SetTrigger("ChangeState");
@@ -53,13 +66,15 @@ namespace BuddyApp.HideAndSeek
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             //mTTS.Say("Je t ai trouvé");
+            mSearchWindow.Close();
+            //GetGameObject(1).SetActive(false);
             mFace.SetExpression(MoodType.NEUTRAL);
             if (mLabelFound != -1 && mDist < 100)
             {
                 
                 bool lHasAlreadyFound=GetComponent<Players>().DeleteOnePlayer(mLabelFound);
                 if (!lHasAlreadyFound)
-                    mTTS.Say("J'ai trouvé  " + mPlayers.NamesPlayers[mLabelFound]);
+                    mTTS.Say("J'ai trouvé  " + mPlayers.GetPlayer(mLabelFound).Name);
                 else
                     mTTS.Say("T'es plus dans le game");
                 Debug.Log("dist: " + mDist);

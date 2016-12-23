@@ -22,6 +22,7 @@ namespace BuddyApp.HideAndSeek
 
         private List<string> mNamesPlayers;
         private List<bool> mPlayersFoundState;
+        private List<Player> mListPlayer;
         private int mNumPlayer = 0;
 
         // Use this for initialization
@@ -29,6 +30,7 @@ namespace BuddyApp.HideAndSeek
         {
             mNamesPlayers = new List<string>();
             mPlayersFoundState = new List<bool>();
+            mListPlayer = new List<Player>();
         }
 
         // Update is called once per frame
@@ -40,6 +42,23 @@ namespace BuddyApp.HideAndSeek
         public void ValidateNumPlayer()
         {
             int.TryParse(inputNumPlayer.text, out mNumPlayer); 
+        }
+
+        public void AddPlayer(Player iPlayer)
+        {
+            mListPlayer.Add(iPlayer);
+            mPlayersFoundState.Add(false);
+            mNumPlayer++;
+        }
+
+        public Player GetPlayer(int iIndex)
+        {
+            if (iIndex >= 0 && iIndex < mListPlayer.Count)
+            {
+                return mListPlayer[iIndex];
+            }
+            else
+                return null;
         }
 
         public void AddOnePlayer(string iName)

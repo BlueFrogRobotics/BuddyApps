@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using BuddyOS;
 using BuddyOS.App;
+using BuddyFeature.Navigation;
 using System;
 
 namespace BuddyApp.HideAndSeek
@@ -14,7 +16,8 @@ namespace BuddyApp.HideAndSeek
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            GetGameObject(0).SetActive(true);
+            GetComponent<RoombaNavigation>().enabled = true;
+            //GetGameObject(0).SetActive(true);
             mFace.SetExpression(MoodType.LOVE);
         }
 

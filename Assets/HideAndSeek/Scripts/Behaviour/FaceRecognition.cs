@@ -9,11 +9,12 @@ using BuddyTools;
 
 namespace BuddyApp.HideAndSeek
 {
-    public class FaceTrackerTest : MonoBehaviour
+    [RequireComponent(typeof(FaceCascadeTracker))]
+    public class FaceRecognition : MonoBehaviour
     {
 
         public RawImage mRaw;
-        public FaceCascadeTracker mFaceTracker;
+        private FaceCascadeTracker mFaceTracker;
         public FaceRecognizer mFaceReco;
         public InputField mInputPlayerSaved;
         public InputField mInputPlayerName;
@@ -31,15 +32,22 @@ namespace BuddyApp.HideAndSeek
         private bool mIsTrained = false;
         private LBPHfaces mLBPHFaces;
         private Texture2D mTexture;
+        private int mNumFacesSaved;
+        public int NumFacesSaved { get { return mNumFacesSaved; } }
+        private Mat mFaceAct;
+        public Mat FaceAct { get { return mFaceAct; } }
 
         // Use this for initialization
         void Start()
         {
+            mFaceTracker = GetComponent<FaceCascadeTracker>();
             mLBPHFaces = new LBPHfaces(1, 8, 8, 8, 123);
             mListMat = new List<Mat>();
             mListLabel = new List<int>();
             mCam = BYOS.Instance.RGBCam;
+            mFaceAct = new Mat();
             mMatFaces = new Mat();
+            mNumFacesSaved = 0;
             if (!mCam.IsOpen)
                 mCam.Open();
         }
@@ -47,9 +55,9 @@ namespace BuddyApp.HideAndSeek
         // Update is called once per frame
         void Update()
         {
-            mInputPlayerSaved.text = "nombre de joueurs: " + mLabelAct;
+            //mInputPlayerSaved.text = "nombre de joueurs: " + mLabelAct;
             mFaces = mFaceTracker.TrackedObjects;
-            ShowFaceTracked();
+            //ShowFaceTracked();
             if (mIsLabelling)
                 AddInput();
             //if (mIsTrained)
@@ -68,6 +76,7 @@ namespace BuddyApp.HideAndSeek
             }
             if (mFaces.Count > 0)
             {
+                
                 Mat dst = new Mat();
                 Imgproc.cvtColor(lSub, dst, Imgproc.COLOR_RGB2GRAY);
                 Imgproc.resize(dst, dst, new Size(100, 100));
@@ -96,12 +105,13 @@ namespace BuddyApp.HideAndSeek
                 Mat dst = new Mat();
                 Imgproc.resize(lSub, dst, new Size(100, 100));
                 mTexture = Utils.MatToTexture2D(dst);
-                mRaw.texture = mTexture;
+                //mRaw.texture = mTexture;
             }
         }
 
         void AddInput()
         {
+            Debug.Log("add input");
             Mat lSub = new Mat();
             for (int i = 0; i < mFaces.Count; i++)
             {
@@ -109,13 +119,17 @@ namespace BuddyApp.HideAndSeek
             }
             if (mFaces.Count > 0)
             {
+                Debug.Log("face detecte");
                 Mat dst = new Mat();
+                Imgproc.resize(lSub, lSub, new Size(100, 100));
+                mFaceAct = lSub;
                 Imgproc.cvtColor(lSub, dst, Imgproc.COLOR_RGB2GRAY);
-                Imgproc.resize(dst, dst, new Size(100, 100));
+                
                 Imgproc.equalizeHist(dst, dst);
 
                 mListMat.Add(dst);
                 mListLabel.Add(mLabelAct);
+                mNumFacesSaved++;
                 Debug.Log("label added: " + mLabelAct);
             }
         }
@@ -130,8 +144,10 @@ namespace BuddyApp.HideAndSeek
         {
             mIsLabelling = false;
             mLabelAct++;
+            mNumFacesSaved = 0;
+            mFaceAct = new Mat();
             //mPlayers.NamesPlayers.Add(mInputPlayerName.text);
-            mPlayers.AddOnePlayer(mInputPlayerName.text);
+            //mPlayers.AddOnePlayer(mInputPlayerName.text);
             Debug.Log("labelisation stopped");
         }
 

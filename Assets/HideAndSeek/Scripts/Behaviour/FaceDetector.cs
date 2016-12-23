@@ -7,12 +7,15 @@ using OpenCVUnity;
 
 namespace BuddyApp.HideAndSeek
 {
+    [RequireComponent(typeof(FaceCascadeTracker))]
     public class FaceDetector : MonoBehaviour
     {
-        [SerializeField]
-        private FaceCascadeTracker faceTracker;
+
+        private FaceCascadeTracker mFaceTracker;
 
         public bool HasDetectedFace { get { return mHasDetectedFace; } }
+
+        public Mat CamView { get { return mFaceTracker.FrameMat; } }
 
         private bool mHasDetectedFace = false;
 
@@ -20,6 +23,7 @@ namespace BuddyApp.HideAndSeek
         void Start()
         {
             RGBCam lCam = BYOS.Instance.RGBCam;
+            mFaceTracker = GetComponent<FaceCascadeTracker>();
             if(!lCam.IsOpen)
             {
                 lCam.Open();
@@ -29,10 +33,17 @@ namespace BuddyApp.HideAndSeek
         // Update is called once per frame
         void Update()
         {
-            if (faceTracker.TrackedObjects.Count > 0)
+            int a = mFaceTracker.TrackedObjects.Count;
+            if (mFaceTracker.TrackedObjects.Count > 0)
+            {
                 mHasDetectedFace = true;
+                Debug.Log("visage!");
+            }
             else
+            {
                 mHasDetectedFace = false;
+                Debug.Log("rien!");
+            }
         }
     }
 }

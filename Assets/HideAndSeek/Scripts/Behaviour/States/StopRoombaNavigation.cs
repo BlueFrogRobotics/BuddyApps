@@ -2,6 +2,7 @@
 using System.Collections;
 using BuddyOS;
 using BuddyOS.App;
+using BuddyFeature.Navigation;
 using System;
 
 namespace BuddyApp.HideAndSeek
@@ -15,7 +16,8 @@ namespace BuddyApp.HideAndSeek
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            GetGameObject(0).SetActive(false);
+            GetComponent<RoombaNavigation>().enabled = false;
+            //GetGameObject(0).SetActive(false);
             mWheels.StopWheels();
             mFace.SetExpression(MoodType.NEUTRAL);
         }

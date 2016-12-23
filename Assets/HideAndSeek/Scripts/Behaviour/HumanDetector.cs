@@ -21,7 +21,7 @@ namespace BuddyApp.HideAndSeek
         private float mThreshold = 40.0f;
         private float mTimer = 0.0f;
 
-        public Text mText;
+        //public Text mText;
 
         void Awake()
         {
@@ -67,7 +67,7 @@ namespace BuddyApp.HideAndSeek
                 }
             }
             lAvgTemp /= lLocalThermic.Length;
-            mText.text = "max temp: " + lMaxTemp + " avg: " + lAvgTemp;
+            //mText.text = "max temp: " + lMaxTemp + " avg: " + lAvgTemp;
             //Debug.Log("max temp: "+lMaxTemp);
             //Debug.Log("temp: " + lText);
             if (lMaxTemp > 25 && lMaxTemp < 31 && lAvgTemp>22)

@@ -12,7 +12,7 @@ namespace BuddyApp.HideAndSeek
 
         public override void Init()
         {
-            mWindowLoading = GetGameObject(4);
+            mWindowLoading = GetGameObject((int)HideAndSeekData.ObjectsLinked.LOADING);
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
