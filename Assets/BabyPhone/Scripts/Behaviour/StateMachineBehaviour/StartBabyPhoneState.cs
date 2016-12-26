@@ -8,10 +8,8 @@ namespace BuddyApp.BabyPhone
 {
     public class StartBabyPhoneState : AStateMachineBehaviour
     {
-
         private GameObject mStartState;
         private GameObject mWindoAppOverBlack;
-        private Dictionary mDictionary;
         private BabyPhoneData mBabyPhoneData;
 
         public override void Init()

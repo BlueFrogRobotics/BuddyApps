@@ -5,10 +5,11 @@ namespace BuddyApp.Recipe
 {
     public class RecipeNotFound : AStateMachineBehaviour
     {
-        private int mCount = 0;
+        private int mCount;
 
         public override void Init()
         {
+            mCount = 0;
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

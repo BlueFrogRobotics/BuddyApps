@@ -14,7 +14,7 @@ namespace BuddyApp.Recipe
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mCount++;
-            if (mCount > 0)
+            if (mCount > 2)
                 iAnimator.SetTrigger("ChooseWithScreen");
             else
                 mTTS.Say("Désolé je n'ai rien entendu, veux tu bien répéter ?");

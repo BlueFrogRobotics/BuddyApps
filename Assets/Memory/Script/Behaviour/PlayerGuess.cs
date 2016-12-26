@@ -26,7 +26,14 @@ namespace BuddyApp.Memory
 		float randomMoveTimerLimit;
 		//bool randomMoveStarted;
 
-		public void Init()
+
+
+		public override void Init()
+		{
+			mOnEnterDone = false;
+		}
+
+		public void InitGuess()
 		{
 			currentEvents = new List<FaceEvent>();
 			events = link.currentLevel.faces;
@@ -36,7 +43,7 @@ namespace BuddyApp.Memory
 			clickIndex = 0;
 
 			waitTimer = 0.0f;
-			endMaxTime = 10.0f;
+			endMaxTime = 20.0f;
 			resetTimer = false;
 
 			randomMoveTimer = 0.0f;
@@ -96,57 +103,59 @@ namespace BuddyApp.Memory
 		}
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
 			Debug.Log("Player's turn");
 
-			Init();
+			InitGuess();
 
-			link.tts.Say(link.gameLevels.GetRandomYourTurn(), true);
+			mTTS.Say(link.gameLevels.GetRandomYourTurn(), true);
+			waitTimer = 0.0f;
+			mOnEnterDone = true;
 		}
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
-			if (link.tts.HasFinishedTalking) {
-				waitTimer += Time.deltaTime;
-				randomMoveTimer += Time.deltaTime;
-				link.isPlayerTurn = true;
-			}
-
-			//if (link.mFace.IsStable && fail) {
-			if (fail) {
-				Debug.Log("Oups you failed");
-				animator.SetTrigger("PlayerFailure");
-			}
-
-			//if (link.mFace.IsStable && success) {
-			if (success) {
-
-				if (resetTimer) {
-					waitTimer = 0.0f;
-					resetTimer = false;
+			if (mOnEnterDone) {
+				if (mTTS.HasFinishedTalking) {
+					waitTimer += Time.deltaTime;
+					randomMoveTimer += Time.deltaTime;
+					link.isPlayerTurn = true;
 				}
 
-				if (waitTimer > 1.5f) {
-					Debug.Log("Congrats, you win !");
-					animator.SetTrigger("PlayerSuccess");
+				if (mFace.IsStable && fail) {
+					Debug.Log("Oups you failed");
+					animator.SetTrigger("PlayerFailure");
 				}
-			}
 
-			if (waitTimer > endMaxTime) {
-				Debug.Log("TimeOut game");
-				animator.SetTrigger("PlayerFailure");
-			}
+				if (mFace.IsStable && success) {
 
-			if (randomMoveTimer > randomMoveTimerLimit) {
-				//			link.animationManager.StartAnimation ();
-				RandomAnim();
-				randomMoveTimer = 0.0f;
-				SetRandomTimerLimit();
-				//			randomMoveStarted = true;
+					if (resetTimer) {
+						waitTimer = 0.0f;
+						resetTimer = false;
+					}
+
+					if (waitTimer > 1.5f) {
+						Debug.Log("Congrats, you win !");
+						animator.SetTrigger("PlayerSuccess");
+					}
+				}
+
+				if (waitTimer > endMaxTime) {
+					Debug.Log("TimeOut game");
+					animator.SetTrigger("PlayerFailure");
+				}
+
+				if (randomMoveTimer > randomMoveTimerLimit) {
+					//			link.animationManager.StartAnimation ();
+					RandomAnim();
+					randomMoveTimer = 0.0f;
+					SetRandomTimerLimit();
+					//			randomMoveStarted = true;
+				}
 			}
 		}
 
@@ -154,19 +163,19 @@ namespace BuddyApp.Memory
 		{
 			switch (UnityEngine.Random.Range(0, 3)) {
 				case 0:
-					link.animationManager.Smile();
+					link.mAnimationManager.Smile();
 					break;
 				case 1:
-					link.animationManager.Sigh();
+					link.mAnimationManager.Sigh();
 					break;
 				case 2:
-					link.animationManager.Blink();
+					link.mAnimationManager.Blink();
 					break;
 				case 3:
-					link.animationManager.Smile();
+					link.mAnimationManager.Smile();
 					break;
 				default:
-					link.animationManager.Blink();
+					link.mAnimationManager.Blink();
 					break;
 			}
 		}
@@ -178,7 +187,7 @@ namespace BuddyApp.Memory
 		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		protected override void OnExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			link.isPlayerTurn = false;
 			//		link.animationManager.ResetPosition ();

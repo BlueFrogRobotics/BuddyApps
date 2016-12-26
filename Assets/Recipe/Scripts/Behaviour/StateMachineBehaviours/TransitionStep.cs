@@ -6,17 +6,17 @@ namespace BuddyApp.Recipe
 {
     public class TransitionStep : AStateMachineBehaviour
     {
+        private bool check;
+
         public override void Init()
         {
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            check = false;
             GetGameObject(10).GetComponent<Button>().onClick.AddListener(LastStep);
             GetGameObject(11).GetComponent<Button>().onClick.AddListener(NextStep);
-            mVocalActivation.VocalProcessing = VocalProcessing;
-            mVocalActivation.VocalError = VocalError;
-            mVocalActivation.StartInstantReco();
         }
 
         private void VocalProcessing(string answer)
@@ -25,8 +25,7 @@ namespace BuddyApp.Recipe
                 NextStep();
             else if (answer.Contains("précédent") || answer.Contains("précédente") || answer.Contains("avant"))
                 LastStep();
-            else if (answer.Contains("répète") || answer.Contains("répéter"))
-            {
+            else if (answer.Contains("répète") || answer.Contains("répéter")) {
                 GetComponent<RecipeBehaviour>().StepIndex--;
                 GetComponent<Animator>().SetTrigger("DisplayStep");
             }
@@ -42,15 +41,13 @@ namespace BuddyApp.Recipe
 
         public void LastStep()
         {
-            if (GetComponent<RecipeBehaviour>().StepIndex == 1)
-            {
+            if (GetComponent<RecipeBehaviour>().StepIndex == 1) {
                 GetComponent<RecipeBehaviour>().StepIndex = 0;
                 GetComponent<RecipeBehaviour>().IngredientIndex -= 3;
                 GetGameObject(4).GetComponent<Animator>().SetTrigger("Close_WFullImage");
                 GetComponent<Animator>().SetTrigger("DisplayIngredient");
             }
-            else
-            {
+            else {
                 if (GetComponent<RecipeBehaviour>().StepIndex > 1)
                     GetComponent<RecipeBehaviour>().StepIndex -= 2;
                 else
@@ -66,11 +63,19 @@ namespace BuddyApp.Recipe
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if (!check && mTTS.HasFinishedTalking) {
+                check = true;
+                mVocalActivation.VocalProcessing = VocalProcessing;
+                mVocalActivation.VocalError = VocalError;
+                mVocalActivation.StartInstantReco();
+            }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mTTS.Silence(1);
+            mVocalActivation.VocalProcessing = null;
+            mVocalActivation.VocalError = null;
+            mTTS.Silence(300);
             GetGameObject(10).GetComponent<Button>().onClick.RemoveAllListeners();
             GetGameObject(11).GetComponent<Button>().onClick.RemoveAllListeners();
         }
