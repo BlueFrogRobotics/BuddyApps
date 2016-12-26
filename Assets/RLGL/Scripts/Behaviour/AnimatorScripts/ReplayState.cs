@@ -58,7 +58,7 @@ namespace BuddyApp.RLGL
 
             }
 
-            if(mTTS.HasFinishedTalking() && mIsQuestionDone)
+            if(mTTS.HasFinishedTalking && mIsQuestionDone)
             {
                 OpenCanvas();
                 Debug.Log("update raplay state ");
@@ -84,7 +84,7 @@ namespace BuddyApp.RLGL
                 mIsSentenceDone = true;
             }
 
-            if (mTTS.HasFinishedTalking() && mIsAnswerReplayYes && mIsSentenceDone)
+            if (mTTS.HasFinishedTalking && mIsAnswerReplayYes && mIsSentenceDone)
             {
                 Debug.Log("REPLAY STATE : UPDATE : REJOUER TRUE");
                 mMood.Set(MoodType.NEUTRAL);

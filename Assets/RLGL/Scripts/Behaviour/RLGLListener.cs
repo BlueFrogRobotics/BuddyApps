@@ -10,6 +10,7 @@ namespace BuddyApp.RLGL
     {
         TextToSpeech mTTS;
         SpeechToText mSTT;
+        NotificationManager mNotif;
 
         [SerializeField]
         private GameObject gameplay;
@@ -39,6 +40,7 @@ namespace BuddyApp.RLGL
             mIndex = 0;
             mTTS = BYOS.Instance.TextToSpeech;
             mSTT = BYOS.Instance.SpeechToText;
+            mNotif = BYOS.Instance.NotManager;
         }
         // Use this for initialization
         void Start()
@@ -135,6 +137,21 @@ namespace BuddyApp.RLGL
                     mTTS.Say(lError);
                 }
             }
+            //else if (mIndex == 5)
+            //{
+            //    switch(iError)
+            //    {
+            //        case STTError.ERROR_NO_MATCH:
+            //            lError = "Can you repeat please?";
+            //            windowMenu.GetComponent<RLGLMenu>().STTNotif = mSTT.LastAnswer;
+            //            break;
+            //    }
+
+            //    if (UnityEngine.Random.value > 0.8)
+            //    {
+            //        mTTS.Say(lError);
+            //    }
+            //}
 
 
 
@@ -154,9 +171,9 @@ namespace BuddyApp.RLGL
                 }
                     
                 windowMenu.GetComponent<RLGLMenu>().IsAnswerPlayYes = true;
-                background.GetComponent<Animator>().SetTrigger("Close_BG");
-                windowMenu.GetComponent<Animator>().SetTrigger("Close_WMenu3");
-                gameplay.SetActive(true);
+                //background.GetComponent<Animator>().SetTrigger("Close_BG");
+                //windowMenu.GetComponent<Animator>().SetTrigger("Close_WMenu3");
+                //gameplay.SetActive(true);
             }
             else if (iMsg.ToLower().Contains("tutorial") && windowMenu.activeSelf && mIndex == 5)
             {
@@ -241,6 +258,12 @@ namespace BuddyApp.RLGL
                     gameplay.GetComponent<Animator>().GetBehaviour<StartState>().NeedListen = true;
                 else if (gameplay.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("ReplayState"))
                     gameplay.GetComponent<Animator>().GetBehaviour<ReplayState>().NeedListen = true;
+                else if (mIndex == 5)
+                {
+                    //windowMenu.GetComponent<RLGLMenu>().STTNotif = iMsg;
+                    mNotif.Display<SimpleNot>(2.5F).With(iMsg);
+                }
+                
                 //StartCoroutine(StartRequestAfterDelay(5.0F));
             }
 

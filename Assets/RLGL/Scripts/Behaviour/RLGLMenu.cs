@@ -23,8 +23,24 @@ namespace BuddyApp.RLGL
 
         private bool mIsQuestionDone;
         private bool mIsMovementDone;
-        private bool mIsUIDone;
         private float mTimer;
+
+        private bool mIsFirstMovementDone;
+        private bool mIsSecondMovementDone;
+        private bool mIsThirdMovementDone;
+
+        private bool mIsScriptDone;
+
+        private bool mIsCanvasDisable;
+
+        private bool mIsDone;
+
+        private bool mIsFirstSentenceDone;
+
+        private NotificationManager mNotif;
+
+        private string mSTTNotif;
+        public string STTNotif { get { return mSTTNotif; } set { mSTTNotif = value; } }
 
         private bool mIsAnswerPlayYes;
         public bool IsAnswerPlayYes { get { return mIsAnswerPlayYes; } set { mIsAnswerPlayYes = value; } }
@@ -34,11 +50,24 @@ namespace BuddyApp.RLGL
         {
             mSTT = BYOS.Instance.SpeechToText;
             mTTS = BYOS.Instance.TextToSpeech;
+            mNotif = BYOS.Instance.NotManager;
             mWheels = BYOS.Instance.Motors.Wheels;
             mIsQuestionDone = false;
             mIsAnswerPlayYes = false;
             mIsMovementDone = false;
-            mIsUIDone = false;
+
+            mIsFirstMovementDone = false;
+            mIsSecondMovementDone = false;
+            mIsThirdMovementDone = false;
+
+            mIsScriptDone = false;
+            mIsCanvasDisable = false;
+
+            mIsFirstSentenceDone = false;
+
+            mIsDone = false;
+            mSTTNotif = "";
+            
         }
 
         // Update is called once per frame
@@ -47,40 +76,106 @@ namespace BuddyApp.RLGL
             mTimer += Time.deltaTime;
             
             
-            if(!mIsQuestionDone && mTTS.HasFinishedTalking() )
+            if(!mIsQuestionDone && mTTS.HasFinishedTalking && mTimer > 3.0F)
             {
                 Debug.Log("1");
                 mIsQuestionDone = true;
                 mTTS.Say("What do you want to do?");
-                
+                mTimer = 0.0F;
             }
 
             
-            if (!mIsAnswerPlayYes && mTimer > 5.0F && mSTT.HasFinished && mIsQuestionDone)
+            if (!mIsAnswerPlayYes && mTimer > 3.0F && mSTT.HasFinished && mIsQuestionDone)
             {
                 Debug.Log("2");
                 mTimer = 0.0F;
                 listener.GetComponent<RLGLListener>().STTRequest(5);
+
+                //if (!mIsAnswerPlayYes && mSTTNotif != null)
+                //{
+                //    mNotif.Display<SimpleNot>(2.0F).With(mSTTNotif);
+                //}
             }
 
-            
-            //if (mIsAnswerPlayYes && !mIsMovementDone)
-            //{
-            //    Debug.Log("3");
-            //    background.SetTrigger("Close_BG");
-            //    menu.SetTrigger("Close_WMenu3");
-            //    mWheels.TurnAngle(360.0F, 300.0F, 0.02F);
-            //    mTTS.Say("Oh yes I love this game!");
-            //    mTimer = 0.0F;
-            //    mIsMovementDone = true;
-            //}
 
-            
-            //if (mIsMovementDone && !mIsUIDone && mTTS.HasFinishedTalking() && ((mWheels.Status == MovingState.REACHED_GOAL) || (mTimer > 2.0F)))
-            //{
-            //    Debug.Log("4");
-            //    gameplay.SetActive(true);
-            //}
+            if (mIsAnswerPlayYes && !mIsMovementDone)
+            {
+                if(!mIsCanvasDisable )
+                {
+                    Debug.Log("3");
+                    background.SetTrigger("Close_BG");
+                    menu.SetTrigger("Close_WMenu3");
+                    mTTS.Say("Oh yes I love this game!");
+                    mIsCanvasDisable = true;
+                }
+                if(mTTS.HasFinishedTalking && mIsCanvasDisable && !mIsFirstSentenceDone)
+                {
+                    mTTS.Say("let's see if you are faster than me");
+                    mIsFirstSentenceDone = true;
+                }
+                if (!mIsFirstMovementDone)
+                {
+                    
+                    Debug.Log("3.1");
+                    
+                    if(!mIsDone)
+                    {
+                        mWheels.TurnAngle(90.0F, 300.0F, 0.02F);
+                        mIsDone = true;
+                        mTimer = 0.0F;
+                    }
+                    Debug.Log(mWheels.Status);
+                    if((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 1.0F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 1.0F))
+                    {
+                        mIsFirstMovementDone = true;
+                        mIsDone = false;
+                    }
+                }
+                if (!mIsSecondMovementDone && mIsFirstMovementDone)
+                {
+                    
+                    Debug.Log("3.2"  + mWheels.Status);
+                    if(!mIsDone)
+                    {
+                        mTimer = 0.0F;
+                        mWheels.TurnAngle(-180.0F, 300.0F, 0.02F);
+                        mIsDone = true;
+                    }
+                    Debug.Log(mWheels.Status);
+                    if ((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 1.0F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 1.0F))
+                    {
+                        mIsSecondMovementDone = true;
+                        mIsDone = false;
+                    }
+                        
+                    
+                }
+                if ( !mIsThirdMovementDone && mIsSecondMovementDone && !mIsMovementDone)
+                {
+                    
+                    Debug.Log("3.3" + mWheels.Status);
+                    if(!mIsDone)
+                    {
+                        mTimer = 0.0F;
+                        mWheels.TurnAngle(90.0F, 300.0F, 0.02F);
+                        mIsDone = true;
+                    }
+                    Debug.Log(mWheels.Status);
+                    if (((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 1.0F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 1.0F)))
+                    {
+                        mIsMovementDone = true;
+                        mIsDone = false;
+                    }
+                }
+            }
+
+
+            if (!mIsScriptDone &&  mIsMovementDone && mTTS.HasFinishedTalking)
+            {
+                Debug.Log("4");
+                gameplay.SetActive(true);
+                mIsScriptDone = true;
+            }
         }
 
     }

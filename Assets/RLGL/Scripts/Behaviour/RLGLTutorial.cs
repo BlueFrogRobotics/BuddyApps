@@ -33,7 +33,7 @@ namespace BuddyApp.RLGL
         void Update()
         {
             mTimer += Time.deltaTime;
-            if (mCountStep == 4 && mTTS.HasFinishedTalking() && !mIsQuestionDone)
+            if (mCountStep == 4 && mTTS.HasFinishedTalking && !mIsQuestionDone)
             {
                 mTTS.Say("Do you want to play now?");
                 mIsQuestionDone = true;

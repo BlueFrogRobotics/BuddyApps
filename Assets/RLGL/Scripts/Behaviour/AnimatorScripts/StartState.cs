@@ -36,6 +36,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            GetGameObject(5).GetComponent<RLGLMenu>().enabled = false;
             GetComponent<RLGLBehaviour>().Index = 0;
             mNeedListen = true;
             mTimer = 0.0F;
@@ -57,7 +58,7 @@ namespace BuddyApp.RLGL
                 StartCoroutine(SayStart());
             }
 
-            if(mTTS.HasFinishedTalking() && mSentenceDone)
+            if(mTTS.HasFinishedTalking && mSentenceDone)
             {
                 OpenCanvas();
                 if (mTimer > 5.0F)
@@ -97,11 +98,11 @@ namespace BuddyApp.RLGL
             yield return new WaitForSeconds(2.0F);
             if (mCount < 1)
             {
-                mTTS.Say("Hello my friend, we will play together but before I need to know if you want to know the rules! So do you want to listen to the rules?");
+                mTTS.Say("I am so happy, we will play together but before I need to know if you want to know the rules! So do you want to listen to the rules?");
                 mCount++;
             }
 
-            if (mTTS.HasFinishedTalking() && mCount > 0)
+            if (mTTS.HasFinishedTalking && mCount > 0)
             {
                 mSentenceDone = true;
                 yield return null;
