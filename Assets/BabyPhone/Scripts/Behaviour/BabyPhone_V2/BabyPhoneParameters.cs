@@ -88,6 +88,7 @@ namespace BuddyApp.BabyPhone
             contactSelection.AddOption("RODOLPHE", BabyPhoneData.Contact.RODOLPHE);
             contactSelection.AddOption("JEAN MICHEL MOURIER", BabyPhoneData.Contact.J2M);
             contactSelection.AddOption("MAUD VERRAES", BabyPhoneData.Contact.MAUD);
+            contactSelection.AddOption("KARAMA GUIMBAL", BabyPhoneData.Contact.KARAMA);
             contactSelection.SetDefault((int)BabyPhoneData.Instance.Recever);
             contactSelection.UpdateCommands.Add(new ContactBabyPhoneCmd());
 

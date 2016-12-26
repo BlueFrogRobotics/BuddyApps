@@ -10,7 +10,8 @@ namespace BuddyApp.BabyPhone
             DEFAULT = 0 ,
             RODOLPHE = 1,
             J2M = 2,
-            MAUD =3
+            MAUD =3,
+            KARAMA = 4
         }
 
         public enum Lullaby : int

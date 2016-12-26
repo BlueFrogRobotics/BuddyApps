@@ -11,8 +11,7 @@ namespace BuddyApp.BabyPhone
         private RawImage animation;
         [SerializeField]
         private GameObject progressBar;
-        [SerializeField]
-        private AudioSource source;
+
         [SerializeField]
         private Animator babyPhoneAnimator;
 
@@ -21,6 +20,7 @@ namespace BuddyApp.BabyPhone
         private BabyPhoneData mBabyPhoneData;
 
         private AudioClip[] mLullabies;
+        private Speaker mSpeaker; 
 
         private List<string> mLullabyName;
 
@@ -33,9 +33,10 @@ namespace BuddyApp.BabyPhone
 
         void Awake()
         {
-            //mLullabies = Resources.LoadAll<AudioClip>("Sounds");
-            //mLullabyName = new List<string>();
-            //FillMusicName(mLullabyName, mLullabies);
+            mLullabies = Resources.LoadAll<AudioClip>("Sounds");
+            mLullabyName = new List<string>();
+            FillMusicName(mLullabyName, mLullabies);
+            Debug.Log((int)mBabyPhoneData.LullabyToPlay);
             //mLullIndice = (int)mBabyPhoneData.LullabyToPlay;
             //mIsPlaying = false;
             
@@ -44,7 +45,9 @@ namespace BuddyApp.BabyPhone
         {
             //BYOS.Instance.SoundManager.AddSound(mLullabyName[mLullIndice]);
             //BYOS.Instance.SoundManager.Play(mLullabyName[mLullIndice]);
-
+            mSpeaker.Media.Load(mLullabyName[1]);
+            mSpeaker.Media.Play(mLullabyName[1]);
+            Debug.Log("play music");
             //source.clip = mLullabies[(int)mBabyPhoneData.LullabyToPlay];
 
             //mSource.LoadSource(mLullabyName[2]);
@@ -83,7 +86,7 @@ namespace BuddyApp.BabyPhone
                 && (babyPhoneAnimator.GetBool("DoPlayLullaby")))
                 PlayLullabyAndAnimations();
 
-            if (source.isPlaying)
+            //if (source.isPlaying)
             if(mMovie.isPlaying)
             {
                 //mSongSize = source.clip.length;

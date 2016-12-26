@@ -1,0 +1,64 @@
+{
+  "intro":"I will move my eyes and my mouth in a given order and then you will have to touch my face with the same order",
+  "yourTurn":[
+    "It's your turn",
+    "Your turn",
+    "Now try it",
+    "Now try to reproduce it"
+  ],
+  "levels":[
+    {
+      "speed":2.0,
+      "introSentence":"Let's go!",
+      "faces":[
+        3,
+        4,
+        0
+      ],
+      "successSentence":"Nice, let's try an other sequence!",
+      "failureSentence":"Too bad, you loose, but it was a nice try"
+    },
+    {
+      "speed":1.5,
+      "introSentence":"Let's do something a bit harder",
+      "faces":[
+        3,
+        4,
+        4,
+        0,
+        3
+      ],
+      "successSentence":"Well done!",
+      "failureSentence":"Too bad, you failed. You will do better next time!"
+    },
+    {
+      "speed":2.0,
+      "introSentence":"A bit faster this time!",
+      "faces":[
+        4,
+        4,
+        0,
+        4,
+        3
+      ],
+      "successSentence":"Well done! You got everything right, you are really good",
+      "failureSentence":"You loose but you did a good job!"
+    },
+    {
+      "speed":3.0,
+      "introSentence":"Last level, give it all you got",
+      "faces":[
+        4,
+        0,
+        4,
+        0,
+        3,
+        4,
+        0,
+        3
+      ],
+      "successSentence":"Perfect! You are truly a champion!",
+      "failureSentence":"Too bad, you loose. But you were very close!"
+    }
+  ]
+}
