@@ -29,7 +29,7 @@ namespace BuddyApp.BabyPhone
         private float mSongSize;
         private int mLullIndice;
         private bool mIsPlaying;
-        private SoundChannel mSource;
+
 
         void Awake()
         {

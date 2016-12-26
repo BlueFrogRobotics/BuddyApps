@@ -37,6 +37,7 @@ namespace BuddyApp.Recipe
                 GetGameObject(2).SetActive(true);
                 GetGameObject(4).GetComponent<Animator>().SetTrigger("Close_WFullImage");
             }*/
+            GetGameObject(4).GetComponent<Animator>().SetTrigger("Open_WFullImage");
             mTTS.Say(mStepList[GetComponent<RecipeBehaviour>().StepIndex++].sentence);
             GetComponent<Animator>().SetTrigger("TransitionStep");
         }

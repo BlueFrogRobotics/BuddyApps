@@ -20,6 +20,19 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(VocalChat))]
     public class BehaviorManager : MonoBehaviour
     {
+        private bool mAskedSomething;
+        private bool mVocalWanderOrder;
+        private bool mActionInProgress;
+        private float mInactiveTime;
+        private Stack<Action> mActionStack;
+        private Action mCurrentAction;
+
+        private CompanionData mCompanionData;
+        private Dictionary mDictionary;
+        private VocalActivation mVocalActivation;
+        private VocalChat mVocalChat;
+        private YesHinge mYesHinge;
+
         private AccelerometerDetector mAccelerometerDetector;
         private BuddyFaceDetector mBuddyFaceDetector;
         private CliffDetector mCliffDetector;
@@ -30,18 +43,6 @@ namespace BuddyApp.Companion
         private SpeechDetector mSpeechDetector;
         private ThermalDetector mThermalDetector;
         private USDetector mUSDetector;
-        private VocalChat mVocalChat;
-
-        private Dictionary mDictionary;
-        private CompanionData mCompanionData;
-
-        private bool mAskedSomething;
-        private bool mVocalWanderOrder;
-        private bool mActionInProgress;
-        private float mInactiveTime;
-        private Stack<Action> mActionStack;
-        private Action mCurrentAction;
-        //private VocalActivation mVocalActivation;
 
         void Start()
         {
@@ -60,9 +61,12 @@ namespace BuddyApp.Companion
             mUSDetector = GetComponent<USDetector>();
             mVocalChat = GetComponent<VocalChat>();
 
-            mDictionary = BYOS.Instance.Dictionary;
-            BYOS.Instance.VocalActivation.enabled = true;
             mCompanionData = CompanionData.Instance;
+            mDictionary = BYOS.Instance.Dictionary;
+            mVocalActivation = BYOS.Instance.VocalActivation;
+            mVocalActivation.enabled = true;
+            mYesHinge = BYOS.Instance.Motors.YesHinge;
+            //mVocalActivation.StartRecoWithTrigger();
 
             mVocalChat.WithNotification = true;
             mVocalChat.OnQuestionTypeFound = SortQuestionType;
@@ -89,12 +93,6 @@ namespace BuddyApp.Companion
             //if (mBuddyFaceDetector.FaceTouched)
             //    mReaction.StopEverything();
 
-            if (mHeadForcedDetector.HeadForcedDetected)
-                PushInStack(mReaction.HeadForced);
-
-            if (mThermalDetector.ThermalDetected && !mFaceDetector.FaceDetected)
-                PushInStack(mReaction.StepBackHelloReaction);
-
             if (mFaceDetector.FaceDetected)
                 mReaction.FollowFace();
             else
@@ -102,6 +100,14 @@ namespace BuddyApp.Companion
 
             if (mBuddyFaceDetector.FaceSmashed)
                 PushInStack(mReaction.Pout);
+
+            if (mHeadForcedDetector.HeadForcedDetected)
+                PushInStack(mReaction.HeadForced);
+
+            //if (mThermalDetector.ThermalDetected && !mFaceDetector.FaceDetected && mCurrentAction == null)
+            //    mReaction.StepBackHelloReaction();
+            //else if (!mThermalDetector.ThermalDetected)
+            //    mReaction.DisableSayHelloReaction();
 
             if (!mVocalWanderOrder || mBuddyFaceDetector.EyeTouched ||
                 mFaceDetector.FaceDetected || mCurrentAction != null ) {
@@ -176,11 +182,29 @@ namespace BuddyApp.Companion
                     break;
 
                 case "CanMove":
-                    CompanionData.Instance.CanMoveBody = true;
+                    mCompanionData.CanMoveBody = true;
                     break;
 
                 case "DontMove":
-                    CompanionData.Instance.CanMoveBody = false;
+                    mVocalWanderOrder = false;
+                    //mCompanionData.CanMoveBody = false;
+                    mReaction.StopMoving();
+                    break;
+
+                case "HeadUp":
+                    mYesHinge.SetPosition(-15F);
+                    break;
+
+                case "HeadDown":
+                    mYesHinge.SetPosition(10F);
+                    break;
+
+                case "VolumeUp":
+                    BYOS.Instance.Speaker.VolumeUp();
+                    break;
+
+                case "VolumeDown":
+                    BYOS.Instance.Speaker.VolumeDown();
                     break;
 
                 case "LookAtMe":
@@ -190,6 +214,38 @@ namespace BuddyApp.Companion
 				case "Photo":
 					new LoadAppBySceneCmd("TakePhotoApp").Execute();
 					break;
+
+                case "Calcul":
+                    new LoadAppBySceneCmd("CalculGameApp").Execute();
+                    break;
+
+                case "Babyphone":
+                    new LoadAppBySceneCmd("BabyApp").Execute();
+                    break;
+
+                case "FreezeDance":
+                    new LoadAppBySceneCmd("FreezeDanceApp").Execute();
+                    break;
+
+                case "Guardian":
+                    new LoadAppBySceneCmd("Guardian").Execute();
+                    break;
+
+                case "IOT":
+                    new LoadAppBySceneCmd("IOT").Execute();
+                    break;
+
+                case "Jukebox":
+                    new LoadAppBySceneCmd("JukeboxApp").Execute();
+                    break;
+
+                case "Recipe":
+                    new LoadAppBySceneCmd("Recipe").Execute();
+                    break;
+
+                case "RLGL":
+                    new LoadAppBySceneCmd("RLGLApp").Execute();
+                    break;
 
 				case "Quizz":
                     break;

@@ -7,8 +7,12 @@ namespace BuddyApp.Companion
 {
     public class WanderReaction : MonoBehaviour
     {
+        [SerializeField]
+        private Emotion mEmotion;
+
         private const float MIN_DIST = 0.4f;
 
+        private bool mInitialized;
         private bool mIsSearchingPoint;
         private bool mHeadSearchPlaying;
         private bool mChangingDirection;
@@ -25,6 +29,7 @@ namespace BuddyApp.Companion
 
         void Start()
         {
+            mInitialized = true;
             mIRSensors = BYOS.Instance.IRSensors;
             mMood = BYOS.Instance.Mood;
             mNoHinge = BYOS.Instance.Motors.NoHinge;
@@ -35,6 +40,11 @@ namespace BuddyApp.Companion
 
         void OnEnable()
         {
+            if(!mInitialized) {
+                Start();
+                mInitialized = true;
+            }
+
             mHeadSearchPlaying = false;
             mChangingDirection = false;
             mIsSearchingPoint = true;
@@ -116,6 +126,21 @@ namespace BuddyApp.Companion
 
         private IEnumerator ChangeDirectionCo()
         {
+            switch(Random.Range(0, 6))
+            {
+                case 0:
+                    mMood.Set(MoodType.TIRED);
+                    break;
+                case 1:
+                    mMood.Set(MoodType.GRUMPY);
+                    break;
+                case 2:
+                    mMood.Set(MoodType.HAPPY);
+                    break;
+                default:
+                    mMood.Set(MoodType.NEUTRAL);
+                    break;
+            }
             float lRandomAngle = Random.Range(-45F, 45F);
             mNoHinge.SetPosition(lRandomAngle);
 

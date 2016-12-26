@@ -37,10 +37,7 @@ namespace BuddyApp.Recipe
             if (GetComponent<RecipeBehaviour>().StepIndex == GetComponent<RecipeBehaviour>().mRecipe.step.Count)
                 GetComponent<RecipeBehaviour>().Exit();
             else
-            {
-                GetComponent<RecipeBehaviour>().StepIndex++;
                 GetComponent<Animator>().SetTrigger("DisplayStep");
-            }
         }
 
         public void LastStep()
@@ -49,11 +46,15 @@ namespace BuddyApp.Recipe
             {
                 GetComponent<RecipeBehaviour>().StepIndex = 0;
                 GetComponent<RecipeBehaviour>().IngredientIndex -= 3;
+                GetGameObject(4).GetComponent<Animator>().SetTrigger("Close_WFullImage");
                 GetComponent<Animator>().SetTrigger("DisplayIngredient");
             }
             else
             {
-                GetComponent<RecipeBehaviour>().StepIndex -= 2;
+                if (GetComponent<RecipeBehaviour>().StepIndex > 1)
+                    GetComponent<RecipeBehaviour>().StepIndex -= 2;
+                else
+                    GetComponent<RecipeBehaviour>().StepIndex = 0;
                 GetComponent<Animator>().SetTrigger("DisplayStep");
             }
         }

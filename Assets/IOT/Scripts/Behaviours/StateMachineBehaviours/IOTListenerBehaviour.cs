@@ -15,20 +15,25 @@ namespace BuddyApp.IOT
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
             mFound = false;
-            using (XmlReader lReader = XmlReader.Create(System.IO.Path.Combine(Application.streamingAssetsPath,"iot_speech.xml")))
+            using (XmlReader lReader = XmlReader.Create(BuddyTools.Utils.GetStreamingAssetFilePath("iot_speech.xml")))
             {
                 while (lReader.Read() && !mFound)
                 {
                     if (lReader.IsStartElement())
                     {
                         string lName = lReader.Name;
+                        string lAction = null;
+                        if (lReader.HasAttributes)
+                            lAction = lReader.GetAttribute("action");
                         if (lReader.Read())
                         {
                             string[] lValues = lReader.Value.Split('/');
                             for (int i = 0; i < lValues.Length; ++i)
                             {
-                                if (mOldMsg.Contains(lValues[i]))
+                                if (CommonStrings["STT"].Contains(lValues[i]))
                                 {
+                                    if (lAction != null)
+                                        iAnimator.SetInteger(HashList[(int)HashTrigger.ACTION], System.Convert.ToInt32(lAction));
                                     iAnimator.SetTrigger(lName);
                                     mFound = true;
                                     break;

@@ -4,67 +4,67 @@ using System.Collections.Generic;
 using System;
 using BuddyOS;
 
-public class CalculGameIntro : SpeechStateBehaviour
+
+namespace BuddyApp.CalculGame
 {
+	public class CalculGameIntro : SpeechStateBehaviour
+	{
 
-    private float mTTSTimer;
+		private float mTTSTimer;
 
-    // list dialogs strings
-    private List<string> introWords;
+		// list dialogs strings
+		private List<string> introWords;
 
-    private AnimManager mAnimationManager;
-    private SoundManager mSoundManager;
+		private AnimManager mAnimationManager;
 
-    public override void Init()
-    {
+		public override void Init()
+		{
 
-        mAnimationManager = GetComponentInGameObject<AnimManager>(0);
-        mSoundManager = GetComponentInGameObject<SoundManager>(1);
+			mAnimationManager = GetComponentInGameObject<AnimManager>(0);
 
-        //Set the number of games:
+			//Set the number of games:
 
-        CommonIntegers["nbLevels"] = 3;
+			CommonIntegers["nbLevels"] = 3;
 
 
-        if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
-            mSynonymesFile = Resources.Load<TextAsset>("calculs_dialogs_fr.xml").text;
-        } else {
-            mSynonymesFile = Resources.Load<TextAsset>("calculs_dialogs_en.xml").text;
-        }
+			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA)
+				mSynonymesFile = Resources.Load<TextAsset>("calculs_dialogs_fr.xml").text;
+			else
+				mSynonymesFile = Resources.Load<TextAsset>("calculs_dialogs_en.xml").text;
+		}
 
-    }
+		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			// init timer
+			mTTSTimer = 0.0f;
 
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        // init timer
-        mTTSTimer = 0.0f;
+			// init dialog list
+			introWords = new List<string>();
 
-        // init dialog list
-        introWords = new List<string>();
+			// fill dialog list from xml file
+			FillListSyn("Intro", introWords);
 
-        // fill dialog list from xml file
-        FillListSyn("Intro", introWords);
+			// play sound, anim and start talking
+			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
+			mAnimationManager.Smile();
+			mTTS.Silence(1000, true);
+			mTTS.Say(RdmStr(introWords), true);
+		}
 
-        // play sound, anim and start talking
-        mSoundManager.PlaySound(SoundType.LAUGH2);
-        mAnimationManager.Smile();
-        mTTS.Silence(1000, true);
-        mTTS.Say(RdmStr(introWords), true);
-    }
+		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+		protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			mTTSTimer += Time.deltaTime;
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        mTTSTimer += Time.deltaTime;
+			// once the tts is done, set trigger to go to the next state
+			if (mTTS.HasFinishedTalking && mTTSTimer > 3.0f) {
+				animator.SetTrigger("IntroDone");
+			}
+		}
 
-        // once the tts is done, set trigger to go to the next state
-        if (mTTS.HasFinishedTalking && mTTSTimer > 3.0f) {
-            animator.SetTrigger("IntroDone");
-        }
-    }
-
-    protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-    {
-    }
+		protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+		{
+		}
+	}
 }
