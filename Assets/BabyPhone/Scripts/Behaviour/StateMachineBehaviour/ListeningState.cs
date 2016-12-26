@@ -18,7 +18,7 @@ namespace BuddyApp.BabyPhone
         //private Button mNotificationsButton;
         //private Text mNotificationAmount;
 
-        private InputMicro mMicro;
+        private InputMicro mInputMicro;
 
         private bool mIsBabyCrying;
 
@@ -40,7 +40,7 @@ namespace BuddyApp.BabyPhone
             //mNotificationsButton = GetGameObject(23).GetComponent<Button>();
             //mNotificationAmount = GetGameObject(24).GetComponent<Text>();
 
-            mMicro = mListening.GetComponent<InputMicro>();
+            mInputMicro = mListening.GetComponent<InputMicro>();
             mContactIndice = (int) mBabyPhoneData.Recever;
             mBabyName = mBabyPhoneData.BabyName;
             mMicroSensitivty = mBabyPhoneData.MicrophoneSensitivity;
@@ -85,7 +85,7 @@ namespace BuddyApp.BabyPhone
             {
                 StartCoroutine(SetListenMood());
 
-                mSound = mMicro.Loudness;
+                mSound = mInputMicro.Loudness;
                 mMean += mSound;
                 mCount = mCount + 1;
 

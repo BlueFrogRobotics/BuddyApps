@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using BuddyOS.UI;
 using BuddyOS;
 
@@ -22,9 +21,6 @@ namespace BuddyApp.BabyPhone
         [SerializeField]
         private GaugeOnOff animationBrightness;
 
-        //[SerializeField]
-        //private Button AnimationPlayPause;
-
         [SerializeField]
         private Dropdown animationSelection;
 
@@ -46,12 +42,10 @@ namespace BuddyApp.BabyPhone
         [SerializeField]
         private OnOff saveSettings;
 
-        private BabyPhoneData mBabyPhoneData;
         private Dictionary mDictionary;
 
         void OnEnable()
         {
-            mBabyPhoneData = BabyPhoneData.Instance;
             mDictionary = BYOS.Instance.Dictionary;
             
         }
