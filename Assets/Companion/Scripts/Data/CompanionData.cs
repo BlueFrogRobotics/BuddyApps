@@ -7,6 +7,8 @@ namespace BuddyApp.Companion
         public bool CanMoveBody { get; set; }
         public bool CanMoveHead { get; set; }
         public bool UseCamera { get; set; }
+        public bool CanSetHeadPos { get; set; }
+        public float HeadPosition { get; set; }
 
         public static CompanionData Instance
         {

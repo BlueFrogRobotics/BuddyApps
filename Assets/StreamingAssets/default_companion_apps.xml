@@ -74,7 +74,7 @@
     <name />
     <hideFlags>None</hideFlags>
     <DisplayName>BABY</DisplayName>
-    <Scene>BabyPhoneApp</Scene>
+    <Scene>BabyApp</Scene>
     <Icon>Ico_BabyPhone</Icon>
     <VocalKeys>
       <string>babyphone</string>
@@ -83,6 +83,16 @@
     <Atlas>AtlasBabyPhone</Atlas>
     <OptionsLayoutStr>BuddyApp.BabyPhone.BabyPhoneLayout</OptionsLayoutStr>
     <DataFile>baby_phone_data.xml</DataFile>
+  	<LangDictionaries>
+      <LangDictionary>
+        <Language>FRA</Language>
+        <Path>FrenchBabyPhoneAppDict</Path>
+      </LangDictionary>
+      <LangDictionary>
+        <Language>ENG</Language>
+        <Path>EnglishBabyPhoneAppDict</Path>
+      </LangDictionary>
+    </LangDictionaries>
   </AppInfo>
   <AppInfo>
     <name />
@@ -91,7 +101,6 @@
     <Scene>IOT</Scene>
     <Icon>IOT_Ico_App</Icon>
     <Atlas>AtlasIOT</Atlas>
-	<OptionsLayoutStr>BuddyApp.IOT.IOTLayout</OptionsLayoutStr>
 	<DataFile>iot_data.xml</DataFile>
   </AppInfo>
   <AppInfo>

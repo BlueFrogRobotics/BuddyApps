@@ -20,7 +20,7 @@ namespace BuddyApp.CalculGame
 
 			CommonIntegers["score"] = 0;
 
-			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
+			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA) {
 				mSynonymesFile = Resources.Load<TextAsset>("calculs_dialogs_fr.xml").text;
 			} else {
 				mSynonymesFile = Resources.Load<TextAsset>("calculs_dialogs_en.xml").text;
@@ -37,7 +37,7 @@ namespace BuddyApp.CalculGame
 
 			CommonIntegers["score"] += 1;
 
-			BYOS.Instance.SoundManager.Play(SoundType.RANDOM_SURPRISED);
+			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 			mMood.Set(MoodType.HAPPY);
 			mAnimationManager.Smile();
 			mTTS.Silence(1000, true);

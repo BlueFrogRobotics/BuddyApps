@@ -64,15 +64,27 @@ namespace BuddyApp.Companion
         private EmotionType mEmotion;
         private EmotionEvent mEvent;
         private Face mFace;
+        private Mood mMood;
 
         void Start()
         {
             mFace = BYOS.Instance.Face;
+            mMood = BYOS.Instance.Mood;
         }
 
         void Update()
         {
 
+        }
+
+        public void EnableChoregraph()
+        {
+            GetComponent<Choregraph>().enabled = true;
+        }
+
+        public void DisableChoregraph()
+        {
+            GetComponent<Choregraph>().enabled = false;
         }
 
         internal void SetEmotion(EmotionType iType)
@@ -192,73 +204,73 @@ namespace BuddyApp.Companion
         private void Neutral()
         {
             mAnimator.SetLayerWeight(0, 1F);
-            mFace.SetExpression(MoodType.NEUTRAL);
+            mMood.Set(MoodType.NEUTRAL);
         }
 
         private void Afraid()
         {
             mAnimator.SetLayerWeight(1, 1F);
-            mFace.SetExpression(MoodType.SCARED);
+            mMood.Set(MoodType.SCARED);
         }
 
         private void Angry()
         {
             mAnimator.SetLayerWeight(2, 1F);
-            mFace.SetExpression(MoodType.ANGRY);
+            mMood.Set(MoodType.ANGRY);
         }
 
         private void Curious()
         {
             mAnimator.SetLayerWeight(3, 1F);
-            mFace.SetExpression(MoodType.NEUTRAL);
+            mMood.Set(MoodType.NEUTRAL);
         }
 
         private void Focus()
         {
             mAnimator.SetLayerWeight(4, 1F);
-            mFace.SetExpression(MoodType.THINKING);
+            mMood.Set(MoodType.THINKING);
         }
 
         private void Grumpy()
         {
             mAnimator.SetLayerWeight(5, 1F);
-            mFace.SetExpression(MoodType.GRUMPY);
+            mMood.Set(MoodType.GRUMPY);
         }
 
         private void Happy()
         {
             mAnimator.SetLayerWeight(6, 1F);
-            mFace.SetExpression(MoodType.HAPPY);
+            mMood.Set(MoodType.HAPPY);
         }
 
         private void Listen()
         {
             mAnimator.SetLayerWeight(7, 1F);
-            mFace.SetExpression(MoodType.LISTENING);
+            mMood.Set(MoodType.LISTENING);
         }
 
         private void Sad()
         {
             mAnimator.SetLayerWeight(8, 1F);
-            mFace.SetExpression(MoodType.SAD);
+            mMood.Set(MoodType.SAD);
         }
 
         private void Sick()
         {
             mAnimator.SetLayerWeight(9, 1F);
-            mFace.SetExpression(MoodType.SICK);
+            mMood.Set(MoodType.SICK);
         }
 
         private void Sleep()
         {
             mAnimator.SetLayerWeight(10, 1F);
-            mFace.SetExpression(MoodType.TIRED);
+            mMood.Set(MoodType.TIRED);
         }
 
         private void Tired()
         {
             mAnimator.SetLayerWeight(11, 1F);
-            mFace.SetExpression(MoodType.TIRED);
+            mMood.Set(MoodType.TIRED);
         }
                 
 

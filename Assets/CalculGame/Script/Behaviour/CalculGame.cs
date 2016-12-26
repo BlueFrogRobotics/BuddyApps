@@ -76,7 +76,7 @@ namespace BuddyApp.CalculGame
 			mCanvasCalcul = GetComponentInGameObject<Canvas>(2);
 			mProgressBar = GetGameObject(3);
 
-			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
+			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA) {
 				mCalculsDialogFileName = "calculs_dialogs_fr.xml";
 				mCalculsUIFileName = "calculs_ui_fr.xml";
 			} else {
@@ -569,7 +569,7 @@ namespace BuddyApp.CalculGame
 		// called when clicking on a button
 		public void ProcessClickButton(string value)
 		{
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_1);
+			BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
 			Debug.Log("Clicked button with value : " + value);
 			mTTS.Silence(5, false);
 			mClickedButtonValue = value;

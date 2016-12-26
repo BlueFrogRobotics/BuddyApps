@@ -439,19 +439,6 @@
             <param name="iAngleDeg">Position asked in degrees</param>
             <param name="iSpeed">Speed asked between 0 and 1</param>
         </member>
-        <member name="M:BuddyAPI.HardwareDivision.RealTablet.ChoseWebcam">
-            <summary>
-            Chose an available camera.
-            Check if there is any available camera on the device.
-            </summary>
-        </member>
-        <member name="M:BuddyAPI.HardwareDivision.RealTablet.ChoseWebcam(System.Int32)">
-            <summary>
-            Chose a specific camera from iID.
-            </summary>
-            <param name="iID"></param>
-            <returns></returns>
-        </member>
         <member name="M:BuddyAPI.HardwareDivision.RealTablet.InitWebcam(System.Int32)">
             <summary>
             Init the camera with default parameters.
@@ -483,6 +470,19 @@
             <summary>
             Update the camera frame to the current input RGB camera value.
             </summary>
+        </member>
+        <member name="M:BuddyAPI.HardwareDivision.RealTablet.ChoseWebcam">
+            <summary>
+            Chose an available camera.
+            Check if there is any available camera on the device.
+            </summary>
+        </member>
+        <member name="M:BuddyAPI.HardwareDivision.RealTablet.ChoseWebcam(System.Int32)">
+            <summary>
+            Chose a specific camera from iID.
+            </summary>
+            <param name="iID"></param>
+            <returns></returns>
         </member>
         <member name="M:BuddyAPI.HardwareDivision.RealTablet.StartMicro(System.String,System.Boolean,System.Int32,System.Int32)">
             <summary>
@@ -3106,6 +3106,13 @@
             <summary>
             Common tools, mathematic functions and conversions
             </summary>
+        </member>
+        <member name="M:BuddyTools.Utils.UpperFirst(System.String)">
+            <summary>
+            Make the first character to upper case
+            </summary>
+            <param name="iString">The input string to upper first</param>
+            <returns>The string with an upper first character</returns>
         </member>
         <member name="M:BuddyTools.Utils.CollectionToString``1(System.Collections.Generic.ICollection{``0})">
             <summary>

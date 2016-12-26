@@ -20,7 +20,7 @@ namespace BuddyApp.CalculGame
 		{
 			mAnimationManager = GetComponentInGameObject<AnimManager>(0);
 
-			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
+			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA) {
 				mSynonymesFile = "calculs_dialogs_fr.xml";
 			} else {
 				mSynonymesFile = "calculs_dialogs_en.xml";
@@ -41,7 +41,7 @@ namespace BuddyApp.CalculGame
 
 			mMood.Set(MoodType.SAD);
 			mAnimationManager.Sigh();
-			BYOS.Instance.SoundManager.Play(SoundType.RANDOM_CURIOUS);
+			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 			mTTS.Silence(500, true);
 			mTTS.Say(RdmStr(quitWords), true);
 
