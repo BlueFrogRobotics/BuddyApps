@@ -25,8 +25,8 @@ namespace BuddyApp.Memory
 				ttsTimer = 0.0f;
 
 				BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-				link.tts.Silence(1000, true);
-				link.tts.Say(link.gameLevels.intro, true);
+				mTTS.Silence(1000, true);
+				mTTS.Say(link.gameLevels.intro, true);
 			}
 
 

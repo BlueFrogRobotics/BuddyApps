@@ -23,10 +23,10 @@ namespace BuddyApp.Memory
 
 
 			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
-			link.tts.Silence(1000, true);
-			link.mMood.Set(MoodType.SAD);
-			link.animationManager.Sigh();
-			link.tts.Say(link.currentLevel.failureSentence, true);
+			mTTS.Silence(1000, true);
+			mMood.Set(MoodType.SAD);
+			link.mAnimationManager.Sigh();
+			mTTS.Say(link.currentLevel.failureSentence, true);
 		}
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
