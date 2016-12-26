@@ -6,25 +6,24 @@ namespace BuddyApp.Recipe
 {
     public class DisplayIngredient : AStateMachineBehaviour
     {
-        private bool mSentenceDone = false;
+        private bool mSentenceDone;
         private List<Ingredient> mIngredientList;
 
         public override void Init()
         {
+            mSentenceDone = false;
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!GetComponent<RecipeBehaviour>().IsBackgroundActivated)
-            {
+            if (!GetComponent<RecipeBehaviour>().IsBackgroundActivated) {
                 GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
-                GetGameObject(1).SetActive(true);
                 GetGameObject(2).SetActive(false);
+                GetGameObject(1).SetActive(true);
                 GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
             }
             GetGameObject(3).GetComponent<Animator>().SetTrigger("Open_WList");
-            if (!mSentenceDone)
-            {
+            if (!mSentenceDone) {
                 mTTS.Say("Pour commencer préparez les ingrédients suivants:");
                 GetComponent<RecipeBehaviour>().IngredientIndex = 0;
                 GetComponent<RecipeBehaviour>().IngredientNbr = GetComponent<RecipeBehaviour>().mRecipe.ingredient.Count;

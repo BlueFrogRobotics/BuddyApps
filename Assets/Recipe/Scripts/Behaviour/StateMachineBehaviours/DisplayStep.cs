@@ -7,38 +7,26 @@ namespace BuddyApp.Recipe
 {
     public class DisplayStep : AStateMachineBehaviour
     {
-        private bool mInit = false;
-        private List<Step> mStepList { get; set; }
+        private bool mInit;
+
+        private List<Step> StepList { get; set; }
 
         public override void Init()
         {
+            mInit = false;
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mInit)
-            {
-                mStepList = GetComponent<RecipeBehaviour>().mRecipe.step;
+            if (!mInit) {
+                StepList = GetComponent<RecipeBehaviour>().mRecipe.step;
                 mInit = true;
                 GetComponent<RecipeBehaviour>().StepIndex = 0;
             }
-            /*if (mStepList[GetComponent<RecipeBehaviour>().StepIndex].media != null)
-            {
-                GetGameObject(7).GetComponent<RawImage>().texture = Resources.Load(mStepList[GetComponent<RecipeBehaviour>().StepIndex].media) as Texture;
-                GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
-                GetGameObject(1).SetActive(true);
-                GetGameObject(2).SetActive(false);
-                GetGameObject(4).GetComponent<Animator>().SetTrigger("Open_WFullImage");
-            }
-            else
-            {
-                GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
-                GetGameObject(1).SetActive(false);
-                GetGameObject(2).SetActive(true);
-                GetGameObject(4).GetComponent<Animator>().SetTrigger("Close_WFullImage");
-            }*/
             GetGameObject(4).GetComponent<Animator>().SetTrigger("Open_WFullImage");
-            mTTS.Say(mStepList[GetComponent<RecipeBehaviour>().StepIndex++].sentence);
+            GetGameObject(12).GetComponent<Text>().text = StepList[GetComponent<RecipeBehaviour>().StepIndex].sentence;
+            GetGameObject(7).GetComponent<RawImage>().texture = Resources.Load(StepList[GetComponent<RecipeBehaviour>().StepIndex].media) as Texture;
+            mTTS.Say(StepList[GetComponent<RecipeBehaviour>().StepIndex++].sentence);
             GetComponent<Animator>().SetTrigger("TransitionStep");
         }
 
