@@ -9,22 +9,20 @@ using BuddyOS;
 
 namespace BuddyApp.TakePhoto
 {
-	public class AskMail : SpeechStateBehaviour
+	public class AskPhoto : SpeechStateBehaviour
 	{
 
 		private bool mNeedListen;
 		private bool mFirst;
 
-		bool mPressedYes;
-		bool mPressedNo;
+		bool mPressedPhoto;
+		bool mPressedMove;
 
 		private string mLastSpeech;
 		private short mErrorCount;
 
-		private List<string> mAcceptSpeech;
-		private List<string> mAnOtherSpeech;
-		private List<string> mQuitSpeech;
-		private List<string> mRefuseSpeech;
+		private List<string> mMoveSpeech;
+		private List<string> mPhotoSpeech;
 		private List<string> mDidntUnderstandSpeech;
 
 		private Canvas mCanvasYesNo;
@@ -35,10 +33,10 @@ namespace BuddyApp.TakePhoto
 
 		public override void Init()
 		{
-			Debug.Log("init mail");
+			Debug.Log("init ask photo");
 			mCanvasYesNo = GetComponentInGameObject<Canvas>(4);
 			mCanvasBackGround = GetComponentInGameObject<Canvas>(7);
-			Debug.Log("init mail done");
+			Debug.Log("init ask photo done");
 		}
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -48,18 +46,17 @@ namespace BuddyApp.TakePhoto
 			mNeedListen = true;
 			mFirst = true;
 
-			mPressedYes = false;
-			mPressedNo = false;
+			mPressedPhoto = false;
+			mPressedMove = false;
 
 			canvasDisplayed = false;
 
 			Button[] buttons = mCanvasYesNo.GetComponentsInChildren<Button>();
-			buttons[0].onClick.AddListener(PressedNo);
-			buttons[1].onClick.AddListener(PressedYes);
+			buttons[0].onClick.AddListener(PressedMove);
+			buttons[1].onClick.AddListener(PressedPhoto);
 
-			mAcceptSpeech = new List<string>();
-			mQuitSpeech = new List<string>();
-			mRefuseSpeech = new List<string>();
+			mMoveSpeech = new List<string>();
+			mPhotoSpeech = new List<string>();
 			mDidntUnderstandSpeech = new List<string>();
 
 			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA)
@@ -68,13 +65,13 @@ namespace BuddyApp.TakePhoto
 				mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoEN.xml").text;
 
 
-			FillListSyn("Accept", mAcceptSpeech);
-			FillListSyn("Refuse", mRefuseSpeech);
-			FillListSyn("Quit", mQuitSpeech);
+			FillListSyn("Move", mMoveSpeech);
+			FillListSyn("Photo", mPhotoSpeech);
 			FillListSyn("DidntUnderstand", mDidntUnderstandSpeech);
 
 			mLastSpeech = "";
-			SayInLang("mail", true);
+			mTTS.SayKey("noface", true);
+			mTTS.SayKey("askmovephoto", true);
 
 			// starting STT with callback
 			mSTT.OnBestRecognition.Add(OnSpeechRecognition);
@@ -86,11 +83,11 @@ namespace BuddyApp.TakePhoto
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 		protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			if (mPressedYes) {
-				animator.SetTrigger("SendMailAccepted");
-			} else if (mPressedNo) {
-				SayInLang("okNP", true);
-				animator.SetTrigger("SendMailRefused");
+			if (mPressedPhoto) {
+				animator.SetTrigger("Photo");
+			} else if (mPressedMove) {
+				mTTS.SayKey("ok", true);
+				animator.SetTrigger("VocalCom");
 			} else {
 				if (mTTS.HasFinishedTalking) {
 					if ((mSTT.HasFinished || mFirst) && mNeedListen) {
@@ -109,18 +106,18 @@ namespace BuddyApp.TakePhoto
 
 						} else {
 							Debug.Log("LastAns != previous");
-							if (ContainsOneOf(mLastSpeech, mAcceptSpeech)) {
-								animator.SetTrigger("SendMailAccepted");
-							} else if (ContainsOneOf(mLastSpeech, mRefuseSpeech) || ContainsOneOf(mLastSpeech, mQuitSpeech)) {
-								SayInLang("okNP", true);
-								animator.SetTrigger("SendMailRefused");
+							if (ContainsOneOf(mLastSpeech, mMoveSpeech)) {
+								animator.SetTrigger("Photo");
+							} else if (ContainsOneOf(mLastSpeech, mPhotoSpeech)) {
+								mTTS.SayKey("ok", true);
+								animator.SetTrigger("VocalCom");
 							} else {
 
-								SayInLang("didntUnderstand", true);
+								mTTS.SayKey("didntUnderstand", true);
 								mTTS.Silence(1000, true);
-								SayInLang("yesOrNo", true);
+								mTTS.SayKey("movephoto", true);
 								mTTS.Silence(1000, true);
-								SayInLang("mail", true);
+								mTTS.SayKey("askmovephoto", true);
 								mLastSpeech = "";
 								mNeedListen = true;
 								if (!canvasDisplayed) {
@@ -136,27 +133,27 @@ namespace BuddyApp.TakePhoto
 		}
 
 
-		public void PressedYes()
+		public void PressedPhoto()
 		{
 
 			BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
-			Debug.Log("Pressed Button Yes");
+			Debug.Log("Pressed Button Photo");
 
 			//Stop speech
 			mTTS.Silence(5);
-			mPressedYes = true;
+			mPressedPhoto = true;
 		}
 
 
-		public void PressedNo()
+		public void PressedMove()
 		{
 
 			BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
-			Debug.Log("Pressed Button No");
+			Debug.Log("Pressed Button Move");
 
 			//Stop speech
 			mTTS.Silence(5);
-			mPressedNo = true;
+			mPressedMove = true;
 		}
 
 
@@ -201,7 +198,6 @@ namespace BuddyApp.TakePhoto
 			} else {
 
 				mMood.Set(MoodType.NEUTRAL);
-				//string lSentence = RdmStr(mDidntUnderstandSpeech);
 				string lSentence = mDictionary.GetString("didntUnderstand");
 
 				switch (iError) {
@@ -243,9 +239,9 @@ namespace BuddyApp.TakePhoto
 
 			Text[] textObjects = mCanvasYesNo.GetComponentsInChildren<Text>();
 
-			textObjects[0].text = mDictionary.GetString("mail").ToUpper();
-			textObjects[1].text = mDictionary.GetString("no").ToUpper();
-			textObjects[2].text = mDictionary.GetString("yes").ToUpper();
+			textObjects[0].text = mDictionary.GetString("askmovephotow").ToUpper();
+			textObjects[1].text = mDictionary.GetString("move").ToUpper();
+			textObjects[2].text = mDictionary.GetString("photo").ToUpper();
 
 			mCanvasBackGround.GetComponent<Animator>().SetTrigger("Open_BG");
 			mCanvasYesNo.GetComponent<Animator>().SetTrigger("Open_WQuestion");
