@@ -16,7 +16,7 @@ namespace BuddyApp.BabyPhone
 
         private Animator mFallingAssleepAnimator;
 
-        private InputMicro mMicro;
+        private InputMicro mInputMicro;
         private int mCountNotification;
         private int mCount;
         private float mSound;
@@ -34,7 +34,7 @@ namespace BuddyApp.BabyPhone
             mFallingAssleep = GetGameObject(7);
             mFallingAssleepAnimator = mFallingAssleep.GetComponent<Animator>();
 
-            mMicro = mFallingAssleep.GetComponent<InputMicro>();
+            mInputMicro = mFallingAssleep.GetComponent<InputMicro>();
 
             mCount = 0;
             mMean = 0F;
@@ -82,7 +82,7 @@ namespace BuddyApp.BabyPhone
             }
             else
             {
-                mSound = mMicro.Loudness;
+                mSound = mInputMicro.Loudness;
                 mMean += mSound;
                 mCount = mCount + 1;
 
@@ -106,7 +106,7 @@ namespace BuddyApp.BabyPhone
             yield return new WaitForSeconds(1.5F);
             MailSender lSender = new MailSender("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL);
             Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", mBabyName + " seems to cry =(");
-            lEmail.Addresses.Add("buddy.bluefrog@gmail.com");
+            lEmail.Addresses.Add(GetMailContact(mContactIndice));
             lEmail.AddTexture2D(mRGBCam.FrameTexture2D, "image.png");
             lSender.Send(lEmail);
             yield return new WaitForSeconds(1.5F);

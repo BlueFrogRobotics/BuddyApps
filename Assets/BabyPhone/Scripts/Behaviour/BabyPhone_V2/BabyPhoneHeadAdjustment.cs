@@ -13,9 +13,6 @@ namespace BuddyApp.BabyPhone
         private Motors mMotors;
         private RGBCam mRGBCam;
 
-        private float mNormalSpeed = 100F;
-        private float mRotationSpeed = 100F;
-
         private float mNoSpeed = 100.0F;
         private float mYesSpeed = 100.0F;
         private float mYesAngle = 0.0F;

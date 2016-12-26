@@ -7,8 +7,6 @@ namespace BuddyApp.BabyPhone
 {
     public class ParametersSettingState : AStateMachineBehaviour
     {
-        private BabyPhoneData mBabyPhoneData;
-
         private GameObject mParameters;
         private GameObject mWindoAppOverWithe;
         private GameObject mBlackground;
@@ -17,8 +15,6 @@ namespace BuddyApp.BabyPhone
 
         public override void Init()
         {
-            mBabyPhoneData = BabyPhoneData.Instance;
-
             mParameters = GetGameObject(5);
             mWindoAppOverWithe = GetGameObject(3);
             mBlackground = GetGameObject(1);
