@@ -12,6 +12,12 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if (GetComponent<RecipeBehaviour>().IsBackgroundActivated) {
+                GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
+                GetGameObject(2).SetActive(true);
+                GetGameObject(1).SetActive(false);
+                GetComponent<RecipeBehaviour>().IsBackgroundActivated = false;
+            }
             mTTS.Say("Désolé je n'ai trouvé aucune recette correspondant à ces critères");
         }
 

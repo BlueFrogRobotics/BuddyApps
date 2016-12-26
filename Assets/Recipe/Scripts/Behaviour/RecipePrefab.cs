@@ -8,28 +8,40 @@ namespace BuddyApp.Recipe
     {
         [SerializeField]
         private List<GameObject> maskStars;
+
         [SerializeField]
         private GameObject maskTime;
+
         [SerializeField]
         private GameObject maskText;
+
         [SerializeField]
         private GameObject maskIngredient;
+
         [SerializeField]
         private GameObject maskDetail;
+
         [SerializeField]
         private GameObject image;
+
         [SerializeField]
         private List<GameObject> stars;
+
         [SerializeField]
         private GameObject time;
+
         [SerializeField]
         private GameObject text;
+
         [SerializeField]
         private GameObject infosButton;
+
         [SerializeField]
         private GameObject launchButton;
+
         [SerializeField]
         private Sprite fullStar;
+
         private GameObject aiBehaviour;
         private Recipe mRecipe;
         private bool open = false;
@@ -40,8 +52,7 @@ namespace BuddyApp.Recipe
             aiBehaviour = iAiBehaviour;
             string lString = string.Empty;
 
-            for(int i = 0; i < mRecipe.stars; i++)
-            {
+            for(int i = 0; i < mRecipe.stars; i++) {
                 maskStars[i].GetComponent<Image>().sprite = fullStar;
                 stars[i].GetComponent<Image>().sprite = fullStar;
             }
@@ -63,13 +74,11 @@ namespace BuddyApp.Recipe
 
         private void RecipeInfo()
         {
-            if (!open)
-            {
+            if (!open) {
                 open = !open;
                 GetComponent<Animator>().SetTrigger("Open_Recipe");
             }
-            else
-            {
+            else {
                 open = !open;
                 GetComponent<Animator>().SetTrigger("Close_Recipe");
             }
