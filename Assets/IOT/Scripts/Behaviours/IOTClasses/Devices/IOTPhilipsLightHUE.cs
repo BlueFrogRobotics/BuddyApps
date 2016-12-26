@@ -5,7 +5,7 @@ using BuddyOS.UI;
 
 namespace BuddyApp.IOT
 {
-    public class IOTPhilipsLightHUE : IOTDevices
+    public class IOTPhilipsLightHUE : IOTLights
     {
         private Hashtable mState;
         public Hashtable State { get { return mState; } set { mState = value; } }
@@ -30,6 +30,7 @@ namespace BuddyApp.IOT
 
         public override void InitializeParams()
         {
+            base.InitializeParams();
             GameObject lOnOff = InstanciateParam(ParamType.ONOFF);
             OnOff lOnOffComponent = lOnOff.GetComponent<OnOff>();
             GameObject lIntensity = InstanciateParam(ParamType.GAUGE);
@@ -125,7 +126,7 @@ namespace BuddyApp.IOT
             SetValue(lKey, lValue);
         }
 
-        public void OnOff(bool iOnOff)
+        public override void OnOff(bool iOnOff)
         {
             string[] lKey = new string[1] { "on" };
             object[] value = new object[1] { iOnOff };

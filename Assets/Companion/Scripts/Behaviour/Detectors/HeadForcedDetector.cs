@@ -8,6 +8,8 @@ namespace BuddyApp.Companion
     {
         public bool HeadForcedDetected { get { return mHeadForcedDetected; } }
 
+        public const float ANGLE_THRESH = 7.0F;
+
         [SerializeField]
         private Text currentAngle;
 
@@ -17,13 +19,20 @@ namespace BuddyApp.Companion
         [SerializeField]
         private Text targetSpeed;
 
+        [SerializeField]
+        private Text headForced;
+
         private bool mHeadForcedDetected;
+        private bool mCommandExecuting;
+        private float mPreviousDestAngle;
         private Hinge mHinge;
 
         void Start()
         {
             mHinge = BYOS.Instance.Motors.NoHinge;
             mHeadForcedDetected = false;
+            mCommandExecuting = false;
+            mPreviousDestAngle = mHinge.DestinationAnglePosition;
         }
         
         void Update()
@@ -31,8 +40,22 @@ namespace BuddyApp.Companion
             currentAngle.text = mHinge.CurrentAnglePosition.ToString();
             destinationAngle.text = mHinge.DestinationAnglePosition.ToString();
             targetSpeed.text = mHinge.TargetSpeed.ToString();
+            headForced.text = mHeadForcedDetected.ToString();
 
-            if (Mathf.Abs(mHinge.CurrentAnglePosition - mHinge.DestinationAnglePosition) > 5.0F)
+            if (mPreviousDestAngle != mHinge.DestinationAnglePosition) {
+                mCommandExecuting = true;
+                mPreviousDestAngle = mHinge.DestinationAnglePosition;
+            }
+
+            if (mCommandExecuting) {
+                mHeadForcedDetected = false;
+                if (Mathf.Abs(mHinge.CurrentAnglePosition - mHinge.DestinationAnglePosition) > ANGLE_THRESH)
+                    return;
+                else
+                    mCommandExecuting = false;
+            }
+
+            if (Mathf.Abs(mHinge.CurrentAnglePosition - mHinge.DestinationAnglePosition) > ANGLE_THRESH * 2)
                 mHeadForcedDetected = true;
             else
                 mHeadForcedDetected = false;

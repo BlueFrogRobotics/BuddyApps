@@ -48,6 +48,7 @@ namespace BuddyApp.IOT {
             SetSystemLogo(lFirst.transform, mObject.Name);
 
             Transform lParams = ParamContainer(lFirst);
+            mObject.InitializeParams();
             mObject.PlaceParams(lParams);
 
             if (mObject is IOTSystems)

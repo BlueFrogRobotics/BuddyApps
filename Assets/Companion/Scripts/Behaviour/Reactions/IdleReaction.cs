@@ -7,6 +7,10 @@ namespace BuddyApp.Companion
 {
     public class IdleReaction : MonoBehaviour
     {
+        [SerializeField]
+        private Emotion mEmotion;
+
+        private bool mInitialized;
         private float mHeadMoveTime;
         private float mEmoteTime;
 
@@ -17,6 +21,7 @@ namespace BuddyApp.Companion
 
         void Start()
         {
+            mInitialized = true;
             mFace = BYOS.Instance.Face;
             mMood = BYOS.Instance.Mood;
             mNoHinge = BYOS.Instance.Motors.NoHinge;
@@ -25,6 +30,11 @@ namespace BuddyApp.Companion
 
         void OnEnable()
         {
+            if(!mInitialized) {
+                Start();
+                mInitialized = true;
+            }
+
             mHeadMoveTime = Time.time;
             mEmoteTime = Time.time;
             mMood.Set(MoodType.NEUTRAL);
@@ -37,20 +47,26 @@ namespace BuddyApp.Companion
 
             mHeadMoveTime = Time.time;
 
-            if (Random.Range(0, 2) == 0)
-            {
+            if (Random.Range(0, 2) == 0) {
                 float lRandomAngle = Random.Range(-45F, 45F);
                 mNoHinge.SetPosition(lRandomAngle);
-            }
-            else
-            {
+            } else {
                 float lRandomAngle = Random.Range(-20F, 15F);
                 mYesHinge.SetPosition(lRandomAngle);
             }
             
-            if (Time.time - mEmoteTime > 15F)
-            {
-                mFace.SetEvent(FaceEvent.SMILE);
+            if (Time.time - mEmoteTime > 8F) {
+                switch(Random.Range(0, 3)) {
+                    case 0:
+                        mFace.SetEvent(FaceEvent.SMILE);
+                        break;
+                    case 1:
+                        mFace.SetEvent(FaceEvent.YAWN);
+                        break;
+                    case 2:
+                        mFace.SetEvent(FaceEvent.BLINK_DOUBLE);
+                        break;
+                }
                 mEmoteTime = Time.time;
             }
         }

@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using BuddyOS;
 
 namespace BuddyApp.IOT
 {
     public class IOTListenState : AIOTStateMachineBehaviours
     {
         private int listenedTimes = 0;
+        private string mMsg = "";
 
         public override void Init()
         {
@@ -36,8 +38,11 @@ namespace BuddyApp.IOT
                 if (mMsg != "")
                 {
                     iAnimator.SetTrigger(mHashList[(int)HashTrigger.LISTENED]);
-                    GetGameObject(3).GetComponent<IOTListeningThis>().showMessage(mMsg);
-                    mOldMsg = mMsg;
+                    mNotManager.Display<SimpleNot>().With(mMsg, mSpriteManager.GetSprite("Message"));
+                    if (CommonStrings.Count > 0)
+                        CommonStrings["STT"] = mMsg;
+                    else
+                        CommonStrings.Add("STT", mMsg);
                     mMsg = "";
                     listenedTimes = 0;
                 }

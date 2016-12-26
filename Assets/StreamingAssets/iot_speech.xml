@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
-<iot>
-    <iot_action>
-        allumer/allumé/allume/allumes/turn
+<iot>    
+    <iot_action action="0">
+        éteindre/éteint/off
+    </iot_action>
+    <iot_action action="1">
+        allumer/allumé/allume/allumes/on
     </iot_action>
     <iot_add>
         ajouter/ajoute/nouveau/add
