@@ -1,17 +1,19 @@
-﻿using System;
+﻿using BuddyOS;
+using BuddyOS.App;
+using System;
 using UnityEngine;
 
 
 namespace BuddyApp.Memory
 {
-	public class LinkStateMachineBehavior : StateMachineBehaviour
+	public abstract class LinkStateMachineBehavior : AStateMachineBehaviour
 	{
 		public LinkHandler link;
 
-		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-		{
-		}
+		protected bool mOnEnterDone;
+
+
 		
+
 	}
 }
