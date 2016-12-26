@@ -14,7 +14,7 @@ namespace BuddyApp.Recipe
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             GetGameObject(2).SetActive(true);
-            mNotManager.Display<SimpleNot>().With("Alors qu'est ce que l'on prépare ? ", mSpriteManager.GetSprite("Message"));
+            mNotManager.Display<SimpleNot>().With("Alors qu'est ce que l'on prépare? ", mSpriteManager.GetSprite("Message"));
             mTTS.Say("Alors qu'est ce que l'on prépare ?");
         }
 

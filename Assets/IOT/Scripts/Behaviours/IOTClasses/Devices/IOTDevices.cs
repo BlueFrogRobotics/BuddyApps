@@ -5,5 +5,8 @@ namespace BuddyApp.IOT
 {
     public class IOTDevices : IOTObjects
     {
+        public virtual void OnOff(bool iOnOff)
+        {
+        }
     }
 }

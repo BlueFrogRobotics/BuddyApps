@@ -13,6 +13,7 @@ namespace BuddyApp.Companion
     internal delegate void ReactionFinished();
 
     [RequireComponent(typeof(FollowFaceReaction))]
+    [RequireComponent(typeof(GrumpyReaction))]
     [RequireComponent(typeof(IdleReaction))]
     [RequireComponent(typeof(SayHelloReaction))]
     [RequireComponent(typeof(SearchFaceReaction))]
@@ -27,6 +28,7 @@ namespace BuddyApp.Companion
         private Face mFace;
         private FaceCascadeTracker mFaceTracker;
         private FollowFaceReaction mFollowFace;
+        private GrumpyReaction mGrumpyReaction;
         private SayHelloReaction mHelloReaction;
         private IdleReaction mIdleReaction;
         private Mood mMood;
@@ -48,8 +50,9 @@ namespace BuddyApp.Companion
             mWheels = BYOS.Instance.Motors.Wheels;
             mYesHinge = BYOS.Instance.Motors.YesHinge;
 
-            mFollowFace = GetComponent<FollowFaceReaction>();
             mFaceTracker = GetComponent<FaceCascadeTracker>();
+            mFollowFace = GetComponent<FollowFaceReaction>();
+            mGrumpyReaction = GetComponent<GrumpyReaction>();
             mIdleReaction = GetComponent<IdleReaction>();
             mHelloReaction = GetComponent<SayHelloReaction>();
             mSearchFaceReaction = GetComponent<SearchFaceReaction>();
@@ -60,6 +63,7 @@ namespace BuddyApp.Companion
             mIdleReaction.enabled = false;
             mHelloReaction.enabled = false;
             mWanderReaction.enabled = false;
+            mGrumpyReaction.enabled = false;
         }
 
         void Update()
@@ -69,9 +73,14 @@ namespace BuddyApp.Companion
 
         public void HeadForced()
         {
-            mWheels.TurnAngle(BYOS.Instance.Motors.NoHinge.CurrentAnglePosition, 80F, 0.5F);
-            mTTS.Say("Hey ! Arrête ça !");
-            ActionFinished();
+            //mWheels.TurnAngle(BYOS.Instance.Motors.NoHinge.CurrentAnglePosition, 80F, 0.5F);
+            //mTTS.Say("Hey ! Arrête ça !");
+            //ActionFinished();
+
+            if (mGrumpyReaction.enabled == true)
+                return;
+
+            mGrumpyReaction.enabled = true;
         }
 
         public void AskSomething()
@@ -95,7 +104,7 @@ namespace BuddyApp.Companion
         {
             mMood.Set(MoodType.SCARED);
             mFace.SetEvent(FaceEvent.SCREAM);
-            mTTS.Say(mDictionary.GetString("putMeDown"));
+            //mTTS.Say(mDictionary.GetString("putMeDown"));
         }
 
         public void Pout()
@@ -145,31 +154,29 @@ namespace BuddyApp.Companion
         {
             mMood.Set(MoodType.ANGRY);
             yield return new WaitForSeconds(0.1F);
-
-            if (CompanionData.Instance.CanMoveHead)
-            {
-                mYesHinge.SetPosition(5F);
-                mNoHinge.SetPosition(0F);
+            
+            mYesHinge.SetPosition(5F);
+            mNoHinge.SetPosition(0F);
                 
 
-                yield return new WaitForSeconds(0.5F);
+            yield return new WaitForSeconds(0.5F);
                 
-                mYesHinge.SetPosition(-5F);
+            mYesHinge.SetPosition(-5F);
 
-                yield return new WaitForSeconds(0.5F);
+            yield return new WaitForSeconds(0.5F);
                 
-                mYesHinge.SetPosition(5F);
+            mYesHinge.SetPosition(5F);
 
-                yield return new WaitForSeconds(0.5F);
+            yield return new WaitForSeconds(0.5F);
                 
-                mFace.SetEvent(FaceEvent.SCREAM);
-                mYesHinge.SetPosition(-5F);
-                mNoHinge.SetPosition(0F);
+            mFace.SetEvent(FaceEvent.SCREAM);
+            mYesHinge.SetPosition(-5F);
+            mNoHinge.SetPosition(0F);
 
-                yield return new WaitForSeconds(0.5F);
+            yield return new WaitForSeconds(0.5F);
                 
-                mYesHinge.SetPosition(5F);
-            }
+            mYesHinge.SetPosition(5F); 
+
             mMood.Set(MoodType.NEUTRAL);
             mIsPouting = false;
             ActionFinished();
@@ -254,9 +261,18 @@ namespace BuddyApp.Companion
 
         public void StepBackHelloReaction()
         {
-            if (mHelloReaction.enabled == true)
+            if (mHelloReaction.enabled)
                 return;
+
             mHelloReaction.enabled = true;
+        }
+
+        public void DisableSayHelloReaction()
+        {
+            if (!mHelloReaction.enabled)
+                return; 
+
+            mHelloReaction.enabled = false;
         }
 
         public void SearchFace()
