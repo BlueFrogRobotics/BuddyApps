@@ -15,7 +15,7 @@ namespace BuddyApp.Memory
 			Debug.Log("Player Failure !");
 
 
-			BYOS.Instance.SoundManager.Play(SoundType.RANDOM_CURIOUS);
+			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 			link.tts.Silence(1000, true);
 			link.mMood.Set(MoodType.SAD);
 			link.animationManager.Sigh();

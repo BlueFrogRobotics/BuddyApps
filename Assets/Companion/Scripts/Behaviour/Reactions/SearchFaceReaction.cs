@@ -7,6 +7,7 @@ namespace BuddyApp.Companion
 {
     public class SearchFaceReaction : MonoBehaviour
     {
+        private bool mInitialized;
         private bool mLookLeft;
         private float mTime;
         private float mHeadNoAngle;
@@ -14,11 +15,17 @@ namespace BuddyApp.Companion
 
         void Start()
         {
+            mInitialized = true;
             mFaceDetector = GetComponent<FaceDetector>();
         }
 
         void OnEnable()
         {
+            if(!mInitialized) {
+                Start();
+                mInitialized = true;
+            }
+
             mLookLeft = true;
             mTime = Time.time;
             mHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;

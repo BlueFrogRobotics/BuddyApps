@@ -13,7 +13,7 @@ namespace BuddyApp.Memory
 
 			Debug.Log("Player Success !");
 
-			BYOS.Instance.SoundManager.Play(SoundType.RANDOM_SURPRISED);
+			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 			link.tts.Silence(1000, true);
 			link.mMood.Set(MoodType.HAPPY);
 			link.animationManager.Smile();

@@ -27,12 +27,10 @@ namespace BuddyApp.CalculGame
 			CommonIntegers["nbLevels"] = 3;
 
 
-			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
+			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA)
 				mSynonymesFile = Resources.Load<TextAsset>("calculs_dialogs_fr.xml").text;
-			} else {
+			else
 				mSynonymesFile = Resources.Load<TextAsset>("calculs_dialogs_en.xml").text;
-			}
-
 		}
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -48,7 +46,7 @@ namespace BuddyApp.CalculGame
 			FillListSyn("Intro", introWords);
 
 			// play sound, anim and start talking
-			BYOS.Instance.SoundManager.Play(SoundType.RANDOM_LAUGH);
+			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
 			mAnimationManager.Smile();
 			mTTS.Silence(1000, true);
 			mTTS.Say(RdmStr(introWords), true);

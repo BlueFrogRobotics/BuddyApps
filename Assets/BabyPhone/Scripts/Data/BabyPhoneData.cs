@@ -4,37 +4,60 @@ namespace BuddyApp.BabyPhone
 {
     public class BabyPhoneData : AAppData
     {
-        public string ContactName { get; set; }
-        public float Volume { get; set; }
+
+        public enum Contact : int
+        {
+            DEFAULT = 0 ,
+            RODOLPHE = 1,
+            J2M = 2,
+            MAUD =3,
+            KARAMA = 4
+        }
+
+        public enum Lullaby : int
+        {
+            DEFAULT_LULL = 0,
+            LULL_1 = 1,
+            LULL_2 = 2,
+            LULL_3 = 3,
+            LULL_4 = 4
+        }
+
+        public enum Animation : int
+        {
+            OWL = 0,
+            CHRISTMAS = 1
+        }
+
+        public enum Action : int
+        {
+            DEFAULT_ACTION = 0,
+            REPLAY_LULLABY = 1,
+            REPLAY_ANIMATION = 2,
+            REPLAY_BOTH = 3
+        }
+
+        public Contact Recever { get; set; } 
+        public Lullaby LullabyToPlay { get; set; }
+        public Animation AnimationToPlay { get; set; }
+        public Action ActionWhenBabyCries { get; set; }
+
+        public string BabyName;
+        public int LullabyVolume { get; set; }
         public bool IsVolumeOn { get; set; }
-        public string LullabyToPlay { get; set; }
-        public float ScreenLightLevelForAnimation { get; set; }
+        public int AnimationLight { get; set; }
         public bool IsAnimationOn { get; set; }
-        public string AnimationToPlay { get; set; }
-        public float MicrophoneSensitivity { get; set; }
-        public int  TimeBeforSartListening { get; set; }
-        public float ScreenSaver { get; set; }
+
+        public int MicrophoneSensitivity { get; set; }
+        public int  TimeBeforContact { get; set; }
+        public int ScreenSaverLight { get; set; }
         public bool IsScreanSaverOn { get; set; }
-        public bool IsMobilityOn { get; set; }
+        public bool IsMotionOn { get; set; }
         public bool DoSaveSetting { get; set; }
-
-
 
         public int Timer { get; set; }
         public bool TimerIsActive { get; set; }
-
-        
-        //sauvegarde des paramètres YES/NO ? 
-        //choix du contact
-        //berceuse ON/OFF
-        //choix de la berceuse 
-        //le volume pour la berceuse 
-        //visage ON/OFF
-        //choix des "visages" à jouer
-        //le niveau de la luminosité de l'écran pour le jeu dus visages
-        //le temps "d'endormissement", le temps de jouer la berceuse
-        //le temps avant contact = combien de temps, si on détecte les pleurs, avant d'en informer le contact?
-
+       
         public static BabyPhoneData Instance
         {
             get

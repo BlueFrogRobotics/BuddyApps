@@ -39,7 +39,7 @@ namespace BuddyApp.Memory
 
 			isPlayerTurn = false;
 
-			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
+			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA) {
 				gameLevels = MemoryGameLevels.Load("Lang/levelsFr.json");
 			} else {
 				gameLevels = MemoryGameLevels.Load("Lang/levelsEn.json");
@@ -91,13 +91,13 @@ namespace BuddyApp.Memory
 				// play sound
 				switch (Random.Range(0, 5)) {
 					case 0:
-						BYOS.Instance.SoundManager.Play(SoundType.RANDOM_LAUGH);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
 						break;
 					case 1:
-						BYOS.Instance.SoundManager.Play(SoundType.RANDOM_SURPRISED);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 						break;
 					case 2:
-						BYOS.Instance.SoundManager.Play(SoundType.RANDOM_CURIOUS);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 						break;
 					default:
 						Debug.Log("Don't play a sound");

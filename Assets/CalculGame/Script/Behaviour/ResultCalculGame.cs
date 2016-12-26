@@ -23,7 +23,7 @@ namespace BuddyApp.CalculGame
 			//mAnimationManager = GetComponentInGameObject<AnimManager>(0);
 
 
-			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
+			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA) {
 				mSynonymesFile = Resources.Load<TextAsset>("calculs_dialogs_fr.xml").text;
 			} else {
 				mSynonymesFile = Resources.Load<TextAsset>("calculs_dialogs_en.xml").text;
@@ -44,7 +44,7 @@ namespace BuddyApp.CalculGame
 			FillListSyn("Questions", questionWords);
 
 
-			BYOS.Instance.SoundManager.Play(SoundType.RANDOM_LAUGH);
+			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
 			mTTS.Silence(500, true);
 
 			Debug.Log("result : " + CommonIntegers["score"] + "/" + CommonIntegers["nbLevels"]);
