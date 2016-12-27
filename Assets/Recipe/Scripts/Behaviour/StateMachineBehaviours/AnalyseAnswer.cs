@@ -31,42 +31,53 @@ namespace BuddyApp.Recipe
         private void SearchRecipe(Animator iAnimator)
         {
             string[] lWords = mAnswer.Split(' ');
-            List<Recipe> lRecipeList = null;
+            List<Recipe> lRecipeList = new List<Recipe>();
             int lIndex = 0;
-            while (lWords[lIndex] != null && SearchRecipe(mRecipeList, lWords[lIndex]) == null)
+            bool lFoundRecipe = false;
+
+            while (lIndex < lWords.Length && SearchRecipe(mRecipeList, lWords[lIndex]).Count == 0)
                 lIndex++;
-            if (lWords[lIndex] != null)
-            {
+            if (lIndex < lWords.Length) {
                 lRecipeList = mRecipeList;
-                while (lWords[lIndex] != null)
-                    lRecipeList = SearchRecipe(lRecipeList, lWords[lIndex++]);
+                for (; lIndex < lWords.Length; lIndex++) {
+                    if (lWords[lIndex].Length > 3 && lWords[lIndex] != "avec")
+                        lRecipeList = SearchRecipe(lRecipeList, lWords[lIndex]);
+                }
             }
-            if (lRecipeList == null)
+            if (lRecipeList.Count == 0)
                 iAnimator.SetTrigger("RecipeNotFound");
-            else if (lRecipeList.Count == 1)
-            {
+            else if (lRecipeList.Count == 1) {
                 GetComponent<RecipeBehaviour>().mRecipe = lRecipeList[0];
                 iAnimator.SetTrigger("StartRecipe");
             }
-            else
-            {
+            else {
+                for (int i = 0; i < lRecipeList.Count; i++) {
+                    lWords = lRecipeList[i].name.Split(' ');
+                    for (int j = 0; j < lWords.Length; j++) {
+                        lFoundRecipe = true;
+                        if (lWords[j].Length > 3 && !mAnswer.Contains(lWords[j]))
+                            lFoundRecipe = false;
+                    }
+                    if (lFoundRecipe) {
+                        GetComponent<RecipeBehaviour>().mRecipe = lRecipeList[i];
+                        iAnimator.SetTrigger("StartRecipe");
+                        return;
+                    }
+                }
                 GetComponent<RecipeBehaviour>().mRecipeList = lRecipeList;
                 iAnimator.SetTrigger("ListRecipeFound");
             }
         }
 
-        private List<Recipe> SearchRecipe(List<Recipe> iRecipeList, string word)
+        private List<Recipe> SearchRecipe(List<Recipe> iRecipeList, string iWord)
         {
-            List<Recipe> lFoundRecipeList = new List<Recipe>();
+            List<Recipe> oFoundRecipeList = new List<Recipe>();
             foreach (Recipe recipe in iRecipeList)
             {
-                if (recipe.name.Contains(word))
-                    lFoundRecipeList.Add(recipe);
+                if (recipe.name.Contains(iWord) || recipe.name.Contains(iWord + "s") || recipe.name.Contains(iWord + "x"))
+                    oFoundRecipeList.Add(recipe);
             }
-            if (lFoundRecipeList.Count > 0)
-                return lFoundRecipeList;
-            else
-                return null;
+                return oFoundRecipeList;
         }
     }
 }

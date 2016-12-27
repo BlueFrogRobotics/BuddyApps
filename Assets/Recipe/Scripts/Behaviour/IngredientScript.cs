@@ -7,6 +7,7 @@ namespace BuddyApp.Recipe
     {
         [SerializeField]
         private GameObject text;
+
         [SerializeField]
         private GameObject icon;
 

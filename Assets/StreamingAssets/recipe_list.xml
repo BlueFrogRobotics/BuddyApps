@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RecipeList>
-  <recipe name="crêpes" category="dessert" illustration="crepes/illustration" person="6" time="10MIN" stars="4" xml="crepes.xml">
+  <recipe name="crêpes" category="dessert" illustration="crepes/illustration" person="6" prep="10" cook="10" stars="4" xml="crepes.xml">
     <summary>La crêpe est un mets composé d'une très fine couche de pâte faite à base de farine (principalement de blé ou de sarrasin) agglomérée à un liquide (lait, parfois mélangé à de l'eau ou de la bière). Elle est généralement de forme ronde.</summary>
     <ingredient name="Farine" quantity="375" unit="grammes"/>
     <ingredient name="Oeuf" quantity="4"/>
@@ -11,18 +11,23 @@
     <ingredient name="Bierre" quantity="25" unit="centilitres"/>
     <ingredient name="Rhum" quantity="2" unit="cuillères à soupe"/>
   <step>
+    <media>crepes/step0</media>
     <sentence>Mélanger la farine avec les oeufs, l'huile et le sel</sentence>
 	</step>
 	<step>
+    <media>crepes/step1</media>
     <sentence>Ajoutez ensuite le lait, la bière et le rhum</sentence>
 	</step>
 	<step>
+    <media>crepes/step2</media>
     <sentence>Mélangez le tout : c'est prêt en deux minutes avec un mixer !</sentence>
 	</step>
 	<step>
+    <media>crepes/step3</media>
     <sentence>Faites cuire à la poêle avec une noix de beurre</sentence>
 		</step>
 	<step>
+    <media>crepes/step4</media>
     <sentence>Bon appetit !</sentence>
 	</step>
   </recipe>
@@ -59,7 +64,7 @@
     <ingredient name="Bierre" quantity="25" unit="centilitres"/>
     <ingredient name="Rhum" quantity="2" unit="cuillères à soupe"/>
   </recipe>
-<recipe name="crêpes au beurre" category="dessert" person="6" time="10MIN" stars="2" xml="crepes.xml">
+<recipe name="crêpes au beurre" category="dessert" illustration="crepes/illustration" person="6" time="10MIN" stars="2" xml="crepes.xml">
     <summary>Test test test</summary>
     <ingredient name="Farine" quantity="375" unit="grammes"/>
     <ingredient name="Oeuf" quantity="4"/>
@@ -69,6 +74,21 @@
     <ingredient name="Lait" quantity="50" unit="centilitres"/>
     <ingredient name="Bierre" quantity="25" unit="centilitres"/>
     <ingredient name="Rhum" quantity="2" unit="cuillères à soupe"/>
+  <step>
+    <sentence>Mélanger la farine avec les oeufs, l'huile et le sel</sentence>
+  </step>
+  <step>
+    <sentence>Ajoutez ensuite le lait, la bière et le rhum</sentence>
+  </step>
+  <step>
+    <sentence>Mélangez le tout : c'est prêt en deux minutes avec un mixer !</sentence>
+  </step>
+  <step>
+    <sentence>Faites cuire à la poêle avec une noix de beurre</sentence>
+  </step>
+  <step>
+    <sentence>Bon appetit !</sentence>
+  </step>
   </recipe>
 <recipe name="crêpes au confiture" category="dessert" person="6" time="10MIN" stars="2" xml="crepes.xml">
     <summary>Test test test</summary>

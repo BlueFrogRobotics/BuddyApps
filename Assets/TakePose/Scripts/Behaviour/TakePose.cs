@@ -101,7 +101,7 @@ namespace BuddyApp.TakePose
 			switch (mRand) {
 				case 0:
 
-					BYOS.Instance.SoundManager.Play(SoundType.SIGH);
+					BYOS.Instance.Speaker.Voice.Play(VoiceSound.SIGH);
 					mMood.Set(MoodType.ANGRY);
 					switch (UnityEngine.Random.Range(0, 1)) {
 						case 0:
@@ -121,17 +121,17 @@ namespace BuddyApp.TakePose
 					break;
 				case 1:
 
-					BYOS.Instance.SoundManager.Play(SoundType.RANDOM_CURIOUS);
+					BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 					mMood.Set(MoodType.SURPRISED);
 					mAnimationManager.Sigh();
 					break;
 				case 2:
-					BYOS.Instance.SoundManager.Play(SoundType.RANDOM_SURPRISED);
+					BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 					mMood.Set(MoodType.SCARED);
 					mAnimationManager.Swallow();
 					break;
 				case 3:
-					BYOS.Instance.SoundManager.Play(SoundType.RANDOM_LAUGH);
+					BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
 					mMood.Set(MoodType.HAPPY);
 
 					switch (UnityEngine.Random.Range(0, 1)) {
@@ -151,12 +151,12 @@ namespace BuddyApp.TakePose
 					break;
 				case 4:
 
-					BYOS.Instance.SoundManager.Play(SoundType.SIGH);
+					BYOS.Instance.Speaker.Voice.Play(VoiceSound.SIGH);
 					mMood.Set(MoodType.SICK);
 					mAnimationManager.Shivers();
 					break;
 				case 5:
-					BYOS.Instance.SoundManager.Play(SoundType.SIGH);
+					BYOS.Instance.Speaker.Voice.Play(VoiceSound.SIGH);
 					mMood.Set(MoodType.TIRED);
 					switch (UnityEngine.Random.Range(0, 1)) {
 						case 0:
@@ -175,7 +175,7 @@ namespace BuddyApp.TakePose
 
 					break;
 				case 6:
-					BYOS.Instance.SoundManager.Play(SoundType.SIGH);
+					BYOS.Instance.Speaker.Voice.Play(VoiceSound.SIGH);
 					mMood.Set(MoodType.THINKING);
 					switch (UnityEngine.Random.Range(0, 1)) {
 						case 0:
@@ -195,7 +195,7 @@ namespace BuddyApp.TakePose
 					break;
 
 				case 7:
-					BYOS.Instance.SoundManager.Play(SoundType.SIGH);
+					BYOS.Instance.Speaker.Voice.Play(VoiceSound.SIGH);
 					mMood.Set(MoodType.GRUMPY);
 					switch (UnityEngine.Random.Range(0, 1)) {
 						case 0:
@@ -216,7 +216,7 @@ namespace BuddyApp.TakePose
 
 
 				case 8:
-					BYOS.Instance.SoundManager.Play(SoundType.BEEP_2);
+					BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_2);
 					mMood.Set(MoodType.LOVE);
 					switch (UnityEngine.Random.Range(0, 1)) {
 						case 0:

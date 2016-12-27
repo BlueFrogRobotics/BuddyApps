@@ -10,36 +10,26 @@ namespace BuddyApp.Memory
 	{
 
 		public Animator animator;
-		public TextToSpeech tts;
-		public SpeechToText stt;
-		public Motors motors;
-		public Face mFace;
-		public Mood mMood;
-		public LED led;
 		public MemoryGameLevels gameLevels;
 		public MemoryGameLevel currentLevel;
-		public AnimManager animationManager;
+		public AnimManager mAnimationManager;
 
 		private ClickDelegate clickFace;
 
 		public bool isPlayerTurn;
 
 		public bool unloadingScene;
+		private Face mFace;
 
 		// Use this for initialization
 		void Start()
 		{
 			Debug.Log("Start Link Handler");
-			tts = BYOS.Instance.TextToSpeech;
-			stt = BYOS.Instance.SpeechToText;
-			motors = BYOS.Instance.Motors;
 			mFace = BYOS.Instance.Face;
-			mMood = BYOS.Instance.Mood;
-			led = BYOS.Instance.LED;
 
 			isPlayerTurn = false;
 
-			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA) {
+			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA) {
 				gameLevels = MemoryGameLevels.Load("Lang/levelsFr.json");
 			} else {
 				gameLevels = MemoryGameLevels.Load("Lang/levelsEn.json");
@@ -61,7 +51,9 @@ namespace BuddyApp.Memory
 				// no next level to load
 				return false;
 			}
+			Debug.Log("CurrentLevel init");
 			currentLevel = gameLevels.levels[level];
+			Debug.Log("CurrentLevel ok");
 			return true;
 		}
 
@@ -89,15 +81,15 @@ namespace BuddyApp.Memory
 			}
 			if (isPlayerTurn) {
 				// play sound
-				switch (Random.Range(0, 5)) {
+				switch (UnityEngine.Random.Range(0, 5)) {
 					case 0:
-						BYOS.Instance.SoundManager.Play(SoundType.RANDOM_LAUGH);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
 						break;
 					case 1:
-						BYOS.Instance.SoundManager.Play(SoundType.RANDOM_SURPRISED);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 						break;
 					case 2:
-						BYOS.Instance.SoundManager.Play(SoundType.RANDOM_CURIOUS);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 						break;
 					default:
 						Debug.Log("Don't play a sound");
@@ -119,17 +111,6 @@ namespace BuddyApp.Memory
 		public void UnLoadScene()
 		{
 			unloadingScene = true;
-		}
-
-		// Update is called once per frame
-		void Update()
-		{
-			if (unloadingScene) {
-				animator.enabled = false;
-				unloadingScene = false;
-				mMood.Set(MoodType.NEUTRAL);
-				SceneManager.UnloadScene("SimonGame");
-			}
 		}
 	}
 }

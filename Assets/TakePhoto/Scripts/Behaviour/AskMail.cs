@@ -63,7 +63,7 @@ namespace BuddyApp.TakePhoto
 			mRefuseSpeech = new List<string>();
 			mDidntUnderstandSpeech = new List<string>();
 
-			if (BYOS.Instance.VocalActivation.CurrentLanguage == Language.FRA)
+			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA)
 				mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoFR.xml").text;
 			else
 				mSynonymesFile = Resources.Load<TextAsset>("Lang/synonymesPhotoEN.xml").text;
@@ -141,7 +141,7 @@ namespace BuddyApp.TakePhoto
 		public void PressedYes()
 		{
 
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_1);
+			BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
 			Debug.Log("Pressed Button Yes");
 
 			//Stop speech
@@ -153,7 +153,7 @@ namespace BuddyApp.TakePhoto
 		public void PressedNo()
 		{
 
-			BYOS.Instance.SoundManager.Play(SoundType.BEEP_1);
+			BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
 			Debug.Log("Pressed Button No");
 
 			//Stop speech
