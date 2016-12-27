@@ -107,10 +107,10 @@ namespace BuddyApp.TakePhoto
 						} else {
 							Debug.Log("LastAns != previous");
 							if (ContainsOneOf(mLastSpeech, mMoveSpeech)) {
-								animator.SetTrigger("Photo");
+								animator.SetTrigger("VocalCom");
 							} else if (ContainsOneOf(mLastSpeech, mPhotoSpeech)) {
 								mTTS.SayKey("ok", true);
-								animator.SetTrigger("VocalCom");
+								animator.SetTrigger("Photo");
 							} else {
 
 								mTTS.SayKey("didntUnderstand", true);

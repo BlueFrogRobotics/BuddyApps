@@ -14,7 +14,7 @@ namespace BuddyApp.TakePhoto
 
 		private bool mFollowFace;
 		private float mSearchTimer;
-		private const float mTimeMax = 10.0f;
+		private const float mTimeMax = 5.0f;
 
 		private int mRGBCamWidthCenter;
 		private int mRGBCamHeightCenter;
