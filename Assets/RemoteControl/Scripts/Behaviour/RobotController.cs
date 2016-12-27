@@ -2,7 +2,8 @@
 using BuddyOS;
 using System.Collections.Generic;
 
-public class RobotController : MonoBehaviour {
+public class RobotController : MonoBehaviour
+{
 
     public enum KindOfControl { None = 0, Remote = 1 };
     public enum ControllerMode { Simplify = 0, Medium = 1, Expert = 2 };
@@ -16,6 +17,8 @@ public class RobotController : MonoBehaviour {
     public Webrtc mWebrtc = null;
 
     private TextToSpeech TTS;
+
+    private Dictionary mDictionary;
 
     //public static readonly string[] mSimplifyCmdList = { "l", "r", "f", "b" };
     Dictionary<string, float[]> mCmdSimplifyList = new Dictionary<string, float[]>()
@@ -41,18 +44,19 @@ public class RobotController : MonoBehaviour {
     // This function is called when a webrtc data is received
     public void onMessage(string iMessage)
     {
-       
+
 
         foreach (var item in mCmdSimplifyList)
         {
             if (iMessage.Equals(item.Key))
-                mMotors.Wheels.SetWheelsSpeed(item.Value[0], item.Value[1], (int) item.Value[2]);          
+                mMotors.Wheels.SetWheelsSpeed(item.Value[0], item.Value[1], (int)item.Value[2]);
         }
         foreach (var item in mCmdHeadSimplifyList)
         {
             if (iMessage.Equals(item.Key[0]))
             {
-                if (item.Key[1].Equals("Yes")) {
+                if (item.Key[1].Equals("Yes"))
+                {
                     mYesposition += item.Value;
                     mMotors.YesHinge.SetPosition(mYesposition);
                 }
@@ -61,10 +65,11 @@ public class RobotController : MonoBehaviour {
                     mNoposition += item.Value;
                     mMotors.NoHinge.SetPosition(mNoposition);
                 }
-            }            
+            }
         }
 
-        if (iMessage.Equals("z")) {
+        if (iMessage.Equals("z"))
+        {
             mMotors.NoHinge.SetPosition(0);
             mMotors.YesHinge.SetPosition(50);
 
@@ -72,17 +77,20 @@ public class RobotController : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         mMotors = BYOS.Instance.Motors;
         TTS = BYOS.Instance.TextToSpeech;
-
+        mDictionary = BYOS.Instance.Dictionary;
     }
 
     bool sayWho = false;
-	// Update is called once per frame
-	void Update () {
-        if (!sayWho  && (mWebrtc.connectionState == Webrtc.CONNECTION.CONNECTING)) {
-            TTS.Say("I am controlling.");
+    // Update is called once per frame
+    void Update()
+    {
+        if (!sayWho && (mWebrtc.connectionState == Webrtc.CONNECTION.CONNECTING))
+        {
+            TTS.Say(mDictionary.GetString("AlertControl"));
             sayWho = true;
         }
 
