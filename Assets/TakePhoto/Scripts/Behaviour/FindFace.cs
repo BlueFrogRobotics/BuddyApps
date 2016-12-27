@@ -27,6 +27,7 @@ namespace BuddyApp.TakePhoto
 
 		public override void Init()
 		{
+			BYOS.Instance.VocalActivation.enabled = false;
 			mSearchTimer = 0.0f;
 		}
 

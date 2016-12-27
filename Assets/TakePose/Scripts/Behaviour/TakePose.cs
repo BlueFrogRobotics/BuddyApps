@@ -38,6 +38,7 @@ namespace BuddyApp.TakePose
 		{
 
 			// init
+			BYOS.Instance.VocalActivation.enabled = false;
 			animator.ResetTrigger("AskPoseAgain");
 			SayInLang(mSpeech1);
 			mSpeechDone = false;

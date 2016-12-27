@@ -135,8 +135,6 @@ namespace BuddyApp.TakePhoto
 
 		public void PressedPhoto()
 		{
-			//BYOS.Instance.Speaker.FX.Load("tone_beep.wav");
-			//BYOS.Instance.Speaker.FX.Play("tone_beep.wav");
 			BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
 			Debug.Log("Pressed Button Photo");
 

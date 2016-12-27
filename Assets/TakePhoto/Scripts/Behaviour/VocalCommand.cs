@@ -45,7 +45,7 @@ namespace BuddyApp.TakePhoto
 			HEAD_UP,
 			WHEEL_LEFT,
 			WHEEL_RIGHT,
-            WHEEL_BACK,
+			WHEEL_BACK,
 			WHEEL_FORWARD
 		}
 
@@ -137,7 +137,7 @@ namespace BuddyApp.TakePhoto
 					mNoHinge.SetPosition(mHeadNoAngle);
 
 
-					if ((mRGBCamWidthCenter - 25 < lXCenter && lXCenter < mRGBCamWidthCenter + 5) && 
+					if ((mRGBCamWidthCenter - 25 < lXCenter && lXCenter < mRGBCamWidthCenter + 5) &&
 						(mRGBCamHeightCenter - 5 < lYCenter && lYCenter < mRGBCamHeightCenter + 25)) {
 
 						Debug.Log("Face centered");
@@ -289,16 +289,20 @@ namespace BuddyApp.TakePhoto
 		private void ControlBuddy(BuddyMotion iMotion)
 		{
 			mLastMotion = iMotion;
-            float lNoAngle = 0.0f;
+			float lNoAngle = 0.0f;
 			float lYesAngle = 0.0f;
 			if (iMotion == BuddyMotion.HEAD_LEFT) {
-				lNoAngle = mMotors.NoHinge.CurrentAnglePosition + 5.0f;
+				lNoAngle = mMotors.NoHinge.CurrentAnglePosition + 15.0f;
 			} else if (iMotion == BuddyMotion.HEAD_RIGHT) {
-				lNoAngle = mMotors.NoHinge.CurrentAnglePosition - 5.0f;
+				lNoAngle = mMotors.NoHinge.CurrentAnglePosition - 15.0f;
 			} else if (iMotion == BuddyMotion.HEAD_DOWN) {
-				lYesAngle = mMotors.YesHinge.CurrentAnglePosition + 5.0f;
+				lYesAngle = mMotors.YesHinge.CurrentAnglePosition + 15.0f;
 			} else if (iMotion == BuddyMotion.HEAD_UP) {
-				lYesAngle = mMotors.YesHinge.CurrentAnglePosition - 5.0f;
+				lYesAngle = mMotors.YesHinge.CurrentAnglePosition - 15.0f;
+			} else if (iMotion == BuddyMotion.WHEEL_FORWARD) {
+				mMotors.Wheels.MoveDistance(90.0f, 90.0f, 0.1f, 0.02f);
+			} else if (iMotion == BuddyMotion.WHEEL_BACK) {
+				mMotors.Wheels.MoveDistance(-90.0f, -90.0f, 0.1f, 0.02f);
 			}
 			mMotors.NoHinge.SetPosition(lNoAngle, 100.0f);
 			mMotors.YesHinge.SetPosition(lYesAngle, 100.0f);
