@@ -26,11 +26,12 @@ namespace BuddyApp.Recipe
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mVocalActivation.VocalProcessing = null;
+            mVocalActivation.VocalError = null;
         }
 
         private void GetAnswer(string iAnswer)
         {
-            //mNotManager.Display<SimpleNot>().With("J'ai entendu: " + iAnswer, mSpriteManager.GetSprite("Message"));
             GetComponent<RecipeBehaviour>().mAnswer = iAnswer;
             mAnimator.SetTrigger("AnswerRecipe");
         }

@@ -109,7 +109,7 @@
     <DisplayName>RECIPE</DisplayName>
     <Scene>Recipe</Scene>
     <Icon>LightOn</Icon>
-    <Atlas>AtlasUI</Atlas>
+    <Atlas>AtlasRecipe</Atlas>
     <OptionsLayoutStr>BuddyApp.Recipe.RecipeLayout</OptionsLayoutStr>
     <DataFile>recipe_data.xml</DataFile>
     <Assembly>Assembly-CSharp</Assembly>
@@ -141,6 +141,27 @@
       <LangDictionary>
         <Language>ENG</Language>
         <Path>EnglishGuardianAppDict</Path>
+      </LangDictionary>
+    </LangDictionaries>
+  </AppInfo>
+  <AppInfo>
+    <name />
+    <hideFlags>None</hideFlags>
+    <DisplayName>REMOTE</DisplayName>
+    <Scene>RemoteControl</Scene>
+    <Icon>Phone</Icon>
+    <VocalKeys>
+      <string>call</string>
+    </VocalKeys>
+    <DataFile>remote_control_data.xml</DataFile>
+  	<LangDictionaries>
+      <LangDictionary>
+        <Language>FRA</Language>
+        <Path>FrenchRemoteControlAppDict</Path>
+      </LangDictionary>
+      <LangDictionary>
+        <Language>ENG</Language>
+        <Path>EnglishRemoteControlAppDict</Path>
       </LangDictionary>
     </LangDictionaries>
   </AppInfo>  

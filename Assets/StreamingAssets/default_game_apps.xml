@@ -23,6 +23,16 @@
     <VocalKeys>
       <string>memory game</string>
     </VocalKeys>
+    <LangDictionaries>
+      <LangDictionary>
+        <Language>FRA</Language>
+        <Path>FrenchMemoryGameAppDict</Path>
+      </LangDictionary>
+      <LangDictionary>
+        <Language>ENG</Language>
+        <Path>EnglishMemoryGameAppDict</Path>
+      </LangDictionary>
+    </LangDictionaries>
   </AppInfo>
   <AppInfo>
     <name />
@@ -33,5 +43,17 @@
     <VocalKeys>
       <string>calcul game</string>
     </VocalKeys>
+  </AppInfo>
+    <AppInfo>
+    <name />
+    <hideFlags>None</hideFlags>
+    <DisplayName>RLGL</DisplayName>
+    <Scene>RLGLApp</Scene>
+    <Icon>Ico_123Soleil</Icon>
+    <VocalKeys>
+      <string>red light</string>
+	  <string>green light</string>
+    </VocalKeys>
+    <Atlas></Atlas>
   </AppInfo>
 </ArrayOfAppInfo>

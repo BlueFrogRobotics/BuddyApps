@@ -48,22 +48,16 @@ namespace BuddyApp.RLGL
             if(mIndex == 0)
             {
                 mAnimator.GetBehaviour<StartState>().IsAnswerYes = true;
-                Background.GetComponent<Animator>().SetTrigger("Close_BG");
-                //WindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
                 Debug.Log("ON CLICK BUTTON YES START");
             }
             else if (mIndex == 1)
             {
                 mAnimator.GetBehaviour<RulesState>().IsAnswerRuleYes = true;
-                Background.GetComponent<Animator>().SetTrigger("Close_BG");
-                //WindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
                 Debug.Log("ON CLICK BUTTON YES RULES");
             }
             else if (mIndex == 2)
             {
-                mAnimator.GetBehaviour<ReplayState>().IsAnswerYes = true;
-                Background.GetComponent<Animator>().SetTrigger("Close_BG");
-                //WindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
+                mAnimator.GetBehaviour<ReplayState>().IsAnswerReplayYes = true;
                 Debug.Log("ON CLICK BUTTON YES REPLAY");
             }
         }
@@ -74,23 +68,29 @@ namespace BuddyApp.RLGL
             if (mIndex == 0)
             {
                 mAnimator.GetBehaviour<StartState>().IsAnswerNo = true;
-                Background.GetComponent<Animator>().SetTrigger("Close_BG");
-                //WindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
 
                 Debug.Log("ON CLICK BUTTON NO START");
             }
             else if (mIndex == 1)
             {
                 mAnimator.GetBehaviour<RulesState>().IsAnswerRuleNo = true;
-                Background.GetComponent<Animator>().SetTrigger("Close_BG");
-                //WindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
                 Debug.Log("ON CLICK BUTTON NO RULES");
             }
             else if (mIndex == 2)
             {
                 BYOS.Instance.AppManager.Quit();
-                //mAnimator.GetBehaviour<ReplayState>().IsAnswerNo = false;
+                //mAnimator.GetBehaviour<ReplayState>().IsAnswerReplayNo = true;
             }
+        }
+
+        public void OnCLickTuto()
+        {
+            mIsClicked = true;
+        }
+
+        public void OnCLickMenu()
+        {
+            mIsClicked = true;
         }
 
         public void OnClickedButtonTowin()
@@ -102,34 +102,5 @@ namespace BuddyApp.RLGL
         {
             mReplay = true;
         }
-
-        //public void ClickButtonYesRule()
-        //{
-        //    mAnimator.GetBehaviour<RulesState>().IsAnswerRuleYes = true;
-        //}
-
-        //public void CLickButtonNoRule()
-        //{
-        //    mAnimator.GetBehaviour<RulesState>().IsAnswerRuleNo = true;
-        //}
-
-        //public void ClickButtonYesStart()
-        //{
-        //    mAnimator.GetBehaviour<StartState>().IsAnswerYes = true;
-        //}
-
-        //public void CLickButtonNoStart()
-        //{
-        //    mAnimator.GetBehaviour<StartState>().IsAnswerNo = true;
-        //}
-
-        //public void ClickButtonYesReplay()
-        //{
-        //    mAnimator.GetBehaviour<ReplayState>().IsAnswerYes = true;
-        //}
-
-        //public void ClickButtonNoReplay()
-        //{
-        //}
     }
 }
