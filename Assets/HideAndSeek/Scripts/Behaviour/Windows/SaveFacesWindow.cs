@@ -32,7 +32,7 @@ namespace BuddyApp.HideAndSeek
         // Use this for initialization
         void Start()
         {
-
+            
         }
 
         // Update is called once per frame
@@ -43,7 +43,8 @@ namespace BuddyApp.HideAndSeek
 
         public override void Init()
         {
-            
+            message.text = mDictionary.GetString("askStartReco");
+            buttonGoText.text = mDictionary.GetString("go");
         }
 
         public override void Open()

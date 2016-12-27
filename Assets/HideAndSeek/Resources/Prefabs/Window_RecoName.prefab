@@ -61,6 +61,7 @@ GameObject:
   - 224: {fileID: 22403486}
   - 95: {fileID: 9545760}
   - 225: {fileID: 22527392}
+  - 114: {fileID: 11497276}
   m_Layer: 5
   m_Name: Window_RecoName
   m_TagString: Untagged
@@ -318,7 +319,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 22456156}
   - 222: {fileID: 22200462}
-  - 114: {fileID: 11471790}
+  - 114: {fileID: 11422828}
   m_Layer: 5
   m_Name: Pics_ToDisplay
   m_TagString: Untagged
@@ -500,6 +501,32 @@ MonoBehaviour:
   m_Text: 'WHAT''s YOUR NAME PLAYER XXX ?
 
 '
+--- !u!114 &11422828
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!114 &11427354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -776,7 +803,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 11494210}
   m_TextComponent: {fileID: 11427354}
   m_Placeholder: {fileID: 11440230}
@@ -859,33 +886,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11471790
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 199400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 93bd2be2911102042923d9471b5bc99e, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
 --- !u!114 &11493842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -946,6 +946,25 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11497276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 133756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ed0f109d4b2fa4e85bde4a3bffc15e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 9545760}
+  message: {fileID: 11419950}
+  imageToDisplay: {fileID: 11422828}
+  buttonYes: {fileID: 11456152}
+  buttonNo: {fileID: 11410746}
+  buttonYesText: {fileID: 11499992}
+  buttonNoText: {fileID: 11493842}
+  inputName: {fileID: 11458784}
 --- !u!114 &11499176
 MonoBehaviour:
   m_ObjectHideFlags: 1

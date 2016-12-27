@@ -19,7 +19,7 @@ namespace BuddyApp.HideAndSeek
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if(mTTS.HasFinishedTalking())
+            if(mTTS.HasFinishedTalking)
             {
                 mYesHinge.SetPosition(45);
                 //Debug.Log("angle max: " + mYesHinge.MaximumAngle);

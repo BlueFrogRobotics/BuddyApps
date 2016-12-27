@@ -32,6 +32,8 @@ namespace BuddyApp.HideAndSeek
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             
+            if (!mRGBCam.IsOpen)
+                mRGBCam.Open();
             GetGameObject((int)HideAndSeekData.ObjectsLinked.FACE_RECO).SetActive(true);
             mSaveFacesWindow.Open();
             mSaveFacesWindow.ButtonGo.interactable = true;
@@ -80,6 +82,8 @@ namespace BuddyApp.HideAndSeek
             else if(mHasClosed && mSaveFacesWindow.IsOff())
             {
                 //Debug.Log("3" );
+                if(mRGBCam.IsOpen)
+                    mRGBCam.Close();
                 iAnimator.SetTrigger("ChangeState");
             }
 

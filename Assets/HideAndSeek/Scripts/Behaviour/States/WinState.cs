@@ -23,7 +23,7 @@ namespace BuddyApp.HideAndSeek
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mHasTalked && mTTS.HasFinishedTalking())
+            if (!mHasTalked && mTTS.HasFinishedTalking)
             {
                 mTTS.Say("J'ai gagné");
                 mHasTalked = true;

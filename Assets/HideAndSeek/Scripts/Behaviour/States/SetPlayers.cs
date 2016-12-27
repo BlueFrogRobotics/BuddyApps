@@ -31,7 +31,7 @@ namespace BuddyApp.HideAndSeek
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
-            if (mTTS.HasFinishedTalking() && mTimer > 3.0f && !mHasFinished)
+            if (mTTS.HasFinishedTalking && mTimer > 3.0f && !mHasFinished)
             {
                 mAnimator.SetTrigger("ChangeState");
                 mHasFinished = true;

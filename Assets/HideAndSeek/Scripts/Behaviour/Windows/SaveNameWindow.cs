@@ -9,6 +9,9 @@ namespace BuddyApp.HideAndSeek
     {
 
         [SerializeField]
+        private Text message;
+
+        [SerializeField]
         private RawImage imageToDisplay;
 
         [SerializeField]
@@ -16,6 +19,12 @@ namespace BuddyApp.HideAndSeek
 
         [SerializeField]
         private Button buttonNo;
+
+        [SerializeField]
+        private Text buttonYesText;
+
+        [SerializeField]
+        private Text buttonNoText;
 
         [SerializeField]
         private InputField inputName;
@@ -42,7 +51,9 @@ namespace BuddyApp.HideAndSeek
 
         public override void Init()
         {
-            
+            message.text = mDictionary.GetString("askPlayerName");
+            buttonYesText.text = mDictionary.GetString("yes");
+            buttonNoText.text = mDictionary.GetString("no");
         }
 
         public override void Open()

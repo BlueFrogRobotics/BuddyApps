@@ -34,4 +34,25 @@
       <string>calcul game</string>
     </VocalKeys>
   </AppInfo>
+    <AppInfo>
+    <name />
+    <hideFlags>None</hideFlags>
+    <DisplayName>HIDE_AND_SEEK</DisplayName>
+    <Scene>HideAndSeek</Scene>
+	<Icon>HideAndSeek_IcoApp</Icon>
+    <VocalKeys>
+      <string>hide and seek</string>
+    </VocalKeys>
+	<LangDictionaries>
+      <LangDictionary>
+        <Language>FRA</Language>
+        <Path>FrenchHideAndSeekAppDict</Path>
+      </LangDictionary>
+      <LangDictionary>
+        <Language>ENG</Language>
+        <Path>EnglishHideAndSeekAppDict</Path>
+      </LangDictionary>
+    </LangDictionaries>
+	<Atlas>AtlasHideAndSeek</Atlas>
+  </AppInfo>
 </ArrayOfAppInfo>

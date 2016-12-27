@@ -127,6 +127,7 @@ GameObject:
   - 224: {fileID: 22457512}
   - 95: {fileID: 9590864}
   - 225: {fileID: 22562674}
+  - 114: {fileID: 11415772}
   m_Layer: 5
   m_Name: Window_Timer
   m_TagString: Untagged
@@ -160,7 +161,7 @@ Animator:
   m_GameObject: {fileID: 176466}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 59b903af46a3e614286ae37adb58fc23, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1233807613bc57c4b93699089878766b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -168,6 +169,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11415772
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 176466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea843b1900af0864186392a745252621, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 9590864}
 --- !u!114 &11420518
 MonoBehaviour:
   m_ObjectHideFlags: 1

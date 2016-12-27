@@ -32,7 +32,7 @@ namespace BuddyApp.HideAndSeek
         {
             mTimer += Time.deltaTime;
 
-            if (mTimer>3.0f && !mTimerIsEnded && mTTS.HasFinishedTalking())
+            if (mTimer>3.0f && !mTimerIsEnded && mTTS.HasFinishedTalking)
             {
                 mTimerIsEnded = true;
                 

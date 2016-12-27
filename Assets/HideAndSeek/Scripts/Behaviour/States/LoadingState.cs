@@ -18,6 +18,7 @@ namespace BuddyApp.HideAndSeek
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mWindowLoading.GetComponent<Animator>().SetTrigger("Open_WLoading");
+            mRGBCam.Resolution = RGBCamResolution.W_176_H_144;
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -25,6 +26,8 @@ namespace BuddyApp.HideAndSeek
             mTimer += Time.deltaTime;
             if (mTimer>6.0f)
             {
+                if (mRGBCam.IsOpen)
+                    mRGBCam.Close();
                 mWindowLoading.GetComponent<Animator>().SetTrigger("Close_WLoading");
                 iAnimator.SetTrigger("ChangeState");
             }

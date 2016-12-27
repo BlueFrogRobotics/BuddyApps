@@ -216,13 +216,14 @@ GameObject:
   - 224: {fileID: 22449668}
   - 95: {fileID: 9536938}
   - 225: {fileID: 22532842}
+  - 114: {fileID: 11437710}
   m_Layer: 5
   m_Name: Window_Question
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &189002
 GameObject:
   m_ObjectHideFlags: 1
@@ -249,7 +250,7 @@ Animator:
   m_GameObject: {fileID: 183934}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f76ccf4397300074ab9077c59391dd64, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3b7be12a1ce15d646a3c227f816be32b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -393,6 +394,23 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &11437710
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 183934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9582ef16bc6f31b47bd519cd9773f37b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 9536938}
+  message: {fileID: 11441136}
+  buttonYes: {fileID: 11412944}
+  buttonNo: {fileID: 11404134}
+  buttonYesText: {fileID: 11475298}
+  buttonNoText: {fileID: 11447316}
 --- !u!114 &11438784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -452,7 +470,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.8
-  m_Text: 'DO YOU WHANT TO HAD AN OTHER PLAYER ?
+  m_Text: 'DO YOU WANT TO ADD AN OTHER PLAYER ?
 
 '
 --- !u!114 &11447316

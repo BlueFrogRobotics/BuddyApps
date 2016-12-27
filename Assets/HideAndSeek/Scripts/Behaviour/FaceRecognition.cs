@@ -48,8 +48,8 @@ namespace BuddyApp.HideAndSeek
             mFaceAct = new Mat();
             mMatFaces = new Mat();
             mNumFacesSaved = 0;
-            if (!mCam.IsOpen)
-                mCam.Open();
+           // if (!mCam.IsOpen)
+            //    mCam.Open();
         }
 
         // Update is called once per frame

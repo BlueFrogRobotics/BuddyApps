@@ -7,12 +7,20 @@ namespace BuddyApp.HideAndSeek
 {
     public class QuestionAddPlayerWindow : AWindow
     {
+        [SerializeField]
+        private Text message;
 
         [SerializeField]
         private Button buttonYes;
 
         [SerializeField]
         private Button buttonNo;
+
+        [SerializeField]
+        private Text buttonYesText;
+
+        [SerializeField]
+        private Text buttonNoText;
 
         public Button ButtonYes { get { return buttonYes; } }
 
@@ -32,7 +40,9 @@ namespace BuddyApp.HideAndSeek
 
         public override void Init()
         {
-            
+            message.text = mDictionary.GetString("askAddPlayer");
+            buttonYesText.text = mDictionary.GetString("yes");
+            buttonNoText.text = mDictionary.GetString("no");
         }
 
         public override void Open()

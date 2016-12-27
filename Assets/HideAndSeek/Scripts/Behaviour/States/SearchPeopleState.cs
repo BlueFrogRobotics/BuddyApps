@@ -34,6 +34,8 @@ namespace BuddyApp.HideAndSeek
             mFace.SetExpression(MoodType.THINKING);
             //GetGameObject(1).SetActive(true);
             mSearchWindow.Open();
+            if (!mRGBCam.IsOpen)
+                mRGBCam.Open();
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -67,6 +69,8 @@ namespace BuddyApp.HideAndSeek
         {
             //mTTS.Say("Je t ai trouvé");
             mSearchWindow.Close();
+            if (mRGBCam.IsOpen)
+                mRGBCam.Close();
             //GetGameObject(1).SetActive(false);
             mFace.SetExpression(MoodType.NEUTRAL);
             if (mLabelFound != -1 && mDist < 100)
