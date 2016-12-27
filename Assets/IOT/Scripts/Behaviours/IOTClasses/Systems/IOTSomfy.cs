@@ -62,7 +62,10 @@ namespace BuddyApp.IOT
             lRequest.Send((lResult) =>
             {
                 if (lResult == null)
+                {
+                    Debug.LogError("Somfy not connected");
                     return;
+                }
                 mHeaders.Clear();
                 mHeaders["SET-COOKIE"] = lResult.response.GetHeader("SET-COOKIE");
                 getSessionId();
