@@ -9,20 +9,26 @@ namespace BuddyApp.RLGL
     {
         private GameObject mCanvasUIToWin;
         private Button mButtonToWin;
-        private float mTimer;
         private bool mFirstSentence;
         private bool mSecondSentence;
         private bool mIsCoroutineDone;
         private bool mIsMovementDone;
         private bool mFirstSentenceNotDetected;
         private bool mIsReachedGoal;
+        private bool mStartCount;
+        
 
         private bool mIsOneTurnDone;
         public bool IsOneTurnDone { get { return mIsOneTurnDone; } set { mIsOneTurnDone = value; } }
 
         private int mCount;
         private int mCountGreenLight;
+        private bool mCountTen;
 
+        private bool mFirstMove;
+        private bool mSecondeMove;
+
+        private float mTimerDebug;
 
         public override void Init()
         {
@@ -30,6 +36,11 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mCountTen = false;
+            mStartCount = false;
+            mFirstMove = false;
+            mSecondeMove = false;
+            mTimerDebug = 0;
             Debug.Log("COUNT STATE : ON ENTER");
             mCanvasUIToWin = GetGameObject(0);
             mIsCoroutineDone = false;
@@ -43,41 +54,87 @@ namespace BuddyApp.RLGL
             iAnimator.SetBool("IsCountDone", false);
             iAnimator.SetBool("IsWon", false);
             //mMood.Set(MoodType.HAPPY);
-
+ 
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
-            if (!mIsOneTurnDone) {
-                if (mTTS.HasFinishedTalking && !mFirstSentence) {
+            mTimerDebug += Time.deltaTime;
+            if(!mIsOneTurnDone)
+            {
+                if (mTTS.HasFinishedTalking && !mFirstSentence)
+                {
                     StartCoroutine(WaitTenSecondsAtStart());
                 }
-                if (mTTS.HasFinishedTalking && mFirstSentence && !mSecondSentence) {
+
+                if(mStartCount)
+                {
+                    //Debug.Log(mTimerDebug + " " + mCountTen);
+                    if(!mCountTen)
+                    {
+                        GetGameObject(4).GetComponent<Animator>().SetTrigger("Open_WTimer");
+                        GetGameObject(1).GetComponent<Animator>().SetTrigger("Open_BG");
+                    }
+                    if(!mCountTen)
+                        mTimerDebug = 0.0F;
+                    mCountTen = true;
+                    if(mTimerDebug <= 11.0F)
+                    {
+                        GetGameObject(4).GetComponentInChildren<Text>().text = (10 - (int)mTimerDebug).ToString();
+                        if(!mFirstMove)
+                        {
+                            mTTS.Say("Hurry up, it will be fun");
+                            mWheels.SetWheelsSpeed(200.0F, 200.0F, 3000);
+                            mFirstMove = true;
+                        }
+                        if(mFirstMove && !mSecondeMove && ((mWheels.Status == MovingState.REACHED_GOAL) || (mWheels.Status == MovingState.MOTIONLESS && mTimerDebug > 3.0F)))
+                        {
+                            mWheels.SetWheelsSpeed(-200.0F, -200.0F, 3000);
+                            mSecondeMove = true;
+                        }
+                        //Debug.Log((10 - (int)mTimerDebug).ToString());
+                    }
+                    else if(mTimerDebug > 10.9F)
+                    {
+                        GetGameObject(4).GetComponent<Animator>().SetTrigger("Close_WTimer");
+                        GetGameObject(1).GetComponent<Animator>().SetTrigger("Close_BG");
+                        mStartCount = false;
+                    }
+                    
+                }
+
+                if (mTTS.HasFinishedTalking && mFirstSentence && !mSecondSentence)
+                {
                     mMood.Set(MoodType.NEUTRAL);
                     mCount = 0;
                     mTTS.Say("Ok let's go!");
                     mSecondSentence = true;
                 }
             }
-            if (mIsOneTurnDone) {
-                if (mTTS.HasFinishedTalking && !mFirstSentenceNotDetected) {
+            if(mIsOneTurnDone)
+            {
+                if (mTTS.HasFinishedTalking && !mFirstSentenceNotDetected)
+                {
                     StartCoroutine(NotDetected());
-
+                    
                 }
 
             }
-            if (mSecondSentence || mFirstSentenceNotDetected) {
-                if (mTTS.HasFinishedTalking) {
+            if (mSecondSentence || mFirstSentenceNotDetected)
+            {
+                if (mTTS.HasFinishedTalking)
+                {
                     StartCoroutine(GreenLightMomentAndTurn());
                     mCountGreenLight = 0;
                 }
 
-                if ((mWheels.Status == MovingState.REACHED_GOAL || (mWheels.Status == MovingState.MOTIONLESS && mIsReachedGoal)) && mIsCoroutineDone) {
+                if ((mWheels.Status == MovingState.REACHED_GOAL || (mWheels.Status == MovingState.REACHED_GOAL && mIsReachedGoal)) && mIsCoroutineDone)
+                {
                     mIsMovementDone = true;
                 }
 
-                if (mIsMovementDone && mTTS.HasFinishedTalking) {
+                if (mIsMovementDone && mTTS.HasFinishedTalking)
+                {
                     StartCoroutine(ChangeState(3.0F, iAnimator));
                 }
             }
@@ -91,30 +148,41 @@ namespace BuddyApp.RLGL
 
         private IEnumerator WaitTenSecondsAtStart()
         {
-            if (mCount == 0 && mTTS.HasFinishedTalking) {
+            if(mCount == 0 && mTTS.HasFinishedTalking)
+            {
                 mTTS.Say("Okay let's play together! You have ten seconds to go away by about fifteen feet, I will wait ten seconds gogo! ");
                 mCount++;
                 mYesHinge.SetPosition(45.0F, 150.0F);
+                
             }
-            yield return new WaitForSeconds(15.0F);
-            mFirstSentence = true;
+
+            //Debug.Log(mTimerDebug);
+            if(mTTS.HasFinishedTalking)
+            {
+                mStartCount = true;
+                yield return new WaitForSeconds(10.0F);
+                mFirstSentence = true;
+            }
+
         }
 
         private IEnumerator NotDetected()
         {
-            if (mTTS.HasFinishedTalking && mCountGreenLight == 0 && !mFirstSentenceNotDetected) {
+            if(mTTS.HasFinishedTalking && mCountGreenLight == 0 && !mFirstSentenceNotDetected)
+            {
                 mTTS.Say("You are really good at this game! Go again!");
                 mCountGreenLight++;
             }
             yield return new WaitForSeconds(2.0F);
             mFirstSentenceNotDetected = true;
-
+            
         }
 
         private IEnumerator GreenLightMomentAndTurn()
         {
             yield return new WaitForSeconds(3.0F);
-            if (mTTS.HasFinishedTalking && mCount == 0 && mCountGreenLight == 0) {
+            if(mTTS.HasFinishedTalking && mCount == 0 && mCountGreenLight == 0)
+            {
                 mCanvasUIToWin.SetActive(true);
                 mTTS.Say("Green Light !");
                 mWheels.TurnAngle(180.0F, 250.0F, 0.02F);
@@ -123,8 +191,8 @@ namespace BuddyApp.RLGL
             }
             yield return new WaitForSeconds(1.5F);
             mIsReachedGoal = true;
-
-
+            
+                        
         }
 
         private IEnumerator ChangeState(float iSecondToWait, Animator iAnimator)

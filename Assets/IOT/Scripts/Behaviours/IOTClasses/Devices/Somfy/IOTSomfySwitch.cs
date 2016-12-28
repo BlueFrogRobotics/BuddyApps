@@ -11,17 +11,20 @@ namespace BuddyApp.IOT
     {
         public IOTSomfySwitch(IOTSomfyDevice iObject) : base(iObject)
         {
+            mType = DeviceType.SWITCH;
             mName = iObject.label;
         }
 
         public IOTSomfySwitch(IOTSomfyDevice iObject, string iSessionID) : base(iObject)
         {
+            mType = DeviceType.SWITCH;
             mName = iObject.label;
             mSessionID = iSessionID;
         }
 
         public IOTSomfySwitch(string iName, string iURL, string iSessionID) : base(null)
         {
+            mType = DeviceType.SWITCH;
             mName = iName;
             mSessionID = iSessionID;
         }

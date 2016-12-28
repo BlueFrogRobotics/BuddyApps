@@ -51,6 +51,8 @@ namespace BuddyApp.IOT {
             mObject.InitializeParams();
             mObject.PlaceParams(lParams);
 
+            transform.GetChild(1).GetComponent<Text>().text = "YOU HAVE OPENED " + mObject.Name.ToUpper() + ", WHAT DO YOU WANT TO DO?";
+
             if (mObject is IOTSystems)
             {
                 for (int i = 0; i < ((IOTSystems)mObject).Devices.Count; i++)

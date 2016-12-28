@@ -47,23 +47,13 @@
     <AppInfo>
     <name />
     <hideFlags>None</hideFlags>
-    <DisplayName>HIDE_AND_SEEK</DisplayName>
-    <Scene>HideAndSeek</Scene>
-	<Icon>HideAndSeek_IcoApp</Icon>
+    <DisplayName>RLGL</DisplayName>
+    <Scene>RLGLApp</Scene>
+    <Icon>Ico_123Soleil</Icon>
     <VocalKeys>
-      <string>hide and seek</string>
+      <string>red light</string>
+	  <string>green light</string>
     </VocalKeys>
-	<DataFile>hide_and_seek_data.xml</DataFile>
-	<LangDictionaries>
-      <LangDictionary>
-        <Language>FRA</Language>
-        <Path>FrenchHideAndSeekAppDict</Path>
-      </LangDictionary>
-      <LangDictionary>
-        <Language>ENG</Language>
-        <Path>EnglishHideAndSeekAppDict</Path>
-      </LangDictionary>
-    </LangDictionaries>
-	<Atlas>AtlasHideAndSeek</Atlas>
+    <Atlas></Atlas>
   </AppInfo>
 </ArrayOfAppInfo>
