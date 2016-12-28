@@ -78,6 +78,7 @@ namespace BuddyApp.Guardian
             SetWindowAppOverBuddyColor(0);
             mAnimator.SetBool("PasswordTrue", false);
             mAnimator.SetBool("ChangeState", false);
+            mAnimator.SetBool("AskToQuit", false);
             mObjectPasswordWriter.GetComponent<Animator>().SetTrigger("Close_WPassword");
             //mObjectPasswordWriter.SetActive(false);
             //mBackgroundPrefab.SetActive(false);
