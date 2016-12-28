@@ -63,6 +63,33 @@ namespace BuddyApp.Companion
 				int wheelSpeedLeft = 0;
 				int wheelSpeedRight = 0;
 
+                // TODO this should be redone when integrating the new thermal sensor
+                switch(maxVertical)
+                {
+                    case 0:
+                        wheelSpeedRight += 80;
+                        wheelSpeedLeft -= 80;
+                        break;
+
+                    case 1:
+                        wheelSpeedRight += 40;
+                        wheelSpeedLeft -= 40;
+                        break;
+
+                    case 2:
+                        wheelSpeedLeft += 40;
+                        wheelSpeedRight -= 40;
+                        break;
+
+                    case 3:
+                        wheelSpeedLeft += 80;
+                        wheelSpeedRight -= 80;
+                        break;
+
+                    default:
+                        break;
+                }
+                /* TODO if the thermal tracking is working we can remove this block
 				// we use vertical for left and right because it's the verticl projection
 				if(maxVertical == 3 || maxVertical == 2)
 				{
@@ -84,7 +111,31 @@ namespace BuddyApp.Companion
 					wheelSpeedRight += 80;
 					wheelSpeedLeft -= 80;
 				}
-				if (maxHorizontal == 0) 
+                */
+
+                switch (maxVertical)
+                {
+                    case 0:
+                        //we lower the head
+                        mYesHinge.SetPosition(mYesHinge.CurrentAnglePosition - 10);
+                        break;
+
+                    case 1:
+                        break;
+
+                    case 2:
+                        break;
+
+                    case 3:
+                        // we lift the head
+                        mYesHinge.SetPosition(mYesHinge.CurrentAnglePosition + 10);
+                        break;
+
+                    default:
+                        break;
+                }
+                /*
+                if (maxHorizontal == 0) 
 				{
 					// on baisse la tete
 					// mYesHinge.SetPosition(mYesHinge.CurrentAnglePosition - 10);
@@ -94,6 +145,7 @@ namespace BuddyApp.Companion
 					// on monte la tete
 					// mYesHinge.SetPosition(mYesHinge.CurrentAnglePosition + 10);
 				}
+                */
 
 				// if there is room we can go
 				if (isNoFrontObstacles()) {
@@ -101,6 +153,7 @@ namespace BuddyApp.Companion
 					wheelSpeedRight += 150;
 				}
 				mWheels.SetWheelsSpeed(wheelSpeedLeft,wheelSpeedRight,300);
+
 			}
 		}
 

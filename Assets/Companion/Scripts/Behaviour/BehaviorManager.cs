@@ -210,7 +210,6 @@ namespace BuddyApp.Companion
 
 					if (mIsRobotIsTrackingSomeone)
 						mIsRobotIsTrackingSomeone = false;
-					
 	                break;
 
 				case "FollowMe":
