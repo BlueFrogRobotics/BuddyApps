@@ -15,6 +15,8 @@ namespace BuddyApp.TakePhoto
 		private bool mFollowFace;
 		private float mSearchTimer;
 		private const float mTimeMax = 5.0f;
+		private float mFaceLostTime;
+		private int mSearchStep;
 
 		private int mRGBCamWidthCenter;
 		private int mRGBCamHeightCenter;
@@ -24,7 +26,6 @@ namespace BuddyApp.TakePhoto
 
 		private FaceCascadeTracker mFaceTracker;
 		private List<OpenCVUnity.Rect> mTrackedObjects;
-		private float mFaceLostTime;
 
 		public override void Init()
 		{
@@ -35,8 +36,11 @@ namespace BuddyApp.TakePhoto
 		protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mFollowFace = false;
+			mSearchStep = 1;
 			mRGBCam = BYOS.Instance.RGBCam;
 			mFaceTracker = GetComponent<FaceCascadeTracker>();
+
+			mTTS.SayKey("look4face");
 
 			if (!mRGBCam.IsOpen)
 				mRGBCam.Open();
@@ -85,12 +89,15 @@ namespace BuddyApp.TakePhoto
 						mFollowFace = false;
 						Debug.Log("We loose the face");
 						mFaceLostTime = 0.0f;
+						mSearchTimer = 0.0f;
+						mSearchStep = 1;
 					}
 				}
 
 
 			} else {
 				mSearchTimer += Time.deltaTime;
+
 				if (mFaceTracker.TrackedObjects.Count > 0) {
 					//Exit, follow face
 					Debug.Log("face found!");
@@ -105,7 +112,22 @@ namespace BuddyApp.TakePhoto
 						//Exit, no face
 						iAnimator.SetTrigger("NoFace");
 					} else {
-						//TODO move head to look for face
+						//move head to look for face
+						if (mSearchTimer < 2.0f && mSearchStep == 1) {
+							mHeadNoAngle = mNoHinge.CurrentAnglePosition - 25.0f;
+							mNoHinge.SetPosition(mHeadNoAngle);
+							mSearchStep++;
+						} else if (mSearchTimer > 2.0f && mSearchStep == 2) {
+							mHeadNoAngle = mNoHinge.CurrentAnglePosition + 50.0f;
+							mNoHinge.SetPosition(mHeadNoAngle);
+							mSearchStep++;
+						} else if (mSearchTimer > 3.5f && mSearchStep == 3) {
+							mHeadNoAngle = mNoHinge.CurrentAnglePosition - 25.0f;
+							mNoHinge.SetPosition(mHeadNoAngle);
+							mHeadYesAngle = mYesHinge.CurrentAnglePosition - 20.0f;
+							mYesHinge.SetPosition(mHeadYesAngle);
+							mSearchStep++;
+						}
 					}
 				}
 			}
