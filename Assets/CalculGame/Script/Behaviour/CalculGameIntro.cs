@@ -19,6 +19,7 @@ namespace BuddyApp.CalculGame
 
 		public override void Init()
 		{
+			BYOS.Instance.VocalActivation.enabled = false;
 
 			mAnimationManager = GetComponentInGameObject<AnimManager>(0);
 

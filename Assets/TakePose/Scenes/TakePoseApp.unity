@@ -754,7 +754,6 @@ GameObject:
   - 4: {fileID: 2121114095}
   - 95: {fileID: 2121114094}
   - 114: {fileID: 2121114093}
-  - 114: {fileID: 2121114096}
   m_Layer: 0
   m_Name: AIBehaviour
   m_TagString: Untagged
@@ -808,19 +807,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!114 &2121114096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2121114092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 312347657, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameObjects:
-  - {fileID: 1038852404}
 --- !u!1001 &2133410365
 Prefab:
   m_ObjectHideFlags: 0

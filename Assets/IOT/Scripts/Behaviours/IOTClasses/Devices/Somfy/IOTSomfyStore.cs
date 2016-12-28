@@ -11,19 +11,25 @@ namespace BuddyApp.IOT
 
         public IOTSomfyStore(IOTSomfyDevice iObject) : base(iObject)
         {
+            mType = DeviceType.STORE;
             mName = iObject.label;
+            mSpriteName = "IOT_Device_Store";
         }
 
         public IOTSomfyStore(IOTSomfyDevice iObject, string iSessionID) : base(iObject)
         {
+            mType = DeviceType.STORE;
             mName = iObject.label;
             mSessionID = iSessionID;
+            mSpriteName = "IOT_Device_Store";
         }
 
         public IOTSomfyStore(string iName, string iURL, string iSessionID) : base(null)
         {
+            mType = DeviceType.STORE;
             mName = iName;
             mSessionID = iSessionID;
+            mSpriteName = "IOT_Device_Store";
         }
 
         public override void InitializeParams()
@@ -33,26 +39,34 @@ namespace BuddyApp.IOT
             Button lButtonCloseComponent = lButtonClose.GetComponent<Button>();
             GameObject lButtonOpen = InstanciateParam(ParamType.BUTTON);
             Button lButtonOpenComponent = lButtonOpen.GetComponent<Button>();
+            //GameObject lName = InstanciateParam(ParamType.TEXTFIELD);
+            //TextField lNameComponent = lName.GetComponent<TextField>();
 
-            lButtonCloseComponent.Label.text = "Close";
+            lButtonCloseComponent.Label.text = "CLOSE";
             lButtonCloseComponent.Label.resizeTextForBestFit = true;
-            IOTStoreCmd lClose = new IOTStoreCmd(this, 0);
+            IOTStoreCmd lClose = new IOTStoreCmd(this, 2);
             lButtonCloseComponent.ClickCommands.Add(lClose);
 
-            lButtonOpenComponent.Label.text = "Open";
+            lButtonOpenComponent.Label.text = "OPEN";
             lButtonOpenComponent.Label.resizeTextForBestFit = true;
-            IOTStoreCmd lOpen = new IOTStoreCmd(this, 1);
+            IOTStoreCmd lOpen = new IOTStoreCmd(this, 3);
             lButtonOpenComponent.ClickCommands.Add(lOpen);
+
+            //lNameComponent.Label.text = "NAME";
+            //lNameComponent.Label.resizeTextForBestFit = true;
+            //IOTChangeNameCmd lCmdChangeName = new IOTChangeNameCmd(this);
+            //lNameComponent.UpdateCommands.Add(lCmdChangeName);
         }
 
-        public void Command(int iCommand)
+        public override void Command(int iCommand)
         {
+            base.Command(iCommand);
             switch (iCommand)
             {
-                case 0:
+                case 2:
                     PostAction("close");
                     break;
-                case 1:
+                case 3:
                     PostAction("open");
                     break;
             }

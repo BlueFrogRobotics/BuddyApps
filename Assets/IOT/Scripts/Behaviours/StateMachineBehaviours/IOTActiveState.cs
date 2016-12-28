@@ -10,6 +10,8 @@ namespace BuddyApp.IOT
         [SerializeField]
         private EnterOrExit when = EnterOrExit.ONENTER;
         [SerializeField]
+        private bool clearOnBestReco = false;
+        [SerializeField]
         private bool setActive = false;
         [SerializeField]
         private List<int> gameobject = new List<int>();
@@ -26,14 +28,8 @@ namespace BuddyApp.IOT
                 {
                     GameObject lGO = GetGameObject(gameobject[i]);
                     lGO.SetActive(setActive);
-                    Animator lAnim = lGO.GetComponent<Animator>();
-                    if(lAnim != null)
-                    {
-                        string[] lName = lGO.name.Split('_');
-                        string lWinName = lName[lName.Length - 1];
-                        lAnim.SetTrigger("Open_W" + lWinName);
-                    }
                 }
+                StartCoroutine(OpenObject());
             }
         }
 
@@ -47,6 +43,8 @@ namespace BuddyApp.IOT
                     Animator lAnim = lGO.GetComponent<Animator>();
                     if (lAnim != null)
                     {
+                        if (clearOnBestReco)
+                            mSTT.OnBestRecognition.Clear();
                         string[] lName = lGO.name.Split('_');
                         string lWinName = lName[lName.Length - 1];
                         lAnim.SetTrigger("Close_W" + lWinName);
@@ -67,6 +65,23 @@ namespace BuddyApp.IOT
             for (int i = 0; i < gameobject.Count; ++i)
             {
                 GetGameObject(gameobject[i]).SetActive(setActive);
+            }
+        }
+
+        IEnumerator OpenObject()
+        {
+            yield return new WaitForSeconds(0.8F);
+
+            for (int i = 0; i < gameobject.Count; ++i)
+            {
+                GameObject lGO = GetGameObject(gameobject[i]);
+                Animator lAnim = lGO.GetComponent<Animator>();
+                if (lAnim != null)
+                {
+                    string[] lName = lGO.name.Split('_');
+                    string lWinName = lName[lName.Length - 1];
+                    lAnim.SetTrigger("Open_W" + lWinName);
+                }
             }
         }
     }

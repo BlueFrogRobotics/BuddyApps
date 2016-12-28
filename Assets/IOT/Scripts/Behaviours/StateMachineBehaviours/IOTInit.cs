@@ -8,6 +8,8 @@ namespace BuddyApp.IOT
 
         public override void Init()
         {
+            BuddyOS.BYOS.Instance.VocalActivation.enabled = false;
+
             if(PlayerPrefs.GetString("somfy_user") != "")
             {
                 IOTSomfy lSomfy = new IOTSomfy();

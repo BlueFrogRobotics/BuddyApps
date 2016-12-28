@@ -49,16 +49,17 @@ namespace BuddyApp.BabyPhone
 
         void OnDisable()
         {
+
             //mMovie = (MovieTexture)animation.mainTexture;
             //mMovie.loop = true;
 
             //mTimeElapsed = 0;
 
-
         }
 
         void Start()
         {
+
             //mMovie = (MovieTexture)animation.mainTexture;
             //mMovie.loop = true;
 
@@ -77,6 +78,7 @@ namespace BuddyApp.BabyPhone
 
             //    float lValueX = mTimeElapsed / mFallingAssleepTime;
             //    progressBar.GetComponent<RectTransform>().anchorMax = new Vector2(lValueX, 0);
+
 
             //    if (mTimeElapsed >= mFallingAssleepTime)
             //        babyPhoneAnimator.SetTrigger("StartListening");
@@ -103,7 +105,6 @@ namespace BuddyApp.BabyPhone
 
         public void Pause()
         {
-
             //if (mMovie.isPlaying)
             //    mMovie.Stop();
             //babyPhoneAnimator.SetBool("DoPlayLullaby", false);
