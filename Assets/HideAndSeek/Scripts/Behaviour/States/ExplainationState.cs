@@ -20,12 +20,14 @@ namespace BuddyApp.HideAndSeek
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponent<WindowLinker>().SetAppWhite();
             mExplainWindow.Open();
             mBackgroundBlackWindow.Open();
             mTimer = 0.0f;
             mTimerIsEnded = false;
             mHasClosed = false;
-            mTTS.Say("Dans la prochaine étape, tourne ta tête de gauche à droite pour m'aider à te reconnaitre");
+            mTTS.Say(mDictionary.GetString("explainationText"));
+            //mTTS.Say("Dans la prochaine étape, tourne ta tête de gauche à droite pour m'aider à te reconnaitre");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

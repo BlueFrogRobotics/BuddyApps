@@ -6,7 +6,7 @@ using System;
 
 namespace BuddyApp.HideAndSeek
 {
-    public class SetPlayers : AStateMachineBehaviour
+    public class StartGameState : AStateMachineBehaviour
     {
         private Button mButonValidate;
         private Animator mAnimator;
@@ -21,7 +21,9 @@ namespace BuddyApp.HideAndSeek
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mTTS.Say("Jouons à cache-cache");
+            GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponent<WindowLinker>().SetAppBlack();
+            //mTTS.Say("Jouons à cache-cache");
+            mTTS.Say(mDictionary.GetString("welcomeText"));
             //GetGameObject(2).SetActive(true);
             mAnimator = iAnimator;
             mTimer = 0.0f;

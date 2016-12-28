@@ -12,12 +12,13 @@ namespace BuddyApp.HideAndSeek
         private SaveFacesWindow mSaveFacesWindow;
         private FaceRecognition mFaceReco;
         private Button mButtonTrain;
-        private bool mHasTrained = false;
         private bool mHasStarted = false;
         private Texture2D mTexture;
         private int mNumFacesSaved = 0;
         private const float NUM_FACE_MAX = 150.0f;
         private bool mHasClosed = false;
+        private bool mIsListening = false;
+        private float mTimer = 0.0f;
 
         public override void Init()
         {
@@ -31,7 +32,7 @@ namespace BuddyApp.HideAndSeek
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+            GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponent<WindowLinker>().SetAppWhite();
             if (!mRGBCam.IsOpen)
                 mRGBCam.Open();
             GetGameObject((int)HideAndSeekData.ObjectsLinked.FACE_RECO).SetActive(true);
@@ -43,6 +44,15 @@ namespace BuddyApp.HideAndSeek
             mNumFacesSaved = 0;
             mHasStarted = false;
             mHasClosed = false;
+            mIsListening = false;
+            mTTS.Say(mDictionary.GetString("askStartReco"));
+            mSTT.OnBestRecognition.Add(VocalProcessing);
+            mSTT.OnBeginning.Add(StartListening);
+            mSTT.OnEnd.Add(StopListening);
+            //mVocalActivation.VocalProcessing = VocalProcessing;
+            //mVocalActivation.StartListenBehaviour = StartListening;
+            //mVocalActivation.StopListenBehaviour = StopListening;
+            mTimer = 0.0f;
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -54,7 +64,17 @@ namespace BuddyApp.HideAndSeek
             //    iAnimator.SetTrigger("ChangeState");
             //}
             //Debug.Log("num face: " + mNumFacesSaved);
-            if (mHasStarted && mNumFacesSaved <= NUM_FACE_MAX)
+            mTimer += Time.deltaTime;
+            if(!mHasStarted && mTTS.HasFinishedTalking)
+            {
+                if (!mIsListening && mTimer > 3.0f)
+                {
+                    //mVocalActivation.StartInstantReco();
+                    mSTT.Request();
+                    mTimer = 0.0f;
+                }
+            }
+            else if (mHasStarted && mNumFacesSaved <= NUM_FACE_MAX)
             {
                 //Debug.Log("1 ");
                 if (mFaceReco.FaceAct != null && mFaceReco.NumFacesSaved>0)
@@ -94,6 +114,9 @@ namespace BuddyApp.HideAndSeek
             //mButtonTrain.onClick.RemoveAllListeners();
             //GetComponent<Players>().NumPlayer = mFaceReco.NbLabel;
             //mFace.SetExpression(MoodType.NEUTRAL);
+            mSTT.OnBestRecognition.Remove(VocalProcessing);
+            mSTT.OnBeginning.Remove(StartListening);
+            mSTT.OnEnd.Remove(StopListening);
             mSaveFacesWindow.ButtonGo.onClick.RemoveAllListeners();
             iAnimator.ResetTrigger("ChangeState");
 
@@ -111,6 +134,25 @@ namespace BuddyApp.HideAndSeek
             mFace.SetExpression(MoodType.THINKING);
             GetGameObject(3).SetActive(false);
             mFaceReco.Train();
+        }
+
+        private void VocalProcessing(string iRequest)
+        {
+            if(iRequest.Contains("part") || iRequest.Contains("go") || iRequest.Contains("aller"))
+            {
+                if (!mHasStarted)
+                    StartLabel();
+            }
+        }
+
+        private void StartListening()
+        {
+            mIsListening = true;
+        }
+
+        private void StopListening()
+        {
+            mIsListening = false;
         }
     }
 }

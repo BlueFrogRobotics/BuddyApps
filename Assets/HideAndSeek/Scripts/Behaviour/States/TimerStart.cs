@@ -14,6 +14,7 @@ namespace BuddyApp.HideAndSeek
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponent<WindowLinker>().SetAppBlack();
             mTTS.Say("Je vais compter jusqu a 10 et je vous cherche");
         }
 

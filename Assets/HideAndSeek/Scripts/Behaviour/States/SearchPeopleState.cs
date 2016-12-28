@@ -15,7 +15,6 @@ namespace BuddyApp.HideAndSeek
         private int mLabelFound=-1;
         private double mDist = 0;
         private float mTimer = 0.0f;
-        private bool mHasClosed = false;
 
         public override void Init()
         {
@@ -30,7 +29,6 @@ namespace BuddyApp.HideAndSeek
         {
             mTimer = 0.0f;
             mTTS.Say("Montre ton visage");
-            mHasClosed = false;
             mFace.SetExpression(MoodType.THINKING);
             //GetGameObject(1).SetActive(true);
             mSearchWindow.Open();
@@ -49,7 +47,6 @@ namespace BuddyApp.HideAndSeek
                     //double lDist = 0;
                     mLabelFound = mFaceReco.Predict(out mDist);
                     Debug.Log("label: " + mLabelFound + "dist: " + mDist);
-                    mHasClosed = true;
                     /* if (lLabel != -1 && lDist<100)
                      {
                          mTTS.Say("connu");

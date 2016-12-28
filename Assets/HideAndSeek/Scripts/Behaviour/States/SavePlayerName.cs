@@ -20,6 +20,7 @@ namespace BuddyApp.HideAndSeek
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponent<WindowLinker>().SetAppWhite();
             mSaveNameWindow.Open();
             mSaveNameWindow.ButtonYes.onClick.AddListener(ValidateName);
             mHasValidated = false;
@@ -36,7 +37,6 @@ namespace BuddyApp.HideAndSeek
             }
             else if(mHasClosed && mSaveNameWindow.IsOff())
                 iAnimator.SetTrigger("ChangeState");
-            
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

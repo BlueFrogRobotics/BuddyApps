@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using BuddyOS;
 using BuddyOS.App;
 using System;
 
@@ -19,6 +20,7 @@ namespace BuddyApp.HideAndSeek
         {
             mWindowLoading.GetComponent<Animator>().SetTrigger("Open_WLoading");
             mRGBCam.Resolution = RGBCamResolution.W_176_H_144;
+            mVocalActivation.enabled = false;
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

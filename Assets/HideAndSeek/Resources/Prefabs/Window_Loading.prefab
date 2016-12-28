@@ -14,6 +14,7 @@ GameObject:
   - 95: {fileID: 9547604}
   - 114: {fileID: 11472286}
   - 114: {fileID: 11467414}
+  - 114: {fileID: 11403038}
   m_Layer: 5
   m_Name: Window_Loading
   m_TagString: Untagged
@@ -204,6 +205,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11403038
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 113448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62dd6f799a1a39d45a21536ea2293e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: {fileID: 11428088}
+  loadingText: {fileID: 11487598}
 --- !u!114 &11428088
 MonoBehaviour:
   m_ObjectHideFlags: 1

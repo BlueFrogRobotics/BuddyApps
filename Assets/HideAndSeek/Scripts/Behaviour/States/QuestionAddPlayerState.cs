@@ -28,6 +28,7 @@ namespace BuddyApp.HideAndSeek
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponent<WindowLinker>().SetAppWhite();
             mQuestionWindow.Open();
             mQuestionWindow.ButtonYes.onClick.AddListener(Yes);
             mQuestionWindow.ButtonNo.onClick.AddListener(No);

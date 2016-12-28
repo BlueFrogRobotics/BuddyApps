@@ -22,7 +22,6 @@ namespace BuddyApp.HideAndSeek
         public Button mButtonTrain;
         public bool IsTrained { get { return mIsTrained; } }
         private RGBCam mCam;
-        private Mat mMatFaces;
         private List<Mat> mListMat;
         private List<int> mListLabel;
         private List<OpenCVUnity.Rect> mFaces;
@@ -46,7 +45,6 @@ namespace BuddyApp.HideAndSeek
             mListLabel = new List<int>();
             mCam = BYOS.Instance.RGBCam;
             mFaceAct = new Mat();
-            mMatFaces = new Mat();
             mNumFacesSaved = 0;
            // if (!mCam.IsOpen)
             //    mCam.Open();
@@ -105,7 +103,7 @@ namespace BuddyApp.HideAndSeek
                 Mat dst = new Mat();
                 Imgproc.resize(lSub, dst, new Size(100, 100));
                 mTexture = Utils.MatToTexture2D(dst);
-                //mRaw.texture = mTexture;
+                mRaw.texture = mTexture;
             }
         }
 

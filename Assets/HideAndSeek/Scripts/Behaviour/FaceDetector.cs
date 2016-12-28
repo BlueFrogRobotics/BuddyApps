@@ -33,7 +33,6 @@ namespace BuddyApp.HideAndSeek
         // Update is called once per frame
         void Update()
         {
-            int a = mFaceTracker.TrackedObjects.Count;
             if (mFaceTracker.TrackedObjects.Count > 0)
             {
                 mHasDetectedFace = true;
