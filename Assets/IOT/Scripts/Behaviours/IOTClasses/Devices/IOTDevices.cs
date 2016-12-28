@@ -9,6 +9,16 @@ namespace BuddyApp.IOT
         protected DeviceType mType = DeviceType.DEVICE;
         public DeviceType Type { get { return mType; } }
 
+        public IOTDevices() : base()
+        {
+            mSpriteName = "IOT_Device_Big";
+        }
+
+        public virtual void ChangeName(string iName)
+        {
+            mName = iName;
+        }
+
         public override void OnOff(bool iOnOff)
         {
         }

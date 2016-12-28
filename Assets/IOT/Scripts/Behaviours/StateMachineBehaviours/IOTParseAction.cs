@@ -23,8 +23,8 @@ namespace BuddyApp.IOT
             {
                 for (int i = 0; i < lListIOT.Count; ++i)
                     ActionAll(lListIOT[i], iAnimator, lType);
-                
-                mFace.SetExpression(MoodType.SURPRISED);
+
+                mMood.Set(MoodType.SURPRISED);
                 iAnimator.SetTrigger(HashList[(int)HashTrigger.BACK]);
             }
             else
@@ -34,7 +34,7 @@ namespace BuddyApp.IOT
                 if (lObject != null)
                 {
                     Action(lObject, iAnimator);
-                    mFace.SetExpression(MoodType.HAPPY);
+                    mMood.Set(MoodType.HAPPY);
                     iAnimator.SetTrigger(HashList[(int)HashTrigger.BACK]);
                 }
                 else
