@@ -36,6 +36,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mFace.SetExpression(MoodType.NEUTRAL);
             mCountTen = false;
             mStartCount = false;
             mFirstMove = false;

@@ -155,6 +155,11 @@ namespace BuddyApp.RLGL
             }
             else if (mIndex == 5)
             {
+                if (gameplay.GetComponent<RLGLBehaviour>().IsClicked)
+                {
+                    gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
+                    return;
+                }
                 switch (iError)
                 {
                     case STTError.ERROR_NO_MATCH:
@@ -188,7 +193,7 @@ namespace BuddyApp.RLGL
         {
             Debug.Log(iMsg);
             mLastSpeech = iMsg;
-            if (iMsg.ToLower().Contains("jouer") && windowMenu.activeSelf && mIndex == 5)
+            if (iMsg.ToLower().Contains("play") && windowMenu.activeSelf && mIndex == 5)
             {
                 if (gameplay.GetComponent<RLGLBehaviour>().IsClicked)
                 {
@@ -213,9 +218,9 @@ namespace BuddyApp.RLGL
                 windowMenu.GetComponent<Animator>().SetTrigger("Close_WMenu3");
                 windowTuto.GetComponent<Animator>().SetTrigger("Open_WTuto");
             }
-            else if (iMsg.ToLower().Contains("quitter"))
+            else if (iMsg.ToLower().Contains("quit") || iMsg.ToLower().Contains("close"))
                 new HomeCmd().Execute();
-            else if (iMsg.ToLower().Contains("oui") && mIndex == 0)
+            else if (iMsg.ToLower().Contains("yes") && mIndex == 0)
             {
                 if (gameplay.GetComponent<RLGLBehaviour>().IsClicked)
                 {
@@ -224,7 +229,7 @@ namespace BuddyApp.RLGL
                 }
                 gameplay.GetComponent<Animator>().GetBehaviour<StartState>().IsAnswerYes = true;
             }
-            else if (iMsg.ToLower().Contains("non") && mIndex == 0)
+            else if (iMsg.ToLower().Contains("no") && mIndex == 0)
             {
                 if (gameplay.GetComponent<RLGLBehaviour>().IsClicked)
                 {
@@ -233,7 +238,7 @@ namespace BuddyApp.RLGL
                 }
                 gameplay.GetComponent<Animator>().GetBehaviour<StartState>().IsAnswerNo = true;
             }
-            else if (iMsg.ToLower().Contains("oui") && mIndex == 1)
+            else if (iMsg.ToLower().Contains("yes") && mIndex == 1)
             {
                 if (gameplay.GetComponent<RLGLBehaviour>().IsClicked)
                 {
@@ -243,7 +248,7 @@ namespace BuddyApp.RLGL
                 gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().IsAnswerRuleYes = true;
                 
             }
-            else if (iMsg.ToLower().Contains("non") && mIndex == 1)
+            else if (iMsg.ToLower().Contains("yes") && mIndex == 1)
             {
                 if (gameplay.GetComponent<RLGLBehaviour>().IsClicked)
                 {
@@ -252,7 +257,7 @@ namespace BuddyApp.RLGL
                 }
                 gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().IsAnswerRuleNo = true;
             }
-            else if (iMsg.ToLower().Contains("oui") && mIndex == 2)
+            else if (iMsg.ToLower().Contains("yes") && mIndex == 2)
             {
                 if (gameplay.GetComponent<RLGLBehaviour>().IsClicked)
                 {
@@ -261,7 +266,7 @@ namespace BuddyApp.RLGL
                 }
                 gameplay.GetComponent<Animator>().GetBehaviour<ReplayState>().IsAnswerReplayYes = true;
             }
-            else if (iMsg.ToLower().Contains("non") && mIndex == 2)
+            else if (iMsg.ToLower().Contains("no") && mIndex == 2)
             {
                 if (gameplay.GetComponent<RLGLBehaviour>().IsClicked)
                 {
