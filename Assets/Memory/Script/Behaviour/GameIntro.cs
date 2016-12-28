@@ -15,6 +15,7 @@ namespace BuddyApp.Memory
 
 			public override void Init()
 			{
+				BYOS.Instance.VocalActivation.enabled = false;
 				mOnEnterDone = false;
             }
 
