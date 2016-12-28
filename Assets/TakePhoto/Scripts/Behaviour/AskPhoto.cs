@@ -238,7 +238,7 @@ namespace BuddyApp.TakePhoto
 
 			Text[] textObjects = mCanvasYesNo.GetComponentsInChildren<Text>();
 
-			textObjects[0].text = mDictionary.GetString("askmovephotow").ToUpper();
+			textObjects[0].text = mDictionary.GetString("askmovephoto").ToUpper();
 			textObjects[1].text = mDictionary.GetString("move").ToUpper();
 			textObjects[2].text = mDictionary.GetString("photo").ToUpper();
 
