@@ -23,6 +23,8 @@ namespace BuddyApp.Companion
         private bool mAskedSomething;
         private bool mVocalWanderOrder;
         private bool mActionInProgress;
+		private bool isRobotIsTrackingSomeone;
+		private bool areEyesTrackingThermal;
         private float mInactiveTime;
         private Stack<Action> mActionStack;
         private Action mCurrentAction;
@@ -77,6 +79,9 @@ namespace BuddyApp.Companion
             //mReaction.ActionFinished = PopHead;
             mReaction.ActionFinished = OnActionFinished;
             mAccelerometerDetector.OnDetection += mReaction.IsBeingLifted;
+			isRobotIsTrackingSomeone = true;
+			// by default the robot is following the poeple with his eyes
+			areEyesTrackingThermal = true;
         }
 
         void Update()
@@ -110,7 +115,7 @@ namespace BuddyApp.Companion
             //    mReaction.DisableSayHelloReaction();
 
             if (!mVocalWanderOrder || mBuddyFaceDetector.EyeTouched ||
-                mFaceDetector.FaceDetected || mCurrentAction != null ) {
+				mFaceDetector.FaceDetected || mCurrentAction != null || !isRobotIsTrackingSomeone) {
                 //Debug.Log("Interaction with Buddy");
                 mInactiveTime = Time.time;
                 mReaction.StopMoving();
@@ -130,6 +135,19 @@ namespace BuddyApp.Companion
                 mReaction.StopIdle();
                 mReaction.StartWandering();
             }
+
+			if (isRobotIsTrackingSomeone){
+				mReaction.startFollowing ();
+			}else{
+				mReaction.stopFollowing ();
+			}
+
+			if (areEyesTrackingThermal) {
+				mReaction.startEyesFollow ();
+			} else {
+				mReaction.stopEyesFollow ();
+			}
+				
 
             Behave();
         }
@@ -185,11 +203,20 @@ namespace BuddyApp.Companion
                     mCompanionData.CanMoveBody = true;
                     break;
 
-                case "DontMove":
-                    mVocalWanderOrder = false;
-                    //mCompanionData.CanMoveBody = false;
-                    mReaction.StopMoving();
-                    break;
+				case "DontMove":
+					mVocalWanderOrder = false;
+	                    //mCompanionData.CanMoveBody = false;
+					mReaction.StopMoving ();
+
+					if (isRobotIsTrackingSomeone)
+						isRobotIsTrackingSomeone = false;
+					
+	                break;
+
+				case "FollowMe":
+					if (!isRobotIsTrackingSomeone)
+						isRobotIsTrackingSomeone = true;
+					break;
 
                 case "HeadUp":
                     mYesHinge.SetPosition(-15F);
@@ -255,6 +282,7 @@ namespace BuddyApp.Companion
 
                 case "Memory":
                     break;
+
 
                 default:
                     break;

@@ -15,7 +15,12 @@ namespace BuddyApp.BabyPhone
         [SerializeField]
         private Animator babyPhoneAnimator;
 
-        private MovieTexture mMovie;
+		#if UNITY_ANDROID
+			//Handheld.PlayFullScreenMovie("");
+		#else
+			private MovieTexture mMovie;
+		#endif
+        
 
         private BabyPhoneData mBabyPhoneData;
 
@@ -57,27 +62,36 @@ namespace BuddyApp.BabyPhone
 
         void OnDisable()
         {
-            mMovie = (MovieTexture)animation.mainTexture;
-            mMovie.loop = true;
-            //source.loop = true;
-            //mTimeElapsed = 0;
+			#if UNITY_ANDROID
+				//Handheld.PlayFullScreenMovie("");				
+			#else 
+				mMovie = (MovieTexture)animation.mainTexture;
+				mMovie.loop = true;
+				//source.loop = true;
+				//mTimeElapsed = 0;
 
-            //if (source.isPlaying)
-            //    source.Stop();
+				//if (source.isPlaying)
+				//    source.Stop();
 
-            ////mSource.Stop();
-            //mIsPlaying = false;
+				////mSource.Stop();
+				//mIsPlaying = false;
+			#endif
+
         }
 
         void Start()
         {
-            mMovie = (MovieTexture)animation.mainTexture;
-            mMovie.loop = true;
-            //source.loop = true;
-            //mSource.Loop = true;
+			#if UNITY_ANDROID
+				//Handheld.PlayFullScreenMovie("");
+			#else
+				mMovie = (MovieTexture)animation.mainTexture;
+				mMovie.loop = true;
+				//source.loop = true;
+				//mSource.Loop = true;
 
-            //mTimeElapsed = 0;
-            //source.volume = ((mBabyPhoneData.LullabyVolume)/100F);
+				//mTimeElapsed = 0;
+				//source.volume = ((mBabyPhoneData.LullabyVolume)/100F);
+			#endif
         }
 
         void Update()
@@ -87,6 +101,7 @@ namespace BuddyApp.BabyPhone
                 PlayLullabyAndAnimations();
 
             //if (source.isPlaying)
+			/*
             if(mMovie.isPlaying)
             {
                 //mSongSize = source.clip.length;
@@ -99,7 +114,7 @@ namespace BuddyApp.BabyPhone
 
                 if (mTimeElapsed >= mFallingAssleepTime)
                     babyPhoneAnimator.SetTrigger("StartListening");
-            }
+            }*/
         }
 
         private void PlayLullabyAndAnimations()
@@ -110,8 +125,8 @@ namespace BuddyApp.BabyPhone
             //mSource.Play();
             //mIsPlaying = true;
 
-            if (!mMovie.isPlaying)
-                mMovie.Play();
+            //if (!mMovie.isPlaying)
+            //    mMovie.Play();
 
         }
 
@@ -121,7 +136,7 @@ namespace BuddyApp.BabyPhone
 
             //mSource.Play();
             //mIsPlaying = true;
-            mMovie.Play();
+            //mMovie.Play();
             //mTimeElapsed = 0F;
         }
 
@@ -138,8 +153,8 @@ namespace BuddyApp.BabyPhone
             //mSource.Stop();
             //mIsPlaying = false;
 
-            if (mMovie.isPlaying)
-                mMovie.Stop();
+           // if (mMovie.isPlaying)
+           //     mMovie.Stop();
             babyPhoneAnimator.SetBool("DoPlayLullaby", false);
         }
 

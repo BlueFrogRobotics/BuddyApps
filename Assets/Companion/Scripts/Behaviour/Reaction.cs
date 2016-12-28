@@ -16,8 +16,10 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(GrumpyReaction))]
     [RequireComponent(typeof(IdleReaction))]
     [RequireComponent(typeof(SayHelloReaction))]
-    [RequireComponent(typeof(SearchFaceReaction))]
-    [RequireComponent(typeof(WanderReaction))]
+	[RequireComponent(typeof(SearchFaceReaction))]
+	[RequireComponent(typeof(WanderReaction))]
+	[RequireComponent(typeof(FollowPersonReaction))]
+	[RequireComponent(typeof(EyesFollowReaction))]
     public class Reaction : MonoBehaviour
     {
         private bool mIsPouting;
@@ -31,11 +33,13 @@ namespace BuddyApp.Companion
         private GrumpyReaction mGrumpyReaction;
         private SayHelloReaction mHelloReaction;
         private IdleReaction mIdleReaction;
+		private FollowPersonReaction mFollowPersonReaction;
         private Mood mMood;
         private NoHinge mNoHinge;
         private SearchFaceReaction mSearchFaceReaction;
         private TextToSpeech mTTS;
         private WanderReaction mWanderReaction;
+		private EyesFollowReaction mEyesFollowReaction;
         private Wheels mWheels;
         private YesHinge mYesHinge;
 
@@ -57,6 +61,8 @@ namespace BuddyApp.Companion
             mHelloReaction = GetComponent<SayHelloReaction>();
             mSearchFaceReaction = GetComponent<SearchFaceReaction>();
             mWanderReaction = GetComponent<WanderReaction>();
+			mFollowPersonReaction = GetComponent<FollowPersonReaction> ();
+			mEyesFollowReaction = GetComponent<EyesFollowReaction> ();
 
             mIsPouting = false;
             mIsTrackingFace = false;
@@ -64,6 +70,9 @@ namespace BuddyApp.Companion
             mHelloReaction.enabled = false;
             mWanderReaction.enabled = false;
             mGrumpyReaction.enabled = false;
+			// TODO : change this on to false;
+			mFollowPersonReaction.enabled = true;
+			mEyesFollowReaction.enabled = true;
         }
 
         void Update()
@@ -296,5 +305,26 @@ namespace BuddyApp.Companion
             lHeadNoAngle += 20;
             mNoHinge.SetPosition(lHeadNoAngle);
         }
+
+		public void startFollowing ()
+		{
+			mFollowPersonReaction.enabled = true;
+		}
+	
+		public void stopFollowing ()
+		{
+			mFollowPersonReaction.enabled = false;
+		}
+
+		public void startEyesFollow()
+		{
+			mEyesFollowReaction.enabled = true;
+		}
+
+		public void stopEyesFollow()
+		{
+			mEyesFollowReaction.enabled = false;
+		}
+
     }
 }

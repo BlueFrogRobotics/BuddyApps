@@ -7663,7 +7663,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animation: {fileID: 1521262410}
   progressBar: {fileID: 1519647242}
-  source: {fileID: 1509551940}
   babyPhoneAnimator: {fileID: 909183419}
 --- !u!114 &1509551938
 MonoBehaviour:
@@ -7676,11 +7675,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98666f9ddd98eb345939d5008ef00709, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!82 &1509551940 stripped
-AudioSource:
-  m_PrefabParentObject: {fileID: 8227882, guid: a03e6a2da8c42484cb747412269fe122,
-    type: 2}
-  m_PrefabInternal: {fileID: 1519647241}
 --- !u!1001 &1519647241
 Prefab:
   m_ObjectHideFlags: 0
@@ -7958,7 +7952,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 15200000, guid: 5cdb55f75d4d2234a8ed8e6b51f24d7f, type: 3}
+  m_Texture: {fileID: 2800000, guid: 7977b23232073894182368ddc73541c1, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
