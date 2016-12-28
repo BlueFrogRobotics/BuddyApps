@@ -39,7 +39,7 @@ public class RobotController : MonoBehaviour
 
     Motors mMotors = null;
 
-    private float timer = 0.0f;
+    //private float timer = 0.0f;
 
     // This function is called when a webrtc data is received
     public void onMessage(string iMessage)
