@@ -26,6 +26,21 @@ namespace BuddyApp.IOT
             mState.Add("reachable", false);
 
             indice = 0;
+            mSpriteName = "IOT_Device_Light";
+        }
+
+        public override void ChangeName(string iName)
+        {
+            base.ChangeName(iName);
+
+            Hashtable lLightSettings = new Hashtable();
+            lLightSettings.Add("name", iName);
+
+            string lPath = "http://" + mCredentials[0] + "/api/" + mCredentials[1] + "/lights/" + (indice + 1);
+            Request lRequest = new Request("PUT", lPath, lLightSettings);
+            lRequest.Send((request) =>
+            {
+            });
         }
 
         public override void InitializeParams()
@@ -37,6 +52,8 @@ namespace BuddyApp.IOT
             Gauge lIntensityComponent = lIntensity.GetComponent<Gauge>();
             GameObject lColors = InstanciateParam(ParamType.COLORS);
             IOTColorButton lColorsComponent = lColors.GetComponent<IOTColorButton>();
+            GameObject lName = InstanciateParam(ParamType.TEXTFIELD);
+            TextField lNameComponent = lName.GetComponent<TextField>();
 
             lOnOffComponent.Label.text = "ON/OFF";
             lOnOffComponent.Label.resizeTextForBestFit = true;
@@ -57,6 +74,11 @@ namespace BuddyApp.IOT
             lIntensityComponent.Slider.value = (float)((int)mState["bri"]/255F)*100;
             IOTSetIntensityCmd lCmd = new IOTSetIntensityCmd(this);
             lIntensityComponent.UpdateCommands.Add(lCmd);
+
+            lNameComponent.Label.text = "NAME";
+            lNameComponent.Label.resizeTextForBestFit = true;
+            IOTChangeNameCmd lCmdChangeName = new IOTChangeNameCmd(this);
+            lNameComponent.UpdateCommands.Add(lCmdChangeName);
         }
 
         private void SetValue(string[] iStr, object[] iVal)
