@@ -37,6 +37,11 @@ namespace BuddyApp.IOT
 
         public virtual void Connect() { }
 
+        public virtual void OnOff(bool iOnOff)
+        {
+
+        }
+
         public IOTObjects()
         {
             mCredentials.Add("");
