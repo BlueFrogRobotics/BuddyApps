@@ -21,6 +21,7 @@ namespace BuddyApp.Companion
             mFaceRecognizedDetected = false;
             mFaceDetected = false;
             mCamera = BYOS.Instance.RGBCam;
+            mCamera.Resolution = RGBCamResolution.W_176_H_144;
             mFaceTracker = GetComponent<FaceCascadeTracker>();
 
             if (!mCamera.IsOpen)
