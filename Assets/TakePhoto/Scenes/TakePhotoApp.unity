@@ -703,7 +703,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!1 &764027706
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,7 +776,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &764027710
 RectTransform:
@@ -844,7 +844,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
@@ -918,6 +918,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 764027710}
     m_Modifications:
+    - target: {fileID: 11413034, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 22469198, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1002,6 +1006,19 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Photo
       objectReference: {fileID: 0}
+    - target: {fileID: 11413034, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11413034, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11413034, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 11500000, guid: 92f3182d12a74084f9fc166567cc1f8e,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
   m_IsPrefabParent: 0

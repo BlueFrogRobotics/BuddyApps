@@ -24,8 +24,7 @@ namespace BuddyApp.TakePose
 
 		private Canvas mCanvasTimer;
 		private AnimManager mAnimationManager;
-
-		private List<string> mTakePoseSpeech;
+		
 
 		public override void Init()
 		{

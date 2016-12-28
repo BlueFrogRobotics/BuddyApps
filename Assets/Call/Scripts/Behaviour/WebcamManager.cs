@@ -14,10 +14,15 @@ namespace BuddyApp.Call
         private MatOfByte mBuffer;
         public RawImage mDebugScreen;
         
+        void Awake()
+        {
+            mWebcam = BYOS.Instance.RGBCam;
+            mWebcam.Resolution = RGBCamResolution.W_320_H_240;
+        }
+
         void Start()
         {
             mBuffer = new MatOfByte();
-            mWebcam = BYOS.Instance.RGBCam;
 
             if(!mWebcam.IsOpen)
                 mWebcam.Open();
