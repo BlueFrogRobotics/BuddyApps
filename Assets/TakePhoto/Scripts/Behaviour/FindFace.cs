@@ -21,9 +21,10 @@ namespace BuddyApp.TakePhoto
 
 		private float mHeadYesAngle;
 		private float mHeadNoAngle;
-		
+
 		private FaceCascadeTracker mFaceTracker;
 		private List<OpenCVUnity.Rect> mTrackedObjects;
+		private float mFaceLostTime;
 
 		public override void Init()
 		{
@@ -78,8 +79,15 @@ namespace BuddyApp.TakePhoto
 						Debug.Log("Face centered");
 						iAnimator.SetTrigger("Face");
 					}
-
+				} else {
+					mFaceLostTime += Time.deltaTime;
+					if (mFaceLostTime > 4.0f) {
+						mFollowFace = false;
+						Debug.Log("We loose the face");
+						mFaceLostTime = 0.0f;
+					}
 				}
+
 
 			} else {
 				mSearchTimer += Time.deltaTime;
