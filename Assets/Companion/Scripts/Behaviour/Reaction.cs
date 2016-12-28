@@ -15,6 +15,7 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(FollowFaceReaction))]
     [RequireComponent(typeof(GrumpyReaction))]
     [RequireComponent(typeof(IdleReaction))]
+    [RequireComponent(typeof(LiftedReaction))]
     [RequireComponent(typeof(SayHelloReaction))]
     [RequireComponent(typeof(SearchFaceReaction))]
     [RequireComponent(typeof(WanderReaction))]
@@ -31,6 +32,7 @@ namespace BuddyApp.Companion
         private GrumpyReaction mGrumpyReaction;
         private SayHelloReaction mHelloReaction;
         private IdleReaction mIdleReaction;
+        private LiftedReaction mLiftedReaction;
         private Mood mMood;
         private NoHinge mNoHinge;
         private SearchFaceReaction mSearchFaceReaction;
@@ -54,6 +56,7 @@ namespace BuddyApp.Companion
             mFollowFace = GetComponent<FollowFaceReaction>();
             mGrumpyReaction = GetComponent<GrumpyReaction>();
             mIdleReaction = GetComponent<IdleReaction>();
+            mLiftedReaction = GetComponent<LiftedReaction>();
             mHelloReaction = GetComponent<SayHelloReaction>();
             mSearchFaceReaction = GetComponent<SearchFaceReaction>();
             mWanderReaction = GetComponent<WanderReaction>();
@@ -102,9 +105,9 @@ namespace BuddyApp.Companion
 
         public void IsBeingLifted()
         {
-            mMood.Set(MoodType.SCARED);
-            mFace.SetEvent(FaceEvent.SCREAM);
-            //mTTS.Say(mDictionary.GetString("putMeDown"));
+            if (mLiftedReaction.enabled)
+                return;
+            mLiftedReaction.enabled = true;
         }
 
         public void Pout()

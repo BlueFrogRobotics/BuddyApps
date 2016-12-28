@@ -7,9 +7,6 @@ namespace BuddyApp.Companion
 {
     public class SayHelloReaction : MonoBehaviour
     {
-        [SerializeField]
-        private Emotion mEmotion;
-
         private bool mInitialized;
         private float mTime;
         private Mood mMood;
