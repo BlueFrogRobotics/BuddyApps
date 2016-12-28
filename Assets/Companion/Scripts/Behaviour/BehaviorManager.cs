@@ -23,8 +23,8 @@ namespace BuddyApp.Companion
         private bool mAskedSomething;
         private bool mVocalWanderOrder;
         private bool mActionInProgress;
-		private bool isRobotIsTrackingSomeone;
-		private bool areEyesTrackingThermal;
+		private bool mIsRobotIsTrackingSomeone;
+		private bool mAreEyesTrackingThermal;
         private float mInactiveTime;
         private Stack<Action> mActionStack;
         private Action mCurrentAction;
@@ -79,9 +79,9 @@ namespace BuddyApp.Companion
             //mReaction.ActionFinished = PopHead;
             mReaction.ActionFinished = OnActionFinished;
             mAccelerometerDetector.OnDetection += mReaction.IsBeingLifted;
-			isRobotIsTrackingSomeone = true;
+			mIsRobotIsTrackingSomeone = true;
 			// by default the robot is following the poeple with his eyes
-			areEyesTrackingThermal = true;
+			mAreEyesTrackingThermal = true;
         }
 
         void Update()
@@ -109,7 +109,7 @@ namespace BuddyApp.Companion
             //    mReaction.DisableSayHelloReaction();
 
             if (mBuddyFaceDetector.EyeTouched || mFaceDetector.FaceDetected ||
-                (mCurrentAction != null && !mVocalWanderOrder) || !isRobotIsTrackingSomeone) {
+                (mCurrentAction != null && !mVocalWanderOrder) || !mIsRobotIsTrackingSomeone) {
                 //Debug.Log("Interaction with Buddy");
                 mVocalWanderOrder = false;
                 mInactiveTime = Time.time;
@@ -136,16 +136,16 @@ namespace BuddyApp.Companion
             //    mReaction.StartWandering();
             //}
 
-			if (isRobotIsTrackingSomeone){
-				mReaction.startFollowing ();
+			if (mIsRobotIsTrackingSomeone){
+				mReaction.StartFollowing ();
 			}else{
-				mReaction.stopFollowing ();
+				mReaction.StopFollowing ();
 			}
 
-			if (areEyesTrackingThermal) {
-				mReaction.startEyesFollow ();
+			if (mAreEyesTrackingThermal) {
+				mReaction.StartEyesFollow ();
 			} else {
-				mReaction.stopEyesFollow ();
+				mReaction.StopEyesFollow ();
 			}
 				
 
@@ -208,14 +208,14 @@ namespace BuddyApp.Companion
 	                    //mCompanionData.CanMoveBody = false;
 					mReaction.StopMoving ();
 
-					if (isRobotIsTrackingSomeone)
-						isRobotIsTrackingSomeone = false;
+					if (mIsRobotIsTrackingSomeone)
+						mIsRobotIsTrackingSomeone = false;
 					
 	                break;
 
 				case "FollowMe":
-					if (!isRobotIsTrackingSomeone)
-						isRobotIsTrackingSomeone = true;
+					if (!mIsRobotIsTrackingSomeone)
+						mIsRobotIsTrackingSomeone = true;
 					break;
 
                 case "HeadUp":

@@ -309,22 +309,22 @@ namespace BuddyApp.Companion
             mNoHinge.SetPosition(lHeadNoAngle);
         }
 
-		public void startFollowing ()
+		public void StartFollowing ()
 		{
 			mFollowPersonReaction.enabled = true;
 		}
 	
-		public void stopFollowing ()
+		public void StopFollowing ()
 		{
 			mFollowPersonReaction.enabled = false;
 		}
 
-		public void startEyesFollow()
+		public void StartEyesFollow()
 		{
 			mEyesFollowReaction.enabled = true;
 		}
 
-		public void stopEyesFollow()
+		public void StopEyesFollow()
 		{
 			mEyesFollowReaction.enabled = false;
 		}
