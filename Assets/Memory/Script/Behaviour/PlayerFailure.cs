@@ -1,43 +1,47 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BuddyOS;
-
+using BuddyOS.App;
+using System;
 
 namespace BuddyApp.Memory
 {
 	public class PlayerFailure : LinkStateMachineBehavior
 	{
+		
+		
+		public override void Init()
+		{
+			Debug.Log("Init playerFailure");
+		}
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
 			Debug.Log("Player Failure !");
 
 
 			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
-			link.tts.Silence(1000, true);
-			link.mMood.Set(MoodType.SAD);
-			link.animationManager.Sigh();
-			link.tts.Say(link.currentLevel.failureSentence, true);
+			mTTS.Silence(1000, true);
+			mMood.Set(MoodType.SAD);
+			link.mAnimationManager.Sigh();
+			mTTS.Say(link.currentLevel.failureSentence, true);
 		}
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			if (link.tts.HasFinishedTalking) {
+			if (mTTS.HasFinishedTalking) {
 				//Application.Quit ();
-				//			HomeCmd.Create().Execute();
-				Debug.Log("unload SimonGame");
-				//link.UnLoadScene();
-				//			SceneManager.LoadScene("SimonGame", LoadSceneMode.Additive);
+				QuitApp();
 			}
 		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		protected override void OnExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			link.mMood.Set(MoodType.NEUTRAL);
+			mMood.Set(MoodType.NEUTRAL);
 		}
 
 	}

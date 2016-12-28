@@ -99,8 +99,8 @@
     <hideFlags>None</hideFlags>
     <DisplayName>IOT</DisplayName>
     <Scene>IOT</Scene>
-    <Icon>IOT_Ico_App</Icon>
-    <Atlas>AtlasIOT</Atlas>
+    <Icon>Ico_IOT</Icon>
+    <Atlas>AtlasUI</Atlas>
 	<DataFile>iot_data.xml</DataFile>
   </AppInfo>
   <AppInfo>
@@ -109,7 +109,7 @@
     <DisplayName>RECIPE</DisplayName>
     <Scene>Recipe</Scene>
     <Icon>LightOn</Icon>
-    <Atlas>AtlasUI</Atlas>
+    <Atlas>AtlasRecipe</Atlas>
     <OptionsLayoutStr>BuddyApp.Recipe.RecipeLayout</OptionsLayoutStr>
     <DataFile>recipe_data.xml</DataFile>
     <Assembly>Assembly-CSharp</Assembly>
@@ -143,5 +143,34 @@
         <Path>EnglishGuardianAppDict</Path>
       </LangDictionary>
     </LangDictionaries>
+  </AppInfo>
+  <AppInfo>
+    <name />
+    <hideFlags>None</hideFlags>
+    <DisplayName>REMOTE</DisplayName>
+    <Scene>RemoteControl</Scene>
+    <Icon>Phone</Icon>
+    <VocalKeys>
+      <string>call</string>
+    </VocalKeys>
+    <DataFile>remote_control_data.xml</DataFile>
+  	<LangDictionaries>
+      <LangDictionary>
+        <Language>FRA</Language>
+        <Path>FrenchRemoteControlAppDict</Path>
+      </LangDictionary>
+      <LangDictionary>
+        <Language>ENG</Language>
+        <Path>EnglishRemoteControlAppDict</Path>
+      </LangDictionary>
+    </LangDictionaries>
   </AppInfo>  
+    <AppInfo>
+    <name />
+    <hideFlags>None</hideFlags>
+    <DisplayName>MAPPING</DisplayName>
+    <Scene>OdometryMappingReal</Scene>
+    <Icon>Phone</Icon>
+    <DataFile>navigation_data.xml</DataFile>
+  </AppInfo> 
 </ArrayOfAppInfo>

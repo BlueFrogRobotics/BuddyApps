@@ -12,7 +12,7 @@ namespace BuddyApp.IOT
         private int indice;
         public int Indice { get { return indice; } set { indice = value; } }
 
-        public IOTPhilipsLightHUE()
+        public IOTPhilipsLightHUE() : base()
         {
             mState = new Hashtable();
             mState.Add("on", false);
@@ -81,10 +81,16 @@ namespace BuddyApp.IOT
         {
             string lPath = "http://" + mCredentials[0] + "/api/" + mCredentials[1] + "/lights/" + (indice + 1);
             Request lRequest = new Request("GET", lPath);
-            lRequest.Send((request) =>
+            lRequest.Send((lResult) =>
             {
-                Hashtable lResult = request.response.Object;
-                Hashtable lRealState = (Hashtable)lResult["state"];
+                if (lRequest == null)
+                {
+                    Debug.LogError("LightHUE not connected");
+                    return;
+                }
+
+                Hashtable lRes = lResult.response.Object;
+                Hashtable lRealState = (Hashtable)lRes["state"];
 
                 mState["on"] = lRealState["on"];
                 mState["bri"] = lRealState["bri"];
@@ -96,12 +102,7 @@ namespace BuddyApp.IOT
                 mState["colormode"] = lRealState["colormode"];
                 mState["reachable"] = lRealState["reachable"];
 
-                mName = (string)lResult["name"];
-
-                if (lResult == null)
-                {
-                    return;
-                }
+                mName = (string)lRes["name"];
 
             });
         }

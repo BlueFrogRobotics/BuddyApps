@@ -44,6 +44,8 @@ namespace BuddyApp.TakePhoto
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
+
+			mAnimationManager.enabled = true;
 			Debug.Log("OnEnter redo");
 			mErrorCount = 0;
 			mNeedListen = true;

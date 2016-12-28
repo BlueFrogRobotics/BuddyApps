@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -791307131, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
+  m_Name: FrenchMemoryGameAppDict
+  m_EditorClassIdentifier: 
+  entries:
+  - key: win
+    val: "Bien jou\xE9, tu as gagn\xE9! Tu es trop fort"
+  - key: noface
+    val: Je ne vois aucun visage
+  - key: askmovephoto
+    val: 'Dois-je prendre la photo [200] ou dois-je d''abord bouger? '
+  - key: askmovephotow
+    val: Je prends la photo ou je bouge d'abord?
+  - key: movephoto
+    val: Vous devez dire "prendre la photo" ou "recentrer"
