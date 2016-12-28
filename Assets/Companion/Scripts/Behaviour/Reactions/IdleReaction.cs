@@ -127,7 +127,7 @@ namespace BuddyApp.Companion
                     lSentence = mDict.GetString("iWantToTalk");
                     break;
             }
-            mTTS.Say(lSentence);
+            mTTS.Say(lSentence, true);
             mTTSTime = Time.time;
             mRandomSpeechTime = Random.Range(40F, 80F);
         }
