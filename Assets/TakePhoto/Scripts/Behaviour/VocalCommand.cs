@@ -283,6 +283,9 @@ namespace BuddyApp.TakePhoto
 
 		protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			if (!mFollowFace) {
+				HideCanvasHeadControl();
+			}
 		}
 
 
