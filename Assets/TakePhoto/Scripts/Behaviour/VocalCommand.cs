@@ -12,8 +12,10 @@ namespace BuddyApp.TakePhoto
 		private bool mFollowFace;
 		private bool mFirst;
 		private bool mNeedListen;
+		private bool mTouchedScreen;
 		private int mRGBCamWidthCenter;
 		private int mRGBCamHeightCenter;
+		private float mFaceLostTime;
 
 		private string mLastSpeech;
 
@@ -61,6 +63,11 @@ namespace BuddyApp.TakePhoto
 
 		protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+			mTouchedScreen = false;
+			mFaceLostTime = 0.0f;
+
+
 			mFaceTracker = GetComponent<FaceCascadeTracker>();
 			DisplayCanvasHeadControl();
 
@@ -106,12 +113,19 @@ namespace BuddyApp.TakePhoto
 
 		protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			if (!mTouchedScreen) {
+				if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetMouseButtonDown(0)) {
+					Debug.Log("Screen Touched");
+					mTouchedScreen = true;
+				}
+			}
 
 			if (mFollowFace) {
 				// Center the face before escape
 				mTrackedObjects = mFaceTracker.TrackedObjects;
 
 				if (mTrackedObjects.Count > 0) {
+					mFaceLostTime = 0.0f;
 					float lXCenter = 0.0f;
 					float lYCenter = 0.0f;
 					for (int i = 0; i < mTrackedObjects.Count; ++i) {
@@ -144,10 +158,18 @@ namespace BuddyApp.TakePhoto
 						iAnimator.SetTrigger("Photo");
 					}
 
+				} else {
+					mFaceLostTime += Time.deltaTime;
+					if (mFaceLostTime > 4.0f) {
+						DisplayCanvasHeadControl();
+						mFollowFace = false;
+						Debug.Log("We loose the face");
+						mFaceLostTime = 0.0f;
+                    }
 				}
 
 			} else {
-				if (mFaceTracker.TrackedObjects.Count > 0) {
+				if (mFaceTracker.TrackedObjects.Count > 0 && !mTouchedScreen) {
 					//Exit, vocal command
 					Debug.Log("face found!");
 					HideCanvasHeadControl();
@@ -183,7 +205,7 @@ namespace BuddyApp.TakePhoto
 									ControlBuddy(BuddyMotion.HEAD_DOWN);
 									mLastSpeech = "";
 									mNeedListen = true;
-								} else if (ContainsOneOf(mLastSpeech, mRightSpeech)) {
+								} else if (ContainsOneOf(mLastSpeech, mLeftSpeech)) {
 									ControlBuddy(BuddyMotion.HEAD_LEFT);
 									mLastSpeech = "";
 									mNeedListen = true;
@@ -259,11 +281,12 @@ namespace BuddyApp.TakePhoto
 			string lSentence = mDictionary.GetString("didntUnderstand");
 
 			switch (iError) {
-				case STTError.ERROR_AUDIO: lSentence = "Il y a un problème avec le micro !"; break;
-				case STTError.ERROR_NETWORK: lSentence = "Il y a un problème de connexion !"; break;
-				case STTError.ERROR_RECOGNIZER_BUSY: lSentence = "La reconaissance vocale est déjà occupée !"; break;
-				case STTError.ERROR_SPEECH_TIMEOUT: lSentence = "Je n'ai rien entendu. Pouvez vous répéter ?"; break;
+				case STTError.ERROR_AUDIO: lSentence = mDictionary.GetString("micissue"); break;
+				case STTError.ERROR_NETWORK: lSentence = mDictionary.GetString("connectissue"); break;
+				case STTError.ERROR_RECOGNIZER_BUSY: lSentence = mDictionary.GetString("vrecobusy"); break;
+				case STTError.ERROR_SPEECH_TIMEOUT: lSentence = mDictionary.GetString("hearnothing") + " " + mDictionary.GetString("repeatPls"); break;
 			}
+
 
 			if (UnityEngine.Random.value > 0.8) {
 				mMood.Set(MoodType.SAD);
@@ -276,32 +299,37 @@ namespace BuddyApp.TakePhoto
 
 
 
-
-
-
-
-
 		protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			if (!mFollowFace) {
 				HideCanvasHeadControl();
 			}
+
+
+			mMood.Set(MoodType.NEUTRAL);
+
+			mSTT.OnBestRecognition.Remove(OnSpeechRecognition);
+			mSTT.OnPartial.Remove(OnPartialRecognition);
+			mSTT.OnErrorEnum.Remove(ErrorSTT);
+
+
 		}
 
 
 		private void ControlBuddy(BuddyMotion iMotion)
 		{
 			mLastMotion = iMotion;
+			Debug.Log("motion triggered: " + iMotion);
 			float lNoAngle = 0.0f;
 			float lYesAngle = 0.0f;
 			if (iMotion == BuddyMotion.HEAD_LEFT) {
-				lNoAngle = mMotors.NoHinge.CurrentAnglePosition + 15.0f;
+				lNoAngle = mMotors.NoHinge.CurrentAnglePosition + 25.0f;
 			} else if (iMotion == BuddyMotion.HEAD_RIGHT) {
-				lNoAngle = mMotors.NoHinge.CurrentAnglePosition - 15.0f;
+				lNoAngle = mMotors.NoHinge.CurrentAnglePosition - 25.0f;
 			} else if (iMotion == BuddyMotion.HEAD_DOWN) {
-				lYesAngle = mMotors.YesHinge.CurrentAnglePosition + 15.0f;
+				lYesAngle = mMotors.YesHinge.CurrentAnglePosition + 20.0f;
 			} else if (iMotion == BuddyMotion.HEAD_UP) {
-				lYesAngle = mMotors.YesHinge.CurrentAnglePosition - 15.0f;
+				lYesAngle = mMotors.YesHinge.CurrentAnglePosition - 20.0f;
 			} else if (iMotion == BuddyMotion.WHEEL_FORWARD) {
 				mMotors.Wheels.MoveDistance(90.0f, 90.0f, 0.1f, 0.02f);
 			} else if (iMotion == BuddyMotion.WHEEL_BACK) {

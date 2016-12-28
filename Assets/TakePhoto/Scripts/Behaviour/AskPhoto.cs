@@ -86,7 +86,7 @@ namespace BuddyApp.TakePhoto
 			if (mPressedPhoto) {
 				animator.SetTrigger("Photo");
 			} else if (mPressedMove) {
-				mTTS.SayKey("ok", true);
+				mTTS.Say("ok", true);
 				animator.SetTrigger("VocalCom");
 			} else {
 				if (mTTS.HasFinishedTalking) {
@@ -200,10 +200,10 @@ namespace BuddyApp.TakePhoto
 				string lSentence = mDictionary.GetString("didntUnderstand");
 
 				switch (iError) {
-					case STTError.ERROR_AUDIO: lSentence = "Il y a un problème avec le micro !"; break;
-					case STTError.ERROR_NETWORK: lSentence = "Il y a un problème de connexion !"; break;
-					case STTError.ERROR_RECOGNIZER_BUSY: lSentence = "La reconaissance vocale est déjà occupée !"; break;
-					case STTError.ERROR_SPEECH_TIMEOUT: lSentence = "Je n'ai rien entendu. Pouvez vous répéter ?"; break;
+					case STTError.ERROR_AUDIO: lSentence = mDictionary.GetString("micissue"); break;
+					case STTError.ERROR_NETWORK: lSentence = mDictionary.GetString("connectissue"); break;
+					case STTError.ERROR_RECOGNIZER_BUSY: lSentence = mDictionary.GetString("vrecobusy"); break;
+					case STTError.ERROR_SPEECH_TIMEOUT: lSentence = mDictionary.GetString("hearnothing") + " " + mDictionary.GetString("repeatPls"); break;
 				}
 
 				if (UnityEngine.Random.value > 0.8) {
