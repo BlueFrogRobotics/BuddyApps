@@ -23,6 +23,9 @@ public class LiftedReaction : MonoBehaviour
 
     void OnEnable()
     {
+        if (mMood == null)
+            Start();
+
         mMood.Set(MoodType.SCARED);
         mFace.SetEvent(FaceEvent.SCREAM);
         StartCoroutine(LiftedCo());
