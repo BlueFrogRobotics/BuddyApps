@@ -1,38 +1,34 @@
 ﻿using UnityEngine;
-using System.Collections;
 using BuddyOS;
+using System.Collections;
 
 namespace BuddyApp.Guardian
 {
-    public class TimerEnterState : AStateGuardian
+    public class QuitState : AStateGuardian
     {
 
-        private TextToSpeech mTTS;
-        private bool mHasSpeaked = false;
+        private bool mHasExit = false;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            SetWindowAppOverBuddyColor(0);
-            animator.SetBool("ChangeState", false);
-            mTTS = BYOS.Instance.TextToSpeech;
-            mHasSpeaked = false;
+            mHasExit = false;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!mHasSpeaked) {
-                mHasSpeaked = true;
-                mTTS.Say(BYOS.Instance.Dictionary.GetString("startTimerOral"));//("Je commence dans cinq secondes");
-            } else if (mHasSpeaked && !mTTS.IsSpeaking)
-                animator.SetBool("ChangeState", true);
+            if (!mHasExit)
+            {
+                mHasExit = true;
+                StateManager.QuitApplication();
+            }
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            animator.SetBool("ChangeState", false);
+
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

@@ -114,6 +114,8 @@ namespace BuddyApp.Guardian
         //private TextToSpeech mTTS;
         private Animator mAnimator;
 
+        private bool mWillQuit = false;
+
         public DetectionManager DetectorManager { get { return detectorManager; } }
         public BuddyFeature.Navigation.RoombaNavigation Roomba { get { return roomba; } }
         public GameObject Menu { get { return menu; } }
@@ -166,12 +168,17 @@ namespace BuddyApp.Guardian
             {
                 lStatesGuardian[i].StateManager = this;
             }
-
+            mWillQuit = false;
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (mWillQuit)
+            {
+                new UnLoadAppCmd().Execute();
+                mWillQuit = false;
+            }
             //Debug.Log("is active: "+mGuardianData.FireDetectionIsActive);
         }
 
@@ -196,12 +203,20 @@ namespace BuddyApp.Guardian
             mAnimator.GetBehaviour<MenuPatrolState>().Mode = 2;
         }
 
+        public void AskToQuit()
+        {
+            if (mAnimator.GetBool("IsDetecting"))
+                mAnimator.SetBool("AskToQuit", true);
+            else
+                QuitApplication();
+        }
 
         public void QuitApplication()
         {
-            //UnLoadAppCmd.Create().Execute();
+            mWillQuit = true;
+            
             Debug.Log("exit magique");
-            new HomeCmd().Execute();
+            //new HomeCmd().Execute();
         }
 
 

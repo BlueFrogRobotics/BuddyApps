@@ -3,11 +3,10 @@ using UnityEngine.UI;
 using BuddyOS;
 using System.Collections;
 
-namespace BuddyApp.HideAndSeek
+namespace BuddyApp.Guardian
 {
     public class LoadingWindow : MonoBehaviour
     {
-
         [SerializeField]
         private Text title;
 
@@ -20,7 +19,7 @@ namespace BuddyApp.HideAndSeek
         void Start()
         {
             mDictionary = BYOS.Instance.Dictionary;
-            title.text = mDictionary.GetString("appTitle").ToUpper();
+            title.text = mDictionary.GetString("guardian").ToUpper();
             loadingText.text = mDictionary.GetString("loading");
         }
 

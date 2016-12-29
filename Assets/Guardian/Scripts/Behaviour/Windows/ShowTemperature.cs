@@ -18,6 +18,9 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private Button buttonBack;
 
+        [SerializeField]
+        private Text message;
+
         public Button ButtonBack { get { return buttonBack; } }
         public bool Interpolation { get; set; }
 
@@ -33,6 +36,7 @@ namespace BuddyApp.Guardian
         // Use this for initialization
         void Start()
         {
+            message.text = BYOS.Instance.Dictionary.GetString("textDebugTemp").ToUpper();
             Interpolation = false;
             mTemperature = new float[mWidth * mHeight];
             for (int i = 0; i < mWidth * mHeight; i++)
