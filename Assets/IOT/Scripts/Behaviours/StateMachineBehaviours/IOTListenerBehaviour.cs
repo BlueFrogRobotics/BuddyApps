@@ -33,6 +33,7 @@ namespace BuddyApp.IOT
                             for (int i = 0; i < lValues.Length; ++i)
                             {
                                 lValues[i] = lValues[i].Replace(" ", "").Replace("\n", "").Replace("\t", "");
+                                Debug.Log(lValues[i] + " " + lValues[i].Length + " " + lMsg + " " + lMsg.Length);
 
                                 if (lMsg.Contains(lValues[i]))
                                 {
