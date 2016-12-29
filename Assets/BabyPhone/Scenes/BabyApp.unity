@@ -683,7 +683,24 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1529760093}
-          m_MethodName: MoveNoLeft
+          m_MethodName: NoRightButtonDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1529760093}
+          m_MethodName: NoLeftButtonUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -3555,7 +3572,24 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1529760093}
-          m_MethodName: MoveYesDown
+          m_MethodName: YesDownButtonDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1529760093}
+          m_MethodName: YesDownButtonUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -5822,7 +5856,24 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1529760093}
-          m_MethodName: MoveNoRight
+          m_MethodName: NoRightButtonDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1529760093}
+          m_MethodName: NoRightButtonUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6647,7 +6698,24 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1529760093}
-          m_MethodName: MoveYesUp
+          m_MethodName: YesUpButtonDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1529760093}
+          m_MethodName: YesUpButtonUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6990,7 +7058,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1749080578}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8723,7 +8791,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9407056c64ffc1b47b1fdcf6815a5a04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mBabyPhoneAnimator: {fileID: 909183419}
+  babyPhoneAnimator: {fileID: 909183419}
+  message: {fileID: 1921603572}
+  yesButton: {fileID: 1921603570}
+  noButton: {fileID: 1921603571}
 --- !u!1 &1595420037
 GameObject:
   m_ObjectHideFlags: 0
@@ -10547,6 +10618,24 @@ RectTransform:
   m_PrefabParentObject: {fileID: 22491924, guid: afe66205c732ca64cb99d405ab160cf5,
     type: 2}
   m_PrefabInternal: {fileID: 1921603568}
+--- !u!114 &1921603570 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11414408, guid: afe66205c732ca64cb99d405ab160cf5,
+    type: 2}
+  m_PrefabInternal: {fileID: 1921603568}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!114 &1921603571 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11422270, guid: afe66205c732ca64cb99d405ab160cf5,
+    type: 2}
+  m_PrefabInternal: {fileID: 1921603568}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!114 &1921603572 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11439090, guid: afe66205c732ca64cb99d405ab160cf5,
+    type: 2}
+  m_PrefabInternal: {fileID: 1921603568}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1924900851
 GameObject:
   m_ObjectHideFlags: 0
@@ -10842,7 +10931,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22472774, guid: d11acf1f595f095409eee636527e1e56, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -425
+      value: -375
       objectReference: {fileID: 0}
     - target: {fileID: 22472774, guid: d11acf1f595f095409eee636527e1e56, type: 2}
       propertyPath: m_SizeDelta.x

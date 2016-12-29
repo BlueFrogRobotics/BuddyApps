@@ -48,7 +48,7 @@ namespace BuddyApp.BabyPhone
         public int AnimationLight { get; set; }
         public bool IsAnimationOn { get; set; }
 
-        public int MicrophoneSensitivity { get; set; }
+        public float MicrophoneSensitivity { get; set; }
         public int  TimeBeforContact { get; set; }
         public int ScreenSaverLight { get; set; }
         public bool IsScreanSaverOn { get; set; }

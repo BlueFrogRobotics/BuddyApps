@@ -11,17 +11,21 @@ namespace BuddyApp.BabyPhone
         [SerializeField]
         private GameObject animationViewer;
 
+        private bool mIsAnimOn;
+
         void OnEnable()
         {
         }
 
         void Update()
         {
-
+            mIsAnimOn = BabyPhoneData.Instance.IsAnimationOn;
         }
+
         public void PlayAnimation()
         {
-            animationViewer.SetActive(true);
+            if (mIsAnimOn)
+                animationViewer.SetActive(true);
         }
 
         public void Return()

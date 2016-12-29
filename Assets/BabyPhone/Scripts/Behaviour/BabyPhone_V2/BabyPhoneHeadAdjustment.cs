@@ -14,15 +14,16 @@ namespace BuddyApp.BabyPhone
         private RGBCam mRGBCam;
         private Face mFace;
         private Speaker mSpeaker;
-        private float mNoSpeed = 100.0F;
-        private float mYesSpeed = 100.0F;
-        private float mYesAngle = 0.0F;
-        private float mNoAngle = 0.0F;
 
-        private bool mYesUp = false;
-        private bool mYesDown = false;
-        private bool mNoLeft = false;
-        private bool mNoRight = false;
+        private float mNoSpeed;
+        private float mYesSpeed;
+        private float mYesAngle;
+        private float mNoAngle;
+
+        private bool mYesUp;
+        private bool mYesDown;
+        private bool mNoLeft;
+        private bool mNoRight;
 
 
         void Start()
@@ -33,12 +34,25 @@ namespace BuddyApp.BabyPhone
             mSpeaker = BYOS.Instance.Speaker;
         }
 
+        void OnEnable()
+        {
+            mYesUp = false;
+            mYesDown = false;
+            mNoLeft = false;
+            mNoRight = false;
+
+            mYesAngle = 0.0F;
+            mNoAngle = 0.0F;
+
+            mNoSpeed = 100.0F;
+            mYesSpeed = 100.0F;
+        }
 
         void Update()
         {
             RGBCamRawImage.texture = mRGBCam.FrameTexture2D;
-            //ControlNoAxis();
-            //ControlYesAxis();
+            ControlNoAxis();
+            ControlYesAxis();
         }
 
         /// <summary>
@@ -51,14 +65,12 @@ namespace BuddyApp.BabyPhone
             {
                 mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 5;
                 lChanged = true;
-                mNoLeft = false;
             }
 
             if (mNoRight)
             {
                 mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 5;
                 lChanged = true;
-                mNoRight = false;
             }
 
             if (lChanged)
@@ -77,54 +89,65 @@ namespace BuddyApp.BabyPhone
             {
                 mYesAngle = mMotors.YesHinge.CurrentAnglePosition + 5;
                 lChanged = true;
-                mYesDown = false;
             }
 
             if (mYesUp)
             {
                 mYesAngle = mMotors.YesHinge.CurrentAnglePosition - 5;
                 lChanged = true;
-                mYesUp = false;
             }
 
             if (lChanged)
                 mMotors.YesHinge.SetPosition(mYesAngle, mYesSpeed);
         }
 
-        public void MoveNoLeft()
+        public void NoLeftButtonDown()
         {
-            //mNoLeft = true;
-            mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 5;
-            mMotors.NoHinge.SetPosition(mNoAngle, mNoSpeed);
-            mFace.LookAt(2000, -200);
+            mNoLeft = true;
+            mFace.LookAt(FaceLookAt.TOP_RIGHT);
             mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
-
         }
-        public void MoveNoRight()
+        public void NoRightButtonDown()
         {
-            //mNoRight = true;
-            mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 5;
-            mMotors.NoHinge.SetPosition(mNoAngle, mNoSpeed);
+            mNoRight = true;
             mFace.LookAt(-600, 600);
             mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
         }
-        public void MoveYesUp()
+        public void YesUpButtonDown()
         {
-            //mYesUp = true;
-            mYesAngle = mMotors.YesHinge.CurrentAnglePosition - 5;
+            mYesUp = true;
             mFace.LookAt(600, 600);
             mSpeaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
+
         }
-        public void MoveYesDown()
+        public void YesDownButtonDown()
         {
-            //mYesDown = true;
-            mYesAngle = mMotors.YesHinge.CurrentAnglePosition + 5;
-            mMotors.YesHinge.SetPosition(mYesAngle, mYesSpeed);
+            mYesDown = true;
             mFace.LookAt(600, -600);
             mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
         }
 
-        // i ++ pendant l'appuie !
+        public void NoLeftButtonUp()
+        {
+            mNoLeft = false;
+            mFace.LookAt(FaceLookAt.CENTER);
+        }
+        public void NoRightButtonUp()
+        {
+            mNoRight = false;
+            mFace.LookAt(FaceLookAt.CENTER);
+        }
+        public void YesUpButtonUp()
+        {
+            mYesUp = false;
+            mFace.LookAt(FaceLookAt.CENTER);
+        }
+        public void YesDownButtonUp()
+        {
+            mYesDown = false;
+
+            mFace.LookAt(FaceLookAt.CENTER);
+        }
 
     }
 }

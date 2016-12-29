@@ -126,17 +126,18 @@ namespace BuddyApp.BabyPhone
             animationSelection.SetDefault((int)BabyPhoneData.Instance.AnimationToPlay);
             animationSelection.UpdateCommands.Add(new LullabyBabyPhoneCmd());
 
-            ////microphone
+            //////microphone
             microphone.DisplayPercentage = true;
-            microphone.Slider.minValue = 0;
-            microphone.Slider.maxValue = 100;
+            microphone.Slider.minValue = 0.05F;
+            microphone.Slider.maxValue = 0.2F;
             microphone.Slider.value = BabyPhoneData.Instance.MicrophoneSensitivity;
             microphone.UpdateCommands.Add(new SetMicroSensCmd());
 
             ////time befor contact
+            timeBeforContact.DisplayPercentage = false;
+            timeBeforContact.Suffix = " MIN";
             timeBeforContact.Slider.minValue = 0;
             timeBeforContact.Slider.maxValue = 10; // 30 min
-            timeBeforContact.Slider.wholeNumbers = true;
             timeBeforContact.Slider.value = BabyPhoneData.Instance.TimeBeforContact;
             timeBeforContact.UpdateCommands.Add(new SetTimeBeforContactCmd());
 
