@@ -14,6 +14,7 @@ namespace BuddyApp.BabyPhone
         private Animator mBackgroundBlackAnimator;
         private Animator mCounterAnimator;
 
+
         public override void Init()
         {
             mCounter = GetGameObject(8);
@@ -25,9 +26,9 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mCounter.SetActive(true);
             mWindoAppOverWithe.SetActive(true);
             mBackgroundBlackAnimator.SetTrigger("Open_BG");
+            mCounter.SetActive(true);
             mCounterAnimator.SetTrigger("Open_WTimer");
         }
 
@@ -35,9 +36,9 @@ namespace BuddyApp.BabyPhone
         {
             mCounter.SetActive(false);
             //mWindoAppOverWithe.SetActive(false);
-            mBackgroundBlackAnimator.SetTrigger("Close_BG");
             mCounterAnimator.SetTrigger("Close_WTimer");
-            iAnimator.SetFloat("ForwardState", 2);
+            mBackgroundBlackAnimator.SetTrigger("Close_BG");
+            iAnimator.SetInteger("ForwardState", 2);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

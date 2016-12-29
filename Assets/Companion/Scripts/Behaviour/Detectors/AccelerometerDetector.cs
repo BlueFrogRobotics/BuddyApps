@@ -9,7 +9,7 @@ namespace BuddyApp.Companion
     {
         public bool LiftDetected { get { return mLiftDetected; } }
 
-        private const float ACC_THRESHOLD = 8F;
+        private const float ACC_THRESHOLD = 7F;
 
         private bool mLiftDetected;
         private Queue<float> mStack;

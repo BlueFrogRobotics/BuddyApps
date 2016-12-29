@@ -22,9 +22,11 @@ namespace BuddyApp.Guardian
             mLoadingAnimator = StateManager.LoadingAnimator;
             mDetectorManager = StateManager.DetectorManager;
             mLoadingAnimator.SetTrigger("Open_WLoading");
-            //BYOS.Instance.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
+            BYOS.Instance.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
+            BYOS.Instance.VocalActivation.enabled = false;
             mHasFinishedLoading = false;
             animator.SetBool("ChangeState", false);
+            animator.SetBool("IsDetecting", false);
             mTimer = 5.0f;
             if (mDetectorManager.SoundDetector.IsInit)
                 mDetectorManager.SoundDetector.Stop();

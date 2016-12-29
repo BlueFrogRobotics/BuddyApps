@@ -16,66 +16,128 @@ namespace BuddyApp.IOT
             string lMsg = CommonStrings["STT"].ToLower();
 
             List<IOTObjects> lListIOT = GetGameObject(2).GetComponent<IOTList>().Objects;
-            for (int i = 0; i < lListIOT.Count; ++i)
+
+            IOTDevices.DeviceType lType = FindType(ref lMsg);
+
+            if (lMsg.Contains("tout") || lMsg.Contains("tous") || lMsg.Contains("all") || lMsg.Contains("every"))
             {
-                foreach (string lName in lListIOT[i].Name.Split(' '))
-                {
-                    if (lMsg.Contains(lName.ToLower()))
-                    {
-                        lObject = lListIOT[i];
-                        break;
-                    }
-                }
-                if (lObject != null)
-                    break;
+                for (int i = 0; i < lListIOT.Count; ++i)
+                    ActionAll(lListIOT[i], iAnimator, lType);
+
+                mMood.Set(MoodType.SURPRISED);
+                iAnimator.SetTrigger(HashList[(int)HashTrigger.BACK]);
             }
-
-            if (lObject != null)
+            else
             {
-                if (lObject is IOTSystems)
-                    ActionSystem(lObject, lMsg, iAnimator);
-                else if (lObject is IOTDevices)
-                    ActionDevice(lObject, lMsg, iAnimator);
-            }else
-            {
+                lObject = FindObject(lListIOT, lMsg, lType);
 
+                if (lObject != null)
+                {
+                    Action(lObject, iAnimator);
+                    mMood.Set(MoodType.HAPPY);
+                    iAnimator.SetTrigger(HashList[(int)HashTrigger.BACK]);
+                }
+                else
+                {
+                    iAnimator.SetTrigger(HashList[(int)HashTrigger.MATCH_ERROR]);
+                }
             }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
+            iAnimator.SetInteger(HashList[(int)HashTrigger.ACTION], -1);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
         }
 
-        private void ActionSystem(IOTObjects iObject, string iMsg, Animator iAnimator)
+        private IOTDevices.DeviceType FindType(ref string iMsg)
         {
-            IOTDevices lDevice = null;
-            List<IOTDevices> lListDevices = ((IOTSystems)iObject).Devices;
-
-            for (int j = 0; j < lListDevices.Count; ++j)
+            IOTDevices.DeviceType lType = IOTDevices.DeviceType.DEVICE;
+            if (iMsg.Contains("lumière") || iMsg.Contains("lampe") || iMsg.Contains("light"))
             {
-                foreach (string lName2 in iObject.Name.Split(' '))
-                {
-                    if (iMsg.Contains(lName2.ToLower()))
-                    {
-                        lDevice = lListDevices[j];
+                lType = IOTDevices.DeviceType.LIGHT;
+                iMsg = iMsg.Replace("lumière", "");
+                iMsg = iMsg.Replace("light", "");
+                iMsg = iMsg.Replace("lampe", "");
+            }
+            if (iMsg.Contains("prise") || iMsg.Contains("switch"))
+            {
+                lType = IOTDevices.DeviceType.SWITCH;
+                iMsg = iMsg.Replace("prise", "");
+                iMsg = iMsg.Replace("switch", "");
+            }
+            if (iMsg.Contains("volet") || iMsg.Contains("screen") || iMsg.Contains("store"))
+            {
+                lType = IOTDevices.DeviceType.STORE;
+                iMsg = iMsg.Replace("volet", "");
+                iMsg = iMsg.Replace("screen", "");
+                iMsg = iMsg.Replace("store", "");
+            }
+            return lType;
+        }
+
+        private IOTObjects FindObject(List<IOTObjects> iObjects, string iMsg, IOTDevices.DeviceType iType)
+        {
+            IOTObjects lRes = null;
+
+            for (int i = 0; i < iObjects.Count; ++i)
+                if ((lRes = FindObj(iObjects[i], iMsg, iType)) != null)
+                    break;
+
+            return lRes;
+        }
+
+        private IOTObjects FindObj(IOTObjects iObject, string iMsg, IOTDevices.DeviceType iType)
+        {
+            IOTObjects lRes = null;
+
+            if (iObject is IOTSystems)
+            {
+                IOTSystems iSys = (IOTSystems)iObject;
+                for (int i = 0; i < iSys.Devices.Count; ++i)
+                    if ((lRes = FindObj(iSys.Devices[i], iMsg, iType)) != null)
                         break;
+            }
+            else
+            {
+                if(((IOTDevices)iObject).Type == iType || iType == IOTDevices.DeviceType.DEVICE)
+                {
+                    foreach (string lName in iObject.Name.Split(' '))
+                    {
+                        if (iMsg.Contains(lName.ToLower()))
+                            lRes = iObject;
                     }
                 }
             }
-            if (lDevice == null)
-                for (int j = 0; j < lListDevices.Count; ++j)
-                    lListDevices[j].OnOff(iAnimator.GetInteger(HashList[(int)HashTrigger.ACTION]) > 0 ? true : false);
-            else
-                lDevice.OnOff(iAnimator.GetInteger(HashList[(int)HashTrigger.ACTION]) > 0 ? true : false);
+            return lRes;
         }
 
-        private void ActionDevice(IOTObjects iObject, string iMsg, Animator iAnimator)
+        private void Action(IOTObjects iObject, Animator iAnimator)
         {
+            int lAction = iAnimator.GetInteger(HashList[(int)HashTrigger.ACTION]);
+            if (lAction > -1)
+                ((IOTDevices)iObject).Command(lAction);
+        }
 
+        private void ActionAll(IOTObjects iObject, Animator iAnimator, IOTDevices.DeviceType iType)
+        {
+            if (iObject is IOTSystems)
+            {
+                for (int i = 0; i < ((IOTSystems)iObject).Devices.Count; ++i)
+                    ActionAll(((IOTSystems)iObject).Devices[i], iAnimator, iType);
+            }
+            else
+            {
+                if (((IOTDevices)iObject).Type == iType || iType == IOTDevices.DeviceType.DEVICE)
+                {
+                    int lAction = iAnimator.GetInteger(HashList[(int)HashTrigger.ACTION]);
+                    if (lAction > -1)
+                        ((IOTDevices)iObject).Command(lAction);
+                }
+            }
         }
     }
 }

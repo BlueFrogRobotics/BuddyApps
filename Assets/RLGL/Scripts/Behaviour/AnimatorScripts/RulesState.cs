@@ -22,6 +22,11 @@ namespace BuddyApp.RLGL
 
         private bool mCanvasTrigger;
 
+        private bool mNeedListen;
+        public bool NeedListen { get { return mNeedListen; } set { mNeedListen = value; } }
+
+
+
         public override void Init()
         {
             
@@ -30,6 +35,7 @@ namespace BuddyApp.RLGL
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             GetComponent<RLGLBehaviour>().Index = 1;
+            mNeedListen = true;
             mTimer = 0.0F;
             mIsSentenceDone = false;
             mIsQuestionDone = false;
@@ -39,8 +45,7 @@ namespace BuddyApp.RLGL
             mWindowQuestionRule = GetGameObject(3);
             mBackground = GetGameObject(1);
             //mWindowQuestionRule.SetActive(false);
-            mBackground.GetComponent<Animator>().ResetTrigger("Close_BG");
-            mWindowQuestionRule.GetComponent<Animator>().ResetTrigger("Close_WQuestion");
+
             Debug.Log("RULES STATE : ON ENTER");
         }
 
@@ -53,18 +58,20 @@ namespace BuddyApp.RLGL
             if(mTTS.HasFinishedTalking && mIsSentenceDone && !mIsQuestionDone )
             {
                 StartCoroutine(Restart());
-            }
+            } 
 
             if (mTTS.HasFinishedTalking && mIsSentenceDone && mIsQuestionDone)
             {
                 OpenCanvas();
-                //mBackground.GetComponent<Animator>().ResetTrigger("Close_BG");
+
                 if (mTimer > 5.0F)
                 {
-                    if ((!mIsAnswerRuleYes || !mIsAnswerRuleNo) && mSTT.HasFinished)
+                    Debug.Log(mNeedListen);
+                    if ((!mIsAnswerRuleYes || !mIsAnswerRuleNo) && mSTT.HasFinished && mNeedListen)
                     {
                         mTimer = 0.0F;
                         GetGameObject(2).GetComponent<RLGLListener>().STTRequest(1);
+                        mNeedListen = false;
                     }
                 }
 
@@ -72,12 +79,16 @@ namespace BuddyApp.RLGL
 
             if (mIsAnswerRuleNo)
             {
+                mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
+                mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Close_WQuestion");
                 iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;
                 iAnimator.SetBool("IsRulesDone", true);
 
             }
             if (mIsAnswerRuleYes)
             {
+                mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
+                mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Close_WQuestion");
                 iAnimator.Play("RulesState", 0, 0.0F);
             }
         }
@@ -85,9 +96,6 @@ namespace BuddyApp.RLGL
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             iAnimator.SetBool("IsRulesDone", false);
-            mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
-            mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Close_WQuestion");
-            //mBackground.GetComponent<Animator>().ResetTrigger("Close_BG");
             Debug.Log("RULES STATE : ON EXIT");
         }
 
@@ -114,6 +122,7 @@ namespace BuddyApp.RLGL
         {
             if (!mCanvasTrigger)
             {
+                Debug.Log("OPEN BG ECT ");
                 mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
                 mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Open_WQuestion");
                 mCanvasTrigger = true;

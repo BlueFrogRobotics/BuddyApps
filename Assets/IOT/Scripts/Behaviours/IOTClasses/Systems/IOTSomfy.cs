@@ -23,9 +23,9 @@ namespace BuddyApp.IOT
         {
             base.InitializeParams();
             GameObject lSearch1 = InstanciateParam(ParamType.TEXTFIELD);
-            SearchField lSearch1Component = lSearch1.GetComponent<SearchField>();
+            TextField lSearch1Component = lSearch1.GetComponent<TextField>();
             GameObject lSearch2 = InstanciateParam(ParamType.TEXTFIELD);
-            SearchField lPasswordComponent = lSearch2.GetComponent<SearchField>();
+            TextField lPasswordComponent = lSearch2.GetComponent<TextField>();
             GameObject lConnect = InstanciateParam(ParamType.BUTTON);
             Button lConnectComponent = lConnect.GetComponent<Button>();
 
@@ -62,7 +62,10 @@ namespace BuddyApp.IOT
             lRequest.Send((lResult) =>
             {
                 if (lResult == null)
+                {
+                    Debug.LogError("Somfy not connected");
                     return;
+                }
                 mHeaders.Clear();
                 mHeaders["SET-COOKIE"] = lResult.response.GetHeader("SET-COOKIE");
                 getSessionId();
@@ -80,30 +83,36 @@ namespace BuddyApp.IOT
 
             lRequest.Send((lResult) =>
             {
-                IOTSomfyDeviceCollection lDevices = JsonUtility.FromJson<IOTSomfyDeviceCollection>("{\"devices\" :" +lResult.response.Text + "}");
-                mDevices = lDevices.devices.ToList<IOTDevices>();
-                int j = 0;
-                for (int i = 0; i < mDevices.Count; ++i)
-                {
-                    string iUiClass = ((IOTSomfyDevice)mDevices[i]).uiClass;
-                    if (iUiClass == "Pod")
-                    {
-                        mDevices.RemoveAt(i);
-                        i--;
-                        j++;
-                    }else
-                    {
-                        mDevices[i].Credentials[1] = mCredentials[1];
-                        mDevices[i].Credentials[2] = mCredentials[2];
-                        if (iUiClass == "OnOff")
-                            mDevices[i] = new IOTSomfySwitch(lDevices.devices[i+j], mSessionID);
-                        else if (iUiClass == "Screen")
-                            mDevices[i] = new IOTSomfyStore(lDevices.devices[i+j], mSessionID);
-                    }
-                }
                 if (lResult == null)
                 {
+                    Debug.LogError("Somfy not connected");
                     return;
+                }
+                IOTSomfyDeviceCollection lDevices = JsonUtility.FromJson<IOTSomfyDeviceCollection>("{\"devices\" :" +lResult.response.Text + "}");
+                Debug.Log("{\"devices\" :" + lResult.response.Text + "}");
+                if(lDevices != null)
+                {
+                    mDevices = lDevices.devices.ToList<IOTDevices>();
+                    int j = 0;
+                    for (int i = 0; i < mDevices.Count; ++i)
+                    {
+                        string iUiClass = ((IOTSomfyDevice)mDevices[i]).uiClass;
+                        if (iUiClass == "Pod")
+                        {
+                            mDevices.RemoveAt(i);
+                            i--;
+                            j++;
+                        }
+                        else
+                        {
+                            mDevices[i].Credentials[1] = mCredentials[1];
+                            mDevices[i].Credentials[2] = mCredentials[2];
+                            if (iUiClass == "OnOff")
+                                mDevices[i] = new IOTSomfySwitch(lDevices.devices[i + j], mSessionID);
+                            else if (iUiClass == "Screen")
+                                mDevices[i] = new IOTSomfyStore(lDevices.devices[i + j], mSessionID);
+                        }
+                    }
                 }
             });
         }

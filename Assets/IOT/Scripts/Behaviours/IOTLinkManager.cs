@@ -23,10 +23,14 @@ namespace BuddyApp.IOT
             mAnimator.SetInteger("Choice", iChoice);
         }
 
-        // Update is called once per frame
-        void Update()
+        public void Quit()
         {
+            BuddyOS.BYOS.Instance.AppManager.Quit();
+        }
 
+        public void OpenMenu()
+        {
+            BuddyOS.BYOS.Instance.MenuPanel.LaunchMenu();
         }
     }
 }

@@ -6,14 +6,15 @@ namespace BuddyApp.Guardian
 {
     public class PasswordWriter : MonoBehaviour
     {
+        [SerializeField]
+        private InputField input;
 
-        public InputField mInput;
-        public string Password { get { return mInput.text; } }
+        public string Password { get { return input.text; } }
 
         // Use this for initialization
         void Start()
         {
-            mInput.text = "";
+            input.text = "";
 
         }
 
@@ -25,13 +26,13 @@ namespace BuddyApp.Guardian
 
         public void AddNumber(int iNumber)
         {
-            if (mInput.text.Length < 4)
-                mInput.text += iNumber;
+            if (input.text.Length < 4)
+                input.text += iNumber;
         }
 
         public void Clear()
         {
-            mInput.text = "";
+            input.text = "";
         }
     }
 }

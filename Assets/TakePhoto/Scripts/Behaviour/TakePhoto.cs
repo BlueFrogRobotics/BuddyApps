@@ -47,7 +47,9 @@ namespace BuddyApp.TakePhoto
 			mTimer = 0f;
 			mSpeechId = 0;
 			mNeedExit = false;
-			mRGBCam.Open();
+
+			if (!mRGBCam.IsOpen)
+				mRGBCam.Open();
 			mCanvasPhoto.gameObject.SetActive(true);
 
 			SayInLang("takePhoto", true);
