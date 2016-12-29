@@ -20,7 +20,6 @@ namespace BuddyApp.Basic
              */
             lGaugeValOne.Slider.minValue = 0;
             lGaugeValOne.Slider.maxValue = 10;
-            lGaugeValOne.Slider.wholeNumbers = true;
             lGaugeValOne.DisplayPercentage = true; /* Only the display will be in percentage, the value will still be within 0 and 10 */
 
             /*

@@ -14,6 +14,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("ENTER TRANSITION INGREDIENT");
             check = false;
             GetGameObject(8).GetComponent<Button>().onClick.AddListener(LastIngredient);
             GetGameObject(9).GetComponent<Button>().onClick.AddListener(NextIngredient);
@@ -27,16 +28,17 @@ namespace BuddyApp.Recipe
                 mVocalActivation.VocalError = VocalError;
                 mVocalActivation.StartInstantReco();
             }
-            //Sprite lol = mSpriteManager.GetSprite("Icon", "AtlasRecipe");
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mVocalActivation.VocalProcessing = null;
             mVocalActivation.VocalError = null;
+            mVocalActivation.StopListenBehaviour();
             mTTS.Silence(0);
             GetGameObject(8).GetComponent<Button>().onClick.RemoveAllListeners();
             GetGameObject(9).GetComponent<Button>().onClick.RemoveAllListeners();
+            Debug.Log("EXIT TRANSITION INGREDIENT");
         }
 
         private void VocalProcessing(string answer)
@@ -45,10 +47,13 @@ namespace BuddyApp.Recipe
                 NextIngredient();
             else if (answer.Contains("précédent") || answer.Contains("précédente") || answer.Contains("avant"))
                 LastIngredient();
-            else if (answer.Contains("répète") || answer.Contains("répéter")) {
+            else if (answer.Contains("répète") || answer.Contains("répéter"))
+            {
                 GetComponent<RecipeBehaviour>().IngredientIndex -= 3;
                 GetComponent<Animator>().SetTrigger("DisplayIngredient");
             }
+            else
+                mVocalActivation.StartInstantReco();
         }
 
         public void NextIngredient()
@@ -63,11 +68,19 @@ namespace BuddyApp.Recipe
 
         public void LastIngredient()
         {
-            if (GetComponent<RecipeBehaviour>().IngredientIndex >= 6)
-                GetComponent<RecipeBehaviour>().IngredientIndex -= 6;
+            if (GetComponent<RecipeBehaviour>().IngredientIndex == 3 && GetComponent<RecipeBehaviour>().mRecipeList != null)
+            {
+                GetGameObject(3).GetComponent<Animator>().SetTrigger("Close_WList");
+                GetComponent<Animator>().SetTrigger("BackToList");
+            }
             else
-                GetComponent<RecipeBehaviour>().IngredientIndex = 0;
-            GetComponent<Animator>().SetTrigger("DisplayIngredient");
+            {
+                if (GetComponent<RecipeBehaviour>().IngredientIndex >= 6)
+                    GetComponent<RecipeBehaviour>().IngredientIndex -= 6;
+                else
+                    GetComponent<RecipeBehaviour>().IngredientIndex = 0;
+                GetComponent<Animator>().SetTrigger("DisplayIngredient");
+            }
         }
 
         private void VocalError(STTError error)

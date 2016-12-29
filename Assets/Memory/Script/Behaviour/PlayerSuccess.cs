@@ -19,6 +19,7 @@ namespace BuddyApp.Memory
 		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
+			link.mAnimationManager.gameObject.SetActive(true);
 			Debug.Log("Player Success !");
 
 			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
@@ -26,7 +27,8 @@ namespace BuddyApp.Memory
 			mMood.Set(MoodType.HAPPY);
 			link.mAnimationManager.Smile();
 			mTTS.Say(link.currentLevel.successSentence, true);
-		}
+			mOnEnterDone = true;
+        }
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 		protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -39,9 +41,11 @@ namespace BuddyApp.Memory
 					bool updated = link.UpdateLevel(level);
 					if (updated) {
 						animator.SetInteger("level", level);
+						link.mAnimationManager.gameObject.SetActive(false);
 						animator.SetTrigger("NextLevel");
 					} else {
 						mTTS.SayKey("win");
+						link.mAnimationManager.gameObject.SetActive(true);
 						Debug.Log("End of the game");
 						QuitApp();
 					}

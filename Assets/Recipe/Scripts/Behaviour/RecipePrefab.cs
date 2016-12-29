@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using BuddyOS;
 
 namespace BuddyApp.Recipe
 {
@@ -45,6 +46,12 @@ namespace BuddyApp.Recipe
         private GameObject aiBehaviour;
         private Recipe mRecipe;
         private bool open = false;
+        private TextToSpeech mTTS;
+
+        void Start()
+        {
+            mTTS = BYOS.Instance.TextToSpeech;
+        }
 
         public void FillRecipe(GameObject iAiBehaviour, Recipe iRecipe)
         {
@@ -59,12 +66,20 @@ namespace BuddyApp.Recipe
             maskTime.GetComponent<Text>().text = (mRecipe.prep + mRecipe.cook).ToString() + "MIN";
             maskText.GetComponent<Text>().text = mRecipe.summary;
             maskIngredient.GetComponent<Text>().text = "Ingredients (pour " + mRecipe.person + " personnes) :";
-            foreach (Ingredient ingredient in mRecipe.ingredient)
-                lString = lString + ingredient.name + ": " + ingredient.quantity + " " + ingredient.unit + '\n';
+            foreach (Ingredient ingredient in mRecipe.ingredient) {
+                if (ingredient.unit == null) {
+                    if (ingredient.quantity == 0)
+                        lString = lString + ingredient.name + '\n';
+                    else
+                        lString = lString + ingredient.name + ": " + ingredient.quantity;
+                }
+                else
+                    lString = lString + ingredient.name + ": " + ingredient.quantity + " " + ingredient.unit + '\n';
+            }
             maskDetail.GetComponent<Text>().text = lString;
             image.GetComponent<RawImage>().texture = Resources.Load(mRecipe.illustration) as Texture;
             time.GetComponent<Text>().text = (mRecipe.prep + mRecipe.cook).ToString() + "MIN";
-            if (mRecipe.summary.Length > 93)
+            if (mRecipe.summary != null && mRecipe.summary.Length > 93)
                 text.GetComponent<Text>().text = mRecipe.summary.Substring(0, 90) + "...";
             else
                 text.GetComponent<Text>().text = mRecipe.summary;
@@ -77,15 +92,19 @@ namespace BuddyApp.Recipe
             if (!open) {
                 open = !open;
                 GetComponent<Animator>().SetTrigger("Open_Recipe");
+                if (mRecipe.summary != null)
+                    mTTS.Say(mRecipe.summary);
             }
             else {
                 open = !open;
                 GetComponent<Animator>().SetTrigger("Close_Recipe");
+                mTTS.Silence(0);
             }
         }
 
         private void LaunchRecipe()
         {
+            mTTS.Silence(0);
             aiBehaviour.GetComponent<RecipeBehaviour>().mRecipe = mRecipe;
             aiBehaviour.GetComponent<Animator>().SetTrigger("StartRecipe");
         }
