@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using BuddyOS;
 
 namespace BuddyApp.Companion
 {
@@ -10,14 +11,21 @@ namespace BuddyApp.Companion
         private Emotion mEmotion;
 
         private float mAnimTime;
-
         private float mAnimStartTime;
+        private TextToSpeech mTTS;
+        private Dictionary mDict;
+
+        void Start()
+        {
+            mTTS = BYOS.Instance.TextToSpeech;
+            mDict = BYOS.Instance.Dictionary;
+        }
 
         void OnEnable()
         {
             mEmotion.EnableChoregraph();
             mAnimStartTime = Time.time;
-            switch(Random.Range(0, 2))
+            switch(Random.Range(0, 3))
             {
                 case 0:
                     mAnimTime = 6.0F;
@@ -28,6 +36,12 @@ namespace BuddyApp.Companion
                     mAnimTime = 4.5F;
                     mEmotion.SetEmotion(EmotionType.ANGRY);
                     mEmotion.SetEvent(EmotionEvent.ANGRY);
+                    break;
+                case 2:
+                    mAnimTime = 4.0F;
+                    mEmotion.SetEmotion(EmotionType.HAPPY);
+                    mEmotion.SetEvent(EmotionEvent.LAUGH);
+                    mTTS.Say(mDict.GetString("cuddle"));
                     break;
             }
         }

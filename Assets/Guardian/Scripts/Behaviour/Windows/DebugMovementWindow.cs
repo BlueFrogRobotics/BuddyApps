@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using BuddyOS;
 using BuddyOS.UI;
 
 namespace BuddyApp.Guardian
@@ -20,6 +21,12 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private Image icoMouv;
 
+        [SerializeField]
+        private Text message;
+
+        [SerializeField]
+        private Text labelGauge;
+
         public RawImage Raw { get { return raw; } }
         public Gauge GaugeSensibility { get { return gaugeSensibility; } }
         public UnityEngine.UI.Button ButtonBack { get { return buttonBack; } }
@@ -28,6 +35,8 @@ namespace BuddyApp.Guardian
         // Use this for initialization
         void Start()
         {
+            message.text = BYOS.Instance.Dictionary.GetString("selectSensibility").ToUpper();
+            labelGauge.text = BYOS.Instance.Dictionary.GetString("sensibility");
             gaugeSensibility.DisplayPercentage = true;
         }
 

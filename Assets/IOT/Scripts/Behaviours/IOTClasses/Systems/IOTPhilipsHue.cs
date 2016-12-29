@@ -18,11 +18,11 @@ namespace BuddyApp.IOT
         {
             base.InitializeParams();
             GameObject lSearch = InstanciateParam(ParamType.TEXTFIELD);
-            SearchField lSearchComponent = lSearch.GetComponent<SearchField>();
+            TextField lSearchComponent = lSearch.GetComponent<TextField>();
             GameObject lSearch1 = InstanciateParam(ParamType.TEXTFIELD);
-            SearchField lSearch1Component = lSearch1.GetComponent<SearchField>();
+            TextField lSearch1Component = lSearch1.GetComponent<TextField>();
             GameObject lSearch2 = InstanciateParam(ParamType.TEXTFIELD);
-            SearchField lPasswordComponent = lSearch2.GetComponent<SearchField>();
+            TextField lPasswordComponent = lSearch2.GetComponent<TextField>();
             GameObject lConnect = InstanciateParam(ParamType.BUTTON);
             Button lConnectComponent = lConnect.GetComponent<Button>();
 

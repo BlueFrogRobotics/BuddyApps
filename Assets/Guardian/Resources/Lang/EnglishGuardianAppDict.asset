@@ -15,7 +15,7 @@ MonoBehaviour:
   - key: guardian
     val: Guardian
   - key: choiceMode
-    val: Which mode do you want. Fix or mobile
+    val: Which mode do you want. [500] Fix or mobile
   - key: fixMonitoring
     val: Fix Monitoring
   - key: mobileMonitoring
@@ -36,3 +36,40 @@ MonoBehaviour:
     val: Code
   - key: nobody
     val: Nobody
+  - key: loading
+    val: loading...
+  - key: selectSensibility
+    val: Select the appropriate sensibily then press the back button to come back
+      to the parameters
+  - key: sensibility
+    val: Sensibility
+  - key: validate
+    val: validate
+  - key: cancel
+    val: cancel
+  - key: paramTitle
+    val: Please select your detection parameters
+  - key: headOrientation
+    val: Head orientation
+  - key: startTimerOral
+    val: I begin in 5 seconds
+  - key: startTimerText
+    val: I start the detection in
+  - key: textDebugTemp
+    val: Press the back button to come back to the parameters
+  - key: alertSoundText
+    val: Beware sound detected!
+  - key: alertMovementText
+    val: Beware movement detected!
+  - key: alertFireText
+    val: Beware fire detected
+  - key: alertKidnapText
+    val: Beware stealing detected!
+  - key: alertSoundOral
+    val: I have detected noise
+  - key: alertMovementOral
+    val: I have detected some movement
+  - key: alertFireOral
+    val: I have detected fire
+  - key: alertKidnapOral
+    val: I'm being kidnapped

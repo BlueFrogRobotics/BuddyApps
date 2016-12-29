@@ -109,6 +109,27 @@ namespace BuddyApp.IOT
 
         public IOTSomfyDevice() : base() { }
 
+        public override void ChangeName(string iName)
+        {
+            base.ChangeName(iName);
+
+            string lUrl = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/setup/devices/" + deviceURL.Replace(":", "%3A").Replace("/","%2F") + "/" + iName.Replace(" ","%20");
+            
+            Request lRequest = new Request("PUT", lUrl);
+            lRequest.cookieJar = null;
+            lRequest.SetHeader("cookie", mSessionID);
+            lRequest.SetHeader("Content-Type", "application/json");
+            lRequest.Send((lResult) => {
+                Debug.Log(lResult.response.Text);
+                if (lResult == null)
+                {
+                    Debug.LogError("Couldn't change name");
+                    return;
+                }
+            }
+            );
+        }
+
         public IOTSomfyDevice(IOTSomfyDevice iObject) : base()
         {
             if(iObject != null)
