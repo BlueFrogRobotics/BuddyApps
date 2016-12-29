@@ -27,13 +27,14 @@ namespace BuddyApp.Companion
 		private bool mAreEyesTrackingThermal;
         private float mInactiveTime;
         private Stack<Action> mActionStack;
-        private Action mCurrentAction;
+        private Action mCurrentAction; 
 
         private CompanionData mCompanionData;
         private Dictionary mDictionary;
         private VocalActivation mVocalActivation;
         private VocalChat mVocalChat;
         private YesHinge mYesHinge;
+        private TextToSpeech mTTS;
 
         private AccelerometerDetector mAccelerometerDetector;
         private BuddyFaceDetector mBuddyFaceDetector;
@@ -67,6 +68,7 @@ namespace BuddyApp.Companion
             mDictionary = BYOS.Instance.Dictionary;
             mVocalActivation = BYOS.Instance.VocalActivation;
             mYesHinge = BYOS.Instance.Motors.YesHinge;
+            mTTS = BYOS.Instance.TextToSpeech;
 
             mVocalActivation.enabled = true;
             mVocalActivation.StartRecoWithTrigger();
@@ -194,7 +196,7 @@ namespace BuddyApp.Companion
             switch(iType)
             {
                 case "Wander":
-                    BYOS.Instance.TextToSpeech.Say(mDictionary.GetString("wander"));
+                    mTTS.Say(mDictionary.GetString("wander"));
                     mVocalWanderOrder = true;
                     mReaction.StartWandering();
                     break;
@@ -210,12 +212,15 @@ namespace BuddyApp.Companion
 
 					if (mIsRobotIsTrackingSomeone)
 						mIsRobotIsTrackingSomeone = false;
-					
 	                break;
 
 				case "FollowMe":
 					if (!mIsRobotIsTrackingSomeone)
-						mIsRobotIsTrackingSomeone = true;
+                    {
+                        mTTS.Say(mDictionary.GetString("wander"));
+                        mIsRobotIsTrackingSomeone = true;
+                    }
+                        
 					break;
 
                 case "HeadUp":

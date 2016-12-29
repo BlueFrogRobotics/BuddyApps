@@ -45,6 +45,7 @@ namespace BuddyApp.Companion
 			if (maxHorizontal == -1 || maxVertical == -1){
 				targetToLookAtH = Screen.width / 2;
 				targetToLookAtV = Screen.height / 2;
+                Debug.Log("nobody to look at, trying to look straigt");
 				// TODO : when not whatching something for a while the robot should look around
 			}
 			else {
