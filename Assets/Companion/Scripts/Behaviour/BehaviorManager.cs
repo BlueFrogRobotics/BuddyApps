@@ -217,7 +217,7 @@ namespace BuddyApp.Companion
 				case "FollowMe":
 					if (!mIsRobotIsTrackingSomeone)
                     {
-                        mTTS.Say(mDictionary.GetString("wander"));
+                        mTTS.Say(mDictionary.GetString("follow"));
                         mIsRobotIsTrackingSomeone = true;
                     }
                         
