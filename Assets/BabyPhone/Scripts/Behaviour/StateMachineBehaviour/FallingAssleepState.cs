@@ -9,42 +9,30 @@ namespace BuddyApp.BabyPhone
 {
     public class FallingAssleepState : AStateMachineBehaviour
     {
-        private BabyPhoneData mBabyPhoneData;
-
+        private const int DETECTION_TIME = 30;
         private GameObject mFallingAssleep;
         private GameObject mWindoAppOverWhite;
 
         private Animator mFallingAssleepAnimator;
 
         private InputMicro mInputMicro;
-        private int mCountNotification;
-        private int mCount;
+
         private float mSound;
         private float mMean;
         private float mMicroSensitivty;
         private bool mIsBabyCrying;
         private int mContactIndice;
         private string mBabyName;
+        private float mElapsedTime;
+        private bool mDidISend;
 
         public override void Init()
         {
-            mBabyPhoneData = BabyPhoneData.Instance;
-
             mWindoAppOverWhite = GetGameObject(3);
             mFallingAssleep = GetGameObject(7);
             mFallingAssleepAnimator = mFallingAssleep.GetComponent<Animator>();
 
             mInputMicro = mFallingAssleep.GetComponent<InputMicro>();
-
-            mCount = 0;
-            mMean = 0F;
-
-            mIsBabyCrying = false;
-            mCountNotification = 0;
-
-            mMicroSensitivty = mBabyPhoneData.MicrophoneSensitivity;
-            mContactIndice = (int)mBabyPhoneData.Recever;
-            mBabyName = mBabyPhoneData.BabyName;
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -54,58 +42,61 @@ namespace BuddyApp.BabyPhone
             mFallingAssleepAnimator.SetTrigger("Open_WFallingAssleep");
 
             iAnimator.SetBool("DoPlayLullaby", true);
+
+            mMean = 0F;
+            mIsBabyCrying = false;
+            mDidISend = false;
+
+            mMicroSensitivty = BabyPhoneData.Instance.MicrophoneSensitivity;
+            mContactIndice = (int)BabyPhoneData.Instance.Recever;
+            mBabyName = BabyPhoneData.Instance.BabyName;
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mFallingAssleep.SetActive(false);
             mFallingAssleepAnimator.SetTrigger("Close_WFallingAssleep");
-            mWindoAppOverWhite.SetActive(false);
-            iAnimator.SetBool("DoPlayLullaby", false);
 
+            mWindoAppOverWhite.SetActive(false);
+
+            iAnimator.SetBool("DoPlayLullaby", false);
             iAnimator.SetInteger("ForwardState", 3);
- 
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if ((mIsBabyCrying))
-            {
-                mCountNotification = mCountNotification + 1;
+            mElapsedTime += Time.deltaTime;
 
-                if (mCountNotification == 100)
-                {
-                    //GetGameObject(23).SetActive(true);
-                    //mNotificationAmount.text = "1";
-                    StartCoroutine(SendMessage());
-                }
-            }
-            else
+            if (mElapsedTime <= DETECTION_TIME)
             {
                 mSound = mInputMicro.Loudness;
                 mMean += mSound;
-                mCount = mCount + 1;
-
-                if (mCount > mMicroSensitivty)
-                {
-                    mMean = mMean / mMicroSensitivty;
-                    if (mMean >= 0.1F)
-                        mIsBabyCrying = true;
-                    else
-                        mIsBabyCrying = false;
-                    mMean = 0;
-                    mCount = 0;
-                }
+            }
+            else
+            {
+                mMean = mMean / 5F;
+                if (mMean >= 0.1F)
+                    mIsBabyCrying = true;
+                else
+                    mIsBabyCrying = false;
+                mMean = 0;
+                mElapsedTime = 0;
             }
 
-        }
+            if ((mIsBabyCrying) && (!mDidISend))
+            {
+                StartCoroutine(SendMessage());
+                mDidISend = true;
+                iAnimator.SetTrigger("GoToBabyIsCrayingState");
+            }
+    }
 
         private IEnumerator SendMessage()
         {
             mRGBCam.Open();
             yield return new WaitForSeconds(1.5F);
             MailSender lSender = new MailSender("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL);
-            Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", mBabyName + " seems to cry =(");
+            Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", mBabyName + " " + mDictionary.GetString("msgbb")+" :( !");
             lEmail.Addresses.Add(GetMailContact(mContactIndice));
             lEmail.AddTexture2D(mRGBCam.FrameTexture2D, "image.png");
             lSender.Send(lEmail);
@@ -129,6 +120,9 @@ namespace BuddyApp.BabyPhone
                     break;
                 case 3:
                     lMailContact = "mv@bluefrogrobotics.com";
+                    break;
+                case 4:
+                    lMailContact = "karama.guimbal@gmail.com";
                     break;
                 default:
                     lMailContact = "buddy.bluefrog@gmail.com";

@@ -24,12 +24,10 @@ namespace BuddyApp.IOT
         {
             if(when == EnterOrExit.ONENTER)
             {
-                for(int i = 0; i < gameobject.Count; ++i)
-                {
-                    GameObject lGO = GetGameObject(gameobject[i]);
-                    lGO.SetActive(setActive);
-                }
-                StartCoroutine(OpenObject());
+                if(setActive)
+                    StartCoroutine(OpenObject());
+                else
+                    StartCoroutine(CloseObject());
             }
         }
 
@@ -37,20 +35,10 @@ namespace BuddyApp.IOT
         {
             if (when == EnterOrExit.ONEXIT)
             {
-                for (int i = 0; i < gameobject.Count; ++i)
-                {
-                    GameObject lGO = GetGameObject(gameobject[i]);
-                    Animator lAnim = lGO.GetComponent<Animator>();
-                    if (lAnim != null)
-                    {
-                        if (clearOnBestReco)
-                            mSTT.OnBestRecognition.Clear();
-                        string[] lName = lGO.name.Split('_');
-                        string lWinName = lName[lName.Length - 1];
-                        lAnim.SetTrigger("Close_W" + lWinName);
-                    }
-                }
-                StartCoroutine(CloseObject());
+                if (setActive)
+                    StartCoroutine(OpenObject());
+                else
+                    StartCoroutine(CloseObject());
             }
         }
 
@@ -60,6 +48,20 @@ namespace BuddyApp.IOT
 
         IEnumerator CloseObject()
         {
+            for (int i = 0; i < gameobject.Count; ++i)
+            {
+                GameObject lGO = GetGameObject(gameobject[i]);
+                Animator lAnim = lGO.GetComponent<Animator>();
+                if (lAnim != null)
+                {
+                    if (clearOnBestReco)
+                        mSTT.OnBestRecognition.Clear();
+                    string[] lName = lGO.name.Split('_');
+                    string lWinName = lName[lName.Length - 1];
+                    lAnim.SetTrigger("Close_W" + lWinName);
+                }
+            }
+
             yield return new WaitForSeconds(0.8F);
 
             for (int i = 0; i < gameobject.Count; ++i)
@@ -70,6 +72,11 @@ namespace BuddyApp.IOT
 
         IEnumerator OpenObject()
         {
+            for (int i = 0; i < gameobject.Count; ++i)
+            {
+                GameObject lGO = GetGameObject(gameobject[i]);
+                lGO.SetActive(setActive);
+            }
             yield return new WaitForSeconds(0.8F);
 
             for (int i = 0; i < gameobject.Count; ++i)

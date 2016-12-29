@@ -27,5 +27,10 @@ namespace BuddyApp.IOT
         {
             BuddyOS.BYOS.Instance.AppManager.Quit();
         }
+
+        public void OpenMenu()
+        {
+            BuddyOS.BYOS.Instance.MenuPanel.LaunchMenu();
+        }
     }
 }

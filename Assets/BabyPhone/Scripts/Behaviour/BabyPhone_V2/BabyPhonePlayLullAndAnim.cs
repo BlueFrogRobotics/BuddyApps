@@ -9,6 +9,7 @@ namespace BuddyApp.BabyPhone
     {
         //[SerializeField]
         //private RawImage animation;
+
         [SerializeField]
         private GameObject progressBar;
 
@@ -17,103 +18,135 @@ namespace BuddyApp.BabyPhone
 
         //private MovieTexture mMovie;
 
-        //private BabyPhoneData mBabyPhoneData;
-
+        private bool mIsVolumeOn;
+        private Speaker mSpeaker;
         private AudioClip[] mLullabies;
-
         private List<string> mLullabyName;
-
-        //private float mFallingAssleepTime;
-        //private float mTimeElapsed;
-        //private float mSongSize;
         private int mLullIndice;
-        private bool mIsPlaying;
+        private bool mIsLullabyPlaying;
 
+        private float mFallingAssleepTime;
+        private float mTimeElapsed;
+
+        private bool isAnimatioOn;
 
         void Awake()
         {
-            mLullabies = Resources.LoadAll<AudioClip>("Sounds");
+            mSpeaker = BYOS.Instance.Speaker;
+            mLullabies = Resources.LoadAll<AudioClip>("Sounds/Lullabies");
+            mSpeaker.Media.Load("Sounds/Lullabies");
             mLullabyName = new List<string>();
-            FillMusicName(mLullabyName, mLullabies);                    
+            FillMusicName(mLullabyName, mLullabies);
         }
         void OnEnable()
-        {
-            //mBabyPhoneData = BabyPhoneData.Instance;
-            //BYOS.Instance.SoundManager.AddSound(mLullabyName[mLullIndice]);
-            //BYOS.Instance.SoundManager.Play(mLullabyName[mLullIndice]);
-            //mLullIndice = (int)mBabyPhoneData.LullabyToPlay;
+        {    
+            mLullIndice = (int)BabyPhoneData.Instance.LullabyToPlay;
+            mFallingAssleepTime = ((BabyPhoneData.Instance.TimeBeforContact) * 60F); //convert from minutes to seconds
 
+            mIsVolumeOn = BabyPhoneData.Instance.IsVolumeOn;
+            isAnimatioOn = BabyPhoneData.Instance.IsAnimationOn;
 
-            //mFallingAssleepTime = ((mBabyPhoneData.TimeBeforContact) * 60F); //convert from minutes to seconds
+            mSpeaker.Media.Volume = ((BabyPhoneData.Instance.LullabyVolume)/100F);
+
+            if (mIsVolumeOn)
+            {
+                mSpeaker.Media.Play(mLullabies[mLullIndice]);
+                mIsLullabyPlaying = true;
+            }
+            else
+                mIsLullabyPlaying = false;
         }
 
         void OnDisable()
         {
-
             //mMovie = (MovieTexture)animation.mainTexture;
             //mMovie.loop = true;
-
-            //mTimeElapsed = 0;
-
+            if (mIsLullabyPlaying)
+                mSpeaker.Media.Stop();
+                
+            mIsLullabyPlaying = false;
+            mTimeElapsed = 0;
         }
 
         void Start()
         {
-
             //mMovie = (MovieTexture)animation.mainTexture;
             //mMovie.loop = true;
-
-            //mTimeElapsed = 0;
+            
+            mSpeaker.Media.Loop = true;
+            mTimeElapsed = 0;
         }
 
         void Update()
         {
-            //if ((babyPhoneAnimator.GetCurrentAnimatorStateInfo(0).IsName("FallingAssleep"))
-            //    && (babyPhoneAnimator.GetBool("DoPlayLullaby")))
-            //    PlayLullabyAndAnimations();
-
-            //if(mMovie.isPlaying)
-            //{
-            //    mTimeElapsed += Time.deltaTime;
-
-            //    float lValueX = mTimeElapsed / mFallingAssleepTime;
-            //    progressBar.GetComponent<RectTransform>().anchorMax = new Vector2(lValueX, 0);
+            if ((babyPhoneAnimator.GetCurrentAnimatorStateInfo(0).IsName("FallingAssleep"))
+                && (babyPhoneAnimator.GetBool("DoPlayLullaby")) && (mIsVolumeOn))
+                PlayLullabyAndAnimations();
 
 
-            //    if (mTimeElapsed >= mFallingAssleepTime)
-            //        babyPhoneAnimator.SetTrigger("StartListening");
-            //}
-        }
+            #region Slider Udpate
+            if (mIsLullabyPlaying) 
+            {
+                mTimeElapsed += Time.deltaTime;
+
+                float lValueX = mTimeElapsed / mFallingAssleepTime;
+                progressBar.GetComponent<RectTransform>().anchorMax = new Vector2(lValueX, 0);
+
+                if (mTimeElapsed >= mFallingAssleepTime)
+                    babyPhoneAnimator.SetTrigger("StartListening");
+            }
+
+        #endregion
+    }
 
         private void PlayLullabyAndAnimations()
         {
             //if (!mMovie.isPlaying)
             //    mMovie.Play();
 
+            if(!mIsLullabyPlaying)
+                mSpeaker.Media.Play(mLullabies[mLullIndice]);
         }
 
         public void Return()
         {
             //mMovie.Play();
-            //mTimeElapsed = 0F;
+
+            mTimeElapsed = 0F;
+
+            if(mIsVolumeOn)
+                mSpeaker.Media.Play(mLullabies[mLullIndice]);
         }
 
-        public void Play()
+        public void Replay()
         {
-            //babyPhoneAnimator.SetBool("DoPlayLullaby", true);
+            if (mIsVolumeOn)
+                mSpeaker.Media.Resume();
+
+            mIsLullabyPlaying = true;
+
+            babyPhoneAnimator.SetBool("DoPlayLullaby", true);
         }
 
         public void Pause()
         {
+            //mSpeaker.Media.Stop() ;
+
+            if (mIsVolumeOn)
+                mSpeaker.Media.Pause();
+
+            mIsLullabyPlaying = false;
+
             //if (mMovie.isPlaying)
             //    mMovie.Stop();
-            //babyPhoneAnimator.SetBool("DoPlayLullaby", false);
+
+            babyPhoneAnimator.SetBool("DoPlayLullaby", false);
         }
 
         private void FillMusicName(List<string> iMusicName, AudioClip[] iAudioCLip)
         {
             for (int i = 0; i < iAudioCLip.Length; ++i)
-                iMusicName.Add(iAudioCLip[i].name.ToString());
+                iMusicName.Add("Lullabies/" + iAudioCLip[i].name.ToString());
         }
     }
 }
