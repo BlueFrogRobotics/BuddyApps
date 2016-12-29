@@ -15,6 +15,7 @@ namespace BuddyApp.HideAndSeek
         private int mLabelFound=-1;
         private double mDist = 0;
         private float mTimer = 0.0f;
+        private bool mHasFoundFace = false;
 
         public override void Init()
         {
@@ -28,10 +29,12 @@ namespace BuddyApp.HideAndSeek
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer = 0.0f;
-            mTTS.Say("Montre ton visage");
-            mFace.SetExpression(MoodType.THINKING);
+            mTTS.Say(mDictionary.GetString("showFace"));//"Montre ton visage");
+            //mFace.SetExpression(MoodType.THINKING);
+            mMood.Set(MoodType.THINKING);
             //GetGameObject(1).SetActive(true);
             mSearchWindow.Open();
+            mHasFoundFace = false;
             if (!mRGBCam.IsOpen)
                 mRGBCam.Open();
         }
@@ -45,6 +48,7 @@ namespace BuddyApp.HideAndSeek
                 if (mFaceDetector.HasDetectedFace)
                 {
                     //double lDist = 0;
+                    mHasFoundFace = true;
                     mLabelFound = mFaceReco.Predict(out mDist);
                     Debug.Log("label: " + mLabelFound + "dist: " + mDist);
                     /* if (lLabel != -1 && lDist<100)
@@ -69,17 +73,21 @@ namespace BuddyApp.HideAndSeek
             if (mRGBCam.IsOpen)
                 mRGBCam.Close();
             //GetGameObject(1).SetActive(false);
-            mFace.SetExpression(MoodType.NEUTRAL);
+            //mFace.SetExpression(MoodType.NEUTRAL);
+            mMood.Set(MoodType.NEUTRAL);
             if (mLabelFound != -1 && mDist < 100)
             {
                 
                 bool lHasAlreadyFound=GetComponent<Players>().DeleteOnePlayer(mLabelFound);
                 if (!lHasAlreadyFound)
-                    mTTS.Say("J'ai trouvé  " + mPlayers.GetPlayer(mLabelFound).Name);
+                    mTTS.Say(mDictionary.GetString("iFound") + " " + mPlayers.GetPlayer(mLabelFound).Name);
                 else
-                    mTTS.Say("T'es plus dans le game");
+                    mTTS.Say(mDictionary.GetString("alreadyFound"));//"T'es plus dans le game");
                 Debug.Log("dist: " + mDist);
             }
+            else if(mHasFoundFace)
+                mTTS.Say(mDictionary.GetString("cantReco"));
+
             iAnimator.ResetTrigger("ChangeState");
         }
     }

@@ -7,10 +7,9 @@ using System;
 
 namespace BuddyApp.BabyPhone
 {
-    //écoute les eventuels bruits, et gère l'écran de vielle, si détecte un bruit, il envois un message
     public class ListeningState : AStateMachineBehaviour
     {
-        private BabyPhoneData mBabyPhoneData;
+        private const int DETECTION_TIME = 5;
 
         private GameObject mListening;
         private GameObject mWindoAppOverBlack;
@@ -22,40 +21,37 @@ namespace BuddyApp.BabyPhone
 
         private bool mIsBabyCrying;
 
-        private int mCountNotification;
-        private int mCount;
         private float mSound;
         private float mMean;
-        private float mMicroSensitivty;
+        private float mMicroSensitivity;
         private int mContactIndice;
         private string mBabyName;
 
+        private float mElapsedTime;
         public override void Init()
         {
-            mBabyPhoneData = BabyPhoneData.Instance;
-
             mWindoAppOverBlack = GetGameObject(2);
             mListening = GetGameObject(9);
 
-            //mNotificationsButton = GetGameObject(23).GetComponent<Button>();
-            //mNotificationAmount = GetGameObject(24).GetComponent<Text>();
+            //mNotificationsButton = GetGameObject().GetComponent<Button>();
+            //mNotificationAmount = GetGameObject().GetComponent<Text>();
 
             mInputMicro = mListening.GetComponent<InputMicro>();
-            mContactIndice = (int) mBabyPhoneData.Recever;
-            mBabyName = mBabyPhoneData.BabyName;
-            mMicroSensitivty = mBabyPhoneData.MicrophoneSensitivity;
-            mCount = 0;
-            mMean = 0F;
-
-            mIsBabyCrying = false;
-            mCountNotification = 0;
-
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mListening.SetActive(true);
             mWindoAppOverBlack.SetActive(true);
+ 
+            mMood.Set(MoodType.LISTENING);
+
+            mContactIndice = (int)BabyPhoneData.Instance.Recever;
+            mBabyName = BabyPhoneData.Instance.BabyName;
+            mMicroSensitivity = BabyPhoneData.Instance.MicrophoneSensitivity;
+
+            mMean = 0F;
+            mIsBabyCrying = false;
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -68,56 +64,29 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if ((mIsBabyCrying))
+            mElapsedTime += Time.deltaTime;
+
+            if (mElapsedTime <= DETECTION_TIME)
             {
-                StartCoroutine(SetSadMood());
-
-                mCountNotification = mCountNotification + 1;
-
-                if (mCountNotification == 100)
-                {
-                    //GetGameObject(23).SetActive(true);
-                    //mNotificationAmount.text = "1";
-                    StartCoroutine(SendMessage());
-                }
+                mSound = mInputMicro.Loudness;
+                mMean += mSound;
             }
             else
             {
-                StartCoroutine(SetListenMood());
-
-                mSound = mInputMicro.Loudness;
-                mMean += mSound;
-                mCount = mCount + 1;
-
-                if (mCount > mMicroSensitivty)
-                {
-                    mMean = mMean / mMicroSensitivty;
-                    if (mMean >= 0.1F)
-                        mIsBabyCrying = true;
-                    else
-                        mIsBabyCrying = false;
-                    mMean = 0;
-                    mCount = 0;
-                }
+                mMean = mMean / 5F;
+                if (mMean >= 0.1F) //utiliser la sensibilité du micro
+                    mIsBabyCrying = true;
+                else
+                    mIsBabyCrying = false;
+                mMean = 0;
+                mElapsedTime = 0;
             }
-        }
 
-        private IEnumerator SetSadMood()
-        {
-            yield return new WaitForSeconds(0.5F);
-            mFace.SetExpression(MoodType.SAD);
-        }
-
-        private void BuddyListen()
-        {
-            StartCoroutine(SetListenMood());
-
-        }
-
-        private IEnumerator SetListenMood()
-        {
-            yield return new WaitForSeconds(0.5F);
-            mFace.SetExpression(MoodType.LISTENING);
+            if (mIsBabyCrying)
+            {
+                StartCoroutine(SendMessage());
+                iAnimator.SetTrigger("GoToBabyIsCrayingState");
+            }
         }
 
         private IEnumerator SendMessage()
@@ -125,7 +94,7 @@ namespace BuddyApp.BabyPhone
             mRGBCam.Open();
             yield return new WaitForSeconds(1.5F);
             MailSender lSender = new MailSender("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL);
-            Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", mBabyName + " seems to cry =(");
+            Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", mBabyName + " " + mDictionary.GetString("msgbb") + " :( !");
             lEmail.Addresses.Add(GetMailContact(mContactIndice));
             lEmail.AddTexture2D(mRGBCam.FrameTexture2D, "image.png");
             lSender.Send(lEmail);
@@ -149,6 +118,9 @@ namespace BuddyApp.BabyPhone
                     break;
                 case 3:
                     lMailContact = "mv@bluefrogrobotics.com";
+                    break;
+                case 4:
+                    lMailContact = "karama.guimbal@gmail.com";
                     break;
                 default:
                     lMailContact = "buddy.bluefrog@gmail.com";

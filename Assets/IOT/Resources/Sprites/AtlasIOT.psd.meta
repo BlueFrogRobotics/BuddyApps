@@ -1,11 +1,11 @@
 fileFormatVersion: 2
 guid: 7c806f2743f341a419f642f3377a2e06
-timeCreated: 1482406802
+timeCreated: 1483029645
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: IOT_Illustration_Loading
-    21300002: IOT_Ico_App
+    21300002: Ico_IOT
     21300004: IOT_Device_Light
     21300006: IOT_Device_Camera
     21300008: IOT_Device_Plug
@@ -28,6 +28,7 @@ TextureImporter:
     21300042: IOT_System_Hue
     21300044: IOT_Fade
     21300046: IOT_Device_Store
+    21300048: IOT_Device_Thermo
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -88,7 +89,7 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - serializedVersion: 2
-      name: IOT_Ico_App
+      name: Ico_IOT
       rect:
         serializedVersion: 2
         x: 523
@@ -356,6 +357,18 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 512
+        y: 1508
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: IOT_Device_Thermo
+      rect:
+        serializedVersion: 2
+        x: 1412
         y: 1508
         width: 180
         height: 180
