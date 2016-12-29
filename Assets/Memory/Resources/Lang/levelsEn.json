@@ -11,7 +11,7 @@
       "speed":2.0,
       "introSentence":"Let's go!",
       "events":[
-        3,
+				3,
         4,
         0
       ],
@@ -20,25 +20,29 @@
     },
     {
       "speed":1.5,
-      "introSentence":"Let's do something a bit harder",
+      "introSentence":"This time, you will also have to move my head!",
       "events":[
-				3,
-				8,
-				9,
         4,
-        0
+				4,
+				8,
+				0,
+				4,
+				9,
+        3
       ],
       "successSentence":"Well done!",
       "failureSentence":"Too bad, you failed. You will do better next time!"
     },
     {
       "speed":2.0,
-      "introSentence":"This time with head motion!",
+      "introSentence":"Let's do something a bit harder",
       "events":[
         4,
-				4,
+        0,
 				8,
-				0,
+				8,
+        0,
+        3,
 				4,
 				9,
         3

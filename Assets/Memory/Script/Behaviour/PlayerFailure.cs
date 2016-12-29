@@ -19,7 +19,8 @@ namespace BuddyApp.Memory
 		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
-			link.mAnimationManager.enabled = true;
+
+			link.mAnimationManager.gameObject.SetActive(true);
 			Debug.Log("Player Failure !");
 
 

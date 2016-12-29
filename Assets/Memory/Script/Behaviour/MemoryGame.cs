@@ -53,7 +53,7 @@ namespace BuddyApp.Memory
 		{
 			if (mTimer > mMaxTime) {
 				mTimer = 0;
-				Debug.Log("Do face");
+				Debug.Log("Do Event");
 				Debug.Log("event index : " + mEventIndex);
 				if (mEventIndex < mEvents.Count) {
 					Debug.Log("do event " + mEvents[mEventIndex]);
@@ -61,11 +61,11 @@ namespace BuddyApp.Memory
 
 					if (mEvents[mEventIndex] > 7) {
 						if (mEvents[mEventIndex] == 8) {
-							// Move head left
-							MoveHeadLeft(true);
+							Debug.Log("Move head left");
+							StartCoroutine(MoveHeadLeft(true));
 						} else if (mEvents[mEventIndex] == 9) {
-							//Move right
-							MoveHeadLeft(false);
+							Debug.Log("Move head right");
+							StartCoroutine(MoveHeadLeft(false));
 						}
 					} else {
 						mFace.SetEvent((FaceEvent)mEvents[mEventIndex]);
@@ -80,31 +80,38 @@ namespace BuddyApp.Memory
 
 		private IEnumerator MoveHeadLeft(bool iLeft)
 		{
+			Debug.Log("Moving head left: " + iLeft);
 			mHeadMotion = true;
 			float lOriginAngle = mNoHinge.CurrentAnglePosition;
 			float lTargetAngle;
 
 			if (iLeft) {
-				lTargetAngle = lOriginAngle + 25.0f;
+				lTargetAngle = lOriginAngle + 45.0f;
 			} else {
-				lTargetAngle = lOriginAngle - 25.0f;
+				lTargetAngle = lOriginAngle - 45.0f;
 			}
 			// Put the head to the given direction
 			mNoHinge.SetPosition(lTargetAngle);
 
 			// Wait for end of motion
-			while (Math.Abs(mNoHinge.CurrentAnglePosition - lTargetAngle) > 5.0f) {
+			while (Math.Abs(mNoHinge.CurrentAnglePosition - lOriginAngle) < 10.0f) {
 				yield return null;
 			}
 
+
+			Debug.Log("Moving head ok, move back ");
 			// Put the head back
-			mNoHinge.SetPosition(lOriginAngle);
+			mNoHinge.SetPosition(0.0f);
 			
 			// Wait for end of motion
-			while (Math.Abs(mNoHinge.CurrentAnglePosition - lOriginAngle) > 5.0f) {
+			while (Math.Abs(mNoHinge.CurrentAnglePosition) > 5.0f) {
 				yield return null;
-			
+
 			}
+
+			yield return new WaitForSeconds(1.5f);
+			
+			Debug.Log("Moving head back ok");
 
 			mHeadMotion = false;
 
@@ -114,7 +121,7 @@ namespace BuddyApp.Memory
 		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
-			link.mAnimationManager.enabled = false;
+			link.mAnimationManager.gameObject.SetActive(false);
 			mHeadMotion = false;
 			InitLvl(animator.GetInteger("level"));
 			Debug.Log("pre currentLevel intro Sentence");

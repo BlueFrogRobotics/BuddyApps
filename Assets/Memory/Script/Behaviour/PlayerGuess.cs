@@ -8,17 +8,13 @@ namespace BuddyApp.Memory
 {
 	public class PlayerGuess : LinkStateMachineBehavior
 	{
-
-		static int mClickIndex;
-
 		static bool mFail;
 		static bool mSuccess;
 
 		static List<int> mEvents;
 		static List<int> mCurrentEvents;
-		MemoryGameLevel mCurrentLevel;
 
-		public const float ANGLE_THRESH = 7.0F;
+		public const float ANGLE_THRESH = 10.0F;
 
 
 		float mWaitTimer;
@@ -28,8 +24,7 @@ namespace BuddyApp.Memory
 		float mRandomMoveTimer;
 		float mRandomMoveTimerLimit;
 		private bool mHeadMotion;
-
-
+		private float mOriginHeadPos;
 
 		public override void Init()
 		{
@@ -43,7 +38,6 @@ namespace BuddyApp.Memory
 
 			mFail = false;
 			mSuccess = false;
-			mClickIndex = 0;
 
 			mWaitTimer = 0.0f;
 			mEndMaxTime = 20.0f;
@@ -77,7 +71,6 @@ namespace BuddyApp.Memory
 					mFail = true;
 					break;
 			}
-			mClickIndex++;
 			if (IsSuccess()) {
 				if (mCurrentEvents.Count.Equals(mEvents.Count)) {
 					mSuccess = true;
@@ -110,7 +103,8 @@ namespace BuddyApp.Memory
 		{
 			mHeadMotion = false;
 			Debug.Log("Player's turn");
-
+			mNoHinge.SetPosition(0.0f);
+			mOriginHeadPos = 0.0f;
 			InitGuess();
 
 			mTTS.Say(link.gameLevels.GetRandomYourTurn(), true);
@@ -124,15 +118,32 @@ namespace BuddyApp.Memory
 
 			if (mOnEnterDone && !mHeadMotion) {
 
+				
+				if (Mathf.Abs(mNoHinge.CurrentAnglePosition) > ANGLE_THRESH) {
 
-				if (Mathf.Abs(mNoHinge.CurrentAnglePosition - mNoHinge.DestinationAnglePosition) > ANGLE_THRESH * 2)
-					if (mNoHinge.CurrentAnglePosition > mNoHinge.DestinationAnglePosition) {
+					if (mNoHinge.CurrentAnglePosition > mOriginHeadPos) {
+						Debug.Log("Pushing head left");
 						mCurrentEvents.Add(8);
-						MoveHeadLeft(true);
+						StartCoroutine(MoveHeadLeft(true));
 					} else {
+						Debug.Log("Pushing head right");
 						mCurrentEvents.Add(9);
-						MoveHeadLeft(false);
+						StartCoroutine(MoveHeadLeft(false));
 					}
+
+					if (IsSuccess()) {
+						if (mCurrentEvents.Count.Equals(mEvents.Count)) {
+							mSuccess = true;
+							mResetTimer = true;
+						}
+					} else {
+						mFail = true;
+					}
+				}
+
+
+
+
 
 				if (mTTS.HasFinishedTalking) {
 					mWaitTimer += Time.deltaTime;
@@ -176,35 +187,42 @@ namespace BuddyApp.Memory
 
 		private IEnumerator MoveHeadLeft(bool iLeft)
 		{
+			Debug.Log("Moving head left: " + iLeft);
 			mHeadMotion = true;
 			float lOriginAngle = mNoHinge.CurrentAnglePosition;
 			float lTargetAngle;
 
 			if (iLeft) {
-				lTargetAngle = lOriginAngle + 25.0f;
+				lTargetAngle = lOriginAngle + 45.0f;
 			} else {
-				lTargetAngle = lOriginAngle - 25.0f;
+				lTargetAngle = lOriginAngle - 45.0f;
 			}
 			// Put the head to the given direction
 			mNoHinge.SetPosition(lTargetAngle);
 
 			// Wait for end of motion
-			while (Math.Abs(mNoHinge.CurrentAnglePosition - lTargetAngle) > 5.0f) {
+			while (Math.Abs(mNoHinge.CurrentAnglePosition - lOriginAngle) < 10.0f) {
 				yield return null;
 			}
 
+
+			Debug.Log("Moving head ok, move back ");
 			// Put the head back
-			mNoHinge.SetPosition(lOriginAngle);
+			mNoHinge.SetPosition(0.0f);
 
 			// Wait for end of motion
-			while (Math.Abs(mNoHinge.CurrentAnglePosition - lOriginAngle) > 5.0f) {
+			while (Math.Abs(mNoHinge.CurrentAnglePosition) > 5.0f) {
 				yield return null;
 
 			}
+			Debug.Log("Moving head back ok");
 
+			yield return new WaitForSeconds(1);
 			mHeadMotion = false;
 
 		}
+
+
 		void RandomAnim()
 		{
 			switch (UnityEngine.Random.Range(0, 3)) {

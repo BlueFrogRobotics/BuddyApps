@@ -45,7 +45,8 @@ namespace BuddyApp.TakePhoto
 		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
-			mAnimationManager.enabled = true;
+
+			mAnimationManager.gameObject.SetActive(true);
 			Debug.Log("OnEnter redo");
 			mErrorCount = 0;
 			mNeedListen = true;
