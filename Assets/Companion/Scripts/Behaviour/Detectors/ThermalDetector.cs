@@ -93,16 +93,10 @@ namespace BuddyApp.Companion
 			Debug.Log ("MaxValue saw : " + valueVerticalMax + " " + valueHorizontalMax);
 
 			// check for problems
-			if ((maxHorizontal == -1 || maxVertical == -1) 
-<<<<<<< HEAD
-				||(valueVerticalMax == 0 || valueHorizontalMax == 0)) {
-				//Debug.Log ("Can't find any hot spot, pb Matrix of temperature too low");
-				return new int[]{ -1, -1 };
-=======
+			if ((maxHorizontal == -1 || maxVertical == -1)
 				||(valueVerticalMax <= 0 || valueHorizontalMax <= 0)) {
 				Debug.Log ("Can't find any hot spot, pb Matrix of temperature too low");
 				return returnedValue;
->>>>>>> ddf191f3d6a57268a324d62a4216fb49dfafde21
 			}
 
 			//TODO : delete this comm if the old stuff int[] returnedValue = new int[]{maxHorizontal,maxVertical };
