@@ -20,13 +20,7 @@ namespace BuddyApp.IOT
             mSTT.OnBestRecognition.Add(messageReceived);
             mSTT.OnErrorEnum.Add(errorReceived);
             mSTT.Request();
-
-            listenedTimes++;
-            if (listenedTimes > 3)
-            {
-                iAnimator.SetTrigger(mHashList[(int)HashTrigger.NEXT]);
-                listenedTimes = 0;
-            }
+            mMood.Set(MoodType.LISTENING);
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
@@ -52,6 +46,15 @@ namespace BuddyApp.IOT
                 }
                 else
                 {
+
+                    listenedTimes++;
+                    if (listenedTimes > 3)
+                    {
+                        iAnimator.SetTrigger(mHashList[(int)HashTrigger.NEXT]);
+                        listenedTimes = 0;
+                        return;
+                    }
+
                     switch (mError)
                     {
                         case STTError.ERROR_NETWORK:
