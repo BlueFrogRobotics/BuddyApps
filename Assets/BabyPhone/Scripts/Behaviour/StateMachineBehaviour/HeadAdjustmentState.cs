@@ -24,7 +24,9 @@ namespace BuddyApp.BabyPhone
             mRGBCam.Open();
             //HeadAdjustmentObject.SetActive(true);
             mWindowAppOverWhite.SetActive(true);
-            mHeadAdjustmentAnimator.SetTrigger("Open_WHeadController");       
+            mHeadAdjustmentAnimator.SetTrigger("Open_WHeadController");
+
+            mMood.Set(MoodType.HAPPY);
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -35,6 +37,7 @@ namespace BuddyApp.BabyPhone
             mHeadAdjustmentAnimator.SetTrigger("Close_WHeadController");
             iAnimator.SetBool("DoStartCount", true);
             iAnimator.SetInteger("ForwardState", 2);
+            mFace.LookAt(FaceLookAt.CENTER);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

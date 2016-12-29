@@ -12,7 +12,8 @@ namespace BuddyApp.BabyPhone
 
         private Motors mMotors;
         private RGBCam mRGBCam;
-
+        private Face mFace;
+        private Speaker mSpeaker;
         private float mNoSpeed = 100.0F;
         private float mYesSpeed = 100.0F;
         private float mYesAngle = 0.0F;
@@ -28,14 +29,16 @@ namespace BuddyApp.BabyPhone
         {
             mMotors = BYOS.Instance.Motors;
             mRGBCam = BYOS.Instance.RGBCam;
+            mFace = BYOS.Instance.Face;
+            mSpeaker = BYOS.Instance.Speaker;
         }
 
 
         void Update()
         {
             RGBCamRawImage.texture = mRGBCam.FrameTexture2D;
-            ControlNoAxis();
-            ControlYesAxis();
+            //ControlNoAxis();
+            //ControlYesAxis();
         }
 
         /// <summary>
@@ -90,20 +93,38 @@ namespace BuddyApp.BabyPhone
 
         public void MoveNoLeft()
         {
-            mNoLeft = true;
+            //mNoLeft = true;
+            mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 5;
+            mMotors.NoHinge.SetPosition(mNoAngle, mNoSpeed);
+            mFace.LookAt(2000, -200);
+            mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+
         }
         public void MoveNoRight()
         {
-            mNoRight = true;
+            //mNoRight = true;
+            mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 5;
+            mMotors.NoHinge.SetPosition(mNoAngle, mNoSpeed);
+            mFace.LookAt(-600, 600);
+            mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
         }
         public void MoveYesUp()
         {
-            mYesUp = true;
+            //mYesUp = true;
+            mYesAngle = mMotors.YesHinge.CurrentAnglePosition - 5;
+            mFace.LookAt(600, 600);
+            mSpeaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
         }
         public void MoveYesDown()
         {
-            mYesDown = true;
+            //mYesDown = true;
+            mYesAngle = mMotors.YesHinge.CurrentAnglePosition + 5;
+            mMotors.YesHinge.SetPosition(mYesAngle, mYesSpeed);
+            mFace.LookAt(600, -600);
+            mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
         }
+
+        // i ++ pendant l'appuie !
 
     }
 }
