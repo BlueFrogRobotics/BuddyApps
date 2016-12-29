@@ -11,8 +11,10 @@
     {
       "speed":2.0,
       "introSentence":"C'est parti",
-      "faces":[
-        3,
+      "events":[
+				3,
+				8,
+				9,
         4,
         0
       ],
@@ -22,7 +24,7 @@
     {
       "speed":1.5,
       "introSentence":"Allez, on complique un peu lé choses",
-      "faces":[
+      "events":[
         3,
         4,
         4,
@@ -34,12 +36,14 @@
     },
     {
       "speed":2.0,
-      "introSentence":"Allez, un peu plu rapide cette foi",
-      "faces":[
+      "introSentence":"Allez, cette fois il faudra aussi bouger mes roues",
+      "events":[
         4,
-        4,
-        0,
-        4,
+				4,
+				8,
+				0,
+				4,
+				9,
         3
       ],
       "successSentence":"Bravo, c'est tout bon",
@@ -48,7 +52,7 @@
     {
       "speed":3.0,
       "introSentence":"Niveau final, il faut tou donné maintenant !",
-      "faces":[
+      "events":[
         4,
         0,
         4,

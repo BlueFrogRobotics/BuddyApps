@@ -10,7 +10,7 @@
     {
       "speed":2.0,
       "introSentence":"Let's go!",
-      "faces":[
+      "events":[
         3,
         4,
         0
@@ -21,24 +21,26 @@
     {
       "speed":1.5,
       "introSentence":"Let's do something a bit harder",
-      "faces":[
-        3,
+      "events":[
+				3,
+				8,
+				9,
         4,
-        4,
-        0,
-        3
+        0
       ],
       "successSentence":"Well done!",
       "failureSentence":"Too bad, you failed. You will do better next time!"
     },
     {
       "speed":2.0,
-      "introSentence":"A bit faster this time!",
-      "faces":[
+      "introSentence":"This time with head motion!",
+      "events":[
         4,
-        4,
-        0,
-        4,
+				4,
+				8,
+				0,
+				4,
+				9,
         3
       ],
       "successSentence":"Well done! You got everything right, you are really good",
@@ -47,7 +49,7 @@
     {
       "speed":3.0,
       "introSentence":"Last level, give it all you got",
-      "faces":[
+      "events":[
         4,
         0,
         4,

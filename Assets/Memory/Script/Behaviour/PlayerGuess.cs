@@ -9,22 +9,25 @@ namespace BuddyApp.Memory
 	public class PlayerGuess : LinkStateMachineBehavior
 	{
 
-		static int clickIndex;
+		static int mClickIndex;
 
-		static bool fail;
-		static bool success;
+		static bool mFail;
+		static bool mSuccess;
 
-		static List<FaceEvent> events;
-		static List<FaceEvent> currentEvents;
-		MemoryGameLevel currentLevel;
+		static List<int> mEvents;
+		static List<int> mCurrentEvents;
+		MemoryGameLevel mCurrentLevel;
 
-		float waitTimer;
-		float endMaxTime;
-		static bool resetTimer;
+		public const float ANGLE_THRESH = 7.0F;
 
-		float randomMoveTimer;
-		float randomMoveTimerLimit;
-		//bool randomMoveStarted;
+
+		float mWaitTimer;
+		float mEndMaxTime;
+		static bool mResetTimer;
+
+		float mRandomMoveTimer;
+		float mRandomMoveTimerLimit;
+		private bool mHeadMotion;
 
 
 
@@ -35,18 +38,18 @@ namespace BuddyApp.Memory
 
 		public void InitGuess()
 		{
-			currentEvents = new List<FaceEvent>();
-			events = link.currentLevel.faces;
+			mCurrentEvents = new List<int>();
+			mEvents = link.currentLevel.events;
 
-			fail = false;
-			success = false;
-			clickIndex = 0;
+			mFail = false;
+			mSuccess = false;
+			mClickIndex = 0;
 
-			waitTimer = 0.0f;
-			endMaxTime = 20.0f;
-			resetTimer = false;
+			mWaitTimer = 0.0f;
+			mEndMaxTime = 20.0f;
+			mResetTimer = false;
 
-			randomMoveTimer = 0.0f;
+			mRandomMoveTimer = 0.0f;
 			//randomMoveStarted = false;
 			SetRandomTimerLimit();
 
@@ -59,42 +62,42 @@ namespace BuddyApp.Memory
 			switch (value) {
 				case 0:
 					Debug.Log("Click left eye from PlayerGuess script");
-					currentEvents.Add(FaceEvent.BLINK_LEFT);
+					mCurrentEvents.Add((int)FaceEvent.BLINK_LEFT);
 					break;
 				case 1:
 					Debug.Log("Click right eye from Player Guess Script");
-					currentEvents.Add(FaceEvent.BLINK_RIGHT);
+					mCurrentEvents.Add((int)FaceEvent.BLINK_RIGHT);
 					break;
 				case 2:
 					Debug.Log("Click mouth from Player Guess Script");
-					currentEvents.Add(FaceEvent.SMILE);
+					mCurrentEvents.Add((int)FaceEvent.SMILE);
 					break;
 				default:
 					Debug.Log("Click UNKOWN from Player Guess Script");
-					fail = true;
+					mFail = true;
 					break;
 			}
-			clickIndex++;
+			mClickIndex++;
 			if (IsSuccess()) {
-				if (currentEvents.Count.Equals(events.Count)) {
-					success = true;
-					resetTimer = true;
+				if (mCurrentEvents.Count.Equals(mEvents.Count)) {
+					mSuccess = true;
+					mResetTimer = true;
 				}
 			} else {
-				fail = true;
+				mFail = true;
 			}
 		}
 
 		public static bool IsSuccess()
 		{
-			if (success) {
+			if (mSuccess) {
 				return true;
-			} else if (currentEvents.Count > events.Count) {
+			} else if (mCurrentEvents.Count > mEvents.Count) {
 				return false;
 			} else {
-				for (int i = 0; i < currentEvents.Count; i++) {
-					if (!currentEvents[i].Equals(events[i])) {
-						Debug.Log("Comparing " + currentEvents[i] + " and " + events[i]);
+				for (int i = 0; i < mCurrentEvents.Count; i++) {
+					if (!mCurrentEvents[i].Equals(mEvents[i])) {
+						Debug.Log("Comparing " + mCurrentEvents[i] + " and " + mEvents[i]);
 						return false;
 					}
 				}
@@ -105,13 +108,13 @@ namespace BuddyApp.Memory
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-
+			mHeadMotion = false;
 			Debug.Log("Player's turn");
 
 			InitGuess();
 
 			mTTS.Say(link.gameLevels.GetRandomYourTurn(), true);
-			waitTimer = 0.0f;
+			mWaitTimer = 0.0f;
 			mOnEnterDone = true;
 		}
 
@@ -119,46 +122,89 @@ namespace BuddyApp.Memory
 		protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
-			if (mOnEnterDone) {
+			if (mOnEnterDone && !mHeadMotion) {
+
+
+				if (Mathf.Abs(mNoHinge.CurrentAnglePosition - mNoHinge.DestinationAnglePosition) > ANGLE_THRESH * 2)
+					if (mNoHinge.CurrentAnglePosition > mNoHinge.DestinationAnglePosition) {
+						mCurrentEvents.Add(8);
+						MoveHeadLeft(true);
+					} else {
+						mCurrentEvents.Add(9);
+						MoveHeadLeft(false);
+					}
+
 				if (mTTS.HasFinishedTalking) {
-					waitTimer += Time.deltaTime;
-					randomMoveTimer += Time.deltaTime;
+					mWaitTimer += Time.deltaTime;
+					mRandomMoveTimer += Time.deltaTime;
 					link.isPlayerTurn = true;
 				}
 
-				if (mFace.IsStable && fail) {
+				if (mFace.IsStable && mFail) {
 					Debug.Log("Oups you failed");
 					animator.SetTrigger("PlayerFailure");
 				}
 
-				if (mFace.IsStable && success) {
+				if (mFace.IsStable && mSuccess) {
 
-					if (resetTimer) {
-						waitTimer = 0.0f;
-						resetTimer = false;
+					if (mResetTimer) {
+						mWaitTimer = 0.0f;
+						mResetTimer = false;
 					}
 
-					if (waitTimer > 1.5f) {
+					if (mWaitTimer > 1.5f) {
 						Debug.Log("Congrats, you win !");
 						animator.SetTrigger("PlayerSuccess");
 					}
 				}
 
-				if (waitTimer > endMaxTime) {
+				if (mWaitTimer > mEndMaxTime) {
 					Debug.Log("TimeOut game");
 					animator.SetTrigger("PlayerFailure");
 				}
 
-				if (randomMoveTimer > randomMoveTimerLimit) {
-					//			link.animationManager.StartAnimation ();
-					RandomAnim();
-					randomMoveTimer = 0.0f;
-					SetRandomTimerLimit();
-					//			randomMoveStarted = true;
-				}
+				//if (randomMoveTimer > randomMoveTimerLimit) {
+				//	//			link.animationManager.StartAnimation ();
+				//	RandomAnim();
+				//	randomMoveTimer = 0.0f;
+				//	SetRandomTimerLimit();
+				//	//			randomMoveStarted = true;
+				//}
 			}
 		}
 
+
+		private IEnumerator MoveHeadLeft(bool iLeft)
+		{
+			mHeadMotion = true;
+			float lOriginAngle = mNoHinge.CurrentAnglePosition;
+			float lTargetAngle;
+
+			if (iLeft) {
+				lTargetAngle = lOriginAngle + 25.0f;
+			} else {
+				lTargetAngle = lOriginAngle - 25.0f;
+			}
+			// Put the head to the given direction
+			mNoHinge.SetPosition(lTargetAngle);
+
+			// Wait for end of motion
+			while (Math.Abs(mNoHinge.CurrentAnglePosition - lTargetAngle) > 5.0f) {
+				yield return null;
+			}
+
+			// Put the head back
+			mNoHinge.SetPosition(lOriginAngle);
+
+			// Wait for end of motion
+			while (Math.Abs(mNoHinge.CurrentAnglePosition - lOriginAngle) > 5.0f) {
+				yield return null;
+
+			}
+
+			mHeadMotion = false;
+
+		}
 		void RandomAnim()
 		{
 			switch (UnityEngine.Random.Range(0, 3)) {
@@ -182,8 +228,8 @@ namespace BuddyApp.Memory
 
 		void SetRandomTimerLimit()
 		{
-			randomMoveTimerLimit = UnityEngine.Random.Range(0.5f, 3.0f);
-			Debug.Log("randomMoveTimerLimit = " + randomMoveTimerLimit);
+			mRandomMoveTimerLimit = UnityEngine.Random.Range(0.5f, 3.0f);
+			Debug.Log("randomMoveTimerLimit = " + mRandomMoveTimerLimit);
 		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
