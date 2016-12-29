@@ -10,18 +10,6 @@ namespace BuddyApp.Companion
 
         public const float ANGLE_THRESH = 7.0F;
 
-        [SerializeField]
-        private Text currentAngle;
-
-        [SerializeField]
-        private Text destinationAngle;
-
-        [SerializeField]
-        private Text targetSpeed;
-
-        [SerializeField]
-        private Text headForced;
-
         private bool mHeadForcedDetected;
         private bool mCommandExecuting;
         private float mPreviousDestAngle;
@@ -37,11 +25,6 @@ namespace BuddyApp.Companion
         
         void Update()
         {
-            currentAngle.text = mHinge.CurrentAnglePosition.ToString();
-            destinationAngle.text = mHinge.DestinationAnglePosition.ToString();
-            targetSpeed.text = mHinge.TargetSpeed.ToString();
-            headForced.text = mHeadForcedDetected.ToString();
-
             if (mPreviousDestAngle != mHinge.DestinationAnglePosition) {
                 mCommandExecuting = true;
                 mPreviousDestAngle = mHinge.DestinationAnglePosition;

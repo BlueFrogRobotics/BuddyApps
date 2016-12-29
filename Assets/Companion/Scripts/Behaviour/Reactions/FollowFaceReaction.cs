@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using BuddyOS;
-using BuddyOS.Command;
 using BuddyFeature.Vision;
 using OpenCVUnity;
 using System.Collections.Generic;
@@ -12,6 +11,9 @@ namespace BuddyApp.Companion
     [RequireComponent(typeof(FaceCascadeTracker))]
     public class FollowFaceReaction : MonoBehaviour
     {
+        [SerializeField]
+        private GameObject mTrackingText;
+
         private int mCameraWidthCenter;
         private int mCameraHeightCenter;
         private float mUpdateTime;
@@ -51,6 +53,7 @@ namespace BuddyApp.Companion
             mCameraHeightCenter = BYOS.Instance.RGBCam.Height / 2;
             mHeadNoAngle = mNoHinge.CurrentAnglePosition;
             mHeadYesAngle = mYesHinge.CurrentAnglePosition;
+            mTrackingText.SetActive(true);
         }
 
         void Update()
@@ -64,15 +67,15 @@ namespace BuddyApp.Companion
             {
                 float lXCenter = mTrackedObjects[0].x + mTrackedObjects[0].width / 2;
                 float lYCenter = mTrackedObjects[0].y + mTrackedObjects[0].height / 2;
-                Debug.Log("Tracking face : XCenter " + lXCenter + " / YCenter " + lYCenter);
+                //Debug.Log("Tracking face : XCenter " + lXCenter + " / YCenter " + lYCenter);
 
                 if (!(mCameraWidthCenter - 25 < lXCenter && lXCenter < mCameraWidthCenter + 5))
-                    mHeadNoAngle -= Mathf.Sign(lXCenter - mCameraWidthCenter) * 1.5F;
+                    mHeadNoAngle -= Mathf.Sign(lXCenter - mCameraWidthCenter) * 1F;
                 if (!(mCameraHeightCenter - 5 < lYCenter && lYCenter < mCameraHeightCenter + 25))
                     mHeadYesAngle += Mathf.Sign(lYCenter - mCameraHeightCenter) * 1.5F;
 
-                Debug.Log("Setting angles Yes : " + Mathf.Sign(lYCenter - mCameraHeightCenter) + 
-                    " / No : " + Mathf.Sign(lXCenter - mCameraWidthCenter));
+                //Debug.Log("Setting angles Yes : " + Mathf.Sign(lYCenter - mCameraHeightCenter) + 
+                //    " / No : " + Mathf.Sign(lXCenter - mCameraWidthCenter));
                 
                 mYesHinge.SetPosition(mHeadYesAngle);
                 mNoHinge.SetPosition(mHeadNoAngle);
@@ -88,6 +91,7 @@ namespace BuddyApp.Companion
 
         void OnDisable()
         {
+            mTrackingText.SetActive(false);
             GetComponent<Reaction>().ActionFinished();
         }
     }

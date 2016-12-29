@@ -146,6 +146,7 @@ GameObject:
   - 95: {fileID: 9547704}
   - 114: {fileID: 11404054}
   - 114: {fileID: 11464984}
+  - 114: {fileID: 11438740}
   m_Layer: 5
   m_Name: Window_Loading
   m_TagString: Untagged
@@ -274,6 +275,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11438740
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90acfeb45bfd93346bf3a79a98b3026f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: {fileID: 11494510}
+  loadingText: {fileID: 11482108}
 --- !u!114 &11443774
 MonoBehaviour:
   m_ObjectHideFlags: 1

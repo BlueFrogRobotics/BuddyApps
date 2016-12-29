@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using BuddyOS;
 
 namespace BuddyApp.Companion
 {
     public class BuddyFaceDetector : MonoBehaviour
     {
+        [SerializeField]
+        private Button leftEye;
+        [SerializeField]
+        private Button rightEye;
+
         /// <summary>  
         ///  This is to detect when Buddy's face is touched once
         /// </summary> 
@@ -26,12 +32,15 @@ namespace BuddyApp.Companion
             mFaceTouched = false;
             mTimesFaceTouched = 0;
             mLastTimeFaceTouched = Time.time;
+
+            leftEye.onClick.AddListener(LeftEyeClicked);
+            rightEye.onClick.AddListener(RightEyeClicked);
         }
 
         void Update()
         {
-            if (EyeTouched)
-                FacePoked();
+            //if (EyeTouched)
+            //    FacePoked();
 
             if (Time.time - mLastTimeFaceTouched >= 0.3F)
                 mFaceTouched = false;
@@ -41,8 +50,8 @@ namespace BuddyApp.Companion
                 mFaceSmashed = false;
             }
 
-            if (mFaceSmashed)
-                Debug.Log("Face smashed !!");
+            //if (mFaceSmashed)
+            //    Debug.Log("Face smashed !!");
 
             //if (Input.GetMouseButtonDown(0))
             //{
@@ -54,6 +63,18 @@ namespace BuddyApp.Companion
             //    else if (pos.x < Screen.width * 0.2 && RightSideTouched != null)
             //        RightSideTouched();
             //}
+        }
+
+        private void LeftEyeClicked()
+        {
+            mFace.SetEvent(FaceEvent.BLINK_LEFT);
+            FacePoked();
+        }
+
+        private void RightEyeClicked()
+        {
+            mFace.SetEvent(FaceEvent.BLINK_RIGHT);
+            FacePoked();
         }
 
         private void FacePoked()

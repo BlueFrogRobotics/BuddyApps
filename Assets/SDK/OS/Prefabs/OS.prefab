@@ -3444,6 +3444,7 @@ GameObject:
   - 114: {fileID: 11473194}
   - 114: {fileID: 11442000}
   - 114: {fileID: 11496892}
+  - 81: {fileID: 8152364}
   m_Layer: 0
   m_Name: OS
   m_TagString: Untagged
@@ -4409,6 +4410,13 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!81 &8152364
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178300}
+  m_Enabled: 1
 --- !u!82 &8211618
 AudioSource:
   m_ObjectHideFlags: 1
@@ -8426,7 +8434,7 @@ MonoBehaviour:
   notification: {fileID: 11446418}
   wifi: {fileID: 11467630}
   mEnableLogs: 0
-  mEnableLoadDefaultApp: 0
+  mEnableLoadDefaultApp: 1
   mEnableLoadApps: 1
   mDefaultApp: CompanionApp
 --- !u!114 &11451948
@@ -14598,7 +14606,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0.91218764, y: 0}
   m_AnchorMax: {x: 1, y: 0.8574993}
-  m_AnchoredPosition: {x: 2.1593018, y: -5.1285095}
+  m_AnchoredPosition: {x: 2.1593018, y: -5.128418}
   m_SizeDelta: {x: 56, y: 594.24}
   m_Pivot: {x: 1, y: 0}
 --- !u!224 &22420382
@@ -17160,7 +17168,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 134.99998}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &22479552

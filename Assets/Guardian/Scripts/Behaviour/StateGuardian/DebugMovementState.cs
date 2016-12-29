@@ -84,12 +84,14 @@ namespace BuddyApp.Guardian
             {
                 mAnimator.SetInteger("DebugMode", -1);
                 mGoBack = false;
+                StateManager.DebugMovementWindow.IcoMouv.enabled = false;
             }
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            StateManager.DebugMovementWindow.IcoMouv.enabled = false;
             mMovementDetector.OnDetection -= OnMovementDetected;
             StateManager.DebugMovementWindow.ButtonBack.onClick.RemoveAllListeners();
             //StateManager.DebugMovementWindow.gameObject.SetActive(false);

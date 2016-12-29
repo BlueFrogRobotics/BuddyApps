@@ -13,8 +13,6 @@ namespace BuddyApp.Companion
 		// TODO : add the up and down mouvement
 
 		// link to other features
-		private Mood mMood;
-		private Face mFace;
 		private ThermalDetector mThermalDetector;
 		private NoHinge mNoHinge;
 		private YesHinge mYesHinge;
@@ -33,8 +31,7 @@ namespace BuddyApp.Companion
 			mThermalDetector = GetComponent<ThermalDetector>();
 			previousEyesTargetPositionH = Screen.width / 2;
 			previousEyesTargetPositionV = Screen.width / 2;
-
-			mFace = BYOS.Instance.Face;
+            
 			mNoHinge = BYOS.Instance.Motors.NoHinge;
 			mYesHinge = BYOS.Instance.Motors.YesHinge;
 			mWheels = BYOS.Instance.Motors.Wheels;
