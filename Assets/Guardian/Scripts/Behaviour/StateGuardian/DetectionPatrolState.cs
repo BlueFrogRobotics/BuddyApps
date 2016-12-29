@@ -55,7 +55,7 @@ namespace BuddyApp.Guardian
             SetParamDetection();
             //Debug.Log("peut detecter son: " + canDetectSound + " " + isDetectingSound);
             mDetectorManager = StateManager.DetectorManager;
-
+            animator.SetBool("IsDetecting", true);
             animator.SetBool("ChangeState", false);
             mAnimator = animator;
 

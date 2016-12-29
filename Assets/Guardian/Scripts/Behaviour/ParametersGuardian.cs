@@ -8,6 +8,8 @@ namespace BuddyApp.Guardian
 {
     public class ParametersGuardian : MonoBehaviour
     {
+        [SerializeField]
+        private Text titleText;
 
         [SerializeField]
         private InputField password;
@@ -91,12 +93,14 @@ namespace BuddyApp.Guardian
             gaugeOnOffMovement.DisplayPercentage = true;
             gaugeOnOffSound.DisplayPercentage = true;
 
+            titleText.text = mDictionnary.GetString("paramTitle");
             mTextFire.text = mDictionnary.GetString("detectFire");
             mTextMouv.text = mDictionnary.GetString("detectMouv");
             mTextSound.text = mDictionnary.GetString("detectSound");
             mTextKidnap.text = mDictionnary.GetString("detectKidnap");
             mTextContact.text = mDictionnary.GetString("contact");
             mTextPassword.text = mDictionnary.GetString("password");
+            buttonHeadControl.GetComponentInChildren<Text>().text= mDictionnary.GetString("headOrientation").ToUpper();
 
             //contactList.SetDefault("PERSONNE");
             contactList.AddOption(mDictionnary.GetString("nobody"), GuardianData.Contact.NOBODY);
@@ -106,6 +110,7 @@ namespace BuddyApp.Guardian
             contactList.AddOption("WALID ABDERRAHMANI", GuardianData.Contact.WALID);
             contactList.SetDefault(1);
             contactList.SetDefault(0);
+            GuardianData.Instance.Recever = GuardianData.Contact.NOBODY;
 
         }
 

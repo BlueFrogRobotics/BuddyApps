@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
+using System.Linq;
 
 namespace BuddyApp.IOT
 {
@@ -31,6 +32,9 @@ namespace BuddyApp.IOT
                             string[] lValues = lReader.Value.Split('/');
                             for (int i = 0; i < lValues.Length; ++i)
                             {
+                                lValues[i] = lValues[i].Replace(" ", "").Replace("\n", "").Replace("\t", "");
+                                Debug.Log(lValues[i] + " " + lValues[i].Length + " " + lMsg + " " + lMsg.Length);
+
                                 if (lMsg.Contains(lValues[i]))
                                 {
                                     if (lAction != null)
