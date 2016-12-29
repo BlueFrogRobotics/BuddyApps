@@ -104,7 +104,7 @@ namespace BuddyApp.RLGL
             yield return new WaitForSeconds(2.0F);
             if(!mIsSentenceDone)
             {
-                mTTS.Say("Okay, I will explain the game for you my friend. Decreases by about fifteen feets and" +
+                mTTS.Say("Okay, I will explain the game for you my friend. Step back by around sixteen feet and" +
                     " sometimes I will say green light and your goal is to touch my face " +
                         " before I say red light.");
                 mIsSentenceDone = true;
