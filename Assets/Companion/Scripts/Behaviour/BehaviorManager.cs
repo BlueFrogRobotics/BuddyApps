@@ -79,7 +79,7 @@ namespace BuddyApp.Companion
             //mReaction.ActionFinished = PopHead;
             mReaction.ActionFinished = OnActionFinished;
             mAccelerometerDetector.OnDetection += mReaction.IsBeingLifted;
-			mIsRobotIsTrackingSomeone = true;
+			mIsRobotIsTrackingSomeone = false;
 			// by default the robot is following the poeple with his eyes
 			mAreEyesTrackingThermal = true;
         }
