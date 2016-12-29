@@ -41,7 +41,6 @@ namespace BuddyApp.IOT
             //TextField lNameComponent = lName.GetComponent<TextField>();
 
             lOnOffComponent.Label.text = "ON/OFF";
-            lOnOffComponent.Label.resizeTextForBestFit = true;
             IOTOnOffCmd lCmdOnOff = new IOTOnOffCmd(this);
             lOnOffComponent.SwitchCommands.Add(lCmdOnOff);
 

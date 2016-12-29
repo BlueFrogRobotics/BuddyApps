@@ -43,12 +43,10 @@ namespace BuddyApp.IOT
             //TextField lNameComponent = lName.GetComponent<TextField>();
 
             lButtonCloseComponent.Label.text = "CLOSE";
-            lButtonCloseComponent.Label.resizeTextForBestFit = true;
             IOTStoreCmd lClose = new IOTStoreCmd(this, 2);
             lButtonCloseComponent.ClickCommands.Add(lClose);
 
             lButtonOpenComponent.Label.text = "OPEN";
-            lButtonOpenComponent.Label.resizeTextForBestFit = true;
             IOTStoreCmd lOpen = new IOTStoreCmd(this, 3);
             lButtonOpenComponent.ClickCommands.Add(lOpen);
 
