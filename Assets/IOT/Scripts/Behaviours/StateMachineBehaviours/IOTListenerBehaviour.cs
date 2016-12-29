@@ -33,15 +33,18 @@ namespace BuddyApp.IOT
                             for (int i = 0; i < lValues.Length; ++i)
                             {
                                 lValues[i] = lValues[i].Replace(" ", "").Replace("\n", "").Replace("\t", "");
-                                Debug.Log(lValues[i] + " " + lValues[i].Length + " " + lMsg + " " + lMsg.Length);
-
-                                if (lMsg.Contains(lValues[i]))
+                                if (lValues[i].Length > 1)
                                 {
-                                    if (lAction != null)
-                                        iAnimator.SetInteger(HashList[(int)HashTrigger.ACTION], System.Convert.ToInt32(lAction));
-                                    iAnimator.SetTrigger(lName);
-                                    mFound = true;
-                                    break;
+                                    if (i == 0)
+                                        lValues[i] = lValues[i].Substring(1);
+                                    if (lMsg.Contains(lValues[i]))
+                                    {
+                                        if (lAction != null)
+                                            iAnimator.SetInteger(HashList[(int)HashTrigger.ACTION], System.Convert.ToInt32(lAction));
+                                        iAnimator.SetTrigger(lName);
+                                        mFound = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
