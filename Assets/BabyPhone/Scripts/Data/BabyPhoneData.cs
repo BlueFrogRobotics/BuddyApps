@@ -16,7 +16,7 @@ namespace BuddyApp.BabyPhone
 
         public enum Lullaby : int
         {
-            DEFAULT_LULL = 0,
+            LULL_0 = 0,
             LULL_1 = 1,
             LULL_2 = 2,
             LULL_3 = 3,

@@ -1058,6 +1058,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:BuddyOS.SphinxTrigger.FinishedSetup">
+            <summary>
+            Update all new setup.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:BuddyOS.SphinxTrigger.LaunchRecognition">
             <summary>
             Launches the voice recognition.
@@ -1074,18 +1080,12 @@
             </summary>
             <param name="iKeyphrase">The key phrase</param>
         </member>
-        <member name="M:BuddyOS.SphinxTrigger.ChangeThreshold(System.Single)">
+        <member name="M:BuddyOS.SphinxTrigger.SetThreshold(System.Single)">
             <summary>
             Set the threshold of the sphinx trigger
             Shouldn't be called continously
             </summary>
             <param name="iThreshold">Threshold of the trigger, default is 1e-30f</param>
-        </member>
-        <member name="M:BuddyOS.SphinxTrigger.FinishedSetup">
-            <summary>
-            Update all new setup.
-            </summary>
-            <returns></returns>
         </member>
         <member name="M:BuddyOS.SphinxTrigger.SetLanguage(Language)">
             <summary>
@@ -1837,6 +1837,11 @@
         <member name="P:BuddyOS.BYOS.DefaultApp">
             <summary>
             Name of the default app, will be considered only if EnableLoadDefaultApp is true
+            </summary>
+        </member>
+        <member name="P:BuddyOS.BYOS.MenuPanel">
+            <summary>
+            Buddy menu panel
             </summary>
         </member>
         <member name="P:BuddyOS.BYOS.DataBase">
@@ -4890,7 +4895,7 @@
             Stop Trigger Mode and immediately starts STT request for instant listening
             </summary>
         </member>
-        <member name="M:BuddyOS.VocalActivation.SetText(System.String)">
+        <member name="M:BuddyOS.VocalActivation.AsVocalInput(System.String)">
             <summary>
             Fake the input vocal signal with input text
             </summary>

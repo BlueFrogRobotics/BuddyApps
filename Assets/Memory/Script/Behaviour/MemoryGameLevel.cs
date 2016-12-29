@@ -7,7 +7,7 @@ public class MemoryGameLevel
 {
 	public float speed;
 	public string introSentence;
-	public List<FaceEvent> faces;
+	public List<int> events;
 	public string successSentence;
 	public string failureSentence;
 }

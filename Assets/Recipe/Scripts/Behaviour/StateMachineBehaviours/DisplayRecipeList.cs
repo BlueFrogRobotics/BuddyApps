@@ -7,6 +7,7 @@ namespace BuddyApp.Recipe
     public class DisplayRecipeList : AStateMachineBehaviour
     {
         private List<Recipe> mRecipeList;
+        private bool mDone;
 
         public override void Init()
         {
@@ -20,16 +21,22 @@ namespace BuddyApp.Recipe
                 GetGameObject(1).SetActive(true);
                 GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
             }
-            GetComponent<RecipeBehaviour>().DisplayRecipe();
             GetGameObject(5).GetComponent<Animator>().SetTrigger("Open_WRecipeList");
+            mDone = false;
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if (!mDone && GetGameObject(5).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Window_RecipeList_Idle"))
+            {
+                mDone = true;
+                GetComponent<RecipeBehaviour>().DisplayRecipe();
+            }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            GetComponent<RecipeBehaviour>().DestroyRecipePrefab();
             GetGameObject(5).GetComponent<Animator>().SetTrigger("Close_WRecipeList");
         }
     }
