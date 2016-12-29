@@ -79,7 +79,7 @@ namespace BuddyApp.Companion
             //mReaction.ActionFinished = PopHead;
             mReaction.ActionFinished = OnActionFinished;
             mAccelerometerDetector.OnDetection += mReaction.IsBeingLifted;
-			mIsRobotIsTrackingSomeone = false;
+			mIsRobotIsTrackingSomeone = true;
 			// by default the robot is following the poeple with his eyes
 			mAreEyesTrackingThermal = true;
         }
@@ -124,23 +124,12 @@ namespace BuddyApp.Companion
                 else if (mCompanionData.CanMoveHead)
                     mReaction.StartIdle();
             }
-            //else if(!mAskedSomething) {
-            //    mReaction.AskSomething();
-            //    mInactiveTime = Time.time;
-            //    mAskedSomething = true;
-            //}
-            //else if (Time.time - mInactiveTime > 30F && mCompanionData.CanMoveBody) {
-            //    //mReaction.AskSomething();
-            //    //mInactiveTime = Time.time;
-            //    mReaction.StopIdle();
-            //    mReaction.StartWandering();
-            //}
 
-			if (mIsRobotIsTrackingSomeone){
-				mReaction.StartFollowing ();
-			}else{
-				mReaction.StopFollowing ();
-			}
+			//if (mIsRobotIsTrackingSomeone){
+			//	mReaction.StartFollowing ();
+			//}else{
+			//	mReaction.StopFollowing ();
+			//}
 
 			if (mAreEyesTrackingThermal) {
 				mReaction.StartEyesFollow ();

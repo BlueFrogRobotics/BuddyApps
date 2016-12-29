@@ -22,6 +22,8 @@ namespace BuddyApp.Companion
 
 		int[] lMatrix;
 
+        //TODO : calibrate thermal detection
+
         void Start()
         {
             mSensor = BYOS.Instance.ThermalSensor;
@@ -54,7 +56,7 @@ namespace BuddyApp.Companion
 			// if problem with the matrix
 			byte errorFromMatrix = mSensor.Error;
 			if (errorFromMatrix != 0) {
-				Debug.Log ("Error Matrix : " + errorFromMatrix);
+				//Debug.Log ("Error Matrix : " + errorFromMatrix);
 				return new int[]{ -1, -1 };
 			}
 			
@@ -87,7 +89,7 @@ namespace BuddyApp.Companion
 			// check for problems
 			if ((maxHorizontal == -1 || maxVertical == -1) 
 				||(valueVerticalMax == 0 || valueHorizontalMax == 0)) {
-				Debug.Log ("Can't find any hot spot, pb Matrix of temperature too low");
+				//Debug.Log ("Can't find any hot spot, pb Matrix of temperature too low");
 				return new int[]{ -1, -1 };
 			}
 
