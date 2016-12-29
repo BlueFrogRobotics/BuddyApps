@@ -19,6 +19,7 @@ namespace BuddyApp.Guardian
         private RGBCam mWebcam;
         private int mCountPhoto = 0;
         private Face mFaceManager;
+        private Mood mMood;
         private DetectionManager mDetectorManager;
 
         private GameObject mHaloPrefab;
@@ -36,6 +37,7 @@ namespace BuddyApp.Guardian
         private Animator mAnimator;
         private Button mButtonPassword;
         private string mMailAdress = "";
+        private Dictionary mDictionary;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -47,7 +49,9 @@ namespace BuddyApp.Guardian
             //animator.SetBool("HasAlerted", false);
             mTTS = BYOS.Instance.TextToSpeech;
             mFaceManager = BYOS.Instance.Face;
+            mMood = BYOS.Instance.Mood;
             mWebcam = BYOS.Instance.RGBCam;
+            mDictionary = BYOS.Instance.Dictionary;
             mTimer = 3.0f;
             //mTTS = new BuddyFeature.Vocal.TextToSpeech();
             mHasAlerted = false;
@@ -111,7 +115,8 @@ namespace BuddyApp.Guardian
             animator.SetBool("ChangeState", false);
             animator.SetBool("HasAlerted", false);
             animator.SetInteger("Alerte", 0);
-            mFaceManager.SetExpression(MoodType.NEUTRAL);
+            //mFaceManager.SetExpression(MoodType.NEUTRAL);
+            mMood.Set(MoodType.NEUTRAL);
             mButtonPassword.onClick.RemoveAllListeners();
         }
 
@@ -167,7 +172,7 @@ namespace BuddyApp.Guardian
                     break;
                 case (int)DetectionManager.Alert.FIRE:
                     //mDetectedIssues
-                    mMessage.text = "ATTENTION DEPART DE FEU POTENTIEL!";
+                    //mMessage.text = "ATTENTION DEPART DE FEU POTENTIEL!";
                     mAnimator.SetBool("ChangeState", false);
                     Debug.Log(localDate.ToString(cultureFR));
                     if (mMailSender.CanSend && mMailAdress != "")
@@ -188,7 +193,7 @@ namespace BuddyApp.Guardian
                     }
                     break;
                 case (int)DetectionManager.Alert.MOVEMENT:
-                    mMessage.text = "ATTENTION INTRUSION POTENTIELLE!";
+                    //mMessage.text = "ATTENTION INTRUSION POTENTIELLE!";
                     mAnimator.SetBool("ChangeState", false);
 
                     Debug.Log(localDate.ToString(cultureFR));
@@ -212,7 +217,7 @@ namespace BuddyApp.Guardian
                         Debug.Log("peut pas send");
                     break;
                 case (int)DetectionManager.Alert.KIDNAPPING:
-                    mMessage.text = "ATTENTION VOL POTENTIEL!";
+                    //mMessage.text = "ATTENTION VOL POTENTIEL!";
                     break;
                 default:
                     break;
@@ -231,28 +236,30 @@ namespace BuddyApp.Guardian
 
         private void SayAlertType(Animator animator)
         {
-            mFaceManager.SetExpression(MoodType.SCARED);
+            //mFaceManager.SetExpression(MoodType.SCARED);
+            mMood.Set(MoodType.SCARED);
             int lAlerte = animator.GetInteger("Alerte");
 
             switch (lAlerte)
             {
                 case (int)DetectionManager.Alert.SOUND:
-                    mTTS.Say("Bruit détecté");
-                    mMessage.text = "ATTENTION SON DETECTE!";
+                    mTTS.Say(mDictionary.GetString("alertSoundOral"));//("Bruit détecté");
+                    mMessage.text = mDictionary.GetString("alertSoundText");//"ATTENTION SON DETECTE!";
 
                     break;
                 case (int)DetectionManager.Alert.FIRE:
-                    mTTS.Say("Feu détecté");
-  
+                    mMessage.text = mDictionary.GetString("alertFireText");//"ATTENTION DEPART DE FEU POTENTIEL!";
+                    mTTS.Say(mDictionary.GetString("alertFireOral"));//("Feu détecté");
+
                     break;
                 case (int)DetectionManager.Alert.MOVEMENT:
-                    mMessage.text = "ATTENTION INTRUSION POTENTIELLE!";
-                    mTTS.Say("Mouvement détecté");
-  
+                    mMessage.text = mDictionary.GetString("alertMovementText");// "ATTENTION INTRUSION POTENTIELLE!";
+                    mTTS.Say(mDictionary.GetString("alertMovementOral"));//("Mouvement détecté");
+
                     break;
                 case (int)DetectionManager.Alert.KIDNAPPING:
-                    mMessage.text = "ATTENTION VOL POTENTIEL!";
-                    mTTS.Say("On me kidnappe");
+                    mMessage.text = mDictionary.GetString("alertKidnapText");// "ATTENTION VOL POTENTIEL!";
+                    mTTS.Say(mDictionary.GetString("alertKidnapOral"));//("On me kidnappe");
                     break;
                 default:
                     break;
