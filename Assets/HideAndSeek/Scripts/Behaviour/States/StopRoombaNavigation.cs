@@ -19,7 +19,8 @@ namespace BuddyApp.HideAndSeek
             GetComponent<RoombaNavigation>().enabled = false;
             //GetGameObject(0).SetActive(false);
             mWheels.StopWheels();
-            mFace.SetExpression(MoodType.NEUTRAL);
+            //mFace.SetExpression(MoodType.NEUTRAL);
+            mMood.Set(MoodType.NEUTRAL);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

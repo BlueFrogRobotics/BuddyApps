@@ -51,11 +51,16 @@ namespace BuddyApp.Companion
 
 		private int[] detectThermalPosition()
 		{
+			int[] returnedValue = new int[]{-1,-1};
 			// if problem with the matrix
 			byte errorFromMatrix = mSensor.Error;
 			if (errorFromMatrix != 0) {
 				Debug.Log ("Error Matrix : " + errorFromMatrix);
-				return new int[]{ -1, -1 };
+				return returnedValue;
+			}
+			if(!mThermalDetected){
+				//Debug.Log ("no human detected so no hot spot" );
+				return returnedValue;
 			}
 			
 			int[] sumVert = new int[4];
@@ -83,15 +88,18 @@ namespace BuddyApp.Companion
 					maxVertical = i;
 				}
 			}
+			Debug.Log ("MaxValue saw : " + valueVerticalMax + " " + valueHorizontalMax);
 
 			// check for problems
 			if ((maxHorizontal == -1 || maxVertical == -1) 
 				||(valueVerticalMax <= 0 || valueHorizontalMax <= 0)) {
 				Debug.Log ("Can't find any hot spot, pb Matrix of temperature too low");
-				return new int[]{ -1, -1 };
+				return returnedValue;
 			}
 
-			int[] returnedValue = new int[]{maxHorizontal,maxVertical };
+			//TODO : delete this comm if the old stuff int[] returnedValue = new int[]{maxHorizontal,maxVertical };
+			returnedValue[0] = maxHorizontal;
+			returnedValue[1] = maxVertical;
 			return returnedValue;
 		}
     }
