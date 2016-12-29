@@ -24,8 +24,7 @@ namespace BuddyApp.TakePose
 
 		private Canvas mCanvasTimer;
 		private AnimManager mAnimationManager;
-
-		private List<string> mTakePoseSpeech;
+		
 
 		public override void Init()
 		{
@@ -38,6 +37,7 @@ namespace BuddyApp.TakePose
 		{
 
 			// init
+			BYOS.Instance.VocalActivation.enabled = false;
 			animator.ResetTrigger("AskPoseAgain");
 			SayInLang(mSpeech1);
 			mSpeechDone = false;

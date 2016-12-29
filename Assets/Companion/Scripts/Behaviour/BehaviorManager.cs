@@ -23,15 +23,18 @@ namespace BuddyApp.Companion
         private bool mAskedSomething;
         private bool mVocalWanderOrder;
         private bool mActionInProgress;
+		private bool mIsRobotIsTrackingSomeone;
+		private bool mAreEyesTrackingThermal;
         private float mInactiveTime;
         private Stack<Action> mActionStack;
-        private Action mCurrentAction;
+        private Action mCurrentAction; 
 
         private CompanionData mCompanionData;
         private Dictionary mDictionary;
         private VocalActivation mVocalActivation;
         private VocalChat mVocalChat;
         private YesHinge mYesHinge;
+        private TextToSpeech mTTS;
 
         private AccelerometerDetector mAccelerometerDetector;
         private BuddyFaceDetector mBuddyFaceDetector;
@@ -64,10 +67,11 @@ namespace BuddyApp.Companion
             mCompanionData = CompanionData.Instance;
             mDictionary = BYOS.Instance.Dictionary;
             mVocalActivation = BYOS.Instance.VocalActivation;
-            mVocalActivation.enabled = true;
             mYesHinge = BYOS.Instance.Motors.YesHinge;
-            //mVocalActivation.StartRecoWithTrigger();
+            mTTS = BYOS.Instance.TextToSpeech;
 
+            mVocalActivation.enabled = true;
+            mVocalActivation.StartRecoWithTrigger();
             mVocalChat.WithNotification = true;
             mVocalChat.OnQuestionTypeFound = SortQuestionType;
 
@@ -77,16 +81,13 @@ namespace BuddyApp.Companion
             //mReaction.ActionFinished = PopHead;
             mReaction.ActionFinished = OnActionFinished;
             mAccelerometerDetector.OnDetection += mReaction.IsBeingLifted;
+			mIsRobotIsTrackingSomeone = false;
+			// by default the robot is following the poeple with his eyes
+			mAreEyesTrackingThermal = true;
         }
 
         void Update()
         {
-            //if (mThermalDetector.ThermalDetected && mFaceDetector.FaceDetected)
-            //    PushInStack(mReaction.FollowFace);
-
-            //if (mIRDetector.IRDetected || mUSDetector.USFrontDetected)
-            //    mReaction.StopWheels();
-
             //if (mSpeechDetector.SomeoneTalkingDetected)
             //    Debug.Log("Someone started to talk !");
 
@@ -109,27 +110,46 @@ namespace BuddyApp.Companion
             //else if (!mThermalDetector.ThermalDetected)
             //    mReaction.DisableSayHelloReaction();
 
-            if (!mVocalWanderOrder || mBuddyFaceDetector.EyeTouched ||
-                mFaceDetector.FaceDetected || mCurrentAction != null ) {
+            if (mBuddyFaceDetector.EyeTouched || mFaceDetector.FaceDetected ||
+                (mCurrentAction != null && !mVocalWanderOrder) || !mIsRobotIsTrackingSomeone) {
                 //Debug.Log("Interaction with Buddy");
+                mVocalWanderOrder = false;
                 mInactiveTime = Time.time;
                 mReaction.StopMoving();
             }
 
-            if(Time.time - mInactiveTime > 3F && Time.time - mInactiveTime < 30F) {
-                mReaction.StartIdle();
+            if(Time.time - mInactiveTime > 10F) {// && Time.time - mInactiveTime < 30F) {
+                if(mCompanionData.CanMoveBody) {
+                    mReaction.StopIdle();
+                    mReaction.StartWandering();
+                }
+                else if (mCompanionData.CanMoveHead)
+                    mReaction.StartIdle();
             }
             //else if(!mAskedSomething) {
             //    mReaction.AskSomething();
             //    mInactiveTime = Time.time;
             //    mAskedSomething = true;
             //}
-            else if (Time.time - mInactiveTime > 30F && mCompanionData.CanMoveBody) {
-                //mReaction.AskSomething();
-                //mInactiveTime = Time.time;
-                mReaction.StopIdle();
-                mReaction.StartWandering();
-            }
+            //else if (Time.time - mInactiveTime > 30F && mCompanionData.CanMoveBody) {
+            //    //mReaction.AskSomething();
+            //    //mInactiveTime = Time.time;
+            //    mReaction.StopIdle();
+            //    mReaction.StartWandering();
+            //}
+
+			if (mIsRobotIsTrackingSomeone){
+				mReaction.StartFollowing ();
+			}else{
+				mReaction.StopFollowing ();
+			}
+
+			if (mAreEyesTrackingThermal) {
+				mReaction.StartEyesFollow ();
+			} else {
+				mReaction.StopEyesFollow ();
+			}
+				
 
             Behave();
         }
@@ -176,7 +196,7 @@ namespace BuddyApp.Companion
             switch(iType)
             {
                 case "Wander":
-                    BYOS.Instance.TextToSpeech.Say(mDictionary.GetString("wander"));
+                    mTTS.Say(mDictionary.GetString("wander"));
                     mVocalWanderOrder = true;
                     mReaction.StartWandering();
                     break;
@@ -185,18 +205,32 @@ namespace BuddyApp.Companion
                     mCompanionData.CanMoveBody = true;
                     break;
 
-                case "DontMove":
-                    mVocalWanderOrder = false;
-                    //mCompanionData.CanMoveBody = false;
-                    mReaction.StopMoving();
-                    break;
+				case "DontMove":
+					mVocalWanderOrder = false;
+	                    //mCompanionData.CanMoveBody = false;
+					mReaction.StopMoving ();
+
+					if (mIsRobotIsTrackingSomeone)
+						mIsRobotIsTrackingSomeone = false;
+	                break;
+
+				case "FollowMe":
+					if (!mIsRobotIsTrackingSomeone)
+                    {
+                        mTTS.Say(mDictionary.GetString("wander"));
+                        mIsRobotIsTrackingSomeone = true;
+                    }
+                        
+					break;
 
                 case "HeadUp":
-                    mYesHinge.SetPosition(-15F);
+                    GetComponent<IdleReaction>().HeadPosition = -10F;
+                    GetComponent<WanderReaction>().HeadPosition = -10F;
                     break;
 
                 case "HeadDown":
-                    mYesHinge.SetPosition(10F);
+                    GetComponent<IdleReaction>().HeadPosition = 15F;
+                    GetComponent<WanderReaction>().HeadPosition = 15F;
                     break;
 
                 case "VolumeUp":
@@ -247,13 +281,14 @@ namespace BuddyApp.Companion
                     new LoadAppBySceneCmd("RLGLApp").Execute();
                     break;
 
+                case "Memory":
+                    new LoadAppBySceneCmd("MemoryGameApp").Execute();
+                    break;
+
 				case "Quizz":
                     break;
 
                 case "Colors":
-                    break;
-
-                case "Memory":
                     break;
 
                 default:

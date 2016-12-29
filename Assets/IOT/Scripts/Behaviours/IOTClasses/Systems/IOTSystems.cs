@@ -15,6 +15,12 @@ namespace BuddyApp.IOT
             GetDevices();
         }
 
+        public override void OnOff(bool iOnOff)
+        {
+            foreach (IOTDevices lDevices in mDevices)
+                lDevices.OnOff(iOnOff);
+        }
+
         public virtual void Login()
         {
 

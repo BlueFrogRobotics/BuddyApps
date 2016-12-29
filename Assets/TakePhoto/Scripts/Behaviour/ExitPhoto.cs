@@ -30,6 +30,7 @@ namespace BuddyApp.TakePhoto
 
 		protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mAnimationManager.enabled = false;
 		}
 
 		protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

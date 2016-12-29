@@ -58,7 +58,6 @@ namespace BuddyApp.TakePhoto
 			buttons[1].onClick.AddListener(PressedYes);
 
 			mAcceptSpeech = new List<string>();
-			mAnOtherSpeech = new List<string>();
 			mQuitSpeech = new List<string>();
 			mRefuseSpeech = new List<string>();
 			mDidntUnderstandSpeech = new List<string>();
@@ -70,7 +69,6 @@ namespace BuddyApp.TakePhoto
 
 
 			FillListSyn("Accept", mAcceptSpeech);
-			FillListSyn("AnOther", mAnOtherSpeech);
 			FillListSyn("Refuse", mRefuseSpeech);
 			FillListSyn("Quit", mQuitSpeech);
 			FillListSyn("DidntUnderstand", mDidntUnderstandSpeech);
@@ -111,7 +109,7 @@ namespace BuddyApp.TakePhoto
 
 						} else {
 							Debug.Log("LastAns != previous");
-							if (ContainsOneOf(mLastSpeech, mAcceptSpeech) || ContainsOneOf(mLastSpeech, mAnOtherSpeech)) {
+							if (ContainsOneOf(mLastSpeech, mAcceptSpeech)) {
 								animator.SetTrigger("SendMailAccepted");
 							} else if (ContainsOneOf(mLastSpeech, mRefuseSpeech) || ContainsOneOf(mLastSpeech, mQuitSpeech)) {
 								SayInLang("okNP", true);

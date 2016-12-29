@@ -1420,9 +1420,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handleOutputTexture: 1
-  sobelKernelSize: 5
-  threshBar: {fileID: 447113396}
   isMoving: 0
+  mDebugRawImg: {fileID: 0}
 --- !u!114 &576461978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3874,7 +3873,7 @@ Prefab:
     - target: {fileID: 11414244, guid: 3eee25f7289159b4daf43256f44f6c14, type: 2}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300028, guid: 8d0dcc86fddf21549946921cc21671d6,
+      objectReference: {fileID: 21300028, guid: adf455d3a470ca24dbeea0effd9aee3b,
         type: 3}
     - target: {fileID: 11454142, guid: 3eee25f7289159b4daf43256f44f6c14, type: 2}
       propertyPath: m_Text
@@ -4693,7 +4692,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22485116, guid: b8c7455ff343a56428f38e0a728c6609, type: 2}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 22485116, guid: b8c7455ff343a56428f38e0a728c6609, type: 2}
       propertyPath: m_AnchoredPosition.x
