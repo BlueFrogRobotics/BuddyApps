@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: be04090c3ca28a649911eca9b32f1316
-timeCreated: 1482513795
-licenseType: Pro
+timeCreated: 1483006996
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Menu
@@ -97,6 +97,17 @@ TextureImporter:
     21300180: Radial_Alpha
     21300182: ScrollV
     21300184: Ico_IOT
+    21300186: Ico_Recipe
+    21300188: Ico_Math
+    21300190: Ico_HideAndSeek
+    21300192: Ico_StoryTelling
+    21300194: Ico_TakePhoto
+    21300196: Ico_TakePose
+    21300198: Ico_Navigation
+    21300200: Ico_ZoomIn
+    21300202: Ico_ZoomOut
+    21300204: Ico_Memory
+    21300206: Ico_VisoCall
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -142,8 +153,10 @@ TextureImporter:
   textureType: 5
   buildTargetSettings: []
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: Menu
+    - serializedVersion: 2
+      name: Menu
       rect:
         serializedVersion: 2
         x: 0
@@ -153,12 +166,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 23}
-        - {x: -25, y: -23}
-        - {x: 25, y: -23}
-        - {x: 25, y: 23}
-    - name: Parameter
+      outline: []
+    - serializedVersion: 2
+      name: Parameter
       rect:
         serializedVersion: 2
         x: 50
@@ -168,13 +178,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 24}
-        - {x: -25, y: -18}
-        - {x: -12, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 24}
-    - name: Wifi4
+      outline: []
+    - serializedVersion: 2
+      name: Wifi4
       rect:
         serializedVersion: 2
         x: 100
@@ -184,16 +190,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -13, y: 22}
-        - {x: -25, y: 16}
-        - {x: -25, y: 2}
-        - {x: -1, y: -20}
-        - {x: 2, y: -20}
-        - {x: 25, y: 3}
-        - {x: 25, y: 15}
-        - {x: 15, y: 22}
-    - name: Wifi3
+      outline: []
+    - serializedVersion: 2
+      name: Wifi3
       rect:
         serializedVersion: 2
         x: 150
@@ -203,16 +202,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -13, y: 22}
-        - {x: -25, y: 16}
-        - {x: -25, y: 2}
-        - {x: -1, y: -20}
-        - {x: 2, y: -20}
-        - {x: 25, y: 3}
-        - {x: 25, y: 15}
-        - {x: 15, y: 22}
-    - name: Wifi2
+      outline: []
+    - serializedVersion: 2
+      name: Wifi2
       rect:
         serializedVersion: 2
         x: 200
@@ -222,16 +214,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -22, y: 22}
-        - {x: -25, y: 16}
-        - {x: -25, y: 4}
-        - {x: -1, y: -20}
-        - {x: 2, y: -20}
-        - {x: 25, y: 3}
-        - {x: 25, y: 21}
-        - {x: 20, y: 22}
-    - name: Wifi2_1
+      outline: []
+    - serializedVersion: 2
+      name: Wifi2_1
       rect:
         serializedVersion: 2
         x: 250
@@ -241,16 +226,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -13, y: 22}
-        - {x: -25, y: 16}
-        - {x: -25, y: 2}
-        - {x: -1, y: -20}
-        - {x: 2, y: -20}
-        - {x: 25, y: 3}
-        - {x: 25, y: 15}
-        - {x: 15, y: 22}
-    - name: Battery3
+      outline: []
+    - serializedVersion: 2
+      name: Battery3
       rect:
         serializedVersion: 2
         x: 200
@@ -260,13 +238,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 17}
-        - {x: -25, y: -16}
-        - {x: -23, y: -17}
-        - {x: 25, y: -17}
-        - {x: 25, y: 17}
-    - name: Photo
+      outline: []
+    - serializedVersion: 2
+      name: Photo
       rect:
         serializedVersion: 2
         x: 450
@@ -276,16 +250,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -11, y: 24}
-        - {x: -25, y: 22}
-        - {x: -25, y: -23}
-        - {x: -19, y: -24}
-        - {x: 24, y: -24}
-        - {x: 25, y: -21}
-        - {x: 25, y: 16}
-        - {x: 14, y: 24}
-    - name: Message
+      outline: []
+    - serializedVersion: 2
+      name: Message
       rect:
         serializedVersion: 2
         x: 350
@@ -295,16 +262,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -8, y: 22}
-        - {x: -15, y: 21}
-        - {x: -24, y: 12}
-        - {x: -24, y: -22}
-        - {x: 5, y: -22}
-        - {x: 25, y: -13}
-        - {x: 25, y: 14}
-        - {x: 14, y: 22}
-    - name: Camera
+      outline: []
+    - serializedVersion: 2
+      name: Camera
       rect:
         serializedVersion: 2
         x: 0
@@ -314,13 +274,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: -15}
-        - {x: -23, y: -20}
-        - {x: 25, y: -20}
-        - {x: 25, y: 19}
-        - {x: -25, y: 19}
-    - name: Battery4
+      outline: []
+    - serializedVersion: 2
+      name: Battery4
       rect:
         serializedVersion: 2
         x: 150
@@ -330,13 +286,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 17}
-        - {x: -25, y: -16}
-        - {x: -23, y: -17}
-        - {x: 25, y: -17}
-        - {x: 25, y: 17}
-    - name: Apps
+      outline: []
+    - serializedVersion: 2
+      name: Apps
       rect:
         serializedVersion: 2
         x: 50
@@ -346,16 +298,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -22, y: 21}
-        - {x: -24, y: 20}
-        - {x: -24, y: -19}
-        - {x: -22, y: -21}
-        - {x: 20, y: -21}
-        - {x: 23, y: -18}
-        - {x: 23, y: 19}
-        - {x: 21, y: 21}
-    - name: Battery5
+      outline: []
+    - serializedVersion: 2
+      name: Battery5
       rect:
         serializedVersion: 2
         x: 100
@@ -365,13 +310,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 17}
-        - {x: -25, y: -16}
-        - {x: -23, y: -17}
-        - {x: 25, y: -17}
-        - {x: 25, y: 17}
-    - name: Wifi2_2
+      outline: []
+    - serializedVersion: 2
+      name: Wifi2_2
       rect:
         serializedVersion: 2
         x: 300
@@ -381,16 +322,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -13, y: 22}
-        - {x: -25, y: 16}
-        - {x: -25, y: 2}
-        - {x: -1, y: -20}
-        - {x: 2, y: -20}
-        - {x: 25, y: 3}
-        - {x: 25, y: 15}
-        - {x: 15, y: 22}
-    - name: Lock
+      outline: []
+    - serializedVersion: 2
+      name: Lock
       rect:
         serializedVersion: 2
         x: 400
@@ -400,16 +334,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -9, y: 25}
-        - {x: -20, y: 20}
-        - {x: -20, y: -19}
-        - {x: -15, y: -24}
-        - {x: 21, y: -24}
-        - {x: 22, y: -19}
-        - {x: 22, y: 12}
-        - {x: 13, y: 25}
-    - name: SquareEmpty
+      outline: []
+    - serializedVersion: 2
+      name: SquareEmpty
       rect:
         serializedVersion: 2
         x: 0
@@ -419,20 +346,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 5, y: 5, z: 5, w: 5}
-      outline:
-      - - {x: -24, y: 25}
-        - {x: -25, y: 24}
-        - {x: -25, y: -24}
-        - {x: -24, y: -25}
-        - {x: 24, y: -25}
-        - {x: 25, y: -24}
-        - {x: 25, y: 24}
-        - {x: 24, y: 25}
-      - - {x: -17, y: 17}
-        - {x: 17, y: 17}
-        - {x: 17, y: -17}
-        - {x: -17, y: -17}
-    - name: Battery0
+      outline: []
+    - serializedVersion: 2
+      name: Battery0
       rect:
         serializedVersion: 2
         x: 350
@@ -442,13 +358,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 17}
-        - {x: -25, y: -16}
-        - {x: -23, y: -17}
-        - {x: 25, y: -17}
-        - {x: 25, y: 17}
-    - name: CircleFull
+      outline: []
+    - serializedVersion: 2
+      name: CircleFull
       rect:
         serializedVersion: 2
         x: 150
@@ -458,14 +370,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 24, y: 24, z: 24, w: 24}
-      outline:
-      - - {x: -17, y: 25}
-        - {x: -25, y: 23}
-        - {x: -25, y: -20}
-        - {x: -23, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 25}
-    - name: CircleEmpty
+      outline: []
+    - serializedVersion: 2
+      name: CircleEmpty
       rect:
         serializedVersion: 2
         x: 100
@@ -475,18 +382,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 24, y: 24, z: 24, w: 24}
-      outline:
-      - - {x: -17, y: 25}
-        - {x: -25, y: 23}
-        - {x: -25, y: -20}
-        - {x: -23, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 25}
-      - - {x: -6, y: -14}
-        - {x: -14, y: 6}
-        - {x: 6, y: 14}
-        - {x: 14, y: -6}
-    - name: SquareFull
+      outline: []
+    - serializedVersion: 2
+      name: SquareFull
       rect:
         serializedVersion: 2
         x: 50
@@ -496,16 +394,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 5, y: 5, z: 5, w: 5}
-      outline:
-      - - {x: -24, y: 25}
-        - {x: -25, y: 24}
-        - {x: -25, y: -24}
-        - {x: -24, y: -25}
-        - {x: 24, y: -25}
-        - {x: 25, y: -24}
-        - {x: 25, y: 24}
-        - {x: 24, y: 25}
-    - name: Battery2
+      outline: []
+    - serializedVersion: 2
+      name: Battery2
       rect:
         serializedVersion: 2
         x: 250
@@ -515,13 +406,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 17}
-        - {x: -25, y: -16}
-        - {x: -23, y: -17}
-        - {x: 25, y: -17}
-        - {x: 25, y: 17}
-    - name: Battery1
+      outline: []
+    - serializedVersion: 2
+      name: Battery1
       rect:
         serializedVersion: 2
         x: 300
@@ -531,13 +418,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 17}
-        - {x: -25, y: -16}
-        - {x: -23, y: -17}
-        - {x: 25, y: -17}
-        - {x: 25, y: 17}
-    - name: VLeft
+      outline: []
+    - serializedVersion: 2
+      name: VLeft
       rect:
         serializedVersion: 2
         x: 250
@@ -547,15 +430,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 1, y: 25}
-        - {x: -14, y: 8}
-        - {x: -14, y: -3}
-        - {x: -3, y: -20}
-        - {x: 2, y: -25}
-        - {x: 18, y: -25}
-        - {x: 18, y: 25}
-    - name: X
+      outline: []
+    - serializedVersion: 2
+      name: X
       rect:
         serializedVersion: 2
         x: 250
@@ -565,14 +442,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -15, y: 25}
-        - {x: -25, y: 22}
-        - {x: -25, y: -15}
-        - {x: -15, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 25}
-    - name: +
+      outline: []
+    - serializedVersion: 2
+      name: +
       rect:
         serializedVersion: 2
         x: 300
@@ -582,16 +454,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 20, y: 20, z: 20, w: 20}
-      outline:
-      - - {x: -14, y: 25}
-        - {x: -25, y: 17}
-        - {x: -25, y: -19}
-        - {x: -10, y: -25}
-        - {x: 20, y: -25}
-        - {x: 25, y: -21}
-        - {x: 25, y: 17}
-        - {x: 21, y: 25}
-    - name: Trash
+      outline: []
+    - serializedVersion: 2
+      name: Trash
       rect:
         serializedVersion: 2
         x: 450
@@ -601,15 +466,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -17, y: 25}
-        - {x: -25, y: 22}
-        - {x: -25, y: -25}
-        - {x: 22, y: -25}
-        - {x: 25, y: -8}
-        - {x: 25, y: 22}
-        - {x: 22, y: 25}
-    - name: ArrowUp
+      outline: []
+    - serializedVersion: 2
+      name: ArrowUp
       rect:
         serializedVersion: 2
         x: 200
@@ -619,16 +478,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -1, y: 14}
-        - {x: -23, y: -4}
-        - {x: -23, y: -10}
-        - {x: -19, y: -14}
-        - {x: 19, y: -14}
-        - {x: 23, y: -10}
-        - {x: 23, y: -8}
-        - {x: 5, y: 14}
-    - name: Eye
+      outline: []
+    - serializedVersion: 2
+      name: Eye
       rect:
         serializedVersion: 2
         x: 400
@@ -638,16 +490,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -19, y: 21}
-        - {x: -25, y: 11}
-        - {x: -25, y: -12}
-        - {x: -21, y: -19}
-        - {x: 19, y: -19}
-        - {x: 25, y: -17}
-        - {x: 25, y: 16}
-        - {x: 13, y: 21}
-    - name: EyeNo
+      outline: []
+    - serializedVersion: 2
+      name: EyeNo
       rect:
         serializedVersion: 2
         x: 450
@@ -657,16 +502,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -19, y: 22}
-        - {x: -25, y: 11}
-        - {x: -25, y: -17}
-        - {x: -16, y: -22}
-        - {x: 10, y: -22}
-        - {x: 25, y: -12}
-        - {x: 25, y: 9}
-        - {x: 12, y: 22}
-    - name: Edit
+      outline: []
+    - serializedVersion: 2
+      name: Edit
       rect:
         serializedVersion: 2
         x: 50
@@ -676,15 +514,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 7, y: 25}
-        - {x: -25, y: -3}
-        - {x: -25, y: -25}
-        - {x: -6, y: -25}
-        - {x: 25, y: 0}
-        - {x: 25, y: 16}
-        - {x: 20, y: 25}
-    - name: Save
+      outline: []
+    - serializedVersion: 2
+      name: Save
       rect:
         serializedVersion: 2
         x: 350
@@ -694,14 +526,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -13, y: 25}
-        - {x: -25, y: 6}
-        - {x: -25, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 19}
-        - {x: 16, y: 25}
-    - name: Spy
+      outline: []
+    - serializedVersion: 2
+      name: Spy
       rect:
         serializedVersion: 2
         x: 200
@@ -711,14 +538,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -19, y: 25}
-        - {x: -24, y: 22}
-        - {x: -24, y: -25}
-        - {x: 24, y: -25}
-        - {x: 24, y: 18}
-        - {x: 21, y: 25}
-    - name: Info
+      outline: []
+    - serializedVersion: 2
+      name: Info
       rect:
         serializedVersion: 2
         x: 450
@@ -728,16 +550,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -9, y: 25}
-        - {x: -12, y: 18}
-        - {x: -12, y: -21}
-        - {x: -8, y: -25}
-        - {x: 14, y: -25}
-        - {x: 15, y: -21}
-        - {x: 15, y: 24}
-        - {x: 12, y: 25}
-    - name: Undo
+      outline: []
+    - serializedVersion: 2
+      name: Undo
       rect:
         serializedVersion: 2
         x: 100
@@ -747,19 +562,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -3, y: -8}
-        - {x: 23, y: -2}
-        - {x: 25, y: 0}
-        - {x: 25, y: 25}
-        - {x: -25, y: 25}
-        - {x: -25, y: -24}
-        - {x: -21, y: -25}
-        - {x: 18, y: -25}
-        - {x: 24, y: -17}
-        - {x: 23, y: -13}
-        - {x: 16, y: -4}
-    - name: ArrowDown
+      outline: []
+    - serializedVersion: 2
+      name: ArrowDown
       rect:
         serializedVersion: 2
         x: 150
@@ -769,16 +574,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -19, y: 14}
-        - {x: -23, y: 10}
-        - {x: -23, y: 8}
-        - {x: -1, y: -14}
-        - {x: 1, y: -14}
-        - {x: 23, y: 8}
-        - {x: 23, y: 10}
-        - {x: 19, y: 14}
-    - name: Mute
+      outline: []
+    - serializedVersion: 2
+      name: Mute
       rect:
         serializedVersion: 2
         x: 50
@@ -788,16 +586,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -13, y: 21}
-        - {x: -25, y: 16}
-        - {x: -25, y: -10}
-        - {x: -21, y: -12}
-        - {x: -5, y: -21}
-        - {x: -1, y: -21}
-        - {x: 3, y: -20}
-        - {x: 3, y: 21}
-    - name: SoundMax
+      outline: []
+    - serializedVersion: 2
+      name: SoundMax
       rect:
         serializedVersion: 2
         x: 0
@@ -807,18 +598,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -10, y: 24}
-        - {x: -25, y: 19}
-        - {x: -25, y: -9}
-        - {x: -22, y: -12}
-        - {x: -6, y: -22}
-        - {x: 1, y: -24}
-        - {x: 13, y: -24}
-        - {x: 25, y: -13}
-        - {x: 25, y: 16}
-        - {x: 21, y: 24}
-    - name: PC
+      outline: []
+    - serializedVersion: 2
+      name: PC
       rect:
         serializedVersion: 2
         x: 100
@@ -828,14 +610,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 23}
-        - {x: -25, y: -20}
-        - {x: -21, y: -23}
-        - {x: 20, y: -23}
-        - {x: 25, y: -22}
-        - {x: 25, y: 23}
-    - name: Forward
+      outline: []
+    - serializedVersion: 2
+      name: Forward
       rect:
         serializedVersion: 2
         x: 400
@@ -845,15 +622,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -2, y: 24}
-        - {x: -25, y: 11}
-        - {x: -25, y: -24}
-        - {x: 23, y: -24}
-        - {x: 25, y: -6}
-        - {x: 25, y: 10}
-        - {x: 11, y: 24}
-    - name: Shop
+      outline: []
+    - serializedVersion: 2
+      name: Shop
       rect:
         serializedVersion: 2
         x: 350
@@ -863,16 +634,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 7, y: 24}
-        - {x: -25, y: 24}
-        - {x: -25, y: 4}
-        - {x: -23, y: -20}
-        - {x: -17, y: -24}
-        - {x: 19, y: -24}
-        - {x: 25, y: -22}
-        - {x: 25, y: 22}
-    - name: V
+      outline: []
+    - serializedVersion: 2
+      name: V
       rect:
         serializedVersion: 2
         x: 300
@@ -882,16 +646,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 3, y: 24}
-        - {x: -25, y: 10}
-        - {x: -25, y: -11}
-        - {x: -10, y: -21}
-        - {x: 6, y: -21}
-        - {x: 25, y: 4}
-        - {x: 25, y: 22}
-        - {x: 21, y: 24}
-    - name: PC2
+      outline: []
+    - serializedVersion: 2
+      name: PC2
       rect:
         serializedVersion: 2
         x: 150
@@ -901,14 +658,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 24}
-        - {x: -25, y: -23}
-        - {x: -21, y: -24}
-        - {x: 21, y: -24}
-        - {x: 25, y: -19}
-        - {x: 25, y: 24}
-    - name: Phone
+      outline: []
+    - serializedVersion: 2
+      name: Phone
       rect:
         serializedVersion: 2
         x: 200
@@ -918,14 +670,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -23, y: 25}
-        - {x: -23, y: -23}
-        - {x: -20, y: -25}
-        - {x: 20, y: -25}
-        - {x: 23, y: -22}
-        - {x: 23, y: 25}
-    - name: Phone2
+      outline: []
+    - serializedVersion: 2
+      name: Phone2
       rect:
         serializedVersion: 2
         x: 250
@@ -935,13 +682,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -18, y: 25}
-        - {x: -18, y: -22}
-        - {x: -15, y: -25}
-        - {x: 18, y: -25}
-        - {x: 18, y: 25}
-    - name: Light
+      outline: []
+    - serializedVersion: 2
+      name: Light
       rect:
         serializedVersion: 2
         x: 300
@@ -951,18 +694,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 18, y: 25}
-        - {x: -16, y: 25}
-        - {x: -20, y: 23}
-        - {x: -20, y: 4}
-        - {x: -17, y: -16}
-        - {x: -9, y: -25}
-        - {x: 10, y: -25}
-        - {x: 17, y: -16}
-        - {x: 20, y: -9}
-        - {x: 20, y: 19}
-    - name: LightOff
+      outline: []
+    - serializedVersion: 2
+      name: LightOff
       rect:
         serializedVersion: 2
         x: 350
@@ -972,17 +706,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -12, y: 17}
-        - {x: -15, y: 12}
-        - {x: -15, y: -5}
-        - {x: -12, y: -20}
-        - {x: -9, y: -24}
-        - {x: 6, y: -24}
-        - {x: 15, y: -20}
-        - {x: 15, y: 11}
-        - {x: 11, y: 17}
-    - name: LightOn
+      outline: []
+    - serializedVersion: 2
+      name: LightOn
       rect:
         serializedVersion: 2
         x: 400
@@ -992,17 +718,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -17, y: 24}
-        - {x: -23, y: 13}
-        - {x: -24, y: 10}
-        - {x: -24, y: -3}
-        - {x: -7, y: -24}
-        - {x: 19, y: -24}
-        - {x: 24, y: -9}
-        - {x: 24, y: 21}
-        - {x: 17, y: 24}
-    - name: Store
+      outline: []
+    - serializedVersion: 2
+      name: Store
       rect:
         serializedVersion: 2
         x: 450
@@ -1012,12 +730,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 25}
-        - {x: -25, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 25}
-    - name: StoreUp
+      outline: []
+    - serializedVersion: 2
+      name: StoreUp
       rect:
         serializedVersion: 2
         x: 50
@@ -1027,12 +742,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 25}
-        - {x: -25, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 25}
-    - name: StoreDown
+      outline: []
+    - serializedVersion: 2
+      name: StoreDown
       rect:
         serializedVersion: 2
         x: 0
@@ -1042,12 +754,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 25}
-        - {x: -25, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 25}
-    - name: CircularHalfEmpty
+      outline: []
+    - serializedVersion: 2
+      name: CircularHalfEmpty
       rect:
         serializedVersion: 2
         x: 500
@@ -1057,27 +766,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 123, y: 124, z: 124, w: 123}
-      outline:
-      - - {x: 83, y: 121}
-        - {x: 54, y: 125}
-        - {x: -60, y: 125}
-        - {x: -81, y: 117}
-        - {x: -125, y: 54}
-        - {x: -125, y: -52}
-        - {x: -87, y: -103}
-        - {x: -38, y: -125}
-        - {x: 55, y: -125}
-        - {x: 117, y: -80}
-        - {x: 125, y: -45}
-        - {x: 125, y: 49}
-      - - {x: -50, y: -60}
-        - {x: -77, y: -12}
-        - {x: -61, y: 50}
-        - {x: 49, y: 61}
-        - {x: 76, y: 13}
-        - {x: 60, y: -49}
-        - {x: 12, y: -76}
-    - name: BgToggle
+      outline: []
+    - serializedVersion: 2
+      name: BgToggle
       rect:
         serializedVersion: 2
         x: 200
@@ -1087,17 +778,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 21, y: 4, z: 21, w: 4}
-      outline:
-      - - {x: -75, y: 25}
-        - {x: -75, y: -25}
-        - {x: 73, y: -25}
-        - {x: 75, y: -19}
-        - {x: 75, y: 25}
-      - - {x: -52, y: 14}
-        - {x: 53, y: 13}
-        - {x: 53, y: -13}
-        - {x: -51, y: -13}
-    - name: SliderToggle
+      outline: []
+    - serializedVersion: 2
+      name: SliderToggle
       rect:
         serializedVersion: 2
         x: 350
@@ -1107,16 +790,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 22, y: 1, z: 22, w: 1}
-      outline:
-      - - {x: -21, y: 25}
-        - {x: -25, y: 24}
-        - {x: -25, y: -19}
-        - {x: -21, y: -25}
-        - {x: 21, y: -25}
-        - {x: 25, y: -24}
-        - {x: 25, y: 19}
-        - {x: 21, y: 25}
-    - name: littleDegrader
+      outline: []
+    - serializedVersion: 2
+      name: littleDegrader
       rect:
         serializedVersion: 2
         x: 419
@@ -1127,7 +803,8 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 23, y: 1, z: 1, w: 1}
       outline: []
-    - name: BigDegrader
+    - serializedVersion: 2
+      name: BigDegrader
       rect:
         serializedVersion: 2
         x: 410
@@ -1138,7 +815,8 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 32, y: 1, z: 1, w: 1}
       outline: []
-    - name: Music
+    - serializedVersion: 2
+      name: Music
       rect:
         serializedVersion: 2
         x: 400
@@ -1148,17 +826,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 24, y: 25}
-        - {x: 1, y: 25}
-        - {x: -19, y: 19}
-        - {x: -24, y: -1}
-        - {x: -24, y: -25}
-        - {x: 9, y: -25}
-        - {x: 16, y: -22}
-        - {x: 25, y: -14}
-        - {x: 25, y: 21}
-    - name: Play
+      outline: []
+    - serializedVersion: 2
+      name: Play
       rect:
         serializedVersion: 2
         x: 150
@@ -1168,16 +838,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -10, y: 25}
-        - {x: -25, y: 25}
-        - {x: -25, y: -24}
-        - {x: -24, y: -25}
-        - {x: -13, y: -25}
-        - {x: 21, y: -7}
-        - {x: 23, y: -3}
-        - {x: 23, y: 4}
-    - name: Pause
+      outline: []
+    - serializedVersion: 2
+      name: Pause
       rect:
         serializedVersion: 2
         x: 200
@@ -1187,12 +850,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 25}
-        - {x: -25, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 25}
-    - name: Stop
+      outline: []
+    - serializedVersion: 2
+      name: Stop
       rect:
         serializedVersion: 2
         x: 250
@@ -1202,12 +862,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 25}
-        - {x: -25, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 25}
-    - name: Next
+      outline: []
+    - serializedVersion: 2
+      name: Next
       rect:
         serializedVersion: 2
         x: 300
@@ -1217,13 +874,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 20, y: 25}
-        - {x: -18, y: 25}
-        - {x: -18, y: -25}
-        - {x: 18, y: -25}
-        - {x: 20, y: -23}
-    - name: List
+      outline: []
+    - serializedVersion: 2
+      name: List
       rect:
         serializedVersion: 2
         x: 350
@@ -1233,12 +886,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 23}
-        - {x: -25, y: -22}
-        - {x: 25, y: -22}
-        - {x: 25, y: 23}
-    - name: Micro
+      outline: []
+    - serializedVersion: 2
+      name: Micro
       rect:
         serializedVersion: 2
         x: 400
@@ -1248,14 +898,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -14, y: 25}
-        - {x: -19, y: 13}
-        - {x: -19, y: -21}
-        - {x: -15, y: -25}
-        - {x: 20, y: -25}
-        - {x: 20, y: 25}
-    - name: MicroOff
+      outline: []
+    - serializedVersion: 2
+      name: MicroOff
       rect:
         serializedVersion: 2
         x: 450
@@ -1265,18 +910,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 23, y: 20}
-        - {x: 21, y: 25}
-        - {x: -16, y: 25}
-        - {x: -23, y: 3}
-        - {x: -23, y: -23}
-        - {x: -21, y: -25}
-        - {x: 15, y: -25}
-        - {x: 17, y: -20}
-        - {x: 22, y: -7}
-        - {x: 23, y: 0}
-    - name: Spin
+      outline: []
+    - serializedVersion: 2
+      name: Spin
       rect:
         serializedVersion: 2
         x: 200
@@ -1286,15 +922,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -16, y: 25}
-        - {x: -25, y: 14}
-        - {x: -25, y: -21}
-        - {x: -16, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 17}
-        - {x: 22, y: 25}
-    - name: Search
+      outline: []
+    - serializedVersion: 2
+      name: Search
       rect:
         serializedVersion: 2
         x: 250
@@ -1304,14 +934,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 25}
-        - {x: -25, y: -18}
-        - {x: -23, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 23}
-        - {x: 20, y: 25}
-    - name: Back
+      outline: []
+    - serializedVersion: 2
+      name: Back
       rect:
         serializedVersion: 2
         x: 300
@@ -1321,17 +946,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 17, y: 25}
-        - {x: -8, y: 25}
-        - {x: -25, y: 13}
-        - {x: -25, y: -3}
-        - {x: -3, y: -25}
-        - {x: 7, y: -25}
-        - {x: 13, y: -19}
-        - {x: 25, y: -9}
-        - {x: 25, y: 8}
-    - name: Random
+      outline: []
+    - serializedVersion: 2
+      name: Random
       rect:
         serializedVersion: 2
         x: 350
@@ -1341,16 +958,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -1, y: 25}
-        - {x: -25, y: 22}
-        - {x: -25, y: -22}
-        - {x: -3, y: -25}
-        - {x: 15, y: -25}
-        - {x: 25, y: -19}
-        - {x: 25, y: 20}
-        - {x: 19, y: 25}
-    - name: Replay
+      outline: []
+    - serializedVersion: 2
+      name: Replay
       rect:
         serializedVersion: 2
         x: 400
@@ -1360,15 +970,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -25, y: 20}
-        - {x: -25, y: -13}
-        - {x: -17, y: -18}
-        - {x: 13, y: -18}
-        - {x: 25, y: -4}
-        - {x: 25, y: 16}
-        - {x: 15, y: 20}
-    - name: ScrollUP
+      outline: []
+    - serializedVersion: 2
+      name: ScrollUP
       rect:
         serializedVersion: 2
         x: 100
@@ -1378,17 +982,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 15, y: 24, z: 15, w: 24}
-      outline:
-      - - {x: 17, y: 14}
-        - {x: -17, y: 14}
-        - {x: -25, y: 11}
-        - {x: -25, y: -9}
-        - {x: -23, y: -14}
-        - {x: 18, y: -14}
-        - {x: 25, y: -8}
-        - {x: 25, y: 7}
-        - {x: 20, y: 13}
-    - name: RedBT
+      outline: []
+    - serializedVersion: 2
+      name: RedBT
       rect:
         serializedVersion: 2
         x: 100
@@ -1398,15 +994,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -46.5, y: -8.5}
-        - {x: -48.5, y: -26.5}
-        - {x: -48.5, y: -48.5}
-        - {x: 48.5, y: -48.5}
-        - {x: 48.5, y: 48.5}
-        - {x: 7.5, y: 48.5}
-        - {x: -18.5, y: 45.5}
-    - name: GreenBT
+      outline: []
+    - serializedVersion: 2
+      name: GreenBT
       rect:
         serializedVersion: 2
         x: 0
@@ -1416,15 +1006,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -46.5, y: -8.5}
-        - {x: -48.5, y: -26.5}
-        - {x: -48.5, y: -48.5}
-        - {x: 48.5, y: -48.5}
-        - {x: 48.5, y: 48.5}
-        - {x: 7.5, y: 48.5}
-        - {x: -18.5, y: 45.5}
-    - name: Ico_Security
+      outline: []
+    - serializedVersion: 2
+      name: Ico_Security
       rect:
         serializedVersion: 2
         x: 500
@@ -1434,15 +1018,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -24, y: 25}
-        - {x: -24, y: -16}
-        - {x: -18, y: -25}
-        - {x: 9, y: -25}
-        - {x: 25, y: -13}
-        - {x: 25, y: 20}
-        - {x: 22, y: 25}
-    - name: Ico_BabyPhone
+      outline: []
+    - serializedVersion: 2
+      name: Ico_BabyPhone
       rect:
         serializedVersion: 2
         x: 550
@@ -1452,16 +1030,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -14, y: 25}
-        - {x: -25, y: 10}
-        - {x: -25, y: -15}
-        - {x: -10, y: -25}
-        - {x: 20, y: -25}
-        - {x: 25, y: -16}
-        - {x: 25, y: 22}
-        - {x: 21, y: 25}
-    - name: Ico_FreezeDance
+      outline: []
+    - serializedVersion: 2
+      name: Ico_FreezeDance
       rect:
         serializedVersion: 2
         x: 600
@@ -1471,16 +1042,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 11, y: 25}
-        - {x: -19, y: 25}
-        - {x: -23, y: 13}
-        - {x: -23, y: -25}
-        - {x: 21, y: -25}
-        - {x: 24, y: -20}
-        - {x: 24, y: -1}
-        - {x: 23, y: 5}
-    - name: Ico_123Soleil
+      outline: []
+    - serializedVersion: 2
+      name: Ico_123Soleil
       rect:
         serializedVersion: 2
         x: 650
@@ -1490,19 +1054,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -19, y: 25}
-        - {x: -24, y: 19}
-        - {x: -23, y: 7}
-        - {x: -17, y: 0}
-        - {x: -19, y: 1}
-        - {x: -24, y: -2}
-        - {x: -25, y: -9}
-        - {x: -25, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 23}
-        - {x: 23, y: 25}
-    - name: Ico_Jukebox
+      outline: []
+    - serializedVersion: 2
+      name: Ico_Jukebox
       rect:
         serializedVersion: 2
         x: 700
@@ -1512,17 +1066,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -14, y: 21}
-        - {x: -25, y: 8}
-        - {x: -25, y: -12}
-        - {x: -17, y: -21}
-        - {x: 20, y: -21}
-        - {x: 23, y: -20}
-        - {x: 25, y: -14}
-        - {x: 25, y: 15}
-        - {x: 10, y: 21}
-    - name: Halo
+      outline: []
+    - serializedVersion: 2
+      name: Halo
       rect:
         serializedVersion: 2
         x: 0
@@ -1532,50 +1078,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 149, y: 178}
-        - {x: 147, y: 176}
-        - {x: 136, y: 176}
-        - {x: 131, y: 175}
-        - {x: 117, y: 172}
-        - {x: 108, y: 170}
-        - {x: 82, y: 162}
-        - {x: 77, y: 160}
-        - {x: 68, y: 158}
-        - {x: 60, y: 155}
-        - {x: 46, y: 149}
-        - {x: 21, y: 136}
-        - {x: 10, y: 131}
-        - {x: 1, y: 125}
-        - {x: -27, y: 106}
-        - {x: -37, y: 98}
-        - {x: -61, y: 77}
-        - {x: -71, y: 67}
-        - {x: -85, y: 52}
-        - {x: -91, y: 47}
-        - {x: -98, y: 37}
-        - {x: -103, y: 30}
-        - {x: -112, y: 19}
-        - {x: -118, y: 10}
-        - {x: -125, y: 0}
-        - {x: -133, y: -14}
-        - {x: -146, y: -40}
-        - {x: -149, y: -47}
-        - {x: -152, y: -52}
-        - {x: -155, y: -62}
-        - {x: -160, y: -74}
-        - {x: -164, y: -82}
-        - {x: -173, y: -118}
-        - {x: -174, y: -128}
-        - {x: -176, y: -132}
-        - {x: -177, y: -143}
-        - {x: -179, y: -149}
-        - {x: -180, y: -167}
-        - {x: -180, y: -200}
-        - {x: 200, y: -200}
-        - {x: 200, y: 180}
-        - {x: 156, y: 179}
-    - name: Background
+      outline: []
+    - serializedVersion: 2
+      name: Background
       rect:
         serializedVersion: 2
         x: 70
@@ -1586,7 +1091,8 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_Alarm
+    - serializedVersion: 2
+      name: Ico_Alarm
       rect:
         serializedVersion: 2
         x: 500
@@ -1596,16 +1102,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 21, y: 25}
-        - {x: -16, y: 25}
-        - {x: -25, y: 20}
-        - {x: -25, y: -15}
-        - {x: -23, y: -25}
-        - {x: 23, y: -25}
-        - {x: 25, y: -10}
-        - {x: 25, y: 20}
-    - name: Mask
+      outline: []
+    - serializedVersion: 2
+      name: Mask
       rect:
         serializedVersion: 2
         x: 450
@@ -1615,14 +1114,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -17, y: 25}
-        - {x: -25, y: 23}
-        - {x: -25, y: -20}
-        - {x: -23, y: -25}
-        - {x: 25, y: -25}
-        - {x: 25, y: 25}
-    - name: Circle_Big
+      outline: []
+    - serializedVersion: 2
+      name: Circle_Big
       rect:
         serializedVersion: 2
         x: 550
@@ -1632,18 +1126,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 49, y: 50, z: 50, w: 49}
-      outline:
-      - - {x: -50, y: 50}
-        - {x: -50, y: -40}
-        - {x: -48, y: -50}
-        - {x: 50, y: -50}
-        - {x: 50, y: 44}
-        - {x: 35, y: 50}
-      - - {x: -37, y: 15}
-        - {x: 9, y: 38}
-        - {x: 38, y: 9}
-        - {x: 14, y: -36}
-    - name: Background_Notification
+      outline: []
+    - serializedVersion: 2
+      name: Background_Notification
       rect:
         serializedVersion: 2
         x: 424
@@ -1654,7 +1139,8 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_Twitter
+    - serializedVersion: 2
+      name: Ico_Twitter
       rect:
         serializedVersion: 2
         x: 662
@@ -1664,18 +1150,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 37.5, y: 26.5}
-        - {x: 33.5, y: 31.5}
-        - {x: -26.5, y: 31.5}
-        - {x: -37.5, y: 22.5}
-        - {x: -37.5, y: -19.5}
-        - {x: -24.5, y: -26.5}
-        - {x: 5.5, y: -26.5}
-        - {x: 16.5, y: -21.5}
-        - {x: 25.5, y: -13.5}
-        - {x: 37.5, y: -1.5}
-    - name: CircleFull_Big
+      outline: []
+    - serializedVersion: 2
+      name: CircleFull_Big
       rect:
         serializedVersion: 2
         x: 550
@@ -1685,14 +1162,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 49, y: 50, z: 50, w: 49}
-      outline:
-      - - {x: -50, y: 50}
-        - {x: -50, y: -40}
-        - {x: -48, y: -50}
-        - {x: 50, y: -50}
-        - {x: 50, y: 44}
-        - {x: 35, y: 50}
-    - name: Defaut_User
+      outline: []
+    - serializedVersion: 2
+      name: Defaut_User
       rect:
         serializedVersion: 2
         x: 550
@@ -1702,14 +1174,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -50, y: 50}
-        - {x: -50, y: -40}
-        - {x: -48, y: -50}
-        - {x: 50, y: -50}
-        - {x: 50, y: 44}
-        - {x: 35, y: 50}
-    - name: Ico_Score_01
+      outline: []
+    - serializedVersion: 2
+      name: Ico_Score_01
       rect:
         serializedVersion: 2
         x: 450
@@ -1719,18 +1186,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 34, y: 47}
-        - {x: -42, y: 47}
-        - {x: -46, y: 35}
-        - {x: -46, y: -31}
-        - {x: -36, y: -45}
-        - {x: -23, y: -50}
-        - {x: 30, y: -50}
-        - {x: 47, y: -25}
-        - {x: 47, y: 31}
-        - {x: 45, y: 42}
-    - name: Ico_Score_02
+      outline: []
+    - serializedVersion: 2
+      name: Ico_Score_02
       rect:
         serializedVersion: 2
         x: 450
@@ -1740,18 +1198,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -11, y: 48}
-        - {x: -44, y: 33}
-        - {x: -46, y: 30}
-        - {x: -46, y: -21}
-        - {x: -35, y: -49}
-        - {x: -33, y: -50}
-        - {x: 32, y: -50}
-        - {x: 48, y: -37}
-        - {x: 48, y: 26}
-        - {x: 25, y: 48}
-    - name: Ico_Score_03
+      outline: []
+    - serializedVersion: 2
+      name: Ico_Score_03
       rect:
         serializedVersion: 2
         x: 450
@@ -1761,16 +1210,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -27, y: 48}
-        - {x: -46, y: 12}
-        - {x: -46, y: -38}
-        - {x: -38, y: -50}
-        - {x: 32, y: -50}
-        - {x: 48, y: -38}
-        - {x: 48, y: 38}
-        - {x: 26, y: 48}
-    - name: Meteo_Nuageux
+      outline: []
+    - serializedVersion: 2
+      name: Meteo_Nuageux
       rect:
         serializedVersion: 2
         x: 700
@@ -1780,16 +1222,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -20, y: 20}
-        - {x: -25, y: 14}
-        - {x: -25, y: -17}
-        - {x: -23, y: -21}
-        - {x: 20, y: -21}
-        - {x: 25, y: -18}
-        - {x: 25, y: 11}
-        - {x: 6, y: 20}
-    - name: Meteo_Eclaircie
+      outline: []
+    - serializedVersion: 2
+      name: Meteo_Eclaircie
       rect:
         serializedVersion: 2
         x: 700
@@ -1799,16 +1234,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -11, y: 23}
-        - {x: -24, y: 13}
-        - {x: -25, y: 9}
-        - {x: -25, y: -21}
-        - {x: 19, y: -21}
-        - {x: 25, y: -20}
-        - {x: 25, y: 14}
-        - {x: 21, y: 23}
-    - name: ScrollV
+      outline: []
+    - serializedVersion: 2
+      name: ScrollV
       rect:
         serializedVersion: 2
         x: 464
@@ -1819,26 +1247,150 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 10, y: 13, z: 11, w: 13}
       outline: []
-    - name: Ico_IOT
+    - serializedVersion: 2
+      name: Ico_IOT
       rect:
         serializedVersion: 2
-        x: 700
-        y: 1498
+        x: 750
+        y: 1748
         width: 50
         height: 50
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -11, y: 25}
-        - {x: -19, y: 23}
-        - {x: -25, y: 11}
-        - {x: -25, y: -18}
-        - {x: -12, y: -25}
-        - {x: 12, y: -25}
-        - {x: 25, y: -17}
-        - {x: 25, y: 17}
-        - {x: 14, y: 25}
+      outline: []
+    - serializedVersion: 2
+      name: Ico_Recipe
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1748
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: Ico_Math
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1798
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: Ico_HideAndSeek
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 1798
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: Ico_StoryTelling
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 1848
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: Ico_TakePhoto
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1848
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: Ico_TakePose
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1898
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: Ico_Navigation
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 1898
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: Ico_ZoomIn
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 1598
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: Ico_ZoomOut
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 1548
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: Ico_Memory
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 1948
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: Ico_VisoCall
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1948
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     outline: []
   spritePackingTag: 
   userData: 
