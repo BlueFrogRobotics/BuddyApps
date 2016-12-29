@@ -1,115 +1,394 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RecipeList>
-  <recipe name="crêpes" category="dessert" illustration="crepes/illustration" person="6" prep="10" cook="10" stars="4" xml="crepes.xml">
+  <recipe name="crêpes" category="dessert" illustration="Crepes/illustration" person="6" prep="10" cook="10" stars="4" xml="crepes.xml">
     <summary>La crêpe est un mets composé d'une très fine couche de pâte faite à base de farine (principalement de blé ou de sarrasin) agglomérée à un liquide (lait, parfois mélangé à de l'eau ou de la bière). Elle est généralement de forme ronde.</summary>
-    <ingredient name="Farine" quantity="375" unit="grammes"/>
-    <ingredient name="Oeuf" quantity="4"/>
-    <ingredient name="Beurre" quantity="20" unit="grammes"/>
-    <ingredient name="Huile" quantity="2" unit="cuillères à soupe"/>
-    <ingredient name="Sel" quantity="2" unit="pincées"/>
-    <ingredient name="Lait" quantity="50" unit="centilitres"/>
-    <ingredient name="Bierre" quantity="25" unit="centilitres"/>
-    <ingredient name="Rhum" quantity="2" unit="cuillères à soupe"/>
+    <ingredient name="Farine" quantity="375" unit="grammes" icon="Recipe_Ico_Farine"/>
+    <ingredient name="Oeuf" quantity="4"  icon="Recipe_Ico_Oeuf"/>
+    <ingredient name="Beurre" quantity="20" unit="grammes" icon="Recipe_Ico_Beurre"/>
+    <ingredient name="Huile" quantity="2" unit="cuillères à soupe" icon="Recipe_Ico_Huile"/>
+    <ingredient name="Sel" quantity="2" unit="pincées" icon="Recipe_Ico_Sel"/>
+    <ingredient name="Lait" quantity="50" unit="centilitres" icon="Recipe_Ico_Lait"/>
+    <ingredient name="Bierre" quantity="25" unit="centilitres" icon="Recipe_Ico_Bierre"/>
+    <ingredient name="Rhum" quantity="2" unit="cuillères à soupe" icon="Recipe_Ico_Rhum"/>
   <step>
-    <media>crepes/step0</media>
+    <media>Crepes/step0</media>
     <sentence>Mélanger la farine avec les oeufs, l'huile et le sel</sentence>
 	</step>
 	<step>
-    <media>crepes/step1</media>
+    <media>Crepes/step1</media>
     <sentence>Ajoutez ensuite le lait, la bière et le rhum</sentence>
 	</step>
 	<step>
-    <media>crepes/step2</media>
+    <media>Crepes/step2</media>
     <sentence>Mélangez le tout : c'est prêt en deux minutes avec un mixer !</sentence>
 	</step>
 	<step>
-    <media>crepes/step3</media>
+    <media>Crepes/step3</media>
     <sentence>Faites cuire à la poêle avec une noix de beurre</sentence>
 		</step>
 	<step>
-    <media>crepes/step4</media>
+    <media>Crepes/step4</media>
     <sentence>Bon appetit !</sentence>
 	</step>
   </recipe>
-  <recipe name="crêpes au fromage" category="plat" person="6" time="10MIN" stars="2" xml="crepes.xml">
-    <summary>La crêpe est un mets composé d'une très fine couche de pâte faite à base de farine (principalement de blé ou de sarrasin) agglomérée à un liquide (lait, parfois mélangé à de l'eau ou de la bière). Elle est généralement de forme ronde.</summary>
-    <ingredient name="Farine" quantity="375" unit="grammes"/>
-    <ingredient name="Oeuf" quantity="4"/>
-    <ingredient name="Beurre" quantity="20" unit="grammes"/>
-    <ingredient name="Huile" quantity="2" unit="cuillères à soupe"/>
-    <ingredient name="Sel" quantity="2" unit="pincées"/>
-    <ingredient name="Lait" quantity="50" unit="centilitres"/>
-    <ingredient name="Bierre" quantity="25" unit="centilitres"/>
-    <ingredient name="Rhum" quantity="2" unit="cuillères à soupe"/>
+    <recipe name="cake courgettes feta" category="entrée" illustration="CakeCourgettesFeta/illustration" person="6" prep="35" cook="40" stars="5" xml="cake_courgettes_feta.xml">
+      <ingredient name="Petite courgette" quantity="2"/>
+      <ingredient name="Feta" quantity="150" unit="grammes"/>
+      <ingredient name="Yaourt à la grecque " quantity="1"/>
+      <ingredient name="Farine" quantity="200" unit="grammes" icon="Recipe_Ico_Farine"/>
+      <ingredient name="Oeuf" quantity="3" icon="Recipe_Ico_Oeuf"/>
+      <ingredient name="Levure chimique" quantity="1" unit="sachet"/>
+      <ingredient name="Huile" quantity="10" unit="centilitres" icon="Recipe_Ico_Huile"/>
+      <ingredient name="Sel" icon="Recipe_Ico_Sel"/>
+      <ingredient name="Poivre"/>
+      <step>
+        <media>CakeCourgettesFeta/step0</media>
+        <sentence>Laver et essuyer les courgettes. Les détailler en cubes à l'aide d'un coupe oignon...</sentence>
+      </step>
+      <step>
+        <media>CakeCourgettesFeta/step1</media>
+        <sentence>...puis les faire cuire 5 minutes à la vapeur et les laisser refroidir.</sentence>
+      </step>
+      <step>
+        <media>CakeCourgettesFeta/step2</media>
+        <sentence>Couper la feta en dés.</sentence>
+      </step>
+      <step>
+        <media>CakeCourgettesFeta/step3</media>
+        <sentence>Dans un cul de poule, mélanger la farine avec la levure.</sentence>
+      </step>
+      <step>
+        <media>CakeCourgettesFeta/step4</media>
+        <sentence>Casser les œufs dans un bol, les fouetter en omelette à la fourchette, puis incorporer le yaourt.</sentence>
+      </step>
+      <step>
+        <media>CakeCourgettesFeta/step5</media>
+        <sentence>Verser sur la farine...</sentence>
+      </step>
+      <step>
+        <media>CakeCourgettesFeta/step6</media>
+        <sentence>...et bien mélanger au fouet.</sentence>
+      </step>
+      <step>
+        <media>CakeCourgettesFeta/step7</media>
+        <sentence>Délayer avec l'huile d'olive, saler et poivrer.</sentence>
+      </step>
+      <step>
+        <media>CakeCourgettesFeta/step8</media>
+        <sentence>Quand la pâte est bien lisse, ajouter les courgettes et la feta.</sentence>
+      </step>
+      <step>
+        <media>CakeCourgettesFeta/step9</media>
+        <sentence>Bien mélanger à la spatule type maryse.</sentence>
+      </step>
+      <step>
+        <media>CakeCourgettesFeta/step10</media>
+        <sentence>Verser dans un moule à cake.</sentence>
+      </step>
+      <step>
+        <media>CakeCourgettesFeta/step11</media>
+        <sentence>Faire cuire 40 minutes à 180°C. Vérifier la cuisson avec la lame d'un couteau, celle-ci doit ressortir sèche. Laisser tiédir avant de démouler.</sentence>
+      </step>
   </recipe>
-  <recipe name="crêpes au chocolat" category="dessert" person="6" time="10MIN" stars="2" xml="crepes.xml">
-    <summary>Test test test</summary>
-    <ingredient name="Farine" quantity="375" unit="grammes"/>
-    <ingredient name="Oeuf" quantity="4"/>
-    <ingredient name="Beurre" quantity="20" unit="grammes"/>
-    <ingredient name="Huile" quantity="2" unit="cuillères à soupe"/>
-    <ingredient name="Sel" quantity="2" unit="pincées"/>
-    <ingredient name="Lait" quantity="50" unit="centilitres"/>
-    <ingredient name="Bierre" quantity="25" unit="centilitres"/>
-    <ingredient name="Rhum" quantity="2" unit="cuillères à soupe"/>
+  <recipe name="cuisses de poulet à la crème" category="plat" illustration="CuissesDePouletALaCreme/illustration" person="8" prep="60" stars="5" xml="cuisse_de_poulet_a_la_creme.xml">
+    <ingredient name="Cuisse de poulet" quantity="8"/>
+    <ingredient name="Beurre" quantity="50" unit="grammes" icon="Recipe_Ico_Beurre"/>
+    <ingredient name="Oignon" quantity="4"/>
+    <ingredient name="Crème fraîche épaisse" quantity="1" unit="kilogramme"/>
+    <ingredient name="Oignons grelots glacés à blanc" quantity="400" unit="grammes"/>
+    <ingredient name="Champignons de Paris glacés à blanc" quantity="400" unit="grammes"/>
+    <ingredient name="Sel" icon="Recipe_Ico_Sel"/>
+    <ingredient name="Poivre"/>
+    <ingredient name="Piment d'Espelette"/>
+    <step>
+      <media>CuissesDePouletALaCreme/step0</media>
+      <sentence>Dans une cocotte, ici en fonte, faire fondre le beurre. Saisir les cuisses de poulet sur toutes les faces, sans trop les colorer.</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step1</media>
+      <sentence>Pendant ce temps, émincer l'oignon.</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step2</media>
+      <sentence>Lorsque les morceaux de poulet sont saisis...</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step3</media>
+      <sentence>...ajouter loignon. Bien remuer et cuire quelques minutes.</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step4</media>
+      <sentence>Retirer les morceaux de poulet...</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step5</media>
+      <sentence>...et poursuivre leur cuisson au four une quinzaine de minutes. Réserver au chaud.</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step6</media>
+      <sentence>Dans les oignons sués...</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step7</media>
+      <sentence>...ajouter la crème fraiche épaisse. Laisser réduire pendant 10 minutes.</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step8</media>
+      <sentence>Pendant ce temps, préparer les oignons glacés à blanc.</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step9</media>
+      <sentence>Démarrer la cuisson avec un couvercle en papier sulfurisé.</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step10</media>
+      <sentence>Ils sont cuits lorsque toute l'eau est évaporée. Attention à les conserver blanc, ne pas faire dorer.</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step11</media>
+      <sentence>Faire de même avec les champignons de Paris, lavés et escalopés...</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step12</media>
+      <sentence>...jusqu'à évaporation complète de l'eau de cuisson (sans coloration).</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step13</media>
+      <sentence>Au terme de la cuisson, les rassembler avec les petits oignons dans une casserole.</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step14</media>
+      <sentence>Rassembler la cuisson à la crème du poulet dans le bol d'un blender. Mixer finement. Si vous ne disposez pas de blender, vous pouvez mixer la sauce avec un mixeur plongeant.</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step15</media>
+      <sentence>Verser cette sauce sur les oignons et les champignons glacés.</sentence>
+    </step>
+    <step>
+      <media>CuissesDePouletALaCreme/step16</media>
+      <sentence>Ajouter les cuisses de poulet cuites. Rectifier l'assaisonnement. Réserver au chaud jusqu'au moment du service.</sentence>
+    </step>
   </recipe>
-  <recipe name="crêpes au sucre" category="dessert" person="6" time="10MIN" stars="2" xml="crepes.xml">
-    <summary>Test test test</summary>
-    <ingredient name="Farine" quantity="375" unit="grammes"/>
-    <ingredient name="Oeuf" quantity="4"/>
-    <ingredient name="Beurre" quantity="20" unit="grammes"/>
-    <ingredient name="Huile" quantity="2" unit="cuillères à soupe"/>
-    <ingredient name="Sel" quantity="2" unit="pincées"/>
-    <ingredient name="Lait" quantity="50" unit="centilitres"/>
-    <ingredient name="Bierre" quantity="25" unit="centilitres"/>
-    <ingredient name="Rhum" quantity="2" unit="cuillères à soupe"/>
+  <recipe name="moussaka" category="plat" illustration="Moussaka/illustration" person="6" prep="65" cook="25" stars="5" xml="moussaka.xml">
+    <summary>
+      La moussaka est une recette qui nous invite à voyager dans le temps ! Plat traditionnel des Balkans, elle est cuisinée en Asie mineure depuis des siècles, mais ce n'est qu'au 20ème siècle que la moussaka moderne est associée à la Grèce et à la Turquie. Aux origines de ce plat vitaminé composé d'aubergines, d'oignons et de viande hachée de mouton : Nikolas Tselementes, chef de cuisine grec très influent du début du siècle, auteur de nombreux livres de cuisine. Pour la petite anecdote, le terme moussaka proviendrait de l'arabe musaqqa'a, signifiant « frais ». Et oui, car dans le monde arabe, c'est ainsi qu'elle est consommée !
+    </summary>
+    <ingredient name="Epaule d'agneau hachée" quantity="750" unit="grammes"/>
+    <ingredient name="Aubergine" quantity="3"/>
+    <ingredient name="Tomate" quantity="600" unit="grammes"/>
+    <ingredient name="Gros oignon" quantity="1"/>
+    <ingredient name="Gousse d'ail" quantity="2"/>
+    <ingredient name="Jaune d'oeuf" quantity="2"/>
+    <ingredient name="Fromage de brebis râpé" quantity="100" unit="grammes"/>
+    <ingredient name="Huile d'olive" icon="Recipe_Ico_Huile"/>
+    <ingredient name="Lait" quantity="50" unit="centilitres" icon="Recipe_Ico_Lait"/>
+    <ingredient name="Beurre" quantity="50" unit="grammes" icon="Recipe_Ico_Beurre"/>
+    <ingredient name="Farine" quantity="40" unit="grammes" icon="Recipe_Ico_Farine"/>
+    <ingredient name="Cannelle moulue" quantity="1" unit="cuillère à café"/>
+    <ingredient name="Noix de muscade" />
+    <ingredient name="Sel" icon="Recipe_Ico_Sel"/>
+    <ingredient name="Poivre"/>
+    <step>
+      <media>Moussaka/step0</media>
+      <sentence>Rincer et sécher les aubergines. Couper le pédoncule de chacune d'elles. Les couper en tranches au couteau ou à l'aide d'une mandoline.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step1</media>
+      <sentence>Dans une poêle anti-adhésive...</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step2</media>
+      <sentence>...les faire dorer à l'huile d'olive, en mélangeant régulièrement.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step3</media>
+      <sentence>Les égoutter sur du papier absorbant. Saler et poivrer.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step4</media>
+      <sentence>Peler et hacher l'oignon. Ici nous utilisons le coupe oignon "Alligator" qui permet un travail facile et rapide.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step5</media>
+      <sentence>Chauffer 2 cuillères à soupe d'huile dans la poêle. Faire revenir l'oignon haché, 2 minutes sur feu doux.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step6</media>
+      <sentence>Ajouter la viande hachée.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step7</media>
+      <sentence>Faire revenir 3 minutes sur feu vif.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step8</media>
+      <sentence>Ajouter les tomates mondées et taillées en dés, ainsi que l'ail.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step9</media>
+      <sentence>Assaisonner de sel, poivre et cannelle.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step10</media>
+      <sentence>Poursuivre la cuisson pendant 15 minutes. Préchauffer votre four à 200°C (thermostat 6/7).</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step11</media>
+      <sentence>Dans une casserole, faire fondre le beurre.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step12</media>
+      <sentence>Ajouter la farine. Bien mélanger...</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step13</media>
+      <sentence>...afin d'obtenir un roux blanc.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step14</media>
+      <sentence>Délayer avec le lait bouillant.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step15</media>
+      <sentence>Porter à ébullition sans cesser de mélanger. Assaisonner de sel, de poivre et d'une pincée de muscade.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step16</media>
+      <sentence>Hors du feu, incorporer les jaunes d'oeufs...</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step17</media>
+      <sentence>...et les deux tiers du fromage de brebis râpé.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step18</media>
+      <sentence>Dans un plat à gratin huilé, disposer une couche de tranches d'aubergines.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step19</media>
+      <sentence>Recouvrir de la moitié de la farce d'agneau.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step20</media>
+      <sentence>Continuer avec une seconde couche de rondelles d'aubergines...</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step21</media>
+      <sentence>...le restant de la viande hachée...</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step22</media>
+      <sentence>...et enfin le restant d'aubergines.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step23</media>
+      <sentence>Napper de sauce toute la surface. Parsemer le restant de fromage râpé.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step24</media>
+      <sentence>Faire gratiner 25 minutes au four.</sentence>
+    </step>
+    <step>
+      <media>Moussaka/step25</media>
+      <sentence>Servir très chaud, directement dans la plat de cuisson.</sentence>
+    </step>
   </recipe>
-<recipe name="crêpes au beurre" category="dessert" illustration="crepes/illustration" person="6" time="10MIN" stars="2" xml="crepes.xml">
-    <summary>Test test test</summary>
-    <ingredient name="Farine" quantity="375" unit="grammes"/>
-    <ingredient name="Oeuf" quantity="4"/>
-    <ingredient name="Beurre" quantity="20" unit="grammes"/>
-    <ingredient name="Huile" quantity="2" unit="cuillères à soupe"/>
-    <ingredient name="Sel" quantity="2" unit="pincées"/>
-    <ingredient name="Lait" quantity="50" unit="centilitres"/>
-    <ingredient name="Bierre" quantity="25" unit="centilitres"/>
-    <ingredient name="Rhum" quantity="2" unit="cuillères à soupe"/>
+  <recipe name="poulet basquaise" category="plat" illustration="PouletBasquaise/illustration" person="4" prep="75" stars="4" xml="poulet_basquaise.xml">
+    <summary>Plat emblématique du Pays basque, le poulet basquaise aurait vu le jour dans les profondeurs du Pays basque français : en Soule. Mijoté en cocotte, il se composait, au départ, principalement de légumes et de pain. Le poulet fut ajouté à la préparation par la suite. Plat de caractère, il est traditionnellement accompagné de tomates, d'oignons et de poivrons du Pays basque. Ses variantes ? L'utilisation du thon est commune sur la côte, celle du poulet étant plus courante dans l'intérieur des terres. A savoir : au Pays basque on l'accompagne traditionnellement du vin rouge d'Irouléguy.</summary>
+    <ingredient name="Belle cuisse de poulet" quantity="4"/>
+    <ingredient name="Oignon" quantity="2"/>
+    <ingredient name="Gousse d'ail" quantity="3"/>
+    <ingredient name="Tomate" quantity="1" unit="kilogramme"/>
+    <ingredient name="Poivron rouge" quantity="1"/>
+    <ingredient name="Poivron vert" quantity="1"/>
+    <ingredient name="Sel" icon="Recipe_Ico_Sel"/>
+    <ingredient name="Poivre"/>
+    <ingredient name="Piment d'Espelette"/>
   <step>
-    <sentence>Mélanger la farine avec les oeufs, l'huile et le sel</sentence>
+    <media>PouletBasquaise/step0</media>
+    <sentence>Dans une cocotte en fonte, faire chauffer un fond d'huile et saisir les cuisses de poulet jusqu'à ce que la peau soit dorée. Retourner les morceaux fréquemment pour colorer toutes les faces. Saler.</sentence>
   </step>
   <step>
-    <sentence>Ajoutez ensuite le lait, la bière et le rhum</sentence>
+    <media>PouletBasquaise/step1</media>
+    <sentence>Monder les tomates.</sentence>
   </step>
   <step>
-    <sentence>Mélangez le tout : c'est prêt en deux minutes avec un mixer !</sentence>
+    <media>PouletBasquaise/step2</media>
+    <sentence>Les rafraîchir et les peler. Couper les tomates en deux et les concasser grossièrement.</sentence>
   </step>
   <step>
-    <sentence>Faites cuire à la poêle avec une noix de beurre</sentence>
+    <media>PouletBasquaise/step3</media>
+    <sentence>Lorsque les cuisses sont bien dorées, les débarrasser sur une plaque allant au four...</sentence>
   </step>
   <step>
-    <sentence>Bon appetit !</sentence>
+    <media>PouletBasquaise/step4</media>
+    <sentence>...et terminer la cuisson au four à 180-200°C pendant 10 à 15 minutes. Réserver au chaud.</sentence>
+  </step>
+  <step>
+    <media>PouletBasquaise/step5</media>
+    <sentence>Dans la cocotte en fonte encore chaude, faire suer les oignons émincés et les poivrons coupés en lanières.</sentence>
+  </step>
+  <step>
+    <media>PouletBasquaise/step6</media>
+    <sentence>Ajouter les tomates. Assaisonner avec du sel, du poivre, et un peu de piment d'Espelette.</sentence>
+  </step>
+  <step>
+    <media>PouletBasquaise/step7</media>
+    <sentence>Ajouter enfin l'ail haché et laisser cuire à feu moyen une vingtaine de minutes.</sentence>
+  </step>
+  <step>
+    <media>PouletBasquaise/step8</media>
+    <sentence>Lorsque le poulet est cuit, le sortir du four...</sentence>
+  </step>
+  <step>
+    <media>PouletBasquaise/step9</media>
+    <sentence>...et le rajouter dans la sauce. Donner une dernière ébullition et rectifier l'assaisonnement.</sentence>
+  </step>
+  <step>
+    <media>PouletBasquaise/step10</media>
+    <sentence>Servir très chaud.</sentence>
   </step>
   </recipe>
-<recipe name="crêpes au confiture" category="dessert" person="6" time="10MIN" stars="2" xml="crepes.xml">
-    <summary>Test test test</summary>
-    <ingredient name="Farine" quantity="375" unit="grammes"/>
-    <ingredient name="Oeuf" quantity="4"/>
-    <ingredient name="Beurre" quantity="20" unit="grammes"/>
-    <ingredient name="Huile" quantity="2" unit="cuillères à soupe"/>
-    <ingredient name="Sel" quantity="2" unit="pincées"/>
-    <ingredient name="Lait" quantity="50" unit="centilitres"/>
-    <ingredient name="Bierre" quantity="25" unit="centilitres"/>
-    <ingredient name="Rhum" quantity="2" unit="cuillères à soupe"/>
-  </recipe>
-  <recipe name="croque-monsieur" category="plat" person="6" time="10MIN" stars="4" xml="crepes.xml">
-    <summary>La crêpe est un mets composé d'une très fine couche de pâte faite à base de farine (principalement de blé ou de sarrasin) agglomérée à un liquide (lait, parfois mélangé à de l'eau ou de la bière). Elle est généralement de forme ronde.</summary>
-    <ingredient name="Farine" quantity="375" unit="grammes"/>
-    <ingredient name="Oeuf" quantity="4"/>
-    <ingredient name="Beurre" quantity="20" unit="grammes"/>
-    <ingredient name="Huile" quantity="2" unit="cuillères à soupe"/>
-    <ingredient name="Sel" quantity="2" unit="pincées"/>
-    <ingredient name="Lait" quantity="50" unit="centilitres"/>
-    <ingredient name="Bierre" quantity="25" unit="centilitres"/>
-    <ingredient name="Rhum" quantity="2" unit="cuillères à soupe"/>
+  <recipe name="barre chocolat aux perles chocolatées biscuitées" category="dessert" illustration="BarreChocolatAuxPerlesChocolateesBiscuitees/illustration" person="12" prep="25" stars="5" xml="barre_chocolat_aux_perles_chocolatees_biscuitees.xml">
+    <ingredient name="Chocolat de couverture noir Cuba" quantity="200" unit="grammes"/>
+    <ingredient name="Crispearls au chocolat blanc"/>
+    <ingredient name="Crispearls au chocolat noir"/>
+    <ingredient name="Crispearls au chocolat au lait"/>
+    <step>
+      <media>BarreChocolatAuxPerlesChocolateesBiscuitees/step0</media>
+      <sentence>Mélanger les trois variétés de Crispearls en quantité égale. A défaut des trois variétés, cette recette peut-être réalisée avec uniquement des Crispearls noirs, des Crispearls blancs ou des Crispearls au lait.</sentence>
+    </step>
+    <step>
+      <media>BarreChocolatAuxPerlesChocolateesBiscuitees/step1</media>
+      <sentence>Faire fondre le chocolat de couverture au micro-ondes.</sentence>
+    </step>
+    <step>
+      <media>BarreChocolatAuxPerlesChocolateesBiscuitees/step2</media>
+      <sentence>Le verser dans une poche à douille.</sentence>
+    </step>
+    <step>
+      <media>BarreChocolatAuxPerlesChocolateesBiscuitees/step3</media>
+      <sentence>Réserver quelques minutes afin qu'il refroidisse légèrement, sans pour autant redurcir.</sentence>
+    </step>
+    <step>
+      <media>BarreChocolatAuxPerlesChocolateesBiscuitees/step4</media>
+      <sentence>Etaler les Crispearls sur une plaque à pâtisserie en une couche épaisse. Dresser à la poche à douille, directement sur les Crispearls des bandes de chocolat fondu...</sentence>
+    </step>
+    <step>
+      <media>BarreChocolatAuxPerlesChocolateesBiscuitees/step5</media>
+      <sentence>...de 7 à 8 cm de long sur 1 cm de largeur environ.</sentence>
+    </step>
+    <step>
+      <media>BarreChocolatAuxPerlesChocolateesBiscuitees/step6</media>
+      <sentence>Placer au frais pour faire durcir le chocolat.</sentence>
+    </step>
+    <step>
+      <media>BarreChocolatAuxPerlesChocolateesBiscuitees/step7</media>
+      <sentence>Dix minutes plus tard, sortir la plaque du réfrigérateur et soulever les barres chocolat aux perles chocolatées biscuitées.</sentence>
+    </step>
+    <step>
+      <media>BarreChocolatAuxPerlesChocolateesBiscuitees/step8</media>
+      <sentence>Réserver dans un endroit frais. Ces barres ont été réalisées pour remplacer le traditionnel carré de chocolat servi avec le café en fin de repas. Elles peuvent également être consommées en guise de confiserie.</sentence>
+    </step>
   </recipe>
 </RecipeList>
