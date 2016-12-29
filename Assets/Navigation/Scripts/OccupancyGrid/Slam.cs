@@ -26,8 +26,8 @@ public class Slam : MonoBehaviour, IOccupancyGrid
 
 
     public bool state = false;
-
-
+    private bool isUpdating = false;
+    public bool Updating { get { return isUpdating; } set{  isUpdating = value; } }
 
     // Related to PointCloud
     private DepthPoint[] mDepthPoint;
@@ -69,6 +69,7 @@ public class Slam : MonoBehaviour, IOccupancyGrid
     {
         if (mDepthCam.Width == 0 || mDepthCam.PointCloud.points == null)
             return;
+        if(isUpdating)
         mOccupancyGrid.updateProbability(new Vector3(-mMotors.Wheels.Odometry.y, mMotors.Wheels.Odometry.x, (mMotors.Wheels.Odometry.z / 360.0f) * Mathf.PI * 2.0f), mDepthCam);
         //mText.text = " " + mMotors.Wheels.Odometry.y + " " + mMotors.Wheels.Odometry.x + " " + mMotors.Wheels.Odometry.z;
     }
