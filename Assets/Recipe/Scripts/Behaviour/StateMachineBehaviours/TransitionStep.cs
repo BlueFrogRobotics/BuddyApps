@@ -22,7 +22,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!check && mTTS.HasFinishedTalking)
+            if (!check && mTTS.HasFinishedTalking && !mVocalActivation.RecognitionTriggered)
             {
                 check = true;
                 mVocalActivation.VocalProcessing = VocalProcessing;
@@ -44,11 +44,12 @@ namespace BuddyApp.Recipe
 
         private void VocalProcessing(string answer)
         {
-            if (answer.Contains("suivant") || answer.Contains("suivante"))
+            answer = answer.ToLower();
+            if (ContainKeyWord(answer, mDictionary.GetString("next").Split(' ')))
                 NextStep();
-            else if (answer.Contains("précédent") || answer.Contains("précédente") || answer.Contains("avant"))
+            else if (ContainKeyWord(answer, mDictionary.GetString("last").Split(' ')))
                 LastStep();
-            else if (answer.Contains("répète") || answer.Contains("répéter"))
+            else if (ContainKeyWord(answer, mDictionary.GetString("repeat").Split(' ')))
             {
                 GetComponent<RecipeBehaviour>().StepIndex--;
                 GetComponent<Animator>().SetTrigger("DisplayStep");
@@ -57,10 +58,25 @@ namespace BuddyApp.Recipe
                 mVocalActivation.StartInstantReco();
         }
 
+        private bool ContainKeyWord(string iAnswer, string[] iKeyWords)
+        {
+            bool lCheck = false;
+
+            for (int i = 0; i < iKeyWords.Length; i++)
+            {
+                if (iAnswer.Contains(iKeyWords[i]))
+                    lCheck = true;
+            }
+            return lCheck;
+        }
+
         public void NextStep()
         {
             if (GetComponent<RecipeBehaviour>().StepIndex == GetComponent<RecipeBehaviour>().mRecipe.step.Count)
-                GetComponent<RecipeBehaviour>().Exit();
+            {
+                GetGameObject(4).GetComponent<Animator>().SetTrigger("Close_WFullImage");
+                GetComponent<Animator>().SetTrigger("FinishStep");
+            }
             else
                 GetComponent<Animator>().SetTrigger("DisplayStep");
         }

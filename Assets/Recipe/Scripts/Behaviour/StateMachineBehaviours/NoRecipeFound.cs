@@ -18,7 +18,7 @@ namespace BuddyApp.Recipe
                 GetGameObject(1).SetActive(false);
                 GetComponent<RecipeBehaviour>().IsBackgroundActivated = false;
             }
-            mTTS.Say("Désolé je n'ai trouvé aucune recette correspondant à ces critères");
+            mTTS.Say(mDictionary.GetString("nomatchingrecipe"));
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

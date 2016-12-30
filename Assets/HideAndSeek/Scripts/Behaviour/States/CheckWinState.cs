@@ -19,13 +19,16 @@ namespace BuddyApp.HideAndSeek
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (GetComponent<Players>().NumPlayer>0)
+            if (!mTTS.IsSpeaking)
             {
-                iAnimator.SetTrigger("ChangeState");
-            }
+                if (GetComponent<Players>().NumPlayer > 0)
+                {
+                    iAnimator.SetTrigger("ChangeState");
+                }
 
-            else
-                iAnimator.SetTrigger("Win");
+                else
+                    iAnimator.SetTrigger("Win");
+            }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

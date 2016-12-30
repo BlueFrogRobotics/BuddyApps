@@ -13,4 +13,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: askprepare
-    val: Que voulez-vous faire ?
+    val: "Alors qu'est ce que l'on pr\xE9pare?"
+  - key: recipenotfound
+    val: "D\xE9sol\xE9 je n'ai pas trouv\xE9 cette recette, veux tu bien r\xE9p\xE9ter?"
+  - key: noanswerrecipe
+    val: "D\xE9sol\xE9 je n'ai rien entendu, veux tu bien r\xE9p\xE9ter?"
+  - key: chooserecipecategory
+    val: Quelle type de recette veux tu faire?
+  - key: starter
+    val: ENTREE
+  - key: dish
+    val: PLAT
+  - key: nomatchingrecipe
+    val: "D\xE9sol\xE9 je n'ai trouv\xE9 aucune recette correspondant \xE0 ces crit\xE8res"
+  - key: pathtoxml
+    val: recipe_list_fr.xml
+  - key: listrecipefound
+    val: "J'ai trouv\xE9 plusieurs recettes, laquelle veux tu faire?"
+  - key: startingredient
+    val: "Pour commencer pr\xE9parez les ingr\xE9dients suivants pour "
+  - key: person
+    val: personne
+  - key: next
+    val: suivant suivante ok okay hockey
+  - key: last
+    val: "pr\xE9c\xE9dent pr\xE9c\xE9dente avant revient reviens arri\xE8re"
+  - key: repeat
+    val: "r\xE9p\xE8te r\xE9p\xE9ter encore"
+  - key: finish
+    val: C'est fini, je suis gentil je te laisse ma part

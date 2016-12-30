@@ -508,7 +508,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22311078, guid: 3eee25f7289159b4daf43256f44f6c14, type: 2}
       propertyPath: m_SortingOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11414244, guid: 3eee25f7289159b4daf43256f44f6c14, type: 2}
       propertyPath: m_Sprite
@@ -917,6 +917,14 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnPreviousStep
       objectReference: {fileID: 0}
+    - target: {fileID: 11450764, guid: 07a98337d61fcc74192d94e734dc844d, type: 2}
+      propertyPath: m_Text
+      value: WARNING WHEN MOVING KEEP YOUR FEET ONE IN FRONT OF THE OTHER
+      objectReference: {fileID: 0}
+    - target: {fileID: 11405002, guid: 07a98337d61fcc74192d94e734dc844d, type: 2}
+      propertyPath: listener
+      value: 
+      objectReference: {fileID: 1975093211}
     m_RemovedComponents:
     - {fileID: 11464984, guid: 07a98337d61fcc74192d94e734dc844d, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 07a98337d61fcc74192d94e734dc844d, type: 2}
@@ -1782,7 +1790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.503}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1816,7 +1824,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11494538, guid: 3317803e2676ea7478ac463a69bb2437, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11489184, guid: 3317803e2676ea7478ac463a69bb2437, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -2141,10 +2149,10 @@ Prefab:
     - target: {fileID: 11494538, guid: 3317803e2676ea7478ac463a69bb2437, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
-      objectReference: {fileID: 841543044}
+      objectReference: {fileID: 433684044}
     - target: {fileID: 11494538, guid: 3317803e2676ea7478ac463a69bb2437, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: OnCLickMenu
+      value: SayAtStart
       objectReference: {fileID: 0}
     - target: {fileID: 11494538, guid: 3317803e2676ea7478ac463a69bb2437, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName

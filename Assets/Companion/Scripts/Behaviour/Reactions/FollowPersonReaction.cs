@@ -21,16 +21,16 @@ namespace BuddyApp.Companion
 		private USSensors mUSSensors;
 
 		// local variables
-		private bool isFollowingSomeone;
-		private int previousEyesTargetPositionH;
-		private int previousEyesTargetPositionV;
+		private bool mIsFollowingSomeone;
+		private int mPreviousEyesTargetPositionH;
+		private int mPreviousEyesTargetPositionV;
 
 		// Use this for initialization
 		void Start () {
-			isFollowingSomeone = false;
+			mIsFollowingSomeone = false;
 			mThermalDetector = GetComponent<ThermalDetector>();
-			previousEyesTargetPositionH = Screen.width / 2;
-			previousEyesTargetPositionV = Screen.width / 2;
+			mPreviousEyesTargetPositionH = Screen.width / 2;
+			mPreviousEyesTargetPositionV = Screen.width / 2;
             
 			mNoHinge = BYOS.Instance.Motors.NoHinge;
 			mYesHinge = BYOS.Instance.Motors.YesHinge;
@@ -46,41 +46,41 @@ namespace BuddyApp.Companion
 				return;
 			}
 
-			int[] position = mThermalDetector.PositionHotSpot;
+			int[] lPosition = mThermalDetector.PositionHotSpot;
 			// we use vertical for left and right because it's the vertical projection
 			//returnedValue = new int[]{maxHorizontal,maxVertical };
-			int maxHorizontal = position[0];
-			int maxVertical = position[1];
+			int lMaxHorizontal = lPosition[0];
+			int lMaxVertical = lPosition[1];
 
-			if (maxHorizontal == -1 || maxVertical == -1){
+			if (lMaxHorizontal == -1 || lMaxVertical == -1){
 				//Debug.Log ("We ve got a problem finding the position of the hot spot");
 				return;
 			}
 			else {
-				int wheelSpeedLeft = 0;
-				int wheelSpeedRight = 0;
+				int lWheelSpeedLeft = 0;
+				int lWheelSpeedRight = 0;
 
                 // TODO this should be redone when integrating the new thermal sensor
-                switch(maxVertical)
+                switch(lMaxVertical)
                 {
                     case 0:
-                        wheelSpeedRight += 80;
-                        wheelSpeedLeft -= 80;
+                        lWheelSpeedRight += 80;
+                        lWheelSpeedLeft -= 80;
                         break;
 
                     case 1:
-                        wheelSpeedRight += 40;
-                        wheelSpeedLeft -= 40;
+                        lWheelSpeedRight += 40;
+                        lWheelSpeedLeft -= 40;
                         break;
 
                     case 2:
-                        wheelSpeedLeft += 40;
-                        wheelSpeedRight -= 40;
+                        lWheelSpeedLeft += 40;
+                        lWheelSpeedRight -= 40;
                         break;
 
                     case 3:
-                        wheelSpeedLeft += 80;
-                        wheelSpeedRight -= 80;
+                        lWheelSpeedLeft += 80;
+                        lWheelSpeedRight -= 80;
                         break;
 
                     default:
@@ -110,7 +110,7 @@ namespace BuddyApp.Companion
 				}
                 */
 
-                switch (maxVertical)
+                switch (lMaxVertical)
                 {
                     case 0:
                         //we lower the head
@@ -145,16 +145,16 @@ namespace BuddyApp.Companion
                 */
 
 				// if there is room we can go
-				if (isNoFrontObstacles()) {
-					wheelSpeedLeft += 150;
-					wheelSpeedRight += 150;
+				if (NoFrontObstacles()) {
+					lWheelSpeedLeft += 150;
+					lWheelSpeedRight += 150;
 				}
-				mWheels.SetWheelsSpeed(wheelSpeedLeft,wheelSpeedRight,300);
+				mWheels.SetWheelsSpeed(lWheelSpeedLeft,lWheelSpeedRight,300);
 
 			}
 		}
 
-		private bool isNoFrontObstacles()
+		private bool NoFrontObstacles()
 		{
 			//Debug.Log ("distance received : " + mIRsensors.Middle.Distance);
 			if (mIRsensors.Middle.Distance > 0.4f &&

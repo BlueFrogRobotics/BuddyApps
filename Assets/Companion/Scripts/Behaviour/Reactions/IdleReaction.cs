@@ -58,11 +58,9 @@ namespace BuddyApp.Companion
             mHeadMoveTime = Time.time;
 
             if (Random.Range(0, 2) == 0) {
-                float lRandomAngle = Random.Range(-45F, 45F);
-                mNoHinge.SetPosition(lRandomAngle);
+                TurnHeadNo();
             } else {
-                float lRandomAngle = Random.Range(mHeadPos - 10F, mHeadPos + 10F);
-                mYesHinge.SetPosition(lRandomAngle);
+                TurnHeadYes();
             }
 
             if (Time.time - mTTSTime > mRandomSpeechTime)
@@ -100,6 +98,22 @@ namespace BuddyApp.Companion
         {
             mNoHinge.SetPosition(0F);
             mYesHinge.SetPosition(0F);
+        }
+
+        private void TurnHeadYes()
+        {
+            float lHeadYes = Random.Range(mHeadPos - 10F, mHeadPos + 20F);
+            mYesHinge.SetPosition(lHeadYes);
+        }
+
+        private void TurnHeadNo()
+        {
+            float lHeadNo = Random.Range(5F, 35F);
+
+            if (mNoHinge.CurrentAnglePosition > 0F)
+                lHeadNo = -lHeadNo;
+
+            mNoHinge.SetPosition(lHeadNo);
         }
 
         private IEnumerator HappyFaceCo()

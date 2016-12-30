@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using BuddyOS;
 
 namespace BuddyApp.RLGL
 {
@@ -22,6 +23,7 @@ namespace BuddyApp.RLGL
         // Use this for initialization
         void Start()
         {
+            BYOS.Instance.VocalActivation.enabled = false;
             StartCoroutine(LoadingScreen());
         }
 
