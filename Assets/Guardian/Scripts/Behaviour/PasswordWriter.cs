@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using BuddyOS;
 
 namespace BuddyApp.Guardian
 {
@@ -28,6 +29,7 @@ namespace BuddyApp.Guardian
         {
             if (input.text.Length < 4)
                 input.text += iNumber;
+            BYOS.Instance.Speaker.FX.Play(FXSound.BEEP_1);
         }
 
         public void Clear()

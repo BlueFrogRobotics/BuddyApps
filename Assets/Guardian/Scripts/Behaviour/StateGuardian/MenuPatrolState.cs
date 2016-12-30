@@ -91,13 +91,13 @@ namespace BuddyApp.Guardian
                 {
                     mMode = 2;
                 }
-                else if (iAnswer.ToLower().Contains("immobile") || iAnswer.ToLower().Contains("fix"))//(iAnswer == "immobile" || iAnswer=="fixe" || iAnswer=="six")
+                else if (iAnswer.ToLower().Contains("immobile") || iAnswer.ToLower().Contains("fix") && iAnswer.ToLower().Contains("fix"))//(iAnswer == "immobile" || iAnswer=="fixe" || iAnswer=="six")
                 {
                     mMode = 1;
                 }
                 else
                 {
-                    mTTS.Say("I didn't understood");
+                    mTTS.Say("I didn't understand");
                 }
             }
         }
