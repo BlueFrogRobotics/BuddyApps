@@ -21,7 +21,7 @@ MonoBehaviour:
   - key: anim
     val: ANIMATION
   - key: timebefor
-    val: PLAY WHILE
+    val: PLAYING TIME
   - key: ifbb
     val: IF BABY CRIES
   - key: mob
@@ -48,7 +48,7 @@ MonoBehaviour:
     val: BRIGHTNESS
   - key: playboth
     val: REPLAY LULLABY AND ANIMATION
-  - key: msgbb
+  - key: msgbbsnd
     val: 'seems to cry '
   - key: lull0
     val: NINNA NANNA BRAHMS
@@ -62,3 +62,9 @@ MonoBehaviour:
     val: MUSIC BOX
   - key: quitbb
     val: CONFIRM EXIT BABYPHONE?
+  - key: msgbbmvt
+    val: 'I detected a movement '
+  - key: soundetect
+    val: 'SOUND DETECTION '
+  - key: motiondetect
+    val: 'MOTION DETECTION '

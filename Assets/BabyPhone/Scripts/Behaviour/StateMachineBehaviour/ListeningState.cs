@@ -49,7 +49,7 @@ namespace BuddyApp.BabyPhone
 
             mContactIndice = (int)BabyPhoneData.Instance.Recever;
             mBabyName = BabyPhoneData.Instance.BabyName;
-            mMicroSensitivity = BabyPhoneData.Instance.MicrophoneSensitivity;
+            mMicroSensitivity = ((BabyPhoneData.Instance.MicrophoneSensitivity)/100F);
 
             mMean = 0F;
             mIsBabyCrying = false;
@@ -95,9 +95,14 @@ namespace BuddyApp.BabyPhone
 
         private IEnumerator SendMessage()
         {
+            string lSentMessage = "";
+            if (mIsBabyCrying)
+                lSentMessage = mBabyName + " " + mDictionary.GetString("msgbbsnd") + " :( !";
+            if(mIsBabyMoving)
+                lSentMessage = mBabyName + " " + mDictionary.GetString("msgbbmvt") + " :( !";
             yield return new WaitForSeconds(1.5F);
             MailSender lSender = new MailSender("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL);
-            Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", mBabyName + " " + mDictionary.GetString("msgbb") + " :( !");
+            Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", lSentMessage);
             lEmail.Addresses.Add(GetMailContact(mContactIndice));
             lEmail.AddTexture2D(mRGBCam.FrameTexture2D, "image.png");
             lSender.Send(lEmail);

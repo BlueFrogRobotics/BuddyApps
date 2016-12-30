@@ -40,6 +40,8 @@ namespace BuddyApp.BabyPhone
         #endregion
         private double mThresh;
 
+        private float mCameraSensitivity;
+
         //Kalman
 
         // Use this for initialization
@@ -65,6 +67,7 @@ namespace BuddyApp.BabyPhone
             //Debug for RLGL
             mDebugMatRLGL = new Mat();
 
+            mCameraSensitivity = BabyPhoneData.Instance.CameraSensitivity;
             mRGBCam = BYOS.Instance.RGBCam;
             mRGBCam.Open();
         }
@@ -75,7 +78,7 @@ namespace BuddyApp.BabyPhone
 
             //mThresh = threshBar.value;
             //need to change mThresh to adjust difficulty
-            mThresh = 50;
+            mThresh = mCameraSensitivity;
             mRawImage = iInputFrameMat.clone();
             mTest = iInputFrameMat.clone();
 

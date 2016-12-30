@@ -60,22 +60,16 @@ namespace BuddyApp.BabyPhone
         /// </summary>
         private void ControlNoAxis()
         {
-            bool lChanged = false;
             if (mNoLeft)
             {
-                mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 5;
-                lChanged = true;
+                mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 20;
+                mMotors.NoHinge.SetPosition(mNoAngle);
             }
 
             if (mNoRight)
             {
-                mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 5;
-                lChanged = true;
-            }
-
-            if (lChanged)
-            {
-                mMotors.NoHinge.SetPosition(mNoAngle, mNoSpeed);
+                mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 20;
+                mMotors.NoHinge.SetPosition(mNoAngle);
             }
         }
 
@@ -84,21 +78,18 @@ namespace BuddyApp.BabyPhone
         /// </summary>
         private void ControlYesAxis()
         {
-            bool lChanged = false;
             if (mYesDown)
             {
-                mYesAngle = mMotors.YesHinge.CurrentAnglePosition + 5;
-                lChanged = true;
+                mYesAngle = mMotors.YesHinge.CurrentAnglePosition + 10;
+                mMotors.YesHinge.SetPosition(mYesAngle, mYesSpeed);
             }
 
             if (mYesUp)
             {
-                mYesAngle = mMotors.YesHinge.CurrentAnglePosition - 5;
-                lChanged = true;
-            }
-
-            if (lChanged)
+                mYesAngle = mMotors.YesHinge.CurrentAnglePosition - 10;
                 mMotors.YesHinge.SetPosition(mYesAngle, mYesSpeed);
+            }
+               
         }
 
         public void NoLeftButtonDown()
@@ -113,6 +104,7 @@ namespace BuddyApp.BabyPhone
             mFace.LookAt(-600, 600);
             mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
         }
+
         public void YesUpButtonDown()
         {
             mYesUp = true;
@@ -145,9 +137,33 @@ namespace BuddyApp.BabyPhone
         public void YesDownButtonUp()
         {
             mYesDown = false;
-
             mFace.LookAt(FaceLookAt.CENTER);
         }
+
+        ///// <summary>
+        ///// Function to control the head hinge
+        ///// </summary>
+        //private void ControlNoAxis()
+        //{
+        //    bool lChanged = false;
+        //    if (mNoLeft)
+        //    {
+        //        mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 20;
+        //        lChanged = true;
+        //    }
+
+        //    if (mNoRight)
+        //    {
+        //        mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 20;
+        //        lChanged = true;
+        //    }
+
+        //    if (lChanged)
+        //    {
+        //        mMotors.NoHinge.SetPosition(mNoAngle);
+        //    }
+        //}
+
 
     }
 }

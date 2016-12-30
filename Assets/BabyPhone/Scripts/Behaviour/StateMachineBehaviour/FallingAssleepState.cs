@@ -21,7 +21,7 @@ namespace BuddyApp.BabyPhone
 
         private float mSound;
         private float mMean;
-        private float mMicroSensitivty;
+        private float mMicroSensitivity;
         private bool mIsBabyCrying;
         private int mContactIndice;
         private string mBabyName;
@@ -55,7 +55,7 @@ namespace BuddyApp.BabyPhone
             mIsBabyCrying = false;
             mDidISend = false;
 
-            mMicroSensitivty = BabyPhoneData.Instance.MicrophoneSensitivity;
+            mMicroSensitivity = BabyPhoneData.Instance.MicrophoneSensitivity;
             mContactIndice = (int)BabyPhoneData.Instance.Recever;
             mBabyName = BabyPhoneData.Instance.BabyName;
             isAnimationOn = BabyPhoneData.Instance.IsAnimationOn;
@@ -98,7 +98,7 @@ namespace BuddyApp.BabyPhone
             else
             {
                 mMean = mMean / 5F;
-                if (mMean >= 0.1F)
+                if (mMean >= mMicroSensitivity)
                     mIsBabyCrying = true;
                 else
                     mIsBabyCrying = false;
