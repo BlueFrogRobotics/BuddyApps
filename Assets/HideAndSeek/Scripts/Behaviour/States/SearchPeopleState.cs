@@ -20,8 +20,8 @@ namespace BuddyApp.HideAndSeek
         public override void Init()
         {
             
-            mFaceDetector = GetGameObject(1).GetComponent<FaceDetector>();
-            mFaceReco = GetGameObject(1).GetComponent<FaceRecognition>();
+            mFaceDetector = GetGameObject((int)HideAndSeekData.ObjectsLinked.FACE_RECO).GetComponent<FaceDetector>();
+            mFaceReco = GetGameObject((int)HideAndSeekData.ObjectsLinked.FACE_RECO).GetComponent<FaceRecognition>();
             mSearchWindow = GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponentInChildren<SearchFacesWindow>();
             mPlayers = GetComponent<Players>();
         }
@@ -35,6 +35,7 @@ namespace BuddyApp.HideAndSeek
             //GetGameObject(1).SetActive(true);
             mSearchWindow.Open();
             mHasFoundFace = false;
+            mYesHinge.SetPosition(-10);
             if (!mRGBCam.IsOpen)
                 mRGBCam.Open();
         }
@@ -89,6 +90,7 @@ namespace BuddyApp.HideAndSeek
                 mTTS.Say(mDictionary.GetString("cantReco"));
 
             iAnimator.ResetTrigger("ChangeState");
+            mYesHinge.SetPosition(20);
         }
     }
 }

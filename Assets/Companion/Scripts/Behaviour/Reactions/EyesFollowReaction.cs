@@ -73,8 +73,8 @@ namespace BuddyApp.Companion
 				
 				//Debug.Log ("hot spot is detected at " + maxHorizontal + "  " + maxVertical);
 
-				// Convertion into screen position
-				// maxHorizontal means the line wich is the hotter so it become vertical when projected
+				// Conversion into screen position
+				// maxHorizontal means the line which is the hottest so it becomes vertical when projected
 				targetToLookAtH = (1 + maxVertical*2) * stepVisionTargetH;
 				targetToLookAtV = (1 + maxHorizontal*2) * stepVisionTargetV;
 

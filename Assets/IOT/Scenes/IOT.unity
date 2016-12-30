@@ -178,23 +178,27 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22453900, guid: 5db9be246c0820e48bb52fab8b5cdf9f, type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22453900, guid: 5db9be246c0820e48bb52fab8b5cdf9f, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22458270, guid: 5db9be246c0820e48bb52fab8b5cdf9f, type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22458270, guid: 5db9be246c0820e48bb52fab8b5cdf9f, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22458270, guid: 5db9be246c0820e48bb52fab8b5cdf9f, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 22537612, guid: 5db9be246c0820e48bb52fab8b5cdf9f, type: 2}
+      propertyPath: m_Alpha
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5db9be246c0820e48bb52fab8b5cdf9f, type: 2}
@@ -1160,25 +1164,9 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 11459042, guid: 7b17eb57b3443e74f901af2eb3ec4912, type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 710705256}
-    - target: {fileID: 11499876, guid: 7b17eb57b3443e74f901af2eb3ec4912, type: 2}
-      propertyPath: IOTLinkIA
-      value: 
-      objectReference: {fileID: 710705256}
-    - target: {fileID: 146424, guid: 7b17eb57b3443e74f901af2eb3ec4912, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22493730, guid: 7b17eb57b3443e74f901af2eb3ec4912, type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 601.5
-      objectReference: {fileID: 0}
     - target: {fileID: 22408332, guid: 7b17eb57b3443e74f901af2eb3ec4912, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -321.22137
+      value: -320.96576
       objectReference: {fileID: 0}
     - target: {fileID: 22493730, guid: 7b17eb57b3443e74f901af2eb3ec4912, type: 2}
       propertyPath: m_AnchorMin.y
@@ -1187,6 +1175,10 @@ Prefab:
     - target: {fileID: 22493730, guid: 7b17eb57b3443e74f901af2eb3ec4912, type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22493730, guid: 7b17eb57b3443e74f901af2eb3ec4912, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 831.5
       objectReference: {fileID: 0}
     - target: {fileID: 22493730, guid: 7b17eb57b3443e74f901af2eb3ec4912, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -1220,6 +1212,10 @@ Prefab:
       propertyPath: m_SizeDelta.x
       value: -17
       objectReference: {fileID: 0}
+    - target: {fileID: 11499876, guid: 7b17eb57b3443e74f901af2eb3ec4912, type: 2}
+      propertyPath: IOTLinkIA
+      value: 
+      objectReference: {fileID: 710705256}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7b17eb57b3443e74f901af2eb3ec4912, type: 2}
   m_IsPrefabParent: 0
@@ -1854,6 +1850,14 @@ Prefab:
     - target: {fileID: 22412740, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
       value: -557
+      objectReference: {fileID: 0}
+    - target: {fileID: 22478786, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000015258789
+      objectReference: {fileID: 0}
+    - target: {fileID: 178300, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}

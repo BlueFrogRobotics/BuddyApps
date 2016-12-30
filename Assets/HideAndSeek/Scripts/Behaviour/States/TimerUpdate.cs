@@ -36,13 +36,14 @@ namespace BuddyApp.HideAndSeek
             if(lNumAct>9 && !mTTS.IsSpeaking && !mHasFinished)
             {
                 mHasFinished = true;
+                //mYesHinge.SetPosition(25);
                 iAnimator.SetTrigger("ChangeState");
             }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mYesHinge.SetPosition(20);
+            
             iAnimator.ResetTrigger("ChangeState");
         }
 

@@ -8,8 +8,10 @@ namespace BuddyApp.Companion
     public class GlobalWanderReaction : MonoBehaviour
     {
         private bool mInitialized;
+        private bool mIsFollowing;
         private float mActiveTime;
         private float mRandomThermal;
+        private float mFollowTime;
         private int[] mBadHotspot;
 
         private WanderReaction mWanderReaction;
@@ -27,12 +29,13 @@ namespace BuddyApp.Companion
 
         void OnEnable()
         {
-            if(!mInitialized) {
+            if(!mInitialized)
                 Start();
-            }
 
+            mIsFollowing = false;
             mActiveTime = Time.time;
-            mRandomThermal = Random.Range(50, 90);
+            mFollowTime = Time.time;
+            mRandomThermal = Random.Range(40, 60);
             mWanderReaction.enabled = true;
             mThermalFollowReaction.enabled = false;
         }
@@ -40,15 +43,19 @@ namespace BuddyApp.Companion
         void Update()
         {
             //After a while, if there is thermal activity, we track it until it disappears
-            if (Time.time - mActiveTime > mRandomThermal && mThermalDetector.ThermalDetected) {
+            if (!mIsFollowing && Time.time - mActiveTime > mRandomThermal && mThermalDetector.PositionHotSpot != mBadHotspot) {
                 mWanderReaction.enabled = false;
                 mThermalFollowReaction.enabled = true;
+                mIsFollowing = true;
+                mFollowTime = Time.time;
             }
             //We track the heat source until it disappears
-            else if (Time.time - mActiveTime > mRandomThermal && mThermalDetector.PositionHotSpot == mBadHotspot)
+            else if (mIsFollowing && Time.time - mFollowTime > 15F)
             {
                 mWanderReaction.enabled = true;
                 mThermalFollowReaction.enabled = false;
+                mRandomThermal = Random.Range(40, 60);
+                mIsFollowing = false;
                 mActiveTime = Time.time;
             }
         }

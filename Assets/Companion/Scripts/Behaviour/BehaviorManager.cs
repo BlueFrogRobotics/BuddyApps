@@ -23,8 +23,8 @@ namespace BuddyApp.Companion
         private bool mAskedSomething;
         private bool mVocalWanderOrder;
         private bool mActionInProgress;
-		private bool mIsRobotIsTrackingSomeone;
-		private bool mAreEyesTrackingThermal;
+		private bool mRobotIsTrackingSomeone;
+		private bool mEyesTrackingThermal;
         private float mInactiveTime;
         private Stack<Action> mActionStack;
         private Action mCurrentAction; 
@@ -81,9 +81,9 @@ namespace BuddyApp.Companion
             //mReaction.ActionFinished = PopHead;
             mReaction.ActionFinished = OnActionFinished;
             mAccelerometerDetector.OnDetection += mReaction.IsBeingLifted;
-			mIsRobotIsTrackingSomeone = true;
-			// by default the robot is following the poeple with his eyes
-			mAreEyesTrackingThermal = true;
+			mRobotIsTrackingSomeone = true;
+			// by default the robot is following people with his eyes
+			mEyesTrackingThermal = true;
         }
 
         void Update()
@@ -111,7 +111,7 @@ namespace BuddyApp.Companion
             //    mReaction.DisableSayHelloReaction();
 
             if (mBuddyFaceDetector.EyeTouched || mFaceDetector.FaceDetected ||
-                (mCurrentAction != null && !mVocalWanderOrder) || !mIsRobotIsTrackingSomeone) {
+                (mCurrentAction != null && (!mVocalWanderOrder || !mRobotIsTrackingSomeone))) {
                 //Debug.Log("Interaction with Buddy");
                 mVocalWanderOrder = false;
                 mInactiveTime = Time.time;
@@ -133,7 +133,7 @@ namespace BuddyApp.Companion
 			//	mReaction.StopFollowing ();
 			//}
 
-			if (mAreEyesTrackingThermal) {
+			if (mEyesTrackingThermal && !mTTS.IsSpeaking) {
 				mReaction.StartEyesFollow ();
 			} else {
 				mReaction.StopEyesFollow ();
@@ -196,25 +196,24 @@ namespace BuddyApp.Companion
 
 				case "DontMove":
 					mVocalWanderOrder = false;
-	                    //mCompanionData.CanMoveBody = false;
+	                //mCompanionData.CanMoveBody = false;
 					mReaction.StopMoving ();
 
-					if (mIsRobotIsTrackingSomeone)
-						mIsRobotIsTrackingSomeone = false;
+					if (mRobotIsTrackingSomeone)
+						mRobotIsTrackingSomeone = false;
 	                break;
 
 				case "FollowMe":
-					if (!mIsRobotIsTrackingSomeone)
-                    {
+					if (!mRobotIsTrackingSomeone) {
                         mTTS.Say(mDictionary.GetString("follow"));
-                        mIsRobotIsTrackingSomeone = true;
+                        mRobotIsTrackingSomeone = true;
                     }
                         
 					break;
 
                 case "HeadUp":
-                    GetComponent<IdleReaction>().HeadPosition = -10F;
-                    GetComponent<WanderReaction>().HeadPosition = -10F;
+                    GetComponent<IdleReaction>().HeadPosition = -5F;
+                    GetComponent<WanderReaction>().HeadPosition = -5F;
                     break;
 
                 case "HeadDown":
