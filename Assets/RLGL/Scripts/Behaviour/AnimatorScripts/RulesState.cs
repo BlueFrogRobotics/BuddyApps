@@ -2,6 +2,7 @@
 using System.Collections;
 using BuddyOS.App;
 using System;
+using UnityEngine.UI;
 namespace BuddyApp.RLGL
 {
     public class RulesState : AStateMachineBehaviour
@@ -81,6 +82,7 @@ namespace BuddyApp.RLGL
             {
                 mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
                 mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Close_WQuestion");
+                GetGameObject(6).SetActive(true);
                 iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;
                 iAnimator.SetBool("IsRulesDone", true);
 
@@ -89,6 +91,7 @@ namespace BuddyApp.RLGL
             {
                 mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
                 mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Close_WQuestion");
+                GetGameObject(6).SetActive(true);
                 iAnimator.Play("RulesState", 0, 0.0F);
             }
         }
@@ -104,7 +107,7 @@ namespace BuddyApp.RLGL
             yield return new WaitForSeconds(2.0F);
             if(!mIsSentenceDone)
             {
-                mTTS.Say("Okay, I will explain the game for you my friend. Decreases by about fifteen feets and" +
+                mTTS.Say("Okay, I will explain the game for you my friend. Step back by around sixteen feet and" +
                     " sometimes I will say green light and your goal is to touch my face " +
                         " before I say red light.");
                 mIsSentenceDone = true;
@@ -124,7 +127,9 @@ namespace BuddyApp.RLGL
             {
                 Debug.Log("OPEN BG ECT ");
                 mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
+                GetGameObject(6).SetActive(false);
                 mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Open_WQuestion");
+                mWindowQuestionRule.GetComponentInChildren<Text>().text = "DO YOU WANT ME TO REPEAT THE RULES ?";
                 mCanvasTrigger = true;
             }
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using BuddyOS;
+using BuddyOS.Command;
 
 namespace BuddyApp.HideAndSeek
 {
@@ -48,6 +49,11 @@ namespace BuddyApp.HideAndSeek
         {
             ObjAppOverBuddy.SetActive(false);
             ObjAppOverBuddyWhite.SetActive(true);
+        }
+
+        public void QuitApplication()
+        {
+            new UnLoadAppCmd().Execute();
         }
     }
 }

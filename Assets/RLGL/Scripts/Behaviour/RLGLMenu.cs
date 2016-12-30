@@ -17,8 +17,11 @@ namespace BuddyApp.RLGL
         [SerializeField]
         private GameObject gameplay;
 
+
+        [SerializeField]
+        private GameObject blackIcon;
+
         private TextToSpeech mTTS;
-        private SpeechToText mSTT;
         private Wheels mWheels;
 
         private bool mIsQuestionDone;
@@ -40,8 +43,8 @@ namespace BuddyApp.RLGL
         private bool mNeedListen;
         public bool NeedListen { get { return mNeedListen; } set { mNeedListen = value; } }
 
-        private string mSTTNotif;
-        public string STTNotif { get { return mSTTNotif; } set { mSTTNotif = value; } }
+        //private string mSTTNotif;
+        //public string STTNotif { get { return mSTTNotif; } set { mSTTNotif = value; } }
 
         private bool mIsAnswerPlayYes;
         public bool IsAnswerPlayYes { get { return mIsAnswerPlayYes; } set { mIsAnswerPlayYes = value; } }
@@ -52,7 +55,6 @@ namespace BuddyApp.RLGL
             
             BYOS.Instance.VocalActivation.enabled = false;
             mNeedListen = true;
-            mSTT = BYOS.Instance.SpeechToText;
             mTTS = BYOS.Instance.TextToSpeech;
             mWheels = BYOS.Instance.Motors.Wheels;
             mIsQuestionDone = false;
@@ -69,7 +71,7 @@ namespace BuddyApp.RLGL
             mIsFirstSentenceDone = false;
 
             mIsDone = false;
-            mSTTNotif = "";
+            //mSTTNotif = "";
             listener.GetComponent<RLGLListener>().ErrorCount = 0;
             
         }
@@ -105,7 +107,7 @@ namespace BuddyApp.RLGL
                     Debug.Log("3");
                     background.SetTrigger("Close_BG");
                     menu.SetTrigger("Close_WMenu3");
-                    
+                    blackIcon.SetActive(true);
                     mIsCanvasDisable = true;
                     mTimer = 0.0F;
                 }

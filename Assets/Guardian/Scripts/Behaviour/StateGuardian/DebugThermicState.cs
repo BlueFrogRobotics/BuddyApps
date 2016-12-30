@@ -8,12 +8,16 @@ namespace BuddyApp.Guardian
         private Animator mDebugTempAnimator;
         private ShowTemperature mShowTemperature;
         private Animator mAnimator;
+        private FireDetector mFireDetector;
         private bool mGoBack = false;
+        private bool mHasDetectedFire = false;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             SetWindowAppOverBuddyColor(1);
+            mFireDetector = StateManager.DetectorManager.FireDetector;
+            mFireDetector.OnDetection += OnFireDetected;
             mShowTemperature = StateManager.ShowTemperature;
             mDebugTempAnimator = StateManager.ShowTemperature.gameObject.GetComponent<Animator>();
             mDebugTempAnimator.SetTrigger("Open_WDebugs");
@@ -21,6 +25,7 @@ namespace BuddyApp.Guardian
             mAnimator = animator;
             mShowTemperature.ButtonBack.onClick.AddListener(GoBack);
             mGoBack = false;
+            mHasDetectedFire = false;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -34,14 +39,24 @@ namespace BuddyApp.Guardian
                 Debug.Log("fin debug temp state");
                 mAnimator.SetInteger("DebugMode", -1);
                 mGoBack = false;
+                StateManager.ShowTemperature.IcoFire.enabled = false;
             }
+            if (mHasDetectedFire)
+            {
+                StateManager.PlayBeep();
+                mHasDetectedFire = false;
+                StateManager.ShowTemperature.IcoFire.enabled = true;
+            }
+            else
+                StateManager.ShowTemperature.IcoFire.enabled = false;
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            StateManager.ShowTemperature.IcoFire.enabled = false;
             mShowTemperature.ButtonBack.onClick.RemoveAllListeners();
-            
+            mFireDetector.OnDetection -= OnFireDetected;
             //mShowTemperature.gameObject.SetActive(false);
         }
 
@@ -49,6 +64,11 @@ namespace BuddyApp.Guardian
         {
             mDebugTempAnimator.SetTrigger("Close_WDebugs");
             mGoBack = true;
+        }
+
+        private void OnFireDetected()
+        {
+            mHasDetectedFire = true;
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

@@ -56,18 +56,15 @@ namespace BuddyApp.IOT
             TextField lNameComponent = lName.GetComponent<TextField>();
 
             lOnOffComponent.Label.text = "ON/OFF";
-            lOnOffComponent.Label.resizeTextForBestFit = true;
             lOnOffComponent.IsActive = (bool)mState["on"];
             IOTOnOffCmd lCmdOnOff = new IOTOnOffCmd(this);
             lOnOffComponent.SwitchCommands.Add(lCmdOnOff);
 
             lColorsComponent.Label.text = "COLORS";
-            lColorsComponent.Label.resizeTextForBestFit = true;
             IOTColorsCmd lCmdColors = new IOTColorsCmd(this);
             lColorsComponent.UpdateCommands.Add(lCmdColors);
 
             lIntensityComponent.Label.text = "INTENSITY";
-            lIntensityComponent.Label.resizeTextForBestFit = true;
             lIntensityComponent.DisplayPercentage = true;
             lIntensityComponent.Slider.minValue = 0;
             lIntensityComponent.Slider.maxValue = 100;

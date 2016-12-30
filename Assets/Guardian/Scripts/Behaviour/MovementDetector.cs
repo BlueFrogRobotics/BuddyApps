@@ -67,8 +67,8 @@ namespace BuddyApp.Guardian
         private Queue<Mat> mBufferVideo;
         private float mMaxBufferSize;
 
-        private float mMinThreshold = 0.0f;
-        private float mMaxThreshold = 200f;
+        private float mMinThreshold = 10.0f;
+        private float mMaxThreshold = 190f;
         private float mThreshold = 35f;
 
         private VideoWriter mVideoWriter;
@@ -191,7 +191,7 @@ namespace BuddyApp.Guardian
             else
                 mThreshold = iThreshold;
 
-            //Debug.Log("threshold sound: " + mThreshold);
+            Debug.Log("threshold mouv: " + mThreshold);
         }
 
         public void Save(string iFilename)

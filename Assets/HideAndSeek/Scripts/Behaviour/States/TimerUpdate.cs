@@ -10,6 +10,7 @@ namespace BuddyApp.HideAndSeek
 
         private float mTimer;
         private int mNumPrec = 0;
+        private bool mHasFinished = false;
 
         public override void Init()
         {
@@ -20,20 +21,21 @@ namespace BuddyApp.HideAndSeek
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Init();
+            mHasFinished = false;
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
             int lNumAct = Mathf.FloorToInt(mTimer);
-            if(lNumAct>mNumPrec)
+            if(lNumAct>mNumPrec && lNumAct<11)
             {
                 mNumPrec = lNumAct;
                 mTTS.Say(""+lNumAct);
             }
-            if(lNumAct>9)
+            if(lNumAct>9 && !mTTS.IsSpeaking && !mHasFinished)
             {
-                
+                mHasFinished = true;
                 iAnimator.SetTrigger("ChangeState");
             }
         }

@@ -14,7 +14,7 @@ namespace BuddyApp.Companion
         /// <summary>  
         ///  This is to detect when Buddy's face is touched once
         /// </summary> 
-        public bool EyeTouched { get { return mFace.ClickedLeftEye || mFace.ClickedRightEye; } }
+        public bool EyeTouched { get { return mFaceTouched; } }
         /// <summary>  
         ///  This is to detect when Buddy's face is touched a lot
         /// </summary> 

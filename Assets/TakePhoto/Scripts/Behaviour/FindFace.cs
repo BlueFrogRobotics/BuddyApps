@@ -14,7 +14,7 @@ namespace BuddyApp.TakePhoto
 
 		private bool mFollowFace;
 		private float mSearchTimer;
-		private const float mTimeMax = 5.0f;
+		private const float mTimeMax = 8.0f;
 		private float mFaceLostTime;
 		private int mSearchStep;
 
@@ -114,18 +114,19 @@ namespace BuddyApp.TakePhoto
 					} else {
 						//move head to look for face
 						if (mSearchTimer < 2.0f && mSearchStep == 1) {
+							mHeadYesAngle = mYesHinge.CurrentAnglePosition - 20.0f;
+							mYesHinge.SetPosition(mHeadYesAngle);
+							mSearchStep++;
+						} else if (mSearchTimer > 2.0f && mSearchStep == 2) {
 							mHeadNoAngle = mNoHinge.CurrentAnglePosition - 25.0f;
 							mNoHinge.SetPosition(mHeadNoAngle);
 							mSearchStep++;
-						} else if (mSearchTimer > 2.0f && mSearchStep == 2) {
+						} else if (mSearchTimer > 4.0f && mSearchStep == 3) {
 							mHeadNoAngle = mNoHinge.CurrentAnglePosition + 50.0f;
 							mNoHinge.SetPosition(mHeadNoAngle);
 							mSearchStep++;
-						} else if (mSearchTimer > 3.5f && mSearchStep == 3) {
-							mHeadNoAngle = mNoHinge.CurrentAnglePosition - 25.0f;
-							mNoHinge.SetPosition(mHeadNoAngle);
-							mHeadYesAngle = mYesHinge.CurrentAnglePosition - 20.0f;
-							mYesHinge.SetPosition(mHeadYesAngle);
+						} else if (mSearchTimer > 6.0f && mSearchStep == 4) {
+							mNoHinge.SetPosition(0.0f);
 							mSearchStep++;
 						}
 					}

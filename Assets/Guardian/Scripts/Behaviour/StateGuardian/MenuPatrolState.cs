@@ -87,17 +87,17 @@ namespace BuddyApp.Guardian
             {
                 Debug.Log(iAnswer);
 
-                if (iAnswer.Contains("mobile") && !iAnswer.Contains("immobile"))//(iAnswer == "mobile")
+                if (iAnswer.ToLower().Contains("mobile") && !iAnswer.ToLower().Contains("immobile"))//(iAnswer == "mobile")
                 {
                     mMode = 2;
                 }
-                else if (iAnswer.Contains("immobile") || iAnswer.Contains("fixe"))//(iAnswer == "immobile" || iAnswer=="fixe" || iAnswer=="six")
+                else if (iAnswer.ToLower().Contains("immobile") || iAnswer.ToLower().Contains("fix") && iAnswer.ToLower().Contains("fix"))//(iAnswer == "immobile" || iAnswer=="fixe" || iAnswer=="six")
                 {
                     mMode = 1;
                 }
                 else
                 {
-                    mTTS.Say("Je n ai pas compris");
+                    mTTS.Say("I didn't understand");
                 }
             }
         }

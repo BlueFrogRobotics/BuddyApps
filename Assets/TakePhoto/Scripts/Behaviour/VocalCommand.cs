@@ -3,12 +3,14 @@ using BuddyOS.App;
 using BuddyFeature.Vision;
 using System.Collections.Generic;
 using BuddyOS;
+using UnityEngine.UI;
 
 namespace BuddyApp.TakePhoto
 {
 	[RequireComponent(typeof(FaceCascadeTracker))]
 	public class VocalCommand : SpeechStateBehaviour
 	{
+
 		private bool mFollowFace;
 		private bool mFirst;
 		private bool mNeedListen;
@@ -38,6 +40,7 @@ namespace BuddyApp.TakePhoto
 		private List<string> mMoreSpeech;
 		public List<string> mAgainSpeech;
 		private List<string> mPhotoSpeech;
+		private RawImage mImageHeadControl;
 
 		public enum BuddyMotion : int
 		{
@@ -59,6 +62,7 @@ namespace BuddyApp.TakePhoto
 			mFollowFace = false;
 			mMotors = BYOS.Instance.Motors;
 			mCanvasHeadControl = GetGameObject(10);
+			mImageHeadControl = GetComponentInGameObject<RawImage>(11);
 		}
 
 		protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -113,6 +117,8 @@ namespace BuddyApp.TakePhoto
 
 		protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+			mImageHeadControl.texture = mFaceTracker.FrameTexture2D;
 			if (!mTouchedScreen) {
 				if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetMouseButtonDown(0)) {
 					Debug.Log("Screen Touched");
@@ -165,7 +171,7 @@ namespace BuddyApp.TakePhoto
 						mFollowFace = false;
 						Debug.Log("We loose the face");
 						mFaceLostTime = 0.0f;
-                    }
+					}
 				}
 
 			} else {
@@ -284,7 +290,7 @@ namespace BuddyApp.TakePhoto
 				case STTError.ERROR_AUDIO: lSentence = mDictionary.GetString("micissue"); break;
 				case STTError.ERROR_NETWORK: lSentence = mDictionary.GetString("connectissue"); break;
 				case STTError.ERROR_RECOGNIZER_BUSY: lSentence = mDictionary.GetString("vrecobusy"); break;
-				case STTError.ERROR_SPEECH_TIMEOUT: lSentence = mDictionary.GetString("hearnothing") + " " + mDictionary.GetString("repeatPls"); break;
+				case STTError.ERROR_SPEECH_TIMEOUT: lSentence = mDictionary.GetString("hearnothing"); break;
 			}
 
 
