@@ -98,7 +98,7 @@ namespace BuddyApp.RLGL
             yield return new WaitForSeconds(2.0F);
             if (mCount < 1)
             {
-                mTTS.Say("I am so happy, we will play together but before I need to know if you want to know the rules! So do you want to listen to the rules?");
+                mTTS.Say("I am so happy, we will play together but before I need to know if you want to know the rules! So do you want to hear them?");
                 mCount++;
             }
 

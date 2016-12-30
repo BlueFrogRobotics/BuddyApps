@@ -2,6 +2,7 @@
 using BuddyOS.App;
 using System;
 using BuddyOS;
+using BuddyOS.Command;
 
 namespace BuddyApp.RLGL
 {
@@ -53,7 +54,7 @@ namespace BuddyApp.RLGL
             {
                 Debug.Log("REPLAY STATE : UPDATE : QUESTION REJOUER");
                 mMood.Set(MoodType.THINKING);
-                mTTS.Say("Do you want to replay the game with me?");
+                mTTS.Say("Do you want to play again?");
                 mIsQuestionDone = true;
 
             }
@@ -94,12 +95,11 @@ namespace BuddyApp.RLGL
 
             if (mIsAnswerReplayNo)
             {
-                //quitter
-
                 mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
                 mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
                 Debug.Log("NO REPLAY UPDATE");
-                BYOS.Instance.AppManager.Quit();
+                new HomeCmd().Execute();
+                //BYOS.Instance.AppManager.Quit();
             }
         }
 
