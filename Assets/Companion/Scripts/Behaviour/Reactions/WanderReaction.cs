@@ -66,7 +66,7 @@ namespace BuddyApp.Companion
             mWanderTime = Time.time;
             mTTSTime = Time.time;
             mEmoteTime = Time.time;
-            mRandomSpeechTime = Random.Range(40F, 80F);
+            mRandomSpeechTime = Random.Range(30F, 60F);
             mRandomWanderTime = Random.Range(10F, 30F);
             mMood.Set(MoodType.NEUTRAL);
             mYesHinge.SetPosition(10F);
@@ -123,7 +123,7 @@ namespace BuddyApp.Companion
             mYesHinge.SetPosition(0F);
             //new SetWheelsSpeedCmd(0F, 0F).Execute();
             //StopAllCoroutines();
-            GetComponent<Reaction>().ActionFinished();
+            //GetComponent<Reaction>().ActionFinished();
         }
 
         private void PlaySearchingHeadAnimation()
@@ -269,7 +269,7 @@ namespace BuddyApp.Companion
             }
             mTTS.Say(lSentence, true);
             mTTSTime = Time.time;
-            mRandomSpeechTime = Random.Range(40F, 80F);
+            mRandomSpeechTime = Random.Range(30F, 60F);
         }
     }
 }

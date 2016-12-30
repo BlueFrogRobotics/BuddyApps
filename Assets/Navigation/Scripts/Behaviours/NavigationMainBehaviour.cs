@@ -48,7 +48,7 @@ public class NavigationMainBehaviour : MonoBehaviour {
                 mPosInit.y = mMotors.Wheels.Odometry.y;
                 //DrawSquare(mPosInit, System.Int32.Parse(textFieldString2));
                 DrawSquare(mPosInit,1);
-                mMotors.Wheels.MoveToAbsolutePosition(mSquare[mCounter], 180, 0.1f);
+                mMotors.Wheels.MoveToAbsolutePosition(mSquare[mCounter], 90, 0.1f);
                 mMoveSq = true;
             
         }
@@ -168,9 +168,9 @@ public class NavigationMainBehaviour : MonoBehaviour {
                     if (mCounter < mSquare.Length)
                     {
                         Debug.Log("Square achieved, now turning");
-                        mMotors.Wheels.SetWheelsSpeed(180, -180, 10);
+                        mMotors.Wheels.SetWheelsSpeed(90, -90, 10);
                         Debug.Log("Moving to next corner" + mSquare[mCounter]);
-                        mMotors.Wheels.MoveToAbsolutePosition(mSquare[mCounter], 180, 0.1f);
+                        mMotors.Wheels.MoveToAbsolutePosition(mSquare[mCounter],90, 0.1f);
                     }
                 }
             }
