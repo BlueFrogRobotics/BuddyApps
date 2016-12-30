@@ -28,6 +28,7 @@ namespace BuddyApp.HideAndSeek
             mAnimator = iAnimator;
             mTimer = 0.0f;
             mHasFinished = false;
+            mYesHinge.SetPosition(-10);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

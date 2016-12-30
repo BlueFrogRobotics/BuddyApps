@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using BuddyOS;
 using BuddyOS.App;
 using BuddyTools;
 using OpenCVUnity;
@@ -11,6 +12,7 @@ namespace BuddyApp.HideAndSeek
     {
         private SaveFacesWindow mSaveFacesWindow;
         private FaceRecognition mFaceReco;
+        private FaceDetector mFaceDetector;
         private Button mButtonTrain;
         private bool mHasStarted = false;
         private Texture2D mTexture;
@@ -24,6 +26,7 @@ namespace BuddyApp.HideAndSeek
         {
             mSaveFacesWindow = GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponentInChildren<SaveFacesWindow>();
             mFaceReco = GetGameObject((int)HideAndSeekData.ObjectsLinked.FACE_RECO).GetComponent<FaceRecognition>();
+            mFaceDetector = GetGameObject((int)HideAndSeekData.ObjectsLinked.FACE_RECO).GetComponent<FaceDetector>();
             //mButtonTrain = mFaceReco.mButtonTrain;
             //mButtonTrain.onClick.AddListener(Train);
             mHasStarted = false;
@@ -37,7 +40,7 @@ namespace BuddyApp.HideAndSeek
                 mRGBCam.Open();
             GetGameObject((int)HideAndSeekData.ObjectsLinked.FACE_RECO).SetActive(true);
             mSaveFacesWindow.Open();
-            mSaveFacesWindow.ButtonGo.interactable = true;
+            mSaveFacesWindow.ButtonGo.gameObject.SetActive(true); //interactable = true;
             mSaveFacesWindow.ButtonGo.onClick.AddListener(StartLabel);
             mSaveFacesWindow.ScrollLoading.size = 0;
             mSaveFacesWindow.ImageToDisplay.texture = new Texture2D(100, 100);
@@ -53,6 +56,7 @@ namespace BuddyApp.HideAndSeek
             //mVocalActivation.StartListenBehaviour = StartListening;
             //mVocalActivation.StopListenBehaviour = StopListening;
             mTimer = 0.0f;
+            mYesHinge.SetPosition(-10);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -65,7 +69,8 @@ namespace BuddyApp.HideAndSeek
             //}
             //Debug.Log("num face: " + mNumFacesSaved);
             mTimer += Time.deltaTime;
-            if(!mHasStarted && mTTS.HasFinishedTalking)
+            mSaveFacesWindow.ImageToDisplay.texture = Utils.MatToTexture2D(mFaceDetector.CamView);//mTexture;
+            if (!mHasStarted && mTTS.HasFinishedTalking)
             {
                 if (!mIsListening && mTimer > 3.0f)
                 {
@@ -84,7 +89,7 @@ namespace BuddyApp.HideAndSeek
                     float lProportionFace=mNumFacesSaved / NUM_FACE_MAX;
                     mSaveFacesWindow.ScrollLoading.size = lProportionFace;
                     //Utils.MatToTexture2D(mFaceReco.FaceAct, mTexture);
-                    mSaveFacesWindow.ImageToDisplay.texture = Utils.MatToTexture2D(mFaceReco.FaceAct);//mTexture;
+                    //mSaveFacesWindow.ImageToDisplay.texture = Utils.MatToTexture2D(mFaceReco.FaceAct);//mTexture;
                 }
             }
 
@@ -124,9 +129,10 @@ namespace BuddyApp.HideAndSeek
 
         private void StartLabel()
         {
+            mSpeaker.FX.Play(FXSound.BEEP_1);
             mHasStarted = true;
             mFaceReco.StartLabel();
-            mSaveFacesWindow.ButtonGo.interactable = false;
+            mSaveFacesWindow.ButtonGo.gameObject.SetActive(false);// interactable = false;
         }
 
         private void Train()

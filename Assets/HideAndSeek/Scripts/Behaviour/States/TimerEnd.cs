@@ -15,6 +15,7 @@ namespace BuddyApp.HideAndSeek
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTTS.Say(mDictionary.GetString("iGo"));//("J'y vais");
+            mYesHinge.SetPosition(10);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
