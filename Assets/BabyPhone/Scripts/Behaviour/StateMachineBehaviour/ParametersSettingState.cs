@@ -33,7 +33,7 @@ namespace BuddyApp.BabyPhone
             //mBlackground.SetActive(true);
             mBackgroundBlackAnimator.SetTrigger("Open_BG");
             mParametersAnimator.SetTrigger("Open_WParameters");
-            mMood.Set(MoodType.THINKING);
+            mMood.Set(MoodType.HAPPY);
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

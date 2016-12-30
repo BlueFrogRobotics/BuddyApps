@@ -26,7 +26,7 @@ namespace BuddyApp.BabyPhone
             mWindowAppOverWhite.SetActive(true);
             mHeadAdjustmentAnimator.SetTrigger("Open_WHeadController");
 
-            mMood.Set(MoodType.THINKING);
+            mMood.Set(MoodType.HAPPY);
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

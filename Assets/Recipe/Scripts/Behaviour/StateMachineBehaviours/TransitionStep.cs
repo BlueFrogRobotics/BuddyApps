@@ -22,7 +22,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!check && mTTS.HasFinishedTalking)
+            if (!check && mTTS.HasFinishedTalking && !mVocalActivation.RecognitionTriggered)
             {
                 check = true;
                 mVocalActivation.VocalProcessing = VocalProcessing;
@@ -44,6 +44,7 @@ namespace BuddyApp.Recipe
 
         private void VocalProcessing(string answer)
         {
+            answer = answer.ToLower();
             if (ContainKeyWord(answer, mDictionary.GetString("next").Split(' ')))
                 NextStep();
             else if (ContainKeyWord(answer, mDictionary.GetString("last").Split(' ')))

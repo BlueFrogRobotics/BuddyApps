@@ -101,7 +101,7 @@ namespace BuddyApp.BabyPhone
         public void NoRightButtonDown()
         {
             mNoRight = true;
-            mFace.LookAt(-600, 600);
+            mFace.LookAt(FaceLookAt.BOTTOM_LEFT);
             mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
         }
 
