@@ -294,7 +294,7 @@ namespace BuddyApp.RLGL
                 else if (mIndex == 5)
                 {
                     //windowMenu.GetComponent<RLGLMenu>().STTNotif = iMsg;
-                    mNotif.Display<SimpleNot>(2.5F).With(iMsg);
+                    //mNotif.Display<SimpleNot>(2.5F).With(iMsg);
                     windowMenu.GetComponent<RLGLMenu>().NeedListen = true;
                 }
                 
