@@ -17,6 +17,10 @@ namespace BuddyApp.RLGL
         [SerializeField]
         private GameObject gameplay;
 
+
+        [SerializeField]
+        private GameObject blackIcon;
+
         private TextToSpeech mTTS;
         private Wheels mWheels;
 
@@ -103,7 +107,7 @@ namespace BuddyApp.RLGL
                     Debug.Log("3");
                     background.SetTrigger("Close_BG");
                     menu.SetTrigger("Close_WMenu3");
-                    
+                    blackIcon.SetActive(true);
                     mIsCanvasDisable = true;
                     mTimer = 0.0F;
                 }
