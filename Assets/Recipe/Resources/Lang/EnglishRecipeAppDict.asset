@@ -13,4 +13,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: askprepare
-    val: What do your want to do ?
+    val: So what are we preparing?
+  - key: recipenotfound
+    val: Sorry I did not find this recipe, can you please repeat?
+  - key: noanswerrecipe
+    val: Sorry I did not hear anything, can you please repeat?
+  - key: chooserecipecategory
+    val: What kind of recipe do you want to make?
+  - key: starter
+    val: Starter
+  - key: dish
+    val: Dish
+  - key: nomatchingrecipe
+    val: Sorry I could not find any recipes matching these criteria
+  - key: pathtoxml
+    val: recipe_list_en.xml
+  - key: listrecipefound
+    val: I found several recipes, which one do you want to do?
+  - key: startingredient
+    val: "Pour commencer pr\xE9parez les ingr\xE9dients suivants pour "
+  - key: person
+    val: person
+  - key: next
+    val: next following ok okay
+  - key: last
+    val: previous last former back preceding
+  - key: repeat
+    val: repeat again
+  - key: finish
+    val: It's over, I'm nice I leave you my share

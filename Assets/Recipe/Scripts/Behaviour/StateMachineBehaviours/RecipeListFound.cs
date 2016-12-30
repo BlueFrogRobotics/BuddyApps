@@ -12,7 +12,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mTTS.Say("J'ai trouvé plusieurs recettes, laquelle veux tu faire ?");
+            mTTS.Say(mDictionary.GetString("listrecipefound"));
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

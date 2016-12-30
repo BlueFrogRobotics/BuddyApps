@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BuddyOS.App;
+using BuddyOS;
 
 namespace BuddyApp.BabyPhone
 {
@@ -21,6 +22,7 @@ namespace BuddyApp.BabyPhone
             mTime = 0;
             
             StartCoroutine(LoadingScreenFunc());
+            BYOS.Instance.VocalActivation.enabled = false;
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

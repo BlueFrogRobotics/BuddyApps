@@ -29,8 +29,8 @@ namespace BuddyApp.Recipe
             animator.SetBool("Open_WLoading", false);
             animator.SetBool("Close_WLoading", true);
             yield return new WaitForSeconds(1F);
-            loadingScreen.SetActive(false);
             animator.SetBool("Close_WLoading", false);
+            loadingScreen.SetActive(false);
             startApp.SetActive(true);
         }
     }

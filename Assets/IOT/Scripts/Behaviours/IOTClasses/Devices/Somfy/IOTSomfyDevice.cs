@@ -161,12 +161,11 @@ namespace BuddyApp.IOT
 
         protected void ChangeStateValue(string lStateName)
         {
-            string lUrl = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/setup/devices/" + deviceURL.Replace(":","%3A").Replace("/","%2F") + "/states" + lStateName.Replace(":","%3A");
-
+            string lUrl = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/setup/devices/" + deviceURL.Replace(":","%3A").Replace("/","%2F").Replace("#","%23") + "/states/" + lStateName.Replace(":","%3A");
             Request lRequest = new Request("GET", lUrl);
             lRequest.cookieJar = null;
             lRequest.SetHeader("cookie", mSessionID);
-            lRequest.SetHeader("Content-Type", "application/json");
+            lRequest.uri = new System.Uri(lUrl);
 
             IOTSomfyStateJSON lState = null;
 
@@ -176,7 +175,6 @@ namespace BuddyApp.IOT
                     Debug.Log("Couldn't get state");
                     return;
                 }
-                Debug.Log(lResult.response.Text);
                 lState = JsonUtility.FromJson<IOTSomfyStateJSON>(lResult.response.Text);
                 for(int i = 0; i < states.Length; ++i)
                 {
@@ -191,12 +189,11 @@ namespace BuddyApp.IOT
         {
             base.ChangeName(iName);
 
-            string lUrl = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/setup/devices/" + deviceURL.Replace(":", "%3A").Replace("/", "%2F") + "/" + iName.Replace(" ", "%20");
+            string lUrl = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/setup/devices/" + deviceURL.Replace(":", "%3A").Replace("/", "%2F").Replace("#", "%23") + "/" + iName.Replace(" ", "%20");
 
             Request lRequest = new Request("PUT", lUrl);
             lRequest.cookieJar = null;
             lRequest.SetHeader("cookie", mSessionID);
-            lRequest.SetHeader("Content-Type", "application/json");
             lRequest.Send((lResult) => {
                 Debug.Log(lResult.response.Text);
                 if (lResult == null)

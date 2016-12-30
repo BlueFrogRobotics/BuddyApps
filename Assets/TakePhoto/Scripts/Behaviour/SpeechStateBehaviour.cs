@@ -30,7 +30,7 @@ namespace BuddyApp
 				//if iListSpeech has a single word, check for the word
 				string[] words = iListSpeech[i].Split(' ');
 				if (words.Length < 2) {
-					words = iSpeech.Split(' ');
+					words = iSpeech.ToLower().Split(' ');
 					foreach (string word in words) {
 						if (word == iListSpeech[i].ToLower()) {
 							return true;

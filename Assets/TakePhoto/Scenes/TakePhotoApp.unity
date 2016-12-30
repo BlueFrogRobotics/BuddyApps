@@ -674,6 +674,7 @@ MonoBehaviour:
   - {fileID: 306341494}
   - {fileID: 377534432}
   - {fileID: 37759161}
+  - {fileID: 976724864}
 --- !u!95 &661417650
 Animator:
   serializedVersion: 3
@@ -911,6 +912,10 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!1 &976724864 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 107222, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
+  m_PrefabInternal: {fileID: 983526796}
 --- !u!1001 &983526796
 Prefab:
   m_ObjectHideFlags: 0
@@ -918,10 +923,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 764027710}
     m_Modifications:
-    - target: {fileID: 11413034, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 22469198, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -998,28 +999,8 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 661417650}
-    - target: {fileID: 11432498, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetTrigger
-      objectReference: {fileID: 0}
-    - target: {fileID: 11432498, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Photo
-      objectReference: {fileID: 0}
-    - target: {fileID: 11413034, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11413034, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11413034, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 11500000, guid: 92f3182d12a74084f9fc166567cc1f8e,
-        type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11445782, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 9b2e781210bedc4489ba8839c7184b7b, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1163186392 stripped

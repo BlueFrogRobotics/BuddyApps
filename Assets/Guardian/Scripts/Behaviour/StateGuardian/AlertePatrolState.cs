@@ -147,7 +147,12 @@ namespace BuddyApp.Guardian
 
         private void SendNotification()
         {
-            CultureInfo cultureFR = new CultureInfo("fr-FR");
+            CultureInfo lCulture;
+            if (BYOS.Instance.LanguageManager.CurrentLang==Language.FRA)
+                lCulture = new CultureInfo("fr-FR");
+            else
+                lCulture = new CultureInfo("en-US");
+
             DateTime localDate = DateTime.Now;
 
             int lAlerte = mAnimator.GetInteger("Alerte");
@@ -157,8 +162,14 @@ namespace BuddyApp.Guardian
                     if (mMailSender.CanSend && mMailAdress != "")
                     {
                         //mDetectorManager.mSoundDetector.SaveWav("noise");
-                        string lTextMail = "On est le " + localDate.ToString(cultureFR) + ". Je viens de détecter du bruit";
-                        BuddyFeature.Web.Mail lMail = new BuddyFeature.Web.Mail("alerte bruit", lTextMail);
+
+                        string lTextMail;
+                        if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA)
+                            lTextMail = "On est le " + localDate.ToString(lCulture) + ". Je viens de détecter du bruit";
+                        else
+                            lTextMail = "It's " + localDate.ToString(lCulture) + ". I have detected some noise";
+
+                        BuddyFeature.Web.Mail lMail = new BuddyFeature.Web.Mail("noise alert", lTextMail);
                         lMail.AddTo(mMailAdress);
                         if (mWebcam != null && !mWebcam.IsOpen)
                         {
@@ -174,11 +185,15 @@ namespace BuddyApp.Guardian
                     //mDetectedIssues
                     //mMessage.text = "ATTENTION DEPART DE FEU POTENTIEL!";
                     mAnimator.SetBool("ChangeState", false);
-                    Debug.Log(localDate.ToString(cultureFR));
+                    Debug.Log(localDate.ToString(lCulture));
                     if (mMailSender.CanSend && mMailAdress != "")
                     {
-                        string lTextMail = "On est le " + localDate.ToString(cultureFR) + ". Je viens de détecter une forte chaleur";
-                        BuddyFeature.Web.Mail lMail = new BuddyFeature.Web.Mail("alerte incendie", lTextMail);
+                        string lTextMail;
+                        if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA)
+                            lTextMail = "On est le " + localDate.ToString(lCulture) + ". Je viens de détecter une forte chaleur";
+                        else
+                            lTextMail = "It's " + localDate.ToString(lCulture) + ". I have detected fire";
+                        BuddyFeature.Web.Mail lMail = new BuddyFeature.Web.Mail("fire alert", lTextMail);
                         lMail.AddTo(mMailAdress);
                         if (mWebcam != null && !mWebcam.IsOpen)
                         {
@@ -196,12 +211,16 @@ namespace BuddyApp.Guardian
                     //mMessage.text = "ATTENTION INTRUSION POTENTIELLE!";
                     mAnimator.SetBool("ChangeState", false);
 
-                    Debug.Log(localDate.ToString(cultureFR));
+                    Debug.Log(localDate.ToString(lCulture));
                     if (mMailSender.CanSend && mMailAdress != "")
                     {
                         Debug.Log("can send");
-                        string lTextMail = "Il est " + localDate.ToString(cultureFR) + ". Je viens de détecter un mouvement";
-                        BuddyFeature.Web.Mail lMail = new BuddyFeature.Web.Mail("alerte mouvement", lTextMail);
+                        string lTextMail;
+                        if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA)
+                            lTextMail = "On est le " + localDate.ToString(lCulture) + ". Je viens de détecter un mouvement";
+                        else
+                            lTextMail = "It's " + localDate.ToString(lCulture) + ". I have detected some movement";
+                        BuddyFeature.Web.Mail lMail = new BuddyFeature.Web.Mail("movement alert", lTextMail);
                         lMail.AddTo(mMailAdress);
                         if (mWebcam != null && !mWebcam.IsOpen)
                         {

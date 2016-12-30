@@ -18,7 +18,7 @@ namespace BuddyApp.Recipe
             if (mCount >= 1)
                 iAnimator.SetTrigger("ChooseWithScreen");
             else
-                mTTS.Say("Désolé je n'ai rien entendu, veux tu bien répéter ?");
+                mTTS.Say(mDictionary.GetString("noanswerrecipe"));
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
