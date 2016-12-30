@@ -76,7 +76,7 @@ namespace BuddyApp.IOT
 
         public override void GetDevices()
         {
-            string url = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/" + "/setup/devices";
+            string url = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/setup/devices";
 
             Request lRequest = new Request("GET", url);
             lRequest.cookieJar = null;
