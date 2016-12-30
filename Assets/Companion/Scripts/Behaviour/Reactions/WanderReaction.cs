@@ -39,8 +39,7 @@ namespace BuddyApp.Companion
 
         void Start()
         {
-            mInitialized = true;
-            mHeadPos = -10F;
+            mHeadPos = -5F;
             mDict = BYOS.Instance.Dictionary;
             mFace = BYOS.Instance.Face;
             mIRSensors = BYOS.Instance.IRSensors;
@@ -50,14 +49,13 @@ namespace BuddyApp.Companion
             mUSSensors = BYOS.Instance.USSensors;
             mWheels = BYOS.Instance.Motors.Wheels;
             mYesHinge = BYOS.Instance.Motors.YesHinge;
+            mInitialized = true;
         }
 
         void OnEnable()
         {
-            if(!mInitialized) {
+            if(!mInitialized)
                 Start();
-                mInitialized = true;
-            }
 
             mHeadSearchPlaying = false;
             mChangingDirection = false;
@@ -66,10 +64,10 @@ namespace BuddyApp.Companion
             mWanderTime = Time.time;
             mTTSTime = Time.time;
             mEmoteTime = Time.time;
-            mRandomSpeechTime = Random.Range(30F, 60F);
+            mRandomSpeechTime = Random.Range(20F, 40F);
             mRandomWanderTime = Random.Range(10F, 30F);
             mMood.Set(MoodType.NEUTRAL);
-            mYesHinge.SetPosition(10F);
+            mYesHinge.SetPosition(mHeadPos);
             FaceRandomDirection();
         }
 
@@ -89,7 +87,7 @@ namespace BuddyApp.Companion
             if(mIsSearchingPoint && Time.time - mWanderTime < mRandomWanderTime) {
                 PlaySearchingHeadAnimation();
                 if (!AnyObstructionsInfrared())
-                    mWheels.SetWheelsSpeed(200F, 200F, 200);
+                    mWheels.SetWheelsSpeed(200F, 200F, 400);
                 else
                     FaceRandomDirection();
 
@@ -145,16 +143,30 @@ namespace BuddyApp.Companion
             while(mHeadSearchPlaying) {
                 switch(Random.Range(0, 2)) {
                     case 0:
-                        float lHeadNo = Random.Range(-45F, 45F);
-                        mNoHinge.SetPosition(lHeadNo);
+                        TurnHeadNo();
                         break;
                     case 1:
-                        float lHeadYes = Random.Range(mHeadPos - 10F, mHeadPos + 10F);
-                        mYesHinge.SetPosition(lHeadYes);
+                        TurnHeadYes();
                         break;
                 }
                 yield return new WaitForSeconds(2F);
             }
+        }
+
+        private void TurnHeadNo()
+        {
+            float lHeadNo = Random.Range(5F, 35F);
+
+            if (mNoHinge.CurrentAnglePosition > 0F)
+                lHeadNo = -lHeadNo;
+
+            mNoHinge.SetPosition(lHeadNo);
+        }
+
+        private void TurnHeadYes()
+        {
+            float lHeadYes = Random.Range(mHeadPos - 10F, mHeadPos + 20F);
+            mYesHinge.SetPosition(lHeadYes);
         }
 
         private void ChangeDirection()
@@ -213,7 +225,7 @@ namespace BuddyApp.Companion
             yield return new WaitForSeconds(1.5F);
 
             mIsSearchingPoint = true;
-            mRandomWanderTime = Random.Range(15F, 30F);
+            mRandomWanderTime = Random.Range(10F, 30F);
             mWanderTime = Time.time;
             mEmoteTime = Time.time;
             mChangingDirection = false;
@@ -242,7 +254,7 @@ namespace BuddyApp.Companion
         {
             float lRandomAngle = Random.Range(60F, 300F);
             if (lRandomAngle > 180F)
-                lRandomAngle = 360F - lRandomAngle;
+                lRandomAngle = lRandomAngle - 360F;
             mWheels.TurnAngle(lRandomAngle, 100F, 0.02F);
         }
 
@@ -269,7 +281,7 @@ namespace BuddyApp.Companion
             }
             mTTS.Say(lSentence, true);
             mTTSTime = Time.time;
-            mRandomSpeechTime = Random.Range(30F, 60F);
+            mRandomSpeechTime = Random.Range(20F, 40F);
         }
     }
 }

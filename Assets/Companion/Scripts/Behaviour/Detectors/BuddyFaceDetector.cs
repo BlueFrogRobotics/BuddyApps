@@ -10,6 +10,8 @@ namespace BuddyApp.Companion
         private Button leftEye;
         [SerializeField]
         private Button rightEye;
+        [SerializeField]
+        private Slider caressBar;
 
         /// <summary>  
         ///  This is to detect when Buddy's face is touched once
@@ -22,6 +24,7 @@ namespace BuddyApp.Companion
         
         private bool mFaceTouched;
         private bool mFaceSmashed;
+        private bool mCarressed;
         private short mTimesFaceTouched;
         private float mLastTimeFaceTouched;
         private Face mFace;
