@@ -112,6 +112,10 @@ namespace BuddyApp.IOT
                                 mDevices[i] = new IOTSomfySwitch(lDevices.devices[i + j], mSessionID);
                             else if (iUiClass == "Screen")
                                 mDevices[i] = new IOTSomfyStore(lDevices.devices[i + j], mSessionID);
+                            else if (iUiClass == "HeatingSystem")
+                                mDevices[i] = new IOTSomfyThermostat(lDevices.devices[i + j], mSessionID);
+                            else if (iUiClass == "TemperatureSensor")
+                                mDevices[i] = new IOTSomfyThermometer(lDevices.devices[i + j], mSessionID);
                         }
                     }
                 }

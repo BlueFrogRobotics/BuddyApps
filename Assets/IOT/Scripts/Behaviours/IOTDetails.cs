@@ -15,6 +15,8 @@ namespace BuddyApp.IOT {
 
         private SpriteManager mSpriteManager;
 
+        private float mTime = 0f;
+
         private Transform ParamContainer(GameObject iGO)
         {
             return iGO.transform.GetChild(3);
@@ -46,6 +48,8 @@ namespace BuddyApp.IOT {
         void OnEnable()
         {
             mSpriteManager = BYOS.Instance.SpriteManager;
+            mTime = 0f;
+
             CleanParams();
             GameObject lFirst = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/DevicePanel"));
             lFirst.transform.SetParent(content, false);
@@ -73,6 +77,26 @@ namespace BuddyApp.IOT {
                     lDevice.InitializeParams();
                     lDevice.PlaceParams(lParamsChild);
                 }
+            }
+        }
+
+        void Update()
+        {
+            mTime += Time.deltaTime;
+            if(mTime > 1F)
+            {
+                if (mObject is IOTSystems)
+                {
+                    IOTSystems mSystem = (IOTSystems)mObject;
+                    for (int i = 0; i < mSystem.Devices.Count; ++i)
+                    {
+                        mSystem.Devices[i].UpdateSlow();
+                    }
+                }
+                else if (mObject is IOTDevices)
+                    ((IOTDevices)mObject).UpdateSlow();
+
+                mTime = 0F;
             }
         }
     }
