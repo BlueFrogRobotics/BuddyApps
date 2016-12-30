@@ -4,9 +4,9 @@ using BuddyOS.Command;
 
 namespace BuddyApp.IOT
 {
-    public class IOTStoreCmd : ACommand
+    public class IOTDeviceCmdCmd : ACommand
     {
-        public IOTStoreCmd(object iObject, int iInt)
+        public IOTDeviceCmdCmd(object iObject, int iInt)
         {
             Parameters = new CommandParam();
             Parameters.Objects = new object[1] { iObject };
@@ -14,7 +14,7 @@ namespace BuddyApp.IOT
         }
         protected override void ExecuteImpl()
         {
-            ((IOTSomfyStore)Parameters.Objects[0]).Command(Parameters.Integers[0]);
+            ((IOTDevices)Parameters.Objects[0]).Command(Parameters.Integers[0]);
         }
     }
 }
