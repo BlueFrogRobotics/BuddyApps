@@ -11,6 +11,7 @@ namespace BuddyApp.HideAndSeek
         private Players mPlayers;
         private bool mHasValidated = false;
         private bool mHasClosed = false;
+        private bool mIsListening = false;
 
         public override void Init()
         {
@@ -23,14 +24,30 @@ namespace BuddyApp.HideAndSeek
             GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponent<WindowLinker>().SetAppWhite();
             mSaveNameWindow.Open();
             mSaveNameWindow.ButtonYes.onClick.AddListener(ValidateName);
+            mSaveNameWindow.InputName.text = "";
             mHasValidated = false;
             mHasClosed = false;
+            mIsListening = false;
             mSaveNameWindow.ImageToDisplay.texture = Utils.MatToTexture2D(mPlayers.GetPlayer(mPlayers.NumPlayer - 1).FaceMat);
+            mTTS.Say(mDictionary.GetString("askPlayerName"));
+            mSTT.OnBestRecognition.Add(VocalProcessing);
+            mSTT.OnBeginning.Add(StartListening);
+            mSTT.OnEnd.Add(StopListening);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if(mHasValidated && !mHasClosed)
+            //Debug.Log("input text: " + mSaveNameWindow.InputName.text);
+            if (!mHasValidated && mTTS.HasFinishedTalking && mSaveNameWindow.InputName.text=="")
+            {
+                //Debug.Log("dans if");
+                if (!mIsListening )
+                {
+                    //mVocalActivation.StartInstantReco();
+                    mSTT.Request();
+                }
+            }
+            else if (mHasValidated && !mHasClosed)
             {
                 mSaveNameWindow.Close();
                 mHasClosed = true;
@@ -43,12 +60,33 @@ namespace BuddyApp.HideAndSeek
         {
             iAnimator.ResetTrigger("ChangeState");
             mSaveNameWindow.ButtonYes.onClick.RemoveAllListeners();
+            mSTT.OnBestRecognition.Remove(VocalProcessing);
+            mSTT.OnBeginning.Remove(StartListening);
+            mSTT.OnEnd.Remove(StopListening);
         }
 
         private void ValidateName()
         {
             mHasValidated = true;
             mPlayers.GetPlayer(mPlayers.NumPlayer-1).Name = mSaveNameWindow.InputName.text;
+        }
+
+        private void VocalProcessing(string iRequest)
+        {
+            if(iRequest!="" && mSaveNameWindow.InputName.text=="")
+            {
+                mSaveNameWindow.InputName.text = iRequest;
+            }
+        }
+
+        private void StartListening()
+        {
+            mIsListening = true;
+        }
+
+        private void StopListening()
+        {
+            mIsListening = false;
         }
     }
 }

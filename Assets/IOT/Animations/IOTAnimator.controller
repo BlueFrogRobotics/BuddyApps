@@ -270,7 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b273174b36a3d4db2c9bc1aa991393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sentence: Do you want to connect to the device or add a new IOT device?
+  Sentence: What do you want to do?
   trigger: 0
   triggerOrNotTrigger: 1
 --- !u!114 &11430830
@@ -298,6 +298,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mood: 0
+--- !u!114 &11433584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7077597048a1724a95e657849a045ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  when: 0
+  clearOnBestReco: 0
+  setActive: 0
+  gameobject: 08000000
 --- !u!114 &11433956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -333,6 +348,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52cc8f5daba9faa4abee6d3a288453d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11436884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7077597048a1724a95e657849a045ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  when: 0
+  clearOnBestReco: 0
+  setActive: 0
+  gameobject: 08000000
 --- !u!114 &11437058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -464,6 +494,21 @@ MonoBehaviour:
   clearOnBestReco: 1
   setActive: 0
   gameobject: 02000000
+--- !u!114 &11458212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7077597048a1724a95e657849a045ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  when: 0
+  clearOnBestReco: 0
+  setActive: 1
+  gameobject: 08000000
 --- !u!114 &11463068
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -564,7 +609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notification: 0
-  message: Do you want to connect to the device or add a new IOT device?
+  message: What do you want to do?
   sprite: Message
   timer: 0
 --- !u!114 &11481724
@@ -647,6 +692,36 @@ MonoBehaviour:
   clearOnBestReco: 0
   setActive: 1
   gameobject: 00000000030000000600000007000000
+--- !u!114 &11494402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7077597048a1724a95e657849a045ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  when: 0
+  clearOnBestReco: 0
+  setActive: 0
+  gameobject: 08000000
+--- !u!114 &11495440
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7077597048a1724a95e657849a045ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  when: 0
+  clearOnBestReco: 0
+  setActive: 0
+  gameobject: 08000000
 --- !u!114 &11499150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1411,7 +1486,10 @@ AnimatorStateTransition:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Close
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110266590}
   m_Solo: 0
@@ -1637,6 +1715,7 @@ AnimatorState:
   - {fileID: 11419976}
   - {fileID: 11437058}
   - {fileID: 11457306}
+  - {fileID: 11495440}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1717,6 +1796,7 @@ AnimatorState:
   - {fileID: 11493984}
   - {fileID: 11423706}
   - {fileID: 11453164}
+  - {fileID: 11494402}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1801,6 +1881,7 @@ AnimatorState:
   - {fileID: 11484998}
   - {fileID: 11407000}
   - {fileID: 11428830}
+  - {fileID: 11436884}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1910,6 +1991,7 @@ AnimatorState:
   - {fileID: 11442192}
   - {fileID: 11476866}
   - {fileID: 11431780}
+  - {fileID: 11458212}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -2078,6 +2160,7 @@ AnimatorState:
   - {fileID: 11422168}
   - {fileID: 11405234}
   - {fileID: 11499150}
+  - {fileID: 11433584}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

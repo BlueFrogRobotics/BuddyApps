@@ -17,6 +17,7 @@ namespace BuddyApp.HideAndSeek
         private BackgroundBlackWindow mBackgroundBlackWindow;
         private FaceRecognition mFaceReco;
         private bool mHasClosed = false;
+        private bool mIsListening = false;
         private Answer mAnswer;
 
         public override void Init()
@@ -34,12 +35,25 @@ namespace BuddyApp.HideAndSeek
             mQuestionWindow.ButtonNo.onClick.AddListener(No);
             mAnswer = Answer.NONE;
             mHasClosed = false;
+            mIsListening = false;
+            mSTT.OnBestRecognition.Add(VocalProcessing);
+            mSTT.OnBeginning.Add(StartListening);
+            mSTT.OnEnd.Add(StopListening);
+            mTTS.Say(mDictionary.GetString("askAddPlayer"));
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
-            if (mAnswer!=Answer.NONE && !mHasClosed)
+            if (mAnswer == Answer.NONE && mTTS.HasFinishedTalking)
+            {
+                //Debug.Log("dans if");
+                if (!mIsListening)
+                {
+                    //mVocalActivation.StartInstantReco();
+                    mSTT.Request();
+                }
+            }
+            else if (mAnswer!=Answer.NONE && !mHasClosed)
             {
                 mQuestionWindow.Close();
                 if (mAnswer == Answer.NO)
@@ -62,17 +76,47 @@ namespace BuddyApp.HideAndSeek
             mQuestionWindow.ButtonNo.onClick.RemoveAllListeners();
             iAnimator.ResetTrigger("ChangeState");
             iAnimator.ResetTrigger("AddPlayer");
+            mSTT.OnBestRecognition.Remove(VocalProcessing);
+            mSTT.OnBeginning.Remove(StartListening);
+            mSTT.OnEnd.Remove(StopListening);
         }
 
         private void Yes()
         {
-            mAnswer = Answer.YES;
+            if(mAnswer==Answer.NONE)
+                mAnswer = Answer.YES;
         }
 
         private void No()
         {
-            mAnswer = Answer.NO;
-            mFaceReco.Train();
+            if (mAnswer == Answer.NONE)
+            {
+                mAnswer = Answer.NO;
+                mFaceReco.Train();
+            }
+        }
+
+        private void VocalProcessing(string iRequest)
+        {
+            string lRequest = iRequest.ToLower();
+            if (lRequest.Contains(mDictionary.GetString("yes")) )
+            {
+                Yes();
+            }
+            else if(lRequest.Contains(mDictionary.GetString("no")))
+            {
+                No();
+            }
+        }
+
+        private void StartListening()
+        {
+            mIsListening = true;
+        }
+
+        private void StopListening()
+        {
+            mIsListening = false;
         }
     }
 }

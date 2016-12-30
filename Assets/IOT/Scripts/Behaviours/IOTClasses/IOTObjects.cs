@@ -18,7 +18,7 @@ namespace BuddyApp.IOT
         public string Name { get { return mName; } set { mName = value; } }
         public string SpriteName { get { return mSpriteName; }}
 
-        public enum ParamType : int { BUTTON, GAUGE, ONOFF, PASSWORD, TEXTFIELD, DROPDOWN, COLORS };
+        public enum ParamType : int { BUTTON, GAUGE, ONOFF, PASSWORD, TEXTFIELD, DROPDOWN, COLORS, LABEL };
 
         protected GameObject InstanciateParam(ParamType iType)
         {

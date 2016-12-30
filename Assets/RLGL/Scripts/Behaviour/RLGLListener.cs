@@ -68,8 +68,10 @@ namespace BuddyApp.RLGL
             }
             else if (mErrorCount == 5)
             {
-                mTTS.Say("Ok I'll do others things, we will replay together later!");
+                mTTS.Say("Ok I'll do others things, we will play together later!");
                 new HomeCmd().Execute();
+                //BYOS.Instance.AppManager.Quit();
+                return;
             }
 
             if (gameplay.activeSelf)
@@ -93,7 +95,7 @@ namespace BuddyApp.RLGL
                         ++mErrorCount;
                         break;
                     case STTError.ERROR_NO_MATCH:
-                        lError = "Can you repeat please?";
+                        lError = "Maybe you should click on my face";
                         gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().NeedListen = true;
                         break;
                     default:
@@ -111,11 +113,11 @@ namespace BuddyApp.RLGL
                 switch (iError)
                 {
                     case STTError.ERROR_NO_MATCH:
-                        lError = "Can you repeat please?";
+                        lError = "Maybe you should click on my face";
                         gameplay.GetComponent<Animator>().GetBehaviour<StartState>().NeedListen = true;
                         break;
                     case STTError.ERROR_SPEECH_TIMEOUT:
-                        lError = "Can you repeat please?";
+                        lError = "Why nobody answer me?";
                         gameplay.GetComponent<Animator>().GetBehaviour<StartState>().NeedListen = true;
                         ++mErrorCount;
                         break;
@@ -135,11 +137,11 @@ namespace BuddyApp.RLGL
                 switch (iError)
                 {
                     case STTError.ERROR_NO_MATCH:
-                        lError = "Can you repeat please?";
+                        lError = "Maybe you should click on my face";
                         gameplay.GetComponent<Animator>().GetBehaviour<ReplayState>().NeedListen = true;
                         break;
                     case STTError.ERROR_SPEECH_TIMEOUT:
-                        lError = "Can you repeat please?";
+                        lError = "Why nobody answer me?";
                         gameplay.GetComponent<Animator>().GetBehaviour<ReplayState>().NeedListen = true;
                         ++mErrorCount;
                         break;
@@ -163,8 +165,8 @@ namespace BuddyApp.RLGL
                 switch (iError)
                 {
                     case STTError.ERROR_NO_MATCH:
-                        lError = "Maybe you should touch my face if I don't understand";
-                        windowMenu.GetComponent<RLGLMenu>().STTNotif = mSTT.LastAnswer;
+                        lError = "Maybe you should click on my face";
+                        //windowMenu.GetComponent<RLGLMenu>().STTNotif = mSTT.LastAnswer;
                         windowMenu.GetComponent<RLGLMenu>().NeedListen = true;
                         break;
                     case STTError.ERROR_SPEECH_TIMEOUT:
@@ -173,7 +175,7 @@ namespace BuddyApp.RLGL
                         ++mErrorCount;
                         break;
                     case STTError.ERROR_NETWORK:
-                        lError = "There is some problems with the wifi. Touch my face if you want to play!";
+                        lError = "There is some problems with the wifi. Touch the menu!";
                         windowMenu.GetComponent<RLGLMenu>().NeedListen = true;
                         break;
                     default:
@@ -206,7 +208,7 @@ namespace BuddyApp.RLGL
                 //windowMenu.GetComponent<Animator>().SetTrigger("Close_WMenu3");
                 //gameplay.SetActive(true);
             }
-            else if (iMsg.ToLower().Contains("tutorial") && windowMenu.activeSelf && mIndex == 5)
+            else if ((iMsg.ToLower().Contains("tutorial") || (iMsg.ToLower().Contains("tutoriel"))) && windowMenu.activeSelf && mIndex == 5)
             {
                 if (gameplay.GetComponent<RLGLBehaviour>().IsClicked)
                 {
@@ -214,7 +216,7 @@ namespace BuddyApp.RLGL
                     return;
                 }
 
-                windowMenu.GetComponent<RLGLMenu>().IsAnswerPlayYes = true;
+                //windowMenu.GetComponent<RLGLMenu>().IsAnswerPlayYes = true;
                 windowMenu.GetComponent<Animator>().SetTrigger("Close_WMenu3");
                 windowTuto.GetComponent<Animator>().SetTrigger("Open_WTuto");
             }
@@ -292,7 +294,7 @@ namespace BuddyApp.RLGL
                 else if (mIndex == 5)
                 {
                     //windowMenu.GetComponent<RLGLMenu>().STTNotif = iMsg;
-                    mNotif.Display<SimpleNot>(2.5F).With(iMsg);
+                    //mNotif.Display<SimpleNot>(2.5F).With(iMsg);
                     windowMenu.GetComponent<RLGLMenu>().NeedListen = true;
                 }
                 

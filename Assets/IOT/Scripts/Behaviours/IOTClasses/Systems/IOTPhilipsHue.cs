@@ -28,23 +28,23 @@ namespace BuddyApp.IOT
 
             IOTCredentialTextFieldCmd lCmd = new IOTCredentialTextFieldCmd(this, 0, "");
             lSearchComponent.Label.text = "IP";
-            lSearchComponent.Label.resizeTextForBestFit = true;
+            if (PlayerPrefs.GetString("philips_ip") != "")
+                lSearchComponent.Field.text = PlayerPrefs.GetString("philips_ip");
             lSearchComponent.UpdateCommands.Add(lCmd);
 
             IOTCredentialTextFieldCmd lCmd1 = new IOTCredentialTextFieldCmd(this, 1, "");
             lSearch1Component.Label.text = "USERNAME";
-            lSearch1Component.Label.resizeTextForBestFit = true;
+            if (PlayerPrefs.GetString("philips_user") != "")
+                lSearch1Component.Field.text = PlayerPrefs.GetString("philips_user");
             lSearch1Component.UpdateCommands.Add(lCmd1);
 
             IOTCredentialTextFieldCmd lCmd2 = new IOTCredentialTextFieldCmd(this, 2, "");
             lPasswordComponent.Label.text = "PASSWORD";
             lPasswordComponent.Field.contentType = UnityEngine.UI.InputField.ContentType.Password;
-            lPasswordComponent.Label.resizeTextForBestFit = true;
             lPasswordComponent.UpdateCommands.Add(lCmd2);
 
             IOTConnectCmd lCmd3 = new IOTConnectCmd(this);
             lConnectComponent.Label.text = "CONNECT";
-            lConnectComponent.Label.resizeTextForBestFit = true;
             lConnectComponent.ClickCommands.Add(lCmd3);
         }
 

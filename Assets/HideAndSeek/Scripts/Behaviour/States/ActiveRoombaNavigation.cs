@@ -18,7 +18,8 @@ namespace BuddyApp.HideAndSeek
         {
             GetComponent<RoombaNavigation>().enabled = true;
             //GetGameObject(0).SetActive(true);
-            mFace.SetExpression(MoodType.LOVE);
+            //mFace.SetExpression(MoodType.LOVE);
+            mMood.Set(MoodType.LISTENING);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
