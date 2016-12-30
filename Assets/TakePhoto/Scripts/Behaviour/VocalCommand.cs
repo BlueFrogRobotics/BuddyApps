@@ -334,7 +334,7 @@ namespace BuddyApp.TakePhoto
 				mMotors.Wheels.MoveDistance(90.0f, 90.0f, 0.1f, 0.02f);
 			} else if (iMotion == BuddyMotion.WHEEL_BACK) {
 				mMotors.Wheels.MoveDistance(-90.0f, -90.0f, 0.1f, 0.02f);
-			}
+            }
 			mMotors.NoHinge.SetPosition(lNoAngle, 100.0f);
 			mMotors.YesHinge.SetPosition(lYesAngle, 100.0f);
 		}

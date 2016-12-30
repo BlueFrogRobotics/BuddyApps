@@ -15,6 +15,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("EnterAnalyseAnswer");
             mAnswer = GetComponent<RecipeBehaviour>().mAnswer;
             mRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath("recipe_list.xml")).recipe;
             SearchRecipe(iAnimator);
@@ -26,6 +27,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("ExitAnalyseAnswer");
         }
 
         private void SearchRecipe(Animator iAnimator)
@@ -39,10 +41,8 @@ namespace BuddyApp.Recipe
                 lIndex++;
             if (lIndex < lWords.Length) {
                 lRecipeList = mRecipeList;
-                for (; lIndex < lWords.Length; lIndex++) {
-                    if (lWords[lIndex].Length > 3 && lWords[lIndex] != "avec")
-                        lRecipeList = SearchRecipe(lRecipeList, lWords[lIndex]);
-                }
+                for (; lIndex < lWords.Length; lIndex++)
+                    lRecipeList = SearchRecipe(lRecipeList, lWords[lIndex]);
             }
             if (lRecipeList.Count == 0)
                 iAnimator.SetTrigger("RecipeNotFound");
@@ -55,7 +55,7 @@ namespace BuddyApp.Recipe
                     lWords = lRecipeList[i].name.Split(' ');
                     for (int j = 0; j < lWords.Length; j++) {
                         lFoundRecipe = true;
-                        if (lWords[j].Length > 3 && !mAnswer.Contains(lWords[j]))
+                        if (lWords[j].Length > 2 && !mAnswer.Contains(lWords[j].Substring(0, lWords[j].Length - 1)))
                             lFoundRecipe = false;
                     }
                     if (lFoundRecipe) {
@@ -72,12 +72,22 @@ namespace BuddyApp.Recipe
         private List<Recipe> SearchRecipe(List<Recipe> iRecipeList, string iWord)
         {
             List<Recipe> oFoundRecipeList = new List<Recipe>();
-            foreach (Recipe recipe in iRecipeList)
+            bool lFound;
+
+            for (int i = 0; i < iRecipeList.Count; i++)
             {
-                if (recipe.name.Contains(iWord) || recipe.name.Contains(iWord + "s") || recipe.name.Contains(iWord + "x"))
-                    oFoundRecipeList.Add(recipe);
+                lFound = false;
+                string[] recipeWords = iRecipeList[i].name.Split(' ');
+                for (int j = 0; j < recipeWords.Length; j++)
+                {
+                    if (recipeWords[j] == iWord || recipeWords[j] + "s" == iWord || recipeWords[j] + "x" == iWord
+                        || recipeWords[j] == iWord + "s" || recipeWords[j] == iWord + "x")
+                        lFound = true;
+                }
+                if (lFound || iWord.Length < 4)
+                    oFoundRecipeList.Add(iRecipeList[i]);
             }
-                return oFoundRecipeList;
+            return oFoundRecipeList;
         }
     }
 }

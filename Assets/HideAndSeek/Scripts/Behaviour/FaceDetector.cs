@@ -36,12 +36,12 @@ namespace BuddyApp.HideAndSeek
             if (mFaceTracker.TrackedObjects.Count > 0)
             {
                 mHasDetectedFace = true;
-                Debug.Log("visage!");
+                //Debug.Log("visage!");
             }
             else
             {
                 mHasDetectedFace = false;
-                Debug.Log("rien!");
+                //Debug.Log("rien!");
             }
         }
     }

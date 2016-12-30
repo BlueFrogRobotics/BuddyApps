@@ -13,6 +13,7 @@ namespace BuddyApp.Companion
     internal delegate void ReactionFinished();
 
     [RequireComponent(typeof(FollowFaceReaction))]
+    [RequireComponent(typeof(GlobalWanderReaction))]
     [RequireComponent(typeof(GrumpyReaction))]
     [RequireComponent(typeof(IdleReaction))]
     [RequireComponent(typeof(LiftedReaction))]
@@ -31,6 +32,7 @@ namespace BuddyApp.Companion
         private Face mFace;
         private FaceCascadeTracker mFaceTracker;
         private FollowFaceReaction mFollowFace;
+        private GlobalWanderReaction mGlobalWanderReaction;
         private GrumpyReaction mGrumpyReaction;
         private SayHelloReaction mHelloReaction;
         private IdleReaction mIdleReaction;
@@ -58,14 +60,15 @@ namespace BuddyApp.Companion
 
             mFaceTracker = GetComponent<FaceCascadeTracker>();
             mFollowFace = GetComponent<FollowFaceReaction>();
+            mGlobalWanderReaction = GetComponent<GlobalWanderReaction>();
             mGrumpyReaction = GetComponent<GrumpyReaction>();
             mIdleReaction = GetComponent<IdleReaction>();
             mLiftedReaction = GetComponent<LiftedReaction>();
             mHelloReaction = GetComponent<SayHelloReaction>();
             mSearchFaceReaction = GetComponent<SearchFaceReaction>();
             mWanderReaction = GetComponent<WanderReaction>();
-			mFollowPersonReaction = GetComponent<FollowPersonReaction> ();
-			mEyesFollowReaction = GetComponent<EyesFollowReaction> ();
+			mFollowPersonReaction = GetComponent<FollowPersonReaction>();
+			mEyesFollowReaction = GetComponent<EyesFollowReaction>();
 
             mIsPouting = false;
             mIsTrackingFace = false;
@@ -236,20 +239,28 @@ namespace BuddyApp.Companion
 
         public void StartWandering()
         {
-            if (mWanderReaction.enabled || !CompanionData.Instance.CanMoveBody)
+            //if (mWanderReaction.enabled || !CompanionData.Instance.CanMoveBody)
+            //    return;
+            //Debug.Log("Start Wandering");
+            //mWanderReaction.enabled = true;
+
+            if (mGlobalWanderReaction.enabled || !CompanionData.Instance.CanMoveBody)
                 return;
             Debug.Log("Start Wandering");
-            //mNavigation.enabled = true;
-            mWanderReaction.enabled = true;
+            mGlobalWanderReaction.enabled = true;
         }
 
         public void StopWandering()
         {
-            if (!mWanderReaction.enabled)
+            //if (!mWanderReaction.enabled)
+            //    return;
+            //Debug.Log("Stop Wandering");
+            //mWanderReaction.enabled = false;
+
+            if (!mGlobalWanderReaction.enabled)
                 return;
             Debug.Log("Stop Wandering");
-            //mNavigation.enabled = false;
-            mWanderReaction.enabled = false;
+            mGlobalWanderReaction.enabled = false;
         }
 
         public void StopMoving()
@@ -262,7 +273,8 @@ namespace BuddyApp.Companion
         {
             StopAllCoroutines();
             StopWheels();
-            mWanderReaction.enabled = false;
+            mGlobalWanderReaction.enabled = false;
+            //mWanderReaction.enabled = false;
             mFollowFace.enabled = false;
         }
 

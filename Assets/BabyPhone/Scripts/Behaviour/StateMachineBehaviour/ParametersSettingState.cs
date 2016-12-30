@@ -39,6 +39,8 @@ namespace BuddyApp.BabyPhone
             mBackgroundBlackAnimator.SetTrigger("Close_BG");
             mParametersAnimator.SetTrigger("Close_WParameters");
             iAnimator.SetInteger("ForwardState", 1);
+
+            mSpeaker.Media.Stop();
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

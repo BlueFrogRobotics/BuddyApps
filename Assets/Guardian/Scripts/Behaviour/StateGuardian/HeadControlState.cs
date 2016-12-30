@@ -75,14 +75,14 @@ namespace BuddyApp.Guardian
             bool lChanged = false;
             if (mNoLeft)
             {
-                mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 10;
+                mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 15;
                 lChanged = true;
                 mNoLeft = false;
             }
 
             if (mNoRight)
             {
-                mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 10;
+                mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 15;
                 lChanged = true;
                 mNoRight = false;
             }

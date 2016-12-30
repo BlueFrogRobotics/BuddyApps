@@ -12,7 +12,8 @@ namespace BuddyApp.Companion
         [SerializeField]
         private Emotion mEmotion;
 
-        private const float MIN_DIST = 0.4f;
+        private const float MIN_DIST_IR = 0.4f;
+        private const float MIN_DIST_US = 0.5f;
 
         private bool mInitialized;
         private bool mIsSearchingPoint;
@@ -29,10 +30,10 @@ namespace BuddyApp.Companion
         private Dictionary mDict;
         private Face mFace;
         private IRSensors mIRSensors;
+        private USSensors mUSSensors;
         private Mood mMood;
         private NoHinge mNoHinge;
         private TextToSpeech mTTS;
-        private USSensors mUSSensors;
         private Wheels mWheels;
         private YesHinge mYesHinge;
 
@@ -65,7 +66,7 @@ namespace BuddyApp.Companion
             mWanderTime = Time.time;
             mTTSTime = Time.time;
             mEmoteTime = Time.time;
-            mRandomSpeechTime = Random.Range(40F, 80F);
+            mRandomSpeechTime = Random.Range(30F, 60F);
             mRandomWanderTime = Random.Range(10F, 30F);
             mMood.Set(MoodType.NEUTRAL);
             mYesHinge.SetPosition(10F);
@@ -122,7 +123,7 @@ namespace BuddyApp.Companion
             mYesHinge.SetPosition(0F);
             //new SetWheelsSpeedCmd(0F, 0F).Execute();
             //StopAllCoroutines();
-            GetComponent<Reaction>().ActionFinished();
+            //GetComponent<Reaction>().ActionFinished();
         }
 
         private void PlaySearchingHeadAnimation()
@@ -220,15 +221,19 @@ namespace BuddyApp.Companion
 
         private bool AnyObstructionsInfrared()
         {
-            float lLeftDistance = mIRSensors.Left.Distance;
-            float lMiddleDistanceMiddle = mIRSensors.Middle.Distance;
-            float lRightDistance = mIRSensors.Right.Distance;
-            return IsCollisionEminent(lLeftDistance)
-                || IsCollisionEminent(lMiddleDistanceMiddle)
-                || IsCollisionEminent(lRightDistance);
+            float lLeftIRDistance = mIRSensors.Left.Distance;
+            float lMiddleIRDistance = mIRSensors.Middle.Distance;
+            float lRightIRDistance = mIRSensors.Right.Distance;
+            float lRightUSDistance = mUSSensors.Right.Distance;
+            float lLeftUSDistance = mUSSensors.Left.Distance;
+            return IsCollisionEminent(lLeftIRDistance, MIN_DIST_IR)
+                || IsCollisionEminent(lMiddleIRDistance, MIN_DIST_IR)
+                || IsCollisionEminent(lRightIRDistance, MIN_DIST_IR)
+                || IsCollisionEminent(lRightUSDistance, MIN_DIST_US)
+                || IsCollisionEminent(lLeftUSDistance, MIN_DIST_US);
         }
 
-        private bool IsCollisionEminent(float iCollisionDistance, float iThreshold = MIN_DIST)
+        private bool IsCollisionEminent(float iCollisionDistance, float iThreshold = MIN_DIST_IR)
         {
             return iCollisionDistance != 0.0F && iCollisionDistance < iThreshold;
         }
@@ -264,7 +269,7 @@ namespace BuddyApp.Companion
             }
             mTTS.Say(lSentence, true);
             mTTSTime = Time.time;
-            mRandomSpeechTime = Random.Range(40F, 80F);
+            mRandomSpeechTime = Random.Range(30F, 60F);
         }
     }
 }
