@@ -44,7 +44,7 @@ namespace BuddyApp.BabyPhone
         {
             mListening.SetActive(true);
             mWindoAppOverBlack.SetActive(true);
- 
+            GetComponent<BabyPhoneMotionDetection>().enabled = true;
             mMood.Set(MoodType.LISTENING);
 
             mContactIndice = (int)BabyPhoneData.Instance.Recever;
@@ -61,8 +61,9 @@ namespace BuddyApp.BabyPhone
         {
             mListening.SetActive(false);
             mWindoAppOverBlack.SetActive(false);
-
+            GetComponent<BabyPhoneMotionDetection>().enabled = false;
             iAnimator.SetInteger("ForwardState", 4);
+            mRGBCam.Close();
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

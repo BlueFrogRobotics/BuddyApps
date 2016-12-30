@@ -22,8 +22,8 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mStartState.SetActive(true);         
-
+            mStartState.SetActive(true);
+            mMood.Set(MoodType.HAPPY);
             mTTS.Say(mDictionary.GetString("bbwelcome"));
         }
 
