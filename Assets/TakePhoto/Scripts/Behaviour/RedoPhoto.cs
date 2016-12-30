@@ -123,8 +123,8 @@ namespace BuddyApp.TakePhoto
 								SayInLang("srynotunderstand", true);
 								mTTS.Silence(1000, true);
 								SayInLang("yesOrNo", true);
-								mTTS.Silence(1000, true);
-								SayInLang("redo", true);
+								//mTTS.Silence(1000, true);
+								//SayInLang("redo", true);
 								mLastSpeech = "";
 								mNeedListen = true;
 							}
@@ -174,7 +174,7 @@ namespace BuddyApp.TakePhoto
 
 			mErrorCount = 0;
 			// set active Answer in Dialog
-			mLastSpeech = iVoiceInput;
+			mLastSpeech = iVoiceInput.ToLower();
 		}
 
 
@@ -186,7 +186,7 @@ namespace BuddyApp.TakePhoto
 
 			mErrorCount = 0;
 			// set active Answer in Dialog
-			mLastSpeech = iVoiceInput;
+			mLastSpeech = iVoiceInput.ToLower();
 		}
 
 
