@@ -28,6 +28,7 @@ namespace BuddyApp.Recipe
         private TextToSpeech mTTS;
         private List<GameObject> mRecipePrefabList;
         private SpriteManager mSpriteManager;
+        private Dictionary mDictionary;
 
         public string mAnswer { get; set; }
         public Recipe mRecipe { get; set; }
@@ -44,6 +45,7 @@ namespace BuddyApp.Recipe
             IsBackgroundActivated = false;
             mTTS = BYOS.Instance.TextToSpeech;
             mSpriteManager = BYOS.Instance.SpriteManager;
+            mDictionary = BYOS.Instance.Dictionary;
         }
 
         public void Exit()
@@ -54,7 +56,8 @@ namespace BuddyApp.Recipe
 
         public void OnClickCategory(string category)
         {
-            List<Recipe> lRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath("recipe_list.xml")).recipe;
+            //List<Recipe> lRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath("recipe_list_fr.xml")).recipe;
+            List<Recipe> lRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath(mDictionary.GetString("pathtoxml"))).recipe;
             mRecipeList = new List<Recipe>();
 
             for (int i = 0; i < lRecipeList.Count; i++)

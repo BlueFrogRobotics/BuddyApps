@@ -20,6 +20,7 @@ namespace BuddyApp.BabyPhone
         private InputMicro mInputMicro;
 
         private bool mIsBabyCrying;
+        private bool mIsBabyMoving;
 
         private float mSound;
         private float mMean;
@@ -48,10 +49,12 @@ namespace BuddyApp.BabyPhone
 
             mContactIndice = (int)BabyPhoneData.Instance.Recever;
             mBabyName = BabyPhoneData.Instance.BabyName;
-            mMicroSensitivity = BabyPhoneData.Instance.MicrophoneSensitivity;
+            mMicroSensitivity = ((BabyPhoneData.Instance.MicrophoneSensitivity)/100F);
 
             mMean = 0F;
             mIsBabyCrying = false;
+
+            GetComponent<BabyPhoneMotionDetection>().enabled = true;
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -65,16 +68,17 @@ namespace BuddyApp.BabyPhone
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mElapsedTime += Time.deltaTime;
-
+            mIsBabyMoving = GetComponent<BabyPhoneMotionDetection>().IsMoving();
             if (mElapsedTime <= DETECTION_TIME)
             {
+                
                 mSound = mInputMicro.Loudness;
                 mMean += mSound;
             }
             else
             {
                 mMean = mMean / 5F;
-                if (mMean >= 0.1F) //utiliser la sensibilité du micro
+                if (mMean >= mMicroSensitivity) //utiliser la sensibilité du micro
                     mIsBabyCrying = true;
                 else
                     mIsBabyCrying = false;
@@ -82,7 +86,7 @@ namespace BuddyApp.BabyPhone
                 mElapsedTime = 0;
             }
 
-            if (mIsBabyCrying)
+            if ((mIsBabyCrying) || (mIsBabyMoving))
             {
                 StartCoroutine(SendMessage());
                 iAnimator.SetTrigger("GoToBabyIsCrayingState");
@@ -91,10 +95,14 @@ namespace BuddyApp.BabyPhone
 
         private IEnumerator SendMessage()
         {
-            mRGBCam.Open();
+            string lSentMessage = "";
+            if (mIsBabyCrying)
+                lSentMessage = mBabyName + " " + mDictionary.GetString("msgbbsnd") + " :( !";
+            if(mIsBabyMoving)
+                lSentMessage = mBabyName + " " + mDictionary.GetString("msgbbmvt") + " :( !";
             yield return new WaitForSeconds(1.5F);
             MailSender lSender = new MailSender("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL);
-            Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", mBabyName + " " + mDictionary.GetString("msgbb") + " :( !");
+            Mail lEmail = new Mail("[BUDDY] ALERT from BABYPHONE", lSentMessage);
             lEmail.Addresses.Add(GetMailContact(mContactIndice));
             lEmail.AddTexture2D(mRGBCam.FrameTexture2D, "image.png");
             lSender.Send(lEmail);

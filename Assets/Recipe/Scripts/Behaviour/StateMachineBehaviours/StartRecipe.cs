@@ -22,7 +22,10 @@ namespace BuddyApp.Recipe
                 GetGameObject(1).SetActive(true);
                 GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
             }
-            mTTS.Say("Pour commencer préparez les ingrédients suivants pour " + GetComponent<RecipeBehaviour>().mRecipe.person + " personnes :");
+            if (GetComponent<RecipeBehaviour>().mRecipe.person > 1)
+                mTTS.Say(mDictionary.GetString("startingredient") + GetComponent<RecipeBehaviour>().mRecipe.person + mDictionary.GetString("person") + "s:");
+            else
+                mTTS.Say(mDictionary.GetString("startingredient") + GetComponent<RecipeBehaviour>().mRecipe.person + mDictionary.GetString("person") + ":");
             GetComponent<RecipeBehaviour>().IngredientIndex = 0;
             GetComponent<RecipeBehaviour>().IngredientNbr = GetComponent<RecipeBehaviour>().mRecipe.ingredient.Count;
             iAnimator.SetTrigger("DisplayIngredient");

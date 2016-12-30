@@ -1,22 +1,39 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using BuddyOS;
+using BuddyOS.App;
 
 public class BabyPhoneExitYesNo : MonoBehaviour
 {
     [SerializeField]
-    private Animator mBabyPhoneAnimator;
+    private Animator babyPhoneAnimator;
+
+    [SerializeField]
+    private Text message;
+
+    [SerializeField]
+    private Text yesButton;
+
+    [SerializeField]
+    private Text noButton;
+
+    private Dictionary mDictionary;
 
     private int mForwardState;
 	void Start ()
     {
         mForwardState = -1;
+        mDictionary = BYOS.Instance.Dictionary;
+        message.text = mDictionary.GetString("quitbb");
+        yesButton.text = mDictionary.GetString("yes").ToUpper() ;
+        noButton.text = mDictionary.GetString("no").ToUpper();
     }
 	
 
 	void Update ()
     {
-        mForwardState = mBabyPhoneAnimator.GetInteger("ForwardState");
+        mForwardState = babyPhoneAnimator.GetInteger("ForwardState");
 	}
 
     public void ExitBabyPhone()
@@ -30,22 +47,22 @@ public class BabyPhoneExitYesNo : MonoBehaviour
         switch (mForwardState)
         {
             case 0:
-                mBabyPhoneAnimator.SetTrigger("StartApp");
+                babyPhoneAnimator.SetTrigger("StartApp");
                 break;
             case 1:
-                mBabyPhoneAnimator.SetTrigger("SetParameters");
+                babyPhoneAnimator.SetTrigger("SetParameters");
                 break;
             case 2:
-                mBabyPhoneAnimator.SetTrigger("HeadAdjust");
+                babyPhoneAnimator.SetTrigger("HeadAdjust");
                 break;
             case 3:
-                mBabyPhoneAnimator.SetTrigger("StartFallingAssleep");
+                babyPhoneAnimator.SetTrigger("StartFallingAssleep");
                 break;
             case 4:
-                mBabyPhoneAnimator.SetTrigger("StartListening");
+                babyPhoneAnimator.SetTrigger("StartListening");
                 break;
             default:
-                mBabyPhoneAnimator.SetInteger("ForwardState", -1);
+                babyPhoneAnimator.SetInteger("ForwardState", -1);
                 break;
         }
 

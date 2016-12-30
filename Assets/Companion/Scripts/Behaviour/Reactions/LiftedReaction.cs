@@ -43,20 +43,20 @@ public class LiftedReaction : MonoBehaviour
         yield return new WaitForSeconds(1F);
 
         mNoHinge.SetPosition(15F);
-        yield return new WaitForSeconds(0.5F);
+        yield return new WaitForSeconds(0.8F);
         mYesHinge.SetPosition(5F);
-        yield return new WaitForSeconds(0.5F);
+        yield return new WaitForSeconds(0.8F);
         mTTS.Say(mDict.GetString("putMeDown"));
 
         mNoHinge.SetPosition(-15F);
-        yield return new WaitForSeconds(0.5F);
+        yield return new WaitForSeconds(0.8F);
         mYesHinge.SetPosition(-10F);
         yield return new WaitForSeconds(1.5F);
 
         mNoHinge.SetPosition(15F);
-        yield return new WaitForSeconds(0.5F);
+        yield return new WaitForSeconds(0.8F);
         mYesHinge.SetPosition(0F);
-        yield return new WaitForSeconds(0.5F);
+        yield return new WaitForSeconds(0.8F);
 
         mNoHinge.SetPosition(0F);
         enabled = false;

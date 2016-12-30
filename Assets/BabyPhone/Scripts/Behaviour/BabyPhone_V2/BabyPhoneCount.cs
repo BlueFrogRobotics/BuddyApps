@@ -21,9 +21,10 @@ namespace BuddyApp.BabyPhone
 
         void OnEnable()
         {
+            StopCoroutine(StartCount());
             mDictionary = BYOS.Instance.Dictionary;
             label.text = mDictionary.GetString("bbstart");
-            StartCoroutine(StartCount());
+            //StartCoroutine(StartCount());
         }
 
         void OnDisable()
@@ -44,6 +45,8 @@ namespace BuddyApp.BabyPhone
                 StartCoroutine(StartCount());
                 babyPhoneAnimator.SetBool("DoStartCount", false);
             }
+            else
+                StopCoroutine(StartCount());
         }
 
         private IEnumerator StartCount()

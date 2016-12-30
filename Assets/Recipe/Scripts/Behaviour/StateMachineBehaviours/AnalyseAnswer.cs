@@ -17,7 +17,7 @@ namespace BuddyApp.Recipe
         {
             Debug.Log("EnterAnalyseAnswer");
             mAnswer = GetComponent<RecipeBehaviour>().mAnswer;
-            mRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath("recipe_list.xml")).recipe;
+            mRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath(mDictionary.GetString("pathtoxml"))).recipe;
             SearchRecipe(iAnimator);
         }
 
@@ -37,7 +37,7 @@ namespace BuddyApp.Recipe
             int lIndex = 0;
             bool lFoundRecipe = false;
 
-            while (lIndex < lWords.Length && SearchRecipe(mRecipeList, lWords[lIndex]).Count == 0)
+            while (lIndex < lWords.Length && (lWords[lIndex].Length < 4 || SearchRecipe(mRecipeList, lWords[lIndex]).Count == 0))
                 lIndex++;
             if (lIndex < lWords.Length) {
                 lRecipeList = mRecipeList;
