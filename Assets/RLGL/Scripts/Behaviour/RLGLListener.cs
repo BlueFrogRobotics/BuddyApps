@@ -202,7 +202,7 @@ namespace BuddyApp.RLGL
                     gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
                     return;
                 }
-                    
+                mFace.SetExpression(MoodType.NEUTRAL);    
                 windowMenu.GetComponent<RLGLMenu>().IsAnswerPlayYes = true;
                 //background.GetComponent<Animator>().SetTrigger("Close_BG");
                 //windowMenu.GetComponent<Animator>().SetTrigger("Close_WMenu3");
@@ -215,13 +215,17 @@ namespace BuddyApp.RLGL
                     gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
                     return;
                 }
-
+                mFace.SetExpression(MoodType.NEUTRAL);
                 //windowMenu.GetComponent<RLGLMenu>().IsAnswerPlayYes = true;
                 windowMenu.GetComponent<Animator>().SetTrigger("Close_WMenu3");
                 windowTuto.GetComponent<Animator>().SetTrigger("Open_WTuto");
             }
             else if (iMsg.ToLower().Contains("quit") || iMsg.ToLower().Contains("close"))
+            {
+                mFace.SetExpression(MoodType.NEUTRAL);
                 new HomeCmd().Execute();
+            }
+                
             else if (iMsg.ToLower().Contains("yes") && mIndex == 0)
             {
                 if (gameplay.GetComponent<RLGLBehaviour>().IsClicked)
@@ -229,6 +233,7 @@ namespace BuddyApp.RLGL
                     gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
                     return;
                 }
+                mFace.SetExpression(MoodType.NEUTRAL);
                 gameplay.GetComponent<Animator>().GetBehaviour<StartState>().IsAnswerYes = true;
             }
             else if (iMsg.ToLower().Contains("no") && mIndex == 0)
@@ -238,6 +243,7 @@ namespace BuddyApp.RLGL
                     gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
                     return;
                 }
+                mFace.SetExpression(MoodType.NEUTRAL);
                 gameplay.GetComponent<Animator>().GetBehaviour<StartState>().IsAnswerNo = true;
             }
             else if (iMsg.ToLower().Contains("yes") && mIndex == 1)
@@ -247,6 +253,7 @@ namespace BuddyApp.RLGL
                     gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
                     return;
                 }
+                mFace.SetExpression(MoodType.NEUTRAL);
                 gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().IsAnswerRuleYes = true;
                 
             }
@@ -257,6 +264,7 @@ namespace BuddyApp.RLGL
                     gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
                     return;
                 }
+                mFace.SetExpression(MoodType.NEUTRAL);
                 gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().IsAnswerRuleNo = true;
             }
             else if (iMsg.ToLower().Contains("yes") && mIndex == 2)
@@ -266,6 +274,7 @@ namespace BuddyApp.RLGL
                     gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
                     return;
                 }
+                mFace.SetExpression(MoodType.NEUTRAL);
                 gameplay.GetComponent<Animator>().GetBehaviour<ReplayState>().IsAnswerReplayYes = true;
             }
             else if (iMsg.ToLower().Contains("no") && mIndex == 2)
@@ -275,6 +284,7 @@ namespace BuddyApp.RLGL
                     gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
                     return;
                 }
+                mFace.SetExpression(MoodType.NEUTRAL);
                 gameplay.GetComponent<Animator>().GetBehaviour<ReplayState>().IsAnswerReplayNo = true;
             }
             else
