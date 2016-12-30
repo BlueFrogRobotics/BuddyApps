@@ -80,6 +80,7 @@ namespace BuddyApp.RLGL
             {
                 Debug.Log("REPLAY STATE : UPDATE : HAPPY");
                 mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
+                GetGameObject(6).SetActive(true);
                 mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
                 mMood.Set(MoodType.HAPPY);
                 mTTS.Say("oh yeah I love games!");
@@ -115,6 +116,7 @@ namespace BuddyApp.RLGL
             if (!mCanvasTrigger)
             {
                 mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
+                GetGameObject(6).SetActive(false);
                 mWindowQuestion.GetComponent<Animator>().SetTrigger("Open_WQuestion");
                 mWindowQuestion.GetComponentInChildren<Text>().text = "DO YOU WANT TO PLAY AGAIN?";
                 mCanvasTrigger = true;

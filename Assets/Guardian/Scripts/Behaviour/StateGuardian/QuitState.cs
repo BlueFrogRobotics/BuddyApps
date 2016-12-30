@@ -8,17 +8,21 @@ namespace BuddyApp.Guardian
     {
 
         private bool mHasExit = false;
+        private TextToSpeech mTTS;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mHasExit = false;
+            mTTS = BYOS.Instance.TextToSpeech;
+            mTTS.Say("I quit the application");
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!mHasExit)
+            
+            if (!mHasExit && !mTTS.IsSpeaking)
             {
                 mHasExit = true;
                 StateManager.QuitApplication();
