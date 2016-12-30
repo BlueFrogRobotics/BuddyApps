@@ -2,6 +2,7 @@
 using System.Collections;
 using BuddyOS.App;
 using System;
+using UnityEngine.UI;
 namespace BuddyApp.RLGL
 {
     public class RulesState : AStateMachineBehaviour
@@ -125,6 +126,7 @@ namespace BuddyApp.RLGL
                 Debug.Log("OPEN BG ECT ");
                 mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
                 mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Open_WQuestion");
+                mWindowQuestionRule.GetComponentInChildren<Text>().text = "DO YOU WANT ME TO REPEAT THE RULES ?";
                 mCanvasTrigger = true;
             }
 

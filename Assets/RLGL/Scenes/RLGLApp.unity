@@ -294,15 +294,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22478786, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -665
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22412740, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -557
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22482440, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -560
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22482902, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_AnchorMin.y
@@ -1891,15 +1891,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11434942, guid: 3317803e2676ea7478ac463a69bb2437, type: 2}
       propertyPath: m_Text
-      value: 'Play
-
-'
+      value: Play
       objectReference: {fileID: 0}
     - target: {fileID: 11435164, guid: 3317803e2676ea7478ac463a69bb2437, type: 2}
       propertyPath: m_Text
-      value: 'Tutorial
-
-'
+      value: Tutorial
       objectReference: {fileID: 0}
     - target: {fileID: 11491346, guid: 3317803e2676ea7478ac463a69bb2437, type: 2}
       propertyPath: m_Text
@@ -2438,6 +2434,16 @@ Prefab:
     - target: {fileID: 160226, guid: 0fb60f870f3fe3c4cabc729a70ecc8df, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 116496, guid: 0fb60f870f3fe3c4cabc729a70ecc8df, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11497462, guid: 0fb60f870f3fe3c4cabc729a70ecc8df, type: 2}
+      propertyPath: m_Text
+      value: '
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11450052, guid: 0fb60f870f3fe3c4cabc729a70ecc8df, type: 2}

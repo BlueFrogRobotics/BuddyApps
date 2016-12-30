@@ -3,6 +3,7 @@ using BuddyOS.App;
 using System;
 using BuddyOS;
 using BuddyOS.Command;
+using UnityEngine.UI;
 
 namespace BuddyApp.RLGL
 {
@@ -115,6 +116,7 @@ namespace BuddyApp.RLGL
             {
                 mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
                 mWindowQuestion.GetComponent<Animator>().SetTrigger("Open_WQuestion");
+                mWindowQuestion.GetComponentInChildren<Text>().text = "DO YOU WANT TO PLAY AGAIN?";
                 mCanvasTrigger = true;
             }
         }
