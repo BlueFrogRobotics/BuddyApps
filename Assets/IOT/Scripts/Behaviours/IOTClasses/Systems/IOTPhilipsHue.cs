@@ -28,10 +28,14 @@ namespace BuddyApp.IOT
 
             IOTCredentialTextFieldCmd lCmd = new IOTCredentialTextFieldCmd(this, 0, "");
             lSearchComponent.Label.text = "IP";
+            if (PlayerPrefs.GetString("philips_ip") != "")
+                lSearchComponent.Field.text = PlayerPrefs.GetString("philips_ip");
             lSearchComponent.UpdateCommands.Add(lCmd);
 
             IOTCredentialTextFieldCmd lCmd1 = new IOTCredentialTextFieldCmd(this, 1, "");
             lSearch1Component.Label.text = "USERNAME";
+            if (PlayerPrefs.GetString("philips_user") != "")
+                lSearch1Component.Field.text = PlayerPrefs.GetString("philips_user");
             lSearch1Component.UpdateCommands.Add(lCmd1);
 
             IOTCredentialTextFieldCmd lCmd2 = new IOTCredentialTextFieldCmd(this, 2, "");
