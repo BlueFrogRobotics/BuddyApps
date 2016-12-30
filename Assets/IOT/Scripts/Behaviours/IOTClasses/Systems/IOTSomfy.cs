@@ -31,10 +31,14 @@ namespace BuddyApp.IOT
 
             IOTCredentialTextFieldCmd lCmd1 = new IOTCredentialTextFieldCmd(this, 1, "");
             lSearch1Component.Label.text = "USERNAME";
+            if (PlayerPrefs.GetString("somfy_user") != "")
+                lSearch1Component.Field.text = PlayerPrefs.GetString("somfy_user");
             lSearch1Component.UpdateCommands.Add(lCmd1);
 
             IOTCredentialTextFieldCmd lCmd2 = new IOTCredentialTextFieldCmd(this, 2, "");
             lPasswordComponent.Label.text = "PASSWORD";
+            if(PlayerPrefs.GetString("somfy_password") != "")
+                lPasswordComponent.Field.text = PlayerPrefs.GetString("somfy_password");
             lPasswordComponent.Field.contentType = UnityEngine.UI.InputField.ContentType.Password;
             lPasswordComponent.UpdateCommands.Add(lCmd2);
 
@@ -72,7 +76,7 @@ namespace BuddyApp.IOT
 
         public override void GetDevices()
         {
-            string url = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/" + "/setup/devices";
+            string url = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/setup/devices";
 
             Request lRequest = new Request("GET", url);
             lRequest.cookieJar = null;
@@ -108,6 +112,10 @@ namespace BuddyApp.IOT
                                 mDevices[i] = new IOTSomfySwitch(lDevices.devices[i + j], mSessionID);
                             else if (iUiClass == "Screen")
                                 mDevices[i] = new IOTSomfyStore(lDevices.devices[i + j], mSessionID);
+                            else if (iUiClass == "HeatingSystem")
+                                mDevices[i] = new IOTSomfyThermostat(lDevices.devices[i + j], mSessionID);
+                            else if (iUiClass == "TemperatureSensor")
+                                mDevices[i] = new IOTSomfyThermometer(lDevices.devices[i + j], mSessionID);
                         }
                     }
                 }

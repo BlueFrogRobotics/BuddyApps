@@ -3,6 +3,7 @@ using System.Collections;
 using BuddyOS.App;
 using System;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace BuddyApp.RLGL
 {
@@ -98,7 +99,7 @@ namespace BuddyApp.RLGL
             yield return new WaitForSeconds(2.0F);
             if (mCount < 1)
             {
-                mTTS.Say("I am so happy, we will play together but before I need to know if you want to know the rules! So do you want to listen to the rules?");
+                mTTS.Say("I am so happy, we will play together but before I need to know if you want to know the rules! So do you want to hear them?");
                 mCount++;
             }
 
@@ -113,6 +114,7 @@ namespace BuddyApp.RLGL
         {
             mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
             mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
+            GetGameObject(6).SetActive(true);
             iAnimator.SetBool("IsStartDoneAndRules", true);
         }
 
@@ -120,6 +122,7 @@ namespace BuddyApp.RLGL
         {
             mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
             mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
+            GetGameObject(6).SetActive(true);
             iAnimator.SetBool("IsStartDoneAndNoRules", true);
         }
 
@@ -129,6 +132,8 @@ namespace BuddyApp.RLGL
             {
                 mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
                 mWindowQuestion.GetComponent<Animator>().SetTrigger("Open_WQuestion");
+                GetGameObject(6).SetActive(false);
+                mWindowQuestion.GetComponentInChildren<Text>().text = "DO YOU WANT TO HEAR THE RULES?";
                 mCanvasTrigger = true;
             }
         }

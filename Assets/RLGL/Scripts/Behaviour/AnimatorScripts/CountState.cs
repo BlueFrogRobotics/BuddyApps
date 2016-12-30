@@ -151,7 +151,7 @@ namespace BuddyApp.RLGL
         {
             if(mCount == 0 && mTTS.HasFinishedTalking)
             {
-                mTTS.Say("Okay let's play together! You have ten seconds to go away by about fifteen feet, I will wait ten seconds gogo! ");
+                mTTS.Say("Okay let's play together! You have ten seconds to walk away by about fifteen feet, gogo! ");
                 mCount++;
                 mYesHinge.SetPosition(45.0F, 150.0F);
                 
@@ -171,7 +171,7 @@ namespace BuddyApp.RLGL
         {
             if(mTTS.HasFinishedTalking && mCountGreenLight == 0 && !mFirstSentenceNotDetected)
             {
-                mTTS.Say("You are really good at this game! Go again!");
+                mTTS.Say("You are really good at this game!");
                 mCountGreenLight++;
             }
             yield return new WaitForSeconds(2.0F);

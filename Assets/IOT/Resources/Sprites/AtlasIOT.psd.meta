@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 7c806f2743f341a419f642f3377a2e06
-timeCreated: 1483029645
+timeCreated: 1483095616
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -29,6 +29,7 @@ TextureImporter:
     21300044: IOT_Fade
     21300046: IOT_Device_Store
     21300048: IOT_Device_Thermo
+    21300050: IOT_Device_Thermometer
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -370,6 +371,18 @@ TextureImporter:
         serializedVersion: 2
         x: 1412
         y: 1508
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: IOT_Device_Thermometer
+      rect:
+        serializedVersion: 2
+        x: 1592
+        y: 1868
         width: 180
         height: 180
       alignment: 0

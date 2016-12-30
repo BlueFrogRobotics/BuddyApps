@@ -21,8 +21,12 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private Text message;
 
+        [SerializeField]
+        private Image icoFire;
+
         public Button ButtonBack { get { return buttonBack; } }
         public bool Interpolation { get; set; }
+        public Image IcoFire { get { return icoFire; } }
 
         private int mWidth = 4;
         private int mHeight = 4;

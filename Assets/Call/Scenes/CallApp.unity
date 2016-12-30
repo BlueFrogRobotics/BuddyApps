@@ -277,6 +277,10 @@ Prefab:
       propertyPath: mDebugScreen
       value: 
       objectReference: {fileID: 156087545}
+    - target: {fileID: 191108, guid: 4e4c9db383b424440808678a02327b3f, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4e4c9db383b424440808678a02327b3f, type: 2}
   m_IsPrefabParent: 0
@@ -890,6 +894,10 @@ Prefab:
     - target: {fileID: 22413102, guid: b2ae61ae47707564b81a4b909341266b, type: 2}
       propertyPath: m_SizeDelta.y
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 157276, guid: b2ae61ae47707564b81a4b909341266b, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2ae61ae47707564b81a4b909341266b, type: 2}

@@ -53,7 +53,7 @@ namespace BuddyApp.RLGL
                 if (mIsDetected && !mIsSentenceDone && mTimer < 8.0f && mTimer > 3.0f) {
                     mMood.Set(MoodType.HAPPY);
                     iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;
-                    mTTS.Say("I saw you moving my friend, I let you ten seconds to go back at the start!");
+                    mTTS.Say("I saw you moving my friend, go back at the start!");
 
                     mIsSentenceDone = true;
                 }
