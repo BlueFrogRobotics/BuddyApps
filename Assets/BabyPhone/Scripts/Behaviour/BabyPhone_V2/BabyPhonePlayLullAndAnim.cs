@@ -16,6 +16,9 @@ namespace BuddyApp.BabyPhone
         [SerializeField]
         private Animator babyPhoneAnimator;
 
+        [SerializeField]
+        private Animator cartoonAnimator;
+
         //private MovieTexture mMovie;
 
         private bool mIsVolumeOn;

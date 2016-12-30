@@ -26,7 +26,10 @@ namespace BuddyApp.BabyPhone
         private Dropdown animationSelection;
 
         [SerializeField]
-        private Gauge microphone;
+        private GaugeOnOff soundDetection;
+
+        [SerializeField]
+        private GaugeOnOff motionDetection;
 
         [SerializeField]
         private Gauge timeBeforContact;
@@ -67,7 +70,8 @@ namespace BuddyApp.BabyPhone
             lullabySelection.Label.text = mDictionary.GetString("lull");
             animationBrightness.Label.text = mDictionary.GetString("bright");
             animationSelection.Label.text = mDictionary.GetString("anim");
-            microphone.Label.text = "MICROPHONE";
+            soundDetection.Label.text = mDictionary.GetString("soundetect");
+            motionDetection.Label.text = mDictionary.GetString("motiondetect");
             timeBeforContact.Label.text = mDictionary.GetString("timebefor");
             ifBabyCry.Label.text = mDictionary.GetString("ifbb");
             //screenSaver.Label.text = mDictionary.GetString("saver");
@@ -124,14 +128,7 @@ namespace BuddyApp.BabyPhone
             animationSelection.AddOption(mDictionary.GetString("owl"), BabyPhoneData.Animation.OWL);
             animationSelection.AddOption(mDictionary.GetString("chris"), BabyPhoneData.Animation.CHRISTMAS);
             animationSelection.SetDefault((int)BabyPhoneData.Instance.AnimationToPlay);
-            animationSelection.UpdateCommands.Add(new LullabyBabyPhoneCmd());
-
-            //////microphone
-            microphone.DisplayPercentage = true;
-            microphone.Slider.minValue = 0.05F;
-            microphone.Slider.maxValue = 0.2F;
-            microphone.Slider.value = BabyPhoneData.Instance.MicrophoneSensitivity;
-            microphone.UpdateCommands.Add(new SetMicroSensCmd());
+            animationSelection.UpdateCommands.Add(new AnimBabyPhoneCmd());
 
             ////time befor contact
             timeBeforContact.DisplayPercentage = false;
@@ -148,6 +145,28 @@ namespace BuddyApp.BabyPhone
             ifBabyCry.AddOption(mDictionary.GetString("playboth"), BabyPhoneData.Action.REPLAY_BOTH);
             ifBabyCry.SetDefault((int)BabyPhoneData.Instance.ActionWhenBabyCries);
             ifBabyCry.UpdateCommands.Add(new IfBabyCriesCmd());
+
+            ////sound detection
+            soundDetection.DisplayPercentage = true;
+            soundDetection.Slider.minValue = 5;
+            soundDetection.Slider.maxValue = 20;
+            soundDetection.Slider.value = BabyPhoneData.Instance.MicrophoneSensitivity;
+            soundDetection.UpdateCommands.Add(new SetMicroSensCmd());
+
+            ////animation's light On/Off
+            soundDetection.IsActive = BabyPhoneData.Instance.IsSoundDetectionOn;
+            soundDetection.SwitchCommands.Add(new ActSoundDetectionCmd());
+
+            ////sound detection
+            motionDetection.DisplayPercentage = true;
+            motionDetection.Slider.minValue = 20;
+            motionDetection.Slider.maxValue = 200;
+            motionDetection.Slider.value = BabyPhoneData.Instance.CameraSensitivity;
+            motionDetection.UpdateCommands.Add(new SetCamSensCmd());
+
+            ////animation's light On/Off
+            motionDetection.IsActive = BabyPhoneData.Instance.IsMotionDetectionOn;
+            motionDetection.SwitchCommands.Add(new ActMotionDetectionCmd());
 
             //////screen saver
             //screenSaver.DisplayPercentage = true;

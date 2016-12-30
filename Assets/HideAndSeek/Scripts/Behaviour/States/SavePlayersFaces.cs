@@ -132,13 +132,14 @@ namespace BuddyApp.HideAndSeek
         private void Train()
         {
             mFace.SetExpression(MoodType.THINKING);
-            GetGameObject(3).SetActive(false);
+            //GetGameObject(3).SetActive(false);
             mFaceReco.Train();
         }
 
         private void VocalProcessing(string iRequest)
         {
-            if(iRequest.Contains("part") || iRequest.Contains("go") || iRequest.Contains("aller"))
+            string lRequest = iRequest.ToLower();
+            if (lRequest.Contains("part") || lRequest.Contains("go") || lRequest.Contains("aller"))
             {
                 if (!mHasStarted)
                     StartLabel();

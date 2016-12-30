@@ -14,7 +14,7 @@ namespace BuddyApp.IOT
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
-            mFace.SetExpression(mood);
+            mMood.Set(mood);
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)

@@ -12,8 +12,10 @@ namespace BuddyApp.BabyPhone
         private const int DETECTION_TIME = 30;
         private GameObject mFallingAssleep;
         private GameObject mWindoAppOverWhite;
+        private GameObject mCartoonObject;
 
         private Animator mFallingAssleepAnimator;
+        private Animator mCartoonAnimator;
 
         private InputMicro mInputMicro;
 
@@ -26,17 +28,23 @@ namespace BuddyApp.BabyPhone
         private float mElapsedTime;
         private bool mDidISend;
 
+        private bool isAnimationOn;
+        private int mCartoonChoice;
+
         public override void Init()
         {
             mWindoAppOverWhite = GetGameObject(3);
             mFallingAssleep = GetGameObject(7);
+            mCartoonObject = GetGameObject(12);
             mFallingAssleepAnimator = mFallingAssleep.GetComponent<Animator>();
+            mCartoonAnimator = mCartoonObject.GetComponent<Animator>();
 
             mInputMicro = mFallingAssleep.GetComponent<InputMicro>();
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mMood.Set(MoodType.NEUTRAL);
             mWindoAppOverWhite.SetActive(true);
             mFallingAssleep.SetActive(true);
             mFallingAssleepAnimator.SetTrigger("Open_WFallingAssleep");
@@ -50,6 +58,18 @@ namespace BuddyApp.BabyPhone
             mMicroSensitivty = BabyPhoneData.Instance.MicrophoneSensitivity;
             mContactIndice = (int)BabyPhoneData.Instance.Recever;
             mBabyName = BabyPhoneData.Instance.BabyName;
+            isAnimationOn = BabyPhoneData.Instance.IsAnimationOn;
+            mCartoonChoice = (int)BabyPhoneData.Instance.AnimationToPlay;
+
+            if (isAnimationOn)
+            {
+                mCartoonObject.SetActive(true);
+                mCartoonAnimator.SetBool("IsPlaying", true);
+                if (mCartoonChoice == 0)
+                    mCartoonAnimator.SetTrigger("Hibou");
+                else
+                    mCartoonAnimator.SetTrigger("Chrsitmas");
+            }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -61,6 +81,9 @@ namespace BuddyApp.BabyPhone
 
             iAnimator.SetBool("DoPlayLullaby", false);
             iAnimator.SetInteger("ForwardState", 3);
+
+            mCartoonObject.SetActive(false);
+            mCartoonAnimator.SetBool("IsPlaying", false);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -87,7 +110,6 @@ namespace BuddyApp.BabyPhone
             {
                 StartCoroutine(SendMessage());
                 mDidISend = true;
-                iAnimator.SetTrigger("GoToBabyIsCrayingState");
             }
     }
 

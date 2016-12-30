@@ -16,8 +16,13 @@ namespace BuddyApp.Companion
 		private int targetToLookAtV;
 		private int previousEyesTargetPositionH;
 		private int previousEyesTargetPositionV;
+		private int curiousTargetH;
+		private int curiousTargetV;
 		private int stepVisionTargetH;
 		private int stepVisionTargetV;
+		private float mTimeLastOrder;
+		private const float TIME_BEFORE_BEEING_CURIOUS = 5.0f;
+
 
 		// Use this for initialization
 		void Start () {
@@ -33,22 +38,39 @@ namespace BuddyApp.Companion
 			// those value won't change 
 			stepVisionTargetH = Screen.width / 8;
 			stepVisionTargetV = Screen.height / 8;
+
+			curiousTargetH = Screen.width / 8;
+			curiousTargetV = Screen.height / 8;
+
+			mTimeLastOrder = Time.time;
 		}
 		
 		// Update is called once per frame
 		void Update () {
-			
+
+			// Following the hotspot when there is one
 			int[] position = mThermalDetector.PositionHotSpot;
-			//returnedValue = new int[]{maxHorizontal,maxVertical };
+			//mThermalDetector.PositionHotSpot gives : new int[]{maxHorizontal,maxVertical};
 			int maxHorizontal = position[0];
 			int maxVertical = position[1];
-			if (maxHorizontal == -1 || maxVertical == -1){
-				targetToLookAtH = Screen.width / 2;
-				targetToLookAtV = Screen.height / 2;
-                Debug.Log("nobody to look at, trying to look straigt");
-				// TODO : when not whatching something for a while the robot should look around
+
+			if (maxHorizontal == -1 || maxVertical == -1){ // if we don't find anybody to look at
+
+				if (Time.time - mTimeLastOrder > TIME_BEFORE_BEEING_CURIOUS) 
+				{
+					// set a curiosityPoint
+					curiousTargetH = Random.Range(0,Screen.width);
+					curiousTargetV = Random.Range (0, Screen.height);
+					mTimeLastOrder = Time.time;
+				}
+				targetToLookAtH = curiousTargetH;
+				targetToLookAtV = curiousTargetV;
+				// check for a time since last order from thermal
+				// if this time is more than a threshold we give a target and a time for the eyes
+				// reset the last time order
 			}
-			else {
+			else { //hot spot has been detected so we target that
+				
 				//Debug.Log ("hot spot is detected at " + maxHorizontal + "  " + maxVertical);
 
 				// Convertion into screen position
@@ -58,6 +80,9 @@ namespace BuddyApp.Companion
 
 				// Debug.Log ("maxHorizontal " + maxHorizontal ); 
 				// Debug.Log ("maxVertical " + maxVertical ); 
+
+				//reset the timer 
+				mTimeLastOrder = Time.time;
 			}
 
 			// Filtering

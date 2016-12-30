@@ -114,18 +114,16 @@ namespace BuddyApp.TakePhoto
 					} else {
 						//move head to look for face
 						if (mSearchTimer < 2.0f && mSearchStep == 1) {
-							mHeadNoAngle = mNoHinge.CurrentAnglePosition - 25.0f;
-							mNoHinge.SetPosition(mHeadNoAngle);
-							mSearchStep++;
-						} else if (mSearchTimer > 2.0f && mSearchStep == 2) {
-							mHeadNoAngle = mNoHinge.CurrentAnglePosition + 50.0f;
-							mNoHinge.SetPosition(mHeadNoAngle);
-							mSearchStep++;
-						} else if (mSearchTimer > 3.5f && mSearchStep == 3) {
-							mHeadNoAngle = mNoHinge.CurrentAnglePosition - 25.0f;
-							mNoHinge.SetPosition(mHeadNoAngle);
 							mHeadYesAngle = mYesHinge.CurrentAnglePosition - 20.0f;
 							mYesHinge.SetPosition(mHeadYesAngle);
+							mSearchStep++;
+						}else if ( mSearchTimer > 2.0f && mSearchStep == 2) {
+							mHeadNoAngle = mNoHinge.CurrentAnglePosition - 25.0f;
+							mNoHinge.SetPosition(mHeadNoAngle);
+							mSearchStep++;
+						} else if (mSearchTimer > 3.5f  && mSearchStep == 3) {
+							mHeadNoAngle = mNoHinge.CurrentAnglePosition + 50.0f;
+							mNoHinge.SetPosition(mHeadNoAngle);
 							mSearchStep++;
 						}
 					}

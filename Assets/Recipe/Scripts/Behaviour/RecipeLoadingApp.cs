@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using BuddyOS;
 using System.Collections;
 
 namespace BuddyApp.Recipe
@@ -17,6 +18,7 @@ namespace BuddyApp.Recipe
 
         void Start()
         {
+            BYOS.Instance.VocalActivation.enabled = false;
             StartCoroutine(LoadingScreen());
         }
 

@@ -18,12 +18,14 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("ENTER DISPLAY STEP");
             if (!mInit) {
                 StepList = GetComponent<RecipeBehaviour>().mRecipe.step;
                 mInit = true;
                 GetComponent<RecipeBehaviour>().StepIndex = 0;
             }
-            GetGameObject(4).GetComponent<Animator>().SetTrigger("Open_WFullImage");
+            if (GetGameObject(4).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Window_FullImage_Off"))
+                GetGameObject(4).GetComponent<Animator>().SetTrigger("Open_WFullImage");
             GetGameObject(12).GetComponent<Text>().text = StepList[GetComponent<RecipeBehaviour>().StepIndex].sentence;
             GetGameObject(7).GetComponent<RawImage>().texture = Resources.Load(StepList[GetComponent<RecipeBehaviour>().StepIndex].media) as Texture;
             mTTS.Say(StepList[GetComponent<RecipeBehaviour>().StepIndex++].sentence);
@@ -36,6 +38,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("EXIT DISPLAY STEP");
         }
     }
 }

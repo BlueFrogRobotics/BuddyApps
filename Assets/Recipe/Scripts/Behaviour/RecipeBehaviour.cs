@@ -27,6 +27,7 @@ namespace BuddyApp.Recipe
         private GameObject mRecipeInstance;
         private TextToSpeech mTTS;
         private List<GameObject> mRecipePrefabList;
+        private SpriteManager mSpriteManager;
 
         public string mAnswer { get; set; }
         public Recipe mRecipe { get; set; }
@@ -42,10 +43,12 @@ namespace BuddyApp.Recipe
         {
             IsBackgroundActivated = false;
             mTTS = BYOS.Instance.TextToSpeech;
+            mSpriteManager = BYOS.Instance.SpriteManager;
         }
 
         public void Exit()
         {
+            mTTS.Silence(0);
             BYOS.Instance.AppManager.Quit();
         }
 
@@ -54,7 +57,6 @@ namespace BuddyApp.Recipe
             List<Recipe> lRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath("recipe_list.xml")).recipe;
             mRecipeList = new List<Recipe>();
 
-            //foreach (Recipe recipe in lRecipeList) {
             for (int i = 0; i < lRecipeList.Count; i++)
             {
                 if (lRecipeList[i].category == category)
@@ -69,7 +71,6 @@ namespace BuddyApp.Recipe
         public void DisplayRecipe()
         {
             mRecipePrefabList = new List<GameObject>();
-            //foreach (Recipe recipe in mRecipeList) {
             for (int i = 0; i < mRecipeList.Count; i++)
             {
                 mRecipeInstance = Instantiate(prefabRecipe);
@@ -81,10 +82,14 @@ namespace BuddyApp.Recipe
 
         public void OnClickBackToCategory()
         {
-            for (int i = 0; i < mRecipePrefabList.Count; i++)
-            //foreach (GameObject recipe in mRecipePrefabList)
-                Destroy(mRecipePrefabList[i]);
+            DestroyRecipePrefab();
             GetComponent<Animator>().SetTrigger("BackToCategory");
+        }
+
+        public void DestroyRecipePrefab()
+        {
+            for (int i = 0; i < mRecipePrefabList.Count; i++)
+                Destroy(mRecipePrefabList[i]);
         }
 
         public void DisplayIngredient()
@@ -97,11 +102,27 @@ namespace BuddyApp.Recipe
                 {
                     lIngredient = mRecipe.ingredient[IngredientIndex];
                     mPrefabIngredientList[i].SetActive(true);
-                    mTTS.Say(" [1000] " + lIngredient.name + " [700] " + lIngredient.quantity + " [200] " + lIngredient.unit, true);
-                    mPrefabIngredientTextList[i].GetComponent<Text>().text = lIngredient.name + ": " + lIngredient.quantity + " " + lIngredient.unit;
+                    if (lIngredient.unit == null)
+                    {
+                        if (lIngredient.quantity == 0)
+                        {
+                            mTTS.Say(" [1000] " + lIngredient.name, true);
+                            mPrefabIngredientTextList[i].GetComponent<Text>().text = lIngredient.name;
+                        }
+                        else
+                        {
+                            mTTS.Say(" [1000] " + lIngredient.name + " [100] " + lIngredient.quantity, true);
+                            mPrefabIngredientTextList[i].GetComponent<Text>().text = lIngredient.name + ": " + lIngredient.quantity;
+                        }
+                    }
+                    else
+                    {
+                        mTTS.Say(" [1000] " + lIngredient.name + " [100] " + lIngredient.quantity + lIngredient.unit, true);
+                        mPrefabIngredientTextList[i].GetComponent<Text>().text = lIngredient.name + ": " + lIngredient.quantity + " " + lIngredient.unit;
+                    }
                     if (lIngredient.icon != null)
-                        mPrefabIngredientIconList[i].GetComponent<Image>().sprite = Resources.Load(lIngredient.icon) as Sprite;
-                }
+                        mPrefabIngredientIconList[i].GetComponent<Image>().sprite = mSpriteManager.GetSprite(lIngredient.icon, "AtlasRecipe");
+                   }
                 else
                     mPrefabIngredientList[i].SetActive(false);
                 IngredientIndex++;

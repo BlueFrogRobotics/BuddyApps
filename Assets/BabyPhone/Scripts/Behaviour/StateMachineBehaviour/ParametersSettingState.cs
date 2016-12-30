@@ -12,6 +12,8 @@ namespace BuddyApp.BabyPhone
         private GameObject mBlackground;
         private Animator mBackgroundBlackAnimator;
         private Animator mParametersAnimator;
+        private GameObject mCartoon;
+        private Animator mCartoonAnimator;
 
         public override void Init()
         {
@@ -20,6 +22,8 @@ namespace BuddyApp.BabyPhone
             mBlackground = GetGameObject(1);
             mBackgroundBlackAnimator = mBlackground.GetComponent<Animator>();
             mParametersAnimator = mParameters.GetComponent<Animator>();
+            mCartoon = GetGameObject(12);
+            mCartoonAnimator = mCartoon.GetComponent<Animator>();
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -29,6 +33,7 @@ namespace BuddyApp.BabyPhone
             //mBlackground.SetActive(true);
             mBackgroundBlackAnimator.SetTrigger("Open_BG");
             mParametersAnimator.SetTrigger("Open_WParameters");
+            mMood.Set(MoodType.THINKING);
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -41,6 +46,9 @@ namespace BuddyApp.BabyPhone
             iAnimator.SetInteger("ForwardState", 1);
 
             mSpeaker.Media.Stop();
+
+            mCartoon.SetActive(false);
+            mCartoonAnimator.SetBool("IsPlaying", false);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
