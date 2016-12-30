@@ -22,7 +22,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!check && mTTS.HasFinishedTalking) {
+            if (!check && mTTS.HasFinishedTalking && !mVocalActivation.RecognitionTriggered) {
                 check = true;
                 mVocalActivation.VocalProcessing = VocalProcessing;
                 mVocalActivation.VocalError = VocalError;
