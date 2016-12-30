@@ -6,6 +6,8 @@ namespace BuddyApp.IOT
 {
     public class IOTSomfyThermometer : IOTSomfyDevice
     {
+        private Label mTemp;
+
         public IOTSomfyThermometer(IOTSomfyDevice iObject) : base(iObject)
         {
             mType = DeviceType.THERMOSTAT;
@@ -33,13 +35,17 @@ namespace BuddyApp.IOT
         {
             base.InitializeParams();
             GameObject lTemp = InstanciateParam(ParamType.LABEL);
-            Label lTempComponent = lTemp.GetComponent<Label>();
+            mTemp = lTemp.GetComponent<Label>();
 
-            lTempComponent.Text = "Temperature : ";
+            mTemp.Text = "Temperature : " + states[1].value;
 
         }
 
-
+        public override void UpdateSlow()
+        {
+            ChangeStateValue("core:TemperatureState");
+            mTemp.Text = "Temperature : " + states[1].value;
+        }
 
     }
 }
