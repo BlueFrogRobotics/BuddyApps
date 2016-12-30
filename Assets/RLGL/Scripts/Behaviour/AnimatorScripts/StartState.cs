@@ -3,6 +3,7 @@ using System.Collections;
 using BuddyOS.App;
 using System;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace BuddyApp.RLGL
 {
@@ -129,6 +130,7 @@ namespace BuddyApp.RLGL
             {
                 mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
                 mWindowQuestion.GetComponent<Animator>().SetTrigger("Open_WQuestion");
+                mWindowQuestion.GetComponentInChildren<Text>().text = "DO YOU WANT TO HEAR THE RULES?";
                 mCanvasTrigger = true;
             }
         }
