@@ -167,6 +167,7 @@ namespace BuddyApp.IOT
             lRequest.SetHeader("cookie", mSessionID);
             lRequest.uri = new System.Uri(lUrl);
 
+
             IOTSomfyStateJSON lState = null;
 
             lRequest.Send((lResult) => {
