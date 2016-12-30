@@ -64,14 +64,17 @@ namespace BuddyApp.Recipe
                 stars[i].GetComponent<Image>().sprite = fullStar;
             }
             maskTime.GetComponent<Text>().text = (mRecipe.prep + mRecipe.cook).ToString() + "MIN";
-            maskText.GetComponent<Text>().text = mRecipe.summary;
+            if (mRecipe.summary != null && mRecipe.summary.Length > 350)
+                maskText.GetComponent<Text>().text = mRecipe.summary.Substring(0, 347) + "...";
+            else
+                maskText.GetComponent<Text>().text = mRecipe.summary;
             maskIngredient.GetComponent<Text>().text = "Ingredients (pour " + mRecipe.person + " personnes) :";
             foreach (Ingredient ingredient in mRecipe.ingredient) {
                 if (ingredient.unit == null) {
                     if (ingredient.quantity == 0)
                         lString = lString + ingredient.name + '\n';
                     else
-                        lString = lString + ingredient.name + ": " + ingredient.quantity;
+                        lString = lString + ingredient.name + ": " + ingredient.quantity + '\n';
                 }
                 else
                     lString = lString + ingredient.name + ": " + ingredient.quantity + " " + ingredient.unit + '\n';

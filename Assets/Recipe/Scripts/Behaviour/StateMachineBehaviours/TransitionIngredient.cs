@@ -43,17 +43,30 @@ namespace BuddyApp.Recipe
 
         private void VocalProcessing(string answer)
         {
-            if (answer.Contains("suivant") || answer.Contains("suivante"))
+            answer = answer.ToLower();
+            if (ContainKeyWord(answer, mDictionary.GetString("next").Split(' ')))
                 NextIngredient();
-            else if (answer.Contains("précédent") || answer.Contains("précédente") || answer.Contains("avant"))
+            else if (ContainKeyWord(answer, mDictionary.GetString("last").Split(' ')))
                 LastIngredient();
-            else if (answer.Contains("répète") || answer.Contains("répéter"))
+            else if (ContainKeyWord(answer, mDictionary.GetString("repeat").Split(' ')))
             {
                 GetComponent<RecipeBehaviour>().IngredientIndex -= 3;
                 GetComponent<Animator>().SetTrigger("DisplayIngredient");
             }
             else
                 mVocalActivation.StartInstantReco();
+        }
+
+        private bool ContainKeyWord(string iAnswer, string[] iKeyWords)
+        {
+            bool lCheck = false;
+
+            for (int i = 0; i < iKeyWords.Length; i++)
+            {
+                if (iAnswer.Contains(iKeyWords[i]))
+                    lCheck = true;
+            }
+            return lCheck;
         }
 
         public void NextIngredient()

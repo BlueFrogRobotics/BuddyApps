@@ -24,11 +24,18 @@ namespace BuddyApp.Recipe
                 mInit = true;
                 GetComponent<RecipeBehaviour>().StepIndex = 0;
             }
+            string lText = StepList[GetComponent<RecipeBehaviour>().StepIndex].sentence;
             if (GetGameObject(4).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Window_FullImage_Off"))
                 GetGameObject(4).GetComponent<Animator>().SetTrigger("Open_WFullImage");
-            GetGameObject(12).GetComponent<Text>().text = StepList[GetComponent<RecipeBehaviour>().StepIndex].sentence;
+            GetGameObject(12).GetComponent<Text>().text = lText;
             GetGameObject(7).GetComponent<RawImage>().texture = Resources.Load(StepList[GetComponent<RecipeBehaviour>().StepIndex].media) as Texture;
-            mTTS.Say(StepList[GetComponent<RecipeBehaviour>().StepIndex++].sentence);
+            for (int i = 0; i < lText.Length; i++)
+            {
+                if (lText[i] == '.' && i < lText.Length - 1)
+                    lText = lText.Insert(i + 1, "[1000]");
+            }
+            mTTS.Say(lText);
+            GetComponent<RecipeBehaviour>().StepIndex++;
             GetComponent<Animator>().SetTrigger("TransitionStep");
         }
 

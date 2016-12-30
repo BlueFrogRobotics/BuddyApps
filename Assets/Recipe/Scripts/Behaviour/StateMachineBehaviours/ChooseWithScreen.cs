@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using BuddyOS.App;
 
 namespace BuddyApp.Recipe
@@ -18,8 +19,10 @@ namespace BuddyApp.Recipe
                 GetGameObject(1).SetActive(true);
                 GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
             }
+            GetGameObject(13).GetComponent<Text>().text = mDictionary.GetString("starter");
+            GetGameObject(14).GetComponent<Text>().text = mDictionary.GetString("dish");
             GetGameObject(6).GetComponent<Animator>().SetTrigger("Open_WCategory");
-            mTTS.Say("Quelle type de recette veux tu faire ?");
+            mTTS.Say(mDictionary.GetString("chooserecipecategory"));
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

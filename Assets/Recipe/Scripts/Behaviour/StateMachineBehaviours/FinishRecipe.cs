@@ -3,8 +3,9 @@ using BuddyOS.App;
 
 namespace BuddyApp.Recipe
 {
-    public class RecipeListFound : AStateMachineBehaviour
+    public class FinishRecipe : AStateMachineBehaviour
     {
+        private bool mDone;
 
         public override void Init()
         {
@@ -12,13 +13,17 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mTTS.Say(mDictionary.GetString("listrecipefound"));
+            mDone = false;
+            mTTS.Say(mDictionary.GetString("finish"));
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (mTTS.HasFinishedTalking)
-                iAnimator.SetTrigger("DisplayRecipeList");
+            if (!mDone && mTTS.HasFinishedTalking)
+            {
+                mDone = true;
+                //GetComponent<RecipeBehaviour>().Exit();
+            }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

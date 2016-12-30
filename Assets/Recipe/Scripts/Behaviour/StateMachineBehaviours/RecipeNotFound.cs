@@ -17,7 +17,7 @@ namespace BuddyApp.Recipe
             if (mCount >= 2)
                 iAnimator.SetTrigger("ChooseWithScreen");
             else
-                mTTS.Say("Désolé je n'ai pas trouvé cette recette, veux tu bien répéter ?");
+                mTTS.Say(mDictionary.GetString("recipenotfound"));
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
