@@ -11,6 +11,7 @@ namespace BuddyApp.RLGL
     {
         private TextToSpeech mTTS;
         private Animator mAnimator;
+        private Face mFace;
         [HideInInspector]
         public bool mReplay;
 
@@ -32,6 +33,7 @@ namespace BuddyApp.RLGL
         // Use this for initialization
         void Start()
         {
+            mFace = BYOS.Instance.Face;
             mAnimator = GetComponent<Animator>();
 
         }
@@ -47,16 +49,19 @@ namespace BuddyApp.RLGL
             mIsClicked = true;
             if(mIndex == 0)
             {
+                mFace.SetExpression(MoodType.NEUTRAL);
                 mAnimator.GetBehaviour<StartState>().IsAnswerYes = true;
                 Debug.Log("ON CLICK BUTTON YES START");
             }
             else if (mIndex == 1)
             {
+                mFace.SetExpression(MoodType.NEUTRAL);
                 mAnimator.GetBehaviour<RulesState>().IsAnswerRuleYes = true;
                 Debug.Log("ON CLICK BUTTON YES RULES");
             }
             else if (mIndex == 2)
             {
+                mFace.SetExpression(MoodType.NEUTRAL);
                 mAnimator.GetBehaviour<ReplayState>().IsAnswerReplayYes = true;
                 Debug.Log("ON CLICK BUTTON YES REPLAY");
             }
