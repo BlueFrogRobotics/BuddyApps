@@ -33,17 +33,30 @@ namespace BuddyApp.IOT
         {
             GameObject lTemp = InstanciateParam(ParamType.GAUGE);
             Gauge lGaugeTemp = lTemp.GetComponent<Gauge>();
+            GameObject lTempEco = InstanciateParam(ParamType.GAUGE);
+            Gauge lGaugeTempEco = lTempEco.GetComponent<Gauge>();
 
             lGaugeTemp.Label.text = "Temperature";
             lGaugeTemp.Slider.minValue = 70F;
             lGaugeTemp.Slider.maxValue = 300F;
             IOTTempGaugeCmd lGaugeCmd = new IOTTempGaugeCmd(this);
             lGaugeTemp.UpdateCommands.Add(lGaugeCmd);
+
+            lGaugeTempEco.Label.text = "Temperature";
+            lGaugeTempEco.Slider.minValue = 70F;
+            lGaugeTempEco.Slider.maxValue = 300F;
+            IOTTempGaugeCmd lGaugeEcoCmd = new IOTTempGaugeCmd(this);
+            lGaugeTemp.UpdateCommands.Add(lGaugeEcoCmd);
         }
 
         public void SetTemperature(float lTemp)
         {
-            PostAction("setComfortTemperature", new string[] { System.Convert.ToString(lTemp) });
+            PostAction("setComfortTemperature", new float[] { lTemp });
+        }
+
+        public void SetEcoTemperature(float lTemp)
+        {
+            PostAction("setEcoTemperature", new float[] { lTemp });
         }
 
         public override void Command(int iCommand)
