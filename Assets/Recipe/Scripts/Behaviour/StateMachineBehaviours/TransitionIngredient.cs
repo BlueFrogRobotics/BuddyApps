@@ -14,7 +14,6 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("ENTER TRANSITION INGREDIENT");
             check = false;
             GetGameObject(8).GetComponent<Button>().onClick.AddListener(LastIngredient);
             GetGameObject(9).GetComponent<Button>().onClick.AddListener(NextIngredient);
@@ -38,7 +37,6 @@ namespace BuddyApp.Recipe
             mTTS.Silence(0);
             GetGameObject(8).GetComponent<Button>().onClick.RemoveAllListeners();
             GetGameObject(9).GetComponent<Button>().onClick.RemoveAllListeners();
-            Debug.Log("EXIT TRANSITION INGREDIENT");
         }
 
         private void VocalProcessing(string answer)
@@ -81,10 +79,19 @@ namespace BuddyApp.Recipe
 
         public void LastIngredient()
         {
-            if (GetComponent<RecipeBehaviour>().IngredientIndex == 3 && GetComponent<RecipeBehaviour>().mRecipeList != null)
+            if (GetComponent<RecipeBehaviour>().IngredientIndex == 3)
             {
                 GetGameObject(3).GetComponent<Animator>().SetTrigger("Close_WList");
-                GetComponent<Animator>().SetTrigger("BackToList");
+                if (GetComponent<RecipeBehaviour>().mRecipeList != null)
+                    GetComponent<Animator>().SetTrigger("BackToList");
+                else
+                {
+                    GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
+                    GetGameObject(1).SetActive(false);
+                    GetGameObject(2).SetActive(true);
+                    GetComponent<RecipeBehaviour>().IsBackgroundActivated = false;
+                    GetComponent<Animator>().SetTrigger("BackToStart");
+                }
             }
             else
             {

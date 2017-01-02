@@ -22,7 +22,7 @@ namespace BuddyApp.Recipe
             if (!mDone && mTTS.HasFinishedTalking)
             {
                 mDone = true;
-                //GetComponent<RecipeBehaviour>().Exit();
+                GetComponent<Animator>().SetTrigger("AskAnotherRecipe");
             }
         }
 

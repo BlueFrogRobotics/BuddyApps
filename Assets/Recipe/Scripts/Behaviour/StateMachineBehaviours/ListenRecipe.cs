@@ -9,12 +9,10 @@ namespace BuddyApp.Recipe
 
         public override void Init()
         {
-
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("Enter ListenRecipe");
             mAnimator = iAnimator;
             mVocalActivation.VocalProcessing = GetAnswer;
             mVocalActivation.VocalError = NoAnswer;
@@ -30,20 +28,16 @@ namespace BuddyApp.Recipe
             mVocalActivation.VocalProcessing = null;
             mVocalActivation.VocalError = null;
             mVocalActivation.StopListenBehaviour();
-            Debug.Log("ExitListenRecipe");
         }
 
         private void GetAnswer(string iAnswer)
         {
-            Debug.Log("CallbackListenRecipe");
             GetComponent<RecipeBehaviour>().mAnswer = iAnswer.ToLower();
             mAnimator.SetTrigger("AnswerRecipe");
         }
 
         private void NoAnswer(STTError error)
         {
-            Debug.Log("CallbackErrorListenRecipe");
-            Debug.Log(error);
             mAnimator.SetTrigger("NoAnswerRecipe");
         }
     }

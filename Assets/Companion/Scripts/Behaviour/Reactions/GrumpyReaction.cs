@@ -9,7 +9,7 @@ namespace BuddyApp.Companion
 
         [SerializeField]
         private Emotion mEmotion;
-
+        
         private float mAnimTime;
         private float mAnimStartTime;
         private TextToSpeech mTTS;
@@ -23,6 +23,9 @@ namespace BuddyApp.Companion
 
         void OnEnable()
         {
+            if (mTTS == null)
+                Start();
+
             mEmotion.EnableChoregraph();
             mAnimStartTime = Time.time;
             switch(Random.Range(0, 3))
