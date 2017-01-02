@@ -1,351 +1,484 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RecipeList>
-  <recipe name="crêpes" category="dessert" illustration="Crepes/illustration" person="6" prep="10" cook="10" stars="4" xml="crepes.xml">
-    <summary>La crêpe est un mets composé d'une très fine couche de pâte faite à base de farine (principalement de blé ou de sarrasin) agglomérée à un liquide (lait, parfois mélangé à de l'eau ou de la bière). Elle est généralement de forme ronde.</summary>
-    <ingredient name="Farine" quantity="375" unit="grammes" icon="Recipe_Ico_Farine"/>
-    <ingredient name="Oeuf" quantity="4"  icon="Recipe_Ico_Oeuf"/>
-    <ingredient name="Beurre" quantity="20" unit="grammes" icon="Recipe_Ico_Beurre"/>
-    <ingredient name="Huile" quantity="2" unit="cuillères à soupe" icon="Recipe_Ico_Huile"/>
-    <ingredient name="Sel" quantity="2" unit="pincées" icon="Recipe_Ico_Sel"/>
-    <ingredient name="Lait" quantity="50" unit="centilitres" icon="Recipe_Ico_Lait"/>
-    <ingredient name="Bierre" quantity="25" unit="centilitres" icon="Recipe_Ico_Biere"/>
-    <ingredient name="Rhum" quantity="2" unit="cuillères à soupe" icon="Recipe_Ico_Rhum"/>
-  <step>
-    <media>Crepes/step0</media>
-    <sentence>Mélanger la farine avec les oeufs, l'huile et le sel.</sentence>
-	</step>
-	<step>
-    <media>Crepes/step1</media>
-    <sentence>Ajoutez ensuite le lait, la bière et le rhum.</sentence>
-	</step>
-	<step>
-    <media>Crepes/step2</media>
-    <sentence>Mélangez le tout : c'est prêt en deux minutes avec un mixer!</sentence>
-	</step>
-	<step>
-    <media>Crepes/step3</media>
-    <sentence>Faites cuire à la poêle avec une noix de beurre.</sentence>
-		</step>
-	<step>
-    <media>Crepes/step4</media>
-    <sentence>Bon appetit!</sentence>
-	</step>
-  </recipe>
-    <recipe name="cake courgettes feta" category="entrée" illustration="CakeCourgettesFeta/illustration" person="6" prep="35" cook="40" stars="5" xml="cake_courgettes_feta.xml">
-      <ingredient name="Petite courgette" quantity="2"/>
-      <ingredient name="Feta" quantity="150" unit="grammes"/>
-      <ingredient name="Yaourt à la grecque" quantity="1"/>
-      <ingredient name="Farine" quantity="200" unit="grammes" icon="Recipe_Ico_Farine"/>
-      <ingredient name="Oeuf" quantity="3" icon="Recipe_Ico_Oeuf"/>
-      <ingredient name="Levure chimique" quantity="1" unit="sachet"/>
-      <ingredient name="Huile" quantity="10" unit="centilitres" icon="Recipe_Ico_Huile"/>
-      <ingredient name="Sel" icon="Recipe_Ico_Sel"/>
-      <ingredient name="Poivre"/>
-      <step>
-        <media>CakeCourgettesFeta/step0</media>
-        <sentence>Laver et essuyer les courgettes. Les détailler en cubes à l'aide d'un coupe oignon</sentence>
+  <recipe name="Crêpes Bretonnes" category="dessert" illustration="Crepes/illustration" person="6" prep="20" cook="10" stars="5" xml="crepes.xml">
+    <summary>Une recette très classique qui, grâce à sa quantité d'oeufs, ne nécessite aucun repos de la pâte. C'est une amie bretonne qui m'a donné ses secrets... En tout cas chez moi, ces crêpes ne font jamais long feu.</summary>
+    <ingredient name="Farine" qantity="125" unit="Grammes" icon="Recipe_Ico_Farine"/>
+    <ingredient name="Oeuf" qantity="4" icon="Recipe_Ico_Oeuf"/>
+    <ingredient name="Beurre" qantity="30" unit="Grammes" icon="Recipe_Ico_Beurre"/>
+    <ingredient name="Sel" qantity="5" unit="Grammes" icon="Recipe_Ico_Sel"/>
+    <ingredient name="Lait" qantity="30" unit="centilitres" icon="Recipe_Ico_Lait"/>
+    <ingredient name="Eau" qantity="2" unit="cuillères à soupe"/>
+    <ingredient name="Rhum ou autres..." qantity="2" unit="cuillères à café" icon="Recipe_Ico_Rhum"/>
+    <step>
+      <media>Crepes/step0</media>
+      <sentence>Pour réaliser cette recette de crêpes au sucre, commencer par préparer tous les ingrédients.</sentence>
+    </step>
+    <step>
+      <media>Crepes/step1</media>
+      <sentence>Préparer la pâte à crêpes.</sentence>
+    </step>
+    <step>
+      <media>Crepes/step2</media>
+      <sentence>Préchauffez la poêle à crêpes.</sentence>
+    </step>
+    <step>
+      <media>Crepes/step3</media>
+      <sentence>Verser l'équivalent d'une à deux petites louches de pâte,</sentence>
       </step>
-      <step>
-        <media>CakeCourgettesFeta/step1</media>
-        <sentence>puis les faire cuire 5 minutes à la vapeur et les laisser refroidir.</sentence>
-      </step>
-      <step>
-        <media>CakeCourgettesFeta/step2</media>
-        <sentence>Couper la feta en dés.</sentence>
-      </step>
-      <step>
-        <media>CakeCourgettesFeta/step3</media>
-        <sentence>Dans un cul de poule, mélanger la farine avec la levure.</sentence>
-      </step>
-      <step>
-        <media>CakeCourgettesFeta/step4</media>
-        <sentence>Casser les œufs dans un bol, les fouetter en omelette à la fourchette, puis incorporer le yaourt.</sentence>
-      </step>
-      <step>
-        <media>CakeCourgettesFeta/step5</media>
-        <sentence>Verser sur la farine</sentence>
-      </step>
-      <step>
-        <media>CakeCourgettesFeta/step6</media>
-        <sentence>et bien mélanger au fouet.</sentence>
-      </step>
-      <step>
-        <media>CakeCourgettesFeta/step7</media>
-        <sentence>Délayer avec l'huile d'olive, saler et poivrer.</sentence>
-      </step>
-      <step>
-        <media>CakeCourgettesFeta/step8</media>
-        <sentence>Quand la pâte est bien lisse, ajouter les courgettes et la feta.</sentence>
-      </step>
-      <step>
-        <media>CakeCourgettesFeta/step9</media>
-        <sentence>Bien mélanger à la spatule type maryse.</sentence>
-      </step>
-      <step>
-        <media>CakeCourgettesFeta/step10</media>
-        <sentence>Verser dans un moule à cake.</sentence>
-      </step>
-      <step>
-        <media>CakeCourgettesFeta/step11</media>
-        <sentence>Faire cuire 40 minutes à 180 degré celsius. Vérifier la cuisson avec la lame d'un couteau, celle-ci doit ressortir sèche. Laisser tiédir avant de démouler.</sentence>
-      </step>
-  </recipe>
-  <recipe name="cuisses de poulet à la crème" category="plat" illustration="CuissesDePouletALaCreme/illustration" person="8" prep="60" stars="5" xml="cuisse_de_poulet_a_la_creme.xml">
-    <ingredient name="Cuisse de poulet" quantity="8"/>
-    <ingredient name="Beurre" quantity="50" unit="grammes" icon="Recipe_Ico_Beurre"/>
-    <ingredient name="Oignon" quantity="4"/>
-    <ingredient name="Crème fraîche épaisse" quantity="1" unit="kilogramme"/>
-    <ingredient name="Oignons grelots glacés à blanc" quantity="400" unit="grammes"/>
-    <ingredient name="Champignons de Paris glacés à blanc" quantity="400" unit="grammes"/>
-    <ingredient name="Sel" icon="Recipe_Ico_Sel"/>
-    <ingredient name="Poivre"/>
-    <ingredient name="Piment d'Espelette"/>
     <step>
-      <media>CuissesDePouletALaCreme/step0</media>
-      <sentence>Dans une cocotte, ici en fonte, faire fondre le beurre. Saisir les cuisses de poulet sur toutes les faces, sans trop les colorer.</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step1</media>
-      <sentence>Pendant ce temps, émincer l'oignon.</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step2</media>
-      <sentence>Lorsque les morceaux de poulet sont saisis</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step3</media>
-      <sentence>ajouter loignon. Bien remuer et cuire quelques minutes.</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step4</media>
-      <sentence>Retirer les morceaux de poulet</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step5</media>
-      <sentence>et poursuivre leur cuisson au four une quinzaine de minutes. Réserver au chaud.</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step6</media>
-      <sentence>Dans les oignons sués</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step7</media>
-      <sentence>ajouter la crème fraiche épaisse. Laisser réduire pendant 10 minutes.</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step8</media>
-      <sentence>Pendant ce temps, préparer les oignons glacés à blanc.</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step9</media>
-      <sentence>Démarrer la cuisson avec un couvercle en papier sulfurisé.</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step10</media>
-      <sentence>Ils sont cuits lorsque toute l'eau est évaporée. Attention à les conserver blanc, ne pas faire dorer.</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step11</media>
-      <sentence>Faire de même avec les champignons de Paris, lavés et escalopés</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step12</media>
-      <sentence>jusqu'à évaporation complète de l'eau de cuisson.</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step13</media>
-      <sentence>Au terme de la cuisson, les rassembler avec les petits oignons dans une casserole.</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step14</media>
-      <sentence>Rassembler la cuisson à la crème du poulet dans le bol d'un blender. Mixer finement. Si vous ne disposez pas de blender, vous pouvez mixer la sauce avec un mixeur plongeant.</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step15</media>
-      <sentence>Verser cette sauce sur les oignons et les champignons glacés.</sentence>
-    </step>
-    <step>
-      <media>CuissesDePouletALaCreme/step16</media>
-      <sentence>Ajouter les cuisses de poulet cuites. Rectifier l'assaisonnement. Réserver au chaud jusqu'au moment du service.</sentence>
+      <media>Crepes/step4</media>
+      <sentence>et bien la répartir sur toute la surface de la poêle par un mouvement de rotation. À mi-cuisson, retourner la crêpe et cuire l'autre face. Bon Appétit!</sentence>
     </step>
   </recipe>
-  <recipe name="moussaka" category="plat" illustration="Moussaka/illustration" person="6" prep="65" cook="25" stars="5" xml="moussaka.xml">
-    <summary>La moussaka est une recette qui nous invite à voyager dans le temps! Plat traditionnel des Balkans, elle est cuisinée en Asie mineure depuis des siècles, mais ce n'est qu'au 20ème siècle que la moussaka moderne est associée à la Grèce et à la Turquie. Aux origines de ce plat vitaminé composé d'aubergines, d'oignons et de viande hachée de mouton : Nikolas Tselementes, chef de cuisine grec très influent du début du siècle, auteur de nombreux livres de cuisine. Pour la petite anecdote, le terme moussaka proviendrait de l'arabe musaqqa'a, signifiant frais. Et oui, car dans le monde arabe, c'est ainsi qu'elle est consommée!</summary>
-    <ingredient name="Epaule d'agneau hachée" quantity="750" unit="grammes"/>
-    <ingredient name="Aubergine" quantity="3"/>
-    <ingredient name="Tomate" quantity="600" unit="grammes"/>
-    <ingredient name="Gros oignon" quantity="1"/>
-    <ingredient name="Gousse d'ail" quantity="2"/>
-    <ingredient name="Jaune d'oeuf" quantity="2"/>
-    <ingredient name="Fromage de brebis râpé" quantity="100" unit="grammes"/>
-    <ingredient name="Huile d'olive" icon="Recipe_Ico_Huile"/>
-    <ingredient name="Lait" quantity="50" unit="centilitres" icon="Recipe_Ico_Lait"/>
-    <ingredient name="Beurre" quantity="50" unit="grammes" icon="Recipe_Ico_Beurre"/>
-    <ingredient name="Farine" quantity="40" unit="grammes" icon="Recipe_Ico_Farine"/>
-    <ingredient name="Cannelle moulue" quantity="1" unit="cuillère à café"/>
-    <ingredient name="Noix de muscade" />
+  <recipe name="cake courgettes feta" category="entrée" illustration="CakeCourgettesFeta/illustration" person="6" prep="35" cook="40" stars="5" xml="cake_courgettes_feta.xml">
+    <summary>Toutes les saveurs de la Méditerranée réunies dans un seul et même plat ! Avec ce cake aux courgettes et à la feta, les douces soirées estivales s’annoncent festives et colorées. Courgette et feta, deux ingrédients peu caloriques pour débuter un repas sain et équilibré. Cette recette facile qui demande peu de préparation ravira à coups sûrs vos invités gourmets.</summary>
+    <ingredient name="Petite courgette" quantity="2"/>
+    <ingredient name="Feta" quantity="150" unit="grammes"/>
+    <ingredient name="Yaourt à la grecque" quantity="1"/>
+    <ingredient name="Farine" quantity="200" unit="grammes" icon="Recipe_Ico_Farine"/>
+    <ingredient name="Oeuf" quantity="3" icon="Recipe_Ico_Oeuf"/>
+    <ingredient name="Levure chimique" quantity="1" unit="sachet"/>
+    <ingredient name="Huile" quantity="10" unit="centilitres" icon="Recipe_Ico_Huile"/>
     <ingredient name="Sel" icon="Recipe_Ico_Sel"/>
     <ingredient name="Poivre"/>
     <step>
-      <media>Moussaka/step0</media>
-      <sentence>Rincer et sécher les aubergines. Couper le pédoncule de chacune d'elles. Les couper en tranches au couteau ou à l'aide d'une mandoline.</sentence>
+      <media>CakeCourgettesFeta/step0</media>
+      <sentence>Laver et essuyer les courgettes. Les détailler en cubes à l'aide d'un coupe oignon</sentence>
     </step>
     <step>
-      <media>Moussaka/step1</media>
-      <sentence>Dans une poêle anti-adhésive</sentence>
+      <media>CakeCourgettesFeta/step1</media>
+      <sentence>puis les faire cuire 5 minutes à la vapeur et les laisser refroidir.</sentence>
     </step>
     <step>
-      <media>Moussaka/step2</media>
-      <sentence>les faire dorer à l'huile d'olive, en mélangeant régulièrement.</sentence>
+      <media>CakeCourgettesFeta/step2</media>
+      <sentence>Couper la feta en dés.</sentence>
     </step>
     <step>
-      <media>Moussaka/step3</media>
-      <sentence>Les égoutter sur du papier absorbant. Saler et poivrer.</sentence>
+      <media>CakeCourgettesFeta/step3</media>
+      <sentence>Dans un cul de poule, mélanger la farine avec la levure.</sentence>
     </step>
     <step>
-      <media>Moussaka/step4</media>
-      <sentence>Peler et hacher l'oignon. Ici nous utilisons le coupe oignon "Alligator" qui permet un travail facile et rapide.</sentence>
+      <media>CakeCourgettesFeta/step4</media>
+      <sentence>Casser les œufs dans un bol, les fouetter en omelette à la fourchette, puis incorporer le yaourt.</sentence>
     </step>
     <step>
-      <media>Moussaka/step5</media>
-      <sentence>Chauffer 2 cuillères à soupe d'huile dans la poêle. Faire revenir l'oignon haché, 2 minutes sur feu doux.</sentence>
+      <media>CakeCourgettesFeta/step5</media>
+      <sentence>Verser sur la farine</sentence>
     </step>
     <step>
-      <media>Moussaka/step6</media>
-      <sentence>Ajouter la viande hachée.</sentence>
+      <media>CakeCourgettesFeta/step6</media>
+      <sentence>et bien mélanger au fouet.</sentence>
     </step>
     <step>
-      <media>Moussaka/step7</media>
-      <sentence>Faire revenir 3 minutes sur feu vif.</sentence>
+      <media>CakeCourgettesFeta/step7</media>
+      <sentence>Délayer avec l'huile d'olive, saler et poivrer.</sentence>
     </step>
     <step>
-      <media>Moussaka/step8</media>
-      <sentence>Ajouter les tomates mondées et taillées en dés, ainsi que l'ail.</sentence>
+      <media>CakeCourgettesFeta/step8</media>
+      <sentence>Quand la pâte est bien lisse, ajouter les courgettes et la feta.</sentence>
     </step>
     <step>
-      <media>Moussaka/step9</media>
-      <sentence>Assaisonner de sel, poivre et cannelle.</sentence>
+      <media>CakeCourgettesFeta/step9</media>
+      <sentence>Bien mélanger à la spatule type maryse.</sentence>
     </step>
     <step>
-      <media>Moussaka/step10</media>
-      <sentence>Poursuivre la cuisson pendant 15 minutes. Préchauffer votre four à 200 degré celsius soit thermostat 6 ou 7.</sentence>
+      <media>CakeCourgettesFeta/step10</media>
+      <sentence>Verser dans un moule à cake.</sentence>
     </step>
     <step>
-      <media>Moussaka/step11</media>
-      <sentence>Dans une casserole, faire fondre le beurre.</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step12</media>
-      <sentence>Ajouter la farine. Bien mélanger</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step13</media>
-      <sentence>afin d'obtenir un roux blanc.</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step14</media>
-      <sentence>Délayer avec le lait bouillant.</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step15</media>
-      <sentence>Porter à ébullition sans cesser de mélanger. Assaisonner de sel, de poivre et d'une pincée de muscade.</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step16</media>
-      <sentence>Hors du feu, incorporer les jaunes d'oeufs</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step17</media>
-      <sentence>et les deux tiers du fromage de brebis râpé.</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step18</media>
-      <sentence>Dans un plat à gratin huilé, disposer une couche de tranches d'aubergines.</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step19</media>
-      <sentence>Recouvrir de la moitié de la farce d'agneau.</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step20</media>
-      <sentence>Continuer avec une seconde couche de rondelles d'aubergines</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step21</media>
-      <sentence>le restant de la viande hachée</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step22</media>
-      <sentence>et enfin le restant d'aubergines.</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step23</media>
-      <sentence>Napper de sauce toute la surface. Parsemer le restant de fromage râpé.</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step24</media>
-      <sentence>Faire gratiner 25 minutes au four.</sentence>
-    </step>
-    <step>
-      <media>Moussaka/step25</media>
-      <sentence>Servir très chaud, directement dans la plat de cuisson.</sentence>
+      <media>CakeCourgettesFeta/step11</media>
+      <sentence>Faire cuire 40 minutes à 180 degré celsius. Vérifier la cuisson avec la lame d'un couteau, celle-ci doit ressortir sèche. Laisser tiédir avant de démouler.</sentence>
     </step>
   </recipe>
-  <recipe name="poulet basquaise" category="plat" illustration="PouletBasquaise/illustration" person="4" prep="75" stars="4" xml="poulet_basquaise.xml">
-    <summary>Plat emblématique du Pays basque, le poulet basquaise aurait vu le jour dans les profondeurs du Pays basque français : en Soule. Mijoté en cocotte, il se composait, au départ, principalement de légumes et de pain. Le poulet fut ajouté à la préparation par la suite. Plat de caractère, il est traditionnellement accompagné de tomates, d'oignons et de poivrons du Pays basque.</summary>
-    <ingredient name="Belle cuisse de poulet" quantity="4"/>
-    <ingredient name="Oignon" quantity="2"/>
-    <ingredient name="Gousse d'ail" quantity="3"/>
-    <ingredient name="Tomate" quantity="1" unit="kilogramme"/>
-    <ingredient name="Poivron rouge" quantity="1"/>
-    <ingredient name="Poivron vert" quantity="1"/>
+  <recipe name="Merlu Escabeche" category="plat" illustration="MerluEscabeche/illustration" person="2" prep="50" stars="4" xml="MerluEscabeche.xml">
+    <summary>L'escabèche est une méthode idéale pour la préparation des poissons. C'est une marinade à base de vinaigre que l'on peut assaisonner au goût et qui fera merveille pour des filets de sardine ou de maquereau.</summary>
+    <ingredient name="Merlu de ligne" qantity="1"/>
+    <ingredient name="Huile d'olive" qantity="10" unit="Centilitre" icon="Recipe_Ico_Huile"/>
+    <ingredient name="Poivre rouge" qantity="1" unit="Cuillère"/>
+    <ingredient name="Cumin" qantity="1" unit="Pincée"/>
+    <ingredient name="Gousse d'ail" qantity="1"/>
+    <ingredient name="Vinaigre" qantity="1" unit="Verre à porto"/>
+    <ingredient name="Feuilles de laurier" qantity="2 ou 3"/>
+    <ingredient name="Bouquet de persil" qantity="1"/>
+    <ingredient name="Purée de tomates" qantity="2 ou 3" unit="Cuillères"/>
     <ingredient name="Sel" icon="Recipe_Ico_Sel"/>
-    <ingredient name="Poivre"/>
-    <ingredient name="Piment d'Espelette"/>
-  <step>
-    <media>PouletBasquaise/step0</media>
-    <sentence>Dans une cocotte en fonte, faire chauffer un fond d'huile et saisir les cuisses de poulet jusqu'à ce que la peau soit dorée. Retourner les morceaux fréquemment pour colorer toutes les faces. Saler.</sentence>
-  </step>
-  <step>
-    <media>PouletBasquaise/step1</media>
-    <sentence>Monder les tomates.</sentence>
-  </step>
-  <step>
-    <media>PouletBasquaise/step2</media>
-    <sentence>Les rafraîchir et les peler. Couper les tomates en deux et les concasser grossièrement.</sentence>
-  </step>
-  <step>
-    <media>PouletBasquaise/step3</media>
-    <sentence>Lorsque les cuisses sont bien dorées, les débarrasser sur une plaque allant au four</sentence>
-  </step>
-  <step>
-    <media>PouletBasquaise/step4</media>
-    <sentence>et terminer la cuisson au four entre 180 et 200 degré celsius pendant 10 à 15 minutes. Réserver au chaud.</sentence>
-  </step>
-  <step>
-    <media>PouletBasquaise/step5</media>
-    <sentence>Dans la cocotte en fonte encore chaude, faire suer les oignons émincés et les poivrons coupés en lanières.</sentence>
-  </step>
-  <step>
-    <media>PouletBasquaise/step6</media>
-    <sentence>Ajouter les tomates. Assaisonner avec du sel, du poivre, et un peu de piment d'Espelette.</sentence>
-  </step>
-  <step>
-    <media>PouletBasquaise/step7</media>
-    <sentence>Ajouter enfin l'ail haché et laisser cuire à feu moyen une vingtaine de minutes.</sentence>
-  </step>
-  <step>
-    <media>PouletBasquaise/step8</media>
-    <sentence>Lorsque le poulet est cuit, le sortir du four</sentence>
-  </step>
-  <step>
-    <media>PouletBasquaise/step9</media>
-    <sentence>et le rajouter dans la sauce. Donner une dernière ébullition et rectifier l'assaisonnement.</sentence>
-  </step>
-  <step>
-    <media>PouletBasquaise/step10</media>
-    <sentence>Servir très chaud.</sentence>
-  </step>
+    <ingredient name="Poivre du moulin" icon="Recipe_Ico_Sel"/>
+    <step>
+      <media>MerluEscabeche/step0</media>
+      <sentence>Pour réaliser cette recette de merlu en escabèche, commencer par préparer tous les ingrédients.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step1</media>
+      <sentence>Habiller le merlu. Pour cela couper les nageoires,</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step2</media>
+      <sentence>et vider le poisson. Bien souvent le merlu est vendu déjà écaillé. Dans le cas contraire, les écailles se détachent facilement, il suffit de racler la peau du poisson avec la lame d'un couteau.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step3</media>
+      <sentence>Rincer le merlu sous l'eau claire et l'éponger avec un papier absorbant.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step4</media>
+      <sentence>Le placer sur le dos sur une plaque allant au four. L'arroser d'un filet d'huile d'olive,</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step5</media>
+      <sentence>et l'assaisonner de sel fin et de poivre du moulin.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step6</media>
+      <sentence>Cuire à four chaud, 180°C pendant 20 minutes environ.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step7</media>
+      <sentence>Sauce escabèche : Pendant ce temps, hacher l'ail,</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step8</media>
+      <sentence>et le persil grossièrement.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step9</media>
+      <sentence>Dans une poêle à revêtement anti-adhérent, faire chauffe 5 cl d'huile d'olive.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step10</media>
+      <sentence>Faire suer l'ail et le persil pendant quelques minutes.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step11</media>
+      <sentence>Ajouter le poivre rouge pour les amateurs de plats relevés.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step12</media>
+      <sentence>Mouiller avec le vinaigre.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step13</media>
+      <sentence>Laisser réduire quelques secondes.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step14</media>
+      <sentence>Assaisonner de sel fin, de poivre du moulin et d'une pointe de cumin.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step15</media>
+      <sentence>Ajouter 1 feuille de laurier,</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step16</media>
+      <sentence>,2 ou 3 cuillérées d'eau,</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step17</media>
+      <sentence>et enfin la purée de tomates.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step18</media>
+      <sentence>Laisser mijoter 8 à 10 minutes.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step19</media>
+      <sentence>Lorsque le poisson est cuit,</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step20</media>
+      <sentence>Le retirer du four et le transvaser sur un plat en inox.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step21</media>
+      <sentence>Le décortiquer par le ventre en suivant l'arête centrale.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step22</media>
+      <sentence>Soulever le premier filet.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step23</media>
+      <sentence>Retirer l'arête centrale, elle doit se détacher toute seule.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step24</media>
+      <sentence>Retirer les parties noires. Le poisson peut être servi ainsi, nappé de sauce escabèche bien chaude.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step25</media>
+      <sentence>Autre possibilités, prélever les filets de merlu et les dresser à l'assiette. Napper le filet de sauce escabèche.</sentence>
+    </step>
+    <step>
+      <media>MerluEscabeche/step26</media>
+      <sentence>Servir bien chaud. Bon Appétit!</sentence>
+    </step>
+  </recipe>
+  <recipe name="Salade Piemonataise" category="entrée" illustration="Piemontaise/illustration" person="4" prep="45" stars="5" xml="SaladePiemontaise.xml">
+    <summary>Impossible de passer à côté de la salade piémontaise ! Ce grand classique de la cuisine française serait pourtant, comme son nom l'indique, originaire d'Italie. Elle tire son nom de la région du nord-ouest de l'Italie que l'on appelle Piémont. Aujourd'hui cet onctueux mélange de tomates, de pommes de terre, d'œufs, de cornichons et de jambon, tous étroitement liés par une mayonnaise gourmande est présente partout : chez les traiteurs, dans les petits comme les grands restaurants, dans les bistros... Une recette complète à succès qui a réussi à s'installer durablement à la carte de la gastronomie française.</summary>
+    <ingredient name="Tomates fermes" qantity="400" unit="Grammes"/>
+    <ingredient name="Pommes de terre à chair ferme type Charlotte" qantity="600" unit="Grammes"/>
+    <ingredient name="Oeufs" qantity="3" icon="Recipe_Ico_Oeuf"/>
+    <ingredient name="Cornichons au vinaigre" qantity="8"/>
+    <ingredient name="Mayonnaise" qantity="150" unit="Grammes"/>
+    <ingredient name="Jambon" qantity="200" unit="Grammes"/>
+    <ingredient name="Sel" icon="Recipe_Ico_Sel"/>
+    <ingredient name="Poivre du moulin" icon="Recipe_Ico_Sel"/>
+    <step>
+      <media>Piemontaise/step0</media>
+      <sentence>Pour réaliser cette recette de salade Piémontaise, commencer par préparer tous les ingrédients.</sentence>
+    </step>
+    <step>
+      <media>Piemontaise/step1</media>
+      <sentence>Faire cuire les pommes de terre avec la peau. Démarrage de la cuisson à l'eau froide salée et poursuivre la cuisson 20 minutes à partir de la première ébullition. Au terme de la cuisson les égoutter,</sentence>
+    </step>
+    <step>
+      <media>Piemontaise/step2</media>
+      <sentence>,les laisser refroidir puis les éplucher,</sentence>
+    </step>
+    <step>
+      <media>Piemontaise/step3</media>
+      <sentence>et les couper en gros dés.</sentence>
+    </step>
+    <step>
+      <media>Piemontaise/step4</media>
+      <sentence>Faire cuire les œufs durs. Démarrage de la cuisson à l'eau froide salée,</sentence>
+    </step>
+    <step>
+      <media>Piemontaise/step5</media>
+      <sentence>compter 10 minutes de cuisson à partir de la première ébullition. Au terme de la cuisson rafraîchir pour stopper la cuisson puis écaler.</sentence>
+    </step>
+    <step>
+      <media>Piemontaise/step6</media>
+      <sentence>Laver les tomates, les épépiner et les détailler en petits cubes. Puis disposer ces cubes de tomates dans un saladier,</sentence>
+    </step>
+    <step>
+      <media>Piemontaise/step7</media>
+      <sentence>ajouter les cornichons découpés en rondelles,</sentence>
+    </step>
+    <step>
+      <media>Piemontaise/step8</media>
+      <sentence>et le jambon préalablement coupé en dés.</sentence>
+    </step>
+    <step>
+      <media>Piemontaise/step9</media>
+      <sentence>Ajouter les œufs durs froids coupés en morceaux,</sentence>
+    </step>
+    <step>
+      <media>Piemontaise/step10</media>
+      <sentence>et enfin les pommes de terre.</sentence>
+    </step>
+    <step>
+      <media>Piemontaise/step11</media>
+      <sentence>Ajouter la mayonnaise et mélanger délicatement afin de lier tous les ingrédients entre eux. Placer au réfrigérateur une heure avant de consommer.</sentence>
+    </step>
+    <step>
+      <media>Piemontaise/step12</media>
+      <sentence>À déguster le jour même! Bonne Appétit!</sentence>
+    </step>
+  </recipe>
+  <recipe name="Boeuf Carottes" category="plat" illustration="BoeufCarottes/illustration" person="8" prep="30" cook="5h" stars="5" xml="BoeufCarottes.xml">
+    <summary>Un classique incontournable que tout bon marmiton doit savoir faire ! Plus la cuisson est longue et lente, meilleur sera le résultat....</summary>
+    <ingredient name="Viande de boeuf (paleron, collier, macreuse...)" qantity="1,5" unit="Kilos"/>
+    <ingredient name="Vin rouge du Sud Ouest" qantity="1" unit="Bouteille" icon="Recipe_Ico_Rhum"/>
+    <ingredient name="Carottes" qantity="2"/>
+    <ingredient name="Oignon" qantity="1"/>
+    <ingredient name="Gousse d'ail" qantity="1"/>
+    <ingredient name="Carottes fanes" qantity="1" unit="Botte"/>
+    <ingredient name="Bouquet garni" qantity="1"/>
+    <ingredient name="Huile" qantity="1" icon="Recipe_Ico_Huile"/>
+    <ingredient name="Beurre" qantity="1" icon="Recipe_Ico_Beurre"/>
+    <ingredient name="Poitrine de porc fumée" qantity="1"/>
+    <ingredient name="Gros sel" icon="Recipe_Ico_Sel"/>
+    <ingredient name="Poivre du moulin" icon="Recipe_Ico_Sel"/>
+    <ingredient name="Persil"/>
+    <ingredient name="Eau" qantity="1" unit="Litre"/>
+    <ingredient name="Fond de veau en flocons" qantity="40" unit="Grammes"/>
+    <step>
+      <media>BoeufCarottes/step0</media>
+      <sentence>Pour réaliser cette recette de boeuf carottes, commencer par préparer tous les ingrédients.</sentence>
+    </step>
+    <step>
+      <sentence>Après l'avoir recouvert de gros sel sur les deux faces, déposer le paleron sur une plaque. Laisser la viande dans le gros sel 1/2 heure. Cette opération permet d'assaisonner la viande, d'aider à la cuisson et de la conserver.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step1</media>
+      <sentence>Préparation de la garniture : Eplucher les deux carottes, l'oignon et la gousse d'ail (que vous écraserez avec un couteau).</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step2</media>
+      <sentence>Tailler grossièrement les carottes, l'oignon et le blanc de poireau.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step3</media>
+      <sentence>Couper grossièrement la poitrine de porc.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step4</media>
+      <sentence>Eplucher les carottes fanes,</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step5</media>
+      <sentence>et les émincer en biseau. Réserver de côté dans un saladier.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step6</media>
+      <sentence>Au bout de 1/2 heure, bien rincer le paleron à l'eau claire.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step7</media>
+      <sentence>Verser un filet d'huile d'olive sur la viande et poivrer des deux côtés.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step8</media>
+      <sentence>Mettre un peu d'huile et de beurre dans une cocotte en fonte,</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step9</media>
+      <sentence>démarrer la cuisson du paleron à froid dans la cocotte,</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step10</media>
+      <sentence>en badigeonnant de beurre durant la cuisson.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step11</media>
+      <sentence>Bien colorer toutes les faces du paleron.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step12</media>
+      <sentence>Une fois bien doré, le réserver.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step13</media>
+      <sentence>Dégraisser la sauce. Cela consiste à enlever la partie la plus huileuse, en laissant les sucs dans le fond de la cocotte.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step14</media>
+      <sentence>Mettre le lard dans la cocotte pour le faire fondre légèrement. Et ajouter toutes les garnitures aromatiques, sauf le bouquet garni.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step15</media>
+      <sentence>Pendant que les garnitures aromatiques sont en train de revenir, mettre le paleron à four chaud 200°C pendant 30 minutes.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step16</media>
+      <sentence>Verser l'intégralité du vin rouge dans la cocotte. Et bien gratter le fond pour récupérer tous les sucs.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step17</media>
+      <sentence>Flamber le tout, et faire réduire de moitié.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step18</media>
+      <sentence>Préparer le fond de veau en mélangeant les flocons de fond de veau avec 1 litre d'eau dans une casserole. Et porter à ébullition.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step19</media>
+      <sentence>Une fois que le vin a réduit de moitié, verser le fond de veau dans la cocotte.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step20</media>
+      <sentence>Laisser bouillir,</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step21</media>
+      <sentence>puis retirer le paleron du four pour le mettre dans la cocotte,</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step22</media>
+      <sentence>et ajouter le bouquet garni.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step23</media>
+      <sentence>Mettre un peu d'eau dans le plat qui a servi à la cuisson du paleron pour récupérer les sucs,</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step24</media>
+      <sentence>verser ce jus dans la cocotte en arrosant bien le paleron, puis le retourner,</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step25</media>
+      <sentence>mettre le couvercle et enfourner la cocotte à four chaud 200°C pendant 1 heure.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step26</media>
+      <sentence>Le boeuf carottes a cuit pendant 1 heure à 200°C et 5 heures à 120°C. Durant cette dernière phase de cuisson, il faudra sortir le plat du four trois fois pour tourner le boeuf et l'arroser.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step27</media>
+      <sentence>A la fin de la cuisson, débarrasser le boeuf sur une plaque. Procéder délicatement parce qu'il est particulièrement fondant.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step28</media>
+      <sentence>Filmer la viande et la placer au réfrigérateur pendant 2 heures minimum. Ce passage au frais permet à la viande de se figer, ainsi le boeuf ne s'effilochera pas durant la découpe.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step29</media>
+      <sentence>Récupérer tous les sucs sur le bord de la cocotte en passant un pinceau pâtissier humidifié.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step30</media>
+      <sentence>Verser la sauce dans une casserole en la passant au chinois sans trop presser les ingrédients.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step31</media>
+      <sentence>Mettre le jus sur le feu, puis dégraisser,</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step32</media>
+      <sentence>en ôtant la partie huileuse de la sauce à l'aide d'une louche.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step33</media>
+      <sentence>Une fois dégraissé, transvaser le jus dans la cocotte,</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step34</media>
+      <sentence>en le filtrant à la passoire fine.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step35</media>
+      <sentence>Lorsque les premiers bouillons apparaissent, verser l'intégralité des carottes fanes,</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step36</media>
+      <sentence>puis laisser cuire les carottes à feu doux pour une durée de 2 heures. Le jus deviendra alors sirupeux et les carottes seront cuites et imprégnées de cette sauce.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step37</media>
+      <sentence>Passer à nouveau le pinceau pâtissier humide sur le bord de la cocotte.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step38</media>
+      <sentence>Sortir le boeuf du réfrigérateur. Enlever le film étirable,</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step39</media>
+      <sentence>et le découper en morceaux.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step40</media>
+      <sentence>Mettre un peu d'huile d'olive et de beurre dans une poêle anti-adhésive,</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step41</media>
+      <sentence>et caraméliser les morceaux de viande uniquement sur une face (compter environ 4 à 5 minutes). Veiller à ne pas faire brûler le beurre.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step42</media>
+      <sentence>Une fois caramélisés, disposer les morceaux de boeuf dans la cocotte en mettant bien la partie caramélisée à l'extérieur, c'est-à-dire qui ne trempe pas dans le jus de la cocotte.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step43</media>
+      <sentence>Passer la cocotte au four sans la couvrir et sans arroser d'aucune façon la partie caramélisée des morceaux de viande, afin qu'elle reste croustillante. Et laisser cuire 20 minutes à 150°C.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step44</media>
+      <sentence>Sortir le plat du four et repasser le pinceau pâtissier humidifié sur le bord de la cocotte.</sentence>
+    </step>
+    <step>
+      <media>BoeufCarottes/step45</media>
+      <sentence>Parsemer de quelques feuilles de persil. Et servir chaud ! Bon Appétit</sentence>
+    </step>
   </recipe>
   <recipe name="barre chocolat aux perles chocolatées biscuitées" category="dessert" illustration="BarreChocolatAuxPerlesChocolateesBiscuitees/illustration" person="12" prep="25" stars="5" xml="barre_chocolat_aux_perles_chocolatees_biscuitees.xml">
     <ingredient name="Chocolat de couverture noir Cuba" quantity="200" unit="grammes"/>
@@ -387,6 +520,123 @@
     <step>
       <media>BarreChocolatAuxPerlesChocolateesBiscuitees/step8</media>
       <sentence>Réserver dans un endroit frais. Ces barres ont été réalisées pour remplacer le traditionnel carré de chocolat servi avec le café en fin de repas. Elles peuvent également être consommées en guise de confiserie.</sentence>
+    </step>
+  </recipe>
+  <recipe name="Tarte Tatin" category="dessert" illustration="TarteTatin/illustration" person="8" prep="75" stars="5" xml="TarteTatin.xml">
+    <summary>Voici l'histoire sans dessus-dessous d'une tarte aux pommes caramélisées de légende, qui se cuit à l'envers mais se déguste à l'endroit. Originaire de Sologne au 19ème siècle, la Tarte Tatin doit son nom à deux sœurs : Caroline et Stéphanie Tatin. Selon les versions, la légende raconte que la recette serait le fruit d'une maladresse (la tarte aurait été renversée puis cuite à l'envers), d'un oubli (les pommes auraient cuit trop longtemps) ou serait tout simplement la reproduction d'une ancienne spécialité solognote. Toujours est-il que, victime de son succès, elle s'exporte à Paris dès 1926. Servie pour la première fois dans le restaurant Maxim's, elle est, depuis, devenue un classique des tables françaises !</summary>
+    <ingredient name="Pommes" qantity="8 à 10"/>
+    <ingredient name="Beurre" qantity="150" unit="Grammes" icon="Recipe_Ico_Beurre"/>
+    <ingredient name="Sucre en poudre" qantity="150" unit="Grammes" icon="Recipe_Ico_Farine"/>
+    <ingredient name="Pâte Brisée" qantity="200" unit="Grammes"/>
+    <ingredient name="Crême Fraiche ou glace vanille" qantity="100" unit="Grammes"/>
+    <ingredient name="Cannelle moulue (facultatif)" qantity="Pincée"/>
+    <step>
+       <media>TarteTatin/step0</media>
+      <sentence>Pour réaliser cette recette de tarte tatin, commencer par préparer tous les ingrédients.</sentence>
+    </step>
+    <step>
+       <media>TarteTatin/step1</media>
+      <sentence>Éplucher les pommes,</sentence>
+    </step>
+    <step>
+       <media>TarteTatin/step2</media>
+      <sentence>les couper en deux,</sentence>
+    </step>
+    <step>
+       <media>TarteTatin/step3</media>
+      <sentence>et retirer les trognons avec la pointe d'un couteau d'office.</sentence>
+    </step>
+    <step>
+       <media>TarteTatin/step4</media>
+      <sentence>Dans un moule à tarte tatin, mettre le beurre à fondre.</sentence>
+    </step>
+    <step>
+       <media>TarteTatin/step5</media>
+      <sentence>Ajouter le sucre en poudre en pluie fine.</sentence>
+    </step>
+    <step>
+       <media>TarteTatin/step6</media>
+      <sentence>Mélanger délicatement avec une spatule,</sentence>
+    </step>
+    <step>
+       <media>TarteTatin/step7</media>
+      <sentence>jusqu'à ce que les deux ingrédients soient bien mélangés.</sentence>
+    </step>
+    <step>
+       <media>TarteTatin/step8</media>
+      <sentence>Faire un caramel brun. Attention à ne pas le laisser trop noircir, cela donnerait un goût amer à votre tarte.</sentence>
+    </step>
+    <step>
+       <media>TarteTatin/step9</media>
+      <sentence>Laisser colorer le caramel selon votre convenance (plus ou moins clair). Retirer du feu.</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step10</media>
+      <sentence>Disposer les demi-pommes sur le caramel tiède. Les maintenir au départ avec les doigts pour les garder à la verticale,</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step11</media>
+      <sentence>puis les caler les unes contre les autres. Bien les serrer entre elles. Penser qu'elles vont réduire à la cuisson ! S'il reste des pommes, les tailler en morceaux plus petits et les disposer sur le dessus. Ajouter de la cannelle (facultatif).</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step12</media>
+      <sentence>Cuire une dizaine de minutes à feu vif. Ainsi, les pommes vont commencer à cuire et elles seront bien imprégnées de caramel.</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step13</media>
+      <sentence>Fleurer votre plan de travail. Abaisser la pâte brisée à l'aide d'un rouleau à pâtisserie,</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step14</media>
+      <sentence>sur 3 ou 4 mm d'épaisseur en un disque légèrement supérieur au diamètre du plat.</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step15</media>
+      <sentence>Pour m'assurer de la taille du disque de pâte, j'utilise ici un cercle à tarte qui est légèrement plus grand (2 à 3 cm de chaque côté) que le moule à tarte tatin, et je découpe la pâte tout autour.</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step16</media>
+      <sentence>Prendre le disque de pâte délicatement avec les mains et le déposer sur les pommes encore chaudes.</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step17</media>
+      <sentence>Rentrer les bords de pâte qui dépassent à l'intérieur du moule. Ne pas hésiter à bien les enfoncer avec les doigts.</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step18</media>
+      <sentence>Presser avec les paumes des mains pour bien faire adhérer la pâte aux pommes (sans la percer) et bien arranger les pommes dans le fond du moule.</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step19</media>
+      <sentence>Avec la pointe d'un couteau d'office, faire une petite cheminée pour que la vapeur d'eau puisse s'évacuer pendant la cuisson.</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step20</media>
+      <sentence>Cuire à four chaud (180-200°C) jusqu'à cuisson complète de la pâte. La pâte est cuite et le caramel commence à remonter sur les cotés. Au terme de la cuisson, retirer le moule du four.</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step21</media>
+      <sentence>Le recouvrir avec un plat de service ayant une légère bordure pour recueillir le jus.</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step22</media>
+      <sentence>Attraper en même temps les deux plats avec deux torchons secs,</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step23</media>
+      <sentence>et retourner l'ensemble en un mouvement rapide mais contrôlé.</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step24</media>
+      <sentence>Attention aux risques d'éclaboussures !</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step25</media>
+      <sentence>Soulever le plat de cuisson encore chaud et vous pouvez enfin découvrir cette délicieuse tarte Tatin aux pommes.</sentence>
+    </step>
+    <step>
+      <media>TarteTatin/step26</media>
+      <sentence>Elle se servira de préférence tiède accompagnée d'une cuillère à soupe de crème fraîche ou d'une boule de glace vanille.</sentence>
     </step>
   </recipe>
 </RecipeList>

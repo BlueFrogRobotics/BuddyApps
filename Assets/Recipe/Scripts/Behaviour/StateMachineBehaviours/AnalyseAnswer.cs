@@ -15,7 +15,6 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("EnterAnalyseAnswer");
             mAnswer = GetComponent<RecipeBehaviour>().mAnswer;
             mRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath(mDictionary.GetString("pathtoxml"))).recipe;
             SearchRecipe(iAnimator);
@@ -27,7 +26,6 @@ namespace BuddyApp.Recipe
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("ExitAnalyseAnswer");
         }
 
         private void SearchRecipe(Animator iAnimator)

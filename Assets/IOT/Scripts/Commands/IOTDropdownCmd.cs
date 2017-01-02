@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using BuddyOS.Command;
+﻿using BuddyOS.Command;
+using BuddyOS;
 using System;
+using UnityEngine.UI;
 namespace BuddyApp.IOT
 {
     public class IOTDropdownCmd : ACommand
@@ -19,6 +18,17 @@ namespace BuddyApp.IOT
             IOTNewDevice lVal0 = (IOTNewDevice)lVal[0];
             string lVal1 = (string)lVal[1];
             lVal0.IOTObject = (IOTObjects)Activator.CreateInstance(Type.GetType(lVal1));
+
+            if (lVal0.IOTObject is IOTSystems)
+            {
+                lVal0.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>().sprite = BYOS.Instance.SpriteManager.GetSprite(lVal0.IOTObject.SpriteName, "AtlasIOT");
+                lVal0.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetComponent<Text>().text = lVal0.IOTObject.Name;
+            }
+            else if (lVal0.IOTObject is IOTDevices)
+            {
+                lVal0.transform.GetChild(0).GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>().sprite = BYOS.Instance.SpriteManager.GetSprite(lVal0.IOTObject.SpriteName, "AtlasIOT");
+                lVal0.transform.GetChild(0).GetChild(1).GetChild(1).GetChild(2).GetComponent<Text>().text = lVal0.IOTObject.Name;
+            }
 
             lVal0.CleanParams(false);
 
