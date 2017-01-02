@@ -14,7 +14,6 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("ENTER DISPLAY INGREDIENT");
             if (GetGameObject(3).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Window_List_Off"))
                 GetGameObject(3).GetComponent<Animator>().SetTrigger("Open_WList");
             GetComponent<RecipeBehaviour>().DisplayIngredient();
@@ -27,7 +26,6 @@ namespace BuddyApp.Recipe
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("EXIT DISPLAY INGREDIENT");
         }
     }
 }
