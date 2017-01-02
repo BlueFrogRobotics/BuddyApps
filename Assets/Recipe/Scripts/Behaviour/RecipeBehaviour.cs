@@ -30,12 +30,15 @@ namespace BuddyApp.Recipe
         private SpriteManager mSpriteManager;
         private Dictionary mDictionary;
 
+        public int NoAnswerCount { get; set; }
+        public int RecipeNotFoundCount { get; set; }
         public string mAnswer { get; set; }
         public Recipe mRecipe { get; set; }
         public List<Recipe> mRecipeList { get; set; }
         public string mCategory { get; set; }
         public int IngredientIndex { get; set; }
         public int StepIndex { get; set; }
+        public List<Step> StepList { get; set; }
         public bool IsBackgroundActivated { get; set; }
         public int IngredientNbr { get; set; }
 
