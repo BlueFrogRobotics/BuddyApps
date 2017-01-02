@@ -47,12 +47,12 @@ namespace BuddyApp.Companion
 
             mHeadMoveTime = Time.time;
             mEmoteTime = Time.time;
-            mMood.Set(MoodType.NEUTRAL);
+            //mMood.Set(MoodType.NEUTRAL);
         }
 
         void Update()
         {
-            if (Time.time - mHeadMoveTime < 1.5F)
+            if (Time.time - mHeadMoveTime < 1.3F)
                 return;
 
             mHeadMoveTime = Time.time;
@@ -96,8 +96,8 @@ namespace BuddyApp.Companion
 
         void OnDisable()
         {
-            mNoHinge.SetPosition(0F);
-            mYesHinge.SetPosition(0F);
+            //mNoHinge.SetPosition(0F);
+            //mYesHinge.SetPosition(0F);
         }
 
         private void TurnHeadYes()
@@ -143,7 +143,7 @@ namespace BuddyApp.Companion
             }
             mTTS.Say(lSentence, true);
             mTTSTime = Time.time;
-            mRandomSpeechTime = Random.Range(40F, 80F);
+            mRandomSpeechTime = Random.Range(20F, 40F);
         }
     }
 }
