@@ -35,6 +35,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            
             GetComponent<RLGLBehaviour>().Index = 1;
             mNeedListen = true;
             mTimer = 0.0F;
@@ -80,6 +81,7 @@ namespace BuddyApp.RLGL
 
             if (mIsAnswerRuleNo)
             {
+                mFace.SetExpression(MoodType.NEUTRAL);
                 mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
                 mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Close_WQuestion");
                 GetGameObject(6).SetActive(true);
@@ -89,6 +91,7 @@ namespace BuddyApp.RLGL
             }
             if (mIsAnswerRuleYes)
             {
+                mFace.SetExpression(MoodType.NEUTRAL);
                 mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
                 mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Close_WQuestion");
                 GetGameObject(6).SetActive(true);
@@ -129,7 +132,8 @@ namespace BuddyApp.RLGL
                 mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
                 GetGameObject(6).SetActive(false);
                 mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Open_WQuestion");
-                mWindowQuestionRule.GetComponentInChildren<Text>().text = "DO YOU WANT ME TO REPEAT THE RULES ?";
+                //mWindowQuestionRule.GetComponentInChildren<Text>().text = "DO YOU WANT ME TO REPEAT THE RULES ?";
+                GetGameObject(7).GetComponent<Text>().text = "DO YOU WANT ME TO REPEAT THE RULES ?";
                 mCanvasTrigger = true;
             }
 

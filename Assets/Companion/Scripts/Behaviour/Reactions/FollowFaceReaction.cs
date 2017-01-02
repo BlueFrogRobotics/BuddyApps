@@ -46,7 +46,7 @@ namespace BuddyApp.Companion
             Debug.Log("FaceFollow Enabled");
 
             //Init the different variables
-            mMood.Set(MoodType.NEUTRAL);
+            //mMood.Set(MoodType.NEUTRAL);
             mUpdateTime = Time.time;
             mTrackedObjects = mFaceTracker.TrackedObjects;
             mCameraWidthCenter = BYOS.Instance.RGBCam.Width / 2;

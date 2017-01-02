@@ -28,7 +28,7 @@ namespace BuddyApp.Basic
 
         /*
          * Access to the language dictionary. Each app may has its own dictionary.
-         */ 
+         */
         private Dictionary mDictionary;
 
         /*

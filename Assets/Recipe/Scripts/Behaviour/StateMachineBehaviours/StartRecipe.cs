@@ -22,6 +22,8 @@ namespace BuddyApp.Recipe
                 GetGameObject(1).SetActive(true);
                 GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
             }
+            GetComponent<RecipeBehaviour>().StepList = GetComponent<RecipeBehaviour>().mRecipe.step;
+            GetComponent<RecipeBehaviour>().StepIndex = 0;
             if (GetComponent<RecipeBehaviour>().mRecipe.person > 1)
                 mTTS.Say(mDictionary.GetString("startingredient") + GetComponent<RecipeBehaviour>().mRecipe.person + mDictionary.GetString("person") + "s:");
             else

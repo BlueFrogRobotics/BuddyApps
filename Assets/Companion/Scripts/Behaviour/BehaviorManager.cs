@@ -110,7 +110,7 @@ namespace BuddyApp.Companion
             //else if (!mThermalDetector.ThermalDetected)
             //    mReaction.DisableSayHelloReaction();
 
-            if (mBuddyFaceDetector.EyeTouched || mFaceDetector.FaceDetected ||
+            if (mBuddyFaceDetector.EyeTouched || mFaceDetector.FaceDetected || //mSpeechDetector.SomeoneTalkingDetected ||
                 (mCurrentAction != null && (!mVocalWanderOrder || !mRobotIsTrackingSomeone))) {
                 //Debug.Log("Interaction with Buddy");
                 mVocalWanderOrder = false;
@@ -197,10 +197,8 @@ namespace BuddyApp.Companion
 				case "DontMove":
 					mVocalWanderOrder = false;
 	                //mCompanionData.CanMoveBody = false;
-					mReaction.StopMoving ();
-
-					if (mRobotIsTrackingSomeone)
-						mRobotIsTrackingSomeone = false;
+					mReaction.StopMoving ();                    
+				    mRobotIsTrackingSomeone = false;
 	                break;
 
 				case "FollowMe":
@@ -231,6 +229,10 @@ namespace BuddyApp.Companion
 
                 case "LookAtMe":
                     PushInStack(mReaction.SearchFace);
+                    break;
+
+                case "Alarm":
+                    new LoadAppBySceneCmd("Alarm").Execute();
                     break;
 
 				case "Photo":
@@ -271,6 +273,10 @@ namespace BuddyApp.Companion
 
                 case "Memory":
                     new LoadAppBySceneCmd("MemoryGameApp").Execute();
+                    break;
+
+                case "HideSeek":
+                    new LoadAppBySceneCmd("HideAndSeek").Execute();
                     break;
 
 				case "Quizz":
