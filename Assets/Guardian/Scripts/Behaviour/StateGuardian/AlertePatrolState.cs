@@ -57,6 +57,7 @@ namespace BuddyApp.Guardian
             mHasAlerted = false;
             if (mMailSender == null)
                 mMailSender = new BuddyFeature.Web.MailSender("notif.buddy@gmail.com", "autruchemagiquebuddy", BuddyFeature.Web.SMTP.GMAIL);
+                //mMailSender = new BuddyFeature.Web.MailSender("buddy@bluefrogrobotics.com", "buddySend1Email", BuddyFeature.Web.SMTP.BFR);
             mIcoMessage.enabled = true;
             mCounterTime.SetActive(false);
             for (int i = 0; i < mHaloImages.Length; i++)
@@ -314,7 +315,7 @@ namespace BuddyApp.Guardian
             switch (GuardianData.Instance.Recever)
             {
                 case GuardianData.Contact.RODOLPHE:
-                    mMailAdress = "rh@bluefrogrobotics.com";
+                    mMailAdress = "wa@bluefrogrobotics.com";
                     Debug.Log("rodolphe");
                     break;
                 case GuardianData.Contact.WALID:

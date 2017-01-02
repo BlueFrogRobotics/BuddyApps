@@ -29,6 +29,12 @@ namespace BuddyApp.HideAndSeek
             mTimer = 0.0f;
             mHasFinished = false;
             mYesHinge.SetPosition(-10);
+            //mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_1);//rire chelou
+            //mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_2);//hum
+            //mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_3);//content
+            //mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_4);
+            //mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_5);
+            //mSpeaker.Voice.Play(BuddyOS.VoiceSound.CURIOUS_2);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
