@@ -54,6 +54,8 @@ namespace BuddyApp.IOT
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
+            if(iAnimator.GetBool(HashList[(int)HashTrigger.MATCH_ERROR]) != true)
+                    iAnimator.SetTrigger(HashList[(int)HashTrigger.BACK]);
         }
 
         private IOTDevices.DeviceType FindType(ref string iMsg)

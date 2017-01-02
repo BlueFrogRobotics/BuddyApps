@@ -197,8 +197,10 @@ namespace BuddyApp.IOT
                     SetColor((int)iParam);
                     break;
                 case 5:
+                    SetIntensity((int)mState["bri"]+10);
+                    break;
                 case 6:
-                    SetIntensity(iParam);
+                    SetIntensity((int)mState["bri"] - 10);
                     break;
             }
         }
