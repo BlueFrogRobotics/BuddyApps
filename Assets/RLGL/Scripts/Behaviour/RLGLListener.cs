@@ -257,7 +257,7 @@ namespace BuddyApp.RLGL
                 gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().IsAnswerRuleYes = true;
                 
             }
-            else if (iMsg.ToLower().Contains("yes") && mIndex == 1)
+            else if (iMsg.ToLower().Contains("no") && mIndex == 1)
             {
                 if (gameplay.GetComponent<RLGLBehaviour>().IsClicked)
                 {

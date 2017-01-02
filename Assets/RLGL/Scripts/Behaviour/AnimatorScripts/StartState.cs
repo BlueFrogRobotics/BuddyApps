@@ -37,6 +37,10 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            //if (mRGBCam.IsOpen)
+            //    mRGBCam.Close();
+            //mRGBCam.Resolution = RGBCamResolution.W_320_H_240;
+
             GetGameObject(5).GetComponent<RLGLMenu>().enabled = false;
             GetComponent<RLGLBehaviour>().Index = 0;
             mNeedListen = true;
@@ -112,6 +116,7 @@ namespace BuddyApp.RLGL
 
         public void StartRuleState(Animator iAnimator)
         {
+            mFace.SetExpression(MoodType.NEUTRAL);
             mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
             mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
             GetGameObject(6).SetActive(true);
@@ -120,6 +125,7 @@ namespace BuddyApp.RLGL
 
         public void StartCountState(Animator iAnimator)
         {
+            mFace.SetExpression(MoodType.NEUTRAL);
             mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
             mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
             GetGameObject(6).SetActive(true);
@@ -133,7 +139,8 @@ namespace BuddyApp.RLGL
                 mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
                 mWindowQuestion.GetComponent<Animator>().SetTrigger("Open_WQuestion");
                 GetGameObject(6).SetActive(false);
-                mWindowQuestion.GetComponentInChildren<Text>().text = "DO YOU WANT TO HEAR THE RULES?";
+                //mWindowQuestion.GetComponentInChildren<Text>().text = "DO YOU WANT TO HEAR THE RULES?";
+                GetGameObject(7).GetComponent<Text>().text = "DO YOU WANT TO HEAR THE RULES?";
                 mCanvasTrigger = true;
             }
         }
