@@ -1,17 +1,44 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
 <iot>    
-  <iot_action action="0">
+  <iot_action action="0" parameters="false">
     éteindre/éteint/off
   </iot_action>
-  <iot_action action="1">
+  <iot_action action="1" parameters="false">
     allumer/allumé/allume/allumes/on
   </iot_action>
-  <iot_action action="2">
+  <iot_action action="2" parameters="false">
     descend/ferme/close
   </iot_action>
-  <iot_action action="3">
+  <iot_action action="3" parameters="false">
     léve/monte/ouvre/open
   </iot_action>
+  <iot_action action="4" parameters="true">
+    change/met/set/put
+  </iot_action>
+  <iot_action action="5" parameters="false">
+    augmente/increase
+  </iot_action>
+  <iot_action action="6" parameters="false">
+    décrémente/baisse/decrease
+  </iot_action>
+  <iot_parameters number="0">
+    blanc/white
+  </iot_parameters>
+  <iot_parameters number="1">
+    rose/pink
+  </iot_parameters>
+  <iot_parameters number="3">
+    blue/bleu
+  </iot_parameters>
+  <iot_parameters number="5">
+    green/vert
+  </iot_parameters>
+  <iot_parameters number="7">
+    orange
+  </iot_parameters>
+  <iot_parameters number="8">
+    rouge/red
+  </iot_parameters>
   <iot_add>
     ajouter/ajoute/nouveau/add
   </iot_add>

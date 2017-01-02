@@ -33,6 +33,7 @@ namespace BuddyApp.IOT
 
         public override void InitializeParams()
         {
+            base.InitializeParams();
             GameObject lTemp = InstanciateParam(ParamType.LABEL);
             mTemp = lTemp.GetComponent<Label>();
 
