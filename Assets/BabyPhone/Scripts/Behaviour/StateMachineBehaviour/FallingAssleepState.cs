@@ -44,7 +44,7 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mMood.Set(MoodType.NEUTRAL);
+            mMood.Set(MoodType.HAPPY);
             mWindoAppOverWhite.SetActive(true);
             mFallingAssleep.SetActive(true);
             mFallingAssleepAnimator.SetTrigger("Open_WFallingAssleep");
@@ -84,6 +84,7 @@ namespace BuddyApp.BabyPhone
 
             mCartoonObject.SetActive(false);
             mCartoonAnimator.SetBool("IsPlaying", false);
+            mRGBCam.Close();
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

@@ -9,7 +9,7 @@ namespace BuddyApp.Companion
     {
         public bool LiftDetected { get { return mLiftDetected; } }
 
-        private const float ACC_THRESHOLD = 7F;
+        private const float ACC_THRESHOLD = 6F;
 
         private bool mLiftDetected;
         private Queue<float> mStack;
@@ -43,7 +43,7 @@ namespace BuddyApp.Companion
                 lMean /= mStack.Count;
 
                 //Debug.Log("AcceleroZ mean : " + lMean);
-                if (Mathf.Abs(lAcceleroTotal - lMean) > ACC_THRESHOLD)
+                if (lAcceleroTotal - lMean > ACC_THRESHOLD)
                 {
                     mLiftDetected = true;
                     if (OnDetection != null)

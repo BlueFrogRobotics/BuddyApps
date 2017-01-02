@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using BuddyFeature.Web;
 using System.Text;
 
@@ -23,9 +23,9 @@ namespace BuddyApp.IOT
     {
         public int type;
         public string name;
-        public string[] parameters;
+        public float[] parameters;
 
-        public IOTSomfyActionCommandsJSON(int iType, string iName, string[] iParameters)
+        public IOTSomfyActionCommandsJSON(int iType, string iName, float[] iParameters)
         {
             type = iType;
             name = iName;
@@ -133,18 +133,21 @@ namespace BuddyApp.IOT
         }
 
 
-        protected void PostAction(string iCommand, string[] iParams = null)
+        protected void PostAction(string iCommand, float[] iParams = null)
         {
             string lUrl = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/exec/apply";
 
             IOTSomfyActionCommandsJSON[] lCommands = new IOTSomfyActionCommandsJSON[1];
+            
+            if(iParams.Length > 0)
+                Debug.Log(iParams[0]);
             lCommands[0] = new IOTSomfyActionCommandsJSON(1, iCommand, iParams);
 
             IOTSomfyActionJSON[] lApply = new IOTSomfyActionJSON[1];
             lApply[0] = new IOTSomfyActionJSON(deviceURL, lCommands);
 
             IOTSomfyJSONApply lJson = new IOTSomfyJSONApply(creationTime, lastUpdateTime, "switchAction", lApply);
-
+            Debug.Log(JsonUtility.ToJson(lJson));
             Request lRequest = new Request("POST", lUrl, Encoding.Default.GetBytes(JsonUtility.ToJson(lJson)));
             lRequest.cookieJar = null;
             lRequest.SetHeader("cookie", mSessionID);
@@ -155,26 +158,28 @@ namespace BuddyApp.IOT
                     Debug.LogError("Couldn't post action");
                     return;
                 }
+                Debug.Log(lResult.response.Text);
             }
             );
         }
 
         protected void ChangeStateValue(string lStateName)
         {
-            string lUrl = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/setup/devices/" + deviceURL.Replace(":","%3A").Replace("/","%2F").Replace("#","%23") + "/states/" + lStateName.Replace(":","%3A");
+            string lUrl = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/setup/devices/" + deviceURL.Replace(":","%3A").Replace("/","%252F").Replace("#","%23") + "/states/" + lStateName.Replace(":","%3A");
+            
             Request lRequest = new Request("GET", lUrl);
             lRequest.cookieJar = null;
             lRequest.SetHeader("cookie", mSessionID);
             lRequest.uri = new System.Uri(lUrl);
 
             IOTSomfyStateJSON lState = null;
-
-            lRequest.Send((lResult) => {
+            lRequest.Send(lUrl, (lResult) => {
                 if (lResult == null)
                 {
                     Debug.Log("Couldn't get state");
                     return;
                 }
+
                 lState = JsonUtility.FromJson<IOTSomfyStateJSON>(lResult.response.Text);
                 for(int i = 0; i < states.Length; ++i)
                 {
@@ -189,7 +194,7 @@ namespace BuddyApp.IOT
         {
             base.ChangeName(iName);
 
-            string lUrl = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/setup/devices/" + deviceURL.Replace(":", "%3A").Replace("/", "%2F").Replace("#", "%23") + "/" + iName.Replace(" ", "%20");
+            string lUrl = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/setup/devices/" + deviceURL.Replace(":", "%3A").Replace("/", "%252F").Replace("#", "%23") + "/" + iName.Replace(" ", "%20");
 
             Request lRequest = new Request("PUT", lUrl);
             lRequest.cookieJar = null;

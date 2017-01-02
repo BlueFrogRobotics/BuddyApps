@@ -24,6 +24,7 @@ namespace BuddyApp.HideAndSeek
             GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponent<WindowLinker>().SetAppWhite();
             mSaveNameWindow.Open();
             mSaveNameWindow.ButtonYes.onClick.AddListener(ValidateName);
+            mSaveNameWindow.ButtonNo.onClick.AddListener(ResetName);
             mSaveNameWindow.InputName.text = "";
             mHasValidated = false;
             mHasClosed = false;
@@ -60,6 +61,7 @@ namespace BuddyApp.HideAndSeek
         {
             iAnimator.ResetTrigger("ChangeState");
             mSaveNameWindow.ButtonYes.onClick.RemoveAllListeners();
+            mSaveNameWindow.ButtonNo.onClick.RemoveAllListeners();
             mSTT.OnBestRecognition.Remove(VocalProcessing);
             mSTT.OnBeginning.Remove(StartListening);
             mSTT.OnEnd.Remove(StopListening);
@@ -71,11 +73,18 @@ namespace BuddyApp.HideAndSeek
             mPlayers.GetPlayer(mPlayers.NumPlayer-1).Name = mSaveNameWindow.InputName.text;
         }
 
+        private void ResetName()
+        {
+            mSaveNameWindow.InputName.text = "";
+        }
+
         private void VocalProcessing(string iRequest)
         {
             if(iRequest!="" && mSaveNameWindow.InputName.text=="")
             {
-                mSaveNameWindow.InputName.text = iRequest;
+                string lName = iRequest.ToLower();
+                lName = lName.Replace("my name is", "").Replace("je suis", "").Replace("i am", "").Replace("i'm", "").Replace("name", "");
+                mSaveNameWindow.InputName.text = lName;
             }
         }
 

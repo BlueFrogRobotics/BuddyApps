@@ -169,28 +169,18 @@ namespace BuddyApp.Companion
         {
             mMood.Set(MoodType.ANGRY);
             yield return new WaitForSeconds(0.1F);
-            
-            mYesHinge.SetPosition(5F);
-            mNoHinge.SetPosition(0F);
-                
 
-            yield return new WaitForSeconds(0.5F);
-                
-            mYesHinge.SetPosition(-5F);
-
-            yield return new WaitForSeconds(0.5F);
-                
-            mYesHinge.SetPosition(5F);
-
-            yield return new WaitForSeconds(0.5F);
-                
             mFace.SetEvent(FaceEvent.SCREAM);
-            mYesHinge.SetPosition(-5F);
-            mNoHinge.SetPosition(0F);
+            mYesHinge.SetPosition(5F);
+            mNoHinge.SetPosition(0F);                
 
-            yield return new WaitForSeconds(0.5F);
+            yield return new WaitForSeconds(1F);
                 
-            mYesHinge.SetPosition(5F); 
+            mYesHinge.SetPosition(-10F);
+
+            yield return new WaitForSeconds(1F);
+                
+            mYesHinge.SetPosition(5F);
 
             mMood.Set(MoodType.NEUTRAL);
             mIsPouting = false;
