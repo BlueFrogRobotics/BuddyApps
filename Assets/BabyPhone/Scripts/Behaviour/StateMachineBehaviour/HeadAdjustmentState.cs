@@ -22,7 +22,7 @@ namespace BuddyApp.BabyPhone
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mRGBCam.Open();
-            //HeadAdjustmentObject.SetActive(true);
+            mHeadAdjustmentObject.SetActive(true);
             mWindowAppOverWhite.SetActive(true);
             mHeadAdjustmentAnimator.SetTrigger("Open_WHeadController");
 
@@ -32,7 +32,7 @@ namespace BuddyApp.BabyPhone
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mRGBCam.Close();
-           // HeadAdjustmentObject.SetActive(false);
+            mHeadAdjustmentObject.SetActive(false);
             mWindowAppOverWhite.SetActive(false);           
             mHeadAdjustmentAnimator.SetTrigger("Close_WHeadController");
             iAnimator.SetBool("DoStartCount", true);

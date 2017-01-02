@@ -11,6 +11,7 @@ namespace BuddyApp.BabyPhone
     {
         private GameObject mSoundDetect;
         private GameObject mWindoAppOverBlack;
+        private GameObject mNotifications;
 
         private const int STATE_TIME = 5;
         private float mTime;
@@ -24,6 +25,7 @@ namespace BuddyApp.BabyPhone
         {
             mWindoAppOverBlack = GetGameObject(2);
             mSoundDetect = GetGameObject(11);
+            mNotifications = GetGameObject(14);
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -37,6 +39,9 @@ namespace BuddyApp.BabyPhone
             //get the last update of action when baby cries
             mIfBabyCries = (int)BabyPhoneData.Instance.ActionWhenBabyCries;
             UpdateFallingAssleep();
+
+            if (iAnimator.GetInteger("CountNotifications") >= 1)
+                mNotifications.SetActive(true);
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

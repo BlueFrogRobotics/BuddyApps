@@ -8,7 +8,7 @@ using BuddyTools;
 namespace BuddyApp.BabyPhone
 {
 
-    public class BabyPhoneMotionDetection : AVisionAlgorithm
+    public class MotionDetector : AVisionAlgorithm
     {
         [SerializeField]
         private bool isMoving;
@@ -72,7 +72,8 @@ namespace BuddyApp.BabyPhone
 
             mCameraSensitivity = BabyPhoneData.Instance.CameraSensitivity;
             mRGBCam = BYOS.Instance.RGBCam;
-            mRGBCam.Open();
+            if(!mRGBCam.IsOpen)
+                mRGBCam.Open();
         }
 
         // Update is called once per frame

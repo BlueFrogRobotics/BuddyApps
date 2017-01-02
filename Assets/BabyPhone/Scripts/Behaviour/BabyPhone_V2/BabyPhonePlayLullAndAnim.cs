@@ -19,6 +19,18 @@ namespace BuddyApp.BabyPhone
         [SerializeField]
         private Animator cartoonAnimator;
 
+        [SerializeField]
+        private GameObject notifications;
+
+        [SerializeField]
+        private GameObject play;
+
+        [SerializeField]
+        private GameObject previous;
+
+        [SerializeField]
+        private GameObject pause;
+
         //private MovieTexture mMovie;
 
         private bool mIsVolumeOn;
@@ -31,7 +43,7 @@ namespace BuddyApp.BabyPhone
         private float mFallingAssleepTime;
         private float mTimeElapsed;
 
-        private bool isAnimatioOn;
+        private bool mIsAnimationOn;
 
         void Awake()
         {
@@ -44,10 +56,10 @@ namespace BuddyApp.BabyPhone
         void OnEnable()
         {    
             mLullIndice = (int)BabyPhoneData.Instance.LullabyToPlay;
-            mFallingAssleepTime = ((BabyPhoneData.Instance.TimeBeforContact) * 60F); //convert from minutes to seconds
+            mFallingAssleepTime = ((BabyPhoneData.Instance.TimeBeforContact) * 10F); //convert from minutes to seconds
 
             mIsVolumeOn = BabyPhoneData.Instance.IsVolumeOn;
-            isAnimatioOn = BabyPhoneData.Instance.IsAnimationOn;
+            mIsAnimationOn = BabyPhoneData.Instance.IsAnimationOn;
 
             mSpeaker.Media.Volume = ((BabyPhoneData.Instance.LullabyVolume)/100F);
 
@@ -55,15 +67,23 @@ namespace BuddyApp.BabyPhone
             {
                 mSpeaker.Media.Play(mLullabies[mLullIndice]);
                 mIsLullabyPlaying = true;
+                play.SetActive(true);
+                previous.SetActive(true);
+                pause.SetActive(true);
             }
             else
                 mIsLullabyPlaying = false;
+
+            // si l'animation et la berceuse sont désactivée, passer directement à l'écoute 
+            if((!mIsVolumeOn) && (!mIsAnimationOn))
+                    babyPhoneAnimator.SetTrigger("StartListening");
+
+            if (babyPhoneAnimator.GetInteger("CountNotifications") >= 1)
+                notifications.SetActive(true);
         }
 
         void OnDisable()
         {
-            //mMovie = (MovieTexture)animation.mainTexture;
-            //mMovie.loop = true;
             if (mIsLullabyPlaying)
                 mSpeaker.Media.Stop();
                 
@@ -72,10 +92,7 @@ namespace BuddyApp.BabyPhone
         }
 
         void Start()
-        {
-            //mMovie = (MovieTexture)animation.mainTexture;
-            //mMovie.loop = true;
-            
+        {           
             mSpeaker.Media.Loop = true;
             mTimeElapsed = 0;
         }
@@ -99,22 +116,31 @@ namespace BuddyApp.BabyPhone
                     babyPhoneAnimator.SetTrigger("StartListening");
             }
 
-        #endregion
-    }
+            if((mIsAnimationOn) && (!mIsVolumeOn))
+            {
+                mTimeElapsed += Time.deltaTime;
+                play.SetActive(false);
+                previous.SetActive(false);
+                pause.SetActive(false);
+                float lValueX = mTimeElapsed / mFallingAssleepTime;
+                progressBar.GetComponent<RectTransform>().anchorMax = new Vector2(lValueX, 0);
+
+                if (mTimeElapsed >= mFallingAssleepTime)
+                    babyPhoneAnimator.SetTrigger("StartListening");
+            }
+
+
+            #endregion
+        }
 
         private void PlayLullabyAndAnimations()
         {
-            //if (!mMovie.isPlaying)
-            //    mMovie.Play();
-
             if(!mIsLullabyPlaying)
                 mSpeaker.Media.Play(mLullabies[mLullIndice]);
         }
 
         public void Return()
         {
-            //mMovie.Play();
-
             mTimeElapsed = 0F;
 
             if(mIsVolumeOn)
@@ -133,15 +159,10 @@ namespace BuddyApp.BabyPhone
 
         public void Pause()
         {
-            //mSpeaker.Media.Stop() ;
-
             if (mIsVolumeOn)
                 mSpeaker.Media.Pause();
 
             mIsLullabyPlaying = false;
-
-            //if (mMovie.isPlaying)
-            //    mMovie.Stop();
 
             babyPhoneAnimator.SetBool("DoPlayLullaby", false);
         }

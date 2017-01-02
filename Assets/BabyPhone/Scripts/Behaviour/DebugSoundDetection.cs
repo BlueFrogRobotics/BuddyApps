@@ -3,28 +3,36 @@ using UnityEngine.UI;
 using BuddyOS.UI;
 using BuddyOS;
 using System.Collections.Generic;
+using OpenCVUnity;
 
 namespace BuddyApp.BabyPhone
 {
+    [RequireComponent(typeof(InputMicro))]
+    [RequireComponent(typeof(AudioSource))]
     public class DebugSoundDetection : MonoBehaviour
     {
-        private Animator debugSoundAnimator;
+        [SerializeField]
+        private RawImage soundViewer;
 
         [SerializeField]
         private Gauge microSensitivity;
 
-
         [SerializeField]
         private Text labelSound;
 
-
+        private Animator debugSoundAnimator;
         private Dictionary mDictionary;
+
+        private InputMicro mInputMicro;
+        private float mSound;
+        private Mat mImage;
 
         void OnEnable()
         {
             mDictionary = BYOS.Instance.Dictionary;
             debugSoundAnimator = GetComponent<Animator>();
             debugSoundAnimator.SetTrigger("Open_WDebugs");
+            mImage = new Mat();
         }
 
         void OnDisable()

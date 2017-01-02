@@ -89,6 +89,8 @@ namespace BuddyApp.BabyPhone
             contactSelection.AddOption("RODOLPHE", BabyPhoneData.Contact.RODOLPHE);
             contactSelection.AddOption("JEAN MICHEL MOURIER", BabyPhoneData.Contact.J2M);
             contactSelection.AddOption("MAUD VERRAES", BabyPhoneData.Contact.MAUD);
+            contactSelection.AddOption("BENOIT PIRONNET", BabyPhoneData.Contact.BENOIT);
+            contactSelection.AddOption("MARC GOURLAN", BabyPhoneData.Contact.MARC);
             contactSelection.AddOption("KARAMA GUIMBAL", BabyPhoneData.Contact.KARAMA);
             contactSelection.SetDefault((int)BabyPhoneData.Instance.Recever);
             contactSelection.UpdateCommands.Add(new ContactBabyPhoneCmd());
@@ -147,7 +149,7 @@ namespace BuddyApp.BabyPhone
             ifBabyCry.UpdateCommands.Add(new IfBabyCriesCmd());
 
             ////sound detection
-            soundDetection.DisplayPercentage = true;
+            //soundDetection.DisplayPercentage = true;
             soundDetection.Slider.minValue = 5;
             soundDetection.Slider.maxValue = 20;
             soundDetection.Slider.value = BabyPhoneData.Instance.MicrophoneSensitivity;
@@ -158,7 +160,7 @@ namespace BuddyApp.BabyPhone
             soundDetection.SwitchCommands.Add(new ActSoundDetectionCmd());
 
             ////sound detection
-            motionDetection.DisplayPercentage = true;
+            //motionDetection.DisplayPercentage = true;
             motionDetection.Slider.minValue = 20;
             motionDetection.Slider.maxValue = 200;
             motionDetection.Slider.value = BabyPhoneData.Instance.CameraSensitivity;
