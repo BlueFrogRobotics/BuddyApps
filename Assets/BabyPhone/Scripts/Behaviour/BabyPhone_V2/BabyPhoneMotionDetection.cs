@@ -47,8 +47,11 @@ namespace BuddyApp.BabyPhone
         // Use this for initialization
 
         private Mat mDebugMatRLGL;
-        [SerializeField]
-        private RawImage mDebugRawImg;
+        //[SerializeField]
+        //private RawImage mDebugRawImg;
+
+        public Mat mBinaryIm { get { return mBinaryImage; } }
+        public Point mPoint { get { return mPositionOLD; } }
 
         protected override void Init()
         {
@@ -108,7 +111,7 @@ namespace BuddyApp.BabyPhone
                     else
                     {
                         //mDebugRawImg.enabled = true;
-                        mDebugRawImg.texture = Utils.MatToTexture2D(mTest);
+                        //mDebugRawImg.texture = Utils.MatToTexture2D(mTest);
                         isMoving = true;
                     }
 

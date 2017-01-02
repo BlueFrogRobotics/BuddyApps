@@ -294,7 +294,7 @@ namespace BuddyApp.Companion
             if (mSearchFaceReaction.enabled)
                 return;
 
-            mSearchFaceReaction.enabled = false;
+            mSearchFaceReaction.enabled = true;
         }
         
         public void LookRight()

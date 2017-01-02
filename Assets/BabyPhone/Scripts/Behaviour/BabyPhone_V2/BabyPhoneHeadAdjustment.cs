@@ -92,51 +92,50 @@ namespace BuddyApp.BabyPhone
                
         }
 
-        public void NoLeftButtonDown()
-        {
-            mNoLeft = true;
-            mFace.LookAt(FaceLookAt.TOP_RIGHT);
-            mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
-        }
-        public void NoRightButtonDown()
-        {
-            mNoRight = true;
-            mFace.LookAt(-600, 600);
-            mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
-        }
-
-        public void YesUpButtonDown()
+        public void OneDown()
         {
             mYesUp = true;
             mFace.LookAt(600, 600);
             mSpeaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 
         }
-        public void YesDownButtonDown()
+        public void TwoDown()
+        {
+            mNoRight = true;
+            mFace.LookAt(FaceLookAt.BOTTOM_LEFT);
+            mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+        }
+        public void ThreeDown()
         {
             mYesDown = true;
             mFace.LookAt(600, -600);
             mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
         }
+        public void FourDown()
+        {
+            mNoLeft = true;
+            mFace.LookAt(FaceLookAt.TOP_RIGHT);
+            mSpeaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+        }
 
-        public void NoLeftButtonUp()
-        {
-            mNoLeft = false;
-            mFace.LookAt(FaceLookAt.CENTER);
-        }
-        public void NoRightButtonUp()
-        {
-            mNoRight = false;
-            mFace.LookAt(FaceLookAt.CENTER);
-        }
-        public void YesUpButtonUp()
+        public void OneUp()
         {
             mYesUp = false;
             mFace.LookAt(FaceLookAt.CENTER);
         }
-        public void YesDownButtonUp()
+        public void TwoUp()
+        {
+            mNoRight = false;
+            mFace.LookAt(FaceLookAt.CENTER);
+        }
+        public void ThreeUp()
         {
             mYesDown = false;
+            mFace.LookAt(FaceLookAt.CENTER);
+        }
+        public void FourUp()
+        {
+            mNoLeft = false;
             mFace.LookAt(FaceLookAt.CENTER);
         }
 

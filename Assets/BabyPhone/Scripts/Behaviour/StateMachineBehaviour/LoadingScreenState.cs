@@ -20,7 +20,7 @@ namespace BuddyApp.BabyPhone
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTime = 0;
-            
+            mRGBCam.Close();
             StartCoroutine(LoadingScreenFunc());
             BYOS.Instance.VocalActivation.enabled = false;
         }
