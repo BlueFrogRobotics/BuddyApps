@@ -74,7 +74,7 @@ namespace BuddyApp.FreezeDance
 
             //mThresh = threshBar.value;
             //need to change mThresh to adjust difficulty
-            mThresh = 150;
+            mThresh = 100;
             mRawImage = iInputFrameMat.clone();
             mTest = iInputFrameMat.clone();
 

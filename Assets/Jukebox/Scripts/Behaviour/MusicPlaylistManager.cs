@@ -106,7 +106,7 @@ namespace BuddyApp.Jukebox
             mIsPaused = false;
             mIsNext = false;
 
-            source.volume = 0.1f;
+            source.volume = 0.8f;
         }
 
         void Update()
