@@ -23,7 +23,7 @@ namespace BuddyApp.IOT
         {
         }
 
-        public virtual void Command(int iCommand)
+        public virtual void Command(int iCommand, float iParam = 0.0F)
         {
             switch (iCommand)
             {
