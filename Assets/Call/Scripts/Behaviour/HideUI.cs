@@ -11,6 +11,10 @@ namespace BuddyApp.Call
         private GameObject callerVideo;
         [SerializeField]
         private GameObject buddyFace;
+        [SerializeField]
+        private GameObject hideUI;
+        [SerializeField]
+        private GameObject showUI;
 
         private bool mUIEnabled;
 
@@ -30,11 +34,15 @@ namespace BuddyApp.Call
                 callerVideo.SetActive(false);
                 feedBack.SetActive(false);
                 buddyFace.SetActive(false);
+                hideUI.SetActive(false);
+                showUI.SetActive(true);
                 mUIEnabled = false;
             } else {
                 callerVideo.SetActive(true);
                 feedBack.SetActive(true);
                 //buddyFace.SetActive(false);
+                hideUI.SetActive(true);
+                showUI.SetActive(false);
                 mUIEnabled = true;
             }
         }
