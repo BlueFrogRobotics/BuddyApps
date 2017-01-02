@@ -45,7 +45,7 @@ namespace BuddyApp.TakePhoto
 		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			// To fix
-			//mRGBCam.Resolution = RGBCamResolution.W_640_H_480;
+			mRGBCam.Resolution = RGBCamResolution.W_640_H_480;
 			mTimer = 0f;
 			mSpeechId = 0;
 			mNeedExit = false;
