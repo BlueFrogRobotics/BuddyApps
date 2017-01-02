@@ -164,8 +164,20 @@
         <Path>EnglishRemoteControlAppDict</Path>
       </LangDictionary>
     </LangDictionaries>
-  </AppInfo>  
-    <AppInfo>
+  </AppInfo>
+  <AppInfo>
+    <name />
+    <hideFlags>None</hideFlags>
+    <DisplayName>BOSE</DisplayName>
+    <Scene>BoseApp</Scene>
+    <Icon>Ico_IOT</Icon>
+    <VocalKeys>
+      <string>bose</string>
+    </VocalKeys>
+    <OptionsLayoutStr>BuddyApp.BoseApp.BoseAppLayout</OptionsLayoutStr>
+    <DataFile>iot_data.xml</DataFile>
+  </AppInfo>
+  <AppInfo>
     <name />
     <hideFlags>None</hideFlags>
     <DisplayName>MAPPING</DisplayName>

@@ -101,30 +101,30 @@ namespace BuddyApp.RLGL
                             mWheels.SetWheelsSpeed(200.0F, 200.0F, 3000);
                             mFirstMove = true;
                         }
-                        if (mFirstMove && !mSecondeMove && !mObjectDetected)
-                        {
-                            if (mIRSensors.Middle.Distance <= 0.4F/* || mUSSensors.Left.Distance <= 0.5F || mUSSensors.Right.Distance <= 0.5F*/)
-                            {
+                        //if (mFirstMove && !mSecondeMove && !mObjectDetected)
+                        //{
+                        //    if (mIRSensors.Middle.Distance <= 0.4F/* || mUSSensors.Left.Distance <= 0.5F || mUSSensors.Right.Distance <= 0.5F*/)
+                        //    {
 
-                                mTTS.Silence(0);
-                                mTTS.Say("Don't stay here and place yourself at 26 feet in front of me");
-                                //mDiffDebugMovement = mTimerMovement - (int)mTimerDebug;
-                                mDiffDebugMovement = mTimerMovement - mTimerDebugInt;
-                                //mWheels.StopWheels();
-                                mWheels.SetWheelsSpeed(0.0F, 0.0F, 1000);
-                                Debug.Log("FEAR : " + mWheels.Status);
-                                if(mWheels.Status == MovingState.MOTIONLESS)
-                                {
-                                    mObjectDetected = true;
-                                }
-                                Debug.Log(mDiffDebugMovement);
-                            }
-                        }
+                        //        mTTS.Silence(0);
+                        //        mTTS.Say("Don't stay here and place yourself at 26 feet in front of me");
+                        //        //mDiffDebugMovement = mTimerMovement - (int)mTimerDebug;
+                        //        mDiffDebugMovement = mTimerMovement - mTimerDebugInt;
+                        //        //mWheels.StopWheels();
+                        //        mWheels.SetWheelsSpeed(0.0F, 0.0F, 1000);
+                        //        Debug.Log("FEAR : " + mWheels.Status);
+                        //        if(mWheels.Status == MovingState.MOTIONLESS)
+                        //        {
+                        //            mObjectDetected = true;
+                        //        }
+                        //        Debug.Log(mDiffDebugMovement);
+                        //    }
+                        //}
                         
                         if (mFirstMove && !mSecondeMove && ((mWheels.Status == MovingState.REACHED_GOAL) || (mWheels.Status == MovingState.MOTIONLESS && mTimerDebug > 3.0F)))
                         {
                             
-                            mWheels.SetWheelsSpeed(-200.0F, -200.0F, 3000 - mDiffDebugMovement);
+                            mWheels.SetWheelsSpeed(-200.0F, -200.0F, 3000/* - mDiffDebugMovement*/);
                             mSecondeMove = true;
                         }
                         //Debug.Log((10 - (int)mTimerDebug).ToString());

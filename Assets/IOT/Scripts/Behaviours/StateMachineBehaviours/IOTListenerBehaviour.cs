@@ -15,9 +15,23 @@ namespace BuddyApp.IOT
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
+            CommonStrings["PARAM"] = "";
+
             mFound = false;
             string lMsg = CommonStrings["STT"].ToLower();
             lMsg = ParseIntegers(lMsg);
+            iAnimator.SetBool(HashList[(int)HashTrigger.PARAMETERS], false);
+
+            if(lMsg.Contains("degree") || lMsg.Contains("degré"))
+            {
+                string[] lString = lMsg.Split(' ');
+                for(int i = 0; i < lString.Length; ++i)
+                {
+                    if (lString[i].Contains("degr") && i > 0)
+                        CommonStrings["PARAM"] = lString[i - 1];
+                }
+            }
+
             using (XmlReader lReader = XmlReader.Create(BuddyTools.Utils.GetStreamingAssetFilePath("iot_speech.xml")))
             {
                 while (lReader.Read() && !mFound)
@@ -26,8 +40,12 @@ namespace BuddyApp.IOT
                     {
                         string lName = lReader.Name;
                         string lAction = null;
+                        bool lParam = false;
                         if (lReader.HasAttributes)
+                        {
                             lAction = lReader.GetAttribute("action");
+                            lParam = lReader.GetAttribute("parameters") == "true";
+                        }
                         if (lReader.Read())
                         {
                             string[] lValues = lReader.Value.Split('/');
@@ -42,7 +60,12 @@ namespace BuddyApp.IOT
                                     {
                                         if (lAction != null)
                                             iAnimator.SetInteger(HashList[(int)HashTrigger.ACTION], System.Convert.ToInt32(lAction));
-                                        iAnimator.SetTrigger(lName);
+                                        if(lParam)
+                                            iAnimator.SetBool(HashList[(int)HashTrigger.PARAMETERS], lParam);
+                                        if (lName != "iot_parameters")
+                                            iAnimator.SetTrigger(lName);
+                                        else
+                                            CommonStrings["PARAM"] = lReader.GetAttribute("number");
                                         mFound = true;
                                         break;
                                     }

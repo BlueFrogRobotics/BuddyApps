@@ -31,29 +31,35 @@ namespace BuddyApp.IOT
 
         public override void InitializeParams()
         {
+            base.InitializeParams();
             GameObject lTemp = InstanciateParam(ParamType.GAUGE);
             Gauge lGaugeTemp = lTemp.GetComponent<Gauge>();
+            GameObject lTempEco = InstanciateParam(ParamType.GAUGE);
+            Gauge lGaugeTempEco = lTempEco.GetComponent<Gauge>();
 
-            lGaugeTemp.Label.text = "Temperature";
+            lGaugeTemp.Label.text = "SET TEMPERATURE";
             lGaugeTemp.Slider.minValue = 70F;
             lGaugeTemp.Slider.maxValue = 300F;
-            IOTTempGaugeCmd lGaugeCmd = new IOTTempGaugeCmd(this);
+            IOTDeviceCmdCmd lGaugeCmd = new IOTDeviceCmdCmd(this, 4);
             lGaugeTemp.UpdateCommands.Add(lGaugeCmd);
-        }
 
-        public void SetTemperature(float lTemp)
-        {
-            PostAction("setComfortTemperature", new string[] { System.Convert.ToString(lTemp) });
+            lGaugeTempEco.Label.text = "SET ECO TEMPERATURE";
+            lGaugeTempEco.Slider.minValue = 70F;
+            lGaugeTempEco.Slider.maxValue = 300F;
+            IOTDeviceCmdCmd lGaugeEcoCmd = new IOTDeviceCmdCmd(this, 5);
+            lGaugeTemp.UpdateCommands.Add(lGaugeEcoCmd);
         }
-
-        public override void Command(int iCommand)
+        public override void Command(int iCommand, float iParam = 0.0F)
         {
             base.Command(iCommand);
             switch (iCommand)
             {
                 case 4:
+                    PostAction("setComfortTemperature", new float[] { iParam });
                     break;
                 case 5:
+                case 6:
+                    PostAction("setComfortTemperature", new float[] { iParam });
                     break;
             }
         }

@@ -23,9 +23,9 @@ namespace BuddyApp.IOT
     {
         public int type;
         public string name;
-        public object[] parameters;
+        public float[] parameters;
 
-        public IOTSomfyActionCommandsJSON(int iType, string iName, object[] iParameters)
+        public IOTSomfyActionCommandsJSON(int iType, string iName, float[] iParameters)
         {
             type = iType;
             name = iName;
@@ -133,7 +133,7 @@ namespace BuddyApp.IOT
         }
 
 
-        protected void PostAction(string iCommand, object[] iParams = null)
+        protected void PostAction(string iCommand, float[] iParams = null)
         {
             string lUrl = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/exec/apply";
 
@@ -147,7 +147,7 @@ namespace BuddyApp.IOT
             lApply[0] = new IOTSomfyActionJSON(deviceURL, lCommands);
 
             IOTSomfyJSONApply lJson = new IOTSomfyJSONApply(creationTime, lastUpdateTime, "switchAction", lApply);
-
+            Debug.Log(JsonUtility.ToJson(lJson));
             Request lRequest = new Request("POST", lUrl, Encoding.Default.GetBytes(JsonUtility.ToJson(lJson)));
             lRequest.cookieJar = null;
             lRequest.SetHeader("cookie", mSessionID);

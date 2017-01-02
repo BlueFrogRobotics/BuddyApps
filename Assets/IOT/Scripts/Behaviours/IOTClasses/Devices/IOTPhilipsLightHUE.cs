@@ -73,7 +73,6 @@ namespace BuddyApp.IOT
             lIntensityComponent.UpdateCommands.Add(lCmd);
 
             lNameComponent.Label.text = "NAME";
-            lNameComponent.Label.resizeTextForBestFit = true;
             IOTChangeNameCmd lCmdChangeName = new IOTChangeNameCmd(this);
             lNameComponent.UpdateCommands.Add(lCmdChangeName);
         }
@@ -139,6 +138,42 @@ namespace BuddyApp.IOT
             SetValue(lKey, lValue);
         }
 
+        public void SetColor(int iColorState)
+        {
+            Color lColor = new Color();
+            switch (iColorState)
+            {
+                case 0:
+                    lColor = Color.white;
+                    break;
+                case 1:
+                    lColor = new Color(0.8F, 0.2F, 0.2F);
+                    break;
+                case 2:
+                    lColor = new Color(0.8F, 0.2F, 0.5F);
+                    break;
+                case 3:
+                    lColor = Color.blue;
+                    break;
+                case 4:
+                    lColor = Color.cyan;
+                    break;
+                case 5:
+                    lColor = new Color(0.0F, 0.8F, 0.1F);
+                    break;
+                case 6:
+                    lColor = new Color(0.0F, 0.6F, 0.6F);
+                    break;
+                case 7:
+                    lColor = Color.yellow;
+                    break;
+                case 8:
+                    lColor = Color.red;
+                    break;
+            }
+            SetColor(lColor);
+        }
+
         public void SetIntensity(float iValue)
         {
             string[] lKey = new string[1] { "bri" };
@@ -151,6 +186,21 @@ namespace BuddyApp.IOT
             string[] lKey = new string[1] { "on" };
             object[] value = new object[1] { iOnOff };
             SetValue(lKey, value);
+        }
+
+        public override void Command(int iCommand, float iParam = 0)
+        {
+            base.Command(iCommand, iParam);
+            switch (iCommand)
+            {
+                case 4:
+                    SetColor((int)iParam);
+                    break;
+                case 5:
+                case 6:
+                    SetIntensity(iParam);
+                    break;
+            }
         }
     }
 }
