@@ -7,29 +7,31 @@ namespace BuddyApp.Companion
 {
     public class SearchFaceReaction : MonoBehaviour
     {
-        private bool mInitialized;
         private bool mLookLeft;
+        private bool mLookUp;
         private float mTime;
         private float mHeadNoAngle;
         private FaceDetector mFaceDetector;
+        private NoHinge mNoHinge;
+        private YesHinge mYesHinge;
 
         void Start()
         {
-            mInitialized = true;
             mFaceDetector = GetComponent<FaceDetector>();
+            mNoHinge = BYOS.Instance.Motors.NoHinge;
+            mYesHinge = BYOS.Instance.Motors.YesHinge;
         }
 
         void OnEnable()
         {
-            if(!mInitialized) {
+            if(mNoHinge == null)
                 Start();
-                mInitialized = true;
-            }
 
             mLookLeft = true;
+            mLookUp = true;
             mTime = Time.time;
-            mHeadNoAngle = BYOS.Instance.Motors.NoHinge.CurrentAnglePosition;
-            new SetPosYesCmd(-5F).Execute();
+            mHeadNoAngle = mNoHinge.CurrentAnglePosition;
+            mYesHinge.SetPosition(-5F);
         }
         
         void Update()
@@ -39,33 +41,50 @@ namespace BuddyApp.Companion
                 return;
             }
 
-            if (Time.time - mTime > 0.4F)
+            if (Time.time - mTime < 0.1F)
                 return;
 
-            if(mLookLeft) {
-                mHeadNoAngle += 3F;
+            mTime = Time.time;
 
-                if(mHeadNoAngle > 30F) {
+            if (mLookLeft) {
+                mHeadNoAngle += 4F;
+
+                if (mHeadNoAngle > 30F) {
                     mHeadNoAngle = 30F;
                     mLookLeft = false;
                 }
-                new SetPosNoCmd(mHeadNoAngle).Execute();
+                mNoHinge.SetPosition(mHeadNoAngle);
             }
             else {
-                mHeadNoAngle -= 3F;
+                mHeadNoAngle -= 4F;
 
                 if (mHeadNoAngle < -30F)
                 {
                     mHeadNoAngle = -30F;
                     mLookLeft = true;
+                    ChangeYesPosition();
                 }
-                new SetPosNoCmd(mHeadNoAngle).Execute();
+                mNoHinge.SetPosition(mHeadNoAngle);
             }
         }
 
         void OnDisable()
         {
             GetComponent<Reaction>().ActionFinished();
+        }
+
+        private void ChangeYesPosition()
+        {
+            float lCurrPos = mYesHinge.CurrentAnglePosition;
+            if (lCurrPos < -20F && mLookUp)
+                mLookUp = false;
+            else if (lCurrPos > 20F && !mLookUp)
+                mLookUp = true;
+
+            if (mLookUp)
+                mYesHinge.SetPosition(lCurrPos - 5F);
+            else
+                mYesHinge.SetPosition(lCurrPos + 5F);
         }
     }
 }

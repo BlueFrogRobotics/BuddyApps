@@ -22,20 +22,26 @@ namespace BuddyApp.IOT
         private Transform parametersGroup;
         
         Dropdown lDropDownComponent;
+
+        private bool mParamInit = true;
         // Use this for initialization
         void OnEnable()
         {
-            Debug.Log("yo");
-            CleanParams(true);
-            GameObject lDropDown = Instantiate(paramContainer.ParametersList[5]);
-            lDropDownComponent = lDropDown.GetComponent<Dropdown>();
+            CleanParams(mParamInit);
+            if(mParamInit)
+            {
+                GameObject lDropDown = Instantiate(paramContainer.ParametersList[5]);
+                lDropDownComponent = lDropDown.GetComponent<Dropdown>();
 
-            lDropDown.transform.SetParent(parametersGroup, false);
+                lDropDown.transform.SetParent(parametersGroup, false);
 
-            IOTDropdownCmd lCmd = new IOTDropdownCmd("");
-            lDropDownComponent.UpdateCommands.Add(lCmd);
-            for (int i = 0; i < systemList.Count; ++i)
-                lDropDownComponent.AddOption(systemName[i], new object[] { this, systemList[i] });
+                IOTDropdownCmd lCmd = new IOTDropdownCmd("");
+                lDropDownComponent.UpdateCommands.Add(lCmd);
+
+                for (int i = 0; i < systemList.Count; ++i)
+                    lDropDownComponent.AddOption(systemName[i], new object[] { this, systemList[i] });
+                mParamInit = false;
+            }
         }
 
         public void CleanParams(bool iAll)

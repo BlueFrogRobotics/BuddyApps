@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Content prep="5" cook="5" person="6">
-  <ingredient name="Farine" qantity="375" unit="grammes"/>
-  <ingredient name="Oeuf" qantity="4"/>
-  <ingredient name="Beurre" qantity="20" unit="grammes"/>
-  <ingredient name="Huile" qantity="2" unit="cuillères à soupe"/>
-  <ingredient name="Sel" qantity="2" unit="pincées"/>
-  <ingredient name="Lait" qantity="50" unit="centilitres"/>
-  <ingredient name="Bierre" qantity="25" unit="centilitres"/>
-  <ingredient name="Rhum" qantity="2" unit="cuillères à soupe"/>
+<Content prep="2" cook="5" person="6">
+  <summary>Une recette très classique qui, grâce à sa quantité d'oeufs, ne nécessite aucun repos de la pâte. C'est une amie bretonne qui m'a donné ses secrets... En tout cas chez moi, ces crêpes ne font jamais long feu.</summary>
+  <ingredient name="Farine" qantity="125" unit="Grammes" icon="Recipe_Ico_Farine"/>
+  <ingredient name="Oeuf" qantity="4" icon="Recipe_Ico_Oeuf"/>
+  <ingredient name="Beurre" qantity="30" unit="Grammes" icon="Recipe_Ico_Beurre"/>
+  <ingredient name="Sel" qantity="5" unit="Grammes" icon="Recipe_Ico_Sel"/>
+  <ingredient name="Lait" qantity="30" unit="centilitres" icon="Recipe_Ico_Lait"/>
+  <ingredient name="Eau" qantity="2" unit="cuillères à soupe"/>
+  <ingredient name="Rhum ou autres..." qantity="2" unit="cuillères à café" />
 	<step>
-    <sentence>Mélanger la farine avec les oeufs, l'huile et le sel</sentence>
+    <sentence>Pour réaliser cette recette de crêpes au sucre, commencer par préparer tous les ingrédients.</sentence>
 	</step>
 	<step>
-    <sentence>Ajoutez ensuite le lait, la bière et le rhum</sentence>
+    <sentence>Préparer la pâte à crêpes.</sentence>
 	</step>
 	<step>
-    <sentence>Mélangez le tout : c'est prêt en deux minutes avec un mixer !</sentence>
+    <sentence>Préchauffez la poêle à crêpes.</sentence>
 	</step>
 	<step>
-    <sentence>Faites cuire à la poêle avec une noix de beurre</sentence>
+    <sentence>Verser l'équivalent d'une à deux petites louches de pâte,</sentence>
 		</step>
 	<step>
-    <sentence>Bon appetit !</sentence>
+    <sentence>et bien la répartir sur toute la surface de la poêle par un mouvement de rotation. À mi-cuisson, retourner la crêpe et cuire l'autre face. Bon Appétit!</sentence>
 	</step>
 </Content>
