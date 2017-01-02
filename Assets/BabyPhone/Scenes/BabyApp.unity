@@ -995,7 +995,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1529760093}
-          m_MethodName: NoLeftButtonDown
+          m_MethodName: TwoDown
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1012,7 +1012,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1529760093}
-          m_MethodName: NoLeftButtonUp
+          m_MethodName: TwoUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1939,7 +1939,7 @@ Prefab:
       objectReference: {fileID: 909183419}
     - target: {fileID: 132808, guid: 63e3e41e0778e1c4c9e89a7569a69a49, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22543212, guid: 63e3e41e0778e1c4c9e89a7569a69a49, type: 2}
       propertyPath: m_BlocksRaycasts
@@ -2136,6 +2136,34 @@ Prefab:
     - target: {fileID: 160300, guid: 63e3e41e0778e1c4c9e89a7569a69a49, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 131960, guid: 63e3e41e0778e1c4c9e89a7569a69a49, type: 2}
+      propertyPath: m_Name
+      value: One
+      objectReference: {fileID: 0}
+    - target: {fileID: 128058, guid: 63e3e41e0778e1c4c9e89a7569a69a49, type: 2}
+      propertyPath: m_Name
+      value: Three
+      objectReference: {fileID: 0}
+    - target: {fileID: 153308, guid: 63e3e41e0778e1c4c9e89a7569a69a49, type: 2}
+      propertyPath: m_Name
+      value: Four
+      objectReference: {fileID: 0}
+    - target: {fileID: 186334, guid: 63e3e41e0778e1c4c9e89a7569a69a49, type: 2}
+      propertyPath: m_Name
+      value: Two
+      objectReference: {fileID: 0}
+    - target: {fileID: 22454166, guid: 63e3e41e0778e1c4c9e89a7569a69a49, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 22485382, guid: 63e3e41e0778e1c4c9e89a7569a69a49, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 22443822, guid: 63e3e41e0778e1c4c9e89a7569a69a49, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11470640, guid: 63e3e41e0778e1c4c9e89a7569a69a49, type: 2}
@@ -4740,7 +4768,7 @@ Prefab:
         type: 3}
     - target: {fileID: 122868, guid: a70ab35c75988f24183cd0b98c35689b, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22469630, guid: a70ab35c75988f24183cd0b98c35689b, type: 2}
       propertyPath: m_AnchorMax.x
@@ -4826,6 +4854,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   microSensitivity: {fileID: 579720450}
   labelSound: {fileID: 579720449}
+--- !u!114 &579720453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 579720448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81ae5bf08d1355a41bf4df2a6fd457b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handleOutputTexture: 1
+  isMoving: 0
 --- !u!1 &586895612
 GameObject:
   m_ObjectHideFlags: 0
@@ -5262,7 +5303,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1529760093}
-          m_MethodName: YesDownButtonDown
+          m_MethodName: ThreeDown
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -5279,7 +5320,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1529760093}
-          m_MethodName: YesDownButtonUp
+          m_MethodName: ThreeUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7636,7 +7677,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1529760093}
-          m_MethodName: NoRightButtonDown
+          m_MethodName: FourDown
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7653,7 +7694,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1529760093}
-          m_MethodName: NoRightButtonUp
+          m_MethodName: FourUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -9220,7 +9261,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1529760093}
-          m_MethodName: YesUpButtonDown
+          m_MethodName: OneDown
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -9237,7 +9278,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1529760093}
-          m_MethodName: YesUpButtonUp
+          m_MethodName: OneUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -12851,7 +12892,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 155900, guid: 4e468826bc6f9fc4ab7571e6d8278788, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11444460, guid: 4e468826bc6f9fc4ab7571e6d8278788, type: 2}
       propertyPath: m_Color.r
