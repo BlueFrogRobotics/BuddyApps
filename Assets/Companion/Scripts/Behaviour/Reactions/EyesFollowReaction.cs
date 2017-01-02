@@ -21,7 +21,7 @@ namespace BuddyApp.Companion
 		private int stepVisionTargetH;
 		private int stepVisionTargetV;
 		private float mTimeLastOrder;
-		private const float TIME_BEFORE_BEEING_CURIOUS = 5.0f;
+		private const float TIME_BEFORE_BEING_CURIOUS = 5.0f;
 
 
 		// Use this for initialization
@@ -56,7 +56,7 @@ namespace BuddyApp.Companion
 
 			if (maxHorizontal == -1 || maxVertical == -1){ // if we don't find anybody to look at
 
-				if (Time.time - mTimeLastOrder > TIME_BEFORE_BEEING_CURIOUS) 
+				if (Time.time - mTimeLastOrder > TIME_BEFORE_BEING_CURIOUS) 
 				{
 					// set a curiosityPoint
 					curiousTargetH = Random.Range(0,Screen.width);
@@ -77,12 +77,13 @@ namespace BuddyApp.Companion
 				// maxHorizontal means the line which is the hottest so it becomes vertical when projected
 				targetToLookAtH = (1 + maxVertical*2) * stepVisionTargetH;
 				targetToLookAtV = (1 + maxHorizontal*2) * stepVisionTargetV;
+                curiousTargetH = targetToLookAtH;
+                curiousTargetV = targetToLookAtV;
+                // Debug.Log ("maxHorizontal " + maxHorizontal ); 
+                // Debug.Log ("maxVertical " + maxVertical ); 
 
-				// Debug.Log ("maxHorizontal " + maxHorizontal ); 
-				// Debug.Log ("maxVertical " + maxVertical ); 
-
-				//reset the timer 
-				mTimeLastOrder = Time.time;
+                //reset the timer 
+                mTimeLastOrder = Time.time;
 			}
 
 			// Filtering

@@ -87,11 +87,11 @@ namespace BuddyApp.Companion
             if(mIsSearchingPoint && Time.time - mWanderTime < mRandomWanderTime) {
                 PlaySearchingHeadAnimation();
                 if (!AnyObstructionsInfrared())
-                    mWheels.SetWheelsSpeed(200F, 200F, 400);
+                    mWheels.SetWheelsSpeed(200F, 200F);
                 else
                     FaceRandomDirection();
 
-                if (Time.time - mEmoteTime > 8F) {
+                if (Time.time - mEmoteTime > 5F) {
                     switch (Random.Range(0, 3)) {
                         case 0:
                             mFace.SetEvent(FaceEvent.SMILE);
@@ -101,6 +101,15 @@ namespace BuddyApp.Companion
                             break;
                         case 2:
                             mFace.SetEvent(FaceEvent.BLINK_DOUBLE);
+                            break;
+                        case 3:
+                            StartCoroutine(LoveFaceCo());
+                            break;
+                        case 4:
+                            StartCoroutine(HappyFaceCo());
+                            break;
+                        case 5:
+                            StartCoroutine(AngryFaceCo());
                             break;
                     }
                     mEmoteTime = Time.time;
@@ -149,13 +158,13 @@ namespace BuddyApp.Companion
                         TurnHeadYes();
                         break;
                 }
-                yield return new WaitForSeconds(2F);
+                yield return new WaitForSeconds(1.3F);
             }
         }
 
         private void TurnHeadNo()
         {
-            float lHeadNo = Random.Range(5F, 35F);
+            float lHeadNo = Random.Range(10F, 30F);
 
             if (mNoHinge.CurrentAnglePosition > 0F)
                 lHeadNo = -lHeadNo;
@@ -240,9 +249,9 @@ namespace BuddyApp.Companion
             float lLeftUSDistance = mUSSensors.Left.Distance;
             return IsCollisionEminent(lLeftIRDistance, MIN_DIST_IR)
                 || IsCollisionEminent(lMiddleIRDistance, MIN_DIST_IR)
-                || IsCollisionEminent(lRightIRDistance, MIN_DIST_IR)
-                || IsCollisionEminent(lRightUSDistance, MIN_DIST_US)
-                || IsCollisionEminent(lLeftUSDistance, MIN_DIST_US);
+                || IsCollisionEminent(lRightIRDistance, MIN_DIST_IR);
+                //|| IsCollisionEminent(lRightUSDistance, MIN_DIST_US)
+                //|| IsCollisionEminent(lLeftUSDistance, MIN_DIST_US);
         }
 
         private bool IsCollisionEminent(float iCollisionDistance, float iThreshold = MIN_DIST_IR)
@@ -254,8 +263,8 @@ namespace BuddyApp.Companion
         {
             float lRandomAngle = Random.Range(60F, 300F);
             if (lRandomAngle > 180F)
-                lRandomAngle = lRandomAngle - 360F;
-            mWheels.TurnAngle(lRandomAngle, 100F, 0.02F);
+                lRandomAngle = 360F - lRandomAngle;
+            mWheels.TurnAngle(lRandomAngle, 130F, 0.02F);
         }
 
         private void SaySomething()
@@ -283,5 +292,26 @@ namespace BuddyApp.Companion
             mTTSTime = Time.time;
             mRandomSpeechTime = Random.Range(20F, 40F);
         }
+
+        private IEnumerator AngryFaceCo()
+        {
+            mMood.Set(MoodType.ANGRY);
+            yield return new WaitForSeconds(1.0F);
+            mMood.Set(MoodType.NEUTRAL);
+        }
+
+        private IEnumerator HappyFaceCo()
+        {
+            mMood.Set(MoodType.HAPPY);
+            yield return new WaitForSeconds(1.0F);
+            mMood.Set(MoodType.NEUTRAL);
+        }
+
+        private IEnumerator LoveFaceCo()
+        {
+            mMood.Set(MoodType.LOVE);
+            yield return new WaitForSeconds(1.0F);
+            mMood.Set(MoodType.NEUTRAL);
+        }        
     }
 }

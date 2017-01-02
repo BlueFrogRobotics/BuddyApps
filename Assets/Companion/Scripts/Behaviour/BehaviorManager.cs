@@ -110,7 +110,7 @@ namespace BuddyApp.Companion
             //else if (!mThermalDetector.ThermalDetected)
             //    mReaction.DisableSayHelloReaction();
 
-            if (mBuddyFaceDetector.EyeTouched || mFaceDetector.FaceDetected ||
+            if (mBuddyFaceDetector.EyeTouched || mFaceDetector.FaceDetected || //mSpeechDetector.SomeoneTalkingDetected ||
                 (mCurrentAction != null && (!mVocalWanderOrder || !mRobotIsTrackingSomeone))) {
                 //Debug.Log("Interaction with Buddy");
                 mVocalWanderOrder = false;
