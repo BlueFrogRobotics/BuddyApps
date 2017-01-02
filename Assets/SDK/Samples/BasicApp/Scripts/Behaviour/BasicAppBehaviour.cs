@@ -28,13 +28,15 @@ namespace BuddyApp.Basic
 
         /*
          * Access to the language dictionary. Each app may has its own dictionary.
-         */ 
+         */
         private Dictionary mDictionary;
 
         /*
          * Data of the application. Save on disc when app quit happened
          */
         private BasicAppData mAppData;
+
+        private VocalActivation mVA;
 
         /*
          * Init refs to API and your app data
@@ -46,6 +48,22 @@ namespace BuddyApp.Basic
             mFace = BYOS.Instance.Face;
             mDictionary = BYOS.Instance.Dictionary;
             mAppData = BasicAppData.Instance;
+
+            mVA = BYOS.Instance.VocalActivation;
+            mVA.VocalProcessing = lol;
+            mVA.StartRecoWithTrigger();
+        }
+
+        void lol(string iPoney)
+        {
+            if (iPoney == "poney")
+                mTextToSpeech.Say("Hello");
+
+            if (iPoney == "english")
+                mTextToSpeech.Say("Yes, i speak english");
+
+            if (iPoney == "français")
+                mTextToSpeech.Say("Je parle français");
         }
 
         /*
