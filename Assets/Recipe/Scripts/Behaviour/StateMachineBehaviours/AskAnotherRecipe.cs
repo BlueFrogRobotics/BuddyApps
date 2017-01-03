@@ -14,6 +14,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("ENTER ASK ANOTHER RECIPE");
             check = false;
             GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
             GetGameObject(1).SetActive(true);
@@ -66,6 +67,7 @@ namespace BuddyApp.Recipe
             mVocalActivation.VocalError = null;
             mVocalActivation.StopListenBehaviour();
             mTTS.Silence(0);
+            Debug.Log("EXIT ASK ANOTHER RECIPE");
         }
     }
 }

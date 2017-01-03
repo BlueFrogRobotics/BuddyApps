@@ -13,6 +13,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("ENTER LISTEN RECIPE");
             mAnimator = iAnimator;
             mVocalActivation.VocalProcessing = GetAnswer;
             mVocalActivation.VocalError = NoAnswer;
@@ -28,6 +29,7 @@ namespace BuddyApp.Recipe
             mVocalActivation.VocalProcessing = null;
             mVocalActivation.VocalError = null;
             mVocalActivation.StopListenBehaviour();
+            Debug.Log("EXIT LISTEN RECIPE");
         }
 
         private void GetAnswer(string iAnswer)
