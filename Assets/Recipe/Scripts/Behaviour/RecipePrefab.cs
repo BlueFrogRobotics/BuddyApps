@@ -43,10 +43,14 @@ namespace BuddyApp.Recipe
         [SerializeField]
         private Sprite fullStar;
 
+        [SerializeField]
+        private GameObject recipeTitle;
+
         private GameObject aiBehaviour;
         private Recipe mRecipe;
         private bool open = false;
         private TextToSpeech mTTS;
+        private string mTextToSay;
 
         void Start()
         {
@@ -58,12 +62,31 @@ namespace BuddyApp.Recipe
             mRecipe = iRecipe;
             aiBehaviour = iAiBehaviour;
             string lString = string.Empty;
+            int lTime = mRecipe.prep + mRecipe.cook;
 
+            if ((mTextToSay = mRecipe.summary) != null)
+            {
+                for (int i = 0; i < mTextToSay.Length; i++)
+                {
+                    if (mTextToSay[i] == '.' && i < mTextToSay.Length - 1)
+                        mTextToSay = mTextToSay.Insert(i + 1, "[800]");
+                }
+            }
+            recipeTitle.GetComponent<Text>().text = mRecipe.name.ToUpper();
             for(int i = 0; i < mRecipe.stars; i++) {
                 maskStars[i].GetComponent<Image>().sprite = fullStar;
                 stars[i].GetComponent<Image>().sprite = fullStar;
             }
-            maskTime.GetComponent<Text>().text = (mRecipe.prep + mRecipe.cook).ToString() + "MIN";
+            if ((lTime > 60))
+            {
+                maskTime.GetComponent<Text>().text = (lTime / 60).ToString() + "H" + (lTime % 60).ToString() + "MIN";
+                time.GetComponent<Text>().text = (lTime / 60).ToString() + "H" + (lTime % 60).ToString() + "MIN";
+            }
+            else
+            {
+                maskTime.GetComponent<Text>().text = (lTime).ToString() + "MIN";
+                time.GetComponent<Text>().text = (lTime).ToString() + "MIN";
+            }
             if (mRecipe.summary != null && mRecipe.summary.Length > 350)
                 maskText.GetComponent<Text>().text = mRecipe.summary.Substring(0, 347) + "...";
             else
@@ -81,7 +104,6 @@ namespace BuddyApp.Recipe
             }
             maskDetail.GetComponent<Text>().text = lString;
             image.GetComponent<RawImage>().texture = Resources.Load(mRecipe.illustration) as Texture;
-            time.GetComponent<Text>().text = (mRecipe.prep + mRecipe.cook).ToString() + "MIN";
             if (mRecipe.summary != null && mRecipe.summary.Length > 93)
                 text.GetComponent<Text>().text = mRecipe.summary.Substring(0, 90) + "...";
             else
@@ -92,11 +114,13 @@ namespace BuddyApp.Recipe
 
         private void RecipeInfo()
         {
+            string lText = mRecipe.summary;
+
             if (!open) {
                 open = !open;
                 GetComponent<Animator>().SetTrigger("Open_Recipe");
-                if (mRecipe.summary != null)
-                    mTTS.Say(mRecipe.summary);
+                if (mTextToSay != null)
+                    mTTS.Say(mTextToSay);
             }
             else {
                 open = !open;

@@ -16,12 +16,13 @@ namespace BuddyApp.Recipe
             GetGameObject(2).SetActive(true);
             GetComponent<RecipeBehaviour>().NoAnswerCount = 0;
             GetComponent<RecipeBehaviour>().RecipeNotFoundCount = 0;
+            GetComponent<RecipeBehaviour>().mRecipeList = null;
             mTTS.Say(mDictionary.GetString("askprepare"));
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (mTTS.HasFinishedTalking && !mVocalActivation.RecognitionTriggered)
+            if (mTTS.HasFinishedTalking && mSTT.HasFinished)
                 iAnimator.SetTrigger("QuestionFinished");
         }
 
