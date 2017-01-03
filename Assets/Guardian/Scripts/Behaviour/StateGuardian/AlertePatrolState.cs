@@ -18,7 +18,6 @@ namespace BuddyApp.Guardian
         private BuddyFeature.Web.MailSender mMailSender = null;
         private RGBCam mWebcam;
         private int mCountPhoto = 0;
-        private Face mFaceManager;
         private Mood mMood;
         private DetectionManager mDetectorManager;
 
@@ -48,7 +47,6 @@ namespace BuddyApp.Guardian
             mBackgroundPrefab.GetComponent<Canvas>().enabled = true;
             //animator.SetBool("HasAlerted", false);
             mTTS = BYOS.Instance.TextToSpeech;
-            mFaceManager = BYOS.Instance.Face;
             mMood = BYOS.Instance.Mood;
             mWebcam = BYOS.Instance.RGBCam;
             mDictionary = BYOS.Instance.Dictionary;
@@ -57,6 +55,7 @@ namespace BuddyApp.Guardian
             mHasAlerted = false;
             if (mMailSender == null)
                 mMailSender = new BuddyFeature.Web.MailSender("notif.buddy@gmail.com", "autruchemagiquebuddy", BuddyFeature.Web.SMTP.GMAIL);
+                //mMailSender = new BuddyFeature.Web.MailSender("buddy@bluefrogrobotics.com", "buddySend1Email", BuddyFeature.Web.SMTP.BFR);
             mIcoMessage.enabled = true;
             mCounterTime.SetActive(false);
             for (int i = 0; i < mHaloImages.Length; i++)
@@ -91,14 +90,16 @@ namespace BuddyApp.Guardian
 
             else if (!mHasSentNotification && mTimer<0.0f)
             {
-                //if (HasSavedProof())
-                //{
-                    if (mMailSender.CanSend)
-                        SendNotification();
-                    mHasSentNotification = true;
+                if (HasSavedProof())
+                {
+                //if (mMailSender.CanSend)
+                    SendNotification();
+
+                mHasSentNotification = true;
+                
                     Debug.Log("proof saved");
                 mTimer = 3.0f;
-                //}
+                }
             }
 
             else if (mTimer < 0.0f && mHasSentNotification)
@@ -328,6 +329,18 @@ namespace BuddyApp.Guardian
                 case GuardianData.Contact.MAUD:
                     mMailAdress = "mv@bluefrogrobotics.com";
                     Debug.Log("maud");
+                    break;
+                case GuardianData.Contact.FRANCK:
+                    mMailAdress = "fd@bluefrogrobotics.com";
+                    Debug.Log("franck");
+                    break;
+                case GuardianData.Contact.BENOIT:
+                    mMailAdress = "bp@bluefrogrobotics.com";
+                    Debug.Log("benoit");
+                    break;
+                case GuardianData.Contact.MARC:
+                    mMailAdress = "mg@bluefrogrobotics.com";
+                    Debug.Log("marc");
                     break;
                 default:
                     mMailAdress = "";

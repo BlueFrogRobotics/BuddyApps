@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RecipeList>
-  <recipe name="Crêpes Bretonnes" category="dessert" illustration="Crepes/illustration" person="6" prep="20" cook="10" stars="5" xml="crepes.xml">
-    <summary>A very classic recipe which, thanks to its quantity of eggs, requires no rest of the dough. It is a Breton friend who gave me her secrets ... In any case at home, these pancakes are never long.</summary>
-    <ingredient name="Flour" qantity="125" unit="g" icon="Recipe_Ico_Farine"/>
-    <ingredient name="Eggs" qantity="4" icon="Recipe_Ico_Oeuf"/>
-    <ingredient name="Butter" qantity="30" unit="g" icon="Recipe_Ico_Beurre"/>
-    <ingredient name="Salt" qantity="5" unit="g" icon="Recipe_Ico_Sel"/>
-    <ingredient name="Milk" qantity="30" unit="Cl" icon="Recipe_Ico_Lait"/>
-    <ingredient name="Water" qantity="2" unit="Spoon"/>
-    <ingredient name="Rum or other ..." qantity="2" unit="Spoon" icon="Recipe_Ico_Rhum"/>
+  <recipe name="breton pancakes" category="dessert" illustration="Crepes/illustration" person="6" prep="20" cook="10" stars="5" xml="crepes.xml">
+    <summary>A very classic recipe which, thanks to its quantity of eggs, requires no rest of the dough. It is a Breton friend who gave me her secrets. In any case at home, these pancakes are never long.</summary>
+    <ingredient name="Flour" qantity="125" unit="grams" icon="Recipe_Ico_Farine"/>
+    <ingredient name="Egg" qantity="4" icon="Recipe_Ico_Oeuf"/>
+    <ingredient name="Butter" qantity="30" unit="grams" icon="Recipe_Ico_Beurre"/>
+    <ingredient name="Salt" qantity="5" unit="grams" icon="Recipe_Ico_Sel"/>
+    <ingredient name="Milk" qantity="30" unit="centiliter" icon="Recipe_Ico_Lait"/>
+    <ingredient name="Water" qantity="2" unit="tablespoon"/>
+    <ingredient name="Rum or other" qantity="2" unit="teaspoon" icon="Recipe_Ico_Rhum"/>
     <step>
       <media>Crepes/step0</media>
       <sentence>To make this recipe for sugar crepes, start by preparing all the ingredients.</sentence>
@@ -32,12 +32,12 @@
   </recipe>
   <recipe name="cake courgettes feta" category="entrée" illustration="CakeCourgettesFeta/illustration" person="6" prep="35" cook="40" stars="5" xml="cake_courgettes_feta.xml">
     <ingredient name="Small courgette" quantity="2"/>
-    <ingredient name="Feta cheese" quantity="150" unit="g"/>
+    <ingredient name="Feta cheese" quantity="150" unit="grams"/>
     <ingredient name="Greek yoghurt" quantity="1"/>
-    <ingredient name="Flour" quantity="200" unit="g" icon="Recipe_Ico_Farine"/>
+    <ingredient name="Flour" quantity="200" unit="grams" icon="Recipe_Ico_Farine"/>
     <ingredient name="Egg" quantity="3" icon="Recipe_Ico_Oeuf"/>
     <ingredient name="Chemical yeast" quantity="1" unit="bag"/>
-    <ingredient name="Oil" quantity="10" unit="Cl" icon="Recipe_Ico_Huile"/>
+    <ingredient name="Oil" quantity="10" unit="centiliter" icon="Recipe_Ico_Huile"/>
     <ingredient name="Salt" icon="Recipe_Ico_Sel"/>
     <ingredient name="Pepper"/>
     <step>
@@ -89,17 +89,17 @@
       <sentence>Bake for 40 minutes at 180 degrees celsius. Check the cooking with the blade of a knife, it must come out dry. Let cool before unmolding.</sentence>
     </step>
   </recipe>
-  <recipe name="Merlu Escabeche" category="plat" illustration="MerluEscabeche/illustration" person="2" prep="50" stars="4" xml="MerluEscabeche.xml">
+  <recipe name="hake escabeche" category="plat" illustration="MerluEscabeche/illustration" person="2" prep="50" stars="4" xml="MerluEscabeche.xml">
     <summary>Escabeche is an ideal method for preparing fish. It is a marinade made from vinegar that can be seasoned to taste and that will do wonder for sardine or mackerel fillets.</summary>
     <ingredient name="Hake of line" qantity="1"/>
-    <ingredient name="Olive oil" qantity="10" unit="Cl" icon="Recipe_Ico_Huile"/>
-    <ingredient name="Red pepper" qantity="1" unit="Spoon"/>
+    <ingredient name="Olive oil" qantity="10" unit="centiliter" icon="Recipe_Ico_Huile"/>
+    <ingredient name="Red pepper" qantity="1" unit="spoonful"/>
     <ingredient name="Cumin" qantity="1" unit="Pinch"/>
     <ingredient name="Clove garlic" qantity="1"/>
-    <ingredient name="Vinegar" qantity="1/4" unit="Cup"/>
-    <ingredient name="Leaves of laurel" qantity="2 ou 3"/>
+    <ingredient name="Vinegar" qantity="7" unit="centiliter"/>
+    <ingredient name="Leaves of laurel" qantity="2"/>
     <ingredient name="Bouquet of parsley" qantity="1"/>
-    <ingredient name="Tomato puree" qantity="2 ou 3" unit="Spoon"/>
+    <ingredient name="Tomato puree" qantity="2" unit="spoonful"/>
     <ingredient name="Salt" icon="Recipe_Ico_Sel"/>
     <ingredient name="Pepper" icon="Recipe_Ico_Sel"/>
     <step>
@@ -128,7 +128,7 @@
     </step>
     <step>
       <media>MerluEscabeche/step6</media>
-      <sentence>Bake in a hot oven, 180 ° C for about 20 minutes.</sentence>
+      <sentence>Bake in a hot oven, 180 degrees celsius for about 20 minutes.</sentence>
     </step>
     <step>
       <media>MerluEscabeche/step7</media>
@@ -140,7 +140,7 @@
     </step>
     <step>
       <media>MerluEscabeche/step9</media>
-      <sentence>In a pan with non-stick coating, heat 5 cl of olive oil.</sentence>
+      <sentence>In a pan with non-stick coating, heat 5 centiliters of olive oil.</sentence>
     </step>
     <step>
       <media>MerluEscabeche/step10</media>
@@ -211,14 +211,14 @@
       <sentence>Serve warm. Enjoy your meal!</sentence>
     </step>
   </recipe>
-  <recipe name="Salade Piemonataise" category="entrée" illustration="Piemontaise/illustration" person="4" prep="45" stars="5" xml="SaladePiemontaise.xml">
-    <summary>Impossible to miss the Piedmont salad! This great classic of French cuisine, however, as its name suggests, originated in Italy. It takes its name from the region of north-western Italy called Piedmont. Today this unctuous mixture of tomatoes, potatoes, eggs, pickles and ham, all closely linked by a gourmet mayonnaise is present everywhere: in caterers, in small and large restaurants, in bistros ... A complete recipe to success that has managed to settle permanently to the menu of French gastronomy.</summary>
-    <ingredient name="Fresh tomatoes" qantity="400" unit="g"/>
-    <ingredient name="Charlotte-style firm-fleshed potatoes" qantity="600" unit="g"/>
+  <recipe name="piedmontese salad" category="entrée" illustration="Piemontaise/illustration" person="4" prep="45" stars="5" xml="SaladePiemontaise.xml">
+    <summary>Impossible to miss the Piedmont salad! This great classic of French cuisine, however, as its name suggests, originated in Italy. It takes its name from the region of north-western Italy called Piedmont. Today this unctuous mixture of tomatoes, potatoes, eggs, pickles and ham, all closely linked by a gourmet mayonnaise is present everywhere: in caterers, in small and large restaurants, in bistros, et cetera. A complete recipe to success that has managed to settle permanently to the menu of French gastronomy.</summary>
+    <ingredient name="Fresh tomato" qantity="400" unit="grams"/>
+    <ingredient name="Charlotte-style firm-fleshed potato" qantity="600" unit="grams"/>
     <ingredient name="Egg" qantity="3" icon="Recipe_Ico_Oeuf"/>
-    <ingredient name="Pickles with vinegar" qantity="8"/>
-    <ingredient name="Mayonnaise" qantity="150" unit="g"/>
-    <ingredient name="Ham" qantity="200" unit="g"/>
+    <ingredient name="Pickle with vinegar" qantity="8"/>
+    <ingredient name="Mayonnaise" qantity="150" unit="grams"/>
+    <ingredient name="Ham" qantity="200" unit="grams"/>
     <ingredient name="Salt" icon="Recipe_Ico_Sel"/>
     <ingredient name="Pepper" icon="Recipe_Ico_Sel"/>
     <step>
@@ -274,30 +274,30 @@
       <sentence>To be enjoyed the same day! Have a good meal!</sentence>
     </step>
   </recipe>
-  <recipe name="Boeuf Carottes" category="plat" illustration="BoeufCarottes/illustration" person="8" prep="30" cook="5h" stars="5" xml="BoeufCarottes.xml">
+  <recipe name="beef carrots" category="plat" illustration="BoeufCarottes/illustration" person="8" prep="30" cook="5h" stars="5" xml="BoeufCarottes.xml">
     <summary>An inescapable classic that every good cook must know how to do! The longer and slower the cooking, the better the result.</summary>
-    <ingredient name="Meat of beef (paleron, collar, scoter ...)" qantity="1,5" unit="Kg"/>
-    <ingredient name="Red wine from South West" qantity="1" unit="Bottle" icon="Recipe_Ico_Rhum"/>
-    <ingredient name="Carrots" qantity="2"/>
+    <ingredient name="Meat of beef" qantity="1.5" unit="kilograms"/>
+    <ingredient name="Red wine from South West" qantity="1" unit="bottle" icon="Recipe_Ico_Rhum"/>
+    <ingredient name="Carrot" qantity="2"/>
     <ingredient name="Onion" qantity="1"/>
     <ingredient name="Clove garlic" qantity="1"/>
-    <ingredient name="Fresh carrots" qantity="1" unit="Bunch"/>
+    <ingredient name="Fresh carrots" qantity="1" unit="bunch"/>
     <ingredient name="Bouquet garni" qantity="1"/>
-    <ingredient name="Oil" qantity="1" icon="Recipe_Ico_Huile"/>
-    <ingredient name="Butter" qantity="1" icon="Recipe_Ico_Beurre"/>
-    <ingredient name="Smoked pork breast" qantity="1"/>
+    <ingredient name="Oil" icon="Recipe_Ico_Huile"/>
+    <ingredient name="Butter" icon="Recipe_Ico_Beurre"/>
+    <ingredient name="Smoked pork breast"/>
     <ingredient name="Wholesale salt" icon="Recipe_Ico_Sel"/>
     <ingredient name="Pepper" icon="Recipe_Ico_Sel"/>
     <ingredient name="Parsley"/>
-    <ingredient name="Water" qantity="1" unit="L"/>
-    <ingredient name="Veal stock in flakes" qantity="40" unit="g"/>
+    <ingredient name="Water" qantity="1" unit="liter"/>
+    <ingredient name="Veal stock in flakes" qantity="40" unit="grams"/>
     <step>
       <media>BoeufCarottes/step0</media>
       <sentence>To make this recipe for beef carrots, start by preparing all the ingredients.</sentence>
     </step>
     <step>
       <media>BoeufCarottes/step1</media>
-      <sentence>After having covered it with coarse salt on both sides, place the paleron on a plate. Leave the meat in the coarse salt 1/2 hour. This allows the meat to be seasoned, to help cooking and to keep it.</sentence>
+      <sentence>After having covered it with coarse salt on both sides, place the paleron on a plate. Leave the meat in the coarse salt half an hour. This allows the meat to be seasoned, to help cooking and to keep it.</sentence>
     </step>
     <step>
       <media>BoeufCarottes/step2</media>
@@ -321,7 +321,7 @@
     </step>
     <step>
       <media>BoeufCarottes/step7</media>
-      <sentence>After 1/2 hour, rinse the palate with clear water.</sentence>
+      <sentence>After half an hour, rinse the palate with clear water.</sentence>
     </step>
     <step>
       <media>BoeufCarottes/step8</media>
@@ -357,7 +357,7 @@
     </step>
     <step>
       <media>BoeufCarottes/step16</media>
-      <sentence>While the flavorings are coming back, put the baker in a hot oven at 200 ° C for 30 minutes.</sentence>
+      <sentence>While the flavorings are coming back, put the baker in a hot oven at 200 degrees celsius for 30 minutes.</sentence>
     </step>
     <step>
       <media>BoeufCarottes/step17</media>
@@ -397,11 +397,11 @@
     </step>
     <step>
       <media>BoeufCarottes/step26</media>
-      <sentence>Put the lid and bake the casserole in a hot oven 200 ° C for 1 hour.</sentence>
+      <sentence>Put the lid and bake the casserole in a hot oven 200 degrees celsius for 1 hour.</sentence>
     </step>
     <step>
       <media>BoeufCarottes/step27</media>
-      <sentence>he beef carrots cooked for 1 hour at 200 ° C and 5 hours at 120 ° C. During this last cooking phase, the dish must be taken out of the oven three times to turn the beef and water it.</sentence>
+      <sentence>he beef carrots cooked for 1 hour at 200 degrees celsius and 5 hours at 120 degrees celsius. During this last cooking phase, the dish must be taken out of the oven three times to turn the beef and water it.</sentence>
     </step>
     <step>
       <media>BoeufCarottes/step28</media>
@@ -469,7 +469,7 @@
     </step>
     <step>
       <media>BoeufCarottes/step44</media>
-      <sentence>Pass the casserole in the oven without covering it and without watering in any way the caramelized part of the pieces of meat, so that it remains crisp. And cook for 20 minutes at 150 ° C.</sentence>
+      <sentence>Pass the casserole in the oven without covering it and without watering in any way the caramelized part of the pieces of meat, so that it remains crisp. And cook for 20 minutes at 150 degrees celsius.</sentence>
     </step>
     <step>
       <media>BoeufCarottes/step45</media>
@@ -524,12 +524,12 @@
   </recipe>
   <recipe name="Tarte Tatin" category="dessert" illustration="TarteTatin/illustration" person="8" prep="75" stars="5" xml="TarteTatin.xml">
     <summary>Here is the story without a top of a caramelized apple pie of legend, which is cooked upside down but is eaten at the place. Originally from Sologne in the 19th century, Tarte Tatin owes its name to two sisters: Caroline and Stéphanie Tatin. According to the versions, the legend says that the recipe would be the result of an awkwardness (the pie would have been reversed and then cooked upside down), an oversight (the apples would have cooked too long) or would simply be the reproduction of A former Solognote specialty. However, the victim of its success, it exported to Paris in 1926. Served for the first time in the restaurant Maxim's, it has since become a classic French tables!</summary>
-    <ingredient name="Apples" qantity="8 to 10"/>
-    <ingredient name="Butter" qantity="150" unit="g" icon="Recipe_Ico_Beurre"/>
-    <ingredient name="Granulated sugar" qantity="150" unit="g" icon="Recipe_Ico_Farine"/>
-    <ingredient name="Pastry" qantity="200" unit="g"/>
-    <ingredient name="Fresh cream or vanilla ice cream" qantity="100" unit="g"/>
-    <ingredient name="Ground cinnamon (optional)" qantity="Pinch"/>
+    <ingredient name="Apple" qantity="8"/>
+    <ingredient name="Butter" qantity="150" unit="grams" icon="Recipe_Ico_Beurre"/>
+    <ingredient name="Granulated sugar" qantity="150" unit="grams" icon="Recipe_Ico_Farine"/>
+    <ingredient name="Pastry" qantity="200" unit="grams"/>
+    <ingredient name="Fresh cream or vanilla ice cream" qantity="100" unit="grams"/>
+    <ingredient name="Ground cinnamon(optional)" qantity="pinch"/>
     <step>
       <media>TarteTatin/step0</media>
       <sentence>To make this recipe for tart tatin, start by preparing all the ingredients.</sentence>
@@ -568,7 +568,7 @@
     </step>
     <step>
       <media>TarteTatin/step9</media>
-      <sentence>Leave to color the caramel according to your convenience (more or less clear). Remove from fire.</sentence>
+      <sentence>Leave to color the caramel according to your convenience(more or less clear). Remove from fire.</sentence>
     </step>
     <step>
       <media>TarteTatin/step10</media>
@@ -576,7 +576,7 @@
     </step>
     <step>
       <media>TarteTatin/step11</media>
-      <sentence>Then wedge them against each other. Thoroughly clamp them together. Think they will reduce to cooking! If apples remain, prune them into smaller pieces and arrange them on top. Add cinnamon (optional).</sentence>
+      <sentence>Then wedge them against each other. Thoroughly clamp them together. Think they will reduce to cooking! If apples remain, prune them into smaller pieces and arrange them on top. Add cinnamon(optional).</sentence>
     </step>
     <step>
       <media>TarteTatin/step12</media>
@@ -592,7 +592,7 @@
     </step>
     <step>
       <media>TarteTatin/step15</media>
-      <sentence>To make sure of the size of the dough disc, here I use a pie circle that is slightly larger (2 to 3 cm on each side) than the tatin tart mold, and I cut the dough all around.</sentence>
+      <sentence>To make sure of the size of the dough disc, here I use a pie circle that is slightly larger(2 to 3 cm on each side) than the tatin tart mold, and I cut the dough all around.</sentence>
     </step>
     <step>
       <media>TarteTatin/step16</media>
@@ -604,7 +604,7 @@
     </step>
     <step>
       <media>TarteTatin/step18</media>
-      <sentence>Press with the palms of the hands to make the apple paste adhere well (without drilling) and arrange the apples in the bottom of the mold.</sentence>
+      <sentence>Press with the palms of the hands to make the apple paste adhere well(without drilling) and arrange the apples in the bottom of the mold.</sentence>
     </step>
     <step>
       <media>TarteTatin/step19</media>
@@ -612,7 +612,7 @@
     </step>
     <step>
       <media>TarteTatin/step20</media>
-      <sentence>Bake in a hot oven (180-200 ° C) until the dough is fully cooked. The dough is cooked and the caramel begins to rise on the sides. After cooking, remove the mold from the oven.</sentence>
+      <sentence>Bake in a hot oven(180 to 200 degrees celsius) until the dough is fully cooked. The dough is cooked and the caramel begins to rise on the sides. After cooking, remove the mold from the oven.</sentence>
     </step>
     <step>
       <media>TarteTatin/step21</media>

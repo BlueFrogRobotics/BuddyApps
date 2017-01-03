@@ -109,7 +109,7 @@ namespace BuddyApp.Guardian
                 //mPreviousFrame = mCam.FrameMat.clone();
             }
             mBufferVideo = new Queue<Mat>();
-            mMaxBufferSize = 30.0f * 10.0f;
+            mMaxBufferSize = 30.0f * 4.0f;
         }
         // Update is called once per frame
         protected override void ProcessFrameImpl(Mat iInputFrameMat, Texture2D iInputFrameTexture)

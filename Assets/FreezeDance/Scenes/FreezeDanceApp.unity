@@ -537,7 +537,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Tutoriel
+  m_Text: Tutorial
 --- !u!222 &255372028
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -554,6 +554,7 @@ GameObject:
   - 4: {fileID: 281918866}
   - 114: {fileID: 281918865}
   - 82: {fileID: 281918867}
+  - 114: {fileID: 281918868}
   m_Layer: 0
   m_Name: Behave
   m_TagString: Untagged
@@ -671,6 +672,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &281918868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 281918864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1065c323d3b246c40aead2f15b51c820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &314112177
 GameObject:
   m_ObjectHideFlags: 0
@@ -1365,7 +1377,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Attention ne bouge plus !
+  m_Text: DON'T MOVE!
 --- !u!222 &538386439
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1421,7 +1433,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handleOutputTexture: 1
   isMoving: 0
-  mDebugRawImg: {fileID: 0}
 --- !u!114 &576461978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2753,7 +2764,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quitter
+  m_Text: Quit
 --- !u!222 &1047685365
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3056,9 +3067,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11497462, guid: 5f55f97f05bb3df40865d2898b7dffc3, type: 2}
       propertyPath: m_Text
-      value: 'VEUX-TU REJOUER ?
-
-'
+      value: DO YOU WANT TO PLAY AGAIN?
       objectReference: {fileID: 0}
     - target: {fileID: 11497394, guid: 5f55f97f05bb3df40865d2898b7dffc3, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -4163,7 +4172,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1575309670}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 281918868}
+        m_MethodName: QuitApplication
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1575309670
@@ -4648,7 +4668,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Jouer
+  m_Text: Start
 --- !u!222 &2093918047
 CanvasRenderer:
   m_ObjectHideFlags: 0

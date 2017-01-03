@@ -174,7 +174,7 @@ namespace BuddyApp.Guardian
         {
             if (mWillQuit)
             {
-                new UnLoadAppCmd().Execute();
+                new HomeCmd().Execute();
                 mWillQuit = false;
             }
             //Debug.Log("is active: "+mGuardianData.FireDetectionIsActive);

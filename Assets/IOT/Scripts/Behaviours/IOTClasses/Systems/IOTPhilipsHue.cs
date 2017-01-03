@@ -60,11 +60,17 @@ namespace BuddyApp.IOT
         public override void GetDevices()
         {
             Request lRequest = new Request("GET", "http://" + Credentials[0] + "/api/" + Credentials[1] + "/lights");
-            lRequest.Send((request) =>
+            mDevices.Clear();
+            lRequest.Send((lResult) =>
             {
-                Hashtable lResult = request.response.Object;
-                mDevices.Clear();
-                for(int i = 0; i < lResult.Count; ++i)
+                if (lResult == null || lResult.response == null)
+                {
+                    Debug.LogError("Couldn't connect to Philips HUE");
+                    mAvailable = false;
+                    return;
+                }
+                Hashtable lObjects = lResult.response.Object;
+                for(int i = 0; i < lObjects.Count; ++i)
                     mDevices.Add(new IOTPhilipsLightHUE());
                 for (int i = 0; i < mDevices.Count; ++i)
                 {
@@ -77,10 +83,6 @@ namespace BuddyApp.IOT
                 }
 
                 GetAllValues();
-                if (lResult == null)
-                {
-                    return;
-                }
             });
         }
 

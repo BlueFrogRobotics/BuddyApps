@@ -107,7 +107,7 @@ namespace BuddyApp.IOT
         [System.NonSerialized]
         protected string mSessionID;
 
-        public IOTSomfyDevice() : base() { }
+        public IOTSomfyDevice() : base() { mAvailable = available; }
 
         public IOTSomfyDevice(IOTSomfyDevice iObject) : base()
         {
@@ -129,6 +129,8 @@ namespace BuddyApp.IOT
                 type = iObject.type;
                 oid = iObject.oid;
                 uiClass = iObject.uiClass;
+
+                mAvailable = available;
             }
         }
 
@@ -139,7 +141,7 @@ namespace BuddyApp.IOT
 
             IOTSomfyActionCommandsJSON[] lCommands = new IOTSomfyActionCommandsJSON[1];
             
-            if(iParams.Length > 0)
+            if(iParams != null && iParams.Length > 0)
                 Debug.Log(iParams[0]);
             lCommands[0] = new IOTSomfyActionCommandsJSON(1, iCommand, iParams);
 
@@ -147,7 +149,7 @@ namespace BuddyApp.IOT
             lApply[0] = new IOTSomfyActionJSON(deviceURL, lCommands);
 
             IOTSomfyJSONApply lJson = new IOTSomfyJSONApply(creationTime, lastUpdateTime, "switchAction", lApply);
-            Debug.Log(JsonUtility.ToJson(lJson));
+
             Request lRequest = new Request("POST", lUrl, Encoding.Default.GetBytes(JsonUtility.ToJson(lJson)));
             lRequest.cookieJar = null;
             lRequest.SetHeader("cookie", mSessionID);

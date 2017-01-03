@@ -107,6 +107,9 @@ namespace BuddyApp.Guardian
             contactList.AddOption("RODOLPHE HASSELVANDER", GuardianData.Contact.RODOLPHE);
             contactList.AddOption("JEAN MICHEL MOURIER", GuardianData.Contact.J2M);
             contactList.AddOption("MAUD VERRAES", GuardianData.Contact.MAUD);
+            contactList.AddOption("BENOIT PIRONNET", GuardianData.Contact.BENOIT);
+            contactList.AddOption("MARC GOURLAN", GuardianData.Contact.MARC);
+            contactList.AddOption("FRANCK DE VISME", GuardianData.Contact.FRANCK);
             contactList.AddOption("WALID ABDERRAHMANI", GuardianData.Contact.WALID);
             contactList.SetDefault(1);
             contactList.SetDefault(0);

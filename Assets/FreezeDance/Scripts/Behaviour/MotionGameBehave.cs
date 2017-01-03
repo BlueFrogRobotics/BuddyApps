@@ -111,7 +111,7 @@ namespace BuddyApp.FreezeDance
                 mIsOnGame = false;
                 if (!mSayOnce) {
                     mFace.SetExpression(MoodType.HAPPY);
-                    mTTS.Say("Bravo, Tu a gagné");
+                    mTTS.Say("Good job, you won");
                     pauseScreenText.SetActive(false);
                     victoryAnim.SetBool("victory", true);
                     StartCoroutine(RestartYESNO());
@@ -124,7 +124,7 @@ namespace BuddyApp.FreezeDance
             if (mIsSad) {
                 mIsOnGame = false;
                 if (!mSayOnce) {
-                    mTTS.Say("tu a perdu! dommage!");
+                    mTTS.Say("Oh you lost, try again!");
                     pauseScreenText.SetActive(false);
                     defeat.SetActive(true);
                     defeatAnim.SetTrigger("Open");
@@ -178,7 +178,7 @@ namespace BuddyApp.FreezeDance
         {
             mIsOccupied = true;
             mFace.SetExpression(MoodType.THINKING);
-            mTTS.Say("Pourquoi tu ne bouge pas?");
+            mTTS.Say("Why don't you move?");
             yield return new WaitForSeconds(2F);
             mIsOccupied = false;
         }

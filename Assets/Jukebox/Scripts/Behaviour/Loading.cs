@@ -14,6 +14,9 @@ namespace BuddyApp.Jukebox
         [SerializeField]
         private GameObject startScreen;
 
+        [SerializeField]
+        private Animator animatorMusic;
+
         // Use this for initialization
         void Start()
         {
@@ -30,6 +33,7 @@ namespace BuddyApp.Jukebox
             //animator.SetBool("Close_WLoading", true);
             //yield return new WaitForSeconds(1F);
             animator.SetTrigger("Close_WLoading");
+            animatorMusic.SetTrigger("Open_WJukebox");
             loadingScreen.SetActive(false);
         }
     }

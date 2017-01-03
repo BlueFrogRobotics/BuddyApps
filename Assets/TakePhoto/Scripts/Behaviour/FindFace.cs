@@ -5,10 +5,10 @@ using BuddyFeature.Vision;
 using BuddyOS;
 using System.Collections.Generic;
 using OpenCVUnity;
+using UnityEngine.UI;
 
 namespace BuddyApp.TakePhoto
 {
-	[RequireComponent(typeof(FaceCascadeTracker))]
 	public class FindFace : AStateMachineBehaviour
 	{
 
@@ -26,19 +26,25 @@ namespace BuddyApp.TakePhoto
 
 		private FaceCascadeTracker mFaceTracker;
 		private List<OpenCVUnity.Rect> mTrackedObjects;
+		private RawImage mImageTrack;
+		private Canvas mCanvasPhoto;
 
 		public override void Init()
 		{
+			mCanvasPhoto = GetComponentInGameObject<Canvas>(1);
+			mImageTrack = GetComponentInGameObject<RawImage>(5);
 			BYOS.Instance.VocalActivation.enabled = false;
 			mSearchTimer = 0.0f;
+			mRGBCam.Resolution = RGBCamResolution.W_320_H_240;
 		}
 
 		protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mFaceTracker = GetComponent<FaceCascadeTracker>();
+			mCanvasPhoto.gameObject.SetActive(true);
 			mFollowFace = false;
 			mSearchStep = 1;
 			mRGBCam = BYOS.Instance.RGBCam;
-			mFaceTracker = GetComponent<FaceCascadeTracker>();
 
 			mTTS.SayKey("look4face");
 
@@ -48,6 +54,8 @@ namespace BuddyApp.TakePhoto
 
 		protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+			mImageTrack.texture = mFaceTracker.FrameTexture2D;
 			if (mFollowFace) {
 				// Center the face before escape
 				mTrackedObjects = mFaceTracker.TrackedObjects;
@@ -136,6 +144,10 @@ namespace BuddyApp.TakePhoto
 
 		protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+
+			mCanvasPhoto.gameObject.SetActive(false);
+
 		}
 	}
 }

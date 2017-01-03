@@ -53,7 +53,7 @@ namespace BuddyApp.HideAndSeek
 
         public void QuitApplication()
         {
-            new UnLoadAppCmd().Execute();
+            new HomeCmd().Execute();
         }
     }
 }

@@ -13,13 +13,16 @@
     léve/monte/ouvre/open
   </iot_action>
   <iot_action action="4" parameters="true">
-    change/met/set/put
+    change/set/put
   </iot_action>
   <iot_action action="5" parameters="false">
     augmente/increase
   </iot_action>
   <iot_action action="6" parameters="false">
     décrémente/baisse/decrease
+  </iot_action>
+  <iot_action action="7" parameters="false">
+    what/quel/donne/give/tell/dis
   </iot_action>
   <iot_parameters number="0">
     blanc/white
@@ -46,6 +49,6 @@
     connecter/connecté/connect
   </iot_connect>
   <iot_account>
-    what
+    account/compte
   </iot_account>
 </iot>
