@@ -37,17 +37,17 @@ namespace BuddyApp.IOT
             base.InitializeParams();
             GameObject lOnOff = InstanciateParam(ParamType.ONOFF);
             OnOff lOnOffComponent = lOnOff.GetComponent<OnOff>();
-            //GameObject lName = InstanciateParam(ParamType.TEXTFIELD);
-            //TextField lNameComponent = lName.GetComponent<TextField>();
+            GameObject lName = InstanciateParam(ParamType.TEXTFIELD);
+            TextField lNameComponent = lName.GetComponent<TextField>();
 
             lOnOffComponent.Label.text = "ON/OFF";
+            lOnOffComponent.IsActive = states[1].value == "on" ? true : false;
             IOTOnOffCmd lCmdOnOff = new IOTOnOffCmd(this);
             lOnOffComponent.SwitchCommands.Add(lCmdOnOff);
 
-            //lNameComponent.Label.text = "NAME";
-            //lNameComponent.Label.resizeTextForBestFit = true;
-            //IOTChangeNameCmd lCmdChangeName = new IOTChangeNameCmd(this);
-            //lNameComponent.UpdateCommands.Add(lCmdChangeName);
+            lNameComponent.Label.text = "NAME";
+            IOTChangeNameCmd lCmdChangeName = new IOTChangeNameCmd(this);
+            lNameComponent.UpdateCommands.Add(lCmdChangeName);
         }
 
         public override void OnOff(bool iOnOff)

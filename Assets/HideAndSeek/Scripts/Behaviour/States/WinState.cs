@@ -7,7 +7,9 @@ namespace BuddyApp.HideAndSeek
 {
     public class WinState : AStateMachineBehaviour
     {
+        private bool mHasLaughed = false;
         private bool mHasTalked = false;
+        float mTimer = 0.0f;
 
         public override void Init()
         {
@@ -17,17 +19,29 @@ namespace BuddyApp.HideAndSeek
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mHasTalked = false;
+            mHasLaughed = false;
             mMood.Set(MoodType.HAPPY);
+            mTimer = 0.0f;
             //mFace.SetExpression(MoodType.HAPPY);
-            
+
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mHasTalked && mTTS.HasFinishedTalking)
+            mTimer += Time.deltaTime;
+
+            if (!mHasLaughed && mTTS.HasFinishedTalking)
             {
-                mTTS.Say(mDictionary.GetString("win"));//"J'ai gagné");
+                mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_5);
+                
+                mHasLaughed = true;
+                mTimer = 0.0f;
+            }
+
+            else if(mTimer>1.5f && mHasLaughed && !mHasTalked)
+            {
                 mHasTalked = true;
+                mTTS.Say(mDictionary.GetString("win"));//"J'ai gagné");
             }
         }
 

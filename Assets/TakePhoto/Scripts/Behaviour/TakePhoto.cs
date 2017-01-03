@@ -44,6 +44,8 @@ namespace BuddyApp.TakePhoto
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
+			// To fix
+			mRGBCam.Resolution = RGBCamResolution.W_640_H_480;
 			mTimer = 0f;
 			mSpeechId = 0;
 			mNeedExit = false;
@@ -71,13 +73,16 @@ namespace BuddyApp.TakePhoto
 
 			Debug.Log("TakePhoto 2");
 			mVideo.texture = mRGBCam.FrameTexture2D;
+			Debug.Log("TakePhoto 3");
 		}
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 		protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			if (!mNeedExit) {
+				Debug.Log("update 0");
 				mVideo.texture = mRGBCam.FrameTexture2D;
+				Debug.Log("update1");
 			}
 			if (mTTS.HasFinishedTalking) {
 
@@ -145,6 +150,8 @@ namespace BuddyApp.TakePhoto
 		protected override void OnExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			Debug.Log("State exit");
+
+			mRGBCam.Resolution = RGBCamResolution.W_320_H_240;
 			mCanvasPhoto.gameObject.SetActive(false);
 			if (mRGBCam.IsOpen) {
 				mRGBCam.Close();

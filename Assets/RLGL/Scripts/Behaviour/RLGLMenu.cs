@@ -23,6 +23,7 @@ namespace BuddyApp.RLGL
 
         private TextToSpeech mTTS;
         private Wheels mWheels;
+        private Face mFace;
 
         private bool mIsQuestionDone;
         private bool mIsMovementDone;
@@ -52,7 +53,7 @@ namespace BuddyApp.RLGL
         // Use this for initialization
         void Start()
         {
-            
+            mFace = BYOS.Instance.Face;
             BYOS.Instance.VocalActivation.enabled = false;
             mNeedListen = true;
             mTTS = BYOS.Instance.TextToSpeech;
@@ -113,6 +114,7 @@ namespace BuddyApp.RLGL
                 }
                 if(mIsCanvasDisable && !mIsFirstSentenceDone && mTimer > 0.5F)
                 {
+                    mFace.SetExpression(MoodType.NEUTRAL);
                     mTTS.Say("Oh yes I love this game!");
                     mIsFirstSentenceDone = true;
                     mTimer = 0.0F;
@@ -129,7 +131,7 @@ namespace BuddyApp.RLGL
                         mTimer = 0.0F;
                     }
                     Debug.Log(mWheels.Status);
-                    if((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 0.1F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 0.5F))
+                    if((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 0.5F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 0.5F))
                     {
                         mIsFirstMovementDone = true;
                         mIsDone = false;
@@ -146,7 +148,7 @@ namespace BuddyApp.RLGL
                         mIsDone = true;
                     }
                     Debug.Log(mWheels.Status);
-                    if ((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 0.1F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 0.5F))
+                    if ((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 0.5F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 0.5F))
                     {
                         mIsSecondMovementDone = true;
                         mIsDone = false;
@@ -165,7 +167,7 @@ namespace BuddyApp.RLGL
                         mIsDone = true;
                     }
                     Debug.Log(mWheels.Status);
-                    if ((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 0.1F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 0.5F))
+                    if ((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 0.5F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 0.5F))
                     {
                         mIsMovementDone = true;
                         mIsDone = false;

@@ -46,6 +46,9 @@ namespace BuddyApp.Guardian
             RODOLPHE,
             J2M,
             MAUD,
+            FRANCK,
+            MARC,
+            BENOIT,
             WALID
         }
 

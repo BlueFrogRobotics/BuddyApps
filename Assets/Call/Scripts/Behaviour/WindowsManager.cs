@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using BuddyOS.Command;
 
 namespace BuddyApp.Call
 {
@@ -48,6 +49,11 @@ namespace BuddyApp.Call
 
             mIncomingCallHandled = false;
             callAnimator.SetTrigger("Close_WCall");
+        }
+
+        public void CloseApp()
+        {
+            new HomeCmd().Execute();
         }
     }
 }

@@ -49,6 +49,9 @@ namespace BuddyApp.Guardian
             lDropDownContact.AddOption("RODOLPHE HASSELVANDER", GuardianData.Contact.RODOLPHE);
             lDropDownContact.AddOption("JEAN MICHEL MOURIER", GuardianData.Contact.J2M);
             lDropDownContact.AddOption("MAUD VERRAES", GuardianData.Contact.MAUD);
+            lDropDownContact.AddOption("BENOIT PIRONNET", GuardianData.Contact.BENOIT);
+            lDropDownContact.AddOption("MARC GOURLAN", GuardianData.Contact.MARC);
+            lDropDownContact.AddOption("FRANCK DE VISME", GuardianData.Contact.FRANCK);
             lDropDownContact.AddOption("WALID ABDERRAHMANI", GuardianData.Contact.WALID);
             lDropDownContact.SetDefault(1);
             lDropDownContact.SetDefault(0);

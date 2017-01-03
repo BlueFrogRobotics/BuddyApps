@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-
+using BuddyOS;
 
 namespace BuddyApp.Memory
 {
@@ -23,8 +23,21 @@ namespace BuddyApp.Memory
 
 		float mRandomMoveTimer;
 		float mRandomMoveTimerLimit;
-		private bool mHeadMotion;
+		private bool mBuddyMotion;
 		private float mOriginHeadPos;
+		private float mOriginRobotAngle;
+
+		public enum BuddyMotion : int
+		{
+			HEAD_LEFT,
+			HEAD_RIGHT,
+			HEAD_DOWN,
+			HEAD_UP,
+			WHEEL_LEFT,
+			WHEEL_RIGHT,
+			WHEEL_BACK,
+			WHEEL_FORWARD
+		}
 
 		public override void Init()
 		{
@@ -101,10 +114,11 @@ namespace BuddyApp.Memory
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			mHeadMotion = false;
+			mBuddyMotion = false;
 			Debug.Log("Player's turn");
-			mNoHinge.SetPosition(0.0f);
 			mOriginHeadPos = 0.0f;
+			mNoHinge.SetPosition(mOriginHeadPos);
+			mOriginRobotAngle = mWheels.Odometry.z;
 			InitGuess();
 
 			mTTS.Say(link.gameLevels.GetRandomYourTurn(), true);
@@ -116,19 +130,19 @@ namespace BuddyApp.Memory
 		protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
-			if (mOnEnterDone && !mHeadMotion) {
+			if (mOnEnterDone && !mBuddyMotion) {
 
-				
+
 				if (Mathf.Abs(mNoHinge.CurrentAnglePosition) > ANGLE_THRESH) {
 
 					if (mNoHinge.CurrentAnglePosition > mOriginHeadPos) {
 						Debug.Log("Pushing head left");
 						mCurrentEvents.Add(8);
-						StartCoroutine(MoveHeadLeft(true));
+						StartCoroutine(ControlBuddy(BuddyMotion.HEAD_LEFT));
 					} else {
 						Debug.Log("Pushing head right");
 						mCurrentEvents.Add(9);
-						StartCoroutine(MoveHeadLeft(false));
+						StartCoroutine(ControlBuddy(BuddyMotion.HEAD_RIGHT));
 					}
 
 					if (IsSuccess()) {
@@ -139,9 +153,28 @@ namespace BuddyApp.Memory
 					} else {
 						mFail = true;
 					}
+				} else if (Mathf.Abs(mWheels.Odometry.z - mOriginRobotAngle) > ANGLE_THRESH) {
+					if (mWheels.Odometry.z > mOriginRobotAngle) {
+						Debug.Log("Pushing robot left");
+						mCurrentEvents.Add(10);
+						StartCoroutine(ControlBuddy(BuddyMotion.WHEEL_LEFT));
+
+					} else {
+						Debug.Log("Pushing robot right");
+						mCurrentEvents.Add(11);
+						StartCoroutine(ControlBuddy(BuddyMotion.WHEEL_RIGHT));
+					}
+
+					if (IsSuccess()) {
+						if (mCurrentEvents.Count.Equals(mEvents.Count)) {
+							mSuccess = true;
+							mResetTimer = true;
+						}
+					} else {
+						mFail = true;
+					}
+
 				}
-
-
 
 
 
@@ -174,51 +207,86 @@ namespace BuddyApp.Memory
 					animator.SetTrigger("PlayerFailure");
 				}
 
-				//if (randomMoveTimer > randomMoveTimerLimit) {
-				//	//			link.animationManager.StartAnimation ();
-				//	RandomAnim();
-				//	randomMoveTimer = 0.0f;
-				//	SetRandomTimerLimit();
-				//	//			randomMoveStarted = true;
-				//}
+
 			}
 		}
 
 
-		private IEnumerator MoveHeadLeft(bool iLeft)
+		private IEnumerator ControlBuddy(BuddyMotion iMotion)
 		{
-			Debug.Log("Moving head left: " + iLeft);
-			mHeadMotion = true;
-			float lOriginAngle = mNoHinge.CurrentAnglePosition;
-			float lTargetAngle;
+			Debug.Log("Moving : " + iMotion);
+			mBuddyMotion = true;
 
-			if (iLeft) {
-				lTargetAngle = lOriginAngle + 45.0f;
-			} else {
-				lTargetAngle = lOriginAngle - 45.0f;
+			// Moving noHinge
+			if (iMotion == BuddyMotion.HEAD_LEFT || iMotion == BuddyMotion.HEAD_RIGHT) {
+				float lOriginAngle = mNoHinge.CurrentAnglePosition;
+				float lTargetAngle;
+				if (iMotion == BuddyMotion.HEAD_LEFT) {
+					lTargetAngle = lOriginAngle + 45.0f;
+				} else {
+					lTargetAngle = lOriginAngle - 45.0f;
+				}
+
+				// Put the head to the given direction
+				mNoHinge.SetPosition(lTargetAngle);
+
+				// Wait for end of motion
+				while (Math.Abs(mNoHinge.CurrentAnglePosition - lOriginAngle) < 35.0f) {
+					yield return null;
+				}
+
+				Debug.Log("Moving head ok, move back ");
+				// Put the head back
+				mNoHinge.SetPosition(0.0f);
+
+				// Wait for end of motion
+				while (Math.Abs(mNoHinge.CurrentAnglePosition) > 5.0f) {
+					yield return null;
+
+				}
+
+			} else if (iMotion == BuddyMotion.HEAD_DOWN) {
+				Debug.Log("Motion not available" + iMotion);
+			} else if (iMotion == BuddyMotion.HEAD_UP) {
+				Debug.Log("Motion not available" + iMotion);
+
+
+
+				// Turning noHinge
+			} else if (iMotion == BuddyMotion.WHEEL_LEFT || iMotion == BuddyMotion.WHEEL_RIGHT) {
+				float lTargetAngle = mOriginRobotAngle - 90.0f;
+				if (iMotion == BuddyMotion.WHEEL_LEFT) {
+					lTargetAngle = mOriginRobotAngle + 90.0f;
+				}
+
+				mWheels.TurnAngle(lTargetAngle, 100.0f, 0.02f);
+
+				yield return new WaitForSeconds(0.5f);
+
+				// Wait for end of motion
+				while (mWheels.Status != MovingState.REACHED_GOAL && mWheels.Status != MovingState.MOTIONLESS) {
+					yield return null;
+				}
+
+				Debug.Log("Moving wheels ok, move back ");
+
+				// Put the robot back
+
+				mWheels.TurnAngle(mOriginRobotAngle - mWheels.Odometry.z, 100.0f, 0.02f);
+
+				yield return new WaitForSeconds(0.5f);
+
+				// Wait for end of motion
+				while (mWheels.Status != MovingState.REACHED_GOAL && mWheels.Status != MovingState.MOTIONLESS) {
+					yield return null;
+				}
+
 			}
-			// Put the head to the given direction
-			mNoHinge.SetPosition(lTargetAngle);
 
-			// Wait for end of motion
-			while (Math.Abs(mNoHinge.CurrentAnglePosition - lOriginAngle) < 10.0f) {
-				yield return null;
-			}
+			yield return new WaitForSeconds(1.0f);
+			Debug.Log("Motion done");
 
-
-			Debug.Log("Moving head ok, move back ");
-			// Put the head back
-			mNoHinge.SetPosition(0.0f);
-
-			// Wait for end of motion
-			while (Math.Abs(mNoHinge.CurrentAnglePosition) > 5.0f) {
-				yield return null;
-
-			}
-			Debug.Log("Moving head back ok");
-
-			yield return new WaitForSeconds(1);
-			mHeadMotion = false;
+			mBuddyMotion = false;
 
 		}
 

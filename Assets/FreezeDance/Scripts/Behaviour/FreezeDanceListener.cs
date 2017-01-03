@@ -48,22 +48,22 @@ namespace BuddyApp.FreezeDance
         public void VocalFreezeDanceInteraction(string iMsg)
         {
             if (startScreen.activeSelf) {
-                if (iMsg.ToLower().Contains("jouer")) {
+                if (iMsg.ToLower().Contains("play")) {
                     behave.GetComponent<MotionGameBehave>().StartMusic();
                     screenManager.GetComponent<FadeManager>().StartFade();
-                } else if (iMsg.ToLower().Contains("quitter")) {
+                } else if (iMsg.ToLower().Contains("quit")) {
                     new HomeCmd().Execute();
                 } else {
-                    mTTS.Say("je n'est pas compris");
+                    mTTS.Say("I don't understand");
                     StartCoroutine(StartSTT());
                 }
             } else if (pauseScreen.activeSelf) {
-                if (iMsg.ToLower().Contains("oui"))
+                if (iMsg.ToLower().Contains("yes"))
                     behave.GetComponent<MotionGameBehave>().Restart();
-                else if (iMsg.ToLower().Contains("non"))
+                else if (iMsg.ToLower().Contains("no"))
                     new HomeCmd().Execute();
                 else {
-                    mTTS.Say("je n'ai pas compris");
+                    mTTS.Say("I don't understand");
                     StartCoroutine(StartSTT());
                 }
             }
@@ -82,7 +82,7 @@ namespace BuddyApp.FreezeDance
         private IEnumerator StartListenerAfterDelay()
         {
             yield return new WaitForSeconds(3f);
-            mTTS.Say("Que Veux tu faire?");
+            mTTS.Say("What do you want to do?");
             StartCoroutine(StartSTT());
         }
     }

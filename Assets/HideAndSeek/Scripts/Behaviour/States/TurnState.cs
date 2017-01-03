@@ -6,11 +6,13 @@ namespace BuddyApp.HideAndSeek
 {
     public class TurnState : AStateMachineBehaviour
     {
+        private string mFoundMove;
         private float mTimer;
         private int mCount = 0;
         private bool mMovedLeft = false;
         private bool mMovedRight = false;
         private bool mHasTurned = false;
+        private bool mHasClosed = false;
 
         public override void Init()
         {
@@ -23,7 +25,11 @@ namespace BuddyApp.HideAndSeek
             mHasTurned = false;
             mMovedLeft = false;
             mMovedRight = false;
+            mHasClosed = false;
             mCount = 0;
+            if(!mRGBCam.IsOpen)
+                mRGBCam.Open();
+            mFoundMove = mDictionary.GetString("foundMovement");
             // mWheels.MoveDistance(100, 100, 10, 0.1f);
 
         }
@@ -47,15 +53,15 @@ namespace BuddyApp.HideAndSeek
                 if (mMovedLeft && !mMovedRight)
                 {
                     mWheels.TurnAngle(45.0f, 200.0f, 0.02f);
-                    mTTS.Say("J'ai vu un mouvement");
+                    mTTS.Say(mFoundMove);// "J'ai vu un mouvement");
                 }
                 else if (!mMovedLeft && mMovedRight)
                 {
                     mWheels.TurnAngle(-45.0f, 200.0f, 0.02f);
-                    mTTS.Say("J'ai vu un mouvement");
+                    mTTS.Say(mFoundMove);
                 }
                 else if(mMovedLeft && mMovedRight)
-                    mTTS.Say("J'ai vu un mouvement");
+                    mTTS.Say(mFoundMove);
                 else
                     mWheels.TurnAngle(-180.0f, 200.0f, 0.02f);
 
@@ -64,15 +70,19 @@ namespace BuddyApp.HideAndSeek
             }
 
             //mWheels.TurnAngle(30.0f, 200.0f, 0.1f);
-            else if (mHasTurned && mTimer > 1.5f && mWheels.Status == MovingState.MOTIONLESS)
+            else if (mHasTurned && mTimer > 1.5f && mWheels.Status == MovingState.MOTIONLESS && !mHasClosed)
             {
                 iAnimator.SetTrigger("ChangeState");
+                mHasClosed = true;
+                if (mRGBCam.IsOpen)
+                    mRGBCam.Close();
             }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
+            if (mRGBCam.IsOpen)
+                mRGBCam.Close();
             iAnimator.ResetTrigger("ChangeState");
         }
     }
