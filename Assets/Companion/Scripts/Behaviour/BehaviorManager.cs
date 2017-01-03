@@ -205,8 +205,7 @@ namespace BuddyApp.Companion
 					if (!mRobotIsTrackingSomeone) {
                         mTTS.Say(mDictionary.GetString("follow"));
                         mRobotIsTrackingSomeone = true;
-                    }
-                        
+                    }                        
 					break;
 
                 case "HeadUp":

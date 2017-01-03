@@ -13,7 +13,11 @@ namespace BuddyApp.IOT
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
             IOTObjects lObject = null;
+
             string lMsg = CommonStrings["STT"].ToLower();
+            float lParam = 0F;
+            if(CommonStrings["PARAM"] != "")
+                lParam = (float)System.Convert.ToDouble(CommonStrings["PARAM"]);
 
             List<IOTObjects> lListIOT = GetGameObject(2).GetComponent<IOTList>().Objects;
 
@@ -22,7 +26,7 @@ namespace BuddyApp.IOT
             if (lMsg.Contains("tout") || lMsg.Contains("tous") || lMsg.Contains("all") || lMsg.Contains("every"))
             {
                 for (int i = 0; i < lListIOT.Count; ++i)
-                    ActionAll(lListIOT[i], iAnimator, lType);
+                    ActionAll(lListIOT[i], iAnimator, lType,lParam);
 
                 mMood.Set(MoodType.SURPRISED);
                 iAnimator.SetTrigger(HashList[(int)HashTrigger.BACK]);
@@ -33,24 +37,25 @@ namespace BuddyApp.IOT
 
                 if (lObject != null)
                 {
-                    Action(lObject, iAnimator);
+                    Action(lObject, iAnimator, lParam);
                     mMood.Set(MoodType.HAPPY);
                     iAnimator.SetTrigger(HashList[(int)HashTrigger.BACK]);
                 }
                 else
-                {
                     iAnimator.SetTrigger(HashList[(int)HashTrigger.MATCH_ERROR]);
-                }
             }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
             iAnimator.SetInteger(HashList[(int)HashTrigger.ACTION], -1);
+            iAnimator.SetBool(HashList[(int)HashTrigger.PARAMETERS], false);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
+            if(iAnimator.GetBool(HashList[(int)HashTrigger.MATCH_ERROR]) != true)
+                    iAnimator.SetTrigger(HashList[(int)HashTrigger.BACK]);
         }
 
         private IOTDevices.DeviceType FindType(ref string iMsg)
@@ -75,6 +80,11 @@ namespace BuddyApp.IOT
                 iMsg = iMsg.Replace("volet", "");
                 iMsg = iMsg.Replace("screen", "");
                 iMsg = iMsg.Replace("store", "");
+            }
+            if (iMsg.Contains("thermostat"))
+            {
+                lType = IOTDevices.DeviceType.THERMOSTAT;
+                iMsg = iMsg.Replace("thermostat", "");
             }
             return lType;
         }
@@ -115,14 +125,14 @@ namespace BuddyApp.IOT
             return lRes;
         }
 
-        private void Action(IOTObjects iObject, Animator iAnimator)
+        private void Action(IOTObjects iObject, Animator iAnimator, float iParam = 0F)
         {
             int lAction = iAnimator.GetInteger(HashList[(int)HashTrigger.ACTION]);
             if (lAction > -1)
-                ((IOTDevices)iObject).Command(lAction);
+                ((IOTDevices)iObject).Command(lAction, iParam);
         }
 
-        private void ActionAll(IOTObjects iObject, Animator iAnimator, IOTDevices.DeviceType iType)
+        private void ActionAll(IOTObjects iObject, Animator iAnimator, IOTDevices.DeviceType iType, float iParam = 0F)
         {
             if (iObject is IOTSystems)
             {
@@ -132,11 +142,7 @@ namespace BuddyApp.IOT
             else
             {
                 if (((IOTDevices)iObject).Type == iType || iType == IOTDevices.DeviceType.DEVICE)
-                {
-                    int lAction = iAnimator.GetInteger(HashList[(int)HashTrigger.ACTION]);
-                    if (lAction > -1)
-                        ((IOTDevices)iObject).Command(lAction);
-                }
+                    Action(iObject, iAnimator, iParam);
             }
         }
     }

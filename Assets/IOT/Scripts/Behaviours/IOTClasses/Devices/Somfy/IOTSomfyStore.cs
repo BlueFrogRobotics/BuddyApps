@@ -56,7 +56,7 @@ namespace BuddyApp.IOT
             //lNameComponent.UpdateCommands.Add(lCmdChangeName);
         }
 
-        public override void Command(int iCommand)
+        public override void Command(int iCommand, float iParam = 0.0F)
         {
             base.Command(iCommand);
             switch (iCommand)

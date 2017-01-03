@@ -118,7 +118,8 @@ namespace BuddyApp.RLGL
                 mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
                 GetGameObject(6).SetActive(false);
                 mWindowQuestion.GetComponent<Animator>().SetTrigger("Open_WQuestion");
-                mWindowQuestion.GetComponentInChildren<Text>().text = "DO YOU WANT TO PLAY AGAIN?";
+                //mWindowQuestion.GetComponentInChildren<Text>().text = "DO YOU WANT TO PLAY AGAIN?";
+                GetGameObject(7).GetComponent<Text>().text = "DO YOU WANT TO PLAY AGAIN?";
                 mCanvasTrigger = true;
             }
         }

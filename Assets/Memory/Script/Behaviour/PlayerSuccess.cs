@@ -41,7 +41,7 @@ namespace BuddyApp.Memory
 					bool updated = link.UpdateLevel(level);
 					if (updated) {
 						animator.SetInteger("level", level);
-						link.mAnimationManager.gameObject.SetActive(false);
+						//link.mAnimationManager.gameObject.SetActive(false);
 						animator.SetTrigger("NextLevel");
 					} else {
 						mTTS.SayKey("win");

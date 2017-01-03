@@ -19,6 +19,7 @@ namespace BuddyApp.HideAndSeek
             GetComponent<RoombaNavigation>().enabled = true;
             //GetGameObject(0).SetActive(true);
             //mFace.SetExpression(MoodType.LOVE);
+            mYesHinge.SetPosition(20);
             mMood.Set(MoodType.LISTENING);
         }
 
