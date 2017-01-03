@@ -461,6 +461,11 @@
             Error code if there is any error on the component
             </summary>
         </member>
+        <member name="P:BuddyOS.Hinge.Locked">
+            <summary>
+            Lock set for hinges
+            </summary>
+        </member>
         <member name="M:BuddyOS.Hinge.SetPosition(System.Single,System.Single)">
             <summary>
             Set the angular position in degrees of the motor at a specific speed in degrees per second
@@ -492,6 +497,11 @@
             </summary>
             <param name="iAngleDeg">The angle in degrees</param>
         </member>
+        <member name="P:BuddyOS.YesHinge.Locked">
+            <summary>
+            Lock set for hinge
+            </summary>
+        </member>
         <member name="T:BuddyOS.NoHinge">
             <summary>
             Represents the no axe hinge of the robot (Yaw Euler axe)
@@ -509,6 +519,11 @@
             Set the hinge at the specified position in degrees
             </summary>
             <param name="iAngleDeg">The angle in degrees</param>
+        </member>
+        <member name="P:BuddyOS.NoHinge.Locked">
+            <summary>
+            Lock set for hinge
+            </summary>
         </member>
         <member name="T:BuddyOS.Wheels">
             <summary>
@@ -570,6 +585,11 @@
             Enumeration corresponding to the current wheel's status
             </summary>
         </member>
+        <member name="P:BuddyOS.Wheels.Locked">
+            <summary>
+            Set for robot wheels locking
+            </summary>
+        </member>
         <member name="P:BuddyOS.Wheels.Error">
             <summary>
             Error code if there is any error on the component
@@ -577,7 +597,7 @@
         </member>
         <member name="P:BuddyOS.Wheels.Odometry">
             <summary>
-            Actual robot's pose estimated using odometry.
+            Current estimated robot's pose using odometry.
             </summary>
             <returns>Robot's pose (X, Y, Tetha), the position (X,Y) in meters and the orientation Theta in degrees</returns>
             <remarks>Motors is the use of data from motion sensors to estimate change in position over time</remarks>
@@ -805,11 +825,34 @@
             Mute state of the audiosource
             </summary>
         </member>
+        <member name="P:BuddyOS.SoundChannel`1.Status">
+            <summary>
+            Status of the channel
+            </summary>
+        </member>
         <member name="M:BuddyOS.SoundChannel`1.Play(UnityEngine.AudioClip)">
             <summary>
             Play the current Audio Clip, or the selected AudioClip
             </summary>
             <param name="iAudioClip">Selected audio clip to play.</param>
+        </member>
+        <member name="M:BuddyOS.SoundChannel`1.Play(System.Int32)">
+            <summary>
+            Play the wanted clip
+            </summary>
+            <param name="iClipIndx">The index sound to play</param>
+        </member>
+        <member name="M:BuddyOS.SoundChannel`1.Play(System.String)">
+            <summary>
+            Play the wanted sound. Must be added by AddSound(string)
+            </summary>
+            <param name="iSound">The sound to play</param>
+        </member>
+        <member name="M:BuddyOS.SoundChannel`1.Play(`0)">
+            <summary>
+            Play the wanted sound
+            </summary>
+            <param name="iSound">The sound to play</param>
         </member>
         <member name="M:BuddyOS.SoundChannel`1.Pause">
             <summary>
@@ -830,24 +873,6 @@
             <summary>
             Kill the Audio clip (stop + audio source = null)
             </summary>
-        </member>
-        <member name="M:BuddyOS.SoundChannel`1.Play(System.Int32)">
-            <summary>
-            Play the wanted clip
-            </summary>
-            <param name="iClipIndx">The index sound to play</param>
-        </member>
-        <member name="M:BuddyOS.SoundChannel`1.Play(System.String)">
-            <summary>
-            Play the wanted sound. Must be added by AddSound(string)
-            </summary>
-            <param name="iSound">The sound to play</param>
-        </member>
-        <member name="M:BuddyOS.SoundChannel`1.Play(`0)">
-            <summary>
-            Play the wanted sound
-            </summary>
-            <param name="iSound">The sound to play</param>
         </member>
         <member name="M:BuddyOS.SoundChannel`1.Load(System.String)">
             <summary>
@@ -2253,6 +2278,48 @@
             Execute the command behaviour.
             </summary>
         </member>
+        <member name="T:BuddyOS.Command.LockYesHingeCmd">
+            <summary>
+            When executed : Lock yes hinge
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.LockYesHingeCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.LockYesHingeCmd.#ctor(System.Boolean)">
+            <summary>
+            When executed : Lock yes hinge
+            </summary>
+            <param name="iLock">Must hinges be locked ?</param>
+        </member>
+        <member name="M:BuddyOS.Command.LockYesHingeCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.LockNoHingeCmd">
+            <summary>
+            When executed : Lock no hinge
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.LockNoHingeCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.LockNoHingeCmd.#ctor(System.Boolean)">
+            <summary>
+            When executed : Lock no hinge
+            </summary>
+            <param name="iLock">Must hinges be locked ?</param>
+        </member>
+        <member name="M:BuddyOS.Command.LockNoHingeCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
         <member name="T:BuddyOS.Command.MvAbsPosCmd">
             <summary>
             When executed : Make the robot go to a desired global position.
@@ -3161,6 +3228,27 @@
             <remarks>The target angle defines the robot orientation in local space (relative to its actual orientation)</remarks>
         </member>
         <member name="M:BuddyOS.Command.TurnRelaCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.LockWheelsCmd">
+            <summary>
+            When executed : Lock wheels
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.LockWheelsCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.LockWheelsCmd.#ctor(System.Boolean)">
+            <summary>
+            When executed : Lock wheels
+            </summary>
+            <param name="iLock">Must the wheels be locked ?</param>
+        </member>
+        <member name="M:BuddyOS.Command.LockWheelsCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -4102,6 +4190,11 @@
             Slider widget for AWindowLayout
             </summary>
         </member>
+        <member name="P:BuddyOS.UI.Gauge.Suffix">
+            <summary>
+            Suffix display for the gauge, "%" by default if percentage
+            </summary>
+        </member>
         <member name="P:BuddyOS.UI.Gauge.Label">
             <summary>
             Label of the slider
@@ -4120,7 +4213,7 @@
         </member>
         <member name="P:BuddyOS.UI.Gauge.DisplayPercentage">
             <summary>
-            Specify if the slider value must be DISPLAYED in purcentage
+            Specify if the slider value must be DISPLAYED in percentage, ignore suffix
             </summary>
         </member>
         <member name="M:BuddyOS.UI.Gauge.OnAwake">
@@ -4141,6 +4234,11 @@
         <member name="T:BuddyOS.UI.GaugeOnOff">
             <summary>
             Slider with toggle activation widget for AWindowLayout
+            </summary>
+        </member>
+        <member name="P:BuddyOS.UI.GaugeOnOff.Suffix">
+            <summary>
+            Suffix display for the gauge, "%" by default if percentage
             </summary>
         </member>
         <member name="P:BuddyOS.UI.GaugeOnOff.Label">
@@ -4166,7 +4264,7 @@
         </member>
         <member name="P:BuddyOS.UI.GaugeOnOff.DisplayPercentage">
             <summary>
-            Specify if the slider value must be DISPLAYED in purcentage
+            Specify if the slider value must be DISPLAYED in percentage, ignore suffix
             </summary>
         </member>
         <member name="P:BuddyOS.UI.GaugeOnOff.IsActive">
@@ -4239,6 +4337,11 @@
             Commands that will be updated after value modification
             </summary>
         </member>
+        <member name="P:BuddyOS.UI.TextField.EndEditCommands">
+            <summary>
+            Commands that will be updated after end edit
+            </summary>
+        </member>
         <member name="P:BuddyOS.UI.TextField.Label">
             <summary>
             Left side label
@@ -4279,6 +4382,11 @@
             Commands called on updated password field 
             </summary>
         </member>
+        <member name="P:BuddyOS.UI.Password.EndEditCommands">
+            <summary>
+            Commands that will be updated after end edit
+            </summary>
+        </member>
         <member name="M:BuddyOS.UI.Password.OnAwake">
             <summary>
             Called on awake
@@ -4310,6 +4418,11 @@
             The Strings[] attribute of Parameters will be updated.
             </summary>
         </member>
+        <member name="P:BuddyOS.UI.SearchField.EndEditCommands">
+            <summary>
+            Commands that will be updated after end edit
+            </summary>
+        </member>
         <member name="M:BuddyOS.UI.SearchField.OnAwake">
             <summary>
             Called on awake
@@ -4318,11 +4431,6 @@
         <member name="M:BuddyOS.UI.SearchField.Clear">
             <summary>
             Clear method when the component comes to desappeared
-            </summary>
-        </member>
-        <member name="M:BuddyOS.UI.SearchField.OnUpdateField">
-            <summary>
-            Modification callback. Inner purpose, do not call it
             </summary>
         </member>
         <member name="T:BuddyOS.UI.Label">

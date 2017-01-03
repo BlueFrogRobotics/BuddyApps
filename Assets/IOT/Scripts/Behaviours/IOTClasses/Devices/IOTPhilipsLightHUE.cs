@@ -24,7 +24,7 @@ namespace BuddyApp.IOT
             mState.Add("alert", "none");
             mState.Add("colormode", "xy");
             mState.Add("reachable", false);
-
+            
             indice = 0;
             mSpriteName = "IOT_Device_Light";
         }
@@ -74,7 +74,7 @@ namespace BuddyApp.IOT
 
             lNameComponent.Label.text = "NAME";
             IOTChangeNameCmd lCmdChangeName = new IOTChangeNameCmd(this);
-            lNameComponent.UpdateCommands.Add(lCmdChangeName);
+            lNameComponent.EndEditCommands.Add(lCmdChangeName);
         }
 
         private void SetValue(string[] iStr, object[] iVal)
@@ -119,6 +119,9 @@ namespace BuddyApp.IOT
                 mState["alert"] = lRealState["alert"];
                 mState["colormode"] = lRealState["colormode"];
                 mState["reachable"] = lRealState["reachable"];
+
+
+                mAvailable = (string)lRealState["reachable"]=="on"?true:false;
 
                 mName = (string)lRes["name"];
 

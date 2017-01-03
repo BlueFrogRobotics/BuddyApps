@@ -59,7 +59,7 @@ namespace BuddyApp.Recipe
 
         public void OnClickCategory(string category)
         {
-            //List<Recipe> lRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath("recipe_list_fr.xml")).recipe;
+            //List<Recipe> lRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath("tt.xml")).recipe;
             List<Recipe> lRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath(mDictionary.GetString("pathtoxml"))).recipe;
             mRecipeList = new List<Recipe>();
 
