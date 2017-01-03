@@ -11,7 +11,7 @@ namespace BuddyApp.BabyPhone
     [RequireComponent(typeof(AudioSource))]
     public class SoundDetector : MonoBehaviour
     {
-        private const int DETECTION_TIME = 2;
+        private const int DETECTION_TIME = 10;
         private InputMicro mInputMicro;
         private float mSound;
         private float mMean;
@@ -31,6 +31,11 @@ namespace BuddyApp.BabyPhone
             mMean = 0F;
             mCount = 0F;
             mElapsedTime = 0F;
+            mIsNoisy = false;
+        }
+
+        void OnDisable()
+        {
             mIsNoisy = false;
         }
 
