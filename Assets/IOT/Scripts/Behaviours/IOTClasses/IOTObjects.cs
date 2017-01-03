@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using BuddyOS.UI;
 using System.Collections.Generic;
 
 namespace BuddyApp.IOT
@@ -7,6 +7,8 @@ namespace BuddyApp.IOT
     public class IOTObjects
     {
         protected List<string> mCredentials = new List<string>();
+        protected bool mAvailable = false;
+
         protected ParametersGameObjectContainer mParamsGO;
         protected string mName;
         protected string mSpriteName;
@@ -14,6 +16,8 @@ namespace BuddyApp.IOT
         private List<GameObject> mListIntantParams = new List<GameObject>();
 
         public List<string> Credentials { get { return mCredentials; } set { mCredentials = value; } }
+        public bool Available { get { return mAvailable; } }
+
         public ParametersGameObjectContainer ParamGO { get { return mParamsGO; } set { mParamsGO = value; } }
         public string Name { get { return mName; } set { mName = value; } }
         public string SpriteName { get { return mSpriteName; }}
@@ -27,7 +31,13 @@ namespace BuddyApp.IOT
             return lTmp;
         }
 
-        public virtual void InitializeParams() { mListIntantParams.Clear(); }
+        public virtual void InitializeParams() { mListIntantParams.Clear();
+
+            GameObject lAvailable = InstanciateParam(ParamType.LABEL);
+            Label lAvailableComponent = lAvailable.GetComponent<Label>();
+
+            lAvailableComponent.Text = mAvailable?"AVAILABLE":"NOT AVAILABLE";
+        }
 
         public void PlaceParams(Transform iContent)
         {

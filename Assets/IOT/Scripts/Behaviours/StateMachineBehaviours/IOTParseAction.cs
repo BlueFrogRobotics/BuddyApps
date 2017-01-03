@@ -6,8 +6,19 @@ namespace BuddyApp.IOT
 {
     public class IOTParseAction : AIOTStateMachineBehaviours
     {
+        private List<string> mSayAction = new List<string>();
+        private bool mBack = false;
+        private bool mErrorBool = false;
+
         public override void Init()
         {
+            mSayAction.Add("I am turning off ");
+            mSayAction.Add("I am turning on ");
+            mSayAction.Add("I am closing ");
+            mSayAction.Add("I am opening ");
+            mSayAction.Add("I am changing the values of ");
+            mSayAction.Add("I am increasing the value of ");
+            mSayAction.Add("I am decreasing the value of ");
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
@@ -29,7 +40,7 @@ namespace BuddyApp.IOT
                     ActionAll(lListIOT[i], iAnimator, lType,lParam);
 
                 mMood.Set(MoodType.SURPRISED);
-                iAnimator.SetTrigger(HashList[(int)HashTrigger.BACK]);
+                mBack = true;
             }
             else
             {
@@ -39,40 +50,46 @@ namespace BuddyApp.IOT
                 {
                     Action(lObject, iAnimator, lParam);
                     mMood.Set(MoodType.HAPPY);
-                    iAnimator.SetTrigger(HashList[(int)HashTrigger.BACK]);
+                    mBack = true;
                 }
-                else
-                    iAnimator.SetTrigger(HashList[(int)HashTrigger.MATCH_ERROR]);
             }
+            if(!mBack)
+                mErrorBool = true;
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
             iAnimator.SetInteger(HashList[(int)HashTrigger.ACTION], -1);
             iAnimator.SetBool(HashList[(int)HashTrigger.PARAMETERS], false);
+            mTTS.SetSpeechRate(1.0f);
+            mErrorBool = false;
+            mBack = false;
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
-            if(iAnimator.GetBool(HashList[(int)HashTrigger.MATCH_ERROR]) != true)
-                    iAnimator.SetTrigger(HashList[(int)HashTrigger.BACK]);
+            if(mTTS.HasFinishedTalking && mBack)
+                iAnimator.SetTrigger(HashList[(int)HashTrigger.BACK]);
+            else if(mTTS.HasFinishedTalking && mErrorBool)
+                iAnimator.SetTrigger(HashList[(int)HashTrigger.MATCH_ERROR]);
         }
 
         private IOTDevices.DeviceType FindType(ref string iMsg)
         {
             IOTDevices.DeviceType lType = IOTDevices.DeviceType.DEVICE;
-            if (iMsg.Contains("lumière") || iMsg.Contains("lampe") || iMsg.Contains("light"))
+            if (iMsg.Contains("lumière") || iMsg.Contains("lamp") || iMsg.Contains("light"))
             {
                 lType = IOTDevices.DeviceType.LIGHT;
                 iMsg = iMsg.Replace("lumière", "");
                 iMsg = iMsg.Replace("light", "");
-                iMsg = iMsg.Replace("lampe", "");
+                iMsg = iMsg.Replace("lamp", "");
             }
-            if (iMsg.Contains("prise") || iMsg.Contains("switch"))
+            if (iMsg.Contains("prise") || iMsg.Contains("switch") || iMsg.Contains("plug"))
             {
                 lType = IOTDevices.DeviceType.SWITCH;
                 iMsg = iMsg.Replace("prise", "");
                 iMsg = iMsg.Replace("switch", "");
+                iMsg = iMsg.Replace("plug", "");
             }
             if (iMsg.Contains("volet") || iMsg.Contains("screen") || iMsg.Contains("store"))
             {
@@ -85,6 +102,11 @@ namespace BuddyApp.IOT
             {
                 lType = IOTDevices.DeviceType.THERMOSTAT;
                 iMsg = iMsg.Replace("thermostat", "");
+            }
+            if (iMsg.Contains("thermometer"))
+            {
+                lType = IOTDevices.DeviceType.THERMOMETER;
+                iMsg = iMsg.Replace("thermometer", "");
             }
             return lType;
         }
@@ -130,6 +152,11 @@ namespace BuddyApp.IOT
             int lAction = iAnimator.GetInteger(HashList[(int)HashTrigger.ACTION]);
             if (lAction > -1)
                 ((IOTDevices)iObject).Command(lAction, iParam);
+            if(lAction < 7)
+            {
+                mTTS.SetSpeechRate(2.0f);
+                mTTS.Say(mSayAction[lAction] + iObject.Name);
+            }
         }
 
         private void ActionAll(IOTObjects iObject, Animator iAnimator, IOTDevices.DeviceType iType, float iParam = 0F)

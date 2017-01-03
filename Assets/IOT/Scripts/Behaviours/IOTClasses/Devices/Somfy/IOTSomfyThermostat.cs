@@ -39,6 +39,8 @@ namespace BuddyApp.IOT
             Gauge lGaugeTemp = lTemp.GetComponent<Gauge>();
             GameObject lTempEco = InstanciateParam(ParamType.GAUGE);
             Gauge lGaugeTempEco = lTempEco.GetComponent<Gauge>();
+            GameObject lName = InstanciateParam(ParamType.TEXTFIELD);
+            TextField lNameText = lName.GetComponent<TextField>();
 
             lGaugeTemp.Label.text = "SET TEMPERATURE";
             lGaugeTemp.DisplayPercentage = false;
@@ -57,6 +59,10 @@ namespace BuddyApp.IOT
             lGaugeTempEco.Slider.value = (float)System.Convert.ToDouble(states[7].value) * 10F;
             IOTDeviceCmdCmd lGaugeEcoCmd = new IOTDeviceCmdCmd(this, 5);
             lGaugeTemp.UpdateCommands.Add(lGaugeEcoCmd);
+
+            lNameText.Label.text = "NAME";
+            IOTChangeNameCmd lChangeName = new IOTChangeNameCmd(this);
+            lNameText.UpdateCommands.Add(lChangeName);
         }
 
         public void GetValue()

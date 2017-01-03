@@ -65,6 +65,7 @@ namespace BuddyApp.IOT
                 if (lResult == null)
                 {
                     Debug.LogError("Somfy not connected");
+                    mAvailable = false;
                     return;
                 }
                 mHeaders.Clear();
