@@ -5,7 +5,7 @@ namespace BuddyApp.IOT
 {
     public class IOTDevices : IOTObjects
     {
-        public enum DeviceType : int { DEVICE, LIGHT, SWITCH, STORE, THERMOSTAT}
+        public enum DeviceType : int { DEVICE, LIGHT, SWITCH, STORE, THERMOSTAT, THERMOMETER}
         protected DeviceType mType = DeviceType.DEVICE;
         public DeviceType Type { get { return mType; } }
 
