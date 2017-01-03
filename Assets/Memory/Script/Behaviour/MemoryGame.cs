@@ -17,6 +17,7 @@ namespace BuddyApp.Memory
 		private float mTTSTimer;
 
 		private bool mBuddyMotion;
+		private float mOriginRobotAngle;
 
 		public enum BuddyMotion : int
 		{
@@ -100,6 +101,7 @@ namespace BuddyApp.Memory
 		{
 			Debug.Log("Moving : " + iMotion);
 			mBuddyMotion = true;
+			float lTimer = 0.0f; 
 
 			// Moving noHinge
 			if (iMotion == BuddyMotion.HEAD_LEFT || iMotion == BuddyMotion.HEAD_RIGHT) {
@@ -116,16 +118,18 @@ namespace BuddyApp.Memory
 				mNoHinge.SetPosition(lTargetAngle);
 
 				// Wait for end of motion
-				while (Math.Abs(mNoHinge.CurrentAnglePosition - lOriginAngle) < 35.0f) {
+				while (Math.Abs(mNoHinge.CurrentAnglePosition - lOriginAngle) < 20.0f || lTimer > 5.0f) {
+					lTimer += Time.deltaTime;
 					yield return null;
 				}
-
-				Debug.Log("Moving head ok, move back ");
+				lTimer = 0.0f;
+                Debug.Log("Moving head ok, move back ");
 				// Put the head back
 				mNoHinge.SetPosition(0.0f);
 
 				// Wait for end of motion
-				while (Math.Abs(mNoHinge.CurrentAnglePosition) > 5.0f) {
+				while (Math.Abs(mNoHinge.CurrentAnglePosition) > 5.0f || lTimer > 5.0f) {
+					lTimer += Time.deltaTime;
 					yield return null;
 
 				}
@@ -137,13 +141,11 @@ namespace BuddyApp.Memory
 
 
 
-				// Turning noHinge
+				// Turning wheels
 			} else if (iMotion == BuddyMotion.WHEEL_LEFT || iMotion == BuddyMotion.WHEEL_RIGHT) {
-				float lTargetAngle;
+				float lTargetAngle = -(90.0f - Math.Abs(mOriginRobotAngle - mWheels.Odometry.z));
 				if (iMotion == BuddyMotion.WHEEL_LEFT) {
-					lTargetAngle = 90.0f;
-				} else {
-					lTargetAngle = -90.0f;
+					lTargetAngle = -lTargetAngle;
 				}
 
 				mWheels.TurnAngle(lTargetAngle, 100.0f, 0.02f);
@@ -158,8 +160,7 @@ namespace BuddyApp.Memory
 				Debug.Log("Moving wheels ok, move back ");
 
 				// Put the robot back
-
-				mWheels.TurnAngle(-lTargetAngle, 100.0f, 0.02f);
+				mWheels.TurnAbsoluteAngle(mOriginRobotAngle, 100.0f, 0.02f);
 
 				yield return new WaitForSeconds(0.5f);
 
@@ -185,6 +186,7 @@ namespace BuddyApp.Memory
 			link.mAnimationManager.gameObject.SetActive(false);
 
 			mNoHinge.SetPosition(0.0f);
+			mOriginRobotAngle = mWheels.Odometry.z;
 			mBuddyMotion = false;
 			InitLvl(animator.GetInteger("level"));
 			Debug.Log("pre currentLevel intro Sentence");
