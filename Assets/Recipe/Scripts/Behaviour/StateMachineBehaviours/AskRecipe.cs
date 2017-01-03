@@ -12,6 +12,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("ENTER ASK RECIPE");
             GetGameObject(2).SetActive(true);
             GetComponent<RecipeBehaviour>().NoAnswerCount = 0;
             GetComponent<RecipeBehaviour>().RecipeNotFoundCount = 0;
@@ -26,6 +27,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("EXIT ASK RECIPE");
         }
     }
 }

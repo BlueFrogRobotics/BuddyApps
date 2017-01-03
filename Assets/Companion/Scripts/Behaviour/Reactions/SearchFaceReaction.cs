@@ -52,6 +52,7 @@ namespace BuddyApp.Companion
                 if (mHeadNoAngle > 30F) {
                     mHeadNoAngle = 30F;
                     mLookLeft = false;
+                    ChangeYesPosition();
                 }
                 mNoHinge.SetPosition(mHeadNoAngle);
             }
@@ -76,15 +77,15 @@ namespace BuddyApp.Companion
         private void ChangeYesPosition()
         {
             float lCurrPos = mYesHinge.CurrentAnglePosition;
-            if (lCurrPos < -20F && mLookUp)
+            if (lCurrPos < -10F && mLookUp)
                 mLookUp = false;
-            else if (lCurrPos > 20F && !mLookUp)
+            else if (lCurrPos > 25F && !mLookUp)
                 mLookUp = true;
 
             if (mLookUp)
-                mYesHinge.SetPosition(lCurrPos - 5F);
+                mYesHinge.SetPosition(lCurrPos - 7F);
             else
-                mYesHinge.SetPosition(lCurrPos + 5F);
+                mYesHinge.SetPosition(lCurrPos + 7F);
         }
     }
 }

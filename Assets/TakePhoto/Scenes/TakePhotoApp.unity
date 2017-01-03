@@ -644,6 +644,7 @@ GameObject:
   - 4: {fileID: 661417651}
   - 95: {fileID: 661417650}
   - 114: {fileID: 661417649}
+  - 114: {fileID: 661417652}
   m_Layer: 0
   m_Name: AIBehaviour
   m_TagString: Untagged
@@ -705,6 +706,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &661417652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 661417648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -272654014, guid: 1d2cc566b30b69546a3f02398a707f57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handleOutputTexture: 1
 --- !u!1 &764027706
 GameObject:
   m_ObjectHideFlags: 0
