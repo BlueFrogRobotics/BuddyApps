@@ -52,7 +52,7 @@ namespace BuddyApp.IOT
 
             lNameComponent.Label.text = "NAME";
             IOTChangeNameCmd lCmdChangeName = new IOTChangeNameCmd(this);
-            lNameComponent.UpdateCommands.Add(lCmdChangeName);
+            lNameComponent.EndEditCommands.Add(lCmdChangeName);
         }
 
         public override void Command(int iCommand, float iParam = 0.0F)

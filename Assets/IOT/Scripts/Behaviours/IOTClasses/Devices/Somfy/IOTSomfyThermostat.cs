@@ -44,25 +44,27 @@ namespace BuddyApp.IOT
 
             lGaugeTemp.Label.text = "SET TEMPERATURE";
             lGaugeTemp.DisplayPercentage = false;
+            lGaugeTemp.Slider.wholeNumbers = false;
             lGaugeTemp.Suffix = "°";
-            lGaugeTemp.Slider.minValue = 70F;
-            lGaugeTemp.Slider.maxValue = 300F;
-            lGaugeTemp.Slider.value = (float)System.Convert.ToDouble(states[8].value) * 10F;
+            lGaugeTemp.Slider.minValue = 7F;
+            lGaugeTemp.Slider.maxValue = 30F;
+            lGaugeTemp.Slider.value = (float)System.Convert.ToDouble(states[8].value);
             IOTDeviceCmdCmd lGaugeCmd = new IOTDeviceCmdCmd(this, 4);
             lGaugeTemp.UpdateCommands.Add(lGaugeCmd);
 
             lGaugeTempEco.Label.text = "SET ECO TEMPERATURE";
             lGaugeTempEco.DisplayPercentage = false;
+            lGaugeTempEco.Slider.wholeNumbers = false;
             lGaugeTempEco.Suffix = "°";
-            lGaugeTempEco.Slider.minValue = 70F;
-            lGaugeTempEco.Slider.maxValue = 300F;
-            lGaugeTempEco.Slider.value = (float)System.Convert.ToDouble(states[7].value) * 10F;
+            lGaugeTempEco.Slider.minValue = 7F;
+            lGaugeTempEco.Slider.maxValue = 30F;
+            lGaugeTempEco.Slider.value = (float)System.Convert.ToDouble(states[7].value);
             IOTDeviceCmdCmd lGaugeEcoCmd = new IOTDeviceCmdCmd(this, 5);
-            lGaugeTemp.UpdateCommands.Add(lGaugeEcoCmd);
+            lGaugeTempEco.UpdateCommands.Add(lGaugeEcoCmd);
 
             lNameText.Label.text = "NAME";
             IOTChangeNameCmd lChangeName = new IOTChangeNameCmd(this);
-            lNameText.UpdateCommands.Add(lChangeName);
+            lNameText.EndEditCommands.Add(lChangeName);
         }
 
         public void GetValue()
