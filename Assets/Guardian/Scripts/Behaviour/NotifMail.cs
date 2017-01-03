@@ -47,7 +47,7 @@ namespace BuddyApp.Guardian
             mMustIncrement = true;
         }
 
-        void Clear()
+        public void Clear()
         {
             mCounter = 0;
             for (int i = 0; i < mTexts.Length; i++)

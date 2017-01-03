@@ -60,6 +60,7 @@ namespace BuddyApp.Guardian
             mMinThreshold = 0.001f;
             mMaxThreshold = 0.1f;
             mThreshold = 0.05f;
+            CanSave = true;
         }
 
 
@@ -87,7 +88,7 @@ namespace BuddyApp.Guardian
                 }
                 mGlobalMean = lGlobalSum / myQ.Count;
                 mActValue = Mathf.Abs(lSoundLevelReceived - mGlobalMean);
-                if (mActValue > mThreshold)
+                if (mActValue > mThreshold && !mIsRecording)
                 {
                     mIsASoundDetected = true;
                     Debug.Log("detection bruit");
@@ -123,8 +124,13 @@ namespace BuddyApp.Guardian
                             mNumSeq++;
                             if (mNumSeq > 1)
                             {
-                                if(CanSave)
+                                if (CanSave)
+                                {
+                                    CanSave = false;
+                                    Debug.Log("avant can save: " + CanSave);
                                     SaveWav("noise.wav");
+                                    
+                                }
                                 mIsRecording = false;
                                 mNumSeq = 0;
                                 mSoundSaved = true;
@@ -142,7 +148,7 @@ namespace BuddyApp.Guardian
         {
             mIsASoundDetected = false;
             if (mDevice == null) mDevice = Microphone.devices[0];
-            mClipRecord = Microphone.Start(mDevice, true, 5, 44100);
+            mClipRecord = Microphone.Start(mDevice, true, 3, 44100);
             mGlobalMean = 0;
             mIsInit = true;
             mDatabefore = new float[mClipRecord.samples * mClipRecord.channels];
@@ -150,7 +156,7 @@ namespace BuddyApp.Guardian
             {
                 mArrayAudioClip[i] = AudioClip.Create("noise " + i, mClipRecord.samples, mClipRecord.channels, 44100, false);
             }
-
+            CanSave = true;
         }
 
         public void Stop()
@@ -164,7 +170,10 @@ namespace BuddyApp.Guardian
 
         public void SaveWav(string iFileName)
         {
+            Debug.Log("save le file audio");
             SavWav.Save(iFileName, Combine(mArrayAudioClip));
+            CanSave = true;
+            Debug.Log("apres can save: " + CanSave);
         }
 
 
