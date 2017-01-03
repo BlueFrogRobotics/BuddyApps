@@ -18,7 +18,7 @@ namespace BuddyApp.Recipe
         [XmlAttribute("name")]
         public string name { get; set; }
         [XmlAttribute("quantity")]
-        public int quantity { get; set; }
+        public float quantity { get; set; }
         [XmlAttribute("unit")]
         public string unit { get; set; }
         [XmlAttribute("icon")]
