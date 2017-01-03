@@ -14,7 +14,7 @@ namespace BuddyApp.FreezeDance
         void OnEnable()
         {
             mTTS = BYOS.Instance.TextToSpeech;
-            mTTS.Say("Veux tu rejouer?");
+            mTTS.Say("Do you want to play again?");
             StartCoroutine(StartRequest());
         }
 

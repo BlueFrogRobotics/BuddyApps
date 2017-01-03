@@ -37,9 +37,9 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //if (mRGBCam.IsOpen)
-            //    mRGBCam.Close();
-            //mRGBCam.Resolution = RGBCamResolution.W_320_H_240;
+            if (mRGBCam.IsOpen)
+                mRGBCam.Close();
+            mRGBCam.Resolution = RGBCamResolution.W_320_H_240;
 
             GetGameObject(5).GetComponent<RLGLMenu>().enabled = false;
             GetComponent<RLGLBehaviour>().Index = 0;
