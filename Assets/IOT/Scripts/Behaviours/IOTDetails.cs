@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using BuddyOS;
+using BuddyOS.UI;
 
 namespace BuddyApp.IOT {
     public class IOTDetails : MonoBehaviour {
@@ -80,21 +81,43 @@ namespace BuddyApp.IOT {
             }
         }
 
+        private Transform GetChildNameDevice(int iIndexDevice)
+        {
+            return transform.GetChild(0).GetChild(0).GetChild(0).GetChild(iIndexDevice);
+        }
+
+        private void UpdateNames()
+        {
+            IOTSystems mSystem = (IOTSystems)mObject;
+            for (int i = 0; i < mSystem.Devices.Count; ++i)
+            {
+                GetChildNameDevice(i + 1).GetChild(1).GetChild(1).GetChild(2).GetComponent<Text>().text = mSystem.Devices[i].Name;
+                GetChildNameDevice(i + 1).GetChild(3).GetChild(0).GetComponent<Label>().Text = mSystem.Devices[i].Available?"AVAILABLE":"NOT AVAILABLE";
+            }
+        }
+
+        private void UpdateSlowDevices()
+        {
+            if (mObject is IOTSystems)
+            {
+                IOTSystems mSystem = (IOTSystems)mObject;
+                for (int i = 0; i < mSystem.Devices.Count; ++i)
+                {
+                    mSystem.Devices[i].UpdateSlow();
+                }
+            }
+            else if (mObject is IOTDevices)
+                ((IOTDevices)mObject).UpdateSlow();
+        }
+
         void Update()
         {
             mTime += Time.deltaTime;
-            if(mTime > 1F)
+            if(mTime > 5F)
             {
-                if (mObject is IOTSystems)
-                {
-                    IOTSystems mSystem = (IOTSystems)mObject;
-                    for (int i = 0; i < mSystem.Devices.Count; ++i)
-                    {
-                        mSystem.Devices[i].UpdateSlow();
-                    }
-                }
-                else if (mObject is IOTDevices)
-                    ((IOTDevices)mObject).UpdateSlow();
+                UpdateSlowDevices();
+
+                UpdateNames();
 
                 mTime = 0F;
             }
