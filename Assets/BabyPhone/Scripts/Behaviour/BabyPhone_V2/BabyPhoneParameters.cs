@@ -150,8 +150,8 @@ namespace BuddyApp.BabyPhone
 
             ////sound detection
             soundDetection.DisplayPercentage = true;
-            soundDetection.Slider.minValue = 5;
-            soundDetection.Slider.maxValue = 15;
+            soundDetection.Slider.minValue = 9;
+            soundDetection.Slider.maxValue = 11;
             soundDetection.Slider.value = BabyPhoneData.Instance.MicrophoneSensitivity;
             soundDetection.UpdateCommands.Add(new SetMicroSensCmd());
 

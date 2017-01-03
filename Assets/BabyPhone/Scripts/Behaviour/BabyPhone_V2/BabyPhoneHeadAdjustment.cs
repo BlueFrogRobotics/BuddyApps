@@ -62,13 +62,13 @@ namespace BuddyApp.BabyPhone
         {
             if (mNoLeft)
             {
-                mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 20;
+                mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 20;
                 mMotors.NoHinge.SetPosition(mNoAngle);
             }
 
             if (mNoRight)
             {
-                mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 20;
+                mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 20;
                 mMotors.NoHinge.SetPosition(mNoAngle);
             }
         }
