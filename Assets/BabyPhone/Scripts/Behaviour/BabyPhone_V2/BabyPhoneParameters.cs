@@ -149,9 +149,9 @@ namespace BuddyApp.BabyPhone
             ifBabyCry.UpdateCommands.Add(new IfBabyCriesCmd());
 
             ////sound detection
-            //soundDetection.DisplayPercentage = true;
+            soundDetection.DisplayPercentage = true;
             soundDetection.Slider.minValue = 5;
-            soundDetection.Slider.maxValue = 20;
+            soundDetection.Slider.maxValue = 15;
             soundDetection.Slider.value = BabyPhoneData.Instance.MicrophoneSensitivity;
             soundDetection.UpdateCommands.Add(new SetMicroSensCmd());
 
@@ -160,7 +160,7 @@ namespace BuddyApp.BabyPhone
             soundDetection.SwitchCommands.Add(new ActSoundDetectionCmd());
 
             ////sound detection
-            //motionDetection.DisplayPercentage = true;
+            motionDetection.DisplayPercentage = true;
             motionDetection.Slider.minValue = 20;
             motionDetection.Slider.maxValue = 200;
             motionDetection.Slider.value = BabyPhoneData.Instance.CameraSensitivity;
