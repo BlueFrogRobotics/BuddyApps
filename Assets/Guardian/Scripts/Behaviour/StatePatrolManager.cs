@@ -12,8 +12,6 @@ namespace BuddyApp.Guardian
     [RequireComponent(typeof(NotifMail))]
     public class StatePatrolManager : MonoBehaviour
     {
-
-
         [SerializeField]
         private DetectionManager detectorManager;
 

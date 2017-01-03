@@ -12,7 +12,7 @@ namespace BuddyApp.BabyPhone
         private Animator debugCameraAnimator;
 
         [SerializeField]
-        private BabyPhoneMotionDetection detector;
+        private MotionDetector detector;
 
         [SerializeField]
         private RawImage mRaw;
@@ -43,12 +43,17 @@ namespace BuddyApp.BabyPhone
             //lMatMouv = new Mat();
             lMatView = new Mat();
             lMatCam = new Mat();
+
+            if (!mRGBCam.IsOpen)
+                mRGBCam.Close();
         }
 
         void OnDisable()
         {
             debugCameraAnimator.SetTrigger("Close_WDebugs");
-            mRGBCam.Close();
+            mRGBCam = BYOS.Instance.RGBCam;
+            if (mRGBCam.IsOpen)
+                mRGBCam.Close();
                
         }
 
@@ -60,15 +65,21 @@ namespace BuddyApp.BabyPhone
 
         void Update()
         {
-            mImage = detector.mBinaryIm;
-            Imgproc.circle(mImage, detector.mPoint, 5, new Scalar(254, 254, 254), -1);
-            Mat lMatMouv = new Mat();
-            mMatRed.copyTo(lMatMouv, mImage);
-            Imgproc.threshold(mImage, mImage, 200, 255, Imgproc.THRESH_BINARY_INV);
-            mCam.FrameMat.copyTo(lMatCam, mImage);
-            lMatView = lMatMouv + lMatCam;
-            BuddyTools.Utils.MatToTexture2D(lMatView, mTexture);
-            mRaw.texture = mTexture;
+            if (mRGBCam.IsOpen)
+            {
+                mImage = detector.mBinaryIm;
+                Imgproc.circle(mImage, detector.mPoint, 5, new Scalar(254, 254, 254), -1);
+                Mat lMatMouv = new Mat();
+                mMatRed.copyTo(lMatMouv, mImage);
+                Imgproc.threshold(mImage, mImage, 200, 255, Imgproc.THRESH_BINARY_INV);
+                mCam.FrameMat.copyTo(lMatCam, mImage);
+                lMatView = lMatMouv + lMatCam;
+                BuddyTools.Utils.MatToTexture2D(lMatView, mTexture);
+                mRaw.texture = mTexture;
+            }
+            else
+                Debug.Log("Cam Not Open");
+                
         }
 
         public void Labelize()

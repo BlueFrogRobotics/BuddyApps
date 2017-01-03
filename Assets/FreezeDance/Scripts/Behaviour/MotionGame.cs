@@ -44,8 +44,8 @@ namespace BuddyApp.FreezeDance
         // Use this for initialization
 
         private Mat mDebugMatRLGL;
-        [SerializeField]
-        private RawImage mDebugRawImg;
+        //[SerializeField]
+        //private RawImage mDebugRawImg;
 
         protected override void Init()
         {
@@ -102,7 +102,7 @@ namespace BuddyApp.FreezeDance
                     else
                     {
                         //mDebugRawImg.enabled = true;
-                        mDebugRawImg.texture = Utils.MatToTexture2D(mTest);
+                        //mDebugRawImg.texture = Utils.MatToTexture2D(mTest);
                         isMoving = true;
                     }
                         
