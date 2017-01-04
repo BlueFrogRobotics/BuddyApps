@@ -58,7 +58,10 @@ namespace BuddyApp.IOT
 
         public void InitiliazeParameters()
         {
-            mIOTObject.InitializeParams();
+            if (mIOTObject is IOTSystems)
+                ((IOTSystems)mIOTObject).Creation();
+            else
+                mIOTObject.InitializeParams();
             mIOTObject.PlaceParams(parametersGroup);
         }
     }
