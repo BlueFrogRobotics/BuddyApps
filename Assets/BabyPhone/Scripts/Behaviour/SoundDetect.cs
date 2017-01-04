@@ -59,7 +59,12 @@ namespace BuddyApp.BabyPhone
             //Init();
             mMinThreshold = 0.001f;
             mMaxThreshold = 1f;
-            mThreshold = 0.05f;
+
+            float lMaxThreshold = GetMaxThreshold();
+            float lThreshold = (1.0f - BabyPhoneData.Instance.MicrophoneSensitivity /10) * lMaxThreshold;
+
+            SetThreshold(lThreshold);
+            //mThreshold = 0.05f;
             CanSave = true;
         }
 
