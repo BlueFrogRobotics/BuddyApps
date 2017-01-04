@@ -12,6 +12,7 @@ namespace BuddyApp.BabyPhone
         private GameObject mSoundDetect;
         private GameObject mWindoAppOverBlack;
         private GameObject mNotifications;
+
         private Text mNotificationText;
 
         private const int STATE_TIME = 5;
@@ -26,8 +27,8 @@ namespace BuddyApp.BabyPhone
         {
             mWindoAppOverBlack = GetGameObject(2);
             mSoundDetect = GetGameObject(11);
-            mNotifications = GetGameObject(15);
-            mNotificationText = GetGameObject(15).GetComponent<Text>();
+            mNotifications = GetGameObject(13); //black
+            mNotificationText = GetGameObject(14).GetComponent<Text>();
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -43,10 +44,10 @@ namespace BuddyApp.BabyPhone
             UpdateFallingAssleep();
 
             //update notification count
-            int lCountNotifications = iAnimator.GetInteger("CountNotifications");
-            if (lCountNotifications >= 1)
+            int lCountNotifications = iAnimator.GetInteger("NotificationsCounts");
+            if (lCountNotifications > 0)
             {
-                Debug.Log("cout notifications : " + lCountNotifications);
+                //Debug.Log("cout notifications : " + lCountNotifications);
                 mNotifications.SetActive(true);
                 mNotificationText.text = lCountNotifications.ToString();
             }                

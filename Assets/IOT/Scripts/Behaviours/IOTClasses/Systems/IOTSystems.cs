@@ -9,6 +9,11 @@ namespace BuddyApp.IOT
         protected List<IOTDevices> mDevices = new List<IOTDevices>();
         public List<IOTDevices> Devices { get { return mDevices; } }
 
+        public virtual void Creation()
+        {
+            mListIntantParams.Clear();
+        }
+
         public override void Connect()
         {
             Login();

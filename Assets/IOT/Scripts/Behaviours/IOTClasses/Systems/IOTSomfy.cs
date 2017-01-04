@@ -19,6 +19,34 @@ namespace BuddyApp.IOT
             mSpriteName = "IOT_System_Somfy";
         }
 
+        public override void Creation()
+        {
+            base.Creation();
+            GameObject lSearch1 = InstanciateParam(ParamType.TEXTFIELD);
+            TextField lSearch1Component = lSearch1.GetComponent<TextField>();
+            GameObject lSearch2 = InstanciateParam(ParamType.TEXTFIELD);
+            TextField lPasswordComponent = lSearch2.GetComponent<TextField>();
+            GameObject lConnect = InstanciateParam(ParamType.BUTTON);
+            Button lConnectComponent = lConnect.GetComponent<Button>();
+
+            IOTCredentialTextFieldCmd lCmd1 = new IOTCredentialTextFieldCmd(this, 1, "");
+            lSearch1Component.Label.text = "USERNAME";
+            if (PlayerPrefs.GetString("somfy_user") != "")
+                lSearch1Component.Field.text = PlayerPrefs.GetString("somfy_user");
+            lSearch1Component.UpdateCommands.Add(lCmd1);
+
+            IOTCredentialTextFieldCmd lCmd2 = new IOTCredentialTextFieldCmd(this, 2, "");
+            lPasswordComponent.Label.text = "PASSWORD";
+            if (PlayerPrefs.GetString("somfy_password") != "")
+                lPasswordComponent.Field.text = PlayerPrefs.GetString("somfy_password");
+            lPasswordComponent.Field.contentType = UnityEngine.UI.InputField.ContentType.Password;
+            lPasswordComponent.UpdateCommands.Add(lCmd2);
+
+            IOTConnectCmd lCmd3 = new IOTConnectCmd(this);
+            lConnectComponent.Label.text = "CONNECT";
+            lConnectComponent.ClickCommands.Add(lCmd3);
+        }
+
         public override void InitializeParams()
         {
             base.InitializeParams();

@@ -86,12 +86,13 @@ namespace BuddyApp.BabyPhone
 
             ////contact
             contactSelection.AddOption("DEFAULT", BabyPhoneData.Contact.DEFAULT); //mDictionary.GetString("default")
-            contactSelection.AddOption("RODOLPHE", BabyPhoneData.Contact.RODOLPHE);
+            contactSelection.AddOption("RODOLPHE HASSLEVANDER", BabyPhoneData.Contact.RODOLPHE);
             contactSelection.AddOption("JEAN MICHEL MOURIER", BabyPhoneData.Contact.J2M);
             contactSelection.AddOption("MAUD VERRAES", BabyPhoneData.Contact.MAUD);
             contactSelection.AddOption("BENOIT PIRONNET", BabyPhoneData.Contact.BENOIT);
             contactSelection.AddOption("MARC GOURLAN", BabyPhoneData.Contact.MARC);
             contactSelection.AddOption("KARAMA GUIMBAL", BabyPhoneData.Contact.KARAMA);
+            contactSelection.AddOption("FRANCK DE VISME", BabyPhoneData.Contact.FRANCK);
             contactSelection.SetDefault((int)BabyPhoneData.Instance.Recever);
             contactSelection.UpdateCommands.Add(new ContactBabyPhoneCmd());
 
@@ -150,8 +151,8 @@ namespace BuddyApp.BabyPhone
 
             ////sound detection
             soundDetection.DisplayPercentage = true;
-            soundDetection.Slider.minValue = 9;
-            soundDetection.Slider.maxValue = 11;
+            soundDetection.Slider.minValue = 0;
+            soundDetection.Slider.maxValue = 10;
             soundDetection.Slider.value = BabyPhoneData.Instance.MicrophoneSensitivity;
             soundDetection.UpdateCommands.Add(new SetMicroSensCmd());
 
@@ -189,6 +190,13 @@ namespace BuddyApp.BabyPhone
             saveSettings.IsActive = BabyPhoneData.Instance.DoSaveSetting;
             saveSettings.SwitchCommands.Add(new ActSaveSettingsCmd());
         }
+
+        void Update()
+        {
+            if(soundDetection.Slider.value != BabyPhoneData.Instance.MicrophoneSensitivity)
+                soundDetection.Slider.value = BabyPhoneData.Instance.MicrophoneSensitivity;
+        }
+        
 
 
     }
