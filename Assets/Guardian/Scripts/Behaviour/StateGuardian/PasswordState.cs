@@ -37,7 +37,7 @@ namespace BuddyApp.Guardian
             mButtonValidate.onClick.AddListener(Validate);
             mButtonCancel.onClick.AddListener(Cancel);
             mIcoMessage.enabled = false;
-            mMessage.text = "5 SEC POUR ENTRER VOTRE MOT DE PASSE!";
+            mMessage.text = "5 SEC TO WRITE DOWN YOUR PASSWORD!";//"5 SEC POUR ENTRER VOTRE MOT DE PASSE!";
             for (int i = 0; i < mHaloImages.Length; i++)
                 mHaloImages[i].color = new Color(0F, 212f / 255f, 209f / 255f, 1F);
             //mBackgroundPrefab.SetActive(true);
