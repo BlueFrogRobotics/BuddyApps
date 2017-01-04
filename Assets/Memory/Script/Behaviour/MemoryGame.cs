@@ -201,7 +201,10 @@ namespace BuddyApp.Memory
 		protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
-			// TODO: add wheel is stable ( = is at starting position)
+			if (link.mUnloadingScene) {
+				Debug.Log("Unloading");
+				QuitApp();
+			}
 
 			if (mOnEnterDone) {
 				mTTSTimer += Time.deltaTime;

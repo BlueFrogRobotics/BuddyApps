@@ -20,11 +20,11 @@ namespace BuddyApp.CalculGame
 		{
 			mAnimationManager = GetComponentInGameObject<AnimManager>(0);
 
-			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA) {
+			/*if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA) {
 				mSynonymesFile = "calculs_dialogs_fr.xml";
 			} else {
 				mSynonymesFile = "calculs_dialogs_en.xml";
-			}
+			}*/
 		}
 
 		protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -36,14 +36,14 @@ namespace BuddyApp.CalculGame
 		{
 			mTimer = 0.0f;
 
-			quitWords = new List<string>();
-			FillListSyn("QuitGame", quitWords);
+			//quitWords = new List<string>();
+			//FillListSyn("QuitGame", quitWords);
 
 			mMood.Set(MoodType.SAD);
 			mAnimationManager.Sigh();
-			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
-			mTTS.Silence(500, true);
-			mTTS.Say(RdmStr(quitWords), true);
+			//BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
+			//mTTS.Silence(500, true);
+			//mTTS.Say(RdmStr(quitWords), true);
 
 		}
 
@@ -53,7 +53,7 @@ namespace BuddyApp.CalculGame
 			mTimer += Time.deltaTime;
 
 			if (mTTS.HasFinishedTalking && mTimer > 2.0f) {
-				//link.UnLoadScene ();
+				QuitApp();
 			}
 		}
 
