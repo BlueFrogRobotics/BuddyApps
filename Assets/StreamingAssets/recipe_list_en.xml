@@ -7,7 +7,7 @@
     <ingredient name="Butter" quantity="30" unit="grams" icon="Recipe_Ico_Beurre"/>
     <ingredient name="Salt" quantity="5" unit="grams" icon="Recipe_Ico_Sel"/>
     <ingredient name="Milk" quantity="30" unit="centiliter" icon="Recipe_Ico_Lait"/>
-    <ingredient name="Water" quantity="2" unit="tablespoon"/>
+    <ingredient name="Water" quantity="2" unit="tablespoon" icon="Recipe_Ico_Eau"/>
     <ingredient name="Rum or other" quantity="2" unit="teaspoon" icon="Recipe_Ico_Rhum"/>
     <step>
       <media>CrepesBretonnes/step0</media>
@@ -31,15 +31,15 @@
     </step>
   </recipe>
   <recipe name="cake courgettes feta" category="entrée" illustration="CakeCourgettesFeta/illustration" person="6" prep="35" cook="40" stars="5" xml="cake_courgettes_feta.xml">
-    <ingredient name="Small courgette" quantity="2"/>
-    <ingredient name="Feta cheese" quantity="150" unit="grams"/>
-    <ingredient name="Greek yoghurt" quantity="1"/>
+    <ingredient name="Small courgette" quantity="2" icon="Recipe_Ico_Courgette"/>
+    <ingredient name="Feta cheese" quantity="150" unit="grams" icon="Recipe_Ico_Fetta"/>
+    <ingredient name="Greek yoghurt" quantity="1" icon="Recipe_Ico_Yaourt"/>
     <ingredient name="Flour" quantity="200" unit="grams" icon="Recipe_Ico_Farine"/>
     <ingredient name="Egg" quantity="3" icon="Recipe_Ico_Oeuf"/>
-    <ingredient name="Chemical yeast" quantity="1" unit="bag"/>
+    <ingredient name="Chemical yeast" quantity="1" unit="bag" icon="Recipe_Ico_Sachet"/>
     <ingredient name="Oil" quantity="10" unit="centiliter" icon="Recipe_Ico_Huile"/>
     <ingredient name="Salt" icon="Recipe_Ico_Sel"/>
-    <ingredient name="Pepper"/>
+    <ingredient name="Pepper" icon="Recipe_Ico_Sel"/>
     <step>
       <media>CakeCourgettesFeta/step0</media>
       <sentence>Wash and wipe the courgettes. Detail them in cubes with an onion cut</sentence>
@@ -91,15 +91,15 @@
   </recipe>
   <recipe name="hake escabeche" category="plat" illustration="MerluEscabeche/illustration" person="2" prep="50" stars="4" xml="MerluEscabeche.xml">
     <summary>Escabeche is an ideal method for preparing fish. It is a marinade made from vinegar that can be seasoned to taste and that will do wonder for sardine or mackerel fillets.</summary>
-    <ingredient name="Hake of line" quantity="1"/>
+    <ingredient name="Hake of line" quantity="1" icon="Recipe_Ico_Poisson"/>
     <ingredient name="Olive oil" quantity="10" unit="centiliter" icon="Recipe_Ico_Huile"/>
-    <ingredient name="Red pepper" quantity="1" unit="spoonful"/>
-    <ingredient name="Cumin" quantity="1" unit="Pinch"/>
-    <ingredient name="Clove garlic" quantity="1"/>
-    <ingredient name="Vinegar" quantity="7" unit="centiliter"/>
-    <ingredient name="Leaves of laurel" quantity="2"/>
-    <ingredient name="Bouquet of parsley" quantity="1"/>
-    <ingredient name="Tomato puree" quantity="2" unit="spoonful"/>
+    <ingredient name="Red pepper" quantity="1" unit="spoonful" icon="Recipe_Ico_Sel"/>
+    <ingredient name="Cumin" quantity="1" unit="Pinch" icon="Recipe_Ico_Epice"/>
+    <ingredient name="Clove garlic" quantity="1" icon="Recipe_Ico_Ail"/>
+    <ingredient name="Vinegar" quantity="7" unit="centiliter" icon="Recipe_Ico_Vins"/>
+    <ingredient name="Leaves of laurel" quantity="2" icon="Recipe_Ico_Feuille"/>
+    <ingredient name="Bouquet of parsley" quantity="1" icon="Recipe_Ico_Persil"/>
+    <ingredient name="Tomato puree" quantity="2" unit="spoonful" icon="Recipe_Ico_Tomate"/>
     <ingredient name="Salt" icon="Recipe_Ico_Sel"/>
     <ingredient name="Pepper" icon="Recipe_Ico_Sel"/>
     <step>
@@ -213,12 +213,12 @@
   </recipe>
   <recipe name="piedmontese salad" category="entrée" illustration="SaladePiemontaise/illustration" person="4" prep="45" stars="5" xml="SaladePiemontaise.xml">
     <summary>Impossible to miss the Piedmont salad! This great classic of French cuisine, however, as its name suggests, originated in Italy. It takes its name from the region of north-western Italy called Piedmont. Today this unctuous mixture of tomatoes, potatoes, eggs, pickles and ham, all closely linked by a gourmet mayonnaise is present everywhere: in caterers, in small and large restaurants, in bistros, et cetera. A complete recipe to success that has managed to settle permanently to the menu of French gastronomy.</summary>
-    <ingredient name="Fresh tomato" quantity="400" unit="grams"/>
-    <ingredient name="Charlotte-style firm-fleshed potato" quantity="600" unit="grams"/>
+    <ingredient name="Fresh tomato" quantity="400" unit="grams" icon="Recipe_Ico_Tomate"/>
+    <ingredient name="Charlotte-style firm-fleshed potato" quantity="600" unit="grams" icon="Recipe_Ico_PommeDeTerre"/>
     <ingredient name="Egg" quantity="3" icon="Recipe_Ico_Oeuf"/>
-    <ingredient name="Pickle with vinegar" quantity="8"/>
-    <ingredient name="Mayonnaise" quantity="150" unit="grams"/>
-    <ingredient name="Ham" quantity="200" unit="grams"/>
+    <ingredient name="Pickle with vinegar" quantity="8" icon="Recipe_Ico_Cornichon"/>
+    <ingredient name="Mayonnaise" quantity="150" unit="grams" icon="Recipe_Ico_Sauce"/>
+    <ingredient name="Ham" quantity="200" unit="grams" icon="Recipe_Ico_Jambon"/>
     <ingredient name="Salt" icon="Recipe_Ico_Sel"/>
     <ingredient name="Pepper" icon="Recipe_Ico_Sel"/>
     <step>
@@ -276,20 +276,20 @@
   </recipe>
   <recipe name="beef carrots" category="plat" illustration="BoeufCarottes/illustration" person="8" prep="30" cook="300" stars="5" xml="BoeufCarottes.xml">
     <summary>An inescapable classic that every good cook must know how to do! The longer and slower the cooking, the better the result.</summary>
-    <ingredient name="Meat of beef" quantity="1.5" unit="kilograms"/>
-    <ingredient name="Red wine from South West" quantity="1" unit="bottle" icon="Recipe_Ico_Rhum"/>
-    <ingredient name="Carrot" quantity="2"/>
-    <ingredient name="Onion" quantity="1"/>
-    <ingredient name="Clove garlic" quantity="1"/>
-    <ingredient name="Fresh carrots" quantity="1" unit="bunch"/>
-    <ingredient name="Bouquet garni" quantity="1"/>
+    <ingredient name="Meat of beef" quantity="1.5" unit="kilograms" icon="Recipe_Ico_Boeuf"/>
+    <ingredient name="Red wine from South West" quantity="1" unit="bottle" icon="Recipe_Ico_Vins"/>
+    <ingredient name="Carrot" quantity="2" icon="Recipe_Ico_Carotte"/>
+    <ingredient name="Onion" quantity="1" icon="Recipe_Ico_Oignon"/>
+    <ingredient name="Clove garlic" quantity="1" icon="Recipe_Ico_Ail"/>
+    <ingredient name="Fresh carrots" quantity="1" unit="bunch" icon="Recipe_Ico_Carotte"/>
+    <ingredient name="Bouquet garni" quantity="1" icon="Recipe_Ico_Feuille"/>
     <ingredient name="Oil" icon="Recipe_Ico_Huile"/>
     <ingredient name="Butter" icon="Recipe_Ico_Beurre"/>
-    <ingredient name="Smoked pork breast"/>
+    <ingredient name="Smoked pork breast" icon="Recipe_Ico_Bacon"/>
     <ingredient name="Wholesale salt" icon="Recipe_Ico_Sel"/>
     <ingredient name="Pepper" icon="Recipe_Ico_Sel"/>
-    <ingredient name="Parsley"/>
-    <ingredient name="Water" quantity="1" unit="liter"/>
+    <ingredient name="Parsley" icon="Recipe_Ico_Persil"/>
+    <ingredient name="Water" quantity="1" unit="liter" icon="Recipe_Ico_Eau"/>
     <ingredient name="Veal stock in flakes" quantity="40" unit="grams"/>
     <step>
       <media>BoeufCarottes/step0</media>
@@ -524,12 +524,12 @@
   </recipe>
   <recipe name="Tart Tatin" category="dessert" illustration="TarteTatin/illustration" person="8" prep="75" stars="5" xml="TarteTatin.xml">
     <summary>Here is the story without a top of a caramelized apple pie of legend, which is cooked upside down but is eaten at the place. Originally from Sologne in the 19th century, Tarte Tatin owes its name to two sisters: Caroline and Stéphanie Tatin. According to the versions, the legend says that the recipe would be the result of an awkwardness (the pie would have been reversed and then cooked upside down), an oversight (the apples would have cooked too long) or would simply be the reproduction of A former Solognote specialty. However, the victim of its success, it exported to Paris in 1926. Served for the first time in the restaurant Maxim's, it has since become a classic French tables!</summary>
-    <ingredient name="Apple" quantity="8"/>
+    <ingredient name="Apple" quantity="8" icon="Recipe_Ico_Pomme"/>
     <ingredient name="Butter" quantity="150" unit="grams" icon="Recipe_Ico_Beurre"/>
     <ingredient name="Granulated sugar" quantity="150" unit="grams" icon="Recipe_Ico_Farine"/>
-    <ingredient name="Pastry" quantity="200" unit="grams"/>
-    <ingredient name="Fresh cream or vanilla ice cream" quantity="100" unit="grams"/>
-    <ingredient name="Ground cinnamon(optional)"/>
+    <ingredient name="Pastry" quantity="200" unit="grams" icon="Recipe_Ico_Pate"/>
+    <ingredient name="Fresh cream or vanilla ice cream" quantity="100" unit="grams" icon="Recipe_Ico_CremeFraiche"/>
+    <ingredient name="Ground cinnamon(optional)" icon="Recipe_Ico_Cannelle"/>
     <step>
       <media>TarteTatin/step0</media>
       <sentence>To make this recipe for tart tatin, start by preparing all the ingredients.</sentence>

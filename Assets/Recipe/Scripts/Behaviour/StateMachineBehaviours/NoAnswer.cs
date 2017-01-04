@@ -12,7 +12,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (GetComponent<RecipeBehaviour>().NoAnswerCount >= 2)
+            if (GetComponent<RecipeBehaviour>().NoAnswerCount >= 1)
                 iAnimator.SetTrigger("ChooseWithScreen");
             else
                 mTTS.Say(mDictionary.GetString("noanswerrecipe"));
@@ -20,7 +20,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (mTTS.HasFinishedTalking && GetComponent<RecipeBehaviour>().NoAnswerCount < 2)
+            if (mTTS.HasFinishedTalking && GetComponent<RecipeBehaviour>().NoAnswerCount < 1)
                 iAnimator.SetTrigger("AskRecipeAgain");
         }
 

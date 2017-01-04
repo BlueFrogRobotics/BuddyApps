@@ -114,8 +114,6 @@ namespace BuddyApp.Recipe
 
         private void RecipeInfo()
         {
-            string lText = mRecipe.summary;
-
             if (!open) {
                 open = !open;
                 GetComponent<Animator>().SetTrigger("Open_Recipe");
