@@ -7,7 +7,7 @@
     <ingredient name="Beurre" quantity="30" unit="grammes" icon="Recipe_Ico_Beurre"/>
     <ingredient name="Sel" quantity="5" unit="grammes" icon="Recipe_Ico_Sel"/>
     <ingredient name="Lait" quantity="30" unit="centiliters" icon="Recipe_Ico_Lait"/>
-    <ingredient name="Eau" quantity="2" unit="cuillères à soupe"/>
+    <ingredient name="Eau" quantity="2" unit="cuillères à soupe" icon="Recipe_Ico_Eau"/>
     <ingredient name="Rhum ou autres" quantity="2" unit="cuillères à café" icon="Recipe_Ico_Rhum"/>
     <step>
       <media>CrepesBretonnes/step0</media>
@@ -40,7 +40,7 @@
     <ingredient name="Levure chimique" quantity="1" unit="sachet"/>
     <ingredient name="Huile" quantity="10" unit="centiliters" icon="Recipe_Ico_Huile"/>
     <ingredient name="Sel" icon="Recipe_Ico_Sel"/>
-    <ingredient name="Poivre"/>
+    <ingredient name="Poivre" icon="Recipe_Ico_Sel"/>
     <step>
       <media>CakeCourgettesFeta/step0</media>
       <sentence>Laver et essuyer les courgettes. Les détailler en cubes à l'aide d'un coupe oignon</sentence>
@@ -92,15 +92,15 @@
   </recipe>
   <recipe name="merlu escabeche" category="plat" illustration="MerluEscabeche/illustration" person="2" prep="50" stars="4" xml="merlu_escabeche.xml">
     <summary>L'escabèche est une méthode idéale pour la préparation des poissons. C'est une marinade à base de vinaigre que l'on peut assaisonner au goût et qui fera merveille pour des filets de sardine ou de maquereau.</summary>
-    <ingredient name="Merlu de ligne" quantity="1"/>
+    <ingredient name="Merlu de ligne" quantity="1" icon="Recipe_Ico_Poison"/>
     <ingredient name="Huile d'olive" quantity="10" unit="centiliters" icon="Recipe_Ico_Huile"/>
-    <ingredient name="Poivre rouge" quantity="1" unit="cuillérée"/>
-    <ingredient name="Cumin" quantity="1" unit="pincée"/>
-    <ingredient name="Gousse d'ail" quantity="1"/>
-    <ingredient name="Vinaigre" quantity="1" unit="verre à porto"/>
-    <ingredient name="Feuille de laurier" quantity="2"/>
-    <ingredient name="Bouquet de persil" quantity="1"/>
-    <ingredient name="Purée de tomates" quantity="2" unit="cuillérées"/>
+    <ingredient name="Poivre rouge" quantity="1" unit="cuillérée" icon="Recipe_Ico_Sel"/>
+    <ingredient name="Cumin" quantity="1" unit="pincée" icon="Recipe_Ico_Epice"/>
+    <ingredient name="Gousse d'ail" quantity="1" icon="Recipe_Ico_Ail"/>
+    <ingredient name="Vinaigre" quantity="1" unit="verre à porto" icon="Recipe_Ico_Biere"/>
+    <ingredient name="Feuille de laurier" quantity="2" icon="Recipe_Ico_Feuille"/>
+    <ingredient name="Bouquet de persil" quantity="1" icon="Recipe_Ico_Persil"/>
+    <ingredient name="Purée de tomates" quantity="2" unit="cuillérées" icon="Recipe_Ico_Tomate"/>
     <ingredient name="Sel" icon="Recipe_Ico_Sel"/>
     <ingredient name="Poivre du moulin" icon="Recipe_Ico_Sel"/>
     <step>
@@ -214,12 +214,12 @@
   </recipe>
   <recipe name="salade piemonataise" category="entrée" illustration="SaladePiemontaise/illustration" person="4" prep="45" stars="5" xml="salade_piemontaise.xml">
     <summary>Impossible de passer à côté de la salade piémontaise! Ce grand classique de la cuisine française serait pourtant, comme son nom l'indique, originaire d'Italie. Elle tire son nom de la région du nord-ouest de l'Italie que l'on appelle Piémont. Aujourd'hui cet onctueux mélange de tomates, de pommes de terre, d'œufs, de cornichons et de jambon, tous étroitement liés par une mayonnaise gourmande est présente partout : chez les traiteurs, dans les petits comme les grands restaurants, dans les bistros, et caetera. Une recette complète à succès qui a réussi à s'installer durablement à la carte de la gastronomie française.</summary>
-    <ingredient name="Tomate ferme" quantity="400" unit="grammes"/>
-    <ingredient name="Pomme de terre à chair ferme type Charlotte" quantity="600" unit="grammes"/>
+    <ingredient name="Tomate ferme" quantity="400" unit="grammes" icon="Recipe_Ico_Tomate"/>
+    <ingredient name="Pomme de terre à chair ferme type Charlotte" quantity="600" unit="grammes" icon="Recipe_Ico_PommeDeTerre"/>
     <ingredient name="Oeuf" quantity="3" icon="Recipe_Ico_Oeuf"/>
-    <ingredient name="Cornichon au vinaigre" quantity="8"/>
-    <ingredient name="Mayonnaise" quantity="150" unit="grammes"/>
-    <ingredient name="Jambon" quantity="200" unit="grammes"/>
+    <ingredient name="Cornichon au vinaigre" quantity="8" icon="Recipe_Ico_Biere"/>
+    <ingredient name="Mayonnaise" quantity="150" unit="grammes" icon="Recipe_Ico_Sauce"/>
+    <ingredient name="Jambon" quantity="200" unit="grammes" icon="Recipe_Ico_Jambon"/>
     <ingredient name="Sel" icon="Recipe_Ico_Sel"/>
     <ingredient name="Poivre du moulin" icon="Recipe_Ico_Sel"/>
     <step>
@@ -277,20 +277,20 @@
   </recipe>
   <recipe name="boeuf carottes" category="plat" illustration="BoeufCarottes/illustration" person="8" prep="30" cook="300" stars="5" xml="boeuf_carottes.xml">
     <summary>Un classique incontournable que tout bon marmiton doit savoir faire! Plus la cuisson est longue et lente, meilleur sera le résultat.</summary>
-    <ingredient name="Viande de boeuf" quantity="1.5" unit="kilogrammes"/>
+    <ingredient name="Viande de boeuf" quantity="1.5" unit="kilogrammes" icon="Recipe_Ico_Boeuf"/>
     <ingredient name="Vin rouge du Sud Ouest" quantity="1" unit="bouteille" icon="Recipe_Ico_Rhum"/>
-    <ingredient name="Carotte" quantity="2"/>
-    <ingredient name="Oignon" quantity="1"/>
-    <ingredient name="Gousse d'ail" quantity="1"/>
-    <ingredient name="Carottes fanes" quantity="1" unit="botte"/>
-    <ingredient name="Bouquet garni" quantity="1"/>
+    <ingredient name="Carotte" quantity="2" icon="Recipe_Ico_Carotte"/>
+    <ingredient name="Oignon" quantity="1" icon="Recipe_Ico_Oignon"/>
+    <ingredient name="Gousse d'ail" quantity="1" icon="Recipe_Ico_Ail"/>
+    <ingredient name="Carottes fanes" quantity="1" unit="botte" icon="Recipe_Ico_Carotte"/>
+    <ingredient name="Bouquet garni" quantity="1" icon="Recipe_Ico_Feuille"/>
     <ingredient name="Huile" icon="Recipe_Ico_Huile"/>
     <ingredient name="Beurre" icon="Recipe_Ico_Beurre"/>
-    <ingredient name="Poitrine de porc fumée"/>
+    <ingredient name="Poitrine de porc fumée" icon="Recipe_Ico_Bacon"/>
     <ingredient name="Gros sel" icon="Recipe_Ico_Sel"/>
     <ingredient name="Poivre du moulin" icon="Recipe_Ico_Sel"/>
-    <ingredient name="Persil"/>
-    <ingredient name="Eau" quantity="1" unit="liter"/>
+    <ingredient name="Persil" icon="Recipe_Ico_Persil"/>
+    <ingredient name="Eau" quantity="1" unit="liter" icon="Recipe_Ico_Eau"/>
     <ingredient name="Fond de veau en flocons" quantity="40" unit="grammes"/>
     <step>
       <media>BoeufCarottes/step0</media>
@@ -524,12 +524,12 @@
   </recipe>
   <recipe name="tarte tatin" category="dessert" illustration="TarteTatin/illustration" person="8" prep="75" stars="5" xml="tarte_tatin.xml">
     <summary>Voici l'histoire sans dessus-dessous d'une tarte aux pommes caramélisées de légende, qui se cuit à l'envers mais se déguste à l'endroit. Originaire de Sologne au 19ème siècle, la Tarte Tatin doit son nom à deux sœurs : Caroline et Stéphanie Tatin. Selon les versions, la légende raconte que la recette serait le fruit d'une maladresse (la tarte aurait été renversée puis cuite à l'envers), d'un oubli (les pommes auraient cuit trop longtemps) ou serait tout simplement la reproduction d'une ancienne spécialité solognote. Toujours est-il que, victime de son succès, elle s'exporte à Paris dès 1926. Servie pour la première fois dans le restaurant Maxim's, elle est, depuis, devenue un classique des tables françaises!</summary>
-    <ingredient name="Pomme" quantity="8"/>
+    <ingredient name="Pomme" quantity="8" icon="Recipe_Ico_Pomme"/>
     <ingredient name="Beurre" quantity="150" unit="grammes" icon="Recipe_Ico_Beurre"/>
     <ingredient name="Sucre en poudre" quantity="150" unit="grammes" icon="Recipe_Ico_Farine"/>
-    <ingredient name="Pâte Brisée" quantity="200" unit="grammes"/>
-    <ingredient name="Crême Fraiche ou glace vanille" quantity="100" unit="grammes"/>
-    <ingredient name="Cannelle moulue(facultatif)"/>
+    <ingredient name="Pâte Brisée" quantity="200" unit="grammes" icon="Recipe_Ico_Pate"/>
+    <ingredient name="Crême Fraiche ou glace vanille" quantity="100" unit="grammes" icon="Recipe_Ico_CremeFraiche"/>
+    <ingredient name="Cannelle moulue(facultatif)" icon="Recipe_Ico_Cannelle"/>
     <step>
        <media>TarteTatin/step0</media>
       <sentence>Pour réaliser cette recette de tarte tatin, commencer par préparer tous les ingrédients.</sentence>

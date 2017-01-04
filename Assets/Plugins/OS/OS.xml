@@ -461,6 +461,11 @@
             Error code if there is any error on the component
             </summary>
         </member>
+        <member name="P:BuddyOS.Hinge.Locked">
+            <summary>
+            Lock set for hinges
+            </summary>
+        </member>
         <member name="M:BuddyOS.Hinge.SetPosition(System.Single,System.Single)">
             <summary>
             Set the angular position in degrees of the motor at a specific speed in degrees per second
@@ -492,6 +497,11 @@
             </summary>
             <param name="iAngleDeg">The angle in degrees</param>
         </member>
+        <member name="P:BuddyOS.YesHinge.Locked">
+            <summary>
+            Lock set for hinge
+            </summary>
+        </member>
         <member name="T:BuddyOS.NoHinge">
             <summary>
             Represents the no axe hinge of the robot (Yaw Euler axe)
@@ -509,6 +519,11 @@
             Set the hinge at the specified position in degrees
             </summary>
             <param name="iAngleDeg">The angle in degrees</param>
+        </member>
+        <member name="P:BuddyOS.NoHinge.Locked">
+            <summary>
+            Lock set for hinge
+            </summary>
         </member>
         <member name="T:BuddyOS.Wheels">
             <summary>
@@ -570,7 +585,7 @@
             Enumeration corresponding to the current wheel's status
             </summary>
         </member>
-        <member name="P:BuddyOS.Wheels.Lock">
+        <member name="P:BuddyOS.Wheels.Locked">
             <summary>
             Set for robot wheels locking
             </summary>
@@ -810,7 +825,7 @@
             Mute state of the audiosource
             </summary>
         </member>
-        <member name="P:BuddyOS.SoundChannel`1.State">
+        <member name="P:BuddyOS.SoundChannel`1.Status">
             <summary>
             Status of the channel
             </summary>
@@ -2259,6 +2274,48 @@
             </summary>
         </member>
         <member name="M:BuddyOS.Command.KillSndsCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.LockYesHingeCmd">
+            <summary>
+            When executed : Lock yes hinge
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.LockYesHingeCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.LockYesHingeCmd.#ctor(System.Boolean)">
+            <summary>
+            When executed : Lock yes hinge
+            </summary>
+            <param name="iLock">Must hinges be locked ?</param>
+        </member>
+        <member name="M:BuddyOS.Command.LockYesHingeCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BuddyOS.Command.LockNoHingeCmd">
+            <summary>
+            When executed : Lock no hinge
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.LockNoHingeCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BuddyOS.Command.LockNoHingeCmd.#ctor(System.Boolean)">
+            <summary>
+            When executed : Lock no hinge
+            </summary>
+            <param name="iLock">Must hinges be locked ?</param>
+        </member>
+        <member name="M:BuddyOS.Command.LockNoHingeCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>

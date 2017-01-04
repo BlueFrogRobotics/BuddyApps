@@ -47,6 +47,7 @@ namespace BuddyApp.TakePhoto
 			mRGBCam = BYOS.Instance.RGBCam;
 
 			mTTS.SayKey("look4face");
+			Debug.Log(mDictionary.GetString("look4face"));
 
 			if (!mRGBCam.IsOpen)
 				mRGBCam.Open();
