@@ -128,7 +128,9 @@ namespace BuddyApp.Recipe
                     }
                     if (lIngredient.icon != null)
                         mPrefabIngredientIconList[i].GetComponent<Image>().sprite = mSpriteManager.GetSprite(lIngredient.icon, "AtlasRecipe");
-                   }
+                    else
+                        mPrefabIngredientIconList[i].GetComponent<Image>().sprite = mSpriteManager.GetSprite("Recipe_Ico_Autres", "AtlasRecipe");
+                }
                 else
                     mPrefabIngredientList[i].SetActive(false);
                 IngredientIndex++;

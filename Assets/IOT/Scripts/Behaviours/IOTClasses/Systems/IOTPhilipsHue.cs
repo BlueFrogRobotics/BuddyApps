@@ -14,6 +14,34 @@ namespace BuddyApp.IOT
             mName = "Philips HUE";
             mSpriteName = "IOT_System_Hue";
         }
+
+        public override void Creation()
+        {
+            base.Creation();
+            GameObject lSearch = InstanciateParam(ParamType.TEXTFIELD);
+            TextField lSearchComponent = lSearch.GetComponent<TextField>();
+            GameObject lSearch1 = InstanciateParam(ParamType.TEXTFIELD);
+            TextField lSearch1Component = lSearch1.GetComponent<TextField>();
+            GameObject lConnect = InstanciateParam(ParamType.BUTTON);
+            Button lConnectComponent = lConnect.GetComponent<Button>();
+
+            IOTCredentialTextFieldCmd lCmd = new IOTCredentialTextFieldCmd(this, 0, "");
+            lSearchComponent.Label.text = "IP";
+            if (PlayerPrefs.GetString("philips_ip") != "")
+                lSearchComponent.Field.text = PlayerPrefs.GetString("philips_ip");
+            lSearchComponent.UpdateCommands.Add(lCmd);
+
+            IOTCredentialTextFieldCmd lCmd1 = new IOTCredentialTextFieldCmd(this, 1, "");
+            lSearch1Component.Label.text = "USERNAME";
+            if (PlayerPrefs.GetString("philips_user") != "")
+                lSearch1Component.Field.text = PlayerPrefs.GetString("philips_user");
+            lSearch1Component.UpdateCommands.Add(lCmd1);
+
+            IOTConnectCmd lCmd3 = new IOTConnectCmd(this);
+            lConnectComponent.Label.text = "CONNECT";
+            lConnectComponent.ClickCommands.Add(lCmd3);
+        }
+
         public override void InitializeParams()
         {
             base.InitializeParams();

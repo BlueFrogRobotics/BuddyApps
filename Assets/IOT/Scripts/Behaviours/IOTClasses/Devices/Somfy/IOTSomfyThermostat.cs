@@ -13,7 +13,7 @@ namespace BuddyApp.IOT
         {
             mType = DeviceType.THERMOSTAT;
             mName = iObject.label;
-            mSpriteName = "IOT_Device_Thermostat";
+            mSpriteName = "IOT_Device_Thermo";
         }
 
         public IOTSomfyThermostat(IOTSomfyDevice iObject, string iSessionID) : base(iObject)
@@ -21,7 +21,7 @@ namespace BuddyApp.IOT
             mType = DeviceType.THERMOSTAT;
             mName = iObject.label;
             mSessionID = iSessionID;
-            mSpriteName = "IOT_Device_Thermostat";
+            mSpriteName = "IOT_Device_Thermo";
         }
 
         public IOTSomfyThermostat(string iName, string iURL, string iSessionID) : base(null)
@@ -29,7 +29,7 @@ namespace BuddyApp.IOT
             mType = DeviceType.THERMOSTAT;
             mName = iName;
             mSessionID = iSessionID;
-            mSpriteName = "IOT_Device_Thermostat";
+            mSpriteName = "IOT_Device_Thermo";
         }
 
         public override void InitializeParams()

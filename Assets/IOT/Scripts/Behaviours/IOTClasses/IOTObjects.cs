@@ -13,7 +13,7 @@ namespace BuddyApp.IOT
         protected string mName;
         protected string mSpriteName;
 
-        private List<GameObject> mListIntantParams = new List<GameObject>();
+        protected List<GameObject> mListIntantParams = new List<GameObject>();
 
         public List<string> Credentials { get { return mCredentials; } set { mCredentials = value; } }
         public bool Available { get { return mAvailable; } }
