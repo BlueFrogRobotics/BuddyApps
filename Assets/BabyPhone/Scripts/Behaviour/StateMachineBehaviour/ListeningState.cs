@@ -32,7 +32,7 @@ namespace BuddyApp.BabyPhone
         {
             mListening.SetActive(true);
             mWindoAppOverBlack.SetActive(true);
-
+            mListening.GetComponent<SoundDetect>().Init();
             mIsBabyCrying = false;
 
             mCountNotifications = iAnimator.GetInteger("NotificationsCounts");
@@ -43,6 +43,7 @@ namespace BuddyApp.BabyPhone
         {
             mListening.SetActive(false);
             mWindoAppOverBlack.SetActive(false);
+            mListening.GetComponent<SoundDetect>().Stop();
             mListening.GetComponent<MotionDetector>().enabled = false;
             iAnimator.SetInteger("ForwardState", 4);
             if (mRGBCam.IsOpen)
@@ -53,8 +54,8 @@ namespace BuddyApp.BabyPhone
         {
             //mIsBabyMoving = GetComponent<MotionDetector>().IsMoving();
 
-            mIsBabyCrying = mListening.GetComponent<SoundDetector>().isNoisy;
-
+            mIsBabyCrying = mListening.GetComponent<SoundDetect>().IsASoundDetected;
+            Debug.Log("is baby crying"+ mIsBabyCrying);
             //if ((mIsBabyCrying) || (mIsBabyMoving))
             if (mIsBabyCrying)
             {

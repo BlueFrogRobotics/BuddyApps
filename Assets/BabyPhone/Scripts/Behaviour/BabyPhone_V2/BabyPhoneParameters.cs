@@ -56,6 +56,11 @@ namespace BuddyApp.BabyPhone
             mDictionary = BYOS.Instance.Dictionary;
         }
 
+        void OnDisable()
+        {
+            Debug.Log("seuil ecoute" + BabyPhoneData.Instance.MicrophoneSensitivity);
+        }
+
         void Start()
         {
             Init();
@@ -150,8 +155,8 @@ namespace BuddyApp.BabyPhone
 
             ////sound detection
             soundDetection.DisplayPercentage = true;
-            soundDetection.Slider.minValue = 9;
-            soundDetection.Slider.maxValue = 11;
+            soundDetection.Slider.minValue = 0;
+            soundDetection.Slider.maxValue = 10;
             soundDetection.Slider.value = BabyPhoneData.Instance.MicrophoneSensitivity;
             soundDetection.UpdateCommands.Add(new SetMicroSensCmd());
 
@@ -189,6 +194,13 @@ namespace BuddyApp.BabyPhone
             saveSettings.IsActive = BabyPhoneData.Instance.DoSaveSetting;
             saveSettings.SwitchCommands.Add(new ActSaveSettingsCmd());
         }
+
+        void Update()
+        {
+            if(soundDetection.Slider.value != BabyPhoneData.Instance.MicrophoneSensitivity)
+                soundDetection.Slider.value = BabyPhoneData.Instance.MicrophoneSensitivity;
+        }
+        
 
 
     }

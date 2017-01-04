@@ -39,7 +39,7 @@ namespace BuddyApp.BabyPhone
             mWindoAppOverWhite.SetActive(true);
             mFallingAssleep.SetActive(true);
             mFallingAssleepAnimator.SetTrigger("Open_WFallingAssleep");
-
+            mFallingAssleep.GetComponent<SoundDetect>().Init();
             iAnimator.SetBool("DoPlayLullaby", true);
 
             mIsBabyCrying = false;
@@ -68,7 +68,7 @@ namespace BuddyApp.BabyPhone
         {
             mFallingAssleep.SetActive(false);
             mFallingAssleepAnimator.SetTrigger("Close_WFallingAssleep");
-
+            mFallingAssleep.GetComponent<SoundDetect>().Stop();
             mWindoAppOverWhite.SetActive(false);
 
             iAnimator.SetBool("DoPlayLullaby", false);
@@ -81,7 +81,7 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mIsBabyCrying = mFallingAssleep.GetComponent<SoundDetector>().isNoisy;
+            mIsBabyCrying = mFallingAssleep.GetComponent<SoundDetect>().IsASoundDetected;
             if ((mIsBabyCrying) && (!mDidISend))
             {
                 StartCoroutine(SadFace());
