@@ -15,18 +15,19 @@ namespace BuddyApp.Guardian
              * Create needed widgets
              * ==> Which widget do I need for my app settings
              */
-            GaugeOnOff lGaugeFireDetection = AddWidget<GaugeOnOff>(FIRST_LINE);
-            GaugeOnOff lGaugeMovementDetection = AddWidget<GaugeOnOff>(SECOND_LINE);
-            GaugeOnOff lGaugeKidnappingDetection = AddWidget<GaugeOnOff>(THIRD_LINE);
-            GaugeOnOff lGaugeSoundDetection = AddWidget<GaugeOnOff>(FOURTH_LINE);
+            GaugeOnOff lGaugeMovementDetection = AddWidget<GaugeOnOff>(FIRST_LINE);
+            GaugeOnOff lGaugeSoundDetection = AddWidget<GaugeOnOff>(SECOND_LINE);
+            OnOff lGaugeKidnappingDetection = AddWidget<OnOff>(THIRD_LINE);
+            OnOff lGaugeFireDetection = AddWidget<OnOff>(FOURTH_LINE);
+            
             Dropdown lDropDownContact = AddWidget<Dropdown>(FIFTH_LINE);
             Button lQuitButton = AddWidget<Button>(SIXTH_LINE);
 
 
-            lGaugeFireDetection.Slider.minValue = 0;
-            lGaugeFireDetection.Slider.maxValue = 10;
-            lGaugeFireDetection.Slider.wholeNumbers = true;
-            lGaugeFireDetection.DisplayPercentage = true;
+            //lGaugeFireDetection.Slider.minValue = 0;
+            //lGaugeFireDetection.Slider.maxValue = 10;
+            //lGaugeFireDetection.Slider.wholeNumbers = true;
+            //lGaugeFireDetection.DisplayPercentage = true;
 
 
             lGaugeMovementDetection.Slider.minValue = 0;
@@ -40,10 +41,10 @@ namespace BuddyApp.Guardian
             lGaugeSoundDetection.DisplayPercentage = true;
 
 
-            lGaugeKidnappingDetection.Slider.minValue = 0;
-            lGaugeKidnappingDetection.Slider.maxValue = 10;
-            lGaugeKidnappingDetection.Slider.wholeNumbers = true;
-            lGaugeKidnappingDetection.DisplayPercentage = true;
+            //lGaugeKidnappingDetection.Slider.minValue = 0;
+            //lGaugeKidnappingDetection.Slider.maxValue = 10;
+            //lGaugeKidnappingDetection.Slider.wholeNumbers = true;
+            //lGaugeKidnappingDetection.DisplayPercentage = true;
 
             lDropDownContact.AddOption(BYOS.Instance.Dictionary.GetString("nobody"), GuardianData.Contact.NOBODY);
             lDropDownContact.AddOption("RODOLPHE HASSELVANDER", GuardianData.Contact.RODOLPHE);
@@ -75,16 +76,19 @@ namespace BuddyApp.Guardian
             lGaugeMovementDetection.SwitchCommands.Add(new ActMovementDetectionCmd());
             lGaugeKidnappingDetection.SwitchCommands.Add(new ActKidnappingDetectionCmd());
             lGaugeSoundDetection.SwitchCommands.Add(new ActSoundDetectionCmd());
+
+            lGaugeMovementDetection.UpdateCommands.Add(new SetMovementSensibilityCmd());
+            lGaugeSoundDetection.UpdateCommands.Add(new SetSoundSensibilityCmd());
             lDropDownContact.UpdateCommands.Add(new ContactGuardianCmd());
             lQuitButton.ClickCommands.Add(new HomeCmd());
         }
 
         public override void Labelize()
-        {
-            GetWidget<GaugeOnOff>(FIRST_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectFire");
-            GetWidget<GaugeOnOff>(SECOND_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectMouv");
-            GetWidget<GaugeOnOff>(THIRD_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectKidnap");
-            GetWidget<GaugeOnOff>(FOURTH_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectSound");
+        { 
+            GetWidget<GaugeOnOff>(FIRST_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectMouv");
+            GetWidget<GaugeOnOff>(SECOND_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectSound");
+            GetWidget<OnOff>(THIRD_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectKidnap");
+            GetWidget<OnOff>(FOURTH_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectFire");
             GetWidget<Dropdown>(FIFTH_LINE).Label.text = BYOS.Instance.Dictionary.GetString("contact");
             GetWidget<Button>(SIXTH_LINE).Label.text = BYOS.Instance.Dictionary.GetString("quit"); ;
         }

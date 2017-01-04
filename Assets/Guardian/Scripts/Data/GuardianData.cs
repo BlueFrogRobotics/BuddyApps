@@ -59,6 +59,8 @@ namespace BuddyApp.Guardian
         public bool MovementDetectionIsActive { get; set; }
         public bool SoundDetectionIsActive { get; set; }
         public bool KidnappingDetectionIsActive { get; set; }
+        public int MovementSensibility { get; set; }
+        public int SoundSensibility { get; set; }
         public Contact Recever { get; set; }
 
         /*
