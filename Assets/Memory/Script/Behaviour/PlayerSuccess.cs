@@ -33,6 +33,10 @@ namespace BuddyApp.Memory
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 		protected override void OnUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
+			if (link.mUnloadingScene) {
+				Debug.Log("Unloading");
+				QuitApp();
+			}
 
 			if (mOnEnterDone) {
 				if (mTTS.HasFinishedTalking) {

@@ -12,8 +12,5 @@ namespace BuddyApp.Memory
 
 		protected bool mOnEnterDone;
 
-
-		
-
 	}
 }
