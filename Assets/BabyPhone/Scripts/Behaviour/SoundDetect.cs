@@ -25,7 +25,7 @@ namespace BuddyApp.BabyPhone
         private bool mIsInit = false;
 
         private float mMinThreshold = 0.03f;
-        private float mMaxThreshold = 0.3f;
+        private float mMaxThreshold = 1f;
         private float mThreshold = 0.1f;
 
         private int mPosMicroActuel = 0;
@@ -58,13 +58,10 @@ namespace BuddyApp.BabyPhone
         {
             //Init();
             mMinThreshold = 0.001f;
-            mMaxThreshold = 0.1f;
+            mMaxThreshold = 1f;
             mThreshold = 0.05f;
             CanSave = true;
         }
-
-
-
 
         // Update is called once per frame
         void Update()
@@ -77,8 +74,8 @@ namespace BuddyApp.BabyPhone
 
                 // we put it in a FIFO stack
                 myQ.Enqueue(lSoundLevelReceived);
-                if (myQ.Count < 50) return;
-                if (myQ.Count > 50) myQ.Dequeue();
+                if (myQ.Count < 100) return;
+                if (myQ.Count > 100) myQ.Dequeue();
 
                 object[] lTempStack = myQ.ToArray();
                 float lGlobalSum = 0;
@@ -88,14 +85,16 @@ namespace BuddyApp.BabyPhone
                 }
                 mGlobalMean = lGlobalSum / myQ.Count;
                 mActValue = Mathf.Abs(lSoundLevelReceived - mGlobalMean);
-                if (mActValue > mThreshold && !mIsRecording)
+                if (mActValue > mThreshold)// && !mIsRecording)
                 {
+                    //Debug.Log("actual value" + mActValue);
+                    //Debug.Log("seuil" + mThreshold);
                     mIsASoundDetected = true;
-                    Debug.Log("detection bruit");
+                    //Debug.Log("detection bruit");
                     if (OnDetection != null)
                         OnDetection();
 
-                    mIsRecording = true;
+                    //mIsRecording = true;
                     mPosMicroActuel = Microphone.GetPosition(mDevice);
                     mNumSeq = 0;
                 }
@@ -119,24 +118,24 @@ namespace BuddyApp.BabyPhone
                         mArrayAudioClip[2].SetData(mDatabefore, 0);
 
 
-                        if (mIsRecording)
-                        {
-                            mNumSeq++;
-                            if (mNumSeq > 1)
-                            {
-                                if (CanSave)
-                                {
-                                    CanSave = false;
-                                    Debug.Log("avant can save: " + CanSave);
-                                    SaveWav("noise.wav");
+                        //if (mIsRecording)
+                        //{
+                        //    mNumSeq++;
+                        //    if (mNumSeq > 1)
+                        //    {
+                        //        if (CanSave)
+                        //        {
+                        //            CanSave = false;
+                        //            Debug.Log("avant can save: " + CanSave);
+                        //            SaveWav("noise.wav");
 
-                                }
-                                mIsRecording = false;
-                                mNumSeq = 0;
-                                mSoundSaved = true;
-                            }
-                        }
-                        Debug.Log("num: " + mNumSeq);
+                        //        }
+                        //        mIsRecording = false;
+                        //        mNumSeq = 0;
+                        //        mSoundSaved = true;
+                        //    }
+                        //}
+                        //Debug.Log("num: " + mNumSeq);
                     }
                 }
                 // we compare that to a bigger mean (compare a value to a global mean value)
@@ -148,7 +147,7 @@ namespace BuddyApp.BabyPhone
         {
             mIsASoundDetected = false;
             if (mDevice == null) mDevice = Microphone.devices[0];
-            mClipRecord = Microphone.Start(mDevice, true, 3, 44100);
+            mClipRecord = Microphone.Start(mDevice, true, 5, 44100);
             mGlobalMean = 0;
             mIsInit = true;
             mDatabefore = new float[mClipRecord.samples * mClipRecord.channels];
@@ -228,6 +227,7 @@ namespace BuddyApp.BabyPhone
 
         public void SetThreshold(float iThreshold)
         {
+            //Debug.Log("Set threshold" + iThreshold);
             if (iThreshold < mMinThreshold)
                 mThreshold = mMinThreshold;
             else if (iThreshold > mMaxThreshold)

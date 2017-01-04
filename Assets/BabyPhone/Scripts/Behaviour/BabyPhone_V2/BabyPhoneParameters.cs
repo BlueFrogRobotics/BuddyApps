@@ -56,11 +56,6 @@ namespace BuddyApp.BabyPhone
             mDictionary = BYOS.Instance.Dictionary;
         }
 
-        void OnDisable()
-        {
-            Debug.Log("seuil ecoute" + BabyPhoneData.Instance.MicrophoneSensitivity);
-        }
-
         void Start()
         {
             Init();
@@ -91,12 +86,13 @@ namespace BuddyApp.BabyPhone
 
             ////contact
             contactSelection.AddOption("DEFAULT", BabyPhoneData.Contact.DEFAULT); //mDictionary.GetString("default")
-            contactSelection.AddOption("RODOLPHE", BabyPhoneData.Contact.RODOLPHE);
+            contactSelection.AddOption("RODOLPHE HASSLEVANDER", BabyPhoneData.Contact.RODOLPHE);
             contactSelection.AddOption("JEAN MICHEL MOURIER", BabyPhoneData.Contact.J2M);
             contactSelection.AddOption("MAUD VERRAES", BabyPhoneData.Contact.MAUD);
             contactSelection.AddOption("BENOIT PIRONNET", BabyPhoneData.Contact.BENOIT);
             contactSelection.AddOption("MARC GOURLAN", BabyPhoneData.Contact.MARC);
             contactSelection.AddOption("KARAMA GUIMBAL", BabyPhoneData.Contact.KARAMA);
+            contactSelection.AddOption("FRANCK DE VISME", BabyPhoneData.Contact.FRANCK);
             contactSelection.SetDefault((int)BabyPhoneData.Instance.Recever);
             contactSelection.UpdateCommands.Add(new ContactBabyPhoneCmd());
 

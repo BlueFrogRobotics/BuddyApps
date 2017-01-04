@@ -20,11 +20,14 @@ namespace BuddyApp.BabyPhone
         [SerializeField]
         private Text labelSound;
 
+        [SerializeField]
+        private SoundDetect mSoundDetector;
+
         private Animator debugSoundAnimator;
         private Dictionary mDictionary;
 
         private float mMaxThreshold;
-        private SoundDetect mSoundDetector;
+
         //private InputMicro mInputMicro;
         private Texture2D mTexture;
         private float mSound;
@@ -35,11 +38,9 @@ namespace BuddyApp.BabyPhone
         {         
             mDictionary = BYOS.Instance.Dictionary;
             debugSoundAnimator = GetComponent<Animator>();
-            mSoundDetector = GetComponent<SoundDetect>();
-            mSoundDetector.Init();
-            //mInputMicro = GetComponent<InputMicro>();
 
-            //mMatShow = new Mat(480, 640, CvType.CV_8UC3, new Scalar(255, 255, 255, 255));
+            mSoundDetector.Init();
+
             mTexture = new Texture2D(640, 480);
             debugSoundAnimator.SetTrigger("Open_WDebugs");
             mTimer = 0;
@@ -49,7 +50,6 @@ namespace BuddyApp.BabyPhone
         {
             mSoundDetector.Stop();
             debugSoundAnimator.SetTrigger("Close_WDebugs");
-
         }
 
         void Start()
@@ -85,13 +85,15 @@ namespace BuddyApp.BabyPhone
 
                 float lMaxThreshold = mSoundDetector.GetMaxThreshold();
                 float lThreshold = (1.0f - microSensitivity.Slider.value / microSensitivity.Slider.maxValue) * lMaxThreshold;
+
                 mSoundDetector.SetThreshold(lThreshold);
+ 
 
                 float lLevelSound = (mSoundDetector.Value) * 400.0f / lMaxThreshold;
                 //Imgproc.line(mMatShow, new Point(0, 480.0f - lLevelSound), new Point(640, 480.0f - lLevelSound), new Scalar(0, 0, 255, 255));
                 Imgproc.rectangle(mMatShow, new Point(0, 480), new Point(640, 480.0f - lLevelSound), new Scalar(0, 212, 209, 255), -1);
                 Imgproc.line(mMatShow, new Point(0, 480.0f - lThreshold * 400 / lMaxThreshold), new Point(640, 480.0f - lThreshold * 400 / lMaxThreshold), new Scalar(237, 27, 36, 255), 3);
-                Debug.Log("niveau: " + lThreshold);
+                //Debug.Log("niveau: " + lThreshold);
                 BuddyTools.Utils.MatToTexture2D(mMatShow, mTexture);
                 soundViewer.texture = mTexture;
             }

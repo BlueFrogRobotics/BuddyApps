@@ -632,7 +632,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 81251008}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d48dc8cd8d7163f40858d9d06c279488, type: 3}
   m_Name: 
@@ -3129,7 +3129,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 0
 --- !u!222 &350411334
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5142,6 +5142,7 @@ MonoBehaviour:
   soundViewer: {fileID: 579720454}
   microSensitivity: {fileID: 579720450}
   labelSound: {fileID: 579720449}
+  mSoundDetector: {fileID: 909183422}
 --- !u!114 &579720454 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11428904, guid: a70ab35c75988f24183cd0b98c35689b,
@@ -5154,7 +5155,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 579720448}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d48dc8cd8d7163f40858d9d06c279488, type: 3}
   m_Name: 
@@ -5807,7 +5808,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 0
 --- !u!222 &650480979
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7351,6 +7352,7 @@ GameObject:
   - 114: {fileID: 909183420}
   - 114: {fileID: 909183418}
   - 114: {fileID: 909183421}
+  - 114: {fileID: 909183422}
   m_Layer: 0
   m_Name: BabyPhoneBehaviour
   m_TagString: Untagged
@@ -7431,6 +7433,7 @@ MonoBehaviour:
   - {fileID: 350411331}
   - {fileID: 1352282164}
   - {fileID: 650480976}
+  - {fileID: 909183416}
 --- !u!114 &909183421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7440,6 +7443,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f77819ecdc1cde4383ae11c6a41565e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &909183422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 909183416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d48dc8cd8d7163f40858d9d06c279488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &918803930
@@ -11885,7 +11899,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1509551935}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d48dc8cd8d7163f40858d9d06c279488, type: 3}
   m_Name: 

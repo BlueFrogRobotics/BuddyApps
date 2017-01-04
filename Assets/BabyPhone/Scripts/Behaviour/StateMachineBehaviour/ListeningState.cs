@@ -12,55 +12,76 @@ namespace BuddyApp.BabyPhone
         private GameObject mListening;
         private GameObject mWindoAppOverBlack;
 
+        private GameObject mNotifications;
+        private SoundDetect mSoundDetector;
+        private Text mNotificationText;
+
         private bool mIsBabyCrying;
         private bool mIsBabyMoving;
-
-
-        private int mCountNotifications;
-
+        private bool mIsSoundDetectionOn;
+        private bool mIsMotionDetection;
+        private int  mNotificationsCount;
         public override void Init()
         {
             mWindoAppOverBlack = GetGameObject(2);
             mListening = GetGameObject(9);
 
-            //mNotificationsButton = GetGameObject().GetComponent<Button>();
-            //mNotificationAmount = GetGameObject().GetComponent<Text>();
-
+            mNotifications = GetGameObject(13); //black 
+            mNotificationText = GetGameObject(14).GetComponent<Text>();
+            mSoundDetector = GetGameObject(17).GetComponent<SoundDetect>();
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mListening.SetActive(true);
             mWindoAppOverBlack.SetActive(true);
-            mListening.GetComponent<SoundDetect>().Init();
             mIsBabyCrying = false;
 
-            mCountNotifications = iAnimator.GetInteger("NotificationsCounts");
             mMood.Set(MoodType.LISTENING);
+
+            mNotificationsCount = iAnimator.GetInteger("NotificationsCounts");
+            if (mNotificationsCount > 0)
+            {
+                //Debug.Log("cout notifications : " + lCountNotifications);
+                mNotifications.SetActive(true);
+                mNotificationText.text = mNotificationsCount.ToString();
+            }
+
+            mIsSoundDetectionOn = BabyPhoneData.Instance.IsSoundDetectionOn;
+            mIsMotionDetection = BabyPhoneData.Instance.IsMotionDetectionOn;
+
+            if (!mSoundDetector.IsInit)
+                mSoundDetector.Init();
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mListening.SetActive(false);
             mWindoAppOverBlack.SetActive(false);
-            mListening.GetComponent<SoundDetect>().Stop();
+
             mListening.GetComponent<MotionDetector>().enabled = false;
             iAnimator.SetInteger("ForwardState", 4);
             if (mRGBCam.IsOpen)
                 mRGBCam.Close();
+
+            mNotifications.SetActive(false);
+
+            mSoundDetector.Stop();
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //mIsBabyMoving = GetComponent<MotionDetector>().IsMoving();
+            //if(mIsMotionDetection)
+            //  mIsBabyMoving = GetComponent<MotionDetector>().IsMoving();
 
-            mIsBabyCrying = mListening.GetComponent<SoundDetect>().IsASoundDetected;
-            Debug.Log("is baby crying"+ mIsBabyCrying);
+            if (mIsSoundDetectionOn)
+                mIsBabyCrying = mSoundDetector.IsASoundDetected;
+
             //if ((mIsBabyCrying) || (mIsBabyMoving))
             if (mIsBabyCrying)
             {
                 StartCoroutine(SendMessage());
-                iAnimator.SetInteger("NotificationsCounts", mCountNotifications + 1);
+                iAnimator.SetInteger("NotificationsCounts", mNotificationsCount + 1);
                 iAnimator.SetTrigger("GoToBabyIsCrayingState");
             }
         }
@@ -116,6 +137,9 @@ namespace BuddyApp.BabyPhone
                     break;
                 case 6:
                     lMailContact = "karama.guimbal@gmail.com";
+                    break;
+                case 7:
+                    lMailContact = "fdv@bluefrogrobotics.com";
                     break;
                 default:
                     lMailContact = "buddy.bluefrog@gmail.com";

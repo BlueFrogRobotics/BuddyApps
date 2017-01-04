@@ -6,7 +6,7 @@ namespace BuddyApp.BabyPhone
     {
         protected override void ExecuteImpl()
         {
-            BabyPhoneData.Instance.MicrophoneSensitivity = Parameters.Integers[0]/100;
+            BabyPhoneData.Instance.MicrophoneSensitivity = Parameters.Integers[0];
         }
     }
 }
