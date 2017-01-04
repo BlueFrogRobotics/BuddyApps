@@ -238,7 +238,11 @@ namespace BuddyApp.Companion
 					new LoadAppBySceneCmd("TakePhotoApp").Execute();
 					break;
 
-                case "Calcul":
+				case "Pose":
+					new LoadAppBySceneCmd("TakePoseApp").Execute();
+					break;
+
+				case "Calcul":
                     new LoadAppBySceneCmd("CalculGameApp").Execute();
                     break;
 
