@@ -18,7 +18,7 @@ namespace BuddyApp.Memory
 
 		public bool isPlayerTurn;
 
-		public bool unloadingScene;
+		public bool mUnloadingScene;
 		private Face mFace;
 
 		// Use this for initialization
@@ -34,7 +34,7 @@ namespace BuddyApp.Memory
 			} else {
 				gameLevels = MemoryGameLevels.Load("Lang/levelsEn.json");
 			}
-			unloadingScene = false;
+			mUnloadingScene = false;
 
 			LinkStateMachineBehavior[] b = animator.GetBehaviours<LinkStateMachineBehavior>();
 
@@ -110,7 +110,8 @@ namespace BuddyApp.Memory
 
 		public void UnLoadScene()
 		{
-			unloadingScene = true;
+			Debug.Log("Unloading handler");
+			mUnloadingScene = true;
 		}
 	}
 }

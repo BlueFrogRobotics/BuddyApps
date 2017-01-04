@@ -24,7 +24,7 @@ namespace BuddyApp.TakePose
 			mAnimationManager.Blink();
 			SayInLang("shareTwitter");
 
-			BYOS.Instance.NotManager.Display<SimpleNot>().With("#BuddyCES",
+			BYOS.Instance.NotManager.Display<SimpleNot>().With("#CES2017 #FrenchTech @adoptbuddy",
 							   BYOS.Instance.SpriteManager.GetSprite("Ico_Twitter"), Color.blue);
 
 		}
