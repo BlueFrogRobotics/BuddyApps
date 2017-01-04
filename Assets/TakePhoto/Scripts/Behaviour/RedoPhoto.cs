@@ -212,7 +212,7 @@ namespace BuddyApp.TakePhoto
 					case STTError.ERROR_AUDIO: lSentence = mDictionary.GetString("micissue"); break;
 					case STTError.ERROR_NETWORK: lSentence = mDictionary.GetString("connectissue"); break;
 					case STTError.ERROR_RECOGNIZER_BUSY: lSentence = mDictionary.GetString("vrecobusy"); break;
-					case STTError.ERROR_SPEECH_TIMEOUT: lSentence = mDictionary.GetString("hearnothing") + " " + mDictionary.GetString("repeatPls"); break;
+					case STTError.ERROR_SPEECH_TIMEOUT: lSentence = mDictionary.GetString("hearnothing") + " " + mDictionary.GetString("repeatpls"); break;
 				}
 
 				if (UnityEngine.Random.value > 0.8) {

@@ -87,13 +87,15 @@ namespace BuddyApp.Guardian
             {
                 Debug.Log(iAnswer);
 
-                if (iAnswer.ToLower().Contains("mobile") && !iAnswer.ToLower().Contains("immobile"))//(iAnswer == "mobile")
+                if ( (iAnswer.ToLower().Contains("mobile") && !iAnswer.ToLower().Contains("immobile")) || (iAnswer.ToLower().Contains("move") && !iAnswer.ToLower().Contains("don't")) )//(iAnswer == "mobile")
                 {
                     mMode = 2;
+                    Debug.Log("FIXE");
                 }
-                else if (iAnswer.ToLower().Contains("immobile") || iAnswer.ToLower().Contains("fix") && iAnswer.ToLower().Contains("fix"))//(iAnswer == "immobile" || iAnswer=="fixe" || iAnswer=="six")
+                else if (iAnswer.ToLower().Contains("immobile") || iAnswer.ToLower().Contains("fixe") || iAnswer.ToLower().Contains("fix") || iAnswer.ToLower().Contains("don't move"))//(iAnswer == "immobile" || iAnswer=="fixe" || iAnswer=="six")
                 {
                     mMode = 1;
+                    Debug.Log("MOBILE");
                 }
                 else
                 {

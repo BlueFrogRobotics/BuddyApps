@@ -12,12 +12,13 @@ namespace BuddyApp.BabyPhone
         private GameObject mSoundDetect;
         private GameObject mWindoAppOverBlack;
         private GameObject mNotifications;
+        private Text mNotificationText;
 
         private const int STATE_TIME = 5;
         private float mTime;
 
         /// <summary>
-        /// This variable defines the action user has selected if baby cries, or an unusual sund is deteced
+        /// This variable defines the action user has selected if baby cries, or if an unusual sund is deteced
         /// </summary>
         private int mIfBabyCries;
 
@@ -25,7 +26,8 @@ namespace BuddyApp.BabyPhone
         {
             mWindoAppOverBlack = GetGameObject(2);
             mSoundDetect = GetGameObject(11);
-            mNotifications = GetGameObject(14);
+            mNotifications = GetGameObject(15);
+            mNotificationText = GetGameObject(15).GetComponent<Text>();
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -40,15 +42,21 @@ namespace BuddyApp.BabyPhone
             mIfBabyCries = (int)BabyPhoneData.Instance.ActionWhenBabyCries;
             UpdateFallingAssleep();
 
-            if (iAnimator.GetInteger("CountNotifications") >= 1)
+            //update notification count
+            int lCountNotifications = iAnimator.GetInteger("CountNotifications");
+            if (lCountNotifications >= 1)
+            {
+                Debug.Log("cout notifications : " + lCountNotifications);
                 mNotifications.SetActive(true);
+                mNotificationText.text = lCountNotifications.ToString();
+            }                
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mSoundDetect.SetActive(false);
             mWindoAppOverBlack.SetActive(false);
-
+            mNotifications.SetActive(false);
             iAnimator.SetInteger("ForwardState", 4);
         }
 
@@ -56,14 +64,14 @@ namespace BuddyApp.BabyPhone
         {
             mTime += Time.deltaTime;
 
-            //after changing buddy face to sad, whaite some time and then do to next step
+            //after changing buddy face to sad, whait some time and then do to next step
             if (mTime >= STATE_TIME)
             {
-                if(mIfBabyCries != 0)
+                if (mIfBabyCries != 0)
                     iAnimator.SetTrigger("StartFallingAssleep");
                 else
                     iAnimator.SetTrigger("StartListening");
-            }           
+            }
         }
 
         /// <summary>
@@ -89,11 +97,11 @@ namespace BuddyApp.BabyPhone
                     BabyPhoneData.Instance.IsAnimationOn = true;
                     break;
                 default:
+                    //go directly to listening
                     BabyPhoneData.Instance.IsVolumeOn = false;
                     BabyPhoneData.Instance.IsAnimationOn = false;
                     break;
             }
         }
-
     }
 }
