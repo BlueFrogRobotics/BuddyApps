@@ -28,7 +28,10 @@ namespace BuddyApp.IOT
                 for(int i = 0; i < lString.Length; ++i)
                 {
                     if (lString[i].Contains("degr") && i > 0)
+                    {
                         CommonStrings["PARAM"] = lString[i - 1];
+                        Debug.Log(lString[i - 1]);
+                    }
                 }
             }
 
