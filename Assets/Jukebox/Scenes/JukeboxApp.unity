@@ -1037,6 +1037,7 @@ GameObject:
   - 114: {fileID: 717017681}
   - 114: {fileID: 717017680}
   - 114: {fileID: 717017683}
+  - 114: {fileID: 717017684}
   m_Layer: 5
   m_Name: Movement
   m_TagString: Untagged
@@ -1156,6 +1157,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75b25dedb0e6a4f4680e5f5e7f8b43e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &717017684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 717017678}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2058968307, guid: 81a27f0b75aabe644b7d8ef76c415b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &846107165
@@ -2317,6 +2329,7 @@ GameObject:
   - 114: {fileID: 1821499879}
   - 114: {fileID: 1821499882}
   - 114: {fileID: 1821499883}
+  - 114: {fileID: 1821499884}
   m_Layer: 5
   m_Name: PlaylistManager
   m_TagString: Untagged
@@ -2459,6 +2472,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pause: {fileID: 1420491587}
   play: {fileID: 1968484827}
+--- !u!114 &1821499884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1821499878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf1396b0a9800b246a9914b561e1c563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playButton: {fileID: 1954440305}
 --- !u!1 &1914843413
 GameObject:
   m_ObjectHideFlags: 0
@@ -2644,6 +2669,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 132885954}
     m_Modifications:
+    - target: {fileID: 11463748, guid: aa16648af185c66499f04aade32e628d, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 22452098, guid: aa16648af185c66499f04aade32e628d, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2724,6 +2753,26 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1821499883}
+    - target: {fileID: 11463748, guid: aa16648af185c66499f04aade32e628d, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463748, guid: aa16648af185c66499f04aade32e628d, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463748, guid: aa16648af185c66499f04aade32e628d, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 717017683}
+    - target: {fileID: 11463748, guid: aa16648af185c66499f04aade32e628d, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: Walk
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463748, guid: aa16648af185c66499f04aade32e628d, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: aa16648af185c66499f04aade32e628d, type: 2}
   m_IsPrefabParent: 0
@@ -2732,6 +2781,12 @@ RectTransform:
   m_PrefabParentObject: {fileID: 22452098, guid: aa16648af185c66499f04aade32e628d,
     type: 2}
   m_PrefabInternal: {fileID: 1954440303}
+--- !u!114 &1954440305 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11463748, guid: aa16648af185c66499f04aade32e628d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1954440303}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1968484827 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 173552, guid: aa16648af185c66499f04aade32e628d, type: 2}
