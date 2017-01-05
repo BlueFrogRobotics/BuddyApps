@@ -32,7 +32,6 @@ namespace BuddyApp.TakePhoto
 
 		bool canvasDisplayed;
 
-
 		public override void Init()
 		{
 			Debug.Log("init mail");
@@ -215,6 +214,12 @@ namespace BuddyApp.TakePhoto
 					mMood.Set(MoodType.SAD);
 					mTTS.Say(lSentence);
 				}
+
+				if (!canvasDisplayed) {
+					DisplayCanvasYesNo();
+					canvasDisplayed = true;
+                }
+
 			}
 
 			mLastSpeech = "";
@@ -240,7 +245,8 @@ namespace BuddyApp.TakePhoto
 		public void DisplayCanvasYesNo()
 		{
 			Debug.Log("Display canvas yesno");
-
+			mCanvasYesNo.GetComponent<Animator>().ResetTrigger("Close_WQuestion");
+			mCanvasBackGround.GetComponent<Animator>().ResetTrigger("Close_BG");
 			Text[] textObjects = mCanvasYesNo.GetComponentsInChildren<Text>();
 
 			textObjects[0].text = mDictionary.GetString("mail").ToUpper();
