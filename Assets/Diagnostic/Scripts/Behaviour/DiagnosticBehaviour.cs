@@ -94,7 +94,8 @@ namespace BuddyApp.Diagnostic
 
 		public void Quit()
 		{
-			BYOS.Instance.AppManager.Quit();
+			//BYOS.Instance.AppManager.Quit();
+			new BuddyOS.Command.HomeCmd().Execute();
 		}
     }
 }
