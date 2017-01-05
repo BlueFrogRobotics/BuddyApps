@@ -155,7 +155,7 @@ namespace BuddyApp.IOT
             if(lAction < 7)
             {
                 mTTS.SetSpeechRate(2.0f);
-                mTTS.Say(mSayAction[lAction] + iObject.Name);
+                mTTS.Say(mSayAction[lAction] + iObject.Name, true);
             }
         }
 

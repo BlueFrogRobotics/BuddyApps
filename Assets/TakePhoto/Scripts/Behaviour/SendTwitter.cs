@@ -153,8 +153,8 @@ namespace BuddyApp.TakePhoto
 								SayInLang("srynotunderstand", true);
 								mTTS.Silence(1000, true);
 								SayInLang("yesOrNo", true);
-								mTTS.Silence(1000, true);
-								SayInLang("allowtweet", true);
+								//mTTS.Silence(1000, true);
+								//SayInLang("allowtweet", true);
 								mLastSpeech = "";
 								mNeedListen = true;
 							}
@@ -307,7 +307,7 @@ namespace BuddyApp.TakePhoto
 			textObjects[2].text = mDictionary.GetString("yes").ToUpper();
 
 
-			mCanvasBackGround.GetComponent<Animator>().SetTrigger("Open_BG");
+			//mCanvasBackGround.GetComponent<Animator>().SetTrigger("Open_BG");
 			mCanvasYesNo.GetComponent<Animator>().SetTrigger("Open_WQuestion");
 		}
 

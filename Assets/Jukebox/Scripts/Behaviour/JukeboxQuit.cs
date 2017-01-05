@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-using BuddyOS.Command;
 using BuddyOS;
+using BuddyOS.Command;
 
-namespace BuddyApp.RLGL
+namespace BuddyApp.Jukebox
 {
-    public class RLGLQuit : MonoBehaviour
+    public class JukeboxQuit : MonoBehaviour
     {
+
         private TextToSpeech mTTS;
         void Start()
         {
@@ -20,4 +21,3 @@ namespace BuddyApp.RLGL
         }
     }
 }
-
