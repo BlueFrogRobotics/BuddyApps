@@ -862,7 +862,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22412358, guid: 0d4e89a82f3de25449d86cdf51b7fafc, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 11455628, guid: 0d4e89a82f3de25449d86cdf51b7fafc, type: 2}
       propertyPath: m_Color.a
@@ -1908,6 +1908,10 @@ Prefab:
     - target: {fileID: 22315676, guid: b2ae61ae47707564b81a4b909341266b, type: 2}
       propertyPath: m_SortingOrder
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 171752, guid: b2ae61ae47707564b81a4b909341266b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2ae61ae47707564b81a4b909341266b, type: 2}
