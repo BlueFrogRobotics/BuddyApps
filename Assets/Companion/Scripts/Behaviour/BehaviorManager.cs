@@ -70,7 +70,7 @@ namespace BuddyApp.Companion
             mYesHinge = BYOS.Instance.Motors.YesHinge;
             mTTS = BYOS.Instance.TextToSpeech;
 
-            mVocalActivation.enabled = true;
+            //mVocalActivation.enabled = true;
             mVocalActivation.StartRecoWithTrigger();
             mVocalChat.WithNotification = true;
             mVocalChat.OnQuestionTypeFound = SortQuestionType;
