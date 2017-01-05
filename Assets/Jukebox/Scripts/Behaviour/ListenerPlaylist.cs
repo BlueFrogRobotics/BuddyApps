@@ -29,12 +29,12 @@ namespace BuddyApp.Jukebox
 
         private void FunctionTocallWhenBestRekon(string iMsg)
         {
-            if (iMsg.ToLower().Contains("jouer")) {
+            if (iMsg.ToLower().Contains("play")) {
                 playButton.onClick.Invoke();
-            } else if (iMsg.ToLower().Contains("quitter"))
+            } else if (iMsg.ToLower().Contains("quit"))
                 new UnLoadAppCmd().Execute();
             else {
-                mTTS.Say("Je n'ai pas compris, veux tu répéter?");
+                mTTS.Say("I don't understand, can you repeat please?");
                 StartCoroutine(StartRequestAfterDelay(2f));
             }
         }
