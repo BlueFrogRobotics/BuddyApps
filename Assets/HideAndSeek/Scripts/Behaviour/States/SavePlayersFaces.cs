@@ -109,6 +109,9 @@ namespace BuddyApp.HideAndSeek
                 //Debug.Log("3" );
                 if(mRGBCam.IsOpen)
                     mRGBCam.Close();
+                mSTT.OnBestRecognition.Remove(VocalProcessing);
+                mSTT.OnBeginning.Remove(StartListening);
+                mSTT.OnEnd.Remove(StopListening);
                 iAnimator.SetTrigger("ChangeState");
             }
 
@@ -119,9 +122,7 @@ namespace BuddyApp.HideAndSeek
             //mButtonTrain.onClick.RemoveAllListeners();
             //GetComponent<Players>().NumPlayer = mFaceReco.NbLabel;
             //mFace.SetExpression(MoodType.NEUTRAL);
-            mSTT.OnBestRecognition.Remove(VocalProcessing);
-            mSTT.OnBeginning.Remove(StartListening);
-            mSTT.OnEnd.Remove(StopListening);
+            
             mSaveFacesWindow.ButtonGo.onClick.RemoveAllListeners();
             iAnimator.ResetTrigger("ChangeState");
 
