@@ -35,19 +35,24 @@ namespace BuddyApp.HideAndSeek
                 mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_5);
                 
                 mHasLaughed = true;
-                mTimer = 0.0f;
+                
             }
 
-            else if(mTimer>1.5f && mHasLaughed && !mHasTalked)
+            else if(mSpeaker.Voice.Status != SoundChannelStatus.PLAYING && mHasLaughed && !mHasTalked)
             {
                 mHasTalked = true;
                 mTTS.Say(mDictionary.GetString("win"));//"J'ai gagné");
+                mTimer = 0.0f;
+            }
+            else if(mHasTalked && mTimer>2.5f && mTTS.HasFinishedTalking)
+            {
+                iAnimator.SetTrigger("ChangeState");
             }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
+            iAnimator.ResetTrigger("ChangeState");
         }
 
     }

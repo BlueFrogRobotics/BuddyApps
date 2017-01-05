@@ -82,5 +82,14 @@ namespace BuddyApp.HideAndSeek
             return lHasAlreadyFound;
 
         }
+
+        public void ResetGame()
+        {
+            for(int i=0; i<mPlayersFoundState.Count; i++)
+            {
+                mPlayersFoundState[i] = false;
+            }
+            mNumPlayer = mPlayersFoundState.Count;
+        }
     }
 }

@@ -42,6 +42,8 @@ namespace BuddyApp.HideAndSeek
             mHasFinishedReco = false;
             mHasClosed = false;
             mYesHinge.SetPosition(-10);
+            mLabelFound = -1;
+            mHasSpeak = false;
             if (!mRGBCam.IsOpen)
                 mRGBCam.Open();
         }
@@ -61,7 +63,7 @@ namespace BuddyApp.HideAndSeek
                 mHasClosed = true;
                 mTimer = 0.0f;
             }
-            else if (mHasClosed && !mHasSpeak && mTimer>1.5f)
+            else if (mHasClosed && !mHasSpeak && mSpeaker.Voice.Status!=SoundChannelStatus.PLAYING)//mTimer>1.5f)
             {
                 mTTS.Say(mTextToSay);
                 mHasSpeak = true;
@@ -96,12 +98,13 @@ namespace BuddyApp.HideAndSeek
                 if (!lHasAlreadyFound)
                 {
                     mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_3);
+                    mFace.SetEvent(FaceEvent.SMILE);
                     lStringForThePlayer = mDictionary.GetString("iFound") + " " + mPlayers.GetPlayer(mLabelFound).Name;
                     //mTTS.Say(mDictionary.GetString("iFound") + " " + mPlayers.GetPlayer(mLabelFound).Name);
                 }
                 else
                 {
-                    mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_1);
+                    mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_1); 
                     lStringForThePlayer = mDictionary.GetString("alreadyFound");
                     //mTTS.Say(mDictionary.GetString("alreadyFound"));//"T'es plus dans le game");
                 }
