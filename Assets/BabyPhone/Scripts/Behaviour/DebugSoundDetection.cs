@@ -92,7 +92,7 @@ namespace BuddyApp.BabyPhone
                 float lLevelSound = (mSoundDetector.Value) * 400.0f / lMaxThreshold;
                 //Imgproc.line(mMatShow, new Point(0, 480.0f - lLevelSound), new Point(640, 480.0f - lLevelSound), new Scalar(0, 0, 255, 255));
                 Imgproc.rectangle(mMatShow, new Point(0, 480), new Point(640, 480.0f - lLevelSound), new Scalar(0, 212, 209, 255), -1);
-                Imgproc.line(mMatShow, new Point(0, 480.0f - lThreshold * 400 / lMaxThreshold), new Point(640, 480.0f - lThreshold * 400 / lMaxThreshold), new Scalar(237, 27, 36, 255), 3);
+                Imgproc.line(mMatShow, new Point(0, 480.0f - lThreshold * 400 / lMaxThreshold), new Point(640, 480.0f - lThreshold * 400 / lMaxThreshold), new Scalar(0, 0, 0, 0), 3); //new Scalar(237, 27, 36, 255), 3);
                 //Debug.Log("niveau: " + lThreshold);
                 BuddyTools.Utils.MatToTexture2D(mMatShow, mTexture);
                 soundViewer.texture = mTexture;
