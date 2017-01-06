@@ -25,7 +25,7 @@ namespace BuddyApp.BabyPhone
         private bool mIsInit = false;
 
         private float mMinThreshold = 0.03f;
-        private float mMaxThreshold = 0.3f;
+        private float mMaxThreshold = 0.15f;
         private float mThreshold = 0.1f;
 
         private int mPosMicroActuel = 0;
@@ -58,7 +58,7 @@ namespace BuddyApp.BabyPhone
         {
             //Init();
             mMinThreshold = 0.001f;
-            mMaxThreshold = 1f;
+            mMaxThreshold = 0.5f;
 
             float lMaxThreshold = GetMaxThreshold();
             float lThreshold = (1.0f - BabyPhoneData.Instance.MicrophoneSensitivity /10) * lMaxThreshold;

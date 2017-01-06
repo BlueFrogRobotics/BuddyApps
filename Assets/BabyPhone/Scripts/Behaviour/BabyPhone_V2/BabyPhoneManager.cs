@@ -7,9 +7,11 @@ namespace BuddyApp.BabyPhone
 {
     public class BabyPhoneManager : MonoBehaviour
     {
+        Animator mBabyPhoneAnimator;
+
         void Start()
         {
-
+            mBabyPhoneAnimator = GetComponent<Animator>();
         }
 
         void Update()
@@ -21,5 +23,6 @@ namespace BuddyApp.BabyPhone
         {
             BYOS.Instance.MenuPanel.LaunchMenu();
         }
+
     }
 }

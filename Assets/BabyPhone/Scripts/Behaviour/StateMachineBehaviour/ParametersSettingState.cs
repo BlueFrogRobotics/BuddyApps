@@ -41,7 +41,8 @@ namespace BuddyApp.BabyPhone
             //mParameters.SetActive(false);
             mWindoAppOverWithe.SetActive(false);
             //mBlackground.SetActive(false);
-            mBackgroundBlackAnimator.SetTrigger("Close_BG");
+            //if (iAnimator.GetBool("QuitButton"))
+            mBackgroundBlackAnimator.SetTrigger("Close_BG");           
             mParametersAnimator.SetTrigger("Close_WParameters");
             iAnimator.SetInteger("ForwardState", 1);
 
