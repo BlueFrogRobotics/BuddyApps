@@ -19,7 +19,8 @@ namespace BuddyApp.IOT
 
             mFound = false;
             string lMsg = CommonStrings["STT"].ToLower();
-            lMsg = ParseIntegers(lMsg);
+            CommonStrings["STT"] = ParseIntegers(lMsg);
+            lMsg = CommonStrings["STT"];
             iAnimator.SetBool(HashList[(int)HashTrigger.PARAMETERS], false);
 
             if(lMsg.Contains("degree") || lMsg.Contains("degré"))
@@ -104,16 +105,16 @@ namespace BuddyApp.IOT
             iMsg = iMsg.Replace("neuf ", "9 ");
             iMsg = iMsg.Replace("dix ", "10 ");
 
-            iMsg = iMsg.Replace("one ", "1 ");
-            iMsg = iMsg.Replace("two ", "2 ");
-            iMsg = iMsg.Replace("three ", "3 ");
-            iMsg = iMsg.Replace("four ", "4 ");
-            iMsg = iMsg.Replace("five ", "5 ");
-            iMsg = iMsg.Replace("six ", "6 ");
-            iMsg = iMsg.Replace("seven ", "7 ");
-            iMsg = iMsg.Replace("eight ", "8 ");
-            iMsg = iMsg.Replace("nine ", "9 ");
-            iMsg = iMsg.Replace("ten ", "10 ");
+            iMsg = iMsg.Replace(" one", " 1");
+            iMsg = iMsg.Replace(" two", " 2");
+            iMsg = iMsg.Replace(" three", " 3");
+            iMsg = iMsg.Replace(" four", " 4");
+            iMsg = iMsg.Replace(" five", " 5");
+            iMsg = iMsg.Replace(" six", " 6");
+            iMsg = iMsg.Replace(" seven", " 7");
+            iMsg = iMsg.Replace(" eight", " 8");
+            iMsg = iMsg.Replace(" nine", " 9");
+            iMsg = iMsg.Replace(" ten", " 10");
             return iMsg;
         }
     }
