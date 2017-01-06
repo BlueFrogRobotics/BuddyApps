@@ -100,10 +100,10 @@ namespace BuddyApp.RLGL
         
         private IEnumerator SayStart()
         {
-            yield return new WaitForSeconds(2.0F);
+            yield return new WaitForSeconds(1.0F);
             if (mCount < 1)
             {
-                mTTS.Say("I am so happy, we will play together but before I need to know if you want to know the rules! So do you want to hear them?");
+                mTTS.Say("I am so happy, we will play together but before I need to know if you want to hear the rules! So do you want to hear them?");
                 mCount++;
             }
 

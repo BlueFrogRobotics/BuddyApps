@@ -12,8 +12,6 @@ namespace BuddyApp.RLGL
         SpeechToText mSTT;
         Face mFace;
 
-        NotificationManager mNotif;
-
         [SerializeField]
         private GameObject gameplay;
 
@@ -46,7 +44,6 @@ namespace BuddyApp.RLGL
             mTTS = BYOS.Instance.TextToSpeech;
             mSTT = BYOS.Instance.SpeechToText;
             mFace = BYOS.Instance.Face;
-            mNotif = BYOS.Instance.NotManager;
             mErrorCount = 0;
         }
         // Use this for initialization
