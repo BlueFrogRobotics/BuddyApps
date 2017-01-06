@@ -55,7 +55,7 @@ namespace BuddyApp.IOT
                 {
 
                     listenedTimes++;
-                    if (listenedTimes > 3)
+                    if (listenedTimes > 2)
                     {
                         iAnimator.SetTrigger(mHashList[(int)HashTrigger.NEXT]);
                         listenedTimes = 0;
@@ -71,10 +71,10 @@ namespace BuddyApp.IOT
                         iAnimator.SetTrigger(mHashList[(int)HashTrigger.NETWORK_ERROR]);
                         break;
                     case STTError.ERROR_NO_MATCH:
-                    case STTError.ERROR_SPEECH_TIMEOUT:
                         iAnimator.SetTrigger(mHashList[(int)HashTrigger.MATCH_ERROR]);
                         break;
                     case STTError.ERROR_NETWORK_TIMEOUT:
+                    case STTError.ERROR_SPEECH_TIMEOUT:
                         iAnimator.SetTrigger(mHashList[(int)HashTrigger.TIMEOUT_ERROR]);
                         break;
                     default:
