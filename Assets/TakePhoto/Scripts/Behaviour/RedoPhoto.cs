@@ -246,7 +246,7 @@ namespace BuddyApp.TakePhoto
 		public void HideCanvasPicture()
 		{
 			Debug.Log("Hide canvas Picture");
-			mCanvasBackGround.GetComponent<Animator>().SetTrigger("Close_BG");
+			//mCanvasBackGround.GetComponent<Animator>().SetTrigger("Close_BG");
 			mCanvasYesNoPicture.GetComponent<Animator>().SetTrigger("Close_WQuestion_Image");
 		}
 

@@ -54,7 +54,7 @@ namespace BuddyApp.Companion
 
         void OnEnable()
         {
-            if(!mInitialized)
+            if (!mInitialized)
                 Start();
 
             mHeadSearchPlaying = false;
@@ -84,7 +84,7 @@ namespace BuddyApp.Companion
 
             mUpdateTime = Time.time;
 
-            if(mIsSearchingPoint && Time.time - mWanderTime < mRandomWanderTime) {
+            if (mIsSearchingPoint && Time.time - mWanderTime < mRandomWanderTime) {
                 PlaySearchingHeadAnimation();
                 if (!AnyObstructionsInfrared())
                     mWheels.SetWheelsSpeed(200F, 200F);
@@ -114,8 +114,7 @@ namespace BuddyApp.Companion
                     }
                     mEmoteTime = Time.time;
                 }
-            }
-            else {
+            } else {
                 StopSearchingHeadAnimation();
                 mIsSearchingPoint = false;
                 ChangeDirection();
@@ -149,8 +148,8 @@ namespace BuddyApp.Companion
 
         private IEnumerator SearchingHeadCo()
         {
-            while(mHeadSearchPlaying) {
-                switch(Random.Range(0, 2)) {
+            while (mHeadSearchPlaying) {
+                switch (Random.Range(0, 2)) {
                     case 0:
                         TurnHeadNo();
                         break;
@@ -189,23 +188,24 @@ namespace BuddyApp.Companion
 
         private IEnumerator ChangeDirectionCo()
         {
-            switch(Random.Range(0, 6)) {
-                case 0:
-                    mMood.Set(MoodType.TIRED);
-                    break;
-                case 1:
-                    mMood.Set(MoodType.GRUMPY);
-                    break;
-                case 2:
-                    mMood.Set(MoodType.HAPPY);
-                    break;
-                default:
-                    mMood.Set(MoodType.NEUTRAL);
-                    break;
+            if (!BYOS.Instance.VocalActivation.RecognitionTriggered) {
+                switch (Random.Range(0, 6)) {
+                    case 0:
+                        mMood.Set(MoodType.TIRED);
+                        break;
+                    case 1:
+                        mMood.Set(MoodType.GRUMPY);
+                        break;
+                    case 2:
+                        mMood.Set(MoodType.HAPPY);
+                        break;
+                    default:
+                        mMood.Set(MoodType.NEUTRAL);
+                        break;
+                }
             }
 
-            switch (Random.Range(0, 5))
-            {
+            switch (Random.Range(0, 5)) {
                 case 0:
                     mEmotion.EnableChoregraph();
                     mEmotion.SetEvent(EmotionEvent.SHY);
@@ -227,7 +227,7 @@ namespace BuddyApp.Companion
             mNoHinge.SetPosition(lRandomAngle);
 
             yield return new WaitForSeconds(1.5F);
-            
+
             mWheels.TurnAngle(lRandomAngle, 100F, 0.02F);
             mNoHinge.SetPosition(0F);
 
@@ -250,8 +250,8 @@ namespace BuddyApp.Companion
             return IsCollisionEminent(lLeftIRDistance, MIN_DIST_IR)
                 || IsCollisionEminent(lMiddleIRDistance, MIN_DIST_IR)
                 || IsCollisionEminent(lRightIRDistance, MIN_DIST_IR);
-                //|| IsCollisionEminent(lRightUSDistance, MIN_DIST_US)
-                //|| IsCollisionEminent(lLeftUSDistance, MIN_DIST_US);
+            //|| IsCollisionEminent(lRightUSDistance, MIN_DIST_US)
+            //|| IsCollisionEminent(lLeftUSDistance, MIN_DIST_US);
         }
 
         private bool IsCollisionEminent(float iCollisionDistance, float iThreshold = MIN_DIST_IR)
@@ -270,8 +270,7 @@ namespace BuddyApp.Companion
         private void SaySomething()
         {
             string lSentence = "";
-            switch(Random.Range(0,5))
-            {
+            switch (Random.Range(0, 5)) {
                 case 0:
                     lSentence = mDict.GetString("iAmBored");
                     break;
@@ -312,6 +311,6 @@ namespace BuddyApp.Companion
             mMood.Set(MoodType.LOVE);
             yield return new WaitForSeconds(1.0F);
             mMood.Set(MoodType.NEUTRAL);
-        }        
+        }
     }
 }

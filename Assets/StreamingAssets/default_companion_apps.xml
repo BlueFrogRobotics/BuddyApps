@@ -184,5 +184,13 @@
     <Scene>OdometryMappingReal</Scene>
     <Icon>Ico_Navigation</Icon>
     <DataFile>navigation_data.xml</DataFile>
-  </AppInfo> 
+  </AppInfo>
+	<AppInfo>
+		<name />
+		<hideFlags>None</hideFlags>
+		<DisplayName>DIAGNOSTIC</DisplayName>
+		<Scene>DiagnosticApp</Scene>
+		<Icon>Phone</Icon>
+		<OptionsLayoutStr>BuddyApp.Diagnostic.DiagnosticLayout</OptionsLayoutStr>		
+	</AppInfo>
 </ArrayOfAppInfo>

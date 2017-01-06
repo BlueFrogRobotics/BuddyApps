@@ -16,6 +16,8 @@ namespace BuddyApp.HideAndSeek
 
         private Dictionary mDictionnary;
 
+        private bool mWillQuit = false;
+
         //private List<AWindow> mWindows;
 
         // Use this for initialization
@@ -30,13 +32,18 @@ namespace BuddyApp.HideAndSeek
                 lWindow.Init();
             }
 
+            mWillQuit = false;
             SetAppBlack();
         }
 
         // Update is called once per frame
         void Update()
         {
-
+            if (mWillQuit)
+            {
+                new HomeCmd().Execute();
+                mWillQuit = false;
+            }
         }
 
         public void SetAppBlack()
@@ -53,7 +60,7 @@ namespace BuddyApp.HideAndSeek
 
         public void QuitApplication()
         {
-            new HomeCmd().Execute();
+            mWillQuit = true;
         }
     }
 }

@@ -5,34 +5,37 @@ using System;
 
 namespace BuddyApp.HideAndSeek
 {
-    public class TimerStart : AStateMachineBehaviour
+    public class QuitState : AStateMachineBehaviour
     {
+
+        private WindowLinker mWindowLinker;
+        private bool mHasExit = false;
+
         public override void Init()
         {
-            
+            mWindowLinker = GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponent<WindowLinker>();
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mMood.Set(MoodType.NEUTRAL);
-            GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponent<WindowLinker>().SetAppBlack();
-            mTTS.Say(mDictionary.GetString("willCount"));//("Je vais compter jusqu a 10 et je vous cherche");
+            
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if(mTTS.HasFinishedTalking)
+            if (!mHasExit && !mTTS.IsSpeaking)
             {
-                mYesHinge.SetPosition(40);
-                //Debug.Log("angle max: " + mYesHinge.MaximumAngle);
-                iAnimator.SetTrigger("ChangeState");
+                mHasExit = true;
+                mWindowLinker.QuitApplication();
             }
         }
 
+
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            iAnimator.ResetTrigger("ChangeState");
+            
         }
+
 
     }
 }

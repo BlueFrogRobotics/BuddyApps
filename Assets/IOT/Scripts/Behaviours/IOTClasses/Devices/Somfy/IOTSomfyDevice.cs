@@ -181,7 +181,6 @@ namespace BuddyApp.IOT
                     Debug.Log("Couldn't get state");
                     return;
                 }
-
                 lState = JsonUtility.FromJson<IOTSomfyStateJSON>(lResult.response.Text);
                 for(int i = 0; i < states.Length; ++i)
                 {
