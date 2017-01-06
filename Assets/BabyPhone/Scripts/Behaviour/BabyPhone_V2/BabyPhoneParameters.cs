@@ -168,7 +168,7 @@ namespace BuddyApp.BabyPhone
             motionDetection.UpdateCommands.Add(new SetCamSensCmd());
 
             ////animation's light On/Off
-            motionDetection.IsActive = BabyPhoneData.Instance.IsMotionDetectionOn;
+            motionDetection.IsActive = false; // BabyPhoneData.Instance.IsMotionDetectionOn;
             motionDetection.SwitchCommands.Add(new ActMotionDetectionCmd());
 
             //////screen saver
