@@ -26,11 +26,17 @@ namespace BuddyApp.BabyPhone
             mWindowYesNoQuestion.SetActive(true);
             mBackgroundBlackAnimator.SetTrigger("Open_BG");
             mYesNoQuestionWindow.SetTrigger("Open_WQuestion");
+            iAnimator.SetBool("QuitButton", false);
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mWindowYesNoQuestion.SetActive(false);
+            //if (iAnimator.GetInteger("ForwardState") != 1)
+            //{
+                
+                
+            //}
             mBackgroundBlackAnimator.SetTrigger("Close_BG");
             mYesNoQuestionWindow.SetTrigger("Close_WQuestion");
             iAnimator.SetInteger("ForwardState", -1);
