@@ -23,11 +23,11 @@ namespace BuddyApp.Companion
         private bool mAskedSomething;
         private bool mVocalWanderOrder;
         private bool mActionInProgress;
-		private bool mRobotIsTrackingSomeone;
-		private bool mEyesTrackingThermal;
+        private bool mRobotIsTrackingSomeone;
+        private bool mEyesTrackingThermal;
         private float mInactiveTime;
         private Stack<Action> mActionStack;
-        private Action mCurrentAction; 
+        private Action mCurrentAction;
 
         private CompanionData mCompanionData;
         private Dictionary mDictionary;
@@ -70,7 +70,7 @@ namespace BuddyApp.Companion
             mYesHinge = BYOS.Instance.Motors.YesHinge;
             mTTS = BYOS.Instance.TextToSpeech;
 
-            mVocalActivation.enabled = true;
+            //mVocalActivation.enabled = true;
             mVocalActivation.StartRecoWithTrigger();
             mVocalChat.WithNotification = true;
             mVocalChat.OnQuestionTypeFound = SortQuestionType;
@@ -81,9 +81,9 @@ namespace BuddyApp.Companion
             //mReaction.ActionFinished = PopHead;
             mReaction.ActionFinished = OnActionFinished;
             mAccelerometerDetector.OnDetection += mReaction.IsBeingLifted;
-			mRobotIsTrackingSomeone = true;
-			// by default the robot is following people with his eyes
-			mEyesTrackingThermal = true;
+            mRobotIsTrackingSomeone = true;
+            // by default the robot is following people with his eyes
+            mEyesTrackingThermal = true;
         }
 
         void Update()
@@ -118,27 +118,26 @@ namespace BuddyApp.Companion
                 mReaction.StopMoving();
             }
 
-            if(Time.time - mInactiveTime > 10F) {// && Time.time - mInactiveTime < 30F) {
-                if(mCompanionData.CanMoveBody) {
+            if (Time.time - mInactiveTime > 10F) {// && Time.time - mInactiveTime < 30F) {
+                if (mCompanionData.CanMoveBody) {
                     mReaction.StopIdle();
                     mReaction.StartWandering();
-                }
-                else if (mCompanionData.CanMoveHead)
+                } else if (mCompanionData.CanMoveHead)
                     mReaction.StartIdle();
             }
 
-			//if (mIsRobotIsTrackingSomeone){
-			//	mReaction.StartFollowing ();
-			//}else{
-			//	mReaction.StopFollowing ();
-			//}
+            //if (mIsRobotIsTrackingSomeone){
+            //	mReaction.StartFollowing ();
+            //}else{
+            //	mReaction.StopFollowing ();
+            //}
 
-			if (mEyesTrackingThermal && !mTTS.IsSpeaking) {
-				mReaction.StartEyesFollow ();
-			} else {
-				mReaction.StopEyesFollow ();
-			}
-				
+            if (mEyesTrackingThermal && !mTTS.IsSpeaking) {
+                mReaction.StartEyesFollow();
+            } else {
+                mReaction.StopEyesFollow();
+            }
+
 
             Behave();
         }
@@ -153,7 +152,7 @@ namespace BuddyApp.Companion
 
         private void Behave()
         {
-            if(!mActionInProgress && mActionStack.Count != 0) {
+            if (!mActionInProgress && mActionStack.Count != 0) {
                 mActionInProgress = true;
                 mCurrentAction = mActionStack.Pop();
                 mCurrentAction.Invoke();
@@ -162,7 +161,7 @@ namespace BuddyApp.Companion
 
         private void PushInStack(Action iAction)
         {
-            if(iAction == mCurrentAction)
+            if (iAction == mCurrentAction)
                 return;
 
             foreach (Action lStackAction in mActionStack) {
@@ -172,7 +171,7 @@ namespace BuddyApp.Companion
             Debug.Log("Inserted new Action " + iAction.Method.Name);
             mActionStack.Push(iAction);
         }
-        
+
         private void PopHead()
         {
             mActionStack.Pop();
@@ -182,8 +181,7 @@ namespace BuddyApp.Companion
         {
             Debug.Log("Question Type found : " + iType);
             mVocalWanderOrder = false;
-            switch(iType)
-            {
+            switch (iType) {
                 case "Wander":
                     mTTS.Say(mDictionary.GetString("wander"));
                     mVocalWanderOrder = true;
@@ -194,19 +192,21 @@ namespace BuddyApp.Companion
                     mCompanionData.CanMoveBody = true;
                     break;
 
-				case "DontMove":
-					mVocalWanderOrder = false;
-	                //mCompanionData.CanMoveBody = false;
-					mReaction.StopMoving ();                    
-				    mRobotIsTrackingSomeone = false;
-	                break;
+                case "DontMove":
+                    mVocalWanderOrder = false;
+                    //mCompanionData.CanMoveBody = false;
+                    mReaction.StopMoving();
+                    mRobotIsTrackingSomeone = false;
+                    GetComponent<FollowWanderReaction>().enabled = false;
+                    break;
 
-				case "FollowMe":
-					if (!mRobotIsTrackingSomeone) {
+                case "FollowMe":
+                    if (!mRobotIsTrackingSomeone) {
                         mTTS.Say(mDictionary.GetString("follow"));
+                        GetComponent<FollowWanderReaction>().enabled = true;
                         mRobotIsTrackingSomeone = true;
-                    }                        
-					break;
+                    }
+                    break;
 
                 case "HeadUp":
                     GetComponent<IdleReaction>().HeadPosition = -5F;
@@ -234,9 +234,13 @@ namespace BuddyApp.Companion
                     new LoadAppBySceneCmd("Alarm").Execute();
                     break;
 
-				case "Photo":
-					new LoadAppBySceneCmd("TakePhotoApp").Execute();
-					break;
+                case "Photo":
+                    new LoadAppBySceneCmd("TakePhotoApp").Execute();
+                    break;
+
+                case "Pose":
+                    new LoadAppBySceneCmd("TakePoseApp").Execute();
+                    break;
 
                 case "Calcul":
                     new LoadAppBySceneCmd("CalculGameApp").Execute();
@@ -278,7 +282,7 @@ namespace BuddyApp.Companion
                     new LoadAppBySceneCmd("HideAndSeek").Execute();
                     break;
 
-				case "Quizz":
+                case "Quizz":
                     break;
 
                 case "Colors":

@@ -14,6 +14,34 @@ namespace BuddyApp.IOT
             mName = "Philips HUE";
             mSpriteName = "IOT_System_Hue";
         }
+
+        public override void Creation()
+        {
+            base.Creation();
+            GameObject lSearch = InstanciateParam(ParamType.TEXTFIELD);
+            TextField lSearchComponent = lSearch.GetComponent<TextField>();
+            GameObject lSearch1 = InstanciateParam(ParamType.TEXTFIELD);
+            TextField lSearch1Component = lSearch1.GetComponent<TextField>();
+            GameObject lConnect = InstanciateParam(ParamType.BUTTON);
+            Button lConnectComponent = lConnect.GetComponent<Button>();
+
+            IOTCredentialTextFieldCmd lCmd = new IOTCredentialTextFieldCmd(this, 0, "");
+            lSearchComponent.Label.text = "IP";
+            if (PlayerPrefs.GetString("philips_ip") != "")
+                lSearchComponent.Field.text = PlayerPrefs.GetString("philips_ip");
+            lSearchComponent.UpdateCommands.Add(lCmd);
+
+            IOTCredentialTextFieldCmd lCmd1 = new IOTCredentialTextFieldCmd(this, 1, "");
+            lSearch1Component.Label.text = "USERNAME";
+            if (PlayerPrefs.GetString("philips_user") != "")
+                lSearch1Component.Field.text = PlayerPrefs.GetString("philips_user");
+            lSearch1Component.UpdateCommands.Add(lCmd1);
+
+            IOTConnectCmd lCmd3 = new IOTConnectCmd(this);
+            lConnectComponent.Label.text = "CONNECT";
+            lConnectComponent.ClickCommands.Add(lCmd3);
+        }
+
         public override void InitializeParams()
         {
             base.InitializeParams();
@@ -70,16 +98,18 @@ namespace BuddyApp.IOT
                     return;
                 }
                 Hashtable lObjects = lResult.response.Object;
-                for(int i = 0; i < lObjects.Count; ++i)
-                    mDevices.Add(new IOTPhilipsLightHUE());
-                for (int i = 0; i < mDevices.Count; ++i)
+
+                int i = 0;
+                foreach (DictionaryEntry lEntry in lObjects)
                 {
+                    mDevices.Add(new IOTPhilipsLightHUE());
                     IOTPhilipsLightHUE lDevice = (IOTPhilipsLightHUE)mDevices[i];
                     lDevice.Credentials[0] = mCredentials[0];
                     lDevice.Credentials[1] = mCredentials[1];
                     lDevice.Credentials[2] = mCredentials[2];
-                    lDevice.Indice = i;
-                    lDevice.Name = "DEVICE " + i.ToString("D2");
+                    lDevice.Indice = System.Convert.ToInt32(lEntry.Key);
+                    lDevice.Name = "DEVICE " + lDevice.Indice.ToString("D2");
+                    i++;
                 }
 
                 GetAllValues();

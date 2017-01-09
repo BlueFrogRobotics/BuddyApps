@@ -40,7 +40,7 @@ namespace BuddyApp.Companion
 
         void OnEnable()
         {
-            if(!mInitialized) {
+            if (!mInitialized) {
                 Start();
                 mInitialized = true;
             }
@@ -65,32 +65,34 @@ namespace BuddyApp.Companion
 
             if (Time.time - mTTSTime > mRandomSpeechTime)
                 SaySomething();
-            
-            if (Time.time - mEmoteTime > 8F) {
-                switch(Random.Range(0, 7)) {
-                    case 0:
-                        mFace.SetEvent(FaceEvent.SMILE);
-                        break;
-                    case 1:
-                        mFace.SetEvent(FaceEvent.YAWN);
-                        break;
-                    case 2:
-                        mFace.SetEvent(FaceEvent.BLINK_DOUBLE);
-                        break;
-                    case 3:
-                        StartCoroutine(HappyFaceCo());
-                        break;
-                    case 4:
-                        mMood.Set(MoodType.SAD);
-                        break;
-                    case 5:
-                        mMood.Set(MoodType.HAPPY);
-                        break;
-                    case 6:
-                        mMood.Set(MoodType.NEUTRAL);
+
+            if (!BYOS.Instance.VocalActivation.RecognitionTriggered) {
+                if (Time.time - mEmoteTime > 8F) {
+                    switch (Random.Range(0, 7)) {
+                        case 0:
+                            mFace.SetEvent(FaceEvent.SMILE);
                             break;
+                        case 1:
+                            mFace.SetEvent(FaceEvent.YAWN);
+                            break;
+                        case 2:
+                            mFace.SetEvent(FaceEvent.BLINK_DOUBLE);
+                            break;
+                        case 3:
+                            StartCoroutine(HappyFaceCo());
+                            break;
+                        case 4:
+                            mMood.Set(MoodType.SAD);
+                            break;
+                        case 5:
+                            mMood.Set(MoodType.HAPPY);
+                            break;
+                        case 6:
+                            mMood.Set(MoodType.NEUTRAL);
+                            break;
+                    }
+                    mEmoteTime = Time.time;
                 }
-                mEmoteTime = Time.time;
             }
         }
 
@@ -126,8 +128,7 @@ namespace BuddyApp.Companion
         private void SaySomething()
         {
             string lSentence = "";
-            switch (Random.Range(0, 4))
-            {
+            switch (Random.Range(0, 4)) {
                 case 0:
                     lSentence = mDict.GetString("iAmBored");
                     break;

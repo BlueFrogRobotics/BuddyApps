@@ -97,8 +97,8 @@ namespace BuddyApp.RLGL
                             mTTS.Say("Hurry up, it will be fun");
                             
                             
-                            mTimerMovement = mTimerDebugInt + 3000;
-                            mWheels.SetWheelsSpeed(200.0F, 200.0F, 3000);
+                            mTimerMovement = mTimerDebugInt + 4500;
+                            mWheels.SetWheelsSpeed(150.0F, 150.0F, 4500);
                             mFirstMove = true;
                         }
                         if (mFirstMove && !mSecondeMove && !mObjectDetected)
@@ -109,22 +109,24 @@ namespace BuddyApp.RLGL
                                 mTTS.Silence(0);
                                 mTTS.Say("Don't stay here and place yourself at 26 feet in front of me");
                                 //mDiffDebugMovement = mTimerMovement - (int)mTimerDebug;
-                                mDiffDebugMovement = mTimerMovement - mTimerDebugInt;
+                               
                                 //mWheels.StopWheels();
-                                mWheels.SetWheelsSpeed(0.0F, 0.0F, 1000);
+                                mWheels.SetWheelsSpeed(0.0F, 0.0F, 10);
                                 Debug.Log("FEAR : " + mWheels.Status);
-                                if (mWheels.Status == MovingState.MOTIONLESS)
+                                if (/*mWheels.Status == MovingState.MOTIONLESS ||*/ mWheels.Status == MovingState.REACHED_GOAL )
                                 {
+                                    mDiffDebugMovement = mTimerMovement - mTimerDebugInt;
+                                    Debug.Log(mDiffDebugMovement);
                                     mObjectDetected = true;
                                 }
-                                Debug.Log(mDiffDebugMovement);
+                                
                             }
                         }
 
                         if (mFirstMove && !mSecondeMove && ((mWheels.Status == MovingState.REACHED_GOAL) || (mWheels.Status == MovingState.MOTIONLESS && mTimerDebug > 3.0F)))
                         {
                             
-                            mWheels.SetWheelsSpeed(-200.0F, -200.0F, 3000/* - mDiffDebugMovement*/);
+                            mWheels.SetWheelsSpeed(-150.0F, -150.0F, 4500 - mDiffDebugMovement);
                             mSecondeMove = true;
                         }
                         //Debug.Log((10 - (int)mTimerDebug).ToString());
@@ -163,14 +165,14 @@ namespace BuddyApp.RLGL
                     mCountGreenLight = 0;
                 }
 
-                if ((mWheels.Status == MovingState.REACHED_GOAL || (mWheels.Status == MovingState.REACHED_GOAL && mIsReachedGoal)) && mIsCoroutineDone)
+                if (((mWheels.Status == MovingState.REACHED_GOAL || mWheels.Status == MovingState.MOTIONLESS) && mIsReachedGoal) && mIsCoroutineDone)
                 {
                     mIsMovementDone = true;
                 }
 
                 if (mIsMovementDone && mTTS.HasFinishedTalking)
                 {
-                    StartCoroutine(ChangeState(2.0F, iAnimator));
+                    StartCoroutine(ChangeState(1.5F, iAnimator));
                 }
             }
         }

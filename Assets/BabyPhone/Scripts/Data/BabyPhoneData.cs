@@ -13,7 +13,8 @@ namespace BuddyApp.BabyPhone
             MAUD =3,
             BENOIT = 4,
             MARC = 5,
-            KARAMA = 6
+            KARAMA = 6,
+            FRANCK = 7
         }
 
         public enum Lullaby : int

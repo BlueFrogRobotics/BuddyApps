@@ -91,5 +91,11 @@ namespace BuddyApp.Diagnostic
             foreach (GameObject lRoot in mRoots)
                 lRoot.SetActive(lRoot == iGOToKeep);
         }
+
+		public void Quit()
+		{
+			//BYOS.Instance.AppManager.Quit();
+			new BuddyOS.Command.HomeCmd().Execute();
+		}
     }
 }

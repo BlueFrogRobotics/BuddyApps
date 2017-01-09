@@ -28,9 +28,9 @@ namespace BuddyApp.Call
         void Update()
         {
             if (WebcamShowStream.IsActive()) {
-                if (Time.time - mTime > 2f)
+                if (Time.time - mTime > 2F)
                 {
-                    //WebcamShowStream.gameObject.SetActive(false);
+                    WebcamShowStream.gameObject.SetActive(false);
                     //windowsManager.StopCall();
                 }
             }

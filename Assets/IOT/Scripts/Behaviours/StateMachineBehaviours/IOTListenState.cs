@@ -34,7 +34,7 @@ namespace BuddyApp.IOT
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, System.Int32 iLayerIndex)
         {
-            if (mSTT.HasFinished)
+            if (mSTT.HasFinished && mRequested)
             {
                 if (mMsg != "")
                 {
@@ -55,7 +55,7 @@ namespace BuddyApp.IOT
                 {
 
                     listenedTimes++;
-                    if (listenedTimes > 3)
+                    if (listenedTimes > 2)
                     {
                         iAnimator.SetTrigger(mHashList[(int)HashTrigger.NEXT]);
                         listenedTimes = 0;
@@ -71,22 +71,25 @@ namespace BuddyApp.IOT
                         iAnimator.SetTrigger(mHashList[(int)HashTrigger.NETWORK_ERROR]);
                         break;
                     case STTError.ERROR_NO_MATCH:
-                    case STTError.ERROR_SPEECH_TIMEOUT:
                         iAnimator.SetTrigger(mHashList[(int)HashTrigger.MATCH_ERROR]);
                         break;
                     case STTError.ERROR_NETWORK_TIMEOUT:
+                    case STTError.ERROR_SPEECH_TIMEOUT:
                         iAnimator.SetTrigger(mHashList[(int)HashTrigger.TIMEOUT_ERROR]);
                         break;
                     default:
                         iAnimator.SetTrigger(mHashList[(int)HashTrigger.BACK]);
                         break;
                 }
+            }
 
-                if (!mRequested)
-                {
-                    mSTT.Request();
-                    mRequested = true;
-                }
+            if (!mRequested && mSTT.HasFinished)
+            {
+                mSTT.Request();
+                mError = STTError.ERROR_INSUFFICIENT_PERMISSIONS;
+                mMsg = "";
+                CommonStrings["STT"] = "";
+                mRequested = true;
             }
         }
 
