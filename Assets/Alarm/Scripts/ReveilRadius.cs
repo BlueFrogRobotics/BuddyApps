@@ -67,6 +67,7 @@ public class ReveilRadius : MonoBehaviour {
 		HandleSelector ();
 	}
 
+	// Change am, pm state in game object
 	private void HandleSelector(){
 		if (lState == 0) {
 			GameObject.Find("RArrowTop").GetComponent<Image>().color = uColor;
@@ -84,6 +85,7 @@ public class ReveilRadius : MonoBehaviour {
 		}
 	}
 
+	// Function to call for changing am, pm state
 	public void HandleStateChange( int iState ){
 		if (iState == lState) {
 		} 
@@ -180,12 +182,13 @@ public class ReveilRadius : MonoBehaviour {
 		mMinuteurText.GetComponent<Text> ().text = sTime;
 	}
 
-	// OnMouseDown
+	// OnMouseDown on the radial slider
 	public void ActivateRadialSlider( bool iActivate )
 	{
 		mActive = iActivate;
 	}
 
+	// OnMouseUP on the radial slider
 	public void MouseGoneUp()
 	{		
 		mMinuteurText.GetComponent<Text> ().text = "00";
