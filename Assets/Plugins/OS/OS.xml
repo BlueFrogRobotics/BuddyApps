@@ -4919,6 +4919,21 @@
             Base class for error stae in vocal managing
             </summary>
         </member>
+        <member name="T:BuddyOS.VMNetworkTimeoutErrorState">
+            <summary>
+            Network timeout error state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMNoPermissionErrorState">
+            <summary>
+            No permission error state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMRequestAgainErrorState">
+            <summary>
+            Request again error state
+            </summary>
+        </member>
         <member name="T:BuddyOS.VMServerErrorState">
             <summary>
             Server error state
@@ -4934,7 +4949,7 @@
             Client error state
             </summary>
         </member>
-        <member name="T:BuddyOS.VmBusyRecognitionState">
+        <member name="T:BuddyOS.VMBusyRecognitionErrorState">
             <summary>
             Busy speech recognition error state
             </summary>
@@ -5051,6 +5066,12 @@
         <member name="P:BuddyOS.VocalManager.EnableTrigger">
             <summary>
             Set Vocal activation on Trigger Mode. Now, Buddy will need to hear "Salut Buddy" or "Hello Buddy", before starting STT
+            </summary>
+        </member>
+        <member name="P:BuddyOS.VocalManager.EnableDefaultErrorHandling">
+            <summary>
+            If set at true, the vocal manager controller will handle each error individually. If false, the vocal manager won't handle any error.
+            Set to true by default
             </summary>
         </member>
         <member name="M:BuddyOS.VocalManager.LaunchDebug">

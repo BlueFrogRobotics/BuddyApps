@@ -137,7 +137,6 @@ namespace BuddyApp.Companion
                 mReaction.StopEyesFollow();
             }
 
-
             Behave();
         }
 
