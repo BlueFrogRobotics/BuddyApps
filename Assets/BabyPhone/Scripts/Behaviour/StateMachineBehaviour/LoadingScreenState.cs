@@ -7,7 +7,8 @@ namespace BuddyApp.BabyPhone
 {
     public class LoadingScreenState : AStateMachineBehaviour
     {
-        private const int LOADING_TIME = 3  ;
+        private const int LOADING_TIME = 3;
+
         private Animator mLoadingAnimator;
         private GameObject mWindoAppOverBlack;
         private float mTime;
@@ -22,7 +23,7 @@ namespace BuddyApp.BabyPhone
             mTime = 0;
             mRGBCam.Close();
             StartCoroutine(LoadingScreenFunc());
-            BYOS.Instance.VocalActivation.enabled = false;
+            BYOS.Instance.VocalManager.EnableTrigger = false;
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

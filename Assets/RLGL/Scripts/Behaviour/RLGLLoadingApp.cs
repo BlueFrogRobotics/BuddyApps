@@ -18,12 +18,10 @@ namespace BuddyApp.RLGL
         [SerializeField]
         private Animator animator;
 
-        
-
         // Use this for initialization
         void Start()
         {
-            BYOS.Instance.VocalActivation.enabled = false;
+            BYOS.Instance.VocalManager.EnableTrigger = false;
             StartCoroutine(LoadingScreen());
         }
 
@@ -37,7 +35,7 @@ namespace BuddyApp.RLGL
             //animator.SetBool("Close_WLoading", true);
             animator.SetTrigger("Close_WLoading");
             yield return new WaitForSeconds(1F);
-            
+
             BackGroundBlack.GetComponent<Animator>().SetTrigger("Open_BG");
             startScreen.GetComponent<Animator>().SetTrigger("Open_WMenu3");
             startScreen.GetComponent<RLGLMenu>().IsAnswerPlayYes = false;

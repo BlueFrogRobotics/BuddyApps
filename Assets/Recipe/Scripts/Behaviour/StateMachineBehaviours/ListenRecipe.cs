@@ -15,9 +15,9 @@ namespace BuddyApp.Recipe
         {
             Debug.Log("ENTER LISTEN RECIPE");
             mAnimator = iAnimator;
-            mVocalActivation.VocalProcessing = GetAnswer;
-            mVocalActivation.VocalError = NoAnswer;
-            mVocalActivation.StartInstantReco();
+            mVocalManager.OnEndReco = GetAnswer;
+            mVocalManager.OnError = NoAnswer;
+            mVocalManager.StartInstantReco();
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -26,9 +26,9 @@ namespace BuddyApp.Recipe
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mVocalActivation.VocalProcessing = null;
-            mVocalActivation.VocalError = null;
-            mVocalActivation.StopListenBehaviour();
+            mVocalManager.OnEndReco = null;
+            mVocalManager.OnError = null;
+            mVocalManager.StopListenBehaviour();
             Debug.Log("EXIT LISTEN RECIPE");
         }
 
@@ -38,7 +38,7 @@ namespace BuddyApp.Recipe
             mAnimator.SetTrigger("AnswerRecipe");
         }
 
-        private void NoAnswer(STTError error)
+        private void NoAnswer(STTError iError)
         {
             mAnimator.SetTrigger("NoAnswerRecipe");
         }

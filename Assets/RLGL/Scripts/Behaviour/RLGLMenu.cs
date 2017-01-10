@@ -12,11 +12,12 @@ namespace BuddyApp.RLGL
 
         [SerializeField]
         private Animator menu;
+
         [SerializeField]
         private Animator background;
+
         [SerializeField]
         private GameObject gameplay;
-
 
         [SerializeField]
         private GameObject blackIcon;
@@ -54,7 +55,7 @@ namespace BuddyApp.RLGL
         void Start()
         {
             mFace = BYOS.Instance.Face;
-            BYOS.Instance.VocalActivation.enabled = false;
+            BYOS.Instance.VocalManager.EnableTrigger = false;
             mNeedListen = true;
             mTTS = BYOS.Instance.TextToSpeech;
             mWheels = BYOS.Instance.Motors.Wheels;
@@ -74,26 +75,24 @@ namespace BuddyApp.RLGL
             mIsDone = false;
             //mSTTNotif = "";
             listener.GetComponent<RLGLListener>().ErrorCount = 0;
-            
+
         }
 
         // Update is called once per frame
         void Update()
         {
             mTimer += Time.deltaTime;
-            
-            
-            if(!mIsQuestionDone && mTTS.HasFinishedTalking && mTimer > 3.0F)
-            {
+
+
+            if (!mIsQuestionDone && mTTS.HasFinishedTalking && mTimer > 3.0F) {
                 Debug.Log("1");
                 mIsQuestionDone = true;
                 mTTS.Say("What do you want to do?");
                 mTimer = 0.0F;
             }
 
-            
-            if (!mIsAnswerPlayYes && mTimer > 3.0F && mTTS.HasFinishedTalking && mIsQuestionDone && mNeedListen)
-            {
+
+            if (!mIsAnswerPlayYes && mTimer > 3.0F && mTTS.HasFinishedTalking && mIsQuestionDone && mNeedListen) {
                 Debug.Log("2");
                 mTimer = 0.0F;
                 listener.GetComponent<RLGLListener>().STTRequest(5);
@@ -101,10 +100,8 @@ namespace BuddyApp.RLGL
             }
 
 
-            if (mIsAnswerPlayYes && !mIsMovementDone)
-            {
-                if(!mIsCanvasDisable )
-                {
+            if (mIsAnswerPlayYes && !mIsMovementDone) {
+                if (!mIsCanvasDisable) {
                     Debug.Log("3");
                     background.SetTrigger("Close_BG");
                     menu.SetTrigger("Close_WMenu3");
@@ -112,63 +109,53 @@ namespace BuddyApp.RLGL
                     mIsCanvasDisable = true;
                     mTimer = 0.0F;
                 }
-                if(mIsCanvasDisable && !mIsFirstSentenceDone && mTimer > 0.5F)
-                {
+                if (mIsCanvasDisable && !mIsFirstSentenceDone && mTimer > 0.5F) {
                     mFace.SetExpression(MoodType.NEUTRAL);
                     mTTS.Say("Oh yes I love this game!");
                     mIsFirstSentenceDone = true;
                     mTimer = 0.0F;
                 }
-                if (!mIsFirstMovementDone && mTimer > 0.5F)
-                {
-                    
+                if (!mIsFirstMovementDone && mTimer > 0.5F) {
+
                     Debug.Log("3.1");
-                    
-                    if(!mIsDone)
-                    {
+
+                    if (!mIsDone) {
                         mWheels.TurnAngle(90.0F, 400.0F, 0.02F);
                         mIsDone = true;
                         mTimer = 0.0F;
                     }
                     Debug.Log(mWheels.Status);
-                    if((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 0.5F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 0.5F))
-                    {
+                    if ((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 0.5F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 0.5F)) {
                         mIsFirstMovementDone = true;
                         mIsDone = false;
                     }
                 }
-                if (!mIsSecondMovementDone && mIsFirstMovementDone)
-                {
-                    
-                    Debug.Log("3.2"  + mWheels.Status);
-                    if(!mIsDone)
-                    {
+                if (!mIsSecondMovementDone && mIsFirstMovementDone) {
+
+                    Debug.Log("3.2" + mWheels.Status);
+                    if (!mIsDone) {
                         mTimer = 0.0F;
                         mWheels.TurnAngle(-180.0F, 400.0F, 0.02F);
                         mIsDone = true;
                     }
                     Debug.Log(mWheels.Status);
-                    if ((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 0.5F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 0.5F))
-                    {
+                    if ((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 0.5F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 0.5F)) {
                         mIsSecondMovementDone = true;
                         mIsDone = false;
                     }
-                        
-                    
+
+
                 }
-                if ( !mIsThirdMovementDone && mIsSecondMovementDone && !mIsMovementDone)
-                {
-                    
+                if (!mIsThirdMovementDone && mIsSecondMovementDone && !mIsMovementDone) {
+
                     Debug.Log("3.3" + mWheels.Status);
-                    if(!mIsDone)
-                    {
+                    if (!mIsDone) {
                         mTimer = 0.0F;
                         mWheels.TurnAngle(90.0F, 400.0F, 0.02F);
                         mIsDone = true;
                     }
                     Debug.Log(mWheels.Status);
-                    if ((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 0.5F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 0.5F))
-                    {
+                    if ((mWheels.Status == MovingState.REACHED_GOAL && mTimer > 0.5F) || (mWheels.Status == MovingState.MOTIONLESS && mTimer > 0.5F)) {
                         mIsMovementDone = true;
                         mIsDone = false;
                     }
@@ -176,8 +163,7 @@ namespace BuddyApp.RLGL
             }
 
 
-            if (!mIsScriptDone &&  mIsMovementDone && mTTS.HasFinishedTalking)
-            {
+            if (!mIsScriptDone && mIsMovementDone && mTTS.HasFinishedTalking) {
                 Debug.Log("4");
                 gameplay.SetActive(true);
                 mIsScriptDone = true;

@@ -61,7 +61,7 @@ namespace BuddyApp.Call
 
         void Start()
         {
-            BuddyOS.BYOS.Instance.VocalActivation.enabled = false;
+            BuddyOS.BYOS.Instance.VocalManager.EnableTrigger = false;
             Configure();
             Connect();
         }

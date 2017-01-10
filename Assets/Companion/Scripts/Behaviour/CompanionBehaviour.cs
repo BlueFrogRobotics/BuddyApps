@@ -6,14 +6,14 @@ namespace BuddyApp.Companion
     internal class CompanionBehaviour : MonoBehaviour
     {
         private TextToSpeech mTTS;
-        private VocalActivation mVocalActivation;
+        private VocalManager mVocalManager;
 
         void Start()
         {
             mTTS = BYOS.Instance.TextToSpeech;
-            mVocalActivation = BYOS.Instance.VocalActivation;
-            mVocalActivation.VocalProcessing = VocalProcessing;
-            mVocalActivation.StartRecoWithTrigger();
+            mVocalManager = BYOS.Instance.VocalManager;
+            mVocalManager.OnEndReco = VocalProcessing;
+            mVocalManager.EnableTrigger = true;
         }
 
         private void VocalProcessing(string iRequest)

@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System;
 using BuddyOS;
-using System.Collections;
 
 namespace BuddySample
 {
@@ -16,15 +14,15 @@ namespace BuddySample
 
         private TextToSpeech TTS;
         private SpeechToText STT;
-        private VocalActivation mVocalActivation;
+        private VocalManager mVocalManager;
 
         // Use this for initialization
         void Start()
         {
             STT = BYOS.Instance.SpeechToText;
             TTS = BYOS.Instance.TextToSpeech;
-            mVocalActivation = BYOS.Instance.VocalActivation;
-            mVocalActivation.VocalProcessing = AnswerTextEvent;
+            mVocalManager = BYOS.Instance.VocalManager;
+            mVocalManager.OnEndReco = AnswerTextEvent;
         }
 
         void Update()
@@ -34,7 +32,7 @@ namespace BuddySample
 
         public void LaunchRequestButton()
         {
-            mVocalActivation.StartInstantReco();
+            mVocalManager.StartInstantReco();
         }
 
         public void AnswerTextEvent(string iMsg)

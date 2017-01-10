@@ -188,7 +188,7 @@ namespace BuddyApp.Companion
 
         private IEnumerator ChangeDirectionCo()
         {
-            if (!BYOS.Instance.VocalActivation.RecognitionTriggered) {
+            if (!BYOS.Instance.VocalManager.RecognitionTriggered) {
                 switch (Random.Range(0, 6)) {
                     case 0:
                         mMood.Set(MoodType.TIRED);

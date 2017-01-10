@@ -6,11 +6,6 @@ namespace BuddyApp.BoseApp
 {
     public class BoseAppBehaviour : MonoBehaviour
     {
-        private TextToSpeech mTextToSpeech;
-        private SpeechToText sTT;
-
-        private BoseAppData mAppData;
-
         [SerializeField]
         private Recast recast;
 
@@ -20,19 +15,22 @@ namespace BuddyApp.BoseApp
         [SerializeField]
         private BoseRecast boseRecast;
 
-        private VocalActivation mVocalActivation;
-        private bool startSpeech = false;
+        private TextToSpeech mTextToSpeech;
+        private SpeechToText mSTT;
+        private BoseAppData mAppData;
+        private VocalManager mVocalManager;
+        private bool mStartSpeech = false;
 
         void Start()
         {
             mTextToSpeech = BYOS.Instance.TextToSpeech;
-            sTT = BYOS.Instance.SpeechToText;
-            mVocalActivation = BYOS.Instance.VocalActivation;
-            mVocalActivation.VocalProcessing = AnswerTextEvent;
+            mSTT = BYOS.Instance.SpeechToText;
+            mVocalManager = BYOS.Instance.VocalManager;
+            mVocalManager.OnEndReco = AnswerTextEvent;
 
             mAppData = BoseAppData.Instance;
 
-            sTT.OnError.Add(ErrorSpeech);
+            mSTT.OnError.Add(ErrorSpeech);
 
             this.updateData();
         }
@@ -65,25 +63,25 @@ namespace BuddyApp.BoseApp
         {
             //if (this.sTT.HasFinished)
             //    this.startSpeech = false;
-            if (!this.startSpeech && !this.mTextToSpeech.IsSpeaking)
+            if (!this.mStartSpeech && !this.mTextToSpeech.IsSpeaking)
             {
-                this.startSpeech = true;
-                mVocalActivation.StartInstantReco();
+                this.mStartSpeech = true;
+                mVocalManager.StartInstantReco();
             }
         }
 
         public void recastLoop()
         {
-            string slug;
+            string lSlug;
 
             if (recast.hasAnswered())
             {
-                slug = recast.getSlug();
-                if (slug != null)
+                lSlug = recast.getSlug();
+                if (lSlug != null)
                 {
-                    boseRecast.execute(slug, recast.getEntities());
+                    boseRecast.execute(lSlug, recast.getEntities());
                 }
-                this.startSpeech = false;
+                this.mStartSpeech = false;
             }
         }
 
@@ -92,13 +90,12 @@ namespace BuddyApp.BoseApp
             if (iMsg != null && !iMsg.Equals(""))
                 this.recast.send(iMsg);
             else
-                this.startSpeech = false;
+                this.mStartSpeech = false;
         }
 
         public void ErrorSpeech(string error)
         {
-            this.startSpeech = false;
+            this.mStartSpeech = false;
         }
-
     }
 }
