@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -791307131, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
+  m_Name: FrenchRLGLAppDictionary
+  m_EditorClassIdentifier: 
+  entries:
+  - key: menu1
+    val: Que veux-tu faire?
+  - key: menu2
+    val: Oh oui j'adore ce jeu!
+  - key: startState1
+    val: "Je suis tellement heureux, on va jouer ensemble mais avant j'ai besoin de
+      savoir si tu veux \xE9couter les r\xE8gles! Veux-tu les entendre?"
+  - key: startState2
+    val: VOULEZ-VOUS ENTENDRE LES REGLES?
+  - key: ruleState1
+    val: "Okay, je vais t'expliquer le jeu. Recule d'environ cinq m\xE8tre et quand
+      je me retournerais il faudra que tu viennes me toucher le visage avant que je
+      dise un deux trois soleil"
+  - key: ruleState2
+    val: "Veux-tu que je r\xE9p\xE8te les r\xE8gles du jeu?"
+  - key: ruleState3
+    val: VEUX-TU QUE JE REPETE LES REGLES?

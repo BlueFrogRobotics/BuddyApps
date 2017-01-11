@@ -50,7 +50,6 @@ namespace BuddyApp.RLGL
             mFirstMove = false;
             mSecondeMove = false;
             mTimerDebug = 0;
-            Debug.Log("COUNT STATE : ON ENTER");
             mCanvasUIToWin = GetGameObject(0);
             mIsCoroutineDone = false;
             mIsMovementDone = false;
@@ -62,7 +61,6 @@ namespace BuddyApp.RLGL
             mCountGreenLight = 0;
             iAnimator.SetBool("IsCountDone", false);
             iAnimator.SetBool("IsWon", false);
-            //mMood.Set(MoodType.HAPPY);
 
         }
 
@@ -78,7 +76,6 @@ namespace BuddyApp.RLGL
 
                 if (mStartCount)
                 {
-                    //Debug.Log(mTimerDebug + " " + mCountTen);
                     if (!mCountTen)
                     {
                         GetGameObject(4).GetComponent<Animator>().SetTrigger("Open_WTimer");
@@ -90,7 +87,6 @@ namespace BuddyApp.RLGL
                     if (mTimerDebug <= 11.0F)
                     {
                         mTimerDebugInt = (int)(mTimerDebug * 1000F);
-                        //Debug.Log(mTimerDebugInt);
                         GetGameObject(4).GetComponentInChildren<Text>().text = (10 - (int)mTimerDebug).ToString();
                         if (!mFirstMove)
                         {
@@ -179,7 +175,6 @@ namespace BuddyApp.RLGL
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("COUNT STATE : ON EXIT");
             mCanvasUIToWin.SetActive(false);
         }
 

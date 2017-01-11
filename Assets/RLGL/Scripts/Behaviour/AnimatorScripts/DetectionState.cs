@@ -20,7 +20,6 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("DETECTION STATE : ON ENTER");
             mTimer = 0.0F;
             mIsSentenceDone = false;
             mIsDetected = false;
@@ -32,7 +31,6 @@ namespace BuddyApp.RLGL
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("DETECTION STATE : ON UPDATE");
             mTimer += Time.deltaTime;
             if (!mIsMovementActionDone) {
                 mTTS.Say("Red Light");
@@ -40,11 +38,9 @@ namespace BuddyApp.RLGL
                 mIsMovementActionDone = true;
                 mTimer = 0.0F;
             }
-            Debug.Log("STATUS DETECTION STATE : " + mWheels.Status);
 
             if (mWheels.Status == MovingState.REACHED_GOAL || (mTimer > 1.5F && mWheels.Status == MovingState.MOTIONLESS)) {
                 mIsMovementDone = true;
-                Debug.Log("DETECTION UPDATE : MOVEMENT DONE");
             }
 
             if (mTTS.HasFinishedTalking && mIsMovementDone) {
@@ -80,7 +76,6 @@ namespace BuddyApp.RLGL
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("DETECTION STATE : ON EXIT");
             iAnimator.SetBool("IsDetectedTrue", false);
             iAnimator.SetBool("IsDetectedFalse", false);
 

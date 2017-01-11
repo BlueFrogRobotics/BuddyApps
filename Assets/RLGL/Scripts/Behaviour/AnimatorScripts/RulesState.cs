@@ -46,14 +46,10 @@ namespace BuddyApp.RLGL
             mCanvasTrigger = false;
             mWindowQuestionRule = GetGameObject(3);
             mBackground = GetGameObject(1);
-            //mWindowQuestionRule.SetActive(false);
-
-            Debug.Log("RULES STATE : ON ENTER");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-        {
-            Debug.Log("RULES STATE : ON UPDATE");
+        { 
             mTimer += Time.deltaTime;
             if (!mIsSentenceDone)
                 StartCoroutine(SayRulesAndExit());   
@@ -128,11 +124,9 @@ namespace BuddyApp.RLGL
         {
             if (!mCanvasTrigger)
             {
-                Debug.Log("OPEN BG ECT ");
                 mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
                 GetGameObject(6).SetActive(false);
                 mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Open_WQuestion");
-                //mWindowQuestionRule.GetComponentInChildren<Text>().text = "DO YOU WANT ME TO REPEAT THE RULES ?";
                 GetGameObject(7).GetComponent<Text>().text = "DO YOU WANT ME TO REPEAT THE RULES ?";
                 mCanvasTrigger = true;
             }
