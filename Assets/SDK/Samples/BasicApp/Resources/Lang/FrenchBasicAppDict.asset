@@ -12,7 +12,28 @@ MonoBehaviour:
   m_Name: FrenchBasicAppDict
   m_EditorClassIdentifier: 
   entries:
-  - key: speak
-    val: "Je parle fran\xE7ais"
+  - key: curlang
+    displayValue: "Fran\xE7ais"
+    listenValues:
+    - "fran\xE7ais"
+    - "fran\xE7ois"
+    - "fran\xE7aise"
+    - "fonc\xE9"
+    - "rinc\xE9"
+    - "pouss\xE9"
+    - "ponc\xE9"
+    sayValues:
+    - "Je parle fran\xE7ais"
+    - J'aime les croissants
   - key: hello
-    val: Bien le bonjour
+    displayValue: Bonjour
+    listenValues:
+    - bonjour
+    - salut
+    - comment vas tu
+    - "comment \xE7a va"
+    sayValues:
+    - Bien le bonjour
+    - ' Salut [200] comment allez vous'
+    - Salut
+    - Bonjour

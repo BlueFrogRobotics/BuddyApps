@@ -60,10 +60,12 @@ namespace BuddyApp.Basic
 
         /*
         * Want to make Buddy tell something ?
+        * Have a look to Samples/BasicApp/Resources/Lang/*Dict.asset to see how work dictionary
+        * It is highly recommanded to use Buddy/Dictionary window to visualize those dictionaries
         */
         public void Speak()
         {
-            mTextToSpeech.Say(mDictionary.GetString("hello"));
+            mTextToSpeech.Say(mDictionary.GetString("hello", EntryType.SAY));
         }
 
         /*

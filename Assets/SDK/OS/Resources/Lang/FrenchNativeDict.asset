@@ -12,41 +12,117 @@ MonoBehaviour:
   m_Name: FrenchNativeDict
   m_EditorClassIdentifier: 
   entries:
-  - key: hello
-    val: Salut
-  - key: bye
-    val: Au revoir
-  - key: yes
-    val: oui
-  - key: no
-    val: non
-  - key: srynotunderstand
-    val: "D\xE9sol\xE9, je n'ai pas compris"
-  - key: micissue
-    val: "J'ai un probl\xE8me avec mon micro"
-  - key: conectissue
-    val: "J'ai des difficult\xE9s pour me connecter"
-  - key: vrecobusy
-    val: "La reconnaissance vocale est occup\xE9e"
-  - key: hearnothing
-    val: "D\xE9sol\xE9, je n'ai rien entendu"
-  - key: repeatpls
-    val: "Pouvez-vous r\xE9p\xE9ter s'il vous pla\xEEt?"
   - key: vol
-    val: Volume
-  - key: bat
-    val: Batterie
-  - key: secu
-    val: "S\xE9curit\xE9"
-  - key: connec
-    val: Connection
+    displayValue: Volume
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: hello
+    displayValue: Salut
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: bye
+    displayValue: Au revoir
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: yes
+    displayValue: Oui
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: no
+    displayValue: Non
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: srynotunderstand
+    displayValue: "D\xE9sol\xE9, je n'ai pas compris"
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: micissue
+    displayValue: "J'ai un probl\xE8me avec mon micro"
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: connectissue
+    displayValue: "J'ai des difficult\xE9s pour me connecter"
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: vrecobusy
+    displayValue: "La reconnaissance vocale est occup\xE9e"
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: hearnothing
+    displayValue: "D\xE9sol\xE9, je n'ai rien entendu"
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: repeat
+    displayValue: "Pouvez-vous r\xE9p\xE9ter s'il vous pla\xEEt?"
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
   - key: param
-    val: "Param\xE8tres"
+    displayValue: "Param\xE8tres"
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: connec
+    displayValue: Connexion
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: secu
+    displayValue: "Securit\xE9"
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: bat
+    displayValue: Batterie
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
   - key: default
-    val: "ar d\xE9fault"
+    displayValue: "par d\xE9faut "
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
   - key: light
-    val: "lumi\xE8re"
+    displayValue: "lumi\xE8re"
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
   - key: bright
-    val: "luminosit\xE9"
-  - key: iheard
-    val: J'ai entendu
+    displayValue: "luminosit\xE9"
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: ihear
+    displayValue: I heard
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-

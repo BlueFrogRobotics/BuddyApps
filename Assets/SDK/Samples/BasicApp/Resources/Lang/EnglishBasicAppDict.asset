@@ -12,7 +12,27 @@ MonoBehaviour:
   m_Name: EnglishBasicAppDict
   m_EditorClassIdentifier: 
   entries:
-  - key: speak
-    val: I am speaking english
+  - key: curlang
+    displayValue: English
+    listenValues:
+    - english
+    - fish
+    - and if
+    - languish
+    - rich
+    sayValues:
+    - I am speaking English
+    - I like fish and chips
   - key: hello
-    val: Good morning
+    displayValue: Hello
+    listenValues:
+    - good morning
+    - good afternoon
+    - hello
+    - hi
+    - how are you
+    sayValues:
+    - Good morning
+    - Hello
+    - Hi
+    - Hi [200] how are you

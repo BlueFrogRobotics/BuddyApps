@@ -12,41 +12,117 @@ MonoBehaviour:
   m_Name: EnglishNativeDict
   m_EditorClassIdentifier: 
   entries:
-  - key: hello
-    val: Hello
-  - key: bye
-    val: Goodbye
-  - key: yes
-    val: yes
-  - key: no
-    val: no
-  - key: srynotunderstand
-    val: Sorry, I didn't understand
-  - key: micissue
-    val: There is an issue with my microphone
-  - key: conectissue
-    val: I have some issues to access the network
-  - key: vrecobusy
-    val: The vocal recognition is busy
-  - key: hearnothing
-    val: Sorry, I didn't hear anything
-  - key: repeatpls
-    val: Can you repeat please?
   - key: vol
-    val: Volume
-  - key: bat
-    val: Battery
-  - key: secu
-    val: Security
-  - key: connec
-    val: Connexion
+    displayValue: Volume
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: hello
+    displayValue: Hello
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: bye
+    displayValue: Good bye
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: yes
+    displayValue: Yes
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: no
+    displayValue: No
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: srynotunderstand
+    displayValue: Sorry, I didn't understand
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: micissue
+    displayValue: There is an issue with my microphone
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: connectissue
+    displayValue: I encouted difficulties while trying to access the network
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: vrecobusy
+    displayValue: The voice recognition is busy
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: hearnothing
+    displayValue: Sorry, I didn't hear anything
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: repeat
+    displayValue: Could you please repeat ?
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
   - key: param
-    val: Parameters
+    displayValue: Parameters
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: connec
+    displayValue: Connection
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: secu
+    displayValue: Security
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: bat
+    displayValue: Battery
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
   - key: default
-    val: defaut
+    displayValue: default
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
   - key: light
-    val: light
+    displayValue: light
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
   - key: bright
-    val: brightness
-  - key: iheard
-    val: I heard
+    displayValue: brightness
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
+  - key: ihear
+    displayValue: J'ai entendu
+    listenValues:
+    - -listen-
+    sayValues:
+    - -say-
