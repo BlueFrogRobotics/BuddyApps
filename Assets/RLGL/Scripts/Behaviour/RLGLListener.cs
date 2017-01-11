@@ -142,6 +142,7 @@ namespace BuddyApp.RLGL
                         gameplay.GetComponent<Animator>().GetBehaviour<ReplayState>().NeedListen = true;
                         ++mErrorCount;
                         break;
+                        
                     default:
                         gameplay.GetComponent<Animator>().GetBehaviour<ReplayState>().NeedListen = true;
                         break;

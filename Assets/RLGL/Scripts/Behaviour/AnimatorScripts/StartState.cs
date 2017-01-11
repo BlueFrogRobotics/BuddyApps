@@ -91,11 +91,6 @@ namespace BuddyApp.RLGL
         {
             iAnimator.SetBool("IsStartDoneAndRules", false);
             iAnimator.SetBool("IsStartDoneAndNoRules", false);
-            //mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
-            //mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
-            
-            //mWindowQuestion.GetComponent<Animator>().ResetTrigger("Close_WQuestion");
-            Debug.Log("START STATE : ON EXIT");
         }
         
         private IEnumerator SayStart()
