@@ -31,7 +31,7 @@ namespace BuddyApp.Companion
 
         private CompanionData mCompanionData;
         private Dictionary mDictionary;
-        private VocalActivation mVocalActivation;
+        private VocalManager mVocalManager;
         private VocalChat mVocalChat;
         private YesHinge mYesHinge;
         private TextToSpeech mTTS;
@@ -66,12 +66,11 @@ namespace BuddyApp.Companion
 
             mCompanionData = CompanionData.Instance;
             mDictionary = BYOS.Instance.Dictionary;
-            mVocalActivation = BYOS.Instance.VocalActivation;
+            mVocalManager = BYOS.Instance.VocalManager;
             mYesHinge = BYOS.Instance.Motors.YesHinge;
             mTTS = BYOS.Instance.TextToSpeech;
 
-            //mVocalActivation.enabled = true;
-            mVocalActivation.StartRecoWithTrigger();
+            mVocalManager.EnableTrigger = true;
             mVocalChat.WithNotification = true;
             mVocalChat.OnQuestionTypeFound = SortQuestionType;
 
@@ -137,7 +136,6 @@ namespace BuddyApp.Companion
             } else {
                 mReaction.StopEyesFollow();
             }
-
 
             Behave();
         }

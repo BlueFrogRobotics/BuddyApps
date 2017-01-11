@@ -66,7 +66,7 @@ namespace BuddyApp.Companion
             if (Time.time - mTTSTime > mRandomSpeechTime)
                 SaySomething();
 
-            if (!BYOS.Instance.VocalActivation.RecognitionTriggered) {
+            if (!BYOS.Instance.VocalManager.RecognitionTriggered) {
                 if (Time.time - mEmoteTime > 8F) {
                     switch (Random.Range(0, 7)) {
                         case 0:

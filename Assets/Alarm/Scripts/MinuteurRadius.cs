@@ -63,6 +63,7 @@ public class MinuteurRadius : MonoBehaviour {
 		HandleSelector ();
 	}
 
+	// Change am, pm state in game object
 	private void HandleSelector(){
 		if (lState == 0) {
 			GameObject.Find("ArrowTop").GetComponent<Image>().color = uColor;
@@ -80,6 +81,7 @@ public class MinuteurRadius : MonoBehaviour {
 		}
 	}
 
+	// Function to call for changing am, pm state
 	public void HandleStateChange( int iState ){
 		if (iState == lState) {
 		} 
@@ -168,12 +170,13 @@ public class MinuteurRadius : MonoBehaviour {
 		}
 	}
 
-	// OnMouseDown
+	// OnMouseDown on the radial slider
 	public void ActivateRadialSlider( bool iActivate )
 	{
 		mActive = iActivate;
 	}
 
+	// OnMouseUp on the radial slider
 	public void MouseGoneUp()
 	{		
 		mMinuteurHandle.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));

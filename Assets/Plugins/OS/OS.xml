@@ -1081,13 +1081,13 @@
             <summary>
             Detects if the trigger has been activated.
             </summary>
-            <returns></returns>
+            <returns>True if the trigger triggered</returns>
         </member>
         <member name="P:BuddyOS.SphinxTrigger.FinishedSetup">
             <summary>
             Update all new setup.
             </summary>
-            <returns></returns>
+            <returns>True if the trigger has been correctly setup</returns>
         </member>
         <member name="M:BuddyOS.SphinxTrigger.LaunchRecognition">
             <summary>
@@ -1459,7 +1459,7 @@
             Simple access to tablet parameters
             </summary>
         </member>
-        <member name="F:BuddyOS.App.AStateMachineBehaviour.mVocalActivation">
+        <member name="F:BuddyOS.App.AStateMachineBehaviour.mVocalManager">
             <summary>
             Vocal activation wrapper for Sphinx/STT facilities
             </summary>
@@ -1879,7 +1879,7 @@
             Manage apps. Handle loading, unloading and transmited info between apps 
             </summary>
         </member>
-        <member name="P:BuddyOS.BYOS.VocalActivation">
+        <member name="P:BuddyOS.BYOS.VocalManager">
             <summary>
             Layer using SpeechToText and SphinxTrigger
             </summary>
@@ -4909,6 +4909,86 @@
             </summary>
             <param name="iAtlasName">Atlas to load located in Resources/Sprites/</param>
         </member>
+        <member name="T:BuddyOS.AVMState">
+            <summary>
+            Base state machine for vocal manager
+            </summary>
+        </member>
+        <member name="T:BuddyOS.AVMErrorState">
+            <summary>
+            Base class for error stae in vocal managing
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMNetworkTimeoutErrorState">
+            <summary>
+            Network timeout error state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMNoPermissionErrorState">
+            <summary>
+            No permission error state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMRequestAgainErrorState">
+            <summary>
+            Request again error state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMServerErrorState">
+            <summary>
+            Server error state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMNetworkErrorState">
+            <summary>
+            Network error state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMClientErrorState">
+            <summary>
+            Client error state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMBusyRecognitionErrorState">
+            <summary>
+            Busy speech recognition error state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMSpeechTimeoutState">
+            <summary>
+            Speech timeout error state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMNoMatchErrorState">
+            <summary>
+            No match error state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMAudioErrorState">
+            <summary>
+            Audio error state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMListeningTriggerState">
+            <summary>
+            Listening trigger state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMFinishRecognitionState">
+            <summary>
+            Finish speech recognition state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMSTTRecognitionState">
+            <summary>
+            STT recognition state
+            </summary>
+        </member>
+        <member name="T:BuddyOS.VMIdleState">
+            <summary>
+            Base idle state
+            </summary>
+        </member>
         <member name="T:BuddyOS.VocalInputField">
             <summary>
             Input field text for STT debug / help purpose 
@@ -4946,73 +5026,76 @@
             Stop the speach recognition
             </summary>
         </member>
-        <member name="T:BuddyOS.VocalActivation">
+        <member name="T:BuddyOS.VocalManager">
             <summary>
             Vocal layer for easier control for STT and Sphinx.
             Set the VocalProcessing attribute for STT callback.
             You can also set StartListenBehaviour and StopListenBehaviour.
             </summary>
         </member>
-        <member name="P:BuddyOS.VocalActivation.RecognitionTriggered">
+        <member name="P:BuddyOS.VocalManager.RecognitionTriggered">
             <summary>
             Tells wether STT Recognition has been triggered or not.
             </summary>
         </member>
-        <member name="P:BuddyOS.VocalActivation.StartListenBehaviour">
+        <member name="P:BuddyOS.VocalManager.StartListenBehaviour">
             <summary>
             Action will be called when STT starts listening
             </summary>
         </member>
-        <member name="P:BuddyOS.VocalActivation.StopListenBehaviour">
+        <member name="P:BuddyOS.VocalManager.StopListenBehaviour">
             <summary>
             Action will be called when STT stops listening
             </summary>
         </member>
-        <member name="P:BuddyOS.VocalActivation.VocalProcessing">
+        <member name="P:BuddyOS.VocalManager.OnEndReco">
             <summary>
             Action will be called with the recognized string after STT listening
             </summary>
         </member>
-        <member name="P:BuddyOS.VocalActivation.PartialVocalProcessing">
+        <member name="P:BuddyOS.VocalManager.OnPartialReco">
             <summary>
             Action will be called when STT has recognized a word, BUT recognition is not finished
             </summary>
         </member>
-        <member name="P:BuddyOS.VocalActivation.VocalError">
+        <member name="P:BuddyOS.VocalManager.OnError">
             <summary>
             Action will be called upon STT completion with an error. Throws a STTEnum error. After 3 consecutive errors, will momentally disable Sphinx.
             </summary>
         </member>
-        <member name="M:BuddyOS.VocalActivation.LaunchDebug">
-            <summary>
-            Open or close the debug window for STT and Sphinx
-            </summary>
-        </member>
-        <member name="M:BuddyOS.VocalActivation.LaunchInputField">
-            <summary>
-            Open or close the input field window for STT
-            </summary>
-        </member>
-        <member name="M:BuddyOS.VocalActivation.StartRecoWithTrigger">
+        <member name="P:BuddyOS.VocalManager.EnableTrigger">
             <summary>
             Set Vocal activation on Trigger Mode. Now, Buddy will need to hear "Salut Buddy" or "Hello Buddy", before starting STT
             </summary>
         </member>
-        <member name="M:BuddyOS.VocalActivation.StartInstantReco">
+        <member name="P:BuddyOS.VocalManager.EnableDefaultErrorHandling">
             <summary>
-            Stop Trigger Mode and immediately starts STT request for instant listening
+            If set at true, the vocal manager controller will handle each error individually. If false, the vocal manager won't handle any error.
+            Set to true by default
             </summary>
         </member>
-        <member name="M:BuddyOS.VocalActivation.AsVocalInput(System.String)">
+        <member name="M:BuddyOS.VocalManager.LaunchDebug">
+            <summary>
+            Open or close the debug window for STT and Sphinx
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalManager.LaunchInputField">
+            <summary>
+            Open or close the input field window for STT
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalManager.StartInstantReco(System.Boolean)">
+            <summary>
+            Stop Trigger Mode and immediately starts STT request for instant listening
+            <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
+            the method restarts the trigger mode after instant recognition</param>
+            </summary>
+        </member>
+        <member name="M:BuddyOS.VocalManager.AsVocalInput(System.String)">
             <summary>
             Fake the input vocal signal with input text
             </summary>
             <param name="iInput">The input text that the Speech To Text will proceed</param>
-        </member>
-        <member name="M:BuddyOS.VocalActivation.StopReco">
-            <summary>
-            Stop Trigger Mode and disable VocalActivation
-            </summary>
         </member>
     </members>
 </doc>
