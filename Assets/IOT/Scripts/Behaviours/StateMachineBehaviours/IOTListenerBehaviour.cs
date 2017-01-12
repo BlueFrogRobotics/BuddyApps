@@ -38,17 +38,20 @@ namespace BuddyApp.IOT
 
             using (XmlReader lReader = XmlReader.Create(BuddyTools.Utils.GetStreamingAssetFilePath("iot_speech.xml")))
             {
-                while (lReader.Read() && !mFound)
+                while (lReader.Read())
                 {
                     if (lReader.IsStartElement())
                     {
                         string lName = lReader.Name;
                         string lAction = null;
                         bool lParam = false;
+                        string lNumber = "";
                         if (lReader.HasAttributes)
                         {
                             lAction = lReader.GetAttribute("action");
                             lParam = lReader.GetAttribute("parameters") == "true";
+                            if (lName == "iot_parameters")
+                                lNumber = lReader.GetAttribute("number");
                         }
                         if (lReader.Read())
                         {
@@ -69,7 +72,8 @@ namespace BuddyApp.IOT
                                         if (lName != "iot_parameters")
                                             iAnimator.SetTrigger(lName);
                                         else
-                                            CommonStrings["PARAM"] = lReader.GetAttribute("number");
+                                            CommonStrings["PARAM"] = lNumber;
+
                                         mFound = true;
                                         break;
                                     }

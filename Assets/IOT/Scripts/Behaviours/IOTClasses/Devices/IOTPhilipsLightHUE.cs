@@ -88,7 +88,7 @@ namespace BuddyApp.IOT
                 lLightSettings.Add(lStr, mState[lStr]);
             }
 
-            string lPath = "http://" + mCredentials[0] + "/api/" + mCredentials[1] + "/lights/" + (indice + 1) + "/state";
+            string lPath = "http://" + mCredentials[0] + "/api/" + mCredentials[1] + "/lights/" + indice + "/state";
             Request lRequest = new Request("PUT", lPath, lLightSettings);
             lRequest.Send((request) =>
             {
@@ -97,7 +97,7 @@ namespace BuddyApp.IOT
 
         public void GetValue()
         {
-            string lPath = "http://" + mCredentials[0] + "/api/" + mCredentials[1] + "/lights/" + (indice + 1);
+            string lPath = "http://" + mCredentials[0] + "/api/" + mCredentials[1] + "/lights/" + indice;
             Request lRequest = new Request("GET", lPath);
             lRequest.Send((lResult) =>
             {
@@ -119,9 +119,8 @@ namespace BuddyApp.IOT
                 mState["alert"] = lRealState["alert"];
                 mState["colormode"] = lRealState["colormode"];
                 mState["reachable"] = lRealState["reachable"];
-
-
-                mAvailable = (string)lRealState["reachable"]=="on"?true:false;
+                
+                mAvailable = (bool)lRealState["reachable"];
 
                 mName = (string)lRes["name"];
 
