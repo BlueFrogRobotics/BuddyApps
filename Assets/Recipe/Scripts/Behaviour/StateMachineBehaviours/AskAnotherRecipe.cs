@@ -6,7 +6,7 @@ namespace BuddyApp.Recipe
 {
     public class AskAnotherRecipe : AStateMachineBehaviour
     {
-        private bool check;
+        private bool mCheck;
 
         public override void Init()
         {
@@ -15,7 +15,7 @@ namespace BuddyApp.Recipe
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("ENTER ASK ANOTHER RECIPE");
-            check = false;
+            mCheck = false;
             GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
             GetGameObject(1).SetActive(true);
             GetGameObject(2).SetActive(false);
@@ -32,29 +32,28 @@ namespace BuddyApp.Recipe
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!check && mTTS.HasFinishedTalking && !mVocalActivation.RecognitionTriggered)
-            {
-                check = true;
-                mVocalActivation.VocalProcessing = VocalProcessing;
-                mVocalActivation.VocalError = VocalError;
-                mVocalActivation.StartInstantReco();
+            if (!mCheck && mTTS.HasFinishedTalking && !mVocalManager.RecognitionTriggered) {
+                mCheck = true;
+                mVocalManager.OnEndReco = VocalProcessing;
+                mVocalManager.OnError = VocalError;
+                mVocalManager.StartInstantReco();
             }
         }
 
-        private void VocalProcessing(string answer)
+        private void VocalProcessing(string iAnswer)
         {
-            answer = answer.ToLower();
-            if (answer.Contains(mDictionary.GetString("yes")))
+            iAnswer = iAnswer.ToLower();
+            if (iAnswer.Contains(mDictionary.GetString("yes")))
                 AnswerYes();
-            else if (answer.Contains(mDictionary.GetString("no")))
+            else if (iAnswer.Contains(mDictionary.GetString("no")))
                 GetComponent<RecipeBehaviour>().Exit();
             else
-                mVocalActivation.StartInstantReco();
+                mVocalManager.StartInstantReco();
         }
 
         private void VocalError(STTError error)
         {
-            mVocalActivation.StartInstantReco();
+            mVocalManager.StartInstantReco();
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -63,9 +62,9 @@ namespace BuddyApp.Recipe
             GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
             GetGameObject(1).SetActive(false);
             GetComponent<RecipeBehaviour>().IsBackgroundActivated = false;
-            mVocalActivation.VocalProcessing = null;
-            mVocalActivation.VocalError = null;
-            mVocalActivation.StopListenBehaviour();
+            mVocalManager.OnEndReco = null;
+            mVocalManager.OnError = null;
+            mVocalManager.StopListenBehaviour();
             mTTS.Silence(0);
             Debug.Log("EXIT ASK ANOTHER RECIPE");
         }

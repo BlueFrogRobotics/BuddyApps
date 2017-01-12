@@ -23,7 +23,7 @@ namespace BuddyApp.Guardian
             mDetectorManager = StateManager.DetectorManager;
             mLoadingAnimator.SetTrigger("Open_WLoading");
             BYOS.Instance.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
-            BYOS.Instance.VocalActivation.enabled = false;
+            BYOS.Instance.VocalManager.EnableTrigger = false;
             mHasFinishedLoading = false;
             animator.SetBool("ChangeState", false);
             animator.SetBool("IsDetecting", false);

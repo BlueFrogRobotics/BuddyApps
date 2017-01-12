@@ -22,20 +22,19 @@ namespace BuddyApp.Recipe
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!check && mTTS.HasFinishedTalking && mSTT.HasFinished)
-            {
+            if (!check && mTTS.HasFinishedTalking && mSTT.HasFinished) {
                 check = true;
-                mVocalActivation.VocalProcessing = VocalProcessing;
-                mVocalActivation.VocalError = VocalError;
-                mVocalActivation.StartInstantReco();
+                mVocalManager.OnEndReco = VocalProcessing;
+                mVocalManager.OnError = VocalError;
+                mVocalManager.StartInstantReco();
             }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mVocalActivation.VocalProcessing = null;
-            mVocalActivation.VocalError = null;
-            mVocalActivation.StopListenBehaviour();
+            mVocalManager.OnEndReco = null;
+            mVocalManager.OnError = null;
+            mVocalManager.StopListenBehaviour();
             mTTS.Silence(0);
             GetGameObject(10).GetComponent<Button>().onClick.RemoveAllListeners();
             GetGameObject(11).GetComponent<Button>().onClick.RemoveAllListeners();
@@ -49,35 +48,30 @@ namespace BuddyApp.Recipe
                 NextStep();
             else if (ContainKeyWord(answer, mDictionary.GetString("last").Split(' ')))
                 LastStep();
-            else if (ContainKeyWord(answer, mDictionary.GetString("repeat").Split(' ')))
-            {
+            else if (ContainKeyWord(answer, mDictionary.GetString("repeat").Split(' '))) {
                 GetComponent<RecipeBehaviour>().StepIndex--;
                 GetComponent<Animator>().SetTrigger("DisplayStep");
-            }
-            else
-                mVocalActivation.StartInstantReco();
+            } else
+                mVocalManager.StartInstantReco();
         }
 
         private bool ContainKeyWord(string iAnswer, string[] iKeyWords)
         {
-            bool lCheck = false;
+            bool oCheck = false;
 
-            for (int i = 0; i < iKeyWords.Length; i++)
-            {
+            for (int i = 0; i < iKeyWords.Length; i++) {
                 if (iAnswer.Contains(iKeyWords[i]))
-                    lCheck = true;
+                    oCheck = true;
             }
-            return lCheck;
+            return oCheck;
         }
 
         public void NextStep()
         {
-            if (GetComponent<RecipeBehaviour>().StepIndex == GetComponent<RecipeBehaviour>().mRecipe.step.Count)
-            {
+            if (GetComponent<RecipeBehaviour>().StepIndex == GetComponent<RecipeBehaviour>().mRecipe.step.Count) {
                 GetGameObject(4).GetComponent<Animator>().SetTrigger("Close_WFullImage");
                 GetComponent<Animator>().SetTrigger("FinishStep");
-            }
-            else
+            } else
                 GetComponent<Animator>().SetTrigger("DisplayStep");
         }
 
@@ -88,8 +82,7 @@ namespace BuddyApp.Recipe
                 GetComponent<RecipeBehaviour>().IngredientIndex -= 3;
                 GetGameObject(4).GetComponent<Animator>().SetTrigger("Close_WFullImage");
                 GetComponent<Animator>().SetTrigger("BackToIngredient");
-            }
-            else {
+            } else {
                 if (GetComponent<RecipeBehaviour>().StepIndex > 1)
                     GetComponent<RecipeBehaviour>().StepIndex -= 2;
                 else
@@ -100,9 +93,7 @@ namespace BuddyApp.Recipe
 
         private void VocalError(STTError error)
         {
-            mVocalActivation.StartInstantReco();
+            mVocalManager.StartInstantReco();
         }
-
-        
     }
 }
