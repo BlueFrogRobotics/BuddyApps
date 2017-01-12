@@ -65,7 +65,7 @@ namespace BuddyApp.Basic
         */
         public void Speak()
         {
-            mTextToSpeech.Say(mDictionary.GetString("hello", EntryType.SAY));
+            mTextToSpeech.Say(mDictionary.GetRandomString("hello"));
         }
 
         /*

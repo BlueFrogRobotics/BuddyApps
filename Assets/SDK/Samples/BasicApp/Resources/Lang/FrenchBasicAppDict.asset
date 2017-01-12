@@ -13,8 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: curlang
-    displayValue: "Fran\xE7ais"
-    listenValues:
+    baseValue: "Fran\xE7ais"
+    phoneticValues:
     - "fran\xE7ais"
     - "fran\xE7ois"
     - "fran\xE7aise"
@@ -22,17 +22,17 @@ MonoBehaviour:
     - "rinc\xE9"
     - "pouss\xE9"
     - "ponc\xE9"
-    sayValues:
+    randomValues:
     - "Je parle fran\xE7ais"
     - J'aime les croissants
   - key: hello
-    displayValue: Bonjour
-    listenValues:
+    baseValue: Bonjour
+    phoneticValues:
     - bonjour
     - salut
     - comment vas tu
     - "comment \xE7a va"
-    sayValues:
+    randomValues:
     - Bien le bonjour
     - ' Salut [200] comment allez vous'
     - Salut

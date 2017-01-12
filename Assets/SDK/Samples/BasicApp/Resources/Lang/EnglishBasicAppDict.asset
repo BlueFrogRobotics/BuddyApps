@@ -13,25 +13,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: curlang
-    displayValue: English
-    listenValues:
+    baseValue: English
+    phoneticValues:
     - english
     - fish
     - and if
     - languish
     - rich
-    sayValues:
+    randomValues:
     - I am speaking English
     - I like fish and chips
   - key: hello
-    displayValue: Hello
-    listenValues:
+    baseValue: Hello
+    phoneticValues:
     - good morning
     - good afternoon
     - hello
     - hi
     - how are you
-    sayValues:
+    randomValues:
     - Good morning
     - Hello
     - Hi

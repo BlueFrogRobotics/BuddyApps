@@ -98,9 +98,9 @@ public class DictionaryEditor : EditorWindow
                                 if (!lThes.ContainsKey(lKey))
                                     lThes.Entries.Add(new DictionaryEntry() {
                                         Key = lKey,
-                                        DisplayValue = lLine[lCol],
-                                        SayValues = new List<string>() { "-say-" },
-                                        ListenValues = new List<string>() { "-listen-" }
+                                        BaseValue = lLine[lCol],
+                                        RandomValues = new List<string>() { "-random-" },
+                                        ClosePhoneticValues = new List<string>() { "-phonetic-" }
                                     });
                             }
                         }
@@ -154,12 +154,12 @@ public class DictionaryEditor : EditorWindow
                         for (int j = 0; j < lNbEntries; ++j) {
 
                             DictionaryEntry lEntry = lEntries[j];
-                            string lSayEntries = Utils.CollectionToString(lEntry.SayValues, "/");
-                            string lListenEntries = Utils.CollectionToString(lEntry.ListenValues, "/");
+                            string lSayEntries = Utils.CollectionToString(lEntry.RandomValues, "/");
+                            string lListenEntries = Utils.CollectionToString(lEntry.ClosePhoneticValues, "/");
 
-                            lEntry.DisplayValue = GUILayout.TextField(lEntry.DisplayValue);
-                            lEntry.SayValues = new List<string>(GUILayout.TextField(lSayEntries).Split('/'));
-                            lEntry.ListenValues = new List<string>(GUILayout.TextField(lListenEntries).Split('/'));
+                            lEntry.BaseValue = GUILayout.TextField(lEntry.BaseValue);
+                            lEntry.RandomValues = new List<string>(GUILayout.TextField(lSayEntries).Split('/'));
+                            lEntry.ClosePhoneticValues = new List<string>(GUILayout.TextField(lListenEntries).Split('/'));
 
                             GUILayout.Space(9);
                         }
@@ -179,9 +179,9 @@ public class DictionaryEditor : EditorWindow
                 foreach (KeyValuePair<Language, LanguageThesaurus> lThes in mDictionaries)
                     lThes.Value.Entries.Add(new DictionaryEntry() {
                         Key = "-key-",
-                        DisplayValue = "-txt-",
-                        SayValues = new List<string>() { "-say-" },
-                        ListenValues = new List<string>() { "-listen-" }
+                        BaseValue = "-base-",
+                        RandomValues = new List<string>() { "-random-" },
+                        ClosePhoneticValues = new List<string>() { "-phonetic-" }
                     });
 
             if (GUILayout.Button("Remove last"))
