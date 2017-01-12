@@ -44,8 +44,7 @@ namespace BuddyApp.TakePhoto
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			// To fix
-			mRGBCam.Resolution = RGBCamResolution.W_640_H_480;
+			//mRGBCam.Resolution = RGBCamResolution.W_640_H_480;
 			mTimer = 0f;
 			mSpeechId = 0;
 			mNeedExit = false;
@@ -56,20 +55,20 @@ namespace BuddyApp.TakePhoto
 
 			SayInLang("takePhoto", true);
 			//mTTS.Silence(1000, true);
-			if (UnityEngine.Random.value > 0.9) {
-				mTTS.Silence(1000, true);
-				SayInLang("binaryCount", true);
-				mTTS.Silence(1000, true);
+			//if (UnityEngine.Random.value > 0.9) {
+			//	mTTS.Silence(1000, true);
+			//	SayInLang("binaryCount", true);
+			//	mTTS.Silence(1000, true);
 
-				mSpeech1 = "11";
-				mSpeech2 = "10";
-				mSpeech3 = "1";
-			} else {
+			//	mSpeech1 = "11";
+			//	mSpeech2 = "10";
+			//	mSpeech3 = "1";
+			//} else {
 
 				mSpeech1 = "3";
 				mSpeech2 = "2";
 				mSpeech3 = "1";
-			}
+			//}
 
 			Debug.Log("TakePhoto 2");
 			mVideo.texture = mRGBCam.FrameTexture2D;
@@ -92,7 +91,7 @@ namespace BuddyApp.TakePhoto
 					if (mTimer > 0.5f && mSpeechId == 3) {
 						HideCanvasTimer();
 					}
-					if (mTimer > 1.0f) {
+					if (mTimer > 0.7f) {
 
 						if (mSpeechId == 0) {
 							DisplayCanvasTimer(mSpeech1);
@@ -103,6 +102,7 @@ namespace BuddyApp.TakePhoto
 						} else if (mSpeechId == 2) {
 							UpdateCanvasTimer(mSpeech3);
 							mTTS.Say(mSpeech3);
+							mRGBCam.Resolution = RGBCamResolution.W_640_H_480;
 						} else if (mSpeechId == 3) {
 							mPictureSound.Play();
 						} else if (mSpeechId == 4) {

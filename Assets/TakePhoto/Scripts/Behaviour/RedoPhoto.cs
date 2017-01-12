@@ -27,7 +27,7 @@ namespace BuddyApp.TakePhoto
 		private List<string> mDidntUnderstandSpeech;
 
 		private Canvas mCanvasYesNoPicture;
-		private Canvas mCanvasBackGround;
+		//private Canvas mCanvasBackGround;
 
 		private AnimManager mAnimationManager;
 
@@ -35,7 +35,7 @@ namespace BuddyApp.TakePhoto
 		{
 			Debug.Log("init mail");
 			mCanvasYesNoPicture = GetComponentInGameObject<Canvas>(0);
-			mCanvasBackGround = GetComponentInGameObject<Canvas>(7);
+			//mCanvasBackGround = GetComponentInGameObject<Canvas>(7);
 			mAnimationManager = GetComponentInGameObject<AnimManager>(8);
 			Debug.Log("init mail");
 		}

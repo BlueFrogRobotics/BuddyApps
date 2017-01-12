@@ -21,7 +21,6 @@ namespace BuddyApp.Wolfram
 		SpeechToText mSTT;
 		TextToSpeech mTTS;
 		private Mood mMood;
-		private string mLastSpeech;
 		private bool pendingRequest;
 
 		void Start()
@@ -29,10 +28,7 @@ namespace BuddyApp.Wolfram
 			mSTT = BYOS.Instance.SpeechToText;
 			mTTS = BYOS.Instance.TextToSpeech;
 			mMood = BYOS.Instance.Mood;
-
-			mLastSpeech = "";
-
-
+			
 
 			mSTT.OnBestRecognition.Add(OnSpeechRecognition);
 
@@ -68,7 +64,7 @@ namespace BuddyApp.Wolfram
 
 		IEnumerator RequestWolfram(String iQuestion)
 		{
-			if (!string.IsNullOrEmpty(mSTT.LastAnswer)) {
+			if (!string.IsNullOrEmpty(iQuestion)) {
 
 				var requestUriString = string.Format("https://api.wolframalpha.com/v1/result?i={0}%3F&appid=Y5P9Q6-84A9H28PKT", Uri.EscapeUriString(iQuestion));
 
