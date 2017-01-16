@@ -95,7 +95,7 @@ namespace BuddyApp.Guardian
 
             titleText.text = mDictionnary.GetString("paramTitle");
             mTextFire.text = mDictionnary.GetString("detectFire");
-            mTextMouv.text = mDictionnary.GetString("detectMouv");
+            mTextMouv.text = mDictionnary.GetString("detectMove");
             mTextSound.text = mDictionnary.GetString("detectSound");
             mTextKidnap.text = mDictionnary.GetString("detectKidnap");
             mTextContact.text = mDictionnary.GetString("contact");

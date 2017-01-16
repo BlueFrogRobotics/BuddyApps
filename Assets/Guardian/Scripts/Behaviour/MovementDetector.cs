@@ -224,6 +224,7 @@ namespace BuddyApp.Guardian
                     for (int i = 0; i < lListMat.Length; i++)
                     {
                         Imgproc.cvtColor(lListMat[i], lFrame, Imgproc.COLOR_RGB2BGR);
+                        Imgproc.putText(lFrame, "recorded by Buddy", new Point(lFrame.height() - 50, lFrame.height() - 10), Imgproc.FONT_HERSHEY_SIMPLEX, 0.28, new Scalar(0, 212, 209, 255));
                         mVideoWriter.write(lFrame);
                     }
                 }

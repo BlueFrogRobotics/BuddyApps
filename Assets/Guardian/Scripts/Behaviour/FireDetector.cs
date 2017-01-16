@@ -8,10 +8,10 @@ namespace BuddyApp.Guardian
     public class FireDetector : MonoBehaviour, IDetector
     {
 
-        bool mIsFireDetected = false;
         public bool IsFireDetected { get { return mIsFireDetected; } }
 
-        ThermalSensor mThermal;
+        private ThermalSensor mThermal;
+        private bool mIsFireDetected = false;
 
         public event Action OnDetection;
 
