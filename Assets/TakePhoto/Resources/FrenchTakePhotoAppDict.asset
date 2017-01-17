@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -791307131, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
+  m_Name: FrenchTakePhotoAppDict
+  m_EditorClassIdentifier: 
+  entries:
+  - key: takePhoto
+    val: "Ok, pr\xE9parez vous, je vais vous prendre en photo!"
+  - key: binaryCount
+    val: "Attention, je vais faire le d\xE9compte en binaires!"
+  - key: hereIsPic
+    val: Voici la photo!
+  - key: redo
+    val: Voulez-vous en refaire une?
+  - key: noRedo
+    val: C'est compris, pas d'autres photos
+  - key: didntUnderstand
+    val: "D\xE9sol\xE9, je ne vous ais pas compris"
+  - key: yesOrNo
+    val: "Veuillez r\xE9pondre par oui ou par non"
+  - key: mail
+    val: Voulez-vous recevoir cette photo par mail?
+  - key: okNP
+    val: D'accord, pas de soucis
+  - key: enterMail
+    val: Veuillez saisir votre adresse mail
+  - key: needMail
+    val: Vous devez saisir votre adresse mail
+  - key: emptyMail
+    val: Vous ne pouvez pas valider avec un champ d'adresse vide
+  - key: insist
+    val: "Cela ne sert \xE0 rien d'insister"
+  - key: validate
+    val: Ok
+  - key: nothingHappen
+    val: "Rien ne se passe, passons \xE0 autre chose!"
+  - key: mailBoxPhoto
+    val: "V\xE9rifiez votre bo\xEEte mail, vous devriez bient\xF4t recevoir votre
+      photo!"
+  - key: mailContent
+    val: "Bonjour!\\n\\nJ'ai pass\xE9 un bon moment avec vous!\\n\\nVous trouverez
+      la photo en pi\xE8ce jointe! \\n\\n A bient\xF4t j'esp\xE8re! \\n\\n\\n Buddy
+      \\n\\n--\\n Ceci est un mail automatique, merci de ne pas y r\xE9pondre"
+  - key: yes
+    val: oui
+  - key: no
+    val: non
+  - key: noThanks
+    val: non merci
+  - key: mailInput
+    val: Saisissez votre email...
+  - key: enterMailShort
+    val: saisissez votre mail
+  - key: allowtweet
+    val: Puis-je faire un tweet avec la photo?
+  - key: sendtweet
+    val: Je fais un tweet sur
+  - key: vocalmotion
+    val: "Pouvez-vous m'indiquer o\xF9 dois-je regarder?"
+  - key: noface
+    val: Je ne vois pas de visages
+  - key: askmovephoto
+    val: Dois-je prendre la photo ou bouger?
+  - key: movephoto
+    val: Veuillez dire "commence par bouger" ou  "prends la photo"
+  - key: move
+    val: bouger
+  - key: photo
+    val: photo
+  - key: srynotunderstand
+    val: "D\xE9sol\xE9, je ne vous ai pas compris"
+  - key: look4face
+    val: Je cherche un visage
+  - key: micissue
+    val: "J'ai un probl\xE8me avec mon micro"
+  - key: connectissue
+    val: "J'ai des soucis pour acc\xE9der au r\xE9seau"
+  - key: hearnothing
+    val: Je n'ai rien entendu
+  - key: ok
+    val: ok

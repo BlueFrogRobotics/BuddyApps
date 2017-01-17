@@ -9,7 +9,6 @@ namespace BuddyApp.TakePhoto
 	{
 
 		private Motors mMotors;
-		private RGBCam mRGBCam;
 		private Face mFace;
 		//private Speaker mSpeaker;
 		//private float mNoSpeed = 100.0F;
@@ -20,7 +19,6 @@ namespace BuddyApp.TakePhoto
 		void Start()
 		{
 			mMotors = BYOS.Instance.Motors;
-			mRGBCam = BYOS.Instance.RGBCam;
 			mFace = BYOS.Instance.Face;
 			//mSpeaker = BYOS.Instance.Speaker;
 			mButtonPushed = "";

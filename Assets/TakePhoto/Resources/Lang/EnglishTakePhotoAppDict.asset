@@ -12,77 +12,139 @@ MonoBehaviour:
   m_Name: EnglishTakePhotoAppDict
   m_EditorClassIdentifier: 
   entries:
-  - key: takePhoto
-    val: Ok, get ready, I'm going to take a picture!
-  - key: binaryCount
-    val: Warning, I will make the countdown with binaries!
-  - key: hereIsPic
-    val: Here is the picture!
+  - key: takephoto
+    baseValue: I take a photo
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - get ready, I take a picture
+    - I'm taking a picture
+    - Smile, I take a picture
+  - key: hereispic
+    baseValue: Here is the picture
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Here is the picture
+    - Here is the photo
+    - Here it is
   - key: redo
-    val: Do you want to take an other one?
+    baseValue: Take an other one?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Do you want to take an other one?
+    - Should we take an other one?
   - key: noRedo
-    val: Got it, no more photos
-  - key: didntUnderstand
-    val: Sorry, I didn't understand
-  - key: yesOrNo
-    val: Please answer yes or no
+    baseValue: No more photos
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Got it, no more photos
   - key: mail
-    val: Do you want to get this picture by mail?
-  - key: okNP
-    val: Ok, no problem
-  - key: enterMail
-    val: Please, enter your email
+    baseValue: Do you want to get the picture by mail?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Do you want to get the picture by mail?
+    - a
   - key: needMail
-    val: You have to give your email!
+    baseValue: You need to enter your mail.
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - You need to enter your mail.
   - key: emptyMail
-    val: You can't validate with an empty field
+    baseValue: You can't validate without mail
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - You can't validate without mail.
   - key: insist
-    val: It's useless to insist
+    baseValue: It is useless to insist
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - It is useless to insist
   - key: validate
-    val: Ok
+    baseValue: ok.
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - ok.
   - key: nothingHappen
-    val: Nothing happened. Let's move on!
+    baseValue: Nothing happen, let's move on
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Nothing happen, let's move on
   - key: mailBoxPhoto
-    val: Check your mail box, you should receive the picture soon!
+    baseValue: Check your email, you will receive the picture!
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Check your email, you will receive the picture!
   - key: mailContent
-    val: Hello!\n\nI had a good time with you!\n\nYou will find the picture attached
+    baseValue: Hello!\n\nI had a good time with you!\n\nYou will find the picture
+      attached to this mail!\n\nSee you soon!\n\n\nBuddy\n\n--\nThis is an automatically
+      generated mail, plesase don't answer
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Hello!\n\nI had a good time with you!\n\nYou will find the picture attached
       to this mail!\n\nSee you soon!\n\n\nBuddy\n\n--\nThis is an automatically generated
       mail, plesase don't answer
-  - key: yes
-    val: yes
-  - key: no
-    val: no
-  - key: noThanks
-    val: no thanks
   - key: mailInput
-    val: Enter your email...
-  - key: enterMailShort
-    val: enter you mail
+    baseValue: Enter your email
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Enter your email.
   - key: allowtweet
-    val: Can I make a tweet with the photo?
+    baseValue: Can I make a tweet?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Can I make a tweet with your picture?
   - key: sendtweet
-    val: I send a tweet on
+    baseValue: I send a tweet on
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - I send a tweet on
   - key: vocalmotion
-    val: Can you tell me where should I look?
+    baseValue: Where should I look?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Where should I look?
   - key: noface
-    val: I can't see any face
+    baseValue: I can't see any face
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - I can't see any face
   - key: askmovephoto
-    val: Should I take the photo or move first?
+    baseValue: Should I take a picture or move first?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Should I take a picture or move first?
   - key: movephoto
-    val: Please say "move first"  or "take photo"
+    baseValue: Please say "take the picture" or "move first"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Please say "take the picture" or "move first"
   - key: move
-    val: move
+    baseValue: move
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - move
   - key: photo
-    val: photo
-  - key: srynotunderstand
-    val: Sorry, I didn't understand
-  - key: look4face
-    val: I'm looking for a face
-  - key: micissue
-    val: I have an issue with my microphone
-  - key: connectissue
-    val: I have issues to access the network
-  - key: hearnothing
-    val: I didn't hear anything
-  - key: ok
-    val: ok
+    baseValue: photo
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - photo
