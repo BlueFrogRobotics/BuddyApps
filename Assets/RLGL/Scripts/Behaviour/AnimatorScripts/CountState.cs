@@ -91,8 +91,6 @@ namespace BuddyApp.RLGL
                         if (!mFirstMove)
                         {
                             mTTS.Say("Hurry up, it will be fun");
-                            
-                            
                             mTimerMovement = mTimerDebugInt + 4500;
                             mWheels.SetWheelsSpeed(150.0F, 150.0F, 4500);
                             mFirstMove = true;
@@ -101,7 +99,6 @@ namespace BuddyApp.RLGL
                         {
                             if (mIRSensors.Middle.Distance <= 0.4F/* || mUSSensors.Left.Distance <= 0.5F || mUSSensors.Right.Distance <= 0.5F*/)
                             {
-
                                 mTTS.Silence(0);
                                 mTTS.Say("Don't stay here and place yourself at 26 feet in front of me");
                                 //mDiffDebugMovement = mTimerMovement - (int)mTimerDebug;
@@ -115,13 +112,11 @@ namespace BuddyApp.RLGL
                                     Debug.Log(mDiffDebugMovement);
                                     mObjectDetected = true;
                                 }
-                                
                             }
                         }
 
                         if (mFirstMove && !mSecondeMove && ((mWheels.Status == MovingState.REACHED_GOAL) || (mWheels.Status == MovingState.MOTIONLESS && mTimerDebug > 3.0F)))
                         {
-                            
                             mWheels.SetWheelsSpeed(-150.0F, -150.0F, 4500 - mDiffDebugMovement);
                             mSecondeMove = true;
                         }
@@ -149,7 +144,6 @@ namespace BuddyApp.RLGL
                 if (mTTS.HasFinishedTalking && !mFirstSentenceNotDetected)
                 {
                     StartCoroutine(NotDetected());
-
                 }
 
             }
@@ -185,7 +179,6 @@ namespace BuddyApp.RLGL
                 mTTS.Say("Okay let's play together! You have ten seconds to walk away by about fifteen feet, gogo! ");
                 mCount++;
                 mYesHinge.SetPosition(45.0F, 150.0F);
-
             }
 
             //Debug.Log(mTimerDebug);
@@ -195,7 +188,6 @@ namespace BuddyApp.RLGL
                 yield return new WaitForSeconds(10.0F);
                 mFirstSentence = true;
             }
-
         }
 
         private IEnumerator NotDetected()
@@ -207,7 +199,6 @@ namespace BuddyApp.RLGL
             }
             yield return new WaitForSeconds(2.0F);
             mFirstSentenceNotDetected = true;
-
         }
 
         private IEnumerator GreenLightMomentAndTurn()
@@ -223,8 +214,6 @@ namespace BuddyApp.RLGL
             }
             yield return new WaitForSeconds(1.5F);
             mIsReachedGoal = true;
-
-
         }
 
         private IEnumerator ChangeState(float iSecondToWait, Animator iAnimator)

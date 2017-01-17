@@ -11,7 +11,9 @@ namespace BuddyApp.RLGL
             DEFAULT_LEVEL = 2,
             LEVEL_EASY = 1,
             LEVEL_MEDIUM = 2,
-            LEVEL_HARD = 3
+            LEVEL_HARD = 3,
+            LEVEL_IMPOSSIBLE = 4
+              
         }
 
         public Level Difficulty { get; set; }

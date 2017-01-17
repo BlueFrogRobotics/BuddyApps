@@ -16,6 +16,7 @@ namespace BuddyApp.RLGL
             lDropDownValLevel.AddOption("EASY", RLGLData.Level.LEVEL_EASY);
             lDropDownValLevel.AddOption("MEDIUM", RLGLData.Level.LEVEL_MEDIUM);
             lDropDownValLevel.AddOption("HARD", RLGLData.Level.LEVEL_HARD);
+            lDropDownValLevel.AddOption("IMPOSSIBLE", RLGLData.Level.LEVEL_IMPOSSIBLE);
 
             lDropDownValLevel.UpdateCommands.Add(new SetValLevel());
             lQuitButton.ClickCommands.Add(new HomeCmd());
