@@ -12,78 +12,147 @@ MonoBehaviour:
   m_Name: FrenchTakePhotoAppDict
   m_EditorClassIdentifier: 
   entries:
-  - key: takePhoto
-    val: "Ok, pr\xE9parez vous, je vais vous prendre en photo!"
-  - key: binaryCount
-    val: "Attention, je vais faire le d\xE9compte en binaires!"
-  - key: hereIsPic
-    val: Voici la photo!
+  - key: takephoto
+    baseValue: Je prends une photo
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Soyez pret, je prends une photo
+    - je vous prends en photo
+  - key: hereispic
+    baseValue: Voici la photo
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Voici la photo
+    - Voici l'image que j'ai prise
+    - voici l'image
   - key: redo
-    val: Voulez-vous en refaire une?
+    baseValue: Prendre une autre photo?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Voulez vous en refaire une?
+    - Voulez vous refaire une photo?
+    - Voulez vous que j'en prenne une autre?
+    - Voulez vous que j'en refasse une?
   - key: noRedo
-    val: C'est compris, pas d'autres photos
-  - key: didntUnderstand
-    val: "D\xE9sol\xE9, je ne vous ais pas compris"
-  - key: yesOrNo
-    val: "Veuillez r\xE9pondre par oui ou par non"
+    baseValue: Pas d'autres photos
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Ok, pas d'autres photos
+    - D'accord, pas d'autres photos
   - key: mail
-    val: Voulez-vous recevoir cette photo par mail?
-  - key: okNP
-    val: D'accord, pas de soucis
+    baseValue: Voulez vous cette photo par mail?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Voulez vous cette photo par mail?
+    - Voulez vous recevoir la photo par mail?
   - key: enterMail
-    val: Veuillez saisir votre adresse mail
+    baseValue: Entrez-votre mail?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Veuillez entrer votre mail?
   - key: needMail
-    val: Vous devez saisir votre adresse mail
+    baseValue: Vous devez entrer votre email.
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Vous devez entrer votre email.
   - key: emptyMail
-    val: Vous ne pouvez pas valider avec un champ d'adresse vide
+    baseValue: Vous ne pouvez pas valider sans adresse mail.
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Vous ne pouvez pas valider sans adresse mail.
   - key: insist
-    val: "Cela ne sert \xE0 rien d'insister"
+    baseValue: Inutile d'insister.
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Inutile d'insister.
   - key: validate
-    val: Ok
+    baseValue: ok.
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - ok.
   - key: nothingHappen
-    val: "Rien ne se passe, passons \xE0 autre chose!"
+    baseValue: "Il ne se passe rien, passons \xE0 la suite."
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Il ne se passe rien, passons \xE0 la suite."
   - key: mailBoxPhoto
-    val: "V\xE9rifiez votre bo\xEEte mail, vous devriez bient\xF4t recevoir votre
-      photo!"
+    baseValue: "V\xE9rifie ta bo\xEEte mail, tu vas recevoir un message"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "V\xE9rifie ta bo\xEEte mail, tu vas recevoir un message"
   - key: mailContent
-    val: "Bonjour!\\n\\nJ'ai pass\xE9 un bon moment avec vous!\\n\\nVous trouverez
+    baseValue: Bonjour!\\n\\nJ'ai pass\xE9 un bon moment avec vous!\\n\\nVous trouverez
       la photo en pi\xE8ce jointe! \\n\\n A bient\xF4t j'esp\xE8re! \\n\\n\\n Buddy
-      \\n\\n--\\n Ceci est un mail automatique, merci de ne pas y r\xE9pondre"
-  - key: yes
-    val: oui
-  - key: no
-    val: non
-  - key: noThanks
-    val: non merci
+      \\n\\n--\\n Ceci est un mail automatique, merci de ne pas y r\xE9pondre
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Bonjour!\\n\\nJ'ai pass\xE9 un bon moment avec vous!\\n\\nVous trouverez la
+      photo en pi\xE8ce jointe! \\n\\n A bient\xF4t j'esp\xE8re! \\n\\n\\n Buddy \\n\\n--\\n
+      Ceci est un mail automatique, merci de ne pas y r\xE9pondre
   - key: mailInput
-    val: Saisissez votre email...
-  - key: enterMailShort
-    val: saisissez votre mail
+    baseValue: Entrez votre email.
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Entrez votre email.
   - key: allowtweet
-    val: Puis-je faire un tweet avec la photo?
+    baseValue: Puis-je faire un tweet?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Puis-je faire un tweet avec votre photo?
   - key: sendtweet
-    val: Je fais un tweet sur
+    baseValue: J'envoye un tweet sur
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - J'envoye un tweet sur
   - key: vocalmotion
-    val: "Pouvez-vous m'indiquer o\xF9 dois-je regarder?"
+    baseValue: "O\xF9 dois-je regarder?"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Pouvez-vous me dire o\xF9 regarder?"
   - key: noface
-    val: Je ne vois pas de visages
+    baseValue: Je ne vois aucun visage
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Je ne vois aucun visage
   - key: askmovephoto
-    val: Dois-je prendre la photo ou bouger?
+    baseValue: Dois-je prendre la photo ou bouger?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Dois-je prendre la photo ou d'abord bouger?
   - key: movephoto
-    val: Veuillez dire "commence par bouger" ou  "prends la photo"
+    baseValue: Veuillez dire "bouger" ou "prendre la photo"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Veuillez dire "bouger" ou "prendre la photo"
   - key: move
-    val: bouger
+    baseValue: bouger
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - bouger
   - key: photo
-    val: photo
-  - key: srynotunderstand
-    val: "D\xE9sol\xE9, je ne vous ai pas compris"
-  - key: look4face
-    val: Je cherche un visage
-  - key: micissue
-    val: "J'ai un probl\xE8me avec mon micro"
-  - key: connectissue
-    val: "J'ai des soucis pour acc\xE9der au r\xE9seau"
-  - key: hearnothing
-    val: Je n'ai rien entendu
-  - key: ok
-    val: ok
+    baseValue: photo
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - photo

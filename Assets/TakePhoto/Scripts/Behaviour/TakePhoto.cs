@@ -65,9 +65,9 @@ namespace BuddyApp.TakePhoto
 			//	mSpeech3 = "1";
 			//} else {
 
-				mSpeech1 = "3";
-				mSpeech2 = "2";
-				mSpeech3 = "1";
+			mSpeech1 = "3";
+			mSpeech2 = "2";
+			mSpeech3 = "1";
 			//}
 
 			Debug.Log("TakePhoto 2");
@@ -84,7 +84,6 @@ namespace BuddyApp.TakePhoto
 				Debug.Log("update1");
 			}
 			if (mTTS.HasFinishedTalking) {
-
 				if (!mNeedExit) {
 					mTimer += Time.deltaTime;
 
