@@ -12,41 +12,117 @@ MonoBehaviour:
   m_Name: EnglishNativeDict
   m_EditorClassIdentifier: 
   entries:
-  - key: hello
-    val: Hello
-  - key: bye
-    val: Goodbye
-  - key: yes
-    val: yes
-  - key: no
-    val: no
-  - key: srynotunderstand
-    val: Sorry, I didn't understand
-  - key: micissue
-    val: There is an issue with my microphone
-  - key: conectissue
-    val: I have some issues to access the network
-  - key: vrecobusy
-    val: The vocal recognition is busy
-  - key: hearnothing
-    val: Sorry, I didn't hear anything
-  - key: repeatpls
-    val: Can you repeat please?
   - key: vol
-    val: Volume
-  - key: bat
-    val: Battery
-  - key: secu
-    val: Security
-  - key: connec
-    val: Connexion
+    baseValue: Volume
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: hello
+    baseValue: Hello
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: bye
+    baseValue: Good bye
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: yes
+    baseValue: Yes
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: no
+    baseValue: No
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: srynotunderstand
+    baseValue: Sorry, I didn't understand
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: micissue
+    baseValue: There is an issue with my microphone
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: connectissue
+    baseValue: I encouted difficulties while trying to access the network
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: vrecobusy
+    baseValue: The voice recognition is busy
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: hearnothing
+    baseValue: Sorry, I didn't hear anything
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: repeat
+    baseValue: Could you please repeat ?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: param
-    val: Parameters
+    baseValue: Parameters
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: connec
+    baseValue: Connection
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: secu
+    baseValue: Security
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: bat
+    baseValue: Battery
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: default
-    val: defaut
+    baseValue: default
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: light
-    val: light
+    baseValue: light
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: bright
-    val: brightness
-  - key: iheard
-    val: I heard
+    baseValue: brightness
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: ihear
+    baseValue: J'ai entendu
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-

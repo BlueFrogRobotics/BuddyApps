@@ -11,11 +11,13 @@ using UnityEditor;
 public class DictionaryEditor : EditorWindow
 {
     private Dictionary<Language, LanguageThesaurus> mDictionaries;
+    private Dictionary<int, Language> mIndexToDict;
     private List<List<DictionaryEntry>> mAllEntries;
     private List<string> mEditingFiles;
     private string mPathToDictionaries;
     private string mPathToCSV;
     private bool mHasLoad;
+    private Vector2 mScrollPosition;
 
     [MenuItem("Buddy/Dictionary")]
     static void Init()
@@ -94,7 +96,12 @@ public class DictionaryEditor : EditorWindow
                                 Language lVal = lColToLang[lCol];
                                 LanguageThesaurus lThes = mDictionaries[lVal];
                                 if (!lThes.ContainsKey(lKey))
-                                    lThes.Entries.Add(new DictionaryEntry() { Key = lKey, Value = lLine[lCol] });
+                                    lThes.Entries.Add(new DictionaryEntry() {
+                                        Key = lKey,
+                                        BaseValue = lLine[lCol],
+                                        RandomValues = new List<string>() { "-random-" },
+                                        ClosePhoneticValues = new List<string>() { "-phonetic-" }
+                                    });
                             }
                         }
                     }
@@ -106,34 +113,61 @@ public class DictionaryEditor : EditorWindow
             GUILayout.Label("String entries", EditorStyles.boldLabel);
             GUILayout.Space(5);
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("key");
             if (mAllEntries == null) {
                 mAllEntries = new List<List<DictionaryEntry>>();
-                foreach (KeyValuePair<Language, LanguageThesaurus> lThes in mDictionaries)
+                mIndexToDict = new Dictionary<int, Language>();
+                int lIndexDict = 0;
+                foreach (KeyValuePair<Language, LanguageThesaurus> lThes in mDictionaries) {
+                    mIndexToDict.Add(lIndexDict++, lThes.Key);
                     mAllEntries.Add(lThes.Value.Entries);
+                }
             }
-
-            foreach (KeyValuePair<Language, LanguageThesaurus> lThes in mDictionaries)
-                GUILayout.Label(lThes.Key.ToString());
-
-            GUILayout.EndHorizontal();
 
             int lNbDic = mAllEntries.Count;
             if (lNbDic > 0) {
+
                 int lNbEntries = mAllEntries[0].Count;
+
                 if (lNbEntries > 0) {
-                    for (int i = 0; i < lNbEntries; ++i) {
-                        GUILayout.BeginHorizontal();
-                        string lKey = GUILayout.TextField(mAllEntries[0][i].Key);
-                        for (int j = 0; j < lNbDic; ++j) {
-                            List<DictionaryEntry> lEntries = mAllEntries[j];
-                            DictionaryEntry lEntry = lEntries[i];
-                            lEntry.Key = lKey;
-                            lEntry.Value = GUILayout.TextField((string)lEntry.Value);
-                        }
-                        GUILayout.EndHorizontal();
+
+                    mScrollPosition = GUILayout.BeginScrollView(mScrollPosition);
+
+                    GUILayout.BeginHorizontal();
+
+                    GUILayout.BeginVertical();
+                    GUILayout.Label("key");
+                    for (int j = 0; j < lNbEntries; ++j) {
+                        GUILayout.Space(19);
+                        DictionaryEntry lEntry = mAllEntries[0][j];
+                        string lNewKey = GUILayout.TextField(lEntry.Key);
+                        if (lNewKey != lEntry.Key)
+                            for (int i = 0; i < lNbDic; ++i)
+                                mAllEntries[i][j].Key = lNewKey;
+                        GUILayout.Space(26);
                     }
+                    GUILayout.EndVertical();
+
+                    for (int i = 0; i < lNbDic; ++i) {
+                        GUILayout.BeginVertical();
+                        GUILayout.Label(mIndexToDict[i].ToString());
+                        List<DictionaryEntry> lEntries = mAllEntries[i];
+                        for (int j = 0; j < lNbEntries; ++j) {
+
+                            DictionaryEntry lEntry = lEntries[j];
+                            string lSayEntries = Utils.CollectionToString(lEntry.RandomValues, "/");
+                            string lListenEntries = Utils.CollectionToString(lEntry.ClosePhoneticValues, "/");
+
+                            lEntry.BaseValue = GUILayout.TextField(lEntry.BaseValue);
+                            lEntry.RandomValues = new List<string>(GUILayout.TextField(lSayEntries).Split('/'));
+                            lEntry.ClosePhoneticValues = new List<string>(GUILayout.TextField(lListenEntries).Split('/'));
+
+                            GUILayout.Space(9);
+                        }
+                        GUILayout.EndVertical();
+                    }
+                    GUILayout.EndHorizontal();
+
+                    GUILayout.EndScrollView();
                 }
             }
 
@@ -143,7 +177,12 @@ public class DictionaryEditor : EditorWindow
 
             if (GUILayout.Button("Add string"))
                 foreach (KeyValuePair<Language, LanguageThesaurus> lThes in mDictionaries)
-                    lThes.Value.Entries.Add(new DictionaryEntry() { Key = "key", Value = "txt" });
+                    lThes.Value.Entries.Add(new DictionaryEntry() {
+                        Key = "-key-",
+                        BaseValue = "-base-",
+                        RandomValues = new List<string>() { "-random-" },
+                        ClosePhoneticValues = new List<string>() { "-phonetic-" }
+                    });
 
             if (GUILayout.Button("Remove last"))
                 foreach (KeyValuePair<Language, LanguageThesaurus> lThes in mDictionaries)

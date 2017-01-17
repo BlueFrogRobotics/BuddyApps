@@ -13,7 +13,7 @@ namespace BuddyApp.TakePhoto
 
         private bool mFollowFace;
         private float mSearchTimer;
-        private float mFaceLostTime;
+        private float mFaceTime;
         private int mSearchStep;
 
         private int mRGBCamWidthCenter;
@@ -57,8 +57,8 @@ namespace BuddyApp.TakePhoto
             if (mFollowFace) {
                 // Center the face before escape
                 mTrackedObjects = mFaceTracker.TrackedObjects;
-
-                if (mTrackedObjects.Count > 0) {
+				mFaceTime += Time.deltaTime;
+				if (mTrackedObjects.Count > 0) {
                     float lXCenter = 0.0f;
                     float lYCenter = 0.0f;
                     for (int i = 0; i < mTrackedObjects.Count; ++i) {
@@ -75,7 +75,7 @@ namespace BuddyApp.TakePhoto
                     if (!(mRGBCamWidthCenter - 25 < lXCenter && lXCenter < mRGBCamWidthCenter + 5))
                         mHeadNoAngle -= Mathf.Sign(lXCenter - mRGBCamWidthCenter) * 1.5F;
                     if (!(mRGBCamHeightCenter - 5 < lYCenter && lYCenter < mRGBCamHeightCenter + 25))
-                        mHeadYesAngle += Mathf.Sign(lYCenter - mRGBCamHeightCenter) * 1.5F;
+                        mHeadYesAngle += Mathf.Sign(lYCenter - mRGBCamHeightCenter) * 0.75F;
 
                     Debug.Log("Setting angles Yes : " + Mathf.Sign(lYCenter - mRGBCamHeightCenter) +
                         " / No : " + Mathf.Sign(lXCenter - mRGBCamWidthCenter));
@@ -89,16 +89,28 @@ namespace BuddyApp.TakePhoto
                         Debug.Log("Face centered");
                         iAnimator.SetTrigger("Face");
                     }
-                } else {
-                    mFaceLostTime += Time.deltaTime;
-                    if (mFaceLostTime > 4.0f) {
-                        mFollowFace = false;
-                        Debug.Log("We loose the face");
-                        mFaceLostTime = 0.0f;
-                        mSearchTimer = 0.0f;
-                        mSearchStep = 1;
-                    }
-                }
+
+					// If it took too long, still take the photo
+					if (mFaceTime > 5.0f) {
+						Debug.Log("it took too long");
+						// We take the photo anyway?
+						iAnimator.SetTrigger("Face");
+					}
+
+					} else {
+
+					// Shorten timer
+                    mFaceTime += Time.deltaTime;
+                    if (mFaceTime > 4.0f) {
+						Debug.Log("We loose the face");
+						// We take the photo anyway?
+						iAnimator.SetTrigger("Face");
+						//mFollowFace = false;
+						//mFaceLostTime = 0.0f;
+						//mSearchTimer = 0.0f;
+						//mSearchStep = 1;
+					}
+				}
 
 
             } else {
@@ -112,8 +124,9 @@ namespace BuddyApp.TakePhoto
                     mRGBCamWidthCenter = BYOS.Instance.RGBCam.Width / 2;
                     mRGBCamHeightCenter = BYOS.Instance.RGBCam.Height / 2;
                     mFollowFace = true;
-                    //iAnimator.SetTrigger("Face");
-                } else {
+					mFaceTime = 0.0f;
+					//iAnimator.SetTrigger("Face");
+				} else {
                     if (mSearchTimer > MAX_TIME) {
                         //Exit, no face
                         iAnimator.SetTrigger("NoFace");

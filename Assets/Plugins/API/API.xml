@@ -3108,12 +3108,13 @@
             <param name="iString">The input string to upper first</param>
             <returns>The string with an upper first character</returns>
         </member>
-        <member name="M:BuddyTools.Utils.CollectionToString``1(System.Collections.Generic.ICollection{``0})">
+        <member name="M:BuddyTools.Utils.CollectionToString``1(System.Collections.Generic.ICollection{``0},System.String)">
             <summary>
             Converts an T element array to a string. Elements are separate with a coma (without space).
             </summary>
             <typeparam name="T">Type of element inside the array</typeparam>
             <param name="iArray">The array</param>
+            <param name="iSeparator">Between element separator in the final string. Space by default</param>
             <returns>the string value of the array</returns>
         </member>
         <!-- Badly formed XML comment ignored for member "M:BuddyTools.Utils.GetFolderPath(System.String)" -->

@@ -12,41 +12,117 @@ MonoBehaviour:
   m_Name: FrenchNativeDict
   m_EditorClassIdentifier: 
   entries:
-  - key: hello
-    val: Salut
-  - key: bye
-    val: Au revoir
-  - key: yes
-    val: oui
-  - key: no
-    val: non
-  - key: srynotunderstand
-    val: "D\xE9sol\xE9, je n'ai pas compris"
-  - key: micissue
-    val: "J'ai un probl\xE8me avec mon micro"
-  - key: conectissue
-    val: "J'ai des difficult\xE9s pour me connecter"
-  - key: vrecobusy
-    val: "La reconnaissance vocale est occup\xE9e"
-  - key: hearnothing
-    val: "D\xE9sol\xE9, je n'ai rien entendu"
-  - key: repeatpls
-    val: "Pouvez-vous r\xE9p\xE9ter s'il vous pla\xEEt?"
   - key: vol
-    val: Volume
-  - key: bat
-    val: Batterie
-  - key: secu
-    val: "S\xE9curit\xE9"
-  - key: connec
-    val: Connection
+    baseValue: Volume
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: hello
+    baseValue: Salut
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: bye
+    baseValue: Au revoir
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: yes
+    baseValue: Oui
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: no
+    baseValue: Non
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: srynotunderstand
+    baseValue: "D\xE9sol\xE9, je n'ai pas compris"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: micissue
+    baseValue: "J'ai un probl\xE8me avec mon micro"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: connectissue
+    baseValue: "J'ai des difficult\xE9s pour me connecter"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: vrecobusy
+    baseValue: "La reconnaissance vocale est occup\xE9e"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: hearnothing
+    baseValue: "D\xE9sol\xE9, je n'ai rien entendu"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: repeat
+    baseValue: "Pouvez-vous r\xE9p\xE9ter s'il vous pla\xEEt?"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: param
-    val: "Param\xE8tres"
+    baseValue: "Param\xE8tres"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: connec
+    baseValue: Connexion
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: secu
+    baseValue: "Securit\xE9"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: bat
+    baseValue: Batterie
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: default
-    val: "ar d\xE9fault"
+    baseValue: "par d\xE9faut "
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: light
-    val: "lumi\xE8re"
+    baseValue: "lumi\xE8re"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: bright
-    val: "luminosit\xE9"
-  - key: iheard
-    val: J'ai entendu
+    baseValue: "luminosit\xE9"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: ihear
+    baseValue: I heard
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-

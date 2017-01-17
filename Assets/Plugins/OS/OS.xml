@@ -3769,6 +3769,26 @@
             Time when the geolocation was taken in seconds from 1970
             </summary>
         </member>
+        <member name="T:BuddyOS.EntryType">
+            <summary>
+            Stocked entry type inside the dictionary
+            </summary>
+        </member>
+        <member name="F:BuddyOS.EntryType.BASE">
+            <summary>
+            Dictionary entry for UI display purpose. It is a unique value
+            </summary>
+        </member>
+        <member name="F:BuddyOS.EntryType.CLOSE_PHONETIC">
+            <summary>
+            Dictionary entry for STT purpose
+            </summary>
+        </member>
+        <member name="F:BuddyOS.EntryType.RANDOM">
+            <summary>
+            Dictionary entry for TTS purpose.
+            </summary>
+        </member>
         <member name="T:BuddyOS.DictionaryEntry">
             <summary>
             Key-value dictionary base entry
@@ -3779,9 +3799,19 @@
             Key of the value
             </summary>
         </member>
-        <member name="P:BuddyOS.DictionaryEntry.Value">
+        <member name="P:BuddyOS.DictionaryEntry.BaseValue">
             <summary>
-            String to store
+            Display value
+            </summary>
+        </member>
+        <member name="P:BuddyOS.DictionaryEntry.ClosePhoneticValues">
+            <summary>
+            Listen list for STT input processing
+            </summary>
+        </member>
+        <member name="P:BuddyOS.DictionaryEntry.RandomValues">
+            <summary>
+            Say list containing value that will be choosen randomly 
             </summary>
         </member>
         <member name="T:BuddyOS.LanguageThesaurus">
@@ -3816,6 +3846,11 @@
             Value returned if key not found
             </summary>
         </member>
+        <member name="F:BuddyOS.Dictionary.EMPTY_VALUE">
+            <summary>
+            Value returned if the value of the requested key is empty
+            </summary>
+        </member>
         <member name="M:BuddyOS.Dictionary.GetString(System.String)">
             <summary>
             Retrieve the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
@@ -3823,6 +3858,21 @@
             </summary>
             <param name="iKey">The key word corresponding to the wished word</param>
             <returns>The word in the current language, default value if not found</returns>
+        </member>
+        <member name="M:BuddyOS.Dictionary.GetRandomString(System.String)">
+            <summary>
+            Retrieve a random word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length)
+            </summary>
+            <param name="iKey">The key word corresponding to the wished random word</param>
+            <returns>The word in the current language, default value if not found</returns>
+        </member>
+        <member name="M:BuddyOS.Dictionary.GetPhoneticStrings(System.String)">
+            <summary>
+            Retrieve the corresponding list to the input iKey. Useful for multiple response handling with the SpeechToText
+            </summary>
+            <param name="iKey">The key corresponding to the wished list</param>
+            <returns>List of strings that must sound similar</returns>
         </member>
         <member name="T:BuddyOS.Net.WiFiManager">
             <summary>
