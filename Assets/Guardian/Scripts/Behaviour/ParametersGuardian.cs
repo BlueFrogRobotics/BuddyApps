@@ -27,6 +27,9 @@ namespace BuddyApp.Guardian
         private GaugeOnOff gaugeOnOffKidnap;
 
         [SerializeField]
+        private GaugeOnOff gaugeOnOffTurnHead;
+
+        [SerializeField]
         private UnityEngine.UI.Button buttonDebugSound;
 
         [SerializeField]
@@ -128,6 +131,7 @@ namespace BuddyApp.Guardian
                 gaugeOnOffMovement.SwitchCommands.Add(new ActMovementDetectionCmd());
                 gaugeOnOffKidnap.SwitchCommands.Add(new ActKidnappingDetectionCmd());
                 gaugeOnOffSound.SwitchCommands.Add(new ActSoundDetectionCmd());
+                gaugeOnOffTurnHead.SwitchCommands.Add(new ActTurnHeadCmd());
                 contactList.UpdateCommands.Add(new ContactGuardianCmd());
             }
         }
@@ -138,6 +142,7 @@ namespace BuddyApp.Guardian
             GuardianData.Instance.MovementDetectionIsActive = gaugeOnOffMovement.IsActive;
             GuardianData.Instance.KidnappingDetectionIsActive = gaugeOnOffKidnap.IsActive;
             GuardianData.Instance.SoundDetectionIsActive = gaugeOnOffSound.IsActive;
+            GuardianData.Instance.TurnHeadIsActive = gaugeOnOffTurnHead.IsActive;
         }
     }
 }

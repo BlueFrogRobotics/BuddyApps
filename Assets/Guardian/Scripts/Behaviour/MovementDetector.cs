@@ -191,7 +191,7 @@ namespace BuddyApp.Guardian
             else
                 mThreshold = iThreshold;
 
-            Debug.Log("threshold mouv: " + mThreshold);
+            //Debug.Log("threshold mouv: " + mThreshold);
         }
 
         public void Save(string iFilename)
