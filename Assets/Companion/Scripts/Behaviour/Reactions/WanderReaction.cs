@@ -76,9 +76,6 @@ namespace BuddyApp.Companion
             if (Time.time - mUpdateTime < 0.1F)
                 return;
 
-            if (!CompanionData.Instance.CanMoveBody)
-                enabled = false;
-
             if (Time.time - mTTSTime > mRandomSpeechTime)
                 SaySomething();
 
@@ -87,7 +84,7 @@ namespace BuddyApp.Companion
             if (mIsSearchingPoint && Time.time - mWanderTime < mRandomWanderTime) {
                 PlaySearchingHeadAnimation();
                 if (!AnyObstructionsInfrared())
-                    mWheels.SetWheelsSpeed(200F, 200F);
+                    mWheels.SetWheelsSpeed(200F, 200F, 400);
                 else
                     FaceRandomDirection();
 
@@ -127,7 +124,7 @@ namespace BuddyApp.Companion
             mIsSearchingPoint = false;
             mNoHinge.SetPosition(0F);
             mYesHinge.SetPosition(0F);
-            //new SetWheelsSpeedCmd(0F, 0F).Execute();
+            mWheels.SetWheelsSpeed(0F, 0F);
             //StopAllCoroutines();
             //GetComponent<Reaction>().ActionFinished();
         }

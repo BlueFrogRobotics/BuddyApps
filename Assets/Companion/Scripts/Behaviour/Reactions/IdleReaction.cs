@@ -55,6 +55,9 @@ namespace BuddyApp.Companion
             if (Time.time - mHeadMoveTime < 1.3F)
                 return;
 
+            if (!CompanionData.Instance.CanMoveHead)
+                enabled = false;
+
             mHeadMoveTime = Time.time;
 
             if (Random.Range(0, 2) == 0) {
