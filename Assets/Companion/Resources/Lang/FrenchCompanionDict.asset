@@ -13,22 +13,62 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: hello
-    val: Bonjour
+    baseValue: Bonjour
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: playWithMe
-    val: Quelqu'un veut jouer avec moi ?
+    baseValue: Quelqu'un veut jouer avec moi ?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: putMeDown
-    val: Repose moi s'il te plait ! J'ai peur
+    baseValue: "Repose moi s'il te pla\xEEt. J'ai peur !"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: wander
-    val: D'accord, je pars me promener
+    baseValue: D'accord, je pars me promener
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: cuddle
-    val: J'aime bien quand tu me caresses le visage
+    baseValue: J'aime bien quand tu me caresses le visage
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: iAmBored
-    val: Je m'ennuie un peu
+    baseValue: Je m'ennuie un peu
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: iWantCuddle
-    val: Quelqu'un veut me cajoler ?
+    baseValue: Quelqu'un veut me cajoler ?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: iWantToTalk
-    val: Quelqu'un veut parler avec moi ?
+    baseValue: Quelqu'un veut parler avec moi ?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: nicePlace
-    val: Ca a l'air joli par ici
+    baseValue: Ca a l'air joli par ici !
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: follow
-    val: Je te suis
+    baseValue: Je te suis !
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
