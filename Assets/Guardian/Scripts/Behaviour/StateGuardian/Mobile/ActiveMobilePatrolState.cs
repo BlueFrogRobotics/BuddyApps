@@ -14,6 +14,7 @@ namespace BuddyApp.Guardian
             mRoomba = StateManager.Roomba;
 
             animator.SetInteger("mobileState", 0);
+            animator.SetBool("TurnHead", true);
             mRoomba.enabled = true;
             animator.GetBehaviour<DetectionPatrolState>().IsDetectingMovement = false;
             animator.GetBehaviour<DetectionPatrolState>().IsDetectingKidnapping = false;

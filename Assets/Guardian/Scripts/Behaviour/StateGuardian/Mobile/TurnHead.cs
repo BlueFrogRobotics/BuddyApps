@@ -4,30 +4,29 @@ using BuddyOS;
 
 namespace BuddyApp.Guardian
 {
-    public class StopRoombaPatrolState : AStateGuardian
+    public class TurnHead : AStateGuardian
     {
-
-        private BuddyFeature.Navigation.RoombaNavigation mRoomba;
-        private Motors mMotors;
         private NoHinge mNoHinge;
+        private float mTargetAngle;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mRoomba = StateManager.Roomba;
             mNoHinge = BYOS.Instance.Motors.NoHinge;
-            mMotors = BYOS.Instance.Motors;
-            mRoomba.enabled = false;
-            mMotors.Wheels.StopWheels();
-            animator.SetBool("TurnHead", false);
-            mNoHinge.SetPosition(0);
+            mTargetAngle = 60;
+            mNoHinge.SetPosition(mTargetAngle);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mRoomba.enabled = false;
-            mMotors.Wheels.StopWheels();
+            //Debug.Log("current: " + mNoHinge.CurrentAnglePosition + " destination: " + mNoHinge.DestinationAnglePosition);
+            if(GuardianData.Instance.TurnHeadIsActive && Mathf.Abs( mNoHinge.CurrentAnglePosition-mNoHinge.DestinationAnglePosition)<2.5f)
+            {
+                mTargetAngle *= -1;
+                mNoHinge.SetPosition(mTargetAngle);
+            }
+            
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

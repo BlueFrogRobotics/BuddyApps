@@ -19,9 +19,10 @@ namespace BuddyApp.Guardian
             GaugeOnOff lGaugeSoundDetection = AddWidget<GaugeOnOff>(SECOND_LINE);
             OnOff lGaugeKidnappingDetection = AddWidget<OnOff>(THIRD_LINE);
             OnOff lGaugeFireDetection = AddWidget<OnOff>(FOURTH_LINE);
-            
-            Dropdown lDropDownContact = AddWidget<Dropdown>(FIFTH_LINE);
-            Button lQuitButton = AddWidget<Button>(SIXTH_LINE);
+            OnOff lOnOffTurnHead= AddWidget<OnOff>(FIFTH_LINE);
+
+            Dropdown lDropDownContact = AddWidget<Dropdown>(SIXTH_LINE);
+            Button lQuitButton = AddWidget<Button>(SEVENTH_LINE);
 
 
             //lGaugeFireDetection.Slider.minValue = 0;
@@ -54,8 +55,8 @@ namespace BuddyApp.Guardian
             lDropDownContact.AddOption("MARC GOURLAN", GuardianData.Contact.MARC);
             lDropDownContact.AddOption("FRANCK DE VISME", GuardianData.Contact.FRANCK);
             lDropDownContact.AddOption("WALID ABDERRAHMANI", GuardianData.Contact.WALID);
-            lDropDownContact.SetDefault(1);
-            lDropDownContact.SetDefault(0);
+            lDropDownContact.SetDefault((int)GuardianData.Instance.Recever);
+            //lDropDownContact.SetDefault(0);
 
 
             /*
@@ -66,6 +67,7 @@ namespace BuddyApp.Guardian
             lGaugeMovementDetection.IsActive = GuardianData.Instance.MovementDetectionIsActive;
             lGaugeSoundDetection.IsActive = GuardianData.Instance.SoundDetectionIsActive;
             lGaugeKidnappingDetection.IsActive = GuardianData.Instance.KidnappingDetectionIsActive;
+            lOnOffTurnHead.IsActive = GuardianData.Instance.TurnHeadIsActive;
 
             /*
              * Set command to widgets
@@ -76,6 +78,7 @@ namespace BuddyApp.Guardian
             lGaugeMovementDetection.SwitchCommands.Add(new ActMovementDetectionCmd());
             lGaugeKidnappingDetection.SwitchCommands.Add(new ActKidnappingDetectionCmd());
             lGaugeSoundDetection.SwitchCommands.Add(new ActSoundDetectionCmd());
+            lOnOffTurnHead.SwitchCommands.Add(new ActTurnHeadCmd());
 
             lGaugeMovementDetection.UpdateCommands.Add(new SetMovementSensibilityCmd());
             lGaugeSoundDetection.UpdateCommands.Add(new SetSoundSensibilityCmd());
@@ -85,12 +88,13 @@ namespace BuddyApp.Guardian
 
         public override void Labelize()
         { 
-            GetWidget<GaugeOnOff>(FIRST_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectMouv");
+            GetWidget<GaugeOnOff>(FIRST_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectMove");
             GetWidget<GaugeOnOff>(SECOND_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectSound");
             GetWidget<OnOff>(THIRD_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectKidnap");
             GetWidget<OnOff>(FOURTH_LINE).Label.text = BYOS.Instance.Dictionary.GetString("detectFire");
-            GetWidget<Dropdown>(FIFTH_LINE).Label.text = BYOS.Instance.Dictionary.GetString("contact");
-            GetWidget<Button>(SIXTH_LINE).Label.text = BYOS.Instance.Dictionary.GetString("quit"); ;
+            GetWidget<OnOff>(FIFTH_LINE).Label.text = "tourner tete";
+            GetWidget<Dropdown>(SIXTH_LINE).Label.text = BYOS.Instance.Dictionary.GetString("contact");
+            GetWidget<Button>(SEVENTH_LINE).Label.text = BYOS.Instance.Dictionary.GetString("quit"); ;
         }
     }
 }
