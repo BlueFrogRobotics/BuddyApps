@@ -1,38 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
-using BuddyOS;
 using BuddyOS.App;
-using BuddyFeature.Navigation;
-using System;
 
 namespace BuddyApp.HideAndSeek
 {
-    public class ActiveRoombaNavigation : AStateMachineBehaviour
+    public class TurnHead : AStateMachineBehaviour
     {
+        private float mTargetAngle;
+
         public override void Init()
         {
+            mTargetAngle = 60;
             
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            GetComponent<RoombaNavigation>().enabled = true;
-            //GetGameObject(0).SetActive(true);
-            //mFace.SetExpression(MoodType.LOVE);
-            mYesHinge.SetPosition(20);
-            iAnimator.SetBool("TurnHead", true);
-            mMood.Set(MoodType.LISTENING);
+            mNoHinge.SetPosition(mTargetAngle, 200);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+            if (Mathf.Abs(mNoHinge.CurrentAnglePosition - mNoHinge.DestinationAnglePosition) < 10.5f)
+            {
+                mTargetAngle *= -1;
+                mNoHinge.SetPosition(mTargetAngle, 200);
+            }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
-        }
 
+            iAnimator.ResetTrigger("ChangeState");
+        }
     }
 }
