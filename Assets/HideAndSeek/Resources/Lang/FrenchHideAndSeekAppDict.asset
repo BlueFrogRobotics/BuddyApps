@@ -13,41 +13,121 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: appTitle
-    val: cache cache
+    baseValue: cache cache
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: explainationText
-    val: "Dans la prochaine \xE9tape, tourne ta t\xEAte de droite \xE0 gauche pour
-      m'aider \xE0 te reconnaitre"
+    baseValue: "Dans la prochaine \xE9tape, tourne ta t\xEAte de droite \xE0 gauche
+      pour m'aider \xE0 te reconnaitre"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: askStartReco
-    val: Assure toi que je puisse te voir, puis dis partez!
+    baseValue: Assure toi que je puisse te voir, puis dis partez!
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: askPlayerName
-    val: Quel est ton nom?
+    baseValue: Quel est ton nom?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: yes
-    val: oui
+    baseValue: oui
+    phoneticValues:
+    - oui
+    randomValues:
+    - oui
   - key: no
-    val: non
+    baseValue: non
+    phoneticValues:
+    - non
+    randomValues:
+    - non
   - key: askAddPlayer
-    val: Veut tu ajouter un autre joueur?
+    baseValue: Veut tu ajouter un autre joueur?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: go
-    val: Partez!
+    baseValue: Partez!
+    phoneticValues:
+    - 'partez '
+    - ' go '
+    - ' aller '
+    - ' parter'
+    randomValues:
+    - 'partez '
+    - ' allez'
   - key: loading
-    val: chargement...
+    baseValue: chargement...
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: welcomeText
-    val: "Jouons \xE0 cache cache"
+    baseValue: "Jouons \xE0 cache cache"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: willCount
-    val: Je vais compter jusqu'a 10 et je vous cherche
+    baseValue: "Je vais compter jusqu'\xE0 10 et je vous cherche"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: iGo
-    val: J'y vais
+    baseValue: J'y vais
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - j'y vais
   - key: showFace
-    val: Montre ton visage
+    baseValue: Montre ton visage
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - montre ton visage
   - key: iFound
-    val: "J'ai trouv\xE9"
+    baseValue: "J'ai trouv\xE9"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "j'ai trouv\xE9"
   - key: alreadyFound
-    val: "Je t'ai d\xE9j\xE0 trouv\xE9"
+    baseValue: "Je t'ai d\xE9j\xE0 trouv\xE9"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "je t'ai d\xE9j\xE0 trouv\xE9"
   - key: cantReco
-    val: "Je ne te reconnait pas. Tu pourra participer \xE0 la prochaine partie"
+    baseValue: "Je ne te reconnait pas. Tu pourra participer \xE0 la prochaine partie"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: win
-    val: "J'ai gagn\xE9"
+    baseValue: "J'ai gagn\xE9"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "j'ai gagn\xE9"
   - key: foundMovement
-    val: J'ai vu un mouvement
+    baseValue: J'ai vu un mouvement
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: playAgain
-    val: Voulez vous rejouer?
+    baseValue: Veut tu rejouer?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
