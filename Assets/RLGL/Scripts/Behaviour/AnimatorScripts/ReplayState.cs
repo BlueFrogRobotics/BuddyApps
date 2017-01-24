@@ -52,7 +52,8 @@ namespace BuddyApp.RLGL
             if(!mIsQuestionDone)
             {
                 mMood.Set(MoodType.THINKING);
-                mTTS.Say("Do you want to play again?");
+                mTTS.Say(mDictionary.GetRandomString("replayState1"));
+                //mTTS.Say("Do you want to play again?");
                 mIsQuestionDone = true;
 
             }
@@ -77,7 +78,8 @@ namespace BuddyApp.RLGL
                 GetGameObject(6).SetActive(true);
                 mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
                 mMood.Set(MoodType.HAPPY);
-                mTTS.Say("oh yeah I love games!");
+                mTTS.Say(mDictionary.GetRandomString("replayState2"));
+                //mTTS.Say("oh yeah I love games!");
                 mIsSentenceDone = true;
             }
 
@@ -110,7 +112,8 @@ namespace BuddyApp.RLGL
                 GetGameObject(6).SetActive(false);
                 mWindowQuestion.GetComponent<Animator>().SetTrigger("Open_WQuestion");
                 //mWindowQuestion.GetComponentInChildren<Text>().text = "DO YOU WANT TO PLAY AGAIN?";
-                GetGameObject(7).GetComponent<Text>().text = "DO YOU WANT TO PLAY AGAIN?";
+                GetGameObject(7).GetComponent<Text>().text = mDictionary.GetString("replayState3");
+                //GetGameObject(7).GetComponent<Text>().text = "DO YOU WANT TO PLAY AGAIN?";
                 mCanvasTrigger = true;
             }
         }

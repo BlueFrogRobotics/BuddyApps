@@ -33,7 +33,8 @@ namespace BuddyApp.RLGL
         {
             mTimer += Time.deltaTime;
             if (!mIsMovementActionDone) {
-                mTTS.Say("Red Light");
+                mTTS.Say(mDictionary.GetRandomString("detectionState1"));
+                //mTTS.Say("Red Light");
                 mWheels.TurnAngle(-180.0F, 250.0F, 0.02F);
                 mIsMovementActionDone = true;
                 mTimer = 0.0F;
@@ -49,7 +50,8 @@ namespace BuddyApp.RLGL
                 if (mIsDetected && !mIsSentenceDone && mTimer < 8.0f && mTimer > 3.0f) {
                     mMood.Set(MoodType.HAPPY);
                     iAnimator.GetBehaviour<CountState>().IsOneTurnDone = false;
-                    mTTS.Say("I saw you moving my friend" /*, go back at the start*/ + "!");
+                    mTTS.Say(mDictionary.GetRandomString("detectionState2"));
+                    //mTTS.Say("I saw you moving my friend" /*, go back at the start*/ + "!");
 
                     mIsSentenceDone = true;
                 }
@@ -60,7 +62,8 @@ namespace BuddyApp.RLGL
                 }
 
                 if (!mIsDetected && !mIsSentenceDone && mTimer > 4.0F && mTimer < 8.0F && !mIsStrong) {
-                    mTTS.Say("Wow you are strong, I don't see you moving!");
+                    mTTS.Say(mDictionary.GetRandomString("detectionState3"));
+                    //mTTS.Say("Wow you are strong, I don't see you moving!");
                     mMood.Set(MoodType.THINKING);
                     mIsStrong = true;
                 }

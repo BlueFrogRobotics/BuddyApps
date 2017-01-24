@@ -36,8 +36,8 @@ namespace BuddyApp.RLGL
             
             if (mTTS.HasFinishedTalking && mTimer < 6.0f && !mIsSentenceDone && mIsMovementDone)
             {
-
-                mTTS.Say("Good job you won, you have been too fast for me!");
+                mTTS.Say(mDictionary.GetRandomString("resultState1"));
+                //mTTS.Say("Good job you won, you have been too fast for me!");
                 mIsSentenceDone = true;
             }
             if (mTTS.HasFinishedTalking && mIsSentenceDone)

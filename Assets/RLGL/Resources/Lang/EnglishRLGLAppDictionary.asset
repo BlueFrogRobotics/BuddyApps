@@ -14,29 +14,166 @@ MonoBehaviour:
   entries:
   - key: menu1
     baseValue: 
-    phoneticValues: []
-    randomValues: []
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - What do you want to do?
+    - Hey my friend, what do you want to do?
   - key: menu2
-    baseValue: 
-    phoneticValues: []
-    randomValues: []
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Oh yes I love this game!
+    - Let's play!
   - key: startState1
-    baseValue: 
-    phoneticValues: []
-    randomValues: []
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - I am so happy, we will play together but before I need to know if you want to
+      hear the rules! So do you want to hear them?
+    - Oh yes let's play together! But before do you need to hear the rules?
   - key: startState2
-    baseValue: 
-    phoneticValues: []
-    randomValues: []
+    baseValue: Do you want to hear the rules?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: ruleState1
-    baseValue: 
-    phoneticValues: []
-    randomValues: []
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Okay, I will explain the game for you my friend. Step back by around sixteen
+      feet and sometimes I will say green light and your goal is to touch my face
+      before I say red light.
   - key: ruleState2
-    baseValue: 
-    phoneticValues: []
-    randomValues: []
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Do you want me to repeat the rules?
   - key: ruleState3
-    baseValue: 
-    phoneticValues: []
-    randomValues: []
+    baseValue: Do you want me to repeat the rules?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: countState1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Hurry up, it will be fun!
+    - ' Gogo my friend it will be fun!'
+  - key: countState2
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Don't stay here and place yourself at 26 feet in front of me!
+  - key: countState3
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Okay let's go!
+    - Oh yeah let's go my friend!
+  - key: countState4
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Okay let's play together! You have ten seconds to walk away by about 15 feet,
+      gogo!
+  - key: countState5
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - You are really good at this game!
+  - key: countState6
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Green light!
+  - key: detectionState1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Red light!
+  - key: detectionState2
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - I saw you moving my friend!
+  - key: detectionState3
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Wow you are strong, I don't see you moving!
+  - key: resultState1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Goodjob you won, you have been too fast for me!
+  - key: replayState1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Do you want to play again?
+  - key: replayState2
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Oh yeah I love games!
+  - key: replayState3
+    baseValue: Do you want to play again?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: listener1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Ok I'll do others things, we will play together later!
+  - key: listener2
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Can you repeat please, I don't understand what you said?
+  - key: listener3
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Can you repeat please?
+  - key: listener4
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Maybe you should click on my face!
+  - key: listener5
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Why nobody answer me?
+  - key: listener6
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - There is some problems with wifi. Touch the menu!

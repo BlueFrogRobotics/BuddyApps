@@ -41,5 +41,17 @@ namespace BuddyApp.Jukebox
                 thermalMovement.GetComponent<Companion.FollowPersonReaction>().enabled = false;
             } 
         }
+
+        public void stopMovement()
+        {
+            if(thermalMovement.GetComponent<Companion.FollowPersonReaction>().enabled == true)
+            {
+                thermalMovement.GetComponent<Companion.FollowPersonReaction>().enabled = false;
+            }
+            else if(balladeMovement.GetComponent<CompanionWalk>().enabled == true)
+            {
+                balladeMovement.GetComponent<CompanionWalk>().enabled = false;
+            }
+        }
     }
 }
