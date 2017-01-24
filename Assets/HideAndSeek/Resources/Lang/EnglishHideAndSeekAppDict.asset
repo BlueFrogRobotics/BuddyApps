@@ -13,41 +13,118 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: appTitle
-    val: hide and seek
+    baseValue: hide and seek
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: explainationText
-    val: In the next step, please move your head from left to right, to help me to
-      recognize you
+    baseValue: In the next step, please move your head from left to right, to help
+      me to recognize you
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: askStartReco
-    val: Please make sure I can see you, and say let's go!
+    baseValue: Please make sure I can see you and say let's go!
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: askPlayerName
-    val: What is your name?
+    baseValue: What is your name?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: yes
-    val: yes
+    baseValue: yes
+    phoneticValues:
+    - yes
+    randomValues:
+    - yes
   - key: no
-    val: no
+    baseValue: no
+    phoneticValues:
+    - no
+    randomValues:
+    - no
   - key: askAddPlayer
-    val: Do you want to add an other player?
+    baseValue: Do you want to add an other player?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: go
-    val: Let's go!
+    baseValue: Let's go!
+    phoneticValues:
+    - let
+    - ' go '
+    randomValues:
+    - let's go
   - key: loading
-    val: loading...
+    baseValue: loading...
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: welcomeText
-    val: Let's play hide and seek
+    baseValue: Let's play hide and seek
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: willCount
-    val: I will count up to 10 and I'll seek you
+    baseValue: I will count up to 10 and I'll seek you
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: iGo
-    val: I go
+    baseValue: I go
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - I go
   - key: showFace
-    val: Show your face
+    baseValue: Show your face
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - show your face
   - key: iFound
-    val: I found
+    baseValue: I found
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - i found
   - key: alreadyFound
-    val: I already found you
+    baseValue: I already found you
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - i already found you
   - key: cantReco
-    val: I don't recognize you. You'lll be able to participate in the next game
+    baseValue: I don't recognize you. You'll be able to participate in the next game
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: win
-    val: I won
+    baseValue: I won
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - i won
   - key: foundMovement
-    val: I've seen a movement
+    baseValue: I've seen a movement
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: playAgain
-    val: Do you want to play again?
+    baseValue: Do you want to play again?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-

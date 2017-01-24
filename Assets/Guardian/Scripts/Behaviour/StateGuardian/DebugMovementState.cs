@@ -68,6 +68,7 @@ namespace BuddyApp.Guardian
                 Imgproc.threshold(mMask, mMask, 200, 255, Imgproc.THRESH_BINARY_INV);
                 mCam.FrameMat.copyTo(lMatCam, mMask);
                 lMatView = lMatMouv + lMatCam;
+                //Imgproc.putText(lMatView, "recorded by Buddy", new Point(lMatView.height()-50, lMatView.height()-10), Imgproc.FONT_HERSHEY_SIMPLEX, 0.28, new Scalar(0, 212, 209, 255));
                 BuddyTools.Utils.MatToTexture2D(lMatView, mTexture);
                 mRaw.texture = mTexture;
                 if (mHasDetectedMouv)

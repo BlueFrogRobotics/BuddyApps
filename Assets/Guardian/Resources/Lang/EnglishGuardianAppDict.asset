@@ -13,65 +13,167 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: guardian
-    val: Guardian
+    baseValue: guardian
+    phoneticValues:
+    - 'guardian '
+    - ' garden'
+    randomValues:
+    - guardian
   - key: choiceMode
-    val: Which mode do you want. [500] Fix or mobile
+    baseValue: Which mode do you want. Fix or mobile?
+    phoneticValues:
+    - 
+    randomValues:
+    - Which mode do you want. [500] Fix or mobile
   - key: fixMonitoring
-    val: Fix Monitoring
+    baseValue: Fix monitoring
+    phoneticValues:
+    - 'fix '
+    - ' six'
+    randomValues:
+    - fix
   - key: mobileMonitoring
-    val: Mobile Monitoring
+    baseValue: Mobile monitoring
+    phoneticValues:
+    - 'mobile '
+    - ' move'
+    randomValues:
+    - mobile
   - key: quit
-    val: Quit
+    baseValue: Quit
+    phoneticValues:
+    - 'quit '
+    - ' exit'
+    randomValues:
+    - quit
   - key: detectFire
-    val: Fire detection
+    baseValue: Fire detection
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: detectSound
-    val: Noise detection
+    baseValue: Sound detection
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: detectKidnap
-    val: Kidnapping detection
-  - key: detectMouv
-    val: Movement detection
+    baseValue: Kidnapping detection
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: detectMove
+    baseValue: Movement detection
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: contact
-    val: Who to contact?
+    baseValue: Who to contact?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - who to contact
   - key: password
-    val: Code
+    baseValue: Code
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: nobody
-    val: Nobody
+    baseValue: Nobody
+    phoneticValues:
+    - nobody
+    randomValues:
+    - nobody
   - key: loading
-    val: loading...
+    baseValue: loading...
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: selectSensibility
-    val: Select the appropriate sensibily then press the back button to come back
-      to the parameters
+    baseValue: Select the appropriate sensibility then press the back button to come
+      back to the parameters
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: sensibility
-    val: Sensibility
+    baseValue: Sensibility
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: validate
-    val: validate
+    baseValue: Validate
+    phoneticValues:
+    - 'validate '
+    - ' ok '
+    - ' enter '
+    - ' yes'
+    randomValues:
+    - validate
   - key: cancel
-    val: cancel
+    baseValue: Cancel
+    phoneticValues:
+    - 'cancel '
+    - ' no'
+    randomValues:
+    - cancel
   - key: paramTitle
-    val: Please select your detection parameters
+    baseValue: Please select your detection parameters
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - please select your detection parameters
   - key: headOrientation
-    val: Head orientation
-  - key: startTimerOral
-    val: I begin in 5 seconds
-  - key: startTimerText
-    val: I start the detection in
+    baseValue: Head orientation
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: startTimer
+    baseValue: I start the detection in
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - I begin in 5 seconds
   - key: textDebugTemp
-    val: Press the back button to come back to the parameters
-  - key: alertSoundText
-    val: Beware sound detected!
-  - key: alertMovementText
-    val: Beware movement detected!
-  - key: alertFireText
-    val: Beware fire detected
-  - key: alertKidnapText
-    val: Beware stealing detected!
-  - key: alertSoundOral
-    val: I have detected noise
-  - key: alertMovementOral
-    val: I have detected some movement
-  - key: alertFireOral
-    val: I have detected fire
-  - key: alertKidnapOral
-    val: I'm being kidnapped
+    baseValue: Press the back button to come back to the parameters
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: alertSound
+    baseValue: Beware sound detected!
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - I have detected noise
+  - key: alertMovement
+    baseValue: Beware movement detected!
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - I have detected some movement
+  - key: alertFire
+    baseValue: Beware fire detected!
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - I have detected fire
+  - key: alertKidnap
+    baseValue: Beware stealing detected!
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - I'm being kidnapped
   - key: enterPassword
-    val: 'Enter password '
+    baseValue: Enter the password
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-

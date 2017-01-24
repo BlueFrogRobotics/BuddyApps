@@ -42,6 +42,9 @@ namespace BuddyApp.Companion
         
         void Update()
         {
+            if (!CompanionData.Instance.CanMoveBody)
+                enabled = false;
+
             //After a while, if there is thermal activity, we track it until it disappears
             if (!mIsFollowing && Time.time - mActiveTime > mRandomThermal && mThermalDetector.PositionHotSpot != mBadHotspot) {
                 mWanderReaction.enabled = false;

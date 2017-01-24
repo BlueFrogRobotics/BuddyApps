@@ -117,7 +117,7 @@ namespace BuddyApp.Companion
                 mReaction.StopMoving();
             }
 
-            if (Time.time - mInactiveTime > 10F) {// && Time.time - mInactiveTime < 30F) {
+            if (Time.time - mInactiveTime > 10F) {
                 if (mCompanionData.CanMoveBody) {
                     mReaction.StopIdle();
                     mReaction.StartWandering();

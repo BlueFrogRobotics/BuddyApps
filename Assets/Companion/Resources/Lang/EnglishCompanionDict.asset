@@ -13,22 +13,62 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: hello
-    val: Hello
+    baseValue: Hello
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: playWithMe
-    val: Someone wants to play with me ?
+    baseValue: Someone wants to play with me ?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: putMeDown
-    val: Put me down please ! I am scared
+    baseValue: Put me down please ! I'm scared !
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: wander
-    val: Understood, I will go for a stroll
+    baseValue: Understood, I will go for a stroll
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: cuddle
-    val: I like it when you pet me
+    baseValue: I like it when you pet me.
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: iAmBored
-    val: I am a bit bored.
+    baseValue: I'm a bit bored
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: iWantCuddle
-    val: Anybody wants to cuddle me ?
+    baseValue: Anybody wants to cuddle me ?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: iWantToTalk
-    val: Anybody wants to talk with me ?
+    baseValue: Anybody wants to talk with me ?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: nicePlace
-    val: This surely looks nice over here
+    baseValue: This surely looks nice over here.
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: follow
-    val: I am following you now
+    baseValue: I am following you now !
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-

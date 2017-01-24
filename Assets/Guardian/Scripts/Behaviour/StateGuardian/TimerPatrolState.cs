@@ -56,7 +56,7 @@ namespace BuddyApp.Guardian
             mIcoMessage.enabled = false;
             for (int i = 0; i < mHaloImages.Length; i++)
                 mHaloImages[i].color = new Color(0F, 212f / 255f, 209f / 255f, 1F);
-            mMessage.text = BYOS.Instance.Dictionary.GetString("startTimerText"); //"JE LANCE LA SURVEILLANCE DANS";
+            mMessage.text = BYOS.Instance.Dictionary.GetString("startTimer"); //"JE LANCE LA SURVEILLANCE DANS";
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
