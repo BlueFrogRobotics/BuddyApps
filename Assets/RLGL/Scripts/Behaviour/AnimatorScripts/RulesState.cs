@@ -35,7 +35,7 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+            mFace.SetExpression(MoodType.NEUTRAL);
             GetComponent<RLGLBehaviour>().Index = 1;
             mNeedListen = true;
             mTimer = 0.0F;
@@ -46,18 +46,14 @@ namespace BuddyApp.RLGL
             mCanvasTrigger = false;
             mWindowQuestionRule = GetGameObject(3);
             mBackground = GetGameObject(1);
-            //mWindowQuestionRule.SetActive(false);
-
-            Debug.Log("RULES STATE : ON ENTER");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-        {
-            Debug.Log("RULES STATE : ON UPDATE");
+        { 
             mTimer += Time.deltaTime;
             if (!mIsSentenceDone)
                 StartCoroutine(SayRulesAndExit());   
-            if(mTTS.HasFinishedTalking && mIsSentenceDone && !mIsQuestionDone )
+            if(mTTS.HasFinishedTalking && mIsSentenceDone && !mIsQuestionDone)
             {
                 StartCoroutine(Restart());
             } 
@@ -102,7 +98,6 @@ namespace BuddyApp.RLGL
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             iAnimator.SetBool("IsRulesDone", false);
-            Debug.Log("RULES STATE : ON EXIT");
         }
 
         IEnumerator SayRulesAndExit()
@@ -110,16 +105,18 @@ namespace BuddyApp.RLGL
             yield return new WaitForSeconds(2.0F);
             if(!mIsSentenceDone)
             {
-                mTTS.Say("Okay, I will explain the game for you my friend. Step back by around sixteen feet and" +
-                    " sometimes I will say green light and your goal is to touch my face " +
-                        " before I say red light.");
+                mTTS.Say(mDictionary.GetRandomString("ruleState1"));
+                //mTTS.Say("Okay, I will explain the game for you my friend. Step back by around sixteen feet and" +
+                //    " sometimes I will say green light and your goal is to touch my face " +
+                //        " before I say red light.");
                 mIsSentenceDone = true;
             }
         }
 
         IEnumerator Restart()
         {
-            mTTS.Say("Do you want me to repeat the rules?");
+            mTTS.Say(mDictionary.GetRandomString("ruleState2"));
+            //mTTS.Say("Do you want me to repeat the rules?");
             mIsQuestionDone = true;
             yield return new WaitForSeconds(3.0F);
         }
@@ -128,12 +125,11 @@ namespace BuddyApp.RLGL
         {
             if (!mCanvasTrigger)
             {
-                Debug.Log("OPEN BG ECT ");
                 mBackground.GetComponent<Animator>().SetTrigger("Open_BG");
                 GetGameObject(6).SetActive(false);
                 mWindowQuestionRule.GetComponent<Animator>().SetTrigger("Open_WQuestion");
-                //mWindowQuestionRule.GetComponentInChildren<Text>().text = "DO YOU WANT ME TO REPEAT THE RULES ?";
-                GetGameObject(7).GetComponent<Text>().text = "DO YOU WANT ME TO REPEAT THE RULES ?";
+                GetGameObject(7).GetComponent<Text>().text = mDictionary.GetString("ruleState3");
+                //GetGameObject(7).GetComponent<Text>().text = "DO YOU WANT ME TO REPEAT THE RULES ?";
                 mCanvasTrigger = true;
             }
 

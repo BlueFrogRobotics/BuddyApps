@@ -15,10 +15,5 @@ namespace BuddyApp.Jukebox
             playButton.onClick.Invoke();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

@@ -117,7 +117,8 @@ namespace BuddyApp.Companion
                 {
                     case 0:
                         //we lower the head
-                        mYesHinge.SetPosition(mYesHinge.CurrentAnglePosition - 10);
+                        //Disable if head moves too high
+                        //mYesHinge.SetPosition(mYesHinge.CurrentAnglePosition - 10);
                         break;
 
                     case 1:

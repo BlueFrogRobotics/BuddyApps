@@ -35,7 +35,7 @@ namespace BuddyApp.RLGL
 
         private int mErrorCount;
         public int ErrorCount { get { return mErrorCount; } set { mErrorCount = value; } }
-
+        private Dictionary mDico;
         private int mIndex;
         
         void Awake()
@@ -43,6 +43,7 @@ namespace BuddyApp.RLGL
             mIndex = 0;
             mTTS = BYOS.Instance.TextToSpeech;
             mSTT = BYOS.Instance.SpeechToText;
+            mDico = BYOS.Instance.Dictionary;
             mFace = BYOS.Instance.Face;
             mErrorCount = 0;
         }
@@ -65,7 +66,8 @@ namespace BuddyApp.RLGL
             }
             else if (mErrorCount == 5)
             {
-                mTTS.Say("Ok I'll do others things, we will play together later!");
+                mTTS.Say(mDico.GetRandomString("listener1"));
+                //mTTS.Say("Ok I'll do others things, we will play together later!");
                 new HomeCmd().Execute();
                 //BYOS.Instance.AppManager.Quit();
                 return;
@@ -87,12 +89,13 @@ namespace BuddyApp.RLGL
                 switch (iError)
                 {
                     case STTError.ERROR_SPEECH_TIMEOUT:
-                        lError = "Can you repeat please?";
+                        lError = mDico.GetRandomString("listener3");
                         gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().NeedListen = true;
                         ++mErrorCount;
                         break;
                     case STTError.ERROR_NO_MATCH:
-                        lError = "Maybe you should click on my face";
+                        lError = mDico.GetRandomString("listener4");
+                        //lError = "Maybe you should click on my face";
                         gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().NeedListen = true;
                         break;
                     default:
@@ -110,11 +113,13 @@ namespace BuddyApp.RLGL
                 switch (iError)
                 {
                     case STTError.ERROR_NO_MATCH:
-                        lError = "Maybe you should click on my face";
+                        lError = mDico.GetRandomString("listener4");
+                        //lError = "Maybe you should click on my face";
                         gameplay.GetComponent<Animator>().GetBehaviour<StartState>().NeedListen = true;
                         break;
                     case STTError.ERROR_SPEECH_TIMEOUT:
-                        lError = "Why nobody answer me?";
+                        lError = mDico.GetRandomString("listener5");
+                        //lError = "Why nobody answer me?";
                         gameplay.GetComponent<Animator>().GetBehaviour<StartState>().NeedListen = true;
                         ++mErrorCount;
                         break;
@@ -134,14 +139,15 @@ namespace BuddyApp.RLGL
                 switch (iError)
                 {
                     case STTError.ERROR_NO_MATCH:
-                        lError = "Maybe you should click on my face";
+                        lError = mDico.GetRandomString("listener4");
                         gameplay.GetComponent<Animator>().GetBehaviour<ReplayState>().NeedListen = true;
                         break;
                     case STTError.ERROR_SPEECH_TIMEOUT:
-                        lError = "Why nobody answer me?";
+                        lError = mDico.GetRandomString("listener5");
                         gameplay.GetComponent<Animator>().GetBehaviour<ReplayState>().NeedListen = true;
                         ++mErrorCount;
                         break;
+                        
                     default:
                         gameplay.GetComponent<Animator>().GetBehaviour<ReplayState>().NeedListen = true;
                         break;
@@ -162,17 +168,18 @@ namespace BuddyApp.RLGL
                 switch (iError)
                 {
                     case STTError.ERROR_NO_MATCH:
-                        lError = "Maybe you should click on my face";
+                        lError = mDico.GetRandomString("listener4");
                         //windowMenu.GetComponent<RLGLMenu>().STTNotif = mSTT.LastAnswer;
                         windowMenu.GetComponent<RLGLMenu>().NeedListen = true;
                         break;
                     case STTError.ERROR_SPEECH_TIMEOUT:
-                        lError = "Why nobody answer me?";
+                        lError = mDico.GetRandomString("listener5");
                         windowMenu.GetComponent<RLGLMenu>().NeedListen = true;
                         ++mErrorCount;
                         break;
                     case STTError.ERROR_NETWORK:
-                        lError = "There is some problems with the wifi. Touch the menu!";
+                        lError = mDico.GetRandomString("listener6");
+                        //lError = "There is some problems with the wifi. Touch the menu!";
                         windowMenu.GetComponent<RLGLMenu>().NeedListen = true;
                         break;
                     default:
@@ -291,7 +298,8 @@ namespace BuddyApp.RLGL
                     gameplay.GetComponent<RLGLBehaviour>().IsClicked = false;
                     return;
                 }
-                mTTS.Say("Can you repeat please, I don't understand what you said");
+                mTTS.Say(mDico.GetRandomString("listener2"));
+                //mTTS.Say("Can you repeat please, I don't understand what you said");
                 if(gameplay.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("RulesState"))
                     gameplay.GetComponent<Animator>().GetBehaviour<RulesState>().NeedListen = true;
                 else if (gameplay.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Start"))
