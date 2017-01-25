@@ -5,6 +5,9 @@ using System.Collections;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Buddy looks for a face
+    /// </summary>
     public class SearchFaceReaction : MonoBehaviour
     {
         private bool mLookLeft;
@@ -36,6 +39,7 @@ namespace BuddyApp.Companion
         
         void Update()
         {
+            //Perform Update until a face is recognized
             if (mFaceDetector.FaceDetected) {
                 enabled = false;
                 return;
@@ -46,6 +50,7 @@ namespace BuddyApp.Companion
 
             mTime = Time.time;
 
+            //Look left and right, up and down
             if (mLookLeft) {
                 mHeadNoAngle += 4F;
 
@@ -74,6 +79,7 @@ namespace BuddyApp.Companion
             GetComponent<Reaction>().ActionFinished();
         }
 
+        //Look up or down according to previous movement
         private void ChangeYesPosition()
         {
             float lCurrPos = mYesHinge.CurrentAnglePosition;

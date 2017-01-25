@@ -5,6 +5,9 @@ using BuddyOS;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Detects if Buddy is being lifted
+    /// </summary>
     public class AccelerometerDetector : ADetector
     {
         public bool LiftDetected { get { return mLiftDetected; } }
@@ -15,6 +18,7 @@ namespace BuddyApp.Companion
         private Queue<float> mStack;
         private TabletParameters mParameters;
 
+        // Callback when a strong vertical acceleration is detected
         public event Action OnDetection;
 
         void Start()
@@ -29,20 +33,24 @@ namespace BuddyApp.Companion
             float lAcceleroX = mParameters.GetXAccelerometer();
             //float lAcceleroY = mParameters.GetYAccelerometer();
             //float lAcceleroZ = mParameters.GetZAccelerometer();
-            float lAcceleroTotal = lAcceleroX;// + lAcceleroY + lAcceleroZ;
+
+            //Compute an average on acceleration over time for better precision
+            float lAcceleroTotal = lAcceleroX;
             mStack.Enqueue(lAcceleroTotal);
 
+            //If too much data, dequeue it and make some computation
             if (mStack.Count > 100) {
                 mStack.Dequeue();
                 float lMean = 0.0f;
+                //Compute the mean of values
                 foreach (float lNumber in mStack)
                 {
                     lMean += lNumber;
                 }
 
                 lMean /= mStack.Count;
-
-                //Debug.Log("AcceleroZ mean : " + lMean);
+                
+                //If mean goes over our set threshold
                 if (lAcceleroTotal - lMean > ACC_THRESHOLD)
                 {
                     mLiftDetected = true;

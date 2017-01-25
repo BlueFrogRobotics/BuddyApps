@@ -7,6 +7,12 @@ using System.Collections.Generic;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// This class manages all the interactions between the robot and human according to what is detected.
+    /// </summary>
+    /// <remarks>
+    /// Behaviors are managed via a stacking system, thus making priorities on behaviors
+    /// </remarks>
     [RequireComponent(typeof(AccelerometerDetector))]
     [RequireComponent(typeof(BuddyFaceDetector))]
     [RequireComponent(typeof(CliffDetector))]
@@ -52,6 +58,7 @@ namespace BuddyApp.Companion
             mCurrentAction = null;
             mActionStack = new Stack<Action>();
 
+            //Get all detectors
             mAccelerometerDetector = GetComponent<AccelerometerDetector>();
             mBuddyFaceDetector = GetComponent<BuddyFaceDetector>();
             mCliffDetector = GetComponent<CliffDetector>();
@@ -70,10 +77,12 @@ namespace BuddyApp.Companion
             mYesHinge = BYOS.Instance.Motors.YesHinge;
             mTTS = BYOS.Instance.TextToSpeech;
 
-            mVocalManager.EnableTrigger = true;
+            //TODO : set this to true after tests
+            mVocalManager.EnableTrigger = false;
             mVocalChat.WithNotification = true;
             mVocalChat.OnQuestionTypeFound = SortQuestionType;
 
+            //Initialize parameters
             mVocalWanderOrder = false;
             mActionInProgress = false;
             mInactiveTime = Time.time;
@@ -87,12 +96,15 @@ namespace BuddyApp.Companion
 
         void Update()
         {
+            //In this update, we check for the different states of the detectors and enable the corresponding reactions.
+            //As default, if the robot has no interaction, it will start wandering alone.
+
             //if (mSpeechDetector.SomeoneTalkingDetected)
             //    Debug.Log("Someone started to talk !");
 
             //if (mBuddyFaceDetector.FaceTouched)
             //    mReaction.StopEverything();
-
+            
             if (mFaceDetector.FaceDetected)
                 mReaction.FollowFace();
             else
@@ -109,6 +121,7 @@ namespace BuddyApp.Companion
             //else if (!mThermalDetector.ThermalDetected)
             //    mReaction.DisableSayHelloReaction();
 
+            //If there is an interaction with Buddy, he stops moving to perform the corresponding reaction
             if (mBuddyFaceDetector.EyeTouched || mFaceDetector.FaceDetected || mSpeechDetector.SomeoneTalkingDetected ||
                 (mCurrentAction != null && (!mVocalWanderOrder || !mRobotIsTrackingSomeone))) {
                 //Debug.Log("Interaction with Buddy");
@@ -117,6 +130,7 @@ namespace BuddyApp.Companion
                 mReaction.StopMoving();
             }
 
+            //If no interaction, either start wandering or just move head depending on what Buddy is allowed to move
             if (Time.time - mInactiveTime > 10F) {
                 if (mCompanionData.CanMoveBody) {
                     mReaction.StopIdle();
@@ -137,9 +151,11 @@ namespace BuddyApp.Companion
                 mReaction.StopEyesFollow();
             }
 
+            //Perform the task that is in the stack
             Behave();
         }
 
+        //Current action is finished
         private void OnActionFinished()
         {
             Debug.Log("Current reaction is finished");
@@ -175,6 +191,8 @@ namespace BuddyApp.Companion
             mActionStack.Pop();
         }
 
+        //Sort the type of the question returned by the Vocal Chat.
+        //It either corresponds to orders on movement or launch applications
         private void SortQuestionType(string iType)
         {
             Debug.Log("Question Type found : " + iType);

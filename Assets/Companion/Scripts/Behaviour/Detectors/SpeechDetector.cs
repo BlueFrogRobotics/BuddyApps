@@ -3,6 +3,9 @@ using BuddyOS;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Tells if a vocal interaction was requested with the "Hello Buddy" trigger
+    /// </summary>
     public class SpeechDetector : MonoBehaviour
     {
         public bool SomeoneTalkingDetected { get { return mSomeoneTalking; } }
