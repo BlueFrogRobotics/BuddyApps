@@ -19,7 +19,7 @@ namespace BuddyApp.Guardian
             mMotors = BYOS.Instance.Motors;
             mRoomba.enabled = false;
             mMotors.Wheels.StopWheels();
-            animator.SetBool("TurnHead", false);
+            //animator.SetBool("TurnHead", false);
             mNoHinge.SetPosition(0);
         }
 
