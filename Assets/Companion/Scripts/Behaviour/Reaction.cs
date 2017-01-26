@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using BuddyOS;
-using BuddyOS.Command;
 using BuddyFeature.Vision;
-using BuddyFeature.Vocal;
-using BuddyFeature.Navigation;
-using Rect = OpenCVUnity.Rect;
 
 namespace BuddyApp.Companion
 {
     internal delegate void ReactionFinished();
 
+    /// <summary>
+    /// Manages the different reactions.
+    /// </summary>
     [RequireComponent(typeof(FollowFaceReaction))]
     [RequireComponent(typeof(GlobalWanderReaction))]
     [RequireComponent(typeof(GrumpyReaction))]
@@ -58,6 +56,7 @@ namespace BuddyApp.Companion
             mWheels = BYOS.Instance.Motors.Wheels;
             mYesHinge = BYOS.Instance.Motors.YesHinge;
 
+            //Get all reactions that are necessary for the script to properly work
             mFaceTracker = GetComponent<FaceCascadeTracker>();
             mFollowFace = GetComponent<FollowFaceReaction>();
             mGlobalWanderReaction = GetComponent<GlobalWanderReaction>();
@@ -70,6 +69,7 @@ namespace BuddyApp.Companion
 			mFollowPersonReaction = GetComponent<FollowPersonReaction>();
 			mEyesFollowReaction = GetComponent<EyesFollowReaction>();
 
+            //Initialize all variables
             mIsPouting = false;
             mIsTrackingFace = false;
             mIdleReaction.enabled = false;
@@ -81,17 +81,9 @@ namespace BuddyApp.Companion
 			mEyesFollowReaction.enabled = true;
         }
 
-        void Update()
-        {
-
-        }
-
+        //Launch the Grumpy reaction when head is being forced
         public void HeadForced()
         {
-            //mWheels.TurnAngle(BYOS.Instance.Motors.NoHinge.CurrentAnglePosition, 80F, 0.5F);
-            //mTTS.Say("Hey ! Arrête ça !");
-            //ActionFinished();
-
             if (mGrumpyReaction.enabled == true)
                 return;
 
@@ -115,6 +107,7 @@ namespace BuddyApp.Companion
             //mVocalChat.StartDialogue();
         }
 
+        //Launch the Lifted reaction when Buddy has been lifted
         public void IsBeingLifted()
         {
             if (mLiftedReaction.enabled)
@@ -122,6 +115,7 @@ namespace BuddyApp.Companion
             mLiftedReaction.enabled = true;
         }
 
+        //Launch the Pout reaction when Buddy's eyes have been messed with
         public void Pout()
         {
             if (mIsPouting)
@@ -130,6 +124,7 @@ namespace BuddyApp.Companion
             mIsPouting = true;
             Debug.Log("Face smashed ! I will pout");
 
+            //Do the animation corresponding to movements' permissions
             if (CompanionData.Instance.CanMoveBody)
                 StartCoroutine(PoutBodyCo());
             else if (CompanionData.Instance.CanMoveHead)
@@ -154,11 +149,12 @@ namespace BuddyApp.Companion
                 yield return new WaitForSeconds(0.2F);
             }
 
-            //Turn around
+            //Turn around and wait a bit
             mWheels.TurnAngle(180F, 120F, 0.2F);
             mMood.Set(MoodType.GRUMPY);            
             yield return new WaitForSeconds(5F);
-
+            
+            //Face the original direction again
             mWheels.TurnAngle(-180F, 120F, 0.2F);
             mMood.Set(MoodType.NEUTRAL);
             mIsPouting = false;
@@ -167,6 +163,7 @@ namespace BuddyApp.Companion
 
         private IEnumerator PoutHeadCo()
         {
+            //Move head up and down to make Buddy seem pissed
             mMood.Set(MoodType.ANGRY);
             yield return new WaitForSeconds(0.1F);
 
@@ -193,12 +190,6 @@ namespace BuddyApp.Companion
                 return;
 
             mFollowFace.enabled = true;
-
-            //if (mIsTrackingFace || !CompanionData.Instance.CanMoveHead)
-            //    return;
-            ////Debug.Log("Found a face to track");
-            //mIsTrackingFace = true;
-            //StartCoroutine(FollowFaceCo());
         }
 
         public void StopFollowFace()
@@ -229,28 +220,18 @@ namespace BuddyApp.Companion
 
         public void StartWandering()
         {
-            //if (mWanderReaction.enabled || !CompanionData.Instance.CanMoveBody)
-            //    return;
-            //Debug.Log("Start Wandering");
-            //mWanderReaction.enabled = true;
-
-            if (mGlobalWanderReaction.enabled || !CompanionData.Instance.CanMoveBody)
+            if (mWanderReaction.enabled || !CompanionData.Instance.CanMoveBody)
                 return;
             Debug.Log("Start Wandering");
-            mGlobalWanderReaction.enabled = true;
+            mWanderReaction.enabled = true;
         }
 
         public void StopWandering()
         {
-            //if (!mWanderReaction.enabled)
-            //    return;
-            //Debug.Log("Stop Wandering");
-            //mWanderReaction.enabled = false;
-
-            if (!mGlobalWanderReaction.enabled)
+            if (!mWanderReaction.enabled)
                 return;
             Debug.Log("Stop Wandering");
-            mGlobalWanderReaction.enabled = false;
+            mWanderReaction.enabled = false;
         }
 
         public void StopMoving()
@@ -311,12 +292,12 @@ namespace BuddyApp.Companion
             mNoHinge.SetPosition(lHeadNoAngle);
         }
 
-		public void StartFollowing ()
+		public void StartFollowing()
 		{
 			mFollowPersonReaction.enabled = true;
 		}
 	
-		public void StopFollowing ()
+		public void StopFollowing()
 		{
 			mFollowPersonReaction.enabled = false;
 		}
@@ -330,6 +311,5 @@ namespace BuddyApp.Companion
 		{
 			mEyesFollowReaction.enabled = false;
 		}
-
     }
 }

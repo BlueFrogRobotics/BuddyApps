@@ -54,6 +54,19 @@
       <string>red light</string>
 	  <string>green light</string>
     </VocalKeys>
+      <LangDictionaries>
+      <LangDictionary>
+        <Language>FRA</Language>
+        <Path>FrenchRLGLAppDictionary</Path>
+      </LangDictionary>
+      <LangDictionary>
+        <Language>ENG</Language>
+        <Path>EnglishRLGLAppDictionary</Path>
+      </LangDictionary>
+    </LangDictionaries>
+	<OptionsLayoutStr>BuddyApp.RLGL.RLGLLayout</OptionsLayoutStr>
+    <DataFile>rlgl_data.xml</DataFile>
+    <Assembly>Assembly-CSharp</Assembly>
   </AppInfo>
     <AppInfo>
     <name />

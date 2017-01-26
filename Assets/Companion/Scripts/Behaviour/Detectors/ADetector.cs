@@ -3,23 +3,15 @@ using BuddyOS;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Abstract detector class
+    /// </summary>
     public abstract class ADetector : MonoBehaviour
     {
         public delegate void Detection();
         public event Detection OnDetection;
-        
-        // Use this for initialization
-        void Start()
-        {
 
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
+        //Detector detected somehting
         protected void OnSendDetection()
         {
             if (OnDetection != null)

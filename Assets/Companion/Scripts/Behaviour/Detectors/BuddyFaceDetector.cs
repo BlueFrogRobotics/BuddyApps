@@ -4,12 +4,17 @@ using BuddyOS;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Allows to detect some interactions with Buddy's eyes
+    /// </summary>
     public class BuddyFaceDetector : MonoBehaviour
     {
         [SerializeField]
         private Button leftEye;
+
         [SerializeField]
         private Button rightEye;
+
         [SerializeField]
         private Slider caressBar;
 
@@ -68,18 +73,21 @@ namespace BuddyApp.Companion
             //}
         }
 
+        //Called by button on Buddy's left eye
         private void LeftEyeClicked()
         {
             mFace.SetEvent(FaceEvent.BLINK_LEFT);
             FacePoked();
         }
 
+        //Called by button on Buddy's right eye
         private void RightEyeClicked()
         {
             mFace.SetEvent(FaceEvent.BLINK_RIGHT);
             FacePoked();
         }
 
+        //Counts the number of time Buddy's eyes were poked
         private void FacePoked()
         {
             Debug.Log("Face poked");

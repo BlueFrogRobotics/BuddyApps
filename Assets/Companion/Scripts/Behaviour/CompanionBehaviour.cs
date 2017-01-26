@@ -3,6 +3,9 @@ using BuddyOS;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// First minimalist version of Companion behavior
+    /// </summary>
     internal class CompanionBehaviour : MonoBehaviour
     {
         private TextToSpeech mTTS;
@@ -16,6 +19,7 @@ namespace BuddyApp.Companion
             mVocalManager.EnableTrigger = true;
         }
 
+        //Respond to vocal commands
         private void VocalProcessing(string iRequest)
         {
             if (iRequest.Contains("poney"))

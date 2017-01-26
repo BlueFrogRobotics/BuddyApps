@@ -17,7 +17,6 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("RESULT STATE : ON ENTER");
             mIsSentenceDone = false;
             mIsMovementDone = false;
             mTimer = 0.0f;
@@ -27,7 +26,6 @@ namespace BuddyApp.RLGL
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iSateInfo, int iLayerIndex)
         {
-            Debug.Log("RESULT STATE : ON UPDATE");
             mTimer += Time.deltaTime;
             if((mWheels.Status == MovingState.REACHED_GOAL || (mWheels.Status == MovingState.MOTIONLESS && mTimer < 2.0F)) && !mIsMovementDone)
             {
@@ -38,8 +36,8 @@ namespace BuddyApp.RLGL
             
             if (mTTS.HasFinishedTalking && mTimer < 6.0f && !mIsSentenceDone && mIsMovementDone)
             {
-
-                mTTS.Say("Good job you won, you have been too fast for me!");
+                mTTS.Say(mDictionary.GetRandomString("resultState1"));
+                //mTTS.Say("Good job you won, you have been too fast for me!");
                 mIsSentenceDone = true;
             }
             if (mTTS.HasFinishedTalking && mIsSentenceDone)
@@ -51,7 +49,6 @@ namespace BuddyApp.RLGL
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("RESULT STATE : ON EXIT");
             iAnimator.SetBool("IsReplayTrue", false);
         }
 

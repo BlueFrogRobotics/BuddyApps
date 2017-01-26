@@ -37,9 +37,39 @@ public class RobotController : MonoBehaviour
         {new string[2] { "d", "No"}, -5.0f }
     };
 
+    bool sayWho = false;
     Motors mMotors = null;
 
     //private float timer = 0.0f;
+
+    // Use this for initialization
+    void Start()
+    {
+        mMotors = BYOS.Instance.Motors;
+        TTS = BYOS.Instance.TextToSpeech;
+        mDictionary = BYOS.Instance.Dictionary;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!sayWho && (mWebrtc.connectionState == Webrtc.CONNECTION.CONNECTING))
+        {
+            TTS.Say(mDictionary.GetString("AlertControl"));
+            sayWho = true;
+        }
+
+        /*   timer += Time.deltaTime;
+           if (timer > 0.5f)
+           {
+               timer = 0.0f;
+               if (mWebrtc.connectionState == Webrtc.CONNECTION.CONNECTING)
+               {
+                   mWebrtc.sendWithDataChannel(mMotors.NoHinge.CurrentAnglePosition.ToString());
+               }
+           }*/
+
+    }
 
     // This function is called when a webrtc data is received
     public void onMessage(string iMessage)
@@ -74,35 +104,5 @@ public class RobotController : MonoBehaviour
             mMotors.YesHinge.SetPosition(50);
 
         }
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        mMotors = BYOS.Instance.Motors;
-        TTS = BYOS.Instance.TextToSpeech;
-        mDictionary = BYOS.Instance.Dictionary;
-    }
-
-    bool sayWho = false;
-    // Update is called once per frame
-    void Update()
-    {
-        if (!sayWho && (mWebrtc.connectionState == Webrtc.CONNECTION.CONNECTING))
-        {
-            TTS.Say(mDictionary.GetString("AlertControl"));
-            sayWho = true;
-        }
-
-        /*   timer += Time.deltaTime;
-           if (timer > 0.5f)
-           {
-               timer = 0.0f;
-               if (mWebrtc.connectionState == Webrtc.CONNECTION.CONNECTING)
-               {
-                   mWebrtc.sendWithDataChannel(mMotors.NoHinge.CurrentAnglePosition.ToString());
-               }
-           }*/
-
     }
 }
