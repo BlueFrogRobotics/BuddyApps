@@ -76,6 +76,7 @@ namespace BuddyApp.HideAndSeek
                 {
                     mPlayers.ResetGame();
                     iAnimator.SetTrigger("PlayAgain");
+                    mYesHinge.SetPosition(20);
                 }
                 else
                     iAnimator.SetTrigger("ChangeState");
