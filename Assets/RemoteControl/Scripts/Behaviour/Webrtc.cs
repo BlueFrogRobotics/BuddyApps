@@ -40,9 +40,11 @@ public class Webrtc : MonoBehaviour
 
 
     [Header("GUI")]
-    public RawImage mRawImage;
+    public RawImage mRemoteRawImage;
+    public RawImage mLocalRawImage;
     public Text mTextLog;
-    public NativeTexture mNativeTexture = null;
+    public RemoteNativeTexture mRemoteNativeTexture = null;
+    public LocalNativeTexture mLocalNativeTexture = null;
 
     public void SetupWebRTC()
     {
@@ -79,17 +81,18 @@ public class Webrtc : MonoBehaviour
         SetupWebRTC();
         StartWebRTC();
 
-        mNativeTexture = new NativeTexture(640, 480);
-        // Just for debugging and be sure all is ok
-        mNativeTexture.setTextureColor(255, 255, 0);
+        mRemoteNativeTexture = new RemoteNativeTexture(640, 480);
+        mLocalNativeTexture = new LocalNativeTexture(640, 480);
         // Show the android texture in a Unity raw image
-        mRawImage.texture = mNativeTexture.texture;
+        mRemoteRawImage.texture = mRemoteNativeTexture.texture;
+        mLocalRawImage.texture = mLocalNativeTexture.texture;
     }
 
     void Update()
     {
         // Ask update of android texture
-        mNativeTexture.Update();
+        mRemoteNativeTexture.Update();
+        mLocalNativeTexture.Update();
     }
 
     /// <summary>
