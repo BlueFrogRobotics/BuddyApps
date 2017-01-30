@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using BuddyOS;
 using System.Collections.Generic;
+using BuddyOS;
+using BuddyOS.Command;
 
 public class RobotController : MonoBehaviour
 {
@@ -74,9 +75,11 @@ public class RobotController : MonoBehaviour
     // This function is called when a webrtc data is received
     public void onMessage(string iMessage)
     {
+        ACommand lCmd = ACommand.Deserialize(GetBytes(iMessage));
+        Debug.Log("Movement Command received : " + lCmd.ToString());
+        lCmd.Execute();
 
-
-        foreach (var item in mCmdSimplifyList)
+        /*foreach (var item in mCmdSimplifyList)
         {
             if (iMessage.Equals(item.Key))
                 mMotors.Wheels.SetWheelsSpeed(item.Value[0], item.Value[1], (int)item.Value[2]);
@@ -103,6 +106,11 @@ public class RobotController : MonoBehaviour
             mMotors.NoHinge.SetPosition(0);
             mMotors.YesHinge.SetPosition(50);
 
-        }
+        }*/
+    }
+
+    private byte[] GetBytes(string iStr)
+    {
+        return System.Convert.FromBase64String(iStr);
     }
 }
