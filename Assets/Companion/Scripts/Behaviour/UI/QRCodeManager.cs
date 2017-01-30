@@ -67,14 +67,13 @@ public class QRCodeManager : MonoBehaviour
 
         //Do the actual reading and building the texture
         for(int i=0; i<lBitMatrix.Height; i++) {
-            for(int j=0; j<lBitMatrix.Width; j++) {
+            for(int j=0; j<lBitMatrix.Width; j++)
                 lColors[j + i * lBitMatrix.Width] = lBitMatrix[j, i] ? lBlack : lWhite;
-            }
         }
         Texture2D lTempTex = new Texture2D(lBitMatrix.Width, lBitMatrix.Height);
         lTempTex.SetPixels32(0, 0, lBitMatrix.Width, lBitMatrix.Height, lColors);
 
-        ////We have to go by this method to be sure the QRCode is properly displayed.
+        //We have to go by this method to be sure the QRCode is properly displayed.
         Texture2D lTex = new Texture2D(2, 2);
         lTex.LoadImage(lTempTex.EncodeToPNG());
         QRImage.sprite = Sprite.Create(lTex, new UnityEngine.Rect(0, 0, lTex.width, lTex.height), new Vector2(0.5F, 0.5F));
