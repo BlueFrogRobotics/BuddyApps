@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using BuddyOS;
 
 namespace BuddyApp.Guardian
 {
@@ -7,17 +8,20 @@ namespace BuddyApp.Guardian
     {
 
         private BuddyFeature.Navigation.RoombaNavigation mRoomba;
+        private Motors mMotors;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mRoomba = StateManager.Roomba;
+            mMotors = BYOS.Instance.Motors;
 
             animator.SetInteger("mobileState", 0);
-            animator.SetBool("TurnHead", true);
+            //animator.SetBool("TurnHead", true);
             mRoomba.enabled = true;
             animator.GetBehaviour<DetectionPatrolState>().IsDetectingMovement = false;
             animator.GetBehaviour<DetectionPatrolState>().IsDetectingKidnapping = false;
+            mMotors.YesHinge.SetPosition(20, 80);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

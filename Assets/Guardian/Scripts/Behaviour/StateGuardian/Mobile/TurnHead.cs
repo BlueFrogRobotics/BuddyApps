@@ -13,18 +13,18 @@ namespace BuddyApp.Guardian
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mNoHinge = BYOS.Instance.Motors.NoHinge;
-            mTargetAngle = 60;
-            mNoHinge.SetPosition(mTargetAngle);
+            mTargetAngle = 52;
+            mNoHinge.SetPosition(mTargetAngle, 102);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            //Debug.Log("current: " + mNoHinge.CurrentAnglePosition + " destination: " + mNoHinge.DestinationAnglePosition);
-            if(GuardianData.Instance.TurnHeadIsActive && Mathf.Abs( mNoHinge.CurrentAnglePosition-mNoHinge.DestinationAnglePosition)<2.5f)
+            Debug.Log("current: " + mNoHinge.CurrentAnglePosition + " destination: " + mNoHinge.DestinationAnglePosition);
+            if(GuardianData.Instance.TurnHeadIsActive && Mathf.Abs( mNoHinge.CurrentAnglePosition-mNoHinge.DestinationAnglePosition)<12.0f)
             {
                 mTargetAngle *= -1;
-                mNoHinge.SetPosition(mTargetAngle);
+                mNoHinge.SetPosition(mTargetAngle, 102);
             }
             
         }

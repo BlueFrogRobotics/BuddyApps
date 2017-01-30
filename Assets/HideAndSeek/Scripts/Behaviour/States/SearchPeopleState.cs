@@ -100,7 +100,8 @@ namespace BuddyApp.HideAndSeek
             //TellPlayer();
             //mRecognizedWindow.Close();
             iAnimator.ResetTrigger("ChangeState");
-            mYesHinge.SetPosition(20);
+            mNoHinge.SetPosition(0);
+            //mYesHinge.SetPosition(20);
         }
 
         private string TellPlayer()
@@ -114,21 +115,30 @@ namespace BuddyApp.HideAndSeek
                 {
                     mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_3);
                     mFace.SetEvent(FaceEvent.SMILE);
-                    lStringForThePlayer = mDictionary.GetString("iFound") + " " + mPlayers.GetPlayer(mLabelFound).Name;
-                    mRecognizedWindow.Message.text = lStringForThePlayer;
-                    mRecognizedWindow.ImageToDisplay.texture= Utils.MatToTexture2D(mPlayers.GetPlayer(mLabelFound).FaceMat);
+                    lStringForThePlayer = mDictionary.GetRandomString("iFound") + " " + mPlayers.GetPlayer(mLabelFound).Name;
+                    mRecognizedWindow.Message.text = mDictionary.GetString("iFound") + " " + mPlayers.GetPlayer(mLabelFound).Name;
+                    //mRecognizedWindow.SetUnkownPerson();
+                    mRecognizedWindow.ImageToDisplay.texture = Utils.MatToTexture2D(mPlayers.GetPlayer(mLabelFound).FaceMat);
                     //mTTS.Say(mDictionary.GetString("iFound") + " " + mPlayers.GetPlayer(mLabelFound).Name);
                 }
                 else
                 {
-                    mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_1); 
-                    lStringForThePlayer = mDictionary.GetString("alreadyFound");
+                    mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_1);
+                    lStringForThePlayer = mDictionary.GetRandomString("alreadyFound");
+                    mRecognizedWindow.Message.text = mDictionary.GetString("alreadyFound");
+                    //mRecognizedWindow.SetUnkownPerson();
+                    mRecognizedWindow.ImageToDisplay.texture = Utils.MatToTexture2D(mPlayers.GetPlayer(mLabelFound).FaceMat);
                     //mTTS.Say(mDictionary.GetString("alreadyFound"));//"T'es plus dans le game");
                 }
                 Debug.Log("dist: " + mDist);
             }
             else if (mHasFoundFace)
-                lStringForThePlayer = mDictionary.GetString("cantReco");
+            {
+                lStringForThePlayer = mDictionary.GetRandomString("cantReco");
+                mRecognizedWindow.Message.text = mDictionary.GetString("cantReco");
+                mRecognizedWindow.SetUnkownPerson();
+                //mRecognizedWindow.DisableImage();
+            }
                 //mTTS.Say(mDictionary.GetString("cantReco"));
 
             return lStringForThePlayer;
