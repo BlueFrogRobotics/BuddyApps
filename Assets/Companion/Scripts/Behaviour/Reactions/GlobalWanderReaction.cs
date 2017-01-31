@@ -3,6 +3,9 @@ using BuddyOS;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Manager of a specific wandering style. Prioritize autonomous navigation over heat following
+    /// </summary>
     [RequireComponent(typeof(WanderReaction))]
     [RequireComponent(typeof(FollowPersonReaction))]
     public class GlobalWanderReaction : MonoBehaviour
@@ -42,6 +45,9 @@ namespace BuddyApp.Companion
         
         void Update()
         {
+            if (!CompanionData.Instance.CanMoveBody)
+                enabled = false;
+
             //After a while, if there is thermal activity, we track it until it disappears
             if (!mIsFollowing && Time.time - mActiveTime > mRandomThermal && mThermalDetector.PositionHotSpot != mBadHotspot) {
                 mWanderReaction.enabled = false;

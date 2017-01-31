@@ -5,6 +5,10 @@ using System.Collections;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Behavior when Buddy is not allowed to move his body but can move his head.
+    /// He moves his head, and every now and then changes mood, and says something
+    /// </summary>
     public class IdleReaction : MonoBehaviour
     {
         public float HeadPosition { get { return mHeadPos; } set { mHeadPos = value; } }
@@ -47,25 +51,32 @@ namespace BuddyApp.Companion
 
             mHeadMoveTime = Time.time;
             mEmoteTime = Time.time;
-            //mMood.Set(MoodType.NEUTRAL);
         }
 
         void Update()
         {
+            //Wait a certain time before moving again
             if (Time.time - mHeadMoveTime < 1.3F)
                 return;
 
+            //If Buddy's movement permission changed, disable this reaction
+            if (!CompanionData.Instance.CanMoveHead)
+                enabled = false;
+
             mHeadMoveTime = Time.time;
 
+            //Either turn No or Yes axis at random
             if (Random.Range(0, 2) == 0) {
                 TurnHeadNo();
             } else {
                 TurnHeadYes();
             }
 
+            //Say something once in a while
             if (Time.time - mTTSTime > mRandomSpeechTime)
                 SaySomething();
 
+            //Change mood, only if there is no vocal interaction (to avoid masking "Listening" mode)
             if (!BYOS.Instance.VocalManager.RecognitionTriggered) {
                 if (Time.time - mEmoteTime > 8F) {
                     switch (Random.Range(0, 7)) {
@@ -102,12 +113,14 @@ namespace BuddyApp.Companion
             //mYesHinge.SetPosition(0F);
         }
 
+        //Move head on the Yes axis along a set average position
         private void TurnHeadYes()
         {
             float lHeadYes = Random.Range(mHeadPos - 10F, mHeadPos + 20F);
             mYesHinge.SetPosition(lHeadYes);
         }
 
+        //Move head on the No axis at random, but always on the opposite side of the current position
         private void TurnHeadNo()
         {
             float lHeadNo = Random.Range(5F, 35F);
@@ -125,6 +138,7 @@ namespace BuddyApp.Companion
             mMood.Set(MoodType.NEUTRAL);
         }
 
+        //Randomly say a sentence stored in the Companion dictionnary
         private void SaySomething()
         {
             string lSentence = "";

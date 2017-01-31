@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using BuddyOS;
 using System.Collections.Generic;
+using BuddyOS;
+using BuddyOS.Command;
 
 public class RobotController : MonoBehaviour
 {
@@ -37,16 +38,48 @@ public class RobotController : MonoBehaviour
         {new string[2] { "d", "No"}, -5.0f }
     };
 
+    bool sayWho = false;
     Motors mMotors = null;
 
     //private float timer = 0.0f;
 
+    // Use this for initialization
+    void Start()
+    {
+        mMotors = BYOS.Instance.Motors;
+        TTS = BYOS.Instance.TextToSpeech;
+        mDictionary = BYOS.Instance.Dictionary;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!sayWho && (mWebrtc.connectionState == Webrtc.CONNECTION.CONNECTING))
+        {
+            TTS.Say(mDictionary.GetString("AlertControl"));
+            sayWho = true;
+        }
+
+        /*   timer += Time.deltaTime;
+           if (timer > 0.5f)
+           {
+               timer = 0.0f;
+               if (mWebrtc.connectionState == Webrtc.CONNECTION.CONNECTING)
+               {
+                   mWebrtc.sendWithDataChannel(mMotors.NoHinge.CurrentAnglePosition.ToString());
+               }
+           }*/
+
+    }
+
     // This function is called when a webrtc data is received
     public void onMessage(string iMessage)
     {
+        ACommand lCmd = ACommand.Deserialize(GetBytes(iMessage));
+        Debug.Log("Movement Command received : " + lCmd.ToString());
+        lCmd.Execute();
 
-
-        foreach (var item in mCmdSimplifyList)
+        /*foreach (var item in mCmdSimplifyList)
         {
             if (iMessage.Equals(item.Key))
                 mMotors.Wheels.SetWheelsSpeed(item.Value[0], item.Value[1], (int)item.Value[2]);
@@ -73,36 +106,11 @@ public class RobotController : MonoBehaviour
             mMotors.NoHinge.SetPosition(0);
             mMotors.YesHinge.SetPosition(50);
 
-        }
+        }*/
     }
 
-    // Use this for initialization
-    void Start()
+    private byte[] GetBytes(string iStr)
     {
-        mMotors = BYOS.Instance.Motors;
-        TTS = BYOS.Instance.TextToSpeech;
-        mDictionary = BYOS.Instance.Dictionary;
-    }
-
-    bool sayWho = false;
-    // Update is called once per frame
-    void Update()
-    {
-        if (!sayWho && (mWebrtc.connectionState == Webrtc.CONNECTION.CONNECTING))
-        {
-            TTS.Say(mDictionary.GetString("AlertControl"));
-            sayWho = true;
-        }
-
-        /*   timer += Time.deltaTime;
-           if (timer > 0.5f)
-           {
-               timer = 0.0f;
-               if (mWebrtc.connectionState == Webrtc.CONNECTION.CONNECTING)
-               {
-                   mWebrtc.sendWithDataChannel(mMotors.NoHinge.CurrentAnglePosition.ToString());
-               }
-           }*/
-
+        return System.Convert.FromBase64String(iStr);
     }
 }

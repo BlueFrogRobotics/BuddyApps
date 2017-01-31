@@ -24,7 +24,7 @@ namespace BuddyApp.Guardian
         {
             if (!mHasSpeaked) {
                 mHasSpeaked = true;
-                mTTS.Say(BYOS.Instance.Dictionary.GetString("startTimerOral"));//("Je commence dans cinq secondes");
+                mTTS.Say(BYOS.Instance.Dictionary.GetRandomString("startTimer"));//("Je commence dans cinq secondes");
             } else if (mHasSpeaked && !mTTS.IsSpeaking)
                 animator.SetBool("ChangeState", true);
         }

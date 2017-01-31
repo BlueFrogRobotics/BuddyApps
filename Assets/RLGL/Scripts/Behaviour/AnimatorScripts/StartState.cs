@@ -91,11 +91,6 @@ namespace BuddyApp.RLGL
         {
             iAnimator.SetBool("IsStartDoneAndRules", false);
             iAnimator.SetBool("IsStartDoneAndNoRules", false);
-            //mWindowQuestion.GetComponent<Animator>().SetTrigger("Close_WQuestion");
-            //mBackground.GetComponent<Animator>().SetTrigger("Close_BG");
-            
-            //mWindowQuestion.GetComponent<Animator>().ResetTrigger("Close_WQuestion");
-            Debug.Log("START STATE : ON EXIT");
         }
         
         private IEnumerator SayStart()
@@ -103,7 +98,8 @@ namespace BuddyApp.RLGL
             yield return new WaitForSeconds(1.0F);
             if (mCount < 1)
             {
-                mTTS.Say("I am so happy, we will play together but before I need to know if you want to hear the rules! So do you want to hear them?");
+                mTTS.Say(mDictionary.GetRandomString("startState1"));
+                //mTTS.Say("I am so happy, we will play together but before I need to know if you want to hear the rules! So do you want to hear them?");
                 mCount++;
             }
 
@@ -140,7 +136,8 @@ namespace BuddyApp.RLGL
                 mWindowQuestion.GetComponent<Animator>().SetTrigger("Open_WQuestion");
                 GetGameObject(6).SetActive(false);
                 //mWindowQuestion.GetComponentInChildren<Text>().text = "DO YOU WANT TO HEAR THE RULES?";
-                GetGameObject(7).GetComponent<Text>().text = "DO YOU WANT TO HEAR THE RULES?";
+                GetGameObject(7).GetComponent<Text>().text = mDictionary.GetString("startState2");
+                //GetGameObject(7).GetComponent<Text>().text = "DO YOU WANT TO HEAR THE RULES?";
                 mCanvasTrigger = true;
             }
         }

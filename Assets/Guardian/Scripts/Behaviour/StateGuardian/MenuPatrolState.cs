@@ -7,6 +7,8 @@ namespace BuddyApp.Guardian
 {
     public class MenuPatrolState : AStateGuardian
     {
+        public int Mode { get { return mMode; } set { mMode = value; } }
+
         private int mMode;
         private GameObject mMenu;
         private TextToSpeech mTTS;
@@ -15,8 +17,7 @@ namespace BuddyApp.Guardian
         private float mTimer = 2.2f;
         private bool mHasAskedOnce = false;
         private Animator mMenuAnimator;
-
-        public int Mode { get { return mMode; } set { mMode = value; } }
+        private Mood mMood;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -28,8 +29,10 @@ namespace BuddyApp.Guardian
             animator.SetBool("ChangeState", false);
             mTTS = BYOS.Instance.TextToSpeech;
             mSTT = BYOS.Instance.SpeechToText;
+            mMood = BYOS.Instance.Mood;
             //mActionSetMode = new Action<string>(SetMode);
             mSTT.OnBestRecognition.Add(SetMode);
+            mSTT.OnEnd.Add(OnEndReco);
             mTimer = 2.2f;
             animator.SetInteger("Mode", 0);
             mMode = 0;
@@ -46,6 +49,7 @@ namespace BuddyApp.Guardian
             {
                 animator.SetBool("ChangeState", true);
                 mSTT.OnBestRecognition.Remove(SetMode);
+                mSTT.OnEnd.Remove(OnEndReco);
             }
             /*if (!mHasTalked)
             {
@@ -61,7 +65,7 @@ namespace BuddyApp.Guardian
                 mHasAskedOnce = true;
                 //mMenu.SetActive(true);
                 //StateManager.BackgroundPrefab.SetActive(true);
-                
+                mMood.Set(MoodType.LISTENING);
                 mSTT.Request();
                 mTimer = 4.2f;
             }
@@ -72,10 +76,12 @@ namespace BuddyApp.Guardian
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mMood.Set(MoodType.NEUTRAL);
             //StateManager.BackgroundAnimator.SetTrigger("Close_BG");
             mMenuAnimator.SetTrigger("Close_WMenu3");
             //StateManager.BackgroundPrefab.SetActive(false);
             mSTT.OnBestRecognition.Clear();
+            mSTT.OnEnd.Clear();
             animator.SetInteger("Mode", mMode);
             //mMenu.SetActive(false);
             animator.SetBool("ChangeState", false);
@@ -102,6 +108,11 @@ namespace BuddyApp.Guardian
                     mTTS.Say("I didn't understand");
                 }
             }
+        }
+
+        private void OnEndReco()
+        {
+            mMood.Set(MoodType.NEUTRAL);
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

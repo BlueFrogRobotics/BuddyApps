@@ -263,23 +263,23 @@ namespace BuddyApp.Guardian
             switch (lAlerte)
             {
                 case (int)DetectionManager.Alert.SOUND:
-                    mTTS.Say(mDictionary.GetString("alertSoundOral"));//("Bruit détecté");
-                    mMessage.text = mDictionary.GetString("alertSoundText");//"ATTENTION SON DETECTE!";
+                    mTTS.Say(mDictionary.GetString("alertSound"));//("Bruit détecté");
+                    mMessage.text = mDictionary.GetRandomString("alertSound");//"ATTENTION SON DETECTE!";
 
                     break;
                 case (int)DetectionManager.Alert.FIRE:
-                    mMessage.text = mDictionary.GetString("alertFireText");//"ATTENTION DEPART DE FEU POTENTIEL!";
-                    mTTS.Say(mDictionary.GetString("alertFireOral"));//("Feu détecté");
+                    mMessage.text = mDictionary.GetString("alertFire");//"ATTENTION DEPART DE FEU POTENTIEL!";
+                    mTTS.Say(mDictionary.GetRandomString("alertFire"));//("Feu détecté");
 
                     break;
                 case (int)DetectionManager.Alert.MOVEMENT:
-                    mMessage.text = mDictionary.GetString("alertMovementText");// "ATTENTION INTRUSION POTENTIELLE!";
-                    mTTS.Say(mDictionary.GetString("alertMovementOral"));//("Mouvement détecté");
+                    mMessage.text = mDictionary.GetString("alertMovement");// "ATTENTION INTRUSION POTENTIELLE!";
+                    mTTS.Say(mDictionary.GetRandomString("alertMovement"));//("Mouvement détecté");
 
                     break;
                 case (int)DetectionManager.Alert.KIDNAPPING:
-                    mMessage.text = mDictionary.GetString("alertKidnapText");// "ATTENTION VOL POTENTIEL!";
-                    mTTS.Say(mDictionary.GetString("alertKidnapOral"));//("On me kidnappe");
+                    mMessage.text = mDictionary.GetString("alertKidnap");// "ATTENTION VOL POTENTIEL!";
+                    mTTS.Say(mDictionary.GetRandomString("alertKidnap"));//("On me kidnappe");
                     break;
                 default:
                     break;

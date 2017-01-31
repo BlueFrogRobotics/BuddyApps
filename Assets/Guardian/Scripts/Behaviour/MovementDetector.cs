@@ -73,6 +73,10 @@ namespace BuddyApp.Guardian
 
         private VideoWriter mVideoWriter;
 
+        private float mTimeBeginSaved;
+        private float mTimeEndSaved;
+        private int mCountFrame;
+
         //Kalman
 
         //void Awake()
@@ -110,6 +114,9 @@ namespace BuddyApp.Guardian
             }
             mBufferVideo = new Queue<Mat>();
             mMaxBufferSize = 30.0f * 4.0f;
+            mTimeBeginSaved = 0.0f;
+            mTimeEndSaved = 0.0f;
+            mCountFrame = 0;
         }
         // Update is called once per frame
         protected override void ProcessFrameImpl(Mat iInputFrameMat, Texture2D iInputFrameTexture)
@@ -119,6 +126,8 @@ namespace BuddyApp.Guardian
             mRawImage = iInputFrameMat.clone();
             mTest = iInputFrameMat.clone();
 
+            //mCountFrame++;
+            
             mBufferVideo.Enqueue(mTest);
             if (mBufferVideo.Count > mMaxBufferSize)
                 mBufferVideo.Dequeue();
@@ -191,7 +200,7 @@ namespace BuddyApp.Guardian
             else
                 mThreshold = iThreshold;
 
-            Debug.Log("threshold mouv: " + mThreshold);
+            //Debug.Log("threshold mouv: " + mThreshold);
         }
 
         public void Save(string iFilename)
@@ -203,9 +212,9 @@ namespace BuddyApp.Guardian
                 //int codec = VideoWriter.fourcc('H', '2', '6', '4');
                 Debug.Log("codec: " + codec);
                 Debug.Log("3");
-                double fps = 30.0;                          // framerate of the created video stream
+                double fps = Time.frameCount / Time.realtimeSinceStartup;//30.0;                          // framerate of the created video stream
                 //string filename = "monitoring.avi";
-
+                //Debug.Log(fps);
                 string filepath = Application.persistentDataPath + "/" + iFilename;//Utils.GetStreamingAssetFilePath(filename);
                 
                 //File.Create(filepath);
@@ -224,6 +233,7 @@ namespace BuddyApp.Guardian
                     for (int i = 0; i < lListMat.Length; i++)
                     {
                         Imgproc.cvtColor(lListMat[i], lFrame, Imgproc.COLOR_RGB2BGR);
+                        Imgproc.putText(lFrame, "recorded by Buddy", new Point(lFrame.width() - 100, lFrame.height() - 10), Imgproc.FONT_HERSHEY_SIMPLEX, 0.28, new Scalar(0, 212, 209, 255));
                         mVideoWriter.write(lFrame);
                     }
                 }

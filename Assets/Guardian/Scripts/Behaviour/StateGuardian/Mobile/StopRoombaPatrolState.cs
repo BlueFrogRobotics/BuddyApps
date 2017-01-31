@@ -9,15 +9,18 @@ namespace BuddyApp.Guardian
 
         private BuddyFeature.Navigation.RoombaNavigation mRoomba;
         private Motors mMotors;
+        private NoHinge mNoHinge;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mRoomba = StateManager.Roomba;
-
+            mNoHinge = BYOS.Instance.Motors.NoHinge;
             mMotors = BYOS.Instance.Motors;
             mRoomba.enabled = false;
             mMotors.Wheels.StopWheels();
+            //animator.SetBool("TurnHead", false);
+            mNoHinge.SetPosition(0);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

@@ -10,6 +10,7 @@ namespace BuddyApp.Companion
             OnOff lCanMoveHead = AddWidget<OnOff>(SECOND_LINE);
             OnOff lUseCamera = AddWidget<OnOff>(THIRD_LINE);
             GaugeOnOff lHeadPosition = AddWidget<GaugeOnOff>(FOURTH_LINE);
+            OnOff lShowQRCode = AddWidget<OnOff>(FIFTH_LINE);
 
             lHeadPosition.Slider.minValue = -30.0F;
             lHeadPosition.Slider.maxValue = 30.0F;
@@ -20,12 +21,14 @@ namespace BuddyApp.Companion
             lUseCamera.IsActive = CompanionData.Instance.UseCamera;
             lHeadPosition.IsActive = CompanionData.Instance.CanSetHeadPos;
             lHeadPosition.Slider.value = CompanionData.Instance.HeadPosition;
+            lShowQRCode.IsActive = CompanionData.Instance.ShowQRCode;
 
             lCanMoveBody.SwitchCommands.Add(new ActMoveBody());
             lCanMoveHead.SwitchCommands.Add(new ActMoveHead());
             lUseCamera.SwitchCommands.Add(new ActCamera());
             lHeadPosition.UpdateCommands.Add(new SetHeadPos());
             lHeadPosition.SwitchCommands.Add(new ActHeadPos());
+            lShowQRCode.SwitchCommands.Add(new ActShowQRCode());
         }
 
         public override void Labelize()
@@ -34,6 +37,7 @@ namespace BuddyApp.Companion
             GetWidget<OnOff>(SECOND_LINE).Label.text = "Enable head movement";
             GetWidget<OnOff>(THIRD_LINE).Label.text = "Enable camera";
             GetWidget<GaugeOnOff>(FOURTH_LINE).Label.text = "Head position";
+            GetWidget<OnOff>(FIFTH_LINE).Label.text = "Show QR Code";
         }
     }
 }

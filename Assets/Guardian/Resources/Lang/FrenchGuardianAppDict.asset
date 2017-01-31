@@ -13,65 +13,167 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: guardian
-    val: Gardien
+    baseValue: gardien
+    phoneticValues:
+    - gardien
+    randomValues:
+    - gardien
   - key: choiceMode
-    val: Quel mode souhaite tu. [500] Fixe ou mobile
+    baseValue: Quel mode voulez vous. Fixe ou mobile?
+    phoneticValues:
+    - 
+    randomValues:
+    - quel mode voulez vous. [500] fixe ou mobile
   - key: fixMonitoring
-    val: Surveillance Fixe
+    baseValue: Surveillance fixe
+    phoneticValues:
+    - 'fix '
+    - ' six'
+    randomValues:
+    - fixe
   - key: mobileMonitoring
-    val: Surveillance Mobile
+    baseValue: Surveillance mobile
+    phoneticValues:
+    - 'mobile '
+    - ' bouge'
+    randomValues:
+    - mobile
   - key: quit
-    val: Quitter
+    baseValue: Quitter
+    phoneticValues:
+    - 'quitter '
+    - ' partir '
+    - ' sortir'
+    randomValues:
+    - quitter
   - key: detectFire
-    val: "D\xE9tection de feu"
+    baseValue: "D\xE9tection de feu"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: detectSound
-    val: "D\xE9tection de bruit"
+    baseValue: "D\xE9tection de bruit"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: detectKidnap
-    val: "D\xE9tection de kidnapping"
-  - key: detectMouv
-    val: "D\xE9tection de mouvement"
+    baseValue: "D\xE9tection de kidnapping"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: detectMove
+    baseValue: "D\xE9tection de mouvement"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: contact
-    val: Qui contacter?
+    baseValue: Qui contacter?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - qui contacter
   - key: password
-    val: Code
+    baseValue: Code
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: nobody
-    val: Personne
+    baseValue: Personne
+    phoneticValues:
+    - personne
+    randomValues:
+    - personne
   - key: loading
-    val: chargement...
+    baseValue: chargement...
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: selectSensibility
-    val: "S\xE9lectionnez la bonne sensibilit\xE9 puis appuyer sur le bouton pr\xE9cedent
-      pour revenir aux param\xE8tres"
+    baseValue: "S\xE9lectionnez la bonne sensibilit\xE9 puis appuyez sur le bouton
+      pr\xE9cedent pour revenir aux param\xE8tres"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: sensibility
-    val: "Sensibilit\xE9"
+    baseValue: "Sensibilit\xE9"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: validate
-    val: valider
+    baseValue: Valider
+    phoneticValues:
+    - 'valider '
+    - ' ok '
+    - ' accord '
+    - ' oui'
+    randomValues:
+    - valider
   - key: cancel
-    val: annuler
+    baseValue: Annuler
+    phoneticValues:
+    - 'annuler '
+    - ' non'
+    randomValues:
+    - annuler
   - key: paramTitle
-    val: "Veuillez s\xE9lectionner vos param\xE8tres de d\xE9tection"
+    baseValue: "Veuillez s\xE9lectionner vos param\xE8tres de d\xE9tection"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "veuillez s\xE9lectionner vos param\xE8tres de d\xE9tection"
   - key: headOrientation
-    val: "Orientation de la t\xEAte"
-  - key: startTimerOral
-    val: Je commence dans 5 secondes
-  - key: startTimerText
-    val: "Je lance la d\xE9tection dans"
+    baseValue: "Orientation de la t\xEAte"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: startTimer
+    baseValue: "Je lance la d\xE9tection dans"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Je commence dans 5 secondes
   - key: textDebugTemp
-    val: "Appuyer sur le bouton pr\xE9cedent pour revenir aux param\xE8tres"
-  - key: alertSoundText
-    val: "Attention son d\xE9tect\xE9!"
-  - key: alertMovementText
-    val: "Attention mouvement d\xE9tect\xE9!"
-  - key: alertFireText
-    val: "Attention d\xE9pard de feu potentiel!"
-  - key: alertKidnapText
-    val: Attention vol potentiel!
-  - key: alertSoundOral
-    val: "J'ai d\xE9tect\xE9 du bruit"
-  - key: alertMovementOral
-    val: "J'ai d\xE9tect\xE9 du mouvement"
-  - key: alertFireOral
-    val: "J'ai d\xE9tect\xE9 une forte chaleur"
-  - key: alertKidnapOral
-    val: On me kidnappe
+    baseValue: "Appuyez sur le bouton pr\xE9cedent pour revenir aux param\xE8tres"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: alertSound
+    baseValue: "Attention son d\xE9tect\xE9!"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "J'ai d\xE9tect\xE9 du bruit"
+  - key: alertMovement
+    baseValue: "Attention mouvement d\xE9tect\xE9!"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "J'ai d\xE9tect\xE9 du mouvement"
+  - key: alertFire
+    baseValue: "Attention d\xE9pard de feu potentiel!"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "J'ai d\xE9tect\xE9 une forte chaleur"
+  - key: alertKidnap
+    baseValue: Attention vol potentiel!
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - On me kidnappe
   - key: enterPassword
-    val: Entrez le mot de passe
+    baseValue: Entrez le mot de passe
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-

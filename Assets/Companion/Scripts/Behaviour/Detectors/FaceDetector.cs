@@ -4,6 +4,9 @@ using BuddyFeature.Vision;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Uses the Cascade face recognizer to tell if the camera detects someone's face
+    /// </summary>
     [RequireComponent(typeof(FaceCascadeTracker))]
     public class FaceDetector : MonoBehaviour
     {
@@ -35,15 +38,11 @@ namespace BuddyApp.Companion
                 return;
             }
 
+            //If Cascade tracker recognizes somehting, there is a face
             if (mFaceTracker.TrackedObjects.Count > 0)
                 mFaceDetected = true;
             else
                 mFaceDetected = false;
-
-            //if (mFaceReco.RecognizedProfils.Count > 0)
-            //    mFaceRecognizedDetected = true;
-            //else
-            //    mFaceRecognizedDetected = false;
         }
     }
 }

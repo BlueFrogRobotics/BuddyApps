@@ -33,7 +33,11 @@ namespace BuddyApp.RLGL
         private int mTimerMovement;
         private int mDiffDebugMovement;
 
+        private bool mBack;
+
         private bool mObjectDetected;
+
+        private bool mTestUS;
 
         public override void Init()
         {
@@ -41,6 +45,8 @@ namespace BuddyApp.RLGL
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mBack = false;
+            mTestUS = false;
             mObjectDetected = false;
             mDiffDebugMovement = 0;
             mTimerMovement = 0;
@@ -50,7 +56,6 @@ namespace BuddyApp.RLGL
             mFirstMove = false;
             mSecondeMove = false;
             mTimerDebug = 0;
-            Debug.Log("COUNT STATE : ON ENTER");
             mCanvasUIToWin = GetGameObject(0);
             mIsCoroutineDone = false;
             mIsMovementDone = false;
@@ -62,7 +67,6 @@ namespace BuddyApp.RLGL
             mCountGreenLight = 0;
             iAnimator.SetBool("IsCountDone", false);
             iAnimator.SetBool("IsWon", false);
-            //mMood.Set(MoodType.HAPPY);
 
         }
 
@@ -78,7 +82,6 @@ namespace BuddyApp.RLGL
 
                 if (mStartCount)
                 {
-                    //Debug.Log(mTimerDebug + " " + mCountTen);
                     if (!mCountTen)
                     {
                         GetGameObject(4).GetComponent<Animator>().SetTrigger("Open_WTimer");
@@ -90,46 +93,64 @@ namespace BuddyApp.RLGL
                     if (mTimerDebug <= 11.0F)
                     {
                         mTimerDebugInt = (int)(mTimerDebug * 1000F);
-                        //Debug.Log(mTimerDebugInt);
                         GetGameObject(4).GetComponentInChildren<Text>().text = (10 - (int)mTimerDebug).ToString();
                         if (!mFirstMove)
                         {
-                            mTTS.Say("Hurry up, it will be fun");
-                            
-                            
+                            mTTS.Say(mDictionary.GetRandomString("countState1"));
+                            //mTTS.Say("Hurry up, it will be fun");
                             mTimerMovement = mTimerDebugInt + 4500;
                             mWheels.SetWheelsSpeed(150.0F, 150.0F, 4500);
                             mFirstMove = true;
                         }
+                        if(mWheels.Status == MovingState.REACHED_GOAL)
+                        {
+                            mBack = true;
+                        }
+
                         if (mFirstMove && !mSecondeMove && !mObjectDetected)
                         {
                             if (mIRSensors.Middle.Distance <= 0.4F/* || mUSSensors.Left.Distance <= 0.5F || mUSSensors.Right.Distance <= 0.5F*/)
                             {
-
                                 mTTS.Silence(0);
-                                mTTS.Say("Don't stay here and place yourself at 26 feet in front of me");
+                                mTTS.Say(mDictionary.GetRandomString("countState2"));
+                                //mTTS.Say("Don't stay here and place yourself at 26 feet in front of me");
                                 //mDiffDebugMovement = mTimerMovement - (int)mTimerDebug;
                                
                                 //mWheels.StopWheels();
                                 mWheels.SetWheelsSpeed(0.0F, 0.0F, 10);
-                                Debug.Log("FEAR : " + mWheels.Status);
                                 if (/*mWheels.Status == MovingState.MOTIONLESS ||*/ mWheels.Status == MovingState.REACHED_GOAL )
                                 {
                                     mDiffDebugMovement = mTimerMovement - mTimerDebugInt;
                                     Debug.Log(mDiffDebugMovement);
                                     mObjectDetected = true;
+                                    mBack = true;
                                 }
-                                
                             }
                         }
 
-                        if (mFirstMove && !mSecondeMove && ((mWheels.Status == MovingState.REACHED_GOAL) || (mWheels.Status == MovingState.MOTIONLESS && mTimerDebug > 3.0F)))
+                        if (mFirstMove && !mSecondeMove && mBack /*|| (mWheels.Status == MovingState.MOTIONLESS)*/)
                         {
-                            
-                            mWheels.SetWheelsSpeed(-150.0F, -150.0F, 4500 - mDiffDebugMovement);
-                            mSecondeMove = true;
+                            Debug.Log(mUSSensors.Back.Distance + " " + mTestUS);
+                            if(mUSSensors.Back.Distance <= 0.25F && mTestUS)
+                            {
+                                Debug.Log("STOP MOUVEMENT US");
+                                mWheels.SetWheelsSpeed(0.0F, 0.0F, 10);
+                                mSecondeMove = true;
+                            }
+                            if(!mTestUS)
+                            {
+                                Debug.Log("RECUL");
+                                mTestUS = true;
+                                mWheels.SetWheelsSpeed(-150.0F, -150.0F, 4500 - mDiffDebugMovement);
+                                
+                            }
+                            Debug.Log(mUSSensors.Back.Distance + " " + mTestUS + " " + mWheels.Status);
+                            //if(mWheels.Status == MovingState.REACHED_GOAL)
+                            //{
+                            //    mSecondeMove = true;
+                            //}
+
                         }
-                        //Debug.Log((10 - (int)mTimerDebug).ToString());
                     }
                     else if (mTimerDebug > 10.9F)
                     {
@@ -144,7 +165,8 @@ namespace BuddyApp.RLGL
                 {
                     mMood.Set(MoodType.NEUTRAL);
                     mCount = 0;
-                    mTTS.Say("Ok let's go!");
+                    mTTS.Say(mDictionary.GetRandomString("countState3"));
+                    //mTTS.Say("Ok let's go!");
                     mSecondSentence = true;
                 }
             }
@@ -153,7 +175,6 @@ namespace BuddyApp.RLGL
                 if (mTTS.HasFinishedTalking && !mFirstSentenceNotDetected)
                 {
                     StartCoroutine(NotDetected());
-
                 }
 
             }
@@ -179,7 +200,6 @@ namespace BuddyApp.RLGL
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("COUNT STATE : ON EXIT");
             mCanvasUIToWin.SetActive(false);
         }
 
@@ -187,10 +207,10 @@ namespace BuddyApp.RLGL
         {
             if (mCount == 0 && mTTS.HasFinishedTalking)
             {
-                mTTS.Say("Okay let's play together! You have ten seconds to walk away by about fifteen feet, gogo! ");
+                mTTS.Say(mDictionary.GetRandomString("countState4"));
+                //mTTS.Say("Okay let's play together! You have ten seconds to walk away by about fifteen feet, gogo! ");
                 mCount++;
                 mYesHinge.SetPosition(45.0F, 150.0F);
-
             }
 
             //Debug.Log(mTimerDebug);
@@ -200,19 +220,18 @@ namespace BuddyApp.RLGL
                 yield return new WaitForSeconds(10.0F);
                 mFirstSentence = true;
             }
-
         }
 
         private IEnumerator NotDetected()
         {
             if (mTTS.HasFinishedTalking && mCountGreenLight == 0 && !mFirstSentenceNotDetected)
             {
-                mTTS.Say("You are really good at this game!");
+                mTTS.Say(mDictionary.GetRandomString("countState5"));
+                //mTTS.Say("You are really good at this game!");
                 mCountGreenLight++;
             }
             yield return new WaitForSeconds(2.0F);
             mFirstSentenceNotDetected = true;
-
         }
 
         private IEnumerator GreenLightMomentAndTurn()
@@ -221,15 +240,14 @@ namespace BuddyApp.RLGL
             if (mTTS.HasFinishedTalking && mCount == 0 && mCountGreenLight == 0)
             {
                 mCanvasUIToWin.SetActive(true);
-                mTTS.Say("Green Light !");
+                mTTS.Say(mDictionary.GetRandomString("countState6"));
+                //mTTS.Say("Green Light !");
                 mWheels.TurnAngle(180.0F, 250.0F, 0.02F);
                 mCount++;
                 mIsCoroutineDone = true;
             }
             yield return new WaitForSeconds(1.5F);
             mIsReachedGoal = true;
-
-
         }
 
         private IEnumerator ChangeState(float iSecondToWait, Animator iAnimator)

@@ -53,6 +53,7 @@ namespace BuddyApp.Guardian
                 animator.SetInteger("DebugMode", -1);
                 mGoBack = false;
             }
+            Debug.Log("current: " + mMotors.YesHinge.CurrentAnglePosition + " destination: " + mMotors.YesHinge.DestinationAnglePosition);
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

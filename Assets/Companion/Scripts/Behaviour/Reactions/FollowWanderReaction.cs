@@ -4,6 +4,9 @@ using System.Collections;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Manager of a specific wandering style. Prioritize heat following over autonomous navigation
+    /// </summary>
     [RequireComponent(typeof(WanderReaction))]
     [RequireComponent(typeof(FollowPersonReaction))]
     public class FollowWanderReaction : MonoBehaviour

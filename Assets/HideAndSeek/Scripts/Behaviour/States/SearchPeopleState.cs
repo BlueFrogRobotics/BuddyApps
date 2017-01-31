@@ -11,6 +11,8 @@ namespace BuddyApp.HideAndSeek
         private FaceDetector mFaceDetector;
         private FaceRecognition mFaceReco;
         private SearchFacesWindow mSearchWindow;
+        private RecognizedPlayerWindow mRecognizedWindow;
+        private BackgroundBlackWindow mBackgroundWindow;
         private Players mPlayers;
         private int mLabelFound=-1;
         private double mDist = 0;
@@ -19,6 +21,7 @@ namespace BuddyApp.HideAndSeek
         private bool mHasFinishedReco = false;
         private bool mHasClosed = false;
         private bool mHasSpeak;
+        private bool mHasEnded;
         private string mTextToSay;
 
         public override void Init()
@@ -27,6 +30,8 @@ namespace BuddyApp.HideAndSeek
             mFaceDetector = GetGameObject((int)HideAndSeekData.ObjectsLinked.FACE_RECO).GetComponent<FaceDetector>();
             mFaceReco = GetGameObject((int)HideAndSeekData.ObjectsLinked.FACE_RECO).GetComponent<FaceRecognition>();
             mSearchWindow = GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponentInChildren<SearchFacesWindow>();
+            mRecognizedWindow= GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponentInChildren<RecognizedPlayerWindow>();
+            mBackgroundWindow= GetGameObject((int)HideAndSeekData.ObjectsLinked.WINDOW_LINKER).GetComponentInChildren<BackgroundBlackWindow>();
             mPlayers = GetComponent<Players>();
         }
 
@@ -41,9 +46,10 @@ namespace BuddyApp.HideAndSeek
             mHasFoundFace = false;
             mHasFinishedReco = false;
             mHasClosed = false;
+            mHasSpeak = false;
+            mHasEnded = false;
             mYesHinge.SetPosition(-10);
             mLabelFound = -1;
-            mHasSpeak = false;
             if (!mRGBCam.IsOpen)
                 mRGBCam.Open();
         }
@@ -65,10 +71,19 @@ namespace BuddyApp.HideAndSeek
             }
             else if (mHasClosed && !mHasSpeak && mSpeaker.Voice.Status!=SoundChannelStatus.PLAYING)//mTimer>1.5f)
             {
+                mRecognizedWindow.Open();
+                mBackgroundWindow.Open();
                 mTTS.Say(mTextToSay);
                 mHasSpeak = true;
+                mTimer = 0.0f;
             }
-            else if (mHasSpeak && !mTTS.IsSpeaking)
+            else if (mHasSpeak && !mTTS.IsSpeaking && !mHasEnded && mTimer > 1.5f)
+            {
+                mHasEnded = true;
+                mRecognizedWindow.Close();
+                mBackgroundWindow.Close();
+            }
+            else if(mHasEnded && mBackgroundWindow.IsOff())
             {
                 iAnimator.SetTrigger("ChangeState");
             }
@@ -77,15 +92,16 @@ namespace BuddyApp.HideAndSeek
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             //mTTS.Say("Je t ai trouvé");
-            
+
             //GetGameObject(1).SetActive(false);
             //mFace.SetExpression(MoodType.NEUTRAL);
-            
+
 
             //TellPlayer();
-
+            //mRecognizedWindow.Close();
             iAnimator.ResetTrigger("ChangeState");
-            mYesHinge.SetPosition(20);
+            mNoHinge.SetPosition(0);
+            //mYesHinge.SetPosition(20);
         }
 
         private string TellPlayer()
@@ -99,19 +115,30 @@ namespace BuddyApp.HideAndSeek
                 {
                     mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_3);
                     mFace.SetEvent(FaceEvent.SMILE);
-                    lStringForThePlayer = mDictionary.GetString("iFound") + " " + mPlayers.GetPlayer(mLabelFound).Name;
+                    lStringForThePlayer = mDictionary.GetRandomString("iFound") + " " + mPlayers.GetPlayer(mLabelFound).Name;
+                    mRecognizedWindow.Message.text = mDictionary.GetString("iFound") + " " + mPlayers.GetPlayer(mLabelFound).Name;
+                    //mRecognizedWindow.SetUnkownPerson();
+                    mRecognizedWindow.ImageToDisplay.texture = Utils.MatToTexture2D(mPlayers.GetPlayer(mLabelFound).FaceMat);
                     //mTTS.Say(mDictionary.GetString("iFound") + " " + mPlayers.GetPlayer(mLabelFound).Name);
                 }
                 else
                 {
-                    mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_1); 
-                    lStringForThePlayer = mDictionary.GetString("alreadyFound");
+                    mSpeaker.Voice.Play(BuddyOS.VoiceSound.LAUGH_1);
+                    lStringForThePlayer = mDictionary.GetRandomString("alreadyFound");
+                    mRecognizedWindow.Message.text = mDictionary.GetString("alreadyFound");
+                    //mRecognizedWindow.SetUnkownPerson();
+                    mRecognizedWindow.ImageToDisplay.texture = Utils.MatToTexture2D(mPlayers.GetPlayer(mLabelFound).FaceMat);
                     //mTTS.Say(mDictionary.GetString("alreadyFound"));//"T'es plus dans le game");
                 }
                 Debug.Log("dist: " + mDist);
             }
             else if (mHasFoundFace)
-                lStringForThePlayer = mDictionary.GetString("cantReco");
+            {
+                lStringForThePlayer = mDictionary.GetRandomString("cantReco");
+                mRecognizedWindow.Message.text = mDictionary.GetString("cantReco");
+                mRecognizedWindow.SetUnkownPerson();
+                //mRecognizedWindow.DisableImage();
+            }
                 //mTTS.Say(mDictionary.GetString("cantReco"));
 
             return lStringForThePlayer;

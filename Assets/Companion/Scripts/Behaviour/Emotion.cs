@@ -4,6 +4,9 @@ using System.Collections;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Corresponds to Buddy's Moods
+    /// </summary>
     enum EmotionType
     {
         NEUTRAL,
@@ -20,6 +23,9 @@ namespace BuddyApp.Companion
         TIRED
     }
 
+    /// <summary>
+    /// Corresponds to preset animations' name
+    /// </summary>
     enum EmotionEvent
     {
         ANGRY,
@@ -41,6 +47,10 @@ namespace BuddyApp.Companion
         YAWN
     }
 
+    /// <summary>
+    /// Manage the Animator for Buddy animations with specific triggers.
+    /// This behavior should be disabled when not used, otherwise the animator completely blocks the wheel and head movements
+    /// </summary>
     public class Emotion : MonoBehaviour
     {        
         //Here is the list of Animator's layer :

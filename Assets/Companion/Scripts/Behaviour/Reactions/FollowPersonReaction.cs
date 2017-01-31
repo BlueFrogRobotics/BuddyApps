@@ -7,6 +7,9 @@ using BuddyFeature.Navigation;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Follow a heat source with Body movement
+    /// </summary>
 	public class FollowPersonReaction : MonoBehaviour {
 
 		// TODO : when the robot does not find anybody he should navigate
@@ -114,7 +117,8 @@ namespace BuddyApp.Companion
                 {
                     case 0:
                         //we lower the head
-                        mYesHinge.SetPosition(mYesHinge.CurrentAnglePosition - 10);
+                        //Disable if head moves too high
+                        //mYesHinge.SetPosition(mYesHinge.CurrentAnglePosition - 10);
                         break;
 
                     case 1:

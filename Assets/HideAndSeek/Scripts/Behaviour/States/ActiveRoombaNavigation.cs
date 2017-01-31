@@ -20,6 +20,7 @@ namespace BuddyApp.HideAndSeek
             //GetGameObject(0).SetActive(true);
             //mFace.SetExpression(MoodType.LOVE);
             mYesHinge.SetPosition(20);
+            iAnimator.SetBool("TurnHead", true);
             mMood.Set(MoodType.LISTENING);
         }
 

@@ -5,6 +5,9 @@ using System.Collections;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Reaction to make Buddy go a little backwards then say Helo
+    /// </summary>
     public class SayHelloReaction : MonoBehaviour
     {
         private bool mInitialized;

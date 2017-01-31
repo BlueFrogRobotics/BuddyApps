@@ -5,6 +5,9 @@ using BuddyOS;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Behavior to make Buddy's eyes follow a hot source on thermal sensor
+    /// </summary>
 	public class EyesFollowReaction : MonoBehaviour {
 
 		//external variables

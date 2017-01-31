@@ -5,6 +5,10 @@ using System.Collections;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// This wandering style makes Buddy go forward until it detects an obstacle.
+    /// Once in a while, Buddy plays an animation, says something and changes mood.
+    /// </summary>
     public class WanderReaction : MonoBehaviour
     {
         public float HeadPosition { get { return mHeadPos; } set { mHeadPos = value; } }
@@ -17,6 +21,7 @@ namespace BuddyApp.Companion
 
         private bool mInitialized;
         private bool mIsSearchingPoint;
+        private bool mIsFacingRandDirection;
         private bool mHeadSearchPlaying;
         private bool mChangingDirection;
         private float mEmoteTime;
@@ -39,6 +44,7 @@ namespace BuddyApp.Companion
 
         void Start()
         {
+            //Init all parameters
             mHeadPos = -5F;
             mDict = BYOS.Instance.Dictionary;
             mFace = BYOS.Instance.Face;
@@ -59,6 +65,7 @@ namespace BuddyApp.Companion
 
             mHeadSearchPlaying = false;
             mChangingDirection = false;
+            mIsFacingRandDirection = false;
             mIsSearchingPoint = true;
             mUpdateTime = Time.time;
             mWanderTime = Time.time;
@@ -76,21 +83,23 @@ namespace BuddyApp.Companion
             if (Time.time - mUpdateTime < 0.1F)
                 return;
 
-            if (!CompanionData.Instance.CanMoveBody)
-                enabled = false;
-
+            //Say something once in a while to attract attention
             if (Time.time - mTTSTime > mRandomSpeechTime)
                 SaySomething();
 
             mUpdateTime = Time.time;
 
+            //Make the actual movement
             if (mIsSearchingPoint && Time.time - mWanderTime < mRandomWanderTime) {
+                //Head looks at random direction
                 PlaySearchingHeadAnimation();
-                if (!AnyObstructionsInfrared())
-                    mWheels.SetWheelsSpeed(200F, 200F);
+                //If no obstacle, go forward
+                if (!AnyObstructionsInfrared() && !mIsFacingRandDirection)
+                    mWheels.SetWheelsSpeed(200F, 200F, 400);
                 else
                     FaceRandomDirection();
 
+                //Change mood every now and then
                 if (Time.time - mEmoteTime > 5F) {
                     switch (Random.Range(0, 3)) {
                         case 0:
@@ -115,7 +124,9 @@ namespace BuddyApp.Companion
                     mEmoteTime = Time.time;
                 }
             } else {
+                //Do a small animation and change direction
                 StopSearchingHeadAnimation();
+                mIsFacingRandDirection = false;
                 mIsSearchingPoint = false;
                 ChangeDirection();
             }
@@ -125,9 +136,10 @@ namespace BuddyApp.Companion
         {
             mHeadSearchPlaying = false;
             mIsSearchingPoint = false;
+            mIsFacingRandDirection = false;
             mNoHinge.SetPosition(0F);
             mYesHinge.SetPosition(0F);
-            //new SetWheelsSpeedCmd(0F, 0F).Execute();
+            mWheels.SetWheelsSpeed(0F, 0F);
             //StopAllCoroutines();
             //GetComponent<Reaction>().ActionFinished();
         }
@@ -146,6 +158,7 @@ namespace BuddyApp.Companion
             mHeadSearchPlaying = false;
         }
 
+        //This makes the head look right and left on random angles
         private IEnumerator SearchingHeadCo()
         {
             while (mHeadSearchPlaying) {
@@ -186,6 +199,7 @@ namespace BuddyApp.Companion
             StartCoroutine(ChangeDirectionCo());
         }
 
+        //Change mood, play an animation and change direction
         private IEnumerator ChangeDirectionCo()
         {
             if (!BYOS.Instance.VocalManager.RecognitionTriggered) {
@@ -205,6 +219,7 @@ namespace BuddyApp.Companion
                 }
             }
 
+            //Use the choregraph to perform some animation
             switch (Random.Range(0, 5)) {
                 case 0:
                     mEmotion.EnableChoregraph();
@@ -222,6 +237,7 @@ namespace BuddyApp.Companion
                     break;
             }
 
+            //Change direction
             mYesHinge.SetPosition(15F);
             float lRandomAngle = Random.Range(-45F, 45F);
             mNoHinge.SetPosition(lRandomAngle);
@@ -240,6 +256,7 @@ namespace BuddyApp.Companion
             mChangingDirection = false;
         }
 
+        //Detects if there is any obstacle ahead (using IR and/or US)
         private bool AnyObstructionsInfrared()
         {
             float lLeftIRDistance = mIRSensors.Left.Distance;
@@ -247,9 +264,9 @@ namespace BuddyApp.Companion
             float lRightIRDistance = mIRSensors.Right.Distance;
             float lRightUSDistance = mUSSensors.Right.Distance;
             float lLeftUSDistance = mUSSensors.Left.Distance;
-            return IsCollisionEminent(lLeftIRDistance, MIN_DIST_IR)
-                || IsCollisionEminent(lMiddleIRDistance, MIN_DIST_IR)
-                || IsCollisionEminent(lRightIRDistance, MIN_DIST_IR);
+            return IsCollisionEminent(lLeftIRDistance)
+                || IsCollisionEminent(lMiddleIRDistance)
+                || IsCollisionEminent(lRightIRDistance);
             //|| IsCollisionEminent(lRightUSDistance, MIN_DIST_US)
             //|| IsCollisionEminent(lLeftUSDistance, MIN_DIST_US);
         }
@@ -261,10 +278,55 @@ namespace BuddyApp.Companion
 
         private void FaceRandomDirection()
         {
-            float lRandomAngle = Random.Range(60F, 300F);
-            if (lRandomAngle > 180F)
-                lRandomAngle = 360F - lRandomAngle;
+            if (mIsFacingRandDirection)
+                return;
+
+            StartCoroutine(FaceRandomDirectionCo());
+            mIsFacingRandDirection = true;
+        }
+
+        //Reminder : positive angle makes Buddy turn counter-clockwise, and negative makes him turn clockwise
+        //The point here is to detect where we can turn to, to avoid having to turn in too random directions
+        private IEnumerator FaceRandomDirectionCo()
+        {
+            bool lCollisionLeft = IsCollisionEminent(mIRSensors.Left.Distance, 0.6F);
+            bool lCollisionMiddle = IsCollisionEminent(mIRSensors.Middle.Distance, 0.6F);
+            bool lCollisionRight = IsCollisionEminent(mIRSensors.Right.Distance, 0.6F);
+
+            float lRandomAngle = 0F;
+            //Everything is obstructed ahead, better to make a full round rotation
+            if (lCollisionLeft && lCollisionMiddle && lCollisionRight) {
+                lRandomAngle = Random.Range(110F, 250F);
+                if (lRandomAngle > 180F)
+                    lRandomAngle = lRandomAngle - 360F;
+            }
+            //Front and left side are obstructed
+            else if (lCollisionLeft && lCollisionMiddle)
+                lRandomAngle = Random.Range(-120F, -40F);
+            //Only left side is blocked
+            else if (lCollisionLeft)
+                lRandomAngle = Random.Range(-60F, -30F);
+            //Front and right side are obstructed
+            else if (lCollisionRight && lCollisionMiddle)
+                lRandomAngle = Random.Range(40F, 120F);
+            //Only right side is blocked
+            else if (lCollisionRight)
+                lRandomAngle = Random.Range(30F, 60F);
+            //This is just in case we gathered bad IR data
+            else {
+                lRandomAngle = Random.Range(60F, 300F);
+                if (lRandomAngle > 180F)
+                    lRandomAngle = lRandomAngle - 360F;
+            }
+
             mWheels.TurnAngle(lRandomAngle, 130F, 0.02F);
+            Debug.Log("[TURNING] turning " + lRandomAngle);
+            while (mWheels.Status != MovingState.REACHED_GOAL) {
+                yield return null;
+            }
+            Debug.Log("[TURNING] reached goal");
+
+            mIsFacingRandDirection = false;
         }
 
         private void SaySomething()
