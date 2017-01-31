@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using BuddyOS.App;
+using BuddyOS;
 
 namespace BuddyApp.Recipe
 {
@@ -13,16 +14,14 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mDone = false;
+            mMood.Set(MoodType.HAPPY);
+            BYOS.Instance.Speaker.Voice.Play(VoiceSound.FOCUS_2);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mDone && GetGameObject(4).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Window_FullImage_Off"))
-            {
-                mDone = true;
-                GetComponent<Animator>().SetTrigger("FinishRecipe");
-            }
+            if (mSpeaker.Voice.Status == SoundChannelStatus.FINISH)
+                GetComponent<Animator>().SetTrigger("DisplayIngredient");
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

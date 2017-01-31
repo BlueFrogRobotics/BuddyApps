@@ -17,11 +17,19 @@ namespace BuddyApp.Recipe
             mAnimator = iAnimator;
             mVocalManager.OnEndReco = GetAnswer;
             mVocalManager.OnError = NoAnswer;
-            mVocalManager.StartInstantReco();
+            if (GetComponent<RecipeBehaviour>().NoAnswerCount <= 1)
+                mVocalManager.StartInstantReco();
+            else
+            {
+                mVocalManager.EnableTrigger = true;
+                GetComponent<RecipeBehaviour>().NoAnswerCount = 0;
+            }
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+                mAnimator.SetTrigger("ChooseWithScreen");
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -29,17 +37,20 @@ namespace BuddyApp.Recipe
             mVocalManager.OnEndReco = null;
             mVocalManager.OnError = null;
             mVocalManager.StopListenBehaviour();
+            mVocalManager.EnableTrigger = false;
             Debug.Log("EXIT LISTEN RECIPE");
         }
 
         private void GetAnswer(string iAnswer)
         {
+            Debug.Log("GOT A ANSWER");
             GetComponent<RecipeBehaviour>().mAnswer = iAnswer.ToLower();
             mAnimator.SetTrigger("AnswerRecipe");
         }
 
         private void NoAnswer(STTError iError)
         {
+            Debug.Log("GOT NO ANSWER");
             mAnimator.SetTrigger("NoAnswerRecipe");
         }
     }

@@ -42,7 +42,6 @@ namespace BuddyApp.Recipe
         public bool IsBackgroundActivated { get; set; }
         public int IngredientNbr { get; set; }
 
-        //string lVal = mDictionary.GetString("prepare");
         void Start()
         {
             IsBackgroundActivated = false;
@@ -59,7 +58,6 @@ namespace BuddyApp.Recipe
 
         public void OnClickCategory(string category)
         {
-            //List<Recipe> lRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath("tt.xml")).recipe;
             List<Recipe> lRecipeList = RecipeList.Deserialize(BuddyTools.Utils.GetStreamingAssetFilePath(mDictionary.GetString("pathtoxml"))).recipe;
             mRecipeList = new List<Recipe>();
 

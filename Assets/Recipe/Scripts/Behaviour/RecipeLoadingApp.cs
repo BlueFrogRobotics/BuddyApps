@@ -18,7 +18,6 @@ namespace BuddyApp.Recipe
 
         void Start()
         {
-            BYOS.Instance.VocalManager.EnableTrigger = false;
             StartCoroutine(LoadingScreen());
         }
 
