@@ -24,7 +24,7 @@ namespace BuddyApp.Recipe
                 mTTS.Say(mDictionary.GetString("recipenotfound"));
                 mCheck = true;
             }
-            if (mCheck && mTTS.HasFinishedTalking)
+            else if (mCheck && mTTS.HasFinishedTalking)
                 iAnimator.SetTrigger("AskRecipeAgain");
         }
 

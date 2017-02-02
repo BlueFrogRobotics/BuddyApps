@@ -6,6 +6,7 @@ namespace BuddyApp.Recipe
     public class ListenRecipe : AStateMachineBehaviour
     {
         private Animator mAnimator;
+        private int mErrorCount;
 
         public override void Init()
         {
@@ -14,13 +15,16 @@ namespace BuddyApp.Recipe
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("ENTER LISTEN RECIPE");
+            mErrorCount = 0;
             mAnimator = iAnimator;
             mVocalManager.OnEndReco = GetAnswer;
             mVocalManager.OnError = NoAnswer;
-            if (GetComponent<RecipeBehaviour>().NoAnswerCount <= 1)
+            mVocalManager.StopListenBehaviour = null;
+            if (GetComponent<RecipeBehaviour>().NoAnswerCount == 0)
                 mVocalManager.StartInstantReco();
             else
             {
+                Debug.Log("Put Trigger On");
                 mVocalManager.EnableTrigger = true;
                 GetComponent<RecipeBehaviour>().NoAnswerCount = 0;
             }
@@ -28,15 +32,14 @@ namespace BuddyApp.Recipe
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
-                mAnimator.SetTrigger("ChooseWithScreen");
+            if (!mVocalManager.RecognitionTriggered && Input.GetTouch(0).tapCount > 1)
+                iAnimator.SetTrigger("ChooseWithScreen");
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mVocalManager.OnEndReco = null;
             mVocalManager.OnError = null;
-            mVocalManager.StopListenBehaviour();
             mVocalManager.EnableTrigger = false;
             Debug.Log("EXIT LISTEN RECIPE");
         }
@@ -51,7 +54,15 @@ namespace BuddyApp.Recipe
         private void NoAnswer(STTError iError)
         {
             Debug.Log("GOT NO ANSWER");
-            mAnimator.SetTrigger("NoAnswerRecipe");
+            if (++mErrorCount == 3)
+            {
+                mVocalManager.StopListenBehaviour = Empty;
+                mAnimator.SetTrigger("NoAnswerRecipe");
+            }
+        }
+
+        private void Empty()
+        {
         }
     }
 }

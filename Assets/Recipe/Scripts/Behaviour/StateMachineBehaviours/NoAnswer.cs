@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 using BuddyOS.App;
-using System.Collections;
 
 namespace BuddyApp.Recipe
 {
     public class NoAnswer : AStateMachineBehaviour
     {
         bool mCheck;
-        bool mtest;
 
         public override void Init()
         {
@@ -16,29 +14,18 @@ namespace BuddyApp.Recipe
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("ENTER NO ANSWER");
-            mtest = false;
             mCheck = false;
-            if (GetComponent<RecipeBehaviour>().NoAnswerCount == 0)
+            /*if (GetComponent<RecipeBehaviour>().NoAnswerCount == 0)
             {
-                StartCoroutine(test());
-                /*mCheck = true;
-                mMood.Set(MoodType.SAD);
-                mTTS.Say(mDictionary.GetString("noanswerrecipe"));*/
-                
+                Debug.Log("First no answer");
+                mFace.SetExpression(MoodType.SAD);
+                mCheck = true;
+                mTTS.Say(mDictionary.GetString("noanswerrecipe"));
             }
             else
+            {*/
                 mMood.Set(MoodType.TIRED, false, true);
-        }
-
-        private IEnumerator test()
-        {
-            mCheck = true;
-            //mMood.Set(MoodType.SAD);
-            Debug.Log("before wait");
-            yield return new WaitForSeconds(2F);
-            Debug.Log("after wait");
-            /*mTTS.Say(mDictionary.GetString("noanswerrecipe"));
-            mtest = true;*/
+            //}
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -48,17 +35,17 @@ namespace BuddyApp.Recipe
                 Debug.Log("NO ANSWER 2");
                 mTTS.Say(mDictionary.GetString("noanswerrecipe2"));
                 mCheck = true;
-                mtest = true;
             }
-            if (mTTS.HasFinishedTalking && mCheck && mtest)
+            else if (mTTS.HasFinishedTalking && mCheck)
             {
-                Debug.Log("EXIT NO ANSWER");
+                Debug.Log("Finished Talking");
                 iAnimator.SetTrigger("AskRecipeAgain");
             }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("EXIT NO ANSWER");
             GetComponent<RecipeBehaviour>().NoAnswerCount++;
         }
     }
