@@ -13,11 +13,6 @@ namespace BuddyApp.Jukebox
         [SerializeField]
         private GameObject play;
 
-        public void PauseMusic(GameObject ButtonToDeactivate)
-        {
-            //ButtonToDeactivate.SetActive(false);
-            //ButtonToActivate.SetActive(true);
-        }
 
         public void PauseMusicAndIcon()
         {

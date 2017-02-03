@@ -12,9 +12,16 @@ namespace BuddyApp.Jukebox
         [SerializeField]
         private Button balladeMovement;
 
+        private YesHinge mYesHinge;
+
+        public void Start()
+        {
+            mYesHinge = BYOS.Instance.Motors.YesHinge;
+        }
+
         public void Update()
         {
-            Debug.Log(thermalMovement.GetComponent<Companion.FollowPersonReaction>().enabled + " " + balladeMovement.GetComponent<CompanionWalk>().enabled);
+            //Debug.Log(thermalMovement.GetComponent<Companion.FollowPersonReaction>().enabled + " " + balladeMovement.GetComponent<CompanionWalk>().enabled);
         }
         public void Walk()
         {
@@ -34,11 +41,13 @@ namespace BuddyApp.Jukebox
             if (thermalMovement.GetComponent<Companion.FollowPersonReaction>().enabled == false)
             {
                 balladeMovement.GetComponent<CompanionWalk>().enabled = false;
+                mYesHinge.Locked = true;
                 thermalMovement.GetComponent<Companion.FollowPersonReaction>().enabled = true;
             }
             else
             {
                 thermalMovement.GetComponent<Companion.FollowPersonReaction>().enabled = false;
+                mYesHinge.Locked = false;
             } 
         }
 

@@ -16,6 +16,7 @@ namespace BuddyApp.Jukebox
 
         [SerializeField]
         private Animator animatorMusic;
+        
 
         // Use this for initialization
         void Start()
