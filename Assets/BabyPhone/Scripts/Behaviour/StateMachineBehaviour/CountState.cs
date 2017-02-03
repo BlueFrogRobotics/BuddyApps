@@ -26,11 +26,11 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mWindoAppOverWithe.SetActive(true);
-
             //open black background only if it is not already open
             if (iAnimator.GetInteger("ForwardState") > -1 )
                 mBackgroundBlackAnimator.SetTrigger("Open_BG");
+
+            mWindoAppOverWithe.SetActive(true);
 
             //start counter
             mCounter.SetActive(true);

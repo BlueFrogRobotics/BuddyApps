@@ -37,11 +37,13 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if ((iAnimator.GetInteger("ForwardState") != 3))// || (iAnimator.GetInteger("ForwardState") == -1))
+                mBackgroundBlackAnimator.SetTrigger("Close_BG");
+
             mListening.SetActive(true);
             mWindoAppOverBlack.SetActive(true);
             mIsBabyCrying = false;
-            if ((iAnimator.GetInteger("ForwardState") != 3))// || (iAnimator.GetInteger("ForwardState") == -1))
-                mBackgroundBlackAnimator.SetTrigger("Close_BG");
+
             mMood.Set(MoodType.LISTENING);
 
             mNotificationsCount = iAnimator.GetInteger("NotificationsCounts");

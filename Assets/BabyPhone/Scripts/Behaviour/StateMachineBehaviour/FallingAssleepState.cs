@@ -46,12 +46,14 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mBackgroundBlackAnimator.SetTrigger("Close_BG");
+
             mWindoAppOverWhite.SetActive(true);
             mFallingAssleep.SetActive(true);
 
             mFallingAssleepAnimator.SetTrigger("Open_WFallingAssleep");
 
-            mBackgroundBlackAnimator.SetTrigger("Close_BG");
+
 
             mFallingAssleep.GetComponent<SoundDetect>().Init();
 

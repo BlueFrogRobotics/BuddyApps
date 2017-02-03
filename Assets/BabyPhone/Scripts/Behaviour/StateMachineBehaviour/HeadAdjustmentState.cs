@@ -24,11 +24,13 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mBackgroundBlackAnimator.SetTrigger("Close_BG");
+
             mRGBCam.Open();
             mHeadAdjustmentObject.SetActive(true);
             mWindowAppOverWhite.SetActive(true);
             mHeadAdjustmentAnimator.SetTrigger("Open_WHeadController");
-            mBackgroundBlackAnimator.SetTrigger("Close_BG");
+
             mMood.Set(MoodType.HAPPY);
         }
 
