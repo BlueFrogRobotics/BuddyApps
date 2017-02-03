@@ -9,7 +9,9 @@ namespace BuddyApp.BabyPhone
     {
         private GameObject mHeadAdjustmentObject;
         private GameObject mWindowAppOverWhite;
+
         private Animator mHeadAdjustmentAnimator;
+        private Animator mBackgroundBlackAnimator;
 
         public override void Init()
         {
@@ -17,10 +19,13 @@ namespace BuddyApp.BabyPhone
             mWindowAppOverWhite = GetGameObject(3);
 
             mHeadAdjustmentAnimator = mHeadAdjustmentObject.GetComponent<Animator>();
+            mBackgroundBlackAnimator = GetGameObject(1).GetComponent<Animator>();
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mBackgroundBlackAnimator.SetTrigger("Close_BG");
+
             mRGBCam.Open();
             mHeadAdjustmentObject.SetActive(true);
             mWindowAppOverWhite.SetActive(true);

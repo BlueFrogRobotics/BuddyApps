@@ -12,63 +12,162 @@ MonoBehaviour:
   m_Name: EnglishBabyPhoneAppDict
   m_EditorClassIdentifier: 
   entries:
-  - key: hellobaby
-    val: Welcome
   - key: mybb
-    val: MY BABY
+    baseValue: my baby
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: lull
-    val: LULLABY
+    baseValue: lullaby
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: anim
-    val: ANIMATION
+    baseValue: animation
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - animation
+    - ambience
+    - atmosphere
   - key: timebefor
-    val: PLAYING TIME
+    baseValue: play during
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: ifbb
-    val: IF BABY CRIES
-  - key: mob
-    val: MOBILITY
-  - key: playlul
-    val: REPLAY LULLABY
-  - key: playanim
-    val: REPLAY ANIMATION
+    baseValue: if baby cries
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: saver
-    val: SCREEN SAVER
+    baseValue: screen saver
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: mob
+    baseValue: mobility
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: playlull
+    baseValue: 'replay lullaby '
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: playanim
+    baseValue: replay animation
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: owl
-    val: OWL
+    baseValue: owl
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: chris
-    val: CHRISTMAS
+    baseValue: christmas
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: noact
-    val: NO ACTION
-  - key: bbwelcome
-    val: well come to baby world
-  - key: savesett
-    val: SAVE SETTINGS
-  - key: bbstart
-    val: I START MONITORING IN
-  - key: bright
-    val: BRIGHTNESS
+    baseValue: do nothing
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: playboth
-    val: REPLAY LULLABY AND ANIMATION
+    baseValue: replay lullaby and animation
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: bbstart
+    baseValue: 'i will start monitoring in '
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: savesett
+    baseValue: save settings
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: bbwelcome
+    baseValue: well come to baby world
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - weel come to baby world
+    - ' '
   - key: msgbbsnd
-    val: 'seems to cry '
-  - key: lull0
-    val: NINNA NANNA BRAHMS
-  - key: lull1
-    val: IT'S A SMALL WORLD
-  - key: lull2
-    val: MOORNING MOOD
-  - key: lull3
-    val: WHITE CHRISTMAS
-  - key: lull4
-    val: MUSIC BOX
+    baseValue: 'seems to cry '
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: quitbb
-    val: CONFIRM EXIT BABYPHONE?
-  - key: msgbbmvt
-    val: 'I detected a movement '
+    baseValue: confirm exit babyphone ?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: soundetect
-    val: 'SOUND DETECTION '
+    baseValue: sound detection
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: motiondetect
-    val: 'MOTION DETECTION '
-  - key: microsens
-    val: PLEASE SELECT THE CORRECT MICROPHONE SENSITIVITY
-  - key: camsens
-    val: PLEASE SELECT THE DESIRED MOTION DETECTION THRESHOLD
+    baseValue: motion detection
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: msgmvt
+    baseValue: seems to move a lot
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: lull0
+    baseValue: ninna nanna brahms
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: lull1
+    baseValue: it's a small world
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: lull2
+    baseValue: moorning mood
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: lull3
+    baseValue: white christmas
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: lull4
+    baseValue: music box
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-

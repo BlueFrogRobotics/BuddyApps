@@ -8,7 +8,7 @@ public class BabyPhoneExitYesNo : MonoBehaviour
 {
     [SerializeField]
     private Animator babyPhoneAnimator;
-
+     
     [SerializeField]
     private Text message;
 
@@ -25,7 +25,7 @@ public class BabyPhoneExitYesNo : MonoBehaviour
     {
         mForwardState = -1;
         mDictionary = BYOS.Instance.Dictionary;
-        message.text = mDictionary.GetString("quitbb");
+        message.text = mDictionary.GetString("quitbb").ToUpper();
         yesButton.text = mDictionary.GetString("yes").ToUpper() ;
         noButton.text = mDictionary.GetString("no").ToUpper();
     }
