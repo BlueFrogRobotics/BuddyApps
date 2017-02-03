@@ -5,6 +5,7 @@ namespace BuddyApp.Recipe
 {
     public class RecipeListFound : AStateMachineBehaviour
     {
+        bool mCheck;
 
         public override void Init()
         {
@@ -12,12 +13,18 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mTTS.Say(mDictionary.GetString("listrecipefound"));
+            mCheck = false;
+            mMood.Set(MoodType.SURPRISED, false, true);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (mTTS.HasFinishedTalking)
+            if (!mCheck && mSpeaker.Voice.Status == SoundChannelStatus.FINISH)
+            {
+                mTTS.Say(mDictionary.GetString("listrecipefound"));
+                mCheck = true;
+            }
+            else if (mCheck && mTTS.HasFinishedTalking)
                 iAnimator.SetTrigger("DisplayRecipeList");
         }
 

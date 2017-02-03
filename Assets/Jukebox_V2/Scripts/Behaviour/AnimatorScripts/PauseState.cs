@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
+using System.Collections;
 using BuddyOS.App;
 
-namespace BuddyApp.Recipe
+namespace BuddyApp.Jukebox
 {
-    public class WaitForAnim : AStateMachineBehaviour
+    public class PauseState : AStateMachineBehaviour
     {
-        private bool mDone;
+
+        private AudioSource mMusicPlay;
 
         public override void Init()
         {
@@ -13,16 +15,16 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mDone = false;
+            GetGameObject(2).SetActive(true);
+            GetGameObject(3).SetActive(false);
+            mMusicPlay = GetGameObject(0).GetComponent<AudioSource>();
+            mMusicPlay.Pause();
+            iAnimator.GetBehaviour<PlayState>().FromPauseState = true;
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mDone && GetGameObject(4).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Window_FullImage_Off"))
-            {
-                mDone = true;
-                GetComponent<Animator>().SetTrigger("DisplayIngredient");
-            }
+            
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -30,3 +32,4 @@ namespace BuddyApp.Recipe
         }
     }
 }
+

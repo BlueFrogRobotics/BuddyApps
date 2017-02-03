@@ -12,6 +12,13 @@ namespace BuddyApp.Jukebox
         // Use this for initialization
         void Start()
         {
+            //playButton.onClick.Invoke();
+            StartCoroutine(startMusic());
+        }
+
+        IEnumerator startMusic()
+        {
+            yield return new WaitForSeconds(3F);
             playButton.onClick.Invoke();
         }
 

@@ -13,12 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: win
-    val: well done, you won the game! You are so good!
-  - key: noface
-    val: I can't see any face
-  - key: askmovephoto
-    val: Should I take the photo [200] or should I move first?
-  - key: askmovephotow
-    val: I take the photo or move first?
-  - key: movephoto
-    val: You should say "move first" or "take the photo"
+    baseValue: Well done, you won!
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Well done, you won! You won the game, you are truly good!

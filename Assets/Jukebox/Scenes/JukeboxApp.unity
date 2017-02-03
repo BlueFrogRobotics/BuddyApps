@@ -195,6 +195,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fe28498ae9465824ea0004a7c65986fe, type: 2}
   m_IsPrefabParent: 0
@@ -2608,7 +2612,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22438214, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -666.0063
+      value: -665.49536
+      objectReference: {fileID: 0}
+    - target: {fileID: 22438214, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000015258789
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 545450ecb67ea614cb45e766f8ff2fb6, type: 2}
@@ -2651,6 +2659,7 @@ MonoBehaviour:
   pause: {fileID: 1420491587}
   play: {fileID: 1968484827}
   textMusic: {fileID: 499846292}
+  playButton: {fileID: 0}
 --- !u!82 &1821499880
 AudioSource:
   m_ObjectHideFlags: 0
