@@ -43,7 +43,7 @@ namespace BuddyApp.FreezeDance
 
         // Use this for initialization
 
-        private Mat mDebugMatRLGL;
+        //private Mat mDebugMatRLGL;
         //[SerializeField]
         //private RawImage mDebugRawImg;
 
@@ -61,8 +61,8 @@ namespace BuddyApp.FreezeDance
             mPositionOLD = new Point(1000, 1000);
             //sobelKernelSize = 3;
 
-            //Debug for RLGL
-            mDebugMatRLGL = new Mat();
+            ////Debug for RLGL
+            //mDebugMatRLGL = new Mat();
 
             mRGBCam = BYOS.Instance.RGBCam;
             mRGBCam.Open();
