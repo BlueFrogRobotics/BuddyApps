@@ -27,7 +27,12 @@ namespace BuddyApp.BabyPhone
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mWindoAppOverWithe.SetActive(true);
-            mBackgroundBlackAnimator.SetTrigger("Open_BG");
+
+            //open black background only if it is not already open
+            if (iAnimator.GetInteger("ForwardState") > -1 )
+                mBackgroundBlackAnimator.SetTrigger("Open_BG");
+
+            //start counter
             mCounter.SetActive(true);
             mCounterAnimator.SetTrigger("Open_WTimer");
         }
@@ -37,8 +42,8 @@ namespace BuddyApp.BabyPhone
             mCounter.SetActive(false);
             //mWindoAppOverWithe.SetActive(false);
             mCounterAnimator.SetTrigger("Close_WTimer");
-            mBackgroundBlackAnimator.SetTrigger("Close_BG");
-            iAnimator.SetInteger("ForwardState", 2);
+            //mBackgroundBlackAnimator.SetTrigger("Close_BG");
+            iAnimator.SetInteger("ForwardState", 22);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

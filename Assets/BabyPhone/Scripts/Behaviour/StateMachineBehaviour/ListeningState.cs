@@ -11,8 +11,10 @@ namespace BuddyApp.BabyPhone
     {
         private GameObject mListening;
         private GameObject mWindoAppOverBlack;
-
         private GameObject mNotifications;
+
+        private Animator mBackgroundBlackAnimator;
+
         private SoundDetect mSoundDetector;
         private Text mNotificationText;
 
@@ -20,12 +22,14 @@ namespace BuddyApp.BabyPhone
         private bool mIsBabyMoving;
         private bool mIsSoundDetectionOn;
         private bool mIsMotionDetection;
+
         private int  mNotificationsCount;
+
         public override void Init()
         {
             mWindoAppOverBlack = GetGameObject(2);
             mListening = GetGameObject(9);
-
+            mBackgroundBlackAnimator = GetGameObject(1).GetComponent<Animator>();
             mNotifications = GetGameObject(13); //black 
             mNotificationText = GetGameObject(14).GetComponent<Text>();
             mSoundDetector = GetGameObject(17).GetComponent<SoundDetect>();
@@ -36,7 +40,8 @@ namespace BuddyApp.BabyPhone
             mListening.SetActive(true);
             mWindoAppOverBlack.SetActive(true);
             mIsBabyCrying = false;
-
+            if ((iAnimator.GetInteger("ForwardState") != 3))// || (iAnimator.GetInteger("ForwardState") == -1))
+                mBackgroundBlackAnimator.SetTrigger("Close_BG");
             mMood.Set(MoodType.LISTENING);
 
             mNotificationsCount = iAnimator.GetInteger("NotificationsCounts");

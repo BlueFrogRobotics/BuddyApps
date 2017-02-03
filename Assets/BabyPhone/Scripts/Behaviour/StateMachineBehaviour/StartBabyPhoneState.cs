@@ -16,6 +16,7 @@ namespace BuddyApp.BabyPhone
         {
             mStartState = GetGameObject(4);
             mWindoAppOverBlack = GetGameObject(2);
+
             mDictionary = BYOS.Instance.Dictionary;
             mBabyPhoneData = BabyPhoneData.Instance;
         }

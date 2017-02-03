@@ -12,63 +12,161 @@ MonoBehaviour:
   m_Name: FrenchBabyPhoneAppDict
   m_EditorClassIdentifier: 
   entries:
-  - key: hellobaby
-    val: Bienvenue
   - key: mybb
-    val: MON BEBE
+    baseValue: "mon b\xE9b\xE9"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: lull
-    val: BERCEUSE
+    baseValue: berceuse
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: anim
-    val: ANIMATION
+    baseValue: animation
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - animation
+    - ambiance
+    - "atmosph\xE8re "
   - key: timebefor
-    val: JOUER PENDANT
+    baseValue: jouer pendant
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: ifbb
-    val: SI MON BEBE PLEURE
-  - key: mob
-    val: MOBILITE
-  - key: playlul
-    val: REJOUER LA BERCEUSE
-  - key: playanim
-    val: REMETTRE L'AMBIANCE
+    baseValue: "si mon b\xE9b\xE9 pleure"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: saver
-    val: ECRAN DE VEILLE
+    baseValue: "\xE9cran de veille"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: mob
+    baseValue: "mobilit\xE9"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: playlull
+    baseValue: rejouer la berceuse
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: playanim
+    baseValue: remettre l'ambiance
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: owl
-    val: HIBOU
+    baseValue: hibou
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: chris
-    val: NOEL
+    baseValue: noel
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: noact
-    val: AUCUNE ACTION
-  - key: bbwelcome
-    val: "bienvenue dans l'univers de b\xE9b\xE9"
-  - key: savesett
-    val: SAUVEGARDER
-  - key: bbstart
-    val: JE COMMENCE LA SURVEILLANCE DANS
-  - key: bright
-    val: LUMINOSITE
+    baseValue: ne fais rien
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: playboth
-    val: REMETTRE LA BERCEUSE ET L'AMBIANCE
+    baseValue: rejouer la berceur et l'animation
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: bbstart
+    baseValue: 'je commence la surveillance dans '
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: savesett
+    baseValue: sauvegarder
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: bbwelcome
+    baseValue: "bienvenu dans l'univers de b\xE9b\xE9"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: msgbbsnd
-    val: 'semble pleurer '
-  - key: lull0
-    val: NINNA NANNA BRAHMS
-  - key: lull1
-    val: QUE LE MONDE EST PETIT
-  - key: lull2
-    val: PETIT MATIN
-  - key: lull3
-    val: NOEL TOUT BLANC
-  - key: lull4
-    val: BOITE A MUSIQUE
+    baseValue: semble pleurer ou faire du bruit
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: quitbb
-    val: QUITTER L'APPLICATION?
-  - key: msgbbmvt
-    val: "J'ai d\xE9tect\xE9 un mouvement"
+    baseValue: quitter l'univers babyphone ?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: soundetect
-    val: DETECTION DU BRUIT
+    baseValue: 'detection de bruit '
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
   - key: motiondetect
-    val: DETECTION DE MOUVEMENT
-  - key: microsens
-    val: VEUILLEZ SELECTIONNER LA SENSIBILITE DESIREE DU MICRO
-  - key: camsens
-    val: VEUILLEZ SELECTIONNER LA SENSIBILITE DESIREE POUR LA DETECTION DE MOUVEMENT
+    baseValue: detection de mouvement
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: msgmvt
+    baseValue: 'semble beaucoup bouger '
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: lull0
+    baseValue: ninna nanna brahms
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: lull1
+    baseValue: que le monde est petit
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: lull2
+    baseValue: petit matin
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: lull3
+    baseValue: noel tout blanc
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: lull4
+    baseValue: "boite \xE0 musique "
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-

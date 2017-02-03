@@ -12,8 +12,10 @@ namespace BuddyApp.BabyPhone
         private GameObject mFallingAssleep;
         private GameObject mWindoAppOverWhite;
         private GameObject mCartoonObject;
-
         private GameObject mNotifications;
+
+        private Animator mBackgroundBlackAnimator;
+
         private Text mNotificationText;
         private SoundDetect mSoundDetector;
 
@@ -37,19 +39,25 @@ namespace BuddyApp.BabyPhone
             mNotifications = GetGameObject(15); //white
             mNotificationText = GetGameObject(16).GetComponent<Text>();
             mFallingAssleepAnimator = mFallingAssleep.GetComponent<Animator>();
+            mBackgroundBlackAnimator = GetGameObject(1).GetComponent<Animator>();
             mCartoonAnimator = mCartoonObject.GetComponent<Animator>();
             mSoundDetector = GetGameObject(17).GetComponent<SoundDetect>();
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mMood.Set(MoodType.HAPPY);
             mWindoAppOverWhite.SetActive(true);
             mFallingAssleep.SetActive(true);
+
             mFallingAssleepAnimator.SetTrigger("Open_WFallingAssleep");
+
+            mBackgroundBlackAnimator.SetTrigger("Close_BG");
+
             mFallingAssleep.GetComponent<SoundDetect>().Init();
+
             iAnimator.SetBool("DoPlayLullaby", true);
 
+            mMood.Set(MoodType.HAPPY);
             mIsBabyCrying = false;
             mDidISend = false;
 
