@@ -14,6 +14,12 @@ namespace BuddyApp.HideAndSeek
         [SerializeField]
         private RawImage imageToDisplay;
 
+        [SerializeField]
+        private GameObject picsContainer;
+
+        [SerializeField]
+        private Texture2D textUnknownPerson;
+
         public RawImage ImageToDisplay { get { return imageToDisplay; } }
 
         public Text Message { get { return message; } }
@@ -50,5 +56,16 @@ namespace BuddyApp.HideAndSeek
         {
             return animator.GetCurrentAnimatorStateInfo(0).IsName("Window_RecoName_Off");
         }
+
+        public void SetUnkownPerson()
+        {
+            //picsContainer.SetActive(true);
+            imageToDisplay.texture = textUnknownPerson;
+        }
+
+        //public void DisableImage()
+        //{
+        //    picsContainer.SetActive(false);
+        //}
     }
 }

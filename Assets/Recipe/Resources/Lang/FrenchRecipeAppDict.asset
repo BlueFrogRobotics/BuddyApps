@@ -13,34 +13,98 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: askprepare
-    val: "Alors qu'est ce que l'on pr\xE9pare?"
+    baseValue: "Alors qu'est ce que l'on pr\xE9pare?"
+    phoneticValues: []
+    randomValues: []
   - key: recipenotfound
-    val: "D\xE9sol\xE9 je n'ai pas trouv\xE9 cette recette, veux tu bien r\xE9p\xE9ter?"
+    baseValue: "D\xE9sol\xE9 je n'ai pas trouv\xE9 cette recette, veux tu bien r\xE9p\xE9ter?"
+    phoneticValues: []
+    randomValues: []
   - key: noanswerrecipe
-    val: "D\xE9sol\xE9 je n'ai rien entendu, veux tu bien r\xE9p\xE9ter?"
+    baseValue: "D\xE9sol\xE9 je n'ai rien entendu, veux tu bien r\xE9p\xE9ter?"
+    phoneticValues: []
+    randomValues: []
   - key: chooserecipecategory
-    val: Quelle type de recette veux tu faire?
+    baseValue: Quelle type de recette veux tu faire?
+    phoneticValues: []
+    randomValues: []
   - key: starter
-    val: ENTREE
+    baseValue: ENTREE
+    phoneticValues: []
+    randomValues: []
   - key: dish
-    val: PLAT
+    baseValue: PLAT
+    phoneticValues: []
+    randomValues: []
   - key: nomatchingrecipe
-    val: "D\xE9sol\xE9 je n'ai trouv\xE9 aucune recette correspondant \xE0 ces crit\xE8res"
+    baseValue: "D\xE9sol\xE9 je n'ai trouv\xE9 aucune recette correspondant \xE0 ces
+      crit\xE8res"
+    phoneticValues: []
+    randomValues: []
   - key: pathtoxml
-    val: recipe_list_fr.xml
+    baseValue: recipe_list_fr.xml
+    phoneticValues: []
+    randomValues: []
   - key: listrecipefound
-    val: "J'ai trouv\xE9 plusieurs recettes, laquelle veux tu faire?"
+    baseValue: "J'ai trouv\xE9 plusieurs recettes, laquelle veux tu faire?"
+    phoneticValues: []
+    randomValues: []
   - key: startingredient
-    val: "Pour commencer pr\xE9parez les ingr\xE9dients suivants pour "
+    baseValue: "Pour commencer pr\xE9parez les ingr\xE9dients suivants pour "
+    phoneticValues: []
+    randomValues: []
   - key: person
-    val: personne
+    baseValue: personne
+    phoneticValues: []
+    randomValues: []
   - key: next
-    val: suivant suivante ok okay hockey
+    baseValue: suivant
+    phoneticValues:
+    - suivant
+    - suivante
+    - ok
+    - okay
+    - hockey
+    randomValues: []
   - key: last
-    val: "pr\xE9c\xE9dent pr\xE9c\xE9dente avant revient reviens arri\xE8re"
+    baseValue: "pr\xE9c\xE9dent"
+    phoneticValues:
+    - "pr\xE9c\xE9dent"
+    - "pr\xE9c\xE9dente"
+    - avant
+    - revient
+    - reviens
+    - "arri\xE8re"
+    randomValues: []
   - key: repeat
-    val: "r\xE9p\xE8te r\xE9p\xE9ter encore"
+    baseValue: "r\xE9p\xE8te"
+    phoneticValues:
+    - "r\xE9p\xE8te"
+    - "r\xE9p\xE9ter"
+    - encore
+    randomValues: []
   - key: finish
-    val: C'est fini, je suis gentil je te laisse ma part
+    baseValue: C'est fini, je suis gentil je te laisse ma part
+    phoneticValues: []
+    randomValues: []
   - key: another
-    val: Veux tu faire une autre recette?
+    baseValue: Veux tu faire une autre recette?
+    phoneticValues: []
+    randomValues: []
+  - key: yes
+    baseValue: OUI
+    phoneticValues: []
+    randomValues: []
+  - key: no
+    baseValue: NON
+    phoneticValues: []
+    randomValues: []
+  - key: noanswerrecipe2
+    baseValue: "Je ne t'entends pas. [300] R\xE9veille moi quand tu seras pr\xEAt."
+    phoneticValues: []
+    randomValues: []
+  - key: startstep
+    baseValue: "C'est fini pour les ingr\xE9dients. [200] Commen\xE7ons les choses
+      s\xE9rieuses [200]"
+    phoneticValues: []
+    randomValues: []

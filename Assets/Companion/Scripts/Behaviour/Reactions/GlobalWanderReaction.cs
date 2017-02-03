@@ -3,6 +3,9 @@ using BuddyOS;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Manager of a specific wandering style. Prioritize autonomous navigation over heat following
+    /// </summary>
     [RequireComponent(typeof(WanderReaction))]
     [RequireComponent(typeof(FollowPersonReaction))]
     public class GlobalWanderReaction : MonoBehaviour

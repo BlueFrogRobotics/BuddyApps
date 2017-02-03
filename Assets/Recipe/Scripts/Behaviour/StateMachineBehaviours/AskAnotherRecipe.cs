@@ -21,6 +21,8 @@ namespace BuddyApp.Recipe
             GetGameObject(2).SetActive(false);
             GetGameObject(15).GetComponent<Animator>().SetTrigger("Open_WQuestion");
             GetGameObject(16).GetComponent<Text>().text = mDictionary.GetString("another");
+            GetGameObject(18).GetComponent<Text>().text = mDictionary.GetString("yes");
+            GetGameObject(19).GetComponent<Text>().text = mDictionary.GetString("no");
             mTTS.Say(mDictionary.GetString("another"));
             GetGameObject(17).GetComponent<Button>().onClick.AddListener(AnswerYes);
         }

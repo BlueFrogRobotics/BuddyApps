@@ -5,21 +5,26 @@ namespace BuddyApp.Recipe
 {
     public class RecipeNotFound : AStateMachineBehaviour
     {
+        bool mCheck;
+
         public override void Init()
         {
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (GetComponent<RecipeBehaviour>().RecipeNotFoundCount >= 2)
-                iAnimator.SetTrigger("ChooseWithScreen");
-            else
-                mTTS.Say(mDictionary.GetString("recipenotfound"));
+            mCheck = false;
+            mMood.Set(MoodType.THINKING, false, true);
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (mTTS.HasFinishedTalking && GetComponent<RecipeBehaviour>().RecipeNotFoundCount < 2)
+            if (!mCheck && mSpeaker.Voice.Status == SoundChannelStatus.FINISH)
+            {
+                mTTS.Say(mDictionary.GetString("recipenotfound"));
+                mCheck = true;
+            }
+            else if (mCheck && mTTS.HasFinishedTalking)
                 iAnimator.SetTrigger("AskRecipeAgain");
         }
 

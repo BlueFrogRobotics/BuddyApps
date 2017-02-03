@@ -5,9 +5,11 @@ using OpenCVUnity;
 using System.Collections.Generic;
 using Rect = OpenCVUnity.Rect;
 
-
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Behavior to make Buddy's head to be in front of a detected Face using Cascade Face Tracker
+    /// </summary>
     [RequireComponent(typeof(FaceCascadeTracker))]
     public class FollowFaceReaction : MonoBehaviour
     {
@@ -38,6 +40,7 @@ namespace BuddyApp.Companion
 
         void OnEnable()
         {
+            //Initialize everything
             if (!mInitialized) {
                 Start();
                 mInitialized = true;
@@ -46,11 +49,12 @@ namespace BuddyApp.Companion
             Debug.Log("FaceFollow Enabled");
 
             //Init the different variables
-            //mMood.Set(MoodType.NEUTRAL);
             mUpdateTime = Time.time;
             mTrackedObjects = mFaceTracker.TrackedObjects;
+            //Get the center of the camera
             mCameraWidthCenter = BYOS.Instance.RGBCam.Width / 2;
             mCameraHeightCenter = BYOS.Instance.RGBCam.Height / 2;
+            //Get head position for precise control
             mHeadNoAngle = mNoHinge.CurrentAnglePosition;
             mHeadYesAngle = mYesHinge.CurrentAnglePosition;
             mTrackingText.SetActive(true);
@@ -61,31 +65,25 @@ namespace BuddyApp.Companion
             if (!CompanionData.Instance.CanMoveHead || Time.time - mUpdateTime < 0.08F)
                 return;
 
+            //Get tracked objects detected by the Cascade Tracker
             mTrackedObjects = mFaceTracker.TrackedObjects;
 
+            //If something is recognized
             if (mTrackedObjects.Count > 0)
             {
+                //Get the center of the recognized area
                 float lXCenter = mTrackedObjects[0].x + mTrackedObjects[0].width / 2;
                 float lYCenter = mTrackedObjects[0].y + mTrackedObjects[0].height / 2;
-                //Debug.Log("Tracking face : XCenter " + lXCenter + " / YCenter " + lYCenter);
 
+                //Control the head depending on where the area is.
+                //Note : since the camera is on Buddy's right side, the control takes this into account
                 if (!(mCameraWidthCenter - 25 < lXCenter && lXCenter < mCameraWidthCenter + 5))
                     mHeadNoAngle -= Mathf.Sign(lXCenter - mCameraWidthCenter) * 1F;
                 if (!(mCameraHeightCenter - 5 < lYCenter && lYCenter < mCameraHeightCenter + 25))
                     mHeadYesAngle += Mathf.Sign(lYCenter - mCameraHeightCenter) * 1.5F;
-
-                //Debug.Log("Setting angles Yes : " + Mathf.Sign(lYCenter - mCameraHeightCenter) + 
-                //    " / No : " + Mathf.Sign(lXCenter - mCameraWidthCenter));
-                
+                                
                 mYesHinge.SetPosition(mHeadYesAngle);
-                mNoHinge.SetPosition(mHeadNoAngle);
-                //yield return new WaitForSeconds(0.1F);
-
-                //if (Time.time - mFaceAndTalkTime > 30F)
-                //{
-                //    AskSomething();
-                //    mFaceAndTalkTime = Time.time;
-                //}
+                mNoHinge.SetPosition(mHeadNoAngle);                
             }
         }
 

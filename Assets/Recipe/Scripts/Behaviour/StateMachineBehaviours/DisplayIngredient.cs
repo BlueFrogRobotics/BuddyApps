@@ -14,6 +14,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mVocalManager.EnableTrigger = true;
             if (GetGameObject(3).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Window_List_Off"))
                 GetGameObject(3).GetComponent<Animator>().SetTrigger("Open_WList");
             GetComponent<RecipeBehaviour>().DisplayIngredient();

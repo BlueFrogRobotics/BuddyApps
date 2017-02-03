@@ -24,10 +24,13 @@ namespace BuddyApp.Recipe
         {
             if (mTTS.HasFinishedTalking && mSTT.HasFinished)
                 iAnimator.SetTrigger("QuestionFinished");
+            if (Input.GetTouch(0).tapCount > 1)
+                iAnimator.SetTrigger("ChooseWithScreen");
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mTTS.Silence(0);
             Debug.Log("EXIT ASK RECIPE");
         }
     }

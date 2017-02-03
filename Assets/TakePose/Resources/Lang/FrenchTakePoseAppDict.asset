@@ -13,22 +13,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: takePose
-    val: Sors ton appareil photo, je prends la pose!
+    baseValue: Je prends la pose
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Sors ton appareil photo, je prends la pose!
+    - "Tu es pr\xEAt? Je pends la pose!"
   - key: redoPose
-    val: Voulez-vous que j'en refasse une?
+    baseValue: Voulez-vous que j'en refasse une?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Voulez-vous que j'en refasse une?
+    - ' Voulez-vous que je recommence?'
   - key: noRedo
-    val: Ok, pas d'autres poses
+    baseValue: pas d'autre pose
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - ok, pas d'autre pose
   - key: yesOrNo
-    val: "Veuillez r\xE9pondre par oui ou par non"
+    baseValue: "Merci de r\xE9pondre oui ou non"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Merci de r\xE9pondre par oui ou par non"
   - key: shareTwitter
-    val: Vous pouvez partager votre photo sur twitter avec le hashtag CES2017
+    baseValue: Vous pouvez partager bvotre photo sur twitter
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Vous pouvez partager votre photo sur twitter
   - key: srydidntunderstand
-    val: "D\xE9sol\xE9, je ne vous ai pas compris"
+    baseValue: "D\xE9sol\xE9, je ne vous ais pas compris"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "D\xE9sol\xE9, je ne vous ais pas compris"
   - key: ok
-    val: ok
-  - key: micissue
-    val: "J'ai un probl\xE8me avec mon micro"
-  - key: connectissue
-    val: "J'ai des soucis pour me connecter au r\xE9seau"
-  - key: hearnothing
-    val: Je n'ai rien entendu
+    baseValue: ok
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - ok

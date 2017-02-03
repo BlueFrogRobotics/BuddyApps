@@ -13,6 +13,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mMood.Set(MoodType.NEUTRAL);
             if (!GetComponent<RecipeBehaviour>().IsBackgroundActivated) {
                 GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
                 GetGameObject(2).SetActive(false);

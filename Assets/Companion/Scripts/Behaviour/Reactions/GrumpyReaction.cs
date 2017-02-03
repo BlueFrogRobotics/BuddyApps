@@ -3,6 +3,9 @@ using BuddyOS;
 
 namespace BuddyApp.Companion
 {
+    /// <summary>
+    /// Buddy makes some animation after his head being forced
+    /// </summary>
     public class GrumpyReaction : MonoBehaviour
     {
         public float AnimationTime { get { return mAnimTime; } }
@@ -28,6 +31,7 @@ namespace BuddyApp.Companion
 
             mEmotion.EnableChoregraph();
             mAnimStartTime = Time.time;
+            //At random, Buddy is either grumpy, mad or is happy because of "cuddles"
             switch(Random.Range(0, 3))
             {
                 case 0:
