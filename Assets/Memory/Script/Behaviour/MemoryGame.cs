@@ -37,28 +37,27 @@ namespace BuddyApp.Memory
 		}
 
 
-		public void InitLvl(int level)
+		public void InitLvl()
 		{
 			link.isPlayerTurn = false;
-			link.currentLevel = link.gameLevels.levels[level];
 
 
-			Debug.Log("Memory Game Level init link.currentLevel.Count " + link.currentLevel.events.Count);
-			mEvents = link.currentLevel.events;
+			Debug.Log("Memory Game Level " + link.gameLevels.mCurrentLevel);
+			mEvents = link.gameLevels.events.GetRange(0, link.gameLevels.mCurrentLevel * 2);
 
 			// right eye = 3
-			Debug.Log((int)FaceEvent.BLINK_RIGHT);
+			//Debug.Log((int)FaceEvent.BLINK_RIGHT);
 
 			// left eye = 4
-			Debug.Log((int)FaceEvent.BLINK_LEFT);
+			//Debug.Log((int)FaceEvent.BLINK_LEFT);
 
 			// smile = 0
-			Debug.Log((int)FaceEvent.SMILE);
+			//Debug.Log((int)FaceEvent.SMILE);
 
 			mEventIndex = 0;
 			mTimer = 0.0f;
 			mTTSTimer = 0.0f;
-			mMaxTime = 1.0f / link.currentLevel.speed;
+			mMaxTime = 1.0f / link.gameLevels.speed;
 			mPatternDone = false;
 		}
 
@@ -75,18 +74,32 @@ namespace BuddyApp.Memory
 					if (mEvents[mEventIndex] > 7) {
 						if (mEvents[mEventIndex] == 8) {
 							Debug.Log("Move head left");
+							BYOS.Instance.Speaker.Voice.Play(VoiceSound.LAUGH_1);
 							StartCoroutine(ControlBuddy(BuddyMotion.HEAD_LEFT));
 						} else if (mEvents[mEventIndex] == 9) {
 							Debug.Log("Move head right");
+							BYOS.Instance.Speaker.Voice.Play(VoiceSound.LAUGH_2);
 							StartCoroutine(ControlBuddy(BuddyMotion.HEAD_RIGHT));
 						} else if (mEvents[mEventIndex] == 10) {
 							Debug.Log("Move wheels left");
+							BYOS.Instance.Speaker.Voice.Play(VoiceSound.CURIOUS_1);
 							StartCoroutine(ControlBuddy(BuddyMotion.WHEEL_LEFT));
 						} else if (mEvents[mEventIndex] == 11) {
 							Debug.Log("Move wheels right");
+							BYOS.Instance.Speaker.Voice.Play(VoiceSound.CURIOUS_2);
 							StartCoroutine(ControlBuddy(BuddyMotion.WHEEL_RIGHT));
 						}
 					} else {
+						//Set sound
+						if ((FaceEvent)mEvents[mEventIndex] == FaceEvent.BLINK_LEFT)
+							BYOS.Instance.Speaker.Voice.Play(VoiceSound.SURPRISED_1);
+						else if ((FaceEvent)mEvents[mEventIndex] == FaceEvent.BLINK_RIGHT)
+							BYOS.Instance.Speaker.Voice.Play(VoiceSound.SURPRISED_2);
+						else if ((FaceEvent)mEvents[mEventIndex] == FaceEvent.SMILE)
+							BYOS.Instance.Speaker.Voice.Play(VoiceSound.SURPRISED_3);
+
+
+						//Set face event
 						mFace.SetEvent((FaceEvent)mEvents[mEventIndex]);
 						//Face
 					}
@@ -101,7 +114,7 @@ namespace BuddyApp.Memory
 		{
 			Debug.Log("Moving : " + iMotion);
 			mBuddyMotion = true;
-			float lTimer = 0.0f; 
+			float lTimer = 0.0f;
 
 			// Moving noHinge
 			if (iMotion == BuddyMotion.HEAD_LEFT || iMotion == BuddyMotion.HEAD_RIGHT) {
@@ -123,7 +136,7 @@ namespace BuddyApp.Memory
 					yield return null;
 				}
 				lTimer = 0.0f;
-                Debug.Log("Moving head ok, move back ");
+				Debug.Log("Moving head ok, move back ");
 				// Put the head back
 				mNoHinge.SetPosition(0.0f);
 
@@ -153,7 +166,7 @@ namespace BuddyApp.Memory
 				yield return new WaitForSeconds(0.5f);
 
 				// Wait for end of motion
-				while ( mWheels.Status != MovingState.REACHED_GOAL && mWheels.Status != MovingState.MOTIONLESS ) {
+				while (mWheels.Status != MovingState.REACHED_GOAL && mWheels.Status != MovingState.MOTIONLESS) {
 					yield return null;
 				}
 
@@ -170,7 +183,7 @@ namespace BuddyApp.Memory
 				}
 
 			}
-			
+
 			yield return new WaitForSeconds(1.0f);
 			Debug.Log("Motion done");
 
@@ -183,16 +196,16 @@ namespace BuddyApp.Memory
 		protected override void OnEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
+			animator.ResetTrigger("NextLevel");
 			link.mAnimationManager.gameObject.SetActive(false);
-
+			mMood.Set(MoodType.NEUTRAL);
 			mNoHinge.SetPosition(0.0f);
 			mOriginRobotAngle = mWheels.Odometry.z;
 			mBuddyMotion = false;
-			InitLvl(animator.GetInteger("level"));
+			InitLvl();
 			Debug.Log("pre currentLevel intro Sentence");
-			Debug.Log(link.currentLevel.introSentence);
 			mTTS.Silence(1000, true);
-			mTTS.Say(link.currentLevel.introSentence, true);
+			mTTS.Say(mDictionary.GetRandomString("introlvl") + " " + link.gameLevels.mCurrentLevel, true);
 			mOnEnterDone = true;
 
 		}

@@ -22,11 +22,11 @@ namespace BuddyApp.Memory
 			link.mAnimationManager.gameObject.SetActive(true);
 			Debug.Log("Player Success !");
 
-			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+			//BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 			mTTS.Silence(1000, true);
 			mMood.Set(MoodType.HAPPY);
 			link.mAnimationManager.Smile();
-			mTTS.Say(link.currentLevel.successSentence, true);
+			mTTS.Say(mDictionary.GetRandomString("success"), true);
 			mOnEnterDone = true;
         }
 
@@ -40,15 +40,15 @@ namespace BuddyApp.Memory
 
 			if (mOnEnterDone) {
 				if (mTTS.HasFinishedTalking) {
-					int level = animator.GetInteger("level");
-					level += 1;
-					bool updated = link.UpdateLevel(level);
+					Debug.Log("Success Current lvl: " + link.gameLevels.mCurrentLevel);
+					bool updated = link.UpdateLevel();
 					if (updated) {
-						animator.SetInteger("level", level);
 						//link.mAnimationManager.gameObject.SetActive(false);
+
+						Debug.Log("Success Current lvl: " + link.gameLevels.mCurrentLevel);
 						animator.SetTrigger("NextLevel");
 					} else {
-						mTTS.SayKey("win");
+						mTTS.Say(mDictionary.GetRandomString("win"));
 						link.mAnimationManager.gameObject.SetActive(true);
 						Debug.Log("End of the game");
 						QuitApp();
@@ -60,7 +60,7 @@ namespace BuddyApp.Memory
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		protected override void OnExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			mMood.Set(MoodType.NEUTRAL);
+			Debug.Log("Success Current lvl: " + link.gameLevels.mCurrentLevel);
 		}
 
 	}

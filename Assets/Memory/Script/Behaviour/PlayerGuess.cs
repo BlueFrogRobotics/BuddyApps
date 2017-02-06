@@ -47,7 +47,7 @@ namespace BuddyApp.Memory
 		public void InitGuess()
 		{
 			mCurrentEvents = new List<int>();
-			mEvents = link.currentLevel.events;
+			mEvents = link.gameLevels.events.GetRange(0, link.gameLevels.mCurrentLevel * 2);
 
 			mFail = false;
 			mSuccess = false;
@@ -121,7 +121,7 @@ namespace BuddyApp.Memory
 			mOriginRobotAngle = mWheels.Odometry.z;
 			InitGuess();
 
-			mTTS.Say(link.gameLevels.GetRandomYourTurn(), true);
+			mTTS.Say(mDictionary.GetRandomString("yourturn"), true);
 			mWaitTimer = 0.0f;
 			mOnEnterDone = true;
 		}
@@ -142,12 +142,12 @@ namespace BuddyApp.Memory
 
 					if (mNoHinge.CurrentAnglePosition > mOriginHeadPos) {
 						Debug.Log("Pushing head left");
-						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.LAUGH_1);
 						mCurrentEvents.Add(8);
 						StartCoroutine(ControlBuddy(BuddyMotion.HEAD_LEFT));
 					} else {
 						Debug.Log("Pushing head right");
-						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.LAUGH_2);
 						mCurrentEvents.Add(9);
 						StartCoroutine(ControlBuddy(BuddyMotion.HEAD_RIGHT));
 					}
@@ -163,13 +163,13 @@ namespace BuddyApp.Memory
 				} else if (Mathf.Abs(mWheels.Odometry.z - mOriginRobotAngle) > ANGLE_THRESH) {
 					if (mWheels.Odometry.z > mOriginRobotAngle) {
 						Debug.Log("Pushing robot left");
-						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.CURIOUS_1);
 						mCurrentEvents.Add(10);
 						StartCoroutine(ControlBuddy(BuddyMotion.WHEEL_LEFT));
 
 					} else {
 						Debug.Log("Pushing robot right");
-						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.CURIOUS_2);
 						mCurrentEvents.Add(11);
 						StartCoroutine(ControlBuddy(BuddyMotion.WHEEL_RIGHT));
 					}
