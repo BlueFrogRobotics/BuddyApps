@@ -64,19 +64,19 @@ namespace BuddyApp.BabyPhone
 
         public void Labelize()
         {
-            babyName.Label.text = mDictionary.GetString("mybb");
+            babyName.Label.text = mDictionary.GetString("mybb").ToUpper();
             contactSelection.Label.text = "CONTACT";
             lullabyVolume.Label.text = (mDictionary.GetString("vol")).ToUpper();
-            lullabySelection.Label.text = mDictionary.GetString("lull");
-            animationBrightness.Label.text = mDictionary.GetString("bright");
-            animationSelection.Label.text = mDictionary.GetString("anim");
-            soundDetection.Label.text = mDictionary.GetString("soundetect");
-            motionDetection.Label.text = mDictionary.GetString("motiondetect");
-            timeBeforContact.Label.text = mDictionary.GetString("timebefor");
-            ifBabyCry.Label.text = mDictionary.GetString("ifbb");
+            lullabySelection.Label.text = mDictionary.GetString("lull").ToUpper();
+            animationBrightness.Label.text = mDictionary.GetString("bright").ToUpper();
+            animationSelection.Label.text = mDictionary.GetString("anim").ToUpper();
+            soundDetection.Label.text = mDictionary.GetString("soundetect").ToUpper();
+            motionDetection.Label.text = mDictionary.GetString("motiondetect").ToUpper();
+            timeBeforContact.Label.text = mDictionary.GetString("timebefor").ToUpper();
+            ifBabyCry.Label.text = mDictionary.GetString("ifbb").ToUpper();
             //screenSaver.Label.text = mDictionary.GetString("saver");
-            canRobotMove.Label.text = mDictionary.GetString("mob");
-            saveSettings.Label.text = mDictionary.GetString("savesett");
+            canRobotMove.Label.text = mDictionary.GetString("mob").ToUpper();
+            saveSettings.Label.text = mDictionary.GetString("savesett").ToUpper();
         }
 
         public void Init()
@@ -108,11 +108,11 @@ namespace BuddyApp.BabyPhone
             lullabyVolume.SwitchCommands.Add(new ActVolCmd());
 
             ////lullaby selection
-            lullabySelection.AddOption(mDictionary.GetString("lull0"), BabyPhoneData.Lullaby.LULL_0); //mDictionary.GetString("default")
-            lullabySelection.AddOption(mDictionary.GetString("lull1"), BabyPhoneData.Lullaby.LULL_1);
-            lullabySelection.AddOption(mDictionary.GetString("lull2"), BabyPhoneData.Lullaby.LULL_2);
-            lullabySelection.AddOption(mDictionary.GetString("lull3"), BabyPhoneData.Lullaby.LULL_3);
-            lullabySelection.AddOption(mDictionary.GetString("lull4"), BabyPhoneData.Lullaby.LULL_4);
+            lullabySelection.AddOption(mDictionary.GetString("lull0").ToUpper(), BabyPhoneData.Lullaby.LULL_0); //mDictionary.GetString("default")
+            lullabySelection.AddOption(mDictionary.GetString("lull1").ToUpper(), BabyPhoneData.Lullaby.LULL_1);
+            lullabySelection.AddOption(mDictionary.GetString("lull2").ToUpper(), BabyPhoneData.Lullaby.LULL_2);
+            lullabySelection.AddOption(mDictionary.GetString("lull3").ToUpper(), BabyPhoneData.Lullaby.LULL_3);
+            lullabySelection.AddOption(mDictionary.GetString("lull4").ToUpper(), BabyPhoneData.Lullaby.LULL_4);
             lullabySelection.SetDefault((int)BabyPhoneData.Instance.LullabyToPlay);
             lullabySelection.UpdateCommands.Add(new LullabyBabyPhoneCmd());
 
@@ -128,8 +128,8 @@ namespace BuddyApp.BabyPhone
             animationBrightness.SwitchCommands.Add(new ActAnimCmd());
 
             ////animation selection
-            animationSelection.AddOption(mDictionary.GetString("owl"), BabyPhoneData.Animation.OWL);
-            animationSelection.AddOption(mDictionary.GetString("chris"), BabyPhoneData.Animation.CHRISTMAS);
+            animationSelection.AddOption(mDictionary.GetString("owl").ToUpper(), BabyPhoneData.Animation.OWL);
+            animationSelection.AddOption(mDictionary.GetString("chris").ToUpper(), BabyPhoneData.Animation.CHRISTMAS);
             animationSelection.SetDefault((int)BabyPhoneData.Instance.AnimationToPlay);
             animationSelection.UpdateCommands.Add(new AnimBabyPhoneCmd());
 
@@ -142,10 +142,10 @@ namespace BuddyApp.BabyPhone
             timeBeforContact.UpdateCommands.Add(new SetTimeBeforContactCmd());
 
             ////if baby cries choice 
-            ifBabyCry.AddOption(mDictionary.GetString("noact"), BabyPhoneData.Action.DEFAULT_ACTION);
-            ifBabyCry.AddOption(mDictionary.GetString("playlul"), BabyPhoneData.Action.REPLAY_LULLABY);
-            ifBabyCry.AddOption(mDictionary.GetString("playanim"), BabyPhoneData.Action.REPLAY_ANIMATION);
-            ifBabyCry.AddOption(mDictionary.GetString("playboth"), BabyPhoneData.Action.REPLAY_BOTH);
+            ifBabyCry.AddOption(mDictionary.GetString("noact").ToUpper(), BabyPhoneData.Action.DEFAULT_ACTION);
+            ifBabyCry.AddOption(mDictionary.GetString("playlull").ToUpper(), BabyPhoneData.Action.REPLAY_LULLABY);
+            ifBabyCry.AddOption(mDictionary.GetString("playanim").ToUpper(), BabyPhoneData.Action.REPLAY_ANIMATION);
+            ifBabyCry.AddOption(mDictionary.GetString("playboth").ToUpper(), BabyPhoneData.Action.REPLAY_BOTH);
             ifBabyCry.SetDefault((int)BabyPhoneData.Instance.ActionWhenBabyCries);
             ifBabyCry.UpdateCommands.Add(new IfBabyCriesCmd());
 

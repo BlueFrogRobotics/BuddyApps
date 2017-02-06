@@ -28,21 +28,24 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //mParameters.SetActive(true);
+            mParameters.SetActive(true);
             mWindoAppOverWithe.SetActive(true);
-            //mBlackground.SetActive(true);
-            mBackgroundBlackAnimator.SetTrigger("Open_BG");
+
+            //open black background only if it is not already open
+            if ((iAnimator.GetInteger("ForwardState") != -1) || (iAnimator.GetInteger("ForwardState") != 22))
+                mBackgroundBlackAnimator.SetTrigger("Open_BG");
+
             mParametersAnimator.SetTrigger("Open_WParameters");
             mMood.Set(MoodType.HAPPY);
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //mParameters.SetActive(false);
+            mParameters.SetActive(false);
             mWindoAppOverWithe.SetActive(false);
             //mBlackground.SetActive(false);
-            //if (iAnimator.GetBool("QuitButton"))
-            mBackgroundBlackAnimator.SetTrigger("Close_BG");           
+            if (iAnimator.GetBool("DoEnableBlack"))
+            //mBackgroundBlackAnimator.SetTrigger("Close_BG");           
             mParametersAnimator.SetTrigger("Close_WParameters");
             iAnimator.SetInteger("ForwardState", 1);
 
