@@ -77,6 +77,7 @@ namespace BuddyApp.FreezeDance
             mChrono = true;
             mStartMusic = false;
             mIsSetRandomStop = false;
+            motionGame.GetComponent<MotionGame>().IsRLGL = false;
         }
 
         // Update is called once per frame
