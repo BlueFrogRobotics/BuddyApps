@@ -10,8 +10,9 @@ namespace BuddyApp.Memory
 	{
 
 		public Animator animator;
-		public MemoryGameLevels gameLevels;
-		public MemoryGameLevel currentLevel;
+		//public MemoryGameLevels gameLevels;
+		//public MemoryGameLevel currentLevel;
+		public MemoryGameRandomLevel gameLevels;
 		public AnimManager mAnimationManager;
 
 		private ClickDelegate clickFace;
@@ -29,11 +30,14 @@ namespace BuddyApp.Memory
 
 			isPlayerTurn = false;
 
-			if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA) {
-				gameLevels = MemoryGameLevels.Load("Lang/levelsFr.json");
-			} else {
-				gameLevels = MemoryGameLevels.Load("Lang/levelsEn.json");
-			}
+			//if (BYOS.Instance.LanguageManager.CurrentLang == Language.FRA) {
+			//	gameLevels = MemoryGameLevels.Load("Lang/levelsFr.json");
+			//} else {
+			//	gameLevels = MemoryGameLevels.Load("Lang/levelsEn.json");
+			//}
+
+			gameLevels = new MemoryGameRandomLevel();
+
 			mUnloadingScene = false;
 
 			LinkStateMachineBehavior[] b = animator.GetBehaviours<LinkStateMachineBehavior>();
@@ -45,16 +49,19 @@ namespace BuddyApp.Memory
 			Debug.Log("End Link Handler");
 		}
 
-		public bool UpdateLevel(int level)
+		public bool UpdateLevel()
 		{
-			if (level.Equals(gameLevels.levels.Count)) {
+			gameLevels.mCurrentLevel++;
+			if (gameLevels.mCurrentLevel > (gameLevels.NbLevels)) {
 				// no next level to load
 				return false;
 			}
-			Debug.Log("CurrentLevel init");
-			currentLevel = gameLevels.levels[level];
-			Debug.Log("CurrentLevel ok");
 			return true;
+		}
+
+		public void ResetLevel()
+		{
+			gameLevels.mCurrentLevel = 1;
 		}
 
 		public void ClickBtn(int value)
@@ -64,38 +71,41 @@ namespace BuddyApp.Memory
 					if (isPlayerTurn) {
 						Debug.Log("Click Left Eye");
 						mFace.SetEvent(FaceEvent.BLINK_LEFT);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.SURPRISED_1);
 					}
 					break;
 				case 1:
 					if (isPlayerTurn) {
 						Debug.Log("Click Right Eye");
 						mFace.SetEvent(FaceEvent.BLINK_RIGHT);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.SURPRISED_2);
 					}
 					break;
 				case 2:
 					if (isPlayerTurn) {
 						Debug.Log("Click Mouth");
 						mFace.SetEvent(FaceEvent.SMILE);
+						BYOS.Instance.Speaker.Voice.Play(VoiceSound.SURPRISED_3);
 					}
 					break;
 			}
-			if (isPlayerTurn) {
-				// play sound
-				switch (UnityEngine.Random.Range(0, 5)) {
-					case 0:
-						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-						break;
-					case 1:
-						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
-						break;
-					case 2:
-						BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
-						break;
-					default:
-						Debug.Log("Don't play a sound");
-						break;
-				}
-			}
+			//if (isPlayerTurn) {
+			//	// play sound
+			//	switch (UnityEngine.Random.Range(0, 5)) {
+			//		case 0:
+			//			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
+			//			break;
+			//		case 1:
+			//			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+			//			break;
+			//		case 2:
+			//			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
+			//			break;
+			//		default:
+			//			Debug.Log("Don't play a sound");
+			//			break;
+			//	}
+			//}
 			if (clickFace != null && isPlayerTurn) {
 				clickFace(value);
 			}

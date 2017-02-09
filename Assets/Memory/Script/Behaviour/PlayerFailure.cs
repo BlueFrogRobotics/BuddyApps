@@ -8,8 +8,8 @@ namespace BuddyApp.Memory
 {
 	public class PlayerFailure : LinkStateMachineBehavior
 	{
-		
-		
+
+
 		public override void Init()
 		{
 			Debug.Log("Init playerFailure");
@@ -28,7 +28,9 @@ namespace BuddyApp.Memory
 			mTTS.Silence(1000, true);
 			mMood.Set(MoodType.SAD);
 			link.mAnimationManager.Sigh();
-			mTTS.Say(link.currentLevel.failureSentence, true);
+			mTTS.Say(mDictionary.GetRandomString("failure"), true);
+			mTTS.Silence(1000);
+			mTTS.Say(mDictionary.GetRandomString("restart"), true);
 		}
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -39,16 +41,22 @@ namespace BuddyApp.Memory
 				QuitApp();
 			}
 
+			// Restart from start
 			if (mTTS.HasFinishedTalking) {
+				//link.ResetLevel();
+				Debug.Log("failure Current lvl: " + link.gameLevels.mCurrentLevel);
+				animator.SetTrigger("NextLevel");
+
+
 				//Application.Quit ();
-				QuitApp();
+				//QuitApp();
 			}
 		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		protected override void OnExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			mMood.Set(MoodType.NEUTRAL);
+			Debug.Log("failure Current lvl: " + link.gameLevels.mCurrentLevel);
 		}
 
 	}
