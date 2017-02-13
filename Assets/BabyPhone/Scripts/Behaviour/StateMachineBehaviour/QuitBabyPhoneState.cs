@@ -23,8 +23,11 @@ namespace BuddyApp.BabyPhone
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if ((iAnimator.GetInteger("ForwardState") != 1) || (iAnimator.GetInteger("ForwardState") != 22))
+                mBackgroundBlackAnimator.SetTrigger("Open_BG");
+
             mWindowYesNoQuestion.SetActive(true);
-            mBackgroundBlackAnimator.SetTrigger("Open_BG");
+
             mYesNoQuestionWindow.SetTrigger("Open_WQuestion");
             iAnimator.SetBool("QuitButton", false);
         }
@@ -32,12 +35,8 @@ namespace BuddyApp.BabyPhone
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mWindowYesNoQuestion.SetActive(false);
-            //if (iAnimator.GetInteger("ForwardState") != 1)
-            //{
-                
-                
-            //}
-            mBackgroundBlackAnimator.SetTrigger("Close_BG");
+
+            //mBackgroundBlackAnimator.SetTrigger("Close_BG");
             mYesNoQuestionWindow.SetTrigger("Close_WQuestion");
             iAnimator.SetInteger("ForwardState", -1);
         }

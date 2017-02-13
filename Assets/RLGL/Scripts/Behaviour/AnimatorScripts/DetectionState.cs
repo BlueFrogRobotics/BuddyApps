@@ -27,6 +27,7 @@ namespace BuddyApp.RLGL
             mIsStrong = false;
             mIsMovementActionDone = false;
             GetComponent<FreezeDance.MotionGame>().enabled = true;
+            GetComponent<FreezeDance.MotionGame>().IsRLGL = true;
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

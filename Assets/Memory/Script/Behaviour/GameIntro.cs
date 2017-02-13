@@ -22,7 +22,7 @@ namespace BuddyApp.Memory
 
             BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
             mTTS.Silence(1000, true);
-            mTTS.Say(link.gameLevels.intro, true);
+            mTTS.Say(mDictionary.GetRandomString("intro"), true);
             mOnEnterDone = true;
         }
 

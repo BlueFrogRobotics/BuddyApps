@@ -9,6 +9,9 @@ namespace BuddyApp.FreezeDance
 {
     public class MotionGame : AVisionAlgorithm
     {
+        private bool mIsRLGL;
+        public bool IsRLGL { get { return mIsRLGL; } set { mIsRLGL = value; } }
+
         [SerializeField]
         private bool isMoving;
 
@@ -43,9 +46,9 @@ namespace BuddyApp.FreezeDance
 
         // Use this for initialization
 
-        private Mat mDebugMatRLGL;
-        //[SerializeField]
-        //private RawImage mDebugRawImg;
+        //private Mat mDebugMatRLGL;
+        [SerializeField]
+        private RawImage mDebugRawImg;
 
         protected override void Init()
         {
@@ -59,10 +62,11 @@ namespace BuddyApp.FreezeDance
             mBlurredImage = new Mat();
             mBinaryImage = new Mat();
             mPositionOLD = new Point(1000, 1000);
+            mIsRLGL = false;
             //sobelKernelSize = 3;
 
-            //Debug for RLGL
-            mDebugMatRLGL = new Mat();
+            ////Debug for RLGL
+            //mDebugMatRLGL = new Mat();
 
             mRGBCam = BYOS.Instance.RGBCam;
             mRGBCam.Open();
@@ -74,7 +78,31 @@ namespace BuddyApp.FreezeDance
 
             //mThresh = threshBar.value;
             //need to change mThresh to adjust difficulty
-            mThresh = 100;
+            if (mIsRLGL)
+            {
+                switch (RLGL.RLGLData.Instance.Difficulty)
+                {
+                    case RLGL.RLGLData.Level.LEVEL_EASY:
+                        mThresh = 125;
+                        break;
+                    case RLGL.RLGLData.Level.LEVEL_MEDIUM:
+                        mThresh = 100;
+                        break;
+                    case RLGL.RLGLData.Level.LEVEL_HARD:
+                        mThresh = 75;
+                        break;
+                    case RLGL.RLGLData.Level.LEVEL_IMPOSSIBLE:
+                        mThresh = 50;
+                        break;
+                    default:
+                        mThresh = 100;
+                        break;
+                }
+            }
+            else
+                mThresh = 100;
+
+
             mRawImage = iInputFrameMat.clone();
             mTest = iInputFrameMat.clone();
 
@@ -96,13 +124,13 @@ namespace BuddyApp.FreezeDance
                     float lDiffY = Mathf.Abs((float)(lCenterOfMass.y - mPositionOLD.y));
                     if (lDiffX == 0 && lDiffY == 0)
                     {
-                        //mDebugRawImg.enabled = false;
+                        mDebugRawImg.enabled = false;
                         isMoving = false;
                     }
                     else
                     {
-                        //mDebugRawImg.enabled = true;
-                        //mDebugRawImg.texture = Utils.MatToTexture2D(mTest);
+                        mDebugRawImg.enabled = true;
+                        mDebugRawImg.texture = Utils.MatToTexture2D(mTest);
                         isMoving = true;
                     }
                         

@@ -10,7 +10,12 @@ using System.Xml.Serialization;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using BuddyOS.Command;
+
+#if UNITY_5_3
 using UnityEngine.Experimental.Networking;
+#else
+using UnityEngine.Networking;
+#endif
 
 namespace BuddyApp.Wolfram
 {

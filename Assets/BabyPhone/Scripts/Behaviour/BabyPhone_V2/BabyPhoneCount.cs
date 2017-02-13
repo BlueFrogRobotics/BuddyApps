@@ -23,7 +23,7 @@ namespace BuddyApp.BabyPhone
         {
             StopCoroutine(StartCount());
             mDictionary = BYOS.Instance.Dictionary;
-            label.text = mDictionary.GetString("bbstart");
+            label.text = mDictionary.GetString("bbstart").ToUpper();
             //StartCoroutine(StartCount());
         }
 

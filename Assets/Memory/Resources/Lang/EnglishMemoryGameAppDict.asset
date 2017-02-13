@@ -13,12 +13,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: win
-    val: well done, you won the game! You are so good!
-  - key: noface
-    val: I can't see any face
-  - key: askmovephoto
-    val: Should I take the photo [200] or should I move first?
-  - key: askmovephotow
-    val: I take the photo or move first?
-  - key: movephoto
-    val: You should say "move first" or "take the photo"
+    baseValue: Well done, you won!
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Well done, you won! You won the game, you are truly good!
+  - key: success
+    baseValue: Well done
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - well done!
+    - ' Yes! you did it!'
+    - nice one!
+    - not bad!
+    - wow, you are good!
+  - key: failure
+    baseValue: Game over
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Game over!
+    - ' Sorry you failed!'
+    - You failed, but you were close
+    - Ho no, you failed!
+  - key: intro
+    baseValue: Make me reproduce my motion
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - I will move my face and body and you will have to make me reproduce it.
+  - key: introlvl
+    baseValue: 'Let''s do the level '
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Let's go for the level
+    - let's do the level
+    - are you ready for the level
+  - key: yourturn
+    baseValue: It's your turn
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - It's your turn
+    - your turn
+    - Now focus and reproduce!
+  - key: restart
+    baseValue: I restart, focus!
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - I restart the motions, focus on me!
+    - I will do the motion again! Look closely

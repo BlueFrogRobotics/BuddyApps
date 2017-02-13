@@ -13,12 +13,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: win
-    val: "Bien jou\xE9, tu as gagn\xE9! Tu es trop fort"
-  - key: noface
-    val: Je ne vois aucun visage
-  - key: askmovephoto
-    val: 'Dois-je prendre la photo [200] ou dois-je d''abord bouger? '
-  - key: askmovephotow
-    val: Je prends la photo ou je bouge d'abord?
-  - key: movephoto
-    val: Vous devez dire "prendre la photo" ou "recentrer"
+    baseValue: "Bien jou\xE9, tu as gagn\xE9!"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Bravo, vous avez gagn\xE9!"
+    - "Bien jou\xE9, vous avez gagn\xE9!"
+    - "Vous \xEAtes vraiment dou\xE9, vous avez gagn\xE9!"
+  - key: success
+    baseValue: bravo
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - bravo
+    - "bien jou\xE9"
+    - "wow, vous \xEAtes trop fort"
+    - "impr\xE9ssionant!"
+    - pas mal
+  - key: failure
+    baseValue: Vous avez perdu
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Vous avez perdu
+    - " Dommage, vous n'\xE9tiez pas loin!"
+    - " Mauvaise r\xE9ponse..."
+  - key: intro
+    baseValue: Fais moi reproduire mes mouvements
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Je vais faire bouger mon visage et mon corps, et vous devez me faire reproduire
+      ces mouvements
+  - key: introlvl
+    baseValue: C'est parti pour le niveau
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Vous etes pret pour le niveau
+    - Concentrez vous, je vais commencer le niveau
+    - Allez, niveau
+  - key: yourturn
+    baseValue: "C'est \xE0 vous"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "C'est \xE0 vous"
+    - "\xE0 vous"
+    - c'est votre tour
+    - A vous de jouer!
+    - "A vous de refaire la s\xE9quence"
+  - key: restart
+    baseValue: Je recommence, concentrez-vous!
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Je recommence, concentrez cous!
+    - ' Je vais recommencer, regardez bien!'
+    - "Allez, On r\xE9essaye!"
