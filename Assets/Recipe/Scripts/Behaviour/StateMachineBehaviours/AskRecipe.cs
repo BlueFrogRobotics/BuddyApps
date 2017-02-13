@@ -17,7 +17,7 @@ namespace BuddyApp.Recipe
             GetComponent<RecipeBehaviour>().NoAnswerCount = 0;
             GetComponent<RecipeBehaviour>().RecipeNotFoundCount = 0;
             GetComponent<RecipeBehaviour>().mRecipeList = null;
-            mTTS.Say(mDictionary.GetString("askprepare"));
+            mTTS.Say(mDictionary.GetRandomString("askprepare"));
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

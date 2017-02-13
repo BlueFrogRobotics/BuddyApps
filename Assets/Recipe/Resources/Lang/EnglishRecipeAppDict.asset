@@ -13,21 +13,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - key: askprepare
-    baseValue: I see you're ready for some coking.[300] What are we making today ?
+    baseValue: I see you're ready for some cooking. [300] What are we making today
+      ?
     phoneticValues: []
-    randomValues: []
+    randomValues:
+    - I see you're ready for some cooking. [300] What are we making today ?
+    - I am all ears, [300] tell me what you have in mind.
+    - Apron [500] toque [500] ok I'm listening.
+    - So what are we preparing?
   - key: recipenotfound
     baseValue: Sorry I did not find this recipe, can you please repeat?
     phoneticValues: []
-    randomValues: []
-  - key: noanswerrecipe
-    baseValue: Sorry I did not hear anything, can you please repeat?
-    phoneticValues: []
-    randomValues: []
+    randomValues:
+    - Sorry I did not find this recipe, can you please repeat?
+    - It would seem that this recipe is unknown to me. [300] Would you kindly choose
+      another one?
+    - Unfortunately I do not know this recipe. [300] We'll have to pick another one.
+    - I tried everywhere impossible to get hold of this recipe, [300] another idea?
   - key: chooserecipecategory
     baseValue: What kind of recipe do you want to make?
     phoneticValues: []
-    randomValues: []
+    randomValues:
+    - What kind of recipe do you want to make?
+    - Starter, dish or dessert. [300] The choice is yours.
+    - Press the category of your choice.
   - key: starter
     baseValue: STARTER
     phoneticValues: []
@@ -48,9 +57,13 @@ MonoBehaviour:
     baseValue: I found several recipes. I will show them on my face so that you can
       choose the one you want.
     phoneticValues: []
-    randomValues: []
+    randomValues:
+    - I found several recipes. I will show them on my face so that you can choose
+      the one you want.
+    - I will display all the corresponding recipes. [300] Choose the one that suits
+      you.
   - key: startingredient
-    baseValue: To start preparing the following ingredients
+    baseValue: To start,[200] prepare the following ingredients
     phoneticValues: []
     randomValues: []
   - key: person
@@ -84,24 +97,56 @@ MonoBehaviour:
   - key: finish
     baseValue: It's over, I'm nice I leave you my share
     phoneticValues: []
-    randomValues: []
+    randomValues:
+    - It's over, I'm nice I leave you my share
+    - We arrived at the end of the recipe. [300] I can't wait to taste a piece of
+      it.
+    - Is it over already? [300] Too bad we had fun.
   - key: another
     baseValue: Do you want to make another recipe?
     phoneticValues: []
     randomValues: []
   - key: yes
-    baseValue: YES
+    baseValue: yes
     phoneticValues: []
     randomValues: []
   - key: no
-    baseValue: NO
+    baseValue: no
     phoneticValues: []
     randomValues: []
   - key: noanswerrecipe2
     baseValue: I can't hear you.[300] Wake me up when you're ready.
     phoneticValues: []
-    randomValues: []
+    randomValues:
+    - I can't hear you. [300] Wake me up when you're ready.
+    - Excuse me somebody?
+    - I'm bored
   - key: startstep
     baseValue: It's over for the ingredients.[200] Now let's start the real part.[200]
     phoneticValues: []
+    randomValues:
+    - It's over for the ingredients.[200] Now let's start the real part.
+    - Well I hope you are ready because we will start for real.
+  - key: pronum
+    baseValue: of
+    phoneticValues: []
     randomValues: []
+  - key: startrecipe
+    baseValue: Very well. [300]Let's prepare
+    phoneticValues: []
+    randomValues:
+    - Well I hope you are ready because we will really start.
+    - Very well. [300] Let's prepare
+  - key: hint1
+    baseValue: You can double tap my face to access the category menu
+    phoneticValues: []
+    randomValues:
+    - Well I hope you are ready because we will really start.
+    - Very well. [300] Let's prepare
+  - key: hint2
+    baseValue: You can ask me to repeat or go to the next or last stage. You can also
+      go to the next or last step by waving your hand in front of the camera.
+    phoneticValues: []
+    randomValues:
+    - You can ask me to repeat or go to the next or last step
+    - Very well. [300] Let's prepare

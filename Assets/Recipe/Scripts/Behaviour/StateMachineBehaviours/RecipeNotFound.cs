@@ -21,7 +21,10 @@ namespace BuddyApp.Recipe
         {
             if (!mCheck && mSpeaker.Voice.Status == SoundChannelStatus.FINISH)
             {
-                mTTS.Say(mDictionary.GetString("recipenotfound"));
+                if (GetComponent<RecipeBehaviour>().RecipeNotFoundCount < 2)
+                    mTTS.Say(mDictionary.GetRandomString("recipenotfound"));
+                else
+                    mMood.Set(MoodType.NEUTRAL);
                 mCheck = true;
             }
             else if (mCheck && mTTS.HasFinishedTalking)

@@ -33,7 +33,7 @@ namespace BuddyApp.Recipe
             if (!mCheck && mSpeaker.Voice.Status == SoundChannelStatus.FINISH)
             {
                 Debug.Log("NO ANSWER 2");
-                mTTS.Say(mDictionary.GetString("noanswerrecipe2"));
+                mTTS.Say(mDictionary.GetRandomString("noanswerrecipe2"));
                 mCheck = true;
             }
             else if (mTTS.HasFinishedTalking && mCheck)

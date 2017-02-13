@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using BuddyOS;
 using BuddyOS.App;
+using BuddyFeature;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
@@ -115,14 +116,22 @@ namespace BuddyApp.Recipe
                         }
                         else
                         {
-                            mTTS.Say(" [1000] " + lIngredient.name + " [100] " + lIngredient.quantity, true);
-                            mPrefabIngredientTextList[i].GetComponent<Text>().text = lIngredient.name + ": " + lIngredient.quantity;
+                            mTTS.Say(" [1000] " + lIngredient.quantity + " " + lIngredient.name, true);
+                            mPrefabIngredientTextList[i].GetComponent<Text>().text = lIngredient.quantity + " " + lIngredient.name;
                         }
                     }
                     else
                     {
-                        mTTS.Say(" [1000] " + lIngredient.name + " [100] " + lIngredient.quantity + lIngredient.unit, true);
-                        mPrefabIngredientTextList[i].GetComponent<Text>().text = lIngredient.name + ": " + lIngredient.quantity + " " + lIngredient.unit;
+                        if ("aeéèiouyAEIOUY".IndexOf(lIngredient.name[0]) >= 0 && BYOS.Instance.LanguageManager.CurrentLang == Language.FRA)
+                        {
+                            mTTS.Say(" [1000] " + lIngredient.quantity + " " + lIngredient.unit + " d'" + lIngredient.name, true);
+                            mPrefabIngredientTextList[i].GetComponent<Text>().text = lIngredient.quantity + " " + lIngredient.unit + " d'" + lIngredient.name;
+                        }
+                        else
+                        {
+                            mTTS.Say(" [1000] " + lIngredient.quantity + " " + lIngredient.unit + " " + mDictionary.GetString("pronum") + " " + lIngredient.name, true);
+                            mPrefabIngredientTextList[i].GetComponent<Text>().text = lIngredient.quantity + " " + lIngredient.unit + " " + mDictionary.GetString("pronum") + " " + lIngredient.name;
+                        }
                     }
                     if (lIngredient.icon != null)
                         mPrefabIngredientIconList[i].GetComponent<Image>().sprite = mSpriteManager.GetSprite(lIngredient.icon, "AtlasRecipe");

@@ -23,7 +23,7 @@ namespace BuddyApp.Recipe
             GetGameObject(13).GetComponent<Text>().text = mDictionary.GetString("starter");
             GetGameObject(14).GetComponent<Text>().text = mDictionary.GetString("dish");
             GetGameObject(6).GetComponent<Animator>().SetTrigger("Open_WCategory");
-            mTTS.Say(mDictionary.GetString("chooserecipecategory"));
+            mTTS.Say(mDictionary.GetRandomString("chooserecipecategory"));
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

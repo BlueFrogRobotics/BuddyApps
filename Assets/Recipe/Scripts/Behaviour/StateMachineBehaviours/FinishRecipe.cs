@@ -14,7 +14,7 @@ namespace BuddyApp.Recipe
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mDone = false;
-            mTTS.Say(mDictionary.GetString("finish"));
+            mTTS.Say(mDictionary.GetRandomString("finish"));
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

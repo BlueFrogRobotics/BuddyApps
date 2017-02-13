@@ -15,19 +15,29 @@ MonoBehaviour:
   - key: askprepare
     baseValue: "Alors qu'est ce que l'on pr\xE9pare?"
     phoneticValues: []
-    randomValues: []
+    randomValues:
+    - "Alors qu'est ce que l'on pr\xE9pare?"
+    - Alors que mijotons nous aujourd'hui?
+    - "Je suis tout ou\xEFe, [300] dis moi ce que tu as en t\xEAte."
+    - "Tablier [500] toque [500] c'est bon je t'\xE9coute."
   - key: recipenotfound
     baseValue: "D\xE9sol\xE9 je n'ai pas trouv\xE9 cette recette, veux tu bien r\xE9p\xE9ter?"
     phoneticValues: []
-    randomValues: []
-  - key: noanswerrecipe
-    baseValue: "D\xE9sol\xE9 je n'ai rien entendu, veux tu bien r\xE9p\xE9ter?"
-    phoneticValues: []
-    randomValues: []
+    randomValues:
+    - "D\xE9sol\xE9 je n'ai pas trouv\xE9 cette recette, veux tu bien r\xE9p\xE9ter?"
+    - Il semblerait que cette recette me soit inconnue. [300] Aurais tu l'obligeance
+      d'en choisir une autre.
+    - Malheureusement je ne connais pas cette recette. [300] Il va falloir en choisir
+      une autre.
+    - "J'ai eu beau chercher partout impossible de mettre la main sur cette recette,
+      [300] une autre id\xE9e?"
   - key: chooserecipecategory
     baseValue: Quelle type de recette veux tu faire?
     phoneticValues: []
-    randomValues: []
+    randomValues:
+    - Quelle type de recette veux tu faire?
+    - "Entr\xE9e, plat ou dessert. [300] Le choix est tien."
+    - "Appuie sur la cat\xE9gorie de ton choix."
   - key: starter
     baseValue: ENTREE
     phoneticValues: []
@@ -48,9 +58,12 @@ MonoBehaviour:
   - key: listrecipefound
     baseValue: "J'ai trouv\xE9 plusieurs recettes, laquelle veux tu faire?"
     phoneticValues: []
-    randomValues: []
+    randomValues:
+    - "J'ai trouv\xE9 plusieurs recettes, laquelle veux tu faire?"
+    - Je vais afficher toutes les recettes correspondantes.[300] Choisi celle qui
+      te convient.
   - key: startingredient
-    baseValue: "Pour commencer pr\xE9parez les ingr\xE9dients suivants pour "
+    baseValue: "Pour commencer pr\xE9parons les ingr\xE9dients suivants pour "
     phoneticValues: []
     randomValues: []
   - key: person
@@ -86,25 +99,59 @@ MonoBehaviour:
   - key: finish
     baseValue: C'est fini, je suis gentil je te laisse ma part
     phoneticValues: []
-    randomValues: []
+    randomValues:
+    - C'est fini, je suis gentil je te laisse ma part
+    - "Nous sommes arriv\xE9 \xE0 la fin de la recette. [300] Je ne peux pas attendre
+      d'en go\xFBter un morceau."
+    - "C'est d\xE9j\xE0 termin\xE9? [300] Dommage on s'amusait bien."
   - key: another
     baseValue: Veux tu faire une autre recette?
     phoneticValues: []
     randomValues: []
   - key: yes
-    baseValue: OUI
+    baseValue: oui
     phoneticValues: []
     randomValues: []
   - key: no
-    baseValue: NON
+    baseValue: non
     phoneticValues: []
     randomValues: []
   - key: noanswerrecipe2
     baseValue: "Je ne t'entends pas. [300] R\xE9veille moi quand tu seras pr\xEAt."
     phoneticValues: []
-    randomValues: []
+    randomValues:
+    - "Je ne t'entends pas. [300] R\xE9veille moi quand tu seras pr\xEAt."
+    - Excusez-moi il y a quelqu'un?
+    - Je m'ennuie.
   - key: startstep
     baseValue: "C'est fini pour les ingr\xE9dients. [200] Commen\xE7ons les choses
       s\xE9rieuses [200]"
     phoneticValues: []
+    randomValues:
+    - "C'est fini pour les ingr\xE9dients.[200] Commen\xE7ons les choses s\xE9rieuses"
+    - "Bien j'esp\xE8re que tu es pr\xEAt car on va vraiment commencer."
+  - key: pronum
+    baseValue: de
+    phoneticValues: []
     randomValues: []
+  - key: startrecipe
+    baseValue: Entendu, je lance la recette
+    phoneticValues: []
+    randomValues:
+    - Entendu, je lance la recette
+    - "Tr\xE8s bien.[200] C'est parti pour"
+  - key: hint1
+    baseValue: "Tu peux taper deux fois sur mon visage pour acc\xE9der au menu des
+      cat\xE9gories"
+    phoneticValues: []
+    randomValues:
+    - Entendu, je lance la recette
+    - "Tr\xE8s bien.[200] C'est parti pour"
+  - key: hint2
+    baseValue: "Tu me demander de r\xE9p\xE9ter ou d'aller \xE0 la prochaine ou derni\xE8re
+      \xE9tape"
+    phoneticValues: []
+    randomValues:
+    - "Tu me demander de r\xE9p\xE9ter ou d'aller \xE0 la prochaine ou derni\xE8re
+      \xE9tape"
+    - "Tr\xE8s bien.[200] C'est parti pour"

@@ -21,7 +21,7 @@ namespace BuddyApp.Recipe
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             if (mSpeaker.Voice.Status == SoundChannelStatus.FINISH)
-                GetComponent<Animator>().SetTrigger("DisplayIngredient");
+                GetComponent<Animator>().SetTrigger("FinishRecipe");
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
