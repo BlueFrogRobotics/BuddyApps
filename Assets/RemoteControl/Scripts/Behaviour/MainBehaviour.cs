@@ -14,8 +14,8 @@ public class MainBehaviour : MonoBehaviour
 
     public void backToLobby()
     {
-        if (mWebRTC.connectionState == Webrtc.CONNECTION.CONNECTING)
-            mWebRTC.hangup();
+        if (mWebRTC.ConnectionState == Webrtc.CONNECTION.CONNECTING)
+            mWebRTC.HangUp();
         BYOS.Instance.AppManager.Quit();
     }
 
