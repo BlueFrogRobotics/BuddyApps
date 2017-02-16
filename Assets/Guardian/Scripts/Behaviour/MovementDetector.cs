@@ -77,6 +77,10 @@ namespace BuddyApp.Guardian
         private float mTimeEndSaved;
         private int mCountFrame;
 
+        private float mFPS = 15;
+        private float mNumSec = 10;
+        private float mTime = 0.0f;
+
         //Kalman
 
         //void Awake()
@@ -103,7 +107,7 @@ namespace BuddyApp.Guardian
             mBinaryImage = new Mat();
 
             mSobelKernelSize = 3;
-
+            mTime = 0.0f;
 
             mCam = BYOS.Instance.RGBCam;
             mPreviousFrame = mCurrentFrame.clone();
@@ -113,7 +117,7 @@ namespace BuddyApp.Guardian
                 //mPreviousFrame = mCam.FrameMat.clone();
             }
             mBufferVideo = new Queue<Mat>();
-            mMaxBufferSize = 30.0f * 4.0f;
+            mMaxBufferSize = mFPS * mNumSec;
             mTimeBeginSaved = 0.0f;
             mTimeEndSaved = 0.0f;
             mCountFrame = 0;
@@ -127,10 +131,15 @@ namespace BuddyApp.Guardian
             mTest = iInputFrameMat.clone();
 
             //mCountFrame++;
-            
-            mBufferVideo.Enqueue(mTest);
-            if (mBufferVideo.Count > mMaxBufferSize)
-                mBufferVideo.Dequeue();
+
+            mTime += Time.deltaTime;
+            if (mTime > 1 / mFPS)
+            {
+                mTime = 0.0f;
+                mBufferVideo.Enqueue(mTest);
+                if (mBufferVideo.Count > mMaxBufferSize)
+                    mBufferVideo.Dequeue();
+            }
 
             Imgproc.cvtColor(mRawImage, mCurrentFrame, Imgproc.COLOR_BGR2GRAY);
             if (mPreviousFrame.width() != 0)
@@ -212,7 +221,8 @@ namespace BuddyApp.Guardian
                 //int codec = VideoWriter.fourcc('H', '2', '6', '4');
                 Debug.Log("codec: " + codec);
                 Debug.Log("3");
-                double fps = Time.frameCount / Time.realtimeSinceStartup;//30.0;                          // framerate of the created video stream
+                //double fps = Time.frameCount / Time.realtimeSinceStartup;//30.0;                          // framerate of the created video stream
+                double fps = mFPS;
                 //string filename = "monitoring.avi";
                 //Debug.Log(fps);
                 string filepath = Application.persistentDataPath + "/" + iFilename;//Utils.GetStreamingAssetFilePath(filename);

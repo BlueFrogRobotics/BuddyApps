@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace BuddyApp.Guardian
 {
-    public class DetectionPatrolState : AStateGuardian
+    public class DetectionGuardianState : AStateGuardian
     {
 
         //parameters that can be chosen at the parameters menu
@@ -54,6 +54,7 @@ namespace BuddyApp.Guardian
             SetWindowAppOverBuddyColor(0);
             SetParamDetection();
             //Debug.Log("peut detecter son: " + canDetectSound + " " + isDetectingSound);
+            //mDetectorManager = StateManager.DetectorManager;
             mDetectorManager = StateManager.Detectors;
             animator.SetBool("IsDetecting", true);
             animator.SetBool("ChangeState", false);

@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Media</name>
+    </assembly>
+    <members>
+        <member name="T:BuddyFeature.Media.AudioRecorder">
+            <summary>
+            Static class used to save audio file and to manage audioclip
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Media.AudioRecorder.Save(System.String,UnityEngine.AudioClip)">
+            <summary>
+            Save the audio clip into a wav file in the data directory
+            </summary>
+            <param name="iFilename">name which will be used to save tha audio file</param>
+            <param name="iClip">audioclip that will be saved</param>
+            <returns>true if file saved</returns>
+        </member>
+        <member name="M:BuddyFeature.Media.AudioRecorder.TrimSilence(UnityEngine.AudioClip,System.Single)">
+            <summary>
+            Trim the beginning and end of an audioclip that can be considered as a silence 
+            </summary>
+            <param name="iClip">the audioclip to be trimmed</param>
+            <param name="iMin">the threshold to decide if a part can be considered as a silence</param>
+            <returns>the audioclip trimmed</returns>
+        </member>
+        <member name="M:BuddyFeature.Media.AudioRecorder.TrimSilence(System.Collections.Generic.List{System.Single},System.Single,System.Int32,System.Int32)">
+            <summary>
+            Trim the beginning and end of an audioclip that can be considered as a silence 
+            </summary>
+            <param name="iSamples">samples of an audioclip</param>
+            <param name="iMin">the threshold to decide if a part can be considered as a silence</param>
+            <param name="iChannels">number of channels per frame</param>
+            <param name="iFrequency">sample frequency of clip</param>
+            <returns>the audioclip trimmed</returns>
+        </member>
+        <member name="M:BuddyFeature.Media.AudioRecorder.TrimSilence(System.Collections.Generic.List{System.Single},System.Single,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Trim the beginning and end of an audioclip that can be considered as a silence 
+            </summary>
+            <param name="iSamples">samples of an audioclip</param>
+            <param name="iMin">the threshold to decide if a part can be considered as a silence</param>
+            <param name="iChannels">number of channels per frame</param>
+            <param name="iFrequency">sample frequency of clip</param>
+            <param name="stream">true if clip is streamed</param>
+            <returns>the audioclip trimmed</returns>
+        </member>
+        <member name="M:BuddyFeature.Media.AudioRecorder.Combine(UnityEngine.AudioClip[])">
+            <summary>
+            Combine several audioclip into one
+            </summary>
+            <param name="iClips">the array of audioclips</param>
+            <returns>the audioclip obtained from the comination of several audioclips</returns>
+        </member>
+        <member name="T:BuddyFeature.Media.VideoRecorder">
+            <summary>
+            Class used to save video with the mjpg codec
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Media.VideoRecorder.Save(System.String,OpenCVUnity.Mat[],System.Single)">
+            <summary>
+            Save the video in the Data folder
+            </summary>
+            <param name="iFilename">name of the video file to save to</param>
+            <param name="iListMat">list of mat that will be stored in the video file</param>
+            <param name="iFps">framerate of the video file</param>
+        </member>
+    </members>
+</doc>

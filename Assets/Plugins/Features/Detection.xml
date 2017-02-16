@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Detection</name>
+    </assembly>
+    <members>
+        <member name="T:BuddyFeature.Detection.ADetector">
+            <summary>
+            Abstract call which define a detector
+            </summary>
+        </member>
+        <member name="E:BuddyFeature.Detection.ADetector.OnDetection">
+            <summary>
+            Event triggered when a detection has occured
+            called by OnSendDetection
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.ADetector.MinThreshold">
+            <summary>
+            The minimal value for the threshold of the detector
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.ADetector.MaxThreshold">
+            <summary>
+            The maximal value for the threshold of the detector
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.ADetector.Threshold">
+            <summary>
+            The value of the threshold
+            When the value is exceeded a detection will occur
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Detection.ADetector.OnSendDetection">
+            <summary>
+            Function which must be called when the detection must occur
+            Will call the OnDetection event
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Detection.ADetector.SetSensibility(System.Single)">
+            <summary>
+            Set the threshold by choosing the ratio of sensibility
+            A value of 1 will set the threshold to its max value and a value of 0 will set it to its min value
+            </summary>
+            <param name="iSensibility">sensibility ratio between 0 and 1</param>
+        </member>
+        <member name="M:BuddyFeature.Detection.ADetector.Init">
+            <summary>
+            Called at the start
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Detection.ADetector.OnUpdate">
+            <summary>
+            Called at the update
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Detection.FireDetector">
+            <summary>
+            Class used to detect a fire
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.FireDetector.IsFireDetected">
+            <summary>
+            Is true if a fire has been detected
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Detection.KidnappingDetector">
+            <summary>
+            Class used to know if buddy has been taken off
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.KidnappingDetector.IsBeingKidnapped">
+            <summary>
+            Is true if buddy is taken off
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Detection.MovementDetector">
+            <summary>
+            Class used to detect movements
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.MovementDetector.IsMovementDetected">
+            <summary>
+            Is true if a movement has been detected
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.MovementDetector.MoveTracker">
+            <summary>
+            Returns the movement tracker associated with the detector
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Detection.MovementTracker">
+            <summary>
+            Tracker that tracks the position of a moving object 
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.MovementTracker.Threshold">
+            <summary>
+            Threshold value for the binary image got from the difference between the actual and previous picture
+            Its value is between 0 and 255
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.MovementTracker.BinaryImage">
+            <summary>
+            Mat picture of the binary image got from the difference between the actual and previous picture
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.MovementTracker.PositionMoment">
+            <summary>
+            The position of the center of the moment of the picture
+            </summary>
+        </member>
+        <member name="T:BuddyFeature.Detection.SoundDetector">
+            <summary>
+            Class used to detect sound if it exceeds the threshold
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.SoundDetector.HasStarted">
+            <summary>
+            Is true if the detection has been started using the StartMic function
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.SoundDetector.Value">
+            <summary>
+            Returns the absolute difference between the current audio level and the average audio level
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.SoundDetector.IsASoundDetected">
+            <summary>
+            Is true if a sound has been detected
+            </summary>
+        </member>
+        <member name="P:BuddyFeature.Detection.SoundDetector.Clip">
+            <summary>
+            Returns the audioclip used in the sound detection
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Detection.SoundDetector.StartMic">
+            <summary>
+            Initialize and start the detection
+            </summary>
+        </member>
+        <member name="M:BuddyFeature.Detection.SoundDetector.Stop">
+            <summary>
+            Stop the detection
+            </summary>
+        </member>
+    </members>
+</doc>

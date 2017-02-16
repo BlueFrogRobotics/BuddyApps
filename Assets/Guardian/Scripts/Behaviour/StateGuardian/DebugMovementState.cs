@@ -12,7 +12,7 @@ namespace BuddyApp.Guardian
 
         private Animator mAnimator;
         private Animator mDebugMovementAnimator;
-        private MovementDetector mMovementDetector;
+        private BuddyFeature.Detection.MovementDetector mMovementDetector;
 
         private RawImage mRaw;
         private Gauge mGauge;
@@ -47,7 +47,7 @@ namespace BuddyApp.Guardian
             if (!mHasInitSlider && mGauge.Slider)
             {
                 mHasInitSlider = true;
-                mGauge.Slider.value = (1.0f - (mMovementDetector.GetThreshold() / mMovementDetector.GetMaxThreshold())) * mGauge.Slider.maxValue;
+                mGauge.Slider.value = (1.0f - (mMovementDetector.Threshold / mMovementDetector.MaxThreshold)) * mGauge.Slider.maxValue;
             }
             mTimer += Time.deltaTime;
             if (mTimer > 0.1f)
@@ -57,12 +57,12 @@ namespace BuddyApp.Guardian
                 Mat lMatView = new Mat();
                 Mat lMatCam = new Mat();
 
-                float lMaxDetector = mMovementDetector.GetMaxThreshold();
+                float lMaxDetector = mMovementDetector.MaxThreshold;
                 float lValueSliderPercent = 1.0f - (mGauge.Slider.value / mGauge.Slider.maxValue);
-                mMovementDetector.SetThreshold(lValueSliderPercent * lMaxDetector);
+                mMovementDetector.Threshold = (lValueSliderPercent * lMaxDetector);
 
-                mMask = mMovementDetector.BinaryImage;
-                Imgproc.circle(mMask, mMovementDetector.PositionMoment, 5, new Scalar(254, 254, 254), -1);
+                mMask = mMovementDetector.MoveTracker.BinaryImage;
+                Imgproc.circle(mMask, mMovementDetector.MoveTracker.PositionMoment, 5, new Scalar(254, 254, 254), -1);
 
                 mMatRed.copyTo(lMatMouv, mMask);
                 Imgproc.threshold(mMask, mMask, 200, 255, Imgproc.THRESH_BINARY_INV);
@@ -101,7 +101,7 @@ namespace BuddyApp.Guardian
         private void Init()
         {
             mCam = BYOS.Instance.RGBCam;
-            mMovementDetector = StateManager.DetectorManager.MovementDetector;
+            mMovementDetector = StateManager.Detectors.MovementDetector;
             mRaw = StateManager.DebugMovementWindow.Raw;
             mGauge = StateManager.DebugMovementWindow.GaugeSensibility;
             mMask = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3);

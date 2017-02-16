@@ -8,7 +8,7 @@ namespace BuddyApp.Guardian
     {
 
         private ParametersGuardian mParameters;
-        private DetectionManager mDetectionManager;
+        private Detectors mDetectionManager;
         private Animator mAnimator;
         private bool mHasInitSlider = false;
         private bool mHasSwitchedState = false;
@@ -33,7 +33,7 @@ namespace BuddyApp.Guardian
             SetWindowAppOverBuddyColor(1);
             mAnimator = animator;
             mParameters = StateManager.Parameters;
-            mDetectionManager = StateManager.DetectorManager;
+            mDetectionManager = StateManager.Detectors;
             mAnimatorParameter = mParameters.gameObject.GetComponent<Animator>();
 
             mAnimatorParameter.SetTrigger("Open_WParameters");
@@ -56,10 +56,10 @@ namespace BuddyApp.Guardian
         {
             if (!mHasInitSlider && mParameters.SliderMovement)
             {
-                mParameters.SliderMovement.value = (1.0f - (mDetectionManager.MovementDetector.GetThreshold() / mDetectionManager.MovementDetector.GetMaxThreshold())) * mParameters.SliderMovement.maxValue;
+                mParameters.SliderMovement.value = (1.0f - (mDetectionManager.MovementDetector.Threshold / mDetectionManager.MovementDetector.MaxThreshold)) * mParameters.SliderMovement.maxValue;
                 mHasInitSlider = true;
 
-                mParameters.SliderSound.value = (1.0f - (mDetectionManager.SoundDetector.GetThreshold() / mDetectionManager.SoundDetector.GetMaxThreshold())) * mParameters.SliderSound.maxValue;
+                mParameters.SliderSound.value = (1.0f - (mDetectionManager.SoundDetector.Threshold / mDetectionManager.SoundDetector.MaxThreshold)) * mParameters.SliderSound.maxValue;
             }
 
             else if (mHasInitSlider && !mHasSwitchedState && mAnimatorParameter.GetCurrentAnimatorStateInfo(0).IsName("Window_Parameters_Off") && mNextState!=NextState.NONE)
@@ -181,10 +181,10 @@ namespace BuddyApp.Guardian
         {
             float lValue = 1.0f - (mParameters.SliderFire.value / mParameters.SliderFire.maxValue);
             lValue = 1.0f - (mParameters.SliderMovement.value / mParameters.SliderMovement.maxValue);
-            mDetectionManager.MovementDetector.SetThreshold(lValue * mDetectionManager.MovementDetector.GetMaxThreshold());
+            mDetectionManager.MovementDetector.Threshold = (lValue * mDetectionManager.MovementDetector.MaxThreshold);
 
             lValue = 1.0f - (mParameters.SliderSound.value / mParameters.SliderSound.maxValue);
-            mDetectionManager.SoundDetector.SetThreshold(lValue * mDetectionManager.SoundDetector.GetMaxThreshold());
+            mDetectionManager.SoundDetector.Threshold =(lValue * mDetectionManager.SoundDetector.MaxThreshold);
 
             //lValue = 1.0f - (mParameters.SliderKidnap.value / mParameters.SliderKidnap.maxValue);
             //mDetectionManager.KidnappingDetector.SetThreshold(lValue * mDetectionManager.KidnappingDetector.GetMaxThreshold());

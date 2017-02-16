@@ -10,6 +10,8 @@ namespace BuddyApp.Guardian
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(NotifMail))]
+    [RequireComponent(typeof(Detectors))]
+    [RequireComponent(typeof(SaveVideo))]
     public class StatePatrolManager : MonoBehaviour
     {
         [SerializeField]
@@ -114,6 +116,9 @@ namespace BuddyApp.Guardian
 
         private bool mWillQuit = false;
 
+        private SaveVideo mSaveVideo;
+        private SaveAudio mSaveAudio;
+
         public DetectionManager DetectorManager { get { return detectorManager; } }
         public BuddyFeature.Navigation.RoombaNavigation Roomba { get { return roomba; } }
         public GameObject Menu { get { return menu; } }
@@ -146,21 +151,34 @@ namespace BuddyApp.Guardian
         public HeadControllerWindow HeadControlWindow { get { return headControlWindow; } }
         public GameObject WindowAppOverBuddyBlack { get { return windowAppOverBuddyBlack; } }
         public GameObject WindowAppOverBuddyWhite { get { return windowAppOverBuddyWhite; } }
+        public Detectors Detectors { get { return mDetectors; } }
+
+        public string AdressMail { get;  set; }
+        public SaveVideo SaveVideo { get { return mSaveVideo; } }
+        public SaveAudio SaveAudio { get { return mSaveAudio; } }
+
+        private BuddyFeature.Web.MailSender mMailSender;
+        private string mLogs;
+        private Detectors mDetectors;
 
         //private GuardianData mGuardianData;
         void Awake()
         {
             // Find a reference to the Animator component in Awake since it exists in the scene.
             mAnimator = GetComponent<Animator>();
+            mDetectors = GetComponent<Detectors>();
+            mSaveVideo = GetComponent<SaveVideo>();
+            mSaveAudio = GetComponent<SaveAudio>();
         }
 
         // Use this for initialization
         void Start()
         {
-           // mGuardianData = GuardianData.Instance;
-            
+            // mGuardianData = GuardianData.Instance;
+
             //mFace = BYOS.Instance.Face;
             //mTTS = BYOS.Instance.TextToSpeech;
+            mMailSender = new BuddyFeature.Web.MailSender("notif.buddy@gmail.com", "autruchemagiquebuddy", BuddyFeature.Web.SMTP.GMAIL);
             AStateGuardian[] lStatesGuardian = mAnimator.GetBehaviours<AStateGuardian>();
             for (int i = 0; i < lStatesGuardian.Length; i++)
             {
@@ -182,11 +200,13 @@ namespace BuddyApp.Guardian
 
         void OnEnable()
         {
+            Debug.Log("enable state patrol");
             BuddyFeature.Web.MailSender.OnMailSent += ShowNotifMailSent;
         }
 
         void OnDisable()
         {
+            Debug.Log("disable state patrol");
             BuddyFeature.Web.MailSender.OnMailSent -= ShowNotifMailSent;
         }
 
@@ -214,16 +234,22 @@ namespace BuddyApp.Guardian
             mWillQuit = true;
             
             Debug.Log("exit magique");
+            
+            BuddyFeature.Web.Mail lMail = new BuddyFeature.Web.Mail("log alerte", mLogs);
+            lMail.AddTo(AdressMail);
+            mMailSender.Send(lMail);
+
             //new HomeCmd().Execute();
         }
 
 
         public void ShowNotifMailSent()
         {
-            detectorManager.SoundDetector.CanSave = true;
+            Debug.Log("mail a ete envoye");
+            //detectorManager.SoundDetector.CanSave = true;
             notifMail.IncrementNumber();
             
-            Debug.Log("mail a ete envoye");
+            
         }
 
         public void DebugTest()
@@ -235,6 +261,12 @@ namespace BuddyApp.Guardian
         {
             AudioSource audio = GetComponent<AudioSource>();
             audio.Play();
+        }
+
+        public void AddLog(string iLog)
+        {
+            mLogs += iLog;
+            mLogs += "\n";
         }
     }
 }

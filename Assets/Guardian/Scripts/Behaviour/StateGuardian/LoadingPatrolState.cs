@@ -12,7 +12,7 @@ namespace BuddyApp.Guardian
         private bool mStartTimer = false;
         private float mTimer = 1.0f;
         private Animator mLoadingAnimator;
-        private DetectionManager mDetectorManager;
+        private Detectors mDetectorManager;
         private bool mHasFinishedLoading = false;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -20,7 +20,7 @@ namespace BuddyApp.Guardian
         {
             DisableWindowAppOverBuddy();
             mLoadingAnimator = StateManager.LoadingAnimator;
-            mDetectorManager = StateManager.DetectorManager;
+            mDetectorManager = StateManager.Detectors;
             mLoadingAnimator.SetTrigger("Open_WLoading");
             BYOS.Instance.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
             BYOS.Instance.VocalManager.EnableTrigger = false;
@@ -28,7 +28,7 @@ namespace BuddyApp.Guardian
             animator.SetBool("ChangeState", false);
             animator.SetBool("IsDetecting", false);
             mTimer = 5.0f;
-            if (mDetectorManager.SoundDetector.IsInit)
+            if (mDetectorManager.SoundDetector.HasStarted)
                 mDetectorManager.SoundDetector.Stop();
         }
 

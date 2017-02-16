@@ -2,6 +2,8 @@
 using System.Collections;
 using BuddyOS;
 using System;
+using Ionic.Zip;
+using System.IO;
 
 namespace BuddyApp.Guardian
 {
@@ -31,6 +33,18 @@ namespace BuddyApp.Guardian
         void Start()
         {
             mThermal = BYOS.Instance.ThermalSensor;
+            //     using (ZipFile zip = new ZipFile())
+            //{
+            //    // add this map file into the "images" directory in the zip archive
+            //    string filepath = Path.Combine(Application.persistentDataPath, "livetest.avi");
+            //    zip.AddFile(filepath, "images");
+            //    // add the report into a different directory in the archive
+            //    //zip.AddFile("c:\\Reports\\2008-Regional-Sales-Report.pdf", "files");
+            //    //zip.AddFile("ReadMe.txt");
+            //    zip.Save(Path.Combine(Application.persistentDataPath, "testcomp.zip"));
+            //}
+
+
         }
 
         // Update is called once per frame

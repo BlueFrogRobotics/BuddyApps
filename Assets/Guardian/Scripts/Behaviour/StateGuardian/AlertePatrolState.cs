@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Globalization;
 using BuddyOS;
+using Ionic.Zip;
+using System.IO;
 
 namespace BuddyApp.Guardian
 {
@@ -19,7 +21,7 @@ namespace BuddyApp.Guardian
         private RGBCam mWebcam;
         private int mCountPhoto = 0;
         private Mood mMood;
-        private DetectionManager mDetectorManager;
+        private Detectors mDetectorManager;
 
         private GameObject mHaloPrefab;
         private GameObject mBackgroundPrefab;
@@ -94,16 +96,18 @@ namespace BuddyApp.Guardian
                 {
                 //if (mMailSender.CanSend)
                     SendNotification();
-
+                    //Debug.Log("apres notif");
                 mHasSentNotification = true;
                 
                     Debug.Log("proof saved");
                 mTimer = 3.0f;
                 }
+                //Debug.Log("apres if");
             }
 
             else if (mTimer < 0.0f && mHasSentNotification)
             {
+                //Debug.Log("fin else if");
                 animator.SetBool("HasAlerted", false);
                 mHaloAnimator.SetTrigger("Close_WTimer");
                 mObjectButtonAskPassword.SetActive(false);
@@ -137,7 +141,8 @@ namespace BuddyApp.Guardian
             switch (lAlerte)
             {
                 case (int)DetectionManager.Alert.SOUND:
-                    lHasSaved = mDetectorManager.SoundDetector.SoundSaved;
+                    //lHasSaved = mDetectorManager.SoundDetector.SoundSaved;
+                    lHasSaved = true;
                     break;
                 default:
                     lHasSaved = true;
@@ -155,11 +160,13 @@ namespace BuddyApp.Guardian
                 lCulture = new CultureInfo("en-US");
 
             DateTime localDate = DateTime.Now;
-
+            string lLog="";
             int lAlerte = mAnimator.GetInteger("Alerte");
             switch (lAlerte)
             {
                 case (int)DetectionManager.Alert.SOUND:
+                    lLog = localDate.ToString(lCulture) + ": sound detected";
+                    StateManager.AddLog(lLog);
                     if (mMailSender.CanSend && mMailAdress != "")
                     {
                         //mDetectorManager.mSoundDetector.SaveWav("noise");
@@ -172,6 +179,7 @@ namespace BuddyApp.Guardian
 
                         BuddyFeature.Web.Mail lMail = new BuddyFeature.Web.Mail("noise alert", lTextMail);
                         lMail.AddTo(mMailAdress);
+                        StateManager.SaveAudio.Save();
                         if (mWebcam != null && !mWebcam.IsOpen)
                         {
                             mWebcam.Open();
@@ -179,7 +187,8 @@ namespace BuddyApp.Guardian
                         lMail.AddFile("noise.wav");
                         mCountPhoto++;
                         mMailSender.Send(lMail);
-                        mDetectorManager.SoundDetector.CanSave = false;
+                        //mDetectorManager.SoundDetector.CanSave = false;
+                        
                     }
                     break;
                 case (int)DetectionManager.Alert.FIRE:
@@ -187,6 +196,8 @@ namespace BuddyApp.Guardian
                     //mMessage.text = "ATTENTION DEPART DE FEU POTENTIEL!";
                     mAnimator.SetBool("ChangeState", false);
                     Debug.Log(localDate.ToString(lCulture));
+                    lLog = localDate.ToString(lCulture) + ": fire detected";
+                    StateManager.AddLog(lLog);
                     if (mMailSender.CanSend && mMailAdress != "")
                     {
                         string lTextMail;
@@ -206,12 +217,14 @@ namespace BuddyApp.Guardian
                             mCountPhoto++;
                             mMailSender.Send(lMail);
                         }
+                        //StateManager.AddLog(lTextMail);
                     }
                     break;
                 case (int)DetectionManager.Alert.MOVEMENT:
                     //mMessage.text = "ATTENTION INTRUSION POTENTIELLE!";
                     mAnimator.SetBool("ChangeState", false);
-
+                    lLog = localDate.ToString(lCulture) + ": movement detected";
+                    StateManager.AddLog(lLog);
                     Debug.Log(localDate.ToString(lCulture));
                     if (mMailSender.CanSend && mMailAdress != "")
                     {
@@ -227,16 +240,34 @@ namespace BuddyApp.Guardian
                         {
                             mWebcam.Open();
                         }
-                        mDetectorManager.MovementDetector.Save("monitoring.avi");
-                        lMail.AddFile("monitoring.avi");
+                        StateManager.SaveVideo.Save("monitoring.avi");
+                        //BuddyFeature.Media.VideoRecorder.Save("monitoring.avi", )
+                        //mDetectorManager.MovementDetector.Save("monitoring.avi");
+
+                        using (ZipFile zip = new ZipFile())
+                        {
+                            // add this map file into the "images" directory in the zip archive
+                            string filepath = Path.Combine(Application.persistentDataPath, "monitoring.avi");
+                            zip.AddFile(filepath, "video");
+                            // add the report into a different directory in the archive
+                            //zip.AddFile("c:\\Reports\\2008-Regional-Sales-Report.pdf", "files");
+                            //zip.AddFile("ReadMe.txt");
+                            zip.Save(Path.Combine(Application.persistentDataPath, "video.zip"));
+                        }
+
+                        //lMail.AddFile("monitoring.avi");
+                        lMail.AddFile("video.zip");
                         //lMail.AddTexture2D(mWebcam.FrameTexture2D, "photocam.png"); //+ mCountPhoto + ".png");
                         //mCountPhoto++;
                         mMailSender.Send(lMail);
+                        //StateManager.AddLog(lTextMail);
                     }
                     else
                         Debug.Log("peut pas send");
                     break;
                 case (int)DetectionManager.Alert.KIDNAPPING:
+                    lLog = localDate.ToString(lCulture) + ": kidnapping detected";
+                    StateManager.AddLog(lLog);
                     //mMessage.text = "ATTENTION VOL POTENTIEL!";
                     break;
                 default:
@@ -320,6 +351,7 @@ namespace BuddyApp.Guardian
                     break;
                 case GuardianData.Contact.WALID:
                     mMailAdress = "tigrejounin@gmail.com";
+                    //mMailAdress = "wa@bluefrogrobotics.com";
                     Debug.Log("walid");
                     break;
                 case GuardianData.Contact.J2M:
@@ -347,11 +379,12 @@ namespace BuddyApp.Guardian
                     Debug.Log("personne");
                     break;
             }
+            StateManager.AdressMail = mMailAdress;
         }
 
         private void InitLink()
         {
-            mDetectorManager = StateManager.DetectorManager;
+            mDetectorManager = StateManager.Detectors;
             mBackgroundAnimator = StateManager.BackgroundAnimator;
             mHaloPrefab = StateManager.HaloPrefab;
             mBackgroundPrefab = StateManager.BackgroundPrefab;
@@ -364,5 +397,6 @@ namespace BuddyApp.Guardian
             mObjectButtonAskPassword = StateManager.ObjectButtonAskPassword;
             //mDropListContact = StateManager.DropListContact;
         }
+
     }
 }

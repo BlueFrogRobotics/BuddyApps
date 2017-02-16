@@ -9,7 +9,7 @@ namespace BuddyApp.Guardian
     public class DebugSoundState : AStateGuardian
     {
 
-        private SoundDetector mSoundDetector;
+        private BuddyFeature.Detection.SoundDetector mSoundDetector;
         private RawImage mRaw;
         private Gauge mGauge;
         private Mat mMatShow;
@@ -41,7 +41,7 @@ namespace BuddyApp.Guardian
             if (!mHasInitSlider && mGauge.Slider)
             {
                 mHasInitSlider = true;
-                mGauge.Slider.value = (1.0f - (mSoundDetector.GetThreshold() / mSoundDetector.GetMaxThreshold())) * mGauge.Slider.maxValue;
+                mGauge.Slider.value = (1.0f - (mSoundDetector.Threshold / mSoundDetector.MaxThreshold)) * mGauge.Slider.maxValue;
             }
 
             mTimer += Time.deltaTime;
@@ -50,9 +50,9 @@ namespace BuddyApp.Guardian
                 mTimer = 0.0f;
                 mMatShow = new Mat(480, 640, CvType.CV_8UC3, new Scalar(255, 255, 255, 255));
 
-                float lMaxThreshold = mSoundDetector.GetMaxThreshold();
+                float lMaxThreshold = mSoundDetector.MaxThreshold;
                 float lThreshold = (1.0f - mGauge.Slider.value / mGauge.Slider.maxValue) * lMaxThreshold;
-                mSoundDetector.SetThreshold(lThreshold);
+                mSoundDetector.Threshold = lThreshold;
 
 
 
@@ -95,12 +95,12 @@ namespace BuddyApp.Guardian
         private void Init()
         {
             mTimer = 0.0f;
-            mSoundDetector = StateManager.DetectorManager.SoundDetector;
+            mSoundDetector = StateManager.Detectors.SoundDetector;
             mRaw = StateManager.DebugSoundWindow.Raw;
             mGauge = StateManager.DebugSoundWindow.GaugeSensibility;
             mMatShow = new Mat(480, 640, CvType.CV_8UC3);
             mTexture = new Texture2D(640, 480);
-            mSoundDetector.Init();
+            mSoundDetector.StartMic();
             mHasInitSlider = false;
             mHasDetectedSound = false;
             mGoBack = false;
