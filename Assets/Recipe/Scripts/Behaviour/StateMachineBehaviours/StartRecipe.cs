@@ -13,6 +13,10 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
+            GetGameObject(2).SetActive(true);
+            GetGameObject(1).SetActive(false);
+            GetComponent<RecipeBehaviour>().IsBackgroundActivated = false;
             mCheck = false;
             mMood.Set(MoodType.HAPPY, false, true);
             GetComponent<RecipeBehaviour>().StepList = GetComponent<RecipeBehaviour>().mRecipe.step;
@@ -25,7 +29,7 @@ namespace BuddyApp.Recipe
         {
             if (!mCheck && mSpeaker.Voice.Status == SoundChannelStatus.FINISH)
             {
-                mTTS.Say(mDictionary.GetString("startrecipe") + GetComponent<RecipeBehaviour>().mRecipe.name + "[800]");
+                mTTS.Say(mDictionary.GetRandomString("startrecipe") + " " + GetComponent<RecipeBehaviour>().mRecipe.name + "[800]");
                 if (GetComponent<RecipeBehaviour>().mRecipe.person > 1)
                     mTTS.Say(mDictionary.GetString("startingredient") + GetComponent<RecipeBehaviour>().mRecipe.person + mDictionary.GetString("person") + "s:[500]", true);
                 else
@@ -38,6 +42,8 @@ namespace BuddyApp.Recipe
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mVocalManager.StopListenBehaviour = null;
+            mMood.Set(MoodType.NEUTRAL);
             if (!GetComponent<RecipeBehaviour>().IsBackgroundActivated)
             {
                 GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");

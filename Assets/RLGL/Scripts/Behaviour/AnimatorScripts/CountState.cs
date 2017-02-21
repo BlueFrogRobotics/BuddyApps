@@ -39,12 +39,15 @@ namespace BuddyApp.RLGL
 
         private bool mTestUS;
 
+        private float mTimerDifficulty;
+
         public override void Init()
         {
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            
             mBack = false;
             mTestUS = false;
             mObjectDetected = false;
@@ -193,14 +196,43 @@ namespace BuddyApp.RLGL
 
                 if (mIsMovementDone && mTTS.HasFinishedTalking)
                 {
-                    StartCoroutine(ChangeState(1.5F, iAnimator));
+                    StartCoroutine(ChangeState(TimerWithDifficulty(), iAnimator));
                 }
             }
         }
 
+
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mCanvasUIToWin.SetActive(false);
+        }
+
+        private float TimerWithDifficulty()
+        {
+            switch(RLGLData.Instance.Difficulty)
+            {
+                case RLGLData.Level.LEVEL_EASY:
+                    mTimerDifficulty = 2.5F;
+                    Debug.Log("EASY : " + mTimerDifficulty);
+                    break;
+                case RLGLData.Level.LEVEL_MEDIUM:
+                    mTimerDifficulty = 1.5F;
+                    Debug.Log("MEDIUM : " + mTimerDifficulty);
+                    break;
+                case RLGLData.Level.LEVEL_HARD:
+                    mTimerDifficulty = 1.0F;
+                    Debug.Log("HARD : " + mTimerDifficulty);
+                    break;
+                case RLGLData.Level.LEVEL_IMPOSSIBLE:
+                    mTimerDifficulty = 0.5F;
+                    Debug.Log("IMPOSSIBLE : " + mTimerDifficulty);
+                    break;
+                default:
+                    mTimerDifficulty = 1.5F;
+                    Debug.Log("DEFAUT : " + mTimerDifficulty);
+                    break;   
+            }
+            return mTimerDifficulty;
         }
 
         private IEnumerator WaitTenSecondsAtStart()

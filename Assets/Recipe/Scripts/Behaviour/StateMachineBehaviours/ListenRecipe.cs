@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using BuddyOS.App;
+using BuddyOS;
 
 namespace BuddyApp.Recipe
 {
@@ -7,6 +8,8 @@ namespace BuddyApp.Recipe
     {
         private Animator mAnimator;
         private int mErrorCount;
+        private bool mNotListening;
+        private float mTime;
 
         public override void Init()
         {
@@ -15,25 +18,34 @@ namespace BuddyApp.Recipe
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("ENTER LISTEN RECIPE");
+            mNotListening = false;
             mErrorCount = 0;
+            mTime = 0.0F;
             mAnimator = iAnimator;
             mVocalManager.OnEndReco = GetAnswer;
             mVocalManager.OnError = NoAnswer;
             mVocalManager.StopListenBehaviour = null;
-            if (GetComponent<RecipeBehaviour>().NoAnswerCount == 0)
+            if (GetComponent<RecipeBehaviour>().NoAnswerCount == 0 && GetComponent<RecipeBehaviour>().RecipeNotFoundCount < 3)
                 mVocalManager.StartInstantReco();
             else
             {
                 Debug.Log("Put Trigger On");
                 mVocalManager.EnableTrigger = true;
+                mNotListening = true;
                 GetComponent<RecipeBehaviour>().NoAnswerCount = 0;
             }
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mVocalManager.RecognitionTriggered && Input.GetTouch(0).tapCount > 1)
+            mTime += Time.deltaTime;
+            if (mNotListening && !mVocalManager.RecognitionTriggered && Input.GetTouch(0).tapCount > 1)
                 iAnimator.SetTrigger("ChooseWithScreen");
+            if (mNotListening && !mVocalManager.RecognitionTriggered && mTime > 10.0F)
+            {
+                mTime = 0.0F;
+                mNotManager.Display<SimpleNot>().With(mDictionary.GetString("hint1"), mSpriteManager.GetSprite("LightOn"));
+            }
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -47,6 +59,7 @@ namespace BuddyApp.Recipe
         private void GetAnswer(string iAnswer)
         {
             Debug.Log("GOT A ANSWER");
+            mVocalManager.StopListenBehaviour = Empty;
             GetComponent<RecipeBehaviour>().mAnswer = iAnswer.ToLower();
             mAnimator.SetTrigger("AnswerRecipe");
         }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using BuddyOS.App;
+using BuddyOS;
 using System;
 
 namespace BuddyApp.Recipe
@@ -16,9 +17,11 @@ namespace BuddyApp.Recipe
         private int mNextValue;
         private int mLastValue;
         private float mTime;
+        private bool mDone;
 
         public override void Init()
         {
+            mDone = false;
             mNbPixel = mThermalSensor.Matrix.Length;
             mThermalSensorDataArray = new int[mNbPixel];
         }
@@ -51,6 +54,11 @@ namespace BuddyApp.Recipe
                     ThermalLast();
                 else
                     ThermalCheck();
+            }
+            if (!mDone && mTTS.HasFinishedTalking)
+            {
+                mDone = true;
+                mNotManager.Display<SimpleNot>().With(mDictionary.GetRandomString("hint2"), mSpriteManager.GetSprite("LightOn"));
             }
         }
 

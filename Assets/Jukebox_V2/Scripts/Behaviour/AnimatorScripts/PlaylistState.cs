@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections;
 using BuddyOS.App;
 
-namespace BuddyApp.Recipe
+namespace BuddyApp.Jukebox
 {
-    public class FinishRecipe : AStateMachineBehaviour
+    public class PlaylistState : AStateMachineBehaviour
     {
-        private bool mDone;
 
         public override void Init()
         {
@@ -13,17 +13,11 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mDone = false;
-            mTTS.Say(mDictionary.GetRandomString("finish"));
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mDone && mTTS.HasFinishedTalking)
-            {
-                mDone = true;
-                GetComponent<Animator>().SetTrigger("AskAnotherRecipe");
-            }
+
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using BuddyOS.App;
+using BuddyOS;
 using System;
 
 namespace BuddyApp.Recipe
@@ -58,7 +59,6 @@ namespace BuddyApp.Recipe
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mVocalManager.OnEndReco = null;
-            mVocalManager.OnError = null;
             mVocalManager.StopListenBehaviour();
             mTTS.Silence(0);
             GetGameObject(10).GetComponent<Button>().onClick.RemoveAllListeners();
@@ -153,10 +153,13 @@ namespace BuddyApp.Recipe
                 NextStep();
             else if (ContainKeyWord(answer, mDictionary.GetString("last").Split(' ')))
                 LastStep();
-            else if (ContainKeyWord(answer, mDictionary.GetString("repeat").Split(' '))) {
+            else if (ContainKeyWord(answer, mDictionary.GetString("repeat").Split(' ')))
+            {
                 GetComponent<RecipeBehaviour>().StepIndex--;
                 GetComponent<Animator>().SetTrigger("PlaySoundStep");
             }
+            //else if (ContainKeyWord(answer, mDictionary.GetString("timer").Split(' ')))
+                //Alarm();
         }
 
         private bool ContainKeyWord(string iAnswer, string[] iKeyWords)
@@ -193,11 +196,6 @@ namespace BuddyApp.Recipe
                     GetComponent<RecipeBehaviour>().StepIndex = 0;
                 GetComponent<Animator>().SetTrigger("PlaySoundStep");
             }
-        }
-
-        private void VocalError(STTError error)
-        {
-            mVocalManager.StartInstantReco();
         }
     }
 }

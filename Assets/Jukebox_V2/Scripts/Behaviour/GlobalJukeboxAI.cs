@@ -46,7 +46,6 @@ namespace BuddyApp.Jukebox
             {
                 mAnimator.SetTrigger("Replay");
             }
-            //mAnimator.Play("LoadingMusicState", 0, 0.0F);
         }
 
         public void NextMusic()
@@ -74,6 +73,14 @@ namespace BuddyApp.Jukebox
             if(mAnimator.GetCurrentAnimatorStateInfo(0).IsName("PauseState"))
             {
                 mAnimator.SetTrigger("UnPause");
+            }
+        }
+
+        public void Playlist()
+        {
+            if (mAnimator.GetCurrentAnimatorStateInfo(0).IsName("PlayState"))
+            {
+                mAnimator.SetTrigger("Playlist");
             }
         }
     }

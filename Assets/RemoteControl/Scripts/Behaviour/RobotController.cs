@@ -54,7 +54,7 @@ public class RobotController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!sayWho && (mWebrtc.connectionState == Webrtc.CONNECTION.CONNECTING))
+        if (!sayWho && (mWebrtc.ConnectionState == Webrtc.CONNECTION.CONNECTING))
         {
             TTS.Say(mDictionary.GetString("AlertControl"));
             sayWho = true;

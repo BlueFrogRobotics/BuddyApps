@@ -65,6 +65,7 @@ namespace BuddyApp.Jukebox
                 iAnimator.SetTrigger("Next");
                 mIsMusicDone = false;
             }
+            
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

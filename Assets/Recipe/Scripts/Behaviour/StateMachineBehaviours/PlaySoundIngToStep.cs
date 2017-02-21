@@ -62,6 +62,10 @@ namespace BuddyApp.Recipe
             {
                 if (!sentence)
                 {
+                    GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
+                    GetGameObject(2).SetActive(true);
+                    GetGameObject(1).SetActive(false);
+                    GetComponent<RecipeBehaviour>().IsBackgroundActivated = false;
                     sentence = true;
                     GetComponent<Animator>().SetTrigger("StartStep");
                 }

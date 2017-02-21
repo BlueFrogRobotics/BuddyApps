@@ -11,7 +11,7 @@ namespace BuddyApp.Recipe
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mTTS.Say(mDictionary.GetString("startstep"));
+            mTTS.Say(mDictionary.GetRandomString("startstep") + " " + "[300]");
         }
 
         protected override void OnUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -22,6 +22,10 @@ namespace BuddyApp.Recipe
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
+            GetGameObject(2).SetActive(false);
+            GetGameObject(1).SetActive(true);
+            GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
         }
     }
 }

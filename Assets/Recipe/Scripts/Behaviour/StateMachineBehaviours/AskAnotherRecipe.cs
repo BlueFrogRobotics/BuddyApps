@@ -21,8 +21,8 @@ namespace BuddyApp.Recipe
             GetGameObject(2).SetActive(false);
             GetGameObject(15).GetComponent<Animator>().SetTrigger("Open_WQuestion");
             GetGameObject(16).GetComponent<Text>().text = mDictionary.GetString("another");
-            GetGameObject(18).GetComponent<Text>().text = mDictionary.GetString("yes");
-            GetGameObject(19).GetComponent<Text>().text = mDictionary.GetString("no");
+            GetGameObject(18).GetComponent<Text>().text = mDictionary.GetString("yes").ToUpper();
+            GetGameObject(19).GetComponent<Text>().text = mDictionary.GetString("no").ToUpper();
             mTTS.Say(mDictionary.GetString("another"));
             GetGameObject(17).GetComponent<Button>().onClick.AddListener(AnswerYes);
         }
@@ -49,13 +49,10 @@ namespace BuddyApp.Recipe
                 AnswerYes();
             else if (iAnswer.Contains(mDictionary.GetString("no")))
                 GetComponent<RecipeBehaviour>().Exit();
-            else
-                mVocalManager.StartInstantReco();
         }
 
         private void VocalError(STTError error)
         {
-            mVocalManager.StartInstantReco();
         }
 
         protected override void OnExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

@@ -17,7 +17,7 @@ namespace BuddyApp.Jukebox
         private DirectoryInfo mDirectory;
         private string mURLAndroid;
         private WWW mWWW;
-
+        
         private int mIndexMusic;
         public int IndexMusic { get { return mIndexMusic; } set { mIndexMusic = value; } }
 
@@ -30,13 +30,28 @@ namespace BuddyApp.Jukebox
         private bool mIsLoadDone;
         private AudioSource msource;
 
+        /// <summary>
+        /// SECONDE VERSION JUKEBOX
+        /// </summary>
+        /// 
+
+
+        private bool mIsPlaylist;
+        public bool IsPlaylist { get { return mIsPlaylist; } set { mIsPlaylist = value; } }
+
+        private List<int> mIndexToPlay;
+
         public override void Init()
         {
             mIndexMusic = 0;
+            mIsPlaylist = false;
+            
         }
 
         protected override void OnEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if(!mIsPlaylist)
+                mIndexToPlay = iAnimator.GetBehaviour<InitState>().IndexToPlay;
             mMusicPlay = GetGameObject(0).GetComponent<AudioSource>();
             if(mMusicPlay.isPlaying)
                 mMusicPlay.Stop();
@@ -45,7 +60,8 @@ namespace BuddyApp.Jukebox
             mDirectory = new DirectoryInfo("/storage/emulated/0/Music");
             mPath = mDirectory.GetFiles("*.mp3");
             mPathLength = mPath.Length;
-            mWWW = new WWW(mURLAndroid + mPath[mIndexMusic]);
+            
+            mWWW = new WWW(mURLAndroid + mPath[mIndexToPlay[mIndexMusic]]);
             StartCoroutine(GetMusic(mWWW));
         }
 
@@ -75,6 +91,8 @@ namespace BuddyApp.Jukebox
             mMusicName = mMusicName.Remove(0, 26);
             mIsLoadDone = true;
         }
+
+
 
     }
 }

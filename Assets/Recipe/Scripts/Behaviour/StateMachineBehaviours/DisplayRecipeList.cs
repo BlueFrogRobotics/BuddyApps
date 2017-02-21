@@ -38,6 +38,13 @@ namespace BuddyApp.Recipe
         {
             GetComponent<RecipeBehaviour>().DestroyRecipePrefab();
             GetGameObject(5).GetComponent<Animator>().SetTrigger("Close_WRecipeList");
+            /*if (iAnimator.GetBool("StartRecipe"))
+            {
+                GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
+                GetGameObject(2).SetActive(true);
+                GetGameObject(1).SetActive(false);
+                GetComponent<RecipeBehaviour>().IsBackgroundActivated = false;
+            }*/
         }
     }
 }
