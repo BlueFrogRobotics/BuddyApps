@@ -4,6 +4,21 @@
         <name>Vocal</name>
     </assembly>
     <members>
+        <member name="T:BuddyFeature.Vocal.QuestionAnalysed">
+            <summary>
+            Use this function in order to get the Type of question found
+            </summary>
+            <remarks>
+            The value is a string and can be a lot of different things like Babyphone, VolumeUp
+            </remarks>
+            <param name="iType"></param>
+        </member>
+        <member name="T:BuddyFeature.Vocal.VocalChat">
+            <summary>
+            This provides a standard vocal feature for basic question answering through pre-answered questions
+            wolfram alpha queries and/or cleverbot answering
+            </summary>
+        </member>
         <member name="P:BuddyFeature.Vocal.VocalChat.WithNotification">
             <summary>
              Authorizes automatic notification display after STT recognition or error. True as default
