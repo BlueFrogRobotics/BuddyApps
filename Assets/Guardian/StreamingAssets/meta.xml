@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ID>a252702222215989717117712515750</ID>
+    <ShortName>Guardian</ShortName>
+    <CommercialName>Guardian</CommercialName>
+    <MainScene>a252702222215989717117712515750-0</MainScene>
+    <Authors>Leonard</Authors>
+    <Version>1.0.0</Version>
+    <Category>SECURITY</Category>
+    <UnlockMode>LOCKABLE_AND_ASK_FOR_QUIT</UnlockMode>
+    <LangVocalKeys>
+        <VocalKeys>
+            <Language>FR</Language>
+            <Keys>
+                <string>gardien</string>
+            </Keys>
+        </VocalKeys>
+        <VocalKeys>
+            <Language>EN</Language>
+            <Keys>
+                <string>guardian</string>
+            </Keys>
+        </VocalKeys>
+    </LangVocalKeys>
+    <OptionsLayoutClassName>Guardian.GuardianLayout</OptionsLayoutClassName>
+    <ActivityClassName>Guardian.GuardianActivity</ActivityClassName>
+    <LocalData>true</LocalData>
+</AppInfo>

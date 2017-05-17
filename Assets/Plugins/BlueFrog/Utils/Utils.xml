@@ -1,0 +1,1004 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Utils</name>
+    </assembly>
+    <members>
+        <member name="T:Buddy.Gaussian">
+            <summary>
+            Box-Muller method to generate gaussian distribuated variable
+            </summary>
+        </member>
+        <member name="M:Buddy.Gaussian.RandomGauss">
+            <summary>
+            Gets a random gaussian value
+            </summary>
+            <returns>Gaussian value</returns>
+        </member>
+        <member name="M:Buddy.Gaussian.RandomGauss(System.Single,System.Single)">
+            <summary>
+            Centered random gaussian with a standart derivation
+            </summary>
+            <param name="iMu">Mean</param>
+            <param name="iSigma">Standart derivation</param>
+            <returns>The gaussian value</returns>
+        </member>
+        <member name="M:Buddy.Gaussian.RandomGauss(System.Single)">
+            <summary>
+            Random gaussian with a standart derivation
+            </summary>
+            <param name="iSigma">Standart derivation</param>
+            <returns>The gaussian value</returns>
+        </member>
+        <member name="T:Buddy.Pair`2">
+            <summary>
+            Create a pair of element.
+            </summary>
+            <typeparam name="A">Type of the first element</typeparam>
+            <typeparam name="B">Type of the second element</typeparam>
+        </member>
+        <member name="P:Buddy.Pair`2.First">
+            <summary>
+            The first element
+            </summary>
+        </member>
+        <member name="P:Buddy.Pair`2.Second">
+            <summary>
+            The second element
+            </summary>
+        </member>
+        <member name="M:Buddy.Pair`2.#ctor(`0,`1)">
+            <summary>
+            Constructor of the complete pair.
+            </summary>
+            <param name="iFirst">The first element</param>
+            <param name="iSecond">The second element</param>
+        </member>
+        <member name="T:Buddy.IIndexedObject">
+            <summary>
+            Interface for item indexation.
+            </summary>
+        </member>
+        <member name="T:Buddy.PriorityQueue`1">
+            <summary>
+            C# Implementation of the priority queue
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Buddy.PriorityQueue`1.#ctor">
+            <summary>
+            Create a new priority queue.
+            </summary>
+        </member>
+        <member name="M:Buddy.PriorityQueue`1.#ctor(System.Collections.Generic.IComparer{`0})">
+            <summary>
+            Create a new priority queue with a specific comparator.
+            </summary>
+            <param name="iComparer">The element comparator</param>
+        </member>
+        <member name="M:Buddy.PriorityQueue`1.#ctor(System.Collections.Generic.IComparer{`0},System.Int32)">
+            <summary>
+            Create a new priority queue with a specific comparator and a max size.
+            </summary>
+            <param name="iComparer">The element comparator</param>
+            <param name="iCapacity">The max capacity of the queue</param>
+        </member>
+        <member name="M:Buddy.PriorityQueue`1.SwitchElements(System.Int32,System.Int32)">
+            <summary>
+            Switch two elements.
+            </summary>
+            <param name="iFirstIndex">Index of the first element</param>
+            <param name="iSecondIndex">Index of the second element</param>
+        </member>
+        <member name="M:Buddy.PriorityQueue`1.OnCompare(System.Int32,System.Int32)">
+            <summary>
+            Compare two elements.
+            </summary>
+            <param name="iFirstIndex">Index of the first element</param>
+            <param name="iSecondIndex">Index of the second element</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.PriorityQueue`1.Remove(`0)">
+            <summary>
+            Remove an element
+            </summary>
+            <param name="iItem"></param>
+        </member>
+        <member name="M:Buddy.PriorityQueue`1.Push(`0)">
+            <summary>
+            Add a new element in the queue.
+            </summary>
+            <param name="iItem"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.PriorityQueue`1.Pop">
+            <summary>
+            Return and delete the first element of the queue.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.PriorityQueue`1.Update(`0)">
+            <summary>
+            Update the queue with the specific element.
+            </summary>
+            <param name="iItem">The element to update</param>
+        </member>
+        <member name="M:Buddy.PriorityQueue`1.Peek">
+            <summary>
+            Return the first element of the queue without delete it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.PriorityQueue`1.Clear">
+            <summary>
+            Clear the queue.
+            </summary>
+        </member>
+        <member name="P:Buddy.PriorityQueue`1.Count">
+            <summary>
+            Number of elements in the queue.
+            </summary>
+        </member>
+        <member name="T:Buddy.Utils">
+            <summary>
+            Common tools, serialization, mathematic functions and conversions
+            </summary>
+        </member>
+        <member name="F:Buddy.Utils.BUDDY_COLOR_SCALAR_32">
+            <summary>
+            Buddy color (cyan like in 32 bits color)
+            </summary>
+        </member>
+        <member name="F:Buddy.Utils.BUDDY_COLOR_SCALAR">
+            <summary>
+            Buddy color (cyan like in floating point values)
+            </summary>
+        </member>
+        <member name="F:Buddy.Utils.BUDDY_COLOR_32">
+            <summary>
+            Buddy color (cyan like in 32 bits color)
+            </summary>
+        </member>
+        <member name="F:Buddy.Utils.BUDDY_COLOR">
+            <summary>
+            Buddy color (cyan like in floating point values)
+            </summary>
+        </member>
+        <member name="F:Buddy.Utils.SECOND_IN_MILLISECONDS">
+            <summary>
+            1000
+            </summary>
+        </member>
+        <member name="F:Buddy.Utils.MINUTE_IN_MILLISECONDS">
+            <summary>
+            60 * 1000
+            </summary>
+        </member>
+        <member name="F:Buddy.Utils.MINUTE_IN_SECONDS">
+            <summary>
+            60
+            </summary>
+        </member>
+        <member name="F:Buddy.Utils.HOUR_IN_SECONDS">
+            <summary>
+            60 * 60
+            </summary>
+        </member>
+        <member name="F:Buddy.Utils.DAY_IN_SECONDS">
+            <summary>
+            24 * 60 * 60
+            </summary>
+        </member>
+        <member name="M:Buddy.Utils.SerializeCSV(System.String,System.Object[])">
+            <summary>
+            Serialize objects inside the specified file.
+            </summary>
+        </member>
+        <member name="M:Buddy.Utils.UnserializeCSV(System.String,System.Char)">
+            <summary>
+            Load the list of item from the specified csv file.
+            </summary>
+            <param name="iFileName">File to load from</param>
+            <param name="iSeparator">Separator token, ';' by default</param>
+            <returns>The list of item. One string array per line.</returns>
+        </member>
+        <member name="M:Buddy.Utils.SerializeXML``1(``0,System.String)">
+            <summary>
+            Serializes an object.
+            </summary>
+            <typeparam name="T">Type of the object to serialize</typeparam>
+            <param name="iSerializableObject">Object to serialize</param>
+            <param name="iFileName">Path to the file</param>
+        </member>
+        <member name="M:Buddy.Utils.UnserializeXML``1(System.String)">
+            <summary>
+            Deserializes an xml file into an object list
+            </summary>
+            <typeparam name="T">Type of the objet to deserialize</typeparam>
+            <param name="iFileName">Path to the file</param>
+            <returns>The created object from the XML. Null if unexisting/bad file or bad filename</returns>
+        </member>
+        <member name="M:Buddy.Utils.Uncompress(System.String,System.String)">
+            <summary>
+            Unzip the specified file to the specified location
+            </summary>
+            <param name="iZipFilePath">Zip file location</param>
+            <param name="iLocation">Location to unzip</param>
+        </member>
+        <member name="M:Buddy.Utils.Compress(System.String,System.String[])">
+            <summary>
+            Create a zip file with the specified files
+            </summary>
+            <param name="iZipFileName">Zip file location</param>
+            <param name="iFiles">File path to add into the zip</param>
+        </member>
+        <member name="M:Buddy.Utils.CompressFolder(System.String,System.String)">
+            <summary>
+            Create a zip file with the specified files
+            </summary>
+            <param name="iZipFileName">Zip file location</param>
+            <param name="iFolder">Folder path to add into the zip</param>
+        </member>
+        <member name="M:Buddy.Utils.UpperFirst(System.String)">
+            <summary>
+            Make the first character to upper case
+            </summary>
+            <param name="iString">The input string to upper first</param>
+            <returns>The string with an upper first character</returns>
+        </member>
+        <member name="M:Buddy.Utils.CollectionToString``1(System.Collections.Generic.ICollection{``0},System.String)">
+            <summary>
+            Converts an T element array to a string. Elements are separate with a coma (without space).
+            </summary>
+            <typeparam name="T">Type of element inside the array</typeparam>
+            <param name="iArray">The array</param>
+            <param name="iSeparator">Between element separator in the final string. Space by default</param>
+            <returns>the string value of the array</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Buddy.Utils.GetFolderPath(System.String)" -->
+        <member name="M:Buddy.Utils.DeleteDirectory(System.String)">
+            <summary>
+            Delete the directory with its subdir
+            </summary>
+            <param name="iFolderName">Path to the directory</param>
+        </member>
+        <member name="M:Buddy.Utils.CopyDirectory(System.String,System.String,System.Boolean)">
+            <summary>
+            Copy a directory content to another location
+            </summary>
+            <param name="iSourceDirName">Path to the source directory</param>
+            <param name="iDestDirName">Path to the destination directory</param>
+            <param name="iCopySubDirs">Must copy sub directories ?</param>
+        </member>
+        <member name="M:Buddy.Utils.StructureToByteArray``1(``0,System.Int32)">
+            <summary>
+            Converts a structure into bytes array with marshaling.
+            </summary>
+            <typeparam name="T">Type of the structure</typeparam>
+            <param name="iStructure">The structure to convert</param>
+            <param name="iLength">The size of the structure. Must be specified for a complex structure</param>
+            <returns>The data representation of the structure</returns>
+        </member>
+        <member name="M:Buddy.Utils.FindMostFrequentElement``1(System.Collections.Generic.ICollection{``0})">
+            <summary>
+            Finds the most frequent element in a list.
+            </summary>
+            <typeparam name="T">Type of elements of the list</typeparam>
+            <param name="iCollection">The list</param>
+            <returns>A pair containing the element and its occurences ratio (occ / size)</returns>
+        </member>
+        <member name="M:Buddy.Utils.MakeUniquePairs``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Creates a list of unique pair for an original list of element.
+            </summary>
+            <typeparam name="T">Type of the elements</typeparam>
+            <param name="iOriginalSet">The original list of elements</param>
+            <returns>A list of unique pairs</returns>
+        </member>
+        <member name="M:Buddy.Utils.MakeUniquePairsID``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Creates a list of unique id pair for an original list of element.
+            </summary>
+            <typeparam name="T">Type of the elements</typeparam>
+            <param name="iOriginalSet">The original list of elements</param>
+            <returns>A list of unique pairs of element id</returns>
+        </member>
+        <member name="M:Buddy.Utils.Interpolate(System.Single,System.Single,System.Single)">
+            <summary>
+            Makes an interpolation between two values.
+            </summary>
+            <param name="iX1">First value</param>
+            <param name="iX2">Second value</param>
+            <param name="iAlpha">Must be between 0 and 1</param>
+            <returns>The interpolate value</returns>
+        </member>
+        <member name="M:Buddy.Utils.Interpolate(System.Double,System.Double,System.Double)">
+            <summary>
+            Makes an interpolation between two values.
+            </summary>
+            <param name="iX1">First value</param>
+            <param name="iX2">Second value</param>
+            <param name="iAlpha">Must be between 0 and 1</param>
+            <returns>The interpolate value</returns>
+        </member>
+        <member name="M:Buddy.Utils.Gaussian(System.Single,System.Single,System.Single)">
+            <summary>
+            Computes the gaussian probability based on iMean with a iStd standart deviation.
+            </summary>
+            <param name="iMean">Mean of the gaussian</param>
+            <param name="iStd">Standart Derivation of the gaussian</param>
+            <param name="iValue">Value to compute</param>
+            <returns>The gaussian probability of iValue</returns>
+        </member>
+        <member name="M:Buddy.Utils.Gaussian(System.Double,System.Double,System.Double)">
+            <summary>
+            Computes the gaussian probability based on iMean with a iStd standart deviation.
+            </summary>
+            <param name="iMean">Mean of the gaussian</param>
+            <param name="iStd">Standart Derivation of the gaussian</param>
+            <param name="iValue">Value to compute</param>
+            <returns>The gaussian probability of iValue</returns>
+        </member>
+        <member name="M:Buddy.Utils.SimpleGaussian(System.Single,System.Single)">
+            <summary>
+            Computes the continuous simplified gaussian probability based on 0 with a standart deviation of 1.
+            </summary>
+            <param name="iStd">Standart Derivation of the gaussian</param>
+            <param name="iValue">Value to compute</param>
+            <returns>The simplified gausian probability of iValue</returns>
+        </member>
+        <member name="M:Buddy.Utils.SimpleGaussian(System.Double,System.Double)">
+            <summary>
+            Computes the continuous simplified gaussian probability based on 0 with a standart deviation of 1.
+            </summary>
+            <param name="iStd">Standart Derivation of the gaussian</param>
+            <param name="iValue">Value to compute</param>
+            <returns>The simplified gausian probability of iValue</returns>
+        </member>
+        <member name="M:Buddy.Utils.Uniform(System.Single,System.Single,System.Single)">
+            <summary>
+            Computes the continuous uniform probability between A and B values.
+            </summary>
+            <param name="iA">Lower value</param>
+            <param name="iB">Upper value</param>
+            <param name="iValue">Value to compute</param>
+            <returns>The uniform probability of iValue</returns>
+        </member>
+        <member name="M:Buddy.Utils.Uniform(System.Double,System.Double,System.Double)">
+            <summary>
+            Computes the continuous uniform probability between A and B values.
+            </summary>
+            <param name="iA">Lower value</param>
+            <param name="iB">Upper value</param>
+            <param name="iValue">Value to compute</param>
+            <returns>The uniform probability of iValue</returns>
+        </member>
+        <member name="M:Buddy.Utils.Hysteresis(System.Single,System.Single)">
+            <summary>
+            Computes the hysteresis value (delay effect).
+            </summary>
+            <remarks>
+            Hysteresis is the time-based dependence of a system's output on present and past inputs.
+            The dependence arises because the history affects the value of an internal state.
+            The implemented hysteresis function looks like : (c - 1)^(x - 1) / c^x 
+            </remarks>
+            <param name="iCoeff">Coefficient parameter of the hysteresis</param>
+            <param name="iValue">Input value to be computed</param>
+            <returns>The delay value of iValue</returns>
+        </member>
+        <member name="M:Buddy.Utils.Hysteresis(System.Double,System.Double)">
+            <summary>
+            Computes the hysteresis value (delay effect).
+            </summary>
+            <remarks>
+            Hysteresis is the time-based dependence of a system's output on present and past inputs.
+            The dependence arises because the history affects the value of an internal state.
+            The implemented hysteresis function looks like : (c - 1)^(x - 1) / c^x 
+            </remarks>
+            <param name="iCoeff">Coefficient parameter of the hysteresis</param>
+            <param name="iValue">Input value to be computed</param>
+            <returns>The delay value of iValue</returns>
+        </member>
+        <member name="M:Buddy.Utils.Sigmoide(System.Single,System.Single,System.Single)">
+            <summary>
+            Computes the sigmoid function centered on iCenter of the iValue.
+            </summary>
+            <remarks>
+            The centered sigmoid function looks like : 1 / (1 + exp(-lambda * x - center))
+            </remarks>
+            <param name="iLambda">Parameter of the function. Bigger lambda make smoother activation</param>
+            <param name="iCenter">The centered value of the function</param>
+            <param name="iValue">The input value</param>
+            <returns>The Sigmoid value of iValue</returns>
+        </member>
+        <member name="M:Buddy.Utils.Sigmoide(System.Double,System.Double,System.Double)">
+            <summary>
+            Computes the sigmoid function centered on iCenter of the iValue.
+            </summary>
+            <remarks>
+            The centered sigmoid function looks like : 1 / (1 + exp(-lambda * x - center))
+            </remarks>
+            <param name="iLambda">Parameter of the function. Bigger lambda make smoother activation</param>
+            <param name="iCenter">The centered value of the function</param>
+            <param name="iValue">The input value</param>
+            <returns>The Sigmoid value of iValue</returns>
+        </member>
+        <member name="M:Buddy.Utils.Angle(OpenCVUnity.Point,OpenCVUnity.Point)">
+            <summary>
+            Computes the signed angle in degrees (ccw) between the two vectors iv1 and iv2
+            </summary>
+            <param name="iV1">From vector</param>
+            <param name="iV2">To vector</param>
+            <returns>The signed angle in degrees</returns>
+        </member>
+        <member name="M:Buddy.Utils.Angle(UnityEngine.Vector2,UnityEngine.Vector2)">
+            <summary>
+            Computes the signed angle in degrees (ccw) between the two vectors iv1 and iv2
+            </summary>
+            <param name="iV1">From vector</param>
+            <param name="iV2">To vector</param>
+            <returns>The signed angle in degrees</returns>
+        </member>
+        <member name="M:Buddy.Utils.Angle(OpenCVUnity.Point3,OpenCVUnity.Point3)">
+            <summary>
+            Computes the signed angle in degrees (ccw) between the two vectors iv1 and iv2
+            </summary>
+            <param name="iV1">From vector</param>
+            <param name="iV2">To vector</param>
+            <returns>The signed angle in degrees</returns>
+        </member>
+        <member name="M:Buddy.Utils.Angle(UnityEngine.Vector3,UnityEngine.Vector3)">
+            <summary>
+            Computes the signed angle in degrees (ccw) between the two vectors iv1 and iv2
+            </summary>
+            <param name="iV1">From vector</param>
+            <param name="iV2">To vector</param>
+            <returns>The signed angle in degrees</returns>
+        </member>
+        <member name="M:Buddy.Utils.Angle(OpenCVUnity.Point,OpenCVUnity.Point,OpenCVUnity.Point)">
+            <summary>
+            Computes the acute angle (in degrees) from 3 positions.
+            It compute the angle at P1.
+            </summary>
+            <param name="iP0">First position</param>
+            <param name="iP1">Second position, where the acute angle will be computed</param>
+            <param name="iP2">Third position</param>
+            <returns>The acute angle at the point iP1 in degrees</returns>
+        </member>
+        <member name="M:Buddy.Utils.Angle(OpenCVUnity.Point3,OpenCVUnity.Point3,OpenCVUnity.Point3)">
+            <summary>
+            Computes the acute angle (in degrees) from 3 positions.
+            It compute the angle at P1.
+            </summary>
+            <param name="iP0">First position</param>
+            <param name="iP1">Second position, where the acute angle will be computed</param>
+            <param name="iP2">Third position</param>
+            <returns>The acute angle at the point iP1 in degrees</returns>
+        </member>
+        <member name="M:Buddy.Utils.Angle(UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Vector3)">
+            <summary>
+            Computes the acute angle (in degrees) from 3 positions.
+            It compute the angle at P1.
+            </summary>
+            <param name="iP0">First position</param>
+            <param name="iP1">Second position, where the acute angle will be computed</param>
+            <param name="iP2">Third position</param>
+            <returns>The acute angle at the point iP1 in degrees</returns>
+        </member>
+        <member name="M:Buddy.Utils.Angle(UnityEngine.Vector2,UnityEngine.Vector2,UnityEngine.Vector2)">
+            <summary>
+            Computes the acute angle (in degrees) from 3 positions.
+            It compute the angle at P1.
+            </summary>
+            <param name="iP0">First position</param>
+            <param name="iP1">Second position, where the acute angle will be computed</param>
+            <param name="iP2">Third position</param>
+            <returns>The acute angle at the point iP1 in degrees</returns>
+        </member>
+        <member name="M:Buddy.Utils.Angle(OpenCVUnity.Point3[])">
+            <summary>
+            Computes the acute angle (in degrees) from 3 positions or from 2 vectors.
+            It compute the angle at P1.
+            </summary>
+            <param name="iPositions">Positions</param>
+            <returns>The acute angle at the point iPositions[1] in degrees</returns>
+        </member>
+        <member name="M:Buddy.Utils.Angle(UnityEngine.Vector3[])">
+            <summary>
+            Computes the acute angle (in degrees) from 3 positions or from 2 vectors.
+            It compute the angle at P1.
+            </summary>
+            <param name="iPositions">Positions</param>
+            <returns>The acute angle at the point iPositions[1] in degrees</returns>
+        </member>
+        <member name="M:Buddy.Utils.Angle(OpenCVUnity.Point[])">
+            <summary>
+            Computes the acute angle (in degrees) from 3 positions or from 2 vectors.
+            It compute the angle at P1.
+            </summary>
+            <param name="iPositions">Positions</param>
+            <returns>The acute angle at the point iPositions[1] in degrees</returns>
+        </member>
+        <member name="M:Buddy.Utils.Angle(UnityEngine.Vector2[])">
+            <summary>
+            Computes the acute angle (in degrees) from 3 positions or from 2 vectors.
+            It compute the angle at P1.
+            </summary>
+            <param name="iPositions">Positions</param>
+            <returns>The acute angle at the point iPositions[1] in degrees</returns>
+        </member>
+        <member name="M:Buddy.Utils.ThresholdedValue(System.Single,System.Single,System.Single)">
+            <summary>
+            Makes an lower and upper Threshold on the iValue. 
+            </summary>
+            <param name="iInf">The lower thresold</param>
+            <param name="iSup">The upper thresold</param>
+            <param name="iValue">The value to be Thresholded</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.Utils.ThresholdedValue(System.Single,System.Single)">
+            <summary>
+            Makes an lower Threshold on the iValue. 
+            </summary>
+            <param name="iInf">The lower thresold</param>
+            <param name="iValue">The value to be Thresholded</param>
+            <returns>The Thresholded value</returns>
+        </member>
+        <member name="M:Buddy.Utils.ThresholdedValue(System.Single)">
+            <summary>
+            Computes the Rectified Linear Unit (ReLU) of iValue.
+            </summary>
+            <remarks>
+            Quite similar to ln(1 + exp(x)) but faster to compute.
+            </remarks>
+            <param name="iValue"></param>
+            <returns>The Thresholded value</returns>
+        </member>
+        <member name="M:Buddy.Utils.ThresholdedValue(System.Double,System.Double,System.Double)">
+            <summary>
+            Makes an lower and upper Threshold on the iValue. 
+            </summary>
+            <param name="iInf">The lower thresold</param>
+            <param name="iSup">The upper thresold</param>
+            <param name="iValue">The value to be Thresholded</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.Utils.ThresholdedValue(System.Double,System.Double)">
+            <summary>
+            Makes an lower Threshold on the iValue. 
+            </summary>
+            <param name="iInf">The lower thresold</param>
+            <param name="iValue">The value to be Thresholded</param>
+            <returns>The Thresholded value</returns>
+        </member>
+        <member name="M:Buddy.Utils.ThresholdedValue(System.Double)">
+            <summary>
+            Computes the Rectified Linear Unit (ReLU) of iValue.
+            </summary>
+            <remarks>
+            Quite similar to ln(1 + exp(x)) but faster to compute.
+            </remarks>
+            <param name="iValue"></param>
+            <returns>The Thresholded value</returns>
+        </member>
+        <member name="M:Buddy.Utils.RadiusFromTrajectory(UnityEngine.Vector3[])">
+            <summary>
+            Computes the radius of the circumscribes circle from an array of 3 positions.
+            </summary>
+            <param name="iPositions">Array of three points on the circle</param>
+            <returns>The radius of the circle</returns>
+        </member>
+        <member name="M:Buddy.Utils.RadiusFromTrajectory(UnityEngine.Vector2[])">
+            <summary>
+            Computes the radius of the circumscribes circle from an array of 3 positions.
+            </summary>
+            <param name="iPositions">Array of three points on the circle</param>
+            <returns>The radius of the circle</returns>
+        </member>
+        <member name="M:Buddy.Utils.RadiusFromTrajectory(OpenCVUnity.Point[])">
+            <summary>
+            Computes the radius of the circumscribes circle from an array of 3 positions.
+            </summary>
+            <param name="iPositions">Array of three points on the circle</param>
+            <returns>The radius of the circle</returns>
+        </member>
+        <member name="M:Buddy.Utils.RadiusFromTrajectory(OpenCVUnity.Point3[])">
+            <summary>
+            Computes the radius of the circumscribes circle from an array of 3 positions.
+            </summary>
+            <param name="iPositions">Array of three points on the circle</param>
+            <returns>The radius of the circle</returns>
+        </member>
+        <member name="M:Buddy.Utils.CartesianToPolar2D(System.Single[])">
+            <summary>
+            Converts X and X from cartesian coordinates into polar coordinates.
+            </summary>
+            <param name="iCoordinates">Cartesian X Y values of the coordinate</param>
+            <returns>Polar coordinate (Rau, Theta)</returns>
+        </member>
+        <member name="M:Buddy.Utils.CartesianToPolar2D(System.Double[])">
+            <summary>
+            Converts X and X from cartesian coordinates into polar coordinates.
+            </summary>
+            <param name="iCoordinates">Cartesian X Y values of the coordinate</param>
+            <returns>Polar coordinate (Rau, Theta)</returns>
+        </member>
+        <member name="M:Buddy.Utils.CartesianToPolar2D(System.Single,System.Single)">
+            <summary>
+            Converts X and X from cartesian coordinates into polar coordinates.
+            </summary>
+            <param name="iX">X value of the coordinate</param>
+            <param name="iY">Y value of the coordinate</param>
+            <returns>Polar coordinate (Rau, Theta)</returns>
+        </member>
+        <member name="M:Buddy.Utils.CartesianToPolar2D(System.Double,System.Double)">
+            <summary>
+            Converts X and X from cartesian coordinates into polar coordinates.
+            </summary>
+            <param name="iX">X value of the coordinate</param>
+            <param name="iY">Y value of the coordinate</param>
+            <returns>Polar coordinate (Rau, Theta)</returns>
+        </member>
+        <member name="M:Buddy.Utils.PolarToCartesian2D(System.Single[])">
+            <summary>
+            Converts Rau and Theta from polar coordinates into 2D cartesian coordinates.
+            </summary>
+            <param name="iCoordinates">Rau and Theta values of the coordinate, i.e : the radius 
+            and the angle of the coordinate</param>
+            <returns>Cartesian coordinate (x, y)</returns>
+        </member>
+        <member name="M:Buddy.Utils.PolarToCartesian2D(System.Double[])">
+            <summary>
+            Converts Rau and Theta from polar coordinates into 2D cartesian coordinates.
+            </summary>
+            <param name="iCoordinates">Rau and Theta values of the coordinate, i.e : the radius 
+            and the angle of the coordinate</param>
+            <returns>Cartesian coordinate (x, y)</returns>
+        </member>
+        <member name="M:Buddy.Utils.PolarToCartesian2D(System.Single,System.Single)">
+            <summary>
+            Converts Rau and Theta from polar coordinates into 2D cartesian coordinates.
+            </summary>
+            <param name="iRau">Rau value of the coordinate, i.e : the radius of the coordinate</param>
+            <param name="iTheta">Theta value of the coordinate, i.e : the angle of the coordinate</param>
+            <returns>Cartesian coordinate (x, y)</returns>
+        </member>
+        <member name="M:Buddy.Utils.PolarToCartesian2D(System.Double,System.Double)">
+            <summary>
+            Converts Rau and Theta from polar coordinates into 2D cartesian coordinates.
+            </summary>
+            <param name="iRau">Rau value of the coordinate, i.e : the radius of the coordinate</param>
+            <param name="iTheta">Theta value of the coordinate, i.e : the angle of the coordinate</param>
+            <returns>Cartesian coordinate (x, y)</returns>
+        </member>
+        <member name="M:Buddy.Utils.RadToDegrees(System.Single)">
+            <summary>
+            Converts the input radian value into degrees value.
+            </summary>
+            <param name="iRadValue">The radian value</param>
+            <returns>The degree value</returns>
+        </member>
+        <member name="M:Buddy.Utils.RadToDegrees(System.Double)">
+            <summary>
+            Converts the input radian value into degrees value.
+            </summary>
+            <param name="iRadValue">The radian value</param>
+            <returns>The degree value</returns>
+        </member>
+        <member name="M:Buddy.Utils.DegreesToRad(System.Single)">
+            <summary>
+            Converts the input degrees value into radian value.
+            </summary>
+            <param name="iDegreesValue">The degree value</param>
+            <returns>The radian value</returns>
+        </member>
+        <member name="M:Buddy.Utils.DegreesToRad(System.Double)">
+            <summary>
+            Converts the input degrees value into radian value.
+            </summary>
+            <param name="iDegreesValue">The degree value</param>
+            <returns>The radian value</returns>
+        </member>
+        <member name="M:Buddy.Utils.Texture2DToMat(UnityEngine.Texture2D,System.Int32)">
+            <summary>
+            Convert the input Unity texture 2D into a OpenCVUnity Mat.
+            </summary>
+            <param name="iTexture2D">The texture to convert</param>
+            <param name="iType">The type of the output mat</param>
+            <returns>The Mat of the texture 2D</returns>
+        </member>
+        <member name="M:Buddy.Utils.GetMatFromFile(System.String,System.Int32)">
+            <summary>
+            Gets a Mat from a specific file (absolute path).
+            Works with JPG and PNG.
+            </summary>
+            <param name="iFilename">The name of the file to convert</param>
+            <param name="iType">The type of the output Mat</param>
+            <returns>Mat of the file</returns>
+        </member>
+        <member name="M:Buddy.Utils.GetTextureFromFile(System.String)">
+            <summary>
+            Gets a Texture 2D from a specific file (absolute path).
+            Works with JPG and PNG
+            </summary>
+            <param name="iFilename">The name of the file to convert</param>
+            <returns>Texture 2D of the file</returns>
+        </member>
+        <member name="M:Buddy.Utils.MatToColor32(OpenCVUnity.Mat,System.Byte[],UnityEngine.Color32[])">
+            <summary>
+            Gets an array of Color32 from a OpenCVUnity Mat
+            </summary>
+            <param name="iMat">The original mat</param>
+            <param name="iBuff">The data buffer of the mat</param>
+            <param name="iData32">The output color32 array</param>
+        </member>
+        <member name="M:Buddy.Utils.MatToTexture2D(OpenCVUnity.Mat)">
+            <summary>
+            Converts an OpenCVUnity Mat into an Unity texture 2D.
+            Careful, creates a texture 2D at each call.
+            </summary>
+            <param name="iMat">The mat to convert</param>
+            <returns>The texture 2D of the mat</returns>
+        </member>
+        <member name="M:Buddy.Utils.MatToColor32(OpenCVUnity.Mat)">
+            <summary>
+            Converts an OpenCVUnity Mat into an array of Color32.
+            Careful, creates a texture 2D at each call.
+            </summary>
+            <param name="iMat">The mat to convert</param>
+            <returns>The Color32 array of the mat</returns>
+        </member>
+        <member name="M:Buddy.Utils.MatToTexture2D(OpenCVUnity.Mat,UnityEngine.Texture2D,UnityEngine.Color32[])">
+            <summary>
+            Converts an OpenCVUnity Mat into an Unity texture 2D.
+            </summary>
+            <param name="iMat">The mat to convert</param>
+            <param name="iTexture2D">The output texture2D</param>
+            <param name="iBufferColors">The colors32 array of the texture</param>
+        </member>
+        <member name="M:Buddy.Utils.Texture2DToMat(UnityEngine.Texture2D,OpenCVUnity.Mat)">
+            <summary>
+            Converts an Unity Texture2D into an OpenCVUnity Mat.
+            </summary>
+            <param name="iTexture2D">The texture 2D to convert</param>
+            <param name="iMat">The output OpenCVUnity Mat</param>
+        </member>
+        <member name="M:Buddy.Utils.WebCamTextureToMat(UnityEngine.WebCamTexture,OpenCVUnity.Mat,UnityEngine.Color32[])">
+            <summary>
+            Converts an Unity WebcamTexture into an OpenCVUnity Mat.
+            </summary>
+            <param name="iWebCamTexture">The webcamtexture to convert</param>
+            <param name="iMat">The output OpenCVUnity Mat</param>
+            <param name="iBufferColors">The color32 array of the input texture2D</param>
+        </member>
+        <member name="M:Buddy.Utils.RotateMat(OpenCVUnity.Mat,OpenCVUnity.Mat,System.Double,OpenCVUnity.Scalar)">
+            <summary>
+            Makes a rotation of iSrc to iDst of a iAngle.
+            </summary>
+            <param name="iSrc">Input mat</param>
+            <param name="iDst">Output mat</param>
+            <param name="iAngle">Angle in degrees</param>
+            <param name="iBackgroundColor">Background color</param>
+        </member>
+        <member name="M:Buddy.Utils.SanityCheck(OpenCVUnity.Mat)">
+            <summary>
+            Checks inside the first channel of each pixel of a matrix 
+            for unwanted value (infinity and NaN)
+            </summary>
+            <param name="iMat">The matrix to check in</param>
+            <returns>False if there is a bad value</returns>
+        </member>
+        <member name="M:Buddy.Utils.DrawCustomRect(OpenCVUnity.Mat,OpenCVUnity.Rect,System.String,OpenCVUnity.Scalar)">
+            <summary>
+            Draw a fancy rect in the specified image.
+            </summary>
+            <param name="iImage">The image to draw in</param>
+            <param name="iRect">The rect (points) to draw</param>
+            <param name="iText">A no-mandatory text to draw above the rect</param>
+            <param name="iColor">Color of the rect and text</param>
+        </member>
+        <member name="M:Buddy.Utils.Center(OpenCVUnity.Rect)">
+            <summary>
+            Returns a new point corresponding to the centroid of the rect.
+            </summary>
+            <param name="iRect">The rect</param>
+            <returns>The centroid</returns>
+        </member>
+        <member name="M:Buddy.Utils.Center(OpenCVUnity.Point,OpenCVUnity.Point)">
+            <summary>
+            Returns a new point corresponding to the centroid of the rect.
+            </summary>
+            <param name="iFirstPt">First point</param>
+            <param name="iSecondPt">Second point</param>
+            <returns>The centroid</returns>
+        </member>
+        <member name="M:Buddy.Utils.Center(UnityEngine.Vector2,UnityEngine.Vector2)">
+            <summary>
+            Returns a new point corresponding to the centroid of the rect.
+            </summary>
+            <param name="iFirstPt">First point</param>
+            <param name="iSecondPt">Second point</param>
+        </member>
+        <member name="M:Buddy.Utils.Distance(OpenCVUnity.Point,OpenCVUnity.Point)">
+            <summary>
+            Computes the euclidian distance between two points.
+            </summary>
+            <param name="iPointA">The first point</param>
+            <param name="iPointB">The second point</param>
+            <returns>The euclian distance between the first and the second point</returns>
+        </member>
+        <member name="M:Buddy.Utils.Distance(OpenCVUnity.Point3,OpenCVUnity.Point3)">
+            <summary>
+            Computes the euclidian distance between two points.
+            </summary>
+            <param name="iPointA">The first point</param>
+            <param name="iPointB">The second point</param>
+            <returns>The euclian distance between the first and the second point</returns>
+        </member>
+        <member name="M:Buddy.Utils.Distance(UnityEngine.Vector2,UnityEngine.Vector2)">
+            <summary>
+            Computes the euclidian distance between two points.
+            </summary>
+            <param name="iPointA">The first point</param>
+            <param name="iPointB">The second point</param>
+            <returns>The euclian distance between the first and the second point</returns>
+        </member>
+        <member name="M:Buddy.Utils.Distance(UnityEngine.Vector3,UnityEngine.Vector3)">
+            <summary>
+            Computes the euclidian distance between two points.
+            </summary>
+            <param name="iPointA">The first point</param>
+            <param name="iPointB">The second point</param>
+            <returns>The euclian distance between the first and the second point</returns>
+        </member>
+        <member name="M:Buddy.Utils.TriangleArea(System.Single,System.Single,System.Single)">
+            <summary>
+            Computes triangle area with Heron formula.
+            </summary>
+            <param name="iA">First side length</param>
+            <param name="iB">Second side length</param>
+            <param name="iC">Third side length</param>
+            <returns>The area</returns>
+        </member>
+        <member name="M:Buddy.Utils.TriangleArea(System.Double,System.Double,System.Double)">
+            <summary>
+            Computes triangle area with Heron formula.
+            </summary>
+            <param name="iA">First side length</param>
+            <param name="iB">Second side length</param>
+            <param name="iC">Third side length</param>
+            <returns>The area</returns>
+        </member>
+        <member name="M:Buddy.Utils.CounterClockWise(OpenCVUnity.Point,OpenCVUnity.Point,OpenCVUnity.Point)">
+            <summary>
+            Check for counter clockwise style from points
+            </summary>
+            <param name="iA">First point</param>
+            <param name="iB">Second point</param>
+            <param name="iC">Third point</param>
+        </member>
+        <member name="M:Buddy.Utils.CounterClockWise(UnityEngine.Vector2,UnityEngine.Vector2,UnityEngine.Vector2)">
+            <summary>
+            Check for counter clockwise style from points
+            </summary>
+            <param name="iA">First point</param>
+            <param name="iB">Second point</param>
+            <param name="iC">Third point</param>
+        </member>
+        <member name="M:Buddy.Utils.IsIntersect(OpenCVUnity.Point,OpenCVUnity.Point,OpenCVUnity.Point,OpenCVUnity.Point)">
+            <summary>
+            Checks if two lines intersect.
+            </summary>
+            <param name="iA">Point of the first line</param>
+            <param name="iB">Point of the first line</param>
+            <param name="iC">Point of the second line</param>
+            <param name="iD">Point of the second line</param>
+            <returns>True if there is an intersection</returns>
+        </member>
+        <member name="M:Buddy.Utils.IsIntersect(UnityEngine.Vector2,UnityEngine.Vector2,UnityEngine.Vector2,UnityEngine.Vector2)">
+            <summary>
+            Checks if two lines intersect.
+            </summary>
+            <param name="iA">Point of the first line</param>
+            <param name="iB">Point of the first line</param>
+            <param name="iC">Point of the second line</param>
+            <param name="iD">Point of the second line</param>
+            <returns>True if there is an intersection</returns>
+        </member>
+        <member name="M:Buddy.Utils.Intersection(OpenCVUnity.Point,OpenCVUnity.Point,OpenCVUnity.Point,OpenCVUnity.Point)">
+            <summary>
+            Returns the intersection point between two lines
+            </summary>
+            <param name="iA">Point of the first line</param>
+            <param name="iB">Point of the first line</param>
+            <param name="iC">Point of the second line</param>
+            <param name="iD">Point of the second line</param>
+            <returns>The intersection point</returns>
+        </member>
+        <member name="M:Buddy.Utils.Intersection(UnityEngine.Vector2,UnityEngine.Vector2,UnityEngine.Vector2,UnityEngine.Vector2)">
+            <summary>
+            Returns the intersection point between two lines
+            </summary>
+            <param name="iA">Point of the first line</param>
+            <param name="iB">Point of the first line</param>
+            <param name="iC">Point of the second line</param>
+            <param name="iD">Point of the second line</param>
+            <returns>The intersection point</returns>
+        </member>
+        <member name="M:Buddy.Utils.Projection(OpenCVUnity.Point,OpenCVUnity.Point,OpenCVUnity.Point)">
+            <summary>
+            Returns the projection of iPoint over the line defined by iA and iB
+            </summary>
+            <param name="iPoint">The point</param>
+            <param name="iA">Point of the line</param>
+            <param name="iB">Point of the line</param>
+            <returns>The projection</returns>
+        </member>
+        <member name="M:Buddy.Utils.Projection(UnityEngine.Vector2,UnityEngine.Vector2,UnityEngine.Vector2)">
+            <summary>
+            Returns the projection of iPoint over the line defined by iA and iB
+            </summary>
+            <param name="iPoint">The point</param>
+            <param name="iA">Point of the line</param>
+            <param name="iB">Point of the line</param>
+            <returns>The projection</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Buddy.Utils.CloseTo(System.Single,System.Single,System.Single)" -->
+        <!-- Badly formed XML comment ignored for member "M:Buddy.Utils.CloseTo(System.Double,System.Double,System.Double)" -->
+        <member name="M:Buddy.Utils.GetLocalIPAddress">
+            <summary>
+            Retrieve the local IP address
+            </summary>
+            <returns>The local IP address</returns>
+        </member>
+        <member name="M:Buddy.Utils.GetMACAddress">
+            <summary>
+            Retrieve the MAC address
+            </summary>
+            <returns>The MAC address</returns>
+        </member>
+        <member name="M:Buddy.Utils.CreateSpriteFromFile(System.String)">
+            <summary>
+            Create a sprite from an image path
+            </summary>
+            <param name="iPath">Path to the image (must be ARGB32)</param>
+            <returns>The new sprite</returns>
+        </member>
+        <member name="T:Buddy.Tuple`3">
+            <summary>
+            Tuple of three elements
+            </summary>
+            <typeparam name="A">Type of the first element</typeparam>
+            <typeparam name="B">Type of the second element</typeparam>
+            <typeparam name="C">Type of the third element</typeparam>
+        </member>
+        <member name="P:Buddy.Tuple`3.First">
+            <summary>
+            The first element
+            </summary>
+        </member>
+        <member name="P:Buddy.Tuple`3.Second">
+            <summary>
+            The second element
+            </summary>
+        </member>
+        <member name="P:Buddy.Tuple`3.Third">
+            <summary>
+            The thirst elemnt
+            </summary>
+        </member>
+        <member name="M:Buddy.Tuple`3.#ctor(`0,`1,`2)">
+            <summary>
+            Contructor of the complete tuple
+            </summary>
+            <param name="iFirst">The first element</param>
+            <param name="iSecond">The second element</param>
+            <param name="iThird">The third element</param>
+        </member>
+        <member name="M:Buddy.Tuple`3.#ctor">
+            <summary>
+            Basic contructor
+            </summary>
+        </member>
+    </members>
+</doc>

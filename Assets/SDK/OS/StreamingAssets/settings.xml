@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BYFWSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <MajorVersion>0</MajorVersion>
+    <MinorVersion>4</MinorVersion>
+    <BuildVersion>1</BuildVersion>
+    <RevisionVersion>17</RevisionVersion>
+    <StateVersion>B</StateVersion>
+    <EnableLoadDefaultApp>false</EnableLoadDefaultApp>
+    <EnableLoadApps>true</EnableLoadApps>
+    <DefaultAppScene />
+    <RemoteAppScene>RemoteControl</RemoteAppScene>
+    <CallAppScene>CallApp</CallAppScene>
+    <DefaultAppScenePath />
+    <EnableLogs>true</EnableLogs>
+    <EnableLogInfo>true</EnableLogInfo>
+    <EnableLogWarnings>true</EnableLogWarnings>
+    <EnableLogErrors>true</EnableLogErrors>
+    <LogContexts>
+        <ContextEvidence>
+            <Context>OS</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>UI</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>COMMAND</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>FEATURE</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>SIMULATION</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>OPENCV</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>INTL_API</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>INTL_APP_MNG</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>INTL_NET</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>APP</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+    </LogContexts>
+</BYFWSettings>
