@@ -1,37 +1,86 @@
-<?xml version="1.0" encoding="Windows-1252"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <AppInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <ID>q7019876795122696718514310515</ID>
-  <CommercialName>Take Pose</CommercialName>
-  <ShortName>TakePose</ShortName>
-  <MainScene>q7019876795122696718514310515-0</MainScene>
-  <Authors>Leonard</Authors>
-  <Version>1.0.0</Version>
-  <Category>MULTIMEDIA</Category>
-  <LangVocalKeys>
-    <VocalKeys>
-      <Language>FR</Language>
-      <Keys>
-        <string>selfie</string>
-        <string>photo avec toi</string>
-        <string>photo ensemble</string>
-        <string>pause</string>
-        <string>pose</string>
-      </Keys>
-    </VocalKeys>
-    <VocalKeys>
-      <Language>EN</Language>
-      <Keys>
-        <string>selfie</string>
-        <string>pose</string>
-        <string>pause</string>
-        <string>photo with you</string>
-        <string>photo together</string>
-        <string>picture together</string>
-      </Keys>
-    </VocalKeys>
-  </LangVocalKeys>
-  <OptionsLayoutClassName>TakePose.TakePoseLayout</OptionsLayoutClassName>
-  <ActivityClassName>TakePose.TakePoseActivity</ActivityClassName>
-  <Simulated>false</Simulated>
-  <LocalData>true</LocalData>
+    <ID>q7019876795122696718514310515</ID>
+    <ShortName>TakePose</ShortName>
+    <CommercialName>Take Pose</CommercialName>
+    <MainScene>0</MainScene>
+    <Authors>Leonard</Authors>
+    <Version>1.0.2.0</Version>
+    <VersionName />
+    <Category>MULTIMEDIA</Category>
+    <Permissions>
+        <AppPermission>
+            <Type>CAMERA_API_ACCESS</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>MOVE_API_ACCESS</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>VISUAL_API_ACCESS</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>AUDIO_API_ACCESS</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_DATA_ACCESS</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_MEDIA_DATA_ACCESS</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>PROCEDURAL_MEMORY</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>DECLARATIVE_MEMORY</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>SEMANTIC_MEMORY</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>LOCKABLE_SCREEN</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>ASK_FOR_QUIT</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>DISABLE_LOADING_SCREEN</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+    </Permissions>
+    <LangVocalKeys>
+        <VocalKeys>
+            <Language>EN</Language>
+            <Keys>
+                <string>selfie</string>
+                <string>pose</string>
+                <string>pause</string>
+                <string>photo with you</string>
+                <string>photo together</string>
+                <string>picture together</string>
+            </Keys>
+        </VocalKeys>
+        <VocalKeys>
+            <Language>FR</Language>
+            <Keys>
+                <string>selfie</string>
+                <string>photo avec toi</string>
+                <string>photo ensemble</string>
+                <string>pause</string>
+                <string>pose</string>
+            </Keys>
+        </VocalKeys>
+    </LangVocalKeys>
+    <OptionsLayoutClassName>TakePose.TakePoseLayout</OptionsLayoutClassName>
+    <ActivityClassName>TakePose.TakePoseActivity</ActivityClassName>
 </AppInfo>

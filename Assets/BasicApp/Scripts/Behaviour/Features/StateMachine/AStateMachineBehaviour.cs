@@ -402,7 +402,7 @@ namespace BuddyApp.BasicApp
         /// </summary>
         protected void QuitApp()
         {
-            BYOS.Instance.Quit();
+            AAppActivity.QuitApp();
         }
 
         /// <summary>

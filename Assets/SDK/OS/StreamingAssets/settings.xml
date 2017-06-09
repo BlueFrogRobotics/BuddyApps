@@ -3,13 +3,13 @@
     <MajorVersion>0</MajorVersion>
     <MinorVersion>4</MinorVersion>
     <BuildVersion>1</BuildVersion>
-    <RevisionVersion>17</RevisionVersion>
+    <RevisionVersion>18</RevisionVersion>
     <StateVersion>B</StateVersion>
     <EnableLoadDefaultApp>false</EnableLoadDefaultApp>
     <EnableLoadApps>true</EnableLoadApps>
-    <DefaultAppScene />
-    <RemoteAppScene>RemoteControl</RemoteAppScene>
-    <CallAppScene>CallApp</CallAppScene>
+    <DefaultAppID />
+    <RemoteAppID>RemoteControl</RemoteAppID>
+    <CallAppID>CallApp</CallAppID>
     <DefaultAppScenePath />
     <EnableLogs>true</EnableLogs>
     <EnableLogInfo>true</EnableLogInfo>
@@ -57,4 +57,5 @@
             <Enabled>true</Enabled>
         </ContextEvidence>
     </LogContexts>
+    <BuiltInApps />
 </BYFWSettings>

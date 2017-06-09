@@ -24,7 +24,7 @@ namespace BuddyApp.Guardian
             mDetectionManager.IsDetectingKidnapping = GuardianData.Instance.KidnappingDetection;
 
             BYOS.Instance.Toaster.Hide();
-            BYOS.Instance.LockScreen();
+            AAppActivity.LockScreen();
 
             if (GuardianData.Instance.Mode == GuardianMode.FIXED)
                 Trigger("FixedDetection");

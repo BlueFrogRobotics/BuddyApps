@@ -9,7 +9,7 @@ namespace BuddyApp.BasicApp
     {
         public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
         {
-            Utils.LogI(LogContext.APP, "On loading...");
+            Utils.LogI(LogContext.APP, "On loading new version...");
         }
 
         public override void OnStart(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)

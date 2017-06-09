@@ -1394,724 +1394,56 @@
             Access to structure data for the back ultrasound sensor.
             </summary>
         </member>
-        <member name="T:Buddy.AAppActivity">
+        <member name="T:Buddy.Command.InstallAppCmd">
             <summary>
-            Activity base class to receive app event. Do never change the name of your {APP_NAME}Activity class.
+            When executed : Install the specified app
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mFace">
+        <member name="M:Buddy.Command.InstallAppCmd.#ctor">
             <summary>
-            Simple access to the face robot component
+            Default constructor
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mRGBCam">
+        <member name="M:Buddy.Command.InstallAppCmd.#ctor(System.String,System.String)">
             <summary>
-            Simple access to the RGB camera robot component
+            When executed : Install the specified app
             </summary>
+            <param name="iID"></param>
         </member>
-        <member name="F:Buddy.AAppActivity.mDepthCam">
+        <member name="M:Buddy.Command.InstallAppCmd.ExecuteImpl">
             <summary>
-            Simple access to the depth camera robot component
+            Execute the command behaviour.
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mIRSensors">
+        <member name="T:Buddy.Command.UninstallAppCmd">
             <summary>
-            Simple access to all infrared sensor robot components
+            When executed : Uninstall the specified app
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mUSSensors">
+        <member name="M:Buddy.Command.UninstallAppCmd.#ctor">
             <summary>
-            Simple access to all ultrasound sensor robot components
+            Default constructor
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mCliffSensors">
+        <member name="M:Buddy.Command.UninstallAppCmd.#ctor(System.String)">
             <summary>
-            Simple access to all cliff sensor robot components
+            When executed : Uninstall the specified app
             </summary>
+            <param name="iID"></param>
         </member>
-        <member name="F:Buddy.AAppActivity.mYesHinge">
+        <member name="M:Buddy.Command.UninstallAppCmd.ExecuteImpl">
             <summary>
-            Simple access to the yes hinge robot component
+            Execute the command behaviour.
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mNoHinge">
+        <member name="T:Buddy.Command.RestartBRECmd">
             <summary>
-            Simple access to the no hinge robot component
+            When executed : Restart the Buddy Runtime Environment
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mWheels">
+        <member name="M:Buddy.Command.RestartBRECmd.#ctor">
             <summary>
-            Simple access to wheels robot component
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mTTS">
-            <summary>
-            Simple access to the text to speech
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mSTT">
-            <summary>
-            Simple access to the speech to text
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mSphinx">
-            <summary>
-            Simple access to the sphinx trigger
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mBattery">
-            <summary>
-            Simple access to the battery robot component
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mMicro">
-            <summary>
-            Simple access to the micro robot component
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mSpeaker">
-            <summary>
-            Simple access to the speaker robot component
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mLED">
-            <summary>
-            Simple access to the LED robot component
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mThermalSensor">
-            <summary>
-            Simple access to the thermal sensor robot component
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mTabletParameters">
-            <summary>
-            Simple access to tablet parameters
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mVocalManager">
-            <summary>
-            Vocal activation wrapper for Sphinx/STT facilities
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mDictionary">
-            <summary>
-            The current language dictionnary
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mNotifier">
-            <summary>
-            Notification will be printed at the screen top
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mToaster">
-            <summary>
-            Toast will be printed at the screen center
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mMood">
-            <summary>
-            Helper in order to easily change the robot mood (LED and Face [and moving behaviour])
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mLayout">
-            <summary>
-            Your app layout. You will need to cast it to {APP_NAME}Layout.
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mAnimator">
-            <summary>
-            Your optional Animator. You must init it by using {APP_NAME}Activity.Init(animator) static method
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mObjects">
-            <summary>
-            Stored objects from {APP_NAME}Activity.Init(animator, obj1, obj2...) static method
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnLoading(System.String[],System.Int32[],System.Single[])">
-            <summary>
-            Called when the app loading occur. You can proceed here your high pre-computes or data loading
-            </summary>
-            <param name="iStrArgs">Optional str args</param>
-            <param name="iIntArgs">Optional int args</param>
-            <param name="iSingleArgs">Optional float args</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnStart(System.String[],System.Int32[],System.Single[])">
-            <summary>
-            Called when the app is fully loaded
-            </summary>
-            <param name="iStrArgs">Optional str args</param>
-            <param name="iIntArgs">Optional int args</param>
-            <param name="iSingleArgs">Optional float args</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnSuccessUnlockScreen">
-            <summary>
-            Called when the user succeed to unlock the screen. It will be called only if your app has the ability to lock the screen
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnFailureUnlockScreen">
-            <summary>
-            Called when the user failed to unlock the screen. It will be called only if your app has the ability to lock the screen
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnClickLockedScreen">
-            <summary>
-            Called when the user clicked on the locked screen. It will be called only if your app has the ability to lock the screen
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnQuit">
-            <summary>
-            Called when the application is currently unloading. It will be your last call
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.Init(UnityEngine.Animator,System.Object[])">
-            <summary>
-            This static method allow you to set basic param to your Activity. It must be done at the beginning of your app.
-            </summary>
-            <param name="iAnimator"></param>
-            <param name="iParams"></param>
-        </member>
-        <member name="M:Buddy.AAppActivity.Trigger(System.String)">
-            <summary>
-            Trigger the named trigger in the presetted animator
-            </summary>
-            <param name="iTriggerName">Trigger name</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.ResetTrigger(System.String)">
-            <summary>
-            Reset the named trigger in the presetted animator
-            </summary>
-            <param name="iTriggerName"></param>
-        </member>
-        <member name="M:Buddy.AAppActivity.SetBool(System.String,System.Boolean)">
-            <summary>
-            Set the bool value of the named boolean in the presetted animator
-            </summary>
-            <param name="iBoolName">The bool name to set</param>
-            <param name="iVal">Value of the boolean</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.GetBool(System.String)">
-            <summary>
-            Retrieve the value of the named boolean in the presetted animator
-            </summary>
-            <param name="iBoolName">Boolean name</param>
-            <returns>The value of the named boolean</returns>
-        </member>
-        <member name="M:Buddy.AAppActivity.SetInteger(System.String,System.Int32)">
-            <summary>
-            Set the bool value of the named integer in the presetted animator
-            </summary>
-            <param name="iIntName">The integer name to set</param>
-            <param name="iVal">Value of the integer</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.GetInteger(System.String)">
-            <summary>
-            Retrieve the value of the named integer in the presetted animator
-            </summary>
-            <param name="iIntName">Integer name</param>
-            <returns>The value of the named integer</returns>
-        </member>
-        <member name="M:Buddy.AAppActivity.SetFloat(System.String,System.Single)">
-            <summary>
-            Set the bool value of the named float in the presetted animator
-            </summary>
-            <param name="iFloatName">The float name to set</param>
-            <param name="iVal">Value of the float</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.GetFloat(System.String)">
-            <summary>
-            Retrieve the value of the named foat in the presetted animator
-            </summary>
-            <param name="iFloatName">Foat name</param>
-            <returns>The value of the named foat</returns>
-        </member>
-        <member name="M:Buddy.AAppActivity.StartCoroutine(System.Collections.IEnumerator)">
-            <summary>
-            Begin a coroutine.
-            </summary>
-            <param name="iFunc">Your coroutine to start</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.StopCoroutine(System.Collections.IEnumerator)">
-            <summary>
-            Stop the coroutine
-            </summary>
-            <param name="iFunc">Your coroutine to stop</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.StopAllCoroutines">
-            <summary>
-            Stop all started coroutines
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.CancelInvoke">
-            <summary>
-            Cancels all Invoke calls on this MonoBehaviour.
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.CancelInvoke(System.String)">
-            <summary>
-            Cancels all Invoke calls with name methodName on this behaviour.
-            </summary>
-            <param name="iMethodName"></param>
-        </member>
-        <member name="M:Buddy.AAppActivity.Invoke(System.String,System.Single)">
-            <summary>
-            Invokes the method methodName in time seconds.
-            </summary>
-            <param name="iMethodName"></param>
-            <param name="iTime"></param>
-        </member>
-        <member name="M:Buddy.AAppActivity.InvokeRepeating(System.String,System.Single,System.Single)">
-            <summary>
-            Invokes the method methodName in time seconds, then repeatedly every repeatRate
-            </summary>
-            <param name="iMethodName"></param>
-            <param name="iTime"></param>
-            <param name="iRepeatRate"></param>
-        </member>
-        <member name="M:Buddy.AAppActivity.IsInvoking">
-            <summary>
-            Is any invoke pending on this MonoBehaviour?
-            </summary>
-            <returns>True if invoking</returns>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.Sandbox">
-            <summary>
-            Loads, unloads apps and store transited data
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppUpdater.CompareVersions(System.String,System.String)">
-            <summary>
-            Returns 1 if First greater than Second.
-            Returns 0 if equals.
-            Returns -1 if First lower than Second
-            </summary>
-            <param name="iFirstVersion">First version string</param>
-            <param name="iSecondVersion">Second version string</param>
-            <returns>Compared value</returns>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.AppInfo">
-            <summary>
-            Meta data of an application. External dev should never explicitly use this class.
-            It's an internal class for app managing.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.ID">
-            <summary>
-            Unique application identifier
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.ShortName">
-            <summary>
-            The string that will be used as directory / class name.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.CommercialName">
-            <summary>
-            The string that will be displayed in the menu / loading.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.MainScene">
-            <summary>
-            Application main scene (entrypoint). Error if NULL.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.Authors">
-            <summary>
-            The app authors.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.Version">
-            <summary>
-            Current installed app version
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.Category">
-            <summary>
-            The app category
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.UnlockMode">
-            <summary>
-            Specify how it would be possible to leave the app
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.LangVocalKeys">
-            <summary>
-            Strings for speech to text activation.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.OptionsLayoutClassName">
-            <summary>
-            Application layout fullname. You should never use this. EmptyAppLayout will be setted if NULL.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.ActivityClassName">
-            <summary>
-            Application Activity fullname.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.OptionsLayout">
-            <summary>
-            The application menu layout that was created from OptionsLayoutStr.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.AppData">
-            <summary>
-            Application data. Automaticaly serialized after unload app, and deserialized after app loading.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.AppActivity">
-            <summary>
-            Application Activity entrypoint for callback
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppInfo.#ctor">
-            <summary>
-            AppInfo are build by deserialization inside the AppManager.
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppInfo.LoadLayout">
-            <summary>
-            Create the layout of the appinfo from the assembly where the class should be.
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppInfo.LoadActivity">
-            <summary>
-            Create the behaviour of the appinfo
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppInfo.SetLanguage(Buddy.Language)">
-            <summary>
-            Update vocal activation key in the input language
-            </summary>
-            <param name="iLanguage">The new requested language</param>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.AppManager">
-            <summary>
-            Loads, unloads apps and store transited data
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppManager.OS_ASSEMBLY">
-            <summary>
-            Name of the Operating System assembly
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.DataBase">
-            <summary>
-            Class access for users data, not used
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.GarbageManager">
-            <summary>
-            Unloads unused assets, detects zombie scene and close them
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.Security.ScreenLock">
-            <summary>
-            Unloads unused assets, detects zombie scene and close them
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.Net.WebRTCListener">
-            <summary>
-            This part listens on the Crossbar server to know if there is any incoming call
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.Net.WebRTCListener.RemoteID">
-            <summary>
-            Used to know the Remote ID for RTC communication
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.PublishConnectionRequest(System.String)">
-            <summary>
-            Use this to make a call towards another Buddy
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.OnConnectionRequest(System.String)">
-            <summary>
-            Called by Android plugin when message is received from the PubSub of Crossbar
-            </summary>
-            <param name="iMessage"></param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.OnAndroidLog(System.String)">
-            <summary>
-            Called by Android plugin for Debug purposes
-            </summary>
-            <param name="iLogText"></param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.SendNotification(System.String,System.String)">
-            <summary>
-            Send notification as Crossbar published event
-            </summary>
-            <param name="iTitle">Title of the notification</param>
-            <param name="iMessage">Body message of the notification</param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.PublishNotification(System.String)">
-            <summary>
-            Format of the notification is the following : BuddyID / Title @ Message
-            </summary>
-            <param name="iMessage">Notification message to send</param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.StartListener(System.String,System.String)">
-            <summary>
-            Initialize the Java Android Object that handles PubSub messages from Crossbar
-            </summary>
-            <param name="iUri">Crossbar uri</param>
-            <param name="iRealm">Name of the realm</param>
-        </member>
-        <member name="T:Buddy.Internal.Net.SharedAccessSignature">
-            <summary>
-            Inner class for asking a shared access signature to Microsoft Azure cloud. Signature are used by loggers.
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.Net.AEventHubLogger">
-            <summary>
-            Abstract class that must be derived by a specific logger in order to log inside the BFR eventhub. 
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Net.AEventHubLogger.URL">
-            <summary>
-            URL of the BFR eventhub
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Net.AEventHubLogger.TIME_OUT">
-            <summary>
-            Time out count for request
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Net.AEventHubLogger.mHeaders">
-            <summary>
-            Header dictionnary for requests
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.AEventHubLogger.SendToEventHub">
-            <summary>
-            Must be implemented using the URL inside a WWW Unity request
-            </summary>
-            <returns>IEnumerator for yield return</returns>
-        </member>
-        <member name="T:Buddy.Internal.Net.AnomalyLogger">
-            <summary>
-            Auto log to the BFR event hub hardware anomalies
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.AnomalyLogger.SendToEventHub">
-            <summary>
-            Must be implemented using the URL inside a WWW Unity request
-            </summary>
-            <returns>IEnumerator for yield return</returns>
-        </member>
-        <member name="T:Buddy.Internal.Net.CommandLogger">
-            <summary>
-            Auto log to the BFR event hub logged command from the CommandManager
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.CommandLogger.SendToEventHub">
-            <summary>
-            Must be implemented using the URL inside a WWW Unity request
-            </summary>
-            <returns>IEnumerator for yield return</returns>
-        </member>
-        <member name="T:Buddy.Internal.Net.LaunchTelepresence">
-            <summary>
-            Behaviour for starting RemoteControlApp
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.Net.NetworkDiscovery">
-            <summary>
-            Search for networks
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.Net.NetworkLocalListener">
-            <summary>
-            Network listener for local network
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.Net.AnomalySearcher">
-            <summary>
-            Search for hardware error. Those anomalies will be logged by the AnomalyLogger class.
-            </summary>
-        </member>
-        <member name="T:Buddy.AAppData">
-            <summary>
-            Your app data class must inherit from this class. Your app data will be store here.
-            The data object will be serialized when the application is quited and unserialized the first that that GetInstance()
-            will be called. Do never change the name of your {APP_NAME}Data class.
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppData.sInstance">
-            <summary>
-            Instance of your data (singleton).
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppData.GetInstance``1">
-            <summary>
-            Retrieve your last save version of your data.
-            </summary>
-            <typeparam name="T">Type of your data class</typeparam>
-            <returns>Your data object</returns>
-        </member>
-        <member name="T:Buddy.BYOS">
-            <summary>
-            Core of the BuddY Operating System (BYOS).
-            Gave access to robot control and tools like UI, external API, cloud access, resources and misc managers.
-            A Unique instance of the BYOS must be present in the whole application.
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.VocalManager">
-            <summary>
-            Layer using SpeechToText and SphinxTrigger
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.DialogManager">
-            <summary>
-            Layer using VocalManager and TextToSpeech
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Geolocation">
-            <summary>
-            Geolocation allows you to know the robot current position
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Notifier">
-            <summary>
-            Notifications are displayed on the screen top for misc info
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Toaster">
-            <summary>
-            Allow you to toast UI elements like buttons, text, grid, picture... on the Buddy's screen
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.WiFiManager">
-            <summary>
-            Tools for retrieve WiFi networks, updated every minutes
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.ResourceManager">
-            <summary>
-            Resource loader to retrieve Unity object. Check both Resources/ and downloaded Assetbundles. Allow you to retrieve the full path from the name of the raw file
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Dictionary">
-            <summary>
-            Hosts all global_keyword -> currentlanguage_word matchings
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.LanguageManager">
-            <summary>
-            Language handler. The language can only by updated by a user input in Parameters
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Mood">
-            <summary>
-            Helper in order to easily change the robot mood (LED and Face [and moving behaviour])
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Face">
-            <summary>
-            Want to make Buddy crying ? Here the access
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.TextToSpeech">
-            <summary>
-            Want to make Buddy speaking ? Here the access
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.SphinxTrigger">
-            <summary>
-            Want to know if Buddy say "Hello Buddy" or "Salut Buddy" ? Here the access
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.SpeechToText">
-            <summary>
-            Convert an input signal to a basic System.String
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Speaker">
-            <summary>
-            Speaker component. Not used
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Micro">
-            <summary>
-            Micro component. Not used
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.TabletParameters">
-            <summary>
-            Access to accelerometers, BlueTooth, WiFi ...
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.RGBCam">
-            <summary>
-            Basic webcam of the robot
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.USSensors">
-            <summary>
-            Set of robot ultrasounds sensors
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.ThermalSensor">
-            <summary>
-            Robot thermal sensor
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Motors">
-            <summary>
-            Set of motors. Including wheels and hinges
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.LED">
-            <summary>
-            LED accessor to update body lights
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.IRSensors">
-            <summary>
-            Set of robot infrareds sensors
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.CliffSensors">
-            <summary>
-            Set of robot cliff sensors
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Battery">
-            <summary>
-            Battery component of the robot, neve below 9.5V !
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.DepthCam">
-            <summary>
-            Depth camera of the robot
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Instance">
-            <summary>
-            The unique instance of the BuddY Operating System
-            </summary>
-        </member>
-        <member name="M:Buddy.BYOS.Quit">
-            <summary>
-            Quit the current app and load the default app (if load default is enabled)
-            </summary>
-        </member>
-        <member name="M:Buddy.BYOS.LockScreen">
-            <summary>
-            By using this method, the robot would be locked (e.g. the UI) until the user set the robot password.
-            This mode can only be disabled by quiting the app
-            </summary>
-        </member>
-        <member name="M:Buddy.BYOS.UnlockScreen">
-            <summary>
-            Unlock the screen, careful, the Buddy will be vunerable
-            </summary>
-        </member>
-        <member name="T:Buddy.APIBridge">
-            <summary>
-            Core access to the API. Must never be used explicitly for robot application.
+            Default constructor
             </summary>
         </member>
         <member name="T:Buddy.Command.ACommand">
@@ -3364,27 +2696,6 @@
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:Buddy.Command.UninstallAppCmd">
-            <summary>
-            When executed : Uninstall the specified app
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.UninstallAppCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.UninstallAppCmd.#ctor(System.String)">
-            <summary>
-            When executed : Uninstall the specified app
-            </summary>
-            <param name="iID"></param>
-        </member>
-        <member name="M:Buddy.Command.UninstallAppCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
         <member name="T:Buddy.Command.StartAppCmd">
             <summary>
             When executed : Launch the app defined by the scene name.
@@ -3410,27 +2721,6 @@
             </summary>
         </member>
         <member name="M:Buddy.Command.StartAppCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:Buddy.Command.InstallAppCmd">
-            <summary>
-            When executed : Install the specified app
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.InstallAppCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.InstallAppCmd.#ctor(System.String)">
-            <summary>
-            When executed : Install the specified app
-            </summary>
-            <param name="iID"></param>
-        </member>
-        <member name="M:Buddy.Command.InstallAppCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -3527,12 +2817,12 @@
             Default constructor
             </summary>
         </member>
-        <member name="T:Buddy.Command.ExitCmd">
+        <member name="T:Buddy.Command.ExitBRECmd">
             <summary>
-            When executed : Quit the Buddy app
+            When executed : Kill the Buddy Runtime Environment
             </summary>
         </member>
-        <member name="M:Buddy.Command.ExitCmd.#ctor">
+        <member name="M:Buddy.Command.ExitBRECmd.#ctor">
             <summary>
             Default constructor
             </summary>
@@ -3557,90 +2847,834 @@
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:Buddy.TrackedObjectType">
+        <member name="T:Buddy.Internal.Net.BroadcastListener">
             <summary>
-            Tracked object kind
+            This is to create a Broadcast client to let
             </summary>
         </member>
-        <member name="F:Buddy.TrackedObjectType.UNKNOWN">
+        <member name="M:Buddy.Internal.Net.BroadcastListener.OnReceivedBroadcast(System.String,System.String)">
             <summary>
-            Unknown ROI in the frame
+            Own method to configure what to do when receiving a Broadcast
+            </summary>
+            <param name="iFromAddress">The address that send the broadcast</param>
+            <param name="iData">Data contained in the broadcast</param>
+        </member>
+        <member name="T:Buddy.Internal.Net.LocalListener">
+            <summary>
+            This class handles the Local Broadcast Listener and messages with the Smartphone app to launch local remote control
             </summary>
         </member>
-        <member name="F:Buddy.TrackedObjectType.FACE">
+        <member name="T:Buddy.Internal.Net.NetworkBroadcastResult">
             <summary>
-            People face
+            Structure for broadcast messages
             </summary>
         </member>
-        <member name="F:Buddy.TrackedObjectType.QRCODE">
+        <member name="F:Buddy.Internal.Net.NetworkBroadcastResult.serverAddress">
             <summary>
-            Basic QRcode
+            The address of the server that sent the broadcast
             </summary>
         </member>
-        <member name="F:Buddy.TrackedObjectType.EYE">
+        <member name="F:Buddy.Internal.Net.NetworkBroadcastResult.broadcastData">
             <summary>
-            Single eye
+            Content of the broadcast
             </summary>
         </member>
-        <member name="F:Buddy.TrackedObjectType.BODY">
+        <member name="T:Buddy.Internal.Net.NetDiscovery">
             <summary>
-            Entire body
+            Unity Networking NetworkDiscovery added in this dll for namespace separation in dll reasons
             </summary>
         </member>
-        <member name="F:Buddy.TrackedObjectType.OBJECT">
+        <member name="M:Buddy.Internal.Net.NetDiscovery.StartAsClient">
             <summary>
-            Misc obj
+            Starts the service as client and listens for broadcast
+            </summary>
+            <returns>True if started succesfully, false otherwise</returns>
+        </member>
+        <member name="M:Buddy.Internal.Net.NetDiscovery.StartAsServer">
+            <summary>
+            Starts the service as server and emits a broadcast
+            </summary>
+            <returns>True if started succesfully, false otherwise</returns>
+        </member>
+        <member name="M:Buddy.Internal.Net.NetDiscovery.StopBroadcast">
+            <summary>
+            Stops the broadcast service
             </summary>
         </member>
-        <member name="F:Buddy.TrackedObjectType.HAND">
+        <member name="M:Buddy.Internal.Net.NetDiscovery.OnReceivedBroadcast(System.String,System.String)">
             <summary>
-            A hand
+            Callback called when a broadcast is received
+            </summary>
+            <param name="iFromAddress">Address that sent the broadcast</param>
+            <param name="iData">Body data of the broadcast</param>
+        </member>
+        <member name="T:Buddy.Internal.Net.WebRTCListener">
+            <summary>
+            This part listens on the Crossbar server to know if there is any incoming call
             </summary>
         </member>
-        <member name="T:Buddy.TrackedObject">
+        <member name="P:Buddy.Internal.Net.WebRTCListener.RemoteID">
             <summary>
-            Data class of currently tracked object
+            Used to know the Remote ID for RTC communication
             </summary>
         </member>
-        <member name="P:Buddy.TrackedObject.ID">
+        <member name="P:Buddy.Internal.Net.WebRTCListener.MessageFromChat">
             <summary>
-            Unique ID of the tracked object
+            Use this to know if answer from STT comes from a Chat question
             </summary>
         </member>
-        <member name="P:Buddy.TrackedObject.Rect">
+        <member name="M:Buddy.Internal.Net.WebRTCListener.PublishConnectionRequest(System.String)">
             <summary>
-            Rect position of the object in the current frame in RGBCam
+            Use this to make a call towards another Buddy
             </summary>
         </member>
-        <member name="P:Buddy.TrackedObject.ObjectType">
+        <member name="M:Buddy.Internal.Net.WebRTCListener.OnConnectionRequest(System.String)">
             <summary>
-            Kind of the object
+            Called by Android plugin when message is received from the PubSub of Crossbar
+            </summary>
+            <param name="iMessage"></param>
+        </member>
+        <member name="M:Buddy.Internal.Net.WebRTCListener.OnAndroidLog(System.String)">
+            <summary>
+            Called by Android plugin for Debug purposes
+            </summary>
+            <param name="iLogText"></param>
+        </member>
+        <member name="M:Buddy.Internal.Net.WebRTCListener.SendNotification(System.String,System.String)">
+            <summary>
+            Send notification as Crossbar published event
+            </summary>
+            <param name="iTitle">Title of the notification</param>
+            <param name="iMessage">Body message of the notification</param>
+        </member>
+        <member name="M:Buddy.Internal.Net.WebRTCListener.ProcessAnswer(System.String)">
+            <summary>
+            Use this to send back the answer to the user.
+            </summary>
+            <param name="iAnwser"></param>
+        </member>
+        <member name="M:Buddy.Internal.Net.WebRTCListener.OnMessageReceived(System.String)">
+            <summary>
+            Used by Android plugin when chat message is received through WebRTC and send it back to user
+            </summary>
+            <param name="iChatMessage">Chat message received through WebRTC</param>
+        </member>
+        <member name="M:Buddy.Internal.Net.WebRTCListener.PublishNotification(System.String)">
+            <summary>
+            Format of the notification is the following : BuddyID / Title @ Message
+            </summary>
+            <param name="iMessage">Notification message to send</param>
+        </member>
+        <member name="M:Buddy.Internal.Net.WebRTCListener.StartListener(System.String,System.String)">
+            <summary>
+            Initialize the Java Android Object that handles PubSub messages from Crossbar
+            </summary>
+            <param name="iUri">Crossbar uri</param>
+            <param name="iRealm">Name of the realm</param>
+        </member>
+        <member name="M:Buddy.Internal.Net.WebRTCListener.WaitSTTFinished(System.String)">
+            <summary>
+            Wait until STT has finished listening and is free to use
+            </summary>
+            <param name="iChatMessage">The Chat message received to process</param>
+            <returns></returns>
+        </member>
+        <member name="T:Buddy.Internal.Net.SharedAccessSignature">
+            <summary>
+            Inner class for asking a shared access signature to Microsoft Azure cloud. Signature are used by loggers.
             </summary>
         </member>
-        <member name="P:Buddy.TrackedObject.IsNewTrackedObject">
+        <member name="T:Buddy.Internal.Net.AEventHubLogger">
             <summary>
-            Is a new trakced object ?
+            Abstract class that must be derived by a specific logger in order to log inside the BFR eventhub. 
             </summary>
         </member>
-        <member name="M:Buddy.TrackedObject.#ctor">
+        <member name="F:Buddy.Internal.Net.AEventHubLogger.URL">
             <summary>
-            Create an unknown tracked object
+            URL of the BFR eventhub
             </summary>
         </member>
-        <member name="M:Buddy.TrackedObject.#ctor(Buddy.TrackedObjectType,System.Boolean)">
+        <member name="F:Buddy.Internal.Net.AEventHubLogger.TIME_OUT">
             <summary>
-            Create a specific tracked object
+            Time out count for request
             </summary>
-            <param name="iType">Type of the object</param>
-            <param name="iIsNewTracked">True to specify that it's a new object</param>
         </member>
-        <member name="M:Buddy.TrackedObject.#ctor(Buddy.TrackedObjectType,OpenCVUnity.Rect,System.Boolean)">
+        <member name="F:Buddy.Internal.Net.AEventHubLogger.mHeaders">
             <summary>
-            Create a currently tracked object
+            Header dictionnary for requests
             </summary>
-            <param name="iType">Type of the object</param>
-            <param name="iRect">Rect of the layout of the object in the frame</param>
-            <param name="iIsNewTracked">True to specify that it's a new object</param>
+        </member>
+        <member name="M:Buddy.Internal.Net.AEventHubLogger.SendToEventHub">
+            <summary>
+            Must be implemented using the URL inside a WWW Unity request
+            </summary>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="T:Buddy.Internal.Net.AnomalyLogger">
+            <summary>
+            Auto log to the BFR event hub hardware anomalies
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.Net.AnomalyLogger.SendToEventHub">
+            <summary>
+            Must be implemented using the URL inside a WWW Unity request
+            </summary>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="T:Buddy.Internal.Net.CommandLogger">
+            <summary>
+            Auto log to the BFR event hub logged command from the CommandManager
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.Net.CommandLogger.SendToEventHub">
+            <summary>
+            Must be implemented using the URL inside a WWW Unity request
+            </summary>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="T:Buddy.Internal.Net.LaunchTelepresence">
+            <summary>
+            Behaviour for starting RemoteControlApp
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.System.GarbageManager">
+            <summary>
+            Unloads unused assets, detects zombie scene and close them
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.System.ScreenLocker">
+            <summary>
+            Unloads unused assets, detects zombie scene and close them
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.System.AnomalySearcher">
+            <summary>
+            Search for hardware error. Those anomalies will be logged by the AnomalyLogger class.
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.Sandbox">
+            <summary>
+            Loads, unloads apps and store transited data
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppUpdater.CompareVersions(System.String,System.String)">
+            <summary>
+            Returns 1 if First greater than Second.
+            Returns 0 if equals.
+            Returns -1 if First lower than Second
+            </summary>
+            <param name="iFirstVersion">First version string</param>
+            <param name="iSecondVersion">Second version string</param>
+            <returns>Compared value</returns>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.AppInfo">
+            <summary>
+            Meta data of an application. External dev should never explicitly use this class.
+            It's an internal class for app managing.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.ID">
+            <summary>
+            Unique application identifier
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.ShortName">
+            <summary>
+            The string that will be used as directory / class name.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.CommercialName">
+            <summary>
+            The string that will be displayed in the menu / loading.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.MainScene">
+            <summary>
+            Application main scene (entrypoint). Error if NULL.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.Authors">
+            <summary>
+            The app authors.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.Version">
+            <summary>
+            Current installed app version
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionName">
+            <summary>
+            Current installed app version name
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.Category">
+            <summary>
+            The app category
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.Permissions">
+            <summary>
+            The app permissions
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.LangVocalKeys">
+            <summary>
+            Strings for speech to text activation.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.OptionsLayoutClassName">
+            <summary>
+            Application layout fullname. You should never use this. EmptyAppLayout will be setted if NULL.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.ActivityClassName">
+            <summary>
+            Application Activity fullname.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.OptionsLayout">
+            <summary>
+            The application menu layout that was created from OptionsLayoutStr.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.AppData">
+            <summary>
+            Application data. Automaticaly serialized after unload app, and deserialized after app loading.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.AppActivity">
+            <summary>
+            Application Activity entrypoint for callback
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppInfo.#ctor">
+            <summary>
+            AppInfo are build by deserialization inside the AppManager.
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppInfo.LoadLayout">
+            <summary>
+            Create the layout of the appinfo from the assembly where the class should be.
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppInfo.LoadActivity">
+            <summary>
+            Create the behaviour of the appinfo
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppInfo.SetLanguage(Buddy.Language)">
+            <summary>
+            Update vocal activation key in the input language
+            </summary>
+            <param name="iLanguage">The new requested language</param>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.AppManager">
+            <summary>
+            Loads, unloads apps and store transited data
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppManager.Quit">
+            <summary>
+            Quit the current app and load the default app (if load default is enabled)
+            </summary>
+        </member>
+        <member name="T:Buddy.AAppActivity">
+            <summary>
+            Activity base class to receive app event and managed app base methods (quit, load scene...). Do never change the name of your {APP_NAME}Activity class.
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mFace">
+            <summary>
+            Simple access to the face robot component
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mRGBCam">
+            <summary>
+            Simple access to the RGB camera robot component
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mDepthCam">
+            <summary>
+            Simple access to the depth camera robot component
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mIRSensors">
+            <summary>
+            Simple access to all infrared sensor robot components
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mUSSensors">
+            <summary>
+            Simple access to all ultrasound sensor robot components
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mCliffSensors">
+            <summary>
+            Simple access to all cliff sensor robot components
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mYesHinge">
+            <summary>
+            Simple access to the yes hinge robot component
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mNoHinge">
+            <summary>
+            Simple access to the no hinge robot component
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mWheels">
+            <summary>
+            Simple access to wheels robot component
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mTTS">
+            <summary>
+            Simple access to the text to speech
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mSTT">
+            <summary>
+            Simple access to the speech to text
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mSphinx">
+            <summary>
+            Simple access to the sphinx trigger
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mBattery">
+            <summary>
+            Simple access to the battery robot component
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mMicro">
+            <summary>
+            Simple access to the micro robot component
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mSpeaker">
+            <summary>
+            Simple access to the speaker robot component
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mLED">
+            <summary>
+            Simple access to the LED robot component
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mThermalSensor">
+            <summary>
+            Simple access to the thermal sensor robot component
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mTabletParameters">
+            <summary>
+            Simple access to tablet parameters
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mVocalManager">
+            <summary>
+            Vocal activation wrapper for Sphinx/STT facilities
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mDictionary">
+            <summary>
+            The current language dictionnary
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mNotifier">
+            <summary>
+            Notification will be printed at the screen top
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mToaster">
+            <summary>
+            Toast will be printed at the screen center
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mMood">
+            <summary>
+            Helper in order to easily change the robot mood (LED and Face [and moving behaviour])
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mLayout">
+            <summary>
+            Your app layout. You will need to cast it to {APP_NAME}Layout.
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mAnimator">
+            <summary>
+            Your optional Animator. You must init it by using {APP_NAME}Activity.Init(animator) static method
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppActivity.mObjects">
+            <summary>
+            Stored objects from {APP_NAME}Activity.Init(animator, obj1, obj2...) static method
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnLoading(System.String[],System.Int32[],System.Single[])">
+            <summary>
+            Called when the app loading occur. You can proceed here your high pre-computes or data loading
+            </summary>
+            <param name="iStrArgs">Optional str args</param>
+            <param name="iIntArgs">Optional int args</param>
+            <param name="iSingleArgs">Optional float args</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnStart(System.String[],System.Int32[],System.Single[])">
+            <summary>
+            Called when the app is fully loaded
+            </summary>
+            <param name="iStrArgs">Optional str args</param>
+            <param name="iIntArgs">Optional int args</param>
+            <param name="iSingleArgs">Optional float args</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnSuccessUnlockScreen">
+            <summary>
+            Called when the user succeed to unlock the screen. It will be called only if your app has the ability to lock the screen
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnFailureUnlockScreen">
+            <summary>
+            Called when the user failed to unlock the screen. It will be called only if your app has the ability to lock the screen
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnClickLockedScreen">
+            <summary>
+            Called when the user clicked on the locked screen. It will be called only if your app has the ability to lock the screen
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnChangeLang(Buddy.Language)">
+            <summary>
+            Called when the OS main language changed
+            </summary>
+            <param name="iLang">The new setted language</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnAlertReminder(System.Collections.Generic.List{Buddy.Reminder})">
+            <summary>
+            Called when a reminder alert rised
+            </summary>
+            <param name="iIncomingEvents">The array of rised reminders</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnQuit">
+            <summary>
+            Called when the application is currently unloading. It will be your last call
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.Init(UnityEngine.Animator,System.Object[])">
+            <summary>
+            This static method allow you to set basic param to your Activity. It must be done at the beginning of your app.
+            </summary>
+            <param name="iAnimator"></param>
+            <param name="iParams"></param>
+        </member>
+        <member name="M:Buddy.AAppActivity.QuitApp">
+            <summary>
+            Quit the running app
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.LockScreen">
+            <summary>
+            By using this method, the robot would be locked (e.g. the UI) until the user set the robot password.
+            This mode can only be disabled by quiting the app
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.UnlockScreen">
+            <summary>
+            Unlock the screen, careful, the Buddy will be vunerable
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.LoadScene(System.Int32)">
+            <summary>
+            Load the scene {AppID}-{SceneIndex}
+            </summary>
+            <param name="iSceneIndex">Index of the scene (0, 1, 2...), where 0 is the main scene</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.Trigger(System.String)">
+            <summary>
+            Trigger the named trigger in the presetted animator
+            </summary>
+            <param name="iTriggerName">Trigger name</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.ResetTrigger(System.String)">
+            <summary>
+            Reset the named trigger in the presetted animator
+            </summary>
+            <param name="iTriggerName"></param>
+        </member>
+        <member name="M:Buddy.AAppActivity.SetBool(System.String,System.Boolean)">
+            <summary>
+            Set the bool value of the named boolean in the presetted animator
+            </summary>
+            <param name="iBoolName">The bool name to set</param>
+            <param name="iVal">Value of the boolean</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.GetBool(System.String)">
+            <summary>
+            Retrieve the value of the named boolean in the presetted animator
+            </summary>
+            <param name="iBoolName">Boolean name</param>
+            <returns>The value of the named boolean</returns>
+        </member>
+        <member name="M:Buddy.AAppActivity.SetInteger(System.String,System.Int32)">
+            <summary>
+            Set the bool value of the named integer in the presetted animator
+            </summary>
+            <param name="iIntName">The integer name to set</param>
+            <param name="iVal">Value of the integer</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.GetInteger(System.String)">
+            <summary>
+            Retrieve the value of the named integer in the presetted animator
+            </summary>
+            <param name="iIntName">Integer name</param>
+            <returns>The value of the named integer</returns>
+        </member>
+        <member name="M:Buddy.AAppActivity.SetFloat(System.String,System.Single)">
+            <summary>
+            Set the bool value of the named float in the presetted animator
+            </summary>
+            <param name="iFloatName">The float name to set</param>
+            <param name="iVal">Value of the float</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.GetFloat(System.String)">
+            <summary>
+            Retrieve the value of the named foat in the presetted animator
+            </summary>
+            <param name="iFloatName">Foat name</param>
+            <returns>The value of the named foat</returns>
+        </member>
+        <member name="M:Buddy.AAppActivity.StartCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Begin a coroutine.
+            </summary>
+            <param name="iFunc">Your coroutine to start</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.StopCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Stop the coroutine
+            </summary>
+            <param name="iFunc">Your coroutine to stop</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.StopAllCoroutines">
+            <summary>
+            Stop all started coroutines
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.CancelInvoke">
+            <summary>
+            Cancels all Invoke calls on this MonoBehaviour.
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.CancelInvoke(System.String)">
+            <summary>
+            Cancels all Invoke calls with name methodName on this behaviour.
+            </summary>
+            <param name="iMethodName"></param>
+        </member>
+        <member name="M:Buddy.AAppActivity.Invoke(System.String,System.Single)">
+            <summary>
+            Invokes the method methodName in time seconds.
+            </summary>
+            <param name="iMethodName"></param>
+            <param name="iTime"></param>
+        </member>
+        <member name="M:Buddy.AAppActivity.InvokeRepeating(System.String,System.Single,System.Single)">
+            <summary>
+            Invokes the method methodName in time seconds, then repeatedly every repeatRate
+            </summary>
+            <param name="iMethodName"></param>
+            <param name="iTime"></param>
+            <param name="iRepeatRate"></param>
+        </member>
+        <member name="M:Buddy.AAppActivity.IsInvoking">
+            <summary>
+            Is any invoke pending on this MonoBehaviour?
+            </summary>
+            <returns>True if invoking</returns>
+        </member>
+        <member name="T:Buddy.AAppData">
+            <summary>
+            Your app data class must inherit from this class. Your app data will be store here.
+            The data object will be serialized when the application is quited and unserialized the first that that GetInstance()
+            will be called. Do never change the name of your {APP_NAME}Data class.
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppData.sInstance">
+            <summary>
+            Instance of your data (singleton).
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppData.GetInstance``1">
+            <summary>
+            Retrieve your last save version of your data.
+            </summary>
+            <typeparam name="T">Type of your data class</typeparam>
+            <returns>Your data object</returns>
+        </member>
+        <member name="T:Buddy.BYOS">
+            <summary>
+            Core of the BuddY Operating System (BYOS).
+            Gave access to robot control and tools like UI, external API, cloud access, resources and misc managers.
+            A Unique instance of the BYOS must be present in the whole application.
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.VocalManager">
+            <summary>
+            Layer using SpeechToText and SphinxTrigger
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.DialogManager">
+            <summary>
+            Layer using VocalManager and TextToSpeech
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Geolocation">
+            <summary>
+            Geolocation allows you to know the robot current position
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Notifier">
+            <summary>
+            Notifications are displayed on the screen top for misc info
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Toaster">
+            <summary>
+            Allow you to toast UI elements like buttons, text, grid, picture... on the Buddy's screen
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.WiFiManager">
+            <summary>
+            Tools for retrieve WiFi networks, updated every minutes
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.ResourceManager">
+            <summary>
+            Resource loader to retrieve Unity object. Check both Resources/ and downloaded Assetbundles. Allow you to retrieve the full path from the name of the raw file
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Dictionary">
+            <summary>
+            Hosts all key -> currentlanguage_word matchings
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.DataBase">
+            <summary>
+            Database access (User / media / memory)
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.LanguageManager">
+            <summary>
+            Language handler. The language can only by updated by a user input in Parameters
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Mood">
+            <summary>
+            Helper in order to easily change the robot mood (LED and Face [and moving behaviour])
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Face">
+            <summary>
+            Want to make Buddy crying ? Here the access
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.TextToSpeech">
+            <summary>
+            Want to make Buddy speaking ? Here the access
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.SphinxTrigger">
+            <summary>
+            Want to know if Buddy say "Hello Buddy" or "Salut Buddy" ? Here the access
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.SpeechToText">
+            <summary>
+            Convert an input signal to a basic System.String
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Speaker">
+            <summary>
+            Speaker component. Not used
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Micro">
+            <summary>
+            Micro component. Not used
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.TabletParameters">
+            <summary>
+            Access to accelerometers, BlueTooth, WiFi ...
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.RGBCam">
+            <summary>
+            Basic webcam of the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.USSensors">
+            <summary>
+            Set of robot ultrasounds sensors
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.ThermalSensor">
+            <summary>
+            Robot thermal sensor
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Motors">
+            <summary>
+            Set of motors. Including wheels and hinges
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.LED">
+            <summary>
+            LED accessor to update body lights
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.IRSensors">
+            <summary>
+            Set of robot infrareds sensors
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.CliffSensors">
+            <summary>
+            Set of robot cliff sensors
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Battery">
+            <summary>
+            Battery component of the robot, neve below 9.5V !
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.DepthCam">
+            <summary>
+            Depth camera of the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Instance">
+            <summary>
+            The unique instance of the BuddY Operating System
+            </summary>
+        </member>
+        <member name="T:Buddy.APIBridge">
+            <summary>
+            Core access to the API. Must never be used explicitly for robot application.
+            </summary>
+        </member>
+        <member name="T:Buddy.DataBase">
+            <summary>
+            Class access for users data, not used
+            </summary>
+        </member>
+        <member name="M:Buddy.DataBase.GetUsers">
+            <summary>
+            Buddy's user list. It's a copy, so any modification won't be keeped
+            </summary>
+            <returns>Copy of Buddy's users</returns>
         </member>
         <member name="T:Buddy.Gender">
             <summary>
@@ -5797,6 +5831,16 @@
              Authorizes automatic notification display after STT recognition or error. True as default
             </summary>
         </member>
+        <member name="P:Buddy.Features.Vocal.VocalChat.BuildingAnswer">
+            <summary>
+             Authorizes to know if an answer is pending
+            </summary>
+        </member>
+        <member name="P:Buddy.Features.Vocal.VocalChat.AnswerGiven">
+            <summary>
+             Answer given
+            </summary>
+        </member>
         <member name="P:Buddy.Features.Vocal.VocalChat.OnQuestionTypeFound">
             <summary>
             Use this callback to know the Question type found (as string) 
@@ -6292,6 +6336,7 @@
             <param name="iContext">The context corresponding to the dictionary to use</param>
             <returns>List of strings that must sound similar</returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:Buddy.Dictionary.ContainsPhonetic(System.String,System.String,Buddy.LoadContext)" -->
         <member name="T:Buddy.WiFiManager">
             <summary>
             WiFi helper class. Use mainly TabletParameter wifi methods
@@ -6354,6 +6399,13 @@
             <param name="iSprite">The sprite name</param>
             <returns>The sprite in the specified atlas</returns>
         </member>
+        <member name="M:Buddy.ResourceManager.AssetIsLoaded(System.String)">
+            <summary>
+            Checks if has been correctly loaded. Always returns true in Editor mode
+            </summary>
+            <param name="iAssetName">The asset name</param>
+            <returns>True if the asset has been correctly loaded, false otherwise</returns>
+        </member>
         <member name="M:Buddy.ResourceManager.DefaultStreamingAssetFilePath(System.String)">
             <summary>
             Gets the absolute path of the file contained in the native StreamingAssets folder of the base APK.
@@ -6369,6 +6421,11 @@
         <member name="M:Buddy.UI.AccountSettingWdgRight.Awake">
             <summary>
             Called on awake
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.Blank">
+            <summary>
+            Empty blank widget
             </summary>
         </member>
         <member name="T:Buddy.UI.AExplorerView">
@@ -7106,7 +7163,7 @@
         </member>
         <member name="M:Buddy.UI.AWindowLayout.CreateWidget``1">
             <summary>
-            Create and return a new widget
+            Create and returns a new widget
             </summary>
             <typeparam name="T">Type of the widget</typeparam>
             <returns>The new widget</returns>
@@ -7176,11 +7233,6 @@
         <member name="T:Buddy.LanguageManager">
             <summary>
             Language managing
-            </summary>
-        </member>
-        <member name="P:Buddy.LanguageManager.OnChangeLang">
-            <summary>
-            Callbacks that will be called each time the current language will be updated. Use it for relabelization
             </summary>
         </member>
         <member name="P:Buddy.LanguageManager.CurrentLang">
@@ -7337,6 +7389,11 @@
             Vocal layer for easier control for STT and Sphinx.
             Set the VocalProcessing attribute for STT callback.
             You can also set StartListenBehaviour and StopListenBehaviour.
+            </summary>
+        </member>
+        <member name="P:Buddy.VocalManager.RecoProcessFinished">
+            <summary>
+            Are we in the recognition process (may include error handling)?
             </summary>
         </member>
         <member name="P:Buddy.VocalManager.RecognitionTriggered">
