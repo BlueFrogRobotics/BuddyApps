@@ -20,6 +20,7 @@ namespace BuddyApp.BasicApp
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             GetGameObject(API_PANEL_IDX).SetActive(false);
+            mMood.Set(MoodType.NEUTRAL);
             mRGBCam.Close();
         }
 

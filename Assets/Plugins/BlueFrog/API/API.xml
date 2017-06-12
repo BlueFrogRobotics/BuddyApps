@@ -1301,11 +1301,6 @@
             </summary>
             <param name="iTablet">The simulated or real tablet to link.</param>
         </member>
-        <member name="M:Buddy.Internal.API.Parameters.Start">
-            <summary>
-            Called once at the start.
-            </summary>
-        </member>
         <member name="P:Buddy.Internal.API.Parameters.GetSerialNumber">
             <summary>
             Access to serial number.
@@ -1575,11 +1570,6 @@
             Instance of Camera RGB
             </summary>
         </member>
-        <member name="M:Buddy.Internal.API.RGBCam.Start">
-            <summary>
-            Called once at the start
-            </summary>
-        </member>
         <member name="M:Buddy.Internal.API.RGBCam.Update">
             <summary>
             Called at each frame.
@@ -1689,11 +1679,6 @@
             </summary>
             <param name="iHardware">The simulate or real Hardware to link.</param>
         </member>
-        <member name="M:Buddy.Internal.API.LED.Start">
-            <summary>
-            Called once at the start.
-            </summary>
-        </member>
         <member name="M:Buddy.Internal.API.LED.SetBodyLight(Buddy.LEDColor)">
             <summary>
             Set the body light based on the mood.
@@ -1730,11 +1715,6 @@
             For real tablet (with a real Buddy robot), set a RealTablet
             </summary>
             <param name="iTablet">The simulate or real tablet to link.</param>
-        </member>
-        <member name="M:Buddy.Internal.API.Micro.Start">
-            <summary>
-            Methode launch at the start
-            </summary>
         </member>
         <member name="M:Buddy.Internal.API.Micro.StartMicro(System.String,System.Boolean,System.Int32,System.Int32)">
             <summary>
@@ -1833,11 +1813,6 @@
             Cliff sensors interface of the robot. Currently not implemented for real robot.
             </summary>
         </member>
-        <member name="M:Buddy.Internal.API.CliffSensors.Start">
-            <summary>
-            Called once at the start
-            </summary>
-        </member>
         <member name="M:Buddy.Internal.API.CliffSensors.SetHardware(Buddy.Internal.API.HardwareDivision.AHardware)">
             <summary>
             Set the hardware for inner connection.
@@ -1871,11 +1846,6 @@
             This Class contains the instance to the object Structure.IRSensors and return it.
             </summary>
         </member>
-        <member name="M:Buddy.Internal.API.IRSensors.Start">
-            <summary>
-            Called once at the start.
-            </summary>
-        </member>
         <member name="M:Buddy.Internal.API.IRSensors.SetHardware(Buddy.Internal.API.HardwareDivision.AHardware)">
             <summary>
             Set the Hardware for inner connections.
@@ -1906,11 +1876,6 @@
             Thermal Sensor interface of the robot. Currently not implemented for simulated robot.
             </summary>
         </member>
-        <member name="M:Buddy.Internal.API.ThermalSensor.Start">
-            <summary>
-            Called once at the start.
-            </summary>
-        </member>
         <member name="M:Buddy.Internal.API.ThermalSensor.SetHardware(Buddy.Internal.API.HardwareDivision.AHardware)">
             <summary>
             Set the hardware for inner connection.
@@ -1927,11 +1892,6 @@
         <member name="T:Buddy.Internal.API.USSensors">
             <summary>
             Ultra sound sensors interface of the robot.
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.API.USSensors.Start">
-            <summary>
-            Called once at the start.
             </summary>
         </member>
         <member name="M:Buddy.Internal.API.USSensors.SetHardware(Buddy.Internal.API.HardwareDivision.AHardware)">
@@ -1984,11 +1944,6 @@
             For a real tablet (with a real Buddy robot), sets a RealTablet instance
             </summary>
             <param name="iTablet">The simulate or real tablet to link.</param>
-        </member>
-        <member name="M:Buddy.Internal.API.Speaker.Start">
-            <summary>
-            Called once at the start.
-            </summary>
         </member>
         <member name="M:Buddy.Internal.API.Speaker.GetVolume">
             <summary>

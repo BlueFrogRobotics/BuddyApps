@@ -1,7 +1,9 @@
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
+
 using Buddy;
 using Buddy.UI;
+
 using System;
 using System.Collections.Generic;
 
@@ -27,7 +29,7 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            BYOS.Instance.UnlockScreen();
+            AAppActivity.UnlockScreen();
 
             mTTS.SayKey("askchoices");
 

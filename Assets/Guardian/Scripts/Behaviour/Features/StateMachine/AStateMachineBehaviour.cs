@@ -396,7 +396,7 @@ namespace BuddyApp.Guardian
         /// </summary>
         protected void QuitApp()
         {
-            BYOS.Instance.Quit();
+            AAppActivity.QuitApp();
         }
 
         /// <summary>

@@ -10,6 +10,8 @@ namespace BuddyApp.TakePose
 {
     public class Hashtag : AStateMachineBehaviour
     {
+        private bool mHasDisplayNotif;
+        private bool mReadyToExit;
 
         public override void Start()
         {
@@ -22,16 +24,30 @@ namespace BuddyApp.TakePose
             mMood.Set(MoodType.HAPPY);
             mTTS.SayKey("sharetwitter");
 
-            mNotifier.Display<SimpleNot>().With("#SocialRobot @adoptbuddy", BYOS.Instance.ResourceManager.GetSprite("Ico_Twitter"), Color.blue);
+            mHasDisplayNotif = false;
+            mReadyToExit = false;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (mTTS.HasFinishedTalking)
+            if (!mHasDisplayNotif) {
+                StartCoroutine(DisplayNotif());
+                mHasDisplayNotif = true;
+            }
+
+            if (mTTS.HasFinishedTalking && mReadyToExit)
                 Trigger("Exit");
         }
 
+        private IEnumerator DisplayNotif()
+        {
+            mNotifier.Display<SimpleNot>(4F).With("#SocialRobot @adoptbuddy", BYOS.Instance.ResourceManager.GetSprite("Ico_Twitter"), Color.blue);
+
+            yield return new WaitForSeconds(5F);
+
+            mReadyToExit = true;
+        }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
