@@ -11,7 +11,7 @@ namespace BuddyApp.Diagnostic
         public int MyValue { get; set; }
 
         /*
-         * Data singleton access
+         * Data singleton access.
          */
         public static DiagnosticData Instance
         {
