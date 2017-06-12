@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ID>o732031351234</ID>
+    <ShortName>Reminder</ShortName>
+    <CommercialName>Reminder</CommercialName>
+    <MainScene>o732031351234-0</MainScene>
+    <Authors>Walid</Authors>
+    <Version>1.0.0</Version>
+    <Category>COMPANION</Category>
+    <UnlockMode>NONE</UnlockMode>
+    <LangVocalKeys>
+        <VocalKeys>
+            <Language>EN</Language>
+            <Keys>
+                <string>remind me</string>
+                <string>reminder</string>
+            </Keys>
+        </VocalKeys>
+        <VocalKeys>
+            <Language>FR</Language>
+            <Keys>
+                <string>rappelle moi</string>
+                <string>rappelle-moi</string>
+                <string>reminder</string>
+            </Keys>
+        </VocalKeys>
+    </LangVocalKeys>
+    <OptionsLayoutClassName>Reminder.ReminderLayout</OptionsLayoutClassName>
+    <ActivityClassName>Reminder.ReminderActivity</ActivityClassName>
+</AppInfo>
