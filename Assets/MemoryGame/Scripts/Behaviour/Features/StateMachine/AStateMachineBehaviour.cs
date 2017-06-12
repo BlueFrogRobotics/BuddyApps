@@ -392,11 +392,11 @@ namespace BuddyApp.MemoryGame
         }
 
         /// <summary>
-        /// Quit the current application and get back to the default app
+        /// Quit the current application and get back to the default app.
         /// </summary>
         protected void QuitApp()
         {
-            BYOS.Instance.Quit();
+            MemoryGameActivity.QuitApp();
         }
 
         /// <summary>

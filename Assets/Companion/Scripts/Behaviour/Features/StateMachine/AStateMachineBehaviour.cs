@@ -355,7 +355,7 @@ namespace BuddyApp.Companion
         /// If the component doens't exist, it adds the component.
         /// </summary>
         /// <typeparam name="T">Type component</typeparam>
-        /// <returns>The component</returns>
+        /// <returns>The component.</returns>
         protected T GetComponent<T>() where T : Component
         {
             if (mManager.GetComponent<T>() == null)
@@ -407,7 +407,7 @@ namespace BuddyApp.Companion
         /// </summary>
         protected void QuitApp()
         {
-            BYOS.Instance.Quit();
+            CompanionActivity.QuitApp();
         }
 
         /// <summary>
