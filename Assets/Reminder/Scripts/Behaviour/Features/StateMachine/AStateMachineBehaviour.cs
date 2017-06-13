@@ -420,7 +420,7 @@ namespace BuddyApp.Reminder
         /// </summary>
         protected void QuitApp()
         {
-            BYOS.Instance.Quit();
+            AAppActivity.QuitApp();
         }
 
         /// <summary>

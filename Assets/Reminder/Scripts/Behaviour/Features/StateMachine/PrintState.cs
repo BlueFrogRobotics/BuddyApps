@@ -9,6 +9,7 @@ namespace BuddyApp.Reminder
     {
         private float mTimer = 0.0f;
         private bool mExit = false;
+        private List<ReminderFilter> mListFilter;
 
         override public void Start()
         {
@@ -20,6 +21,7 @@ namespace BuddyApp.Reminder
             ShowReminders();
             mTimer = 0.0f;
             mExit = false;
+            mListFilter = new List<ReminderFilter>();
         }
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

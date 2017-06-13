@@ -14,7 +14,7 @@ namespace BuddyApp.Reminder
         private float mTimer = 0.0f;
 
         override public void Start() {
-            Debug.Log("YOUPI TRALALA!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            //Debug.Log("YOUPI TRALALA!!!!!!!!!!!!!!!!!!!!!!!!!!");
             //mProcessVocal = new ProcessVocalManual();
             mProcessVocal = new ProcessVocalWitAI();
         }
