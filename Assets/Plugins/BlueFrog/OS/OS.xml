@@ -4486,37 +4486,67 @@
             Activity base class to receive app event and managed app base methods (quit, load scene...). Do never change the name of your {APP_NAME}Activity class.
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mDictionary">
+        <member name="P:Buddy.AAppActivity.Interaction">
+            <summary>
+            Gather all interaction features
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.Navigation">
+            <summary>
+            Gather all navigation features
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.IOT">
+            <summary>
+            Gather all IOT features
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.WebService">
+            <summary>
+            Gather all web services (Facebook, Twitter, Spotify, meteo, Wolfram alpha) features
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.Perception">
+            <summary>
+            Gather all perception (mainly vision) features
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.Primitive">
+            <summary>
+            Gather all primitives
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.Resources">
+            <summary>
+            Resource loader to retrieve Unity object. Check both Resources/ and downloaded Assetbundles. Allow you to retrieve the full path from the name of the raw file
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.Dictionary">
             <summary>
             The current language dictionnary
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mNotifier">
+        <member name="P:Buddy.AAppActivity.Notifier">
             <summary>
             Notification will be printed at the screen top
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mToaster">
+        <member name="P:Buddy.AAppActivity.Toaster">
             <summary>
             Toast will be printed at the screen center
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mMood">
-            <summary>
-            Helper in order to easily change the robot mood (LED and Face [and moving behaviour])
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppActivity.mLayout">
+        <member name="P:Buddy.AAppActivity.Layout">
             <summary>
             Your app layout. You will need to cast it to {APP_NAME}Layout.
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mAnimator">
+        <member name="P:Buddy.AAppActivity.Animator">
             <summary>
             Your optional Animator. You must init it by using {APP_NAME}Activity.Init(animator) static method
             </summary>
         </member>
-        <member name="F:Buddy.AAppActivity.mObjects">
+        <member name="P:Buddy.AAppActivity.Objects">
             <summary>
             Stored objects from {APP_NAME}Activity.Init(animator, obj1, obj2...) static method
             </summary>
