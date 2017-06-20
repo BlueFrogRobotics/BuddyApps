@@ -55,12 +55,12 @@ namespace BuddyApp.Diagnostic
 
         void Start()
         {
-            mLeftUSSensor = BYOS.Instance.USSensors.Left;
-            mRightUSSensor = BYOS.Instance.USSensors.Right;
-            mBackUSSensor = BYOS.Instance.USSensors.Back;
-            mLeftIRSensor = BYOS.Instance.IRSensors.Left;
-            mMiddleIRSensor = BYOS.Instance.IRSensors.Middle;
-            mRightIRSensor = BYOS.Instance.IRSensors.Right;
+            mLeftUSSensor = BYOS.Instance.Primitive.USSensors.Left;
+            mRightUSSensor = BYOS.Instance.Primitive.USSensors.Right;
+            mBackUSSensor = BYOS.Instance.Primitive.USSensors.Back;
+            mLeftIRSensor = BYOS.Instance.Primitive.IRSensors.Left;
+            mMiddleIRSensor = BYOS.Instance.Primitive.IRSensors.Middle;
+            mRightIRSensor = BYOS.Instance.Primitive.IRSensors.Right;
         }
 
         void Update()

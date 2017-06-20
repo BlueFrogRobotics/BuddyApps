@@ -4,6 +4,49 @@
         <name>Utils</name>
     </assembly>
     <members>
+        <member name="T:Buddy.Node">
+            <summary>
+            Unit node for graph algorithms.
+            </summary>
+        </member>
+        <member name="F:Buddy.Node.Comparer">
+            <summary>
+            Comparer pour node comparaison
+            </summary>
+        </member>
+        <member name="P:Buddy.Node.Index">
+            <summary>
+            Index of the node
+            </summary>
+        </member>
+        <member name="P:Buddy.Node.MinDistance">
+            <summary>
+            Min known distance
+            </summary>
+        </member>
+        <member name="P:Buddy.Node.PrievousNode">
+            <summary>
+            Previous node (Dijkstra algo)
+            </summary>
+        </member>
+        <member name="P:Buddy.Node.AdjacentNodes">
+            <summary>
+            AdjacentNodes
+            </summary>
+        </member>
+        <member name="M:Buddy.Node.#ctor">
+            <summary>
+            Base constructor
+            </summary>
+        </member>
+        <member name="M:Buddy.Node.Compare(Buddy.Node,Buddy.Node)">
+            <summary>
+            Comparaison function
+            </summary>
+            <param name="iFirstNode"></param>
+            <param name="iSecondNode"></param>
+            <returns></returns>
+        </member>
         <member name="M:Buddy.Internal.DevConnection.GetPrivateCredInfo">
             <summary>
             TODO: TO REWORK ! ! ! ! ! 
@@ -192,6 +235,11 @@
         <member name="F:Buddy.Utils.DAY_IN_SECONDS">
             <summary>
             24 * 60 * 60
+            </summary>
+        </member>
+        <member name="F:Buddy.Utils.WEEK_IN_SECONDS">
+            <summary>
+            7 * 24 * 60 * 60
             </summary>
         </member>
         <member name="M:Buddy.Utils.SerializeCSV(System.String,System.Object[])">
@@ -968,6 +1016,37 @@
             </summary>
             <param name="iPath">Path to the image (must be ARGB32)</param>
             <returns>The new sprite</returns>
+        </member>
+        <member name="M:Buddy.Utils.ShortestPath(Buddy.Node,Buddy.Node,System.Collections.Generic.List{Buddy.Node})">
+            <summary>
+            Gets the shortest path between the sourcenode and the destination node with Dijkstra algorithm.
+            It has a polynomial complexity.
+            </summary>
+            <param name="iSourceNode">The source node of the path</param>
+            <param name="iDestinationNode">The destination node of the path</param>
+            <param name="iGraph">The graph with all nodes and weight between them</param>
+            <param name="iReset">Can be false the first time, must be true (default) otherwise</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.Utils.ComputePaths(Buddy.Node)">
+            <summary>
+            Computes paths from the source node.
+            </summary>
+            <param name="iSourceNode">The source node</param>
+        </member>
+        <member name="M:Buddy.Utils.ShortestPathTo(Buddy.Node,Buddy.Node)">
+            <summary>
+            Gets the shorstest path between iSource and iDestination
+            </summary>
+            <param name="iSourceNode">The source node</param>
+            <param name="iDestinationNode">the destination node</param>
+            <returns>The list including the shorstest path between iSource and iDestination</returns>
+        </member>
+        <member name="M:Buddy.Utils.ResetGraph(System.Collections.Generic.List{Buddy.Node})">
+            <summary>
+            Reset the graph for compute.
+            </summary>
+            <param name="iGraph">The graph</param>
         </member>
         <member name="T:Buddy.Tuple`3">
             <summary>

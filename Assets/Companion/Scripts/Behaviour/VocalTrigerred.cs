@@ -1,7 +1,5 @@
 ﻿using Buddy;
 using Buddy.Command;
-using Buddy.Features.Stimuli;
-using Buddy.Features.Vocal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,9 +20,7 @@ namespace BuddyApp.Companion
 
 		public override void Start()
 		{
-
 			//mSensorManager = BYOS.Instance.SensorManager;
-			mSensorManager = GetComponent<StimuliManager>();
 			mVocalChat = GetComponent<VocalChat>();
 			mState = GetComponentInGameObject<Text>(0);
 			//mReaction = GetComponent<Reaction>();
@@ -39,10 +35,10 @@ namespace BuddyApp.Companion
 			mOrderGiven = false;
 			mVocalWanderOrder = false;
 			mRobotIsTrackingSomeone = false;
-			mVocalManager.EnableTrigger = false;
-			BYOS.Instance.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
-			//mVocalChat.Activate();
-			mVocalManager.EnableDefaultErrorHandling = true;
+			Interaction.VocalManager.EnableTrigger = false;
+            Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
+            //mVocalChat.Activate();
+            Interaction.VocalManager.EnableDefaultErrorHandling = true;
 			//mVocalChat.WithNotification = true;
 			mVocalChat.OnQuestionTypeFound = SortQuestionType;
 			mNeedListen = true;
@@ -56,10 +52,10 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			if (mTTS.HasFinishedTalking) {
+			if (Interaction.TextToSpeech.HasFinishedTalking) {
 				if (mNeedListen) {
 
-					mVocalManager.StartInstantReco();
+                    Interaction.VocalManager.StartInstantReco();
 					mNeedListen = false;
 				} else {
 					//if (!mVocalChat.BuildingAnswer) {
@@ -82,7 +78,7 @@ namespace BuddyApp.Companion
 		{
 
 			mSpeechInput = false;
-			BYOS.Instance.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
+            Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
 			//mVocalChat.DisActivate();
 		}
 
@@ -105,7 +101,7 @@ namespace BuddyApp.Companion
 					mOrderGiven = true;
 					break;
 				case "Wander":
-					mTTS.Say(mDictionary.GetString("wander"));
+                    Interaction.TextToSpeech.Say(Dictionary.GetString("wander"));
 					mVocalWanderOrder = true;
 					//TODO, maybe ask for interaction instead if Buddy really wants to interact
 					CompanionData.Instance.InteractDesire -= 10;
@@ -130,7 +126,7 @@ namespace BuddyApp.Companion
 
 				case "FollowMe":
 					if (!mRobotIsTrackingSomeone) {
-						mTTS.Say(mDictionary.GetString("follow"));
+                        Interaction.TextToSpeech.Say(Dictionary.GetString("follow"));
 						CompanionData.Instance.InteractDesire -= 10;
 						//GetComponent<FollowWanderReaction>().enabled = true;
 						mRobotIsTrackingSomeone = true;
@@ -148,11 +144,11 @@ namespace BuddyApp.Companion
 					break;
 
 				case "VolumeUp":
-					BYOS.Instance.Speaker.VolumeUp();
+					BYOS.Instance.Primitive.Speaker.VolumeUp();
 					break;
 
 				case "VolumeDown":
-					BYOS.Instance.Speaker.VolumeDown();
+					BYOS.Instance.Primitive.Speaker.VolumeDown();
 					break;
 
 				case "LookAtMe":

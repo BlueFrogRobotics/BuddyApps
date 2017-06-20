@@ -1,5 +1,4 @@
 ﻿using Buddy;
-using Buddy.Features.Stimuli;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,14 +13,13 @@ namespace BuddyApp.Companion
 		{
 			mState = GetComponentInGameObject<Text>(0);
 			//mSensorManager = BYOS.Instance.SensorManager;
-			mSensorManager = GetComponent<StimuliManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mState.text = "Charging";
 			Debug.Log("state: Charging");
-			mTTS.Say("Je suis en train de me recharger, trop bien, trop décalé!", true);
+			Interaction.TextToSpeech.Say("Je suis en train de me recharger, trop bien, trop décalé!", true);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

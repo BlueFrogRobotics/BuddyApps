@@ -10,7 +10,7 @@ namespace BuddyApp.MemoryGame
 
 		public override void Start()
 		{
-			BYOS.Instance.VocalManager.enabled = false;
+			Interaction.VocalManager.enabled = false;
 		}
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -19,9 +19,9 @@ namespace BuddyApp.MemoryGame
 
 			mTTSTimer = 0.0f;
 
-			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-			mTTS.Silence(1000, true);
-			mTTS.Say(mDictionary.GetRandomString("intro"), true);
+			Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
+            Interaction.TextToSpeech.Silence(1000, true);
+            Interaction.TextToSpeech.Say(Dictionary.GetRandomString("intro"), true);
 		}
 
 
@@ -35,7 +35,7 @@ namespace BuddyApp.MemoryGame
 
 			mTTSTimer += Time.deltaTime;
 
-			if (mTTS.HasFinishedTalking && mTTSTimer > 3.0f) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && mTTSTimer > 3.0f) {
 				animator.SetTrigger("IntroDone");
 			}
 		}

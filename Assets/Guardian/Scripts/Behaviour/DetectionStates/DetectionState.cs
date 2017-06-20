@@ -1,5 +1,4 @@
 using UnityEngine;
-using Buddy.Features.Detection;
 using Buddy;
 
 namespace BuddyApp.Guardian

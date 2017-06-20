@@ -1,16 +1,11 @@
-﻿using Buddy.Features.Detection;
-using Buddy.Features.Navigation;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Buddy;
+
 namespace BuddyApp.Guardian
 {
-    [RequireComponent(typeof(FireDetector))]
-    [RequireComponent(typeof(SoundDetector))]
-    [RequireComponent(typeof(MovementDetector))]
-    [RequireComponent(typeof(KidnappingDetector))]
-
     [RequireComponent(typeof(SaveAudio))]
     [RequireComponent(typeof(SaveVideo))]
 

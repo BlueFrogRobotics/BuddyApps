@@ -1,5 +1,4 @@
 ﻿using Buddy;
-using Buddy.Features.Stimuli;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,8 +21,7 @@ namespace BuddyApp.Companion
 
 		public override void Start()
 		{
-			//mSensorManager = BYOS.Instance.SensorManager;
-			mSensorManager = GetComponent<StimuliManager>();
+			//Perception.Stimuli = BYOS.Instance.SensorManager;
 			mState = GetComponentInGameObject<Text>(0);
 			//mReaction = GetComponent<Reaction>();
 		}
@@ -36,32 +34,32 @@ namespace BuddyApp.Companion
 			mNeedCharge = false;
 			mHumanDetected = false;
 			mKidnapping = false;
-			mTTS.Say("Je m'ennuye un peu, je vais me balader", true);
+			Interaction.TextToSpeech.Say("Je m'ennuye un peu, je vais me balader", true);
 
 			Debug.Log("wander: " + CompanionData.Instance.MovingDesire);
 
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnLowBattery);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
+			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
+			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
+			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
+			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnLowBattery);
+			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
+			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
+			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
 
 
-			//mSensorManager.mStimuliControllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].StartListenning();
-			//mSensorManager.mStimuliControllers[StimulusEvent.SPHINX_TRIGGERED].StartListenning();
-			//mSensorManager.mStimuliControllers[StimulusEvent.LOW_BATTERY].StartListenning();
-			//mSensorManager.mStimuliControllers[StimulusEvent.VERY_LOW_BATTERY].StartListenning();
-			//mSensorManager.mStimuliControllers[StimulusEvent.HUMAN_DETECTED].StartListenning();
-			//mSensorManager.mStimuliControllers[StimulusEvent.KIDNAPPING].StartListenning();
-			//mSensorManager.mStimuliControllers[StimulusEvent.FACE_DETECTED].StartListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].StartListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.SPHINX_TRIGGERED].StartListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.LOW_BATTERY].StartListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.VERY_LOW_BATTERY].StartListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.HUMAN_DETECTED].StartListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.KIDNAPPING].StartListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.FACE_DETECTED].StartListenning();
 
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			if (mTTS.HasFinishedTalking && !mWandering) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && !mWandering) {
 				Debug.Log("CompanionWander start wandering");
 				//mReaction.StartWandering();
 				mWandering = true;
@@ -88,21 +86,21 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnLowBattery);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
+			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
+			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
+			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
+			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnLowBattery);
+			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
+			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
+			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
 
-			//mSensorManager.mStimuliControllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].StopListenning();
-			//mSensorManager.mStimuliControllers[StimulusEvent.SPHINX_TRIGGERED].StopListenning();
-			//mSensorManager.mStimuliControllers[StimulusEvent.LOW_BATTERY].StopListenning();
-			//mSensorManager.mStimuliControllers[StimulusEvent.VERY_LOW_BATTERY].StopListenning();
-			//mSensorManager.mStimuliControllers[StimulusEvent.HUMAN_DETECTED].StopListenning();
-			//mSensorManager.mStimuliControllers[StimulusEvent.KIDNAPPING].StopListenning();
-			//mSensorManager.mStimuliControllers[StimulusEvent.FACE_DETECTED].StopListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].StopListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.SPHINX_TRIGGERED].StopListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.LOW_BATTERY].StopListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.VERY_LOW_BATTERY].StopListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.HUMAN_DETECTED].StopListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.KIDNAPPING].StopListenning();
+			//Perception.Stimuli.mStimuliControllers[StimulusEvent.FACE_DETECTED].StopListenning();
 
 
 			//mReaction.StopWandering();

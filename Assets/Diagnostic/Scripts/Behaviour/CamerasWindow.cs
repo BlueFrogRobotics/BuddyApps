@@ -35,8 +35,8 @@ namespace BuddyApp.Diagnostic
 
         void OnEnable()
         {
-            mRGBCam = BYOS.Instance.RGBCam;
-            mDepthCam = BYOS.Instance.DepthCam;
+            mRGBCam = BYOS.Instance.Primitive.RGBCam;
+            mDepthCam = BYOS.Instance.Primitive.DepthCam;
 
             mRGBCam.Open();
             mDepthCam.Open();

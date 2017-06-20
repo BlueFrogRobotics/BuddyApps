@@ -1,5 +1,4 @@
 ﻿using Buddy;
-using Buddy.Features.Stimuli;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,7 +29,6 @@ namespace BuddyApp.Companion
 		public override void Start()
 		{
 			//mSensorManager = BYOS.Instance.SensorManager;
-			mSensorManager = GetComponent<StimuliManager>();
 			mState = GetComponentInGameObject<Text>(0);
 			//mReaction = GetComponent<Reaction>();
 		}
@@ -51,17 +49,16 @@ namespace BuddyApp.Companion
 			mWandering = false;
 
 			mLookingTime = 0F;
-			mTTS.Say("Je cherche quelqu'un pour jouer avec moi!", true);
-			mMood.Set(MoodType.THINKING);
+			Interaction.TextToSpeech.Say("Je cherche quelqu'un pour jouer avec moi!", true);
+            Interaction.Mood.Set(MoodType.THINKING);
 
-
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.FACE_DETECTED, OnFaceDetected);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
+			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FACE_DETECTED, OnFaceDetected);
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
 
 			//mSensorManager.mStimuliControllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].StartListenning();
 			//mSensorManager.mStimuliControllers[StimulusEvent.SPHINX_TRIGGERED].StartListenning();
@@ -76,7 +73,7 @@ namespace BuddyApp.Companion
 		{
 			mLookingTime = Time.deltaTime;
 
-			if (mTTS.HasFinishedTalking && !mWandering) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && !mWandering) {
 				//mReaction.StartWandering();
 				mWandering = true;
 			}
@@ -85,28 +82,28 @@ namespace BuddyApp.Companion
 
 				// If Buddy sees a face and wants to interact
 				if (mBatteryVeryLow) {
-					mTTS.Say("Désolé mais je suis très fatigué, je vais me coucher! [800] Bonne nuit!", true);
+                    Interaction.TextToSpeech.Say("Désolé mais je suis très fatigué, je vais me coucher! [800] Bonne nuit!", true);
 					iAnimator.SetTrigger("CHARGE");
 				} else {
 					//mTTS.Say("Hey, voulez vous jouer avec moi?", true);
-					BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-					mMood.Set(MoodType.HAPPY);
+					Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
+					Interaction.Mood.Set(MoodType.HAPPY);
 					iAnimator.SetTrigger("PROPOSEGAME");
 				}
 			} else if (mHumanDetected) {
-				BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-				mMood.Set(MoodType.HAPPY);
+				Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
+                Interaction.Mood.Set(MoodType.HAPPY);
 				iAnimator.SetTrigger("INTERACT");
 
 			} else if (mKidnapping) {
-				BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-				mMood.Set(MoodType.HAPPY);
+				Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
+				Interaction.Mood.Set(MoodType.HAPPY);
 				iAnimator.SetTrigger("KIDNAPPING");
 
 			} else if (mVocalTrigger) {
 				// If Buddy is vocally triggered
 				if (mBatteryVeryLow) {
-					mTTS.Say("Désolé mais je suis très fatigué, je vais me coucher! [800] Bonne nuit!", true);
+					Interaction.TextToSpeech.Say("Désolé mais je suis très fatigué, je vais me coucher! [800] Bonne nuit!", true);
 					iAnimator.SetTrigger("CHARGE");
 				} else {
 					iAnimator.SetTrigger("VOCALTRIGGERED");
@@ -135,14 +132,13 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.FACE_DETECTED, OnFaceDetected);
-
+			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FACE_DETECTED, OnFaceDetected);
 
 			//mSensorManager.mStimuliControllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].StopListenning();
 			//mSensorManager.mStimuliControllers[StimulusEvent.SPHINX_TRIGGERED].StopListenning();
@@ -178,13 +174,13 @@ namespace BuddyApp.Companion
 
 		void OnLowBattery()
 		{
-			mMood.Set(MoodType.TIRED);
+			Interaction.Mood.Set(MoodType.TIRED);
 			mBatteryLow = true;
 		}
 
 		void OnVeryLowBattery()
 		{
-			mMood.Set(MoodType.TIRED);
+            Interaction.Mood.Set(MoodType.TIRED);
 			mBatteryVeryLow = true;
 		}
 
@@ -192,7 +188,5 @@ namespace BuddyApp.Companion
 		{
 			mVocalTrigger = true;
 		}
-
-
 	}
 }

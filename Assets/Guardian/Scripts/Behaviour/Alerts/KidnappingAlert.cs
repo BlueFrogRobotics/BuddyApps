@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using Buddy.Features.Web;
 
 namespace BuddyApp.Guardian
 {
@@ -22,7 +21,7 @@ namespace BuddyApp.Guardian
 
         public override Sprite GetIcon()
         {
-            return BYOS.Instance.ResourceManager.GetSprite("Kidnapping_Alert", "GuardianAtlas");
+            return BYOS.Instance.Resources.GetSprite("Kidnapping_Alert", "GuardianAtlas");
         }
 
         public override string GetLog()

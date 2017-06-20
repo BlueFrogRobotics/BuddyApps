@@ -17,7 +17,7 @@ namespace BuddyApp.Diagnostic
 
         void Start()
         {
-            mThermalSensor = BYOS.Instance.ThermalSensor;
+            mThermalSensor = BYOS.Instance.Primitive.ThermalSensor;
             mNbPixel = mThermalSensor.Matrix.Length;
             mThermalSensorDataArray = new int[mNbPixel];
 

@@ -91,9 +91,9 @@ namespace BuddyApp.Diagnostic
 
         void Start()
         {
-            mWheels = BYOS.Instance.Motors.Wheels;
-            mYesHinge = BYOS.Instance.Motors.YesHinge;
-            mNoHinge = BYOS.Instance.Motors.NoHinge;
+            mWheels = BYOS.Instance.Primitive.Motors.Wheels;
+            mYesHinge = BYOS.Instance.Primitive.Motors.YesHinge;
+            mNoHinge = BYOS.Instance.Primitive.Motors.NoHinge;
 
             leftSpeedSetter.wholeNumbers = true;
             leftSpeedSetter.minValue = 0F;

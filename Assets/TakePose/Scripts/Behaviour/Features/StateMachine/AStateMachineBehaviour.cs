@@ -15,126 +15,11 @@ namespace BuddyApp.TakePose
     /// </summary>
     public abstract class AStateMachineBehaviour : StateMachineBehaviour
     {
-        /// <summary>
-        /// Simple access to the face robot component
-        /// </summary>
-        protected Face mFace;
-
-        /// <summary>
-        /// Simple access to the RGB camera robot component
-        /// </summary>
-        protected RGBCam mRGBCam;
-
-        /// <summary>
-        /// Simple access to the depth camera robot component
-        /// </summary>
-        protected DepthCam mDepthCam;
-
-        /// <summary>
-        /// Simple access to all infrared sensor robot components
-        /// </summary>
-        protected IRSensors mIRSensors;
-
-        /// <summary>
-        /// Simple access to all ultrasound sensor robot components
-        /// </summary>
-        protected USSensors mUSSensors;
-
-        /// <summary>
-        /// Simple access to all cliff sensor robot components
-        /// </summary>
-        protected CliffSensors mCliffSensors;
-
-        /// <summary>
-        /// Simple access to the yes hinge robot component
-        /// </summary>
-        protected YesHinge mYesHinge;
-
-        /// <summary>
-        /// Simple access to the no hinge robot component
-        /// </summary>
-        protected NoHinge mNoHinge;
-
-        /// <summary>
-        /// Simple access to wheels robot component
-        /// </summary>
-        protected Wheels mWheels;
-
-        /// <summary>
-        /// Simple access to the text to speech
-        /// </summary>
-        protected TextToSpeech mTTS;
-
-        /// <summary>
-        /// Simple access to the speech to text
-        /// </summary>
-        protected SpeechToText mSTT;
-
-        /// <summary>
-        /// Simple access to the sphinx trigger
-        /// </summary>
-        protected SphinxTrigger mSphinx;
-
-        /// <summary>
-        /// Simple access to the battery robot component
-        /// </summary>
-        protected Battery mBattery;
-
-        /// <summary>
-        /// Simple access to the micro robot component
-        /// </summary>
-        protected Micro mMicro;
-
-        /// <summary>
-        /// Simple access to the speaker robot component
-        /// </summary>
-        protected Speaker mSpeaker;
-
-        /// <summary>
-        /// Simple access to the LED robot component
-        /// </summary>
-        protected LED mLED;
-
-        /// <summary>
-        /// Simple access to the thermal sensor robot component
-        /// </summary>
-        protected ThermalSensor mThermalSensor;
-
-        /// <summary>
-        /// Simple access to tablet parameters
-        /// </summary>
-        protected TabletParameters mTabletParameters;
-
-        /// <summary>
-        /// Vocal activation wrapper for Sphinx/STT facilities
-        /// </summary>
-        protected VocalManager mVocalManager;
-
-        /// <summary>
-        /// The current language dictionnary
-        /// </summary>
-        protected Dictionary mDictionary;
-
-        /// <summary>
-        /// Notification will be printed at the screen top
-        /// </summary>
-        protected Notifier mNotifier;
-
-        /// <summary>
-        /// Toast will be printed at the screen center
-        /// </summary>
-        protected Toaster mToaster;
-
-        /// <summary>
-        /// Helper in order to easily change the robot mood (LED and Face [and moving behaviour])
-        /// </summary>
-        protected Mood mMood;
-
         private Dictionary<string, int> mCommonIntegers;
         private Dictionary<string, float> mCommonSingles;
         private Dictionary<string, string> mCommonStrings;
         private Dictionary<string, object> mCommonObjects;
-        private StateMachineAppLinker mLinker;
+        private StateMachineAppLinker mManager;
         private Animator mAnimator;
 
         /// <summary>
@@ -157,32 +42,21 @@ namespace BuddyApp.TakePose
         /// </summary>
         public Dictionary<string, object> CommonObjects { get { return mCommonObjects; } internal set { mCommonObjects = value; } }
 
-        internal Face Face { set { mFace = value; } }
-        internal RGBCam RGBCam { set { mRGBCam = value; } }
-        internal DepthCam DepthCam { set { mDepthCam = value; } }
-        internal IRSensors IRSensors { set { mIRSensors = value; } }
-        internal USSensors USSensors { set { mUSSensors = value; } }
-        internal CliffSensors CliffSensors { set { mCliffSensors = value; } }
-        internal YesHinge YesHinge { set { mYesHinge = value; } }
-        internal NoHinge NoHinge { set { mNoHinge = value; } }
-        internal Wheels Wheels { set { mWheels = value; } }
-        internal TextToSpeech TextToSpeech { set { mTTS = value; } }
-        internal SpeechToText SpeechToText { set { mSTT = value; } }
-        internal SphinxTrigger SphinxTrigger { set { mSphinx = value; } }
-        internal Battery Battery { set { mBattery = value; } }
-        internal Micro Micro { set { mMicro = value; } }
-        internal Speaker Speaker { set { mSpeaker = value; } }
-        internal LED LED { set { mLED = value; } }
-        internal ThermalSensor ThermalSensor { set { mThermalSensor = value; } }
-        internal TabletParameters TabletParameters { set { mTabletParameters = value; } }
-        internal Mood Mood { set { mMood = value; } }
+        protected Interaction Interaction { get; private set; }
+        protected Perception Perception { get; private set; }
+        protected Primitive Primitive { get; private set; }
+        protected IOT IOT { get; private set; }
+        protected Navigation Navigation { get; private set; }
+        protected WebService WebService { get; private set; }
 
-        internal VocalManager VocalActivation { set { mVocalManager = value; } }
-        internal Dictionary Dictionary { set { mDictionary = value; } }
-        internal Notifier Notifier { set { mNotifier = value; } }
-        internal Toaster Toaster { set { mToaster = value; } }
+        protected Notifier Notifier { get; private set; }
+        protected Toaster Toaster { get; private set; }
 
-        internal StateMachineAppLinker Linker { set { mLinker = value; } }
+        protected Dictionary Dictionary { get; private set; }
+        protected ResourceManager Resources { get; private set; }
+        protected DataBase DataBase { get; private set; }
+
+        internal StateMachineAppLinker Manager { set { mManager = value; } }
         internal Animator Animator { set { mAnimator = value; } }
 
         /// <summary>
@@ -269,7 +143,7 @@ namespace BuddyApp.TakePose
         /// <param name="iFunc">Your coroutine to start</param>
         protected void StartCoroutine(IEnumerator iFunc)
         {
-            mLinker.StartCoroutineLink(iFunc);
+            mManager.StartCoroutineLink(iFunc);
         }
 
         /// <summary>
@@ -278,7 +152,7 @@ namespace BuddyApp.TakePose
         /// <param name="iFunc">Your coroutine to stop</param>
         protected void StopCoroutine(IEnumerator iFunc)
         {
-            mLinker.StopCoroutineLink(iFunc);
+            mManager.StopCoroutineLink(iFunc);
         }
 
         /// <summary>
@@ -286,7 +160,7 @@ namespace BuddyApp.TakePose
         /// </summary>
         protected void StopAllCoroutines()
         {
-            mLinker.StopAllCoroutinesLink();
+            mManager.StopAllCoroutinesLink();
         }
 
         /// <summary>
@@ -294,7 +168,7 @@ namespace BuddyApp.TakePose
         /// </summary>
         protected void CancelInvoke()
         {
-            mLinker.CancelInvoke();
+            mManager.CancelInvoke();
         }
 
         /// <summary>
@@ -303,7 +177,7 @@ namespace BuddyApp.TakePose
         /// <param name="iMethodName"></param>
         protected void CancelInvoke(string iMethodName)
         {
-            mLinker.CancelInvoke(iMethodName);
+            mManager.CancelInvoke(iMethodName);
         }
 
         /// <summary>
@@ -313,7 +187,7 @@ namespace BuddyApp.TakePose
         /// <param name="iTime"></param>
         protected void Invoke(string iMethodName, float iTime)
         {
-            mLinker.Invoke(iMethodName, iTime);
+            mManager.Invoke(iMethodName, iTime);
         }
 
         /// <summary>
@@ -324,7 +198,7 @@ namespace BuddyApp.TakePose
         /// <param name="iRepeatRate"></param>
         protected void InvokeRepeating(string iMethodName, float iTime, float iRepeatRate)
         {
-            mLinker.InvokeRepeating(iMethodName, iTime, iRepeatRate);
+            mManager.InvokeRepeating(iMethodName, iTime, iRepeatRate);
         }
 
         /// <summary>
@@ -333,7 +207,7 @@ namespace BuddyApp.TakePose
         /// <returns>True if invoking</returns>
         protected bool IsInvoking()
         {
-            return mLinker.IsInvoking();
+            return mManager.IsInvoking();
         }
 
         /// <summary>
@@ -344,9 +218,9 @@ namespace BuddyApp.TakePose
         /// <returns>The component</returns>
         protected T GetComponent<T>() where T : Component
         {
-            if (mLinker.GetComponent<T>() == null)
-                mLinker.AddComponentLink<T>();
-            return mLinker.GetComponent<T>();
+            if (mManager.GetComponent<T>() == null)
+                mManager.AddComponentLink<T>();
+            return mManager.GetComponent<T>();
         }
 
         /// <summary>
@@ -356,7 +230,7 @@ namespace BuddyApp.TakePose
         /// <returns>The gameobject</returns>
         protected GameObject GetGameObject(int iIndex)
         {
-            return mLinker.GameObjects[iIndex];
+            return mManager.GameObjects[iIndex];
         }
 
         /// <summary>
@@ -366,7 +240,7 @@ namespace BuddyApp.TakePose
         /// <returns>The gameobject</returns>
         protected GameObject GetGameObject(string iName)
         {
-            List<GameObject> lGOs = mLinker.GameObjects;
+            List<GameObject> lGOs = mManager.GameObjects;
             int lCount = lGOs.Count;
             for (int i = 0; i < lCount; ++i)
                 if (lGOs[i].name == iName)
@@ -383,7 +257,9 @@ namespace BuddyApp.TakePose
         /// <returns></returns>
         protected T GetComponentInGameObject<T>(int iIndex) where T : Component
         {
-            return mLinker.GameObjects[iIndex].GetComponent<T>();
+            if (iIndex < 0 || iIndex >= mManager.GameObjects.Count)
+                return default(T);
+            return mManager.GameObjects[iIndex].GetComponent<T>();
         }
 
         /// <summary>
@@ -392,6 +268,23 @@ namespace BuddyApp.TakePose
         protected void QuitApp()
         {
             AAppActivity.QuitApp();
+        }
+
+        internal void Init()
+        {
+            Interaction = BYOS.Instance.Interaction;
+            Perception = BYOS.Instance.Perception;
+            Primitive = BYOS.Instance.Primitive;
+            IOT = BYOS.Instance.IOT;
+            Navigation = BYOS.Instance.Navigation;
+            WebService = BYOS.Instance.WebService;
+
+            Notifier = BYOS.Instance.Notifier;
+            Toaster = BYOS.Instance.Toaster;
+
+            Dictionary = BYOS.Instance.Dictionary;
+            Resources = BYOS.Instance.Resources;
+            DataBase = BYOS.Instance.DataBase;
         }
 
         /// <summary>

@@ -21,8 +21,8 @@ namespace BuddyApp.TakePose
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mMood.Set(MoodType.HAPPY);
-            mTTS.SayKey("sharetwitter");
+            Interaction.Mood.Set(MoodType.HAPPY);
+            Interaction.TextToSpeech.SayKey("sharetwitter");
 
             mHasDisplayNotif = false;
             mReadyToExit = false;
@@ -36,13 +36,14 @@ namespace BuddyApp.TakePose
                 mHasDisplayNotif = true;
             }
 
-            if (mTTS.HasFinishedTalking && mReadyToExit)
+            if (Interaction.TextToSpeech.HasFinishedTalking && mReadyToExit)
                 Trigger("Exit");
         }
 
         private IEnumerator DisplayNotif()
         {
-            mNotifier.Display<SimpleNot>(4F).With("#SocialRobot @adoptbuddy", BYOS.Instance.ResourceManager.GetSprite("Ico_Twitter"), Color.blue);
+            Notifier.Display<SimpleNot>(4F).With("#SocialRobot @adoptbuddy", 
+                Resources.GetSprite("Ico_Twitter"), Color.blue);
 
             yield return new WaitForSeconds(5F);
 
@@ -52,7 +53,7 @@ namespace BuddyApp.TakePose
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mMood.Set(MoodType.NEUTRAL);
+            Interaction.Mood.Set(MoodType.NEUTRAL);
         }
     }
 }

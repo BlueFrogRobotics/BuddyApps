@@ -1,5 +1,4 @@
 ﻿using Buddy;
-using Buddy.Features.Stimuli;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +20,6 @@ namespace BuddyApp.Companion
 		public override void Start()
 		{
 			//mSensorManager = BYOS.Instance.SensorManager;
-			mSensorManager = GetComponent<StimuliManager>();
 			mKeyOptions = new List<string>();
 			mKeyOptions.Add("no");
 			mKeyOptions.Add("yes");
@@ -35,9 +33,9 @@ namespace BuddyApp.Companion
 			mTime = 0F;
 			mNoRq = false;
 			mListenRq = false;
-			mMood.Set(MoodType.NEUTRAL);
-			mTTS.Silence(500, true);
-			BYOS.Instance.DialogManager.Ask(OnAnswer, "newrq", 1, mKeyOptions, true);
+            Interaction.Mood.Set(MoodType.NEUTRAL);
+            Interaction.TextToSpeech.Silence(500, true);
+			BYOS.Instance.Interaction.DialogManager.Ask(OnAnswer, "newrq", 1, mKeyOptions, true);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -47,11 +45,11 @@ namespace BuddyApp.Companion
 
 
 			if (mNoRq) {
-				//TODO propose a game or something if buddy wants to interact
-				mTTS.Say("Ok... [500].", true);
+                //TODO propose a game or something if buddy wants to interact
+                Interaction.TextToSpeech.Say("Ok... [500].", true);
 				iAnimator.SetTrigger("DISENGAGE");
 			} else if (mListenRq) {
-				mTTS.Say("Que puis-je faire pour toi?", true);
+                Interaction.TextToSpeech.Say("Que puis-je faire pour toi?", true);
 				iAnimator.SetTrigger("VOCALTRIGGERED");
 			} else if (mTime > 60F) {
 				iAnimator.SetTrigger("DISENGAGE");
@@ -68,7 +66,7 @@ namespace BuddyApp.Companion
 				//Debug.Log("Ask new rq yes " + iAnswer);
 				mListenRq = true;
 			} else {
-				Debug.Log("Ask new rq no " + iAnswer + " dico: " + mDictionary.GetString("yes"));
+				Debug.Log("Ask new rq no " + iAnswer + " dico: " + Dictionary.GetString("yes"));
 				mNoRq = true;
 			}
 		}
