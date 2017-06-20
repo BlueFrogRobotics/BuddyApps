@@ -21,6 +21,7 @@ namespace BuddyApp.Guardian
         {
             mTTS.SayKey("startdetectiontimer");
             mStartTimer = false;
+            mDetectionManager.SoundDetector.StartMic();
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

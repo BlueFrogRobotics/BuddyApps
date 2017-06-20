@@ -18,6 +18,8 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            
+
             BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout, 
                 () => { Trigger("NextStep"); },
                 () => { Trigger("Back"); });

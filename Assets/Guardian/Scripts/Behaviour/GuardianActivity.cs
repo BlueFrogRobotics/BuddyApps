@@ -21,7 +21,7 @@ namespace BuddyApp.Guardian
         {
             MailSender.OnMailSent += OnMailSent;
             mDetectionManager.LinkDetectorsEvents();
-            mDetectionManager.SoundDetector.StartMic();
+            //mDetectionManager.SoundDetector.StartMic();
         }
 
         public override void OnQuit()

@@ -20,6 +20,8 @@ namespace BuddyApp.Guardian
         private bool mHasDisplayChoices;
         private bool mListening;
 
+        private float mTimer = 0.0f;
+
         public override void Start()
         {
             mFixedPhonetics = new List<string>(mDictionary.GetPhoneticStrings("fixed"));
@@ -35,10 +37,20 @@ namespace BuddyApp.Guardian
 
             mSTT.OnBestRecognition.Clear();
             mSTT.OnBestRecognition.Add(OnSpeechReco);
+            mTimer = 0.0f;
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mTimer += Time.deltaTime;
+            if(mTimer>6.0f)
+            {
+                mMood.Set(MoodType.NEUTRAL);
+                mListening = false;
+                mTimer = 0.0f;
+                mSpeechReco = null;
+            }
+
             if (!mTTS.HasFinishedTalking || mListening)
                 return;
 
@@ -102,6 +114,7 @@ namespace BuddyApp.Guardian
 
         private void OnSpeechReco(string iVoiceInput)
         {
+            Debug.Log("reco :"+iVoiceInput);
             mSpeechReco = iVoiceInput;
 
             mMood.Set(MoodType.NEUTRAL);

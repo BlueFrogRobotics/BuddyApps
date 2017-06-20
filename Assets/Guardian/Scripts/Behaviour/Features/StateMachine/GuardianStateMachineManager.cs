@@ -66,6 +66,7 @@ namespace BuddyApp.Guardian
                     lState.Notifier = BYOS.Instance.Notifier;
                     lState.Toaster = BYOS.Instance.Toaster;
                     lState.Mood = BYOS.Instance.Mood;
+                    lState.DetectionManager = GetComponent<DetectionManager>();
                     lState.CommonIntegers = mCommonIntegers;
                     lState.CommonSingles = mCommonSingles;
                     lState.CommonStrings = mCommonStrings;

@@ -133,6 +133,11 @@ namespace BuddyApp.Guardian
         /// </summary>
         protected Mood mMood;
 
+        /// <summary>
+        /// Simple access to DetectionManager
+        /// </summary>
+        protected DetectionManager mDetectionManager;
+
         private Dictionary<string, int> mCommonIntegers;
         private Dictionary<string, float> mCommonSingles;
         private Dictionary<string, string> mCommonStrings;
@@ -179,6 +184,7 @@ namespace BuddyApp.Guardian
         internal ThermalSensor ThermalSensor { set { mThermalSensor = value; } }
         internal TabletParameters TabletParameters { set { mTabletParameters = value; } }
         internal Mood Mood { set { mMood = value; } }
+        internal DetectionManager DetectionManager { set { mDetectionManager = value; } }
 
         internal VocalManager VocalActivation { set { mVocalManager = value; } }
         internal Dictionary Dictionary { set { mDictionary = value; } }
