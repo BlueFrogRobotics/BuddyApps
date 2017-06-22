@@ -1025,7 +1025,6 @@
             <param name="iSourceNode">The source node of the path</param>
             <param name="iDestinationNode">The destination node of the path</param>
             <param name="iGraph">The graph with all nodes and weight between them</param>
-            <param name="iReset">Can be false the first time, must be true (default) otherwise</param>
             <returns></returns>
         </member>
         <member name="M:Buddy.Utils.ComputePaths(Buddy.Node)">

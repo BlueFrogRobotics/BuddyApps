@@ -4,6 +4,11 @@
         <name>OS</name>
     </assembly>
     <members>
+        <member name="T:Buddy.Arduino">
+            <summary>
+            Arduino component of the robot
+            </summary>
+        </member>
         <member name="P:Buddy.Arduino.GetSerialNumber">
             <summary>
             Get the Hardware Serial Number.
@@ -19,6 +24,11 @@
             <remarks>
              It can be used for SDK compatibilities.
             </remarks>
+        </member>
+        <member name="T:Buddy.HDDStorage">
+            <summary>
+            Hard storage component of the robot
+            </summary>
         </member>
         <member name="M:Buddy.HDDStorage.GetAvailableInternalStorage">
             <summary>
@@ -43,6 +53,11 @@
             The total external storage
             </summary>
             <returns>Value in bytes</returns>
+        </member>
+        <member name="T:Buddy.Accelerometer">
+            <summary>
+            Accelerometer compoenent of the robot
+            </summary>
         </member>
         <member name="M:Buddy.Accelerometer.GetXAccelerometer">
             <summary>
@@ -455,6 +470,11 @@
             Hinge component of the robot neck. 
             </summary>
         </member>
+        <member name="F:Buddy.Hinge.mHinge">
+            <summary>
+            Hinge of the robot
+            </summary>
+        </member>
         <member name="P:Buddy.Hinge.DestinationAnglePosition">
             <summary>
             The setted angular position of the motor in degrees
@@ -826,9 +846,129 @@
             Kind of sound that Buddy can natively handle for voice acting
             </summary>
         </member>
+        <member name="F:Buddy.VoiceSound.NONE">
+            <summary>
+            No sound
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.CURIOUS_1">
+            <summary>
+            Curious sound 1
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.CURIOUS_2">
+            <summary>
+            Curious sound 2
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.FOCUS_1">
+            <summary>
+            Focus sound 1
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.FOCUS_2">
+            <summary>
+            Focus sound 2
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.LAUGH_1">
+            <summary>
+            Laugh sound 1
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.LAUGH_2">
+            <summary>
+            Laugh sound 2
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.LAUGH_3">
+            <summary>
+            Laugh sound 3
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.LAUGH_4">
+            <summary>
+            Laugh sound 4
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.LAUGH_5">
+            <summary>
+            Laugh sound 5
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.SIGH">
+            <summary>
+            Sigh sound
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.SURPRISED_1">
+            <summary>
+            Surprised sound 1
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.SURPRISED_2">
+            <summary>
+            Surprised sound 2
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.SURPRISED_3">
+            <summary>
+            Surprised sound 3
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.SURPRISED_4">
+            <summary>
+            Surprised sound 4
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.SURPRISED_5">
+            <summary>
+            Surprised sound 5
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.SURPRISED_6">
+            <summary>
+            Surprised sound 6
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.YAWN">
+            <summary>
+            Yawn sound
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.RANDOM_CURIOUS">
+            <summary>
+            Random curious sound
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.RANDOM_LAUGH">
+            <summary>
+            Random laugh sound
+            </summary>
+        </member>
+        <member name="F:Buddy.VoiceSound.RANDOM_SURPRISED">
+            <summary>
+            Random surprised sound
+            </summary>
+        </member>
         <member name="T:Buddy.FXSound">
             <summary>
             Kind of sound that Buddy can natively handle for sound effect
+            </summary>
+        </member>
+        <member name="F:Buddy.FXSound.NONE">
+            <summary>
+            No beep
+            </summary>
+        </member>
+        <member name="F:Buddy.FXSound.BEEP_1">
+            <summary>
+            Deep beep
+            </summary>
+        </member>
+        <member name="F:Buddy.FXSound.BEEP_2">
+            <summary>
+            High beep
             </summary>
         </member>
         <member name="T:Buddy.MediaSound">
@@ -836,9 +976,34 @@
             Kind of sound that Buddy can natively handle for media purpurses
             </summary>
         </member>
+        <member name="F:Buddy.MediaSound.NONE">
+            <summary>
+            No media sound
+            </summary>
+        </member>
         <member name="T:Buddy.SoundChannel`1">
             <summary>
             Sound channel for the robot speaker component.
+            </summary>
+        </member>
+        <member name="F:Buddy.SoundChannel`1.DIRECTORY">
+            <summary>
+            Sounds directory name
+            </summary>
+        </member>
+        <member name="F:Buddy.SoundChannel`1.mAudioClipByInts">
+            <summary>
+            Dictionary which store audio clip by index
+            </summary>
+        </member>
+        <member name="F:Buddy.SoundChannel`1.mAudioClipByStrings">
+            <summary>
+            Dictionary which store audio clip by name
+            </summary>
+        </member>
+        <member name="F:Buddy.SoundChannel`1.mAudioClipByType">
+            <summary>
+            Dictionary which store audio clip by type
             </summary>
         </member>
         <member name="P:Buddy.SoundChannel`1.Loop">
@@ -1155,6 +1320,11 @@
             </summary>
             <param name="iLanguage"></param>
         </member>
+        <member name="T:Buddy.BlueTooth">
+            <summary>
+            Bluetooth component of the robot
+            </summary>
+        </member>
         <member name="M:Buddy.BlueTooth.EnableBluetooth">
             <summary>
             Enables Bluetooth connection
@@ -1380,6 +1550,46 @@
             <param name="iOptionsKeys">iOptionsKeys is the list of keys that we will recognize as answers</param>
             <param name="iQueue">iQueue is at false if we want to ignore current TTS queue.</param>
         </member>
+        <member name="T:Buddy.Interaction">
+            <summary>
+            Class that contains all the interaction features (Mood, Face, VocalManager, STT, TTS ...)
+            </summary>
+        </member>
+        <member name="P:Buddy.Interaction.Mood">
+            <summary>
+            Mood of the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.Interaction.VocalManager">
+            <summary>
+            Layer to easily access to the trigger and STT
+            </summary>
+        </member>
+        <member name="P:Buddy.Interaction.Face">
+            <summary>
+            Face of the robot (Eyes and mouth)
+            </summary>
+        </member>
+        <member name="P:Buddy.Interaction.SpeechToText">
+            <summary>
+            Speak recognition of the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.Interaction.TextToSpeech">
+            <summary>
+            Vocal synthesis of the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.Interaction.SphinxTrigger">
+            <summary>
+            Sphinx trigger
+            </summary>
+        </member>
+        <member name="M:Buddy.Interaction.Clear">
+            <summary>
+            Clear the interaction component
+            </summary>
+        </member>
         <member name="T:Buddy.Mood">
             <summary>
             Mood element of the robot. It is an helper component combining Face, LED and moving commands.
@@ -1444,6 +1654,31 @@
             Use this callback to know the Question type found (as string) 
             </summary>
         </member>
+        <member name="M:Buddy.VocalChat.Enable">
+            <summary>
+            Enable vocal chat
+            </summary>
+        </member>
+        <member name="M:Buddy.VocalChat.Disable">
+            <summary>
+            Disable vocal chat
+            </summary>
+        </member>
+        <member name="M:Buddy.VocalChat.StartDialogueWithPhrase">
+            <summary>
+            Start a new dialogue
+            </summary>
+        </member>
+        <member name="M:Buddy.VocalChat.Activate">
+            <summary>
+            Activate the vocal recognition
+            </summary>
+        </member>
+        <member name="M:Buddy.VocalChat.DisActivate">
+            <summary>
+            Disactivate the vocal recognition
+            </summary>
+        </member>
         <member name="T:Buddy.VocalDebug">
             <summary>
             Vocal layer for easiest control for STT and Sphinx.
@@ -1489,6 +1724,16 @@
         <member name="T:Buddy.AVMErrorState">
             <summary>
             Base class for error stae in vocal managing
+            </summary>
+        </member>
+        <member name="F:Buddy.AVMErrorState.EXIT_ERROR_TIMER">
+            <summary>
+            Timeout exit in seconds
+            </summary>
+        </member>
+        <member name="F:Buddy.AVMErrorState.mTimerExit">
+            <summary>
+            Current exit timer
             </summary>
         </member>
         <member name="T:Buddy.VMAudioErrorState">
@@ -1637,6 +1882,16 @@
             </summary>
             <param name="iInput">The input text that the Speech To Text will proceed</param>
         </member>
+        <member name="T:Buddy.IOT">
+            <summary>
+            This class contains all the IOT components
+            </summary>
+        </member>
+        <member name="M:Buddy.IOT.Clear">
+            <summary>
+            Clear the IOT component
+            </summary>
+        </member>
         <member name="T:Buddy.AudioRecorder">
             <summary>
             Static class used to save audio file and to manage audioclip
@@ -1689,6 +1944,21 @@
             <param name="iListMat">list of mat that will be stored in the video file</param>
             <param name="iFps">framerate of the video file</param>
         </member>
+        <member name="T:Buddy.Navigation">
+            <summary>
+            This class contains all the navigation components (RoombaWalk, Patrol...)
+            </summary>
+        </member>
+        <member name="P:Buddy.Navigation.Roomba">
+            <summary>
+            Roomba navigation
+            </summary>
+        </member>
+        <member name="M:Buddy.Navigation.Clear">
+            <summary>
+            Clear the navigation components
+            </summary>
+        </member>
         <member name="T:Buddy.RoombaNavigation">
             <summary>
             Ultra basic random navigation for navigation tests
@@ -1722,6 +1992,16 @@
         <member name="M:Buddy.RoombaNavigation.Update">
             <summary>
             Called at each freame
+            </summary>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.Enable">
+            <summary>
+            Enable the roomba navigation
+            </summary>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.Disable">
+            <summary>
+            Disable the roomba navigation
             </summary>
         </member>
         <member name="M:Buddy.RoombaNavigation.PreventCollision">
@@ -1792,6 +2072,16 @@
             The maximal value for the threshold of the detector
             </summary>
         </member>
+        <member name="M:Buddy.ADetector.Enable">
+            <summary>
+            Enable the detector
+            </summary>
+        </member>
+        <member name="M:Buddy.ADetector.Disable">
+            <summary>
+            Disable the detector
+            </summary>
+        </member>
         <member name="P:Buddy.ADetector.Threshold">
             <summary>
             The value of the threshold
@@ -1821,9 +2111,24 @@
             Class used to detect a fire
             </summary>
         </member>
+        <member name="P:Buddy.FireDetector.MinThreshold">
+            <summary>
+            Minimum threshold of the fire detector
+            </summary>
+        </member>
+        <member name="P:Buddy.FireDetector.MaxThreshold">
+            <summary>
+            Maximum threshold of the fire detector
+            </summary>
+        </member>
         <member name="P:Buddy.FireDetector.IsFireDetected">
             <summary>
             Is true if a fire has been detected
+            </summary>
+        </member>
+        <member name="M:Buddy.FireDetector.Init">
+            <summary>
+            Init the fire detector
             </summary>
         </member>
         <member name="T:Buddy.KidnappingDetector">
@@ -1831,9 +2136,24 @@
             Class used to know if buddy has been taken off
             </summary>
         </member>
+        <member name="P:Buddy.KidnappingDetector.MinThreshold">
+            <summary>
+            Minimum threshold of the kidnapping detector
+            </summary>
+        </member>
+        <member name="P:Buddy.KidnappingDetector.MaxThreshold">
+            <summary>
+            Maximum threshold of the kidnapping detector
+            </summary>
+        </member>
         <member name="P:Buddy.KidnappingDetector.IsBeingKidnapped">
             <summary>
             Is true if buddy is taken off
+            </summary>
+        </member>
+        <member name="M:Buddy.KidnappingDetector.Init">
+            <summary>
+            Init the kignapping detector
             </summary>
         </member>
         <member name="T:Buddy.MovementDetector">
@@ -1841,9 +2161,24 @@
             Class used to detect movements
             </summary>
         </member>
+        <member name="P:Buddy.MovementDetector.MaxThreshold">
+            <summary>
+            Minimum threshold of the movement detector
+            </summary>
+        </member>
+        <member name="P:Buddy.MovementDetector.MinThreshold">
+            <summary>
+            Maximum threshold of the movement detector
+            </summary>
+        </member>
         <member name="P:Buddy.MovementDetector.IsMovementDetected">
             <summary>
             Is true if a movement has been detected
+            </summary>
+        </member>
+        <member name="M:Buddy.MovementDetector.Init">
+            <summary>
+            Init the movement detector
             </summary>
         </member>
         <member name="T:Buddy.MovementTracker">
@@ -1866,6 +2201,23 @@
             <summary>
             The position of the center of the moment of the picture
             </summary>
+        </member>
+        <member name="M:Buddy.MovementTracker.Init(System.Int32@,System.Single@,System.Boolean@)">
+            <summary>
+            Init the movement tracker
+            </summary>
+            <param name="ioOutputType">The output type</param>
+            <param name="ioBetweenProcessTime">Refresh time</param>
+            <param name="ioHandleOutputTexture">Has the output to be a texture</param>
+        </member>
+        <member name="M:Buddy.MovementTracker.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D,OpenCVUnity.Mat@,OpenCVUnity.Size)">
+            <summary>
+            Process the algorithm
+            </summary>
+            <param name="iInputFrameMat">The input frame as Matrice</param>
+            <param name="iInputFrameTexture">The inout frame as Texture</param>
+            <param name="ioOutputFrameMat">The output frame as Matrice</param>
+            <param name="iSize"></param>
         </member>
         <member name="T:Buddy.SoundDetector">
             <summary>
@@ -1890,6 +2242,21 @@
         <member name="P:Buddy.SoundDetector.Clip">
             <summary>
             Returns the audioclip used in the sound detection
+            </summary>
+        </member>
+        <member name="P:Buddy.SoundDetector.MinThreshold">
+            <summary>
+            Minimum threshold of the sound detector
+            </summary>
+        </member>
+        <member name="P:Buddy.SoundDetector.MaxThreshold">
+            <summary>
+            Maximum threshold of the sound detector
+            </summary>
+        </member>
+        <member name="M:Buddy.SoundDetector.Init">
+            <summary>
+            Init the sound detector
             </summary>
         </member>
         <member name="M:Buddy.SoundDetector.StartMic">
@@ -1938,6 +2305,61 @@
             Time when the geolocation was taken in seconds from 1970
             </summary>
         </member>
+        <member name="T:Buddy.Perception">
+            <summary>
+            This class contains all the robot perception features (Geolocation, FaceTracker, GoogleCloudVisions, Detectors...)
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.Geolocation">
+            <summary>
+            Access to the geolocation feature 
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.FaceTracker">
+            <summary>
+            Feature to track faces
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.Stimuli">
+            <summary>
+            Access to all the robot stimuli
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.FireDetector">
+            <summary>
+            Feature to detect fire
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.KidnappingDetector">
+            <summary>
+            Feature to detect kidnapping
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.MovementDetector">
+            <summary>
+            Feature to detect movement
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.MovementTracker">
+            <summary>
+            Feature to track movement
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.SoundDetector">
+            <summary>
+            Feature to detect sound
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.GoogleCloudVision">
+            <summary>
+            Access to the google cloud vision feature
+            </summary>
+        </member>
+        <member name="M:Buddy.Perception.Clear">
+            <summary>
+            Clear the perception components
+            </summary>
+        </member>
         <member name="T:Buddy.AVisionAlgorithm">
             <summary>
             Base class for computer vision algorithms.
@@ -1962,6 +2384,16 @@
         <member name="M:Buddy.AVisionAlgorithm.Update">
             <summary>
             Called at each frame.
+            </summary>
+        </member>
+        <member name="M:Buddy.AVisionAlgorithm.Enable">
+            <summary>
+            Enable the vision algorithm
+            </summary>
+        </member>
+        <member name="M:Buddy.AVisionAlgorithm.Disable">
+            <summary>
+            Disable the vision algorithm
             </summary>
         </member>
         <member name="M:Buddy.AVisionAlgorithm.RetrieveFrame">
@@ -2259,6 +2691,7 @@
             <summary>
             Detect the wanted feature in the input image
             </summary>
+            <param name="iKey">Key to authorize request</param>
             <param name="iImage">The image to retrieve info</param>
             <param name="iFeatureType">The kind of feature</param>
             <param name="ioResponses">The output Annotate response</param>
@@ -2269,6 +2702,7 @@
             <summary>
             Detect the wanted feature in the input image
             </summary>
+            <param name="iKey">Key to authorize request</param>
             <param name="iImage">The image to retrieve info</param>
             <param name="iFeatureType">The kind of feature</param>
             <param name="ioResponses">The output Annotate response</param>
@@ -2279,6 +2713,7 @@
             <summary>
             Detect the wanted feature in the input image
             </summary>
+            <param name="iKey">Key to authorize request</param>
             <param name="iImage">The image to retrieve info</param>
             <param name="iFeatureType">The kind of feature</param>
             <param name="ioResponses">The output Annotate response</param>
@@ -2289,6 +2724,7 @@
             <summary>
             Detect the wanted feature in the input image
             </summary>
+            <param name="iKey">Key to authorize request</param>
             <param name="iImage">The image to retrieve info</param>
             <param name="iFeatureType">The kind of feature</param>
             <param name="ioResponses">The output Annotate response</param>
@@ -2299,6 +2735,7 @@
             <summary>
             Detect the wanted feature in the input image
             </summary>
+            <param name="iKey">Key to authorize request</param>
             <param name="iImage">The image to retrieve info</param>
             <param name="iFeatureType">The kind of feature</param>
             <param name="ioResponses">The output Annotate response</param>
@@ -2309,6 +2746,7 @@
             <summary>
             Detect the wanted feature in the input image
             </summary>
+            <param name="iKey">Key to authorize request</param>
             <param name="iImage">The image to retrieve info</param>
             <param name="iFeatureType">The kind of feature</param>
             <param name="ioResponses">The output Annotate response</param>
@@ -2525,6 +2963,11 @@
             Loads, unloads apps and store transited data
             </summary>
         </member>
+        <member name="T:Buddy.Internal.AppManagement.AppUpdater">
+            <summary>
+            This class retrieves online apps and updates local apps
+            </summary>
+        </member>
         <member name="M:Buddy.Internal.AppManagement.AppUpdater.CompareVersions(System.String,System.String)">
             <summary>
             Returns 1 if First greater than Second.
@@ -2534,6 +2977,61 @@
             <param name="iFirstVersion">First version string</param>
             <param name="iSecondVersion">Second version string</param>
             <returns>Compared value</returns>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.AppCategory">
+            <summary>
+            Represents the different app categories
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.COMPANION">
+            <summary>
+            Companion category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.EDUTAINMENT">
+            <summary>
+            Edutainment category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.GAME">
+            <summary>
+            Game category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.MULTIMEDIA">
+            <summary>
+            Multimedia category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.UTILITY">
+            <summary>
+            Utility category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.SECURITY">
+            <summary>
+            Security category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.OTHER">
+            <summary>
+            Other category
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.VocalKeys">
+            <summary>
+            Reprensts the differents vocal keys by language to trigger the application
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.VocalKeys.Language">
+            <summary>
+            The language of Buddy
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.VocalKeys.Keys">
+            <summary>
+            List of the differents trigger keys
+            </summary>
         </member>
         <member name="T:Buddy.Internal.AppManagement.AppInfo">
             <summary>
@@ -2667,6 +3165,21 @@
             Called at each valuable frame.
             </summary>
         </member>
+        <member name="T:Buddy.WebService">
+            <summary>
+            Class that contains all remote API access (Email, Twitter, Facebook...)
+            </summary>
+        </member>
+        <member name="P:Buddy.WebService.EMailSender">
+            <summary>
+            Email protocol to send emails
+            </summary>
+        </member>
+        <member name="M:Buddy.WebService.Clear">
+            <summary>
+            Clear and stop the current email sending
+            </summary>
+        </member>
         <member name="T:Buddy.EMail">
             <summary>
             Class which contains the message, the subject and the list of attachements that will be sent by using MailSender
@@ -2745,6 +3258,51 @@
             Enum of the different smtp that can be used to send mail
             </summary>
         </member>
+        <member name="F:Buddy.SMTP.GMAIL">
+            <summary>
+            Gmail stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.YAHOO">
+            <summary>
+            Yahoo stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.HOTMAIL">
+            <summary>
+            Hotmail stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.BFR">
+            <summary>
+            BFR stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.ORANGE">
+            <summary>
+            Orange stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.FREE">
+            <summary>
+            Free stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.OUTLOOK">
+            <summary>
+            Outlook stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.SFR">
+            <summary>
+            SFR stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.WANADOO">
+            <summary>
+            Wanadoo stmp
+            </summary>
+        </member>
         <member name="T:Buddy.EMailSender">
             <summary>
             Class that connect to an smtp server to send a mail
@@ -2786,11 +3344,31 @@
             <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
             <param name="iEMails">mails that will be send</param>
         </member>
+        <member name="T:Buddy.AccelerometerStimulus">
+            <summary>
+            Stimulus to detect kidnapping
+            </summary>
+        </member>
+        <member name="M:Buddy.AccelerometerStimulus.Init">
+            <summary>
+            Init the Accelerometer stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.AccelerometerStimulus.AssessStimulusImpl">
+            <summary>
+            Accelerometer stimulus implementation
+            </summary>
+        </member>
         <member name="T:Buddy.AStimulus">
             <summary>
             This class is an abstract class to define a StimuliController.
             You can register or remove callbacks to be called when the event linked to the stimuli
             is detected
+            </summary>
+        </member>
+        <member name="F:Buddy.AStimulus.mEventsCallbacks">
+            <summary>
+            Store all the events subscribe
             </summary>
         </member>
         <member name="P:Buddy.AStimulus.IsListening">
@@ -2801,6 +3379,16 @@
         <member name="M:Buddy.AStimulus.Awake">
             <summary>
             Constructor of the abstract class
+            </summary>
+        </member>
+        <member name="M:Buddy.AStimulus.Enable">
+            <summary>
+            Enable the stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.AStimulus.Disable">
+            <summary>
+            Disable the stimulus
             </summary>
         </member>
         <member name="M:Buddy.AStimulus.RegisterCallback(Buddy.StimulusEvent,Buddy.FunctionCallback)">
@@ -2817,21 +3405,247 @@
             <summary>
             Remove a given callback
             </summary>
-            <param name="iCallback"> The id of the callback to remove </param>
+            <param name="iStimuliEvent">The stimulus event to unsubscribe</param>
+            <param name="iCallback">The callback to remove </param>
+        </member>
+        <member name="M:Buddy.AStimulus.Init">
+            <summary>
+            Init the stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.AStimulus.AssessStimulusImpl">
+            <summary>
+            Stimulus implementation
+            </summary>
+        </member>
+        <member name="T:Buddy.BatteryState">
+            <summary>
+            Battery state of the robot
+            </summary>
+        </member>
+        <member name="F:Buddy.BatteryState.LOW">
+            <summary>
+            Low battery charge
+            </summary>
+        </member>
+        <member name="F:Buddy.BatteryState.VERY_LOW">
+            <summary>
+            Very low battery charge
+            </summary>
+        </member>
+        <member name="T:Buddy.BatteryStimulus">
+            <summary>
+            Stimulus to detect low battery and very low battery
+            </summary>
+        </member>
+        <member name="M:Buddy.BatteryStimulus.Init">
+            <summary>
+            Init the battery stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.BatteryStimulus.AssessStimulusImpl">
+            <summary>
+            Battery stimulus implementation
+            </summary>
+        </member>
+        <member name="T:Buddy.BrightnessStimulus">
+            <summary>
+            Stimulus to detect hight and low brightness
+            </summary>
+        </member>
+        <member name="M:Buddy.BrightnessStimulus.Init">
+            <summary>
+            Init the brightness stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.BrightnessStimulus.AssessStimulusImpl">
+            <summary>
+            Brightness stimulus impl
+            </summary>
+        </member>
+        <member name="M:Buddy.BrightnessStimulus.Enable">
+            <summary>
+            Enable brightness stimulus
+            </summary>
+        </member>
+        <member name="T:Buddy.ChangingPositionStimulus">
+            <summary>
+            Stimulus to detect new robot position
+            </summary>
+        </member>
+        <member name="M:Buddy.ChangingPositionStimulus.Init">
+            <summary>
+            Init the changing position stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.ChangingPositionStimulus.AssessStimulusImpl">
+            <summary>
+            Changing position stimulus implementation
+            </summary>
+        </member>
+        <member name="T:Buddy.FaceDetectionStimulus">
+            <summary>
+            Stimulus to detect a face
+            </summary>
+        </member>
+        <member name="M:Buddy.FaceDetectionStimulus.Init">
+            <summary>
+            Init the face detection stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.FaceDetectionStimulus.AssessStimulusImpl">
+            <summary>
+            Face detection stimulus implementation
+            </summary>
+        </member>
+        <member name="M:Buddy.FaceDetectionStimulus.Enable">
+            <summary>
+            Enable the face detection
+            </summary>
+        </member>
+        <member name="M:Buddy.FaceDetectionStimulus.Disable">
+            <summary>
+            Disable the face detection
+            </summary>
+        </member>
+        <member name="T:Buddy.MoveSideStimulus">
+            <summary>
+            Stimulus to detect movement (up, down, right, left)
+            </summary>
+        </member>
+        <member name="M:Buddy.MoveSideStimulus.Init">
+            <summary>
+            Init the move side stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.MoveSideStimulus.AssessStimulusImpl">
+            <summary>
+            Move side stimulus implementation
+            </summary>
+        </member>
+        <member name="M:Buddy.MoveSideStimulus.Enable">
+            <summary>
+            Enable the move side stimulus
+            </summary>
         </member>
         <member name="T:Buddy.NoiseStimulus">
             <summary>
-            Stimuli for vocal trigger using Sphinx
+            Stimulus to detect noise
+            </summary>
+        </member>
+        <member name="M:Buddy.NoiseStimulus.Init">
+            <summary>
+            Init noise stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.NoiseStimulus.AssessStimulusImpl">
+            <summary>
+            Noise stimulus implementation
+            </summary>
+        </member>
+        <member name="M:Buddy.NoiseStimulus.Enable">
+            <summary>
+            Enable the noise stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.NoiseStimulus.Disable">
+            <summary>
+            Disable the noise stimulus
+            </summary>
+        </member>
+        <member name="T:Buddy.RandomActivationStimulus">
+            <summary>
+            Stimulus for random activation (minute, hour, day)
+            </summary>
+        </member>
+        <member name="M:Buddy.RandomActivationStimulus.Init">
+            <summary>
+            Init the random activation stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.RandomActivationStimulus.AssessStimulusImpl">
+            <summary>
+            Random activation stimulus implementation
+            </summary>
+        </member>
+        <member name="M:Buddy.RandomActivationStimulus.Enable">
+            <summary>
+            Enable random activation stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.RandomActivationStimulus.Disable">
+            <summary>
+            Disable random activation stimulus
+            </summary>
+        </member>
+        <member name="T:Buddy.RegularActivationStimulus">
+            <summary>
+            Stimulus for regular activation (minute, hour, day, week)
+            </summary>
+        </member>
+        <member name="M:Buddy.RegularActivationStimulus.Init">
+            <summary>
+            Init regular activation stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.RegularActivationStimulus.AssessStimulusImpl">
+            <summary>
+            Regular activation stimulus implementation
+            </summary>
+        </member>
+        <member name="M:Buddy.RegularActivationStimulus.Enable">
+            <summary>
+            Enable regular activation stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.RegularActivationStimulus.Disable">
+            <summary>
+            Disable regular activation stimulus
             </summary>
         </member>
         <member name="T:Buddy.SpeedStimulus">
             <summary>
-            Stimuli for vocal trigger using Sphinx
+            Stimulus to detect wheels movement and robot high speed
+            </summary>
+        </member>
+        <member name="M:Buddy.SpeedStimulus.Init">
+            <summary>
+            Init speed stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.SpeedStimulus.AssessStimulusImpl">
+            <summary>
+            Speed stimulus implementation
             </summary>
         </member>
         <member name="T:Buddy.SphinxStimulus">
             <summary>
-            Stimuli for vocal trigger using Sphinx
+            Stimulus to detect sphinx trigger
+            </summary>
+        </member>
+        <member name="M:Buddy.SphinxStimulus.Init">
+            <summary>
+            Init sphinx stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.SphinxStimulus.AssessStimulusImpl">
+            <summary>
+            Sphinx stimulus implementation
+            </summary>
+        </member>
+        <member name="M:Buddy.SphinxStimulus.Enable">
+            <summary>
+            Enable sphinx stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.SphinxStimulus.Disable">
+            <summary>
+            Disable sphinx stimulus
+            </summary>
+        </member>
+        <member name="T:Buddy.StimulusEvent">
+            <summary>
+            List of all subcribable stimulus event
             </summary>
         </member>
         <member name="F:Buddy.StimulusEvent.SPHINX_TRIGGERED">
@@ -2959,10 +3773,35 @@
             buddy doesn't detect any obstacle 
             </summary>
         </member>
+        <member name="F:Buddy.StimulusEvent.MOVE_LEFT">
+            <summary>
+            Buddy moving left
+            </summary>
+        </member>
+        <member name="F:Buddy.StimulusEvent.MOVE_RIGHT">
+            <summary>
+            Buddy moving right
+            </summary>
+        </member>
+        <member name="F:Buddy.StimulusEvent.MOVE_UP">
+            <summary>
+            Buddy moving forward
+            </summary>
+        </member>
+        <member name="F:Buddy.StimulusEvent.MOVE_DOWN">
+            <summary>
+            Buddy moving backward
+            </summary>
+        </member>
         <member name="T:Buddy.Stimuli">
             <summary>
             This class is used to manage the diverse sensors and
             to subscribe to some stimuli events (by registering callbacks)
+            </summary>
+        </member>
+        <member name="P:Buddy.Stimuli.Controllers">
+            <summary>
+            Dictionary of stimulus event and there associated Stimulus component
             </summary>
         </member>
         <member name="M:Buddy.Stimuli.RegisterStimuliCallback(Buddy.StimulusEvent,Buddy.FunctionCallback)">
@@ -2979,7 +3818,66 @@
             <param name="iStimuliEvent"> This is used to define which stimuli has the callback to remove</param>
             <param name="iCallback"> This is used to know which callback to remove</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "P:Buddy.Primitive.Speaker" -->
+        <member name="T:Buddy.ThermalStimulus">
+            <summary>
+            Stimulus to detect human and fire
+            </summary>
+        </member>
+        <member name="M:Buddy.ThermalStimulus.Init">
+            <summary>
+            Init thermal detection stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.ThermalStimulus.AssessStimulusImpl">
+            <summary>
+            Thermal detection stimulus implementation
+            </summary>
+        </member>
+        <member name="T:Buddy.USState">
+            <summary>
+            US detection state
+            </summary>
+        </member>
+        <member name="F:Buddy.USState.NEAR">
+            <summary>
+            Close obstacle detected
+            </summary>
+        </member>
+        <member name="F:Buddy.USState.FAR">
+            <summary>
+            Far obstacle detected
+            </summary>
+        </member>
+        <member name="F:Buddy.USState.NO_OBSTACLE">
+            <summary>
+            No obstacle detected
+            </summary>
+        </member>
+        <member name="T:Buddy.USStimulus">
+            <summary>
+            Stimulus to detect obstacle distance (none, close, far)
+            </summary>
+        </member>
+        <member name="M:Buddy.USStimulus.Init">
+            <summary>
+            Init US stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.USStimulus.AssessStimulusImpl">
+            <summary>
+            US stimulus implementation
+            </summary>
+        </member>
+        <member name="T:Buddy.Primitive">
+            <summary>
+            This class contains all the buddy primitives components (Arduino, Speaker, Micro, Wifi ...)
+            </summary>
+        </member>
+        <member name="P:Buddy.Primitive.Speaker">
+            <summary>
+            Speaker component. Not used
+            </summary>
+        </member>
         <member name="P:Buddy.Primitive.Micro">
             <summary>
             Micro component. Not used
@@ -3055,6 +3953,11 @@
             Depth camera of the robot
             </summary>
         </member>
+        <member name="M:Buddy.Primitive.Clear">
+            <summary>
+            Clear the Primitives Buddy components
+            </summary>
+        </member>
         <member name="T:Buddy.Command.InstallAppCmd">
             <summary>
             When executed : Install the specified app
@@ -3067,9 +3970,10 @@
         </member>
         <member name="M:Buddy.Command.InstallAppCmd.#ctor(System.String,System.String)">
             <summary>
-            When executed : Install the specified app
+            Constructor which install the specified app
             </summary>
-            <param name="iID"></param>
+            <param name="iID">The app ID</param>
+            <param name="iVersion">The version of the app to install</param>
         </member>
         <member name="M:Buddy.Command.InstallAppCmd.ExecuteImpl">
             <summary>
@@ -3214,6 +4118,7 @@
             <summary>
             Update params in existing command. Allows to avoid recreate a new command for the same purpose.
             </summary>
+            <param name="iCommands">List of commands to update</param>
             <param name="iIntegers">Integers that will replace existing Integers in Parameters</param>
             <returns>The updated command</returns>
         </member>
@@ -3221,6 +4126,7 @@
             <summary>
             Update params in all commands. Allows to avoid recreate a new command for the same purpose.
             </summary>
+            <param name="iCommands">List of commands to update</param>
             <param name="iStrings">Strings that will replace existing Strings in Parameters</param>
             <returns>The updated command</returns>
         </member>
@@ -3228,6 +4134,7 @@
             <summary>
             Update params in all commands. Allows to avoid recreate a new command for the same purpose.
             </summary>
+            <param name="iCommands">List of commands to update</param>
             <param name="iSingles">Singles that will replace existing Singles in Parameters</param>
             <returns>The updated command</returns>
         </member>
@@ -3235,6 +4142,7 @@
             <summary>
             Update params in all commands. Allows to avoid recreate a new command for the same purpose.
             </summary>
+            <param name="iCommands">List of commands to update</param>
             <param name="iObjects">Objects that will replace existing Objects in Parameters</param>
             <returns>The updated command</returns>
         </member>
@@ -3242,6 +4150,7 @@
             <summary>
             Update params in existing command. Allows to avoid recreate a new command for the same purpose.
             </summary>
+            <param name="iActions">List of actions to execute</param>
             <param name="iInteger">Integers that will replace existing Integers in Parameters</param>
             <returns>The updated command</returns>
         </member>
@@ -3249,6 +4158,7 @@
             <summary>
             Update params in all commands. Allows to avoid recreate a new command for the same purpose.
             </summary>
+            <param name="iActions">List of actions to execute</param>
             <param name="iString">Strings that will replace existing Strings in Parameters</param>
             <returns>The updated command</returns>
         </member>
@@ -3256,6 +4166,7 @@
             <summary>
             Update params in all commands. Allows to avoid recreate a new command for the same purpose.
             </summary>
+            <param name="iActions">List of actions to execute</param>
             <param name="iSingle">Singles that will replace existing Singles in Parameters</param>
             <returns>The updated command</returns>
         </member>
@@ -3263,6 +4174,7 @@
             <summary>
             Update params in all commands. Allows to avoid recreate a new command for the same purpose.
             </summary>
+            <param name="iActions">List of actions to execute</param>
             <param name="iObject">Objects that will replace existing Objects in Parameters</param>
             <returns>The updated command</returns>
         </member>
@@ -4767,6 +5679,11 @@
             Allow you to toast UI elements like buttons, text, grid, picture... on the Buddy's screen
             </summary>
         </member>
+        <member name="P:Buddy.BYOS.Header">
+            <summary>
+            Handle display for app parameter/icon/unread notification/spinner
+            </summary>
+        </member>
         <member name="P:Buddy.BYOS.Resources">
             <summary>
             Resource loader to retrieve Unity object. Check both Resources/ and downloaded Assetbundles. Allow you to retrieve the full path from the name of the raw file
@@ -4832,11 +5749,465 @@
             Class access for users data, not used
             </summary>
         </member>
+        <member name="P:Buddy.DataBase.Memory">
+            <summary>
+            Memory system of Buddy
+            </summary>
+        </member>
         <member name="M:Buddy.DataBase.GetUsers">
             <summary>
             Buddy's user list. It's a copy, so any modification won't be keeped
             </summary>
             <returns>Copy of Buddy's users</returns>
+        </member>
+        <member name="T:Buddy.DeviceType">
+            <summary>
+            Represents the different device types
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.ANDROID_SMARTPHONE">
+            <summary>
+            Smartphone with android environment
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.ANDROID_TABLET">
+            <summary>
+            Tablet with android environment
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.WINDOWS_SMARTPHONE">
+            <summary>
+            Smartphone with windows environment
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.WINDOWS_TABLET">
+            <summary>
+            Table with windows environment
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.WINDOWS_COMPUTER">
+            <summary>
+            Computer with windows environment
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.OSX_COMPUTER">
+            <summary>
+            Computer with OSX environment
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.LINUX_COMPUTER">
+            <summary>
+            Computer with linux environment
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.IPHONE">
+            <summary>
+            Iphone device
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.IPOD">
+            <summary>
+            Ipod device
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.IPAD">
+            <summary>
+            Ipad device
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.ANDROID_SMARTWATCH">
+            <summary>
+            Watch with android environment
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.APPLE_SMARTWATCH">
+            <summary>
+            Watch with OSX environment
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.PHOTO_DEVICE">
+            <summary>
+            Photo device
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.MUSIC_DEVICE">
+            <summary>
+            Music device
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.CAMERA">
+            <summary>
+            Camera device
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.TV">
+            <summary>
+            Television device
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.LIGHT_SYSTEM">
+            <summary>
+            Light system device
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.COOK_SYSTEM">
+            <summary>
+            Cook system device
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.DOOR_SYSTEM">
+            <summary>
+            Door system device
+            </summary>
+        </member>
+        <member name="F:Buddy.DeviceType.SOUND_SYSTEM">
+            <summary>
+            Sound system device
+            </summary>
+        </member>
+        <member name="T:Buddy.ConnectionType">
+            <summary>
+            Represents all the different connection types
+            </summary>
+        </member>
+        <member name="F:Buddy.ConnectionType.WIFI">
+            <summary>
+            Wifi connection
+            </summary>
+        </member>
+        <member name="F:Buddy.ConnectionType.BLUETOOTH">
+            <summary>
+            Bluetooth connection
+            </summary>
+        </member>
+        <member name="F:Buddy.ConnectionType.WIRE">
+            <summary>
+            Wired connection
+            </summary>
+        </member>
+        <member name="T:Buddy.ConnectedDevice">
+            <summary>
+            This class represent a device connected to Buddy
+            </summary>
+        </member>
+        <member name="P:Buddy.ConnectedDevice.ID">
+            <summary>
+            ID of the device
+            </summary>
+        </member>
+        <member name="P:Buddy.ConnectedDevice.Connection">
+            <summary>
+            The way the device is connected to Buddy
+            </summary>
+        </member>
+        <member name="P:Buddy.ConnectedDevice.Type">
+            <summary>
+            The device type
+            </summary>
+        </member>
+        <member name="P:Buddy.ConnectedDevice.SignalStrength">
+            <summary>
+            The strength of the signal
+            </summary>
+        </member>
+        <member name="P:Buddy.ConnectedDevice.Name">
+            <summary>
+            The name of the device
+            </summary>
+        </member>
+        <member name="T:Buddy.Photo">
+            <summary>
+            This class represent a photo
+            </summary>
+        </member>
+        <member name="P:Buddy.Photo.Name">
+            <summary>
+            Name of the photo
+            </summary>
+        </member>
+        <member name="P:Buddy.Photo.Path">
+            <summary>
+            The path where is located the photo
+            </summary>
+        </member>
+        <member name="P:Buddy.Photo.TimeStamp">
+            <summary>
+            The date time when the photo has been taken
+            </summary>
+        </member>
+        <member name="P:Buddy.Photo.Image">
+            <summary>
+            The photo as sprite
+            </summary>
+        </member>
+        <member name="T:Buddy.MemoryManager">
+            <summary>
+            This class represents the whole memory of Buddy
+            </summary>
+        </member>
+        <member name="P:Buddy.MemoryManager.Procedural">
+            <summary>
+            Access to the procedural memory of Buddy
+            </summary>
+        </member>
+        <member name="T:Buddy.LocalRobotPref">
+            <summary>
+            Represents the robot preferences
+            </summary>
+        </member>
+        <member name="M:Buddy.LocalRobotPref.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Buddy.LocalRobotPref.EnableAppAutoUpdate">
+            <summary>
+            Does the robot have to auto check for apps updates
+            </summary>
+        </member>
+        <member name="P:Buddy.LocalRobotPref.EnableDLBuiltinApps">
+            <summary>
+            Does the robot have to download builtin apps
+            </summary>
+        </member>
+        <member name="P:Buddy.LocalRobotPref.EnableSystemAutoUpdate">
+            <summary>
+            Does the robot have to auto check for system updates
+            </summary>
+        </member>
+        <member name="P:Buddy.LocalRobotPref.AutoLockScreen">
+            <summary>
+            Does the robot authorize the auto lock screen
+            </summary>
+        </member>
+        <member name="P:Buddy.LocalRobotPref.LockScreenTimer">
+            <summary>
+            The time in seconds user have to type pin
+            </summary>
+        </member>
+        <member name="P:Buddy.LocalRobotPref.Pwd">
+            <summary>
+            Password of the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.LocalRobotPref.LastLoggedAccount">
+            <summary>
+            Last account which was logged on the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.LocalRobotPref.LastOdometryPosition">
+            <summary>
+            Last odometry position of the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.LocalRobotPref.LastComputedPosition">
+            <summary>
+            Last computed position of the robot
+            </summary>
+        </member>
+        <member name="T:Buddy.ProcMemoryManager">
+            <summary>
+            This class represents the procedural memory of Buddy
+            </summary>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.String,System.Int32)">
+            <summary>
+            Add a new reminder to the procedural memory
+            </summary>
+            <param name="iContent">Content of the reminder</param>
+            <param name="iSenderID">An ID representing the reminder sender</param>
+            <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.String,System.Int32,System.Int32[])">
+            <summary>
+            Add a new reminder to the procedural memory
+            </summary>
+            <param name="iContent">Content of the reminder</param>
+            <param name="iSenderID">An ID representing the sender</param>
+            <param name="iReceivers">An array of ID representing reminder receivers</param>
+            <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,System.String,System.Int32)">
+            <summary>
+            Add a new reminder to the procedural memory
+            </summary>
+            <param name="iEventDate">Date on which reminder will be issued</param>
+            <param name="iContent">Content of the reminder</param>
+            <param name="iSenderID">An ID representing the sender</param>
+            <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,System.String,System.Int32,System.Int32[])">
+            <summary>
+            Add a new reminder to the procedural memory
+            </summary>
+            <param name="iEventDate">Date on which reminder will be issued</param>
+            <param name="iContent">Content of the reminder</param>
+            <param name="iSenderID">An ID representing the sender</param>
+            <param name="iReceivers">An array of ID representing reminder receivers</param>
+            <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32)">
+            <summary>
+            Add a new reminder to the procedural memory
+            </summary>
+            <param name="iEventDate">Date on which reminder will be issued</param>
+            <param name="iPrecision"></param>
+            <param name="iContent">Content of the reminder</param>
+            <param name="iSenderID">An ID representing the sender</param>
+            <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32,System.Int32[])">
+            <summary>
+            Add a new reminder to the procedural memory
+            </summary>
+            <param name="iEventDate">Date on which reminder will be issued</param>
+            <param name="iPrecision">Precision of the event date</param>
+            <param name="iContent">Content of the reminder</param>
+            <param name="iSenderID">An ID representing the sender</param>
+            <param name="iReceivers">An array of ID representing reminder receivers</param>
+            <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.ExistReminder(System.Int32)">
+            <summary>
+            Check if the reminder exists.
+            </summary>
+            <param name="iID">The reminder ID</param>
+            <returns>True if the reminder exists. Else returns false</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.RemoveReminder(System.Int32)">
+            <summary>
+            Remove a speicific reminder from procedural memory.
+            </summary>
+            <param name="iID">The reminder ID</param>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.RetrieveRemindersWhere(System.Predicate{Buddy.Reminder})">
+            <summary>
+            Retrieve all the reminders where the predicate is verified
+            </summary>
+            <param name="iMatchPredicate">The predicate to match reminders</param>
+            <returns>A list of reminders</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.DisplayReminder(System.Int32)">
+            <summary>
+            Display a specific reminder
+            </summary>
+            <param name="iID">The reminder ID</param>
+        </member>
+        <member name="T:Buddy.RemindType">
+            <summary>
+            Type of reminder
+            </summary>
+        </member>
+        <member name="F:Buddy.RemindType.STICKY">
+            <summary>
+            A persistend reminder
+            </summary>
+        </member>
+        <member name="F:Buddy.RemindType.ALARM">
+            <summary>
+            An event reminder
+            </summary>
+        </member>
+        <member name="T:Buddy.RemindPrecision">
+            <summary>
+            The reminder precision
+            </summary>
+        </member>
+        <member name="F:Buddy.RemindPrecision.DAY">
+            <summary>
+            Day precision
+            </summary>
+        </member>
+        <member name="F:Buddy.RemindPrecision.HOUR">
+            <summary>
+            Hour precision
+            </summary>
+        </member>
+        <member name="F:Buddy.RemindPrecision.MINUTE">
+            <summary>
+            Minute precision
+            </summary>
+        </member>
+        <member name="T:Buddy.Reminder">
+            <summary>
+            Thic class represents a reminder
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.ID">
+            <summary>
+            The ID of the reminder
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Sender">
+            <summary>
+            The ID of sender
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Content">
+            <summary>
+            The reminder content
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Receivers">
+            <summary>
+            The list of receivers ID
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.EventDate">
+            <summary>
+            The event date at which the remender will issued
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.CreationDate">
+            <summary>
+            The creation date
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Type">
+            <summary>
+            The reminder type
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Precision">
+            <summary>
+            The reminder precision
+            </summary>
+        </member>
+        <member name="M:Buddy.Reminder.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Buddy.Reminder.Copy">
+            <summary>
+            Make a copy of the reminder
+            </summary>
+            <returns>A new copy of the reminder</returns>
+        </member>
+        <member name="T:Buddy.UserPref">
+            <summary>
+            This class represents user preferences
+            </summary>
+        </member>
+        <member name="T:Buddy.SessionType">
+            <summary>
+            Session type of the user
+            </summary>
+        </member>
+        <member name="F:Buddy.SessionType.USER">
+            <summary>
+            User session type
+            </summary>
+        </member>
+        <member name="F:Buddy.SessionType.ADMIN">
+            <summary>
+            Administrator session type
+            </summary>
+        </member>
+        <member name="F:Buddy.SessionType.GUEST">
+            <summary>
+            Guest session type
+            </summary>
         </member>
         <member name="T:Buddy.Gender">
             <summary>
@@ -4863,9 +6234,54 @@
             User info, not used
             </summary>
         </member>
-        <member name="T:Buddy.EntryType">
+        <member name="P:Buddy.UserAccount.ID">
             <summary>
-            Stocked entry type inside the dictionary
+            ID of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.Email">
+            <summary>
+            Email of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.FirstName">
+            <summary>
+            Firstname of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.LastName">
+            <summary>
+            Lastname of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.Gender">
+            <summary>
+            Gender of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.BirthDate">
+            <summary>
+            Birthdate of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.Session">
+            <summary>
+            Session type of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.Permissions">
+            <summary>
+            List of permisssions of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.Preferences">
+            <summary>
+            User preferences link to this account
+            </summary>
+        </member>
+        <member name="M:Buddy.UserAccount.#ctor">
+            <summary>
+            Default Constructor
             </summary>
         </member>
         <member name="F:Buddy.EntryType.BASE">
@@ -4918,6 +6334,11 @@
             All key-value entries of the thesaurus
             </summary>
         </member>
+        <member name="M:Buddy.LanguageThesaurus.#ctor">
+            <summary>
+            Represents all the dictionary entries
+            </summary>
+        </member>
         <member name="M:Buddy.LanguageThesaurus.ContainsKey(System.String)">
             <summary>
             Check existing key in existing entries
@@ -4966,7 +6387,15 @@
             <param name="iContext">The context corresponding to the dictionary to use</param>
             <returns>List of strings that must sound similar</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.Dictionary.ContainsPhonetic(System.String,System.String,Buddy.LoadContext)" -->
+        <member name="M:Buddy.Dictionary.ContainsPhonetic(System.String,System.String,Buddy.LoadContext)">
+            <summary>
+            Proceed to a GetPhoneticsStrings(iKey, iContext = APP) and checks if the iRef word is contained in the returned array
+            </summary>
+            <param name="iRef">The word to compare to each word into the list</param>
+            <param name="iKey">The key corresponding to the wished list</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>True if the iRef word (not null and not empty) is in the close phonetic array, false otherwise</returns>
+        </member>
         <member name="T:Buddy.ResourceManager">
             <summary>
             Allow you to retrieve the full path from the name of the raw file
@@ -5033,9 +6462,19 @@
             <param name="iFilename">The name of the file</param>
             <returns>The absolute path of the file</returns>
         </member>
+        <member name="T:Buddy.UI.ConfirmationButton">
+            <summary>
+            Confirmation button widget
+            </summary>
+        </member>
         <member name="T:Buddy.UI.AccountSettingWdgRight">
             <summary>
             Represents an account element 
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.AccountSettingWdgRight.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
             </summary>
         </member>
         <member name="M:Buddy.UI.AccountSettingWdgRight.Awake">
@@ -5043,9 +6482,24 @@
             Called on awake
             </summary>
         </member>
+        <member name="P:Buddy.UI.PictureContainer.Label">
+            <summary>
+            Label of the picture container
+            </summary>
+        </member>
         <member name="T:Buddy.UI.Blank">
             <summary>
             Empty blank widget
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Blank.Height">
+            <summary>
+            Height of the blank widget
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Blank.OnAwake">
+            <summary>
+            Called once at the creation of the widget
             </summary>
         </member>
         <member name="T:Buddy.UI.AExplorerView">
@@ -5092,6 +6546,107 @@
         <member name="T:Buddy.UI.ClockPanel">
             <summary>
             Top-Right Clock panel
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.AccountMenuElementIcon">
+            <summary>
+            Current connected user display in Explorer
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.AccountMenuElementIcon.OnClick">
+            <summary>
+            On click callback
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.Explorer">
+            <summary>
+            This class represents the sidebar menu of Buddy
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Explorer.LaunchMenu">
+            <summary>
+            Open the Explorer menu
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Explorer.CanAnim">
+            <summary>
+            Enable the animation in Explorer
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Explorer.LaunchWindow(System.Int32)">
+            <summary>
+            Open a specific window of Explorer
+            </summary>
+            <param name="iIndex">The window index</param>
+        </member>
+        <member name="M:Buddy.UI.Explorer.SwitchWindowContent">
+            <summary>
+            Change the window content
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Explorer.DisactiveMenuItem">
+            <summary>
+            Deactivate Explorer menu item
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Explorer.LaunchCloseWindowPanel">
+            <summary>
+            Start the close window animation
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Explorer.CloseWindowPanel">
+            <summary>
+            Close the current displayed window
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.WeatherType">
+            <summary>
+            Different weather type
+            </summary>
+        </member>
+        <member name="F:Buddy.UI.WeatherType.SUNNY">
+            <summary>
+            Sunny weather
+            </summary>
+        </member>
+        <member name="F:Buddy.UI.WeatherType.OVERCAST">
+            <summary>
+            Overcast weather
+            </summary>
+        </member>
+        <member name="F:Buddy.UI.WeatherType.CLOUDY">
+            <summary>
+            Cloudy weather
+            </summary>
+        </member>
+        <member name="F:Buddy.UI.WeatherType.RAIN">
+            <summary>
+            Rainny weather
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.WeatherInfo">
+            <summary>
+            This class represents the weather at a specific hour
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.WeatherInfo.Hour">
+            <summary>
+            Hour of the day
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.WeatherInfo.Type">
+            <summary>
+            Weather type (Sunny, overcast, cloudy ...)
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.WeatherInfo.Temperature">
+            <summary>
+            The temperature in degrees
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.WeatherNotElement">
+            <summary>
+            Represent the visual weather element
             </summary>
         </member>
         <member name="T:Buddy.UI.CountdownNot">
@@ -5185,7 +6740,8 @@
             <param name="iDay">Current day</param>
             <param name="iCityLocation">Current city location</param>
             <param name="iCountryLocation">Current country location</param>
-            <param name="iWeathers">Weather info about the weather evolution during the day Min : 0, Max 5</param>
+            <param name="iWeatherInfo">Weather info about the weather evolution during the day. Min : 0, Max: 5</param>
+            <returns>The notification ID</returns>
         </member>
         <member name="T:Buddy.UI.ConfirmationNot">
             <summary>
@@ -5233,6 +6789,16 @@
             <param name="iIconColor">Left side icon color</param>
             <param name="iIconBackgroundColor">Left side icon background color</param>
             <returns>The unique id of the notification</returns>
+        </member>
+        <member name="M:Buddy.UI.ConfirmationNot.Cancel">
+            <summary>
+            On Cancel callback
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.ConfirmationNot.Validate">
+            <summary>
+            On Validate callback
+            </summary>
         </member>
         <member name="T:Buddy.UI.MessageNot">
             <summary>
@@ -5292,6 +6858,51 @@
             <param name="iIconColor">Icon color</param>
             <param name="iIconBackgroundColor">Icon background color</param>
         </member>
+        <member name="T:Buddy.UI.ICancelable">
+            <summary>
+            Represent a notification which can be cancel
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.ICancelable.Cancel">
+            <summary>
+            On Cancel callback
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.IDelayable">
+            <summary>
+            Represent a notification which have delay logic
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.IDelayable.Delay">
+            <summary>
+            On Delay callback
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.IRespondable">
+            <summary>
+            Represent a notification which have response logic
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.IRespondable.Respond">
+            <summary>
+            On Respond callback
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.IValidable">
+            <summary>
+            Represent a notification which have validation logic
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.IValidable.Validate">
+            <summary>
+            On Validate callback
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.ISeenable">
+            <summary>
+            Represent a notification which can be unread
+            </summary>
+        </member>
         <member name="T:Buddy.UI.ANotification">
             <summary>
             Notification that will be displayed on the top of the robot screen
@@ -5299,12 +6910,7 @@
         </member>
         <member name="T:Buddy.UI.Notifier">
             <summary>
-            Display a notification on the Top of the robot screen
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Notifier.SpinningWheel">
-            <summary>
-            Enable/Disable the spin at the top-right corner of the screen
+            Display a notification on the top of the robot screen
             </summary>
         </member>
         <member name="M:Buddy.UI.Notifier.Display``1(System.Single)">
@@ -5435,6 +7041,21 @@
             Basic button for AWindowLayout with left label
             </summary>
         </member>
+        <member name="P:Buddy.UI.LabeledButton.InnerLabel">
+            <summary>
+            Label inside the button
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.LabeledButton.OuterLabel">
+            <summary>
+            Label of the button
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.LabeledButton.Interactable">
+            <summary>
+            Determine if the button is interactable
+            </summary>
+        </member>
         <member name="M:Buddy.UI.LabeledButton.OnAwake">
             <summary>
             Called on awake
@@ -5460,10 +7081,32 @@
             Label of the button
             </summary>
         </member>
+        <member name="P:Buddy.UI.Button.Label">
+            <summary>
+            Label of the button
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Button.Interactable">
+            <summary>
+            Determine if the button is interactable
+            </summary>
+        </member>
         <member name="M:Buddy.UI.Button.OnAwake">
             <summary>
             Called on awake
             </summary>
+        </member>
+        <member name="M:Buddy.UI.Button.OnClickEvent(Buddy.UI.ClickCallback)">
+            <summary>
+            On click callback
+            </summary>
+            <param name="iCallback">Callback to call</param>
+        </member>
+        <member name="M:Buddy.UI.Button.OnClickEvent(Buddy.Command.ACommand)">
+            <summary>
+            On click callback
+            </summary>
+            <param name="iCallback">Command to execute</param>
         </member>
         <member name="M:Buddy.UI.Button.OnClick">
             <summary>
@@ -5481,7 +7124,7 @@
             parameter of assigned commands will be updated on value change.
             </summary>
         </member>
-        <member name="F:Buddy.UI.Dropdown.mLabel">
+        <member name="P:Buddy.UI.Dropdown.Label">
             <summary>
             Label of the dropdown
             </summary>
@@ -5540,9 +7183,19 @@
             Suffix display for the gauge, "%" by default if percentage is enabled
             </summary>
         </member>
+        <member name="P:Buddy.UI.Gauge.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
+            </summary>
+        </member>
         <member name="P:Buddy.UI.Gauge.DisplayPercentage">
             <summary>
             Specify if the slider value must be DISPLAYED in percentage, ignore suffix
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Gauge.Label">
+            <summary>
+            Label of the gauge
             </summary>
         </member>
         <member name="P:Buddy.UI.Gauge.Slider">
@@ -5590,6 +7243,11 @@
             Set if the toggle must be active when displayed
             </summary>
         </member>
+        <member name="P:Buddy.UI.GaugeOnOff.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
+            </summary>
+        </member>
         <member name="M:Buddy.UI.GaugeOnOff.OnAwake">
             <summary>
             Called on awake
@@ -5620,6 +7278,11 @@
             Set if the toggle must be active when displayed
             </summary>
         </member>
+        <member name="P:Buddy.UI.OnOff.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
+            </summary>
+        </member>
         <member name="M:Buddy.UI.OnOff.OnAwake">
             <summary>
             Called on awake
@@ -5645,6 +7308,21 @@
             The input field of the text field widget
             </summary>
         </member>
+        <member name="P:Buddy.UI.TextField.Label">
+            <summary>
+            Label of the text field
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.TextField.FieldText">
+            <summary>
+            Text field content
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.TextField.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
+            </summary>
+        </member>
         <member name="P:Buddy.UI.TextField.EmptyText">
             <summary>
             The default "empty" value in the field awaiting an user input
@@ -5660,6 +7338,30 @@
             Clear method when the component comes to desappeared
             </summary>
         </member>
+        <member name="M:Buddy.UI.TextField.OnUpdateEvent(Buddy.Command.ACommand)">
+            <summary>
+            On update callback
+            </summary>
+            <param name="iCallback">Command to execute</param>
+        </member>
+        <member name="M:Buddy.UI.TextField.OnUpdateEvent(Buddy.UI.TextUpdateCallback)">
+            <summary>
+            On update callback
+            </summary>
+            <param name="iCallback">Callback to execute</param>
+        </member>
+        <member name="M:Buddy.UI.TextField.OnEndEditEvent(Buddy.Command.ACommand)">
+            <summary>
+            On end edit event callback
+            </summary>
+            <param name="iCallback">Command to execute</param>
+        </member>
+        <member name="M:Buddy.UI.TextField.OnEndEditEvent(Buddy.UI.EndEditCallback)">
+            <summary>
+            On end edit event callback
+            </summary>
+            <param name="iCallback">Callback to execute</param>
+        </member>
         <member name="T:Buddy.UI.Password">
             <summary>
             Password widget
@@ -5668,6 +7370,21 @@
         <member name="F:Buddy.UI.Password.mField">
             <summary>
             The input field of the text field widget
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Password.Label">
+            <summary>
+            Label of the password
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Password.FieldText">
+            <summary>
+            Content of the password field
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Password.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
             </summary>
         </member>
         <member name="P:Buddy.UI.Password.EmptyText">
@@ -5695,6 +7412,21 @@
             The input field of the text field widget
             </summary>
         </member>
+        <member name="P:Buddy.UI.SearchField.Label">
+            <summary>
+            Label of the search field
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.SearchField.FieldText">
+            <summary>
+            Search field content
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.SearchField.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
+            </summary>
+        </member>
         <member name="P:Buddy.UI.SearchField.EmptyText">
             <summary>
             The default "empty" value in the field awaiting an user input
@@ -5710,9 +7442,48 @@
             Clear method when the component comes to desappeared
             </summary>
         </member>
+        <member name="M:Buddy.UI.SearchField.OnUpdateEvent(Buddy.Command.ACommand)">
+            <summary>
+            On update event callback
+            </summary>
+            <param name="iCallback">Command to execute</param>
+        </member>
+        <member name="M:Buddy.UI.SearchField.OnUpdateEvent(Buddy.UI.TextUpdateCallback)">
+            <summary>
+            On update event callback
+            </summary>
+            <param name="iCallback">Callback to execute</param>
+        </member>
+        <member name="M:Buddy.UI.SearchField.OnEndEditEvent(Buddy.Command.ACommand)">
+            <summary>
+            On end edit event callback
+            </summary>
+            <param name="iCallback">Command to execute</param>
+        </member>
+        <member name="M:Buddy.UI.SearchField.OnEndEditEvent(Buddy.UI.EndEditCallback)">
+            <summary>
+            On update event callback
+            </summary>
+            <param name="iCallback">Callback to execute</param>
+        </member>
         <member name="T:Buddy.UI.Label">
             <summary>
             Simple read only text
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Label.Text">
+            <summary>
+            Text of the label
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Label.FontStyle">
+            <summary>
+            Font style of the label
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Label.Color">
+            <summary>
+            Color of the label
             </summary>
         </member>
         <member name="M:Buddy.UI.Label.OnAwake">
@@ -5845,6 +7616,420 @@
             Just update display info
             </summary>
         </member>
+        <member name="T:Buddy.UI.NumPadToast">
+            <summary>
+            Toast to display and handle numpad
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.NumPadToast.With(System.Func{System.String,System.Collections.IEnumerator},System.Action,System.Action,System.Action)">
+            <summary>
+            Specify parameters for numpad toast
+            </summary>
+            <param name="iHandlePwd">Handler function to handle pin</param>
+            <param name="iOnSuccess">Success callback</param>
+            <param name="iOnFailure">Failure callback</param>
+            <param name="iOnCancel">Cancel callback</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.ChoiceToast">
+            <summary>
+            Toast to display multiple choices
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.ChoiceToast.With(System.String,Buddy.UI.ButtonInfo[])">
+            <summary>
+            Specify parameters for choice toast
+            </summary>
+            <param name="iTitle">The title displayed</param>
+            <param name="iChoiceInfos">Array of ButtonInfo representing all the choices (maximum 5)</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.BinaryQuestionToast">
+            <summary>
+            Toast to display question with two possible answers
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.BinaryQuestionToast.With(System.String,System.Action,System.Action)">
+            <summary>
+            Specify parameters for a binary question toast
+            </summary>
+            <param name="iQuestion">The displayed question</param>
+            <param name="iOnYes">Yes callback action</param>
+            <param name="iOnNo">No callback action</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.BinaryQuestionToast.With(System.String,Buddy.UI.ButtonInfo,Buddy.UI.ButtonInfo)">
+            <summary>
+            Specify parameters for a binary question toast
+            </summary>
+            <param name="iQuestion">The displayed question</param>
+            <param name="iOnYes">Right button info</param>
+            <param name="iOnNo">Left button info</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.CountdownToast">
+            <summary>
+            Toast to display a countdown
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.CountdownToast.With(System.Int32,System.Action,System.Boolean)">
+            <summary>
+            Specify parameters for countdown toast
+            </summary>
+            <param name="iCountdown">Countdown start</param>
+            <param name="iOnFinish">On finish callback</param>
+            <param name="iEndAtZero">Has the countdown to finish at zero</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.CountdownToast.With(System.String,System.Int32,System.Action,System.Action,System.Action,System.Boolean)">
+            <summary>
+            Specify parameters for countdown toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iCountdown">Countdown start</param>
+            <param name="iOnFinish">On finish callback</param>
+            <param name="iOnYes">Right button callback</param>
+            <param name="iOnNo">Left button callback</param>
+            <param name="iEndAtZero">Has the countdown to finish at zero</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.CountdownToast.With(System.String,System.Int32,System.Action,Buddy.UI.ButtonInfo,Buddy.UI.ButtonInfo,System.Boolean)">
+            <summary>
+            Specify parameters for countdown toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iCountdown">Countdown start</param>
+            <param name="iOnFinish">On finish callback</param>
+            <param name="iOnYes">Right button info</param>
+            <param name="iOnNo">Left button info</param>
+            <param name="iEndAtZero">Has the countdown to finish at zero</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.CountdownToast.With(System.Int32,System.Action,Buddy.UI.ButtonInfo,System.Boolean)">
+            <summary>
+            Specify parameters for countdown toast
+            </summary>
+            <param name="iCountdown">Countdown start</param>
+            <param name="iOnFinish">On finish callback</param>
+            <param name="iButtonInfo">Bottom button info</param>
+            <param name="iEndAtZero">Has the countdown to finish at zero</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.CountdownToast.With(System.String,System.Int32,System.Action,Buddy.UI.ButtonInfo,System.Boolean)">
+            <summary>
+            Specify parameters for countdown toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iCountdown">Countdown start</param>
+            <param name="iOnFinish">On finish callback</param>
+            <param name="iButtonInfo">Bottom button info</param>
+            <param name="iEndAtZero">Has the countdown to finish at zero</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.IconToast">
+            <summary>
+            Toast to display single large icon
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(UnityEngine.Sprite,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iImage">Icon displayed</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(UnityEngine.Sprite,UnityEngine.Color32,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iImage">Icon displayed</param>
+            <param name="iBackgroundColor">Background color</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(UnityEngine.Sprite,System.Action,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iImage">Icon displayed</param>
+            <param name="iOnIcon">On icon callback</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(UnityEngine.Sprite,UnityEngine.Color32,System.Action,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iImage">Icon displayed</param>
+            <param name="iBackgroundColor">Background color</param>
+            <param name="iOnIcon">On icon callback</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(System.String,UnityEngine.Sprite,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iImage">Icon to display</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(System.String,UnityEngine.Sprite,UnityEngine.Color32,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iImage">Icon displayed</param>
+            <param name="iBackgroundColor">Background color</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(System.String,UnityEngine.Sprite,System.Action,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iImage">Icon displayed</param>
+            <param name="iOnIcon">On icon callback</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(System.String,UnityEngine.Sprite,UnityEngine.Color32,System.Action,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iImage">Icon displayed</param>
+            <param name="iBackgroundColor">Background color</param>
+            <param name="iOnIcon">On icon callback</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(System.String,UnityEngine.Sprite,System.Action,System.Action,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iImage">Icon displayed</param>
+            <param name="iOnYes">Right button callback</param>
+            <param name="iOnNo">Left button callback</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(System.String,UnityEngine.Sprite,UnityEngine.Color32,System.Action,System.Action,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iImage">Icon displayed</param>
+            <param name="iBackgroundColor">Background color</param>
+            <param name="iOnYes">Right button callback</param>
+            <param name="iOnNo">Left button callback</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(System.String,UnityEngine.Sprite,Buddy.UI.ButtonInfo,Buddy.UI.ButtonInfo,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iImage">Icon displayed</param>
+            <param name="iOnYes">Right button info</param>
+            <param name="iOnNo">Left button info</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(System.String,UnityEngine.Sprite,UnityEngine.Color32,Buddy.UI.ButtonInfo,Buddy.UI.ButtonInfo,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iImage">Icon displayed</param>
+            <param name="iBackgroundColor">Background color</param>
+            <param name="iOnYes">Right button info</param>
+            <param name="iOnNo">Left button info</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.IconToast.With(System.String,UnityEngine.Sprite,Buddy.UI.ButtonInfo,System.Boolean)">
+            <summary>
+            Specify parameters for icon toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iImage">Icon displayed</param>
+            <param name="iButtonInfo">Bottom button info</param>
+            <param name="iPulse">Has the icon to pulse</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.TutorialToast">
+            <summary>
+            Toast to display a steps tutorial
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.TutorialToast.With(System.String,Buddy.UI.TutorialInfo[])">
+            <summary>
+            Specify parameters for tutorial toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iSliders">Array of tutorial info representing the different steps</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.TextToast">
+            <summary>
+            Toast to display a simple text
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.TextToast.With(System.String)">
+            <summary>
+            Specify parameters for text toast
+            </summary>
+            <param name="iQuestion">Text displayed</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.PictureToast">
+            <summary>
+            Toast to display one or many selectable pictures
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.ParameterToast">
+            <summary>
+            Toast to display parameter layout
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.ParameterToast.With(Buddy.UI.AWindowLayout)">
+            <summary>
+            Specify parameters for parameter toast
+            </summary>
+            <param name="iLayout">A window layout</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.ParameterToast.With(Buddy.UI.AWindowLayout,System.Action)">
+            <summary>
+            Specify parameters for parameter toast
+            </summary>
+            <param name="iLayout">A window layout</param>
+            <param name="iOnValidate">Validate callback</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.ParameterToast.With(Buddy.UI.AWindowLayout,System.Action,System.Action)">
+            <summary>
+            Specify parameters for parameter toast
+            </summary>
+            <param name="iLayout">A window layout</param>
+            <param name="iOnValidate">Validate callback</param>
+            <param name="iOnPrevious">Previous callback</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.DefeatToast">
+            <summary>
+            Toast to display a defeat screen
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.DefeatToast.With(System.String)">
+            <summary>
+            Specify parameters for defeat toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.DefeatToast.With(System.String,System.Action,System.Action)">
+            <summary>
+            Specify parameters for defeat toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.DefeatToast.With(System.String,Buddy.UI.ButtonInfo,Buddy.UI.ButtonInfo)">
+            <summary>
+            Specify parameters for defeat toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iOnYes">Right button info</param>
+            <param name="iOnNo">Left button info</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.LoginToast">
+            <summary>
+            Toast to display and handle login form
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.LoginToast.With(System.Func{System.String,System.String,System.Collections.IEnumerator},System.Action,System.Action,System.Action)">
+            <summary>
+            Specify parameters for login toast
+            </summary>
+            <param name="iLoginAndPwdHandler">Handler function to handle credentials</param>
+            <param name="iOnSuccess">Success callback</param>
+            <param name="iOnFailure">Failure callback </param>
+            <param name="iOnCancel">Cancel callback</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.LoginToast.With(System.String,System.Func{System.String,System.String,System.Collections.IEnumerator},System.Action,System.Action,System.Action)">
+            <summary>
+            Specify parameters for login toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iLoginAndPwdHandler">Handler function to handle credentials</param>
+            <param name="iOnSuccess">Succeed login callback</param>
+            <param name="iOnFailure">Failed login callback </param>
+            <param name="iOnCancel">Canceled login callback</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.LoginToast.With(System.String,System.Func{System.String,System.String,System.Collections.IEnumerator},System.Action,System.Action,System.Action,System.String,System.String)">
+            <summary>
+            Specify parameters for login toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iLoginAndPwdHandler">Handler function to handle credentials</param>
+            <param name="iOnSuccess">Succeed login callback</param>
+            <param name="iOnFailure">Failed login callback </param>
+            <param name="iOnCancel">Canceled login callback</param>
+            <param name="iLoginPlaceholder">Login field placeholder</param>
+            <param name="iPwdPlaceholder">Password field placeholder</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.VictoryToast">
+            <summary>
+            Toast to display a victory screen
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.VictoryToast.With(System.String)">
+            <summary>
+            Specify parameters for victory toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.VictoryToast.With(System.String,System.Action,System.Action)">
+            <summary>
+            Specify parameters for victory toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.VictoryToast.With(System.String,Buddy.UI.ButtonInfo,Buddy.UI.ButtonInfo)">
+            <summary>
+            Specify parameters for victory toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iOnYes">Right button info</param>
+            <param name="iOnNo">Left button info</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.LoadingToast">
+            <summary>
+            Toast to display loading screen
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.LoadingToast.With(System.String,UnityEngine.Sprite)">
+            <summary>
+            Specify parameters for loading toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iImage">Image displayed</param>
+            <returns>The toast ID</returns>
+        </member>
         <member name="T:Buddy.UI.AToast">
             <summary>
             A toast is the abstract class of a kind of display for the toaster. It can be a text, pictures display purpose, text with button...
@@ -5853,6 +8038,44 @@
         <member name="T:Buddy.UI.Toaster">
             <summary>
             Toaster is a tool to help managing User Interface (Choosing canvas according to options, display pictures, text...)
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Toaster.IsDisplayed">
+            <summary>
+            Is a toast currently displayed
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Toaster.Display``1">
+            <summary>
+            Display a specific toast
+            </summary>
+            <typeparam name="T">Toast type</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.UI.Toaster.Hide">
+            <summary>
+            Hide the currently displayed toast
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Toaster.LockToast(System.Int32)">
+            <summary>
+            Lock a specific toast to a higher layer
+            </summary>
+            <param name="iID">ID of the toast to lock</param>
+        </member>
+        <member name="M:Buddy.UI.Toaster.UnlockToast">
+            <summary>
+            Unlock all the locked toast
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.Header">
+            <summary>
+            Display an utility toolbar on the top of the robot screen
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Header.SpinningWheel">
+            <summary>
+            Enable/Disable the spin at the top-right corner of the screen
             </summary>
         </member>
         <member name="T:Buddy.LanguageManager">
