@@ -1,5 +1,4 @@
 ﻿using Buddy;
-using Buddy.Features.Stimuli;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +20,6 @@ namespace BuddyApp.Companion
 		{
 			//mSensorManager = BYOS.Instance.SensorManager;
 			Utils.LogI(LogContext.APP, "Start UserD");
-			mSensorManager = GetComponent<StimuliManager>();
 			CompanionData.Instance.Bored = 0;
 			//CommonIntegers["mood"] = (int)MoodType.NEUTRAL;
 			CompanionData.Instance.MovingDesire = 0;
@@ -36,20 +34,19 @@ namespace BuddyApp.Companion
 			Utils.LogI(LogContext.APP, "Enter UserD 0");
 			mState.text = "User Detected";
 
-			Debug.Log("User Detected battery: " + BYOS.Instance.Battery.EnergyLevel);
+			Debug.Log("User Detected battery: " + BYOS.Instance.Primitive.Battery.EnergyLevel);
 			mTimeState = 0F;
 			mTimeHumanDetected = 0F;
 			mVocalTriggered = false;
 			mReallyNeedCharge = false;
 			mNeedCharge = false;
 
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
-
+			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
 
 			//mSensorManager.mStimuliControllers[StimulusEvent.SPHINX_TRIGGERED].StartListenning();
 			//mSensorManager.mStimuliControllers[StimulusEvent.LOW_BATTERY].StartListenning();
@@ -64,15 +61,15 @@ namespace BuddyApp.Companion
 				// Todo: we don't want to interact but we will still show the human we noticed him:
 				// => gaze toward position / react to screen touch...
 			} else if (CompanionData.Instance.InteractDesire < 70) {
-				BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
-				mMood.Set(MoodType.HAPPY);
+				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+				Interaction.Mood.Set(MoodType.HAPPY);
 				//mTTS.Say("Salut, salut!", true);
 			} else {
 				//TODO: propose game only if we are pretty sure someone is present
-				BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-				mMood.Set(MoodType.HAPPY);
-				mTTS.Say("[200] Salut, salut!", true);
-				mTTS.Say("J'ai très envie de jouer avec toi, on fait un petit jeu?", true);
+				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
+                Interaction.Mood.Set(MoodType.HAPPY);
+                Interaction.TextToSpeech.Say("[200] Salut, salut!", true);
+                Interaction.TextToSpeech.Say("J'ai très envie de jouer avec toi, on fait un petit jeu?", true);
 
 			}
 
@@ -105,25 +102,25 @@ namespace BuddyApp.Companion
 
 				// 2) If human detected for a while and want to interact but no interaction, go to Crazy Buddy
 			} else if (mTimeState > 45F && CompanionData.Instance.InteractDesire > 50) {
-				BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
-				mFace.SetEvent(FaceEvent.SMILE);
+				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
+				Interaction.Face.SetEvent(FaceEvent.SMILE);
 				iAnimator.SetTrigger("SEEKATTENTION");
 
 				// 3) Otherwise, follow human head / body with head, eye or body
 			} else if (mTimeState > 500F && CompanionData.Instance.MovingDesire > 30) {
-				mMood.Set(MoodType.SURPRISED);
+                Interaction.Mood.Set(MoodType.SURPRISED);
 				iAnimator.SetTrigger("WANDER");
 			}
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
+			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
 
 			//mSensorManager.mStimuliControllers[StimulusEvent.SPHINX_TRIGGERED].StopListenning();
 			//mSensorManager.mStimuliControllers[StimulusEvent.LOW_BATTERY].StopListenning();
@@ -141,18 +138,18 @@ namespace BuddyApp.Companion
 
 		void OnLowBattery()
 		{
-			mMood.Set(MoodType.TIRED);
+			Interaction.Mood.Set(MoodType.TIRED);
 			mNeedCharge = true;
 
-			Debug.Log("User Detected low battery: " + BYOS.Instance.Battery.EnergyLevel);
+			Debug.Log("User Detected low battery: " + BYOS.Instance.Primitive.Battery.EnergyLevel);
 		}
 
 		void OnVeryLowBattery()
 		{
-			mMood.Set(MoodType.TIRED);
+            Interaction.Mood.Set(MoodType.TIRED);
 			mReallyNeedCharge = true;
 			
-			Debug.Log("User Detected very low battery: " + BYOS.Instance.Battery.EnergyLevel);
+			Debug.Log("User Detected very low battery: " + BYOS.Instance.Primitive.Battery.EnergyLevel);
 		}
 
 		void OnHumanDetected()
@@ -165,7 +162,5 @@ namespace BuddyApp.Companion
 		{
 			mKidnapping = true;
 		}
-
-
 	}
 }

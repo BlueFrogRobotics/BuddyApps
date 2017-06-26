@@ -19,7 +19,7 @@ namespace BuddyApp.Reminder
         public override void OnStart(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
 		{
 			Utils.LogI(LogContext.APP, "On start...");
-            mReminderManager = (ReminderManager)mObjects[0];
+            mReminderManager = (ReminderManager)Objects[0];
 		}
 
         public override void OnQuit()

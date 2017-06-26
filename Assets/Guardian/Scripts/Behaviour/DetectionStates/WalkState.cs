@@ -1,6 +1,4 @@
 using UnityEngine;
-using Buddy.Features.Detection;
-using Buddy.Features.Navigation;
 using System.Collections;
 
 namespace BuddyApp.Guardian
@@ -21,8 +19,8 @@ namespace BuddyApp.Guardian
             mDetectionManager.IsDetectingMovement = false;
             mDetectionManager.IsDetectingKidnapping = false;
 
-            mNoHinge.SetPosition(0);
-            mYesHinge.SetPosition(20, 80);
+            Primitive.Motors.NoHinge.SetPosition(0);
+            Primitive.Motors.YesHinge.SetPosition(20, 80);
 
             mAction = RoombaPatrol();
             StartCoroutine(mAction);
@@ -50,8 +48,8 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mWheels.StopWheels();
-            mNoHinge.SetPosition(0);
+            Primitive.Motors.Wheels.StopWheels();
+            Primitive.Motors.NoHinge.SetPosition(0);
         }
     }
 }

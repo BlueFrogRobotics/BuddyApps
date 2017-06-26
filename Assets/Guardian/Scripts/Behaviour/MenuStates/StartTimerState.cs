@@ -19,14 +19,14 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mTTS.SayKey("startdetectiontimer");
+            Interaction.TextToSpeech.SayKey("startdetectiontimer");
             mStartTimer = false;
-            mDetectionManager.SoundDetector.StartMic();
+            Detection.SoundDetector.StartMic();
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mTTS.HasFinishedTalking || mStartTimer)
+            if (!Interaction.TextToSpeech.HasFinishedTalking || mStartTimer)
                 return;
 
             BYOS.Instance.Toaster.Display<CountdownToast>().With(

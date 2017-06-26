@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Buddy;
-using SimpleJSON;
 using System.IO;
 
 namespace BuddyApp.ShoppingList
@@ -63,8 +62,8 @@ namespace BuddyApp.ShoppingList
             mProcessNLP = new ProcessManual();
             mQuestion = "";
             mWillQuit = false;
-            mSTT = BYOS.Instance.SpeechToText;
-            mTTS = BYOS.Instance.TextToSpeech;
+            mSTT = BYOS.Instance.Interaction.SpeechToText;
+            mTTS = BYOS.Instance.Interaction.TextToSpeech;
             mListShopItemUI = new List<GameObject>();
             ProcessQuestion(mSTT.LastAnswer);
             mTimer = 0.0f;
@@ -549,7 +548,5 @@ namespace BuddyApp.ShoppingList
                 ShowList();
             }
         }
-
-
     }
 }

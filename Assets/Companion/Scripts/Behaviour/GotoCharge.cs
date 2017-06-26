@@ -1,5 +1,4 @@
 ﻿using Buddy;
-using Buddy.Features.Stimuli;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,20 +17,19 @@ namespace BuddyApp.Companion
 		{
 			mState = GetComponentInGameObject<Text>(0);
 			//mSensorManager = BYOS.Instance.SensorManager;
-			mSensorManager = GetComponent<StimuliManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-            mState.text = "Goto charge: " +	BYOS.Instance.Battery.EnergyLevel;
+            mState.text = "Goto charge: " +	BYOS.Instance.Primitive.Battery.EnergyLevel;
 			Debug.Log("state: Goto charge");
 			mSpeechTriggered = false;
 			mVeryLowBattery = false;
-			mMood.Set(MoodType.TIRED);
-			mTTS.Say("Je vais me recharger", true);
+			Interaction.Mood.Set(MoodType.TIRED);
+            Interaction.TextToSpeech.Say("Je vais me recharger", true);
 
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
+			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
 
 			//mSensorManager.mStimuliControllers[StimulusEvent.SPHINX_TRIGGERED].StartListenning();
 			//mSensorManager.mStimuliControllers[StimulusEvent.VERY_LOW_BATTERY].StartListenning();
@@ -44,7 +42,7 @@ namespace BuddyApp.Companion
 
 			if (mSpeechTriggered) {
 				if (mVeryLowBattery) {
-					mTTS.Say("Désolé, je suis trop fatigué, je dois aller me recharger", true);
+					Interaction.TextToSpeech.Say("Désolé, je suis trop fatigué, je dois aller me recharger", true);
 					mSpeechTriggered = false;
                 } else {
 					iAnimator.SetTrigger("ASKCHARGE");
@@ -54,8 +52,8 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
+			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
 
 			//mSensorManager.mStimuliControllers[StimulusEvent.SPHINX_TRIGGERED].StopListenning();
 			//mSensorManager.mStimuliControllers[StimulusEvent.VERY_LOW_BATTERY].StopListenning();

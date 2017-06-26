@@ -18,126 +18,6 @@ namespace BuddyApp.Guardian
     /// </summary>
     public abstract class AStateMachineBehaviour : StateMachineBehaviour
     {
-        /// <summary>
-        /// Simple access to the face robot component
-        /// </summary>
-        protected Face mFace;
-
-        /// <summary>
-        /// Simple access to the RGB camera robot component
-        /// </summary>
-        protected RGBCam mRGBCam;
-
-        /// <summary>
-        /// Simple access to the depth camera robot component
-        /// </summary>
-        protected DepthCam mDepthCam;
-
-        /// <summary>
-        /// Simple access to all infrared sensor robot components
-        /// </summary>
-        protected IRSensors mIRSensors;
-
-        /// <summary>
-        /// Simple access to all ultrasound sensor robot components
-        /// </summary>
-        protected USSensors mUSSensors;
-
-        /// <summary>
-        /// Simple access to all cliff sensor robot components
-        /// </summary>
-        protected CliffSensors mCliffSensors;
-
-        /// <summary>
-        /// Simple access to the yes hinge robot component
-        /// </summary>
-        protected YesHinge mYesHinge;
-
-        /// <summary>
-        /// Simple access to the no hinge robot component
-        /// </summary>
-        protected NoHinge mNoHinge;
-
-        /// <summary>
-        /// Simple access to wheels robot component
-        /// </summary>
-        protected Wheels mWheels;
-
-        /// <summary>
-        /// Simple access to the text to speech
-        /// </summary>
-        protected TextToSpeech mTTS;
-
-        /// <summary>
-        /// Simple access to the speech to text
-        /// </summary>
-        protected SpeechToText mSTT;
-
-        /// <summary>
-        /// Simple access to the sphinx trigger
-        /// </summary>
-        protected SphinxTrigger mSphinx;
-
-        /// <summary>
-        /// Simple access to the battery robot component
-        /// </summary>
-        protected Battery mBattery;
-
-        /// <summary>
-        /// Simple access to the micro robot component
-        /// </summary>
-        protected Micro mMicro;
-
-        /// <summary>
-        /// Simple access to the speaker robot component
-        /// </summary>
-        protected Speaker mSpeaker;
-
-        /// <summary>
-        /// Simple access to the LED robot component
-        /// </summary>
-        protected LED mLED;
-
-        /// <summary>
-        /// Simple access to the thermal sensor robot component
-        /// </summary>
-        protected ThermalSensor mThermalSensor;
-
-        /// <summary>
-        /// Simple access to tablet parameters
-        /// </summary>
-        protected TabletParameters mTabletParameters;
-
-        /// <summary>
-        /// Vocal activation wrapper for Sphinx/STT facilities
-        /// </summary>
-        protected VocalManager mVocalManager;
-
-        /// <summary>
-        /// The current language dictionnary
-        /// </summary>
-        protected Dictionary mDictionary;
-
-        /// <summary>
-        /// Notification will be printed at the screen top
-        /// </summary>
-        protected Notifier mNotifier;
-
-        /// <summary>
-        /// Toast will be printed at the screen center
-        /// </summary>
-        protected Toaster mToaster;
-
-        /// <summary>
-        /// Helper in order to easily change the robot mood (LED and Face [and moving behaviour])
-        /// </summary>
-        protected Mood mMood;
-
-        /// <summary>
-        /// Simple access to DetectionManager
-        /// </summary>
-        protected DetectionManager mDetectionManager;
-
         private Dictionary<string, int> mCommonIntegers;
         private Dictionary<string, float> mCommonSingles;
         private Dictionary<string, string> mCommonStrings;
@@ -165,31 +45,21 @@ namespace BuddyApp.Guardian
         /// </summary>
         public Dictionary<string, object> CommonObjects { get { return mCommonObjects; } internal set { mCommonObjects = value; } }
 
-        internal Face Face { set { mFace = value; } }
-        internal RGBCam RGBCam { set { mRGBCam = value; } }
-        internal DepthCam DepthCam { set { mDepthCam = value; } }
-        internal IRSensors IRSensors { set { mIRSensors = value; } }
-        internal USSensors USSensors { set { mUSSensors = value; } }
-        internal CliffSensors CliffSensors { set { mCliffSensors = value; } }
-        internal YesHinge YesHinge { set { mYesHinge = value; } }
-        internal NoHinge NoHinge { set { mNoHinge = value; } }
-        internal Wheels Wheels { set { mWheels = value; } }
-        internal TextToSpeech TextToSpeech { set { mTTS = value; } }
-        internal SpeechToText SpeechToText { set { mSTT = value; } }
-        internal SphinxTrigger SphinxTrigger { set { mSphinx = value; } }
-        internal Battery Battery { set { mBattery = value; } }
-        internal Micro Micro { set { mMicro = value; } }
-        internal Speaker Speaker { set { mSpeaker = value; } }
-        internal LED LED { set { mLED = value; } }
-        internal ThermalSensor ThermalSensor { set { mThermalSensor = value; } }
-        internal TabletParameters TabletParameters { set { mTabletParameters = value; } }
-        internal Mood Mood { set { mMood = value; } }
-        internal DetectionManager DetectionManager { set { mDetectionManager = value; } }
+        public DetectionManager Detection { get; set; }
 
-        internal VocalManager VocalActivation { set { mVocalManager = value; } }
-        internal Dictionary Dictionary { set { mDictionary = value; } }
-        internal Notifier Notifier { set { mNotifier = value; } }
-        internal Toaster Toaster { set { mToaster = value; } }
+        protected Interaction Interaction { get; private set; }
+        protected Perception Perception { get; private set; }
+        protected Primitive Primitive { get; private set; }
+        protected IOT IOT { get; private set; }
+        protected Navigation Navigation { get; private set; }
+        protected WebService WebService { get; private set; }
+
+        protected Notifier Notifier { get; private set; }
+        protected Toaster Toaster { get; private set; }
+
+        protected Dictionary Dictionary { get; private set; }
+        protected ResourceManager Resources { get; private set; }
+        protected DataBase DataBase { get; private set; }
 
         internal GuardianStateMachineManager Manager { set { mManager = value; } }
         internal Animator Animator { set { mAnimator = value; } }
@@ -392,8 +262,8 @@ namespace BuddyApp.Guardian
         /// <returns></returns>
         protected T GetComponentInGameObject<T>(int iIndex) where T : Component
         {
-			if (iIndex < 0 || iIndex >= mManager.GameObjects.Count)
-				return default(T);
+            if (iIndex < 0 || iIndex >= mManager.GameObjects.Count)
+                return default(T);
             return mManager.GameObjects[iIndex].GetComponent<T>();
         }
 
@@ -403,6 +273,23 @@ namespace BuddyApp.Guardian
         protected void QuitApp()
         {
             AAppActivity.QuitApp();
+        }
+
+        internal void Init()
+        {
+            Interaction = BYOS.Instance.Interaction;
+            Perception = BYOS.Instance.Perception;
+            Primitive = BYOS.Instance.Primitive;
+            IOT = BYOS.Instance.IOT;
+            Navigation = BYOS.Instance.Navigation;
+            WebService = BYOS.Instance.WebService;
+
+            Notifier = BYOS.Instance.Notifier;
+            Toaster = BYOS.Instance.Toaster;
+
+            Dictionary = BYOS.Instance.Dictionary;
+            Resources = BYOS.Instance.Resources;
+            DataBase = BYOS.Instance.DataBase;
         }
 
         /// <summary>

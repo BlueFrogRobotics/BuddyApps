@@ -9,13 +9,13 @@ namespace BuddyApp.Reminder
     {
         override public void Start()
         {
-   
+
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             StartCoroutine(AddReminder());
-            
+
         }
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -31,60 +31,53 @@ namespace BuddyApp.Reminder
         private IEnumerator AddReminder()
         {
             bool lAdded = false;
-            Debug.Log("pas de lol "+ mReminderManager.Command.Content+" : "+ mReminderManager.Command.Receiver);
-            if (mReminderManager.Command.Intent == Intent.NONE || (mReminderManager.Command.Content == null && mReminderManager.Command.Receiver == null ))
-            {
+            Debug.Log("pas de lol " + ReminderManager.Command.Content + " : " + ReminderManager.Command.Receiver);
+            if (ReminderManager.Command.Intent == Intent.NONE ||
+                (ReminderManager.Command.Content == null && ReminderManager.Command.Receiver == null)) {
                 Debug.Log("pas de truc");
-                mTTS.Say("oui tu peux me dire quoi, quand et pour qui");
-                while (mTTS.IsSpeaking)
+                Interaction.TextToSpeech.Say("oui tu peux me dire quoi, quand et pour qui");
+                while (Interaction.TextToSpeech.IsSpeaking)
                     yield return null;
                 Trigger("ProcessVocal");
-            }
-
-            else
-            {
-                if(mReminderManager.Command.Content == null || mReminderManager.Command.Content == "")
-                {
-                    mTTS.Say("quelle est le contenu");
-                    while (mTTS.IsSpeaking)
+            } else {
+                if (ReminderManager.Command.Content == null || ReminderManager.Command.Content == "") {
+                    Interaction.TextToSpeech.Say("quelle est le contenu");
+                    while (Interaction.TextToSpeech.IsSpeaking)
                         yield return null;
-                    mSTT.OnBestRecognition.Add(GetContent);
-                    mSTT.Request();
+                    Interaction.SpeechToText.OnBestRecognition.Add(GetContent);
+                    Interaction.SpeechToText.Request();
                     yield return new WaitForSeconds(4F);
-                    mSTT.OnBestRecognition.Remove(GetContent);
+                    Interaction.SpeechToText.OnBestRecognition.Remove(GetContent);
                 }
 
-                if (mReminderManager.Command.RemindDate.Equals(DateTime.MinValue))
-                {
-                    mTTS.Say("a quelle date");
-                    while (mTTS.IsSpeaking)
+                if (ReminderManager.Command.RemindDate.Equals(DateTime.MinValue)) {
+                    Interaction.TextToSpeech.Say("a quelle date");
+                    while (Interaction.TextToSpeech.IsSpeaking)
                         yield return null;
-                    mSTT.OnBestRecognition.Add(GetDate);
-                    mSTT.Request();
+                    Interaction.SpeechToText.OnBestRecognition.Add(GetDate);
+                    Interaction.SpeechToText.Request();
                     yield return new WaitForSeconds(4F);
-                    mSTT.OnBestRecognition.Remove(GetDate);
+                    Interaction.SpeechToText.OnBestRecognition.Remove(GetDate);
                 }
 
-                if (mReminderManager.Command.Receiver == null || mReminderManager.Command.Receiver == "")
-                {
-                    mTTS.Say("qui est le destinataire");
-                    while (mTTS.IsSpeaking)
+                if (ReminderManager.Command.Receiver == null || ReminderManager.Command.Receiver == "") {
+                    Interaction.TextToSpeech.Say("qui est le destinataire");
+                    while (Interaction.TextToSpeech.IsSpeaking)
                         yield return null;
-                    mSTT.OnBestRecognition.Add(GetReceiver);
-                    mSTT.Request();
+                    Interaction.SpeechToText.OnBestRecognition.Add(GetReceiver);
+                    Interaction.SpeechToText.Request();
                     yield return new WaitForSeconds(4F);
-                    mSTT.OnBestRecognition.Remove(GetReceiver);
+                    Interaction.SpeechToText.OnBestRecognition.Remove(GetReceiver);
                 }
 
-                if (mReminderManager.Command.Intent == Intent.ADD)
-                {
-                    mTTS.Say("D'accord je l'ajoute");
+                if (ReminderManager.Command.Intent == Intent.ADD) {
+                    Interaction.TextToSpeech.Say("D'accord je l'ajoute");
                     Reminder lReminder = new Reminder();
-                    lReminder.RemindDate = mReminderManager.Command.RemindDate;
-                    lReminder.Content = mReminderManager.Command.Content;
-                    lReminder.Receiver = mReminderManager.Command.Receiver;
-                    lReminder.Title = mReminderManager.Command.Title;
-                    mReminderManager.ReminderContent.reminderList.Add(lReminder);
+                    lReminder.RemindDate = ReminderManager.Command.RemindDate;
+                    lReminder.Content = ReminderManager.Command.Content;
+                    lReminder.Receiver = ReminderManager.Command.Receiver;
+                    lReminder.Title = ReminderManager.Command.Title;
+                    ReminderManager.ReminderContent.reminderList.Add(lReminder);
                     //lAdded = true;
                 }
             }
@@ -94,20 +87,19 @@ namespace BuddyApp.Reminder
 
         private void GetContent(string iAnswer)
         {
-            mReminderManager.Command.Content = iAnswer;
+            ReminderManager.Command.Content = iAnswer;
         }
 
         private void GetReceiver(string iAnswer)
         {
-            mReminderManager.Command.Receiver = iAnswer;
+            ReminderManager.Command.Receiver = iAnswer;
         }
 
         private void GetDate(string iAnswer)
         {
             ProcessVocalWitAI lProcess = new ProcessVocalWitAI();
             Command lCommand = lProcess.ExtractParameters(iAnswer);
-
-            mReminderManager.Command.RemindDate = lCommand.RemindDate;
+            ReminderManager.Command.RemindDate = lCommand.RemindDate;
         }
     }
 

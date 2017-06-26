@@ -1,5 +1,4 @@
 ﻿using Buddy;
-using Buddy.Features.Stimuli;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +20,6 @@ namespace BuddyApp.Companion
 		public override void Start()
 		{
 			//mSensorManager = BYOS.Instance.SensorManager;
-			mSensorManager = GetComponent<StimuliManager>();
 			mKeyOptions = new List<string>();
 			mKeyOptions.Add("no");
 			mKeyOptions.Add("yes");
@@ -36,8 +34,8 @@ namespace BuddyApp.Companion
 			mTime = 0F;
 			mEngaged = false;
 			mGoToCharge = false;
-			mMood.Set(MoodType.TIRED);
-			BYOS.Instance.DialogManager.Ask(OnAnswer, "askcharge", 1, mKeyOptions);
+			Interaction.Mood.Set(MoodType.TIRED);
+			BYOS.Instance.Interaction.DialogManager.Ask(OnAnswer, "askcharge", 1, mKeyOptions);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -47,15 +45,15 @@ namespace BuddyApp.Companion
 
 
 			if (mEngaged) {
-				mTTS.Say("Ok... [500].", true);
-				mFace.SetEvent(FaceEvent.YAWN);
-				mTTS.Say("Que puis-je faire pour toi?", true);
+                Interaction.TextToSpeech.Say("Ok... [500].", true);
+                Interaction.Face.SetEvent(FaceEvent.YAWN);
+                Interaction.TextToSpeech.Say("Que puis-je faire pour toi?", true);
 
 				CompanionData.Instance.ChargeAsked = true;
 				iAnimator.SetTrigger("VOCALTRIGGERED");
 			} else if (mGoToCharge) {
-				mTTS.Say("Ok, merci.", true);
-				mFace.SetEvent(FaceEvent.YAWN);
+                Interaction.TextToSpeech.Say("Ok, merci.", true);
+                Interaction.Face.SetEvent(FaceEvent.YAWN);
 				iAnimator.SetTrigger("CHARGE");
 				CompanionData.Instance.ChargeAsked = true;
 			} else if (mTime > 60F) {

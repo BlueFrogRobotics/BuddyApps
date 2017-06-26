@@ -1,5 +1,4 @@
 ﻿using Buddy;
-using Buddy.Features.Stimuli;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,7 +16,6 @@ namespace BuddyApp.Companion
 		{
 			mState = GetComponentInGameObject<Text>(0);
 			//mSensorManager = BYOS.Instance.SensorManager;
-			mSensorManager = GetComponent<StimuliManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -27,17 +25,17 @@ namespace BuddyApp.Companion
 			mVocalTriggered = false;
 			mTimeInArmns = 0F;
 			if (CompanionData.Instance.InteractDesire > 40) {
-				mTTS.Say("J'aime être dans tes bras!", true);
+				Interaction.TextToSpeech.Say("J'aime être dans tes bras!", true);
 				CompanionData.Instance.InteractDesire -= 10;
-				mMood.Set(MoodType.HAPPY);
+                Interaction.Mood.Set(MoodType.HAPPY);
 			} else {
-				mTTS.Say("Laisse moi rouler!!!", true);
+                Interaction.TextToSpeech.Say("Laisse moi rouler!!!", true);
 				CompanionData.Instance.InteractDesire -= 20;
-				mMood.Set(MoodType.GRUMPY);
+                Interaction.Mood.Set(MoodType.GRUMPY);
 			}
 
 
-			mSensorManager.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
+			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
 			//mSensorManager.mStimuliControllers[StimulusEvent.SPHINX_TRIGGERED].StartListenning();
 
 
@@ -49,7 +47,7 @@ namespace BuddyApp.Companion
 			mTimeInArmns += Time.deltaTime;
 
 			if (mVocalTriggered)
-				mTTS.Say("Que puis-je pour toi?", true);
+                Interaction.TextToSpeech.Say("Que puis-je pour toi?", true);
 			iAnimator.SetTrigger("VOCALTRIGGERED");
 			if (mTimeInArmns > 5F)
 				iAnimator.SetTrigger("INTERACT");
@@ -58,7 +56,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mSensorManager.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
+			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
 			//mSensorManager.mStimuliControllers[StimulusEvent.SPHINX_TRIGGERED].StopListenning();
 		}
 

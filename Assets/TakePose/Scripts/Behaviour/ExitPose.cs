@@ -13,7 +13,7 @@ namespace BuddyApp.TakePose
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mMood.Set(MoodType.NEUTRAL);
+            Interaction.Mood.Set(MoodType.NEUTRAL);
             QuitApp();
         }
 

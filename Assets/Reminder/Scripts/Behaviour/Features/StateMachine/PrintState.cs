@@ -13,7 +13,6 @@ namespace BuddyApp.Reminder
 
         override public void Start()
         {
-
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -27,15 +26,12 @@ namespace BuddyApp.Reminder
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mTimer += Time.deltaTime;
-            if(mReminderManager.ReminderContent.reminderList.Count >0 && mTimer > 25.0f && !mExit)
-            {
+            if (ReminderManager.ReminderContent.reminderList.Count > 0 && mTimer > 25.0f && !mExit) {
                 Trigger("Print");
                 mExit = true;
                 ClearWindow();
                 CloseWindow();
-            }
-            else if(mReminderManager.ReminderContent.reminderList.Count== 0 && !mExit)
-            {
+            } else if (ReminderManager.ReminderContent.reminderList.Count == 0 && !mExit) {
                 Trigger("ProposeAdd");
                 mExit = true;
                 ClearWindow();
@@ -50,20 +46,18 @@ namespace BuddyApp.Reminder
 
         private void ShowReminders()
         {
-            mReminderManager.SortListByDate();
-            DateTime lDate=new DateTime();
+            ReminderManager.SortListByDate();
+            DateTime lDate = new DateTime();
 
-            for (int i = 0; i < mReminderManager.ReminderContent.reminderList.Count; i++)
-            {
-                if(lDate.ToString("D")!=(mReminderManager.ReminderContent.reminderList[i].RemindDate.ToString("D")))
-                {
+            for (int i = 0; i < ReminderManager.ReminderContent.reminderList.Count; i++) {
+                if (lDate.ToString("D") != (ReminderManager.ReminderContent.reminderList[i].RemindDate.ToString("D"))) {
                     GameObject lDatePrefab = Instantiate(GetGameObject(StateObject.DATE_PREFAB), GetGameObject(StateObject.PANEL_LIST).transform);
-                    lDatePrefab.GetComponent<DateUI>().Date = mReminderManager.ReminderContent.reminderList[i].RemindDate.ToString("D");
-                    lDate = mReminderManager.ReminderContent.reminderList[i].RemindDate;
+                    lDatePrefab.GetComponent<DateUI>().Date = ReminderManager.ReminderContent.reminderList[i].RemindDate.ToString("D");
+                    lDate = ReminderManager.ReminderContent.reminderList[i].RemindDate;
                 }
                 GameObject lReminderPrefab = Instantiate(GetGameObject(StateObject.REMINDER_PREFAB), GetGameObject(StateObject.PANEL_LIST).transform);
-                lReminderPrefab.GetComponent<ReminderUI>().Title = mReminderManager.ReminderContent.reminderList[i].Title;
-                lReminderPrefab.GetComponent<ReminderUI>().Hour = mReminderManager.ReminderContent.reminderList[i].RemindDate.TimeOfDay.ToString();
+                lReminderPrefab.GetComponent<ReminderUI>().Title = ReminderManager.ReminderContent.reminderList[i].Title;
+                lReminderPrefab.GetComponent<ReminderUI>().Hour = ReminderManager.ReminderContent.reminderList[i].RemindDate.TimeOfDay.ToString();
                 lReminderPrefab.GetComponent<ReminderUI>().Num = i;
                 lReminderPrefab.GetComponent<ReminderUI>().DeleteButton.onClick.AddListener(delegate { OnDelete(lReminderPrefab.GetComponent<ReminderUI>().Num); });
             }
@@ -72,8 +66,7 @@ namespace BuddyApp.Reminder
 
         private void ClearWindow()
         {
-            foreach (Transform child in GetGameObject(StateObject.PANEL_LIST).transform)
-            {
+            foreach (Transform child in GetGameObject(StateObject.PANEL_LIST).transform) {
                 GameObject.Destroy(child.gameObject);
             }
         }
@@ -85,7 +78,7 @@ namespace BuddyApp.Reminder
 
         private void OnDelete(int iNum)
         {
-            mReminderManager.ReminderContent.reminderList.RemoveAt(iNum);
+            ReminderManager.ReminderContent.reminderList.RemoveAt(iNum);
             ClearWindow();
             ShowReminders();
         }

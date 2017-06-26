@@ -75,33 +75,33 @@ namespace BuddyApp.MemoryGame
 					if (mEvents[mEventIndex] > 7) {
 						if (mEvents[mEventIndex] == 8) {
 							Debug.Log("Move head left");
-							BYOS.Instance.Speaker.Voice.Play(VoiceSound.LAUGH_1);
+							Primitive.Speaker.Voice.Play(VoiceSound.LAUGH_1);
 							StartCoroutine(ControlBuddy(BuddyMotion.HEAD_LEFT));
 						} else if (mEvents[mEventIndex] == 9) {
 							Debug.Log("Move head right");
-							BYOS.Instance.Speaker.Voice.Play(VoiceSound.LAUGH_2);
+                            Primitive.Speaker.Voice.Play(VoiceSound.LAUGH_2);
 							StartCoroutine(ControlBuddy(BuddyMotion.HEAD_RIGHT));
 						} else if (mEvents[mEventIndex] == 10) {
 							Debug.Log("Move wheels left");
-							BYOS.Instance.Speaker.Voice.Play(VoiceSound.CURIOUS_1);
+                            Primitive.Speaker.Voice.Play(VoiceSound.CURIOUS_1);
 							StartCoroutine(ControlBuddy(BuddyMotion.WHEEL_LEFT));
 						} else if (mEvents[mEventIndex] == 11) {
 							Debug.Log("Move wheels right");
-							BYOS.Instance.Speaker.Voice.Play(VoiceSound.CURIOUS_2);
+                            Primitive.Speaker.Voice.Play(VoiceSound.CURIOUS_2);
 							StartCoroutine(ControlBuddy(BuddyMotion.WHEEL_RIGHT));
 						}
 					} else {
 						//Set sound
 						if ((FaceEvent)mEvents[mEventIndex] == FaceEvent.BLINK_LEFT)
-							BYOS.Instance.Speaker.Voice.Play(VoiceSound.SURPRISED_1);
+                            Primitive.Speaker.Voice.Play(VoiceSound.SURPRISED_1);
 						else if ((FaceEvent)mEvents[mEventIndex] == FaceEvent.BLINK_RIGHT)
-							BYOS.Instance.Speaker.Voice.Play(VoiceSound.SURPRISED_2);
+                            Primitive.Speaker.Voice.Play(VoiceSound.SURPRISED_2);
 						else if ((FaceEvent)mEvents[mEventIndex] == FaceEvent.SMILE)
-							BYOS.Instance.Speaker.Voice.Play(VoiceSound.SURPRISED_3);
+                            Primitive.Speaker.Voice.Play(VoiceSound.SURPRISED_3);
 
 
 						//Set face event
-						mFace.SetEvent((FaceEvent)mEvents[mEventIndex]);
+						Interaction.Face.SetEvent((FaceEvent)mEvents[mEventIndex]);
 						//Face
 					}
 					mEventIndex++;
@@ -119,7 +119,7 @@ namespace BuddyApp.MemoryGame
 
 			// Moving noHinge
 			if (iMotion == BuddyMotion.HEAD_LEFT || iMotion == BuddyMotion.HEAD_RIGHT) {
-				float lOriginAngle = mNoHinge.CurrentAnglePosition;
+				float lOriginAngle = Primitive.Motors.NoHinge.CurrentAnglePosition;
 				float lTargetAngle;
 				if (iMotion == BuddyMotion.HEAD_LEFT) {
 					lTargetAngle = lOriginAngle + 45.0f;
@@ -129,20 +129,20 @@ namespace BuddyApp.MemoryGame
 
 				// Put the head to the given direction
 				Debug.Log("Head target angle " + lTargetAngle);
-				mNoHinge.SetPosition(lTargetAngle);
+                Primitive.Motors.NoHinge.SetPosition(lTargetAngle);
 
 				// Wait for end of motion
-				while (Math.Abs(mNoHinge.CurrentAnglePosition - lOriginAngle) < 20.0f || lTimer > 5.0f) {
+				while (Math.Abs(Primitive.Motors.NoHinge.CurrentAnglePosition - lOriginAngle) < 20.0f || lTimer > 5.0f) {
 					lTimer += Time.deltaTime;
 					yield return null;
 				}
 				lTimer = 0.0f;
 				Debug.Log("Moving head ok, move back ");
-				// Put the head back
-				mNoHinge.SetPosition(0.0f);
+                // Put the head back
+                Primitive.Motors.NoHinge.SetPosition(0.0f);
 
 				// Wait for end of motion
-				while (Math.Abs(mNoHinge.CurrentAnglePosition) > 5.0f || lTimer > 5.0f) {
+				while (Math.Abs(Primitive.Motors.NoHinge.CurrentAnglePosition) > 5.0f || lTimer > 5.0f) {
 					lTimer += Time.deltaTime;
 					yield return null;
 
@@ -157,29 +157,30 @@ namespace BuddyApp.MemoryGame
 
 				// Turning wheels
 			} else if (iMotion == BuddyMotion.WHEEL_LEFT || iMotion == BuddyMotion.WHEEL_RIGHT) {
-				float lTargetAngle = -(90.0f - Math.Abs(mOriginRobotAngle - mWheels.Odometry.z));
+				float lTargetAngle = -(90.0f - Math.Abs(mOriginRobotAngle - Primitive.Motors.Wheels.Odometry.z));
 				if (iMotion == BuddyMotion.WHEEL_LEFT) {
 					lTargetAngle = -lTargetAngle;
 				}
 
-				mWheels.TurnAngle(lTargetAngle, 100.0f, 0.02f);
+                Primitive.Motors.Wheels.TurnAngle(lTargetAngle, 100.0f, 0.02f);
 
 				yield return new WaitForSeconds(0.5f);
 
 				// Wait for end of motion
-				while (mWheels.Status != MovingState.REACHED_GOAL && mWheels.Status != MovingState.MOTIONLESS) {
+				while (Primitive.Motors.Wheels.Status != MovingState.REACHED_GOAL && Primitive.Motors.Wheels.Status != MovingState.MOTIONLESS) {
 					yield return null;
 				}
 
 				Debug.Log("Moving wheels ok, move back ");
 
-				// Put the robot back
-				mWheels.TurnAbsoluteAngle(mOriginRobotAngle, 100.0f, 0.02f);
+                // Put the robot back
+                Primitive.Motors.Wheels.TurnAbsoluteAngle(mOriginRobotAngle, 100.0f, 0.02f);
 
 				yield return new WaitForSeconds(0.5f);
 
 				// Wait for end of motion
-				while (mWheels.Status != MovingState.REACHED_GOAL && mWheels.Status != MovingState.MOTIONLESS) {
+				while (Primitive.Motors.Wheels.Status != MovingState.REACHED_GOAL &&
+                    Primitive.Motors.Wheels.Status != MovingState.MOTIONLESS) {
 					yield return null;
 				}
 
@@ -199,14 +200,14 @@ namespace BuddyApp.MemoryGame
 
 			animator.ResetTrigger("NextLevel");
 			//link.mAnimationManager.gameObject.SetActive(false);
-			mMood.Set(MoodType.NEUTRAL);
-			mNoHinge.SetPosition(0.0f);
-			mOriginRobotAngle = mWheels.Odometry.z;
+			Interaction.Mood.Set(MoodType.NEUTRAL);
+            Primitive.Motors.NoHinge.SetPosition(0.0f);
+			mOriginRobotAngle = Primitive.Motors.Wheels.Odometry.z;
 			mBuddyMotion = false;
 			InitLvl();
 			Debug.Log("pre currentLevel intro Sentence");
-			mTTS.Silence(1000, true);
-			mTTS.Say(mDictionary.GetRandomString("introlvl") + " " + mGameLevels.mCurrentLevel, true);
+			Interaction.TextToSpeech.Silence(1000, true);
+			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introlvl") + " " + mGameLevels.mCurrentLevel, true);
 
 		}
 
@@ -221,13 +222,13 @@ namespace BuddyApp.MemoryGame
 
 			mTTSTimer += Time.deltaTime;
 
-			if (mFace.IsStable && !mBuddyMotion && mTTS.HasFinishedTalking) {
+			if (Interaction.Face.IsStable && !mBuddyMotion && Interaction.TextToSpeech.HasFinishedTalking) {
 				mTimer += Time.deltaTime;
 			}
 
-			if (!mPatternDone && mTTS.HasFinishedTalking && mTTSTimer > 3.0f) {
+			if (!mPatternDone && Interaction.TextToSpeech.HasFinishedTalking && mTTSTimer > 3.0f) {
 				DoEvent();
-			} else if (mPatternDone && mFace.IsStable && !mBuddyMotion) {
+			} else if (mPatternDone && Interaction.Face.IsStable && !mBuddyMotion) {
 				Debug.Log("pattern done, your turn");
 				animator.SetTrigger("RobotDone");
 			}

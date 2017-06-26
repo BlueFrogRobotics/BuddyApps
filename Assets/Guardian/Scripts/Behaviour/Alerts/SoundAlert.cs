@@ -1,5 +1,4 @@
 ﻿using Buddy;
-using Buddy.Features.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +28,7 @@ namespace BuddyApp.Guardian
 
         public override Sprite GetIcon()
         {
-            return BYOS.Instance.ResourceManager.GetSprite("Sound_Alert", "GuardianAtlas");
+            return BYOS.Instance.Resources.GetSprite("Sound_Alert", "GuardianAtlas");
         }
 
         public override string GetLog()
@@ -37,11 +36,11 @@ namespace BuddyApp.Guardian
             return FormatLog("soundalertmessage");
         }
 
-        public override Mail GetMail()
+        public override EMail GetMail()
         {
             mSaveAudio.Save();
 
-            Mail lMail = new Mail("Noise alert", FormatMessage("soundalertmessage"));
+            EMail lMail = new EMail("Noise alert", FormatMessage("soundalertmessage"));
             lMail.AddFile("noise.wav");
 
             return lMail;

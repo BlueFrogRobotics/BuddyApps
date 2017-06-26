@@ -2,14 +2,12 @@ using UnityEngine;
 using Buddy;
 using Buddy.UI;
 using System.Collections;
-using Buddy.Features.Web;
 
 namespace BuddyApp.Guardian
 {
     public class AlertState : AStateMachineBehaviour
     {
         private DetectionManager mDetectionManager;
-        private MailSender mMailSender;
         private AAlert mAlert;
 
         private IEnumerator mAction;
@@ -17,8 +15,6 @@ namespace BuddyApp.Guardian
         public override void Start()
         {
             mDetectionManager = GetComponent<DetectionManager>();
-
-            mMailSender = new MailSender("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL);
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -29,18 +25,18 @@ namespace BuddyApp.Guardian
             mDetectionManager.IsDetectingSound = false;
 
             mDetectionManager.Roomba.enabled = false;
-            mWheels.StopWheels();
+            Primitive.Motors.Wheels.StopWheels();
 
             mAlert = GetAlert();
 
-            mMood.Set(MoodType.SCARED);
-            mTTS.Say(mAlert.GetSpeechText());
+            Interaction.Mood.Set(MoodType.SCARED);
+            Interaction.TextToSpeech.Say(mAlert.GetSpeechText());
 
             mAction = DisplayAlert();
             StartCoroutine(mAction);
 
             string lMailAddress = GuardianData.Instance.ContactAddress;
-            if (mMailSender.CanSend && !string.IsNullOrEmpty(lMailAddress))
+            if (!string.IsNullOrEmpty(lMailAddress))
                 SendMail(lMailAddress);
 
             mDetectionManager.AddLog(mAlert.GetLog());
@@ -52,7 +48,7 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mMood.Set(MoodType.NEUTRAL);
+            Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
         private IEnumerator DisplayAlert()
@@ -66,12 +62,12 @@ namespace BuddyApp.Guardian
 
         private void SendMail(string iAddress)
         {
-            Mail lMail = mAlert.GetMail();
+            EMail lMail = mAlert.GetMail();
             if (lMail == null)
                 return;
 
             lMail.AddTo(iAddress);
-            mMailSender.Send(lMail);
+            WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail);
 
             Debug.Log("Send mail to " + iAddress);
         }

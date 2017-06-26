@@ -15,9 +15,9 @@ namespace BuddyApp.Diagnostic
 
         void Start()
         {
-            mTTS = BYOS.Instance.TextToSpeech;
-            mSTT = BYOS.Instance.SpeechToText;
-            mSphinx = BYOS.Instance.SphinxTrigger;
+            mTTS = BYOS.Instance.Interaction.TextToSpeech;
+            mSTT = BYOS.Instance.Interaction.SpeechToText;
+            mSphinx = BYOS.Instance.Interaction.SphinxTrigger;
         }
 
         void Update()

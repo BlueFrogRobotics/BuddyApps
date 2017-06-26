@@ -1,6 +1,5 @@
 using UnityEngine;
 using Buddy;
-using Buddy.Features.Detection;
 using System.Collections;
 
 namespace BuddyApp.Guardian
@@ -17,7 +16,7 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mMood.Set(MoodType.LISTENING);
+            Interaction.Mood.Set(MoodType.LISTENING);
 
             mAction = WatchAtAngle();
             StartCoroutine(mAction);
@@ -33,9 +32,9 @@ namespace BuddyApp.Guardian
             mDetectionManager.IsDetectingMovement = false;
             mDetectionManager.IsDetectingKidnapping = false;
 
-            mWheels.TurnAngle(30.0f, 70.0F, 0.02F);
+            Primitive.Motors.Wheels.TurnAngle(30.0f, 70.0F, 0.02F);
 
-            if (mWheels.Status != MovingState.MOTIONLESS)
+            if (Primitive.Motors.Wheels.Status != MovingState.MOTIONLESS)
                 yield return null;
 
             yield return new WaitForSeconds(1F);
@@ -56,7 +55,7 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mMood.Set(MoodType.NEUTRAL);
+            Interaction.Mood.Set(MoodType.NEUTRAL);
         }
     }
 }

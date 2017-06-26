@@ -2,13 +2,13 @@
 <BYFWSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <MajorVersion>0</MajorVersion>
     <MinorVersion>4</MinorVersion>
-    <BuildVersion>1</BuildVersion>
-    <RevisionVersion>18</RevisionVersion>
+    <BuildVersion>2</BuildVersion>
+    <RevisionVersion>1</RevisionVersion>
     <StateVersion>B</StateVersion>
     <EnableLoadDefaultApp>false</EnableLoadDefaultApp>
     <EnableLoadApps>true</EnableLoadApps>
     <DefaultAppID />
-    <RemoteAppID>RemoteControl</RemoteAppID>
+    <RemoteAppID />
     <CallAppID>CallApp</CallAppID>
     <DefaultAppScenePath />
     <EnableLogs>true</EnableLogs>
@@ -17,44 +17,80 @@
     <EnableLogErrors>true</EnableLogErrors>
     <LogContexts>
         <ContextEvidence>
-            <Context>OS</Context>
-            <Enabled>false</Enabled>
+            <Context>HARDWARE</Context>
+            <Enabled>true</Enabled>
         </ContextEvidence>
         <ContextEvidence>
-            <Context>UI</Context>
-            <Enabled>false</Enabled>
-        </ContextEvidence>
-        <ContextEvidence>
-            <Context>COMMAND</Context>
-            <Enabled>false</Enabled>
-        </ContextEvidence>
-        <ContextEvidence>
-            <Context>FEATURE</Context>
-            <Enabled>false</Enabled>
-        </ContextEvidence>
-        <ContextEvidence>
-            <Context>SIMULATION</Context>
-            <Enabled>false</Enabled>
+            <Context>UTILS</Context>
+            <Enabled>true</Enabled>
         </ContextEvidence>
         <ContextEvidence>
             <Context>OPENCV</Context>
-            <Enabled>false</Enabled>
+            <Enabled>true</Enabled>
         </ContextEvidence>
         <ContextEvidence>
             <Context>INTL_API</Context>
-            <Enabled>false</Enabled>
+            <Enabled>true</Enabled>
         </ContextEvidence>
         <ContextEvidence>
             <Context>INTL_APP_MNG</Context>
-            <Enabled>false</Enabled>
+            <Enabled>true</Enabled>
         </ContextEvidence>
         <ContextEvidence>
             <Context>INTL_NET</Context>
-            <Enabled>false</Enabled>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>INTL_SYS</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>OS</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>UI</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>COMMAND</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>PRIMITIVE</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>INTERACTION</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>PERCEPTION</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>WEB_SERVICE</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>IOT</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>NAVIGATION</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>EDITOR</Context>
+            <Enabled>true</Enabled>
+        </ContextEvidence>
+        <ContextEvidence>
+            <Context>SIMULATION</Context>
+            <Enabled>true</Enabled>
         </ContextEvidence>
         <ContextEvidence>
             <Context>APP</Context>
-            <Enabled>false</Enabled>
+            <Enabled>true</Enabled>
         </ContextEvidence>
     </LogContexts>
     <BuiltInApps />

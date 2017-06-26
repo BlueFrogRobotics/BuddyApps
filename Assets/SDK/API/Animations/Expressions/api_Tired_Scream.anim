@@ -5188,6 +5188,28 @@ AnimationClip:
     path: Empty_Mouth/Tongue
     classID: 224
     script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      - serializedVersion: 2
+        time: 2
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.z
+    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Eye_R/Empty_Eye_BG_R/Eye_BG_R
+    classID: 224
+    script: {fileID: 0}
   m_PPtrCurves:
   - curve:
     - time: 0
@@ -6390,6 +6412,13 @@ AnimationClip:
       script: {fileID: 0}
       typeID: 224
       customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 4203876389
+      attribute: 2033536083
+      script: {fileID: 0}
+      typeID: 224
+      customType: 28
       isPPtrCurve: 0
     pptrCurveMapping:
     - {fileID: 21300050, guid: 47d14b4b225586f48bfc024f4a8bd77f, type: 3}
@@ -13479,6 +13508,28 @@ AnimationClip:
       m_RotationOrder: 4
     attribute: m_SizeDelta.y
     path: Empty_Mouth/Tongue
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      - serializedVersion: 2
+        time: 2
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.z
+    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Eye_R/Empty_Eye_BG_R/Eye_BG_R
     classID: 224
     script: {fileID: 0}
   m_EulerEditorCurves:

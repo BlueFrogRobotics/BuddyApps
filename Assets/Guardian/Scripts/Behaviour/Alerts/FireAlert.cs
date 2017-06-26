@@ -1,5 +1,4 @@
 ﻿using Buddy;
-using Buddy.Features.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace BuddyApp.Guardian
 
         public FireAlert() : base()
         {
-            mWebcam = BYOS.Instance.RGBCam;
+            mWebcam = BYOS.Instance.Primitive.RGBCam;
         }
 
         public override string GetDisplayText()
@@ -29,7 +28,7 @@ namespace BuddyApp.Guardian
 
         public override Sprite GetIcon()
         {
-            return BYOS.Instance.ResourceManager.GetSprite("Fire_Alert", "GuardianAtlas");
+            return BYOS.Instance.Resources.GetSprite("Fire_Alert", "GuardianAtlas");
         }
 
         public override string GetLog()
@@ -37,7 +36,7 @@ namespace BuddyApp.Guardian
             return FormatLog("firealertmessage");
         }
 
-        public override Mail GetMail()
+        public override EMail GetMail()
         {
             if (mWebcam != null && !mWebcam.IsOpen)
                 mWebcam.Open(RGBCamResolution.W_176_H_144);
@@ -45,7 +44,7 @@ namespace BuddyApp.Guardian
             if (mWebcam == null || !mWebcam.IsOpen || mWebcam.FrameTexture2D == null)
                 return null;
 
-            Mail lMail = new Mail("Fire alert", FormatMessage("firealertmessage"));
+            EMail lMail = new EMail("Fire alert", FormatMessage("firealertmessage"));
             lMail.AddTexture2D(mWebcam.FrameTexture2D, "photocam.png");
 
             return lMail;

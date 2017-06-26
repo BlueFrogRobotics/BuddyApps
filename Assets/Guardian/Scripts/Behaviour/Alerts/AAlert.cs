@@ -1,5 +1,4 @@
 ﻿using Buddy;
-using Buddy.Features.Web;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,7 +14,7 @@ namespace BuddyApp.Guardian
         
         public AAlert()
         {
-            CultureInfo lCurrentCulture = new CultureInfo(BYOS.Instance.LanguageManager.CurrentFormat);
+            CultureInfo lCurrentCulture = new CultureInfo(BYOS.Instance.Language.CurrentFormat);
             AlertDate = DateTime.Now.ToString(lCurrentCulture);
         }
 
@@ -24,7 +23,7 @@ namespace BuddyApp.Guardian
         public abstract Sprite GetIcon();
         public abstract string GetLog();
 
-        public virtual Mail GetMail()
+        public virtual EMail GetMail()
         {
             return null;
         }

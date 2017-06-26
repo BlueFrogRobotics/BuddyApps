@@ -1,5 +1,4 @@
 ﻿using Buddy;
-using Buddy.Features.Web;
 using Ionic.Zip;
 using System;
 using System.Collections.Generic;
@@ -18,7 +17,7 @@ namespace BuddyApp.Guardian
         public MovementAlert(SaveVideo iSaveVideo) : base()
         {
             mSaveVideo = iSaveVideo;
-            mWebcam = BYOS.Instance.RGBCam;
+            mWebcam = BYOS.Instance.Primitive.RGBCam;
         }
 
         public override string GetDisplayText()
@@ -33,7 +32,7 @@ namespace BuddyApp.Guardian
 
         public override Sprite GetIcon()
         {
-            return BYOS.Instance.ResourceManager.GetSprite("Movement_Alert", "GuardianAtlas");
+            return BYOS.Instance.Resources.GetSprite("Movement_Alert", "GuardianAtlas");
         }
 
         public override string GetLog()
@@ -41,7 +40,7 @@ namespace BuddyApp.Guardian
             return FormatLog("movementalertmessage");
         }
 
-        public override Mail GetMail()
+        public override EMail GetMail()
         {
             if (mWebcam != null && !mWebcam.IsOpen)
                 mWebcam.Open(RGBCamResolution.W_176_H_144);
@@ -54,7 +53,7 @@ namespace BuddyApp.Guardian
                 zip.Save(Path.Combine(Application.persistentDataPath, "video.zip"));
             }
 
-            Mail lMail = new Mail("Movement alert", FormatMessage("movementalertmessage"));
+            EMail lMail = new EMail("Movement alert", FormatMessage("movementalertmessage"));
             lMail.AddFile("video.zip");
 
             return lMail;

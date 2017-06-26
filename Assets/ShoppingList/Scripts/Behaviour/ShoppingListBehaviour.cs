@@ -29,7 +29,7 @@ namespace BuddyApp.ShoppingList
          */
         void Start()
         {
-            mTextToSpeech = BYOS.Instance.TextToSpeech;
+            mTextToSpeech = BYOS.Instance.Interaction.TextToSpeech;
             mAppData = ShoppingListData.Instance;
         }
 

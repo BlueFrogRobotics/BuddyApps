@@ -20,7 +20,7 @@ namespace BuddyApp.Diagnostic
 
         void Start()
         {
-            mFace = BYOS.Instance.Face;
+            mFace = BYOS.Instance.Interaction.Face;
         }
 
         public void SetMood()

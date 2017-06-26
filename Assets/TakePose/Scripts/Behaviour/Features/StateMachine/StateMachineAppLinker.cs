@@ -43,42 +43,19 @@ namespace BuddyApp.TakePose
 
                 foreach (AStateMachineBehaviour lState in lStates)
                 {
-                    lState.Face = BYOS.Instance.Face;
-                    lState.Battery = BYOS.Instance.Battery;
-                    lState.RGBCam = BYOS.Instance.RGBCam;
-                    lState.DepthCam = BYOS.Instance.DepthCam;
-                    lState.IRSensors = BYOS.Instance.IRSensors;
-                    lState.USSensors = BYOS.Instance.USSensors;
-                    lState.CliffSensors = BYOS.Instance.CliffSensors;
-                    lState.YesHinge = BYOS.Instance.Motors.YesHinge;
-                    lState.NoHinge = BYOS.Instance.Motors.NoHinge;
-                    lState.Wheels = BYOS.Instance.Motors.Wheels;
-                    lState.TextToSpeech = BYOS.Instance.TextToSpeech;
-                    lState.SpeechToText = BYOS.Instance.SpeechToText;
-                    lState.SphinxTrigger = BYOS.Instance.SphinxTrigger;
-                    lState.Micro = BYOS.Instance.Micro;
-                    lState.Speaker = BYOS.Instance.Speaker;
-                    lState.LED = BYOS.Instance.LED;
-                    lState.ThermalSensor = BYOS.Instance.ThermalSensor;
-                    lState.TabletParameters = BYOS.Instance.TabletParameters;
-                    lState.VocalActivation = BYOS.Instance.VocalManager;
-                    lState.Dictionary = BYOS.Instance.Dictionary;
-                    lState.Notifier = BYOS.Instance.Notifier;
-                    lState.Toaster = BYOS.Instance.Toaster;
-                    lState.Mood = BYOS.Instance.Mood;
+                    lState.Init();
                     lState.CommonIntegers = mCommonIntegers;
                     lState.CommonSingles = mCommonSingles;
                     lState.CommonStrings = mCommonStrings;
                     lState.CommonObjects = mCommonObjects;
                     lState.Animator = mAnimator;
-                    lState.Linker = this;
+                    lState.Manager = this;
                     lState.Start();
                 }
             }
             else
                 Utils.LogE(LogContext.APP, LogInfo.NULL_VALUE,
                     "Animator of the state machine app linker is not set", true);
-            // /
         }
 
         internal void AddComponentLink<T>() where T : Component

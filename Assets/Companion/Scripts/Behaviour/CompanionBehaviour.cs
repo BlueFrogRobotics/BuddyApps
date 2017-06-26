@@ -29,7 +29,7 @@ namespace BuddyApp.Companion
          */
         void Start()
         {
-            mTextToSpeech = BYOS.Instance.TextToSpeech;
+            mTextToSpeech = BYOS.Instance.Interaction.TextToSpeech;
             mAppData = CompanionData.Instance;
         }
 

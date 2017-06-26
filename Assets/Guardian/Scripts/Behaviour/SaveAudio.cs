@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Buddy.Features.Media;
+
+using Buddy;
 
 namespace BuddyApp.Guardian
 {

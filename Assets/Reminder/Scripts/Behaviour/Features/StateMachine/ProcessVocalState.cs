@@ -13,7 +13,8 @@ namespace BuddyApp.Reminder
         private IProcessVocal mProcessVocal;
         private float mTimer = 0.0f;
 
-        override public void Start() {
+        override public void Start()
+        {
             //Debug.Log("YOUPI TRALALA!!!!!!!!!!!!!!!!!!!!!!!!!!");
             //mProcessVocal = new ProcessVocalManual();
             mProcessVocal = new ProcessVocalWitAI();
@@ -24,26 +25,22 @@ namespace BuddyApp.Reminder
             mTimer = 0.0f;
             mCommand = null;
             mCommandText = "";
-            mSTT.OnBestRecognition.Add(OnBestReco);
-            if (mReminderManager.CommandText == "")
-            {
-                mSTT.Request();
-            }
-            else
-                mCommandText = mReminderManager.CommandText;
-            
+            Interaction.SpeechToText.OnBestRecognition.Add(OnBestReco);
+            if (ReminderManager.CommandText == "") {
+                Interaction.SpeechToText.Request();
+            } else
+                mCommandText = ReminderManager.CommandText;
+
         }
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mTimer += Time.deltaTime;
 
-            if(mCommandText!="" && mCommand==null)
-            {
+            if (mCommandText != "" && mCommand == null) {
                 mCommand = mProcessVocal.ExtractParameters(mCommandText);
                 Debug.Log("1");
-                switch (mCommand.Intent)
-                {
+                switch (mCommand.Intent) {
                     case Intent.ADD:
                         Trigger("Add");
                         Debug.Log("2");
@@ -54,11 +51,10 @@ namespace BuddyApp.Reminder
                     default:
                         break;
                 }
-                mReminderManager.Command = mCommand;
+                ReminderManager.Command = mCommand;
             }
 
-            if(mTimer>5.0f && mCommand == null)
-            {
+            if (mTimer > 5.0f && mCommand == null) {
                 QuitApp();
                 mTimer = 0.0f;
             }
@@ -67,8 +63,8 @@ namespace BuddyApp.Reminder
 
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mReminderManager.CommandText = "";
-            mSTT.OnBestRecognition.Remove(OnBestReco);
+            ReminderManager.CommandText = "";
+            Interaction.SpeechToText.OnBestRecognition.Remove(OnBestReco);
         }
 
         private void OnBestReco(string iText)

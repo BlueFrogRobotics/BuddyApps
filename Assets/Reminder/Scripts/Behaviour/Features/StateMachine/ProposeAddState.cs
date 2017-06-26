@@ -15,9 +15,9 @@ namespace BuddyApp.Reminder
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mTTS.Say("Voulez vous ajouter un mémo");
-            mReminderManager.Command.Intent = Intent.NONE;
-            mToaster.Display<BinaryQuestionToast>().With(
+            Interaction.TextToSpeech.Say("Voulez vous ajouter un mémo");
+            ReminderManager.Command.Intent = Intent.NONE;
+            Toaster.Display<BinaryQuestionToast>().With(
                 "Voulez vous ajouter un mémo",
                 () => Trigger("Add"),
                 () => QuitApp()

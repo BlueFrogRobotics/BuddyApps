@@ -752,8 +752,8 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>erroraccountcreate</Key>
-            <BaseValue>Vous ne pouvez pas créer ce compte car un compte avec le même nom existe déjà</BaseValue>
+            <Key>acnamealreadyexists</Key>
+            <BaseValue>Un compte avec le même nom existe déjà</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -782,7 +782,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>guess</Key>
+            <Key>guest</Key>
             <BaseValue>Invité</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -882,8 +882,8 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>editaccount</Key>
-            <BaseValue>Editer compte</BaseValue>
+            <Key>editaccounts</Key>
+            <BaseValue>Editer comptes</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -1124,6 +1124,26 @@
         <DictionaryEntry>
             <Key>defaultapps</Key>
             <BaseValue>Apps de base</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>acnullvalues</Key>
+            <BaseValue>Certains champs ne sont pas remplis</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>acemailalreadyexists</Key>
+            <BaseValue>Un compte avec le même email existe déjà</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>

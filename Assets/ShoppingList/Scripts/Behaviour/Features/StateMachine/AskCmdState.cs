@@ -23,26 +23,26 @@ namespace BuddyApp.ShoppingList
             mHasAnsweredYes = false;
             mMustQuit = false;
             mSwitchState = false;
-            mSTT.OnBestRecognition.Add(OnBestReco);
-            mSTT.OnEnd.Add(OnEndReco);
-            mTTS.Say("Veut tu ajouter ou supprimer des éléments a la liste de courses");
-            Debug.Log("miaou: " + mSTT.LastAnswer);
+            Interaction.SpeechToText.OnBestRecognition.Add(OnBestReco);
+            Interaction.SpeechToText.OnEnd.Add(OnEndReco);
+            Interaction.TextToSpeech.Say("Veut tu ajouter ou supprimer des éléments a la liste de courses");
+            Debug.Log("miaou: " + Interaction.SpeechToText.LastAnswer);
             mNbSTTCalled = 0;
 
         }
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if(!mTTS.IsSpeaking && mSTT.HasFinished && !mHasAnsweredYes && !mMustQuit)
+            if(!Interaction.TextToSpeech.IsSpeaking && Interaction.SpeechToText.HasFinished && !mHasAnsweredYes && !mMustQuit)
             {
                 Debug.Log("1er request");
-                mSTT.Request();
+                Interaction.SpeechToText.Request();
             }
 
-            if(!mTTS.IsSpeaking && mHasAnsweredYes && mSTT.HasFinished & !mSwitchState)
+            if(!Interaction.TextToSpeech.IsSpeaking && mHasAnsweredYes && Interaction.SpeechToText.HasFinished & !mSwitchState)
             {
                 Debug.Log("2eme request");
-                mSTT.Request();
+                Interaction.SpeechToText.Request();
             }
             else if(mSwitchState)
             {
@@ -60,8 +60,8 @@ namespace BuddyApp.ShoppingList
 
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mSTT.OnBestRecognition.Remove(OnBestReco);
-            mSTT.OnEnd.Remove(OnEndReco);
+            Interaction.SpeechToText.OnBestRecognition.Remove(OnBestReco);
+            Interaction.SpeechToText.OnEnd.Remove(OnEndReco);
             ResetTrigger("ChangeState");
         }
 
@@ -73,7 +73,7 @@ namespace BuddyApp.ShoppingList
                 if (iText.ToLower().Contains("oui"))
                 {
                     Debug.Log("c est ok");
-                    mTTS.Say("Ok");
+                    Interaction.TextToSpeech.Say("Ok");
                     mHasAnsweredYes = true;
                     mMustQuit = false;
                     mNbSTTCalled = 0;

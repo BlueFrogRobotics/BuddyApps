@@ -29,7 +29,7 @@ namespace BuddyApp.Reminder
          */
         void Start()
         {
-            mTextToSpeech = BYOS.Instance.TextToSpeech;
+            mTextToSpeech = BYOS.Instance.Interaction.TextToSpeech;
             mAppData = ReminderData.Instance;
         }
 

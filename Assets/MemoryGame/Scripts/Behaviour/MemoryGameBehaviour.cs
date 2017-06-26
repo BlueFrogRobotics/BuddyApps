@@ -23,7 +23,7 @@ namespace BuddyApp.MemoryGame
          */
         void Start()
         {
-            mTextToSpeech = BYOS.Instance.TextToSpeech;
+            mTextToSpeech = BYOS.Instance.Interaction.TextToSpeech;
             mAppData = MemoryGameData.Instance;
         }
 

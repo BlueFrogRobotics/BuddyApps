@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageThesaurus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Entries>
+        <DictionaryEntry>
+            <Key>hello</Key>
+            <BaseValue>Hello</BaseValue>
+            <ClosePhoneticValues>
+                <string>-phonetic-</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Hello</string>
+                <string>Welcome</string>
+                <string>Good morning</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>integer</Key>
+            <BaseValue>An integer</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>string</Key>
+            <BaseValue>A string</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>welcomestate</Key>
+            <BaseValue>Hello, [500] I am going to show you how to use the API, the toaster, and the notifier</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>apistate</Key>
+            <BaseValue>This panel shows you how to use the API. [500] You can click on the right buttons to see what happen when you use our API.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>endapistate</Key>
+            <BaseValue>Ready for the next part ? Let's go !</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>toasterstate</Key>
+            <BaseValue>The toaster allow you to display toasts. [500] Toasts are pre-build panels for user interaction.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>choicestate</Key>
+            <BaseValue>This toast is displaying multiple choices for the user. [500] You can assign to each button a label and a callback</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firstopt</Key>
+            <BaseValue>First option</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>secondopt</Key>
+            <BaseValue>Second option</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>thirdopt</Key>
+            <BaseValue>Third option</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>numpadstate</Key>
+            <BaseValue>This toast allows the user to put a numeric password with 4 digits. [1000] Compose one, two, three, four to pass to the next step</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>onfailnumpad</Key>
+            <BaseValue>You failed [500], try [200] one, [200] two, [200] three, [200] four</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>binarystate</Key>
+            <BaseValue>This toast allows the user to choice between two proposals from a specific question.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>binaryquestion</Key>
+            <BaseValue>Do you like popatoes ?</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>yesstate</Key>
+            <BaseValue>You have choose the yes answer, [500] you can see that it is easy to branch a state machine</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>nostate</Key>
+            <BaseValue>You have choose the no answer, [500] you can see that it is easy to branch in a state machine</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>notifierstate</Key>
+            <BaseValue>Now, let's talk about the notifier. [1000] The notifier is a tool to display notification for the user. [500] There is many kind of notification. [500] There is the Simple one, [500] to display basic information, [3000] The message one [500] to display a received message, [3000] and the alert one [2000]</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>simplenottext</Key>
+            <BaseValue>App updates have been apply on Buddy !</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>messagenottext</Key>
+            <BaseValue>Lenna : "Don't forget to feed the dog !"</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>alertnottext</Key>
+            <BaseValue>Wake up lazzy guy ! It is time to go work !</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>endstate</Key>
+            <BaseValue>This introduction is ending, [500] I hope it will be useful during your application developement [700]. Remember, more features are coming in the Buddy S D K</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>restart</Key>
+            <BaseValue>Restart the introduction ?</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>titleopt</Key>
+            <BaseValue>Some options</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+    </Entries>
+</LanguageThesaurus>

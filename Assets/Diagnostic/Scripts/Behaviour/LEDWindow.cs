@@ -53,7 +53,7 @@ namespace BuddyApp.Diagnostic
 
         void Start()
         {
-            mLED = BYOS.Instance.LED;
+            mLED = BYOS.Instance.Primitive.LED;
 
             sliderH.wholeNumbers = true;
             sliderH.minValue = 0;

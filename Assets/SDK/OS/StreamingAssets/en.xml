@@ -752,8 +752,8 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>erroraccountcreate</Key>
-            <BaseValue>Cannot create new account because another with the same name already exists</BaseValue>
+            <Key>acnamealreadyexists</Key>
+            <BaseValue>An account with the same name already exists</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -782,8 +782,8 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>guess</Key>
-            <BaseValue>Gess</BaseValue>
+            <Key>guest</Key>
+            <BaseValue>Guest</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -882,8 +882,8 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>editaccount</Key>
-            <BaseValue>Edit account</BaseValue>
+            <Key>editaccounts</Key>
+            <BaseValue>Edit accounts</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -1124,6 +1124,26 @@
         <DictionaryEntry>
             <Key>defaultapps</Key>
             <BaseValue>Default apps</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>acnullvalues</Key>
+            <BaseValue>Some fields aren't filled</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>acemailalreadyexists</Key>
+            <BaseValue>An account with the same email already exists</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>

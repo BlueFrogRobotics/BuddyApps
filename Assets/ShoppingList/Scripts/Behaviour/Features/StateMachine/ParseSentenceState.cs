@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
-using SimpleJSON;
 
 namespace BuddyApp.ShoppingList
 {
@@ -26,11 +25,11 @@ namespace BuddyApp.ShoppingList
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mSTT.OnBestRecognition.Add(OnBestReco);
-            mSTT.OnEnd.Add(OnEndReco);
-            mSTT.OnError.Add(OnError);
-            Debug.Log("miaou: "+ mSTT.LastAnswer);
-            mShopManager.ProcessCommand(mSTT.LastAnswer);
+            Interaction.SpeechToText.OnBestRecognition.Add(OnBestReco);
+            Interaction.SpeechToText.OnEnd.Add(OnEndReco);
+            Interaction.SpeechToText.OnError.Add(OnError);
+            Debug.Log("miaou: "+ Interaction.SpeechToText.LastAnswer);
+            mShopManager.ProcessCommand(Interaction.SpeechToText.LastAnswer);
             mHasStartedSTT = false;
             mHasCancelled = false;
             mMustSwitch = false;
@@ -42,15 +41,16 @@ namespace BuddyApp.ShoppingList
         {
             mTimer += Time.deltaTime;
             //if (mHasCancelled || (mHasStartedSTT && mTimer > 5.0f))
-            if(mTimer > 7.0f && (mMustSwitch || (mHasStartedSTT && !mMustSwitch) || mHasCancelled) && mSTT.HasFinished) 
+            if(mTimer > 7.0f && (mMustSwitch || (mHasStartedSTT && !mMustSwitch) || mHasCancelled)
+                && Interaction.SpeechToText.HasFinished) 
             {
                 Trigger("ChangeState");
             }
 
-            if (!mHasStartedSTT && !mTTS.IsSpeaking)
+            if (!mHasStartedSTT && !Interaction.TextToSpeech.IsSpeaking)
             {
                 Debug.Log("request parse sentence");
-                mSTT.Request();
+                Interaction.SpeechToText.Request();
                 mHasStartedSTT = true;
             }
             
@@ -59,9 +59,9 @@ namespace BuddyApp.ShoppingList
 
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mSTT.OnBestRecognition.Remove(OnBestReco);
-            mSTT.OnEnd.Remove(OnEndReco);
-            mSTT.OnError.Remove(OnError);
+            Interaction.SpeechToText.OnBestRecognition.Remove(OnBestReco);
+            Interaction.SpeechToText.OnEnd.Remove(OnEndReco);
+            Interaction.SpeechToText.OnError.Remove(OnError);
             ResetTrigger("ChangeState");
         }
        

@@ -23,13 +23,13 @@ namespace BuddyApp.MemoryGame
 			Debug.Log("Player Failure !");
 
 
-			BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
-			mTTS.Silence(1000, true);
-			mMood.Set(MoodType.SAD);
-			//link.mAnimationManager.Sigh();
-			mTTS.Say(mDictionary.GetRandomString("failure"), true);
-			mTTS.Silence(1000);
-			mTTS.Say(mDictionary.GetRandomString("restart"), true);
+			Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
+            Interaction.TextToSpeech.Silence(1000, true);
+            Interaction.Mood.Set(MoodType.SAD);
+            //link.mAnimationManager.Sigh();
+            Interaction.TextToSpeech.Say(Dictionary.GetRandomString("failure"), true);
+            Interaction.TextToSpeech.Silence(1000);
+            Interaction.TextToSpeech.Say(Dictionary.GetRandomString("restart"), true);
 		}
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -41,7 +41,7 @@ namespace BuddyApp.MemoryGame
 			//}
 
 			// Restart from start
-			if (mTTS.HasFinishedTalking) {
+			if (Interaction.TextToSpeech.HasFinishedTalking) {
 				//link.ResetLevel();
 				Debug.Log("failure Current lvl: " + mGameLevels.mCurrentLevel);
 				animator.SetTrigger("NextLevel");

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using OpenCVUnity;
 using Buddy;
-using Buddy.Features.Media;
 
 namespace BuddyApp.Guardian
 {
@@ -22,7 +21,7 @@ namespace BuddyApp.Guardian
 
             mBufferVideo = new Queue<Mat>();
             mMaxBufferSize = mFPS * mNumSec;
-            mCam = BYOS.Instance.RGBCam;
+            mCam = BYOS.Instance.Primitive.RGBCam;
             if (!mCam.IsOpen)
                 mCam.Open(RGBCamResolution.W_176_H_144);
         }

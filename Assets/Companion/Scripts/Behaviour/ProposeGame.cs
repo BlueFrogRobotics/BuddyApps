@@ -1,6 +1,5 @@
 ﻿using Buddy;
 using Buddy.Command;
-using Buddy.Features.Stimuli;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,8 +20,6 @@ namespace BuddyApp.Companion
 		public override void Start()
 		{
 			//mSensorManager = BYOS.Instance.SensorManager;
-
-			mSensorManager = GetComponent<StimuliManager>();
 			mState = GetComponentInGameObject<Text>(0);
 			mKeyOptions = new List<string>();
 			mKeyOptions.Add("memory");
@@ -40,8 +37,8 @@ namespace BuddyApp.Companion
 			Debug.Log("state: Propose Game");
 			mTime = 0F;
 			mNoGame = false;
-			mMood.Set(MoodType.HAPPY);
-			BYOS.Instance.DialogManager.Ask(OnAnswer, "askgame", 0, mKeyOptions);
+            Interaction.Mood.Set(MoodType.HAPPY);
+            Interaction.DialogManager.Ask(OnAnswer, "askgame", 0, mKeyOptions);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

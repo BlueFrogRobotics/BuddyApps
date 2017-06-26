@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SimpleJSON;
+
+using Buddy;
 
 namespace BuddyApp.ShoppingList
 {
