@@ -9,7 +9,8 @@ namespace BuddyApp.FreezeDance
     public class FreezeDanceActivity : AAppActivity
     {
 		public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
-		{ 
+		{
+            BYOS.Instance.Resources.LoadAtlas("os_AtlasUI");
 			Utils.LogI(LogContext.APP, "On loading...");
 		}
 

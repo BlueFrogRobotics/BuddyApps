@@ -6,8 +6,9 @@ using Buddy.UI;
 
 namespace BuddyApp.FreezeDance
 {
-    public class WinState : AStateMachineBehaviour
+    public class RestartState : AStateMachineBehaviour
     {
+        private MusicPlayer mMusicPlayer;
 
         public override void Start()
         {
@@ -15,10 +16,14 @@ namespace BuddyApp.FreezeDance
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Interaction.TextToSpeech.SayKey("won");
-            Interaction.Mood.Set(MoodType.HAPPY);
-            Toaster.Display<VictoryToast>().With("youpi" );
-            StartCoroutine(Restart());
+            Interaction.TextToSpeech.SayKey("playagain");
+            Interaction.Mood.Set(MoodType.NEUTRAL);
+            mMusicPlayer = GetComponent<MusicPlayer>();
+            Toaster.Display<BinaryQuestionToast>().With(
+                "restart",
+                () => Restart(),
+                () => QuitApp()
+            );
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -29,11 +34,10 @@ namespace BuddyApp.FreezeDance
         {
         }
 
-        private IEnumerator Restart()
+        private void Restart()
         {
-            yield return new WaitForSeconds(5.0f);
-            Trigger("Restart");
-            yield return null;
+            mMusicPlayer.Restart();
+            Trigger("Start");
         }
     }
 }

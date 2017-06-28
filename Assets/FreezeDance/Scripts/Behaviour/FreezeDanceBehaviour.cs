@@ -32,8 +32,6 @@ namespace BuddyApp.FreezeDance
         void Awake()
         {
             mDico = BYOS.Instance.Dictionary;
-            mTTS = BYOS.Instance.TextToSpeech;
-            mFace = BYOS.Instance.Face;
         }
 
         /*

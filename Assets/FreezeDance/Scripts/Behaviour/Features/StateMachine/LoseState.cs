@@ -1,31 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Buddy;
+using Buddy.UI;
 
 namespace BuddyApp.FreezeDance
 {
     public class LoseState : AStateMachineBehaviour
     {
 
-        override public void Start()
+        public override void Start()
         {
-
         }
 
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
-
+            Interaction.TextToSpeech.SayKey("lost");
+            Interaction.Mood.Set(MoodType.SAD);
+            Toaster.Display<DefeatToast>().With("perdu");
+            StartCoroutine(Restart());
         }
 
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
         }
 
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+        }
 
+        private IEnumerator Restart()
+        {
+            yield return new WaitForSeconds(5.0f);
+            Trigger("Restart");
+            yield return null;
         }
     }
 }

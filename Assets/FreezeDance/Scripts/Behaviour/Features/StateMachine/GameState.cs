@@ -1,58 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Buddy;
+using Buddy.UI;
 
 namespace BuddyApp.FreezeDance
 {
     public class GameState : AStateMachineBehaviour
     {
-        override public void Start()
-        {
+        private MusicPlayer mMusicPlayer;
+        private float mTime;
+        int mRandomStopDelay;
+        private bool mEnd = false;
 
-        }
-
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void Start()
         {
             
-
         }
 
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //mIsMoving = motionGame.GetComponent<MotionGame>().IsMoving();
-            //if (mIsOnGame)
-            //{
-
-            //    if (speaker.isPlaying)
-            //    {
-            //        mElapsedTime += Time.deltaTime;
-            //        float valueX = mElapsedTime / mAudioClipLength;
-            //        progressBar.GetComponent<RectTransform>().anchorMax = new Vector2(valueX, 0);
-            //    }
-            //    float lTime = Time.time;
-            //    if (!mIsSetRandomStop)
-            //        mRandomStopDelay = Random.Range(10, 30);
-            //    if (lTime - mTime > mRandomStopDelay)
-            //        RandomStop();
-            //    if (!mStartMusic)
-            //    {
-
-            //        if (mIsMoving && !mIsOccupied && mPauseMusic)
-            //            StartCoroutine(SetAngry());
-            //        if (!mIsMoving && !mIsOccupied && mPauseMusic)
-            //        {
-            //            StartCoroutine(SetNeutral());
-            //            if (mChrono)
-            //                StartCoroutine(chrono());
-            //        }
-            //    }
-            //}
+            mMusicPlayer = GetComponent<MusicPlayer>();
+            mMusicPlayer.Play();
+            mTime = Time.time;
+            mRandomStopDelay = 0;
+            mEnd = false;
+            Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            float lTime = Time.time;
+            if (mRandomStopDelay==0)
+                mRandomStopDelay = Random.Range(5, 10);
 
+            //Debug.Log("!!!!!!time " + (lTime - mTime)+" random: "+ mRandomStopDelay);
+            if (!mEnd && lTime - mTime > mRandomStopDelay)
+            {
+                mEnd = true;
+                mMusicPlayer.Pause();
+                Trigger("Detection");
+            }
+
+            if (mMusicPlayer.IsStopped())
+            {
+                Trigger("Win");
+            }
         }
 
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            ResetTrigger("Detection");
+            ResetTrigger("Win");
+        }
     }
 }
