@@ -38,7 +38,7 @@ namespace BuddyApp.FreezeDance
             if (!mEnd && lTime - mTime > mRandomStopDelay)
             {
                 mEnd = true;
-                mMusicPlayer.Pause();
+                mMusicPlayer.Pause(Dictionary.GetString("dontmove"));
                 Trigger("Detection");
             }
 

@@ -57,11 +57,15 @@ namespace BuddyApp.FreezeDance
             speaker.Play();
         }
 
-        public void Pause()
+        /// <summary>
+        /// Pause the music and show the pause icon
+        /// </summary>
+        /// <param name="iTitle">title that will be shown above the pause icon</param>
+        public void Pause(string iTitle)
         {
             speaker.Pause();
             pauseSprite = BYOS.Instance.Resources.GetSprite("Pause");
-            BYOS.Instance.Toaster.Display<IconToast>().With("bouge pas!!!", pauseSprite, true);
+            BYOS.Instance.Toaster.Display<IconToast>().With(iTitle, pauseSprite, true);
         }
 
         public bool IsPlaying()

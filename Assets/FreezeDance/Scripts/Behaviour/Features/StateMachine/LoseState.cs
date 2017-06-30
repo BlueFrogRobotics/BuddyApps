@@ -17,7 +17,7 @@ namespace BuddyApp.FreezeDance
         {
             Interaction.TextToSpeech.SayKey("lost");
             Interaction.Mood.Set(MoodType.SAD);
-            Toaster.Display<DefeatToast>().With("perdu");
+            Toaster.Display<DefeatToast>().With(Dictionary.GetString("lost"));
             StartCoroutine(Restart());
         }
 
