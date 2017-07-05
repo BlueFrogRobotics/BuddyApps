@@ -17,7 +17,7 @@ namespace BuddyApp.FreezeDance
         {
             Interaction.TextToSpeech.SayKey("won");
             Interaction.Mood.Set(MoodType.HAPPY);
-            Toaster.Display<VictoryToast>().With(Dictionary.GetString("win"));
+            Toaster.Display<VictoryToast>().With(Dictionary.GetString("won"));
             StartCoroutine(Restart());
         }
 
