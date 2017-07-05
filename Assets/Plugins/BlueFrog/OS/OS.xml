@@ -298,6 +298,11 @@
             True if the face is not processing any expression swap / transition / interaction
             </summary>
         </member>
+        <member name="P:Buddy.Face.Locked">
+            <summary>
+            Determine is Buddy face can be changed
+            </summary>
+        </member>
         <member name="M:Buddy.Face.SetExpression(Buddy.MoodType)">
             <summary>
             Ask the face to switch to the specified mood.
@@ -389,6 +394,11 @@
             <summary>
             Light-Emitting Diode component of the robot. Corresponding to the left arm base light, 
             the right arm base light and the robot heart light.
+            </summary>
+        </member>
+        <member name="P:Buddy.LED.Locked">
+            <summary>
+            Determine is Buddy leds can be changed
             </summary>
         </member>
         <member name="M:Buddy.LED.SetBodyLight(Buddy.LEDColor)">
@@ -1575,6 +1585,11 @@
             Speak recognition of the robot
             </summary>
         </member>
+        <member name="P:Buddy.Interaction.DialogManager">
+            <summary>
+            Speech to that display toast if no answer was understood
+            </summary>
+        </member>
         <member name="P:Buddy.Interaction.TextToSpeech">
             <summary>
             Vocal synthesis of the robot
@@ -1593,6 +1608,21 @@
         <member name="T:Buddy.Mood">
             <summary>
             Mood element of the robot. It is an helper component combining Face, LED and moving commands.
+            </summary>
+        </member>
+        <member name="P:Buddy.Mood.Locked">
+            <summary>
+            Determine is Buddy mood can be changed
+            </summary>
+        </member>
+        <member name="P:Buddy.Mood.CurrentMood">
+            <summary>
+            Retrieve the current buddy mood
+            </summary>
+        </member>
+        <member name="P:Buddy.Mood.LastMood">
+            <summary>
+            Retrive the last buddy mood
             </summary>
         </member>
         <member name="M:Buddy.Mood.Set(Buddy.MoodType,System.Boolean,System.Boolean)">
@@ -3069,6 +3099,11 @@
             Current installed app version
             </summary>
         </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionType">
+            <summary>
+            Current installed app version type
+            </summary>
+        </member>
         <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionName">
             <summary>
             Current installed app version name
@@ -3145,6 +3180,61 @@
             Quit the current app and load the default app (if load default is enabled)
             </summary>
         </member>
+        <member name="T:Buddy.Internal.LocalRobotPref">
+            <summary>
+            Represents the robot preferences
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.LocalRobotPref.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.EnableAppAutoUpdate">
+            <summary>
+            Does the robot have to auto check for apps updates
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.EnableDLBuiltinApps">
+            <summary>
+            Does the robot have to download builtin apps
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.EnableSystemAutoUpdate">
+            <summary>
+            Does the robot have to auto check for system updates
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.AutoLockScreen">
+            <summary>
+            Does the robot authorize the auto lock screen
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.LockScreenTimer">
+            <summary>
+            The time in seconds user have to type pin
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.Pwd">
+            <summary>
+            Password of the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.LastLoggedAccount">
+            <summary>
+            Last account which was logged on the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.LastOdometryPosition">
+            <summary>
+            Last odometry position of the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.LastComputedPosition">
+            <summary>
+            Last computed position of the robot
+            </summary>
+        </member>
         <member name="T:Buddy.FaceCascadeTracker">
             <summary>
             Face tracker using continuous Haar cascade feature and local CascadeClassifier algorithm
@@ -3165,6 +3255,80 @@
             Called at each valuable frame.
             </summary>
         </member>
+        <member name="T:Buddy.Wikipedia">
+            <summary>
+            Wikipedia data base API access
+            </summary>
+        </member>
+        <member name="M:Buddy.Wikipedia.SearchFor(System.String,System.Action{System.String})">
+            <summary>
+            Process a search abou the corresponding word
+            </summary>
+            <param name="iWord">The word to define</param>
+            <param name="iCallback">Callback with the retrieve response</param>
+        </member>
+        <member name="T:Buddy.WeatherType">
+            <summary>
+            Different weather type
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.SUNNY">
+            <summary>
+            Sunny weather
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.OVERCAST">
+            <summary>
+            Overcast weather
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.CLOUDY">
+            <summary>
+            Cloudy weather
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.RAIN">
+            <summary>
+            Rainny weather
+            </summary>
+        </member>
+        <member name="T:Buddy.WeatherInfo">
+            <summary>
+            This class represents the weather at a specific hour
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.Location">
+            <summary>
+            Location of the weather info
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.Hour">
+            <summary>
+            Hour of the day
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.Type">
+            <summary>
+            Weather type (Sunny, overcast, cloudy ...)
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.Temperature">
+            <summary>
+            The temperature in degrees
+            </summary>
+        </member>
+        <member name="T:Buddy.Weather">
+            <summary>
+            Weather API of the wished location
+            </summary>
+        </member>
+        <member name="M:Buddy.Weather.At(System.String,System.Action{Buddy.WeatherInfo[]})">
+            <summary>
+            Search for the weather of the current day
+            </summary>
+            <param name="iLocation">Asked location</param>
+            <param name="iCallback">Callback with Weather info</param>
+        </member>
         <member name="T:Buddy.WebService">
             <summary>
             Class that contains all remote API access (Email, Twitter, Facebook...)
@@ -3173,6 +3337,21 @@
         <member name="P:Buddy.WebService.EMailSender">
             <summary>
             Email protocol to send emails
+            </summary>
+        </member>
+        <member name="P:Buddy.WebService.Weather">
+            <summary>
+            Weather API of the wished location
+            </summary>
+        </member>
+        <member name="P:Buddy.WebService.Wikipedia">
+            <summary>
+            Wikipedia data base API access
+            </summary>
+        </member>
+        <member name="P:Buddy.WebService.Twitter">
+            <summary>
+            Twitter API access to send tweet with or without picture attached
             </summary>
         </member>
         <member name="M:Buddy.WebService.Clear">
@@ -5950,61 +6129,6 @@
             Access to the procedural memory of Buddy
             </summary>
         </member>
-        <member name="T:Buddy.LocalRobotPref">
-            <summary>
-            Represents the robot preferences
-            </summary>
-        </member>
-        <member name="M:Buddy.LocalRobotPref.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="P:Buddy.LocalRobotPref.EnableAppAutoUpdate">
-            <summary>
-            Does the robot have to auto check for apps updates
-            </summary>
-        </member>
-        <member name="P:Buddy.LocalRobotPref.EnableDLBuiltinApps">
-            <summary>
-            Does the robot have to download builtin apps
-            </summary>
-        </member>
-        <member name="P:Buddy.LocalRobotPref.EnableSystemAutoUpdate">
-            <summary>
-            Does the robot have to auto check for system updates
-            </summary>
-        </member>
-        <member name="P:Buddy.LocalRobotPref.AutoLockScreen">
-            <summary>
-            Does the robot authorize the auto lock screen
-            </summary>
-        </member>
-        <member name="P:Buddy.LocalRobotPref.LockScreenTimer">
-            <summary>
-            The time in seconds user have to type pin
-            </summary>
-        </member>
-        <member name="P:Buddy.LocalRobotPref.Pwd">
-            <summary>
-            Password of the robot
-            </summary>
-        </member>
-        <member name="P:Buddy.LocalRobotPref.LastLoggedAccount">
-            <summary>
-            Last account which was logged on the robot
-            </summary>
-        </member>
-        <member name="P:Buddy.LocalRobotPref.LastOdometryPosition">
-            <summary>
-            Last odometry position of the robot
-            </summary>
-        </member>
-        <member name="P:Buddy.LocalRobotPref.LastComputedPosition">
-            <summary>
-            Last computed position of the robot
-            </summary>
-        </member>
         <member name="T:Buddy.ProcMemoryManager">
             <summary>
             This class represents the procedural memory of Buddy
@@ -6389,28 +6513,23 @@
         </member>
         <member name="M:Buddy.Dictionary.ContainsPhonetic(System.String,System.String,Buddy.LoadContext)">
             <summary>
-            Proceed to a GetPhoneticsStrings(iKey, iContext = APP) and checks if the iRef word is contained in the returned array
+            Proceed to a GetPhoneticsStrings(iKey, iContext = APP) and checks if one element on the closephonetic array is contained in iRef
             </summary>
-            <param name="iRef">The word to compare to each word into the list</param>
+            <param name="iRef">The sentence to compare to each word into the list</param>
             <param name="iKey">The key corresponding to the wished list</param>
             <param name="iContext">The context corresponding to the dictionary to use</param>
-            <returns>True if the iRef word (not null and not empty) is in the close phonetic array, false otherwise</returns>
+            <returns>True if the one element of the closephonetic array in contained in iRef sentence (not null and not empty), false otherwise</returns>
         </member>
         <member name="T:Buddy.ResourceManager">
             <summary>
             Allow you to retrieve the full path from the name of the raw file
             </summary>
         </member>
-        <member name="M:Buddy.ResourceManager.#ctor">
+        <member name="M:Buddy.ResourceManager.PathToRaw(System.String,Buddy.LoadContext)">
             <summary>
-            Base constructor
+            Allow you to retrieve the full path from the name of the raw file / directory
             </summary>
-        </member>
-        <member name="M:Buddy.ResourceManager.PathTo(System.String,Buddy.LoadContext)">
-            <summary>
-            Allow you to retrieve the full path from the name of the raw file in a StreamingAsset folder
-            </summary>
-            <param name="iFilename">Name of the file</param>
+            <param name="iName">Name of the file / directory</param>
             <param name="iContext">Loading context. Are you requiering this resource from an app or from the OS ?</param>
             <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
         </member>
@@ -6455,7 +6574,7 @@
             <param name="iAssetName">The asset name</param>
             <returns>True if the asset has been correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:Buddy.ResourceManager.DefaultStreamingAssetFilePath(System.String)">
+        <member name="M:Buddy.ResourceManager.StreamingAssetFilePath(System.String)">
             <summary>
             Gets the absolute path of the file contained in the native StreamingAssets folder of the base APK.
             </summary>
@@ -6599,51 +6718,6 @@
             Close the current displayed window
             </summary>
         </member>
-        <member name="T:Buddy.UI.WeatherType">
-            <summary>
-            Different weather type
-            </summary>
-        </member>
-        <member name="F:Buddy.UI.WeatherType.SUNNY">
-            <summary>
-            Sunny weather
-            </summary>
-        </member>
-        <member name="F:Buddy.UI.WeatherType.OVERCAST">
-            <summary>
-            Overcast weather
-            </summary>
-        </member>
-        <member name="F:Buddy.UI.WeatherType.CLOUDY">
-            <summary>
-            Cloudy weather
-            </summary>
-        </member>
-        <member name="F:Buddy.UI.WeatherType.RAIN">
-            <summary>
-            Rainny weather
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.WeatherInfo">
-            <summary>
-            This class represents the weather at a specific hour
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.WeatherInfo.Hour">
-            <summary>
-            Hour of the day
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.WeatherInfo.Type">
-            <summary>
-            Weather type (Sunny, overcast, cloudy ...)
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.WeatherInfo.Temperature">
-            <summary>
-            The temperature in degrees
-            </summary>
-        </member>
         <member name="T:Buddy.UI.WeatherNotElement">
             <summary>
             Represent the visual weather element
@@ -6726,12 +6800,12 @@
             Inner method called after click on validate. Do not call it manually
             </summary>
         </member>
-        <member name="T:Buddy.UI.MeteoNot">
+        <member name="T:Buddy.UI.WeatherNot">
             <summary>
             Display a weather notification on the Top of the robot screen
             </summary>
         </member>
-        <member name="M:Buddy.UI.MeteoNot.With(System.Int32,System.String,System.String,System.String,System.String,Buddy.UI.WeatherInfo[])">
+        <member name="M:Buddy.UI.WeatherNot.With(System.Int32,System.String,System.String,System.String,System.String,Buddy.WeatherInfo[])">
             <summary>
             Specify parameters for weather notification
             </summary>

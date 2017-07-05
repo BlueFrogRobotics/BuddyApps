@@ -283,14 +283,7 @@
             Create a zip file with the specified files
             </summary>
             <param name="iZipFileName">Zip file location</param>
-            <param name="iFiles">File path to add into the zip</param>
-        </member>
-        <member name="M:Buddy.Utils.CompressFolder(System.String,System.String)">
-            <summary>
-            Create a zip file with the specified files
-            </summary>
-            <param name="iZipFileName">Zip file location</param>
-            <param name="iFolder">Folder path to add into the zip</param>
+            <param name="iFilesAndFolder">File or folder path to add into the zip</param>
         </member>
         <member name="M:Buddy.Utils.UpperFirst(System.String)">
             <summary>
