@@ -4,6 +4,101 @@
         <name>OS</name>
     </assembly>
     <members>
+        <member name="T:Buddy.RoombaNavigation">
+            <summary>
+            Ultra basic random navigation for navigation tests
+            </summary>
+            <summary>
+            Ultra basic random navigation for navigation tests
+            </summary>
+        </member>
+        <member name="F:Buddy.RoombaNavigation.mMotors">
+            <summary>
+            Motion control of the robot.
+            </summary>
+        </member>
+        <member name="F:Buddy.RoombaNavigation.mInfraredSensors">
+            <summary>
+            Infrared sensors.
+            </summary>
+        </member>
+        <member name="F:Buddy.RoombaNavigation.mUltrasoundSensors">
+            <summary>
+            Ultra sound sensors.
+            </summary>
+        </member>
+        <member name="F:Buddy.RoombaNavigation.mVelocity">
+            <summary>
+            The current setted velocity of the robot
+            </summary>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.Awake">
+            <summary>
+            Called once at the start
+            </summary>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.Update">
+            <summary>
+            Called at each freame
+            </summary>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.PreventCollision">
+            <summary>
+            Stops the robot and change the direction
+            </summary>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.RandomDirection">
+            <summary>
+            Return a random direction
+            </summary>
+            <returns>A random direction in degrees</returns>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.AnyObstructions">
+            <summary>
+            Checks for any obstruction
+            </summary>
+            <returns>True for any obstruction</returns>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.AnyObstructionsInfrared">
+            <summary>
+            Checks if infrared sensors detect obstructions
+            </summary>
+            <returns>True for any obstruction</returns>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.AnyObstructionsUltrasound">
+            <summary>
+            Checks if ultrasound sensors detect obstructions
+            </summary>
+            <returns>True for any obstruction</returns>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.IsCollisionEminent(System.Single)">
+            <summary>
+            Detect if the collision is eminent
+            </summary>
+            <param name="iCollisionDistance">Distance detected by the sensor</param>
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.MoveBuddy">
+            <summary>
+            Makes Buddy goes forward at mVelocity
+            </summary>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.FaceDirection(System.Single)">
+            <summary>
+            Change the orientation of the robot
+            </summary>
+            <param name="iDirection">The orientation in degrees</param>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.Enable">
+            <summary>
+            Enable the roomba navigation
+            </summary>
+        </member>
+        <member name="M:Buddy.RoombaNavigation.Disable">
+            <summary>
+            Disable the roomba navigation
+            </summary>
+        </member>
         <member name="T:Buddy.Arduino">
             <summary>
             Arduino component of the robot
@@ -1989,98 +2084,6 @@
             Clear the navigation components
             </summary>
         </member>
-        <member name="T:Buddy.RoombaNavigation">
-            <summary>
-            Ultra basic random navigation for navigation tests
-            </summary>
-        </member>
-        <member name="F:Buddy.RoombaNavigation.mMotors">
-            <summary>
-            Motion control of the robot.
-            </summary>
-        </member>
-        <member name="F:Buddy.RoombaNavigation.mInfraredSensors">
-            <summary>
-            Infrared sensors.
-            </summary>
-        </member>
-        <member name="F:Buddy.RoombaNavigation.mUltrasoundSensors">
-            <summary>
-            Ultra sound sensors.
-            </summary>
-        </member>
-        <member name="F:Buddy.RoombaNavigation.mVelocity">
-            <summary>
-            The current setted velocity of the robot
-            </summary>
-        </member>
-        <member name="M:Buddy.RoombaNavigation.Awake">
-            <summary>
-            Called once at the start
-            </summary>
-        </member>
-        <member name="M:Buddy.RoombaNavigation.Update">
-            <summary>
-            Called at each freame
-            </summary>
-        </member>
-        <member name="M:Buddy.RoombaNavigation.Enable">
-            <summary>
-            Enable the roomba navigation
-            </summary>
-        </member>
-        <member name="M:Buddy.RoombaNavigation.Disable">
-            <summary>
-            Disable the roomba navigation
-            </summary>
-        </member>
-        <member name="M:Buddy.RoombaNavigation.PreventCollision">
-            <summary>
-            Stops the robot and change the direction
-            </summary>
-        </member>
-        <member name="M:Buddy.RoombaNavigation.RandomDirection">
-            <summary>
-            Return a random direction
-            </summary>
-            <returns>A random direction in degrees</returns>
-        </member>
-        <member name="M:Buddy.RoombaNavigation.AnyObstructions">
-            <summary>
-            Checks for any obstruction
-            </summary>
-            <returns>True for any obstruction</returns>
-        </member>
-        <member name="M:Buddy.RoombaNavigation.AnyObstructionsInfrared">
-            <summary>
-            Checks if infrared sensors detect obstructions
-            </summary>
-            <returns>True for any obstruction</returns>
-        </member>
-        <member name="M:Buddy.RoombaNavigation.AnyObstructionsUltrasound">
-            <summary>
-            Checks if ultrasound sensors detect obstructions
-            </summary>
-            <returns>True for any obstruction</returns>
-        </member>
-        <member name="M:Buddy.RoombaNavigation.IsCollisionEminent(System.Single)">
-            <summary>
-            Detect if the collision is eminent
-            </summary>
-            <param name="iCollisionDistance">Distance detected by the sensor</param>
-            <returns></returns>
-        </member>
-        <member name="M:Buddy.RoombaNavigation.MoveBuddy">
-            <summary>
-            Makes Buddy goes forward at mVelocity
-            </summary>
-        </member>
-        <member name="M:Buddy.RoombaNavigation.FaceDirection(System.Single)">
-            <summary>
-            Change the orientation of the robot
-            </summary>
-            <param name="iDirection">The orientation in degrees</param>
-        </member>
         <member name="T:Buddy.ADetector">
             <summary>
             Abstract call which define a detector
@@ -3259,6 +3262,9 @@
             <summary>
             Wikipedia data base API access
             </summary>
+            <summary>
+            Wikipedia data base API access
+            </summary>
         </member>
         <member name="M:Buddy.Wikipedia.SearchFor(System.String,System.Action{System.String})">
             <summary>
@@ -3266,6 +3272,115 @@
             </summary>
             <param name="iWord">The word to define</param>
             <param name="iCallback">Callback with the retrieve response</param>
+        </member>
+        <member name="T:Buddy.Weather">
+            <summary>
+            Weather API of the wished location
+            </summary>
+            <summary>
+            Weather API of the wished location
+            </summary>
+        </member>
+        <member name="M:Buddy.Weather.At(System.String,System.Action{Buddy.WeatherInfo[]})">
+            <summary>
+            Search for the weather of the current day
+            </summary>
+            <param name="iLocation">Asked location</param>
+            <param name="iCallback">Callback with Weather info</param>
+        </member>
+        <member name="T:Buddy.SMTP">
+            <summary>
+            Enum of the different smtp that can be used to send mail
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.GMAIL">
+            <summary>
+            Gmail stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.YAHOO">
+            <summary>
+            Yahoo stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.HOTMAIL">
+            <summary>
+            Hotmail stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.BFR">
+            <summary>
+            BFR stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.ORANGE">
+            <summary>
+            Orange stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.FREE">
+            <summary>
+            Free stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.OUTLOOK">
+            <summary>
+            Outlook stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.SFR">
+            <summary>
+            SFR stmp
+            </summary>
+        </member>
+        <member name="F:Buddy.SMTP.WANADOO">
+            <summary>
+            Wanadoo stmp
+            </summary>
+        </member>
+        <member name="T:Buddy.EMailSender">
+            <summary>
+            Class that connect to an smtp server to send a mail
+            </summary>
+            <summary>
+            Class that connect to an smtp server to send a mail
+            </summary>
+        </member>
+        <member name="M:Buddy.EMailSender.Send(System.String,System.String,Buddy.SMTP,Buddy.EMail,System.Action)">
+            <summary>
+            Create an smtp client with the user address and send the mail. This method will do nothing if a previous mail has not yet been sent
+            </summary>
+            <param name="iFromAddress">mail adress of the user</param>
+            <param name="iFromPwd">password of the mail adress</param>
+            <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
+            <param name="iEMail">mail that will be send</param>
+        </member>
+        <member name="M:Buddy.EMailSender.Send(System.String,System.String,System.String,Buddy.EMail,System.Action)">
+            <summary>
+            Create an smtp client with the user address and send the mail. This method will do nothing if a previous mail has not yet been sent
+            </summary>
+            <param name="iFromAddress">mail adress of the user</param>
+            <param name="iFromPwd">password of the mail adress</param>
+            <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
+            <param name="iEMail">mail that will be send</param>
+        </member>
+        <member name="M:Buddy.EMailSender.Send(System.String,System.String,System.String,System.Collections.Generic.List{Buddy.EMail},System.Action)">
+            <summary>
+            Create an smtp client with the user address and send the mail. This method will do nothing if a previous mail has not yet been sent
+            </summary>
+            <param name="iFromAddress">mail adress of the user</param>
+            <param name="iFromPwd">password of the mail adress</param>
+            <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
+            <param name="iEMails">mails that will be send</param>
+        </member>
+        <member name="M:Buddy.EMailSender.Send(System.String,System.String,Buddy.SMTP,System.Collections.Generic.List{Buddy.EMail},System.Action)">
+            <summary>
+            Create an smtp client with the user address and send the mail. This method will do nothing if a previous mail has not yet been sent
+            </summary>
+            <param name="iFromAddress">mail adress of the user</param>
+            <param name="iFromPwd">password of the mail adress</param>
+            <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
+            <param name="iEMails">mails that will be send</param>
         </member>
         <member name="T:Buddy.WeatherType">
             <summary>
@@ -3316,18 +3431,6 @@
             <summary>
             The temperature in degrees
             </summary>
-        </member>
-        <member name="T:Buddy.Weather">
-            <summary>
-            Weather API of the wished location
-            </summary>
-        </member>
-        <member name="M:Buddy.Weather.At(System.String,System.Action{Buddy.WeatherInfo[]})">
-            <summary>
-            Search for the weather of the current day
-            </summary>
-            <param name="iLocation">Asked location</param>
-            <param name="iCallback">Callback with Weather info</param>
         </member>
         <member name="T:Buddy.WebService">
             <summary>
@@ -3431,97 +3534,6 @@
             <summary>
             Clear the list of file attached to the mail
             </summary>
-        </member>
-        <member name="T:Buddy.SMTP">
-            <summary>
-            Enum of the different smtp that can be used to send mail
-            </summary>
-        </member>
-        <member name="F:Buddy.SMTP.GMAIL">
-            <summary>
-            Gmail stmp
-            </summary>
-        </member>
-        <member name="F:Buddy.SMTP.YAHOO">
-            <summary>
-            Yahoo stmp
-            </summary>
-        </member>
-        <member name="F:Buddy.SMTP.HOTMAIL">
-            <summary>
-            Hotmail stmp
-            </summary>
-        </member>
-        <member name="F:Buddy.SMTP.BFR">
-            <summary>
-            BFR stmp
-            </summary>
-        </member>
-        <member name="F:Buddy.SMTP.ORANGE">
-            <summary>
-            Orange stmp
-            </summary>
-        </member>
-        <member name="F:Buddy.SMTP.FREE">
-            <summary>
-            Free stmp
-            </summary>
-        </member>
-        <member name="F:Buddy.SMTP.OUTLOOK">
-            <summary>
-            Outlook stmp
-            </summary>
-        </member>
-        <member name="F:Buddy.SMTP.SFR">
-            <summary>
-            SFR stmp
-            </summary>
-        </member>
-        <member name="F:Buddy.SMTP.WANADOO">
-            <summary>
-            Wanadoo stmp
-            </summary>
-        </member>
-        <member name="T:Buddy.EMailSender">
-            <summary>
-            Class that connect to an smtp server to send a mail
-            </summary>
-        </member>
-        <member name="M:Buddy.EMailSender.Send(System.String,System.String,Buddy.SMTP,Buddy.EMail,System.Action)">
-            <summary>
-            Create an smtp client with the user address and send the mail. This method will do nothing if a previous mail has not yet been sent
-            </summary>
-            <param name="iFromAddress">mail adress of the user</param>
-            <param name="iFromPwd">password of the mail adress</param>
-            <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
-            <param name="iEMail">mail that will be send</param>
-        </member>
-        <member name="M:Buddy.EMailSender.Send(System.String,System.String,System.String,Buddy.EMail,System.Action)">
-            <summary>
-            Create an smtp client with the user address and send the mail. This method will do nothing if a previous mail has not yet been sent
-            </summary>
-            <param name="iFromAddress">mail adress of the user</param>
-            <param name="iFromPwd">password of the mail adress</param>
-            <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
-            <param name="iEMail">mail that will be send</param>
-        </member>
-        <member name="M:Buddy.EMailSender.Send(System.String,System.String,System.String,System.Collections.Generic.List{Buddy.EMail},System.Action)">
-            <summary>
-            Create an smtp client with the user address and send the mail. This method will do nothing if a previous mail has not yet been sent
-            </summary>
-            <param name="iFromAddress">mail adress of the user</param>
-            <param name="iFromPwd">password of the mail adress</param>
-            <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
-            <param name="iEMails">mails that will be send</param>
-        </member>
-        <member name="M:Buddy.EMailSender.Send(System.String,System.String,Buddy.SMTP,System.Collections.Generic.List{Buddy.EMail},System.Action)">
-            <summary>
-            Create an smtp client with the user address and send the mail. This method will do nothing if a previous mail has not yet been sent
-            </summary>
-            <param name="iFromAddress">mail adress of the user</param>
-            <param name="iFromPwd">password of the mail adress</param>
-            <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
-            <param name="iEMails">mails that will be send</param>
         </member>
         <member name="T:Buddy.AccelerometerStimulus">
             <summary>
@@ -4137,63 +4149,383 @@
             Clear the Primitives Buddy components
             </summary>
         </member>
-        <member name="T:Buddy.Command.InstallAppCmd">
+        <member name="T:Buddy.AAppActivity">
             <summary>
-            When executed : Install the specified app
+            Activity base class to receive app event and managed app base methods (quit, load scene...). Do never change the name of your {APP_NAME}Activity class.
+            </summary>
+            <summary>
+            Activity base class to receive app event and managed app base methods (quit, load scene...). Do never change the name of your {APP_NAME}Activity class.
             </summary>
         </member>
-        <member name="M:Buddy.Command.InstallAppCmd.#ctor">
+        <member name="P:Buddy.AAppActivity.Interaction">
             <summary>
-            Default constructor
+            Gather all interaction features
             </summary>
         </member>
-        <member name="M:Buddy.Command.InstallAppCmd.#ctor(System.String,System.String)">
+        <member name="P:Buddy.AAppActivity.Navigation">
             <summary>
-            Constructor which install the specified app
-            </summary>
-            <param name="iID">The app ID</param>
-            <param name="iVersion">The version of the app to install</param>
-        </member>
-        <member name="M:Buddy.Command.InstallAppCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
+            Gather all navigation features
             </summary>
         </member>
-        <member name="T:Buddy.Command.UninstallAppCmd">
+        <member name="P:Buddy.AAppActivity.IOT">
             <summary>
-            When executed : Uninstall the specified app
+            Gather all IOT features
             </summary>
         </member>
-        <member name="M:Buddy.Command.UninstallAppCmd.#ctor">
+        <member name="P:Buddy.AAppActivity.WebService">
             <summary>
-            Default constructor
+            Gather all web services (Facebook, Twitter, Spotify, meteo, Wolfram alpha) features
             </summary>
         </member>
-        <member name="M:Buddy.Command.UninstallAppCmd.#ctor(System.String)">
+        <member name="P:Buddy.AAppActivity.Perception">
             <summary>
-            When executed : Uninstall the specified app
-            </summary>
-            <param name="iID"></param>
-        </member>
-        <member name="M:Buddy.Command.UninstallAppCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
+            Gather all perception (mainly vision) features
             </summary>
         </member>
-        <member name="T:Buddy.Command.RestartBRECmd">
+        <member name="P:Buddy.AAppActivity.Primitive">
             <summary>
-            When executed : Restart the Buddy Runtime Environment
+            Gather all primitives
             </summary>
         </member>
-        <member name="M:Buddy.Command.RestartBRECmd.#ctor">
+        <member name="P:Buddy.AAppActivity.Resources">
             <summary>
-            Default constructor
+            Resource loader to retrieve Unity object. Check both Resources/ and downloaded Assetbundles. Allow you to retrieve the full path from the name of the raw file
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.Dictionary">
+            <summary>
+            The current language dictionnary
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.Notifier">
+            <summary>
+            Notification will be printed at the screen top
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.Toaster">
+            <summary>
+            Toast will be printed at the screen center
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.Layout">
+            <summary>
+            Your app layout. You will need to cast it to {APP_NAME}Layout.
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.Animator">
+            <summary>
+            Your optional Animator. You must init it by using {APP_NAME}Activity.Init(animator) static method
+            </summary>
+        </member>
+        <member name="P:Buddy.AAppActivity.Objects">
+            <summary>
+            Stored objects from {APP_NAME}Activity.Init(animator, obj1, obj2...) static method
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnLoading(System.String[],System.Int32[],System.Single[])">
+            <summary>
+            Called when the app loading occur. You can proceed here your high pre-computes or data loading
+            </summary>
+            <param name="iStrArgs">Optional str args</param>
+            <param name="iIntArgs">Optional int args</param>
+            <param name="iSingleArgs">Optional float args</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnStart(System.String[],System.Int32[],System.Single[])">
+            <summary>
+            Called when the app is fully loaded
+            </summary>
+            <param name="iStrArgs">Optional str args</param>
+            <param name="iIntArgs">Optional int args</param>
+            <param name="iSingleArgs">Optional float args</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnSuccessUnlockScreen">
+            <summary>
+            Called when the user succeed to unlock the screen. It will be called only if your app has the ability to lock the screen
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnFailureUnlockScreen">
+            <summary>
+            Called when the user failed to unlock the screen. It will be called only if your app has the ability to lock the screen
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnClickLockedScreen">
+            <summary>
+            Called when the user clicked on the locked screen. It will be called only if your app has the ability to lock the screen
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnChangeLang(Buddy.Language)">
+            <summary>
+            Called when the OS main language changed
+            </summary>
+            <param name="iLang">The new setted language</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnAlertReminder(System.Collections.Generic.List{Buddy.Reminder})">
+            <summary>
+            Called when a reminder alert rised
+            </summary>
+            <param name="iIncomingEvents">The array of rised reminders</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnQuit">
+            <summary>
+            Called when the application is currently unloading. It will be your last call
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.Init(UnityEngine.Animator,System.Object[])">
+            <summary>
+            This static method allow you to set basic param to your Activity. It must be done at the beginning of your app.
+            </summary>
+            <param name="iAnimator"></param>
+            <param name="iParams"></param>
+        </member>
+        <member name="M:Buddy.AAppActivity.QuitApp">
+            <summary>
+            Quit the running app
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.LockScreen">
+            <summary>
+            By using this method, the robot would be locked (e.g. the UI) until the user set the robot password.
+            This mode can only be disabled by quiting the app
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.UnlockScreen">
+            <summary>
+            Unlock the screen, careful, the Buddy will be vunerable
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.LoadScene(System.Int32)">
+            <summary>
+            Load the scene {AppID}-{SceneIndex}
+            </summary>
+            <param name="iSceneIndex">Index of the scene (0, 1, 2...), where 0 is the main scene</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.Trigger(System.String)">
+            <summary>
+            Trigger the named trigger in the presetted animator
+            </summary>
+            <param name="iTriggerName">Trigger name</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.ResetTrigger(System.String)">
+            <summary>
+            Reset the named trigger in the presetted animator
+            </summary>
+            <param name="iTriggerName"></param>
+        </member>
+        <member name="M:Buddy.AAppActivity.SetBool(System.String,System.Boolean)">
+            <summary>
+            Set the bool value of the named boolean in the presetted animator
+            </summary>
+            <param name="iBoolName">The bool name to set</param>
+            <param name="iVal">Value of the boolean</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.GetBool(System.String)">
+            <summary>
+            Retrieve the value of the named boolean in the presetted animator
+            </summary>
+            <param name="iBoolName">Boolean name</param>
+            <returns>The value of the named boolean</returns>
+        </member>
+        <member name="M:Buddy.AAppActivity.SetInteger(System.String,System.Int32)">
+            <summary>
+            Set the bool value of the named integer in the presetted animator
+            </summary>
+            <param name="iIntName">The integer name to set</param>
+            <param name="iVal">Value of the integer</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.GetInteger(System.String)">
+            <summary>
+            Retrieve the value of the named integer in the presetted animator
+            </summary>
+            <param name="iIntName">Integer name</param>
+            <returns>The value of the named integer</returns>
+        </member>
+        <member name="M:Buddy.AAppActivity.SetFloat(System.String,System.Single)">
+            <summary>
+            Set the bool value of the named float in the presetted animator
+            </summary>
+            <param name="iFloatName">The float name to set</param>
+            <param name="iVal">Value of the float</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.GetFloat(System.String)">
+            <summary>
+            Retrieve the value of the named foat in the presetted animator
+            </summary>
+            <param name="iFloatName">Foat name</param>
+            <returns>The value of the named foat</returns>
+        </member>
+        <member name="M:Buddy.AAppActivity.StartCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Begin a coroutine.
+            </summary>
+            <param name="iFunc">Your coroutine to start</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.StopCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Stop the coroutine
+            </summary>
+            <param name="iFunc">Your coroutine to stop</param>
+        </member>
+        <member name="M:Buddy.AAppActivity.StopAllCoroutines">
+            <summary>
+            Stop all started coroutines
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.CancelInvoke">
+            <summary>
+            Cancels all Invoke calls on this MonoBehaviour.
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.CancelInvoke(System.String)">
+            <summary>
+            Cancels all Invoke calls with name methodName on this behaviour.
+            </summary>
+            <param name="iMethodName"></param>
+        </member>
+        <member name="M:Buddy.AAppActivity.Invoke(System.String,System.Single)">
+            <summary>
+            Invokes the method methodName in time seconds.
+            </summary>
+            <param name="iMethodName"></param>
+            <param name="iTime"></param>
+        </member>
+        <member name="M:Buddy.AAppActivity.InvokeRepeating(System.String,System.Single,System.Single)">
+            <summary>
+            Invokes the method methodName in time seconds, then repeatedly every repeatRate
+            </summary>
+            <param name="iMethodName"></param>
+            <param name="iTime"></param>
+            <param name="iRepeatRate"></param>
+        </member>
+        <member name="M:Buddy.AAppActivity.IsInvoking">
+            <summary>
+            Is any invoke pending on this MonoBehaviour?
+            </summary>
+            <returns>True if invoking</returns>
+        </member>
+        <member name="T:Buddy.AAppData">
+            <summary>
+            Your app data class must inherit from this class. Your app data will be store here.
+            The data object will be serialized when the application is quited and unserialized the first that that GetInstance()
+            will be called. Do never change the name of your {APP_NAME}Data class.
+            </summary>
+            <summary>
+            Your app data class must inherit from this class. Your app data will be store here.
+            The data object will be serialized when the application is quited and unserialized the first that that GetInstance()
+            will be called. Do never change the name of your {APP_NAME}Data class.
+            </summary>
+        </member>
+        <member name="F:Buddy.AAppData.sInstance">
+            <summary>
+            Instance of your data (singleton).
+            </summary>
+        </member>
+        <member name="M:Buddy.AAppData.GetInstance``1">
+            <summary>
+            Retrieve your last save version of your data.
+            </summary>
+            <typeparam name="T">Type of your data class</typeparam>
+            <returns>Your data object</returns>
+        </member>
+        <member name="T:Buddy.BYOS">
+            <summary>
+            Core of the BuddY Operating System (BYOS).
+            Gave access to robot control and tools like UI, external API, cloud access, resources and misc managers.
+            A Unique instance of the BYOS must be present in the whole application.
+            </summary>
+            <summary>
+            Core of the BuddY Operating System (BYOS).
+            Gave access to robot control and tools like UI, external API, cloud access, resources and misc managers.
+            A Unique instance of the BYOS must be present in the whole application.
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Notifier">
+            <summary>
+            Notification tool for meteo, info or alarm purposes
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Toaster">
+            <summary>
+            Allow you to toast UI elements like buttons, text, grid, picture... on the Buddy's screen
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Header">
+            <summary>
+            Handle display for app parameter/icon/unread notification/spinner
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Resources">
+            <summary>
+            Resource loader to retrieve Unity object. Check both Resources/ and downloaded Assetbundles. Allow you to retrieve the full path from the name of the raw file
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Dictionary">
+            <summary>
+            Hosts all key -> currentlanguage_word matchings
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.DataBase">
+            <summary>
+            Database access (User / media / memory)
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Language">
+            <summary>
+            Language handler. The language can only by updated by a user input in Parameters
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Interaction">
+            <summary>
+            Gather all interaction features
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.WebService">
+            <summary>
+            Gather all web services (Facebook, Twitter, Spotify, meteo, Wolfram alpha) features
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Navigation">
+            <summary>
+            Gather all navigation features
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.IOT">
+            <summary>
+            Gather all IOT features
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Perception">
+            <summary>
+            Gather all perception (mainly vision) features
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Primitive">
+            <summary>
+            Gather all primitives
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.Instance">
+            <summary>
+            The unique instance of the BuddY Operating System
             </summary>
         </member>
         <member name="T:Buddy.Command.ACommand">
             <summary>
             Atomic behaviour from the Command pattern. You can define your own commands by inherit from ACommand.
             Parameters can be setted with the Parameters attributes.
+            </summary>
+            <summary>
+            Atomic behaviour from the Command pattern. You can define your own commands by inherit from ACommand.
+            Parameters can be setted with the Parameters attributes.
+            </summary>
+        </member>
+        <member name="P:Buddy.Command.ACommand.IsExecutedImpl">
+            <summary>
+            Own implementation to check if the current command was executed
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.ACommand.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
             </summary>
         </member>
         <member name="P:Buddy.Command.ACommand.Parameters">
@@ -4273,14 +4605,57 @@
             </summary>
             <returns>Command string value for debug</returns>
         </member>
-        <member name="P:Buddy.Command.ACommand.IsExecutedImpl">
+        <member name="T:Buddy.Command.InstallAppCmd">
             <summary>
-            Own implementation to check if the current command was executed
+            When executed : Install the specified app
             </summary>
         </member>
-        <member name="M:Buddy.Command.ACommand.ExecuteImpl">
+        <member name="M:Buddy.Command.InstallAppCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.InstallAppCmd.#ctor(System.String,System.String)">
+            <summary>
+            Constructor which install the specified app
+            </summary>
+            <param name="iID">The app ID</param>
+            <param name="iVersion">The version of the app to install</param>
+        </member>
+        <member name="M:Buddy.Command.InstallAppCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:Buddy.Command.UninstallAppCmd">
+            <summary>
+            When executed : Uninstall the specified app
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.UninstallAppCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.UninstallAppCmd.#ctor(System.String)">
+            <summary>
+            When executed : Uninstall the specified app
+            </summary>
+            <param name="iID"></param>
+        </member>
+        <member name="M:Buddy.Command.UninstallAppCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:Buddy.Command.RestartBRECmd">
+            <summary>
+            When executed : Restart the Buddy Runtime Environment
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.RestartBRECmd.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="T:Buddy.Command.ACommandExtention">
@@ -5572,358 +5947,18 @@
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:Buddy.AAppActivity">
+        <member name="T:Buddy.DeclarativeMemoryManager">
             <summary>
-            Activity base class to receive app event and managed app base methods (quit, load scene...). Do never change the name of your {APP_NAME}Activity class.
+            This class represents the declarative memory of Buddy
             </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.Interaction">
             <summary>
-            Gather all interaction features
-            </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.Navigation">
-            <summary>
-            Gather all navigation features
-            </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.IOT">
-            <summary>
-            Gather all IOT features
-            </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.WebService">
-            <summary>
-            Gather all web services (Facebook, Twitter, Spotify, meteo, Wolfram alpha) features
-            </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.Perception">
-            <summary>
-            Gather all perception (mainly vision) features
-            </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.Primitive">
-            <summary>
-            Gather all primitives
-            </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.Resources">
-            <summary>
-            Resource loader to retrieve Unity object. Check both Resources/ and downloaded Assetbundles. Allow you to retrieve the full path from the name of the raw file
-            </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.Dictionary">
-            <summary>
-            The current language dictionnary
-            </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.Notifier">
-            <summary>
-            Notification will be printed at the screen top
-            </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.Toaster">
-            <summary>
-            Toast will be printed at the screen center
-            </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.Layout">
-            <summary>
-            Your app layout. You will need to cast it to {APP_NAME}Layout.
-            </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.Animator">
-            <summary>
-            Your optional Animator. You must init it by using {APP_NAME}Activity.Init(animator) static method
-            </summary>
-        </member>
-        <member name="P:Buddy.AAppActivity.Objects">
-            <summary>
-            Stored objects from {APP_NAME}Activity.Init(animator, obj1, obj2...) static method
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnLoading(System.String[],System.Int32[],System.Single[])">
-            <summary>
-            Called when the app loading occur. You can proceed here your high pre-computes or data loading
-            </summary>
-            <param name="iStrArgs">Optional str args</param>
-            <param name="iIntArgs">Optional int args</param>
-            <param name="iSingleArgs">Optional float args</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnStart(System.String[],System.Int32[],System.Single[])">
-            <summary>
-            Called when the app is fully loaded
-            </summary>
-            <param name="iStrArgs">Optional str args</param>
-            <param name="iIntArgs">Optional int args</param>
-            <param name="iSingleArgs">Optional float args</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnSuccessUnlockScreen">
-            <summary>
-            Called when the user succeed to unlock the screen. It will be called only if your app has the ability to lock the screen
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnFailureUnlockScreen">
-            <summary>
-            Called when the user failed to unlock the screen. It will be called only if your app has the ability to lock the screen
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnClickLockedScreen">
-            <summary>
-            Called when the user clicked on the locked screen. It will be called only if your app has the ability to lock the screen
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnChangeLang(Buddy.Language)">
-            <summary>
-            Called when the OS main language changed
-            </summary>
-            <param name="iLang">The new setted language</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnAlertReminder(System.Collections.Generic.List{Buddy.Reminder})">
-            <summary>
-            Called when a reminder alert rised
-            </summary>
-            <param name="iIncomingEvents">The array of rised reminders</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnQuit">
-            <summary>
-            Called when the application is currently unloading. It will be your last call
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.Init(UnityEngine.Animator,System.Object[])">
-            <summary>
-            This static method allow you to set basic param to your Activity. It must be done at the beginning of your app.
-            </summary>
-            <param name="iAnimator"></param>
-            <param name="iParams"></param>
-        </member>
-        <member name="M:Buddy.AAppActivity.QuitApp">
-            <summary>
-            Quit the running app
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.LockScreen">
-            <summary>
-            By using this method, the robot would be locked (e.g. the UI) until the user set the robot password.
-            This mode can only be disabled by quiting the app
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.UnlockScreen">
-            <summary>
-            Unlock the screen, careful, the Buddy will be vunerable
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.LoadScene(System.Int32)">
-            <summary>
-            Load the scene {AppID}-{SceneIndex}
-            </summary>
-            <param name="iSceneIndex">Index of the scene (0, 1, 2...), where 0 is the main scene</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.Trigger(System.String)">
-            <summary>
-            Trigger the named trigger in the presetted animator
-            </summary>
-            <param name="iTriggerName">Trigger name</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.ResetTrigger(System.String)">
-            <summary>
-            Reset the named trigger in the presetted animator
-            </summary>
-            <param name="iTriggerName"></param>
-        </member>
-        <member name="M:Buddy.AAppActivity.SetBool(System.String,System.Boolean)">
-            <summary>
-            Set the bool value of the named boolean in the presetted animator
-            </summary>
-            <param name="iBoolName">The bool name to set</param>
-            <param name="iVal">Value of the boolean</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.GetBool(System.String)">
-            <summary>
-            Retrieve the value of the named boolean in the presetted animator
-            </summary>
-            <param name="iBoolName">Boolean name</param>
-            <returns>The value of the named boolean</returns>
-        </member>
-        <member name="M:Buddy.AAppActivity.SetInteger(System.String,System.Int32)">
-            <summary>
-            Set the bool value of the named integer in the presetted animator
-            </summary>
-            <param name="iIntName">The integer name to set</param>
-            <param name="iVal">Value of the integer</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.GetInteger(System.String)">
-            <summary>
-            Retrieve the value of the named integer in the presetted animator
-            </summary>
-            <param name="iIntName">Integer name</param>
-            <returns>The value of the named integer</returns>
-        </member>
-        <member name="M:Buddy.AAppActivity.SetFloat(System.String,System.Single)">
-            <summary>
-            Set the bool value of the named float in the presetted animator
-            </summary>
-            <param name="iFloatName">The float name to set</param>
-            <param name="iVal">Value of the float</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.GetFloat(System.String)">
-            <summary>
-            Retrieve the value of the named foat in the presetted animator
-            </summary>
-            <param name="iFloatName">Foat name</param>
-            <returns>The value of the named foat</returns>
-        </member>
-        <member name="M:Buddy.AAppActivity.StartCoroutine(System.Collections.IEnumerator)">
-            <summary>
-            Begin a coroutine.
-            </summary>
-            <param name="iFunc">Your coroutine to start</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.StopCoroutine(System.Collections.IEnumerator)">
-            <summary>
-            Stop the coroutine
-            </summary>
-            <param name="iFunc">Your coroutine to stop</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.StopAllCoroutines">
-            <summary>
-            Stop all started coroutines
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.CancelInvoke">
-            <summary>
-            Cancels all Invoke calls on this MonoBehaviour.
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.CancelInvoke(System.String)">
-            <summary>
-            Cancels all Invoke calls with name methodName on this behaviour.
-            </summary>
-            <param name="iMethodName"></param>
-        </member>
-        <member name="M:Buddy.AAppActivity.Invoke(System.String,System.Single)">
-            <summary>
-            Invokes the method methodName in time seconds.
-            </summary>
-            <param name="iMethodName"></param>
-            <param name="iTime"></param>
-        </member>
-        <member name="M:Buddy.AAppActivity.InvokeRepeating(System.String,System.Single,System.Single)">
-            <summary>
-            Invokes the method methodName in time seconds, then repeatedly every repeatRate
-            </summary>
-            <param name="iMethodName"></param>
-            <param name="iTime"></param>
-            <param name="iRepeatRate"></param>
-        </member>
-        <member name="M:Buddy.AAppActivity.IsInvoking">
-            <summary>
-            Is any invoke pending on this MonoBehaviour?
-            </summary>
-            <returns>True if invoking</returns>
-        </member>
-        <member name="T:Buddy.AAppData">
-            <summary>
-            Your app data class must inherit from this class. Your app data will be store here.
-            The data object will be serialized when the application is quited and unserialized the first that that GetInstance()
-            will be called. Do never change the name of your {APP_NAME}Data class.
-            </summary>
-        </member>
-        <member name="F:Buddy.AAppData.sInstance">
-            <summary>
-            Instance of your data (singleton).
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppData.GetInstance``1">
-            <summary>
-            Retrieve your last save version of your data.
-            </summary>
-            <typeparam name="T">Type of your data class</typeparam>
-            <returns>Your data object</returns>
-        </member>
-        <member name="T:Buddy.BYOS">
-            <summary>
-            Core of the BuddY Operating System (BYOS).
-            Gave access to robot control and tools like UI, external API, cloud access, resources and misc managers.
-            A Unique instance of the BYOS must be present in the whole application.
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Notifier">
-            <summary>
-            Notification tool for meteo, info or alarm purposes
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Toaster">
-            <summary>
-            Allow you to toast UI elements like buttons, text, grid, picture... on the Buddy's screen
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Header">
-            <summary>
-            Handle display for app parameter/icon/unread notification/spinner
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Resources">
-            <summary>
-            Resource loader to retrieve Unity object. Check both Resources/ and downloaded Assetbundles. Allow you to retrieve the full path from the name of the raw file
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Dictionary">
-            <summary>
-            Hosts all key -> currentlanguage_word matchings
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.DataBase">
-            <summary>
-            Database access (User / media / memory)
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Language">
-            <summary>
-            Language handler. The language can only by updated by a user input in Parameters
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Interaction">
-            <summary>
-            Gather all interaction features
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.WebService">
-            <summary>
-            Gather all web services (Facebook, Twitter, Spotify, meteo, Wolfram alpha) features
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Navigation">
-            <summary>
-            Gather all navigation features
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.IOT">
-            <summary>
-            Gather all IOT features
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Perception">
-            <summary>
-            Gather all perception (mainly vision) features
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Primitive">
-            <summary>
-            Gather all primitives
-            </summary>
-        </member>
-        <member name="P:Buddy.BYOS.Instance">
-            <summary>
-            The unique instance of the BuddY Operating System
-            </summary>
-        </member>
-        <member name="T:Buddy.APIBridge">
-            <summary>
-            Core access to the API. Must never be used explicitly for robot application.
+            This class represents the declarative memory of Buddy
             </summary>
         </member>
         <member name="T:Buddy.DataBase">
+            <summary>
+            Class access for users data, not used
+            </summary>
             <summary>
             Class access for users data, not used
             </summary>
@@ -5938,6 +5973,491 @@
             Buddy's user list. It's a copy, so any modification won't be keeped
             </summary>
             <returns>Copy of Buddy's users</returns>
+        </member>
+        <member name="T:Buddy.MemoryManager">
+            <summary>
+            This class represents the whole memory of Buddy
+            </summary>
+            <summary>
+            This class represents the whole memory of Buddy
+            </summary>
+        </member>
+        <member name="P:Buddy.MemoryManager.Procedural">
+            <summary>
+            Access to the procedural memory of Buddy
+            </summary>
+        </member>
+        <member name="T:Buddy.ProcMemoryManager">
+            <summary>
+            This class represents the procedural memory of Buddy
+            </summary>
+            <summary>
+            This class represents the procedural memory of Buddy
+            </summary>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.String,System.Int32)">
+            <summary>
+            Add a new reminder to the procedural memory
+            </summary>
+            <param name="iContent">Content of the reminder</param>
+            <param name="iSenderID">An ID representing the reminder sender</param>
+            <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.String,System.Int32,System.Int32[])">
+            <summary>
+            Add a new reminder to the procedural memory
+            </summary>
+            <param name="iContent">Content of the reminder</param>
+            <param name="iSenderID">An ID representing the sender</param>
+            <param name="iReceivers">An array of ID representing reminder receivers</param>
+            <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,System.String,System.Int32)">
+            <summary>
+            Add a new reminder to the procedural memory
+            </summary>
+            <param name="iEventDate">Date on which reminder will be issued</param>
+            <param name="iContent">Content of the reminder</param>
+            <param name="iSenderID">An ID representing the sender</param>
+            <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,System.String,System.Int32,System.Int32[])">
+            <summary>
+            Add a new reminder to the procedural memory
+            </summary>
+            <param name="iEventDate">Date on which reminder will be issued</param>
+            <param name="iContent">Content of the reminder</param>
+            <param name="iSenderID">An ID representing the sender</param>
+            <param name="iReceivers">An array of ID representing reminder receivers</param>
+            <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32)">
+            <summary>
+            Add a new reminder to the procedural memory
+            </summary>
+            <param name="iEventDate">Date on which reminder will be issued</param>
+            <param name="iPrecision"></param>
+            <param name="iContent">Content of the reminder</param>
+            <param name="iSenderID">An ID representing the sender</param>
+            <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32,System.Int32[])">
+            <summary>
+            Add a new reminder to the procedural memory
+            </summary>
+            <param name="iEventDate">Date on which reminder will be issued</param>
+            <param name="iPrecision">Precision of the event date</param>
+            <param name="iContent">Content of the reminder</param>
+            <param name="iSenderID">An ID representing the sender</param>
+            <param name="iReceivers">An array of ID representing reminder receivers</param>
+            <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.ExistReminder(System.Int32)">
+            <summary>
+            Check if the reminder exists.
+            </summary>
+            <param name="iID">The reminder ID</param>
+            <returns>True if the reminder exists. Else returns false</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.RemoveReminder(System.Int32)">
+            <summary>
+            Remove a speicific reminder from procedural memory.
+            </summary>
+            <param name="iID">The reminder ID</param>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.RetrieveRemindersWhere(System.Predicate{Buddy.Reminder})">
+            <summary>
+            Retrieve all the reminders where the predicate is verified
+            </summary>
+            <param name="iMatchPredicate">The predicate to match reminders</param>
+            <returns>A list of reminders</returns>
+        </member>
+        <member name="M:Buddy.ProcMemoryManager.DisplayReminder(System.Int32)">
+            <summary>
+            Display a specific reminder
+            </summary>
+            <param name="iID">The reminder ID</param>
+        </member>
+        <member name="T:Buddy.RemindType">
+            <summary>
+            Type of reminder
+            </summary>
+        </member>
+        <member name="F:Buddy.RemindType.STICKY">
+            <summary>
+            A persistend reminder
+            </summary>
+        </member>
+        <member name="F:Buddy.RemindType.ALARM">
+            <summary>
+            An event reminder
+            </summary>
+        </member>
+        <member name="T:Buddy.RemindPrecision">
+            <summary>
+            The reminder precision
+            </summary>
+        </member>
+        <member name="F:Buddy.RemindPrecision.DAY">
+            <summary>
+            Day precision
+            </summary>
+        </member>
+        <member name="F:Buddy.RemindPrecision.HOUR">
+            <summary>
+            Hour precision
+            </summary>
+        </member>
+        <member name="F:Buddy.RemindPrecision.MINUTE">
+            <summary>
+            Minute precision
+            </summary>
+        </member>
+        <member name="T:Buddy.Reminder">
+            <summary>
+            Thic class represents a reminder
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.ID">
+            <summary>
+            The ID of the reminder
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Sender">
+            <summary>
+            The ID of sender
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Content">
+            <summary>
+            The reminder content
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Receivers">
+            <summary>
+            The list of receivers ID
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.EventDate">
+            <summary>
+            The event date at which the remender will issued
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.CreationDate">
+            <summary>
+            The creation date
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Type">
+            <summary>
+            The reminder type
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Precision">
+            <summary>
+            The reminder precision
+            </summary>
+        </member>
+        <member name="M:Buddy.Reminder.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Buddy.Reminder.Copy">
+            <summary>
+            Make a copy of the reminder
+            </summary>
+            <returns>A new copy of the reminder</returns>
+        </member>
+        <member name="T:Buddy.SessionType">
+            <summary>
+            Session type of the user
+            </summary>
+        </member>
+        <member name="F:Buddy.SessionType.USER">
+            <summary>
+            User session type
+            </summary>
+        </member>
+        <member name="F:Buddy.SessionType.ADMIN">
+            <summary>
+            Administrator session type
+            </summary>
+        </member>
+        <member name="F:Buddy.SessionType.GUEST">
+            <summary>
+            Guest session type
+            </summary>
+        </member>
+        <member name="T:Buddy.Gender">
+            <summary>
+            Gender of the user
+            </summary>
+        </member>
+        <member name="F:Buddy.Gender.UNKNOWN">
+            <summary>
+            Unspecified gender.
+            </summary>
+        </member>
+        <member name="F:Buddy.Gender.MALE">
+            <summary>
+            Male gender
+            </summary>
+        </member>
+        <member name="F:Buddy.Gender.FEMALE">
+            <summary>
+            Female gender
+            </summary>
+        </member>
+        <member name="T:Buddy.UserAccount">
+            <summary>
+            User info, not used
+            </summary>
+            <summary>
+            User info, not used
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.ID">
+            <summary>
+            ID of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.Email">
+            <summary>
+            Email of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.FirstName">
+            <summary>
+            Firstname of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.LastName">
+            <summary>
+            Lastname of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.Gender">
+            <summary>
+            Gender of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.BirthDate">
+            <summary>
+            Birthdate of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.Session">
+            <summary>
+            Session type of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.Permissions">
+            <summary>
+            List of permisssions of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.Preferences">
+            <summary>
+            User preferences link to this account
+            </summary>
+        </member>
+        <member name="M:Buddy.UserAccount.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="F:Buddy.EntryType.BASE">
+            <summary>
+            Unique value for UI display purpose
+            </summary>
+        </member>
+        <member name="F:Buddy.EntryType.CLOSE_PHONETIC">
+            <summary>
+            Dictionary entry for STT purpose mainly
+            </summary>
+        </member>
+        <member name="F:Buddy.EntryType.RANDOM">
+            <summary>
+            Dictionary entry for TTS purpose mainly
+            </summary>
+        </member>
+        <member name="T:Buddy.DictionaryEntry">
+            <summary>
+            Key-value dictionary base entry
+            </summary>
+        </member>
+        <member name="P:Buddy.DictionaryEntry.Key">
+            <summary>
+            Key of the value
+            </summary>
+        </member>
+        <member name="P:Buddy.DictionaryEntry.BaseValue">
+            <summary>
+            Display value
+            </summary>
+        </member>
+        <member name="P:Buddy.DictionaryEntry.ClosePhoneticValues">
+            <summary>
+            Listen list for STT input processing
+            </summary>
+        </member>
+        <member name="P:Buddy.DictionaryEntry.RandomValues">
+            <summary>
+            Say list containing value that will be choosen randomly 
+            </summary>
+        </member>
+        <member name="T:Buddy.LanguageThesaurus">
+            <summary>
+            Language dictionary storage. Contains key-value entries for one language
+            </summary>
+        </member>
+        <member name="P:Buddy.LanguageThesaurus.Entries">
+            <summary>
+            All key-value entries of the thesaurus
+            </summary>
+        </member>
+        <member name="M:Buddy.LanguageThesaurus.#ctor">
+            <summary>
+            Represents all the dictionary entries
+            </summary>
+        </member>
+        <member name="M:Buddy.LanguageThesaurus.ContainsKey(System.String)">
+            <summary>
+            Check existing key in existing entries
+            </summary>
+            <param name="iKey">Key to check</param>
+            <returns>True if the key already exists in Entries</returns>
+        </member>
+        <member name="T:Buddy.Dictionary">
+            <summary>
+            Hosts all global_keyword -> currentlanguage_word / word list matchings
+            </summary>
+            <summary>
+            Hosts all global_keyword -> currentlanguage_word / word list matchings
+            </summary>
+        </member>
+        <member name="M:Buddy.Dictionary.GetString(System.String,Buddy.LoadContext)">
+            <summary>
+            Retrieve the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length)
+            </summary>
+            <param name="iKey">The key word corresponding to the wished word</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>The word in the current language, default value if not found</returns>
+        </member>
+        <member name="M:Buddy.Dictionary.GetRandomString(System.String,Buddy.LoadContext)">
+            <summary>
+            Retrieve a random word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length)
+            </summary>
+            <param name="iKey">The key word corresponding to the wished random word</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>The word in the current language, default value if not found</returns>
+        </member>
+        <member name="M:Buddy.Dictionary.GetPhoneticStrings(System.String,Buddy.LoadContext)">
+            <summary>
+            Retrieve the corresponding list to the input iKey. Useful for multiple response handling with the SpeechToText
+            </summary>
+            <param name="iKey">The key corresponding to the wished list</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>List of strings that must sound similar</returns>
+        </member>
+        <member name="M:Buddy.Dictionary.ContainsPhonetic(System.String,System.String,Buddy.LoadContext)">
+            <summary>
+            Proceed to a GetPhoneticsStrings(iKey, iContext = APP) and checks if one element on the closephonetic array is contained in iRef
+            </summary>
+            <param name="iRef">The sentence to compare to each word into the list</param>
+            <param name="iKey">The key corresponding to the wished list</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>True if the one element of the closephonetic array in contained in iRef sentence (not null and not empty), false otherwise</returns>
+        </member>
+        <member name="T:Buddy.LanguageManager">
+            <summary>
+            Language managing
+            </summary>
+            <summary>
+            Language managing
+            </summary>
+        </member>
+        <member name="P:Buddy.LanguageManager.CurrentLang">
+            <summary>
+            Current OS/UI language
+            </summary>
+        </member>
+        <member name="P:Buddy.LanguageManager.CurrentFormat">
+            <summary>
+            Current OS/UI language format
+            </summary>
+        </member>
+        <member name="T:Buddy.ResourceManager">
+            <summary>
+            Allow you to retrieve the full path from the name of the raw file
+            </summary>
+            <summary>
+            Allow you to retrieve the full path from the name of the raw file
+            </summary>
+        </member>
+        <member name="M:Buddy.ResourceManager.PathToRaw(System.String,Buddy.LoadContext)">
+            <summary>
+            Allow you to retrieve the full path from the name of the raw file / directory
+            </summary>
+            <param name="iName">Name of the file / directory</param>
+            <param name="iContext">Loading context. Are you requiering this resource from an app or from the OS ?</param>
+            <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
+        </member>
+        <member name="M:Buddy.ResourceManager.Load``1(System.String,Buddy.LoadContext)">
+            <summary>
+            Load the resource from Resource/ or from downloaded bundles.
+            </summary>
+            <typeparam name="T">Type of the resource</typeparam>
+            <param name="iName">Name (without path/extension) of the resource</param>
+            <param name="iContext">Loading context. Are you requiering this resource from an app or from the OS ? Only handle APP or OS</param>
+            <returns>The loaded resource. Null if not found</returns>
+        </member>
+        <member name="M:Buddy.ResourceManager.LoadAtlas(System.String,Buddy.LoadContext)">
+            <summary>
+            Load the atlas from Resource/ or from downloaded bundles.
+            </summary>
+            <typeparam name="T">Type of the resource</typeparam>
+            <param name="iName">Name (without path/extension) of the resource</param>
+            <param name="iContext">Loading context. Are you requiering this resource from an app or from the OS ? Only handle APP or OS</param>
+            <returns>The loaded resource. Null if not found</returns>
+        </member>
+        <member name="M:Buddy.ResourceManager.ExistSpriteInAtlas(System.String,System.String)">
+            <summary>
+            Check if a sprite exist inside an atlas
+            </summary>
+            <param name="iAtlas">The atlas name</param>
+            <param name="iSprite">The sprite name</param>
+            <returns>True if the sprite exist within the atlas</returns>
+        </member>
+        <member name="M:Buddy.ResourceManager.GetSprite(System.String,System.String)">
+            <summary>
+            Retrieve a sprite from the specified atlas
+            </summary>
+            <param name="iAtlas">The atlas name</param>
+            <param name="iSprite">The sprite name</param>
+            <returns>The sprite in the specified atlas</returns>
+        </member>
+        <member name="M:Buddy.ResourceManager.AssetIsLoaded(System.String)">
+            <summary>
+            Checks if has been correctly loaded. Always returns true in Editor mode
+            </summary>
+            <param name="iAssetName">The asset name</param>
+            <returns>True if the asset has been correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:Buddy.ResourceManager.StreamingAssetFilePath(System.String)">
+            <summary>
+            Gets the absolute path of the file contained in the native StreamingAssets folder of the base APK.
+            </summary>
+            <param name="iFilename">The name of the file</param>
+            <returns>The absolute path of the file</returns>
+        </member>
+        <member name="T:Buddy.APIBridge">
+            <summary>
+            Core access to the API. Must never be used explicitly for robot application.
+            </summary>
         </member>
         <member name="T:Buddy.DeviceType">
             <summary>
@@ -6119,467 +6639,10 @@
             The photo as sprite
             </summary>
         </member>
-        <member name="T:Buddy.MemoryManager">
-            <summary>
-            This class represents the whole memory of Buddy
-            </summary>
-        </member>
-        <member name="P:Buddy.MemoryManager.Procedural">
-            <summary>
-            Access to the procedural memory of Buddy
-            </summary>
-        </member>
-        <member name="T:Buddy.ProcMemoryManager">
-            <summary>
-            This class represents the procedural memory of Buddy
-            </summary>
-        </member>
-        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.String,System.Int32)">
-            <summary>
-            Add a new reminder to the procedural memory
-            </summary>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the reminder sender</param>
-            <returns>The new reminder</returns>
-        </member>
-        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.String,System.Int32,System.Int32[])">
-            <summary>
-            Add a new reminder to the procedural memory
-            </summary>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the sender</param>
-            <param name="iReceivers">An array of ID representing reminder receivers</param>
-            <returns>The new reminder</returns>
-        </member>
-        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,System.String,System.Int32)">
-            <summary>
-            Add a new reminder to the procedural memory
-            </summary>
-            <param name="iEventDate">Date on which reminder will be issued</param>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the sender</param>
-            <returns>The new reminder</returns>
-        </member>
-        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,System.String,System.Int32,System.Int32[])">
-            <summary>
-            Add a new reminder to the procedural memory
-            </summary>
-            <param name="iEventDate">Date on which reminder will be issued</param>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the sender</param>
-            <param name="iReceivers">An array of ID representing reminder receivers</param>
-            <returns>The new reminder</returns>
-        </member>
-        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32)">
-            <summary>
-            Add a new reminder to the procedural memory
-            </summary>
-            <param name="iEventDate">Date on which reminder will be issued</param>
-            <param name="iPrecision"></param>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the sender</param>
-            <returns>The new reminder</returns>
-        </member>
-        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32,System.Int32[])">
-            <summary>
-            Add a new reminder to the procedural memory
-            </summary>
-            <param name="iEventDate">Date on which reminder will be issued</param>
-            <param name="iPrecision">Precision of the event date</param>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the sender</param>
-            <param name="iReceivers">An array of ID representing reminder receivers</param>
-            <returns>The new reminder</returns>
-        </member>
-        <member name="M:Buddy.ProcMemoryManager.ExistReminder(System.Int32)">
-            <summary>
-            Check if the reminder exists.
-            </summary>
-            <param name="iID">The reminder ID</param>
-            <returns>True if the reminder exists. Else returns false</returns>
-        </member>
-        <member name="M:Buddy.ProcMemoryManager.RemoveReminder(System.Int32)">
-            <summary>
-            Remove a speicific reminder from procedural memory.
-            </summary>
-            <param name="iID">The reminder ID</param>
-        </member>
-        <member name="M:Buddy.ProcMemoryManager.RetrieveRemindersWhere(System.Predicate{Buddy.Reminder})">
-            <summary>
-            Retrieve all the reminders where the predicate is verified
-            </summary>
-            <param name="iMatchPredicate">The predicate to match reminders</param>
-            <returns>A list of reminders</returns>
-        </member>
-        <member name="M:Buddy.ProcMemoryManager.DisplayReminder(System.Int32)">
-            <summary>
-            Display a specific reminder
-            </summary>
-            <param name="iID">The reminder ID</param>
-        </member>
-        <member name="T:Buddy.RemindType">
-            <summary>
-            Type of reminder
-            </summary>
-        </member>
-        <member name="F:Buddy.RemindType.STICKY">
-            <summary>
-            A persistend reminder
-            </summary>
-        </member>
-        <member name="F:Buddy.RemindType.ALARM">
-            <summary>
-            An event reminder
-            </summary>
-        </member>
-        <member name="T:Buddy.RemindPrecision">
-            <summary>
-            The reminder precision
-            </summary>
-        </member>
-        <member name="F:Buddy.RemindPrecision.DAY">
-            <summary>
-            Day precision
-            </summary>
-        </member>
-        <member name="F:Buddy.RemindPrecision.HOUR">
-            <summary>
-            Hour precision
-            </summary>
-        </member>
-        <member name="F:Buddy.RemindPrecision.MINUTE">
-            <summary>
-            Minute precision
-            </summary>
-        </member>
-        <member name="T:Buddy.Reminder">
-            <summary>
-            Thic class represents a reminder
-            </summary>
-        </member>
-        <member name="P:Buddy.Reminder.ID">
-            <summary>
-            The ID of the reminder
-            </summary>
-        </member>
-        <member name="P:Buddy.Reminder.Sender">
-            <summary>
-            The ID of sender
-            </summary>
-        </member>
-        <member name="P:Buddy.Reminder.Content">
-            <summary>
-            The reminder content
-            </summary>
-        </member>
-        <member name="P:Buddy.Reminder.Receivers">
-            <summary>
-            The list of receivers ID
-            </summary>
-        </member>
-        <member name="P:Buddy.Reminder.EventDate">
-            <summary>
-            The event date at which the remender will issued
-            </summary>
-        </member>
-        <member name="P:Buddy.Reminder.CreationDate">
-            <summary>
-            The creation date
-            </summary>
-        </member>
-        <member name="P:Buddy.Reminder.Type">
-            <summary>
-            The reminder type
-            </summary>
-        </member>
-        <member name="P:Buddy.Reminder.Precision">
-            <summary>
-            The reminder precision
-            </summary>
-        </member>
-        <member name="M:Buddy.Reminder.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Reminder.Copy">
-            <summary>
-            Make a copy of the reminder
-            </summary>
-            <returns>A new copy of the reminder</returns>
-        </member>
         <member name="T:Buddy.UserPref">
             <summary>
             This class represents user preferences
             </summary>
-        </member>
-        <member name="T:Buddy.SessionType">
-            <summary>
-            Session type of the user
-            </summary>
-        </member>
-        <member name="F:Buddy.SessionType.USER">
-            <summary>
-            User session type
-            </summary>
-        </member>
-        <member name="F:Buddy.SessionType.ADMIN">
-            <summary>
-            Administrator session type
-            </summary>
-        </member>
-        <member name="F:Buddy.SessionType.GUEST">
-            <summary>
-            Guest session type
-            </summary>
-        </member>
-        <member name="T:Buddy.Gender">
-            <summary>
-            Gender of the user
-            </summary>
-        </member>
-        <member name="F:Buddy.Gender.UNKNOWN">
-            <summary>
-            Unspecified gender.
-            </summary>
-        </member>
-        <member name="F:Buddy.Gender.MALE">
-            <summary>
-            Male gender
-            </summary>
-        </member>
-        <member name="F:Buddy.Gender.FEMALE">
-            <summary>
-            Female gender
-            </summary>
-        </member>
-        <member name="T:Buddy.UserAccount">
-            <summary>
-            User info, not used
-            </summary>
-        </member>
-        <member name="P:Buddy.UserAccount.ID">
-            <summary>
-            ID of the account
-            </summary>
-        </member>
-        <member name="P:Buddy.UserAccount.Email">
-            <summary>
-            Email of the account
-            </summary>
-        </member>
-        <member name="P:Buddy.UserAccount.FirstName">
-            <summary>
-            Firstname of the account
-            </summary>
-        </member>
-        <member name="P:Buddy.UserAccount.LastName">
-            <summary>
-            Lastname of the account
-            </summary>
-        </member>
-        <member name="P:Buddy.UserAccount.Gender">
-            <summary>
-            Gender of the account
-            </summary>
-        </member>
-        <member name="P:Buddy.UserAccount.BirthDate">
-            <summary>
-            Birthdate of the account
-            </summary>
-        </member>
-        <member name="P:Buddy.UserAccount.Session">
-            <summary>
-            Session type of the account
-            </summary>
-        </member>
-        <member name="P:Buddy.UserAccount.Permissions">
-            <summary>
-            List of permisssions of the account
-            </summary>
-        </member>
-        <member name="P:Buddy.UserAccount.Preferences">
-            <summary>
-            User preferences link to this account
-            </summary>
-        </member>
-        <member name="M:Buddy.UserAccount.#ctor">
-            <summary>
-            Default Constructor
-            </summary>
-        </member>
-        <member name="F:Buddy.EntryType.BASE">
-            <summary>
-            Unique value for UI display purpose
-            </summary>
-        </member>
-        <member name="F:Buddy.EntryType.CLOSE_PHONETIC">
-            <summary>
-            Dictionary entry for STT purpose mainly
-            </summary>
-        </member>
-        <member name="F:Buddy.EntryType.RANDOM">
-            <summary>
-            Dictionary entry for TTS purpose mainly
-            </summary>
-        </member>
-        <member name="T:Buddy.DictionaryEntry">
-            <summary>
-            Key-value dictionary base entry
-            </summary>
-        </member>
-        <member name="P:Buddy.DictionaryEntry.Key">
-            <summary>
-            Key of the value
-            </summary>
-        </member>
-        <member name="P:Buddy.DictionaryEntry.BaseValue">
-            <summary>
-            Display value
-            </summary>
-        </member>
-        <member name="P:Buddy.DictionaryEntry.ClosePhoneticValues">
-            <summary>
-            Listen list for STT input processing
-            </summary>
-        </member>
-        <member name="P:Buddy.DictionaryEntry.RandomValues">
-            <summary>
-            Say list containing value that will be choosen randomly 
-            </summary>
-        </member>
-        <member name="T:Buddy.LanguageThesaurus">
-            <summary>
-            Language dictionary storage. Contains key-value entries for one language
-            </summary>
-        </member>
-        <member name="P:Buddy.LanguageThesaurus.Entries">
-            <summary>
-            All key-value entries of the thesaurus
-            </summary>
-        </member>
-        <member name="M:Buddy.LanguageThesaurus.#ctor">
-            <summary>
-            Represents all the dictionary entries
-            </summary>
-        </member>
-        <member name="M:Buddy.LanguageThesaurus.ContainsKey(System.String)">
-            <summary>
-            Check existing key in existing entries
-            </summary>
-            <param name="iKey">Key to check</param>
-            <returns>True if the key already exists in Entries</returns>
-        </member>
-        <member name="T:Buddy.Dictionary">
-            <summary>
-            Hosts all global_keyword -> currentlanguage_word / word list matchings
-            </summary>
-        </member>
-        <member name="F:Buddy.Dictionary.KEY_NOT_FOUND">
-            <summary>
-            Value returned if key not found
-            </summary>
-        </member>
-        <member name="F:Buddy.Dictionary.EMPTY_VALUE">
-            <summary>
-            Value returned if the value of the requested key is empty
-            </summary>
-        </member>
-        <member name="M:Buddy.Dictionary.GetString(System.String,Buddy.LoadContext)">
-            <summary>
-            Retrieve the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
-            Lookup speed in Th(iKey.Length)
-            </summary>
-            <param name="iKey">The key word corresponding to the wished word</param>
-            <param name="iContext">The context corresponding to the dictionary to use</param>
-            <returns>The word in the current language, default value if not found</returns>
-        </member>
-        <member name="M:Buddy.Dictionary.GetRandomString(System.String,Buddy.LoadContext)">
-            <summary>
-            Retrieve a random word from the input key word. Checks first in app dict if exists, if not checks in native dict.
-            Lookup speed in Th(iKey.Length)
-            </summary>
-            <param name="iKey">The key word corresponding to the wished random word</param>
-            <param name="iContext">The context corresponding to the dictionary to use</param>
-            <returns>The word in the current language, default value if not found</returns>
-        </member>
-        <member name="M:Buddy.Dictionary.GetPhoneticStrings(System.String,Buddy.LoadContext)">
-            <summary>
-            Retrieve the corresponding list to the input iKey. Useful for multiple response handling with the SpeechToText
-            </summary>
-            <param name="iKey">The key corresponding to the wished list</param>
-            <param name="iContext">The context corresponding to the dictionary to use</param>
-            <returns>List of strings that must sound similar</returns>
-        </member>
-        <member name="M:Buddy.Dictionary.ContainsPhonetic(System.String,System.String,Buddy.LoadContext)">
-            <summary>
-            Proceed to a GetPhoneticsStrings(iKey, iContext = APP) and checks if one element on the closephonetic array is contained in iRef
-            </summary>
-            <param name="iRef">The sentence to compare to each word into the list</param>
-            <param name="iKey">The key corresponding to the wished list</param>
-            <param name="iContext">The context corresponding to the dictionary to use</param>
-            <returns>True if the one element of the closephonetic array in contained in iRef sentence (not null and not empty), false otherwise</returns>
-        </member>
-        <member name="T:Buddy.ResourceManager">
-            <summary>
-            Allow you to retrieve the full path from the name of the raw file
-            </summary>
-        </member>
-        <member name="M:Buddy.ResourceManager.PathToRaw(System.String,Buddy.LoadContext)">
-            <summary>
-            Allow you to retrieve the full path from the name of the raw file / directory
-            </summary>
-            <param name="iName">Name of the file / directory</param>
-            <param name="iContext">Loading context. Are you requiering this resource from an app or from the OS ?</param>
-            <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
-        </member>
-        <member name="M:Buddy.ResourceManager.Load``1(System.String,Buddy.LoadContext)">
-            <summary>
-            Load the resource from Resource/ or from downloaded bundles.
-            </summary>
-            <typeparam name="T">Type of the resource</typeparam>
-            <param name="iName">Name (without path/extension) of the resource</param>
-            <param name="iContext">Loading context. Are you requiering this resource from an app or from the OS ? Only handle APP or OS</param>
-            <returns>The loaded resource. Null if not found</returns>
-        </member>
-        <member name="M:Buddy.ResourceManager.LoadAtlas(System.String,Buddy.LoadContext)">
-            <summary>
-            Load the atlas from Resource/ or from downloaded bundles.
-            </summary>
-            <typeparam name="T">Type of the resource</typeparam>
-            <param name="iName">Name (without path/extension) of the resource</param>
-            <param name="iContext">Loading context. Are you requiering this resource from an app or from the OS ? Only handle APP or OS</param>
-            <returns>The loaded resource. Null if not found</returns>
-        </member>
-        <member name="M:Buddy.ResourceManager.ExistSpriteInAtlas(System.String,System.String)">
-            <summary>
-            Check if a sprite exist inside an atlas
-            </summary>
-            <param name="iAtlas">The atlas name</param>
-            <param name="iSprite">The sprite name</param>
-            <returns>True if the sprite exist within the atlas</returns>
-        </member>
-        <member name="M:Buddy.ResourceManager.GetSprite(System.String,System.String)">
-            <summary>
-            Retrieve a sprite from the specified atlas
-            </summary>
-            <param name="iAtlas">The atlas name</param>
-            <param name="iSprite">The sprite name</param>
-            <returns>The sprite in the specified atlas</returns>
-        </member>
-        <member name="M:Buddy.ResourceManager.AssetIsLoaded(System.String)">
-            <summary>
-            Checks if has been correctly loaded. Always returns true in Editor mode
-            </summary>
-            <param name="iAssetName">The asset name</param>
-            <returns>True if the asset has been correctly loaded, false otherwise</returns>
-        </member>
-        <member name="M:Buddy.ResourceManager.StreamingAssetFilePath(System.String)">
-            <summary>
-            Gets the absolute path of the file contained in the native StreamingAssets folder of the base APK.
-            </summary>
-            <param name="iFilename">The name of the file</param>
-            <returns>The absolute path of the file</returns>
         </member>
         <member name="T:Buddy.UI.ConfirmationButton">
             <summary>
@@ -6619,6 +6682,19 @@
         <member name="M:Buddy.UI.Blank.OnAwake">
             <summary>
             Called once at the creation of the widget
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.Header">
+            <summary>
+            Display an utility toolbar on the top of the robot screen
+            </summary>
+            <summary>
+            Display an utility toolbar on the top of the robot screen
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Header.SpinningWheel">
+            <summary>
+            Enable/Disable the spin at the top-right corner of the screen
             </summary>
         </member>
         <member name="T:Buddy.UI.AExplorerView">
@@ -6727,15 +6803,9 @@
             <summary>
             Display a timed confirmation notification on the Top of the robot screen
             </summary>
-        </member>
-        <member name="M:Buddy.UI.CountdownNot.With(System.String,System.Int32,System.Action,System.Action)">
             <summary>
-            Specify the parameters for the timer notification. Validate will be called by default if no anwser
+            Display a timed confirmation notification on the Top of the robot screen
             </summary>
-            <param name="iText">Text to display</param>
-            <param name="iTimer">Timer in second. The notication will close after this timer. Validate will be called also. 3sec min</param>
-            <param name="iOnValidate">Callback function if user click on validate</param>
-            <param name="iOnCancel">Callback function if user click on cancel</param>
         </member>
         <member name="M:Buddy.UI.CountdownNot.Cancel">
             <summary>
@@ -6747,9 +6817,31 @@
             Inner method called after click on validate. Do not call it manually
             </summary>
         </member>
+        <member name="M:Buddy.UI.CountdownNot.With(System.String,System.Int32,System.Action,System.Action)">
+            <summary>
+            Specify the parameters for the timer notification. Validate will be called by default if no anwser
+            </summary>
+            <param name="iText">Text to display</param>
+            <param name="iTimer">Timer in second. The notication will close after this timer. Validate will be called also. 3sec min</param>
+            <param name="iOnValidate">Callback function if user click on validate</param>
+            <param name="iOnCancel">Callback function if user click on cancel</param>
+        </member>
         <member name="T:Buddy.UI.AlertNot">
             <summary>
             Display a validation notification on the Top of the robot screen
+            </summary>
+            <summary>
+            Display a validation notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.AlertNot.Delay">
+            <summary>
+            Inner method called after click on delay. Do not call it manually
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.AlertNot.Validate">
+            <summary>
+            Inner method called after click on validate. Do not call it manually
             </summary>
         </member>
         <member name="M:Buddy.UI.AlertNot.With(System.String,UnityEngine.Sprite,System.Action,System.Action)">
@@ -6790,17 +6882,10 @@
             <param name="iOnValidate">Callback function if the user click on validate</param>
             <param name="iOnDelay">Callback function if the user click on delay</param>
         </member>
-        <member name="M:Buddy.UI.AlertNot.Delay">
-            <summary>
-            Inner method called after click on delay. Do not call it manually
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.AlertNot.Validate">
-            <summary>
-            Inner method called after click on validate. Do not call it manually
-            </summary>
-        </member>
         <member name="T:Buddy.UI.WeatherNot">
+            <summary>
+            Display a weather notification on the Top of the robot screen
+            </summary>
             <summary>
             Display a weather notification on the Top of the robot screen
             </summary>
@@ -6820,6 +6905,19 @@
         <member name="T:Buddy.UI.ConfirmationNot">
             <summary>
             Display a notification on the Top of the robot screen
+            </summary>
+            <summary>
+            Display a notification on the Top of the robot screen
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.ConfirmationNot.Cancel">
+            <summary>
+            On Cancel callback
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.ConfirmationNot.Validate">
+            <summary>
+            On Validate callback
             </summary>
         </member>
         <member name="M:Buddy.UI.ConfirmationNot.With(System.String,System.Action,System.Action)">
@@ -6864,28 +6962,13 @@
             <param name="iIconBackgroundColor">Left side icon background color</param>
             <returns>The unique id of the notification</returns>
         </member>
-        <member name="M:Buddy.UI.ConfirmationNot.Cancel">
-            <summary>
-            On Cancel callback
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.ConfirmationNot.Validate">
-            <summary>
-            On Validate callback
-            </summary>
-        </member>
         <member name="T:Buddy.UI.MessageNot">
             <summary>
             Display a message callback notification on the Top of the robot screen
             </summary>
-        </member>
-        <member name="M:Buddy.UI.MessageNot.With(System.String,System.Action,System.Action)">
             <summary>
-            Specify parameters for a received message notifcation
+            Display a message callback notification on the Top of the robot screen
             </summary>
-            <param name="iText">The text to display</param>
-            <param name="iOnValidate">Callback method if user click on validate</param>
-            <param name="iOnResponse">Callback method if user click on response</param>
         </member>
         <member name="M:Buddy.UI.MessageNot.Respond">
             <summary>
@@ -6897,7 +6980,18 @@
             Inner method called after click on validate. Do not call it manually
             </summary>
         </member>
+        <member name="M:Buddy.UI.MessageNot.With(System.String,System.Action,System.Action)">
+            <summary>
+            Specify parameters for a received message notifcation
+            </summary>
+            <param name="iText">The text to display</param>
+            <param name="iOnValidate">Callback method if user click on validate</param>
+            <param name="iOnResponse">Callback method if user click on response</param>
+        </member>
         <member name="T:Buddy.UI.SimpleNot">
+            <summary>
+            Display a basic notification on the Top of the robot screen
+            </summary>
             <summary>
             Display a basic notification on the Top of the robot screen
             </summary>
@@ -6983,6 +7077,9 @@
             </summary>
         </member>
         <member name="T:Buddy.UI.Notifier">
+            <summary>
+            Display a notification on the top of the robot screen
+            </summary>
             <summary>
             Display a notification on the top of the robot screen
             </summary>
@@ -7690,35 +7787,65 @@
             Just update display info
             </summary>
         </member>
-        <member name="T:Buddy.UI.NumPadToast">
+        <member name="T:Buddy.UI.Toaster">
             <summary>
-            Toast to display and handle numpad
+            Toaster is a tool to help managing User Interface (Choosing canvas according to options, display pictures, text...)
+            </summary>
+            <summary>
+            Toaster is a tool to help managing User Interface (Choosing canvas according to options, display pictures, text...)
             </summary>
         </member>
-        <member name="M:Buddy.UI.NumPadToast.With(System.Func{System.String,System.Collections.IEnumerator},System.Action,System.Action,System.Action)">
+        <member name="P:Buddy.UI.Toaster.IsDisplayed">
             <summary>
-            Specify parameters for numpad toast
-            </summary>
-            <param name="iHandlePwd">Handler function to handle pin</param>
-            <param name="iOnSuccess">Success callback</param>
-            <param name="iOnFailure">Failure callback</param>
-            <param name="iOnCancel">Cancel callback</param>
-            <returns>The toast ID</returns>
-        </member>
-        <member name="T:Buddy.UI.ChoiceToast">
-            <summary>
-            Toast to display multiple choices
+            Is a toast currently displayed
             </summary>
         </member>
-        <member name="M:Buddy.UI.ChoiceToast.With(System.String,Buddy.UI.ButtonInfo[])">
+        <member name="M:Buddy.UI.Toaster.Display``1">
             <summary>
-            Specify parameters for choice toast
+            Display a specific toast
             </summary>
-            <param name="iTitle">The title displayed</param>
-            <param name="iChoiceInfos">Array of ButtonInfo representing all the choices (maximum 5)</param>
+            <typeparam name="T">Toast type</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.UI.Toaster.Hide">
+            <summary>
+            Hide the currently displayed toast
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Toaster.LockToast(System.Int32)">
+            <summary>
+            Lock a specific toast to a higher layer
+            </summary>
+            <param name="iID">ID of the toast to lock</param>
+        </member>
+        <member name="M:Buddy.UI.Toaster.UnlockToast">
+            <summary>
+            Unlock all the locked toast
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.AToast">
+            <summary>
+            A toast is the abstract class of a kind of display for the toaster. It can be a text, pictures display purpose, text with button...
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.BackgroundToast">
+            <summary>
+            Toast to display the black background
+            </summary>
+            <summary>
+            Toast to display the black background
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.BackgroundToast.With">
+            <summary>
+            Only show the black background
+            </summary>
             <returns>The toast ID</returns>
         </member>
         <member name="T:Buddy.UI.BinaryQuestionToast">
+            <summary>
+            Toast to display question with two possible answers
+            </summary>
             <summary>
             Toast to display question with two possible answers
             </summary>
@@ -7741,7 +7868,26 @@
             <param name="iOnNo">Left button info</param>
             <returns>The toast ID</returns>
         </member>
+        <member name="T:Buddy.UI.ChoiceToast">
+            <summary>
+            Toast to display multiple choices
+            </summary>
+            <summary>
+            Toast to display multiple choices
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.ChoiceToast.With(System.String,Buddy.UI.ButtonInfo[])">
+            <summary>
+            Specify parameters for choice toast
+            </summary>
+            <param name="iTitle">The title displayed</param>
+            <param name="iChoiceInfos">Array of ButtonInfo representing all the choices (maximum 5)</param>
+            <returns>The toast ID</returns>
+        </member>
         <member name="T:Buddy.UI.CountdownToast">
+            <summary>
+            Toast to display a countdown
+            </summary>
             <summary>
             Toast to display a countdown
             </summary>
@@ -7800,7 +7946,41 @@
             <param name="iEndAtZero">Has the countdown to finish at zero</param>
             <returns>The toast ID</returns>
         </member>
+        <member name="T:Buddy.UI.DefeatToast">
+            <summary>
+            Toast to display a defeat screen
+            </summary>
+            <summary>
+            Toast to display a defeat screen
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.DefeatToast.With(System.String)">
+            <summary>
+            Specify parameters for defeat toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.DefeatToast.With(System.String,System.Action,System.Action)">
+            <summary>
+            Specify parameters for defeat toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.DefeatToast.With(System.String,Buddy.UI.ButtonInfo,Buddy.UI.ButtonInfo)">
+            <summary>
+            Specify parameters for defeat toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iOnYes">Right button info</param>
+            <param name="iOnNo">Left button info</param>
+            <returns>The toast ID</returns>
+        </member>
         <member name="T:Buddy.UI.IconToast">
+            <summary>
+            Toast to display single large icon
+            </summary>
             <summary>
             Toast to display single large icon
             </summary>
@@ -7937,94 +8117,26 @@
             <param name="iPulse">Has the icon to pulse</param>
             <returns>The toast ID</returns>
         </member>
-        <member name="T:Buddy.UI.TutorialToast">
+        <member name="T:Buddy.UI.LoadingToast">
             <summary>
-            Toast to display a steps tutorial
+            Toast to display loading screen
+            </summary>
+            <summary>
+            Toast to display loading screen
             </summary>
         </member>
-        <member name="M:Buddy.UI.TutorialToast.With(System.String,Buddy.UI.TutorialInfo[])">
+        <member name="M:Buddy.UI.LoadingToast.With(System.String,UnityEngine.Sprite)">
             <summary>
-            Specify parameters for tutorial toast
+            Specify parameters for loading toast
             </summary>
             <param name="iTitle">Title displayed</param>
-            <param name="iSliders">Array of tutorial info representing the different steps</param>
-            <returns>The toast ID</returns>
-        </member>
-        <member name="T:Buddy.UI.TextToast">
-            <summary>
-            Toast to display a simple text
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.TextToast.With(System.String)">
-            <summary>
-            Specify parameters for text toast
-            </summary>
-            <param name="iQuestion">Text displayed</param>
-            <returns>The toast ID</returns>
-        </member>
-        <member name="T:Buddy.UI.PictureToast">
-            <summary>
-            Toast to display one or many selectable pictures
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.ParameterToast">
-            <summary>
-            Toast to display parameter layout
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.ParameterToast.With(Buddy.UI.AWindowLayout)">
-            <summary>
-            Specify parameters for parameter toast
-            </summary>
-            <param name="iLayout">A window layout</param>
-            <returns>The toast ID</returns>
-        </member>
-        <member name="M:Buddy.UI.ParameterToast.With(Buddy.UI.AWindowLayout,System.Action)">
-            <summary>
-            Specify parameters for parameter toast
-            </summary>
-            <param name="iLayout">A window layout</param>
-            <param name="iOnValidate">Validate callback</param>
-            <returns>The toast ID</returns>
-        </member>
-        <member name="M:Buddy.UI.ParameterToast.With(Buddy.UI.AWindowLayout,System.Action,System.Action)">
-            <summary>
-            Specify parameters for parameter toast
-            </summary>
-            <param name="iLayout">A window layout</param>
-            <param name="iOnValidate">Validate callback</param>
-            <param name="iOnPrevious">Previous callback</param>
-            <returns>The toast ID</returns>
-        </member>
-        <member name="T:Buddy.UI.DefeatToast">
-            <summary>
-            Toast to display a defeat screen
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.DefeatToast.With(System.String)">
-            <summary>
-            Specify parameters for defeat toast
-            </summary>
-            <param name="iTitle">Title displayed</param>
-            <returns>The toast ID</returns>
-        </member>
-        <member name="M:Buddy.UI.DefeatToast.With(System.String,System.Action,System.Action)">
-            <summary>
-            Specify parameters for defeat toast
-            </summary>
-            <param name="iTitle">Title displayed</param>
-            <returns>The toast ID</returns>
-        </member>
-        <member name="M:Buddy.UI.DefeatToast.With(System.String,Buddy.UI.ButtonInfo,Buddy.UI.ButtonInfo)">
-            <summary>
-            Specify parameters for defeat toast
-            </summary>
-            <param name="iTitle">Title displayed</param>
-            <param name="iOnYes">Right button info</param>
-            <param name="iOnNo">Left button info</param>
+            <param name="iImage">Image displayed</param>
             <returns>The toast ID</returns>
         </member>
         <member name="T:Buddy.UI.LoginToast">
+            <summary>
+            Toast to display and handle login form
+            </summary>
             <summary>
             Toast to display and handle login form
             </summary>
@@ -8063,7 +8175,99 @@
             <param name="iPwdPlaceholder">Password field placeholder</param>
             <returns>The toast ID</returns>
         </member>
+        <member name="T:Buddy.UI.NumPadToast">
+            <summary>
+            Toast to display and handle numpad
+            </summary>
+            <summary>
+            Toast to display and handle numpad
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.NumPadToast.With(System.Func{System.String,System.Collections.IEnumerator},System.Action,System.Action,System.Action)">
+            <summary>
+            Specify parameters for numpad toast
+            </summary>
+            <param name="iHandlePwd">Handler function to handle pin</param>
+            <param name="iOnSuccess">Success callback</param>
+            <param name="iOnFailure">Failure callback</param>
+            <param name="iOnCancel">Cancel callback</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.ParameterToast">
+            <summary>
+            Toast to display parameter layout
+            </summary>
+            <summary>
+            Toast to display parameter layout
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.ParameterToast.With(Buddy.UI.AWindowLayout)">
+            <summary>
+            Specify parameters for parameter toast
+            </summary>
+            <param name="iLayout">A window layout</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.ParameterToast.With(Buddy.UI.AWindowLayout,System.Action)">
+            <summary>
+            Specify parameters for parameter toast
+            </summary>
+            <param name="iLayout">A window layout</param>
+            <param name="iOnValidate">Validate callback</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.ParameterToast.With(Buddy.UI.AWindowLayout,System.Action,System.Action)">
+            <summary>
+            Specify parameters for parameter toast
+            </summary>
+            <param name="iLayout">A window layout</param>
+            <param name="iOnValidate">Validate callback</param>
+            <param name="iOnPrevious">Previous callback</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.PictureToast">
+            <summary>
+            Toast to display one or many selectable pictures
+            </summary>
+            <summary>
+            Toast to display one or many selectable pictures
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.TextToast">
+            <summary>
+            Toast to display a simple text
+            </summary>
+            <summary>
+            Toast to display a simple text
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.TextToast.With(System.String)">
+            <summary>
+            Specify parameters for text toast
+            </summary>
+            <param name="iQuestion">Text displayed</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="T:Buddy.UI.TutorialToast">
+            <summary>
+            Toast to display a steps tutorial
+            </summary>
+            <summary>
+            Toast to display a steps tutorial
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.TutorialToast.With(System.String,Buddy.UI.TutorialInfo[])">
+            <summary>
+            Specify parameters for tutorial toast
+            </summary>
+            <param name="iTitle">Title displayed</param>
+            <param name="iSliders">Array of tutorial info representing the different steps</param>
+            <returns>The toast ID</returns>
+        </member>
         <member name="T:Buddy.UI.VictoryToast">
+            <summary>
+            Toast to display a victory screen
+            </summary>
             <summary>
             Toast to display a victory screen
             </summary>
@@ -8090,82 +8294,6 @@
             <param name="iOnYes">Right button info</param>
             <param name="iOnNo">Left button info</param>
             <returns>The toast ID</returns>
-        </member>
-        <member name="T:Buddy.UI.LoadingToast">
-            <summary>
-            Toast to display loading screen
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.LoadingToast.With(System.String,UnityEngine.Sprite)">
-            <summary>
-            Specify parameters for loading toast
-            </summary>
-            <param name="iTitle">Title displayed</param>
-            <param name="iImage">Image displayed</param>
-            <returns>The toast ID</returns>
-        </member>
-        <member name="T:Buddy.UI.AToast">
-            <summary>
-            A toast is the abstract class of a kind of display for the toaster. It can be a text, pictures display purpose, text with button...
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.Toaster">
-            <summary>
-            Toaster is a tool to help managing User Interface (Choosing canvas according to options, display pictures, text...)
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Toaster.IsDisplayed">
-            <summary>
-            Is a toast currently displayed
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Toaster.Display``1">
-            <summary>
-            Display a specific toast
-            </summary>
-            <typeparam name="T">Toast type</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Buddy.UI.Toaster.Hide">
-            <summary>
-            Hide the currently displayed toast
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Toaster.LockToast(System.Int32)">
-            <summary>
-            Lock a specific toast to a higher layer
-            </summary>
-            <param name="iID">ID of the toast to lock</param>
-        </member>
-        <member name="M:Buddy.UI.Toaster.UnlockToast">
-            <summary>
-            Unlock all the locked toast
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.Header">
-            <summary>
-            Display an utility toolbar on the top of the robot screen
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Header.SpinningWheel">
-            <summary>
-            Enable/Disable the spin at the top-right corner of the screen
-            </summary>
-        </member>
-        <member name="T:Buddy.LanguageManager">
-            <summary>
-            Language managing
-            </summary>
-        </member>
-        <member name="P:Buddy.LanguageManager.CurrentLang">
-            <summary>
-            Current OS/UI language
-            </summary>
-        </member>
-        <member name="P:Buddy.LanguageManager.CurrentFormat">
-            <summary>
-            Current OS/UI language format
-            </summary>
         </member>
     </members>
 </doc>

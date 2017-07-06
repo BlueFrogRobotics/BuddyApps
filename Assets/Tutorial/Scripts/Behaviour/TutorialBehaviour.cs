@@ -5,7 +5,7 @@ using Buddy;
 
 namespace BuddyApp.Tutorial
 {
-    public class TutorialBehaviour : MonoBehaviour
+    public partial class TutorialBehaviour : MonoBehaviour
     {
         [SerializeField]
         private RawImage rawImage;

@@ -4155,6 +4155,7 @@ GameObject:
   - component: {fileID: 114946675089372230}
   - component: {fileID: 114274549457856182}
   - component: {fileID: 114678373297226760}
+  - component: {fileID: 114647035304233430}
   - component: {fileID: 114481614567863706}
   m_Layer: 0
   m_Name: Toaster
@@ -20512,6 +20513,18 @@ MonoBehaviour:
   m_Script: {fileID: -1686650970, guid: 3f698040fbdd6304c9da19bf4e25005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114647035304233430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1496436234618914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1796813519, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!114 &114647172845603458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -35664,7 +35677,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 4303.9355}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224681134271057724
