@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageThesaurus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Entries>
+        <DictionaryEntry>
+            <Key>askprepare</Key>
+            <BaseValue>I see you're ready for some cooking. [300] What are we making today</BaseValue>
+            <RandomValues>
+                <string>I see you're ready for some cooking. [300] What are we making today ?</string>
+                <string>I am all ears, [300] tell me what you have in mind.</string>
+                <string>Apron [500] toque [500] ok I'm listening.</string>
+                <string>So what are we preparing?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>recipenotfound</Key>
+            <BaseValue>Sorry I did not find this recipe, can you please repeat?</BaseValue>
+            <RandomValues>
+                <string>Sorry I did not find this recipe, can you please repeat?</string>
+                <string>It would seem that this recipe is unknown to me. [300] Would you kindly choose</string>
+                <string>another one?</string>
+                <string>Unfortunately I do not know this recipe. [300] We'll have to pick another one.</string>
+                <string>I tried everywhere impossible to get hold of this recipe, [300] another idea?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>chooserecipecategory</Key>
+            <BaseValue>What kind of recipe do you want to make?</BaseValue>
+            <RandomValues>
+                <string>What kind of recipe do you want to make?</string>
+                <string>Starter, dish or dessert. [300] The choice is yours.</string>
+                <string>Press the category of your choice.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>starter</Key>
+            <BaseValue>STARTER</BaseValue>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>dish</Key>
+            <BaseValue>DISH</BaseValue>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>nomatchingrecipe</Key>
+            <BaseValue>Sorry I could not find any recipes matching these criteria</BaseValue>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>pathtoxml</Key>
+            <BaseValue>recipe_list_en.xml</BaseValue>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>listrecipefound</Key>
+            <BaseValue>I found several recipes. I will show them on my face so that you can</BaseValue>
+            <RandomValues>
+                <string>I found several recipes. I will show them on my face so that you can choose</string>
+                <string>the one you want.</string>
+                <string>I will display all the corresponding recipes. [300] Choose the one that suits</string>
+                <string>you.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>startingredient</Key>
+            <BaseValue>To start,[200] prepare the following ingredients</BaseValue>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>person</Key>
+            <BaseValue>person</BaseValue>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>next</Key>
+            <BaseValue>next</BaseValue>
+            <ClosePhoneticValues>
+                <string>next</string>
+                <string>following</string>
+                <string>ok</string>
+                <string>okay</string>
+            </ClosePhoneticValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>last</Key>
+            <BaseValue>last</BaseValue>
+            <ClosePhoneticValues>
+                <string>last</string>
+                <string>previous</string>
+                <string>former</string>
+                <string>back</string>
+                <string>preceding</string>
+                <string>return</string>
+            </ClosePhoneticValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>repeat</Key>
+            <BaseValue>repeat</BaseValue>
+            <ClosePhoneticValues>
+                <string>repeat</string>
+                <string>again</string>
+            </ClosePhoneticValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>finish</Key>
+            <BaseValue>It's over, I'm nice I leave you my share</BaseValue>
+            <RandomValues>
+                <string>It's over, I'm nice I leave you my share</string>
+                <string>We arrived at the end of the recipe. [300] I can't wait to taste a piece of</string>
+                <string>it.</string>
+                <string>Is it over already? [300] Too bad we had fun.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>another</Key>
+            <BaseValue>Do you want to make another recipe?</BaseValue>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>yes</Key>
+            <BaseValue>yes</BaseValue>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>no</Key>
+            <BaseValue>no</BaseValue>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>noanswerrecipe2</Key>
+            <BaseValue>I can't hear you.[300] Wake me up when you're ready.</BaseValue>
+            <RandomValues>
+                <string>I can't hear you. [300] Wake me up when you're ready.</string>
+                <string>Excuse me somebody?</string>
+                <string>I'm bored</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>startstep</Key>
+            <BaseValue>It's over for the ingredients.[200] Now let's start the real part.[200]</BaseValue>
+            <RandomValues>
+                <string>It's over for the ingredients.[200] Now let's start the real part.</string>
+                <string>Well I hope you are ready because we will start for real.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>pronum</Key>
+            <BaseValue>of</BaseValue>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>startrecipe</Key>
+            <BaseValue>Very well. [300]Let's prepare</BaseValue>
+            <RandomValues>
+                <string>Well I hope you are ready because we will really start.</string>
+                <string>Very well. [300] Let's prepare</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>hint1</Key>
+            <BaseValue>You can double tap my face to access the category menu</BaseValue>
+            <RandomValues>
+                <string>Well I hope you are ready because we will really start.</string>
+                <string>Very well. [300] Let's prepare</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>hint2</Key>
+            <BaseValue>You can ask me to repeat or go to the next or last stage. You can also</BaseValue>
+            <RandomValues>
+                <string>You can ask me to repeat or go to the next or last step</string>
+                <string>Very well. [300] Let's prepare</string>
+            </RandomValues>
+        </DictionaryEntry>
+    </Entries>
+</LanguageThesaurus>
