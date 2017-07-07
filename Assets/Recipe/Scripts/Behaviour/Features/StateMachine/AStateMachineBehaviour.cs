@@ -23,7 +23,7 @@ namespace BuddyApp.Recipe
         private Dictionary<string, string> mCommonStrings;
         private Dictionary<string, object> mCommonObjects;
         private RecipeStateMachineManager mManager;
-        private Animator mAnimator;
+        protected Animator mAnimator;
 
         /// <summary>
         /// Common integers through the animator
