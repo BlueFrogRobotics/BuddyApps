@@ -45,15 +45,21 @@ namespace BuddyApp.Guardian
         {
             mAnimator = GetComponent<Animator>();
 
-            FireDetector = GetComponent<FireDetector>();
-            SoundDetector = GetComponent<SoundDetector>();
-            MovementDetector = GetComponent<MovementDetector>();
-            KidnappingDetector = GetComponent<KidnappingDetector>();
+            FireDetector = BYOS.Instance.Perception.FireDetector;//GetComponent<FireDetector>();
+            SoundDetector = BYOS.Instance.Perception.SoundDetector;//GetComponent<SoundDetector>();
+            MovementDetector = BYOS.Instance.Perception.MovementDetector; //GetComponent<MovementDetector>();
+            KidnappingDetector = BYOS.Instance.Perception.KidnappingDetector; //GetComponent<KidnappingDetector>();
+
+            FireDetector.Enable();
+            SoundDetector.Enable();
+            BYOS.Instance.Perception.MovementTracker.Enable();
+            MovementDetector.Enable();
+            KidnappingDetector.Enable();
 
             SaveAudio = GetComponent<SaveAudio>();
             SaveVideo = GetComponent<SaveVideo>();
 
-            Roomba = GetComponent<RoombaNavigation>();
+            Roomba = BYOS.Instance.Navigation.Roomba; //GetComponent<RoombaNavigation>();
             Roomba.enabled = false;
 
             GuardianActivity.Init(mAnimator, this);

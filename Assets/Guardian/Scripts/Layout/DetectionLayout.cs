@@ -9,8 +9,11 @@ namespace BuddyApp.Guardian
     {
         private LabeledButton mHeadOrientation;
         private GaugeOnOff mMovementDetection;
+        private LabeledButton mMovementDebug;
         private GaugeOnOff mSoundDetection;
+        private LabeledButton mSoundDebug;
         private OnOff mFireDetection;
+        private LabeledButton mFireDebug;
         private OnOff mKidnappingDetection;
         private Dropdown mContacts;
 
@@ -20,8 +23,11 @@ namespace BuddyApp.Guardian
 
             mHeadOrientation = CreateWidget<LabeledButton>();
             mMovementDetection = CreateWidget<GaugeOnOff>();
+            mMovementDebug = CreateWidget<LabeledButton>();
             mSoundDetection = CreateWidget<GaugeOnOff>();
+            mSoundDebug = CreateWidget<LabeledButton>();
             mFireDetection = CreateWidget<OnOff>();
+            mFireDebug = CreateWidget<LabeledButton>();
             mKidnappingDetection = CreateWidget<OnOff>();
             mContacts = CreateWidget<Dropdown>();
 
@@ -38,6 +44,10 @@ namespace BuddyApp.Guardian
             mFireDetection.IsActive = GuardianData.Instance.FireDetection;
             mKidnappingDetection.IsActive = GuardianData.Instance.KidnappingDetection;
 
+            mHeadOrientation.OnClickEvent(() => { GuardianData.Instance.HeadOrientation = true; });
+            mMovementDebug.OnClickEvent(() => { GuardianData.Instance.MovementDebug = true; });
+            mSoundDebug.OnClickEvent(() => { GuardianData.Instance.SoundDebug = true; });
+            mFireDebug.OnClickEvent(() => { GuardianData.Instance.FireDebug = true; });
 
             mMovementDetection.OnSwitchEvent((bool iVal) => {
                 GuardianData.Instance.MovementDetection = iVal;
@@ -77,6 +87,12 @@ namespace BuddyApp.Guardian
         {
             mHeadOrientation.OuterLabel = BYOS.Instance.Dictionary.GetString("headorientation");
             mHeadOrientation.InnerLabel = BYOS.Instance.Dictionary.GetString("changeheadorientation");
+            mMovementDebug.OuterLabel = "debug mouvement";
+            mMovementDebug.InnerLabel = "debug";
+            mFireDebug.OuterLabel = "debug thermique";
+            mFireDebug.InnerLabel = "debug";
+            mSoundDebug.OuterLabel = "debug son";
+            mSoundDebug.InnerLabel = "debug";
             mMovementDetection.Label = BYOS.Instance.Dictionary.GetString("movementdetection");
             mFireDetection.Label = BYOS.Instance.Dictionary.GetString("firedetection");
             mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");

@@ -3,10 +3,14 @@
     <Mode>FIXED</Mode>
     <MovementDetectionThreshold>1</MovementDetectionThreshold>
     <SoundDetectionThreshold>5</SoundDetectionThreshold>
-    <MovementDetection>false</MovementDetection>
+    <MovementDetection>true</MovementDetection>
     <SoundDetection>true</SoundDetection>
     <FireDetection>false</FireDetection>
     <KidnappingDetection>false</KidnappingDetection>
     <HeadRotation>true</HeadRotation>
+    <HeadOrientation>false</HeadOrientation>
+    <MovementDebug>false</MovementDebug>
+    <SoundDebug>false</SoundDebug>
+    <FireDebug>false</FireDebug>
     <Contact>NOBODY</Contact>
 </GuardianData>

@@ -12,6 +12,14 @@ using IEnumerator = System.Collections.IEnumerator;
 /// </summary>
 namespace BuddyApp.Guardian
 {
+    public enum StateObject : int
+    {
+        HEAD_CONTROLLER = 0,
+        DEBUG_MOVEMENT = 1,
+        DEBUG_SOUND = 2,
+        DEBUG_FIRE = 3,
+    }
+
     /// <summary>
     /// If you planned to make a State Machine for your application, you will probably need to make your states inherit from this class.
     /// Add the possibility to use Coroutines, easy access to the Buddy API and retrieve Game Objects and Components on the StateMachineAppLinker.
@@ -252,6 +260,16 @@ namespace BuddyApp.Guardian
                     return lGOs[i];
 
             return null;
+        }
+
+        /// <summary>
+        /// Retrieve the linked gameObject to the StateMachineAppLinker by its StateObject equivalent.
+        /// </summary>
+        /// <param name="iStateObject">The StateObject associated with the linked gameobject</param>
+        /// <returns>The gameobject</returns>
+        protected GameObject GetGameObject(StateObject iStateObject)
+        {
+            return mManager.GameObjects[(int)iStateObject];
         }
 
         /// <summary>
