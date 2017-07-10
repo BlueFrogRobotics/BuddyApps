@@ -35,7 +35,7 @@ namespace BuddyApp.Guardian
         // Use this for initialization
         void Start()
         {
-            message.text = BYOS.Instance.Dictionary.GetString("selectSensibility").ToUpper();
+            message.text = BYOS.Instance.Dictionary.GetString("selectsensibility").ToUpper();
             labelGauge.text = BYOS.Instance.Dictionary.GetString("sensibility");
             gaugeSensibility.DisplayPercentage = true;
         }

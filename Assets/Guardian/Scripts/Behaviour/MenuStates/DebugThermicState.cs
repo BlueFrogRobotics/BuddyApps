@@ -46,6 +46,7 @@ namespace BuddyApp.Guardian
             if (mHasDetectedFire)
             {
                 //StateManager.PlayBeep();
+                BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
                 mHasDetectedFire = false;
                 mShowTemperature.IcoFire.enabled = true;
             }

@@ -40,7 +40,7 @@ namespace BuddyApp.Guardian
         // Use this for initialization
         void Start()
         {
-            message.text = BYOS.Instance.Dictionary.GetString("textDebugTemp").ToUpper();
+            message.text = BYOS.Instance.Dictionary.GetString("textdebugtemp").ToUpper();
             Interpolation = false;
             mTemperature = new float[mWidth * mHeight];
             for (int i = 0; i < mWidth * mHeight; i++)

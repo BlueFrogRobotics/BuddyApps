@@ -97,6 +97,7 @@ namespace BuddyApp.Guardian
                 mRaw.texture = mTexture;
                 if (mHasDetectedMouv)
                 {
+                    BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
                     //StateManager.PlayBeep();
                     mHasDetectedMouv = false;
                     mDebugMovementWindow.IcoMouv.enabled = true;
@@ -116,6 +117,7 @@ namespace BuddyApp.Guardian
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            GuardianData.Instance.MovementDetectionThreshold = (int)mMovementDetector.Threshold;
             mDebugMovementWindow.IcoMouv.enabled = false;
             mMovementDetector.OnDetection -= OnMovementDetected;
             mDebugMovementWindow.ButtonBack.onClick.RemoveAllListeners();
