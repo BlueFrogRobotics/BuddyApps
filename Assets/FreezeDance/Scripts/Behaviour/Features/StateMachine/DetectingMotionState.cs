@@ -19,7 +19,7 @@ namespace BuddyApp.FreezeDance
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Perception.MovementTracker.enabled = true;
-            Perception.MovementDetector.enabled = true;
+            //Perception.MovementDetector.enabled = true;
             //Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
             if (!Primitive.RGBCam.IsOpen)
                 Primitive.RGBCam.Open(RGBCamResolution.W_176_H_144);
@@ -33,11 +33,11 @@ namespace BuddyApp.FreezeDance
         {
             mTime += Time.deltaTime;
             //Debug.Log("detection: " + Perception.MovementDetector.IsMovementDetected);
-            if (!mLost && mTime>1.1f && Perception.MovementDetector.IsMovementDetected)
-            {
-                    Trigger("Lose");
-                    mLost = true;
-            }
+            //if (!mLost && mTime>1.1f && Perception.MovementDetector.IsMovementDetected)
+            //{
+            //        Trigger("Lose");
+            //        mLost = true;
+            //}
 
             if (!mLost && mTime > 5.0f)
             {

@@ -25,7 +25,7 @@ namespace BuddyApp.Recipe
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
+			Toaster.Hide();
         }
     }
 }

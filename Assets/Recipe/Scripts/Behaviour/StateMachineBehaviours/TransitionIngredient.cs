@@ -195,8 +195,8 @@ namespace BuddyApp.Recipe
                     GetComponent<Animator>().SetTrigger("BackToList");
                 else
                 {
-                    //GetGameObject(0).GetComponent<Animator>().ResetTrigger("Close_BG");
-                    GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
+					//GetGameObject(0).GetComponent<Animator>().ResetTrigger("Close_BG");
+					Toaster.Hide();
                     GetGameObject(1).SetActive(false);
                     GetGameObject(2).SetActive(true);
                     GetComponent<RecipeBehaviour>().IsBackgroundActivated = false;

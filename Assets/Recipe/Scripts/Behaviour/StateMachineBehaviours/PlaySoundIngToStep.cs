@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Buddy;
+using Buddy.UI;
 
 namespace BuddyApp.Recipe
 {
@@ -61,7 +62,7 @@ namespace BuddyApp.Recipe
             {
                 if (!sentence)
                 {
-                    GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
+					Toaster.Hide();
                     GetComponent<RecipeBehaviour>().IsBackgroundActivated = false;
                     sentence = true;
                     GetComponent<Animator>().SetTrigger("StartStep");

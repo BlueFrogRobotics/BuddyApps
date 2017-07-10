@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Buddy;
+using Buddy.UI;
 
 namespace BuddyApp.Recipe
 {
@@ -14,10 +15,12 @@ namespace BuddyApp.Recipe
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
 			Interaction.Mood.Set(MoodType.NEUTRAL);
-            //if (!GetComponent<RecipeBehaviour>().IsBackgroundActivated) {
-                //GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
-                //GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
-            //}
+			//if (!GetComponent<RecipeBehaviour>().IsBackgroundActivated) {
+			//GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
+			//GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
+			//}
+
+			Toaster.Display<BackgroundToast>().With();
 
             GetGameObject(13).GetComponent<Text>().text = Dictionary.GetString("starter");
             GetGameObject(14).GetComponent<Text>().text = Dictionary.GetString("dish");

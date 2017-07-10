@@ -27,18 +27,18 @@ namespace BuddyApp.Guardian
         // Update is called once per frame
         void Update()
         {
-            if (mDetectionManager.SoundDetector.HasStarted && !mIsInit) {
-                Init();
-                mIsInit = true;
-            } else
-                RecordInArray();
+            //if (mDetectionManager.SoundDetector.HasStarted && !mIsInit) {
+            //    Init();
+            //    mIsInit = true;
+            //} else
+            //    RecordInArray();
 
         }
 
         void Init()
         {
 
-            mAudioClip = mDetectionManager.SoundDetector.Clip;
+            //mAudioClip = mDetectionManager.SoundDetector.Clip;
             mDevice = Microphone.devices[0];
             for (int i = 0; i < mArrayAudioClip.Length; i++) {
                 mArrayAudioClip[i] = AudioClip.Create("noise " + i, mAudioClip.samples, mAudioClip.channels, 44100, false);
@@ -48,12 +48,12 @@ namespace BuddyApp.Guardian
 
         private void RecordInArray()
         {
-            if (mDetectionManager.SoundDetector.IsASoundDetected) {
+            //if (mDetectionManager.SoundDetector.IsASoundDetected) {
 
-                mIsRecording = true;
-                mPosMicroActuel = Microphone.GetPosition(mDevice);
-                mNumSeq = 0;
-            }
+            //    mIsRecording = true;
+            //    mPosMicroActuel = Microphone.GetPosition(mDevice);
+            //    mNumSeq = 0;
+            //}
 
             if (mPosMicroActuel <= Microphone.GetPosition(mDevice)) {
                 mPosMicroActuel = Microphone.GetPosition(mDevice);

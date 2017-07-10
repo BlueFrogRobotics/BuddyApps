@@ -18,19 +18,19 @@ namespace BuddyApp.Recipe
         {
             Debug.Log("ENTER ASK ANOTHER RECIPE");
             mCheck = false;
-            BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("another"), AnswerYes, AnswerNo);
+            Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("another"), AnswerYes, AnswerNo);
 			Interaction.TextToSpeech.Say(Dictionary.GetString("another"));
         }
 
         private void AnswerYes()
 		{
-			BYOS.Instance.Toaster.Hide();
+			Toaster.Hide();
 			GetComponent<Animator>().SetTrigger("BackToStart");
         }
 
 		private void AnswerNo()
 		{
-			BYOS.Instance.Toaster.Hide();
+			Toaster.Hide();
 			GetComponent<RecipeBehaviour>().Exit();
 		}
 

@@ -21,7 +21,7 @@ namespace BuddyApp.Guardian
         {
             Interaction.TextToSpeech.SayKey("startdetectiontimer");
             mStartTimer = false;
-            Detection.SoundDetector.StartMic();
+            //Detection.SoundDetector.StartMic();
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

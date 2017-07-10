@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Buddy;
+using Buddy.UI;
 
 namespace BuddyApp.Recipe
 {
@@ -13,7 +14,7 @@ namespace BuddyApp.Recipe
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            GetGameObject(0).GetComponent<Animator>().SetTrigger("Close_BG");
+			Toaster.Hide();
             GetComponent<RecipeBehaviour>().IsBackgroundActivated = false;
             mCheck = false;
 			Interaction.Mood.Set(MoodType.HAPPY, false, true);
@@ -44,8 +45,7 @@ namespace BuddyApp.Recipe
             Interaction.Mood.Set(MoodType.NEUTRAL);
             if (!GetComponent<RecipeBehaviour>().IsBackgroundActivated)
             {
-                GetGameObject(0).GetComponent<Animator>().ResetTrigger("Close_BG");
-                GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
+				Toaster.Display<BackgroundToast>().With();
                 GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
             }
         }

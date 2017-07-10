@@ -21,10 +21,10 @@ namespace BuddyApp.Guardian
 
         public RoombaNavigation Roomba { get; private set; }
 
-        public FireDetector FireDetector { get; private set; }
-        public SoundDetector SoundDetector { get; private set; }
-        public MovementDetector MovementDetector { get; private set; }
-        public KidnappingDetector KidnappingDetector { get; private set; }
+        //public FireDetector FireDetector { get; private set; }
+        //public SoundDetector SoundDetector { get; private set; }
+        //public MovementDetector MovementDetector { get; private set; }
+        //public KidnappingDetector KidnappingDetector { get; private set; }
 
         public bool IsDetectingFire { get; set; }
         public bool IsDetectingMovement { get; set; }
@@ -45,10 +45,10 @@ namespace BuddyApp.Guardian
         {
             mAnimator = GetComponent<Animator>();
 
-            FireDetector = GetComponent<FireDetector>();
-            SoundDetector = GetComponent<SoundDetector>();
-            MovementDetector = GetComponent<MovementDetector>();
-            KidnappingDetector = GetComponent<KidnappingDetector>();
+            //FireDetector = GetComponent<FireDetector>();
+            //SoundDetector = GetComponent<SoundDetector>();
+            //MovementDetector = GetComponent<MovementDetector>();
+            //KidnappingDetector = GetComponent<KidnappingDetector>();
 
             SaveAudio = GetComponent<SaveAudio>();
             SaveVideo = GetComponent<SaveVideo>();
@@ -110,18 +110,18 @@ namespace BuddyApp.Guardian
 
         public void LinkDetectorsEvents()
         {
-            FireDetector.OnDetection += OnFireDetected;
-            SoundDetector.OnDetection += OnSoundDetected;
-            MovementDetector.OnDetection += OnMovementDetected;
-            KidnappingDetector.OnDetection += OnKidnappingDetected;
+            //FireDetector.OnDetection += OnFireDetected;
+            //SoundDetector.OnDetection += OnSoundDetected;
+            //MovementDetector.OnDetection += OnMovementDetected;
+            //KidnappingDetector.OnDetection += OnKidnappingDetected;
         }
 
         public void UnlinkDetectorsEvents()
         {
-            FireDetector.OnDetection -= OnFireDetected;
-            SoundDetector.OnDetection -= OnSoundDetected;
-            MovementDetector.OnDetection -= OnMovementDetected;
-            KidnappingDetector.OnDetection -= OnKidnappingDetected;
+            //FireDetector.OnDetection -= OnFireDetected;
+            //SoundDetector.OnDetection -= OnSoundDetected;
+            //MovementDetector.OnDetection -= OnMovementDetected;
+            //KidnappingDetector.OnDetection -= OnKidnappingDetected;
         }
     }
 }

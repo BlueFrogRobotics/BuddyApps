@@ -24,7 +24,7 @@ namespace BuddyApp.Guardian
 
         public override void OnQuit()
         {
-            mDetectionManager.SoundDetector.Stop();
+            //mDetectionManager.SoundDetector.Stop();
             mDetectionManager.UnlinkDetectorsEvents();
 
             string lMailAddress = GuardianData.Instance.ContactAddress;
