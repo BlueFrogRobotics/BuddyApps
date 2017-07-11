@@ -14,8 +14,8 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mDetectionManager.MovementDetector.SetSensibilityThreshold(1 - ((float)GuardianData.Instance.MovementDetectionThreshold / 10));
-            mDetectionManager.SoundDetector.SetSensibilityThreshold(1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 10));
+            //mDetectionManager.MovementDetector.SetSensibilityThreshold(1 - ((float)GuardianData.Instance.MovementDetectionThreshold / 10));
+            //mDetectionManager.SoundDetector.SetSensibilityThreshold(1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 10));
 
             mDetectionManager.IsDetectingMovement = GuardianData.Instance.MovementDetection;
             mDetectionManager.IsDetectingSound = GuardianData.Instance.SoundDetection;
