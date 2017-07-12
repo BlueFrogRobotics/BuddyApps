@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Buddy;
+using Buddy.UI;
 
 namespace BuddyApp.Recipe
 {
@@ -22,7 +23,7 @@ namespace BuddyApp.Recipe
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
+			Toaster.Display<BackgroundToast>().With();
             GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
         }
     }

@@ -16,7 +16,7 @@ namespace BuddyApp.Recipe
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mAnswer = GetComponent<RecipeBehaviour>().mAnswer;
-            mRecipeList = RecipeList.Deserialize(Utils.GetFolderPath(Dictionary.GetString("pathtoxml"))).recipe;
+            mRecipeList = RecipeList.Deserialize(Resources.PathToRaw(Dictionary.GetString("pathtoxml"))).recipe;
             SearchRecipe(iAnimator);
         }
 

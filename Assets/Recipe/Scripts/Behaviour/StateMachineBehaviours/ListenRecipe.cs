@@ -24,8 +24,7 @@ namespace BuddyApp.Recipe
 			Interaction.VocalManager.OnError = NoAnswer;
 			Interaction.VocalManager.StopListenBehaviour = null;
 			if (GetComponent<RecipeBehaviour>().NoAnswerCount == 0 && GetComponent<RecipeBehaviour>().RecipeNotFoundCount < 3) {
-				//Interaction.VocalManager.StartInstantReco();
-				//Interaction.SpeechToText.Request();
+				Interaction.VocalManager.StartInstantReco();
 			} else {
 				Debug.Log("Put Trigger On");
 				Interaction.VocalManager.EnableTrigger = true;
@@ -55,7 +54,7 @@ namespace BuddyApp.Recipe
 
         private void GetAnswer(string iAnswer)
         {
-            Debug.Log("GOT A ANSWER");
+            Debug.Log("GOT A ANSWER: " + iAnswer);
 			Interaction.VocalManager.StopListenBehaviour = Empty;
 			GetComponent<RecipeBehaviour>().mAnswer = iAnswer.ToLower();
             mAnimator.SetTrigger("AnswerRecipe");
