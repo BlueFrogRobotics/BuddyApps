@@ -59,6 +59,7 @@ namespace BuddyApp.Recipe
 
         public void FillRecipe(GameObject iAiBehaviour, Recipe iRecipe)
         {
+			Debug.Log("kikoo fill");
             mRecipe = iRecipe;
             aiBehaviour = iAiBehaviour;
             string lString = string.Empty;
@@ -110,7 +111,9 @@ namespace BuddyApp.Recipe
                 text.GetComponent<Text>().text = mRecipe.summary;
             infosButton.GetComponent<Button>().onClick.AddListener(RecipeInfo);
             launchButton.GetComponent<Button>().onClick.AddListener(LaunchRecipe);
-        }
+
+			Debug.Log("kikoo fill end");
+		}
 
         private void RecipeInfo()
         {
