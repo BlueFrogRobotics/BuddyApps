@@ -82,10 +82,6 @@ namespace BuddyApp.Recipe
 				mRecipeInstance = Instantiate(prefabRecipe);
 				mRecipePrefabList.Add(mRecipeInstance);
 				mRecipeInstance.GetComponent<RectTransform>().SetParent(RecipeListParent.GetComponent<RectTransform>(), false);
-
-				//Debug.Log("getcomponent rectrecipe = " + mRecipeList[i].name);
-				//Debug.Log("getcomponent gameobject = " + gameObject.name);
-				//Debug.Log("getcomponent gameobject = " + mRecipeInstance.GetComponent<RecipePrefab>().name);
                 mRecipeInstance.GetComponent<RecipePrefab>().FillRecipe(gameObject, mRecipeList[i]);
 			}
 		}

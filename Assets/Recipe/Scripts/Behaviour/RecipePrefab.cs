@@ -103,6 +103,8 @@ namespace BuddyApp.Recipe
                     lString = lString + ingredient.name + ": " + ingredient.quantity + " " + ingredient.unit + '\n';
             }
             maskDetail.GetComponent<Text>().text = lString;
+			Debug.Log("mRecipe.illustration =" + mRecipe.illustration);
+
 			image.GetComponent<RawImage>().texture = BYOS.Instance.Resources.Load<Sprite>(mRecipe.illustration).texture;
 			if (mRecipe.summary != null && mRecipe.summary.Length > 93)
                 text.GetComponent<Text>().text = mRecipe.summary.Substring(0, 90) + "...";
