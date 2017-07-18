@@ -61,8 +61,8 @@ namespace BuddyApp.Recipe
 
 		public void OnClickCategory(string category)
 		{
-			//TODO: verify this path is ok
-			List<Recipe> lRecipeList = RecipeList.Deserialize(Utils.GetFolderPath(mDictionary.GetString("pathtoxml"))).recipe;
+			//TODO: verify this path is ok 
+			List<Recipe> lRecipeList = RecipeList.Deserialize(BYOS.Instance.Resources.PathToRaw(BYOS.Instance.Dictionary.GetString("pathtoxml"))).recipe;
 			mRecipeList = new List<Recipe>();
 
 			for (int i = 0; i < lRecipeList.Count; i++) {
@@ -82,7 +82,11 @@ namespace BuddyApp.Recipe
 				mRecipeInstance = Instantiate(prefabRecipe);
 				mRecipePrefabList.Add(mRecipeInstance);
 				mRecipeInstance.GetComponent<RectTransform>().SetParent(RecipeListParent.GetComponent<RectTransform>(), false);
-				mRecipeInstance.GetComponent<RecipePrefab>().FillRecipe(gameObject, mRecipeList[i]);
+
+				//Debug.Log("getcomponent rectrecipe = " + mRecipeList[i].name);
+				//Debug.Log("getcomponent gameobject = " + gameObject.name);
+				//Debug.Log("getcomponent gameobject = " + mRecipeInstance.GetComponent<RecipePrefab>().name);
+                mRecipeInstance.GetComponent<RecipePrefab>().FillRecipe(gameObject, mRecipeList[i]);
 			}
 		}
 

@@ -19,8 +19,8 @@ namespace BuddyApp.Recipe
             if (!GetComponent<RecipeBehaviour>().IsBackgroundActivated) {
 				//GetGameObject(0).GetComponent<Animator>().SetTrigger("Open_BG");
 				Toaster.Display<BackgroundToast>().With();
-                GetGameObject(2).SetActive(false);
-                GetGameObject(1).SetActive(true);
+                //GetGameObject(2).SetActive(false);
+                //GetGameObject(1).SetActive(true);
                 GetComponent<RecipeBehaviour>().IsBackgroundActivated = true;
             }
             GetGameObject(5).GetComponent<Animator>().SetTrigger("Open_WRecipeList");

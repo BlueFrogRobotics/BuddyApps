@@ -19,8 +19,9 @@ namespace BuddyApp.Recipe
             if (GetGameObject(4).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Window_FullImage_Off"))
                 GetGameObject(4).GetComponent<Animator>().SetTrigger("Open_WFullImage");
             GetGameObject(12).GetComponent<Text>().text = lText;
-            GetGameObject(7).GetComponent<RawImage>().texture = Resources.Load<Texture>(GetComponent<RecipeBehaviour>().StepList[GetComponent<RecipeBehaviour>().StepIndex].media) as Texture;
-            for (int i = 0; i < lText.Length; i++)
+			Debug.Log("resurce image +" + GetComponent<RecipeBehaviour>().StepList[GetComponent<RecipeBehaviour>().StepIndex].media);
+            GetGameObject(7).GetComponent<RawImage>().texture = BYOS.Instance.Resources.Load<Sprite>(GetComponent<RecipeBehaviour>().StepList[GetComponent<RecipeBehaviour>().StepIndex].media).texture;
+			for (int i = 0; i < lText.Length; i++)
             {
                 if (lText[i] == '.' && i < lText.Length - 1)
                     lText = lText.Insert(i + 1, "[1000]");
