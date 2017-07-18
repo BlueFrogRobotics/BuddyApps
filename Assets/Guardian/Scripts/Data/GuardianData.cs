@@ -52,6 +52,14 @@ namespace BuddyApp.Guardian
 
         public bool HeadRotation { get; set; }
 
+        public bool HeadOrientation { get; set; }
+
+        public bool MovementDebug { get; set; }
+
+        public bool SoundDebug { get; set; }
+
+        public bool FireDebug { get; set; }
+
         public Contacts Contact { get; set; }
 
         public static GuardianData Instance

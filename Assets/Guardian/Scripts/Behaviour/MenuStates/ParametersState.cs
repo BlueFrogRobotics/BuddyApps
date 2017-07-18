@@ -9,17 +9,23 @@ namespace BuddyApp.Guardian
 {
     public class ParametersState : AStateMachineBehaviour
     {
-        DetectionLayout mDetectionLayout;
+        private DetectionLayout mDetectionLayout;
+        private bool mHasSwitchState = false;
 
         public override void Start()
         {
             mDetectionLayout = new DetectionLayout();
+            mHasSwitchState = false;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+            GuardianData.Instance.HeadOrientation = false;
+            GuardianData.Instance.MovementDebug = false;
+            GuardianData.Instance.SoundDebug = false;
+            GuardianData.Instance.FireDebug = false;
 
+            mHasSwitchState = false;
             BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout, 
                 () => { Trigger("NextStep"); },
                 () => { Trigger("Back"); });
@@ -27,7 +33,33 @@ namespace BuddyApp.Guardian
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if (GuardianData.Instance.HeadOrientation && !mHasSwitchState)
+            {
+                BYOS.Instance.Toaster.Hide();
+                mHasSwitchState = true;
+                iAnimator.SetInteger("DebugMode", 0);
+            }
 
+            if (GuardianData.Instance.MovementDebug && !mHasSwitchState)
+            {
+                BYOS.Instance.Toaster.Hide();
+                mHasSwitchState = true;
+                iAnimator.SetInteger("DebugMode", 1);
+            }
+
+            if (GuardianData.Instance.SoundDebug && !mHasSwitchState)
+            {
+                BYOS.Instance.Toaster.Hide();
+                mHasSwitchState = true;
+                iAnimator.SetInteger("DebugMode", 2);
+            }
+
+            if (GuardianData.Instance.FireDebug && !mHasSwitchState)
+            {
+                BYOS.Instance.Toaster.Hide();
+                mHasSwitchState = true;
+                iAnimator.SetInteger("DebugMode", 3);
+            }
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

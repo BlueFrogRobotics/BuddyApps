@@ -38,6 +38,8 @@ namespace BuddyApp.Guardian
             Interaction.SpeechToText.OnBestRecognition.Clear();
             Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
             mTimer = 0.0f;
+            if(!BYOS.Instance.Primitive.RGBCam.IsOpen)
+                BYOS.Instance.Primitive.RGBCam.Open();
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -96,7 +98,7 @@ namespace BuddyApp.Guardian
 
         private void DisplayChoices()
         {
-            BYOS.Instance.Toaster.Display<ChoiceToast>().With("", new ButtonInfo[] {
+            BYOS.Instance.Toaster.Display<ChoiceToast>().With("Mode", new ButtonInfo[] {
                 new ButtonInfo {
                     Label = Dictionary.GetString("fixed"),
                     OnClick = delegate() { SwitchGuardianMode(GuardianMode.FIXED); }
