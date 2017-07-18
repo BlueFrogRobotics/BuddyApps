@@ -15,6 +15,7 @@ namespace BuddyApp.Reminder
 
         public string Date { get { return dateText.text; } set { dateText.text = value; } }
         public Button DeleteButton { get { return deleteButton; } }
+        public int Num { get; set; }
 
         // Use this for initialization
         void Start()

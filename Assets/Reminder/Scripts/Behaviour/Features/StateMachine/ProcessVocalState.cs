@@ -16,8 +16,8 @@ namespace BuddyApp.Reminder
         override public void Start()
         {
             //Debug.Log("YOUPI TRALALA!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            //mProcessVocal = new ProcessVocalManual();
-            mProcessVocal = new ProcessVocalWitAI();
+            mProcessVocal = new ProcessVocalManual();
+            //mProcessVocal = new ProcessVocalWitAI();
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -38,7 +38,7 @@ namespace BuddyApp.Reminder
             mTimer += Time.deltaTime;
 
             if (mCommandText != "" && mCommand == null) {
-                mCommand = mProcessVocal.ExtractParameters(mCommandText);
+                mCommand = ReminderManager.ProcessVocal.ExtractParameters(mCommandText);
                 Debug.Log("1");
                 switch (mCommand.Intent) {
                     case Intent.ADD:

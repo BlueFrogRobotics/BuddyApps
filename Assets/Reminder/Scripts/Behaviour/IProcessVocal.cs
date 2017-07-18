@@ -19,6 +19,8 @@ namespace BuddyApp.Reminder
         public Intent Intent { get; set; }
         public DateTime AddDate { get; set; }
         public DateTime RemindDate { get; set; }
+        public DateTime StartDate { get; set; }//for the print
+        public DateTime EndDate { get; set; }//for the print
         public string Title { get; set; }
         public string Content { get; set; }
         public string Receiver { get; set; }

@@ -13,17 +13,29 @@ namespace BuddyApp.Reminder
             Command lCommand = new Command();
 
             lCommand.AddDate = DateTime.Now;
-            lCommand.RemindDate = ExtractDate(iCommand);
+            //lCommand.RemindDate = ExtractDate(iCommand);
 
-            if(iCommand.ToLower().Contains("rappelle"))
+            if(iCommand.ToLower().Contains("rappelle") || iCommand.ToLower().Contains("ajoute"))
             {
                 lCommand.Intent = Intent.ADD;
+                lCommand.Content = iCommand;
+                lCommand.Title = iCommand;
             }
 
-            else if (iCommand.ToLower().Contains("montre"))
+            else if (iCommand.ToLower().Contains("montre") || iCommand.ToLower().Contains("affiche"))
             {
                 lCommand.Intent = Intent.PRINT;
             }
+
+            DateTime lDate = ExtractDate(iCommand);
+            if(lDate!=DateTime.MinValue)
+            {
+                if (lCommand.Intent == Intent.ADD)
+                    lCommand.RemindDate = lDate;
+                if (lCommand.Intent == Intent.PRINT)
+                    lCommand.StartDate = lDate;
+            }
+
 
             return lCommand;
         }
@@ -34,7 +46,7 @@ namespace BuddyApp.Reminder
             string month="";
             string time="";
             DateTime departureDate;
-            bool departureDateSet;
+            bool departureDateSet=false;
             bool departureTimeSet;
             List<string> monthsList;
             List<string> daysList;
@@ -126,6 +138,7 @@ namespace BuddyApp.Reminder
                             departureDate = new DateTime(departureDate.Year, months[0]/*departureDate.Month*/, dates[0], hours[0], 0, 0, 0, System.DateTimeKind.Utc);
                         date = "le " + departureDate.ToString("dddd", new CultureInfo("fr-FR")) + " " + dates[0].ToString();
                         Debug.Log("date le: " + departureDate);
+                        departureDateSet = true;
                     }
 
                 }
@@ -149,6 +162,9 @@ namespace BuddyApp.Reminder
                     Debug.Log("date with day: " + departureDate);
                 }
             }
+
+            if (!departureDateSet)
+                departureDate = DateTime.MinValue;
 
             return departureDate;
         }

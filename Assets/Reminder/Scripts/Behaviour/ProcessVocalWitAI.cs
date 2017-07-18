@@ -34,6 +34,11 @@ namespace BuddyApp.Reminder
                 lCommand.Title = NodeAnswer["entities"]["reminder"][0]["value"];
             }
 
+            if (NodeAnswer["entities"]["reminder"][0]["entities"]["contact"][0]["value"] != null)
+            {
+                lCommand.Receiver = NodeAnswer["entities"]["reminder"][0]["entities"]["contact"][0]["value"];
+            }
+
             if (NodeAnswer["entities"]["datetime"][0]["value"] != null)
             {
                 DateTime lDate = DateTime.ParseExact(NodeAnswer["entities"]["datetime"][0]["value"], "yyyy-MM-dd'T'HH:mm:ss.fffzzz", CultureInfo.InvariantCulture,
@@ -42,6 +47,21 @@ namespace BuddyApp.Reminder
                 Debug.Log("!!!!!!!!!!!!!!!!!date de now: " + lDate.ToString());
                 lCommand.RemindDate = lDate;
                 Debug.Log("date de now: " + lDate.ToString());
+            }
+
+            if (NodeAnswer["entities"]["datetime"][0]["to"]["value"] != null && NodeAnswer["entities"]["datetime"][0]["from"]["value"] != null)
+            {
+                DateTime lStartDate = DateTime.ParseExact(NodeAnswer["entities"]["datetime"][0]["from"]["value"], "yyyy-MM-dd'T'HH:mm:ss.fffzzz", CultureInfo.InvariantCulture,
+                                       DateTimeStyles.AssumeUniversal |
+                                       DateTimeStyles.AdjustToUniversal);
+
+                DateTime lEndDate = DateTime.ParseExact(NodeAnswer["entities"]["datetime"][0]["to"]["value"], "yyyy-MM-dd'T'HH:mm:ss.fffzzz", CultureInfo.InvariantCulture,
+                                       DateTimeStyles.AssumeUniversal |
+                                       DateTimeStyles.AdjustToUniversal);
+
+                lCommand.StartDate = lStartDate;
+                lCommand.EndDate = lEndDate;
+                Debug.Log("date entre: " + lStartDate.ToString()+" et "+ lEndDate.ToString());
             }
 
             //lCommand.Intent = NodeAnswer["entities"]["intent"][0]["value"];

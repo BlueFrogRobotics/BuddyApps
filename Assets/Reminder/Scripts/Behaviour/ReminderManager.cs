@@ -55,11 +55,13 @@ namespace BuddyApp.Reminder
         public ReminderContent ReminderContent { get; set; }
         public List<ReminderUI> ReminderUIList { get; set; }
         public List<DateUI> DateUIList { get; set; }
+        public IProcessVocal ProcessVocal { get; set; }
 
         void Awake()
         {
             ReminderUIList = new List<ReminderUI>();
             DateUIList = new List<DateUI>();
+            ProcessVocal = new ProcessVocalManual();
         }
 
         // Use this for initialization

@@ -97,8 +97,8 @@ namespace BuddyApp.Reminder
 
         private void GetDate(string iAnswer)
         {
-            ProcessVocalWitAI lProcess = new ProcessVocalWitAI();
-            Command lCommand = lProcess.ExtractParameters(iAnswer);
+            //ProcessVocalWitAI lProcess = new ProcessVocalWitAI();
+            Command lCommand = ReminderManager.ProcessVocal.ExtractParameters(iAnswer);
             ReminderManager.Command.RemindDate = lCommand.RemindDate;
         }
     }
