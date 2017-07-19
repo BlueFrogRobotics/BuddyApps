@@ -7,18 +7,19 @@ namespace BuddyApp.Guardian
 {
     public class GuardianActivity : AAppActivity
     {
-        private DetectionManager mDetectionManager;
+        public static DetectionManager mDetectionManager;
 
         public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
         {
-            mDetectionManager = (DetectionManager)Objects[0];
-            BYOS.Instance.Resources.LoadAtlas("GuardianAtlas");
+            Debug.Log("AH! loading activity");
+            Resources.LoadAtlas("GuardianAtlas");
             Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
         }
 
         public override void OnStart(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
         {
-            mDetectionManager.LinkDetectorsEvents();
+            Debug.Log("AH! start activity");
+            
             //mDetectionManager.SoundDetector.StartMic();
         }
 
@@ -81,6 +82,18 @@ namespace BuddyApp.Guardian
 
             Animator.SetBool("Password", false);
             Animator.Play("Detection");
+        }
+
+        public static void StartManager()
+        {
+            //GuardianActivity lActivity = (GuardianActivity)BYOS.Instance.AppManager.CurrentApp.AppActivity;
+        }
+
+        private void InitManager()
+        {
+            mDetectionManager = (DetectionManager)Objects[0];
+            mDetectionManager.Init();
+            mDetectionManager.LinkDetectorsEvents();
         }
 
         private void OnMailSent()

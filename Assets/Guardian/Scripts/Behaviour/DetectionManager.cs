@@ -21,10 +21,12 @@ namespace BuddyApp.Guardian
 
         public RoombaNavigation Roomba { get; private set; }
 
-        public FireDetector FireDetector { get; private set; }
-        public SoundDetector SoundDetector { get; private set; }
-        public MovementDetector MovementDetector { get; private set; }
-        public KidnappingDetector KidnappingDetector { get; private set; }
+        //public FireDetector FireDetector { get; private set; }
+        //public SoundDetector SoundDetector { get; private set; }
+        //public MovementDetector MovementDetector { get; private set; }
+        //public KidnappingDetector KidnappingDetector { get; private set; }
+
+        public Stimuli Stimuli { get; set; }
 
         public bool IsDetectingFire { get; set; }
         public bool IsDetectingMovement { get; set; }
@@ -44,33 +46,65 @@ namespace BuddyApp.Guardian
         void Awake()
         {
             mAnimator = GetComponent<Animator>();
-
-            FireDetector = BYOS.Instance.Perception.FireDetector;//GetComponent<FireDetector>();
-            SoundDetector = BYOS.Instance.Perception.SoundDetector;//GetComponent<SoundDetector>();
-            MovementDetector = BYOS.Instance.Perception.MovementDetector; //GetComponent<MovementDetector>();
-            KidnappingDetector = BYOS.Instance.Perception.KidnappingDetector; //GetComponent<KidnappingDetector>();
-
-            FireDetector.Enable();
-            SoundDetector.Enable();
-            BYOS.Instance.Perception.MovementTracker.Enable();
-            MovementDetector.Enable();
-            KidnappingDetector.Enable();
-
-            SaveAudio = GetComponent<SaveAudio>();
-            SaveVideo = GetComponent<SaveVideo>();
-
-            Roomba = BYOS.Instance.Navigation.Roomba; //GetComponent<RoombaNavigation>();
-            Roomba.enabled = false;
-
             GuardianActivity.Init(mAnimator, this);
+            GuardianActivity.mDetectionManager = this;
         }
 
         void Start()
         {
+            Debug.Log("AH! start detection manager");
+            Init();
+            LinkDetectorsEvents();
+
         }
 
         void Update()
         {
+        }
+
+        public void Init()
+        {
+            Debug.Log("AH! init detection manager");
+            
+            Stimuli = BYOS.Instance.Perception.Stimuli;
+            Debug.Log("AH! 1");
+            //FireDetector = BYOS.Instance.Perception.FireDetector;//GetComponent<FireDetector>();
+            //SoundDetector = BYOS.Instance.Perception.SoundDetector;//GetComponent<SoundDetector>();
+            //MovementDetector = BYOS.Instance.Perception.MovementDetector; //GetComponent<MovementDetector>();
+            //KidnappingDetector = BYOS.Instance.Perception.KidnappingDetector; //GetComponent<KidnappingDetector>();
+            AStimulus moveSideStimulus;
+            Debug.Log("AH! 2");
+            BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.MOVING, out moveSideStimulus);
+            Debug.Log("AH! 3");
+            moveSideStimulus.Enable();
+            Debug.Log("AH! 4");
+            AStimulus soundStimulus;
+            Debug.Log("AH! 5");
+            BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_MEDIUM_LOUD, out soundStimulus);
+            Debug.Log("AH! 6");
+            soundStimulus.Enable();
+            Debug.Log("AH! 7");
+            AStimulus fireStimulus;
+            Debug.Log("AH! 8");
+            BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.FIRE_DETECTED, out fireStimulus);
+            fireStimulus.Enable();
+            Debug.Log("AH! 9");
+            AStimulus kidnappingStimulus;
+            Debug.Log("AH! 10");
+            BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.KIDNAPPING, out kidnappingStimulus);
+            Debug.Log("AH! 11");
+            kidnappingStimulus.Enable();
+            //FireDetector.Enable();
+            //SoundDetector.Enable();
+            BYOS.Instance.Perception.MovementTracker.Enable();
+            //MovementDetector.Enable();
+            //KidnappingDetector.Enable();
+            Debug.Log("AH! 12");
+            SaveAudio = GetComponent<SaveAudio>();
+            SaveVideo = GetComponent<SaveVideo>();
+            Debug.Log("AH! 13");
+            Roomba = BYOS.Instance.Navigation.Roomba; //GetComponent<RoombaNavigation>();
+            Roomba.enabled = false;
         }
 
         public void OnFireDetected()
@@ -116,18 +150,26 @@ namespace BuddyApp.Guardian
 
         public void LinkDetectorsEvents()
         {
-            FireDetector.OnDetection += OnFireDetected;
-            SoundDetector.OnDetection += OnSoundDetected;
-            MovementDetector.OnDetection += OnMovementDetected;
-            KidnappingDetector.OnDetection += OnKidnappingDetected;
+            Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
+            Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_MEDIUM_LOUD, OnSoundDetected);
+            Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
+            Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
+            //FireDetector.OnDetection += OnFireDetected;
+            //SoundDetector.OnDetection += OnSoundDetected;
+            //MovementDetector.OnDetection += OnMovementDetected;
+            //KidnappingDetector.OnDetection += OnKidnappingDetected;
         }
 
         public void UnlinkDetectorsEvents()
         {
-            FireDetector.OnDetection -= OnFireDetected;
-            SoundDetector.OnDetection -= OnSoundDetected;
-            MovementDetector.OnDetection -= OnMovementDetected;
-            KidnappingDetector.OnDetection -= OnKidnappingDetected;
+            Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
+            Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_MEDIUM_LOUD, OnSoundDetected);
+            Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
+            Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
+            //FireDetector.OnDetection -= OnFireDetected;
+            //SoundDetector.OnDetection -= OnSoundDetected;
+            //MovementDetector.OnDetection -= OnMovementDetected;
+            //KidnappingDetector.OnDetection -= OnKidnappingDetected;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace BuddyApp.Guardian
     public class DebugSoundState : AStateMachineBehaviour
     {
 
-        private SoundDetector mSoundDetector;
+        //private SoundDetector mSoundDetector;
         private RawImage mRaw;
         private Gauge mGauge;
         private Mat mMatShow;
@@ -28,13 +28,13 @@ namespace BuddyApp.Guardian
         public override void Start()
         {
             mTimer = 0.0f;
-            mSoundDetector = BYOS.Instance.Perception.SoundDetector;
+            //mSoundDetector = BYOS.Instance.Perception.SoundDetector;
             mDebugSoundWindow = GetGameObject(StateObject.DEBUG_SOUND).GetComponent<DebugSoundWindow>();
             mRaw = mDebugSoundWindow.Raw;
             mGauge = mDebugSoundWindow.GaugeSensibility;
             mMatShow = new Mat(480, 640, CvType.CV_8UC3);
             mTexture = new Texture2D(640, 480);
-            mSoundDetector.StartMic();
+            //mSoundDetector.StartMic();
             mHasInitSlider = false;
             mHasDetectedSound = false;
             mGoBack = false;
@@ -51,7 +51,8 @@ namespace BuddyApp.Guardian
             //mDebugSoundWindow.gameObject.SetActive(true);
             mDebugSoundAnimator.SetTrigger("Open_WDebugs");
             mDebugSoundWindow.ButtonBack.onClick.AddListener(GoBack);
-            mSoundDetector.OnDetection += OnSoundDetected;
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_MEDIUM_LOUD, OnSoundDetected);
+            //mSoundDetector.OnDetection += OnSoundDetected;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -60,7 +61,7 @@ namespace BuddyApp.Guardian
             if (!mHasInitSlider && mGauge.Slider)
             {
                 mHasInitSlider = true;
-                mGauge.Slider.value = (1.0f - (mSoundDetector.Threshold / mSoundDetector.MaxThreshold)) * mGauge.Slider.maxValue;
+                //mGauge.Slider.value = (1.0f - (mSoundDetector.Threshold / mSoundDetector.MaxThreshold)) * mGauge.Slider.maxValue;
             }
 
             mTimer += Time.deltaTime;
@@ -69,13 +70,13 @@ namespace BuddyApp.Guardian
                 mTimer = 0.0f;
                 mMatShow = new Mat(480, 640, CvType.CV_8UC3, new Scalar(255, 255, 255, 255));
 
-                float lMaxThreshold = mSoundDetector.MaxThreshold;
+                float lMaxThreshold = 0;// mSoundDetector.MaxThreshold;
                 float lThreshold = (1.0f - mGauge.Slider.value / mGauge.Slider.maxValue) * lMaxThreshold;
-                mSoundDetector.Threshold = lThreshold;
+                //mSoundDetector.Threshold = lThreshold;
 
 
 
-                float lLevelSound = (mSoundDetector.Value) * 400.0f / lMaxThreshold;
+                float lLevelSound = 0;// (mSoundDetector.Value) * 400.0f / lMaxThreshold;
                 //Imgproc.line(mMatShow, new Point(0, 480.0f - lLevelSound), new Point(640, 480.0f - lLevelSound), new Scalar(0, 0, 255, 255));
                 Imgproc.rectangle(mMatShow, new Point(0, 480), new Point(640, 480.0f - lLevelSound), new Scalar(0, 212, 209, 255), -1);
                 Imgproc.line(mMatShow, new Point(0, 480.0f - lThreshold * 400 / lMaxThreshold), new Point(640, 480.0f - lThreshold * 400 / lMaxThreshold), new Scalar(237, 27, 36, 255), 3);
@@ -104,11 +105,12 @@ namespace BuddyApp.Guardian
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mDebugSoundWindow.Ico.enabled = false;
-            mSoundDetector.OnDetection -= OnSoundDetected;
+            //mSoundDetector.OnDetection -= OnSoundDetected;
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_MEDIUM_LOUD, OnSoundDetected);
             mDebugSoundWindow.ButtonBack.onClick.RemoveAllListeners();
             
             //mDebugSoundWindow.gameObject.SetActive(false);
-            mSoundDetector.Stop();
+            //mSoundDetector.Stop();
         }
 
 

@@ -12,7 +12,7 @@ namespace BuddyApp.Guardian
 
         private Animator mAnimator;
         private Animator mDebugMovementAnimator;
-        private MovementDetector mMovementDetector;
+        //private MovementDetector mMovementDetector;
         private MovementTracker mMovementTracker;
 
         private RawImage mRaw;
@@ -33,7 +33,7 @@ namespace BuddyApp.Guardian
         {
             mCam = BYOS.Instance.Primitive.RGBCam;
             mDebugMovementWindow = GetGameObject(StateObject.DEBUG_MOVEMENT).GetComponent<DebugMovementWindow>();
-            mMovementDetector = BYOS.Instance.Perception.MovementDetector;//StateManager.Detectors.MovementDetector;
+            //mMovementDetector = BYOS.Instance.Perception.MovementDetector;//StateManager.Detectors.MovementDetector;
             mMovementTracker = BYOS.Instance.Perception.MovementTracker;
             mRaw = mDebugMovementWindow.Raw;
             mGauge = mDebugMovementWindow.GaugeSensibility;
@@ -50,7 +50,7 @@ namespace BuddyApp.Guardian
         {
             Start();
             mMovementTracker.Enable();
-            mMovementDetector.Enable();
+            //mMovementDetector.Enable();
             mTexture = new Texture2D(mCam.Width, mCam.Height);
             mMask = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3);
             //SetWindowAppOverBuddyColor(1);
@@ -62,7 +62,8 @@ namespace BuddyApp.Guardian
             mDebugMovementWindow.ButtonBack.onClick.AddListener(GoBack);
             mTimer = 0.0f;
             mMatRed = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3, new Scalar(254, 0, 0));
-            mMovementDetector.OnDetection += OnMovementDetected;
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
+            //mMovementDetector.OnDetection += OnMovementDetected;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -71,7 +72,7 @@ namespace BuddyApp.Guardian
             if (!mHasInitSlider && mGauge.Slider)
             {
                 mHasInitSlider = true;
-                mGauge.Slider.value = (1.0f - (mMovementDetector.Threshold / mMovementDetector.MaxThreshold)) * mGauge.Slider.maxValue;
+                //mGauge.Slider.value = (1.0f - (mMovementDetector.Threshold / mMovementDetector.MaxThreshold)) * mGauge.Slider.maxValue;
             }
             mTimer += Time.deltaTime;
             if (mTimer > 0.1f)
@@ -81,9 +82,9 @@ namespace BuddyApp.Guardian
                 Mat lMatView = new Mat();
                 Mat lMatCam = new Mat();
 
-                float lMaxDetector = mMovementDetector.MaxThreshold;
+                float lMaxDetector = 0;// mMovementDetector.MaxThreshold;
                 float lValueSliderPercent = 1.0f - (mGauge.Slider.value / mGauge.Slider.maxValue);
-                mMovementDetector.Threshold = (lValueSliderPercent * lMaxDetector);
+                //mMovementDetector.Threshold = (lValueSliderPercent * lMaxDetector);
 
                 mMask = mMovementTracker.BinaryImage;
                 Imgproc.circle(mMask, mMovementTracker.PositionMoment, 5, new Scalar(254, 254, 254), -1);
@@ -117,9 +118,10 @@ namespace BuddyApp.Guardian
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            GuardianData.Instance.MovementDetectionThreshold = (int)mMovementDetector.Threshold;
+            //GuardianData.Instance.MovementDetectionThreshold = (int)mMovementDetector.Threshold;
             mDebugMovementWindow.IcoMouv.enabled = false;
-            mMovementDetector.OnDetection -= OnMovementDetected;
+            //mMovementDetector.OnDetection -= OnMovementDetected;
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
             mDebugMovementWindow.ButtonBack.onClick.RemoveAllListeners();
             //mDebugMovementWindow.gameObject.SetActive(false);
         }

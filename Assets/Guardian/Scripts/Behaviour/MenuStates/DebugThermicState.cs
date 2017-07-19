@@ -9,7 +9,7 @@ namespace BuddyApp.Guardian
         private Animator mDebugTempAnimator;
         private ShowTemperature mShowTemperature;
         private Animator mAnimator;
-        private FireDetector mFireDetector;
+        //private FireDetector mFireDetector;
         private bool mGoBack = false;
         private bool mHasDetectedFire = false;
 
@@ -17,8 +17,9 @@ namespace BuddyApp.Guardian
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             //SetWindowAppOverBuddyColor(1);
-            mFireDetector = BYOS.Instance.Perception.FireDetector;
-            mFireDetector.OnDetection += OnFireDetected;
+            //mFireDetector = BYOS.Instance.Perception.FireDetector;
+            //mFireDetector.OnDetection += OnFireDetected;
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
             mShowTemperature = GetGameObject(StateObject.DEBUG_FIRE).GetComponent<ShowTemperature>();
             mDebugTempAnimator = mShowTemperature.gameObject.GetComponent<Animator>();
             mDebugTempAnimator.SetTrigger("Open_WDebugs");
@@ -59,7 +60,8 @@ namespace BuddyApp.Guardian
         {
             mShowTemperature.IcoFire.enabled = false;
             mShowTemperature.ButtonBack.onClick.RemoveAllListeners();
-            mFireDetector.OnDetection -= OnFireDetected;
+            //mFireDetector.OnDetection -= OnFireDetected;
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
             //mShowTemperature.gameObject.SetActive(false);
         }
 
