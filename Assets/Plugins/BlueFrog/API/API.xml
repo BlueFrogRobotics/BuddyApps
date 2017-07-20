@@ -367,24 +367,24 @@
             The lowest resolution. You should mainly use this one. Useful for mapping, recognition, detection...
             </summary>
         </member>
-        <member name="T:Buddy.STTStringCallback">
+        <member name="T:Buddy.FunctionCallbackWithString">
             <summary>
             Use this delegate in STT. Called after a voice recognition
             </summary>
             <param name="iMsg">The input voice as a string</param>
         </member>
-        <member name="T:Buddy.STTCallback">
+        <member name="T:Buddy.FunctionCallback">
             <summary>
             Use this delegate in STT. Called after any interaction this the STT
             </summary>
         </member>
-        <member name="T:Buddy.STTVolumeCallback">
+        <member name="T:Buddy.FunctionVolumeCallback">
             <summary>
             Use this delegate in STT. Called after a volume modification
             </summary>
             <param name="iVolume"></param>
         </member>
-        <member name="T:Buddy.STTErrorCallback">
+        <member name="T:Buddy.FunctionCallbackWithError">
             <summary>
             Use this delegate in STT. Called after any error during the STT process
             </summary>
@@ -1889,11 +1889,6 @@
             Gets the matrix of the thermal sensor. Currently 4x4 resolution.
             </summary>
         </member>
-        <member name="P:Buddy.Internal.API.ThermalSensor.ThermalMat">
-            <summary>
-            Gets the matrix of the thermal sensor as an OpenCV Matrix. Currently 4x4 resolution
-            </summary>
-        </member>
         <member name="T:Buddy.Internal.API.USSensors">
             <summary>
             Ultra sound sensors interface of the robot.
@@ -2439,11 +2434,6 @@
             <summary>
             Gets the matrix of the thermal sensor. Currently 4x4 resolution.
             </summary>s
-        </member>
-        <member name="P:Buddy.Internal.API.Structure.ThermalSensor.ThermalMat">
-            <summary>
-            Gets the matrix of the thermal sensor as an OpenCV Matrix. Currently 4x4 resolution
-            </summary>
         </member>
         <member name="T:Buddy.Internal.API.Structure.USSensor">
             <summary>
