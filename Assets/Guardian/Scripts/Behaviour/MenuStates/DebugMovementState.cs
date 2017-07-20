@@ -49,8 +49,11 @@ namespace BuddyApp.Guardian
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Start();
-            mMovementTracker.Enable();
+            //mMovementTracker.Enable();
             //mMovementDetector.Enable();
+            Debug.Log("resolution dans debug mouv: "+Primitive.RGBCam.Resolution);
+            Debug.Log("width " + mCam.Width+ " height: " + mCam.Height);
+
             mTexture = new Texture2D(mCam.Width, mCam.Height);
             mMask = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3);
             //SetWindowAppOverBuddyColor(1);
@@ -87,6 +90,8 @@ namespace BuddyApp.Guardian
                 //mMovementDetector.Threshold = (lValueSliderPercent * lMaxDetector);
 
                 mMask = mMovementTracker.BinaryImage;
+                Debug.Log("mask width " + mMask.width() + " mask height: " + mMask.height());
+                Debug.Log("resolution dans debug mouv: " + Primitive.RGBCam.Resolution);
                 Imgproc.circle(mMask, mMovementTracker.PositionMoment, 5, new Scalar(254, 254, 254), -1);
 
                 mMatRed.copyTo(lMatMouv, mMask);
@@ -136,6 +141,7 @@ namespace BuddyApp.Guardian
         private void OnMovementDetected()
         {
             mHasDetectedMouv = true;
+            Debug.Log("mouvement");
         }
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
         //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

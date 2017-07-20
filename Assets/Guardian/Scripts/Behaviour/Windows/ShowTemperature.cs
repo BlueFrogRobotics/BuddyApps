@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using OpenCVUnity;
 using UnityEngine.UI;
 using Buddy;
@@ -12,8 +13,14 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private RawImage raw;
 
+        //[SerializeField]
+        private List<ColorZone> zones = new List<ColorZone>();
+
         [SerializeField]
-        private ColorZone[] zones;
+        private List<int> maxTemps = new List<int>();
+
+        [SerializeField]
+        private List<Color> colors = new List<Color>();
 
         [SerializeField]
         private Button buttonBack;
@@ -43,6 +50,17 @@ namespace BuddyApp.Guardian
             message.text = BYOS.Instance.Dictionary.GetString("textdebugtemp").ToUpper();
             Interpolation = false;
             mTemperature = new float[mWidth * mHeight];
+            
+
+            for(int i=0; i< colors.Count; i++)
+            {
+                zones.Add(new ColorZone(maxTemps[i], colors[i]));
+            }
+
+            Debug.Log("avant zone");
+            Debug.Log("ZONE: " + zones.Count);
+            Debug.Log("apres zone");
+
             for (int i = 0; i < mWidth * mHeight; i++)
             {
                 mTemperature[i] = 0.0f;
@@ -56,7 +74,7 @@ namespace BuddyApp.Guardian
         void Update()
         {
 
-                UpdateTexture();
+                //UpdateTexture();
         }
 
         public void UpdateTexture()
@@ -104,7 +122,7 @@ namespace BuddyApp.Guardian
             for (int i = 0; i < mWidth * mHeight; i++)
             {
                 // Debug.Log(temperature[i]);
-                for (int j = 0; j < zones.Length - 1; j++)
+                for (int j = 0; j < zones.Count - 1; j++)
                 {
                     float tempMax = zones[j + 1].maxTemp;
                     float tempMin = zones[j].maxTemp;
@@ -117,11 +135,11 @@ namespace BuddyApp.Guardian
 
                     }
 
-                    else if (mTemperature[i] >= zones[zones.Length - 1].maxTemp)
+                    else if (mTemperature[i] >= zones[zones.Count - 1].maxTemp)
                     {
-                        mColorGrid[3 * i] = (byte)(zones[zones.Length - 1].color.r * 255.0f);
-                        mColorGrid[3 * i + 1] = (byte)(zones[zones.Length - 1].color.g * 255.0f);
-                        mColorGrid[3 * i + 2] = (byte)(zones[zones.Length - 1].color.b * 255.0f);
+                        mColorGrid[3 * i] = (byte)(zones[zones.Count - 1].color.r * 255.0f);
+                        mColorGrid[3 * i + 1] = (byte)(zones[zones.Count - 1].color.g * 255.0f);
+                        mColorGrid[3 * i + 2] = (byte)(zones[zones.Count - 1].color.b * 255.0f);
                     }
 
                     if (mTemperature[i] > zones[j].maxTemp && mTemperature[i] <= zones[j + 1].maxTemp)
@@ -147,9 +165,15 @@ namespace BuddyApp.Guardian
     }
 
     [System.Serializable]
-    public struct ColorZone
+    public class ColorZone
     {
         public int maxTemp;
         public Color color;
+
+        public ColorZone(int iMaxTemp, Color iColor)
+        {
+            maxTemp = iMaxTemp;
+            color = iColor;
+        }
     }
 }

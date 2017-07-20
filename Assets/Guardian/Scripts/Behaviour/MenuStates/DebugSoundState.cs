@@ -48,6 +48,11 @@ namespace BuddyApp.Guardian
             
             mAnimator = animator;
             Start();
+            AStimulus soundStimulus;
+            //Debug.Log("AH! 5");
+            BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_MEDIUM_LOUD, out soundStimulus);
+            //Debug.Log("AH! 6");
+            soundStimulus.Enable();
             //mDebugSoundWindow.gameObject.SetActive(true);
             mDebugSoundAnimator.SetTrigger("Open_WDebugs");
             mDebugSoundWindow.ButtonBack.onClick.AddListener(GoBack);
@@ -123,6 +128,7 @@ namespace BuddyApp.Guardian
         private void OnSoundDetected()
         {
             mHasDetectedSound = true;
+            Debug.Log("son detecte");
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

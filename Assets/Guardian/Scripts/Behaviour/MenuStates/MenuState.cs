@@ -39,7 +39,7 @@ namespace BuddyApp.Guardian
             Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
             mTimer = 0.0f;
             if(!BYOS.Instance.Primitive.RGBCam.IsOpen)
-                BYOS.Instance.Primitive.RGBCam.Open();
+                BYOS.Instance.Primitive.RGBCam.Open(RGBCamResolution.W_176_H_144);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

@@ -19,7 +19,7 @@ namespace BuddyApp.Guardian
         public override void OnStart(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
         {
             Debug.Log("AH! start activity");
-            
+            Debug.Log("resolution "+Primitive.RGBCam.Resolution);
             //mDetectionManager.SoundDetector.StartMic();
         }
 
