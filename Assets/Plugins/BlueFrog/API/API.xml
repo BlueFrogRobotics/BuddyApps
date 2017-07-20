@@ -367,24 +367,24 @@
             The lowest resolution. You should mainly use this one. Useful for mapping, recognition, detection...
             </summary>
         </member>
-        <member name="T:Buddy.FunctionCallbackWithString">
+        <member name="T:Buddy.STTStringCallback">
             <summary>
             Use this delegate in STT. Called after a voice recognition
             </summary>
             <param name="iMsg">The input voice as a string</param>
         </member>
-        <member name="T:Buddy.FunctionCallback">
+        <member name="T:Buddy.STTCallback">
             <summary>
             Use this delegate in STT. Called after any interaction this the STT
             </summary>
         </member>
-        <member name="T:Buddy.FunctionVolumeCallback">
+        <member name="T:Buddy.STTVolumeCallback">
             <summary>
             Use this delegate in STT. Called after a volume modification
             </summary>
             <param name="iVolume"></param>
         </member>
-        <member name="T:Buddy.FunctionCallbackWithError">
+        <member name="T:Buddy.STTErrorCallback">
             <summary>
             Use this delegate in STT. Called after any error during the STT process
             </summary>
@@ -1015,7 +1015,7 @@
             <param name="iSpeed">The speed in degrees per second</param>
             <param name="iTolerance">The angle tolerance to reach to stop command in radians</param>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:Buddy.Internal.API.HardwareDivision.RealHardware.TurnAngle(System.Single,System.Single,System.Single)" -->
+        <!-- Badly formed XML comment ignored for member "M:Buddy.Internal.API.HardwareDivision.RealHardware.TurnAngle(System.Single,System.Single,System.Single)" -->
         <member name="M:Buddy.Internal.API.HardwareDivision.RealHardware.MoveToAbsolutePosition(UnityEngine.Vector2,System.Single,System.Single)">
             <summary>
             Make the robot go to a desired global position.
@@ -1889,6 +1889,11 @@
             Gets the matrix of the thermal sensor. Currently 4x4 resolution.
             </summary>
         </member>
+        <member name="P:Buddy.Internal.API.ThermalSensor.ThermalMat">
+            <summary>
+            Gets the matrix of the thermal sensor as an OpenCV Matrix. Currently 4x4 resolution
+            </summary>
+        </member>
         <member name="T:Buddy.Internal.API.USSensors">
             <summary>
             Ultra sound sensors interface of the robot.
@@ -2434,6 +2439,11 @@
             <summary>
             Gets the matrix of the thermal sensor. Currently 4x4 resolution.
             </summary>s
+        </member>
+        <member name="P:Buddy.Internal.API.Structure.ThermalSensor.ThermalMat">
+            <summary>
+            Gets the matrix of the thermal sensor as an OpenCV Matrix. Currently 4x4 resolution
+            </summary>
         </member>
         <member name="T:Buddy.Internal.API.Structure.USSensor">
             <summary>
