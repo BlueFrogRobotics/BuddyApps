@@ -226,877 +226,43 @@
             Disable the roomba navigation
             </summary>
         </member>
-        <member name="T:Buddy.Internal.LocalizationNode">
-            <summary>
-            Node for topological mapping.
-            Each node represents a place in a global graph. 
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalizationNode.ID">
-            <summary>
-            ID of the node
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalizationNode.Coordinates">
-            <summary>
-            Position of the node
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalizationNode.AdjacentNodes">
-            <summary>
-            Adjacent nodes
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalizationNode.Observations">
-            <summary>
-            Observations of the node
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalizationNode.Weight">
-            <summary>
-            Weight of the node ==> Weight of the observation
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.LocalizationNode.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.LocalizationNode.ToString">
-            <summary>
-            Serialization tool
-            </summary>
-            <returns>The corresponding string</returns>
-        </member>
-        <member name="T:Buddy.Internal.MinTriLocalizationStrategy">
-            <summary>
-            Best localization strategy by searching for the minimal area triangle
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.MinTriLocalizationStrategy.Execute(Buddy.SharpLocation[])">
-            <summary>
-            Best localization strategy by searching for the minimal area triangle
-            </summary>
-            <param name="iConjecturalLocalizations">Best find position of the robot</param>
-            <returns>Hypothetical position of the robot</returns>
-        </member>
-        <member name="T:Buddy.Internal.LocalizationGraph">
-            <summary>
-            Graph representing the topological map
-            A graph can be build from a serialized file with DeSerialize(str).
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.Observation">
-            <summary>
-            Observations of the robot at a given orientation
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.Observation.Orientation">
-            <summary>
-            Orientation of the observation
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.Observation.Weight">
-            <summary>
-            Weight (rate) of the observation
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.Observation.Descriptors">
-            <summary>
-            Descriptor of the observation
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.Observation.Landmarks">
-            <summary>
-            Landmarks of the observation
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Observation.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Observation.ToString">
-            <summary>
-            Serialization tool
-            </summary>
-            <returns>The corresponding string</returns>
-        </member>
-        <member name="T:Buddy.Internal.LandmarkType">
-            <summary>
-            Kind of landmark
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.UNKNOWN_LANDMARK">
-            <summary>
-            Unknown landmark
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.LEFT_EYE">
-            <summary>
-            Left eye
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.RIGHT_EYE">
-            <summary>
-            Right eye
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.LEFT_OF_LEFT_EYEBROW">
-            <summary>
-            Left of left eyebrow
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.RIGHT_OF_LEFT_EYEBROW">
-            <summary>
-            Right of left eyebrow
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.LEFT_OF_RIGHT_EYEBROW">
-            <summary>
-            Left of right eyebrow
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.RIGHT_OF_RIGHT_EYEBROW">
-            <summary>
-            Right of left eyebrow
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.MIDPOINT_BETWEEN_EYES">
-            <summary>
-            Space between eyes
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.NOSE_TIP">
-            <summary>
-            Nose tip
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.UPPER_LIP">
-            <summary>
-            Upper lip
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.LOWER_LIP">
-            <summary>
-            Lower lip
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.MOUTH_LEFT">
-            <summary>
-            Mouse left side
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.MOUTH_RIGHT">
-            <summary>
-            Mouse right side
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.MOUTH_CENTER">
-            <summary>
-            Center of the mouse
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.NOSE_BOTTOM_RIGHT">
-            <summary>
-            Bottom right side of the nose
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.NOSE_BOTTOM_LEFT">
-            <summary>
-            Bottom left side of the nose
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.NOSE_BOTTOM_CENTER">
-            <summary>
-            Bottom center side of the nose
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.LEFT_EYE_TOP_BOUNDARY">
-            <summary>
-            Left eye top boundary
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.LEFT_EYE_RIGHT_CORNER">
-            <summary>
-            Left eye right corner
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.LEFT_EYE_BOTTOM_BOUNDARY">
-            <summary>
-            Left eye bottom boundary
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.LEFT_EYE_LEFT_CORNER">
-            <summary>
-            Left eye left corner
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.RIGHT_EYE_TOP_BOUNDARY">
-            <summary>
-            Right eye top boundary
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.RIGHT_EYE_RIGHT_CORNER">
-            <summary>
-            RIght eye right corner
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.RIGHT_EYE_BOTTOM_BOUNDARY">
-            <summary>
-            Right eye bottom boundary
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.RIGHT_EYE_LEFT_CORNER">
-            <summary>
-            Right eye left corner 
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.LEFT_EYEBROW_UPPER_MIDPOINT">
-            <summary>
-            Left eyebrown upper midpoint
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.RIGHT_EYEBROW_UPPER_MIDPOINT">
-            <summary>
-            Right eyebrown upper midpoint
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.LEFT_EAR_TRAGION">
-            <summary>
-            Left ear tragion
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.RIGHT_EAR_TRAGION">
-            <summary>
-            Right eear tragion
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.LEFT_EYE_PUPIL">
-            <summary>
-            Left eye pupil
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.RIGHT_EYE_PUPIL">
-            <summary>
-            Right eye pupil
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.FOREHEAD_GLABELLA">
-            <summary>
-            Glabella
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.CHIN_GNATHION">
-            <summary>
-            Chin gnathion
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.CHIN_LEFT_GONION">
-            <summary>
-            Chin left gonion
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.LandmarkType.CHIN_RIGHT_GONION">
-            <summary>
-            Chin right gonion
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.Likelihood">
-            <summary>
-            Rate likelihood
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Likelihood.UNKNOWN">
-            <summary>
-            Unknown
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Likelihood.VERY_UNLIKELY">
-            <summary>
-            Very low rate
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Likelihood.UNLIKELY">
-            <summary>
-            Low rate
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Likelihood.POSSIBLE">
-            <summary>
-            Medium rate 
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Likelihood.LIKELY">
-            <summary>
-            Correct rate
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Likelihood.VERY_LIKELY">
-            <summary>
-            Very credible
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.EntryType.BASE">
-            <summary>
-            Unique value for UI display purpose
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.EntryType.CLOSE_PHONETIC">
-            <summary>
-            Dictionary entry for STT purpose mainly
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.EntryType.RANDOM">
-            <summary>
-            Dictionary entry for TTS purpose mainly
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.DictionaryEntry">
-            <summary>
-            Key-value dictionary base entry
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.DictionaryEntry.Key">
-            <summary>
-            Key of the value
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.DictionaryEntry.BaseValue">
-            <summary>
-            Display value
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.DictionaryEntry.ClosePhoneticValues">
-            <summary>
-            Listen list for STT input processing
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.DictionaryEntry.RandomValues">
-            <summary>
-            Say list containing value that will be choosen randomly 
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.LanguageThesaurus">
-            <summary>
-            Language dictionary storage. Contains key-value entries for one language
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LanguageThesaurus.Entries">
-            <summary>
-            All key-value entries of the thesaurus
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.LanguageThesaurus.#ctor">
-            <summary>
-            Represents all the dictionary entries
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.LanguageThesaurus.ContainsKey(System.String)">
-            <summary>
-            Check existing key in existing entries
-            </summary>
-            <param name="iKey">Key to check</param>
-            <returns>True if the key already exists in Entries</returns>
-        </member>
-        <member name="T:Buddy.Internal.Net.BroadcastListener">
-            <summary>
-            This is to create a Broadcast client to let
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.BroadcastListener.OnReceivedBroadcast(System.String,System.String)">
-            <summary>
-            Own method to configure what to do when receiving a Broadcast
-            </summary>
-            <param name="iFromAddress">The address that send the broadcast</param>
-            <param name="iData">Data contained in the broadcast</param>
-        </member>
-        <member name="T:Buddy.Internal.Net.LocalListener">
-            <summary>
-            This class handles the Local Broadcast Listener and messages with the Smartphone app to launch local remote control
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.Net.NetworkBroadcastResult">
-            <summary>
-            Structure for broadcast messages
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Net.NetworkBroadcastResult.serverAddress">
-            <summary>
-            The address of the server that sent the broadcast
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Net.NetworkBroadcastResult.broadcastData">
-            <summary>
-            Content of the broadcast
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.Net.NetDiscovery">
-            <summary>
-            Unity Networking NetworkDiscovery added in this dll for namespace separation in dll reasons
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.NetDiscovery.StartAsClient">
-            <summary>
-            Starts the service as client and listens for broadcast
-            </summary>
-            <returns>True if started succesfully, false otherwise</returns>
-        </member>
-        <member name="M:Buddy.Internal.Net.NetDiscovery.StartAsServer">
-            <summary>
-            Starts the service as server and emits a broadcast
-            </summary>
-            <returns>True if started succesfully, false otherwise</returns>
-        </member>
-        <member name="M:Buddy.Internal.Net.NetDiscovery.StopBroadcast">
-            <summary>
-            Stops the broadcast service
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.NetDiscovery.OnReceivedBroadcast(System.String,System.String)">
-            <summary>
-            Callback called when a broadcast is received
-            </summary>
-            <param name="iFromAddress">Address that sent the broadcast</param>
-            <param name="iData">Body data of the broadcast</param>
-        </member>
-        <member name="T:Buddy.Internal.Net.WebRTCListener">
-            <summary>
-            This part listens on the Crossbar server to know if there is any incoming call
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.Net.WebRTCListener.RemoteID">
-            <summary>
-            Used to know the Remote ID for RTC communication
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.Net.WebRTCListener.MessageFromChat">
-            <summary>
-            Use this to know if answer from STT comes from a Chat question
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.PublishConnectionRequest(System.String)">
-            <summary>
-            Use this to make a call towards another Buddy
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.OnConnectionRequest(System.String)">
-            <summary>
-            Called by Android plugin when message is received from the PubSub of Crossbar
-            </summary>
-            <param name="iMessage"></param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.OnAndroidLog(System.String)">
-            <summary>
-            Called by Android plugin for Debug purposes
-            </summary>
-            <param name="iLogText"></param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.SendNotification(System.String,System.String)">
-            <summary>
-            Send notification as Crossbar published event
-            </summary>
-            <param name="iTitle">Title of the notification</param>
-            <param name="iMessage">Body message of the notification</param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.ProcessAnswer(System.String)">
-            <summary>
-            Use this to send back the answer to the user.
-            </summary>
-            <param name="iAnwser"></param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.OnMessageReceived(System.String)">
-            <summary>
-            Used by Android plugin when chat message is received through WebRTC and send it back to user
-            </summary>
-            <param name="iChatMessage">Chat message received through WebRTC</param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.PublishNotification(System.String)">
-            <summary>
-            Format of the notification is the following : BuddyID / Title @ Message
-            </summary>
-            <param name="iMessage">Notification message to send</param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.StartListener(System.String,System.String)">
-            <summary>
-            Initialize the Java Android Object that handles PubSub messages from Crossbar
-            </summary>
-            <param name="iUri">Crossbar uri</param>
-            <param name="iRealm">Name of the realm</param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.WaitSTTFinished(System.String)">
-            <summary>
-            Wait until STT has finished listening and is free to use
-            </summary>
-            <param name="iChatMessage">The Chat message received to process</param>
-            <returns></returns>
-        </member>
-        <member name="T:Buddy.Internal.Net.SharedAccessSignature">
-            <summary>
-            Inner class for asking a shared access signature to Microsoft Azure cloud. Signature are used by loggers.
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.Net.AEventHubLogger">
-            <summary>
-            Abstract class that must be derived by a specific logger in order to log inside the BFR eventhub. 
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Net.AEventHubLogger.URL">
-            <summary>
-            URL of the BFR eventhub
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Net.AEventHubLogger.TIME_OUT">
-            <summary>
-            Time out count for request
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.Net.AEventHubLogger.mHeaders">
-            <summary>
-            Header dictionnary for requests
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.AEventHubLogger.SendToEventHub">
-            <summary>
-            Must be implemented using the URL inside a WWW Unity request
-            </summary>
-            <returns>IEnumerator for yield return</returns>
-        </member>
-        <member name="T:Buddy.Internal.Net.AnomalyLogger">
-            <summary>
-            Auto log to the BFR event hub hardware anomalies
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.AnomalyLogger.SendToEventHub">
-            <summary>
-            Must be implemented using the URL inside a WWW Unity request
-            </summary>
-            <returns>IEnumerator for yield return</returns>
-        </member>
-        <member name="T:Buddy.Internal.Net.CommandLogger">
-            <summary>
-            Auto log to the BFR event hub logged command from the CommandManager
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.CommandLogger.SendToEventHub">
-            <summary>
-            Must be implemented using the URL inside a WWW Unity request
-            </summary>
-            <returns>IEnumerator for yield return</returns>
-        </member>
-        <member name="T:Buddy.Internal.Net.LaunchTelepresence">
-            <summary>
-            Behaviour for starting RemoteControlApp
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.System.GarbageManager">
-            <summary>
-            Unloads unused assets, detects zombie scene and close them
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.System.TimeStamp">
-            <summary>
-            Represents the executed command timestamp
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.System.ScreenLocker">
-            <summary>
-            Unloads unused assets, detects zombie scene and close them
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.System.AnomalySearcher">
-            <summary>
-            Search for hardware error. Those anomalies will be logged by the AnomalyLogger class.
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.Sandbox">
-            <summary>
-            Loads, unloads apps and store transited data
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.AppUpdater">
-            <summary>
-            This class retrieves online apps and updates local apps
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppUpdater.CompareVersions(System.String,System.String)">
-            <summary>
-            Returns 1 if First greater than Second.
-            Returns 0 if equals.
-            Returns -1 if First lower than Second
-            </summary>
-            <param name="iFirstVersion">First version string</param>
-            <param name="iSecondVersion">Second version string</param>
-            <returns>Compared value</returns>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.AppCategory">
-            <summary>
-            Represents the different app categories
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.COMPANION">
-            <summary>
-            Companion category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.EDUTAINMENT">
-            <summary>
-            Edutainment category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.GAME">
-            <summary>
-            Game category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.MULTIMEDIA">
-            <summary>
-            Multimedia category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.UTILITY">
-            <summary>
-            Utility category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.SECURITY">
-            <summary>
-            Security category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.OTHER">
-            <summary>
-            Other category
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.VocalKeys">
-            <summary>
-            Reprensts the differents vocal keys by language to trigger the application
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.VocalKeys.Language">
-            <summary>
-            The language of Buddy
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.VocalKeys.Keys">
-            <summary>
-            List of the differents trigger keys
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.AppInfo">
-            <summary>
-            Meta data of an application. External dev should never explicitly use this class.
-            It's an internal class for app managing.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.ID">
-            <summary>
-            Unique application identifier
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.ShortName">
-            <summary>
-            The string that will be used as directory / class name.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.CommercialName">
-            <summary>
-            The string that will be displayed in the menu / loading.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.MainScene">
-            <summary>
-            Application main scene (entrypoint). Error if NULL.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.Authors">
-            <summary>
-            The app authors.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.Version">
-            <summary>
-            Current installed app version
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionType">
-            <summary>
-            Current installed app version type
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionName">
-            <summary>
-            Current installed app version name
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.Category">
-            <summary>
-            The app category
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.Permissions">
-            <summary>
-            The app permissions
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.LangVocalKeys">
-            <summary>
-            Strings for speech to text activation.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.OptionsLayoutClassName">
-            <summary>
-            Application layout fullname. You should never use this. EmptyAppLayout will be setted if NULL.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.ActivityClassName">
-            <summary>
-            Application Activity fullname.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.OptionsLayout">
-            <summary>
-            The application menu layout that was created from OptionsLayoutStr.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.AppData">
-            <summary>
-            Application data. Automaticaly serialized after unload app, and deserialized after app loading.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.AppActivity">
-            <summary>
-            Application Activity entrypoint for callback
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppInfo.#ctor">
-            <summary>
-            AppInfo are build by deserialization inside the AppManager.
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppInfo.LoadLayout">
-            <summary>
-            Create the layout of the appinfo from the assembly where the class should be.
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppInfo.LoadActivity">
-            <summary>
-            Create the behaviour of the appinfo
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppInfo.SetLanguage(Buddy.Language)">
-            <summary>
-            Update vocal activation key in the input language
-            </summary>
-            <param name="iLanguage">The new requested language</param>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.AppManager">
-            <summary>
-            Loads, unloads apps and store transited data
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppManager.Quit">
-            <summary>
-            Quit the current app and load the default app (if load default is enabled)
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.LocalRobotPref">
-            <summary>
-            Represents the robot preferences
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.LocalRobotPref.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalRobotPref.EnableAppAutoUpdate">
-            <summary>
-            Does the robot have to auto check for apps updates
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalRobotPref.EnableDLBuiltinApps">
-            <summary>
-            Does the robot have to download builtin apps
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalRobotPref.EnableSystemAutoUpdate">
-            <summary>
-            Does the robot have to auto check for system updates
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalRobotPref.AutoLockScreen">
-            <summary>
-            Does the robot authorize the auto lock screen
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalRobotPref.LockScreenTimer">
-            <summary>
-            The time in seconds user have to type pin
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalRobotPref.Pwd">
-            <summary>
-            Password of the robot
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalRobotPref.LastLoggedAccount">
-            <summary>
-            Last account which was logged on the robot
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalRobotPref.LastOdometryPosition">
-            <summary>
-            Last odometry position of the robot
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.LocalRobotPref.LastComputedPosition">
-            <summary>
-            Last computed position of the robot
-            </summary>
-        </member>
-        <member name="T:Buddy.FacialDetection">
-            <summary>
-            Face tracker using continuous Haar cascade feature and local CascadeClassifier algorithm
-            </summary>
-            <summary>
-            Face tracker using continuous Haar cascade feature and local CascadeClassifier algorithm
-            </summary>
-        </member>
-        <member name="M:Buddy.FacialDetection.Init(System.Int32@,System.Single@)">
-            <summary>
-            Called one time at the start.
-            </summary>
-        </member>
-        <member name="M:Buddy.FacialDetection.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D,OpenCVUnity.Size,OpenCVUnity.Mat)">
-            <summary>
-            Called at each valuable frame.
-            </summary>
-        </member>
-        <member name="T:Buddy.MotionDetection">
+        <member name="T:Buddy.MovementTracker">
             <summary>
             Tracker that tracks the position of a moving object 
             </summary>
+        </member>
+        <member name="P:Buddy.MovementTracker.Threshold">
             <summary>
-            Detect moving points in frame
+            Threshold value for the binary image got from the difference between the actual and previous picture
+            Its value is between 0 and 255
             </summary>
         </member>
-        <member name="M:Buddy.MotionDetection.Init(System.Int32@,System.Single@)">
+        <member name="P:Buddy.MovementTracker.BinaryImage">
+            <summary>
+            Mat picture of the binary image got from the difference between the actual and previous picture
+            </summary>
+        </member>
+        <member name="P:Buddy.MovementTracker.PositionMoment">
+            <summary>
+            The position of the center of the moment of the picture
+            </summary>
+        </member>
+        <member name="M:Buddy.MovementTracker.Init(System.Int32@,System.Single@,System.Boolean@)">
             <summary>
             Init the movement tracker
             </summary>
             <param name="ioOutputType">The output type</param>
-            <param name="ioDelay">Refresh time</param>
+            <param name="ioBetweenProcessTime">Refresh time</param>
+            <param name="ioHandleOutputTexture">Has the output to be a texture</param>
         </member>
-        <member name="M:Buddy.MotionDetection.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D,OpenCVUnity.Size,OpenCVUnity.Mat)">
+        <member name="M:Buddy.MovementTracker.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D,OpenCVUnity.Mat@,OpenCVUnity.Size)">
             <summary>
             Process the algorithm
             </summary>
-            <param name="iInputFrameMat">The input frame as Matrix</param>
+            <param name="iInputFrameMat">The input frame as Matrice</param>
             <param name="iInputFrameTexture">The inout frame as Texture</param>
-            <param name="ioOutputFrameMat">The output frame as Matrix</param>
-            <param name="iSize">Size of the frame</param>
+            <param name="ioOutputFrameMat">The output frame as Matrice</param>
+            <param name="iSize"></param>
         </member>
         <member name="T:Buddy.AVisionAlgorithm">
             <summary>
@@ -1109,6 +275,11 @@
         <member name="P:Buddy.AVisionAlgorithm.ProcessedFrameMat">
             <summary>
             Gets the frame proceed after the ProcessFrameImpl method.
+            </summary>
+        </member>
+        <member name="P:Buddy.AVisionAlgorithm.ProcessedFrameTexture2D">
+            <summary>
+            Gets the frame. Will be automaticaly created from FrameMat.
             </summary>
         </member>
         <member name="M:Buddy.AVisionAlgorithm.Enable">
@@ -1142,12 +313,12 @@
             </remarks>
             <returns>The current frame in OpenCVUnity format</returns>
         </member>
-        <member name="M:Buddy.AVisionAlgorithm.Init(System.Int32@,System.Single@)">
+        <member name="M:Buddy.AVisionAlgorithm.Init(System.Int32@,System.Single@,System.Boolean@)">
             <summary>
             Called one time after the start method.
             </summary>
         </member>
-        <member name="M:Buddy.AVisionAlgorithm.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D,OpenCVUnity.Size,OpenCVUnity.Mat)">
+        <member name="M:Buddy.AVisionAlgorithm.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D,OpenCVUnity.Mat@,OpenCVUnity.Size)">
             <summary>
             Called at each valuable frame.
             Write your computer vision algorithm inside this method.
@@ -1896,7 +1067,7 @@
             <param name="iDistance">Distance to reach until the robot stops</param>
             <param name="iTolerance">Tolerance, in meters, around the final position where the robot would stop</param>
         </member>
-        <member name="M:Buddy.Wheels.Stop">
+        <member name="M:Buddy.Wheels.StopWheels">
             <summary>
             Stops the wheels by setting their speed values to 0f.
             </summary>
@@ -2623,11 +1794,6 @@
             Each value represents the estimated temperature.
             </summary>
         </member>
-        <member name="P:Buddy.ThermalSensor.ThermalMat">
-            <summary>
-            Gets the matrix of the thermal sensor as an OpenCV Matrix. Currently 4x4 resolution
-            </summary>
-        </member>
         <member name="P:Buddy.ThermalSensor.Error">
             <summary>
             Error code if there is any error on the component
@@ -2953,6 +2119,58 @@
             Clear the IOT component
             </summary>
         </member>
+        <member name="T:Buddy.AudioRecorder">
+            <summary>
+            Static class used to save audio file and to manage audioclip
+            </summary>
+        </member>
+        <member name="M:Buddy.AudioRecorder.Save(System.String,UnityEngine.AudioClip)">
+            <summary>
+            Save the audio clip into a wav file in the data directory
+            </summary>
+            <param name="iFilename">name which will be used to save tha audio file</param>
+            <param name="iClip">audioclip that will be saved</param>
+            <returns>true if file saved</returns>
+        </member>
+        <member name="M:Buddy.AudioRecorder.TrimSilence(UnityEngine.AudioClip,System.Single)">
+            <summary>
+            Trim the beginning and end of an audioclip that can be considered as a silence 
+            </summary>
+            <param name="iClip">the audioclip to be trimmed</param>
+            <param name="iMin">the threshold to decide if a part can be considered as a silence</param>
+            <returns>the audioclip trimmed</returns>
+        </member>
+        <member name="M:Buddy.AudioRecorder.TrimSilence(System.Collections.Generic.List{System.Single},System.Single,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Trim the beginning and end of an audioclip that can be considered as a silence 
+            </summary>
+            <param name="iSamples">samples of an audioclip</param>
+            <param name="iMin">the threshold to decide if a part can be considered as a silence</param>
+            <param name="iChannels">number of channels per frame</param>
+            <param name="iFrequency">sample frequency of clip</param>
+            <param name="iStreamed">true if clip is streamed</param>
+            <returns>the audioclip trimmed</returns>
+        </member>
+        <member name="M:Buddy.AudioRecorder.Combine(UnityEngine.AudioClip[])">
+            <summary>
+            Combine several audioclip into one
+            </summary>
+            <param name="iClips">the array of audioclips</param>
+            <returns>the audioclip obtained from the comination of several audioclips</returns>
+        </member>
+        <member name="T:Buddy.VideoRecorder">
+            <summary>
+            Class used to save video with the mjpg codec
+            </summary>
+        </member>
+        <member name="M:Buddy.VideoRecorder.Save(System.String,OpenCVUnity.Mat[],System.Single)">
+            <summary>
+            Save the video in the Data folder
+            </summary>
+            <param name="iFilename">name of the video file to save to</param>
+            <param name="iListMat">list of mat that will be stored in the video file</param>
+            <param name="iFps">framerate of the video file</param>
+        </member>
         <member name="T:Buddy.Navigation">
             <summary>
             This class contains all the navigation components (RoombaWalk, Patrol...)
@@ -2968,9 +2186,55 @@
             Clear the navigation components
             </summary>
         </member>
+        <member name="T:Buddy.Geolocation">
+            <summary>
+            Geolocation tool, should be called from BYOS. The geolocation authorization must be enabled by the user.
+            Will be auto-updated at each 10800 seconds
+            </summary>
+        </member>
+        <member name="P:Buddy.Geolocation.Latitude">
+            <summary>
+            Angular value in degrees in the North-South orientation. Latitude at Equator is 0°
+            </summary>
+        </member>
+        <member name="P:Buddy.Geolocation.Longitude">
+            <summary>
+            Angular value in degrees in the East-West orientation. Longitude at the Greenwish meridian is 0°
+            </summary>
+        </member>
+        <member name="P:Buddy.Geolocation.Altitude">
+            <summary>
+            Value in meters
+            </summary>
+        </member>
+        <member name="P:Buddy.Geolocation.HorizontalAccuracy">
+            <summary>
+            Horizontal accuracy of the location
+            </summary>
+        </member>
+        <member name="P:Buddy.Geolocation.VerticalAccuracy">
+            <summary>
+            Vertical accuracy of the location
+            </summary>
+        </member>
+        <member name="P:Buddy.Geolocation.TimeStamp">
+            <summary>
+            Time when the geolocation was taken in seconds from 1970
+            </summary>
+        </member>
         <member name="T:Buddy.Perception">
             <summary>
-            This class contains all the robot perception features (Localization, Face tracking, GoogleCloudVision, Detectors...)
+            This class contains all the robot perception features (Geolocation, FaceTracker, GoogleCloudVisions, Detectors...)
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.Geolocation">
+            <summary>
+            Access to the geolocation feature 
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.FaceTracker">
+            <summary>
+            Feature to track faces
             </summary>
         </member>
         <member name="P:Buddy.Perception.Stimuli">
@@ -2978,39 +2242,14 @@
             Access to all the robot stimuli
             </summary>
         </member>
+        <member name="P:Buddy.Perception.MovementTracker">
+            <summary>
+            Feature to track movement
+            </summary>
+        </member>
         <member name="P:Buddy.Perception.GoogleCloudVision">
             <summary>
             Access to the google cloud vision feature
-            </summary>
-        </member>
-        <member name="P:Buddy.Perception.Shade">
-            <summary>
-            Color tool
-            </summary>
-        </member>
-        <member name="P:Buddy.Perception.Localization">
-            <summary>
-            Localization tool
-            </summary>
-        </member>
-        <member name="P:Buddy.Perception.Thermal">
-            <summary>
-            Thermal tool
-            </summary>
-        </member>
-        <member name="P:Buddy.Perception.QRCode">
-            <summary>
-            QRCode tool for read and write
-            </summary>
-        </member>
-        <member name="P:Buddy.Perception.Motion">
-            <summary>
-            Feature to detect and track movement
-            </summary>
-        </member>
-        <member name="P:Buddy.Perception.Face">
-            <summary>
-            Feature to track faces
             </summary>
         </member>
         <member name="M:Buddy.Perception.Clear">
@@ -3060,58 +2299,696 @@
         </member>
         <member name="F:Buddy.DetectionType.IMAGE_PROPERTIES">
             <summary>
-            Image properties (main color)
+            Image properties (main color, )
+            </summary>
+        </member>
+        <member name="T:Buddy.LandmarkType">
+            <summary>
+            Kind of landmark
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.UNKNOWN_LANDMARK">
+            <summary>
+            Unknown landmark
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.LEFT_EYE">
+            <summary>
+            Left eye
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.RIGHT_EYE">
+            <summary>
+            Right eye
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.LEFT_OF_LEFT_EYEBROW">
+            <summary>
+            Left of left eyebrow
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.RIGHT_OF_LEFT_EYEBROW">
+            <summary>
+            Right of left eyebrow
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.LEFT_OF_RIGHT_EYEBROW">
+            <summary>
+            Left of right eyebrow
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.RIGHT_OF_RIGHT_EYEBROW">
+            <summary>
+            Right of left eyebrow
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.MIDPOINT_BETWEEN_EYES">
+            <summary>
+            Space between eyes
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.NOSE_TIP">
+            <summary>
+            Nose tip
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.UPPER_LIP">
+            <summary>
+            Upper lip
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.LOWER_LIP">
+            <summary>
+            Lower lip
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.MOUTH_LEFT">
+            <summary>
+            Mouse left side
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.MOUTH_RIGHT">
+            <summary>
+            Mouse right side
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.MOUTH_CENTER">
+            <summary>
+            Center of the mouse
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.NOSE_BOTTOM_RIGHT">
+            <summary>
+            Bottom right side of the nose
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.NOSE_BOTTOM_LEFT">
+            <summary>
+            Bottom left side of the nose
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.NOSE_BOTTOM_CENTER">
+            <summary>
+            Bottom center side of the nose
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.LEFT_EYE_TOP_BOUNDARY">
+            <summary>
+            Left eye top boundary
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.LEFT_EYE_RIGHT_CORNER">
+            <summary>
+            Left eye right corner
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.LEFT_EYE_BOTTOM_BOUNDARY">
+            <summary>
+            Left eye bottom boundary
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.LEFT_EYE_LEFT_CORNER">
+            <summary>
+            Left eye left corner
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.RIGHT_EYE_TOP_BOUNDARY">
+            <summary>
+            Right eye top boundary
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.RIGHT_EYE_RIGHT_CORNER">
+            <summary>
+            RIght eye right corner
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.RIGHT_EYE_BOTTOM_BOUNDARY">
+            <summary>
+            Right eye bottom boundary
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.RIGHT_EYE_LEFT_CORNER">
+            <summary>
+            Right eye left corner 
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.LEFT_EYEBROW_UPPER_MIDPOINT">
+            <summary>
+            Left eyebrown upper midpoint
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.RIGHT_EYEBROW_UPPER_MIDPOINT">
+            <summary>
+            Right eyebrown upper midpoint
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.LEFT_EAR_TRAGION">
+            <summary>
+            Left ear tragion
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.RIGHT_EAR_TRAGION">
+            <summary>
+            Right eear tragion
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.LEFT_EYE_PUPIL">
+            <summary>
+            Left eye pupil
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.RIGHT_EYE_PUPIL">
+            <summary>
+            Right eye pupil
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.FOREHEAD_GLABELLA">
+            <summary>
+            Glabella
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.CHIN_GNATHION">
+            <summary>
+            Chin gnathion
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.CHIN_LEFT_GONION">
+            <summary>
+            Chin left gonion
+            </summary>
+        </member>
+        <member name="F:Buddy.LandmarkType.CHIN_RIGHT_GONION">
+            <summary>
+            Chin right gonion
+            </summary>
+        </member>
+        <member name="T:Buddy.Likelihood">
+            <summary>
+            Rate likelihood
+            </summary>
+        </member>
+        <member name="F:Buddy.Likelihood.UNKNOWN">
+            <summary>
+            Unknown
+            </summary>
+        </member>
+        <member name="F:Buddy.Likelihood.VERY_UNLIKELY">
+            <summary>
+            Very low rate
+            </summary>
+        </member>
+        <member name="F:Buddy.Likelihood.UNLIKELY">
+            <summary>
+            Low rate
+            </summary>
+        </member>
+        <member name="F:Buddy.Likelihood.POSSIBLE">
+            <summary>
+            Medium rate 
+            </summary>
+        </member>
+        <member name="F:Buddy.Likelihood.LIKELY">
+            <summary>
+            Correct rate
+            </summary>
+        </member>
+        <member name="F:Buddy.Likelihood.VERY_LIKELY">
+            <summary>
+            Very credible
             </summary>
         </member>
         <member name="T:Buddy.GoogleCloudVision">
             <summary>
-            To use this feature, you must set iKey with your own Google vision API key.
+            To use this feature, you must assign GOOGLE_API_KEY with your own Google vision API key.
             Available at https://console.cloud.google.com/projectselector/apis/credentials
             </summary>
         </member>
-        <member name="M:Buddy.GoogleCloudVision.Detect(System.String,OpenCVUnity.Mat,Buddy.DetectionType,System.Action{Buddy.ObjectEntity[]},System.Int32)">
+        <member name="M:Buddy.GoogleCloudVision.Detect(System.String,OpenCVUnity.Mat,Buddy.DetectionType,Buddy.AnnotateImageResponses,System.Int32)">
             <summary>
             Detect the wanted feature in the input image
             </summary>
             <param name="iKey">Key to authorize request</param>
             <param name="iImage">The image to retrieve info</param>
             <param name="iFeatureType">The kind of feature</param>
-            <param name="iCallback">Callback with the output Annotate response</param>
+            <param name="ioResponses">The output Annotate response</param>
             <param name="iMaxResult">Max wish results</param>
             <returns>IEnumerator for yield return</returns>
         </member>
-        <member name="M:Buddy.GoogleCloudVision.Detect(System.String,UnityEngine.Texture2D,Buddy.DetectionType,System.Action{Buddy.ObjectEntity[]},System.Int32)">
+        <member name="M:Buddy.GoogleCloudVision.Detect(System.String,UnityEngine.Texture2D,Buddy.DetectionType,Buddy.AnnotateImageResponses,System.Int32)">
             <summary>
             Detect the wanted feature in the input image
             </summary>
             <param name="iKey">Key to authorize request</param>
             <param name="iImage">The image to retrieve info</param>
             <param name="iFeatureType">The kind of feature</param>
-            <param name="iCallback">Callback with the output Annotate response</param>
+            <param name="ioResponses">The output Annotate response</param>
             <param name="iMaxResult">Max wish results</param>
             <returns>IEnumerator for yield return</returns>
         </member>
-        <member name="M:Buddy.GoogleCloudVision.Detect(System.String,System.Byte[],Buddy.DetectionType,System.Action{Buddy.ObjectEntity[]},System.Int32)">
+        <member name="M:Buddy.GoogleCloudVision.Detect(System.String,System.Byte[],Buddy.DetectionType,Buddy.AnnotateImageResponses,System.Int32)">
             <summary>
             Detect the wanted feature in the input image
             </summary>
             <param name="iKey">Key to authorize request</param>
             <param name="iImage">The image to retrieve info</param>
             <param name="iFeatureType">The kind of feature</param>
-            <param name="iCallback">Callback with the output Annotate response</param>
+            <param name="ioResponses">The output Annotate response</param>
             <param name="iMaxResult">Max wish results</param>
             <returns>IEnumerator for yield return</returns>
         </member>
-        <member name="M:Buddy.GoogleCloudVision.DetectImpl(System.String,System.Byte[],Buddy.DetectionType,System.Action{Buddy.ObjectEntity[]},System.Int32)">
+        <member name="M:Buddy.GoogleCloudVision.DetectImpl(System.String,OpenCVUnity.Mat,Buddy.DetectionType,Buddy.AnnotateImageResponses,System.Int32)">
             <summary>
             Detect the wanted feature in the input image
             </summary>
             <param name="iKey">Key to authorize request</param>
             <param name="iImage">The image to retrieve info</param>
             <param name="iFeatureType">The kind of feature</param>
-            <param name="iCallback">The output Annotate response</param>
+            <param name="ioResponses">The output Annotate response</param>
             <param name="iMaxResult">Max wish results</param>
             <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="M:Buddy.GoogleCloudVision.DetectImpl(System.String,UnityEngine.Texture2D,Buddy.DetectionType,Buddy.AnnotateImageResponses,System.Int32)">
+            <summary>
+            Detect the wanted feature in the input image
+            </summary>
+            <param name="iKey">Key to authorize request</param>
+            <param name="iImage">The image to retrieve info</param>
+            <param name="iFeatureType">The kind of feature</param>
+            <param name="ioResponses">The output Annotate response</param>
+            <param name="iMaxResult">Max wish results</param>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="M:Buddy.GoogleCloudVision.DetectImpl(System.String,System.Byte[],Buddy.DetectionType,Buddy.AnnotateImageResponses,System.Int32)">
+            <summary>
+            Detect the wanted feature in the input image
+            </summary>
+            <param name="iKey">Key to authorize request</param>
+            <param name="iImage">The image to retrieve info</param>
+            <param name="iFeatureType">The kind of feature</param>
+            <param name="ioResponses">The output Annotate response</param>
+            <param name="iMaxResult">Max wish results</param>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="T:Buddy.Internal.Net.BroadcastListener">
+            <summary>
+            This is to create a Broadcast client to let
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.Net.BroadcastListener.OnReceivedBroadcast(System.String,System.String)">
+            <summary>
+            Own method to configure what to do when receiving a Broadcast
+            </summary>
+            <param name="iFromAddress">The address that send the broadcast</param>
+            <param name="iData">Data contained in the broadcast</param>
+        </member>
+        <member name="T:Buddy.Internal.Net.LocalListener">
+            <summary>
+            This class handles the Local Broadcast Listener and messages with the Smartphone app to launch local remote control
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.Net.NetworkBroadcastResult">
+            <summary>
+            Structure for broadcast messages
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.Net.NetworkBroadcastResult.serverAddress">
+            <summary>
+            The address of the server that sent the broadcast
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.Net.NetworkBroadcastResult.broadcastData">
+            <summary>
+            Content of the broadcast
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.Net.NetDiscovery">
+            <summary>
+            Unity Networking NetworkDiscovery added in this dll for namespace separation in dll reasons
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.Net.NetDiscovery.StartAsClient">
+            <summary>
+            Starts the service as client and listens for broadcast
+            </summary>
+            <returns>True if started succesfully, false otherwise</returns>
+        </member>
+        <member name="M:Buddy.Internal.Net.NetDiscovery.StartAsServer">
+            <summary>
+            Starts the service as server and emits a broadcast
+            </summary>
+            <returns>True if started succesfully, false otherwise</returns>
+        </member>
+        <member name="M:Buddy.Internal.Net.NetDiscovery.StopBroadcast">
+            <summary>
+            Stops the broadcast service
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.Net.NetDiscovery.OnReceivedBroadcast(System.String,System.String)">
+            <summary>
+            Callback called when a broadcast is received
+            </summary>
+            <param name="iFromAddress">Address that sent the broadcast</param>
+            <param name="iData">Body data of the broadcast</param>
+        </member>
+        <member name="T:Buddy.Internal.Net.SharedAccessSignature">
+            <summary>
+            Inner class for asking a shared access signature to Microsoft Azure cloud. Signature are used by loggers.
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.Net.AEventHubLogger">
+            <summary>
+            Abstract class that must be derived by a specific logger in order to log inside the BFR eventhub. 
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.Net.AEventHubLogger.URL">
+            <summary>
+            URL of the BFR eventhub
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.Net.AEventHubLogger.TIME_OUT">
+            <summary>
+            Time out count for request
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.Net.AEventHubLogger.mHeaders">
+            <summary>
+            Header dictionnary for requests
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.Net.AEventHubLogger.SendToEventHub">
+            <summary>
+            Must be implemented using the URL inside a WWW Unity request
+            </summary>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="T:Buddy.Internal.Net.AnomalyLogger">
+            <summary>
+            Auto log to the BFR event hub hardware anomalies
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.Net.AnomalyLogger.SendToEventHub">
+            <summary>
+            Must be implemented using the URL inside a WWW Unity request
+            </summary>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="T:Buddy.Internal.Net.CommandLogger">
+            <summary>
+            Auto log to the BFR event hub logged command from the CommandManager
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.Net.CommandLogger.SendToEventHub">
+            <summary>
+            Must be implemented using the URL inside a WWW Unity request
+            </summary>
+            <returns>IEnumerator for yield return</returns>
+        </member>
+        <member name="T:Buddy.Internal.Net.LaunchTelepresence">
+            <summary>
+            Behaviour for starting RemoteControlApp
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.System.GarbageManager">
+            <summary>
+            Unloads unused assets, detects zombie scene and close them
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.System.ScreenLocker">
+            <summary>
+            Unloads unused assets, detects zombie scene and close them
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.System.AnomalySearcher">
+            <summary>
+            Search for hardware error. Those anomalies will be logged by the AnomalyLogger class.
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.Sandbox">
+            <summary>
+            Loads, unloads apps and store transited data
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.AppUpdater">
+            <summary>
+            This class retrieves online apps and updates local apps
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppUpdater.CompareVersions(System.String,System.String)">
+            <summary>
+            Returns 1 if First greater than Second.
+            Returns 0 if equals.
+            Returns -1 if First lower than Second
+            </summary>
+            <param name="iFirstVersion">First version string</param>
+            <param name="iSecondVersion">Second version string</param>
+            <returns>Compared value</returns>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.AppCategory">
+            <summary>
+            Represents the different app categories
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.COMPANION">
+            <summary>
+            Companion category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.EDUTAINMENT">
+            <summary>
+            Edutainment category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.GAME">
+            <summary>
+            Game category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.MULTIMEDIA">
+            <summary>
+            Multimedia category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.UTILITY">
+            <summary>
+            Utility category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.SECURITY">
+            <summary>
+            Security category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.OTHER">
+            <summary>
+            Other category
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.VocalKeys">
+            <summary>
+            Reprensts the differents vocal keys by language to trigger the application
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.VocalKeys.Language">
+            <summary>
+            The language of Buddy
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.VocalKeys.Keys">
+            <summary>
+            List of the differents trigger keys
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.AppInfo">
+            <summary>
+            Meta data of an application. External dev should never explicitly use this class.
+            It's an internal class for app managing.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.ID">
+            <summary>
+            Unique application identifier
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.ShortName">
+            <summary>
+            The string that will be used as directory / class name.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.CommercialName">
+            <summary>
+            The string that will be displayed in the menu / loading.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.MainScene">
+            <summary>
+            Application main scene (entrypoint). Error if NULL.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.Authors">
+            <summary>
+            The app authors.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.Version">
+            <summary>
+            Current installed app version
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionType">
+            <summary>
+            Current installed app version type
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionName">
+            <summary>
+            Current installed app version name
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.Category">
+            <summary>
+            The app category
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.Permissions">
+            <summary>
+            The app permissions
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.LangVocalKeys">
+            <summary>
+            Strings for speech to text activation.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.OptionsLayoutClassName">
+            <summary>
+            Application layout fullname. You should never use this. EmptyAppLayout will be setted if NULL.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.ActivityClassName">
+            <summary>
+            Application Activity fullname.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.OptionsLayout">
+            <summary>
+            The application menu layout that was created from OptionsLayoutStr.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.AppData">
+            <summary>
+            Application data. Automaticaly serialized after unload app, and deserialized after app loading.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.AppActivity">
+            <summary>
+            Application Activity entrypoint for callback
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppInfo.#ctor">
+            <summary>
+            AppInfo are build by deserialization inside the AppManager.
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppInfo.LoadLayout">
+            <summary>
+            Create the layout of the appinfo from the assembly where the class should be.
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppInfo.LoadActivity">
+            <summary>
+            Create the behaviour of the appinfo
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppInfo.SetLanguage(Buddy.Language)">
+            <summary>
+            Update vocal activation key in the input language
+            </summary>
+            <param name="iLanguage">The new requested language</param>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.AppManager">
+            <summary>
+            Loads, unloads apps and store transited data
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppManager.Quit">
+            <summary>
+            Quit the current app and load the default app (if load default is enabled)
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.LocalRobotPref">
+            <summary>
+            Represents the robot preferences
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.LocalRobotPref.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.EnableAppAutoUpdate">
+            <summary>
+            Does the robot have to auto check for apps updates
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.EnableDLBuiltinApps">
+            <summary>
+            Does the robot have to download builtin apps
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.EnableSystemAutoUpdate">
+            <summary>
+            Does the robot have to auto check for system updates
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.AutoLockScreen">
+            <summary>
+            Does the robot authorize the auto lock screen
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.LockScreenTimer">
+            <summary>
+            The time in seconds user have to type pin
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.Pwd">
+            <summary>
+            Password of the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.LastLoggedAccount">
+            <summary>
+            Last account which was logged on the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.LastOdometryPosition">
+            <summary>
+            Last odometry position of the robot
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.LocalRobotPref.LastComputedPosition">
+            <summary>
+            Last computed position of the robot
+            </summary>
+        </member>
+        <member name="T:Buddy.FaceCascadeTracker">
+            <summary>
+            Face tracker using continuous Haar cascade feature and local CascadeClassifier algorithm
+            </summary>
+        </member>
+        <member name="P:Buddy.FaceCascadeTracker.TrackedObjects">
+            <summary>
+            Current tracked objects on the current frame
+            </summary>
+        </member>
+        <member name="M:Buddy.FaceCascadeTracker.Init(System.Int32@,System.Single@,System.Boolean@)">
+            <summary>
+            Called one time at the start.
+            </summary>
+        </member>
+        <member name="M:Buddy.FaceCascadeTracker.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D,OpenCVUnity.Mat@,OpenCVUnity.Size)">
+            <summary>
+            Called at each valuable frame.
+            </summary>
         </member>
         <member name="T:Buddy.Wikipedia">
             <summary>
@@ -3127,56 +3004,6 @@
             </summary>
             <param name="iWord">The word to define</param>
             <param name="iCallback">Callback with the retrieve response</param>
-        </member>
-        <member name="T:Buddy.WeatherType">
-            <summary>
-            Different weather type
-            </summary>
-        </member>
-        <member name="F:Buddy.WeatherType.SUNNY">
-            <summary>
-            Sunny weather
-            </summary>
-        </member>
-        <member name="F:Buddy.WeatherType.OVERCAST">
-            <summary>
-            Overcast weather
-            </summary>
-        </member>
-        <member name="F:Buddy.WeatherType.CLOUDY">
-            <summary>
-            Cloudy weather
-            </summary>
-        </member>
-        <member name="F:Buddy.WeatherType.RAIN">
-            <summary>
-            Rainny weather
-            </summary>
-        </member>
-        <member name="T:Buddy.WeatherInfo">
-            <summary>
-            This class represents the weather at a specific hour
-            </summary>
-        </member>
-        <member name="P:Buddy.WeatherInfo.Location">
-            <summary>
-            Location of the weather info
-            </summary>
-        </member>
-        <member name="P:Buddy.WeatherInfo.Hour">
-            <summary>
-            Hour of the day
-            </summary>
-        </member>
-        <member name="P:Buddy.WeatherInfo.Type">
-            <summary>
-            Weather type (Sunny, overcast, cloudy ...)
-            </summary>
-        </member>
-        <member name="P:Buddy.WeatherInfo.Temperature">
-            <summary>
-            The temperature in degrees
-            </summary>
         </member>
         <member name="T:Buddy.Weather">
             <summary>
@@ -3286,6 +3113,56 @@
             <param name="iFromPwd">password of the mail adress</param>
             <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
             <param name="iEMails">mails that will be send</param>
+        </member>
+        <member name="T:Buddy.WeatherType">
+            <summary>
+            Different weather type
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.SUNNY">
+            <summary>
+            Sunny weather
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.OVERCAST">
+            <summary>
+            Overcast weather
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.CLOUDY">
+            <summary>
+            Cloudy weather
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.RAIN">
+            <summary>
+            Rainny weather
+            </summary>
+        </member>
+        <member name="T:Buddy.WeatherInfo">
+            <summary>
+            This class represents the weather at a specific hour
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.Location">
+            <summary>
+            Location of the weather info
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.Hour">
+            <summary>
+            Hour of the day
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.Type">
+            <summary>
+            Weather type (Sunny, overcast, cloudy ...)
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.Temperature">
+            <summary>
+            The temperature in degrees
+            </summary>
         </member>
         <member name="T:Buddy.WebService">
             <summary>
@@ -3437,7 +3314,7 @@
             Disable the stimulus
             </summary>
         </member>
-        <member name="M:Buddy.AStimulus.RegisterCallback(Buddy.StimulusEvent,System.Action)">
+        <member name="M:Buddy.AStimulus.RegisterCallback(Buddy.StimulusEvent,Buddy.FunctionCallback)">
             <summary>
             Register a callback to be called when stimuli event is detected
             </summary>
@@ -3447,7 +3324,7 @@
             remove all Registered callback to this stimuli
             </summary>
         </member>
-        <member name="M:Buddy.AStimulus.RemoveCallback(Buddy.StimulusEvent,System.Action)">
+        <member name="M:Buddy.AStimulus.RemoveCallback(Buddy.StimulusEvent,Buddy.FunctionCallback)">
             <summary>
             Remove a given callback
             </summary>
@@ -3554,6 +3431,26 @@
             Disable the face detection
             </summary>
         </member>
+        <member name="T:Buddy.MoveSideStimulus">
+            <summary>
+            Stimulus to detect movement (up, down, right, left)
+            </summary>
+        </member>
+        <member name="M:Buddy.MoveSideStimulus.Init">
+            <summary>
+            Init the move side stimulus
+            </summary>
+        </member>
+        <member name="M:Buddy.MoveSideStimulus.AssessStimulusImpl">
+            <summary>
+            Move side stimulus implementation
+            </summary>
+        </member>
+        <member name="M:Buddy.MoveSideStimulus.Enable">
+            <summary>
+            Enable the move side stimulus
+            </summary>
+        </member>
         <member name="T:Buddy.NoiseStimulus">
             <summary>
             Stimulus to detect noise
@@ -3562,11 +3459,6 @@
         <member name="P:Buddy.NoiseStimulus.Threshold">
             <summary>
             Threshold for this stimulus
-            </summary>
-        </member>
-        <member name="P:Buddy.NoiseStimulus.Intensity">
-            <summary>
-            Intensity of sound
             </summary>
         </member>
         <member name="M:Buddy.NoiseStimulus.Init">
@@ -3845,14 +3737,14 @@
             Dictionary of stimulus event and there associated Stimulus component
             </summary>
         </member>
-        <member name="M:Buddy.Stimuli.RegisterStimuliCallback(Buddy.StimulusEvent,System.Action)">
+        <member name="M:Buddy.Stimuli.RegisterStimuliCallback(Buddy.StimulusEvent,Buddy.FunctionCallback)">
             <summary>
             This function is used to add a callback to a stimuli controller
             </summary>
             <param name="iStimuliEvent"> Define on which stimuli we add the callback </param>
             <param name="iCallback"> The actual callback you want to add </param>
         </member>
-        <member name="M:Buddy.Stimuli.RemoveStimuliCallback(Buddy.StimulusEvent,System.Action)">
+        <member name="M:Buddy.Stimuli.RemoveStimuliCallback(Buddy.StimulusEvent,Buddy.FunctionCallback)">
             <summary>
             Use this function to remove a callback from a StimuliController
             </summary>
@@ -5707,6 +5599,11 @@
             Execute the command behaviour.
             </summary>
         </member>
+        <member name="T:Buddy.Command.CommandTime">
+            <summary>
+            Represents the executed command timestamp
+            </summary>
+        </member>
         <member name="T:Buddy.Command.CommandParam">
             <summary>
             Represents parameters for command. Contains it own serialization implementation
@@ -5792,7 +5689,10 @@
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:Buddy.EpisodicMemManager">
+        <member name="T:Buddy.DeclarativeMemoryManager">
+            <summary>
+            This class represents the declarative memory of Buddy
+            </summary>
             <summary>
             This class represents the declarative memory of Buddy
             </summary>
@@ -5826,15 +5726,10 @@
         </member>
         <member name="P:Buddy.MemoryManager.Procedural">
             <summary>
-            Access to the procedural (skills, tasks) memory of Buddy
+            Access to the procedural memory of Buddy
             </summary>
         </member>
-        <member name="P:Buddy.MemoryManager.Episodic">
-            <summary>
-            Access to the episodic (event, xp) memory of Buddy
-            </summary>
-        </member>
-        <member name="T:Buddy.ProceduralMemManager">
+        <member name="T:Buddy.ProcMemoryManager">
             <summary>
             This class represents the procedural memory of Buddy
             </summary>
@@ -5842,7 +5737,7 @@
             This class represents the procedural memory of Buddy
             </summary>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.String,System.Int32)">
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.String,System.Int32)">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -5850,7 +5745,7 @@
             <param name="iSenderID">An ID representing the reminder sender</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.String,System.Int32,System.Int32[])">
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.String,System.Int32,System.Int32[])">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -5859,7 +5754,7 @@
             <param name="iReceivers">An array of ID representing reminder receivers</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,System.String,System.Int32)">
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,System.String,System.Int32)">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -5868,7 +5763,7 @@
             <param name="iSenderID">An ID representing the sender</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,System.String,System.Int32,System.Int32[])">
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,System.String,System.Int32,System.Int32[])">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -5878,7 +5773,7 @@
             <param name="iReceivers">An array of ID representing reminder receivers</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32)">
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32)">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -5888,7 +5783,7 @@
             <param name="iSenderID">An ID representing the sender</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32,System.Int32[])">
+        <member name="M:Buddy.ProcMemoryManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32,System.Int32[])">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -5899,27 +5794,27 @@
             <param name="iReceivers">An array of ID representing reminder receivers</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.ExistReminder(System.Int32)">
+        <member name="M:Buddy.ProcMemoryManager.ExistReminder(System.Int32)">
             <summary>
             Check if the reminder exists.
             </summary>
             <param name="iID">The reminder ID</param>
             <returns>True if the reminder exists. Else returns false</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.RemoveReminder(System.Int32)">
+        <member name="M:Buddy.ProcMemoryManager.RemoveReminder(System.Int32)">
             <summary>
             Remove a speicific reminder from procedural memory.
             </summary>
             <param name="iID">The reminder ID</param>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.RetrieveRemindersWhere(System.Predicate{Buddy.Reminder})">
+        <member name="M:Buddy.ProcMemoryManager.RetrieveRemindersWhere(System.Predicate{Buddy.Reminder})">
             <summary>
             Retrieve all the reminders where the predicate is verified
             </summary>
             <param name="iMatchPredicate">The predicate to match reminders</param>
             <returns>A list of reminders</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.DisplayReminder(System.Int32)">
+        <member name="M:Buddy.ProcMemoryManager.DisplayReminder(System.Int32)">
             <summary>
             Display a specific reminder
             </summary>
@@ -6114,6 +6009,68 @@
             Default Constructor
             </summary>
         </member>
+        <member name="F:Buddy.EntryType.BASE">
+            <summary>
+            Unique value for UI display purpose
+            </summary>
+        </member>
+        <member name="F:Buddy.EntryType.CLOSE_PHONETIC">
+            <summary>
+            Dictionary entry for STT purpose mainly
+            </summary>
+        </member>
+        <member name="F:Buddy.EntryType.RANDOM">
+            <summary>
+            Dictionary entry for TTS purpose mainly
+            </summary>
+        </member>
+        <member name="T:Buddy.DictionaryEntry">
+            <summary>
+            Key-value dictionary base entry
+            </summary>
+        </member>
+        <member name="P:Buddy.DictionaryEntry.Key">
+            <summary>
+            Key of the value
+            </summary>
+        </member>
+        <member name="P:Buddy.DictionaryEntry.BaseValue">
+            <summary>
+            Display value
+            </summary>
+        </member>
+        <member name="P:Buddy.DictionaryEntry.ClosePhoneticValues">
+            <summary>
+            Listen list for STT input processing
+            </summary>
+        </member>
+        <member name="P:Buddy.DictionaryEntry.RandomValues">
+            <summary>
+            Say list containing value that will be choosen randomly 
+            </summary>
+        </member>
+        <member name="T:Buddy.LanguageThesaurus">
+            <summary>
+            Language dictionary storage. Contains key-value entries for one language
+            </summary>
+        </member>
+        <member name="P:Buddy.LanguageThesaurus.Entries">
+            <summary>
+            All key-value entries of the thesaurus
+            </summary>
+        </member>
+        <member name="M:Buddy.LanguageThesaurus.#ctor">
+            <summary>
+            Represents all the dictionary entries
+            </summary>
+        </member>
+        <member name="M:Buddy.LanguageThesaurus.ContainsKey(System.String)">
+            <summary>
+            Check existing key in existing entries
+            </summary>
+            <param name="iKey">Key to check</param>
+            <returns>True if the key already exists in Entries</returns>
+        </member>
         <member name="T:Buddy.Dictionary">
             <summary>
             Hosts all global_keyword -> currentlanguage_word / word list matchings
@@ -6174,6 +6131,80 @@
             <summary>
             Current OS/UI language format
             </summary>
+        </member>
+        <member name="T:Buddy.WebRTCListener">
+            <summary>
+            This part listens on the Crossbar server to know if there is any incoming call
+            </summary>
+            <summary>
+            This part listens on the Crossbar server to know if there is any incoming call
+            </summary>
+        </member>
+        <member name="P:Buddy.WebRTCListener.RemoteID">
+            <summary>
+            Used to know the Remote ID for RTC communication
+            </summary>
+        </member>
+        <member name="P:Buddy.WebRTCListener.MessageFromChat">
+            <summary>
+            Use this to know if answer from STT comes from a Chat question
+            </summary>
+        </member>
+        <member name="M:Buddy.WebRTCListener.PublishConnectionRequest(System.String)">
+            <summary>
+            Use this to make a call towards another Buddy
+            </summary>
+        </member>
+        <member name="M:Buddy.WebRTCListener.OnConnectionRequest(System.String)">
+            <summary>
+            Called by Android plugin when message is received from the PubSub of Crossbar
+            </summary>
+            <param name="iMessage"></param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.OnAndroidLog(System.String)">
+            <summary>
+            Called by Android plugin for Debug purposes
+            </summary>
+            <param name="iLogText"></param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.SendNotification(System.String,System.String)">
+            <summary>
+            Send notification as Crossbar published event
+            </summary>
+            <param name="iTitle">Title of the notification</param>
+            <param name="iMessage">Body message of the notification</param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.ProcessAnswer(System.String)">
+            <summary>
+            Use this to send back the answer to the user.
+            </summary>
+            <param name="iAnwser"></param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.OnMessageReceived(System.String)">
+            <summary>
+            Used by Android plugin when chat message is received through WebRTC and send it back to user
+            </summary>
+            <param name="iChatMessage">Chat message received through WebRTC</param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.PublishNotification(System.String)">
+            <summary>
+            Format of the notification is the following : BuddyID / Title @ Message
+            </summary>
+            <param name="iMessage">Notification message to send</param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.StartListener(System.String,System.String)">
+            <summary>
+            Initialize the Java Android Object that handles PubSub messages from Crossbar
+            </summary>
+            <param name="iUri">Crossbar uri</param>
+            <param name="iRealm">Name of the realm</param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.WaitSTTFinished(System.String)">
+            <summary>
+            Wait until STT has finished listening and is free to use
+            </summary>
+            <param name="iChatMessage">The Chat message received to process</param>
+            <returns></returns>
         </member>
         <member name="T:Buddy.ResourceManager">
             <summary>
