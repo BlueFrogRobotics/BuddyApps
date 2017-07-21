@@ -39,20 +39,21 @@ namespace BuddyApp.MemoryGame
 				//Debug.Log("Success Current lvl: " + mGameLevels.mCurrentLevel);
 				if (mQuitApp) {
 					Toaster.Hide();
-					QuitApp();
-				}
-				bool updated = UpdateLevel();
-				if (updated) {
-					//link.mAnimationManager.gameObject.SetActive(false);
-
-					//Debug.Log("Success Current lvl: " + mGameLevels.mCurrentLevel);
-					animator.SetTrigger("NextLevel");
+					Trigger("Replay");
 				} else {
-					Toaster.Display<VictoryToast>().With(Dictionary.GetString("win"));
-					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("win"));
-					//link.mAnimationManager.gameObject.SetActive(true);
-					//Debug.Log("End of the game");
-					mQuitApp = true;
+					bool updated = UpdateLevel();
+					if (updated) {
+						//link.mAnimationManager.gameObject.SetActive(false);
+
+						//Debug.Log("Success Current lvl: " + mGameLevels.mCurrentLevel);
+						animator.SetTrigger("NextLevel");
+					} else {
+						mQuitApp = true;
+						Toaster.Display<VictoryToast>().With(Dictionary.GetString("win"));
+						Interaction.TextToSpeech.Say(Dictionary.GetRandomString("win"));
+						//link.mAnimationManager.gameObject.SetActive(true);
+						//Debug.Log("End of the game");
+					}
 				}
 			}
 		}
