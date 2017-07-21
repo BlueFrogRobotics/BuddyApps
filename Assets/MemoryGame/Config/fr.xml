@@ -3,12 +3,12 @@
     <Entries>
         <DictionaryEntry>
             <Key>intro</Key>
-            <BaseValue>Je vais bouger mon visage et mon corps. Fais moi reproduire les mouvements</BaseValue>
+            <BaseValue>Je vais bouger mon visage ou mon corps. Fais moi reproduire les mouvements</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Je vais faire bouger mon visage et mon corps, et vous devez me faire reproduire ces mouvements. </string>
+                <string>Je vais faire bouger mon visage ou mon corps, et vous devez me faire reproduire ces mouvements. </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -18,34 +18,34 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Passons au niveau</string>
+                <string>niveau</string>
                 <string> c'est parti pour le niveau</string>
-                <string> Faisons maintenant le niveau</string>
+                <string> Faisons le niveau</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>win</Key>
-            <BaseValue>Bravo tu as gagné!</BaseValue>
+            <BaseValue>Bravo vous avez gagné!</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Bien joué, tu as gagné!</string>
+                <string>Bien joué, vous avez gagné!</string>
                 <string> Bravo, c'est gagné!</string>
-                <string> Super, tu as gagné!</string>
-                <string> Tu es vraiment le meilleur à ce jeu, tu as gagné!</string>
+                <string> Super, vous avez gagné!</string>
+                <string> Vous êtes vraiment le meilleur à ce jeu, vous avez gagné!</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>failure</Key>
-            <BaseValue>Dommage, tu as perdu</BaseValue>
+            <BaseValue>Dommage, vous avez perdu</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Dommage c'est perdu</string>
-                <string> C'est dommage mais tu as perdu</string>
-                <string> Quel dommage, tu as perdu</string>
+                <string> C'est dommage mais vous avez perdu</string>
+                <string> Quel dommage, vous avez perdu</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -57,7 +57,7 @@
             <RandomValues>
                 <string>C'est à vous!</string>
                 <string> C'est votre tour!</string>
-                <string> A vous de reproduire mes mouvements!</string>
+                <string> A vous de reproduire mé mouvements!</string>
                 <string> A vous de jouer!</string>
             </RandomValues>
         </DictionaryEntry>
@@ -68,8 +68,8 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Je vais recommencer, concentre toi</string>
-                <string> Je vais refaire les moivements, regarde bien!</string>
+                <string>Je vais recommencer, concentrez vous</string>
+                <string> Je vais refaire les mouvements, regardez bien!</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -83,6 +83,56 @@
                 <string> Bravo, vous avez gagné!</string>
                 <string> Super, c'est gagné!</string>
                 <string> Bravo, vous êtes vraiment trop fort!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>difficulty</Key>
+            <BaseValue>Recommençons avec le niveau de difficulté</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Recommençons avec le niveau de difficulté</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>hard</Key>
+            <BaseValue>difficile</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>difficile</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>easy</Key>
+            <BaseValue>facile</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>facile</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>medium</Key>
+            <BaseValue>moyen</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>moyen</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>andfullbody</Key>
+            <BaseValue>et avec des mouvements du corps</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>et avec des mouvements du corps</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

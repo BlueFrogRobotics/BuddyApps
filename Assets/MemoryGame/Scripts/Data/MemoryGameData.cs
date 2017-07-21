@@ -8,12 +8,17 @@ namespace BuddyApp.MemoryGame
         /*
          * Data getters / setters
          */
-        public int MyValue { get; set; }
+        public int Difficulty { get; set; }
 
-        /*
+		/*
+         * Data getters / setters
+         */
+		public bool FullBody { get; set; }
+
+		/*
          * Data singleton access
          */
-        public static MemoryGameData Instance
+		public static MemoryGameData Instance
         {
             get
             {

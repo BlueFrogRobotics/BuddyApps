@@ -28,12 +28,12 @@ namespace BuddyApp.MemoryGame
 		[SerializeField]
         private List<GameObject> gameObjects = new List<GameObject>();
 
-        private Animator mAnimator;
+        internal Animator mAnimator;
 
         private Dictionary<string, int> mCommonIntegers;
         private Dictionary<string, float> mCommonSingles;
         private Dictionary<string, string> mCommonStrings;
-        private Dictionary<string, object> mCommonObjects;
+        internal Dictionary<string, object> mCommonObjects;
 
         internal List<GameObject> GameObjects { get { return gameObjects; } }
 
@@ -50,7 +50,7 @@ namespace BuddyApp.MemoryGame
                 mCommonStrings = new Dictionary<string, string>();
                 mCommonObjects = new Dictionary<string, object>();
 
-				mCommonObjects["gameLevels"] = new MemoryGameRandomLevel();
+				mCommonObjects["gameLevels"] = new MemoryGameRandomLevel(MemoryGameData.Instance.Difficulty, MemoryGameData.Instance.FullBody);
 				mCommonIntegers["isPlayerTurn"] = 0;
 
 				foreach (AStateMachineBehaviour lState in lStates) {

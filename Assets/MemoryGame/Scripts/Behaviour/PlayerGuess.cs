@@ -65,7 +65,7 @@ namespace BuddyApp.MemoryGame
 
 		public void LeftEyeClicked()
 		{
-			Utils.LogI(LogContext.APP,"Click left eye from PlayerGuess script");
+			Utils.LogI(LogContext.APP, "Click left eye from PlayerGuess script");
 			mCurrentEvents.Add((int)FaceEvent.BLINK_LEFT);
 
 			Primitive.Speaker.Voice.Play(VoiceSound.SURPRISED_1);
@@ -82,7 +82,7 @@ namespace BuddyApp.MemoryGame
 
 		public void RightEyeClicked()
 		{
-			Utils.LogI(LogContext.APP,"Click right eye from PlayerGuess script");
+			Utils.LogI(LogContext.APP, "Click right eye from PlayerGuess script");
 			mCurrentEvents.Add((int)FaceEvent.BLINK_RIGHT);
 
 			Primitive.Speaker.Voice.Play(VoiceSound.SURPRISED_2);
@@ -99,7 +99,7 @@ namespace BuddyApp.MemoryGame
 
 		public void MouthClicked()
 		{
-			Utils.LogI(LogContext.APP,   "Click mouth from Player Guess Script");
+			Utils.LogI(LogContext.APP, "Click mouth from Player Guess Script");
 			mCurrentEvents.Add((int)FaceEvent.SMILE);
 
 			Primitive.Speaker.Voice.Play(VoiceSound.SURPRISED_3);
@@ -167,19 +167,20 @@ namespace BuddyApp.MemoryGame
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
+			mGameLevels = ((MemoryGameRandomLevel)CommonObjects["gameLevels"]);
 			mBuddyMotion = false;
-			Utils.LogI(LogContext.APP,"Player's turn");
+			Utils.LogI(LogContext.APP, "Player's turn");
 			mOriginHeadPos = 0.0f;
 			Primitive.Motors.NoHinge.SetPosition(mOriginHeadPos);
 			mOriginRobotAngle = Primitive.Motors.Wheels.Odometry.z;
 			InitGuess();
 
 
-            Interaction.Face.OnClickLeftEye.Add(LeftEyeClicked);
-            Interaction.Face.OnClickRightEye.Add(RightEyeClicked);
-            Interaction.Face.OnClickMouth.Add(MouthClicked);
+			Interaction.Face.OnClickLeftEye.Add(LeftEyeClicked);
+			Interaction.Face.OnClickRightEye.Add(RightEyeClicked);
+			Interaction.Face.OnClickMouth.Add(MouthClicked);
 
-            Interaction.TextToSpeech.Say(Dictionary.GetRandomString("yourturn"), true);
+			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("yourturn"), true);
 			mWaitTimer = 0.0f;
 		}
 
@@ -187,24 +188,19 @@ namespace BuddyApp.MemoryGame
 		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
-			//if (link.mUnloadingScene) {
-			//	Utils.LogI(LogContext.APP,"Unloading");
-			//	QuitApp();
-			//}
-
 			if (!mBuddyMotion) {
 
 
 				if (Mathf.Abs(Primitive.Motors.NoHinge.CurrentAnglePosition) > ANGLE_THRESH) {
 
 					if (Primitive.Motors.NoHinge.CurrentAnglePosition > mOriginHeadPos) {
-						Utils.LogI(LogContext.APP,"Pushing head left");
+						Utils.LogI(LogContext.APP, "Pushing head left");
 						Primitive.Speaker.Voice.Play(VoiceSound.LAUGH_1);
 						mCurrentEvents.Add(8);
 						StartCoroutine(ControlBuddy(BuddyMotion.HEAD_LEFT));
 					} else {
-						Utils.LogI(LogContext.APP,"Pushing head right");
-                        Primitive.Speaker.Voice.Play(VoiceSound.LAUGH_2);
+						Utils.LogI(LogContext.APP, "Pushing head right");
+						Primitive.Speaker.Voice.Play(VoiceSound.LAUGH_2);
 						mCurrentEvents.Add(9);
 						StartCoroutine(ControlBuddy(BuddyMotion.HEAD_RIGHT));
 					}
@@ -219,14 +215,14 @@ namespace BuddyApp.MemoryGame
 					}
 				} else if (Mathf.Abs(Primitive.Motors.Wheels.Odometry.z - mOriginRobotAngle) > ANGLE_THRESH) {
 					if (Primitive.Motors.Wheels.Odometry.z > mOriginRobotAngle) {
-						Utils.LogI(LogContext.APP,"Pushing robot left");
-                        Primitive.Speaker.Voice.Play(VoiceSound.CURIOUS_1);
+						Utils.LogI(LogContext.APP, "Pushing robot left");
+						Primitive.Speaker.Voice.Play(VoiceSound.CURIOUS_1);
 						mCurrentEvents.Add(10);
 						StartCoroutine(ControlBuddy(BuddyMotion.WHEEL_LEFT));
 
 					} else {
-						Utils.LogI(LogContext.APP,"Pushing robot right");
-                        Primitive.Speaker.Voice.Play(VoiceSound.CURIOUS_2);
+						Utils.LogI(LogContext.APP, "Pushing robot right");
+						Primitive.Speaker.Voice.Play(VoiceSound.CURIOUS_2);
 						mCurrentEvents.Add(11);
 						StartCoroutine(ControlBuddy(BuddyMotion.WHEEL_RIGHT));
 					}
@@ -251,7 +247,7 @@ namespace BuddyApp.MemoryGame
 				}
 
 				if (Interaction.Face.IsStable && mFail) {
-					Utils.LogI(LogContext.APP,"Oups you failed");
+					Utils.LogI(LogContext.APP, "Oups you failed");
 					animator.SetTrigger("PlayerFailure");
 				}
 
@@ -263,13 +259,13 @@ namespace BuddyApp.MemoryGame
 					}
 
 					if (mWaitTimer > 1.5f) {
-						Utils.LogI(LogContext.APP,"Congrats, you win !");
+						Utils.LogI(LogContext.APP, "Congrats, you win !");
 						animator.SetTrigger("PlayerSuccess");
 					}
 				}
 
 				if (mWaitTimer > mEndMaxTime) {
-					Utils.LogI(LogContext.APP,"TimeOut game");
+					Utils.LogI(LogContext.APP, "TimeOut game");
 					animator.SetTrigger("PlayerFailure");
 				}
 
@@ -280,7 +276,7 @@ namespace BuddyApp.MemoryGame
 
 		private IEnumerator ControlBuddy(BuddyMotion iMotion)
 		{
-			Utils.LogI(LogContext.APP,"Moving : " + iMotion);
+			Utils.LogI(LogContext.APP, "Moving : " + iMotion);
 			mBuddyMotion = true;
 
 			float lTimer = 0.0f;
@@ -304,7 +300,7 @@ namespace BuddyApp.MemoryGame
 				}
 
 				lTimer = 0.0f;
-				Utils.LogI(LogContext.APP,"Moving head ok, move back ");
+				Utils.LogI(LogContext.APP, "Moving head ok, move back ");
 				// Put the head back
 				Primitive.Motors.NoHinge.SetPosition(0.0f);
 
@@ -316,9 +312,9 @@ namespace BuddyApp.MemoryGame
 				}
 
 			} else if (iMotion == BuddyMotion.HEAD_DOWN) {
-				Utils.LogI(LogContext.APP,"Motion not available" + iMotion);
+				Utils.LogI(LogContext.APP, "Motion not available" + iMotion);
 			} else if (iMotion == BuddyMotion.HEAD_UP) {
-				Utils.LogI(LogContext.APP,"Motion not available" + iMotion);
+				Utils.LogI(LogContext.APP, "Motion not available" + iMotion);
 
 
 
@@ -338,7 +334,7 @@ namespace BuddyApp.MemoryGame
 					yield return null;
 				}
 
-				Utils.LogI(LogContext.APP,"Moving wheels ok, move back ");
+				//Utils.LogI(LogContext.APP,"Moving wheels ok, move back ");
 
 				// Put the robot back
 				Primitive.Motors.Wheels.TurnAbsoluteAngle(mOriginRobotAngle, 100.0f, 0.02f);
@@ -353,7 +349,7 @@ namespace BuddyApp.MemoryGame
 			}
 
 			yield return new WaitForSeconds(1.0f);
-			Utils.LogI(LogContext.APP,"Motion done");
+			//Utils.LogI(LogContext.APP,"Motion done");
 
 			mBuddyMotion = false;
 
@@ -384,16 +380,16 @@ namespace BuddyApp.MemoryGame
 		void SetRandomTimerLimit()
 		{
 			mRandomMoveTimerLimit = UnityEngine.Random.Range(0.5f, 3.0f);
-			Utils.LogI(LogContext.APP,"randomMoveTimerLimit = " + mRandomMoveTimerLimit);
+			Utils.LogI(LogContext.APP, "randomMoveTimerLimit = " + mRandomMoveTimerLimit);
 		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
-            Interaction.Face.OnClickLeftEye.Remove(LeftEyeClicked);
-            Interaction.Face.OnClickRightEye.Remove(RightEyeClicked);
-            Interaction.Face.OnClickMouth.Remove(MouthClicked);
+			Interaction.Face.OnClickLeftEye.Remove(LeftEyeClicked);
+			Interaction.Face.OnClickRightEye.Remove(RightEyeClicked);
+			Interaction.Face.OnClickMouth.Remove(MouthClicked);
 			CommonIntegers["isPlayerTurn"] = 0;
 			//		link.animationManager.ResetPosition ();
 		}

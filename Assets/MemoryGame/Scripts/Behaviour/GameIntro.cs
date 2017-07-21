@@ -18,24 +18,23 @@ namespace BuddyApp.MemoryGame
 		{
 
 			mTTSTimer = 0.0f;
-
 			Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-            Interaction.TextToSpeech.Silence(1000, true);
-            Interaction.TextToSpeech.Say(Dictionary.GetRandomString("intro"), true);
+			Interaction.Face.SetEvent(FaceEvent.SMILE);
 		}
 
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			//if (link.mUnloadingScene) {
-			//    Debug.Log("Unloading");
-			//    QuitApp();
-			//}
 
 			mTTSTimer += Time.deltaTime;
+			if (mTTSTimer > 2.0f && mTTSTimer < 2.5f) {
+				Interaction.TextToSpeech.Say(Dictionary.GetRandomString("intro"), true);
+				mTTSTimer = 2.6f;
+			}
 
-			if (Interaction.TextToSpeech.HasFinishedTalking && mTTSTimer > 3.0f) {
+
+			if (Interaction.TextToSpeech.HasFinishedTalking && mTTSTimer > 4.0f) {
 				animator.SetTrigger("IntroDone");
 			}
 		}

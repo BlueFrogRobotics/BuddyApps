@@ -18,13 +18,23 @@ namespace BuddyApp.MemoryGame
          */
         private MemoryGameData mAppData;
 
-        /*
+		private MemoryGameStateMachineManager mGameStateManager;
+
+		private int mLastDifficulty;
+		private bool mLastFullBody;
+
+		/*
          * Init refs to API and your app data
          */
-        void Start()
+		void Start()
         {
             mTextToSpeech = BYOS.Instance.Interaction.TextToSpeech;
             mAppData = MemoryGameData.Instance;
+			mGameStateManager = gameObject.GetComponent<MemoryGameStateMachineManager>();
+            //mAppData.Difficulty = 1;
+			//mAppData.FullBody = true;
+			mLastDifficulty = mAppData.Difficulty;
+			mLastFullBody = mAppData.FullBody;
         }
 
         /*
@@ -32,6 +42,14 @@ namespace BuddyApp.MemoryGame
          */
         void Update()
         {
+			if(mAppData.Difficulty != mLastDifficulty) {
+				mLastDifficulty = mAppData.Difficulty;
+				//mGameStateManager.mCommonObjects["gameLevels"] = new MemoryGameRandomLevel(mAppData.Difficulty);
+                mGameStateManager.mAnimator.Play("DifficultyChanged");
+			}else if(mAppData.FullBody != mLastFullBody) {
+				mLastFullBody = mAppData.FullBody;
+				mGameStateManager.mAnimator.Play("DifficultyChanged");
+			}
         }
     }
 }
