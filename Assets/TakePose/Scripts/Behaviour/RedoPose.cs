@@ -104,7 +104,7 @@ namespace BuddyApp.TakePose
         {
             Interaction.Mood.Set(MoodType.NEUTRAL);
             Interaction.TextToSpeech.SayKey("noredo");
-            Trigger("Hastag");
+            Trigger("Exit");
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
