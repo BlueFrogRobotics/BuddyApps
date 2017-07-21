@@ -35,7 +35,7 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Utils.LogI(LogContext.APP, "Enter UserD 0");
-			mState.text = "User Detected";
+			mState.text = "User Detected" + BYOS.Instance.Primitive.Battery.EnergyLevel;
 
 
 			mEyesFollowThermal.enabled = true;
@@ -82,6 +82,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mState.text = "User Detected nrj " + BYOS.Instance.Primitive.Battery.EnergyLevel + " needcharge: " + mNeedCharge + " " + mReallyNeedCharge;
 			mTimeHumanDetected += Time.deltaTime;
 			mTimeState += Time.deltaTime;
 
