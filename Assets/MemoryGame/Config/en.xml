@@ -3,12 +3,12 @@
     <Entries>
         <DictionaryEntry>
             <Key>intro</Key>
-            <BaseValue>I will move my face and my body. You will have to make me reproduce the motion.</BaseValue>
+            <BaseValue>I will move my face or my body. You will have to make me reproduce the motion.</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>I will move my face and my body, and you will have to make me reproduce my motiuon.</string>
+                <string>I will move my face or my body, and you will have to make me reproduce my motiuon.</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -18,10 +18,9 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Let's got for the level</string>
+                <string>Let's go for the level</string>
                 <string> Let's do the level</string>
                 <string> are you ready for the level</string>
-                <string> Let's move on to the level</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -84,6 +83,87 @@
                 <string> Yes you did it!</string>
                 <string> Well played!</string>
                 <string> You are truly good!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>difficulty</Key>
+            <BaseValue>Let's restart with difficulty set as</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Let's restart with difficulty set as</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>hard</Key>
+            <BaseValue>hard</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>hard</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>easy</Key>
+            <BaseValue>easy</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>easy</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>medium</Key>
+            <BaseValue>medium</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>medium</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>andfullbody</Key>
+            <BaseValue>and fullbody motion</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>and fullbody motion</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>askreplay</Key>
+            <BaseValue>Play again?</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Let's do it again! Let's play again!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>replay</Key>
+            <BaseValue>Nice, let's do it again!</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Nice, let's go!</string>
+                <string> Nice let's do it again!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>noredo</Key>
+            <BaseValue>Okay, no problem</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Okay, no problem</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

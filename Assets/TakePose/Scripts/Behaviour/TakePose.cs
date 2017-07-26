@@ -46,7 +46,7 @@ namespace BuddyApp.TakePose
 
         private IEnumerator CountDownImpl()
         {
-            Toaster.Display<CountdownToast>().With(COUNTDOWN_START, OnFinishCountdown);
+            Toaster.Display<CountdownToast>().With(COUNTDOWN_START, OnFinishCountdown, false);
 
             for (int i = COUNTDOWN_START; i > 0; --i) {
                 Interaction.TextToSpeech.Say(i.ToString());

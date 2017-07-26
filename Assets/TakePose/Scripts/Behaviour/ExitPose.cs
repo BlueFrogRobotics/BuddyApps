@@ -14,14 +14,16 @@ namespace BuddyApp.TakePose
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Interaction.Mood.Set(MoodType.NEUTRAL);
-            QuitApp();
-        }
+		}
 
-        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-        {
-        }
+		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+		{
+			if (Interaction.SpeechToText.HasFinished) {
+				QuitApp();
+			}
+		}
 
-        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
         }
     }

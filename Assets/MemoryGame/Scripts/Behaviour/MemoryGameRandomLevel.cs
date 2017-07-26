@@ -18,7 +18,7 @@ namespace BuddyApp.MemoryGame
 
 		private int mNbLevels;
 
-		public MemoryGameRandomLevel(bool hard = true, bool iUseBody = true)
+		public MemoryGameRandomLevel(int difficulty = 1, bool iUseBody = true)
 		{
 
 			System.Random lRdm = new System.Random();
@@ -36,18 +36,29 @@ namespace BuddyApp.MemoryGame
 				lEventPossibilities.Add(11);
 			}
 
-			speed = 3.0f;
-			mNbLevels = 3;
-			if (hard) {
+			speed = 4.0f;
+			if (difficulty < 0)
+				difficulty = 1;
+
+			
+
+			if (difficulty == 0) {
+				mNbLevels = 3;
+			} else {
 				mNbLevels = 5;
-				speed = 4.0f;
+				speed = 5.0f;
+			}
+
+
+			if (difficulty > 1) {
+				speed = 6.0f;
 			}
 
 			int lRandomEvent = lRdm.Next(lEventPossibilities.Count);
 
 
 			for (int i = 0; i < mNbLevels * 3; ++i) {
-				Debug.Log(" lRandomEvent :" + lRandomEvent);
+				//Debug.Log(" lRandomEvent :" + lRandomEvent);
 				events.Add(lEventPossibilities[lRandomEvent]);
 				lRandomEvent = lRdm.Next(lEventPossibilities.Count);
 			}

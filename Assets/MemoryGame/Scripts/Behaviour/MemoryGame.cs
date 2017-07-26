@@ -18,7 +18,7 @@ namespace BuddyApp.MemoryGame
 
 		private bool mBuddyMotion;
 		private float mOriginRobotAngle;
-		private MemoryGameRandomLevel mGameLevels; 
+		private MemoryGameRandomLevel mGameLevels;
 
 		public enum BuddyMotion : int
 		{
@@ -35,16 +35,19 @@ namespace BuddyApp.MemoryGame
 		public override void Start()
 		{
 			mGameLevels = ((MemoryGameRandomLevel)CommonObjects["gameLevels"]);
-        }
+		}
 
 
 		public void InitLvl()
 		{
 			CommonIntegers["isPlayerTurn"] = 0;
 
-			
+
 			Debug.Log("Memory Game Level " + mGameLevels.mCurrentLevel);
-			mEvents = mGameLevels.events.GetRange(0, mGameLevels.mCurrentLevel * 2);
+			int lMotionsPerLevel = 2;
+			if (MemoryGameData.Instance.Difficulty > 1)
+				lMotionsPerLevel = 3;
+			mEvents = mGameLevels.events.GetRange(0, mGameLevels.mCurrentLevel * lMotionsPerLevel);
 
 			// right eye = 3
 			//Debug.Log((int)FaceEvent.BLINK_RIGHT);
@@ -79,25 +82,25 @@ namespace BuddyApp.MemoryGame
 							StartCoroutine(ControlBuddy(BuddyMotion.HEAD_LEFT));
 						} else if (mEvents[mEventIndex] == 9) {
 							Debug.Log("Move head right");
-                            Primitive.Speaker.Voice.Play(VoiceSound.LAUGH_2);
+							Primitive.Speaker.Voice.Play(VoiceSound.LAUGH_2);
 							StartCoroutine(ControlBuddy(BuddyMotion.HEAD_RIGHT));
 						} else if (mEvents[mEventIndex] == 10) {
 							Debug.Log("Move wheels left");
-                            Primitive.Speaker.Voice.Play(VoiceSound.CURIOUS_1);
+							Primitive.Speaker.Voice.Play(VoiceSound.CURIOUS_1);
 							StartCoroutine(ControlBuddy(BuddyMotion.WHEEL_LEFT));
 						} else if (mEvents[mEventIndex] == 11) {
 							Debug.Log("Move wheels right");
-                            Primitive.Speaker.Voice.Play(VoiceSound.CURIOUS_2);
+							Primitive.Speaker.Voice.Play(VoiceSound.CURIOUS_2);
 							StartCoroutine(ControlBuddy(BuddyMotion.WHEEL_RIGHT));
 						}
 					} else {
 						//Set sound
 						if ((FaceEvent)mEvents[mEventIndex] == FaceEvent.BLINK_LEFT)
-                            Primitive.Speaker.Voice.Play(VoiceSound.SURPRISED_1);
+							Primitive.Speaker.Voice.Play(VoiceSound.SURPRISED_1);
 						else if ((FaceEvent)mEvents[mEventIndex] == FaceEvent.BLINK_RIGHT)
-                            Primitive.Speaker.Voice.Play(VoiceSound.SURPRISED_2);
+							Primitive.Speaker.Voice.Play(VoiceSound.SURPRISED_2);
 						else if ((FaceEvent)mEvents[mEventIndex] == FaceEvent.SMILE)
-                            Primitive.Speaker.Voice.Play(VoiceSound.SURPRISED_3);
+							Primitive.Speaker.Voice.Play(VoiceSound.SURPRISED_3);
 
 
 						//Set face event
@@ -129,7 +132,7 @@ namespace BuddyApp.MemoryGame
 
 				// Put the head to the given direction
 				Debug.Log("Head target angle " + lTargetAngle);
-                Primitive.Motors.NoHinge.SetPosition(lTargetAngle);
+				Primitive.Motors.NoHinge.SetPosition(lTargetAngle);
 
 				// Wait for end of motion
 				while (Math.Abs(Primitive.Motors.NoHinge.CurrentAnglePosition - lOriginAngle) < 20.0f || lTimer > 5.0f) {
@@ -138,8 +141,8 @@ namespace BuddyApp.MemoryGame
 				}
 				lTimer = 0.0f;
 				Debug.Log("Moving head ok, move back ");
-                // Put the head back
-                Primitive.Motors.NoHinge.SetPosition(0.0f);
+				// Put the head back
+				Primitive.Motors.NoHinge.SetPosition(0.0f);
 
 				// Wait for end of motion
 				while (Math.Abs(Primitive.Motors.NoHinge.CurrentAnglePosition) > 5.0f || lTimer > 5.0f) {
@@ -162,7 +165,7 @@ namespace BuddyApp.MemoryGame
 					lTargetAngle = -lTargetAngle;
 				}
 
-                Primitive.Motors.Wheels.TurnAngle(lTargetAngle, 100.0f, 0.02f);
+				Primitive.Motors.Wheels.TurnAngle(lTargetAngle, 100.0f, 0.02f);
 
 				yield return new WaitForSeconds(0.5f);
 
@@ -173,14 +176,14 @@ namespace BuddyApp.MemoryGame
 
 				Debug.Log("Moving wheels ok, move back ");
 
-                // Put the robot back
-                Primitive.Motors.Wheels.TurnAbsoluteAngle(mOriginRobotAngle, 100.0f, 0.02f);
+				// Put the robot back
+				Primitive.Motors.Wheels.TurnAbsoluteAngle(mOriginRobotAngle, 100.0f, 0.02f);
 
 				yield return new WaitForSeconds(0.5f);
 
 				// Wait for end of motion
 				while (Primitive.Motors.Wheels.Status != MovingState.REACHED_GOAL &&
-                    Primitive.Motors.Wheels.Status != MovingState.MOTIONLESS) {
+					Primitive.Motors.Wheels.Status != MovingState.MOTIONLESS) {
 					yield return null;
 				}
 
@@ -197,16 +200,14 @@ namespace BuddyApp.MemoryGame
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-
+			mGameLevels = ((MemoryGameRandomLevel)CommonObjects["gameLevels"]);
 			animator.ResetTrigger("NextLevel");
 			//link.mAnimationManager.gameObject.SetActive(false);
 			Interaction.Mood.Set(MoodType.NEUTRAL);
-            Primitive.Motors.NoHinge.SetPosition(0.0f);
+			Primitive.Motors.NoHinge.SetPosition(0.0f);
 			mOriginRobotAngle = Primitive.Motors.Wheels.Odometry.z;
 			mBuddyMotion = false;
 			InitLvl();
-			Debug.Log("pre currentLevel intro Sentence");
-			Interaction.TextToSpeech.Silence(1000, true);
 			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introlvl") + " " + mGameLevels.mCurrentLevel, true);
 
 		}
