@@ -33,7 +33,8 @@ namespace BuddyApp.Guardian
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            //mShowTemperature.FillTemperature(null);
+            int[] lThermicMatrix=Primitive.ThermalSensor.Matrix;
+            mShowTemperature.FillTemperature(lThermicMatrix);
             Debug.Log("hum");
             mShowTemperature.UpdateTexture();
             Debug.Log("hum2");

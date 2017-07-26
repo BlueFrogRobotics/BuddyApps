@@ -25,6 +25,7 @@ namespace BuddyApp.Guardian
             GuardianData.Instance.SoundDebug = false;
             GuardianData.Instance.FireDebug = false;
 
+            mDetectionLayout = new DetectionLayout();
             mHasSwitchState = false;
             BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout, 
                 () => { Trigger("NextStep"); },
@@ -35,28 +36,32 @@ namespace BuddyApp.Guardian
         {
             if (GuardianData.Instance.HeadOrientation && !mHasSwitchState)
             {
-                BYOS.Instance.Toaster.Hide();
+                //BYOS.Instance.Toaster.Hide();
+                Toaster.Display<BackgroundToast>().With();
                 mHasSwitchState = true;
                 iAnimator.SetInteger("DebugMode", 0);
             }
 
             if (GuardianData.Instance.MovementDebug && !mHasSwitchState)
             {
-                BYOS.Instance.Toaster.Hide();
+                //BYOS.Instance.Toaster.Hide();
+                Toaster.Display<BackgroundToast>().With();
                 mHasSwitchState = true;
                 iAnimator.SetInteger("DebugMode", 1);
             }
 
             if (GuardianData.Instance.SoundDebug && !mHasSwitchState)
             {
-                BYOS.Instance.Toaster.Hide();
+                //BYOS.Instance.Toaster.Hide();
+                Toaster.Display<BackgroundToast>().With();
                 mHasSwitchState = true;
                 iAnimator.SetInteger("DebugMode", 2);
             }
 
             if (GuardianData.Instance.FireDebug && !mHasSwitchState)
             {
-                BYOS.Instance.Toaster.Hide();
+                //BYOS.Instance.Toaster.Hide();
+                Toaster.Display<BackgroundToast>().With();
                 mHasSwitchState = true;
                 iAnimator.SetInteger("DebugMode", 3);
             }
@@ -64,7 +69,13 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            SetThreshold();
+            Detection.NoiseStimulus.Enable();
+        }
 
+        private void SetThreshold()
+        {
+            Detection.NoiseStimulus.Threshold= (10.0f - GuardianData.Instance.SoundDetectionThreshold)/10.0f * 0.3f;
         }
     }
 }

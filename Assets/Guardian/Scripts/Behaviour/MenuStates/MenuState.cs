@@ -61,6 +61,11 @@ namespace BuddyApp.Guardian
                 return;
             }
 
+            if(!Toaster.IsDisplayed)
+            {
+                mHasDisplayChoices = false;
+            }
+
             if (string.IsNullOrEmpty(mSpeechReco)) {
                 Interaction.SpeechToText.Request();
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using OpenCVUnity;
 using Buddy;
 using Buddy.UI;
@@ -22,8 +23,11 @@ namespace BuddyApp.Guardian
         private bool mHasDetectedSound = false;
         private bool mHasInitSlider = false;
         private bool mGoBack = false;
-
+        private NoiseStimulus mNoiseStimulus;
         private DebugSoundWindow mDebugSoundWindow;
+
+        private Queue<float> mSoundIntensities;
+        private int mNbSoundPics = 50;
 
         public override void Start()
         {
@@ -48,16 +52,24 @@ namespace BuddyApp.Guardian
             
             mAnimator = animator;
             Start();
+            mSoundIntensities = new Queue<float>();
+            for(int i=0; i<mNbSoundPics; i++)
+            {
+                mSoundIntensities.Enqueue(0.0f);
+            }
             AStimulus soundStimulus;
-            //Debug.Log("AH! 5");
-            BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_MEDIUM_LOUD, out soundStimulus);
-            //Debug.Log("AH! 6");
-            soundStimulus.Enable();
+            BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_LOUD, out soundStimulus);
+            mNoiseStimulus = (NoiseStimulus)soundStimulus;
             //mDebugSoundWindow.gameObject.SetActive(true);
             mDebugSoundAnimator.SetTrigger("Open_WDebugs");
             mDebugSoundWindow.ButtonBack.onClick.AddListener(GoBack);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_MEDIUM_LOUD, OnSoundDetected);
-            //mSoundDetector.OnDetection += OnSoundDetected;
+            
+            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+            if (mNoiseStimulus.IsListening)
+            {
+                mNoiseStimulus.Disable();
+                mNoiseStimulus.Enable();
+            }
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -67,6 +79,7 @@ namespace BuddyApp.Guardian
             {
                 mHasInitSlider = true;
                 //mGauge.Slider.value = (1.0f - (mSoundDetector.Threshold / mSoundDetector.MaxThreshold)) * mGauge.Slider.maxValue;
+                mGauge.Slider.value = GuardianData.Instance.SoundDetectionThreshold;//(1.0f - (mNoiseStimulus.Threshold / 0.3f)) * mGauge.Slider.maxValue;
             }
 
             mTimer += Time.deltaTime;
@@ -75,17 +88,29 @@ namespace BuddyApp.Guardian
                 mTimer = 0.0f;
                 mMatShow = new Mat(480, 640, CvType.CV_8UC3, new Scalar(255, 255, 255, 255));
 
-                float lMaxThreshold = 0;// mSoundDetector.MaxThreshold;
+                float lMaxThreshold = 0.3f;// mSoundDetector.MaxThreshold;
                 float lThreshold = (1.0f - mGauge.Slider.value / mGauge.Slider.maxValue) * lMaxThreshold;
                 //mSoundDetector.Threshold = lThreshold;
+                mNoiseStimulus.Threshold = lThreshold;
+                Debug.Log("le thresh: " + lThreshold);
 
-
-
-                float lLevelSound = 0;// (mSoundDetector.Value) * 400.0f / lMaxThreshold;
+                float lLevelSound = mNoiseStimulus.Intensity * 400.0f / lMaxThreshold;// (mSoundDetector.Value) * 400.0f / lMaxThreshold;
                 //Imgproc.line(mMatShow, new Point(0, 480.0f - lLevelSound), new Point(640, 480.0f - lLevelSound), new Scalar(0, 0, 255, 255));
-                Imgproc.rectangle(mMatShow, new Point(0, 480), new Point(640, 480.0f - lLevelSound), new Scalar(0, 212, 209, 255), -1);
+                //Imgproc.rectangle(mMatShow, new Point(0, 480), new Point(640, 480.0f - lLevelSound), new Scalar(0, 212, 209, 255), -1);
+
+                mSoundIntensities.Enqueue(lLevelSound);
+                mSoundIntensities.Dequeue();
+                float lWidthPic = 640.0f / mNbSoundPics;
+                int lIt = 0;
+                foreach(float intensity in mSoundIntensities)
+                {
+                    Imgproc.rectangle(mMatShow, new Point(lIt * lWidthPic, 480), new Point((lIt+1) *lWidthPic, 480.0f - intensity), new Scalar(0, 212, 209, 255), -1);
+                    lIt++;
+                }
+
+
                 Imgproc.line(mMatShow, new Point(0, 480.0f - lThreshold * 400 / lMaxThreshold), new Point(640, 480.0f - lThreshold * 400 / lMaxThreshold), new Scalar(237, 27, 36, 255), 3);
-                Debug.Log("niveau: " + lThreshold);
+                //Debug.Log("niveau: " + lLevelSound);
 
                 Utils.MatToTexture2D(mMatShow, mTexture);
                 mRaw.texture = mTexture;
@@ -101,6 +126,7 @@ namespace BuddyApp.Guardian
             if (mHasInitSlider && mDebugSoundAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
             {
                 mAnimator.SetInteger("DebugMode", -1);
+                GuardianData.Instance.SoundDetectionThreshold = 10 - (int)(mNoiseStimulus.Threshold * 10 / 0.3f);
                 mGoBack = false;
                 mDebugSoundWindow.Ico.enabled = false;
             }
@@ -109,9 +135,12 @@ namespace BuddyApp.Guardian
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("noise stimu thresh: " + mNoiseStimulus.Threshold);
+            GuardianData.Instance.SoundDetectionThreshold = 10-(int)(mNoiseStimulus.Threshold * 10 / 0.3f);//(int)mNoiseStimulus.Threshold;
+            Debug.Log("threshold son: " + GuardianData.Instance.SoundDetectionThreshold);
             mDebugSoundWindow.Ico.enabled = false;
             //mSoundDetector.OnDetection -= OnSoundDetected;
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_MEDIUM_LOUD, OnSoundDetected);
+            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
             mDebugSoundWindow.ButtonBack.onClick.RemoveAllListeners();
             
             //mDebugSoundWindow.gameObject.SetActive(false);
