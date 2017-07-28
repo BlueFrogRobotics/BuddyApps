@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// State where the user can set the detection sensibility, test them and set the head orientation
+    /// </summary>
     public class ParametersState : AStateMachineBehaviour
     {
         private DetectionLayout mDetectionLayout;
@@ -36,7 +39,6 @@ namespace BuddyApp.Guardian
         {
             if (GuardianData.Instance.HeadOrientation && !mHasSwitchState)
             {
-                //BYOS.Instance.Toaster.Hide();
                 Toaster.Display<BackgroundToast>().With();
                 mHasSwitchState = true;
                 iAnimator.SetInteger("DebugMode", 0);
@@ -44,7 +46,6 @@ namespace BuddyApp.Guardian
 
             if (GuardianData.Instance.MovementDebug && !mHasSwitchState)
             {
-                //BYOS.Instance.Toaster.Hide();
                 Toaster.Display<BackgroundToast>().With();
                 mHasSwitchState = true;
                 iAnimator.SetInteger("DebugMode", 1);
@@ -52,7 +53,6 @@ namespace BuddyApp.Guardian
 
             if (GuardianData.Instance.SoundDebug && !mHasSwitchState)
             {
-                //BYOS.Instance.Toaster.Hide();
                 Toaster.Display<BackgroundToast>().With();
                 mHasSwitchState = true;
                 iAnimator.SetInteger("DebugMode", 2);
@@ -60,7 +60,6 @@ namespace BuddyApp.Guardian
 
             if (GuardianData.Instance.FireDebug && !mHasSwitchState)
             {
-                //BYOS.Instance.Toaster.Hide();
                 Toaster.Display<BackgroundToast>().With();
                 mHasSwitchState = true;
                 iAnimator.SetInteger("DebugMode", 3);
@@ -75,7 +74,7 @@ namespace BuddyApp.Guardian
 
         private void SetThreshold()
         {
-            Detection.NoiseStimulus.Threshold= (10.0f - GuardianData.Instance.SoundDetectionThreshold)/10.0f * 0.3f;
+            Detection.NoiseStimulus.Threshold= (100.0f - GuardianData.Instance.SoundDetectionThreshold)/100.0f * 0.3f;
         }
     }
 }

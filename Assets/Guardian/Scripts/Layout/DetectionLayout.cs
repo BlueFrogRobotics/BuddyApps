@@ -34,11 +34,13 @@ namespace BuddyApp.Guardian
             mMovementDetection.IsActive = GuardianData.Instance.MovementDetection;
             mMovementDetection.DisplayPercentage = true;
             mMovementDetection.Slider.wholeNumbers = true;
+            mMovementDetection.Slider.maxValue = 100;
             mMovementDetection.Slider.value = GuardianData.Instance.MovementDetectionThreshold;
 
             mSoundDetection.IsActive = GuardianData.Instance.SoundDetection;
             mSoundDetection.DisplayPercentage = true;
             mSoundDetection.Slider.wholeNumbers = true;
+            mSoundDetection.Slider.maxValue = 100;
             mSoundDetection.Slider.value = GuardianData.Instance.SoundDetectionThreshold;
 
             mFireDetection.IsActive = GuardianData.Instance.FireDetection;
@@ -87,17 +89,18 @@ namespace BuddyApp.Guardian
         {
             mHeadOrientation.OuterLabel = BYOS.Instance.Dictionary.GetString("headorientation");
             mHeadOrientation.InnerLabel = BYOS.Instance.Dictionary.GetString("changeheadorientation");
-            mMovementDebug.OuterLabel = "debug mouvement";
-            mMovementDebug.InnerLabel = "debug";
-            mFireDebug.OuterLabel = "debug thermique";
-            mFireDebug.InnerLabel = "debug";
-            mSoundDebug.OuterLabel = "debug son";
-            mSoundDebug.InnerLabel = "debug";
+            mMovementDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("movementsensibility");
+            mMovementDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
+            mFireDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("testfiredetection");
+            mFireDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("thermicview");
+            mSoundDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("noisesensibility");
+            mSoundDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
             mMovementDetection.Label = BYOS.Instance.Dictionary.GetString("movementdetection");
             mFireDetection.Label = BYOS.Instance.Dictionary.GetString("firedetection");
             mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");
             mSoundDetection.Label = BYOS.Instance.Dictionary.GetString("sounddetection");
             mContacts.Label = BYOS.Instance.Dictionary.GetString("whotocontact");
         }
+
     }
 }

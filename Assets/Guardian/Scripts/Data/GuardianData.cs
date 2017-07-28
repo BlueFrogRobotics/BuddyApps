@@ -25,8 +25,8 @@ namespace BuddyApp.Guardian
 
         public GuardianData()
         {
-            MovementDetectionThreshold = 5;
-            SoundDetectionThreshold = 5;
+            MovementDetectionThreshold = 50;
+            SoundDetectionThreshold = 50;
 
             MovementDetection = true;
             SoundDetection = true;

@@ -27,10 +27,15 @@ namespace BuddyApp.Guardian
         private bool mHasInitSlider = false;
         private bool mGoBack = false;
 
+        private float mMaxThreshold;
+
+        //private MoveSideStimulus mMoveSideStimulus;
+
         private DebugMovementWindow mDebugMovementWindow;
 
         public override void Start()
         {
+            mMaxThreshold = DetectionManager.MAX_MOVEMENT_THRESHOLD;
             mCam = BYOS.Instance.Primitive.RGBCam;
             mDebugMovementWindow = GetGameObject(StateObject.DEBUG_MOVEMENT).GetComponent<DebugMovementWindow>();
             //mMovementDetector = BYOS.Instance.Perception.MovementDetector;//StateManager.Detectors.MovementDetector;
@@ -65,6 +70,7 @@ namespace BuddyApp.Guardian
             mDebugMovementWindow.ButtonBack.onClick.AddListener(GoBack);
             mTimer = 0.0f;
             mMatRed = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3, new Scalar(254, 0, 0));
+            
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
             //mMovementDetector.OnDetection += OnMovementDetected;
         }
@@ -72,58 +78,34 @@ namespace BuddyApp.Guardian
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!mHasInitSlider && mGauge.Slider)
+            if (Toaster.IsDisplayed)
             {
-                mHasInitSlider = true;
-                //mGauge.Slider.value = (1.0f - (mMovementDetector.Threshold / mMovementDetector.MaxThreshold)) * mGauge.Slider.maxValue;
-            }
-            mTimer += Time.deltaTime;
-            if (mTimer > 0.1f)
-            {
-                mTimer = 0.0f;
-                Mat lMatMouv = new Mat();
-                Mat lMatView = new Mat();
-                Mat lMatCam = new Mat();
-
-                float lMaxDetector = 0;// mMovementDetector.MaxThreshold;
-                float lValueSliderPercent = 1.0f - (mGauge.Slider.value / mGauge.Slider.maxValue);
-                //mMovementDetector.Threshold = (lValueSliderPercent * lMaxDetector);
-
-                mMask = mMovementTracker.BinaryImage;
-                Debug.Log("mask width " + mMask.width() + " mask height: " + mMask.height());
-                Debug.Log("resolution dans debug mouv: " + Primitive.RGBCam.Resolution);
-                Imgproc.circle(mMask, mMovementTracker.PositionMoment, 5, new Scalar(254, 254, 254), -1);
-
-                mMatRed.copyTo(lMatMouv, mMask);
-                Imgproc.threshold(mMask, mMask, 200, 255, Imgproc.THRESH_BINARY_INV);
-                mCam.FrameMat.copyTo(lMatCam, mMask);
-                lMatView = lMatMouv + lMatCam;
-                //Imgproc.putText(lMatView, "recorded by Buddy", new Point(lMatView.height()-50, lMatView.height()-10), Imgproc.FONT_HERSHEY_SIMPLEX, 0.28, new Scalar(0, 212, 209, 255));
-                Utils.MatToTexture2D(lMatView, mTexture);
-                mRaw.texture = mTexture;
-                if (mHasDetectedMouv)
+                if (!mHasInitSlider && mGauge.Slider)
                 {
-                    BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-                    //StateManager.PlayBeep();
-                    mHasDetectedMouv = false;
-                    mDebugMovementWindow.IcoMouv.enabled = true;
+                    mHasInitSlider = true;
+                    mGauge.Slider.value = GuardianData.Instance.MovementDetectionThreshold;//(1.0f - (mMovementTracker.Threshold / mMaxThreshold)) * mGauge.Slider.maxValue;
                 }
-                else
-                    mDebugMovementWindow.IcoMouv.enabled = false;
-            }
+                mTimer += Time.deltaTime;
+                if (mTimer > 0.1f)
+                {
+                    mTimer = 0.0f;
+                    ShowMovement();
+                }
 
-            if(mHasInitSlider && mDebugMovementAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
-            {
-                mAnimator.SetInteger("DebugMode", -1);
-                mGoBack = false;
-                mDebugMovementWindow.IcoMouv.enabled = false;
+                if (mHasInitSlider && mDebugMovementAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
+                {
+                    mAnimator.SetInteger("DebugMode", -1);
+                    mGoBack = false;
+                    mDebugMovementWindow.IcoMouv.enabled = false;
+                }
             }
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            //GuardianData.Instance.MovementDetectionThreshold = (int)mMovementDetector.Threshold;
+            GuardianData.Instance.MovementDetectionThreshold = 100-(int)(mMovementTracker.Threshold * 100.0f / (mMaxThreshold));
+            Debug.Log("thresh mouv: " + GuardianData.Instance.MovementDetectionThreshold);
             mDebugMovementWindow.IcoMouv.enabled = false;
             //mMovementDetector.OnDetection -= OnMovementDetected;
             Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
@@ -131,6 +113,35 @@ namespace BuddyApp.Guardian
             //mDebugMovementWindow.gameObject.SetActive(false);
         }
 
+        private void ShowMovement()
+        {
+            Mat lMatMouv = new Mat();
+            Mat lMatView = new Mat();
+            Mat lMatCam = new Mat();
+
+            float lMaxDetector = mMaxThreshold;
+            float lValueSliderPercent = 1.0f - (mGauge.Slider.value / mGauge.Slider.maxValue);
+            mMovementTracker.Threshold = (lValueSliderPercent * lMaxDetector);
+
+            mMask = mMovementTracker.BinaryImage;
+            Imgproc.circle(mMask, mMovementTracker.PositionMoment, 5, new Scalar(254, 254, 254), -1);
+
+            mMatRed.copyTo(lMatMouv, mMask);
+            Imgproc.threshold(mMask, mMask, 200, 255, Imgproc.THRESH_BINARY_INV);
+            mCam.FrameMat.copyTo(lMatCam, mMask);
+            lMatView = lMatMouv + lMatCam;
+            //Imgproc.putText(lMatView, "recorded by Buddy", new Point(lMatView.height()-50, lMatView.height()-10), Imgproc.FONT_HERSHEY_SIMPLEX, 0.28, new Scalar(0, 212, 209, 255));
+            Utils.MatToTexture2D(lMatView, mTexture);
+            mRaw.texture = mTexture;
+            if (mHasDetectedMouv)
+            {
+                BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+                mHasDetectedMouv = false;
+                mDebugMovementWindow.IcoMouv.enabled = true;
+            }
+            else
+                mDebugMovementWindow.IcoMouv.enabled = false;
+        }
 
         private void GoBack()
         {

@@ -6,12 +6,18 @@ using Buddy;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// Manager class that have reference to the differents stimuli and subscribes to their callbacks
+    /// </summary>
     [RequireComponent(typeof(SaveAudio))]
     [RequireComponent(typeof(SaveVideo))]
-
     [RequireComponent(typeof(RoombaNavigation))]
     public class DetectionManager : MonoBehaviour
     {
+
+        public const float MAX_SOUND_THRESHOLD = 0.3f;
+        public const float MAX_MOVEMENT_THRESHOLD = 200.0f;
+
         private Animator mAnimator;
 
         public string Logs { get; private set; }
@@ -25,6 +31,7 @@ namespace BuddyApp.Guardian
         public MoveSideStimulus MoveSideStimulus { get; private set; }
         public ThermalStimulus ThermalStimulus { get; private set; }
         public AccelerometerStimulus AccelerometerStimulus { get; private set; }
+        public MovementTracker MovementTracker { get; private set; }
 
 
         public Stimuli Stimuli { get; set; }
@@ -36,6 +43,9 @@ namespace BuddyApp.Guardian
 
         public Alert Detected { get; set; }
 
+        /// <summary>
+        /// Enum of the different alerts that Guardian app can send
+        /// </summary>
         public enum Alert : int
         {
             MOVEMENT,
@@ -53,21 +63,23 @@ namespace BuddyApp.Guardian
 
         void Start()
         {
-            Debug.Log("AH! start detection manager");
             Init();
             LinkDetectorsEvents();
-
         }
 
         void Update()
         {
         }
 
+        /// <summary>
+        /// Init the stimulis and enable them.
+        /// Also init the roomba and the media recorders
+        /// </summary>
         public void Init()
         {
-            Debug.Log("AH! init detection manager");
-            
+
             Stimuli = BYOS.Instance.Perception.Stimuli;
+            MovementTracker = BYOS.Instance.Perception.MovementTracker;
 
             AStimulus moveSideStimulus;
             BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.MOVING, out moveSideStimulus);
@@ -96,47 +108,18 @@ namespace BuddyApp.Guardian
             Roomba.enabled = false;
         }
 
-        public void OnFireDetected()
-        {
-            if (!IsDetectingFire)
-                return;
-
-            Detected = Alert.FIRE;
-            mAnimator.SetTrigger("Alert");
-        }
-
-        public void OnSoundDetected()
-        {
-            if (!IsDetectingSound)
-                return;
-            Debug.Log("son lol");
-            Detected = Alert.SOUND;
-            mAnimator.SetTrigger("Alert");
-        }
-
-        public void OnMovementDetected()
-        {
-            if (!IsDetectingMovement)
-                return;
-            //Debug.Log("mouv lol");
-            Detected = Alert.MOVEMENT;
-            mAnimator.SetTrigger("Alert");
-        }
-
-        public void OnKidnappingDetected()
-        {
-            if (!IsDetectingKidnapping)
-                return;
-
-            Detected = Alert.KIDNAPPING;
-            mAnimator.SetTrigger("Alert");
-        }
-
+        /// <summary>
+        /// Add a string to the log string
+        /// </summary>
+        /// <param name="iLog"></param>
         public void AddLog(string iLog)
         {
             Logs += iLog + "\n";
         }
 
+        /// <summary>
+        /// Subscribe to the stimulis callbacks
+        /// </summary>
         public void LinkDetectorsEvents()
         {
             Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
@@ -145,6 +128,9 @@ namespace BuddyApp.Guardian
             Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
         }
 
+        /// <summary>
+        /// Unsubscibe to the stimulis callbacks
+        /// </summary>
         public void UnlinkDetectorsEvents()
         {
             Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
@@ -152,5 +138,55 @@ namespace BuddyApp.Guardian
             Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
             Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
         }
+
+        /// <summary>
+        /// Called when fire has been detected
+        /// </summary>
+        private void OnFireDetected()
+        {
+            if (!IsDetectingFire)
+                return;
+
+            Detected = Alert.FIRE;
+            mAnimator.SetTrigger("Alert");
+        }
+
+        /// <summary>
+        /// Called when noise has been detected
+        /// </summary>
+        private void OnSoundDetected()
+        {
+            if (!IsDetectingSound)
+                return;
+
+            Detected = Alert.SOUND;
+            mAnimator.SetTrigger("Alert");
+        }
+
+        /// <summary>
+        /// Called when movement has been detected
+        /// </summary>
+        private void OnMovementDetected()
+        {
+            if (!IsDetectingMovement)
+                return;
+
+            Detected = Alert.MOVEMENT;
+            mAnimator.SetTrigger("Alert");
+        }
+
+        /// <summary>
+        /// Called when buddy is being kidnapped
+        /// </summary>
+        private void OnKidnappingDetected()
+        {
+            if (!IsDetectingKidnapping)
+                return;
+
+            Detected = Alert.KIDNAPPING;
+            mAnimator.SetTrigger("Alert");
+        }
+
+        
     }
 }

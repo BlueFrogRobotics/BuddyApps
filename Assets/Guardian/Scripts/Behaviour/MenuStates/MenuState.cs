@@ -7,6 +7,10 @@ using Buddy.UI;
 using System;
 using System.Collections.Generic;
 
+
+/// <summary>
+/// State where we ask the user to choose between the different monitoring modes
+/// </summary>
 namespace BuddyApp.Guardian
 {
     public class MenuState : AStateMachineBehaviour
@@ -35,15 +39,17 @@ namespace BuddyApp.Guardian
 
             Interaction.TextToSpeech.SayKey("askchoices");
 
-            Interaction.SpeechToText.OnBestRecognition.Clear();
+            //Interaction.SpeechToText.OnBestRecognition.Clear();
             Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
             mTimer = 0.0f;
-            if(!BYOS.Instance.Primitive.RGBCam.IsOpen)
+            mListening = false;
+            if (!BYOS.Instance.Primitive.RGBCam.IsOpen)
                 BYOS.Instance.Primitive.RGBCam.Open(RGBCamResolution.W_176_H_144);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("TOASTER DISPLAYED: " + Toaster.IsDisplayed);
             mTimer += Time.deltaTime;
             if (mTimer > 6.0f) {
                 Interaction.Mood.Set(MoodType.NEUTRAL);
@@ -61,10 +67,11 @@ namespace BuddyApp.Guardian
                 return;
             }
 
-            if(!Toaster.IsDisplayed)
-            {
-                mHasDisplayChoices = false;
-            }
+            //if (!Toaster.IsDisplayed)
+            //{
+            //    mHasDisplayChoices = false;
+            //    //mListening = false;
+            //}
 
             if (string.IsNullOrEmpty(mSpeechReco)) {
                 Interaction.SpeechToText.Request();
@@ -101,6 +108,10 @@ namespace BuddyApp.Guardian
             mHasDisplayChoices = false;
         }
 
+
+        /// <summary>
+        /// Display the choice toaster
+        /// </summary>
         private void DisplayChoices()
         {
             BYOS.Instance.Toaster.Display<ChoiceToast>().With("Mode", new ButtonInfo[] {
@@ -127,11 +138,16 @@ namespace BuddyApp.Guardian
             mListening = false;
         }
 
+        /// <summary>
+        /// Set the monitoring mode and go to the next state
+        /// </summary>
+        /// <param name="iMode">the chosen mode</param>
         private void SwitchGuardianMode(GuardianMode iMode)
         {
             mSpeechReco = null;
             GuardianData.Instance.Mode = iMode;
             Trigger("NextStep");
+            Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
         }
     }
 }

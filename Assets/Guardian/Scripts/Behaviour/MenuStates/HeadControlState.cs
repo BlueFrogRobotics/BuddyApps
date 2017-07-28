@@ -51,7 +51,7 @@ namespace BuddyApp.Guardian
         {
             ControlNoAxis();
             ControlYesAxis();
-
+            
             mHeadControllerWindow.RawCamImage.texture = mRGBCam.FrameTexture2D;
 
             if (mGoBack && mHeadControllerWindow.HeadControlAnimator.GetCurrentAnimatorStateInfo(0).IsName("WindowHeadController_Gardien_Off"))

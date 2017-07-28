@@ -88,7 +88,7 @@ namespace BuddyApp.Guardian
                 mTimer = 0.0f;
                 mMatShow = new Mat(480, 640, CvType.CV_8UC3, new Scalar(255, 255, 255, 255));
 
-                float lMaxThreshold = 0.3f;// mSoundDetector.MaxThreshold;
+                float lMaxThreshold = DetectionManager.MAX_SOUND_THRESHOLD;// mSoundDetector.MaxThreshold;
                 float lThreshold = (1.0f - mGauge.Slider.value / mGauge.Slider.maxValue) * lMaxThreshold;
                 //mSoundDetector.Threshold = lThreshold;
                 mNoiseStimulus.Threshold = lThreshold;
@@ -126,7 +126,7 @@ namespace BuddyApp.Guardian
             if (mHasInitSlider && mDebugSoundAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
             {
                 mAnimator.SetInteger("DebugMode", -1);
-                GuardianData.Instance.SoundDetectionThreshold = 10 - (int)(mNoiseStimulus.Threshold * 10 / 0.3f);
+                GuardianData.Instance.SoundDetectionThreshold = 100 - (int)(mNoiseStimulus.Threshold * 100.0f / DetectionManager.MAX_SOUND_THRESHOLD);
                 mGoBack = false;
                 mDebugSoundWindow.Ico.enabled = false;
             }
@@ -136,7 +136,7 @@ namespace BuddyApp.Guardian
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("noise stimu thresh: " + mNoiseStimulus.Threshold);
-            GuardianData.Instance.SoundDetectionThreshold = 10-(int)(mNoiseStimulus.Threshold * 10 / 0.3f);//(int)mNoiseStimulus.Threshold;
+            GuardianData.Instance.SoundDetectionThreshold = 100-(int)(mNoiseStimulus.Threshold * 100.0f / DetectionManager.MAX_SOUND_THRESHOLD);//(int)mNoiseStimulus.Threshold;
             Debug.Log("threshold son: " + GuardianData.Instance.SoundDetectionThreshold);
             mDebugSoundWindow.Ico.enabled = false;
             //mSoundDetector.OnDetection -= OnSoundDetected;

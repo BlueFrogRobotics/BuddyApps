@@ -17,6 +17,9 @@ namespace BuddyApp.Guardian
             //mDetectionManager.MovementDetector.SetSensibilityThreshold(1 - ((float)GuardianData.Instance.MovementDetectionThreshold / 10));
             //mDetectionManager.SoundDetector.SetSensibilityThreshold(1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 10));
 
+            mDetectionManager.MovementTracker.Threshold = (1 - ((float)GuardianData.Instance.MovementDetectionThreshold / 100.0f))*200.0f;
+            mDetectionManager.NoiseStimulus.Threshold = (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f))*0.3f;
+
             mDetectionManager.IsDetectingMovement = GuardianData.Instance.MovementDetection;
             mDetectionManager.IsDetectingSound = GuardianData.Instance.SoundDetection;
             mDetectionManager.IsDetectingFire = GuardianData.Instance.FireDetection;

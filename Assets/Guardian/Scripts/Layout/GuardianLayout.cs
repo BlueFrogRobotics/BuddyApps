@@ -2,6 +2,7 @@ using Buddy.UI;
 using Buddy.Command;
 using Buddy;
 using System;
+using UnityEngine;
 
 namespace BuddyApp.Guardian
 {
@@ -20,7 +21,7 @@ namespace BuddyApp.Guardian
         public override void Build()
         {
             Title = BYOS.Instance.Dictionary.GetString("detectionparameters");
-
+            Debug.Log("creation guardian layout");
             mHeadOrientation = CreateWidget<LabeledButton>();
             mMovementDetection = CreateWidget<GaugeOnOff>();
             mMovementDebug = CreateWidget<LabeledButton>();
@@ -98,6 +99,12 @@ namespace BuddyApp.Guardian
             mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");
             mSoundDetection.Label = BYOS.Instance.Dictionary.GetString("sounddetection");
             mContacts.Label = BYOS.Instance.Dictionary.GetString("whotocontact");
+        }
+
+        public override void Update()
+        {
+            //if (!IsDisplayed)
+                Debug.Log("Desactive");
         }
     }
 }
