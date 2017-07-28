@@ -7,14 +7,15 @@ using Buddy;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// Class that contains the references to the different elements of the fire detection test window
+    /// It also has methods to fill its matrix texture
+    /// </summary>
     public class ShowTemperature : MonoBehaviour
     {
 
         [SerializeField]
         private RawImage raw;
-
-        //[SerializeField]
-        private List<ColorZone> zones = new List<ColorZone>();
 
         [SerializeField]
         private List<int> maxTemps = new List<int>();
@@ -31,10 +32,7 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private Image icoFire;
 
-        public Button ButtonBack { get { return buttonBack; } }
-        public bool Interpolation { get; set; }
-        public Image IcoFire { get { return icoFire; } }
-
+        private List<ColorZone> zones = new List<ColorZone>();
         private int mWidth = 4;
         private int mHeight = 4;
         private int mCountChange = 0;
@@ -43,6 +41,9 @@ namespace BuddyApp.Guardian
         private Texture2D mTexture;
         private byte[] mColorGrid;
 
+        public Button ButtonBack { get { return buttonBack; } }
+        public bool Interpolation { get; set; }
+        public Image IcoFire { get { return icoFire; } }
 
         // Use this for initialization
         void Start()
@@ -57,10 +58,6 @@ namespace BuddyApp.Guardian
                 zones.Add(new ColorZone(maxTemps[i], colors[i]));
             }
 
-            Debug.Log("avant zone");
-            Debug.Log("ZONE: " + zones.Count);
-            Debug.Log("apres zone");
-
             for (int i = 0; i < mWidth * mHeight; i++)
             {
                 mTemperature[i] = 0.0f;
@@ -73,8 +70,6 @@ namespace BuddyApp.Guardian
         // Update is called once per frame
         void Update()
         {
-
-                //UpdateTexture();
         }
 
         public void UpdateTexture()
@@ -103,7 +98,6 @@ namespace BuddyApp.Guardian
                     test += " " + mTemperature[i];
                 }
             }
-            //Debug.Log(test);
         }
 
         public void setTemperature(int num, float temp)
@@ -121,7 +115,6 @@ namespace BuddyApp.Guardian
             mColorGrid = new byte[3 * mWidth * mHeight];
             for (int i = 0; i < mWidth * mHeight; i++)
             {
-                // Debug.Log(temperature[i]);
                 for (int j = 0; j < zones.Count - 1; j++)
                 {
                     float tempMax = zones[j + 1].maxTemp;
@@ -144,7 +137,6 @@ namespace BuddyApp.Guardian
 
                     if (mTemperature[i] > zones[j].maxTemp && mTemperature[i] <= zones[j + 1].maxTemp)
                     {
-                        //byte grey = (byte)(255 - ((byte)(((tempMax - temperature[i]) / (tempMax - tempMin)) * 255.0f)));
                         byte diffR = (byte)(zones[j + 1].color.r * 255.0f - ((byte)(((tempMax - mTemperature[i]) / (tempMax - tempMin)) * (zones[j + 1].color.r * 255.0f - zones[j].color.r * 255.0f))));
                         byte diffG = (byte)(zones[j + 1].color.g * 255.0f - ((byte)(((tempMax - mTemperature[i]) / (tempMax - tempMin)) * (zones[j + 1].color.g * 255.0f - zones[j].color.g * 255.0f))));
                         byte diffB = (byte)(zones[j + 1].color.b * 255.0f - ((byte)(((tempMax - mTemperature[i]) / (tempMax - tempMin)) * (zones[j + 1].color.b * 255.0f - zones[j].color.b * 255.0f))));

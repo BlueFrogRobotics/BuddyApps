@@ -5,6 +5,9 @@ using Buddy.UI;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// State which show the window to set the head orientation and get the camera stream
+    /// </summary>
     public class HeadControlState : AStateMachineBehaviour
     {
         private Motors mMotors;
@@ -36,7 +39,6 @@ namespace BuddyApp.Guardian
             mGoBack = false;
             mMotors = BYOS.Instance.Primitive.Motors;
             mRGBCam = BYOS.Instance.Primitive.RGBCam;
-            //StateManager.HeadControlWindow.gameObject.SetActive(true);
             mHeadControllerWindow.HeadControlAnimator.SetTrigger("Open_WHeadController");
             mHeadControllerWindow.ButtonBack.onClick.AddListener(GoBack);
             mHeadControllerWindow.ButtonLeft.onClick.AddListener(MoveNoLeft);
@@ -53,14 +55,13 @@ namespace BuddyApp.Guardian
             ControlYesAxis();
             
             mHeadControllerWindow.RawCamImage.texture = mRGBCam.FrameTexture2D;
+            mHeadControllerWindow.RawBuddyFaceImage.texture = null; ///TODO: set this texture to Face.framemat 
 
             if (mGoBack && mHeadControllerWindow.HeadControlAnimator.GetCurrentAnimatorStateInfo(0).IsName("WindowHeadController_Gardien_Off"))
             {
-                //StateManager.BackgroundAnimator.SetTrigger("Open_BG");
                 animator.SetInteger("DebugMode", -1);
                 mGoBack = false;
             }
-            Debug.Log("current: " + mMotors.YesHinge.CurrentAnglePosition + " destination: " + mMotors.YesHinge.DestinationAnglePosition);
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -72,7 +73,6 @@ namespace BuddyApp.Guardian
             mHeadControllerWindow.ButtonUp.onClick.RemoveAllListeners();
             mHeadControllerWindow.ButtonDown.onClick.RemoveAllListeners();
             
-            //StateManager.HeadControlWindow.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -127,44 +127,30 @@ namespace BuddyApp.Guardian
 
         private void MoveNoLeft()
         {
-            Debug.Log("left");
             mNoLeft = true;
         }
 
         private void MoveNoRight()
         {
-            Debug.Log("right");
             mNoRight = true;
         }
 
         private void MoveYesUp()
         {
-            Debug.Log("up");
             mYesUp = true;
         }
 
         private void MoveYesDown()
         {
-            Debug.Log("down");
             mYesDown = true;
         }
 
         private void GoBack()
         {
-            //mDebugSoundAnimator.SetTrigger("Close_WDebugs");
             mGoBack = true;
 
             mHeadControllerWindow.HeadControlAnimator.SetTrigger("Close_WHeadController");
         }
 
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
     }
 }

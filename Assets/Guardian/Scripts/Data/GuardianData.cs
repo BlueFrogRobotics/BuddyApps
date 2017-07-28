@@ -32,34 +32,67 @@ namespace BuddyApp.Guardian
             SoundDetection = true;
             FireDetection = true;
             KidnappingDetection = true;
-            HeadRotation = true;
             Contact = Contacts.NOBODY;
         }
 
+        /// <summary>
+        /// Actual monitoring mode
+        /// </summary>
         public GuardianMode Mode { get; set; }
 
+        /// <summary>
+        /// Threshold of the movement dector
+        /// </summary>
         public int MovementDetectionThreshold { get; set; }
 
+        /// <summary>
+        /// Threshold of the noise dector
+        /// </summary>
         public int SoundDetectionThreshold { get; set; }
 
+        /// <summary>
+        /// Tells if movement detection is activated
+        /// </summary>
         public bool MovementDetection { get; set; }
 
+        /// <summary>
+        /// Tells if noise detection is activated
+        /// </summary>
         public bool SoundDetection { get; set; }
 
+        /// <summary>
+        /// Tells if fire detection is activated
+        /// </summary>
         public bool FireDetection { get; set; }
 
+        /// <summary>
+        /// Tells if kidnapping detection is activated
+        /// </summary>
         public bool KidnappingDetection { get; set; }
 
-        public bool HeadRotation { get; set; }
-
+        /// <summary>
+        /// Is true when the button head orientation setup in the parameter has been pressed
+        /// </summary>
         public bool HeadOrientation { get; set; }
 
+        /// <summary>
+        /// Is true when the button movement detection test in the parameter has been pressed
+        /// </summary>
         public bool MovementDebug { get; set; }
 
+        /// <summary>
+        /// Is true when the button noise detection test in the parameter has been pressed
+        /// </summary>
         public bool SoundDebug { get; set; }
 
+        /// <summary>
+        /// Is true when the button fire detection test in the parameter has been pressed
+        /// </summary>
         public bool FireDebug { get; set; }
 
+        /// <summary>
+        /// Contact who will receive the notifications
+        /// </summary>
         public Contacts Contact { get; set; }
 
         public static GuardianData Instance
@@ -72,6 +105,9 @@ namespace BuddyApp.Guardian
             }
         }
 
+        /// <summary>
+        /// Return the mail adress of the actual notifications receiver
+        /// </summary>
         public string ContactAddress
         {
             get

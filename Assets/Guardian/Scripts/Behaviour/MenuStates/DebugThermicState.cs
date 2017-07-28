@@ -9,51 +9,48 @@ namespace BuddyApp.Guardian
         private Animator mDebugTempAnimator;
         private ShowTemperature mShowTemperature;
         private Animator mAnimator;
-        //private FireDetector mFireDetector;
         private bool mGoBack = false;
         private bool mHasDetectedFire = false;
+        private bool mHasOpenedWindow = false;
+        private float mTimer;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            //SetWindowAppOverBuddyColor(1);
-            //mFireDetector = BYOS.Instance.Perception.FireDetector;
-            //mFireDetector.OnDetection += OnFireDetected;
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
             mShowTemperature = GetGameObject(StateObject.DEBUG_FIRE).GetComponent<ShowTemperature>();
             mDebugTempAnimator = mShowTemperature.gameObject.GetComponent<Animator>();
-            mDebugTempAnimator.SetTrigger("Open_WDebugs");
-            //mShowTemperature.gameObject.SetActive(true);
             mAnimator = animator;
             mShowTemperature.ButtonBack.onClick.AddListener(GoBack);
             mGoBack = false;
             mHasDetectedFire = false;
+            mHasOpenedWindow = false;
+            mTimer = 0.0f;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            int[] lThermicMatrix=Primitive.ThermalSensor.Matrix;
-            mShowTemperature.FillTemperature(lThermicMatrix);
-            Debug.Log("hum");
-            mShowTemperature.UpdateTexture();
-            Debug.Log("hum2");
-            if (mDebugTempAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
+            mTimer += Time.deltaTime;
+            if (!mHasOpenedWindow && mTimer > 1.3f)
             {
-                Debug.Log("fin debug temp state");
-                mAnimator.SetInteger("DebugMode", -1);
-                mGoBack = false;
-                mShowTemperature.IcoFire.enabled = false;
+                mTimer = 0.0f;
+                mHasOpenedWindow = true;
+                mDebugTempAnimator.SetTrigger("Open_WDebugs");
             }
-            if (mHasDetectedFire)
+            else if (mHasOpenedWindow)
             {
-                //StateManager.PlayBeep();
-                BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-                mHasDetectedFire = false;
-                mShowTemperature.IcoFire.enabled = true;
+                int[] lThermicMatrix = Primitive.ThermalSensor.Matrix;
+                mShowTemperature.FillTemperature(lThermicMatrix);
+                mShowTemperature.UpdateTexture();
+                if (mDebugTempAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
+                {
+                    mAnimator.SetInteger("DebugMode", -1);
+                    mGoBack = false;
+                    mShowTemperature.IcoFire.enabled = false;
+                }
+                CheckFireDetection();
             }
-            else
-                mShowTemperature.IcoFire.enabled = false;
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -61,9 +58,7 @@ namespace BuddyApp.Guardian
         {
             mShowTemperature.IcoFire.enabled = false;
             mShowTemperature.ButtonBack.onClick.RemoveAllListeners();
-            //mFireDetector.OnDetection -= OnFireDetected;
             Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
-            //mShowTemperature.gameObject.SetActive(false);
         }
 
         private void GoBack()
@@ -77,14 +72,17 @@ namespace BuddyApp.Guardian
             mHasDetectedFire = true;
         }
 
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
+        private void CheckFireDetection()
+        {
+            if (mHasDetectedFire)
+            {
+                BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+                mHasDetectedFire = false;
+                mShowTemperature.IcoFire.enabled = true;
+            }
+            else
+                mShowTemperature.IcoFire.enabled = false;
+        }
 
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
     }
 }

@@ -4,6 +4,9 @@ using System.Collections;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// Class that contains the references to the different elements of the head orientation window
+    /// </summary>
     public class HeadControllerWindow : MonoBehaviour
     {
         [SerializeField]
@@ -27,6 +30,9 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private Animator headControlAnimator;
 
+        [SerializeField]
+        private RawImage rawBuddyFaceImage;
+
         public UnityEngine.UI.Button ButtonLeft { get { return buttonLeft; } }
         public UnityEngine.UI.Button ButtonRight { get { return buttonRight; } }
         public UnityEngine.UI.Button ButtonUp { get { return buttonUp; } }
@@ -34,6 +40,7 @@ namespace BuddyApp.Guardian
         public UnityEngine.UI.Button ButtonBack { get { return buttonBack; } }
         public RawImage RawCamImage { get { return rawCamImage; } }
         public Animator HeadControlAnimator { get { return headControlAnimator; } }
+        public RawImage RawBuddyFaceImage { get { return rawBuddyFaceImage; } }
 
         // Use this for initialization
         void Start()

@@ -1,16 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GuardianData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Mode>FIXED</Mode>
-    <MovementDetectionThreshold>69</MovementDetectionThreshold>
+    <MovementDetectionThreshold>56</MovementDetectionThreshold>
     <SoundDetectionThreshold>22</SoundDetectionThreshold>
     <MovementDetection>true</MovementDetection>
-    <SoundDetection>true</SoundDetection>
-    <FireDetection>true</FireDetection>
+    <SoundDetection>false</SoundDetection>
+    <FireDetection>false</FireDetection>
     <KidnappingDetection>false</KidnappingDetection>
-    <HeadRotation>true</HeadRotation>
     <HeadOrientation>false</HeadOrientation>
     <MovementDebug>false</MovementDebug>
-    <SoundDebug>false</SoundDebug>
+    <SoundDebug>true</SoundDebug>
     <FireDebug>false</FireDebug>
-    <Contact>NOBODY</Contact>
+    <Contact>WALID</Contact>
 </GuardianData>

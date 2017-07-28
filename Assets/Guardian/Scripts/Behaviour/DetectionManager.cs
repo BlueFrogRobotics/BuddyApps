@@ -58,7 +58,7 @@ namespace BuddyApp.Guardian
         {
             mAnimator = GetComponent<Animator>();
             GuardianActivity.Init(mAnimator, this);
-            GuardianActivity.mDetectionManager = this;
+            GuardianActivity.sDetectionManager = this;///TODO: apres la release de core, modifier GuardianActivity selon les indications et supprimer cette ligne
         }
 
         void Start()

@@ -6,6 +6,9 @@ using Buddy.UI;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// Class that contains the references to the different elements of the sound test window
+    /// </summary>
     public class DebugSoundWindow : MonoBehaviour
     {
 

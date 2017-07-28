@@ -21,7 +21,6 @@ namespace BuddyApp.Guardian
         public override void Build()
         {
             Title = BYOS.Instance.Dictionary.GetString("detectionparameters");
-            Debug.Log("creation guardian layout");
             mHeadOrientation = CreateWidget<LabeledButton>();
             mMovementDetection = CreateWidget<GaugeOnOff>();
             mMovementDebug = CreateWidget<LabeledButton>();

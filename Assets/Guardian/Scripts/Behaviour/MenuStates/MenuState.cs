@@ -8,11 +8,12 @@ using System;
 using System.Collections.Generic;
 
 
-/// <summary>
-/// State where we ask the user to choose between the different monitoring modes
-/// </summary>
+
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// State where we ask the user to choose between the different monitoring modes
+    /// </summary>
     public class MenuState : AStateMachineBehaviour
     {
         private List<string> mFixedPhonetics;
@@ -39,7 +40,7 @@ namespace BuddyApp.Guardian
 
             Interaction.TextToSpeech.SayKey("askchoices");
 
-            //Interaction.SpeechToText.OnBestRecognition.Clear();
+            Detection.NoiseStimulus.Disable();
             Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
             mTimer = 0.0f;
             mListening = false;
@@ -49,7 +50,6 @@ namespace BuddyApp.Guardian
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("TOASTER DISPLAYED: " + Toaster.IsDisplayed);
             mTimer += Time.deltaTime;
             if (mTimer > 6.0f) {
                 Interaction.Mood.Set(MoodType.NEUTRAL);
@@ -131,7 +131,6 @@ namespace BuddyApp.Guardian
 
         private void OnSpeechReco(string iVoiceInput)
         {
-            Debug.Log("reco :" + iVoiceInput);
             mSpeechReco = iVoiceInput;
 
             Interaction.Mood.Set(MoodType.NEUTRAL);

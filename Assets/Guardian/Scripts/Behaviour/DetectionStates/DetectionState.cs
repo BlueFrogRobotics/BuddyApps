@@ -3,6 +3,9 @@ using Buddy;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// State that init that activate the detections chosen by hte user and pass to the next mode state
+    /// </summary>
     public class DetectionState : AStateMachineBehaviour
     {
         private DetectionManager mDetectionManager;
@@ -14,9 +17,6 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //mDetectionManager.MovementDetector.SetSensibilityThreshold(1 - ((float)GuardianData.Instance.MovementDetectionThreshold / 10));
-            //mDetectionManager.SoundDetector.SetSensibilityThreshold(1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 10));
-
             mDetectionManager.MovementTracker.Threshold = (1 - ((float)GuardianData.Instance.MovementDetectionThreshold / 100.0f))*200.0f;
             mDetectionManager.NoiseStimulus.Threshold = (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f))*0.3f;
 

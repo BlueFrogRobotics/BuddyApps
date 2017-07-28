@@ -21,15 +21,7 @@ namespace BuddyApp.Guardian
         {
             Title = BYOS.Instance.Dictionary.GetString("detectionparameters");
 
-            mHeadOrientation = CreateWidget<LabeledButton>();
-            mMovementDetection = CreateWidget<GaugeOnOff>();
-            mMovementDebug = CreateWidget<LabeledButton>();
-            mSoundDetection = CreateWidget<GaugeOnOff>();
-            mSoundDebug = CreateWidget<LabeledButton>();
-            mFireDetection = CreateWidget<OnOff>();
-            mFireDebug = CreateWidget<LabeledButton>();
-            mKidnappingDetection = CreateWidget<OnOff>();
-            mContacts = CreateWidget<Dropdown>();
+            CreateWidgets();
 
             mMovementDetection.IsActive = GuardianData.Instance.MovementDetection;
             mMovementDetection.DisplayPercentage = true;
@@ -46,6 +38,50 @@ namespace BuddyApp.Guardian
             mFireDetection.IsActive = GuardianData.Instance.FireDetection;
             mKidnappingDetection.IsActive = GuardianData.Instance.KidnappingDetection;
 
+            RegisterEvents();
+
+            foreach (GuardianData.Contacts lContact in Enum.GetValues(typeof(GuardianData.Contacts)))
+                mContacts.AddOption(lContact.ToString(), lContact);
+
+            mContacts.SetDefault((int)GuardianData.Instance.Contact);
+
+            mContacts.OnSelectEvent((string iLabel, object iAttachedObj, int iIndex) => {
+                GuardianData.Instance.Contact = (GuardianData.Contacts)iAttachedObj;
+            });
+        }
+
+        public override void LabelizeWidgets()
+        {
+            mHeadOrientation.OuterLabel = BYOS.Instance.Dictionary.GetString("headorientation");
+            mHeadOrientation.InnerLabel = BYOS.Instance.Dictionary.GetString("changeheadorientation");
+            mMovementDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("movementsensibility");
+            mMovementDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
+            mFireDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("testfiredetection");
+            mFireDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("thermicview");
+            mSoundDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("noisesensibility");
+            mSoundDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
+            mMovementDetection.Label = BYOS.Instance.Dictionary.GetString("movementdetection");
+            mFireDetection.Label = BYOS.Instance.Dictionary.GetString("firedetection");
+            mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");
+            mSoundDetection.Label = BYOS.Instance.Dictionary.GetString("sounddetection");
+            mContacts.Label = BYOS.Instance.Dictionary.GetString("whotocontact");
+        }
+
+        private void CreateWidgets()
+        {
+            mHeadOrientation = CreateWidget<LabeledButton>();
+            mMovementDetection = CreateWidget<GaugeOnOff>();
+            mMovementDebug = CreateWidget<LabeledButton>();
+            mSoundDetection = CreateWidget<GaugeOnOff>();
+            mSoundDebug = CreateWidget<LabeledButton>();
+            mFireDetection = CreateWidget<OnOff>();
+            mFireDebug = CreateWidget<LabeledButton>();
+            mKidnappingDetection = CreateWidget<OnOff>();
+            mContacts = CreateWidget<Dropdown>();
+        }
+
+        private void RegisterEvents()
+        {
             mHeadOrientation.OnClickEvent(() => { GuardianData.Instance.HeadOrientation = true; });
             mMovementDebug.OnClickEvent(() => { GuardianData.Instance.MovementDebug = true; });
             mSoundDebug.OnClickEvent(() => { GuardianData.Instance.SoundDebug = true; });
@@ -74,32 +110,6 @@ namespace BuddyApp.Guardian
             mKidnappingDetection.OnSwitchEvent((bool iVal) => {
                 GuardianData.Instance.KidnappingDetection = iVal;
             });
-
-            foreach (GuardianData.Contacts lContact in Enum.GetValues(typeof(GuardianData.Contacts)))
-                mContacts.AddOption(lContact.ToString(), lContact);
-
-            mContacts.SetDefault((int)GuardianData.Instance.Contact);
-
-            mContacts.OnSelectEvent((string iLabel, object iAttachedObj, int iIndex) => {
-                GuardianData.Instance.Contact = (GuardianData.Contacts)iAttachedObj;
-            });
-        }
-
-        public override void LabelizeWidgets()
-        {
-            mHeadOrientation.OuterLabel = BYOS.Instance.Dictionary.GetString("headorientation");
-            mHeadOrientation.InnerLabel = BYOS.Instance.Dictionary.GetString("changeheadorientation");
-            mMovementDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("movementsensibility");
-            mMovementDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
-            mFireDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("testfiredetection");
-            mFireDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("thermicview");
-            mSoundDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("noisesensibility");
-            mSoundDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
-            mMovementDetection.Label = BYOS.Instance.Dictionary.GetString("movementdetection");
-            mFireDetection.Label = BYOS.Instance.Dictionary.GetString("firedetection");
-            mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");
-            mSoundDetection.Label = BYOS.Instance.Dictionary.GetString("sounddetection");
-            mContacts.Label = BYOS.Instance.Dictionary.GetString("whotocontact");
         }
 
     }

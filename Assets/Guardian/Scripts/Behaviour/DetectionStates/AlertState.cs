@@ -5,6 +5,9 @@ using System.Collections;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// State that display the alert and send the notification
+    /// </summary>
     public class AlertState : AStateMachineBehaviour
     {
         private DetectionManager mDetectionManager;
@@ -67,9 +70,7 @@ namespace BuddyApp.Guardian
                 return;
 
             lMail.AddTo(iAddress);
-            WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail);
-
-            Debug.Log("Send mail to " + iAddress);
+            WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnMailSent);
         }
 
         private AAlert GetAlert()
@@ -90,6 +91,11 @@ namespace BuddyApp.Guardian
                 default:
                     return null;
             }
+        }
+
+        private void OnMailSent()
+        {
+            Notifier.Display<SimpleNot>().With(Dictionary.GetString("mailsent"), null);
         }
 
     }

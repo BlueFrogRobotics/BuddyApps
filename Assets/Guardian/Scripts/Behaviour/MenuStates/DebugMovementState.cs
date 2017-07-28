@@ -7,12 +7,14 @@ using Buddy.UI;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// State that display a window to test the movement detection sensibility
+    /// </summary>
     public class DebugMovementState : AStateMachineBehaviour
     {
 
         private Animator mAnimator;
         private Animator mDebugMovementAnimator;
-        //private MovementDetector mMovementDetector;
         private MovementTracker mMovementTracker;
 
         private RawImage mRaw;
@@ -26,11 +28,9 @@ namespace BuddyApp.Guardian
         private bool mHasDetectedMouv = false;
         private bool mHasInitSlider = false;
         private bool mGoBack = false;
+        private bool mHasOpenedWindow = false;
 
         private float mMaxThreshold;
-
-        //private MoveSideStimulus mMoveSideStimulus;
-
         private DebugMovementWindow mDebugMovementWindow;
 
         public override void Start()
@@ -38,15 +38,14 @@ namespace BuddyApp.Guardian
             mMaxThreshold = DetectionManager.MAX_MOVEMENT_THRESHOLD;
             mCam = BYOS.Instance.Primitive.RGBCam;
             mDebugMovementWindow = GetGameObject(StateObject.DEBUG_MOVEMENT).GetComponent<DebugMovementWindow>();
-            //mMovementDetector = BYOS.Instance.Perception.MovementDetector;//StateManager.Detectors.MovementDetector;
             mMovementTracker = BYOS.Instance.Perception.MovementTracker;
             mRaw = mDebugMovementWindow.Raw;
             mGauge = mDebugMovementWindow.GaugeSensibility;
-            
-            
+     
             mHasDetectedMouv = false;
             mHasInitSlider = false;
             mGoBack = false;
+            mHasOpenedWindow = false;
             mDebugMovementAnimator = mDebugMovementWindow.gameObject.GetComponent<Animator>();
         }
 
@@ -54,42 +53,39 @@ namespace BuddyApp.Guardian
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Start();
-            //mMovementTracker.Enable();
-            //mMovementDetector.Enable();
-            Debug.Log("resolution dans debug mouv: "+Primitive.RGBCam.Resolution);
-            Debug.Log("width " + mCam.Width+ " height: " + mCam.Height);
-
             mTexture = new Texture2D(mCam.Width, mCam.Height);
             mMask = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3);
-            //SetWindowAppOverBuddyColor(1);
-            //Application.targetFrameRate = 10;
             mAnimator = animator;
-            
-            //mDebugMovementWindow.gameObject.SetActive(true);
-            mDebugMovementAnimator.SetTrigger("Open_WDebugs");
             mDebugMovementWindow.ButtonBack.onClick.AddListener(GoBack);
             mTimer = 0.0f;
             mMatRed = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3, new Scalar(254, 0, 0));
             
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
-            //mMovementDetector.OnDetection += OnMovementDetected;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (Toaster.IsDisplayed)
+            mTimer += Time.deltaTime;
+            if(!mHasOpenedWindow && mTimer>1.3f)
+            {
+                mTimer = 0.0f;
+                mHasOpenedWindow = true;
+                mDebugMovementAnimator.SetTrigger("Open_WDebugs");
+            }
+            else if (mHasOpenedWindow)
             {
                 if (!mHasInitSlider && mGauge.Slider)
                 {
                     mHasInitSlider = true;
-                    mGauge.Slider.value = GuardianData.Instance.MovementDetectionThreshold;//(1.0f - (mMovementTracker.Threshold / mMaxThreshold)) * mGauge.Slider.maxValue;
+                    mGauge.Slider.value = GuardianData.Instance.MovementDetectionThreshold;
                 }
-                mTimer += Time.deltaTime;
+                
                 if (mTimer > 0.1f)
                 {
                     mTimer = 0.0f;
-                    ShowMovement();
+                    DisplayMovement();
+                    CheckMovementDetection();
                 }
 
                 if (mHasInitSlider && mDebugMovementAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
@@ -105,15 +101,12 @@ namespace BuddyApp.Guardian
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             GuardianData.Instance.MovementDetectionThreshold = 100-(int)(mMovementTracker.Threshold * 100.0f / (mMaxThreshold));
-            Debug.Log("thresh mouv: " + GuardianData.Instance.MovementDetectionThreshold);
             mDebugMovementWindow.IcoMouv.enabled = false;
-            //mMovementDetector.OnDetection -= OnMovementDetected;
             Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
             mDebugMovementWindow.ButtonBack.onClick.RemoveAllListeners();
-            //mDebugMovementWindow.gameObject.SetActive(false);
         }
 
-        private void ShowMovement()
+        private void DisplayMovement()
         {
             Mat lMatMouv = new Mat();
             Mat lMatView = new Mat();
@@ -130,17 +123,9 @@ namespace BuddyApp.Guardian
             Imgproc.threshold(mMask, mMask, 200, 255, Imgproc.THRESH_BINARY_INV);
             mCam.FrameMat.copyTo(lMatCam, mMask);
             lMatView = lMatMouv + lMatCam;
-            //Imgproc.putText(lMatView, "recorded by Buddy", new Point(lMatView.height()-50, lMatView.height()-10), Imgproc.FONT_HERSHEY_SIMPLEX, 0.28, new Scalar(0, 212, 209, 255));
+            
             Utils.MatToTexture2D(lMatView, mTexture);
-            mRaw.texture = mTexture;
-            if (mHasDetectedMouv)
-            {
-                BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-                mHasDetectedMouv = false;
-                mDebugMovementWindow.IcoMouv.enabled = true;
-            }
-            else
-                mDebugMovementWindow.IcoMouv.enabled = false;
+            mRaw.texture = mTexture; 
         }
 
         private void GoBack()
@@ -152,16 +137,19 @@ namespace BuddyApp.Guardian
         private void OnMovementDetected()
         {
             mHasDetectedMouv = true;
-            Debug.Log("mouvement");
         }
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
 
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
+        private void CheckMovementDetection()
+        {
+            if (mHasDetectedMouv)
+            {
+                BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+                mHasDetectedMouv = false;
+                mDebugMovementWindow.IcoMouv.enabled = true;
+            }
+            else
+                mDebugMovementWindow.IcoMouv.enabled = false;
+        }
+
     }
 }

@@ -5,6 +5,9 @@ using Buddy;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// Class that save the audio sound in a buffer before saving it in a file when asked
+    /// </summary>
     public class SaveAudio : MonoBehaviour
     {
         private DetectionManager mDetectionManager;
@@ -38,7 +41,6 @@ namespace BuddyApp.Guardian
         void Init()
         {
 
-            //mAudioClip = mDetectionManager.SoundDetector.Clip;
             mDevice = Microphone.devices[0];
             for (int i = 0; i < mArrayAudioClip.Length; i++) {
                 mArrayAudioClip[i] = AudioClip.Create("noise " + i, mAudioClip.samples, mAudioClip.channels, 44100, false);
