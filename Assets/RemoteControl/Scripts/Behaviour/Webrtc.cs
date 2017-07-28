@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System;
 using System.Threading;
 using Buddy;
-using Buddy;
 using Buddy.Command;
 
 namespace BuddyApp.RemoteControl
@@ -96,7 +95,7 @@ namespace BuddyApp.RemoteControl
 
 	    void InitLocalTexture(int width, int height)
 	    {
-	        Debug.Log("WebRTC.InitLocalTexture " + width + "*" + height);
+			Utils.LogI("WebRTC.InitLocalTexture " + width + "*" + height);
 
 	        mTextureMutex.WaitOne();
 
@@ -113,7 +112,7 @@ namespace BuddyApp.RemoteControl
 
 	    void InitRemoteTexture(int width, int height)
 	    {
-	        Debug.Log("WebRTC.InitRemoteTexture " + width + "*" + height);
+			Utils.LogI("WebRTC.InitRemoteTexture " + width + "*" + height);
 
 	        mTextureMutex.WaitOne();
 
@@ -138,7 +137,7 @@ namespace BuddyApp.RemoteControl
 	    {
 			mLocalUser = BitConverter.ToString(BYOS.Instance.Primitive.Arduino.GetSerialNumber);
 			mRemoteUser = WebRTCListener.RemoteID;
-	        Debug.Log("Remote caller is " + WebRTCListener.RemoteID);
+			Utils.LogI("Remote caller is " + WebRTCListener.RemoteID);
 	        if (mTextLog)
 	            mTextLog.text += "setup webrtc" + "\n";
 
@@ -159,6 +158,7 @@ namespace BuddyApp.RemoteControl
 	    /// </summary>
 	    public void StartWebRTC()
 	    {
+			Utils.LogI ("Starting webRTC");
 	        if (mTextLog)
 	            mTextLog.text += "Starting webRTC" + "\n";
 	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
@@ -178,7 +178,7 @@ namespace BuddyApp.RemoteControl
 	        mRemoteNativeTexture.Destroy();
 	        mLocalNativeTexture.Destroy();
 
-	        Debug.Log("Stop WebRTC");
+			Utils.LogI("Stop WebRTC");
 	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
 	        {
 	            cls.CallStatic("StopWebrtc");
@@ -191,8 +191,7 @@ namespace BuddyApp.RemoteControl
 	    /// <param name="iChannel">The channel the user you want to call is subscribed to</param>
 	    public void Call()
 	    {
-
-	        Debug.Log("Call : " + mRemoteUser);
+			Utils.LogI("Call : " + mRemoteUser);
 	        if (mTextLog)
 	            mTextLog.text += "Call : " + mRemoteUser + "\n";
 	        // mTextSend.text += "\nCall : " + iChannel;
@@ -209,7 +208,7 @@ namespace BuddyApp.RemoteControl
 	    /// <param name="iChannel">The channel the user you want to close the connection with is listening to</param>
 	    public void HangUp()
 	    {
-	        Debug.Log("Hang Up : " + mRemoteUser);
+			Utils.LogI("Hang Up : " + mRemoteUser);
 	        if (mTextLog)
 	            mTextLog.text += "Hang Up : " + mRemoteUser + "\n";
 	        if (mConnectionState == CONNECTION.CONNECTING)
@@ -235,7 +234,7 @@ namespace BuddyApp.RemoteControl
 	    public void SendWithDataChannel(string iMessage)//, string iChannel,bool iThroughDataChannel=true)
 	    {
 	        bool iThroughDataChannel = true;
-	        //Debug.Log("sending message : " + iMessage + " to : " + mRemoteUser);
+			Utils.LogI("sending message : " + iMessage + " to : " + mRemoteUser);
 	        if (mTextLog)
 	            mTextLog.text += "sending message : " + iMessage + " to : " + mRemoteUser + "\n";
 
@@ -243,7 +242,7 @@ namespace BuddyApp.RemoteControl
 	        {
 	            using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
 	            {
-	                Debug.Log("sending message : " + iMessage + " to : " + mRemoteUser + " through data channel");
+					Utils.LogI("sending message : " + iMessage + " to : " + mRemoteUser + " through data channel");
 	                cls.CallStatic("SendMessage", iMessage, mRemoteUser);
 	            }
 	        }
@@ -251,7 +250,7 @@ namespace BuddyApp.RemoteControl
 	        {
 	            using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
 	            {
-	                Debug.Log("sending message : " + iMessage + " to : " + mRemoteUser + " through messaging channel");
+					Utils.LogI("sending message : " + iMessage + " to : " + mRemoteUser + " through messaging channel");
 	                cls.CallStatic("SendMessage", iMessage, mRemoteUser, false);
 	            }
 	        }
@@ -267,13 +266,13 @@ namespace BuddyApp.RemoteControl
 	    {
 	        if (iValue.Equals("1"))
 	        {
-	            Debug.Log("Webrtc status : CONNECTING");
+				Utils.LogI("Webrtc status : CONNECTING");
 	            mConnectionState = CONNECTION.CONNECTING;
 	            if (mTextLog)
 	                mTextLog.text += "Webrtc connection is ON" + "\n";
 	        }
 	        else {
-	            Debug.Log("Webrtc status : DISCONNECTING");
+				Utils.LogI("Webrtc status : DISCONNECTING");
 	            mConnectionState = CONNECTION.DISCONNECTING;
 	            if (mTextLog)
 	                mTextLog.text += "Webrtc connection OFF" + "\n";
@@ -297,7 +296,7 @@ namespace BuddyApp.RemoteControl
 	    /// <param name="iMessage">The message that has been received.</param>
 	    public void onMessage(string iMessage)
 	    {
-	        Debug.Log(iMessage);
+			Utils.LogI(iMessage);
 	        if (mTextLog)
 	            mTextLog.text += "Receive message : " + iMessage + "\n";
 	    }
@@ -308,7 +307,7 @@ namespace BuddyApp.RemoteControl
 	    /// <param name="iMessage">The message that has been received.</param>
 	    public void onAndroidDebugLog(string iMessage)
 	    {
-	        Debug.Log("Android Debug : " + iMessage);
+			Utils.LogI("Android Debug : " + iMessage);
 	        if (mTextLog)
 	            mTextLog.text += "Android Debug : " + iMessage + "\n";
 
@@ -320,14 +319,14 @@ namespace BuddyApp.RemoteControl
 	        {
 	            mIsConnected = false;
 	            //HangUp();
-	            Debug.Log("Hung up");
+				Utils.LogI("Hung up");
 	            //this.gameObject.SetActive(false);
 	            GameObject.Find(mWebrtcReceiverObjectName).SetActive(false);
-	            Debug.Log("Deactivated RTC Controller");
+				Utils.LogI("Deactivated RTC Controller");
 	            StopWebRTC();
-	            Debug.Log("Stopped WebRTC protocol");
+				Utils.LogI("Stopped WebRTC protocol");
 				AAppActivity.QuitApp();
-	            Debug.Log("Going back home");
+				Utils.LogI("Going back home");
 	        }
 
 	        if (iMessage.Contains("On Local Stream"))
@@ -337,14 +336,14 @@ namespace BuddyApp.RemoteControl
 
 	        if (mIsConnected && mLocalStreamAdded)
 	        {
-	            Debug.Log("[RTC] Making call to " + mRemoteUser);
+				Utils.LogI("[RTC] Making call to " + mRemoteUser);
 	            Call();
 	        }
 	    }
 
 	    public void onLocalTextureSizeChanged(string size)
 	    {
-	        Debug.Log("WebRTC.onLocalTextureSizeChanged " + size);
+			Utils.LogI("WebRTC.onLocalTextureSizeChanged " + size);
 
 	        string[] cuts = size.Split(mResolutionSeparator);
 	        int width = Int32.Parse(cuts[0]);
@@ -355,7 +354,7 @@ namespace BuddyApp.RemoteControl
 
 	    public void onRemoteTextureSizeChanged(string size)
 	    {
-	        Debug.Log("WebRTC.onRemoteTextureSizeChanged " + size);
+			Utils.LogI("WebRTC.onRemoteTextureSizeChanged " + size);
 
 	        string[] cuts = size.Split(mResolutionSeparator);
 	        int width = Int32.Parse(cuts[0]);
