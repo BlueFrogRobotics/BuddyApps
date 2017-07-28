@@ -2650,77 +2650,6 @@
             <param name="iFromAddress">Address that sent the broadcast</param>
             <param name="iData">Body data of the broadcast</param>
         </member>
-        <member name="T:Buddy.Internal.Net.WebRTCListener">
-            <summary>
-            This part listens on the Crossbar server to know if there is any incoming call
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.Net.WebRTCListener.RemoteID">
-            <summary>
-            Used to know the Remote ID for RTC communication
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.Net.WebRTCListener.MessageFromChat">
-            <summary>
-            Use this to know if answer from STT comes from a Chat question
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.PublishConnectionRequest(System.String)">
-            <summary>
-            Use this to make a call towards another Buddy
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.OnConnectionRequest(System.String)">
-            <summary>
-            Called by Android plugin when message is received from the PubSub of Crossbar
-            </summary>
-            <param name="iMessage"></param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.OnAndroidLog(System.String)">
-            <summary>
-            Called by Android plugin for Debug purposes
-            </summary>
-            <param name="iLogText"></param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.SendNotification(System.String,System.String)">
-            <summary>
-            Send notification as Crossbar published event
-            </summary>
-            <param name="iTitle">Title of the notification</param>
-            <param name="iMessage">Body message of the notification</param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.ProcessAnswer(System.String)">
-            <summary>
-            Use this to send back the answer to the user.
-            </summary>
-            <param name="iAnwser"></param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.OnMessageReceived(System.String)">
-            <summary>
-            Used by Android plugin when chat message is received through WebRTC and send it back to user
-            </summary>
-            <param name="iChatMessage">Chat message received through WebRTC</param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.PublishNotification(System.String)">
-            <summary>
-            Format of the notification is the following : BuddyID / Title @ Message
-            </summary>
-            <param name="iMessage">Notification message to send</param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.StartListener(System.String,System.String)">
-            <summary>
-            Initialize the Java Android Object that handles PubSub messages from Crossbar
-            </summary>
-            <param name="iUri">Crossbar uri</param>
-            <param name="iRealm">Name of the realm</param>
-        </member>
-        <member name="M:Buddy.Internal.Net.WebRTCListener.WaitSTTFinished(System.String)">
-            <summary>
-            Wait until STT has finished listening and is free to use
-            </summary>
-            <param name="iChatMessage">The Chat message received to process</param>
-            <returns></returns>
-        </member>
         <member name="T:Buddy.Internal.Net.SharedAccessSignature">
             <summary>
             Inner class for asking a shared access signature to Microsoft Azure cloud. Signature are used by loggers.
@@ -6202,6 +6131,80 @@
             <summary>
             Current OS/UI language format
             </summary>
+        </member>
+        <member name="T:Buddy.WebRTCListener">
+            <summary>
+            This part listens on the Crossbar server to know if there is any incoming call
+            </summary>
+            <summary>
+            This part listens on the Crossbar server to know if there is any incoming call
+            </summary>
+        </member>
+        <member name="P:Buddy.WebRTCListener.RemoteID">
+            <summary>
+            Used to know the Remote ID for RTC communication
+            </summary>
+        </member>
+        <member name="P:Buddy.WebRTCListener.MessageFromChat">
+            <summary>
+            Use this to know if answer from STT comes from a Chat question
+            </summary>
+        </member>
+        <member name="M:Buddy.WebRTCListener.PublishConnectionRequest(System.String)">
+            <summary>
+            Use this to make a call towards another Buddy
+            </summary>
+        </member>
+        <member name="M:Buddy.WebRTCListener.OnConnectionRequest(System.String)">
+            <summary>
+            Called by Android plugin when message is received from the PubSub of Crossbar
+            </summary>
+            <param name="iMessage"></param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.OnAndroidLog(System.String)">
+            <summary>
+            Called by Android plugin for Debug purposes
+            </summary>
+            <param name="iLogText"></param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.SendNotification(System.String,System.String)">
+            <summary>
+            Send notification as Crossbar published event
+            </summary>
+            <param name="iTitle">Title of the notification</param>
+            <param name="iMessage">Body message of the notification</param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.ProcessAnswer(System.String)">
+            <summary>
+            Use this to send back the answer to the user.
+            </summary>
+            <param name="iAnwser"></param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.OnMessageReceived(System.String)">
+            <summary>
+            Used by Android plugin when chat message is received through WebRTC and send it back to user
+            </summary>
+            <param name="iChatMessage">Chat message received through WebRTC</param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.PublishNotification(System.String)">
+            <summary>
+            Format of the notification is the following : BuddyID / Title @ Message
+            </summary>
+            <param name="iMessage">Notification message to send</param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.StartListener(System.String,System.String)">
+            <summary>
+            Initialize the Java Android Object that handles PubSub messages from Crossbar
+            </summary>
+            <param name="iUri">Crossbar uri</param>
+            <param name="iRealm">Name of the realm</param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.WaitSTTFinished(System.String)">
+            <summary>
+            Wait until STT has finished listening and is free to use
+            </summary>
+            <param name="iChatMessage">The Chat message received to process</param>
+            <returns></returns>
         </member>
         <member name="T:Buddy.ResourceManager">
             <summary>
