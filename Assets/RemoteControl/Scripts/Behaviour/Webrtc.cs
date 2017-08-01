@@ -46,8 +46,8 @@ namespace BuddyApp.RemoteControl
 	    /// <summary>
 	    /// Android Texture object
 	    /// </summary>
-		public BuddyApp.RemoteControl.RemoteNativeTexture mRemoteNativeTexture = null;
-		public BuddyApp.RemoteControl.LocalNativeTexture mLocalNativeTexture = null;
+		public RemoteNativeTexture mRemoteNativeTexture = null;
+		public LocalNativeTexture mLocalNativeTexture = null;
 	    private CONNECTION mConnectionState = CONNECTION.DISCONNECTING;
 
 	    private Mutex mTextureMutex = new Mutex();
@@ -65,14 +65,14 @@ namespace BuddyApp.RemoteControl
 	        // Setup and start webRTC
 	        SetupWebRTC();
 	        StartWebRTC();
-
-			mRemoteNativeTexture = new BuddyApp.RemoteControl.RemoteNativeTexture(640, 480);
-			mLocalNativeTexture = new BuddyApp.RemoteControl.LocalNativeTexture(640, 480);
+            
+			mRemoteNativeTexture = new RemoteNativeTexture(640, 480);
+            mLocalNativeTexture = new LocalNativeTexture(640, 480);
 
 	        // Show the android texture in a Unity raw image
 	        mRemoteRawImage.texture = mRemoteNativeTexture.texture;
-	        mLocalRawImage.texture = mLocalNativeTexture.texture;
-	    }
+            mLocalRawImage.texture = mLocalNativeTexture.texture;
+        }
 
 	    void Update()
 	    {
@@ -104,7 +104,7 @@ namespace BuddyApp.RemoteControl
 	            mLocalNativeTexture.Destroy();
 	        }
 
-			mLocalNativeTexture = new BuddyApp.RemoteControl.LocalNativeTexture(width, height);
+			mLocalNativeTexture = new LocalNativeTexture(width, height);
 	        mLocalRawImage.texture = mLocalNativeTexture.texture;
 
 	        mTextureMutex.ReleaseMutex();
@@ -121,7 +121,7 @@ namespace BuddyApp.RemoteControl
 	            mRemoteNativeTexture.Destroy();
 	        }
 
-			mRemoteNativeTexture = new BuddyApp.RemoteControl.RemoteNativeTexture(width, height);
+			mRemoteNativeTexture = new RemoteNativeTexture(width, height);
 	        mRemoteRawImage.texture = mRemoteNativeTexture.texture;
 
 	        mTextureMutex.ReleaseMutex();
@@ -137,7 +137,8 @@ namespace BuddyApp.RemoteControl
 	    {
 			mLocalUser = BitConverter.ToString(BYOS.Instance.Primitive.Arduino.GetSerialNumber);
 			mRemoteUser = WebRTCListener.RemoteID;
-			Utils.LogI("Remote caller is " + WebRTCListener.RemoteID);
+            Utils.LogI("Local user is " + mLocalUser);
+            Utils.LogI("Remote caller is " + WebRTCListener.RemoteID);
 	        if (mTextLog)
 	            mTextLog.text += "setup webrtc" + "\n";
 
@@ -148,7 +149,7 @@ namespace BuddyApp.RemoteControl
 	                AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
 
 	                string file = Application.streamingAssetsPath + "/client_cert";
-	                cls.CallStatic("SetupWebrtc", mCrossbarUri, mRealm, jo, mLocalUser, mWebrtcReceiverObjectName, file);
+                    cls.CallStatic("SetupWebrtc", mCrossbarUri, mRealm, jo, mLocalUser, mWebrtcReceiverObjectName, file);
 	            }
 	        }
 	    }

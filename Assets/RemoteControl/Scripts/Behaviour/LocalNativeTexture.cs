@@ -6,8 +6,6 @@ namespace BuddyApp.RemoteControl
 {
 	public class LocalNativeTexture : NativeTexture
 	{
-
-
 	    public override Texture2D createTextureFromNativePtr(int iWidth, int iHeight)
 	    {
 	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
@@ -20,8 +18,6 @@ namespace BuddyApp.RemoteControl
 	            return lTexture;
 	        }
 	    }
-
-
 
 	    public override void Update()
 	    {
