@@ -83,16 +83,16 @@ namespace BuddyApp.Guardian
             });
         }
 
-        public override void LabelizeWidgets()
+         public override void LabelizeWidgets()
         {
             mHeadOrientation.OuterLabel = BYOS.Instance.Dictionary.GetString("headorientation");
             mHeadOrientation.InnerLabel = BYOS.Instance.Dictionary.GetString("changeheadorientation");
-            mMovementDebug.OuterLabel = "debug mouvement";
-            mMovementDebug.InnerLabel = "debug";
-            mFireDebug.OuterLabel = "debug thermique";
-            mFireDebug.InnerLabel = "debug";
-            mSoundDebug.OuterLabel = "debug son";
-            mSoundDebug.InnerLabel = "debug";
+            mMovementDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("movementsensibility");
+            mMovementDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
+            mFireDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("testfiredetection");
+            mFireDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("thermicview");
+            mSoundDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("noisesensibility");
+            mSoundDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
             mMovementDetection.Label = BYOS.Instance.Dictionary.GetString("movementdetection");
             mFireDetection.Label = BYOS.Instance.Dictionary.GetString("firedetection");
             mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");
