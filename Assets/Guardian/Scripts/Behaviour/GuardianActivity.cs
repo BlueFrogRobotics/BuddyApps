@@ -15,7 +15,7 @@ namespace BuddyApp.Guardian
             Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
         }
 
-        public override void OnStart(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
+        public override void OnStart()
         {
             ///TODO: decommenter la ligne ci dessous apres la release de core
             //sDetectionManager = (DetectionManager)Objects[0];
@@ -47,7 +47,7 @@ namespace BuddyApp.Guardian
             Animator.GetBehaviour<TurnState>().StopTurnCoroutines();
 
             sDetectionManager.Roomba.enabled = false;
-            Primitive.Motors.Wheels.StopWheels();
+            Primitive.Motors.Wheels.Stop();
 
             Animator.SetBool("Password", true);
         }

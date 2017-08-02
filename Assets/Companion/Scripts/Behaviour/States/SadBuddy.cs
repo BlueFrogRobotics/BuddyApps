@@ -60,14 +60,14 @@ namespace BuddyApp.Companion
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
 
 
-			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].Enable();
-			Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].Enable();
-			Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].Enable();
-			Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].Enable();
-			Perception.Stimuli.Controllers[StimulusEvent.LOW_BATTERY].Enable();
-			Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].Enable();
-			Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].Enable();
-		}
+			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
+            Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = true;
+            Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].enabled = true;
+            Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].enabled = true;
+            Perception.Stimuli.Controllers[StimulusEvent.LOW_BATTERY].enabled = true;
+            Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = true;
+            Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = true;
+        }
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
@@ -132,14 +132,14 @@ namespace BuddyApp.Companion
             Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FACE_DETECTED, OnFaceDetected);
 
 
-			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].Disable();
-			Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].Disable();
-			Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].Disable();
-			Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].Disable();
-			Perception.Stimuli.Controllers[StimulusEvent.LOW_BATTERY].Disable();
-			Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].Disable();
-			Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].Disable();
-		}
+			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
+            Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = false;
+            Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].enabled = false;
+            Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].enabled = false;
+            Perception.Stimuli.Controllers[StimulusEvent.LOW_BATTERY].enabled = false;
+            Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = false;
+            Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = false;
+        }
 
 		void OnRandomMinuteActivation()
 		{

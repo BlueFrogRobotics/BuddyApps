@@ -20,10 +20,10 @@ namespace BuddyApp.Guardian
         /// </summary>
         private enum ParameterWindow : int
         {
-            HEAD_ORIENTATION=0,
-            MOVEMENT=1,
-            SOUND=2,
-            FIRE=3
+            HEAD_ORIENTATION = 0,
+            MOVEMENT = 1,
+            SOUND = 2,
+            FIRE = 3
         }
 
         public override void Start()
@@ -41,32 +41,21 @@ namespace BuddyApp.Guardian
 
             mDetectionLayout = new DetectionLayout();
             mHasSwitchState = false;
-            BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout, 
+            BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout,
                 () => { Trigger("NextStep"); },
                 () => { Trigger("Back"); });
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (!mHasSwitchState)
-            {
-                if (GuardianData.Instance.HeadOrientation)
-                {
+            if (!mHasSwitchState) {
+                if (GuardianData.Instance.HeadOrientation) {
                     SwitchState(iAnimator, ParameterWindow.HEAD_ORIENTATION);
-                }
-
-                else if (GuardianData.Instance.MovementDebug )
-                {
+                } else if (GuardianData.Instance.MovementDebug) {
                     SwitchState(iAnimator, ParameterWindow.MOVEMENT);
-                }
-
-                else if (GuardianData.Instance.SoundDebug )
-                {
+                } else if (GuardianData.Instance.SoundDebug) {
                     SwitchState(iAnimator, ParameterWindow.SOUND);
-                }
-
-                else if (GuardianData.Instance.FireDebug )
-                {
+                } else if (GuardianData.Instance.FireDebug) {
                     SwitchState(iAnimator, ParameterWindow.FIRE);
                 }
             }
@@ -74,19 +63,19 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+
         }
 
         private void SetThreshold()
         {
-            Detection.NoiseStimulus.Threshold= (100.0f - GuardianData.Instance.SoundDetectionThreshold)/100.0f * 0.3f;
+            Detection.NoiseStimulus.Threshold = (100.0f - GuardianData.Instance.SoundDetectionThreshold) / 100.0f * 0.3f;
         }
 
         private void SwitchState(Animator iAnimator, ParameterWindow iParamWindow)
         {
             Toaster.Display<BackgroundToast>().With();
             mHasSwitchState = true;
-            Detection.NoiseStimulus.Enable();
+            Detection.NoiseStimulus.enabled = true;
             SetThreshold();
             iAnimator.SetInteger("DebugMode", (int)iParamWindow);
         }

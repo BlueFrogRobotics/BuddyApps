@@ -47,7 +47,7 @@ namespace BuddyApp.Guardian
 
         public void Save(string iFilename)
         {
-            VideoRecorder.Save("monitoring.avi", mBufferVideo.ToArray(), mFPS);
+            Utils.Save("monitoring.avi", mBufferVideo.ToArray(), mFPS);
             //Save("monitoring.avi", mFPS);
         }
 
@@ -57,7 +57,7 @@ namespace BuddyApp.Guardian
             //Mat mMatRed = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3, new Scalar(254, 0, 0));
             if (iListMat.Length > 0) {
                 int lCodec = VideoWriter.fourcc('M', 'J', 'P', 'G');
-                string lFilepath = Application.persistentDataPath + "/" + iFilename;//Utils.GetStreamingAssetFilePath(filename);
+                string lFilepath = BYOS.Instance.Resources.PathToRaw(iFilename);//Utils.GetStreamingAssetFilePath(filename);
                 VideoWriter lVideoWriter = new VideoWriter(lFilepath, lCodec, iFps, iListMat[0].size());
 
                 if (!lVideoWriter.isOpened()) {

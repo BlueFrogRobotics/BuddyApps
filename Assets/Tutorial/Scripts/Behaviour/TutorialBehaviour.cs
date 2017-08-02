@@ -17,11 +17,17 @@ namespace BuddyApp.Tutorial
         private Motors mMotors;
         private Mood mMood;
 
+        void Awake()
+        {
+            Debug.Log("My awake");
+        }
+
         /*
          * Init refs to API and to your app data
          */
         void Start()
         {
+            Debug.Log("My start");
             mMotors = BYOS.Instance.Primitive.Motors;
             mRGBCam = BYOS.Instance.Primitive.RGBCam;
             mMood = BYOS.Instance.Interaction.Mood;

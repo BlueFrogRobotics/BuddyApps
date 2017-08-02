@@ -31,7 +31,7 @@ namespace BuddyApp.Guardian
         public MoveSideStimulus MoveSideStimulus { get; private set; }
         public ThermalStimulus ThermalStimulus { get; private set; }
         public AccelerometerStimulus AccelerometerStimulus { get; private set; }
-        public MovementTracker MovementTracker { get; private set; }
+        public MotionDetection MovementTracker { get; private set; }
 
 
         public Stimuli Stimuli { get; set; }
@@ -79,29 +79,29 @@ namespace BuddyApp.Guardian
         {
 
             Stimuli = BYOS.Instance.Perception.Stimuli;
-            MovementTracker = BYOS.Instance.Perception.MovementTracker;
+            MovementTracker = BYOS.Instance.Perception.Motion;
 
             AStimulus moveSideStimulus;
             BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.MOVING, out moveSideStimulus);
-            moveSideStimulus.Enable();
+            moveSideStimulus.enabled = true;
             MoveSideStimulus = (MoveSideStimulus)moveSideStimulus;
 
             AStimulus soundStimulus;
             BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_LOUD, out soundStimulus);
-            soundStimulus.Enable();
+            soundStimulus.enabled = true;
             NoiseStimulus = (NoiseStimulus)soundStimulus;
 
             AStimulus fireStimulus;
             BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.FIRE_DETECTED, out fireStimulus);
-            fireStimulus.Enable();
+            fireStimulus.enabled = true;
             ThermalStimulus = (ThermalStimulus)fireStimulus;
 
             AStimulus kidnappingStimulus;
             BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.KIDNAPPING, out kidnappingStimulus);
-            kidnappingStimulus.Enable();
+            kidnappingStimulus.enabled = true;
             AccelerometerStimulus = (AccelerometerStimulus)kidnappingStimulus;
 
-            BYOS.Instance.Perception.MovementTracker.Enable();
+            //BYOS.Instance.Perception.MovementTracker.Enable();
             SaveAudio = GetComponent<SaveAudio>();
             SaveVideo = GetComponent<SaveVideo>();
             Roomba = BYOS.Instance.Navigation.Roomba;

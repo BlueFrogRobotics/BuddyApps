@@ -64,8 +64,8 @@ namespace BuddyApp.Guardian
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
             if (mNoiseStimulus.IsListening)
             {
-                mNoiseStimulus.Disable();
-                mNoiseStimulus.Enable();
+                mNoiseStimulus.enabled = false;
+                mNoiseStimulus.enabled = true;
             }
         }
 

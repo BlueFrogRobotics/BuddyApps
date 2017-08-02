@@ -48,7 +48,7 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Primitive.Motors.Wheels.StopWheels();
+            Primitive.Motors.Wheels.Stop();
             Primitive.Motors.NoHinge.SetPosition(0);
         }
     }

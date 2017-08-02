@@ -13,7 +13,7 @@ namespace BuddyApp.Recipe
 			Utils.LogI(LogContext.APP, "On loading...");
 		}
 
-        public override void OnStart(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
+        public override void OnStart()
 		{
 			Utils.LogI(LogContext.APP, "On start...");
 		}

@@ -40,7 +40,7 @@ namespace BuddyApp.Guardian
 
             Interaction.TextToSpeech.SayKey("askchoices");
 
-            Detection.NoiseStimulus.Disable();
+            Detection.NoiseStimulus.enabled = false;
             Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
             mTimer = 0.0f;
             mListening = false;

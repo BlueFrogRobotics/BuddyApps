@@ -89,7 +89,7 @@ namespace BuddyApp.Guardian
         public void Save()
         {
             CanSave = true;
-            AudioRecorder.Save("noise.wav", AudioRecorder.Combine(mArrayAudioClip));
+            Utils.Save("noise.wav", Utils.Combine(mArrayAudioClip));
         }
     }
 }

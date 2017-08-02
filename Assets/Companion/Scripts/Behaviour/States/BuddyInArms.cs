@@ -37,9 +37,7 @@ namespace BuddyApp.Companion
 
 			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
 
-			Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].Enable();
-
-
+            Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = true;
 		}
 
 
@@ -58,8 +56,8 @@ namespace BuddyApp.Companion
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-			Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].Disable();
-		}
+			Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = false;
+        }
 
 		void OnSphinxActivation()
 		{

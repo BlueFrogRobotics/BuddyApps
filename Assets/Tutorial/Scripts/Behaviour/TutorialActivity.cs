@@ -12,7 +12,12 @@ namespace BuddyApp.Tutorial
             Utils.LogI(LogContext.APP, "On loading...");
         }
 
-        public override void OnStart(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
+        public override void OnAwake()
+        {
+            Utils.LogI(LogContext.APP, "On awake...");
+        }
+
+        public override void OnStart()
         {
             Utils.LogI(LogContext.APP, "On start...");
         }

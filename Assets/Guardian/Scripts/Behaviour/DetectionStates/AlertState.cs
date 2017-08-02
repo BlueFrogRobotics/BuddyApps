@@ -28,7 +28,7 @@ namespace BuddyApp.Guardian
             mDetectionManager.IsDetectingSound = false;
 
             mDetectionManager.Roomba.enabled = false;
-            Primitive.Motors.Wheels.StopWheels();
+            Primitive.Motors.Wheels.Stop();
 
             mAlert = GetAlert();
 

@@ -14,7 +14,7 @@ namespace BuddyApp.Companion
 			Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
 		}
 
-        public override void OnStart(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
+        public override void OnStart()
 		{
 			Utils.LogI(LogContext.APP, "On start...");
 		}
