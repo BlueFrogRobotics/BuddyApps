@@ -6188,30 +6188,33 @@
             Hosts all global_keyword -> currentlanguage_word / word list matchings
             </summary>
         </member>
-        <member name="M:Buddy.Dictionary.GetString(System.String)">
+        <member name="M:Buddy.Dictionary.GetString(System.String,Buddy.LoadContext)">
             <summary>
             Retrieve the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
             Lookup speed in Th(iKey.Length)
             </summary>
             <param name="iKey">The key word corresponding to the wished word</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
             <returns>The word in the current language, default value if not found</returns>
         </member>
-        <member name="M:Buddy.Dictionary.GetRandomString(System.String)">
+        <member name="M:Buddy.Dictionary.GetRandomString(System.String,Buddy.LoadContext)">
             <summary>
             Retrieve a random word from the input key word. Checks first in app dict if exists, if not checks in native dict.
             Lookup speed in Th(iKey.Length)
             </summary>
             <param name="iKey">The key word corresponding to the wished random word</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
             <returns>The word in the current language, default value if not found</returns>
         </member>
-        <member name="M:Buddy.Dictionary.GetPhoneticStrings(System.String)">
+        <member name="M:Buddy.Dictionary.GetPhoneticStrings(System.String,Buddy.LoadContext)">
             <summary>
             Retrieve the corresponding list to the input iKey. Useful for multiple response handling with the SpeechToText
             </summary>
             <param name="iKey">The key corresponding to the wished list</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
             <returns>List of strings that must sound similar</returns>
         </member>
-        <member name="M:Buddy.Dictionary.ContainsPhonetic(System.String,System.String)">
+        <member name="M:Buddy.Dictionary.ContainsPhonetic(System.String,System.String,Buddy.LoadContext)">
             <summary>
             Proceed to a GetPhoneticsStrings(iKey, iContext = APP) and checks if one element on the closephonetic array is contained in iRef
             </summary>
@@ -6246,14 +6249,14 @@
             Allow you to retrieve the full path from the name of the raw file
             </summary>
         </member>
-        <member name="M:Buddy.ResourceManager.PathToRaw(System.String)">
+        <member name="M:Buddy.ResourceManager.PathToRaw(System.String,Buddy.LoadContext)">
             <summary>
             Allow you to retrieve the full path from the name of the raw file / directory
             </summary>
             <param name="iName">Name of the file / directory</param>
             <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
         </member>
-        <member name="M:Buddy.ResourceManager.Load``1(System.String)">
+        <member name="M:Buddy.ResourceManager.Load``1(System.String,Buddy.LoadContext)">
             <summary>
             Load the resource from Resource/ or from downloaded bundles.
             </summary>
@@ -6261,7 +6264,7 @@
             <param name="iName">Name (without path/extension) of the resource</param>
             <returns>The loaded resource. Null if not found</returns>
         </member>
-        <member name="M:Buddy.ResourceManager.LoadAtlas(System.String)">
+        <member name="M:Buddy.ResourceManager.LoadAtlas(System.String,Buddy.LoadContext)">
             <summary>
             Load the atlas from Resource/ or from downloaded bundles.
             </summary>
