@@ -4,6 +4,49 @@
         <name>OS</name>
     </assembly>
     <members>
+        <member name="M:Buddy.Internal.ANavigationStrategy.StartCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Begin a coroutine.
+            </summary>
+            <param name="iFunc">Your coroutine to start</param>
+        </member>
+        <member name="M:Buddy.Internal.ANavigationStrategy.StopCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Stop the coroutine
+            </summary>
+            <param name="iFunc">Your coroutine to stop</param>
+        </member>
+        <member name="M:Buddy.Internal.ANavigationStrategy.StopAllCoroutines">
+            <summary>
+            Stop all started coroutines
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.ANavigationStrategy.CancelInvoke">
+            <summary>
+            Cancels all Invoke calls on this MonoBehaviour.
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.ANavigationStrategy.CancelInvoke(System.String)">
+            <summary>
+            Cancels all Invoke calls with name methodName on this behaviour.
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.ANavigationStrategy.Invoke(System.String,System.Single)">
+            <summary>
+            Invokes the method methodName in time seconds.
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.ANavigationStrategy.InvokeRepeating(System.String,System.Single,System.Single)">
+            <summary>
+            Invokes the method methodName in time seconds, then repeatedly every repeatRate
+            </summary>>
+        </member>
+        <member name="M:Buddy.Internal.ANavigationStrategy.IsInvoking">
+            <summary>
+            Is any invoke pending on this MonoBehaviour?
+            </summary>
+            <returns>True if invoking</returns>
+        </member>
         <member name="T:Buddy.Internal.AVisionAlgorithm">
             <summary>
             Base class for computer vision algorithms.
@@ -2849,13 +2892,13 @@
             The thermal sensor component of Buddy. Not available in simulation.
             </summary>
         </member>
-        <member name="P:Buddy.ThermalSensor.Matrix">
+        <member name="P:Buddy.ThermalSensor.MatrixArray">
             <summary>
             The matrix of the thermal sensor. Currently 4x4 resolution.
             Each value represents the estimated temperature.
             </summary>
         </member>
-        <member name="P:Buddy.ThermalSensor.ThermalMat">
+        <member name="P:Buddy.ThermalSensor.Matrix">
             <summary>
             Gets the matrix of the thermal sensor as an OpenCV Matrix. Currently 4x4 resolution
             </summary>
@@ -6233,6 +6276,80 @@
             Current OS/UI language format
             </summary>
         </member>
+        <member name="T:Buddy.WebRTCListener">
+            <summary>
+            This part listens on the Crossbar server to know if there is any incoming call
+            </summary>
+            <summary>
+            This part listens on the Crossbar server to know if there is any incoming call
+            </summary>
+        </member>
+        <member name="P:Buddy.WebRTCListener.RemoteID">
+            <summary>
+            Used to know the Remote ID for RTC communication
+            </summary>
+        </member>
+        <member name="P:Buddy.WebRTCListener.MessageFromChat">
+            <summary>
+            Use this to know if answer from STT comes from a Chat question
+            </summary>
+        </member>
+        <member name="M:Buddy.WebRTCListener.PublishConnectionRequest(System.String)">
+            <summary>
+            Use this to make a call towards another Buddy
+            </summary>
+        </member>
+        <member name="M:Buddy.WebRTCListener.OnConnectionRequest(System.String)">
+            <summary>
+            Called by Android plugin when message is received from the PubSub of Crossbar
+            </summary>
+            <param name="iMessage"></param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.OnAndroidLog(System.String)">
+            <summary>
+            Called by Android plugin for Debug purposes
+            </summary>
+            <param name="iLogText"></param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.SendNotification(System.String,System.String)">
+            <summary>
+            Send notification as Crossbar published event
+            </summary>
+            <param name="iTitle">Title of the notification</param>
+            <param name="iMessage">Body message of the notification</param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.ProcessAnswer(System.String)">
+            <summary>
+            Use this to send back the answer to the user.
+            </summary>
+            <param name="iAnwser"></param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.OnMessageReceived(System.String)">
+            <summary>
+            Used by Android plugin when chat message is received through WebRTC and send it back to user
+            </summary>
+            <param name="iChatMessage">Chat message received through WebRTC</param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.PublishNotification(System.String)">
+            <summary>
+            Format of the notification is the following : BuddyID / Title @ Message
+            </summary>
+            <param name="iMessage">Notification message to send</param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.StartListener(System.String,System.String)">
+            <summary>
+            Initialize the Java Android Object that handles PubSub messages from Crossbar
+            </summary>
+            <param name="iUri">Crossbar uri</param>
+            <param name="iRealm">Name of the realm</param>
+        </member>
+        <member name="M:Buddy.WebRTCListener.WaitSTTFinished(System.String)">
+            <summary>
+            Wait until STT has finished listening and is free to use
+            </summary>
+            <param name="iChatMessage">The Chat message received to process</param>
+            <returns></returns>
+        </member>
         <member name="T:Buddy.ResourceManager">
             <summary>
             Allow you to retrieve the full path from the name of the raw file
@@ -8121,31 +8238,6 @@
             <param name="iOnYes">Right button info</param>
             <param name="iOnNo">Left button info</param>
             <returns>The toast ID</returns>
-        </member>
-        <member name="T:Buddy.WebRTCListener">
-            <summary>
-            This part listens on the Crossbar server to know if there is any incoming call
-            </summary>
-        </member>
-        <member name="M:Buddy.WebRTCListener.PublishNotification(System.String)">
-            <summary>
-            Format of the notification is the following : BuddyID / Title @ Message
-            </summary>
-            <param name="iMessage">Notification message to send</param>
-        </member>
-        <member name="M:Buddy.WebRTCListener.StartListener(System.String,System.String)">
-            <summary>
-            Initialize the Java Android Object that handles PubSub messages from Crossbar
-            </summary>
-            <param name="iUri">Crossbar uri</param>
-            <param name="iRealm">Name of the realm</param>
-        </member>
-        <member name="M:Buddy.WebRTCListener.WaitSTTFinished(System.String)">
-            <summary>
-            Wait until STT has finished listening and is free to use
-            </summary>
-            <param name="iChatMessage">The Chat message received to process</param>
-            <returns></returns>
         </member>
     </members>
 </doc>

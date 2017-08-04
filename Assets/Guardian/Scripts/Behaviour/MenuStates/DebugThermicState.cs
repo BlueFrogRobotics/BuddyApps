@@ -40,7 +40,7 @@ namespace BuddyApp.Guardian
             }
             else if (mHasOpenedWindow)
             {
-                int[] lThermicMatrix = Primitive.ThermalSensor.Matrix;
+                int[] lThermicMatrix = Primitive.ThermalSensor.MatrixArray;
                 mShowTemperature.FillTemperature(lThermicMatrix);
                 mShowTemperature.UpdateTexture();
                 if (mDebugTempAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)

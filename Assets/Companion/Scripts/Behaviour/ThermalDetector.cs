@@ -32,7 +32,7 @@ namespace BuddyApp.Companion
 
 		void Update()
 		{
-			lMatrix = mSensor.Matrix;
+			lMatrix = mSensor.MatrixArray;
 			int lMaxVal = 0;
 			float lMean = 0.0F;
 

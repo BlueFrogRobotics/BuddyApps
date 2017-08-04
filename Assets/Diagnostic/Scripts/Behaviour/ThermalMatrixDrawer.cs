@@ -18,7 +18,7 @@ namespace BuddyApp.Diagnostic
         void Start()
         {
             mThermalSensor = BYOS.Instance.Primitive.ThermalSensor;
-            mNbPixel = mThermalSensor.Matrix.Length;
+            mNbPixel = mThermalSensor.MatrixArray.Length;
             mThermalSensorDataArray = new int[mNbPixel];
 
             mTime = 0F;
@@ -32,7 +32,7 @@ namespace BuddyApp.Diagnostic
             // Avoid flashing
             if (mTime >= 0.2F) {
                 // get data from thermal sensor 
-                mThermalSensorDataArray = mThermalSensor.Matrix;
+                mThermalSensorDataArray = mThermalSensor.MatrixArray;
 
                 // put the appropriate color to the image raw fo the scene
                 for (int i = 0; i < mNbPixel; ++i) {

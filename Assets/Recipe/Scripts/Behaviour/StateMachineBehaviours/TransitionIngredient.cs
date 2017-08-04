@@ -21,7 +21,7 @@ namespace BuddyApp.Recipe
         public override void Start()
         {
             mDone = false;
-            mNbPixel = Primitive.ThermalSensor.Matrix.Length;
+            mNbPixel = Primitive.ThermalSensor.MatrixArray.Length;
             mThermalSensorDataArray = new int[mNbPixel];
         }
 
@@ -38,7 +38,7 @@ namespace BuddyApp.Recipe
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mThermalSensorDataArray = Primitive.ThermalSensor.Matrix;
+            mThermalSensorDataArray = Primitive.ThermalSensor.MatrixArray;
             mAverage = 0.0F;
             for (int i = 0; i < mThermalSensorDataArray.Length; i++)
                 mAverage += mThermalSensorDataArray[i];
