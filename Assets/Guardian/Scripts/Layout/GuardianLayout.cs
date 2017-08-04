@@ -9,26 +9,26 @@ namespace BuddyApp.Guardian
 	public class GuardianLayout : AWindowLayout
 	{
 		private LabeledButton mHeadOrientation;
-		private GaugeOnOff mMovementDetection;
-		private LabeledButton mMovementDebug;
+		private OnOff mMovementDetection;
+		//private LabeledButton mMovementDebug;
 		private GaugeOnOff mSoundDetection;
 		private LabeledButton mSoundDebug;
 		private OnOff mFireDetection;
 		private LabeledButton mFireDebug;
 		private OnOff mKidnappingDetection;
+		private LabeledButton mAddContact;
 		private Dropdown mContacts;
 
 		public override void Build()
 		{
 			Title = BYOS.Instance.Dictionary.GetString("detectionparameters");
-
 			CreateWidgets();
 
 			mMovementDetection.IsActive = GuardianData.Instance.MovementDetection;
-			mMovementDetection.DisplayPercentage = true;
-			mMovementDetection.Slider.wholeNumbers = true;
-			mMovementDetection.Slider.maxValue = 100;
-			mMovementDetection.Slider.value = GuardianData.Instance.MovementDetectionThreshold;
+			//mMovementDetection.DisplayPercentage = true;
+			//mMovementDetection.Slider.wholeNumbers = true;
+			//mMovementDetection.Slider.maxValue = 100;
+			//mMovementDetection.Slider.value = GuardianData.Instance.MovementDetectionThreshold;
 
 			mSoundDetection.IsActive = GuardianData.Instance.SoundDetection;
 			mSoundDetection.DisplayPercentage = true;
@@ -54,13 +54,14 @@ namespace BuddyApp.Guardian
 		private void CreateWidgets()
 		{
 			mHeadOrientation = CreateWidget<LabeledButton>();
-			mMovementDetection = CreateWidget<GaugeOnOff>();
-			mMovementDebug = CreateWidget<LabeledButton>();
+			//mMovementDebug = CreateWidget<LabeledButton>();
 			mSoundDetection = CreateWidget<GaugeOnOff>();
 			mSoundDebug = CreateWidget<LabeledButton>();
 			mFireDetection = CreateWidget<OnOff>();
 			mFireDebug = CreateWidget<LabeledButton>();
+			mMovementDetection = CreateWidget<OnOff>();
 			mKidnappingDetection = CreateWidget<OnOff>();
+			mAddContact = CreateWidget<LabeledButton>();
 			mContacts = CreateWidget<Dropdown>();
 		}
 
@@ -68,8 +69,8 @@ namespace BuddyApp.Guardian
 		{
 			mHeadOrientation.OuterLabel = BYOS.Instance.Dictionary.GetString("headorientation");
 			mHeadOrientation.InnerLabel = BYOS.Instance.Dictionary.GetString("changeheadorientation");
-			mMovementDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("movementsensibility");
-			mMovementDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
+			//mMovementDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("movementsensibility");
+			//mMovementDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
 			mFireDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("testfiredetection");
 			mFireDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("thermicview");
 			mSoundDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("noisesensibility");
@@ -78,23 +79,22 @@ namespace BuddyApp.Guardian
 			mFireDetection.Label = BYOS.Instance.Dictionary.GetString("firedetection");
 			mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");
 			mSoundDetection.Label = BYOS.Instance.Dictionary.GetString("sounddetection");
+			mAddContact.OuterLabel = BYOS.Instance.Dictionary.GetString("addcontact");
+			mAddContact.InnerLabel = BYOS.Instance.Dictionary.GetString("add");
 			mContacts.Label = BYOS.Instance.Dictionary.GetString("whotocontact");
 		}
 
 		private void RegisterEvents()
 		{
 			mHeadOrientation.OnClickEvent(() => { GuardianData.Instance.HeadOrientation = true; });
-			mMovementDebug.OnClickEvent(() => { GuardianData.Instance.MovementDebug = true; });
+			//mMovementDebug.OnClickEvent(() => { GuardianData.Instance.MovementDebug = true; });
 			mSoundDebug.OnClickEvent(() => { GuardianData.Instance.SoundDebug = true; });
 			mFireDebug.OnClickEvent(() => { GuardianData.Instance.FireDebug = true; });
+			mAddContact.OnClickEvent(() => { GuardianData.Instance.AddContact = true; });
 
-			mMovementDetection.OnSwitchEvent((bool iVal) => {
-				GuardianData.Instance.MovementDetection = iVal;
-			});
-
-			mMovementDetection.OnUpdateEvent((int iVal) => {
-				GuardianData.Instance.MovementDetectionThreshold = iVal;
-			});
+			//mMovementDetection.OnUpdateEvent((int iVal) => {
+			//	GuardianData.Instance.MovementDetectionThreshold = iVal;
+			//});
 
 			mSoundDetection.OnSwitchEvent((bool iVal) => {
 				GuardianData.Instance.SoundDetection = iVal;
@@ -106,6 +106,10 @@ namespace BuddyApp.Guardian
 
 			mFireDetection.OnSwitchEvent((bool iVal) => {
 				GuardianData.Instance.FireDetection = iVal;
+			});
+
+			mMovementDetection.OnSwitchEvent((bool iVal) => {
+				GuardianData.Instance.MovementDetection = iVal;
 			});
 
 			mKidnappingDetection.OnSwitchEvent((bool iVal) => {

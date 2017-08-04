@@ -37,8 +37,8 @@ namespace BuddyApp.Guardian
 		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			mGoBack = false;
-			mMotors = BYOS.Instance.Primitive.Motors;
-			mRGBCam = BYOS.Instance.Primitive.RGBCam;
+			mMotors = Primitive.Motors;
+			mRGBCam = Primitive.RGBCam;
 			mHeadControllerWindow.HeadControlAnimator.SetTrigger("Open_WHeadController");
 			mHeadControllerWindow.ButtonBack.onClick.AddListener(GoBack);
 			mHeadControllerWindow.ButtonLeft.onClick.AddListener(MoveNoLeft);

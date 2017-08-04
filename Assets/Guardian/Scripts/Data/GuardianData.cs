@@ -90,10 +90,15 @@ namespace BuddyApp.Guardian
         /// </summary>
         public bool FireDebug { get; set; }
 
-        /// <summary>
-        /// Contact who will receive the notifications
-        /// </summary>
-        public Contacts Contact { get; set; }
+		/// <summary>
+		/// Is true when the button add contact in the parameter has been pressed
+		/// </summary>
+		public bool AddContact { get; set; }
+
+		/// <summary>
+		/// Contact who will receive the notifications
+		/// </summary>
+		public Contacts Contact { get; set; }
 
         public static GuardianData Instance
         {
