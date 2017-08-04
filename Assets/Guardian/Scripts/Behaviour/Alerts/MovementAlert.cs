@@ -48,9 +48,9 @@ namespace BuddyApp.Guardian
             mSaveVideo.Save("monitoring.avi");
 
             using (ZipFile zip = new ZipFile()) {
-                string filepath = Path.Combine(Application.persistentDataPath, "monitoring.avi");
+                string filepath = BYOS.Instance.Resources.PathToRaw("monitoring.avi");
                 zip.AddFile(filepath, "video");
-                zip.Save(Path.Combine(Application.persistentDataPath, "video.zip"));
+                zip.Save(BYOS.Instance.Resources.PathToRaw("video.zip"));
             }
 
             EMail lMail = new EMail("Movement alert", FormatMessage("movementalertmessage"));

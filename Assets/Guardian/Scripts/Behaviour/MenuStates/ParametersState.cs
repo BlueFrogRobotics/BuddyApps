@@ -12,7 +12,7 @@ namespace BuddyApp.Guardian
     /// </summary>
     public class ParametersState : AStateMachineBehaviour
     {
-        private DetectionLayout mDetectionLayout;
+        private GuardianLayout mDetectionLayout;
         private bool mHasSwitchState = false;
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace BuddyApp.Guardian
 
         public override void Start()
         {
-            mDetectionLayout = new DetectionLayout();
+            mDetectionLayout = new GuardianLayout();
             mHasSwitchState = false;
         }
 
@@ -39,7 +39,7 @@ namespace BuddyApp.Guardian
             GuardianData.Instance.SoundDebug = false;
             GuardianData.Instance.FireDebug = false;
 
-            mDetectionLayout = new DetectionLayout();
+            mDetectionLayout = new GuardianLayout();
             mHasSwitchState = false;
             BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout,
                 () => { Trigger("NextStep"); },
@@ -73,8 +73,9 @@ namespace BuddyApp.Guardian
 
         private void SwitchState(Animator iAnimator, ParameterWindow iParamWindow)
         {
-            Toaster.Display<BackgroundToast>().With();
-            mHasSwitchState = true;
+			Toaster.Hide();
+			//Toaster.Display<BackgroundToast>().With();
+			mHasSwitchState = true;
             Detection.NoiseStimulus.enabled = true;
             SetThreshold();
             iAnimator.SetInteger("DebugMode", (int)iParamWindow);

@@ -90,15 +90,15 @@ namespace BuddyApp.Reminder
 
         public void SerializeList()
         {
-            string lPath = Path.Combine(Application.persistentDataPath, "reminder_list.xml");
+            string lPath = BYOS.Instance.Resources.PathToRaw("reminder_list.xml");
             Debug.Log("chemin: " + lPath);
             Utils.SerializeXML<ReminderContent>(ReminderContent, lPath);
         }
 
         public void UnSerializeList()
         {
-            string lPath = Path.Combine(Application.persistentDataPath, "reminder_list.xml");
-            ReminderContent = Utils.UnserializeXML<ReminderContent>(lPath);
+            string lPath = BYOS.Instance.Resources.PathToRaw("reminder_list.xml");
+			ReminderContent = Utils.UnserializeXML<ReminderContent>(lPath);
             if(ReminderContent==null)
             {
                 ReminderContent = new ReminderContent();

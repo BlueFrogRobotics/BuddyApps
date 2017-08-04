@@ -5,152 +5,146 @@ using Buddy.UI;
 
 namespace BuddyApp.Guardian
 {
-    /// <summary>
-    /// State which show the window to set the head orientation and get the camera stream
-    /// </summary>
-    public class HeadControlState : AStateMachineBehaviour
-    {
-        private Motors mMotors;
-        private RGBCam mRGBCam;
+	/// <summary>
+	/// State which show the window to set the head orientation and get the camera stream
+	/// </summary>
+	public class HeadControlState : AStateMachineBehaviour
+	{
+		private Motors mMotors;
+		private RGBCam mRGBCam;
 
-        private float mNoSpeed = 30.0F;
+		private float mNoSpeed = 30.0F;
 
-        private float mYesSpeed = 30.0F;
-        private float mYesAngle = 0.0F;
-        private float mNoAngle = 0.0F;
+		private float mYesSpeed = 30.0F;
+		private float mYesAngle = 0.0F;
+		private float mNoAngle = 0.0F;
 
-        private bool mYesUp = false;
-        private bool mYesDown = false;
-        private bool mNoLeft = false;
-        private bool mNoRight = false;
+		private bool mYesUp = false;
+		private bool mYesDown = false;
+		private bool mNoLeft = false;
+		private bool mNoRight = false;
 
-        private bool mGoBack = false;
+		private bool mGoBack = false;
 
-        private HeadControllerWindow mHeadControllerWindow;
+		private HeadControllerWindow mHeadControllerWindow;
 
-        public override void Start()
-        {
-            mHeadControllerWindow = GetGameObject(StateObject.HEAD_CONTROLLER).GetComponent<HeadControllerWindow>();
-        }
+		public override void Start()
+		{
+			mHeadControllerWindow = GetGameObject(StateObject.HEAD_CONTROLLER).GetComponent<HeadControllerWindow>();
+		}
 
-        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            mGoBack = false;
-            mMotors = BYOS.Instance.Primitive.Motors;
-            mRGBCam = BYOS.Instance.Primitive.RGBCam;
-            mHeadControllerWindow.HeadControlAnimator.SetTrigger("Open_WHeadController");
-            mHeadControllerWindow.ButtonBack.onClick.AddListener(GoBack);
-            mHeadControllerWindow.ButtonLeft.onClick.AddListener(MoveNoLeft);
-            mHeadControllerWindow.ButtonRight.onClick.AddListener(MoveNoRight);
-            mHeadControllerWindow.ButtonUp.onClick.AddListener(MoveYesUp);
-            mHeadControllerWindow.ButtonDown.onClick.AddListener(MoveYesDown);
+		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			mGoBack = false;
+			mMotors = BYOS.Instance.Primitive.Motors;
+			mRGBCam = BYOS.Instance.Primitive.RGBCam;
+			mHeadControllerWindow.HeadControlAnimator.SetTrigger("Open_WHeadController");
+			mHeadControllerWindow.ButtonBack.onClick.AddListener(GoBack);
+			mHeadControllerWindow.ButtonLeft.onClick.AddListener(MoveNoLeft);
+			mHeadControllerWindow.ButtonRight.onClick.AddListener(MoveNoRight);
+			mHeadControllerWindow.ButtonUp.onClick.AddListener(MoveYesUp);
+			mHeadControllerWindow.ButtonDown.onClick.AddListener(MoveYesDown);
 
-        }
+		}
 
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            ControlNoAxis();
-            ControlYesAxis();
-            
-            mHeadControllerWindow.RawCamImage.texture = mRGBCam.FrameTexture2D;
-            mHeadControllerWindow.RawBuddyFaceImage.texture = null; ///TODO: set this texture to Face.framemat 
+		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			ControlNoAxis();
+			ControlYesAxis();
 
-            if (mGoBack && mHeadControllerWindow.HeadControlAnimator.GetCurrentAnimatorStateInfo(0).IsName("WindowHeadController_Gardien_Off"))
-            {
-                animator.SetInteger("DebugMode", -1);
-                mGoBack = false;
-            }
-        }
+			mHeadControllerWindow.RawCamImage.texture = mRGBCam.FrameTexture2D;
+			mHeadControllerWindow.RawBuddyFaceImage.texture = Interaction.Face.Texture;
 
-        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            mHeadControllerWindow.ButtonBack.onClick.RemoveAllListeners();
-            mHeadControllerWindow.ButtonLeft.onClick.RemoveAllListeners();
-            mHeadControllerWindow.ButtonRight.onClick.RemoveAllListeners();
-            mHeadControllerWindow.ButtonUp.onClick.RemoveAllListeners();
-            mHeadControllerWindow.ButtonDown.onClick.RemoveAllListeners();
-            
-        }
+			if (mGoBack && mHeadControllerWindow.HeadControlAnimator.GetCurrentAnimatorStateInfo(0).IsName("WindowHeadController_Gardien_Off")) {
+				animator.SetInteger("DebugMode", -1);
+				mGoBack = false;
+			}
+		}
 
-        /// <summary>
-        /// Function to control the head hinge
-        /// </summary>
-        private void ControlNoAxis()
-        {
-            bool lChanged = false;
-            if (mNoLeft)
-            {
-                mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 15;
-                lChanged = true;
-                mNoLeft = false;
-            }
+		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			mHeadControllerWindow.ButtonBack.onClick.RemoveAllListeners();
+			mHeadControllerWindow.ButtonLeft.onClick.RemoveAllListeners();
+			mHeadControllerWindow.ButtonRight.onClick.RemoveAllListeners();
+			mHeadControllerWindow.ButtonUp.onClick.RemoveAllListeners();
+			mHeadControllerWindow.ButtonDown.onClick.RemoveAllListeners();
 
-            if (mNoRight)
-            {
-                mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 15;
-                lChanged = true;
-                mNoRight = false;
-            }
+		}
 
-            if (lChanged)
-            {
-                mMotors.NoHinge.SetPosition(mNoAngle, mNoSpeed);
-            }
-        }
+		/// <summary>
+		/// Function to control the head hinge
+		/// </summary>
+		private void ControlNoAxis()
+		{
+			bool lChanged = false;
+			if (mNoLeft) {
+				mNoAngle = mMotors.NoHinge.CurrentAnglePosition + 15;
+				lChanged = true;
+				mNoLeft = false;
+			}
 
-        /// <summary>
-        /// Function to control the neck hinge 
-        /// </summary>
-        private void ControlYesAxis()
-        {
-            bool lChanged = false;
-            if (mYesDown)
-            {
-                mYesAngle = mMotors.YesHinge.CurrentAnglePosition + 10;
-                lChanged = true;
-                mYesDown = false;
-            }
+			if (mNoRight) {
+				mNoAngle = mMotors.NoHinge.CurrentAnglePosition - 15;
+				lChanged = true;
+				mNoRight = false;
+			}
 
-            if (mYesUp)
-            {
-                mYesAngle = mMotors.YesHinge.CurrentAnglePosition - 10;
-                lChanged = true;
-                mYesUp = false;
-            }
+			if (lChanged) {
+				mMotors.NoHinge.SetPosition(mNoAngle, mNoSpeed);
+			}
+		}
 
-            if (lChanged)
-                mMotors.YesHinge.SetPosition(mYesAngle, mYesSpeed);
-        }
+		/// <summary>
+		/// Function to control the neck hinge 
+		/// </summary>
+		private void ControlYesAxis()
+		{
+			bool lChanged = false;
+			if (mYesDown) {
+				mYesAngle = mMotors.YesHinge.CurrentAnglePosition + 10;
+				lChanged = true;
+				mYesDown = false;
+			}
 
-        private void MoveNoLeft()
-        {
-            mNoLeft = true;
-        }
+			if (mYesUp) {
+				mYesAngle = mMotors.YesHinge.CurrentAnglePosition - 10;
+				lChanged = true;
+				mYesUp = false;
+			}
 
-        private void MoveNoRight()
-        {
-            mNoRight = true;
-        }
+			if (lChanged)
+				mMotors.YesHinge.SetPosition(mYesAngle, mYesSpeed);
+		}
 
-        private void MoveYesUp()
-        {
-            mYesUp = true;
-        }
+		private void MoveNoLeft()
+		{
+			mNoLeft = true;
+		}
 
-        private void MoveYesDown()
-        {
-            mYesDown = true;
-        }
+		private void MoveNoRight()
+		{
+			mNoRight = true;
+		}
 
-        private void GoBack()
-        {
-            mGoBack = true;
+		private void MoveYesUp()
+		{
+			mYesUp = true;
+		}
 
-            mHeadControllerWindow.HeadControlAnimator.SetTrigger("Close_WHeadController");
-        }
+		private void MoveYesDown()
+		{
+			mYesDown = true;
+		}
 
-    }
+		private void GoBack()
+		{
+			mGoBack = true;
+
+			mHeadControllerWindow.HeadControlAnimator.SetTrigger("Close_WHeadController");
+		}
+
+	}
 }

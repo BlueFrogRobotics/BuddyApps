@@ -6,104 +6,117 @@ using UnityEngine;
 
 namespace BuddyApp.Guardian
 {
-    public class GuardianLayout : AWindowLayout
-    {
-        private LabeledButton mHeadOrientation;
-        private GaugeOnOff mMovementDetection;
-        private LabeledButton mMovementDebug;
-        private GaugeOnOff mSoundDetection;
-        private LabeledButton mSoundDebug;
-        private OnOff mFireDetection;
-        private LabeledButton mFireDebug;
-        private OnOff mKidnappingDetection;
-        private Dropdown mContacts;
+	public class GuardianLayout : AWindowLayout
+	{
+		private LabeledButton mHeadOrientation;
+		private GaugeOnOff mMovementDetection;
+		private LabeledButton mMovementDebug;
+		private GaugeOnOff mSoundDetection;
+		private LabeledButton mSoundDebug;
+		private OnOff mFireDetection;
+		private LabeledButton mFireDebug;
+		private OnOff mKidnappingDetection;
+		private Dropdown mContacts;
 
-        public override void Build()
-        {
-            Title = BYOS.Instance.Dictionary.GetString("detectionparameters");
-            mHeadOrientation = CreateWidget<LabeledButton>();
-            mMovementDetection = CreateWidget<GaugeOnOff>();
-            mMovementDebug = CreateWidget<LabeledButton>();
-            mSoundDetection = CreateWidget<GaugeOnOff>();
-            mSoundDebug = CreateWidget<LabeledButton>();
-            mFireDetection = CreateWidget<OnOff>();
-            mFireDebug = CreateWidget<LabeledButton>();
-            mKidnappingDetection = CreateWidget<OnOff>();
-            mContacts = CreateWidget<Dropdown>();
+		public override void Build()
+		{
+			Title = BYOS.Instance.Dictionary.GetString("detectionparameters");
 
-            mMovementDetection.IsActive = GuardianData.Instance.MovementDetection;
-            mMovementDetection.DisplayPercentage = true;
-            mMovementDetection.Slider.wholeNumbers = true;
-            mMovementDetection.Slider.value = GuardianData.Instance.MovementDetectionThreshold;
+			CreateWidgets();
 
-            mSoundDetection.IsActive = GuardianData.Instance.SoundDetection;
-            mSoundDetection.DisplayPercentage = true;
-            mSoundDetection.Slider.wholeNumbers = true;
-            mSoundDetection.Slider.value = GuardianData.Instance.SoundDetectionThreshold;
+			mMovementDetection.IsActive = GuardianData.Instance.MovementDetection;
+			mMovementDetection.DisplayPercentage = true;
+			mMovementDetection.Slider.wholeNumbers = true;
+			mMovementDetection.Slider.maxValue = 100;
+			mMovementDetection.Slider.value = GuardianData.Instance.MovementDetectionThreshold;
 
-            mFireDetection.IsActive = GuardianData.Instance.FireDetection;
-            mKidnappingDetection.IsActive = GuardianData.Instance.KidnappingDetection;
+			mSoundDetection.IsActive = GuardianData.Instance.SoundDetection;
+			mSoundDetection.DisplayPercentage = true;
+			mSoundDetection.Slider.wholeNumbers = true;
+			mSoundDetection.Slider.maxValue = 100;
+			mSoundDetection.Slider.value = GuardianData.Instance.SoundDetectionThreshold;
 
-            mHeadOrientation.OnClickEvent(() => { GuardianData.Instance.HeadOrientation = true; });
-            mMovementDebug.OnClickEvent(() => { GuardianData.Instance.MovementDebug = true; });
-            mSoundDebug.OnClickEvent(() => { GuardianData.Instance.SoundDebug = true; });
-            mFireDebug.OnClickEvent(() => { GuardianData.Instance.FireDebug = true; });
+			mFireDetection.IsActive = GuardianData.Instance.FireDetection;
+			mKidnappingDetection.IsActive = GuardianData.Instance.KidnappingDetection;
 
-            mMovementDetection.OnSwitchEvent((bool iVal) => {
-                GuardianData.Instance.MovementDetection = iVal;
-            });
+			RegisterEvents();
 
-            mMovementDetection.OnUpdateEvent((int iVal) => {
-                GuardianData.Instance.MovementDetectionThreshold = iVal;
-            });
+			foreach (GuardianData.Contacts lContact in Enum.GetValues(typeof(GuardianData.Contacts)))
+				mContacts.AddOption(lContact.ToString(), lContact);
 
-            mSoundDetection.OnSwitchEvent((bool iVal) => {
-                GuardianData.Instance.SoundDetection = iVal;
-            });
+			mContacts.SetDefault((int)GuardianData.Instance.Contact);
 
-            mSoundDetection.OnUpdateEvent((int iVal) => {
-                GuardianData.Instance.SoundDetectionThreshold = iVal;
-            });
+			mContacts.OnSelectEvent((string iLabel, object iAttachedObj, int iIndex) => {
+				GuardianData.Instance.Contact = (GuardianData.Contacts)iAttachedObj;
+			});
+		}
 
-            mFireDetection.OnSwitchEvent((bool iVal) => {
-                GuardianData.Instance.FireDetection = iVal;
-            });
+		private void CreateWidgets()
+		{
+			mHeadOrientation = CreateWidget<LabeledButton>();
+			mMovementDetection = CreateWidget<GaugeOnOff>();
+			mMovementDebug = CreateWidget<LabeledButton>();
+			mSoundDetection = CreateWidget<GaugeOnOff>();
+			mSoundDebug = CreateWidget<LabeledButton>();
+			mFireDetection = CreateWidget<OnOff>();
+			mFireDebug = CreateWidget<LabeledButton>();
+			mKidnappingDetection = CreateWidget<OnOff>();
+			mContacts = CreateWidget<Dropdown>();
+		}
 
-            mKidnappingDetection.OnSwitchEvent((bool iVal) => {
-                GuardianData.Instance.KidnappingDetection = iVal;
-            });
+		public override void LabelizeWidgets()
+		{
+			mHeadOrientation.OuterLabel = BYOS.Instance.Dictionary.GetString("headorientation");
+			mHeadOrientation.InnerLabel = BYOS.Instance.Dictionary.GetString("changeheadorientation");
+			mMovementDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("movementsensibility");
+			mMovementDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
+			mFireDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("testfiredetection");
+			mFireDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("thermicview");
+			mSoundDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("noisesensibility");
+			mSoundDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
+			mMovementDetection.Label = BYOS.Instance.Dictionary.GetString("movementdetection");
+			mFireDetection.Label = BYOS.Instance.Dictionary.GetString("firedetection");
+			mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");
+			mSoundDetection.Label = BYOS.Instance.Dictionary.GetString("sounddetection");
+			mContacts.Label = BYOS.Instance.Dictionary.GetString("whotocontact");
+		}
 
-            foreach (GuardianData.Contacts lContact in Enum.GetValues(typeof(GuardianData.Contacts)))
-                mContacts.AddOption(lContact.ToString(), lContact);
+		private void RegisterEvents()
+		{
+			mHeadOrientation.OnClickEvent(() => { GuardianData.Instance.HeadOrientation = true; });
+			mMovementDebug.OnClickEvent(() => { GuardianData.Instance.MovementDebug = true; });
+			mSoundDebug.OnClickEvent(() => { GuardianData.Instance.SoundDebug = true; });
+			mFireDebug.OnClickEvent(() => { GuardianData.Instance.FireDebug = true; });
 
-            mContacts.SetDefault((int)GuardianData.Instance.Contact);
+			mMovementDetection.OnSwitchEvent((bool iVal) => {
+				GuardianData.Instance.MovementDetection = iVal;
+			});
 
-            mContacts.OnSelectEvent((string iLabel, object iAttachedObj, int iIndex) => {
-                GuardianData.Instance.Contact = (GuardianData.Contacts)iAttachedObj;
-            });
-        }
+			mMovementDetection.OnUpdateEvent((int iVal) => {
+				GuardianData.Instance.MovementDetectionThreshold = iVal;
+			});
 
-         public override void LabelizeWidgets()
-        {
-            mHeadOrientation.OuterLabel = BYOS.Instance.Dictionary.GetString("headorientation");
-            mHeadOrientation.InnerLabel = BYOS.Instance.Dictionary.GetString("changeheadorientation");
-            mMovementDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("movementsensibility");
-            mMovementDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
-            mFireDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("testfiredetection");
-            mFireDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("thermicview");
-            mSoundDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("noisesensibility");
-            mSoundDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
-            mMovementDetection.Label = BYOS.Instance.Dictionary.GetString("movementdetection");
-            mFireDetection.Label = BYOS.Instance.Dictionary.GetString("firedetection");
-            mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");
-            mSoundDetection.Label = BYOS.Instance.Dictionary.GetString("sounddetection");
-            mContacts.Label = BYOS.Instance.Dictionary.GetString("whotocontact");
-        }
+			mSoundDetection.OnSwitchEvent((bool iVal) => {
+				GuardianData.Instance.SoundDetection = iVal;
+			});
 
-        public override void Update()
-        {
-            //if (!IsDisplayed)
-                Debug.Log("Desactive");
-        }
-    }
+			mSoundDetection.OnUpdateEvent((int iVal) => {
+				GuardianData.Instance.SoundDetectionThreshold = iVal;
+			});
+
+			mFireDetection.OnSwitchEvent((bool iVal) => {
+				GuardianData.Instance.FireDetection = iVal;
+			});
+
+			mKidnappingDetection.OnSwitchEvent((bool iVal) => {
+				GuardianData.Instance.KidnappingDetection = iVal;
+			});
+		}
+
+		public override void Update()
+		{
+			//if (!IsDisplayed)
+			Debug.Log("Desactive");
+		}
+	}
 }
