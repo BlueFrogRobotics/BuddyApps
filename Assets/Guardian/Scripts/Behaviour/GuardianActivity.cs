@@ -25,7 +25,7 @@ namespace BuddyApp.Guardian
         {
             sDetectionManager.UnlinkDetectorsEvents();
 
-            string lMailAddress = GuardianData.Instance.ContactAddress;
+            string lMailAddress = GuardianData.Instance.Contact.Email;
             Debug.Log(lMailAddress);
             if (string.IsNullOrEmpty(lMailAddress) || string.IsNullOrEmpty(sDetectionManager.Logs))
                 return;

@@ -38,7 +38,7 @@ namespace BuddyApp.Guardian
             mAction = DisplayAlert();
             StartCoroutine(mAction);
 
-            string lMailAddress = GuardianData.Instance.ContactAddress;
+            string lMailAddress = GuardianData.Instance.Contact.Email;
             if (!string.IsNullOrEmpty(lMailAddress))
                 SendMail(lMailAddress);
 

@@ -16,7 +16,7 @@ namespace BuddyApp.Guardian
 		private OnOff mFireDetection;
 		private LabeledButton mFireDebug;
 		private OnOff mKidnappingDetection;
-		private LabeledButton mAddContact;
+		private OnOff mSendMail;
 		private Dropdown mContacts;
 
 		public override void Build()
@@ -38,18 +38,20 @@ namespace BuddyApp.Guardian
 
 			mFireDetection.IsActive = GuardianData.Instance.FireDetection;
 			mKidnappingDetection.IsActive = GuardianData.Instance.KidnappingDetection;
-
+			mSendMail.IsActive = GuardianData.Instance.SendMail;
+			
 			RegisterEvents();
 
-			foreach (GuardianData.Contacts lContact in Enum.GetValues(typeof(GuardianData.Contacts)))
-				mContacts.AddOption(lContact.ToString(), lContact);
+			//foreach (GuardianData.Contacts lContact in Enum.GetValues(typeof(GuardianData.Contacts)))
+			//	mContacts.AddOption(lContact.ToString(), lContact);
+			foreach (UserAccount lUser in BYOS.Instance.DataBase.GetUsers())
+				mContacts.AddOption(lUser.FirstName + " " + lUser.LastName, lUser);
 
-			mContacts.SetDefault((int)GuardianData.Instance.Contact);
+			mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 
-			mContacts.OnSelectEvent((string iLabel, object iAttachedObj, int iIndex) => {
-				GuardianData.Instance.Contact = (GuardianData.Contacts)iAttachedObj;
-			});
-		}
+
+			mContacts.enabled = mSendMail.IsActive;
+        }
 
 		private void CreateWidgets()
 		{
@@ -61,7 +63,7 @@ namespace BuddyApp.Guardian
 			mFireDebug = CreateWidget<LabeledButton>();
 			mMovementDetection = CreateWidget<OnOff>();
 			mKidnappingDetection = CreateWidget<OnOff>();
-			mAddContact = CreateWidget<LabeledButton>();
+			mSendMail = CreateWidget<OnOff>();
 			mContacts = CreateWidget<Dropdown>();
 		}
 
@@ -79,8 +81,7 @@ namespace BuddyApp.Guardian
 			mFireDetection.Label = BYOS.Instance.Dictionary.GetString("firedetection");
 			mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");
 			mSoundDetection.Label = BYOS.Instance.Dictionary.GetString("sounddetection");
-			mAddContact.OuterLabel = BYOS.Instance.Dictionary.GetString("addcontact");
-			mAddContact.InnerLabel = BYOS.Instance.Dictionary.GetString("add");
+			mSendMail.Label = BYOS.Instance.Dictionary.GetString("mailnotif", LoadContext.APP);
 			mContacts.Label = BYOS.Instance.Dictionary.GetString("whotocontact");
 		}
 
@@ -90,7 +91,6 @@ namespace BuddyApp.Guardian
 			//mMovementDebug.OnClickEvent(() => { GuardianData.Instance.MovementDebug = true; });
 			mSoundDebug.OnClickEvent(() => { GuardianData.Instance.SoundDebug = true; });
 			mFireDebug.OnClickEvent(() => { GuardianData.Instance.FireDebug = true; });
-			mAddContact.OnClickEvent(() => { GuardianData.Instance.AddContact = true; });
 
 			//mMovementDetection.OnUpdateEvent((int iVal) => {
 			//	GuardianData.Instance.MovementDetectionThreshold = iVal;
@@ -115,6 +115,15 @@ namespace BuddyApp.Guardian
 			mKidnappingDetection.OnSwitchEvent((bool iVal) => {
 				GuardianData.Instance.KidnappingDetection = iVal;
 			});
+
+			mSendMail.OnSwitchEvent((bool iVal) => {
+				mContacts.gameObject.SetActive(iVal);
+			});
+
+			mContacts.OnSelectEvent((string iLabel, object iAttachedObj, int iIndex) => {
+				GuardianData.Instance.Contact = (UserAccount)iAttachedObj;
+			});
+
 		}
 
 		public override void Update()

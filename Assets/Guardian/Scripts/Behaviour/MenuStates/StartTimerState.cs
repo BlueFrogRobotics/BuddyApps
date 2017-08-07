@@ -19,7 +19,9 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Interaction.TextToSpeech.SayKey("startdetectiontimer");
+
+			//BYOS.Instance.Header.DisplayParameters = true;
+			Interaction.TextToSpeech.SayKey("startdetectiontimer");
             mStartTimer = false;
             //Detection.SoundDetector.StartMic();
         }
