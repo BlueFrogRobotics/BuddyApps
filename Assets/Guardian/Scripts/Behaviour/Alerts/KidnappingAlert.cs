@@ -7,27 +7,27 @@ using UnityEngine;
 
 namespace BuddyApp.Guardian
 {
-    public class KidnappingAlert : AAlert
-    {
-        public override string GetDisplayText()
-        {
-            return BYOS.Instance.Dictionary.GetString("kidnappingalert");
-        }
+	public class KidnappingAlert : AAlert
+	{
+		public override string GetDisplayText()
+		{
+			return BYOS.Instance.Dictionary.GetString("kidnappingalert");
+		}
 
-        public override string GetSpeechText()
-        {
-            return BYOS.Instance.Dictionary.GetRandomString("kidnappingalert");
-        }
+		public override string GetSpeechText()
+		{
+			return BYOS.Instance.Dictionary.GetRandomString("kidnappingalert");
+		}
 
-        public override Sprite GetIcon()
-        {
-            return BYOS.Instance.Resources.GetSprite("Kidnapping_Alert", "GuardianAtlas");
-        }
+		public override Sprite GetIcon()
+		{
+			return BYOS.Instance.Resources.GetSprite("Kidnapping_Alert", "GuardianAtlas");
+		}
 
-        public override string GetLog()
-        {
-            return FormatLog("kidnappingalertmessage");
-        }
+		public override string GetLog()
+		{
+			return FormatLog("kidnappingalert");
+		}
 
-    }
+	}
 }

@@ -39,11 +39,17 @@ namespace BuddyApp.Guardian
 			GuardianData.Instance.SoundDebug = false;
 			GuardianData.Instance.FireDebug = false;
 
-			mDetectionLayout = new GuardianLayout();
+			//mDetectionLayout = new GuardianLayout();
 			mHasSwitchState = false;
+
+			if (GuardianData.Instance.FirstRun)
+				Interaction.TextToSpeech.SayKey("firstparam");
+
+
 			//BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout,
 			//	() => { Trigger("NextStep"); },
 			//	() => { Trigger("Back"); });
+
 			BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout,
 				// TODO: modify this!
 				() => { Trigger("Back"); },
@@ -67,7 +73,9 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			BYOS.Instance.Toaster.Hide();
 			GuardianData.Instance.FirstRun = false;
+			//mDetectionLayout.mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 		}
 
 		private void SetThreshold()

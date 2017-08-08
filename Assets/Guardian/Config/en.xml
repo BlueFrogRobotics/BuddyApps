@@ -3,12 +3,13 @@
     <Entries>
         <DictionaryEntry>
             <Key>askchoices</Key>
-            <BaseValue>Which mode do you want ?</BaseValue>
+            <BaseValue>Should I launch the watch or set the parameters?</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Which mode do you want. Fixed or mobile?</string>
+                <string>Should I launch the watch or set the parameters?</string>
+                <string />
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -142,7 +143,13 @@
             <Key>detectionparameters</Key>
             <BaseValue>Parameters</BaseValue>
             <ClosePhoneticValues>
-                <string />
+                <string>parameters</string>
+                <string>parameter</string>
+                <string>configuration</string>
+                <string>parameterize</string>
+                <string>settings</string>
+                <string>set</string>
+                <string>setting</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
@@ -340,12 +347,47 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>modifyparam</Key>
-            <BaseValue>MODIFY PARAMETERS</BaseValue>
+            <BaseValue>Modify parameters</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>start</Key>
+            <BaseValue>Start watch</BaseValue>
+            <ClosePhoneticValues>
+                <string>Start</string>
+                <string>launch</string>
+                <string>begin</string>
+                <string>surveillance</string>
+                <string>watch</string>
+                <string>activate</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Start the watch</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firstmenu</Key>
+            <BaseValue>Welcome to guardian mode, before starting the watch, we need to set the parameters. Click on the button parameter or say "set the parameters".</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Welcome to guardian mode [500] before starting the watch, we need to set the parameters. [500] Click on the button parameter [200] or say set the parameters.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firstparam</Key>
+            <BaseValue>In this panel, you can set the parameters of surveillance as you wish. Hit the validate button when you are done.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>In this panel, you can set the parameters as you wish. Hit the validate button when you are done.</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

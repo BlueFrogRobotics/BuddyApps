@@ -16,8 +16,8 @@ namespace BuddyApp.Guardian
 	/// </summary>
 	public class MenuState : AStateMachineBehaviour
 	{
-		private List<string> mFixedPhonetics;
-		private List<string> mMobilePhonetics;
+		private List<string> mStartPhonetics;
+		private List<string> mParameterPhonetics;
 		private List<string> mQuitPhonetics;
 
 		private string mSpeechReco;
@@ -30,17 +30,23 @@ namespace BuddyApp.Guardian
 		public override void Start()
 		{
 			BYOS.Instance.Header.DisplayParameters = false;
-			mFixedPhonetics = new List<string>(Dictionary.GetPhoneticStrings("fixed"));
-			mMobilePhonetics = new List<string>(Dictionary.GetPhoneticStrings("mobile"));
+			mStartPhonetics = new List<string>(Dictionary.GetPhoneticStrings("start"));
+			mParameterPhonetics = new List<string>(Dictionary.GetPhoneticStrings("detectionparameters"));
 			mQuitPhonetics = new List<string>(Dictionary.GetPhoneticStrings("quit"));
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			Debug.Log("============== Menu default contact: " + GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
+
+
 			BYOS.Instance.Header.DisplayParameters = false;
 			AAppActivity.UnlockScreen();
 
-			Interaction.TextToSpeech.SayKey("askchoices");
+			if (GuardianData.Instance.FirstRun)
+				Interaction.TextToSpeech.SayKey("firstmenu");
+			else
+				Interaction.TextToSpeech.SayKey("askchoices");
 
 			Detection.NoiseStimulus.enabled = false;
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
@@ -82,14 +88,16 @@ namespace BuddyApp.Guardian
 				mListening = true;
 				return;
 			}
-
-			if (mFixedPhonetics.Contains(mSpeechReco)) {
+			if (ContainsOneOf(mSpeechReco, mStartPhonetics)) {
 				BYOS.Instance.Toaster.Hide();
-				SwitchGuardianMode(GuardianMode.FIXED);
-			} else if (mMobilePhonetics.Contains(mSpeechReco)) {
+				if (GuardianData.Instance.FirstRun)
+					GotoParameter();
+				else
+					StartGuardian();
+			} else if (ContainsOneOf(mSpeechReco, mParameterPhonetics)) {
 				BYOS.Instance.Toaster.Hide();
-				SwitchGuardianMode(GuardianMode.MOBILE);
-			} else if (mQuitPhonetics.Contains(mSpeechReco)) {
+				GotoParameter();
+			} else if (ContainsOneOf(mSpeechReco, mQuitPhonetics)) {
 				BYOS.Instance.Toaster.Hide();
 				QuitApp();
 			} else {
@@ -116,35 +124,27 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		private void DisplayChoices()
 		{
+			// The 1st time, we go through the parameter, without showing the button.
 			if (GuardianData.Instance.FirstRun) {
-				BYOS.Instance.Toaster.Display<ChoiceToast>().With("Mode", new ButtonInfo[] {
+				BYOS.Instance.Toaster.Display<ChoiceToast>().With("", new ButtonInfo[] {
 				new ButtonInfo {
-					Label = Dictionary.GetString("fixed"),
-					OnClick = delegate() { SwitchGuardianMode(GuardianMode.FIXED); }
-				},
-
-				new ButtonInfo {
-					Label = Dictionary.GetString("mobile"),
-					OnClick = delegate() { SwitchGuardianMode(GuardianMode.MOBILE); }
+					Label = Dictionary.GetString("detectionparameters"),
+					OnClick = delegate() { GotoParameter(); }
 				},
 
 				new ButtonInfo { Label = Dictionary.GetString("quit"), OnClick = QuitApp },
 			});
+				// The other time, we show parameters in the menu
 			} else {
-				BYOS.Instance.Toaster.Display<ChoiceToast>().With("Mode", new ButtonInfo[] {
+				BYOS.Instance.Toaster.Display<ChoiceToast>().With("", new ButtonInfo[] {
 				new ButtonInfo {
-					Label = Dictionary.GetString("fixed"),
-					OnClick = delegate() { SwitchGuardianMode(GuardianMode.FIXED); }
-				},
-
-				new ButtonInfo {
-					Label = Dictionary.GetString("mobile"),
-					OnClick = delegate() { SwitchGuardianMode(GuardianMode.MOBILE); }
+					Label = Dictionary.GetString("start"),
+					OnClick = delegate() { StartGuardian(); }
 				},
 
 				new ButtonInfo {
 					Label = Dictionary.GetString("modifyparam"),
-					OnClick = delegate() { Trigger("Parameter"); }
+					OnClick = delegate() { GotoParameter(); }
 				},
 
 				new ButtonInfo { Label = Dictionary.GetString("quit"), OnClick = QuitApp },
@@ -161,18 +161,45 @@ namespace BuddyApp.Guardian
 		}
 
 		/// <summary>
-		/// Set the monitoring mode and go to the next state
+		/// Go to the next state
 		/// </summary>
 		/// <param name="iMode">the chosen mode</param>
-		private void SwitchGuardianMode(GuardianMode iMode)
+		private void StartGuardian()
 		{
 			mSpeechReco = null;
-			GuardianData.Instance.Mode = iMode;
-			if (GuardianData.Instance.FirstRun)
-				Trigger("Parameter");
-			else
-				Trigger("NextStep");
+			Trigger("NextStep");
 			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
 		}
+
+		/// <summary>
+		/// Go to parameters
+		/// </summary>
+		/// <param name="iMode">the chosen mode</param>
+		private void GotoParameter()
+		{
+			mSpeechReco = null;
+			Trigger("Parameter");
+			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
+		}
+
+		private bool ContainsOneOf(string iSpeech, List<string> iListSpeech)
+		{
+			for (int i = 0; i < iListSpeech.Count; ++i) {
+				string[] words = iListSpeech[i].Split(' ');
+				if (words.Length < 2) {
+					words = iSpeech.Split(' ');
+					foreach (string word in words) {
+						if (word == iListSpeech[i].ToLower()) {
+							return true;
+						}
+					}
+				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+					return true;
+			}
+			return false;
+		}
+
+
+
 	}
 }

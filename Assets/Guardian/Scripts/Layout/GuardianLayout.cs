@@ -15,6 +15,7 @@ namespace BuddyApp.Guardian
 		private LabeledButton mSoundDebug;
 		private OnOff mFireDetection;
 		private LabeledButton mFireDebug;
+		private OnOff mMobileDetection;
 		private OnOff mKidnappingDetection;
 		private OnOff mSendMail;
 		private Dropdown mContacts;
@@ -37,21 +38,34 @@ namespace BuddyApp.Guardian
 			mSoundDetection.Slider.value = GuardianData.Instance.SoundDetectionThreshold;
 
 			mFireDetection.IsActive = GuardianData.Instance.FireDetection;
+			mMobileDetection.IsActive = GuardianData.Instance.MobileDetection;
 			mKidnappingDetection.IsActive = GuardianData.Instance.KidnappingDetection;
 			mSendMail.IsActive = GuardianData.Instance.SendMail;
-			
+
 			RegisterEvents();
+			//Debug.Log("==============pre for each contact: " + GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 
 			//foreach (GuardianData.Contacts lContact in Enum.GetValues(typeof(GuardianData.Contacts)))
 			//	mContacts.AddOption(lContact.ToString(), lContact);
+
+			// When we use AddOption, the callback onselect is call!!!
+			// So we need to save the contact and set it again -_-'
+			// Their should be a cleaner way to do this but...
+
+			UserAccount selected = new UserAccount();
+			selected = GuardianData.Instance.Contact;
+
 			foreach (UserAccount lUser in BYOS.Instance.DataBase.GetUsers())
 				mContacts.AddOption(lUser.FirstName + " " + lUser.LastName, lUser);
 
+			GuardianData.Instance.Contact = selected;
+
+			//Debug.Log("============== post for each contact: " + GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
+
 			mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 
-
 			mContacts.enabled = mSendMail.IsActive;
-        }
+		}
 
 		private void CreateWidgets()
 		{
@@ -62,6 +76,7 @@ namespace BuddyApp.Guardian
 			mFireDetection = CreateWidget<OnOff>();
 			mFireDebug = CreateWidget<LabeledButton>();
 			mMovementDetection = CreateWidget<OnOff>();
+			mMobileDetection = CreateWidget<OnOff>();
 			mKidnappingDetection = CreateWidget<OnOff>();
 			mSendMail = CreateWidget<OnOff>();
 			mContacts = CreateWidget<Dropdown>();
@@ -79,6 +94,7 @@ namespace BuddyApp.Guardian
 			mSoundDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
 			mMovementDetection.Label = BYOS.Instance.Dictionary.GetString("movementdetection");
 			mFireDetection.Label = BYOS.Instance.Dictionary.GetString("firedetection");
+			mMobileDetection.Label = BYOS.Instance.Dictionary.GetString("mobile");
 			mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");
 			mSoundDetection.Label = BYOS.Instance.Dictionary.GetString("sounddetection");
 			mSendMail.Label = BYOS.Instance.Dictionary.GetString("mailnotif", LoadContext.APP);
@@ -112,6 +128,10 @@ namespace BuddyApp.Guardian
 				GuardianData.Instance.MovementDetection = iVal;
 			});
 
+			mMobileDetection.OnSwitchEvent((bool iVal) => {
+				GuardianData.Instance.MobileDetection = iVal;
+			});
+
 			mKidnappingDetection.OnSwitchEvent((bool iVal) => {
 				GuardianData.Instance.KidnappingDetection = iVal;
 			});
@@ -120,8 +140,14 @@ namespace BuddyApp.Guardian
 				mContacts.gameObject.SetActive(iVal);
 			});
 
+
 			mContacts.OnSelectEvent((string iLabel, object iAttachedObj, int iIndex) => {
+				Debug.Log("============== pre onselect: " + GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
+
 				GuardianData.Instance.Contact = (UserAccount)iAttachedObj;
+				Debug.Log("============== onselect: " + GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
+
+				//mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 			});
 
 		}

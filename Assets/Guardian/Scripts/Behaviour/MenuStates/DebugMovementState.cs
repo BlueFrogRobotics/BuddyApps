@@ -12,8 +12,6 @@ namespace BuddyApp.Guardian
     /// </summary>
     public class DebugMovementState : AStateMachineBehaviour
     {
-
-        private Animator mAnimator;
         private Animator mDebugMovementAnimator;
         private MotionDetection mMovementTracker;
 
@@ -55,7 +53,6 @@ namespace BuddyApp.Guardian
             Start();
             mTexture = new Texture2D(mCam.Width, mCam.Height);
             mMask = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3);
-            mAnimator = animator;
             mDebugMovementWindow.ButtonBack.onClick.AddListener(GoBack);
             mTimer = 0.0f;
             mMatRed = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3, new Scalar(254, 0, 0));
@@ -85,7 +82,7 @@ namespace BuddyApp.Guardian
                 }
 
                 if (mHasInitSlider && mDebugMovementAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack) {
-                    mAnimator.SetInteger("DebugMode", -1);
+                    animator.SetInteger("DebugMode", -1);
                     mGoBack = false;
                     mDebugMovementWindow.IcoMouv.enabled = false;
                 }

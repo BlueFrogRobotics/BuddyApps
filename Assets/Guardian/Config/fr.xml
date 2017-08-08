@@ -3,12 +3,12 @@
     <Entries>
         <DictionaryEntry>
             <Key>askchoices</Key>
-            <BaseValue>Quel mode voulez vous ?</BaseValue>
+            <BaseValue>Dois-je lancer la surveillance ou voulez-vous configurer les paramètres?</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Quel mode voulez vous. Fixe ou mobile?</string>
+                <string>Dois-je lancer la surveillance ou voulez-vous configurer les paramètres?</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -141,6 +141,12 @@
             <Key>detectionparameters</Key>
             <BaseValue>Paramètres</BaseValue>
             <ClosePhoneticValues>
+                <string>paramètres</string>
+                <string>paramètre</string>
+                <string>paramètrer</string>
+                <string>configurer</string>
+                <string>configuration</string>
+                <string>configurations</string>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
@@ -339,12 +345,51 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>modifyparam</Key>
-            <BaseValue>MODIFIER LES PARAMETRES</BaseValue>
+            <BaseValue>Modifier les paramètres</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>start</Key>
+            <BaseValue>Démarrer surveillance</BaseValue>
+            <ClosePhoneticValues>
+                <string>Commencer</string>
+                <string>démarrer</string>
+                <string>lancer</string>
+                <string>Commencé</string>
+                <string>démarré</string>
+                <string>lancé</string>
+                <string>Commencez</string>
+                <string>démarrez</string>
+                <string>lancez</string>
+                <string>activer</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Démarrer la surveillance</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firstmenu</Key>
+            <BaseValue>Bienvenu dans l'application de surveillance. Nous allons tout d'abord configurer les paramètres. Appuyez sur le boutton paramètres ou dites "configurer les paramètres".</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Bienvenu dans l'application de surveillance. [500] Nous allons tout d'abord configurer les paramètres. [500] Appuyez sur le boutton paramètres [200] ou dites configurer les paramètres.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firstparam</Key>
+            <BaseValue>Dans cet écran, vous pouvez configurer les paramètres de la surveillance à votre convenance. Appuyez sur valider lorsque vous avez terminé</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Dans cet écran, vous pouvez configurer les paramètres de la surveillance à votre convenance. Appuyez sur valider lorsque vous avez terminé</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

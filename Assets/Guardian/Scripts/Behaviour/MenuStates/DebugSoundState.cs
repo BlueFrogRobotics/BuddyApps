@@ -17,7 +17,6 @@ namespace BuddyApp.Guardian
         private Gauge mGauge;
         private Mat mMatShow;
         private Texture2D mTexture;
-        private Animator mAnimator;
         private Animator mDebugSoundAnimator;
         private float mTimer;
 
@@ -49,7 +48,6 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mAnimator = animator;
             Start();
             mSoundIntensities = new Queue<float>();
             for(int i=0; i<mNbSoundPics; i++)
@@ -97,7 +95,7 @@ namespace BuddyApp.Guardian
 
                 if (mHasInitSlider && mDebugSoundAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
                 {
-                    mAnimator.SetInteger("DebugMode", -1);
+                    animator.SetInteger("DebugMode", -1);
                     GuardianData.Instance.SoundDetectionThreshold = 100 - (int)(mNoiseStimulus.Threshold * 100.0f / DetectionManager.MAX_SOUND_THRESHOLD);
                     mGoBack = false;
                     mDebugSoundWindow.Ico.enabled = false;

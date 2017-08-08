@@ -8,7 +8,6 @@ namespace BuddyApp.Guardian
     {
         private Animator mDebugTempAnimator;
         private ShowTemperature mShowTemperature;
-        private Animator mAnimator;
         private bool mGoBack = false;
         private bool mHasDetectedFire = false;
         private bool mHasOpenedWindow = false;
@@ -20,7 +19,6 @@ namespace BuddyApp.Guardian
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
             mShowTemperature = GetGameObject(StateObject.DEBUG_FIRE).GetComponent<ShowTemperature>();
             mDebugTempAnimator = mShowTemperature.gameObject.GetComponent<Animator>();
-            mAnimator = animator;
             mShowTemperature.ButtonBack.onClick.AddListener(GoBack);
             mGoBack = false;
             mHasDetectedFire = false;
@@ -45,7 +43,7 @@ namespace BuddyApp.Guardian
                 mShowTemperature.UpdateTexture();
                 if (mDebugTempAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
                 {
-                    mAnimator.SetInteger("DebugMode", -1);
+                    animator.SetInteger("DebugMode", -1);
                     mGoBack = false;
                     mShowTemperature.IcoFire.enabled = false;
                 }

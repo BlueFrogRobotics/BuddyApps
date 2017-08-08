@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GuardianData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <Mode>FIXED</Mode>
     <FirstRun>false</FirstRun>
+    <MobileDetection>true</MobileDetection>
     <MovementDetectionThreshold>56</MovementDetectionThreshold>
     <SoundDetectionThreshold>77</SoundDetectionThreshold>
     <MovementDetection>true</MovementDetection>
     <SoundDetection>false</SoundDetection>
     <FireDetection>true</FireDetection>
-    <KidnappingDetection>false</KidnappingDetection>
+    <KidnappingDetection>true</KidnappingDetection>
     <SendMail>true</SendMail>
     <HeadOrientation>false</HeadOrientation>
     <MovementDebug>false</MovementDebug>
@@ -22,5 +22,6 @@
         <Gender>UNKNOWN</Gender>
         <BirthDate>0001-01-01T00:00:00</BirthDate>
         <Session>USER</Session>
+        <Permissions />
     </Contact>
 </GuardianData>
