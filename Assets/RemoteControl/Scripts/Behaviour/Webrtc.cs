@@ -148,7 +148,8 @@ namespace BuddyApp.RemoteControl
 	            {
 	                AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
 
-	                string file = Application.streamingAssetsPath + "/client_cert";
+                    //string file = Application.streamingAssetsPath + "/client_cert";
+                    string file = "";
                     cls.CallStatic("SetupWebrtc", mCrossbarUri, mRealm, jo, mLocalUser, mWebrtcReceiverObjectName, file);
 	            }
 	        }
