@@ -90,7 +90,7 @@ namespace BuddyApp.Guardian
 		{
 			sDetectionManager = (DetectionManager)Objects[0];
 			sDetectionManager.Init();
-			sDetectionManager.LinkDetectorsEvents();
+			//sDetectionManager.LinkDetectorsEvents();
 		}
 
 		private void OnMailSent()

@@ -15,11 +15,15 @@ namespace BuddyApp.Guardian
 	public class DetectionManager : MonoBehaviour
 	{
 
-		public const float MAX_SOUND_THRESHOLD = 0.3f;
-		public const float MAX_MOVEMENT_THRESHOLD = 200.0f;
+		public const float MAX_SOUND_THRESHOLD = 0.3F;
+		public const float KIDNAPPING_THRESHOLD = 4.5F;
+		public const float MAX_MOVEMENT_THRESHOLD = 200.0F;
 
 		private Animator mAnimator;
 		private KidnappingDetection mKidnappingDetection;
+		private MotionDetection mMotionDetection;
+		private NoiseDetection mNoiseDetection;
+		private ThermalDetection mFireDetection;
 
 		public string Logs { get; private set; }
 
@@ -28,11 +32,11 @@ namespace BuddyApp.Guardian
 
 		public RoombaNavigation Roomba { get; private set; }
 
-		public NoiseStimulus NoiseStimulus { get; private set; }
-		public MoveSideStimulus MoveSideStimulus { get; private set; }
-		public ThermalStimulus ThermalStimulus { get; private set; }
-		public AccelerometerStimulus AccelerometerStimulus { get; private set; }
-		public MotionDetection MovementTracker { get; private set; }
+		//public NoiseStimulus NoiseStimulus { get; private set; }
+		//public MoveSideStimulus MoveSideStimulus { get; private set; }
+		//public ThermalStimulus ThermalStimulus { get; private set; }
+		//public AccelerometerStimulus AccelerometerStimulus { get; private set; }
+		//public MotionDetection MovementTracker { get; private set; }
 
 
 		public Stimuli Stimuli { get; set; }
@@ -65,7 +69,7 @@ namespace BuddyApp.Guardian
 		void Start()
 		{
 			Init();
-			LinkDetectorsEvents();
+			//LinkDetectorsEvents();
 		}
 
 		void Update()
@@ -80,8 +84,29 @@ namespace BuddyApp.Guardian
 		public void Init()
 		{
 
-			Stimuli = BYOS.Instance.Perception.Stimuli;
-			MovementTracker = BYOS.Instance.Perception.Motion;
+			//Stimuli = BYOS.Instance.Perception.Stimuli;
+			//MovementTracker = BYOS.Instance.Perception.Motion;
+
+
+
+			//MotionDetection motionDetection;
+
+			//motionDetection.OnDetect(OnMotionDetected);
+
+
+			mMotionDetection = BYOS.Instance.Perception.Motion;
+			mMotionDetection.OnDetect(OnMovementDetected);
+
+			mNoiseDetection = BYOS.Instance.Perception.Noise;
+			mNoiseDetection.Listen(OnSoundDetected);
+
+			mFireDetection = BYOS.Instance.Perception.Thermal;
+			mFireDetection.OnDetect(OnThermalDetected);
+			mFireDetection.Threshold = 50;
+			
+			mKidnappingDetection = BYOS.Instance.Perception.Kidnapping;
+			mKidnappingDetection.OnDetect(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
+
 
 
 			//AStimulus moveSideStimulus;
@@ -89,31 +114,21 @@ namespace BuddyApp.Guardian
 			//moveSideStimulus.enabled = true;
 			//MoveSideStimulus = (MoveSideStimulus)moveSideStimulus;
 
-			//MotionDetection motionDetection;
+			//AStimulus soundStimulus;
+			//BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_LOUD, out soundStimulus);
+			//soundStimulus.enabled = true;
+			//NoiseStimulus = (NoiseStimulus)soundStimulus;
 
-			//motionDetection.OnDetect(OnMotionDetected);
-
-
-			MotionDetection motionDetection = BYOS.Instance.Perception.Motion;
-			motionDetection.OnDetect(OnMovementDetected);
-
-			AStimulus soundStimulus;
-			BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_LOUD, out soundStimulus);
-			soundStimulus.enabled = true;
-			NoiseStimulus = (NoiseStimulus)soundStimulus;
-
-			AStimulus fireStimulus;
-			BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.FIRE_DETECTED, out fireStimulus);
-			fireStimulus.enabled = true;
-			ThermalStimulus = (ThermalStimulus)fireStimulus;
+			//AStimulus fireStimulus;
+			//BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.FIRE_DETECTED, out fireStimulus);
+			//fireStimulus.enabled = true;
+			//ThermalStimulus = (ThermalStimulus)fireStimulus;
 
 			//AStimulus kidnappingStimulus;
 			//BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.KIDNAPPING, out kidnappingStimulus);
 			//kidnappingStimulus.enabled = true;
 			//AccelerometerStimulus = (AccelerometerStimulus)kidnappingStimulus;
 
-			mKidnappingDetection = BYOS.Instance.Perception.Kidnapping;
-			mKidnappingDetection.OnDetect(OnKidnappingDetected, 4.5F);
 
 			//BYOS.Instance.Perception.MovementTracker.Enable();
 			SaveAudio = GetComponent<SaveAudio>();
@@ -134,13 +149,13 @@ namespace BuddyApp.Guardian
 		/// <summary>
 		/// Subscribe to the stimulis callbacks
 		/// </summary>
-		public void LinkDetectorsEvents()
-		{
+		//public void LinkDetectorsEvents()
+		//{
 			//Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
-			Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
-			Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
+			//Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+			//Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
 			//Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
-		}
+		//}
 
 		/// <summary>
 		/// Unsubscibe to the stimulis callbacks
@@ -148,34 +163,43 @@ namespace BuddyApp.Guardian
 		public void UnlinkDetectorsEvents()
 		{
 			//Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
-			Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
-			Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
-			mKidnappingDetection.StopOnDetect(OnKidnappingDetected);
+			//Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+			//Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
 			//Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
+			mKidnappingDetection.StopOnDetect(OnKidnappingDetected);
+			mFireDetection.StopOnDetect(OnThermalDetected);
+			mMotionDetection.StopOnDetect(OnMovementDetected);
+			mMotionDetection.StopOnDetect(OnMovementDetected);
 		}
 
 		/// <summary>
 		/// Called when fire has been detected
 		/// </summary>
-		private void OnFireDetected()
+		private bool OnThermalDetected(ObjectEntity[] iObject)
 		{
 			if (!IsDetectingFire)
-				return;
+				return true;
 
 			Detected = Alert.FIRE;
 			mAnimator.SetTrigger("Alert");
+			return true;
 		}
 
 		/// <summary>
 		/// Called when noise has been detected
 		/// </summary>
-		private void OnSoundDetected()
+		private bool OnSoundDetected(float iSound)
 		{
+			Debug.Log("============== Sound detected!");
 			if (!IsDetectingSound)
-				return;
+				return true;
 
-			Detected = Alert.SOUND;
-			mAnimator.SetTrigger("Alert");
+			if (iSound > (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * MAX_SOUND_THRESHOLD) {
+				Debug.Log("============== Threshold passed!");
+				Detected = Alert.SOUND;
+				mAnimator.SetTrigger("Alert");
+			}
+			return true;
 		}
 
 		/// <summary>

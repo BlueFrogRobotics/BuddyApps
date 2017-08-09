@@ -78,18 +78,18 @@ namespace BuddyApp.Guardian
 			//mDetectionLayout.mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 		}
 
-		private void SetThreshold()
-		{
-			Detection.NoiseStimulus.Threshold = (100.0f - GuardianData.Instance.SoundDetectionThreshold) / 100.0f * 0.3f;
-		}
+		//private void SetThreshold()
+		//{
+		//	Detection.NoiseStimulus.Threshold = (100.0f - GuardianData.Instance.SoundDetectionThreshold) / 100.0f * 0.3f;
+		//}
 
 		private void SwitchState(Animator iAnimator, ParameterWindow iParamWindow)
 		{
 			Toaster.Hide();
 			//Toaster.Display<BackgroundToast>().With();
 			mHasSwitchState = true;
-			Detection.NoiseStimulus.enabled = true;
-			SetThreshold();
+			//Detection.NoiseStimulus.enabled = true;
+			//SetThreshold();
 			iAnimator.SetInteger("DebugMode", (int)iParamWindow);
 		}
 
