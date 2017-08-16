@@ -98,7 +98,7 @@ namespace BuddyApp.Guardian
 			mMotionDetection.OnDetect(OnMovementDetected);
 
 			mNoiseDetection = BYOS.Instance.Perception.Noise;
-			mNoiseDetection.Listen(OnSoundDetected);
+			mNoiseDetection.OnDetect(OnSoundDetected);
 
 			mFireDetection = BYOS.Instance.Perception.Thermal;
 			mFireDetection.OnDetect(OnThermalDetected);
@@ -168,7 +168,7 @@ namespace BuddyApp.Guardian
 			//Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
 			mKidnappingDetection.StopOnDetect(OnKidnappingDetected);
 			mFireDetection.StopOnDetect(OnThermalDetected);
-			mNoiseDetection.StopListening(OnSoundDetected);
+			mNoiseDetection.StopDetecting(OnSoundDetected);
 			mMotionDetection.StopOnDetect(OnMovementDetected);
 		}
 
@@ -199,7 +199,7 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		private bool OnSoundDetected(float iSound)
 		{
-			Debug.Log("============== Sound detected!");
+			Debug.Log("============== Sound detected! detector");
 			if (!IsDetectingSound)
 				return true;
 
