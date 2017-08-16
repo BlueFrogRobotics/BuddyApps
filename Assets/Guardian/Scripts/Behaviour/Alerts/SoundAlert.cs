@@ -41,7 +41,8 @@ namespace BuddyApp.Guardian
             mSaveAudio.Save();
 
             EMail lMail = new EMail("Noise alert", FormatMessage("soundalertmessage"));
-            lMail.AddFile("noise.wav");
+			// TODO find the path to write
+            //lMail.AddFile(BYOS.Instance.Resources.PathToRaw("noise.wav"));
 
             return lMail;
         }

@@ -47,9 +47,11 @@ namespace BuddyApp.Guardian
 
         public void Save(string iFilename)
         {
-            Utils.Save("monitoring.avi", mBufferVideo.ToArray(), mFPS);
-            //Save("monitoring.avi", mFPS);
-        }
+			// TODO path to raw not for writing
+			//Utils.Save(BYOS.Instance.Resources.PathToRaw("monitoring.avi"), mBufferVideo.ToArray(), mFPS);
+			
+			//Save("monitoring.avi", mFPS);
+		}
 
         public void Save(string iFilename, float iFps)
         {
@@ -64,7 +66,6 @@ namespace BuddyApp.Guardian
                     lVideoWriter.open(lFilepath, lCodec, iFps, iListMat[0].size());
                 }
                 if (lVideoWriter.isOpened()) {
-
                     for (int i = 0; i < iListMat.Length; i++) {
                         Mat lFrame = new Mat();
                         //if (i % 2 == 0)
