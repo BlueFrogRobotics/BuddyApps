@@ -65,19 +65,21 @@ namespace BuddyApp.Guardian
 			mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 
 			mContacts.enabled = mSendMail.IsActive;
-		}
+
+			mHeadOrientation.enabled = !mMobileDetection.IsActive;
+        }
 
 		private void CreateWidgets()
 		{
-			mHeadOrientation = CreateWidget<LabeledButton>();
 			//mMovementDebug = CreateWidget<LabeledButton>();
+			mMovementDetection = CreateWidget<OnOff>();
+			mKidnappingDetection = CreateWidget<OnOff>();
 			mSoundDetection = CreateWidget<GaugeOnOff>();
 			mSoundDebug = CreateWidget<LabeledButton>();
 			mFireDetection = CreateWidget<OnOff>();
 			mFireDebug = CreateWidget<LabeledButton>();
-			mMovementDetection = CreateWidget<OnOff>();
 			mMobileDetection = CreateWidget<OnOff>();
-			mKidnappingDetection = CreateWidget<OnOff>();
+			mHeadOrientation = CreateWidget<LabeledButton>();
 			mSendMail = CreateWidget<OnOff>();
 			mContacts = CreateWidget<Dropdown>();
 		}
@@ -130,6 +132,7 @@ namespace BuddyApp.Guardian
 
 			mMobileDetection.OnSwitchEvent((bool iVal) => {
 				GuardianData.Instance.MobileDetection = iVal;
+				mHeadOrientation.gameObject.SetActive(!iVal);
 			});
 
 			mKidnappingDetection.OnSwitchEvent((bool iVal) => {
@@ -137,16 +140,13 @@ namespace BuddyApp.Guardian
 			});
 
 			mSendMail.OnSwitchEvent((bool iVal) => {
+				GuardianData.Instance.SendMail = iVal;
 				mContacts.gameObject.SetActive(iVal);
 			});
 
 
 			mContacts.OnSelectEvent((string iLabel, object iAttachedObj, int iIndex) => {
-				Debug.Log("============== pre onselect: " + GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
-
 				GuardianData.Instance.Contact = (UserAccount)iAttachedObj;
-				Debug.Log("============== onselect: " + GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
-
 				//mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 			});
 

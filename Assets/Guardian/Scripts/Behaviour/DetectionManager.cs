@@ -32,7 +32,7 @@ namespace BuddyApp.Guardian
 
 		public RoombaNavigation Roomba { get; private set; }
 
-		//public NoiseStimulus NoiseStimulus { get; private set; }
+		public NoiseStimulus NoiseStimulus { get; private set; }
 		//public MoveSideStimulus MoveSideStimulus { get; private set; }
 		//public ThermalStimulus ThermalStimulus { get; private set; }
 		//public AccelerometerStimulus AccelerometerStimulus { get; private set; }
@@ -84,7 +84,7 @@ namespace BuddyApp.Guardian
 		public void Init()
 		{
 
-			//Stimuli = BYOS.Instance.Perception.Stimuli;
+			Stimuli = BYOS.Instance.Perception.Stimuli;
 			//MovementTracker = BYOS.Instance.Perception.Motion;
 
 
@@ -114,10 +114,10 @@ namespace BuddyApp.Guardian
 			//moveSideStimulus.enabled = true;
 			//MoveSideStimulus = (MoveSideStimulus)moveSideStimulus;
 
-			//AStimulus soundStimulus;
-			//BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_LOUD, out soundStimulus);
-			//soundStimulus.enabled = true;
-			//NoiseStimulus = (NoiseStimulus)soundStimulus;
+			AStimulus soundStimulus;
+			BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_LOUD, out soundStimulus);
+			soundStimulus.enabled = true;
+			NoiseStimulus = (NoiseStimulus)soundStimulus;
 
 			//AStimulus fireStimulus;
 			//BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.FIRE_DETECTED, out fireStimulus);
@@ -149,13 +149,13 @@ namespace BuddyApp.Guardian
 		/// <summary>
 		/// Subscribe to the stimulis callbacks
 		/// </summary>
-		//public void LinkDetectorsEvents()
-		//{
+		public void LinkDetectorsEvents()
+		{
 			//Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
-			//Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+			Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
 			//Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
 			//Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
-		//}
+		}
 
 		/// <summary>
 		/// Unsubscibe to the stimulis callbacks
@@ -163,12 +163,12 @@ namespace BuddyApp.Guardian
 		public void UnlinkDetectorsEvents()
 		{
 			//Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
-			//Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+			Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
 			//Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
 			//Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
 			mKidnappingDetection.StopOnDetect(OnKidnappingDetected);
 			mFireDetection.StopOnDetect(OnThermalDetected);
-			mMotionDetection.StopOnDetect(OnMovementDetected);
+			mNoiseDetection.StopListening(OnSoundDetected);
 			mMotionDetection.StopOnDetect(OnMovementDetected);
 		}
 
@@ -183,6 +183,15 @@ namespace BuddyApp.Guardian
 			Detected = Alert.FIRE;
 			mAnimator.SetTrigger("Alert");
 			return true;
+		}
+
+		private void OnSoundDetected()
+		{
+			Debug.Log("============== Sound detected stimulus!");
+			if (IsDetectingSound) {
+				Detected = Alert.SOUND;
+				mAnimator.SetTrigger("Alert");
+			}
 		}
 
 		/// <summary>

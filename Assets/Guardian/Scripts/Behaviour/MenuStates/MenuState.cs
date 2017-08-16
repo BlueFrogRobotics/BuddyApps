@@ -37,8 +37,6 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			Debug.Log("============== Menu default contact: " + GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
-
 
 			BYOS.Instance.Header.DisplayParameters = false;
 			AAppActivity.UnlockScreen();
