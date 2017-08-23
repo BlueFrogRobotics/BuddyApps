@@ -29,6 +29,7 @@ namespace BuddyApp.Guardian
 
 		public override void Start()
 		{
+			Interaction.VocalManager.EnableTrigger = false;
 			BYOS.Instance.Header.DisplayParameters = false;
 			mStartPhonetics = new List<string>(Dictionary.GetPhoneticStrings("start"));
 			mParameterPhonetics = new List<string>(Dictionary.GetPhoneticStrings("detectionparameters"));
@@ -47,7 +48,7 @@ namespace BuddyApp.Guardian
 				Interaction.TextToSpeech.SayKey("askchoices");
 
 			//Detection.NoiseStimulus.enabled = false;
-			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
+			Interaction.VocalManager.OnEndReco = OnSpeechReco;
 			mTimer = 0.0f;
 			mListening = false;
 			if (!BYOS.Instance.Primitive.RGBCam.IsOpen)
@@ -80,9 +81,11 @@ namespace BuddyApp.Guardian
 			//}
 
 			if (string.IsNullOrEmpty(mSpeechReco)) {
-				Interaction.SpeechToText.Request();
+				//Interaction.SpeechToText.Request();
 
-				Interaction.Mood.Set(MoodType.LISTENING);
+				Interaction.VocalManager.StartInstantReco();
+
+				//  Interaction.Mood.Set(MoodType.LISTENING);
 				mListening = true;
 				return;
 			}
@@ -102,7 +105,7 @@ namespace BuddyApp.Guardian
 				Interaction.TextToSpeech.SayKey("notunderstand", true);
 				Interaction.TextToSpeech.Silence(1000, true);
 				Interaction.TextToSpeech.SayKey("askchoices", true);
-
+				mListening = false;
 				mSpeechReco = null;
 			}
 		}
@@ -111,8 +114,8 @@ namespace BuddyApp.Guardian
 		{
 			Interaction.Mood.Set(MoodType.NEUTRAL);
 
+			Interaction.VocalManager.StopListenBehaviour();
 			mSpeechReco = null;
-			mListening = false;
 			mHasDisplayChoices = false;
 		}
 
@@ -166,7 +169,7 @@ namespace BuddyApp.Guardian
 		{
 			mSpeechReco = null;
 			Trigger("NextStep");
-			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
+			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
 		}
 
 		/// <summary>
@@ -177,7 +180,7 @@ namespace BuddyApp.Guardian
 		{
 			mSpeechReco = null;
 			Trigger("Parameter");
-			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
+			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
 		}
 
 		private bool ContainsOneOf(string iSpeech, List<string> iListSpeech)

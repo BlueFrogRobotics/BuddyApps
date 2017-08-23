@@ -46,14 +46,10 @@ namespace BuddyApp.Guardian
 				Interaction.TextToSpeech.SayKey("firstparam");
 
 
-			//BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout,
-			//	() => { Trigger("NextStep"); },
-			//	() => { Trigger("Back"); });
 
 			BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout,
-				// TODO: modify this!
 				() => { Trigger("Back"); },
-				() => { Trigger("Back"); });
+				null);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

@@ -54,7 +54,7 @@ namespace BuddyApp.Recipe
 
         private void GetAnswer(string iAnswer)
         {
-            Debug.Log("GOT A ANSWER: " + iAnswer);
+            Debug.Log("GOT AN ANSWER: " + iAnswer);
 			Interaction.VocalManager.StopListenBehaviour = Empty;
 			GetComponent<RecipeBehaviour>().mAnswer = iAnswer.ToLower();
             mAnimator.SetTrigger("AnswerRecipe");

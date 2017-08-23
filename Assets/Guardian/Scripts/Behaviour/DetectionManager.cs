@@ -22,7 +22,7 @@ namespace BuddyApp.Guardian
 		private Animator mAnimator;
 		private KidnappingDetection mKidnappingDetection;
 		private MotionDetection mMotionDetection;
-		private NoiseDetection mNoiseDetection;
+		//private NoiseDetection mNoiseDetection;
 		private ThermalDetection mFireDetection;
 
 		public string Logs { get; private set; }
@@ -97,8 +97,8 @@ namespace BuddyApp.Guardian
 			mMotionDetection = BYOS.Instance.Perception.Motion;
 			mMotionDetection.OnDetect(OnMovementDetected);
 
-			mNoiseDetection = BYOS.Instance.Perception.Noise;
-			mNoiseDetection.OnDetect(OnSoundDetected);
+			//mNoiseDetection = BYOS.Instance.Perception.Noise;
+			//mNoiseDetection.OnDetect(OnSoundDetected);
 
 			mFireDetection = BYOS.Instance.Perception.Thermal;
 			mFireDetection.OnDetect(OnThermalDetected);
@@ -168,7 +168,7 @@ namespace BuddyApp.Guardian
 			//Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
 			mKidnappingDetection.StopOnDetect(OnKidnappingDetected);
 			mFireDetection.StopOnDetect(OnThermalDetected);
-			mNoiseDetection.StopDetecting(OnSoundDetected);
+			//mNoiseDetection.StopDetecting(OnSoundDetected);
 			mMotionDetection.StopOnDetect(OnMovementDetected);
 		}
 

@@ -18,7 +18,7 @@ namespace BuddyApp.TakePose
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			if (Interaction.SpeechToText.HasFinished) {
+			if (Interaction.TextToSpeech.HasFinishedTalking) {
 				QuitApp();
 			}
 		}
