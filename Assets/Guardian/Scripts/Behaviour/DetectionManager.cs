@@ -32,7 +32,7 @@ namespace BuddyApp.Guardian
 
 		public RoombaNavigation Roomba { get; private set; }
 
-		public NoiseStimulus NoiseStimulus { get; private set; }
+		//public NoiseStimulus NoiseStimulus { get; private set; }
 		//public MoveSideStimulus MoveSideStimulus { get; private set; }
 		//public ThermalStimulus ThermalStimulus { get; private set; }
 		//public AccelerometerStimulus AccelerometerStimulus { get; private set; }
@@ -114,10 +114,10 @@ namespace BuddyApp.Guardian
 			//moveSideStimulus.enabled = true;
 			//MoveSideStimulus = (MoveSideStimulus)moveSideStimulus;
 
-			AStimulus soundStimulus;
-			BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_LOUD, out soundStimulus);
-			soundStimulus.enabled = true;
-			NoiseStimulus = (NoiseStimulus)soundStimulus;
+			//AStimulus soundStimulus;
+			//BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_LOUD, out soundStimulus);
+			//soundStimulus.enabled = true;
+			//NoiseStimulus = (NoiseStimulus)soundStimulus;
 
 			//AStimulus fireStimulus;
 			//BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.FIRE_DETECTED, out fireStimulus);
@@ -152,7 +152,7 @@ namespace BuddyApp.Guardian
 		public void LinkDetectorsEvents()
 		{
 			//Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
-			Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+			//Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
 			//Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
 			//Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
 		}
@@ -163,7 +163,7 @@ namespace BuddyApp.Guardian
 		public void UnlinkDetectorsEvents()
 		{
 			//Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
-			Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+			//Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
 			//Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
 			//Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
 			mKidnappingDetection.StopOnDetect(OnKidnappingDetected);

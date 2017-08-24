@@ -38,7 +38,6 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-
 			BYOS.Instance.Header.DisplayParameters = false;
 			AAppActivity.UnlockScreen();
 
@@ -49,6 +48,7 @@ namespace BuddyApp.Guardian
 
 			//Detection.NoiseStimulus.enabled = false;
 			Interaction.VocalManager.OnEndReco = OnSpeechReco;
+			Interaction.VocalManager.OnError = null;
 			mTimer = 0.0f;
 			mListening = false;
 			if (!BYOS.Instance.Primitive.RGBCam.IsOpen)

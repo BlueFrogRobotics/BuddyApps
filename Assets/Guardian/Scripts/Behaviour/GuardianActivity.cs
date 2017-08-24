@@ -86,12 +86,12 @@ namespace BuddyApp.Guardian
 			//GuardianActivity lActivity = (GuardianActivity)BYOS.Instance.AppManager.CurrentApp.AppActivity;
 		}
 
-		private void InitManager()
-		{
-			sDetectionManager = (DetectionManager)Objects[0];
-			sDetectionManager.Init();
-			sDetectionManager.LinkDetectorsEvents();
-		}
+		//private void InitManager()
+		//{
+		//	sDetectionManager = (DetectionManager)Objects[0];
+		//	sDetectionManager.Init();
+		//	sDetectionManager.LinkDetectorsEvents();
+		//}
 
 		private void OnMailSent()
 		{

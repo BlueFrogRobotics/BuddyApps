@@ -45,18 +45,16 @@ namespace BuddyApp.Guardian
 			if (mWebcam != null && !mWebcam.IsOpen)
 				mWebcam.Open(RGBCamResolution.W_176_H_144);
 
-			//TODO solve Writing rights issues with PathToRaw?
-			//mSaveVideo.Save("monitoring.avi");
+			mSaveVideo.Save("monitoring.avi");
 
-
-			//using (ZipFile zip = new ZipFile()) {
-			//string filepath = BYOS.Instance.Resources.PathToRaw("monitoring.avi");
-			//zip.AddFile(filepath, "video");
-			//zip.Save(BYOS.Instance.Resources.PathToRaw("video.zip"));
-			//}
+			using (ZipFile zip = new ZipFile()) {
+				string filepath = BYOS.Instance.Resources.PathToRaw("monitoring.avi");
+				zip.AddFile(filepath, "video");
+				zip.Save(BYOS.Instance.Resources.PathToRaw("video.zip"));
+			}
 
 			EMail lMail = new EMail("Movement alert", FormatMessage("movementalertmessage"));
-			//lMail.AddFile(BYOS.Instance.Resources.PathToRaw("video.zip"));
+			lMail.AddFile(BYOS.Instance.Resources.PathToRaw("video.zip"));
 
 			return lMail;
 		}

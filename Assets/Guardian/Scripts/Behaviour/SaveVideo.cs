@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using OpenCVUnity;
 using Buddy;
+using System.IO;
 
 namespace BuddyApp.Guardian
 {
@@ -49,11 +50,13 @@ namespace BuddyApp.Guardian
         {
 			// TODO path to raw not for writing
 			//Utils.Save(BYOS.Instance.Resources.PathToRaw("monitoring.avi"), mBufferVideo.ToArray(), mFPS);
-			
+			string lDirectoryPath = Path.GetDirectoryName(BYOS.Instance.Resources.PathToRaw("monitoring.avi"));
+			Directory.CreateDirectory(lDirectoryPath);
+			Utils.Save(BYOS.Instance.Resources.PathToRaw("monitoring.avi"), mBufferVideo.ToArray(), mFPS);
 			//Save("monitoring.avi", mFPS);
 		}
 
-        public void Save(string iFilename, float iFps)
+		public void Save(string iFilename, float iFps)
         {
             Mat[] iListMat = mBufferVideo.ToArray();
             //Mat mMatRed = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3, new Scalar(254, 0, 0));

@@ -76,7 +76,7 @@ namespace BuddyApp.Guardian
 
 		private void SetThreshold()
 		{
-			Detection.NoiseStimulus.Threshold = (100.0f - GuardianData.Instance.SoundDetectionThreshold) / 100.0f * 0.3f;
+			//Detection.NoiseStimulus.Threshold = (100.0f - GuardianData.Instance.SoundDetectionThreshold) / 100.0f * 0.3f;
 		}
 
 		private void SwitchState(Animator iAnimator, ParameterWindow iParamWindow)
@@ -84,7 +84,7 @@ namespace BuddyApp.Guardian
 			Toaster.Hide();
 			//Toaster.Display<BackgroundToast>().With();
 			mHasSwitchState = true;
-			Detection.NoiseStimulus.enabled = true;
+			//Detection.NoiseStimulus.enabled = true;
 			SetThreshold();
 			iAnimator.SetInteger("DebugMode", (int)iParamWindow);
 		}
