@@ -3373,52 +3373,52 @@
         </member>
         <member name="F:Buddy.SMTP.GMAIL">
             <summary>
-            Gmail stmp
+            Gmail SMTP
             </summary>
         </member>
         <member name="F:Buddy.SMTP.YAHOO">
             <summary>
-            Yahoo stmp
+            Yahoo SMTP
             </summary>
         </member>
         <member name="F:Buddy.SMTP.HOTMAIL">
             <summary>
-            Hotmail stmp
+            Hotmail SMTP
             </summary>
         </member>
         <member name="F:Buddy.SMTP.BFR">
             <summary>
-            BFR stmp
+            BFR SMTP
             </summary>
         </member>
         <member name="F:Buddy.SMTP.ORANGE">
             <summary>
-            Orange stmp
+            Orange SMTP
             </summary>
         </member>
         <member name="F:Buddy.SMTP.FREE">
             <summary>
-            Free stmp
+            Free SMTP
             </summary>
         </member>
         <member name="F:Buddy.SMTP.OUTLOOK">
             <summary>
-            Outlook stmp
+            Outlook SMTP
             </summary>
         </member>
         <member name="F:Buddy.SMTP.SFR">
             <summary>
-            SFR stmp
+            SFR SMTP
             </summary>
         </member>
         <member name="F:Buddy.SMTP.WANADOO">
             <summary>
-            Wanadoo stmp
+            Wanadoo SMTP
             </summary>
         </member>
         <member name="T:Buddy.EMailSender">
             <summary>
-            Class that connect to an smtp server to send a mail
+            Class that connects to an smtp server to send a mail
             </summary>
             <summary>
             Class that connect to an smtp server to send a mail
@@ -3426,7 +3426,7 @@
         </member>
         <member name="M:Buddy.EMailSender.Send(System.String,System.String,Buddy.SMTP,Buddy.EMail,System.Action)">
             <summary>
-            Create an smtp client with the user address and send the mail. This method will do nothing if a previous mail has not yet been sent
+            Creates an smtp client with the user's address and sends the mail. This method will do nothing if a previous mail has not been sent yet
             </summary>
             <param name="iFromAddress">mail adress of the user</param>
             <param name="iFromPwd">password of the mail adress</param>
@@ -3509,13 +3509,13 @@
             Save a texture 2d as a png in the streaming asset folder then add it to the mail
             </summary>
             <param name="iTexture">texture to add to save and add to the mail</param>
-            <param name="iFilePath">file path</param>
+            <param name="iFileName"></param>
         </member>
         <member name="M:Buddy.EMail.AddFile(System.String)">
             <summary>
             Add file in the streaming asset folder
             </summary>
-            <param name="iFilePath">file path</param>
+            <param name="iFileName">name of the file to add</param>
         </member>
         <member name="M:Buddy.EMail.AddTo(System.String)">
             <summary>
@@ -6188,6 +6188,11 @@
         <member name="P:Buddy.UserAccount.BirthDate">
             <summary>
             Birthdate of the account
+            </summary>
+        </member>
+        <member name="P:Buddy.UserAccount.Password">
+            <summary>
+            Password of the account
             </summary>
         </member>
         <member name="P:Buddy.UserAccount.Session">
