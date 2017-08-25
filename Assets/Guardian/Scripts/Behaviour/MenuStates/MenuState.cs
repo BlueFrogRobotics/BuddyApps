@@ -48,7 +48,8 @@ namespace BuddyApp.Guardian
 
 			//Detection.NoiseStimulus.enabled = false;
 			Interaction.VocalManager.OnEndReco = OnSpeechReco;
-			Interaction.VocalManager.OnError = null;
+			Interaction.VocalManager.EnableDefaultErrorHandling = false;
+			Interaction.VocalManager.OnError = Empty;
 			mTimer = 0.0f;
 			mListening = false;
 			if (!BYOS.Instance.Primitive.RGBCam.IsOpen)
@@ -113,8 +114,7 @@ namespace BuddyApp.Guardian
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Interaction.Mood.Set(MoodType.NEUTRAL);
-
-			Interaction.VocalManager.StopListenBehaviour();
+			
 			mSpeechReco = null;
 			mHasDisplayChoices = false;
 		}
@@ -170,6 +170,7 @@ namespace BuddyApp.Guardian
 			mSpeechReco = null;
 			Trigger("NextStep");
 			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
+			Interaction.VocalManager.OnEndReco = Empty;
 		}
 
 		/// <summary>
@@ -181,6 +182,7 @@ namespace BuddyApp.Guardian
 			mSpeechReco = null;
 			Trigger("Parameter");
 			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
+			Interaction.VocalManager.OnEndReco = Empty;
 		}
 
 		private bool ContainsOneOf(string iSpeech, List<string> iListSpeech)
@@ -200,7 +202,13 @@ namespace BuddyApp.Guardian
 			return false;
 		}
 
+		private void Empty(STTError iError)
+		{
+		}
 
+		private void Empty(string iVoice)
+		{
+		}
 
 	}
 }
