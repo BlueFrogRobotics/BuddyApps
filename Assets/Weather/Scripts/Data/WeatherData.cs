@@ -8,12 +8,15 @@ namespace BuddyApp.Weather
         /*
          * Data getters / setters
          */
-        public int MyValue { get; set; }
+        public string VocalRequest { get; set; }
+		public string Location { get; set; }
+		public string Forecast { get; set; }
+		public int Date { get; set; }
 
-        /*
+		/*
          * Data singleton access
          */
-        public static WeatherData Instance
+		public static WeatherData Instance
         {
             get
             {
