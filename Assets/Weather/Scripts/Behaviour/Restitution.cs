@@ -9,17 +9,68 @@ namespace BuddyApp.Weather
 	{
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
 			// Tell the weather
-			string date = "";
-			if(WeatherData.Instance.Date == 0) {
-				date = "aujourd'hui";
-			}else if(WeatherData.Instance.Date == 1) {
-				date = "demain";
+			string lAnswer = "";
+			string lDayString = "";
+			if (WeatherData.Instance.Date == 0)
+				lDayString = Dictionary.GetString("today");
+			else if (WeatherData.Instance.Date == 1)
+				lDayString = Dictionary.GetString("tomorrow");
+			else if (WeatherData.Instance.Date == 2)
+				lDayString = Dictionary.GetString("dayaftertomorrow");
+			else
+				lDayString = Dictionary.GetString("intime") + " " + WeatherData.Instance.Date + " " + Dictionary.GetString("days");
 
+			//No info
+			//if (WeatherData.Instance.VocalRequest == "") {
+			//	lAnswer = Dictionary.GetString("today") + " " + Dictionary.GetRandomString("temperaturewillbe") + WeatherInfo.Temperature
+			//		+ " " + Dictionary.GetRandomString("degreesanditisa") + " " + WeatherInfo.Type.ToString() + " " + Dictionary.GetString("day");
+
+			//Forecast info
+			//} else 
+			if (WeatherData.Instance.Forecast != "") {
+				string lNoAnswer = lAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("itwillbe") + " "
+					+ WeatherInfo.Type.ToString() + " " + lDayString;
+				string lYesAnswer = lAnswer = Dictionary.GetRandomString("yes") + " " + Dictionary.GetRandomString("itwillbe") + " "
+					+ WeatherInfo.Type.ToString() + " " + lDayString;
+
+				if (WeatherData.Instance.Forecast == "snow" || WeatherData.Instance.Forecast == "thunder" || WeatherData.Instance.Forecast == "wind" || WeatherData.Instance.Forecast == "fog")
+					if (WeatherInfo.Type == Buddy.WeatherType.CLOUDY || WeatherInfo.Type == Buddy.WeatherType.SUNNY)
+						lAnswer = lNoAnswer;
+					else
+						lAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("but") + " " + Dictionary.GetRandomString("itwillbe") + " " + WeatherInfo.Type.ToString() + " " + lDayString;
+
+				else if (WeatherData.Instance.Forecast == "cloud")
+					if (WeatherInfo.Type == Buddy.WeatherType.CLOUDY)
+						lAnswer = lYesAnswer;
+					else
+						lAnswer = lNoAnswer;
+
+				else if (WeatherData.Instance.Forecast == "sun")
+					if (WeatherInfo.Type == Buddy.WeatherType.SUNNY)
+						lAnswer = lYesAnswer;
+					else
+						lAnswer = lNoAnswer;
+
+				else if (WeatherData.Instance.Forecast == "rain")
+					if (WeatherInfo.Type == Buddy.WeatherType.RAIN)
+						lAnswer = lYesAnswer;
+					else
+						lAnswer = lNoAnswer;
+
+			} else {
+					Interaction.TextToSpeech.Say(lDayString + " " + Dictionary.GetRandomString("temperaturewillbe") + WeatherInfo.Temperature + " " + Dictionary.GetRandomString("degreesanditisa") + " " + WeatherInfo.Type.ToString());
 			}
-			Interaction.TextToSpeech.Say("Il fera beau " + date);
+
+
+			Interaction.TextToSpeech.Say(lAnswer + " " + Dictionary.GetRandomString("inlocation") + " " + WeatherData.Instance.Location);
 		}
+
+
+
+
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 		//override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

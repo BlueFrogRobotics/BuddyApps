@@ -73,6 +73,8 @@ namespace BuddyApp.Weather
 				WeatherData.Instance.Forecast = "wind";
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("thunder"))) {
 				WeatherData.Instance.Forecast = "thunder";
+			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("cloud"))) {
+				WeatherData.Instance.Forecast = "cloud";
 			}
 		}
 
