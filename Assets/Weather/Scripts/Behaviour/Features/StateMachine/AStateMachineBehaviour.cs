@@ -24,6 +24,8 @@ namespace BuddyApp.Weather
         private Dictionary<string, object> mCommonObjects;
         private WeatherStateMachineManager mManager;
         private Animator mAnimator;
+        private WeatherInfo mWeatherInfo;
+
 
         /// <summary>
         /// Common integers through the animator
@@ -61,6 +63,7 @@ namespace BuddyApp.Weather
 
         internal WeatherStateMachineManager Manager { set { mManager = value; } }
         internal Animator Animator { set { mAnimator = value; } }
+        internal WeatherInfo WeatherInfo { set { mWeatherInfo = value;  } }
 
         /// <summary>
         /// Trigger the named trigger in the current animator
