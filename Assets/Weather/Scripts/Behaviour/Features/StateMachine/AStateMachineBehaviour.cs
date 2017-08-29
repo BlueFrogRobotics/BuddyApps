@@ -24,7 +24,7 @@ namespace BuddyApp.Weather
         private Dictionary<string, object> mCommonObjects;
         private WeatherStateMachineManager mManager;
         private Animator mAnimator;
-        private WeatherInfo mWeatherInfo;
+        internal WeatherInfo mWeatherInfo;
 
 
         /// <summary>
