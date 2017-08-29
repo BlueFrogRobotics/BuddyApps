@@ -60,11 +60,11 @@ namespace BuddyApp.Guardian
             mDebugSoundWindow.ButtonBack.onClick.AddListener(GoBack);
             
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
-            if (mNoiseStimulus.IsListening)
-            {
+            //if (mNoiseStimulus.IsListening)
+            //{
                 mNoiseStimulus.enabled = false;
                 mNoiseStimulus.enabled = true;
-            }
+            //}
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

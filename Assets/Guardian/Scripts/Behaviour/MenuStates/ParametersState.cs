@@ -69,7 +69,7 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			BYOS.Instance.Toaster.Hide();
+			//BYOS.Instance.Toaster.Hide();
 			GuardianData.Instance.FirstRun = false;
 			//mDetectionLayout.mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 		}
@@ -82,7 +82,7 @@ namespace BuddyApp.Guardian
 		private void SwitchState(Animator iAnimator, ParameterWindow iParamWindow)
 		{
 			Toaster.Hide();
-			//Toaster.Display<BackgroundToast>().With();
+			Toaster.Display<BackgroundToast>().With();
 			mHasSwitchState = true;
 			//Detection.NoiseStimulus.enabled = true;
 			SetThreshold();
