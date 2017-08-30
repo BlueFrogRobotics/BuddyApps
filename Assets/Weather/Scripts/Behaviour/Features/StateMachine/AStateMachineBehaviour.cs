@@ -25,6 +25,7 @@ namespace BuddyApp.Weather
         private WeatherStateMachineManager mManager;
         private Animator mAnimator;
 
+
         /// <summary>
         /// Common integers through the animator
         /// </summary>

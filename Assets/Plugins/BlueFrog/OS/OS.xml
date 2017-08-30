@@ -3341,6 +3341,11 @@
             Hour of the day
             </summary>
         </member>
+        <member name="P:Buddy.WeatherInfo.Day">
+            <summary>
+            Day with format YYYY-MM-DD
+            </summary>
+        </member>
         <member name="P:Buddy.WeatherInfo.Type">
             <summary>
             Weather type (Sunny, overcast, cloudy ...)
@@ -3359,12 +3364,13 @@
             Weather API of the wished location
             </summary>
         </member>
-        <member name="M:Buddy.Weather.At(System.String,System.Action{Buddy.WeatherInfo[]})">
+        <member name="M:Buddy.Weather.At(System.String,System.Action{Buddy.WeatherInfo[]},System.Int32)">
             <summary>
-            Search for the weather of the current day
+            Search for the weather of the current day. Can provide information up to the next week.
             </summary>
             <param name="iLocation">Asked location</param>
             <param name="iCallback">Callback with Weather info</param>
+            <param name="iNumberOfInfos">Number of information to be retrieved. Use a value of around 60 to get weather for a week after.</param>
         </member>
         <member name="T:Buddy.SMTP">
             <summary>

@@ -1,36 +1,84 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Buddy;
+using System;
+
 
 namespace BuddyApp.Weather
 {
 	public class APIRequest : AStateMachineBehaviour
 	{
+        private int mDate;
+        //Max numberWeatherInfos égal à 64
+        private int mNumberWeatherInfos = 60;
+		private bool mAnswerReceived;
+		private bool mQuit;
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		
+			mAnswerReceived = false;
+			mQuit = false;
 			// Collect data and request the API accordingly
+
+			if (Application.internetReachability == NetworkReachability.NotReachable) {
+				Debug.Log("Error. Check internet connection!");
+			}
+
+
+			Debug.Log("Pre web service " + WeatherData.Instance.Location);
+			BYOS.Instance.WebService.Weather.At(WeatherData.Instance.Location, WeatherProcessing, mNumberWeatherInfos);
+
+			Debug.Log("Post web service ");
+
+
+        }
+
+
+
+		//OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			if (mAnswerReceived) {
+				Trigger("Restitution");
+			} else if (mQuit && Interaction.SpeechToText.HasFinished)
+				QuitApp();
 		}
 
-		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		//override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
 
-		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-		//override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
 
-		// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-		//override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
 
-		// OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-		//override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
-	}
+
+
+		private void WeatherProcessing(WeatherInfo[] iWeather)
+		{
+			Debug.Log("WeatherProcessing");
+			if (iWeather == null || iWeather.Length == 0)
+            {
+				//Unknown location
+				Interaction.TextToSpeech.SayKey("locationissue");
+				mQuit = true;
+                return;
+                //Say la location n'est pas reconnue / n'existe pas
+            }
+            else
+            {
+                Debug.Log("LOCATION : " + iWeather[0].Location);
+                if ( WeatherData.Instance.Date < 7)
+                {
+                    //pas grave si ça dépasse 64 parce que ça ne sera un écart que de quelques heures pour la météo dans 6 jours pour le max
+                    mDate = 8 * WeatherData.Instance.Date;
+                    
+                }
+                else if (WeatherData.Instance.Date > 7) {
+					Interaction.TextToSpeech.SayKey("oneweekmax");
+					mQuit = true;
+					return;
+				}
+				GetComponent<WeatherBehaviour>().mWeatherInfo = iWeather[mDate];
+				Debug.Log("API req + temp" + GetComponent<WeatherBehaviour>().mWeatherInfo.Hour);
+			}
+			mAnswerReceived = true;
+		}
+    }
 }

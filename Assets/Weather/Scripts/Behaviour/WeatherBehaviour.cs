@@ -13,7 +13,9 @@ namespace BuddyApp.Weather
          */
         private WeatherData mAppData;
 
-        void Start()
+		internal WeatherInfo mWeatherInfo;
+
+		void Start()
         {
 			/*
 			* You can setup your App activity here.
