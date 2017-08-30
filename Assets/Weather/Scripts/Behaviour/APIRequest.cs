@@ -11,13 +11,20 @@ namespace BuddyApp.Weather
 	{
         private int mDate;
         //Max numberWeatherInfos égal à 64
-        private int mNumberWeatherInfos;
+        private int mNumberWeatherInfos = 60;
 		private bool mAnswerReceived;
+		private bool mQuit;
 
-        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			mAnswerReceived = false;
+			mQuit = false;
 			// Collect data and request the API accordingly
+
+			if (Application.internetReachability == NetworkReachability.NotReachable) {
+				Debug.Log("Error. Check internet connection!");
+			}
+
 
 			Debug.Log("Pre web service " + WeatherData.Instance.Location);
 			BYOS.Instance.WebService.Weather.At(WeatherData.Instance.Location, WeatherProcessing, mNumberWeatherInfos);
@@ -34,7 +41,8 @@ namespace BuddyApp.Weather
 		{
 			if (mAnswerReceived) {
 				Trigger("Restitution");
-			}
+			} else if (mQuit && Interaction.SpeechToText.HasFinished)
+				QuitApp();
 		}
 
 
@@ -47,31 +55,28 @@ namespace BuddyApp.Weather
 			Debug.Log("WeatherProcessing");
 			if (iWeather == null || iWeather.Length == 0)
             {
-                Debug.Log("la location n'est pas reconnue / n'existe pas");
+				//Unknown location
+				Interaction.TextToSpeech.SayKey("locationissue");
+				mQuit = true;
                 return;
                 //Say la location n'est pas reconnue / n'existe pas
             }
             else
             {
                 Debug.Log("LOCATION : " + iWeather[0].Location);
-                if (WeatherData.Instance.Date == 0)
-                    mDate = 0;
-                else if (WeatherData.Instance.Date == 1)
-                    mDate += 8;
-                else if (WeatherData.Instance.Date == 2)
-                    mDate += 16;
-                else if (WeatherData.Instance.Date > 2 && WeatherData.Instance.Date < 7)
+                if ( WeatherData.Instance.Date < 7)
                 {
                     //pas grave si ça dépasse 64 parce que ça ne sera un écart que de quelques heures pour la météo dans 6 jours pour le max
                     mDate = 8 * WeatherData.Instance.Date;
                     
                 }
-                else if (WeatherData.Instance.Date < 7)
-                {
-                    Debug.Log("Pas possible d'estimer la météo qu'il fera dans plus d'une semaine");
-                    //Say Pas possible destimer la météo qu'il fera dans plus d'une semaine
-                }
-                WeatherInfo = iWeather[mDate];
+                else if (WeatherData.Instance.Date > 7) {
+					Interaction.TextToSpeech.SayKey("oneweekmax");
+					mQuit = true;
+					return;
+				}
+				GetComponent<WeatherBehaviour>().mWeatherInfo = iWeather[mDate];
+				Debug.Log("API req + temp" + GetComponent<WeatherBehaviour>().mWeatherInfo.Hour);
 			}
 			mAnswerReceived = true;
 		}

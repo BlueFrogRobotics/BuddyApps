@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Buddy;
 
 
 namespace BuddyApp.Weather
@@ -11,6 +10,7 @@ namespace BuddyApp.Weather
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
+			WeatherInfo lWeatherInfo = GetComponent<WeatherBehaviour>().mWeatherInfo;
 			// Tell the weather
 			string lAnswer = "";
 			string lDayString = "";
@@ -30,66 +30,46 @@ namespace BuddyApp.Weather
 
 			//Forecast info
 			//} else 
+
 			if (WeatherData.Instance.Forecast != "") {
 				string lNoAnswer = lAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("itwillbe") + " "
-					+ WeatherInfo.Type.ToString() + " " + lDayString;
+					+ Dictionary.GetRandomString(lWeatherInfo.Type.ToString().ToLower()) + " " + lDayString;
 				string lYesAnswer = lAnswer = Dictionary.GetRandomString("yes") + " " + Dictionary.GetRandomString("itwillbe") + " "
-					+ WeatherInfo.Type.ToString() + " " + lDayString;
+					+ Dictionary.GetRandomString(lWeatherInfo.Type.ToString().ToLower()) + " " + lDayString;
 
 				if (WeatherData.Instance.Forecast == "snow" || WeatherData.Instance.Forecast == "thunder" || WeatherData.Instance.Forecast == "wind" || WeatherData.Instance.Forecast == "fog")
-					if (WeatherInfo.Type == Buddy.WeatherType.CLOUDY || WeatherInfo.Type == Buddy.WeatherType.SUNNY)
+					if (lWeatherInfo.Type == Buddy.WeatherType.CLOUDY || lWeatherInfo.Type == Buddy.WeatherType.SUNNY)
 						lAnswer = lNoAnswer;
 					else
-						lAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("but") + " " + Dictionary.GetRandomString("itwillbe") + " " + WeatherInfo.Type.ToString() + " " + lDayString;
+						lAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("but") + " " + Dictionary.GetRandomString("itwillbe") + " " + lWeatherInfo.Type.ToString() + " " + lDayString;
 
 				else if (WeatherData.Instance.Forecast == "cloud")
-					if (WeatherInfo.Type == Buddy.WeatherType.CLOUDY)
+					if (lWeatherInfo.Type == Buddy.WeatherType.CLOUDY)
 						lAnswer = lYesAnswer;
 					else
 						lAnswer = lNoAnswer;
 
 				else if (WeatherData.Instance.Forecast == "sun")
-					if (WeatherInfo.Type == Buddy.WeatherType.SUNNY)
+					if (lWeatherInfo.Type == Buddy.WeatherType.SUNNY)
 						lAnswer = lYesAnswer;
 					else
 						lAnswer = lNoAnswer;
 
 				else if (WeatherData.Instance.Forecast == "rain")
-					if (WeatherInfo.Type == Buddy.WeatherType.RAIN)
+					if (lWeatherInfo.Type == Buddy.WeatherType.RAIN)
 						lAnswer = lYesAnswer;
 					else
 						lAnswer = lNoAnswer;
 
 			} else {
-					Interaction.TextToSpeech.Say(lDayString + " " + Dictionary.GetRandomString("temperaturewillbe") + WeatherInfo.Temperature + " " + Dictionary.GetRandomString("degreesanditisa") + " " + WeatherInfo.Type.ToString());
+				lAnswer = lDayString + " " + Dictionary.GetRandomString("temperaturewillbe") + " " + lWeatherInfo.Temperature + " " + Dictionary.GetRandomString("degreesanditisa") + " " + Dictionary.GetRandomString(lWeatherInfo.Type.ToString().ToLower());
+
 			}
-
-
 			Interaction.TextToSpeech.Say(lAnswer + " " + Dictionary.GetRandomString("inlocation") + " " + WeatherData.Instance.Location);
 		}
 
 
 
 
-
-		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		//override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
-
-		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-		//override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
-
-		// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-		//override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
-
-		// OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-		//override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
 	}
 }

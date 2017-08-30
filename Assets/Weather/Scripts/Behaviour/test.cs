@@ -15,7 +15,7 @@ namespace BuddyApp.Weather
 			Debug.Log("ENTER LISTEN test");
 			Interaction.VocalManager.OnEndReco = GetAnswer;
 			Interaction.VocalManager.OnError = NoAnswer;
-			Interaction.VocalManager.StopListenBehaviour = null;
+			Interaction.VocalManager.StartInstantReco();
 
 		}
 
@@ -31,7 +31,6 @@ namespace BuddyApp.Weather
 		private void GetAnswer(string iAnswer)
 		{
 			Utils.LogI(LogContext.APP, "GOT AN ANSWER: " + iAnswer);
-			Interaction.VocalManager.StopListenBehaviour = Empty;
 			WeatherData.Instance.VocalRequest = iAnswer.ToLower();
 			Trigger("Test");
 		}
@@ -40,12 +39,8 @@ namespace BuddyApp.Weather
 		{
 			Utils.LogI(LogContext.APP, "On loading...");
 			Debug.Log("GOT NO ANSWER");
-			Interaction.VocalManager.StopListenBehaviour = Empty;
 			Trigger("Test");
 		}
-
-		private void Empty()
-		{
-		}
+		
 	}
 }

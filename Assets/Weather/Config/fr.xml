@@ -38,9 +38,10 @@
                 <string>pleuvoir</string>
                 <string>pleut</string>
                 <string>pleu</string>
+                <string>pleuvra</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>pluvieux</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -203,7 +204,7 @@
                 <string>non</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>non</string>
+                <string>non,</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -226,6 +227,66 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>nuage</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>degreesanditisa</Key>
+            <BaseValue>degrés et il fera</BaseValue>
+            <ClosePhoneticValues>
+                <string>degrés et il fera</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>degrés et il fera</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sunny</Key>
+            <BaseValue>ensoleillé</BaseValue>
+            <ClosePhoneticValues>
+                <string>ensoleillé</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>ensoleillé</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>overcast</Key>
+            <BaseValue>couvert</BaseValue>
+            <ClosePhoneticValues>
+                <string>couvert</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>couvert</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>cloudy</Key>
+            <BaseValue>nuageux</BaseValue>
+            <ClosePhoneticValues>
+                <string>nuageux</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>nuageux</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>locationissue</Key>
+            <BaseValue>Je ne trouve pas le lieu demandé</BaseValue>
+            <ClosePhoneticValues>
+                <string>Je ne trouve pas le lieu demandé</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je ne trouve pas le lieu demandé</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>oneweekmax</Key>
+            <BaseValue>Je peux donner la météo seulement pour cette semaine</BaseValue>
+            <ClosePhoneticValues>
+                <string>Je peux donner la météo seulement pour cette semaine</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je peux te donner la météo seulement pour cette semaine</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
