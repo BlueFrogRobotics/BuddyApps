@@ -27,8 +27,8 @@ namespace BuddyApp.Guardian
 			BYOS.Instance.Toaster.Hide();
 			AAppActivity.LockScreen();
 
-
-			GuardianActivity.sDetectionManager.LinkDetectorsEvents();
+            mDetectionManager.LinkDetectorsEvents();
+			//GuardianActivity.sDetectionManager.LinkDetectorsEvents();
 
 			if (GuardianData.Instance.MobileDetection)
 				Trigger("MobileDetection");

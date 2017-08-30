@@ -54,6 +54,7 @@ namespace BuddyApp.Guardian
 			//}
 
 			EMail lMail = new EMail("Movement alert", FormatMessage("movementalertmessage"));
+
 			//lMail.AddFile(BYOS.Instance.Resources.PathToRaw("video.zip"));
 
 			return lMail;

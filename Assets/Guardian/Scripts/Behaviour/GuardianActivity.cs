@@ -7,30 +7,36 @@ namespace BuddyApp.Guardian
 {
 	public class GuardianActivity : AAppActivity
 	{
-		public static DetectionManager sDetectionManager;/// TODO: apres la release de core, remettre cette variable en private non static 
+		private DetectionManager mDetectionManager;
 
 		public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
 		{
 			Resources.LoadAtlas("GuardianAtlas");
 			Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
-		}
+            Debug.Log("on loading activity");
+        }
 
-		public override void OnStart()
+        public override void OnAwake()
+        {
+            Debug.Log("on awake activity");
+            mDetectionManager = (DetectionManager)Objects[0];
+        }
+
+        public override void OnStart()
 		{
-			///TODO: decommenter la ligne ci dessous apres la release de core
-			//sDetectionManager = (DetectionManager)Objects[0];
-		}
+            Debug.Log("on start activity");
+        }
 
 		public override void OnQuit()
 		{
-			sDetectionManager.UnlinkDetectorsEvents();
+			mDetectionManager.UnlinkDetectorsEvents();
 
 			string lMailAddress = GuardianData.Instance.Contact.Email;
 			Debug.Log(lMailAddress);
-			if (string.IsNullOrEmpty(lMailAddress) || string.IsNullOrEmpty(sDetectionManager.Logs))
+			if (string.IsNullOrEmpty(lMailAddress) || string.IsNullOrEmpty(mDetectionManager.Logs))
 				return;
 
-			EMail lMail = new EMail("Guardian logs", sDetectionManager.Logs);
+			EMail lMail = new EMail("Guardian logs", mDetectionManager.Logs);
 			lMail.AddTo(lMailAddress);
 			WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnMailSent);
 			OnMailSent();
@@ -38,15 +44,15 @@ namespace BuddyApp.Guardian
 
 		public override void OnClickLockedScreen()
 		{
-			sDetectionManager.IsDetectingFire = false;
-			sDetectionManager.IsDetectingSound = false;
-			sDetectionManager.IsDetectingKidnapping = false;
-			sDetectionManager.IsDetectingMovement = false;
+			mDetectionManager.IsDetectingFire = false;
+			mDetectionManager.IsDetectingSound = false;
+			mDetectionManager.IsDetectingKidnapping = false;
+			mDetectionManager.IsDetectingMovement = false;
 
 			Animator.GetBehaviour<WalkState>().StopWalkCoroutines();
 			Animator.GetBehaviour<TurnState>().StopTurnCoroutines();
 
-			sDetectionManager.Roomba.enabled = false;
+			mDetectionManager.Roomba.enabled = false;
 			Primitive.Motors.Wheels.Stop();
 
 			Animator.SetBool("Password", true);

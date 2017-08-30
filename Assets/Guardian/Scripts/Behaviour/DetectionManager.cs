@@ -61,14 +61,15 @@ namespace BuddyApp.Guardian
 
 		void Awake()
 		{
-			mAnimator = GetComponent<Animator>();
+            Debug.Log("awake mono");
+            mAnimator = GetComponent<Animator>();
 			GuardianActivity.Init(mAnimator, this);
-			GuardianActivity.sDetectionManager = this;///TODO: apres la release de core, modifier GuardianActivity selon les indications et supprimer cette ligne
 		}
 
 		void Start()
 		{
-			Init();
+            Debug.Log("start mono");
+            Init();
 			//LinkDetectorsEvents();
 		}
 

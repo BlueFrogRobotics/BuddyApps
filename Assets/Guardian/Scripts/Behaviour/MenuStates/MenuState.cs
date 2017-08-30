@@ -42,9 +42,9 @@ namespace BuddyApp.Guardian
 			AAppActivity.UnlockScreen();
 
 			if (GuardianData.Instance.FirstRun)
-				Interaction.TextToSpeech.SayKey("firstmenu");
+				Interaction.TextToSpeech.SayKey("firstmenu", true);
 			else
-				Interaction.TextToSpeech.SayKey("askchoices");
+				Interaction.TextToSpeech.SayKey("askchoices", true);
 
 			//Detection.NoiseStimulus.enabled = false;
 			Interaction.VocalManager.OnEndReco = OnSpeechReco;
