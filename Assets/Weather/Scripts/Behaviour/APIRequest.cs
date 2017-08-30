@@ -9,28 +9,43 @@ namespace BuddyApp.Weather
 {
 	public class APIRequest : AStateMachineBehaviour
 	{
-        private WebService lWebServiceWeather;
-        private Action<WeatherInfo[]> lWeatherInfos;
         private int mDate;
         //Max numberWeatherInfos égal à 64
         private int mNumberWeatherInfos;
+		private bool mAnswerReceived;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+			mAnswerReceived = false;
+			// Collect data and request the API accordingly
 
-            // Collect data and request the API accordingly
-            lWebServiceWeather = new WebService();
-            lWeatherInfos = null;
-            
-            lWebServiceWeather.Weather.At(WeatherData.Instance.Location, lWeatherInfos, mNumberWeatherInfos);
+			Debug.Log("Pre web service " + WeatherData.Instance.Location);
+			BYOS.Instance.WebService.Weather.At(WeatherData.Instance.Location, WeatherProcessing, mNumberWeatherInfos);
 
-            lWeatherInfos = WeatherProcessing;
+			Debug.Log("Post web service ");
+
 
         }
 
-        private void WeatherProcessing(WeatherInfo[] iWeather)
-        {
-            if (iWeather == null || iWeather.Length == 0)
+
+
+		//OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			if (mAnswerReceived) {
+				Trigger("Restitution");
+			}
+		}
+
+
+
+
+
+
+		private void WeatherProcessing(WeatherInfo[] iWeather)
+		{
+			Debug.Log("WeatherProcessing");
+			if (iWeather == null || iWeather.Length == 0)
             {
                 Debug.Log("la location n'est pas reconnue / n'existe pas");
                 return;
@@ -57,28 +72,8 @@ namespace BuddyApp.Weather
                     //Say Pas possible destimer la météo qu'il fera dans plus d'une semaine
                 }
                 WeatherInfo = iWeather[mDate];
-            }
-        }
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        //{
-           
-        //}
-
-        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        //{
-
-        //}
-
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
+			}
+			mAnswerReceived = true;
+		}
     }
 }

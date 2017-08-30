@@ -16,11 +16,10 @@ namespace BuddyApp.Weather
 			WeatherData.Instance.Date = 0;
 			WeatherData.Instance.Forecast = "";
 
-			if (WeatherData.Instance.VocalRequest == "") {
-				animator.SetTrigger("Request");
-			} else {
+			if (WeatherData.Instance.VocalRequest != "")
 				StringAnalysis(WeatherData.Instance.VocalRequest);
-			}
+
+			Trigger("Request");
 		}
 
 

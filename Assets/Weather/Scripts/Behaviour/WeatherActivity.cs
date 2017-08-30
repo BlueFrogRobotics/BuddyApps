@@ -14,7 +14,7 @@ namespace BuddyApp.Weather
 		public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
 		{ 
 			Utils.LogI(LogContext.APP, "On loading...");
-			if (iStrArgs.Length > 0) {
+			if (iStrArgs != null) {
 				// We have an input sentence
 				WeatherData.Instance.VocalRequest = iStrArgs[0];
 			}else {

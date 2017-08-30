@@ -24,7 +24,7 @@ namespace BuddyApp.Weather
         private Dictionary<string, object> mCommonObjects;
         private WeatherStateMachineManager mManager;
         private Animator mAnimator;
-        internal WeatherInfo mWeatherInfo;
+        private WeatherInfo mWeatherInfo;
 
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace BuddyApp.Weather
 
         internal WeatherStateMachineManager Manager { set { mManager = value; } }
         internal Animator Animator { set { mAnimator = value; } }
-        internal WeatherInfo WeatherInfo { set { mWeatherInfo = value;  } }
+        internal WeatherInfo WeatherInfo { get { return mWeatherInfo; } set { mWeatherInfo = value; } }
 
         /// <summary>
         /// Trigger the named trigger in the current animator
