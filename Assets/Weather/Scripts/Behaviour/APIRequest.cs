@@ -67,7 +67,7 @@ namespace BuddyApp.Weather
                 if ( WeatherData.Instance.Date < 7)
                 {
                     //pas grave si ça dépasse 64 parce que ça ne sera un écart que de quelques heures pour la météo dans 6 jours pour le max
-                    mDate = 8 * WeatherData.Instance.Date;
+                    mDate = 8 * WeatherData.Instance.Date + 4;
                     
                 }
                 else if (WeatherData.Instance.Date > 7) {
