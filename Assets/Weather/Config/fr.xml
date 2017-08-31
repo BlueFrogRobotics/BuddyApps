@@ -223,7 +223,7 @@
             <ClosePhoneticValues>
                 <string>nuage</string>
                 <string>nuageux</string>
-                <string />
+                <string>nuages</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>nuage</string>
@@ -287,6 +287,26 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Je peux te donner la météo seulement pour cette semaine</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>geolocfailed</Key>
+            <BaseValue>Désolé, je n'ai pas réussi à me localiser</BaseValue>
+            <ClosePhoneticValues>
+                <string>Désolé, je n'ai pas réussi à me localiser</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Désolé, je n'ai pas réussi à me localiser</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>geolocdisable</Key>
+            <BaseValue>Désolé, la géolocalisation est désactivée</BaseValue>
+            <ClosePhoneticValues>
+                <string>Désolé, la géolocalisation est désactivée</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Désolé, la géolocalisation est désactivée</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

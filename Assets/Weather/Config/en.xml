@@ -283,5 +283,25 @@
                 <string>I can give you the weather only for this week</string>
             </RandomValues>
         </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>geolocfailed</Key>
+            <BaseValue>Sorry, I couldn't localize myself correctly.</BaseValue>
+            <ClosePhoneticValues>
+                <string>Sorry, I couldn't localize myself correctly.</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Sorry, I couldn't localize myself correctly.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>geolocdisable</Key>
+            <BaseValue>Sorry, the geolocalisation is disabled</BaseValue>
+            <ClosePhoneticValues>
+                <string>Sorry, the geolocalisation is disabled</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Sorry, the geolocalisation is disabled</string>
+            </RandomValues>
+        </DictionaryEntry>
     </Entries>
 </LanguageThesaurus>
