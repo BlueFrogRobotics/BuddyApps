@@ -68,8 +68,11 @@ namespace BuddyApp.Weather
 			Interaction.TextToSpeech.Say(lAnswer + " " + Dictionary.GetRandomString("inlocation") + " " + WeatherData.Instance.Location);
 		}
 
-
-
+		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			if (Interaction.TextToSpeech.HasFinishedTalking)
+				Trigger("Restart");
+		}
 
 	}
 }
