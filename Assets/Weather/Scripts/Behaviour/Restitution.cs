@@ -6,10 +6,13 @@ namespace BuddyApp.Weather
 {
 	public class Restitution : AStateMachineBehaviour
 	{
+		private float mTimer;
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
+			Debug.Log("ENTER RESTITUTION");
+			mTimer = 0F;
 			WeatherInfo lWeatherInfo = GetComponent<WeatherBehaviour>().mWeatherInfo;
 			// Tell the weather
 			string lAnswer = "";
@@ -70,8 +73,16 @@ namespace BuddyApp.Weather
 
 		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			if (Interaction.TextToSpeech.HasFinishedTalking)
+
+			mTimer += Time.deltaTime;
+			if (Interaction.TextToSpeech.HasFinishedTalking && mTimer > 3F) {
+				Debug.Log("Restart test");
+				WeatherData.Instance.Date = 0;
+				WeatherData.Instance.Forecast = "";
+				WeatherData.Instance.Location = "";
+				WeatherData.Instance.VocalRequest = "";
 				Trigger("Restart");
+			}
 		}
 
 	}
