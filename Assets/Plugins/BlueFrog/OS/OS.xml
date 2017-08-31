@@ -3326,6 +3326,31 @@
             Rainny weather
             </summary>
         </member>
+        <member name="T:Buddy.WEATHER_ERROR">
+            <summary>
+            Error that may happen during a Weather request
+            </summary>
+        </member>
+        <member name="F:Buddy.WEATHER_ERROR.NONE">
+            <summary>
+            No error
+            </summary>
+        </member>
+        <member name="F:Buddy.WEATHER_ERROR.UNKNOWN_LOCATION">
+            <summary>
+            Unable to find latitude and longitude of provided location
+            </summary>
+        </member>
+        <member name="F:Buddy.WEATHER_ERROR.GEOLOCALIZATION_FAILED">
+            <summary>
+            Localization of device failed
+            </summary>
+        </member>
+        <member name="F:Buddy.WEATHER_ERROR.GEOLOCALIZATION_DISABLED">
+            <summary>
+            No location was provided and localization was disabled
+            </summary>
+        </member>
         <member name="T:Buddy.WeatherInfo">
             <summary>
             This class represents the weather at a specific hour
@@ -3364,7 +3389,7 @@
             Weather API of the wished location
             </summary>
         </member>
-        <member name="M:Buddy.Weather.At(System.String,System.Action{Buddy.WeatherInfo[]},System.Int32)">
+        <member name="M:Buddy.Weather.At(System.String,System.Action{Buddy.WeatherInfo[],Buddy.WEATHER_ERROR},System.Int32)">
             <summary>
             Search for the weather of the current day. Can provide information up to the next week.
             </summary>
