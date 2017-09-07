@@ -37,9 +37,8 @@ namespace BuddyApp.Weather
 
 		private void NoAnswer(STTError iError)
 		{
-			Utils.LogI(LogContext.APP, "On loading...");
+			Utils.LogI(LogContext.APP, "VM error");
 			Debug.Log("GOT NO ANSWER");
-			Trigger("Test");
 		}
 		
 	}

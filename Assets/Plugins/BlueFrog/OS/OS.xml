@@ -3321,9 +3321,44 @@
             Cloudy weather
             </summary>
         </member>
+        <member name="F:Buddy.WeatherType.PARTIALLY_CLOUDY">
+            <summary>
+            Partial Cloudy weather
+            </summary>
+        </member>
         <member name="F:Buddy.WeatherType.RAIN">
             <summary>
             Rainny weather
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.SNOWY">
+            <summary>
+            Snowy weather
+            </summary>
+        </member>
+        <member name="T:Buddy.WeatherError">
+            <summary>
+            Error that may happen during a Weather request
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherError.NONE">
+            <summary>
+            No error
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherError.UNKNOWN_LOCATION">
+            <summary>
+            Unable to find latitude and longitude of provided location
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherError.GEOLOCALIZATION_FAILED">
+            <summary>
+            Localization of device failed
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherError.GEOLOCALIZATION_DISABLED">
+            <summary>
+            No location was provided and localization was disabled
             </summary>
         </member>
         <member name="T:Buddy.WeatherInfo">
@@ -3356,6 +3391,21 @@
             The temperature in degrees
             </summary>
         </member>
+        <member name="P:Buddy.WeatherInfo.AverageWindSpeed">
+            <summary>
+            The speed of the wind in km/h
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.GustWindSpeed">
+            <summary>
+            The speed of the gust of wind in km/h
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.DegreeWind">
+            <summary>
+            The direction of the wind in degree
+            </summary>
+        </member>
         <member name="T:Buddy.Weather">
             <summary>
             Weather API of the wished location
@@ -3364,7 +3414,7 @@
             Weather API of the wished location
             </summary>
         </member>
-        <member name="M:Buddy.Weather.At(System.String,System.Action{Buddy.WeatherInfo[]},System.Int32)">
+        <member name="M:Buddy.Weather.At(System.String,System.Action{Buddy.WeatherInfo[],Buddy.WeatherError},System.Int32)">
             <summary>
             Search for the weather of the current day. Can provide information up to the next week.
             </summary>
@@ -3515,13 +3565,13 @@
             Save a texture 2d as a png in the streaming asset folder then add it to the mail
             </summary>
             <param name="iTexture">texture to add to save and add to the mail</param>
-            <param name="iFileName"></param>
+            <param name="iFilePath">file path</param>
         </member>
         <member name="M:Buddy.EMail.AddFile(System.String)">
             <summary>
             Add file in the streaming asset folder
             </summary>
-            <param name="iFileName">name of the file to add</param>
+            <param name="iFilePath">file path</param>
         </member>
         <member name="M:Buddy.EMail.AddTo(System.String)">
             <summary>
