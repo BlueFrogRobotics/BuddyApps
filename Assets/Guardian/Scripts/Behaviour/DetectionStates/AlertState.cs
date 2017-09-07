@@ -69,9 +69,11 @@ namespace BuddyApp.Guardian
             Debug.Log("send mail avant");
             if (lMail == null)
                 return;
+
             Debug.Log("send mail apres");
             lMail.AddTo(iAddress);
             WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnMailSent);
+            Debug.Log("send mail encore apres");
         }
 
         private AAlert GetAlert()

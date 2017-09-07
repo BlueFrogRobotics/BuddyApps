@@ -24,9 +24,11 @@ namespace BuddyApp.Guardian
         private bool mHasInitSlider = false;
         private bool mGoBack = false;
         private bool mHasOpenedWindow = false;
-        private NoiseStimulus mNoiseStimulus;
+        //private NoiseStimulus mNoiseStimulus;
+        private NoiseDetection mNoiseDetection;
         private DebugSoundWindow mDebugSoundWindow;
 
+        private float mIntensity = 0.0f;
         private Queue<float> mSoundIntensities;
         private int mNbSoundPics = 50;
 
@@ -43,6 +45,7 @@ namespace BuddyApp.Guardian
             mGoBack = false;
             mHasOpenedWindow = false;
             mDebugSoundAnimator = mDebugSoundWindow.gameObject.GetComponent<Animator>();
+            mNoiseDetection = BYOS.Instance.Perception.Noise;
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -54,16 +57,17 @@ namespace BuddyApp.Guardian
             {
                 mSoundIntensities.Enqueue(0.0f);
             }
-            AStimulus soundStimulus;
-            BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_LOUD, out soundStimulus);
-            mNoiseStimulus = (NoiseStimulus)soundStimulus;
+            //AStimulus soundStimulus;
+            //BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_LOUD, out soundStimulus);
+            //mNoiseStimulus = (NoiseStimulus)soundStimulus;
+            mNoiseDetection.OnDetect(OnNewSound, 0.0f);
             mDebugSoundWindow.ButtonBack.onClick.AddListener(GoBack);
             
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+            //Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
             //if (mNoiseStimulus.IsListening)
             //{
-                mNoiseStimulus.enabled = false;
-                mNoiseStimulus.enabled = true;
+               // mNoiseStimulus.enabled = false;
+               // mNoiseStimulus.enabled = true;
             //}
         }
 
@@ -96,7 +100,7 @@ namespace BuddyApp.Guardian
                 if (mHasInitSlider && mDebugSoundAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
                 {
                     animator.SetInteger("DebugMode", -1);
-                    GuardianData.Instance.SoundDetectionThreshold = 100 - (int)(mNoiseStimulus.Threshold * 100.0f / DetectionManager.MAX_SOUND_THRESHOLD);
+                    //GuardianData.Instance.SoundDetectionThreshold = 100 - (int)(mNoiseStimulus.Threshold * 100.0f / DetectionManager.MAX_SOUND_THRESHOLD);
                     mGoBack = false;
                     mDebugSoundWindow.Ico.enabled = false;
                 }
@@ -106,7 +110,7 @@ namespace BuddyApp.Guardian
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            GuardianData.Instance.SoundDetectionThreshold = 100-(int)(mNoiseStimulus.Threshold * 100.0f / DetectionManager.MAX_SOUND_THRESHOLD);
+            //GuardianData.Instance.SoundDetectionThreshold = 100-(int)(mNoiseStimulus.Threshold * 100.0f / DetectionManager.MAX_SOUND_THRESHOLD);
             mDebugSoundWindow.Ico.enabled = false;
             Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
             mDebugSoundWindow.ButtonBack.onClick.RemoveAllListeners();  
@@ -129,8 +133,8 @@ namespace BuddyApp.Guardian
 
             float lMaxThreshold = DetectionManager.MAX_SOUND_THRESHOLD;
             float lThreshold = (1.0f - mGauge.Slider.value / mGauge.Slider.maxValue) * lMaxThreshold;
-            mNoiseStimulus.Threshold = lThreshold;
-            float lLevelSound = mNoiseStimulus.Intensity * 400.0f / lMaxThreshold;
+            //mNoiseStimulus.Threshold = lThreshold;
+            float lLevelSound =  mIntensity * 400.0f / lMaxThreshold;
 
             mSoundIntensities.Enqueue(lLevelSound);
             mSoundIntensities.Dequeue();
@@ -156,6 +160,12 @@ namespace BuddyApp.Guardian
             }
             else
                 mDebugSoundWindow.Ico.enabled = false;
+        }
+
+        private bool OnNewSound(float iNoise)
+        {
+            mIntensity = iNoise;
+            return true;
         }
 
     }

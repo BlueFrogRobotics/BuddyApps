@@ -22,7 +22,7 @@ namespace BuddyApp.Guardian
 		private Animator mAnimator;
 		private KidnappingDetection mKidnappingDetection;
 		private MotionDetection mMotionDetection;
-		//private NoiseDetection mNoiseDetection;
+		private NoiseDetection mNoiseDetection;
 		private ThermalDetection mFireDetection;
 
 		public string Logs { get; private set; }
@@ -39,7 +39,7 @@ namespace BuddyApp.Guardian
 		//public MotionDetection MovementTracker { get; private set; }
 
 
-		public Stimuli Stimuli { get; set; }
+		//public Stimuli Stimuli { get; set; }
 
 		public bool IsDetectingFire { get; set; }
 		public bool IsDetectingMovement { get; set; }
@@ -85,30 +85,16 @@ namespace BuddyApp.Guardian
 		public void Init()
 		{
 
-			Stimuli = BYOS.Instance.Perception.Stimuli;
+			//Stimuli = BYOS.Instance.Perception.Stimuli;
 			//MovementTracker = BYOS.Instance.Perception.Motion;
 
-
-
-			//MotionDetection motionDetection;
-
-			//motionDetection.OnDetect(OnMotionDetected);
-
-
 			mMotionDetection = BYOS.Instance.Perception.Motion;
-			mMotionDetection.OnDetect(OnMovementDetected);
-
-			//mNoiseDetection = BYOS.Instance.Perception.Noise;
-			//mNoiseDetection.OnDetect(OnSoundDetected);
-
-			mFireDetection = BYOS.Instance.Perception.Thermal;
-			mFireDetection.OnDetect(OnThermalDetected);
-			mFireDetection.Threshold = 50;
 			
+			mNoiseDetection = BYOS.Instance.Perception.Noise;
+			
+			mFireDetection = BYOS.Instance.Perception.Thermal;
+					
 			mKidnappingDetection = BYOS.Instance.Perception.Kidnapping;
-			mKidnappingDetection.OnDetect(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
-
-
 
 			//AStimulus moveSideStimulus;
 			//BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.MOVING, out moveSideStimulus);
@@ -152,11 +138,16 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public void LinkDetectorsEvents()
 		{
-			//Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
-			//Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
-			//Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
-			//Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
-		}
+            mMotionDetection.OnDetect(OnMovementDetected);
+            mNoiseDetection.OnDetect(OnSoundDetected);
+            mFireDetection.OnDetect(OnThermalDetected);
+            mFireDetection.Threshold = 50;
+            mKidnappingDetection.OnDetect(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
+            //Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
+            //Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+            //Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
+            //Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
+        }
 
 		/// <summary>
 		/// Unsubscibe to the stimulis callbacks
@@ -169,7 +160,7 @@ namespace BuddyApp.Guardian
 			//Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
 			mKidnappingDetection.StopOnDetect(OnKidnappingDetected);
 			mFireDetection.StopOnDetect(OnThermalDetected);
-			//mNoiseDetection.StopDetecting(OnSoundDetected);
+			mNoiseDetection.StopOnDetect(OnSoundDetected);
 			mMotionDetection.StopOnDetect(OnMovementDetected);
 		}
 

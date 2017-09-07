@@ -52,7 +52,8 @@ namespace BuddyApp.Guardian
 			//Utils.Save(BYOS.Instance.Resources.PathToRaw("monitoring.avi"), mBufferVideo.ToArray(), mFPS);
 			string lDirectoryPath = Path.GetDirectoryName(BYOS.Instance.Resources.PathToRaw("monitoring.avi"));
 			Directory.CreateDirectory(lDirectoryPath);
-			Utils.Save(BYOS.Instance.Resources.PathToRaw("monitoring.avi"), mBufferVideo.ToArray(), mFPS);
+
+			Utils.Save(Application.streamingAssetsPath + "/monitoring.avi"/*BYOS.Instance.Resources.PathToRaw("monitoring.avi")*/, mBufferVideo.ToArray(), mFPS);
 			//Save("monitoring.avi", mFPS);
 		}
 
