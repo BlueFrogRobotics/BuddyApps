@@ -12,6 +12,7 @@ namespace BuddyApp.Weather
 		public string Location { get; set; }
 		public string Forecast { get; set; }
 		public int Date { get; set; }
+		public bool When { get; set; }
 
 		/*
          * Data singleton access
