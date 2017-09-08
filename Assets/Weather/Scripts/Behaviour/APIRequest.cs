@@ -53,15 +53,15 @@ namespace BuddyApp.Weather
 
 
 
-		private void WeatherProcessing(WeatherInfo[] iWeather, WEATHER_ERROR iError)
+		private void WeatherProcessing(WeatherInfo[] iWeather, WeatherError iError)
 		{
 			Debug.Log("WeatherProcessing");
-			if (iError != WEATHER_ERROR.NONE) {
-				if (iError == WEATHER_ERROR.UNKNOWN_LOCATION)
+			if (iError != WeatherError.NONE) {
+				if (iError == WeatherError.UNKNOWN_LOCATION)
 					Interaction.TextToSpeech.SayKey("locationissue");
-				else if (iError == WEATHER_ERROR.GEOLOCALIZATION_FAILED)
+				else if (iError == WeatherError.GEOLOCALIZATION_FAILED)
 					Interaction.TextToSpeech.SayKey("geolocfailed");
-				else if (iError == WEATHER_ERROR.GEOLOCALIZATION_DISABLED)
+				else if (iError == WeatherError.GEOLOCALIZATION_DISABLED)
 					Interaction.TextToSpeech.SayKey("geolocdisable");
 
 

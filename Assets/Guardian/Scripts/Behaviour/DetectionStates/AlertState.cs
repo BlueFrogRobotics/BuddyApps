@@ -37,7 +37,7 @@ namespace BuddyApp.Guardian
 
             mAction = DisplayAlert();
             StartCoroutine(mAction);
-
+            //WebService.EMailSender.enabled = true;
             string lMailAddress = GuardianData.Instance.Contact.Email;
             if (!string.IsNullOrEmpty(lMailAddress))
                 SendMail(lMailAddress);
@@ -72,7 +72,7 @@ namespace BuddyApp.Guardian
 
             Debug.Log("send mail apres");
             lMail.AddTo(iAddress);
-            WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnMailSent);
+            WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, Detection.OnMailSent);
             Debug.Log("send mail encore apres");
         }
 
@@ -96,10 +96,11 @@ namespace BuddyApp.Guardian
             }
         }
 
-        private void OnMailSent()
-        {
-            Notifier.Display<SimpleNot>().With(Dictionary.GetString("mailsent"), null);
-        }
+        //private void OnMailSent()
+        //{
+        //    Debug.Log("le mail a ete fabuleusement envoye");
+        //    Notifier.Display<SimpleNot>().With(Dictionary.GetString("mailsent"), null);
+        //}
 
     }
 }

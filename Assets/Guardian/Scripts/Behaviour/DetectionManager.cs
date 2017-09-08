@@ -230,6 +230,9 @@ namespace BuddyApp.Guardian
 			return true;
 		}
 
-
-	}
+        public void OnMailSent()
+        {
+            Debug.Log("le mail a ete fabuleusement envoye");
+        }
+    }
 }
