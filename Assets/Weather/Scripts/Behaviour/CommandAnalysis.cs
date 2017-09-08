@@ -17,6 +17,7 @@ namespace BuddyApp.Weather
 			WeatherData.Instance.Location = "";
 			WeatherData.Instance.Date = 0;
 			WeatherData.Instance.Forecast = "";
+			WeatherData.Instance.When = false;
 
 			if (WeatherData.Instance.VocalRequest != "")
 				StringAnalysis(WeatherData.Instance.VocalRequest);
@@ -28,6 +29,7 @@ namespace BuddyApp.Weather
 		private void StringAnalysis(string vocalRequest)
 		{
 			// Analyse string to find parameters (place, date ...)
+			if(ContainsOneOf(vocalRequest, Dictionary.GetPhoneticStrings("when")))
 			ExtractDate(vocalRequest);
 			ExtractLocation(vocalRequest);
 			ExtractForecast(vocalRequest);
@@ -62,6 +64,7 @@ namespace BuddyApp.Weather
 
 		private void ExtractForecast(string iSpeech)
 		{
+			iSpeech = iSpeech.ToLower();
 			if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("snow"))) {
 				WeatherData.Instance.Forecast = "snow";
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("rain"))) {
