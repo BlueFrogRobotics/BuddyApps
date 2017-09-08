@@ -10,8 +10,9 @@ namespace BuddyApp.Weather
          */
         public string VocalRequest { get; set; }
 		public string Location { get; set; }
-		public string Forecast { get; set; }
+		public WeatherType Forecast { get; set; }
 		public int Date { get; set; }
+		public int Hour { get; set; }
 		public bool When { get; set; }
 
 		/*

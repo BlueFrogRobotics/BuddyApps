@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Buddy;
 
 
 namespace BuddyApp.Weather
@@ -15,8 +16,9 @@ namespace BuddyApp.Weather
 
 			Debug.Log("ENTER Command analysis");
 			WeatherData.Instance.Location = "";
-			WeatherData.Instance.Date = 0;
-			WeatherData.Instance.Forecast = "";
+			WeatherData.Instance.Date = -1;
+			WeatherData.Instance.Forecast = WeatherType.UNKNOWN;
+			WeatherData.Instance.Hour = -1;
 			WeatherData.Instance.When = false;
 
 			if (WeatherData.Instance.VocalRequest != "")
@@ -29,8 +31,9 @@ namespace BuddyApp.Weather
 		private void StringAnalysis(string vocalRequest)
 		{
 			// Analyse string to find parameters (place, date ...)
-			if(ContainsOneOf(vocalRequest, Dictionary.GetPhoneticStrings("when")))
-			ExtractDate(vocalRequest);
+			if (ContainsOneOf(vocalRequest, Dictionary.GetPhoneticStrings("when")))
+				ExtractDate(vocalRequest);
+			ExtractHour(vocalRequest);
 			ExtractLocation(vocalRequest);
 			ExtractForecast(vocalRequest);
 		}
@@ -66,19 +69,19 @@ namespace BuddyApp.Weather
 		{
 			iSpeech = iSpeech.ToLower();
 			if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("snow"))) {
-				WeatherData.Instance.Forecast = "snow";
+				WeatherData.Instance.Forecast = WeatherType.SNOWY;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("rain"))) {
-				WeatherData.Instance.Forecast = "rain";
+				WeatherData.Instance.Forecast = WeatherType.RAIN;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("fog"))) {
-				WeatherData.Instance.Forecast = "fog";
+				WeatherData.Instance.Forecast = WeatherType.OVERCAST;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("sun"))) {
-				WeatherData.Instance.Forecast = "sun";
+				WeatherData.Instance.Forecast = WeatherType.SUNNY;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("wind"))) {
-				WeatherData.Instance.Forecast = "wind";
+				// TODO
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("thunder"))) {
-				WeatherData.Instance.Forecast = "thunder";
+				WeatherData.Instance.Forecast = WeatherType.OVERCAST;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("cloud"))) {
-				WeatherData.Instance.Forecast = "cloud";
+				WeatherData.Instance.Forecast = WeatherType.CLOUDY;
 			}
 		}
 
@@ -103,52 +106,88 @@ namespace BuddyApp.Weather
 		}
 
 
+		/// <summary>
+		/// Extract the hour from the text
+		/// may it be from direct hour (8 in the morning)
+		/// or words like morning / evening / night
+		/// </summary>
+		/// <param name="iSpeech"></param>
+		private void ExtractHour(string iSpeech)
+		{
+			Debug.Log("hour pre: " + iSpeech);
+			List<int> lHour = ContainsHour(iSpeech);
+			if (lHour.Count == 1) {
+				WeatherData.Instance.Hour = lHour[0];
+			}
 
-		//private void ExtractHour(string iSpeech)
-		//{
-		//	Debug.Log("hour pre: " + link.departureDate);
-		//	List<int> hour = ContainsHour(iSpeech);
-		//	if (hour.Count == 1) {
-		//		link.time = "à partir de " + hour[0].ToString() + " heure";
-		//		link.departureDate = link.departureDate.AddHours(hour[0]);
-		//		link.departureTimeSet = true;
-		//	}
+			// TODO dico
+			if (iSpeech.Contains("matin")) {
+				if (WeatherData.Instance.Hour == -1) {
+					WeatherData.Instance.Hour = 8;
+				} else {
+					// a.m. hour
+					// mb check that it's < 12?
+				}
 
-		//	if (iSpeech.Contains("matin")) {
-		//		if (string.IsNullOrEmpty(link.time)) {
-		//			link.departureDate = link.departureDate.AddHours(4);
-		//			link.time = "matin";
-		//		} else {
-		//			link.time += " du matin";
-		//		}
-		//		link.departureTimeSet = true;
-		//	} else if (iSpeech.Contains("avant midi") || iSpeech.Contains("avant-midi")) {
-		//		link.departureDate = link.departureDate.AddHours(4);
-		//		if (string.IsNullOrEmpty(link.time)) {
-		//			link.time = "avant midi";
-		//		}
-		//		link.departureTimeSet = true;
-		//	} else if (iSpeech.Contains("après-midi") || iSpeech.Contains("midi")) {
-		//		link.departureDate = link.departureDate.AddHours(12);
-		//		if (string.IsNullOrEmpty(link.time)) {
-		//			link.time = "à partir de midi";
-		//		} else if (link.departureDate.Hour < 13) {
-		//			link.departureDate = link.departureDate.AddHours(12);
-		//			link.time += " de l'après midi";
-		//		}
-		//		link.departureTimeSet = true;
-		//	} else if (iSpeech.Contains("soir")) {
-		//		if (string.IsNullOrEmpty(link.time)) {
-		//			link.departureDate = link.departureDate.AddHours(17);
-		//			link.time = "soir";
-		//		} else if (link.departureDate.Hour < 13) {
-		//			link.departureDate = link.departureDate.AddHours(12);
-		//			link.time += " du soir";
-		//		}
-		//		link.departureTimeSet = true;
-		//	}
-		//	Debug.Log("hour post: " + link.departureDate);
-		//}
+				//} else if (iSpeech.Contains("avant midi") || iSpeech.Contains("avant-midi")) {
+				//	link.departureDate = link.departureDate.AddHours(4);
+				//	if (string.IsNullOrEmpty(link.time)) {
+				//		link.time = "avant midi";
+				//	}
+				//	link.departureTimeSet = true;
+			} else if (iSpeech.Contains("après-midi") || iSpeech.Contains("midi")) {
+				//link.departureDate = link.departureDate.AddHours(12);
+				if (WeatherData.Instance.Hour == -1) {
+					if (iSpeech.Contains("après-midi"))
+						WeatherData.Instance.Hour = 15;
+					else
+						WeatherData.Instance.Hour = 12;
+
+				} else if (WeatherData.Instance.Hour < 13) {
+					WeatherData.Instance.Hour += 12;
+				}
+
+			} else if (iSpeech.Contains("soir")) {
+				if (WeatherData.Instance.Hour == -1) {
+					WeatherData.Instance.Hour = 20;
+				} else if (WeatherData.Instance.Hour < 13) {
+					WeatherData.Instance.Hour += 12;
+				}
+
+			} else if (iSpeech.Contains("nuit")) {
+				if (WeatherData.Instance.Hour == -1) {
+					WeatherData.Instance.Hour = 23;
+				} else if (WeatherData.Instance.Hour < 13) {
+					// Do nothing?
+				}
+			}
+			Debug.Log("hour post: " + WeatherData.Instance.Hour);
+		}
+
+		private List<int> ContainsHour(string iSpeech)
+		{
+			List<int> result = new List<int>();
+
+			string[] words = iSpeech.Split(' ');
+			for (int iw = 0; iw < words.Length; ++iw) {
+				for (int i = 0; i < 24; ++i) {
+					//Debug.Log("iMonthList actuel " + iMonthsList[i]);
+					//Debug.Log("iword actuel " + word);
+					if (words[iw].ToLower() == i.ToString() + "h") {
+						result.Add(i);
+						Debug.Log("contains hour: " + i);
+					} else if ((words[iw].ToLower() == "h" || words[iw].ToLower() == "heures" || words[iw].ToLower() == "heure")) {
+						if (words[iw - 1] == i.ToString()) {
+
+							result.Add(i);
+							Debug.Log("contains hour: " + i);
+						}
+					}
+				}
+			}
+			return result;
+		}
+
 
 
 		private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
