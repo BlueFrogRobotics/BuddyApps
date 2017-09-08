@@ -52,8 +52,8 @@ namespace BuddyApp.Guardian
 			Interaction.VocalManager.OnError = Empty;
 			mTimer = 0.0f;
 			mListening = false;
-			if (!BYOS.Instance.Primitive.RGBCam.IsOpen)
-				BYOS.Instance.Primitive.RGBCam.Open(RGBCamResolution.W_176_H_144);
+			//if (!BYOS.Instance.Primitive.RGBCam.IsOpen)
+			//	BYOS.Instance.Primitive.RGBCam.Open(RGBCamResolution.W_176_H_144);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

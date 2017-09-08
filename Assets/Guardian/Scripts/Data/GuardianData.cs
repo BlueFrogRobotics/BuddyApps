@@ -24,7 +24,8 @@ namespace BuddyApp.Guardian
 			KidnappingDetection = true;
 			SendMail = true;
 			Contact = new UserAccount();
-			Contact.FirstName = "NONE";
+			Contact.FirstName = "NONE ";
+
 		}
 
 		/// <summary>

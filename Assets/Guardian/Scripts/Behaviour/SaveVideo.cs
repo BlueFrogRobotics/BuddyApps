@@ -23,26 +23,29 @@ namespace BuddyApp.Guardian
             mBufferVideo = new Queue<Mat>();
             mMaxBufferSize = mFPS * mNumSec;
             mCam = BYOS.Instance.Primitive.RGBCam;
-            if (!mCam.IsOpen)
-                mCam.Open(RGBCamResolution.W_176_H_144);
+            //if (!mCam.IsOpen)
+            //    mCam.Open(RGBCamResolution.W_176_H_144);
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (mCam.IsOpen)
+            {
+                mTime += Time.deltaTime;
+                if (mTime > 1.0f / mFPS)
+                {
 
-            mTime += Time.deltaTime;
-            if (mTime > 1.0f / mFPS) {
+                    if (mCam.FrameMat == null)
+                        return;
 
-                if (mCam.FrameMat == null)
-                    return;
-
-                Mat lMatCam = mCam.FrameMat.clone();
-                //Debug.Log("frame id: " + mCam.FrameID);
-                mTime = 0.0f;
-                mBufferVideo.Enqueue(lMatCam);
-                if (mBufferVideo.Count > mMaxBufferSize)
-                    mBufferVideo.Dequeue();
+                    Mat lMatCam = mCam.FrameMat.clone();
+                    //Debug.Log("frame id: " + mCam.FrameID);
+                    mTime = 0.0f;
+                    mBufferVideo.Enqueue(lMatCam);
+                    if (mBufferVideo.Count > mMaxBufferSize)
+                        mBufferVideo.Dequeue();
+                }
             }
         }
 

@@ -12,7 +12,7 @@ namespace BuddyApp.Guardian
 		public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
 		{
 			Resources.LoadAtlas("GuardianAtlas");
-			Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
+			//Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
             Debug.Log("on loading activity");
         }
 
@@ -66,8 +66,9 @@ namespace BuddyApp.Guardian
 			Animator.ResetTrigger("Turn");
 			Animator.ResetTrigger("Walk");
 			Animator.ResetTrigger("Alert");
+            mDetectionManager.UnlinkDetectorsEvents();
 
-			Animator.SetBool("Password", false);
+            Animator.SetBool("Password", false);
 			Animator.Play("EnterMenu");
 		}
 
