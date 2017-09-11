@@ -34,31 +34,31 @@ namespace BuddyApp.Weather
 			//Forecast info
 			//} else 
 
-			if (WeatherData.Instance.Forecast != "") {
+			if (WeatherData.Instance.Forecast != WeatherType.UNKNOWN) {
 				string lNoAnswer = lAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("itwillbe") + " "
 					+ Dictionary.GetRandomString(lWeatherInfo.Type.ToString().ToLower()) + " " + lDayString;
 				string lYesAnswer = lAnswer = Dictionary.GetRandomString("yes") + " " + Dictionary.GetRandomString("itwillbe") + " "
 					+ Dictionary.GetRandomString(lWeatherInfo.Type.ToString().ToLower()) + " " + lDayString;
 
-				if (WeatherData.Instance.Forecast == "snow" || WeatherData.Instance.Forecast == "thunder" || WeatherData.Instance.Forecast == "wind" || WeatherData.Instance.Forecast == "fog")
+				if (WeatherData.Instance.Forecast == WeatherType.SNOWY )
 					if (lWeatherInfo.Type == Buddy.WeatherType.CLOUDY || lWeatherInfo.Type == Buddy.WeatherType.SUNNY)
 						lAnswer = lNoAnswer;
 					else
 						lAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("but") + " " + Dictionary.GetRandomString("itwillbe") + " " + lWeatherInfo.Type.ToString() + " " + lDayString;
 
-				else if (WeatherData.Instance.Forecast == "cloud")
+				else if (WeatherData.Instance.Forecast == WeatherType.CLOUDY)
 					if (lWeatherInfo.Type == Buddy.WeatherType.CLOUDY)
 						lAnswer = lYesAnswer;
 					else
 						lAnswer = lNoAnswer;
 
-				else if (WeatherData.Instance.Forecast == "sun")
+				else if (WeatherData.Instance.Forecast == WeatherType.SUNNY)
 					if (lWeatherInfo.Type == Buddy.WeatherType.SUNNY)
 						lAnswer = lYesAnswer;
 					else
 						lAnswer = lNoAnswer;
 
-				else if (WeatherData.Instance.Forecast == "rain")
+				else if (WeatherData.Instance.Forecast == WeatherType.RAIN)
 					if (lWeatherInfo.Type == Buddy.WeatherType.RAIN)
 						lAnswer = lYesAnswer;
 					else
@@ -78,7 +78,7 @@ namespace BuddyApp.Weather
 			if (Interaction.TextToSpeech.HasFinishedTalking && mTimer > 3F) {
 				Debug.Log("Restart test");
 				WeatherData.Instance.Date = 0;
-				WeatherData.Instance.Forecast = "";
+				WeatherData.Instance.Forecast = WeatherType.UNKNOWN;
 				WeatherData.Instance.Location = "";
 				WeatherData.Instance.VocalRequest = "";
 				Trigger("Restart");
