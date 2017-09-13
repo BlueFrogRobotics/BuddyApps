@@ -3306,6 +3306,11 @@
             Different weather type
             </summary>
         </member>
+        <member name="F:Buddy.WeatherType.UNKNOWN">
+            <summary>
+            Not sure about the weather
+            </summary>
+        </member>
         <member name="F:Buddy.WeatherType.SUNNY">
             <summary>
             Sunny weather
@@ -3377,6 +3382,11 @@
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.Day">
+            <summary>
+            Day of the month
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.Date">
             <summary>
             Day with format YYYY-MM-DD
             </summary>
