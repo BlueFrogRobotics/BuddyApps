@@ -7,19 +7,20 @@ using Buddy;
 
 namespace BuddyApp.Weather
 {
+
 	public class CommandAnalysis : AStateMachineBehaviour
 	{
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-
-			Debug.Log("ENTER Command analysis");
-			WeatherData.Instance.Location = "";
-			WeatherData.Instance.Date = -1;
-			WeatherData.Instance.Forecast = WeatherType.UNKNOWN;
-			WeatherData.Instance.Hour = -1;
-			WeatherData.Instance.When = false;
+			mWeatherB = GetComponent<WeatherBehaviour>();
+			//Debug.Log("ENTER Command analysis: " + DateTime.Now.Hour);
+			mWeatherB.mLocation = "";
+			mWeatherB.mDate = -1;
+			mWeatherB.mForecast = WeatherType.UNKNOWN;
+			mWeatherB.mHour = -1;
+			mWeatherB.mWhen = false;
 
 			if (WeatherData.Instance.VocalRequest != "")
 				StringAnalysis(WeatherData.Instance.VocalRequest);
@@ -32,7 +33,8 @@ namespace BuddyApp.Weather
 		{
 			// Analyse string to find parameters (place, date ...)
 			if (ContainsOneOf(vocalRequest, Dictionary.GetPhoneticStrings("when")))
-				ExtractDate(vocalRequest);
+				mWeatherB.mWhen = true;
+			ExtractDate(vocalRequest);
 			ExtractHour(vocalRequest);
 			ExtractLocation(vocalRequest);
 			ExtractForecast(vocalRequest);
@@ -43,11 +45,11 @@ namespace BuddyApp.Weather
 		private void ExtractDate(string iSpeech)
 		{
 			if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("today"))) {
-				WeatherData.Instance.Date = 0;
+				mWeatherB.mDate = 0;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("dayaftertomorrow"))) {
-				WeatherData.Instance.Date = 2;
+				mWeatherB.mDate = 2;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("tomorrow"))) {
-				WeatherData.Instance.Date = 1;
+				mWeatherB.mDate = 1;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("intime")) && ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("day"))) {
 				int nbDay = 0;
 				string[] words = iSpeech.Split(' ');
@@ -56,7 +58,7 @@ namespace BuddyApp.Weather
 						if (Int32.TryParse(words[iw + 1], out nbDay) && ContainsOneOf(words[iw + 2], Dictionary.GetPhoneticStrings("day"))) {
 							Debug.Log("contains in days: " + words[iw + 2]);
 
-							WeatherData.Instance.Date = nbDay;
+							mWeatherB.mDate = nbDay;
 							break;
 						}
 					}
@@ -69,19 +71,19 @@ namespace BuddyApp.Weather
 		{
 			iSpeech = iSpeech.ToLower();
 			if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("snow"))) {
-				WeatherData.Instance.Forecast = WeatherType.SNOWY;
+				mWeatherB.mForecast = WeatherType.SNOWY;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("rain"))) {
-				WeatherData.Instance.Forecast = WeatherType.RAIN;
+				mWeatherB.mForecast = WeatherType.RAIN;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("fog"))) {
-				WeatherData.Instance.Forecast = WeatherType.OVERCAST;
+				mWeatherB.mForecast = WeatherType.OVERCAST;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("sun"))) {
-				WeatherData.Instance.Forecast = WeatherType.SUNNY;
+				mWeatherB.mForecast = WeatherType.SUNNY;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("wind"))) {
 				// TODO
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("thunder"))) {
-				WeatherData.Instance.Forecast = WeatherType.OVERCAST;
+				mWeatherB.mForecast = WeatherType.OVERCAST;
 			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("cloud"))) {
-				WeatherData.Instance.Forecast = WeatherType.CLOUDY;
+				mWeatherB.mForecast = WeatherType.CLOUDY;
 			}
 		}
 
@@ -92,13 +94,14 @@ namespace BuddyApp.Weather
 				if (words[iw].ToLower() == Dictionary.GetString("inlocation")) {
 					if (iw + 2 < words.Length) {
 						if (ContainsOneOf(words[iw + 2], Dictionary.GetPhoneticStrings("day"))) {
+							// TODO add hours exception
 							continue;
 						} else {
-							WeatherData.Instance.Location = words[iw + 1];
+							mWeatherB.mLocation = words[iw + 1];
 							break;
 						}
 					} else if (iw + 1 < words.Length) {
-						WeatherData.Instance.Location = words[iw + 1];
+						mWeatherB.mLocation = words[iw + 1];
 						break;
 					}
 				}
@@ -117,13 +120,13 @@ namespace BuddyApp.Weather
 			Debug.Log("hour pre: " + iSpeech);
 			List<int> lHour = ContainsHour(iSpeech);
 			if (lHour.Count == 1) {
-				WeatherData.Instance.Hour = lHour[0];
+				mWeatherB.mHour = lHour[0];
 			}
 
 			// TODO dico
-			if (iSpeech.Contains("matin")) {
-				if (WeatherData.Instance.Hour == -1) {
-					WeatherData.Instance.Hour = 8;
+			if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("morning"))) {
+				if (mWeatherB.mHour == -1) {
+					mWeatherB.mHour = 8;
 				} else {
 					// a.m. hour
 					// mb check that it's < 12?
@@ -135,33 +138,35 @@ namespace BuddyApp.Weather
 				//		link.time = "avant midi";
 				//	}
 				//	link.departureTimeSet = true;
-			} else if (iSpeech.Contains("après-midi") || iSpeech.Contains("midi")) {
+			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("noon")) || ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("pm"))) {
 				//link.departureDate = link.departureDate.AddHours(12);
-				if (WeatherData.Instance.Hour == -1) {
-					if (iSpeech.Contains("après-midi"))
-						WeatherData.Instance.Hour = 15;
+				if (mWeatherB.mHour == -1) {
+					if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("pm")))
+						mWeatherB.mHour = 14;
 					else
-						WeatherData.Instance.Hour = 12;
+						mWeatherB.mHour = 11;
 
-				} else if (WeatherData.Instance.Hour < 13) {
-					WeatherData.Instance.Hour += 12;
+				} else if (mWeatherB.mHour < 13) {
+					mWeatherB.mHour += 12;
+				}
+			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("midnight"))) {
+				if (mWeatherB.mHour == -1)
+						mWeatherB.mHour = 24;
+			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("evening"))) {
+				if (mWeatherB.mHour == -1) {
+					mWeatherB.mHour = 20;
+				} else if (mWeatherB.mHour < 13) {
+					mWeatherB.mHour += 12;
 				}
 
-			} else if (iSpeech.Contains("soir")) {
-				if (WeatherData.Instance.Hour == -1) {
-					WeatherData.Instance.Hour = 20;
-				} else if (WeatherData.Instance.Hour < 13) {
-					WeatherData.Instance.Hour += 12;
-				}
-
-			} else if (iSpeech.Contains("nuit")) {
-				if (WeatherData.Instance.Hour == -1) {
-					WeatherData.Instance.Hour = 23;
-				} else if (WeatherData.Instance.Hour < 13) {
+			} else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("night"))) {
+				if (mWeatherB.mHour == -1) {
+					mWeatherB.mHour = 23;
+				} else if (mWeatherB.mHour < 13) {
 					// Do nothing?
 				}
 			}
-			Debug.Log("hour post: " + WeatherData.Instance.Hour);
+			Debug.Log("hour post: " + mWeatherB.mHour);
 		}
 
 		private List<int> ContainsHour(string iSpeech)
@@ -176,7 +181,7 @@ namespace BuddyApp.Weather
 					if (words[iw].ToLower() == i.ToString() + "h") {
 						result.Add(i);
 						Debug.Log("contains hour: " + i);
-					} else if ((words[iw].ToLower() == "h" || words[iw].ToLower() == "heures" || words[iw].ToLower() == "heure")) {
+					} else if (ContainsOneOf(words[iw].ToLower(), Dictionary.GetPhoneticStrings("hour"))) {
 						if (words[iw - 1] == i.ToString()) {
 
 							result.Add(i);

@@ -24,12 +24,12 @@ namespace BuddyApp.Weather
         private Dictionary<string, object> mCommonObjects;
         private WeatherStateMachineManager mManager;
         private Animator mAnimator;
+		protected WeatherBehaviour mWeatherB;
 
-
-        /// <summary>
-        /// Common integers through the animator
-        /// </summary>
-        public Dictionary<string, int> CommonIntegers { get { return mCommonIntegers; } internal set { mCommonIntegers = value; } }
+		/// <summary>
+		/// Common integers through the animator
+		/// </summary>
+		public Dictionary<string, int> CommonIntegers { get { return mCommonIntegers; } internal set { mCommonIntegers = value; } }
 
         /// <summary>
         /// Common float through the animator
@@ -276,7 +276,8 @@ namespace BuddyApp.Weather
 
         internal void Init()
         {
-            Interaction = BYOS.Instance.Interaction;
+
+			Interaction = BYOS.Instance.Interaction;
             Perception = BYOS.Instance.Perception;
             Primitive = BYOS.Instance.Primitive;
             IOT = BYOS.Instance.IOT;
@@ -289,7 +290,9 @@ namespace BuddyApp.Weather
             Dictionary = BYOS.Instance.Dictionary;
             Resources = BYOS.Instance.Resources;
             DataBase = BYOS.Instance.DataBase;
-        }
+
+
+		}
 
         /// <summary>
         /// Method called once at the start of the application.

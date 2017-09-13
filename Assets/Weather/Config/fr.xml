@@ -66,6 +66,8 @@
                 <string>soleil</string>
                 <string>soleils</string>
                 <string>beau temps</string>
+                <string>ensoleiller</string>
+                <string>ensoleillé</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
@@ -141,6 +143,8 @@
             <BaseValue>à</BaseValue>
             <ClosePhoneticValues>
                 <string>à</string>
+                <string>sur</string>
+                <string>pour</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>à</string>
@@ -317,6 +321,76 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>quand</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>hour</Key>
+            <BaseValue />
+            <ClosePhoneticValues />
+            <RandomValues />
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>morning</Key>
+            <BaseValue>matin</BaseValue>
+            <ClosePhoneticValues>
+                <string>matin</string>
+                <string>matinée</string>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>matin</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>noon</Key>
+            <BaseValue>midi</BaseValue>
+            <ClosePhoneticValues>
+                <string>midi</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>midi</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>pm</Key>
+            <BaseValue>après-midi</BaseValue>
+            <ClosePhoneticValues>
+                <string>après-midi</string>
+                <string>après midi</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>après-midi</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>evening</Key>
+            <BaseValue>soir</BaseValue>
+            <ClosePhoneticValues>
+                <string>soir</string>
+                <string>soirée</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>soir</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>night</Key>
+            <BaseValue>nuit</BaseValue>
+            <ClosePhoneticValues>
+                <string>nuit</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>nuit</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>midnight</Key>
+            <BaseValue>minuit</BaseValue>
+            <ClosePhoneticValues>
+                <string>minuit</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>minuit</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

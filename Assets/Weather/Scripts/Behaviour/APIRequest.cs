@@ -19,6 +19,7 @@ namespace BuddyApp.Weather
 		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
+			mWeatherB = GetComponent<WeatherBehaviour>();
 			Debug.Log("ENTER API REQUEST");
 			mAnswerReceived = false;
 			mQuit = false;
@@ -29,8 +30,8 @@ namespace BuddyApp.Weather
 			}
 
 
-			Debug.Log("Pre web service " + WeatherData.Instance.Location);
-			BYOS.Instance.WebService.Weather.At(WeatherData.Instance.Location, WeatherProcessing, mNumberWeatherInfos);
+			Debug.Log("Pre web service " + mWeatherB.mLocation);
+			BYOS.Instance.WebService.Weather.At(mWeatherB.mLocation, WeatherProcessing, mNumberWeatherInfos);
 
 			Debug.Log("Post web service ");
 
@@ -79,11 +80,11 @@ namespace BuddyApp.Weather
 				//Say la location n'est pas reconnue / n'existe pas
 			} else {
 				Debug.Log("LOCATION : " + iWeather[0].Location);
-				if (WeatherData.Instance.Date < 7) {
+				if (mWeatherB.mDate < 7) {
 					//pas grave si ça dépasse 64 parce que ça ne sera un écart que de quelques heures pour la météo dans 6 jours pour le max
-					mDate = 8 * WeatherData.Instance.Date + 2;
+					mDate = 8 * mWeatherB.mDate + 2;
 
-				} else if (WeatherData.Instance.Date > 7) {
+				} else if (mWeatherB.mDate > 7) {
 					Interaction.TextToSpeech.SayKey("oneweekmax");
 					mQuit = true;
 					return;
