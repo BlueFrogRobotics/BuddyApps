@@ -15,6 +15,13 @@ namespace BuddyApp.Weather
 
 		internal WeatherInfo mWeatherInfo;
 
+		internal string mVocalRequest;
+		internal string mLocation;
+		internal WeatherType mForecast;
+		internal int mDate;
+		internal int mHour;
+		internal bool mWhen;
+
 		void Start()
         {
 			/*

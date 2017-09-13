@@ -9,20 +9,15 @@ namespace BuddyApp.Weather
          * Data getters / setters
          */
         public string VocalRequest { get; set; }
-		public string Location { get; set; }
-		public WeatherType Forecast { get; set; }
-		public int Date { get; set; }
-		public int Hour { get; set; }
-		public bool When { get; set; }
 
 		/*
          * Data singleton access
          */
 		public static WeatherData Instance
-        {
-            get
+        { 
+			get
             {
-                if (sInstance == null)
+				if (sInstance == null)
                     sInstance = GetInstance<WeatherData>();
                 return sInstance as WeatherData;
             }
