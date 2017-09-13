@@ -12,11 +12,15 @@ namespace BuddyApp.Guardian
         private bool mHasDetectedFire = false;
         private bool mHasOpenedWindow = false;
         private float mTimer;
+        private ThermalDetection mThermalDetection;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
+            mThermalDetection = BYOS.Instance.Perception.Thermal;
+            mThermalDetection.OnDetect(OnFireDetected);
+           // Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
+            
             mShowTemperature = GetGameObject(StateObject.DEBUG_FIRE).GetComponent<ShowTemperature>();
             mDebugTempAnimator = mShowTemperature.gameObject.GetComponent<Animator>();
             mShowTemperature.ButtonBack.onClick.AddListener(GoBack);
@@ -56,7 +60,8 @@ namespace BuddyApp.Guardian
         {
             mShowTemperature.IcoFire.enabled = false;
             mShowTemperature.ButtonBack.onClick.RemoveAllListeners();
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
+            mThermalDetection.StopOnDetect(OnFireDetected);
+            //Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
         }
 
         private void GoBack()
@@ -65,9 +70,10 @@ namespace BuddyApp.Guardian
             mGoBack = true;
         }
 
-        private void OnFireDetected()
+        private bool OnFireDetected(ObjectEntity[] iObject)
         {
             mHasDetectedFire = true;
+            return mHasDetectedFire;
         }
 
         private void CheckFireDetection()

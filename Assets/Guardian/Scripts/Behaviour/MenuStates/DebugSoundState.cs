@@ -112,7 +112,8 @@ namespace BuddyApp.Guardian
         {
             //GuardianData.Instance.SoundDetectionThreshold = 100-(int)(mNoiseStimulus.Threshold * 100.0f / DetectionManager.MAX_SOUND_THRESHOLD);
             mDebugSoundWindow.Ico.enabled = false;
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+            mNoiseDetection.StopOnDetect(OnNewSound);
+            //Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
             mDebugSoundWindow.ButtonBack.onClick.RemoveAllListeners();  
         }
 

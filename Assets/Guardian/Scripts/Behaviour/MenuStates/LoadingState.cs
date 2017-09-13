@@ -14,6 +14,8 @@ namespace BuddyApp.Guardian
     {
         private float mTimer;
         private bool mHasSwitchedState;
+        private TextToSpeech mTTS;
+
 
         public override void Start()
         {
@@ -22,15 +24,19 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mTTS = BYOS.Instance.Interaction.TextToSpeech;
             mTimer = 0.0f;
             mHasSwitchedState = false;
             BYOS.Instance.WebService.EMailSender.enabled = true;
+            mTTS.Silence(2000);
+            
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
-            if(mTimer>5.0f && !mHasSwitchedState)
+            Debug.Log("has finished talking: " + mTTS.HasFinishedTalking + " is speaking: " + mTTS.IsSpeaking);
+            if(mTimer>95.0f && !mHasSwitchedState)
             {
                 mHasSwitchedState = true;
                 Trigger("NextStep");
@@ -42,68 +48,6 @@ namespace BuddyApp.Guardian
             ResetTrigger("NextStep");
         }
 
-        private void SendEmail()
-        {
-            // Create a System.Net.Mail.MailMessage object
-            MailMessage message = new MailMessage();
-
-            // Add a recipient
-            message.To.Add("tigrejounin@gmail.com");
-
-            // Add a message subject
-            message.Subject = "Email test3 de gardien";
-
-            // Add a message body
-            message.Body = "Test email message ";
-
-            // Create a System.Net.Mail.MailAddress object and 
-            // set the sender email address and display name.
-            message.From = new MailAddress("notif.buddy@gmail.com", "notif");
-
-            // Create a System.Net.Mail.SmtpClient object
-            // and set the SMTP host and port number
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-
-            // If your server requires authentication add the below code
-            // =========================================================
-            // Enable Secure Socket Layer (SSL) for connection encryption
-            smtp.EnableSsl = true;
-
-            ServicePointManager.ServerCertificateValidationCallback =
-delegate (object iS, X509Certificate iCertificate, X509Chain iChain, SslPolicyErrors iSSLPolicyErrors) { return true; };
-
-            // Do not send the DefaultCredentials with requests
-            //smtp.UseDefaultCredentials = false;
-
-            // Create a System.Net.NetworkCredential object and set
-            // the username and password required by your SMTP account
-            smtp.Credentials = new NetworkCredential("notif.buddy@gmail.com", "autruchemagiquebuddy");
-            // =========================================================
-
-            // Send the message
-            object lUser = message;
-            //SendMailByOS("tigrejounin@gmail.com");
-            smtp.SendAsync(message, lUser);
-        }
-
-        private void SendMailByOS(string iAddress)
-        {
-            Debug.Log("EMailSender etat:" + BYOS.Instance.WebService.EMailSender.enabled);
-            BYOS.Instance.WebService.EMailSender.enabled = true;
-            EMail lMail = new EMail("sujet", "texte");//mAlert.GetMail();
-            Debug.Log("lel send mail avant");
-            if (lMail == null)
-                return;
-            Debug.Log("lel send mail apres");
-            lMail.AddTo(iAddress);
-            //BuddyApp.Guardian.EMailSender sender = GetComponent<EMailSenderGuardian>();
-            BYOS.Instance.WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", Buddy.SMTP.GMAIL, lMail, OnMailSent);
-            Debug.Log("lel send mail encore apres");
-        }
-
-        private void OnMailSent()
-        {
-            Debug.Log("Le mail a ete envoye");
-        }
+        
     }
 }

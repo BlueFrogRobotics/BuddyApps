@@ -155,15 +155,15 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public void UnlinkDetectorsEvents()
 		{
-			//Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
-			//Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
-			//Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
-			//Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
-			mKidnappingDetection.StopOnDetect(OnKidnappingDetected);
-			mFireDetection.StopOnDetect(OnThermalDetected);
-			mNoiseDetection.StopOnDetect(OnSoundDetected);
-			mMotionDetection.StopOnDetect(OnMovementDetected);
-		}
+            //Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
+            //Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+            //Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
+            //Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
+            mKidnappingDetection.StopAllOnDetect();
+			mFireDetection.StopAllOnDetect();
+            mNoiseDetection.StopAllDetection();
+			mMotionDetection.StopAllOnDetect();
+        }
 
 		/// <summary>
 		/// Called when fire has been detected

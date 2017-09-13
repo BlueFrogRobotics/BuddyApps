@@ -24,9 +24,8 @@ namespace BuddyApp.Guardian
 			KidnappingDetection = true;
 			SendMail = true;
 			Contact = new UserAccount();
-			Contact.FirstName = "NONE ";
-
-		}
+			Contact.FirstName = "NONE";
+        }
 
 		/// <summary>
 		/// Actual monitoring mode
@@ -108,6 +107,7 @@ namespace BuddyApp.Guardian
 		/// Contact who will receive the notifications
 		/// </summary>
 		public UserAccount Contact { get; set; }
+
 
 		public static GuardianData Instance
 		{

@@ -116,7 +116,8 @@ namespace BuddyApp.Guardian
 
 			mSoundDetection.OnSwitchEvent((bool iVal) => {
 				GuardianData.Instance.SoundDetection = iVal;
-			});
+                mSoundDebug.gameObject.SetActive(iVal);
+            });
 
 			mSoundDetection.OnUpdateEvent((int iVal) => {
 				GuardianData.Instance.SoundDetectionThreshold = iVal;
@@ -124,7 +125,8 @@ namespace BuddyApp.Guardian
 
 			mFireDetection.OnSwitchEvent((bool iVal) => {
 				GuardianData.Instance.FireDetection = iVal;
-			});
+                mFireDebug.gameObject.SetActive(iVal);
+            });
 
 			mMovementDetection.OnSwitchEvent((bool iVal) => {
 				GuardianData.Instance.MovementDetection = iVal;
