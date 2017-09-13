@@ -17,7 +17,7 @@ namespace BuddyApp.Weather
 			Debug.Log("ENTER Command analysis");
 			WeatherData.Instance.Location = "";
 			WeatherData.Instance.Date = -1;
-			WeatherData.Instance.Forecast = WeatherType.UNKNOWN;
+            WeatherData.Instance.Forecast = WeatherType.CLOUDY;//UNKNOWN;
 			WeatherData.Instance.Hour = -1;
 			WeatherData.Instance.When = false;
 

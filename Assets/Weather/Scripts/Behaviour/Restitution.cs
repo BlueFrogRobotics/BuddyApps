@@ -34,7 +34,7 @@ namespace BuddyApp.Weather
 			//Forecast info
 			//} else 
 
-			if (WeatherData.Instance.Forecast != WeatherType.UNKNOWN) {
+			if (WeatherData.Instance.Forecast != WeatherType.CLOUDY) {
 				string lNoAnswer = lAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("itwillbe") + " "
 					+ Dictionary.GetRandomString(lWeatherInfo.Type.ToString().ToLower()) + " " + lDayString;
 				string lYesAnswer = lAnswer = Dictionary.GetRandomString("yes") + " " + Dictionary.GetRandomString("itwillbe") + " "
@@ -78,7 +78,7 @@ namespace BuddyApp.Weather
 			if (Interaction.TextToSpeech.HasFinishedTalking && mTimer > 3F) {
 				Debug.Log("Restart test");
 				WeatherData.Instance.Date = 0;
-				WeatherData.Instance.Forecast = WeatherType.UNKNOWN;
+				WeatherData.Instance.Forecast = WeatherType.CLOUDY;
 				WeatherData.Instance.Location = "";
 				WeatherData.Instance.VocalRequest = "";
 				Trigger("Restart");

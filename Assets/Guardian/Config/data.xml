@@ -5,9 +5,9 @@
     <MovementDetectionThreshold>56</MovementDetectionThreshold>
     <SoundDetectionThreshold>68</SoundDetectionThreshold>
     <MovementDetection>true</MovementDetection>
-    <SoundDetection>true</SoundDetection>
+    <SoundDetection>false</SoundDetection>
     <FireDetection>true</FireDetection>
-    <KidnappingDetection>true</KidnappingDetection>
+    <KidnappingDetection>false</KidnappingDetection>
     <SendMail>false</SendMail>
     <HeadOrientation>false</HeadOrientation>
     <MovementDebug>false</MovementDebug>
@@ -23,6 +23,5 @@
         <BirthDate>0001-01-01T00:00:00</BirthDate>
         <Password>123456</Password>
         <Session>USER</Session>
-        <Permissions />
     </Contact>
 </GuardianData>

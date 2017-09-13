@@ -18,7 +18,7 @@ namespace BuddyApp.Guardian
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mThermalDetection = BYOS.Instance.Perception.Thermal;
-            mThermalDetection.OnDetect(OnFireDetected);
+            mThermalDetection.OnDetect(OnFireDetected, 40.0f);
            // Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
             
             mShowTemperature = GetGameObject(StateObject.DEBUG_FIRE).GetComponent<ShowTemperature>();

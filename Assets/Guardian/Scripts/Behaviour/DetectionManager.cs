@@ -140,8 +140,8 @@ namespace BuddyApp.Guardian
 		{
             mMotionDetection.OnDetect(OnMovementDetected);
             mNoiseDetection.OnDetect(OnSoundDetected);
-            mFireDetection.OnDetect(OnThermalDetected);
-            mFireDetection.Threshold = 50;
+            //mFireDetection.OnDetect(OnThermalDetected, 50);
+            //mFireDetection.Threshold = 50;
             mKidnappingDetection.OnDetect(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
             BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
             //Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
@@ -160,7 +160,7 @@ namespace BuddyApp.Guardian
             //Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
             //Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
             mKidnappingDetection.StopAllOnDetect();
-			mFireDetection.StopAllOnDetect();
+			//mFireDetection.StopAllOnDetect();
             mNoiseDetection.StopAllDetection();
 			mMotionDetection.StopAllOnDetect();
         }
