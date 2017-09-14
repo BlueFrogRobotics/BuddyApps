@@ -52,7 +52,9 @@ namespace BuddyApp.Guardian
 			Interaction.VocalManager.OnEndReco = OnSpeechReco;
 			Interaction.VocalManager.EnableDefaultErrorHandling = false;
 			Interaction.VocalManager.OnError = Empty;
-			mTimer = 0.0f;
+            Interaction.VocalManager.StartListenBehaviour = StartListenBehaviour;
+            Interaction.VocalManager.StopListenBehaviour = StopListenBehaviour;
+            mTimer = 0.0f;
 			mListening = false;
             IEnumerator lAction = WaitTTSLoading();
             //StartCoroutine(lAction);
@@ -62,7 +64,6 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-            Debug.Log("IS speaking: " + Interaction.TextToSpeech.IsSpeaking);
             if (mHasLoadedTTS)
             {
                 mTimer += Time.deltaTime;
@@ -238,5 +239,15 @@ namespace BuddyApp.Guardian
 		{
 		}
 
-	}
+        private void StartListenBehaviour()
+        {
+
+        }
+
+        private void StopListenBehaviour()
+        {
+
+        }
+
+    }
 }

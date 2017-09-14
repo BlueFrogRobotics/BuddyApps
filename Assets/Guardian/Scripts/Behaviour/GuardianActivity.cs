@@ -29,7 +29,7 @@ namespace BuddyApp.Guardian
 
 		public override void OnQuit()
 		{
-			mDetectionManager.UnlinkDetectorsEvents();
+			//mDetectionManager.UnlinkDetectorsEvents();
 
 			string lMailAddress = GuardianData.Instance.Contact.Email;
 			Debug.Log(lMailAddress);
@@ -39,23 +39,27 @@ namespace BuddyApp.Guardian
 			EMail lMail = new EMail("Guardian logs", mDetectionManager.Logs);
 			lMail.AddTo(lMailAddress);
 			WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnMailSent);
-			OnMailSent();
+            BYOS.Instance.WebService.EMailSender.enabled = true;
+            OnMailSent();
 		}
 
 		public override void OnClickLockedScreen()
 		{
-			mDetectionManager.IsDetectingFire = false;
-			mDetectionManager.IsDetectingSound = false;
-			mDetectionManager.IsDetectingKidnapping = false;
-			mDetectionManager.IsDetectingMovement = false;
+            if (!Animator.GetBool("Password"))
+            {
+                mDetectionManager.IsDetectingFire = false;
+                mDetectionManager.IsDetectingSound = false;
+                mDetectionManager.IsDetectingKidnapping = false;
+                mDetectionManager.IsDetectingMovement = false;
 
-			Animator.GetBehaviour<WalkState>().StopWalkCoroutines();
-			Animator.GetBehaviour<TurnState>().StopTurnCoroutines();
+                Animator.GetBehaviour<WalkState>().StopWalkCoroutines();
+                Animator.GetBehaviour<TurnState>().StopTurnCoroutines();
 
-			mDetectionManager.Roomba.enabled = false;
-			Primitive.Motors.Wheels.Stop();
+                mDetectionManager.Roomba.enabled = false;
+                Primitive.Motors.Wheels.Stop();
 
-			Animator.SetBool("Password", true);
+                Animator.SetBool("Password", true);
+            }
 		}
 
 		public override void OnSuccessUnlockScreen()

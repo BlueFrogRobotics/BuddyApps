@@ -48,6 +48,8 @@ namespace BuddyApp.Guardian
 
 		public Alert Detected { get; set; }
 
+        public bool HasLinkedDetector { get; private set; }
+
 		/// <summary>
 		/// Enum of the different alerts that Guardian app can send
 		/// </summary>
@@ -85,8 +87,9 @@ namespace BuddyApp.Guardian
 		public void Init()
 		{
 
-			//Stimuli = BYOS.Instance.Perception.Stimuli;
-			//MovementTracker = BYOS.Instance.Perception.Motion;
+            //Stimuli = BYOS.Instance.Perception.Stimuli;
+            //MovementTracker = BYOS.Instance.Perception.Motion;
+            HasLinkedDetector = false;
 
 			mMotionDetection = BYOS.Instance.Perception.Motion;
 			
@@ -138,12 +141,14 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public void LinkDetectorsEvents()
 		{
+            HasLinkedDetector = true;
             mMotionDetection.OnDetect(OnMovementDetected);
             mNoiseDetection.OnDetect(OnSoundDetected);
             mFireDetection.OnDetect(OnThermalDetected, 50);
             //mFireDetection.Threshold = 50;
             mKidnappingDetection.OnDetect(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
             BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
+
             //Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
             //Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
             //Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
@@ -159,6 +164,7 @@ namespace BuddyApp.Guardian
             //Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
             //Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
             //Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
+            HasLinkedDetector = false;
             mKidnappingDetection.StopAllOnDetect();
 			mFireDetection.StopAllOnDetect();
             mNoiseDetection.StopAllDetection();

@@ -45,6 +45,8 @@ namespace BuddyApp.Guardian
 			mHeadControllerWindow.ButtonRight.onClick.AddListener(MoveNoRight);
 			mHeadControllerWindow.ButtonUp.onClick.AddListener(MoveYesUp);
 			mHeadControllerWindow.ButtonDown.onClick.AddListener(MoveYesDown);
+            if (!mRGBCam.IsOpen)
+                mRGBCam.Open();
 
 		}
 
@@ -54,7 +56,7 @@ namespace BuddyApp.Guardian
 			ControlNoAxis();
 			ControlYesAxis();
 
-			mHeadControllerWindow.RawCamImage.texture = mRGBCam.FrameTexture2D;
+            mHeadControllerWindow.RawCamImage.texture = mRGBCam.FrameTexture2D;
 			mHeadControllerWindow.RawBuddyFaceImage.texture = Interaction.Face.Texture;
 
 			if (mGoBack && mHeadControllerWindow.HeadControlAnimator.GetCurrentAnimatorStateInfo(0).IsName("WindowHeadController_Gardien_Off")) {
@@ -66,6 +68,8 @@ namespace BuddyApp.Guardian
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
+            if (mRGBCam.IsOpen)
+                mRGBCam.Close();
 			mHeadControllerWindow.ButtonBack.onClick.RemoveAllListeners();
 			mHeadControllerWindow.ButtonLeft.onClick.RemoveAllListeners();
 			mHeadControllerWindow.ButtonRight.onClick.RemoveAllListeners();
@@ -115,28 +119,35 @@ namespace BuddyApp.Guardian
 				mYesUp = false;
 			}
 
-			if (lChanged)
-				mMotors.YesHinge.SetPosition(mYesAngle, mYesSpeed);
+            if (lChanged)
+            {
+                mMotors.YesHinge.SetPosition(mYesAngle, mYesSpeed);
+                Debug.Log("bouge tete");
+            }
 		}
 
 		private void MoveNoLeft()
 		{
+            Debug.Log("left");
 			mNoLeft = true;
 		}
 
 		private void MoveNoRight()
 		{
-			mNoRight = true;
+            Debug.Log("right");
+            mNoRight = true;
 		}
 
 		private void MoveYesUp()
 		{
-			mYesUp = true;
+            Debug.Log("up");
+            mYesUp = true;
 		}
 
 		private void MoveYesDown()
 		{
-			mYesDown = true;
+            Debug.Log("down");
+            mYesDown = true;
 		}
 
 		private void GoBack()

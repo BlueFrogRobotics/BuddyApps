@@ -24,11 +24,13 @@ namespace BuddyApp.Guardian
 			mDetectionManager.IsDetectingFire = GuardianData.Instance.FireDetection;
 			mDetectionManager.IsDetectingKidnapping = GuardianData.Instance.KidnappingDetection;
 
-			BYOS.Instance.Toaster.Hide();
+            //BYOS.Instance.WebService.EMailSender.enabled = true;
+
+            BYOS.Instance.Toaster.Hide();
 			AAppActivity.LockScreen();
 
-            mDetectionManager.LinkDetectorsEvents();
-			//GuardianActivity.sDetectionManager.LinkDetectorsEvents();
+            if(!mDetectionManager.HasLinkedDetector)
+                mDetectionManager.LinkDetectorsEvents();
 
 			if (GuardianData.Instance.MobileDetection)
 				Trigger("MobileDetection");

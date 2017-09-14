@@ -47,6 +47,8 @@ namespace BuddyApp.Guardian
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if (iAnimator.GetBool("Password"))
+                BYOS.Instance.Toaster.Hide();
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -56,6 +58,7 @@ namespace BuddyApp.Guardian
 
         private IEnumerator DisplayAlert()
         {
+            Debug.Log("display alert");
             BYOS.Instance.Toaster.Display<IconToast>().With(mAlert.GetDisplayText(), mAlert.GetIcon(), new Color32(212, 0, 22, 255), true);
 
             yield return new WaitForSeconds(5F);
@@ -65,6 +68,7 @@ namespace BuddyApp.Guardian
 
         private void SendMail(string iAddress)
         {
+            
             EMail lMail = mAlert.GetMail();
             Debug.Log("send mail avant");
             if (lMail == null)
@@ -73,6 +77,7 @@ namespace BuddyApp.Guardian
             Debug.Log("send mail apres");
             lMail.AddTo(iAddress);
             WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnMailSent);
+            BYOS.Instance.WebService.EMailSender.enabled = true;
             Debug.Log("send mail encore apres");
         }
 
