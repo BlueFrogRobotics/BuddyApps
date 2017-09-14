@@ -14,6 +14,18 @@ namespace BuddyApp.Weather
         private WeatherData mAppData;
 
 		internal WeatherInfo mWeatherInfo;
+        internal int mIndice;
+        internal WeatherInfo[] mWeatherInfos;
+        internal WeatherRequestError mRequestError = 0;
+
+        internal enum WeatherRequestError
+        {
+            UNKNOWN,
+
+            NONE,
+
+            TOO_FAR
+        }
 
 		internal string mVocalRequest;
 		internal string mLocation;
