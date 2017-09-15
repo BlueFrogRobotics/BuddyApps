@@ -92,10 +92,15 @@ namespace BuddyApp.Guardian
             HasLinkedDetector = false;
 
 			mMotionDetection = BYOS.Instance.Perception.Motion;
-			
-			mNoiseDetection = BYOS.Instance.Perception.Noise;
-			
+			mMotionDetection.OnDetect(OnMovementDetected);
+
+			//mNoiseDetection = BYOS.Instance.Perception.Noise;
+			//mNoiseDetection.OnDetect(OnSoundDetected);
+
 			mFireDetection = BYOS.Instance.Perception.Thermal;
+			//mFireDetection.OnDetect(OnThermalDetected);
+			mFireDetection.Threshold = 50;
+			
 					
 			mKidnappingDetection = BYOS.Instance.Perception.Kidnapping;
 
