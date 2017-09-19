@@ -39,7 +39,7 @@ namespace BuddyApp.Guardian
             StartCoroutine(mAction);
             //WebService.EMailSender.enabled = true;
             string lMailAddress = GuardianData.Instance.Contact.Email;
-            if (!string.IsNullOrEmpty(lMailAddress))
+            if (!string.IsNullOrEmpty(lMailAddress) && GuardianData.Instance.SendMail)
                 SendMail(lMailAddress);
 
             mDetectionManager.AddLog(mAlert.GetLog());

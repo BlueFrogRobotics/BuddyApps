@@ -1,5 +1,6 @@
 using UnityEngine;
 using Buddy;
+using System.Collections;
 
 namespace BuddyApp.Guardian
 {
@@ -32,10 +33,8 @@ namespace BuddyApp.Guardian
             if(!mDetectionManager.HasLinkedDetector)
                 mDetectionManager.LinkDetectorsEvents();
 
-			if (GuardianData.Instance.MobileDetection)
-				Trigger("MobileDetection");
-			else
-				Trigger("FixedDetection");
+            IEnumerator lAction = DelayAlert();
+            StartCoroutine(lAction);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -45,5 +44,14 @@ namespace BuddyApp.Guardian
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 		}
+
+        private IEnumerator DelayAlert()
+        {
+            yield return new WaitForSeconds(4F);
+            if (GuardianData.Instance.MobileDetection)
+                Trigger("MobileDetection");
+            else
+                Trigger("FixedDetection");
+        }
 	}
 }

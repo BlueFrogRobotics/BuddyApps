@@ -36,11 +36,14 @@ namespace BuddyApp.Guardian
 			if (string.IsNullOrEmpty(lMailAddress) || string.IsNullOrEmpty(mDetectionManager.Logs))
 				return;
 
-			EMail lMail = new EMail("Guardian logs", mDetectionManager.Logs);
-			lMail.AddTo(lMailAddress);
-			WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnMailSent);
-            BYOS.Instance.WebService.EMailSender.enabled = true;
-            OnMailSent();
+            if (GuardianData.Instance.SendMail)
+            {
+                EMail lMail = new EMail("Guardian logs", mDetectionManager.Logs);
+                lMail.AddTo(lMailAddress);
+                WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnMailSent);
+                BYOS.Instance.WebService.EMailSender.enabled = true;
+                OnMailSent();
+            }
 		}
 
 		public override void OnClickLockedScreen()

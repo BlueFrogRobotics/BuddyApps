@@ -133,8 +133,8 @@ namespace BuddyApp.Guardian
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Interaction.Mood.Set(MoodType.NEUTRAL);
-			
-			mSpeechReco = null;
+            
+            mSpeechReco = null;
 			mHasDisplayChoices = false;
 		}
 
@@ -199,7 +199,7 @@ namespace BuddyApp.Guardian
 			mSpeechReco = null;
 			Trigger("NextStep");
 			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
-			Interaction.VocalManager.OnEndReco = Empty;
+			//Interaction.VocalManager.OnEndReco = Empty;
 		}
 
 		/// <summary>
@@ -208,11 +208,13 @@ namespace BuddyApp.Guardian
 		/// <param name="iMode">the chosen mode</param>
 		private void GotoParameter()
 		{
-			mSpeechReco = null;
+            
+            mSpeechReco = null;
 			Trigger("Parameter");
 			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
-			Interaction.VocalManager.OnEndReco = Empty;
-		}
+			//Interaction.VocalManager.OnEndReco = Empty;
+            Interaction.VocalManager.AsVocalInput("");
+        }
 
 		private bool ContainsOneOf(string iSpeech, List<string> iListSpeech)
 		{
