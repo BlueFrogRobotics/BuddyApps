@@ -12,8 +12,7 @@ namespace BuddyApp.Weather
          * Data of the application. Save on disc when app is quitted
          */
         private WeatherData mAppData;
-
-		internal WeatherInfo mWeatherInfo;
+		
         internal int mIndice;
         internal WeatherInfo[] mWeatherInfos;
         internal WeatherRequestError mRequestError = 0;

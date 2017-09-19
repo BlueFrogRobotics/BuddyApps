@@ -12,10 +12,9 @@ namespace BuddyApp.Weather
 		private int mDate;
 		//Max numberWeatherInfos égal à 64
 		private int mNumberWeatherInfos;
-        //public int NumberWeatherInfos { get { return mNumberWeatherInfos; } }
+		//public int NumberWeatherInfos { get { return mNumberWeatherInfos; } }
 		private bool mAnswerReceived;
 		private bool mQuit;
-        private WeatherInfo[] mWeatherInfoResult;
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -24,7 +23,9 @@ namespace BuddyApp.Weather
 
 			mWeatherB = GetComponent<WeatherBehaviour>();
 
-            mNumberWeatherInfos = 60;
+			Debug.Log("enter api weather type  " + mWeatherB.mForecast + " when " + mWeatherB.mWhen);
+
+			mNumberWeatherInfos = 60;
 			Debug.Log("ENTER API REQUEST");
 			mAnswerReceived = false;
 			mQuit = false;
@@ -55,7 +56,7 @@ namespace BuddyApp.Weather
 
 		private void WeatherProcessing(WeatherInfo[] iWeather, WeatherError iError)
 		{
-           
+			mWeatherB.mWeatherInfos = iWeather;
 			Debug.Log("WeatherProcessing");
 			if (iError != WeatherError.NONE) {
 				if (iError == WeatherError.UNKNOWN_LOCATION)
@@ -75,239 +76,123 @@ namespace BuddyApp.Weather
 				return;
 			} else {
 
-                //a changer la facon d'avoir le forecast parce que pour le moment cest dans les persistentData mais au final ça ne doit pas etre dedans.
-                
-                WeatherType mWeatherType = mWeatherB.mForecast;
-                GetWeatherInfos(iWeather, mWeatherType);
+				//a changer la facon d'avoir le forecast parce que pour le moment cest dans les persistentData mais au final ça ne doit pas etre dedans.
+				
+				GetWeatherInfos(iWeather, mWeatherB.mForecast);
 			}
 			mAnswerReceived = true;
 		}
 
-        private void GetWeatherInfos(WeatherInfo[] iWeather, WeatherType iWeatherType)
-        {
-            GetComponent<WeatherBehaviour>().mRequestError = WeatherBehaviour.WeatherRequestError.UNKNOWN;
-            bool lFound = false;
-            if (iWeatherType != WeatherType.UNKNOWN)
-            {
-                if (mWeatherB.mWhen && mWeatherB.mDate == -1)
-                {
-                    for (int i = 0; i < mNumberWeatherInfos; ++i)
-                    {
-                        if (iWeather[i].Type == iWeatherType)
-                        {
-                            GetComponent<WeatherBehaviour>().mIndice = i;
-                            lFound = true;
-                        }
-                            
-                    }
-                    if(!lFound)
-                    {
-                        GetComponent<WeatherBehaviour>().mIndice = -1;
-                        GetComponent<WeatherBehaviour>().mRequestError = WeatherBehaviour.WeatherRequestError.TOO_FAR;
-                    }
+		private void GetWeatherInfos(WeatherInfo[] iWeather, WeatherType iWeatherType)
+		{
+			Debug.Log("GetWeatherInfos");
+			mWeatherB.mIndice = -1;
+			mWeatherB.mRequestError = WeatherBehaviour.WeatherRequestError.UNKNOWN;
+			bool lFound = false;
+			if (iWeatherType != WeatherType.UNKNOWN) {
+				Debug.Log("GetWeatherInfos api kikoo date " + mWeatherB.mDate);
+				if (mWeatherB.mWhen && mWeatherB.mDate == -1) {
+					for (int i = 0; i < mNumberWeatherInfos; ++i) {
+						Debug.Log("GetWeatherInfos api indice " + i + " weather type speech " + iWeatherType + " weather type weatherInfo  " + iWeather[i].Type);
+						if (iWeather[i].Type == iWeatherType) {
 
-                }
-                //Date = 0 -> aujourdhui
-                if (mWeatherB.mDate == 0)
-                {
-                    //pas d'heure -> -1
-                    //probleme s'il pose cette question dans l'après midi par exemple
-                    //Solution : récupérer l'heure et voir si entre cette heure et 23h il pleut
-                    //Réglé
-                    if (mWeatherB.mHour == -1)
-                    {
-                        int lHour = DateTime.Now.Hour;
-                        int lDay = DateTime.Now.Day;
+							Debug.Log("GetWeatherInfos api indice " + i + " weather type speech " + iWeatherType + " weather type weatherInfo  " + iWeather[i].Type);
+							mWeatherB.mIndice = i;
+							lFound = true;
+							break;
+						}
 
-                        for (int i = 0; i < mNumberWeatherInfos; ++i)
-                        {
-                            if (iWeather[i].Day == lDay && iWeather[i].Type == iWeatherType && iWeather[i].Hour > lHour)
-                            {
-                                GetComponent<WeatherBehaviour>().mIndice = i;
-                                lFound = true;
-                                break;
-                            }
-                        }
-                        if (!lFound)
-                        {
-                            for (int i = 0; i < mNumberWeatherInfos; ++i)
-                            {
-                                if (iWeather[i].Hour > lHour)
-                                {
-                                    GetComponent<WeatherBehaviour>().mIndice = i;
-                                    GetComponent<WeatherBehaviour>().mRequestError = WeatherBehaviour.WeatherRequestError.NONE;
-                                    break;
-                                }
-                            }
-                        }
-                            
-                    }
-                    else if (mWeatherB.mHour >= 0)
-                    {
-                        int lHour = DateTime.Now.Hour;
-                        int lDay = DateTime.Now.Day;
-                        for (int i = 0; i < mNumberWeatherInfos; ++i)
-                        {
-                            if (iWeather[i].Hour > lHour && iWeather[i].Day == lDay && iWeather[i].Type == iWeatherType)
-                            {
-                                if (mWeatherB.mHour > iWeather[i].Hour)
-                                {
-                                    GetComponent<WeatherBehaviour>().mIndice = i;
-                                    lFound = true;
-                                    break;
-                                }
-                                    
-                            }
-                            else if (iWeather[i].Day != lDay)
-                                break;
-                        }
-                        if (!lFound)
-                        {
-                            for (int i = 0; i < mNumberWeatherInfos; ++i)
-                            {
-                                if(iWeather[i].Hour > mWeatherB.mHour)
-                                {
-                                    GetComponent<WeatherBehaviour>().mIndice = i;
-                                    GetComponent<WeatherBehaviour>().mRequestError = WeatherBehaviour.WeatherRequestError.NONE;
-                                    break;
-                                }
-                            }
-                        }  
-                    }
-                }
-                else if (mWeatherB.mDate > 0)
-                {
-                    if (mWeatherB.mHour == -1)
-                    {
-                        int lDay = DateTime.Now.Day;
+					}
+					if (!lFound) {
+						mWeatherB.mRequestError = WeatherBehaviour.WeatherRequestError.TOO_FAR;
+					}
 
-                        for (int i = 0; i < mNumberWeatherInfos; ++i)
-                        {
-                            if (iWeather[i].Day - lDay == mWeatherB.mDate)
-                            {
-                                if (iWeather[i].Type == iWeatherType)
-                                {
-                                    GetComponent<WeatherBehaviour>().mIndice = i;
-                                    lFound = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (!lFound)
-                        {
-                            for (int i = 0; i < mNumberWeatherInfos; ++i)
-                            {
-                                if (iWeather[i].Hour > 11 && iWeather[i].Day - lDay == mWeatherB.mDate)
-                                {
-                                    GetComponent<WeatherBehaviour>().mIndice = i;
-                                    GetComponent<WeatherBehaviour>().mRequestError = WeatherBehaviour.WeatherRequestError.NONE;
-                                    break;
-                                }
-                            }
-                        }
+				} else {
 
-                    }
-                    else if (mWeatherB.mHour >= 0)
-                    {
-                        //Pour le moment donne la météo pour l'horaire voulu mais à mettre sous forme d'intervalle après
-                        int lDay = DateTime.Now.Day;
+					int lHour = 0;
+					int lDay = 0;
 
-                        for (int i = 0; i < mNumberWeatherInfos; ++i)
-                        {
-                            if (iWeather[i].Day - lDay == mWeatherB.mDate)
-                            {
-                                if (iWeather[i].Hour < mWeatherB.mHour && iWeather[i].Type == iWeatherType && iWeather[i-1].Hour < mWeatherB.mHour)
-                                {
-                                    GetComponent<WeatherBehaviour>().mIndice = i;
-                                    lFound = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (!lFound)
-                        {
-                            for (int i = 0; i < mNumberWeatherInfos; ++i)
-                            {
-                                if (iWeather[i].Day - lDay == mWeatherB.mDate)
-                                {
-                                    if (iWeather[i].Hour > 11)
-                                    {
-                                        GetComponent<WeatherBehaviour>().mIndice = i;
-                                        GetComponent<WeatherBehaviour>().mRequestError = WeatherBehaviour.WeatherRequestError.NONE;
-                                    }
-                                }
-                            }
-                            
-                        }
-                    }
-                    
-                }
-            }
-            else if (iWeatherType == WeatherType.UNKNOWN)
-            {
-                //Quel temps va til faire date/heure?
-                if (mWeatherB.mDate == 0)
-                {
-                    int lHour = DateTime.Now.Hour;
-                    if (mWeatherB.mHour == -1)
-                    {
-                        //quel temps va t'il faire aujourdhui?
-                        for (int i = 0; i < mNumberWeatherInfos; ++i)
-                        {
-                            if (lHour < iWeather[i].Hour)
-                            {
-                                GetComponent<WeatherBehaviour>().mIndice = i;
-                                lFound = true;
-                                break;
-                            }
-                        }
+					// Set the date
+					if (mWeatherB.mDate < 0)
+						lDay = DateTime.Now.Day;
+					else
+						lDay = mWeatherB.mDate;
 
-                    }
-                    else if (mWeatherB.mHour >= 0)
-                    {
-                        for (int i = 0; i < mNumberWeatherInfos; ++i)
-                        {
-                            if (mWeatherB.mHour < iWeather[i].Hour)
-                            {
-                                GetComponent<WeatherBehaviour>().mIndice = i;
-                                lFound = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-                else if(mWeatherB.mDate > 0)
-                {
-                    int lDay = DateTime.Now.Day;
-                    if (mWeatherB.mHour == -1)
-                    {
-                        for (int i = 0; i < mNumberWeatherInfos; ++i)
-                        {
-                            if (iWeather[i].Hour > 11 && iWeather[i].Day - lDay == mWeatherB.mDate)
-                            {
-                                GetComponent<WeatherBehaviour>().mIndice = i;
-                                lFound = true;
-                                break;
-                            }
-                        }
+					// Set the hour
+					if (mWeatherB.mHour == -1)
+						lHour = DateTime.Now.Hour;
+					else
+						lHour = mWeatherB.mHour;
 
-                    }
-                    else if (mWeatherB.mHour >= 0)
-                    {
-                        for (int i = 0; i < mNumberWeatherInfos; ++i)
-                        {
-                            if (mWeatherB.mHour < iWeather[i].Hour && 
-                                iWeather[i].Day - lDay == mWeatherB.mDate &&
-                                mWeatherB.mHour > iWeather[i-1].Hour)
-                            {
-                                GetComponent<WeatherBehaviour>().mIndice = i;
-                                lFound = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+
+					for (int i = 0; i < mNumberWeatherInfos; ++i) {
+						if (iWeather[i].Day == lDay && iWeather[i].Type == iWeatherType && iWeather[i].Hour > lHour) {
+							mWeatherB.mIndice = i;
+							lFound = true;
+							break;
+						}
+					}
+					if (!lFound) {
+						for (int i = 0; i < mNumberWeatherInfos; ++i) {
+							if (iWeather[i].Hour > lHour) {
+								mWeatherB.mIndice = i;
+								mWeatherB.mRequestError = WeatherBehaviour.WeatherRequestError.NONE;
+								break;
+							}
+						}
+					}
+				}
+
+			} else if (iWeatherType == WeatherType.UNKNOWN) {
+				//Quel temps va til faire date/heure?
+				if (mWeatherB.mDate < 1 ) {
+					int lHour = DateTime.Now.Hour;
+					if (mWeatherB.mHour == -1) {
+						//quel temps va t'il faire aujourdhui?
+						for (int i = 0; i<mNumberWeatherInfos; ++i) {
+							if (lHour<iWeather[i].Hour) {
+								mWeatherB.mIndice = i;
+								lFound = true;
+								break;
+							}
+}
+
+					} else if (mWeatherB.mHour >= 0) {
+						for (int i = 0; i<mNumberWeatherInfos; ++i) {
+							if (mWeatherB.mHour<iWeather[i].Hour) {
+								mWeatherB.mIndice = i;
+								lFound = true;
+								break;
+							}
+						}
+					}
+
+
+					Debug.Log("GetWeatherInfos today or no date indice: " + mWeatherB.mIndice);
+
+				} else if (mWeatherB.mDate > 0) {
+					int lDay = DateTime.Now.Day;
+					if (mWeatherB.mHour == -1) {
+						for (int i = 0; i<mNumberWeatherInfos; ++i) {
+							if (iWeather[i].Hour > 11 && iWeather[i].Day - lDay == mWeatherB.mDate) {
+								mWeatherB.mIndice = i;
+								lFound = true;
+								break;
+							}
+						}
+
+					} else {
+						for (int i = 0; i<mNumberWeatherInfos; ++i) {
+							if ( (mWeatherB.mHour<iWeather[i].Hour &&
+                                iWeather[i].Day - lDay == mWeatherB.mDate) || ( (iWeather[i].Day - lDay) -  mWeatherB.mDate > 0) ) {
+								mWeatherB.mIndice = i;
+								lFound = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }

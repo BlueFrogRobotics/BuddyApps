@@ -24,7 +24,12 @@
                 <string>snowing</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>snow</string>
+                <string>snowy</string>
+                <string>snows</string>
+                <string>snooze</string>
+                <string>sneeze</string>
+                <string>snowing</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -63,7 +68,7 @@
                 <string>nice weather</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>sun</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -148,16 +153,6 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>the temperature will be</string>
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
-            <Key>temperatureis</Key>
-            <BaseValue>the temperature </BaseValue>
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string />
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -315,9 +310,15 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>hour</Key>
-            <BaseValue />
-            <ClosePhoneticValues />
-            <RandomValues />
+            <BaseValue>hour</BaseValue>
+            <ClosePhoneticValues>
+                <string>hour</string>
+                <string>hours</string>
+                <string>h</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>hour</string>
+            </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>morning</Key>
@@ -379,6 +380,26 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>midnight</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>partiallycloudy</Key>
+            <BaseValue>partially cloudy</BaseValue>
+            <ClosePhoneticValues>
+                <string>partially cloudy</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>partially cloudy</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>at</Key>
+            <BaseValue>at</BaseValue>
+            <ClosePhoneticValues>
+                <string>at</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>at</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

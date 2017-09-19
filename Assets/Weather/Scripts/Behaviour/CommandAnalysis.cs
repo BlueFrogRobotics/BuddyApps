@@ -23,7 +23,7 @@ namespace BuddyApp.Weather
 			mWeatherB.mWhen = false;
 
 			if (WeatherData.Instance.VocalRequest != "")
-				StringAnalysis(WeatherData.Instance.VocalRequest);
+				StringAnalysis(WeatherData.Instance.VocalRequest.ToLower());
 
 			Trigger("Request");
 		}
@@ -197,6 +197,7 @@ namespace BuddyApp.Weather
 
 		private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
 		{
+			iSpeech = iSpeech.ToLower();
 			for (int i = 0; i < iListSpeech.Length; ++i) {
 				string[] words = iListSpeech[i].Split(' ');
 				if (words.Length < 2) {

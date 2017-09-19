@@ -25,7 +25,13 @@
                 <string>neiger</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>neige</string>
+                <string>neigeux</string>
+                <string>neiges</string>
+                <string>enneigé</string>
+                <string>enneiger</string>
+                <string>enneigement</string>
+                <string>neiger</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -41,7 +47,7 @@
                 <string>pleuvra</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>pluvieux</string>
+                <string>pluie</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -70,7 +76,7 @@
                 <string>ensoleillé</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>faire beau</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -161,16 +167,6 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>temperatureis</Key>
-            <BaseValue />
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string />
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
             <Key>but</Key>
             <BaseValue>mais</BaseValue>
             <ClosePhoneticValues>
@@ -208,7 +204,7 @@
                 <string>non</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>non,</string>
+                <string>non</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -317,7 +313,8 @@
             <Key>when</Key>
             <BaseValue>quand</BaseValue>
             <ClosePhoneticValues>
-                <string>quand, quant</string>
+                <string>quand</string>
+                <string>quant</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>quand</string>
@@ -325,9 +322,15 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>hour</Key>
-            <BaseValue />
-            <ClosePhoneticValues />
-            <RandomValues />
+            <BaseValue>heure</BaseValue>
+            <ClosePhoneticValues>
+                <string>heure</string>
+                <string>h</string>
+                <string>heures</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>heure</string>
+            </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>morning</Key>
@@ -391,6 +394,26 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>minuit</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>partiallycloudy</Key>
+            <BaseValue>partiellement nuageux</BaseValue>
+            <ClosePhoneticValues>
+                <string>partiellement nuageux</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>partiellement nuageux</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>at</Key>
+            <BaseValue>à</BaseValue>
+            <ClosePhoneticValues>
+                <string>à</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>à</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

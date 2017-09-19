@@ -3306,11 +3306,6 @@
             Different weather type
             </summary>
         </member>
-        <member name="F:Buddy.WeatherType.UNKNOWN">
-            <summary>
-            Not sure about the weather
-            </summary>
-        </member>
         <member name="F:Buddy.WeatherType.SUNNY">
             <summary>
             Sunny weather
@@ -3341,6 +3336,11 @@
             Snowy weather
             </summary>
         </member>
+        <member name="F:Buddy.WeatherType.UNKNOWN">
+            <summary>
+            Not sure about the weather
+            </summary>
+        </member>
         <member name="T:Buddy.WeatherError">
             <summary>
             Error that may happen during a Weather request
@@ -3366,11 +3366,6 @@
             No location was provided and localization was disabled
             </summary>
         </member>
-        <member name="F:Buddy.WeatherError.REQUEST_FAILED">
-            <summary>
-            Weather request timed-out or returned an error
-            </summary>
-        </member>
         <member name="T:Buddy.WeatherInfo">
             <summary>
             This class represents the weather at a specific hour
@@ -3387,11 +3382,6 @@
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.Day">
-            <summary>
-            Day of the month
-            </summary>
-        </member>
-        <member name="P:Buddy.WeatherInfo.Date">
             <summary>
             Day with format YYYY-MM-DD
             </summary>
@@ -5982,6 +5972,20 @@
             Buddy's user list. It's a copy, so any modification won't be keeped
             </summary>
             <returns>Copy of Buddy's users</returns>
+        </member>
+        <member name="M:Buddy.DataBase.IsCorrectRobotPassword(System.String)">
+            <summary>
+            Check if the passed string is equals to the robot global password
+            </summary>
+            <param name="iPassword">The password to check</param>
+            <returns>True if input is equals to robot password</returns>
+        </member>
+        <member name="M:Buddy.DataBase.SetRobotPassword(System.String)">
+            <summary>
+            Set the robot password
+            </summary>
+            <param name="iPassword">The password to set. Must be a 4 digits string</param>
+            <returns>True if the password was correctly setted</returns>
         </member>
         <member name="T:Buddy.MemoryManager">
             <summary>
