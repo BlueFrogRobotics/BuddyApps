@@ -92,9 +92,9 @@ namespace BuddyApp.Guardian
             HasLinkedDetector = false;
 
 			mMotionDetection = BYOS.Instance.Perception.Motion;
-			mMotionDetection.OnDetect(OnMovementDetected);
+			//mMotionDetection.OnDetect(OnMovementDetected);
 
-			//mNoiseDetection = BYOS.Instance.Perception.Noise;
+			mNoiseDetection = BYOS.Instance.Perception.Noise;
 			//mNoiseDetection.OnDetect(OnSoundDetected);
 
 			mFireDetection = BYOS.Instance.Perception.Thermal;
@@ -153,7 +153,6 @@ namespace BuddyApp.Guardian
             //mFireDetection.Threshold = 50;
             mKidnappingDetection.OnDetect(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
             BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
-
             //Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
             //Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
             //Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
@@ -171,9 +170,9 @@ namespace BuddyApp.Guardian
             //Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
             HasLinkedDetector = false;
             mKidnappingDetection.StopAllOnDetect();
-			mFireDetection.StopAllOnDetect();
+            mFireDetection.StopAllOnDetect();
             mNoiseDetection.StopAllDetection();
-			mMotionDetection.StopAllOnDetect();
+            mMotionDetection.StopAllOnDetect();
         }
 
 		/// <summary>
