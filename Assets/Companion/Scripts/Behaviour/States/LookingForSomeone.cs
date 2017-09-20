@@ -74,6 +74,12 @@ namespace BuddyApp.Companion
 		{
 			mLookingTime = Time.deltaTime;
 
+
+			if (Primitive.Battery.EnergyLevel < 10) {
+				mBatteryVeryLow = true;
+			}
+
+
 			if (Interaction.TextToSpeech.HasFinishedTalking && !mWandering) {
 				//mReaction.StartWandering();
 				mWandering = true;

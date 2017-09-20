@@ -8,14 +8,32 @@ using Buddy.UI;
 
 namespace BuddyApp.Companion
 {
-	public class AskCharge : AStateMachineBehaviour
+	public class AskBinaryQuestion: AStateMachineBehaviour
 	{
 		private bool mListening;
 		private string mSpeechReco;
 
-		private List<string> mAcceptPhonetics;
-		private List<string> mRefusePhonetics;
-		private List<string> mQuitPhonetics;
+		[SerializeField]
+		private string option1Key;
+
+		[SerializeField]
+		private string option1Trigger;
+
+		[SerializeField]
+		private string option2Key;
+
+		[SerializeField]
+		private string option2Trigger;
+
+		[SerializeField]
+		private string questionKey;
+
+		[SerializeField]
+		private string QuitTrigger;
+
+		//[SerializeField]
+		//private string option2;
+
 
 		public override void Start()
 		{
@@ -25,21 +43,18 @@ namespace BuddyApp.Companion
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			mState.text = "Ask new request";
+			mState.text = "Ask question";
 			Debug.Log("Ask new request");
 			mListening = false;
 			mSpeechReco = "";
+			
 
-			mAcceptPhonetics = new List<string>(Dictionary.GetPhoneticStrings("accept"));
-			mRefusePhonetics = new List<string>(Dictionary.GetPhoneticStrings("refuse"));
-			mQuitPhonetics = new List<string>(Dictionary.GetPhoneticStrings("quit"));
-
-			Interaction.TextToSpeech.SayKey("askcharge");
+			Interaction.TextToSpeech.SayKey(questionKey);
 
 			Interaction.SpeechToText.OnBestRecognition.Clear();
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
 
-
+			
 		}
 
 
@@ -57,17 +72,17 @@ namespace BuddyApp.Companion
 				return;
 			}
 
-			if (mAcceptPhonetics.Contains(mSpeechReco)) {
+			if (ContainsOneOf(mSpeechReco, Dictionary.GetPhoneticStrings(option2Key)) ) {
 				Toaster.Hide();
 				RedoListen();
-			} else if (mRefusePhonetics.Contains(mSpeechReco) || mQuitPhonetics.Contains(mSpeechReco)) {
+			} else if (ContainsOneOf(mSpeechReco, Dictionary.GetPhoneticStrings(option1Key)) || ContainsOneOf(mSpeechReco, Dictionary.GetPhoneticStrings("quit"))) {
 				Toaster.Hide();
 				Exit();
 			} else {
 				Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("newrequest"), PressedYes, PressedNo);
 				Interaction.TextToSpeech.SayKey("notunderstandyesno", true);
 				Interaction.TextToSpeech.Silence(1000, true);
-				Interaction.TextToSpeech.SayKey("newrequest", true);
+				Interaction.TextToSpeech.SayKey(questionKey, true);
 
 				mSpeechReco = "";
 			}
@@ -116,6 +131,24 @@ namespace BuddyApp.Companion
 			Interaction.Mood.Set(MoodType.NEUTRAL);
 			mSpeechReco = "";
 			mListening = false;
+		}
+
+		private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
+		{
+			iSpeech = iSpeech.ToLower();
+			for (int i = 0; i < iListSpeech.Length; ++i) {
+				string[] words = iListSpeech[i].Split(' ');
+				if (words.Length < 2) {
+					words = iSpeech.Split(' ');
+					foreach (string word in words) {
+						if (word == iListSpeech[i].ToLower()) {
+							return true;
+						}
+					}
+				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+					return true;
+			}
+			return false;
 		}
 
 	}

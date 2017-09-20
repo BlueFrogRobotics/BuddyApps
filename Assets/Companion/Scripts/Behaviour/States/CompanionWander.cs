@@ -11,13 +11,16 @@ namespace BuddyApp.Companion
 	//[RequireComponent(typeof(Reaction))]
 	public class CompanionWander : AStateMachineBehaviour
 	{
-		private bool mVocalTriggered;
 		private bool mNeedCharge;
 		private bool mHumanDetected;
 		private bool mKidnapping;
 
 		//private Reaction mReaction;
 		private bool mWandering;
+		private HumanRecognition mHumanReco;
+		private KidnappingDetection mKidnappingDetection;
+
+		private const float KIDNAPPING_THRESHOLD = 4.5F;
 
 		public override void Start()
 		{
@@ -30,7 +33,6 @@ namespace BuddyApp.Companion
 		{
 			mState.text = "Wander";
 			Debug.Log("state: Wander");
-			mVocalTriggered = false;
 			mNeedCharge = false;
 			mHumanDetected = false;
 			mKidnapping = false;
@@ -38,26 +40,22 @@ namespace BuddyApp.Companion
 
 			Debug.Log("wander: " + CompanionData.Instance.MovingDesire);
 
+			Interaction.SphinxTrigger.LaunchRecognition();
+
+			mHumanReco = Perception.Human;
+			mHumanReco.OnDetect(OnHumanDetected, BodyPart.FULL_BODY | BodyPart.FACE | BodyPart.LOWER_BODY | BodyPart.UPPER_BODY);
+
+
+			mKidnappingDetection = Perception.Kidnapping;
+			mKidnappingDetection.OnDetect(OnKidnapping, KIDNAPPING_THRESHOLD);
+
+
 			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnLowBattery);
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
-
-
-
-
 			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.LOW_BATTERY].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = true;
 
-        }
+
+		}
+
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
@@ -67,7 +65,19 @@ namespace BuddyApp.Companion
 				mWandering = true;
 			}
 
-			if (mVocalTriggered) {
+			if (Primitive.Battery.EnergyLevel < 15) {
+				mNeedCharge = true;
+			}
+
+			if ((Input.touchCount > 0 || Input.GetMouseButtonDown(0))) {
+				// Add to 1st part of if? 
+				// && Input.GetTouch(0).phase == TouchPhase.Moved
+
+				// Screen touched
+				Debug.Log("ROBOTTOUCHED");
+				Trigger("ROBOTTOUCHED");
+			} else if (Interaction.SphinxTrigger.HasTriggered) {
+				// If Buddy is vocally triggered
 				iAnimator.SetTrigger("VOCALTRIGGERED");
 			} else if (mNeedCharge) {
 				iAnimator.SetTrigger("CHARGE");
@@ -89,25 +99,15 @@ namespace BuddyApp.Companion
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnLowBattery);
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
+			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
 
 
-            Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
-			Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.LOW_BATTERY].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = false;
+			Interaction.SphinxTrigger.StopRecognition();
+			mHumanReco.StopAllOnDetect();
+			mKidnappingDetection.StopAllOnDetect();
 
-
-            //mReaction.StopWandering();
-            mWandering = false;
+			//mReaction.StopWandering();
+			mWandering = false;
 		}
 
 
@@ -121,24 +121,23 @@ namespace BuddyApp.Companion
 			CompanionData.Instance.MovingDesire -= 2;
 		}
 
-		void OnSphinxActivation()
-		{
-			mVocalTriggered = true;
-		}
-
-		void OnLowBattery()
+		private void OnLowBattery()
 		{
 			mNeedCharge = true;
 		}
 
-		void OnHumanDetected()
-		{
-			mHumanDetected = true;
-		}
-
-		void OnKidnapping()
+		private bool OnKidnapping()
 		{
 			mKidnapping = true;
+			return true;
+		}
+
+
+		private bool OnHumanDetected(HumanEntity[] obj)
+		{
+
+			mHumanDetected = true;
+			return true;
 		}
 
 	}
