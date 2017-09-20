@@ -11,15 +11,19 @@ namespace BuddyApp.Companion
 	{
 		private float mTimeState;
 		private float mTimeHumanDetected;
-		private bool mVocalTriggered;
+		//private bool mVocalTriggered;
 		private bool mNeedCharge;
 		private bool mReallyNeedCharge;
 		private bool mKidnapping;
+		private const float KIDNAPPING_THRESHOLD = 4.5F;
+		private HumanRecognition mHumanReco;
+		private KidnappingDetection mKidnappingDetection;
 
-		private EyesFollowThermal mEyesFollowThermal;
+		//private EyesFollowThermal mEyesFollowThermal;
 
 		public override void Start()
 		{
+
 			//mSensorManager = BYOS.Instance.SensorManager;
 			Utils.LogI(LogContext.APP, "Start UserD");
 			CompanionData.Instance.Bored = 0;
@@ -28,41 +32,41 @@ namespace BuddyApp.Companion
 			CompanionData.Instance.InteractDesire = 0;
 			CompanionData.Instance.ChargeAsked = false;
 			mState = GetComponentInGameObject<Text>(0);
-			mEyesFollowThermal = GetComponent<EyesFollowThermal>();
+			//mEyesFollowThermal = GetComponent<EyesFollowThermal>();
 			Utils.LogI(LogContext.APP, "Start UserD");
 		}
 
+
+
+
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
 			Utils.LogI(LogContext.APP, "Enter UserD 0");
-			mState.text = "User Detected" + BYOS.Instance.Primitive.Battery.EnergyLevel;
+			mState.text = "User Detected" + Primitive.Battery.EnergyLevel;
 
-
-			mEyesFollowThermal.enabled = true;
+			//mEyesFollowThermal.enabled = true;
 
 
 			mTimeState = 0F;
 			mTimeHumanDetected = 0F;
-			mVocalTriggered = false;
+			//mVocalTriggered = false;
 			mReallyNeedCharge = false;
 			mNeedCharge = false;
 
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
 
-			Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.LOW_BATTERY].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = true;
+			Interaction.SphinxTrigger.LaunchRecognition();
+
+			mHumanReco = Perception.Human;
+			mHumanReco.OnDetect(OnHumanDetected, BodyPart.FULL_BODY | BodyPart.FACE | BodyPart.LOWER_BODY | BodyPart.UPPER_BODY);
 
 
-            if (CompanionData.Instance.InteractDesire < 30) {
+			mKidnappingDetection = Perception.Kidnapping;
+			mKidnappingDetection.OnDetect(OnKidnapping, KIDNAPPING_THRESHOLD);
+
+
+
+			if (CompanionData.Instance.InteractDesire < 30) {
 				// Todo: we don't want to interact but we will still show the human we noticed him:
 				// => gaze toward position / react to screen touch...
 			} else if (CompanionData.Instance.InteractDesire < 70) {
@@ -78,96 +82,88 @@ namespace BuddyApp.Companion
 
 			}
 
+			Utils.LogI(LogContext.APP, "Enter UserD 0");
+
 		}
+
+		
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mState.text = "User Detected nrj " + BYOS.Instance.Primitive.Battery.EnergyLevel + " needcharge: " + mNeedCharge + " " + mReallyNeedCharge;
+
+			if(Primitive.Battery.EnergyLevel < 5) {
+				mReallyNeedCharge = true;
+            } else if (Primitive.Battery.EnergyLevel < 15) {
+				mNeedCharge = true;
+            }
+
 			mTimeHumanDetected += Time.deltaTime;
 			mTimeState += Time.deltaTime;
 
 			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
-			if (mVocalTriggered) {
+			if (Interaction.SphinxTrigger.HasTriggered) {
 				Debug.Log("VOCAL TRIGGERED");
-				iAnimator.SetTrigger("VOCALTRIGGERED");
+				Trigger("VOCALTRIGGERED");
+			}else if (Input.touchCount > 0  || Input.GetMouseButtonDown(0)) {
+				// Add to 1st part of if? 
+				// && Input.GetTouch(0).phase == TouchPhase.Moved
 
+				// Screen touched
+				Debug.Log("ROBOTTOUCHED");
+				Trigger("ROBOTTOUCHED");
 			} else if (mKidnapping) {
-				iAnimator.SetTrigger("KIDNAPPING");
+				Trigger("KIDNAPPING");
 
 			} else if ((mNeedCharge && CompanionData.Instance.InteractDesire < 30) || mReallyNeedCharge) {
 				Debug.Log("User Detected needcharge " + mNeedCharge + " really need charge " + mReallyNeedCharge);
-				iAnimator.SetTrigger("CHARGE");
+				Trigger("CHARGE");
 
 				// 1) If no more human detected for a while, go back to IDLE or go to sad buddy
 			} else if (mTimeHumanDetected > 20F) {
 				if (CompanionData.Instance.InteractDesire > 80)
-					iAnimator.SetTrigger("SADBUDDY");
+					Trigger("SADBUDDY");
 				else
-					iAnimator.SetTrigger("IDLE");
+					Trigger("IDLE");
 
 
 				// 2) If human detected for a while and want to interact but no interaction, go to Crazy Buddy
 			} else if (mTimeState > 45F && CompanionData.Instance.InteractDesire > 50) {
 				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 				Interaction.Face.SetEvent(FaceEvent.SMILE);
-				iAnimator.SetTrigger("SEEKATTENTION");
+				Trigger("SEEKATTENTION");
 
 				// 3) Otherwise, follow human head / body with head, eye or body
 			} else if (mTimeState > 500F && CompanionData.Instance.MovingDesire > 30) {
                 Interaction.Mood.Set(MoodType.SURPRISED);
-				iAnimator.SetTrigger("WANDER");
+				Trigger("WANDER");
 			}
 		}
 
+
+
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
+			Interaction.SphinxTrigger.StopRecognition();
+			mHumanReco.StopAllOnDetect();
+			mKidnappingDetection.StopAllOnDetect();
 
 
-			Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.LOW_BATTERY].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = false;
-
-        }
-
-		void OnSphinxActivation()
-		{
-			mVocalTriggered = true;
 		}
+		
+		//////// CALLBACKS
 
-		void OnLowBattery()
-		{
-			Interaction.Mood.Set(MoodType.TIRED);
-			mNeedCharge = true;
-
-			Debug.Log("User Detected low battery: " + BYOS.Instance.Primitive.Battery.EnergyLevel);
-		}
-
-		void OnVeryLowBattery()
-		{
-            Interaction.Mood.Set(MoodType.TIRED);
-			mReallyNeedCharge = true;
-			
-			Debug.Log("User Detected very low battery: " + BYOS.Instance.Primitive.Battery.EnergyLevel);
-		}
-
-		void OnHumanDetected()
+		private bool OnHumanDetected(HumanEntity[] obj)
 		{
 			//Debug.Log("Human is detected");
 			mTimeHumanDetected = 0F;
+			return true;
 		}
 
-		void OnKidnapping()
+		private bool OnKidnapping()
 		{
 			mKidnapping = true;
+			return true;
 		}
 	}
 }

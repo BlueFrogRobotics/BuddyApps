@@ -1,2 +1,109 @@
-<?xml version="1.0" encoding="Windows-1252"?>
-<LanguageThesaurus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageThesaurus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Entries>
+        <DictionaryEntry>
+            <Key>newrequest</Key>
+            <BaseValue>Puis-je faire autre chose pour vous?</BaseValue>
+            <ClosePhoneticValues>
+                <string>Puis-je faire autre chose pour vous?</string>
+                <string>Vous avez une autre demande?</string>
+                <string>Autre chose?</string>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Puis-je faire autre chose pour vous?</string>
+                <string>Vous avez une autre demande?</string>
+                <string>Autre chose?</string>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>accept</Key>
+            <BaseValue>oui</BaseValue>
+            <ClosePhoneticValues>
+                <string>oui</string>
+                <string>ouais</string>
+                <string>d'accord</string>
+                <string>yep</string>
+                <string>affirmatif</string>
+                <string>ok</string>
+                <string>okay</string>
+                <string>concombre</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>oui</string>
+                <string>ouais</string>
+                <string>d'accord</string>
+                <string>yep</string>
+                <string>affirmatif</string>
+                <string>ok</string>
+                <string>okay</string>
+                <string>concombre</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>refuse</Key>
+            <BaseValue>non</BaseValue>
+            <ClosePhoneticValues>
+                <string>non</string>
+                <string>nope</string>
+                <string>nom</string>
+                <string>ça n'est pas la paine</string>
+                <string>ce n'est pas nécessaire</string>
+                <string>ça sera tout</string>
+                <string>ça ira</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>non</string>
+                <string>nope</string>
+                <string>nom</string>
+                <string>ça n'est pas la paine</string>
+                <string>ce n'est pas nécessaire</string>
+                <string>ça sera tout</string>
+                <string>ça ira</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>quit</Key>
+            <BaseValue>quitter</BaseValue>
+            <ClosePhoneticValues>
+                <string>quitter</string>
+                <string>annuler</string>
+                <string>arrêter</string>
+                <string>quitté</string>
+                <string>annulé</string>
+                <string>arrêté</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>quitter</string>
+                <string>annuler</string>
+                <string>arrêter</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>notunderstandyesno</Key>
+            <BaseValue>Je ne vous ai pas compris</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Désolé, je n'ai pas compris</string>
+                <string>Je ne vous ai pas compris</string>
+                <string>Pouvez-vous répéter?</string>
+                <string>veuillez répondre par oui ou par non</string>
+                <string>Répétez votre réponse s'il vous plaît</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>askcharge</Key>
+            <BaseValue>Puis-je me recharger</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Puis-je aller me recharger</string>
+                <string> Je suis fatigué, puis-je aller me recharger?</string>
+            </RandomValues>
+        </DictionaryEntry>
+    </Entries>
+</LanguageThesaurus>
