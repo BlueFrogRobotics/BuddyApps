@@ -235,7 +235,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>changeheadorientation</Key>
-            <BaseValue>Modifier</BaseValue>
+            <BaseValue>Réglage</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -285,7 +285,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>sensibilitysettings</Key>
-            <BaseValue>Reglage sensibilité</BaseValue>
+            <BaseValue>Réglage</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -315,7 +315,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>testfiredetection</Key>
-            <BaseValue>Test de la détection de feu</BaseValue>
+            <BaseValue>Sensibilité thermique</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -325,7 +325,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>thermicview</Key>
-            <BaseValue>Visualisation thermique</BaseValue>
+            <BaseValue>Réglage</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -390,6 +390,16 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Dans cet écran, vous pouvez configurer les paramètres de la surveillance à votre convenance. Appuyez sur valider lorsque vous avez terminé</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>audiodetectionmessage</Key>
+            <BaseValue> Tu peux utiliser la barre de réglage horizontale en bas de l'écran pour régler la sensibilité de détection du bruit.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string> [1500] Tu peux utiliser la barre de réglage horizontale en bas de l'écran pour régler la sensibilité de détection du bruit.</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
