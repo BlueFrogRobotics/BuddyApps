@@ -60,6 +60,9 @@ namespace BuddyApp.Guardian
             {
                 mSoundIntensities.Enqueue(0.0f);
             }
+
+            Interaction.TextToSpeech.SayKey("audiodetectionmessage", true);
+
             //AStimulus soundStimulus;
             //BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_LOUD, out soundStimulus);
             //mNoiseStimulus = (NoiseStimulus)soundStimulus;
