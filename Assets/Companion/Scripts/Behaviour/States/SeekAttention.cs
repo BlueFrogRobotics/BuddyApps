@@ -12,7 +12,6 @@ namespace BuddyApp.Companion
         private float mTimeState;
         private float mTimeHumanDetected;
         private bool mVocalTriggered;
-        private bool mNeedCharge;
         private bool mReallyNeedCharge;
         private bool mKidnapping;
         private bool mGrumpy;
@@ -33,20 +32,14 @@ namespace BuddyApp.Companion
             mTimeHumanDetected = 0F;
             mVocalTriggered = false;
             mReallyNeedCharge = false;
-            mNeedCharge = false;
             mGrumpy = false;
-
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
+			
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
 
-			
-			Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = true;
             Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].enabled = true;
             Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = true;
             Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = true;
 
             Interaction.TextToSpeech.Say("Helloooooo", true);
@@ -57,8 +50,12 @@ namespace BuddyApp.Companion
             mTimeHumanDetected += Time.deltaTime;
             mTimeState += Time.deltaTime;
 
-            // 0) If trigger vocal or kidnapping or low battery, go to corresponding state
-            if (mVocalTriggered) {
+			if (Primitive.Battery.EnergyLevel < 10) {
+				mReallyNeedCharge = true;
+			}
+
+				// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
+				if (mVocalTriggered) {
                 iAnimator.SetTrigger("VOCALTRIGGERED");
 
             } else if (mKidnapping) {
@@ -90,17 +87,13 @@ namespace BuddyApp.Companion
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
             Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
             Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
             Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FACE_DETECTED, OnHumanDetected);
 
-
-            Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = false;
+			
 			Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].enabled = false;
             Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = false;
             Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = false;
 
         }
@@ -108,13 +101,6 @@ namespace BuddyApp.Companion
         void OnSphinxActivation()
         {
             mVocalTriggered = true;
-        }
-
-        void OnVeryLowBattery()
-        {
-            Interaction.Mood.Set(MoodType.TIRED);
-            Debug.Log("SeekAttention really need charge" + BYOS.Instance.Primitive.Battery.EnergyLevel);
-            mReallyNeedCharge = true;
         }
 
         void OnHumanDetected()

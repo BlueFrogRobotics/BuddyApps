@@ -16,7 +16,7 @@ namespace BuddyApp.Companion
 		private bool mOrderGiven;
 		private bool mSpeechInput;
 		private bool mNeedListen;
-		
+		private float mTime;
 
 		public override void Start()
 		{
@@ -36,40 +36,54 @@ namespace BuddyApp.Companion
 			mVocalWanderOrder = false;
 			mRobotIsTrackingSomeone = false;
 			Interaction.VocalManager.EnableTrigger = false;
-            Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
-            //mVocalChat.Activate();
-            Interaction.VocalManager.EnableDefaultErrorHandling = true;
-			//mVocalChat.WithNotification = true;
+			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
+			mVocalChat.Activate();
+			Interaction.VocalManager.EnableDefaultErrorHandling = true;
+			mVocalChat.WithNotification = true;
 			mVocalChat.OnQuestionTypeFound = SortQuestionType;
 			mNeedListen = true;
+			mTime = 0F;
 		}
 
 
 		void OnSpeechRecognition(string iText)
 		{
+			mTime = 0F;
 			mSpeechInput = true;
+
+			// Compensate VocalChat doing nothing if accept:
+			if(ContainsOneOf(iText, Dictionary.GetPhoneticStrings("accept"))){
+				mNeedListen = true;
+			}
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			if (Interaction.TextToSpeech.HasFinishedTalking) {
+			mTime += Time.deltaTime;
+            if (Interaction.TextToSpeech.HasFinishedTalking) {
+				Debug.Log("STATE onenter done: " + " needListen: " + mNeedListen);
 				if (mNeedListen) {
+					Debug.Log("VocalTriggered Start Listen");
 
-                    Interaction.VocalManager.StartInstantReco();
+					Interaction.VocalManager.StartInstantReco();
 					mNeedListen = false;
-				} else {
-					//if (!mVocalChat.BuildingAnswer) {
-					//	if (mVocalWanderOrder) {
-					//		iAnimator.SetTrigger("WANDER");
-					//	} else if (mOrderGiven || mVocalChat.AnswerGiven) {
-					//		iAnimator.SetTrigger("ASKNEWRQ");
-					//	} else if (mVocalManager.RecoProcessFinished) {
-					//		if (!mSpeechInput) {
-					//			//Mb this was a wrong trigger, back to IDLE
-					//			iAnimator.SetTrigger("IDLE");
-					//		}
-					//	}
-					//}
+					mTime = 0F;
+                } else {
+					Debug.Log("pre pre Back to IDLE: ");
+					if (!mVocalChat.BuildingAnswer) {
+						if (mVocalWanderOrder) {
+							Trigger("WANDER");
+						} else if (mOrderGiven || mVocalChat.AnswerGiven) {
+							Trigger("ASKNEWRQ");
+						} else if (Interaction.VocalManager.RecoProcessFinished && mTime > 15F) {
+							Debug.Log("pre Back to IDLE: ");
+							if (!mSpeechInput) {
+								//Mb this was a wrong trigger, back to IDLE
+								Debug.Log("Back to IDLE: ");
+								Trigger("IDLE");
+							}
+						}
+					}
 				}
 			}
 		}
@@ -77,9 +91,11 @@ namespace BuddyApp.Companion
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 
+			Debug.Log("VOCAL TRIGGERED STATE EXIT");
+			mNeedListen = true;
 			mSpeechInput = false;
-            Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
-			//mVocalChat.DisActivate();
+			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
+			mVocalChat.DisActivate();
 		}
 
 		//Sort the type of the question returned by the Vocal Chat.
@@ -92,22 +108,19 @@ namespace BuddyApp.Companion
 
 			switch (iType) {
 				case "Quit":
-					mOrderGiven = true;
 					break;
 				case "Weather":
-					mOrderGiven = true;
 					break;
 				case "Definition":
-					mOrderGiven = true;
 					break;
 				case "Wander":
-                    Interaction.TextToSpeech.Say(Dictionary.GetString("wander"));
+					Interaction.TextToSpeech.Say(Dictionary.GetString("wander"));
 					mVocalWanderOrder = true;
 					//TODO, maybe ask for interaction instead if Buddy really wants to interact
 					CompanionData.Instance.InteractDesire -= 10;
 					if (CompanionData.Instance.MovingDesire < 50)
 						CompanionData.Instance.MovingDesire = 50;
-					
+
 					Debug.Log("Start wanderring by voice");
 					break;
 
@@ -126,7 +139,7 @@ namespace BuddyApp.Companion
 
 				case "FollowMe":
 					if (!mRobotIsTrackingSomeone) {
-                        Interaction.TextToSpeech.Say(Dictionary.GetString("follow"));
+						Interaction.TextToSpeech.Say(Dictionary.GetString("follow"));
 						CompanionData.Instance.InteractDesire -= 10;
 						//GetComponent<FollowWanderReaction>().enabled = true;
 						mRobotIsTrackingSomeone = true;
@@ -233,5 +246,24 @@ namespace BuddyApp.Companion
 			}
 
 		}
+
+		private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
+		{
+			iSpeech = iSpeech.ToLower();
+			for (int i = 0; i < iListSpeech.Length; ++i) {
+				string[] words = iListSpeech[i].Split(' ');
+				if (words.Length < 2) {
+					words = iSpeech.Split(' ');
+					foreach (string word in words) {
+						if (word == iListSpeech[i].ToLower()) {
+							return true;
+						}
+					}
+				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+					return true;
+			}
+			return false;
+		}
+
 	}
 }

@@ -21,18 +21,16 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-            mState.text = "Goto charge: " +	BYOS.Instance.Primitive.Battery.EnergyLevel;
 			Debug.Log("state: Goto charge");
+			mState.text = "Goto charge: " +	BYOS.Instance.Primitive.Battery.EnergyLevel;
 			mSpeechTriggered = false;
 			mVeryLowBattery = false;
 			Interaction.Mood.Set(MoodType.TIRED);
             Interaction.TextToSpeech.Say("Je vais me recharger", true);
 
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
+			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
 			
-			Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = true;
+			Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = true;
 
 
         }
@@ -52,10 +50,8 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
-
-			Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = false;
+			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
+			
             Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = false;
         }
 

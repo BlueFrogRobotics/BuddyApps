@@ -16,7 +16,6 @@ namespace BuddyApp.Companion
 		private bool mLookForSomeone;
 		private bool mWander;
 		private bool mVocalTrigger;
-		private bool mBatteryLow;
 		private bool mBatteryVeryLow;
 		private bool mFaceDetected;
 		private bool mHumanDetected;
@@ -39,7 +38,6 @@ namespace BuddyApp.Companion
 			mLookForSomeone = false;
 			mWander = false;
 			mVocalTrigger = false;
-			mBatteryLow = false;
 			mBatteryVeryLow = false;
 			mFaceDetected = false;
 			mKidnapping = false;
@@ -55,22 +53,23 @@ namespace BuddyApp.Companion
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
             Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FACE_DETECTED, OnFaceDetected);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
+			Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = true;
 
 
 			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
             Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = true;
             Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].enabled = true;
             Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.LOW_BATTERY].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = true;
             Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = true;
         }
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+			if (Primitive.Battery.EnergyLevel < 10) {
+				mBatteryVeryLow = true;
+			}
+
 			mSadTime = Time.deltaTime;
 			if (mVocalTrigger) {
 				// If Buddy is vocally triggered
@@ -104,11 +103,6 @@ namespace BuddyApp.Companion
 					iAnimator.SetTrigger("INTERACT");
 				}
 
-			} else if (mBatteryLow) {
-				//TODO put in dictionary
-				//mTTS.Say("Je commence à fatigué, je vais faire une petite sièste!", true);
-				iAnimator.SetTrigger("CHARGE");
-
 			} else if (mBatteryVeryLow) {
 				//TODO put in dictionary
 				//mTTS.Say("Je suis très fatigué, je vais me coucher! [800] Bonne nuit tout le monde!", true);
@@ -125,8 +119,6 @@ namespace BuddyApp.Companion
 		{
 			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
             Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.LOW_BATTERY, OnLowBattery);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
             Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
             Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
             Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FACE_DETECTED, OnFaceDetected);
@@ -136,8 +128,6 @@ namespace BuddyApp.Companion
             Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = false;
             Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].enabled = false;
             Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.LOW_BATTERY].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = false;
             Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = false;
         }
 
@@ -159,18 +149,6 @@ namespace BuddyApp.Companion
 		void OnFaceDetected()
 		{
 			mFaceDetected = true;
-		}
-
-		void OnLowBattery()
-		{
-			Interaction.Mood.Set(MoodType.TIRED);
-			mBatteryLow = true;
-		}
-
-		void OnVeryLowBattery()
-		{
-            Interaction.Mood.Set(MoodType.TIRED);
-			mBatteryVeryLow = true;
 		}
 
 		void OnSphinxActivation()

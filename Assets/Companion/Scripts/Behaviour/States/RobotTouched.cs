@@ -24,7 +24,7 @@ namespace BuddyApp.Companion
                 //Interaction.TextToSpeech.Say("Hey! Si on faisait un jeu!", true);
                 iAnimator.SetTrigger("PROPOSEGAME");
             } else {
-                Interaction.TextToSpeech.Say("Que puis-je pour toi?", true);
+                Interaction.TextToSpeech.Say("Que puis-je pour vous?", true);
                 iAnimator.SetTrigger("VOCALTRIGGERED");
             }
         }
