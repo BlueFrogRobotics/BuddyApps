@@ -237,7 +237,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>changeheadorientation</Key>
-            <BaseValue>Change</BaseValue>
+            <BaseValue>Setting</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -287,7 +287,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>sensibilitysettings</Key>
-            <BaseValue>Set sensibility</BaseValue>
+            <BaseValue>Setting</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -317,7 +317,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>testfiredetection</Key>
-            <BaseValue>Test fire detection</BaseValue>
+            <BaseValue>Thermal sensitivity</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -327,7 +327,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>thermicview</Key>
-            <BaseValue>Thermic visualisation</BaseValue>
+            <BaseValue>Setting</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -388,6 +388,16 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>In this panel, you can set the parameters as you wish. Hit the validate button when you are done.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>audiodetectionmessage</Key>
+            <BaseValue> You can use the horizontal scrollbar at the bottom of the screen to adjust the sensitivity of the noise detection.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[1500] You can use the horizontal scrollbar at the bottom of the screen to adjust the sensitivity of the noise detection.</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
