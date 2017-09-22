@@ -39,7 +39,6 @@ namespace BuddyApp.Guardian
             mMovementTracker = BYOS.Instance.Perception.Motion;
             mRaw = mDebugMovementWindow.Raw;
             mGauge = mDebugMovementWindow.GaugeSensibility;
-
             mHasDetectedMouv = false;
             mHasInitSlider = false;
             mGoBack = false;
@@ -83,6 +82,7 @@ namespace BuddyApp.Guardian
 
                 if (mHasInitSlider && mDebugMovementAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack) {
                     animator.SetInteger("DebugMode", -1);
+
                     mGoBack = false;
                     mDebugMovementWindow.IcoMouv.enabled = false;
                 }
@@ -101,24 +101,24 @@ namespace BuddyApp.Guardian
 
         private void DisplayMovement()
         {
-            //Mat lMatMouv = new Mat();
-            //Mat lMatView = new Mat();
-            //Mat lMatCam = new Mat();
+            Mat lMatMouv = new Mat();
+            Mat lMatView = new Mat();
+            Mat lMatCam = new Mat();
 
-            //float lMaxDetector = mMaxThreshold;
-            //float lValueSliderPercent = 1.0f - (mGauge.Slider.value / mGauge.Slider.maxValue);
+            float lMaxDetector = mMaxThreshold;
+            float lValueSliderPercent = 1.0f - (mGauge.Slider.value / mGauge.Slider.maxValue);
             //mMovementTracker.Threshold = (lValueSliderPercent * lMaxDetector);
 
             //mMask = mMovementTracker.BinaryImage;
             //Imgproc.circle(mMask, mMovementTracker.PositionMoment, 5, new Scalar(254, 254, 254), -1);
 
-            //mMatRed.copyTo(lMatMouv, mMask);
-            //Imgproc.threshold(mMask, mMask, 200, 255, Imgproc.THRESH_BINARY_INV);
-            //mCam.FrameMat.copyTo(lMatCam, mMask);
-            //lMatView = lMatMouv + lMatCam;
+            mMatRed.copyTo(lMatMouv, mMask);
+            Imgproc.threshold(mMask, mMask, 200, 255, Imgproc.THRESH_BINARY_INV);
+            mCam.FrameMat.copyTo(lMatCam, mMask);
+            lMatView = lMatMouv + lMatCam;
 
-            //Utils.MatToTexture2D(lMatView, mTexture);
-            //mRaw.texture = mTexture;
+            Utils.MatToTexture2D(lMatView, mTexture);
+            mRaw.texture = mTexture;
         }
 
         private void GoBack()

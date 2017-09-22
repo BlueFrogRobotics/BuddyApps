@@ -9,8 +9,8 @@ namespace BuddyApp.Guardian
 	public class GuardianLayout : AWindowLayout
 	{
 		private LabeledButton mHeadOrientation;
-		private OnOff mMovementDetection;
-		//private LabeledButton mMovementDebug;
+		private GaugeOnOff mMovementDetection;
+		private LabeledButton mMovementDebug;
 		private GaugeOnOff mSoundDetection;
 		private LabeledButton mSoundDebug;
 		private OnOff mFireDetection;
@@ -26,12 +26,12 @@ namespace BuddyApp.Guardian
 			CreateWidgets();
 
 			mMovementDetection.IsActive = GuardianData.Instance.MovementDetection;
-			//mMovementDetection.DisplayPercentage = true;
-			//mMovementDetection.Slider.wholeNumbers = true;
-			//mMovementDetection.Slider.maxValue = 100;
-			//mMovementDetection.Slider.value = GuardianData.Instance.MovementDetectionThreshold;
+            mMovementDetection.DisplayPercentage = true;
+            mMovementDetection.Slider.wholeNumbers = true;
+            mMovementDetection.Slider.maxValue = 100;
+            //mMovementDetection.Slider.value = GuardianData.Instance.MovementDetectionThreshold;
 
-			mSoundDetection.IsActive = GuardianData.Instance.SoundDetection;
+            mSoundDetection.IsActive = GuardianData.Instance.SoundDetection;
 			mSoundDetection.DisplayPercentage = true;
 			mSoundDetection.Slider.wholeNumbers = true;
 			mSoundDetection.Slider.maxValue = 100;
@@ -71,9 +71,9 @@ namespace BuddyApp.Guardian
 
 		private void CreateWidgets()
 		{
-			//mMovementDebug = CreateWidget<LabeledButton>();
-			mMovementDetection = CreateWidget<OnOff>();
-			mKidnappingDetection = CreateWidget<OnOff>();
+			mMovementDetection = CreateWidget<GaugeOnOff>();
+            mMovementDebug = CreateWidget<LabeledButton>();
+            mKidnappingDetection = CreateWidget<OnOff>();
 			mSoundDetection = CreateWidget<GaugeOnOff>();
 			mSoundDebug = CreateWidget<LabeledButton>();
 			mFireDetection = CreateWidget<OnOff>();
@@ -88,9 +88,9 @@ namespace BuddyApp.Guardian
 		{
 			mHeadOrientation.OuterLabel = BYOS.Instance.Dictionary.GetString("headorientation");
 			mHeadOrientation.InnerLabel = BYOS.Instance.Dictionary.GetString("changeheadorientation");
-			//mMovementDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("movementsensibility");
-			//mMovementDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
-			mFireDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("testfiredetection");
+            mMovementDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("movementsensibility");
+            mMovementDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
+            mFireDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("testfiredetection");
 			mFireDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("thermicview");
 			mSoundDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("noisesensibility");
 			mSoundDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
@@ -106,15 +106,22 @@ namespace BuddyApp.Guardian
 		private void RegisterEvents()
 		{
 			mHeadOrientation.OnClickEvent(() => { GuardianData.Instance.HeadOrientation = true; });
-			//mMovementDebug.OnClickEvent(() => { GuardianData.Instance.MovementDebug = true; });
-			mSoundDebug.OnClickEvent(() => { GuardianData.Instance.SoundDebug = true; });
+            mMovementDebug.OnClickEvent(() => { GuardianData.Instance.MovementDebug = true; });
+            mSoundDebug.OnClickEvent(() => { GuardianData.Instance.SoundDebug = true; });
 			mFireDebug.OnClickEvent(() => { GuardianData.Instance.FireDebug = true; });
 
-			//mMovementDetection.OnUpdateEvent((int iVal) => {
-			//	GuardianData.Instance.MovementDetectionThreshold = iVal;
-			//});
+            mMovementDetection.OnSwitchEvent((bool iVal) =>
+            {
+                GuardianData.Instance.MovementDetection = iVal;
+                mMovementDebug.gameObject.SetActive(iVal);
+            });
 
-			mSoundDetection.OnSwitchEvent((bool iVal) => {
+            mMovementDetection.OnUpdateEvent((int iVal) =>
+            {
+                GuardianData.Instance.MovementDetectionThreshold = iVal;                
+            });
+
+            mSoundDetection.OnSwitchEvent((bool iVal) => {
 				GuardianData.Instance.SoundDetection = iVal;
                 mSoundDebug.gameObject.SetActive(iVal);
             });
