@@ -51,7 +51,7 @@ namespace BuddyApp.Guardian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Start();
+            //Start();
             //mNoiseDetection.enabled = true;
             //mNoiseDetection.enabled = false;
             mIntensity = 0.0f;
@@ -100,7 +100,7 @@ namespace BuddyApp.Guardian
                 if (mTimer > 0.04f)
                 {
                     mTimer = 0.0f;
-                    DisplaySound();
+                    //DisplaySound();
                     CheckNoiseDetection();
                 }
 

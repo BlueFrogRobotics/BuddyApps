@@ -47,8 +47,8 @@ namespace BuddyApp.Guardian
 			mHeadControllerWindow.ButtonDown.onClick.AddListener(MoveYesDown);
             if (!mRGBCam.IsOpen)
                 mRGBCam.Open();
-            Interaction.TextToSpeech.SayKey("headorientationmessage", true);
 
+            Interaction.TextToSpeech.SayKey("headorientationmessage", true);
 
         }
 
