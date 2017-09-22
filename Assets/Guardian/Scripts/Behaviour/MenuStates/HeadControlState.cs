@@ -47,8 +47,10 @@ namespace BuddyApp.Guardian
 			mHeadControllerWindow.ButtonDown.onClick.AddListener(MoveYesDown);
             if (!mRGBCam.IsOpen)
                 mRGBCam.Open();
+            Interaction.TextToSpeech.SayKey("headorientationmessage", true);
 
-		}
+
+        }
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
