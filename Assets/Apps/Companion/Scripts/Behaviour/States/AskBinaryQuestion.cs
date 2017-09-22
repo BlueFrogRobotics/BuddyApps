@@ -30,6 +30,7 @@ namespace BuddyApp.Companion
 
 		[SerializeField]
 		private string QuitTrigger;
+		private bool mRedo;
 
 		//[SerializeField]
 		//private string option2;
@@ -47,6 +48,7 @@ namespace BuddyApp.Companion
 			Debug.Log("Ask new request");
 			mListening = false;
 			mSpeechReco = "";
+			mRedo = false;
 			
 
 			Interaction.TextToSpeech.SayKey(questionKey);
@@ -79,7 +81,7 @@ namespace BuddyApp.Companion
 				Toaster.Hide();
 				Exit();
 			} else {
-				Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("newrequest"), PressedYes, PressedNo);
+				Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString(questionKey), PressedYes, PressedNo);
 				Interaction.TextToSpeech.SayKey("notunderstandyesno", true);
 				Interaction.TextToSpeech.Silence(1000, true);
 				Interaction.TextToSpeech.SayKey(questionKey, true);
@@ -116,18 +118,23 @@ namespace BuddyApp.Companion
 		{
 			Interaction.Mood.Set(MoodType.NEUTRAL);
 			Trigger("VOCALTRIGGERED");
+			mRedo = true;
 		}
 
 		private void Exit()
 		{
 			Interaction.Mood.Set(MoodType.NEUTRAL);
-			Interaction.TextToSpeech.Say("ok");
 			Trigger("DISENGAGE");
 		}
 
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			Toaster.Hide();
+
+			Interaction.TextToSpeech.Say("ok");
+			if (mRedo) {
+				Interaction.TextToSpeech.Say("ilisten");
+			}
 			Interaction.Mood.Set(MoodType.NEUTRAL);
 			mSpeechReco = "";
 			mListening = false;

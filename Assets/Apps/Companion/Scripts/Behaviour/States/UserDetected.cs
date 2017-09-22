@@ -58,7 +58,7 @@ namespace BuddyApp.Companion
 			Interaction.SphinxTrigger.LaunchRecognition();
 
 			mHumanReco = Perception.Human;
-			mHumanReco.OnDetect(OnHumanDetected, BodyPart.FULL_BODY | BodyPart.FACE | BodyPart.LOWER_BODY | BodyPart.UPPER_BODY);
+			mHumanReco.OnDetect(OnHumanDetected, BodyPart.FULL_BODY);
 
 
 			mKidnappingDetection = Perception.Kidnapping;

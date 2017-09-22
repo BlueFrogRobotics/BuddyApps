@@ -17,7 +17,7 @@ namespace BuddyApp.Companion
 
 		//private Reaction mReaction;
 		private bool mWandering;
-		private HumanRecognition mHumanReco;
+		//private HumanRecognition mHumanReco;
 		private KidnappingDetection mKidnappingDetection;
 
 		private const float KIDNAPPING_THRESHOLD = 4.5F;
@@ -42,8 +42,8 @@ namespace BuddyApp.Companion
 
 			Interaction.SphinxTrigger.LaunchRecognition();
 
-			mHumanReco = Perception.Human;
-			mHumanReco.OnDetect(OnHumanDetected, BodyPart.FULL_BODY | BodyPart.FACE | BodyPart.LOWER_BODY | BodyPart.UPPER_BODY);
+			//mHumanReco = Perception.Human;
+			//mHumanReco.OnDetect(OnHumanDetected, BodyPart.FULL_BODY | BodyPart.FACE | BodyPart.LOWER_BODY | BodyPart.UPPER_BODY);
 
 
 			mKidnappingDetection = Perception.Kidnapping;
@@ -103,7 +103,7 @@ namespace BuddyApp.Companion
 
 
 			Interaction.SphinxTrigger.StopRecognition();
-			mHumanReco.StopAllOnDetect();
+			//mHumanReco.StopAllOnDetect();
 			mKidnappingDetection.StopAllOnDetect();
 
 			//mReaction.StopWandering();
