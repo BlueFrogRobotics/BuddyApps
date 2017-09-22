@@ -4671,12 +4671,12 @@
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:Buddy.Command.RestartBRECmd">
+        <member name="T:Buddy.Command.RestartCoreCmd">
             <summary>
             When executed : Restart the Buddy Runtime Environment
             </summary>
         </member>
-        <member name="M:Buddy.Command.RestartBRECmd.#ctor">
+        <member name="M:Buddy.Command.RestartCoreCmd.#ctor">
             <summary>
             Default constructor
             </summary>
@@ -5935,12 +5935,12 @@
             Default constructor
             </summary>
         </member>
-        <member name="T:Buddy.Command.ExitBRECmd">
+        <member name="T:Buddy.Command.ExitCoreCmd">
             <summary>
             When executed : Kill the Buddy Runtime Environment
             </summary>
         </member>
-        <member name="M:Buddy.Command.ExitBRECmd.#ctor">
+        <member name="M:Buddy.Command.ExitCoreCmd.#ctor">
             <summary>
             Default constructor
             </summary>
