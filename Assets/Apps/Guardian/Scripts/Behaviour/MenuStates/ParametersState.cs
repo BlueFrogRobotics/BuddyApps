@@ -48,7 +48,7 @@ namespace BuddyApp.Guardian
 
 
 			BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout,
-				() => { Trigger("Back"); },
+				() => { Trigger("NextStep"); },
 				null);
 		}
 
@@ -70,7 +70,7 @@ namespace BuddyApp.Guardian
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			//BYOS.Instance.Toaster.Hide();
-			GuardianData.Instance.FirstRun = false;
+			//GuardianData.Instance.FirstRun = false;
 			//mDetectionLayout.mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 		}
 

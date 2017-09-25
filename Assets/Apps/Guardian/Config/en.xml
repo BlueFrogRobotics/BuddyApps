@@ -3,13 +3,16 @@
     <Entries>
         <DictionaryEntry>
             <Key>askchoices</Key>
-            <BaseValue>Should I launch the watch or set the parameters?</BaseValue>
+            <BaseValue>What do you want to do?</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Should I launch the watch or modify the parameters?</string>
-                <string />
+                <string>What do you want to do?</string>
+                <string>What do we do now?</string>
+                <string>Make a choice</string>
+                <string>Select the action</string>
+                <string>What's next?</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -398,6 +401,16 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>[1500] You can use the horizontal scrollbar at the bottom of the screen to adjust the sensitivity of the noise detection.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firststartdetectiontimer</Key>
+            <BaseValue>Press the top right button to change the application settings</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>If you want to change the application settings, press the parameter button on top right of this screen</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

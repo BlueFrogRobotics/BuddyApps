@@ -3,12 +3,14 @@
     <Entries>
         <DictionaryEntry>
             <Key>askchoices</Key>
-            <BaseValue>Dois-je lancer la surveillance ou voulez-vous configurer les paramètres?</BaseValue>
+            <BaseValue>Que voulez-vous faire?</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Dois-je lancer la surveillance ou voulez-vous modifier les paramètres?</string>
+                <string>Que voulez-vous faire?</string>
+                <string>Et maintenant que faisons nous?</string>
+                <string>C'est quoi la suite?</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -400,6 +402,16 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string> [1500] Tu peux utiliser la barre de réglage horizontale en bas de l'écran pour régler la sensibilité de détection du bruit.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firststartdetectiontimer</Key>
+            <BaseValue>Appuyer sur le boutton en haut à droite pour modifier les paramètres</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Si tu souhaites modifier les paramètres de l'application, appuie sur le bouton paramètre en haut à droite de cet écran</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

@@ -25,7 +25,7 @@ namespace BuddyApp.Guardian
 
 		private bool mHasDisplayChoices;
 		private bool mListening;
-        private bool mHasLoadedTTS;
+		private bool mHasLoadedTTS;
 
 		private float mTimer = 0.0f;
 
@@ -42,117 +42,103 @@ namespace BuddyApp.Guardian
 		{
 			BYOS.Instance.Header.DisplayParameters = false;
 			AAppActivity.UnlockScreen();
-            mHasLoadedTTS = true;
-            if (GuardianData.Instance.FirstRun)
-				Interaction.TextToSpeech.SayKey("firstmenu", true);
-			else
-				Interaction.TextToSpeech.SayKey("askchoices", true);
+			mHasLoadedTTS = true;
+			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askchoices"), true);
 
 			//Detection.NoiseStimulus.enabled = false;
 			Interaction.VocalManager.OnEndReco = OnSpeechReco;
 			Interaction.VocalManager.EnableDefaultErrorHandling = false;
 			Interaction.VocalManager.OnError = Empty;
-            Interaction.VocalManager.StartListenBehaviour = StartListenBehaviour;
-            Interaction.VocalManager.StopListenBehaviour = StopListenBehaviour;
-            mTimer = 0.0f;
+			Interaction.VocalManager.StartListenBehaviour = StartListenBehaviour;
+			Interaction.VocalManager.StopListenBehaviour = StopListenBehaviour;
+			mTimer = 0.0f;
 			mListening = false;
-            IEnumerator lAction = WaitTTSLoading();
-            //StartCoroutine(lAction);
+			IEnumerator lAction = WaitTTSLoading();
+			//StartCoroutine(lAction);
 			//if (!BYOS.Instance.Primitive.RGBCam.IsOpen)
 			//	BYOS.Instance.Primitive.RGBCam.Open(RGBCamResolution.W_176_H_144);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-            if (mHasLoadedTTS)
-            {
-                mTimer += Time.deltaTime;
-                if (mTimer > 6.0f)
-                {
-                    Interaction.Mood.Set(MoodType.NEUTRAL);
-                    mListening = false;
-                    mTimer = 0.0f;
-                    mSpeechReco = null;
-                }
+			if (mHasLoadedTTS) {
+				mTimer += Time.deltaTime;
+				if (mTimer > 6.0f) {
+					Interaction.Mood.Set(MoodType.NEUTRAL);
+					mListening = false;
+					mTimer = 0.0f;
+					mSpeechReco = null;
+				}
 
-                if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
-                    return;
+				if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
+					return;
 
-                if (!mHasDisplayChoices)
-                {
-                    DisplayChoices();
-                    mHasDisplayChoices = true;
-                    return;
-                }
+				if (!mHasDisplayChoices) {
+					DisplayChoices();
+					mHasDisplayChoices = true;
+					return;
+				}
 
-                //if (!Toaster.IsDisplayed)
-                //{
-                //    mHasDisplayChoices = false;
-                //    //mListening = false;
-                //}
+				//if (!Toaster.IsDisplayed)
+				//{
+				//    mHasDisplayChoices = false;
+				//    //mListening = false;
+				//}
 
-                if (string.IsNullOrEmpty(mSpeechReco))
-                {
-                    //Interaction.SpeechToText.Request();
+				if (string.IsNullOrEmpty(mSpeechReco)) {
+					//Interaction.SpeechToText.Request();
 
-                    Interaction.VocalManager.StartInstantReco();
+					Interaction.VocalManager.StartInstantReco();
 
-                    //  Interaction.Mood.Set(MoodType.LISTENING);
-                    mListening = true;
-                    return;
-                }
-                if (ContainsOneOf(mSpeechReco, mStartPhonetics))
-                {
-                    BYOS.Instance.Toaster.Hide();
-                    if (GuardianData.Instance.FirstRun)
-                        GotoParameter();
-                    else
-                        StartGuardian();
-                }
-                else if (ContainsOneOf(mSpeechReco, mParameterPhonetics))
-                {
-                    BYOS.Instance.Toaster.Hide();
-                    GotoParameter();
-                }
-                else if (ContainsOneOf(mSpeechReco, mQuitPhonetics))
-                {
-                    BYOS.Instance.Toaster.Hide();
-                    QuitApp();
-                }
-                else
-                {
-                    Interaction.TextToSpeech.SayKey("notunderstand", true);
-                    Interaction.TextToSpeech.Silence(1000, true);
-                    Interaction.TextToSpeech.SayKey("askchoices", true);
-                    mListening = false;
-                    mSpeechReco = null;
-                }
-            }
+					//  Interaction.Mood.Set(MoodType.LISTENING);
+					mListening = true;
+					return;
+				}
+				if (ContainsOneOf(mSpeechReco, mStartPhonetics)) {
+					BYOS.Instance.Toaster.Hide();
+					if (GuardianData.Instance.FirstRun)
+						GotoParameter();
+					else
+						StartGuardian();
+				} else if (ContainsOneOf(mSpeechReco, mParameterPhonetics)) {
+					BYOS.Instance.Toaster.Hide();
+					GotoParameter();
+				} else if (ContainsOneOf(mSpeechReco, mQuitPhonetics)) {
+					BYOS.Instance.Toaster.Hide();
+					QuitApp();
+				} else {
+					Interaction.TextToSpeech.SayKey("notunderstand", true);
+					Interaction.TextToSpeech.Silence(1000, true);
+					Interaction.TextToSpeech.SayKey("askchoices", true);
+					mListening = false;
+					mSpeechReco = null;
+				}
+			}
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Interaction.Mood.Set(MoodType.NEUTRAL);
-            
-            mSpeechReco = null;
+
+			mSpeechReco = null;
 			mHasDisplayChoices = false;
 		}
 
-        private IEnumerator WaitTTSLoading()
-        {
-            yield return new WaitForSeconds(1.0f);
-            BYOS.Instance.Header.SpinningWheel = true;
-            while (!Interaction.TextToSpeech.IsSpeaking)
-                yield return null;
-            mHasLoadedTTS = true;
-            BYOS.Instance.Header.SpinningWheel = false;
-        }
+		private IEnumerator WaitTTSLoading()
+		{
+			yield return new WaitForSeconds(1.0f);
+			BYOS.Instance.Header.SpinningWheel = true;
+			while (!Interaction.TextToSpeech.IsSpeaking)
+				yield return null;
+			mHasLoadedTTS = true;
+			BYOS.Instance.Header.SpinningWheel = false;
+		}
 
 
-        /// <summary>
-        /// Display the choice toaster
-        /// </summary>
-        private void DisplayChoices()
+		/// <summary>
+		/// Display the choice toaster
+		/// </summary>
+		private void DisplayChoices()
 		{
 			// The 1st time, we go through the parameter, without showing the button.
 			if (GuardianData.Instance.FirstRun) {
@@ -199,7 +185,7 @@ namespace BuddyApp.Guardian
 			mSpeechReco = null;
 			Trigger("NextStep");
 			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
-			//Interaction.VocalManager.OnEndReco = Empty;
+			Interaction.VocalManager.OnEndReco = Empty;
 		}
 
 		/// <summary>
@@ -208,13 +194,11 @@ namespace BuddyApp.Guardian
 		/// <param name="iMode">the chosen mode</param>
 		private void GotoParameter()
 		{
-            
-            mSpeechReco = null;
+			mSpeechReco = null;
 			Trigger("Parameter");
 			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
-			//Interaction.VocalManager.OnEndReco = Empty;
-            Interaction.VocalManager.AsVocalInput("");
-        }
+			Interaction.VocalManager.OnEndReco = Empty;
+		}
 
 		private bool ContainsOneOf(string iSpeech, List<string> iListSpeech)
 		{
@@ -241,15 +225,15 @@ namespace BuddyApp.Guardian
 		{
 		}
 
-        private void StartListenBehaviour()
-        {
+		private void StartListenBehaviour()
+		{
 
-        }
+		}
 
-        private void StopListenBehaviour()
-        {
+		private void StopListenBehaviour()
+		{
 
-        }
+		}
 
-    }
+	}
 }

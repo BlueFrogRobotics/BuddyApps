@@ -9,7 +9,7 @@ namespace BuddyApp.Guardian
 {
 	public class StartTimerState : AStateMachineBehaviour
 	{
-		const int START_TIMER = 5;
+		int mTimer;
 
 		private bool mStartTimer;
 
@@ -20,8 +20,17 @@ namespace BuddyApp.Guardian
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 
-			//BYOS.Instance.Header.DisplayParameters = true;
-			Interaction.TextToSpeech.SayKey("startdetectiontimer");
+			BYOS.Instance.Header.DisplayParameters = true;
+
+			if (GuardianData.Instance.FirstRun) {
+				Interaction.TextToSpeech.SayKey("firststartdetectiontimer");
+				GuardianData.Instance.FirstRun = false;
+				mTimer = 10;
+            } else {
+				Interaction.TextToSpeech.SayKey("startdetectiontimer");
+				mTimer = 5;
+			}
+
 			mStartTimer = false;
 			//Detection.SoundDetector.StartMic();
 		}
@@ -32,7 +41,7 @@ namespace BuddyApp.Guardian
 				return;
 
 			BYOS.Instance.Toaster.Display<CountdownToast>().With(
-				BYOS.Instance.Dictionary.GetString("startdetectiontimer"), START_TIMER,
+				BYOS.Instance.Dictionary.GetString("startdetectiontimer"), mTimer,
 				() => { Trigger("InitDetection"); },
 				() => { Trigger("InitDetection"); },
 				() => { Trigger("Cancel"); });
@@ -44,6 +53,7 @@ namespace BuddyApp.Guardian
 		{
 			mStartTimer = false;
             BYOS.Instance.WebService.EMailSender.enabled = true;
+			BYOS.Instance.Header.DisplayParameters = false;
 		}
 	}
 }
