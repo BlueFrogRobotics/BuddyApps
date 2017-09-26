@@ -30,10 +30,14 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private Text labelGauge;
 
+        [SerializeField]
+        private RawImage rawCamImage;
+
         public RawImage Raw { get { return raw; } }
         public Gauge GaugeSensibility { get { return gaugeSensibility; } }
         public UnityEngine.UI.Button ButtonBack { get { return buttonBack; } }
         public Image IcoMouv { get { return icoMouv; } }
+        public RawImage RawCamImage { get { return rawCamImage; } }
 
         // Use this for initialization
         void Start()

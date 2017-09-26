@@ -17,7 +17,7 @@ namespace BuddyApp.Guardian
 
 		public const float MAX_SOUND_THRESHOLD = 0.3F;
 		public const float KIDNAPPING_THRESHOLD = 4.5F;
-		public const float MAX_MOVEMENT_THRESHOLD = 200.0F;
+		public const float MAX_MOVEMENT_THRESHOLD = 100.0F;
 
 		private Animator mAnimator;
 		private KidnappingDetection mKidnappingDetection;
