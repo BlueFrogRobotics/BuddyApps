@@ -37,8 +37,12 @@ namespace BuddyApp.Guardian
 
             mAction = DisplayAlert();
             StartCoroutine(mAction);
-            //WebService.EMailSender.enabled = true;
-            string lMailAddress = GuardianData.Instance.Contact.Email;
+			//WebService.EMailSender.enabled = true;
+
+			// Send notification to mybuddyapp
+			WebRTCListener.SendNotification(mAlert.GetMail().Subject, mAlert.GetMail().Body);
+
+			string lMailAddress = GuardianData.Instance.Contact.Email;
             if (!string.IsNullOrEmpty(lMailAddress) && GuardianData.Instance.SendMail)
                 SendMail(lMailAddress);
 
@@ -70,11 +74,11 @@ namespace BuddyApp.Guardian
         {
             
             EMail lMail = mAlert.GetMail();
-            Debug.Log("send mail avant");
+            Debug.Log("send mail pre");
             if (lMail == null)
                 return;
 
-            Debug.Log("send mail apres");
+            Debug.Log("send mail post");
             lMail.AddTo(iAddress);
             WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnMailSent);
             BYOS.Instance.WebService.EMailSender.enabled = true;
