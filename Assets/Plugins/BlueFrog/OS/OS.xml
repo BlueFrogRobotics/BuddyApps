@@ -6683,10 +6683,584 @@
             This class represents user preferences
             </summary>
         </member>
+        <member name="T:Buddy.UI.AppsContainer">
+            <summary>
+            Container for app icon
+            </summary>
+        </member>
+        <member name="F:Buddy.UI.AppsContainer.mLabel">
+            <summary>
+            Label of the container
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.AppsContainer.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.AppsContainer.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.AppsContainer.IsEmpty">
+            <summary>
+            True if there is shortcut in the container
+            </summary>
+            <returns>True if there is shortcut in the container</returns>
+        </member>
+        <member name="T:Buddy.UI.AvailableAppsContainer">
+            <summary>
+            Container for app icon
+            </summary>
+        </member>
+        <member name="F:Buddy.UI.AvailableAppsContainer.mLabel">
+            <summary>
+            Label of the container
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.AvailableAppsContainer.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.AvailableAppsContainer.OnUpdate">
+            <summary>
+            Called at each frame
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.AvailableAppsContainer.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.AvailableAppsContainer.IsEmpty">
+            <summary>
+            True if there is shortcut in the container
+            </summary>
+            <returns>True if there is shortcut in the container</returns>
+        </member>
+        <member name="T:Buddy.UI.Blank">
+            <summary>
+            Empty blank widget
+            </summary>
+            <summary>
+            Empty blank widget
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Blank.OnAwake">
+            <summary>
+            Called once at the creation of the widget
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Blank.Height">
+            <summary>
+            Height of the blank widget
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.Button">
+            <summary>
+            Basic button for AWindowLayout, will be replaced by a classier button
+            </summary>
+            <summary>
+            Basic button for AWindowLayout, will be replaced by a classier button
+            </summary>
+        </member>
+        <member name="F:Buddy.UI.Button.mLabel">
+            <summary>
+            Label of the button
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Button.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Button.OnClick">
+            <summary>
+            Callback method that will be called when the mButton item will be clicked
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Button.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Button.Label">
+            <summary>
+            Label of the button
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Button.Interactable">
+            <summary>
+            Determine if the button is interactable
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Button.OnClickEvent(Buddy.UI.ClickCallback)">
+            <summary>
+            On click callback
+            </summary>
+            <param name="iCallback">Callback to call</param>
+        </member>
+        <member name="M:Buddy.UI.Button.OnClickEvent(Buddy.Command.ACommand)">
+            <summary>
+            On click callback
+            </summary>
+            <param name="iCallback">Command to execute</param>
+        </member>
         <member name="T:Buddy.UI.ConfirmationButton">
             <summary>
             Confirmation button widget
             </summary>
+            <summary>
+            Confirmation button widget
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.Dropdown">
+            <summary>
+            Dropdown widget for menu. The integer[0] (idx), the string[0] (label) and the object[0] (opt param) 
+            parameter of assigned commands will be updated on value change.
+            </summary>
+            <summary>
+            Dropdown widget for menu. The integer[0] (idx), the string[0] (label) and the object[0] (opt param) 
+            parameter of assigned commands will be updated on value change.
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Dropdown.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Dropdown.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Dropdown.UpdateFeebackValue">
+            <summary>
+            Callback method that will be called when the dropdown value is changed. Inner purpose, do not call it
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Dropdown.Display">
+            <summary>
+            Inner display purpose, do not call it
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Dropdown.Hide">
+            <summary>
+            Inner display purpose, do not call it
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Dropdown.Label">
+            <summary>
+            Label of the dropdown
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Dropdown.SetDefault(System.String)">
+            <summary>
+            Set the input label as default
+            </summary>
+            <param name="iLabel">The label</param>
+        </member>
+        <member name="M:Buddy.UI.Dropdown.SetDefault(System.Int32)">
+            <summary>
+            Set the label (corresponding to the index) as default
+            </summary>
+            <param name="iLabelIdx">The index label</param>
+        </member>
+        <member name="M:Buddy.UI.Dropdown.AddOption(System.String,System.Object)">
+            <summary>
+            Add a labeled option to the dropdown, with an optional object parameter
+            </summary>
+            <param name="iLabel">Displayed label for the option</param>
+            <param name="iParam">Optional param for the coresponding label. Will be stored at Objects[0] in updated commands</param>
+        </member>
+        <member name="T:Buddy.UI.Gauge">
+            <summary>
+            Slider widget for AWindowLayout
+            </summary>
+            <summary>
+            Slider widget for AWindowLayout
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Gauge.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Gauge.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Gauge.UpdateFeebackValue">
+            <summary>
+            Modification callback for the slider. Inner purpose, do not call it
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Gauge.Suffix">
+            <summary>
+            Suffix display for the gauge, "%" by default if percentage is enabled
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Gauge.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Gauge.DisplayPercentage">
+            <summary>
+            Specify if the slider value must be DISPLAYED in percentage, ignore suffix
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Gauge.Label">
+            <summary>
+            Label of the gauge
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Gauge.Slider">
+            <summary>
+            The slider component
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.GaugeOnOff">
+            <summary>
+            Slider with toggle activation widget for AWindowLayout
+            </summary>
+            <summary>
+            Slider with toggle activation widget for AWindowLayout
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.GaugeOnOff.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.GaugeOnOff.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.GaugeOnOff.StateChange">
+            <summary>
+            Modification callback for the toggle. Inner purpose, do not call it
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.GaugeOnOff.UpdateFeebackValue">
+            <summary>
+            Modification callback for the slider. Inner purpose, do not call it
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.GaugeOnOff.Suffix">
+            <summary>
+            Suffix display for the gauge, "%" by default if percentage is enabled
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.GaugeOnOff.DisplayPercentage">
+            <summary>
+            Specify if the slider value must be DISPLAYED in percentage, ignore suffix
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.GaugeOnOff.Slider">
+            <summary>
+            Slider component of the widget
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.GaugeOnOff.IsActive">
+            <summary>
+            Set if the toggle must be active when displayed
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.GaugeOnOff.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.Label">
+            <summary>
+            Simple read only text
+            </summary>
+            <summary>
+            Simple read only text
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Label.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Label.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Label.Text">
+            <summary>
+            Text of the label
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Label.FontStyle">
+            <summary>
+            Font style of the label
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Label.Color">
+            <summary>
+            Color of the label
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.LabeledButton">
+            <summary>
+            Basic button for AWindowLayout with left label
+            </summary>
+            <summary>
+            Basic button for AWindowLayout with left label
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.LabeledButton.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.LabeledButton.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.LabeledButton.OnClick">
+            <summary>
+            Callback method that will be called when the mButton item will be clicked
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.LabeledButton.InnerLabel">
+            <summary>
+            Label inside the button
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.LabeledButton.OuterLabel">
+            <summary>
+            Label of the button
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.LabeledButton.Interactable">
+            <summary>
+            Determine if the button is interactable
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.OnOff">
+            <summary>
+            Toggle widget for AWindowLayout
+            </summary>
+            <summary>
+            Toggle widget for AWindowLayout
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.OnOff.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.OnOff.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.OnOff.StateChange">
+            <summary>
+            Modification callback. Inner purpose, do not call it
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.OnOff.IsActive">
+            <summary>
+            Set if the toggle must be active when displayed
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.OnOff.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.Password">
+            <summary>
+            Password widget
+            </summary>
+            <summary>
+            Password widget
+            </summary>
+        </member>
+        <member name="F:Buddy.UI.Password.mField">
+            <summary>
+            The input field of the text field widget
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Password.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Password.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Password.Label">
+            <summary>
+            Label of the password
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Password.FieldText">
+            <summary>
+            Content of the password field
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Password.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Password.EmptyText">
+            <summary>
+            The default "empty" value in the field awaiting an user input
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.PictureContainer.Label">
+            <summary>
+            Label of the picture container
+            </summary>
+        </member>
+        <member name="T:Buddy.UI.SearchField">
+            <summary>
+            Text field widget for "search" purposes for AWindowLayout
+            </summary>
+            <summary>
+            Text field widget for "search" purposes for AWindowLayout
+            </summary>
+        </member>
+        <member name="F:Buddy.UI.SearchField.mField">
+            <summary>
+            The input field of the text field widget
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.SearchField.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.SearchField.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.SearchField.Label">
+            <summary>
+            Label of the search field
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.SearchField.FieldText">
+            <summary>
+            Search field content
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.SearchField.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.SearchField.EmptyText">
+            <summary>
+            The default "empty" value in the field awaiting an user input
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.SearchField.OnUpdateEvent(Buddy.Command.ACommand)">
+            <summary>
+            On update event callback
+            </summary>
+            <param name="iCallback">Command to execute</param>
+        </member>
+        <member name="M:Buddy.UI.SearchField.OnUpdateEvent(Buddy.UI.TextUpdateCallback)">
+            <summary>
+            On update event callback
+            </summary>
+            <param name="iCallback">Callback to execute</param>
+        </member>
+        <member name="M:Buddy.UI.SearchField.OnEndEditEvent(Buddy.Command.ACommand)">
+            <summary>
+            On end edit event callback
+            </summary>
+            <param name="iCallback">Command to execute</param>
+        </member>
+        <member name="M:Buddy.UI.SearchField.OnEndEditEvent(Buddy.UI.EndEditCallback)">
+            <summary>
+            On update event callback
+            </summary>
+            <param name="iCallback">Callback to execute</param>
+        </member>
+        <member name="T:Buddy.UI.TextField">
+            <summary>
+            Text field widget
+            </summary>
+            <summary>
+            Text field widget
+            </summary>
+        </member>
+        <member name="F:Buddy.UI.TextField.mField">
+            <summary>
+            The input field of the text field widget
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.TextField.OnAwake">
+            <summary>
+            Called on awake
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.TextField.Clear">
+            <summary>
+            Clear method when the component comes to desappeared
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.TextField.Label">
+            <summary>
+            Label of the text field
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.TextField.FieldText">
+            <summary>
+            Text field content
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.TextField.EnableCallback">
+            <summary>
+            Enable / Disable auto update when the input change
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.TextField.EmptyText">
+            <summary>
+            The default "empty" value in the field awaiting an user input
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.TextField.OnUpdateEvent(Buddy.Command.ACommand)">
+            <summary>
+            On update callback
+            </summary>
+            <param name="iCallback">Command to execute</param>
+        </member>
+        <member name="M:Buddy.UI.TextField.OnUpdateEvent(Buddy.UI.TextUpdateCallback)">
+            <summary>
+            On update callback
+            </summary>
+            <param name="iCallback">Callback to execute</param>
+        </member>
+        <member name="M:Buddy.UI.TextField.OnEndEditEvent(Buddy.Command.ACommand)">
+            <summary>
+            On end edit event callback
+            </summary>
+            <param name="iCallback">Command to execute</param>
+        </member>
+        <member name="M:Buddy.UI.TextField.OnEndEditEvent(Buddy.UI.EndEditCallback)">
+            <summary>
+            On end edit event callback
+            </summary>
+            <param name="iCallback">Callback to execute</param>
         </member>
         <member name="T:Buddy.UI.AccountSettingWdgRight">
             <summary>
@@ -6701,26 +7275,6 @@
         <member name="M:Buddy.UI.AccountSettingWdgRight.Awake">
             <summary>
             Called on awake
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.PictureContainer.Label">
-            <summary>
-            Label of the picture container
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.Blank">
-            <summary>
-            Empty blank widget
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Blank.Height">
-            <summary>
-            Height of the blank widget
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Blank.OnAwake">
-            <summary>
-            Called once at the creation of the widget
             </summary>
         </member>
         <member name="T:Buddy.UI.Header">
@@ -7143,63 +7697,6 @@
             Pool manager for widget (UI) gameobject
             </summary>
         </member>
-        <member name="T:Buddy.UI.AvailableAppsContainer">
-            <summary>
-            Container for app icon
-            </summary>
-        </member>
-        <member name="F:Buddy.UI.AvailableAppsContainer.mLabel">
-            <summary>
-            Label of the container
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.AvailableAppsContainer.OnAwake">
-            <summary>
-            Called on awake
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.AvailableAppsContainer.OnUpdate">
-            <summary>
-            Called at each frame
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.AvailableAppsContainer.Clear">
-            <summary>
-            Clear method when the component comes to desappeared
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.AvailableAppsContainer.IsEmpty">
-            <summary>
-            True if there is shortcut in the container
-            </summary>
-            <returns>True if there is shortcut in the container</returns>
-        </member>
-        <member name="T:Buddy.UI.AppsContainer">
-            <summary>
-            Container for app icon
-            </summary>
-        </member>
-        <member name="F:Buddy.UI.AppsContainer.mLabel">
-            <summary>
-            Label of the container
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.AppsContainer.OnAwake">
-            <summary>
-            Called on awake
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.AppsContainer.Clear">
-            <summary>
-            Clear method when the component comes to desappeared
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.AppsContainer.IsEmpty">
-            <summary>
-            True if there is shortcut in the container
-            </summary>
-            <returns>True if there is shortcut in the container</returns>
-        </member>
         <member name="T:Buddy.UI.AppWdgShortcut">
             <summary>
             App shortcut that 
@@ -7244,466 +7741,6 @@
         <member name="M:Buddy.UI.AWidget.OnDisplay">
             <summary>
             Called when widget is displayed
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.LabeledButton">
-            <summary>
-            Basic button for AWindowLayout with left label
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.LabeledButton.InnerLabel">
-            <summary>
-            Label inside the button
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.LabeledButton.OuterLabel">
-            <summary>
-            Label of the button
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.LabeledButton.Interactable">
-            <summary>
-            Determine if the button is interactable
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.LabeledButton.OnAwake">
-            <summary>
-            Called on awake
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.LabeledButton.Clear">
-            <summary>
-            Clear method when the component comes to desappeared
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.LabeledButton.OnClick">
-            <summary>
-            Callback method that will be called when the mButton item will be clicked
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.Button">
-            <summary>
-            Basic button for AWindowLayout, will be replaced by a classier button
-            </summary>
-        </member>
-        <member name="F:Buddy.UI.Button.mLabel">
-            <summary>
-            Label of the button
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Button.Label">
-            <summary>
-            Label of the button
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Button.Interactable">
-            <summary>
-            Determine if the button is interactable
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Button.OnAwake">
-            <summary>
-            Called on awake
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Button.OnClickEvent(Buddy.UI.ClickCallback)">
-            <summary>
-            On click callback
-            </summary>
-            <param name="iCallback">Callback to call</param>
-        </member>
-        <member name="M:Buddy.UI.Button.OnClickEvent(Buddy.Command.ACommand)">
-            <summary>
-            On click callback
-            </summary>
-            <param name="iCallback">Command to execute</param>
-        </member>
-        <member name="M:Buddy.UI.Button.OnClick">
-            <summary>
-            Callback method that will be called when the mButton item will be clicked
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Button.Clear">
-            <summary>
-            Clear method when the component comes to desappeared
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.Dropdown">
-            <summary>
-            Dropdown widget for menu. The integer[0] (idx), the string[0] (label) and the object[0] (opt param) 
-            parameter of assigned commands will be updated on value change.
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Dropdown.Label">
-            <summary>
-            Label of the dropdown
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Dropdown.OnAwake">
-            <summary>
-            Called on awake
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Dropdown.Clear">
-            <summary>
-            Clear method when the component comes to desappeared
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Dropdown.SetDefault(System.String)">
-            <summary>
-            Set the input label as default
-            </summary>
-            <param name="iLabel">The label</param>
-        </member>
-        <member name="M:Buddy.UI.Dropdown.SetDefault(System.Int32)">
-            <summary>
-            Set the label (corresponding to the index) as default
-            </summary>
-            <param name="iLabelIdx">The index label</param>
-        </member>
-        <member name="M:Buddy.UI.Dropdown.AddOption(System.String,System.Object)">
-            <summary>
-            Add a labeled option to the dropdown, with an optional object parameter
-            </summary>
-            <param name="iLabel">Displayed label for the option</param>
-            <param name="iParam">Optional param for the coresponding label. Will be stored at Objects[0] in updated commands</param>
-        </member>
-        <member name="M:Buddy.UI.Dropdown.UpdateFeebackValue">
-            <summary>
-            Callback method that will be called when the dropdown value is changed. Inner purpose, do not call it
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Dropdown.Display">
-            <summary>
-            Inner display purpose, do not call it
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Dropdown.Hide">
-            <summary>
-            Inner display purpose, do not call it
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.Gauge">
-            <summary>
-            Slider widget for AWindowLayout
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Gauge.Suffix">
-            <summary>
-            Suffix display for the gauge, "%" by default if percentage is enabled
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Gauge.EnableCallback">
-            <summary>
-            Enable / Disable auto update when the input change
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Gauge.DisplayPercentage">
-            <summary>
-            Specify if the slider value must be DISPLAYED in percentage, ignore suffix
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Gauge.Label">
-            <summary>
-            Label of the gauge
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Gauge.Slider">
-            <summary>
-            The slider component
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Gauge.OnAwake">
-            <summary>
-            Called on awake
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Gauge.Clear">
-            <summary>
-            Clear method when the component comes to desappeared
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Gauge.UpdateFeebackValue">
-            <summary>
-            Modification callback for the slider. Inner purpose, do not call it
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.GaugeOnOff">
-            <summary>
-            Slider with toggle activation widget for AWindowLayout
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.GaugeOnOff.Suffix">
-            <summary>
-            Suffix display for the gauge, "%" by default if percentage is enabled
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.GaugeOnOff.DisplayPercentage">
-            <summary>
-            Specify if the slider value must be DISPLAYED in percentage, ignore suffix
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.GaugeOnOff.Slider">
-            <summary>
-            Slider component of the widget
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.GaugeOnOff.IsActive">
-            <summary>
-            Set if the toggle must be active when displayed
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.GaugeOnOff.EnableCallback">
-            <summary>
-            Enable / Disable auto update when the input change
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.GaugeOnOff.OnAwake">
-            <summary>
-            Called on awake
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.GaugeOnOff.Clear">
-            <summary>
-            Clear method when the component comes to desappeared
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.GaugeOnOff.StateChange">
-            <summary>
-            Modification callback for the toggle. Inner purpose, do not call it
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.GaugeOnOff.UpdateFeebackValue">
-            <summary>
-            Modification callback for the slider. Inner purpose, do not call it
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.OnOff">
-            <summary>
-            Toggle widget for AWindowLayout
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.OnOff.IsActive">
-            <summary>
-            Set if the toggle must be active when displayed
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.OnOff.EnableCallback">
-            <summary>
-            Enable / Disable auto update when the input change
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.OnOff.OnAwake">
-            <summary>
-            Called on awake
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.OnOff.Clear">
-            <summary>
-            Clear method when the component comes to desappeared
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.OnOff.StateChange">
-            <summary>
-            Modification callback. Inner purpose, do not call it
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.TextField">
-            <summary>
-            Text field widget
-            </summary>
-        </member>
-        <member name="F:Buddy.UI.TextField.mField">
-            <summary>
-            The input field of the text field widget
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.TextField.Label">
-            <summary>
-            Label of the text field
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.TextField.FieldText">
-            <summary>
-            Text field content
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.TextField.EnableCallback">
-            <summary>
-            Enable / Disable auto update when the input change
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.TextField.EmptyText">
-            <summary>
-            The default "empty" value in the field awaiting an user input
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.TextField.OnAwake">
-            <summary>
-            Called on awake
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.TextField.Clear">
-            <summary>
-            Clear method when the component comes to desappeared
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.TextField.OnUpdateEvent(Buddy.Command.ACommand)">
-            <summary>
-            On update callback
-            </summary>
-            <param name="iCallback">Command to execute</param>
-        </member>
-        <member name="M:Buddy.UI.TextField.OnUpdateEvent(Buddy.UI.TextUpdateCallback)">
-            <summary>
-            On update callback
-            </summary>
-            <param name="iCallback">Callback to execute</param>
-        </member>
-        <member name="M:Buddy.UI.TextField.OnEndEditEvent(Buddy.Command.ACommand)">
-            <summary>
-            On end edit event callback
-            </summary>
-            <param name="iCallback">Command to execute</param>
-        </member>
-        <member name="M:Buddy.UI.TextField.OnEndEditEvent(Buddy.UI.EndEditCallback)">
-            <summary>
-            On end edit event callback
-            </summary>
-            <param name="iCallback">Callback to execute</param>
-        </member>
-        <member name="T:Buddy.UI.Password">
-            <summary>
-            Password widget
-            </summary>
-        </member>
-        <member name="F:Buddy.UI.Password.mField">
-            <summary>
-            The input field of the text field widget
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Password.Label">
-            <summary>
-            Label of the password
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Password.FieldText">
-            <summary>
-            Content of the password field
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Password.EnableCallback">
-            <summary>
-            Enable / Disable auto update when the input change
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Password.EmptyText">
-            <summary>
-            The default "empty" value in the field awaiting an user input
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Password.OnAwake">
-            <summary>
-            Called on awake
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Password.Clear">
-            <summary>
-            Clear method when the component comes to desappeared
-            </summary>
-        </member>
-        <member name="T:Buddy.UI.SearchField">
-            <summary>
-            Text field widget for "search" purposes for AWindowLayout
-            </summary>
-        </member>
-        <member name="F:Buddy.UI.SearchField.mField">
-            <summary>
-            The input field of the text field widget
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.SearchField.Label">
-            <summary>
-            Label of the search field
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.SearchField.FieldText">
-            <summary>
-            Search field content
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.SearchField.EnableCallback">
-            <summary>
-            Enable / Disable auto update when the input change
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.SearchField.EmptyText">
-            <summary>
-            The default "empty" value in the field awaiting an user input
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.SearchField.OnAwake">
-            <summary>
-            Called on awake
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.SearchField.Clear">
-            <summary>
-            Clear method when the component comes to desappeared
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.SearchField.OnUpdateEvent(Buddy.Command.ACommand)">
-            <summary>
-            On update event callback
-            </summary>
-            <param name="iCallback">Command to execute</param>
-        </member>
-        <member name="M:Buddy.UI.SearchField.OnUpdateEvent(Buddy.UI.TextUpdateCallback)">
-            <summary>
-            On update event callback
-            </summary>
-            <param name="iCallback">Callback to execute</param>
-        </member>
-        <member name="M:Buddy.UI.SearchField.OnEndEditEvent(Buddy.Command.ACommand)">
-            <summary>
-            On end edit event callback
-            </summary>
-            <param name="iCallback">Command to execute</param>
-        </member>
-        <member name="M:Buddy.UI.SearchField.OnEndEditEvent(Buddy.UI.EndEditCallback)">
-            <summary>
-            On update event callback
-            </summary>
-            <param name="iCallback">Callback to execute</param>
-        </member>
-        <member name="T:Buddy.UI.Label">
-            <summary>
-            Simple read only text
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Label.Text">
-            <summary>
-            Text of the label
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Label.FontStyle">
-            <summary>
-            Font style of the label
-            </summary>
-        </member>
-        <member name="P:Buddy.UI.Label.Color">
-            <summary>
-            Color of the label
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Label.OnAwake">
-            <summary>
-            Called on awake
-            </summary>
-        </member>
-        <member name="M:Buddy.UI.Label.Clear">
-            <summary>
-            Clear method when the component comes to desappeared
             </summary>
         </member>
         <member name="T:Buddy.UI.AWindowLayout">
