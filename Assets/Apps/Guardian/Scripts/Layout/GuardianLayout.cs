@@ -72,13 +72,8 @@ namespace BuddyApp.Guardian
 		private void CreateWidgets()
 		{
 			mMovementDetection = CreateWidget<GaugeOnOff>();
-<<<<<<< HEAD:Assets/Apps/Guardian/Scripts/Layout/GuardianLayout.cs
 			mMovementDebug = CreateWidget<LabeledButton>();
 			mKidnappingDetection = CreateWidget<OnOff>();
-=======
-            mMovementDebug = CreateWidget<LabeledButton>();
-            mKidnappingDetection = CreateWidget<OnOff>();
->>>>>>> [GUARDIAN] Vocal message + In progress work:Assets/Guardian/Scripts/Layout/GuardianLayout.cs
 			mSoundDetection = CreateWidget<GaugeOnOff>();
 			mSoundDebug = CreateWidget<LabeledButton>();
 			mFireDetection = CreateWidget<OnOff>();
@@ -93,15 +88,9 @@ namespace BuddyApp.Guardian
 		{
 			mHeadOrientation.OuterLabel = BYOS.Instance.Dictionary.GetString("headorientation");
 			mHeadOrientation.InnerLabel = BYOS.Instance.Dictionary.GetString("changeheadorientation");
-<<<<<<< HEAD:Assets/Apps/Guardian/Scripts/Layout/GuardianLayout.cs
-			mMovementDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("movementsensibility");
-			mMovementDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
-			mFireDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("testfiredetection");
-=======
             mMovementDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("movementsensibility");
             mMovementDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
             mFireDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("testfiredetection");
->>>>>>> [GUARDIAN] Vocal message + In progress work:Assets/Guardian/Scripts/Layout/GuardianLayout.cs
 			mFireDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("thermicview");
 			mSoundDebug.OuterLabel = BYOS.Instance.Dictionary.GetString("noisesensibility");
 			mSoundDebug.InnerLabel = BYOS.Instance.Dictionary.GetString("sensibilitysettings");
@@ -117,20 +106,6 @@ namespace BuddyApp.Guardian
 		private void RegisterEvents()
 		{
 			mHeadOrientation.OnClickEvent(() => { GuardianData.Instance.HeadOrientation = true; });
-<<<<<<< HEAD:Assets/Apps/Guardian/Scripts/Layout/GuardianLayout.cs
-			mMovementDebug.OnClickEvent(() => { GuardianData.Instance.MovementDebug = true; });
-			mSoundDebug.OnClickEvent(() => { GuardianData.Instance.SoundDebug = true; });
-			mFireDebug.OnClickEvent(() => { GuardianData.Instance.FireDebug = true; });
-
-			mMovementDetection.OnSwitchEvent((bool iVal) => {
-				GuardianData.Instance.MovementDetection = iVal;
-				mMovementDebug.gameObject.SetActive(iVal);
-			});
-
-			mMovementDetection.OnUpdateEvent((int iVal) => {
-				GuardianData.Instance.MovementDetectionThreshold = iVal;
-			});
-=======
             mMovementDebug.OnClickEvent(() => { GuardianData.Instance.MovementDebug = true; });
             mSoundDebug.OnClickEvent(() => { GuardianData.Instance.SoundDebug = true; });
 			mFireDebug.OnClickEvent(() => { GuardianData.Instance.FireDebug = true; });
@@ -145,7 +120,6 @@ namespace BuddyApp.Guardian
             {
                 GuardianData.Instance.MovementDetectionThreshold = iVal;                
             });
->>>>>>> [GUARDIAN] Vocal message + In progress work:Assets/Guardian/Scripts/Layout/GuardianLayout.cs
 
             mSoundDetection.OnSwitchEvent((bool iVal) => {
 				GuardianData.Instance.SoundDetection = iVal;

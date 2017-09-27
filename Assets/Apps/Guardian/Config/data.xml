@@ -2,9 +2,9 @@
 <GuardianData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <FirstRun>false</FirstRun>
     <MobileDetection>false</MobileDetection>
-    <MovementDetectionThreshold>56</MovementDetectionThreshold>
-    <SoundDetectionThreshold>57</SoundDetectionThreshold>
-    <MovementDetection>false</MovementDetection>
+    <MovementDetectionThreshold>62</MovementDetectionThreshold>
+    <SoundDetectionThreshold>100</SoundDetectionThreshold>
+    <MovementDetection>true</MovementDetection>
     <SoundDetection>true</SoundDetection>
     <FireDetection>false</FireDetection>
     <KidnappingDetection>false</KidnappingDetection>
@@ -15,13 +15,12 @@
     <FireDebug>false</FireDebug>
     <AddContact>false</AddContact>
     <Contact>
-        <ID>7</ID>
-        <Email>tigrejounin@gmail.com</Email>
-        <FirstName>Azerty</FirstName>
-        <LastName>Yuyijyu</LastName>
+        <ID>2</ID>
+        <Email>buddy@bluefrogrobotics.com</Email>
+        <FirstName>Buddy</FirstName>
+        <LastName>Robichon</LastName>
         <Gender>UNKNOWN</Gender>
         <BirthDate>0001-01-01T00:00:00</BirthDate>
         <Session>USER</Session>
-        <Permissions />
     </Contact>
 </GuardianData>

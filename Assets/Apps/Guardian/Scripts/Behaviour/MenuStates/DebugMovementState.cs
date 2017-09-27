@@ -103,6 +103,8 @@ namespace BuddyApp.Guardian
             //Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
             mDebugMovementWindow.ButtonBack.onClick.RemoveAllListeners();
             mMovementTracker.StopOnDetect(OnMovementDetected);
+            if(mCam.IsOpen)
+                mCam.Close();
         }
 
         private void DisplayMovement()
