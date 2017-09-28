@@ -55,8 +55,8 @@ namespace BuddyApp.Guardian
             mSaving = false;
             mCam = BYOS.Instance.Primitive.RGBCam;
             mTime = 0.0f;
-            //AndroidJavaClass unity = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-            //currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
+            AndroidJavaClass unity = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
 
             // if (!mCam.IsOpen)
             //    mCam.Open(RGBCamResolution.W_320_H_240);
@@ -68,7 +68,7 @@ namespace BuddyApp.Guardian
             switch(mState)
             {
                 case State.DEFAULT:
-                    //Debug.Log("etat lol 1");
+                    Debug.Log("etat lol 1");
                     FillCircularBuffer();
                     break;
                 case State.ASKED:
@@ -88,7 +88,7 @@ namespace BuddyApp.Guardian
                     SavesComplete();
                     break;
                 default:
-                    Debug.Log("etat lol 6");
+                    //Debug.Log("etat lol 6");
                     FillCircularBuffer();
                     break;
             }
@@ -108,6 +108,8 @@ namespace BuddyApp.Guardian
             Debug.Log(message);
             mListFrame.Clear();
             mState = State.FILES_SAVED;
+            currentActivity.Call("clearPicture");
+            
             //BYOS.Instance.Header.SpinningWheel = false;
         }
 
@@ -119,13 +121,13 @@ namespace BuddyApp.Guardian
                 if (mListFrame.Count > mFPS * mNbSecBefore)
                     mListFrame.Dequeue();
             }
-            if (mNoiseDetection.enabled)
-            {
-                mAudioClip.SetData(mNoiseDetection.GetMicData(), mNoiseDetection.GetMicPosition());
-                if(micPosition> mNoiseDetection.GetMicPosition())
-                    Debug.Log("mic position: " + mNoiseDetection.GetMicPosition());
-                micPosition = mNoiseDetection.GetMicPosition();
-            }
+            //if (mNoiseDetection.enabled)
+            //{
+            //    mAudioClip.SetData(mNoiseDetection.GetMicData(), mNoiseDetection.GetMicPosition());
+            //    if(micPosition> mNoiseDetection.GetMicPosition())
+            //        Debug.Log("mic position: " + mNoiseDetection.GetMicPosition());
+            //    micPosition = mNoiseDetection.GetMicPosition();
+            //}
         }
 
         private void FillNextBuffer()
@@ -137,12 +139,12 @@ namespace BuddyApp.Guardian
                     mState = State.BUFFER_FILLED;
             }
             
-            mTime += Time.deltaTime;
-            int mMulti =  (int)(mTime / 3) + 1;
-            if (mNoiseDetection.enabled)
-                mAudioClip.SetData(mNoiseDetection.GetMicData(), mNoiseDetection.GetMicPosition()+ 44100 * mMulti);
-            if (mTime > 10.0f)
-                mState = State.BUFFER_FILLED;
+            //mTime += Time.deltaTime;
+            //int mMulti =  (int)(mTime / 3) + 1;
+            //if (mNoiseDetection.enabled)
+            //    mAudioClip.SetData(mNoiseDetection.GetMicData(), mNoiseDetection.GetMicPosition()+ 44100 * mMulti);
+            //if (mTime > 10.0f)
+            //    mState = State.BUFFER_FILLED;
         }
 
         private void SaveFiles()
@@ -152,13 +154,13 @@ namespace BuddyApp.Guardian
             
             string lDirectoryPath = Path.GetDirectoryName(BYOS.Instance.Resources.PathToRaw("monitoring.mp4"));
             Directory.CreateDirectory(lDirectoryPath);
-            Utils.Save(BYOS.Instance.Resources.PathToRaw("son.wav"), mAudioClip);
-            //for (int i=0; i< lArrayFrames.Length; i++)
-            //{
-            //    currentActivity.Call("addPicture", lArrayFrames[i]);
-            //}
+            //Utils.Save(BYOS.Instance.Resources.PathToRaw("son.wav"), mAudioClip);
+            for (int i = 0; i < lArrayFrames.Length; i++)
+            {
+                currentActivity.Call("addPicture", lArrayFrames[i]);
+            }
             Debug.Log("fini call");
-            //currentActivity.Call("saveVideo", mFPS, BYOS.Instance.Resources.PathToRaw("monitoring.mp4"), "AIBehaviour", "VideoSaved");
+            currentActivity.Call("saveVideo", mFPS, BYOS.Instance.Resources.PathToRaw("monitoring.mp4"), "AIBehaviour", "VideoSaved");
             //currentActivity.Call("saveVideo", mFPS, BYOS.Instance.Resources.PathToRaw("monitoring.mp4"), lArray, lArrayFrames.Length, maxLength, "AIBehaviour", "VideoSaved");
             mState = State.WAIT_SAVE;
         }
@@ -171,10 +173,10 @@ namespace BuddyApp.Guardian
         private void SavesComplete()
         {
             BYOS.Instance.WebService.EMailSender.enabled = true;
-            EMail lMail = new EMail("Guardian logs", "video truc");
+            EMail lMail = new EMail("Guardian logs", "video detection");
             lMail.AddTo("tigrejounin@gmail.com");
-            //lMail.AddFile(BYOS.Instance.Resources.PathToRaw("monitoring.mp4"));
-            lMail.AddFile(BYOS.Instance.Resources.PathToRaw("son.wav"));
+            lMail.AddFile(BYOS.Instance.Resources.PathToRaw("monitoring.mp4"));
+            //lMail.AddFile(BYOS.Instance.Resources.PathToRaw("son.wav"));
             BYOS.Instance.WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail);
             BYOS.Instance.WebService.EMailSender.enabled = true;
             if (OnFilesSaved != null)

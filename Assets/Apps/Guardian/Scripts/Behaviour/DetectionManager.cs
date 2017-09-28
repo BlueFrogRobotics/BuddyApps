@@ -188,7 +188,8 @@ namespace BuddyApp.Guardian
 
 			Detected = Alert.FIRE;
 			mAnimator.SetTrigger("Alert");
-			return true;
+            mMediaManager.Save();
+            return true;
 		}
 
 		private void OnSoundDetected()
@@ -228,8 +229,8 @@ namespace BuddyApp.Guardian
 
 			Detected = Alert.MOVEMENT;
 			mAnimator.SetTrigger("Alert");
-
-			return true;
+            mMediaManager.Save();
+            return true;
 		}
 
 		/// <summary>
@@ -242,7 +243,8 @@ namespace BuddyApp.Guardian
 
 			Detected = Alert.KIDNAPPING;
 			mAnimator.SetTrigger("Alert");
-			return true;
+            mMediaManager.Save();
+            return true;
 		}
 
         public void OnMailSent()
