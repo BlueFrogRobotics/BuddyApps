@@ -4274,13 +4274,19 @@
         </member>
         <member name="M:Buddy.AAppActivity.OnDisplayParameters">
             <summary>
-            Called when the user clicked on the top-right parameter button for show
+            Called when the user clicked on the top-right parameter button for show, OnClickParameters must return true
             </summary>
         </member>
         <member name="M:Buddy.AAppActivity.OnHideParameters">
             <summary>
-            Called when the user clicked on the top-right parameter button for hide
+            Called when the user clicked on the top-right parameter button for hide, OnClickParameters must return true
             </summary>
+        </member>
+        <member name="M:Buddy.AAppActivity.OnClickParameters">
+            <summary>
+            Called when the user clicked on the top-right parameter button. 
+            </summary>
+            <returns>True to display parameters, false otherwise. If true, it will call OnDisplayParameters or OnHideDisplayParameters</returns>
         </member>
         <member name="M:Buddy.AAppActivity.OnQuit">
             <summary>
@@ -8258,6 +8264,17 @@
             <summary>
             Specify parameters for numpad toast
             </summary>
+            <param name="iHandlePwd">Handler function to handle pin</param>
+            <param name="iOnSuccess">Success callback</param>
+            <param name="iOnFailure">Failure callback</param>
+            <param name="iOnCancel">Cancel callback</param>
+            <returns>The toast ID</returns>
+        </member>
+        <member name="M:Buddy.UI.NumPadToast.With(System.String,System.Func{System.String,System.Collections.IEnumerator},System.Action,System.Action,System.Action)">
+            <summary>
+            Specify parameters for numpad toast
+            </summary>
+            <param name="iTitle">Top title, useful to indicate to user how to fill the numpad</param>
             <param name="iHandlePwd">Handler function to handle pin</param>
             <param name="iOnSuccess">Success callback</param>
             <param name="iOnFailure">Failure callback</param>
