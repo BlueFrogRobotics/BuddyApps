@@ -50,6 +50,8 @@ namespace BuddyApp.Guardian
 
         public bool HasLinkedDetector { get; private set; }
 
+        private MediaManager mMediaManager;
+
 		/// <summary>
 		/// Enum of the different alerts that Guardian app can send
 		/// </summary>
@@ -72,6 +74,7 @@ namespace BuddyApp.Guardian
 		{
             Debug.Log("start mono");
             Init();
+            mMediaManager = GetComponent<MediaManager>();
 			//LinkDetectorsEvents();
 		}
 
@@ -210,6 +213,7 @@ namespace BuddyApp.Guardian
 				Debug.Log("============== Threshold passed!");
 				Detected = Alert.SOUND;
 				mAnimator.SetTrigger("Alert");
+                mMediaManager.Save();
 			}
 			return true;
 		}
