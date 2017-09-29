@@ -22,17 +22,12 @@ namespace BuddyApp.Guardian
             mDetectionManager = (DetectionManager)Objects[0];
         }
 
-        public override void OnDisplayParameters()
-        {
-           // base.OnDisplayParameters();
-            Animator.Play("Parameters");
-        }
 
-        public override void OnHideParameters()
-        {
-            // base.OnDisplayParameters();
-            Animator.Play("Parameters");
-        }
+		public override bool OnClickParameters()
+		{
+			Animator.Play("Parameters");
+			return false;
+		}
 
 
         public override void OnStart()
