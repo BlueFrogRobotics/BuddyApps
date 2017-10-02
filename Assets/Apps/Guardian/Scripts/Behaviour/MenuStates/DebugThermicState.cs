@@ -28,7 +28,12 @@ namespace BuddyApp.Guardian
             mHasDetectedFire = false;
             mHasOpenedWindow = false;
             mTimer = 0.0f;
-        }
+
+
+
+			Interaction.TextToSpeech.SayKey("thermaldebug", true);
+
+		}
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
