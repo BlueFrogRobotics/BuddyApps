@@ -57,9 +57,10 @@ namespace BuddyApp.Guardian
             mTimer = 0.0f;
             mMatRed = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3, new Scalar(254, 0, 0));
             if (!mCam.IsOpen)
-                mCam.Open();
+                mCam.Open(RGBCamResolution.W_176_H_144);
             //Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
             mMovementTracker.OnDetect(OnMovementDetected);
+            mCam.Resolution = RGBCamResolution.W_176_H_144;
             Interaction.TextToSpeech.SayKey("motiondetectionmessage", true);
 
         }
@@ -79,7 +80,7 @@ namespace BuddyApp.Guardian
                     mGauge.Slider.value = GuardianData.Instance.MovementDetectionThreshold;
                     mCurrentThreshold = mGauge.Slider.value;
                 }
-
+                Debug.Log("Resolution : " + mCam.FrameMat.width());
                 if (mTimer > 0.1f) {
                     mTimer = 0.0f;
                     DisplayMovement();
@@ -133,7 +134,11 @@ namespace BuddyApp.Guardian
 
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
+
+            Debug.Log(iMotions.Length + " C'est la Motion");
+
             Mat lCurrentFrame = mCam.FrameMat.clone();
+
             foreach (MotionEntity lEntity in iMotions) {
                 Imgproc.circle(lCurrentFrame, Utils.Center(lEntity.RectInFrame), 10, new Scalar(255, 0, 0), -1);
             }
