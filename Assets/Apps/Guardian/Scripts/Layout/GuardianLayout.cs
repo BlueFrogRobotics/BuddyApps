@@ -16,6 +16,7 @@ namespace BuddyApp.Guardian
 		private OnOff mFireDetection;
 		private LabeledButton mFireDebug;
 		private OnOff mMobileDetection;
+		private OnOff mFixScan;
 		private OnOff mKidnappingDetection;
 		private OnOff mSendMail;
 		private Dropdown mContacts;
@@ -43,12 +44,16 @@ namespace BuddyApp.Guardian
 			mSendMail.IsActive = GuardianData.Instance.SendMail;
 
 			RegisterEvents();
+			
+			
+			
+			
 			//Debug.Log("==============pre for each contact: " + GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 
 			//foreach (GuardianData.Contacts lContact in Enum.GetValues(typeof(GuardianData.Contacts)))
 			//	mContacts.AddOption(lContact.ToString(), lContact);
 
-			// When we use AddOption, the callback onselect is call!!!
+			// When we use AddOption, the callback onselect is called!!!
 			// So we need to save the contact and set it again -_-'
 			// Their should be a cleaner way to do this but...
 
@@ -62,11 +67,14 @@ namespace BuddyApp.Guardian
 
 			//Debug.Log("============== post for each contact: " + GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 
+
+
 			mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
 
 			mContacts.enabled = mSendMail.IsActive;
 
-			mHeadOrientation.enabled = !mMobileDetection.IsActive;
+			mFixScan.enabled = !mMobileDetection.IsActive;
+			mHeadOrientation.enabled = !mFixScan.IsActive;
 		}
 
 		private void CreateWidgets()
@@ -79,6 +87,7 @@ namespace BuddyApp.Guardian
 			mFireDetection = CreateWidget<OnOff>();
 			mFireDebug = CreateWidget<LabeledButton>();
 			mMobileDetection = CreateWidget<OnOff>();
+			mFixScan = CreateWidget<OnOff>();
 			mHeadOrientation = CreateWidget<LabeledButton>();
 			mSendMail = CreateWidget<OnOff>();
 			mContacts = CreateWidget<Dropdown>();
@@ -97,7 +106,8 @@ namespace BuddyApp.Guardian
 			mMovementDetection.Label = BYOS.Instance.Dictionary.GetString("movementdetection");
 			mFireDetection.Label = BYOS.Instance.Dictionary.GetString("firedetection");
 			mMobileDetection.Label = BYOS.Instance.Dictionary.GetString("mobile");
-			mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");
+			mFixScan.Label = BYOS.Instance.Dictionary.GetString("scan");
+            mKidnappingDetection.Label = BYOS.Instance.Dictionary.GetString("kidnappingdetection");
 			mSoundDetection.Label = BYOS.Instance.Dictionary.GetString("sounddetection");
 			mSendMail.Label = BYOS.Instance.Dictionary.GetString("mailnotif", LoadContext.APP);
 			mContacts.Label = BYOS.Instance.Dictionary.GetString("whotocontact");
@@ -141,6 +151,11 @@ namespace BuddyApp.Guardian
 
 			mMobileDetection.OnSwitchEvent((bool iVal) => {
 				GuardianData.Instance.MobileDetection = iVal;
+				mFixScan.gameObject.SetActive(!iVal);
+			});
+
+			mFixScan.OnSwitchEvent((bool iVal) => {
+				GuardianData.Instance.ScanDetection = iVal;
 				mHeadOrientation.gameObject.SetActive(!iVal);
 			});
 

@@ -412,8 +412,7 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Si tu souhaites modifier les paramètres de l'application, appuie sur le bouton paramètre en haut à droite de cet écran</string>
-                <string>[1500] Tu peux utiliser la barre de réglage horizontale en bas de l'écran pour régler la sensibilité de détection du bruit.</string>
-                <string>[1500] Appuie sur les flèches pour orienter ma tête</string>
+                <string />
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -444,6 +443,16 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Les carrés de couleurs représentent la chaleur. [300] Plus ils sont rouges plus c'est chaud. [500] Tu peux essayé de rapprocher ta main devant moi pour visualiser sa chaleur</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>scan</Key>
+            <BaseValue>Mouvement de la tête</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Mouvement de la tête</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

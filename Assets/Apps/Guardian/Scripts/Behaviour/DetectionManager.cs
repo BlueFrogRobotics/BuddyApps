@@ -30,6 +30,8 @@ namespace BuddyApp.Guardian
 		public SaveAudio SaveAudio { get; private set; }
 		public SaveVideo SaveVideo { get; private set; }
 
+		public bool PreviousScanLeft { get; set; }
+
 		public RoombaNavigation Roomba { get; private set; }
 
 		//public NoiseStimulus NoiseStimulus { get; private set; }
