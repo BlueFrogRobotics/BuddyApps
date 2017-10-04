@@ -43,6 +43,13 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public bool MobileDetection { get; set; }
 
+
+		/// <summary>
+		/// Tells if user want to enable scan detection
+		/// </summary>
+		public bool ScanDetection { get; set; }
+
+
 		/// <summary>
 		/// Threshold of the movement dector
 		/// </summary>
