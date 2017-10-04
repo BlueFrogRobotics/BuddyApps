@@ -63,9 +63,10 @@ namespace BuddyApp.RemoteControl
 	    void OnEnable()
 	    {
 	        // Setup and start webRTC
-	        SetupWebRTC();
-	        StartWebRTC();
-            
+	        //SetupWebRTC();
+	        //StartWebRTC();
+			EnableWebRTC();
+
 			mRemoteNativeTexture = new RemoteNativeTexture(640, 480);
             mLocalNativeTexture = new LocalNativeTexture(640, 480);
 
@@ -127,6 +128,29 @@ namespace BuddyApp.RemoteControl
 	        mTextureMutex.ReleaseMutex();
 	    }
 
+		public void EnableWebRTC()
+		{
+			mLocalUser = BitConverter.ToString(BYOS.Instance.Primitive.Arduino.GetSerialNumber);
+			mRemoteUser = WebRTCListener.RemoteID;
+			Utils.LogI("Local user is " + mLocalUser);
+			Utils.LogI("Remote caller is " + WebRTCListener.RemoteID);
+			if (mTextLog)
+				mTextLog.text += "setup webrtc" + "\n";
+
+			using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+			{
+				using (AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+				{
+					AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+
+					string file = "";
+					cls.CallStatic("enableWebrtc", mCrossbarUri, mRealm, jo, mLocalUser, mWebrtcReceiverObjectName, file);
+
+				}
+			}
+			Debug.Log("ENABLE WEBRTC end");
+		}
+
 	    /// <summary>
 	    /// Set the settings of webRTC
 	    /// Crossbar URI
@@ -137,8 +161,10 @@ namespace BuddyApp.RemoteControl
 	    {
 			mLocalUser = BitConverter.ToString(BYOS.Instance.Primitive.Arduino.GetSerialNumber);
 			mRemoteUser = WebRTCListener.RemoteID;
+
             Utils.LogI("Local user is " + mLocalUser);
             Utils.LogI("Remote caller is " + WebRTCListener.RemoteID);
+
 	        if (mTextLog)
 	            mTextLog.text += "setup webrtc" + "\n";
 
