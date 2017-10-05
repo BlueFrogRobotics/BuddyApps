@@ -1,0 +1,228 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -791307131, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
+  m_Name: FrenchRLGLAppDictionary
+  m_EditorClassIdentifier: 
+  entries:
+  - key: menu1
+    baseValue: 
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Que veux-tu faire?
+    - Hey mon ami, que veux-tu faire?
+  - key: menu2
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Oh oui j'adore ce jeu!
+    - C'est parti!
+  - key: startState1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Je suis tellement heureux, on va jouer ensemble mais avant j'ai besoin de savoir
+      si tu veux \xE9couter les r\xE8gles! Veux-tu les entendre?"
+    - "Oh oui jouons ensemble! Veux-tu \xE9couter les r\xE8gles?"
+  - key: startState2
+    baseValue: "Voulez-vous entendre les r\xE8gles?"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: ruleState1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Ok, je vais t'expliquer le jeu. Recule d'environ cinq m\xE8tres et quand je
+      me retournerais il faudra que tu viennes me toucher le visage avant que je dise
+      un deux trois soleil"
+  - key: ruleState2
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Veux-tu que je r\xE9p\xE8te les r\xE8gles du jeu?"
+  - key: ruleState3
+    baseValue: "Veux-tu que je r\xE9p\xE8te les r\xE8gles?"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: countState1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "D\xE9p\xEAche-toi on va bien s'amuser!"
+    - Allez plus vite on va bien s'amuser!
+  - key: countState2
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Ne reste pas ici et va te placer \xE0 cinq m\xE8tres devant moi!"
+  - key: countState3
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Allez c'est parti pour le jeu!
+    - Oh oui c'est parti pour le jeu mon ami!
+  - key: countState4
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Allez c'est parti! Tu as 10 secondes pour te placer \xE0 cinq m\xE8tres, gogo!"
+  - key: countState5
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Tu es vraiment bon \xE0 ce jeu!"
+  - key: countState6
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - C'est parti!
+  - key: detectionState1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - 1 2 3 soleil
+  - key: detectionState2
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - je t'ai vu bouger mon ami!
+  - key: detectionState3
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Wow tu es vraiment fort, je ne t'ai pas vu bouger!
+  - key: resultState1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Bien jou\xE9 tu as gagn\xE9, tu as \xE9t\xE9 trop rapide pour moi!"
+  - key: replayState1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Veux-tu rejouer?
+  - key: replayState2
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Oh oui j'adore jouer!
+  - key: replayState3
+    baseValue: Veux-tu rejouer?
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: listener1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Ok je faire autre chose, on jouera ensemble plus tard!
+  - key: listener2
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Peux-tu r\xE9p\xE9ter s'il te pla\xEEt, je n'ai pas compris ce que tu as dit?"
+  - key: listener3
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Pouvez-vous r\xE9p\xE8ter s'il vous pla\xEEt?"
+  - key: listener4
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Vous devriez peut-\xEAtre cliquer sur mon visage!"
+  - key: listener5
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Pourquoi personne ne me r\xE9pond?"
+  - key: listener6
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - "Il y a quelques probl\xE8mes de wifi. Cliquez sur le menu!"
+  - key: tutoriel1
+    baseValue: -base-
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - Veux-tu jouer maintenant?
+  - key: tutorielButtonLaunch
+    baseValue: Jouer
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: TutorielFirstStep
+    baseValue: "Place toi \xE0 8 m\xE8tres devant moi"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: TutorielSecondStep
+    baseValue: "Quand je commence \xE0 compter tu peux bouger et essayer de toucher
+      son visage avant qu'il se retourne"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: TutorielThirdStep
+    baseValue: 'Attention : quand vous avancez, mettez vos pied l''un devant l''autre'
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: TutorielForthStep
+    baseValue: "Quand je me retourne vous devez arr\xEAter de bouger et attendre que
+      Buddy recommence \xE0 compter"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: TutorielFifthStep
+    baseValue: Touchez moi le visage quand je ne vous regarde pas
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
+  - key: TutorielDistance
+    baseValue: "8 m\xE8tres"
+    phoneticValues:
+    - -phonetic-
+    randomValues:
+    - -random-
