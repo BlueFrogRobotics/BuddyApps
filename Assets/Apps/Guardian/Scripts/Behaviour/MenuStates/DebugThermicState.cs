@@ -64,6 +64,7 @@ namespace BuddyApp.Guardian
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mShowTemperature.IcoFire.enabled = false;
+            GuardianData.Instance.FirstRunParam = false;
             mShowTemperature.ButtonBack.onClick.RemoveAllListeners();
             mThermalDetection.StopOnDetect(OnFireDetected);
             //Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);

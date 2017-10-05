@@ -59,9 +59,11 @@ namespace BuddyApp.Guardian
             //}
         }
 
-        private void OnClickLockedScreen()
-        {
-            if (!Animator.GetBool("Password")) {
+		public override void OnClickLockedScreen()
+		{
+            if (!Animator.GetBool("Password"))
+            {
+
                 mDetectionManager.IsDetectingFire = false;
                 mDetectionManager.IsDetectingSound = false;
                 mDetectionManager.IsDetectingKidnapping = false;
@@ -93,6 +95,36 @@ namespace BuddyApp.Guardian
 
         private void OnFailureUnlockScreen()
         {
+=======
+		}
+
+		public override void OnSuccessUnlockScreen()
+		{
+            mDetectionManager.CurrentTimer = 0f;
+            mDetectionManager.Countdown = 0f;
+
+            mDetectionManager.IsPasswordCorrect = true;
+            mDetectionManager.IsAlarmWorking = false;
+
+            BYOS.Instance.Primitive.Speaker.FX.Loop = false;
+
+            Animator.ResetTrigger("InitDetection");
+			Animator.ResetTrigger("FixedDetection");
+			Animator.ResetTrigger("MobileDetection");
+			Animator.ResetTrigger("Turn");
+			Animator.ResetTrigger("Walk");
+			Animator.ResetTrigger("Alert");
+            mDetectionManager.UnlinkDetectorsEvents();
+
+            Animator.SetBool("Password", false);
+			Animator.Play("EnterMenu");
+		}
+
+        public override void OnFailureUnlockScreen()
+        {
+            BYOS.Instance.Primitive.Speaker.FX.Loop = false;
+
+>>>>>>> [GUARDIAN] Almost done alarm Parameter
             Animator.ResetTrigger("InitDetection");
             Animator.ResetTrigger("FixedDetection");
             Animator.ResetTrigger("MobileDetection");
@@ -100,6 +132,7 @@ namespace BuddyApp.Guardian
             Animator.ResetTrigger("Walk");
             Animator.ResetTrigger("Alert");
 
+<<<<<<< HEAD
             BYOS.Instance.Toaster.UnlockToast();
             BYOS.Instance.Toaster.Hide();
 
@@ -125,4 +158,45 @@ namespace BuddyApp.Guardian
             Debug.Log("mail sent");
         }
     }
+=======
+            //BYOS.Instance.Toaster.UnlockToast();
+            //BYOS.Instance.Toaster.Hide();
+
+            Animator.SetBool("Password", false);
+            if (mDetectionManager.IsAlarmWorking) {
+                Debug.Log("Case 1");
+                BYOS.Instance.Primitive.Speaker.FX.Loop = true;
+                BYOS.Instance.Primitive.Speaker.FX.Play(0);
+                Animator.Play("Alert");
+
+            } else if (mDetectionManager.CurrentTimer > 0.0f && mDetectionManager.CurrentTimer < 15f) {
+                Debug.Log("Case 2");
+
+                Animator.Play("Alert");
+            } else {
+                Debug.Log("Case 3");
+
+                Animator.Play("Detection");
+            }
+        }
+
+        public static void StartManager()
+		{
+			//GuardianActivity lActivity = (GuardianActivity)BYOS.Instance.AppManager.CurrentApp.AppActivity;
+		}
+
+		//private void InitManager()
+		//{
+		//	sDetectionManager = (DetectionManager)Objects[0];
+		//	sDetectionManager.Init();
+		//	sDetectionManager.LinkDetectorsEvents();
+		//}
+
+		private void OnMailSent()
+		{
+			Notifier.Display<SimpleNot>().With(Dictionary.GetString("mailsent"), null);
+			Debug.Log("mail sent");
+		}
+	}
+>>>>>>> [GUARDIAN] Almost done alarm Parameter
 }

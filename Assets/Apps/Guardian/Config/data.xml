@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GuardianData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <FirstRunParam>true</FirstRunParam>
     <FirstRun>false</FirstRun>
     <MobileDetection>false</MobileDetection>
     <ScanDetection>true</ScanDetection>
     <MovementDetectionThreshold>62</MovementDetectionThreshold>
     <SoundDetectionThreshold>100</SoundDetectionThreshold>
     <MovementDetection>true</MovementDetection>
-    <SoundDetection>true</SoundDetection>
-    <FireDetection>true</FireDetection>
+    <SoundDetection>false</SoundDetection>
+    <FireDetection>false</FireDetection>
     <KidnappingDetection>false</KidnappingDetection>
-    <SendMail>true</SendMail>
+    <SendMail>false</SendMail>
     <HeadOrientation>false</HeadOrientation>
-    <MovementDebug>true</MovementDebug>
+    <MovementDebug>false</MovementDebug>
     <SoundDebug>false</SoundDebug>
     <FireDebug>false</FireDebug>
     <AddContact>false</AddContact>

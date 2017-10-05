@@ -57,10 +57,10 @@ namespace BuddyApp.Guardian
             mTimer = 0.0f;
             mMatRed = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3, new Scalar(254, 0, 0));
             if (!mCam.IsOpen)
-                mCam.Open(RGBCamResolution.W_176_H_144);
+                mCam.Open(RGBCamResolution.W_320_H_240);
             //Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
             mMovementTracker.OnDetect(OnMovementDetected);
-            mCam.Resolution = RGBCamResolution.W_176_H_144;
+            mCam.Resolution = RGBCamResolution.W_320_H_240;
             Interaction.TextToSpeech.SayKey("motiondetectionmessage", true);
 
         }
@@ -99,6 +99,7 @@ namespace BuddyApp.Guardian
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            GuardianData.Instance.FirstRunParam = false;
             GuardianData.Instance.MovementDetectionThreshold = (int)mGauge.Slider.value;
             mDebugMovementWindow.IcoMouv.enabled = false;
             //Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
@@ -140,7 +141,7 @@ namespace BuddyApp.Guardian
             Mat lCurrentFrame = mCam.FrameMat.clone();
 
             foreach (MotionEntity lEntity in iMotions) {
-                Imgproc.circle(lCurrentFrame, Utils.Center(lEntity.RectInFrame), 10, new Scalar(255, 0, 0), -1);
+                Imgproc.circle(lCurrentFrame, Utils.Center(lEntity.RectInFrame), 3, new Scalar(255, 0, 0), -1);
             }
 
             Utils.MatToTexture2D(lCurrentFrame, Utils.ScaleTexture2DFromMat(lCurrentFrame, mTexture));

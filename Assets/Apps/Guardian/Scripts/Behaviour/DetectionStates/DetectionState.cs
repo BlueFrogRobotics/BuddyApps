@@ -14,23 +14,26 @@ namespace BuddyApp.Guardian
 		public override void Start()
 		{
 			mDetectionManager = GetComponent<DetectionManager>();
-		}
+            mDetectionManager.IsAlarmWorking = false;
+        }
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			//mDetectionManager.NoiseStimulus.Threshold = (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * 0.3f;
-
-			mDetectionManager.IsDetectingMovement = GuardianData.Instance.MovementDetection;
-			mDetectionManager.IsDetectingSound = GuardianData.Instance.SoundDetection;
-			mDetectionManager.IsDetectingFire = GuardianData.Instance.FireDetection;
-			mDetectionManager.IsDetectingKidnapping = GuardianData.Instance.KidnappingDetection;
-
+            //mDetectionManager.NoiseStimulus.Threshold = (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * 0.3f;
+            iAnimator.ResetTrigger("InitDetection");
+            if (iAnimator.GetBool("Password") == false)
+            {
+                mDetectionManager.IsDetectingMovement = GuardianData.Instance.MovementDetection;
+                mDetectionManager.IsDetectingSound = GuardianData.Instance.SoundDetection;
+                mDetectionManager.IsDetectingFire = GuardianData.Instance.FireDetection;
+                mDetectionManager.IsDetectingKidnapping = GuardianData.Instance.KidnappingDetection;
+            }
             //BYOS.Instance.WebService.EMailSender.enabled = true;
 
             BYOS.Instance.Toaster.Hide();
-			BYOS.Instance.Primitive.TouchScreen.LockScreen();
+            AAppActivity.LockScreen();
 
-            if(!mDetectionManager.HasLinkedDetector)
+            if (!mDetectionManager.HasLinkedDetector)
                 mDetectionManager.LinkDetectorsEvents();
 
             IEnumerator lAction = DelayAlert();

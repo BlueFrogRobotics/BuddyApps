@@ -72,7 +72,8 @@ namespace BuddyApp.Guardian
 		{
             if (mRGBCam.IsOpen)
                 mRGBCam.Close();
-			mHeadControllerWindow.ButtonBack.onClick.RemoveAllListeners();
+            GuardianData.Instance.FirstRunParam = false;
+            mHeadControllerWindow.ButtonBack.onClick.RemoveAllListeners();
 			mHeadControllerWindow.ButtonLeft.onClick.RemoveAllListeners();
 			mHeadControllerWindow.ButtonRight.onClick.RemoveAllListeners();
 			mHeadControllerWindow.ButtonUp.onClick.RemoveAllListeners();

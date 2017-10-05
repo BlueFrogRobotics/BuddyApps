@@ -125,6 +125,7 @@ namespace BuddyApp.Guardian
             float lMaxThreshold = DetectionManager.MAX_SOUND_THRESHOLD;
             float lThreshold = (1.0f - mGauge.Slider.value / mGauge.Slider.maxValue);// * lMaxThreshold;
             GuardianData.Instance.SoundDetectionThreshold = (int)mGauge.Slider.value;// (100.0f - lThreshold * 100.0f);/// DetectionManager.MAX_SOUND_THRESHOLD);
+            GuardianData.Instance.FirstRunParam = false;
             mDebugSoundWindow.Ico.enabled = false;
             mNoiseDetection.StopOnDetect(OnNewSound);
             //Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
