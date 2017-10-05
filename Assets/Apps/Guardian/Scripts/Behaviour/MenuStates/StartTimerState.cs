@@ -20,7 +20,7 @@ namespace BuddyApp.Guardian
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 
-			BYOS.Instance.Header.DisplayParameters = true;
+			BYOS.Instance.Header.DisplayParametersButton = true;
 
 			if (GuardianData.Instance.FirstRun) {
 				Interaction.TextToSpeech.SayKey("firststartdetectiontimer");
@@ -49,13 +49,13 @@ namespace BuddyApp.Guardian
 
 		private void InitDetection()
 		{
-				BYOS.Instance.Header.DisplayParameters = false;
+				BYOS.Instance.Header.DisplayParametersButton = false;
 				Trigger("InitDetection");
 		}
 
 		private void Cancel()
 		{
-			BYOS.Instance.Header.DisplayParameters = false;
+			BYOS.Instance.Header.DisplayParametersButton = false;
 			Trigger("Cancel");
         }
 

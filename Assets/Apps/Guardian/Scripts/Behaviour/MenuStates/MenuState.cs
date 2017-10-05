@@ -32,7 +32,7 @@ namespace BuddyApp.Guardian
 		public override void Start()
 		{
 			Interaction.VocalManager.EnableTrigger = false;
-			BYOS.Instance.Header.DisplayParameters = false;
+			BYOS.Instance.Header.DisplayParametersButton = false;
 			mStartPhonetics = new List<string>(Dictionary.GetPhoneticStrings("start"));
 			mParameterPhonetics = new List<string>(Dictionary.GetPhoneticStrings("detectionparameters"));
 			mQuitPhonetics = new List<string>(Dictionary.GetPhoneticStrings("quit"));
@@ -40,7 +40,7 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			BYOS.Instance.Header.DisplayParameters = false;
+			BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
 			mHasLoadedTTS = true;
 			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askchoices"), true);

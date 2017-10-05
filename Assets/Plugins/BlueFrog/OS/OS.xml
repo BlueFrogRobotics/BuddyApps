@@ -1465,6 +1465,31 @@
             Unlock the screen, careful, the Buddy will be vunerable
             </summary>
         </member>
+        <member name="M:Buddy.TouchScreen.OnClickToUnlock(System.Action)">
+            <summary>
+            Called when the user clicked on the locked screen. It will be called only if your app has the ability to lock the screen
+            </summary>
+        </member>
+        <member name="M:Buddy.TouchScreen.OnFailUnlock(System.Action)">
+            <summary>
+            Called when the user failed to unlock the screen. It will be called only if your app has the ability to lock the screen
+            </summary>
+        </member>
+        <member name="M:Buddy.TouchScreen.OnSuccessUnlock(System.Action)">
+            <summary>
+            Called when the user succeed to unlock the screen. It will be called only if your app has the ability to lock the screen
+            </summary>
+        </member>
+        <member name="M:Buddy.TouchScreen.OnCancelUnlock(System.Action)">
+            <summary>
+            Called when the user cancel the unlocking toast. It will be called only if your app has the ability to lock the screen
+            </summary>
+        </member>
+        <member name="M:Buddy.TouchScreen.OnTimeoutUnlock(System.Action{System.Single})">
+            <summary>
+            Called when a timeout happened on unlocking toast. It will be called only if your app has the ability to lock the screen
+            </summary>
+        </member>
         <member name="T:Buddy.HDDStorage">
             <summary>
             Hard storage component of the robot
@@ -4266,48 +4291,11 @@
             Called after all Start() calls in the loaded App
             </summary>
         </member>
-        <member name="M:Buddy.AAppActivity.OnSuccessUnlockScreen">
-            <summary>
-            Called when the user succeed to unlock the screen. It will be called only if your app has the ability to lock the screen
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnFailureUnlockScreen">
-            <summary>
-            Called when the user failed to unlock the screen. It will be called only if your app has the ability to lock the screen
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnClickLockedScreen">
-            <summary>
-            Called when the user clicked on the locked screen. It will be called only if your app has the ability to lock the screen
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnChangeLang(Buddy.Language)">
-            <summary>
-            Called when the OS main language changed
-            </summary>
-            <param name="iLang">The new setted language</param>
-        </member>
         <member name="M:Buddy.AAppActivity.OnAlertReminder(System.Collections.Generic.List{Buddy.Reminder})">
             <summary>
             Called when a reminder alert rised
             </summary>
             <param name="iIncomingEvents">The array of rised reminders</param>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnDisplayParameters">
-            <summary>
-            Called when the user clicked on the top-right parameter button for show, OnClickParameters must return true
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnHideParameters">
-            <summary>
-            Called when the user clicked on the top-right parameter button for hide, OnClickParameters must return true
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.OnClickParameters">
-            <summary>
-            Called when the user clicked on the top-right parameter button. 
-            </summary>
-            <returns>True to display parameters, false otherwise. If true, it will call OnDisplayParameters or OnHideDisplayParameters</returns>
         </member>
         <member name="M:Buddy.AAppActivity.OnQuit">
             <summary>
@@ -7316,9 +7304,25 @@
             Display an utility toolbar on the top of the robot screen
             </summary>
         </member>
+        <member name="P:Buddy.UI.Header.OnClickParameters">
+            <summary>
+            Called when the user clicked on the top-right parameter button. 
+            </summary>
+            <returns>True to display parameters, false otherwise. If true, it will call OnDisplayParameters or OnHideDisplayParameters</returns>
+        </member>
         <member name="P:Buddy.UI.Header.SpinningWheel">
             <summary>
             Enable/Disable the spin at the top-right corner of the screen
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Header.OnDisplayParameters(System.Action)">
+            <summary>
+            Called when the user clicked on the top-right parameter button for show, OnClickParameters must return true
+            </summary>
+        </member>
+        <member name="M:Buddy.UI.Header.OnHideParameters(System.Action)">
+            <summary>
+            Called when the user clicked on the top-right parameter button for hide, OnClickParameters must return true
             </summary>
         </member>
         <member name="T:Buddy.UI.AExplorerView">
