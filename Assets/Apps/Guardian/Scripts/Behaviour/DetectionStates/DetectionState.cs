@@ -21,17 +21,14 @@ namespace BuddyApp.Guardian
 		{
             //mDetectionManager.NoiseStimulus.Threshold = (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * 0.3f;
             iAnimator.ResetTrigger("InitDetection");
-            if (iAnimator.GetBool("Password") == false)
-            {
-                mDetectionManager.IsDetectingMovement = GuardianData.Instance.MovementDetection;
-                mDetectionManager.IsDetectingSound = GuardianData.Instance.SoundDetection;
-                mDetectionManager.IsDetectingFire = GuardianData.Instance.FireDetection;
-                mDetectionManager.IsDetectingKidnapping = GuardianData.Instance.KidnappingDetection;
-            }
+            mDetectionManager.IsDetectingMovement = GuardianData.Instance.MovementDetection;
+            mDetectionManager.IsDetectingSound = GuardianData.Instance.SoundDetection;
+            mDetectionManager.IsDetectingFire = GuardianData.Instance.FireDetection;
+            mDetectionManager.IsDetectingKidnapping = GuardianData.Instance.KidnappingDetection;
             //BYOS.Instance.WebService.EMailSender.enabled = true;
 
             BYOS.Instance.Toaster.Hide();
-            AAppActivity.LockScreen();
+            BYOS.Instance.Primitive.TouchScreen.LockScreen();
 
             if (!mDetectionManager.HasLinkedDetector)
                 mDetectionManager.LinkDetectorsEvents();

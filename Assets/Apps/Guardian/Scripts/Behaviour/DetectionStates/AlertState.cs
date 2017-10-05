@@ -58,8 +58,7 @@ namespace BuddyApp.Guardian
             Interaction.TextToSpeech.Say(mAlert.GetSpeechText());
 
             mAction = DisplayAlert();
-            if (iAnimator.GetBool("Password") == false)
-                StartCoroutine(mAction);
+            StartCoroutine(mAction);
 
 			//WebService.EMailSender.enabled = true;
 

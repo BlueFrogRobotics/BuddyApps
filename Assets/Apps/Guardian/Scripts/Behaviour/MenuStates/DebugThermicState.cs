@@ -31,7 +31,7 @@ namespace BuddyApp.Guardian
 
 
 
-			Interaction.TextToSpeech.SayKey("thermaldebug", true);
+			Interaction.TextToSpeech.SayKey("thermaldebug");
 
 		}
 

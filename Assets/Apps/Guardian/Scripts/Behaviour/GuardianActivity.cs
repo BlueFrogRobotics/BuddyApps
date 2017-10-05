@@ -176,7 +176,7 @@ namespace BuddyApp.Guardian
             } else {
                 Debug.Log("Case 3");
 
-                Animator.Play("Detection");
+                //Animator.Play("Detection");
             }
         }
 

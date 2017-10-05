@@ -61,7 +61,7 @@ namespace BuddyApp.Guardian
             //Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
             mMovementTracker.OnDetect(OnMovementDetected);
             mCam.Resolution = RGBCamResolution.W_320_H_240;
-            Interaction.TextToSpeech.SayKey("motiondetectionmessage", true);
+            Interaction.TextToSpeech.SayKey("motiondetectionmessage");
 
         }
 
