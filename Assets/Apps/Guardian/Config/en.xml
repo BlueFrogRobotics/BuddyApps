@@ -410,9 +410,7 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>If you want to change the application settings, press the parameter button on top right of this screen</string>
-                <string> [1500] You can use the horizontal scrollbar at the bottom of the screen to adjust the sensitivity of the noise detection.</string>
-                <string>[1500] Press the arrows to set my head position</string>
+                <string>If you wish to modify the parameters, press the settings button on the top right</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -433,6 +431,26 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Press the arrow to set my head position</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>thermaldebug</Key>
+            <BaseValue>Thermal Debug</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>The coloured squares represents the heat. [300] The red one are the hotter. [500] You can put your hand in front of me to visualize its warmth</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>scan</Key>
+            <BaseValue>Mobile head</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Mobile head</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

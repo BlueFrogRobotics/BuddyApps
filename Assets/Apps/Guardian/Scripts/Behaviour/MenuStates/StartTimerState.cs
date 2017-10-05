@@ -42,18 +42,27 @@ namespace BuddyApp.Guardian
 
 			BYOS.Instance.Toaster.Display<CountdownToast>().With(
 				BYOS.Instance.Dictionary.GetString("startdetectiontimer"), mTimer,
-				() => { Trigger("InitDetection"); },
-				() => { Trigger("InitDetection"); },
-				() => { Trigger("Cancel"); });
+				InitDetection, InitDetection, Cancel);
 
 			mStartTimer = true;
 		}
+
+		private void InitDetection()
+		{
+				BYOS.Instance.Header.DisplayParameters = false;
+				Trigger("InitDetection");
+		}
+
+		private void Cancel()
+		{
+			BYOS.Instance.Header.DisplayParameters = false;
+			Trigger("Cancel");
+        }
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mStartTimer = false;
             BYOS.Instance.WebService.EMailSender.enabled = true;
-			BYOS.Instance.Header.DisplayParameters = false;
 		}
 	}
 }

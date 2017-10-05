@@ -1423,6 +1423,11 @@
             Depth camera of the robot
             </summary>
         </member>
+        <member name="P:Buddy.Primitive.TouchScreen">
+            <summary>
+            Screen of the robot
+            </summary>
+        </member>
         <member name="T:Buddy.Arduino">
             <summary>
             Arduino component of the robot
@@ -1443,6 +1448,22 @@
             <remarks>
              It can be used for SDK compatibilities.
             </remarks>
+        </member>
+        <member name="M:Buddy.TouchScreen.DisplayLockScreenNumPad">
+            <summary>
+            Force to display the lock screen PIN (equivalent to user screen clicking). Call OnClick in AppActivity.
+            </summary>
+        </member>
+        <member name="M:Buddy.TouchScreen.LockScreen">
+            <summary>
+            By using this method, the robot would be locked (e.g. the UI) until the user set the robot password.
+            This mode can only be disabled by quiting the app
+            </summary>
+        </member>
+        <member name="M:Buddy.TouchScreen.UnlockScreen">
+            <summary>
+            Unlock the screen, careful, the Buddy will be vunerable
+            </summary>
         </member>
         <member name="T:Buddy.HDDStorage">
             <summary>
@@ -4300,6 +4321,21 @@
             <param name="iAnimator"></param>
             <param name="iParams"></param>
         </member>
+        <member name="M:Buddy.AAppActivity.PathToRaw(System.String)">
+            <summary>
+            Allow you to retrieve the full path from the name of the raw file / directory Equivalent to BYOS.Instance.Resources.PathToRaw(iName)
+            </summary>
+            <param name="iName">Name of the file / directory</param>
+            <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Buddy.AAppActivity.Load``1(System.String)" -->
+        <member name="M:Buddy.AAppActivity.LoadAtlas(System.String)">
+            <summary>
+            Load the atlas from Resource/ or from downloaded bundles. Equivalent to BYOS.Instance.Resources.LoadAtlas(iName)
+            </summary>
+            <param name="iName">Name (without path/extension) of the resource</param>
+            <returns>The loaded resource. Null if not found</returns>
+        </member>
         <member name="M:Buddy.AAppActivity.QuitApp">
             <summary>
             Quit the running app
@@ -4310,17 +4346,6 @@
             If set as true, ask confirmation for app quit
             </summary>
             <param name="iVal"></param>
-        </member>
-        <member name="M:Buddy.AAppActivity.LockScreen">
-            <summary>
-            By using this method, the robot would be locked (e.g. the UI) until the user set the robot password.
-            This mode can only be disabled by quiting the app
-            </summary>
-        </member>
-        <member name="M:Buddy.AAppActivity.UnlockScreen">
-            <summary>
-            Unlock the screen, careful, the Buddy will be vunerable
-            </summary>
         </member>
         <member name="M:Buddy.AAppActivity.LoadScene(System.Int32)">
             <summary>

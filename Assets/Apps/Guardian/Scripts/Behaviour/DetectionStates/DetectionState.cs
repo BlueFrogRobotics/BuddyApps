@@ -28,7 +28,7 @@ namespace BuddyApp.Guardian
             //BYOS.Instance.WebService.EMailSender.enabled = true;
 
             BYOS.Instance.Toaster.Hide();
-			AAppActivity.LockScreen();
+			BYOS.Instance.Primitive.TouchScreen.LockScreen();
 
             if(!mDetectionManager.HasLinkedDetector)
                 mDetectionManager.LinkDetectorsEvents();

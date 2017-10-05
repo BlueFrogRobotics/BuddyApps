@@ -41,7 +41,7 @@ namespace BuddyApp.Guardian
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			BYOS.Instance.Header.DisplayParameters = false;
-			AAppActivity.UnlockScreen();
+            BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
 			mHasLoadedTTS = true;
 			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askchoices"), true);
 
