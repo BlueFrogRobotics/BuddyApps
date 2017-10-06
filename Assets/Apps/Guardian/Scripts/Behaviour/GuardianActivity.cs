@@ -56,7 +56,6 @@ namespace BuddyApp.Guardian
                 mDetectionManager.IsDetectingKidnapping = GuardianData.Instance.KidnappingDetection;
 
                 Animator.SetBool("Password", false);
-                Debug.Log("C est trop cool");
                 Animator.Play("Detection");
             }
         }
@@ -139,23 +138,13 @@ namespace BuddyApp.Guardian
             Animator.ResetTrigger("Walk");
             Animator.ResetTrigger("Alert");
 
-            //BYOS.Instance.Toaster.UnlockToast();
-            //BYOS.Instance.Toaster.Hide();
-
-            //Animator.SetBool("Password", false);
             if (mDetectionManager.IsAlarmWorking) {
-                Debug.Log("Case 1");
                 BYOS.Instance.Primitive.Speaker.FX.Loop = true;
                 BYOS.Instance.Primitive.Speaker.FX.Play(0);
                 Animator.Play("Alert");
 
             } else if (mDetectionManager.CurrentTimer > 0.0f && mDetectionManager.CurrentTimer < 15f) {
-                Debug.Log("Case 2");
                 Animator.Play("Alert");
-            } else {
-                Debug.Log("Case 3");
-
-                //Animator.Play("Detection");
             }
         }
 

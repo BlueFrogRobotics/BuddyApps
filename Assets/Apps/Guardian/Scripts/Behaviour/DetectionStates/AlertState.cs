@@ -12,17 +12,12 @@ namespace BuddyApp.Guardian
     {
         private DetectionManager mDetectionManager;
         private AAlert mAlert;
-        //private float mTimer;
         private bool mAlarm;
-        //System.Media.SoundPlayer mplayer = new System.Media.SoundPlayer(@"C:\Users\macpc\Desktop\Random\alarmbeep.mp3");
-        
-       
 
         private IEnumerator mAction;
 
         public override void Start()
         {
-            //AudioSource lAudioSource = GetComponent<AudioSource>();
             mDetectionManager = GetComponent<DetectionManager>();
 
 
@@ -77,8 +72,6 @@ namespace BuddyApp.Guardian
             mDetectionManager.CurrentTimer += Time.deltaTime;
             if (mDetectionManager.Countdown != 0)
                mDetectionManager.Countdown += Time.deltaTime;
-            Debug.Log("TIME : " + mDetectionManager.CurrentTimer);
-            Debug.Log("COUNTDOWN : " + mDetectionManager.Countdown);
 
             if (iAnimator.GetBool("Password"))
                 BYOS.Instance.Toaster.Hide();
@@ -86,9 +79,7 @@ namespace BuddyApp.Guardian
             if (mDetectionManager.CurrentTimer > 15f && !mDetectionManager.IsPasswordCorrect && mAlarm) 
             {
                 mDetectionManager.Countdown += Time.deltaTime;
-                Debug.Log("Coucou HIBOUUUUU");
                 mAlarm = false;
-                //mTimer = 14f;
                 mDetectionManager.IsAlarmWorking = true;
                 BYOS.Instance.Primitive.Speaker.FX.Loop = true;
                 BYOS.Instance.Primitive.Speaker.FX.Play(0);
@@ -98,7 +89,6 @@ namespace BuddyApp.Guardian
             {
                 iAnimator.SetBool("Password", false);
 
-                Debug.Log("CA PASSE ICI");
                 mDetectionManager.IsAlarmWorking = false;
                 BYOS.Instance.Primitive.Speaker.FX.Loop = false;
                 BYOS.Instance.Primitive.Speaker.FX.Stop();
@@ -120,9 +110,6 @@ namespace BuddyApp.Guardian
             BYOS.Instance.Toaster.Display<IconToast>().With(mAlert.GetDisplayText(), mAlert.GetIcon(), new Color32(212, 0, 22, 255), true);
 
             yield return new WaitForSeconds(5F);
-            Debug.Log("Ca fait 5S !!!!!");
-
-            //Trigger("InitDetection"); // 
         }
 
         private void SendMail(string iAddress)

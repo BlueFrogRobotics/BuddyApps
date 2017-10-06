@@ -119,7 +119,6 @@ namespace BuddyApp.Guardian
             
             if (lNewThreshold != mCurrentThreshold)
             {
-                Debug.Log("THRESHOLD = " + lNewThreshold);
                 mCurrentThreshold = lNewThreshold;
                 mMovementTracker.ChangeThreshold(OnMovementDetected, lNewThreshold);
             }
