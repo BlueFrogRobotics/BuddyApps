@@ -43,7 +43,7 @@ namespace BuddyApp.Guardian
 			BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
 			mHasLoadedTTS = true;
-			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askchoices"), true);
+			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askchoices"));
 
 			//Detection.NoiseStimulus.enabled = false;
 			Interaction.VocalManager.OnEndReco = OnSpeechReco;

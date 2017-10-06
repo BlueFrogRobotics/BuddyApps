@@ -18,6 +18,9 @@ namespace BuddyApp.Guardian
             BYOS.Instance.Primitive.TouchScreen.OnClickToUnlock(OnClickLockedScreen);
             BYOS.Instance.Primitive.TouchScreen.OnSuccessUnlock(OnSuccessUnlockScreen);
             BYOS.Instance.Primitive.TouchScreen.OnFailUnlock(OnFailureUnlockScreen);
+            BYOS.Instance.Primitive.TouchScreen.OnCancelUnlock(OnCancelUnlockScreen);
+            BYOS.Instance.Primitive.TouchScreen.OnTimeoutUnlock(OnTimeoutUnlockScreen);
+
         }
 
         public override void OnAwake()
@@ -33,6 +36,29 @@ namespace BuddyApp.Guardian
             return false;
         }
 
+        private void OnCancelUnlockScreen()
+        {
+            OnHideLockNumpad();
+        }
+
+        private void OnTimeoutUnlockScreen(float iTimeout)
+        {
+            OnHideLockNumpad();
+        }
+
+        private void OnHideLockNumpad() {
+
+            if (mDetectionManager.CurrentTimer == 0.0f)
+            {
+                mDetectionManager.IsDetectingMovement = GuardianData.Instance.MovementDetection;
+                mDetectionManager.IsDetectingSound = GuardianData.Instance.SoundDetection;
+                mDetectionManager.IsDetectingFire = GuardianData.Instance.FireDetection;
+                mDetectionManager.IsDetectingKidnapping = GuardianData.Instance.KidnappingDetection;
+
+                Animator.SetBool("Password", false);
+                Animator.Play("Detection");
+            }
+        }
 
         public override void OnStart()
         {
@@ -59,9 +85,11 @@ namespace BuddyApp.Guardian
             //}
         }
 
-        private void OnClickLockedScreen()
-        {
-            if (!Animator.GetBool("Password")) {
+		private void OnClickLockedScreen()
+		{
+            if (!Animator.GetBool("Password"))
+            {
+
                 mDetectionManager.IsDetectingFire = false;
                 mDetectionManager.IsDetectingSound = false;
                 mDetectionManager.IsDetectingKidnapping = false;
@@ -77,22 +105,32 @@ namespace BuddyApp.Guardian
             }
         }
 
-        private void OnSuccessUnlockScreen()
-        {
+		private void OnSuccessUnlockScreen()
+		{
+            mDetectionManager.CurrentTimer = 0f;
+            mDetectionManager.Countdown = 0f;
+
+            mDetectionManager.IsPasswordCorrect = true;
+            mDetectionManager.IsAlarmWorking = false;
+
+            BYOS.Instance.Primitive.Speaker.FX.Loop = false;
+
             Animator.ResetTrigger("InitDetection");
-            Animator.ResetTrigger("FixedDetection");
-            Animator.ResetTrigger("MobileDetection");
-            Animator.ResetTrigger("Turn");
-            Animator.ResetTrigger("Walk");
-            Animator.ResetTrigger("Alert");
+			Animator.ResetTrigger("FixedDetection");
+			Animator.ResetTrigger("MobileDetection");
+			Animator.ResetTrigger("Turn");
+			Animator.ResetTrigger("Walk");
+			Animator.ResetTrigger("Alert");
             mDetectionManager.UnlinkDetectorsEvents();
 
             Animator.SetBool("Password", false);
-            Animator.Play("EnterMenu");
-        }
+			Animator.Play("EnterMenu");
+		}
 
         private void OnFailureUnlockScreen()
         {
+            BYOS.Instance.Primitive.Speaker.FX.Loop = false;
+
             Animator.ResetTrigger("InitDetection");
             Animator.ResetTrigger("FixedDetection");
             Animator.ResetTrigger("MobileDetection");
@@ -100,29 +138,32 @@ namespace BuddyApp.Guardian
             Animator.ResetTrigger("Walk");
             Animator.ResetTrigger("Alert");
 
-            BYOS.Instance.Toaster.UnlockToast();
-            BYOS.Instance.Toaster.Hide();
+            if (mDetectionManager.IsAlarmWorking) {
+                BYOS.Instance.Primitive.Speaker.FX.Loop = true;
+                BYOS.Instance.Primitive.Speaker.FX.Play(0);
+                Animator.Play("Alert");
 
-            Animator.SetBool("Password", false);
-            Animator.Play("Detection");
+            } else if (mDetectionManager.CurrentTimer > 0.0f && mDetectionManager.CurrentTimer < 15f) {
+                Animator.Play("Alert");
+            }
         }
 
         public static void StartManager()
-        {
-            //GuardianActivity lActivity = (GuardianActivity)BYOS.Instance.AppManager.CurrentApp.AppActivity;
-        }
+		{
+			//GuardianActivity lActivity = (GuardianActivity)BYOS.Instance.AppManager.CurrentApp.AppActivity;
+		}
 
-        //private void InitManager()
-        //{
-        //	sDetectionManager = (DetectionManager)Objects[0];
-        //	sDetectionManager.Init();
-        //	sDetectionManager.LinkDetectorsEvents();
-        //}
+		//private void InitManager()
+		//{
+		//	sDetectionManager = (DetectionManager)Objects[0];
+		//	sDetectionManager.Init();
+		//	sDetectionManager.LinkDetectorsEvents();
+		//}
 
-        private void OnMailSent()
-        {
-            Notifier.Display<SimpleNot>().With(Dictionary.GetString("mailsent"), null);
-            Debug.Log("mail sent");
-        }
-    }
+		private void OnMailSent()
+		{
+			Notifier.Display<SimpleNot>().With(Dictionary.GetString("mailsent"), null);
+			Debug.Log("mail sent");
+		}
+	}
 }
