@@ -19,13 +19,17 @@ namespace BuddyApp.Guardian
 		public const float KIDNAPPING_THRESHOLD = 4.5F;
 		public const float MAX_MOVEMENT_THRESHOLD = 100.0F;
 
+
 		private Animator mAnimator;
 		private KidnappingDetection mKidnappingDetection;
 		private MotionDetection mMotionDetection;
 		private NoiseDetection mNoiseDetection;
 		private ThermalDetection mFireDetection;
 
-		public string Logs { get; private set; }
+        public float CurrentTimer { get; set; }
+        public float Countdown { get; set; }
+
+        public string Logs { get; private set; }
 
 		public SaveAudio SaveAudio { get; private set; }
 		public SaveVideo SaveVideo { get; private set; }
@@ -47,6 +51,8 @@ namespace BuddyApp.Guardian
 		public bool IsDetectingMovement { get; set; }
 		public bool IsDetectingKidnapping { get; set; }
 		public bool IsDetectingSound { get; set; }
+        public bool IsPasswordCorrect { get; set; }
+        public bool IsAlarmWorking { get; set; }
 
 		public Alert Detected { get; set; }
 

@@ -42,9 +42,11 @@ namespace BuddyApp.Guardian
 			//mDetectionLayout = new GuardianLayout();
 			mHasSwitchState = false;
 
-			if (GuardianData.Instance.FirstRun)
-				Interaction.TextToSpeech.SayKey("firstparam");
-
+            if (GuardianData.Instance.FirstRunParam)
+            {
+                Interaction.TextToSpeech.SayKey("firstparam");
+               
+            }
 
 
 			BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout,
@@ -54,7 +56,8 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			if (!mHasSwitchState) {
+            GuardianData.Instance.FirstRunParam = true;
+            if (!mHasSwitchState) {
 				if (GuardianData.Instance.HeadOrientation) {
 					SwitchState(iAnimator, ParameterWindow.HEAD_ORIENTATION);
 				} else if (GuardianData.Instance.MovementDebug) {
@@ -69,10 +72,10 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			//BYOS.Instance.Toaster.Hide();
-			//GuardianData.Instance.FirstRun = false;
-			//mDetectionLayout.mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
-		}
+            //BYOS.Instance.Toaster.Hide();
+            //GuardianData.Instance.FirstRun = false;
+            //mDetectionLayout.mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
+        }
 
 		private void SetThreshold()
 		{

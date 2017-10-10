@@ -16,7 +16,7 @@ namespace BuddyApp.Guardian
         public override void Start()
         {
             Interaction.VocalManager.EnableTrigger = false;
-            BYOS.Instance.Header.DisplayParameters = false;
+            BYOS.Instance.Header.DisplayParametersButton = false;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

@@ -16,8 +16,9 @@ namespace BuddyApp.Guardian
 			MovementDetectionThreshold = 50;
 			SoundDetectionThreshold = 50;
 
-			FirstRun = true;
-			MobileDetection = true;
+            FirstRun = true;
+            FirstRunParam = true;
+            MobileDetection = true;
 			MovementDetection = true;
 			SoundDetection = true;
 			FireDetection = true;
@@ -27,16 +28,20 @@ namespace BuddyApp.Guardian
 			Contact.FirstName = "NONE";
         }
 
-		/// <summary>
-		/// Actual monitoring mode
-		/// </summary>
-		//public GuardianMode Mode { get; set; }
+        /// <summary>
+        /// Actual monitoring mode
+        /// </summary>
+        //public GuardianMode Mode { get; set; }
 
+        /// <summary>
+        /// Tells if param as already be launched
+        /// </summary>
+        public bool FirstRunParam { get; set; }
 
-		/// <summary>
-		/// Tells if app was already launched
-		/// </summary>
-		public bool FirstRun { get; set; }
+        /// <summary>
+        /// Tells if app was already launched
+        /// </summary>
+        public bool FirstRun { get; set; }
 
 		/// <summary>
 		/// Tells if user want fix or mobile detection

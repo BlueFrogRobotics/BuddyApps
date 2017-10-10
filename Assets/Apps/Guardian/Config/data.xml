@@ -1,25 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GuardianData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <FirstRunParam>true</FirstRunParam>
     <FirstRun>false</FirstRun>
     <MobileDetection>false</MobileDetection>
     <ScanDetection>true</ScanDetection>
     <MovementDetectionThreshold>62</MovementDetectionThreshold>
-    <SoundDetectionThreshold>86</SoundDetectionThreshold>
-    <MovementDetection>false</MovementDetection>
-    <SoundDetection>true</SoundDetection>
+    <SoundDetectionThreshold>100</SoundDetectionThreshold>
+    <MovementDetection>true</MovementDetection>
+    <SoundDetection>false</SoundDetection>
     <FireDetection>false</FireDetection>
     <KidnappingDetection>false</KidnappingDetection>
-    <SendMail>true</SendMail>
+    <SendMail>false</SendMail>
     <HeadOrientation>false</HeadOrientation>
     <MovementDebug>false</MovementDebug>
     <SoundDebug>false</SoundDebug>
     <FireDebug>false</FireDebug>
     <AddContact>false</AddContact>
     <Contact>
-        <ID>7</ID>
-        <Email>Tigrejounin@gmail.com</Email>
-        <FirstName>Azerty</FirstName>
-        <LastName>Yuyijyu</LastName>
+        <ID>2</ID>
+        <Email>buddy@bluefrogrobotics.com</Email>
+        <FirstName>Buddy</FirstName>
+        <LastName>Robichon</LastName>
         <Gender>UNKNOWN</Gender>
         <BirthDate>0001-01-01T00:00:00</BirthDate>
         <Session>USER</Session>
