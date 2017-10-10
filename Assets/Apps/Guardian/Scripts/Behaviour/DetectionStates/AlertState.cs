@@ -80,8 +80,9 @@ namespace BuddyApp.Guardian
 
             Debug.Log("send mail post");
             lMail.AddTo(iAddress);
-            WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnMailSent);
-            BYOS.Instance.WebService.EMailSender.enabled = true;
+            GetComponent<MediaManager>().Save(lMail);
+            //WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnMailSent);
+            //BYOS.Instance.WebService.EMailSender.enabled = true;
             Debug.Log("send mail encore apres");
         }
 

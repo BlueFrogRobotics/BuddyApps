@@ -77,6 +77,7 @@ namespace BuddyApp.Guardian
             Debug.Log("start mono");
             Init();
             mMediaManager = GetComponent<MediaManager>();
+            //mMediaManager.OnFilesSaved += OnMediaSaved;
 			//LinkDetectorsEvents();
 		}
 
@@ -190,7 +191,6 @@ namespace BuddyApp.Guardian
 
 			Detected = Alert.FIRE;
 			mAnimator.SetTrigger("Alert");
-            mMediaManager.Save();
             return true;
 		}
 
@@ -216,7 +216,6 @@ namespace BuddyApp.Guardian
 				Debug.Log("============== Threshold passed!");
 				Detected = Alert.SOUND;
 				mAnimator.SetTrigger("Alert");
-                mMediaManager.Save();
 			}
 			return true;
 		}
@@ -231,7 +230,7 @@ namespace BuddyApp.Guardian
 
 			Detected = Alert.MOVEMENT;
 			mAnimator.SetTrigger("Alert");
-            mMediaManager.Save();
+            
             return true;
 		}
 
@@ -245,9 +244,13 @@ namespace BuddyApp.Guardian
 
 			Detected = Alert.KIDNAPPING;
 			mAnimator.SetTrigger("Alert");
-            mMediaManager.Save();
             return true;
 		}
+
+        private void OnMediaSaved()
+        {
+
+        }
 
         public void OnMailSent()
         {
