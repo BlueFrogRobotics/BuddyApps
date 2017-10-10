@@ -44,6 +44,7 @@ namespace BuddyApp.EmotionalWander
 		private float mEmoteTime;
 		private bool mIsFaceDown;
 		private float mTurningTime;
+		private VocalManager mVocMan;
 
 
 
@@ -65,7 +66,11 @@ namespace BuddyApp.EmotionalWander
 			mNoHinge = BYOS.Instance.Primitive.Motors.NoHinge;
 			mWheels = BYOS.Instance.Primitive.Motors.Wheels;
 			mYesHinge = BYOS.Instance.Primitive.Motors.YesHinge;
-	}
+			mVocMan = BYOS.Instance.Interaction.VocalManager;
+			mVocMan.EnableTrigger = true;
+			mVocMan.EnableDefaultErrorHandling = true;
+			mVocMan.OnEndReco = OnSpeechReco;
+		}
 
 		void OnEnable()
 		{
@@ -113,6 +118,35 @@ namespace BuddyApp.EmotionalWander
 
 			}
 		}
+
+
+
+
+		void OnSpeechReco(string iSpeech)
+		{
+			string lSpeech = iSpeech.ToLower();
+			if (lSpeech.Contains("sad") || lSpeech.Contains("triste")) {
+				StartWander((int)MoodType.SAD);
+			} else if (lSpeech.Contains("happy") || lSpeech.Contains("heureux")) {
+				StartWander((int)MoodType.HAPPY);
+			} else if (lSpeech.Contains("neutral") || lSpeech.Contains("neutre")) {
+				StartWander((int)MoodType.NEUTRAL);
+			} else if (lSpeech.Contains("lovely") || lSpeech.Contains("amoureux")) {
+				StartWander((int)MoodType.LOVE);
+			} else if (lSpeech.Contains("angry") || lSpeech.Contains("énervé")) {
+				StartWander((int)MoodType.ANGRY);
+			} else if (lSpeech.Contains("scared") || lSpeech.Contains("effrayé")) {
+				StartWander((int)MoodType.SCARED);
+			} else if (lSpeech.Contains("sick") || lSpeech.Contains("malade")) {
+				StartWander((int)MoodType.SICK);
+			} else if (lSpeech.Contains("tired") || lSpeech.Contains("fatigué")) {
+				StartWander((int)MoodType.TIRED);
+			} else if (lSpeech.Contains("stop") || lSpeech.Contains("arrête")) {
+				StopWander();
+			}
+		}
+
+
 
 		////////////////////////////////////
 		// Speech
@@ -355,8 +389,8 @@ namespace BuddyApp.EmotionalWander
 				if (!AnyObstructionsInfrared() && !mIsFacingRandDirection) {
 					// Keep the same speed / turning angle for some seconds
 					float lSpeed = Random.Range(100F, 300F);
-					
-						mWheels.SetWheelsSpeed(lSpeed, lSpeed, 1000);
+
+					mWheels.SetWheelsSpeed(lSpeed, lSpeed, 1000);
 
 				} else if (AnyObstructionsInfrared()) {
 					FaceRandomDirection(250F);
@@ -373,7 +407,7 @@ namespace BuddyApp.EmotionalWander
 
 		public void AngryWander()
 		{
-			if (mDoHeadAnimation && Time.time - mWanderTime < mRandomWanderTime *4) {
+			if (mDoHeadAnimation && Time.time - mWanderTime < mRandomWanderTime * 4) {
 
 				//Head looks mostely up
 				PlayAngryHeadAnimation();
@@ -401,7 +435,7 @@ namespace BuddyApp.EmotionalWander
 
 		public void HappyWander()
 		{
-			if (mDoHeadAnimation && Time.time - mWanderTime < mRandomWanderTime *2) {
+			if (mDoHeadAnimation && Time.time - mWanderTime < mRandomWanderTime * 2) {
 
 				//Head looks mostely up
 				PlayHappyHeadAnimation();
@@ -409,12 +443,12 @@ namespace BuddyApp.EmotionalWander
 				//If no obstacle, go forward
 				mTurningTime += Time.deltaTime;
 				// Keep the same speed / turning angle for some seconds
-					float lSpeed = 150F;
-					if (Random.Range(0, 2) == 0) {
-						mWheels.SetWheelsSpeed(-lSpeed, lSpeed, 1000);
-					} else {
-						mWheels.SetWheelsSpeed(lSpeed, -lSpeed, 1000);
-					}
+				float lSpeed = 150F;
+				if (Random.Range(0, 2) == 0) {
+					mWheels.SetWheelsSpeed(-lSpeed, lSpeed, 1000);
+				} else {
+					mWheels.SetWheelsSpeed(lSpeed, -lSpeed, 1000);
+				}
 
 			} else {
 				//Do a small animation and change direction
@@ -633,14 +667,14 @@ namespace BuddyApp.EmotionalWander
 		private IEnumerator AngryHeadCo()
 		{
 			while (mHeadPlaying) {
-					TurnHeadNo(Random.Range(20F, 40F), 100F);
-					yield return new WaitForSeconds(0.5F);
-					TurnHeadNo(Random.Range(30F, 50F), 150F);
-					yield return new WaitForSeconds(0.5F);
-					TurnHeadNo(Random.Range(30F, 40F), 100F);
-					yield return new WaitForSeconds(0.5F);
-					TurnHeadNo(Random.Range(0F, 0F), 120F);
-					yield return new WaitForSeconds(0.5F);
+				TurnHeadNo(Random.Range(20F, 40F), 100F);
+				yield return new WaitForSeconds(0.5F);
+				TurnHeadNo(Random.Range(30F, 50F), 150F);
+				yield return new WaitForSeconds(0.5F);
+				TurnHeadNo(Random.Range(30F, 40F), 100F);
+				yield return new WaitForSeconds(0.5F);
+				TurnHeadNo(Random.Range(0F, 0F), 120F);
+				yield return new WaitForSeconds(0.5F);
 
 				yield return new WaitForSeconds(4.3F);
 			}
