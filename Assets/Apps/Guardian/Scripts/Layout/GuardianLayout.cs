@@ -74,7 +74,8 @@ namespace BuddyApp.Guardian
 			mContacts.enabled = mSendMail.IsActive;
 
 			mFixScan.enabled = !mMobileDetection.IsActive;
-			mHeadOrientation.enabled = !mFixScan.IsActive;
+			mFixScan.IsActive = GuardianData.Instance.ScanDetection;
+            mHeadOrientation.enabled = !mFixScan.IsActive;
 		}
 
 		private void CreateWidgets()
