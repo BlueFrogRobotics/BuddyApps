@@ -10,11 +10,13 @@ namespace BuddyApp.Guardian
 	public class DetectionState : AStateMachineBehaviour
 	{
 		private DetectionManager mDetectionManager;
+        private MediaManager mMediamanager;
 
 		public override void Start()
 		{
 			mDetectionManager = GetComponent<DetectionManager>();
             mDetectionManager.IsAlarmWorking = false;
+            mMediamanager = GetComponent<MediaManager>();
         }
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -30,7 +32,12 @@ namespace BuddyApp.Guardian
             BYOS.Instance.Primitive.TouchScreen.LockScreen();
 
             if (!mDetectionManager.HasLinkedDetector)
+            {
+                Debug.Log("on link detectors");
                 mDetectionManager.LinkDetectorsEvents();
+            }
+            if (!mMediamanager.enabled)
+                mMediamanager.enabled = true;
 
             IEnumerator lAction = DelayAlert();
             StartCoroutine(lAction);

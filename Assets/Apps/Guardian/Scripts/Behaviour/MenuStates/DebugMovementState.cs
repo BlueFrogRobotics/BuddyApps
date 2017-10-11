@@ -121,6 +121,7 @@ namespace BuddyApp.Guardian
             {
                 mCurrentThreshold = lNewThreshold;
                 mMovementTracker.ChangeThreshold(OnMovementDetected, lNewThreshold);
+                Debug.Log("threshold de test: " + lNewThreshold);
             }
             mRaw.texture = mCam.FrameTexture2D;
         }

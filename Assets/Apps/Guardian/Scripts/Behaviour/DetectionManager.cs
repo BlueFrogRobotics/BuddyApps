@@ -159,8 +159,8 @@ namespace BuddyApp.Guardian
 		public void LinkDetectorsEvents()
 		{
             HasLinkedDetector = true;
-            mMotionDetection.OnDetect(OnMovementDetected);
-            mNoiseDetection.OnDetect(OnSoundDetected);
+            mMotionDetection.OnDetect(OnMovementDetected, GuardianData.Instance.MovementDetectionThreshold*MAX_MOVEMENT_THRESHOLD/100);
+            mNoiseDetection.OnDetect(OnSoundDetected, 1.0f - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f) * MAX_SOUND_THRESHOLD);
             mFireDetection.OnDetect(OnThermalDetected, 50);
             //mFireDetection.Threshold = 50;
             mKidnappingDetection.OnDetect(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
@@ -231,11 +231,13 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		private bool OnMovementDetected(MotionEntity[] iMotions)
 		{
-			if (!IsDetectingMovement)
+            Debug.Log("mouvement detecte: "+iMotions.Length);
+            if (!IsDetectingMovement || iMotions.Length<3)
 				return true;
 
 			Detected = Alert.MOVEMENT;
 			mAnimator.SetTrigger("Alert");
+            
             
             return true;
 		}

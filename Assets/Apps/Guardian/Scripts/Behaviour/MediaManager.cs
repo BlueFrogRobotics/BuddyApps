@@ -67,31 +67,24 @@ namespace BuddyApp.Guardian
             switch(mState)
             {
                 case State.DEFAULT:
-                    Debug.Log("etat lol 1");
                     FillCircularBuffer();
                     break;
                 case State.ASKED:
-                    Debug.Log("etat lol 2");
                     FillNextBuffer();
                     break;
                 case State.BUFFER_FILLED:
-                    Debug.Log("etat lol 3");
                     SaveFiles();
                     break;
                 case State.WAIT_SAVE:
-                    Debug.Log("etat lol 4");
                     WaitForSave();
                     break;
                 case State.FILES_SAVED:
-                    Debug.Log("etat lol 5");
                     SavesComplete();
                     break;
                 case State.MAIL_SENDING:
-                    Debug.Log("etat lol 6");
                     SendingMail();
                     break;
                 default:
-                    Debug.Log("etat lol 7");
                     FillCircularBuffer();
                     break;
             }
@@ -118,6 +111,9 @@ namespace BuddyApp.Guardian
             //BYOS.Instance.Header.SpinningWheel = false;
         }
 
+        /// <summary>
+        /// Fills video and audio buffer continuously when there is no detection
+        /// </summary>
         private void FillCircularBuffer()
         {
             if (mCam.IsOpen)
@@ -126,24 +122,8 @@ namespace BuddyApp.Guardian
                 if (mListFrame.Count > mFPS * mNbSecBefore)
                     mListFrame.Dequeue();
             }
-            if (mNoiseDetection.enabled)
-            {
-                Debug.Log("1 buffer");
-                if(mNoiseDetection.GetMicPosition() < 122000)
-                    mNewFrame = true;
-                else if ( mNewFrame && mNoiseDetection.GetMicPosition() >122000 && mNoiseDetection.GetAudioClip().length>2 && mNoiseDetection.GetMicData()!=null)
-                {
-                    Debug.Log("2 buffer");
-                    mNewFrame = false;
-                    AudioClip lAudioClip = AudioClip.Create(mNoiseDetection.GetAudioClip().name, mNoiseDetection.GetAudioClip().samples, mNoiseDetection.GetAudioClip().channels, mNoiseDetection.GetAudioClip().frequency, false, false);
-                    float[] samples = new float[mNoiseDetection.GetAudioClip().samples * mNoiseDetection.GetAudioClip().channels];
-                    mNoiseDetection.GetAudioClip().GetData(samples, 0);
-                    lAudioClip.SetData(samples, 0);
-                    mListAudio.Enqueue(lAudioClip); 
-                    if (mListAudio.Count>1)
-                        mListAudio.Dequeue();
-                }
-            }
+            FillAudioBuffer(1);
+
         }
 
         private void FillNextBuffer()
@@ -156,12 +136,19 @@ namespace BuddyApp.Guardian
             }
             
             mTime += Time.deltaTime;
+            FillAudioBuffer(4);
 
+            if (mTime > mNbSecAfter)
+                mState = State.BUFFER_FILLED;
+        }
+
+        private void FillAudioBuffer(int iNbOfClipToKeep)
+        {
             if (mNoiseDetection.enabled)
             {
                 if (mNoiseDetection.GetMicPosition() < 122000)
                     mNewFrame = true;
-                if ( mNewFrame && mNoiseDetection.GetMicPosition() > 122000 && mNoiseDetection.GetAudioClip().length > 2 && mNoiseDetection.GetMicData()!=null)
+                if (mNewFrame && mNoiseDetection.GetMicPosition() > 122000 && mNoiseDetection.GetAudioClip().length > 2 && mNoiseDetection.GetMicData() != null)
                 {
                     mNewFrame = false;
                     AudioClip lAudioClip = AudioClip.Create(mNoiseDetection.GetAudioClip().name, mNoiseDetection.GetAudioClip().samples, mNoiseDetection.GetAudioClip().channels, mNoiseDetection.GetAudioClip().frequency, false, false);
@@ -169,33 +156,26 @@ namespace BuddyApp.Guardian
                     mNoiseDetection.GetAudioClip().GetData(samples, 0);
                     lAudioClip.SetData(samples, 0);
                     mListAudio.Enqueue(lAudioClip);
-                    if (mListAudio.Count > 4)
+                    if (mListAudio.Count > iNbOfClipToKeep)
                         mListAudio.Dequeue();
                 }
             }
-            if (mTime > mNbSecAfter)
-                mState = State.BUFFER_FILLED;
         }
 
         private void SaveFiles()
         {
             byte[][] lArrayFrames = mListFrame.ToArray();
-            
-            
+             
             string lDirectoryPath = Path.GetDirectoryName(BYOS.Instance.Resources.PathToRaw("monitoring.mp4"));
             Directory.CreateDirectory(lDirectoryPath);
-            //Utils.Save(BYOS.Instance.Resources.PathToRaw("son.wav"), mAudioClip);
+
             for (int i = 0; i < lArrayFrames.Length; i++)
             {
                 currentActivity.Call("addPicture", lArrayFrames[i]);
             }
-            Debug.Log("fini call");
             mFPS = mListFrame.Count / (mNbSecAfter+mNbSecBefore);
             currentActivity.Call("saveVideo", mFPS, BYOS.Instance.Resources.PathToRaw("monitoring.mp4"), "AIBehaviour", "VideoSaved");
-            Debug.Log("apres call: "+ mListAudio.Count);
             Utils.Save(BYOS.Instance.Resources.PathToRaw("audio.wav"), Utils.Combine(mListAudio.ToArray()));
-            Debug.Log("apres audio");
-            //currentActivity.Call("saveVideo", mFPS, BYOS.Instance.Resources.PathToRaw("monitoring.mp4"), lArray, lArrayFrames.Length, maxLength, "AIBehaviour", "VideoSaved");
             mState = State.WAIT_SAVE;
         }
 
@@ -226,9 +206,6 @@ namespace BuddyApp.Guardian
             mState = State.DEFAULT;
             BYOS.Instance.WebService.EMailSender.enabled = false;
             mMail = null;
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
         }
     }
 }
