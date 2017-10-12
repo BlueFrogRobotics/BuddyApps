@@ -85,6 +85,8 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			// Go back to middle
+			Primitive.Motors.NoHinge.SetPosition(0, Primitive.Motors.NoHinge.MaximumSpeed);
 			Interaction.Mood.Set(MoodType.NEUTRAL);
 		}
 	}
