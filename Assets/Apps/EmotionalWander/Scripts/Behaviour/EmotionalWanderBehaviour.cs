@@ -74,12 +74,12 @@ namespace BuddyApp.EmotionalWander
 
 		void OnEnable()
 		{
-			if (!mInitialized)
-				Start();
+			//if (!mInitialized)
+			//	Start();
 
-			if (mFirst) {
-				mFirst = false;
-			} else {
+			//if (mFirst) {
+			//	mFirst = false;
+			//} else {
 				mTurningTime = 7F;
 				mHeadPlaying = false;
 				mChangingDirection = false;
@@ -95,13 +95,14 @@ namespace BuddyApp.EmotionalWander
 					mMood.Set(MoodType.NEUTRAL);
 				mYesHinge.SetPosition(mHeadPos);
 				FaceRandomDirection(80F);
-			}
+			//}
 		}
 
 
 		void Update()
 		{
 			if (mWander) {
+				mMood.Set(mWanderMood);
 				if (mUpdateTime < 0.1F) {
 					mUpdateTime += Time.deltaTime;
 					return;
@@ -127,19 +128,19 @@ namespace BuddyApp.EmotionalWander
 			string lSpeech = iSpeech.ToLower();
 			if (lSpeech.Contains("sad") || lSpeech.Contains("triste")) {
 				StartWander((int)MoodType.SAD);
-			} else if (lSpeech.Contains("happy") || lSpeech.Contains("heureux")) {
+			} else if (lSpeech.Contains("happy") || lSpeech.Contains("heureux") || lSpeech.Contains("heureuse")) {
 				StartWander((int)MoodType.HAPPY);
 			} else if (lSpeech.Contains("neutral") || lSpeech.Contains("neutre")) {
 				StartWander((int)MoodType.NEUTRAL);
-			} else if (lSpeech.Contains("lovely") || lSpeech.Contains("amoureux")) {
+			} else if (lSpeech.Contains("lovely") || lSpeech.Contains("amoureux") || lSpeech.Contains("amoureuse")) {
 				StartWander((int)MoodType.LOVE);
-			} else if (lSpeech.Contains("angry") || lSpeech.Contains("énervé")) {
+			} else if (lSpeech.Contains("angry") || lSpeech.Contains("énervé") || lSpeech.Contains("énervée")) {
 				StartWander((int)MoodType.ANGRY);
-			} else if (lSpeech.Contains("scared") || lSpeech.Contains("effrayé")) {
+			} else if (lSpeech.Contains("scared") || lSpeech.Contains("effrayé") || lSpeech.Contains("effrayée") ) {
 				StartWander((int)MoodType.SCARED);
 			} else if (lSpeech.Contains("sick") || lSpeech.Contains("malade")) {
 				StartWander((int)MoodType.SICK);
-			} else if (lSpeech.Contains("tired") || lSpeech.Contains("fatigué")) {
+			} else if (lSpeech.Contains("tired") || lSpeech.Contains("fatigué") || lSpeech.Contains("fatiguée")) {
 				StartWander((int)MoodType.TIRED);
 			} else if (lSpeech.Contains("stop") || lSpeech.Contains("arrête")) {
 				StopWander();
@@ -495,6 +496,7 @@ namespace BuddyApp.EmotionalWander
 		public void StopWander()
 		{
 			mWander = false;
+			mMood.Set(MoodType.NEUTRAL);
 		}
 
 

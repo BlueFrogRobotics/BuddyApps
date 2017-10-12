@@ -33,7 +33,8 @@ namespace BuddyApp.Guardian
         private bool OnClickParameters()
         {
             Animator.Play("Parameters");
-            return false;
+			BYOS.Instance.Header.DisplayParametersButton = false;
+			return false;
         }
 
         private void OnCancelUnlockScreen()
