@@ -70,6 +70,9 @@ namespace BuddyApp.EmotionalWander
 			mVocMan.EnableTrigger = true;
 			mVocMan.EnableDefaultErrorHandling = true;
 			mVocMan.OnEndReco = OnSpeechReco;
+
+			mVocMan.StartListenBehaviour = StartListenBehaviour;
+			mVocMan.StopListenBehaviour = StopListenBehaviour;
 		}
 
 		void OnEnable()
@@ -775,6 +778,17 @@ namespace BuddyApp.EmotionalWander
 			mWanderTime = Time.time;
 			mEmoteTime = Time.time;
 			mChangingDirection = false;
+		}
+
+
+		private void StartListenBehaviour()
+		{
+
+		}
+
+		private void StopListenBehaviour()
+		{
+
 		}
 
 

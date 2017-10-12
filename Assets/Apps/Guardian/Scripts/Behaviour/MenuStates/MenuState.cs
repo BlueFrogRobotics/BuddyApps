@@ -49,8 +49,6 @@ namespace BuddyApp.Guardian
 			Interaction.VocalManager.OnEndReco = OnSpeechReco;
 			Interaction.VocalManager.EnableDefaultErrorHandling = false;
 			Interaction.VocalManager.OnError = Empty;
-			Interaction.VocalManager.StartListenBehaviour = StartListenBehaviour;
-			Interaction.VocalManager.StopListenBehaviour = StopListenBehaviour;
 			mTimer = 0.0f;
 			mListening = false;
 			IEnumerator lAction = WaitTTSLoading();
@@ -225,15 +223,6 @@ namespace BuddyApp.Guardian
 		{
 		}
 
-		private void StartListenBehaviour()
-		{
-
-		}
-
-		private void StopListenBehaviour()
-		{
-
-		}
 
 	}
 }
