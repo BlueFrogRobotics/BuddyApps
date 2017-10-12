@@ -160,7 +160,7 @@ namespace BuddyApp.Guardian
 		{
             HasLinkedDetector = true;
             mMotionDetection.OnDetect(OnMovementDetected, GuardianData.Instance.MovementDetectionThreshold*MAX_MOVEMENT_THRESHOLD/100);
-            mNoiseDetection.OnDetect(OnSoundDetected, 1.0f - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f) * MAX_SOUND_THRESHOLD);
+            mNoiseDetection.OnDetect(OnSoundDetected);
             mFireDetection.OnDetect(OnThermalDetected, 50);
             //mFireDetection.Threshold = 50;
             mKidnappingDetection.OnDetect(OnKidnappingDetected, KIDNAPPING_THRESHOLD);

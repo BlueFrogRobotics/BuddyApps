@@ -129,7 +129,8 @@ namespace BuddyApp.Guardian
             mDebugSoundWindow.Ico.enabled = false;
             mNoiseDetection.StopOnDetect(OnNewSound);
             //Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
-            mDebugSoundWindow.ButtonBack.onClick.RemoveAllListeners();  
+            mDebugSoundWindow.ButtonBack.onClick.RemoveAllListeners();
+            Interaction.TextToSpeech.Stop();
         }
 
         private void GoBack()

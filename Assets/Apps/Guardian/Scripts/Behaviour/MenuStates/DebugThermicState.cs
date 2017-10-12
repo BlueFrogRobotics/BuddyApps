@@ -29,8 +29,6 @@ namespace BuddyApp.Guardian
             mHasOpenedWindow = false;
             mTimer = 0.0f;
 
-
-
 			Interaction.TextToSpeech.SayKey("thermaldebug");
 
 		}
@@ -67,6 +65,7 @@ namespace BuddyApp.Guardian
             GuardianData.Instance.FirstRunParam = false;
             mShowTemperature.ButtonBack.onClick.RemoveAllListeners();
             mThermalDetection.StopOnDetect(OnFireDetected);
+            Interaction.TextToSpeech.Stop();
             //Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
         }
 

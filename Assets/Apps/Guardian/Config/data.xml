@@ -3,11 +3,11 @@
     <FirstRunParam>true</FirstRunParam>
     <FirstRun>false</FirstRun>
     <MobileDetection>false</MobileDetection>
-    <ScanDetection>false</ScanDetection>
+    <ScanDetection>true</ScanDetection>
     <MovementDetectionThreshold>69</MovementDetectionThreshold>
-    <SoundDetectionThreshold>100</SoundDetectionThreshold>
-    <MovementDetection>true</MovementDetection>
-    <SoundDetection>false</SoundDetection>
+    <SoundDetectionThreshold>53</SoundDetectionThreshold>
+    <MovementDetection>false</MovementDetection>
+    <SoundDetection>true</SoundDetection>
     <FireDetection>false</FireDetection>
     <KidnappingDetection>false</KidnappingDetection>
     <SendMail>false</SendMail>
@@ -25,6 +25,5 @@
         <BirthDate>0001-01-01T00:00:00</BirthDate>
         <Password>123456</Password>
         <Session>USER</Session>
-        <Permissions />
     </Contact>
 </GuardianData>

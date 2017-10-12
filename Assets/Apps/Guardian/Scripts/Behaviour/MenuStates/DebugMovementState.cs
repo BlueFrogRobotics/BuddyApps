@@ -107,6 +107,7 @@ namespace BuddyApp.Guardian
             mMovementTracker.StopOnDetect(OnMovementDetected);
             if(mCam.IsOpen)
                 mCam.Close();
+            Interaction.TextToSpeech.Stop();
         }
 
         private void DisplayMovement()
