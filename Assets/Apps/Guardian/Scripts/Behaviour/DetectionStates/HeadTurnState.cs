@@ -34,7 +34,13 @@ namespace BuddyApp.Guardian
 
 			// Random time before turn
 
+			// Check for numpad
+			if (GetBool("Password"))
+				yield return new WaitForSeconds(1F);
+
+
 			yield return new WaitForSeconds(UnityEngine.Random.Range(1F, 4F));
+
 
 			mDetectionManager.IsDetectingMovement = false;
 			//mDetectionManager.IsDetectingKidnapping = false;
