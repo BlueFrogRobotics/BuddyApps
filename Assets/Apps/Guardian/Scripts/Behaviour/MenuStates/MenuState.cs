@@ -90,7 +90,7 @@ namespace BuddyApp.Guardian
 
 					Interaction.VocalManager.StartInstantReco();
 
-					//  Interaction.Mood.Set(MoodType.LISTENING);
+					Interaction.Mood.Set(MoodType.LISTENING);
 					mListening = true;
 					return;
 				}
@@ -219,7 +219,8 @@ namespace BuddyApp.Guardian
 
 		private void Empty(STTError iError)
 		{
-		}
+            Interaction.Mood.Set(MoodType.NEUTRAL);
+        }
 
 		private void Empty(string iVoice)
 		{
