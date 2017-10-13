@@ -70,6 +70,9 @@ namespace BuddyApp.EmotionalWander
 			mVocMan.EnableTrigger = true;
 			mVocMan.EnableDefaultErrorHandling = true;
 			mVocMan.OnEndReco = OnSpeechReco;
+
+			mVocMan.StartListenBehaviour = StartListenBehaviour;
+			mVocMan.StopListenBehaviour = StopListenBehaviour;
 		}
 
 		void OnEnable()
@@ -156,28 +159,28 @@ namespace BuddyApp.EmotionalWander
 			//switch (Random.Range(0, 5)) {
 			switch (mWanderMood) {
 				case MoodType.NEUTRAL:
-					mTTS.Say("Tout va bien pour moi", true);
+					mTTS.Say("Everything is alright", true);
 					break;
 				case MoodType.SCARED:
-					mTTS.Say("Au secours, j'ai peur!", true);
+					mTTS.Say("Help, I'm scared!", true);
 					break;
 				case MoodType.ANGRY:
-					mTTS.Say("Grrr, je suis énervé! [200] grrr", true);
+					mTTS.Say("Argg! I'm angry! [200] Argg", true);
 					break;
 				case MoodType.LOVE:
-					mTTS.Say("Je vous aime!", true);
+					mTTS.Say("I love you!", true);
 					break;
 				case MoodType.SAD:
-					mTTS.Say("Je suis triste", true);
+					mTTS.Say("I'm so sad, life is hard...", true);
 					break;
 				case MoodType.HAPPY:
-					mTTS.Say("Je suis trop content", true);
+					mTTS.Say("I'm so happy!", true);
 					break;
 				case MoodType.SICK:
-					mTTS.Say("Cof cof, je suis malade", true);
+					mTTS.Say("Cof cof, I'm sick", true);
 					break;
 				case MoodType.TIRED:
-					mTTS.Say("Je suis trop fatigué!", true);
+					mTTS.Say("I'm so tired, I need some Watts", true);
 					break;
 			}
 			//mTTS.Say(lSentence, true);
@@ -627,7 +630,7 @@ namespace BuddyApp.EmotionalWander
 		private IEnumerator SadHeadCo()
 		{
 			while (mHeadPlaying) {
-				TurnHeadYes(Random.Range(mYesHinge.MinimumAngle / 2, mYesHinge.MinimumAngle), Random.Range(10F, 25F));
+				TurnHeadYes(Random.Range(mYesHinge.MinimumAngle / 2, mYesHinge.MinimumAngle * 2 / 3), Random.Range(10F, 25F));
 				yield return new WaitForSeconds(4.3F);
 				TurnHeadYes(Random.Range(mYesHinge.MaximumAngle / 1.5F, mYesHinge.MaximumAngle), Random.Range(15F, 30F));
 				yield return new WaitForSeconds(mRandomWanderTime);
@@ -638,7 +641,7 @@ namespace BuddyApp.EmotionalWander
 		private IEnumerator HappyHeadCo()
 		{
 			while (mHeadPlaying) {
-				TurnHeadYes(Random.Range(mYesHinge.MinimumAngle / 1.5F, mYesHinge.MinimumAngle), Random.Range(50F, 70F));
+				TurnHeadYes(Random.Range(mYesHinge.MinimumAngle / 1.5F, mYesHinge.MinimumAngle * 2 / 3), Random.Range(50F, 70F));
 				TurnHeadNo(Random.Range(10F, 30F), Random.Range(50F, 70F));
 				yield return new WaitForSeconds(1F);
 			}
@@ -699,7 +702,7 @@ namespace BuddyApp.EmotionalWander
 
 		private void TurnHeadUp(float iHeadUp)
 		{
-			mYesHinge.SetPosition(Random.Range(mYesHinge.MinimumAngle / 2, mYesHinge.MinimumAngle), 15F);
+			mYesHinge.SetPosition(Random.Range(mYesHinge.MinimumAngle / 2, mYesHinge.MinimumAngle * 2 / 3), 15F);
 		}
 
 		private void TurnHeadDown()
@@ -775,6 +778,17 @@ namespace BuddyApp.EmotionalWander
 			mWanderTime = Time.time;
 			mEmoteTime = Time.time;
 			mChangingDirection = false;
+		}
+
+
+		private void StartListenBehaviour()
+		{
+
+		}
+
+		private void StopListenBehaviour()
+		{
+
 		}
 
 

@@ -111,7 +111,6 @@ namespace BuddyApp.Guardian
 
 			mFireDetection = BYOS.Instance.Perception.Thermal;
 			//mFireDetection.OnDetect(OnThermalDetected);
-			mFireDetection.Threshold = 50;
 			
 					
 			mKidnappingDetection = BYOS.Instance.Perception.Kidnapping;
