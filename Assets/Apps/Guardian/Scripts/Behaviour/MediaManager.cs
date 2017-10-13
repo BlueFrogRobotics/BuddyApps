@@ -26,7 +26,7 @@ namespace BuddyApp.Guardian
         private int mFPS = 20;
 
         private int mNbSecBefore = 3;
-        private int mNbSecAfter = 12;
+        private int mNbSecAfter = 9;
 
         private RGBCam mCam;
 
