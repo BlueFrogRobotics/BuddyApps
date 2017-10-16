@@ -14,11 +14,9 @@ namespace BuddyApp.Guardian
     /// </summary>
 	public class MovementAlert : AAlert
 	{
-		private RGBCam mWebcam;
 
 		public MovementAlert() : base()
 		{
-			mWebcam = BYOS.Instance.Primitive.RGBCam;
 		}
 
         /// <summary>

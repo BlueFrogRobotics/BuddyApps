@@ -108,7 +108,7 @@ namespace BuddyApp.Guardian
 
 		private void OnSuccessUnlockScreen()
 		{
-			BYOS.Instance.Primitive.Speaker.ChangeVolume(mDetectionManager.mVolume);
+			BYOS.Instance.Primitive.Speaker.ChangeVolume(mDetectionManager.Volume);
 			mDetectionManager.CurrentTimer = 0f;
             mDetectionManager.Countdown = 0f;
 

@@ -20,7 +20,6 @@ namespace BuddyApp.Guardian
         {
             mDetectionManager = GetComponent<DetectionManager>();
 
-
             BYOS.Instance.Primitive.Speaker.FX.Load(
                    BYOS.Instance.Resources.Load<AudioClip>("alarmbeep"), 0
                );
@@ -32,9 +31,6 @@ namespace BuddyApp.Guardian
 
             mDetectionManager.CurrentTimer = 0.0f;
             mDetectionManager.Countdown = 0.0f;
-
-
-            Debug.Log("Start Alert");
 
             mDetectionManager.IsPasswordCorrect = false;
 
@@ -48,14 +44,11 @@ namespace BuddyApp.Guardian
 
             mAlert = GetAlert();
             
-
             Interaction.Mood.Set(MoodType.SCARED);
             Interaction.TextToSpeech.Say(mAlert.GetSpeechText());
 
             mAction = DisplayAlert();
             StartCoroutine(mAction);
-
-			//WebService.EMailSender.enabled = true;
 
 			// Send notification to mybuddyapp
 			WebRTCListener.SendNotification(mAlert.GetMail().Subject, mAlert.GetMail().Body);
@@ -78,7 +71,7 @@ namespace BuddyApp.Guardian
 
             if (mDetectionManager.CurrentTimer > 15f && !mDetectionManager.IsPasswordCorrect && mAlarm) 
             {
-				mDetectionManager.mVolume = Primitive.Speaker.GetVolume();
+				mDetectionManager.Volume = Primitive.Speaker.GetVolume();
 				Primitive.Speaker.ChangeVolume(15);
                 mDetectionManager.Countdown += Time.deltaTime;
                 mAlarm = false;
@@ -90,7 +83,7 @@ namespace BuddyApp.Guardian
             if (mDetectionManager.Countdown > 30f)
             {
 
-				Primitive.Speaker.ChangeVolume(mDetectionManager.mVolume);
+				Primitive.Speaker.ChangeVolume(mDetectionManager.Volume);
 				iAnimator.SetBool("Password", false);
 
                 mDetectionManager.IsAlarmWorking = false;
@@ -99,8 +92,6 @@ namespace BuddyApp.Guardian
                 Trigger("InitDetection");
             }
 
-
-            //ptetre la
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -120,16 +111,11 @@ namespace BuddyApp.Guardian
         {
             
             EMail lMail = mAlert.GetMail();
-            Debug.Log("send mail pre");
             if (lMail == null)
                 return;
 
-            Debug.Log("send mail post");
             lMail.AddTo(iAddress);
             GetComponent<MediaManager>().Save(lMail);
-            //WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnMailSent);
-            //BYOS.Instance.WebService.EMailSender.enabled = true;
-            Debug.Log("send mail encore apres");
         }
 
         private AAlert GetAlert()
@@ -154,7 +140,6 @@ namespace BuddyApp.Guardian
 
         private void OnMailSent()
         {
-            Debug.Log("le mail a ete fabuleusement envoye");
             Notifier.Display<SimpleNot>().With(Dictionary.GetString("mailsent"), null);
         }
 

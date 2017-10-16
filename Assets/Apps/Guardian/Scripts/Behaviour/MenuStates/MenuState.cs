@@ -45,16 +45,11 @@ namespace BuddyApp.Guardian
 			mHasLoadedTTS = true;
 			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askchoices"));
 
-			//Detection.NoiseStimulus.enabled = false;
 			Interaction.VocalManager.OnEndReco = OnSpeechReco;
 			Interaction.VocalManager.EnableDefaultErrorHandling = false;
 			Interaction.VocalManager.OnError = Empty;
 			mTimer = 0.0f;
 			mListening = false;
-			IEnumerator lAction = WaitTTSLoading();
-			//StartCoroutine(lAction);
-			//if (!BYOS.Instance.Primitive.RGBCam.IsOpen)
-			//	BYOS.Instance.Primitive.RGBCam.Open(RGBCamResolution.W_176_H_144);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -77,14 +72,8 @@ namespace BuddyApp.Guardian
 					return;
 				}
 
-				//if (!Toaster.IsDisplayed)
-				//{
-				//    mHasDisplayChoices = false;
-				//    //mListening = false;
-				//}
 
 				if (string.IsNullOrEmpty(mSpeechReco)) {
-					//Interaction.SpeechToText.Request();
 
 					Interaction.VocalManager.StartInstantReco();
 
@@ -194,7 +183,6 @@ namespace BuddyApp.Guardian
 		{
 			mSpeechReco = null;
 			Trigger("Parameter");
-			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
 			Interaction.VocalManager.OnEndReco = Empty;
 		}
 

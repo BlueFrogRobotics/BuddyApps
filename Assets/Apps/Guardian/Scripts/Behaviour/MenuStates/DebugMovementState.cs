@@ -17,12 +17,10 @@ namespace BuddyApp.Guardian
 
         private RawImage mRaw;
         private Gauge mGauge;
-        private Mat mMask;
         private Texture2D mTexture;
         private RGBCam mCam;
         private float mTimer;
 
-        private Mat mMatRed;
         private bool mHasDetectedMouv = false;
         private bool mHasInitSlider = false;
         private bool mGoBack = false;
@@ -52,13 +50,10 @@ namespace BuddyApp.Guardian
         {
             Start();
             mTexture = new Texture2D(mCam.Width, mCam.Height);
-            mMask = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3);
             mDebugMovementWindow.ButtonBack.onClick.AddListener(GoBack);
             mTimer = 0.0f;
-            mMatRed = new Mat(mCam.Height, mCam.Width, CvType.CV_8UC3, new Scalar(254, 0, 0));
             if (!mCam.IsOpen)
                 mCam.Open(RGBCamResolution.W_320_H_240);
-            //Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
             mMovementTracker.OnDetect(OnMovementDetected);
             mCam.Resolution = RGBCamResolution.W_320_H_240;
             Interaction.TextToSpeech.SayKey("motiondetectionmessage");

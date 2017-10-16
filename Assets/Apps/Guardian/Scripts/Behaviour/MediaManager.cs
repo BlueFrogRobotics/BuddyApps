@@ -27,7 +27,14 @@ namespace BuddyApp.Guardian
 
         private int mFPS = 20;
 
+        /// <summary>
+        /// number of seconds of video and audio before an alert
+        /// </summary>
         private int mNbSecBefore = 3;
+
+        /// <summary>
+        /// number of seconds of video and audio after an alert
+        /// </summary>
         private int mNbSecAfter = 9;
 
         private RGBCam mCam;
@@ -41,8 +48,6 @@ namespace BuddyApp.Guardian
         private AndroidJavaObject currentActivity;
         
         private NoiseDetection mNoiseDetection;
-        private MotionDetection mMotionDetection;
-        private AudioClip mAudioClip;
         private float mTime = 0.0f;
 
         private EMail mMail;
@@ -50,7 +55,6 @@ namespace BuddyApp.Guardian
         // Use this for initialization
         void Start()
         {
-            mMotionDetection = BYOS.Instance.Perception.Motion;
             mNoiseDetection = BYOS.Instance.Perception.Noise;
             mState = State.DEFAULT;
             mListFrame = new Queue<byte[]>();
@@ -80,7 +84,7 @@ namespace BuddyApp.Guardian
                     WaitForSave();
                     break;
                 case State.FILES_SAVED:
-                    SavesComplete();
+                    StartSendmail();
                     break;
                 case State.MAIL_SENDING:
                     SendingMail();
@@ -91,6 +95,10 @@ namespace BuddyApp.Guardian
             }
         }
 
+        /// <summary>
+        /// Start the recording of the video and audio. When the recording ends, it will the send the mail with the files attached.
+        /// </summary>
+        /// <param name="iMail">The mail that will be sent with the audio and video files attached</param>
         public void Save(EMail iMail)
         {
             if (mState == State.DEFAULT)
@@ -101,6 +109,10 @@ namespace BuddyApp.Guardian
             }
         }
 
+        /// <summary>
+        /// Function that will be called by the android plugin when the video encoding is over
+        /// </summary>
+        /// <param name="message">the message sent from android plugin</param>
         public void VideoSaved(string message)
         {
             Debug.Log("message: "+message);
@@ -112,7 +124,7 @@ namespace BuddyApp.Guardian
         }
 
         /// <summary>
-        /// Fills video and audio buffer continuously when there is no detection
+        /// Fills video and audio buffer continuously when save function has not been called
         /// </summary>
         private void FillCircularBuffer()
         {
@@ -126,13 +138,14 @@ namespace BuddyApp.Guardian
 
         }
 
+        /// <summary>
+        /// Fills the buffer until a certain amount of time has been passed
+        /// </summary>
         private void FillNextBuffer()
         {
             if (mCam.IsOpen)
             {
                 mListFrame.Enqueue(mCam.FrameTexture2D.EncodeToPNG());
-                //if (mListFrame.Count > mFPS * (mNbSecBefore + mNbSecAfter))
-                 //   mState = State.BUFFER_FILLED;
             }
             
             mTime += Time.deltaTime;
@@ -142,6 +155,10 @@ namespace BuddyApp.Guardian
                 mState = State.BUFFER_FILLED;
         }
 
+        /// <summary>
+        /// Fills the audio clip queue with a number of audioclip. Each audioclip is set to 3 seconds.
+        /// </summary>
+        /// <param name="iNbOfClipToKeep">the number of audioclip to add to the queue</param>
         private void FillAudioBuffer(int iNbOfClipToKeep)
         {
             if (mNoiseDetection.enabled)
@@ -151,7 +168,7 @@ namespace BuddyApp.Guardian
                 if (mNewFrame && mNoiseDetection.GetMicPosition() > 122000 && mNoiseDetection.GetAudioClip().length > 2 && mNoiseDetection.GetMicData() != null)
                 {
                     mNewFrame = false;
-                    AudioClip lAudioClip = AudioClip.Create(mNoiseDetection.GetAudioClip().name, mNoiseDetection.GetAudioClip().samples, mNoiseDetection.GetAudioClip().channels, mNoiseDetection.GetAudioClip().frequency, false, false);
+                    AudioClip lAudioClip = AudioClip.Create(mNoiseDetection.GetAudioClip().name, mNoiseDetection.GetAudioClip().samples, mNoiseDetection.GetAudioClip().channels, mNoiseDetection.GetAudioClip().frequency, false);
                     float[] samples = new float[mNoiseDetection.GetAudioClip().samples * mNoiseDetection.GetAudioClip().channels];
                     mNoiseDetection.GetAudioClip().GetData(samples, 0);
                     lAudioClip.SetData(samples, 0);
@@ -162,6 +179,9 @@ namespace BuddyApp.Guardian
             }
         }
 
+        /// <summary>
+        /// Saves the audio and video buffers respectively in a wav and a mp4 file
+        /// </summary>
         private void SaveFiles()
         {
             byte[][] lArrayFrames = mListFrame.ToArray();
@@ -179,17 +199,26 @@ namespace BuddyApp.Guardian
             mState = State.WAIT_SAVE;
         }
 
+        /// <summary>
+        /// Called in update when the video is being encoded
+        /// </summary>
         private void WaitForSave()
         {
             //mState = State.FILES_SAVED;
         }
 
+        /// <summary>
+        /// Called in update when the mail is being sent
+        /// </summary>
         private void SendingMail()
         {
 
         }
 
-        private void SavesComplete()
+        /// <summary>
+        /// Function that attached the audio and video files and attached them to the eamil before sending it
+        /// </summary>
+        private void StartSendmail()
         {
             BYOS.Instance.WebService.EMailSender.enabled = true;
             mMail.AddFile(BYOS.Instance.Resources.PathToRaw("monitoring.mp4"));
@@ -201,6 +230,9 @@ namespace BuddyApp.Guardian
             mState = State.MAIL_SENDING;
         }
 
+        /// <summary>
+        /// Function that will be called when the email has beent sent
+        /// </summary>
         private void OnMailSent()
         {
             mState = State.DEFAULT;
