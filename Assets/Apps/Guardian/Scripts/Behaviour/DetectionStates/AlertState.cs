@@ -132,10 +132,10 @@ namespace BuddyApp.Guardian
         {
             switch (mDetectionManager.Detected) {
                 case DetectionManager.Alert.MOVEMENT:
-                    return new MovementAlert(mDetectionManager.SaveVideo);
+                    return new MovementAlert();
 
                 case DetectionManager.Alert.SOUND:
-                    return new SoundAlert(mDetectionManager.SaveAudio);
+                    return new SoundAlert();
 
                 case DetectionManager.Alert.FIRE:
                     return new FireAlert();

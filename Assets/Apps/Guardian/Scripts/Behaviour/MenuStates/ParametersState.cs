@@ -38,8 +38,7 @@ namespace BuddyApp.Guardian
 			GuardianData.Instance.MovementDebug = false;
 			GuardianData.Instance.SoundDebug = false;
 			GuardianData.Instance.FireDebug = false;
-
-			//mDetectionLayout = new GuardianLayout();
+            
 			mHasSwitchState = false;
 
             if (GuardianData.Instance.FirstRunParam)
@@ -47,7 +46,6 @@ namespace BuddyApp.Guardian
                 Interaction.TextToSpeech.SayKey("firstparam");
                
             }
-
 
 			BYOS.Instance.Toaster.Display<ParameterToast>().With(mDetectionLayout,
 				() => { Trigger("NextStep"); },
@@ -72,23 +70,14 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-            //BYOS.Instance.Toaster.Hide();
-            //GuardianData.Instance.FirstRun = false;
-            //mDetectionLayout.mContacts.SetDefault(GuardianData.Instance.Contact.FirstName + " " + GuardianData.Instance.Contact.LastName);
+            
         }
-
-		private void SetThreshold()
-		{
-			//Detection.NoiseStimulus.Threshold = (100.0f - GuardianData.Instance.SoundDetectionThreshold) / 100.0f * 0.3f;
-		}
 
 		private void SwitchState(Animator iAnimator, ParameterWindow iParamWindow)
 		{
 			Toaster.Hide();
 			Toaster.Display<BackgroundToast>().With();
 			mHasSwitchState = true;
-			//Detection.NoiseStimulus.enabled = true;
-			SetThreshold();
 			iAnimator.SetInteger("DebugMode", (int)iParamWindow);
 		}
 

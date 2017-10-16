@@ -9,54 +9,61 @@ using UnityEngine;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// Defines a mouvement detection alert
+    /// </summary>
 	public class MovementAlert : AAlert
 	{
-		private SaveVideo mSaveVideo;
 		private RGBCam mWebcam;
 
-		public MovementAlert(SaveVideo iSaveVideo) : base()
+		public MovementAlert() : base()
 		{
-			mSaveVideo = iSaveVideo;
 			mWebcam = BYOS.Instance.Primitive.RGBCam;
 		}
 
+        /// <summary>
+        /// Return the text that will be display during a movement detection
+        /// </summary>
+        /// <returns>the message shown</returns>
 		public override string GetDisplayText()
 		{
 			return BYOS.Instance.Dictionary.GetString("movementalert");
 		}
 
+        /// <summary>
+        /// Return the text that will be said by buddy when a movement alert occurs
+        /// </summary>
+        /// <returns>the text said by buddy</returns>
 		public override string GetSpeechText()
 		{
 			return BYOS.Instance.Dictionary.GetRandomString("movementalert");
 		}
 
+        /// <summary>
+        /// Return the icon that will be shown when a movement alert occurs
+        /// </summary>
+        /// <returns>the Sprite that will be shown</returns>
 		public override Sprite GetIcon()
 		{
 			return BYOS.Instance.Resources.GetSprite("Movement_Alert", "GuardianAtlas");
 		}
 
+        /// <summary>
+        /// Return the log that explain the movement alert
+        /// </summary>
+        /// <returns>the log</returns>
 		public override string GetLog()
 		{
 			return FormatLog("movementalertmessage");
 		}
 
+        /// <summary>
+        /// Return the email that will be sent when a movement alert occurs
+        /// </summary>
+        /// <returns>the email that will be sent</returns>
 		public override EMail GetMail()
 		{
-			//if (mWebcam != null && !mWebcam.IsOpen)
-			//	mWebcam.Open(RGBCamResolution.W_176_H_144);
-
-   //         mSaveVideo.Save("monitoring.avi");
-
-   //         using (ZipFile zip = new ZipFile())
-   //         {
-   //             string filepath = BYOS.Instance.Resources.PathToRaw("monitoring.avi");
-   //             zip.AddFile(filepath, "video");
-   //             zip.Save(BYOS.Instance.Resources.PathToRaw("video.zip"));
-   //         }
-
             EMail lMail = new EMail("Movement alert", FormatMessage("movementalertmessage"));
-
-			//lMail.AddFile(BYOS.Instance.Resources.PathToRaw("video.zip"));
 
 			return lMail;
 		}

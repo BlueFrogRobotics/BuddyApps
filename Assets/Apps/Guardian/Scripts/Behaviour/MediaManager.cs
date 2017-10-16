@@ -7,7 +7,9 @@ using System.IO;
 
 namespace BuddyApp.Guardian
 {
-
+    /// <summary>
+    /// Class used to save continuously video and audio and sent them by mail when an alert occurs
+    /// </summary>
     public class MediaManager : MonoBehaviour
     {
         private enum State : int
@@ -63,7 +65,6 @@ namespace BuddyApp.Guardian
         // Update is called once per frame
         void Update()
         {
-            //Debug.Log("sample: " + mNoiseDetection.GetMicPosition());
             switch(mState)
             {
                 case State.DEFAULT:
@@ -108,7 +109,6 @@ namespace BuddyApp.Guardian
             mState = State.FILES_SAVED;
             currentActivity.Call("clearPicture");
             mNewFrame = true;
-            //BYOS.Instance.Header.SpinningWheel = false;
         }
 
         /// <summary>
