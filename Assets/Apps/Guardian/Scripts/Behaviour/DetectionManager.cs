@@ -26,6 +26,8 @@ namespace BuddyApp.Guardian
 		private NoiseDetection mNoiseDetection;
 		private ThermalDetection mFireDetection;
 
+		public int mVolume;
+
         public float CurrentTimer { get; set; }
         public float Countdown { get; set; }
 
@@ -76,10 +78,11 @@ namespace BuddyApp.Guardian
             Debug.Log("awake mono");
             mAnimator = GetComponent<Animator>();
 			GuardianActivity.Init(mAnimator, this);
-		}
+        }
 
 		void Start()
 		{
+			mVolume = BYOS.Instance.Primitive.Speaker.GetVolume();
             Debug.Log("start mono");
             Init();
             mMediaManager = GetComponent<MediaManager>();

@@ -34,7 +34,7 @@ namespace BuddyApp.Guardian
             mDetectionManager.Countdown = 0.0f;
 
 
-            Debug.Log("debut Alerte");
+            Debug.Log("Start Alert");
 
             mDetectionManager.IsPasswordCorrect = false;
 
@@ -78,6 +78,8 @@ namespace BuddyApp.Guardian
 
             if (mDetectionManager.CurrentTimer > 15f && !mDetectionManager.IsPasswordCorrect && mAlarm) 
             {
+				mDetectionManager.mVolume = Primitive.Speaker.GetVolume();
+				Primitive.Speaker.ChangeVolume(15);
                 mDetectionManager.Countdown += Time.deltaTime;
                 mAlarm = false;
                 mDetectionManager.IsAlarmWorking = true;
@@ -87,7 +89,9 @@ namespace BuddyApp.Guardian
 
             if (mDetectionManager.Countdown > 30f)
             {
-                iAnimator.SetBool("Password", false);
+
+				Primitive.Speaker.ChangeVolume(mDetectionManager.mVolume);
+				iAnimator.SetBool("Password", false);
 
                 mDetectionManager.IsAlarmWorking = false;
                 BYOS.Instance.Primitive.Speaker.FX.Loop = false;
