@@ -9,9 +9,12 @@ namespace BuddyApp.Guardian
 	/// <summary>
 	/// Manager class that have reference to the differents stimuli and subscribes to their callbacks
 	/// </summary>
+	[RequireComponent(typeof(SaveAudio))]
+	[RequireComponent(typeof(SaveVideo))]
 	[RequireComponent(typeof(RoombaNavigation))]
 	public class DetectionManager : MonoBehaviour
 	{
+
 		public const float MAX_SOUND_THRESHOLD = 0.3F;
 		public const float KIDNAPPING_THRESHOLD = 4.5F;
 		public const float MAX_MOVEMENT_THRESHOLD = 100.0F;
@@ -22,17 +25,29 @@ namespace BuddyApp.Guardian
 		private MotionDetection mMotionDetection;
 		private NoiseDetection mNoiseDetection;
 		private ThermalDetection mFireDetection;
-        private MediaManager mMediaManager;
+
+		public int mVolume;
 
         public float CurrentTimer { get; set; }
         public float Countdown { get; set; }
 
         public string Logs { get; private set; }
 
+		public SaveAudio SaveAudio { get; private set; }
+		public SaveVideo SaveVideo { get; private set; }
 
 		public bool PreviousScanLeft { get; set; }
 
 		public RoombaNavigation Roomba { get; private set; }
+
+		//public NoiseStimulus NoiseStimulus { get; private set; }
+		//public MoveSideStimulus MoveSideStimulus { get; private set; }
+		//public ThermalStimulus ThermalStimulus { get; private set; }
+		//public AccelerometerStimulus AccelerometerStimulus { get; private set; }
+		//public MotionDetection MovementTracker { get; private set; }
+
+
+		//public Stimuli Stimuli { get; set; }
 
 		public bool IsDetectingFire { get; set; }
 		public bool IsDetectingMovement { get; set; }
@@ -45,7 +60,7 @@ namespace BuddyApp.Guardian
 
         public bool HasLinkedDetector { get; private set; }
 
-        
+        private MediaManager mMediaManager;
 
 		/// <summary>
 		/// Enum of the different alerts that Guardian app can send
@@ -63,12 +78,16 @@ namespace BuddyApp.Guardian
             Debug.Log("awake mono");
             mAnimator = GetComponent<Animator>();
 			GuardianActivity.Init(mAnimator, this);
-		}
+        }
 
 		void Start()
 		{
+			mVolume = BYOS.Instance.Primitive.Speaker.GetVolume();
+            Debug.Log("start mono");
             Init();
             mMediaManager = GetComponent<MediaManager>();
+            //mMediaManager.OnFilesSaved += OnMediaSaved;
+			//LinkDetectorsEvents();
 		}
 
 		void Update()
@@ -82,16 +101,47 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public void Init()
 		{
+
+            //Stimuli = BYOS.Instance.Perception.Stimuli;
+            //MovementTracker = BYOS.Instance.Perception.Motion;
             HasLinkedDetector = false;
 
 			mMotionDetection = BYOS.Instance.Perception.Motion;
+			//mMotionDetection.OnDetect(OnMovementDetected);
 
 			mNoiseDetection = BYOS.Instance.Perception.Noise;
+			//mNoiseDetection.OnDetect(OnSoundDetected);
 
 			mFireDetection = BYOS.Instance.Perception.Thermal;
+			//mFireDetection.OnDetect(OnThermalDetected);
+			
 					
 			mKidnappingDetection = BYOS.Instance.Perception.Kidnapping;
 
+			//AStimulus moveSideStimulus;
+			//BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.MOVING, out moveSideStimulus);
+			//moveSideStimulus.enabled = true;
+			//MoveSideStimulus = (MoveSideStimulus)moveSideStimulus;
+
+			//AStimulus soundStimulus;
+			//BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.NOISE_LOUD, out soundStimulus);
+			//soundStimulus.enabled = true;
+			//NoiseStimulus = (NoiseStimulus)soundStimulus;
+
+			//AStimulus fireStimulus;
+			//BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.FIRE_DETECTED, out fireStimulus);
+			//fireStimulus.enabled = true;
+			//ThermalStimulus = (ThermalStimulus)fireStimulus;
+
+			//AStimulus kidnappingStimulus;
+			//BYOS.Instance.Perception.Stimuli.Controllers.TryGetValue(StimulusEvent.KIDNAPPING, out kidnappingStimulus);
+			//kidnappingStimulus.enabled = true;
+			//AccelerometerStimulus = (AccelerometerStimulus)kidnappingStimulus;
+
+
+			//BYOS.Instance.Perception.MovementTracker.Enable();
+			SaveAudio = GetComponent<SaveAudio>();
+			SaveVideo = GetComponent<SaveVideo>();
 			Roomba = BYOS.Instance.Navigation.Roomba;
 			Roomba.enabled = false;
 		}
@@ -114,8 +164,13 @@ namespace BuddyApp.Guardian
             mMotionDetection.OnDetect(OnMovementDetected, GuardianData.Instance.MovementDetectionThreshold*MAX_MOVEMENT_THRESHOLD/100);
             mNoiseDetection.OnDetect(OnSoundDetected);
             mFireDetection.OnDetect(OnThermalDetected, 50);
+            //mFireDetection.Threshold = 50;
             mKidnappingDetection.OnDetect(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
             BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
+            //Stimuli.RegisterStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
+            //Stimuli.RegisterStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+            //Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
+            //Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
         }
 
 		/// <summary>
@@ -123,6 +178,10 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public void UnlinkDetectorsEvents()
 		{
+            //Stimuli.RemoveStimuliCallback(StimulusEvent.MOVING, OnMovementDetected);
+            //Stimuli.RemoveStimuliCallback(StimulusEvent.NOISE_LOUD, OnSoundDetected);
+            //Stimuli.RemoveStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
+            //Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnappingDetected);
             HasLinkedDetector = false;
             mKidnappingDetection.StopAllOnDetect();
             mFireDetection.StopAllOnDetect();
