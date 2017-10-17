@@ -31,8 +31,6 @@ namespace BuddyApp.RedLightGreenLightGame
         private float mSensibilityDetection;
         public float SensibilityDetection { get { return mSensibilityDetection; } set { mSensibilityDetection = value; } }
 
-        private MotionDetection mMotionDetection;
-        public MotionDetection MotionDetection {get { return mMotionDetection; } set { mMotionDetection = value; } }
 
 
         void Start()
@@ -48,6 +46,7 @@ namespace BuddyApp.RedLightGreenLightGame
             mAppData = RedLightGreenLightGameData.Instance;
             mTimer = 0.0F;
             mIsPlayerPositionning = false;
+
         }
 
         void Update()

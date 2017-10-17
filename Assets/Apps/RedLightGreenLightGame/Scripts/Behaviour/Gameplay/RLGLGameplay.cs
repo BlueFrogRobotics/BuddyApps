@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
 using OpenCVUnity;
+using UnityEngine.UI;
 
 namespace BuddyApp.RedLightGreenLightGame
 {
@@ -12,35 +13,39 @@ namespace BuddyApp.RedLightGreenLightGame
         private RedLightGreenLightGameBehaviour mRLGLBehaviour;
         private RGBCam mCam;
         private Texture2D mTexture;
+        private RawImage mRaw;
+        private bool mIsDetectedMouv;
+        private int mIdLevel;
+        private int mTargetScale;
+
+        public override void Start()
+        {
+            mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
+        }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("ON STATE ENTER RLGL GAMEPLAY");
-            mRLGLBehaviour = GetComponent<RedLightGreenLightGameBehaviour>();
             mCam = Primitive.RGBCam;
             mTexture = new Texture2D(mCam.Width, mCam.Height);
-            mRLGLBehaviour.MotionDetection = BYOS.Instance.Perception.Motion;
-            
-            //mRLGLBehaviour.MotionDetection.changethreshold
+            Perception.Motion.OnDetect(OnMovementDetected);
+            //WARNING : pour après quand on aura le parseur de level ect
+            //mIdLevel = mRLGLBehaviour.idLevel;
         }
 
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbFaFailedacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
 
-            if (mRLGLBehaviour.IsPlayerPositionning)
+            if(mIdLevel >= 0 && mIdLevel < 3)
             {
-                //Premier cas : le joueur se place en début de jeu
-                Positionning();
+                //se retourne
             }
-            else
+            else if (mIdLevel > 2)
             {
-                Gameplay();
+                //ferme les yeux
             }
-
-            //mRLGLBehaviour.MotionDetection.OnDetect
-
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -49,35 +54,22 @@ namespace BuddyApp.RedLightGreenLightGame
             Debug.Log("ON STATE EXIT RLGL GAMEPLAY");
         }
 
-        private void Positionning()
-        {
-            //activer la détecttion et regarder si le joueur bouge les mains
-        }
 
-        private void Gameplay()
-        {
-
-        }
 
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
-            
-            if(!mRLGLBehaviour.IsPlayerPositionning)
+            Mat lCurrentFrame = mCam.FrameMat.clone();
+            foreach (MotionEntity lEntity in iMotions)
             {
-                Mat lCurrentMat = mCam.FrameMat.clone();
-                foreach (MotionEntity lEntity in iMotions)
-                {
-                    Imgproc.circle(lCurrentMat, Utils.Center(lEntity.RectInFrame), 10, new Scalar(255, 255, 0), -1);
-                }
-
-                Utils.MatToTexture2D(lCurrentMat, Utils.ScaleTexture2DFromMat(lCurrentMat, mTexture));
-            }
-            else
-            {
-
+                Imgproc.circle(lCurrentFrame, Utils.Center(lEntity.RectInFrame), 10, new Scalar(255, 255, 0), -1);
             }
 
-            return true;
+            Utils.MatToTexture2D(lCurrentFrame, Utils.ScaleTexture2DFromMat(lCurrentFrame, mTexture));
+            mRaw.texture = mTexture;
+
+            if (iMotions.Length > 30)
+                mIsDetectedMouv = true;
+            return false;
         }
 
     }
