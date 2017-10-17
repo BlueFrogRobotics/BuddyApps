@@ -58,6 +58,7 @@ namespace BuddyApp.Jukebox
             Debug.Log("stop mouv");
             BYOS.Instance.Navigation.Roomba.enabled = false;
             BYOS.Instance.Primitive.Motors.Wheels.Stop();
+
             //if(thermalMovement.GetComponent<Companion.FollowPersonReaction>().enabled == true)
             //{
             //    thermalMovement.GetComponent<Companion.FollowPersonReaction>().enabled = false;
