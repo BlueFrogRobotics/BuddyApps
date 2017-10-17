@@ -1,5 +1,6 @@
 using UnityEngine.UI;
 using UnityEngine;
+using System;
 
 using Buddy;
 
@@ -28,6 +29,8 @@ namespace BuddyApp.FreezeDance
         private float mElapsedTime;
 
         private AudioSource speaker;
+        private MotionDetection mMotion;
+        public Action OnMovementDetect;
 
         void Awake()
         {
@@ -39,6 +42,12 @@ namespace BuddyApp.FreezeDance
          */
         void Start()
         {
+            mMotion = BYOS.Instance.Perception.Motion;
+            if(!BYOS.Instance.Primitive.RGBCam.IsOpen)
+                BYOS.Instance.Primitive.RGBCam.Open(RGBCamResolution.W_176_H_144);
+            
+            mMotion.OnDetect(OnMovementInternal, 30);
+            BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
             speaker = gameObject.GetComponent<AudioSource>();
             mIsSad = false;
             mIsOnGame = false;
@@ -53,6 +62,13 @@ namespace BuddyApp.FreezeDance
          */
         void Update()
         {
+        }
+
+        private bool OnMovementInternal(MotionEntity[] iEntities)
+        {
+            if (OnMovementDetect != null && iEntities.Length>20)
+                OnMovementDetect();
+            return true;
         }
 
         
