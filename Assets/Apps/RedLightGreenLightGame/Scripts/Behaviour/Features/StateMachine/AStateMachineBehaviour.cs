@@ -226,6 +226,7 @@ namespace BuddyApp.RedLightGreenLightGame
             return mManager.GetComponent<T>();
         }
 
+<<<<<<< HEAD
         //protected T GetComponentInParents<T>(this GameObject gameObject) where T : Component
         //{
         //    for(Transform t = gameObject.transform; t != null; t = t.parent)
@@ -237,6 +238,8 @@ namespace BuddyApp.RedLightGreenLightGame
         //    return null;
         //}
 
+=======
+>>>>>>> 654a4bf05a63cc0eb7ae8baed75e06d71ab887d1
         /// <summary>
         /// Retrieve the linked gameObject to the StateMachineAppLinker at the iIndex index.
         /// </summary>

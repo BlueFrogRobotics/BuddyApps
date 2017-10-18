@@ -31,6 +31,11 @@ namespace BuddyApp.RedLightGreenLightGame
         private float mSensibilityDetection;
         public float SensibilityDetection { get { return mSensibilityDetection; } set { mSensibilityDetection = value; } }
 
+<<<<<<< HEAD
+=======
+        private MotionDetection mMotionDetection;
+        public MotionDetection MotionDetection {get { return mMotionDetection; } set { mMotionDetection = value; } }
+>>>>>>> 654a4bf05a63cc0eb7ae8baed75e06d71ab887d1
 
 
         void Start()
@@ -46,7 +51,10 @@ namespace BuddyApp.RedLightGreenLightGame
             mAppData = RedLightGreenLightGameData.Instance;
             mTimer = 0.0F;
             mIsPlayerPositionning = false;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 654a4bf05a63cc0eb7ae8baed75e06d71ab887d1
         }
 
         void Update()
