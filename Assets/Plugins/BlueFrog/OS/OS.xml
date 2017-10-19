@@ -2321,6 +2321,14 @@
             Error code if there is any error on the component
             </summary>
         </member>
+        <member name="M:Buddy.RGBCam.TakePhotograph(System.Action{Buddy.Photograph},System.Boolean,Buddy.RGBCam.FlashMode)">
+            <summary>
+            Asynchrone take photo feature. A callback will be called after photo will be taken 
+            </summary>
+            <param name="iOnEndTakePhoto">The callback with the taken photo. The photo is null if the operation was not successful</param>
+            <param name="iMakeSound">Set as false to make a silent photo. Default to true</param>
+            <param name="iFlashMode">Set the flash mode. Will be supported on the next version</param>
+        </member>
         <member name="T:Buddy.VoiceSound">
             <summary>
             Kind of sound that Buddy can natively handle for voice acting
@@ -5984,6 +5992,56 @@
             Execute the command behaviour.
             </summary>
         </member>
+        <member name="T:Buddy.Photograph">
+            <summary>
+            This class represent a photo
+            </summary>
+            <summary>
+            This class represent a photo
+            </summary>
+        </member>
+        <member name="P:Buddy.Photograph.TimeStamp">
+            <summary>
+            The date time when the photo has been taken
+            </summary>
+        </member>
+        <member name="P:Buddy.Photograph.Image">
+            <summary>
+            The photo as sprite
+            </summary>
+        </member>
+        <member name="M:Buddy.Photograph.Update(UnityEngine.Sprite)">
+            <summary>
+            Update the stored image. Must be saved for permanent effect
+            </summary>
+            <param name="iNewImage">The new image to set</param>
+            <returns>True if operation is successful</returns>
+        </member>
+        <member name="M:Buddy.Photograph.Update(UnityEngine.Texture2D)">
+            <summary>
+            Update the stored image. Must be saved for permanent effect
+            </summary>
+            <param name="iNewImage">The new image to set</param>
+            <returns>True if operation is successful</returns>
+        </member>
+        <member name="M:Buddy.Photograph.Update(OpenCVUnity.Mat)">
+            <summary>
+            Update the stored image. Must be saved for permanent effect
+            </summary>
+            <param name="iNewImage">The new image to set</param>
+            <returns>True if operation is successful</returns>
+        </member>
+        <member name="M:Buddy.Photograph.Save">
+            <summary>
+            Save the image on HDD. The Photo will be readable only for the running App
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.Photograph.Delete">
+            <summary>
+            Delete the local version of the photo
+            </summary>
+        </member>
         <member name="T:Buddy.EpisodicMemManager">
             <summary>
             This class represents the declarative memory of Buddy
@@ -6670,31 +6728,6 @@
         <member name="P:Buddy.ConnectedDevice.Name">
             <summary>
             The name of the device
-            </summary>
-        </member>
-        <member name="T:Buddy.Photo">
-            <summary>
-            This class represent a photo
-            </summary>
-        </member>
-        <member name="P:Buddy.Photo.Name">
-            <summary>
-            Name of the photo
-            </summary>
-        </member>
-        <member name="P:Buddy.Photo.Path">
-            <summary>
-            The path where is located the photo
-            </summary>
-        </member>
-        <member name="P:Buddy.Photo.TimeStamp">
-            <summary>
-            The date time when the photo has been taken
-            </summary>
-        </member>
-        <member name="P:Buddy.Photo.Image">
-            <summary>
-            The photo as sprite
             </summary>
         </member>
         <member name="T:Buddy.UserPref">
