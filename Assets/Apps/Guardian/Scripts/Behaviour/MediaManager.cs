@@ -186,7 +186,7 @@ namespace BuddyApp.Guardian
         {
             byte[][] lArrayFrames = mListFrame.ToArray();
              
-            string lDirectoryPath = Path.GetDirectoryName(BYOS.Instance.Resources.PathToRaw("monitoring.mp4"));
+            string lDirectoryPath = Path.GetDirectoryName(BYOS.Instance.Resources.GetPathToRaw("monitoring.mp4"));
             Directory.CreateDirectory(lDirectoryPath);
 
             for (int i = 0; i < lArrayFrames.Length; i++)
@@ -194,8 +194,8 @@ namespace BuddyApp.Guardian
                 currentActivity.Call("addPicture", lArrayFrames[i]);
             }
             mFPS = mListFrame.Count / (mNbSecAfter+mNbSecBefore);
-            currentActivity.Call("saveVideo", mFPS, BYOS.Instance.Resources.PathToRaw("monitoring.mp4"), "AIBehaviour", "VideoSaved");
-            Utils.Save(BYOS.Instance.Resources.PathToRaw("audio.wav"), Utils.Combine(mListAudio.ToArray()));
+            currentActivity.Call("saveVideo", mFPS, BYOS.Instance.Resources.GetPathToRaw("monitoring.mp4"), "AIBehaviour", "VideoSaved");
+            Utils.Save(BYOS.Instance.Resources.GetPathToRaw("audio.wav"), Utils.Combine(mListAudio.ToArray()));
             mState = State.WAIT_SAVE;
         }
 
@@ -221,8 +221,8 @@ namespace BuddyApp.Guardian
         private void StartSendmail()
         {
             BYOS.Instance.WebService.EMailSender.enabled = true;
-            mMail.AddFile(BYOS.Instance.Resources.PathToRaw("monitoring.mp4"));
-            mMail.AddFile(BYOS.Instance.Resources.PathToRaw("audio.wav"));
+            mMail.AddFile(BYOS.Instance.Resources.GetPathToRaw("monitoring.mp4"));
+            mMail.AddFile(BYOS.Instance.Resources.GetPathToRaw("audio.wav"));
             BYOS.Instance.WebService.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, mMail, OnMailSent);
             BYOS.Instance.WebService.EMailSender.enabled = true;
             if (OnFilesSaved != null)

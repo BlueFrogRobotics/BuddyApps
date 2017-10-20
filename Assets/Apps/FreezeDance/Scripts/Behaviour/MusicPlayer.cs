@@ -64,7 +64,7 @@ namespace BuddyApp.FreezeDance
         public void Pause(string iTitle)
         {
             speaker.Pause();
-            pauseSprite = BYOS.Instance.Resources.GetSprite("Pause");
+            pauseSprite = BYOS.Instance.Resources.GetSpriteFromAtlas("Pause");
             BYOS.Instance.Toaster.Display<IconToast>().With(iTitle, pauseSprite, true);
         }
 

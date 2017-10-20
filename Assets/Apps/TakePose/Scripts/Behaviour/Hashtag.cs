@@ -43,7 +43,7 @@ namespace BuddyApp.TakePose
         private IEnumerator DisplayNotif()
         {
             Notifier.Display<SimpleNot>(4F).With("#SocialRobot @adoptbuddy", 
-                Resources.GetSprite("Ico_Twitter"), Color.blue);
+                Resources.GetSpriteFromAtlas("Ico_Twitter"), Color.blue);
 
             yield return new WaitForSeconds(5F);
 

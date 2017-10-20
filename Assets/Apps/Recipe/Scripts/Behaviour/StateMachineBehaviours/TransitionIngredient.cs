@@ -57,7 +57,7 @@ namespace BuddyApp.Recipe
             if (!mDone && Interaction.TextToSpeech.HasFinishedTalking)
             {
                 mDone = true;
-                Notifier.Display<Buddy.UI.SimpleNot>().With(Dictionary.GetRandomString("hint2"), Resources.GetSprite("LightOn"));
+                Notifier.Display<Buddy.UI.SimpleNot>().With(Dictionary.GetRandomString("hint2"), Resources.GetSpriteFromAtlas("LightOn"));
             }
         }
 

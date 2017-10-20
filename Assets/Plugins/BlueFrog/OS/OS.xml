@@ -6498,7 +6498,7 @@
             Allow you to retrieve the full path from the name of the raw file
             </summary>
         </member>
-        <member name="M:Buddy.ResourceManager.PathToRaw(System.String,Buddy.LoadContext)">
+        <member name="M:Buddy.ResourceManager.GetPathToRaw(System.String,Buddy.LoadContext)">
             <summary>
             Allow you to retrieve the full path from the name of the raw file / directory
             </summary>
@@ -6520,15 +6520,15 @@
             <param name="iName">Name (without path/extension) of the resource</param>
             <returns>The loaded resource. Null if not found</returns>
         </member>
-        <member name="M:Buddy.ResourceManager.GetSprite(System.String,System.String)">
+        <member name="M:Buddy.ResourceManager.GetSpriteFromAtlas(System.String,System.String)">
             <summary>
             Retrieve a sprite from the specified atlas
             </summary>
-            <param name="iAtlas">The atlas name</param>
-            <param name="iSprite">The sprite name</param>
+            <param name="iName">The sprite name</param>
+            <param name="iAtlasName">The atlas name</param>
             <returns>The sprite in the specified atlas</returns>
         </member>
-        <member name="M:Buddy.ResourceManager.AssetIsLoaded(System.String)">
+        <member name="M:Buddy.ResourceManager.HasLoadedAsset(System.String)">
             <summary>
             Checks if has been correctly loaded. Always returns true in Editor mode
             </summary>
