@@ -52,17 +52,6 @@
             Base class for computer vision algorithms.
             </summary>
         </member>
-        <member name="M:Buddy.Internal.AVisionAlgorithm.Awake">
-            <summary>
-            Called once at the beginning.
-            Init with basic values.
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AVisionAlgorithm.Update">
-            <summary>
-            Called at each frame.
-            </summary>
-        </member>
         <member name="M:Buddy.Internal.AVisionAlgorithm.RetrieveFrame">
             <summary>
             Ensures that mFrameMat and mFrameTexture will always be at the same size.
@@ -73,9 +62,9 @@
             </remarks>
             <returns>The current frame in OpenCVUnity format</returns>
         </member>
-        <member name="M:Buddy.Internal.AVisionAlgorithm.AwakeImpl(System.Int32@,System.Single@)">
+        <member name="M:Buddy.Internal.AVisionAlgorithm.InitImpl(System.Int32@,System.Single@)">
             <summary>
-            Called one time after the start method.
+            Called one time after the enable method.
             </summary>
         </member>
         <member name="M:Buddy.Internal.AVisionAlgorithm.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D)">
@@ -133,7 +122,7 @@
             Face tracker using continuous Haar cascade feature and local CascadeClassifier algorithm
             </summary>
         </member>
-        <member name="M:Buddy.Internal.FacialDetection.AwakeImpl(System.Int32@,System.Single@)">
+        <member name="M:Buddy.Internal.FacialDetection.InitImpl(System.Int32@,System.Single@)">
             <summary>
             Called one time at the start.
             </summary>
@@ -1086,12 +1075,12 @@
             Called once at the start
             </summary>
         </member>
-        <member name="M:Buddy.RoombaNavigation.Update">
+        <member name="M:Buddy.RoombaNavigation.UpdateImpl">
             <summary>
             Called at each freame
             </summary>
         </member>
-        <member name="M:Buddy.RoombaNavigation.OnDisable">
+        <member name="M:Buddy.RoombaNavigation.OnDisableImpl">
             <summary>
             Disable the roomba navigation
             </summary>
@@ -1315,13 +1304,6 @@
             <summary>
             Detect moving points in frame
             </summary>
-        </member>
-        <member name="M:Buddy.MotionDetection.AwakeImpl(System.Int32@,System.Single@)">
-            <summary>
-            Init the movement tracker
-            </summary>
-            <param name="ioOutputType">The output type</param>
-            <param name="ioDelay">Refresh time</param>
         </member>
         <member name="M:Buddy.MotionDetection.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D)">
             <summary>
@@ -3674,7 +3656,7 @@
             Init the Accelerometer stimulus
             </summary>
         </member>
-        <member name="M:Buddy.AccelerometerStimulus.AssessStimulusImpl">
+        <member name="M:Buddy.AccelerometerStimulus.UpdateImpl">
             <summary>
             Accelerometer stimulus implementation
             </summary>
@@ -3696,7 +3678,7 @@
             Tells if the stimuli is activated and if we are waiting for an event
             </summary>
         </member>
-        <member name="M:Buddy.AStimulus.Awake">
+        <member name="M:Buddy.AStimulus.Start">
             <summary>
             Constructor of the abstract class
             </summary>
@@ -3721,11 +3703,6 @@
         <member name="M:Buddy.AStimulus.Init">
             <summary>
             Init the stimulus
-            </summary>
-        </member>
-        <member name="M:Buddy.AStimulus.AssessStimulusImpl">
-            <summary>
-            Stimulus implementation
             </summary>
         </member>
         <member name="T:Buddy.BatteryState">
@@ -3768,7 +3745,7 @@
             Init the battery stimulus
             </summary>
         </member>
-        <member name="M:Buddy.BatteryStimulus.AssessStimulusImpl">
+        <member name="M:Buddy.BatteryStimulus.UpdateImpl">
             <summary>
             Battery stimulus implementation
             </summary>
@@ -3783,12 +3760,12 @@
             Init the brightness stimulus
             </summary>
         </member>
-        <member name="M:Buddy.BrightnessStimulus.AssessStimulusImpl">
+        <member name="M:Buddy.BrightnessStimulus.UpdateImpl">
             <summary>
             Brightness stimulus impl
             </summary>
         </member>
-        <member name="M:Buddy.BrightnessStimulus.OnEnable">
+        <member name="M:Buddy.BrightnessStimulus.OnEnableImpl">
             <summary>
             Enable brightness stimulus
             </summary>
@@ -3803,7 +3780,7 @@
             Init the changing position stimulus
             </summary>
         </member>
-        <member name="M:Buddy.ChangingPositionStimulus.AssessStimulusImpl">
+        <member name="M:Buddy.ChangingPositionStimulus.UpdateImpl">
             <summary>
             Changing position stimulus implementation
             </summary>
@@ -3818,17 +3795,12 @@
             Init the face detection stimulus
             </summary>
         </member>
-        <member name="M:Buddy.FaceDetectionStimulus.AssessStimulusImpl">
-            <summary>
-            Face detection stimulus implementation
-            </summary>
-        </member>
-        <member name="M:Buddy.FaceDetectionStimulus.OnEnable">
+        <member name="M:Buddy.FaceDetectionStimulus.OnEnableImpl">
             <summary>
             Enable the face detection
             </summary>
         </member>
-        <member name="M:Buddy.FaceDetectionStimulus.OnDisable">
+        <member name="M:Buddy.FaceDetectionStimulus.OnDisableImpl">
             <summary>
             Disable the face detection
             </summary>
@@ -3853,17 +3825,17 @@
             Init noise stimulus
             </summary>
         </member>
-        <member name="M:Buddy.NoiseStimulus.AssessStimulusImpl">
+        <member name="M:Buddy.NoiseStimulus.UpdateImpl">
             <summary>
             Noise stimulus implementation
             </summary>
         </member>
-        <member name="M:Buddy.NoiseStimulus.OnEnable">
+        <member name="M:Buddy.NoiseStimulus.OnEnableImpl">
             <summary>
             Enable the noise stimulus
             </summary>
         </member>
-        <member name="M:Buddy.NoiseStimulus.OnDisable">
+        <member name="M:Buddy.NoiseStimulus.OnDisableImpl">
             <summary>
             Disable the noise stimulus
             </summary>
@@ -3878,17 +3850,17 @@
             Init the random activation stimulus
             </summary>
         </member>
-        <member name="M:Buddy.RandomActivationStimulus.AssessStimulusImpl">
+        <member name="M:Buddy.RandomActivationStimulus.UpdateImpl">
             <summary>
             Random activation stimulus implementation
             </summary>
         </member>
-        <member name="M:Buddy.RandomActivationStimulus.OnEnable">
+        <member name="M:Buddy.RandomActivationStimulus.OnEnableImpl">
             <summary>
             Enable random activation stimulus
             </summary>
         </member>
-        <member name="M:Buddy.RandomActivationStimulus.OnDisable">
+        <member name="M:Buddy.RandomActivationStimulus.OnDisableImpl">
             <summary>
             Disable random activation stimulus
             </summary>
@@ -3903,17 +3875,17 @@
             Init regular activation stimulus
             </summary>
         </member>
-        <member name="M:Buddy.RegularActivationStimulus.AssessStimulusImpl">
+        <member name="M:Buddy.RegularActivationStimulus.UpdateImpl">
             <summary>
             Regular activation stimulus implementation
             </summary>
         </member>
-        <member name="M:Buddy.RegularActivationStimulus.OnEnable">
+        <member name="M:Buddy.RegularActivationStimulus.OnEnableImpl">
             <summary>
             Enable regular activation stimulus
             </summary>
         </member>
-        <member name="M:Buddy.RegularActivationStimulus.OnDisable">
+        <member name="M:Buddy.RegularActivationStimulus.OnDisableImpl">
             <summary>
             Disable regular activation stimulus
             </summary>
@@ -3928,7 +3900,7 @@
             Init speed stimulus
             </summary>
         </member>
-        <member name="M:Buddy.SpeedStimulus.AssessStimulusImpl">
+        <member name="M:Buddy.SpeedStimulus.UpdateImpl">
             <summary>
             Speed stimulus implementation
             </summary>
@@ -3943,17 +3915,17 @@
             Init sphinx stimulus
             </summary>
         </member>
-        <member name="M:Buddy.SphinxStimulus.AssessStimulusImpl">
+        <member name="M:Buddy.SphinxStimulus.UpdateImpl">
             <summary>
             Sphinx stimulus implementation
             </summary>
         </member>
-        <member name="M:Buddy.SphinxStimulus.OnEnable">
+        <member name="M:Buddy.SphinxStimulus.OnEnableImpl">
             <summary>
             Enable sphinx stimulus
             </summary>
         </member>
-        <member name="M:Buddy.SphinxStimulus.OnDisable">
+        <member name="M:Buddy.SphinxStimulus.OnDisableImpl">
             <summary>
             Disable sphinx stimulus
             </summary>
@@ -4163,7 +4135,7 @@
             Init thermal detection stimulus
             </summary>
         </member>
-        <member name="M:Buddy.ThermalStimulus.AssessStimulusImpl">
+        <member name="M:Buddy.ThermalStimulus.UpdateImpl">
             <summary>
             Thermal detection stimulus implementation
             </summary>
@@ -4198,7 +4170,7 @@
             Init US stimulus
             </summary>
         </member>
-        <member name="M:Buddy.USStimulus.AssessStimulusImpl">
+        <member name="M:Buddy.USStimulus.UpdateImpl">
             <summary>
             US stimulus implementation
             </summary>
@@ -5994,10 +5966,10 @@
         </member>
         <member name="T:Buddy.Photograph">
             <summary>
-            This class represent a photo
+            This class represents a photo taken during a running app. Can be saved as PNG on the HDD
             </summary>
             <summary>
-            This class represent a photo
+            This class represents a photo taken during a running app. Can be saved as PNG on the HDD
             </summary>
         </member>
         <member name="P:Buddy.Photograph.TimeStamp">
@@ -6745,7 +6717,7 @@
             Label of the container
             </summary>
         </member>
-        <member name="M:Buddy.UI.AppsContainer.OnAwake">
+        <member name="M:Buddy.UI.AppsContainer.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
@@ -6771,12 +6743,12 @@
             Label of the container
             </summary>
         </member>
-        <member name="M:Buddy.UI.AvailableAppsContainer.OnAwake">
+        <member name="M:Buddy.UI.AvailableAppsContainer.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
         </member>
-        <member name="M:Buddy.UI.AvailableAppsContainer.OnUpdate">
+        <member name="M:Buddy.UI.AvailableAppsContainer.UpdateViewImpl">
             <summary>
             Called at each frame
             </summary>
@@ -6800,7 +6772,7 @@
             Empty blank widget
             </summary>
         </member>
-        <member name="M:Buddy.UI.Blank.OnAwake">
+        <member name="M:Buddy.UI.Blank.AwakeViewImpl">
             <summary>
             Called once at the creation of the widget
             </summary>
@@ -6823,7 +6795,7 @@
             Label of the button
             </summary>
         </member>
-        <member name="M:Buddy.UI.Button.OnAwake">
+        <member name="M:Buddy.UI.Button.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
@@ -6878,7 +6850,7 @@
             parameter of assigned commands will be updated on value change.
             </summary>
         </member>
-        <member name="M:Buddy.UI.Dropdown.OnAwake">
+        <member name="M:Buddy.UI.Dropdown.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
@@ -6935,7 +6907,7 @@
             Slider widget for AWindowLayout
             </summary>
         </member>
-        <member name="M:Buddy.UI.Gauge.OnAwake">
+        <member name="M:Buddy.UI.Gauge.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
@@ -6983,7 +6955,7 @@
             Slider with toggle activation widget for AWindowLayout
             </summary>
         </member>
-        <member name="M:Buddy.UI.GaugeOnOff.OnAwake">
+        <member name="M:Buddy.UI.GaugeOnOff.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
@@ -7036,7 +7008,7 @@
             Simple read only text
             </summary>
         </member>
-        <member name="M:Buddy.UI.Label.OnAwake">
+        <member name="M:Buddy.UI.Label.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
@@ -7069,7 +7041,7 @@
             Basic button for AWindowLayout with left label
             </summary>
         </member>
-        <member name="M:Buddy.UI.LabeledButton.OnAwake">
+        <member name="M:Buddy.UI.LabeledButton.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
@@ -7107,7 +7079,7 @@
             Toggle widget for AWindowLayout
             </summary>
         </member>
-        <member name="M:Buddy.UI.OnOff.OnAwake">
+        <member name="M:Buddy.UI.OnOff.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
@@ -7145,7 +7117,7 @@
             The input field of the text field widget
             </summary>
         </member>
-        <member name="M:Buddy.UI.Password.OnAwake">
+        <member name="M:Buddy.UI.Password.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
@@ -7193,7 +7165,7 @@
             The input field of the text field widget
             </summary>
         </member>
-        <member name="M:Buddy.UI.SearchField.OnAwake">
+        <member name="M:Buddy.UI.SearchField.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
@@ -7260,7 +7232,7 @@
             The input field of the text field widget
             </summary>
         </member>
-        <member name="M:Buddy.UI.TextField.OnAwake">
+        <member name="M:Buddy.UI.TextField.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
@@ -7373,12 +7345,12 @@
             Clear method when the component comes to desappeared
             </summary>
         </member>
-        <member name="M:Buddy.UI.AExplorerView.OnAwake">
+        <member name="M:Buddy.UI.AExplorerView.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>
         </member>
-        <member name="M:Buddy.UI.AExplorerView.OnUpdate">
+        <member name="M:Buddy.UI.AExplorerView.UpdateViewImpl">
             <summary>
             Called each frame when widget is placed (i.e not is the pool)
             </summary>
@@ -7775,7 +7747,7 @@
             Clear method when the component comes to desappeared
             </summary>
         </member>
-        <member name="M:Buddy.UI.AppWdgShortcut.OnAwake">
+        <member name="M:Buddy.UI.AppWdgShortcut.AwakeViewImpl">
             <summary>
             Called on awake
             </summary>

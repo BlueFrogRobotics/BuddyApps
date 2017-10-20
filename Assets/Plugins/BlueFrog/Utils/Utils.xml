@@ -59,66 +59,6 @@
             7 * 24 * 60 * 60
             </summary>
         </member>
-        <member name="F:Buddy.Utils.PI">
-            <summary>
-            PI
-            </summary>
-        </member>
-        <member name="F:Buddy.Utils.PI_D">
-            <summary>
-            PI
-            </summary>
-        </member>
-        <member name="M:Buddy.Utils.ScaleTexture2DFromMat(OpenCVUnity.Mat,UnityEngine.Texture2D)">
-            <summary>
-            Create / scale the input texture accordingly from the input mat
-            </summary>
-            <param name="iMat">Input matrix, only the size will be considered</param>
-            <param name="iTexture">The created/resized texture</param>
-            <returns>The created/resized texture</returns>
-        </member>
-        <member name="M:Buddy.Utils.Save(System.String,OpenCVUnity.Mat[],System.Single)">
-            <summary>
-            Save the video in the Data folder
-            </summary>
-            <param name="iPath">name of the video file to save to</param>
-            <param name="iListMat">list of mat that will be stored in the video file</param>
-            <param name="iFps">framerate of the video file</param>
-        </member>
-        <member name="M:Buddy.Utils.Save(System.String,UnityEngine.AudioClip)">
-            <summary>
-            Save the audio clip into a wav file in the data directory
-            </summary>
-            <param name="iPath">Full path name which will be used to save tha audio file</param>
-            <param name="iClip">audioclip that will be saved</param>
-            <returns>true if file saved</returns>
-        </member>
-        <member name="M:Buddy.Utils.TrimSilence(UnityEngine.AudioClip,System.Single)">
-            <summary>
-            Trim the beginning and end of an audioclip that can be considered as a silence 
-            </summary>
-            <param name="iClip">the audioclip to be trimmed</param>
-            <param name="iMin">the threshold to decide if a part can be considered as a silence</param>
-            <returns>the audioclip trimmed</returns>
-        </member>
-        <member name="M:Buddy.Utils.TrimSilence(System.Collections.Generic.List{System.Single},System.Single,System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            Trim the beginning and end of an audioclip that can be considered as a silence 
-            </summary>
-            <param name="iSamples">samples of an audioclip</param>
-            <param name="iMin">the threshold to decide if a part can be considered as a silence</param>
-            <param name="iChannels">number of channels per frame</param>
-            <param name="iFrequency">sample frequency of clip</param>
-            <param name="iStreamed">true if clip is streamed</param>
-            <returns>the audioclip trimmed</returns>
-        </member>
-        <member name="M:Buddy.Utils.Combine(UnityEngine.AudioClip[])">
-            <summary>
-            Combine several audioclip into one
-            </summary>
-            <param name="iClips">the array of audioclips</param>
-            <returns>the audioclip obtained from the comination of several audioclips</returns>
-        </member>
         <member name="M:Buddy.Utils.SerializeCSV(System.String,System.Object[])">
             <summary>
             Serialize objects inside the specified file.
@@ -128,7 +68,7 @@
             <summary>
             Load the list of item from the specified csv file.
             </summary>
-            <param name="iPath">File to load from</param>
+            <param name="iFileName">File to load from</param>
             <param name="iSeparator">Separator token, ';' by default</param>
             <returns>The list of item. One string array per line.</returns>
         </member>
@@ -138,14 +78,14 @@
             </summary>
             <typeparam name="T">Type of the object to serialize</typeparam>
             <param name="iSerializableObject">Object to serialize</param>
-            <param name="iPath">Path to the file</param>
+            <param name="iFileName">Path to the file</param>
         </member>
         <member name="M:Buddy.Utils.UnserializeXML``1(System.String)">
             <summary>
             Deserializes an xml file into an object list
             </summary>
             <typeparam name="T">Type of the objet to deserialize</typeparam>
-            <param name="iPath">Path to the file</param>
+            <param name="iFileName">Path to the file</param>
             <returns>The created object from the XML. Null if unexisting/bad file or bad filename</returns>
         </member>
         <member name="M:Buddy.Utils.Uncompress(System.String,System.String)">
@@ -178,7 +118,7 @@
             <param name="iSeparator">Between element separator in the final string. Space by default</param>
             <returns>the string value of the array</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.Utils.GetFolderPath(System.String)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.Utils.GetFolderPath(System.String)" -->
         <member name="M:Buddy.Utils.DeleteDirectory(System.String)">
             <summary>
             Delete the directory with its subdir
@@ -742,54 +682,7 @@
             <param name="iFirstPt">First point</param>
             <param name="iSecondPt">Second point</param>
         </member>
-        <member name="M:Buddy.Utils.Center(UnityEngine.Vector2,OpenCVUnity.Point)">
-            <summary>
-            Returns a new point corresponding to the centroid of the rect.
-            </summary>
-            <param name="iFirstPt">First point</param>
-            <param name="iSecondPt">Second point</param>
-            <returns>The centroid</returns>
-        </member>
-        <member name="M:Buddy.Utils.Center(OpenCVUnity.Point,UnityEngine.Vector2)">
-            <summary>
-            Returns a new point corresponding to the centroid of the rect.
-            </summary>
-            <param name="iFirstPt">First point</param>
-            <param name="iSecondPt">Second point</param>
-        </member>
         <member name="M:Buddy.Utils.Distance(OpenCVUnity.Point,OpenCVUnity.Point)">
-            <summary>
-            Computes the euclidian distance between two points.
-            </summary>
-            <param name="iPointA">The first point</param>
-            <param name="iPointB">The second point</param>
-            <returns>The euclian distance between the first and the second point</returns>
-        </member>
-        <member name="M:Buddy.Utils.Distance(OpenCVUnity.Point,UnityEngine.Vector2)">
-            <summary>
-            Computes the euclidian distance between two points.
-            </summary>
-            <param name="iPointA">The first point</param>
-            <param name="iPointB">The second point</param>
-            <returns>The euclian distance between the first and the second point</returns>
-        </member>
-        <member name="M:Buddy.Utils.Distance(UnityEngine.Vector2,OpenCVUnity.Point)">
-            <summary>
-            Computes the euclidian distance between two points.
-            </summary>
-            <param name="iPointA">The first point</param>
-            <param name="iPointB">The second point</param>
-            <returns>The euclian distance between the first and the second point</returns>
-        </member>
-        <member name="M:Buddy.Utils.Distance(OpenCVUnity.Point,UnityEngine.Vector3)">
-            <summary>
-            Computes the euclidian distance between two points.
-            </summary>
-            <param name="iPointA">The first point</param>
-            <param name="iPointB">The second point</param>
-            <returns>The euclian distance between the first and the second point</returns>
-        </member>
-        <member name="M:Buddy.Utils.Distance(UnityEngine.Vector3,OpenCVUnity.Point)">
             <summary>
             Computes the euclidian distance between two points.
             </summary>
@@ -913,8 +806,8 @@
             <param name="iB">Point of the line</param>
             <returns>The projection</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.Utils.CloseTo(System.Single,System.Single,System.Single)" -->
-        <!-- Badly formed XML comment ignored for member "M:Buddy.Utils.CloseTo(System.Double,System.Double,System.Double)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.Utils.CloseTo(System.Single,System.Single,System.Single)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.Utils.CloseTo(System.Double,System.Double,System.Double)" -->
         <member name="M:Buddy.Utils.GetLocalIPAddress">
             <summary>
             Retrieve the local IP address
@@ -944,23 +837,7 @@
             <param name="iGraph">The graph with all nodes and weight between them</param>
             <returns></returns>
         </member>
-        <member name="M:Buddy.Utils.ShortestPathAStar(Buddy.AStarNode,Buddy.AStarNode,System.Collections.Generic.List{Buddy.AStarNode})">
-            <summary>
-            Gets the shortest path between the sourcenode and the destination node with A* algorithm.
-            It has a polynomial complexity.
-            </summary>
-            <param name="iSourceNode">The source node of the path</param>
-            <param name="iDestinationNode">The destination node of the path</param>
-            <param name="iGraph">The graph with all nodes and weight between them</param>
-            <returns></returns>
-        </member>
         <member name="M:Buddy.Utils.ComputePaths(Buddy.Node)">
-            <summary>
-            Computes paths from the source node.
-            </summary>
-            <param name="iSourceNode">The source node</param>
-        </member>
-        <member name="M:Buddy.Utils.ComputePaths(Buddy.AStarNode)">
             <summary>
             Computes paths from the source node.
             </summary>
@@ -974,63 +851,11 @@
             <param name="iDestinationNode">the destination node</param>
             <returns>The list including the shorstest path between iSource and iDestination</returns>
         </member>
-        <member name="M:Buddy.Utils.ShortestPathAStarTo(Buddy.AStarNode,Buddy.AStarNode)">
-            <summary>
-            Gets the shorstest path between iSource and iDestination
-            </summary>
-            <param name="iSourceNode">The source node</param>
-            <param name="iDestinationNode">the destination node</param>
-            <returns>The list including the shorstest path between iSource and iDestination</returns>
-        </member>
         <member name="M:Buddy.Utils.ResetGraph(System.Collections.Generic.List{Buddy.Node})">
             <summary>
             Reset the graph for compute.
             </summary>
             <param name="iGraph">The graph</param>
-        </member>
-        <member name="M:Buddy.Utils.ResetGraph(System.Collections.Generic.List{Buddy.AStarNode})">
-            <summary>
-            Reset the graph for compute.
-            </summary>
-            <param name="iGraph">The graph</param>
-        </member>
-        <member name="T:Buddy.AStarNode">
-            <summary>
-            Unit node for A* algorithm.
-            </summary>
-        </member>
-        <member name="F:Buddy.AStarNode.Comparer">
-            <summary>
-            Comparer for node comparaison
-            </summary>
-        </member>
-        <member name="P:Buddy.AStarNode.Value">
-            <summary>
-            Heuristic value of node
-            </summary>
-        </member>
-        <member name="P:Buddy.AStarNode.PrievousNode">
-            <summary>
-            Previous node (Dijkstra algo)
-            </summary>
-        </member>
-        <member name="P:Buddy.AStarNode.AdjacentNodes">
-            <summary>
-            AdjacentNodes
-            </summary>
-        </member>
-        <member name="M:Buddy.AStarNode.#ctor">
-            <summary>
-            Base constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.AStarNode.Compare(Buddy.AStarNode,Buddy.AStarNode)">
-            <summary>
-            Comparaison function
-            </summary>
-            <param name="iFirstNode"></param>
-            <param name="iSecondNode"></param>
-            <returns></returns>
         </member>
         <member name="T:Buddy.Node">
             <summary>
@@ -1039,7 +864,7 @@
         </member>
         <member name="F:Buddy.Node.Comparer">
             <summary>
-            Comparer for node comparison
+            Comparer pour node comparaison
             </summary>
         </member>
         <member name="P:Buddy.Node.Index">
@@ -1069,7 +894,7 @@
         </member>
         <member name="M:Buddy.Node.Compare(Buddy.Node,Buddy.Node)">
             <summary>
-            Comparison function
+            Comparaison function
             </summary>
             <param name="iFirstNode"></param>
             <param name="iSecondNode"></param>
