@@ -51,7 +51,7 @@ namespace BuddyApp.TakePhoto
 			Debug.Log("OnEnter SendTwitter");
 
 			Notifier.Display<SimpleNot>().With(mHashtag,
-			BYOS.Instance.Resources.GetSprite("Ico_Twitter"), Color.blue);
+			BYOS.Instance.Resources.GetSpriteFromAtlas("Ico_Twitter"), Color.blue);
 
 			SendTweet(Dictionary.GetRandomString("tweet") + " " + mHashtag);
 			Interaction.TextToSpeech.SayKey("tweetpublished" + mHashtag);

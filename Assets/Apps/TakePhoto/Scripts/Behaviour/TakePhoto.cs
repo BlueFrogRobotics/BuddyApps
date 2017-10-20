@@ -154,7 +154,7 @@ namespace BuddyApp.TakePhoto
 			//#if !UNITY_EDITOR
 			//						lFilePath = "/storage/emulated/0/Pictures/" + lFileName;
 			//#else
-			lFilePath = Resources.PathToRaw(lFileName);
+			lFilePath = Resources.GetPathToRaw(lFileName);
 			//#endif
 
 			Utils.SaveTextureToFile(lTexture, lFilePath);
@@ -189,7 +189,7 @@ namespace BuddyApp.TakePhoto
 			lTexture.Apply();
 			mPhotoSprite = Sprite.Create(lTexture, new Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
 
-			Utils.SaveSpriteToFile(mPhotoSprite, Resources.PathToRaw("Overlay" + lFileName));
+			Utils.SaveSpriteToFile(mPhotoSprite, Resources.GetPathToRaw("Overlay" + lFileName));
 
 			Trigger("AskPhotoAgain");
 		}
