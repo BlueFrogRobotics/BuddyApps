@@ -31,6 +31,8 @@ namespace BuddyApp.RedLightGreenLightGame
         private float mSensibilityDetection;
         public float SensibilityDetection { get { return mSensibilityDetection; } set { mSensibilityDetection = value; } }
 
+        private Texture2D mPictureMoving;
+        public Texture2D PictureMoving { get { return mPictureMoving; } set { mPictureMoving = value; } }
 
         void Start()
         {
@@ -51,6 +53,16 @@ namespace BuddyApp.RedLightGreenLightGame
         void Update()
         {
             mTimer += Time.deltaTime;
+        }
+
+        internal void OpenFlash()
+        {
+            //open the flash
+        }
+
+        internal void CloseFlash()
+        {
+            //close the flash
         }
     }
 }
