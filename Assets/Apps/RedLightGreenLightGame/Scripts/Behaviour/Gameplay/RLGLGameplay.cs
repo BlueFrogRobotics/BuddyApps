@@ -13,10 +13,10 @@ namespace BuddyApp.RedLightGreenLightGame
         private RedLightGreenLightGameBehaviour mRLGLBehaviour;
         private RGBCam mCam;
         private Texture2D mTexture;
-        private RawImage mRaw;
-        private bool mIsDetectedMouv;
         private int mIdLevel;
         private int mTargetScale;
+        private bool mGameplay;
+        private bool mFirstStep;
 
         public override void Start()
         {
@@ -27,9 +27,13 @@ namespace BuddyApp.RedLightGreenLightGame
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("ON STATE ENTER RLGL GAMEPLAY");
+            mGameplay = false;
+            mFirstStep = false;
             mCam = Primitive.RGBCam;
             mTexture = new Texture2D(mCam.Width, mCam.Height);
-            Perception.Motion.OnDetect(OnMovementDetected);
+            //Perception.Motion.OnDetect(OnMovementDetected);
+            Interaction.TextToSpeech.SayKey("gameplayaller");
+            mRLGLBehaviour.OpenFlash();
             //WARNING : pour après quand on aura le parseur de level ect
             //mIdLevel = mRLGLBehaviour.idLevel;
         }
@@ -37,15 +41,37 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbFaFailedacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if(!mGameplay)
+            {
+                //Close the flash, depends on the fact that the flash is auto so it close by itself or if we have to close it
+                if (mIdLevel >= 0 && mIdLevel < 3)
+                {
+                    if(!mFirstStep)
+                    {
+                        //se retourne
+                        //Primitive.Motors.Wheels.TurnAngle(angle du xml, vitesse xml, 0.5F ou 1F);
+                        Primitive.Motors.Wheels.TurnAngle(180F, 250F, 1F);
+                        Interaction.Face.SetExpression(MoodType.LOVE);
+                        mFirstStep = true;
+                    }
+                    
+                    if((Primitive.Motors.Wheels.Status == MovingState.REACHED_GOAL || Primitive.Motors.Wheels.Status == MovingState.MOTIONLESS) && mFirstStep)
+                        Trigger("TargetGameplay");
 
-            if(mIdLevel >= 0 && mIdLevel < 3)
-            {
-                //se retourne
+                }
+                else if (mIdLevel > 2)
+                {
+                    Interaction.Face.SetExpression(MoodType.LOVE);
+                    Trigger("TargetGameplay");
+                }
             }
-            else if (mIdLevel > 2)
+            else
             {
-                //ferme les yeux
+                //put the treshold on the xml 
+                Perception.Motion.OnDetect(OnMovementDetected, 5F);
             }
+
+
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -53,8 +79,6 @@ namespace BuddyApp.RedLightGreenLightGame
         {
             Debug.Log("ON STATE EXIT RLGL GAMEPLAY");
         }
-
-
 
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
@@ -65,12 +89,18 @@ namespace BuddyApp.RedLightGreenLightGame
             }
 
             Utils.MatToTexture2D(lCurrentFrame, Utils.ScaleTexture2DFromMat(lCurrentFrame, mTexture));
-            mRaw.texture = mTexture;
+            mRLGLBehaviour.PictureMoving = mTexture;
+            Trigger("Defeat");
 
-            if (iMotions.Length > 30)
-                mIsDetectedMouv = true;
+            ////Change the value 30 by the value in XML (maybe useless with the treshold of the motion detection)
+            //if (iMotions.Length > 30)
+            //    mIsDetectedMouv = true;
             return false;
         }
+
+
+
+
 
     }
 }
