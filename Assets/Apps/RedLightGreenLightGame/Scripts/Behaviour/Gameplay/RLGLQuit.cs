@@ -2,28 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
+using Buddy.UI;
 
 namespace BuddyApp.RedLightGreenLightGame
 {
-    public class RLGLVictory : AStateMachineBehaviour
-	{
-        //TODO take real level
-        int mLevel = 0;
+    public class RLGLQuit : AStateMachineBehaviour
+    {
+        private RGBCam mCam;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mCam = Primitive.RGBCam;
+            StartCoroutine(Quit());
 
-            StartCoroutine(Congratulation());
-			
-			//Interaction.TextToSpeech.Silence(1000);
-			
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-			
+
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -32,18 +30,14 @@ namespace BuddyApp.RedLightGreenLightGame
             Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
-        private IEnumerator Congratulation()
+        private IEnumerator Quit()
         {
-            yield return SayKeyAndWait("victory");
+            Texture2D lTexture = mCam.FrameTexture2D;
+            yield return SayKeyAndWait("showphotos");
             Interaction.Mood.Set(MoodType.HAPPY);
-            Interaction.Face.SetEvent(FaceEvent.SMILE);
+            Toaster.Display<PictureToast>().With(Dictionary.GetString("lookphoto"), Sprite.Create(mCam.FrameTexture2D, new Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5f, 0.5f)));
             yield return new WaitForSeconds(2);
-            yield return SayAndWait(Dictionary.GetRandomString("wonlevel") + mLevel);
-            yield return new WaitForSeconds(1);
-            Interaction.Mood.Set(MoodType.NEUTRAL);
-            mLevel++;
-            yield return SayAndWait(Dictionary.GetRandomString("seriousbegin") + mLevel+". Let's go");
-            Trigger("Repositionning");
+            QuitApp();
         }
 
     }

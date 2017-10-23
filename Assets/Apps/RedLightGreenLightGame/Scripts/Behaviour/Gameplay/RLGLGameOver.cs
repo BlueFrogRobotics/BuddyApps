@@ -5,12 +5,18 @@ using Buddy;
 
 namespace BuddyApp.RedLightGreenLightGame
 {
-    public class RLGLGameplayActivation : AStateMachineBehaviour
+    public class RLGLGameOver : AStateMachineBehaviour
     {
+        //TODO take real level
+        int mLevel = 0;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+
+            StartCoroutine(GameOver());
+
+            //Interaction.TextToSpeech.Silence(1000);
 
         }
 
@@ -23,7 +29,20 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Interaction.Mood.Set(MoodType.NEUTRAL);
+        }
 
+        private IEnumerator GameOver()
+        {
+            Interaction.Mood.Set(MoodType.SAD);
+            yield return SayKeyAndWait("gameover");
+            yield return new WaitForSeconds(2);
+            Interaction.Mood.Set(MoodType.HAPPY);
+            Interaction.Face.SetEvent(FaceEvent.SMILE);
+            yield return new WaitForSeconds(1);
+            yield return SayAndWait(Dictionary.GetRandomString("lastlevel") + mLevel);
+            mLevel++;
+            Trigger("AskReplay");
         }
 
     }
