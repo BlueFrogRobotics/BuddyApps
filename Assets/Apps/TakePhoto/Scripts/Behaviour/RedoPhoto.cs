@@ -121,12 +121,18 @@ namespace BuddyApp.TakePhoto
 		private void Option1()
 		{
 			Interaction.Mood.Set(MoodType.NEUTRAL);
+			if (Primitive.RGBCam.IsOpen) {
+				Primitive.RGBCam.Close();
+			}
 			QuitApp();
 		}
 
 		private void Exit()
 		{
 			Interaction.Mood.Set(MoodType.NEUTRAL);
+			if (Primitive.RGBCam.IsOpen) {
+				Primitive.RGBCam.Close();
+			}
 			QuitApp();
 		}
 

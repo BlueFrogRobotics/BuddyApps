@@ -4,7 +4,7 @@ namespace BuddyApp.TakePhoto
 {
     public class TakePhotoLayout : AWindowLayout
     {
-		private Gauge mGaugeValOne;
+		private OnOff mOverlay;
 		
         public override void Build()
         {		
@@ -12,35 +12,21 @@ namespace BuddyApp.TakePhoto
              * Create needed widgets
              * ==> Which widget do I need for my app settings ?
              */
-            mGaugeValOne = CreateWidget<Gauge>();
+            mOverlay = CreateWidget<OnOff>();
 
-            /*
-             * Set widgets parameters
-             */
-            mGaugeValOne.Slider.minValue = 0;
-            mGaugeValOne.Slider.maxValue = 10;
-            mGaugeValOne.Slider.wholeNumbers = true;
-            mGaugeValOne.DisplayPercentage = true; /* Only the display will be in percentage, the value will still be within 0 and 10 */
+			mOverlay.IsActive = TakePhotoData.Instance.Overlay;
 
-            /*
-             * Retrieve app data and display them inside the view
-             * ==> What info must be displayed ?
-             */ 
-            mGaugeValOne.Slider.value = TakePhotoData.Instance.MyValue;
 
-            /*
-            * Set command to widgets
-            * At each interaction with a widget, a callback will be called
-            * ==> What must happen when I interacted with a widget ?
-            */
-            mGaugeValOne.OnUpdateEvent((iVal) => {
-				TakePhotoData.Instance.MyValue = iVal;
+
+			mOverlay.OnSwitchEvent((bool iVal) => {
+				TakePhotoData.Instance.Overlay = iVal;
 			});
 		}
 
         public override void LabelizeWidgets()
         {
-            mGaugeValOne.Label = "AN INTEGER";
-        }
+
+			mOverlay.Label = "Overlay";
+		}
     }
 }

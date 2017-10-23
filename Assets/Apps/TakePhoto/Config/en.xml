@@ -34,7 +34,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>redo</Key>
+            <Key>redopic</Key>
             <BaseValue>Take an other photo?</BaseValue>
             <ClosePhoneticValues>
                 <string>photo</string>
@@ -71,7 +71,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>tweet</Key>
-            <BaseValue />
+            <BaseValue>tweet</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -121,6 +121,18 @@
                 <string>I'm so good at this!</string>
                 <string>Look at this pretty picture!</string>
                 <string>What a nice picture, [200] I'm a pro photographer</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>redo</Key>
+            <BaseValue>New Picture</BaseValue>
+            <ClosePhoneticValues>
+                <string>photo</string>
+                <string>do again</string>
+                <string>take an other one</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
             </RandomValues>
         </DictionaryEntry>
     </Entries>

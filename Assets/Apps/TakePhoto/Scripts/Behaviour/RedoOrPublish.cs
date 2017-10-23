@@ -80,6 +80,9 @@ namespace BuddyApp.TakePhoto
 		{
 			Interaction.Mood.Set(MoodType.NEUTRAL);
 			//Trigger(quitTrigger);
+			if (Primitive.RGBCam.IsOpen) {
+				Primitive.RGBCam.Close();
+			}
 			QuitApp();
 		}
 

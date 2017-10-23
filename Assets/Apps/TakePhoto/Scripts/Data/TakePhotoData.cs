@@ -8,7 +8,7 @@ namespace BuddyApp.TakePhoto
         /*
          * Data getters / setters
          */
-        public int MyValue { get; set; }
+        public bool Overlay { get; set; }
 
         /*
          * Data singleton access
