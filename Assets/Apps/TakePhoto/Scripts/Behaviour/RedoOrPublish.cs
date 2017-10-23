@@ -109,7 +109,7 @@ namespace BuddyApp.TakePhoto
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			Interaction.TextToSpeech.Say("ok");
-			
+			Toaster.Hide();
 			Interaction.Mood.Set(MoodType.NEUTRAL);
 			mSpeechReco = "";
 			mListening = false;
