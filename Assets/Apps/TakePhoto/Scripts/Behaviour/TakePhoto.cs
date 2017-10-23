@@ -22,9 +22,10 @@ namespace BuddyApp.TakePhoto
 		private Sprite mPhotoSprite;
 		private bool mPhotoTaken;
 
-		private List<Texture2D> mOverlaysTextures;
+		private Dictionary<string, Texture2D> mOverlaysTextures;
 		private RawImage mOverlay;
 		private Texture2D mOverlayTexture;
+		private List<string> mOverlaysNames;
 
 		public override void Start()
 		{
@@ -45,24 +46,38 @@ namespace BuddyApp.TakePhoto
 
 
 
-			mOverlaysTextures = new List<Texture2D>();
-			Sprite lOverlaySprite = Resources.Load<Sprite>("overcrazy");
-			mOverlaysTextures.Add(lOverlaySprite.texture);
+			mOverlaysTextures = new Dictionary<string, Texture2D>();
+			mOverlaysNames = new List<String>();
 
-			lOverlaySprite = Resources.Load<Sprite>("overfunny");
-			mOverlaysTextures.Add(lOverlaySprite.texture);
+			mOverlaysNames.Add("overcrazy640480");
+			mOverlaysNames.Add("overfunny640480");
+			mOverlaysNames.Add("overtrendy640480");
+			mOverlaysNames.Add("overgrumpy640480");
+			mOverlaysNames.Add("overlovely640480");
+			mOverlaysNames.Add("overangry640480");
 
-			lOverlaySprite = Resources.Load<Sprite>("overtrendy");
-			mOverlaysTextures.Add(lOverlaySprite.texture);
 
-			lOverlaySprite = Resources.Load<Sprite>("overgrumpy");
-			mOverlaysTextures.Add(lOverlaySprite.texture);
+			string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
+            Sprite lOverlaySprite = Resources.Load<Sprite>(lRandomSpriteName);
+			mOverlaysTextures[lRandomSpriteName] = lOverlaySprite.texture;
 
-			lOverlaySprite = Resources.Load<Sprite>("overlovely");
-			mOverlaysTextures.Add(lOverlaySprite.texture);
+			//Sprite lOverlaySprite = Resources.Load<Sprite>("overcrazy");
+			//mOverlaysTextures.Add(lOverlaySprite.texture);
 
-			lOverlaySprite = Resources.Load<Sprite>("overangry");
-			mOverlaysTextures.Add(lOverlaySprite.texture);
+			//lOverlaySprite = Resources.Load<Sprite>("overfunny");
+			//mOverlaysTextures.Add(lOverlaySprite.texture);
+
+			//lOverlaySprite = Resources.Load<Sprite>("overtrendy");
+			//mOverlaysTextures.Add(lOverlaySprite.texture);
+
+			//lOverlaySprite = Resources.Load<Sprite>("overgrumpy");
+			//mOverlaysTextures.Add(lOverlaySprite.texture);
+
+			//lOverlaySprite = Resources.Load<Sprite>("overlovely");
+			//mOverlaysTextures.Add(lOverlaySprite.texture);
+
+			//lOverlaySprite = Resources.Load<Sprite>("overangry");
+			//mOverlaysTextures.Add(lOverlaySprite.texture);
 
 			Debug.Log("Init TakePhoto done");
 
@@ -81,7 +96,13 @@ namespace BuddyApp.TakePhoto
 			int lRandomIndice = UnityEngine.Random.Range(0, mOverlaysTextures.Count - 1);
 
 			// Random Overlay selection
-			mOverlayTexture = mOverlaysTextures[lRandomIndice];
+			string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
+			if (!mOverlaysTextures.ContainsKey(lRandomSpriteName)) {
+				Sprite lOverlaySprite = Resources.Load<Sprite>(lRandomSpriteName);
+				mOverlaysTextures[lRandomSpriteName] = lOverlaySprite.texture;
+			}
+
+			mOverlayTexture = mOverlaysTextures[lRandomSpriteName];
 			mOverlay.texture = mOverlayTexture;
 
 
