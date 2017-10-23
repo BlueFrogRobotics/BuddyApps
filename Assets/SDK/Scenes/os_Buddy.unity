@@ -71,7 +71,7 @@ LightmapSettings:
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 1024
     m_ReflectionCompression: 2
-    m_MixedBakeMode: 1
+    m_MixedBakeMode: 3
     m_BakeBackend: 0
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
@@ -167,6 +167,21 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 224727126638642382, guid: 25b318fcc24d09d4cb985ba4b088ce63,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 224679249621403536, guid: 25b318fcc24d09d4cb985ba4b088ce63,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 224315072120937420, guid: 25b318fcc24d09d4cb985ba4b088ce63,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 78
+      objectReference: {fileID: 0}
     - target: {fileID: 224914813757409650, guid: 25b318fcc24d09d4cb985ba4b088ce63,
         type: 2}
       propertyPath: m_AnchorMin.y
@@ -185,7 +200,7 @@ Prefab:
     - target: {fileID: 224914813757409650, guid: 25b318fcc24d09d4cb985ba4b088ce63,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 224628735229327968, guid: 25b318fcc24d09d4cb985ba4b088ce63,
         type: 2}
@@ -210,7 +225,7 @@ Prefab:
     - target: {fileID: 224628735229327968, guid: 25b318fcc24d09d4cb985ba4b088ce63,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 110
       objectReference: {fileID: 0}
     - target: {fileID: 224384325948628348, guid: 25b318fcc24d09d4cb985ba4b088ce63,
         type: 2}
@@ -235,7 +250,12 @@ Prefab:
     - target: {fileID: 224384325948628348, guid: 25b318fcc24d09d4cb985ba4b088ce63,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 224415895551125858, guid: 25b318fcc24d09d4cb985ba4b088ce63,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: -557
       objectReference: {fileID: 0}
     - target: {fileID: 224340001681356392, guid: 25b318fcc24d09d4cb985ba4b088ce63,
         type: 2}
@@ -387,45 +407,20 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 70
       objectReference: {fileID: 0}
-    - target: {fileID: 224750216608350156, guid: 25b318fcc24d09d4cb985ba4b088ce63,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 224315072120937420, guid: 25b318fcc24d09d4cb985ba4b088ce63,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224727126638642382, guid: 25b318fcc24d09d4cb985ba4b088ce63,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 224415895551125858, guid: 25b318fcc24d09d4cb985ba4b088ce63,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: -557
-      objectReference: {fileID: 0}
     - target: {fileID: 224465435275312910, guid: 25b318fcc24d09d4cb985ba4b088ce63,
         type: 2}
       propertyPath: m_SizeDelta.y
       value: -560
       objectReference: {fileID: 0}
-    - target: {fileID: 224679249621403536, guid: 25b318fcc24d09d4cb985ba4b088ce63,
+    - target: {fileID: 224750216608350156, guid: 25b318fcc24d09d4cb985ba4b088ce63,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224679249621403536, guid: 25b318fcc24d09d4cb985ba4b088ce63,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 1246.7538
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 224985739355340504, guid: 25b318fcc24d09d4cb985ba4b088ce63,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0.42346156
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 25b318fcc24d09d4cb985ba4b088ce63, type: 2}

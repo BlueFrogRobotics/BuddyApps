@@ -23,11 +23,13 @@ namespace BuddyApp.Guardian
 			BYOS.Instance.Header.DisplayParametersButton = true;
 
 			if (GuardianData.Instance.FirstRun) {
+                Debug.Log("[TTS] Has TTS been setup: " + Interaction.TextToSpeech.IsSetup);
 				Interaction.TextToSpeech.SayKey("firststartdetectiontimer");
 				GuardianData.Instance.FirstRun = false;
 				mTimer = 10;
             } else {
-				Interaction.TextToSpeech.SayKey("startdetectiontimer");
+                Debug.Log("[TTS] Has TTS been setup: " + Interaction.TextToSpeech.IsSetup);
+                Interaction.TextToSpeech.SayKey("startdetectiontimer");
 				mTimer = 5;
 			}
 

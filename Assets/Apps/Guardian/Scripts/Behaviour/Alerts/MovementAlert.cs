@@ -43,7 +43,7 @@ namespace BuddyApp.Guardian
         /// <returns>the Sprite that will be shown</returns>
 		public override Sprite GetIcon()
 		{
-			return BYOS.Instance.Resources.GetSprite("Movement_Alert", "GuardianAtlas");
+			return BYOS.Instance.Resources.GetSpriteFromAtlas("Movement_Alert", "GuardianAtlas");
 		}
 
         /// <summary>

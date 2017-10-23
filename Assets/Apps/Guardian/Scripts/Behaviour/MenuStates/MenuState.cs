@@ -43,7 +43,8 @@ namespace BuddyApp.Guardian
 			BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
 			mHasLoadedTTS = true;
-			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askchoices"));
+            //Debug.Log("[TTS] Has TTS been setup: " + Interaction.TextToSpeech.IsSetup);
+            Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askchoices"));
 
 			Interaction.VocalManager.OnEndReco = OnSpeechReco;
 			Interaction.VocalManager.EnableDefaultErrorHandling = false;

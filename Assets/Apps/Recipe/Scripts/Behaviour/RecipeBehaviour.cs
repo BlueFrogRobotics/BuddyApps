@@ -62,7 +62,7 @@ namespace BuddyApp.Recipe
 		public void OnClickCategory(string category)
 		{
 			//TODO: verify this path is ok 
-			List<Recipe> lRecipeList = RecipeList.Deserialize(BYOS.Instance.Resources.PathToRaw(BYOS.Instance.Dictionary.GetString("pathtoxml"))).recipe;
+			List<Recipe> lRecipeList = RecipeList.Deserialize(BYOS.Instance.Resources.GetPathToRaw(BYOS.Instance.Dictionary.GetString("pathtoxml"))).recipe;
 			mRecipeList = new List<Recipe>();
 
 			for (int i = 0; i < lRecipeList.Count; i++) {
@@ -124,9 +124,9 @@ namespace BuddyApp.Recipe
 						}
 					}
 					if (lIngredient.icon != null)
-						mPrefabIngredientIconList[i].GetComponent<Image>().sprite = BYOS.Instance.Resources.GetSprite(lIngredient.icon, "AtlasRecipe");
+						mPrefabIngredientIconList[i].GetComponent<Image>().sprite = BYOS.Instance.Resources.GetSpriteFromAtlas(lIngredient.icon, "AtlasRecipe");
 					else
-						mPrefabIngredientIconList[i].GetComponent<Image>().sprite =BYOS.Instance.Resources.GetSprite("Recipe_Ico_Autres", "AtlasRecipe");
+						mPrefabIngredientIconList[i].GetComponent<Image>().sprite =BYOS.Instance.Resources.GetSpriteFromAtlas("Recipe_Ico_Autres", "AtlasRecipe");
 				} else
 					mPrefabIngredientList[i].SetActive(false);
 				IngredientIndex++;

@@ -40,7 +40,7 @@ namespace BuddyApp.Recipe
 				iAnimator.SetTrigger("ChooseWithScreen");
 			if (mNotListening && !Interaction.VocalManager.RecognitionTriggered && mTime > 10.0F) {
 				mTime = 0.0F;
-				Notifier.Display<Buddy.UI.SimpleNot>().With(Dictionary.GetString("hint1"), BYOS.Instance.Resources.GetSprite("LightOn"));
+				Notifier.Display<Buddy.UI.SimpleNot>().With(Dictionary.GetString("hint1"), BYOS.Instance.Resources.GetSpriteFromAtlas("LightOn"));
 			}
 		}
 

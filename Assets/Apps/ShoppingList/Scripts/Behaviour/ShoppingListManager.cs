@@ -69,7 +69,7 @@ namespace BuddyApp.ShoppingList
             mTimer = 0.0f;
             mListSerializer = new ListSerializer();
             mListSerializer.shopList = new List<Item>();
-            mListSerializer = ListSerializer.Deserialize(BYOS.Instance.Resources.PathToRaw("shopping_items.xml"));// BuddyTools.Utils.GetStreamingAssetFilePath("shopping_items.xml"));
+            mListSerializer = ListSerializer.Deserialize(BYOS.Instance.Resources.GetPathToRaw("shopping_items.xml"));// BuddyTools.Utils.GetStreamingAssetFilePath("shopping_items.xml"));
             if (mListSerializer == null)
                 mListSerializer = new ListSerializer();
             mListSerializerBeforeCommand = mListSerializer.Clone(); //new List<Item>(mListSerializer.shopList);
@@ -492,7 +492,7 @@ namespace BuddyApp.ShoppingList
             if (!mWillQuit)
             {
 
-                mListSerializer.Serialize(BYOS.Instance.Resources.PathToRaw("shopping_items.xml"));// BuddyTools.Utils.GetStreamingAssetFilePath("shopping_items.xml"));
+                mListSerializer.Serialize(BYOS.Instance.Resources.GetPathToRaw("shopping_items.xml"));// BuddyTools.Utils.GetStreamingAssetFilePath("shopping_items.xml"));
                 CloseWindow();
                 mWillQuit = true;
                 mTimer = 0.0f;
