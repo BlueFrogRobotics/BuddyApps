@@ -11,6 +11,12 @@ namespace BuddyApp.RedLightGreenLightGame
     {
         private RGBCam mCam;
         private int mLife = 1;
+        private RedLightGreenLightGameBehaviour mRLGLBehaviour;
+
+        public override void Start()
+        {
+            mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
+        }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -39,7 +45,7 @@ namespace BuddyApp.RedLightGreenLightGame
             
             yield return SayKeyAndWait("lookphoto");
 
-            Texture2D lTexture = mCam.FrameTexture2D;
+            Texture2D lTexture = mRLGLBehaviour.PictureMoving;//mCam.FrameTexture2D;
             //Texture2D lTexture = LoadPNG("C:/Users/Walid/Pictures/buddy.png");
             //Utils.Texture2DToMat(lTexture);
             
