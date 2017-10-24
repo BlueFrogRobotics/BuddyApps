@@ -10,7 +10,7 @@ namespace BuddyApp.RedLightGreenLightGame
     public class RLGLDefeat : AStateMachineBehaviour
     {
         private RGBCam mCam;
-        private int mLife = 1;
+        private int mLife = 2;
         private RedLightGreenLightGameBehaviour mRLGLBehaviour;
 
         public override void Start()
