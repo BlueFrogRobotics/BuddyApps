@@ -34,6 +34,15 @@ namespace BuddyApp.RedLightGreenLightGame
         private Texture2D mPictureMoving;
         public Texture2D PictureMoving { get { return mPictureMoving; } set { mPictureMoving = value; } }
 
+        private bool mTargetClicked;
+        public bool TargetClicked { get { return mTargetClicked; } set { mTargetClicked = value; } }
+
+        private bool mFirstTurn;
+        public bool FirstTurn { get { return mFirstTurn; } set { mFirstTurn = value; } }
+
+        private bool mGameplay;
+        public bool Gameplay { get { return mGameplay; } set { mGameplay = value; } }
+
         void Start()
         {
 			/*
@@ -47,6 +56,9 @@ namespace BuddyApp.RedLightGreenLightGame
             mAppData = RedLightGreenLightGameData.Instance;
             mTimer = 0.0F;
             mIsPlayerPositionning = false;
+            mTargetClicked = false;
+            mFirstTurn = false;
+            mGameplay = false;
 
         }
 
@@ -63,6 +75,11 @@ namespace BuddyApp.RedLightGreenLightGame
         internal void CloseFlash()
         {
             //close the flash
+        }
+
+        public void OnClickTarget()
+        {
+            mTargetClicked = true;
         }
     }
 }
