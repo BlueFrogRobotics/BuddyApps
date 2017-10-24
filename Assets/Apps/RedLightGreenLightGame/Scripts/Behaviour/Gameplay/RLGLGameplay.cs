@@ -17,6 +17,8 @@ namespace BuddyApp.RedLightGreenLightGame
         private int mTargetScale;
         private bool mGameplay;
         private bool mFirstStep;
+        private float mTimerLimit;
+        private bool mDone;
 
         public override void Start()
         {
@@ -30,10 +32,13 @@ namespace BuddyApp.RedLightGreenLightGame
             mGameplay = false;
             mFirstStep = false;
             mCam = Primitive.RGBCam;
+            mDone = false;
             mTexture = new Texture2D(mCam.Width, mCam.Height);
             //Perception.Motion.OnDetect(OnMovementDetected);
-            Interaction.TextToSpeech.SayKey("gameplayaller");
-            mRLGLBehaviour.OpenFlash();
+            //Timer limit a changer en fonction du xml
+            mTimerLimit = 5F;
+            mRLGLBehaviour.Timer = 0F;
+            
             //WARNING : pour après quand on aura le parseur de level ect
             //mIdLevel = mRLGLBehaviour.idLevel;
         }
@@ -41,8 +46,15 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbFaFailedacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if(!mGameplay)
+            if(!mRLGLBehaviour.FirstTurn)
             {
+                Interaction.TextToSpeech.SayKey("gameplayaller");
+                mRLGLBehaviour.FirstTurn = true;
+            }
+                
+            if (!mRLGLBehaviour.gameObject)
+            {
+                //mRLGLBehaviour.OpenFlash();
                 //Close the flash, depends on the fact that the flash is auto so it close by itself or if we have to close it
                 if (mIdLevel >= 0 && mIdLevel < 3)
                 {
@@ -67,11 +79,22 @@ namespace BuddyApp.RedLightGreenLightGame
             }
             else
             {
-                //put the treshold on the xml 
-                Perception.Motion.OnDetect(OnMovementDetected, 5F);
+                //open the eyes, a voir quand on aura l'animation
+                if(mRLGLBehaviour.Timer < mTimerLimit && !mDone)
+                {
+                    //put the treshold on the xml 
+                    Perception.Motion.OnDetect(OnMovementDetected, 5F);
+                }
+                else if(mRLGLBehaviour.Timer > mTimerLimit && !mDone)
+                {
+                    Perception.Motion.StopOnDetect(OnMovementDetected);
+                    Interaction.TextToSpeech.SayKey("goodatthisgame");
+                }
+
+                if (mDone)
+                    Trigger("TargetGameplay");
+
             }
-
-
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
