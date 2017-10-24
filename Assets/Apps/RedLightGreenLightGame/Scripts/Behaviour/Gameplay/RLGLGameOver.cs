@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
+using Buddy.UI;
 
 namespace BuddyApp.RedLightGreenLightGame
 {
@@ -36,7 +37,9 @@ namespace BuddyApp.RedLightGreenLightGame
         {
             Interaction.Mood.Set(MoodType.SAD);
             yield return SayKeyAndWait("gameover");
+            Toaster.Display<DefeatToast>().With("game over");
             yield return new WaitForSeconds(2);
+            Toaster.Hide();
             Interaction.Mood.Set(MoodType.HAPPY);
             Interaction.Face.SetEvent(FaceEvent.SMILE);
             yield return new WaitForSeconds(1);

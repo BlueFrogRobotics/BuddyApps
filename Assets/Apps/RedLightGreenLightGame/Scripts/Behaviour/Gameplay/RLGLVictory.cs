@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
+using Buddy.UI;
 
 namespace BuddyApp.RedLightGreenLightGame
 {
@@ -37,7 +38,9 @@ namespace BuddyApp.RedLightGreenLightGame
             yield return SayKeyAndWait("victory");
             Interaction.Mood.Set(MoodType.HAPPY);
             Interaction.Face.SetEvent(FaceEvent.SMILE);
+            Toaster.Display<VictoryToast>().With("niveau "+mLevel+" fini");
             yield return new WaitForSeconds(2);
+            Toaster.Hide();
             yield return SayAndWait(Dictionary.GetRandomString("wonlevel") + mLevel);
             yield return new WaitForSeconds(1);
             Interaction.Mood.Set(MoodType.NEUTRAL);

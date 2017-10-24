@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
+using Buddy.UI;
 
 namespace BuddyApp.RedLightGreenLightGame
 {
     public class RLGLRepositionning : AStateMachineBehaviour
     {
         //TODO take real level
-        int mLevel = 0;
+        private int mLevel = 0;
+        private bool mEndTimer = false;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
 
             StartCoroutine(Repositionning());
-
+            mEndTimer = false;
             //Interaction.TextToSpeech.Silence(1000);
 
         }
@@ -35,9 +37,17 @@ namespace BuddyApp.RedLightGreenLightGame
         private IEnumerator Repositionning()
         {
             yield return SayKeyAndWait("repositionning");
-            yield return new WaitForSeconds(5);
+            Toaster.Display<CountdownToast>().With(5, EndCountDown);
+            while (!mEndTimer)
+                yield return null;
+            //yield return new WaitForSeconds(5);
             mLevel++;
             Trigger("Repositionning");
+        }
+
+        private void EndCountDown()
+        {
+            mEndTimer = true;
         }
 
     }

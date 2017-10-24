@@ -34,14 +34,17 @@ namespace BuddyApp.RedLightGreenLightGame
 
         private IEnumerator Defeat()
         {
+            Interaction.Mood.Set(MoodType.SAD);
             yield return SayKeyAndWait("youmoved");
+            
             yield return SayKeyAndWait("lookphoto");
 
             Texture2D lTexture = mCam.FrameTexture2D;
             //Texture2D lTexture = LoadPNG("C:/Users/Walid/Pictures/buddy.png");
             //Utils.Texture2DToMat(lTexture);
+            
             Toaster.Display<PictureToast>().With(Dictionary.GetString("lookphoto"), Sprite.Create(lTexture, new Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5f, 0.5f)));
-            Interaction.Mood.Set(MoodType.SAD);
+            
             yield return new WaitForSeconds(3);
             Interaction.Mood.Set(MoodType.HAPPY);
             Toaster.Hide();
