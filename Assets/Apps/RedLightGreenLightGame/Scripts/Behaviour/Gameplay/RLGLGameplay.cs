@@ -52,7 +52,7 @@ namespace BuddyApp.RedLightGreenLightGame
                 mRLGLBehaviour.FirstTurn = true;
             }
                 
-            if (!mRLGLBehaviour.gameObject)
+            if (!mRLGLBehaviour.Gameplay)
             {
                 //mRLGLBehaviour.OpenFlash();
                 //Close the flash, depends on the fact that the flash is auto so it close by itself or if we have to close it
