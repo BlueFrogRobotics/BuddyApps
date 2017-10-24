@@ -58,7 +58,7 @@ namespace BuddyApp.RedLightGreenLightGame
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("ON EXIT TARGET GAMEPLAY");
-            GetComponentInGameObject<RedLightGreenLightGameBehaviour>(1).enabled = false;
+            GetGameObject(1).SetActive(false);
             mRLGLBehaviour.TargetClicked = false;
         }
 
@@ -75,11 +75,11 @@ namespace BuddyApp.RedLightGreenLightGame
                 Debug.Log("open the eyes!");
             }
             //faire apparaitre la cible suivant taille du xml / vitesse, pour le moment la cible apparait au milieu avec taille définie
-            if (!GetComponentInGameObject<RedLightGreenLightGameBehaviour>(1).enabled)
-                GetComponentInGameObject<RedLightGreenLightGameBehaviour>(1).enabled = true;
+            if (!GetGameObject(1).activeSelf)
+                GetGameObject(1).SetActive(true);
             if (mRLGLBehaviour.TargetClicked && (Primitive.Motors.Wheels.Status == MovingState.REACHED_GOAL || Primitive.Motors.Wheels.Status == MovingState.MOTIONLESS))
             {
-                GetComponentInGameObject<RedLightGreenLightGameBehaviour>(1).enabled = false;
+                GetGameObject(1).SetActive(false);
                 Trigger("Victory");
 
             }
