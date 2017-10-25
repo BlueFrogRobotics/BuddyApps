@@ -79,6 +79,7 @@ namespace BuddyApp.RedLightGreenLightGame
 
         public void OnClickTarget()
         {
+            Debug.Log("TARGET CLICKED!");
             mTargetClicked = true;
         }
     }
