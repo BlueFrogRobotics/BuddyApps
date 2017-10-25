@@ -11,6 +11,7 @@ namespace BuddyApp.RedLightGreenLightGame
         private int mIdLevel;
         private float mLimit;
         private bool mSentenceDone;
+        private bool mIsMovementDone;
 
         public override void Start()
         {
@@ -23,9 +24,10 @@ namespace BuddyApp.RedLightGreenLightGame
             Debug.Log("ON STATE ENTER TARGET GAMEPLAY");
             Interaction.Mood.Set(MoodType.TIRED);
             //mlimit a determiner en fonction du xml
-            mLimit = 5F;
+            mLimit = 8F;
             mRLGLBehaviour.Timer = 0F;
             mSentenceDone = false;
+            mIsMovementDone = false;
             //quand on aura le parsing xml, prendre le idlevel directement de celui ci
             //mIdLevel = mRLGLBehaviour.IdLevel;
         }
@@ -39,15 +41,27 @@ namespace BuddyApp.RedLightGreenLightGame
             {
                 ClickTarget();
             }
-            else if(!Interaction.TextToSpeech.HasFinishedTalking && !mSentenceDone)
+            else if(!mSentenceDone)
             {
                 Interaction.TextToSpeech.SayKey("top");
                 mSentenceDone = true;
             }
-            if(mSentenceDone && mRLGLBehaviour.Timer > mLimit)
+            if(mSentenceDone && mRLGLBehaviour.Timer > mLimit && Interaction.TextToSpeech.HasFinishedTalking)
             {
                 mRLGLBehaviour.Gameplay = true;
-                Trigger("StartGame");
+                if (mIdLevel >= 0 && mIdLevel < 3 && !mIsMovementDone)
+                {
+                    //tourner de - la valeur du xml
+                    Primitive.Motors.Wheels.TurnAngle(-180F, 250F, 1F);
+                    mIsMovementDone = true;
+                }
+                else if (mIdLevel > 2)
+                {
+                    //il faudra open les yeux quand on pourra les fermer
+                    Debug.Log("open the eyes!");
+                }
+                if((Primitive.Motors.Wheels.Status == MovingState.REACHED_GOAL || Primitive.Motors.Wheels.Status == MovingState.MOTIONLESS))
+                    Trigger("StartGame");
             }
                 
 
@@ -65,20 +79,13 @@ namespace BuddyApp.RedLightGreenLightGame
         private void ClickTarget()
         {
             mRLGLBehaviour.FirstTurn = false;
-            if (mIdLevel >= 0 && mIdLevel < 3)
-            {
-                Primitive.Motors.Wheels.TurnAngle(-180F, 250F, 1F);
-            }
-            else if (mIdLevel > 2)
-            {
-                //il faudra open les yeux quand on pourra les fermer
-                Debug.Log("open the eyes!");
-            }
+            Debug.Log("CLICJ TARGET 1------------------------------------------------");
             //faire apparaitre la cible suivant taille du xml / vitesse, pour le moment la cible apparait au milieu avec taille définie
             if (!GetGameObject(1).activeSelf)
                 GetGameObject(1).SetActive(true);
             if (mRLGLBehaviour.TargetClicked && (Primitive.Motors.Wheels.Status == MovingState.REACHED_GOAL || Primitive.Motors.Wheels.Status == MovingState.MOTIONLESS))
             {
+                Debug.Log("CLICJ TARGET 2 ---------------------------------------------");
                 GetGameObject(1).SetActive(false);
                 Trigger("Victory");
 

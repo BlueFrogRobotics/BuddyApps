@@ -67,9 +67,7 @@ namespace BuddyApp.RedLightGreenLightGame
                     {
                         //se retourne
                         //Primitive.Motors.Wheels.TurnAngle(angle du xml, vitesse xml, 0.5F ou 1F);
-                        Debug.Log("TURNANGLE RLGLGameplay -----------------------------------------------------------------------------------------------------------");
                         Primitive.Motors.Wheels.TurnAngle(180F, 250F, 1F);
-                        Interaction.Mood.Set(MoodType.LOVE);
                         mFirstStep = true;
                     }
                     
@@ -129,11 +127,7 @@ namespace BuddyApp.RedLightGreenLightGame
             //    mIsDetectedMouv = true;
             return false;
         }
-
-        ///////////////////////////////////////////////////////////////////
-        ///////FERMER LA DETECTION QUAND YA PAS DE DETECTION STARFOULLAH
-
-
+        
     }
 }
 
