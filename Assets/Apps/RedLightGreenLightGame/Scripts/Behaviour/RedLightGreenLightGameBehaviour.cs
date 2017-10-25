@@ -43,6 +43,9 @@ namespace BuddyApp.RedLightGreenLightGame
         private bool mGameplay;
         public bool Gameplay { get { return mGameplay; } set { mGameplay = value; } }
 
+        private int mLife;
+        public int Life { get { return mLife; } set { if (value < 0) mLife = 0; else mLife = value; } }
+
         void Start()
         {
 			/*
@@ -59,6 +62,7 @@ namespace BuddyApp.RedLightGreenLightGame
             mTargetClicked = false;
             mFirstTurn = false;
             mGameplay = false;
+            Life = 3;
 
         }
 

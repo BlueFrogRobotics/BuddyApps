@@ -8,13 +8,12 @@ namespace BuddyApp.RedLightGreenLightGame
 {
     public class RLGLGameOver : AStateMachineBehaviour
     {
-        //TODO take real level
-        int mLevel = 0;
+        private LevelManager mLevelManager;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            mLevelManager = GetComponent<LevelManager>();
             StartCoroutine(GameOver());
 
             //Interaction.TextToSpeech.Silence(1000);
@@ -35,6 +34,7 @@ namespace BuddyApp.RedLightGreenLightGame
 
         private IEnumerator GameOver()
         {
+            int lLevel = mLevelManager.LevelData.Level;
             Interaction.Mood.Set(MoodType.SAD);
             yield return SayKeyAndWait("gameover");
             Toaster.Display<DefeatToast>().With("game over");
@@ -43,8 +43,7 @@ namespace BuddyApp.RedLightGreenLightGame
             Interaction.Mood.Set(MoodType.HAPPY);
             Interaction.Face.SetEvent(FaceEvent.SMILE);
             yield return new WaitForSeconds(1);
-            yield return SayAndWait(Dictionary.GetRandomString("lastlevel") + mLevel);
-            mLevel++;
+            yield return SayAndWait(Dictionary.GetRandomString("lastlevel") + lLevel);
             Trigger("AskReplay");
         }
 

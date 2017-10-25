@@ -62,12 +62,10 @@ namespace BuddyApp.RedLightGreenLightGame
                     mHasShowWindow = true;
                     //mMat=new Mat()
                     mMat = mCam.FrameMat;
-                    Debug.Log("trololoul");
-                    Debug.Log("mat width: " + mCam.Width);
                     mTexture = Utils.MatToTexture2D(mMat);
                     Toaster.Display<PictureToast>().With(Dictionary.GetString("lookphoto"), Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
                 }
-                if (mRLGLBehaviour.Timer > 0.1 && mDetectionCount <= 15 && mHasShowWindow)
+                if (mRLGLBehaviour.Timer > 0.1 && mDetectionCount <= 12 && mHasShowWindow)
                 {
                     if (mMatDetection == null)
                     {

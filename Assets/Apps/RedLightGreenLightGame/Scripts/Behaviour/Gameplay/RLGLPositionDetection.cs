@@ -45,7 +45,7 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (mRLGLBehaviour.Timer > 0.1 && mDetectionCount <= 15)
+            if (mRLGLBehaviour.Timer > 0.1 && mDetectionCount <= 12)
             {
                 if (mMatDetection == null)
                 {
@@ -65,7 +65,7 @@ namespace BuddyApp.RedLightGreenLightGame
                 mRLGLBehaviour.Timer = 0;
             }
 
-            if (mDetectionCount > 15)
+            if (mDetectionCount > 12)
                 Trigger("StartGame");
         }
 

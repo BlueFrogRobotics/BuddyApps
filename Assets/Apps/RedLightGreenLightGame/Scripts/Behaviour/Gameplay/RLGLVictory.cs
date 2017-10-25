@@ -8,13 +8,12 @@ namespace BuddyApp.RedLightGreenLightGame
 {
     public class RLGLVictory : AStateMachineBehaviour
 	{
-        //TODO take real level
-        int mLevel = 0;
+        private LevelManager mLevelManager;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            mLevelManager = GetComponent<LevelManager>();
             StartCoroutine(Congratulation());
 			
 			//Interaction.TextToSpeech.Silence(1000);
@@ -38,14 +37,16 @@ namespace BuddyApp.RedLightGreenLightGame
             yield return SayKeyAndWait("victory");
             Interaction.Mood.Set(MoodType.HAPPY);
             Interaction.Face.SetEvent(FaceEvent.SMILE);
-            Toaster.Display<VictoryToast>().With("niveau "+mLevel+" fini");
+            int lLevel = mLevelManager.LevelData.Level;
+            Toaster.Display<VictoryToast>().With("niveau "+lLevel+" fini");
             yield return new WaitForSeconds(2);
             Toaster.Hide();
-            yield return SayAndWait(Dictionary.GetRandomString("wonlevel") + mLevel);
+            yield return SayAndWait(Dictionary.GetRandomString("wonlevel") + lLevel);
             yield return new WaitForSeconds(1);
             Interaction.Mood.Set(MoodType.NEUTRAL);
-            mLevel++;
-            yield return SayAndWait(Dictionary.GetRandomString("seriousbegin") + mLevel+". Let's go");
+            mLevelManager.LevelUp();
+            lLevel = mLevelManager.LevelData.Level;
+            yield return SayAndWait(Dictionary.GetRandomString("seriousbegin") + lLevel+". Let's go");
             Trigger("Repositionning");
         }
 

@@ -10,7 +10,7 @@ namespace BuddyApp.RedLightGreenLightGame
     public class RLGLDefeat : AStateMachineBehaviour
     {
         private RGBCam mCam;
-        private int mLife = 2;
+        //private int mLife = 2;
         private RedLightGreenLightGameBehaviour mRLGLBehaviour;
 
         public override void Start()
@@ -54,10 +54,10 @@ namespace BuddyApp.RedLightGreenLightGame
             yield return new WaitForSeconds(3);
             Interaction.Mood.Set(MoodType.HAPPY);
             Toaster.Hide();
-            mLife--;
-            if (mLife > 0)
+            mRLGLBehaviour.Life--;
+            if (mRLGLBehaviour.Life > 0)
             {
-                yield return SayAndWait(Dictionary.GetRandomString("loselevel") + " " + mLife + " " + Dictionary.GetRandomString("life"));
+                yield return SayAndWait(Dictionary.GetRandomString("loselevel") + " " + mRLGLBehaviour.Life + " " + Dictionary.GetRandomString("life"));
                 yield return new WaitForSeconds(3);
                 Trigger("Repositionning");
             }
