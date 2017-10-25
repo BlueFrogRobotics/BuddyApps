@@ -53,7 +53,7 @@ namespace BuddyApp.RedLightGreenLightGame
             //If we move during this time, we start the gameplay else the robot said that we need to position ourself in front of him
             if (/*mRLGLBehaviour.Timer > mLimit + 3F &&*/ mIsGoodPosition)
             {
-                Interaction.Face.SetExpression(MoodType.HAPPY);
+                Interaction.Mood.Set(MoodType.HAPPY);
                 if (!Interaction.TextToSpeech.HasFinishedTalking && !mHasTalked)
                 {
                     Interaction.TextToSpeech.SayKey("greatstartgame");

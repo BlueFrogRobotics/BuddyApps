@@ -21,7 +21,7 @@ namespace BuddyApp.RedLightGreenLightGame
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("ON STATE ENTER TARGET GAMEPLAY");
-            Interaction.Face.SetExpression(MoodType.TIRED);
+            Interaction.Mood.Set(MoodType.TIRED);
             //mlimit a determiner en fonction du xml
             mLimit = 5F;
             mRLGLBehaviour.Timer = 0F;

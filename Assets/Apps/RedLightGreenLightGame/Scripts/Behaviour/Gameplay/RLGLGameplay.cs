@@ -19,6 +19,9 @@ namespace BuddyApp.RedLightGreenLightGame
         private bool mFirstStep;
         private float mTimerLimit;
         private bool mDone;
+        private bool first;
+        private bool second;
+        private bool mDetectionDone;
 
         public override void Start()
         {
@@ -38,7 +41,9 @@ namespace BuddyApp.RedLightGreenLightGame
             //Timer limit a changer en fonction du xml
             mTimerLimit = 5F;
             mRLGLBehaviour.Timer = 0F;
-            
+            first = false;
+            second = false;
+            mDetectionDone = false;
             //WARNING : pour après quand on aura le parseur de level ect
             //mIdLevel = mRLGLBehaviour.idLevel;
         }
@@ -62,8 +67,9 @@ namespace BuddyApp.RedLightGreenLightGame
                     {
                         //se retourne
                         //Primitive.Motors.Wheels.TurnAngle(angle du xml, vitesse xml, 0.5F ou 1F);
+                        Debug.Log("TURNANGLE RLGLGameplay -----------------------------------------------------------------------------------------------------------");
                         Primitive.Motors.Wheels.TurnAngle(180F, 250F, 1F);
-                        Interaction.Face.SetExpression(MoodType.LOVE);
+                        Interaction.Mood.Set(MoodType.LOVE);
                         mFirstStep = true;
                     }
                     
@@ -73,25 +79,28 @@ namespace BuddyApp.RedLightGreenLightGame
                 }
                 else if (mIdLevel > 2)
                 {
-                    Interaction.Face.SetExpression(MoodType.LOVE);
+                    Interaction.Mood.Set(MoodType.LOVE);
                     Trigger("TargetGameplay");
                 }
             }
             else
             {
                 //open the eyes, a voir quand on aura l'animation
-                if(mRLGLBehaviour.Timer < mTimerLimit && !mDone)
+                if(mRLGLBehaviour.Timer < mTimerLimit && !mDone && !first)
                 {
                     //put the treshold on the xml 
                     Perception.Motion.OnDetect(OnMovementDetected, 5F);
+                    first = true;
                 }
-                else if(mRLGLBehaviour.Timer > mTimerLimit && !mDone)
+                else if(mRLGLBehaviour.Timer > mTimerLimit && !mDone && !second)
                 {
-                    Perception.Motion.StopOnDetect(OnMovementDetected);
+                    if (!mDetectionDone)
+                        Perception.Motion.StopOnDetect(OnMovementDetected);
                     Interaction.TextToSpeech.SayKey("goodatthisgame");
+                    second = true;
                 }
 
-                if (mDone)
+                if (mDone && Interaction.TextToSpeech.HasFinishedTalking && first && second)
                     Trigger("TargetGameplay");
 
             }
@@ -114,15 +123,15 @@ namespace BuddyApp.RedLightGreenLightGame
             Utils.MatToTexture2D(lCurrentFrame, Utils.ScaleTexture2DFromMat(lCurrentFrame, mTexture));
             mRLGLBehaviour.PictureMoving = mTexture;
             Trigger("Defeat");
-
+            mDetectionDone = true;
             ////Change the value 30 by the value in XML (maybe useless with the treshold of the motion detection)
             //if (iMotions.Length > 30)
             //    mIsDetectedMouv = true;
             return false;
         }
 
-
-
+        ///////////////////////////////////////////////////////////////////
+        ///////FERMER LA DETECTION QUAND YA PAS DE DETECTION STARFOULLAH
 
 
     }
