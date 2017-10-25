@@ -75,7 +75,7 @@ namespace BuddyApp.Companion
 							Trigger("WANDER");
 						} else if (mOrderGiven || mVocalChat.AnswerGiven) {
 							Trigger("ASKNEWRQ");
-						} else if (Interaction.VocalManager.RecoProcessFinished && mTime > 15F) {
+						} else if (Interaction.VocalManager.RecognitionFinished && mTime > 15F) {
 							Debug.Log("pre Back to IDLE: ");
 							if (!mSpeechInput) {
 								//Mb this was a wrong trigger, back to IDLE
