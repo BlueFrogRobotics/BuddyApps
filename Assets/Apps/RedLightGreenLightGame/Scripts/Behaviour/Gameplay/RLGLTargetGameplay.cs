@@ -64,8 +64,6 @@ namespace BuddyApp.RedLightGreenLightGame
                     Trigger("StartGame");
             }
                 
-
-
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -74,11 +72,12 @@ namespace BuddyApp.RedLightGreenLightGame
             Debug.Log("ON EXIT TARGET GAMEPLAY");
             GetGameObject(1).SetActive(false);
             mRLGLBehaviour.TargetClicked = false;
+            Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
         private void ClickTarget()
         {
-            mRLGLBehaviour.FirstTurn = false;
+            
             Debug.Log("CLICJ TARGET 1------------------------------------------------");
             //faire apparaitre la cible suivant taille du xml / vitesse, pour le moment la cible apparait au milieu avec taille définie
             if (!GetGameObject(1).activeSelf)
@@ -86,7 +85,10 @@ namespace BuddyApp.RedLightGreenLightGame
             if (mRLGLBehaviour.TargetClicked && (Primitive.Motors.Wheels.Status == MovingState.REACHED_GOAL || Primitive.Motors.Wheels.Status == MovingState.MOTIONLESS))
             {
                 Debug.Log("CLICJ TARGET 2 ---------------------------------------------");
+                mRLGLBehaviour.FirstTurn = false;
                 GetGameObject(1).SetActive(false);
+                Interaction.Mood.Set(MoodType.HAPPY);
+                Primitive.Motors.Wheels.TurnAngle(-180F, 250F, 1F);
                 Trigger("Victory");
 
             }

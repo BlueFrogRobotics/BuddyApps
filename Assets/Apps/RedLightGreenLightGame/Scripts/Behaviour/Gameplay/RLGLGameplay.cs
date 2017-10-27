@@ -59,6 +59,7 @@ namespace BuddyApp.RedLightGreenLightGame
                 
             if (!mRLGLBehaviour.Gameplay)
             {
+                Debug.Log("GAMEPLAY FALSE;");
                 //mRLGLBehaviour.OpenFlash();
                 //Close the flash, depends on the fact that the flash is auto so it close by itself or if we have to close it
                 if (mIdLevel >= 0 && mIdLevel < 3)
@@ -70,27 +71,36 @@ namespace BuddyApp.RedLightGreenLightGame
                         Primitive.Motors.Wheels.TurnAngle(180F, 250F, 1F);
                         mFirstStep = true;
                     }
-                    
-                    if((Primitive.Motors.Wheels.Status == MovingState.REACHED_GOAL || Primitive.Motors.Wheels.Status == MovingState.MOTIONLESS) && mFirstStep)
-                        Trigger("TargetGameplay");
 
+                    if ((Primitive.Motors.Wheels.Status == MovingState.REACHED_GOAL || Primitive.Motors.Wheels.Status == MovingState.MOTIONLESS) && mFirstStep)
+                    {
+                        Interaction.TextToSpeech.SayKey("top");
+                        Trigger("TargetGameplay");
+                    }
                 }
                 else if (mIdLevel > 2)
                 {
+                    Interaction.TextToSpeech.SayKey("top");
                     Interaction.Mood.Set(MoodType.LOVE);
                     Trigger("TargetGameplay");
                 }
             }
             else
             {
+                Debug.Log("GAMEPLAY TRUE");
                 //open the eyes, a voir quand on aura l'animation
-                if(mRLGLBehaviour.Timer < mTimerLimit && !mDone && !first)
+                if (mRLGLBehaviour.Timer < mTimerLimit + 4F /*&& !mDone */&& !first)
                 {
-                    //put the treshold on the xml 
-                    Perception.Motion.OnDetect(OnMovementDetected, 5F);
-                    first = true;
+                    Debug.Log("DETECTION PERCEPTION GAMEPLAY");
+                    if (((Primitive.Motors.Wheels.Status == MovingState.REACHED_GOAL || Primitive.Motors.Wheels.Status == MovingState.MOTIONLESS)) && mRLGLBehaviour.Timer > 3F)
+                    {
+                        //put the treshold on the xml 
+                        Perception.Motion.OnDetect(OnMovementDetected, 5F);
+                        first = true;
+                    }
+                    
                 }
-                else if(mRLGLBehaviour.Timer > mTimerLimit && !mDone && !second)
+                else if(mRLGLBehaviour.Timer > mTimerLimit/* && !mDone*/ && !second)
                 {
                     if (!mDetectionDone)
                         Perception.Motion.StopOnDetect(OnMovementDetected);
@@ -98,8 +108,8 @@ namespace BuddyApp.RedLightGreenLightGame
                     second = true;
                 }
 
-                if (mDone && Interaction.TextToSpeech.HasFinishedTalking && first && second)
-                    Trigger("TargetGameplay");
+                if (/*mDone && */Interaction.TextToSpeech.HasFinishedTalking && first && second)
+                    mRLGLBehaviour.Gameplay = false;
 
             }
         }

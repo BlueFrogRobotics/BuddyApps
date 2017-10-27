@@ -66,7 +66,12 @@ namespace BuddyApp.RedLightGreenLightGame
             }
 
             if (mDetectionCount > 12)
+            {
+                Debug.Log("------------------------------------");
+                mRLGLBehaviour.Gameplay = false;
                 Trigger("StartGame");
+            }
+                
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
