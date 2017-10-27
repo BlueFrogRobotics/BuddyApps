@@ -390,5 +390,11 @@ namespace BuddyApp.RemoteControl
 
 	        InitRemoteTexture(width, height);
 	    }
+
+		void OnDisable()
+		{
+			mIsConnected = false;
+			StopWebRTC();
+		}
 	}
 }
