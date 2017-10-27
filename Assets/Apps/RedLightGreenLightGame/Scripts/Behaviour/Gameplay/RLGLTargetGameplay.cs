@@ -72,6 +72,7 @@ namespace BuddyApp.RedLightGreenLightGame
             Debug.Log("ON EXIT TARGET GAMEPLAY");
             GetGameObject(1).SetActive(false);
             mRLGLBehaviour.TargetClicked = false;
+            Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
         private void ClickTarget()
@@ -86,6 +87,8 @@ namespace BuddyApp.RedLightGreenLightGame
                 Debug.Log("CLICJ TARGET 2 ---------------------------------------------");
                 mRLGLBehaviour.FirstTurn = false;
                 GetGameObject(1).SetActive(false);
+                Interaction.Mood.Set(MoodType.HAPPY);
+                Primitive.Motors.Wheels.TurnAngle(-180F, 250F, 1F);
                 Trigger("Victory");
 
             }

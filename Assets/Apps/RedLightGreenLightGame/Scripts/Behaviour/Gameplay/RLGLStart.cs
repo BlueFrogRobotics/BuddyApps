@@ -25,6 +25,7 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("ENTER STARTRLGL");
             Interaction.TextToSpeech.SayKey("remplacementpositionningplayer");
             mCam = Primitive.RGBCam;
             mIsLimitDone = false;
@@ -38,6 +39,7 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("UPDATE STARTRLGL");
             if (mRLGLBehaviour.Timer > 5F && !mIsLimitDone)
             {
                 mLimit = mRLGLBehaviour.Timer;
@@ -65,6 +67,7 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("EXIT STARTRLGL");
             Interaction.Face.SetExpression(MoodType.NEUTRAL);
         }
 
