@@ -9,6 +9,12 @@ namespace BuddyApp.RedLightGreenLightGame
     public class RLGLAskReplay : AStateMachineBehaviour
     {
         private LevelManager mLevelManager;
+        private RedLightGreenLightGameBehaviour mRLGLBehaviour;
+
+        public override void Start()
+        {
+            mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
+        }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -41,6 +47,7 @@ namespace BuddyApp.RedLightGreenLightGame
 
         private IEnumerator Restart()
         {
+            mRLGLBehaviour.Life = 3;
             mLevelManager.Reset();
             yield return SayAndWait("ok");
             Trigger("Repositionning");
