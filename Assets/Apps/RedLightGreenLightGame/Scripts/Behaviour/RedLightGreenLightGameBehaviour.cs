@@ -63,7 +63,7 @@ namespace BuddyApp.RedLightGreenLightGame
             mFirstTurn = false;
             mGameplay = false;
             Life = 3;
-
+            Debug.Log("contient oui: " + BYOS.Instance.Dictionary.ContainsPhonetic("non", "yes"));
         }
 
         void Update()
