@@ -849,6 +849,41 @@
             Last computed position of the robot
             </summary>
         </member>
+        <member name="P:Buddy.BML.IsRunning">
+            <summary>
+            Tells if the BML is running.
+            </summary>
+        </member>
+        <member name="P:Buddy.BML.NbSteps">
+            <summary>
+            Total number of steps in the behavior.
+            </summary>
+        </member>
+        <member name="P:Buddy.BML.ActiveStep">
+            <summary>
+            If the behavior is running, tells at which step it's currently at.
+            </summary>
+        </member>
+        <member name="P:Buddy.BML.ID">
+            <summary>
+            ID of the BML.
+            </summary>
+        </member>
+        <member name="P:Buddy.BML.Name">
+            <summary>
+            Name of the BML (its filename).
+            </summary>
+        </member>
+        <member name="P:Buddy.BML.Category">
+            <summary>
+            Category of the behavior.
+            </summary>
+        </member>
+        <member name="F:Buddy.BML.mBlocksID">
+            <summary>
+            Dictionary that contains the ID of every block.
+            </summary>
+        </member>
         <member name="T:Buddy.Interaction">
             <summary>
             Class that contains all the interaction features (Mood, Face, VocalManager, STT, TTS ...)
@@ -895,6 +930,45 @@
         <member name="P:Buddy.Interaction.SphinxTrigger">
             <summary>
             Sphinx trigger
+            </summary>
+        </member>
+        <member name="P:Buddy.Interaction.BMLManager">
+            <summary>
+            Behavior Manager.
+            </summary>
+        </member>
+        <member name="P:Buddy.BMLManager.ActiveBML">
+            <summary>
+            The list of all currently running behaviors.
+            </summary>
+        </member>
+        <member name="M:Buddy.BMLManager.LaunchByName(System.String,Buddy.BMLComposition)">
+            <summary>
+            Launches a Behavior.
+            </summary>
+            <param name="iName">The name of the behavior described by the BML's name.</param>
+            <param name="iComposition">Composition type of the behavior.</param>
+            <returns>False if the BML was not found.</returns>
+        </member>
+        <member name="M:Buddy.BMLManager.LaunchByID(System.String,Buddy.BMLComposition)">
+            <summary>
+            Launches a Behavior.
+            </summary>
+            <param name="iID">The name of the behavior described by the BML's ID.</param>
+            <param name="iComposition">Composition type of the behavior.</param>
+            <returns>False if the BML was not found.</returns>
+        </member>
+        <member name="M:Buddy.BMLManager.LaunchRandom(Buddy.BMLCategory,Buddy.BMLComposition)">
+            <summary>
+            Launches a random behavior that belongs to a certain category.
+            </summary>
+            <param name="iCategory">The Category type to search in.</param>
+            <param name="iComposition">Composition type of the behavior.</param>
+            <returns>False if no behavior was found for the category, true if one was successfuly started.</returns>
+        </member>
+        <member name="M:Buddy.BMLManager.StopAllBehaviors">
+            <summary>
+            Stops all currently running behaviors.
             </summary>
         </member>
         <member name="T:Buddy.VocalDebug">

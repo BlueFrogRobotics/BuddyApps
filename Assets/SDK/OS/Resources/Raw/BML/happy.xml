@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bml id="happy1" category="joy">
+	<gaze id="gaze1" direction="RIGHT"/>
+	<synchronized start="2" end="5">
+		<speech id="speech1" speed="50" intonation="HAPPY" volume="100">
+			<text>Je suis content de te voir</text>
+		</speech>
+		<gaze id="gaze2" direction="UP"/>
+	</synchronized>
+	<wait id="wait1" duration="3" start="0"/>
+	<gaze id="gaze3" direction="DOWN"/>
+	<wait id="wait2" duration="3" start="0"/>
+	<gaze id="gaze4" direction="CENTER"/>
+</bml>
