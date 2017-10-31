@@ -57,7 +57,7 @@ namespace BuddyApp.RedLightGreenLightGame
             mRLGLBehaviour.Life--;
             if (mRLGLBehaviour.Life > 0)
             {
-                yield return SayAndWait(Dictionary.GetRandomString("loselevel") + " " + mRLGLBehaviour.Life + " " + Dictionary.GetRandomString("life"));
+                yield return SayAndWait(Dictionary.GetRandomString("loselevel") + " " + mRLGLBehaviour.Life+1 + " " + Dictionary.GetRandomString("life"));
                 yield return new WaitForSeconds(3);
                 Trigger("Repositionning");
             }

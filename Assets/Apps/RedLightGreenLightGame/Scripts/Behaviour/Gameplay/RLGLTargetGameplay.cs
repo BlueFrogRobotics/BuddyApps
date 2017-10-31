@@ -8,6 +8,7 @@ namespace BuddyApp.RedLightGreenLightGame
     public class RLGLTargetGameplay : AStateMachineBehaviour
     {
         private RedLightGreenLightGameBehaviour mRLGLBehaviour;
+        private LevelManager mLevelManager;
         private int mIdLevel;
         private float mLimit;
         private bool mSentenceDone;
@@ -16,6 +17,7 @@ namespace BuddyApp.RedLightGreenLightGame
         public override void Start()
         {
             mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
+            mLevelManager = GetComponent<LevelManager>();
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -24,12 +26,12 @@ namespace BuddyApp.RedLightGreenLightGame
             Debug.Log("ON STATE ENTER TARGET GAMEPLAY");
             Interaction.Mood.Set(MoodType.TIRED);
             //mlimit a determiner en fonction du xml
-            mLimit = 8F;
+            mLimit = mLevelManager.LevelData.WaitingTime;//8F;
             mRLGLBehaviour.Timer = 0F;
             mSentenceDone = false;
             mIsMovementDone = false;
             //quand on aura le parsing xml, prendre le idlevel directement de celui ci
-            //mIdLevel = mRLGLBehaviour.IdLevel;
+            mIdLevel = mLevelManager.LevelData.Level;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

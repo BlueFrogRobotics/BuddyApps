@@ -38,15 +38,15 @@ namespace BuddyApp.RedLightGreenLightGame
             Interaction.Mood.Set(MoodType.HAPPY);
             Interaction.Face.SetEvent(FaceEvent.SMILE);
             int lLevel = mLevelManager.LevelData.Level;
-            Toaster.Display<VictoryToast>().With("niveau "+lLevel+" fini");
+            Toaster.Display<VictoryToast>().With("niveau "+(lLevel+1)+" fini");
             yield return new WaitForSeconds(2);
             Toaster.Hide();
-            yield return SayAndWait(Dictionary.GetRandomString("wonlevel") + lLevel);
+            yield return SayAndWait(Dictionary.GetRandomString("wonlevel") + (lLevel+1) );
             yield return new WaitForSeconds(1);
             Interaction.Mood.Set(MoodType.NEUTRAL);
             mLevelManager.LevelUp();
             lLevel = mLevelManager.LevelData.Level;
-            yield return SayAndWait(Dictionary.GetRandomString("seriousbegin") + lLevel+". Let's go");
+            yield return SayAndWait(Dictionary.GetRandomString("seriousbegin") + (lLevel+1) +". Let's go");
             Trigger("Repositionning");
         }
 

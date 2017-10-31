@@ -9,7 +9,7 @@ namespace BuddyApp.RedLightGreenLightGame {
 
         public LevelData()
         {
-            //Target = new TargetBehaviour();
+            Target = new TargetData();
         }
 
         public int Level { get; set; }
@@ -22,7 +22,7 @@ namespace BuddyApp.RedLightGreenLightGame {
 
         public float StartDetectionTime { get; set; }
 
-        //public TargetBehaviour Target { get; set; }
+        public TargetData Target { get; set; }
 
         //public bool Movement { get; set; }
 

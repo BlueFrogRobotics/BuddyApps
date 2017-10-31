@@ -25,7 +25,7 @@ namespace BuddyApp.RedLightGreenLightGame
                         continue;
 
                     LevelData lLevel = Utils.UnserializeXML<LevelData>(lLevelfile);
-
+                    Debug.Log("target: speed: " + lLevel.Target.Speed + " size: " + lLevel.Target.Size + " move: " + lLevel.Target.Movement);
                     mListLevels.Add(lLevel);
                 }
             }
@@ -39,7 +39,7 @@ namespace BuddyApp.RedLightGreenLightGame
             });
 
             LevelData = mListLevels[0];
-
+            
         }
 
         public void LevelUp()
@@ -50,6 +50,7 @@ namespace BuddyApp.RedLightGreenLightGame
             else
             {
                 LevelData.Level++;
+                LevelData.WaitingTime -= LevelData.WaitingTime / 10.0f;
                 //TODO: modify detection time
             }
         }
