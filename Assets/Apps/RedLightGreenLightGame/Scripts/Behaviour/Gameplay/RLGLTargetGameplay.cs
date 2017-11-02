@@ -83,7 +83,12 @@ namespace BuddyApp.RedLightGreenLightGame
             Debug.Log("CLICJ TARGET 1------------------------------------------------");
             //faire apparaitre la cible suivant taille du xml / vitesse, pour le moment la cible apparait au milieu avec taille définie
             if (!GetGameObject(1).activeSelf)
+            {
+                GetGameObject(1).transform.localScale = new Vector3 (mLevelManager.LevelData.Target.Size, mLevelManager.LevelData.Target.Size, 1);
+                
                 GetGameObject(1).SetActive(true);
+            }
+                
             if (mRLGLBehaviour.TargetClicked && (Primitive.Motors.Wheels.Status == MovingState.REACHED_GOAL || Primitive.Motors.Wheels.Status == MovingState.MOTIONLESS))
             {
                 Debug.Log("CLICJ TARGET 2 ---------------------------------------------");

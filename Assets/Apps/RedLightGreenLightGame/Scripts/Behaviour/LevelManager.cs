@@ -51,6 +51,8 @@ namespace BuddyApp.RedLightGreenLightGame
             {
                 LevelData.Level++;
                 LevelData.WaitingTime -= LevelData.WaitingTime / 10.0f;
+                LevelData.Target.Speed += 3;
+                LevelData.Target.Size /= 2;
                 //TODO: modify detection time
             }
         }
