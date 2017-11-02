@@ -6,11 +6,24 @@ namespace BuddyApp.RedLightGreenLightGame
 {
     public class RLGLPositionningPlayerWantToPlay : AStateMachineBehaviour
     {
+        private RedLightGreenLightGameBehaviour mRLGLBehaviour;
+
+        public override void Start()
+        {
+            mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
+        }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            GetGameObject(1).SetActive(false);
+            Primitive.Motors.Wheels.Stop();
+            mRLGLBehaviour.TargetClicked = false;
+            Vector3 lDist = Primitive.Motors.Wheels.Odometry - mRLGLBehaviour.StartingOdometry;
+            if (lDist.magnitude < 3.0f)
+                Trigger("RecoilQuestion");
+            else
+                Trigger("ReadyToPlay");
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

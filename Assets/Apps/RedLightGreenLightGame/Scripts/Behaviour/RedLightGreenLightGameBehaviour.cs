@@ -46,6 +46,8 @@ namespace BuddyApp.RedLightGreenLightGame
         private int mLife;
         public int Life { get { return mLife; } set { if (value < 0) mLife = 0; else mLife = value; } }
 
+        public Vector3 StartingOdometry { get; set; }
+
         void Start()
         {
 			/*
