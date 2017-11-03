@@ -958,6 +958,12 @@
             Update the camera frame to the current input RGB camera value.
             </summary>
         </member>
+        <member name="M:Buddy.Internal.API.HardwareDivision.NullTablet.SetFrameRate(System.Int32)">
+            <summary>
+            Sets the framerate of the camera.
+            </summary>
+            <param name="iFrameRate">The framerate in image per seconds.</param>
+        </member>
         <member name="M:Buddy.Internal.API.HardwareDivision.NullTablet.StartMicro(System.String,System.Boolean,System.Int32,System.Int32)">
             <summary>
             Starts Recording. 
@@ -1126,6 +1132,12 @@
             Update the camera frame to the current input RGB camera value.
             </summary>
         </member>
+        <member name="M:Buddy.Internal.API.HardwareDivision.RealTablet.SetFrameRate(System.Int32)">
+            <summary>
+            Sets the frame rate of the camera to desired value
+            </summary>
+            <param name="iFrameRate">Value in image per second</param>
+        </member>
         <member name="M:Buddy.Internal.API.HardwareDivision.RealTablet.StartMicro(System.String,System.Boolean,System.Int32,System.Int32)">
             <summary>
             Starts Recording. 
@@ -1214,6 +1226,12 @@
             <summary>
             Update the camera frame to the current input RGB camera value.
             </summary>
+        </member>
+        <member name="M:Buddy.Internal.API.HardwareDivision.SimuTablet.SetFrameRate(System.Int32)">
+            <summary>
+            Sets the framerate of the camera.
+            </summary>
+            <param name="iFrameRate">The framerate in image per seconds.</param>
         </member>
         <member name="M:Buddy.Internal.API.HardwareDivision.SimuTablet.StartMicro(System.String,System.Boolean,System.Int32,System.Int32)">
             <summary>
