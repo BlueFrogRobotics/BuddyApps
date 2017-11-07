@@ -112,8 +112,8 @@ namespace BuddyApp.EmotionalWander
 				}
 
 				//Say something once in a while to attract attention
-				if (Time.time - mTTSTime > mRandomSpeechTime)
-					SaySomething(mWanderMood);
+				//if (Time.time - mTTSTime > mRandomSpeechTime)
+				//	SaySomething(mWanderMood);
 
 				mUpdateTime = 0;
 
