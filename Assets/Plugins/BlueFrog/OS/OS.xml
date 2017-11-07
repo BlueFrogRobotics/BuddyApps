@@ -884,6 +884,31 @@
             Dictionary that contains the ID of every block.
             </summary>
         </member>
+        <member name="P:Buddy.EmotionalEvent.Type">
+            <summary>
+            This is used to get the category of the event
+            </summary>
+        </member>
+        <member name="F:Buddy.EmotionalEvent.EventDescriber">
+            <summary>
+            This is used to compare if events are similar
+            </summary>
+        </member>
+        <member name="P:Buddy.EmotionalEvent.ExplanationKey">
+            <summary>
+            This is used to explain Buddy's mood
+            </summary>
+        </member>
+        <member name="P:Buddy.EmotionalEvent.MoodDirection">
+            <summary>
+            Tells where this event is going to, which mood should result
+            </summary>
+        </member>
+        <member name="P:Buddy.EmotionalEvent.Time">
+            <summary>
+            Time when the event was registered
+            </summary>
+        </member>
         <member name="T:Buddy.Interaction">
             <summary>
             Class that contains all the interaction features (Mood, Face, VocalManager, STT, TTS ...)
@@ -937,6 +962,11 @@
             Behavior Manager.
             </summary>
         </member>
+        <member name="P:Buddy.Interaction.InternalState">
+            <summary>
+            Buddy's internal state of mind.
+            </summary>
+        </member>
         <member name="P:Buddy.BMLManager.ActiveBML">
             <summary>
             The list of all currently running behaviors.
@@ -970,6 +1000,44 @@
             <summary>
             Stops all currently running behaviors.
             </summary>
+        </member>
+        <member name="M:Buddy.InternalState.ComputeBias">
+            <summary>
+            Compute the uncumulative emotional stimuli
+            </summary>
+        </member>
+        <member name="M:Buddy.InternalState.Variable2Mood(System.Int32,System.Int32)">
+            <summary>
+            To visualize the internal state rapartition, it's recommended to have a look at the documentation on the NAS.
+            </summary>
+            <param name="iPositivity"></param>
+            <param name="iEnergy"></param>
+        </member>
+        <member name="P:Buddy.InternalState.InternalStateMood">
+            <summary>
+            The current state of mind of Buddy.
+            </summary>
+        </member>
+        <member name="P:Buddy.InternalState.Positivity">
+            <summary>
+            The positivity value of the current state.
+            </summary>
+        </member>
+        <member name="P:Buddy.InternalState.Energy">
+            <summary>
+            The energy value of the current state.
+            </summary>
+        </member>
+        <member name="M:Buddy.InternalState.ExplainMood">
+            <summary>
+            Buddy will explain why it's in its current state, relatively to its past interactions.
+            </summary>
+        </member>
+        <member name="M:Buddy.InternalState.AddCumulative(Buddy.EmotionalEvent)">
+            <summary>
+            Add a cumulative event to Buddy's actual list.
+            </summary>
+            <param name="iEmotionalEvent"></param>
         </member>
         <member name="T:Buddy.VocalDebug">
             <summary>
@@ -1378,6 +1446,14 @@
             <summary>
             Detect moving points in frame
             </summary>
+        </member>
+        <member name="M:Buddy.MotionDetection.InitImpl(System.Int32@,System.Single@)">
+            <summary>
+            Init the movement tracker
+            </summary>
+            <param name="ioOutputType">The output type</param>
+            <param name="ioDelay">Refresh time</param>
+            
         </member>
         <member name="M:Buddy.MotionDetection.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D)">
             <summary>
