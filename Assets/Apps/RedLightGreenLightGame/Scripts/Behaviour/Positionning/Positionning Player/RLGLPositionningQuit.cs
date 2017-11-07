@@ -2,23 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
-
+using Buddy.UI;
 
 namespace BuddyApp.RedLightGreenLightGame
 {
-    public class RLGLPositionningPlayerRTPSentence : AStateMachineBehaviour
+    public class RLGLPositionningQuit : AStateMachineBehaviour
     {
-        private RedLightGreenLightGameBehaviour mRLGLBehaviour;
-
-        public override void Start()
-        {
-            mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
-        }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            StartCoroutine(StartGameplay());
+            StartCoroutine(Quit());
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -33,13 +27,10 @@ namespace BuddyApp.RedLightGreenLightGame
 
         }
 
-        IEnumerator StartGameplay()
+        IEnumerator Quit()
         {
-            //yield return SayKeyAndWait("smallrules");
-            while (BYOS.Instance.Interaction.TextToSpeech.IsSpeaking)
-                yield return null;
-            mRLGLBehaviour.StartGameplay();
-            //yield return null;
+            yield return SayKeyAndWait("itwasgreat");
+            QuitApp();
         }
     }
 }

@@ -34,13 +34,27 @@ namespace BuddyApp.RedLightGreenLightGame
         private IEnumerator Recoil()
         {
             yield return SayKeyAndWait("willrecoil");
+            Interaction.TextToSpeech.SayKey("smallrules");
             while((Primitive.Motors.Wheels.Odometry - mRLGLBehaviour.StartingOdometry).magnitude>1)
             {
                 Debug.Log("magnitude: "+(Primitive.Motors.Wheels.Odometry - mRLGLBehaviour.StartingOdometry).magnitude);
-                Primitive.Motors.Wheels.SetWheelsSpeed(-200f);
+
+                if(!ObstacleInback())
+                    Primitive.Motors.Wheels.SetWheelsSpeed(-200f);
+                else
+                    Primitive.Motors.Wheels.SetWheelsSpeed(0f);
                 yield return null;
             }
             Primitive.Motors.Wheels.Stop();
+            Trigger("Sentence");
+        }
+
+        private bool ObstacleInback()
+        {
+            if (Primitive.USSensors.Back.Distance < 1.5f && Primitive.USSensors.Back.Distance != 0)
+                return true;
+
+            return false;
         }
     }
 

@@ -9,7 +9,7 @@ namespace BuddyApp.RedLightGreenLightGame
     public class RedLightGreenLightGameBehaviour : MonoBehaviour
     {
         /*
-         * Data of the application. Save on disc when app is quitted
+         * Data of the application. Save on disc when app is quit
          */
         private RedLightGreenLightGameData mAppData;
 
@@ -47,6 +47,15 @@ namespace BuddyApp.RedLightGreenLightGame
         public int Life { get { return mLife; } set { if (value < 0) mLife = 0; else mLife = value; } }
 
         public Vector3 StartingOdometry { get; set; }
+
+        [SerializeField]
+        private GameObject gameplayObject;
+
+        [SerializeField]
+        private GameObject positionningObject;
+
+        [SerializeField]
+        private GameObject buttonObject;
 
         void Start()
         {
@@ -87,6 +96,20 @@ namespace BuddyApp.RedLightGreenLightGame
         {
             Debug.Log("TARGET CLICKED!");
             mTargetClicked = true;
+        }
+
+        public void StartGameplay()
+        {
+            buttonObject.GetComponent<RLGLTargetMovement>().enabled = true;
+            gameplayObject.SetActive(true);
+            positionningObject.SetActive(false);
+        }
+
+        public void StartPositionning()
+        {
+            buttonObject.GetComponent<RLGLTargetMovement>().enabled = false;
+            gameplayObject.SetActive(false);
+            positionningObject.SetActive(true);
         }
     }
 }

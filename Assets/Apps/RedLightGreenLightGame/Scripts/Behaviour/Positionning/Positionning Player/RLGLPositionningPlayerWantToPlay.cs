@@ -20,7 +20,7 @@ namespace BuddyApp.RedLightGreenLightGame
             Primitive.Motors.Wheels.Stop();
             mRLGLBehaviour.TargetClicked = false;
             Vector3 lDist = Primitive.Motors.Wheels.Odometry - mRLGLBehaviour.StartingOdometry;
-            if (lDist.magnitude < 3.0f)
+            if (lDist.magnitude < 2.0f)
                 Trigger("RecoilQuestion");
             else
                 Trigger("ReadyToPlay");
