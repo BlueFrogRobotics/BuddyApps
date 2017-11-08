@@ -17,6 +17,7 @@ namespace BuddyApp.RedLightGreenLightGame
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             GetGameObject(1).SetActive(false);
+            Interaction.Mood.Set(Buddy.MoodType.HAPPY);
             Primitive.Motors.Wheels.Stop();
             mRLGLBehaviour.TargetClicked = false;
             Vector3 lDist = Primitive.Motors.Wheels.Odometry - mRLGLBehaviour.StartingOdometry;
