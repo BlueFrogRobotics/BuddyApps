@@ -41,7 +41,6 @@ namespace BuddyApp.RemoteControl
 	    [Header("GUI")]
 	    public RawImage mRemoteRawImage = null;
 	    public RawImage mLocalRawImage = null;
-	    public Text mTextLog = null;
 
 	    /// <summary>
 	    /// Android Texture object
@@ -134,8 +133,6 @@ namespace BuddyApp.RemoteControl
 			mRemoteUser = WebRTCListener.RemoteID;
 			Utils.LogI("Local user is " + mLocalUser);
 			Utils.LogI("Remote caller is " + WebRTCListener.RemoteID);
-			if (mTextLog)
-				mTextLog.text += "setup webrtc" + "\n";
 
 			using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
 			{
@@ -165,9 +162,6 @@ namespace BuddyApp.RemoteControl
             Utils.LogI("Local user is " + mLocalUser);
             Utils.LogI("Remote caller is " + WebRTCListener.RemoteID);
 
-	        if (mTextLog)
-	            mTextLog.text += "setup webrtc" + "\n";
-
 	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
 	        {
 	            using (AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
@@ -187,8 +181,6 @@ namespace BuddyApp.RemoteControl
 	    public void StartWebRTC()
 	    {
 			Utils.LogI ("Starting webRTC");
-	        if (mTextLog)
-	            mTextLog.text += "Starting webRTC" + "\n";
 	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
 	        {
 	            cls.CallStatic("StartWebrtc");
@@ -220,8 +212,6 @@ namespace BuddyApp.RemoteControl
 	    public void Call()
 	    {
 			Utils.LogI("Call : " + mRemoteUser);
-	        if (mTextLog)
-	            mTextLog.text += "Call : " + mRemoteUser + "\n";
 	        // mTextSend.text += "\nCall : " + iChannel;
 	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
 	        {
@@ -237,8 +227,6 @@ namespace BuddyApp.RemoteControl
 	    public void HangUp()
 	    {
 			Utils.LogI("Hang Up : " + mRemoteUser);
-	        if (mTextLog)
-	            mTextLog.text += "Hang Up : " + mRemoteUser + "\n";
 	        if (mConnectionState == CONNECTION.CONNECTING)
 	        {
 	            using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
@@ -263,8 +251,6 @@ namespace BuddyApp.RemoteControl
 	    {
 	        bool iThroughDataChannel = true;
 			Utils.LogI("sending message : " + iMessage + " to : " + mRemoteUser);
-	        if (mTextLog)
-	            mTextLog.text += "sending message : " + iMessage + " to : " + mRemoteUser + "\n";
 
 	        if ((mConnectionState == CONNECTION.CONNECTING) && iThroughDataChannel)
 	        {
@@ -296,14 +282,10 @@ namespace BuddyApp.RemoteControl
 	        {
 				Utils.LogI("Webrtc status : CONNECTING");
 	            mConnectionState = CONNECTION.CONNECTING;
-	            if (mTextLog)
-	                mTextLog.text += "Webrtc connection is ON" + "\n";
 	        }
 	        else {
 				Utils.LogI("Webrtc status : DISCONNECTING");
 	            mConnectionState = CONNECTION.DISCONNECTING;
-	            if (mTextLog)
-	                mTextLog.text += "Webrtc connection OFF" + "\n";
 	        }
 	    }
 
@@ -325,8 +307,6 @@ namespace BuddyApp.RemoteControl
 	    public void onMessage(string iMessage)
 	    {
 			Utils.LogI(iMessage);
-	        if (mTextLog)
-	            mTextLog.text += "Receive message : " + iMessage + "\n";
 	    }
 
 	    /// <summary>
@@ -336,9 +316,6 @@ namespace BuddyApp.RemoteControl
 	    public void onAndroidDebugLog(string iMessage)
 	    {
 			Utils.LogI("Android Debug : " + iMessage);
-	        if (mTextLog)
-	            mTextLog.text += "Android Debug : " + iMessage + "\n";
-
 	        if (iMessage.Contains("onStateChange: CLOSING"))
 	        {
 	            mIsConnected = false;
