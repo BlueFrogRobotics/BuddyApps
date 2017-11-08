@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 3f74911c5136d474c8e1eefc8a99d839
-timeCreated: 1509973988
+timeCreated: 1510073669
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -23,6 +23,7 @@ TextureImporter:
     21300032: Shad_Bloc
     21300034: BG_Bloc
     21300036: Mask_Bloc
+    21300038: HaloFlare
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -341,6 +342,19 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 54, y: 55, z: 55, w: 54}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HaloFlare
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 77
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     outline: []
