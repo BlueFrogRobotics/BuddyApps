@@ -35,14 +35,15 @@ namespace BuddyApp.RedLightGreenLightGame
         {
             yield return SayKeyAndWait("willrecoil");
             Interaction.TextToSpeech.SayKey("smallrules");
-            while((Primitive.Motors.Wheels.Odometry - mRLGLBehaviour.StartingOdometry).magnitude>1)
+            Primitive.Motors.Wheels.MoveToAbsolutePosition(mRLGLBehaviour.StartingOdometry, -250f, 0.1f);
+            while ((Primitive.Motors.Wheels.Odometry - mRLGLBehaviour.StartingOdometry).magnitude>1)
             {
                 Debug.Log("magnitude: "+(Primitive.Motors.Wheels.Odometry - mRLGLBehaviour.StartingOdometry).magnitude);
 
-                if(!ObstacleInback())
-                    Primitive.Motors.Wheels.SetWheelsSpeed(-200f);
-                else
-                    Primitive.Motors.Wheels.SetWheelsSpeed(0f);
+                //if(!ObstacleInback())
+                //    Primitive.Motors.Wheels.SetWheelsSpeed(-200f);
+                //else
+                //    Primitive.Motors.Wheels.SetWheelsSpeed(0f);
                 yield return null;
             }
             Primitive.Motors.Wheels.Stop();

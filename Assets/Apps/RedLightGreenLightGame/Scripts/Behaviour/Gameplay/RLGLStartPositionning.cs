@@ -34,7 +34,7 @@ namespace BuddyApp.RedLightGreenLightGame
             mMotion = Perception.Motion;
             mMotion.enabled = true;
             mCam = Primitive.RGBCam;
-            mMotion.OnDetect(OnMovementDetected, 15f);
+            mMotion.OnDetect(OnMovementDetected, 3f);
             //mCam.Open(RGBCamResolution.W_320_H_240);
             //Texture2D truc=new Texture2D()
             //mTexture = mCam.FrameTexture2D;
