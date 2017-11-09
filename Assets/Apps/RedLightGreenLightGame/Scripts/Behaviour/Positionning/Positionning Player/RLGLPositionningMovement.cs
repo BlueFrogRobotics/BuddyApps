@@ -33,11 +33,19 @@ namespace BuddyApp.RedLightGreenLightGame
         {
             GetGameObject(1).SetActive(true);
             mMustStop = false;
-            mRLGLBehaviour.StartingOdometry = Primitive.Motors.Wheels.Odometry;
+            if (!mRLGLBehaviour.CanRecoil)
+            {
+                mRLGLBehaviour.StartingOdometry = Primitive.Motors.Wheels.Odometry;
+                mRLGLBehaviour.TimerMove = 0;
+            }
+            else
+                mRLGLBehaviour.CanRecoil = false;
+
             mRLGLBehaviour.Timer = 0.0f;
             mTimer = 0.0f;
             mState = State.FORWARD;
             mRLGLBehaviour.TargetClicked = false;
+            
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -89,8 +97,10 @@ namespace BuddyApp.RedLightGreenLightGame
 
         private void GoForward()
         {
-            Primitive.Motors.Wheels.SetWheelsSpeedAtMedium();
-            if(ObstacleInFront())
+            Primitive.Motors.Wheels.SetWheelsSpeed(200f);
+            mRLGLBehaviour.TimerMove += Time.deltaTime;
+
+            if (ObstacleInFront())
             {
                 mState = State.STOP;
             }
@@ -111,7 +121,7 @@ namespace BuddyApp.RedLightGreenLightGame
             mTimer += Time.deltaTime;
             if (mTimer > 5.0f)
                 mState = State.FORWARD;
-            if (mRLGLBehaviour.TargetClicked)
+            if (mRLGLBehaviour.TargetClicked && Interaction.TextToSpeech.HasFinishedTalking)
                 mState = State.TARGET_CLICKED;
         }
 

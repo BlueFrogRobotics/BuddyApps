@@ -39,9 +39,9 @@ namespace BuddyApp.RedLightGreenLightGame
             yield return SayKeyAndWait("willrecoil");
             Interaction.TextToSpeech.SayKey("smallrules");
             mSentenceDone = true;
-            while(mRLGLBehaviour.TimerMove > 0F)
+            while (mRLGLBehaviour.TimerMove > 0F)
             {
-                if(!ObstacleInback())
+                if (!ObstacleInback())
                 {
                     Primitive.Motors.Wheels.SetWheelsSpeed(-200F);
                 }
@@ -49,7 +49,9 @@ namespace BuddyApp.RedLightGreenLightGame
                 {
                     Primitive.Motors.Wheels.SetWheelsSpeed(0F);
                 }
+                yield return null;
             }
+            //Primitive.Motors.Wheels.SetWheelsSpeed(-200F);
             Primitive.Motors.Wheels.Stop();
             mRLGLBehaviour.TimerMove = 0F;
             Trigger("Sentence");
