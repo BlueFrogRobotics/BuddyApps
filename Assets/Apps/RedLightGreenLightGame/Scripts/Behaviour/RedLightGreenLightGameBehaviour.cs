@@ -46,6 +46,9 @@ namespace BuddyApp.RedLightGreenLightGame
         private int mLife;
         public int Life { get { return mLife; } set { if (value < 0) mLife = 0; else mLife = value; } }
 
+        private float mTimerMove;
+        public float TimerMove { get { return mTimerMove; } set { mTimerMove = value; } }
+
         public Vector3 StartingOdometry { get; set; }
 
         [SerializeField]
