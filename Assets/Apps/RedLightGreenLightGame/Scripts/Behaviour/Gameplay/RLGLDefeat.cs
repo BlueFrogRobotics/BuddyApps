@@ -10,14 +10,12 @@ namespace BuddyApp.RedLightGreenLightGame
     public class RLGLDefeat : AStateMachineBehaviour
     {
         private RGBCam mCam;
-        private LifeManager mLifeManager;
         //private int mLife = 2;
         private RedLightGreenLightGameBehaviour mRLGLBehaviour;
 
         public override void Start()
         {
             mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
-            mLifeManager = GetComponent<LifeManager>();
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -56,11 +54,10 @@ namespace BuddyApp.RedLightGreenLightGame
             yield return new WaitForSeconds(3);
             Interaction.Mood.Set(MoodType.HAPPY);
             Toaster.Hide();
-            mLifeManager.LoseLife();
-            //mRLGLBehaviour.Life--;
-            if (mLifeManager.Life > 0)
+            mRLGLBehaviour.Life--;
+            if (mRLGLBehaviour.Life > 0)
             {
-                yield return SayAndWait(Dictionary.GetRandomString("loselevel") + " " + mLifeManager.Life + " " + Dictionary.GetRandomString("life"));
+                yield return SayAndWait(Dictionary.GetRandomString("loselevel") + " " + (mRLGLBehaviour.Life+1) + " " + Dictionary.GetRandomString("life"));
                 yield return new WaitForSeconds(3);
                 Trigger("Repositionning");
             }

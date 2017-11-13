@@ -39,8 +39,8 @@ namespace BuddyApp.RedLightGreenLightGame
                     Interaction.TextToSpeech.SayKey("recoilplease");
                     Primitive.Motors.Wheels.Stop();
                     mTimer = mRLGLBehaviour.Timer;
-                    //mRLGLBehaviour.Timer = 0.0f;
-                    //mTimer = 0.0f;
+                    mRLGLBehaviour.Timer = 0.0f;
+                    mTimer = 0.0f;
                     //Trigger("ObstacleDetected");
 
                 }
@@ -90,10 +90,10 @@ namespace BuddyApp.RedLightGreenLightGame
 
         private bool ObstacleInFront()
         {
-            //if (Primitive.IRSensors.Left.Distance < OBSTACLE_DISTANCE && Primitive.IRSensors.Left.Distance != 0)
-            //    return true;
-            //if (Primitive.IRSensors.Right.Distance < OBSTACLE_DISTANCE && Primitive.IRSensors.Right.Distance != 0)
-            //    return true;
+            if (Primitive.IRSensors.Left.Distance < OBSTACLE_DISTANCE && Primitive.IRSensors.Left.Distance != 0)
+                return true;
+            if (Primitive.IRSensors.Right.Distance < OBSTACLE_DISTANCE && Primitive.IRSensors.Right.Distance != 0)
+                return true;
             if (Primitive.IRSensors.Middle.Distance < OBSTACLE_DISTANCE && Primitive.IRSensors.Middle.Distance != 0)
                 return true;
 
