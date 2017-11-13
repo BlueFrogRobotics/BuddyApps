@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using Buddy;
 
 namespace BuddyApp.RedLightGreenLightGame
@@ -21,6 +22,12 @@ namespace BuddyApp.RedLightGreenLightGame
 
         [SerializeField]
         private GameObject[] hearts;
+
+        [SerializeField]
+        private Sprite fullHeart;
+
+        [SerializeField]
+        private Sprite emptyHeart;
 
         private float mTimer=0F;
         private bool mIsLoosingLife;
@@ -50,12 +57,14 @@ namespace BuddyApp.RedLightGreenLightGame
             foreach(GameObject life in lifes)
             {
                 life.SetActive(true);
+                life.GetComponent<Image>().sprite = fullHeart;
             }
 
             foreach (GameObject heart in hearts)
             {
                 heart.SetActive(false);
                 heart.SetActive(true);
+                heart.GetComponent<Animator>().Play("BigHeart_Full");
             }
         }
 
@@ -63,7 +72,8 @@ namespace BuddyApp.RedLightGreenLightGame
         {
             if(Life>0)
             {
-                lifes[Life - 1].SetActive(false);
+                //lifes[Life - 1].SetActive(false);
+                lifes[Life - 1].GetComponent<Image>().sprite = emptyHeart;
                 lifesLeft.SetActive(true);
                 lifesLeft.GetComponent<Animator>().SetTrigger("open");
                 hearts[Life - 1].GetComponent<Animator>().SetTrigger("lost");
