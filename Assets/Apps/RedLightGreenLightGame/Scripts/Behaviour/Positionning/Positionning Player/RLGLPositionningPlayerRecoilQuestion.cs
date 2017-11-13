@@ -8,6 +8,12 @@ namespace BuddyApp.RedLightGreenLightGame
 {
     public class RLGLPositionningPlayerRecoilQuestion : AStateMachineBehaviour
     {
+        private RedLightGreenLightGameBehaviour mRLGLBehaviour;
+
+        public override void Start()
+        {
+            mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
+        }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -32,8 +38,14 @@ namespace BuddyApp.RedLightGreenLightGame
             yield return SayKeyAndWait("recoilquestion");
             Toaster.Display<BinaryQuestionToast>().With(
                 Dictionary.GetString("recoilquestion"),
-                () => Trigger("Start"),
+                () => GoForward(),
                 () => Trigger("DisengagementQuestion"));
+        }
+
+        private void GoForward()
+        {
+            mRLGLBehaviour.CanRecoil = true;
+            Trigger("Start");
         }
     }
 }

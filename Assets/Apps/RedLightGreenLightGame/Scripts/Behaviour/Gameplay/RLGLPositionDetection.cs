@@ -30,7 +30,7 @@ namespace BuddyApp.RedLightGreenLightGame
             mMotion = Perception.Motion;
             mMotion.enabled = true;
             mCam = Primitive.RGBCam;
-            mMotion.OnDetect(OnMovementDetected, 15f);
+            mMotion.OnDetect(OnMovementDetected, 3f);
             //Texture2D truc=new Texture2D()
             //mTexture = mCam.FrameTexture2D;
             mMat = mCam.FrameMat;//Utils.Texture2DToMat(mTexture, OpenCVUnity.CvType.CV_8UC3);

@@ -16,6 +16,7 @@ namespace BuddyApp.RedLightGreenLightGame
         private Mat mMatDetection;
         private Texture2D mTexture;
         private RedLightGreenLightGameBehaviour mRLGLBehaviour;
+        private LifeManager mLifeManager;
         private int mDetectionCount = 0;
         private bool mHasTriggered = false;
         private bool mHasShowWindow = false;
@@ -24,6 +25,7 @@ namespace BuddyApp.RedLightGreenLightGame
         public override void Start()
         {
             mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
+            mLifeManager = GetComponent<LifeManager>();
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -34,7 +36,8 @@ namespace BuddyApp.RedLightGreenLightGame
             mMotion = Perception.Motion;
             mMotion.enabled = true;
             mCam = Primitive.RGBCam;
-            mMotion.OnDetect(OnMovementDetected, 15f);
+            mMotion.OnDetect(OnMovementDetected, 3f);
+            mLifeManager.ShowLifesLeft();
             //mCam.Open(RGBCamResolution.W_320_H_240);
             //Texture2D truc=new Texture2D()
             //mTexture = mCam.FrameTexture2D;
