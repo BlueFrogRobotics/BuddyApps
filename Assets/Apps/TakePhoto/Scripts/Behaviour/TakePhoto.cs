@@ -81,6 +81,7 @@ namespace BuddyApp.TakePhoto
 
 			Debug.Log("Init TakePhoto done");
 
+			Primitive.RGBCam.Resolution = RGBCamResolution.W_640_H_480;
 
 		}
 
@@ -140,9 +141,13 @@ namespace BuddyApp.TakePhoto
 						mTimer = 0F;
 
 					} else if (!mPhotoTaken) {
-						mPictureSound.Play();
-						Primitive.RGBCam.TakePhotograph(OnFinish, false);
-						mPhotoTaken = true;
+						if(Primitive.RGBCam.Width > 0) {
+							mPictureSound.Play();
+							Primitive.RGBCam.TakePhotograph(OnFinish, false);
+							mPhotoTaken = true;
+						} else {
+							Debug.Log("RGBCAM with null!!!!!!!!!!!!!!!!!!!!");
+						}
 					}
 
 
@@ -235,7 +240,7 @@ namespace BuddyApp.TakePhoto
 		private void OnButtonRedo()
 		{
 			Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-			Play("TakePhoto");
+			Play("Landing");
 		}
 
 	}

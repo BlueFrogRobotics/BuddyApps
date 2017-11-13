@@ -44,6 +44,8 @@ namespace BuddyApp.Companion
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
+
+			Trigger("VOCALTRIGGERED");
 			mState.text = "Ask question";
 			Debug.Log("Ask new request");
 			mListening = false;
@@ -51,10 +53,11 @@ namespace BuddyApp.Companion
 			mRedo = false;
 			
 
-			Interaction.TextToSpeech.SayKey(questionKey);
+			/*Interaction.TextToSpeech.SayKey(questionKey);
 
 			Interaction.SpeechToText.OnBestRecognition.Clear();
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
+			*/
 
 			
 		}
@@ -131,9 +134,9 @@ namespace BuddyApp.Companion
 		{
 			Toaster.Hide();
 
-			Interaction.TextToSpeech.Say("ok");
+			//Interaction.TextToSpeech.Say("ok");
 			if (mRedo) {
-				Interaction.TextToSpeech.Say("ilisten");
+				Interaction.TextToSpeech.SayKey("ilisten");
 			}
 			Interaction.Mood.Set(MoodType.NEUTRAL);
 			mSpeechReco = "";
