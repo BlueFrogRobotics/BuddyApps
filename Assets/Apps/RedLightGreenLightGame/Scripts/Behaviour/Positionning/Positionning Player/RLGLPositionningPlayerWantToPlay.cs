@@ -20,7 +20,9 @@ namespace BuddyApp.RedLightGreenLightGame
             Interaction.Mood.Set(Buddy.MoodType.HAPPY);
             Primitive.Motors.Wheels.Stop();
             mRLGLBehaviour.TargetClicked = false;
-            Vector3 lDist = Primitive.Motors.Wheels.Odometry - mRLGLBehaviour.StartingOdometry;
+            Vector2 lDist = Primitive.Motors.Wheels.Odometry - mRLGLBehaviour.StartingOdometry;
+            Debug.Log("dist: " + lDist);
+            Debug.Log("odom start: " + Primitive.Motors.Wheels.Odometry.ToString() + " end odom: " + mRLGLBehaviour.StartingOdometry.ToString());
             if (lDist.magnitude < 2.0f)
                 Trigger("RecoilQuestion");
             else
