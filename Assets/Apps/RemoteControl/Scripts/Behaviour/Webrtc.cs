@@ -62,9 +62,9 @@ namespace BuddyApp.RemoteControl
 	    void OnEnable()
 	    {
 	        // Setup and start webRTC
-	        //SetupWebRTC();
-	        //StartWebRTC();
-			EnableWebRTC();
+	        SetupWebRTC();
+	        StartWebRTC();
+			//EnableWebRTC();
 
 			mRemoteNativeTexture = new RemoteNativeTexture(640, 480);
             mLocalNativeTexture = new LocalNativeTexture(640, 480);
