@@ -1,36 +1,74 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace BuddyApp.PlayMath{
 	public class QuestionBehaviour : MonoBehaviour {
 
-		enum Answer { Answer1, Answer2, Answer3, Answer4 };
-
+        [SerializeField]
 		private Animator mPlayMathAnimator;
+        [SerializeField]
+        private Animator mQuestionAnimator;
+        [SerializeField]
+        private Result mResult;
+        [SerializeField]
+        private Text mTitleTop;
+        [SerializeField]
+        private Text mTitleBottom;
+
+        private Text[] mChoices;
+        private int mCountQuestions;
+
+        //TODO Replace the following with GameParameters value
+        private int mTotalQuestions;
 
 		void Start() {
-			mPlayMathAnimator = GameObject.Find("AIBehaviour").GetComponent<Animator>();
+            mChoices = GameObject.Find("UI/Four_Answer/Middle_UI").GetComponentsInChildren<Text>();
+            mTotalQuestions = 4;
 		}
 
-		public void OnClickAnswer1() {
-			OnClickAnswer(Answer.Answer1);
-		}
+        public void ResetGame()
+        {
+            mCountQuestions = 0;
+        }
 
-		public void OnClickAnswer2() {
-			OnClickAnswer(Answer.Answer2);
-		}
+        //Generate a new equation and handle associated text to display
+        public void GenerateEquation()
+        {
+            if (mQuestionAnimator.GetBool("InitGame"))
+            {
+                ResetGame();
+                mQuestionAnimator.SetBool("InitGame", false);
+            }
+            //TODO Replace the following with generated equation and associated answer
+            mResult.Equation = "(6+2)/4";
+            mResult.CorrectAnswer = "2";
 
-		public void OnClickAnswer3() {
-			OnClickAnswer(Answer.Answer3);
-		}
+            // Is this question the last ?
+            mCountQuestions++;
+            mTitleBottom.text = "QUESTION " + mCountQuestions + " OF " + mTotalQuestions;
+            mResult.Last = (mCountQuestions == mTotalQuestions);
 
-		public void OnClickAnswer4() {
-			OnClickAnswer(Answer.Answer4);
-		}
+            mTitleTop.text = "HOW MANY DOES " + mResult.Equation + " ?";
 
-		private void OnClickAnswer(Answer answer) {
-			mPlayMathAnimator.SetTrigger("Result");
-		}
-	}
+            //TODO Replace the following with generated Equation choices
+            string[] lChoices = {"2","3","4","6"};
+            for (int i = 0; i < mChoices.Length; i++)
+                mChoices[i].text = lChoices[i];
+        }
+
+        public void OnClick(BaseEventData data)
+        {
+            GameObject lSelected = data.selectedObject;
+            if (lSelected != null)
+            {
+                Text lTextComponent = lSelected.GetComponentInChildren<Text>();
+                mResult.UserAnswer = lTextComponent.text;
+
+                mPlayMathAnimator.SetTrigger("Result");
+            }
+        }
+   	}
 }

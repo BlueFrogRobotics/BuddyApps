@@ -14,12 +14,18 @@ namespace BuddyApp.PlayMath{
 
 		private float mEndTime = -1;
 
+        private Result mResult;
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			mBackgroundAnimator = GameObject.Find("UI/Background_Black").GetComponent<Animator>();
 			mBackgroundAnimator.SetTrigger("close");
 
-			BYOS.Instance.Interaction.Mood.Set(MoodType.HAPPY);
+            mResult = GameObject.Find("UI/Four_Answer").GetComponent<Result>();
+            if (mResult.isCorrect())
+                BYOS.Instance.Interaction.Mood.Set(MoodType.HAPPY);
+            else
+                BYOS.Instance.Interaction.Mood.Set(MoodType.SAD);
 
 			mEndTime = Time.time + DURATION;
         }
@@ -27,10 +33,11 @@ namespace BuddyApp.PlayMath{
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			if (mEndTime != -1 && mEndTime < Time.time) {
-				//if win
-				animator.SetTrigger("TakePhoto");
-				//else
-				// animator.SetTrigger("Score");
+                //TODO Detect perfect score to trigger CertificateState
+                if (mResult.Last)
+				    animator.SetTrigger("Score");
+				else
+				    animator.SetTrigger("NextQuestion");
 
 				mEndTime = -1;
 			}

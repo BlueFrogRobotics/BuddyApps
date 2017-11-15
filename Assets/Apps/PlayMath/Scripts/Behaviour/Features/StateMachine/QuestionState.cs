@@ -8,11 +8,15 @@ namespace BuddyApp.PlayMath{
     public class QuestionState : AStateMachineBehaviour {
 
 		private Animator mQuestionAnimator;
+        private QuestionBehaviour mQuestionBehaviour;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			mQuestionAnimator = GameObject.Find("UI/Four_Answer").GetComponent<Animator>();
 			mQuestionAnimator.SetTrigger("open");
+
+            mQuestionBehaviour = GameObject.Find("UI/Four_Answer").GetComponent<QuestionBehaviour>();
+            mQuestionBehaviour.GenerateEquation();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
