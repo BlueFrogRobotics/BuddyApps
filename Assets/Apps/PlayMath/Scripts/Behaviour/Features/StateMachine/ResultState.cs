@@ -19,7 +19,7 @@ namespace BuddyApp.PlayMath{
 			mBackgroundAnimator = GameObject.Find("UI/Background_Black").GetComponent<Animator>();
 			mBackgroundAnimator.SetTrigger("close");
 
-			BYOS.Instance.Interaction.Mood.Set(MoodType.SAD);
+			BYOS.Instance.Interaction.Mood.Set(MoodType.HAPPY);
 
 			mEndTime = Time.time + DURATION;
         }
@@ -27,7 +27,11 @@ namespace BuddyApp.PlayMath{
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			if (mEndTime != -1 && mEndTime < Time.time) {
-				animator.SetTrigger("Score");
+				//if win
+				animator.SetTrigger("TakePhoto");
+				//else
+				// animator.SetTrigger("Score");
+
 				mEndTime = -1;
 			}
         }
