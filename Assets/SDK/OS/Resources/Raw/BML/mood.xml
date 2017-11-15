@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bml id="happy2" category="joy">
-	<faceMood id="mood1" mood="ANGRY"/>
-	<wait id="wait1" duration="3" start="0"/>
-	<faceMood id="mood2" mood="HAPPY"/>
-	<wait id="wait2" duration="3" start="0"/>
-	<faceMood id="mood3" mood="GRUMPY"/>
-	<wait id="wait3" duration="3" start="0"/>
-	<faceMood id="mood4" mood="NEUTRAL"/>
+	<faceMoodShift id="mood1" mood="ANGRY"/>
+	<wait id="wait1" duration="1" start="0"/>
+	<faceMoodShift id="mood2" mood="GRUMPY"/>
+	<wait id="wait2" duration="1" start="0"/>
+	<faceMoodShift id="mood3" mood="SAD"/>
+	<wait id="wait3" duration="1" start="0"/>
+	<faceMoodShift id="mood4" mood="SCARED"/>
+	<wait id="wait4" duration="1" start="0"/>
+	<faceMoodShift id="mood6" mood="SURPRISED"/>
+	<wait id="wait6" duration="1" start="0"/>
+	<faceMoodShift id="mood8" mood="SCARED"/>
+	<wait id="wait8" duration="1" start="0"/>
+	<faceMoodShift id="mood9" mood="LOVE"/>
+	<wait id="wait9" duration="1" start="0"/>
+	<faceMoodShift id="mood5" mood="SICK"/>
+	<wait id="wait5" duration="1" start="0"/>
+	<faceMoodShift id="mood7" mood="TIRED"/>
+	<wait id="wait7" duration="1" start="0"/>
+	<faceMoodShift id="mood10" mood="NEUTRAL"/>
 </bml>
