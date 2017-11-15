@@ -14,6 +14,8 @@ namespace BuddyApp.Jukebox
         private int mMaxThermalMatrix;
         private int[] mMatrixThermalCopy;
         private float mTimer;
+        private bool mIsThermalFollow;
+        private bool mThermalMatrixGood;
 
         public void Start()
         {
@@ -23,49 +25,70 @@ namespace BuddyApp.Jukebox
             mMatrixThermal = BYOS.Instance.Primitive.ThermalSensor.MatrixArray;
             mMatrixThermalCopy = mMatrixThermal;
             mIsThermalFollowActivated = false;
+            mIsThermalFollow = false;
+            mThermalMatrixGood = true;
         }
-
-        
 
         public void Update()
         {
-            //mTimer += Time.deltaTime;
-            if ( mIsThermalFollowActivated && mTimer > 0.4F)
+            mTimer += Time.deltaTime;
+            if (mIsThermalFollowActivated)
             {
-                mMatrixThermal = BYOS.Instance.Primitive.ThermalSensor.MatrixArray;
-                mMatrixThermalCopy = mMatrixThermal;
-                if (  mMatrixThermalCopy.Length != 0 && mMatrixThermalCopy != null)
+                if (BYOS.Instance.Primitive.IRSensors.Middle.Distance < 0.4F && mIsThermalFollow)
                 {
-                    for (int i = 0; i < mMatrixThermalCopy.Length; ++i)
-                    {
-                        Debug.Log("MATRIX THERMAL : " + mMatrixThermalCopy[i] + " id : " + i);
-                    }
-                    mMaxThermalMatrix = MaxValue(mMatrixThermalCopy);
-                    Debug.Log("mMaxThermalMatrixL : " + mMaxThermalMatrix);
-                    for (int i = 0; i < 16; ++i)
-                    {
-                        mSumMatrixValue += mMatrixThermalCopy[i];
-                    }
-
-                    mSumMatrixValue/=16;
-                    if (mSumMatrixValue < 10 && mMaxThermalMatrix < 12)
-                        return;
-                    Debug.Log("moyenne : " + mSumMatrixValue);
-                    
-                    Debug.Log("moyenne : " + mSumMatrixValue + " mMaxThermalMatrix : " + mMaxThermalMatrix);
-                    if (mSumMatrixValue < 22 && mMaxThermalMatrix < 25)
-                    {
-                        Debug.Log("STOP THERMAL JUKEBOX --------------------------------------------------");
-                        BYOS.Instance.Navigation.Stop();
-                        mIsThermalFollowActivated = false;
-
-                    }
+                    BYOS.Instance.Navigation.Stop();
+                    mIsThermalFollow = false;
                 }
-               // mTimer = 0F;
+
+                if ( BYOS.Instance.Primitive.IRSensors.Middle.Distance > 0.4F && !mIsThermalFollow)
+                {
+                    BYOS.Instance.Navigation.Follow<HumanFollow>().Facing();
+                    mIsThermalFollow = true;
+                }
+
+                if(mTimer > 0.2F)
+                {
+                    mMatrixThermal = BYOS.Instance.Primitive.ThermalSensor.MatrixArray;
+                    mMatrixThermalCopy = mMatrixThermal;
+
+                    if (mMatrixThermalCopy.Length != 0 && mMatrixThermalCopy != null)
+                    {
+                        for (int i = 0; i < mMatrixThermalCopy.Length; ++i)
+                        {
+                            Debug.Log("MATRIX THERMAL : " + mMatrixThermalCopy[i] + " id : " + i);
+                        }
+
+
+                        mMaxThermalMatrix = MaxValue(mMatrixThermalCopy);
+                        Debug.Log("mMaxThermalMatrixL : " + mMaxThermalMatrix);
+                        for (int i = 0; i < mMatrixThermalCopy.Length; ++i)
+                        {
+                            mSumMatrixValue += mMatrixThermalCopy[i];
+                        }
+
+                        mSumMatrixValue /= mMatrixThermalCopy.Length;
+                        if (mSumMatrixValue < 10 && mMaxThermalMatrix < 12)
+                            return;
+
+                        Debug.Log("moyenne : " + mSumMatrixValue + " mMaxThermalMatrix : " + mMaxThermalMatrix);
+                        if ((mSumMatrixValue < 25 && mSumMatrixValue > 15) && (mMaxThermalMatrix < 25 && mMaxThermalMatrix > 15) && mThermalMatrixGood)
+                        {
+                            Debug.Log("STOP THERMAL JUKEBOX --------------------------------------------------");
+                            BYOS.Instance.Navigation.Stop();
+                            //mIsThermalFollowActivated = false;
+                            mThermalMatrixGood = false;
+
+                        }
+                        else if(!mThermalMatrixGood && (mSumMatrixValue > 26 && mMaxThermalMatrix > 26))
+                        {
+                            BYOS.Instance.Navigation.Follow<HumanFollow>().Facing();
+                            mThermalMatrixGood = true;
+                        }
+                    }
+                    mTimer = 0F;
+                }
             }
             
-            
-            //Debug.Log(thermalMovement.GetComponent<Companion.FollowPersonReaction>().enabled + " " + balladeMovement.GetComponent<CompanionWalk>().enabled);
         }
 
         public void Walk()
@@ -83,7 +106,10 @@ namespace BuddyApp.Jukebox
                 BYOS.Instance.Navigation.Roomba.enabled = false;
 
             if(mIsThermalFollowActivated)
+            {
                 BYOS.Instance.Navigation.Follow<HumanFollow>().Facing();
+                mIsThermalFollow = true;
+            } 
             else if(!mIsThermalFollowActivated)
                 BYOS.Instance.Navigation.Stop();
         }
