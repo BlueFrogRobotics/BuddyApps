@@ -20,11 +20,12 @@ namespace BuddyApp.Weather
 		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
-
 			mWeatherB = GetComponent<WeatherBehaviour>();
+
 
 			Debug.Log("enter api weather type  " + mWeatherB.mForecast + " when " + mWeatherB.mWhen);
 
+            Debug.Log("LOCATION = " + mWeatherB.mLocation);
 			mNumberWeatherInfos = 60;
 			Debug.Log("ENTER API REQUEST");
 			mAnswerReceived = false;
@@ -34,7 +35,6 @@ namespace BuddyApp.Weather
 			if (Application.internetReachability == NetworkReachability.NotReachable) {
 				Debug.Log("Error. Check internet connection!");
 			}
-
 
 			Debug.Log("Pre web service " + mWeatherB.mLocation);
 			BYOS.Instance.WebService.Weather.At(mWeatherB.mLocation, WeatherProcessing, mNumberWeatherInfos);

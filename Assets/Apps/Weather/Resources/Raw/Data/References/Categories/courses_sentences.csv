@@ -1,0 +1,8 @@
+﻿qu y a t il dans la liste de courses ?;Get(device=courses, param=elements)
+donne la liste de courses;Get(device=courses, param=element)
+Y a t il des courses à faire ?;sizeof(device=courses)
+Efface la liste de courses;delete(device=list)
+Vide la liste de courses;clear(device=list)
+Combien y a t il d élément dans la liste de courses ?;Request(type=howmany, device=list)
+envoyer la liste de courses ?;Send(device=list, who=me)
+envoie la liste de courses ?;Send(device=list, who=me)
