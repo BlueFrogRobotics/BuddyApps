@@ -41,6 +41,7 @@ namespace BuddyApp.Companion
 			Interaction.VocalManager.EnableDefaultErrorHandling = true;
 			mVocalChat.WithNotification = true;
 			mVocalChat.OnQuestionTypeFound = SortQuestionType;
+			BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
 			mNeedListen = true;
 			mTime = 0F;
 		}
@@ -52,7 +53,7 @@ namespace BuddyApp.Companion
 			mSpeechInput = true;
 
 			// Compensate VocalChat doing nothing if accept:
-			if(ContainsOneOf(iText, Dictionary.GetPhoneticStrings("accept"))){
+			if (ContainsOneOf(iText, Dictionary.GetPhoneticStrings("accept"))) {
 				mNeedListen = true;
 			}
 		}
@@ -60,23 +61,18 @@ namespace BuddyApp.Companion
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mTime += Time.deltaTime;
-            if (Interaction.TextToSpeech.HasFinishedTalking) {
-				Debug.Log("STATE onenter done: " + " needListen: " + mNeedListen);
+			if (Interaction.TextToSpeech.HasFinishedTalking) {
 				if (mNeedListen) {
-					Debug.Log("VocalTriggered Start Listen");
-
 					Interaction.VocalManager.StartInstantReco();
 					mNeedListen = false;
 					mTime = 0F;
-                } else {
-					Debug.Log("pre pre Back to IDLE: ");
+				} else {
 					if (!mVocalChat.BuildingAnswer) {
 						if (mVocalWanderOrder) {
 							Trigger("WANDER");
 						} else if (mOrderGiven || mVocalChat.AnswerGiven) {
-							Trigger("ASKNEWRQ");
+							mNeedListen = true;
 						} else if (Interaction.VocalManager.RecognitionFinished && mTime > 15F) {
-							Debug.Log("pre Back to IDLE: ");
 							if (!mSpeechInput) {
 								//Mb this was a wrong trigger, back to IDLE
 								Debug.Log("Back to IDLE: ");
@@ -96,6 +92,7 @@ namespace BuddyApp.Companion
 			mSpeechInput = false;
 			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
 			mVocalChat.DisActivate();
+			BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
 		}
 
 		//Sort the type of the question returned by the Vocal Chat.
@@ -108,6 +105,11 @@ namespace BuddyApp.Companion
 
 			switch (iType) {
 				case "Quit":
+					if (mActionManager.ThermalFollow) {
+						mActionManager.StopThermalFollow();
+					} else {
+						Trigger("DISENGAGE");
+					}
 					break;
 				case "Weather":
 					break;
@@ -129,31 +131,28 @@ namespace BuddyApp.Companion
 					break;
 
 				case "DontMove":
-					CompanionData.Instance.MovingDesire -= 20;
+					mActionManager.StopAllActions();
+                    CompanionData.Instance.MovingDesire -= 20;
 					mVocalWanderOrder = false;
 					CompanionData.Instance.CanMoveBody = false;
-					//mReaction.StopMoving();
 					mRobotIsTrackingSomeone = false;
-					//GetComponent<FollowWanderReaction>().enabled = false;
 					break;
 
 				case "FollowMe":
 					if (!mRobotIsTrackingSomeone) {
 						Interaction.TextToSpeech.Say(Dictionary.GetString("follow"));
 						CompanionData.Instance.InteractDesire -= 10;
-						//GetComponent<FollowWanderReaction>().enabled = true;
+						mActionManager.StartThermalFollow();
 						mRobotIsTrackingSomeone = true;
 					}
 					break;
 
 				case "HeadUp":
-					//GetComponent<IdleReaction>().HeadPosition = -5F;
-					//GetComponent<WanderReaction>().HeadPosition = -5F;
+					Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - 15F);
 					break;
 
 				case "HeadDown":
-					//GetComponent<IdleReaction>().HeadPosition = 15F;
-					//GetComponent<WanderReaction>().HeadPosition = 15F;
+					Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition + 15F);
 					break;
 
 				case "VolumeUp":

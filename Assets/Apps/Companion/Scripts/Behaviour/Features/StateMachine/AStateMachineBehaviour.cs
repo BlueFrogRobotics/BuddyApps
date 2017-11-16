@@ -20,8 +20,10 @@ namespace BuddyApp.Companion
 	public abstract class AStateMachineBehaviour : StateMachineBehaviour
     {
 		protected UnityEngine.UI.Text mState;
+		protected DetectionManager mDetectionManager;
+		protected ActionManager mActionManager;
 
-        private Dictionary<string, int> mCommonIntegers;
+		private Dictionary<string, int> mCommonIntegers;
         private Dictionary<string, float> mCommonSingles;
         private Dictionary<string, string> mCommonStrings;
         private Dictionary<string, object> mCommonObjects;
