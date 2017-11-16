@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,6 +21,7 @@ namespace BuddyApp.PlayMath{
 
         private Text[] mChoices;
         private int mCountQuestions;
+        private DateTime mStartTime;
 
         //TODO Replace the following with GameParameters value
         private int mTotalQuestions;
@@ -57,6 +59,19 @@ namespace BuddyApp.PlayMath{
             string[] lChoices = {"2","3","4","6"};
             for (int i = 0; i < mChoices.Length; i++)
                 mChoices[i].text = lChoices[i];
+
+            mStartTime = DateTime.Now;
+        }
+
+        public double ElapsedTimeSinceStart()
+        {
+            TimeSpan elapsed = DateTime.Now - mStartTime;
+            return elapsed.TotalSeconds;
+        }
+
+        public void TimeOut()
+        {
+            ShowResult("TimeOut");
         }
 
         public void OnClick(BaseEventData data)
@@ -65,10 +80,17 @@ namespace BuddyApp.PlayMath{
             if (lSelected != null)
             {
                 Text lTextComponent = lSelected.GetComponentInChildren<Text>();
-                mResult.UserAnswer = lTextComponent.text;
-
-                mPlayMathAnimator.SetTrigger("Result");
+                ShowResult(lTextComponent.text);
             }
+        }
+
+        private void ShowResult(string answer)
+        {
+            mResult.UserAnswer = answer;
+            TimeSpan elapsed = DateTime.Now - mStartTime;
+            mResult.ElapsedTime = elapsed.TotalSeconds;
+
+            mPlayMathAnimator.SetTrigger("Result");
         }
    	}
 }
