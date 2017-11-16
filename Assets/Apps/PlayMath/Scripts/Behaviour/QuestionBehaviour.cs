@@ -33,6 +33,8 @@ namespace BuddyApp.PlayMath{
         {
             mCountQuestions = 0;
             mGameParams = User.Instance.GameParameters;
+
+            GameObject.Find("UI/EndGame_Score").GetComponent<Score>().ResetScore();
         }
 
         //Generate a new equation and handle associated text to display
