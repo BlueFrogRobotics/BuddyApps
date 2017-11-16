@@ -23,17 +23,16 @@ namespace BuddyApp.PlayMath{
         private int mCountQuestions;
         private DateTime mStartTime;
 
-        //TODO Replace the following with GameParameters value
-        private int mTotalQuestions;
+        private GameParameters mGameParams;
 
 		void Start() {
             mChoices = GameObject.Find("UI/Four_Answer/Middle_UI").GetComponentsInChildren<Text>();
-            mTotalQuestions = 4;
 		}
 
         public void ResetGame()
         {
             mCountQuestions = 0;
+            mGameParams = User.Instance.GameParameters;
         }
 
         //Generate a new equation and handle associated text to display
@@ -50,8 +49,8 @@ namespace BuddyApp.PlayMath{
 
             // Is this question the last ?
             mCountQuestions++;
-            mTitleBottom.text = "QUESTION " + mCountQuestions + " OF " + mTotalQuestions;
-            mResult.Last = (mCountQuestions == mTotalQuestions);
+            mTitleBottom.text = "QUESTION " + mCountQuestions + " OF " + mGameParams.Sequence;
+            mResult.Last = (mCountQuestions == mGameParams.Sequence);
 
             mTitleTop.text = "HOW MANY DOES " + mResult.Equation + " ?";
 
