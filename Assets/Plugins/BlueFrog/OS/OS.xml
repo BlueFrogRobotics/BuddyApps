@@ -972,9 +972,21 @@
             The list of all currently running behaviors.
             </summary>
         </member>
+        <member name="M:Buddy.BMLManager.LoadAppBML">
+            <summary>
+            Loads all BML from current App.
+            </summary>
+        </member>
+        <member name="M:Buddy.BMLManager.LoadFile(System.String)">
+            <summary>
+            Loads a single BML from current App.
+            </summary>
+            <param name="iFileName">The full name of the BML to load (e.g. "bml.xml").</param>
+            <returns>False if file is not found or doesn't exist.</returns>
+        </member>
         <member name="M:Buddy.BMLManager.LaunchByName(System.String,Buddy.BMLComposition)">
             <summary>
-            Launches a Behavior.
+            Launches a Behavior. Will check first in App's BML, then OS's BML.
             </summary>
             <param name="iName">The name of the behavior described by the BML's name.</param>
             <param name="iComposition">Composition type of the behavior.</param>
@@ -982,17 +994,18 @@
         </member>
         <member name="M:Buddy.BMLManager.LaunchByID(System.String,Buddy.BMLComposition)">
             <summary>
-            Launches a Behavior.
+            Launches a Behavior. Will check first in App's BML, then OS's BML.
             </summary>
             <param name="iID">The name of the behavior described by the BML's ID.</param>
             <param name="iComposition">Composition type of the behavior.</param>
             <returns>False if the BML was not found.</returns>
         </member>
-        <member name="M:Buddy.BMLManager.LaunchRandom(Buddy.BMLCategory,Buddy.BMLComposition)">
+        <member name="M:Buddy.BMLManager.LaunchRandom(Buddy.BMLCategory,Buddy.BMLContext,Buddy.BMLComposition)">
             <summary>
             Launches a random behavior that belongs to a certain category.
             </summary>
             <param name="iCategory">The Category type to search in.</param>
+            <param name="iContext">The context from which a random BML should be executed. Cand be from current APP, from the OS or both.</param>
             <param name="iComposition">Composition type of the behavior.</param>
             <returns>False if no behavior was found for the category, true if one was successfuly started.</returns>
         </member>
@@ -3535,82 +3548,92 @@
         </member>
         <member name="T:Buddy.WeatherError">
             <summary>
-            Error that may happen during a Weather request
+            Error that may happen during a Weather request.
             </summary>
         </member>
         <member name="F:Buddy.WeatherError.NONE">
             <summary>
-            No error
+            No error.
             </summary>
         </member>
         <member name="F:Buddy.WeatherError.UNKNOWN_LOCATION">
             <summary>
-            Unable to find latitude and longitude of provided location
+            Unable to find latitude and longitude of provided location.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherError.MANY_LOCATIONS">
+            <summary>
+            At least 2 cities exist with the same name.
             </summary>
         </member>
         <member name="F:Buddy.WeatherError.GEOLOCALIZATION_FAILED">
             <summary>
-            Localization of device failed
+            Localization of device failed.
             </summary>
         </member>
         <member name="F:Buddy.WeatherError.GEOLOCALIZATION_DISABLED">
             <summary>
-            No location was provided and localization was disabled
+            No location was provided and localization was disabled.
             </summary>
         </member>
         <member name="F:Buddy.WeatherError.REQUEST_FAILED">
             <summary>
-            Weather request timed-out or returned an error
+            Weather request timed-out or returned an error.
             </summary>
         </member>
         <member name="T:Buddy.WeatherInfo">
             <summary>
-            This class represents the weather at a specific hour
+            This class represents the weather at a specific hour.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.Location">
             <summary>
-            Location of the weather info
+            Location of the weather info.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.Hour">
             <summary>
-            Hour of the day
+            Hour of the day.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.Day">
             <summary>
-            Day of the month
+            Day of the month.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.Date">
             <summary>
-            Day with format YYYY-MM-DD
+            Day with format YYYY-MM-DD.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.Type">
             <summary>
-            Weather type (Sunny, overcast, cloudy ...)
+            Weather type (Sunny, overcast, cloudy ...).
             </summary>
         </member>
-        <member name="P:Buddy.WeatherInfo.Temperature">
+        <member name="P:Buddy.WeatherInfo.MinTemperature">
             <summary>
-            The temperature in degrees
+            The maximum expected temperature in degrees.
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.MaxTemperature">
+            <summary>
+            The minimum expected temperature in degrees.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.AverageWindSpeed">
             <summary>
-            The speed of the wind in km/h
+            The speed of the wind in km/h.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.GustWindSpeed">
             <summary>
-            The speed of the gust of wind in km/h
+            The speed of the gust of wind in km/h.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.DegreeWind">
             <summary>
-            The direction of the wind in degree
+            The direction of the wind in degree.
             </summary>
         </member>
         <member name="T:Buddy.Weather">
