@@ -713,7 +713,7 @@
             Current installed app version
             </summary>
         </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionType">
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionStatus">
             <summary>
             Current installed app version type
             </summary>
@@ -6204,6 +6204,12 @@
             <summary>
             Memory system of Buddy
             </summary>
+        </member>
+        <member name="M:Buddy.DataBase.GetCurrentUser">
+            <summary>
+            The current logged user
+            </summary>
+            <returns>A UserAccount copy of the current logged user</returns>
         </member>
         <member name="M:Buddy.DataBase.GetUsers">
             <summary>
