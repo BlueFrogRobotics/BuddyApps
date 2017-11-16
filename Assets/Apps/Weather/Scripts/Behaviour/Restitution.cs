@@ -101,7 +101,7 @@ namespace BuddyApp.Weather
 					//		lAnswer = lNoAnswer;
 				}
 			} else {
-				lAnswer = lDayString + " " + Dictionary.GetRandomString("at") + " " + lWeatherInfo.Hour + " " +  Dictionary.GetRandomString("hour") + " " + Dictionary.GetRandomString("temperaturewillbe") + " " + lWeatherInfo.Temperature + " "
+				lAnswer = lDayString + " " + Dictionary.GetRandomString("at") + " " + lWeatherInfo.Hour + " " +  Dictionary.GetRandomString("hour") + " " + Dictionary.GetRandomString("temperaturewillbe") + " " + lWeatherInfo.MinTemperature + " "
 					+ Dictionary.GetRandomString("degreesanditisa") + " " + Dictionary.GetRandomString( (lWeatherInfo.Type.ToString().ToLower()).Replace("_", "") );
 
 			}
