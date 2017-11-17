@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Buddy;
+using Buddy.UI;
 
 namespace BuddyApp.PlayMath{
     public class TakePhotoBehaviour : MonoBehaviour {
@@ -16,15 +17,30 @@ namespace BuddyApp.PlayMath{
         private bool mFlush;
 
         public static event System.Action<Photograph> OnEndTakePhoto;
+        public static event System.Action OnValidatePhoto;
+        public static event System.Action OnCancelPhoto;
 
         void Start(){
             OnEndTakePhoto = delegate (Photograph lPhoto)
             {
                     mFlush = false;
-                    mRawVideoTexture = lPhoto.Image.texture;
+                    mRawVideoTexture.texture = lPhoto.Image.texture;
                     BYOS.Instance.Primitive.RGBCam.Close();
 
-                    Invoke("MoveToCertificate",5.0f);
+                    BYOS.Instance.Notifier.Display<ConfirmationNot>().With(
+                        "DO YOU LIKE THIS PHOTO ?",
+                        OnValidatePhoto,
+                        OnCancelPhoto);
+            };
+
+            OnValidatePhoto = delegate
+            {
+                    mPlayMathAnimator.SetTrigger("Certificate");
+            };
+
+            OnCancelPhoto = delegate
+            {
+                    DisplayCamera();
             };
         }
 
@@ -36,21 +52,21 @@ namespace BuddyApp.PlayMath{
             Invoke("TakePhoto", 2.0f);
         }
 
-        private void FlushCameraTexture()
+        private IEnumerator FlushCameraTexture()
         {
             while (mFlush)
-                mRawVideoTexture = BYOS.Instance.Primitive.RGBCam.FrameTexture2D;
+            {
+                mRawVideoTexture.texture = BYOS.Instance.Primitive.RGBCam.FrameTexture2D;
+                yield return null;
+            }
+            
         }
 
         private void TakePhoto()
         {
             BYOS.Instance.Primitive.RGBCam.TakePhotograph(OnEndTakePhoto);
         }
-
-        private void MoveToCertificate()
-        {
-            mPlayMathAnimator.SetTrigger("Certificate");
-        }
+            
     }
 }
 
