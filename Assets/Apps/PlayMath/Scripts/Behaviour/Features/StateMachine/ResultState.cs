@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Buddy;
+using Buddy.UI;
 
 namespace BuddyApp.PlayMath{
     public class ResultState : AStateMachineBehaviour {
@@ -30,6 +31,9 @@ namespace BuddyApp.PlayMath{
 
             mScore = GameObject.Find("UI/EndGame_Score").GetComponent<Score>();
             mScore.AddResult(mResult);
+
+            string lMessageNot = mResult.Equation + "=" + mResult.CorrectAnswer;
+            BYOS.Instance.Notifier.Display<MessageNot>((float)DURATION).With(lMessageNot,null,null);
 
 			mEndTime = Time.time + DURATION;
         }
