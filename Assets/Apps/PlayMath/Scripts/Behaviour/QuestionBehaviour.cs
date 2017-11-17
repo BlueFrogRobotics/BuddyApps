@@ -25,6 +25,9 @@ namespace BuddyApp.PlayMath{
 
         private GameParameters mGameParams;
 
+        public bool HasAnswer{ get; private set;}
+        private TimeSpan mElapsedTime;
+
 		void Start() {
             mChoices = GameObject.Find("UI/Four_Answer/Middle_UI").GetComponentsInChildren<Text>();
 		}
@@ -62,6 +65,8 @@ namespace BuddyApp.PlayMath{
                 mChoices[i].text = lChoices[i];
 
             mStartTime = DateTime.Now;
+            HasAnswer = false;
+            mElapsedTime = TimeSpan.Zero;
         }
 
         public double ElapsedTimeSinceStart()
@@ -72,11 +77,15 @@ namespace BuddyApp.PlayMath{
 
         public void TimeOut()
         {
-            ShowResult("TimeOut");
+            HasAnswer = true;
+            ShowResult("-");
         }
 
         public void OnClick(BaseEventData data)
         {
+            HasAnswer = true;
+            mElapsedTime = DateTime.Now - mStartTime;
+
             GameObject lSelected = data.selectedObject;
             if (lSelected != null)
             {
@@ -88,8 +97,7 @@ namespace BuddyApp.PlayMath{
         private void ShowResult(string answer)
         {
             mResult.UserAnswer = answer;
-            TimeSpan elapsed = DateTime.Now - mStartTime;
-            mResult.ElapsedTime = elapsed.TotalSeconds;
+            mResult.ElapsedTime = mElapsedTime.TotalSeconds;
 
             mPlayMathAnimator.SetTrigger("Result");
         }

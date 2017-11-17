@@ -29,10 +29,14 @@ namespace BuddyApp.PlayMath{
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             double lElapsedTime = mQuestionBehaviour.ElapsedTimeSinceStart();
             int lMaxTime = User.Instance.GameParameters.Timer;
-            if(lElapsedTime < lMaxTime)
-                mTimeScrollbar.size = (float) (lElapsedTime / lMaxTime);
-            else //TimeOut
-                mQuestionBehaviour.TimeOut();
+
+            if (!mQuestionBehaviour.HasAnswer)
+            {
+                if (lElapsedTime < lMaxTime)
+                    mTimeScrollbar.size = (float)(lElapsedTime / lMaxTime);
+                else //TimeOut
+                    mQuestionBehaviour.TimeOut();
+            }
 
         }
 
