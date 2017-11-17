@@ -27,6 +27,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "SadBuddy";
 			Debug.Log("state: SadBuddy");
 			mLookForSomeone = false;

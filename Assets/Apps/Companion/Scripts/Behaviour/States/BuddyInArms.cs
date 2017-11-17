@@ -20,6 +20,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "Buddy in Arms";
 			Debug.Log("state: Buddy in Arms");
 			mTimeInArmns = 0F;
@@ -49,6 +50,8 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 	}
 }

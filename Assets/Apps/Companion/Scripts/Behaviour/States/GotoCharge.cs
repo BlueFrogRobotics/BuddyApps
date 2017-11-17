@@ -21,6 +21,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			Debug.Log("state: Goto charge");
 			mState.text = "Goto charge: " +	BYOS.Instance.Primitive.Battery.EnergyLevel;
 			Interaction.Mood.Set(MoodType.TIRED);

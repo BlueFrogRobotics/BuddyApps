@@ -26,6 +26,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "Robot Touched " + mDetectionManager.mFacePartTouched;
 			Debug.Log("state: Robot Touched: " + mDetectionManager.mFacePartTouched);
 			if (mDetectionManager.mFacePartTouched == FaceTouch.OTHER || mDetectionManager.mFacePartTouched == FaceTouch.NONE) {
@@ -38,40 +39,42 @@ namespace BuddyApp.Companion
 					iAnimator.SetTrigger("VOCALTRIGGERED");
 				}
 
-
-			} else {
-				// User touched the eye / face
-				if (mDetectionManager.mFacePartTouched == FaceTouch.MOUTH) {
-					if (mMouthCounter > 2)
-						//TODO: play BML instead
-						Interaction.Mood.Set(MoodType.SICK);
-					else {
-						if (Time.time - mLastMouthTime < 10F)
-							mMouthCounter++;
-						else
-							mMouthCounter = 0;
-						mLastMouthTime = Time.time;
-					}
-				}else if(mDetectionManager.mFacePartTouched == FaceTouch.LEFT_EYE || mDetectionManager.mFacePartTouched == FaceTouch.RIGHT_EYE) {
-					if (mMouthCounter > 2)
-						//TODO: play BML instead
-						Interaction.Mood.Set(MoodType.GRUMPY);
-					else {
-						if (Time.time - mLastMouthTime < 10F)
-							mMouthCounter++;
-						else
-							mMouthCounter = 0;
-						mLastMouthTime = Time.time;
-					}
-				}
 			}
+			//} else {
+			//	// User touched the eye / face
+			//	if (mDetectionManager.mFacePartTouched == FaceTouch.MOUTH) {
+			//		if (mMouthCounter > 2)
+			//			//TODO: play BML instead
+			//			Interaction.Mood.Set(MoodType.SICK);
+			//		else {
+			//			if (Time.time - mLastMouthTime < 10F)
+			//				mMouthCounter++;
+			//			else
+			//				mMouthCounter = 0;
+			//			mLastMouthTime = Time.time;
+			//		}
+			//	}else if(mDetectionManager.mFacePartTouched == FaceTouch.LEFT_EYE || mDetectionManager.mFacePartTouched == FaceTouch.RIGHT_EYE) {
+			//		if (mMouthCounter > 2)
+			//			//TODO: play BML instead
+			//			Interaction.Mood.Set(MoodType.GRUMPY);
+			//		else {
+			//			Debug.Log("Time.time - mLastMouthTime " + (Time.time - mLastMouthTime) );
+			//                     if (Time.time - mLastMouthTime < 10F)
+			//				mMouthCounter++;
+			//			else
+			//				mMouthCounter = 0;
+			//			mLastMouthTime = Time.time;
+			//		}
+			//	}
+
+			//	iAnimator.SetTrigger("INTERACT");
+			//}
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
 			mDetectionManager.mDetectedElement = Detected.NONE;
-        }
+		}
 
 	}
 }

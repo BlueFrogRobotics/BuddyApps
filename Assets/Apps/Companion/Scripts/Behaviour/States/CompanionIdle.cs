@@ -27,6 +27,8 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "IDLE";
 			Debug.Log("state: IDLE");
 
@@ -107,7 +109,11 @@ namespace BuddyApp.Companion
 						Trigger("CHARGE");
 						break;
 
-					case Detected.HUMAN_RGB & Detected.THERMAL:
+					case Detected.HUMAN_RGB:
+						Trigger("INTERACT");
+						break;
+
+					case Detected.THERMAL:
 						Trigger("INTERACT");
 						break;
 

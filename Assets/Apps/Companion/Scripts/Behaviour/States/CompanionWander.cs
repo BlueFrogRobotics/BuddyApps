@@ -21,6 +21,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			mTimeThermal = 0;
             mState.text = "Wander";
 			mTrigged = false;

@@ -12,7 +12,7 @@ namespace BuddyApp.Companion
 		public override void Start()
 		{
 			mState = GetComponentInGameObject<Text>(0);
-			//mSensorManager = BYOS.Instance.SensorManager;
+			mDetectionManager = GetComponent<DetectionManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

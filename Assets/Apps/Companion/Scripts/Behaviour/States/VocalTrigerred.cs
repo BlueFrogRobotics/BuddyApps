@@ -6,10 +6,9 @@ using UnityEngine.UI;
 namespace BuddyApp.Companion
 {
 	//[RequireComponent(typeof(Reaction))]
-	[RequireComponent(typeof(VocalChat))]
 	public class VocalTrigerred : AStateMachineBehaviour
 	{
-		private VocalChat mVocalChat;
+		private VocalHelper mVocalChat;
 		//private Reaction mReaction;
 		private bool mVocalWanderOrder;
 		private bool mRobotIsTrackingSomeone;
@@ -21,13 +20,16 @@ namespace BuddyApp.Companion
 		public override void Start()
 		{
 			//mSensorManager = BYOS.Instance.SensorManager;
-			mVocalChat = GetComponent<VocalChat>();
+			mVocalChat = GetComponent<VocalHelper>();
 			mState = GetComponentInGameObject<Text>(0);
+			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 			//mReaction = GetComponent<Reaction>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "Vocal Triggered";
 			Debug.Log("state: Vocal Triggered");
 
@@ -93,6 +95,7 @@ namespace BuddyApp.Companion
 			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
 			mVocalChat.DisActivate();
 			BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
+			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 
 		//Sort the type of the question returned by the Vocal Chat.
@@ -144,6 +147,7 @@ namespace BuddyApp.Companion
 						CompanionData.Instance.InteractDesire -= 10;
 						mActionManager.StartThermalFollow();
 						mRobotIsTrackingSomeone = true;
+						Trigger("IDLE");
 					}
 					break;
 
@@ -156,10 +160,12 @@ namespace BuddyApp.Companion
 					break;
 
 				case "VolumeUp":
+					Primitive.Speaker.FX.Play(FXSound.BEEP_1);
 					BYOS.Instance.Primitive.Speaker.VolumeUp();
 					break;
 
 				case "VolumeDown":
+					Primitive.Speaker.FX.Play(FXSound.BEEP_1);
 					BYOS.Instance.Primitive.Speaker.VolumeDown();
 					break;
 

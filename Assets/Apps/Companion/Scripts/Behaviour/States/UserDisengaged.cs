@@ -14,11 +14,13 @@ namespace BuddyApp.Companion
         public override void Start()
         {
             mState = GetComponentInGameObject<Text>(0);
-        }
+			mDetectionManager = GetComponent<DetectionManager>();
+		}
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-        {
-            mState.text = "User disengaged";
+		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
+			mState.text = "User disengaged";
             Debug.Log("state: User disengaged");
 
             mTimeState = 0F;
@@ -50,6 +52,7 @@ namespace BuddyApp.Companion
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
 
-        }
+			mDetectionManager.mDetectedElement = Detected.NONE;
+		}
     }
 }

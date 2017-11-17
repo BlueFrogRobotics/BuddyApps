@@ -22,10 +22,12 @@ namespace BuddyApp.Companion
 			//mSensorManager = BYOS.Instance.SensorManager;
 
 			mState = GetComponentInGameObject<Text>(0);
+			mDetectionManager = GetComponent<DetectionManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "Seek Attention";
 			Debug.Log("state: Seek Attention" + BYOS.Instance.Primitive.Battery.EnergyLevel);
 

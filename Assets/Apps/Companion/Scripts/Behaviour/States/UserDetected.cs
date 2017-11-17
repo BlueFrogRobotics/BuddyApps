@@ -34,6 +34,7 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			Utils.LogI(LogContext.APP, "Enter UserD 0");
 			mState.text = "User Detected" + Primitive.Battery.EnergyLevel;
 
