@@ -11,8 +11,6 @@ namespace BuddyApp.PlayMath{
 		private Animator mQuestionAnimator;
         private QuestionBehaviour mQuestionBehaviour;
         private Scrollbar mTimeScrollbar;
-        //TODO Replace with GameParameters max allowed time
-        private double mMaxTime;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -25,14 +23,14 @@ namespace BuddyApp.PlayMath{
             mTimeScrollbar = GameObject.Find("UI/Four_Answer/Bottom_UI/Time_Progress").GetComponent<Scrollbar>();
             mTimeScrollbar.size = 0;
             mTimeScrollbar.value = 0;
-            mMaxTime = 10;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             double lElapsedTime = mQuestionBehaviour.ElapsedTimeSinceStart();
-            if(lElapsedTime < mMaxTime)
-                mTimeScrollbar.size = (float) (lElapsedTime / mMaxTime);
+            int lMaxTime = User.Instance.GameParameters.Timer;
+            if(lElapsedTime < lMaxTime)
+                mTimeScrollbar.size = (float) (lElapsedTime / lMaxTime);
             else //TimeOut
                 mQuestionBehaviour.TimeOut();
 
