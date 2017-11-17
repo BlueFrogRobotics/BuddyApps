@@ -171,6 +171,16 @@
             Make the face blinking both eyes
             </summary>
         </member>
+        <member name="F:Buddy.FaceEvent.CLOSE_EYES">
+            <summary>
+            Make the close close both eyes, should be OPEN_EYES later
+            </summary>
+        </member>
+        <member name="F:Buddy.FaceEvent.OPEN_EYES">
+            <summary>
+            Has effect only if CLOSE_EYES was called before
+            </summary>
+        </member>
         <member name="T:Buddy.FaceLookAt">
             <summary>
             Facility enum for face LookAt(x, y) method
