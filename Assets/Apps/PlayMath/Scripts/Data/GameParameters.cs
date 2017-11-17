@@ -24,29 +24,15 @@ namespace BuddyApp.PlayMath{
 
 		private const string FILE_TO_SERIALIZE = "game_parameters.xml";
 
-		private Operand mOperands = Operand.ADD;
+		/// <summary>
+		/// These getter/setter are useful only for serialize the object.
+		/// <para>Prefer <see cref="CheckOperand(Operand operand)"/> and <see cref="SetOperand(Operand operand, bool toSet)"/>.</para>
+		/// </summary>
+		public Operand Operands { get; set; }
 
-		private int mTable = 0;
+		public int Table { get ; set; }
 
-		private int mDifficulty = 1;
-
-		private int mSequence = 4;
-
-		private int mTimer = 20;
-
-		public int Table
-		{
-			get 
-			{
-				return mTable;
-			}
-
-			set 
-			{
-				mTable = value;
-			}
-		}
-
+		private int mDifficulty;
 		public int Difficulty
 		{
 			get 
@@ -64,55 +50,24 @@ namespace BuddyApp.PlayMath{
 			}
 		}
 
-		public int Sequence
-		{
-			get 
-			{
-				return mSequence;
-			}
+		public int Sequence { get ; set; }
 
-			set 
-			{
-				mSequence = value;
-			}
-		}
+		public int Timer { get; set; }
 
-		public int Timer
-		{
-			get 
-			{
-				return mTimer;
-			}
-
-			set 
-			{
-				mTimer = value;
-			}
-		}
-
-		/// <summary>
-		/// This property is useful only for serialize the object.
-		/// <para>Don't call it, prefer <see cref="CheckOperand(Operand operand)"/> and <see cref="SetOperand(Operand operand, bool toSet)"/>.</para>
-		/// </summary>
-		public Operand Operands 
-		{
-			get 
-			{
-				return mOperands;
-			}
-
-			set 
-			{
-				mOperands = value;
-			}
+		public GameParameters () {
+			this.Operands = Operand.ADD;
+			this.Table = 0;
+			this.Difficulty = 1;
+			this.Sequence = 4;
+			this.Timer = 20;
 		}
 
 		public bool CheckOperand(Operand operand) {
 			if (operand == Operand.NONE) {
-				return mOperands == 0;
+				return this.Operands == 0;
 			}
 
-			return (mOperands & operand) != 0;
+			return (this.Operands & operand) != 0;
 		}		
 
 		public void SetOperand(Operand operand, bool toSet) {
@@ -121,10 +76,10 @@ namespace BuddyApp.PlayMath{
 			}
 				
 			if (toSet) { 
-				mOperands |= operand;
+				this.Operands |= operand;
 			} 
 			else {
-				mOperands &= ~operand;
+				this.Operands &= ~operand;
 			}
 		}
 
@@ -149,10 +104,10 @@ namespace BuddyApp.PlayMath{
 		public override string ToString() {
 			StringBuilder s = new StringBuilder();
 
-			s.Append("difficulty:" + mDifficulty);
-			s.Append(", operands:" + mOperands);
-			s.Append(", table:" + mTable);
-			s.Append(", timer:" + mTimer);
+			s.Append("difficulty:" + this.Difficulty);
+			s.Append(", operands:" + this.Operands);
+			s.Append(", table:" + this.Table);
+			s.Append(", timer:" + this.Timer);
 
 			return s.ToString();
 		}

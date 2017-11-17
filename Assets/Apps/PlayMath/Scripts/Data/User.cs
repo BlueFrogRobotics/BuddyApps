@@ -7,44 +7,15 @@ namespace BuddyApp.PlayMath{
 
 		private static User sInstance;
 
-		private string mName = "";
+		public string Name { get; set; }
 
-		private int mId = 0;
+		public int Id { get; }
 
-		private GameParameters mGameParameters = GameParameters.LoadDefault();
+		public GameParameters GameParameters { get; }
 
 		// private DegreeList mDegrees TODO
 
 		// private ScoreList mPalmares TODO
-
-		public string Name 
-		{
-			get 
-			{
-				return mName;
-			}
-
-			set 
-			{
-				mName = value;
-			}
-		}
-
-		public int Id 
-		{
-			get 
-			{
-				return mId;
-			}
-		}
-
-		public GameParameters GameParameters 
-		{
-			get 
-			{
-				return mGameParameters;
-			}
-		}
 			
 		/*
          * Singleton access
@@ -57,6 +28,12 @@ namespace BuddyApp.PlayMath{
 					sInstance = new User();
 				return sInstance;
 			}
+		}
+
+		public User() {
+			this.Name = "";
+			this.Id = 0;
+			this.GameParameters = GameParameters.LoadDefault();
 		}
 	}
 }
