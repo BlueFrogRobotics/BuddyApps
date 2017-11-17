@@ -39,19 +39,23 @@ namespace BuddyApp.PlayMath{
 		}
 
 		public void OnClickGoToMenu() {
-			if (! CheckSettings ()) {
+			if (! CheckSettings()) {
 				Utils.LogI(LogInfo.UNAUTHORIZED, "Can't close the view with these settings");
 				return;
 			}
+
+			GameParameters.SaveDefault(mGameParameters);
 
 			mPlayMathAnimator.SetTrigger("BackToMenu");
 		}		
 
 		public void OnClickPlay() {
-			if (! CheckSettings ()) {
+			if (! CheckSettings()) {
 				Utils.LogI(LogInfo.UNAUTHORIZED, "Can't close the view with these settings");
 				return;
 			}
+
+			GameParameters.SaveDefault(mGameParameters);
 
 			mPlayMathAnimator.SetTrigger("Play");
 		}
@@ -95,7 +99,6 @@ namespace BuddyApp.PlayMath{
 		private void OnChangeDifficulty(int newDifficulty) {
 			mGameParameters.Difficulty = newDifficulty;
 			BindStars();
-			LogValues();
 		}
 
 		private void BindStars() {
@@ -106,7 +109,6 @@ namespace BuddyApp.PlayMath{
 
 		private void OnChangeOperands(Operand operand, bool value) {
 			mGameParameters.SetOperand(operand, value);
-			LogValues();
 		}
 
 		private void BindOperands() {
@@ -122,11 +124,6 @@ namespace BuddyApp.PlayMath{
 			}
 
 			return true;
-		}
-
-		// TODO remove
-		private void LogValues() {
-			Utils.LogI(LogInfo.SUCCESSED, "gameParameters: " + mGameParameters);
 		}
 	}
 }

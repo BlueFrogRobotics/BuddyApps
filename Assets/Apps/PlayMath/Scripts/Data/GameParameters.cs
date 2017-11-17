@@ -17,9 +17,12 @@ namespace BuddyApp.PlayMath{
 		MULTI = 0x08
 	}
 
+	[Serializable]
 	public class GameParameters {
-
+		
 		public const int DIFFICULTY_MAX = 5;
+
+		private const string FILE_TO_SERIALIZE = "game_parameters.xml";
 
 		private Operand mOperands = Operand.ADD;
 
@@ -87,6 +90,23 @@ namespace BuddyApp.PlayMath{
 			}
 		}
 
+		/// <summary>
+		/// This property is useful only for serialize the object.
+		/// <para>Don't call it, prefer <see cref="CheckOperand(Operand operand)"/> and <see cref="SetOperand(Operand operand, bool toSet)"/>.</para>
+		/// </summary>
+		public Operand Operands 
+		{
+			get 
+			{
+				return mOperands;
+			}
+
+			set 
+			{
+				mOperands = value;
+			}
+		}
+
 		public bool CheckOperand(Operand operand) {
 			if (operand == Operand.NONE) {
 				return mOperands == 0;
@@ -102,24 +122,35 @@ namespace BuddyApp.PlayMath{
 				
 			if (toSet) { 
 				mOperands |= operand;
-			} else {
+			} 
+			else {
 				mOperands &= ~operand;
 			}
 		}
 
-		public void SaveDefault() {
-			// TODO
+		public static void SaveDefault(GameParameters gameParameters) {
+			Utils.SerializeXML<GameParameters>(gameParameters, PathToSerialize());
 		}
 
-		public void LoadDefault() {
-			// TODO 
+		public static GameParameters LoadDefault() {
+			GameParameters gameParameters = Utils.UnserializeXML<GameParameters>(PathToSerialize());
+
+			if (gameParameters == null) {
+				gameParameters = new GameParameters();
+			}			
+
+			return gameParameters;
+		}
+
+		private static string PathToSerialize() {
+			return BYOS.Instance.Resources.GetPathToRaw(FILE_TO_SERIALIZE);
 		}
 
 		public override string ToString() {
 			StringBuilder s = new StringBuilder();
 
 			s.Append("difficulty:" + mDifficulty);
-			s.Append(", operands: " + mOperands);
+			s.Append(", operands:" + mOperands);
 			s.Append(", table:" + mTable);
 			s.Append(", timer:" + mTimer);
 

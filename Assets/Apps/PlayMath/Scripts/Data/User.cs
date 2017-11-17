@@ -11,7 +11,7 @@ namespace BuddyApp.PlayMath{
 
 		private int mId = 0;
 
-		private GameParameters mGameParameters = new GameParameters();
+		private GameParameters mGameParameters = GameParameters.LoadDefault();
 
 		// private DegreeList mDegrees TODO
 
