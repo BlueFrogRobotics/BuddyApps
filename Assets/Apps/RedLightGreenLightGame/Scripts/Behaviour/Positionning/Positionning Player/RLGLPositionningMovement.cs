@@ -31,7 +31,8 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            GetGameObject(1).SetActive(true);
+            GetGameObject(1).GetComponent<Animator>().SetTrigger("open");
+            //GetGameObject(1).SetActive(true);
             mMustStop = false;
             if (!mRLGLBehaviour.CanRecoil)
             {
@@ -83,7 +84,8 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            GetGameObject(1).SetActive(false);
+            GetGameObject(1).GetComponent<Animator>().SetTrigger("close");
+            //GetGameObject(1).SetActive(false);
         }
 
         private bool ObstacleInFront()

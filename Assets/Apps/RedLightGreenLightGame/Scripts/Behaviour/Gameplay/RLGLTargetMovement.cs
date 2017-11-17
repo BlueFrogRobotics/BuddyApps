@@ -56,7 +56,7 @@ namespace BuddyApp.RedLightGreenLightGame
 
         void Update()
         {
-            Debug.Log("TARGET MOVEMENTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT : " + mSpeed);
+            //Debug.Log("TARGET MOVEMENTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT : " + mSpeed);
             if (transform.localPosition.x < 0 - ((mCanvasRect.rect.width / 2) - mWidth) || transform.localPosition.x > ((mCanvasRect.rect.width / 2) - mWidth))
                 mRestrictX = true;
             else
