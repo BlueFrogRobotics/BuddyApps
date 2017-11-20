@@ -12,7 +12,7 @@ namespace BuddyApp.PlayMath{
 
 		private Animator mPlayMathAnimator;
 
-		private GameParameters mGameParameters = User.Instance.GameParameters;
+		private GameParameters mGameParameters;
 
 		[SerializeField]
 		private Sprite mSpriteStarOn;
@@ -32,6 +32,8 @@ namespace BuddyApp.PlayMath{
 		private Toggle mToggleDiv;
 
 		public void Start() {
+			mGameParameters = User.Instance.GameParameters;
+
 			mPlayMathAnimator = GameObject.Find("AIBehaviour").GetComponent<Animator>();
 
 			BindOperands();
