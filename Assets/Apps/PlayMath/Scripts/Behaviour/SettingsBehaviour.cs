@@ -9,7 +9,7 @@ using Buddy;
 namespace BuddyApp.PlayMath{
 	public class SettingsBehaviour : MonoBehaviour
 	{
-
+        [SerializeField]
 		private Animator mPlayMathAnimator;
 
 		private GameParameters mGameParameters;
@@ -31,14 +31,47 @@ namespace BuddyApp.PlayMath{
 		[SerializeField]
 		private Toggle mToggleDiv;
 
+        private Text mTitleTop;
+        private Text mDifficultyLabel;
+        private Text mGoToMenu;
+        private Text mResetScores;
+        private Text mPlay;
+
 		public void Start() {
 			mGameParameters = User.Instance.GameParameters;
 
-			mPlayMathAnimator = GameObject.Find("AIBehaviour").GetComponent<Animator>();
+            mTitleTop = this.gameObject.transform.Find("Top_UI/Title_Top").GetComponent<Text>();
+            mDifficultyLabel = this.gameObject.transform.Find("Middle_UI/Content/Text_level").GetComponent<Text>();
+            mGoToMenu = this.gameObject.transform.Find("Bottom_UI/Button_Menu/Text").GetComponent<Text>();
+            mResetScores = this.gameObject.transform.Find("Bottom_UI/Button_Reset/Text").GetComponent<Text>();
+            mPlay = this.gameObject.transform.Find("Bottom_UI/Button_Play/Text").GetComponent<Text>();
+
+            TranslateUI();
 
 			BindOperands();
 			BindStars();
 		}
+
+        private void TranslateUI()
+        {
+            mTitleTop.text = BYOS.Instance.Dictionary.GetString("settingstitle").ToUpper();
+            mDifficultyLabel.text = BYOS.Instance.Dictionary.GetString("difficultylabel").ToUpper();
+            mGoToMenu.text = BYOS.Instance.Dictionary.GetString("gotomenulabel").ToUpper();
+            mResetScores.text = BYOS.Instance.Dictionary.GetString("resetscoreslabel").ToUpper();
+            mPlay.text = BYOS.Instance.Dictionary.GetString("playlabel").ToUpper();
+
+            Text lText = mToggleAdd.gameObject.transform.Find("Label").GetComponent<Text>();
+            lText.text = BYOS.Instance.Dictionary.GetString("additionlabel").ToUpper();
+
+            lText = mToggleSub.gameObject.transform.Find("Label").GetComponent<Text>();
+            lText.text = BYOS.Instance.Dictionary.GetString("subtractionlabel").ToUpper();
+
+            lText = mToggleMulti.gameObject.transform.Find("Label").GetComponent<Text>();
+            lText.text = BYOS.Instance.Dictionary.GetString("multiplylabel").ToUpper();
+
+            lText = mToggleDiv.gameObject.transform.Find("Label").GetComponent<Text>();
+            lText.text = BYOS.Instance.Dictionary.GetString("divisionlabel").ToUpper();
+        }
 
 		public void OnClickGoToMenu() {
 			if (! CheckSettings()) {
