@@ -55,10 +55,11 @@ namespace BuddyApp.FreezeDance
             }
 
 
-            if (mTimer > 1.0f)
+            if (mTimer > 0.5f && mHasDetected)
             {
-                mScoreManager.LoseLife();// WinLife();
+                mScoreManager.WinLife();
                 mTimer = 0.0f;
+                mHasDetected = false;
             }
             //Debug.Log("!!!!!!time " + (lTime - mTime)+" random: "+ mRandomStopDelay);
             if (!mEnd && lTime - mTime > mRandomStopDelay)
