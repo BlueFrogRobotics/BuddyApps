@@ -16,7 +16,7 @@ namespace BuddyApp.FreezeDance
         private AudioClip clip;
 
         [SerializeField]
-        private Slider slider;
+        private Scrollbar slider;
 
         //[SerializeField]
         private Sprite pauseSprite;
@@ -41,7 +41,7 @@ namespace BuddyApp.FreezeDance
             if(speaker.isPlaying)
             {
                 mElapsedTime += Time.deltaTime;
-                slider.value = (mElapsedTime / mAudioClipLength) * slider.maxValue;
+                slider.size = (mElapsedTime / mAudioClipLength);// * slider.maxValue;
             }
 
             if(mElapsedTime> mAudioClipLength)
@@ -85,7 +85,7 @@ namespace BuddyApp.FreezeDance
             mElapsedTime = 0.0f;
             mIsStopped = false;
             mAudioClipLength = speaker.clip.length;
-            slider.value = 0;
+            slider.size = 0;
         }
     }
 }

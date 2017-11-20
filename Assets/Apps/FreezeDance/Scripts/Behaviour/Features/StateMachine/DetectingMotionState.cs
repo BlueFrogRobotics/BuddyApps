@@ -12,10 +12,12 @@ namespace BuddyApp.FreezeDance
         private bool mLost;
         private FreezeDanceBehaviour mFreezeBehaviour;
         private bool mHasDetected = false;
+        private GameObject mIcon;
 
         public override void Start()
         {
             mFreezeBehaviour = GetComponent<FreezeDanceBehaviour>();
+            mIcon = GetGameObject(1);
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -25,6 +27,7 @@ namespace BuddyApp.FreezeDance
             mLost = false;
             mFreezeBehaviour.OnMovementDetect += OnDetect;
             mHasDetected = false;
+            mIcon.GetComponent<Animator>().SetTrigger("off");
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -34,6 +37,7 @@ namespace BuddyApp.FreezeDance
             {
                 Trigger("Lose");
                 mLost = true;
+                
             }
 
             if (!mLost && mTime > 5.0F) {
@@ -47,6 +51,7 @@ namespace BuddyApp.FreezeDance
         {
             mFreezeBehaviour.OnMovementDetect -= OnDetect;
             ResetTrigger("Detection");
+            mIcon.GetComponent<Animator>().ResetTrigger("off");
         }
 
         private void OnDetect()
