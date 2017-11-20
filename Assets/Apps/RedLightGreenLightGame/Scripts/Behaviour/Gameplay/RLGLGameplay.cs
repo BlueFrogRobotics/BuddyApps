@@ -41,7 +41,7 @@ namespace BuddyApp.RedLightGreenLightGame
             mTexture = new Texture2D(mCam.Width, mCam.Height);
             //Perception.Motion.OnDetect(OnMovementDetected);
             //Timer limit a changer en fonction du xml
-            mTimerLimit = mLevelManager.LevelData.WaitingTime;//5F;
+            mTimerLimit = mLevelManager.LevelData.WaitingTime;
             mRLGLBehaviour.Timer = 0F;
             mFirst = false;
             mSecond = false;
