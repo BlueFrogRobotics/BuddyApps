@@ -27,17 +27,17 @@ namespace BuddyApp.FreezeDance
                    "menu",
                    new ButtonInfo()
                    {
-                       Label = "start",
+                       Label = Dictionary.GetString("playwithsettings"),//"start",
                        OnClick = () => Trigger("Start")
                    },
                    new ButtonInfo()
                    {
-                       Label = "help",
+                       Label = Dictionary.GetString("setupandplay"),//"help",
                        OnClick = () => Trigger("Start")
                    },
                    new ButtonInfo()
                    {
-                       Label = "quit",
+                       Label = Dictionary.GetString("bestscores"),//"quit",
                        OnClick = () => QuitApp()
                    });
             mTimer = 0.0f;

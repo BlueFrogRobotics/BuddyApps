@@ -6,7 +6,7 @@
     <MainScene>0</MainScene>
     <Authors>dev@bluefrogrobotics.com</Authors>
     <Version>1.0.1.3</Version>
-    <VersionType>NONE</VersionType>
+    <VersionStatus>NONE</VersionStatus>
     <VersionName>freeze!</VersionName>
     <Category>GAME</Category>
     <Permissions>
@@ -58,8 +58,25 @@
             <Type>DISABLE_LOADING_SCREEN</Type>
             <IsValid>false</IsValid>
         </AppPermission>
+        <AppPermission>
+            <Type>USERS_MEDIA_DATA_WRITE</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_DATA_WRITE</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
     </Permissions>
-    <LangVocalKeys />
+    <LangVocalKeys>
+        <VocalKeys>
+            <Language>EN</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>FR</Language>
+            <Keys />
+        </VocalKeys>
+    </LangVocalKeys>
     <OptionsLayoutClassName>FreezeDance.FreezeDanceLayout</OptionsLayoutClassName>
     <ActivityClassName>FreezeDance.FreezeDanceActivity</ActivityClassName>
 </AppInfo>

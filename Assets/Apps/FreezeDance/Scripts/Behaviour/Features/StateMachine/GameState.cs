@@ -71,6 +71,7 @@ namespace BuddyApp.FreezeDance
 
             if (mMusicPlayer.IsStopped())
             {
+                mInGame.GetComponent<Animator>().SetTrigger("close");
                 Trigger("Win");
             }
         }

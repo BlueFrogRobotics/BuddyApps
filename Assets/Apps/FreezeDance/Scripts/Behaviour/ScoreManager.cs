@@ -44,8 +44,8 @@ namespace BuddyApp.FreezeDance
             Score -= 100;
             if (Score < 0)
                 Score = 0;
-            jauge.GetComponent<Animator>().SetTrigger("down");
             SetGauge();
+            jauge.GetComponent<Animator>().SetTrigger("down");
         }
 
         public void WinLife()
@@ -53,8 +53,8 @@ namespace BuddyApp.FreezeDance
             Score += 100;
             if (Score > MAX_SCORE)
                 Score = MAX_SCORE;
-            jauge.GetComponent<Animator>().SetTrigger("up");
             SetGauge();
+            jauge.GetComponent<Animator>().SetTrigger("up");
         }
 
         private void SetGauge()

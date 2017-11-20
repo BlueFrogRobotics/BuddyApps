@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
 using Buddy.UI;
+using System.IO;
 
 namespace BuddyApp.FreezeDance
 {
@@ -36,6 +37,9 @@ namespace BuddyApp.FreezeDance
         void Start()
         {
             mPlayerList = new PlayerList();
+            //string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("scores.xml");
+            //Debug.Log(lDirectoryPath);
+            //Utils.SerializeCSV(lDirectoryPath, "truc", "machin");
         }
 
         // Update is called once per frame
@@ -48,9 +52,13 @@ namespace BuddyApp.FreezeDance
         {
             PlayerScore lPlayer = new PlayerScore();
             lPlayer.Score = iScore;
-            lPlayer.Name = BYOS.Instance.DataBase.GetUsers()[0].FirstName;
+            lPlayer.Name = BYOS.Instance.DataBase.GetCurrentUser().FirstName;
             mPlayerList.List.Add(lPlayer);
-            Utils.SerializeXML<PlayerList>(mPlayerList, "");
+            string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("scores.xml");
+            //Directory.CreateDirectory(lDirectoryPath);
+            //Utils.SerializeCSV(lDirectoryPath, "truc", "machin");
+            int a = 1;
+            Utils.SerializeXML<PlayerList>(mPlayerList, lDirectoryPath);
         }
 
         public void ShowRanking()
