@@ -17,8 +17,14 @@ namespace BuddyApp.Jukebox
         private bool mIsThermalFollow;
         private bool mThermalMatrixGood;
 
+        [SerializeField]
+        private GameObject ThermalButton;
+        [SerializeField]
+        private GameObject WanderButton;
+
         public void Start()
         {
+            
             mTimer = 0F;
             mSumMatrixValue = 0;
             mMatrixThermal = new int[16];
@@ -96,10 +102,13 @@ namespace BuddyApp.Jukebox
             Debug.Log("start mouv");
             BYOS.Instance.Navigation.Stop();
             BYOS.Instance.Navigation.Roomba.enabled = true;
+            WanderButton.GetComponent<Image>().color = Color.gray;
+            ThermalButton.GetComponent<Image>().color = Color.white;
         }
 
         public void ThermalFollow()
         {
+            Debug.Log("HELLO THRMAL FOLLOW");
             mIsThermalFollowActivated = !mIsThermalFollowActivated;
             Debug.Log(mIsThermalFollowActivated + " : mIsThermalFollowActivated");
             if (BYOS.Instance.Navigation.Roomba.enabled == true)
@@ -107,15 +116,23 @@ namespace BuddyApp.Jukebox
 
             if(mIsThermalFollowActivated)
             {
+                ThermalButton.GetComponent<Image>().color = Color.gray;
+                WanderButton.GetComponent<Image>().color = Color.white;
                 BYOS.Instance.Navigation.Follow<HumanFollow>().Facing();
                 mIsThermalFollow = true;
             } 
             else if(!mIsThermalFollowActivated)
+            {
+                ThermalButton.GetComponent<Image>().color = Color.white;
                 BYOS.Instance.Navigation.Stop();
+            }
+                
         }
 
         public void stopMovement()
         {
+            ThermalButton.GetComponent<Image>().color = Color.white;
+            WanderButton.GetComponent<Image>().color = Color.white;
             Debug.Log("stop mouv");
             BYOS.Instance.Navigation.Roomba.enabled = false;
             BYOS.Instance.Navigation.Stop();

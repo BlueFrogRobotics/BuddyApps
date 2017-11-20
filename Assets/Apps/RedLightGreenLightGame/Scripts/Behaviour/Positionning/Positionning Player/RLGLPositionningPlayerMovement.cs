@@ -20,7 +20,9 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            GetGameObject(1).SetActive(true);
+            //GetGameObject(1).SetActive(true);
+            GetGameObject(1).GetComponent<Animator>().SetTrigger("open");
+            Debug.Log("ONSTATEENTER RLGLPositionningPlayerMovement");
             mMustStop = false;
             mRLGLBehaviour.StartingOdometry = Primitive.Motors.Wheels.Odometry;
             mRLGLBehaviour.Timer = 0.0f;
@@ -72,8 +74,9 @@ namespace BuddyApp.RedLightGreenLightGame
                 
                 if(mRLGLBehaviour.Timer>10.0f)
                 {
+                    GetGameObject(1).GetComponent<Animator>().SetTrigger("close");
                     Trigger("DisengagementQuestion");
-                    GetGameObject(1).SetActive(false);
+                    //GetGameObject(1).SetActive(false);
                     mRLGLBehaviour.TargetClicked = false;
                     Primitive.Motors.Wheels.Stop();
                     mMustStop = true;
