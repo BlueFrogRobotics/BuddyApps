@@ -9,10 +9,15 @@ namespace BuddyApp.PlayMath{
 
 		private Animator mCertificateAnimator;
 
+        private CertificateBehaviour mCertificateBehaviour;
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			mCertificateAnimator = GameObject.Find("UI/EndGame_Certificate").GetComponent<Animator>();
 			mCertificateAnimator.SetTrigger("open");
+
+            mCertificateBehaviour = GameObject.Find("UI/EndGame_Certificate").GetComponent<CertificateBehaviour>();
+            mCertificateBehaviour.SetCertificate();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

@@ -12,6 +12,8 @@ namespace BuddyApp.PlayMath{
 
         public List<Result> Results{ get; }
 
+        public int CorrectAnswers{ get{ return mCorrectAnswers; } }
+
         private GameParameters mGameParams;
 
         public Score()

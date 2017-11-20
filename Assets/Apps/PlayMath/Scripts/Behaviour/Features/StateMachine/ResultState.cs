@@ -8,7 +8,9 @@ using Buddy.UI;
 namespace BuddyApp.PlayMath{
     public class ResultState : AStateMachineBehaviour {
 
-		private const int DURATION = 2; // in sec
+		private const float DURATION = 2f; // in sec
+        // add some time to notification message display due to next scene load time
+        private const float DURATION_NOT = DURATION + 0.5f;
 
 		private Animator mBackgroundAnimator;
 		private Mood mPreviousMood;
@@ -32,8 +34,8 @@ namespace BuddyApp.PlayMath{
             mScore = GameObject.Find("UI/EndGame_Score").GetComponent<Score>();
             mScore.AddResult(mResult);
 
-            string lMessageNot = mResult.Equation + "=" + mResult.CorrectAnswer;
-            BYOS.Instance.Notifier.Display<MessageNot>((float)DURATION).With(lMessageNot,null,null);
+            string lMessage = mResult.Equation + "=" + mResult.CorrectAnswer;
+            BYOS.Instance.Notifier.Display<SimpleNot>(DURATION_NOT).With(lMessage);
 
 			mEndTime = Time.time + DURATION;
         }
