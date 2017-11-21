@@ -54,15 +54,17 @@ namespace BuddyApp.PlayMath{
                 mQuestionAnimator.SetBool("InitGame", false);
             }
             //TODO Replace the following with generated equation and associated answer
-            mResult.Equation = "(6+2)/4";
-            mResult.CorrectAnswer = "2";
+            mResult.Equation = "(6 + 2 - 2) × 2 ÷ 4";
+            mResult.CorrectAnswer = "3";
 
             // Is this question the last ?
             mCountQuestions++;
             mTitleBottom.text = String.Format(BYOS.Instance.Dictionary.GetString("questioniteration"), mCountQuestions, mGameParams.Sequence);
+
             mResult.Last = (mCountQuestions == mGameParams.Sequence);
 
             mTitleTop.text = String.Format(BYOS.Instance.Dictionary.GetString("howmanydoes"), mResult.Equation);
+            AnnounceEquation();
 
             //TODO Replace the following with generated Equation choices
             string[] lChoices = {"2","3","4","6"};
@@ -105,6 +107,20 @@ namespace BuddyApp.PlayMath{
             mResult.ElapsedTime = mElapsedTime.TotalSeconds;
 
             mPlayMathAnimator.SetTrigger("Result");
+        }
+
+        private void AnnounceEquation()
+        {
+            string statement = (string) mTitleTop.text.Clone();
+
+            if (statement.Contains("÷"))
+                statement = statement.Replace("÷", BYOS.Instance.Dictionary.GetString("dividedby"));
+            if (statement.Contains("×"))
+                statement = statement.Replace("×", BYOS.Instance.Dictionary.GetString("xtimesy"));
+            if (statement.Contains("-"))
+                statement = statement.Replace("-", BYOS.Instance.Dictionary.GetString("minus"));
+
+            BYOS.Instance.Interaction.TextToSpeech.Say(statement);
         }
    	}
 }
