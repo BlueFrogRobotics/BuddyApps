@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+using Buddy;
+
 namespace BuddyApp.PlayMath{
 	public class QuestionBehaviour : MonoBehaviour {
 
@@ -15,11 +17,12 @@ namespace BuddyApp.PlayMath{
         [SerializeField]
         private Result mResult;
         [SerializeField]
-        private Text mTitleTop;
-        [SerializeField]
-        private Text mTitleBottom;
+        private Score mScore;
 
+        private Text mTitleTop;
+        private Text mTitleBottom;
         private Text[] mChoices;
+
         private int mCountQuestions;
         private DateTime mStartTime;
 
@@ -30,6 +33,8 @@ namespace BuddyApp.PlayMath{
 
 		void Start() {
             mChoices = GameObject.Find("UI/Four_Answer/Middle_UI").GetComponentsInChildren<Text>();
+            mTitleTop = this.gameObject.transform.Find("Top_UI/Title_Top").GetComponent<Text>();
+            mTitleBottom = this.gameObject.transform.Find("Bottom_UI/Title_Bottom").GetComponent<Text>();
 		}
 
         public void ResetGame()
@@ -37,7 +42,7 @@ namespace BuddyApp.PlayMath{
             mCountQuestions = 0;
             mGameParams = User.Instance.GameParameters;
 
-            GameObject.Find("UI/EndGame_Score").GetComponent<Score>().ResetScore();
+            mScore.ResetScore();
         }
 
         //Generate a new equation and handle associated text to display
@@ -54,10 +59,10 @@ namespace BuddyApp.PlayMath{
 
             // Is this question the last ?
             mCountQuestions++;
-            mTitleBottom.text = "QUESTION " + mCountQuestions + " OF " + mGameParams.Sequence;
+            mTitleBottom.text = String.Format(BYOS.Instance.Dictionary.GetString("questioniteration"), mCountQuestions, mGameParams.Sequence);
             mResult.Last = (mCountQuestions == mGameParams.Sequence);
 
-            mTitleTop.text = "HOW MANY DOES " + mResult.Equation + " ?";
+            mTitleTop.text = String.Format(BYOS.Instance.Dictionary.GetString("howmanydoes"), mResult.Equation);
 
             //TODO Replace the following with generated Equation choices
             string[] lChoices = {"2","3","4","6"};
