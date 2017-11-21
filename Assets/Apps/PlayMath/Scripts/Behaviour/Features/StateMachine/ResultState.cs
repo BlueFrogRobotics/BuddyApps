@@ -15,7 +15,8 @@ namespace BuddyApp.PlayMath{
 		private Animator mBackgroundAnimator;
 		private Mood mPreviousMood;
 
-		private float mEndTime = -1;
+        private bool mEndOnce;
+        private string mTTSKey;
 
         private Result mResult;
         private Score mScore;
@@ -26,10 +27,14 @@ namespace BuddyApp.PlayMath{
 			mBackgroundAnimator.SetTrigger("close");
 
             mResult = GameObject.Find("UI/Four_Answer").GetComponent<Result>();
-            if (mResult.isCorrect())
+            if (mResult.isCorrect()) {
                 BYOS.Instance.Interaction.Mood.Set(MoodType.HAPPY);
-            else
+                mTTSKey = "goodanswer";
+            }
+            else {
                 BYOS.Instance.Interaction.Mood.Set(MoodType.SAD);
+                mTTSKey = "badanswer";
+            }
 
             mScore = GameObject.Find("UI/EndGame_Score").GetComponent<Score>();
             mScore.AddResult(mResult);
@@ -37,12 +42,16 @@ namespace BuddyApp.PlayMath{
             string lMessage = mResult.Equation + "=" + mResult.CorrectAnswer;
             BYOS.Instance.Notifier.Display<SimpleNot>(DURATION_NOT).With(lMessage);
 
-			mEndTime = Time.time + DURATION;
+            mEndOnce = false;
+            BYOS.Instance.Interaction.TextToSpeech.SayKey(mTTSKey,true);
+            AnnounceResult(lMessage);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-			if (mEndTime != -1 && mEndTime < Time.time) {
+            if (BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking && !mEndOnce)
+            {
+                Debug.Log("Has finished talking");
                 if (mResult.Last)
                 {
                     if (mScore.IsPerfect())
@@ -50,11 +59,10 @@ namespace BuddyApp.PlayMath{
                     else
                         animator.SetTrigger("Score");
                 }
-				else
-				    animator.SetTrigger("NextQuestion");
-
-				mEndTime = -1;
-			}
+                else
+                    animator.SetTrigger("NextQuestion");
+                mEndOnce = true;
+            }
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -74,5 +82,19 @@ namespace BuddyApp.PlayMath{
         //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         //
         //}
+
+        private void AnnounceResult(string statement)
+        {
+            if (statement.Contains("÷"))
+                statement = statement.Replace("÷", BYOS.Instance.Dictionary.GetString("dividedby"));
+            if (statement.Contains("×"))
+                statement = statement.Replace("×", BYOS.Instance.Dictionary.GetString("xtimesy"));
+            if (statement.Contains("-"))
+                statement = statement.Replace("-", BYOS.Instance.Dictionary.GetString("minus"));
+            if(statement.Contains("="))
+                statement = statement.Replace("=",BYOS.Instance.Dictionary.GetString("equal"));
+
+            BYOS.Instance.Interaction.TextToSpeech.Say(statement,true);
+        }
     }
 }
