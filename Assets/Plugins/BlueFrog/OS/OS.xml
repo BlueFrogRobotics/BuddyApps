@@ -1233,7 +1233,7 @@
             The current setted velocity of the robot
             </summary>
         </member>
-        <member name="M:Buddy.RoombaNavigation.Start">
+        <member name="M:Buddy.RoombaNavigation.Awake">
             <summary>
             Called once at the start
             </summary>
@@ -1396,7 +1396,7 @@
         </member>
         <member name="M:Buddy.TensorFlowClassifier.InferInceptionLabel">
             <summary>
-            Guess what is seen in the image, associating a label with a probability associated
+            Guess what is seen in the image, associating a label with a probability associated. Camera has to be open for this method to work.
             </summary>
             <returns>
             An array of each detected element in the frame of the camera
@@ -1443,8 +1443,8 @@
             Only one model can be active at a time
             </remarks>
             <param name="iModel">The model that will be initialized</param>
-            <param name="iModelFile">The model file wanted for the chosen classifier</param>
-            <param name="iLabelsFile">The corresponding labels for the classifier's output</param>
+            <param name="iModelFile">The model file wanted for the chosen classifier.</param>
+            <param name="iLabelsFile">The corresponding labels for the classifier's output.</param>
         </member>
         <member name="M:Buddy.TensorFlowClassifier.Predict">
             <summary>
