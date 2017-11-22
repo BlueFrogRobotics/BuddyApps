@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+using Buddy;
 
 namespace BuddyApp.PlayMath{
 	public class ScoreBehaviour : MonoBehaviour {
@@ -10,8 +13,7 @@ namespace BuddyApp.PlayMath{
 		private Animator mPlayMathAnimator;
         [SerializeField]
         private Score mScore;
-        [SerializeField]
-        private Text mTitleTop;
+
         [SerializeField]
         private GameObject mGoodResult;
         [SerializeField]
@@ -19,18 +21,43 @@ namespace BuddyApp.PlayMath{
         [SerializeField]
         private GameObject mViewportContent;
 
+        private Text mTitleTop;
+        private Text mGoToMenu;
+        private Text mShare;
+        private Text mReplay;
+
         private int mResultIndex;
+
+        void Start()
+        {
+            mTitleTop = this.gameObject.transform.Find("Top_UI/Title_Top").GetComponent<Text>();
+            mGoToMenu = this.gameObject.transform.Find("Bottom_UI/Button_Menu/Text").GetComponent<Text>();
+            mShare = this.gameObject.transform.Find("Bottom_UI/Button_Share/Text").GetComponent<Text>();
+            mReplay = this.gameObject.transform.Find("Bottom_UI/Button_Replay/Text").GetComponent<Text>();
+
+            TranslateUI();
+        }
 
         public void DisplayScore()
         {
             CleanViewport();
 
             if (mScore.SuccessPercent() >= 0.75)
-                mTitleTop.text = "NICE SCORE !";
+            {
+                mTitleTop.text = String.Format(BYOS.Instance.Dictionary.GetString("greatscoretitle").ToUpper(),
+                    mScore.BadAnswers);
+                BYOS.Instance.Interaction.TextToSpeech.SayKey("greatscorespeech");
+            }
             else if (mScore.SuccessPercent() >= 0.5)
-                mTitleTop.text = "NOT BAD !";
+            {
+                mTitleTop.text = BYOS.Instance.Dictionary.GetString("goodscoretitle");
+                BYOS.Instance.Interaction.TextToSpeech.SayKey("goodscorespeech");
+            }
             else
-                mTitleTop.text = "I KNOW YOU CAN DO BETTER !";
+            {
+                mTitleTop.text = BYOS.Instance.Dictionary.GetString("badscoretitle");
+                BYOS.Instance.Interaction.TextToSpeech.SayKey("badscorespeech");
+            }
 
             mResultIndex = 1;
             foreach (Result lResult in mScore.Results)
@@ -74,6 +101,13 @@ namespace BuddyApp.PlayMath{
             }
 
             lDisplay.transform.SetParent(mViewportContent.transform,false);
+        }
+
+        private void TranslateUI()
+        {
+            mGoToMenu.text = BYOS.Instance.Dictionary.GetString("gotomenulabel").ToUpper();
+            mShare.text = BYOS.Instance.Dictionary.GetString("sharelabel").ToUpper();
+            mReplay.text = BYOS.Instance.Dictionary.GetString("replaylabel").ToUpper();
         }
 	}
 }

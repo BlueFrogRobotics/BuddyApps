@@ -13,6 +13,7 @@ namespace BuddyApp.PlayMath{
         public List<Result> Results{ get; }
 
         public int CorrectAnswers{ get{ return mCorrectAnswers; } }
+        public int BadAnswers{ get { return (mGameParams.Sequence - mCorrectAnswers); } }
 
         private GameParameters mGameParams;
 
