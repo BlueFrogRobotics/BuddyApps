@@ -226,17 +226,6 @@ namespace BuddyApp.RedLightGreenLightGame
             return mManager.GetComponent<T>();
         }
 
-        //protected T GetComponentInParents<T>(this GameObject gameObject) where T : Component
-        //{
-        //    for(Transform t = gameObject.transform; t != null; t = t.parent)
-        //    {
-        //        T result = t.GetComponent<T>();
-        //        if (result != null)
-        //            return null;
-        //    }
-        //    return null;
-        //}
-
         /// <summary>
         /// Retrieve the linked gameObject to the StateMachineAppLinker at the iIndex index.
         /// </summary>
@@ -282,6 +271,20 @@ namespace BuddyApp.RedLightGreenLightGame
         protected void QuitApp()
         {
             AAppActivity.QuitApp();
+        }
+
+        protected IEnumerator SayAndWait(string iText)
+        {
+            BYOS.Instance.Interaction.TextToSpeech.Say(iText);
+            while (BYOS.Instance.Interaction.TextToSpeech.IsSpeaking)
+                yield return null;
+        }
+
+        protected IEnumerator SayKeyAndWait(string iKey)
+        {
+            BYOS.Instance.Interaction.TextToSpeech.SayKey(iKey);
+            while (BYOS.Instance.Interaction.TextToSpeech.IsSpeaking)
+                yield return null;
         }
 
         internal void Init()

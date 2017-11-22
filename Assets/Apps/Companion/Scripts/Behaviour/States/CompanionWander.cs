@@ -7,48 +7,28 @@ using UnityEngine.UI;
 
 namespace BuddyApp.Companion
 {
-
-	//[RequireComponent(typeof(Reaction))]
 	public class CompanionWander : AStateMachineBehaviour
 	{
-		private bool mNeedCharge;
-		private bool mHumanDetected;
-		private bool mKidnapping;
-
-		//private Reaction mReaction;
-		private bool mWandering;
-		//private HumanRecognition mHumanReco;
-		private KidnappingDetection mKidnappingDetection;
-
-		private const float KIDNAPPING_THRESHOLD = 4.5F;
+		private bool mTrigged;
+		private float mTimeThermal;
 
 		public override void Start()
 		{
-			//Perception.Stimuli = BYOS.Instance.SensorManager;
 			mState = GetComponentInGameObject<Text>(0);
-			//mReaction = GetComponent<Reaction>();
+			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mState.text = "Wander";
+			mDetectionManager.mDetectedElement = Detected.NONE;
+			mTimeThermal = 0;
+            mState.text = "Wander";
+			mTrigged = false;
 			Debug.Log("state: Wander");
-			mNeedCharge = false;
-			mHumanDetected = false;
-			mKidnapping = false;
-			Interaction.TextToSpeech.Say("Je m'ennuye un peu, je vais me balader", true);
+			Interaction.TextToSpeech.SayKey("startwander", true);
 
 			Debug.Log("wander: " + CompanionData.Instance.MovingDesire);
-
-			Interaction.SphinxTrigger.LaunchRecognition();
-
-			//mHumanReco = Perception.Human;
-			//mHumanReco.OnDetect(OnHumanDetected, BodyPart.FULL_BODY | BodyPart.FACE | BodyPart.LOWER_BODY | BodyPart.UPPER_BODY);
-
-
-			mKidnappingDetection = Perception.Kidnapping;
-			mKidnappingDetection.OnDetect(OnKidnapping, KIDNAPPING_THRESHOLD);
-
 
 			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
 			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
@@ -59,40 +39,69 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			if (Interaction.TextToSpeech.HasFinishedTalking && !mWandering) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering) {
 				Debug.Log("CompanionWander start wandering");
-				//mReaction.StartWandering();
-				mWandering = true;
+				mActionManager.StartWander();
 			}
 
-			if (Primitive.Battery.EnergyLevel < 15) {
-				mNeedCharge = true;
+			// if we foolow for a while, go back to wander:
+			if (mActionManager.ThermalFollow && Time.time - mTimeThermal > CompanionData.Instance.InteractDesire)
+				mActionManager.StartWander();
+
+			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
+			switch (mDetectionManager.mDetectedElement) {
+				case Detected.TRIGGER:
+					mTrigged = true;
+					Trigger("VOCALTRIGGERED");
+					break;
+
+				case Detected.TOUCH:
+					mTrigged = true;
+					Trigger("ROBOTTOUCHED");
+					break;
+
+				case Detected.KIDNAPPING:
+					mTrigged = true;
+					Trigger("KIDNAPPING");
+					break;
+
+				case Detected.BATTERY:
+					mTrigged = true;
+					Trigger("CHARGE");
+					break;
+
+				// If thermal signature, activate thermal follow for some time
+				case Detected.THERMAL:
+					if (CompanionData.Instance.InteractDesire > 80 && CompanionData.Instance.InteractDesire > CompanionData.Instance.MovingDesire) {
+						mTrigged = true;
+						Trigger("INTERACT");
+					} else if (CompanionData.Instance.InteractDesire > 30) {
+						//Stop wandering and go to thermal follow
+						mTimeThermal = Time.time;
+						mActionManager.StartThermalFollow();
+					}
+					break;
+
+				//case Detected.HUMAN_RGB & Detected.THERMAL:
+				//	// TODO: check false positive level
+				//	mTrigged = true;
+				//	if (CompanionData.Instance.InteractDesire > CompanionData.Instance.MovingDesire) {
+				//		mTrigged = true;
+				//		Trigger("INTERACT");
+				//	}
+				//	break;
+
+				default:
+					break;
 			}
 
-			if ((Input.touchCount > 0 || Input.GetMouseButtonDown(0))) {
-				// Add to 1st part of if? 
-				// && Input.GetTouch(0).phase == TouchPhase.Moved
-
-				// Screen touched
-				Debug.Log("ROBOTTOUCHED");
-				Trigger("ROBOTTOUCHED");
-			} else if (Interaction.SphinxTrigger.HasTriggered) {
-				// If Buddy is vocally triggered
-				iAnimator.SetTrigger("VOCALTRIGGERED");
-			} else if (mNeedCharge) {
-				iAnimator.SetTrigger("CHARGE");
-			} else if (mHumanDetected) {
-				if (CompanionData.Instance.InteractDesire > 50 && CompanionData.Instance.MovingDesire < 70) {
-					iAnimator.SetTrigger("INTERACT");
+			if (!mTrigged) {
+				if (CompanionData.Instance.MovingDesire < 5) {
+					Debug.Log("wander -> IDLE: " + CompanionData.Instance.MovingDesire);
+					iAnimator.SetTrigger("IDLE");
+				} else if (CompanionData.Instance.InteractDesire > 80 && CompanionData.Instance.MovingDesire < 20) {
+					iAnimator.SetTrigger("LOOKINGFOR");
 				}
-			} else if (mKidnapping) {
-				iAnimator.SetTrigger("KIDNAPPING");
-
-			} else if (CompanionData.Instance.MovingDesire < 5) {
-				Debug.Log("wander -> IDLE: " + CompanionData.Instance.MovingDesire);
-				iAnimator.SetTrigger("IDLE");
-			} else if (CompanionData.Instance.InteractDesire > 80 && CompanionData.Instance.MovingDesire > 20) {
-				iAnimator.SetTrigger("LOOKINGFOR");
 			}
 		}
 
@@ -100,14 +109,9 @@ namespace BuddyApp.Companion
 		{
 			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
 			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
-
-
-			Interaction.SphinxTrigger.StopRecognition();
-			//mHumanReco.StopAllOnDetect();
-			mKidnappingDetection.StopAllOnDetect();
-
-			//mReaction.StopWandering();
-			mWandering = false;
+			mActionManager.StopWander();
+			mActionManager.StopThermalFollow();
+			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 
 
@@ -119,25 +123,6 @@ namespace BuddyApp.Companion
 
 			// Buddy is moving around, so he wants less and less to move around
 			CompanionData.Instance.MovingDesire -= 2;
-		}
-
-		private void OnLowBattery()
-		{
-			mNeedCharge = true;
-		}
-
-		private bool OnKidnapping()
-		{
-			mKidnapping = true;
-			return true;
-		}
-
-
-		private bool OnHumanDetected(HumanEntity[] obj)
-		{
-
-			mHumanDetected = true;
-			return true;
 		}
 
 	}

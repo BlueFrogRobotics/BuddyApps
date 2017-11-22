@@ -9,7 +9,7 @@ namespace BuddyApp.RedLightGreenLightGame
     public class RedLightGreenLightGameBehaviour : MonoBehaviour
     {
         /*
-         * Data of the application. Save on disc when app is quitted
+         * Data of the application. Save on disc when app is quit
          */
         private RedLightGreenLightGameData mAppData;
 
@@ -31,7 +31,41 @@ namespace BuddyApp.RedLightGreenLightGame
         private float mSensibilityDetection;
         public float SensibilityDetection { get { return mSensibilityDetection; } set { mSensibilityDetection = value; } }
 
+        private Texture2D mPictureMoving;
+        public Texture2D PictureMoving { get { return mPictureMoving; } set { mPictureMoving = value; } }
 
+        private bool mTargetClicked;
+        public bool TargetClicked { get { return mTargetClicked; } set { mTargetClicked = value; } }
+
+        private bool mFirstTurn;
+        public bool FirstTurn { get { return mFirstTurn; } set { mFirstTurn = value; } }
+
+        private bool mGameplay;
+        public bool Gameplay { get { return mGameplay; } set { mGameplay = value; } }
+
+       // private int mLife;
+        //public int Life { get { return mLife; } set { if (value < 0) mLife = 0; else mLife = value; } }
+
+        private float mTimerMove;
+        public float TimerMove { get { return mTimerMove; } set { mTimerMove = value; } }
+
+        public Vector3 StartingOdometry { get; set; }
+
+        public bool CanRecoil { get; set; }
+
+        [SerializeField]
+        private GameObject gameplayObject;
+
+        [SerializeField]
+        private GameObject positionningObject;
+
+        [SerializeField]
+        private GameObject buttonObject;
+
+        void Awake()
+        {
+            CanRecoil = false;
+        }
 
         void Start()
         {
@@ -46,12 +80,46 @@ namespace BuddyApp.RedLightGreenLightGame
             mAppData = RedLightGreenLightGameData.Instance;
             mTimer = 0.0F;
             mIsPlayerPositionning = false;
-
+            mTargetClicked = false;
+            mFirstTurn = false;
+            mGameplay = false;
+            //Life = 3;
+            Debug.Log("contient oui: " + BYOS.Instance.Dictionary.ContainsPhonetic("non", "yes"));
         }
 
         void Update()
         {
             mTimer += Time.deltaTime;
+        }
+
+        internal void OpenFlash()
+        {
+            //open the flash
+        }
+
+        internal void CloseFlash()
+        {
+            //close the flash
+        }
+
+        public void OnClickTarget()
+        {
+            Debug.Log("TARGET CLICKED!");
+            mTargetClicked = true;
+        }
+
+        public void StartGameplay()
+        {
+            //buttonObject.GetComponent<RLGLTargetMovement>().enabled = true;
+            gameplayObject.SetActive(true);
+            positionningObject.SetActive(false);
+        }
+
+        public void StartPositionning()
+        {
+            //buttonObject.GetComponent<RLGLTargetMovement>().enabled = false;
+            gameplayObject.SetActive(false);
+            positionningObject.SetActive(true);
         }
     }
 }

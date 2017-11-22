@@ -21,6 +21,7 @@ namespace BuddyApp.Companion
 		{
 			//mSensorManager = BYOS.Instance.SensorManager;
 			mState = GetComponentInGameObject<Text>(0);
+			mDetectionManager = GetComponent<DetectionManager>();
 			mKeyOptions = new List<string>();
 			mKeyOptions.Add("memory");
 			mKeyOptions.Add("calcul");
@@ -33,6 +34,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "Propose Game";
 			Debug.Log("state: Propose Game");
 			mTime = 0F;
@@ -52,6 +54,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 
 		void OnAnswer(string iAnswer)
