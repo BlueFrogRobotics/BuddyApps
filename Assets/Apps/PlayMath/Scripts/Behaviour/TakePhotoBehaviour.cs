@@ -24,7 +24,13 @@ namespace BuddyApp.PlayMath{
 
         private const float DURATION = 10f;
 
+        private Text mTitleTop;
+
         void Start(){
+
+            mTitleTop = this.gameObject.transform.Find("Title_Top").GetComponent<Text>();
+            TranslateUI();
+
             OnEndTakePhoto = delegate (Photograph lPhoto)
             {
                     mFlush = false;
@@ -32,8 +38,9 @@ namespace BuddyApp.PlayMath{
 
                     mRawVideoTexture.texture = lPhoto.Image.texture;
 
+                    BYOS.Instance.Interaction.TextToSpeech.SayKey("validationphoto");
                     BYOS.Instance.Notifier.Display<ConfirmationNot>(DURATION).With(
-                        "DO YOU LIKE THIS PHOTO ?",
+                        BYOS.Instance.Dictionary.GetString("validationphoto").ToUpper(),
                         OnValidatePhoto,
                         OnCancelPhoto);
             };
@@ -52,6 +59,7 @@ namespace BuddyApp.PlayMath{
 
         public void DisplayCamera()
         {
+            BYOS.Instance.Interaction.TextToSpeech.SayKey("takephotospeech");
             BYOS.Instance.Primitive.RGBCam.Open();
             mFlush = true;
             BYOS.Instance.Notifier.Display<CountdownNot>().With("", 3, null, null);
@@ -73,7 +81,11 @@ namespace BuddyApp.PlayMath{
         {
             BYOS.Instance.Primitive.RGBCam.TakePhotograph(OnEndTakePhoto);
         }
-            
+
+        private void TranslateUI()
+        {
+            mTitleTop.text = BYOS.Instance.Dictionary.GetString("takephotolabel").ToUpper();
+        }
     }
 }
 
