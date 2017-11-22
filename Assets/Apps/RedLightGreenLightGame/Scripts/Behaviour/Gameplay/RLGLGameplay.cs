@@ -33,6 +33,7 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            
             Debug.Log("ON STATE ENTER RLGL GAMEPLAY");
             mGameplay = false;
             mFirstStep = false;
@@ -121,6 +122,7 @@ namespace BuddyApp.RedLightGreenLightGame
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("ON STATE EXIT RLGL GAMEPLAY");
+            mRLGLBehaviour.Gameplay = false;
         }
 
         private bool OnMovementDetected(MotionEntity[] iMotions)

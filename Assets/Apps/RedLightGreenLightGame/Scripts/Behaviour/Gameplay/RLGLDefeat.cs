@@ -23,6 +23,7 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            
             //Interaction.TextToSpeech.Silence(1000);
             mCam = Primitive.RGBCam;
             StartCoroutine(Defeat());
@@ -38,7 +39,9 @@ namespace BuddyApp.RedLightGreenLightGame
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
 			Interaction.Mood.Set(MoodType.NEUTRAL);
-		}
+            mRLGLBehaviour.IsPlaying = false;
+
+        }
 
         private IEnumerator Defeat()
         {
@@ -57,7 +60,6 @@ namespace BuddyApp.RedLightGreenLightGame
             Interaction.Mood.Set(MoodType.HAPPY);
             Toaster.Hide();
             mLifeManager.LoseLife();
-            //mRLGLBehaviour.Life--;
             if (mLifeManager.Life > 0)
             {
                 yield return SayAndWait(Dictionary.GetRandomString("loselevel") + " " + mLifeManager.Life + " " + Dictionary.GetRandomString("life"));

@@ -39,6 +39,7 @@ namespace BuddyApp.RedLightGreenLightGame
             //mWidth = (mButton.rect.width + 5) / 2;
             //mHeight = (mButton.rect.height + 5) / 2;
             //mSpeed = mLevelManager.LevelData.Target.Speed;
+            
         }
 
         private void OnEnable()
@@ -56,6 +57,7 @@ namespace BuddyApp.RedLightGreenLightGame
 
         void Update()
         {
+            Debug.Log("movement rlgl target !!!");
             //Debug.Log("TARGET MOVEMENTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT : " + mSpeed);
             if (transform.localPosition.x < 0 - ((mCanvasRect.rect.width / 2) - mWidth) || transform.localPosition.x > ((mCanvasRect.rect.width / 2) - mWidth))
                 mRestrictX = true;
@@ -97,11 +99,26 @@ namespace BuddyApp.RedLightGreenLightGame
         {
             if (Time.time >= mChange)
             {
-                mRandomX = Random.Range(-1F, 1F);
-                mRandomY = Random.Range(-1F, 1F);
+                mRandomX = Random.Range(-5F, 5F);
+                mRandomY = Random.Range(-5F, 5F);
                 mChange = Time.time + 1F;
             }
             transform.Translate(new Vector3(mRandomX, mRandomY, 0) * mSpeed /** Time.deltaTime*/);
+            //transform.Translate(new Vector3(1, 1, 0) * 2);
+        }
+
+        public void ResetTargetMovement()
+        {
+            Debug.Log("Reset target Movement");
+            mLevelManager = mGameplayGO.GetComponent<LevelManager>();
+            mButton = gameObject.GetComponent<RectTransform>();
+            mCanvasRect = mCanvas.GetComponent<RectTransform>();
+            mSpeed = mLevelManager.LevelData.Target.Speed;
+            mRestrictX = false;
+            mRestrictY = false;
+            mWidth = (mButton.rect.width + 5) / 2;
+            mHeight = (mButton.rect.height + 5) / 2;
+            mButton.localPosition = new Vector3(0F, 0F, 0F);
         }
     }
 }
