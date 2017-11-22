@@ -116,10 +116,22 @@ namespace BuddyApp.PlayMath{
 		}
 
 		public void OnChangedAdd(bool value) {
+			// if difficulty > 2 then ADD = on and SUB = on
+			if ((!value) && this.mGameParameters.Difficulty > 2) {
+				mToggleAdd.isOn = true;
+				return;
+			}
+
 			OnChangeOperands(Operand.ADD, value);
 		}		
 
 		public void OnChangedSub(bool value) {
+			// if difficulty > 2 then ADD = on and SUB = on
+			if ((!value) && this.mGameParameters.Difficulty > 2) {
+				mToggleSub.isOn = true;
+				return;
+			}
+
 			OnChangeOperands(Operand.SUB, value);
 		}
 
@@ -134,6 +146,19 @@ namespace BuddyApp.PlayMath{
 		private void OnChangeDifficulty(int newDifficulty) {
 			mGameParameters.Difficulty = newDifficulty;
 			BindStars();
+
+			// if difficulty > 2 then ADD = on and SUB = on
+			if (this.mGameParameters.Difficulty > 2) {
+				if (!mToggleAdd.isOn) {
+					mToggleAdd.isOn = true;
+					mGameParameters.SetOperand(Operand.ADD, true);
+				}
+
+				if (!mToggleSub.isOn) {
+					mToggleSub.isOn = true;
+					mGameParameters.SetOperand(Operand.SUB, true);
+				}
+			}
 		}
 
 		private void BindStars() {
