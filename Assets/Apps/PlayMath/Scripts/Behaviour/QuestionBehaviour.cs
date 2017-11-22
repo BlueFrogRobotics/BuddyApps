@@ -23,6 +23,8 @@ namespace BuddyApp.PlayMath{
         private Text mTitleBottom;
         private Text[] mChoices;
 
+
+		private EquationGenerator mEquationGenerator;
         private int mCountQuestions;
         private DateTime mStartTime;
 
@@ -32,6 +34,8 @@ namespace BuddyApp.PlayMath{
         private TimeSpan mElapsedTime;
 
 		void Start() {
+			mEquationGenerator = new EquationGenerator(User.Instance.GameParameters);
+
             mChoices = GameObject.Find("UI/Four_Answer/Middle_UI").GetComponentsInChildren<Text>();
             mTitleTop = this.gameObject.transform.Find("Top_UI/Title_Top").GetComponent<Text>();
             mTitleBottom = this.gameObject.transform.Find("Bottom_UI/Title_Bottom").GetComponent<Text>();
@@ -39,6 +43,8 @@ namespace BuddyApp.PlayMath{
 
         public void ResetGame()
         {
+			mEquationGenerator.generate();
+
             mCountQuestions = 0;
             mGameParams = User.Instance.GameParameters;
 
@@ -53,23 +59,22 @@ namespace BuddyApp.PlayMath{
                 ResetGame();
                 mQuestionAnimator.SetBool("InitGame", false);
             }
-            //TODO Replace the following with generated equation and associated answer
-            mResult.Equation = "(6 + 2 - 2) × 2 ÷ 4";
-            mResult.CorrectAnswer = "3";
+			Equation lEquation = mEquationGenerator.Equations[mCountQuestions];
+
+			mResult.Equation = lEquation.Text;
+			mResult.CorrectAnswer = lEquation.Answer;
 
             // Is this question the last ?
             mCountQuestions++;
             mTitleBottom.text = String.Format(BYOS.Instance.Dictionary.GetString("questioniteration"), mCountQuestions, mGameParams.Sequence);
 
-            mResult.Last = (mCountQuestions == mGameParams.Sequence);
+			mResult.Last = (mCountQuestions == mEquationGenerator.Equations.Count);
 
             mTitleTop.text = String.Format(BYOS.Instance.Dictionary.GetString("howmanydoes"), mResult.Equation);
             AnnounceEquation();
 
-            //TODO Replace the following with generated Equation choices
-            string[] lChoices = {"2","3","4","6"};
             for (int i = 0; i < mChoices.Length; i++)
-                mChoices[i].text = lChoices[i];
+				mChoices[i].text = lEquation.Choices[i];
 
             mStartTime = DateTime.Now;
             HasAnswer = false;

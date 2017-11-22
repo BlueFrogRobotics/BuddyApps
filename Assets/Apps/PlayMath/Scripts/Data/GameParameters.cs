@@ -111,5 +111,20 @@ namespace BuddyApp.PlayMath{
 
 			return s.ToString();
 		}
+
+		public static string OperandToString(Operand operand) {
+			switch (operand) {
+			case Operand.ADD:
+				return "+";
+			case Operand.SUB:
+				return "-";
+			case Operand.MULTI:
+				return "×";
+			case Operand.DIV:
+				return "÷";
+			default:
+				throw new ArgumentException();	
+			}
+		}
 	}
 }
