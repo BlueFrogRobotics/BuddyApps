@@ -8,12 +8,9 @@ using Buddy.UI;
 namespace BuddyApp.PlayMath{
     public class ResultState : AStateMachineBehaviour {
 
-		private const float DURATION = 2f; // in sec
-        // add some time to notification message display due to next scene load time
-        private const float DURATION_NOT = DURATION + 0.5f;
+        private const float DURATION_NOT = 3.0f;
 
 		private Animator mBackgroundAnimator;
-		private Mood mPreviousMood;
 
         private bool mEndOnce;
         private string mTTSKey;
@@ -27,13 +24,14 @@ namespace BuddyApp.PlayMath{
 			mBackgroundAnimator.SetTrigger("close");
 
             mResult = GameObject.Find("UI/Four_Answer").GetComponent<Result>();
+            MoodType lBuddyMood;
             if (mResult.isCorrect()) {
-                BYOS.Instance.Interaction.Mood.Set(MoodType.HAPPY);
-                mTTSKey = "goodanswer";
+                lBuddyMood = MoodType.HAPPY;
+                mTTSKey = "goodanswerspeech";
             }
             else {
-                BYOS.Instance.Interaction.Mood.Set(MoodType.SAD);
-                mTTSKey = "badanswer";
+                lBuddyMood = MoodType.SAD;
+                mTTSKey = "badanswerspeech";
             }
 
             mScore = GameObject.Find("UI/EndGame_Score").GetComponent<Score>();
@@ -41,6 +39,8 @@ namespace BuddyApp.PlayMath{
 
             string lMessage = mResult.Equation + "=" + mResult.CorrectAnswer;
             BYOS.Instance.Notifier.Display<SimpleNot>(DURATION_NOT).With(lMessage);
+
+            BYOS.Instance.Interaction.Mood.Set(lBuddyMood);
 
             mEndOnce = false;
             BYOS.Instance.Interaction.TextToSpeech.SayKey(mTTSKey,true);

@@ -77,9 +77,9 @@ namespace BuddyApp.PlayMath{
 
         private void TranslateUI() {
             mTitleTop.text = BYOS.Instance.Dictionary.GetString("certificatetitle");
-            mGoToMenu.text = BYOS.Instance.Dictionary.GetString("gotomenulabel");
-            mShare.text = BYOS.Instance.Dictionary.GetString("sharelabel");
-            mReplay.text = BYOS.Instance.Dictionary.GetString("replaylabel");
+            mGoToMenu.text = BYOS.Instance.Dictionary.GetString("gotomenulabel").ToUpper();
+            mShare.text = BYOS.Instance.Dictionary.GetString("sharelabel").ToUpper();
+            mReplay.text = BYOS.Instance.Dictionary.GetString("replaylabel").ToUpper();
         }
 	}
 }
