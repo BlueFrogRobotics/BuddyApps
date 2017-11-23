@@ -35,25 +35,29 @@ namespace BuddyApp.FreezeDance
 
         public void Reset()
         {
-            Score = 1000;
+            Score = 0;
             SetGauge();
         }
 
         public void LoseLife()
         {
-            Score -= 100;
+            Score -= 50;
             if (Score < 0)
                 Score = 0;
             SetGauge();
+            jauge.GetComponent<Animator>().ResetTrigger("down");
+            jauge.GetComponent<Animator>().ResetTrigger("up");
             jauge.GetComponent<Animator>().SetTrigger("down");
         }
 
         public void WinLife()
         {
-            Score += 100;
+            Score += 50;
             if (Score > MAX_SCORE)
                 Score = MAX_SCORE;
             SetGauge();
+            jauge.GetComponent<Animator>().ResetTrigger("down");
+            jauge.GetComponent<Animator>().ResetTrigger("up");
             jauge.GetComponent<Animator>().SetTrigger("up");
         }
 

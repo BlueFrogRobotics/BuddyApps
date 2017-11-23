@@ -20,7 +20,7 @@ namespace BuddyApp.FreezeDance
         {
             Interaction.TextToSpeech.SayKey("nextaction");
             Interaction.Mood.Set(MoodType.NEUTRAL);
-            Interaction.SpeechToText.OnBestRecognition.Add(OnRecognition);
+            //Interaction.SpeechToText.OnBestRecognition.Add(OnRecognition);
             mSwitchState = false;
             mListening = false;
             Toaster.Display<ChoiceToast>().With(
@@ -33,12 +33,12 @@ namespace BuddyApp.FreezeDance
                    new ButtonInfo()
                    {
                        Label = Dictionary.GetString("setupandplay"),//"help",
-                       OnClick = () => Trigger("Start")
+                       OnClick = () => Trigger("Settings")
                    },
                    new ButtonInfo()
                    {
                        Label = Dictionary.GetString("bestscores"),//"quit",
-                       OnClick = () => QuitApp()
+                       OnClick = () => Trigger("Ranking")
                    });
             mTimer = 0.0f;
         }
@@ -60,14 +60,15 @@ namespace BuddyApp.FreezeDance
             if(!mListening && !mSwitchState)
             {
                 Interaction.Mood.Set(MoodType.LISTENING);
-                Interaction.SpeechToText.Request(); 
+                //Interaction.SpeechToText.Request(); 
                 mListening = true;
             }
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Interaction.SpeechToText.OnBestRecognition.Remove(OnRecognition);
+            Toaster.Hide();
+            //Interaction.SpeechToText.OnBestRecognition.Remove(OnRecognition);
         }
 
         private void OnRecognition(string iText)

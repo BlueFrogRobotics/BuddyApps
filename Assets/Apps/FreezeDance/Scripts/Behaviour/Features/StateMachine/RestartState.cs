@@ -22,6 +22,7 @@ namespace BuddyApp.FreezeDance
             Interaction.TextToSpeech.SayKey("playagain");
             Interaction.Mood.Set(MoodType.NEUTRAL);
             mMusicPlayer = GetComponent<MusicPlayer>();
+            mMusicPlayer.Restart();
             mListening = false;
             mSwitchState = false;
             mTimer = 0.0f;

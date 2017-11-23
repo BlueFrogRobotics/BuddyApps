@@ -20,7 +20,10 @@ namespace BuddyApp.FreezeDance
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mRanking.ShowRanking();
-            mRanking.AddPlayer((int)mScoreManager.Score);
+            //mRanking.AddPlayer((int)mScoreManager.Score);
+            mRanking.Replay.onClick.AddListener(Replay);
+            mRanking.GoToMenu.onClick.AddListener(Menu);
+            mScoreManager.Reset();
             //Interaction.TextToSpeech.SayKey("won");
             //Interaction.Mood.Set(MoodType.HAPPY);
             //Toaster.Display<VictoryToast>().With(Dictionary.GetString("won"));
@@ -33,6 +36,21 @@ namespace BuddyApp.FreezeDance
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mRanking.Replay.onClick.RemoveListener(Replay);
+            mRanking.GoToMenu.onClick.RemoveListener(Menu);
+            
+        }
+
+        private void Replay()
+        {
+            mRanking.HideRanking();
+            Trigger("Restart");
+        }
+
+        private void Menu()
+        {
+            mRanking.HideRanking();
+            Trigger("Menu");
         }
     }
 }

@@ -45,7 +45,7 @@ namespace BuddyApp.FreezeDance
 
             //}
 
-            if (mHasDetected && mTimer>0.5f)
+            if (mHasDetected && mTimer>0.25f)
             {
                 mScoreManager.LoseLife();
                 mHasDetected = false;
