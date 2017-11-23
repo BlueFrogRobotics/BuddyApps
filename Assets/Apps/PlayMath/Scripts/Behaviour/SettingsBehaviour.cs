@@ -89,7 +89,8 @@ namespace BuddyApp.PlayMath{
 				Utils.LogI(LogInfo.UNAUTHORIZED, "Can't close the view with these settings");
 				return;
 			}
-
+            mGameParameters.Table = 0;
+            mGameParameters.Sequence = 4;
 			GameParameters.SaveDefault(mGameParameters);
 
 			mPlayMathAnimator.SetTrigger("Play");

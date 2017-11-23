@@ -23,8 +23,7 @@ namespace BuddyApp.PlayMath{
         private Text mTitleBottom;
         private Text[] mChoices;
 
-
-		private EquationGenerator mEquationGenerator;
+		private Generator mEquationGenerator;
         private int mCountQuestions;
         private DateTime mStartTime;
 
@@ -34,8 +33,6 @@ namespace BuddyApp.PlayMath{
         private TimeSpan mElapsedTime;
 
 		void Start() {
-			mEquationGenerator = new EquationGenerator(User.Instance.GameParameters);
-
             mChoices = GameObject.Find("UI/Four_Answer/Middle_UI").GetComponentsInChildren<Text>();
             mTitleTop = this.gameObject.transform.Find("Top_UI/Title_Top").GetComponent<Text>();
             mTitleBottom = this.gameObject.transform.Find("Bottom_UI/Title_Bottom").GetComponent<Text>();
@@ -43,10 +40,15 @@ namespace BuddyApp.PlayMath{
 
         public void ResetGame()
         {
-			mEquationGenerator.generate();
-
             mCountQuestions = 0;
             mGameParams = User.Instance.GameParameters;
+
+            if (mGameParams.Table > 0)
+                mEquationGenerator = new MultiplicationGenerator(mGameParams);
+            else
+                mEquationGenerator = new EquationGenerator(mGameParams);
+
+            mEquationGenerator.generate();
 
             mScore.ResetScore();
         }

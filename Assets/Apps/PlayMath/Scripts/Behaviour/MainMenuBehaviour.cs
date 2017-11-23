@@ -48,8 +48,16 @@ namespace BuddyApp.PlayMath{
 		}
 
 		public void OnClickPlay() {
+            User.Instance.GameParameters.Table = 0;
+            User.Instance.GameParameters.Sequence = 4;
 			mPlayMathAnimator.SetTrigger("Play");
 		}
+
+        public void OnClickTables() {
+            User.Instance.GameParameters.Table = 6;
+            User.Instance.GameParameters.Sequence = 12;
+            mPlayMathAnimator.SetTrigger("Play");
+        }
 	}
 }
 

@@ -1,13 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BuddyApp.PlayMath;
 using System;
 
 namespace BuddyApp.PlayMath{
-	public class EquationGenerator {
-
-		public const int DEFAULT_NUMBER_OF_EQUATIONS = 4;
+    public class EquationGenerator : Generator {
 
 		private static readonly Operand[][] ALLOWED_OPERANDS = { new Operand[] {Operand.ADD, Operand.SUB, Operand.MULTI, Operand.DIV},
 			new Operand[] {Operand.ADD, Operand.SUB, Operand.MULTI, Operand.DIV},
@@ -15,6 +12,7 @@ namespace BuddyApp.PlayMath{
 			new Operand[] {Operand.ADD, Operand.SUB, Operand.MULTI, Operand.DIV},
 			new Operand[] {Operand.ADD, Operand.SUB, Operand.MULTI, Operand.DIV} };
 
+        //TODO replace with exception ?
 		private const Operand DEFAULT_OPERAND = Operand.ADD;
 				
 		private static readonly int[] NUMBER_OF_OPERANDS = { 1, 1, 2, 2 ,2 };
@@ -23,11 +21,11 @@ namespace BuddyApp.PlayMath{
 
 		private static readonly int[] MAX_VALUE = { 10, 100, 100, 1000, 1000 };
 
-		public GameParameters Parameters { get; }
+		public override List<Equation> Equations { get; }
 
-		public List<Equation> Equations { get; }
-
-		public EquationGenerator(GameParameters parameters) {
+		public EquationGenerator(GameParameters parameters) 
+            : base(parameters)
+        {
 			this.Parameters = parameters;
 			this.Equations = new List<Equation>();
 		}
@@ -35,7 +33,7 @@ namespace BuddyApp.PlayMath{
 		/// <summary>
 		/// Generate the value of the property Equations
 		/// </summary>
-		public void generate() {
+        public override void generate() {
 			// use always the same seed to generate the same values
 			System.Random lRandom = new System.Random(5);
 
@@ -47,7 +45,7 @@ namespace BuddyApp.PlayMath{
 			int lMax = MAX_VALUE[this.Parameters.Difficulty - 1];
 
 			while (this.Equations.Count < this.Parameters.Sequence) {
-				Equation lEquation = new Equation(lOperands, lNumberOfOperands, lMin, lMax, lRandom);
+				EquationLong lEquation = new EquationLong(lOperands, lNumberOfOperands, lMin, lMax, lRandom);
 				if (!this.Equations.Contains(lEquation)) {
 					this.Equations.Add(lEquation);
 				}
