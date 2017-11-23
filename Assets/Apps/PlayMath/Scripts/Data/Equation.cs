@@ -35,10 +35,10 @@ namespace BuddyApp.PlayMath{
 			List<Object> lOperations;
 
 			if (numberOfOperands == 1) {
-				lOperations = GenerateOneOperand(operands, OperandsFilter.ALL, numberOfOperands, minValue, maxValue, rnd);
+				lOperations = GenerateEquationOneOperand(operands, OperandsFilter.ALL, numberOfOperands, minValue, maxValue, rnd);
 			}
 			else {
-				lOperations = GenerateManyOperands(operands, numberOfOperands, minValue, maxValue, rnd);
+				lOperations = GenerateEquationManyOperands(operands, numberOfOperands, minValue, maxValue, rnd);
 			}
 
 			this.Text = OperationToText(lOperations);
@@ -49,7 +49,7 @@ namespace BuddyApp.PlayMath{
 			this.Choices = GenerateChoices(lAnswer, maxValue, rnd);
 		}
 
-		private List<Object> GenerateOneOperand(List<Operand> operands, OperandsFilter operandsFilter,
+		private List<Object> GenerateEquationOneOperand(List<Operand> operands, OperandsFilter operandsFilter,
 			int numberOfOperands, int minValue, int maxValue, Random rnd) {
 			List<Object> lOperations = new List<Object>();
 
@@ -84,11 +84,11 @@ namespace BuddyApp.PlayMath{
 			return lOperations;
 		}
 
-		private List<Object> GenerateManyOperands(List<Operand> operands, int numberOfOperands, int minValue, int maxValue, Random rnd) {
+		private List<Object> GenerateEquationManyOperands(List<Operand> operands, int numberOfOperands, int minValue, int maxValue, Random rnd) {
 			List<Object> lOperations = new List<Object>();
 
 			// generate the first part of the equation
-			lOperations.AddRange(GenerateOneOperand(operands, OperandsFilter.PREFER_MULTI_OR_DIV, numberOfOperands, minValue, maxValue, rnd));
+			lOperations.AddRange(GenerateEquationOneOperand(operands, OperandsFilter.PREFER_MULTI_OR_DIV, numberOfOperands, minValue, maxValue, rnd));
 
 			// generate the others parts
 			for (int i = 1; i < numberOfOperands; i++) {

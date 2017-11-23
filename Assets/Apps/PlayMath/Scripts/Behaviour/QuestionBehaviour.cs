@@ -54,11 +54,6 @@ namespace BuddyApp.PlayMath{
         //Generate a new equation and handle associated text to display
         public void GenerateEquation()
         {
-            if (mQuestionAnimator.GetBool("InitGame"))
-            {
-                ResetGame();
-                mQuestionAnimator.SetBool("InitGame", false);
-            }
 			Equation lEquation = mEquationGenerator.Equations[mCountQuestions];
 
 			mResult.Equation = lEquation.Text;
