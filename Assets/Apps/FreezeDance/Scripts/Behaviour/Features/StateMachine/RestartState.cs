@@ -15,13 +15,14 @@ namespace BuddyApp.FreezeDance
 
         public override void Start()
         {
+            mMusicPlayer = GetComponent<MusicPlayer>();
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Interaction.TextToSpeech.SayKey("playagain");
             Interaction.Mood.Set(MoodType.NEUTRAL);
-            mMusicPlayer = GetComponent<MusicPlayer>();
+            
             mMusicPlayer.Restart();
             mListening = false;
             mSwitchState = false;

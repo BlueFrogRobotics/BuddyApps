@@ -11,13 +11,17 @@ namespace BuddyApp.FreezeDance
         private bool mListening;
         private float mTimer = 0.0f;
         private bool mSwitchState = false;
+        private MusicPlayer mMusicPlayer;
 
         public override void Start()
         {
+            mMusicPlayer = GetComponent<MusicPlayer>();
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            
+            mMusicPlayer.Restart();
             Interaction.TextToSpeech.SayKey("nextaction");
             Interaction.Mood.Set(MoodType.NEUTRAL);
             //Interaction.SpeechToText.OnBestRecognition.Add(OnRecognition);

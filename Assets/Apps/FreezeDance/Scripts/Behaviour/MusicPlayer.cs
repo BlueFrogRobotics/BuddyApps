@@ -98,6 +98,7 @@ namespace BuddyApp.FreezeDance
             Debug.Log("reinit music");
             if (iMusicId < clips.Length && iMusicId > 0)
             {
+                clip = clips[iMusicId];
                 speaker.clip = clips[iMusicId];
                 //mElapsedTime = 0.0f;
                 mIsStopped = false;
