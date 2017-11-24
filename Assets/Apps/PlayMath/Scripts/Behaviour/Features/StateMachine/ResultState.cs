@@ -63,6 +63,9 @@ namespace BuddyApp.PlayMath{
                 Debug.Log("Has finished talking");
                 if (mResult.Last)
                 {
+					User.Instance.Scores.NewScore(mScore);
+					ScoreSummaryList.SaveDefault(User.Instance.Scores);
+
                     if (mScore.IsPerfect())
                         animator.SetTrigger("TakePhoto");
                     else

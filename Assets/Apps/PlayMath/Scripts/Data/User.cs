@@ -15,7 +15,7 @@ namespace BuddyApp.PlayMath{
 
 		// private DegreeList mDegrees TODO
 
-		// private ScoreList mPalmares TODO
+		public ScoreSummaryList Scores { get; }
 			
 		/*
          * Singleton access
@@ -31,9 +31,10 @@ namespace BuddyApp.PlayMath{
 		}
 
 		public User() {
-			this.Name = "";
+			this.Name = "buddy";
 			this.Id = 0;
 			this.GameParameters = GameParameters.LoadDefault();
+			this.Scores = ScoreSummaryList.LoadDefault();
 		}
 	}
 }

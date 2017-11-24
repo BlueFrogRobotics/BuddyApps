@@ -13,6 +13,8 @@ namespace BuddyApp.PlayMath{
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			mBestScoreAnimator = GameObject.Find("UI/Best_Score").GetComponent<Animator>();
 			mBestScoreAnimator.SetTrigger("open");
+
+			GameObject.Find("UI/Best_Score").GetComponent<BestScoreBehaviour>().DisplayScore();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

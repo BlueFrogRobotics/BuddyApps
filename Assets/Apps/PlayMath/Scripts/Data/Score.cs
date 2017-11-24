@@ -52,6 +52,17 @@ namespace BuddyApp.PlayMath{
             return (mCorrectAnswers == mGameParams.Sequence);
         }
 
+		public ScoreSummary ToScoreSummary() 
+		{
+			ScoreSummary lScoreSummary = new ScoreSummary();
+
+			lScoreSummary.BadAnswers = this.BadAnswers;
+			lScoreSummary.CorrectAnswers = this.CorrectAnswers;
+			lScoreSummary.Difficulty = this.mGameParams.Difficulty;
+			lScoreSummary.TotalAnswerTime = this.mTotalAnswerTime;
+
+			return lScoreSummary;
+		}
     }
 }
 
