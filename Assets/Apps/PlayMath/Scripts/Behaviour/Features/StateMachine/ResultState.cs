@@ -46,7 +46,7 @@ namespace BuddyApp.PlayMath{
             mIcon = BYOS.Instance.Resources.GetSpriteFromAtlas("Icon_Info");
             mIconColor = new Color32(255,255,255,255);
 
-            string lMessage = mResult.Equation + "=" + mResult.CorrectAnswer;
+            string lMessage = mResult.Equation + " = " + mResult.CorrectAnswer;
             BYOS.Instance.Notifier.Display<SimpleNot>(DURATION_NOT).With(lMessage,mIcon,mIconColor,mBackgroundColor);
 
             BYOS.Instance.Interaction.Mood.Set(lBuddyMood);
