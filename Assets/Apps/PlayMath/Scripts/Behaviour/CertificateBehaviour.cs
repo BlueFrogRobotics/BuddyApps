@@ -51,9 +51,17 @@ namespace BuddyApp.PlayMath{
             mCertificate.GameParams = User.Instance.GameParameters;
             mCertificate.TimeStamp = DateTime.Now;
 
-            mTextWhat.text = String.Format( BYOS.Instance.Dictionary.GetString("certificatewhatlabel"),
-                                            mCertificate.GameParams.Operands.ToString(),
-                                            mCertificate.GameParams.Difficulty);
+            if (mCertificate.GameParams.Table > 0)
+            {
+                mTextWhat.text = String.Format(BYOS.Instance.Dictionary.GetString("certificatetablelabel"),
+                    mCertificate.GameParams.Table);
+            }
+            else
+            {
+                mTextWhat.text = String.Format(BYOS.Instance.Dictionary.GetString("certificatewhatlabel"),
+                    mCertificate.GameParams.Operands.ToString(),
+                    mCertificate.GameParams.Difficulty);
+            }
             
             mTextApp.text =  String.Format( BYOS.Instance.Dictionary.GetString("certificateapplabel"),
                                             mCertificate.TimeStamp.ToString("MM/dd/yyyy HH:mm"));
