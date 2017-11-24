@@ -79,7 +79,7 @@ namespace BuddyApp.PlayMath{
 				return;
 			}
 
-			GameParameters.SaveDefault(mGameParameters);
+            User.SaveUser();
 
 			mPlayMathAnimator.SetTrigger("BackToMenu");
 		}		
@@ -91,7 +91,8 @@ namespace BuddyApp.PlayMath{
 			}
             mGameParameters.Table = 0;
             mGameParameters.Sequence = 4;
-			GameParameters.SaveDefault(mGameParameters);
+			
+            User.SaveUser();
 
 			mPlayMathAnimator.SetTrigger("Play");
 		}

@@ -3,35 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using System;
-using Buddy;
+using System.Runtime.Serialization;
 
 namespace BuddyApp.PlayMath{
 
-	[Flags]
-	public enum Operand
+    [Flags,DataContract(Name="Operand")]
+	public enum Operand : int
 	{
+        // We should not serialize none operand value
 		NONE = 0,
+        [EnumMember]
 		ADD = 0x01, 
+        [EnumMember]
 		SUB = 0x02, 
+        [EnumMember]
 		DIV = 0x04, 
-		MULTI = 0x08
+        [EnumMember]
+		MULTI = 0x08,
+        //TODO Find a clean way to do this...
+        // For serialization only, define flags combination
+        [EnumMember] AS = ADD | SUB,
+        [EnumMember] AM = ADD | MULTI,
+        [EnumMember] AD = ADD | DIV,
+        [EnumMember] SM = SUB | MULTI,
+        [EnumMember] SD = SUB | DIV,
+        [EnumMember] MD = MULTI | DIV,
+        [EnumMember] ASM = ADD | SUB | MULTI,
+        [EnumMember] ASD = ADD | SUB | DIV,
+        [EnumMember] AMD = ADD | MULTI | DIV,
+        [EnumMember] SMD = SUB | MULTI | DIV,
+        [EnumMember] ASMD = ADD | SUB | MULTI | DIV
 	}
 
-	[Serializable]
-	public class GameParameters {
+	[DataContract]
+    public class GameParameters : SerializableData {
 		
 		public const int DIFFICULTY_MAX = 5;
-
-		private const string FILE_TO_SERIALIZE = "game_parameters.xml";
 
 		/// <summary>
 		/// These getter/setter are useful only for serialize the object.
 		/// <para>Prefer <see cref="CheckOperand(Operand operand)"/> and <see cref="SetOperand(Operand operand, bool toSet)"/>.</para>
 		/// </summary>
-		public Operand Operands { get; set; }
+        [DataMember(Name="operand")]
+		public Operand Operands { get; private set; }
 
+        [DataMember(Name="table")]
 		public int Table { get ; set; }
 
+        [DataMember(Name="difficulty")]
 		private int mDifficulty;
 		public int Difficulty
 		{
@@ -50,8 +69,10 @@ namespace BuddyApp.PlayMath{
 			}
 		}
 
+        [DataMember(Name="sequence")]
 		public int Sequence { get ; set; }
 
+        [DataMember(Name="timer")]
 		public int Timer { get; set; }
 
 		public GameParameters () {
@@ -81,24 +102,6 @@ namespace BuddyApp.PlayMath{
 			else {
 				this.Operands &= ~operand;
 			}
-		}
-
-		public static void SaveDefault(GameParameters gameParameters) {
-			Utils.SerializeXML<GameParameters>(gameParameters, PathToSerialize());
-		}
-
-		public static GameParameters LoadDefault() {
-			GameParameters gameParameters = Utils.UnserializeXML<GameParameters>(PathToSerialize());
-
-			if (gameParameters == null) {
-				gameParameters = new GameParameters();
-			}			
-
-			return gameParameters;
-		}
-
-		private static string PathToSerialize() {
-			return BYOS.Instance.Resources.GetPathToRaw(FILE_TO_SERIALIZE);
 		}
 
 		public override string ToString() {
