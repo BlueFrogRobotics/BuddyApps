@@ -44,6 +44,10 @@ namespace BuddyApp.PlayMath{
 			this.Scores = new ScoreSummaryList();
 		}
 
+        public void ResetScores(){
+            Scores = new ScoreSummaryList();
+        }
+
         public static void SaveUser()
         {
             string filename = BYOS.Instance.Resources.GetPathToRaw("userdata.xml");

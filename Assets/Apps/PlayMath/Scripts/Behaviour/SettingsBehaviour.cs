@@ -73,6 +73,11 @@ namespace BuddyApp.PlayMath{
             lText.text = BYOS.Instance.Dictionary.GetString("divisionlabel").ToUpper();
         }
 
+        public void OnClickResetScores() {
+            User.Instance.ResetScores();
+            User.SaveUser();
+        }
+
 		public void OnClickGoToMenu() {
 			if (! CheckSettings()) {
 				Utils.LogI(LogInfo.UNAUTHORIZED, "Can't close the view with these settings");
