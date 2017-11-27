@@ -19,36 +19,15 @@ namespace BuddyApp.PlayMath{
         private bool mFlush;
 
         public static event System.Action<Photograph> OnEndTakePhoto;
-        public static event System.Action OnValidatePhoto;
-        public static event System.Action OnCancelPhoto;
 
-        private const float DURATION = 10f;
-
-        void Start(){
-
+        void Start()
+        {
             OnEndTakePhoto = delegate (Photograph lPhoto)
             {
                     mFlush = false;
                     BYOS.Instance.Primitive.RGBCam.Close();
-
-                    mRawVideoTexture.texture = lPhoto.Image.texture;
-
-                    BYOS.Instance.Interaction.TextToSpeech.SayKey("validationphoto");
-                    BYOS.Instance.Notifier.Display<ConfirmationNot>(DURATION).With(
-                        BYOS.Instance.Dictionary.GetString("validationphoto").ToUpper(),
-                        OnValidatePhoto,
-                        OnCancelPhoto);
-            };
-
-            OnValidatePhoto = delegate
-            {
-                    mCertificate.UserPic = (Texture2D) mRawVideoTexture.texture;
-                    mPlayMathAnimator.SetTrigger("Certificate");
-            };
-
-            OnCancelPhoto = delegate
-            {
-                    DisplayCamera();
+                    mRawVideoTexture.texture = (Texture) lPhoto.Image.texture;
+                    mPlayMathAnimator.SetTrigger("ValidatePhoto");
             };
         }
 
@@ -69,7 +48,6 @@ namespace BuddyApp.PlayMath{
                 mRawVideoTexture.texture = BYOS.Instance.Primitive.RGBCam.FrameTexture2D;
                 yield return null;
             }
-            
         }
 
         private IEnumerator InitTakePhoto()
