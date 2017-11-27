@@ -19,8 +19,6 @@ namespace BuddyApp.PlayMath{
         private Score mScore;
 
         private Sprite mIcon;
-        private Color32 mIconColor;
-        private Color32 mBackgroundColor;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -33,24 +31,21 @@ namespace BuddyApp.PlayMath{
             if (mResult.isCorrect()) {
                 lBuddyMood = MoodType.HAPPY;
                 mTTSKey = "goodanswerspeech";
-                mBackgroundColor = new Color32(11, 156, 49, 255);
+                mIcon = BYOS.Instance.Resources.GetSpriteFromAtlas("Icon_Check");
             }
             else {
                 lBuddyMood = MoodType.SAD;
                 mTTSKey = "badanswerspeech";
-                mBackgroundColor = new Color32(156, 11, 49, 255);
+                mIcon = BYOS.Instance.Resources.GetSpriteFromAtlas("Icon_Close");
                 lDuration += DURATION_NOT;
             }
 
             mScore = GameObject.Find("UI/EndGame_Score").GetComponent<Score>();
             mScore.AddResult(mResult);
 
-            mIcon = BYOS.Instance.Resources.GetSpriteFromAtlas("Icon_Info");
-            mIconColor = new Color32(255,255,255,255);
-
             string lTTSMessage = BYOS.Instance.Dictionary.GetRandomString(mTTSKey) ;
             string lEquation = mResult.Equation + " = " + mResult.CorrectAnswer;
-            BYOS.Instance.Notifier.Display<SimpleNot>(lDuration).With(lTTSMessage + lEquation, mIcon,mIconColor,mBackgroundColor);
+            BYOS.Instance.Notifier.Display<SimpleNot>(lDuration).With(lTTSMessage + lEquation, mIcon);
 
             BYOS.Instance.Interaction.Mood.Set(lBuddyMood);
 
