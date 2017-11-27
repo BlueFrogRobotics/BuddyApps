@@ -8,7 +8,7 @@ using Buddy.UI;
 namespace BuddyApp.PlayMath{
     public class ResultState : AStateMachineBehaviour {
 
-        private const float DURATION_NOT = 3.0f;
+        private const float DURATION_NOT = 2.0f;
 
 		private Animator mBackgroundAnimator;
 
@@ -28,6 +28,7 @@ namespace BuddyApp.PlayMath{
 			mBackgroundAnimator.SetTrigger("close");
 
             mResult = GameObject.Find("UI/Four_Answer").GetComponent<Result>();
+            float lDuration = DURATION_NOT;
             MoodType lBuddyMood;
             if (mResult.isCorrect()) {
                 lBuddyMood = MoodType.HAPPY;
@@ -38,6 +39,7 @@ namespace BuddyApp.PlayMath{
                 lBuddyMood = MoodType.SAD;
                 mTTSKey = "badanswerspeech";
                 mBackgroundColor = new Color32(156, 11, 49, 255);
+                lDuration += DURATION_NOT;
             }
 
             mScore = GameObject.Find("UI/EndGame_Score").GetComponent<Score>();
@@ -46,14 +48,16 @@ namespace BuddyApp.PlayMath{
             mIcon = BYOS.Instance.Resources.GetSpriteFromAtlas("Icon_Info");
             mIconColor = new Color32(255,255,255,255);
 
-            string lMessage = mResult.Equation + " = " + mResult.CorrectAnswer;
-            BYOS.Instance.Notifier.Display<SimpleNot>(DURATION_NOT).With(lMessage,mIcon,mIconColor,mBackgroundColor);
+            string lTTSMessage = BYOS.Instance.Dictionary.GetRandomString(mTTSKey) ;
+            string lEquation = mResult.Equation + " = " + mResult.CorrectAnswer;
+            BYOS.Instance.Notifier.Display<SimpleNot>(lDuration).With(lTTSMessage + lEquation, mIcon,mIconColor,mBackgroundColor);
 
             BYOS.Instance.Interaction.Mood.Set(lBuddyMood);
 
             mEndOnce = false;
-            BYOS.Instance.Interaction.TextToSpeech.SayKey(mTTSKey,true);
-            AnnounceResult(lMessage);
+            BYOS.Instance.Interaction.TextToSpeech.Say(lTTSMessage,true);
+            if( !mResult.isCorrect() )
+                AnnounceResult(lEquation);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
