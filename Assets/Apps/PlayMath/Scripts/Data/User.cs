@@ -14,15 +14,15 @@ namespace BuddyApp.PlayMath{
 		private static User sInstance;
 
         [DataMember(Name="name")]
-        private string name;
+        public string Name { get; private set; }
         [DataMember(Name="id")]
         private int id;
         [DataMember(Name="gameparameters")]
         public GameParameters GameParameters { get; private set;}
 
 		// private DegreeList mDegrees TODO
-
-		public ScoreSummaryList Scores { get; }
+        [DataMember(Name="scoresummarylist")]
+        public ScoreSummaryList Scores { get; private set;}
 			
 		/*
          * Singleton access
@@ -38,10 +38,10 @@ namespace BuddyApp.PlayMath{
 		}
 
 		public User() {
-			this.name = "buddy";
+			this.Name = "buddy";
 			this.id = 0;
 			this.GameParameters = new GameParameters();
-			this.Scores = ScoreSummaryList.LoadDefault();
+			this.Scores = new ScoreSummaryList();
 		}
 
         public static void SaveUser()

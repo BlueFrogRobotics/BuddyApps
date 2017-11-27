@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using BuddyApp.PlayMath;
+using System.Runtime.Serialization;
+using System.Xml;
 
 namespace BuddyApp.PlayMath{
-	[Serializable]
-	public class ScoreSummary {
+	[DataContract]
+    public class ScoreSummary : SerializableData {
 
+        [DataMember(Name="correctanswers")]
 		public int CorrectAnswers { get; set; }
-
+        [DataMember(Name="badanswers")]
 		public int BadAnswers { get; set;}
-
+        [DataMember(Name="totalanswertime")]
 		public TimeSpan TotalAnswerTime { get; set; }
-
+        [DataMember(Name="difficulty")]
 		public int Difficulty { get; set; }
 
 		private double SuccessPercent() {

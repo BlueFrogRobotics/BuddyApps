@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Text;
-using System.Xml.Serialization;
+using System.Runtime.Serialization;
+using System.Xml;
 using Buddy;
 
 namespace BuddyApp.PlayMath{
-	[Serializable]
-	public class ScoreSummaryList {
+	[DataContract]
+    public class ScoreSummaryList : SerializableData {
 
 		private const int NBR_LEVELS = 5;
 
 		private const int SCORES_FOR_ONE_LEVEL_COUNT_MAX = 4;
 
-		private const string FILE_TO_SERIALIZE = "score_summary_list";
-
+        [DataMember(Name="scoresbylevels")]
 		public List<ScoreSummary>[] ScoresByLevels { get; set; }
 
 		public ScoreSummaryList() {
@@ -80,24 +80,6 @@ namespace BuddyApp.PlayMath{
 			}
 
 			return lSb.ToString();
-		}
-
-		public static void SaveDefault(ScoreSummaryList scoreSummaryList) {
-			Utils.SerializeXML<ScoreSummaryList>(scoreSummaryList, PathToSerialize());
-		}
-
-		public static ScoreSummaryList LoadDefault() {
-			ScoreSummaryList lScores = Utils.UnserializeXML<ScoreSummaryList>(PathToSerialize());
-
-			if (lScores == null) {
-				lScores = new ScoreSummaryList();
-			}			
-
-			return lScores;
-		}
-
-		private static string PathToSerialize() {
-			return BYOS.Instance.Resources.GetPathToRaw(FILE_TO_SERIALIZE);
 		}
 	}
 }

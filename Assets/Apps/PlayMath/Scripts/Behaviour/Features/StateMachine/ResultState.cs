@@ -68,7 +68,7 @@ namespace BuddyApp.PlayMath{
                 if (mResult.Last)
                 {
 					User.Instance.Scores.NewScore(mScore);
-					ScoreSummaryList.SaveDefault(User.Instance.Scores);
+                    User.SaveUser();
 
                     if (mScore.IsPerfect()) {
                         BYOS.Instance.Interaction.TextToSpeech.SayKey("takephotospeech", true);
