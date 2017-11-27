@@ -70,8 +70,10 @@ namespace BuddyApp.PlayMath{
 					User.Instance.Scores.NewScore(mScore);
 					ScoreSummaryList.SaveDefault(User.Instance.Scores);
 
-                    if (mScore.IsPerfect())
+                    if (mScore.IsPerfect()) {
+                        BYOS.Instance.Interaction.TextToSpeech.SayKey("takephotospeech", true);
                         animator.SetTrigger("TakePhoto");
+                    }
                     else
                         animator.SetTrigger("Score");
                 }
