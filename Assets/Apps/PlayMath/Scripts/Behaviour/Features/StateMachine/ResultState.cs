@@ -65,7 +65,8 @@ namespace BuddyApp.PlayMath{
 					User.Instance.Scores.NewScore(mScore);
                     User.SaveUser();
 
-                    if (mScore.IsPerfect()) {
+                    //TODO Uncomment following if statement to generate certificate only once
+                    if (mScore.IsPerfect() /*&& !User.Instance.HasCurrentCertificate()*/) {
                         BYOS.Instance.Interaction.TextToSpeech.SayKey("takephotospeech", true);
                         animator.SetTrigger("TakePhoto");
                     }

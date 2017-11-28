@@ -19,8 +19,8 @@ namespace BuddyApp.PlayMath{
         private int id;
         [DataMember(Name="gameparameters")]
         public GameParameters GameParameters { get; private set;}
-
-		// private DegreeList mDegrees TODO
+        [DataMember(Name="certificatesummarylist")]
+        public CertificateSummaryList Certificates{ get; private set; }
         [DataMember(Name="scoresummarylist")]
         public ScoreSummaryList Scores { get; private set;}
 			
@@ -42,10 +42,21 @@ namespace BuddyApp.PlayMath{
 			this.id = 0;
 			this.GameParameters = new GameParameters();
 			this.Scores = new ScoreSummaryList();
+            this.Certificates = new CertificateSummaryList();
 		}
 
         public void ResetScores(){
             Scores = new ScoreSummaryList();
+            Certificates = new CertificateSummaryList();
+        }
+
+        public bool HasCurrentCertificate()
+        {
+            Certificate certif = new Certificate();
+            certif.GameParams = this.GameParameters;
+            CertificateSummary summary = new CertificateSummary(certif, false);
+
+            return Certificates.Summaries.Contains(summary);
         }
 
         public static void SaveUser()

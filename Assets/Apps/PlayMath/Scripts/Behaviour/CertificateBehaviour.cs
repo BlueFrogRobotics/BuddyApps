@@ -72,6 +72,9 @@ namespace BuddyApp.PlayMath{
 
             mUserPic.texture = mCertificate.UserPic;
 
+            User.Instance.Certificates.NewCertificate(mCertificate);
+            User.SaveUser();
+
             BYOS.Instance.Interaction.TextToSpeech.SayKey("perfectscore");
 		}
 
