@@ -18,7 +18,7 @@ namespace BuddyApp.PlayMath{
 			mQuestionAnimator.SetTrigger("open");
 
             mQuestionBehaviour = GameObject.Find("UI/Four_Answer").GetComponent<QuestionBehaviour>();
-            mQuestionBehaviour.GenerateEquation();
+            mQuestionBehaviour.AskNextQuestion();
 
             mTimeScrollbar = GameObject.Find("UI/Four_Answer/Bottom_UI/Time_Progress").GetComponent<Scrollbar>();
             mTimeScrollbar.size = 0;

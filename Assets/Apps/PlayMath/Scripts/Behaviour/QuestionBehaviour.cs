@@ -61,8 +61,8 @@ namespace BuddyApp.PlayMath{
             mScore.ResetScore();
         }
 
-        //Generate a new equation and handle associated text to display
-        public void GenerateEquation()
+        //Ask next question and handle associated text to display
+        public void AskNextQuestion()
         {
 			Equation lEquation = mEquationGenerator.Equations[mCountQuestions];
 
