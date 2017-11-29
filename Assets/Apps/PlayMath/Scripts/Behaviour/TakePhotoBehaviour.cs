@@ -58,8 +58,7 @@ namespace BuddyApp.PlayMath{
                     yield return null;
                 else
                 {
-                    BYOS.Instance.Notifier.Display<CountdownNot>().With("", 3, null, null);
-                    Invoke("TakePhoto", 4f);
+                    BYOS.Instance.Notifier.Display<CountdownNot>().With("", 3, TakePhoto, null);
                     break;
                 }
             }
