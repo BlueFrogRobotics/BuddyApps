@@ -13,6 +13,7 @@ namespace BuddyApp.RedLightGreenLightGame
         private float mLimit;
         private bool mSentenceDone;
         private bool mIsMovementDone;
+        private bool mAnimIsOpen;
 
         public override void Start()
         {
@@ -23,8 +24,15 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            GetGameObject(2).GetComponent<RLGLTargetMovement>().ResetTargetMovement();
             Debug.Log("ON STATE ENTER TARGET GAMEPLAY");
-            
+            if(!mRLGLBehaviour.IsPlaying)
+            {
+                mRLGLBehaviour.TargetClicked = false;
+                mAnimIsOpen = false;
+            }
+                
+            Interaction.Face.SetEvent(FaceEvent.CLOSE_EYES);
             Interaction.Mood.Set(MoodType.TIRED);
             //mlimit a determiner en fonction du xml
             mLimit = mLevelManager.LevelData.WaitingTime;//8F;
@@ -33,6 +41,9 @@ namespace BuddyApp.RedLightGreenLightGame
             mIsMovementDone = false;
             //quand on aura le parsing xml, prendre le idlevel directement de celui ci
             mIdLevel = mLevelManager.LevelData.Level;
+            mRLGLBehaviour.TargetClicked = false;
+            GetGameObject(1).GetComponent<Animator>().ResetTrigger("close");
+            GetGameObject(1).GetComponent<Animator>().ResetTrigger("open");
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -64,7 +75,13 @@ namespace BuddyApp.RedLightGreenLightGame
                     Debug.Log("open the eyes!");
                 }
                 if((Primitive.Motors.Wheels.Status == MovingState.REACHED_GOAL || Primitive.Motors.Wheels.Status == MovingState.MOTIONLESS))
+                {
+                    //GetGameObject(1).GetComponent<Animator>().ResetTrigger("close");
+                    GetGameObject(1).GetComponent<Animator>().SetTrigger("close");
                     Trigger("StartGame");
+                    
+                }
+                    
             }
                 
         }
@@ -73,33 +90,44 @@ namespace BuddyApp.RedLightGreenLightGame
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("ON EXIT TARGET GAMEPLAY");
-            GetGameObject(1).SetActive(false);
+            //GetGameObject(1).GetComponent<Animator>().ResetTrigger("close");
+            //GetGameObject(1).GetComponent<Animator>().ResetTrigger("open");
+            //GetGameObject(1).GetComponent<Animator>().SetTrigger("close");
+            //GetGameObject(1).SetActive(false);
             mRLGLBehaviour.TargetClicked = false;
+            Interaction.Face.SetEvent(FaceEvent.OPEN_EYES);
             Interaction.Mood.Set(MoodType.NEUTRAL);
+
         }
 
         private void ClickTarget()
         {
-            
-            Debug.Log("CLICJ TARGET 1------------------------------------------------");
             //faire apparaitre la cible suivant taille du xml / vitesse, pour le moment la cible apparait au milieu avec taille définie
-            if (!GetGameObject(1).activeSelf)
+            //if (!GetGameObject(1).activeSelf)
+            //{
+            //    Debug.Log("activation");
+
+
+            //    GetGameObject(1).SetActive(true);
+            //}
+            if (!mAnimIsOpen)
             {
-                GetGameObject(1).transform.localScale = new Vector3 (mLevelManager.LevelData.Target.Size, mLevelManager.LevelData.Target.Size, 1);
-                
-                GetGameObject(1).SetActive(true);
+                GetGameObject(1).GetComponent<Animator>().SetTrigger("open");
+                GetGameObject(2).transform.localScale = new Vector3(mLevelManager.LevelData.Target.Size, mLevelManager.LevelData.Target.Size, 1);
+                mAnimIsOpen = true;
             }
-                
+
             if (mRLGLBehaviour.TargetClicked && (Primitive.Motors.Wheels.Status == MovingState.REACHED_GOAL || Primitive.Motors.Wheels.Status == MovingState.MOTIONLESS))
             {
-                Debug.Log("CLICJ TARGET 2 ---------------------------------------------");
+                Debug.Log("/////////////////TARGET PROBLEME BRO-----------------");
                 mRLGLBehaviour.FirstTurn = false;
-                GetGameObject(1).SetActive(false);
+                GetGameObject(1).GetComponent<Animator>().SetTrigger("close");
+                //GetGameObject(1).SetActive(false);
                 Interaction.Mood.Set(MoodType.HAPPY);
                 if(mLevelManager.LevelData.Level < 3)
                     Primitive.Motors.Wheels.TurnAngle(-180F, 250F, 1F);
                 Trigger("Victory");
-
+                
             }
         }
     }

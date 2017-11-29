@@ -43,6 +43,9 @@ namespace BuddyApp.RedLightGreenLightGame
         private bool mGameplay;
         public bool Gameplay { get { return mGameplay; } set { mGameplay = value; } }
 
+        private bool mIsPlaying;
+        public bool IsPlaying { get { return mIsPlaying; } set { mIsPlaying = value; } }
+
        // private int mLife;
         //public int Life { get { return mLife; } set { if (value < 0) mLife = 0; else mLife = value; } }
 

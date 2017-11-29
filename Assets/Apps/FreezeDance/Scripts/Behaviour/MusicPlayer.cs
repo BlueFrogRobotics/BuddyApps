@@ -16,6 +16,9 @@ namespace BuddyApp.FreezeDance
         private AudioClip clip;
 
         [SerializeField]
+        private AudioClip[] clips;
+
+        [SerializeField]
         private Scrollbar slider;
 
         //[SerializeField]
@@ -53,6 +56,7 @@ namespace BuddyApp.FreezeDance
 
         public void Play()
         {
+            Debug.Log("play music");
             mElapsedTime += Time.deltaTime;
             speaker.Play();
         }
@@ -80,12 +84,26 @@ namespace BuddyApp.FreezeDance
 
         public void Restart()
         {
+            Debug.Log("restart music");
             speaker.clip = null;
             speaker.clip = clip;
             mElapsedTime = 0.0f;
             mIsStopped = false;
             mAudioClipLength = speaker.clip.length;
             slider.size = 0;
+        }
+
+        public void ReinitMusic(int iMusicId)
+        {
+            Debug.Log("reinit music");
+            if (iMusicId < clips.Length && iMusicId > 0)
+            {
+                clip = clips[iMusicId];
+                speaker.clip = clips[iMusicId];
+                //mElapsedTime = 0.0f;
+                mIsStopped = false;
+                mAudioClipLength = speaker.clip.length;
+            }
         }
     }
 }

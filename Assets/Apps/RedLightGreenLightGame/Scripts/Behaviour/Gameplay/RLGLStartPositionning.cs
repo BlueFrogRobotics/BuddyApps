@@ -21,6 +21,7 @@ namespace BuddyApp.RedLightGreenLightGame
         private bool mHasTriggered = false;
         private bool mHasShowWindow = false;
         private float mTimerLimit = 0;
+        private OpenCVUnity.Rect mRect;
 
         public override void Start()
         {
@@ -31,12 +32,15 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            GetGameObject(2).GetComponent<RLGLTargetMovement>().enabled = true;
+            mRect = new OpenCVUnity.Rect(new Point((int)(320 / 3), 0), new Point((int)(320 * 2 / 3), 240));
             //Interaction.TextToSpeech.Silence(1000);
             Interaction.TextToSpeech.SayKey("remplacementpositionningplayer");
             mMotion = Perception.Motion;
             mMotion.enabled = true;
             mCam = Primitive.RGBCam;
-            mMotion.OnDetect(OnMovementDetected, 3f);
+            mMotion.OnDetect(OnMovementDetected, mRect, 3f);
+            mCam.Resolution = RGBCamResolution.W_320_H_240;
             mLifeManager.ShowLifesLeft();
             //mCam.Open(RGBCamResolution.W_320_H_240);
             //Texture2D truc=new Texture2D()
