@@ -67,8 +67,8 @@ namespace BuddyApp.PlayMath{
 		}
 
 		private void CleanViewport() {
-			Image[] childs = mViewportContent.GetComponentsInChildren<Image>();
-			foreach (Image child in childs)
+            LayoutElement[] childs = mViewportContent.GetComponentsInChildren<LayoutElement>();
+            foreach (LayoutElement child in childs)
 				GameObject.Destroy(child.gameObject);
 		}
 
