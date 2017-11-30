@@ -23,6 +23,8 @@ namespace BuddyApp.PlayMath{
             mTimeScrollbar = GameObject.Find("UI/Four_Answer/Bottom_UI/Time_Progress").GetComponent<Scrollbar>();
             mTimeScrollbar.size = 0;
             mTimeScrollbar.value = 0;
+            // Disable user interaction on scrollbar (mainly drag)
+            mTimeScrollbar.interactable = false;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
