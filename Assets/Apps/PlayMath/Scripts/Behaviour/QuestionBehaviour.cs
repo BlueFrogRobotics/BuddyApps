@@ -26,6 +26,7 @@ namespace BuddyApp.PlayMath{
 		private Generator mEquationGenerator;
         private int mCountQuestions;
         private DateTime mStartTime;
+        private bool mAnnounced;
 
         private GameParameters mGameParams;
 
@@ -35,14 +36,25 @@ namespace BuddyApp.PlayMath{
         private bool mLaunchSTTOnce;
         private List<string> mSTTChoices;
 
+        private Dictionary mDictionary;
+        private VocalManager mVocalManager;
+        private TextToSpeech mTTS;
+
 		void Start() {
+
+            mDictionary = BYOS.Instance.Dictionary;
+            mVocalManager = BYOS.Instance.Interaction.VocalManager;
+            mTTS = BYOS.Instance.Interaction.TextToSpeech;
+
             mChoices = GameObject.Find("UI/Four_Answer/Middle_UI").GetComponentsInChildren<Text>();
             mTitleTop = this.gameObject.transform.Find("Top_UI/Title_Top").GetComponent<Text>();
             mTitleBottom = this.gameObject.transform.Find("Bottom_UI/Title_Bottom").GetComponent<Text>();
             // Disable VocalManager trigger mode
-            BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+            mVocalManager.EnableTrigger = false;
             // Define VocalManager STT Callback
-            BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
+            mVocalManager.OnEndReco = SpeechToTextCallback;
+            // Define VocalManager STT Error Callback
+            mVocalManager.OnError = ErrorCallback;
             mSTTChoices = new List<string>();
 		}
 
@@ -71,11 +83,11 @@ namespace BuddyApp.PlayMath{
 
             // Is this question the last ?
             mCountQuestions++;
-            mTitleBottom.text = String.Format(BYOS.Instance.Dictionary.GetString("questioniteration"), mCountQuestions, mGameParams.Sequence);
+            mTitleBottom.text = String.Format(mDictionary.GetString("questioniteration"), mCountQuestions, mGameParams.Sequence);
 
 			mResult.Last = (mCountQuestions == mEquationGenerator.Equations.Count);
 
-            mTitleTop.text = String.Format(BYOS.Instance.Dictionary.GetString("howmanydoes"), mResult.Equation);
+            mTitleTop.text = String.Format(mDictionary.GetString("howmanydoes"), mResult.Equation);
             AnnounceEquation();
 
             mSTTChoices.Clear();
@@ -85,17 +97,18 @@ namespace BuddyApp.PlayMath{
                 mSTTChoices.Add(lEquation.Choices[i]);
             }
 
-            mStartTime = DateTime.Now;
+            mAnnounced = false;
             HasAnswer = false;
-            mElapsedTime = TimeSpan.Zero;
-
-            mLaunchSTTOnce = false;
-            StartCoroutine(EnableSpeechToText());
+            StartCoroutine(WaitAnnouncement());
         }
 
         public double ElapsedTimeSinceStart()
         {
-            TimeSpan elapsed = DateTime.Now - mStartTime;
+            TimeSpan elapsed = TimeSpan.Zero;
+
+            if (mAnnounced)
+                elapsed = DateTime.Now - mStartTime;
+
             return elapsed.TotalSeconds;
         }
 
@@ -120,8 +133,6 @@ namespace BuddyApp.PlayMath{
 
         private void ShowResult(string answer)
         {
-            // Disable STT trigger
-            BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
             mResult.UserAnswer = answer;
             mResult.ElapsedTime = mElapsedTime.TotalSeconds;
 
@@ -133,22 +144,23 @@ namespace BuddyApp.PlayMath{
             string statement = (string) mTitleTop.text.Clone();
 
             if (statement.Contains("÷"))
-                statement = statement.Replace("÷", BYOS.Instance.Dictionary.GetString("dividedby"));
+                statement = statement.Replace("÷", mDictionary.GetString("dividedby"));
             if (statement.Contains("×"))
-                statement = statement.Replace("×", BYOS.Instance.Dictionary.GetString("xtimesy"));
+                statement = statement.Replace("×", mDictionary.GetString("xtimesy"));
             if (statement.Contains("-"))
-                statement = statement.Replace("-", BYOS.Instance.Dictionary.GetString("minus"));
+                statement = statement.Replace("-", mDictionary.GetString("minus"));
 
-            BYOS.Instance.Interaction.TextToSpeech.Say(statement);
+            mTTS.Say(statement);
         }
 
         private IEnumerator EnableSpeechToText()
         {
+            mLaunchSTTOnce = false;
             while (!HasAnswer)
             {
                 if (!mLaunchSTTOnce)
                 {
-                    BYOS.Instance.Interaction.VocalManager.StartInstantReco();
+                    mVocalManager.StartInstantReco();
                     mLaunchSTTOnce = true;
                 }
                 yield return null;
@@ -167,6 +179,29 @@ namespace BuddyApp.PlayMath{
             }
 
             mLaunchSTTOnce = false;
+        }
+
+        public void ErrorCallback(STTError iError)
+        {
+            StartCoroutine(InterruptBuddySpeech());
+        }
+
+        private IEnumerator InterruptBuddySpeech()
+        {
+            yield return new WaitUntil(() => mTTS.IsSpeaking);
+            mTTS.Stop();
+        }
+
+        private IEnumerator WaitAnnouncement()
+        {
+            yield return new WaitUntil(() => mTTS.HasFinishedTalking);
+            
+            mStartTime = DateTime.Now;
+            mElapsedTime = TimeSpan.Zero;
+
+            mAnnounced = true;
+
+            StartCoroutine(EnableSpeechToText());
         }
    	}
 }
