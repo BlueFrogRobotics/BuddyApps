@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using Buddy;
 
 namespace BuddyApp.PlayMath{
-	public class QuestionBehaviour : MonoBehaviour {
+    public class QuestionBehaviour : AnimationSyncBehaviour {
 
         [SerializeField]
 		private Animator mPlayMathAnimator;

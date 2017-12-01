@@ -6,19 +6,24 @@ using UnityEngine.UI;
 using Buddy;
 
 namespace BuddyApp.PlayMath{
-    public class QuestionState : AStateMachineBehaviour {
+    public class QuestionState : AnimatorSyncState {
 
 		private Animator mQuestionAnimator;
         private QuestionBehaviour mQuestionBehaviour;
         private Scrollbar mTimeScrollbar;
 
+        private bool mIsOpen;
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			mQuestionAnimator = GameObject.Find("UI/Four_Answer").GetComponent<Animator>();
-			mQuestionAnimator.SetTrigger("open");
-
             mQuestionBehaviour = GameObject.Find("UI/Four_Answer").GetComponent<QuestionBehaviour>();
-            mQuestionBehaviour.AskNextQuestion();
+
+            mPreviousStateBehaviours.Add(GameObject.Find("UI/Set_Table").GetComponent<SelectTableBehaviour>());
+            mPreviousStateBehaviours.Add(GameObject.Find("UI/Menu").GetComponent<MainMenuBehaviour>());
+            mPreviousStateBehaviours.Add(GameObject.Find("UI/Settings").GetComponent<SettingsBehaviour>());
+
+            mIsOpen = false;
 
             mTimeScrollbar = GameObject.Find("UI/Four_Answer/Bottom_UI/Time_Progress").GetComponent<Scrollbar>();
             mTimeScrollbar.size = 0;
@@ -29,15 +34,25 @@ namespace BuddyApp.PlayMath{
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            double lElapsedTime = mQuestionBehaviour.ElapsedTimeSinceStart();
-            int lMaxTime = User.Instance.GameParameters.Timer;
-
-            if (!mQuestionBehaviour.HasAnswer)
+            if (PreviousBehaviourHasEnded() && !mIsOpen)
             {
-                if (lElapsedTime < lMaxTime)
-                    mTimeScrollbar.size = (float)(lElapsedTime / lMaxTime);
-                else //TimeOut
-                    mQuestionBehaviour.TimeOut();
+                mQuestionAnimator.SetTrigger("open");
+                mIsOpen = true;
+
+                mQuestionBehaviour.AskNextQuestion();
+            }
+            else if (mIsOpen)
+            {
+                double lElapsedTime = mQuestionBehaviour.ElapsedTimeSinceStart();
+                int lMaxTime = User.Instance.GameParameters.Timer;
+
+                if (!mQuestionBehaviour.HasAnswer)
+                {
+                    if (lElapsedTime < lMaxTime)
+                        mTimeScrollbar.size = (float)(lElapsedTime / lMaxTime);
+                    else //TimeOut
+                       mQuestionBehaviour.TimeOut();
+                }
             }
 
         }
@@ -45,6 +60,7 @@ namespace BuddyApp.PlayMath{
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			mQuestionAnimator.SetTrigger("close");
+            mIsOpen = false;
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

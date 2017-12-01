@@ -7,30 +7,40 @@ using Buddy;
 using System.Text.RegularExpressions;
 
 namespace BuddyApp.PlayMath{
-    public class SelectTableState : AStateMachineBehaviour {
+    public class SelectTableState : AnimatorSyncState {
 
         private Animator mSetTableAnimator;
 
         private Text mTitleTop;
         private Text mGoToMenu;
 
+        private bool mIsOpen;
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             mSetTableAnimator = GameObject.Find("UI/Set_Table").GetComponent<Animator>();
-            mSetTableAnimator.SetTrigger("open");
+
+            mPreviousStateBehaviours.Add(GameObject.Find("UI/Menu").GetComponent<MainMenuBehaviour>());
+
+            mIsOpen = false;
 
             TranslateUI();
             SetTablesStarProgress();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            
-        //}
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            if (PreviousBehaviourHasEnded() && !mIsOpen)
+            {
+                mSetTableAnimator.SetTrigger("open");
+                mIsOpen = true;
+            }
+        }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             mSetTableAnimator.SetTrigger("close");
+            mIsOpen = false;
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

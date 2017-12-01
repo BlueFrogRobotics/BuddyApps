@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using Buddy;
 
 namespace BuddyApp.PlayMath{
-	public class CertificateBehaviour : MonoBehaviour {
+    public class CertificateBehaviour : AnimationSyncBehaviour {
 
         [SerializeField]
 		private Animator mPlayMathAnimator;

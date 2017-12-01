@@ -7,7 +7,7 @@ using Buddy;
 using Buddy.UI;
 
 namespace BuddyApp.PlayMath{
-    public class TakePhotoBehaviour : MonoBehaviour {
+    public class TakePhotoBehaviour : AnimationSyncBehaviour {
 
         [SerializeField]
         private RawImage mRawVideoTexture;

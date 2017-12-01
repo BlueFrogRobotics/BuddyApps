@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Buddy;
-
 namespace BuddyApp.PlayMath{
-    public class SelectTableBehaviour : MonoBehaviour {
+    public class SelectTableBehaviour : AnimationSyncBehaviour {
 
         [SerializeField]
         private Animator mPlayMathAnimator;

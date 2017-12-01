@@ -5,7 +5,7 @@ using Buddy;
 using UnityEngine.UI;
 
 namespace BuddyApp.PlayMath{
-	public class BestScoreBehaviour : MonoBehaviour {
+    public class BestScoreBehaviour : AnimationSyncBehaviour {
 		
 		private Animator mPlayMathAnimator;
 
