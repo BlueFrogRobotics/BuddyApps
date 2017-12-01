@@ -28,6 +28,10 @@ namespace BuddyApp.PlayMath{
                 mPlayMathAnimator.SetTrigger("Play");
             }
         }
+
+        public void OnClickGoToMenu() {
+            mPlayMathAnimator.SetTrigger("BackToMenu");
+        }
     }
 }
 
