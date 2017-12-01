@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Buddy;
+using System.Text.RegularExpressions;
 
 namespace BuddyApp.PlayMath{
     public class SelectTableState : AStateMachineBehaviour {
@@ -19,6 +20,7 @@ namespace BuddyApp.PlayMath{
             mSetTableAnimator.SetTrigger("open");
 
             TranslateUI();
+            SetTablesStarProgress();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -48,6 +50,17 @@ namespace BuddyApp.PlayMath{
 
             mTitleTop.text = BYOS.Instance.Dictionary.GetString("settabletitle").ToUpper();
             mGoToMenu.text = BYOS.Instance.Dictionary.GetString("gotomenulabel").ToUpper();
+        }
+
+        private void SetTablesStarProgress()
+        {
+            Text[] childs = GameObject.Find("UI/Set_Table/Middle_UI").GetComponentsInChildren<Text>();
+            foreach(Text child in childs)
+            {
+                int table = int.Parse(Regex.Match(child.text,@"\d+").Value);
+                GameObject StarProgress = child.gameObject.transform.parent.Find("Star_Progress").gameObject;
+                StarProgress.transform.Find("Mask_10").gameObject.SetActive(User.Instance.HasTableCertificate(table));
+            }
         }
     }
 }

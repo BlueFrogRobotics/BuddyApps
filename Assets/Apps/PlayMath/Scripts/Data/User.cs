@@ -59,6 +59,16 @@ namespace BuddyApp.PlayMath{
             return Certificates.Summaries.Contains(summary);
         }
 
+        public bool HasTableCertificate(int table)
+        {
+            Certificate certif = new Certificate();
+            certif.GameParams = this.GameParameters;
+            certif.GameParams.Table = table;
+            CertificateSummary summary = new CertificateSummary(certif, false);
+
+            return Certificates.Summaries.Contains(summary);
+        }
+
         public static void SaveUser()
         {
             string filename = BYOS.Instance.Resources.GetPathToRaw("userdata.xml");
