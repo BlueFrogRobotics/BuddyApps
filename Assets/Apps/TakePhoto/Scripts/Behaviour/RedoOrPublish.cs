@@ -64,12 +64,13 @@ namespace BuddyApp.TakePhoto
 				Quit();
 			} else {
 				Interaction.TextToSpeech.SayKey("notunderstand", true);
-				if (mError > 3) {
+				mError++;
+				if (mError > 2) {
 					QuitApp();
 				} else {
 					Interaction.TextToSpeech.Silence(1000, true);
 					Interaction.TextToSpeech.SayKey(questionKey, true);
-				}
+                }
 
 				mSpeechReco = "";
 			}

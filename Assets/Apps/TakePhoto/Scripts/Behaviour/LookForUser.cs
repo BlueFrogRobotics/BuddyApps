@@ -96,10 +96,11 @@ namespace BuddyApp.TakePhoto
 			if (iMotions.Length > 5 && !mHasTriggered && mHasShowWindow && mTimerLimit > 3F) {
 				BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
 				mMatDetection = mCam.FrameMat.clone();//Utils.Texture2DToMat(mTexture, OpenCVUnity.CvType.CV_8UC3);
-				//Imgproc.rectangle(mMatDetection, new Point((int)(mMatDetection.width() / 3), 0), new Point((int)(mMatDetection.width() * 2 / 3), mMatDetection.height()), new Scalar(255, 0, 0), 3);
-
-				foreach (MotionEntity lEntity in iMotions) {
-					Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 6, new Scalar(255, 0, 0), 6);
+													  //Imgproc.rectangle(mMatDetection, new Point((int)(mMatDetection.width() / 3), 0), new Point((int)(mMatDetection.width() * 2 / 3), mMatDetection.height()), new Scalar(255, 0, 0), 3);
+				MotionBlob[] lBlobs = iMotions.GetBlobs();
+				MotionBlob lMainBlob = iMotions.GetMainBlob(lBlobs);
+				foreach (MotionEntity lEntity in lMainBlob.MotionEntityArray) {
+					Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 6, new Scalar(0, 255, 255), 6);
 
 					// TODO Remove points that are too far from main motion
 					meanX += lEntity.RectInFrame.x;

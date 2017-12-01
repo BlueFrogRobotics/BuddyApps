@@ -31,6 +31,7 @@ namespace BuddyApp.TakePhoto
 		[SerializeField]
 		private string QuitTrigger;
 		private int mError;
+		private bool mQuit;
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -40,8 +41,8 @@ namespace BuddyApp.TakePhoto
 			mListening = false;
 			mSpeechReco = "";
 
-
-			Interaction.TextToSpeech.SayKey(questionKey);
+			mQuit = false;
+            Interaction.TextToSpeech.SayKey(questionKey);
 
 			Interaction.SpeechToText.OnBestRecognition.Clear();
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
@@ -56,6 +57,9 @@ namespace BuddyApp.TakePhoto
 		{
 			if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
 				return;
+			else if (mQuit) {
+				QuitApp();
+            }
 
 			if (string.IsNullOrEmpty(mSpeechReco)) {
 				Interaction.SpeechToText.Request();
@@ -73,11 +77,11 @@ namespace BuddyApp.TakePhoto
 				Option1();
 			} else if (ContainsOneOf(mSpeechReco, Dictionary.GetPhoneticStrings("quit"))) {
 				Toaster.Hide();
-				Exit();
+				Option1();
 			} else {
 				Interaction.TextToSpeech.SayKey("notunderstandyesno", true);
-
-				if (mError > 3) {
+				mError++;
+                if (mError > 2) {
 					QuitApp();
 				} else {
 					Interaction.TextToSpeech.Silence(1000, true);
@@ -124,16 +128,8 @@ namespace BuddyApp.TakePhoto
 			if (Primitive.RGBCam.IsOpen) {
 				Primitive.RGBCam.Close();
 			}
-			QuitApp();
-		}
-
-		private void Exit()
-		{
-			Interaction.Mood.Set(MoodType.NEUTRAL);
-			if (Primitive.RGBCam.IsOpen) {
-				Primitive.RGBCam.Close();
-			}
-			QuitApp();
+			Interaction.TextToSpeech.SayKey("bye");
+			mQuit = true;
 		}
 
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
