@@ -9,9 +9,9 @@ namespace BuddyApp.Companion
 {
 	public class RobotTouched : AStateMachineBehaviour
 	{
-		private int mMouthCounter;
-		private int mEyeCounter;
-		private float mLastMouthTime;
+		//private int mMouthCounter;
+		//private int mEyeCounter;
+		//private float mLastMouthTime;
 
 		public override void Start()
 		{
@@ -19,9 +19,9 @@ namespace BuddyApp.Companion
 
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
-			mMouthCounter = 0;
-			mEyeCounter = 0;
-			mLastMouthTime = 0F;
+			//mMouthCounter = 0;
+			//mEyeCounter = 0;
+			//mLastMouthTime = 0F;
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -29,7 +29,7 @@ namespace BuddyApp.Companion
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "Robot Touched " + mDetectionManager.mFacePartTouched;
 			Debug.Log("state: Robot Touched: " + mDetectionManager.mFacePartTouched);
-			if (mDetectionManager.mFacePartTouched == FaceTouch.OTHER || mDetectionManager.mFacePartTouched == FaceTouch.NONE) {
+			if (mDetectionManager.mFacePartTouched == FaceTouch.MOUTH) {
 
 				if (CompanionData.Instance.InteractDesire > 80) {
 					//Interaction.TextToSpeech.Say("Hey! Si on faisait un jeu!", true);

@@ -101,8 +101,9 @@ namespace BuddyApp.Companion
 			// If nothing else touchedc (eye, mouth) validate the other touched
 			if (Time.time - mTimeOtherTouched > 0.5F && mTimeOtherTouched != 0F) {
 
-				mDetectedElement = Detected.TOUCH;
+				//mDetectedElement = Detected.TOUCH;
 				mFacePartTouched = FaceTouch.OTHER;
+				mActionManager.HeadReaction();
 				mTimeOtherTouched = 0F;
             }
 
@@ -112,7 +113,7 @@ namespace BuddyApp.Companion
 				Debug.Log("VOCAL TRIGGERED");
 				mDetectedElement = Detected.TRIGGER;
 			} else if (Input.touchCount > 0 || Input.GetMouseButtonDown(0)) {
-				if (Time.time - mTimeElementTouched > 1F) {
+				if (Time.time - mTimeElementTouched > 0.5F) {
 					mTimeOtherTouched = Time.time;
 				}
 			}
@@ -137,7 +138,7 @@ namespace BuddyApp.Companion
 			mTimeElementTouched = Time.time;
 			//mDetectedElement = Detected.TOUCH;
 			mFacePartTouched = FaceTouch.MOUTH;
-			mActionManager.MouthReaction();
+			mDetectedElement = Detected.TOUCH;
 
 			//Cancel other touch
 			mTimeOtherTouched = 0F;

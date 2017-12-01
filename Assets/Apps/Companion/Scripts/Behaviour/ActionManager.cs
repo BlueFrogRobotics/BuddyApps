@@ -12,8 +12,8 @@ namespace BuddyApp.Companion
 	[RequireComponent(typeof(RoombaNavigation))]
 	public class ActionManager : MonoBehaviour
 	{
-		private int mMouthCounter;
-		private float mLastMouthTime;
+		private int mHeadCounter;
+		private float mLastHeadTime;
 		private int mEyeCounter;
 		private float mLastEyeTime;
 		private float mTimeMood;
@@ -31,9 +31,9 @@ namespace BuddyApp.Companion
 
 		void Start()
 		{
-			mMouthCounter = 0;
+			mHeadCounter = 0;
 			mEyeCounter = 0;
-			mLastMouthTime = 0F;
+			mLastHeadTime = 0F;
 			mLastEyeTime = 0F;
 			Volume = BYOS.Instance.Primitive.Speaker.GetVolume();
 			Roomba = BYOS.Instance.Navigation.Roomba;
@@ -44,13 +44,13 @@ namespace BuddyApp.Companion
 		{
 			//Debug.Log("Mood check: time - lastime, mTimeMood" + (Time.time - mTimeMood) + "    " + mTimeMood );
 			if (Time.time - mTimeMood > 5F && mTimeMood != 0F) {
-				Debug.Log("Mood back to neutral");
+				Debug.Log("Mood  back to neutral");
 				BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
 				mTimeMood = 0F;
-				mMouthCounter = 0;
+				mHeadCounter = 0;
 				mEyeCounter = 0;
 			}
-        }
+		}
 
 		public void StartWander()
 		{
@@ -72,6 +72,7 @@ namespace BuddyApp.Companion
 			if (Roomba.enabled) {
 				StopWander();
 			}
+			ThermalFollow = true;
 			BYOS.Instance.Navigation.Follow<HumanFollow>().Facing();
 
 		}
@@ -88,34 +89,47 @@ namespace BuddyApp.Companion
 			StopThermalFollow();
 		}
 
-		public void MouthReaction()
+		public void HeadReaction()
 		{
-			if (mMouthCounter > 2) {
+			mTimeMood = Time.time;
+			if (Time.time - mLastHeadTime < 5F)
+				mHeadCounter++;
+			else
+				mHeadCounter = 0;
+			mLastHeadTime = Time.time;
+
+			if (mHeadCounter < 2)
+				BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
+			else if (mHeadCounter < 5) {
 				//TODO: play BML instead
-				BYOS.Instance.Interaction.Mood.Set(MoodType.SICK);
+				BYOS.Instance.Interaction.Mood.Set(MoodType.HAPPY);
 				mTimeMood = Time.time;
-			} else {
-				if (Time.time - mLastMouthTime < 5F)
-					mMouthCounter++;
-				else
-					mMouthCounter = 0;
-				mLastMouthTime = Time.time;
+
+			} else if (mHeadCounter > 4) {
+				//TODO: play BML instead
+				BYOS.Instance.Interaction.Mood.Set(MoodType.LOVE);
+				mTimeMood = Time.time;
 			}
 		}
 
 		public void EyeReaction()
 		{
+			Debug.Log("Time.time - mLastEyeTime " + (Time.time - mLastEyeTime));
+			if (Time.time - mLastEyeTime < 5F)
+				mEyeCounter++;
+			else
+				mEyeCounter = 0;
+			mLastEyeTime = Time.time;
 			if (mEyeCounter > 2) {
 				//TODO: play BML instead
-				BYOS.Instance.Interaction.Mood.Set(MoodType.GRUMPY);
+				BYOS.Instance.Interaction.Mood.Set(MoodType.ANGRY);
+				BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
 				mTimeMood = Time.time;
 			} else {
-				Debug.Log("Time.time - mLastEyeTime " + (Time.time - mLastEyeTime));
-				if (Time.time - mLastEyeTime < 5F)
-					mEyeCounter++;
-				else
-					mEyeCounter = 0;
-				mLastEyeTime = Time.time;
+				//TODO: play BML instead
+				BYOS.Instance.Interaction.Mood.Set(MoodType.GRUMPY);
+				BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+				mTimeMood = Time.time;
 			}
 		}
 

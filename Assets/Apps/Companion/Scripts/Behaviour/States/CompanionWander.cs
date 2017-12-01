@@ -98,9 +98,9 @@ namespace BuddyApp.Companion
 			if (!mTrigged) {
 				if (CompanionData.Instance.MovingDesire < 5) {
 					Debug.Log("wander -> IDLE: " + CompanionData.Instance.MovingDesire);
-					iAnimator.SetTrigger("IDLE");
+					Trigger("IDLE");
 				} else if (CompanionData.Instance.InteractDesire > 80 && CompanionData.Instance.MovingDesire < 20) {
-					iAnimator.SetTrigger("LOOKINGFOR");
+					Trigger("LOOKINGFOR");
 				}
 			}
 		}

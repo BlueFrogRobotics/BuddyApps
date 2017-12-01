@@ -203,5 +203,48 @@
                 <string>Qui veut un câlin? [1500] Moi!</string>
             </RandomValues>
         </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>otherquestion</Key>
+            <BaseValue>Autre chose?</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Autre chose?</string>
+                <string>Puis-je faire autre chose?</string>
+                <string>Que puis-je faire d'autre?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>givehour</Key>
+            <BaseValue>Il est [hour] heure</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Au troisième top, il sera exactement [hour] heures, [minute] minutes et [second] secondes [700] top [700] top [700] et top</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>givedate</Key>
+            <BaseValue>Aujourd'hui nous sommes [weekday] [day] [month] [year]</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Aujourd'hui nous sommes [weekday] [day] [month] [year]</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>isaid</Key>
+            <BaseValue>J'ai dit </BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>J'ai dit</string>
+                <string>Je disais</string>
+            </RandomValues>
+        </DictionaryEntry>
     </Entries>
 </LanguageThesaurus>

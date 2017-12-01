@@ -199,5 +199,48 @@
                 <string>I need someone to hug me!</string>
             </RandomValues>
         </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>otherquestion</Key>
+            <BaseValue>Something else?</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Something else?</string>
+                <string>Can I help you any further?</string>
+                <string>Do you have an other request?</string>
+                <string>Do you need something else?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>givehour</Key>
+            <BaseValue>The hour is [hour]</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>After the third beep, it will exactly be [hour] hours, [minute] minutes and [second] seconds [700] beep [700] beep [700] and beep</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>givedate</Key>
+            <BaseValue>Today is [weekday] [day] [month] [year]</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Today is [weekday] [day] [month] [year]</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>isaid</Key>
+            <BaseValue>I said</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I said</string>
+            </RandomValues>
+        </DictionaryEntry>
     </Entries>
 </LanguageThesaurus>

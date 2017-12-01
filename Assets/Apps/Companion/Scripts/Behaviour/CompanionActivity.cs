@@ -12,6 +12,7 @@ namespace BuddyApp.Companion
 		{ 
 			Utils.LogI(LogContext.APP, "On loading...");
 			Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
+			CompanionData.Instance.LastApp = "";
 		}
 
         public override void OnStart()

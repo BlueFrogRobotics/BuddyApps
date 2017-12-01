@@ -33,8 +33,6 @@ namespace BuddyApp.Companion
 	/// </summary>
 	public class VocalHelper : MonoBehaviour
 	{
-		private const float RESET_ERROR_COUNT = 60F;
-
 		/// <summary>
 		///  Authorizes automatic notification display after STT recognition or error. True as default
 		/// </summary>
@@ -50,9 +48,9 @@ namespace BuddyApp.Companion
 		/// <summary>
 		///  Answer given
 		/// </summary>
-		public bool AnswerGiven { get { return mAnswerGiven; } }
+		//public bool AnswerGiven { get { return mAnswerGiven; } }
 
-		private bool mAnswerGiven;
+		//private bool mAnswerGiven;
 
 		private bool mChatBotRequested;
 		private bool mWithNotification;
@@ -61,7 +59,6 @@ namespace BuddyApp.Companion
 		private float mTimerErrorCount;
 		private string mQuestionsFile;
 		private string mSynonymesFile;
-		private string mPreviousAnswer;
 		private bool mActive = false;
 
 		private Dictionary<RequestType, string> mWebsiteHash;
@@ -71,6 +68,7 @@ namespace BuddyApp.Companion
 		private List<string> mAnotherSpeech;
 		private List<string> mAnswersSpeech;
 		private List<string> mBabyphoneSpeech;
+		private List<string> mBehaviourSpeech;
 		private List<string> mCalculationSpeech;
 		private List<string> mCanMoveSpeech;
 		private List<string> mDateSpeech;
@@ -85,6 +83,8 @@ namespace BuddyApp.Companion
 		private List<string> mGuardianSpeech;
 		private List<string> mHeadDownSpeech;
 		private List<string> mHeadUpSpeech;
+		private List<string> mHeadLeftSpeech;
+		private List<string> mHeadRightSpeech;
 		private List<string> mHideSeekSpeech;
 		private List<string> mHourSpeech;
 		private List<string> mICouldntSpeech;
@@ -126,6 +126,8 @@ namespace BuddyApp.Companion
 		private ChatterBot mCleverbot;
 		private ChatterBotSession mCleverbotSession;
 
+		public string Answer { get; private set; }
+
 		/// <summary>
 		/// Use this callback to know the Question type found (as string) 
 		/// </summary>
@@ -138,7 +140,6 @@ namespace BuddyApp.Companion
 			mFace = BYOS.Instance.Interaction.Face;
 			mLED = BYOS.Instance.Primitive.LED;
 			mCurrentLanguage = BYOS.Instance.Language.CurrentLang;
-			mPreviousAnswer = "";
 
 			mChatBotRequested = false;
 			mBuildingAnswer = false;
@@ -176,10 +177,10 @@ namespace BuddyApp.Companion
 
 				mTimerErrorCount += Time.deltaTime;
 
-				if (mTimerErrorCount >= RESET_ERROR_COUNT) {
-					mTimerErrorCount = 0F;
-					mErrorCount = 0;
-				}
+				//if (mTimerErrorCount >= RESET_ERROR_COUNT) {
+				//	mTimerErrorCount = 0F;
+				//	mErrorCount = 0;
+				//}
 
 				//If language has changed, questions and synonyms have to be reloaded to current language
 				if (mCurrentLanguage != BYOS.Instance.Language.CurrentLang) {
@@ -216,6 +217,7 @@ namespace BuddyApp.Companion
 			mAnotherSpeech = new List<string>();
 			mAnswersSpeech = new List<string>();
 			mBabyphoneSpeech = new List<string>();
+			mBehaviourSpeech = new List<string>();
 			mCalculationSpeech = new List<string>();
 			mCanMoveSpeech = new List<string>();
 			mDateSpeech = new List<string>();
@@ -229,6 +231,8 @@ namespace BuddyApp.Companion
 			mGetSpeech = new List<string>();
 			mGuardianSpeech = new List<string>();
 			mHeadDownSpeech = new List<string>();
+			mHeadLeftSpeech = new List<string>();
+			mHeadRightSpeech = new List<string>();
 			mHeadUpSpeech = new List<string>();
 			mHideSeekSpeech = new List<string>();
 			mHourSpeech = new List<string>();
@@ -267,6 +271,7 @@ namespace BuddyApp.Companion
 			FillListSyn("Another", mAnotherSpeech);
 			FillListSyn("Answers", mAnswersSpeech);
 			FillListSyn("Babyphone", mBabyphoneSpeech);
+			FillListSyn("Behaviour", mBehaviourSpeech);
 			FillListSyn("Calculation", mCalculationSpeech);
 			FillListSyn("CanMove", mCanMoveSpeech);
 			FillListSyn("Date", mDateSpeech);
@@ -280,6 +285,8 @@ namespace BuddyApp.Companion
 			FillListSyn("Get", mGetSpeech);
 			FillListSyn("Guardian", mGuardianSpeech);
 			FillListSyn("HeadDown", mHeadDownSpeech);
+			FillListSyn("HeadLeft", mHeadLeftSpeech);
+			FillListSyn("HeadRight", mHeadRightSpeech);
 			FillListSyn("HeadUp", mHeadUpSpeech);
 			FillListSyn("HideSeek", mHideSeekSpeech);
 			FillListSyn("Hour", mHourSpeech);
@@ -314,17 +321,17 @@ namespace BuddyApp.Companion
 			FillListSyn("WantToKnow", mWantToKnowSpeech);
 		}
 
-		private void InitChatBot()
-		{
-			//Pretty self-explanatory
-			if (mCleverbotSession == null && mChatBotRequested) {
-				//Debug.Log("retry chatbot init");
-				if (mChatBotFactory == null)
-					mChatBotFactory = new ChatterBotFactory();
-				mCleverbot = mChatBotFactory.Create(ChatterBotType.CLEVERBOT);
-				mCleverbotSession = mCleverbot.CreateSession();
-			}
-		}
+		//private void InitChatBot()
+		//{
+		//	//Pretty self-explanatory
+		//	if (mCleverbotSession == null && mChatBotRequested) {
+		//		//Debug.Log("retry chatbot init");
+		//		if (mChatBotFactory == null)
+		//			mChatBotFactory = new ChatterBotFactory();
+		//		mCleverbot = mChatBotFactory.Create(ChatterBotType.CLEVERBOT);
+		//		mCleverbotSession = mCleverbot.CreateSession();
+		//	}
+		//}
 
 		private void FillListSyn(string iXmlCode, List<string> iSynList)
 		{
@@ -343,25 +350,25 @@ namespace BuddyApp.Companion
 		/// <summary>
 		/// Start a new dialogue
 		/// </summary>
-		public void StartDialogueWithPhrase()
-		{
-			//Useless ...
-			TTSProcessAndSay("Que puis-je faire pour vous?");
-			//mFace.SetExpression(MoodType.LISTENING);
-			//mLED.SetBodyLight(LEDColor.BLUE_LISTENING);
-			mVocalManager.StartInstantReco();
-		}
+		//public void StartDialogueWithPhrase()
+		//{
+		//	//Useless ...
+		//	//TTSProcessAndSay("Que puis-je faire pour vous?");
+		//	//mFace.SetExpression(MoodType.LISTENING);
+		//	//mLED.SetBodyLight(LEDColor.BLUE_LISTENING);
+		//	mVocalManager.StartInstantReco();
+		//}
 
 		/// <summary>
 		/// Activate the vocal recognition
 		/// </summary>
 		public void Activate()
 		{
-			mAnswerGiven = false;
+			//mAnswerGiven = false;
 			mTimerErrorCount = 0F;
 			mActive = true;
-			BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
-			BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
+			//BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
+			//BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
 		}
 
 		/// <summary>
@@ -369,83 +376,84 @@ namespace BuddyApp.Companion
 		/// </summary>
 		public void DisActivate()
 		{
-			mAnswerGiven = false;
+			//mAnswerGiven = false;
 			mTimerErrorCount = 0F;
 			mActive = false;
-			BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
+			//BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
 		}
 
-		private void TTSProcessAndSay(string iSpeech, bool iStack = false)
-		{
-			string lCorrectedSpeech = iSpeech.Replace("vous", "vou");
-			string[] lSentences = lCorrectedSpeech.Split(new string[] { "[silence]" }, StringSplitOptions.None);
+		//private void TTSProcessAndSay(string iSpeech, bool iStack = false)
+		//{
+		//	string lCorrectedSpeech = iSpeech.Replace("vous", "vou");
+		//	string[] lSentences = lCorrectedSpeech.Split(new string[] { "[silence]" }, StringSplitOptions.None);
 
-			foreach (string lSentence in lSentences) {
-				mTTS.Say(lSentence, iStack);
-				mTTS.Silence(500, true);
-			}
-			mPreviousAnswer = iSpeech;
-		}
+		//	foreach (string lSentence in lSentences) {
+		//		mTTS.Say(lSentence, iStack);
+		//		mTTS.Silence(500, true);
+		//	}
+		//	mPreviousAnswer = iSpeech;
+		//}
 
-		private void OnSpeechRecognition(string iVoiceInput)
-		{
-			mErrorCount = 0;
-			string lLowVoiceInput = iVoiceInput.ToLower();
-			Debug.Log("On Speech Recognition input : " + lLowVoiceInput);
+		//private void OnSpeechRecognition(string iVoiceInput)
+		//{
+		//	mErrorCount = 0;
+		//	string lLowVoiceInput = iVoiceInput.ToLower();
+		//	Debug.Log("On Speech Recognition input : " + lLowVoiceInput);
 
-			if (!SpecialRequest(lLowVoiceInput))
-				BuildGeneralAnswer(lLowVoiceInput);
-		}
+		//	if (!SpecialRequest(lLowVoiceInput))
+		//		BuildGeneralAnswer(lLowVoiceInput);
+		//}
 
-		private void OnPartialRecognition(string iVoiceInput)
-		{
-			mErrorCount = 0;
-			string lLowVoiceInput = iVoiceInput.ToLower();
-			Debug.Log("On Partial Recognition input : " + lLowVoiceInput);
+		//private void OnPartialRecognition(string iVoiceInput)
+		//{
+		//	mErrorCount = 0;
+		//	string lLowVoiceInput = iVoiceInput.ToLower();
+		//	Debug.Log("On Partial Recognition input : " + lLowVoiceInput);
 
-			if (!SpecialRequest(lLowVoiceInput))
-				BuildGeneralAnswer(lLowVoiceInput);
-		}
+		//	if (!SpecialRequest(lLowVoiceInput))
+		//		BuildGeneralAnswer(lLowVoiceInput);
+		//}
 
-		private void ErrorSTT(STTError iError)
-		{
-			if (iError == STTError.ERROR_NO_MATCH || iError == STTError.ERROR_SPEECH_TIMEOUT)
-				return;
+		//private void ErrorSTT(STTError iError)
+		//{
+		//	if (iError == STTError.ERROR_NO_MATCH || iError == STTError.ERROR_SPEECH_TIMEOUT)
+		//		return;
 
-			if (mWithNotification)
-				DisplayNotification("Error on vocal recognition", new Color32(230, 30, 30, 255));
-			++mErrorCount;
+		//	if (mWithNotification)
+		//		DisplayNotification("Error on vocal recognition", new Color32(230, 30, 30, 255));
+		//	++mErrorCount;
 
-			// If too much error (or no answer), ask for answer. If still no answer, get back to IDLE
-			if (mErrorCount == 4) {
-				TTSProcessAndSay("I can't hear you anymore ! [silence] Are you still there ?");
-			} else if (mErrorCount == 6) {
-				TTSProcessAndSay("I am sorry, I can't hear you");
-			} else if (mErrorCount == 1) {
-				string lSentence = "";
+		//	// If too much error (or no answer), ask for answer. If still no answer, get back to IDLE
+		//	if (mErrorCount == 4) {
+		//		TTSProcessAndSay("I can't hear you anymore ! [silence] Are you still there ?");
+		//	} else if (mErrorCount == 6) {
+		//		TTSProcessAndSay("I am sorry, I can't hear you");
+		//	} else if (mErrorCount == 1) {
+		//		string lSentence = "";
 
-				switch (iError) {
-					case STTError.ERROR_AUDIO: lSentence = "There is a microphone issue !"; break;
-					case STTError.ERROR_NETWORK: lSentence = "There is a connection issue !"; break;
-					case STTError.ERROR_RECOGNIZER_BUSY: lSentence = "Vocal recognition is already busy !"; break;
-					default: lSentence = RandomString(mDidntUnderstandSpeech); break;
-				}
+		//		switch (iError) {
+		//			case STTError.ERROR_AUDIO: lSentence = "There is a microphone issue !"; break;
+		//			case STTError.ERROR_NETWORK: lSentence = "There is a connection issue !"; break;
+		//			case STTError.ERROR_RECOGNIZER_BUSY: lSentence = "Vocal recognition is already busy !"; break;
+		//			default: lSentence = RandomString(mDidntUnderstandSpeech); break;
+		//		}
 
-				TTSProcessAndSay(lSentence);
-			}
-		}
+		//		TTSProcessAndSay(lSentence);
+		//	}
+		//}
 
-		private bool SpecialRequest(string iSpeech)
+		public bool SpecialRequest(string iSpeech)
 		{
 			//Search for specific keywords and send the type through the delegate QuestionAnalyzed
 			string lType = "";
-
-			if (ContainsOneOf(iSpeech, mQuitSpeech))
+			if (ContainsOneOf(iSpeech, mAcceptSpeech)) {
+				lType = "Accept";
+			} else if (ContainsOneOf(iSpeech, mQuitSpeech))
 				lType = "Quit";
 			else if (ContainsOneOf(iSpeech, mRepeatPlzSpeech)) {
-				TTSProcessAndSay(mPreviousAnswer, true);
-				mAnswerGiven = true;
-				return true;
+				//TTSProcessAndSay(mPreviousAnswer, true);
+				//mAnswerGiven = true;
+				lType = "Repeat";
 			} else if (ContainsOneOf(iSpeech, mRepeatAfterMeSpeech)) {
 				int lKeywordsIndex = WordIndexOfOneOf(iSpeech, mRepeatAfterMeSpeech);
 				string[] lWords = iSpeech.Split(' ');
@@ -455,9 +463,24 @@ namespace BuddyApp.Companion
 					for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
 						lSentenceToRepeat += lWords[j] + " ";
 				}
-				TTSProcessAndSay(lSentenceToRepeat, true);
-				mAnswerGiven = true;
-				return true;
+				lType = "Answer";
+				Answer = lSentenceToRepeat;
+				//TTSProcessAndSay(lSentenceToRepeat, true);
+				//mAnswerGiven = true;
+			} else if (ContainsOneOf(iSpeech, mBehaviourSpeech)) {
+				int lKeywordsIndex = WordIndexOfOneOf(iSpeech, mBehaviourSpeech);
+				string[] lWords = iSpeech.Split(' ');
+				string lBML = "";
+
+				if (lKeywordsIndex != -1 && lKeywordsIndex != lWords.Length) {
+					//Take just the next word
+					//for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
+					lBML = lWords[lKeywordsIndex + 1];
+				}
+				lType = "BML";
+				Answer = lBML;
+				//TTSProcessAndSay(lSentenceToRepeat, true);
+				//mAnswerGiven = true;
 			} else if (ContainsOneOf(iSpeech, mMeteoSpeech)) {
 				lType = "Weather";
 				//We search for the location of the weather request
@@ -494,6 +517,10 @@ namespace BuddyApp.Companion
 				lType = "DontMove";
 			else if (ContainsOneOf(iSpeech, mHeadDownSpeech))
 				lType = "HeadDown";
+			else if (ContainsOneOf(iSpeech, mHeadLeftSpeech))
+				lType = "HeadLeft";
+			else if (ContainsOneOf(iSpeech, mHeadRightSpeech))
+				lType = "HeadRight";
 			else if (ContainsOneOf(iSpeech, mHeadUpSpeech))
 				lType = "HeadUp";
 			else if (ContainsOneOf(iSpeech, mVolumeDownSpeech))
@@ -502,14 +529,14 @@ namespace BuddyApp.Companion
 				lType = "VolumeUp";
 			else if (ContainsOneOf(iSpeech, mAlarmSpeech))
 				lType = "Alarm";
-			else if (ContainsOneOf(iSpeech, mQuizzSpeech))
-				lType = "Quizz";
+			//else if (ContainsOneOf(iSpeech, mQuizzSpeech))
+			//	lType = "Quizz";
 			else if (ContainsOneOf(iSpeech, mCalculationSpeech))
 				lType = "Calcul";
 			else if (ContainsOneOf(iSpeech, mMemorySpeech))
 				lType = "Memory";
-			else if (ContainsOneOf(iSpeech, mBabyphoneSpeech))
-				lType = "Babyphone";
+			//else if (ContainsOneOf(iSpeech, mBabyphoneSpeech))
+			//	lType = "Babyphone";
 			else if (ContainsOneOf(iSpeech, mFreezeDanceSpeech))
 				lType = "FreezeDance";
 			else if (ContainsOneOf(iSpeech, mGuardianSpeech))
@@ -518,55 +545,64 @@ namespace BuddyApp.Companion
 				lType = "IOT";
 			else if (ContainsOneOf(iSpeech, mJukeboxSpeech))
 				lType = "Jukebox";
-			else if (ContainsOneOf(iSpeech, mRecipeSpeech))
-				lType = "Recipe";
+			//else if (ContainsOneOf(iSpeech, mRecipeSpeech))
+			//	lType = "Recipe";
 			else if (ContainsOneOf(iSpeech, mRLGLSpeech))
 				lType = "RLGL";
-			else if (ContainsOneOf(iSpeech, mHideSeekSpeech))
-				lType = "HideSeek";
+			//else if (ContainsOneOf(iSpeech, mHideSeekSpeech))
+			//	lType = "HideSeek";
 			else if (ContainsOneOf(iSpeech, mPoseSpeech))
 				lType = "Pose";
 			else if (ContainsOneOf(iSpeech, mPhotoSpeech))
 				lType = "Photo";
 			else if (ContainsOneOf(iSpeech, mStorySpeech))
 				lType = "Story";
-			else if (ContainsOneOf(iSpeech, mThanksSpeech))
-				TTSProcessAndSay(RandomString(mURWelcomeSpeech));
-			else if (ContainsOneOf(iSpeech, mDateSpeech))
-				TTSProcessAndSay("Today, we are the  " + DateTime.Now.Day +
-					" " + DateTime.Now.Month +
-					" " + DateTime.Now.Year, true);
-			else if (ContainsOneOf(iSpeech, mHourSpeech)) {
-				TTSProcessAndSay("After the third beep, it will exactly be " +
-					DateTime.Now.Hour + " hours " +
-					DateTime.Now.Minute + " minutes and " +
-					DateTime.Now.Second + " seconds ", true);
-				mTTS.Silence(1000, true);
-				TTSProcessAndSay("beep", true);
-				mTTS.Silence(1000, true);
-				TTSProcessAndSay("beep", true);
-				mTTS.Silence(1000, true);
-				TTSProcessAndSay("and beep", true);
-			} else if (iSpeech.Contains("propose"))
-				lType = Suggest();
-			else if (iSpeech.Contains("cleverbot")) {
-				lType = "Cleverbot";
+			else if (ContainsOneOf(iSpeech, mThanksSpeech)) {
+				//TTSProcessAndSay(RandomString(mURWelcomeSpeech));
+				lType = "Answer";
+				Answer = RandomString(mURWelcomeSpeech);
+			} else if (ContainsOneOf(iSpeech, mDateSpeech)) {
+				lType = "Date";
 
-				if (mChatBotRequested) {
-					TTSProcessAndSay("Cleverbot disabled", true);
-					mChatBotRequested = false;
-				} else {
-					TTSProcessAndSay("Cleverbot enabled", true);
-					mChatBotRequested = true;
-					InitChatBot();
-				}
-			} else
-				return false;
+				//TTSProcessAndSay("Today, we are the  " + DateTime.Now.Day +
+				//" " + DateTime.Now.Month +
+				//		" " + DateTime.Now.Year, true);
+			} else if (ContainsOneOf(iSpeech, mHourSpeech)) {
+				lType = "Hour";
+				//TTSProcessAndSay("After the third beep, it will exactly be " +
+				//	DateTime.Now.Hour + " hours " +
+				//	DateTime.Now.Minute + " minutes and " +
+				//	DateTime.Now.Second + " seconds ", true);
+				//mTTS.Silence(1000, true);
+				//TTSProcessAndSay("beep", true);
+				//mTTS.Silence(1000, true);
+				//TTSProcessAndSay("beep", true);
+				//mTTS.Silence(1000, true);
+				//TTSProcessAndSay("and beep", true);
+			} else if (iSpeech.Contains("propose"))
+				//lType = Suggest();
+				lType = "propose";
+			//else if (iSpeech.Contains("cleverbot")) {
+			//	lType = "Cleverbot";
+
+			//	if (mChatBotRequested) {
+			//		TTSProcessAndSay("Cleverbot disabled", true);
+			//		mChatBotRequested = false;
+			//	} else {
+			//		TTSProcessAndSay("Cleverbot enabled", true);
+			//		mChatBotRequested = true;
+			//		InitChatBot();
+			//	}
+			else {
+				lType = "Answer";
+				Answer = BuildGeneralAnswer(iSpeech);
+			}
+
 			OnQuestionTypeFound(lType);
 			return true;
 		}
 
-		private void BuildGeneralAnswer(string iData)
+		private string BuildGeneralAnswer(string iData)
 		{
 			//In case there is no special keyword, look through the pre-answered questions from the question file
 
@@ -574,9 +610,6 @@ namespace BuddyApp.Companion
 			//Debug.Log("BuildGeneralAnswer - ponctu " + lFormatedData);
 			string lAnswer = "";
 
-			if (ContainsOneOf(lFormatedData, mAcceptSpeech)) {
-				//TTSProcessAndSay(RandomString(mAcceptSpeech) + " J'écoute votre " + RandomString(mQuestionSpeech) + " ?", true);
-			} else {
 				string[] lWords = lFormatedData.Split(' ');
 				//Debug.Log("Looking for input " + lFormatedData);
 
@@ -618,25 +651,23 @@ namespace BuddyApp.Companion
 							break;
 						}
 					}
-					mAnswerGiven = true;
 				}
 
-				if (string.IsNullOrEmpty(lAnswer)) {
-					if (!mChatBotRequested || mCleverbotSession == null) {
-						lAnswer = RandomString(mSorrySpeech) + " " +
-							RandomString(mICouldntSpeech) + " " +
-							RandomString(mGetSpeech) + " " +
-							RandomString(mAnswersSpeech);
-						OnQuestionTypeFound("");
-						Debug.Log("CleverBot : Not activated with answer : " + lAnswer);
-					} else {
-						lAnswer = mCleverbotSession.Think(iData);
-						Debug.Log("CleverBot answer : " + lAnswer);
-					}
-				}
+				//if (string.IsNullOrEmpty(lAnswer)) {
+				//	if (!mChatBotRequested || mCleverbotSession == null) {
+				//		lAnswer = RandomString(mSorrySpeech) + " " +
+				//			RandomString(mICouldntSpeech) + " " +
+				//			RandomString(mGetSpeech) + " " +
+				//			RandomString(mAnswersSpeech);
+				//		OnQuestionTypeFound("");
+				//		Debug.Log("CleverBot : Not activated with answer : " + lAnswer);
+				//	} else {
+				//		lAnswer = mCleverbotSession.Think(iData);
+				//		Debug.Log("CleverBot answer : " + lAnswer);
+				//	}
+				//}
 
-				TTSProcessAndSay(lAnswer, true);
-			}
+				return lAnswer;
 		}
 
 		private IEnumerator BuildWeatherAnswer(string iData)
@@ -751,7 +782,7 @@ namespace BuddyApp.Companion
 				lFinalSentence = RandomString(mTempSpeech) + " " + loutValue.ToString() + " " + RandomString(mDegreesCSpeech);
 				StartCoroutine(DisplayWeatherNot(loutValue, iData, lInfos));
 			}
-			TTSProcessAndSay(lFinalSentence);
+			Answer = lFinalSentence;
 			mBuildingAnswer = false;
 		}
 
@@ -822,7 +853,8 @@ namespace BuddyApp.Companion
 			}
 
 			mBuildingAnswer = false;
-			TTSProcessAndSay(lAnswer);
+
+			Answer = lAnswer;
 		}
 
 		private IEnumerator MakeRequest(RequestType iType, string iKeyword, Dictionary<string, string> iHeader, Action<string> ioResult)
@@ -854,45 +886,45 @@ namespace BuddyApp.Companion
 															iInfo);
 		}
 
-		private string Suggest()
-		{
-			if (UnityEngine.Random.value > 0.4)
-				return SuggestGame();
-			else if (UnityEngine.Random.value > 0.2) {
-				//TTSProcessAndSay("J'ai envie de te prendre en photo!", true);
-				return "Photo";
-				//link.animator.SetTrigger("Photo");
-			} else {
-				//TTSProcessAndSay("J'adore faire la star, prends moi en photo!", true);
-				return "Pose";
-				//link.animator.SetTrigger("Pose");
-			}
-		}
+		//private string Suggest()
+		//{
+		//	if (UnityEngine.Random.value > 0.4)
+		//		return SuggestGame();
+		//	else if (UnityEngine.Random.value > 0.2) {
+		//		//TTSProcessAndSay("J'ai envie de te prendre en photo!", true);
+		//		return "Photo";
+		//		//link.animator.SetTrigger("Photo");
+		//	} else {
+		//		//TTSProcessAndSay("J'adore faire la star, prends moi en photo!", true);
+		//		return "Pose";
+		//		//link.animator.SetTrigger("Pose");
+		//	}
+		//}
 
-		private string SuggestGame()
-		{
-			if (UnityEngine.Random.value > 0.8) {
-				//TTSProcessAndSay("J'ai envie de poser des questions! Allez, faisons un quizz!", true);
-				return "Quizz";
-				//link.animator.SetTrigger("Quizz");
-			} else if (UnityEngine.Random.value > 0.6) {
-				//TTSProcessAndSay("J'ai envie de jouer! Faisons le test de mémoire!", true);
-				return "Memory";
-				//link.animator.SetTrigger("Memory");
-			} else if (UnityEngine.Random.value > 0.4) {
-				//TTSProcessAndSay("J'ai envie de tester tes facultés cognitives, faisons des calculs!", true);
-				return "Calcul";
-				//link.animator.SetTrigger("Calcul");
-			} else if (UnityEngine.Random.value > 0.2) {
-				//TTSProcessAndSay("J'adore le jeu des couleurs, allez, faisons une partie!", true);
-				return "Colors";
-				//link.animator.SetTrigger("Colors");
-			} else {
-				//TTSProcessAndSay("Allez, faisons un jeu ensemble !", true);
-				return "Games";
-				//link.animator.SetTrigger("Games");
-			}
-		}
+		//private string SuggestGame()
+		//{
+		//	if (UnityEngine.Random.value > 0.8) {
+		//		//TTSProcessAndSay("J'ai envie de poser des questions! Allez, faisons un quizz!", true);
+		//		return "Quizz";
+		//		//link.animator.SetTrigger("Quizz");
+		//	} else if (UnityEngine.Random.value > 0.6) {
+		//		//TTSProcessAndSay("J'ai envie de jouer! Faisons le test de mémoire!", true);
+		//		return "Memory";
+		//		//link.animator.SetTrigger("Memory");
+		//	} else if (UnityEngine.Random.value > 0.4) {
+		//		//TTSProcessAndSay("J'ai envie de tester tes facultés cognitives, faisons des calculs!", true);
+		//		return "Calcul";
+		//		//link.animator.SetTrigger("Calcul");
+		//	} else if (UnityEngine.Random.value > 0.2) {
+		//		//TTSProcessAndSay("J'adore le jeu des couleurs, allez, faisons une partie!", true);
+		//		return "Colors";
+		//		//link.animator.SetTrigger("Colors");
+		//	} else {
+		//		//TTSProcessAndSay("Allez, faisons un jeu ensemble !", true);
+		//		return "Games";
+		//		//link.animator.SetTrigger("Games");
+		//	}
+		//}
 
 		private bool ContainsOneOf(string iSpeech, List<string> iListSpeech)
 		{
