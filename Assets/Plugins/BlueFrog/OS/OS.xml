@@ -1208,6 +1208,22 @@
             This class contains all the navigation components (Exploration, Patrol, go to position...)
             </summary>
         </member>
+        <member name="T:Buddy.RandomWalk">
+            <summary>
+            Random walk animation based on a mood type.
+            </summary>
+        </member>
+        <member name="M:Buddy.RandomWalk.StartWander(Buddy.MoodType)">
+            <summary>
+            Start wandering around.
+            </summary>
+            <param name="iMood">The mood that should be expressed through the motion.</param>
+        </member>
+        <member name="M:Buddy.RandomWalk.StopWander">
+            <summary>
+            Stop wandering around.
+            </summary>
+        </member>
         <member name="T:Buddy.RoombaNavigation">
             <summary>
             Ultra basic random navigation for navigation tests
@@ -1295,6 +1311,29 @@
             </summary>
             <param name="iDirection">The orientation in degrees</param>
         </member>
+        <member name="T:Buddy.FacialDetectionRework">
+            <summary>
+            Tracker that tracks the position of a moving object 
+            </summary>
+            <summary>
+            Detect moving points in frame
+            </summary>
+        </member>
+        <member name="M:Buddy.FacialDetectionRework.InitImpl(System.Int32@,System.Single@)">
+            <summary>
+            Init the movement tracker
+            </summary>
+            <param name="ioOutputType">The output type</param>
+            <param name="ioDelay">Refresh time</param>
+            
+        </member>
+        <member name="M:Buddy.FacialDetectionRework.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D)">
+            <summary>
+            Process the algorithm
+            </summary>
+            <param name="iInputFrameMat">The input frame as Matrix</param>
+            <param name="iInputFrameTexture">The inout frame as Texture</param>
+        </member>
         <member name="T:Buddy.Perception">
             <summary>
             This class contains all the robot perception features (Localization, Face tracking, GoogleCloudVision, Detectors...)
@@ -1366,6 +1405,11 @@
         <member name="P:Buddy.Perception.TensorFlow">
             <summary>
             Feature to make prediction on available models
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.FaceDetect">
+            <summary>
+            Feature to detect face
             </summary>
         </member>
         <member name="M:Buddy.TensorFlowClassifier.ConvertToGrayscale(OpenCVUnity.Mat,System.Int32,System.Int32)">
@@ -3312,6 +3356,11 @@
             Tells wether STT Recognition has been triggered or not.
             </summary>
         </member>
+        <member name="P:Buddy.VocalManager.DisplayNotification">
+            <summary>
+            Tells if a notification should be displayed after a successful recognition.
+            </summary>
+        </member>
         <member name="P:Buddy.VocalManager.StartListenBehaviour">
             <summary>
             Action will be called when STT starts listening
@@ -3364,6 +3413,15 @@
             <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
             the method restarts the trigger mode after instant recognition</param>
             </summary>
+        </member>
+        <member name="M:Buddy.VocalManager.StartInstantReco(Buddy.STTStringCallback,Buddy.STTErrorCallback,System.Boolean)">
+            <summary>
+            Stops Trigger Mode and immediately starts STT request for instant listening.
+            </summary>
+            <param name="iOnEndReco">The End recognition callback.</param>
+            <param name="iOnError">The error callback.</param>
+            <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
+            the method restarts the trigger mode after instant recognition</param>
         </member>
         <member name="M:Buddy.VocalManager.AsVocalInput(System.String)">
             <summary>
@@ -4279,6 +4337,16 @@
         <member name="F:Buddy.StimulusEvent.MOVING">
             <summary>
             Buddy moving
+            </summary>
+        </member>
+        <member name="F:Buddy.StimulusEvent.HEAD_FORCED_SOFT">
+            <summary>
+            Head is forced.
+            </summary>
+        </member>
+        <member name="F:Buddy.StimulusEvent.HEAD_FORCED_HARD">
+            <summary>
+            Head is forced harder.
             </summary>
         </member>
         <member name="T:Buddy.Stimuli">
