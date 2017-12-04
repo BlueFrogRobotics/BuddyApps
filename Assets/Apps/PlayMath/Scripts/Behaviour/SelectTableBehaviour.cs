@@ -3,14 +3,19 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Buddy;
+
 namespace BuddyApp.PlayMath{
     public class SelectTableBehaviour : AnimationSyncBehaviour {
 
         [SerializeField]
         private Animator mPlayMathAnimator;
 
+        private Text mTitleTop;
+
         public SelectTableBehaviour()
         {
+            mTitleTop = GameObject.Find("UI/Set_Table/Top_UI/Title_Top").GetComponent<Text>();
         }
 
         public void OnClick(BaseEventData data)
@@ -26,6 +31,10 @@ namespace BuddyApp.PlayMath{
 
         public void OnClickGoToMenu() {
             mPlayMathAnimator.SetTrigger("BackToMenu");
+        }
+
+        public void TranslateUI() {
+            mTitleTop.text = BYOS.Instance.Dictionary.GetString("settabletitle").ToUpper();
         }
     }
 }

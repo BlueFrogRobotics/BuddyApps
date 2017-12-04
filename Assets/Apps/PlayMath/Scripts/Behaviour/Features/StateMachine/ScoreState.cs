@@ -15,6 +15,8 @@ namespace BuddyApp.PlayMath{
 			mScoreAnimator = GameObject.Find("UI/EndGame_Score").GetComponent<Animator>();
 			mScoreAnimator.SetTrigger("open");
 
+            mScoreAnimator.gameObject.GetComponent<ScoreBehaviour>().TranslateUI();
+
             GameObject.Find("UI/EndGame_Score").GetComponent<ScoreBehaviour>().DisplayScore();
         }
 

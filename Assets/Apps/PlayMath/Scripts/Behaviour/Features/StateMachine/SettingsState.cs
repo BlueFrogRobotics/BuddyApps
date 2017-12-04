@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using Buddy;
+using UnityEngine.UI;
 
 namespace BuddyApp.PlayMath{
     public class SettingsState : AnimatorSyncState {
@@ -18,6 +17,8 @@ namespace BuddyApp.PlayMath{
             mPreviousStateBehaviours.Add(GameObject.Find("UI/Menu").GetComponent<MainMenuBehaviour>());
 
             mIsOpen = false;
+
+            mSettingsAnimator.gameObject.GetComponent<SettingsBehaviour>().TranslateUI();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

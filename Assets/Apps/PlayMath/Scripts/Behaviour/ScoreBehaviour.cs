@@ -30,8 +30,6 @@ namespace BuddyApp.PlayMath{
         {
             mTitleTop = this.gameObject.transform.Find("Top_UI/Title_Top").GetComponent<Text>();
             mShare = this.gameObject.transform.Find("Bottom_UI/Button_Share/Text").GetComponent<Text>();
-
-            TranslateUI();
         }
 
         public void DisplayScore()
@@ -99,7 +97,7 @@ namespace BuddyApp.PlayMath{
             lDisplay.transform.SetParent(mViewportContent.transform,false);
         }
 
-        private void TranslateUI()
+        public void TranslateUI()
         {
             mShare.text = BYOS.Instance.Dictionary.GetString("sharelabel").ToUpper();
         }

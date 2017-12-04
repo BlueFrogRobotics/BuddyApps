@@ -25,11 +25,9 @@ namespace BuddyApp.PlayMath{
             mPlayButton = this.gameObject.transform.Find("Middle_UI/Button_Play/Text").GetComponent<Text>();
             mScoresButton = this.gameObject.transform.Find("Middle_UI/Button_Scores/Text").GetComponent<Text>();
             mCertifButton = this.gameObject.transform.Find("Middle_UI/Button_Certificate/Text").GetComponent<Text>();
-
-            TranslateUI();
 		}
 
-        private void TranslateUI(){
+        public void TranslateUI(){
             mTitleTop.text = BYOS.Instance.Dictionary.GetString("menutitle").ToUpper();
             mTablesButton.text = BYOS.Instance.Dictionary.GetString("tablelabel").ToUpper();
             mSettingsButton.text = BYOS.Instance.Dictionary.GetString("settingslabel").ToUpper();

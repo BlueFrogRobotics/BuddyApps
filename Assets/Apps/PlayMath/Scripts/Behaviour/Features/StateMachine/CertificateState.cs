@@ -17,6 +17,7 @@ namespace BuddyApp.PlayMath{
 			mCertificateAnimator.SetTrigger("open");
 
             mCertificateBehaviour = GameObject.Find("UI/EndGame_Certificate").GetComponent<CertificateBehaviour>();
+            mCertificateBehaviour.TranslateUI();
             mCertificateBehaviour.SetCertificate();
         }
 

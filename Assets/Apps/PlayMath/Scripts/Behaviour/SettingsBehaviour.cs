@@ -41,13 +41,11 @@ namespace BuddyApp.PlayMath{
             mDifficultyLabel = this.gameObject.transform.Find("Middle_UI/Content/Text_level").GetComponent<Text>();
             mResetScores = this.gameObject.transform.Find("Bottom_UI/Button_Reset/Text").GetComponent<Text>();
 
-            TranslateUI();
-
 			BindOperands();
 			BindStars();
 		}
 
-        private void TranslateUI()
+        public void TranslateUI()
         {
             mTitleTop.text = BYOS.Instance.Dictionary.GetString("settingstitle").ToUpper();
             mDifficultyLabel.text = BYOS.Instance.Dictionary.GetString("difficultylabel").ToUpper();

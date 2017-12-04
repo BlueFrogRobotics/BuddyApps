@@ -11,9 +11,6 @@ namespace BuddyApp.PlayMath{
 
         private Animator mSetTableAnimator;
 
-        private Text mTitleTop;
-        private Text mGoToMenu;
-
         private bool mIsOpen;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -24,7 +21,7 @@ namespace BuddyApp.PlayMath{
 
             mIsOpen = false;
 
-            TranslateUI();
+            mSetTableAnimator.gameObject.GetComponent<SelectTableBehaviour>().TranslateUI();
             SetTablesStarProgress();
         }
 
@@ -52,15 +49,6 @@ namespace BuddyApp.PlayMath{
         //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         //
         //}
-
-        private void TranslateUI()
-        {
-            mTitleTop = GameObject.Find("UI/Set_Table/Top_UI/Title_Top").GetComponent<Text>();
-            mGoToMenu = GameObject.Find("UI/Set_Table/Bottom_UI/Button_Menu/Text").GetComponent<Text>();
-
-            mTitleTop.text = BYOS.Instance.Dictionary.GetString("settabletitle").ToUpper();
-            mGoToMenu.text = BYOS.Instance.Dictionary.GetString("gotomenulabel").ToUpper();
-        }
 
         private void SetTablesStarProgress()
         {

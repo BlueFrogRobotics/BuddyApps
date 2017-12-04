@@ -39,8 +39,6 @@ namespace BuddyApp.PlayMath{
                 "Middle_UI/Background_Mask/Certificate/Texts/Text_Score").GetComponent<Text>();
             
             mShare = this.gameObject.transform.Find("Bottom_UI/Button_Share/Text").GetComponent<Text>();
-
-            TranslateUI();
         }
 
         public void SetCertificate() {
@@ -82,7 +80,7 @@ namespace BuddyApp.PlayMath{
 			mPlayMathAnimator.SetTrigger("Play");
 		}
 
-        private void TranslateUI() {
+        public void TranslateUI() {
             mTitleTop.text = BYOS.Instance.Dictionary.GetString("certificatetitle");
             mShare.text = BYOS.Instance.Dictionary.GetString("sharelabel").ToUpper();
         }
