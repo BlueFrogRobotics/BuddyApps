@@ -23,9 +23,7 @@ namespace BuddyApp.PlayMath{
         private Text mTextWhat;
         private Text mTextApp;
         private Text mTextScore;
-        private Text mGoToMenu;
         private Text mShare;
-        private Text mReplay;
 
 
    		void Start() {
@@ -40,9 +38,7 @@ namespace BuddyApp.PlayMath{
             mTextScore = this.gameObject.transform.Find(
                 "Middle_UI/Background_Mask/Certificate/Texts/Text_Score").GetComponent<Text>();
             
-            mGoToMenu = this.gameObject.transform.Find("Bottom_UI/Button_Menu/Text").GetComponent<Text>();
             mShare = this.gameObject.transform.Find("Bottom_UI/Button_Share/Text").GetComponent<Text>();
-            mReplay = this.gameObject.transform.Find("Bottom_UI/Button_Replay/Text").GetComponent<Text>();
 
             TranslateUI();
         }
@@ -88,9 +84,7 @@ namespace BuddyApp.PlayMath{
 
         private void TranslateUI() {
             mTitleTop.text = BYOS.Instance.Dictionary.GetString("certificatetitle");
-            mGoToMenu.text = BYOS.Instance.Dictionary.GetString("gotomenulabel").ToUpper();
             mShare.text = BYOS.Instance.Dictionary.GetString("sharelabel").ToUpper();
-            mReplay.text = BYOS.Instance.Dictionary.GetString("replaylabel").ToUpper();
         }
 	}
 }

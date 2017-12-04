@@ -22,18 +22,14 @@ namespace BuddyApp.PlayMath{
         private GameObject mViewportContent;
 
         private Text mTitleTop;
-        private Text mGoToMenu;
         private Text mShare;
-        private Text mReplay;
 
         private int mResultIndex;
 
         void Start()
         {
             mTitleTop = this.gameObject.transform.Find("Top_UI/Title_Top").GetComponent<Text>();
-            mGoToMenu = this.gameObject.transform.Find("Bottom_UI/Button_Menu/Text").GetComponent<Text>();
             mShare = this.gameObject.transform.Find("Bottom_UI/Button_Share/Text").GetComponent<Text>();
-            mReplay = this.gameObject.transform.Find("Bottom_UI/Button_Replay/Text").GetComponent<Text>();
 
             TranslateUI();
         }
@@ -105,9 +101,7 @@ namespace BuddyApp.PlayMath{
 
         private void TranslateUI()
         {
-            mGoToMenu.text = BYOS.Instance.Dictionary.GetString("gotomenulabel").ToUpper();
             mShare.text = BYOS.Instance.Dictionary.GetString("sharelabel").ToUpper();
-            mReplay.text = BYOS.Instance.Dictionary.GetString("replaylabel").ToUpper();
         }
 	}
 }

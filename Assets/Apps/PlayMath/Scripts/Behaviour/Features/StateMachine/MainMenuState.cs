@@ -18,7 +18,7 @@ namespace BuddyApp.PlayMath{
             // Define all the possible previous state behaviours
             mPreviousStateBehaviours.Add(GameObject.Find("UI/Set_Table").GetComponent<SelectTableBehaviour>());
             mPreviousStateBehaviours.Add(GameObject.Find("UI/EndGame_Score").GetComponent<ScoreBehaviour>());
-            mPreviousStateBehaviours.Add(GameObject.Find("UI/Best_Score").GetComponent<BestScoreBehaviour>());
+            //mPreviousStateBehaviours.Add(GameObject.Find("UI/Best_Score").GetComponent<BestScoreBehaviour>());
             mPreviousStateBehaviours.Add(GameObject.Find("UI/EndGame_Certificate").GetComponent<CertificateBehaviour>());
             mPreviousStateBehaviours.Add(GameObject.Find("UI/Settings").GetComponent<SettingsBehaviour>());
 

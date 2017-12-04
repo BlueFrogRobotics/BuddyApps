@@ -42,9 +42,9 @@ namespace BuddyApp.PlayMath{
 			mPlayMathAnimator.SetTrigger("GameSettings");
 		}
 
-		public void OnClickBestScores() {
-			mPlayMathAnimator.SetTrigger("BestScore");
-		}
+		//public void OnClickBestScores() {
+		//	mPlayMathAnimator.SetTrigger("BestScore");
+		//}
 
 		public void OnClickPlay() {
             User.Instance.GameParameters.Table = 0;
