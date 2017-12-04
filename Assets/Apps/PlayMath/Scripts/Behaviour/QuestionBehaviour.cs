@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using Buddy;
 
@@ -81,10 +82,10 @@ namespace BuddyApp.PlayMath{
 			mResult.Equation = lEquation.Text;
 			mResult.CorrectAnswer = lEquation.Answer;
 
-            // Is this question the last ?
             mCountQuestions++;
             mTitleBottom.text = String.Format(mDictionary.GetString("questioniteration"), mCountQuestions, mGameParams.Sequence);
 
+            // Is this question the last ?
 			mResult.Last = (mCountQuestions == mEquationGenerator.Equations.Count);
 
             mTitleTop.text = String.Format(mDictionary.GetString("howmanydoes"), mResult.Equation);

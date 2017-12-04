@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using UnityEngine;
-using Buddy;
 using UnityEngine.UI;
 
 namespace BuddyApp.PlayMath{
@@ -53,8 +52,6 @@ namespace BuddyApp.PlayMath{
 		}
 
 		public void DisplayScore() {
-			Utils.LogI(LogInfo.SUCCESSED, "Scores: " + User.Instance.Scores.ToString());
-
 			CleanViewport();
 
 			User lUser = User.Instance;

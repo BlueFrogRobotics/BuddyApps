@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using Buddy;
+﻿using UnityEngine;
 
 namespace BuddyApp.PlayMath{
     public class MainMenuState : AnimatorSyncState  {

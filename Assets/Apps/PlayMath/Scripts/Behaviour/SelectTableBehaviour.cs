@@ -13,7 +13,7 @@ namespace BuddyApp.PlayMath{
 
         private Text mTitleTop;
 
-        public SelectTableBehaviour()
+        void Start()
         {
             mTitleTop = GameObject.Find("UI/Set_Table/Top_UI/Title_Top").GetComponent<Text>();
         }

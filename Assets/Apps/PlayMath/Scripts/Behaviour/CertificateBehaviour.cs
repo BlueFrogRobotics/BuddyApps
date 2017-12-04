@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +24,6 @@ namespace BuddyApp.PlayMath{
         private Text mTextApp;
         private Text mTextScore;
         private Text mShare;
-
 
    		void Start() {
             mTitleTop = this.gameObject.transform.Find("Top_UI/Title_Top").GetComponent<Text>();
