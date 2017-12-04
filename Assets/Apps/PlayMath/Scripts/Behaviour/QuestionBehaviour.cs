@@ -204,5 +204,9 @@ namespace BuddyApp.PlayMath{
 
             StartCoroutine(EnableSpeechToText());
         }
+
+        public void OnClickGoToMenu() {
+            mPlayMathAnimator.SetTrigger("BackToMenu");
+        }
    	}
 }

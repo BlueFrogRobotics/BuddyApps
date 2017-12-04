@@ -17,6 +17,7 @@ namespace BuddyApp.PlayMath{
             //mPreviousStateBehaviours.Add(GameObject.Find("UI/Best_Score").GetComponent<BestScoreBehaviour>());
             mPreviousStateBehaviours.Add(GameObject.Find("UI/EndGame_Certificate").GetComponent<CertificateBehaviour>());
             mPreviousStateBehaviours.Add(GameObject.Find("UI/Settings").GetComponent<SettingsBehaviour>());
+            mPreviousStateBehaviours.Add(GameObject.Find("UI/Four_Answer").GetComponent<QuestionBehaviour>());
 
             mIsOpen = false;
 
