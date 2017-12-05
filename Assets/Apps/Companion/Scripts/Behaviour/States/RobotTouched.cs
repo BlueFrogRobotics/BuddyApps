@@ -33,10 +33,10 @@ namespace BuddyApp.Companion
 
 				if (CompanionData.Instance.InteractDesire > 80) {
 					//Interaction.TextToSpeech.Say("Hey! Si on faisait un jeu!", true);
-					iAnimator.SetTrigger("PROPOSEGAME");
+					Trigger("PROPOSEGAME");
 				} else {
 					//Interaction.TextToSpeech.Say("Que puis-je pour vous?", true);
-					iAnimator.SetTrigger("VOCALTRIGGERED");
+					Trigger("VOCALTRIGGERED");
 				}
 
 			}

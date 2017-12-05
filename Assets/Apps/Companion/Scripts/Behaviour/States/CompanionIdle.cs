@@ -34,8 +34,6 @@ namespace BuddyApp.Companion
 
 			CompanionData.Instance.Bored = 0;
 
-			Interaction.Mood.Set(MoodType.NEUTRAL);
-
 			mLastBMLTime = 0F;
 			mTimeIdle = 0F;
 			mPreviousTime = 0F;
@@ -98,6 +96,7 @@ namespace BuddyApp.Companion
 						break;
 
 					case Detected.TOUCH:
+						Debug.Log("User Detected robot touched");
 						Trigger("ROBOTTOUCHED");
 						break;
 
@@ -126,7 +125,8 @@ namespace BuddyApp.Companion
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mTimeIdle = 0F;
-			
+
+			Debug.Log("Idle exit");
 			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
 			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.REGULAR_ACTIVATION_MINUTE, OnMinuteActivation);
 

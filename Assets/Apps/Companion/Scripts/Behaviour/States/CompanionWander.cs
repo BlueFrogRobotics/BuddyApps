@@ -78,6 +78,7 @@ namespace BuddyApp.Companion
 					} else if (CompanionData.Instance.InteractDesire > 30) {
 						//Stop wandering and go to thermal follow
 						mTimeThermal = Time.time;
+						mDetectionManager.mDetectedElement = Detected.NONE;
 						mActionManager.StartThermalFollow();
 					}
 					break;
@@ -119,10 +120,10 @@ namespace BuddyApp.Companion
 		void OnRandomMinuteActivation()
 		{
 			// Buddy wants more and more to interact
-			CompanionData.Instance.InteractDesire += 1;
+			CompanionData.Instance.InteractDesire += 10;
 
 			// Buddy is moving around, so he wants less and less to move around
-			CompanionData.Instance.MovingDesire -= 2;
+			CompanionData.Instance.MovingDesire -= 10;
 		}
 
 	}

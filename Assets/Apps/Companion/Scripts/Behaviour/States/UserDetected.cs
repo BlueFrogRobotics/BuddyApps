@@ -21,7 +21,7 @@ namespace BuddyApp.Companion
 			CompanionData.Instance.InteractDesire = 0;
 			CompanionData.Instance.ChargeAsked = false;
 			mState = GetComponentInGameObject<Text>(0);
-
+			Interaction.BMLManager.LoadAppBML();
 			mDetectionManager = GetComponent<DetectionManager>();
 
 			Utils.LogI(LogContext.APP, "Start UserD");
@@ -96,6 +96,7 @@ namespace BuddyApp.Companion
 						break;
 
 					case Detected.TOUCH:
+						Debug.Log("User Detected robot touched");
 						Trigger("ROBOTTOUCHED");
 						break;
 
@@ -109,6 +110,7 @@ namespace BuddyApp.Companion
 
 					case Detected.HUMAN_RGB & Detected.THERMAL:
 						mTimeHumanDetected = 0F;
+						mDetectionManager.mDetectedElement = Detected.NONE;
 						break;
 
 					default:
@@ -120,6 +122,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			Debug.Log("User detected exit");
 			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 	}

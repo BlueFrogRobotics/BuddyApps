@@ -46,6 +46,7 @@ namespace BuddyApp.Companion
 			BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
 			mNeedListen = true;
 			mTime = 0F;
+			SayKey("ilisten");
 		}
 
 
@@ -65,9 +66,11 @@ namespace BuddyApp.Companion
 			if (!mError) {
 				mError = true;
 				// Ask repeat
+				SayKey("ilisten");
 				mNeedListen = true;
 			} else {
 				// else go away
+				Debug.Log("2cd error, go away");
 				Trigger("IDLE");
 			}
 		}
@@ -78,10 +81,12 @@ namespace BuddyApp.Companion
 			if (Interaction.TextToSpeech.HasFinishedTalking) {
 				if (!mVocalChat.BuildingAnswer && mNeedToGiveAnswer) {
 					//Give answer:
+					Debug.Log("give answer");
 					Say(mVocalChat.Answer);
 					mNeedToGiveAnswer = false;
 					mNeedListen = true;
 				} else if (mNeedListen) {
+					Debug.Log("Vocal instant reco");
 					Interaction.VocalManager.StartInstantReco();
 					mNeedListen = false;
 					mTime = 0F;
@@ -114,9 +119,15 @@ namespace BuddyApp.Companion
 
 			switch (iType) {
 
+
+				case "Accept":
+					Debug.Log("Accept VocalTrigger");
+					SayKey("ilisten");
+					mNeedListen = true;
+					break;
+
 				case "Alarm":
 					StartApp("Alarm");
-					mNeedListen = true;
 					break;
 
 				case "Answer":
@@ -134,7 +145,7 @@ namespace BuddyApp.Companion
 					StartApp("BabyApp");
 					break;
 
-				case "Behaviour":
+				case "BML":
 					Debug.Log("Playing BML " + mVocalChat.Answer);
 					Interaction.BMLManager.LaunchByID(mVocalChat.Answer);
 					break;
@@ -149,13 +160,15 @@ namespace BuddyApp.Companion
 					break;
 
 				case "Date":
-					if (BYOS.Instance.Language.CurrentLang == Language.FR)
-						lSentence = Dictionary.GetRandomString("givedate").Replace("[weekday]", DateTime.Now.ToString("ddd", new CultureInfo("fr-FR")));
-					else
-						lSentence = Dictionary.GetRandomString("givedate").Replace("[weekday]", DateTime.Now.ToString("ddd", new CultureInfo("en-EN")));
+					if (BYOS.Instance.Language.CurrentLang == Language.FR) {
+						lSentence = Dictionary.GetRandomString("givedate").Replace("[weekday]", DateTime.Now.ToString("dddd", new CultureInfo("fr-FR")));
+						lSentence = lSentence.Replace("[month]", "" + DateTime.Now.ToString("MMMM", new CultureInfo("fr-FR")));
+					} else {
+						lSentence = Dictionary.GetRandomString("givedate").Replace("[weekday]", DateTime.Now.ToString("dddd", new CultureInfo("en-EN")));
+						lSentence = lSentence.Replace("[month]", "" + DateTime.Now.ToString("MMMM", new CultureInfo("en-EN")));
+					}
 
 					lSentence = lSentence.Replace("[day]", "" + DateTime.Now.Day);
-					lSentence = lSentence.Replace("[month]", "" + DateTime.Now.Month);
 					lSentence = lSentence.Replace("[year]", "" + DateTime.Now.Year);
 					Say(lSentence);
 					mNeedListen = true;
@@ -183,7 +196,7 @@ namespace BuddyApp.Companion
 				case "FreezeDance":
 					CompanionData.Instance.InteractDesire -= 50;
 					StartApp("FreezeDanceApp");
-                    break;
+					break;
 
 				case "Guardian":
 					CompanionData.Instance.InteractDesire -= 20;
@@ -227,7 +240,7 @@ namespace BuddyApp.Companion
 				case "Jukebox":
 					CompanionData.Instance.InteractDesire -= 20;
 					StartApp("JukeboxApp_V2");
-                    break;
+					break;
 
 				case "Memory":
 					CompanionData.Instance.InteractDesire -= 50;
@@ -320,10 +333,14 @@ namespace BuddyApp.Companion
 		{
 			mLastBuddySpeech = iSpeech;
 			Interaction.TextToSpeech.Say(iSpeech, iQueue);
-        }
+		}
 
+		private void SayKey(string iSpeech, bool iQueue = false)
+		{
+			Say(Dictionary.GetRandomString(iSpeech), iQueue);
+		}
 
-	private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
+		private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
 		{
 			iSpeech = iSpeech.ToLower();
 			for (int i = 0; i < iListSpeech.Length; ++i) {

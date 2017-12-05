@@ -70,6 +70,9 @@ namespace BuddyApp.Companion
 		public bool IsDetectingThermal { get; set; }
 		public bool IsDetectingMovement { get; set; }
 		public bool IsDetectingKidnapping { get; set; }
+		public bool IsDetectingRGBHuman { get; set; }
+		public bool IsDetectingBattery { get; set; }
+		public bool IsDetectingTrigger { get; set; }
 		//public bool IsDetectingSound { get; set; }
 
 		void Start()
@@ -105,18 +108,21 @@ namespace BuddyApp.Companion
 				mFacePartTouched = FaceTouch.OTHER;
 				mActionManager.HeadReaction();
 				mTimeOtherTouched = 0F;
-            }
+			}
 
 			if (BYOS.Instance.Primitive.Battery.EnergyLevel < 15 && BYOS.Instance.Primitive.Battery.EnergyLevel > 0.000001)
-				mDetectedElement = Detected.BATTERY;
-			else if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered) {
-				Debug.Log("VOCAL TRIGGERED");
-				mDetectedElement = Detected.TRIGGER;
-			} else if (Input.touchCount > 0 || Input.GetMouseButtonDown(0)) {
-				if (Time.time - mTimeElementTouched > 0.5F) {
-					mTimeOtherTouched = Time.time;
+
+				if (mDetectedElement == Detected.NONE && IsDetectingBattery)
+					mDetectedElement = Detected.BATTERY;
+				else if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered) {
+					Debug.Log("VOCAL TRIGGERED");
+					if (IsDetectingTrigger)
+						mDetectedElement = Detected.TRIGGER;
+				} else if (Input.touchCount > 0 || Input.GetMouseButtonDown(0)) {
+					if (Time.time - mTimeElementTouched > 0.5F) {
+						mTimeOtherTouched = Time.time;
+					}
 				}
-			}
 
 		}
 
@@ -142,7 +148,7 @@ namespace BuddyApp.Companion
 
 			//Cancel other touch
 			mTimeOtherTouched = 0F;
-        }
+		}
 
 		private void RightEyeClicked()
 		{
@@ -176,8 +182,9 @@ namespace BuddyApp.Companion
 		/// </summary>
 		private bool OnThermalDetected(ObjectEntity[] iObject)
 		{
-			Debug.Log("Thermal detection!");
-			mDetectedElement = Detected.THERMAL;
+			//Debug.Log("Thermal detection!");
+			if (mDetectedElement == Detected.NONE && IsDetectingThermal)
+				mDetectedElement = Detected.THERMAL;
 			return true;
 		}
 
@@ -185,7 +192,8 @@ namespace BuddyApp.Companion
 		private bool OnHumanDetected(HumanEntity[] obj)
 		{
 			Debug.Log("Human detection!");
-			mDetectedElement = Detected.HUMAN_RGB;
+			if (mDetectedElement == Detected.NONE && IsDetectingRGBHuman)
+				mDetectedElement = Detected.HUMAN_RGB;
 			return true;
 		}
 
@@ -222,7 +230,8 @@ namespace BuddyApp.Companion
 		/// </summary>
 		private bool OnKidnappingDetected()
 		{
-			mDetectedElement = Detected.KIDNAPPING;
+			if (mDetectedElement == Detected.NONE && IsDetectingKidnapping)
+				mDetectedElement = Detected.KIDNAPPING;
 			return true;
 		}
 
@@ -236,7 +245,7 @@ namespace BuddyApp.Companion
 			//mNoiseDetection.OnDetect(OnSoundDetected);
 			mThermalDetection.OnDetect(OnThermalDetected, MIN_TEMP);
 			mKidnappingDetection.OnDetect(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
-			mHumanReco.OnDetect(OnHumanDetected, BodyPart.FULL_BODY & BodyPart.FACE & BodyPart.LOWER_BODY & BodyPart.UPPER_BODY);
+			//mHumanReco.OnDetect(OnHumanDetected, BodyPart.FULL_BODY & BodyPart.FACE & BodyPart.LOWER_BODY & BodyPart.UPPER_BODY);
 			mFace.OnClickLeftEye.Add(LeftEyeClicked);
 			mFace.OnClickRightEye.Add(RightEyeClicked);
 			mFace.OnClickMouth.Add(MouthClicked);
