@@ -80,9 +80,7 @@ namespace BuddyApp.PlayMath{
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			mBackgroundAnimator.SetTrigger("open");
-
-			MoodType lLastMood = BYOS.Instance.Interaction.Mood.LastMood;
-			BYOS.Instance.Interaction.Mood.Set(lLastMood);
+            BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
         private void AnnounceResult(string statement)
