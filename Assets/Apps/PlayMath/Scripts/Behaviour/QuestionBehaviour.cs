@@ -170,7 +170,13 @@ namespace BuddyApp.PlayMath{
 
         public void SpeechToTextCallback(string iSpeech)
         {
-            Debug.Log("SpeechToText : " + iSpeech);
+            // times to times, negative sign are textually given in the answer
+            iSpeech = iSpeech.Replace("moins", "-");
+            iSpeech = iSpeech.Replace("minus", "-");
+
+            // if the result is negative, remove potential space between '-' and the number
+            if (iSpeech.Contains("-"))
+                iSpeech = iSpeech.Replace(" ","");
 
             if (mSTTChoices.Contains(iSpeech))
             {
