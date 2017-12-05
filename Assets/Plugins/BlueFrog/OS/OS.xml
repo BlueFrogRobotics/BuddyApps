@@ -3262,7 +3262,7 @@
         </member>
         <member name="P:Buddy.Mood.LastMood">
             <summary>
-            Retrive the last buddy mood
+            Retrieve the last buddy mood
             </summary>
         </member>
         <member name="M:Buddy.Mood.Set(Buddy.MoodType,System.Boolean,System.Boolean)">
@@ -3587,6 +3587,11 @@
             Sunny weather
             </summary>
         </member>
+        <member name="F:Buddy.WeatherType.CLEAR">
+            <summary>
+            Clear weather
+            </summary>
+        </member>
         <member name="F:Buddy.WeatherType.OVERCAST">
             <summary>
             Overcast weather
@@ -3597,9 +3602,9 @@
             Cloudy weather
             </summary>
         </member>
-        <member name="F:Buddy.WeatherType.PARTIALLY_CLOUDY">
+        <member name="F:Buddy.WeatherType.PARTLY_CLOUDY">
             <summary>
-            Partial Cloudy weather
+            Partly Cloudy weather
             </summary>
         </member>
         <member name="F:Buddy.WeatherType.RAIN">
@@ -3702,6 +3707,11 @@
             The direction of the wind in degree.
             </summary>
         </member>
+        <member name="P:Buddy.WeatherInfo.Rain">
+            <summary>
+            The QPF (Quantitative Preciptation Forecast).
+            </summary>
+        </member>
         <member name="T:Buddy.Weather">
             <summary>
             Weather API of the wished location
@@ -3717,6 +3727,14 @@
             <param name="iLocation">Asked location</param>
             <param name="iCallback">Callback with Weather info</param>
             <param name="iNumberOfInfos">Number of information to be retrieved. Use a value of around 60 to get weather for a week after.</param>
+        </member>
+        <member name="M:Buddy.Weather.HourlyAt(System.String,System.Action{Buddy.WeatherInfo[],Buddy.WeatherError},System.Int32)">
+            <summary>
+            Weather forecast at 8am, 12pm, 4pm and 8pm.
+            </summary>
+            <param name="iLocation">Target location.</param>
+            <param name="iCallback">Callback with weather information.</param>
+            <param name="iNumberOfInfos">Number of informations to be retrieved.</param>
         </member>
         <member name="T:Buddy.SMTP">
             <summary>
