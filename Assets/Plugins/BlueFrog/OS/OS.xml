@@ -977,6 +977,11 @@
             The list of all currently running behaviors.
             </summary>
         </member>
+        <member name="P:Buddy.BMLManager.DonePlaying">
+            <summary>
+            Tells whether all behaviors are done playing.
+            </summary>
+        </member>
         <member name="M:Buddy.BMLManager.LoadAppBML">
             <summary>
             Loads all BML from current App.
@@ -3346,11 +3351,6 @@
             You can also set StartListenBehaviour and StopListenBehaviour.
             </summary>
         </member>
-        <member name="P:Buddy.VocalManager.RecognitionFinished">
-            <summary>
-            Are we in the recognition process (may include error handling) ?
-            </summary>
-        </member>
         <member name="P:Buddy.VocalManager.RecognitionTriggered">
             <summary>
             Tells wether STT Recognition has been triggered or not.
@@ -3407,13 +3407,6 @@
             Open or close the input field window for STT
             </summary>
         </member>
-        <member name="M:Buddy.VocalManager.StartInstantReco(System.Boolean)">
-            <summary>
-            Stop Trigger Mode and immediately starts STT request for instant listening
-            <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
-            the method restarts the trigger mode after instant recognition</param>
-            </summary>
-        </member>
         <member name="M:Buddy.VocalManager.StartInstantReco(Buddy.STTStringCallback,Buddy.STTErrorCallback,System.Boolean)">
             <summary>
             Stops Trigger Mode and immediately starts STT request for instant listening.
@@ -3422,6 +3415,13 @@
             <param name="iOnError">The error callback.</param>
             <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
             the method restarts the trigger mode after instant recognition</param>
+        </member>
+        <member name="M:Buddy.VocalManager.StartInstantReco(System.Boolean)">
+            <summary>
+            Stop Trigger Mode and immediately starts STT request for instant listening
+            <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
+            the method restarts the trigger mode after instant recognition</param>
+            </summary>
         </member>
         <member name="M:Buddy.VocalManager.AsVocalInput(System.String)">
             <summary>
