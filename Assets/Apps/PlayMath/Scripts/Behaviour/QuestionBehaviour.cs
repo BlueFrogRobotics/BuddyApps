@@ -161,8 +161,17 @@ namespace BuddyApp.PlayMath{
             {
                 if (!mLaunchSTTOnce)
                 {
-                    mVocalManager.StartInstantReco();
-                    mLaunchSTTOnce = true;
+                    if (!mVocalManager.RecognitionFinished)
+                    {
+                        // Recognition not finished yet, waiting until it ends cleanly
+                        yield return new WaitUntil(() => mVocalManager.RecognitionFinished);
+                    }
+                    else
+                    {
+                        // Initiating Vocal Manager instance reco
+                        mLaunchSTTOnce = true;
+                        mVocalManager.StartInstantReco(false);
+                    }
                 }
                 yield return null;
             }
@@ -184,6 +193,8 @@ namespace BuddyApp.PlayMath{
                 mElapsedTime = DateTime.Now - mStartTime;
                 ShowResult(iSpeech);
             }
+            else
+                Debug.LogWarning("Speech : given answer not in offered choices, restarting vocal reco asap");
 
             mLaunchSTTOnce = false;
         }
@@ -197,6 +208,7 @@ namespace BuddyApp.PlayMath{
         {
             yield return new WaitUntil(() => mTTS.IsSpeaking);
             mTTS.Stop();
+            mLaunchSTTOnce = false;
         }
 
         private IEnumerator WaitAnnouncement()
