@@ -36,10 +36,19 @@ namespace BuddyApp.PlayMath{
         {
             CleanViewport();
 
-            if (mScore.SuccessPercent() >= 0.75)
+            if (mScore.SuccessPercent() == 1.0)
             {
-                mTitleTop.text = String.Format(BYOS.Instance.Dictionary.GetString("greatscoretitle").ToUpper(),
-                    mScore.BadAnswers);
+                mTitleTop.text = BYOS.Instance.Dictionary.GetString("certificatetitle");
+                BYOS.Instance.Interaction.TextToSpeech.SayKey("perfectscore");
+            }
+            else if (mScore.SuccessPercent() >= 0.75)
+            {
+                if (mScore.BadAnswers == 1)
+                    mTitleTop.text = String.Format(BYOS.Instance.Dictionary.GetString("onebadanswertitle").ToUpper());
+                else
+                    mTitleTop.text = String.Format(BYOS.Instance.Dictionary.GetString("greatscoretitle").ToUpper(),
+                        mScore.BadAnswers);
+
                 BYOS.Instance.Interaction.TextToSpeech.SayKey("greatscorespeech");
             }
             else if (mScore.SuccessPercent() >= 0.5)
