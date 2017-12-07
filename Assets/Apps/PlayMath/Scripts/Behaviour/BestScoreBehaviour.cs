@@ -43,15 +43,27 @@ namespace BuddyApp.PlayMath{
 		private string mUserName;
 		private int mDifficulty;
 
+        private bool mTriggerOnce;
+
 		void Start() {
 			mPlayMathAnimator = GameObject.Find("AIBehaviour").GetComponent<Animator>();
 		}
 
+        public void InitState()
+        {
+            mTriggerOnce = true;
+            DisplayScore();
+        }
+
 		public void OnClickGoToMenu() {
-			mPlayMathAnimator.SetTrigger("BackToMenu");
+            if (mTriggerOnce)
+            {
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("BackToMenu");
+            }
 		}
 
-		public void DisplayScore() {
+		private void DisplayScore() {
 			CleanViewport();
 
 			User lUser = User.Instance;

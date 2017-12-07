@@ -26,13 +26,22 @@ namespace BuddyApp.PlayMath{
 
         private int mResultIndex;
 
+        private bool mTriggerOnce;
+
         void Start()
         {
             mTitleTop = this.gameObject.transform.Find("Top_UI/Title_Top").GetComponent<Text>();
             mShare = this.gameObject.transform.Find("Bottom_UI/Button_Share/Text").GetComponent<Text>();
+            mTriggerOnce = true;
         }
 
-        public void DisplayScore()
+        public void InitState()
+        {
+            DisplayScore();
+            mTriggerOnce = true;
+        }
+
+        private void DisplayScore()
         {
             CleanViewport();
 
@@ -68,11 +77,19 @@ namespace BuddyApp.PlayMath{
         }
 
 		public void OnClickGoToMenu() {
-			mPlayMathAnimator.SetTrigger("BackToMenu");
+            if (mTriggerOnce)
+            {
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("BackToMenu");
+            }
 		}
 
 		public void OnClickReplay() {
-			mPlayMathAnimator.SetTrigger("Play");
+            if (mTriggerOnce)
+            {
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("Play");
+            }
 		}
 
         private void CleanViewport()

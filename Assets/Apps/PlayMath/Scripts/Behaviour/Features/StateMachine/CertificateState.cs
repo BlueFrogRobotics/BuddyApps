@@ -12,9 +12,7 @@ namespace BuddyApp.PlayMath{
 			mCertificateAnimator = GameObject.Find("UI/EndGame_Certificate").GetComponent<Animator>();
 			mCertificateAnimator.SetTrigger("open");
 
-            mCertificateBehaviour = GameObject.Find("UI/EndGame_Certificate").GetComponent<CertificateBehaviour>();
-            mCertificateBehaviour.TranslateUI();
-            mCertificateBehaviour.SetCertificate();
+            GameObject.Find("UI/EndGame_Certificate").GetComponent<CertificateBehaviour>().InitState();
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

@@ -33,6 +33,8 @@ namespace BuddyApp.PlayMath{
         private Text mDifficultyLabel;
         private Text mResetScores;
 
+        private bool mTriggerOnce;
+
 		public void Start() {
 			mGameParameters = User.Instance.GameParameters;
 
@@ -43,6 +45,12 @@ namespace BuddyApp.PlayMath{
 			BindOperands();
 			BindStars();
 		}
+
+        public void InitState()
+        {
+            TranslateUI();
+            mTriggerOnce = true;
+        }
 
         public void TranslateUI()
         {
@@ -69,27 +77,35 @@ namespace BuddyApp.PlayMath{
         }
 
 		public void OnClickGoToMenu() {
-			if (! CheckSettings()) {
+			//TODO Inform the user about this
+            if (! CheckSettings()) {
 				Utils.LogI(LogInfo.UNAUTHORIZED, "Can't close the view with these settings");
 				return;
 			}
 
-            User.SaveUser();
-
-			mPlayMathAnimator.SetTrigger("BackToMenu");
+            if (mTriggerOnce)
+            {
+                User.SaveUser();
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("BackToMenu");
+            }
 		}		
 
 		public void OnClickPlay() {
+            //TODO Inform the user about this
 			if (! CheckSettings()) {
 				Utils.LogI(LogInfo.UNAUTHORIZED, "Can't close the view with these settings");
 				return;
 			}
-            mGameParameters.Table = 0;
-            mGameParameters.Sequence = 4;
-			
-            User.SaveUser();
 
-			mPlayMathAnimator.SetTrigger("Play");
+            if (mTriggerOnce)
+            {
+                mGameParameters.Table = 0;
+                mGameParameters.Sequence = 4;
+                User.SaveUser();
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("Play");
+            }
 		}
 
 		public void OnClickStar1() {

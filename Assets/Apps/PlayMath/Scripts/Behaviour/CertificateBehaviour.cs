@@ -25,6 +25,8 @@ namespace BuddyApp.PlayMath{
         private Text mTextScore;
         private Text mShare;
 
+        private bool mTriggerOnce;
+
    		void Start() {
             mTitleTop = this.gameObject.transform.Find("Top_UI/Title_Top").GetComponent<Text>();
 
@@ -40,7 +42,14 @@ namespace BuddyApp.PlayMath{
             mShare = this.gameObject.transform.Find("Bottom_UI/Button_Share/Text").GetComponent<Text>();
         }
 
-        public void SetCertificate() {
+        public void InitState()
+        {
+            TranslateUI();
+            SetCertificate();
+            mTriggerOnce = true;
+        }
+
+        private void SetCertificate() {
             mCertificate.GameParams = User.Instance.GameParameters;
             mCertificate.TimeStamp = DateTime.Now;
 
@@ -72,11 +81,19 @@ namespace BuddyApp.PlayMath{
 		}
 
 		public void OnClickGoToMenu() {
-			mPlayMathAnimator.SetTrigger("BackToMenu");
+            if (mTriggerOnce)
+            {
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("BackToMenu");
+            }
 		}
 
 		public void OnClickPlay() {
-			mPlayMathAnimator.SetTrigger("Play");
+            if (mTriggerOnce)
+            {
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("Play");
+            }
 		}
 
         public void TranslateUI() {

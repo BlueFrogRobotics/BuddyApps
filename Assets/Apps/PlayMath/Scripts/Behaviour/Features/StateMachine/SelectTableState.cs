@@ -18,7 +18,7 @@ namespace BuddyApp.PlayMath{
 
             mIsOpen = false;
 
-            mSetTableAnimator.gameObject.GetComponent<SelectTableBehaviour>().TranslateUI();
+            mSetTableAnimator.gameObject.GetComponent<SelectTableBehaviour>().InitState();
             SetTablesStarProgress();
         }
 

@@ -13,24 +13,38 @@ namespace BuddyApp.PlayMath{
 
         private Text mTitleTop;
 
+        private bool mTriggerOnce;
+
         void Start()
         {
             mTitleTop = GameObject.Find("UI/Set_Table/Top_UI/Title_Top").GetComponent<Text>();
         }
 
+        public void InitState()
+        {
+            TranslateUI();
+            mTriggerOnce = true;
+        }
+
         public void OnClick(BaseEventData data)
         {
             GameObject lSelected = data.selectedObject;
-            if (lSelected != null)
+            if (lSelected != null && mTriggerOnce)
             {
                 Text lTextComponent = lSelected.GetComponentInChildren<Text>();
                 User.Instance.GameParameters.Table = int.Parse(Regex.Match(lTextComponent.text,@"\d+").Value);
+                mTriggerOnce = false;
                 mPlayMathAnimator.SetTrigger("Play");
             }
         }
 
         public void OnClickGoToMenu() {
-            mPlayMathAnimator.SetTrigger("BackToMenu");
+            if (mTriggerOnce)
+            {
+                Debug.Log("OnClickGoToMenu()");
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("BackToMenu");
+            }
         }
 
         public void TranslateUI() {

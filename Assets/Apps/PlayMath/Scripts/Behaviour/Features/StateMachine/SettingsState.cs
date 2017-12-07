@@ -15,7 +15,7 @@ namespace BuddyApp.PlayMath{
 
             mIsOpen = false;
 
-            mSettingsAnimator.gameObject.GetComponent<SettingsBehaviour>().TranslateUI();
+            mSettingsAnimator.gameObject.GetComponent<SettingsBehaviour>().InitState();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

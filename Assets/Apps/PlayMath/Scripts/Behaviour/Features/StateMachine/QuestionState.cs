@@ -26,6 +26,8 @@ namespace BuddyApp.PlayMath{
             mTimeScrollbar.value = 0;
             // Disable user interaction on scrollbar (mainly drag)
             mTimeScrollbar.interactable = false;
+
+            mQuestionBehaviour.InitState();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

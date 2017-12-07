@@ -17,6 +17,8 @@ namespace BuddyApp.PlayMath{
         private Text mScoresButton;
         private Text mCertifButton;
 
+        private bool mTriggerOnce;
+
 		public void Start() {
             // Retrieve every child text component
             mTitleTop = this.gameObject.transform.Find("Top_UI/Title_Top").GetComponent<Text>();
@@ -26,6 +28,12 @@ namespace BuddyApp.PlayMath{
             mScoresButton = this.gameObject.transform.Find("Middle_UI/Button_Scores/Text").GetComponent<Text>();
             mCertifButton = this.gameObject.transform.Find("Middle_UI/Button_Certificate/Text").GetComponent<Text>();
 		}
+
+        public void InitState()
+        {
+            TranslateUI();
+            mTriggerOnce = true;
+        }
 
         public void TranslateUI(){
             mTitleTop.text = BYOS.Instance.Dictionary.GetString("menutitle").ToUpper();
@@ -37,7 +45,11 @@ namespace BuddyApp.PlayMath{
         }
 
 		public void OnClickSettings() {
-			mPlayMathAnimator.SetTrigger("GameSettings");
+            if (mTriggerOnce)
+            {
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("GameSettings");
+            }
 		}
 
 		//public void OnClickBestScores() {
@@ -45,14 +57,22 @@ namespace BuddyApp.PlayMath{
 		//}
 
 		public void OnClickPlay() {
-            User.Instance.GameParameters.Table = 0;
-            User.Instance.GameParameters.Sequence = 4;
-			mPlayMathAnimator.SetTrigger("Play");
+            if (mTriggerOnce)
+            {
+                User.Instance.GameParameters.Table = 0;
+                User.Instance.GameParameters.Sequence = 4;
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("Play");
+            }
 		}
 
         public void OnClickTables() {
-            User.Instance.GameParameters.Sequence = 12;
-            mPlayMathAnimator.SetTrigger("SelectTable");
+            if (mTriggerOnce)
+            {
+                User.Instance.GameParameters.Sequence = 12;
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("SelectTable");
+            }
         }
 	}
 }

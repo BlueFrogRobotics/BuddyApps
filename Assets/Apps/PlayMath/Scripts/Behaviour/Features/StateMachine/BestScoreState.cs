@@ -15,7 +15,7 @@ namespace BuddyApp.PlayMath{
 
             mIsOpen = false;
 
-			GameObject.Find("UI/Best_Score").GetComponent<BestScoreBehaviour>().DisplayScore();
+            GameObject.Find("UI/Best_Score").GetComponent<BestScoreBehaviour>().InitState();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

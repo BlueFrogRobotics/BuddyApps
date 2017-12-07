@@ -12,7 +12,7 @@ namespace BuddyApp.PlayMath{
 
             mScoreAnimator.gameObject.GetComponent<ScoreBehaviour>().TranslateUI();
 
-            GameObject.Find("UI/EndGame_Score").GetComponent<ScoreBehaviour>().DisplayScore();
+            GameObject.Find("UI/EndGame_Score").GetComponent<ScoreBehaviour>().InitState();
         }
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state

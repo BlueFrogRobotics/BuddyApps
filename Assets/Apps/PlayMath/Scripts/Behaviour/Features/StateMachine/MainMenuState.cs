@@ -21,7 +21,7 @@ namespace BuddyApp.PlayMath{
 
             mIsOpen = false;
 
-            mMenuAnimator.gameObject.GetComponent<MainMenuBehaviour>().TranslateUI();
+            mMenuAnimator.gameObject.GetComponent<MainMenuBehaviour>().InitState();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

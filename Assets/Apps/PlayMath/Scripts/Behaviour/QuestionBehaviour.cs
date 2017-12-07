@@ -41,6 +41,8 @@ namespace BuddyApp.PlayMath{
         private VocalManager mVocalManager;
         private TextToSpeech mTTS;
 
+        private bool mTriggerOnce;
+
 		void Start() {
 
             mDictionary = BYOS.Instance.Dictionary;
@@ -58,6 +60,11 @@ namespace BuddyApp.PlayMath{
             mVocalManager.OnError = ErrorCallback;
             mSTTChoices = new List<string>();
 		}
+
+        public void InitState()
+        {
+            mTriggerOnce = true;
+        }
 
         public void ResetGame()
         {
@@ -121,12 +128,12 @@ namespace BuddyApp.PlayMath{
 
         public void OnClick(BaseEventData data)
         {
-            HasAnswer = true;
-            mElapsedTime = DateTime.Now - mStartTime;
-
             GameObject lSelected = data.selectedObject;
-            if (lSelected != null)
+            if (lSelected != null && mTriggerOnce)
             {
+                HasAnswer = true;
+                mElapsedTime = DateTime.Now - mStartTime;
+                mTriggerOnce = false;
                 Text lTextComponent = lSelected.GetComponentInChildren<Text>();
                 ShowResult(lTextComponent.text);
             }
@@ -224,7 +231,11 @@ namespace BuddyApp.PlayMath{
         }
 
         public void OnClickGoToMenu() {
-            mPlayMathAnimator.SetTrigger("BackToMenu");
+            if (mTriggerOnce)
+            {
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("BackToMenu");
+            }
         }
    	}
 }
