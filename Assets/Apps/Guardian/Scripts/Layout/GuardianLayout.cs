@@ -176,11 +176,5 @@ namespace BuddyApp.Guardian
 			});
 
 		}
-
-		public override void Update()
-		{
-			//if (!IsDisplayed)
-			Debug.Log("Desactive");
-		}
 	}
 }
