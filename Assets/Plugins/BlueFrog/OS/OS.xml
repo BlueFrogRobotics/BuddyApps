@@ -2829,16 +2829,18 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Buddy.Speaker.VolumeUp(System.Boolean)">
+        <member name="M:Buddy.Speaker.VolumeUp(System.Int32,System.Boolean)">
             <summary>
             Increases the volume by 1
             </summary>
+            <param name="iValue">The amount the volume should be increased by.</param>
             <param name="iSound">Whether to play sound when changing volume</param>
         </member>
-        <member name="M:Buddy.Speaker.VolumeDown(System.Boolean)">
+        <member name="M:Buddy.Speaker.VolumeDown(System.Int32,System.Boolean)">
             <summary>
             Decreases the volume by 1
             </summary>
+            <param name="iValue">The amount the volume should be decreased by.</param>
             <param name="iSound">Whether to play sound when changing volume</param>
         </member>
         <member name="M:Buddy.Speaker.ChangeVolume(System.Int32,System.Boolean,System.Boolean)">
