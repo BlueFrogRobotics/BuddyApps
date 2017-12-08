@@ -17,6 +17,7 @@ namespace BuddyApp.Companion
 		private bool mError;
 		private string mLastBuddySpeech;
 		private bool mNeedToGiveAnswer;
+		private bool mMoving;
 
 		public override void Start()
 		{
@@ -52,11 +53,22 @@ namespace BuddyApp.Companion
 
 		void OnSpeechRecognition(string iText)
 		{
+			// Todo : remove when fix from OS
+			if (CompanionData.Instance.CanMoveBody) {
+				Primitive.Motors.Wheels.Locked = false;
+			}
+
+			if (CompanionData.Instance.CanMoveHead) {
+				Primitive.Motors.YesHinge.Locked = false;
+				Primitive.Motors.NoHinge.Locked = false;
+			}
+
 			mError = false;
 			mTime = 0F;
 			mSpeechInput = true;
 			Debug.Log("Reco vocal: " + iText);
 			mVocalChat.SpecialRequest(iText.ToLower());
+
 		}
 
 		void ErrorSTT(STTError iError)
@@ -78,12 +90,16 @@ namespace BuddyApp.Companion
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mTime += Time.deltaTime;
-			if (Interaction.TextToSpeech.HasFinishedTalking) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.ActiveBML.Count < 1) {
 				if (!mVocalChat.BuildingAnswer && mNeedToGiveAnswer) {
 					//Give answer:
 					Debug.Log("give answer");
 					Say(mVocalChat.Answer);
 					mNeedToGiveAnswer = false;
+					mNeedListen = true;
+				} else if (mMoving && !IsMoving()) {
+					Debug.Log("finished motion, need listen");
+					mMoving = false;
 					mNeedListen = true;
 				} else if (mNeedListen) {
 					Debug.Log("Vocal instant reco");
@@ -119,7 +135,6 @@ namespace BuddyApp.Companion
 
 			switch (iType) {
 
-
 				case "Accept":
 					Debug.Log("Accept VocalTrigger");
 					SayKey("ilisten");
@@ -133,7 +148,7 @@ namespace BuddyApp.Companion
 				case "Answer":
 					if (string.IsNullOrEmpty(mVocalChat.Answer))
 						// TODO: generate answer random
-						Say("I will just pretend I didn't hear that");
+						SayKey("noanswerfound");
 					else
 						Say(mVocalChat.Answer);
 
@@ -148,6 +163,7 @@ namespace BuddyApp.Companion
 				case "BML":
 					Debug.Log("Playing BML " + mVocalChat.Answer);
 					Interaction.BMLManager.LaunchByID(mVocalChat.Answer);
+					mNeedListen = true;
 					break;
 
 				case "Calcul":
@@ -156,7 +172,11 @@ namespace BuddyApp.Companion
 					break;
 
 				case "CanMove":
+					Primitive.Motors.Wheels.Locked = false;
+					Primitive.Motors.YesHinge.Locked = false;
+					Primitive.Motors.NoHinge.Locked = false;
 					CompanionData.Instance.CanMoveBody = true;
+					mNeedListen = true;
 					break;
 
 				case "Date":
@@ -179,12 +199,15 @@ namespace BuddyApp.Companion
 					break;
 
 				case "DontMove":
+					Primitive.Motors.Wheels.Locked = true;
 					mActionManager.StopAllActions();
 					CompanionData.Instance.MovingDesire -= 20;
 					CompanionData.Instance.CanMoveBody = false;
+					mNeedListen = true;
 					break;
 
 				case "FollowMe":
+					Primitive.Motors.Wheels.Locked = false;
 					if (!mActionManager.ThermalFollow) {
 						Interaction.TextToSpeech.SayKey("follow");
 						CompanionData.Instance.InteractDesire -= 10;
@@ -204,19 +227,71 @@ namespace BuddyApp.Companion
 					break;
 
 				case "HeadUp":
-					Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - 15F);
+					{
+						int n = 0;
+						if (!int.TryParse(mVocalChat.Answer, out n)) {
+							//default value
+							n = 25;
+						}
+
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("headup").Replace("[degrees]", "" + n), true);
+
+						Debug.Log("Head up " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
+						Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n);
+						mMoving = true;
+					}
 					break;
 
 				case "HeadLeft":
-					Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition - 20F);
+					{
+						int n = 0;
+						if (!int.TryParse(mVocalChat.Answer, out n)) {
+							//default value
+							n = 25;
+						}
+
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("headleft").Replace("[degrees]", "" + n), true);
+
+						Debug.Log("Head left " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
+						Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition + (float)n);
+						mMoving = true;
+					}
 					break;
 
 				case "HeadRight":
-					Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition + 20F);
+					{
+						int n = 0;
+						if (!int.TryParse(mVocalChat.Answer, out n)) {
+							//default value
+							n = 25;
+						}
+
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("headright").Replace("[degrees]", "" + n), true);
+
+						Debug.Log("Head right " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
+						Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition - (float)n);
+						mMoving = true;
+					}
 					break;
 
 				case "HeadDown":
-					Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition + 15F);
+					{
+						int n = 0;
+						if (!int.TryParse(mVocalChat.Answer, out n)) {
+							//default value
+							n = 25;
+						}
+
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("headdown").Replace("[degrees]", "" + n), true);
+
+						Debug.Log("Head down " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
+						Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition + (float)n);
+						mMoving = true;
+					}
 					break;
 
 				case "HideSeek":
@@ -240,6 +315,72 @@ namespace BuddyApp.Companion
 				case "Jukebox":
 					CompanionData.Instance.InteractDesire -= 20;
 					StartApp("JukeboxApp_V2");
+					break;
+
+				case "MoveBackward":
+					{
+						float n = 0;
+						if (!float.TryParse(mVocalChat.Answer, out n)) {
+							//default value
+							n = 1F;
+						}
+						Primitive.Motors.Wheels.MoveDistance(-90.0f, -90.0f, n, 0.02f);
+						Debug.Log("MoveBackward: " + n);
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("movebackward").Replace("[meters]", "" + n), true);
+						mMoving = true;
+					}
+
+					break;
+
+				case "MoveForward":
+					{
+
+						float n = 0;
+						if (!float.TryParse(mVocalChat.Answer, out n)) {
+							//default value
+							n = 1F;
+						}
+						Primitive.Motors.Wheels.MoveDistance(90.0f, 90.0f, n, 0.02f);
+						Debug.Log("MoveForward: " + n);
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("moveforward").Replace("[meters]", "" + n), true);
+						mMoving = true;
+					}
+					break;
+
+				case "MoveLeft":
+					{
+						int n = 0;
+						if (!int.TryParse(mVocalChat.Answer, out n)) {
+							//default value
+							n = 25;
+						}
+
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("moveleft").Replace("[degrees]", "" + n), true);
+
+						Debug.Log("Move left " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
+						Primitive.Motors.Wheels.TurnAngle ((float)n, 200F, 0.02F);
+						mMoving = true;
+					}
+					break;
+
+				case "MoveRight":
+					{
+						int n = 0;
+						if (!int.TryParse(mVocalChat.Answer, out n)) {
+							//default value
+							n = 25;
+						}
+
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("moveright").Replace("[degrees]", "" + n), true);
+
+						Debug.Log("Move right " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
+						Primitive.Motors.Wheels.TurnAngle((float)-n, 200F, 0.02F);
+						mMoving = true;
+					}
 					break;
 
 				case "Memory":
@@ -287,17 +428,40 @@ namespace BuddyApp.Companion
 					break;
 
 				case "VolumeDown":
-					Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-					BYOS.Instance.Primitive.Speaker.VolumeDown();
+					{
+						int n = 0;
+						if (!int.TryParse(mVocalChat.Answer, out n)) {
+							//default value
+							n = 25;
+						}
+						Debug.Log("Decrease volume by " + n);
+						Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+						//TODO use n
+						BYOS.Instance.Primitive.Speaker.VolumeDown();
+						mNeedListen = true;
+					}
 					break;
 
 				case "VolumeUp":
-					Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-					BYOS.Instance.Primitive.Speaker.VolumeUp();
+					{
+						int n = 0;
+						if (!int.TryParse(mVocalChat.Answer, out n)) {
+							//default value
+							n = 25;
+						}
+						Debug.Log("Increase volume by " + n);
+						Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+						//TODO use n
+						BYOS.Instance.Primitive.Speaker.VolumeUp();
+						mNeedListen = true;
+					}
 					break;
 
 				case "Wander":
-					Say(Dictionary.GetString("wander"));
+					Primitive.Motors.Wheels.Locked = false;
+					Primitive.Motors.YesHinge.Locked = false;
+					Primitive.Motors.NoHinge.Locked = false;
+					SayKey("wander");
 					Trigger("WANDER");
 					//TODO, maybe ask for interaction instead if Buddy really wants to interact
 					CompanionData.Instance.InteractDesire -= 10;
@@ -313,6 +477,7 @@ namespace BuddyApp.Companion
 
 				case "LookAtMe":
 					//mReaction.SearchFace();
+					mNeedListen = true;
 					break;
 
 				default:
@@ -328,6 +493,11 @@ namespace BuddyApp.Companion
 			CompanionData.Instance.LastAppTime = Time.time;
 			CompanionData.Instance.LastApp = iAppName;
 		}
+
+		private bool IsMoving()
+		{
+			return Primitive.Motors.Wheels.Status == MovingState.MOVING || Math.Abs(Primitive.Motors.YesHinge.DestinationAnglePosition - Primitive.Motors.YesHinge.CurrentAnglePosition) > 5F || Math.Abs(Primitive.Motors.NoHinge.DestinationAnglePosition - Primitive.Motors.NoHinge.CurrentAnglePosition) > 5F;
+        }
 
 		private void Say(string iSpeech, bool iQueue = false)
 		{

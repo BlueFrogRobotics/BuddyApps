@@ -51,7 +51,7 @@ namespace BuddyApp.Companion
 			} else if (mTimeState > 45F && !mGrumpy) {
 				Interaction.Mood.Set(MoodType.GRUMPY);
 				mGrumpy = true;
-				Interaction.TextToSpeech.Say("catchattention", true);
+				Interaction.TextToSpeech.SayKey("catchattention", true);
 
 			} else if (mTimeState > 120F) {
 				iAnimator.SetTrigger("SADBUDDY");

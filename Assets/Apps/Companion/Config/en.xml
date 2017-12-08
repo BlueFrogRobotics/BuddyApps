@@ -33,15 +33,9 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>yes</string>
-                <string>yeah</string>
                 <string>okay</string>
                 <string>ok</string>
-                <string>I agree</string>
-                <string>agreed</string>
                 <string>affirmative</string>
-                <string>I accept</string>
-                <string>yep</string>
                 <string />
             </RandomValues>
         </DictionaryEntry>
@@ -251,6 +245,154 @@
             <RandomValues>
                 <string>Okay, I follow you!</string>
                 <string>following!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>noanswerfound</Key>
+            <BaseValue>No answer found</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I will just pretend I didn't hear that</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>moveforward</Key>
+            <BaseValue>I move forward</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I move [meters] meters forward</string>
+                <string>I go [meters] meters straight</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>movebackward</Key>
+            <BaseValue>I move backward</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I move [meters] meters backward</string>
+                <string> I go [meters] meters backward</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headdown</Key>
+            <BaseValue>I look down</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I look down</string>
+                <string> I look [degrees] degrees down</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headup</Key>
+            <BaseValue>I look up</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I look up</string>
+                <string>I look [degrees] degrees up</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headright</Key>
+            <BaseValue>I look to the right</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I look [degrees] degrees to the right</string>
+                <string> I look to the right</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headleft</Key>
+            <BaseValue>I look to the left</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I look to the left</string>
+                <string>I look [degrees] to the left</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>wanderdesire</Key>
+            <BaseValue>Wander desire</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>interactdesire</Key>
+            <BaseValue>Interact desire</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>cantrigger</Key>
+            <BaseValue>Vocal trigger</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>wheelsmotion</Key>
+            <BaseValue>Wheels motion</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headmotion</Key>
+            <BaseValue>Head motion</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>moveright</Key>
+            <BaseValue>I move to the right</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I move [degrees] degrees right</string>
+                <string>I go [degrees] degrees to the right</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>moveleft</Key>
+            <BaseValue>I move to the left</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I move [degrees] degrees to the left</string>
+                <string> I go [degrees] degrees to the left</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

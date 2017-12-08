@@ -95,6 +95,10 @@ namespace BuddyApp.Companion
 		private List<string> mLookForSpeech;
 		private List<string> mMemorySpeech;
 		private List<string> mMeteoSpeech;
+		private List<string> mMoveBackwardSpeech;
+		private List<string> mMoveForwardSpeech;
+		private List<string> mMoveLeftSpeech;
+		private List<string> mMoveRightSpeech;
 		private List<string> mNewsSpeech;
 		private List<string> mPhotoSpeech;
 		private List<string> mPoseSpeech;
@@ -244,6 +248,10 @@ namespace BuddyApp.Companion
 			mLookForSpeech = new List<string>();
 			mMemorySpeech = new List<string>();
 			mMeteoSpeech = new List<string>();
+			mMoveBackwardSpeech = new List<string>();
+			mMoveForwardSpeech = new List<string>();
+			mMoveLeftSpeech = new List<string>();
+			mMoveRightSpeech = new List<string>();
 			mNewsSpeech = new List<string>();
 			mPhotoSpeech = new List<string>();
 			mPoseSpeech = new List<string>();
@@ -298,6 +306,10 @@ namespace BuddyApp.Companion
 			FillListSyn("LookFor", mLookForSpeech);
 			FillListSyn("Memory", mMemorySpeech);
 			FillListSyn("Meteo", mMeteoSpeech);
+			FillListSyn("MoveBackward", mMoveBackwardSpeech);
+			FillListSyn("MoveForward", mMoveForwardSpeech);
+			FillListSyn("MoveLeft", mMoveLeftSpeech);
+			FillListSyn("MoveRight", mMoveRightSpeech);
 			FillListSyn("News", mNewsSpeech);
 			FillListSyn("Photo", mPhotoSpeech);
 			FillListSyn("Pose", mPoseSpeech);
@@ -470,15 +482,13 @@ namespace BuddyApp.Companion
 			} else if (ContainsOneOf(iSpeech, mBehaviourSpeech)) {
 				int lKeywordsIndex = WordIndexOfOneOf(iSpeech, mBehaviourSpeech);
 				string[] lWords = iSpeech.Split(' ');
-				string lBML = "";
 
-				if (lKeywordsIndex != -1 && lKeywordsIndex != lWords.Length) {
+				if (lKeywordsIndex != -1 && lKeywordsIndex + 1 != lWords.Length) {
 					//Take just the next word
 					//for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
-					lBML = lWords[lKeywordsIndex + 1];
+					Answer = lWords[lKeywordsIndex + 1];
 				}
 				lType = "BML";
-				Answer = lBML;
 				//TTSProcessAndSay(lSentenceToRepeat, true);
 				//mAnswerGiven = true;
 			} else if (ContainsOneOf(iSpeech, mMeteoSpeech)) {
@@ -509,25 +519,53 @@ namespace BuddyApp.Companion
 				lType = "FollowMe";
 			else if (ContainsOneOf(iSpeech, mLookAtMeSpeech))
 				lType = "LookAtMe";
-			else if (ContainsOneOf(iSpeech, mWanderSpeech))
+			else if (ContainsOneOf(iSpeech, mMoveBackwardSpeech)) {
+				Answer = GetNextNumber(iSpeech, mMoveBackwardSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
+				lType = "MoveBackward";
+			} else if (ContainsOneOf(iSpeech, mMoveForwardSpeech)) {
+				Answer = GetNextNumber(iSpeech, mMoveForwardSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
+				lType = "MoveForward";
+			} else if (ContainsOneOf(iSpeech, mMoveLeftSpeech)) {
+				Answer = GetNextNumber(iSpeech, mMoveLeftSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
+				lType = "MoveLeft";
+			} else if (ContainsOneOf(iSpeech, mMoveRightSpeech)) {
+				Answer = GetNextNumber(iSpeech, mMoveRightSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
+				lType = "MoveRight";
+			} else if (ContainsOneOf(iSpeech, mWanderSpeech))
 				lType = "Wander";
 			else if (ContainsOneOf(iSpeech, mCanMoveSpeech))
 				lType = "CanMove";
 			else if (ContainsOneOf(iSpeech, mDontMoveSpeech))
 				lType = "DontMove";
-			else if (ContainsOneOf(iSpeech, mHeadDownSpeech))
+			else if (ContainsOneOf(iSpeech, mHeadDownSpeech)) {
+				Answer = GetNextNumber(iSpeech, mHeadDownSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "HeadDown";
-			else if (ContainsOneOf(iSpeech, mHeadLeftSpeech))
+			} else if (ContainsOneOf(iSpeech, mHeadLeftSpeech)) {
+				Answer = GetNextNumber(iSpeech, mHeadLeftSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "HeadLeft";
-			else if (ContainsOneOf(iSpeech, mHeadRightSpeech))
+			} else if (ContainsOneOf(iSpeech, mHeadRightSpeech)) {
+				Answer = GetNextNumber(iSpeech, mHeadRightSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "HeadRight";
-			else if (ContainsOneOf(iSpeech, mHeadUpSpeech))
+			} else if (ContainsOneOf(iSpeech, mHeadUpSpeech)) {
+				Answer = GetNextNumber(iSpeech, mHeadUpSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "HeadUp";
-			else if (ContainsOneOf(iSpeech, mVolumeDownSpeech))
+			} else if (ContainsOneOf(iSpeech, mVolumeDownSpeech)) {
+				Answer = GetNextNumber(iSpeech, mVolumeDownSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "VolumeDown";
-			else if (ContainsOneOf(iSpeech, mVolumeUpSpeech))
+			} else if (ContainsOneOf(iSpeech, mVolumeUpSpeech)) {
+				Answer = GetNextNumber(iSpeech, mVolumeUpSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "VolumeUp";
-			else if (ContainsOneOf(iSpeech, mAlarmSpeech))
+			} else if (ContainsOneOf(iSpeech, mAlarmSpeech))
 				lType = "Alarm";
 			//else if (ContainsOneOf(iSpeech, mQuizzSpeech))
 			//	lType = "Quizz";
@@ -602,6 +640,25 @@ namespace BuddyApp.Companion
 			return true;
 		}
 
+		private string GetNextNumber(string iText, List<string> iSpeech)
+		{
+			string lResult = "";
+			int lKeywordsIndex = WordIndexOfOneOf(iText, iSpeech);
+			string[] lWords = iText.Split(' ');
+			int n = 0;
+
+			if (lKeywordsIndex == -1) {
+				return lResult;
+			} else if (lKeywordsIndex != lWords.Length) {
+				for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
+					if (int.TryParse(lWords[j], out n)) {
+						lResult = lWords[j];
+						break;
+					}
+			}
+			return lResult;
+		}
+
 		private string BuildGeneralAnswer(string iData)
 		{
 			//In case there is no special keyword, look through the pre-answered questions from the question file
@@ -610,64 +667,64 @@ namespace BuddyApp.Companion
 			//Debug.Log("BuildGeneralAnswer - ponctu " + lFormatedData);
 			string lAnswer = "";
 
-				string[] lWords = lFormatedData.Split(' ');
-				//Debug.Log("Looking for input " + lFormatedData);
+			string[] lWords = lFormatedData.Split(' ');
+			//Debug.Log("Looking for input " + lFormatedData);
 
-				using (XmlReader lReader = XmlReader.Create(new StringReader(mQuestionsFile))) {
-					while (lReader.ReadToFollowing("QA")) {
-						lReader.ReadToFollowing("question");
-						//Remove ponctuation
-						string lContentQ = Regex.Replace(lReader.ReadElementContentAsString().ToLower(), @"[^\w\s]", " ");
+			using (XmlReader lReader = XmlReader.Create(new StringReader(mQuestionsFile))) {
+				while (lReader.ReadToFollowing("QA")) {
+					lReader.ReadToFollowing("question");
+					//Remove ponctuation
+					string lContentQ = Regex.Replace(lReader.ReadElementContentAsString().ToLower(), @"[^\w\s]", " ");
 
-						if (lContentQ.Contains(lFormatedData)) {
-							Debug.Log("Found Content Question : " + lContentQ);
-							bool lFoundInput = true;
+					if (lContentQ.Contains(lFormatedData)) {
+						Debug.Log("Found Content Question : " + lContentQ);
+						bool lFoundInput = true;
 
-							//We need to check for single input words for some reason, otherwise it doesn't work ...
-							if (lWords.Length < 2) {
-								//Debug.Log("Input corresponds to only one word");
-								lFoundInput = false;
-								string[] lQuestions = lContentQ.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-								for (int i = 0; i < lQuestions.Length && !lFoundInput; ++i) {
-									if (lQuestions[i] == lFormatedData) {
-										lFoundInput = true;
-									}
+						//We need to check for single input words for some reason, otherwise it doesn't work ...
+						if (lWords.Length < 2) {
+							//Debug.Log("Input corresponds to only one word");
+							lFoundInput = false;
+							string[] lQuestions = lContentQ.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+							for (int i = 0; i < lQuestions.Length && !lFoundInput; ++i) {
+								if (lQuestions[i] == lFormatedData) {
+									lFoundInput = true;
 								}
 							}
-
-							if (lFoundInput) {
-								lReader.ReadToFollowing("answer");
-								string lContentA = lReader.ReadElementContentAsString();
-								string[] lAnswers = lContentA.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-
-								if (lAnswers.Length == 1)
-									lAnswer = lAnswers[0];
-								else {
-									System.Random lRnd = new System.Random();
-									lAnswer = lAnswers[lRnd.Next(0, lAnswers.Length)];
-								}
-								Debug.Log("Found Content Answer : " + lAnswer);
-							}
-							break;
 						}
+
+						if (lFoundInput) {
+							lReader.ReadToFollowing("answer");
+							string lContentA = lReader.ReadElementContentAsString();
+							string[] lAnswers = lContentA.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+							if (lAnswers.Length == 1)
+								lAnswer = lAnswers[0];
+							else {
+								System.Random lRnd = new System.Random();
+								lAnswer = lAnswers[lRnd.Next(0, lAnswers.Length)];
+							}
+							Debug.Log("Found Content Answer : " + lAnswer);
+						}
+						break;
 					}
 				}
+			}
 
-				//if (string.IsNullOrEmpty(lAnswer)) {
-				//	if (!mChatBotRequested || mCleverbotSession == null) {
-				//		lAnswer = RandomString(mSorrySpeech) + " " +
-				//			RandomString(mICouldntSpeech) + " " +
-				//			RandomString(mGetSpeech) + " " +
-				//			RandomString(mAnswersSpeech);
-				//		OnQuestionTypeFound("");
-				//		Debug.Log("CleverBot : Not activated with answer : " + lAnswer);
-				//	} else {
-				//		lAnswer = mCleverbotSession.Think(iData);
-				//		Debug.Log("CleverBot answer : " + lAnswer);
-				//	}
-				//}
+			//if (string.IsNullOrEmpty(lAnswer)) {
+			//	if (!mChatBotRequested || mCleverbotSession == null) {
+			//		lAnswer = RandomString(mSorrySpeech) + " " +
+			//			RandomString(mICouldntSpeech) + " " +
+			//			RandomString(mGetSpeech) + " " +
+			//			RandomString(mAnswersSpeech);
+			//		OnQuestionTypeFound("");
+			//		Debug.Log("CleverBot : Not activated with answer : " + lAnswer);
+			//	} else {
+			//		lAnswer = mCleverbotSession.Think(iData);
+			//		Debug.Log("CleverBot answer : " + lAnswer);
+			//	}
+			//}
 
-				return lAnswer;
+			return lAnswer;
 		}
 
 		private IEnumerator BuildWeatherAnswer(string iData)

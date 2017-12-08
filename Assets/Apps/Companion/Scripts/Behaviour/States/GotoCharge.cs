@@ -36,7 +36,7 @@ namespace BuddyApp.Companion
 				//Interaction.TextToSpeech.Say("Que puis-je pour toi?", true);
 				iAnimator.SetTrigger("VOCALTRIGGERED");
 				if (Primitive.Battery.EnergyLevel < 10) {
-					Interaction.TextToSpeech.Say("batterytoolow", true);
+					Interaction.TextToSpeech.SayKey("batterytoolow", true);
 					mSpeechTriggered = false;
                 } else {
 					iAnimator.SetTrigger("ASKCHARGE");

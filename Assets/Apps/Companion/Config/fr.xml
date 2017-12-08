@@ -31,14 +31,10 @@
                 <string>concombre</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>oui</string>
-                <string>ouais</string>
                 <string>d'accord</string>
-                <string>yep</string>
                 <string>affirmatif</string>
                 <string>ok</string>
                 <string>okay</string>
-                <string>concombre</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -256,6 +252,152 @@
                 <string>Ok, je vous suis!</string>
                 <string> Je vous suis</string>
                 <string>Ok, montrez moi la route!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>noanswerfound</Key>
+            <BaseValue>Aucune réponse trouvée</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je vais faire comme si je n'avais rien entendu</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>moveforward</Key>
+            <BaseValue>J'avance</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>J'avance de [meters] mètres</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>movebackward</Key>
+            <BaseValue>Je recule</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Attention je recule de [meters] mètres</string>
+                <string>Je recule de [meters] mètres</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headdown</Key>
+            <BaseValue>Je baisse la tête</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je baisse la tête de [degrees] degrès</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headup</Key>
+            <BaseValue>Je lève la tête</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je lève la tête de [degrees] degrés</string>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headright</Key>
+            <BaseValue>Je regarde à droite</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je regarde à droite </string>
+                <string> Je tourne la tête de [degrees] degrès sur la droite</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headleft</Key>
+            <BaseValue>Je regarde à gauche</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je regarde à gauche</string>
+                <string>Je tourne la tête de [degrees] degrés sur la gauche.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>wanderdesire</Key>
+            <BaseValue>Désir de bouger</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>interactdesire</Key>
+            <BaseValue>Désir d'intéragir</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>cantrigger</Key>
+            <BaseValue>Déclencheur vocal</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>wheelsmotion</Key>
+            <BaseValue>Mouvement de roues</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headmotion</Key>
+            <BaseValue>Mouvement de tête</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>moveright</Key>
+            <BaseValue>Je tourne à droite</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je tourne de [degrees] degrés sur la droite</string>
+                <string> Je vais [degrees] degrés sur la droite</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>moveleft</Key>
+            <BaseValue>Je vais vers la gauche</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je tourne de [degrees] degrés sur la gauche</string>
+                <string>Je vais [degrees] degrés à gauche</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

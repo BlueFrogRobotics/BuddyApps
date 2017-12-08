@@ -47,6 +47,7 @@ namespace BuddyApp.Companion
 
 		//private Animator mAnimator;
 		private KidnappingDetection mKidnappingDetection;
+		private HeadForcedStimulus mHeadForced;
 		//private MotionDetection mMotionDetection;
 		//private NoiseDetection mNoiseDetection;
 		private ThermalDetection mThermalDetection;
@@ -82,6 +83,12 @@ namespace BuddyApp.Companion
 			mDetectedElement = Detected.NONE;
 			mFacePartTouched = FaceTouch.NONE;
 			Volume = BYOS.Instance.Primitive.Speaker.GetVolume();
+
+			IsDetectingThermal = true;
+			IsDetectingBattery = true;
+			IsDetectingKidnapping = true;
+			IsDetectingTrigger = true;
+
 			//mMotionDetection = BYOS.Instance.Perception.Motion;
 			//mNoiseDetection = BYOS.Instance.Perception.Noise;
 			mThermalDetection = BYOS.Instance.Perception.Thermal;
@@ -101,9 +108,9 @@ namespace BuddyApp.Companion
 				Debug.Log("WARNING BATTERY NOT DETECTED!!!");
 			}
 
-			// If nothing else touchedc (eye, mouth) validate the other touched
-			if (Time.time - mTimeOtherTouched > 0.5F && mTimeOtherTouched != 0F) {
-
+			// If nothing else touched (eye, mouth) validate the other touched
+			if (Time.time - mTimeOtherTouched > 0.3F && mTimeOtherTouched != 0F) {
+				Debug.Log("Detection manager other touched");
 				//mDetectedElement = Detected.TOUCH;
 				mFacePartTouched = FaceTouch.OTHER;
 				mActionManager.HeadReaction();
@@ -111,18 +118,35 @@ namespace BuddyApp.Companion
 			}
 
 			if (BYOS.Instance.Primitive.Battery.EnergyLevel < 15 && BYOS.Instance.Primitive.Battery.EnergyLevel > 0.000001)
-
 				if (mDetectedElement == Detected.NONE && IsDetectingBattery)
 					mDetectedElement = Detected.BATTERY;
-				else if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered) {
-					Debug.Log("VOCAL TRIGGERED");
-					if (IsDetectingTrigger)
-						mDetectedElement = Detected.TRIGGER;
-				} else if (Input.touchCount > 0 || Input.GetMouseButtonDown(0)) {
-					if (Time.time - mTimeElementTouched > 0.5F) {
-						mTimeOtherTouched = Time.time;
+
+			if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered) {
+				Debug.Log("VOCAL TRIGGERED");
+				if (IsDetectingTrigger && CompanionData.Instance.CanTrigger)
+					mDetectedElement = Detected.TRIGGER;
+			}
+
+			if (Input.touchCount > 0 || Input.GetMouseButtonDown(0)) {
+
+				int i = 0;
+				for (i = 0; i < Input.touchCount; ++i) {
+					mActionManager.LookAt((int)Input.GetTouch(i).position.x, (int)Input.GetTouch(i).position.y);
+					if (Input.GetTouch(i).phase == TouchPhase.Ended) {
+						mActionManager.LookCenter();
+						break;
 					}
 				}
+
+				if (i != Input.touchCount || Input.GetMouseButtonDown(0)) {
+
+					Debug.Log("Detection manager other touched...");
+					if (Time.time - mTimeElementTouched > 0.5F && mTimeOtherTouched == 0F) {
+						mTimeOtherTouched = Time.time;
+						Debug.Log("Detection manager other touched?");
+					}
+				}
+			}
 
 		}
 
@@ -245,14 +269,30 @@ namespace BuddyApp.Companion
 			//mNoiseDetection.OnDetect(OnSoundDetected);
 			mThermalDetection.OnDetect(OnThermalDetected, MIN_TEMP);
 			mKidnappingDetection.OnDetect(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
+			BYOS.Instance.Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HEAD_FORCED_SOFT, OnHeadForcedSoft);
+			BYOS.Instance.Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HEAD_FORCED_HARD, OnHeadForcedHard);
+			BYOS.Instance.Perception.Stimuli.Controllers[StimulusEvent.HEAD_FORCED_SOFT].enabled = true;
+			BYOS.Instance.Perception.Stimuli.Controllers[StimulusEvent.HEAD_FORCED_HARD].enabled = true;
+
 			//mHumanReco.OnDetect(OnHumanDetected, BodyPart.FULL_BODY & BodyPart.FACE & BodyPart.LOWER_BODY & BodyPart.UPPER_BODY);
 			mFace.OnClickLeftEye.Add(LeftEyeClicked);
 			mFace.OnClickRightEye.Add(RightEyeClicked);
 			mFace.OnClickMouth.Add(MouthClicked);
+
 			//BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
 			BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_320_H_240;
 			BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
 		}
+
+		private void OnHeadForcedHard()
+		{
+			mActionManager.TimedMood(MoodType.ANGRY);
+		}
+
+		private void OnHeadForcedSoft()
+		{
+			mActionManager.TimedMood(MoodType.SICK);
+        }
 
 		/// <summary>
 		/// Unsubscibe to the detectors callbacks
@@ -263,6 +303,12 @@ namespace BuddyApp.Companion
 			mThermalDetection.StopAllOnDetect();
 			//mNoiseDetection.StopAllDetection();
 			//mMotionDetection.StopAllOnDetect();
+
+			BYOS.Instance.Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HEAD_FORCED_SOFT, OnHeadForcedSoft);
+			BYOS.Instance.Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HEAD_FORCED_HARD, OnHeadForcedHard);
+
+			BYOS.Instance.Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
+			BYOS.Instance.Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = false;
 			mHumanReco.StopAllOnDetect();
 			mFace.OnClickLeftEye.Clear();
 			mFace.OnClickRightEye.Clear();

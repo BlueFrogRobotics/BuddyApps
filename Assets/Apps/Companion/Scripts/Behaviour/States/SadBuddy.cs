@@ -12,10 +12,7 @@ namespace BuddyApp.Companion
 	{
 
 		private float mLookingTime;
-
-		private bool mLookForSomeone;
-		private bool mWander;
-		private bool mWandering;
+		private float mTimeThermal;
 
 		//private Reaction mReaction;
 
@@ -23,6 +20,7 @@ namespace BuddyApp.Companion
 		{
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -30,14 +28,11 @@ namespace BuddyApp.Companion
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "SadBuddy";
 			Debug.Log("state: SadBuddy");
-			mLookForSomeone = false;
-			mWander = false;
-			mWandering = false;
 
 			mLookingTime = 0F;
-			Interaction.TextToSpeech.Say("nooneplay", true);
+			Interaction.TextToSpeech.SayKey("nooneplay", true);
 			Interaction.Mood.Set(MoodType.SAD);
-
+			mTimeThermal = 0F;
 			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
 			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
 		}
@@ -47,39 +42,46 @@ namespace BuddyApp.Companion
 			mLookingTime = Time.deltaTime;
 
 
-			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering) {
-				Debug.Log("CompanionLooking4 start wandering");
-				mActionManager.StartWander();
+			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering && (mActionManager.ThermalFollow && mTimeThermal - Time.time > 5F)) {
+				Debug.Log("sad buddy start wandering");
+				mActionManager.StartWander(MoodType.SAD);
 			}
 
-			if (mLookingTime > 3000)
-				//TODO: after wometime, do something? Activarte some BML...
+			//if (mLookingTime > 3000)
+			//TODO: after sometime, do something? Activarte some BML...
 
 
 
-				switch (mDetectionManager.mDetectedElement) {
-					case Detected.TRIGGER & Detected.TOUCH:
-						Interaction.Mood.Set(MoodType.HAPPY);
-						Trigger("PROPOSEGAME");
-						break;
+			switch (mDetectionManager.mDetectedElement) {
+				case Detected.TRIGGER & Detected.TOUCH:
+					Interaction.Mood.Set(MoodType.HAPPY);
+					Trigger("PROPOSEGAME");
+					break;
 
-					case Detected.KIDNAPPING:
-						Interaction.Mood.Set(MoodType.HAPPY);
-						Trigger("KIDNAPPING");
-						break;
+				case Detected.KIDNAPPING:
+					Interaction.Mood.Set(MoodType.HAPPY);
+					Trigger("KIDNAPPING");
+					break;
 
-					case Detected.BATTERY:
-						Trigger("CHARGE");
-						break;
+				case Detected.BATTERY:
+					Trigger("CHARGE");
+					break;
 
-					case Detected.HUMAN_RGB & Detected.THERMAL:
-						Interaction.Mood.Set(MoodType.HAPPY);
-						Trigger("INTERACT");
-						break;
+				case Detected.THERMAL:
+					mDetectionManager.mDetectedElement = Detected.NONE;
+					mTimeThermal = Time.time;
+					Debug.Log("sad buddy start follow");
+					mActionManager.StartThermalFollow();
+					break;
 
-					default:
-						break;
-				}
+				case Detected.HUMAN_RGB:
+					mDetectionManager.mDetectedElement = Detected.NONE;
+					break;
+
+
+				default:
+					break;
+			}
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -93,7 +95,7 @@ namespace BuddyApp.Companion
 		void OnRandomMinuteActivation()
 		{
 			// Say something?
-			Interaction.TextToSpeech.Say("nooneplay", true);
+			Interaction.TextToSpeech.SayKey("nooneplay", true);
 		}
 
 	}

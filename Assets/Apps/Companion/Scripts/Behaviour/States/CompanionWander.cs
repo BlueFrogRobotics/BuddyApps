@@ -41,12 +41,12 @@ namespace BuddyApp.Companion
 		{
 			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering) {
 				Debug.Log("CompanionWander start wandering");
-				mActionManager.StartWander();
+				mActionManager.StartWander(MoodType.NEUTRAL);
 			}
 
 			// if we foolow for a while, go back to wander:
 			if (mActionManager.ThermalFollow && Time.time - mTimeThermal > CompanionData.Instance.InteractDesire)
-				mActionManager.StartWander();
+				mActionManager.StartWander(MoodType.NEUTRAL);
 
 			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
 			switch (mDetectionManager.mDetectedElement) {
@@ -79,6 +79,7 @@ namespace BuddyApp.Companion
 						//Stop wandering and go to thermal follow
 						mTimeThermal = Time.time;
 						mDetectionManager.mDetectedElement = Detected.NONE;
+						Interaction.Mood.Set(MoodType.HAPPY);
 						mActionManager.StartThermalFollow();
 					}
 					break;

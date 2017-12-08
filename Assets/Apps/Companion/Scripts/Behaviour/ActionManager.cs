@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Buddy;
+using System;
 
 namespace BuddyApp.Companion
 {
@@ -27,7 +28,7 @@ namespace BuddyApp.Companion
 		/// </summary>
 		public int Volume { get; set; }
 
-		public RoombaNavigation Roomba { get; private set; }
+		//public RoombaNavigation Roomba { get; private set; }
 
 		void Start()
 		{
@@ -36,8 +37,8 @@ namespace BuddyApp.Companion
 			mLastHeadTime = 0F;
 			mLastEyeTime = 0F;
 			Volume = BYOS.Instance.Primitive.Speaker.GetVolume();
-			Roomba = BYOS.Instance.Navigation.Roomba;
-			Roomba.enabled = false;
+			//Roomba = BYOS.Instance.Navigation.Roomba;
+			//Roomba.enabled = false;
 		}
 
 		void Update()
@@ -52,29 +53,34 @@ namespace BuddyApp.Companion
 			}
 		}
 
-		public void StartWander()
+		public void StartWander(MoodType iMood)
 		{
+			Debug.Log("Start wander");
 			if (ThermalFollow) {
 				StopThermalFollow();
 			}
-			Roomba.enabled = true;
+			Debug.Log("Start wander1");
+			BYOS.Instance.Navigation.RandomWalk.StartWander(iMood);
+			Debug.Log("Start wander2");
+			BYOS.Instance.Navigation.RandomWalk.enabled = true;
+			Debug.Log("Start wander3");
 			Wandering = true;
 		}
 
 		public void StopWander()
 		{
-			Roomba.enabled = false;
+			BYOS.Instance.Navigation.RandomWalk.StopWander();
+			BYOS.Instance.Navigation.RandomWalk.enabled = false;
 			Wandering = false;
 		}
 
 		public void StartThermalFollow()
 		{
-			if (Roomba.enabled) {
+			if (BYOS.Instance.Navigation.RandomWalk.enabled) {
 				StopWander();
 			}
 			ThermalFollow = true;
 			BYOS.Instance.Navigation.Follow<HumanFollow>().Facing();
-
 		}
 
 		public void StopThermalFollow()
@@ -91,18 +97,22 @@ namespace BuddyApp.Companion
 
 		public void HeadReaction()
 		{
+			Debug.Log("Head Reaction counter " + mHeadCounter);
 			mTimeMood = Time.time;
 			if (Time.time - mLastHeadTime < 5F)
 				mHeadCounter++;
 			else
 				mHeadCounter = 0;
+
 			mLastHeadTime = Time.time;
 
-			if (mHeadCounter < 2)
+			if (mHeadCounter < 2) {
 				BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
-			else if (mHeadCounter < 5) {
+				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+			} else if (mHeadCounter < 5) {
 				//TODO: play BML instead
 				BYOS.Instance.Interaction.Mood.Set(MoodType.HAPPY);
+				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
 				mTimeMood = Time.time;
 
 			} else if (mHeadCounter > 4) {
@@ -120,10 +130,11 @@ namespace BuddyApp.Companion
 			else
 				mEyeCounter = 0;
 			mLastEyeTime = Time.time;
-			if (mEyeCounter > 2) {
+			if (mEyeCounter > 7) {
 				//TODO: play BML instead
 				BYOS.Instance.Interaction.Mood.Set(MoodType.ANGRY);
 				BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
 				mTimeMood = Time.time;
 			} else {
 				//TODO: play BML instead
@@ -131,6 +142,23 @@ namespace BuddyApp.Companion
 				BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
 				mTimeMood = Time.time;
 			}
+		}
+
+		internal void TimedMood(MoodType iMood)
+		{
+			BYOS.Instance.Interaction.Mood.Set(iMood);
+			mTimeMood = Time.time;
+		}
+
+
+		internal void LookAt(int x, int y)
+		{
+			BYOS.Instance.Interaction.Face.LookAt(x, y);
+        }
+
+		internal void LookCenter()
+		{
+			BYOS.Instance.Interaction.Face.LookAt(FaceLookAt.CENTER);
 		}
 
 	}

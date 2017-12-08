@@ -23,6 +23,7 @@ namespace BuddyApp.Companion
 		{
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -35,7 +36,7 @@ namespace BuddyApp.Companion
 			mWandering = false;
 
 			mLookingTime = 0F;
-			Interaction.TextToSpeech.Say("anyoneplay", true);
+			Interaction.TextToSpeech.SayKey("anyoneplay", true);
 			Interaction.Mood.Set(MoodType.THINKING);
 
 			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
@@ -49,7 +50,7 @@ namespace BuddyApp.Companion
 
 			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering) {
 				Debug.Log("CompanionLooking4 start wandering");
-				mActionManager.StartWander();
+				mActionManager.StartWander(MoodType.NEUTRAL);
 			}
 
 			if (mLookingTime > 300) {
@@ -102,7 +103,7 @@ namespace BuddyApp.Companion
 		void OnRandomMinuteActivation()
 		{
 			// Say something?
-			Interaction.TextToSpeech.Say("anyoneplay", true);
+			Interaction.TextToSpeech.SayKey("anyoneplay", true);
 		}
 
 	}
