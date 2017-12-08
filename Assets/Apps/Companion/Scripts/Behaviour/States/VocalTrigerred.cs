@@ -132,6 +132,8 @@ namespace BuddyApp.Companion
 		{
 			Debug.Log("Question Type found : " + iType);
 			string lSentence = "";
+			if (iType != "Repeat")
+				mLastBuddySpeech = "";
 
 			switch (iType) {
 
@@ -361,7 +363,7 @@ namespace BuddyApp.Companion
 						Say(Dictionary.GetRandomString("moveleft").Replace("[degrees]", "" + n), true);
 
 						Debug.Log("Move left " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-						Primitive.Motors.Wheels.TurnAngle ((float)n, 200F, 0.02F);
+						Primitive.Motors.Wheels.TurnAngle((float)n, 200F, 0.02F);
 						mMoving = true;
 					}
 					break;
@@ -418,7 +420,8 @@ namespace BuddyApp.Companion
 
 				case "Repeat":
 					Interaction.TextToSpeech.SayKey("isaid", true);
-					Say(mLastBuddySpeech, true);
+					Interaction.TextToSpeech.Say("[500]", true);
+					Interaction.TextToSpeech.Say(mLastBuddySpeech, true);
 					mNeedListen = true;
 					break;
 
@@ -427,17 +430,34 @@ namespace BuddyApp.Companion
 					StartApp("RLGLApp");
 					break;
 
+				case "Volume":
+					{
+						int n = 0;
+						if (!int.TryParse(mVocalChat.Answer, out n)) {
+							//default value
+
+							SayKey("getvolumeerror");
+						}
+						Say(Dictionary.GetRandomString("volume") + " " + n, true);
+
+						mNeedListen = true;
+					}
+					break;
+
 				case "VolumeDown":
 					{
 						int n = 0;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
-							n = 25;
+							n = 1;
 						}
+
+						SayKey("accept", true);
+
 						Debug.Log("Decrease volume by " + n);
 						Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-						//TODO use n
-						BYOS.Instance.Primitive.Speaker.VolumeDown();
+						BYOS.Instance.Primitive.Speaker.VolumeDown(n);
+						Say(Dictionary.GetRandomString("volumedown") + " " + n, true);
 						mNeedListen = true;
 					}
 					break;
@@ -447,12 +467,13 @@ namespace BuddyApp.Companion
 						int n = 0;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
-							n = 25;
+							n = 1;
 						}
+						SayKey("accept", true);
 						Debug.Log("Increase volume by " + n);
 						Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-						//TODO use n
-						BYOS.Instance.Primitive.Speaker.VolumeUp();
+						BYOS.Instance.Primitive.Speaker.VolumeUp(n);
+						Say(Dictionary.GetRandomString("volumeup") + " " + n);
 						mNeedListen = true;
 					}
 					break;
@@ -497,11 +518,11 @@ namespace BuddyApp.Companion
 		private bool IsMoving()
 		{
 			return Primitive.Motors.Wheels.Status == MovingState.MOVING || Math.Abs(Primitive.Motors.YesHinge.DestinationAnglePosition - Primitive.Motors.YesHinge.CurrentAnglePosition) > 5F || Math.Abs(Primitive.Motors.NoHinge.DestinationAnglePosition - Primitive.Motors.NoHinge.CurrentAnglePosition) > 5F;
-        }
+		}
 
 		private void Say(string iSpeech, bool iQueue = false)
 		{
-			mLastBuddySpeech = iSpeech;
+			mLastBuddySpeech += iSpeech;
 			Interaction.TextToSpeech.Say(iSpeech, iQueue);
 		}
 

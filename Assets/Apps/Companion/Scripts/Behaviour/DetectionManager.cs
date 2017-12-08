@@ -61,11 +61,6 @@ namespace BuddyApp.Companion
 		private ActionManager mActionManager;
 		private float mTimeOtherTouched;
 
-		/// <summary>
-		/// Speaker volume
-		/// </summary>
-		public int Volume { get; set; }
-
 		public string Logs { get; private set; }
 
 		public bool IsDetectingThermal { get; set; }
@@ -82,7 +77,6 @@ namespace BuddyApp.Companion
 			mTimeOtherTouched = 0F;
 			mDetectedElement = Detected.NONE;
 			mFacePartTouched = FaceTouch.NONE;
-			Volume = BYOS.Instance.Primitive.Speaker.GetVolume();
 
 			IsDetectingThermal = true;
 			IsDetectingBattery = true;

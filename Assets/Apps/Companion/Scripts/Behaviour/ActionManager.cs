@@ -21,12 +21,7 @@ namespace BuddyApp.Companion
 
 		public bool Wandering { get; private set; }
 		public bool ThermalFollow { get; private set; }
-
-
-		/// <summary>
-		/// Speaker volume
-		/// </summary>
-		public int Volume { get; set; }
+		//private RoombaNavigation mRoomba;
 
 		//public RoombaNavigation Roomba { get; private set; }
 
@@ -36,9 +31,8 @@ namespace BuddyApp.Companion
 			mEyeCounter = 0;
 			mLastHeadTime = 0F;
 			mLastEyeTime = 0F;
-			Volume = BYOS.Instance.Primitive.Speaker.GetVolume();
-			//Roomba = BYOS.Instance.Navigation.Roomba;
-			//Roomba.enabled = false;
+			//mRoomba = BYOS.Instance.Navigation.Roomba;
+			//mRoomba.enabled = false;
 		}
 
 		void Update()
@@ -59,24 +53,21 @@ namespace BuddyApp.Companion
 			if (ThermalFollow) {
 				StopThermalFollow();
 			}
-			Debug.Log("Start wander1");
-			BYOS.Instance.Navigation.RandomWalk.StartWander(iMood);
-			Debug.Log("Start wander2");
 			BYOS.Instance.Navigation.RandomWalk.enabled = true;
-			Debug.Log("Start wander3");
+			BYOS.Instance.Navigation.RandomWalk.StartWander(iMood);
 			Wandering = true;
 		}
 
 		public void StopWander()
 		{
-			BYOS.Instance.Navigation.RandomWalk.StopWander();
-			BYOS.Instance.Navigation.RandomWalk.enabled = false;
+			Debug.Log("Stop wander");
+			BYOS.Instance.Navigation.Stop();
 			Wandering = false;
 		}
 
 		public void StartThermalFollow()
 		{
-			if (BYOS.Instance.Navigation.RandomWalk.enabled) {
+			if (Wandering) {
 				StopWander();
 			}
 			ThermalFollow = true;
@@ -154,7 +145,10 @@ namespace BuddyApp.Companion
 		internal void LookAt(int x, int y)
 		{
 			BYOS.Instance.Interaction.Face.LookAt(x, y);
-        }
+
+			//TODO
+			//BYOS.Instance.Interaction.Face.LookAt(x, y, true);
+		}
 
 		internal void LookCenter()
 		{

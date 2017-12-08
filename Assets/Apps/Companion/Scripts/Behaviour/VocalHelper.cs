@@ -91,6 +91,7 @@ namespace BuddyApp.Companion
 		private List<string> mISpeech;
 		private List<string> mIOTSpeech;
 		private List<string> mJukeboxSpeech;
+		private List<string> mLeftSpeech;
 		private List<string> mLookAtMeSpeech;
 		private List<string> mLookForSpeech;
 		private List<string> mMemorySpeech;
@@ -115,7 +116,9 @@ namespace BuddyApp.Companion
 		private List<string> mTemperatureSpeech;
 		private List<string> mTempSpeech;
 		private List<string> mThanksSpeech;
+		private List<string> mTurnSpeech;
 		private List<string> mURWelcomeSpeech;
+		private List<string> mVolumeSpeech;
 		private List<string> mVolumeDownSpeech;
 		private List<string> mVolumeUpSpeech;
 		private List<string> mWanderSpeech;
@@ -244,6 +247,7 @@ namespace BuddyApp.Companion
 			mISpeech = new List<string>();
 			mIOTSpeech = new List<string>();
 			mJukeboxSpeech = new List<string>();
+			mLeftSpeech = new List<string>();
 			mLookAtMeSpeech = new List<string>();
 			mLookForSpeech = new List<string>();
 			mMemorySpeech = new List<string>();
@@ -268,7 +272,9 @@ namespace BuddyApp.Companion
 			mTemperatureSpeech = new List<string>();
 			mTempSpeech = new List<string>();
 			mThanksSpeech = new List<string>();
+			mTurnSpeech = new List<string>();
 			mURWelcomeSpeech = new List<string>();
+			mVolumeSpeech = new List<string>();
 			mVolumeDownSpeech = new List<string>();
 			mVolumeUpSpeech = new List<string>();
 			mWanderSpeech = new List<string>();
@@ -298,7 +304,8 @@ namespace BuddyApp.Companion
 			FillListSyn("HeadUp", mHeadUpSpeech);
 			FillListSyn("HideSeek", mHideSeekSpeech);
 			FillListSyn("Hour", mHourSpeech);
-			FillListSyn("LookAtMe", mLookAtMeSpeech);
+			FillListSyn("Left", mLeftSpeech);
+            FillListSyn("LookAtMe", mLookAtMeSpeech);
 			FillListSyn("ICouldnt", mICouldntSpeech);
 			FillListSyn("I", mISpeech);
 			FillListSyn("IOT", mIOTSpeech);
@@ -316,8 +323,8 @@ namespace BuddyApp.Companion
 			FillListSyn("Question", mQuestionSpeech);
 			FillListSyn("Quit", mQuitSpeech);
 			FillListSyn("Quizz", mQuizzSpeech);
+			FillListSyn("Repeat", mRepeatPlzSpeech);
 			FillListSyn("RepeatAfterMe", mRepeatAfterMeSpeech);
-			FillListSyn("RepeatPlz", mRepeatPlzSpeech);
 			FillListSyn("Recipe", mRecipeSpeech);
 			FillListSyn("RLGL", mRLGLSpeech);
 			FillListSyn("SeveralRes", mSeveralResSpeech);
@@ -326,7 +333,9 @@ namespace BuddyApp.Companion
 			FillListSyn("Temperature", mTemperatureSpeech);
 			FillListSyn("Temp", mTempSpeech);
 			FillListSyn("Thanks", mThanksSpeech);
+			FillListSyn("Turn", mTurnSpeech);
 			FillListSyn("URWelcome", mURWelcomeSpeech);
+			FillListSyn("Volume", mVolumeSpeech);
 			FillListSyn("VolumeDown", mVolumeDownSpeech);
 			FillListSyn("VolumeUp", mVolumeUpSpeech);
 			FillListSyn("Wander", mWanderSpeech);
@@ -535,6 +544,12 @@ namespace BuddyApp.Companion
 				Answer = GetNextNumber(iSpeech, mMoveRightSpeech);
 				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "MoveRight";
+			} else if (ContainsOneOf(iSpeech, mTurnSpeech)) {
+				Answer = GetNextNumber(iSpeech, mTurnSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
+				if(ContainsOneOf(iSpeech, mLeftSpeech))
+					lType = "MoveLeft";
+				lType = "MoveRight";
 			} else if (ContainsOneOf(iSpeech, mWanderSpeech))
 				lType = "Wander";
 			else if (ContainsOneOf(iSpeech, mCanMoveSpeech))
@@ -557,6 +572,10 @@ namespace BuddyApp.Companion
 				Answer = GetNextNumber(iSpeech, mHeadUpSpeech);
 				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "HeadUp";
+			} else if (ContainsOneOf(iSpeech, mVolumeSpeech)) {
+				Answer = "" + BYOS.Instance.Primitive.Speaker.GetVolume();
+				Debug.Log("Vocal helper answer: " + Answer);
+				lType = "Volume";
 			} else if (ContainsOneOf(iSpeech, mVolumeDownSpeech)) {
 				Answer = GetNextNumber(iSpeech, mVolumeDownSpeech);
 				Debug.Log("Vocal helper answer: " + Answer);

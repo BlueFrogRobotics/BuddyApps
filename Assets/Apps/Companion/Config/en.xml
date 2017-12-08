@@ -395,5 +395,33 @@
                 <string> I go [degrees] degrees to the left</string>
             </RandomValues>
         </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>volumeup</Key>
+            <BaseValue />
+            <ClosePhoneticValues />
+            <RandomValues />
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>volume</Key>
+            <BaseValue>My volume is at </BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>My volume is at</string>
+                <string>My volume is set at</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>volumedown</Key>
+            <BaseValue>I decreased the volume of</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I decreased the volume of</string>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
     </Entries>
 </LanguageThesaurus>
