@@ -198,6 +198,8 @@ namespace BuddyApp.PlayMath{
             {
                 HasAnswer = true;
                 mElapsedTime = DateTime.Now - mStartTime;
+                // Pause before annoncing the result (STT notification "I hear...")
+                BYOS.Instance.Interaction.TextToSpeech.Silence(1000, true);
                 ShowResult(iSpeech);
             }
             else

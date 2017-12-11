@@ -51,6 +51,7 @@ namespace BuddyApp.PlayMath{
             BYOS.Instance.Interaction.TextToSpeech.Say(lTTSMessage,true);
             if( !mResult.isCorrect() )
                 AnnounceResult(lEquation);
+            BYOS.Instance.Interaction.TextToSpeech.Silence(1000, true);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
