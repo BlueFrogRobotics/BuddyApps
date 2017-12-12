@@ -471,11 +471,7 @@ namespace BuddyApp.Companion
 				lType = "Accept";
 			} else if (ContainsOneOf(iSpeech, mQuitSpeech))
 				lType = "Quit";
-			else if (ContainsOneOf(iSpeech, mRepeatPlzSpeech)) {
-				//TTSProcessAndSay(mPreviousAnswer, true);
-				//mAnswerGiven = true;
-				lType = "Repeat";
-			} else if (ContainsOneOf(iSpeech, mRepeatAfterMeSpeech)) {
+			else if (ContainsOneOf(iSpeech, mRepeatAfterMeSpeech)) {
 				int lKeywordsIndex = WordIndexOfOneOf(iSpeech, mRepeatAfterMeSpeech);
 				string[] lWords = iSpeech.Split(' ');
 				string lSentenceToRepeat = "";
@@ -488,6 +484,10 @@ namespace BuddyApp.Companion
 				Answer = lSentenceToRepeat;
 				//TTSProcessAndSay(lSentenceToRepeat, true);
 				//mAnswerGiven = true;
+			} else if (ContainsOneOf(iSpeech, mRepeatPlzSpeech)) {
+				//TTSProcessAndSay(mPreviousAnswer, true);
+				//mAnswerGiven = true;
+				lType = "Repeat";
 			} else if (ContainsOneOf(iSpeech, mBehaviourSpeech)) {
 				int lKeywordsIndex = WordIndexOfOneOf(iSpeech, mBehaviourSpeech);
 				string[] lWords = iSpeech.Split(' ');
@@ -528,29 +528,7 @@ namespace BuddyApp.Companion
 				lType = "FollowMe";
 			else if (ContainsOneOf(iSpeech, mLookAtMeSpeech))
 				lType = "LookAtMe";
-			else if (ContainsOneOf(iSpeech, mMoveBackwardSpeech)) {
-				Answer = GetNextNumber(iSpeech, mMoveBackwardSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "MoveBackward";
-			} else if (ContainsOneOf(iSpeech, mMoveForwardSpeech)) {
-				Answer = GetNextNumber(iSpeech, mMoveForwardSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "MoveForward";
-			} else if (ContainsOneOf(iSpeech, mMoveLeftSpeech)) {
-				Answer = GetNextNumber(iSpeech, mMoveLeftSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "MoveLeft";
-			} else if (ContainsOneOf(iSpeech, mMoveRightSpeech)) {
-				Answer = GetNextNumber(iSpeech, mMoveRightSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "MoveRight";
-			} else if (ContainsOneOf(iSpeech, mTurnSpeech)) {
-				Answer = GetNextNumber(iSpeech, mTurnSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				if(ContainsOneOf(iSpeech, mLeftSpeech))
-					lType = "MoveLeft";
-				lType = "MoveRight";
-			} else if (ContainsOneOf(iSpeech, mWanderSpeech))
+			else if (ContainsOneOf(iSpeech, mWanderSpeech))
 				lType = "Wander";
 			else if (ContainsOneOf(iSpeech, mCanMoveSpeech))
 				lType = "CanMove";
@@ -572,6 +550,28 @@ namespace BuddyApp.Companion
 				Answer = GetNextNumber(iSpeech, mHeadUpSpeech);
 				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "HeadUp";
+			} else if (ContainsOneOf(iSpeech, mTurnSpeech)) {
+				Answer = GetNextNumber(iSpeech, mTurnSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
+				if (ContainsOneOf(iSpeech, mLeftSpeech))
+					lType = "MoveLeft";
+				lType = "MoveRight";
+			} else if (ContainsOneOf(iSpeech, mMoveBackwardSpeech)) {
+				Answer = GetNextNumber(iSpeech, mMoveBackwardSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
+				lType = "MoveBackward";
+			} else if (ContainsOneOf(iSpeech, mMoveForwardSpeech)) {
+				Answer = GetNextNumber(iSpeech, mMoveForwardSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
+				lType = "MoveForward";
+			} else if (ContainsOneOf(iSpeech, mMoveLeftSpeech)) {
+				Answer = GetNextNumber(iSpeech, mMoveLeftSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
+				lType = "MoveLeft";
+			} else if (ContainsOneOf(iSpeech, mMoveRightSpeech)) {
+				Answer = GetNextNumber(iSpeech, mMoveRightSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
+				lType = "MoveRight";
 			} else if (ContainsOneOf(iSpeech, mVolumeSpeech)) {
 				Answer = "" + BYOS.Instance.Primitive.Speaker.GetVolume();
 				Debug.Log("Vocal helper answer: " + Answer);

@@ -10,7 +10,6 @@ namespace BuddyApp.Companion
 	/// <summary>
 	/// Manager class that have reference to the differents stimuli and subscribes to their callbacks
 	/// </summary>
-	[RequireComponent(typeof(RoombaNavigation))]
 	public class ActionManager : MonoBehaviour
 	{
 		private int mHeadCounter;
@@ -53,7 +52,6 @@ namespace BuddyApp.Companion
 			if (ThermalFollow) {
 				StopThermalFollow();
 			}
-			BYOS.Instance.Navigation.RandomWalk.enabled = true;
 			BYOS.Instance.Navigation.RandomWalk.StartWander(iMood);
 			Wandering = true;
 		}
@@ -61,7 +59,7 @@ namespace BuddyApp.Companion
 		public void StopWander()
 		{
 			Debug.Log("Stop wander");
-			BYOS.Instance.Navigation.Stop();
+			BYOS.Instance.Navigation.RandomWalk.StopWander();
 			Wandering = false;
 		}
 

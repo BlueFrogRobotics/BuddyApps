@@ -62,7 +62,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mState.text = "User Detected nrj \n" + BYOS.Instance.Primitive.Battery.EnergyLevel;
+			mState.text = "User Detected \n nrj: " + BYOS.Instance.Primitive.Battery.EnergyLevel;
 
 			mTimeHumanDetected += Time.deltaTime;
 			mTimeState += Time.deltaTime;

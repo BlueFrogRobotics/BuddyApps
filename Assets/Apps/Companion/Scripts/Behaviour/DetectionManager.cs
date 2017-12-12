@@ -116,7 +116,7 @@ namespace BuddyApp.Companion
 					mDetectedElement = Detected.BATTERY;
 
 			if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered) {
-				Debug.Log("VOCAL TRIGGERED");
+				//Debug.Log("VOCAL TRIGGERED");
 				if (IsDetectingTrigger && CompanionData.Instance.CanTrigger)
 					mDetectedElement = Detected.TRIGGER;
 			}

@@ -11,6 +11,7 @@ namespace BuddyApp.Companion
 	{
 		private bool mTrigged;
 		private float mTimeThermal;
+		private float mTimeLastThermal;
 
 		public override void Start()
 		{
@@ -22,7 +23,8 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
-			mTimeThermal = 0;
+			mTimeThermal = 0F;
+			mTimeLastThermal = 0F;
             mState.text = "Wander";
 			mTrigged = false;
 			Debug.Log("state: Wander");
@@ -44,8 +46,9 @@ namespace BuddyApp.Companion
 				mActionManager.StartWander(MoodType.NEUTRAL);
 			}
 
-			// if we foolow for a while, go back to wander:
-			if (mActionManager.ThermalFollow && Time.time - mTimeThermal > CompanionData.Instance.InteractDesire)
+			// if we foolow for a while, or lose the target for 5 seconds, go back to wander:
+			if (mActionManager.ThermalFollow && (Time.time - mTimeThermal > CompanionData.Instance.InteractDesire
+				|| (Time.time - mTimeLastThermal > 5.0F)))
 				mActionManager.StartWander(MoodType.NEUTRAL);
 
 			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
@@ -72,11 +75,13 @@ namespace BuddyApp.Companion
 
 				// If thermal signature, activate thermal follow for some time
 				case Detected.THERMAL:
+					mTimeLastThermal = Time.time;
 					if (CompanionData.Instance.InteractDesire > 80 && CompanionData.Instance.InteractDesire > CompanionData.Instance.MovingDesire) {
 						mTrigged = true;
 						Trigger("INTERACT");
-					} else if (CompanionData.Instance.InteractDesire > 30) {
+					} else if (CompanionData.Instance.InteractDesire > 30 && !mActionManager.ThermalFollow) {
 						//Stop wandering and go to thermal follow
+						Debug.Log("CompanionWander start following " + CompanionData.Instance.InteractDesire);
 						mTimeThermal = Time.time;
 						mDetectionManager.mDetectedElement = Detected.NONE;
 						Interaction.Mood.Set(MoodType.HAPPY);
