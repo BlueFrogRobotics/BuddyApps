@@ -123,6 +123,7 @@ namespace BuddyApp.Companion
 		private List<string> mVolumeUpSpeech;
 		private List<string> mWanderSpeech;
 		private List<string> mWantToKnowSpeech;
+		private List<string> mWhoIs;
 
 		private TextToSpeech mTTS;
 		private VocalManager mVocalManager;
@@ -279,6 +280,7 @@ namespace BuddyApp.Companion
 			mVolumeUpSpeech = new List<string>();
 			mWanderSpeech = new List<string>();
 			mWantToKnowSpeech = new List<string>();
+			mWhoIs = new List<string>();
 
 			FillListSyn("Accept", mAcceptSpeech);
 			FillListSyn("Alarm", mAlarmSpeech);
@@ -305,7 +307,7 @@ namespace BuddyApp.Companion
 			FillListSyn("HideSeek", mHideSeekSpeech);
 			FillListSyn("Hour", mHourSpeech);
 			FillListSyn("Left", mLeftSpeech);
-            FillListSyn("LookAtMe", mLookAtMeSpeech);
+			FillListSyn("LookAtMe", mLookAtMeSpeech);
 			FillListSyn("ICouldnt", mICouldntSpeech);
 			FillListSyn("I", mISpeech);
 			FillListSyn("IOT", mIOTSpeech);
@@ -340,6 +342,7 @@ namespace BuddyApp.Companion
 			FillListSyn("VolumeUp", mVolumeUpSpeech);
 			FillListSyn("Wander", mWanderSpeech);
 			FillListSyn("WantToKnow", mWantToKnowSpeech);
+			FillListSyn("WhoIs", mWhoIs);
 		}
 
 		//private void InitChatBot()
@@ -524,6 +527,34 @@ namespace BuddyApp.Companion
 						lDefinitionWord += lWords[j] + " ";
 				}
 				StartCoroutine(BuildDefinitionAnswer(lDefinitionWord));
+			} else if (ContainsOneOf(iSpeech, mWhoIs)) {
+				Debug.Log("Contains who is");
+				//We search for the location of the weather request
+				int lKeywordIndex = WordIndexOfOneOf(iSpeech, mWhoIs);
+				string[] lWords = iSpeech.Split(' ');
+				if (lKeywordIndex + 1 < lWords.Length) {
+					if (char.IsUpper(lWords[lKeywordIndex + 1][0])) {
+						Debug.Log("next is upper: " + lWords[lKeywordIndex + 1]);
+						lType = "Definition";
+						string lDefinitionWord = "";
+
+						if (lKeywordIndex != -1 && lKeywordIndex != lWords.Length) {
+							for (int j = lKeywordIndex + 1; j < lWords.Length; j++)
+								lDefinitionWord += lWords[j] + " ";
+						}
+						StartCoroutine(BuildDefinitionAnswer(lDefinitionWord));
+					} else {
+
+						Debug.Log("next is not upper: " + lWords[lKeywordIndex + 1]);
+					}
+				}
+
+				// General answer if not common name
+				if (lType != "Definition") {
+					lType = "Answer";
+					Answer = BuildGeneralAnswer(iSpeech);
+				}
+
 			} else if (ContainsOneOf(iSpeech, mFollowMeSpeech))
 				lType = "FollowMe";
 			else if (ContainsOneOf(iSpeech, mLookAtMeSpeech))
@@ -636,7 +667,7 @@ namespace BuddyApp.Companion
 				//TTSProcessAndSay("beep", true);
 				//mTTS.Silence(1000, true);
 				//TTSProcessAndSay("and beep", true);
-			} else if (iSpeech.Contains("propose"))
+			} else if (iSpeech.ToLower().Contains("propose"))
 				//lType = Suggest();
 				lType = "propose";
 			//else if (iSpeech.Contains("cleverbot")) {
@@ -1009,7 +1040,7 @@ namespace BuddyApp.Companion
 				if (words.Length < 2) {
 					words = iSpeech.Split(' ');
 					foreach (string word in words) {
-						if (word == iListSpeech[i].ToLower()) {
+						if (word.ToLower() == iListSpeech[i].ToLower()) {
 							return true;
 						}
 					}

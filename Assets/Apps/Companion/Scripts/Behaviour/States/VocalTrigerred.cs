@@ -36,6 +36,7 @@ namespace BuddyApp.Companion
 
 			mLastBuddySpeech = "";
 			mNeedToGiveAnswer = false;
+			mError = false;
 			mSpeechInput = false;
 			Interaction.VocalManager.EnableTrigger = false;
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
@@ -67,7 +68,7 @@ namespace BuddyApp.Companion
 			mTime = 0F;
 			mSpeechInput = true;
 			Debug.Log("Reco vocal: " + iText);
-			mVocalChat.SpecialRequest(iText.ToLower());
+			mVocalChat.SpecialRequest(iText);
 
 		}
 
@@ -201,10 +202,11 @@ namespace BuddyApp.Companion
 					break;
 
 				case "DontMove":
-					Primitive.Motors.Wheels.Locked = true;
+					SayKey("istopmoving", true);
 					mActionManager.StopAllActions();
 					CompanionData.Instance.MovingDesire -= 20;
 					CompanionData.Instance.CanMoveBody = false;
+					Primitive.Motors.Wheels.Locked = true;
 					mNeedListen = true;
 					break;
 

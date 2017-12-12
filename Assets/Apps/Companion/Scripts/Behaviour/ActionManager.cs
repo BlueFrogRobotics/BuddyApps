@@ -75,6 +75,7 @@ namespace BuddyApp.Companion
 		public void StopThermalFollow()
 		{
 			BYOS.Instance.Navigation.Stop();
+			BYOS.Instance.Navigation.StopAllCoroutines();
 			ThermalFollow = false;
 		}
 
