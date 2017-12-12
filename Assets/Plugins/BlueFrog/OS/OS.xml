@@ -6982,6 +6982,30 @@
             This class represents user preferences
             </summary>
         </member>
+        <member name="F:Buddy.UI.PoolInflationType.INCREMENT">
+            When a dynamic pool inflates, add one to the pool.
+        </member>
+        <member name="F:Buddy.UI.PoolInflationType.DOUBLE">
+            When a dynamic pool inflates, double the size of the pool
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
+        <member name="M:Buddy.UI.PoolManager.ReturnObjectToPool(UnityEngine.GameObject)">
+            <summary>
+            Return obj to the pool
+            </summary>
+            <param name="go"></param>
+        </member>
+        <member name="M:Buddy.UI.PoolManager.ReturnTransformToPool(UnityEngine.Transform)">
+            <summary>
+            Return obj to the pool
+            </summary>
+            <param name="t"></param>
+        </member>
+        <member name="T:Buddy.UI.VerticalCarouselToast">
+            <summary>
+            Toast to display a vertical carousel
+            </summary>
+        </member>
         <member name="T:Buddy.UI.AppsContainer">
             <summary>
             Container for app icon
