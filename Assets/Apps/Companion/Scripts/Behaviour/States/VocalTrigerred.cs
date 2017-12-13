@@ -74,7 +74,7 @@ namespace BuddyApp.Companion
 
 		void ErrorSTT(STTError iError)
 		{
-			Debug.Log("Error STT");
+			Debug.Log("Error STT ");
 			// If first error
 			if (!mError) {
 				mError = true;
@@ -160,7 +160,7 @@ namespace BuddyApp.Companion
 
 				case "Babyphone":
 					CompanionData.Instance.InteractDesire -= 10;
-					StartApp("BabyApp");
+					StartApp("BabyPhone");
 					break;
 
 				case "BML":
@@ -171,7 +171,7 @@ namespace BuddyApp.Companion
 
 				case "Calcul":
 					CompanionData.Instance.InteractDesire -= 50;
-					StartApp("CalculGameApp");
+					StartApp("CalculGame");
 					break;
 
 				case "CanMove":
@@ -222,7 +222,7 @@ namespace BuddyApp.Companion
 
 				case "FreezeDance":
 					CompanionData.Instance.InteractDesire -= 50;
-					StartApp("FreezeDanceApp");
+					StartApp("FreezeDance");
 					break;
 
 				case "Guardian":
@@ -318,7 +318,7 @@ namespace BuddyApp.Companion
 
 				case "Jukebox":
 					CompanionData.Instance.InteractDesire -= 20;
-					StartApp("JukeboxApp_V2");
+					StartApp("Jukebox");
 					break;
 
 				case "MoveBackward":
@@ -389,17 +389,18 @@ namespace BuddyApp.Companion
 
 				case "Memory":
 					CompanionData.Instance.InteractDesire -= 50;
-					StartApp("MemoryGameApp");
+					StartApp("MemoryGame");
 					break;
 
 				case "Photo":
 					CompanionData.Instance.InteractDesire -= 30;
-					StartApp("TakePhotoApp");
+					Debug.Log("starting app takephoto");
+					StartApp("TakePhoto");
 					break;
 
 				case "Pose":
 					CompanionData.Instance.InteractDesire -= 30;
-					StartApp("TakePoseApp");
+					StartApp("Take Pose");
 					break;
 
 				case "Quit":
@@ -412,7 +413,7 @@ namespace BuddyApp.Companion
 
 				case "Quizz":
 					CompanionData.Instance.InteractDesire -= 50;
-					StartApp("QuizzGameApp");
+					StartApp("QuizzGame");
 					break;
 
 				case "Recipe":
@@ -429,7 +430,7 @@ namespace BuddyApp.Companion
 
 				case "RLGL":
 					CompanionData.Instance.InteractDesire -= 50;
-					StartApp("RLGLApp");
+					StartApp("RLGL");
 					break;
 
 				case "Volume":
@@ -515,6 +516,8 @@ namespace BuddyApp.Companion
 			new StartAppCmd(iAppName).Execute();
 			CompanionData.Instance.LastAppTime = Time.time;
 			CompanionData.Instance.LastApp = iAppName;
+			SayKey("ilaunchapp");
+			mNeedListen = true;
 		}
 
 		private bool IsMoving()

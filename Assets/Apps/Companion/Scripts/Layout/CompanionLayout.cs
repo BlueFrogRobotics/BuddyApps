@@ -96,13 +96,13 @@ namespace BuddyApp.Companion
 
 			mWheelsMotion.OnSwitchEvent((iVal) => {
 				CompanionData.Instance.CanMoveBody = iVal;
-				BYOS.Instance.Primitive.Motors.Wheels.Locked = iVal;
+				BYOS.Instance.Primitive.Motors.Wheels.Locked = !iVal;
 			});
 
 			mHeadMotion.OnSwitchEvent((iVal) => {
 				CompanionData.Instance.CanMoveHead = iVal;
-				BYOS.Instance.Primitive.Motors.YesHinge.Locked = iVal;
-				BYOS.Instance.Primitive.Motors.NoHinge.Locked = iVal;
+				BYOS.Instance.Primitive.Motors.YesHinge.Locked = !iVal;
+				BYOS.Instance.Primitive.Motors.NoHinge.Locked = !iVal;
 			});
 
 			mTrigger.OnSwitchEvent((iVal) => {

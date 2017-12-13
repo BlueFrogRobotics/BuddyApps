@@ -99,7 +99,7 @@ namespace BuddyApp.Companion
 		{
 
 			if (BYOS.Instance.Primitive.Battery.EnergyLevel < 15 && BYOS.Instance.Primitive.Battery.EnergyLevel < 0.000001) {
-				Debug.Log("WARNING BATTERY NOT DETECTED!!!");
+				//Debug.Log("WARNING BATTERY NOT DETECTED!!!");
 			}
 
 			// If nothing else touched (eye, mouth) validate the other touched

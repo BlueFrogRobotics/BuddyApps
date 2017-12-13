@@ -552,7 +552,7 @@ namespace BuddyApp.Companion
 				// General answer if not common name
 				if (lType != "Definition") {
 					lType = "Answer";
-					Answer = BuildGeneralAnswer(iSpeech);
+					Answer = BuildGeneralAnswer(iSpeech.ToLower());
 				}
 
 			} else if (ContainsOneOf(iSpeech, mFollowMeSpeech))
@@ -683,7 +683,7 @@ namespace BuddyApp.Companion
 			//	}
 			else {
 				lType = "Answer";
-				Answer = BuildGeneralAnswer(iSpeech);
+				Answer = BuildGeneralAnswer(iSpeech.ToLower());
 			}
 
 			OnQuestionTypeFound(lType);

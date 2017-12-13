@@ -59,6 +59,7 @@ namespace BuddyApp.Companion
 		public void StopWander()
 		{
 			Debug.Log("Stop wander");
+			BYOS.Instance.Navigation.StopAllCoroutines();
 			BYOS.Instance.Navigation.RandomWalk.StopWander();
 			Wandering = false;
 		}
