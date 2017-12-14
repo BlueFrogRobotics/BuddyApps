@@ -4,9 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Buddy.UI;
 using System.Collections.Generic;
+using OpenCVUnity;
 
 namespace BuddyApp.TakePhoto
 {
+
+
+
 	public class TakePhoto : AStateMachineBehaviour
 	{
 		private RawImage mVideo;
@@ -26,6 +30,7 @@ namespace BuddyApp.TakePhoto
 		private RawImage mOverlay;
 		private Texture2D mOverlayTexture;
 		private List<string> mOverlaysNames;
+		private Mat mMat;
 
 		public override void Start()
 		{
@@ -58,7 +63,7 @@ namespace BuddyApp.TakePhoto
 
 
 			string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
-            Sprite lOverlaySprite = Resources.Load<Sprite>(lRandomSpriteName);
+			Sprite lOverlaySprite = Resources.Load<Sprite>(lRandomSpriteName);
 			mOverlaysTextures[lRandomSpriteName] = lOverlaySprite.texture;
 
 			//Sprite lOverlaySprite = Resources.Load<Sprite>("overcrazy");
@@ -82,6 +87,7 @@ namespace BuddyApp.TakePhoto
 			Debug.Log("Init TakePhoto done");
 
 			Primitive.RGBCam.Resolution = RGBCamResolution.W_640_H_480;
+			mMat = new Mat();
 
 		}
 
@@ -116,7 +122,9 @@ namespace BuddyApp.TakePhoto
 
 			Interaction.TextToSpeech.SayKey("takephoto", true);
 
-			mVideo.texture = Primitive.RGBCam.FrameTexture2D;
+			Mat mMatSrc = Primitive.RGBCam.FrameMat;
+			Core.flip(mMatSrc, mMat, 1);
+			mVideo.texture = Utils.MatToTexture2D(mMat);
 			Debug.Log("TakePhoto 3");
 		}
 
@@ -126,7 +134,10 @@ namespace BuddyApp.TakePhoto
 			// update overlay if updated in params
 			if (TakePhotoData.Instance.Overlay != mOverlay.gameObject.activeSelf)
 				mOverlay.gameObject.SetActive(TakePhotoData.Instance.Overlay);
-			mVideo.texture = Primitive.RGBCam.FrameTexture2D;
+
+			Mat mMatSrc = Primitive.RGBCam.FrameMat;
+			Core.flip(mMatSrc, mMat, 1);
+			mVideo.texture = Utils.MatToTexture2D(mMat);
 
 			if (Interaction.TextToSpeech.HasFinishedTalking) {
 				//if (!mNeedExit) {
@@ -141,7 +152,7 @@ namespace BuddyApp.TakePhoto
 						mTimer = 0F;
 
 					} else if (!mPhotoTaken) {
-						if(Primitive.RGBCam.Width > 0) {
+						if (Primitive.RGBCam.Width > 0) {
 							mPictureSound.Play();
 							Primitive.RGBCam.TakePhotograph(OnFinish, false);
 							mPhotoTaken = true;
@@ -162,6 +173,25 @@ namespace BuddyApp.TakePhoto
 				//}
 			}
 		}
+
+		Texture2D FlipTexture(Texture2D iOriginal)
+		{
+			Texture2D lFlipped = new Texture2D(iOriginal.width, iOriginal.height);
+
+			int xN = iOriginal.width;
+			int yN = iOriginal.height;
+
+
+			for (int i = 0; i < xN; i++) {
+				for (int j = 0; j < yN; j++) {
+					lFlipped.SetPixel(xN - i - 1, j, iOriginal.GetPixel(i, j));
+				}
+			}
+			lFlipped.Apply();
+
+			return lFlipped;
+		}
+
 
 		private void OnFinish(Photograph iMyPhoto)
 		{
@@ -184,7 +214,8 @@ namespace BuddyApp.TakePhoto
 			//lOverlay.Apply();
 
 			if (TakePhotoData.Instance.Overlay) {
-				Texture2D lTexture = iMyPhoto.Image.texture;
+
+				Texture2D lTexture = FlipTexture(iMyPhoto.Image.texture);
 
 				var cols1 = mOverlayTexture.GetPixels();
 				var cols2 = lTexture.GetPixels();
@@ -206,15 +237,15 @@ namespace BuddyApp.TakePhoto
 
 				lTexture.SetPixels(cols2);
 				lTexture.Apply();
-				mPhotoSprite = Sprite.Create(lTexture, new Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
+				mPhotoSprite = Sprite.Create(lTexture, new UnityEngine.Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
 
 			} else
 				mPhotoSprite = iMyPhoto.Image;
 
-				Utils.SaveSpriteToFile(mPhotoSprite, lFilePath);
-				CommonStrings["photoPath"] = lFilePath;
-				Trigger("AskPhotoAgain");
-			}
+			Utils.SaveSpriteToFile(mPhotoSprite, lFilePath);
+			CommonStrings["photoPath"] = lFilePath;
+			Trigger("AskPhotoAgain");
+		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -38,6 +38,8 @@ namespace BuddyApp.TakePhoto
 			Primitive.Motors.NoHinge.SetPosition(0F, 200F);
 			Primitive.Motors.YesHinge.SetPosition(0F, 200F);
 
+			mMat = new Mat();
+
 			//StartCoroutine(Defeat());
 		}
 
@@ -50,18 +52,22 @@ namespace BuddyApp.TakePhoto
 					mTimerLimit = 0F;
 					mHasShowWindow = true;
 
-					mMat = mCam.FrameMat;
+					Mat mMatSrc = mCam.FrameMat;
+					Core.flip(mMatSrc, mMat, 1);
 					mTexture = Utils.MatToTexture2D(mMat);
 					Toaster.Display<PictureToast>().With("movehands", Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
 				}
 				if (mDetectionCount <= 200 && mHasShowWindow) {
 					if (mMatDetection == null) {
-						mMat = mCam.FrameMat.clone();//Utils.Texture2DToMat(mTexture, OpenCVUnity.CvType.CV_8UC3);
-						//Imgproc.rectangle(mMat, new Point((int)(mMat.width() / 3), 0), new Point((int)(mMat.width() * 2 / 3), mMat.height()), new Scalar(255, 0, 0), 3);
+						
+						Mat mMatSrc = mCam.FrameMat.clone();
+						Core.flip(mMatSrc, mMat, 1);
 						Texture2D lTexture = Utils.MatToTexture2D(mMat);
 						mTexture.SetPixels(lTexture.GetPixels());
 					} else {
-						Texture2D lTexture = Utils.MatToTexture2D(mMatDetection);
+						Mat mMatSrc = mMatDetection;
+						Core.flip(mMatSrc, mMat, 1);
+						Texture2D lTexture = Utils.MatToTexture2D(mMat);
 						mTexture.SetPixels(lTexture.GetPixels());
 						mMatDetection = null;
 					}
@@ -143,6 +149,24 @@ namespace BuddyApp.TakePhoto
 			
 			Trigger("Photo");
 		}
+
+		//Texture2D FlipTexture(Texture2D iOriginal)
+		//{
+		//	Texture2D lFlipped = new Texture2D(iOriginal.width, iOriginal.height);
+
+		//	int xN = iOriginal.width;
+		//	int yN = iOriginal.height;
+
+
+		//	for (int i = 0; i < xN; i++) {
+		//		for (int j = 0; j < yN; j++) {
+		//			lFlipped.SetPixel(xN - i - 1, j, iOriginal.GetPixel(i, j));
+		//		}
+		//	}
+		//	lFlipped.Apply();
+
+		//	return lFlipped;
+		//}
 
 
 	}
