@@ -35,8 +35,9 @@ namespace BuddyApp.Companion
 		{
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 			Utils.LogI(LogContext.APP, "Enter UserD 0");
-			mState.text = "User Detected" + Primitive.Battery.EnergyLevel;
+			mState.text = "User Detected";
 
 			mTimeState = 0F;
 			mTimeHumanDetected = 0F;
@@ -62,7 +63,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mState.text = "User Detected wl: " + BYOS.Instance.Primitive.Motors.Wheels.Locked;
+			mState.text = "User Detected move: " + !BYOS.Instance.Primitive.Motors.Wheels.Locked;
 
 			mTimeHumanDetected += Time.deltaTime;
 			mTimeState += Time.deltaTime;

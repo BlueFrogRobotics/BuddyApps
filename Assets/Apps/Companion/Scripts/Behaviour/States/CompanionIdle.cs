@@ -17,12 +17,12 @@ namespace BuddyApp.Companion
 		private float mTimeIdle;
 		private float mPreviousTime;
 		private float mLastBMLTime;
+		private bool mHeadPlaying;
 
 		public override void Start()
 		{
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
-			CompanionData.Instance.InteractDesire = 60;
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -38,13 +38,21 @@ namespace BuddyApp.Companion
 			mTimeIdle = 0F;
 			mPreviousTime = 0F;
 
+			Interaction.Face.SetEvent(FaceEvent.YAWN);
+			Primitive.Speaker.Voice.Play(VoiceSound.YAWN);
 			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
 			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.REGULAR_ACTIVATION_MINUTE, OnMinuteActivation);
 
 
 			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
 			Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = true;
-		}
+
+			//TODO: remove this when BML
+
+
+			StartCoroutine(SearchingHeadCo());
+			mHeadPlaying = true;
+        }
 
 
 
@@ -134,6 +142,42 @@ namespace BuddyApp.Companion
 			Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = false;
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			mHeadPlaying = false;
+			StopCoroutine(SearchingHeadCo());
+        }
+
+
+
+			
+		//This makes the head look right and left on random angles
+		private IEnumerator SearchingHeadCo()
+		{
+			while (mHeadPlaying) {
+
+				switch (UnityEngine.Random.Range(0, 2)) {
+					case 0:
+						TurnHeadNo(UnityEngine.Random.Range(10F, 30F), UnityEngine.Random.Range(40F, 60F));
+						break;
+					case 1:
+						TurnHeadYes(UnityEngine.Random.Range(- 15F, 15F), UnityEngine.Random.Range(40F, 60F));
+						break;
+				}
+				yield return new WaitForSeconds(2.0F);
+			}
+
+		}
+
+		private void TurnHeadNo(float iHeadNo, float iSpeed)
+		{
+			if (Primitive.Motors.NoHinge.CurrentAnglePosition > 0F)
+				iHeadNo = -iHeadNo;
+
+			Primitive.Motors.NoHinge.SetPosition(iHeadNo);
+		}
+
+		private void TurnHeadYes(float iHeadYes, float iSpeed)
+		{
+			Primitive.Motors.YesHinge.SetPosition(iHeadYes, iSpeed);
 		}
 
 		//////// CALLBACKS
@@ -145,12 +189,21 @@ namespace BuddyApp.Companion
 
 		void OnMinuteActivation()
 		{
-			int lRand = UnityEngine.Random.Range(0, 100);
+			int lRand = UnityEngine.Random.Range(0, 101);
 
 			if (lRand < CompanionData.Instance.Bored) {
-				CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored / 10;
-				CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored / 10;
+				//CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored / 10;
+				//CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored / 10;
+
+				//TODO remove this (CES hack)
+
+				if(UnityEngine.Random.Range(0, 2) == 0)
+					CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored;
+				else
+					CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored;
+
 				Interaction.Face.SetEvent(FaceEvent.YAWN);
+				Primitive.Speaker.Voice.Play(VoiceSound.YAWN);
 			}
 		}
 
