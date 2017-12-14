@@ -44,6 +44,11 @@ namespace BuddyApp.ExperienceCenter {
 			StoreUndeploy();
 			yield return new WaitForSeconds(5.0f);
 
+			SonosPlay();
+			yield return new WaitForSeconds(20.0f);
+			SonosStop();
+			yield return new WaitForSeconds(2.0f);
+
 			while (true)
 			{
 				LightOff();
@@ -71,6 +76,16 @@ namespace BuddyApp.ExperienceCenter {
 		public void StoreUndeploy()
 		{
 			ExecuteAction("SUNEA io", "undeploy");
+		}
+
+		public void SonosPlay()
+		{
+			ExecuteAction("Sonos PLAY:1", "play");
+		}
+
+		public void SonosStop()
+		{
+			ExecuteAction("Sonos PLAY:1", "stop");
 		}
 
 		//TODO Implement SONOS Commands
