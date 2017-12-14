@@ -5,15 +5,25 @@ using UnityEngine;
 namespace BuddyApp.ExperienceCenter{
 public class ECInitState : StateMachineBehaviour {
 
+		private HTTPRequestManager HTTPClient;
+
+		private bool mLogoutOnce;
+
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-	//override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	//
-	//}
+	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+			HTTPClient = GameObject.Find("AIBehaviour").GetComponent<HTTPRequestManager>();
+			mLogoutOnce = false;
+			HTTPClient.Login();
+	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-	//override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	//
-	//}
+	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+			if (HTTPClient.RetrieveDevices && !mLogoutOnce)
+			{
+				mLogoutOnce = true;
+				HTTPClient.TestAPI();
+			}
+	}
 
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	//override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
