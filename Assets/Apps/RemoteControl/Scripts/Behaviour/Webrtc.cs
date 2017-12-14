@@ -78,7 +78,7 @@ namespace BuddyApp.RemoteControl
 	    {
 	        // Ask update of android texture
 
-	        mTextureMutex.WaitOne();
+	        //mTextureMutex.WaitOne();
 
 	        if (mRemoteNativeTexture != null)
 	        {
@@ -90,7 +90,7 @@ namespace BuddyApp.RemoteControl
 	            mLocalNativeTexture.Update();
 	        }
 
-	        mTextureMutex.ReleaseMutex();
+	        //mTextureMutex.ReleaseMutex();
 	    }
 
 	    void InitLocalTexture(int width, int height)
@@ -134,7 +134,7 @@ namespace BuddyApp.RemoteControl
 			Utils.LogI("Local user is " + mLocalUser);
 			Utils.LogI("Remote caller is " + WebRTCListener.RemoteID);
 
-			using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+			using (AndroidJavaClass cls = new AndroidJavaClass("com.bfr.unityrtc.Webrtc"))
 			{
 				using (AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 				{
@@ -162,7 +162,7 @@ namespace BuddyApp.RemoteControl
             Utils.LogI("Local user is " + mLocalUser);
             Utils.LogI("Remote caller is " + WebRTCListener.RemoteID);
 
-	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+			using (AndroidJavaClass cls = new AndroidJavaClass("com.bfr.unityrtc.Webrtc"))
 	        {
 	            using (AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
 	            {
@@ -181,7 +181,7 @@ namespace BuddyApp.RemoteControl
 	    public void StartWebRTC()
 	    {
 			Utils.LogI ("Starting webRTC");
-	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+			using (AndroidJavaClass cls = new AndroidJavaClass("com.bfr.unityrtc.Webrtc"))
 	        {
 	            cls.CallStatic("StartWebrtc");
 	        }
@@ -199,7 +199,7 @@ namespace BuddyApp.RemoteControl
 	        mLocalNativeTexture.Destroy();
 
 			Utils.LogI("Stop WebRTC");
-	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+			using (AndroidJavaClass cls = new AndroidJavaClass("com.bfr.unityrtc.Webrtc"))
 	        {
 	            cls.CallStatic("StopWebrtc");
 	        }
@@ -213,7 +213,7 @@ namespace BuddyApp.RemoteControl
 	    {
 			Utils.LogI("Call : " + mRemoteUser);
 	        // mTextSend.text += "\nCall : " + iChannel;
-	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+			using (AndroidJavaClass cls = new AndroidJavaClass("com.bfr.unityrtc.Webrtc"))
 	        {
 	            cls.CallStatic("Call", mRemoteUser);
 	        }
@@ -229,7 +229,7 @@ namespace BuddyApp.RemoteControl
 			Utils.LogI("Hang Up : " + mRemoteUser);
 	        if (mConnectionState == CONNECTION.CONNECTING)
 	        {
-	            using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+				using (AndroidJavaClass cls = new AndroidJavaClass("com.bfr.unityrtc.Webrtc"))
 	            {
 	                cls.CallStatic("Hangup", mRemoteUser);
 	            }
@@ -254,7 +254,7 @@ namespace BuddyApp.RemoteControl
 
 	        if ((mConnectionState == CONNECTION.CONNECTING) && iThroughDataChannel)
 	        {
-	            using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+				using (AndroidJavaClass cls = new AndroidJavaClass("com.bfr.unityrtc.Webrtc"))
 	            {
 					Utils.LogI("sending message : " + iMessage + " to : " + mRemoteUser + " through data channel");
 	                cls.CallStatic("SendMessage", iMessage, mRemoteUser);
@@ -262,7 +262,7 @@ namespace BuddyApp.RemoteControl
 	        }
 	        else if (!iThroughDataChannel)
 	        {
-	            using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+				using (AndroidJavaClass cls = new AndroidJavaClass("com.bfr.unityrtc.Webrtc"))
 	            {
 					Utils.LogI("sending message : " + iMessage + " to : " + mRemoteUser + " through messaging channel");
 	                cls.CallStatic("SendMessage", iMessage, mRemoteUser, false);
@@ -309,31 +309,40 @@ namespace BuddyApp.RemoteControl
 			Utils.LogI(iMessage);
 	    }
 
+		public void onRTCStateChanged(string state)
+		{
+			Utils.LogI("Android Debug : " + state);
+			if (state.Contains("onStateChange: CLOSING"))
+			{
+				mIsConnected = false;
+			}
+			if (state.Contains("onStateChange: CLOSED"))
+			{
+				mIsConnected = false;
+				//HangUp();
+				Utils.LogI("Hung up");
+				//this.gameObject.SetActive(false);
+				GameObject.Find(mWebrtcReceiverObjectName).SetActive(false);
+				Utils.LogI("Deactivated RTC Controller");
+				StopWebRTC();
+				Utils.LogI("Stopped WebRTC protocol");
+				AAppActivity.QuitApp();
+				Utils.LogI("Going back home");
+			}
+
+			if (mIsConnected && mLocalStreamAdded)
+			{
+				Utils.LogI("[RTC] Making call to " + mRemoteUser);
+				Call();
+			}
+		}
+
 	    /// <summary>
 	    /// This function is called by the RTC library when it receives a message.
 	    /// </summary>
 	    /// <param name="iMessage">The message that has been received.</param>
 	    public void onAndroidDebugLog(string iMessage)
 	    {
-			Utils.LogI("Android Debug : " + iMessage);
-	        if (iMessage.Contains("onStateChange: CLOSING"))
-	        {
-	            mIsConnected = false;
-	        }
-	        if (iMessage.Contains("onStateChange: CLOSED"))
-	        {
-	            mIsConnected = false;
-	            //HangUp();
-				Utils.LogI("Hung up");
-	            //this.gameObject.SetActive(false);
-	            GameObject.Find(mWebrtcReceiverObjectName).SetActive(false);
-				Utils.LogI("Deactivated RTC Controller");
-	            StopWebRTC();
-				Utils.LogI("Stopped WebRTC protocol");
-				AAppActivity.QuitApp();
-				Utils.LogI("Going back home");
-	        }
-
 	        if (iMessage.Contains("On Local Stream"))
 	            mLocalStreamAdded = true;
 	        else if (iMessage.Contains("CONNECTED"))
@@ -354,7 +363,7 @@ namespace BuddyApp.RemoteControl
 	        int width = Int32.Parse(cuts[0]);
 	        int height = Int32.Parse(cuts[1]);
 
-	        InitLocalTexture(width, height);
+	        //InitLocalTexture(width, height);
 	    }
 
 	    public void onRemoteTextureSizeChanged(string size)
@@ -365,7 +374,7 @@ namespace BuddyApp.RemoteControl
 	        int width = Int32.Parse(cuts[0]);
 	        int height = Int32.Parse(cuts[1]);
 
-	        InitRemoteTexture(width, height);
+	        //InitRemoteTexture(width, height);
 	    }
 
 		void OnDisable()

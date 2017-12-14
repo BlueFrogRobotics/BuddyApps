@@ -28,7 +28,7 @@ namespace BuddyApp.RemoteControl
 	            microOn.SetActive(mActive);
 	            microOff.SetActive(!mActive);
 
-	            using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc")) {
+				using (AndroidJavaClass cls = new AndroidJavaClass("com.bfr.unityrtc.Webrtc")) {
 					cls.CallStatic("setSoundActive", mActive);
 				}
 			}

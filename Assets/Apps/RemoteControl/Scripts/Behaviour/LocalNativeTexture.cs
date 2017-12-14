@@ -8,7 +8,7 @@ namespace BuddyApp.RemoteControl
 	{
 	    public override Texture2D createTextureFromNativePtr(int iWidth, int iHeight)
 	    {
-	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+			using (AndroidJavaClass cls = new AndroidJavaClass("com.bfr.unityrtc.Webrtc"))
 	        {
 	            int NativeTexture2Pointer = cls.CallStatic<int>("createLocalTexture", iWidth, iHeight);
 	            Debug.Log("Unity get Pointer from android of value : " + NativeTexture2Pointer);
@@ -21,7 +21,7 @@ namespace BuddyApp.RemoteControl
 
 	    public override void Update()
 	    {
-	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+			using (AndroidJavaClass cls = new AndroidJavaClass("com.bfr.unityrtc.Webrtc"))
 	        {
 	            cls.CallStatic("updateLocalTexture");
 	        }
@@ -36,7 +36,7 @@ namespace BuddyApp.RemoteControl
 
 	    public override void Destroy()
 	    {
-	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+			using (AndroidJavaClass cls = new AndroidJavaClass("com.bfr.unityrtc.Webrtc"))
 	        {
 	            cls.CallStatic("destroyLocalTexture");
 	        }
