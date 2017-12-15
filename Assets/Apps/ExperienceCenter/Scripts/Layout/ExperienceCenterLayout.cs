@@ -73,23 +73,29 @@ namespace BuddyApp.ExperienceCenter
 		private void BuildConfigurationSection()
 		{
 			AddSectionTitle("REST API Configuration");
-
+			ExperienceCenterData ECData = ExperienceCenterData.Instance;
 			// REST API Url text field
 			mUrlAPI = CreateWidget<TextField>();
+			if (ECData.API_URL != "")
+				mUrlAPI.FieldText = ECData.API_URL;
 			mUrlAPI.OnEndEditEvent((string text) =>
 				{
-					ExperienceCenterData.Instance.API_URL = text;
+					ECData.API_URL = text;
 				});
 
 			// REST API User Id text field
 			mUserID = CreateWidget<TextField>();
+			if (ECData.UserID != "")
+				mUserID.FieldText = ECData.UserID;
 			mUserID.OnEndEditEvent((string text) =>
 				{
-					ExperienceCenterData.Instance.UserID = text;
+						ECData.UserID = text;
 				});
 
 			// REST API User Password field
 			mPassword = CreateWidget<Password>();
+			if (ECData.Password != "")
+				mPassword.FieldText = ECData.Password;
 			mPassword.OnEndEditEvent((string text) =>
 				{
 					ExperienceCenterData.Instance.Password = text;
