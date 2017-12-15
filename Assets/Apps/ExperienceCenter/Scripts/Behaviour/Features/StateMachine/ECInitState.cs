@@ -6,7 +6,6 @@ namespace BuddyApp.ExperienceCenter{
 public class ECInitState : StateMachineBehaviour {
 
 		private Animator mMainAnimator;
-		private AnimatorManager mAnimatorManager;
 		private HTTPRequestManager HTTPClient;
 		private TcpServer mTcpServer;
 		private bool mLogoutOnce;
@@ -14,7 +13,6 @@ public class ECInitState : StateMachineBehaviour {
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
-			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			HTTPClient = GameObject.Find("AIBehaviour").GetComponent<HTTPRequestManager>();
 			mLogoutOnce = false;
 			mTcpServer =  GameObject.Find ("AIBehaviour").GetComponent<TcpServer> ();
@@ -27,11 +25,7 @@ public class ECInitState : StateMachineBehaviour {
 			{
 				mLogoutOnce = true;
 			}
-
-			if (mTcpServer.clientConnected) {
-				mMainAnimator.SetTrigger ("Idle");
-				mAnimatorManager.stateDict["Idle"] = true; 
-			}
+				
 			
 	}
 

@@ -6,22 +6,15 @@ namespace BuddyApp.ExperienceCenter
 {
 	public class ECIdleState : StateMachineBehaviour
 	{
-		private Animator mMainAnimator;
-		private AnimatorManager mAnimatorManager;
 
 		//	  OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
-			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 		}
 
 		//	 OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 		override public void OnStateUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			if (!mAnimatorManager.stateDict ["Idle"])
-				mMainAnimator.SetTrigger (mAnimatorManager.GetTrigger ());
-
 		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state

@@ -92,7 +92,7 @@ namespace BuddyApp.ExperienceCenter
 			IPAddress[] ipArray = Dns.GetHostAddresses (GetIPAddress ());
 			IPEndPoint localEndPoint = new IPEndPoint (ipArray [0], 3000);
 
-			Debug.Log ("Server address and port : " + localEndPoint.ToString ());
+			Debug.Log ("[TCP SERVER] Server address and port : " + localEndPoint.ToString ());
 
 			// Create a TCP/IP socket.
 			Socket listener = new Socket (ipArray [0].AddressFamily,
@@ -130,8 +130,9 @@ namespace BuddyApp.ExperienceCenter
 					new AsyncCallback (ReadCallback), state);
 
 				IPEndPoint clientIP = handler.RemoteEndPoint as IPEndPoint;
-				Debug.Log ("Client: " + clientIP.Address + ":" + clientIP.Port + " connected");
+				Debug.Log ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " connected");
 				clientConnected = true;
+				mAnimatorManager.clientConnected = true;
 			} else {
 				Socket listener = (Socket)ar.AsyncState;
 				Socket handler = listener.EndAccept (ar);
@@ -142,7 +143,7 @@ namespace BuddyApp.ExperienceCenter
 				handler.BeginSend (byteData, 0, byteData.Length, 0,
 					new AsyncCallback (SendCallback), handler);
 				IPEndPoint clientIP = handler.RemoteEndPoint as IPEndPoint;
-				Debug.LogWarning ("Client: " + clientIP.Address + ":" + clientIP.Port + " wants to connect, but server is busy");
+				Debug.LogWarning ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " wants to connect, but server is busy");
 				handler.Shutdown (SocketShutdown.Both);
 				handler.Close ();
 			}
@@ -166,19 +167,19 @@ namespace BuddyApp.ExperienceCenter
 					switch (state.buffer [0]) {
 					case (byte) (Mode.StateResponse):
 						{
-							Debug.Log ("Got State Response ");
+							Debug.Log ("[TCP SERVER] Got State Response ");
 							break;
 						}
 
 					case (byte) (Mode.CommandRequest): 
 						{
 							ActivateCommand (handler, state.buffer [1]);
-							Debug.Log ("Cmd " + (Command)(state.buffer [1]) + " is going to be activated");
+							Debug.Log ("[TCP SERVER] Cmd " + (Command)(state.buffer [1]) + " is received");
 							break;
 						}
 					default:
 						{
-							Debug.LogWarning ("Unrecognized message from the client");
+							Debug.LogWarning ("[TCP SERVER] Unrecognized message from the client");
 							break;
 						}
 					}
@@ -190,8 +191,9 @@ namespace BuddyApp.ExperienceCenter
 				if (handler.Connected) {
 					// Client are offline will be detected here
 					IPEndPoint clientIP = handler.RemoteEndPoint as IPEndPoint;
-					Debug.Log ("Client: " + clientIP.Address + ":" + clientIP.Port + " disconnected");
+					Debug.Log ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " disconnected");
 					clientConnected = false;
+					mAnimatorManager.clientConnected = false;
 					mStateSent = false;
 				}
 			}
