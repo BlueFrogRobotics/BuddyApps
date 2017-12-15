@@ -8,7 +8,9 @@ namespace BuddyApp.ExperienceCenter
         /*
          * Data getters / setters
          */
-        public int MyValue { get; set; }
+		public string API_URL{ get; set; }
+		public string UserID { get; set; }
+		public string Password { get; set; }
 
         /*
          * Data singleton access
