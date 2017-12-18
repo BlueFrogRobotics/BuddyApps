@@ -59,8 +59,7 @@ namespace BuddyApp.Companion
 		public void StopWander()
 		{
 			Debug.Log("Stop wander");
-			BYOS.Instance.Navigation.StopAllCoroutines();
-			BYOS.Instance.Navigation.RandomWalk.StopWander();
+			BYOS.Instance.Navigation.Stop();
 			Wandering = false;
 		}
 
@@ -76,14 +75,13 @@ namespace BuddyApp.Companion
 		public void StopThermalFollow()
 		{
 			BYOS.Instance.Navigation.Stop();
-			BYOS.Instance.Navigation.StopAllCoroutines();
 			ThermalFollow = false;
 		}
 
 		public void StopAllActions()
 		{
-			StopWander();
 			StopThermalFollow();
+			StopWander();
 		}
 
 		public void HeadReaction()

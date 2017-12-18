@@ -203,21 +203,21 @@ namespace BuddyApp.Companion
 
 				case "DontMove":
 					SayKey("istopmoving", true);
-					mActionManager.StopAllActions();
 					CompanionData.Instance.MovingDesire -= 20;
 					CompanionData.Instance.CanMoveBody = false;
 					Primitive.Motors.Wheels.Locked = true;
 					mNeedListen = true;
+					mActionManager.StopAllActions();
 					break;
 
 				case "FollowMe":
 					Primitive.Motors.Wheels.Locked = false;
 					if (!mActionManager.ThermalFollow) {
-						Interaction.TextToSpeech.SayKey("follow");
 						CompanionData.Instance.InteractDesire -= 10;
 						mActionManager.StartThermalFollow();
-						Trigger("FOLLOW");
 					}
+					Interaction.TextToSpeech.SayKey("follow");
+					Trigger("FOLLOW");
 					break;
 
 				case "FreezeDance":
@@ -242,7 +242,7 @@ namespace BuddyApp.Companion
 						Say(Dictionary.GetRandomString("headup").Replace("[degrees]", "" + n), true);
 
 						Debug.Log("Head up " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-						Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n);
+						Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n, 100F);
 						mMoving = true;
 					}
 					break;
@@ -252,14 +252,14 @@ namespace BuddyApp.Companion
 						int n = 0;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
-							n = 25;
+							n = 35;
 						}
 
 						SayKey("accept", true);
 						Say(Dictionary.GetRandomString("headleft").Replace("[degrees]", "" + n), true);
 
 						Debug.Log("Head left " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-						Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition + (float)n);
+						Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition + (float)n, 100F);
 						mMoving = true;
 					}
 					break;
@@ -269,14 +269,14 @@ namespace BuddyApp.Companion
 						int n = 0;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
-							n = 25;
+							n = 35;
 						}
 
 						SayKey("accept", true);
 						Say(Dictionary.GetRandomString("headright").Replace("[degrees]", "" + n), true);
 
 						Debug.Log("Head right " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-						Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition - (float)n);
+						Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition - (float)n, 100F);
 						mMoving = true;
 					}
 					break;
@@ -293,7 +293,7 @@ namespace BuddyApp.Companion
 						Say(Dictionary.GetRandomString("headdown").Replace("[degrees]", "" + n), true);
 
 						Debug.Log("Head down " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-						Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition + (float)n);
+						Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition + (float)n, 100F);
 						mMoving = true;
 					}
 					break;
@@ -328,7 +328,7 @@ namespace BuddyApp.Companion
 							//default value
 							n = 1F;
 						}
-						Primitive.Motors.Wheels.MoveDistance(-90.0f, -90.0f, n, 0.02f);
+						Primitive.Motors.Wheels.MoveDistance(-150.0f, -150.0f, n, 0.02f);
 						Debug.Log("MoveBackward: " + n);
 						SayKey("accept", true);
 						Say(Dictionary.GetRandomString("movebackward").Replace("[meters]", "" + n), true);
@@ -345,7 +345,7 @@ namespace BuddyApp.Companion
 							//default value
 							n = 1F;
 						}
-						Primitive.Motors.Wheels.MoveDistance(90.0f, 90.0f, n, 0.02f);
+						Primitive.Motors.Wheels.MoveDistance(150.0f, 150.0f, n, 0.02f);
 						Debug.Log("MoveForward: " + n);
 						SayKey("accept", true);
 						Say(Dictionary.GetRandomString("moveforward").Replace("[meters]", "" + n), true);
@@ -516,7 +516,6 @@ namespace BuddyApp.Companion
 			new StartAppCmd(iAppName).Execute();
 			CompanionData.Instance.LastAppTime = Time.time;
 			CompanionData.Instance.LastApp = iAppName;
-			SayKey("ilaunchapp");
 			mNeedListen = true;
 		}
 
