@@ -37,7 +37,7 @@ namespace BuddyApp.Companion
 
 			if (Time.time - mTimeThermal <= 5.0F) {
 				//Buddy is alone now -> scared
-				Interaction.Mood.Set(MoodType.HAPPY);
+				//Interaction.Mood.Set(MoodType.HAPPY);
 			} else if (Time.time - mTimeThermal < 10.0F) {
 				Interaction.Mood.Set(MoodType.THINKING);
 

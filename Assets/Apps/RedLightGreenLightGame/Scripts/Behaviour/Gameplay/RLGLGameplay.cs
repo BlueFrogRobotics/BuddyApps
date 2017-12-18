@@ -133,7 +133,10 @@ namespace BuddyApp.RedLightGreenLightGame
                 Imgproc.circle(lCurrentFrame, Utils.Center(lEntity.RectInFrame), 10, new Scalar(255, 255, 0), -1);
             }
 
-            Utils.MatToTexture2D(lCurrentFrame, Utils.ScaleTexture2DFromMat(lCurrentFrame, mTexture));
+			Mat mMat = new Mat();
+			Mat mMatSrc = lCurrentFrame;
+			Core.flip(mMatSrc, mMat, 1);
+			Utils.MatToTexture2D(mMat, Utils.ScaleTexture2DFromMat(mMat, mTexture));
             mRLGLBehaviour.PictureMoving = mTexture;
             Trigger("Defeat");
             mDetectionDone = true;

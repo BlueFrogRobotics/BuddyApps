@@ -31,10 +31,10 @@ namespace BuddyApp.RedLightGreenLightGame
             mMotion.enabled = true;
             mCam = Primitive.RGBCam;
             mMotion.OnDetect(OnMovementDetected, 3f);
-            //Texture2D truc=new Texture2D()
-            //mTexture = mCam.FrameTexture2D;
-            mMat = mCam.FrameMat;//Utils.Texture2DToMat(mTexture, OpenCVUnity.CvType.CV_8UC3);
-            mTexture = Utils.MatToTexture2D(mMat);
+
+			Mat mMatSrc = mCam.FrameMat;
+			Core.flip(mMatSrc, mMat, 1);
+			mTexture = Utils.MatToTexture2D(mMat);
             mMatDetection = null;
             Toaster.Display<PictureToast>().With(Dictionary.GetString("lookphoto"), Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
             mRLGLBehaviour.Timer = 0;
@@ -49,15 +49,18 @@ namespace BuddyApp.RedLightGreenLightGame
             {
                 if (mMatDetection == null)
                 {
-                    mMat = mCam.FrameMat.clone();//Utils.Texture2DToMat(mTexture, OpenCVUnity.CvType.CV_8UC3);
-                    Imgproc.rectangle(mMat, new Point((int)(mMat.width() / 3), 0), new Point((int)(mMat.width() * 2 / 3), mMat.height()), new Scalar(255, 255, 0), 3);
-                    Texture2D lTexture = Utils.MatToTexture2D(mMat);
-                    mTexture.SetPixels(lTexture.GetPixels());
+					Mat mMatSrc = mCam.FrameMat.clone();//Utils.Texture2DToMat(mTexture, OpenCVUnity.CvType.CV_8UC3);
+                    Imgproc.rectangle(mMat, new Point((int)(mMatSrc.width() / 3), 0), new Point((int)(mMatSrc.width() * 2 / 3), mMatSrc.height()), new Scalar(255, 255, 0), 3);
+
+					Core.flip(mMatSrc, mMat, 1);
+					Texture2D lTexture = Utils.MatToTexture2D(mMat);
+					mTexture.SetPixels(lTexture.GetPixels());
                 }
-                else
-                {
-                    Texture2D lTexture = Utils.MatToTexture2D(mMatDetection);
-                    mTexture.SetPixels(lTexture.GetPixels());
+                else {
+					Mat mMatSrc = mMatDetection;
+					Core.flip(mMatSrc, mMat, 1);
+					Texture2D lTexture = Utils.MatToTexture2D(mMat);
+					mTexture.SetPixels(lTexture.GetPixels());
                     mMatDetection = null;
                 }
 
