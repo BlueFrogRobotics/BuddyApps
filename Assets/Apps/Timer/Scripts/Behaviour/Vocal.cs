@@ -18,7 +18,7 @@ namespace BuddyApp.Timer
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("ENTER LISTENw test");
+            Debug.Log("ENTER LISTEN test");
             Interaction.VocalManager.OnEndReco = GetAnswer;
             Interaction.VocalManager.OnError = NoAnswer;
             Interaction.VocalManager.StartInstantReco();

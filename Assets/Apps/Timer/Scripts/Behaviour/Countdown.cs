@@ -10,7 +10,7 @@ using Buddy.UI;
 namespace BuddyApp.Timer
 {
 
-    public class Coundown : AStateMachineBehaviour {
+    public class Countdown : AStateMachineBehaviour {
 
         int finalcountdown;
         // Use this for initialization

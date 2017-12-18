@@ -8,8 +8,6 @@ namespace BuddyApp.Timer
         /*
          * Data getters / setters
          */
-        public int MyValue { get; set; }
-
         public string VocalRequest { get; set; }
 
         /*
