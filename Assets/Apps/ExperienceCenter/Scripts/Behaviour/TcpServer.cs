@@ -18,38 +18,6 @@ namespace BuddyApp.ExperienceCenter
 
 		private bool mEventClient;
 
-		[Flags]
-		public enum Command
-		{
-			Welcome = 0x01,
-			Questions = 0x02,
-			ByeBye = 0x03,
-			MoveForward = 0x04,
-			IOT = 0x05,
-			Anglais = 0x06,
-			Francais = 0x07,
-			Stop = 0x08,
-			StopMoving = 0x09,
-			StartMoving = 0x10,
-			EmergencyStop = 0x11
-		}
-
-		[Flags]
-		public enum State
-		{
-			LowBattery = 0x01,
-			MiddleBattery = 0x02,
-			HighBattery = 0x03
-		}
-
-		public enum Mode
-		{
-			CommandRequest = 0x90,
-			CommandResponse = 0x80,
-			StateRequest = 0x70,
-			StateResponse = 0x60
-		}
-
 		// State object for reading client data asynchronously
 		private class StateObject
 		{
@@ -202,7 +170,7 @@ namespace BuddyApp.ExperienceCenter
 		private void SendStateRequest ()
 		{
 			if (/*!mStateSent &&*/ clientConnected) {
-				byte[] byteData = new byte[] { (byte)(Mode.StateRequest), (byte)(State.HighBattery) };
+				byte[] byteData = new byte[] { (byte)(Mode.StateRequest), (byte)(BuddyState.HighBattery) };
 				// Begin sending the data to the remote device.
 				mHandler.BeginSend (byteData, 0, byteData.Length, 0,
 					new AsyncCallback (SendCallback), mHandler);

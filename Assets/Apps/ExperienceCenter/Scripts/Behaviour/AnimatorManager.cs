@@ -46,7 +46,8 @@ namespace BuddyApp.ExperienceCenter
 		
 		[SerializeField]
 		private Animator mMainAnimator;
-		private string oldState = "";
+		private string mOldState = "";
+		private bool mSwitchOnce = true;
 		public bool clientConnected = false;
 		public Dictionary <string, bool> stateDict;
 
@@ -64,13 +65,20 @@ namespace BuddyApp.ExperienceCenter
 		{
 			if (clientConnected) {
 				if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName ("Init EC State")) {
-					mMainAnimator.SetTrigger ("Idle");
+					if (mSwitchOnce) {
+						mMainAnimator.SetTrigger ("Idle");
+						mSwitchOnce = false;
+					}
 					stateDict ["Idle"] = true;
 				}
-				if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName (oldState + " State")) {
+				if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName (mOldState + " State")) {
 					string state = GetTrigger ();
-					if (state != "" && state != oldState) {
-						mMainAnimator.SetTrigger (state);
+					if (state != "" && state != mOldState) {
+						if (mSwitchOnce) {
+							mMainAnimator.SetTrigger (state);
+							mSwitchOnce = false;
+						}
+
 					}
 				}
 			}
@@ -142,9 +150,10 @@ namespace BuddyApp.ExperienceCenter
 		{
 			Debug.Log ("Running cmd: " + cmd);
 			stateDict [state] = false;
-			oldState = state;
+			mOldState = state;
 			stateDict [cmd.ToString ()] = true;
 			Debug.Log ("[Animator] Switch to State: " + cmd.ToString ());
+			mSwitchOnce = true;
 		}
 	}
 }
