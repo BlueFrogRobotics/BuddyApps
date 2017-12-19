@@ -65,6 +65,7 @@ namespace BuddyApp.ExperienceCenter
 				if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName ("Init EC State")) {
 					if (mSwitchOnce) {
 						mMainAnimator.SetTrigger ("Idle");
+						Debug.Log ("[Animator] Switch to State: Idle");
 						mSwitchOnce = false;
 					}
 					stateDict ["Idle"] = true;

@@ -7,13 +7,13 @@ namespace BuddyApp.ExperienceCenter
 {
 	public class ECInitByeState : StateMachineBehaviour
 	{
-		private Animator mMainAnimator;
+		private AnimatorManager mAnimatorManager;
 		private TextToSpeech mTTS;
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
+			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
 			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
@@ -44,8 +44,7 @@ namespace BuddyApp.ExperienceCenter
 		{
 			Debug.Log ("SpeechToText : " + iSpeech);
 			if (iSpeech == "viens dans mes bras" || iSpeech == "come into my arms") {
-				mMainAnimator.SetTrigger ("MoveForward");
-				Debug.Log ("[VOICE] Switch to MoveForward State");
+				mAnimatorManager.ActivateCmd((byte) (Command.MoveForward));
 			} 
 
 		}

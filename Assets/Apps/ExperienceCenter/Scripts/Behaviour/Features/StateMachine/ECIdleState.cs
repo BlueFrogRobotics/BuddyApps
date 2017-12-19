@@ -8,13 +8,13 @@ namespace BuddyApp.ExperienceCenter
 {
 	public class ECIdleState : StateMachineBehaviour
 	{
-		private Animator mMainAnimator;
+		private AnimatorManager mAnimatorManager;
 		private TextToSpeech mTTS;
 
 		//	  OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
+			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
 			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
@@ -44,17 +44,14 @@ namespace BuddyApp.ExperienceCenter
 		{
 			Debug.Log("SpeechToText : " + iSpeech);
 			if (iSpeech == "c'est super de te voir" || iSpeech == "nice to see you") {
-				mMainAnimator.SetTrigger ("Welcome");
-				Debug.Log ("[VOICE] Switch to Welcome State");
+				mAnimatorManager.ActivateCmd((byte) (Command.Welcome));
 			} 
 			else if (iSpeech == "bavardons un peu" || iSpeech == "let's talk a little") {
-				mMainAnimator.SetTrigger ("Questions");
-				Debug.Log ("[VOICE] Switch to Questions State");
+				mAnimatorManager.ActivateCmd((byte) (Command.Questions));
 			}
 			else if (iSpeech == "as-tu envie de te dégourdir les jambes" || iSpeech == "do you want to stretch your legs") {
 				mTTS.SayKey ("byemerci", true);
-				mMainAnimator.SetTrigger ("ByeBye");
-				Debug.Log ("[VOICE] Switch to ByeBye State");
+				mAnimatorManager.ActivateCmd((byte) (Command.ByeBye));
 			}
 		}
 	}
