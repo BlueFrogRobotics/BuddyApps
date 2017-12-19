@@ -8,25 +8,16 @@ public class ECInitState : StateMachineBehaviour {
 		private Animator mMainAnimator;
 		private HTTPRequestManager HTTPClient;
 		private TcpServer mTcpServer;
-		private bool mLogoutOnce;
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
-			HTTPClient = GameObject.Find("AIBehaviour").GetComponent<HTTPRequestManager>();
-			mLogoutOnce = false;
 			mTcpServer =  GameObject.Find ("AIBehaviour").GetComponent<TcpServer> ();
 			mTcpServer.init ();
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-			if (HTTPClient.RetrieveDevices && !mLogoutOnce)
-			{
-				mLogoutOnce = true;
-			}
-				
-			
 	}
 
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
