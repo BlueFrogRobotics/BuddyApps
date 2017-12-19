@@ -108,13 +108,15 @@ namespace BuddyApp.ExperienceCenter
 			AddSectionTitle("IOT");
 
 			mCheckBoxes.Add("Light", CreateWidget<OnOff>());
+			mCheckBoxes["Light"].IsActive = ExperienceCenterData.Instance.LightState;
 			mCheckBoxes.Add("Store", CreateWidget<OnOff>());
+			mCheckBoxes["Store"].IsActive = ExperienceCenterData.Instance.StoreState;
 			mCheckBoxes.Add("Sonos", CreateWidget<OnOff>());
+			mCheckBoxes["Sonos"].IsActive = ExperienceCenterData.Instance.SonosState;
 
 			// Disable by default
 			foreach (string device in mCheckBoxes.Keys)
 			{
-				mCheckBoxes[device].IsActive = false;
 				mCheckBoxes[device].OnSwitchEvent((bool iVal) =>
 					{
 						Debug.Log(String.Format("Enable {0} : {1}",device,iVal));
@@ -167,9 +169,9 @@ namespace BuddyApp.ExperienceCenter
 
 			if (device == "Light")
 				ExperienceCenterData.Instance.LightState = status;
-			else if (device == "Sonos")
-				ExperienceCenterData.Instance.StoreState = status;
 			else if (device == "Store")
+				ExperienceCenterData.Instance.StoreState = status;
+			else if (device == "Sonos")
 				ExperienceCenterData.Instance.SonosState = status;
 		}
     }
