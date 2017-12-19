@@ -44,7 +44,7 @@ namespace BuddyApp.ExperienceCenter
 				mButtons[label].OnClickEvent(() => 
 					{ 
 						Debug.Log("Triggering action : " + label); 
-						ExperienceCenterData.Instance.Command = label;
+						ParametersData.Instance.Command = label;
 					});
 			}
 		}
@@ -74,32 +74,34 @@ namespace BuddyApp.ExperienceCenter
 		private void BuildConfigurationSection()
 		{
 			AddSectionTitle("REST API Configuration");
-			ExperienceCenterData ECData = ExperienceCenterData.Instance;
 			// REST API Url text field
 			mUrlAPI = CreateWidget<TextField>();
-			if (ECData.API_URL != "")
-				mUrlAPI.FieldText = ECData.API_URL;
+			if (ParametersData.Instance.API_URL != "")
+				mUrlAPI.FieldText = ParametersData.Instance.API_URL;
 			mUrlAPI.OnEndEditEvent((string text) =>
 				{
-					ECData.API_URL = text;
+					ParametersData.Instance.API_URL = text;
+					ParametersData.SaveDefault();
 				});
 
 			// REST API User Id text field
 			mUserID = CreateWidget<TextField>();
-			if (ECData.UserID != "")
-				mUserID.FieldText = ECData.UserID;
+			if (ParametersData.Instance.UserID != "")
+				mUserID.FieldText = ParametersData.Instance.UserID;
 			mUserID.OnEndEditEvent((string text) =>
 				{
-						ECData.UserID = text;
+					ParametersData.Instance.UserID = text;
+					ParametersData.SaveDefault();
 				});
 
 			// REST API User Password field
 			mPassword = CreateWidget<Password>();
-			if (ECData.Password != "")
-				mPassword.FieldText = ECData.Password;
+			if (ParametersData.Instance.Password != "")
+				mPassword.FieldText = ParametersData.Instance.Password;
 			mPassword.OnEndEditEvent((string text) =>
 				{
-					ExperienceCenterData.Instance.Password = text;
+					ParametersData.Instance.Password = text;
+					ParametersData.SaveDefault();
 				});
 		}
 
@@ -108,19 +110,19 @@ namespace BuddyApp.ExperienceCenter
 			AddSectionTitle("IOT");
 
 			mCheckBoxes.Add("Light", CreateWidget<OnOff>());
-			mCheckBoxes["Light"].IsActive = ExperienceCenterData.Instance.LightState;
 			mCheckBoxes.Add("Store", CreateWidget<OnOff>());
-			mCheckBoxes["Store"].IsActive = ExperienceCenterData.Instance.StoreState;
 			mCheckBoxes.Add("Sonos", CreateWidget<OnOff>());
-			mCheckBoxes["Sonos"].IsActive = ExperienceCenterData.Instance.SonosState;
 
 			// Disable by default
 			foreach (string device in mCheckBoxes.Keys)
 			{
+				mCheckBoxes[device].IsActive = ParametersData.Instance.DeviceState[device];
 				mCheckBoxes[device].OnSwitchEvent((bool iVal) =>
 					{
 						Debug.Log(String.Format("Enable {0} : {1}",device,iVal));
-						OnOffCallback(device,iVal);
+						ParametersData.Instance.ShouldTestIOT = true;
+						ParametersData.Instance.DeviceState[device] = iVal;
+						ParametersData.SaveDefault();
 					});
 			}
 		}
@@ -146,6 +148,8 @@ namespace BuddyApp.ExperienceCenter
 			mLanguage.OnSelectEvent((string iLabel, object iAttachedObj, int iIndex) =>
 				{
 					Debug.Log("Selected language : " + iLabel);
+					ParametersData.Instance.Language = iLabel;
+					ParametersData.SaveDefault();
 				});
 		}
 
@@ -161,18 +165,6 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mSectionTitle.Add(label,CreateWidget<Label>());
 			mSectionTitle[label].FontStyle = FontStyle.Bold;
-		}
-
-		private void OnOffCallback(string device, bool status)
-		{
-			ExperienceCenterData.Instance.ShouldTestIOT = true;
-
-			if (device == "Light")
-				ExperienceCenterData.Instance.LightState = status;
-			else if (device == "Store")
-				ExperienceCenterData.Instance.StoreState = status;
-			else if (device == "Sonos")
-				ExperienceCenterData.Instance.SonosState = status;
 		}
     }
 }
