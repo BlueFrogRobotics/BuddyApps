@@ -25,63 +25,48 @@ namespace BuddyApp.ExperienceCenter {
 			mCookie = "";
 		}
 
-		public void TestAPI()
+		void Awake()
 		{
-			StartCoroutine(Test());
+			//InvokeRepeating("ShouldTestIOT", 5.0f, 5.0f);
 		}
 
-		private IEnumerator Test()
+		private void ShouldTestIOT()
 		{
-			StoreDeploy();
-			yield return new WaitForSeconds(5.0f);
-			StoreUndeploy();
-			yield return new WaitForSeconds(5.0f);
-
-			SonosPlay();
-			yield return new WaitForSeconds(20.0f);
-			SonosStop();
-			yield return new WaitForSeconds(2.0f);
-
-			while (true)
+			if (ExperienceCenterData.Instance.ShouldTestIOT)
 			{
-				LightOff();
-				yield return new WaitForSeconds(5.0f);
-				LightOn();
-				yield return new WaitForSeconds(5.0f);
+				ExperienceCenterData.Instance.ShouldTestIOT = false;
+				StartCoroutine(TestDevices());
 			}
 		}
 
-		public void LightOn()
+		private IEnumerator TestDevices()
 		{
-			ExecuteAction("Active button", "setPodLedOn");
+			if (!Connected)
+			{
+				Login();
+
+				yield return new WaitUntil(() => RetrieveDevices);
+			}
+
+			LightOn(ExperienceCenterData.Instance.LightState);
+			StoreDeploy(ExperienceCenterData.Instance.StoreState);
+			SonosPlay(ExperienceCenterData.Instance.SonosState);
 		}
 
-		public void LightOff()
+		public void LightOn(bool enable)
 		{
-			ExecuteAction("Active button", "setPodLedOff");
+			ExecuteAction("Active button", enable ? "setPodLedOn" : "setPodLedOff");
 		}
 
-		public void StoreDeploy()
+		public void StoreDeploy(bool enable)
 		{
-			ExecuteAction("SUNEA io", "deploy");
+			ExecuteAction("SUNEA io", enable ? "deploy" : "my");
 		}
 
-		public void StoreUndeploy()
+		public void SonosPlay(bool enable)
 		{
-			ExecuteAction("SUNEA io", "undeploy");
+			ExecuteAction("Sonos PLAY:1", enable ? "play" : "stop");
 		}
-
-		public void SonosPlay()
-		{
-			ExecuteAction("Sonos PLAY:1", "play");
-		}
-
-		public void SonosStop()
-		{
-			ExecuteAction("Sonos PLAY:1", "stop");
-		}
-
-		//TODO Implement SONOS Commands
 
 		/*****************************************************
 		 *  API Base Requests
