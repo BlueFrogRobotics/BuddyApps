@@ -44,6 +44,7 @@ namespace BuddyApp.ExperienceCenter
 				mButtons[label].OnClickEvent(() => 
 					{ 
 						Debug.Log("Triggering action : " + label); 
+						ExperienceCenterData.Instance.Command = label;
 					});
 			}
 		}
@@ -117,6 +118,7 @@ namespace BuddyApp.ExperienceCenter
 				mCheckBoxes[device].OnSwitchEvent((bool iVal) =>
 					{
 						Debug.Log(String.Format("Enable {0} : {1}",device,iVal));
+						OnOffCallback(device,iVal);
 					});
 			}
 		}
@@ -157,6 +159,18 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mSectionTitle.Add(label,CreateWidget<Label>());
 			mSectionTitle[label].FontStyle = FontStyle.Bold;
+		}
+
+		private void OnOffCallback(string device, bool status)
+		{
+			ExperienceCenterData.Instance.ShouldTestIOT = true;
+
+			if (device == "Light")
+				ExperienceCenterData.Instance.LightState = status;
+			else if (device == "Sonos")
+				ExperienceCenterData.Instance.StoreState = status;
+			else if (device == "Store")
+				ExperienceCenterData.Instance.SonosState = status;
 		}
     }
 }
