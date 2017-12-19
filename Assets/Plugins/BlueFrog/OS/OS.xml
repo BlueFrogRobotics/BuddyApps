@@ -1316,6 +1316,21 @@
             </summary>
             <param name="iDirection">The orientation in degrees</param>
         </member>
+        <member name="F:Buddy.HumanFollowType.BODY">
+            <summary>
+            Budy moves its whole body to follow the human.
+            </summary>
+        </member>
+        <member name="F:Buddy.HumanFollowType.ROTATION_AND_HEAD">
+            <summary>
+            Buddy rotates on himself to track the human that is being detected.
+            </summary>
+        </member>
+        <member name="F:Buddy.HumanFollowType.HEAD_ONLY">
+            <summary>
+            Buddy only moves it head to track the detected human.
+            </summary>
+        </member>
         <member name="T:Buddy.FacialDetectionRework">
             <summary>
             Tracker that tracks the position of a moving object 
@@ -3735,13 +3750,14 @@
             <param name="iCallback">Callback with Weather info</param>
             <param name="iNumberOfInfos">Number of information to be retrieved. Use a value of around 60 to get weather for a week after.</param>
         </member>
-        <member name="M:Buddy.Weather.HourlyAt(System.String,System.Action{Buddy.WeatherInfo[],Buddy.WeatherError},System.Int32)">
+        <member name="M:Buddy.Weather.HourlyAt(System.String,System.Action{Buddy.WeatherInfo[],Buddy.WeatherError},System.Int32,System.Boolean)">
             <summary>
             Weather forecast at 8am, 12pm, 4pm and 8pm.
             </summary>
             <param name="iLocation">Target location.</param>
             <param name="iCallback">Callback with weather information.</param>
             <param name="iNumberOfInfos">Number of informations to be retrieved.</param>
+            <param name="iHourlyFilter">Should hourly filters be applied or not ? If true, only 8am, 12pm, 4pm and 8pm are returned.</param>
         </member>
         <member name="T:Buddy.SMTP">
             <summary>
