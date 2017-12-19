@@ -2,32 +2,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BuddyApp.ExperienceCenter{
-public class ECMoveForwardState : StateMachineBehaviour {
+using Buddy;
 
-	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-	//override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	//
-	//}
+namespace BuddyApp.ExperienceCenter
+{
+	public class ECMoveForwardState : StateMachineBehaviour
+	{
 
-	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-	//override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	//
-	//}
+		private Animator mMainAnimator;
+		private TextToSpeech mTTS;
 
-	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-	//override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	//
-	//}
+		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
+			BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
+			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
+			mTTS = BYOS.Instance.Interaction.TextToSpeech;
+		}
 
-	// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-	//override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	//
-	//}
+		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+		//override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		//
+		//}
 
-	// OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-	//override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	//
-	//}
-}
+		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+		//override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		//
+		//}
+
+		// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
+		//override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		//
+		//}
+
+		// OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
+		//override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		//
+		//}
+
+		public void SpeechToTextCallback (string iSpeech)
+		{
+			Debug.Log ("SpeechToText : " + iSpeech);
+			if (iSpeech == "tu peux y aller" || iSpeech == "you can go") {
+				BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+				mMainAnimator.SetTrigger ("IOT");
+				Debug.Log ("[VOICE] Switch to IOT State");
+			} 
+
+		}
+	}
 }

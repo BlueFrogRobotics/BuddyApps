@@ -5,8 +5,6 @@ using UnityEngine;
 using System;
 using System.IO;
 
-
-
 namespace BuddyApp.ExperienceCenter
 {
 	[Flags]

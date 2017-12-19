@@ -36,6 +36,7 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			StartCoroutine(Listening());
+			InvokeRepeating ("SendStateRequest", 0.5f, 3.0f);
 		}
 
 	

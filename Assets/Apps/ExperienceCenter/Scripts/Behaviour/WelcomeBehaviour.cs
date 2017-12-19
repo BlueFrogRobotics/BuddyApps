@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
 using Buddy;
 
 namespace BuddyApp.ExperienceCenter
@@ -26,7 +24,7 @@ namespace BuddyApp.ExperienceCenter
 
 		public void InitState ()
 		{
-			StartCoroutine(MoveHeadNoHinge(15,7.5f));
+			StartCoroutine(MoveHeadNoHinge(30,15));
 			StartCoroutine(Speaking());
 		}
 			
@@ -34,28 +32,26 @@ namespace BuddyApp.ExperienceCenter
 		private IEnumerator Speaking ()
 		{
 			yield return new WaitWhile(() => mHeadMoving);
-			mTTS.SayKey ("welcomebonjour",true);
-			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomebienvenue", true);
 			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomeinvitation", true);
-			mTTS.Silence(500, true);
+			mTTS.Silence(2000, true);
 			mTTS.SayKey ("welcomemaison", true);
 			mTTS.Silence(500, true);
-			mTTS.SayKey ("welcomefutur", true);
+			mTTS.SayKey ("welcomefuture", true);
 			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomeajd", true);
 			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomemtnt", true);
-			mTTS.Silence(500, true);
+			mTTS.Silence(2000, true);
 			mTTS.SayKey ("welcomeoffre", true);
 			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomeassez", true);
-			mTTS.Silence(500, true);
+			mTTS.Silence(1000, true);
 			mTTS.SayKey ("welcomechoix", true);
 			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomepose", true);
-			mTTS.Silence(500, true);
+			mTTS.Silence(3000, true);
 			mTTS.SayKey ("welcomeregarder", true);
 			StartCoroutine(MoveHeadNoHinge(0,7.5f));
 		}
@@ -74,7 +70,8 @@ namespace BuddyApp.ExperienceCenter
 		private IEnumerator MoveHeadNoHinge (float lNoAngle, float lNoSpeed)
 		{
 			yield return new WaitWhile(() => !mTTS.HasFinishedTalking);
-			//StartCoroutine(MoveHeadYesHinge(-3,3));
+			//Comment this line if you need a linear movement of the head 
+			StartCoroutine(MoveHeadYesHinge(-6,6));
 			mHeadMoving = true;
 			BYOS.Instance.Primitive.Motors.NoHinge.SetPosition (lNoAngle, lNoSpeed);
 			yield return new WaitWhile(() => Math.Abs(BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition - lNoAngle) > 0.1);

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Buddy;
 
 namespace BuddyApp.ExperienceCenter{
 public class ECWelcomeState : StateMachineBehaviour {
@@ -8,7 +9,7 @@ public class ECWelcomeState : StateMachineBehaviour {
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-
+			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 			mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<WelcomeBehaviour> ();
 			mBehaviour.InitState ();
 	}
