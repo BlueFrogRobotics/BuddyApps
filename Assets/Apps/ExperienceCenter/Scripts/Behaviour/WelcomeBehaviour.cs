@@ -48,12 +48,13 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomeassez", true);
 			mTTS.Silence(1000, true);
+			yield return new WaitWhile(() => !mTTS.HasFinishedTalking);
+			StartCoroutine(MoveHeadNoHinge(0,15f));
 			mTTS.SayKey ("welcomechoix", true);
 			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomepose", true);
 			mTTS.Silence(3000, true);
 			mTTS.SayKey ("welcomeregarder", true);
-			StartCoroutine(MoveHeadNoHinge(0,7.5f));
 		}
 
 		private IEnumerator MoveHeadYesHinge (float lYesAngle, float lYesSpeed)
