@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bml id="BeGrumpy02" category="Grumpy">
+  <synchronized end="2">
+    <faceMoodShift mood="GRUMPY"/>
+    <headYes id="headYes1"  position="25" speed="600"/>
+    <headNo id="headNo1" position="-45" speed="600"/>
+    <move id="move1" angle="-45" speed="600"/>
+  </synchronized>
+  <synchronized>
+    <headNo id="headNo2" position="45" speed="600"/>
+    <headYes id="headYes2"  position="0" speed="600"/>
+    <faceExp id="faceEx1" start="0.5" expression="SCREAM"/>
+  </synchronized>
+  <synchronized end="3">
+    <headNo id="headNo3" position="-45" speed="600"/>
+  </synchronized>
+  <synchronized end="2">
+    <headYes id="headYes3"  position="0" speed="600"/>
+    <headNo id="headNo3" position="0" speed="600"/>
+    <move id="move2" angle="45" speed="600"/>
+  </synchronized>
+</bml>

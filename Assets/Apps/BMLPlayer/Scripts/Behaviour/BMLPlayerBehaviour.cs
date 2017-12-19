@@ -27,7 +27,7 @@ namespace BuddyApp.BMLPlayer
             mVM = BYOS.Instance.Interaction.VocalManager;
             mTTS = BYOS.Instance.Interaction.TextToSpeech;
             mBMLManager = BYOS.Instance.Interaction.BMLManager;
-            mBMLManager.LoadAppBML();
+            //mBMLManager.LoadAppBML();
             mVM.EnableTrigger = true;
             mVM.OnEndReco = Callback;
         }
