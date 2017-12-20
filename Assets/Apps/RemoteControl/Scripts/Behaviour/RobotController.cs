@@ -18,9 +18,6 @@ namespace BuddyApp.RemoteControl
 	    [SerializeField]
 	    private Webrtc webrtc;
 
-		[SerializeField]
-		private Text commandText;
-
 	    private float mTime;
 
 	    private USSensors mUSSensors;
@@ -50,7 +47,6 @@ namespace BuddyApp.RemoteControl
 	    public void onMessage(string iMessage)
 	    {
 	        ACommand lCmd = ACommand.Deserialize(GetBytes(iMessage));
-			commandText.text = "Command " + lCmd.Parameters.ToString();
 	        lCmd.Execute();
 	    }
 
