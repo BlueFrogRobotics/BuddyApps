@@ -32,9 +32,9 @@ namespace BuddyApp.ExperienceCenter {
 
 		private void ShouldTestIOT()
 		{
-			if (ParametersData.Instance.ShouldTestIOT)
+			if (ExperienceCenterData.Instance.ShouldTestIOT)
 			{
-				ParametersData.Instance.ShouldTestIOT = false;
+				ExperienceCenterData.Instance.ShouldTestIOT = false;
 				StartCoroutine(TestDevices());
 			}
 		}
@@ -48,9 +48,9 @@ namespace BuddyApp.ExperienceCenter {
 				yield return new WaitUntil(() => RetrieveDevices);
 			}
 
-			LightOn(ParametersData.Instance.DeviceState["Light"]);
-			StoreDeploy(ParametersData.Instance.DeviceState["Store"]);
-			SonosPlay(ParametersData.Instance.DeviceState["Sonos"]);
+			LightOn(ExperienceCenterData.Instance.LightState);
+			StoreDeploy(ExperienceCenterData.Instance.StoreState);
+			SonosPlay(ExperienceCenterData.Instance.SonosState);
 		}
 
 		public void LightOn(bool enable)
@@ -74,8 +74,8 @@ namespace BuddyApp.ExperienceCenter {
 		public void Login()
 		{
 			WWWForm form = new WWWForm();
-			form.AddField("userId", ParametersData.Instance.UserID);
-			form.AddField("userPassword", ParametersData.Instance.Password);
+			form.AddField("userId", ExperienceCenterData.Instance.UserID);
+			form.AddField("userPassword", ExperienceCenterData.Instance.Password);
 
 			System.Action<JSONObject> onLogin = delegate (JSONObject response)
 			{
@@ -153,7 +153,7 @@ namespace BuddyApp.ExperienceCenter {
 		// POST request using json data
 		private IEnumerator Post(string apiEntry, JSONObject json, Action<JSONObject>onResponse)
 		{
-			UnityWebRequest request = new UnityWebRequest(ParametersData.Instance.API_URL + apiEntry, UnityWebRequest.kHttpVerbPOST);
+			UnityWebRequest request = new UnityWebRequest(ExperienceCenterData.Instance.API_URL + apiEntry, UnityWebRequest.kHttpVerbPOST);
 
 			//Explicitly parse to UTF8 encoding to make it work !
 			byte[] bytes = System.Text.Encoding.UTF8.GetBytes(json.ToString());
@@ -186,7 +186,7 @@ namespace BuddyApp.ExperienceCenter {
 		// POST request using form data
 		private IEnumerator Post(string apiEntry, WWWForm form, Action<JSONObject> onResponse)
 		{
-			UnityWebRequest request = UnityWebRequest.Post(ParametersData.Instance.API_URL + apiEntry, form);
+			UnityWebRequest request = UnityWebRequest.Post(ExperienceCenterData.Instance.API_URL + apiEntry, form);
 
 			// if logged in, put given cookie in header
 			if (Connected)
@@ -219,7 +219,7 @@ namespace BuddyApp.ExperienceCenter {
 		// GET request retrieving JSONArray
 		private IEnumerator Get(string apiEntry, Action<JSONArray> onResponse)
 		{
-			UnityWebRequest request = UnityWebRequest.Get(ParametersData.Instance.API_URL + apiEntry);
+			UnityWebRequest request = UnityWebRequest.Get(ExperienceCenterData.Instance.API_URL + apiEntry);
 
 			// if logged in, put given cookie in header
 			if (Connected)
