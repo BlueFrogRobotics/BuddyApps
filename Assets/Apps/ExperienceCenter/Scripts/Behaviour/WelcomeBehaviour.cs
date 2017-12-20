@@ -15,17 +15,18 @@ namespace BuddyApp.ExperienceCenter
 		private TextToSpeech mTTS;
 		private bool mHeadMoving = true;
 		private bool mChangeDirection = true;
+		private float mYesAngle = 0;
 		void Awake ()
 		{
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
-
 		}
 
 		public void InitState ()
 		{
 			StartCoroutine(MoveHeadNoHinge(30,15));
 			StartCoroutine(Speaking());
+			StartCoroutine(MoveHeadWhenSpeaking());
 		}
 			
 
@@ -59,9 +60,10 @@ namespace BuddyApp.ExperienceCenter
 
 		private IEnumerator MoveHeadYesHinge (float lYesAngle, float lYesSpeed)
 		{
+			//if(!mHeadMoving) StartCoroutine (MoveHeadYesHinge (0, lYesSpeed));
 			yield return new WaitWhile(() => !mHeadMoving);
 			BYOS.Instance.Primitive.Motors.YesHinge.SetPosition (lYesAngle, lYesSpeed);
-			yield return new WaitWhile(() => Math.Abs(BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition - lYesAngle) > 0.02 && mHeadMoving);
+			yield return new WaitWhile(() => Math.Abs(BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition - lYesAngle) > 0.1 && mHeadMoving);
 			if (mHeadMoving && mChangeDirection) {
 				mChangeDirection = false;
 				StartCoroutine (MoveHeadYesHinge (0, lYesSpeed));
@@ -72,7 +74,7 @@ namespace BuddyApp.ExperienceCenter
 		{
 			yield return new WaitWhile(() => !mTTS.HasFinishedTalking);
 			//Comment this line if you need a linear movement of the head 
-			StartCoroutine(MoveHeadYesHinge(-6,6));
+			StartCoroutine(MoveHeadYesHinge(-5,5));
 			mHeadMoving = true;
 			BYOS.Instance.Primitive.Motors.NoHinge.SetPosition (lNoAngle, lNoSpeed);
 			yield return new WaitWhile(() => Math.Abs(BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition - lNoAngle) > 0.1);
@@ -80,7 +82,18 @@ namespace BuddyApp.ExperienceCenter
 			mChangeDirection = true;
 		}
 
-
-
+		private IEnumerator MoveHeadWhenSpeaking ()
+		{
+			if(mTTS.HasFinishedTalking) BYOS.Instance.Primitive.Motors.YesHinge.SetPosition (0, 15f);
+			yield return new WaitWhile(() => mTTS.HasFinishedTalking);
+			float lYesAngle = BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition;
+			lYesAngle = lYesAngle - (float) (3 * Math.Sin(mYesAngle));
+			//Debug.Log ("Current Yes: " + BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition + ", Dist Yes: " + lYesAngle);
+			BYOS.Instance.Primitive.Motors.YesHinge.SetPosition (lYesAngle, 15f);
+			mYesAngle += UnityEngine.Random.Range(1.0F, 9.0F);
+			yield return new WaitWhile(() => Math.Abs(BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition - lYesAngle) > 0.1 && !mTTS.HasFinishedTalking);
+			StartCoroutine (MoveHeadWhenSpeaking ());
+		}
+			
 	}
 }
