@@ -13,10 +13,6 @@ namespace BuddyApp.Timer
     public class Countdown : AStateMachineBehaviour {
 
         int finalcountdown;
-        // Use this for initialization
-        public override void Start() {
-
-        }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -38,12 +34,9 @@ namespace BuddyApp.Timer
         
         private void EndTimer()
         {
-            Trigger("bipbip");
+            Trigger("Bipbip");
             //StartCoroutine(DisplayAlert("Bipbip je sonne"));
         }
-        // Update is called once per frame
-        void Update() {
-
-        }
+        
     }
 }

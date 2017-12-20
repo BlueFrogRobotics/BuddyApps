@@ -24,10 +24,9 @@ namespace BuddyApp.Companion
             Debug.Log("state: User disengaged");
 
             mTimeState = 0F;
-			
+			Interaction.TextToSpeech.SayKey("userquit");
 
             Interaction.Mood.Set(MoodType.NEUTRAL);
-
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
