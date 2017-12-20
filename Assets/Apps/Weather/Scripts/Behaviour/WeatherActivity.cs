@@ -20,14 +20,16 @@ namespace BuddyApp.Weather
 			}else {
 				WeatherData.Instance.VocalRequest = "";
 			}
+
 		}
 
 		/*
-		* Called after every Awake() in your scene
+		* Callsed after every Awake() in your scene
 		*/
 		public override void OnAwake()
         {
             Utils.LogI(LogContext.APP, "On awake...");
+            BYOS.Instance.Resources.LoadAtlas("Atlas_Meteo");
         }
 
 		/*

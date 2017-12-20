@@ -1,8 +1,0 @@
-﻿Quel temps fera t il?;Request(type=meteo)
-Va t il pleuvoir ?;Request(type=meteo, weatherPrediction=pleuvoir)
-Quand va t il pleuvoir?;Request(type=meteo, when=true, weatherPrediction=pleuvoir)
-Est ce qu'il va y avoir de la pluie ?
-Quel temps fait-il ?;Request(type=meteo)
-Quelle est la météo ?;Request(type=meteo)
-Quand va-t-il pleuvoir à Paris ?;Request(type=meteo,weatherPrediction=pleuvoir,location=Paris)
-Quel temps fera t il demain à Paris ?; Request(day=1,location=Paris)

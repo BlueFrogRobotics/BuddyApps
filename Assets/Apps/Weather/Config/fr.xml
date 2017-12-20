@@ -397,7 +397,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>partiallycloudy</Key>
+            <Key>partlycloudy</Key>
             <BaseValue>partiellement nuageux</BaseValue>
             <ClosePhoneticValues>
                 <string>partiellement nuageux</string>
@@ -414,6 +414,56 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>à</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>restitution</Key>
+            <BaseValue>[date] à [hour] heure la temperature sera de [degree] et il fera [forecast]</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[date] à [hour] heure la temperature sera de [degree] et il fera [forecast]</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>chanceofrain</Key>
+            <BaseValue>couvert</BaseValue>
+            <ClosePhoneticValues>
+                <string>couvert</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>couvert</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>snowy</Key>
+            <BaseValue>neige</BaseValue>
+            <ClosePhoneticValues>
+                <string>neige</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>neige</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>afternoon</Key>
+            <BaseValue>apres-midi</BaseValue>
+            <ClosePhoneticValues>
+                <string>apres-midi</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>apres-midi</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>clear</Key>
+            <BaseValue>beau</BaseValue>
+            <ClosePhoneticValues>
+                <string>beau</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>beau</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
