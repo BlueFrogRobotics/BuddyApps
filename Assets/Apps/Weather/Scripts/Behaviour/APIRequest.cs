@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
 using System;
+using System.IO;
 
 
 namespace BuddyApp.Weather
@@ -21,7 +22,7 @@ namespace BuddyApp.Weather
 		{
 
 			mWeatherB = GetComponent<WeatherBehaviour>();
-
+            string city;
 
 			Debug.Log("enter api weather type  " + mWeatherB.mForecast + " when " + mWeatherB.mWhen);
 
@@ -36,11 +37,18 @@ namespace BuddyApp.Weather
 				Debug.Log("Error. Check internet connection!");
 			}
 
-			Debug.Log("Pre web service " + mWeatherB.mLocation);
-			BYOS.Instance.WebService.Weather.At(mWeatherB.mLocation, WeatherProcessing, mNumberWeatherInfos);
+            if (mWeatherB.mLocation == "")
+            {
+                mWeatherB.mName = "paris";
+                mWeatherB.mLocation = "zmw:00000.45.07156";
+            }
+            Debug.Log("Pre web service " + mWeatherB.mLocation);
+            city = mWeatherB.mLocation;
+            BYOS.Instance.WebService.Weather.HourlyAt(city, WeatherProcessing, mNumberWeatherInfos);
+            //BYOS.Instance.WebService.Weather.At("auxerre", WeatherProcessing, mNumberWeatherInfos);
 
 
-			Debug.Log("Post web service ");
+            Debug.Log("Post web service ");
 
 
 		}
@@ -59,14 +67,29 @@ namespace BuddyApp.Weather
 			mWeatherB.mWeatherInfos = iWeather;
 			Debug.Log("WeatherProcessing");
 			if (iError != WeatherError.NONE) {
-				if (iError == WeatherError.UNKNOWN_LOCATION)
-					Interaction.TextToSpeech.SayKey("locationissue");
-				else if (iError == WeatherError.GEOLOCALIZATION_FAILED)
-					Interaction.TextToSpeech.SayKey("geolocfailed");
-				else if (iError == WeatherError.GEOLOCALIZATION_DISABLED)
-					Interaction.TextToSpeech.SayKey("geolocdisable");
+                if (iError == WeatherError.UNKNOWN_LOCATION)
+                    Interaction.TextToSpeech.SayKey("locationissue");
+                else if (iError == WeatherError.GEOLOCALIZATION_FAILED)
+                    Interaction.TextToSpeech.SayKey("geolocfailed");
+                else if (iError == WeatherError.GEOLOCALIZATION_DISABLED)
+                    Interaction.TextToSpeech.SayKey("geolocdisable");
+                else if (iError == WeatherError.MANY_LOCATIONS)
+                {
+                    CityData lNewCity = new CityData();
+                    string[] lCitiesfile = Directory.GetFiles(BYOS.Instance.Resources.GetPathToRaw("Cities"));
 
-				mQuit = true;
+                    lNewCity.Name = mWeatherB.mName;
+                    lNewCity.Key = iWeather[0].Location.APICode;
+                    mWeatherB.mLocation = lNewCity.Key;
+
+                    mWeatherB.mCities.Cities.Add(lNewCity);
+
+                    Utils.SerializeXML<CitiesData>(mWeatherB.mCities, lCitiesfile[0]);
+
+                    Interaction.TextToSpeech.Say("Trop de ville mon gars");
+                    Trigger("Reset");
+                }
+                mQuit = true;
 				return;
 			}
 			// If error are handle correctly, this shouldn't happen!
@@ -89,13 +112,15 @@ namespace BuddyApp.Weather
 			mWeatherB.mIndice = -1;
 			mWeatherB.mRequestError = WeatherBehaviour.WeatherRequestError.UNKNOWN;
 			bool lFound = false;
-			if (iWeatherType != WeatherType.UNKNOWN) {
+
+            Debug.Log(mWeatherB.mHour + "HOUUUUUUUR");
+
+            if (iWeatherType != WeatherType.UNKNOWN) {
 				Debug.Log("GetWeatherInfos api kikoo date " + mWeatherB.mDate);
 				if (mWeatherB.mWhen && mWeatherB.mDate == -1) {
-					for (int i = 0; i < mNumberWeatherInfos; ++i) {
+					for (int i = 0; i < iWeather.Length; ++i) {
 						Debug.Log("GetWeatherInfos api indice " + i + " weather type speech " + iWeatherType + " weather type weatherInfo  " + iWeather[i].Type);
 						if (iWeather[i].Type == iWeatherType) {
-
 							Debug.Log("GetWeatherInfos api indice " + i + " weather type speech " + iWeatherType + " weather type weatherInfo  " + iWeather[i].Type);
 							mWeatherB.mIndice = i;
 							lFound = true;
@@ -124,17 +149,18 @@ namespace BuddyApp.Weather
 					else
 						lHour = mWeatherB.mHour;
 
+                    Debug.Log("Horraire" + lHour);
 
-					for (int i = 0; i < mNumberWeatherInfos; ++i) {
-						if (iWeather[i].Day == lDay && iWeather[i].Type == iWeatherType && iWeather[i].Hour > lHour) {
+					for (int i = 0; i < iWeather.Length; ++i) {
+						if (iWeather[i].Day == lDay && iWeather[i].Type == iWeatherType && iWeather[i].Hour == lHour) {
 							mWeatherB.mIndice = i;
 							lFound = true;
 							break;
 						}
 					}
 					if (!lFound) {
-						for (int i = 0; i < mNumberWeatherInfos; ++i) {
-							if (iWeather[i].Hour > lHour) {
+						for (int i = 0; i < iWeather.Length; ++i) {
+							if (iWeather[i].Hour>lHour) {
 								mWeatherB.mIndice = i;
 								mWeatherB.mRequestError = WeatherBehaviour.WeatherRequestError.NONE;
 								break;
@@ -144,37 +170,42 @@ namespace BuddyApp.Weather
 				}
 
 			} else if (iWeatherType == WeatherType.UNKNOWN) {
-				//Quel temps va til faire date/heure?
+                //Quel temps va til faire date/heure?
 				if (mWeatherB.mDate < 1 ) {
 					int lHour = DateTime.Now.Hour;
 					if (mWeatherB.mHour == -1) {
 						//quel temps va t'il faire aujourdhui?
-						for (int i = 0; i<mNumberWeatherInfos; ++i) {
-							if (lHour<iWeather[i].Hour) {
+						for (int i = 0; i< iWeather.Length; ++i) {
+							if (lHour < iWeather[i].Hour) {
 								mWeatherB.mIndice = i;
 								lFound = true;
 								break;
 							}
-}
+                        }
 
-					} else if (mWeatherB.mHour >= 0) {
-						for (int i = 0; i<mNumberWeatherInfos; ++i) {
-							if (mWeatherB.mHour<iWeather[i].Hour) {
-								mWeatherB.mIndice = i;
+                    }
+                    else if (mWeatherB.mHour >= 0) {
+
+                        for (int i = 0; i< iWeather.Length; ++i) {
+                            Debug.Log("HOUR1 " + mWeatherB.mHour + " / HOUR11 " + iWeather[i].Hour);
+							if (mWeatherB.mHour == iWeather[i].Hour) {
+                                mWeatherB.mIndice = i;
 								lFound = true;
 								break;
 							}
 						}
-					}
+                        Debug.Log("Hour2 " + mWeatherB.mHour);
+
+                    }
 
 
-					Debug.Log("GetWeatherInfos today or no date indice: " + mWeatherB.mIndice);
+                    Debug.Log("GetWeatherInfos today or no date indice: " + mWeatherB.mIndice);
 
 				} else if (mWeatherB.mDate > 0) {
 					int lDay = DateTime.Now.Day;
 					if (mWeatherB.mHour == -1) {
-						for (int i = 0; i<mNumberWeatherInfos; ++i) {
-							if (iWeather[i].Hour > 11 && iWeather[i].Day - lDay == mWeatherB.mDate) {
+						for (int i = 0; i < iWeather.Length; ++i) {
+							if (mWeatherB.mHour < iWeather[i].Hour && iWeather[i].Day - lDay == mWeatherB.mDate) {
 								mWeatherB.mIndice = i;
 								lFound = true;
 								break;
@@ -182,8 +213,8 @@ namespace BuddyApp.Weather
 						}
 
 					} else {
-						for (int i = 0; i<mNumberWeatherInfos; ++i) {
-							if ( (mWeatherB.mHour<iWeather[i].Hour &&
+						for (int i = 0; i< iWeather.Length; ++i) {
+							if ( (mWeatherB.mHour == iWeather[i].Hour &&
                                 iWeather[i].Day - lDay == mWeatherB.mDate) || ( (iWeather[i].Day - lDay) -  mWeatherB.mDate > 0) ) {
 								mWeatherB.mIndice = i;
 								lFound = true;

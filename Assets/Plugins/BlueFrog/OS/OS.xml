@@ -864,11 +864,6 @@
             If the behavior is running, tells at which step it's currently at.
             </summary>
         </member>
-        <member name="P:Buddy.BML.ID">
-            <summary>
-            ID of the BML.
-            </summary>
-        </member>
         <member name="P:Buddy.BML.Name">
             <summary>
             Name of the BML (its filename).
@@ -1003,16 +998,7 @@
             <param name="iComposition">Composition type of the behavior.</param>
             <returns>False if the BML was not found.</returns>
         </member>
-        <member name="M:Buddy.BMLManager.LaunchByID(System.String,System.Collections.Generic.Dictionary{System.String,System.String},Buddy.BMLComposition)">
-            <summary>
-            Launches a Behavior. Will check first in App's BML, then OS's BML.
-            </summary>
-            <param name="iID">The name of the behavior described by the BML's ID.</param>
-            <param name="iParams">Parameters for the execution of the behavior. The keys should be the parameter's names and the value the target value of the attribute.</param>
-            <param name="iComposition">Composition type of the behavior.</param>
-            <returns>False if the BML was not found.</returns>
-        </member>
-        <member name="M:Buddy.BMLManager.LaunchRandom(Buddy.BMLCategory,System.Collections.Generic.Dictionary{System.String,System.String},Buddy.BMLComposition,Buddy.BMLContext)">
+        <member name="M:Buddy.BMLManager.LaunchRandom(System.String,System.Collections.Generic.Dictionary{System.String,System.String},Buddy.BMLComposition,Buddy.BMLContext)">
             <summary>
             Launches a random behavior that belongs to a certain category.
             </summary>

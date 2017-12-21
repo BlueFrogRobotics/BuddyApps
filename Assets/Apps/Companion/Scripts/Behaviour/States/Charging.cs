@@ -12,7 +12,6 @@ namespace BuddyApp.Companion
 		public override void Start()
 		{
 			mState = GetComponentInGameObject<Text>(0);
-			mDetectionManager = GetComponent<DetectionManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -29,8 +28,5 @@ namespace BuddyApp.Companion
 			iAnimator.SetTrigger("IDLE");
 		}
 
-		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-		{
-		}
 	}
 }

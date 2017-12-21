@@ -1,7 +1,11 @@
-﻿using UnityEngine;
-using Buddy;
-using System;
+﻿using Buddy;
+using Buddy.UI;
 
+using System;
+using System.Collections;
+using UnityEngine.UI;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace BuddyApp.Weather
 {
@@ -9,10 +13,20 @@ namespace BuddyApp.Weather
 	{
 		private float mTimer;
 
-		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        private List<WeatherPanel> trip;
+        private WeatherMan mMan;
+        //private WeatherPanel mPanel;
+
+        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			mWeatherB = GetComponent<WeatherBehaviour>();
+            mWeatherB.mIsOk = true;
+
+            mMan = GetComponent<WeatherMan>();
+            //mPanel = GetComponent<WeatherPanel>();
+
+            trip = mMan.block;
 			Debug.Log("ENTER RESTITUTION");
 			mTimer = 0F;
 			Debug.Log("ENTER RESTITUTION: " + mWeatherB.mIndice + " Weather info size: " + mWeatherB.mWeatherInfos.Length);
@@ -72,10 +86,6 @@ namespace BuddyApp.Weather
 					else
 						lAnswer = lYesAnswer;
 
-
-
-
-
 					//if (mWeatherB.mForecast == WeatherType.SNOWY)
 					//	if (lWeatherInfo.Type == Buddy.WeatherType.CLOUDY || lWeatherInfo.Type == Buddy.WeatherType.SUNNY)
 					//		lAnswer = lNoAnswer;
@@ -101,24 +111,162 @@ namespace BuddyApp.Weather
 					//		lAnswer = lNoAnswer;
 				}
 			} else {
-				lAnswer = lDayString + " " + Dictionary.GetRandomString("at") + " " + lWeatherInfo.Hour + " " +  Dictionary.GetRandomString("hour") + " " + Dictionary.GetRandomString("temperaturewillbe") + " " + lWeatherInfo.MinTemperature + " "
-					+ Dictionary.GetRandomString("degreesanditisa") + " " + Dictionary.GetRandomString( (lWeatherInfo.Type.ToString().ToLower()).Replace("_", "") );
+                //lAnswer = Dictionary.GetRandomString("restitution");
+                //lAnswer.Replace("[date]", lDayString);
+                //lAnswer.Replace("[hour]", "" + lWeatherInfo.Hour);
+                //lAnswer.Replace("[degree]", "" + lWeatherInfo.MinTemperature);
+                //lAnswer.Replace("[forecast]", Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")));
 
-			}
-			if (mWeatherB.mLocation != "")
-				Interaction.TextToSpeech.Say(lAnswer + " " + Dictionary.GetRandomString("inlocation") + " " + mWeatherB.mLocation);
-		}
+                lAnswer = lDayString + " " + Dictionary.GetRandomString("at") + " " + lWeatherInfo.Hour + " " + Dictionary.GetRandomString("hour") + " " + Dictionary.GetRandomString("temperaturewillbe") + " " + lWeatherInfo.MinTemperature + " "
+                    + Dictionary.GetRandomString("degreesanditisa") + " " + Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", ""));
+                //[date] à [hour] heure la temperature sera de [degree] et il[forecast]
+            }
 
-		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+			if (mWeatherB.mName != "")
+				Interaction.TextToSpeech.Say(lAnswer + " " + Dictionary.GetRandomString("inlocation") + " " + mWeatherB.mName);
+
+
+            StartCoroutine(Example(mWeatherB.mWeatherInfos));
+    }
+
+        IEnumerator Example(WeatherInfo[] lWeatherInfo)
+        {
+            float num = 0.1f;
+            int j = 0;
+
+            Toaster.Display<BackgroundToast>().With();
+
+            mWeatherB.mIsOk = false;
+            if (mWeatherB.mDate >= 1)
+            {
+                //if (lWeatherInfo[j].Hour != 20)
+                    //j++;
+                for (int k = 0; k < mWeatherB.mDate; k++)
+                {
+                    j++;
+                    while (lWeatherInfo[j].Hour != 8)
+                        j++;
+                }
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
+                if (i >= 4)
+                {
+                    j++;
+                    while (lWeatherInfo[j].Hour != 12)
+                        j++;
+                    SetPanel(trip[i], lWeatherInfo[j], true);
+
+                }
+                if (i < 4)
+                {
+                    SetPanel(trip[i], lWeatherInfo[j], false);
+                    j++;
+                }
+                yield return new WaitForSeconds(num);
+            }
+
+            yield return new WaitForSeconds(12f);
+
+            for (int i = 7; i >= 0; i--)
+            {
+                trip[i].Cancel();
+                yield return new WaitForSeconds(num);
+            }
+            mWeatherB.mIsOk = true;
+            Toaster.Hide();
+        }
+
+        public void SetPanel(WeatherPanel trip, WeatherInfo Info, bool Pan)
+        {
+            string[] date = Info.Date.Split('-');
+            DateTime dt = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[1]), Int32.Parse(date[2]));
+
+            if (Info.MinTemperature <= 0)
+                trip.SetFrost();
+            trip.SetText(Info.MinTemperature.ToString() + "°C");
+            if (Info.Hour >= 8 && Info.Hour < 12)
+            {
+                trip.Morning();
+                trip.SetMoment("MORNING");
+            }
+            else if (Info.Hour >= 12 && Info.Hour < 16)
+            {
+                trip.Noon();
+                if (Pan)
+                {
+                    trip.SetMoment(dt.DayOfWeek.ToString());
+                }
+                else
+                  trip.SetMoment("NOON");
+            }
+            else if (Info.Hour >= 16 && Info.Hour < 20)
+            {
+                trip.After_Noon();
+                trip.SetMoment("AFTERNOON");
+            }
+            else
+            {
+                trip.Evening();
+                trip.ChangeMomentColor(Color.white);
+                trip.ChangeTextColor(Color.white);
+                trip.SetMoment("EVENING");
+            }
+            if (Info.Hour >= 8 && Info.Hour <= 18)
+                trip.SetSun();
+            else
+                trip.SetMoon();
+
+            if (Info.Type == WeatherType.SUNNY || Info.Type == WeatherType.CLEAR)
+            {
+                Debug.Log("HALOOO");
+                if (Info.Hour > 6 && Info.Hour < 19)
+                    trip.SetHalo();
+            }
+            else if (Info.Type == WeatherType.OVERCAST)
+            {
+                Debug.Log("OVERCAST");
+
+                trip.SetCloud6();
+            }
+            else if (Info.Type == WeatherType.CLOUDY || Info.Type == WeatherType.CHANCE_OF_RAIN)
+            {
+                Debug.Log("CLOUUUUD");
+                trip.SetCloud3();
+            }
+            else if (Info.Type == WeatherType.PARTLY_CLOUDY)
+            {
+                Debug.Log("PARTLY CLOUUUUD");
+                trip.SetCloud1();
+            }
+            else if (Info.Type == WeatherType.RAIN)
+            {
+                Debug.Log("RAIIIN");
+                trip.SetCloud3();
+                trip.SetRain();
+            }
+
+            else if (Info.Type == WeatherType.SNOWY)
+            {
+                Debug.Log("SNOWWW");
+                trip.SetCloud6();
+                trip.SetSnow();
+            }
+            trip.Open();
+        }
+
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
 			mTimer += Time.deltaTime;
-			if (Interaction.TextToSpeech.HasFinishedTalking && mTimer > 3F) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && mTimer > 3F && mWeatherB.mIsOk) {
 				Debug.Log("Restart test");
 				mWeatherB.mDate = 0;
 				mWeatherB.mForecast = WeatherType.UNKNOWN;
 				mWeatherB.mLocation = "";
-				WeatherData.Instance.VocalRequest = "";
+                mWeatherB.mName = "";
+                WeatherData.Instance.VocalRequest = "";
 				Trigger("Restart");
 			}
 		}

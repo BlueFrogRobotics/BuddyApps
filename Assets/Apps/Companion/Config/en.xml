@@ -115,6 +115,10 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>I listen</string>
+                <string>tell me what you need!</string>
+                <string>What can I do for you?</string>
+                <string>How can I help you?</string>
+                <string>What is your need</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -248,13 +252,19 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>noanswerfound</Key>
-            <BaseValue>No answer found</BaseValue>
+            <Key>notunderstand</Key>
+            <BaseValue>I didn't hear anything</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>I will just pretend I didn't hear that</string>
+                <string>Sorry, I have trouble understanding! </string>
+                <string> I'll pretend I did not understand </string>
+                <string> I'm afraid you have to say it again </string>
+                <string> It seems that my circuits did not catch everything, you could repeat?</string>
+                <string> hey, it must be very funny but here I am afraid that must have to repeat!</string>
+                <string>you speak so fast that even a robot does not understand!</string>
+                <string>I see in you a gallant soul, would you please repeat slowly</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -433,6 +443,47 @@
                 <string>Ok, I stop moving</string>
                 <string>Sure, I stay here</string>
                 <string>okay boss, I don't move!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>noanswerfound</Key>
+            <BaseValue>No answer found</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I'll pretend I didn't hear that</string>
+                <string>Questions like that, I do not want! </string>
+                <string> I don't pretend to know everything! </string>
+                <string> Sometimes, it's better not to answer! </string>
+                <string> If you have another question, it will make me happy! </string>
+                <string> I understand but the answer may not really please you </string>
+                <string> One day someone already asked me that kind of question ... he did not like the answer! </string>
+                <string> I will pretend that it was a joke! </string>
+                <string> It's a too personal question </string>
+                <string> I invite you to ask me another question </string>
+                <string> You know I like you very much, but I will not answer that one </string>
+                <string> it's a bit awkward... I don't have any answer.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>userquit</Key>
+            <BaseValue>see you later</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>ee you </string>
+                <string> See you later </string>
+                <string> Bye </string>
+                <string> Good bye my friend </string>
+                <string> Let me know if you need </string>
+                <string> Au revoir </string>
+                <string> See ya </string>
+                <string> Good bye Buddy </string>
+                <string> Take care </string>
+                <string> Tchao </string>
+                <string> Astala vista baybay</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

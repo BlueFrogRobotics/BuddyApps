@@ -9,79 +9,81 @@ using Buddy.UI;
 
 namespace BuddyApp.Timer
 {
-    public class GetTime : AStateMachineBehaviour
-    {
-        private int finalsec;
-        private int sec;
-        private int min;
-        private int hour;
+	public class GetTime : AStateMachineBehaviour
+	{
+		private int mFinalsec;
+		private int mSec;
+		private int mMin;
+		private int mHour;
 
-        private string Voice;
-        // Use this for initialization
-        public override void Start()
-        {
-            
-        }
+		private string mVoice;
 
-        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            finalsec = 0;
-            if (TimerData.Instance.VocalRequest != "")
-            {
-                Voice = TimerData.Instance.VocalRequest.ToLower();
-                ParseTime(Voice);
-            }
-        }
+		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			mFinalsec = -1;
+			if (!string.IsNullOrEmpty(TimerData.Instance.VocalRequest)) {
+				Debug.Log("input sentence " + TimerData.Instance.VocalRequest);
+				mVoice = TimerData.Instance.VocalRequest.ToLower();
+				ParseTime(mVoice);
+				Debug.Log("time parsed: " + mFinalsec);
+				if (mFinalsec == -1) {
+					Interaction.TextToSpeech.SayKey("whattime");
+					Trigger("TimeNeeded");
+				} else {
 
-        private void ParseTime (string iVoice)
-        {
-            double num;
-            string lCnumber;
-            string[] lWord = iVoice.Split(' ');
-            lCnumber = null;
+					Debug.Log("trigger countdown");
+					CommonIntegers["finalcountdown"] = mFinalsec + 1;
 
-            for (int i = 0; i <= lWord.Length; i++)
-            {
-                if (double.TryParse(lWord[i], out num))
-                {
-                    lCnumber = lWord[i];
-                    i++;
-                }
+					Trigger("CountDown");
+				}
+			} else {
+				Interaction.TextToSpeech.SayKey("whattime");
+				Trigger("TimeNeeded");
+			}
+		}
 
+		private void ParseTime(string iVoice)
+		{
+			int num;
+			string lCnumber;
+			string[] lWord = iVoice.Split(' ');
+			lCnumber = null;
 
-                //if ((lWord[i].Equals(Dictionary.GetPhoneticStrings("sec")) || lWord[i].Equals(Dictionary.GetPhoneticStrings("secs"))))
-                if ((lWord[i].Equals("seconde") || lWord[i].Equals("secondes")) && lCnumber != null)
-                {
-                    finalsec += Int32.Parse(lCnumber);
-                    lCnumber = null;
-                    i++;
-                }
-                else if ((lWord[i].Equals("minutes") || lWord[i].Equals("minute")) && lCnumber != null)
-                {
-                    finalsec += Int32.Parse(lCnumber) * 60;
-                    lCnumber = null;
-                    i++;
-                }
-                else if ((lWord[i].Equals("heure") || lWord[i].Equals("heures")) && lCnumber != null)
-                {
-                    finalsec += Int32.Parse(lCnumber) * 60 * 60;
-                    lCnumber = null;
-                    i++;
-                }
-                //else if (lWord[i].Equals(Dictionary.GetPhoneticStrings("hour")) || lWord[i].Equals(Dictionary.GetPhoneticStrings("hours")))
-            }
-
-            CommonIntegers["finalcountdown"] = finalsec;
-
-            Trigger("Countdown");
-
-        }
+			for (int i = 0; i < lWord.Length; i++) {
+				if (int.TryParse(lWord[i], out num)) {
+					Debug.Log("int: " + num);
+					lCnumber = lWord[i];
+					i++;
+				}
 
 
-        // Update is called once per frame
-        void Update()
-        {
+				//if ((lWord[i].Equals(Dictionary.GetPhoneticStrings("sec")) || lWord[i].Equals(Dictionary.GetPhoneticStrings("secs"))))
+				if (lWord[i].Contains("second") && lCnumber != null) {
+					mFinalsec += Int32.Parse(lCnumber);
+					lCnumber = null;
+					i++;
+				} else if (lWord[i].Contains("minute") && lCnumber != null) {
+					mFinalsec += Int32.Parse(lCnumber) * 60;
+					lCnumber = null;
+					i++;
+				}else if (lWord[i].EndsWith("h")) {
+					Debug.Log("word ends with h: " + lWord[i]);
+					if (lWord[i].Length < 3 && int.TryParse(lWord[i].Remove(lWord[i].Length - 1), out num)) {
+						Debug.Log("word ends with h: " + lWord[i]);
+						mFinalsec += num * 3600;
+						lCnumber = null;
+						i++;
+					}
+				} else if (lWord[i].Contains(Dictionary.GetString("hour")) &&  lCnumber != null) {
+					mFinalsec += Int32.Parse(lCnumber) * 3600;
+					lCnumber = null;
+					i++;
+				}
+				//else if (lWord[i].Equals(Dictionary.GetPhoneticStrings("hour")) || lWord[i].Equals(Dictionary.GetPhoneticStrings("hours")))
+			}
 
-        }
-    }
+
+		}
+
+	}
 }

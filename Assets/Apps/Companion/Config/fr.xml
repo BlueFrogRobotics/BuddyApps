@@ -121,6 +121,9 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Je vous écoute</string>
+                <string>Que puis-je pour vous?</string>
+                <string>Quel est votre besoin?</string>
+                <string>Comment puis-je vous aider?</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -255,13 +258,18 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>noanswerfound</Key>
-            <BaseValue>Aucune réponse trouvée</BaseValue>
+            <Key>notunderstand</Key>
+            <BaseValue>Je n'ai rien entendu</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Je vais faire comme si je n'avais rien entendu</string>
+                <string>Pardon, j'ai du mal comprendre!</string>
+                <string>J'ai bien peur qu'il faille me redire ça</string>
+                <string>il semble que mes circuits n'aient pas tout capté, tu pourrais répéter?</string>
+                <string>ah, ça doit être très drôle mais là j'ai bien peur que tu sois obligé de répéter</string>
+                <string>tu parles tellement vite que même un robot ne comprend pas!</string>
+                <string>je vois en toi une âme de perroquet, tu me redis ça vite fait?</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -437,6 +445,49 @@
                 <string>ok, je reste ici</string>
                 <string>ok je ne bouge plus</string>
                 <string>d'accord, je ne bouge plus</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>noanswerfound</Key>
+            <BaseValue>Pas de réponse</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>C'est gênant, je ne sais pas quoi répondre...</string>
+                <string>  Vous voulez pas plutôt me demander de raconter une blague?</string>
+                <string> Je préfèrerais que vous me demandiez autre chose... </string>
+                <string>42, [500] ça n'est peut-être pas la bonne réponse, mais c'est mieux que rien </string>
+                <string>Je vais faire comme si je n'avais pas compris </string>
+                <string> Des questions comme ça, je n'en souhaite à personne! </string>
+                <string> Je ne prétends pas tout savoir! </string>
+                <string> Il y a des fois, il est préférable de ne pas répondre! </string>
+                <string> Si vous avez une autre question, ça m'arrangerait </string>
+                <string> J'ai bien compris mais la réponse risque vraiment de ne pas vous plaire </string>
+                <string> Un jour quelqu'un m'a déjà posé ce genre de question...il n'a pas aimé la réponse! </string>
+                <string> Allez, [333] on va dire que vous me faites une plaisanterie! </string>
+                <string> C'est une question trop personnelle </string>
+                <string>Je vous invite à me poser une autre question</string>
+                <string> Vous savez que je vous aime beaucoup, mais je ne répondrai pas à cette question</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>userquit</Key>
+            <BaseValue>à bientôt</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>OK </string>
+                <string> Quittons-nous bon zami! </string>
+                <string> Bonbain salut </string>
+                <string> Tchao </string>
+                <string> Astala vista </string>
+                <string> Prenez soins de vous </string>
+                <string> Salut </string>
+                <string> Au plaisir </string>
+                <string> Ok, faite moi signe quand vous le voulez </string>
+                <string> On va faire comme ça</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

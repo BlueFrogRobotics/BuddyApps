@@ -39,7 +39,6 @@ namespace BuddyApp.MemoryGame
 
         void Start()
         {
-			
 			mAnimator = GetComponent<Animator>();
             if (mAnimator != null) {
                 mAnimator.enabled = true;
@@ -49,9 +48,6 @@ namespace BuddyApp.MemoryGame
                 mCommonSingles = new Dictionary<string, float>();
                 mCommonStrings = new Dictionary<string, string>();
                 mCommonObjects = new Dictionary<string, object>();
-
-				mCommonObjects["gameLevels"] = new MemoryGameRandomLevel(MemoryGameData.Instance.Difficulty, MemoryGameData.Instance.FullBody);
-				mCommonIntegers["isPlayerTurn"] = 0;
 
 				foreach (AStateMachineBehaviour lState in lStates) {
                     lState.Init();

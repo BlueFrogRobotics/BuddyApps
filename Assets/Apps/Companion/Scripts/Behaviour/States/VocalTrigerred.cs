@@ -18,6 +18,8 @@ namespace BuddyApp.Companion
 		private string mLastBuddySpeech;
 		private bool mNeedToGiveAnswer;
 		private bool mMoving;
+		private string mLastHumanSpeech;
+		private bool mFirstErrorStt;
 
 		public override void Start()
 		{
@@ -30,7 +32,10 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mDetectionManager.mDetectedElement = Detected.NONE;
+			// TODO remove this variable when resolved issue from core-2
+			mFirstErrorStt = true;
+			mLastHumanSpeech = "";
+            mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "Vocal Triggered";
 			Debug.Log("state: Vocal Triggered");
 
@@ -54,6 +59,7 @@ namespace BuddyApp.Companion
 
 		void OnSpeechRecognition(string iText)
 		{
+			mLastHumanSpeech = iText;
 			// Todo : remove when fix from OS
 			if (CompanionData.Instance.CanMoveBody) {
 				Primitive.Motors.Wheels.Locked = false;
@@ -69,22 +75,26 @@ namespace BuddyApp.Companion
 			mSpeechInput = true;
 			Debug.Log("Reco vocal: " + iText);
 			mVocalChat.SpecialRequest(iText);
+			mFirstErrorStt = true;
 
 		}
 
 		void ErrorSTT(STTError iError)
 		{
-			Debug.Log("Error STT ");
-			// If first error
-			if (!mError) {
-				mError = true;
-				// Ask repeat
-				SayKey("ilisten");
-				mNeedListen = true;
-			} else {
-				// else go away
-				Debug.Log("2cd error, go away");
-				Trigger("IDLE");
+			if (mFirstErrorStt) {
+				mFirstErrorStt = false;
+				Debug.Log("Error STT ");
+				// If first error
+				if (!mError) {
+					mError = true;
+					// Ask repeat
+					SayKey("ilisten");
+					mNeedListen = true;
+				} else {
+					// else go away
+					Debug.Log("2cd error, go away");
+					Trigger("IDLE");
+				}
 			}
 		}
 
@@ -98,6 +108,7 @@ namespace BuddyApp.Companion
 					Say(mVocalChat.Answer);
 					mNeedToGiveAnswer = false;
 					mNeedListen = true;
+					mFirstErrorStt = true;
 				} else if (mMoving && !IsMoving()) {
 					Debug.Log("finished motion, need listen");
 					mMoving = false;
@@ -145,7 +156,7 @@ namespace BuddyApp.Companion
 					break;
 
 				case "Alarm":
-					StartApp("Alarm");
+					StartApp("Alarm", mLastHumanSpeech);
 					break;
 
 				case "Answer":
@@ -160,18 +171,18 @@ namespace BuddyApp.Companion
 
 				case "Babyphone":
 					CompanionData.Instance.InteractDesire -= 10;
-					StartApp("BabyPhone");
+					StartApp("BabyPhone", mLastHumanSpeech);
 					break;
 
 				case "BML":
 					Debug.Log("Playing BML " + mVocalChat.Answer);
-					Interaction.BMLManager.LaunchByID(mVocalChat.Answer);
+					Interaction.BMLManager.LaunchByName(mVocalChat.Answer);
 					mNeedListen = true;
 					break;
 
 				case "Calcul":
 					CompanionData.Instance.InteractDesire -= 50;
-					StartApp("CalculGame");
+					StartApp("CalculGame", mLastHumanSpeech);
 					break;
 
 				case "CanMove":
@@ -214,7 +225,7 @@ namespace BuddyApp.Companion
 					Primitive.Motors.Wheels.Locked = false;
 					if (!mActionManager.ThermalFollow) {
 						CompanionData.Instance.InteractDesire -= 10;
-						mActionManager.StartThermalFollow();
+						mActionManager.StartThermalFollow(HumanFollowType.BODY);
 					}
 					Interaction.TextToSpeech.SayKey("follow");
 					Trigger("FOLLOW");
@@ -222,12 +233,12 @@ namespace BuddyApp.Companion
 
 				case "FreezeDance":
 					CompanionData.Instance.InteractDesire -= 50;
-					StartApp("FreezeDance");
+					StartApp("FreezeDance", mLastHumanSpeech);
 					break;
 
 				case "Guardian":
 					CompanionData.Instance.InteractDesire -= 20;
-					StartApp("Guardian");
+					StartApp("Guardian", mLastHumanSpeech);
 					break;
 
 				case "HeadUp":
@@ -300,7 +311,7 @@ namespace BuddyApp.Companion
 
 				case "HideSeek":
 					CompanionData.Instance.InteractDesire -= 50;
-					StartApp("HideAndSeek");
+					StartApp("HideAndSeek", mLastHumanSpeech);
 					break;
 
 				case "Hour":
@@ -313,12 +324,12 @@ namespace BuddyApp.Companion
 
 				case "IOT":
 					CompanionData.Instance.InteractDesire -= 10;
-					StartApp("IOT");
+					StartApp("IOT", mLastHumanSpeech);
 					break;
 
 				case "Jukebox":
 					CompanionData.Instance.InteractDesire -= 20;
-					StartApp("Jukebox");
+					StartApp("Jukebox", mLastHumanSpeech);
 					break;
 
 				case "MoveBackward":
@@ -389,18 +400,18 @@ namespace BuddyApp.Companion
 
 				case "Memory":
 					CompanionData.Instance.InteractDesire -= 50;
-					StartApp("MemoryGame");
+					StartApp("MemoryGame", mLastHumanSpeech);
 					break;
 
 				case "Photo":
 					CompanionData.Instance.InteractDesire -= 30;
 					Debug.Log("starting app takephoto");
-					StartApp("TakePhoto");
+					StartApp("TakePhoto", mLastHumanSpeech);
 					break;
 
 				case "Pose":
 					CompanionData.Instance.InteractDesire -= 30;
-					StartApp("Take Pose");
+					StartApp("Take Pose", mLastHumanSpeech);
 					break;
 
 				case "Quit":
@@ -413,12 +424,12 @@ namespace BuddyApp.Companion
 
 				case "Quizz":
 					CompanionData.Instance.InteractDesire -= 50;
-					StartApp("QuizzGame");
+					StartApp("QuizzGame", mLastHumanSpeech);
 					break;
 
 				case "Recipe":
 					CompanionData.Instance.InteractDesire -= 20;
-					StartApp("Recipe");
+					StartApp("Recipe", mLastHumanSpeech);
 					break;
 
 				case "Repeat":
@@ -430,8 +441,15 @@ namespace BuddyApp.Companion
 
 				case "RLGL":
 					CompanionData.Instance.InteractDesire -= 50;
-					StartApp("RLGL");
+					StartApp("RLGL", mLastHumanSpeech);
 					break;
+
+				case "Timer":
+					Debug.Log("VocalTrigger Timer");
+					CompanionData.Instance.InteractDesire -= 10;
+					StartApp("Timer", mLastHumanSpeech);
+					break;
+
 
 				case "Volume":
 					{
@@ -496,7 +514,9 @@ namespace BuddyApp.Companion
 					break;
 
 				case "Weather":
-					mNeedToGiveAnswer = true;
+					Debug.Log("VocalTrigger Weather");
+					CompanionData.Instance.InteractDesire -= 10;
+					StartApp("Weather", mLastHumanSpeech);
 					break;
 
 				case "LookAtMe":
@@ -511,11 +531,14 @@ namespace BuddyApp.Companion
 
 		}
 
-		private void StartApp(string iAppName)
+		private void StartApp(string iAppName, string iSpeech = null)
 		{
-			new StartAppCmd(iAppName).Execute();
+			Debug.Log("start app " + iAppName + "with param " + iSpeech );
 			CompanionData.Instance.LastAppTime = Time.time;
 			CompanionData.Instance.LastApp = iAppName;
+			//new StartAppCmd(iAppName).Execute();
+			new StartAppCmd(iAppName, new int[] { }, new float[] { }, new string[] { iSpeech }).Execute();
+
 			mNeedListen = true;
 		}
 

@@ -116,6 +116,7 @@ namespace BuddyApp.Companion
 		private List<string> mTemperatureSpeech;
 		private List<string> mTempSpeech;
 		private List<string> mThanksSpeech;
+		private List<string> mTimerSpeech;
 		private List<string> mTurnSpeech;
 		private List<string> mURWelcomeSpeech;
 		private List<string> mVolumeSpeech;
@@ -273,6 +274,7 @@ namespace BuddyApp.Companion
 			mTemperatureSpeech = new List<string>();
 			mTempSpeech = new List<string>();
 			mThanksSpeech = new List<string>();
+			mTimerSpeech = new List<string>();
 			mTurnSpeech = new List<string>();
 			mURWelcomeSpeech = new List<string>();
 			mVolumeSpeech = new List<string>();
@@ -335,6 +337,7 @@ namespace BuddyApp.Companion
 			FillListSyn("Temperature", mTemperatureSpeech);
 			FillListSyn("Temp", mTempSpeech);
 			FillListSyn("Thanks", mThanksSpeech);
+			FillListSyn("Timer", mTimerSpeech);
 			FillListSyn("Turn", mTurnSpeech);
 			FillListSyn("URWelcome", mURWelcomeSpeech);
 			FillListSyn("Volume", mVolumeSpeech);
@@ -506,7 +509,7 @@ namespace BuddyApp.Companion
 			} else if (ContainsOneOf(iSpeech, mMeteoSpeech)) {
 				lType = "Weather";
 				//We search for the location of the weather request
-				int lKeywordIndex = WordIndexOfOneOf(iSpeech, mMeteoSpeech);
+				/*int lKeywordIndex = WordIndexOfOneOf(iSpeech, mMeteoSpeech);
 				string[] lWords = iSpeech.Split(' ');
 				string lWeatherPlace = "";
 
@@ -514,7 +517,7 @@ namespace BuddyApp.Companion
 					for (int j = lKeywordIndex + 2; j < lWords.Length; j++)
 						lWeatherPlace += lWords[j] + " ";
 				}
-				StartCoroutine(BuildWeatherAnswer(lWeatherPlace));
+				StartCoroutine(BuildWeatherAnswer(lWeatherPlace));*/
 			} else if (ContainsOneOf(iSpeech, mDefinitionSpeech)) {
 				lType = "Definition";
 				//We search for the location of the weather request
@@ -555,7 +558,9 @@ namespace BuddyApp.Companion
 					Answer = BuildGeneralAnswer(iSpeech.ToLower());
 				}
 
-			} else if (ContainsOneOf(iSpeech, mFollowMeSpeech))
+		} else if (ContainsOneOf(iSpeech, mTimerSpeech))
+				lType = "Timer";
+		else if (ContainsOneOf(iSpeech, mFollowMeSpeech))
 				lType = "FollowMe";
 			else if (ContainsOneOf(iSpeech, mLookAtMeSpeech))
 				lType = "LookAtMe";

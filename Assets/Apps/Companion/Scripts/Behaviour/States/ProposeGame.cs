@@ -22,6 +22,7 @@ namespace BuddyApp.Companion
 			//mSensorManager = BYOS.Instance.SensorManager;
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 			mKeyOptions = new List<string>();
 			mKeyOptions.Add("memory");
 			mKeyOptions.Add("calcul");

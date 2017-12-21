@@ -8,11 +8,13 @@ namespace BuddyApp.Weather
 
 		public override void Start()
 		{
-		}
+            mWeatherB = GetComponent<WeatherBehaviour>();
+        }
 
-		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			Debug.Log("ENTER LISTEN test");
+
+            Debug.Log("ENTER LISTEN test");
 			Interaction.VocalManager.OnEndReco = GetAnswer;
 			Interaction.VocalManager.OnError = NoAnswer;
 			Interaction.VocalManager.StartInstantReco();
@@ -30,9 +32,12 @@ namespace BuddyApp.Weather
 
 		private void GetAnswer(string iAnswer)
 		{
-			Utils.LogI(LogContext.APP, "GOT AN ANSWER: " + iAnswer);
-			WeatherData.Instance.VocalRequest = iAnswer.ToLower();
-			Trigger("Test");
+            if (mWeatherB.mIsOk)
+            {
+                Utils.LogI(LogContext.APP, "GOT AN ANSWER: " + iAnswer);
+                WeatherData.Instance.VocalRequest = iAnswer;
+                Trigger("Test");
+            }
 		}
 
 		private void NoAnswer(STTError iError)
