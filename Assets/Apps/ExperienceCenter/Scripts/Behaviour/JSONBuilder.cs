@@ -23,13 +23,13 @@ namespace BuddyApp.ExperienceCenter {
 			JSONObject json = new JSONObject();
 
 			// Fill first fields with empty data
-			json.Add("label", "");
+			json.Add("label", deviceName + "_" + commandName);
 			json.Add("metadata", "");
 			json.Add("shortcut", false);
 			json.Add("notificationTypeMask", 1);
 			json.Add("notificationCondition", "ALWAYS");
-			json.Add("notificationText", "");
-			json.Add("notificationTitle", "");
+			json.Add("notificationText", commandName + parameters.ToString());
+			json.Add("notificationTitle", deviceName);
 			json.Add("targetEmailAddresses", new JSONArray());
 			json.Add("targetPhoneNumbers", new JSONArray());
 			json.Add("targetPushSubscriptions", new JSONArray());

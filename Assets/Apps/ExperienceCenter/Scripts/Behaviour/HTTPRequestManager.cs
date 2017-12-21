@@ -27,7 +27,7 @@ namespace BuddyApp.ExperienceCenter {
 
 		void Awake()
 		{
-			InvokeRepeating("ShouldTestIOT", 5.0f, 5.0f);
+			InvokeRepeating("ShouldTestIOT", 1.0f, 1.0f);
 		}
 
 		private void ShouldTestIOT()
@@ -77,8 +77,9 @@ namespace BuddyApp.ExperienceCenter {
 			form.AddField("userId", ExperienceCenterData.Instance.UserID);
 			form.AddField("userPassword", ExperienceCenterData.Instance.Password);
 
-			System.Action<JSONObject> onLogin = delegate (JSONObject response)
+			System.Action<JSONObject,long> onLogin = delegate (JSONObject response, long responseCode)
 			{
+					Debug.LogFormat("Login response code : {0}", responseCode);
 					if (response["success"])
 					{
 						Debug.Log("Authentication success");
@@ -88,8 +89,8 @@ namespace BuddyApp.ExperienceCenter {
 					}
 					else if (response["errorCode"])
 					{
-						string message = "Authentication failure : ({0}) {1}";
-						Debug.Log(String.Format(message,response["errorCode"],response["error"]));
+						Debug.LogFormat("Authentication failure : ({0}) {1}",
+							response["errorCode"],response["error"]);
 						Connected = false;
 					}
 			};
@@ -99,8 +100,9 @@ namespace BuddyApp.ExperienceCenter {
 
 		public void Logout()
 		{
-			System.Action<JSONObject> onLogout = delegate (JSONObject response)
+			System.Action<JSONObject,long> onLogout = delegate (JSONObject response, long responseCode)
 			{
+					Debug.LogFormat("Logout response code : {0}", responseCode);
 					if(response["logout"])
 					{
 						Debug.Log("Logout success");
@@ -120,8 +122,9 @@ namespace BuddyApp.ExperienceCenter {
 		// Store associated device urls, needed to send commands to a specific device
 		private void Devices()
 		{
-			System.Action<JSONArray> onDevices = delegate (JSONArray response)
+			System.Action<JSONArray,long> onDevices = delegate (JSONArray response, long responseCode)
 			{
+					Debug.LogFormat("Get Devices response code : {0}", responseCode);
 					for(int i=0; i<response.Count; i++)
 						jBuilder.AddDeviceURL(response[i]["label"],response[i]["deviceURL"]);
 
@@ -134,10 +137,20 @@ namespace BuddyApp.ExperienceCenter {
 		// Execute a specific action, described in json format
 		private void ExecuteAction(string deviceName, string commandName)
 		{
-			System.Action<JSONObject> onExecute = delegate (JSONObject response)
+			System.Action<JSONObject,long> onExecute = delegate (JSONObject response, long responseCode)
 			{
-					string msg = "Send command '{0}' to device '{1}'";
-					Debug.Log(String.Format(msg, deviceName, commandName));
+					Debug.LogFormat("Execute action response code : {0}", responseCode);
+					//Expected answer on success
+					if(response["execId"])
+					{
+						Debug.LogFormat("Send command '{0}' to device '{1}'", deviceName, commandName);
+					}
+					else if(response["error"]=="Not authenticated")
+					{
+						Debug.LogFormat("Last command '{0}' on device '{1}' failed : reconnecting due to connection loss...",
+							deviceName,commandName);
+						Connected = false;
+					}
 			};
 			
 			JSONObject json = jBuilder.CreateAction(deviceName, commandName, new List<string>());
@@ -151,7 +164,7 @@ namespace BuddyApp.ExperienceCenter {
 		 * ******************************************************************************/
 
 		// POST request using json data
-		private IEnumerator Post(string apiEntry, JSONObject json, Action<JSONObject>onResponse)
+		private IEnumerator Post(string apiEntry, JSONObject json, Action<JSONObject,long>onResponse)
 		{
 			UnityWebRequest request = new UnityWebRequest(ExperienceCenterData.Instance.API_URL + apiEntry, UnityWebRequest.kHttpVerbPOST);
 
@@ -170,21 +183,17 @@ namespace BuddyApp.ExperienceCenter {
 			yield return request.Send();
 
 			if (request.isError)
-			{
-				string msg = "Failed {0} request : {1}";
-				Debug.LogError(String.Format(msg, apiEntry, request.error));
-			}
+				Debug.LogErrorFormat("Failed {0} request : {1}", apiEntry, request.error);
 			else
 			{
-				Debug.Log(request.downloadHandler.text);
 				JSONObject response = (JSONObject)JSON.Parse(request.downloadHandler.text);
 				if(onResponse != null)
-					onResponse(response);
+					onResponse(response,request.responseCode);
 			}
 		}
 
 		// POST request using form data
-		private IEnumerator Post(string apiEntry, WWWForm form, Action<JSONObject> onResponse)
+		private IEnumerator Post(string apiEntry, WWWForm form, Action<JSONObject,long> onResponse)
 		{
 			UnityWebRequest request = UnityWebRequest.Post(ExperienceCenterData.Instance.API_URL + apiEntry, form);
 
@@ -195,10 +204,7 @@ namespace BuddyApp.ExperienceCenter {
 			yield return request.Send();
 
 			if (request.isError)
-			{
-				string msg = "Failed {0} request : {1}";
-				Debug.LogError(String.Format(msg, apiEntry, request.error));
-			}
+				Debug.LogErrorFormat("Failed {0} request : {1}", apiEntry, request.error);
 			else
 			{
 				// On Login, retrieve authentication cookie
@@ -212,12 +218,12 @@ namespace BuddyApp.ExperienceCenter {
 				JSONObject response = (JSONObject)JSON.Parse(request.downloadHandler.text);
 				Debug.Log(response.ToString());
 				if(onResponse != null)
-					onResponse(response);
+					onResponse(response,request.responseCode);
 			}
 		}
 
 		// GET request retrieving JSONArray
-		private IEnumerator Get(string apiEntry, Action<JSONArray> onResponse)
+		private IEnumerator Get(string apiEntry, Action<JSONArray,long> onResponse)
 		{
 			UnityWebRequest request = UnityWebRequest.Get(ExperienceCenterData.Instance.API_URL + apiEntry);
 
@@ -228,16 +234,12 @@ namespace BuddyApp.ExperienceCenter {
 			yield return request.Send();
 
 			if (request.isError)
-			{
-				string msg = "Failed {0} request : {1}";
-				Debug.LogError(String.Format(msg, apiEntry, request.error));
-			}
+				Debug.LogErrorFormat("Failed {0} request : {1}", apiEntry, request.error);
 			else
 			{
 				JSONArray response = (JSONArray)JSON.Parse(request.downloadHandler.text);
-				Debug.Log(response.ToString());
 				if(onResponse != null)
-					onResponse(response);
+					onResponse(response,request.responseCode);
 			}
 		}
 
