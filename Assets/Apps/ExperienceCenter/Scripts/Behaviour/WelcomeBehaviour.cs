@@ -11,6 +11,7 @@ namespace BuddyApp.ExperienceCenter
 {
 	public class WelcomeBehaviour : MonoBehaviour
 	{
+		private AnimatorManager mAnimatorManager;
 		private TextToSpeech mTTS;
 		private bool mHeadMoving = true;
 		private bool mChangeDirection = true;
@@ -18,6 +19,7 @@ namespace BuddyApp.ExperienceCenter
 
 		void Awake ()
 		{
+			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 		}
 
@@ -48,6 +50,7 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomeassez", true);
 			mTTS.Silence(1000, true);
+
 			yield return new WaitWhile(() => !mTTS.HasFinishedTalking);
 			StartCoroutine(MoveHeadNoHinge(0,15f));
 			mTTS.SayKey ("welcomechoix", true);
@@ -55,6 +58,9 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.SayKey ("welcomepose", true);
 			mTTS.Silence(3000, true);
 			mTTS.SayKey ("welcomeregarder", true);
+
+			yield return new WaitWhile(() => !mTTS.HasFinishedTalking);
+			mAnimatorManager.ActivateCmd ((byte)(Command.Idle));
 		}
 
 		private IEnumerator MoveHeadYesHinge (float lYesAngle, float lYesSpeed)

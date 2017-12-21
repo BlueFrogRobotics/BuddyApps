@@ -120,12 +120,11 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 		    
-			if (stateDict ["ByeBye"]) {
+			if (stateDict ["Welcome"] ) {
 				switch ((Command)cmd) {
-				case Command.MoveForward:
 				case Command.Idle: 
 					{
-						UpdateStateDict ((Command)cmd, "ByeBye"); 
+						UpdateStateDict ((Command)cmd, "Welcome"); 
 						break;
 					}
 				default:
@@ -133,12 +132,12 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 
-			if (stateDict ["MoveForward"]) {
+			if (stateDict ["ByeBye"]) {
 				switch ((Command)cmd) {
-				case Command.IOT:
+				case Command.MoveForward:
 				case Command.Idle: 
 					{
-						UpdateStateDict ((Command)cmd, "MoveForward"); 
+						UpdateStateDict ((Command)cmd, "ByeBye"); 
 						break;
 					}
 				default:
@@ -158,6 +157,19 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 
+			if (stateDict ["MoveForward"]) {
+				switch ((Command)cmd) {
+				case Command.IOT:
+				case Command.Idle: 
+					{
+						UpdateStateDict ((Command)cmd, "MoveForward"); 
+						break;
+					}
+				default:
+					break;
+				}
+			}
+				
 			if (stateDict ["IOT"]) {
 				switch ((Command)cmd) {
 				case Command.Idle: 
