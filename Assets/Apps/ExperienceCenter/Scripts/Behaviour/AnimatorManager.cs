@@ -10,6 +10,7 @@ namespace BuddyApp.ExperienceCenter
 	[Flags]
 	public enum Command
 	{
+		Idle = 0x00,
 		Welcome = 0x01,
 		Questions = 0x02,
 		ByeBye = 0x03,
@@ -122,6 +123,7 @@ namespace BuddyApp.ExperienceCenter
 			if (stateDict ["ByeBye"]) {
 				switch ((Command)cmd) {
 				case Command.MoveForward:
+				case Command.Idle: 
 					{
 						UpdateStateDict ((Command)cmd, "ByeBye"); 
 						break;
@@ -134,6 +136,7 @@ namespace BuddyApp.ExperienceCenter
 			if (stateDict ["MoveForward"]) {
 				switch ((Command)cmd) {
 				case Command.IOT:
+				case Command.Idle: 
 					{
 						UpdateStateDict ((Command)cmd, "MoveForward"); 
 						break;
@@ -142,6 +145,32 @@ namespace BuddyApp.ExperienceCenter
 					break;
 				}
 			}
+
+			if (stateDict ["Questions"] ) {
+				switch ((Command)cmd) {
+				case Command.Idle: 
+					{
+						UpdateStateDict ((Command)cmd, "Questions"); 
+						break;
+					}
+				default:
+					break;
+				}
+			}
+
+			if (stateDict ["IOT"]) {
+				switch ((Command)cmd) {
+				case Command.Idle: 
+					{
+						UpdateStateDict ((Command)cmd, "IOT"); 
+						break;
+					}
+				default:
+					break;
+				}
+			}
+
+
 		}
 
 

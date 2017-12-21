@@ -11,7 +11,7 @@ public class ECWelcomeState : StateMachineBehaviour {
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 			mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<WelcomeBehaviour> ();
-			mBehaviour.InitState ();
+			mBehaviour.InitBehaviour ();
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

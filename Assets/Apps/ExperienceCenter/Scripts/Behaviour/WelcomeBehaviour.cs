@@ -6,29 +6,28 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Buddy;
 
+
 namespace BuddyApp.ExperienceCenter
 {
 	public class WelcomeBehaviour : MonoBehaviour
 	{
-		[SerializeField]
-		private Animator mMainAnimator;
 		private TextToSpeech mTTS;
 		private bool mHeadMoving = true;
 		private bool mChangeDirection = true;
 		private float mYesAngle = 0;
+
 		void Awake ()
 		{
-			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 		}
 
-		public void InitState ()
+		public void InitBehaviour ()
 		{
 			StartCoroutine(MoveHeadNoHinge(30,15));
 			StartCoroutine(Speaking());
 			StartCoroutine(MoveHeadWhenSpeaking());
 		}
-			
+
 
 		private IEnumerator Speaking ()
 		{
@@ -69,7 +68,7 @@ namespace BuddyApp.ExperienceCenter
 				StartCoroutine (MoveHeadYesHinge (0, lYesSpeed));
 			}
 		}
-	
+
 		private IEnumerator MoveHeadNoHinge (float lNoAngle, float lNoSpeed)
 		{
 			yield return new WaitWhile(() => !mTTS.HasFinishedTalking);
@@ -94,6 +93,6 @@ namespace BuddyApp.ExperienceCenter
 			yield return new WaitWhile(() => Math.Abs(BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition - lYesAngle) > 0.1 && !mTTS.HasFinishedTalking);
 			StartCoroutine (MoveHeadWhenSpeaking ());
 		}
-			
+
 	}
 }
