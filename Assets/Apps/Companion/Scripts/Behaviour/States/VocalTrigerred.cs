@@ -168,7 +168,7 @@ namespace BuddyApp.Companion
 
 				case "BML":
 					Debug.Log("Playing BML " + mVocalChat.Answer);
-					Interaction.BMLManager.LaunchByID(mVocalChat.Answer);
+					Interaction.BMLManager.LaunchByName(mVocalChat.Answer);
 					mNeedListen = true;
 					break;
 
