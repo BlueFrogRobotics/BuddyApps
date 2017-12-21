@@ -98,6 +98,14 @@ namespace BuddyApp.Companion
 		void Update()
 		{
 
+
+			//Debug.Log("VOCAL TRIGGERED");
+			if (IsDetectingTrigger && CompanionData.Instance.CanTrigger)
+				if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered) {
+					Debug.Log("Vocal triggered detector");
+					mDetectedElement = Detected.TRIGGER;
+				}
+
 			if (BYOS.Instance.Primitive.Battery.EnergyLevel < 15 && BYOS.Instance.Primitive.Battery.EnergyLevel < 0.000001) {
 				//Debug.Log("WARNING BATTERY NOT DETECTED!!!");
 			}
@@ -115,11 +123,6 @@ namespace BuddyApp.Companion
 				if (mDetectedElement == Detected.NONE && IsDetectingBattery)
 					mDetectedElement = Detected.BATTERY;
 
-			if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered) {
-				//Debug.Log("VOCAL TRIGGERED");
-				if (IsDetectingTrigger && CompanionData.Instance.CanTrigger)
-					mDetectedElement = Detected.TRIGGER;
-			}
 
 			if (Input.touchCount > 0 || Input.GetMouseButtonDown(0)) {
 
@@ -286,7 +289,7 @@ namespace BuddyApp.Companion
 		private void OnHeadForcedSoft()
 		{
 			mActionManager.TimedMood(MoodType.SICK);
-        }
+		}
 
 		/// <summary>
 		/// Unsubscibe to the detectors callbacks

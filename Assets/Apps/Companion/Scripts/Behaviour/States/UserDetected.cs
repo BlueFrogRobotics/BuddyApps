@@ -23,8 +23,8 @@ namespace BuddyApp.Companion
 			mState = GetComponentInGameObject<Text>(0);
 			Interaction.BMLManager.LoadAppBML();
 			mDetectionManager = GetComponent<DetectionManager>();
-
-			Utils.LogI(LogContext.APP, "Start UserD");
+			mActionManager = GetComponent<ActionManager>();
+            Utils.LogI(LogContext.APP, "Start UserD");
 
 		}
 
@@ -42,9 +42,11 @@ namespace BuddyApp.Companion
 			mTimeState = 0F;
 			mTimeHumanDetected = 0F;
 
+			mActionManager.StartThermalFollow(HumanFollowType.ROTATION_AND_HEAD);
+
 			if (CompanionData.Instance.InteractDesire < 30) {
 				// Todo: we don't want to interact but we will still show the human we noticed him:
-				// => gaze toward position / react to screen touch...
+				// => gaze toward position ...
 			} else if (CompanionData.Instance.InteractDesire < 70) {
 				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 				Interaction.Mood.Set(MoodType.HAPPY);

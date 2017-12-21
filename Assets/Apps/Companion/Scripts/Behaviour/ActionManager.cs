@@ -17,6 +17,7 @@ namespace BuddyApp.Companion
 		private int mEyeCounter;
 		private float mLastEyeTime;
 		private float mTimeMood;
+		private float mDurationMood;
 
 		public bool Wandering { get; private set; }
 		public bool ThermalFollow { get; private set; }
@@ -30,6 +31,7 @@ namespace BuddyApp.Companion
 			mEyeCounter = 0;
 			mLastHeadTime = 0F;
 			mLastEyeTime = 0F;
+			mDurationMood = 5F;
 			//mRoomba = BYOS.Instance.Navigation.Roomba;
 			//mRoomba.enabled = false;
 		}
@@ -37,7 +39,7 @@ namespace BuddyApp.Companion
 		void Update()
 		{
 			//Debug.Log("Mood check: time - lastime, mTimeMood" + (Time.time - mTimeMood) + "    " + mTimeMood );
-			if (Time.time - mTimeMood > 5F && mTimeMood != 0F) {
+			if (Time.time - mTimeMood > mDurationMood && mTimeMood != 0F) {
 				Debug.Log("Mood  back to neutral");
 				BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
 				mTimeMood = 0F;
@@ -63,13 +65,14 @@ namespace BuddyApp.Companion
 			Wandering = false;
 		}
 
-		public void StartThermalFollow()
+		public void StartThermalFollow(HumanFollowType iFollowType)
 		{
 			if (Wandering) {
 				StopWander();
 			}
+
 			ThermalFollow = true;
-			BYOS.Instance.Navigation.Follow<HumanFollow>().Facing();
+			BYOS.Instance.Navigation.Follow<HumanFollow>().Facing(iFollowType);
 		}
 
 		public void StopThermalFollow()
@@ -133,10 +136,11 @@ namespace BuddyApp.Companion
 			}
 		}
 
-		internal void TimedMood(MoodType iMood)
+		internal void TimedMood(MoodType iMood, float iTime = 5F)
 		{
 			BYOS.Instance.Interaction.Mood.Set(iMood);
 			mTimeMood = Time.time;
+			mDurationMood = iTime;
 		}
 
 

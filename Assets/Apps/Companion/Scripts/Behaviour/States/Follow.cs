@@ -32,7 +32,7 @@ namespace BuddyApp.Companion
 		{
 			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.ThermalFollow) {
 				Debug.Log("Companion start follow");
-				mActionManager.StartThermalFollow();
+				mActionManager.StartThermalFollow(HumanFollowType.BODY);
 			}
 
 			if (Time.time - mTimeThermal <= 5.0F) {

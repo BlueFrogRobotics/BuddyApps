@@ -19,10 +19,13 @@ namespace BuddyApp.Companion
 		private float mLastBMLTime;
 		private bool mHeadPlaying;
 
+		private const int CES_HACK = 10;
+
 		public override void Start()
 		{
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -100,6 +103,7 @@ namespace BuddyApp.Companion
 				// Otherwise, react on almost all detectors
 				switch (mDetectionManager.mDetectedElement) {
 					case Detected.TRIGGER:
+						Debug.Log("Vocal triggered idle");
 						Trigger("VOCALTRIGGERED");
 						break;
 
@@ -184,7 +188,7 @@ namespace BuddyApp.Companion
 
 		void OnRandomMinuteActivation()
 		{
-			CompanionData.Instance.Bored += 5;
+			CompanionData.Instance.Bored += 5 + CES_HACK;
 		}
 
 		void OnMinuteActivation()
@@ -198,9 +202,9 @@ namespace BuddyApp.Companion
 				//TODO remove this (CES hack)
 
 				if(UnityEngine.Random.Range(0, 2) == 0)
-					CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored;
+					CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored * CES_HACK;
 				else
-					CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored;
+					CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored * CES_HACK;
 
 				Interaction.Face.SetEvent(FaceEvent.YAWN);
 				Primitive.Speaker.Voice.Play(VoiceSound.YAWN);

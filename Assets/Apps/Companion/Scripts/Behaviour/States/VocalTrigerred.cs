@@ -19,6 +19,7 @@ namespace BuddyApp.Companion
 		private bool mNeedToGiveAnswer;
 		private bool mMoving;
 		private string mLastHumanSpeech;
+		private bool mFirstErrorStt;
 
 		public override void Start()
 		{
@@ -31,6 +32,8 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			// TODO remove this variable when resolved issue from core-2
+			mFirstErrorStt = true;
 			mLastHumanSpeech = "";
             mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "Vocal Triggered";
@@ -72,22 +75,26 @@ namespace BuddyApp.Companion
 			mSpeechInput = true;
 			Debug.Log("Reco vocal: " + iText);
 			mVocalChat.SpecialRequest(iText);
+			mFirstErrorStt = true;
 
 		}
 
 		void ErrorSTT(STTError iError)
 		{
-			Debug.Log("Error STT ");
-			// If first error
-			if (!mError) {
-				mError = true;
-				// Ask repeat
-				SayKey("ilisten");
-				mNeedListen = true;
-			} else {
-				// else go away
-				Debug.Log("2cd error, go away");
-				Trigger("IDLE");
+			if (mFirstErrorStt) {
+				mFirstErrorStt = false;
+				Debug.Log("Error STT ");
+				// If first error
+				if (!mError) {
+					mError = true;
+					// Ask repeat
+					SayKey("ilisten");
+					mNeedListen = true;
+				} else {
+					// else go away
+					Debug.Log("2cd error, go away");
+					Trigger("IDLE");
+				}
 			}
 		}
 
@@ -101,6 +108,7 @@ namespace BuddyApp.Companion
 					Say(mVocalChat.Answer);
 					mNeedToGiveAnswer = false;
 					mNeedListen = true;
+					mFirstErrorStt = true;
 				} else if (mMoving && !IsMoving()) {
 					Debug.Log("finished motion, need listen");
 					mMoving = false;
@@ -168,7 +176,7 @@ namespace BuddyApp.Companion
 
 				case "BML":
 					Debug.Log("Playing BML " + mVocalChat.Answer);
-					Interaction.BMLManager.LaunchByID(mVocalChat.Answer);
+					Interaction.BMLManager.LaunchByName(mVocalChat.Answer);
 					mNeedListen = true;
 					break;
 
@@ -217,7 +225,7 @@ namespace BuddyApp.Companion
 					Primitive.Motors.Wheels.Locked = false;
 					if (!mActionManager.ThermalFollow) {
 						CompanionData.Instance.InteractDesire -= 10;
-						mActionManager.StartThermalFollow();
+						mActionManager.StartThermalFollow(HumanFollowType.BODY);
 					}
 					Interaction.TextToSpeech.SayKey("follow");
 					Trigger("FOLLOW");
@@ -506,7 +514,9 @@ namespace BuddyApp.Companion
 					break;
 
 				case "Weather":
-					mNeedToGiveAnswer = true;
+					Debug.Log("VocalTrigger Weather");
+					CompanionData.Instance.InteractDesire -= 10;
+					StartApp("Weather", mLastHumanSpeech);
 					break;
 
 				case "LookAtMe":

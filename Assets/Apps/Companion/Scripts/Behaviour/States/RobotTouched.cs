@@ -19,6 +19,7 @@ namespace BuddyApp.Companion
 
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 			//mMouthCounter = 0;
 			//mEyeCounter = 0;
 			//mLastMouthTime = 0F;
