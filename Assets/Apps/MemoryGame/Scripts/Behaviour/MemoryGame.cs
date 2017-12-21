@@ -34,6 +34,8 @@ namespace BuddyApp.MemoryGame
 
 		public override void Start()
 		{
+			CommonObjects["gameLevels"] = new MemoryGameRandomLevel(MemoryGameData.Instance.Difficulty, MemoryGameData.Instance.FullBody);
+			CommonIntegers["isPlayerTurn"] = 0;
 			mGameLevels = ((MemoryGameRandomLevel)CommonObjects["gameLevels"]);
 		}
 

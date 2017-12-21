@@ -15,6 +15,7 @@ namespace BuddyApp.Companion
         {
             mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 		}
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -50,7 +51,6 @@ namespace BuddyApp.Companion
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
 			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
     }

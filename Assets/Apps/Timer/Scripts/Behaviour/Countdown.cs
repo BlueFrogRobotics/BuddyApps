@@ -19,8 +19,9 @@ namespace BuddyApp.Timer
             finalcountdown = CommonIntegers["finalcountdown"];
             Interaction.Mood.Set(MoodType.THINKING);
             BYOS.Instance.Toaster.Display<CountdownToast>().With(finalcountdown, EndTimer);
+			TimerData.Instance.VocalRequest = "";
 
-        }
+		}
 
         private IEnumerator DisplayAlert(String bipbip)
         {

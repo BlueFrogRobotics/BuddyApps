@@ -22,11 +22,19 @@ namespace BuddyApp.Timer
 		{
 			mFinalsec = -1;
 			if (!string.IsNullOrEmpty(TimerData.Instance.VocalRequest)) {
+				Debug.Log("input sentence " + TimerData.Instance.VocalRequest);
 				mVoice = TimerData.Instance.VocalRequest.ToLower();
 				ParseTime(mVoice);
+				Debug.Log("time parsed: " + mFinalsec);
 				if (mFinalsec == -1) {
 					Interaction.TextToSpeech.SayKey("whattime");
 					Trigger("TimeNeeded");
+				} else {
+
+					Debug.Log("trigger countdown");
+					CommonIntegers["finalcountdown"] = mFinalsec + 1;
+
+					Trigger("CountDown");
 				}
 			} else {
 				Interaction.TextToSpeech.SayKey("whattime");
@@ -36,13 +44,14 @@ namespace BuddyApp.Timer
 
 		private void ParseTime(string iVoice)
 		{
-			double num;
+			int num;
 			string lCnumber;
 			string[] lWord = iVoice.Split(' ');
 			lCnumber = null;
 
-			for (int i = 0; i <= lWord.Length; i++) {
-				if (double.TryParse(lWord[i], out num)) {
+			for (int i = 0; i < lWord.Length; i++) {
+				if (int.TryParse(lWord[i], out num)) {
+					Debug.Log("int: " + num);
 					lCnumber = lWord[i];
 					i++;
 				}
@@ -57,7 +66,15 @@ namespace BuddyApp.Timer
 					mFinalsec += Int32.Parse(lCnumber) * 60;
 					lCnumber = null;
 					i++;
-				} else if (lWord[i].Contains(Dictionary.GetString("hour")) && lCnumber != null) {
+				}else if (lWord[i].EndsWith("h")) {
+					Debug.Log("word ends with h: " + lWord[i]);
+					if (lWord[i].Length < 3 && int.TryParse(lWord[i].Remove(lWord[i].Length - 1), out num)) {
+						Debug.Log("word ends with h: " + lWord[i]);
+						mFinalsec += num * 3600;
+						lCnumber = null;
+						i++;
+					}
+				} else if (lWord[i].Contains(Dictionary.GetString("hour")) &&  lCnumber != null) {
 					mFinalsec += Int32.Parse(lCnumber) * 3600;
 					lCnumber = null;
 					i++;
@@ -65,9 +82,6 @@ namespace BuddyApp.Timer
 				//else if (lWord[i].Equals(Dictionary.GetPhoneticStrings("hour")) || lWord[i].Equals(Dictionary.GetPhoneticStrings("hours")))
 			}
 
-			CommonIntegers["finalcountdown"] = mFinalsec;
-
-			Trigger("Countdown");
 
 		}
 

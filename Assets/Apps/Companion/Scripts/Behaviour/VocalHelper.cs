@@ -509,7 +509,7 @@ namespace BuddyApp.Companion
 			} else if (ContainsOneOf(iSpeech, mMeteoSpeech)) {
 				lType = "Weather";
 				//We search for the location of the weather request
-				int lKeywordIndex = WordIndexOfOneOf(iSpeech, mMeteoSpeech);
+				/*int lKeywordIndex = WordIndexOfOneOf(iSpeech, mMeteoSpeech);
 				string[] lWords = iSpeech.Split(' ');
 				string lWeatherPlace = "";
 
@@ -517,7 +517,7 @@ namespace BuddyApp.Companion
 					for (int j = lKeywordIndex + 2; j < lWords.Length; j++)
 						lWeatherPlace += lWords[j] + " ";
 				}
-				StartCoroutine(BuildWeatherAnswer(lWeatherPlace));
+				StartCoroutine(BuildWeatherAnswer(lWeatherPlace));*/
 			} else if (ContainsOneOf(iSpeech, mDefinitionSpeech)) {
 				lType = "Definition";
 				//We search for the location of the weather request

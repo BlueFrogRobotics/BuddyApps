@@ -85,7 +85,7 @@ namespace BuddyApp.Companion
 						mTimeThermal = Time.time;
 						mDetectionManager.mDetectedElement = Detected.NONE;
 						Interaction.Mood.Set(MoodType.HAPPY);
-						mActionManager.StartThermalFollow();
+						mActionManager.StartThermalFollow(HumanFollowType.BODY);
 					}
 					break;
 

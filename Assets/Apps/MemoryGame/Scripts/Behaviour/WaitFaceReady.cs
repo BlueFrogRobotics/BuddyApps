@@ -9,15 +9,6 @@ namespace BuddyApp.MemoryGame
 
 		float timer = 0.0f;
 
-		public override void Start()
-		{
-		}
-
-		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-		{
-
-		}
 
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -29,11 +20,6 @@ namespace BuddyApp.MemoryGame
 			if (timer > 1.0f) {
 				animator.SetTrigger("FaceReady");
 			}
-		}
-
-
-		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-		{
 		}
 
 	}
