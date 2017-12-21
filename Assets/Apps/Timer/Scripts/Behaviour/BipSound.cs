@@ -17,18 +17,18 @@ namespace BuddyApp.Timer
 		public override void Start()
 		{
 			BYOS.Instance.Primitive.Speaker.FX.Load(
-				   BYOS.Instance.Resources.Load<AudioClip>("airhorn"), 0
+				   BYOS.Instance.Resources.Load<AudioClip>("airhorn"), 1
 			   );
 		}
 
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			BYOS.Instance.Primitive.Speaker.FX.Play(0);
+			BYOS.Instance.Primitive.Speaker.FX.Play(1);
 			Primitive.Speaker.ChangeVolume(15);
 			BYOS.Instance.Primitive.Speaker.FX.Loop = true;
-			BYOS.Instance.Primitive.Speaker.FX.Play(0);
+			BYOS.Instance.Primitive.Speaker.FX.Play(1);
 			Interaction.Mood.Set(MoodType.SCARED);
-			BYOS.Instance.Toaster.Display<TextToast>().With("Touch the screen to stop the alarm");
+			BYOS.Instance.Toaster.Display<TextToast>().With(Dictionary.GetString("touchhere"));
 		}
 
 		private void StopAlarm()
