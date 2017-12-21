@@ -8,32 +8,35 @@ using Buddy;
 
 namespace BuddyApp.ExperienceCenter
 {
+	
+
 	public class MoveForwardBehaviour : MonoBehaviour
 	{
-
-		private bool mBuddyMoving = true;
+		public const float  DISTANCE_THRESHOLD = 0.05f;
 		public float distance = 1.5f;
 		public float vitesse = 0.5f;
 
+		private AnimatorManager mAnimatorManager;
+		private float radius;
+		private Vector3 robotPose;
+
 		public void InitBehaviour ()
 		{
-			Debug.Log ("Start Move Forward");
+			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
+			radius = BYOS.Instance.Primitive.Motors.Wheels.Radius;
+			robotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
 			StartCoroutine(MoveForward(distance,vitesse));
 		}
-
-
-
+			
 		private IEnumerator MoveForward (float lDistance, float lSpeed)
 		{
-			float lRadius = BYOS.Instance.Primitive.Motors.Wheels.Radius;
-			Vector3 pose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
-			Debug.Log ("Init Pose: " + pose);
-			float lAngularSpeed = (float) (180 / Math.PI / lRadius * lSpeed);
-			Debug.Log ("lAngularSpeed: " + lAngularSpeed);
+			Debug.Log("Distance = " +  Math.Abs(BYOS.Instance.Primitive.Motors.Wheels.Odometry.x - robotPose.x));
+			robotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
+	        float destinationPoseX = BYOS.Instance.Primitive.Motors.Wheels.Odometry.x + lDistance;
+			float lAngularSpeed = (float) (180 / Math.PI / radius * lSpeed);
 			BYOS.Instance.Primitive.Motors.Wheels.MoveDistance (lAngularSpeed, lAngularSpeed, lDistance, 0.01f);
-			yield return new WaitWhile(() => BYOS.Instance.Primitive.Motors.Wheels.Status.ToString () == "MOVING" );
-			pose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
-			Debug.Log ("Final Pose: " + pose);
+			yield return new WaitUntil(() => Math.Abs(BYOS.Instance.Primitive.Motors.Wheels.Odometry.x - destinationPoseX) <= DISTANCE_THRESHOLD );
+			mAnimatorManager.ActivateCmd ((byte)(Command.IOT));
 		}
 
 	}
