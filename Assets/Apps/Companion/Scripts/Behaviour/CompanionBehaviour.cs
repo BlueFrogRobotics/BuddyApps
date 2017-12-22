@@ -40,9 +40,9 @@ namespace BuddyApp.Companion
         {
 			// ensure motors stay in same state as config
 
-			BYOS.Instance.Primitive.Motors.Wheels.Locked = !CompanionData.Instance.CanMoveBody;
-			BYOS.Instance.Primitive.Motors.YesHinge.Locked = !CompanionData.Instance.CanMoveHead;
-			BYOS.Instance.Primitive.Motors.NoHinge.Locked = !CompanionData.Instance.CanMoveHead;
+			//BYOS.Instance.Primitive.Motors.Wheels.Locked = !CompanionData.Instance.CanMoveBody;
+			//BYOS.Instance.Primitive.Motors.YesHinge.Locked = !CompanionData.Instance.CanMoveHead;
+			//BYOS.Instance.Primitive.Motors.NoHinge.Locked = !CompanionData.Instance.CanMoveHead;
 		}
 	}
 }

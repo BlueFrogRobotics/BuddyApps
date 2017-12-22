@@ -69,6 +69,7 @@ namespace BuddyApp.Companion
 		private List<string> mAnswersSpeech;
 		private List<string> mBabyphoneSpeech;
 		private List<string> mBehaviourSpeech;
+		private List<string> mBuddyLabSpeech;
 		private List<string> mCalculationSpeech;
 		private List<string> mCanMoveSpeech;
 		private List<string> mDateSpeech;
@@ -227,6 +228,7 @@ namespace BuddyApp.Companion
 			mAnswersSpeech = new List<string>();
 			mBabyphoneSpeech = new List<string>();
 			mBehaviourSpeech = new List<string>();
+			mBuddyLabSpeech = new List<string>();
 			mCalculationSpeech = new List<string>();
 			mCanMoveSpeech = new List<string>();
 			mDateSpeech = new List<string>();
@@ -290,6 +292,7 @@ namespace BuddyApp.Companion
 			FillListSyn("Answers", mAnswersSpeech);
 			FillListSyn("Babyphone", mBabyphoneSpeech);
 			FillListSyn("Behaviour", mBehaviourSpeech);
+			FillListSyn("BuddyLab", mBuddyLabSpeech);
 			FillListSyn("Calculation", mCalculationSpeech);
 			FillListSyn("CanMove", mCanMoveSpeech);
 			FillListSyn("Date", mDateSpeech);
@@ -558,9 +561,11 @@ namespace BuddyApp.Companion
 					Answer = BuildGeneralAnswer(iSpeech.ToLower());
 				}
 
-		} else if (ContainsOneOf(iSpeech, mTimerSpeech))
+			} else if (ContainsOneOf(iSpeech, mBuddyLabSpeech))
+				lType = "BuddyLab";
+			else if (ContainsOneOf(iSpeech, mTimerSpeech))
 				lType = "Timer";
-		else if (ContainsOneOf(iSpeech, mFollowMeSpeech))
+			else if (ContainsOneOf(iSpeech, mFollowMeSpeech))
 				lType = "FollowMe";
 			else if (ContainsOneOf(iSpeech, mLookAtMeSpeech))
 				lType = "LookAtMe";

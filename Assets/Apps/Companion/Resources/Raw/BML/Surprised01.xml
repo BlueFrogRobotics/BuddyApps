@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bml id="BeSurprised01" category="Surprised">
+	<synchronized>
+    <faceMoodShift mood="SURPRISED"/>
+    <sound name="curious_02.wav"/>
+    <headNo id="headNo1" position="-25" speed="600"/>   
+    <headYes id="headYes1" position="25" speed="600"/>
+    <gazeShift id="gazeShift1" direction="DOWN"/>
+  </synchronized>
+  <synchronized>
+    <faceExp id="faceExp1" start="0.5" expression="SCREAM"/>
+    <headNo id="headNo2" position="25" speed="600"/>
+    <headYes id="headYes2" position="-25" speed="600"/>
+  </synchronized>
+  <synchronized>
+    <headNo id="headNo3" position="0" speed="600"/>
+    <headYes id="headYes3" position="0" speed="600"/>
+  </synchronized>
+</bml>

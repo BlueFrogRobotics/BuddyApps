@@ -98,20 +98,18 @@ namespace BuddyApp.Companion
 
 			mLastHeadTime = Time.time;
 
-			if (mHeadCounter < 2) {
-				BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
-				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
-			} else if (mHeadCounter < 5) {
-				//TODO: play BML instead
-				BYOS.Instance.Interaction.Mood.Set(MoodType.HAPPY);
-				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-				mTimeMood = Time.time;
-
-			} else if (mHeadCounter > 4) {
-				//TODO: play BML instead
-				BYOS.Instance.Interaction.Mood.Set(MoodType.LOVE);
-				mTimeMood = Time.time;
-			}
+			if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
+				if (mHeadCounter < 2) {
+					BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
+					BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+				} else if (mHeadCounter < 3) {
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
+				} else if (mHeadCounter < 5) {
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
+				} else if (mHeadCounter > 4) {
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("love");
+					mTimeMood = Time.time;
+				}
 		}
 
 		public void EyeReaction()
@@ -122,18 +120,17 @@ namespace BuddyApp.Companion
 			else
 				mEyeCounter = 0;
 			mLastEyeTime = Time.time;
-			if (mEyeCounter > 7) {
-				//TODO: play BML instead
-				BYOS.Instance.Interaction.Mood.Set(MoodType.ANGRY);
-				BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
-				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
-				mTimeMood = Time.time;
-			} else {
-				//TODO: play BML instead
-				BYOS.Instance.Interaction.Mood.Set(MoodType.GRUMPY);
-				BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
-				mTimeMood = Time.time;
-			}
+
+			if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
+				if (mEyeCounter > 7)
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
+				else
+					//BYOS.Instance.Interaction.Mood.Set(MoodType.GRUMPY);
+					//BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+					//mTimeMood = Time.time;
+
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("grumpy");
+
 		}
 
 		internal void TimedMood(MoodType iMood, float iTime = 5F)

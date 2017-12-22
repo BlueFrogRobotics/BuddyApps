@@ -42,7 +42,8 @@ namespace BuddyApp.Companion
 			mTimeState = 0F;
 			mTimeHumanDetected = 0F;
 
-			mActionManager.StartThermalFollow(HumanFollowType.ROTATION_AND_HEAD);
+
+			BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
 
 			if (CompanionData.Instance.InteractDesire < 30) {
 				// Todo: we don't want to interact but we will still show the human we noticed him:
@@ -66,6 +67,10 @@ namespace BuddyApp.Companion
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mState.text = "User Detected move: " + !BYOS.Instance.Primitive.Motors.Wheels.Locked;
+
+			if (BYOS.Instance.Interaction.BMLManager.DonePlaying && ! mActionManager.ThermalFollow) {
+				//mActionManager.StartThermalFollow(HumanFollowType.ROTATION_AND_HEAD);
+			}
 
 			mTimeHumanDetected += Time.deltaTime;
 			mTimeState += Time.deltaTime;
@@ -111,7 +116,7 @@ namespace BuddyApp.Companion
 						Trigger("CHARGE");
 						break;
 
-					case Detected.HUMAN_RGB & Detected.THERMAL:
+					case Detected.THERMAL:
 						mTimeHumanDetected = 0F;
 						mDetectionManager.mDetectedElement = Detected.NONE;
 						break;

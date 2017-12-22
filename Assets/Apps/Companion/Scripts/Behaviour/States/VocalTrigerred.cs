@@ -107,7 +107,6 @@ namespace BuddyApp.Companion
 					Debug.Log("give answer");
 					Say(mVocalChat.Answer);
 					mNeedToGiveAnswer = false;
-					mNeedListen = true;
 					mFirstErrorStt = true;
 				} else if (mMoving && !IsMoving()) {
 					Debug.Log("finished motion, need listen");
@@ -115,7 +114,10 @@ namespace BuddyApp.Companion
 					mNeedListen = true;
 				} else if (mNeedListen) {
 					Debug.Log("Vocal instant reco");
+
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("Listening");
 					Interaction.VocalManager.StartInstantReco();
+					mFirstErrorStt = true;
 					mNeedListen = false;
 					mTime = 0F;
 				} else if (!mVocalChat.BuildingAnswer && Interaction.VocalManager.RecognitionFinished && mTime > 10F && !mSpeechInput) {
@@ -176,9 +178,21 @@ namespace BuddyApp.Companion
 
 				case "BML":
 					Debug.Log("Playing BML " + mVocalChat.Answer);
-					Interaction.BMLManager.LaunchByName(mVocalChat.Answer);
-					mNeedListen = true;
+					if (string.IsNullOrEmpty(mVocalChat.Answer))
+						Interaction.BMLManager.LaunchByName("AllIn");
+					else if (!Interaction.BMLManager.LaunchByName(mVocalChat.Answer)) {
+                        if (!Interaction.BMLManager.LaunchRandom(mVocalChat.Answer))
+							Say("I don't know the behaviour " + mVocalChat.Answer);
+
+					}
+                    mNeedListen = true;
 					break;
+
+				case "BuddyLab":
+					CompanionData.Instance.InteractDesire -= 20;
+					StartApp("BuddyLab", mLastHumanSpeech);
+					break;
+
 
 				case "Calcul":
 					CompanionData.Instance.InteractDesire -= 50;
@@ -324,7 +338,7 @@ namespace BuddyApp.Companion
 
 				case "IOT":
 					CompanionData.Instance.InteractDesire -= 10;
-					StartApp("IOT", mLastHumanSpeech);
+					StartApp("Somfy", mLastHumanSpeech);
 					break;
 
 				case "Jukebox":

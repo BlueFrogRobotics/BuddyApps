@@ -53,7 +53,11 @@ namespace BuddyApp.Companion
 			//TODO: remove this when BML
 
 
-			StartCoroutine(SearchingHeadCo());
+			if (mActionManager.ThermalFollow) {
+				mActionManager.StopThermalFollow();
+			}
+
+			//StartCoroutine(SearchingHeadCo());
 			mHeadPlaying = true;
         }
 
@@ -64,6 +68,10 @@ namespace BuddyApp.Companion
 			mState.text = "IDLE \n bored: " + CompanionData.Instance.Bored + "\n interactDesire: " + CompanionData.Instance.InteractDesire
 				+ "\n wanderDesire: " + CompanionData.Instance.MovingDesire;
 			mTimeIdle += Time.deltaTime;
+
+
+			if(mTimeIdle == 10%20 && BYOS.Instance.Interaction.BMLManager.DonePlaying)
+						BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
 
 			// Do the following every second
 			if (mTimeIdle - mPreviousTime > 1F) {
@@ -147,7 +155,7 @@ namespace BuddyApp.Companion
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mHeadPlaying = false;
-			StopCoroutine(SearchingHeadCo());
+			//StopCoroutine(SearchingHeadCo());
         }
 
 
