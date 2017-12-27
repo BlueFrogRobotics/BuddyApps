@@ -38,7 +38,7 @@ namespace BuddyApp.Companion
 	{
 
 		public const float MAX_SOUND_THRESHOLD = 0.2F;
-		public const float KIDNAPPING_THRESHOLD = 4.5F;
+		public const float KIDNAPPING_THRESHOLD = 7F;
 		public const float MAX_MOVEMENT_THRESHOLD = 4.0F;
 		public const int MIN_TEMP = 25;
 

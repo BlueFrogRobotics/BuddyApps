@@ -35,7 +35,7 @@ namespace BuddyApp.Companion
 			// TODO remove this variable when resolved issue from core-2
 			mFirstErrorStt = true;
 			mLastHumanSpeech = "";
-            mDetectionManager.mDetectedElement = Detected.NONE;
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "Vocal Triggered";
 			Debug.Log("state: Vocal Triggered");
 
@@ -60,15 +60,6 @@ namespace BuddyApp.Companion
 		void OnSpeechRecognition(string iText)
 		{
 			mLastHumanSpeech = iText;
-			// Todo : remove when fix from OS
-			if (CompanionData.Instance.CanMoveBody) {
-				Primitive.Motors.Wheels.Locked = false;
-			}
-
-			if (CompanionData.Instance.CanMoveHead) {
-				Primitive.Motors.YesHinge.Locked = false;
-				Primitive.Motors.NoHinge.Locked = false;
-			}
 
 			mError = false;
 			mTime = 0F;
@@ -93,7 +84,12 @@ namespace BuddyApp.Companion
 				} else {
 					// else go away
 					Debug.Log("2cd error, go away");
-					Trigger("IDLE");
+					if (mActionManager.Wandering)
+						Trigger("WANDER");
+					else if (mActionManager.ThermalFollow)
+						Trigger("FOLLOW");
+					else
+						Trigger("IDLE");
 				}
 			}
 		}
@@ -101,7 +97,7 @@ namespace BuddyApp.Companion
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mTime += Time.deltaTime;
-			if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.ActiveBML.Count < 1) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.DonePlaying) {
 				if (!mVocalChat.BuildingAnswer && mNeedToGiveAnswer) {
 					//Give answer:
 					Debug.Log("give answer");
@@ -115,7 +111,7 @@ namespace BuddyApp.Companion
 				} else if (mNeedListen) {
 					Debug.Log("Vocal instant reco");
 
-					BYOS.Instance.Interaction.BMLManager.LaunchRandom("Listening");
+					//BYOS.Instance.Interaction.BMLManager.LaunchRandom("Listening");
 					Interaction.VocalManager.StartInstantReco();
 					mFirstErrorStt = true;
 					mNeedListen = false;
@@ -123,7 +119,14 @@ namespace BuddyApp.Companion
 				} else if (!mVocalChat.BuildingAnswer && Interaction.VocalManager.RecognitionFinished && mTime > 10F && !mSpeechInput) {
 					//Mb this was a wrong trigger, back to IDLE
 					Debug.Log("Back to IDLE: ");
-					Trigger("IDLE");
+					if (mActionManager.Wandering)
+						Trigger("WANDER");
+					else if (mActionManager.ThermalFollow)
+						Trigger("FOLLOW");
+					else
+						Trigger("IDLE");
+				} else {
+					Debug.Log("Why locked: building answer: " + mVocalChat.BuildingAnswer + " Reco finished: " + Interaction.VocalManager.RecognitionFinished + " mTime " +  mTime + " speechInput: " + mSpeechInput);
 				}
 			}
 		}
@@ -181,11 +184,11 @@ namespace BuddyApp.Companion
 					if (string.IsNullOrEmpty(mVocalChat.Answer))
 						Interaction.BMLManager.LaunchByName("AllIn");
 					else if (!Interaction.BMLManager.LaunchByName(mVocalChat.Answer)) {
-                        if (!Interaction.BMLManager.LaunchRandom(mVocalChat.Answer))
+						if (!Interaction.BMLManager.LaunchRandom(mVocalChat.Answer))
 							Say("I don't know the behaviour " + mVocalChat.Answer);
 
 					}
-                    mNeedListen = true;
+					mNeedListen = true;
 					break;
 
 				case "BuddyLab":
@@ -200,10 +203,7 @@ namespace BuddyApp.Companion
 					break;
 
 				case "CanMove":
-					Primitive.Motors.Wheels.Locked = false;
-					Primitive.Motors.YesHinge.Locked = false;
-					Primitive.Motors.NoHinge.Locked = false;
-					CompanionData.Instance.CanMoveBody = true;
+					mActionManager.UnlockAll();
 					mNeedListen = true;
 					break;
 
@@ -229,14 +229,15 @@ namespace BuddyApp.Companion
 				case "DontMove":
 					SayKey("istopmoving", true);
 					CompanionData.Instance.MovingDesire -= 20;
-					CompanionData.Instance.CanMoveBody = false;
-					Primitive.Motors.Wheels.Locked = true;
+					mActionManager.LockWheels();
+					mActionManager.WanderingMood = MoodType.NEUTRAL;
+					mActionManager.WanderingOrder = false;
 					mNeedListen = true;
 					mActionManager.StopAllActions();
 					break;
 
 				case "FollowMe":
-					Primitive.Motors.Wheels.Locked = false;
+					mActionManager.UnlockAll();
 					if (!mActionManager.ThermalFollow) {
 						CompanionData.Instance.InteractDesire -= 10;
 						mActionManager.StartThermalFollow(HumanFollowType.BODY);
@@ -257,6 +258,9 @@ namespace BuddyApp.Companion
 
 				case "HeadUp":
 					{
+						CancelOrders();
+						mActionManager.UnlockHead();
+
 						int n = 0;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
@@ -274,6 +278,9 @@ namespace BuddyApp.Companion
 
 				case "HeadLeft":
 					{
+						CancelOrders();
+						mActionManager.UnlockHead();
+
 						int n = 0;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
@@ -291,6 +298,9 @@ namespace BuddyApp.Companion
 
 				case "HeadRight":
 					{
+						CancelOrders();
+						mActionManager.UnlockHead();
+
 						int n = 0;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
@@ -308,6 +318,9 @@ namespace BuddyApp.Companion
 
 				case "HeadDown":
 					{
+						CancelOrders();
+						mActionManager.UnlockHead();
+
 						int n = 0;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
@@ -348,6 +361,9 @@ namespace BuddyApp.Companion
 
 				case "MoveBackward":
 					{
+						CancelOrders();
+						mActionManager.UnlockWheels();
+
 						float n = 0;
 						if (!float.TryParse(mVocalChat.Answer, out n)) {
 							//default value
@@ -364,6 +380,8 @@ namespace BuddyApp.Companion
 
 				case "MoveForward":
 					{
+						CancelOrders();
+						mActionManager.UnlockWheels();
 
 						float n = 0;
 						if (!float.TryParse(mVocalChat.Answer, out n)) {
@@ -380,6 +398,9 @@ namespace BuddyApp.Companion
 
 				case "MoveLeft":
 					{
+						CancelOrders();
+						mActionManager.UnlockWheels();
+
 						int n = 0;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
@@ -397,6 +418,9 @@ namespace BuddyApp.Companion
 
 				case "MoveRight":
 					{
+						CancelOrders();
+						mActionManager.UnlockWheels();
+
 						int n = 0;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
@@ -429,11 +453,12 @@ namespace BuddyApp.Companion
 					break;
 
 				case "Quit":
-					if (mActionManager.ThermalFollow) {
+					if (mActionManager.ThermalFollow)
 						Trigger("FOLLOW");
-					} else {
+					else if (mActionManager.Wandering)
+						Trigger("WANDER");
+					else
 						Trigger("DISENGAGE");
-					}
 					break;
 
 				case "Quizz":
@@ -514,17 +539,17 @@ namespace BuddyApp.Companion
 					break;
 
 				case "Wander":
-					Primitive.Motors.Wheels.Locked = false;
-					Primitive.Motors.YesHinge.Locked = false;
-					Primitive.Motors.NoHinge.Locked = false;
+					mActionManager.UnlockAll();
 					SayKey("wander");
-					Trigger("WANDER");
 					//TODO, maybe ask for interaction instead if Buddy really wants to interact
 					CompanionData.Instance.InteractDesire -= 10;
 					if (CompanionData.Instance.MovingDesire < 50)
 						CompanionData.Instance.MovingDesire = 50;
 
 					Debug.Log("Start wanderring by voice");
+					mActionManager.WanderingOrder = true;
+					mActionManager.WanderingMood = (MoodType)Enum.Parse(typeof(MoodType), mVocalChat.Answer, true);
+					Trigger("WANDER");
 					break;
 
 				case "Weather":
@@ -545,9 +570,17 @@ namespace BuddyApp.Companion
 
 		}
 
+		private void CancelOrders()
+		{
+			mActionManager.WanderingMood = MoodType.NEUTRAL;
+			mActionManager.WanderingOrder = false;
+			mActionManager.StopAllActions();
+		}
+
 		private void StartApp(string iAppName, string iSpeech = null)
 		{
-			Debug.Log("start app " + iAppName + "with param " + iSpeech );
+			CancelOrders();
+            Debug.Log("start app " + iAppName + "with param " + iSpeech);
 			CompanionData.Instance.LastAppTime = Time.time;
 			CompanionData.Instance.LastApp = iAppName;
 			//new StartAppCmd(iAppName).Execute();

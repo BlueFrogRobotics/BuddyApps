@@ -44,6 +44,7 @@ namespace BuddyApp.Companion
 		{
 			mLookingTime = Time.deltaTime;
 
+
 			if (mActionManager.ThermalFollow && (Time.time - mTimeThermal > CompanionData.Instance.InteractDesire
 				|| (Time.time - mTimeLastThermal > 5.0F))) {
 				Debug.Log("sad buddy start wandering");
@@ -53,17 +54,23 @@ namespace BuddyApp.Companion
 			//if (mLookingTime > 3000)
 			//TODO: after sometime, do something? Activarte some BML...
 
-			if (mDetectionManager.mFacePartTouched == FaceTouch.OTHER) {
+			if (mDetectionManager.mFacePartTouched != FaceTouch.NONE) {
 				mDetectionManager.mFacePartTouched = FaceTouch.NONE;
 				Trigger("PROPOSEGAME");
 
 			} else {
 
 				switch (mDetectionManager.mDetectedElement) {
-					case Detected.TRIGGER & Detected.TOUCH:
+					case Detected.TRIGGER:
 						Interaction.Mood.Set(MoodType.HAPPY);
 						Trigger("PROPOSEGAME");
 						break;
+
+					case Detected.TOUCH:
+						Interaction.Mood.Set(MoodType.HAPPY);
+						Trigger("PROPOSEGAME");
+						break;
+
 
 					case Detected.KIDNAPPING:
 						Interaction.Mood.Set(MoodType.HAPPY);

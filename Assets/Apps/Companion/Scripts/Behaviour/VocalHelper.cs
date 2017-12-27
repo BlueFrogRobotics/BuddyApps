@@ -569,9 +569,10 @@ namespace BuddyApp.Companion
 				lType = "FollowMe";
 			else if (ContainsOneOf(iSpeech, mLookAtMeSpeech))
 				lType = "LookAtMe";
-			else if (ContainsOneOf(iSpeech, mWanderSpeech))
+			else if (ContainsOneOf(iSpeech, mWanderSpeech)) {
+				Answer = FindMood(iSpeech);
 				lType = "Wander";
-			else if (ContainsOneOf(iSpeech, mCanMoveSpeech))
+			} else if (ContainsOneOf(iSpeech, mCanMoveSpeech))
 				lType = "CanMove";
 			else if (ContainsOneOf(iSpeech, mDontMoveSpeech))
 				lType = "DontMove";
@@ -698,6 +699,28 @@ namespace BuddyApp.Companion
 
 			OnQuestionTypeFound(lType);
 			return true;
+		}
+
+		private string FindMood(string iSpeech)
+		{
+			if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("sad")))
+				return MoodType.SAD.ToString();
+			else if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("happy")))
+				return MoodType.HAPPY.ToString();
+			else if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("love")))
+				return MoodType.LOVE.ToString();
+			else if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("sick")))
+				return MoodType.SICK.ToString();
+			else if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("tired")))
+				return MoodType.TIRED.ToString();
+			else if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("angry")))
+				return MoodType.ANGRY.ToString();
+			else if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("grumpy")))
+				return MoodType.GRUMPY.ToString();
+			else if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("scared")))
+				return MoodType.SCARED.ToString();
+			else
+				return "";
 		}
 
 		private string GetNextNumber(string iText, List<string> iSpeech)

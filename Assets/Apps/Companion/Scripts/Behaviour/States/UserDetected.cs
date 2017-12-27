@@ -21,10 +21,10 @@ namespace BuddyApp.Companion
 			CompanionData.Instance.InteractDesire = 0;
 			CompanionData.Instance.ChargeAsked = false;
 			mState = GetComponentInGameObject<Text>(0);
-			Interaction.BMLManager.LoadAppBML();
+			//Interaction.BMLManager.LoadAppBML();
 			mDetectionManager = GetComponent<DetectionManager>();
 			mActionManager = GetComponent<ActionManager>();
-            Utils.LogI(LogContext.APP, "Start UserD");
+			Utils.LogI(LogContext.APP, "Start UserD");
 
 		}
 
@@ -43,7 +43,6 @@ namespace BuddyApp.Companion
 			mTimeHumanDetected = 0F;
 
 
-			BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
 
 			if (CompanionData.Instance.InteractDesire < 30) {
 				// Todo: we don't want to interact but we will still show the human we noticed him:
@@ -68,23 +67,27 @@ namespace BuddyApp.Companion
 		{
 			mState.text = "User Detected move: " + !BYOS.Instance.Primitive.Motors.Wheels.Locked;
 
-			if (BYOS.Instance.Interaction.BMLManager.DonePlaying && ! mActionManager.ThermalFollow) {
-				//mActionManager.StartThermalFollow(HumanFollowType.ROTATION_AND_HEAD);
+			if (BYOS.Instance.Interaction.BMLManager.DonePlaying && !mActionManager.ThermalFollow) {
+				mActionManager.StartThermalFollow(HumanFollowType.ROTATION_AND_HEAD);
 			}
 
 			mTimeHumanDetected += Time.deltaTime;
 			mTimeState += Time.deltaTime;
 
 			// If human not there anymore
-			if (mTimeHumanDetected > 20F) {
+			if (mTimeHumanDetected > 12F) {
 				if (CompanionData.Instance.InteractDesire > 80)
 					Trigger("SADBUDDY");
-				else
+				else if (CompanionData.Instance.InteractDesire > 50)
+					Trigger("LOOKINGFOR");
+				else if (CompanionData.Instance.MovingDesire > 60) {
+					Trigger("WANDER");
+				} else
 					Trigger("IDLE");
 
 
 				// 2) If human detected for a while and want to interact but no interaction, go to Crazy Buddy
-			} else if (mTimeState > 45F && CompanionData.Instance.InteractDesire > 50) {
+			} else if (mTimeState > 35F && CompanionData.Instance.InteractDesire > 50) {
 				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 				Interaction.Face.SetEvent(FaceEvent.SMILE);
 				Trigger("SEEKATTENTION");
@@ -131,6 +134,8 @@ namespace BuddyApp.Companion
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Debug.Log("User detected exit");
+			if (mActionManager.ThermalFollow)
+				mActionManager.StopThermalFollow();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 	}

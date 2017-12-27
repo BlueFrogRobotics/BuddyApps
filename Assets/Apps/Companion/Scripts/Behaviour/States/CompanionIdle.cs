@@ -16,6 +16,7 @@ namespace BuddyApp.Companion
 	{
 		private float mTimeIdle;
 		private float mPreviousTime;
+		private float mTimeRaise;
 		private float mLastBMLTime;
 		private bool mHeadPlaying;
 
@@ -40,15 +41,16 @@ namespace BuddyApp.Companion
 			mLastBMLTime = 0F;
 			mTimeIdle = 0F;
 			mPreviousTime = 0F;
+			mTimeRaise = 0F;
 
 			Interaction.Face.SetEvent(FaceEvent.YAWN);
 			Primitive.Speaker.Voice.Play(VoiceSound.YAWN);
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.REGULAR_ACTIVATION_MINUTE, OnMinuteActivation);
+			//Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
+			//Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.REGULAR_ACTIVATION_MINUTE, OnMinuteActivation);
 
 
-			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
-			Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = true;
+			//Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
+			//Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = true;
 
 			//TODO: remove this when BML
 
@@ -68,24 +70,26 @@ namespace BuddyApp.Companion
 			mState.text = "IDLE \n bored: " + CompanionData.Instance.Bored + "\n interactDesire: " + CompanionData.Instance.InteractDesire
 				+ "\n wanderDesire: " + CompanionData.Instance.MovingDesire;
 			mTimeIdle += Time.deltaTime;
+			mTimeRaise += Time.deltaTime;
 
+			if ( ((int)mTimeIdle) % 15 == 5 && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
+				Debug.Log("Play neutral BML IDLE");
+				BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
+			}
 
-			if(mTimeIdle == 10%20 && BYOS.Instance.Interaction.BMLManager.DonePlaying)
-						BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
-
-			// Do the following every second
-			if (mTimeIdle - mPreviousTime > 1F) {
+			// Do the following every 5 seconds
+			if (mTimeIdle - mPreviousTime > 5F) {
 				int lRand = UnityEngine.Random.Range(0, 100);
 
 				if (lRand < (int)mTimeIdle / 10) {
-					CompanionData.Instance.Bored += 1;
+					CompanionData.Instance.Bored += CES_HACK;
 				}
 				mPreviousTime = mTimeIdle;
 
 			}
 
 
-			if (mTimeIdle > 10F && BYOS.Instance.Interaction.BMLManager.ActiveBML.Count == 0) {
+			if (mTimeIdle > 10F && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
 				// Play BML from time to time. Play more when bored
 				if (mTimeIdle - mLastBMLTime > UnityEngine.Random.Range(100F - CompanionData.Instance.Bored, 200F)) {
 					//BYOS.Instance.Interaction.BMLManager.LaunchByID("happy1");
@@ -97,7 +101,8 @@ namespace BuddyApp.Companion
 
 			if (mTimeIdle > 3F) {
 				// if no event and no BML and high desires
-				if (BYOS.Instance.Interaction.BMLManager.ActiveBML.Count == 0 && (mTimeIdle > 5F) && mDetectionManager.mDetectedElement == Detected.NONE) {
+				//Debug.Log("DonePlaying: " + BYOS.Instance.Interaction.BMLManager.DonePlaying + " mDetectionManager.mDetectedElement " + mDetectionManager.mDetectedElement);
+				if (BYOS.Instance.Interaction.BMLManager.DonePlaying && mDetectionManager.mDetectedElement == Detected.NONE) {
 					if (CompanionData.Instance.InteractDesire > 70) {
 						Debug.Log("LOOKINGFOR");
 						Trigger("LOOKINGFOR");
@@ -106,6 +111,14 @@ namespace BuddyApp.Companion
 						Debug.Log("WANDER");
 						Trigger("WANDER");
 					}
+				}
+
+				if(mTimeRaise > 20F ) {
+					mTimeRaise = 0F;
+                    if (UnityEngine.Random.Range(0, 2) == 0)
+						OnMinuteActivation();
+					else
+						OnRandomMinuteActivation();
 				}
 
 				// Otherwise, react on almost all detectors
@@ -133,11 +146,13 @@ namespace BuddyApp.Companion
 						break;
 
 					case Detected.THERMAL:
+						BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
 						Trigger("INTERACT");
 						break;
 
 					default:
-						break;
+						mDetectionManager.mDetectedElement = Detected.NONE;
+                        break;
 				}
 			}
 		}
@@ -147,11 +162,11 @@ namespace BuddyApp.Companion
 			mTimeIdle = 0F;
 
 			Debug.Log("Idle exit");
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.REGULAR_ACTIVATION_MINUTE, OnMinuteActivation);
+			//Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
+			//Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.REGULAR_ACTIVATION_MINUTE, OnMinuteActivation);
 
-			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
-			Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = false;
+			//Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
+			//Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = false;
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mHeadPlaying = false;
@@ -196,27 +211,27 @@ namespace BuddyApp.Companion
 
 		void OnRandomMinuteActivation()
 		{
-			CompanionData.Instance.Bored += 5 + CES_HACK;
+			CompanionData.Instance.Bored += (5 + CES_HACK);
 		}
 
 		void OnMinuteActivation()
 		{
-			int lRand = UnityEngine.Random.Range(0, 101);
+			//int lRand = UnityEngine.Random.Range(0, 101);
 
-			if (lRand < CompanionData.Instance.Bored) {
+			//if (lRand < CompanionData.Instance.Bored) {
 				//CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored / 10;
 				//CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored / 10;
 
 				//TODO remove this (CES hack)
 
 				if(UnityEngine.Random.Range(0, 2) == 0)
-					CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored * CES_HACK;
+					CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored;
 				else
-					CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored * CES_HACK;
+					CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored;
 
 				Interaction.Face.SetEvent(FaceEvent.YAWN);
 				Primitive.Speaker.Voice.Play(VoiceSound.YAWN);
-			}
+			//}
 		}
 
 	}

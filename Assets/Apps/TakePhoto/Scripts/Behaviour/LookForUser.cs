@@ -55,7 +55,7 @@ namespace BuddyApp.TakePhoto
 					Mat mMatSrc = mCam.FrameMat;
 					Core.flip(mMatSrc, mMat, 1);
 					mTexture = Utils.MatToTexture2D(mMat);
-					Toaster.Display<PictureToast>().With("movehands", Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
+					Toaster.Display<PictureToast>().With(Dictionary.GetString("movehands"), Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
 				}
 				if (mDetectionCount <= 200 && mHasShowWindow) {
 					if (mMatDetection == null) {

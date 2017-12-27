@@ -12,6 +12,7 @@ namespace BuddyApp.Companion
 		private bool mTrigged;
 		private float mTimeThermal;
 		private float mTimeLastThermal;
+		private float mTimeRaise;
 
 		public override void Start()
 		{
@@ -24,6 +25,7 @@ namespace BuddyApp.Companion
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mTimeThermal = 0F;
+			mTimeRaise = 0F;
 			mTimeLastThermal = 0F;
             mState.text = "Wander";
 			mTrigged = false;
@@ -32,8 +34,8 @@ namespace BuddyApp.Companion
 
 			Debug.Log("wander: " + CompanionData.Instance.MovingDesire);
 
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
+			//Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
+			//Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
 
 
 		}
@@ -41,15 +43,25 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mTimeRaise += Time.deltaTime;
+			if (mTimeRaise > 30F) {
+				mTimeRaise = 0F;
+				if (UnityEngine.Random.Range(0, 2) == 0)
+					OnRandomMinuteActivation();
+			}
+
+			mState.text = "WANDER \n interactDesire: " + CompanionData.Instance.InteractDesire
+				+ "\n wanderDesire: " + CompanionData.Instance.MovingDesire;
+
 			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering) {
 				Debug.Log("CompanionWander start wandering");
-				mActionManager.StartWander(MoodType.NEUTRAL);
+				mActionManager.StartWander(mActionManager.WanderingMood);
 			}
 
 			// if we foolow for a while, or lose the target for 5 seconds, go back to wander:
 			if (mActionManager.ThermalFollow && (Time.time - mTimeThermal > CompanionData.Instance.InteractDesire
 				|| (Time.time - mTimeLastThermal > 5.0F)))
-				mActionManager.StartWander(MoodType.NEUTRAL);
+				mActionManager.StartWander(mActionManager.WanderingMood);
 
 			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
 			switch (mDetectionManager.mDetectedElement) {
@@ -114,8 +126,8 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
+			//Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
+			//Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
 			mActionManager.StopWander();
 			mActionManager.StopThermalFollow();
 			mDetectionManager.mDetectedElement = Detected.NONE;

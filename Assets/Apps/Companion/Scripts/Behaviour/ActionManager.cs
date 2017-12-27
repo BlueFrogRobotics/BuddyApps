@@ -19,6 +19,9 @@ namespace BuddyApp.Companion
 		private float mTimeMood;
 		private float mDurationMood;
 
+		public bool WanderingOrder { get; set; }
+		public MoodType WanderingMood { get; set; }
+
 		public bool Wandering { get; private set; }
 		public bool ThermalFollow { get; private set; }
 		//private RoombaNavigation mRoomba;
@@ -27,6 +30,8 @@ namespace BuddyApp.Companion
 
 		void Start()
 		{
+			WanderingOrder = false;
+			WanderingMood = MoodType.NEUTRAL;
 			mHeadCounter = 0;
 			mEyeCounter = 0;
 			mLastHeadTime = 0F;
@@ -41,7 +46,12 @@ namespace BuddyApp.Companion
 			//Debug.Log("Mood check: time - lastime, mTimeMood" + (Time.time - mTimeMood) + "    " + mTimeMood );
 			if (Time.time - mTimeMood > mDurationMood && mTimeMood != 0F) {
 				Debug.Log("Mood  back to neutral");
-				BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
+				if (Wandering) {
+					StopWander();
+					StartWander(WanderingMood);
+				} else {
+					BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
+				}
 				mTimeMood = 0F;
 				mHeadCounter = 0;
 				mEyeCounter = 0;
@@ -98,18 +108,31 @@ namespace BuddyApp.Companion
 
 			mLastHeadTime = Time.time;
 
-			if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
-				if (mHeadCounter < 2) {
-					BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
-					BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
-				} else if (mHeadCounter < 3) {
-					BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
-				} else if (mHeadCounter < 5) {
-					BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
-				} else if (mHeadCounter > 4) {
-					BYOS.Instance.Interaction.BMLManager.LaunchRandom("love");
-					mTimeMood = Time.time;
-				}
+			//if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
+			//	if (mHeadCounter < 2) {
+			//		BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
+			//		BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+			//	} else if (mHeadCounter < 3) {
+			//		BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
+			//	} else if (mHeadCounter > 4) {
+			//		BYOS.Instance.Interaction.BMLManager.LaunchRandom("love");
+			//		mTimeMood = Time.time;
+			//	}
+
+			if (mHeadCounter < 2) {
+				BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
+				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+			} else if (mHeadCounter < 5) {
+				//TODO: play BML instead
+				BYOS.Instance.Interaction.Mood.Set(MoodType.HAPPY);
+				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
+				mTimeMood = Time.time;
+
+			} else if (mHeadCounter > 4) {
+				//TODO: play BML instead
+				BYOS.Instance.Interaction.Mood.Set(MoodType.LOVE);
+				mTimeMood = Time.time;
+			}
 		}
 
 		public void EyeReaction()
@@ -121,15 +144,47 @@ namespace BuddyApp.Companion
 				mEyeCounter = 0;
 			mLastEyeTime = Time.time;
 
-			if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
-				if (mEyeCounter > 7)
-					BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
-				else
-					//BYOS.Instance.Interaction.Mood.Set(MoodType.GRUMPY);
-					//BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
-					//mTimeMood = Time.time;
+			//if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
+			//	if (mEyeCounter > 7)
+			//		BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
+			//	else
+			//		//BYOS.Instance.Interaction.Mood.Set(MoodType.GRUMPY);
+			//		//BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+			//		//mTimeMood = Time.time;
 
-					BYOS.Instance.Interaction.BMLManager.LaunchRandom("grumpy");
+			//		BYOS.Instance.Interaction.BMLManager.LaunchRandom("grumpy");
+
+
+			if (mEyeCounter > 7) {
+				//TODO: play BML instead
+
+				if (BYOS.Instance.Interaction.BMLManager.DonePlaying && !Wandering)
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
+				else if (Wandering) {
+					StopWander();
+					StartWander(MoodType.ANGRY);
+					mTimeMood = Time.time;
+
+				} else {
+					BYOS.Instance.Interaction.Mood.Set(MoodType.ANGRY);
+					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+					BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
+					mTimeMood = Time.time;
+				}
+			} else {
+				if (Wandering) {
+					StopWander();
+					StartWander(MoodType.GRUMPY);
+					mTimeMood = Time.time;
+
+				} else {
+					//TODO: play BML instead
+					BYOS.Instance.Interaction.Mood.Set(MoodType.GRUMPY);
+					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+					mTimeMood = Time.time;
+				}
+			}
+
 
 		}
 
@@ -152,6 +207,44 @@ namespace BuddyApp.Companion
 		internal void LookCenter()
 		{
 			BYOS.Instance.Interaction.Face.LookAt(FaceLookAt.CENTER);
+		}
+
+		internal void LockAll()
+		{
+			LockWheels();
+			LockHead();
+		}
+
+		internal void UnlockAll()
+		{
+			UnlockWheels();
+			UnlockHead();
+		}
+
+		internal void LockWheels()
+		{
+			CompanionData.Instance.CanMoveBody = false;
+			BYOS.Instance.Primitive.Motors.Wheels.Locked = true;
+		}
+
+		internal void UnlockWheels()
+		{
+			CompanionData.Instance.CanMoveBody = true;
+			BYOS.Instance.Primitive.Motors.Wheels.Locked = false;
+		}
+
+		internal void LockHead()
+		{
+			CompanionData.Instance.CanMoveHead = false;
+			BYOS.Instance.Primitive.Motors.YesHinge.Locked = true;
+			BYOS.Instance.Primitive.Motors.NoHinge.Locked = true;
+		}
+
+		internal void UnlockHead()
+		{
+			CompanionData.Instance.CanMoveHead = true;
+			BYOS.Instance.Primitive.Motors.NoHinge.Locked = false;
+			BYOS.Instance.Primitive.Motors.YesHinge.Locked = false;
 		}
 
 	}
