@@ -6,7 +6,7 @@ using System;
 namespace BuddyApp.PlayMath{
     public class MultiplicationGenerator : Generator {
 
-        public override List<Equation> Equations { get; }
+		public override List<Equation> Equations { get; protected set;}
 
         public MultiplicationGenerator(GameParameters parameters)
             : base(parameters)

@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace BuddyApp.PlayMath{
-    public class QuestionState : AnimatorSyncState {
+    public class PMQuestionState : AnimatorSyncState {
 
 		private Animator mQuestionAnimator;
         private QuestionBehaviour mQuestionBehaviour;

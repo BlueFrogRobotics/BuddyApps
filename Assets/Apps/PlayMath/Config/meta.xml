@@ -67,7 +67,16 @@
             <IsValid>false</IsValid>
         </AppPermission>
     </Permissions>
-    <LangVocalKeys />
+    <LangVocalKeys>
+        <VocalKeys>
+            <Language>EN</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>FR</Language>
+            <Keys />
+        </VocalKeys>
+    </LangVocalKeys>
     <OptionsLayoutClassName>PlayMath.PlayMathLayout</OptionsLayoutClassName>
     <ActivityClassName>PlayMath.PlayMathActivity</ActivityClassName>
 </AppInfo>

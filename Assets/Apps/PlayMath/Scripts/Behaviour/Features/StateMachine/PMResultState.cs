@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 using Buddy;
 using Buddy.UI;
@@ -6,7 +8,7 @@ using Buddy.UI;
 using System;
 
 namespace BuddyApp.PlayMath{
-    public class ResultState : AStateMachineBehaviour {
+    public class PMResultState : AStateMachineBehaviour {
 
         private const float DURATION_NOT = 2.0f;
 

@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace BuddyApp.PlayMath{
-    public class CertificateState : AStateMachineBehaviour {
+    public class PMCertificateState : AStateMachineBehaviour {
 
 		private Animator mCertificateAnimator;
 

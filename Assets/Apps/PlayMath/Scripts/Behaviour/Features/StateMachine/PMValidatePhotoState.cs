@@ -7,7 +7,7 @@ using Buddy;
 using Buddy.UI;
 
 namespace BuddyApp.PlayMath{
-    public class ValidatePhotoState : AStateMachineBehaviour {
+    public class PMValidatePhotoState : AStateMachineBehaviour {
 
         private Animator mBackgroundAnimator;
         private Animator mPlayMathAnimator;

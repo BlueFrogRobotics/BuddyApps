@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using BuddyApp.PlayMath;
 
 namespace BuddyApp.PlayMath{
     public class ScoreSummary {

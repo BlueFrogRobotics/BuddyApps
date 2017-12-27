@@ -21,7 +21,7 @@ namespace BuddyApp.PlayMath{
 
 		private static readonly int[] MAX_VALUE = { 10, 100, 100, 1000, 1000 };
 
-		public override List<Equation> Equations { get; }
+		public override List<Equation> Equations { get; protected set;}
 
 		public EquationGenerator(GameParameters parameters) 
             : base(parameters)

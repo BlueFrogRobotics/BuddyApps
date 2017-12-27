@@ -10,7 +10,7 @@ namespace BuddyApp.PlayMath{
         private DateTime mDateTime; // Use mDateTime.ToString("MM/dd/yyyy HH:mm")
         private TimeSpan mTotalAnswerTime; // Use mTotalAnswerTime.ToString("format")
 
-        public List<Result> Results{ get; }
+		public List<Result> Results{ get; private set;}
 
         public int CorrectAnswers{ get{ return mCorrectAnswers; } }
         public int BadAnswers{ get { return (mGameParams.Sequence - mCorrectAnswers); } }

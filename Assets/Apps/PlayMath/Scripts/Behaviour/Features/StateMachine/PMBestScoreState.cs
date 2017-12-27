@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace BuddyApp.PlayMath{
-    public class BestScoreState : AnimatorSyncState {
+    public class PMBestScoreState : AnimatorSyncState {
 
 		private Animator mBestScoreAnimator;
 

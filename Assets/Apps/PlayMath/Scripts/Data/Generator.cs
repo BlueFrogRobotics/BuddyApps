@@ -8,7 +8,7 @@ namespace BuddyApp.PlayMath{
 
         public GameParameters Parameters { get; protected set;}
 
-        virtual public List<Equation> Equations { get; }
+		virtual public List<Equation> Equations { get; protected set;}
 
         public Generator(GameParameters parameters) {
             this.Parameters = parameters;
