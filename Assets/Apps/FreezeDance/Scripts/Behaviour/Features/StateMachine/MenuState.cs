@@ -31,14 +31,14 @@ namespace BuddyApp.FreezeDance
                    "menu",
                    new ButtonInfo()
                    {
-                       Label = Dictionary.GetString("playwithsettings"),//"start",
+                       Label = Dictionary.GetString("play"),//"start",
                        OnClick = () => Trigger("Start")
                    },
-                   new ButtonInfo()
-                   {
-                       Label = Dictionary.GetString("setupandplay"),//"help",
-                       OnClick = () => Trigger("Settings")
-                   },
+                   //new ButtonInfo()
+                   //{
+                   //    Label = Dictionary.GetString("setupandplay"),//"help",
+                   //    OnClick = () => Trigger("Settings")
+                   //},
                    new ButtonInfo()
                    {
                        Label = Dictionary.GetString("bestscores"),//"quit",

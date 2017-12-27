@@ -37,7 +37,7 @@ namespace BuddyApp.FreezeDance
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             
-            mMusicPlayer.ReinitMusic(mSettings.MusicId);
+            mMusicPlayer.ReinitMusic(Random.Range(0, mMusicPlayer.NbClips));
             mMusicPlayer.Play();
             mTime = Time.time;
             mRandomStopDelay = 0;
