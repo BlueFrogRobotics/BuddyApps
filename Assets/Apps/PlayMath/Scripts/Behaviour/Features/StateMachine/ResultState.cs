@@ -3,10 +3,15 @@
 using Buddy;
 using Buddy.UI;
 
+using System;
+
 namespace BuddyApp.PlayMath{
     public class ResultState : AStateMachineBehaviour {
 
         private const float DURATION_NOT = 2.0f;
+
+		private const double DURATION_SCREEN = 4.0;
+		private DateTime mStartTime;
 
 		private Animator mBackgroundAnimator;
 
@@ -48,17 +53,20 @@ namespace BuddyApp.PlayMath{
             BYOS.Instance.Interaction.Mood.Set(lBuddyMood);
 
             mEndOnce = false;
+			// Pause TTS before announcing the result (STT notification "I hear...")
+			BYOS.Instance.Interaction.TextToSpeech.Silence(1000, true);
             BYOS.Instance.Interaction.TextToSpeech.Say(lTTSMessage,true);
             if( !mResult.isCorrect() )
                 AnnounceResult(lEquation);
-            BYOS.Instance.Interaction.TextToSpeech.Silence(1000, true);
+
+			mStartTime = DateTime.Now;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            if (BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking && !mEndOnce)
+			TimeSpan elapsedTime = DateTime.Now - mStartTime;
+			if (elapsedTime.TotalSeconds > DURATION_SCREEN && !mEndOnce)
             {
-                Debug.Log("Has finished talking");
                 if (mResult.Last)
                 {
 					User.Instance.Scores.NewScore(mScore);
