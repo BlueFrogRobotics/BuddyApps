@@ -3,40 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using System;
-using System.Runtime.Serialization;
 
 namespace BuddyApp.PlayMath{
 
-    [Flags,DataContract(Name="Operand")]
+    [Flags]
 	public enum Operand : int
 	{
         // We should not serialize none operand value
 		NONE = 0,
-        [EnumMember]
 		ADD = 0x01, 
-        [EnumMember]
 		SUB = 0x02, 
-        [EnumMember]
 		DIV = 0x04, 
-        [EnumMember]
 		MULTI = 0x08,
-        //TODO Find a clean way to do this...
-        // For serialization only, define flags combination
-        [EnumMember] AS = ADD | SUB,
-        [EnumMember] AM = ADD | MULTI,
-        [EnumMember] AD = ADD | DIV,
-        [EnumMember] SM = SUB | MULTI,
-        [EnumMember] SD = SUB | DIV,
-        [EnumMember] MD = MULTI | DIV,
-        [EnumMember] ASM = ADD | SUB | MULTI,
-        [EnumMember] ASD = ADD | SUB | DIV,
-        [EnumMember] AMD = ADD | MULTI | DIV,
-        [EnumMember] SMD = SUB | MULTI | DIV,
-        [EnumMember] ASMD = ADD | SUB | MULTI | DIV
 	}
 
-	[DataContract]
-    public class GameParameters : SerializableData {
+    public class GameParameters {
 		
 		public const int DIFFICULTY_MAX = 5;
 
@@ -44,13 +25,10 @@ namespace BuddyApp.PlayMath{
 		/// These getter/setter are useful only for serialize the object.
 		/// <para>Prefer <see cref="CheckOperand(Operand operand)"/> and <see cref="SetOperand(Operand operand, bool toSet)"/>.</para>
 		/// </summary>
-        [DataMember(Name="operand")]
 		public Operand Operands { get; private set; }
 
-        [DataMember(Name="table")]
 		public int Table { get ; set; }
 
-        [DataMember(Name="difficulty")]
 		private int mDifficulty;
 		public int Difficulty
 		{
@@ -69,10 +47,8 @@ namespace BuddyApp.PlayMath{
 			}
 		}
 
-        [DataMember(Name="sequence")]
 		public int Sequence { get ; set; }
 
-        [DataMember(Name="timer")]
 		public int Timer { get; set; }
 
 		public GameParameters () {

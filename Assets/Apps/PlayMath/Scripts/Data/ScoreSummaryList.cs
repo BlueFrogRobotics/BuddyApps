@@ -3,18 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Text;
-using System.Runtime.Serialization;
-using System.Xml;
 
 namespace BuddyApp.PlayMath{
-	[DataContract]
-    public class ScoreSummaryList : SerializableData {
+    public class ScoreSummaryList {
 
 		private const int NBR_LEVELS = 5;
 
 		private const int SCORES_FOR_ONE_LEVEL_COUNT_MAX = 4;
 
-        [DataMember(Name="scoresbylevels")]
 		public List<ScoreSummary>[] ScoresByLevels { get; set; }
 
 		public ScoreSummaryList() {

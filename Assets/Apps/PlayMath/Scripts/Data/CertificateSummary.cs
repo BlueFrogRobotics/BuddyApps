@@ -1,24 +1,16 @@
-﻿using System.Runtime.Serialization;
-using System.Xml;
-using System;
+﻿using System;
 
 using UnityEngine;
 using Buddy;
 using System.IO;
 
 namespace BuddyApp.PlayMath {
-    [DataContract]
-    public class CertificateSummary : SerializableData {
+    public class CertificateSummary {
 
-        [DataMember(Name="difficulty")]
         public int Difficulty { get; private set; }
-        [DataMember(Name="operands")]
         public Operand Operands { get; private set; }
-        [DataMember(Name="table")]
         public int Table { get; private set; }
-        [DataMember(Name="timestamp")]
         public DateTime TimeStamp { get; private set; }
-        [DataMember(Name="picture_path")]
         private string mPicturePath;
 
         public Texture2D Picture { get; private set; }
