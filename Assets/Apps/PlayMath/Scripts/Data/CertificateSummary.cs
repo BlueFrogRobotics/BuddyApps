@@ -3,14 +3,20 @@
 using UnityEngine;
 using Buddy;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace BuddyApp.PlayMath {
     public class CertificateSummary {
 
+        [XmlAttribute("difficulty")]
         public int Difficulty { get; private set; }
+        [XmlAttribute("operands")]
         public Operand Operands { get; private set; }
+        [XmlAttribute("table")]
         public int Table { get; private set; }
+        [XmlAttribute("datetime")]
         public DateTime TimeStamp { get; private set; }
+        [XmlAttribute("picturepath")]
         private string mPicturePath;
 
         public Texture2D Picture { get; private set; }

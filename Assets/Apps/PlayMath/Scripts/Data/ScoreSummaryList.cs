@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace BuddyApp.PlayMath{
     public class ScoreSummaryList {
@@ -10,7 +11,7 @@ namespace BuddyApp.PlayMath{
 		private const int NBR_LEVELS = 5;
 
 		private const int SCORES_FOR_ONE_LEVEL_COUNT_MAX = 4;
-
+        [XmlElement("listbylevel")]
 		public List<ScoreSummary>[] ScoresByLevels { get; set; }
 
 		public ScoreSummaryList() {

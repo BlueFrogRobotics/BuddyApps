@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using System;
+using System.Xml.Serialization;
 
 namespace BuddyApp.PlayMath{
 
@@ -25,11 +26,13 @@ namespace BuddyApp.PlayMath{
 		/// These getter/setter are useful only for serialize the object.
 		/// <para>Prefer <see cref="CheckOperand(Operand operand)"/> and <see cref="SetOperand(Operand operand, bool toSet)"/>.</para>
 		/// </summary>
+        [XmlAttribute("operand")]
 		public Operand Operands { get; private set; }
-
+        [XmlAttribute("table")]
 		public int Table { get ; set; }
 
 		private int mDifficulty;
+        [XmlAttribute("difficulty")]
 		public int Difficulty
 		{
 			get 
@@ -46,9 +49,9 @@ namespace BuddyApp.PlayMath{
 				mDifficulty = value;
 			}
 		}
-
+        [XmlAttribute("sequence")]
 		public int Sequence { get ; set; }
-
+        [XmlAttribute("timer")]
 		public int Timer { get; set; }
 
 		public GameParameters () {

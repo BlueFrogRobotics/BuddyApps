@@ -4,18 +4,25 @@ using UnityEngine;
 using System.IO;
 
 using Buddy;
+using System.Xml.Serialization;
 
 namespace BuddyApp.PlayMath{
     public class User {
-
 		private static User sInstance;
 
+        [XmlAttribute("name")]
         public string Name { get; private set; }
+        [XmlAttribute("id")]
         private int id;
+        [XmlElement("game_parameters")]
         public GameParameters GameParameters { get; private set;}
+        [XmlElement("certificates")]
         public CertificateSummaryList Certificates{ get; private set; }
+        [XmlElement("scores")]
         public ScoreSummaryList Scores { get; private set;}
-			
+
+        public const string USERFILE = "userdata.xml";
+
 		/*
          * Singleton access
          */
@@ -63,21 +70,17 @@ namespace BuddyApp.PlayMath{
 
         public static void SaveUser()
         {
-            string filename = BYOS.Instance.Resources.GetPathToRaw("userdata.xml");
-            FileStream stream = new FileStream(filename, FileMode.Create,FileAccess.Write);
-            stream.Close();
+            string filename = BYOS.Instance.Resources.GetPathToRaw(USERFILE);
+            Utils.SerializeXML(User.Instance, filename);
         }
 
         public static User LoadDefaultUser()
         {
-            string filename = BYOS.Instance.Resources.GetPathToRaw("userdata.xml");
+            string filename = BYOS.Instance.Resources.GetPathToRaw(USERFILE);
             User newObject;
             if (File.Exists(filename))
             {
-                FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read);
-                // Deserialize the data and read it from the instance.
-                stream.Close();
-				newObject = new User();
+				newObject = Utils.UnserializeXML<User>(filename);
             }
             else
             {

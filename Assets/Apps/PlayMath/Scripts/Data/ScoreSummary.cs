@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Xml.Serialization;
 
 namespace BuddyApp.PlayMath{
     public class ScoreSummary {
-
+        [XmlAttribute("correct_answers")]
 		public int CorrectAnswers { get; set; }
+        [XmlAttribute("bad_answers")]
 		public int BadAnswers { get; set;}
+        [XmlAttribute("answer_time")]
 		public TimeSpan TotalAnswerTime { get; set; }
+        [XmlAttribute("difficulty")]
 		public int Difficulty { get; set; }
 
 		private double SuccessPercent() {
