@@ -3,7 +3,7 @@ using Buddy;
 
 namespace BuddyApp.Weather
 {
-	public class Test : AStateMachineBehaviour
+	public class VocalW : AStateMachineBehaviour
 	{
 
 		public override void Start()
@@ -13,8 +13,9 @@ namespace BuddyApp.Weather
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-
             Debug.Log("ENTER LISTEN test");
+            //if (!string.IsNullOrEmpty(WeatherData.Instance.VocalRequest))
+                //Trigger("Vocal");
 			Interaction.VocalManager.OnEndReco = GetAnswer;
 			Interaction.VocalManager.OnError = NoAnswer;
 			Interaction.VocalManager.StartInstantReco();
@@ -36,7 +37,7 @@ namespace BuddyApp.Weather
             {
                 Utils.LogI(LogContext.APP, "GOT AN ANSWER: " + iAnswer);
                 WeatherData.Instance.VocalRequest = iAnswer;
-                Trigger("Test");
+                Trigger("Vocal");
             }
 		}
 

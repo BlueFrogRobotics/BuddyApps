@@ -12,16 +12,19 @@ namespace BuddyApp.Weather
 		* Called before the App scene loading.
 		*/
 		public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
-		{ 
-			Utils.LogI(LogContext.APP, "On loading...");
-			if (iStrArgs != null) {
-				// We have an input sentence
-				WeatherData.Instance.VocalRequest = iStrArgs[0];
-			}else {
-				WeatherData.Instance.VocalRequest = "";
-			}
+		{
+            Utils.LogI(LogContext.APP, "On loading...");
+            if (iStrArgs != null)
+            {
+                // We have an input sentence
+                WeatherData.Instance.VocalRequest = iStrArgs[0];
+            }
+            else
+            {
+                WeatherData.Instance.VocalRequest = "";
+            }
 
-		}
+        }
 
 		/*
 		* Callsed after every Awake() in your scene

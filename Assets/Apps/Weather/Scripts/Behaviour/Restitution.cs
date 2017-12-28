@@ -81,10 +81,15 @@ namespace BuddyApp.Weather
 					string lYesAnswer = Dictionary.GetRandomString("yes") + " " + Dictionary.GetRandomString("itwillbe") + " "
 						+ Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " " + Dictionary.GetRandomString("at") + " " + lWeatherInfo.Hour + " " + Dictionary.GetRandomString("hour");
 
-					if (mWeatherB.mForecast != lWeatherInfo.Type)
-						lAnswer = lNoAnswer;
-					else
-						lAnswer = lYesAnswer;
+                    if (mWeatherB.mForecast != lWeatherInfo.Type)
+                    {
+                        if ((mWeatherB.mForecast == WeatherType.CHANCE_OF_RAIN && lWeatherInfo.Type == WeatherType.RAIN) || (mWeatherB.mForecast == WeatherType.RAIN && lWeatherInfo.Type == WeatherType.CHANCE_OF_RAIN))
+                            lAnswer = lYesAnswer;
+                        else
+                             lAnswer = lNoAnswer;
+                    }
+                    else
+                        lAnswer = lYesAnswer;
 
 					//if (mWeatherB.mForecast == WeatherType.SNOWY)
 					//	if (lWeatherInfo.Type == Buddy.WeatherType.CLOUDY || lWeatherInfo.Type == Buddy.WeatherType.SUNNY)
@@ -111,20 +116,35 @@ namespace BuddyApp.Weather
 					//		lAnswer = lNoAnswer;
 				}
 			} else {
-                //lAnswer = Dictionary.GetRandomString("restitution");
-                //lAnswer.Replace("[date]", lDayString);
-                //lAnswer.Replace("[hour]", "" + lWeatherInfo.Hour);
-                //lAnswer.Replace("[degree]", "" + lWeatherInfo.MinTemperature);
-                //lAnswer.Replace("[forecast]", Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")));
-
-                lAnswer = lDayString + " " + Dictionary.GetRandomString("at") + " " + lWeatherInfo.Hour + " " + Dictionary.GetRandomString("hour") + " " + Dictionary.GetRandomString("temperaturewillbe") + " " + lWeatherInfo.MinTemperature + " "
-                    + Dictionary.GetRandomString("degreesanditisa") + " " + Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", ""));
-                //[date] à [hour] heure la temperature sera de [degree] et il[forecast]
+                lAnswer = Dictionary.GetRandomString("restitution");
+                lAnswer = lAnswer.Replace("[date]", lDayString);
+                if (BYOS.Instance.Language.CurrentLang == Language.FR)
+                {
+                    lAnswer = lAnswer.Replace("[hour]", lWeatherInfo.Hour.ToString());
+                }
+                else
+                {
+                    if (lWeatherInfo.Hour > 12 && lWeatherInfo.Hour != 24)
+                    {
+                        lAnswer = lAnswer.Replace("[hour]", (lWeatherInfo.Hour - 12).ToString() + " pm");
+                    }
+                    else if (lWeatherInfo.Hour == 12)
+                    {
+                        lAnswer = lAnswer.Replace("[hour]", lWeatherInfo.Hour.ToString() + " pm");
+                    }
+                    else
+                    {
+                        if (lWeatherInfo.Hour != 24)
+                            lWeatherInfo.Hour = lWeatherInfo.Hour - 12;
+                        lAnswer = lAnswer.Replace("[hour]", (lWeatherInfo.Hour - 12).ToString() + " am");
+                    }
+                }
+                lAnswer = lAnswer.Replace("[degree]", lWeatherInfo.MinTemperature.ToString());
+                lAnswer = lAnswer.Replace("[forecast]", Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")));
             }
 
-			if (mWeatherB.mName != "")
+            if (mWeatherB.mName != "")
 				Interaction.TextToSpeech.Say(lAnswer + " " + Dictionary.GetRandomString("inlocation") + " " + mWeatherB.mName);
-
 
             StartCoroutine(Example(mWeatherB.mWeatherInfos));
     }
@@ -230,7 +250,7 @@ namespace BuddyApp.Weather
 
                 trip.SetCloud6();
             }
-            else if (Info.Type == WeatherType.CLOUDY || Info.Type == WeatherType.CHANCE_OF_RAIN)
+            else if (Info.Type == WeatherType.CLOUDY)
             {
                 Debug.Log("CLOUUUUD");
                 trip.SetCloud3();
@@ -240,10 +260,16 @@ namespace BuddyApp.Weather
                 Debug.Log("PARTLY CLOUUUUD");
                 trip.SetCloud1();
             }
+            else if (Info.Type == WeatherType.CHANCE_OF_RAIN)
+            {
+                Debug.Log("Chance of rain");
+                trip.SetRain();
+                trip.SetCloud3();
+            }
             else if (Info.Type == WeatherType.RAIN)
             {
                 Debug.Log("RAIIIN");
-                trip.SetCloud3();
+                trip.SetCloud6();
                 trip.SetRain();
             }
 
@@ -261,15 +287,16 @@ namespace BuddyApp.Weather
 
 			mTimer += Time.deltaTime;
 			if (Interaction.TextToSpeech.HasFinishedTalking && mTimer > 3F && mWeatherB.mIsOk) {
-				Debug.Log("Restart test");
-				mWeatherB.mDate = 0;
-				mWeatherB.mForecast = WeatherType.UNKNOWN;
-				mWeatherB.mLocation = "";
+                QuitApp();
+                Debug.Log("Restart test");
+                mWeatherB.mDate = 0;
+                mWeatherB.mForecast = WeatherType.UNKNOWN;
+                mWeatherB.mLocation = "";
                 mWeatherB.mName = "";
                 WeatherData.Instance.VocalRequest = "";
-				Trigger("Restart");
-			}
-		}
+                //Trigger("Restart");
+            }
+        }
 
 	}
 }

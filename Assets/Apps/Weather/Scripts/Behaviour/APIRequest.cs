@@ -13,7 +13,6 @@ namespace BuddyApp.Weather
 		private int mDate;
 		//Max numberWeatherInfos égal à 64
 		private int mNumberWeatherInfos;
-		//public int NumberWeatherInfos { get { return mNumberWeatherInfos; } }
 		private bool mAnswerReceived;
 		private bool mQuit;
 
@@ -39,13 +38,12 @@ namespace BuddyApp.Weather
 
             if (mWeatherB.mLocation == "")
             {
-                mWeatherB.mName = "paris";
+                mWeatherB.mName = "Paris";
                 mWeatherB.mLocation = "zmw:00000.45.07156";
             }
             Debug.Log("Pre web service " + mWeatherB.mLocation);
             city = mWeatherB.mLocation;
             BYOS.Instance.WebService.Weather.HourlyAt(city, WeatherProcessing, mNumberWeatherInfos);
-            //BYOS.Instance.WebService.Weather.At("auxerre", WeatherProcessing, mNumberWeatherInfos);
 
 
             Debug.Log("Post web service ");
@@ -86,7 +84,6 @@ namespace BuddyApp.Weather
 
                     Utils.SerializeXML<CitiesData>(mWeatherB.mCities, lCitiesfile[0]);
 
-                    Interaction.TextToSpeech.Say("Trop de ville mon gars");
                     Trigger("Reset");
                 }
                 mQuit = true;
@@ -120,7 +117,9 @@ namespace BuddyApp.Weather
 				if (mWeatherB.mWhen && mWeatherB.mDate == -1) {
 					for (int i = 0; i < iWeather.Length; ++i) {
 						Debug.Log("GetWeatherInfos api indice " + i + " weather type speech " + iWeatherType + " weather type weatherInfo  " + iWeather[i].Type);
-						if (iWeather[i].Type == iWeatherType) {
+                        if ((iWeather[i].Type == WeatherType.CHANCE_OF_RAIN && iWeatherType == WeatherType.RAIN) || (iWeather[i].Type == WeatherType.RAIN && iWeatherType == WeatherType.CHANCE_OF_RAIN) 
+                            || iWeather[i].Type == iWeatherType)
+                        {
 							Debug.Log("GetWeatherInfos api indice " + i + " weather type speech " + iWeatherType + " weather type weatherInfo  " + iWeather[i].Type);
 							mWeatherB.mIndice = i;
 							lFound = true;

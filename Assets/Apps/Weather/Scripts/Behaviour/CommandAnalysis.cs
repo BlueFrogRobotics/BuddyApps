@@ -109,7 +109,7 @@ namespace BuddyApp.Weather
             {
                 mWeatherB.mForecast = WeatherType.SNOWY;
             }
-            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("rain")))
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("rainy")))
             {
                 mWeatherB.mForecast = WeatherType.RAIN;
             }
@@ -120,6 +120,10 @@ namespace BuddyApp.Weather
             else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("sun")))
             {
                 mWeatherB.mForecast = WeatherType.SUNNY;
+            }
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("chanceofrainy")))
+            {
+                mWeatherB.mForecast = WeatherType.CHANCE_OF_RAIN;
             }
             else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("wind")))
             {
