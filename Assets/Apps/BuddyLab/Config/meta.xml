@@ -4,10 +4,10 @@
     <ShortName>BuddyLab</ShortName>
     <CommercialName>BuddyLab</CommercialName>
     <MainScene>0</MainScene>
-    <Authors>BFR</Authors>
-    <Version>1.0.0.0</Version>
+    <Authors>dev@bluefrogrobotics.com</Authors>
+    <Version>1.0.2.1</Version>
     <VersionStatus>NONE</VersionStatus>
-    <VersionName />
+    <VersionName>test</VersionName>
     <Category>EDUTAINMENT</Category>
     <Permissions>
         <AppPermission>
@@ -28,19 +28,19 @@
         </AppPermission>
         <AppPermission>
             <Type>USERS_DATA_ACCESS</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_DATA_WRITE</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_MEDIA_DATA_ACCESS</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_MEDIA_DATA_WRITE</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>PROCEDURAL_MEMORY</Type>
@@ -67,7 +67,16 @@
             <IsValid>false</IsValid>
         </AppPermission>
     </Permissions>
-    <LangVocalKeys />
+    <LangVocalKeys>
+        <VocalKeys>
+            <Language>EN</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>FR</Language>
+            <Keys />
+        </VocalKeys>
+    </LangVocalKeys>
     <OptionsLayoutClassName>BuddyLab.BuddyLabLayout</OptionsLayoutClassName>
     <ActivityClassName>BuddyLab.BuddyLabActivity</ActivityClassName>
 </AppInfo>
