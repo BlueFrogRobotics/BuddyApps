@@ -36,7 +36,6 @@ namespace BuddyApp.ExperienceCenter
 			float lAngularSpeed = (float) (180 / Math.PI / radius * lSpeed);
 			BYOS.Instance.Primitive.Motors.Wheels.MoveDistance (lAngularSpeed, lAngularSpeed, lDistance, 0.01f);
 			yield return new WaitUntil(() => Math.Abs(BYOS.Instance.Primitive.Motors.Wheels.Odometry.x - destinationPoseX) <= DISTANCE_THRESHOLD );
-			mAnimatorManager.ActivateCmd ((byte)(Command.IOT));
 		}
 
 	}

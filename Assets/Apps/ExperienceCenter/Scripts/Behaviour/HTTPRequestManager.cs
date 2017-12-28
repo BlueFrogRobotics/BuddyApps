@@ -27,7 +27,7 @@ namespace BuddyApp.ExperienceCenter {
 
 		void Awake()
 		{
-			//InvokeRepeating("ShouldTestIOT", 5.0f, 5.0f);
+			InvokeRepeating("ShouldTestIOT", 5.0f, 5.0f);
 		}
 
 		private void ShouldTestIOT()
@@ -65,7 +65,7 @@ namespace BuddyApp.ExperienceCenter {
 
 		public void SonosPlay(bool enable)
 		{
-			ExecuteAction("Sonos PLAY:1", enable ? "play" : "stop");
+			ExecuteAction("Awabureau", enable ? "play" : "stop");
 		}
 
 		/*****************************************************
