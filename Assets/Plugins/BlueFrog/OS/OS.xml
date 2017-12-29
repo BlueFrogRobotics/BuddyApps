@@ -2229,11 +2229,6 @@
             </summary>
             <param name="iAngleDeg">The angle in degrees</param>
         </member>
-        <member name="P:Buddy.YesHinge.Locked">
-            <summary>
-            Lock set for hinge
-            </summary>
-        </member>
         <member name="T:Buddy.NoHinge">
             <summary>
             Represents the no axe hinge of the robot (Yaw Euler axe)
@@ -2251,11 +2246,6 @@
             Set the hinge at the specified position in degrees
             </summary>
             <param name="iAngleDeg">The angle in degrees</param>
-        </member>
-        <member name="P:Buddy.NoHinge.Locked">
-            <summary>
-            Lock set for hinge
-            </summary>
         </member>
         <member name="T:Buddy.Wheels">
             <summary>
@@ -2317,11 +2307,6 @@
             Enumeration corresponding to the current wheel's status
             </summary>
         </member>
-        <member name="P:Buddy.Wheels.Locked">
-            <summary>
-            Set for robot wheels locking
-            </summary>
-        </member>
         <member name="P:Buddy.Wheels.Error">
             <summary>
             Error code if there is any error on the component
@@ -2334,6 +2319,11 @@
             <returns>Robot's pose (X, Y, Tetha), the position (X,Y) in meters and the orientation Theta in degrees</returns>
             <remarks>Motors is the use of data from motion sensors to estimate change in position over time</remarks>
             <remarks>The robot's pose is a 3D vector that contains (X, Y, Theta). (X, Y) being the robot's position in horizontal plane and Theta the orientation of the robot.</remarks>
+        </member>
+        <member name="P:Buddy.Wheels.Locked">
+            <summary>
+            Set for robot wheels locking
+            </summary>
         </member>
         <member name="M:Buddy.Wheels.SetWheelsSpeed(System.Single,System.Single,System.Int32)">
             <summary>
@@ -5120,48 +5110,6 @@
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:Buddy.Command.LockYesHingeCmd">
-            <summary>
-            When executed : Lock yes hinge
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockYesHingeCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockYesHingeCmd.#ctor(System.Boolean)">
-            <summary>
-            When executed : Lock yes hinge
-            </summary>
-            <param name="iLock">Must hinges be locked ?</param>
-        </member>
-        <member name="M:Buddy.Command.LockYesHingeCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:Buddy.Command.LockNoHingeCmd">
-            <summary>
-            When executed : Lock no hinge
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockNoHingeCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockNoHingeCmd.#ctor(System.Boolean)">
-            <summary>
-            When executed : Lock no hinge
-            </summary>
-            <param name="iLock">Must hinges be locked ?</param>
-        </member>
-        <member name="M:Buddy.Command.LockNoHingeCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
         <member name="T:Buddy.Command.MvAbsPosCmd">
             <summary>
             When executed : Make the robot go to a desired global position.
@@ -6050,27 +5998,6 @@
             <remarks>The target angle defines the robot orientation in local space (relative to its actual orientation)</remarks>
         </member>
         <member name="M:Buddy.Command.TurnRelaCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:Buddy.Command.LockWheelsCmd">
-            <summary>
-            When executed : Lock wheels
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockWheelsCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockWheelsCmd.#ctor(System.Boolean)">
-            <summary>
-            When executed : Lock wheels
-            </summary>
-            <param name="iLock">Must the wheels be locked ?</param>
-        </member>
-        <member name="M:Buddy.Command.LockWheelsCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
