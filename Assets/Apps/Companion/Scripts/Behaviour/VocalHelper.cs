@@ -570,7 +570,9 @@ namespace BuddyApp.Companion
 			else if (ContainsOneOf(iSpeech, mLookAtMeSpeech))
 				lType = "LookAtMe";
 			else if (ContainsOneOf(iSpeech, mWanderSpeech)) {
-				Answer = FindMood(iSpeech);
+				Debug.Log("Wander 1");
+				Answer = FindMood(iSpeech.ToLower());
+				Debug.Log("Wander 2");
 				lType = "Wander";
 			} else if (ContainsOneOf(iSpeech, mCanMoveSpeech))
 				lType = "CanMove";
@@ -707,7 +709,7 @@ namespace BuddyApp.Companion
 				return MoodType.SAD.ToString();
 			else if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("happy")))
 				return MoodType.HAPPY.ToString();
-			else if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("love")))
+			else if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("lovely")))
 				return MoodType.LOVE.ToString();
 			else if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("sick")))
 				return MoodType.SICK.ToString();
@@ -720,7 +722,7 @@ namespace BuddyApp.Companion
 			else if (iSpeech.Contains(BYOS.Instance.Dictionary.GetString("scared")))
 				return MoodType.SCARED.ToString();
 			else
-				return "";
+				return MoodType.NEUTRAL.ToString(); ;
 		}
 
 		private string GetNextNumber(string iText, List<string> iSpeech)
@@ -728,16 +730,20 @@ namespace BuddyApp.Companion
 			string lResult = "";
 			int lKeywordsIndex = WordIndexOfOneOf(iText, iSpeech);
 			string[] lWords = iText.Split(' ');
-			int n = 0;
+			float n = 0F;
 
 			if (lKeywordsIndex == -1) {
 				return lResult;
 			} else if (lKeywordsIndex != lWords.Length) {
 				for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
-					if (int.TryParse(lWords[j], out n)) {
-						lResult = lWords[j];
+					if (float.TryParse(lWords[j], out n)) {
+						if (!iSpeech.Contains(" meter") && !iSpeech.Contains(" mètre") && (iSpeech.Contains("centimeter") || iSpeech.Contains("centimètre") || iSpeech.Contains(" cm")))
+							lResult = "" + n / 100;
+						else
+							lResult = lWords[j];
 						break;
-					}
+					}else if(float.TryParse(lWords[j].Remove(lWords[j].Length - 2), out n) && lWords[j][lWords[j].Length - 2] == 'c' && lWords[j][lWords[j].Length - 1] == 'm')
+						lResult = "" + n / 100;
 			}
 			return lResult;
 		}

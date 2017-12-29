@@ -38,7 +38,7 @@ namespace BuddyApp.Companion
 	{
 
 		public const float MAX_SOUND_THRESHOLD = 0.2F;
-		public const float KIDNAPPING_THRESHOLD = 7F;
+		public const float KIDNAPPING_THRESHOLD = 12F;
 		public const float MAX_MOVEMENT_THRESHOLD = 4.0F;
 		public const int MIN_TEMP = 25;
 
@@ -88,7 +88,7 @@ namespace BuddyApp.Companion
 			mThermalDetection = BYOS.Instance.Perception.Thermal;
 			mKidnappingDetection = BYOS.Instance.Perception.Kidnapping;
 			mHumanReco = BYOS.Instance.Perception.Human;
-			BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
+			//BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
 
 			mActionManager = GetComponent<ActionManager>();
 			mFace = BYOS.Instance.Interaction.Face;
@@ -277,7 +277,7 @@ namespace BuddyApp.Companion
 			mFace.OnClickMouth.Add(MouthClicked);
 
 			//BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
-			BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_320_H_240;
+			//BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_320_H_240;
 			BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
 		}
 

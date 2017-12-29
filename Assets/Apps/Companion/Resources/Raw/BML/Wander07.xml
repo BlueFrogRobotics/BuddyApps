@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bml id="BeHappy02" category="wander">
+	<synchronized end="2">
+    <faceMoodShift mood="HAPPY"/>
+    <faceExp id="faceExp1" start="0.5" expression="BLINK_BOTH"/>
+    <headYes id="headYes1"  position="-25" speed="600"/>
+  </synchronized>
+  <synchronized end="2" >
+    <faceExp id="faceExp2" start="0.5" expression="SCREAM"/>
+    <sound id="sound1" name="os_laugh_02"/>
+    <move id="move1" angle="180" speed="600"/>
+    <headNo id="headNo2" start="0" end="2" position="50" speed="600"/>
+    <headYes id="headYes2" start="0" end="2" position="25" speed="600"/>
+  </synchronized>
+  <synchronized end="2" >
+    <faceExp id="faceExp3" start="0.5" expression="SCREAM"/>
+    <sound id="sound2" name="os_laugh_05"/>
+    <move id="move2" angle="-180" speed="600"/>
+    <headNo id="headNo3" start="0" end="2" position="-50" speed="600"/>
+    <headYes id="headYes3" start="0" end="2" position="-25" speed="600"/>
+  </synchronized>
+  <synchronized end="2">
+    <faceExp id="faceExp4" start="0.5" expression="BLINK_BOTH"/>
+    <headYes id="headYes4" position="0" speed="600"/>
+    <headNo id="headNo4" end="2" position="0" speed="600"/>
+		<faceMoodShift mood="NEUTRAL"/>
+  </synchronized>
+</bml>

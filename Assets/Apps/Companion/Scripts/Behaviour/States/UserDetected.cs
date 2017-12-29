@@ -67,7 +67,7 @@ namespace BuddyApp.Companion
 		{
 			mState.text = "User Detected move: " + !BYOS.Instance.Primitive.Motors.Wheels.Locked;
 
-			if (BYOS.Instance.Interaction.BMLManager.DonePlaying && !mActionManager.ThermalFollow) {
+			if (BYOS.Instance.Interaction.BMLManager.DonePlaying && !mActionManager.ThermalFollow && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
 				mActionManager.StartThermalFollow(HumanFollowType.ROTATION_AND_HEAD);
 			}
 
@@ -75,25 +75,27 @@ namespace BuddyApp.Companion
 			mTimeState += Time.deltaTime;
 
 			// If human not there anymore
-			if (mTimeHumanDetected > 12F) {
+			if (mTimeHumanDetected > 8F) {
 				if (CompanionData.Instance.InteractDesire > 80)
 					Trigger("SADBUDDY");
-				else if (CompanionData.Instance.InteractDesire > 50)
+				else if (CompanionData.Instance.InteractDesire > 50 && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
 					Trigger("LOOKINGFOR");
-				else if (CompanionData.Instance.MovingDesire > 60) {
+				else if (CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
 					Trigger("WANDER");
 				} else
 					Trigger("IDLE");
 
 
 				// 2) If human detected for a while and want to interact but no interaction, go to Crazy Buddy
-			} else if (mTimeState > 35F && CompanionData.Instance.InteractDesire > 50) {
+			} else if (mTimeState > 15F && CompanionData.Instance.InteractDesire > 50) {
 				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 				Interaction.Face.SetEvent(FaceEvent.SMILE);
 				Trigger("SEEKATTENTION");
 
-				// 3) Otherwise, follow human head / body with head, eye or body
-			} else if (mTimeState > 500F && CompanionData.Instance.MovingDesire > 30) {
+				// 3) Otherwise, go wander
+			} else if (mTimeState > 20F && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+				if (CompanionData.Instance.MovingDesire < 30)
+					CompanionData.Instance.MovingDesire += 30;
 				Interaction.Mood.Set(MoodType.SURPRISED);
 				Trigger("WANDER");
 			} else {
@@ -125,6 +127,7 @@ namespace BuddyApp.Companion
 						break;
 
 					default:
+						mDetectionManager.mDetectedElement = Detected.NONE;
 						break;
 				}
 			}
@@ -134,8 +137,7 @@ namespace BuddyApp.Companion
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Debug.Log("User detected exit");
-			if (mActionManager.ThermalFollow)
-				mActionManager.StopThermalFollow();
+			mActionManager.StopAllActions();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 	}

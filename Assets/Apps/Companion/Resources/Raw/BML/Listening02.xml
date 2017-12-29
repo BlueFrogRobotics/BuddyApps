@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bml id="BeListening02" category="Listening">
+<bml id="BeListening02" category="listening">
   <synchronized end="3">
     <faceMoodShift mood="LISTENING"/>
     <headNo id="headNo2" position="45" speed="600"/>
@@ -18,4 +18,5 @@
     <headYes id="headYes2"  position="0" speed="600"/>
     <move id="move1" angle="-15" speed="600" />
   </synchronized>
+	<faceMoodShift mood="NEUTRAL"/>
 </bml>

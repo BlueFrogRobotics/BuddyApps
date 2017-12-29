@@ -31,7 +31,7 @@ namespace BuddyApp.Companion
 			mState.text = "Robot Touched " + mDetectionManager.mFacePartTouched;
 			Debug.Log("state: Robot Touched: " + mDetectionManager.mFacePartTouched);
 			if (mDetectionManager.mFacePartTouched == FaceTouch.MOUTH) {
-
+				mActionManager.StopAllActions();
 				if (CompanionData.Instance.InteractDesire > 80) {
 					//Interaction.TextToSpeech.Say("Hey! Si on faisait un jeu!", true);
 					Trigger("PROPOSEGAME");

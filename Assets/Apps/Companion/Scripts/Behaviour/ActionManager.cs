@@ -58,14 +58,16 @@ namespace BuddyApp.Companion
 			}
 		}
 
-		public void StartWander(MoodType iMood)
+		public bool StartWander(MoodType iMood)
 		{
-			Debug.Log("Start wander");
-			if (ThermalFollow) {
-				StopThermalFollow();
-			}
-			BYOS.Instance.Navigation.RandomWalk.StartWander(iMood);
-			Wandering = true;
+			if (CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+				Debug.Log("Start wander");
+				StopAllActions();
+				BYOS.Instance.Navigation.RandomWalk.StartWander(iMood);
+				Wandering = true;
+				return true;
+			} else
+				return false;
 		}
 
 		public void StopWander()
@@ -75,14 +77,16 @@ namespace BuddyApp.Companion
 			Wandering = false;
 		}
 
-		public void StartThermalFollow(HumanFollowType iFollowType)
+		public bool StartThermalFollow(HumanFollowType iFollowType)
 		{
-			if (Wandering) {
-				StopWander();
-			}
+			if (CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+				StopAllActions();
 
-			ThermalFollow = true;
-			BYOS.Instance.Navigation.Follow<HumanFollow>().Facing(iFollowType);
+				ThermalFollow = true;
+				BYOS.Instance.Navigation.Follow<HumanFollow>().Facing(iFollowType);
+				return true;
+			} else
+				return false;
 		}
 
 		public void StopThermalFollow()
@@ -95,6 +99,12 @@ namespace BuddyApp.Companion
 		{
 			StopThermalFollow();
 			StopWander();
+			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+		}
+
+		public bool ActiveAction()
+		{
+			return (Wandering || ThermalFollow || !BYOS.Instance.Interaction.BMLManager.DonePlaying);
 		}
 
 		public void HeadReaction()
@@ -130,8 +140,13 @@ namespace BuddyApp.Companion
 
 			} else if (mHeadCounter > 4) {
 				//TODO: play BML instead
-				BYOS.Instance.Interaction.Mood.Set(MoodType.LOVE);
-				mTimeMood = Time.time;
+
+				if (BYOS.Instance.Interaction.BMLManager.DonePlaying && !Wandering)
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("love");
+				else {
+					BYOS.Instance.Interaction.Mood.Set(MoodType.LOVE);
+					mTimeMood = Time.time;
+				}
 			}
 		}
 
@@ -158,7 +173,7 @@ namespace BuddyApp.Companion
 			if (mEyeCounter > 7) {
 				//TODO: play BML instead
 
-				if (BYOS.Instance.Interaction.BMLManager.DonePlaying && !Wandering)
+				if (!ActiveAction())
 					BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
 				else if (Wandering) {
 					StopWander();
@@ -190,6 +205,8 @@ namespace BuddyApp.Companion
 
 		internal void TimedMood(MoodType iMood, float iTime = 5F)
 		{
+			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+			
 			BYOS.Instance.Interaction.Mood.Set(iMood);
 			mTimeMood = Time.time;
 			mDurationMood = iTime;
@@ -207,6 +224,54 @@ namespace BuddyApp.Companion
 		internal void LookCenter()
 		{
 			BYOS.Instance.Interaction.Face.LookAt(FaceLookAt.CENTER);
+		}
+
+
+		internal void RandomActionWander()
+		{
+			StopAllActions();
+			if (UnityEngine.Random.Range(0, 2) == 0)
+				RandomMoodWander();
+			else
+				RandomBMLWander();
+		}
+
+		internal void RandomBMLWander()
+		{
+			StopAllActions();
+			BYOS.Instance.Interaction.BMLManager.LaunchRandom("wander");
+		}
+
+		internal void RandomMoodWander()
+		{
+			int i = UnityEngine.Random.Range(0, 10);
+
+			switch (i) {
+				case 1:
+					StartWander(MoodType.SAD);
+                    break;
+				case 2:
+					StartWander(MoodType.HAPPY);
+                    break;
+				case 3:
+					StartWander(MoodType.SICK);
+					break;
+				case 4:
+					StartWander(MoodType.TIRED);
+					break;
+				case 5:
+					StartWander(MoodType.SCARED);
+					break;
+				case 6:
+					StartWander(MoodType.ANGRY);
+					break;
+				case 7:
+					StartWander(MoodType.LOVE);
+					break;
+				default:
+					StartWander(MoodType.NEUTRAL);
+                    break;
+			}
 		}
 
 		internal void LockAll()

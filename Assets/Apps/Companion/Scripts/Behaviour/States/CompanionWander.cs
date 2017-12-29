@@ -24,10 +24,11 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
 			mTimeThermal = 0F;
 			mTimeRaise = 0F;
 			mTimeLastThermal = 0F;
-            mState.text = "Wander";
+			mState.text = "Wander";
 			mTrigged = false;
 			Debug.Log("state: Wander");
 			Interaction.TextToSpeech.SayKey("startwander", true);
@@ -53,21 +54,28 @@ namespace BuddyApp.Companion
 			mState.text = "WANDER \n interactDesire: " + CompanionData.Instance.InteractDesire
 				+ "\n wanderDesire: " + CompanionData.Instance.MovingDesire;
 
-			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering) {
+			if (!Interaction.BMLManager.DonePlaying)
+				mState.text += "\n BML: " + Interaction.BMLManager.ActiveBML[0].Name;
+			else if (mActionManager.ThermalFollow) {
+				mState.text += "\n thermal follow <3";
+			}
+
+			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.ActiveAction() && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
 				Debug.Log("CompanionWander start wandering");
 				mActionManager.StartWander(mActionManager.WanderingMood);
 			}
 
 			// if we foolow for a while, or lose the target for 5 seconds, go back to wander:
 			if (mActionManager.ThermalFollow && (Time.time - mTimeThermal > CompanionData.Instance.InteractDesire
-				|| (Time.time - mTimeLastThermal > 5.0F)))
+				|| (Time.time - mTimeLastThermal > 5.0F) && Interaction.BMLManager.DonePlaying && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody))
 				mActionManager.StartWander(mActionManager.WanderingMood);
 
 			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
 			switch (mDetectionManager.mDetectedElement) {
 				case Detected.TRIGGER:
-					mTrigged = true;
-					Trigger("VOCALTRIGGERED");
+					//mTrigged = true;
+					//Trigger("VOCALTRIGGERED");
+					mDetectionManager.mDetectedElement = Detected.NONE;
 					break;
 
 				case Detected.TOUCH:
@@ -91,7 +99,7 @@ namespace BuddyApp.Companion
 					if (CompanionData.Instance.InteractDesire > 80 && CompanionData.Instance.InteractDesire > CompanionData.Instance.MovingDesire) {
 						mTrigged = true;
 						Trigger("INTERACT");
-					} else if (CompanionData.Instance.InteractDesire > 30 && !mActionManager.ThermalFollow) {
+					} else if (CompanionData.Instance.InteractDesire > 30 && !mActionManager.ThermalFollow && Interaction.BMLManager.DonePlaying && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
 						//Stop wandering and go to thermal follow
 						Debug.Log("CompanionWander start following " + CompanionData.Instance.InteractDesire);
 						mTimeThermal = Time.time;
@@ -111,6 +119,7 @@ namespace BuddyApp.Companion
 				//	break;
 
 				default:
+					mDetectionManager.mDetectedElement = Detected.NONE;
 					break;
 			}
 
@@ -128,8 +137,8 @@ namespace BuddyApp.Companion
 		{
 			//Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
 			//Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
-			mActionManager.StopWander();
-			mActionManager.StopThermalFollow();
+			mActionManager.StopAllActions();
+			BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 
@@ -142,6 +151,11 @@ namespace BuddyApp.Companion
 
 			// Buddy is moving around, so he wants less and less to move around
 			CompanionData.Instance.MovingDesire -= 10;
+
+
+			// TODO CES HACK
+			if (CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
+				mActionManager.RandomActionWander();
 		}
 
 	}

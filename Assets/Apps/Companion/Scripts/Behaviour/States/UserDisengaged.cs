@@ -40,10 +40,10 @@ namespace BuddyApp.Companion
                 CompanionData.Instance.InteractDesire -= 10;
             }
 
-            if (CompanionData.Instance.MovingDesire > 50) {
+            if (CompanionData.Instance.MovingDesire > 50 & CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
                 Debug.Log("User disengaged -> wander: " + CompanionData.Instance.MovingDesire);
                 iAnimator.SetTrigger("WANDER");
-            } else if (mTimeState > 10F) {
+            } else if (mTimeState > 5F) {
                 iAnimator.SetTrigger("IDLE");
             }
 

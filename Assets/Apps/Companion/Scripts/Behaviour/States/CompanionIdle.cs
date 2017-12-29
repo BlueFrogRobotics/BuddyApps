@@ -32,6 +32,7 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 
+			mActionManager.StopAllActions();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "IDLE";
 			Debug.Log("state: IDLE");
@@ -52,16 +53,11 @@ namespace BuddyApp.Companion
 			//Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
 			//Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = true;
 
+
 			//TODO: remove this when BML
-
-
-			if (mActionManager.ThermalFollow) {
-				mActionManager.StopThermalFollow();
-			}
-
 			//StartCoroutine(SearchingHeadCo());
 			mHeadPlaying = true;
-        }
+		}
 
 
 
@@ -72,7 +68,7 @@ namespace BuddyApp.Companion
 			mTimeIdle += Time.deltaTime;
 			mTimeRaise += Time.deltaTime;
 
-			if ( ((int)mTimeIdle) % 15 == 5 && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
+			if (((int)mTimeIdle) % 15 == 5 && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
 				Debug.Log("Play neutral BML IDLE");
 				BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
 			}
@@ -107,15 +103,15 @@ namespace BuddyApp.Companion
 						Debug.Log("LOOKINGFOR");
 						Trigger("LOOKINGFOR");
 
-					} else if (CompanionData.Instance.MovingDesire > 70) {
+					} else if (CompanionData.Instance.MovingDesire > 70 && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
 						Debug.Log("WANDER");
 						Trigger("WANDER");
 					}
 				}
 
-				if(mTimeRaise > 20F ) {
+				if (mTimeRaise > 20F) {
 					mTimeRaise = 0F;
-                    if (UnityEngine.Random.Range(0, 2) == 0)
+					if (UnityEngine.Random.Range(0, 2) == 0)
 						OnMinuteActivation();
 					else
 						OnRandomMinuteActivation();
@@ -146,13 +142,18 @@ namespace BuddyApp.Companion
 						break;
 
 					case Detected.THERMAL:
-						BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
+						mActionManager.StopAllActions();
+						if (CompanionData.Instance.InteractDesire > 40)
+							BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
+						else
+							BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
+
 						Trigger("INTERACT");
 						break;
 
 					default:
 						mDetectionManager.mDetectedElement = Detected.NONE;
-                        break;
+						break;
 				}
 			}
 		}
@@ -171,11 +172,11 @@ namespace BuddyApp.Companion
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mHeadPlaying = false;
 			//StopCoroutine(SearchingHeadCo());
-        }
+		}
 
 
 
-			
+
 		//This makes the head look right and left on random angles
 		private IEnumerator SearchingHeadCo()
 		{
@@ -186,7 +187,7 @@ namespace BuddyApp.Companion
 						TurnHeadNo(UnityEngine.Random.Range(10F, 30F), UnityEngine.Random.Range(40F, 60F));
 						break;
 					case 1:
-						TurnHeadYes(UnityEngine.Random.Range(- 15F, 15F), UnityEngine.Random.Range(40F, 60F));
+						TurnHeadYes(UnityEngine.Random.Range(-15F, 15F), UnityEngine.Random.Range(40F, 60F));
 						break;
 				}
 				yield return new WaitForSeconds(2.0F);
@@ -219,18 +220,18 @@ namespace BuddyApp.Companion
 			//int lRand = UnityEngine.Random.Range(0, 101);
 
 			//if (lRand < CompanionData.Instance.Bored) {
-				//CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored / 10;
-				//CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored / 10;
+			//CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored / 10;
+			//CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored / 10;
 
-				//TODO remove this (CES hack)
+			//TODO remove this (CES hack)
 
-				if(UnityEngine.Random.Range(0, 2) == 0)
-					CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored;
-				else
-					CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored;
+			if (UnityEngine.Random.Range(0, 2) == 0)
+				CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored;
+			else
+				CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored;
 
-				Interaction.Face.SetEvent(FaceEvent.YAWN);
-				Primitive.Speaker.Voice.Play(VoiceSound.YAWN);
+			Interaction.Face.SetEvent(FaceEvent.YAWN);
+			Primitive.Speaker.Voice.Play(VoiceSound.YAWN);
 			//}
 		}
 

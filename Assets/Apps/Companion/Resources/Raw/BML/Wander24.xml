@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bml id="BeTired01" category="wander">
+	<synchronized end="2">
+    <faceMoodShift mood="TIRED"/>
+    <faceExp id="faceExp2" start="0.5" expression="YAWN"/>
+    <headNo id="headNo1" position="10" speed="600"/>   
+    <headYes id="headYes1"  position="-5" speed="600"/>
+  </synchronized>
+  <synchronized end="2">
+    <gazeShift id="gazeShift2" direction="DOWN"/>
+    <headNo id="headNo2" position="-10" speed="600"/>
+    <headYes id="headYes2"  position="25" speed="600"/>
+  </synchronized>
+  <synchronized>
+    <sound name="os_yawn" start="0.5"/>
+    <faceExp id="faceExp1" start="0.5" expression="SCREAM"/>
+    <gazeShift id="gazeShift3" direction="CENTER"/>
+    <headNo id="headNo3" position="10" speed="600"/>
+    <headYes id="headYes3"  position="10" speed="600"/>
+  </synchronized>
+  <synchronized>
+    <headNo id="headNo4" position="0" speed="600"/>
+    <headYes id="headYes4"  position="20" speed="600"/>
+  </synchronized>
+</bml>

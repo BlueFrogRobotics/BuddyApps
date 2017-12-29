@@ -49,7 +49,7 @@ namespace BuddyApp.Companion
 			mLookingTime = Time.deltaTime;
 
 
-			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
 				Debug.Log("CompanionLooking4 start wandering");
 				mActionManager.StartWander(MoodType.NEUTRAL);
 			}
@@ -92,7 +92,11 @@ namespace BuddyApp.Companion
 							break;
 
 						case Detected.THERMAL:
-							Interaction.Mood.Set(MoodType.HAPPY);
+							if (CompanionData.Instance.InteractDesire > 40)
+								BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
+							else
+								BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
+
 							Trigger("INTERACT");
 							break;
 

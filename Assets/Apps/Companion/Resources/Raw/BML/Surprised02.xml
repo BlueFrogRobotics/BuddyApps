@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bml id="BeSurprised02" category="Surprised">
+<bml id="BeSurprised02" category="surprised">
 	<synchronized>
     <faceMoodShift mood="SURPRISED"/>
-    <sound name="curious_02.wav"/>
+    <sound name="os_curious_02"/>
     <headNo id="headNo1" position="25" speed="600"/>   
     <headYes id="headYes1" position="30" speed="600"/>
     <move id="move1" angle="45" speed="600"/>
@@ -10,7 +10,7 @@
   </synchronized>
   <synchronized>
     <move id="move2" angle="-90" speed="600"/>
-    <sound start="0.5" name="surprised_06.wav"/>
+    <sound start="0.5" name="os_surprised_06"/>
     <faceExp id="faceExp1" start="0.5" expression="SCREAM"/>
     <headNo id="headNo2" position="-25" speed="600"/>
     <headYes id="headYes2" position="-25" speed="600"/>

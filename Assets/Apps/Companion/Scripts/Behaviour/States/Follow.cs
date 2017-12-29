@@ -24,7 +24,7 @@ namespace BuddyApp.Companion
 			mTimeThermal = Time.time;
 			mState.text = "Follow";
 			Debug.Log("state: follow");
-			
+
 		}
 
 
@@ -54,44 +54,45 @@ namespace BuddyApp.Companion
 				// TODO: Maybe Trigger("LOOKINGFOR");
 			}
 
-				// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
-				switch (mDetectionManager.mDetectedElement) {
-					case Detected.TRIGGER:
-						Trigger("VOCALTRIGGERED");
-						break;
+			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
+			switch (mDetectionManager.mDetectedElement) {
+				case Detected.TRIGGER:
+					//Trigger("VOCALTRIGGERED");
+					break;
 
-					case Detected.TOUCH:
-						Trigger("ROBOTTOUCHED");
-						break;
+				case Detected.TOUCH:
+					Trigger("ROBOTTOUCHED");
+					break;
 
-					case Detected.KIDNAPPING:
-						Trigger("KIDNAPPING");
-						break;
+				case Detected.KIDNAPPING:
+					Trigger("KIDNAPPING");
+					break;
 
-					case Detected.BATTERY:
-						mDetectionManager.mDetectedElement = Detected.NONE;
-						Interaction.Mood.Set(MoodType.TIRED);
-						break;
+				case Detected.BATTERY:
+					mDetectionManager.mDetectedElement = Detected.NONE;
+					Interaction.Mood.Set(MoodType.TIRED);
+					break;
 
-					// If thermal signature, nothing
-					case Detected.THERMAL:
-						mDetectionManager.mDetectedElement = Detected.NONE;
-						mTimeThermal = Time.time;
-						break;
+				// If thermal signature, nothing
+				case Detected.THERMAL:
+					mDetectionManager.mDetectedElement = Detected.NONE;
+					mTimeThermal = Time.time;
+					break;
 
-					//case Detected.HUMAN_RGB & Detected.THERMAL:
-					//	// TODO: check false positive level
-					//	mTrigged = true;
-					//	if (CompanionData.Instance.InteractDesire > CompanionData.Instance.MovingDesire) {
-					//		mTrigged = true;
-					//		Trigger("INTERACT");
-					//	}
-					//	break;
+				//case Detected.HUMAN_RGB & Detected.THERMAL:
+				//	// TODO: check false positive level
+				//	mTrigged = true;
+				//	if (CompanionData.Instance.InteractDesire > CompanionData.Instance.MovingDesire) {
+				//		mTrigged = true;
+				//		Trigger("INTERACT");
+				//	}
+				//	break;
 
-					default:
-						break;
-				}
+				default:
+					mDetectionManager.mDetectedElement = Detected.NONE;
+					break;
 			}
+		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{

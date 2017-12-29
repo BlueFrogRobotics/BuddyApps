@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bml id="BeLove02" category="Love">
+<bml id="BeLove02" category="love">
   <synchronized>
     <faceMoodShift mood="LOVE"/>
     <headNo id="headNo1" position="90" speed="600"/>
@@ -27,4 +27,5 @@
     <headYes id="headYes5"  position="0" speed="600"/>
     <faceExp id="faceEx3" start="0.5" expression="BLINK_BOTH"/>
   </synchronized>
+		<faceMoodShift mood="NEUTRAL"/>
 </bml>
