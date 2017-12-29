@@ -42,6 +42,8 @@ namespace BuddyApp.ExperienceCenter
 		*/
         public override void OnQuit()
         {
+			TcpServer lTcpServer =  GameObject.Find ("AIBehaviour").GetComponent<TcpServer> ();
+			lTcpServer.StopServer ();
             Utils.LogI(LogContext.APP, "On quit...");
         }
     }

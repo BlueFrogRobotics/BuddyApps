@@ -5,15 +5,12 @@ using UnityEngine;
 namespace BuddyApp.ExperienceCenter{
 public class ECInitState : StateMachineBehaviour {
 
-		private Animator mMainAnimator;
-		private HTTPRequestManager HTTPClient;
 		private TcpServer mTcpServer;
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
 			mTcpServer =  GameObject.Find ("AIBehaviour").GetComponent<TcpServer> ();
-			mTcpServer.init ();
+			mTcpServer.Init ();
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

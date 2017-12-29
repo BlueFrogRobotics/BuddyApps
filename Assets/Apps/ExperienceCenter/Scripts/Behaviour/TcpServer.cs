@@ -11,9 +11,9 @@ namespace BuddyApp.ExperienceCenter
 {
 	public class TcpServer : MonoBehaviour
 	{
-		public  bool clientConnected = false;
+		public static bool clientConnected ;
+		private static Socket mHandler;
 		private bool mStateSent = false;
-		private Socket mHandler;
 		private AnimatorManager mAnimatorManager;
 
 		private bool mEventClient;
@@ -30,16 +30,16 @@ namespace BuddyApp.ExperienceCenter
 			// Received data string.
 			public StringBuilder Sb = new StringBuilder ();
 		}
-
+			
 		// Use this for initialization
-		public void init ()
+		public void Init ()
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
+			clientConnected = false;
 			StartCoroutine(Listening());
 			InvokeRepeating ("SendStateRequest", 0.5f, 3.0f);
 		}
-
-	
+			
 		private string GetIPAddress ()
 		{
 			IPHostEntry host;
@@ -53,7 +53,7 @@ namespace BuddyApp.ExperienceCenter
 			}
 			return localIP;
 		}
-
+			
 
 		private IEnumerator Listening ()
 		{
@@ -62,11 +62,10 @@ namespace BuddyApp.ExperienceCenter
 			IPEndPoint localEndPoint = new IPEndPoint (ipArray [0], 3000);
 
 			Debug.Log ("[TCP SERVER] Server address and port : " + localEndPoint.ToString ());
-
 			// Create a TCP/IP socket.
 			Socket listener = new Socket (ipArray [0].AddressFamily,
 				                  SocketType.Stream, ProtocolType.Tcp);
-
+			listener.SetSocketOption(SocketOptionLevel.Socket,SocketOptionName.ReuseAddress, true);
 			// Bind the socket to the local endpoint and 
 			// listen for incoming connections.
 				listener.Bind (localEndPoint);
@@ -209,12 +208,16 @@ namespace BuddyApp.ExperienceCenter
 		}
 
 
-		void stopServer ()
+		public void StopServer ()
 		{
-
+			if (mHandler != null && mHandler.Connected)
+			{
+				Debug.LogWarning("Disconnecting all client!");
+				mHandler.Shutdown (SocketShutdown.Both);
+				mHandler.Close ();
+			}
+				
 		}
-
-
 
 	}
 
