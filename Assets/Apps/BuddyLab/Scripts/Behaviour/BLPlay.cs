@@ -42,6 +42,7 @@ namespace BuddyApp.BuddyLab
 
         private void Stop()
         {
+            mItemControl.IsRunning = false;
             GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
             Trigger("Scene");
         }
@@ -54,6 +55,7 @@ namespace BuddyApp.BuddyLab
 
         private IEnumerator Play()
         {
+            mItemControl.IsRunning = true;
             mIsPlaying = true;
             yield return mItemControl.PlaySequence();
             mIsPlaying = false;

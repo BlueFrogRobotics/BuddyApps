@@ -27,6 +27,7 @@ namespace BuddyApp.BuddyLab
             mUIManager.OpenBottomUI();
             mUIManager.OpenLineProgram();
             mUIManager.OpenTrashArea();
+            
             mUIManager.PlayButton.onClick.AddListener(PlaySequence);
         }
 
