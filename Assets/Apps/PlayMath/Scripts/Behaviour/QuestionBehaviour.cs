@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -58,6 +59,8 @@ namespace BuddyApp.PlayMath{
             mVocalManager.OnEndReco = SpeechToTextCallback;
             // Define VocalManager STT Error Callback
             mVocalManager.OnError = ErrorCallback;
+            // Disable default error handling (Buddy asking the user to repeat)
+            mVocalManager.EnableDefaultErrorHandling = false;
             mSTTChoices = new List<string>();
 		}
 
@@ -186,31 +189,41 @@ namespace BuddyApp.PlayMath{
 
         public void SpeechToTextCallback(string iSpeech)
         {
-            // times to times, negative sign are textually given in the answer
-            iSpeech = iSpeech.Replace("moins", "-");
-            iSpeech = iSpeech.Replace("minus", "-");
+            // extract response from any sentence
+            string answer = ExtractNumber(iSpeech);
 
-            // if the result is negative, remove potential space between '-' and the number
-            if (iSpeech.Contains("-"))
-                iSpeech = iSpeech.Replace(" ","");
-
-            if (mSTTChoices.Contains(iSpeech))
+            if (answer!="")
             {
                 HasAnswer = true;
                 mElapsedTime = DateTime.Now - mStartTime;
                 // Pause before annoncing the result (STT notification "I hear...")
                 BYOS.Instance.Interaction.TextToSpeech.Silence(1000, true);
-                ShowResult(iSpeech);
+                ShowResult(answer);
             }
             else
-                Debug.LogWarning("Speech : given answer not in offered choices, restarting vocal reco asap");
+            {
+                mLaunchSTTOnce = false;
+            }
+        }
 
-            mLaunchSTTOnce = false;
+        private string ExtractNumber(string iSpeech)
+        {
+            // retrieve any integer first occurence
+            string match = Regex.Match(iSpeech, @"-?\d+").Value;
+
+            // times to times, negative sign are textually given in the answer
+            if (iSpeech.Contains("minus") || iSpeech.Contains("moins"))
+            {
+                match = "-" + match;
+            }
+
+            return match;
         }
 
         public void ErrorCallback(STTError iError)
         {
-            StartCoroutine(InterruptBuddySpeech());
+            //StartCoroutine(InterruptBuddySpeech());
+            mLaunchSTTOnce = false;
         }
 
         private IEnumerator InterruptBuddySpeech()
