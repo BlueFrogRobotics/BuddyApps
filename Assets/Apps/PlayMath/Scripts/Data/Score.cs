@@ -60,7 +60,6 @@ namespace BuddyApp.PlayMath{
 			lScoreSummary.CorrectAnswers = this.CorrectAnswers;
 			lScoreSummary.Difficulty = this.mGameParams.Difficulty;
 			lScoreSummary.TotalAnswerTime = this.mTotalAnswerTime;
-
 			return lScoreSummary;
 		}
     }

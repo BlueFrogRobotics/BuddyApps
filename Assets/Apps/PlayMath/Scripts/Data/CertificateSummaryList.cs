@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 namespace BuddyApp.PlayMath{
     public class CertificateSummaryList {
-        [XmlElement("list")]
+
         public List<CertificateSummary> Summaries { get; set; }
 
         public CertificateSummaryList()

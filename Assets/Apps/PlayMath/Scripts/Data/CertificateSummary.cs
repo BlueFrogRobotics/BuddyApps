@@ -4,21 +4,27 @@ using UnityEngine;
 using Buddy;
 using System.IO;
 using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace BuddyApp.PlayMath {
     public class CertificateSummary {
 
-        [XmlAttribute("difficulty")]
-        public int Difficulty { get; private set; }
-        [XmlAttribute("operands")]
-        public Operand Operands { get; private set; }
-        [XmlAttribute("table")]
-        public int Table { get; private set; }
-        [XmlAttribute("datetime")]
-        public DateTime TimeStamp { get; private set; }
-        [XmlAttribute("picturepath")]
-        private string mPicturePath;
+        public int Difficulty { get; set; }
+        public Operand Operands { get; set; }
+        public int Table { get; set; }
+        public string PicturePath { get; set; }
 
+        [XmlIgnore]
+        public DateTime TimeStamp { get; set; }
+
+        [XmlElement("TimeStamp")]
+        public string CertificateDateTime
+        {
+            get { return this.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss"); }
+            set { this.TimeStamp = DateTime.Parse(value); }
+        }
+
+        [XmlIgnore]
         public Texture2D Picture { get; private set; }
 
         public CertificateSummary(Certificate certif, bool savePic=true)
@@ -38,8 +44,8 @@ namespace BuddyApp.PlayMath {
                 else
                     levelName = String.Format("{0}lvl{1}", this.Operands.ToString(), this.Difficulty);
 
-                mPicturePath = String.Format("{0}_{1}.jpg", User.Instance.Name, levelName);
-                string fullPath = BYOS.Instance.Resources.GetPathToRaw(mPicturePath, LoadContext.APP);
+                PicturePath = String.Format("{0}_{1}.jpg", User.Instance.Name, levelName);
+                string fullPath = BYOS.Instance.Resources.GetPathToRaw(PicturePath, LoadContext.APP);
                 byte[] bytes = Picture.EncodeToJPG();
                 File.WriteAllBytes(fullPath, bytes);
             }
@@ -60,6 +66,18 @@ namespace BuddyApp.PlayMath {
                 bool second = (this.Operands & ~oSummary.Operands)==0 ; 
                 return ( first && second );
             }
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1311073211;
+            hashCode = hashCode * -1521134295 + Difficulty.GetHashCode();
+            hashCode = hashCode * -1521134295 + Operands.GetHashCode();
+            hashCode = hashCode * -1521134295 + Table.GetHashCode();
+            hashCode = hashCode * -1521134295 + TimeStamp.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(PicturePath);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Texture2D>.Default.GetHashCode(Picture);
+            return hashCode;
         }
     }
 }

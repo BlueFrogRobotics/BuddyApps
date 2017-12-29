@@ -7,21 +7,19 @@ using Buddy;
 using System.Xml.Serialization;
 
 namespace BuddyApp.PlayMath{
-    public class User {
+    public class User{
+        [XmlIgnore]
 		private static User sInstance;
 
-        [XmlAttribute("name")]
-        public string Name { get; private set; }
-        [XmlAttribute("id")]
-        private int id;
-        [XmlElement("game_parameters")]
-        public GameParameters GameParameters { get; private set;}
-        [XmlElement("certificates")]
-        public CertificateSummaryList Certificates{ get; private set; }
-        [XmlElement("scores")]
-        public ScoreSummaryList Scores { get; private set;}
+        public string Name { get; set; }
+        public int Id { get; set; }
 
-        public const string USERFILE = "userdata.xml";
+        public GameParameters GameParameters { get; set;}
+        public CertificateSummaryList Certificates{ get; set; }
+        public ScoreSummaryList Scores { get; set;}
+
+        [XmlIgnore]
+        private const string USERFILE = "userdata.xml";
 
 		/*
          * Singleton access
@@ -38,7 +36,7 @@ namespace BuddyApp.PlayMath{
 
 		public User() {
 			this.Name = "buddy";
-			this.id = 0;
+			this.Id = 0;
 			this.GameParameters = new GameParameters();
 			this.Scores = new ScoreSummaryList();
             this.Certificates = new CertificateSummaryList();
@@ -71,7 +69,8 @@ namespace BuddyApp.PlayMath{
         public static void SaveUser()
         {
             string filename = BYOS.Instance.Resources.GetPathToRaw(USERFILE);
-            Utils.SerializeXML(User.Instance, filename);
+            Utils.SerializeXML<User>(User.Instance, filename);
+            
         }
 
         public static User LoadDefaultUser()

@@ -6,16 +6,22 @@ using System.Xml.Serialization;
 
 namespace BuddyApp.PlayMath{
     public class ScoreSummary {
-        [XmlAttribute("correct_answers")]
 		public int CorrectAnswers { get; set; }
-        [XmlAttribute("bad_answers")]
 		public int BadAnswers { get; set;}
-        [XmlAttribute("answer_time")]
-		public TimeSpan TotalAnswerTime { get; set; }
-        [XmlAttribute("difficulty")]
-		public int Difficulty { get; set; }
+        public int Difficulty { get; set; }
 
-		private double SuccessPercent() {
+        [XmlIgnore]
+        public TimeSpan TotalAnswerTime { get; set; }
+
+        // Pretend property for serialization
+        [XmlElement("TotalAnswerTime")]
+        public long TotalAnswerTimeTicks
+        {
+            get { return TotalAnswerTime.Ticks; }
+            set { TotalAnswerTime = new TimeSpan(value); }
+        }
+
+        private double SuccessPercent() {
 			return ( (double) this.CorrectAnswers / (this.CorrectAnswers + this.BadAnswers) ); 
 		}
 

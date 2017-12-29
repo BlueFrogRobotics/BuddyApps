@@ -19,20 +19,17 @@ namespace BuddyApp.PlayMath{
 	}
 
     public class GameParameters {
-		
+		[XmlIgnore]
 		public const int DIFFICULTY_MAX = 5;
 
 		/// <summary>
 		/// These getter/setter are useful only for serialize the object.
 		/// <para>Prefer <see cref="CheckOperand(Operand operand)"/> and <see cref="SetOperand(Operand operand, bool toSet)"/>.</para>
 		/// </summary>
-        [XmlAttribute("operand")]
-		public Operand Operands { get; private set; }
-        [XmlAttribute("table")]
+		public Operand Operands { get; set; }
 		public int Table { get ; set; }
 
 		private int mDifficulty;
-        [XmlAttribute("difficulty")]
 		public int Difficulty
 		{
 			get 
@@ -49,9 +46,7 @@ namespace BuddyApp.PlayMath{
 				mDifficulty = value;
 			}
 		}
-        [XmlAttribute("sequence")]
 		public int Sequence { get ; set; }
-        [XmlAttribute("timer")]
 		public int Timer { get; set; }
 
 		public GameParameters () {
