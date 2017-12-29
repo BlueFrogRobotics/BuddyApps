@@ -54,7 +54,8 @@ namespace BuddyApp.TakePhoto
 			BYOS.Instance.Resources.GetSpriteFromAtlas("Ico_Twitter"), Color.blue);
 
 			SendTweet(Dictionary.GetRandomString("tweet") + " " + mHashtag);
-			Interaction.TextToSpeech.SayKey("tweetpublished" + mHashtag);
+			Interaction.TextToSpeech.SayKey("tweetpublished", true);
+			Interaction.TextToSpeech.Say(mHashtag, true);
 
 			Trigger("AskPhotoAgain");
 		}

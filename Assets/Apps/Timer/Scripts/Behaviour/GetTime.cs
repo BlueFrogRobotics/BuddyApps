@@ -45,6 +45,7 @@ namespace BuddyApp.Timer
 		private void ParseTime(string iVoice)
 		{
 			int num;
+			int j = 0;
 			string lCnumber;
 			string[] lWord = iVoice.Split(' ');
 			lCnumber = null;
@@ -53,35 +54,36 @@ namespace BuddyApp.Timer
 				if (int.TryParse(lWord[i], out num)) {
 					Debug.Log("int: " + num);
 					lCnumber = lWord[i];
-					i++;
+					j = i + 1;
 				}
 
+				if (j < lWord.Length) {
 
-				//if ((lWord[i].Equals(Dictionary.GetPhoneticStrings("sec")) || lWord[i].Equals(Dictionary.GetPhoneticStrings("secs"))))
-				if (lWord[i].Contains("second") && lCnumber != null) {
-					mFinalsec += Int32.Parse(lCnumber);
-					lCnumber = null;
-					i++;
-				} else if (lWord[i].Contains("minute") && lCnumber != null) {
-					mFinalsec += Int32.Parse(lCnumber) * 60;
-					lCnumber = null;
-					i++;
-				}else if (lWord[i].EndsWith("h")) {
-					Debug.Log("word ends with h: " + lWord[i]);
-					if (lWord[i].Length < 3 && int.TryParse(lWord[i].Remove(lWord[i].Length - 1), out num)) {
+					//if ((lWord[i].Equals(Dictionary.GetPhoneticStrings("sec")) || lWord[i].Equals(Dictionary.GetPhoneticStrings("secs"))))
+					if (lWord[i].Contains("second") && lCnumber != null) {
+						mFinalsec += Int32.Parse(lCnumber);
+						lCnumber = null;
+						i++;
+					} else if (lWord[i].Contains("minute") && lCnumber != null) {
+						mFinalsec += Int32.Parse(lCnumber) * 60;
+						lCnumber = null;
+						i++;
+					} else if (lWord[i].EndsWith("h")) {
 						Debug.Log("word ends with h: " + lWord[i]);
-						mFinalsec += num * 3600;
+						if (lWord[i].Length < 3 && int.TryParse(lWord[i].Remove(lWord[i].Length - 1), out num)) {
+							Debug.Log("word ends with h: " + lWord[i]);
+							mFinalsec += num * 3600;
+							lCnumber = null;
+							i++;
+						}
+					} else if (lWord[i].Contains(Dictionary.GetString("hour")) && lCnumber != null) {
+						mFinalsec += Int32.Parse(lCnumber) * 3600;
 						lCnumber = null;
 						i++;
 					}
-				} else if (lWord[i].Contains(Dictionary.GetString("hour")) &&  lCnumber != null) {
-					mFinalsec += Int32.Parse(lCnumber) * 3600;
-					lCnumber = null;
-					i++;
+					//else if (lWord[i].Equals(Dictionary.GetPhoneticStrings("hour")) || lWord[i].Equals(Dictionary.GetPhoneticStrings("hours")))
 				}
-				//else if (lWord[i].Equals(Dictionary.GetPhoneticStrings("hour")) || lWord[i].Equals(Dictionary.GetPhoneticStrings("hours")))
 			}
-
 
 		}
 
