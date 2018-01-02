@@ -15,6 +15,7 @@ namespace BuddyApp.PlayMath{
         public int Id { get; set; }
 
         public GameParameters GameParameters { get; set;}
+        [XmlIgnore]
         public CertificateSummaryList Certificates{ get; set; }
         public ScoreSummaryList Scores { get; set;}
 
