@@ -147,6 +147,9 @@ namespace BuddyApp.PlayMath{
             mResult.UserAnswer = answer;
             mResult.ElapsedTime = mElapsedTime.TotalSeconds;
 
+            // Ends vocal recognition coroutine
+            this.StopAllCoroutines();
+
             mPlayMathAnimator.SetTrigger("Result");
         }
 
@@ -183,8 +186,13 @@ namespace BuddyApp.PlayMath{
                         mVocalManager.StartInstantReco(false);
                     }
                 }
-                yield return null;
+                yield return new WaitForSeconds(0.5f);
             }
+        }
+
+        public void ErrorCallback(STTError iError)
+        {
+            mLaunchSTTOnce = false;
         }
 
         public void SpeechToTextCallback(string iSpeech)
@@ -220,19 +228,6 @@ namespace BuddyApp.PlayMath{
             return match;
         }
 
-        public void ErrorCallback(STTError iError)
-        {
-            //StartCoroutine(InterruptBuddySpeech());
-            mLaunchSTTOnce = false;
-        }
-
-        private IEnumerator InterruptBuddySpeech()
-        {
-            yield return new WaitUntil(() => mTTS.IsSpeaking);
-            mTTS.Stop();
-            mLaunchSTTOnce = false;
-        }
-
         private IEnumerator WaitAnnouncement()
         {
             yield return new WaitUntil(() => mTTS.HasFinishedTalking);
@@ -251,6 +246,8 @@ namespace BuddyApp.PlayMath{
                 mTriggerOnce = false;
                 mPlayMathAnimator.SetTrigger("BackToMenu");
             }
+            // Ends vocal recognition coroutine
+            this.StopAllCoroutines();
         }
-   	}
+    }
 }
