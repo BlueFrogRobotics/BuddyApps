@@ -23,6 +23,7 @@ namespace BuddyApp.TakePhoto
 		[SerializeField]
 		private string questionKey;
 		private int mError;
+		private bool mQuit;
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -31,6 +32,7 @@ namespace BuddyApp.TakePhoto
 			mListening = false;
 			mSpeechReco = "";
 
+			mQuit = false;
 			mError = 0;
 			Interaction.TextToSpeech.SayKey("nicepic");
 			Interaction.TextToSpeech.SayKey(questionKey, true);
@@ -47,6 +49,9 @@ namespace BuddyApp.TakePhoto
 		{
 			if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
 				return;
+			else if (mQuit) {
+				QuitApp();
+			}
 
 			if (string.IsNullOrEmpty(mSpeechReco)) {
 				Interaction.SpeechToText.Request();
@@ -71,7 +76,6 @@ namespace BuddyApp.TakePhoto
 					Interaction.TextToSpeech.Silence(1000, true);
 					Interaction.TextToSpeech.SayKey(questionKey, true);
                 }
-
 				mSpeechReco = "";
 			}
 
@@ -84,7 +88,8 @@ namespace BuddyApp.TakePhoto
 			if (Primitive.RGBCam.IsOpen) {
 				Primitive.RGBCam.Close();
 			}
-			QuitApp();
+			Interaction.TextToSpeech.SayKey("bye");
+			mQuit = true;
 		}
 
 		private void OnSpeechReco(string iVoiceInput)
