@@ -78,5 +78,10 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.Silence (500, true);
 		}
 
+		public void StopBehaviour ()
+		{
+			mTTS.Stop ();
+			StopAllCoroutines ();
+		}
 	}
 }

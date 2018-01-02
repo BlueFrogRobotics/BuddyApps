@@ -46,6 +46,7 @@ namespace BuddyApp.ExperienceCenter
 		
 		[SerializeField]
 		private Animator mMainAnimator;
+		private IdleBehaviour mIdleBehaviour;
 		private bool mSwitchOnce;
 		private string mOldState;
 		public Dictionary <string, bool> stateDict;
@@ -55,6 +56,7 @@ namespace BuddyApp.ExperienceCenter
 			mOldState = "";
 			mSwitchOnce = true;
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
+			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			InitStateDict ();
 		}
 
@@ -71,12 +73,18 @@ namespace BuddyApp.ExperienceCenter
 				}
 				if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName (mOldState + " State")) {
 					string state = GetTrigger ();
+					if (mOldState == "Idle") {
+						
+						if (!mIdleBehaviour.behaviourInit) {
+							Debug.LogWarning ("Waiting for Head postion to be initialized !");
+							return;
+						}
+					}
 					if (state != "" && state != mOldState) {
 						if (mSwitchOnce) {
 							mMainAnimator.SetTrigger (state);
 							mSwitchOnce = false;
 						}
-
 					}
 				}
 			} else {

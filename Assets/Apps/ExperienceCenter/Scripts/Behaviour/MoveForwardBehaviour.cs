@@ -38,5 +38,10 @@ namespace BuddyApp.ExperienceCenter
 			yield return new WaitUntil(() => Math.Abs(BYOS.Instance.Primitive.Motors.Wheels.Odometry.x - destinationPoseX) <= DISTANCE_THRESHOLD );
 		}
 
+		public void StopBehaviour ()
+		{
+			StopAllCoroutines ();
+		}
+
 	}
 }
