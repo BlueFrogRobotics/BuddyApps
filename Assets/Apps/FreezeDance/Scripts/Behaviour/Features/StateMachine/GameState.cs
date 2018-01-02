@@ -64,7 +64,7 @@ namespace BuddyApp.FreezeDance
                 if (lTime - mTime > 3.5f && !mHasDetected && !mHasTalked)
                 {
                     //Interaction.Mood.Set(MoodType.ANGRY);
-                    Interaction.TextToSpeech.Say("bouge");
+                    Interaction.TextToSpeech.Say(Dictionary.GetRandomString("move"));
                     mHasTalked = true;
                 }
 

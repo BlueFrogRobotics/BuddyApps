@@ -144,7 +144,7 @@ namespace BuddyApp.Weather
             string[] words = iSpeech.Split(' ');
             for (int iw = 0; iw < words.Length; ++iw)
             {
-                if (words[iw].ToLower() == Dictionary.GetString("inlocation"))
+                if (words[iw].ToLower() == Dictionary.GetString("inlocation") && iw + 1 < words.Length)
                 {
                     if (char.IsUpper(words[iw + 1][0]))
                     {

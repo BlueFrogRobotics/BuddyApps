@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace BuddyApp.Weather
 {
-	public class Restitution : AStateMachineBehaviour
-	{
-		private float mTimer;
+    public class Restitution : AStateMachineBehaviour
+    {
+        private float mTimer;
 
         private List<WeatherPanel> trip;
         private WeatherMan mMan;
@@ -19,135 +19,176 @@ namespace BuddyApp.Weather
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-		{
-			mWeatherB = GetComponent<WeatherBehaviour>();
+        {
+            mWeatherB = GetComponent<WeatherBehaviour>();
             mWeatherB.mIsOk = true;
 
             mMan = GetComponent<WeatherMan>();
             //mPanel = GetComponent<WeatherPanel>();
 
             trip = mMan.block;
-			Debug.Log("ENTER RESTITUTION");
-			mTimer = 0F;
-			Debug.Log("ENTER RESTITUTION: " + mWeatherB.mIndice + " Weather info size: " + mWeatherB.mWeatherInfos.Length);
-			WeatherInfo lWeatherInfo = new WeatherInfo();
-			if (mWeatherB.mIndice != -1)
-				lWeatherInfo = mWeatherB.mWeatherInfos[mWeatherB.mIndice];
+            Debug.Log("ENTER RESTITUTION");
+            mTimer = 0F;
+            Debug.Log("ENTER RESTITUTION: " + mWeatherB.mIndice + " Weather info size: " + mWeatherB.mWeatherInfos.Length);
+            WeatherInfo lWeatherInfo = new WeatherInfo();
+            if (mWeatherB.mIndice != -1)
+                lWeatherInfo = mWeatherB.mWeatherInfos[mWeatherB.mIndice];
 
-			// Tell the weather
-			string lAnswer = "";
-			string lDayString = "";
-			if (mWeatherB.mDate < 1)
-				lDayString = Dictionary.GetString("today");
-			else if (mWeatherB.mDate == 1)
-				lDayString = Dictionary.GetString("tomorrow");
-			else if (mWeatherB.mDate == 2)
-				lDayString = Dictionary.GetString("dayaftertomorrow");
-			else
-				lDayString = Dictionary.GetString("intime") + " " + mWeatherB.mDate + " " + Dictionary.GetString("days");
+            // Tell the weather
+            string lAnswer = "";
+            string lDayString = "";
+            if (mWeatherB.mDate < 1)
+                lDayString = Dictionary.GetString("today");
+            else if (mWeatherB.mDate == 1)
+                lDayString = Dictionary.GetString("tomorrow");
+            else if (mWeatherB.mDate == 2)
+                lDayString = Dictionary.GetString("dayaftertomorrow");
+            else
+                lDayString = Dictionary.GetString("intime") + " " + mWeatherB.mDate + " " + Dictionary.GetString("days");
 
-			//No info
-			//if (mWeatherB.mVocalRequest == "") {
-			//	lAnswer = Dictionary.GetString("today") + " " + Dictionary.GetRandomString("temperaturewillbe") + WeatherInfo.Temperature
-			//		+ " " + Dictionary.GetRandomString("degreesanditisa") + " " + WeatherInfo.Type.ToString() + " " + Dictionary.GetString("day");
+            //No info
+            //if (mWeatherB.mVocalRequest == "") {
+            //	lAnswer = Dictionary.GetString("today") + " " + Dictionary.GetRandomString("temperaturewillbe") + WeatherInfo.Temperature
+            //		+ " " + Dictionary.GetRandomString("degreesanditisa") + " " + WeatherInfo.Type.ToString() + " " + Dictionary.GetString("day");
 
-			//Forecast info
-			//} else 
+            //Forecast info
+            //} else 
 
-			if (mWeatherB.mForecast != WeatherType.UNKNOWN) {
-				if (mWeatherB.mWhen) {
+            if (mWeatherB.mForecast != WeatherType.UNKNOWN) {
+                if (mWeatherB.mWhen) {
+                    if (mWeatherB.mIndice != -1) {
 
-					if (mWeatherB.mIndice != -1) {
+                        // Give date: It will rain ...
+                        lAnswer = Dictionary.GetRandomString("itwillbe") + " " + Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + Dictionary.GetRandomString("the") + " " + EnglishDate(lWeatherInfo.Day)  + " " + Dictionary.GetRandomString("inlocation") + " " + EnglishHour(lWeatherInfo.Hour) + " " + Dictionary.GetRandomString("hour") + " ";
+                    } else {
+                        // Deny: There is no rain forecast for upcoming week
+                        lAnswer = Dictionary.GetRandomString("notexpect") + Dictionary.GetRandomString(mWeatherB.mForecast.ToString().ToLower() + "ing");
 
-
-						// Give date: It will rain ...
-						lAnswer = Dictionary.GetRandomString("itwillbe") + " " + Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " le " + lWeatherInfo.Day + " à " + lWeatherInfo.Hour + " " + Dictionary.GetRandomString("hour") + " ";
-					} else {
-						// Deny: There is no rain forecast for upcoming week
-						lAnswer = "Il n'est pas prévu de " + Dictionary.GetRandomString(mWeatherB.mForecast.ToString().ToLower());
-
-						if (mWeatherB.mDate == -1) {
-							lAnswer += " cette semaine";
-						} else {
-							lAnswer += " " + lDayString;
-						}
-
-					}
-				} else {
+                        if (mWeatherB.mDate == -1) {
+                            lAnswer += " " + Dictionary.GetRandomString("week");
+                        } else {
+                            lAnswer += " " + lDayString;
+                        }
+                    }
+                } else {
 
 
-					string lNoAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("itwillbe") + " "
-					+ Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " "  + Dictionary.GetRandomString("at") + " " + lWeatherInfo.Hour + " " + Dictionary.GetRandomString("hour");
-					string lYesAnswer = Dictionary.GetRandomString("yes") + " " + Dictionary.GetRandomString("itwillbe") + " "
-						+ Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " " + Dictionary.GetRandomString("at") + " " + lWeatherInfo.Hour + " " + Dictionary.GetRandomString("hour");
+                    string lNoAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("itwillbe") + " "
+                    + Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " " + Dictionary.GetRandomString("at") + " " + EnglishHour(lWeatherInfo.Hour);
+                    string lYesAnswer = Dictionary.GetRandomString("yes") + " " + Dictionary.GetRandomString("itwillbe") + " "
+                        + Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " " + Dictionary.GetRandomString("at") + " " + EnglishHour(lWeatherInfo.Hour);
 
                     if (mWeatherB.mForecast != lWeatherInfo.Type)
                     {
                         if ((mWeatherB.mForecast == WeatherType.CHANCE_OF_RAIN && lWeatherInfo.Type == WeatherType.RAIN) || (mWeatherB.mForecast == WeatherType.RAIN && lWeatherInfo.Type == WeatherType.CHANCE_OF_RAIN))
                             lAnswer = lYesAnswer;
                         else
-                             lAnswer = lNoAnswer;
+                            lAnswer = lNoAnswer;
                     }
                     else
                         lAnswer = lYesAnswer;
 
-					//if (mWeatherB.mForecast == WeatherType.SNOWY)
-					//	if (lWeatherInfo.Type == Buddy.WeatherType.CLOUDY || lWeatherInfo.Type == Buddy.WeatherType.SUNNY)
-					//		lAnswer = lNoAnswer;
-					//	else
-					//		lAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("but") + " " + Dictionary.GetRandomString("itwillbe") + " " + lWeatherInfo.Type.ToString() + " " + lDayString;
+                    //if (mWeatherB.mForecast == WeatherType.SNOWY)
+                    //	if (lWeatherInfo.Type == Buddy.WeatherType.CLOUDY || lWeatherInfo.Type == Buddy.WeatherType.SUNNY)
+                    //		lAnswer = lNoAnswer;
+                    //	else
+                    //		lAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("but") + " " + Dictionary.GetRandomString("itwillbe") + " " + lWeatherInfo.Type.ToString() + " " + lDayString;
 
-					//else if (mWeatherB.mForecast == WeatherType.CLOUDY)
-					//	if (lWeatherInfo.Type == Buddy.WeatherType.CLOUDY)
-					//		lAnswer = lYesAnswer;
-					//	else
-					//		lAnswer = lNoAnswer;
+                    //else if (mWeatherB.mForecast == WeatherType.CLOUDY)
+                    //	if (lWeatherInfo.Type == Buddy.WeatherType.CLOUDY)
+                    //		lAnswer = lYesAnswer;
+                    //	else
+                    //		lAnswer = lNoAnswer;
 
-					//else if (mWeatherB.mForecast == WeatherType.SUNNY)
-					//	if (lWeatherInfo.Type == Buddy.WeatherType.SUNNY)
-					//		lAnswer = lYesAnswer;
-					//	else
-					//		lAnswer = lNoAnswer;
+                    //else if (mWeatherB.mForecast == WeatherType.SUNNY)
+                    //	if (lWeatherInfo.Type == Buddy.WeatherType.SUNNY)
+                    //		lAnswer = lYesAnswer;
+                    //	else
+                    //		lAnswer = lNoAnswer;
 
-					//else if (mWeatherB.mForecast == WeatherType.RAIN)
-					//	if (lWeatherInfo.Type == Buddy.WeatherType.RAIN)
-					//		lAnswer = lYesAnswer;
-					//	else
-					//		lAnswer = lNoAnswer;
-				}
-			} else {
+                    //else if (mWeatherB.mForecast == WeatherType.RAIN)
+                    //	if (lWeatherInfo.Type == Buddy.WeatherType.RAIN)
+                    //		lAnswer = lYesAnswer;
+                    //	else
+                    //		lAnswer = lNoAnswer;
+                }
+            } else {
                 lAnswer = Dictionary.GetRandomString("restitution");
                 lAnswer = lAnswer.Replace("[date]", lDayString);
-                if (BYOS.Instance.Language.CurrentLang == Language.FR)
-                {
-                    lAnswer = lAnswer.Replace("[hour]", lWeatherInfo.Hour.ToString());
-                }
-                else
-                {
-                    if (lWeatherInfo.Hour > 12 && lWeatherInfo.Hour != 24)
-                    {
-                        lAnswer = lAnswer.Replace("[hour]", (lWeatherInfo.Hour - 12).ToString() + " pm");
-                    }
-                    else if (lWeatherInfo.Hour == 12)
-                    {
-                        lAnswer = lAnswer.Replace("[hour]", lWeatherInfo.Hour.ToString() + " pm");
-                    }
-                    else
-                    {
-                        if (lWeatherInfo.Hour != 24)
-                            lWeatherInfo.Hour = lWeatherInfo.Hour - 12;
-                        lAnswer = lAnswer.Replace("[hour]", (lWeatherInfo.Hour - 12).ToString() + " am");
-                    }
-                }
+                lAnswer = lAnswer.Replace("[hour]", EnglishHour(lWeatherInfo.Hour));
                 lAnswer = lAnswer.Replace("[degree]", lWeatherInfo.MinTemperature.ToString());
                 lAnswer = lAnswer.Replace("[forecast]", Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")));
             }
 
             if (mWeatherB.mName != "")
-				Interaction.TextToSpeech.Say(lAnswer + " " + Dictionary.GetRandomString("inlocation") + " " + mWeatherB.mName);
+                Interaction.TextToSpeech.Say(lAnswer + " " + Dictionary.GetRandomString("inlocation") + " " + mWeatherB.mName);
 
             StartCoroutine(Example(mWeatherB.mWeatherInfos));
-    }
+        }
+
+        private string EnglishHour(int Hour)
+        {
+            string lHour;
+
+            if (BYOS.Instance.Language.CurrentLang == Language.FR)
+            {
+                lHour = Hour.ToString() + " heure";
+            }
+            else
+            {
+                if (Hour > 12 && Hour != 24)
+                {
+                    lHour = (Hour - 12).ToString() + " pm";
+                }
+                else if (Hour == 12)
+                {
+                    lHour = Hour.ToString() + " pm";
+                }
+                else
+                {
+                    if (Hour == 24)
+                        Hour = Hour - 12;
+                    lHour = Hour.ToString() + " am ";
+                }
+            }
+            return (lHour);
+        }
+
+
+        private string EnglishDate(int Date)
+        {
+            string lDate;
+
+            if (BYOS.Instance.Language.CurrentLang == Language.FR)
+            {
+                if (Date == 1)
+                    lDate = "premier";
+                else
+                {
+                    lDate = Date.ToString();
+                }
+            }
+            else
+            {
+                if (Date == 1)
+                {
+                    lDate = "first";
+                }
+                else if (Date == 2)
+                {
+                    lDate = "second";
+                }
+                else if (Date == 3)
+                {
+                    lDate = "third";
+                }
+                else
+                {
+                    lDate = Date.ToString() + "th";
+                }
+            }
+            return (lDate);
+        }
 
         IEnumerator Example(WeatherInfo[] lWeatherInfo)
         {

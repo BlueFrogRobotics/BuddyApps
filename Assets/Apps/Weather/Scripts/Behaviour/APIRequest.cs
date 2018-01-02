@@ -109,6 +109,7 @@ namespace BuddyApp.Weather
 			mWeatherB.mIndice = -1;
 			mWeatherB.mRequestError = WeatherBehaviour.WeatherRequestError.UNKNOWN;
 			bool lFound = false;
+            int j = 0;
 
             Debug.Log(mWeatherB.mHour + "HOUUUUUUUR");
 
@@ -151,7 +152,8 @@ namespace BuddyApp.Weather
                     Debug.Log("Horraire" + lHour);
 
 					for (int i = 0; i < iWeather.Length; ++i) {
-						if (iWeather[i].Day == lDay && iWeather[i].Type == iWeatherType && iWeather[i].Hour == lHour) {
+						if (iWeather[i].Day == lDay && ((iWeather[i].Type == WeatherType.CHANCE_OF_RAIN && iWeatherType == WeatherType.RAIN) || (iWeather[i].Type == WeatherType.RAIN && iWeatherType == WeatherType.CHANCE_OF_RAIN)
+                            || iWeather[i].Type == iWeatherType)) {
 							mWeatherB.mIndice = i;
 							lFound = true;
 							break;
@@ -173,15 +175,16 @@ namespace BuddyApp.Weather
 				if (mWeatherB.mDate < 1 ) {
 					int lHour = DateTime.Now.Hour;
 					if (mWeatherB.mHour == -1) {
-						//quel temps va t'il faire aujourdhui?
-						for (int i = 0; i< iWeather.Length; ++i) {
-							if (lHour < iWeather[i].Hour) {
-								mWeatherB.mIndice = i;
-								lFound = true;
-								break;
-							}
-                        }
-
+                        ////quel temps va t'il faire aujourdhui?
+                        //for (int i = 0; i< iWeather.Length; ++i) {
+                        //	if (lHour < iWeather[i].Hour) {
+                        //		mWeatherB.mIndice = i;
+                        //		lFound = true;
+                        //		break;
+                        //	}
+                        //                  }
+                        mWeatherB.mIndice = 0;
+                        lFound = true;
                     }
                     else if (mWeatherB.mHour >= 0) {
 
@@ -202,14 +205,32 @@ namespace BuddyApp.Weather
 
 				} else if (mWeatherB.mDate > 0) {
 					int lDay = DateTime.Now.Day;
+                    int k = lDay;
 					if (mWeatherB.mHour == -1) {
-						for (int i = 0; i < iWeather.Length; ++i) {
-							if (mWeatherB.mHour < iWeather[i].Hour && iWeather[i].Day - lDay == mWeatherB.mDate) {
-								mWeatherB.mIndice = i;
-								lFound = true;
-								break;
-							}
-						}
+                        for (int i = 0; i < iWeather.Length; ++i) {
+                            if (iWeather[i].Day != k)
+                            {
+                                k = iWeather[i].Day;
+                                j++;
+                            }
+                            //if (mWeatherB.mHour < iWeather[i].Hour && iWeather[i].Day - lDay == mWeatherB.mDate) {
+                            //	mWeatherB.mIndice = i;
+                            //	lFound = true;
+                            //	break;
+                            //}
+
+                        //    if (iWeather[i].Day - lDay == mWeatherB.mDate)
+                            if (j == mWeatherB.mDate)
+                            {
+                                Debug.Log("Hello");
+                                mWeatherB.mIndice = i;
+                                k = 0;
+                                j = 0;
+                                lFound = true;
+                                break;
+                            }
+
+                        }
 
 					} else {
 						for (int i = 0; i< iWeather.Length; ++i) {

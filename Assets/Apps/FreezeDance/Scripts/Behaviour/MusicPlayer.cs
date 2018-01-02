@@ -88,7 +88,7 @@ namespace BuddyApp.FreezeDance
         {
             Debug.Log("restart music");
             speaker.clip = null;
-            speaker.clip = clip;
+            speaker.clip = clips[0];
             mElapsedTime = 0.0f;
             mIsStopped = false;
             mAudioClipLength = speaker.clip.length;
