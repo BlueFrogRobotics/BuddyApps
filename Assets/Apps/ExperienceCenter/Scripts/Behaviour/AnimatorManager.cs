@@ -37,7 +37,8 @@ namespace BuddyApp.ExperienceCenter
 		CommandRequest = 0x90,
 		CommandResponse = 0x80,
 		StateRequest = 0x70,
-		StateResponse = 0x60
+		StateResponse = 0x60,
+        ServerBusy = 0x50
 	}
 
 	public class AnimatorManager : MonoBehaviour
@@ -45,31 +46,28 @@ namespace BuddyApp.ExperienceCenter
 		
 		[SerializeField]
 		private Animator mMainAnimator;
-		private string mOldState = "";
-		private bool mSwitchOnce = true;
-		public bool clientConnected = false;
+		private bool mSwitchOnce;
+		private string mOldState;
 		public Dictionary <string, bool> stateDict;
-
-		public AnimatorManager ()
-		{
-		}
 
 		void Start ()
 		{
+			mOldState = "";
+			mSwitchOnce = true;
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
 			InitStateDict ();
 		}
 
 		void Update ()
 		{
-			if (clientConnected) {
+			if (TcpServer.clientConnected) {
 				if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName ("Init EC State")) {
 					if (mSwitchOnce) {
 						mMainAnimator.SetTrigger ("Idle");
 						Debug.Log ("[Animator] Switch to State: Idle");
 						mSwitchOnce = false;
+						stateDict ["Idle"] = true;
 					}
-					stateDict ["Idle"] = true;
 				}
 				if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName (mOldState + " State")) {
 					string state = GetTrigger ();
@@ -94,14 +92,14 @@ namespace BuddyApp.ExperienceCenter
 
 		private void InitStateDict ()
 		{
-			stateDict = new Dictionary<string, bool> ();
-			stateDict.Add ("Idle", false);
-			stateDict.Add ("Welcome", false);
-			stateDict.Add ("Questions", false);
-			stateDict.Add ("ByeBye", false);
-			stateDict.Add ("MoveForward", false);
-			stateDict.Add ("IOT", false);
-			stateDict.Add ("Walk", false);
+				stateDict = new Dictionary<string, bool> ();
+				stateDict.Add ("Idle", false);
+				stateDict.Add ("Welcome", false);
+				stateDict.Add ("Questions", false);
+				stateDict.Add ("ByeBye", false);
+				stateDict.Add ("MoveForward", false);
+				stateDict.Add ("IOT", false);
+				stateDict.Add ("Walk", false);
 		}
 
 		public void ActivateCmd (byte cmd)
@@ -122,9 +120,9 @@ namespace BuddyApp.ExperienceCenter
 		    
 			if (stateDict ["Welcome"] ) {
 				switch ((Command)cmd) {
-				case Command.Idle: 
+				case Command.Stop: 
 					{
-						UpdateStateDict ((Command)cmd, "Welcome"); 
+						UpdateStateDict (Command.Idle, "Welcome"); 
 						break;
 					}
 				default:
@@ -135,9 +133,9 @@ namespace BuddyApp.ExperienceCenter
 			if (stateDict ["ByeBye"]) {
 				switch ((Command)cmd) {
 				case Command.MoveForward:
-				case Command.Idle: 
+				case Command.Stop: 
 					{
-						UpdateStateDict ((Command)cmd, "ByeBye"); 
+						UpdateStateDict (Command.Idle, "ByeBye"); 
 						break;
 					}
 				default:
@@ -147,9 +145,9 @@ namespace BuddyApp.ExperienceCenter
 
 			if (stateDict ["Questions"] ) {
 				switch ((Command)cmd) {
-				case Command.Idle: 
+				case Command.Stop: 
 					{
-						UpdateStateDict ((Command)cmd, "Questions"); 
+						UpdateStateDict (Command.Idle, "Questions"); 
 						break;
 					}
 				default:
@@ -160,9 +158,9 @@ namespace BuddyApp.ExperienceCenter
 			if (stateDict ["MoveForward"]) {
 				switch ((Command)cmd) {
 				case Command.IOT:
-				case Command.Idle: 
+				case Command.Stop: 
 					{
-						UpdateStateDict ((Command)cmd, "MoveForward"); 
+						UpdateStateDict (Command.Idle, "MoveForward"); 
 						break;
 					}
 				default:
@@ -172,17 +170,15 @@ namespace BuddyApp.ExperienceCenter
 				
 			if (stateDict ["IOT"]) {
 				switch ((Command)cmd) {
-				case Command.Idle: 
+				case Command.Stop: 
 					{
-						UpdateStateDict ((Command)cmd, "IOT"); 
+						UpdateStateDict (Command.Idle, "IOT"); 
 						break;
 					}
 				default:
 					break;
 				}
 			}
-
-
 		}
 
 

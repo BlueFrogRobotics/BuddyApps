@@ -60,7 +60,7 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.SayKey ("welcomeregarder", true);
 
 			yield return new WaitWhile(() => !mTTS.HasFinishedTalking);
-			mAnimatorManager.ActivateCmd ((byte)(Command.Idle));
+			mAnimatorManager.ActivateCmd ((byte)(Command.Stop));
 		}
 
 		private IEnumerator MoveHeadYesHinge (float lYesAngle, float lYesSpeed)

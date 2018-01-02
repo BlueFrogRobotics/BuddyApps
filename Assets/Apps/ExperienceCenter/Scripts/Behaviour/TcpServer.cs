@@ -11,12 +11,13 @@ namespace BuddyApp.ExperienceCenter
 {
 	public class TcpServer : MonoBehaviour
 	{
-		public static bool clientConnected ;
-		private static Socket mHandler;
-		private bool mStateSent = false;
-		private AnimatorManager mAnimatorManager;
+		public static bool clientConnected;
 
-		private bool mEventClient;
+		private static Socket mHandler;
+		private static AnimatorManager mAnimatorManager;
+		private static bool mStateSent;
+		private static bool mEventClient;
+		private bool mStop;
 
 		// State object for reading client data asynchronously
 		private class StateObject
@@ -36,10 +37,12 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			clientConnected = false;
-			StartCoroutine(Listening());
+			mStop = false;
+			mStateSent = false;
+			StartCoroutine (Listening ());
 			InvokeRepeating ("SendStateRequest", 0.5f, 3.0f);
 		}
-			
+
 		private string GetIPAddress ()
 		{
 			IPHostEntry host;
@@ -53,7 +56,7 @@ namespace BuddyApp.ExperienceCenter
 			}
 			return localIP;
 		}
-			
+
 
 		private IEnumerator Listening ()
 		{
@@ -63,53 +66,52 @@ namespace BuddyApp.ExperienceCenter
 
 			Debug.Log ("[TCP SERVER] Server address and port : " + localEndPoint.ToString ());
 			// Create a TCP/IP socket.
+			//Debug.LogWarning (listener.Connected);
 			Socket listener = new Socket (ipArray [0].AddressFamily,
 				                  SocketType.Stream, ProtocolType.Tcp);
 			listener.SetSocketOption(SocketOptionLevel.Socket,SocketOptionName.ReuseAddress, true);
 			// Bind the socket to the local endpoint and 
 			// listen for incoming connections.
-				listener.Bind (localEndPoint);
-				listener.Listen (10);
 
-				// Start listening for connections.
-				while (true) {
-					mEventClient = false;
-					listener.BeginAccept (
-						new AsyncCallback (AcceptCallback),
-						listener);
-				
-					yield return new WaitUntil(() => mEventClient );
+			listener.Bind (localEndPoint);
+			listener.Listen (10);
+
+			// Start listening for connections.
+			Debug.Log ("Start listening");
+			while (true) {
+				mEventClient = false;
+				listener.BeginAccept (
+					new AsyncCallback (AcceptCallback),
+					listener);
+				yield return new WaitUntil (() => mEventClient || mStop);
+				if (mStop) {
+					break;
 				}
+			}
+			Debug.LogWarning ("Stop listening");
 		}
 
 
-		public void AcceptCallback (IAsyncResult ar)
+		public static void AcceptCallback (IAsyncResult ar)
 		{
 			mEventClient = true;
 			if (!clientConnected) {
 				// Get the socket that handles the client request.
 				Socket listener = (Socket)ar.AsyncState;
-				Socket handler = listener.EndAccept (ar);
-				mHandler = handler;
+				mHandler = listener.EndAccept (ar);
 				// Create the state object.
 				StateObject state = new StateObject ();
-				state.workSocket = handler;
-				handler.BeginReceive (state.buffer, 0, StateObject.bufferSize, 0,
+				state.workSocket = mHandler;
+				mHandler.BeginReceive (state.buffer, 0, StateObject.bufferSize, 0,
 					new AsyncCallback (ReadCallback), state);
 
-				IPEndPoint clientIP = handler.RemoteEndPoint as IPEndPoint;
+				IPEndPoint clientIP = mHandler.RemoteEndPoint as IPEndPoint;
 				Debug.Log ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " connected");
 				clientConnected = true;
-				mAnimatorManager.clientConnected = true;
 			} else {
 				Socket listener = (Socket)ar.AsyncState;
 				Socket handler = listener.EndAccept (ar);
-				string message = "Server busy";
-				// Convert the string data to byte data using ASCII encoding.
-				byte[] byteData = Encoding.ASCII.GetBytes (message);
-				// Begin sending the data to the remote device.
-				handler.BeginSend (byteData, 0, byteData.Length, 0,
-					new AsyncCallback (SendCallback), handler);
+				SendServerBusy (handler);
 				IPEndPoint clientIP = handler.RemoteEndPoint as IPEndPoint;
 				Debug.LogWarning ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " wants to connect, but server is busy");
 				handler.Shutdown (SocketShutdown.Both);
@@ -118,10 +120,9 @@ namespace BuddyApp.ExperienceCenter
 
 		}
 
-		public void ReadCallback (IAsyncResult ar)
+		public static void ReadCallback (IAsyncResult ar)
 		{
 			String content = String.Empty;
-
 			// Retrieve the state object and the handler socket
 			// from the asynchronous state object.
 			StateObject state = (StateObject)ar.AsyncState;
@@ -161,7 +162,6 @@ namespace BuddyApp.ExperienceCenter
 					IPEndPoint clientIP = handler.RemoteEndPoint as IPEndPoint;
 					Debug.Log ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " disconnected");
 					clientConnected = false;
-					mAnimatorManager.clientConnected = false;
 					mStateSent = false;
 				}
 			}
@@ -178,7 +178,7 @@ namespace BuddyApp.ExperienceCenter
 			}
 		}
 
-		private void SendCmdResponse (Socket handler, Command cmd)
+		private static void SendCmdResponse (Socket handler, Command cmd)
 		{
 			byte[] byteData = new byte[] { (byte)Mode.CommandResponse, (byte)(cmd) };
 			handler.BeginSend (byteData, 0, byteData.Length, 0,
@@ -186,22 +186,24 @@ namespace BuddyApp.ExperienceCenter
 	
 		}
 
-		private void ActivateCommand (Socket handler, byte cmd)
+		private static void SendServerBusy (Socket handler)
+		{
+			byte[] byteData = new byte[] { (byte)Mode.ServerBusy};
+			handler.BeginSend (byteData, 0, byteData.Length, 0,
+				new AsyncCallback (SendCallback), handler);
+
+		}
+
+		private static void ActivateCommand (Socket handler, byte cmd)
 		{
 			SendCmdResponse (handler, (Command)cmd);
 			mAnimatorManager.ActivateCmd (cmd);
 		}
 
-		private void SendCallback (IAsyncResult ar)
+		private static void SendCallback (IAsyncResult ar)
 		{
 			try {
-				// Retrieve the socket from the state object.
 				Socket handler = (Socket)ar.AsyncState;
-
-				// Complete sending the data to the remote device.
-				//int bytesSent = handler.EndSend (ar);
-				//Debug.Log ("Sent " + bytesSent + " bytes to client.");
-
 			} catch (Exception e) {
 				Debug.Log (e.ToString ());
 			}
@@ -210,12 +212,13 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopServer ()
 		{
-			if (mHandler != null && mHandler.Connected)
-			{
-				Debug.LogWarning("Disconnecting all client!");
+			if (mHandler != null && mHandler.Connected) {
+				Debug.LogWarning ("Disconnecting all client !");
+				clientConnected = false;
 				mHandler.Shutdown (SocketShutdown.Both);
 				mHandler.Close ();
 			}
+			mStop = true;
 				
 		}
 
