@@ -108,6 +108,7 @@ namespace BuddyApp.ExperienceCenter
 				IPEndPoint clientIP = mHandler.RemoteEndPoint as IPEndPoint;
 				Debug.Log ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " connected");
 				clientConnected = true;
+				mAnimatorManager.ConnectionTrigger ();
 			} else {
 				Socket listener = (Socket)ar.AsyncState;
 				Socket handler = listener.EndAccept (ar);
@@ -162,6 +163,7 @@ namespace BuddyApp.ExperienceCenter
 					IPEndPoint clientIP = handler.RemoteEndPoint as IPEndPoint;
 					Debug.Log ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " disconnected");
 					clientConnected = false;
+					mAnimatorManager.ConnectionTrigger ();
 					mStateSent = false;
 				}
 			}
@@ -215,6 +217,7 @@ namespace BuddyApp.ExperienceCenter
 			if (mHandler != null && mHandler.Connected) {
 				Debug.LogWarning ("Disconnecting all client !");
 				clientConnected = false;
+				mAnimatorManager.ConnectionTrigger ();
 				mHandler.Shutdown (SocketShutdown.Both);
 				mHandler.Close ();
 			}

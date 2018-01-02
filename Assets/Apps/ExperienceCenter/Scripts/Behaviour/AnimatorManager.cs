@@ -38,7 +38,7 @@ namespace BuddyApp.ExperienceCenter
 		CommandResponse = 0x80,
 		StateRequest = 0x70,
 		StateResponse = 0x60,
-        ServerBusy = 0x50
+		ServerBusy = 0x50
 	}
 
 	public class AnimatorManager : MonoBehaviour
@@ -79,7 +79,33 @@ namespace BuddyApp.ExperienceCenter
 
 					}
 				}
+			} else {
+				if (mSwitchOnce) {
+					string state = GetTrigger ();
+					while (state != "") {
+						if (state == "Idle") {
+							stateDict [state] = false;
+							Debug.Log ("[Animator] Switch to State: Init EC");
+							mMainAnimator.SetTrigger ("ReInit");
+							state = GetTrigger ();
+						} else {
+							stateDict [state] = false;
+							Debug.Log ("[Animator] Switch to State: Idle");
+							stateDict ["Idle"] = true;
+							mMainAnimator.SetTrigger ("Idle");
+							state = GetTrigger ();
+						}
+					}
+		
+					mOldState = "";
+					Debug.Log ("Waiting for connection !");
+					mSwitchOnce = false;
+				}
 			}
+		}
+
+		public void ConnectionTrigger(){
+			mSwitchOnce = true;
 		}
 
 		private string GetTrigger ()
@@ -92,14 +118,14 @@ namespace BuddyApp.ExperienceCenter
 
 		private void InitStateDict ()
 		{
-				stateDict = new Dictionary<string, bool> ();
-				stateDict.Add ("Idle", false);
-				stateDict.Add ("Welcome", false);
-				stateDict.Add ("Questions", false);
-				stateDict.Add ("ByeBye", false);
-				stateDict.Add ("MoveForward", false);
-				stateDict.Add ("IOT", false);
-				stateDict.Add ("Walk", false);
+			stateDict = new Dictionary<string, bool> ();
+			stateDict.Add ("Idle", false);
+			stateDict.Add ("Welcome", false);
+			stateDict.Add ("Questions", false);
+			stateDict.Add ("ByeBye", false);
+			stateDict.Add ("MoveForward", false);
+			stateDict.Add ("IOT", false);
+			stateDict.Add ("Walk", false);
 		}
 
 		public void ActivateCmd (byte cmd)
@@ -118,7 +144,7 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 		    
-			if (stateDict ["Welcome"] ) {
+			if (stateDict ["Welcome"]) {
 				switch ((Command)cmd) {
 				case Command.Stop: 
 					{
@@ -143,7 +169,7 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 
-			if (stateDict ["Questions"] ) {
+			if (stateDict ["Questions"]) {
 				switch ((Command)cmd) {
 				case Command.Stop: 
 					{
@@ -182,7 +208,7 @@ namespace BuddyApp.ExperienceCenter
 		}
 
 
-		private void UpdateStateDict (Command cmd, string state )
+		private void UpdateStateDict (Command cmd, string state)
 		{
 			Debug.Log ("Running cmd: " + cmd);
 			stateDict [state] = false;
