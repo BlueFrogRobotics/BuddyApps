@@ -18,6 +18,11 @@ namespace BuddyApp.ExperienceCenter {
 			mURLDevices.Add(name,deviceURL);
 		}
 
+        public string GetDeviceURL(string key)
+        {
+            return mURLDevices[key];
+        }
+
 		public JSONObject CreateAction(string deviceName, string commandName, List<string> parameters)
 		{
 			JSONObject json = new JSONObject();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -17,61 +18,192 @@ namespace BuddyApp.ExperienceCenter {
 
 		private JSONBuilder jBuilder;
 
-		public HTTPRequestManager()
-		{
-			jBuilder = new JSONBuilder();
-			Connected = false;
-			RetrieveDevices = false;
-			mCookie = "";
-		}
+        private Dictionary<string, string> IOTLabels;
+
+        public HTTPRequestManager()
+        {
+            jBuilder = new JSONBuilder();
+            Connected = false;
+            RetrieveDevices = false;
+            mCookie = "";
+            IOTLabels = new Dictionary<string, string>()
+            {
+                { "light", "Active button" },
+                { "sound", "Awabureau" },
+                { "store", "SUNEA io"}
+            };
+        }
 
 		void Awake()
 		{
-			InvokeRepeating("ShouldTestIOT", 1.0f, 1.0f);
+			StartCoroutine(ShouldTestIOT());
+            StartCoroutine(RetrieveIOTStates());
 		}
 
-		private void ShouldTestIOT()
+        /**********************************************************
+         * Individually enable/disable each device
+         * ********************************************************/
+
+        // Fire device state control only if set in parameters layout
+        private IEnumerator ShouldTestIOT()
 		{
-			if (ExperienceCenterData.Instance.ShouldTestIOT)
-			{
-				ExperienceCenterData.Instance.ShouldTestIOT = false;
-				StartCoroutine(TestDevices());
+            while(true)
+            {
+                if (ExperienceCenterData.Instance.ShouldTestIOT)
+                {
+                    ExperienceCenterData.Instance.ShouldTestIOT = false;
+                    StartCoroutine(EnableDevices());
+                }
+                yield return new WaitForSeconds(1.0f);
 			}
 		}
 
-		private IEnumerator TestDevices()
+        // Enable/Disable each device
+		private IEnumerator EnableDevices()
 		{
-			if (!Connected)
+            // Connect if not already connected
+            if (!Connected)
 			{
 				Login();
-
 				yield return new WaitUntil(() => RetrieveDevices);
 			}
 
-			LightOn(ExperienceCenterData.Instance.LightState);
-			StoreDeploy(ExperienceCenterData.Instance.StoreState);
-			SonosPlay(ExperienceCenterData.Instance.SonosState);
+            ExperienceCenterData data = ExperienceCenterData.Instance;
+
+            if(data.LightState != data.IsLightOn)
+			    LightOn(data.LightState);
+
+            if (data.StoreState != data.IsStoreDeployed)
+			    StoreDeploy(data.StoreState);
+
+            if (data.SonosState != data.IsMusicOn)
+			    SonosPlay(data.SonosState);
 		}
 
+        // Command light
 		public void LightOn(bool enable)
 		{
-			ExecuteAction("Active button", enable ? "setPodLedOn" : "setPodLedOff");
+			ExecuteAction(IOTLabels["light"], enable ? "setPodLedOn" : "setPodLedOff");
 		}
 
+        // Command store
 		public void StoreDeploy(bool enable)
 		{
-			ExecuteAction("SUNEA io", enable ? "deploy" : "my");
+			ExecuteAction(IOTLabels["store"], enable ? "deploy" : "undeploy");
 		}
 
+        // Command sonos
 		public void SonosPlay(bool enable)
 		{
-			ExecuteAction("Awabureau", enable ? "play" : "stop");
+			ExecuteAction(IOTLabels["sound"], enable ? "play" : "stop");
+
+            // As there are no way to check Sonos state through the Rest API
+            ExperienceCenterData.Instance.IsMusicOn = enable;
 		}
 
-		/*****************************************************
+        /**********************************************************
+         * Individually retrieve each device state
+         * ********************************************************/
+        
+        // Retrieve each device state
+        private IEnumerator RetrieveIOTStates()
+        {
+            while(true)
+            {
+                if (!Connected)
+                {
+                    Login();
+                    yield return new WaitUntil(() => RetrieveDevices);
+                }
+
+                LightStatus();
+                StoreStatus();
+                //SonosStatus(); - NOT IMPLEMENTED
+                yield return new WaitForSeconds(5.0f);
+            }
+        }
+
+        private void LightStatus()
+        {
+            // Active button
+            // core:NameState -> Box
+            // internal:LightingLedPodModeState -> 0/1
+
+            System.Action<JSONArray, long> onLightStatus = delegate (JSONArray response, long responseCode)
+            {
+                Debug.LogFormat("LightStatus received response code '{0}' with response '{1}'", responseCode, response.ToString());
+
+                if (responseCode == (long)HttpStatusCode.OK)
+                {
+                    for (int i = 0; i < response.Count; i++)
+                    {
+                        if (response[i]["name"].Value == "core:NameState")
+                        {
+                            //Unexpected value, abort
+                            if (response[i]["value"].Value != "Box")
+                            {
+                                Debug.LogErrorFormat("Unexpected core:NameState value : {0}", response[i]["value"].Value);
+                                break;
+                            }
+                        }
+                        else if (response[i]["name"].Value == "internal:LightingLedPodModeState")
+                            ExperienceCenterData.Instance.IsLightOn = (response[i]["value"].Value == "1.0");
+                    }
+                }
+            };
+
+            string apiEntry = String.Format("setup/devices/{0}/states",WWW.EscapeURL(jBuilder.GetDeviceURL(IOTLabels["light"])));
+            Debug.LogFormat("Sending GET request on apiEntry : {0}", apiEntry);
+            StartCoroutine(Get(apiEntry,onLightStatus));
+        }
+
+        private void StoreStatus()
+        {
+            // SUNEA io
+            // core:NameState -> SUNEA io
+            // core:OpenClosedState -> closed/open
+            // core:DeploymentState -> 0-100
+            System.Action<JSONArray, long> onStoreStatus = delegate (JSONArray response, long responseCode)
+            {
+                Debug.LogFormat("StoreStatus received response code '{0}' with response '{1}'", responseCode, response.ToString());
+                if (responseCode == (long)HttpStatusCode.OK)
+                {
+                    for(int i=0; i< response.Count; i++)
+                    {
+                        if (response[i]["name"].Value == "core:NameState")
+                        {
+                            //Unexpected value, abort
+                            if (response[i]["value"].Value != "SUNEA io")
+                                break;
+                        }
+                        else if (response[i]["name"].Value == "core:OpenClosedState")
+                            ExperienceCenterData.Instance.IsStoreDeployed = (response[i]["value"].Value == "open");
+                    }
+                }
+            };
+
+            string apiEntry = String.Format("setup/devices/{0}/states", WWW.EscapeURL(jBuilder.GetDeviceURL(IOTLabels["store"])));
+            Debug.LogFormat("Sending GET request on apiEntry : {0}", apiEntry);
+            StartCoroutine(Get(apiEntry, onStoreStatus));
+        }
+
+        private void SonosStatus()
+        {
+            Debug.LogError("Status request not implemented !");
+
+            //System.Action<JSONArray, long> onSonosStatus = delegate (JSONArray response, long responseCode)
+            //{
+            //    // No response from device... ?
+            //};
+
+            //string apiEntry = String.Format("setup/devices/{0}/states", jBuilder.GetDeviceURL(IOTLabels["sonos"]));
+            //StartCoroutine(Get(apiEntry, onSonosStatus));
+        }      
+
+        /*****************************************************
 		 *  API Base Requests
 		 * ***************************************************/
-		public void Login()
+        public void Login()
 		{
 			WWWForm form = new WWWForm();
 			form.AddField("userId", ExperienceCenterData.Instance.UserID);
@@ -197,7 +329,7 @@ namespace BuddyApp.ExperienceCenter {
 		{
 			UnityWebRequest request = UnityWebRequest.Post(ExperienceCenterData.Instance.API_URL + apiEntry, form);
 
-			// if logged in, put given cookie in header
+            // if logged in, put given cookie in header
 			if (Connected)
 				request.SetRequestHeader("Cookie", mCookie);
 
@@ -227,8 +359,8 @@ namespace BuddyApp.ExperienceCenter {
 		{
 			UnityWebRequest request = UnityWebRequest.Get(ExperienceCenterData.Instance.API_URL + apiEntry);
 
-			// if logged in, put given cookie in header
-			if (Connected)
+            // if logged in, put given cookie in header
+            if (Connected)
 				request.SetRequestHeader("Cookie", mCookie);
 
 			yield return request.Send();
