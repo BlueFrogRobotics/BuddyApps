@@ -38,8 +38,8 @@ namespace BuddyApp.Weather
 
             if (mWeatherB.mLocation == "")
             {
-                mWeatherB.mName = "Paris";
-                mWeatherB.mLocation = "zmw:00000.45.07156";
+                mWeatherB.mName = "Las Vegas";
+                mWeatherB.mLocation = "zmw:00000.18.78336";
             }
             Debug.Log("Pre web service " + mWeatherB.mLocation);
             city = mWeatherB.mLocation;

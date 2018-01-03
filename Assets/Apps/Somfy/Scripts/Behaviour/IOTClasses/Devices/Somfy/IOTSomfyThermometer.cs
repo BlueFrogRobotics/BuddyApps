@@ -33,6 +33,7 @@ namespace BuddyApp.Somfy
 
         public override void UpdateSlow()
         {
+            Debug.Log("update la temperature");
             ChangeStateValue("core:TemperatureState");
 
         }

@@ -39,8 +39,8 @@ namespace BuddyApp.Somfy
         {
             string lUrl = SomfyData.Instance.URL_API + "/" + "login"/* + "?userId=" + Credentials[1] + "&userPassword=" + Credentials[2]*/;
             Hashtable user = new Hashtable();
-            Credentials[1] = "innofair2";
-            Credentials[2] = "2016fair2";
+            Credentials[1] = SomfyData.Instance.Login;//"innofair2";
+            Credentials[2] = SomfyData.Instance.Password;//"2016fair2";
             user["userId"] = Credentials[1];
             user["userPassword"] = Credentials[2];
             /*Request lRequest = new Request("POST",lUrl, user);

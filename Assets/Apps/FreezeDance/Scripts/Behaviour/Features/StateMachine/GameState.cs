@@ -36,7 +36,7 @@ namespace BuddyApp.FreezeDance
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+            SetBool("ScoreBool", true);
             mMusicPlayer.ReinitMusic(Random.Range(0, mMusicPlayer.NbClips));
             mMusicPlayer.Play();
             mTime = Time.time;
