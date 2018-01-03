@@ -13,6 +13,7 @@ namespace BuddyApp.ExperienceCenter
 		private AnimatorManager mAnimatorManager;
 		private IdleBehaviour mBehaviour;
 		private TextToSpeech mTTS;
+		private List <string> mKeyList;
 
 		//	  OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -22,10 +23,10 @@ namespace BuddyApp.ExperienceCenter
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
 			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
-
+			InitKeyList ();
 			//To test with the tablet comment the first line and uncomment the second one
-			mBehaviour.InitBehaviour();
-			//mBehaviour.behaviourInit = true;
+			//mBehaviour.InitBehaviour ();
+			mBehaviour.behaviourInit = true;
 		}
 
 		//	 OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -34,8 +35,9 @@ namespace BuddyApp.ExperienceCenter
 		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			//BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 			mBehaviour.StopBehaviour ();
 		}
 
@@ -49,19 +51,47 @@ namespace BuddyApp.ExperienceCenter
 		//
 		//}
 
-		public void SpeechToTextCallback(string iSpeech)
+		private void InitKeyList ()
 		{
-			Debug.Log("SpeechToText : " + iSpeech);
-			if (iSpeech == "c'est super de te voir" || iSpeech == "nice to see you") {
-				mAnimatorManager.ActivateCmd((byte) (Command.Welcome));
-			} 
-			else if (iSpeech == "bavardons un peu" || iSpeech == "let's talk a little") {
-				mAnimatorManager.ActivateCmd((byte) (Command.Questions));
+			mKeyList = new List<string> ();
+			mKeyList.Add ("idlesee");
+			mKeyList.Add ("idletalk");
+			mKeyList.Add ("idleleg");
+		}
+
+		public void SpeechToTextCallback (string iSpeech)
+		{
+			Debug.Log ("Idle - SpeechToText : " + iSpeech);
+			bool lClauseFound = false;
+			string lKey = "";
+			foreach (string lElement in mKeyList) {
+				string[] lPhonetics = BYOS.Instance.Dictionary.GetPhoneticStrings (lElement);
+				Debug.Log ("Idle - Phonetics : " + lPhonetics.Length);
+				foreach (string lClause in lPhonetics) {
+					if (iSpeech.Contains (lClause)) {
+						mTTS.SayKey (lElement, true);
+						lClauseFound = true;
+						lKey = lElement;
+						break;
+					}
+				}
+				if (lClauseFound) {
+					mTTS.Stop ();
+					break;
+				}
 			}
-			else if (iSpeech == "as-tu envie de te dégourdir les jambes" || iSpeech == "do you want to stretch your legs") {
-				mTTS.SayKey ("byemerci", true);
-				mAnimatorManager.ActivateCmd((byte) (Command.ByeBye));
+			if (!lClauseFound) {
+				Debug.Log ("Idle - SpeechToText : Not Found");
+			} else {
+				if (lKey == "idlesee") {
+					mAnimatorManager.ActivateCmd ((byte)(Command.Welcome));
+				} else if (lKey == "idletalk") {
+					mAnimatorManager.ActivateCmd ((byte)(Command.Questions));
+				} else if (lKey == "idleleg") {
+					mAnimatorManager.ActivateCmd ((byte)(Command.ByeBye));
+				}
 			}
+
 		}
 			
 	}

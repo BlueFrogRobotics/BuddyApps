@@ -30,7 +30,6 @@ namespace BuddyApp.ExperienceCenter
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			mBehaviour.StopBehaviour ();
-			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 		}
 
 		// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
@@ -45,11 +44,21 @@ namespace BuddyApp.ExperienceCenter
 
 		public void SpeechToTextCallback (string iSpeech)
 		{
-			Debug.Log ("SpeechToText : " + iSpeech);
-			if (iSpeech == "tu peux y aller" || iSpeech == "you can go") {
-				mAnimatorManager.ActivateCmd((byte) (Command.IOT));
-			} 
+			Debug.Log ("MoveForward - SpeechToText : " + iSpeech);
+			bool lClauseFound = false;
+			string[] lPhonetics = BYOS.Instance.Dictionary.GetPhoneticStrings ("movego");
+			Debug.Log ("MoveForward - Phonetics : " + lPhonetics.Length);
+			foreach (string lClause in lPhonetics) {
+				if (iSpeech.Contains (lClause)) {
+					lClauseFound = true;
+					break;
+				}
+			}
 
+			if (!lClauseFound)
+				Debug.Log ("MoveForward - SpeechToText : Not Found");
+			else
+				mAnimatorManager.ActivateCmd ((byte)(Command.IOT));
 		}
 	}
 }

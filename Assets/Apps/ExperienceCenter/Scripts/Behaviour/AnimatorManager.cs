@@ -167,6 +167,10 @@ namespace BuddyApp.ExperienceCenter
 			if (stateDict ["ByeBye"]) {
 				switch ((Command)cmd) {
 				case Command.MoveForward:
+					{
+						UpdateStateDict ((Command)cmd, "ByeBye"); 
+						break;
+					}
 				case Command.Stop: 
 					{
 						UpdateStateDict (Command.Idle, "ByeBye"); 
@@ -192,6 +196,10 @@ namespace BuddyApp.ExperienceCenter
 			if (stateDict ["MoveForward"]) {
 				switch ((Command)cmd) {
 				case Command.IOT:
+					{
+						UpdateStateDict ((Command)cmd, "MoveForward"); 
+						break;
+					}
 				case Command.Stop: 
 					{
 						UpdateStateDict (Command.Idle, "MoveForward"); 

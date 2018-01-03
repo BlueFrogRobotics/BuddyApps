@@ -35,8 +35,6 @@ namespace BuddyApp.ExperienceCenter
 			StartCoroutine(MoveHeadWhenSpeaking());
 		}
 
-
-
 		private IEnumerator Speaking ()
 		{
 			yield return new WaitUntil(() => !mHeadMoving);

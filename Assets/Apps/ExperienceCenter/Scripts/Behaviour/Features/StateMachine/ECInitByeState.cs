@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Buddy;
+
 namespace BuddyApp.ExperienceCenter
 {
 	public class ECInitByeState : StateMachineBehaviour
@@ -23,8 +24,9 @@ namespace BuddyApp.ExperienceCenter
 		//}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			//BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 		}
 
 		// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
@@ -37,13 +39,25 @@ namespace BuddyApp.ExperienceCenter
 		//
 		//}
 
+	
 		public void SpeechToTextCallback (string iSpeech)
 		{
-			Debug.Log ("SpeechToText : " + iSpeech);
-			if (iSpeech == "viens dans mes bras" || iSpeech == "come into my arms") {
-				mAnimatorManager.ActivateCmd((byte) (Command.MoveForward));
-			} 
-
+			Debug.Log ("ByeBye - SpeechToText : " + iSpeech);
+			bool lClauseFound = false;
+			string[] lPhonetics = BYOS.Instance.Dictionary.GetPhoneticStrings ("byecome");
+			Debug.Log ("ByeBye - Phonetics : " + lPhonetics.Length);
+			foreach (string lClause in lPhonetics) {
+				if (iSpeech.Contains (lClause)) {
+					lClauseFound = true;
+					break;
+				}
+			}
+				
+			if (!lClauseFound)
+				Debug.Log ("ByeBye - SpeechToText : Not Found");
+			else
+				mAnimatorManager.ActivateCmd ((byte)(Command.MoveForward));
 		}
+
 	}
 }
