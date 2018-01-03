@@ -34,10 +34,12 @@ namespace BuddyApp.PlayMath{
 		/// Generate the value of the property Equations
 		/// </summary>
         public override void generate() {
-			// use always the same seed to generate the same values
-			System.Random lRandom = new System.Random(5);
+            // use always the same seed to generate the same values
+            //System.Random lRandom = new System.Random(5);
 
-			this.Equations.Clear();
+            System.Random lRandom = new System.Random();
+
+            this.Equations.Clear();
 
 			List<Operand> lOperands = SelectOperands();
 			int lNumberOfOperands = NUMBER_OF_OPERANDS[this.Parameters.Difficulty - 1];
