@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,19 +17,6 @@ namespace BuddyApp.PlayMath{
         private Certificate mCertificate;
 
         private bool mFlush;
-
-        public static event System.Action<Photograph> OnEndTakePhoto;
-
-        void Start()
-        {
-            OnEndTakePhoto = delegate (Photograph lPhoto)
-            {
-                    mFlush = false;
-                    BYOS.Instance.Primitive.RGBCam.Close();
-                    mRawVideoTexture.texture = (Texture) lPhoto.Image.texture;
-                    mPlayMathAnimator.SetTrigger("ValidatePhoto");
-            };
-        }
 
         public void DisplayCamera()
         {
@@ -53,22 +39,16 @@ namespace BuddyApp.PlayMath{
 
         private IEnumerator InitTakePhoto()
         {
-            while (true)
-            {
-                if (!BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking)
-                    yield return null;
-                else
-                {
-                    BYOS.Instance.Notifier.Display<CountdownNot>().With("", 3, TakePhoto, null);
-                    break;
-                }
-            }
+            yield return new WaitUntil(() => BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking);
+            BYOS.Instance.Notifier.Display<CountdownNot>().With("", 3, TakePhoto, null);
         }
 
         private void TakePhoto()
         {
-            BYOS.Instance.Primitive.RGBCam.TakePhotograph(OnEndTakePhoto);
+            mFlush = false;
+            BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+            BYOS.Instance.Primitive.RGBCam.Close();
+            mPlayMathAnimator.SetTrigger("ValidatePhoto");
         }
     }
 }
-
