@@ -50,8 +50,8 @@ namespace BuddyApp.Somfy
             //lJson.actionList.Add(lApply[0]);
             //lJson.liste = new IOTSomfyListActions();
             //lJson.liste.actions = lApply;
-            Debug.Log("meuporg mdr: " + JsonUtility.ToJson(lJson));
-            Debug.Log("le fameux jsnode: " + lJson.GetNode().ToString());
+            //Debug.Log("meuporg mdr: " + JsonUtility.ToJson(lJson));
+            //Debug.Log("le fameux jsnode: " + lJson.GetNode().ToString());
             //Request lRequest = new Request("POST", lUrl, Encoding.Default.GetBytes(JsonUtility.ToJson(lJson)));
             Request lRequest = new Request("POST", lUrl, Encoding.Default.GetBytes(lJson.GetNode().ToString()));
             lRequest.cookieJar = null;
@@ -59,11 +59,16 @@ namespace BuddyApp.Somfy
             lRequest.SetHeader("Content-Type", "application/json");
             Debug.Log("switch on off");
             Debug.Log("request switch: " + lRequest.bytes);
+            mHasFinishedCommand = false;
             lRequest.Send((lResult) => {
                 if (lResult == null)
+                {
+                    mHasFinishedCommand = true;
                     return;
+                }
                 string s = System.Text.Encoding.UTF8.GetString(lResult.bytes, 0, lResult.bytes.Length);
                 Debug.Log("le result: "+s);
+                mHasFinishedCommand = true;
             }
             );
         }
