@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Buddy;
 
 namespace BuddyApp.BuddyLab
 {
@@ -9,6 +10,8 @@ namespace BuddyApp.BuddyLab
         private LabUIEditorManager mUIManager;
         private ItemControlUnit mItemControl;
         private bool mIsPlaying;
+        private IEnumerator mSequence;
+        private IEnumerator mPlay;
 
         public override void Start()
         {
@@ -20,6 +23,7 @@ namespace BuddyApp.BuddyLab
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mUIManager.OpenPlayUI();
+            mPlay = Play();
             mIsPlaying = false;
             mUIManager.StopButton.onClick.AddListener(Stop);
             mUIManager.ReplayButton.onClick.AddListener(Replay);
@@ -43,14 +47,20 @@ namespace BuddyApp.BuddyLab
         private void Stop()
         {
             mItemControl.IsRunning = false;
+            if (Primitive.RGBCam.IsOpen)
+            {
+                Debug.Log("CAMERA OPEN");
+                Primitive.RGBCam.Close();
+            }
             GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
             Trigger("Scene");
         }
 
         private void Replay()
         {
+            mIsPlaying = false;
             if(!mIsPlaying)
-                StartCoroutine(Play());
+                StartCoroutine(mPlay);
         }
 
         private IEnumerator Play()

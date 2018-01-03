@@ -10,6 +10,7 @@ namespace BuddyApp.BuddyLab
         private ItemControlUnit mItemControl;
         private BuddyLabBehaviour mBLBehaviour;
 
+
         public override void Start()
         {
             mUIManager = GetComponent<LabUIEditorManager>();
@@ -50,7 +51,7 @@ namespace BuddyApp.BuddyLab
         }
 
         private void PlaySequence()
-        {
+        {          
             mItemControl.SaveSequence();
             Trigger("Play");
         }

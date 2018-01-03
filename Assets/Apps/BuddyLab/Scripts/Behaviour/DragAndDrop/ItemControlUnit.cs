@@ -37,10 +37,12 @@ namespace BuddyApp.BuddyLab
 
         private bool mIsRunning;
         public bool IsRunning { get { return mIsRunning; } set { mIsRunning = value; } }
+
         
 
         void Start()
         {
+
             IsRunning = false;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-us");
             mArrayItems = new List<GameObject>();
@@ -181,69 +183,62 @@ namespace BuddyApp.BuddyLab
             //StartCoroutine(PlaySequence());
         }
 
-        public IEnumerator PlaySequence()
+
+        public  IEnumerator PlaySequence()
         {
-            if (mIsRunning)
+            Debug.Log("START PLAYSEQUENCE LOLOLOLOLOKRHGRETJREJREHGJHJEHJGEHJGE");
+            //string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("project.xml");
+            ListBLI lListBLI = Utils.UnserializeXML<ListBLI>(mDirectoryPath);
+
+            foreach (BLItemSerializable bli in lListBLI.List)
             {
-                //string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("project.xml");
-                ListBLI lListBLI = Utils.UnserializeXML<ListBLI>(mDirectoryPath);
-
-                foreach (BLItemSerializable bli in lListBLI.List)
+                Debug.Log("PLAYSEQUAENCE EKHHJRKG ");
+                if (bli.Category == Category.BML)
                 {
-
-                    if (bli.Category == Category.BML)
+                    Debug.Log("bli: " + bli.BML);
+                    if (bli.ParameterKey != "")
                     {
-                        Debug.Log("bli: " + bli.BML);
-                        if (bli.ParameterKey != "")
-                        {
-                            //Debug.Log("key: " + bli.ParameterKey);
-                            Dictionary<string, string> param = new Dictionary<string, string>();
-                            param.Add(bli.ParameterKey, bli.Parameter);
-                            //Changer launchbyID par launchbyName
-                            //Debug.Log("has launched with param: " + mBMLManager.LaunchByID(bli.BML, param));
-                            Debug.Log("has launched without param: " + mBMLManager.LaunchByName(bli.BML, param));
-                        }
-                        else
-                        {
-                            //Changer launchbyID par launchbyName
-                            //Debug.Log("has launched without param: " + mBMLManager.LaunchByID(bli.BML));
-                            Debug.Log("has launched without param: " + mBMLManager.LaunchByName(bli.BML));
-                        }
-                        Debug.Log("nimporte quoi");
-                        Debug.Log("kikoo" + mBMLManager.ActiveBML.Count);
-                        Debug.Log("nimporte quoi 2");
-                        while (mBMLManager.ActiveBML.Count > 0 && mBMLManager.ActiveBML[0].IsRunning)
-                        {
-                            //Debug.Log("ITEM CONTROL UNIT : BML FINI ");
-                            //Debug.Log("BML NAME: " + mBMLManager.ActiveBML[0].Name);
-                            yield return null;
-                        }
+                        //Debug.Log("key: " + bli.ParameterKey);
+                        Dictionary<string, string> param = new Dictionary<string, string>();
+                        param.Add(bli.ParameterKey, bli.Parameter);
+                        Debug.Log("has launched without param: " + mBMLManager.LaunchByName(bli.BML, param));
                     }
-                    else if (bli.Category == Category.CONDITION)
+                    else
                     {
-                        ConditionManager.ConditionType = bli.ConditionName;
-                        if (bli.ParameterKey != "")
-                        {
-                            ConditionManager.ParamCondition = bli.Parameter;
-                        }
-                        //Debug.Log("ITEMCONTROLUNIT : CONDITION : " + bli.ConditionName);
-                        while (!ConditionManager.IsEventDone)
-                        {
-                            Debug.Log("CONDITION COROUTINE");
-                            yield return null;
-                        }
-
+                        Debug.Log("has launched without param: " + mBMLManager.LaunchByName(bli.BML));
                     }
-                    else if (bli.Category == Category.LOOP)
+                    while (mBMLManager.ActiveBML.Count > 0 && mBMLManager.ActiveBML[0].IsRunning && IsRunning)
                     {
-                        Debug.Log("ITEMCONTROLUNIT : LOOP ");
-
+                        yield return null;
                     }
-                    ConditionManager.IsEventDone = false;
                 }
+                else if (bli.Category == Category.CONDITION)
+                {
+                    ConditionManager.ConditionType = bli.ConditionName;
+                    if (bli.ParameterKey != "")
+                    {
+                        ConditionManager.ParamCondition = bli.Parameter;
+                    }
+                    while (!ConditionManager.IsEventDone && IsRunning)
+                    {
+
+                        Debug.Log("CONDITION COROUTINE");
+                        yield return null;
+                            
+                    }
+                    if (!IsRunning)
+                        ConditionManager.ConditionType = "";
+                }
+                else if (bli.Category == Category.LOOP)
+                {
+                    Debug.Log("ITEMCONTROLUNIT : LOOP ");
+                }
+                ConditionManager.IsEventDone = false;
+                if (!IsRunning)
+                    break;
             }
-            else
-                yield return null;
+            
+
            
         }
 

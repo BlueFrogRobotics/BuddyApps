@@ -44,6 +44,8 @@ namespace BuddyApp.BuddyLab
         private bool mIRSensorDetect;
         private IRSensors mIRSensors;
 
+        private bool mHeadMoving;
+        private bool mBodyMoving;
 
         /// <summary>
         /// Variables for movement detection
@@ -75,7 +77,17 @@ namespace BuddyApp.BuddyLab
         /// say something.
         /// </summary>
         private string mConditionType;
-        public string ConditionType { get { return mConditionType; } set { ClearEventTactile(); mConditionType = value; } }
+        public string ConditionType
+        {
+            get { return mConditionType; }
+            set
+            {
+                ClearEventTactile();
+                if (value == "")
+                    ResetParam();
+                mConditionType = value;
+            }
+        }
 
         private string mParamCondition;
         public string ParamCondition { get { return mParamCondition; } set { mParamCondition = value; } }
@@ -95,6 +107,8 @@ namespace BuddyApp.BuddyLab
             mFace = BYOS.Instance.Interaction.Face;
             mQRCodeDetect = BYOS.Instance.Perception.QRCode;
             mIRSensors = BYOS.Instance.Primitive.IRSensors;
+            mHeadMoving = false;
+            mBodyMoving = false;
             mIRSensorDetect = false;
             mTactileSubscribed = false;
             mIsTactileDetect = false;
@@ -116,6 +130,10 @@ namespace BuddyApp.BuddyLab
                 OnBuddyTactile();
             if (mIRSensorDetect)
                 OnObstacleInFront();
+            if (mHeadMoving)
+                MovingHead();
+            if (mBodyMoving)
+                MovingWheels();
         }
 
         private void LoadCondition()
@@ -182,12 +200,14 @@ namespace BuddyApp.BuddyLab
                     case "HeadTactile":
                         Debug.Log("Head Motor move");
                         mIsTactileDetect = true;
+                        mHeadMoving = true;
                         mSubscribed = true;
                         break;
                     case "BodyTactile":
                         Debug.Log("Body Tactile Move");
                         mOriginRobotAngle = mMotor.Wheels.Odometry.z;
                         mIsTactileDetect = true;
+                        mBodyMoving = true;
                         mSubscribed = true;
                         break;
                     case "LeftSensor":
@@ -281,35 +301,28 @@ namespace BuddyApp.BuddyLab
 
         private void OnBuddyTactile()
         {
-            Debug.Log("ONFACETOUCHED " + mConditionType);
             if(mTactile == TactileEvent.ALL_TACTILE)
             {
-
-                Debug.Log("ALLTACTILE");
                 if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log("TOUCHED HEAD TACTILE");
                     ResetParam();
                 }
             }
             if(mTactile == TactileEvent.LEFT_EYE && !mTactileSubscribed)
             {
                 mTactileSubscribed = true;
-                Debug.Log("LEFT EYE TACTILE");
                 //ClearEventTactile();
                 mFace.OnClickLeftEye.Add(OnLeftEyeClicked);
             }
             if(mTactile == TactileEvent.RIGHT_EYE && !mTactileSubscribed)
             {
                 mTactileSubscribed = true;
-                Debug.Log("RIGHT EYE TACTILE");
                 //ClearEventTactile();
                 mFace.OnClickRightEye.Add(OnRightEyeClicked);
             }
             if(mTactile == TactileEvent.MOUTH && !mTactileSubscribed)
             {
                 mTactileSubscribed = true;
-                Debug.Log("MOUTH TACTILE");
                 //ClearEventTactile();
                 mFace.OnClickMouth.Add(OnMouthClicked);
             }
@@ -358,6 +371,8 @@ namespace BuddyApp.BuddyLab
 
         private void ResetParam()
         {
+            mHeadMoving = false;
+            mBodyMoving = false;
             mIRSensorDetect = false;
             mIsTactileDetect = false;
             mIsEventDone = true;

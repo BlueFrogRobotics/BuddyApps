@@ -40,7 +40,8 @@ namespace BuddyApp.RedLightGreenLightGame
 			mMotion.enabled = true;
 			mCam = Primitive.RGBCam;
 			mMotion.OnDetect(OnMovementDetected, mRect, 3f);
-			mCam.Resolution = RGBCamResolution.W_320_H_240;
+            //mMotion.OnDetect(OnMovementDetected, 3f);
+            mCam.Resolution = RGBCamResolution.W_320_H_240;
 			mLifeManager.ShowLifesLeft();
 			//mCam.Open(RGBCamResolution.W_320_H_240);
 			//Texture2D truc=new Texture2D()
@@ -66,7 +67,7 @@ namespace BuddyApp.RedLightGreenLightGame
 					mTimerLimit = 0;
 					mHasShowWindow = true;
 					//mMat=new Mat()
-					mMat = mCam.FrameMat;
+					mMat = mCam.FrameMat.clone();
 
 					Mat mMatSrc = mCam.FrameMat;
 					Core.flip(mMatSrc, mMat, 1);
@@ -112,23 +113,25 @@ namespace BuddyApp.RedLightGreenLightGame
 		private bool OnMovementDetected(MotionEntity[] iMotions)
 		{
 			Debug.Log("detection mouvement");
-			if (iMotions.Length > 2 && !mHasTriggered && mHasShowWindow) {
+            mMat = mCam.FrameMat.clone();
+            if (iMotions.Length > 2 && !mHasTriggered && mHasShowWindow) {
 				BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
 
 				Mat mMatSrc = mCam.FrameMat.clone();
-				Core.flip(mMatSrc, mMatDetection, 1);
-				Imgproc.rectangle(mMatDetection, new Point((int)(mMatDetection.width() / 3), 0), new Point((int)(mMatDetection.width() * 2 / 3), mMatDetection.height()), new Scalar(255, 0, 0), 3);
+                Mat mMatDetectionLocal = mCam.FrameMat.clone();
+                Core.flip(mMatSrc, mMatDetectionLocal, 1);
+				Imgproc.rectangle(mMatDetectionLocal, new Point((int)(mMatDetectionLocal.width() / 3), 0), new Point((int)(mMatDetectionLocal.width() * 2 / 3), mMatDetectionLocal.height()), new Scalar(255, 0, 0), 3);
 
 				bool lInRectangle = false;
 				foreach (MotionEntity lEntity in iMotions) {
-					Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 3, new Scalar(255, 0, 0), 3);
-					if (lEntity.RectInFrame.x > (mMatDetection.width() / 3) && lEntity.RectInFrame.x < (mMatDetection.width() * 2 / 3))
+					Imgproc.circle(mMatDetectionLocal, Utils.Center(lEntity.RectInFrame), 3, new Scalar(255, 0, 0), 3);
+					if (lEntity.RectInFrame.x > (mMatDetectionLocal.width() / 3) && lEntity.RectInFrame.x < (mMatDetectionLocal.width() * 2 / 3))
 						lInRectangle = true;
 				}
 				if (lInRectangle)
 					mDetectionCount++;
 			}
-			//mTexture = Utils.MatToTexture2D(mMat);
+			mTexture = Utils.MatToTexture2D(mMat);
 			return true;
 		}
 
