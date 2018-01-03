@@ -15,7 +15,11 @@
             <Key>quit</Key>
             <BaseValue>quit</BaseValue>
             <ClosePhoneticValues>
-                <string />
+                <string>quit</string>
+                <string>exit</string>
+                <string>cancel</string>
+                <string>no</string>
+                <string>nope</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>quit</string>
@@ -53,7 +57,7 @@
                 <string>Share</string>
                 <string>tweet</string>
                 <string>twitter</string>
-                <string />
+                <string>publish</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
@@ -85,6 +89,7 @@
             <BaseValue>no</BaseValue>
             <ClosePhoneticValues>
                 <string>no</string>
+                <string>nope</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>no</string>
@@ -95,6 +100,8 @@
             <BaseValue>yes</BaseValue>
             <ClosePhoneticValues>
                 <string>yes</string>
+                <string>yeah</string>
+                <string>ok</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>yes</string>
@@ -145,6 +152,16 @@
             <RandomValues>
                 <string>Move your hands to trigger the camera</string>
                 <string>Move to trigger</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>bye</Key>
+            <BaseValue>bye</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Ok, whenever you want, we can do an other shooting!</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

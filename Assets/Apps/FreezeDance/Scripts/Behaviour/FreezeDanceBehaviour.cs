@@ -26,7 +26,7 @@ namespace BuddyApp.FreezeDance
             if(!BYOS.Instance.Primitive.RGBCam.IsOpen)
                 BYOS.Instance.Primitive.RGBCam.Open(RGBCamResolution.W_176_H_144);
             
-            mMotion.OnDetect(OnMovementInternal, 30);
+            mMotion.OnDetect(OnMovementInternal, 3);
             BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
         }
 

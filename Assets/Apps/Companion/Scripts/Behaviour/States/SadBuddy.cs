@@ -11,152 +11,113 @@ namespace BuddyApp.Companion
 	public class SadBuddy : AStateMachineBehaviour
 	{
 
-		private float mSadTime;
+		private float mLookingTime;
+		private float mTimeThermal;
+		private float mTimeLastThermal;
 
-		private bool mLookForSomeone;
-		private bool mWander;
-		private bool mVocalTrigger;
-		private bool mBatteryVeryLow;
-		private bool mFaceDetected;
-		private bool mHumanDetected;
-		private bool mBuddyMotion;
-		private bool mKidnapping;
-		private bool mWandering;
+		//private Reaction mReaction;
 
 		public override void Start()
 		{
-			//mSensorManager = BYOS.Instance.SensorManager;
-
 			mState = GetComponentInGameObject<Text>(0);
+			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mState.text = "Sad Buddy";
-			Debug.Log("state: Sad Buddy");
+			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
+			mDetectionManager.mDetectedElement = Detected.NONE;
+			mState.text = "SadBuddy";
+			Debug.Log("state: SadBuddy");
 
-			mLookForSomeone = false;
-			mWander = false;
-			mVocalTrigger = false;
-			mBatteryVeryLow = false;
-			mFaceDetected = false;
-			mKidnapping = false;
-			mBuddyMotion = false;
-			mHumanDetected = false;
-			mWandering = false;
-
-			mSadTime = 0F;
-			Interaction.TextToSpeech.Say("Personne ne veut jouer avec moi!", true);
-            Interaction.Mood.Set(MoodType.SAD);
-
+			mLookingTime = 0F;
+			mTimeLastThermal = 0F;
+            Interaction.TextToSpeech.SayKey("nooneplay", true);
+			Interaction.Mood.Set(MoodType.SAD);
+			mTimeThermal = 0F;
 			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
-            Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-			Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = true;
-
-
 			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].enabled = true;
-            Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = true;
-        }
+		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mLookingTime = Time.deltaTime;
 
-			if (Primitive.Battery.EnergyLevel < 10) {
-				mBatteryVeryLow = true;
-			}
 
-			mSadTime = Time.deltaTime;
-			if (mVocalTrigger) {
-				// If Buddy is vocally triggered
-				if (mBatteryVeryLow) {
-					Interaction.TextToSpeech.Say("Désolé mais je suis très fatigué, je vais me coucher! [800] Bonne nuit!", true);
-					iAnimator.SetTrigger("CHARGE");
-				} else {
-					iAnimator.SetTrigger("VOCALTRIGGERED");
-				}
+			if (mActionManager.ThermalFollow && (Time.time - mTimeThermal > CompanionData.Instance.InteractDesire
+				|| (Time.time - mTimeLastThermal > 5.0F))) {
+				Debug.Log("sad buddy start wandering");
+			mActionManager.StartWander(MoodType.SAD);
+		}
 
-			} else if (mHumanDetected) {
-				Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-				Interaction.Mood.Set(MoodType.HAPPY);
-				iAnimator.SetTrigger("PROPOSEGAME");
+			//if (mLookingTime > 3000)
+			//TODO: after sometime, do something? Activarte some BML...
 
-			} else if (mKidnapping) {
-				Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-				Interaction.Mood.Set(MoodType.HAPPY);
-				iAnimator.SetTrigger("KIDNAPPING");
+			if (mDetectionManager.mFacePartTouched != FaceTouch.NONE) {
+				mDetectionManager.mFacePartTouched = FaceTouch.NONE;
+				Trigger("PROPOSEGAME");
 
-			} else if (mFaceDetected) {
-
-				// If Buddy sees a face and wants to interact
-				if (mBatteryVeryLow) {
-                    Interaction.TextToSpeech.Say("Désolé mais je suis très fatigué, je vais me coucher! [800] Bonne nuit!", true);
-					iAnimator.SetTrigger("CHARGE");
-				} else {
-					//mTTS.Say("Hey, voulez vous jouer avec moi?", true);
-					Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-                    Interaction.Mood.Set(MoodType.HAPPY);
-					iAnimator.SetTrigger("INTERACT");
-				}
-
-			} else if (mBatteryVeryLow) {
-				//TODO put in dictionary
-				//mTTS.Say("Je suis très fatigué, je vais me coucher! [800] Bonne nuit tout le monde!", true);
-				iAnimator.SetTrigger("CHARGE");
-
-			} else if (mSadTime > 300F) {
-				iAnimator.SetTrigger("SEEKATTENTION");
 			} else {
-				// Do sad stuff: move around slowly
+
+				switch (mDetectionManager.mDetectedElement) {
+					case Detected.TRIGGER:
+						Interaction.Mood.Set(MoodType.HAPPY);
+						Trigger("PROPOSEGAME");
+						break;
+
+					case Detected.TOUCH:
+						Interaction.Mood.Set(MoodType.HAPPY);
+						Trigger("PROPOSEGAME");
+						break;
+
+
+					case Detected.KIDNAPPING:
+						Interaction.Mood.Set(MoodType.HAPPY);
+						Trigger("KIDNAPPING");
+						break;
+
+					case Detected.BATTERY:
+						Trigger("CHARGE");
+						break;
+
+					// If thermal signature, activate thermal follow for some time
+					case Detected.THERMAL:
+						mTimeLastThermal = Time.time;
+						if ( !mActionManager.ThermalFollow) {
+							//Stop wandering and go to thermal follow
+							Debug.Log("sadBuddy start following " + CompanionData.Instance.InteractDesire);
+							mTimeThermal = Time.time;
+							mDetectionManager.mDetectedElement = Detected.NONE;
+							Interaction.Mood.Set(MoodType.SAD);
+							mActionManager.StartThermalFollow(HumanFollowType.HEAD_ONLY);
+						}
+						break;
+
+					case Detected.HUMAN_RGB:
+						mDetectionManager.mDetectedElement = Detected.NONE;
+						break;
+
+
+					default:
+						break;
+				}
 			}
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HUMAN_DETECTED, OnHumanDetected);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.KIDNAPPING, OnKidnapping);
-            Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.FACE_DETECTED, OnFaceDetected);
-
-
 			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.HUMAN_DETECTED].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.KIDNAPPING].enabled = false;
-            Perception.Stimuli.Controllers[StimulusEvent.FACE_DETECTED].enabled = false;
-        }
+			mDetectionManager.mDetectedElement = Detected.NONE;
+		}
+
 
 		void OnRandomMinuteActivation()
 		{
-			Interaction.TextToSpeech.Say("Quelqu'un veut faire un jeu?", true);
+			// Say something?
+			Interaction.TextToSpeech.SayKey("nooneplay", true);
 		}
-
-		void OnKidnapping()
-		{
-			mKidnapping = true;
-		}
-
-		void OnHumanDetected()
-		{
-			mHumanDetected = true;
-		}
-
-		void OnFaceDetected()
-		{
-			mFaceDetected = true;
-		}
-
-		void OnSphinxActivation()
-		{
-            Interaction.Mood.Set(MoodType.HAPPY);
-			mVocalTrigger = true;
-		}
-
 
 	}
 }

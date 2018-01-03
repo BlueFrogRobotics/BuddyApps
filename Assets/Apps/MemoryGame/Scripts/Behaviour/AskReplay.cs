@@ -17,10 +17,7 @@ namespace BuddyApp.MemoryGame
 		private List<string> mRefusePhonetics;
 		private List<string> mAnotherPhonetics;
 		private List<string> mQuitPhonetics;
-
-		public override void Start()
-		{
-		}
+		private int mError;
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -28,13 +25,9 @@ namespace BuddyApp.MemoryGame
 			ResetTrigger("IntroDone");
 			mListening = false;
 			mSpeechReco = "";
+			mError = 0;
 
-			mAcceptPhonetics = new List<string>(Dictionary.GetPhoneticStrings("accept"));
-			mRefusePhonetics = new List<string>(Dictionary.GetPhoneticStrings("refuse"));
-			mAnotherPhonetics = new List<string>(Dictionary.GetPhoneticStrings("another"));
-			mQuitPhonetics = new List<string>(Dictionary.GetPhoneticStrings("quit"));
-
-			Interaction.TextToSpeech.SayKey("askreplay");
+            Interaction.TextToSpeech.SayKey("askreplay");
 
 			Interaction.SpeechToText.OnBestRecognition.Clear();
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
@@ -57,20 +50,27 @@ namespace BuddyApp.MemoryGame
 				return;
 			}
 
-			if (mAcceptPhonetics.Contains(mSpeechReco) || mAnotherPhonetics.Contains(mSpeechReco)) {
+			if (ContainsOneOf(mSpeechReco, Dictionary.GetPhoneticStrings("accept")) || ContainsOneOf(mSpeechReco, Dictionary.GetPhoneticStrings("another"))) {
 				Toaster.Hide();
 				RePlay();
-			} else if (mRefusePhonetics.Contains(mSpeechReco) || mQuitPhonetics.Contains(mSpeechReco)) {
+			} else if (ContainsOneOf(mSpeechReco, Dictionary.GetPhoneticStrings("refuse")) || ContainsOneOf(mSpeechReco, Dictionary.GetPhoneticStrings("quit"))) {
 				Toaster.Hide();
 				ExitMemoryGame();
 			} else {
-				Interaction.TextToSpeech.SayKey("notunderstand", true);
-				Interaction.TextToSpeech.Silence(1000, true);
-				Interaction.TextToSpeech.SayKey("yesorno", true);
-				Interaction.TextToSpeech.Silence(1000, true);
-				Interaction.TextToSpeech.SayKey("redopose", true);
+				mError++;
+				if (mError > 2) {
+					Interaction.Mood.Set(MoodType.NEUTRAL);
+					QuitApp();
+				} else {
+					Interaction.TextToSpeech.SayKey("notunderstand", true);
+					Interaction.TextToSpeech.Silence(1000, true);
+					Interaction.TextToSpeech.SayKey("yesorno", true);
+					Interaction.TextToSpeech.Silence(1000, true);
+					Interaction.TextToSpeech.SayKey("redopose", true);
 
-				mSpeechReco = "";
+					mSpeechReco = "";
+
+				}
 			}
 
 		}
@@ -115,6 +115,24 @@ namespace BuddyApp.MemoryGame
 			Interaction.Mood.Set(MoodType.NEUTRAL);
 			mSpeechReco = "";
 			mListening = false;
+		}
+
+		private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
+		{
+			iSpeech = iSpeech.ToLower();
+			for (int i = 0; i < iListSpeech.Length; ++i) {
+				string[] words = iListSpeech[i].Split(' ');
+				if (words.Length < 2) {
+					words = iSpeech.Split(' ');
+					foreach (string word in words) {
+						if (word == iListSpeech[i].ToLower()) {
+							return true;
+						}
+					}
+				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+					return true;
+			}
+			return false;
 		}
 
 	}

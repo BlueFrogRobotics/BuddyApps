@@ -21,7 +21,15 @@ namespace BuddyApp.Companion
     {
 		protected UnityEngine.UI.Text mState;
 
-        private Dictionary<string, int> mCommonIntegers;
+
+		protected DetectionManager mDetectionManager;
+		protected ActionManager mActionManager;
+
+		//public DetectionManager DetectionManager { get; set; }
+		//public ActionManager ActionManager { get; set; }
+
+
+		private Dictionary<string, int> mCommonIntegers;
         private Dictionary<string, float> mCommonSingles;
         private Dictionary<string, string> mCommonStrings;
         private Dictionary<string, object> mCommonObjects;

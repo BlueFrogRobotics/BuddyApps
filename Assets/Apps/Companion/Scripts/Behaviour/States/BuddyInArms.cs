@@ -15,29 +15,24 @@ namespace BuddyApp.Companion
 		public override void Start()
 		{
 			mState = GetComponentInGameObject<Text>(0);
-			//mSensorManager = BYOS.Instance.SensorManager;
-		}
+			mDetectionManager = GetComponent<DetectionManager>();
+        }
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "Buddy in Arms";
 			Debug.Log("state: Buddy in Arms");
-			mVocalTriggered = false;
 			mTimeInArmns = 0F;
 			if (CompanionData.Instance.InteractDesire > 40) {
-				Interaction.TextToSpeech.Say("J'aime être dans tes bras!", true);
+				Interaction.TextToSpeech.SayKey("ilikearm", true);
 				CompanionData.Instance.InteractDesire -= 10;
-                Interaction.Mood.Set(MoodType.HAPPY);
+				Interaction.Mood.Set(MoodType.HAPPY);
 			} else {
-                Interaction.TextToSpeech.Say("Laisse moi rouler!!!", true);
+				Interaction.TextToSpeech.SayKey("letmeroll", true);
 				CompanionData.Instance.InteractDesire -= 20;
-                Interaction.Mood.Set(MoodType.GRUMPY);
+				Interaction.Mood.Set(MoodType.GRUMPY);
 			}
-
-
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-
-            Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = true;
 		}
 
 
@@ -45,23 +40,18 @@ namespace BuddyApp.Companion
 		{
 			mTimeInArmns += Time.deltaTime;
 
-			if (mVocalTriggered)
-                Interaction.TextToSpeech.Say("Que puis-je pour toi?", true);
-			iAnimator.SetTrigger("VOCALTRIGGERED");
-			if (mTimeInArmns > 5F)
+			if (mDetectionManager.mDetectedElement == Detected.TRIGGER) {
+				//Interaction.TextToSpeech.Say("Que puis-je pour toi?", true);
+				iAnimator.SetTrigger("VOCALTRIGGERED");
+			}else if (mTimeInArmns > 5F)
 				iAnimator.SetTrigger("INTERACT");
 		}
 
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.SPHINX_TRIGGERED, OnSphinxActivation);
-			Perception.Stimuli.Controllers[StimulusEvent.SPHINX_TRIGGERED].enabled = false;
-        }
 
-		void OnSphinxActivation()
-		{
-			mVocalTriggered = true;
+			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 	}
 }

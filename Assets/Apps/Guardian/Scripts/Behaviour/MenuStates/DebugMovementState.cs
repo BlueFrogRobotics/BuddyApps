@@ -119,7 +119,10 @@ namespace BuddyApp.Guardian
                 mMovementTracker.ChangeThreshold(OnMovementDetected, lNewThreshold);
                 Debug.Log("threshold de test: " + lNewThreshold);
             }
-            mRaw.texture = mCam.FrameTexture2D;
+			Mat mMat = new Mat();
+			Mat mMatSrc = mCam.FrameMat;
+			Core.flip(mMatSrc, mMat, 1);
+			mRaw.texture = Utils.MatToTexture2D(mMat);
         }
 
 
@@ -132,7 +135,7 @@ namespace BuddyApp.Guardian
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
 
-            Debug.Log(iMotions.Length + " C'est la Motion");
+            Debug.Log(iMotions.Length + " it's Motion");
 
             Mat lCurrentFrame = mCam.FrameMat.clone();
 
@@ -140,7 +143,10 @@ namespace BuddyApp.Guardian
                 Imgproc.circle(lCurrentFrame, Utils.Center(lEntity.RectInFrame), 3, new Scalar(255, 0, 0), -1);
             }
 
-            Utils.MatToTexture2D(lCurrentFrame, Utils.ScaleTexture2DFromMat(lCurrentFrame, mTexture));
+			Mat mMat = new Mat();
+			Mat mMatSrc = lCurrentFrame;
+			Core.flip(mMatSrc, mMat, 1);
+			Utils.MatToTexture2D(mMat, Utils.ScaleTexture2DFromMat(mMat, mTexture));
             mRaw.texture = mTexture;
          
             if(iMotions.Length > 0 )

@@ -16,31 +16,28 @@ namespace BuddyApp.Companion
 		public override void Start()
 		{
 			mState = GetComponentInGameObject<Text>(0);
-			//mSensorManager = BYOS.Instance.SensorManager;
+			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			Debug.Log("state: Goto charge");
 			mState.text = "Goto charge: " +	BYOS.Instance.Primitive.Battery.EnergyLevel;
-			mSpeechTriggered = false;
-			mVeryLowBattery = false;
 			Interaction.Mood.Set(MoodType.TIRED);
-            Interaction.TextToSpeech.Say("Je vais me recharger", true);
-
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
-			
-			Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = true;
+            //Interaction.TextToSpeech.Say("igotocharge", true);
 
 
         }
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-
-			if (mSpeechTriggered) {
-				if (mVeryLowBattery) {
-					Interaction.TextToSpeech.Say("Désolé, je suis trop fatigué, je dois aller me recharger", true);
+			if (mDetectionManager.mDetectedElement == Detected.TRIGGER) {
+				//Interaction.TextToSpeech.Say("Que puis-je pour toi?", true);
+				iAnimator.SetTrigger("VOCALTRIGGERED");
+				if (Primitive.Battery.EnergyLevel < 10) {
+					Interaction.TextToSpeech.SayKey("batterytoolow", true);
 					mSpeechTriggered = false;
                 } else {
 					iAnimator.SetTrigger("ASKCHARGE");
@@ -50,19 +47,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.VERY_LOW_BATTERY, OnVeryLowBattery);
-			
-            Perception.Stimuli.Controllers[StimulusEvent.VERY_LOW_BATTERY].enabled = false;
+			mDetectionManager.mDetectedElement = Detected.NONE;
         }
-
-		void OnSphinxActivation()
-		{
-			mSpeechTriggered = true;
-		}
-
-		void OnVeryLowBattery()
-		{
-			mVeryLowBattery = true;
-		}
 	}
 }

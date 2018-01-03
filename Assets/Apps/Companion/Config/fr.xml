@@ -31,14 +31,10 @@
                 <string>concombre</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>oui</string>
-                <string>ouais</string>
                 <string>d'accord</string>
-                <string>yep</string>
                 <string>affirmatif</string>
                 <string>ok</string>
                 <string>okay</string>
-                <string>concombre</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -125,6 +121,457 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Je vous écoute</string>
+                <string>Que puis-je pour vous?</string>
+                <string>Quel est votre besoin?</string>
+                <string>Comment puis-je vous aider?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>ilikearm</Key>
+            <BaseValue>J'aime être dans tes bras!</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>J'aime être dans tes bras!</string>
+                <string>On est bien ici!</string>
+                <string>J'espère que je ne suis pas trop lourd pour toi!</string>
+                <string>J'aime être proche de toi</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>letmeroll</Key>
+            <BaseValue>Laissez moi rouler!</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Laisssez-moi rouler!</string>
+                <string>J'aime pas être en hauteur, laisse moi rouler!</string>
+                <string>Laisse moi tranquile!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>anyoneplay</Key>
+            <BaseValue>Quelqu'un veut jouer avec moi?</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Quelqu'un veut jouer avec moi?</string>
+                <string>Est-ce que quelqu'un veut jouer?</string>
+                <string>Qui veut jouer?</string>
+                <string>Je me sent seul, quelqu'un veut jouer?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>startwander</Key>
+            <BaseValue>Je vais me balader!</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je vais me balader!</string>
+                <string> Je vais me promener</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>nooneplay</Key>
+            <BaseValue>Personne ne veut jouer!</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Personne ne veut jouer!</string>
+                <string> Je me sent triste, personne ne veut jouer!</string>
+                <string>Je me sent seul.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>catchattention</Key>
+            <BaseValue>J'essaye d'attirer ton attention!</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Hello, voulez-vous jouer avec moi?</string>
+                <string>Bonjour, on fait un jeu?</string>
+                <string>Salut, salut!</string>
+                <string>Hey, je suis là!</string>
+                <string>Il y a un robot qui a besoin d'un câlin par ici!</string>
+                <string>Qui veut un câlin? [1500] Moi!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>otherquestion</Key>
+            <BaseValue>Autre chose?</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Autre chose?</string>
+                <string>Puis-je faire autre chose?</string>
+                <string>Que puis-je faire d'autre?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>givehour</Key>
+            <BaseValue>Il est [hour] heure</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Au troisième top, il sera exactement [hour] heures, [minute] minutes et [second] secondes [700] top [700] top [700] et top</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>givedate</Key>
+            <BaseValue>Aujourd'hui nous sommes [weekday] [day] [month] [year]</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Aujourd'hui nous sommes [weekday] [day] [month] [year]</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>isaid</Key>
+            <BaseValue>J'ai dit </BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>J'ai dit</string>
+                <string>Je disais</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>follow</Key>
+            <BaseValue>Je vous suis</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Ok, je vous suis!</string>
+                <string> Je vous suis</string>
+                <string>Ok, montrez moi la route!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>notunderstand</Key>
+            <BaseValue>Je n'ai rien entendu</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Pardon, j'ai du mal comprendre!</string>
+                <string>J'ai bien peur qu'il faille me redire ça</string>
+                <string>il semble que mes circuits n'aient pas tout capté, tu pourrais répéter?</string>
+                <string>ah, ça doit être très drôle mais là j'ai bien peur que tu sois obligé de répéter</string>
+                <string>tu parles tellement vite que même un robot ne comprend pas!</string>
+                <string>je vois en toi une âme de perroquet, tu me redis ça vite fait?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>moveforward</Key>
+            <BaseValue>J'avance</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>J'avance de [meters] mètres</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>movebackward</Key>
+            <BaseValue>Je recule</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Attention je recule de [meters] mètres</string>
+                <string>Je recule de [meters] mètres</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headdown</Key>
+            <BaseValue>Je baisse la tête</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je baisse la tête de [degrees] degrés</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headup</Key>
+            <BaseValue>Je lève la tête</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je lève la tête de [degrees] degrés</string>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headright</Key>
+            <BaseValue>Je regarde à droite</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je regarde à droite </string>
+                <string> Je tourne la tête de [degrees] degrès sur la droite</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headleft</Key>
+            <BaseValue>Je regarde à gauche</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je regarde à gauche</string>
+                <string>Je tourne la tête de [degrees] degrés sur la gauche.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>wanderdesire</Key>
+            <BaseValue>Désir de bouger</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>interactdesire</Key>
+            <BaseValue>Désir d'intéragir</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>cantrigger</Key>
+            <BaseValue>Déclencheur vocal</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>wheelsmotion</Key>
+            <BaseValue>Mouvement de roues</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headmotion</Key>
+            <BaseValue>Mouvement de tête</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>moveright</Key>
+            <BaseValue>Je tourne à droite</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je tourne de [degrees] degrés sur la droite</string>
+                <string> Je vais [degrees] degrés sur la droite</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>moveleft</Key>
+            <BaseValue>Je vais vers la gauche</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je tourne de [degrees] degrés sur la gauche</string>
+                <string>Je vais [degrees] degrés à gauche</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>volumeup</Key>
+            <BaseValue />
+            <ClosePhoneticValues />
+            <RandomValues />
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>volume</Key>
+            <BaseValue>Mon volume est à</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Mon volume est à</string>
+                <string>Mon volume est réglé à</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>volumedown</Key>
+            <BaseValue>Je réduis le volume de</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je réduis le volume de</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>istopmoving</Key>
+            <BaseValue>J'arrête de bouger</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>ok, je reste ici</string>
+                <string>ok je ne bouge plus</string>
+                <string>d'accord, je ne bouge plus</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>noanswerfound</Key>
+            <BaseValue>Pas de réponse</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>C'est gênant, je ne sais pas quoi répondre...</string>
+                <string>  Vous voulez pas plutôt me demander de raconter une blague?</string>
+                <string> Je préfèrerais que vous me demandiez autre chose... </string>
+                <string>42, [500] ça n'est peut-être pas la bonne réponse, mais c'est mieux que rien </string>
+                <string>Je vais faire comme si je n'avais pas compris </string>
+                <string> Des questions comme ça, je n'en souhaite à personne! </string>
+                <string> Je ne prétends pas tout savoir! </string>
+                <string> Il y a des fois, il est préférable de ne pas répondre! </string>
+                <string> Si vous avez une autre question, ça m'arrangerait </string>
+                <string> J'ai bien compris mais la réponse risque vraiment de ne pas vous plaire </string>
+                <string> Un jour quelqu'un m'a déjà posé ce genre de question...il n'a pas aimé la réponse! </string>
+                <string> Allez, [333] on va dire que vous me faites une plaisanterie! </string>
+                <string> C'est une question trop personnelle </string>
+                <string>Je vous invite à me poser une autre question</string>
+                <string> Vous savez que je vous aime beaucoup, mais je ne répondrai pas à cette question</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>userquit</Key>
+            <BaseValue>à bientôt</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>OK </string>
+                <string> Quittons-nous bon zami! </string>
+                <string> Bonbain salut </string>
+                <string> Tchao </string>
+                <string> Astala vista </string>
+                <string> Prenez soins de vous </string>
+                <string> Salut </string>
+                <string> Au plaisir </string>
+                <string> Ok, faite moi signe quand vous le voulez </string>
+                <string> On va faire comme ça</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sick</Key>
+            <BaseValue>malade</BaseValue>
+            <ClosePhoneticValues>
+                <string>malade</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>malade</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sad</Key>
+            <BaseValue>triste</BaseValue>
+            <ClosePhoneticValues>
+                <string>triste</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>triste</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>lovely</Key>
+            <BaseValue>adorable</BaseValue>
+            <ClosePhoneticValues>
+                <string>adorable</string>
+                <string>amoureux</string>
+                <string>amour</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>adorable</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>happy</Key>
+            <BaseValue>heureux</BaseValue>
+            <ClosePhoneticValues>
+                <string>heureux</string>
+                <string>joyeux</string>
+                <string>content</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>heureux</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>tired</Key>
+            <BaseValue>fatigué</BaseValue>
+            <ClosePhoneticValues>
+                <string>fatigué</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>fatigué</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>angry</Key>
+            <BaseValue>énervé</BaseValue>
+            <ClosePhoneticValues>
+                <string>énervé</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>énervé</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>grumpy</Key>
+            <BaseValue>grognon</BaseValue>
+            <ClosePhoneticValues>
+                <string>grognon</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>grognon</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>scared</Key>
+            <BaseValue>effrayé</BaseValue>
+            <ClosePhoneticValues>
+                <string>effrayé</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>effrayé</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

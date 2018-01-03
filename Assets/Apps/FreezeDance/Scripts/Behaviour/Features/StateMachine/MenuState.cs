@@ -11,34 +11,38 @@ namespace BuddyApp.FreezeDance
         private bool mListening;
         private float mTimer = 0.0f;
         private bool mSwitchState = false;
+        private MusicPlayer mMusicPlayer;
 
         public override void Start()
         {
+            mMusicPlayer = GetComponent<MusicPlayer>();
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            
+            mMusicPlayer.Restart();
             Interaction.TextToSpeech.SayKey("nextaction");
             Interaction.Mood.Set(MoodType.NEUTRAL);
-            Interaction.SpeechToText.OnBestRecognition.Add(OnRecognition);
+            //Interaction.SpeechToText.OnBestRecognition.Add(OnRecognition);
             mSwitchState = false;
             mListening = false;
             Toaster.Display<ChoiceToast>().With(
                    "menu",
                    new ButtonInfo()
                    {
-                       Label = "start",
+                       Label = Dictionary.GetString("play"),//"start",
                        OnClick = () => Trigger("Start")
                    },
+                   //new ButtonInfo()
+                   //{
+                   //    Label = Dictionary.GetString("setupandplay"),//"help",
+                   //    OnClick = () => Trigger("Settings")
+                   //},
                    new ButtonInfo()
                    {
-                       Label = "help",
-                       OnClick = () => Trigger("Start")
-                   },
-                   new ButtonInfo()
-                   {
-                       Label = "quit",
-                       OnClick = () => QuitApp()
+                       Label = Dictionary.GetString("bestscores"),//"quit",
+                       OnClick = () => Trigger("Ranking")
                    });
             mTimer = 0.0f;
         }
@@ -60,14 +64,15 @@ namespace BuddyApp.FreezeDance
             if(!mListening && !mSwitchState)
             {
                 Interaction.Mood.Set(MoodType.LISTENING);
-                Interaction.SpeechToText.Request(); 
+                //Interaction.SpeechToText.Request(); 
                 mListening = true;
             }
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Interaction.SpeechToText.OnBestRecognition.Remove(OnRecognition);
+            Toaster.Hide();
+            //Interaction.SpeechToText.OnBestRecognition.Remove(OnRecognition);
         }
 
         private void OnRecognition(string iText)

@@ -39,8 +39,9 @@ namespace BuddyApp.RemoteControl
 	    private string mWebrtcReceiverObjectName;
 
 	    [Header("GUI")]
-	    public RawImage mRemoteRawImage = null;
-	    public RawImage mLocalRawImage = null;
+		public RawImage mRemoteRawImage = null;
+		public RawImage mLocalRawImage = null;
+		public RawImage buddyFace = null;
 
 	    /// <summary>
 	    /// Android Texture object
@@ -62,9 +63,9 @@ namespace BuddyApp.RemoteControl
 	    void OnEnable()
 	    {
 	        // Setup and start webRTC
-	        //SetupWebRTC();
-	        //StartWebRTC();
-			EnableWebRTC();
+	        SetupWebRTC();
+	        StartWebRTC();
+			//EnableWebRTC();
 
 			mRemoteNativeTexture = new RemoteNativeTexture(640, 480);
             mLocalNativeTexture = new LocalNativeTexture(640, 480);
@@ -72,6 +73,8 @@ namespace BuddyApp.RemoteControl
 	        // Show the android texture in a Unity raw image
 	        mRemoteRawImage.texture = mRemoteNativeTexture.texture;
             mLocalRawImage.texture = mLocalNativeTexture.texture;
+
+			buddyFace.texture = BYOS.Instance.Interaction.Face.Texture;
         }
 
 	    void Update()

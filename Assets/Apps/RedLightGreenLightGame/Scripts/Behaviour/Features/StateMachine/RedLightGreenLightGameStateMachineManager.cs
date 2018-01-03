@@ -58,6 +58,11 @@ namespace BuddyApp.RedLightGreenLightGame
                     "Animator of the state machine manager is not set", true);
         }
 
+        //void OnEnable()
+       // {
+      //      Start();
+      //  }
+
         internal void AddComponentLink<T>() where T : Component
         {
             gameObject.AddComponent<T>();

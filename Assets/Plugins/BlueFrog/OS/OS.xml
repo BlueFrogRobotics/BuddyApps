@@ -713,7 +713,7 @@
             Current installed app version
             </summary>
         </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionType">
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionStatus">
             <summary>
             Current installed app version type
             </summary>
@@ -864,11 +864,6 @@
             If the behavior is running, tells at which step it's currently at.
             </summary>
         </member>
-        <member name="P:Buddy.BML.ID">
-            <summary>
-            ID of the BML.
-            </summary>
-        </member>
         <member name="P:Buddy.BML.Name">
             <summary>
             Name of the BML (its filename).
@@ -877,6 +872,11 @@
         <member name="P:Buddy.BML.Category">
             <summary>
             Category of the behavior.
+            </summary>
+        </member>
+        <member name="P:Buddy.BML.Parameters">
+            <summary>
+            The parameters related to the execution of this behavior.
             </summary>
         </member>
         <member name="F:Buddy.BML.mBlocksID">
@@ -972,28 +972,40 @@
             The list of all currently running behaviors.
             </summary>
         </member>
-        <member name="M:Buddy.BMLManager.LaunchByName(System.String,Buddy.BMLComposition)">
+        <member name="P:Buddy.BMLManager.DonePlaying">
             <summary>
-            Launches a Behavior.
+            Tells whether all behaviors are done playing.
+            </summary>
+        </member>
+        <member name="M:Buddy.BMLManager.LoadAppBML">
+            <summary>
+            Loads all BML from current App.
+            </summary>
+        </member>
+        <member name="M:Buddy.BMLManager.LoadFile(System.String)">
+            <summary>
+            Loads a single BML from current App.
+            </summary>
+            <param name="iFileName">The full name of the BML to load (e.g. "bml.xml").</param>
+            <returns>False if file is not found or doesn't exist.</returns>
+        </member>
+        <member name="M:Buddy.BMLManager.LaunchByName(System.String,System.Collections.Generic.Dictionary{System.String,System.String},Buddy.BMLComposition)">
+            <summary>
+            Launches a Behavior. Will check first in App's BML, then OS's BML.
             </summary>
             <param name="iName">The name of the behavior described by the BML's name.</param>
+            <param name="iParams">Parameters for the execution of the behavior. The keys should be the parameter's names and the value the target value of the attribute.</param>
             <param name="iComposition">Composition type of the behavior.</param>
             <returns>False if the BML was not found.</returns>
         </member>
-        <member name="M:Buddy.BMLManager.LaunchByID(System.String,Buddy.BMLComposition)">
-            <summary>
-            Launches a Behavior.
-            </summary>
-            <param name="iID">The name of the behavior described by the BML's ID.</param>
-            <param name="iComposition">Composition type of the behavior.</param>
-            <returns>False if the BML was not found.</returns>
-        </member>
-        <member name="M:Buddy.BMLManager.LaunchRandom(Buddy.BMLCategory,Buddy.BMLComposition)">
+        <member name="M:Buddy.BMLManager.LaunchRandom(System.String,System.Collections.Generic.Dictionary{System.String,System.String},Buddy.BMLComposition,Buddy.BMLContext)">
             <summary>
             Launches a random behavior that belongs to a certain category.
             </summary>
             <param name="iCategory">The Category type to search in.</param>
+            <param name="iParams">Parameters for the execution of the behavior. The keys should be the parameter's names and the value the target value of the attribute.</param>
             <param name="iComposition">Composition type of the behavior.</param>
+            <param name="iContext">The context from which a random BML should be executed. Cand be from current APP, from the OS or both.</param>
             <returns>False if no behavior was found for the category, true if one was successfuly started.</returns>
         </member>
         <member name="M:Buddy.BMLManager.StopAllBehaviors">
@@ -1187,6 +1199,22 @@
             This class contains all the navigation components (Exploration, Patrol, go to position...)
             </summary>
         </member>
+        <member name="T:Buddy.RandomWalk">
+            <summary>
+            Random walk animation based on a mood type.
+            </summary>
+        </member>
+        <member name="M:Buddy.RandomWalk.StartWander(Buddy.MoodType)">
+            <summary>
+            Start wandering around.
+            </summary>
+            <param name="iMood">The mood that should be expressed through the motion.</param>
+        </member>
+        <member name="M:Buddy.RandomWalk.StopWander">
+            <summary>
+            Stop wandering around.
+            </summary>
+        </member>
         <member name="T:Buddy.RoombaNavigation">
             <summary>
             Ultra basic random navigation for navigation tests
@@ -1212,7 +1240,7 @@
             The current setted velocity of the robot
             </summary>
         </member>
-        <member name="M:Buddy.RoombaNavigation.Start">
+        <member name="M:Buddy.RoombaNavigation.Awake">
             <summary>
             Called once at the start
             </summary>
@@ -1273,6 +1301,44 @@
             Change the orientation of the robot
             </summary>
             <param name="iDirection">The orientation in degrees</param>
+        </member>
+        <member name="F:Buddy.HumanFollowType.BODY">
+            <summary>
+            Budy moves its whole body to follow the human.
+            </summary>
+        </member>
+        <member name="F:Buddy.HumanFollowType.ROTATION_AND_HEAD">
+            <summary>
+            Buddy rotates on himself to track the human that is being detected.
+            </summary>
+        </member>
+        <member name="F:Buddy.HumanFollowType.HEAD_ONLY">
+            <summary>
+            Buddy only moves it head to track the detected human.
+            </summary>
+        </member>
+        <member name="T:Buddy.FacialDetectionRework">
+            <summary>
+            Tracker that tracks the position of a moving object 
+            </summary>
+            <summary>
+            Detect moving points in frame
+            </summary>
+        </member>
+        <member name="M:Buddy.FacialDetectionRework.InitImpl(System.Int32@,System.Single@)">
+            <summary>
+            Init the movement tracker
+            </summary>
+            <param name="ioOutputType">The output type</param>
+            <param name="ioDelay">Refresh time</param>
+            
+        </member>
+        <member name="M:Buddy.FacialDetectionRework.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D)">
+            <summary>
+            Process the algorithm
+            </summary>
+            <param name="iInputFrameMat">The input frame as Matrix</param>
+            <param name="iInputFrameTexture">The inout frame as Texture</param>
         </member>
         <member name="T:Buddy.Perception">
             <summary>
@@ -1347,6 +1413,11 @@
             Feature to make prediction on available models
             </summary>
         </member>
+        <member name="P:Buddy.Perception.FaceDetect">
+            <summary>
+            Feature to detect face
+            </summary>
+        </member>
         <member name="M:Buddy.TensorFlowClassifier.ConvertToGrayscale(OpenCVUnity.Mat,System.Int32,System.Int32)">
             <summary>
             Converts a Mat into grayscale float array with desired output width and height
@@ -1375,7 +1446,7 @@
         </member>
         <member name="M:Buddy.TensorFlowClassifier.InferInceptionLabel">
             <summary>
-            Guess what is seen in the image, associating a label with a probability associated
+            Guess what is seen in the image, associating a label with a probability associated. Camera has to be open for this method to work.
             </summary>
             <returns>
             An array of each detected element in the frame of the camera
@@ -1422,8 +1493,8 @@
             Only one model can be active at a time
             </remarks>
             <param name="iModel">The model that will be initialized</param>
-            <param name="iModelFile">The model file wanted for the chosen classifier</param>
-            <param name="iLabelsFile">The corresponding labels for the classifier's output</param>
+            <param name="iModelFile">The model file wanted for the chosen classifier.</param>
+            <param name="iLabelsFile">The corresponding labels for the classifier's output.</param>
         </member>
         <member name="M:Buddy.TensorFlowClassifier.Predict">
             <summary>
@@ -2158,11 +2229,6 @@
             </summary>
             <param name="iAngleDeg">The angle in degrees</param>
         </member>
-        <member name="P:Buddy.YesHinge.Locked">
-            <summary>
-            Lock set for hinge
-            </summary>
-        </member>
         <member name="T:Buddy.NoHinge">
             <summary>
             Represents the no axe hinge of the robot (Yaw Euler axe)
@@ -2180,11 +2246,6 @@
             Set the hinge at the specified position in degrees
             </summary>
             <param name="iAngleDeg">The angle in degrees</param>
-        </member>
-        <member name="P:Buddy.NoHinge.Locked">
-            <summary>
-            Lock set for hinge
-            </summary>
         </member>
         <member name="T:Buddy.Wheels">
             <summary>
@@ -2246,11 +2307,6 @@
             Enumeration corresponding to the current wheel's status
             </summary>
         </member>
-        <member name="P:Buddy.Wheels.Locked">
-            <summary>
-            Set for robot wheels locking
-            </summary>
-        </member>
         <member name="P:Buddy.Wheels.Error">
             <summary>
             Error code if there is any error on the component
@@ -2263,6 +2319,11 @@
             <returns>Robot's pose (X, Y, Tetha), the position (X,Y) in meters and the orientation Theta in degrees</returns>
             <remarks>Motors is the use of data from motion sensors to estimate change in position over time</remarks>
             <remarks>The robot's pose is a 3D vector that contains (X, Y, Theta). (X, Y) being the robot's position in horizontal plane and Theta the orientation of the robot.</remarks>
+        </member>
+        <member name="P:Buddy.Wheels.Locked">
+            <summary>
+            Set for robot wheels locking
+            </summary>
         </member>
         <member name="M:Buddy.Wheels.SetWheelsSpeed(System.Single,System.Single,System.Int32)">
             <summary>
@@ -2759,16 +2820,18 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Buddy.Speaker.VolumeUp(System.Boolean)">
+        <member name="M:Buddy.Speaker.VolumeUp(System.Int32,System.Boolean)">
             <summary>
             Increases the volume by 1
             </summary>
+            <param name="iValue">The amount the volume should be increased by.</param>
             <param name="iSound">Whether to play sound when changing volume</param>
         </member>
-        <member name="M:Buddy.Speaker.VolumeDown(System.Boolean)">
+        <member name="M:Buddy.Speaker.VolumeDown(System.Int32,System.Boolean)">
             <summary>
             Decreases the volume by 1
             </summary>
+            <param name="iValue">The amount the volume should be decreased by.</param>
             <param name="iSound">Whether to play sound when changing volume</param>
         </member>
         <member name="M:Buddy.Speaker.ChangeVolume(System.Int32,System.Boolean,System.Boolean)">
@@ -3197,7 +3260,7 @@
         </member>
         <member name="P:Buddy.Mood.LastMood">
             <summary>
-            Retrive the last buddy mood
+            Retrieve the last buddy mood
             </summary>
         </member>
         <member name="M:Buddy.Mood.Set(Buddy.MoodType,System.Boolean,System.Boolean)">
@@ -3281,14 +3344,14 @@
             You can also set StartListenBehaviour and StopListenBehaviour.
             </summary>
         </member>
-        <member name="P:Buddy.VocalManager.RecognitionFinished">
-            <summary>
-            Are we in the recognition process (may include error handling) ?
-            </summary>
-        </member>
         <member name="P:Buddy.VocalManager.RecognitionTriggered">
             <summary>
             Tells wether STT Recognition has been triggered or not.
+            </summary>
+        </member>
+        <member name="P:Buddy.VocalManager.DisplayNotification">
+            <summary>
+            Tells if a notification should be displayed after a successful recognition.
             </summary>
         </member>
         <member name="P:Buddy.VocalManager.StartListenBehaviour">
@@ -3336,6 +3399,15 @@
             <summary>
             Open or close the input field window for STT
             </summary>
+        </member>
+        <member name="M:Buddy.VocalManager.StartInstantReco(Buddy.STTStringCallback,Buddy.STTErrorCallback,System.Boolean)">
+            <summary>
+            Stops Trigger Mode and immediately starts STT request for instant listening.
+            </summary>
+            <param name="iOnEndReco">The End recognition callback.</param>
+            <param name="iOnError">The error callback.</param>
+            <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
+            the method restarts the trigger mode after instant recognition</param>
         </member>
         <member name="M:Buddy.VocalManager.StartInstantReco(System.Boolean)">
             <summary>
@@ -3508,6 +3580,11 @@
             Sunny weather
             </summary>
         </member>
+        <member name="F:Buddy.WeatherType.CLEAR">
+            <summary>
+            Clear weather
+            </summary>
+        </member>
         <member name="F:Buddy.WeatherType.OVERCAST">
             <summary>
             Overcast weather
@@ -3518,14 +3595,19 @@
             Cloudy weather
             </summary>
         </member>
-        <member name="F:Buddy.WeatherType.PARTIALLY_CLOUDY">
+        <member name="F:Buddy.WeatherType.PARTLY_CLOUDY">
             <summary>
-            Partial Cloudy weather
+            Partly Cloudy weather
             </summary>
         </member>
         <member name="F:Buddy.WeatherType.RAIN">
             <summary>
-            Rainny weather
+            Rainy weather
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.CHANCE_OF_RAIN">
+            <summary>
+            Chance of rain
             </summary>
         </member>
         <member name="F:Buddy.WeatherType.SNOWY">
@@ -3535,82 +3617,97 @@
         </member>
         <member name="T:Buddy.WeatherError">
             <summary>
-            Error that may happen during a Weather request
+            Error that may happen during a Weather request.
             </summary>
         </member>
         <member name="F:Buddy.WeatherError.NONE">
             <summary>
-            No error
+            No error.
             </summary>
         </member>
         <member name="F:Buddy.WeatherError.UNKNOWN_LOCATION">
             <summary>
-            Unable to find latitude and longitude of provided location
+            Unable to find latitude and longitude of provided location.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherError.MANY_LOCATIONS">
+            <summary>
+            At least 2 cities exist with the same name.
             </summary>
         </member>
         <member name="F:Buddy.WeatherError.GEOLOCALIZATION_FAILED">
             <summary>
-            Localization of device failed
+            Localization of device failed.
             </summary>
         </member>
         <member name="F:Buddy.WeatherError.GEOLOCALIZATION_DISABLED">
             <summary>
-            No location was provided and localization was disabled
+            No location was provided and localization was disabled.
             </summary>
         </member>
         <member name="F:Buddy.WeatherError.REQUEST_FAILED">
             <summary>
-            Weather request timed-out or returned an error
+            Weather request timed-out or returned an error.
             </summary>
         </member>
         <member name="T:Buddy.WeatherInfo">
             <summary>
-            This class represents the weather at a specific hour
+            This class represents the weather at a specific hour.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.Location">
             <summary>
-            Location of the weather info
+            Location of the weather info.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.Hour">
             <summary>
-            Hour of the day
+            Hour of the day.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.Day">
             <summary>
-            Day of the month
+            Day of the month.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.Date">
             <summary>
-            Day with format YYYY-MM-DD
+            Day with format YYYY-MM-DD.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.Type">
             <summary>
-            Weather type (Sunny, overcast, cloudy ...)
+            Weather type (Sunny, overcast, cloudy ...).
             </summary>
         </member>
-        <member name="P:Buddy.WeatherInfo.Temperature">
+        <member name="P:Buddy.WeatherInfo.MinTemperature">
             <summary>
-            The temperature in degrees
+            The maximum expected temperature in degrees.
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.MaxTemperature">
+            <summary>
+            The minimum expected temperature in degrees.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.AverageWindSpeed">
             <summary>
-            The speed of the wind in km/h
+            The speed of the wind in km/h.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.GustWindSpeed">
             <summary>
-            The speed of the gust of wind in km/h
+            The speed of the gust of wind in km/h.
             </summary>
         </member>
         <member name="P:Buddy.WeatherInfo.DegreeWind">
             <summary>
-            The direction of the wind in degree
+            The direction of the wind in degree.
+            </summary>
+        </member>
+        <member name="P:Buddy.WeatherInfo.Rain">
+            <summary>
+            The QPF (Quantitative Preciptation Forecast).
             </summary>
         </member>
         <member name="T:Buddy.Weather">
@@ -3628,6 +3725,15 @@
             <param name="iLocation">Asked location</param>
             <param name="iCallback">Callback with Weather info</param>
             <param name="iNumberOfInfos">Number of information to be retrieved. Use a value of around 60 to get weather for a week after.</param>
+        </member>
+        <member name="M:Buddy.Weather.HourlyAt(System.String,System.Action{Buddy.WeatherInfo[],Buddy.WeatherError},System.Int32,System.Boolean)">
+            <summary>
+            Weather forecast at 8am, 12pm, 4pm and 8pm.
+            </summary>
+            <param name="iLocation">Target location.</param>
+            <param name="iCallback">Callback with weather information.</param>
+            <param name="iNumberOfInfos">Number of informations to be retrieved.</param>
+            <param name="iHourlyFilter">Should hourly filters be applied or not ? If true, only 8am, 12pm, 4pm and 8pm are returned.</param>
         </member>
         <member name="T:Buddy.SMTP">
             <summary>
@@ -4248,6 +4354,16 @@
         <member name="F:Buddy.StimulusEvent.MOVING">
             <summary>
             Buddy moving
+            </summary>
+        </member>
+        <member name="F:Buddy.StimulusEvent.HEAD_FORCED_SOFT">
+            <summary>
+            Head is forced.
+            </summary>
+        </member>
+        <member name="F:Buddy.StimulusEvent.HEAD_FORCED_HARD">
+            <summary>
+            Head is forced harder.
             </summary>
         </member>
         <member name="T:Buddy.Stimuli">
@@ -4990,48 +5106,6 @@
             </summary>
         </member>
         <member name="M:Buddy.Command.KillSndsCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:Buddy.Command.LockYesHingeCmd">
-            <summary>
-            When executed : Lock yes hinge
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockYesHingeCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockYesHingeCmd.#ctor(System.Boolean)">
-            <summary>
-            When executed : Lock yes hinge
-            </summary>
-            <param name="iLock">Must hinges be locked ?</param>
-        </member>
-        <member name="M:Buddy.Command.LockYesHingeCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:Buddy.Command.LockNoHingeCmd">
-            <summary>
-            When executed : Lock no hinge
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockNoHingeCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockNoHingeCmd.#ctor(System.Boolean)">
-            <summary>
-            When executed : Lock no hinge
-            </summary>
-            <param name="iLock">Must hinges be locked ?</param>
-        </member>
-        <member name="M:Buddy.Command.LockNoHingeCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -5928,27 +6002,6 @@
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:Buddy.Command.LockWheelsCmd">
-            <summary>
-            When executed : Lock wheels
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockWheelsCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockWheelsCmd.#ctor(System.Boolean)">
-            <summary>
-            When executed : Lock wheels
-            </summary>
-            <param name="iLock">Must the wheels be locked ?</param>
-        </member>
-        <member name="M:Buddy.Command.LockWheelsCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
         <member name="T:Buddy.Command.UpVolCmd">
             <summary>
             When executed : Increases the volume by 1
@@ -6181,6 +6234,12 @@
             <summary>
             Memory system of Buddy
             </summary>
+        </member>
+        <member name="M:Buddy.DataBase.GetCurrentUser">
+            <summary>
+            The current logged user 
+            </summary>
+            <returns>A UserAccount copy of the current logged user</returns>
         </member>
         <member name="M:Buddy.DataBase.GetUsers">
             <summary>
@@ -6855,6 +6914,30 @@
         <member name="T:Buddy.UserPref">
             <summary>
             This class represents user preferences
+            </summary>
+        </member>
+        <member name="F:Buddy.UI.PoolInflationType.INCREMENT">
+            When a dynamic pool inflates, add one to the pool.
+        </member>
+        <member name="F:Buddy.UI.PoolInflationType.DOUBLE">
+            When a dynamic pool inflates, double the size of the pool
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
+        <member name="M:Buddy.UI.PoolManager.ReturnObjectToPool(UnityEngine.GameObject)">
+            <summary>
+            Return obj to the pool
+            </summary>
+            <param name="go"></param>
+        </member>
+        <member name="M:Buddy.UI.PoolManager.ReturnTransformToPool(UnityEngine.Transform)">
+            <summary>
+            Return obj to the pool
+            </summary>
+            <param name="t"></param>
+        </member>
+        <member name="T:Buddy.UI.VerticalCarouselToast">
+            <summary>
+            Toast to display a vertical carousel
             </summary>
         </member>
         <member name="T:Buddy.UI.AppsContainer">

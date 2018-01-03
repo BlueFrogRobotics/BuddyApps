@@ -15,11 +15,16 @@
             <Key>quit</Key>
             <BaseValue>quitter</BaseValue>
             <ClosePhoneticValues>
-                <string />
+                <string>quitter</string>
+                <string>quitté</string>
+                <string>sortir</string>
+                <string>arrêt</string>
+                <string>stop</string>
+                <string>annuler</string>
+                <string>non</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>quitter</string>
-                <string>quitté</string>
                 <string>sortir</string>
                 <string>arrêt</string>
                 <string>stop</string>
@@ -59,6 +64,10 @@
                 <string>partagé</string>
                 <string>twitter</string>
                 <string>tweet</string>
+                <string>publié</string>
+                <string>publier</string>
+                <string>publie</string>
+                <string>publies</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
@@ -100,6 +109,8 @@
             <BaseValue>oui</BaseValue>
             <ClosePhoneticValues>
                 <string>oui</string>
+                <string>ouais</string>
+                <string>ok</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>oui</string>
@@ -155,6 +166,16 @@
                 <string>Bouge pour déclencher la photo</string>
                 <string>Bouge pour me dire où prendre la photo</string>
                 <string>Remue tes mains pour m'indiquer la zone à photographier</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>bye</Key>
+            <BaseValue>bye</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Ok, C'est quand tu veux pour le prochain shooting!</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

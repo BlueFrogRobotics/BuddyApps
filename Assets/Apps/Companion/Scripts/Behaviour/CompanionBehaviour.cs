@@ -38,13 +38,11 @@ namespace BuddyApp.Companion
          */
         void Update()
         {
-        }
+			// ensure motors stay in same state as config
 
-        /*
-        * Want to make Buddy tell something ?
-        */
-        public void Speak()
-        {
-        } 
-    }
+			//BYOS.Instance.Primitive.Motors.Wheels.Locked = !CompanionData.Instance.CanMoveBody;
+			//BYOS.Instance.Primitive.Motors.YesHinge.Locked = !CompanionData.Instance.CanMoveHead;
+			//BYOS.Instance.Primitive.Motors.NoHinge.Locked = !CompanionData.Instance.CanMoveHead;
+		}
+	}
 }

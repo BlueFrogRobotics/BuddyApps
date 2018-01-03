@@ -16,69 +16,47 @@ namespace BuddyApp.Companion
 	{
 		private float mTimeIdle;
 		private float mPreviousTime;
-		private bool mBatteryLow;
-		private bool mBatteryVeryLow;
-		private bool mFaceDetected;
-		private bool mHumanDetected;
-		private bool mBuddyMotion;
-		private bool mKidnapping;
-		//private HumanRecognition mHumanReco;
-		private KidnappingDetection mKidnappingDetection;
+		private float mTimeRaise;
+		private float mLastBMLTime;
+		private bool mHeadPlaying;
 
-		private const float KIDNAPPING_THRESHOLD = 4.5F;
-
-		//private EyesFollowThermal mEyesFollowThermal;
+		private const int CES_HACK = 10;
 
 		public override void Start()
 		{
 			mState = GetComponentInGameObject<Text>(0);
-			//mEyesFollowThermal = GetComponent<EyesFollowThermal>();
+			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+			mActionManager.StopAllActions();
+			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "IDLE";
 			Debug.Log("state: IDLE");
 
-			//mEyesFollowThermal.enabled = true;
-
-			mBatteryLow = false;
-			mBatteryVeryLow = false;
-			mFaceDetected = false;
-			mKidnapping = false;
-			mBuddyMotion = false;
-			mHumanDetected = false;
-
 			CompanionData.Instance.Bored = 0;
-			CompanionData.Instance.InteractDesire = 60;
 
-			Interaction.Mood.Set(MoodType.NEUTRAL);
-
-
+			mLastBMLTime = 0F;
 			mTimeIdle = 0F;
 			mPreviousTime = 0F;
+			mTimeRaise = 0F;
+
+			Interaction.Face.SetEvent(FaceEvent.YAWN);
+			Primitive.Speaker.Voice.Play(VoiceSound.YAWN);
+			//Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
+			//Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.REGULAR_ACTIVATION_MINUTE, OnMinuteActivation);
 
 
-			Interaction.SphinxTrigger.LaunchRecognition();
-
-			//mHumanReco = Perception.Human;
-			//mHumanReco.OnDetect(OnHumanDetected, BodyPart.FULL_BODY | BodyPart.FACE | BodyPart.LOWER_BODY | BodyPart.UPPER_BODY);
+			//Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
+			//Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = true;
 
 
-			mKidnappingDetection = Perception.Kidnapping;
-			mKidnappingDetection.OnDetect(OnKidnapping, KIDNAPPING_THRESHOLD);
-
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.REGULAR_ACTIVATION_MINUTE, OnMinuteActivation);
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.POSITION_UPDATE, OnPositionUpdate);
-
-
-			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
-			Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = true;
-			Perception.Stimuli.Controllers[StimulusEvent.POSITION_UPDATE].enabled = true;
-
-
-			//BYOS.Instance.Speaker.Voice.Play(VoiceSound.YAWN);
+			//TODO: remove this when BML
+			//StartCoroutine(SearchingHeadCo());
+			mHeadPlaying = true;
 		}
 
 
@@ -88,166 +66,173 @@ namespace BuddyApp.Companion
 			mState.text = "IDLE \n bored: " + CompanionData.Instance.Bored + "\n interactDesire: " + CompanionData.Instance.InteractDesire
 				+ "\n wanderDesire: " + CompanionData.Instance.MovingDesire;
 			mTimeIdle += Time.deltaTime;
+			mTimeRaise += Time.deltaTime;
 
-
-			if (Primitive.Battery.EnergyLevel < 5) {
-				mBatteryVeryLow = true;
-			} else if (Primitive.Battery.EnergyLevel < 15) {
-				mBatteryLow = true;
+			if (((int)mTimeIdle) % 15 == 5 && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
+				Debug.Log("Play neutral BML IDLE");
+				BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
 			}
 
-
-			// Do the following every second
-			if (mTimeIdle - mPreviousTime > 1F) {
+			// Do the following every 5 seconds
+			if (mTimeIdle - mPreviousTime > 5F) {
 				int lRand = UnityEngine.Random.Range(0, 100);
 
 				if (lRand < (int)mTimeIdle / 10) {
-					CompanionData.Instance.Bored += 1;
+					CompanionData.Instance.Bored += CES_HACK;
 				}
 				mPreviousTime = mTimeIdle;
 
 			}
 
-			if(mTimeIdle > 3F)
-			if ((Input.touchCount > 0 || Input.GetMouseButtonDown(0))) {
-				// Add to 1st part of if? 
-				// && Input.GetTouch(0).phase == TouchPhase.Moved
 
-				// Screen touched
-				Debug.Log("ROBOTTOUCHED");
-				Trigger("ROBOTTOUCHED");
-			} else if (mFaceDetected) {
-				Debug.Log("IDLE facedetected + time 5");
-				// If Buddy sees a face and doesn't want to interact
-				if (CompanionData.Instance.InteractDesire < 50 && mBatteryLow) {
-					//Interaction.TextToSpeech.Say("Salut mon ami! [500] Je suis fatigué, puis-je aller me reposer?", true);
-					iAnimator.SetTrigger("ASKCHARGE");
-
-					//If its battery is too low
-				} else if (mBatteryVeryLow) {
-					Interaction.TextToSpeech.Say("Désolé mais je suis très fatigué, je vais me coucher! [800] Bonne nuit!", true);
-					iAnimator.SetTrigger("CHARGE");
-
-					//Otherwise
-				} else {
-					//Interaction.TextToSpeech.Say("Hey, voulez vous jouer avec moi?", true);
-					//Interaction.Mood.Set(MoodType.HAPPY);
-					Interaction.Mood.Set(MoodType.HAPPY);
-					iAnimator.SetTrigger("INTERACT");
+			if (mTimeIdle > 10F && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
+				// Play BML from time to time. Play more when bored
+				if (mTimeIdle - mLastBMLTime > UnityEngine.Random.Range(100F - CompanionData.Instance.Bored, 200F)) {
+					//BYOS.Instance.Interaction.BMLManager.LaunchByID("happy1");
 				}
-
-			} else if (mHumanDetected) {
-				Debug.Log("HUMANDETECTED");
-				Interaction.Mood.Set(MoodType.HAPPY);
-				iAnimator.SetTrigger("INTERACT");
-
-			} else if (mBuddyMotion) {
-				//if (CompanionData.Instance.InteractDesire < 10) {
-				//	Interaction.Mood.Set(MoodType.ANGRY);
-				//	Interaction.TextToSpeech.Say("Pourquoi me pousses-tu? Grrr", true);
-				//} else if (CompanionData.Instance.InteractDesire < 50) {
-				//	Interaction.Mood.Set(MoodType.GRUMPY);
-				//	Interaction.TextToSpeech.Say("Que fais-tu?", true);
-				//} else if (CompanionData.Instance.InteractDesire > 70) {
-				//	BYOS.Instance.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-				//	Interaction.Mood.Set(MoodType.HAPPY);
-				//	Interaction.TextToSpeech.Say("Que fais-tu?", true);
-				//}
-
-				Debug.Log("BuddyMotion");
-
-				//iAnimator.SetTrigger("ROBOTTOUCHED");
-
-			} else if (mKidnapping) {
-				Debug.Log("KIDNAPPING");
-				iAnimator.SetTrigger("KIDNAPPING");
-
-			} else if (Interaction.SphinxTrigger.HasTriggered) {
-				// If Buddy is vocally triggered
-				if (mBatteryVeryLow) {
-					Interaction.TextToSpeech.Say("Désolé mais je suis très fatigué, je vais me coucher! [800] Bonne nuit!", true);
-					iAnimator.SetTrigger("CHARGE");
-				} else {
-					iAnimator.SetTrigger("VOCALTRIGGERED");
-				}
-
-			} else if (mBatteryLow) {
-				//TODO put in dictionary
-				Interaction.TextToSpeech.Say("Je commence à fatigué, je vais faire une petite sièste!", true);
-				iAnimator.SetTrigger("CHARGE");
-
-			} else if (mBatteryVeryLow) {
-				//TODO put in dictionary
-				Interaction.TextToSpeech.Say("Je suis très fatigué, je vais me coucher! [800] Bonne nuit tout le monde!", true);
-				iAnimator.SetTrigger("CHARGE");
-
-			} else if ((CompanionData.Instance.InteractDesire > 70) && (mTimeIdle > 5F)) {
-				Debug.Log("LOOKINGFOR");
-				iAnimator.SetTrigger("LOOKINGFOR");
-
-			} else if ((CompanionData.Instance.MovingDesire > 70) && (mTimeIdle > 5F)) {
-				Debug.Log("WANDER");
-				iAnimator.SetTrigger("WANDER");
+			} else if (mTimeIdle > 10F) {
+				mLastBMLTime = mTimeIdle;
 			}
 
+
+			if (mTimeIdle > 3F) {
+				// if no event and no BML and high desires
+				//Debug.Log("DonePlaying: " + BYOS.Instance.Interaction.BMLManager.DonePlaying + " mDetectionManager.mDetectedElement " + mDetectionManager.mDetectedElement);
+				if (BYOS.Instance.Interaction.BMLManager.DonePlaying && mDetectionManager.mDetectedElement == Detected.NONE) {
+					if (CompanionData.Instance.InteractDesire > 70) {
+						Debug.Log("LOOKINGFOR");
+						Trigger("LOOKINGFOR");
+
+					} else if (CompanionData.Instance.MovingDesire > 70 && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+						Debug.Log("WANDER");
+						Trigger("WANDER");
+					}
+				}
+
+				if (mTimeRaise > 20F) {
+					mTimeRaise = 0F;
+					if (UnityEngine.Random.Range(0, 2) == 0)
+						OnMinuteActivation();
+					else
+						OnRandomMinuteActivation();
+				}
+
+				// Otherwise, react on almost all detectors
+				switch (mDetectionManager.mDetectedElement) {
+					case Detected.TRIGGER:
+						Debug.Log("Vocal triggered idle");
+						Trigger("VOCALTRIGGERED");
+						break;
+
+					case Detected.TOUCH:
+						Debug.Log("User Detected robot touched");
+						Trigger("ROBOTTOUCHED");
+						break;
+
+					case Detected.KIDNAPPING:
+						Trigger("KIDNAPPING");
+						break;
+
+					case Detected.BATTERY:
+						Trigger("CHARGE");
+						break;
+
+					case Detected.HUMAN_RGB:
+						Trigger("INTERACT");
+						break;
+
+					case Detected.THERMAL:
+						mActionManager.StopAllActions();
+						if (CompanionData.Instance.InteractDesire > 40)
+							BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
+						else
+							BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
+
+						Trigger("INTERACT");
+						break;
+
+					default:
+						mDetectionManager.mDetectedElement = Detected.NONE;
+						break;
+				}
+			}
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mTimeIdle = 0F;
 
+			Debug.Log("Idle exit");
+			//Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
+			//Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.REGULAR_ACTIVATION_MINUTE, OnMinuteActivation);
 
-			Interaction.SphinxTrigger.StopRecognition();
-			//mHumanReco.StopAllOnDetect();
-			mKidnappingDetection.StopAllOnDetect();
+			//Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
+			//Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = false;
+
+			mDetectionManager.mDetectedElement = Detected.NONE;
+			mHeadPlaying = false;
+			//StopCoroutine(SearchingHeadCo());
+		}
 
 
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.REGULAR_ACTIVATION_MINUTE, OnMinuteActivation);
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.POSITION_UPDATE, OnPositionUpdate);
 
 
+		//This makes the head look right and left on random angles
+		private IEnumerator SearchingHeadCo()
+		{
+			while (mHeadPlaying) {
 
-			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
-			Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = false;
-			Perception.Stimuli.Controllers[StimulusEvent.POSITION_UPDATE].enabled = false;
+				switch (UnityEngine.Random.Range(0, 2)) {
+					case 0:
+						TurnHeadNo(UnityEngine.Random.Range(10F, 30F), UnityEngine.Random.Range(40F, 60F));
+						break;
+					case 1:
+						TurnHeadYes(UnityEngine.Random.Range(-15F, 15F), UnityEngine.Random.Range(40F, 60F));
+						break;
+				}
+				yield return new WaitForSeconds(2.0F);
+			}
 
+		}
+
+		private void TurnHeadNo(float iHeadNo, float iSpeed)
+		{
+			if (Primitive.Motors.NoHinge.CurrentAnglePosition > 0F)
+				iHeadNo = -iHeadNo;
+
+			Primitive.Motors.NoHinge.SetPosition(iHeadNo);
+		}
+
+		private void TurnHeadYes(float iHeadYes, float iSpeed)
+		{
+			Primitive.Motors.YesHinge.SetPosition(iHeadYes, iSpeed);
 		}
 
 		//////// CALLBACKS
 
 		void OnRandomMinuteActivation()
 		{
-			CompanionData.Instance.Bored += 5;
+			CompanionData.Instance.Bored += (5 + CES_HACK);
 		}
 
 		void OnMinuteActivation()
 		{
-			int lRand = UnityEngine.Random.Range(0, 100);
+			//int lRand = UnityEngine.Random.Range(0, 101);
 
-			if (lRand < CompanionData.Instance.Bored) {
-				CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored / 10;
-				CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored / 10;
-				Interaction.Face.SetEvent(FaceEvent.YAWN);
-			}
-		}
+			//if (lRand < CompanionData.Instance.Bored) {
+			//CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored / 10;
+			//CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored / 10;
 
-		private bool OnKidnapping()
-		{
-			mKidnapping = true;
-			return true;
-		}
+			//TODO remove this (CES hack)
 
-		private void OnPositionUpdate()
-		{
-			mBuddyMotion = true;
-		}
+			if (UnityEngine.Random.Range(0, 2) == 0)
+				CompanionData.Instance.InteractDesire += CompanionData.Instance.Bored;
+			else
+				CompanionData.Instance.MovingDesire += CompanionData.Instance.Bored;
 
-
-		private bool OnHumanDetected(HumanEntity[] obj)
-		{
-			mHumanDetected = true;
-			return true;
+			Interaction.Face.SetEvent(FaceEvent.YAWN);
+			Primitive.Speaker.Voice.Play(VoiceSound.YAWN);
+			//}
 		}
 
 	}
