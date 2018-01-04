@@ -12,6 +12,9 @@ namespace BuddyApp.BuddyLab
         private bool mIsPlaying;
         private IEnumerator mSequence;
         private IEnumerator mPlay;
+        private ThermalDetection mFireDetection;
+        private MotionDetection mMotionDetection;
+        private QRCodeDetection mQRcodeDetection;
 
         public override void Start()
         {
@@ -22,6 +25,9 @@ namespace BuddyApp.BuddyLab
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mMotionDetection = BYOS.Instance.Perception.Motion;
+            mFireDetection = BYOS.Instance.Perception.Thermal;
+            mQRcodeDetection = BYOS.Instance.Perception.QRCode;
             mUIManager.OpenPlayUI();
             mPlay = Play();
             mIsPlaying = false;
@@ -46,10 +52,14 @@ namespace BuddyApp.BuddyLab
 
         private void Stop()
         {
+            Debug.Log("STOP BUTTON FDP");
             mItemControl.IsRunning = false;
             if (Primitive.RGBCam.IsOpen)
             {
                 Debug.Log("CAMERA OPEN");
+                mMotionDetection.StopAllOnDetect();
+                mQRcodeDetection.StopAllOnDetect();
+                mFireDetection.StopAllOnDetect();
                 Primitive.RGBCam.Close();
             }
             GetGameObject(6).GetComponent<Animator>().SetTrigger("open");

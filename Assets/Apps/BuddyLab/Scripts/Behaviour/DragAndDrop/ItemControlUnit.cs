@@ -43,7 +43,7 @@ namespace BuddyApp.BuddyLab
         void Start()
         {
 
-            IsRunning = false;
+            mIsRunning = false;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-us");
             mArrayItems = new List<GameObject>();
             mBMLManager = BYOS.Instance.Interaction.BMLManager;
@@ -192,9 +192,10 @@ namespace BuddyApp.BuddyLab
 
             foreach (BLItemSerializable bli in lListBLI.List)
             {
-                Debug.Log("PLAYSEQUAENCE EKHHJRKG ");
+                
                 if (bli.Category == Category.BML)
                 {
+                    Debug.Log("CATEGORY BML : ");
                     Debug.Log("bli: " + bli.BML);
                     if (bli.ParameterKey != "")
                     {
@@ -207,26 +208,27 @@ namespace BuddyApp.BuddyLab
                     {
                         Debug.Log("has launched without param: " + mBMLManager.LaunchByName(bli.BML));
                     }
-                    while (mBMLManager.ActiveBML.Count > 0 && mBMLManager.ActiveBML[0].IsRunning && IsRunning)
+                    while (mIsRunning && mBMLManager.DonePlaying)
                     {
                         yield return null;
                     }
                 }
                 else if (bli.Category == Category.CONDITION)
                 {
+                    Debug.Log("CATEGORY CONDITION : ");
                     ConditionManager.ConditionType = bli.ConditionName;
                     if (bli.ParameterKey != "")
                     {
                         ConditionManager.ParamCondition = bli.Parameter;
                     }
-                    while (!ConditionManager.IsEventDone && IsRunning)
+                    while (!ConditionManager.IsEventDone && mIsRunning)
                     {
 
                         Debug.Log("CONDITION COROUTINE");
                         yield return null;
                             
                     }
-                    if (!IsRunning)
+                    if (!mIsRunning)
                         ConditionManager.ConditionType = "";
                 }
                 else if (bli.Category == Category.LOOP)
@@ -234,7 +236,7 @@ namespace BuddyApp.BuddyLab
                     Debug.Log("ITEMCONTROLUNIT : LOOP ");
                 }
                 ConditionManager.IsEventDone = false;
-                if (!IsRunning)
+                if (!mIsRunning)
                     break;
             }
             
