@@ -197,20 +197,24 @@ namespace BuddyApp.PlayMath{
 
         public void SpeechToTextCallback(string iSpeech)
         {
-            // extract response from any sentence
-            string answer = ExtractNumber(iSpeech);
+            // in case an anwser has already been given with onClick()
+            if(!HasAnswer)
+            {
+                // extract response from any sentence
+                string answer = ExtractNumber(iSpeech);
 
-            if (answer!="")
-            {
-                HasAnswer = true;
-                mElapsedTime = DateTime.Now - mStartTime;
-                // Pause before annoncing the result (STT notification "I hear...")
-                BYOS.Instance.Interaction.TextToSpeech.Silence(1000, true);
-                ShowResult(answer);
-            }
-            else
-            {
-                mLaunchSTTOnce = false;
+                if (answer != "")
+                {
+                    HasAnswer = true;
+                    mElapsedTime = DateTime.Now - mStartTime;
+                    // Pause before annoncing the result (STT notification "I hear...")
+                    BYOS.Instance.Interaction.TextToSpeech.Silence(1000, true);
+                    ShowResult(answer);
+                }
+                else
+                {
+                    mLaunchSTTOnce = false;
+                }
             }
         }
 
