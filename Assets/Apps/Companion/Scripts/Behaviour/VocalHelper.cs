@@ -476,7 +476,37 @@ namespace BuddyApp.Companion
 		{
 			//Search for specific keywords and send the type through the delegate QuestionAnalyzed
 			string lType = "";
-			if (ContainsOneOf(iSpeech, mAcceptSpeech)) {
+			if (ContainsOneOf(iSpeech, mAlarmSpeech))
+				lType = "Alarm";
+			//else if (ContainsOneOf(iSpeech, mQuizzSpeech))
+			//	lType = "Quizz";
+			else if (ContainsOneOf(iSpeech, mCalculationSpeech))
+				lType = "Calcul";
+			else if (ContainsOneOf(iSpeech, mMemorySpeech))
+				lType = "Memory";
+			//else if (ContainsOneOf(iSpeech, mBabyphoneSpeech))
+			//	lType = "Babyphone";
+			else if (ContainsOneOf(iSpeech, mFreezeDanceSpeech))
+				lType = "FreezeDance";
+			else if (ContainsOneOf(iSpeech, mGuardianSpeech))
+				lType = "Guardian";
+			else if (ContainsOneOf(iSpeech, mIOTSpeech))
+				lType = "IOT";
+			else if (ContainsOneOf(iSpeech, mJukeboxSpeech))
+				lType = "Jukebox";
+			//else if (ContainsOneOf(iSpeech, mRecipeSpeech))
+			//	lType = "Recipe";
+			else if (ContainsOneOf(iSpeech, mRLGLSpeech))
+				lType = "RLGL";
+			//else if (ContainsOneOf(iSpeech, mHideSeekSpeech))
+			//	lType = "HideSeek";
+			else if (ContainsOneOf(iSpeech, mPoseSpeech))
+				lType = "Pose";
+			else if (ContainsOneOf(iSpeech, mPhotoSpeech))
+				lType = "Photo";
+			else if (ContainsOneOf(iSpeech, mStorySpeech))
+				lType = "Story";
+			else if (ContainsOneOf(iSpeech, mAcceptSpeech)) {
 				lType = "Accept";
 			} else if (ContainsOneOf(iSpeech, mQuitSpeech))
 				lType = "Quit";
@@ -597,9 +627,15 @@ namespace BuddyApp.Companion
 			} else if (ContainsOneOf(iSpeech, mTurnSpeech)) {
 				Answer = GetNextNumber(iSpeech, mTurnSpeech);
 				Debug.Log("Vocal helper answer: " + Answer);
+				if (iSpeech.ToLower().Contains(BYOS.Instance.Dictionary.GetString("head")))
+					lType = "Head";
+				else
+					lType = "Move";
+
 				if (ContainsOneOf(iSpeech, mLeftSpeech))
-					lType = "MoveLeft";
-				lType = "MoveRight";
+					lType += "Left";
+				else
+					lType += "Right";
 			} else if (ContainsOneOf(iSpeech, mMoveBackwardSpeech)) {
 				Answer = GetNextNumber(iSpeech, mMoveBackwardSpeech);
 				Debug.Log("Vocal helper answer: " + Answer);
@@ -628,37 +664,7 @@ namespace BuddyApp.Companion
 				Answer = GetNextNumber(iSpeech, mVolumeUpSpeech);
 				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "VolumeUp";
-			} else if (ContainsOneOf(iSpeech, mAlarmSpeech))
-				lType = "Alarm";
-			//else if (ContainsOneOf(iSpeech, mQuizzSpeech))
-			//	lType = "Quizz";
-			else if (ContainsOneOf(iSpeech, mCalculationSpeech))
-				lType = "Calcul";
-			else if (ContainsOneOf(iSpeech, mMemorySpeech))
-				lType = "Memory";
-			//else if (ContainsOneOf(iSpeech, mBabyphoneSpeech))
-			//	lType = "Babyphone";
-			else if (ContainsOneOf(iSpeech, mFreezeDanceSpeech))
-				lType = "FreezeDance";
-			else if (ContainsOneOf(iSpeech, mGuardianSpeech))
-				lType = "Guardian";
-			else if (ContainsOneOf(iSpeech, mIOTSpeech))
-				lType = "IOT";
-			else if (ContainsOneOf(iSpeech, mJukeboxSpeech))
-				lType = "Jukebox";
-			//else if (ContainsOneOf(iSpeech, mRecipeSpeech))
-			//	lType = "Recipe";
-			else if (ContainsOneOf(iSpeech, mRLGLSpeech))
-				lType = "RLGL";
-			//else if (ContainsOneOf(iSpeech, mHideSeekSpeech))
-			//	lType = "HideSeek";
-			else if (ContainsOneOf(iSpeech, mPoseSpeech))
-				lType = "Pose";
-			else if (ContainsOneOf(iSpeech, mPhotoSpeech))
-				lType = "Photo";
-			else if (ContainsOneOf(iSpeech, mStorySpeech))
-				lType = "Story";
-			else if (ContainsOneOf(iSpeech, mThanksSpeech)) {
+			} else if (ContainsOneOf(iSpeech, mThanksSpeech)) {
 				//TTSProcessAndSay(RandomString(mURWelcomeSpeech));
 				lType = "Answer";
 				Answer = RandomString(mURWelcomeSpeech);
@@ -699,9 +705,9 @@ namespace BuddyApp.Companion
 				Answer = BuildGeneralAnswer(iSpeech.ToLower());
 			}
 
-			OnQuestionTypeFound(lType);
-			return true;
-		}
+				OnQuestionTypeFound(lType);
+				return true;
+			}
 
 		private string FindMood(string iSpeech)
 		{
@@ -742,7 +748,7 @@ namespace BuddyApp.Companion
 						else
 							lResult = lWords[j];
 						break;
-					}else if(float.TryParse(lWords[j].Remove(lWords[j].Length - 2), out n) && lWords[j][lWords[j].Length - 2] == 'c' && lWords[j][lWords[j].Length - 1] == 'm')
+					} else if (float.TryParse(lWords[j].Remove(lWords[j].Length - 2), out n) && lWords[j][lWords[j].Length - 2] == 'c' && lWords[j][lWords[j].Length - 1] == 'm')
 						lResult = "" + n / 100;
 			}
 			return lResult;
@@ -792,7 +798,7 @@ namespace BuddyApp.Companion
 								System.Random lRnd = new System.Random();
 								lAnswer = lAnswers[lRnd.Next(0, lAnswers.Length)];
 							}
-							Debug.Log("Found Content Answer : " + lAnswer);
+							Debug.Log("Found  Content Answer : " + lAnswer);
 						}
 						break;
 					}

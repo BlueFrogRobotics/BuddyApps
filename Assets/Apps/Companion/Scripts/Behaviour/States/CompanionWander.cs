@@ -24,7 +24,6 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
-			BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
 			mTimeThermal = 0F;
 			mTimeRaise = 0F;
 			mTimeLastThermal = 0F;
@@ -39,11 +38,26 @@ namespace BuddyApp.Companion
 			//Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
 
 
+			if (mDetectionManager.IsDetectingTrigger != CompanionData.Instance.CanTriggerWander)
+				if (CompanionData.Instance.CanTriggerWander)
+					mDetectionManager.StartSphinxTrigger();
+				else
+					mDetectionManager.StopSphinxTrigger();
+
 		}
 
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+
+
+			if (mDetectionManager.IsDetectingTrigger != CompanionData.Instance.CanTriggerWander)
+				if (CompanionData.Instance.CanTriggerWander)
+					mDetectionManager.StartSphinxTrigger();
+				else
+					mDetectionManager.StopSphinxTrigger();
+
 			mTimeRaise += Time.deltaTime;
 			if (mTimeRaise > 30F) {
 				mTimeRaise = 0F;
@@ -72,10 +86,11 @@ namespace BuddyApp.Companion
 
 			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
 			switch (mDetectionManager.mDetectedElement) {
+
+
 				case Detected.TRIGGER:
-					//mTrigged = true;
-					//Trigger("VOCALTRIGGERED");
-					mDetectionManager.mDetectedElement = Detected.NONE;
+					mTrigged = true;
+					Trigger("VOCALTRIGGERED");
 					break;
 
 				case Detected.TOUCH:
@@ -138,7 +153,7 @@ namespace BuddyApp.Companion
 			//Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
 			//Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
 			mActionManager.StopAllActions();
-			BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
+			mDetectionManager.StartSphinxTrigger();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 
