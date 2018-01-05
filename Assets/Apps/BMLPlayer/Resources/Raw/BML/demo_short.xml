@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bml id="BeDemonstrative02" category="other">
+  <!-- DEBUT D'ACTION MOVEMENT TETE -->
+  <synchronized end="3">
+    <faceMoodShift id="faceMoodShift1" mood="NEUTRAL"/>
+    <headNo id="headNo1" position="0" speed="100"/>
+    <headYes id="headYes1"  position="20" speed="100"/>
+    <headYes id="headYes2"  start="1" position="0" speed="100"/>
+    <faceExp id="faceEx1" start="2" expression="BLINK_BOTH"/>
+  </synchronized>
+  <!-- INTRODUCTION -->
+  <synchronized>
+    <speech>
+	  <key>democompanion</key>
+    </speech>
+    <gazeShift id="gazeShift1" direction="UP_LEFT"/>
+    <headNo id="headNo2" start="1" position="20" speed="100"/>
+    <headYes id="headYes3" start="1" position="-10" speed="100"/>
+    <gazeShift id="gazeShift2" start="1.5" direction="CENTER"/>
+  </synchronized>
+  <!-- GUARDIAN -->
+  <synchronized>
+    <speech>
+      <key>demoguardian</key>
+    </speech>
+    <faceExp id="faceEx2" start="1" expression="BLINK_BOTH"/>
+    <headYes id="headYes4" start="0" position="20" speed="100"/>
+    <image id="image1" start="2" end="4" name="app_guardian.jpg"/>
+    <headYes id="headYes5" start="2" position="-15" speed="100"/>
+    <headNo id="headNo6" start="2.5" position="-25" speed="100"/>
+    <gazeShift id="gazeShift3" start="3" direction="UP_RIGHT"/>
+    <headYes id="headYes6" start="4" position="0" speed="100"/>
+    <headNo id="headNo7" start="4" position="0" speed="100"/>
+    <gazeShift id="gazeShift4" start="4.5" direction="CENTER"/>
+  </synchronized>
+  <!-- IOT -->
+  <synchronized>
+    <speech>
+      <key>demoiot</key>
+    </speech>
+    <faceMoodShift mood="NEUTRAL"/>
+    <headNo id="headNo1" start="0" position="90" speed="100"/>
+    <headYes id="headYes1" start="0" position="-10" speed="100"/>
+    <faceExp id="faceEx1" start="1" expression="BLINK_BOTH"/>
+    <move id="move1" start="2" angle="90" speed="100"/>
+    <headNo id="headNo2" start="2" position="0" speed="20"/>
+    <gazeShift id="gazeShift1" start="3" direction="UP_LEFT"/>
+    <headNo id="headNo3" start="3" position="-90" speed="100"/>
+    <gazeShift id="gazeShift2" start="4" direction="CENTER"/>
+    <move id="move2" start="4" angle="-90" speed="100"/>
+    <faceExp id="faceEx2" start="5" expression="BLINK_BOTH"/>
+  </synchronized>
+  <!-- RLGL -->
+  <synchronized>
+    <faceMoodShift id="faceMoodShift2" mood="HAPPY"/>
+    <speech>
+      <key>demorlgl</key>
+    </speech>
+    <headYes id="headYes7" start="1" position="-10" speed="100"/>
+    <move id="move1" start="1" angle="-180" speed="100"/>
+    <headNo id="headNo2" start="1" position="90" speed="20"/>
+    <move id="move2" start="3" angle="-180" speed="100"/>
+    <headNo id="headNo2" start="3" position="-90" speed="100"/>
+  </synchronized>
+  <!-- RESET -->
+  <behavior id="behaviour04" name="reset"/>  
+  <!-- MOVEMENT BEHAVIOUR -->
+  <synchronized>
+    <speech>
+      <key>demomoving</key>
+    </speech>
+    <move id="move1" start="1" end="2" distance="1" leftWheelSpeed="200" rightWheelSpeed="200"/>
+    <move id="move2" start="2" end="3" angle="180" speed="200"/>
+    <move id="move3" start="3" end="4" distance="1" leftWheelSpeed="200" rightWheelSpeed="200"/>
+    <move id="move4" start="4" end="5" angle="180" speed="200"/>	
+  </synchronized>
+  <!-- BUDDYLAB -->
+  <synchronized>
+    <speech end="4">
+      <key>demobuddylab</key>
+    </speech> 	
+    <image id="image2" start="2" end="5" name="app_buddylab.jpg"/>
+    <faceMoodShift mood="NEUTRAL"/>
+    <headNo id="headNo1" position="10" speed="100"/>
+    <headYes id="headYes1"  position="35" speed="100"/>
+    <faceExp id="faceEx1" start="0.5" expression="BLINK_BOTH"/>
+    <move id="move1" start="2" angle="-10" speed="100" />
+    <headNo id="headNo3" start="2" position="10" speed="100"/>
+    <headYes id="headYes3" start="2" position="35" speed="100"/>
+    <faceExp id="faceEx3" start="2.5" expression="BLINK_BOTH"/>
+    <move id="move3" start="3" angle="-10" speed="100" />
+    <headNo id="headNo4" start="3" position="-20" speed="100"/>
+    <headYes id="headYes4" start="3" position="-15" speed="100"/>
+    <headNo id="headNo5" start="4" position="0" speed="100"/>
+    <headYes id="headYes5" start="4" position="0" speed="100"/>>
+  </synchronized>
+  <!-- EVOLVING -->
+  <synchronized end="5">
+	  <speech>
+	    <key>demoevolving</key>
+	  </speech>
+    <faceMoodShift mood="NEUTRAL"/>
+    <headNo id="headNo1" position="10" speed="100"/>
+    <headYes id="headYes1"  position="35" speed="100"/>
+    <faceExp id="faceEx1" start="0.5" expression="BLINK_BOTH"/>
+    <move id="move1" angle="-10" speed="100" />
+    <headNo id="headNo3" start="1.5" position="10" speed="100"/>
+    <headYes id="headYes3" start="1.5" position="35" speed="100"/>
+    <faceExp id="faceEx3" start="2" expression="BLINK_BOTH"/>
+    <move id="move3" start="1.5" angle="-10" speed="100" />
+  </synchronized>
+  <!-- END -->
+  <synchronized end="5">
+    <speech>
+      <key>demootherthings</key>
+    </speech>
+      <faceMoodShift mood="NEUTRAL"/>
+      <headNo id="headNo1" position="90" speed="100"/>
+      <headYes id="headYes1"  position="-15" speed="100"/>
+      <faceExp id="faceEx1" start="0.5" expression="BLINK_BOTH"/>
+      <move id="move1" angle="-45" speed="100" />
+      <headNo id="headNo1" start="1.5" position="-90" speed="600"/>
+      <faceExp id="faceEx1" start="2" expression="BLINK_BOTH"/>
+      <move id="move1" start="1.5" angle="90" speed="100" />
+      <headNo id="headNo1" start="2.5" position="0" speed="100"/>
+      <headYes id="headYes1" start="3" position="0" speed="100"/>
+      <move id="move1" start="2.5" angle="-45" speed="100" />
+  </synchronized>
+  <behavior id="behaviour08" name="reset"/>
+</bml>
