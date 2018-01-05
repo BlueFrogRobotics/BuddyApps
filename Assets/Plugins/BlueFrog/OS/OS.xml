@@ -4548,6 +4548,12 @@
             Called when the application is currently unloading. It will be your last call
             </summary>
         </member>
+        <member name="M:Buddy.AAppActivity.OnFailStartApp(System.String)">
+            <summary>
+            Called when an other app cannot started
+            </summary>
+            <param name="iAppIdentifier">The app unique id</param>
+        </member>
         <member name="M:Buddy.AAppActivity.Init(UnityEngine.Animator,System.Object[])">
             <summary>
             This static method allow you to set basic param to your Activity. It must be done at the beginning of your app.
