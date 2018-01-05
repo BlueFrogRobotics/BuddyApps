@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
 using System.IO;
 
@@ -55,7 +54,8 @@ namespace BuddyApp.ExperienceCenter
 		LowBattery = 0x08,
 		MiddleBattery = 0x09,
 		GoodBattery = 0x10,
-		HighBattery= 0x11
+		HighBattery = 0x11,
+		Undefined = 0xFF
 	}
 
 
@@ -70,7 +70,7 @@ namespace BuddyApp.ExperienceCenter
 		public bool emergencyStop;
 		private string mOldState;
 		private TextToSpeech mTTS;
-		public Dictionary <string, bool> stateDict;
+		public Dictionary <State, bool> stateDict;
 
 		void Start ()
 		{
@@ -81,12 +81,10 @@ namespace BuddyApp.ExperienceCenter
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			InitStateDict ();
-
 		}
 
 		void Update ()
 		{
-			
 			if (emergencyStop) {
 				BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 				if (mTTS.HasFinishedTalking) {
@@ -101,13 +99,13 @@ namespace BuddyApp.ExperienceCenter
 				if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName ("Init EC State")) {
 					if (mSwitchOnce) {
 						mMainAnimator.SetTrigger ("Idle");
-						Debug.Log ("[Animator] Switch to State: Idle");
+						Debug.Log ("[Animator] Switching to State: Idle");
 						mSwitchOnce = false;
-						stateDict ["Idle"] = true;
+						stateDict [State.Idle] = true;
 					}
 				}
 				if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName (mOldState + " State")) {
-					string state = GetTrigger ();
+					string state = GetTriggerString ();
 					if (mOldState == "Idle") {
 						
 						if (!mIdleBehaviour.behaviourInit) {
@@ -124,19 +122,20 @@ namespace BuddyApp.ExperienceCenter
 				}
 			} else {
 				if (mSwitchOnce) {
-					string state = GetTrigger ();
-					while (state != "") {
-						if (state == "Idle") {
-							stateDict [state] = false;
-							Debug.Log ("[Animator] Switch to State: Init EC");
+					string stateStr = GetTriggerString ();
+					while (stateStr != "") {
+						if (stateStr == "Idle") {
+							stateDict [State.Idle] = false;
+							Debug.Log ("[Animator] Switching to State: Init EC");
 							mMainAnimator.SetTrigger ("ReInit");
-							state = GetTrigger ();
+							stateStr = GetTriggerString ();
 						} else {
+							State state = GetTrigger ();
 							stateDict [state] = false;
-							Debug.Log ("[Animator] Switch to State: Idle");
-							stateDict ["Idle"] = true;
+							Debug.Log ("[Animator] Switching to State: Idle");
+							stateDict [State.Idle] = true;
 							mMainAnimator.SetTrigger ("Idle");
-							state = GetTrigger ();
+							stateStr = GetTriggerString ();
 						}
 					}
 		
@@ -152,35 +151,45 @@ namespace BuddyApp.ExperienceCenter
 			mSwitchOnce = true;
 		}
 
-		private string GetTrigger ()
+		private State GetTrigger ()
 		{
-			foreach (KeyValuePair<string, bool> state in stateDict)
-				if (state.Value)
-					return state.Key;
-			return "";
+			foreach (KeyValuePair<State, bool> pair in stateDict)
+				if (pair.Value)
+					return pair.Key;
+			return State.Undefined;
 		}
+
+		private string GetTriggerString ()
+		{
+			State state = GetTrigger ();
+			if (state == State.Undefined)
+				return "";
+			else
+				return state.ToString ();
+		}
+
+
 
 		private void InitStateDict ()
 		{
-			stateDict = new Dictionary<string, bool> ();
-			stateDict.Add ("Idle", false);
-			stateDict.Add ("Welcome", false);
-			stateDict.Add ("Questions", false);
-			stateDict.Add ("ByeBye", false);
-			stateDict.Add ("MoveForward", false);
-			stateDict.Add ("IOT", false);
-			stateDict.Add ("Walk", false);
+			stateDict = new Dictionary<State, bool> ();
+			stateDict.Add (State.Idle, false);
+			stateDict.Add (State.Welcome, false);
+			stateDict.Add (State.Questions, false);
+			stateDict.Add (State.ByeBye, false);
+			stateDict.Add (State.MoveForward, false);
+			stateDict.Add (State.IOT, false);
 		}
 
 		public void ActivateCmd (byte cmd)
 		{
-			if (stateDict ["Idle"]) {
+			if (stateDict [State.Idle]) {
 				switch ((Command)cmd) {
 				case Command.Welcome:
 				case Command.Questions:
 				case Command.ByeBye: 
 					{
-						UpdateStateDict (cmd, "Idle"); 
+						UpdateStateDict (cmd, State.Idle); 
 						break;
 					}
 				case Command.EmergencyStop:
@@ -193,16 +202,16 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 		    
-			if (stateDict ["Welcome"]) {
+			if (stateDict [State.Welcome]) {
 				switch ((Command)cmd) {
 				case Command.Stop: 
 					{
-						UpdateStateDict (cmd, "Welcome"); 
+						UpdateStateDict (cmd, State.Welcome); 
 						break;
 					}
 				case Command.EmergencyStop:
 					{
-						UpdateStateDict (cmd, "Welcome"); 
+						UpdateStateDict (cmd, State.Welcome); 
 						emergencyStop = true;
 						break;
 					}
@@ -211,17 +220,17 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 
-			if (stateDict ["ByeBye"]) {
+			if (stateDict [State.ByeBye]) {
 				switch ((Command)cmd) {
 				case Command.MoveForward:
 				case Command.Stop: 
 					{
-						UpdateStateDict (cmd, "ByeBye"); 
+						UpdateStateDict (cmd, State.ByeBye); 
 						break;
 					}
 				case Command.EmergencyStop:
 					{
-						UpdateStateDict (cmd, "ByeBye"); 
+						UpdateStateDict (cmd, State.ByeBye); 
 						emergencyStop = true;
 						break;
 					}
@@ -230,16 +239,16 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 
-			if (stateDict ["Questions"]) {
+			if (stateDict [State.Questions]) {
 				switch ((Command)cmd) {
 				case Command.Stop: 
 					{
-						UpdateStateDict (cmd, "Questions"); 
+						UpdateStateDict (cmd, State.Questions); 
 						break;
 					}
 				case Command.EmergencyStop:
 					{
-						UpdateStateDict (cmd, "Questions"); 
+						UpdateStateDict (cmd, State.Questions); 
 						emergencyStop = true;
 						break;
 					}
@@ -248,17 +257,17 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 
-			if (stateDict ["MoveForward"]) {
+			if (stateDict [State.MoveForward]) {
 				switch ((Command)cmd) {
 				case Command.IOT:
 				case Command.Stop:
 					{
-						UpdateStateDict (cmd, "MoveForward"); 
+						UpdateStateDict (cmd, State.MoveForward); 
 						break;
 					}
 				case Command.EmergencyStop:
 					{
-						UpdateStateDict (cmd, "MoveForward"); 
+						UpdateStateDict (cmd, State.MoveForward); 
 						emergencyStop = true;
 						break;
 					}
@@ -267,16 +276,16 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 				
-			if (stateDict ["IOT"]) {
+			if (stateDict [State.IOT]) {
 				switch ((Command)cmd) {
 				case Command.Stop: 
 					{
-						UpdateStateDict (cmd, "IOT"); 
+						UpdateStateDict (cmd, State.IOT); 
 						break;
 					}
 				case Command.EmergencyStop:
 					{
-						UpdateStateDict (cmd, "IOT"); 
+						UpdateStateDict (cmd, State.IOT); 
 						emergencyStop = true;
 						break;
 					}
@@ -287,16 +296,48 @@ namespace BuddyApp.ExperienceCenter
 		}
 
 
-		private void UpdateStateDict (byte b, string state)
+		private void UpdateStateDict (byte b, State fromState)
 		{
 			Command cmd = (Command)b;
-			State st = (cmd == Command.Stop || cmd == Command.EmergencyStop) ? State.Idle : (State)b;	
+			State toState = (cmd == Command.Stop || cmd == Command.EmergencyStop) ? State.Idle : (State)b;	
 			Debug.Log ("Running cmd: " + cmd);
-			stateDict [state] = false;
-			mOldState = state;
-			stateDict [st.ToString ()] = true;
-			Debug.Log ("[Animator] Switch to State: " + st.ToString ());
+			stateDict [fromState] = false;
+			mOldState = fromState.ToString ();
+			stateDict [toState] = true;
+			Debug.Log ("[Animator] Switching to State: " + toState.ToString ());
 			mSwitchOnce = true;
+		}
+
+		public State CheckState (byte stateReq)
+		{
+			switch ((StateReq)stateReq) {
+			case StateReq.Scenario:
+				{
+					return GetTrigger ();
+				}
+			case StateReq.Language:
+				{
+					if (BYOS.Instance.Language.CurrentLang.ToString () == "FR")
+						return State.French;
+					else
+						return State.English;
+				}
+			case StateReq.Battery:
+				{
+					float level = BYOS.Instance.Primitive.Battery.EnergyLevel;
+					if (level <= 25)
+						return State.LowBattery;
+					else if(level > 25 && level <= 50)
+						return State.MiddleBattery;
+					else if(level > 50 && level <= 75)
+						return State.GoodBattery;
+					else
+						return State.HighBattery;
+				}
+			default:
+				return State.Undefined;
+			}
+
 		}
 			
 	}

@@ -16,7 +16,6 @@ namespace BuddyApp.ExperienceCenter
 
 		private static Socket mHandler;
 		private static AnimatorManager mAnimatorManager;
-		private static bool mStateSent;
 		private static bool mEventClient;
 		//private Socket listener;
 		public static bool mStop = false;
@@ -39,9 +38,8 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			clientConnected = false;
-			mStateSent = false;
 			StartCoroutine (Listening ());
-			InvokeRepeating ("SendStateRequest", 0.5f, 3.0f);
+			//InvokeRepeating ("SendStateRequest", 0.5f, 3.0f);
 		}
 
 		private string GetIPAddress ()
@@ -141,21 +139,29 @@ namespace BuddyApp.ExperienceCenter
 
 				if (bytesRead > 0) {
 					switch (state.buffer [0]) {
-					case (byte) (Mode.StateAck):
-						{
-							Debug.Log ("[TCP SERVER] Got State Acknowledge ");
-							break;
-						}
+//					case (byte) (Mode.StateAck):
+//						{
+//							Debug.Log ("[TCP SERVER] Got State Acknowledge ");
+//							break;
+//						}
 
 					case (byte) (Mode.CommandReq): 
 						{
 							ActivateCommand (handler, state.buffer [1]);
-							Debug.Log ("[TCP SERVER] Cmd " + (Command)(state.buffer [1]) + " is received");
+							Debug.Log ("[TCP SERVER] Command Req" + (Command)(state.buffer [1]) + " is received");
+							break;
+						}
+					
+					case (byte) (Mode.StateReq): 
+						{
+							CheckState (handler, state.buffer [1]);
+							Debug.Log ("[TCP SERVER] State Req " + (StateReq)(state.buffer [1]) + " is received");
 							break;
 						}
 					default:
-						{
-							Debug.LogWarning ("[TCP SERVER] Unrecognized message from the client");
+						{   
+							SendMsgUndef (handler);
+							Debug.LogWarning ("[TCP SERVER] Unrecognized message mode from the client");
 							break;
 						}
 					}
@@ -170,30 +176,11 @@ namespace BuddyApp.ExperienceCenter
 					Debug.Log ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " disconnected");
 					clientConnected = false;
 					mAnimatorManager.ConnectionTrigger ();
-					mStateSent = false;
 				}
 			}
 		}
 
-		private void SendStateRequest ()
-		{
-			if (/*!mStateSent &&*/ clientConnected) {
-				byte[] byteData = new byte[] { (byte)(Mode.StateReq), (byte)(State.HighBattery) };
-				// Begin sending the data to the remote device.
-				mHandler.BeginSend (byteData, 0, byteData.Length, 0,
-					new AsyncCallback (SendCallback), mHandler);
-				mStateSent = true;
-			}
-		}
-
-		private static void SendCmdResponse (Socket handler, Command cmd)
-		{
-			byte[] byteData = new byte[] { (byte)Mode.CommandAck, (byte)(cmd) };
-			handler.BeginSend (byteData, 0, byteData.Length, 0,
-				new AsyncCallback (SendCallback), handler);
 	
-		}
-
 		private static void SendServerBusy (Socket handler)
 		{
 			byte[] byteData = new byte[] {(byte)Mode.ServerBusy, 0x01};
@@ -202,10 +189,46 @@ namespace BuddyApp.ExperienceCenter
 
 		}
 
+		private static void SendMsgUndef (Socket handler)
+		{
+			byte[] byteData = new byte[] {(byte)Mode.ServerBusy, (byte) State.Undefined};
+			handler.BeginSend (byteData, 0, byteData.Length, 0,
+				new AsyncCallback (SendCallback), handler);
+
+		}
+
 		private static void ActivateCommand (Socket handler, byte cmd)
 		{
-			SendCmdResponse (handler, (Command)cmd);
+			SendCommandAck (handler, (Command)cmd);
 			mAnimatorManager.ActivateCmd (cmd);
+		}
+
+		private static void SendCommandAck (Socket handler, Command cmd)
+		{
+			byte[] byteData = new byte[] { (byte)Mode.CommandAck, (byte)(cmd) };
+			handler.BeginSend (byteData, 0, byteData.Length, 0,
+				new AsyncCallback (SendCallback), handler);
+
+		}
+
+		private static void CheckState (Socket handler, byte stateReq)
+		{
+			State state = mAnimatorManager.CheckState (stateReq);
+			SendStateAck (handler, state);
+
+		}
+
+		private static void SendStateAck (Socket handler, State state)
+		{
+			if (state != State.Undefined) {
+				byte[] byteData = new byte[] { (byte)(Mode.StateAck), (byte)state };
+				// Begin sending the data to the remote device.
+				handler.BeginSend (byteData, 0, byteData.Length, 0,
+					new AsyncCallback (SendCallback), mHandler);
+			} else {
+				Debug.LogWarning ("[TCP SERVER] Unrecognized state request from the client");
+				SendMsgUndef (handler);
+			}
 		}
 
 		private static void SendCallback (IAsyncResult ar)
@@ -215,7 +238,7 @@ namespace BuddyApp.ExperienceCenter
 				handler.EndSend(ar);
 
 			} catch (Exception e) {
-				Debug.LogWarning (e.ToString ());
+				Debug.LogError (e.ToString ());
 			}
 		}
 
