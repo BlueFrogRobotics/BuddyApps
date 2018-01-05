@@ -33,6 +33,8 @@ namespace BuddyApp.BuddyLab
 
         public DragAndDropItem ItemToRemove { get; set; }
 
+        public float ItemPositionX { get; set; }
+
         void OnEnable()
         {
             DragAndDropItem.OnItemDragStartEvent += OnAnyItemDragStart;         // Handle any item drag start
@@ -128,6 +130,8 @@ namespace BuddyApp.BuddyLab
                     Debug.Log("2 ter");
                     DropDescriptor desc = new DropDescriptor();
                     Debug.Log("2 quar");
+                    ItemPositionX = DragAndDropItem.icon.transform.position.x;
+
                     if ((item != null) && (sourceCell != this))
                     {
                         Debug.Log("3");
@@ -251,6 +255,7 @@ namespace BuddyApp.BuddyLab
         {
             //RemoveItem();                                                       // Remove current item from this cell
             ItemToRemove = GetComponentInChildren<DragAndDropItem>();
+            
             if (itemObj != null)
             {
                 itemObj.transform.SetParent(transform, false);

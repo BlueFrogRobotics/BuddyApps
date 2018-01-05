@@ -44,8 +44,16 @@ namespace BuddyApp.BuddyLab
             ///Load all files from folder projects 
             mProject = new List<string>();
             mDirectoryInfo = new DirectoryInfo(BYOS.Instance.Resources.GetPathToRaw("Projects", LoadContext.APP));
-            
-            if(mDirectoryInfo.GetFiles().Length > 0)
+
+            //destroy all buttons created before
+            for (int i = mListButton.childCount - 1; i >= 0; --i)
+            {
+                GameObject child = mListButton.GetChild(i).gameObject;
+                Destroy(child);
+            }
+
+
+            if (mDirectoryInfo.GetFiles().Length > 0)
             {
                 mFileInfo = new FileInfo[mDirectoryInfo.GetFiles().Length];
 

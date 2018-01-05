@@ -65,7 +65,26 @@ namespace BuddyApp.BuddyLab
                 child.transform.parent = panel.transform;
                 if (desc.destinationCell.gameObject.GetComponentsInChildren<DragAndDropItem>().Length > 1)
                 {
-                    child.transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex());
+                    //mArrayItems[desc.destinationCell.transform.GetSiblingIndex()].transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex() + 1);
+                    //Debug.Log("sibling index: " + desc.destinationCell.transform.GetSiblingIndex());
+                    //Debug.Log("position du child: x: " + desc.destinationCell.ItemPositionX);
+                    //Debug.Log("position du item: x: " + (mArrayItems[desc.destinationCell.transform.GetSiblingIndex()+1].GetComponentInChildren<DragAndDropItem>().transform.position.x - (desc.destinationCell.GetComponent<RectTransform>().rect.width*2) )  );
+
+                    if (desc.destinationCell.transform.GetSiblingIndex() >= mArrayItems.Count - 1 || mArrayItems[desc.destinationCell.transform.GetSiblingIndex() + 1].GetComponentInChildren<DragAndDropItem>() == null)
+                    {
+                        Debug.Log("a");
+                        child.transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex()+1);
+                    }
+                    else if (desc.destinationCell.transform.GetSiblingIndex() < mArrayItems.Count - 1 && desc.destinationCell.ItemPositionX > (mArrayItems[desc.destinationCell.transform.GetSiblingIndex() + 1].GetComponentInChildren<DragAndDropItem>().transform.position.x - (desc.destinationCell.GetComponent<RectTransform>().rect.width * 2)))
+                    {
+                        Debug.Log("b");
+                        child.transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex());
+                    }
+                    else
+                    {
+                        Debug.Log("c");
+                        child.transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex() + 1);
+                    }
                     desc.destinationCell.ItemToRemove.gameObject.transform.parent = child.transform;
                     Canvas.ForceUpdateCanvases();
                     desc.destinationCell.ItemToRemove.gameObject.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
