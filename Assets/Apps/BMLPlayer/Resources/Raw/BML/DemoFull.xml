@@ -90,14 +90,13 @@
     <speech>
       <key>demorlgl</key>
     </speech>
+    <headNo id="headNo100" start="0" position="0" speed="100"/>
     <headYes id="headYes10" start="1" position="-10" speed="100"/>
     <move id="move3" start="1" angle="-180" speed="100"/>
-    <headNo id="headNo11" start="1" position="90" speed="20"/>
+    <headNo id="headNo11" start="2" position="90" speed="20"/>
     <move id="move4" start="3" angle="-180" speed="100"/>
-    <headNo id="headNo12" start="3" position="-90" speed="100"/>
+    <headNo id="headNo12" start="3" position="0" speed="100"/>
   </synchronized>
-  
-  <!-- A REVISER -->
   <speech>
     <key>letsgo</key>
   </speech> 
@@ -115,12 +114,8 @@
   </speech> 
   <faceMoodShift id="faceMoodShift8" mood="HAPPY"/>
   <sound id="sound2" name="laugh_05"/>
-  <!-- /A REVISER -->
-  
   <!-- JOKE -->
   <behavior id="behaviour2" category="Joke"/>
-  
-  <!-- A REVISER -->
   <!-- PLAYMATH -->
   <synchronized>
     <speech start="1">
@@ -141,9 +136,9 @@
   <speech>
     <key>democolor</key>
   </speech>
-  <light id="light01" target="ALL" intensity="100" color="#00FF00"/>
-  <!-- /A REVISER -->
-
+  <light id="light01" end="0.5" target="ALL" intensity="100" color="#00FF00"/>
+  <light id="light02" end="0.5" target="ALL" intensity="20" color="#00FF00"/>
+  <faceMoodShift id="faceMoodShift99" mood="NEUTRAL"/>
   <!-- MOVEMENT BEHAVIOUR -->
   <synchronized>
     <speech>
@@ -154,8 +149,6 @@
     <move id="move9" start="3" end="4" distance="1" leftWheelSpeed="200" rightWheelSpeed="200"/>
     <move id="move10" start="4" end="5" angle="180" speed="200"/>
   </synchronized>
-
-  <!-- A REVISER -->
   <!-- SPEACH -->
   <synchronized>
     <speech end="5">
@@ -190,8 +183,6 @@
     <headNo id="headNo18" start="2" position="0" speed="100"/>
     <headYes id="headYes18"  start="2" position="0" speed="100"/>
   </synchronized>
-  <!-- /A REVISER -->
-
   <!-- BUDDYLAB -->
   <synchronized>
     <speech end="4">
@@ -212,8 +203,6 @@
     <headNo id="headNo22" start="4" position="0" speed="100"/>
     <headYes id="headYes22" start="4" position="0" speed="100"/>>
   </synchronized>
-
-  <!-- A REVISER -->
   <!-- MUSIQUE -->
   <speech>
     <key>demoplaylist</key>
@@ -233,11 +222,9 @@
   <synchronized>
     <speech>
       <key>demojoking</key>
-    </speech> 
+    </speech>
     <behavior id="behaviour05" name="Happy02"/>
   </synchronized>
-  <!-- /A REVISER -->
-  
   <!-- RESET -->
   <faceMoodShift id="faceMoodShift12" mood="NEUTRAL"/>
   <behavior id="behaviour06" name="Reset"/>
