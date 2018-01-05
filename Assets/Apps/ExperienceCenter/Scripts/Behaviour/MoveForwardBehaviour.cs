@@ -40,6 +40,7 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopBehaviour ()
 		{
+			Debug.LogWarning ("Stop Move Behaviour");
 			StopAllCoroutines ();
 		}
 

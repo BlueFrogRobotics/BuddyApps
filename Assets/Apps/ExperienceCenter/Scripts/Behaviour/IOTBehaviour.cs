@@ -80,7 +80,9 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopBehaviour ()
 		{
-			mTTS.Stop ();
+			Debug.LogWarning ("Stop IOT Behaviour");
+			if (!mTTS.HasFinishedTalking)
+				mTTS.Stop ();
 			StopAllCoroutines ();
 		}
 	}

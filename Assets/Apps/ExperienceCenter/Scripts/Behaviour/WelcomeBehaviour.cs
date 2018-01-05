@@ -38,7 +38,6 @@ namespace BuddyApp.ExperienceCenter
 		private IEnumerator Speaking ()
 		{
 			yield return new WaitUntil(() => !mHeadMoving);
-			Debug.LogWarning ("Here Speak ");
 			mTTS.SayKey ("welcomebienvenue", true);
 			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomeinvitation", true);
@@ -82,7 +81,6 @@ namespace BuddyApp.ExperienceCenter
 		private IEnumerator MoveHeadNoHinge (float lNoAngle, float lNoSpeed)
 		{
 			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
-			Debug.LogWarning ("Here Move ");
 			//Comment this line if you need a linear movement of the head 
 			StartCoroutine(MoveHeadYesHinge(-5,5));
 			mHeadMoving = true;
@@ -106,9 +104,13 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopBehaviour ()
 		{
-			mTTS.Stop ();
+			Debug.LogWarning ("Stop Welcome Behaviour");
+			if (!mTTS.HasFinishedTalking)
+				mTTS.Stop ();
 			StopAllCoroutines ();
 		}
+
+
 
 	}
 }

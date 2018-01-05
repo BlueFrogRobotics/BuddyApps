@@ -14,10 +14,16 @@ namespace BuddyApp.ExperienceCenter
 		public const float ANGLE_THRESHOLD = 0.05f;
 		public bool behaviourInit;
 
+		private AnimatorManager mAnimatorManager;
+
 		public void InitBehaviour ()
 		{
+			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			behaviourInit = false;
-			StartCoroutine(InitHeadPosition(30));
+			if (!mAnimatorManager.emergencyStop)
+				StartCoroutine (InitHeadPosition (30));
+			else
+				behaviourInit = true;
 		}
 
 		private IEnumerator InitHeadPosition (float lSpeed)
@@ -31,6 +37,7 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopBehaviour ()
 		{
+			Debug.LogWarning ("Stop Idle Behaviour");
 			StopAllCoroutines ();
 		}
 

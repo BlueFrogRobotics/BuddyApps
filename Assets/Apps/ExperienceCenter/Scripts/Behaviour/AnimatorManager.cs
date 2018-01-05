@@ -5,6 +5,7 @@ using UnityEngine;
 using System;
 using System.IO;
 
+using Buddy;
 namespace BuddyApp.ExperienceCenter
 {
 	[Flags]
@@ -47,21 +48,41 @@ namespace BuddyApp.ExperienceCenter
 		[SerializeField]
 		private Animator mMainAnimator;
 		private IdleBehaviour mIdleBehaviour;
+
 		private bool mSwitchOnce;
+		public bool emergencyStop;
 		private string mOldState;
+		private TextToSpeech mTTS;
 		public Dictionary <string, bool> stateDict;
 
 		void Start ()
 		{
 			mOldState = "";
 			mSwitchOnce = true;
+			emergencyStop = false;
+			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			InitStateDict ();
+
 		}
 
 		void Update ()
 		{
+			
+			if (emergencyStop) {
+				BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+				if (mTTS.HasFinishedTalking) {
+					Debug.LogWarning ("[EMERGENCY STOP] Run ! ");
+					emergencyStop = false;
+					ExperienceCenterActivity.QuitApp ();
+					return;
+				} else {
+					//Debug.LogWarning ("[EMERGENCY STOP] Buddy is still talking !! ");
+					//mTTS.Stop ();
+				}
+			}
+
 			if (TcpServer.clientConnected) {
 				if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName ("Init EC State")) {
 					if (mSwitchOnce) {
@@ -147,6 +168,11 @@ namespace BuddyApp.ExperienceCenter
 						UpdateStateDict ((Command)cmd, "Idle"); 
 						break;
 					}
+				case Command.EmergencyStop:
+					{
+						emergencyStop = true;
+						break;
+					}
 				default:
 					break;
 				}
@@ -157,6 +183,12 @@ namespace BuddyApp.ExperienceCenter
 				case Command.Stop: 
 					{
 						UpdateStateDict (Command.Idle, "Welcome"); 
+						break;
+					}
+				case Command.EmergencyStop:
+					{
+						UpdateStateDict (Command.Idle, "Welcome"); 
+						emergencyStop = true;
 						break;
 					}
 				default:
@@ -176,6 +208,12 @@ namespace BuddyApp.ExperienceCenter
 						UpdateStateDict (Command.Idle, "ByeBye"); 
 						break;
 					}
+				case Command.EmergencyStop:
+					{
+						UpdateStateDict (Command.Idle, "ByeBye"); 
+						emergencyStop = true;
+						break;
+					}
 				default:
 					break;
 				}
@@ -186,6 +224,12 @@ namespace BuddyApp.ExperienceCenter
 				case Command.Stop: 
 					{
 						UpdateStateDict (Command.Idle, "Questions"); 
+						break;
+					}
+				case Command.EmergencyStop:
+					{
+						UpdateStateDict (Command.Idle, "Questions"); 
+						emergencyStop = true;
 						break;
 					}
 				default:
@@ -205,6 +249,12 @@ namespace BuddyApp.ExperienceCenter
 						UpdateStateDict (Command.Idle, "MoveForward"); 
 						break;
 					}
+				case Command.EmergencyStop:
+					{
+						UpdateStateDict (Command.Idle, "MoveForward"); 
+						emergencyStop = true;
+						break;
+					}
 				default:
 					break;
 				}
@@ -215,6 +265,12 @@ namespace BuddyApp.ExperienceCenter
 				case Command.Stop: 
 					{
 						UpdateStateDict (Command.Idle, "IOT"); 
+						break;
+					}
+				case Command.EmergencyStop:
+					{
+						UpdateStateDict (Command.Idle, "IOT"); 
+						emergencyStop = true;
 						break;
 					}
 				default:
@@ -233,6 +289,7 @@ namespace BuddyApp.ExperienceCenter
 			Debug.Log ("[Animator] Switch to State: " + cmd.ToString ());
 			mSwitchOnce = true;
 		}
+			
 	}
 }
 

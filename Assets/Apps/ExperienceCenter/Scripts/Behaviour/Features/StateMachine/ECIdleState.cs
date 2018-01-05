@@ -38,6 +38,8 @@ namespace BuddyApp.ExperienceCenter
 		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			//BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+//			if (!mTTS.HasFinishedTalking)
+//				mTTS.Stop ();
 			mBehaviour.StopBehaviour ();
 		}
 

@@ -63,5 +63,11 @@ namespace BuddyApp.ExperienceCenter
 				Debug.Log ("Questions - SpeechToText : Not Found");
 			
 		}
+
+		public void StopBehaviour ()
+		{
+			if (!mTTS.HasFinishedTalking)
+				mTTS.Stop ();
+		}
 	}
 }

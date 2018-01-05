@@ -9,6 +9,7 @@ namespace BuddyApp.ExperienceCenter
 	public class ECInitByeState : StateMachineBehaviour
 	{
 		private AnimatorManager mAnimatorManager;
+		private TextToSpeech mTTS;
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -16,6 +17,7 @@ namespace BuddyApp.ExperienceCenter
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
 			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
+			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 		}
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
