@@ -51,7 +51,8 @@ namespace BuddyApp.BuddyLab
         }
 
         private void PlaySequence()
-        {          
+        {
+            //mItemControl.IsRunning = true;
             mItemControl.SaveSequence();
             Trigger("Play");
         }

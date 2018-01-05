@@ -81,6 +81,8 @@ namespace BuddyApp.Companion
 				else if (CompanionData.Instance.InteractDesire > 50 && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
 					Trigger("LOOKINGFOR");
 				else if (CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+					if (CompanionData.Instance.MovingDesire < 30)
+						CompanionData.Instance.MovingDesire += 30;
 					Trigger("WANDER");
 				} else
 					Trigger("IDLE");

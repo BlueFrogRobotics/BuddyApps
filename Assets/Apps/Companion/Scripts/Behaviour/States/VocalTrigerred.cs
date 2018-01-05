@@ -22,6 +22,7 @@ namespace BuddyApp.Companion
 		private string mLastHumanSpeech;
 		private bool mFirstErrorStt;
 		private float mTimeHumanDetected;
+		private float mTimeMotion;
 
 		public override void Start()
 		{
@@ -53,7 +54,9 @@ namespace BuddyApp.Companion
 			Interaction.VocalManager.EnableDefaultErrorHandling = false;
 			mVocalChat.WithNotification = true;
 			mVocalChat.OnQuestionTypeFound = SortQuestionType;
-			BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
+
+			mDetectionManager.StopSphinxTrigger();
+
 			mNeedListen = true;
 			mTime = 0F;
 			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
@@ -71,7 +74,6 @@ namespace BuddyApp.Companion
 			Debug.Log("Reco vocal: " + iText);
 			mVocalChat.SpecialRequest(iText);
 			mFirstErrorStt = true;
-
 		}
 
 		void ErrorSTT(STTError iError)
@@ -132,7 +134,7 @@ namespace BuddyApp.Companion
 					Say(mVocalChat.Answer);
 					mNeedToGiveAnswer = false;
 					mFirstErrorStt = true;
-				} else if (mMoving && !IsMoving()) {
+				} else if (mMoving && !IsMoving() && Time.time - mTimeMotion > 3F) {
 					Debug.Log("finished motion, need listen");
 					mMoving = false;
 					mNeedListen = true;
@@ -144,7 +146,7 @@ namespace BuddyApp.Companion
 					mFirstErrorStt = true;
 					mNeedListen = false;
 					mTime = 0F;
-				} else if (!mVocalChat.BuildingAnswer && Interaction.VocalManager.RecognitionFinished && mTime > 10F && !mSpeechInput) {
+				} else if (!mVocalChat.BuildingAnswer && Interaction.VocalManager.RecognitionFinished && mTime > 15F && !mSpeechInput) {
 					//Mb this was a wrong trigger, back to IDLE
 					Debug.Log("Back to IDLE? ");
 					if (mActionManager.Wandering && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
@@ -156,7 +158,7 @@ namespace BuddyApp.Companion
 					else
 						Trigger("IDLE");
 				} else {
-					Debug.Log("Why locked: building answer: " + mVocalChat.BuildingAnswer + " Reco finished: " + Interaction.VocalManager.RecognitionFinished + " mTime " + mTime + " speechInput: " + mSpeechInput);
+					//Debug.Log("Why locked: building answer: " + mVocalChat.BuildingAnswer + " Reco finished: " + Interaction.VocalManager.RecognitionFinished + " mTime " + mTime + " speechInput: " + mSpeechInput);
 				}
 			}
 		}
@@ -169,7 +171,7 @@ namespace BuddyApp.Companion
 			mSpeechInput = false;
 			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
 			mVocalChat.DisActivate();
-			BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
+			mDetectionManager.StartSphinxTrigger();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 
@@ -181,6 +183,9 @@ namespace BuddyApp.Companion
 			string lSentence = "";
 			if (iType != "Repeat")
 				mLastBuddySpeech = "";
+
+
+			mSpeechInput = false;
 
 			switch (iType) {
 
@@ -196,8 +201,13 @@ namespace BuddyApp.Companion
 
 				case "Answer":
 					if (string.IsNullOrEmpty(mVocalChat.Answer))
+						if (mLastHumanSpeech.Contains("**")) {
+							mActionManager.TimedMood(MoodType.GRUMPY);
+							SayKey("badword");
+						}
 						// TODO: generate answer random
-						SayKey("noanswerfound");
+						else
+							SayKey("noanswerfound");
 					else
 						Say(mVocalChat.Answer);
 
@@ -242,8 +252,8 @@ namespace BuddyApp.Companion
 						lSentence = Dictionary.GetRandomString("givedate").Replace("[weekday]", DateTime.Now.ToString("dddd", new CultureInfo("fr-FR")));
 						lSentence = lSentence.Replace("[month]", "" + DateTime.Now.ToString("MMMM", new CultureInfo("fr-FR")));
 					} else {
-						lSentence = Dictionary.GetRandomString("givedate").Replace("[weekday]", DateTime.Now.ToString("dddd", new CultureInfo("en-EN")));
-						lSentence = lSentence.Replace("[month]", "" + DateTime.Now.ToString("MMMM", new CultureInfo("en-EN")));
+						lSentence = Dictionary.GetRandomString("givedate").Replace("[weekday]", DateTime.Now.ToString("dddd", new CultureInfo("en-US")));
+						lSentence = lSentence.Replace("[month]", "" + DateTime.Now.ToString("MMMM", new CultureInfo("en-US")));
 					}
 
 					lSentence = lSentence.Replace("[day]", "" + DateTime.Now.Day);
@@ -303,7 +313,8 @@ namespace BuddyApp.Companion
 						Debug.Log("Head up " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
 						Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n, 100F);
 						mMoving = true;
-					}
+						mTimeMotion = Time.time;
+                    }
 					break;
 
 				case "HeadLeft":
@@ -323,6 +334,7 @@ namespace BuddyApp.Companion
 						Debug.Log("Head left " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
 						Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition + (float)n, 100F);
 						mMoving = true;
+						mTimeMotion = Time.time;
 					}
 					break;
 
@@ -343,6 +355,7 @@ namespace BuddyApp.Companion
 						Debug.Log("Head right " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
 						Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition - (float)n, 100F);
 						mMoving = true;
+						mTimeMotion = Time.time;
 					}
 					break;
 
@@ -363,6 +376,7 @@ namespace BuddyApp.Companion
 						Debug.Log("Head down " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
 						Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition + (float)n, 100F);
 						mMoving = true;
+						mTimeMotion = Time.time;
 					}
 					break;
 
@@ -401,14 +415,16 @@ namespace BuddyApp.Companion
 							nStr = mVocalChat.Answer;
 						}
 
+						Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!MoveBackward: launch command" );
 						Primitive.Motors.Wheels.MoveDistance(-150.0f, -150.0f, n, 0.02f);
 						//Dictionary<string, string> mySmallDic = new Dictionary<string, string>();
 						//mySmallDic["MOVE_DISTANCE"] = nStr;
-                        //Interaction.BMLManager.LaunchByName("MoveBackward", mySmallDic);
+						//Interaction.BMLManager.LaunchByName("MoveBackward", mySmallDic);
 						Debug.Log("MoveBackward: " + nStr);
 						SayKey("accept", true);
 						Say(Dictionary.GetRandomString("movebackward").Replace("[meters]", "" + nStr), true);
 						mMoving = true;
+						mTimeMotion = Time.time;
 					}
 
 					break;
@@ -425,7 +441,13 @@ namespace BuddyApp.Companion
 							nStr = mVocalChat.Answer;
 						}
 
-						Primitive.Motors.Wheels.MoveDistance(-150.0f, -150.0f, n, 0.02f);
+						//Primitive.Motors.Wheels.MoveDistance(-150.0f, -150.0f, n, 0.02f);
+
+						Dictionary<string, string> param = new Dictionary<string, string>();
+						param.Add("MOVE_DISTANCE", nStr);
+
+						Interaction.BMLManager.LaunchByName("MoveForward", param);
+
 						//Dictionary<string, string> mySmallDic = new Dictionary<string, string>();
 						//mySmallDic["MOVE_DISTANCE"] = nStr;
 						//Debug.Log("Move forward bml: " + Interaction.BMLManager.LaunchRandom("move", mySmallDic));
@@ -433,6 +455,7 @@ namespace BuddyApp.Companion
 						SayKey("accept", true);
 						Say(Dictionary.GetRandomString("moveforward").Replace("[meters]", "" + nStr), true);
 						mMoving = true;
+						mTimeMotion = Time.time;
 					}
 					break;
 
@@ -453,6 +476,7 @@ namespace BuddyApp.Companion
 						Debug.Log("Move left " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
 						Primitive.Motors.Wheels.TurnAngle((float)n, 200F, 0.02F);
 						mMoving = true;
+						mTimeMotion = Time.time;
 					}
 					break;
 
@@ -473,6 +497,7 @@ namespace BuddyApp.Companion
 						Debug.Log("Move right " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
 						Primitive.Motors.Wheels.TurnAngle((float)-n, 200F, 0.02F);
 						mMoving = true;
+						mTimeMotion = Time.time;
 					}
 					break;
 

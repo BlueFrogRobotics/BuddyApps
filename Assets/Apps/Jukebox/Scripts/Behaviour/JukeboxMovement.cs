@@ -159,7 +159,7 @@ namespace BuddyApp.Jukebox
 				ThermalButton.GetComponent<Image>().color = Color.gray;
 				DanceButton.GetComponent<Image>().color = Color.white;
 				WanderButton.GetComponent<Image>().color = Color.white;
-				BYOS.Instance.Navigation.Follow<HumanFollow>().Facing();
+				BYOS.Instance.Navigation.Follow<HumanFollow>().Facing(HumanFollowType.BODY);
 				mIsThermalFollow = true;
 
 			} else {

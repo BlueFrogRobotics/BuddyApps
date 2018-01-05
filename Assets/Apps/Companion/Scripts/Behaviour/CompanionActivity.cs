@@ -13,11 +13,13 @@ namespace BuddyApp.Companion
 			Utils.LogI(LogContext.APP, "On loading...");
 			Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
 			CompanionData.Instance.LastApp = "";
+			//BYOS.Instance.Interaction.TextToSpeech.SetPitch(1.1F);
+			//BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(0.7F);
 		}
 
         public override void OnStart()
 		{
-			Utils.LogI(LogContext.APP, "On start...");
+			Utils.LogI(LogContext.APP, "On  start...");
 		}
 
         public override void OnQuit()
