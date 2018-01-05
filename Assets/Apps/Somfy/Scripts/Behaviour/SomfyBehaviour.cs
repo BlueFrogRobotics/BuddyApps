@@ -105,38 +105,65 @@ namespace BuddyApp.Somfy
 
         public void OpenStore()
         {
-            if(store!=null && store.HasFinishedCommand())
+            if (store != null && store.HasFinishedCommand())
+            {
+                BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
+                BYOS.Instance.Interaction.TextToSpeech.SayKey("openstore");
                 store.Command(3);
+            }
         }
 
         public void CloseStore()
         {
             if (store != null && store.HasFinishedCommand())
+            {
+                BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
+                BYOS.Instance.Interaction.TextToSpeech.SayKey("closestore");
                 store.Command(2);
+            }
         }
 
         public void SwitchOnPlug()
         {
             if (plug != null && plug.HasFinishedCommand())
+            {
+                BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
+                BYOS.Instance.Interaction.TextToSpeech.SayKey("on");
                 plug.OnOff(true);
+            }
         }
 
         public void SwitchOffPlug()
         {
             if (plug != null && plug.HasFinishedCommand())
+            {
+                BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
+                BYOS.Instance.Interaction.TextToSpeech.SayKey("off");
                 plug.OnOff(false);
+            }
         }
 
         public void SwitchPlug(bool iVal)
         {
             if (plug != null && plug.HasFinishedCommand())
+            {
+                BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
+                if (iVal)
+                    BYOS.Instance.Interaction.TextToSpeech.SayKey("on");
+                else
+                    BYOS.Instance.Interaction.TextToSpeech.SayKey("off");
                 plug.OnOff(iVal);
+            }
         }
 
         public void SetTemperature(float iTemp)
         {
             if (thermostat != null && thermostat.HasFinishedCommand())
+            {
+                BYOS.Instance.Interaction.TextToSpeech.Say("Ok, "+string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
+                //Debug.Log(string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
                 thermostat.Command(4, iTemp);
+            }
         }
 
         public string GetTemperature()
@@ -158,19 +185,19 @@ namespace BuddyApp.Somfy
             return lTemperature;
         }
 
-        public void OpenThermostat()
-        {
-            if(thermostat==null)
-            {
-                Debug.Log("c est nul!");
-            }
-            thermostat.Command(3, 15f);
-        }
+        //public void OpenThermostat()
+        //{
+        //    if(thermostat==null)
+        //    {
+        //        Debug.Log("c est nul!");
+        //    }
+        //    thermostat.Command(3, 15f);
+        //}
 
-        public void CloseThermostat()
-        {
-            thermostat.Command(3, 25f);
-            //thermometer.Command(7);
-        }
+        //public void CloseThermostat()
+        //{
+        //    thermostat.Command(3, 25f);
+        //    //thermometer.Command(7);
+        //}
     }
 }

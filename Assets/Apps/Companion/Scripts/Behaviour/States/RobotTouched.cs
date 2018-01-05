@@ -40,7 +40,9 @@ namespace BuddyApp.Companion
 					Trigger("VOCALTRIGGERED");
 				}
 
-			}
+			} else
+				Trigger("INTERACT");
+
 			//} else {
 			//	// User touched the eye / face
 			//	if (mDetectionManager.mFacePartTouched == FaceTouch.MOUTH) {

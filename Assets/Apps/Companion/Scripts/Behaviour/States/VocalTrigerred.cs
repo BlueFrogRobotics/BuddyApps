@@ -239,7 +239,7 @@ namespace BuddyApp.Companion
 
 				case "Calcul":
 					CompanionData.Instance.InteractDesire -= 50;
-					StartApp("CalculGame", mLastHumanSpeech);
+					StartApp("PlayMath", mLastHumanSpeech);
 					break;
 
 				case "CanMove":
@@ -301,7 +301,7 @@ namespace BuddyApp.Companion
 						CancelOrders();
 						mActionManager.UnlockHead();
 
-						int n = 0;
+						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
 							n = 25;
@@ -322,7 +322,7 @@ namespace BuddyApp.Companion
 						CancelOrders();
 						mActionManager.UnlockHead();
 
-						int n = 0;
+						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
 							n = 35;
@@ -343,7 +343,7 @@ namespace BuddyApp.Companion
 						CancelOrders();
 						mActionManager.UnlockHead();
 
-						int n = 0;
+						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
 							n = 35;
@@ -364,7 +364,7 @@ namespace BuddyApp.Companion
 						CancelOrders();
 						mActionManager.UnlockHead();
 
-						int n = 0;
+						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
 							n = 25;
@@ -408,18 +408,20 @@ namespace BuddyApp.Companion
 						CancelOrders();
 						mActionManager.UnlockWheels();
 
-						float n = 1F;
+						float n;
 						//default value
 						string nStr = "1";
 						if (float.TryParse(mVocalChat.Answer, out n)) {
 							nStr = mVocalChat.Answer;
+						} else {
+							n = 1F;
 						}
 
-						Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!MoveBackward: launch command" );
-						Primitive.Motors.Wheels.MoveDistance(-150.0f, -150.0f, n, 0.02f);
-						//Dictionary<string, string> mySmallDic = new Dictionary<string, string>();
-						//mySmallDic["MOVE_DISTANCE"] = nStr;
-						//Interaction.BMLManager.LaunchByName("MoveBackward", mySmallDic);
+						//Primitive.Motors.Wheels.MoveDistance(-150.0f, -150.0f, n, 0.02f);
+						Dictionary<string, string> lParam = new Dictionary<string, string>();
+						lParam.Add("MOVE_DISTANCE", nStr);
+
+						Interaction.BMLManager.LaunchByName("MoveBackward", lParam);
 						Debug.Log("MoveBackward: " + nStr);
 						SayKey("accept", true);
 						Say(Dictionary.GetRandomString("movebackward").Replace("[meters]", "" + nStr), true);
@@ -434,7 +436,7 @@ namespace BuddyApp.Companion
 						CancelOrders();
 						mActionManager.UnlockWheels();
 
-						float n = 1F;
+						float n;
 						//default value
 						string nStr = "1";
 						if (float.TryParse(mVocalChat.Answer, out n)) {
@@ -443,14 +445,10 @@ namespace BuddyApp.Companion
 
 						//Primitive.Motors.Wheels.MoveDistance(-150.0f, -150.0f, n, 0.02f);
 
-						Dictionary<string, string> param = new Dictionary<string, string>();
-						param.Add("MOVE_DISTANCE", nStr);
+						Dictionary<string, string> lParam = new Dictionary<string, string>();
+						lParam.Add("MOVE_DISTANCE", nStr);
 
-						Interaction.BMLManager.LaunchByName("MoveForward", param);
-
-						//Dictionary<string, string> mySmallDic = new Dictionary<string, string>();
-						//mySmallDic["MOVE_DISTANCE"] = nStr;
-						//Debug.Log("Move forward bml: " + Interaction.BMLManager.LaunchRandom("move", mySmallDic));
+						Interaction.BMLManager.LaunchByName("MoveForward", lParam);
 						Debug.Log("MoveForward: " + nStr);
 						SayKey("accept", true);
 						Say(Dictionary.GetRandomString("moveforward").Replace("[meters]", "" + nStr), true);
@@ -485,7 +483,7 @@ namespace BuddyApp.Companion
 						CancelOrders();
 						mActionManager.UnlockWheels();
 
-						int n = 0;
+						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
 							n = 25;
@@ -557,7 +555,7 @@ namespace BuddyApp.Companion
 
 				case "Volume":
 					{
-						int n = 0;
+						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
 
@@ -571,7 +569,7 @@ namespace BuddyApp.Companion
 
 				case "VolumeDown":
 					{
-						int n = 0;
+						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
 							n = 3;
@@ -589,7 +587,7 @@ namespace BuddyApp.Companion
 
 				case "VolumeUp":
 					{
-						int n = 0;
+						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
 							n = 3;

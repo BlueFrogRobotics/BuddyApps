@@ -50,11 +50,36 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private Button replayButton;
 
+        [SerializeField]
+        private Button redoButton;
+
+        [SerializeField]
+        private Button undoButton;
+
+        [SerializeField]
+        private Button folderButton;
+
+        [SerializeField]
+        private Button saveButton;
+
+        [SerializeField]
+        private Button backButton;
+
         public Button PlayButton { get { return playButton; } }
 
         public Button StopButton { get { return stopButton; } }
 
         public Button ReplayButton { get { return replayButton; } }
+
+        public Button RedoButton { get { return redoButton; } }
+
+        public Button UndoButton { get { return undoButton; } }
+
+        public Button FolderButton { get { return folderButton; } }
+
+        public Button SaveButton { get { return saveButton; } }
+
+        public Button BackButton { get { return backButton; } }
 
         // Use this for initialization
         void Start()
@@ -77,13 +102,17 @@ namespace BuddyApp.BuddyLab
 
         public void OpenBottomUI()
         {
+            bottomUI.GetComponent<Animator>().ResetTrigger("close");
+            bottomUI.GetComponent<Animator>().ResetTrigger("open");
             bottomUI.GetComponent<Animator>().SetTrigger("open");
         }
 
         public void CloseBottomUI()
         {
-            bottomUI.GetComponent<Animator>().SetTrigger("close");
             bottomUI.GetComponent<Animator>().ResetTrigger("close");
+            bottomUI.GetComponent<Animator>().ResetTrigger("open");
+            bottomUI.GetComponent<Animator>().SetTrigger("close");
+            //bottomUI.GetComponent<Animator>().ResetTrigger("close");
         }
 
         public void OpenPlayUI()
@@ -118,6 +147,7 @@ namespace BuddyApp.BuddyLab
 
         public void OpenMenu()
         {
+            CloseWindows();
             if (bottomUI.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Bottom_UI_Idle"))
                 bottomUI.GetComponent<Animator>().SetTrigger("open_menu");
         }
@@ -132,7 +162,8 @@ namespace BuddyApp.BuddyLab
 
         public void OpenPopupMovement()
         {
-            if(popupMovement.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Popup_Off"))
+            CloseWindows();
+            if (popupMovement.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Popup_Off"))
             {
                 popupMovement.GetComponent<Animator>().SetTrigger("open");
                 popupMovement.GetComponent<Animator>().ResetTrigger("close");
@@ -154,6 +185,7 @@ namespace BuddyApp.BuddyLab
 
         public void OpenPopupExpression()
         {
+            CloseWindows();
             if (popupExpression.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Popup_Off"))
             {
                 popupExpression.GetComponent<Animator>().SetTrigger("open");
@@ -175,6 +207,7 @@ namespace BuddyApp.BuddyLab
 
         public void OpenPopupSounds()
         {
+            CloseWindows();
             if (popupSounds.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Popup_Off"))
             {
                 popupSounds.GetComponent<Animator>().SetTrigger("open");
@@ -196,6 +229,7 @@ namespace BuddyApp.BuddyLab
 
         public void OpenPopupSensors()
         {
+            CloseWindows();
             if (popupSensors.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Popup_Off"))
             {
                 popupSensors.GetComponent<Animator>().SetTrigger("open");
@@ -217,6 +251,7 @@ namespace BuddyApp.BuddyLab
 
         public void OpenPopupVisions()
         {
+            CloseWindows();
             if (popupVisions.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Popup_Off"))
             {
                 popupVisions.GetComponent<Animator>().SetTrigger("open");
@@ -238,6 +273,7 @@ namespace BuddyApp.BuddyLab
 
         public void OpenPopupLoops()
         {
+            CloseWindows();
             if (popupLoops.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Popup_Off"))
             {
                 popupLoops.GetComponent<Animator>().SetTrigger("open");
@@ -274,6 +310,17 @@ namespace BuddyApp.BuddyLab
 
             bottomUI.GetComponent<Animator>().Play("Bottom_UI_Off");
 
+        }
+
+        public void CloseWindows()
+        {
+            CloseMenu();
+            ClosePopupExpression();
+            ClosePopupMovement();
+            ClosePopupSounds();
+            ClosePopupVisions();
+            ClosePopupSensors();
+            ClosePopupLoops();
         }
 
         public void PrintOsef()

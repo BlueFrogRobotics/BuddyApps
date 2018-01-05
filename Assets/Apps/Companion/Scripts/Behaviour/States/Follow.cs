@@ -19,12 +19,11 @@ namespace BuddyApp.Companion
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mTimeThermal = Time.time;
-			mState.text = "Follow";
 			Debug.Log("state: follow");
 
 
 			if (mDetectionManager.IsDetectingTrigger != CompanionData.Instance.CanTriggerWander)
-				if(CompanionData.Instance.CanTriggerWander)
+				if (CompanionData.Instance.CanTriggerWander)
 					mDetectionManager.StartSphinxTrigger();
 				else
 					mDetectionManager.StopSphinxTrigger();
@@ -34,6 +33,8 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			if (mState.enabled)
+				mState.text = "Follow last detect: " + (Time.time - mTimeThermal);
 
 			if (mDetectionManager.IsDetectingTrigger != CompanionData.Instance.CanTriggerWander)
 				if (CompanionData.Instance.CanTriggerWander)
@@ -47,16 +48,33 @@ namespace BuddyApp.Companion
 			}
 
 			if (Time.time - mTimeThermal <= 5.0F) {
-				Interaction.Mood.Set(MoodType.NEUTRAL);
-			} else if (Time.time - mTimeThermal < 10.0F) {
-				Interaction.Mood.Set(MoodType.THINKING);
+				if (!(Interaction.Mood.CurrentMood == MoodType.HAPPY || Interaction.Mood.CurrentMood == MoodType.NEUTRAL) && Interaction.Face.IsStable) {
 
+					mActionManager.TimedMood(MoodType.HAPPY, 3F);
+					if (Primitive.Speaker.Voice.Status != SoundChannelStatus.PLAYING)
+						Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
+
+				}
+			} else if (Time.time - mTimeThermal < 10.0F) {
+				if (Interaction.Face.IsStable && Interaction.Mood.CurrentMood != MoodType.THINKING) {
+					
+					Interaction.Mood.Set(MoodType.THINKING);
+					if (Primitive.Speaker.Voice.Status != SoundChannelStatus.PLAYING)
+						Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
+
+				}
 			} else if (Time.time - mTimeThermal < 15.0F) {
-				//Buddy is alone now -> scared
-				Interaction.Mood.Set(MoodType.SCARED);
+				if (Interaction.Face.IsStable && Interaction.Mood.CurrentMood != MoodType.SCARED) {
+					//Buddy is alone now -> scared
+					Interaction.Mood.Set(MoodType.SCARED);
+
+				}
 			} else if (Time.time - mTimeThermal <= 20.0F) {
-				//Buddy is alone sad
-				Interaction.Mood.Set(MoodType.SAD);
+				if (Interaction.Mood.CurrentMood != MoodType.SAD && Interaction.Face.IsStable) {
+					//Buddy is alone sad
+					Interaction.Mood.Set(MoodType.SAD);
+
+				}
 			} else if (Time.time - mTimeThermal > 20.0F) {
 				//Buddy is alone sad
 				mActionManager.StopThermalFollow();

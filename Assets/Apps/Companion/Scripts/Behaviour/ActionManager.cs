@@ -102,6 +102,7 @@ namespace BuddyApp.Companion
 			if (Wandering)
 				StopWander();
 			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+			BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
 		}
 
 		public bool ActiveAction()

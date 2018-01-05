@@ -30,6 +30,9 @@ namespace BuddyApp.BuddyLab
             mUIManager.OpenTrashArea();
             
             mUIManager.PlayButton.onClick.AddListener(PlaySequence);
+            mUIManager.SaveButton.onClick.AddListener(SaveSequence);
+            mUIManager.FolderButton.onClick.AddListener(OpenFolder);
+            mUIManager.BackButton.onClick.AddListener(GoToMenu);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -42,19 +45,42 @@ namespace BuddyApp.BuddyLab
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             //mUIManager.SetBackground(false);
+            
             mUIManager.CloseBottomUI();
             mUIManager.CloseLineProgram();
             mUIManager.CloseTrashArea();
             mUIManager.PlayButton.onClick.RemoveListener(PlaySequence);
+            mUIManager.SaveButton.onClick.RemoveListener(SaveSequence);
+            mUIManager.FolderButton.onClick.RemoveListener(OpenFolder);
+            mUIManager.BackButton.onClick.RemoveListener(GoToMenu);
             GetGameObject(6).GetComponent<Animator>().SetTrigger("close");
 
         }
 
         private void PlaySequence()
         {
-            //mItemControl.IsRunning = true;
+            mUIManager.CloseWindows();
             mItemControl.SaveSequence();
             Trigger("Play");
+        }
+
+        private void SaveSequence()
+        {
+            mItemControl.SaveSequence();
+        }
+
+        private void OpenFolder()
+        {
+            mUIManager.CloseWindows();
+            mItemControl.SaveSequence();
+            Trigger("StartOpen");
+        }
+
+        private void GoToMenu()
+        {
+            mUIManager.CloseWindows();
+            mItemControl.SaveSequence();
+            Trigger("ProjectToMenu");
         }
 
     }

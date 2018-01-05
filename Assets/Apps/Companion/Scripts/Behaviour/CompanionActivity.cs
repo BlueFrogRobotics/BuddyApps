@@ -5,11 +5,11 @@ using Buddy;
 
 namespace BuddyApp.Companion
 {
-    /* This class contains useful callback during your app process */
-    public class CompanionActivity : AAppActivity
-    {
+	/* This class contains useful callback during your app process */
+	public class CompanionActivity : AAppActivity
+	{
 		public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
-		{ 
+		{
 			Utils.LogI(LogContext.APP, "On loading...");
 			Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
 			CompanionData.Instance.LastApp = "";
@@ -17,14 +17,16 @@ namespace BuddyApp.Companion
 			//BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(0.7F);
 		}
 
-        public override void OnStart()
+		public override void OnStart()
 		{
 			Utils.LogI(LogContext.APP, "On  start...");
+			CompanionLayout lLayout = (CompanionLayout)Layout;
+			lLayout.mState = (Text)Objects[0];
 		}
 
-        public override void OnQuit()
+		public override void OnQuit()
 		{
-			Utils.LogI(LogContext.APP, "On quit...");	
+			Utils.LogI(LogContext.APP, "On quit...");
 		}
-    }
+	}
 }
