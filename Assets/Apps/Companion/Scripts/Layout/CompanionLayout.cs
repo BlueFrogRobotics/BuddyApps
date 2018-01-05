@@ -69,7 +69,7 @@ namespace BuddyApp.Companion
 			mHeadMotion.IsActive = CompanionData.Instance.CanMoveHead;
 			mTrigger.IsActive = CompanionData.Instance.CanTrigger;
 			mTriggerWander.IsActive = CompanionData.Instance.CanTriggerWander;
-			mDebug.IsActive = mState.enabled;
+			mDebug.IsActive = CompanionData.Instance.Debug;
 			mMovingDesire.Slider.value = CompanionData.Instance.MovingDesire;
 			mInteractDesire.Slider.value = CompanionData.Instance.InteractDesire;
 
@@ -130,7 +130,8 @@ namespace BuddyApp.Companion
 			});
 
 			mDebug.OnSwitchEvent((iVal) => {
-				mState.enabled = iVal;
+				CompanionData.Instance.Debug = iVal;
+                mState.enabled = iVal;
 			});
 
 		}

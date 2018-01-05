@@ -179,6 +179,10 @@ namespace BuddyApp.Companion
 		//It either corresponds to orders on movement or launch applications
 		private void SortQuestionType(string iType)
 		{
+
+			
+
+
 			Debug.Log("Question Type found : " + iType);
 			string lSentence = "";
 			if (iType != "Repeat")
@@ -188,6 +192,9 @@ namespace BuddyApp.Companion
 			mSpeechInput = false;
 
 			switch (iType) {
+
+
+
 
 				case "Accept":
 					Debug.Log("Accept VocalTrigger");
@@ -247,6 +254,25 @@ namespace BuddyApp.Companion
 					mNeedListen = true;
 					break;
 
+
+				case "Dance":
+					Debug.Log("Playing BML dance");
+					Interaction.BMLManager.LaunchRandom("dance");
+					mNeedListen = true;
+					break;
+
+				case "DemoShort":
+					Debug.Log("Playing BML demoShort");
+					Interaction.BMLManager.LaunchByName("DemoShort");
+					mNeedListen = true;
+					break;
+
+				case "DemoFull":
+					Debug.Log("Playing BML demoFull");
+					Interaction.BMLManager.LaunchByName("DemoFull");
+					mNeedListen = true;
+					break;
+
 				case "Date":
 					if (BYOS.Instance.Language.CurrentLang == Language.FR) {
 						lSentence = Dictionary.GetRandomString("givedate").Replace("[weekday]", DateTime.Now.ToString("dddd", new CultureInfo("fr-FR")));
@@ -274,6 +300,14 @@ namespace BuddyApp.Companion
 					mActionManager.WanderingOrder = false;
 					mNeedListen = true;
 					mActionManager.StopAllActions();
+					break;
+
+				case "DoSomething":
+					Debug.Log("do something");
+					if (UnityEngine.Random.Range(0, 2) == 0)
+						RandomGame();
+					else
+						RandomBML();
 					break;
 
 				case "FollowMe":
@@ -397,6 +431,12 @@ namespace BuddyApp.Companion
 					CompanionData.Instance.InteractDesire -= 10;
 					StartApp("Somfy", mLastHumanSpeech);
 					break;
+					
+				case "Joke":
+					Debug.Log("Playing BML joke");
+					Interaction.BMLManager.LaunchRandom("joke");
+					mNeedListen = true;
+					break;
 
 				case "Jukebox":
 					CompanionData.Instance.InteractDesire -= 20;
@@ -502,6 +542,14 @@ namespace BuddyApp.Companion
 				case "Memory":
 					CompanionData.Instance.InteractDesire -= 50;
 					StartApp("MemoryGame", mLastHumanSpeech);
+					break;
+					
+				case "Play":
+					CompanionData.Instance.InteractDesire -= 30;
+
+					Say("ok");
+					Debug.Log("random game");
+					RandomGame();
 					break;
 
 				case "Photo":
@@ -631,6 +679,52 @@ namespace BuddyApp.Companion
 
 			}
 
+		}
+
+		private void RandomBML()
+		{
+			int i = UnityEngine.Random.Range(1, 7);
+
+			switch (i) {
+				case 1:
+					Interaction.BMLManager.LaunchRandom("dance");
+					break;
+				case 2:
+					Interaction.BMLManager.LaunchRandom("other");
+					break;
+				case 3:
+					Interaction.BMLManager.LaunchRandom("happy");
+					break;
+				case 4:
+					Interaction.BMLManager.LaunchRandom("joy");
+					break;
+				default:
+					Interaction.BMLManager.LaunchRandom("joke");
+					break;
+			}
+		}
+
+		private void RandomGame()
+		{
+			int i = UnityEngine.Random.Range(1, 5);
+
+			switch (i) {
+				case 1:
+					StartApp("PlayMath", mLastHumanSpeech);
+					break;
+				case 2:
+					StartApp("FreezeDance", mLastHumanSpeech);
+					break;
+				case 3:
+					StartApp("MemoryGame", mLastHumanSpeech);
+					break;
+				case 4:
+					StartApp("RLGL", mLastHumanSpeech);
+					break;
+				default:
+					StartApp("Weather", mLastHumanSpeech);
+					break;
+			}
 		}
 
 		private void CancelOrders()

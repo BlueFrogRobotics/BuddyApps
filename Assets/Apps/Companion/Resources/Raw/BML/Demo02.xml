@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bml id="BeDemonstrative01" category="other">
+  <!-- DEBUT D'ACTION MOVEMENT TETE -->
+  <synchronized end="3">
+    <faceMoodShift id="faceMoodShift1" mood="NEUTRAL"/>
+    <headNo id="headNo1" position="0" speed="100"/>
+    <headYes id="headYes1"  position="20" speed="100"/>
+    <headYes id="headYes2"  start="1" position="0" speed="100"/>
+    <faceExp id="faceEx1" start="2" expression="BLINK_BOTH"/>
+  </synchronized>
+  <synchronized end="3">
+    <speech>
+	  <key>democompanion</key>
+    </speech>
+    <gazeShift id="gazeShift1" direction="UP_LEFT"/>
+    <headNo id="headNo2" start="1" position="20" speed="100"/>
+    <headYes id="headYes3" start="1" position="-10" speed="100"/>
+  </synchronized>
+  <synchronized end="3">
+    <speech>
+	  <key>demoadoptme</key>
+    </speech>
+    <gazeShift id="gazeShift2" start="1.5" direction="CENTER"/>
+    <gazeShift id="gazeShift3" direction="UP_RIGHT"/>
+    <headNo id="headNo3" start="2" position="-20" speed="100"/>
+	<!-- <sound id="sound2" start="5" name="laugh_02"/> -->
+  </synchronized>
+  <synchronized end="3">
+    <speech>
+	  <key>demoiloveyou</key>
+    </speech>
+    <gazeShift id="gazeShift4" start="2.5" direction="CENTER"/>
+    <headNo id="headNo4" start="1" position="0" speed="100"/>
+	<!-- <sound id="sound3" start="8" name="laugh_05"/> -->
+  </synchronized>
+  <behavior id="behaviour01" name="Love03"/>
+  <faceMoodShift id="faceMoodShift2" mood="NEUTRAL"/>
+  <speech>
+    <key>demoguardian</key>
+  </speech>
+  <image id="image1" end="1" name="app_guardian.jpg"/>
+  <synchronized end="4">
+    <speech>
+	  <key>demoscared</key>
+    </speech>
+    <faceMoodShift id="faceMoodShift3" mood="SCARED"/>
+    <sound id="sound4" start="3" name="surprised_04"/>
+  </synchronized>
+  <faceMoodShift id="faceMoodShift4" mood="NEUTRAL"/>
+  <speech>
+    <key>demoiot</key>
+  </speech>
+  <faceMoodShift id="faceMoodShift5" mood="HAPPY"/>
+  <synchronized>
+    <speech>
+      <key>demoplay</key>
+    </speech> 
+    <image id="image6" start="5" name="app_rlgl.jpg"/>
+  </synchronized>
+  <speech>
+    <key>letsgo</key>
+  </speech> 
+  <faceMoodShift id="faceMoodShift6" mood="NEUTRAL"/>
+  <synchronized>
+    <headYes id="headYes7"  position="40" speed="200"/>
+    <move id="move1" angle="180" speed="300"/>
+  </synchronized>
+  <synchronized>
+    <move id="move2" start="1" angle="-180" speed="300"/>
+    <headYes id="headYes8" start="3" position="-20" speed="200"/>
+  </synchronized>
+  <speech>
+    <key>youmoved</key>
+  </speech> 
+  <faceMoodShift id="faceMoodShift7" mood="HAPPY"/>
+  <sound id="sound5" name="laugh_05"/>
+  <behavior id="behaviour46" end="5" category="Joke"/>
+  <synchronized>
+    <speech start="1">
+      <key>democalcul</key>
+    </speech> 
+    <sound id="sound2" start="6" name="yawn"/>
+  </synchronized>
+  <synchronized>
+    <speech end="6">
+      <key>demomathapp</key>
+    </speech> 
+    <headNo id="headNo13" start="2" position="-10" speed="100"/>
+    <headYes id="headYes12"  start="2" position="-10" speed="100"/>
+    <image id="image1" start="3" end="5" name="app_playmath.jpg"/>
+    <headNo id="headNo14" start="5" position="-10" speed="100"/>
+    <headYes id="headYes13"  start="5" position="-10" speed="100"/>
+  </synchronized>
+  <!-- RESET -->
+  <faceMoodShift id="faceMoodShift71" mood="NEUTRAL"/>
+  <behavior id="behaviour071" name="reset"/>  
+  <speech>
+    <key>democolor</key>
+  </speech>
+  <light id="light01" target="ALL" intensity="100" color="#00FF00"/>
+  <!-- MOVEMENT BEHAVIOUR -->
+  <synchronized>
+    <speech end="5">
+      <key>demomoving</key>
+    </speech>
+    <move id="move11" distance="1" end="2" leftWheelSpeed="200" rightWheelSpeed="200"/>
+	<light id="light03" start="2" target="ALL" intensity="100" color="#FF0000"/>
+    <move id="move21" start="2" end="3" angle="180" speed="200"/>
+	<light id="light02" start="4"  target="ALL" intensity="100" color="#0000FF"/>
+    <move id="move31" start="3" end="5" distance="1" leftWheelSpeed="200" rightWheelSpeed="200"/>
+    <move id="move41" start="5" end="6" angle="180" speed="200"/>
+	
+  </synchronized>
+  <!-- SPEACH -->
+  <synchronized>
+    <speech end="5">
+      <key>demoperformer</key>
+    </speech>
+    <headNo id="headNo111" start="2" position="10" speed="100"/>
+    <headYes id="headYes101"  start="2" position="20" speed="100"/>
+    <faceExp id="faceEx41" start="2" expression="BLINK_LEFT"/>
+    <headNo id="headNo121" start="3" position="0" speed="100"/>
+    <headYes id="headYes111"  start="3" position="0" speed="100"/>
+  </synchronized>
+  <faceMoodShift id="faceMoodShift10" mood="NEUTRAL"/>
+  <synchronized>
+    <speech end="5">
+      <key>demoweather</key>
+    </speech> 
+    <headYes id="headYes3" start="1" position="-10" speed="100"/>	
+    <headNo id="headNo13" start="2" position="-10" speed="100"/>
+    <headYes id="headYes12"  start="2" position="-10" speed="100"/>
+    <image id="image1" start="2" end="5" name="app_weather.jpg"/>
+    <headNo id="headNo14" start="5" position="-10" speed="100"/>
+    <headYes id="headYes13"  start="5" position="-10" speed="100"/>
+  </synchronized>
+  <synchronized>
+    <speech end="4">
+      <key>demoreminder</key>
+    </speech>
+    <headNo id="headNo13" start="2" position="-10" speed="100"/>
+    <headYes id="headYes12"  start="2" position="-10" speed="100"/>
+    <image id="image1" start="2" end="5" name="app_reminder.jpg"/>
+    <headNo id="headNo14" start="5" position="-10" speed="100"/>
+    <headYes id="headYes13"  start="5" position="-10" speed="100"/>	
+  </synchronized>
+  <synchronized>
+    <speech end="4">
+      <key>demobuddylab</key>
+    </speech> 	
+    <headNo id="headNo13" start="2" position="-10" speed="100"/>
+    <headYes id="headYes12"  start="2" position="-10" speed="100"/>
+    <image id="image1" start="2" end="5" name="app_buddylab.jpg"/>
+    <headNo id="headNo14" start="5" position="-10" speed="100"/>
+    <headYes id="headYes13"  start="5" position="-10" speed="100"/>
+  </synchronized>
+  <speech>
+    <key>demoplaylist</key>
+  </speech> 
+  <synchronized end="15">
+    <behavior id="behaviour04" name="Happy03"/>
+    <sound id="sound2"  name="01_DaftPunk_Get-Lucky_15s"/>
+  </synchronized>
+  <speech>
+    <key>ilovetodance</key>
+  </speech> 
+  <synchronized end="4">
+    <faceMoodShift id="faceMoodShift9" mood="TIRED"/>
+    <speech>
+      <key>demotired</key>
+    </speech> 
+    <sound id="sound2" start="8" name="yawn"/>
+  </synchronized>
+  <synchronized>
+    <speech>
+      <key>demojoking</key>
+    </speech> 
+    <behavior id="behaviour05" name="Happy02"/>
+  </synchronized>
+  <faceMoodShift id="faceMoodShift11" mood="NEUTRAL"/>
+  <behavior id="behaviour08" name="reset"/> 
+  <speech>
+    <key>demofinish</key>
+  </speech> 
+</bml>

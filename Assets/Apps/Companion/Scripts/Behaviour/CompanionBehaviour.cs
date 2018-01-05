@@ -40,6 +40,10 @@ namespace BuddyApp.Companion
 		{
 			// ensure motors stay in same state as config
 
+			if (text.enabled != CompanionData.Instance.Debug) {
+				text.enabled = CompanionData.Instance.Debug;
+            }
+
 			if (BYOS.Instance.Primitive.Motors.Wheels.Locked == CompanionData.Instance.CanMoveBody) {
 				// fixing issue
 				Debug.Log("fixing unconsistancy locked wheels");

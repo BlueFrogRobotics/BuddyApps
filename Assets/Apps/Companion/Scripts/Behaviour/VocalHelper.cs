@@ -72,11 +72,15 @@ namespace BuddyApp.Companion
 		private List<string> mBuddyLabSpeech;
 		private List<string> mCalculationSpeech;
 		private List<string> mCanMoveSpeech;
+		private List<string> mDanceSpeech;
+		private List<string> mDemoFullSpeech;
+		private List<string> mDemoShortSpeech;
 		private List<string> mDateSpeech;
 		private List<string> mDefinitionSpeech;
 		private List<string> mDegreesCSpeech;
 		private List<string> mDidntUnderstandSpeech;
 		private List<string> mDontMoveSpeech;
+		private List<string> mDoSomethingSpeech;
 		private List<string> mFreezeDanceSpeech;
 		private List<string> mFollowMeSpeech;
 		private List<string> mGameSpeech;
@@ -91,6 +95,7 @@ namespace BuddyApp.Companion
 		private List<string> mICouldntSpeech;
 		private List<string> mISpeech;
 		private List<string> mIOTSpeech;
+		private List<string> mJokeSpeech;
 		private List<string> mJukeboxSpeech;
 		private List<string> mLeftSpeech;
 		private List<string> mLookAtMeSpeech;
@@ -103,6 +108,7 @@ namespace BuddyApp.Companion
 		private List<string> mMoveRightSpeech;
 		private List<string> mNewsSpeech;
 		private List<string> mPhotoSpeech;
+		private List<string> mPlaySpeech;
 		private List<string> mPoseSpeech;
 		private List<string> mQuestionSpeech;
 		private List<string> mQuitSpeech;
@@ -232,10 +238,14 @@ namespace BuddyApp.Companion
 			mCalculationSpeech = new List<string>();
 			mCanMoveSpeech = new List<string>();
 			mDateSpeech = new List<string>();
+			mDanceSpeech = new List<string>();
+			mDemoFullSpeech = new List<string>();
+			mDemoShortSpeech = new List<string>();
 			mDefinitionSpeech = new List<string>();
 			mDegreesCSpeech = new List<string>();
 			mDidntUnderstandSpeech = new List<string>();
 			mDontMoveSpeech = new List<string>();
+			mDoSomethingSpeech = new List<string>();
 			mFreezeDanceSpeech = new List<string>();
 			mFollowMeSpeech = new List<string>();
 			mGameSpeech = new List<string>();
@@ -250,6 +260,7 @@ namespace BuddyApp.Companion
 			mICouldntSpeech = new List<string>();
 			mISpeech = new List<string>();
 			mIOTSpeech = new List<string>();
+			mJokeSpeech = new List<string>();
 			mJukeboxSpeech = new List<string>();
 			mLeftSpeech = new List<string>();
 			mLookAtMeSpeech = new List<string>();
@@ -262,6 +273,7 @@ namespace BuddyApp.Companion
 			mMoveRightSpeech = new List<string>();
 			mNewsSpeech = new List<string>();
 			mPhotoSpeech = new List<string>();
+			mPlaySpeech = new List<string>();
 			mPoseSpeech = new List<string>();
 			mQuestionSpeech = new List<string>();
 			mQuitSpeech = new List<string>();
@@ -296,10 +308,14 @@ namespace BuddyApp.Companion
 			FillListSyn("Calculation", mCalculationSpeech);
 			FillListSyn("CanMove", mCanMoveSpeech);
 			FillListSyn("Date", mDateSpeech);
+			FillListSyn("Dance", mDanceSpeech);
+			FillListSyn("DemoFull", mDemoFullSpeech);
+			FillListSyn("DemoShort", mDemoShortSpeech);
 			FillListSyn("Definition", mDefinitionSpeech);
 			FillListSyn("DegreesC", mDegreesCSpeech);
 			FillListSyn("DidntUnderstand", mDidntUnderstandSpeech);
 			FillListSyn("DontMove", mDontMoveSpeech);
+			FillListSyn("DoSomething", mDoSomethingSpeech);
 			FillListSyn("FreezeDance", mFreezeDanceSpeech);
 			FillListSyn("FollowMe", mFollowMeSpeech);
 			FillListSyn("Game", mGameSpeech);
@@ -316,6 +332,7 @@ namespace BuddyApp.Companion
 			FillListSyn("ICouldnt", mICouldntSpeech);
 			FillListSyn("I", mISpeech);
 			FillListSyn("IOT", mIOTSpeech);
+			FillListSyn("Joke", mJokeSpeech);
 			FillListSyn("Jukebox", mJukeboxSpeech);
 			FillListSyn("LookFor", mLookForSpeech);
 			FillListSyn("Memory", mMemorySpeech);
@@ -326,6 +343,7 @@ namespace BuddyApp.Companion
 			FillListSyn("MoveRight", mMoveRightSpeech);
 			FillListSyn("News", mNewsSpeech);
 			FillListSyn("Photo", mPhotoSpeech);
+			FillListSyn("Play", mPlaySpeech);
 			FillListSyn("Pose", mPoseSpeech);
 			FillListSyn("Question", mQuestionSpeech);
 			FillListSyn("Quit", mQuitSpeech);
@@ -476,6 +494,12 @@ namespace BuddyApp.Companion
 		{
 			//Search for specific keywords and send the type through the delegate QuestionAnalyzed
 			string lType = "";
+
+			/////////////////////////
+			//Apps
+			////////////////////////////
+
+
 			if (ContainsOneOf(iSpeech, mAlarmSpeech))
 				lType = "Alarm";
 			//else if (ContainsOneOf(iSpeech, mQuizzSpeech))
@@ -506,9 +530,23 @@ namespace BuddyApp.Companion
 				lType = "Photo";
 			else if (ContainsOneOf(iSpeech, mStorySpeech))
 				lType = "Story";
-			else if (ContainsOneOf(iSpeech, mAcceptSpeech)) {
+
+
+			/////////////////////////
+			//BML
+			////////////////////////////
+			else if (ContainsOneOf(iSpeech, mDemoShortSpeech))
+				lType = "DemoShort";
+			else if (ContainsOneOf(iSpeech, mDemoFullSpeech))
+				lType = "DemoFull";
+			else if (ContainsOneOf(iSpeech, mDanceSpeech))
+				lType = "Dance";
+			else if (ContainsOneOf(iSpeech, mJokeSpeech)) {
+				Debug.Log("!!!!!!!!!!!!!!!!!Vocal helper joke");
+				lType = "Joke";
+			} else if (ContainsOneOf(iSpeech, mAcceptSpeech))
 				lType = "Accept";
-			} else if (ContainsOneOf(iSpeech, mQuitSpeech))
+			else if (ContainsOneOf(iSpeech, mQuitSpeech))
 				lType = "Quit";
 			else if (ContainsOneOf(iSpeech, mRepeatAfterMeSpeech)) {
 				int lKeywordsIndex = WordIndexOfOneOf(iSpeech, mRepeatAfterMeSpeech);
@@ -686,7 +724,12 @@ namespace BuddyApp.Companion
 				//TTSProcessAndSay("beep", true);
 				//mTTS.Silence(1000, true);
 				//TTSProcessAndSay("and beep", true);
-			} else if (iSpeech.ToLower().Contains("propose"))
+
+			} else if (ContainsOneOf(iSpeech, mPlaySpeech))
+				lType = "Play";
+			else if (ContainsOneOf(iSpeech, mDoSomethingSpeech))
+				lType = "DoSomething";
+			else if (iSpeech.ToLower().Contains("propose"))
 				//lType = Suggest();
 				lType = "propose";
 			//else if (iSpeech.Contains("cleverbot")) {

@@ -265,7 +265,7 @@ namespace BuddyApp.Companion
 
 		internal void RandomMoodWander()
 		{
-			int i = UnityEngine.Random.Range(0, 10);
+			int i = UnityEngine.Random.Range(1, 10);
 
 			switch (i) {
 				case 1:
