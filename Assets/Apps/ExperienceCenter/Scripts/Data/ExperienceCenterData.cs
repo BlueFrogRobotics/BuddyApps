@@ -23,7 +23,8 @@ namespace BuddyApp.ExperienceCenter
 
         public string Language { get; set; }
 
-		public string Command { get; set; }
+        public bool ShouldSendCommand { get; set; }
+		public ExperienceCenter.Command Command { get; set; }
 
         /*
          * Data singleton access

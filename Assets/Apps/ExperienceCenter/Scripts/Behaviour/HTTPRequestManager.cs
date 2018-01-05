@@ -36,6 +36,7 @@ namespace BuddyApp.ExperienceCenter {
 
 		void Awake()
 		{
+            ExperienceCenterData.Instance.ShouldTestIOT = false;
 			StartCoroutine(ShouldTestIOT());
             StartCoroutine(RetrieveIOTStates());
 		}

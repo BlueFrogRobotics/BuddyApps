@@ -81,6 +81,8 @@ namespace BuddyApp.ExperienceCenter
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			InitStateDict ();
+            		ExperienceCenterData.Instance.ShouldSendCommand = false;
+            		StartCoroutine(HandleParametersCommands());
 		}
 
 		void Update ()
@@ -339,7 +341,20 @@ namespace BuddyApp.ExperienceCenter
 			}
 
 		}
-			
+
+		// Fire commands enabled from application parameters layout
+		private IEnumerator HandleParametersCommands()
+		{
+		    while(true)
+		    {
+		        if (ExperienceCenterData.Instance.ShouldSendCommand)
+		        {
+		            ActivateCmd((byte)ExperienceCenterData.Instance.Command);
+		            ExperienceCenterData.Instance.ShouldSendCommand = false;
+		        }
+		        yield return new WaitForSeconds(1.0f);
+		    }
+		}
 	}
 }
 

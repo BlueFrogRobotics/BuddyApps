@@ -44,7 +44,8 @@ namespace BuddyApp.ExperienceCenter
 				mButtons[label].OnClickEvent(() => 
 					{ 
 						Debug.Log("Triggering action : " + label); 
-						ExperienceCenterData.Instance.Command = label;
+						ExperienceCenterData.Instance.Command = (ExperienceCenter.Command) Enum.Parse(typeof(ExperienceCenter.Command),label);
+                        ExperienceCenterData.Instance.ShouldSendCommand = true;
 					});
 			}
 		}
@@ -129,11 +130,10 @@ namespace BuddyApp.ExperienceCenter
 			AddSectionTitle("COMMANDS");
 
 			mButtons.Add("Welcome", CreateWidget<LabeledButton>());
-			mButtons.Add("ByeBye", CreateWidget<LabeledButton>());
+			mButtons.Add("Questions", CreateWidget<LabeledButton>());
+            mButtons.Add("ByeBye", CreateWidget<LabeledButton>());
 			mButtons.Add("MoveForward", CreateWidget<LabeledButton>());
 			mButtons.Add("IOT", CreateWidget<LabeledButton>());
-			mButtons.Add("StopMoving", CreateWidget<LabeledButton>());
-			mButtons.Add("StartMoving", CreateWidget<LabeledButton>());
 		}
 
 		private void BuildLanguageSection()
