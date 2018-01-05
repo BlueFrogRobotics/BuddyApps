@@ -89,13 +89,13 @@ namespace BuddyApp.Companion
 
 
 				// 2) If human detected for a while and want to interact but no interaction, go to Crazy Buddy
-			} else if (mTimeState > 15F && CompanionData.Instance.InteractDesire > 50) {
+			} else if (mTimeState > 15F && mDetectionManager.TimeLastTouch > 5F && CompanionData.Instance.InteractDesire > 50) {
 				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 				Interaction.Face.SetEvent(FaceEvent.SMILE);
 				Trigger("SEEKATTENTION");
 
 				// 3) Otherwise, go wander
-			} else if (mTimeState > 20F && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+			} else if (mTimeState > 20F && mDetectionManager.TimeLastTouch > 5F &&  CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
 				if (CompanionData.Instance.MovingDesire < 30)
 					CompanionData.Instance.MovingDesire += 30;
 				Interaction.Mood.Set(MoodType.SURPRISED);

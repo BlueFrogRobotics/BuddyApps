@@ -4,16 +4,19 @@ using UnityEngine;
 
 namespace BuddyApp.Companion
 {
-    public class CompanionLayout : AWindowLayout
-    {
+	public class CompanionLayout : AWindowLayout
+	{
 		private Gauge mMovingDesire;
 		private Gauge mInteractDesire;
 		private OnOff mWheelsMotion;
 		private OnOff mHeadMotion;
 		private OnOff mTrigger;
 		private OnOff mTriggerWander;
+		private OnOff mDebug;
 		//private Dropdown mState;
-		private Animator mAnimator;
+
+		public UnityEngine.UI.Text mState { get; set; }
+
 
 		public override void Update()
 		{
@@ -22,22 +25,31 @@ namespace BuddyApp.Companion
 		}
 
 		public override void Build()
-        {
+		{
+
 			/*
              * Create needed widgets
              * ==> Which widget do I need for my app settings ?
              */
+
+			//if (mState == null) {
+			//	mState = (UnityEngine.UI.Text) CompanionActivity.Objects[0];
+			//         }
+
+			Debug.Log("!!!!!!!!!!!!!!!!!Layout build mstate: " + mState);
+
 			mMovingDesire = CreateWidget<Gauge>();
 			mInteractDesire = CreateWidget<Gauge>();
 			mWheelsMotion = CreateWidget<OnOff>();
 			mHeadMotion = CreateWidget<OnOff>();
 			mTrigger = CreateWidget<OnOff>();
 			mTriggerWander = CreateWidget<OnOff>();
+			mDebug = CreateWidget<OnOff>();
 			//mState = CreateWidget<Dropdown>();
 
 			/*
-             * Set widgets parameters
-             */
+			 * Set widgets parameters
+			 */
 			mMovingDesire.Slider.minValue = 0;
 			mMovingDesire.Slider.maxValue = 100;
 			mMovingDesire.Slider.wholeNumbers = true;
@@ -47,7 +59,7 @@ namespace BuddyApp.Companion
 			mInteractDesire.Slider.maxValue = 100;
 			mInteractDesire.Slider.wholeNumbers = true;
 			mInteractDesire.DisplayPercentage = true; /* Only the display will be in percentage, the value will still be within 0 and 10 */
-			
+
 
 			/*
              * Retrieve app data and display them inside the view
@@ -57,6 +69,7 @@ namespace BuddyApp.Companion
 			mHeadMotion.IsActive = CompanionData.Instance.CanMoveHead;
 			mTrigger.IsActive = CompanionData.Instance.CanTrigger;
 			mTriggerWander.IsActive = CompanionData.Instance.CanTriggerWander;
+			mDebug.IsActive = mState.enabled;
 			mMovingDesire.Slider.value = CompanionData.Instance.MovingDesire;
 			mInteractDesire.Slider.value = CompanionData.Instance.InteractDesire;
 
@@ -85,8 +98,8 @@ namespace BuddyApp.Companion
             */
 
 			//mState.OnSelectEvent((string iLabel, object iAttachedObj, int iIndex) => {
-				
-   //         });
+
+			//         });
 
 			mMovingDesire.OnUpdateEvent((iVal) => {
 				CompanionData.Instance.MovingDesire = iVal;
@@ -116,17 +129,22 @@ namespace BuddyApp.Companion
 				CompanionData.Instance.CanTriggerWander = iVal;
 			});
 
+			mDebug.OnSwitchEvent((iVal) => {
+				mState.enabled = iVal;
+			});
+
 		}
 
-        public override void LabelizeWidgets()
-        {
+		public override void LabelizeWidgets()
+		{
 			mMovingDesire.Label = BYOS.Instance.Dictionary.GetString("wanderdesire");
 			mInteractDesire.Label = BYOS.Instance.Dictionary.GetString("interactdesire");
 			mTrigger.Label = BYOS.Instance.Dictionary.GetString("cantrigger");
 			mTriggerWander.Label = BYOS.Instance.Dictionary.GetString("cantrigger") + " wander";
+			mDebug.Label = "Debug";
 
 			mWheelsMotion.Label = BYOS.Instance.Dictionary.GetString("wheelsmotion");
 			mHeadMotion.Label = BYOS.Instance.Dictionary.GetString("headmotion");
 		}
-    }
+	}
 }

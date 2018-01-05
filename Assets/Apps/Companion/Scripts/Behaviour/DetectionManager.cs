@@ -65,6 +65,7 @@ namespace BuddyApp.Companion
 
 		public string Logs { get; private set; }
 
+		public float TimeLastTouch { get { return Math.Min(Time.time - mTimeElementTouched, Time.time - mTimeOtherTouched); } }
 		public bool IsDetectingThermal { get; set; }
 		public bool IsDetectingMovement { get; set; }
 		public bool IsDetectingKidnapping { get; set; }
@@ -73,8 +74,13 @@ namespace BuddyApp.Companion
 		public bool IsDetectingTrigger { get; set; }
 		//public bool IsDetectingSound { get; set; }
 
+		[SerializeField]
+		private UnityEngine.UI.Text mState;
+
 		void Start()
 		{
+			CompanionActivity.Init(null, mState);
+
 			mTimeElementTouched = 0F;
 			mTimeOtherTouched = 0F;
 			mDetectedElement = Detected.NONE;
@@ -103,7 +109,7 @@ namespace BuddyApp.Companion
 			IsDetectingTrigger = true;
 			BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
 			mTimeSphinx = Time.time;
-        }
+		}
 
 		internal void StopSphinxTrigger()
 		{
@@ -115,7 +121,7 @@ namespace BuddyApp.Companion
 		{
 			if (BYOS.Instance.Interaction.SphinxTrigger.FinishedSetup && !mInit) {
 				Utils.LogI(LogContext.INTERACTION, "Launching Sphinx Update");
-				BYOS.Instance.Interaction.SphinxTrigger.SetThreshold( (float)1e-26 );
+				BYOS.Instance.Interaction.SphinxTrigger.SetThreshold((float)1e-26);
 				mInit = true;
 				StartSphinxTrigger();
 			}

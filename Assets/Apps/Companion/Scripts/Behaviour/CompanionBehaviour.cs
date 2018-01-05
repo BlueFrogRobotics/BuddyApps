@@ -5,44 +5,56 @@ using Buddy;
 
 namespace BuddyApp.Companion
 {
-    /* A basic monobehaviour as "AI" behaviour for your app */
-    public class CompanionBehaviour : MonoBehaviour
-    {
-        /*
+	/* A basic monobehaviour as "AI" behaviour for your app */
+	public class CompanionBehaviour : MonoBehaviour
+	{
+		/*
          * Modified data from the UI interaction
          */
-        [SerializeField]
-        private Text text;
+		[SerializeField]
+		private Text text;
 
-        /*
+		/*
          * API of the robot
          */
-        private TextToSpeech mTextToSpeech;
+		private TextToSpeech mTextToSpeech;
 
-        /*
+		/*
          * Data of the application. Save on disc when app quit happened
          */
-        private CompanionData mAppData;
+		private CompanionData mAppData;
 
-        /*
+		/*
          * Init refs to API and your app data
          */
-        void Start()
-        {
-            mTextToSpeech = BYOS.Instance.Interaction.TextToSpeech;
-            mAppData = CompanionData.Instance;
-        }
+		void Start()
+		{
+			mTextToSpeech = BYOS.Instance.Interaction.TextToSpeech;
+			mAppData = CompanionData.Instance;
+		}
 
-        /*
+		/*
          * A sample of use of data (here for basic display purpose)
          */
-        void Update()
-        {
+		void Update()
+		{
 			// ensure motors stay in same state as config
 
-			//BYOS.Instance.Primitive.Motors.Wheels.Locked = !CompanionData.Instance.CanMoveBody;
-			//BYOS.Instance.Primitive.Motors.YesHinge.Locked = !CompanionData.Instance.CanMoveHead;
-			//BYOS.Instance.Primitive.Motors.NoHinge.Locked = !CompanionData.Instance.CanMoveHead;
+			if (BYOS.Instance.Primitive.Motors.Wheels.Locked == CompanionData.Instance.CanMoveBody) {
+				// fixing issue
+				Debug.Log("fixing unconsistancy locked wheels");
+				BYOS.Instance.Primitive.Motors.Wheels.Locked = !CompanionData.Instance.CanMoveBody;
+
+			}
+
+			if (BYOS.Instance.Primitive.Motors.YesHinge.Locked == CompanionData.Instance.CanMoveHead) {
+				// fixing issue
+				Debug.Log("fixing unconsistancy locked head");
+				BYOS.Instance.Primitive.Motors.YesHinge.Locked = !CompanionData.Instance.CanMoveHead;
+				BYOS.Instance.Primitive.Motors.NoHinge.Locked = !CompanionData.Instance.CanMoveHead;
+
+
+			}
 		}
 	}
 }
