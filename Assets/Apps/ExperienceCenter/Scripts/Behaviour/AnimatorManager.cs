@@ -94,6 +94,7 @@ namespace BuddyApp.ExperienceCenter
 					emergencyStop = false;
 					ExperienceCenterActivity.QuitApp ();
 					return;
+				}
 			}
 
 			if (TcpServer.clientConnected) {
