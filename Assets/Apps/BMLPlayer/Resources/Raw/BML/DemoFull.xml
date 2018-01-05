@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bml id="BeDemonstrative02" category="other">
+<bml id="BeDemonstrative00" category="other">
   <!-- DEBUT D'ACTION MOVEMENT TETE -->
   <synchronized end="3">
     <faceMoodShift id="faceMoodShift1" mood="NEUTRAL"/>
@@ -29,7 +29,6 @@
     <headYes id="headYes3" start="1" position="20" speed="100"/>
   </synchronized>
   
-  <!-- A REVISER -->
   <synchronized end="3">
     <speech>
 	  <key>demoiloveyou</key>
@@ -40,7 +39,6 @@
   </synchronized>
   <behavior id="behaviour01" name="Love03"/>
   <faceMoodShift id="faceMoodShift2" mood="NEUTRAL"/>
-  <!-- /A REVISER -->
   
   <!-- GUARDIAN -->
   <synchronized>
@@ -123,7 +121,7 @@
   <speech end="8">
     <key>introjoke</key>
   </speech>
-  <behavior id="behaviour46" end="5" category="Joke"/>
+  <behavior id="behaviour46" category="Joke"/>
   
   <!-- A REVISER -->
   <!-- PLAYMATH -->
