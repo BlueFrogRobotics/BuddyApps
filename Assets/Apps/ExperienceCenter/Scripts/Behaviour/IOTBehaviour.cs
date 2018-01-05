@@ -28,7 +28,10 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mHttpManager = GameObject.Find ("AIBehaviour").GetComponent<HTTPRequestManager> ();
-			mHttpManager.Login ();
+
+            if (!mHttpManager.Connected)
+			    mHttpManager.Login ();
+
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 			radius = BYOS.Instance.Primitive.Motors.Wheels.Radius;
 			robotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
