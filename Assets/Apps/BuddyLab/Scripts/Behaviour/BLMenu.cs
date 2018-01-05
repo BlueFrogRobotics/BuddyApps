@@ -18,11 +18,11 @@ namespace BuddyApp.BuddyLab
                        Label = Dictionary.GetString("menusimple"),
                        OnClick = () => Trigger("MakeProject")
                    },
-                   new ButtonInfo()
-                   {
-                       Label = Dictionary.GetString("menuadvanced"),
-                       OnClick = () => Trigger("StartAdvanced")
-                   },
+                   //new ButtonInfo()
+                   //{
+                   //    Label = Dictionary.GetString("menuadvanced"),
+                   //    OnClick = () => Trigger("StartAdvanced")
+                   //},
                    new ButtonInfo()
                    {
                        Label = Dictionary.GetString("menuopen"),

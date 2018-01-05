@@ -11,6 +11,7 @@ namespace BuddyApp.Companion
 		private OnOff mWheelsMotion;
 		private OnOff mHeadMotion;
 		private OnOff mTrigger;
+		private OnOff mTriggerWander;
 		//private Dropdown mState;
 		private Animator mAnimator;
 
@@ -31,6 +32,7 @@ namespace BuddyApp.Companion
 			mWheelsMotion = CreateWidget<OnOff>();
 			mHeadMotion = CreateWidget<OnOff>();
 			mTrigger = CreateWidget<OnOff>();
+			mTriggerWander = CreateWidget<OnOff>();
 			//mState = CreateWidget<Dropdown>();
 
 			/*
@@ -54,6 +56,7 @@ namespace BuddyApp.Companion
 			mWheelsMotion.IsActive = CompanionData.Instance.CanMoveBody;
 			mHeadMotion.IsActive = CompanionData.Instance.CanMoveHead;
 			mTrigger.IsActive = CompanionData.Instance.CanTrigger;
+			mTriggerWander.IsActive = CompanionData.Instance.CanTriggerWander;
 			mMovingDesire.Slider.value = CompanionData.Instance.MovingDesire;
 			mInteractDesire.Slider.value = CompanionData.Instance.InteractDesire;
 
@@ -109,6 +112,10 @@ namespace BuddyApp.Companion
 				CompanionData.Instance.CanTrigger = iVal;
 			});
 
+			mTriggerWander.OnSwitchEvent((iVal) => {
+				CompanionData.Instance.CanTriggerWander = iVal;
+			});
+
 		}
 
         public override void LabelizeWidgets()
@@ -116,6 +123,7 @@ namespace BuddyApp.Companion
 			mMovingDesire.Label = BYOS.Instance.Dictionary.GetString("wanderdesire");
 			mInteractDesire.Label = BYOS.Instance.Dictionary.GetString("interactdesire");
 			mTrigger.Label = BYOS.Instance.Dictionary.GetString("cantrigger");
+			mTriggerWander.Label = BYOS.Instance.Dictionary.GetString("cantrigger") + " wander";
 
 			mWheelsMotion.Label = BYOS.Instance.Dictionary.GetString("wheelsmotion");
 			mHeadMotion.Label = BYOS.Instance.Dictionary.GetString("headmotion");

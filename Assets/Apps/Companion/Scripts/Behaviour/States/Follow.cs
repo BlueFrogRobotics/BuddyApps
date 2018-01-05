@@ -1,7 +1,4 @@
 ﻿using Buddy;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,19 +22,32 @@ namespace BuddyApp.Companion
 			mState.text = "Follow";
 			Debug.Log("state: follow");
 
+
+			if (mDetectionManager.IsDetectingTrigger != CompanionData.Instance.CanTriggerWander)
+				if(CompanionData.Instance.CanTriggerWander)
+					mDetectionManager.StartSphinxTrigger();
+				else
+					mDetectionManager.StopSphinxTrigger();
+
 		}
 
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+			if (mDetectionManager.IsDetectingTrigger != CompanionData.Instance.CanTriggerWander)
+				if (CompanionData.Instance.CanTriggerWander)
+					mDetectionManager.StartSphinxTrigger();
+				else
+					mDetectionManager.StopSphinxTrigger();
+
 			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.ThermalFollow) {
 				Debug.Log("Companion start follow");
 				mActionManager.StartThermalFollow(HumanFollowType.BODY);
 			}
 
 			if (Time.time - mTimeThermal <= 5.0F) {
-				//Buddy is alone now -> scared
-				//Interaction.Mood.Set(MoodType.HAPPY);
+				Interaction.Mood.Set(MoodType.NEUTRAL);
 			} else if (Time.time - mTimeThermal < 10.0F) {
 				Interaction.Mood.Set(MoodType.THINKING);
 
@@ -56,8 +66,9 @@ namespace BuddyApp.Companion
 
 			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
 			switch (mDetectionManager.mDetectedElement) {
+
 				case Detected.TRIGGER:
-					//Trigger("VOCALTRIGGERED");
+					Trigger("VOCALTRIGGERED");
 					break;
 
 				case Detected.TOUCH:
@@ -98,6 +109,7 @@ namespace BuddyApp.Companion
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			Interaction.Mood.Set(MoodType.NEUTRAL);
+			mDetectionManager.StartSphinxTrigger();
 		}
 
 	}

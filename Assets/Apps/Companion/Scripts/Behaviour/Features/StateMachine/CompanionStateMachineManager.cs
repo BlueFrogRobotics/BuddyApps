@@ -52,7 +52,6 @@ namespace BuddyApp.Companion
                     lState.CommonObjects = mCommonObjects;
                     lState.Animator = mAnimator;
                     lState.Manager = this;
-					Utils.LogW(LogContext.APP, "Lol 2lkijhgf");
 					lState.Start();
                 }
             }

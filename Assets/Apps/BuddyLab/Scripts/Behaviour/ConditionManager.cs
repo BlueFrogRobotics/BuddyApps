@@ -146,7 +146,8 @@ namespace BuddyApp.BuddyLab
                     case "Fire":
                         Debug.Log("fire");
                         mFireDetection = BYOS.Instance.Perception.Thermal;
-                        mFireDetection.OnDetect(OnThermalDetected, 50);
+                        mFireDetection.OnDetect(OnThermalDetected, 35);
+                        
                         mSubscribed = true;
                         break;
                     case "Movement":
@@ -249,6 +250,8 @@ namespace BuddyApp.BuddyLab
 
         private bool OnThermalDetected(ObjectEntity[] iObject)
         {
+            Debug.Log("FIRE DETECTED");
+            
             ResetParam();
             mFireDetection.StopOnDetect(OnThermalDetected);
             return true;

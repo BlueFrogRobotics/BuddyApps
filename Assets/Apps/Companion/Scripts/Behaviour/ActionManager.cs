@@ -97,8 +97,10 @@ namespace BuddyApp.Companion
 
 		public void StopAllActions()
 		{
-			StopThermalFollow();
-			StopWander();
+			if (ThermalFollow)
+				StopThermalFollow();
+			if (Wandering)
+				StopWander();
 			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
 		}
 
@@ -173,30 +175,37 @@ namespace BuddyApp.Companion
 			if (mEyeCounter > 7) {
 				//TODO: play BML instead
 
-				if (!ActiveAction())
+				if (!ActiveAction()) {
+					Debug.Log("No action + eye poked -> play angry BML");
 					BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
-				else if (Wandering) {
+					//BYOS.Instance.Interaction.Mood.Set(MoodType.ANGRY);
+					//BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+					//BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
+					mTimeMood = Time.time;
+				} else if (Wandering) {
+					Debug.Log("wander + eye poked -> play angry wander");
 					StopWander();
 					StartWander(MoodType.ANGRY);
 					mTimeMood = Time.time;
 
 				} else {
-					BYOS.Instance.Interaction.Mood.Set(MoodType.ANGRY);
+					Debug.Log("BML + eye poked -> play angry wander");
+					TimedMood(MoodType.ANGRY);
 					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
 					BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
-					mTimeMood = Time.time;
 				}
 			} else {
 				if (Wandering) {
+					Debug.Log("wander + eye poked -> play grumpy wander");
 					StopWander();
 					StartWander(MoodType.GRUMPY);
 					mTimeMood = Time.time;
 
 				} else {
 					//TODO: play BML instead
-					BYOS.Instance.Interaction.Mood.Set(MoodType.GRUMPY);
+					Debug.Log("no action + eye poked -> play grumpy wander");
+					TimedMood(MoodType.GRUMPY);
 					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
-					mTimeMood = Time.time;
 				}
 			}
 
@@ -205,8 +214,19 @@ namespace BuddyApp.Companion
 
 		internal void TimedMood(MoodType iMood, float iTime = 5F)
 		{
+			if(BYOS.Instance.Interaction.Mood.CurrentMood != iMood) {
+				BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+				BYOS.Instance.Interaction.Mood.Set(iMood);
+			}
+
+			mTimeMood = Time.time;
+			mDurationMood = iTime;
+		}
+
+		internal void SetMood(MoodType iMood, float iTime = 5F)
+		{
 			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
-			
+
 			BYOS.Instance.Interaction.Mood.Set(iMood);
 			mTimeMood = Time.time;
 			mDurationMood = iTime;
@@ -249,15 +269,16 @@ namespace BuddyApp.Companion
 			switch (i) {
 				case 1:
 					StartWander(MoodType.SAD);
-                    break;
+					break;
 				case 2:
 					StartWander(MoodType.HAPPY);
-                    break;
+					break;
 				case 3:
 					StartWander(MoodType.SICK);
 					break;
 				case 4:
-					StartWander(MoodType.TIRED);
+					StartWander(MoodType.LOVE);
+					//StartWander(MoodType.TIRED);
 					break;
 				case 5:
 					StartWander(MoodType.SCARED);
@@ -270,7 +291,7 @@ namespace BuddyApp.Companion
 					break;
 				default:
 					StartWander(MoodType.NEUTRAL);
-                    break;
+					break;
 			}
 		}
 
