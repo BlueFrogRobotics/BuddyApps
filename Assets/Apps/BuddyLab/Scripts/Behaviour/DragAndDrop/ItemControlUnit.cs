@@ -72,17 +72,17 @@ namespace BuddyApp.BuddyLab
 
                     if (desc.destinationCell.transform.GetSiblingIndex() >= mArrayItems.Count - 1 || mArrayItems[desc.destinationCell.transform.GetSiblingIndex() + 1].GetComponentInChildren<DragAndDropItem>() == null)
                     {
-                        Debug.Log("a");
+                        //Debug.Log("a");
                         child.transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex()+1);
                     }
                     else if (desc.destinationCell.transform.GetSiblingIndex() < mArrayItems.Count - 1 && desc.destinationCell.ItemPositionX > (mArrayItems[desc.destinationCell.transform.GetSiblingIndex() + 1].GetComponentInChildren<DragAndDropItem>().transform.position.x - (desc.destinationCell.GetComponent<RectTransform>().rect.width * 2)))
                     {
-                        Debug.Log("b");
+                        //Debug.Log("b");
                         child.transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex());
                     }
                     else
                     {
-                        Debug.Log("c");
+                        //Debug.Log("c");
                         child.transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex() + 1);
                     }
                     desc.destinationCell.ItemToRemove.gameObject.transform.parent = child.transform;
@@ -227,7 +227,7 @@ namespace BuddyApp.BuddyLab
                     {
                         Debug.Log("has launched without param: " + mBMLManager.LaunchByName(bli.BML));
                     }
-                    while (mIsRunning && mBMLManager.DonePlaying)
+                    while (mIsRunning && mBMLManager.ActiveBML.Count>0 && mBMLManager.ActiveBML[0].IsRunning)
                     {
                         yield return null;
                     }

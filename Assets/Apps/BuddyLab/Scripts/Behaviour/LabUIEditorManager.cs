@@ -102,11 +102,15 @@ namespace BuddyApp.BuddyLab
 
         public void OpenBottomUI()
         {
+            bottomUI.GetComponent<Animator>().ResetTrigger("close");
+            bottomUI.GetComponent<Animator>().ResetTrigger("open");
             bottomUI.GetComponent<Animator>().SetTrigger("open");
         }
 
         public void CloseBottomUI()
         {
+            bottomUI.GetComponent<Animator>().ResetTrigger("close");
+            bottomUI.GetComponent<Animator>().ResetTrigger("open");
             bottomUI.GetComponent<Animator>().SetTrigger("close");
             //bottomUI.GetComponent<Animator>().ResetTrigger("close");
         }
