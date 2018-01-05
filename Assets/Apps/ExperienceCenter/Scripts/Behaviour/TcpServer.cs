@@ -141,13 +141,13 @@ namespace BuddyApp.ExperienceCenter
 
 				if (bytesRead > 0) {
 					switch (state.buffer [0]) {
-					case (byte) (Mode.StateResponse):
+					case (byte) (Mode.StateAck):
 						{
-							Debug.Log ("[TCP SERVER] Got State Response ");
+							Debug.Log ("[TCP SERVER] Got State Acknowledge ");
 							break;
 						}
 
-					case (byte) (Mode.CommandRequest): 
+					case (byte) (Mode.CommandReq): 
 						{
 							ActivateCommand (handler, state.buffer [1]);
 							Debug.Log ("[TCP SERVER] Cmd " + (Command)(state.buffer [1]) + " is received");
@@ -178,7 +178,7 @@ namespace BuddyApp.ExperienceCenter
 		private void SendStateRequest ()
 		{
 			if (/*!mStateSent &&*/ clientConnected) {
-				byte[] byteData = new byte[] { (byte)(Mode.StateRequest), (byte)(BuddyState.HighBattery) };
+				byte[] byteData = new byte[] { (byte)(Mode.StateReq), (byte)(State.HighBattery) };
 				// Begin sending the data to the remote device.
 				mHandler.BeginSend (byteData, 0, byteData.Length, 0,
 					new AsyncCallback (SendCallback), mHandler);
@@ -188,7 +188,7 @@ namespace BuddyApp.ExperienceCenter
 
 		private static void SendCmdResponse (Socket handler, Command cmd)
 		{
-			byte[] byteData = new byte[] { (byte)Mode.CommandResponse, (byte)(cmd) };
+			byte[] byteData = new byte[] { (byte)Mode.CommandAck, (byte)(cmd) };
 			handler.BeginSend (byteData, 0, byteData.Length, 0,
 				new AsyncCallback (SendCallback), handler);
 	
@@ -196,7 +196,7 @@ namespace BuddyApp.ExperienceCenter
 
 		private static void SendServerBusy (Socket handler)
 		{
-			byte[] byteData = new byte[] { (byte)Mode.ServerBusy};
+			byte[] byteData = new byte[] {(byte)Mode.ServerBusy, 0x01};
 			handler.BeginSend (byteData, 0, byteData.Length, 0,
 				new AsyncCallback (SendCallback), handler);
 

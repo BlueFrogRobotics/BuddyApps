@@ -6,10 +6,43 @@ using System;
 using System.IO;
 
 using Buddy;
+
 namespace BuddyApp.ExperienceCenter
 {
 	[Flags]
+	public enum Mode
+	{
+		CommandReq = 0x90,
+		CommandAck = 0x80,
+		StateReq = 0x70,
+		StateAck = 0x60,
+		ServerBusy = 0x50
+	}
+
+	[Flags]
 	public enum Command
+	{
+		Welcome = 0x01,
+		Questions = 0x02,
+		ByeBye = 0x03,
+		MoveForward = 0x04,
+		IOT = 0x05,
+		English = 0x06,
+		French = 0x07,
+		Stop = 0x08,
+		EmergencyStop = 0x09
+	}
+
+	[Flags]
+	public enum StateReq
+	{
+		Scenario = 0x01,
+		Language = 0x02,
+		Battery = 0x03
+	}
+
+	[Flags]
+	public enum State
 	{
 		Idle = 0x00,
 		Welcome = 0x01,
@@ -17,30 +50,14 @@ namespace BuddyApp.ExperienceCenter
 		ByeBye = 0x03,
 		MoveForward = 0x04,
 		IOT = 0x05,
-		Anglais = 0x06,
-		Francais = 0x07,
-		Stop = 0x08,
-		StopMoving = 0x09,
-		StartMoving = 0x10,
-		EmergencyStop = 0x11
+		English = 0x06,
+		French = 0x07,
+		LowBattery = 0x08,
+		MiddleBattery = 0x09,
+		GoodBattery = 0x10,
+		HighBattery= 0x11
 	}
 
-	[Flags]
-	public enum BuddyState
-	{
-		LowBattery = 0x01,
-		MiddleBattery = 0x02,
-		HighBattery = 0x03
-	}
-
-	public enum Mode
-	{
-		CommandRequest = 0x90,
-		CommandResponse = 0x80,
-		StateRequest = 0x70,
-		StateResponse = 0x60,
-		ServerBusy = 0x50
-	}
 
 	public class AnimatorManager : MonoBehaviour
 	{
@@ -77,10 +94,6 @@ namespace BuddyApp.ExperienceCenter
 					emergencyStop = false;
 					ExperienceCenterActivity.QuitApp ();
 					return;
-				} else {
-					//Debug.LogWarning ("[EMERGENCY STOP] Buddy is still talking !! ");
-					//mTTS.Stop ();
-				}
 			}
 
 			if (TcpServer.clientConnected) {
@@ -133,7 +146,8 @@ namespace BuddyApp.ExperienceCenter
 			}
 		}
 
-		public void ConnectionTrigger(){
+		public void ConnectionTrigger ()
+		{
 			mSwitchOnce = true;
 		}
 
@@ -165,7 +179,7 @@ namespace BuddyApp.ExperienceCenter
 				case Command.Questions:
 				case Command.ByeBye: 
 					{
-						UpdateStateDict ((Command)cmd, "Idle"); 
+						UpdateStateDict (cmd, "Idle"); 
 						break;
 					}
 				case Command.EmergencyStop:
@@ -182,12 +196,12 @@ namespace BuddyApp.ExperienceCenter
 				switch ((Command)cmd) {
 				case Command.Stop: 
 					{
-						UpdateStateDict (Command.Idle, "Welcome"); 
+						UpdateStateDict (cmd, "Welcome"); 
 						break;
 					}
 				case Command.EmergencyStop:
 					{
-						UpdateStateDict (Command.Idle, "Welcome"); 
+						UpdateStateDict (cmd, "Welcome"); 
 						emergencyStop = true;
 						break;
 					}
@@ -199,18 +213,14 @@ namespace BuddyApp.ExperienceCenter
 			if (stateDict ["ByeBye"]) {
 				switch ((Command)cmd) {
 				case Command.MoveForward:
-					{
-						UpdateStateDict ((Command)cmd, "ByeBye"); 
-						break;
-					}
 				case Command.Stop: 
 					{
-						UpdateStateDict (Command.Idle, "ByeBye"); 
+						UpdateStateDict (cmd, "ByeBye"); 
 						break;
 					}
 				case Command.EmergencyStop:
 					{
-						UpdateStateDict (Command.Idle, "ByeBye"); 
+						UpdateStateDict (cmd, "ByeBye"); 
 						emergencyStop = true;
 						break;
 					}
@@ -223,12 +233,12 @@ namespace BuddyApp.ExperienceCenter
 				switch ((Command)cmd) {
 				case Command.Stop: 
 					{
-						UpdateStateDict (Command.Idle, "Questions"); 
+						UpdateStateDict (cmd, "Questions"); 
 						break;
 					}
 				case Command.EmergencyStop:
 					{
-						UpdateStateDict (Command.Idle, "Questions"); 
+						UpdateStateDict (cmd, "Questions"); 
 						emergencyStop = true;
 						break;
 					}
@@ -240,18 +250,14 @@ namespace BuddyApp.ExperienceCenter
 			if (stateDict ["MoveForward"]) {
 				switch ((Command)cmd) {
 				case Command.IOT:
+				case Command.Stop:
 					{
-						UpdateStateDict ((Command)cmd, "MoveForward"); 
-						break;
-					}
-				case Command.Stop: 
-					{
-						UpdateStateDict (Command.Idle, "MoveForward"); 
+						UpdateStateDict (cmd, "MoveForward"); 
 						break;
 					}
 				case Command.EmergencyStop:
 					{
-						UpdateStateDict (Command.Idle, "MoveForward"); 
+						UpdateStateDict (cmd, "MoveForward"); 
 						emergencyStop = true;
 						break;
 					}
@@ -264,12 +270,12 @@ namespace BuddyApp.ExperienceCenter
 				switch ((Command)cmd) {
 				case Command.Stop: 
 					{
-						UpdateStateDict (Command.Idle, "IOT"); 
+						UpdateStateDict (cmd, "IOT"); 
 						break;
 					}
 				case Command.EmergencyStop:
 					{
-						UpdateStateDict (Command.Idle, "IOT"); 
+						UpdateStateDict (cmd, "IOT"); 
 						emergencyStop = true;
 						break;
 					}
@@ -280,13 +286,15 @@ namespace BuddyApp.ExperienceCenter
 		}
 
 
-		private void UpdateStateDict (Command cmd, string state)
+		private void UpdateStateDict (byte b, string state)
 		{
+			Command cmd = (Command)b;
+			State st = (cmd == Command.Stop || cmd == Command.EmergencyStop) ? State.Idle : (State)b;	
 			Debug.Log ("Running cmd: " + cmd);
 			stateDict [state] = false;
 			mOldState = state;
-			stateDict [cmd.ToString ()] = true;
-			Debug.Log ("[Animator] Switch to State: " + cmd.ToString ());
+			stateDict [st.ToString ()] = true;
+			Debug.Log ("[Animator] Switch to State: " + st.ToString ());
 			mSwitchOnce = true;
 		}
 			
