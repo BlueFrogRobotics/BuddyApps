@@ -22,6 +22,8 @@ namespace BuddyApp.Jukebox
 
         public override void Start()
         {
+
+            BYOS.Instance.Header.DisplayParametersButton = false;
             mIndexToPlay = new List<int>();
             mIsCoroutineDone = false;
         }
