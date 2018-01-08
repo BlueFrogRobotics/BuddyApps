@@ -15,11 +15,14 @@ namespace BuddyApp.ExperienceCenter
 		private TextToSpeech mTTS;
 		private List <string> mKeyList;
 
+        private BMLManager mBMLManager;
+
 		//	  OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
+            mBMLManager = BYOS.Instance.Interaction.BMLManager;
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
 			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
@@ -32,7 +35,15 @@ namespace BuddyApp.ExperienceCenter
 		//	 OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 		override public void OnStateUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-		}
+            Debug.LogFormat("BMLManager Active list size : {0}", mBMLManager.ActiveBML.Count);
+            if(mBMLManager.ActiveBML.Count == 0)
+            {
+                Debug.Log("Launching BML by id BeListening01");
+                bool status = mBMLManager.LaunchByID("BeListening01");
+                status = mBMLManager.LaunchByID("BeListening01");
+                Debug.LogFormat("BML launch status {0}", status);
+            }
+        }
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
