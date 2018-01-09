@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<bml category="Idle">
+  <synchronized end="3">
+    <faceMoodShift mood="NEUTRAL"/>
+    <headNo id="headNo1" position="90" speed="100"/>
+    <headYes id="headYes1"  position="-10" speed="100"/>
+    <faceExp id="faceEx1" start="1" expression="BLINK_BOTH"/>
+  </synchronized>
+  <synchronized end="3">
+    <move id="move1" angle="90" speed="100"/>
+    <headNo id="headNo2" position="0" speed="20"/>
+  </synchronized>
+  <gazeShift id="gazeShift1" direction="UP_LEFT"/>
+  <synchronized end="3">
+    <headNo id="headNo3" position="-90" speed="100"/>
+    <gazeShift id="gazeShift2" start="1" direction="CENTER"/>
+    <faceExp id="faceEx2" start="2" expression="BLINK_BOTH"/>
+  </synchronized>
+  <synchronized end="2">
+    <move id="move2" angle="-90" speed="100"/>
+    <headNo id="headNo4" position="0" speed="20"/>
+    <headYes id="headYes2"  position="0" speed="100"/>
+    <faceExp id="faceEx3" start="1" expression="SMILE"/>
+  </synchronized>
+</bml>
