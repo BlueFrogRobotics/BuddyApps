@@ -39,7 +39,7 @@ namespace BuddyApp.TakePhoto
 		private List<string> mDidntUnderstandSpeech;
 		private List<string> mTweetMsg;
 
-		private const string mHashtag = "#CES2017 #FrenchTech @adoptbuddy";
+		private const string mHashtag = "#CES2018 #FrenchTech @adoptbuddy";
 
 		private GameObject mCanvasYesNo;
 		private GameObject mCanvasBackGround;
@@ -53,7 +53,9 @@ namespace BuddyApp.TakePhoto
 			Notifier.Display<SimpleNot>().With(mHashtag,
 			BYOS.Instance.Resources.GetSpriteFromAtlas("Ico_Twitter"), Color.blue);
 
-			SendTweet(Dictionary.GetRandomString("tweet") + " " + mHashtag);
+			string lTweetMsg = Dictionary.GetRandomString("tweet");
+			lTweetMsg += " " + mHashtag;
+			SendTweet(lTweetMsg);
 			Interaction.TextToSpeech.SayKey("tweetpublished", true);
 			Interaction.TextToSpeech.Say(mHashtag, true);
 
@@ -74,7 +76,7 @@ namespace BuddyApp.TakePhoto
 
 		public void SendTweet(string iMsg)
 		{
-			Debug.Log("Sending tweet");
+			Debug.Log("Sending tweet: " + iMsg);
 			byte[] bytes = File.ReadAllBytes(CommonStrings["photoPath"]);
 			Texture2D texture = new Texture2D(1, 1);
 			texture.LoadImage(bytes);
