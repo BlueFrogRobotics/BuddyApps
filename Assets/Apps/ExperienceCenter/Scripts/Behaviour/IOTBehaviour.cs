@@ -124,6 +124,9 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.Silence (500, true);
 			mTTS.SayKey ("iotcontinuation", true);
 			mTTS.Silence (500, true);
+
+			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
+			mAnimatorManager.ActivateCmd ((byte)(Command.Stop));
 		}
 
 		public void StopBehaviour ()
