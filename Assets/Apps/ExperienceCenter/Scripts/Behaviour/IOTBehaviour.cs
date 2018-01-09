@@ -87,16 +87,16 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.SayKey ("iotparti", true);
 			mTTS.Silence (500, true);
 
-			if (!mHttpManager.Connected)
-				mHttpManager.Login();
+			//if (!mHttpManager.Connected)
+			//	mHttpManager.Login();
 
-			yield return new WaitUntil (() => mHttpManager.RetrieveDevices);
-			mHttpManager.StoreDeploy (true);
-			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsStoreDeployed);
-			mHttpManager.LightOn (true);
-			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsLightOn);
-			mHttpManager.SonosPlay (true);
-			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsMusicOn);
+			//yield return new WaitUntil (() => mHttpManager.RetrieveDevices);
+			//mHttpManager.StoreDeploy (true);
+			//yield return new WaitUntil(() => ExperienceCenterData.Instance.IsStoreDeployed);
+			//mHttpManager.LightOn (true);
+			//yield return new WaitUntil(() => ExperienceCenterData.Instance.IsLightOn);
+			//mHttpManager.SonosPlay (true);
+			//yield return new WaitUntil(() => ExperienceCenterData.Instance.IsMusicOn);
 
 			// Dance for 50 seconds
 			DateTime lStartDance = DateTime.Now;
