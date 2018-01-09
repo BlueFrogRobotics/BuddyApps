@@ -34,7 +34,8 @@ namespace BuddyApp.Companion
 				mActionManager.StopAllActions();
 				if (CompanionData.Instance.InteractDesire > 80) {
 					//Interaction.TextToSpeech.Say("Hey! Si on faisait un jeu!", true);
-					Trigger("PROPOSEGAME");
+					//Trigger("PROPOSEGAME");
+					Trigger("VOCALTRIGGERED");
 				} else {
 					//Interaction.TextToSpeech.Say("Que puis-je pour vous?", true);
 					Trigger("VOCALTRIGGERED");

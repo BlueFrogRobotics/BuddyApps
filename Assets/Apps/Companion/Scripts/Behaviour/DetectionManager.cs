@@ -51,7 +51,7 @@ namespace BuddyApp.Companion
 		//private MotionDetection mMotionDetection;
 		//private NoiseDetection mNoiseDetection;
 		private ThermalDetection mThermalDetection;
-		private HumanRecognition mHumanReco;
+		//private HumanRecognition mHumanReco;
 		private Face mFace;
 		private float mTimeElementTouched;
 		private int mEyeCounter;
@@ -96,7 +96,7 @@ namespace BuddyApp.Companion
 			//mNoiseDetection = BYOS.Instance.Perception.Noise;
 			mThermalDetection = BYOS.Instance.Perception.Thermal;
 			mKidnappingDetection = BYOS.Instance.Perception.Kidnapping;
-			mHumanReco = BYOS.Instance.Perception.Human;
+			//mHumanReco = BYOS.Instance.Perception.Human;
 			//BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
 
 			mActionManager = GetComponent<ActionManager>();
@@ -340,7 +340,7 @@ namespace BuddyApp.Companion
 
 			BYOS.Instance.Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
 			BYOS.Instance.Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = false;
-			mHumanReco.StopAllOnDetect();
+			//mHumanReco.StopAllOnDetect();
 			mFace.OnClickLeftEye.Clear();
 			mFace.OnClickRightEye.Clear();
 			mFace.OnClickMouth.Clear();

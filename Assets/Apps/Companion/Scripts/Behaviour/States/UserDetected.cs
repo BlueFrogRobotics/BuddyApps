@@ -33,6 +33,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			//mDetectionManager.StartSphinxTrigger();
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);

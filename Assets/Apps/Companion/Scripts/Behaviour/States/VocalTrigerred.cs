@@ -59,7 +59,7 @@ namespace BuddyApp.Companion
 
 			mNeedListen = true;
 			mTime = 0F;
-			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+			mActionManager.StopAllBML();
 			SayKey("ilisten");
 		}
 
@@ -81,6 +81,12 @@ namespace BuddyApp.Companion
 			if (mFirstErrorStt) {
 				mFirstErrorStt = false;
 				Debug.Log("Error STT ");
+
+				// To know if there is a connection issue
+				if (iError == STTError.ERROR_NETWORK) {
+					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.BLINK_DOUBLE);
+				}
+
 				// If first error
 				if (!mError) {
 					mError = true;
@@ -138,7 +144,7 @@ namespace BuddyApp.Companion
 					Debug.Log("finished motion, need listen");
 					mMoving = false;
 					mNeedListen = true;
-				} else if (mNeedListen) {
+				} else if (mNeedListen && BYOS.Instance.Interaction.Face.IsStable) {
 					Debug.Log("Vocal instant reco");
 
 					//BYOS.Instance.Interaction.BMLManager.LaunchRandom("Listening");
@@ -654,8 +660,8 @@ namespace BuddyApp.Companion
 					SayKey("wander");
 					//TODO, maybe ask for interaction instead if Buddy really wants to interact
 					CompanionData.Instance.InteractDesire -= 10;
-					if (CompanionData.Instance.MovingDesire < 50)
-						CompanionData.Instance.MovingDesire = 50;
+					if (CompanionData.Instance.MovingDesire < 40)
+						CompanionData.Instance.MovingDesire = 40;
 
 					Debug.Log("Start wanderring by voice " + mVocalChat.Answer);
 					mActionManager.WanderingOrder = true;

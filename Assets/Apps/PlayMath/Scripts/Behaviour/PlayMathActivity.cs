@@ -35,7 +35,8 @@ namespace BuddyApp.PlayMath
         public override void OnStart()
         {
             Utils.LogI(LogContext.APP, "On start...");
-        }
+			BYOS.Instance.Header.DisplayParametersButton = false;
+		}
 
 		/*
 		* Called when App is leaving. All coroutines have been stopped and data been saved. The scene will be unloaded just after OnQuit()

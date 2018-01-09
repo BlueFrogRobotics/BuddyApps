@@ -23,13 +23,18 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+			if (CompanionData.Instance.MovingDesire < 8)
+				CompanionData.Instance.MovingDesire = 8;
+
+
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mTimeThermal = 0F;
 			mTimeRaise = 0F;
 			mTimeLastThermal = 0F;
 			mState.text = "Wander";
 			mTrigged = false;
-			Debug.Log("state: Wander");
+			Debug.Log("state:  Wander");
 			Interaction.TextToSpeech.SayKey("startwander", true);
 
 			Debug.Log("wander: " + CompanionData.Instance.MovingDesire);

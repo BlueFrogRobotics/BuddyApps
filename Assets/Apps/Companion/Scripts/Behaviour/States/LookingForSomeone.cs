@@ -67,19 +67,23 @@ namespace BuddyApp.Companion
 
 				if (mDetectionManager.mFacePartTouched != FaceTouch.NONE) {
 					mDetectionManager.mFacePartTouched = FaceTouch.NONE;
-					Trigger("PROPOSEGAME");
+					//Trigger("PROPOSEGAME");
+
+					Trigger("ROBOTTOUCHED");
 
 				} else {
 
 					switch (mDetectionManager.mDetectedElement) {
 						case Detected.TRIGGER:
 							Interaction.Mood.Set(MoodType.HAPPY);
-							Trigger("PROPOSEGAME");
+							//Trigger("PROPOSEGAME");
+							Trigger("VOCALTRIGGERED");
 							break;
 
 						case Detected.TOUCH:
 							Interaction.Mood.Set(MoodType.HAPPY);
-							Trigger("PROPOSEGAME");
+							//Trigger("PROPOSEGAME");
+							Trigger("VOCALTRIGGERED");
 							break;
 
 						case Detected.KIDNAPPING:

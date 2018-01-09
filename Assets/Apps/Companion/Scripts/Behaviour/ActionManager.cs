@@ -101,7 +101,7 @@ namespace BuddyApp.Companion
 				StopThermalFollow();
 			if (Wandering)
 				StopWander();
-			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+			StopAllBML();
 			BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
 		}
 
@@ -213,10 +213,21 @@ namespace BuddyApp.Companion
 
 		}
 
+		internal void StopAllBML()
+		{
+			if (BYOS.Instance.Interaction.Mood.CurrentMood != MoodType.NEUTRAL) {
+				BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
+			}
+			// Can't know if eyes are closed, open them in case...
+			BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.OPEN_EYES);
+
+
+		}
+
 		internal void TimedMood(MoodType iMood, float iTime = 5F)
 		{
 			if(BYOS.Instance.Interaction.Mood.CurrentMood != iMood) {
-				BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+				StopAllBML();
 				BYOS.Instance.Interaction.Mood.Set(iMood);
 			}
 
@@ -226,7 +237,7 @@ namespace BuddyApp.Companion
 
 		internal void SetMood(MoodType iMood, float iTime = 5F)
 		{
-			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+			StopAllBML();
 
 			BYOS.Instance.Interaction.Mood.Set(iMood);
 			mTimeMood = Time.time;

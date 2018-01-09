@@ -11,8 +11,8 @@ namespace BuddyApp.Companion
 		public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
 		{
 			Utils.LogI(LogContext.APP, "On loading...");
-			Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
-			CompanionData.Instance.LastApp = "";
+			//Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
+			//CompanionData.Instance.LastApp = "";
 			//BYOS.Instance.Interaction.TextToSpeech.SetPitch(1.1F);
 			//BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(0.7F);
 		}

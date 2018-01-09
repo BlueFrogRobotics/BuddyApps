@@ -67,7 +67,7 @@ namespace BuddyApp.Companion
 						break;
 
 					case Detected.TOUCH:
-						Trigger("ROBOTTOUCHED");
+						Trigger("VOCALTRIGGERED");
 						break;
 
 					case Detected.KIDNAPPING:
