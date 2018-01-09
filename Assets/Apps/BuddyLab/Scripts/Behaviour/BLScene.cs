@@ -21,6 +21,7 @@ namespace BuddyApp.BuddyLab
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Interaction.Mood.Set(Buddy.MoodType.NEUTRAL);
             Debug.Log("name project: " + mBLBehaviour.NameOpenProject);
             mItemControl.CleanSequence();
             mItemControl.ShowSequence(mBLBehaviour.NameOpenProject + ".xml");

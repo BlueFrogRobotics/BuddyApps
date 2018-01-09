@@ -52,6 +52,7 @@ namespace BuddyApp.BuddyLab
 
         private void Stop()
         {
+            ResetPosition();
             Debug.Log("STOP BUTTON FDP");
             mItemControl.IsRunning = false;
             if (Primitive.RGBCam.IsOpen)
@@ -68,6 +69,7 @@ namespace BuddyApp.BuddyLab
 
         private void Replay()
         {
+            ResetPosition();
             mIsPlaying = false;
             if(!mIsPlaying)
                 StartCoroutine(mPlay);
@@ -81,6 +83,15 @@ namespace BuddyApp.BuddyLab
             mIsPlaying = false;
         }
 
+        private void ResetPosition()
+        {
+            //Primitive.Motors.Wheels.Locked = false;
+            //Primitive.Motors.Wheels.Stop();
+            Primitive.Motors.YesHinge.Locked = false;
+            Primitive.Motors.YesHinge.SetPosition(0F, 100F);
+            Primitive.Motors.NoHinge.Locked = false;
+            Primitive.Motors.NoHinge.SetPosition(0F, 100F);
+        }
     }
 }
 

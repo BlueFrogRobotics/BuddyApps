@@ -76,9 +76,12 @@ namespace BuddyApp.BuddyLab
             }
             else
             {
-                
-                File.Create(BYOS.Instance.Resources.GetPathToRaw("Projects", LoadContext.APP) + "/" + mBLBehaviour.NameOpenProject + ".xml");
-                GetGameObject(5).GetComponent<Animator>().SetTrigger("close");
+
+                using (var file = File.Create(BYOS.Instance.Resources.GetPathToRaw("Projects", LoadContext.APP) + "/" + mBLBehaviour.NameOpenProject + ".xml"))
+                {
+
+                }
+                    GetGameObject(5).GetComponent<Animator>().SetTrigger("close");
                 Trigger("Scene");
             }
             

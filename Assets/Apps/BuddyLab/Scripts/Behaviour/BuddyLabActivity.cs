@@ -35,6 +35,7 @@ namespace BuddyApp.BuddyLab
         public override void OnStart()
         {
             Utils.LogI(LogContext.APP, "On start...");
+            BYOS.Instance.Header.DisplayParametersButton = false;
         }
 
 		/*
