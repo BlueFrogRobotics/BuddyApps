@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bml id="FoundSomeone01" category="wander">
+  <gazeShift id="gaze1" direction="UP"/>
+	<headYes id="headYes1" position="-40" speed="250"/>
+	<synchronized>
+    <gazeShift id="gaze2" direction="CENTER"/>
+    <faceMoodShift mood="HAPPY"/>
+    <headYes id="headYes2" position="60" speed="250"/>
+    <move id="move1" start="0" speed="300" angle="45"/>
+    <headNo id="headNo1" start="0" end="1" position="-45" speed="250"/>
+    <move id="move2" start="1" end="3"  speed="300" angle="-90"/>
+    <headNo id="headNo2" start="1" end="3" position="45" speed="250"/>
+    <move id="move3" start="3" end="4"  speed="300" angle="45"/>
+    <headNo id="headNo3" start="3" end="4" position="0" speed="250"/>
+	</synchronized>
+	<headYes id="headYes3" position="-20" speed="300"/>
+  <faceExp id="faceExp1" expression="BLINK_BOTH"/>
+  <faceExp id="faceExp2" expression="SMILE"/>
+  <faceExp id="faceExp3" expression="BLINK_BOTH"/>
+	<faceMoodShift mood="NEUTRAL"/>
+</bml>

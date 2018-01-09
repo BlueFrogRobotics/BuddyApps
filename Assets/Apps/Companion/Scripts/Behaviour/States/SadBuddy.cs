@@ -13,6 +13,7 @@ namespace BuddyApp.Companion
 
 		private float mLookingTime;
 		private float mTimeThermal;
+		private float mTimeLastThermal;
 
 		//private Reaction mReaction;
 
@@ -25,12 +26,14 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "SadBuddy";
 			Debug.Log("state: SadBuddy");
 
 			mLookingTime = 0F;
-			Interaction.TextToSpeech.SayKey("nooneplay", true);
+			mTimeLastThermal = 0F;
+            Interaction.TextToSpeech.SayKey("nooneplay", true);
 			Interaction.Mood.Set(MoodType.SAD);
 			mTimeThermal = 0F;
 			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
@@ -42,45 +45,63 @@ namespace BuddyApp.Companion
 			mLookingTime = Time.deltaTime;
 
 
-			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering && (mActionManager.ThermalFollow && mTimeThermal - Time.time > 5F)) {
+			if (mActionManager.ThermalFollow && (Time.time - mTimeThermal > CompanionData.Instance.InteractDesire
+				|| (Time.time - mTimeLastThermal > 5.0F))) {
 				Debug.Log("sad buddy start wandering");
-				mActionManager.StartWander(MoodType.SAD);
-			}
+			mActionManager.StartWander(MoodType.SAD);
+		}
 
 			//if (mLookingTime > 3000)
 			//TODO: after sometime, do something? Activarte some BML...
 
+			if (mDetectionManager.mFacePartTouched != FaceTouch.NONE) {
+				mDetectionManager.mFacePartTouched = FaceTouch.NONE;
+				Trigger("PROPOSEGAME");
+
+			} else {
+
+				switch (mDetectionManager.mDetectedElement) {
+					case Detected.TRIGGER:
+						Interaction.Mood.Set(MoodType.HAPPY);
+						Trigger("PROPOSEGAME");
+						break;
+
+					case Detected.TOUCH:
+						Interaction.Mood.Set(MoodType.HAPPY);
+						Trigger("PROPOSEGAME");
+						break;
 
 
-			switch (mDetectionManager.mDetectedElement) {
-				case Detected.TRIGGER & Detected.TOUCH:
-					Interaction.Mood.Set(MoodType.HAPPY);
-					Trigger("PROPOSEGAME");
-					break;
+					case Detected.KIDNAPPING:
+						Interaction.Mood.Set(MoodType.HAPPY);
+						Trigger("KIDNAPPING");
+						break;
 
-				case Detected.KIDNAPPING:
-					Interaction.Mood.Set(MoodType.HAPPY);
-					Trigger("KIDNAPPING");
-					break;
+					case Detected.BATTERY:
+						Trigger("CHARGE");
+						break;
 
-				case Detected.BATTERY:
-					Trigger("CHARGE");
-					break;
+					// If thermal signature, activate thermal follow for some time
+					case Detected.THERMAL:
+						mTimeLastThermal = Time.time;
+						if ( !mActionManager.ThermalFollow) {
+							//Stop wandering and go to thermal follow
+							Debug.Log("sadBuddy start following " + CompanionData.Instance.InteractDesire);
+							mTimeThermal = Time.time;
+							mDetectionManager.mDetectedElement = Detected.NONE;
+							Interaction.Mood.Set(MoodType.SAD);
+							mActionManager.StartThermalFollow(HumanFollowType.HEAD_ONLY);
+						}
+						break;
 
-				case Detected.THERMAL:
-					mDetectionManager.mDetectedElement = Detected.NONE;
-					mTimeThermal = Time.time;
-					Debug.Log("sad buddy start follow");
-					mActionManager.StartThermalFollow();
-					break;
-
-				case Detected.HUMAN_RGB:
-					mDetectionManager.mDetectedElement = Detected.NONE;
-					break;
+					case Detected.HUMAN_RGB:
+						mDetectionManager.mDetectedElement = Detected.NONE;
+						break;
 
 
-				default:
-					break;
+					default:
+						break;
+				}
 			}
 		}
 

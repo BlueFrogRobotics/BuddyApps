@@ -18,6 +18,9 @@ namespace BuddyApp.BuddyLab
          */
         private BuddyLabData mAppData;
 
+        private string mNameOpenProject;
+        public string NameOpenProject { get { return mNameOpenProject; } set { mNameOpenProject = value; } }
+
         void Start()
         {
 			/*
@@ -30,5 +33,6 @@ namespace BuddyApp.BuddyLab
 			*/
             mAppData = BuddyLabData.Instance;
         }
+
     }
 }

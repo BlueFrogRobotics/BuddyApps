@@ -864,11 +864,6 @@
             If the behavior is running, tells at which step it's currently at.
             </summary>
         </member>
-        <member name="P:Buddy.BML.ID">
-            <summary>
-            ID of the BML.
-            </summary>
-        </member>
         <member name="P:Buddy.BML.Name">
             <summary>
             Name of the BML (its filename).
@@ -1003,16 +998,7 @@
             <param name="iComposition">Composition type of the behavior.</param>
             <returns>False if the BML was not found.</returns>
         </member>
-        <member name="M:Buddy.BMLManager.LaunchByID(System.String,System.Collections.Generic.Dictionary{System.String,System.String},Buddy.BMLComposition)">
-            <summary>
-            Launches a Behavior. Will check first in App's BML, then OS's BML.
-            </summary>
-            <param name="iID">The name of the behavior described by the BML's ID.</param>
-            <param name="iParams">Parameters for the execution of the behavior. The keys should be the parameter's names and the value the target value of the attribute.</param>
-            <param name="iComposition">Composition type of the behavior.</param>
-            <returns>False if the BML was not found.</returns>
-        </member>
-        <member name="M:Buddy.BMLManager.LaunchRandom(Buddy.BMLCategory,System.Collections.Generic.Dictionary{System.String,System.String},Buddy.BMLComposition,Buddy.BMLContext)">
+        <member name="M:Buddy.BMLManager.LaunchRandom(System.String,System.Collections.Generic.Dictionary{System.String,System.String},Buddy.BMLComposition,Buddy.BMLContext)">
             <summary>
             Launches a random behavior that belongs to a certain category.
             </summary>
@@ -1024,7 +1010,7 @@
         </member>
         <member name="M:Buddy.BMLManager.StopAllBehaviors">
             <summary>
-            Stops all currently running behaviors.
+            Stops all currently running behaviors and queued ones.
             </summary>
         </member>
         <member name="M:Buddy.InternalState.ComputeBias">
@@ -1315,6 +1301,21 @@
             Change the orientation of the robot
             </summary>
             <param name="iDirection">The orientation in degrees</param>
+        </member>
+        <member name="F:Buddy.HumanFollowType.BODY">
+            <summary>
+            Budy moves its whole body to follow the human.
+            </summary>
+        </member>
+        <member name="F:Buddy.HumanFollowType.ROTATION_AND_HEAD">
+            <summary>
+            Buddy rotates on himself to track the human that is being detected.
+            </summary>
+        </member>
+        <member name="F:Buddy.HumanFollowType.HEAD_ONLY">
+            <summary>
+            Buddy only moves it head to track the detected human.
+            </summary>
         </member>
         <member name="T:Buddy.FacialDetectionRework">
             <summary>
@@ -2228,11 +2229,6 @@
             </summary>
             <param name="iAngleDeg">The angle in degrees</param>
         </member>
-        <member name="P:Buddy.YesHinge.Locked">
-            <summary>
-            Lock set for hinge
-            </summary>
-        </member>
         <member name="T:Buddy.NoHinge">
             <summary>
             Represents the no axe hinge of the robot (Yaw Euler axe)
@@ -2250,11 +2246,6 @@
             Set the hinge at the specified position in degrees
             </summary>
             <param name="iAngleDeg">The angle in degrees</param>
-        </member>
-        <member name="P:Buddy.NoHinge.Locked">
-            <summary>
-            Lock set for hinge
-            </summary>
         </member>
         <member name="T:Buddy.Wheels">
             <summary>
@@ -2316,11 +2307,6 @@
             Enumeration corresponding to the current wheel's status
             </summary>
         </member>
-        <member name="P:Buddy.Wheels.Locked">
-            <summary>
-            Set for robot wheels locking
-            </summary>
-        </member>
         <member name="P:Buddy.Wheels.Error">
             <summary>
             Error code if there is any error on the component
@@ -2333,6 +2319,11 @@
             <returns>Robot's pose (X, Y, Tetha), the position (X,Y) in meters and the orientation Theta in degrees</returns>
             <remarks>Motors is the use of data from motion sensors to estimate change in position over time</remarks>
             <remarks>The robot's pose is a 3D vector that contains (X, Y, Theta). (X, Y) being the robot's position in horizontal plane and Theta the orientation of the robot.</remarks>
+        </member>
+        <member name="P:Buddy.Wheels.Locked">
+            <summary>
+            Set for robot wheels locking
+            </summary>
         </member>
         <member name="M:Buddy.Wheels.SetWheelsSpeed(System.Single,System.Single,System.Int32)">
             <summary>
@@ -3611,7 +3602,12 @@
         </member>
         <member name="F:Buddy.WeatherType.RAIN">
             <summary>
-            Rainny weather
+            Rainy weather
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.CHANCE_OF_RAIN">
+            <summary>
+            Chance of rain
             </summary>
         </member>
         <member name="F:Buddy.WeatherType.SNOWY">
@@ -3730,13 +3726,14 @@
             <param name="iCallback">Callback with Weather info</param>
             <param name="iNumberOfInfos">Number of information to be retrieved. Use a value of around 60 to get weather for a week after.</param>
         </member>
-        <member name="M:Buddy.Weather.HourlyAt(System.String,System.Action{Buddy.WeatherInfo[],Buddy.WeatherError},System.Int32)">
+        <member name="M:Buddy.Weather.HourlyAt(System.String,System.Action{Buddy.WeatherInfo[],Buddy.WeatherError},System.Int32,System.Boolean)">
             <summary>
             Weather forecast at 8am, 12pm, 4pm and 8pm.
             </summary>
             <param name="iLocation">Target location.</param>
             <param name="iCallback">Callback with weather information.</param>
             <param name="iNumberOfInfos">Number of informations to be retrieved.</param>
+            <param name="iHourlyFilter">Should hourly filters be applied or not ? If true, only 8am, 12pm, 4pm and 8pm are returned.</param>
         </member>
         <member name="T:Buddy.SMTP">
             <summary>
@@ -4551,6 +4548,12 @@
             Called when the application is currently unloading. It will be your last call
             </summary>
         </member>
+        <member name="M:Buddy.AAppActivity.OnFailStartApp(System.String)">
+            <summary>
+            Called when an other app cannot started
+            </summary>
+            <param name="iAppIdentifier">The app unique id</param>
+        </member>
         <member name="M:Buddy.AAppActivity.Init(UnityEngine.Animator,System.Object[])">
             <summary>
             This static method allow you to set basic param to your Activity. It must be done at the beginning of your app.
@@ -5109,48 +5112,6 @@
             </summary>
         </member>
         <member name="M:Buddy.Command.KillSndsCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:Buddy.Command.LockYesHingeCmd">
-            <summary>
-            When executed : Lock yes hinge
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockYesHingeCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockYesHingeCmd.#ctor(System.Boolean)">
-            <summary>
-            When executed : Lock yes hinge
-            </summary>
-            <param name="iLock">Must hinges be locked ?</param>
-        </member>
-        <member name="M:Buddy.Command.LockYesHingeCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:Buddy.Command.LockNoHingeCmd">
-            <summary>
-            When executed : Lock no hinge
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockNoHingeCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockNoHingeCmd.#ctor(System.Boolean)">
-            <summary>
-            When executed : Lock no hinge
-            </summary>
-            <param name="iLock">Must hinges be locked ?</param>
-        </member>
-        <member name="M:Buddy.Command.LockNoHingeCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -6043,27 +6004,6 @@
             <remarks>The target angle defines the robot orientation in local space (relative to its actual orientation)</remarks>
         </member>
         <member name="M:Buddy.Command.TurnRelaCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:Buddy.Command.LockWheelsCmd">
-            <summary>
-            When executed : Lock wheels
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockWheelsCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Buddy.Command.LockWheelsCmd.#ctor(System.Boolean)">
-            <summary>
-            When executed : Lock wheels
-            </summary>
-            <param name="iLock">Must the wheels be locked ?</param>
-        </member>
-        <member name="M:Buddy.Command.LockWheelsCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -6980,6 +6920,30 @@
         <member name="T:Buddy.UserPref">
             <summary>
             This class represents user preferences
+            </summary>
+        </member>
+        <member name="F:Buddy.UI.PoolInflationType.INCREMENT">
+            When a dynamic pool inflates, add one to the pool.
+        </member>
+        <member name="F:Buddy.UI.PoolInflationType.DOUBLE">
+            When a dynamic pool inflates, double the size of the pool
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
+        <member name="M:Buddy.UI.PoolManager.ReturnObjectToPool(UnityEngine.GameObject)">
+            <summary>
+            Return obj to the pool
+            </summary>
+            <param name="go"></param>
+        </member>
+        <member name="M:Buddy.UI.PoolManager.ReturnTransformToPool(UnityEngine.Transform)">
+            <summary>
+            Return obj to the pool
+            </summary>
+            <param name="t"></param>
+        </member>
+        <member name="T:Buddy.UI.VerticalCarouselToast">
+            <summary>
+            Toast to display a vertical carousel
             </summary>
         </member>
         <member name="T:Buddy.UI.AppsContainer">

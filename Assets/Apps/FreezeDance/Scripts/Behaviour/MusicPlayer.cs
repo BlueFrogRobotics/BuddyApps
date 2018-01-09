@@ -28,10 +28,12 @@ namespace BuddyApp.FreezeDance
         private float mAudioClipLength;
         private bool mIsStopped = false;
 
+		public int NbClips { get { return clips.Length; } }
+
         // Use this for initialization
         void Start()
         {
-            speaker.clip = clip;
+            speaker.clip = clips[0];
             mElapsedTime = 0.0f;
             mIsStopped = false;
             mAudioClipLength = speaker.clip.length;
@@ -86,7 +88,7 @@ namespace BuddyApp.FreezeDance
         {
             Debug.Log("restart music");
             speaker.clip = null;
-            speaker.clip = clip;
+            speaker.clip = clips[0];
             mElapsedTime = 0.0f;
             mIsStopped = false;
             mAudioClipLength = speaker.clip.length;

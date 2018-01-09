@@ -38,7 +38,7 @@ namespace BuddyApp.Companion
 	{
 
 		public const float MAX_SOUND_THRESHOLD = 0.2F;
-		public const float KIDNAPPING_THRESHOLD = 4.5F;
+		public const float KIDNAPPING_THRESHOLD = 12F;
 		public const float MAX_MOVEMENT_THRESHOLD = 4.0F;
 		public const int MIN_TEMP = 25;
 
@@ -60,9 +60,12 @@ namespace BuddyApp.Companion
 		private float mLastMouthTime;
 		private ActionManager mActionManager;
 		private float mTimeOtherTouched;
+		private bool mInit;
+		private float mTimeSphinx;
 
 		public string Logs { get; private set; }
 
+		public float TimeLastTouch { get { return Math.Min(Time.time - mTimeElementTouched, Time.time - mTimeOtherTouched); } }
 		public bool IsDetectingThermal { get; set; }
 		public bool IsDetectingMovement { get; set; }
 		public bool IsDetectingKidnapping { get; set; }
@@ -71,13 +74,19 @@ namespace BuddyApp.Companion
 		public bool IsDetectingTrigger { get; set; }
 		//public bool IsDetectingSound { get; set; }
 
+		[SerializeField]
+		private UnityEngine.UI.Text mState;
+
 		void Start()
 		{
+			CompanionActivity.Init(null, mState);
+
 			mTimeElementTouched = 0F;
 			mTimeOtherTouched = 0F;
 			mDetectedElement = Detected.NONE;
 			mFacePartTouched = FaceTouch.NONE;
 
+			mInit = false;
 			IsDetectingThermal = true;
 			IsDetectingBattery = true;
 			IsDetectingKidnapping = true;
@@ -88,18 +97,49 @@ namespace BuddyApp.Companion
 			mThermalDetection = BYOS.Instance.Perception.Thermal;
 			mKidnappingDetection = BYOS.Instance.Perception.Kidnapping;
 			mHumanReco = BYOS.Instance.Perception.Human;
-			BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
+			//BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
 
 			mActionManager = GetComponent<ActionManager>();
 			mFace = BYOS.Instance.Interaction.Face;
 			LinkDetectorsEvents();
 		}
 
+		internal void StartSphinxTrigger()
+		{
+			IsDetectingTrigger = true;
+			BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
+			mTimeSphinx = Time.time;
+		}
+
+		internal void StopSphinxTrigger()
+		{
+			IsDetectingTrigger = false;
+			BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
+		}
+
 		void Update()
 		{
+			if (BYOS.Instance.Interaction.SphinxTrigger.FinishedSetup && !mInit) {
+				Utils.LogI(LogContext.INTERACTION, "Launching Sphinx Update");
+				BYOS.Instance.Interaction.SphinxTrigger.SetThreshold((float)1e-26);
+				mInit = true;
+				StartSphinxTrigger();
+			}
+
+			// Avoid degradation of sphinx
+			if (BYOS.Instance.Interaction.SphinxTrigger.FinishedSetup && IsDetectingTrigger && Time.time - mTimeSphinx > 20F)
+				StartSphinxTrigger();
+
+			//Debug.Log("VOCAL TRIGGERED");
+			if (IsDetectingTrigger && CompanionData.Instance.CanTrigger)
+				if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered) {
+					Debug.Log("Vocal triggered detector");
+
+					mDetectedElement = Detected.TRIGGER;
+				}
 
 			if (BYOS.Instance.Primitive.Battery.EnergyLevel < 15 && BYOS.Instance.Primitive.Battery.EnergyLevel < 0.000001) {
-				Debug.Log("WARNING BATTERY NOT DETECTED!!!");
+				//Debug.Log("WARNING BATTERY NOT DETECTED!!!");
 			}
 
 			// If nothing else touched (eye, mouth) validate the other touched
@@ -115,11 +155,6 @@ namespace BuddyApp.Companion
 				if (mDetectedElement == Detected.NONE && IsDetectingBattery)
 					mDetectedElement = Detected.BATTERY;
 
-			if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered) {
-				Debug.Log("VOCAL TRIGGERED");
-				if (IsDetectingTrigger && CompanionData.Instance.CanTrigger)
-					mDetectedElement = Detected.TRIGGER;
-			}
 
 			if (Input.touchCount > 0 || Input.GetMouseButtonDown(0)) {
 
@@ -163,6 +198,8 @@ namespace BuddyApp.Companion
 			//mDetectedElement = Detected.TOUCH;
 			mFacePartTouched = FaceTouch.MOUTH;
 			mDetectedElement = Detected.TOUCH;
+
+			mActionManager.StopAllActions();
 
 			//Cancel other touch
 			mTimeOtherTouched = 0F;
@@ -263,10 +300,10 @@ namespace BuddyApp.Companion
 			//mNoiseDetection.OnDetect(OnSoundDetected);
 			mThermalDetection.OnDetect(OnThermalDetected, MIN_TEMP);
 			mKidnappingDetection.OnDetect(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
-			BYOS.Instance.Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HEAD_FORCED_SOFT, OnHeadForcedSoft);
-			BYOS.Instance.Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HEAD_FORCED_HARD, OnHeadForcedHard);
-			BYOS.Instance.Perception.Stimuli.Controllers[StimulusEvent.HEAD_FORCED_SOFT].enabled = true;
-			BYOS.Instance.Perception.Stimuli.Controllers[StimulusEvent.HEAD_FORCED_HARD].enabled = true;
+			//BYOS.Instance.Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HEAD_FORCED_SOFT, OnHeadForcedSoft);
+			//BYOS.Instance.Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.HEAD_FORCED_HARD, OnHeadForcedHard);
+			//BYOS.Instance.Perception.Stimuli.Controllers[StimulusEvent.HEAD_FORCED_SOFT].enabled = true;
+			//BYOS.Instance.Perception.Stimuli.Controllers[StimulusEvent.HEAD_FORCED_HARD].enabled = true;
 
 			//mHumanReco.OnDetect(OnHumanDetected, BodyPart.FULL_BODY & BodyPart.FACE & BodyPart.LOWER_BODY & BodyPart.UPPER_BODY);
 			mFace.OnClickLeftEye.Add(LeftEyeClicked);
@@ -274,8 +311,8 @@ namespace BuddyApp.Companion
 			mFace.OnClickMouth.Add(MouthClicked);
 
 			//BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
-			BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_320_H_240;
-			BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
+			//BYOS.Instance.Primitive.RGBCam.Resolution = RGBCamResolution.W_320_H_240;
+			StartSphinxTrigger();
 		}
 
 		private void OnHeadForcedHard()
@@ -286,7 +323,7 @@ namespace BuddyApp.Companion
 		private void OnHeadForcedSoft()
 		{
 			mActionManager.TimedMood(MoodType.SICK);
-        }
+		}
 
 		/// <summary>
 		/// Unsubscibe to the detectors callbacks

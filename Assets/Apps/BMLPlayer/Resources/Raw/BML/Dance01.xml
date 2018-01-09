@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bml id="Dance01" category="Dance">
+  <!-- DANCE -->
+  <faceMoodShift id="faceMoodShift1" mood="HAPPY"/>
+  <synchronized end="18">
+    <sound id="sound1"  name="01_DaftPunk_Get-Lucky_15s"/>
+
+    <gazeShift id="gaze1" direction="UP"/>
+    <faceMoodShift mood="HAPPY"/>
+    <headNo id="headNo1" position="-45" speed="20"/>
+    <move id="move1" speed="100" angle="75"/>
+    <headYes id="headYes1" position="-20" speed="100"/>
+    <headYes id="headYes2" start="0.5" end="1" position="0" speed="100"/>
+    <faceExp id="faceExp1" start="1" expression="SCREAM"/>
+    <headYes id="headYes3" start="1" end="1.5" position="-20" speed="100"/>
+    <headYes id="headYes4" start="1.5" end="2" position="0" speed="100"/>
+    <headNo id="headNo2" start="2" position="45" speed="20"/>
+    <move id="move2" start="2" speed="100" angle="-150"/>
+
+    <gazeShift id="gaze2" start="3" direction="CENTER"/>
+    <headYes id="headYes5" start="2.5" end="3" position="-20" speed="100"/>
+    <headYes id="headYes6" start="3" end="3.5" position="0" speed="100"/>
+    <faceExp id="faceExp2" start="3" expression="BLINK_BOTH"/>
+    <headYes id="headYes7" start="3.5" end="4" position="-20" speed="100"/>
+    <headYes id="headYes8" start="4" end="4.5" position="0" speed="100"/>
+
+    <headNo id="headNo3" start="4" position="-45" speed="20"/>
+    <move id="move3" start="4" speed="100" angle="150"/>
+    <headYes id="headYes9" start="4" end="4.5" position="-20" speed="100"/>
+    <headYes id="headYes10" start="4.5" end="5" position="0" speed="100"/>
+    
+    <headNo id="headNo4" start="5" position="45" speed="20"/>
+    <move id="move4" start="5" speed="100" angle="-150"/>
+    <headYes id="headYes11" start="5" end="5.5" position="-20" speed="100"/>
+    <headYes id="headYes12" start="5.5" end="6" position="0" speed="100"/>
+    
+    <headNo id="headNo5" start="6" position="-45" speed="20"/>
+    <move id="move5" start="6" speed="100" angle="150"/>
+    <headYes id="headYes13" start="6" end="6.5" position="-20" speed="100"/>
+    <headYes id="headYes14" start="6.5" end="7" position="0" speed="100"/>
+
+    <headYes id="headYes15" start="7" end="7.5" position="-20" speed="100"/>
+    <headYes id="headYes16" start="7.5" end="8" position="0" speed="100"/>
+    <faceExp id="faceExp3" start="8" expression="SCREAM"/>
+    <headYes id="headYes17" start="8" end="8.5" position="-20" speed="100"/>
+    <headYes id="headYes18" start="8.5" end="9" position="0" speed="100"/>
+    <headNo id="headNo6" start="9" position="45" speed="20"/>
+    <move id="move6" start="9" speed="100" angle="-150"/>
+
+    <gazeShift id="gaze3" start="9.5" direction="CENTER"/>
+    <headYes id="headYes19" start="9.5" end="10" position="-20" speed="100"/>
+    <headYes id="headYes20" start="10" end="10.5" position="0" speed="100"/>
+    <faceExp id="faceExp4" start="10" expression="BLINK_BOTH"/>
+    <headYes id="headYes21" start="10.5" end="11" position="-20" speed="100"/>
+    <headYes id="headYes22" start="11" end="11.5" position="0" speed="100"/>
+
+    <headNo id="headNo7" start="11.5" position="-45" speed="20"/>
+    <move id="move7" start="12" speed="100" angle="150"/>
+    <headYes id="headYes23" start="12" end="12.5" position="-20" speed="100"/>
+    <headYes id="headYes24" start="12.5" end="13" position="0" speed="100"/>
+
+    <headNo id="headNo8" start="13" position="45" speed="20"/>
+    <move id="move8" start="13" speed="100" angle="-150"/>
+    <headYes id="headYes25" start="13.5" end="14" position="-20" speed="100"/>
+    <headYes id="headYes26" start="14" end="14.5" position="0" speed="100"/>
+
+    <headNo id="headNo9" start="14.5" position="0" speed="20"/>
+    <move id="move9" start="14.5" end="16" speed="300" angle="75"/>
+    <headYes id="headYes27" start="14.5" end="15" position="20" speed="100"/>
+    <move id="move10" start="16" end="17" speed="300" angle="180"/>
+    <headNo id="headNo10" start="14.5" position="0" speed="20"/>
+    <move id="move11" start="17" end="18" speed="300" angle="180"/>  
+  </synchronized>
+  <faceMoodShift mood="NEUTRAL"/>
+</bml>

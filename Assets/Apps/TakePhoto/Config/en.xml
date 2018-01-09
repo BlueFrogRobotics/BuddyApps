@@ -3,19 +3,23 @@
     <Entries>
         <DictionaryEntry>
             <Key>takephoto</Key>
-            <BaseValue>I take the photo</BaseValue>
+            <BaseValue>I'm taking a photo</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Be ready, I will take the photo</string>
+                <string>Be ready, I will take a photo</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>quit</Key>
             <BaseValue>quit</BaseValue>
             <ClosePhoneticValues>
-                <string />
+                <string>quit</string>
+                <string>exit</string>
+                <string>cancel</string>
+                <string>no</string>
+                <string>nope</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>quit</string>
@@ -35,15 +39,15 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>redopic</Key>
-            <BaseValue>Take an other photo?</BaseValue>
+            <BaseValue>Take another photo?</BaseValue>
             <ClosePhoneticValues>
                 <string>photo</string>
                 <string>do again</string>
-                <string>take an other one</string>
+                <string>take another one</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Do you want to take an other one?</string>
-                <string>Should we make an other one?</string>
+                <string>Do you want to take another one?</string>
+                <string>Should we make another one?</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -66,7 +70,7 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Do you want to take an other picture or should I publish it on twitter?</string>
+                <string>Do you want to take another picture or can I publish it on twitter?</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -76,7 +80,7 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Wow, nice picture, much pretty</string>
+                <string>Wow, nice picture, much pretty, such good looking, very photo</string>
                 <string>nice picture!</string>
             </RandomValues>
         </DictionaryEntry>
@@ -85,6 +89,7 @@
             <BaseValue>no</BaseValue>
             <ClosePhoneticValues>
                 <string>no</string>
+                <string>nope</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>no</string>
@@ -95,6 +100,8 @@
             <BaseValue>yes</BaseValue>
             <ClosePhoneticValues>
                 <string>yes</string>
+                <string>yeah</string>
+                <string>ok</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>yes</string>
@@ -129,7 +136,7 @@
             <ClosePhoneticValues>
                 <string>photo</string>
                 <string>do again</string>
-                <string>take an other one</string>
+                <string>take another one</string>
                 <string>picture</string>
             </ClosePhoneticValues>
             <RandomValues>
@@ -143,8 +150,8 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Move your hands to trigger the camera</string>
-                <string>Move to trigger</string>
+                <string>Move your hands to trigger the photo</string>
+                <string>Move to trigger the photo</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -154,7 +161,7 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Ok, whenever you want, we can do an other shooting!</string>
+                <string>Ok, we can do another shooting some time!</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

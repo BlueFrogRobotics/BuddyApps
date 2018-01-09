@@ -44,13 +44,14 @@ namespace BuddyApp.Companion
 
                 foreach (AStateMachineBehaviour lState in lStates) {
                     lState.Init();
-                    lState.CommonIntegers = mCommonIntegers;
+					//lState.DetectionManager = GetComponent<DetectionManager>();
+					//lState.ActionManager = GetComponent<ActionManager>();
+					lState.CommonIntegers = mCommonIntegers;
                     lState.CommonSingles = mCommonSingles;
                     lState.CommonStrings = mCommonStrings;
                     lState.CommonObjects = mCommonObjects;
                     lState.Animator = mAnimator;
                     lState.Manager = this;
-					Utils.LogW(LogContext.APP, "Lol 2lkijhgf");
 					lState.Start();
                 }
             }

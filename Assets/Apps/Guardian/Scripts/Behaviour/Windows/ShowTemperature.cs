@@ -77,7 +77,11 @@ namespace BuddyApp.Guardian
             if (mTemperature != null)
             {
                 mGrid = temperatureToColor();
-                Utils.MatToTexture2D(mGrid, mTexture);
+
+				//Flip
+				Mat mMat = new Mat();
+				Core.flip(mGrid, mMat, 1);
+				Utils.MatToTexture2D(mMat, mTexture);
                 if (Interpolation)
                     mTexture.filterMode = FilterMode.Trilinear;
                 else

@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using Buddy;
+using UnityEngine.UI;
 
 namespace BuddyApp.Guardian
 {
@@ -28,11 +30,13 @@ namespace BuddyApp.Guardian
 
         private IEnumerator RoombaPatrol()
         {
-            mDetectionManager.Roomba.enabled = true;
+            BYOS.Instance.Navigation.RandomWalk.StartWander(MoodType.NEUTRAL);
+            //mDetectionManager.Roomba.enabled = true;
 
             yield return new WaitForSeconds(15F);
+            //mDetectionManager.Roomba.enabled = false;
 
-            mDetectionManager.Roomba.enabled = false;
+            BYOS.Instance.Navigation.Stop();
             Trigger("Turn");
         }
 

@@ -10,6 +10,8 @@ namespace BuddyApp.FreezeDance
 {
     public class Ranking : MonoBehaviour
     {
+        [SerializeField]
+        private Animator anim; 
 
         [SerializeField]
         private GameObject firstUser;
@@ -64,12 +66,6 @@ namespace BuddyApp.FreezeDance
             //Utils.SerializeCSV(lDirectoryPath, "truc", "machin");
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public void AddPlayer(int iScore)
         {
             Debug.Log("add player");
@@ -94,22 +90,29 @@ namespace BuddyApp.FreezeDance
             ClearRanking();
             UpdateRanking();
             int lRank = mLastRank + 1;
-            switch(mLastRank)
+
+            if (anim.GetBool("ScoreBool"))
             {
-                case 0:
-                    title.GetComponent<Text>().text = BYOS.Instance.Dictionary.GetString("nicescore") + lRank + " " + BYOS.Instance.Dictionary.GetString("first");
-                    break;
-                case 1:
-                    title.GetComponent<Text>().text = BYOS.Instance.Dictionary.GetString("nicescore") + lRank + " " + BYOS.Instance.Dictionary.GetString("second");
-                    break;
-                case 2:
-                    title.GetComponent<Text>().text = BYOS.Instance.Dictionary.GetString("nicescore") + lRank + " " + BYOS.Instance.Dictionary.GetString("third");
-                    break;
-                default:
-                    title.GetComponent<Text>().text = BYOS.Instance.Dictionary.GetString("nicescore") + lRank + " " + BYOS.Instance.Dictionary.GetString("th");
-                    break;
+                switch (mLastRank)
+                {
+                    case 0:
+                        title.GetComponent<Text>().text = BYOS.Instance.Dictionary.GetString("nicescore") + lRank + " " + BYOS.Instance.Dictionary.GetString("first");
+                        break;
+                    case 1:
+                        title.GetComponent<Text>().text = BYOS.Instance.Dictionary.GetString("nicescore") + lRank + " " + BYOS.Instance.Dictionary.GetString("second");
+                        break;
+                    case 2:
+                        title.GetComponent<Text>().text = BYOS.Instance.Dictionary.GetString("nicescore") + lRank + " " + BYOS.Instance.Dictionary.GetString("third");
+                        break;
+                    default:
+                        title.GetComponent<Text>().text = BYOS.Instance.Dictionary.GetString("nicescore") + lRank + " " + BYOS.Instance.Dictionary.GetString("th");
+                        break;
+                }
             }
-            
+            else
+            {
+                title.GetComponent<Text>().text = "Score";
+            }
             //for(int i=0; i<mPlayerList.List.Count; i++)
             //{
             //    if(i==mLastRank)

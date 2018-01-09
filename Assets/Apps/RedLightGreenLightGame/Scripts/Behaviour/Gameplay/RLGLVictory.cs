@@ -43,7 +43,7 @@ namespace BuddyApp.RedLightGreenLightGame
             Interaction.Mood.Set(MoodType.HAPPY);
             Interaction.Face.SetEvent(FaceEvent.SMILE);
             int lLevel = mLevelManager.LevelData.Level;
-            Toaster.Display<VictoryToast>().With("niveau "+(lLevel+1)+" fini");
+            Toaster.Display<VictoryToast>().With(string.Format(Dictionary.GetString("leveldone"), (lLevel + 1)));
             yield return new WaitForSeconds(2);
             Toaster.Hide();
             yield return SayAndWait(Dictionary.GetRandomString("wonlevel") + (lLevel+1) );

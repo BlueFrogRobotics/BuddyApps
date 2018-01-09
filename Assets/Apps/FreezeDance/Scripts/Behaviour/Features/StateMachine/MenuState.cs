@@ -12,15 +12,26 @@ namespace BuddyApp.FreezeDance
         private float mTimer = 0.0f;
         private bool mSwitchState = false;
         private MusicPlayer mMusicPlayer;
+        private bool IsClick;
 
         public override void Start()
         {
             mMusicPlayer = GetComponent<MusicPlayer>();
         }
 
+        public void Ft_IsClick(string name)
+        {
+            if (IsClick)
+            {
+                IsClick = false;
+                Trigger(name);
+            }
+        }
+
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+            SetBool("ScoreBool", false);
+            IsClick = true;
             mMusicPlayer.Restart();
             Interaction.TextToSpeech.SayKey("nextaction");
             Interaction.Mood.Set(MoodType.NEUTRAL);
@@ -31,21 +42,24 @@ namespace BuddyApp.FreezeDance
                    "menu",
                    new ButtonInfo()
                    {
-                       Label = Dictionary.GetString("playwithsettings"),//"start",
-                       OnClick = () => Trigger("Start")
+                       Label = Dictionary.GetString("play"),//"start",
+                       OnClick = () => Ft_IsClick("Start")
                    },
+                   //new ButtonInfo()
+                   //{
+                   //    Label = Dictionary.GetString("setupandplay"),//"help",
+                   //    OnClick = () => Trigger("Settings")
+                   //},
                    new ButtonInfo()
                    {
-                       Label = Dictionary.GetString("setupandplay"),//"help",
-                       OnClick = () => Trigger("Settings")
-                   },
-                   new ButtonInfo()
-                   {
+
                        Label = Dictionary.GetString("bestscores"),//"quit",
-                       OnClick = () => Trigger("Ranking")
+                       OnClick = () => Ft_IsClick("Ranking"),
+
                    });
             mTimer = 0.0f;
         }
+
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {

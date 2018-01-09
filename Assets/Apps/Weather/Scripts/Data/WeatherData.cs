@@ -7,7 +7,7 @@ namespace BuddyApp.Weather
     {
         /*
          * Data getters / setters
-         */
+         */ 
         public string VocalRequest { get; set; }
 
 		/*

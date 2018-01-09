@@ -27,6 +27,7 @@ namespace BuddyApp.RedLightGreenLightGame
 
         private IEnumerator Talk()
         {
+            yield return SayKeyAndWait("start");
             yield return SayKeyAndWait("willgo");
             Trigger("Start");
         }

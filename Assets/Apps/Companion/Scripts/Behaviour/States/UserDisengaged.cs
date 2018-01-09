@@ -15,6 +15,7 @@ namespace BuddyApp.Companion
         {
             mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 		}
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -24,10 +25,9 @@ namespace BuddyApp.Companion
             Debug.Log("state: User disengaged");
 
             mTimeState = 0F;
-			
+			Interaction.TextToSpeech.SayKey("userquit");
 
             Interaction.Mood.Set(MoodType.NEUTRAL);
-
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -40,10 +40,10 @@ namespace BuddyApp.Companion
                 CompanionData.Instance.InteractDesire -= 10;
             }
 
-            if (CompanionData.Instance.MovingDesire > 50) {
+            if (CompanionData.Instance.MovingDesire > 50 & CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
                 Debug.Log("User disengaged -> wander: " + CompanionData.Instance.MovingDesire);
                 iAnimator.SetTrigger("WANDER");
-            } else if (mTimeState > 10F) {
+            } else if (mTimeState > 5F) {
                 iAnimator.SetTrigger("IDLE");
             }
 
@@ -51,7 +51,6 @@ namespace BuddyApp.Companion
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
 			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
     }

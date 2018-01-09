@@ -11,8 +11,10 @@ namespace BuddyApp.Companion
 		public bool CanMoveBody { get; set; }
 		public bool CanMoveHead { get; set; }
 		public bool CanTrigger { get; set; }
+		public bool CanTriggerWander { get; set; }
 		public bool UseCamera { get; set; }
 		public bool CanSetHeadPos { get; set; }
+		public bool Debug { get; set; }
 		//public bool ShowQRCode { get; set; }
 		public float HeadPosition { get; set; }
 		public int Bored { get; set; }

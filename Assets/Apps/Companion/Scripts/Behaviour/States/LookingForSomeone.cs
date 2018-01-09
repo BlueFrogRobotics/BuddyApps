@@ -29,6 +29,7 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
 			mState.text = "Looking for someone";
 			Debug.Log("state: Looking 4 someone");
 			mLookForSomeone = false;
@@ -48,7 +49,7 @@ namespace BuddyApp.Companion
 			mLookingTime = Time.deltaTime;
 
 
-			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
 				Debug.Log("CompanionLooking4 start wandering");
 				mActionManager.StartWander(MoodType.NEUTRAL);
 			}
@@ -64,29 +65,44 @@ namespace BuddyApp.Companion
 				}
 			} else {
 
+				if (mDetectionManager.mFacePartTouched != FaceTouch.NONE) {
+					mDetectionManager.mFacePartTouched = FaceTouch.NONE;
+					Trigger("PROPOSEGAME");
 
-				switch (mDetectionManager.mDetectedElement) {
-					case Detected.TRIGGER & Detected.TOUCH:
-						Interaction.Mood.Set(MoodType.HAPPY);
-						Trigger("PROPOSEGAME");
-						break;
+				} else {
 
-					case Detected.KIDNAPPING:
-						Interaction.Mood.Set(MoodType.HAPPY);
-						Trigger("KIDNAPPING");
-						break;
+					switch (mDetectionManager.mDetectedElement) {
+						case Detected.TRIGGER:
+							Interaction.Mood.Set(MoodType.HAPPY);
+							Trigger("PROPOSEGAME");
+							break;
 
-					case Detected.BATTERY:
-						Trigger("CHARGE");
-						break;
+						case Detected.TOUCH:
+							Interaction.Mood.Set(MoodType.HAPPY);
+							Trigger("PROPOSEGAME");
+							break;
 
-					case Detected.HUMAN_RGB & Detected.THERMAL:
-						Interaction.Mood.Set(MoodType.HAPPY);
-						Trigger("INTERACT");
-						break;
+						case Detected.KIDNAPPING:
+							Interaction.Mood.Set(MoodType.HAPPY);
+							Trigger("KIDNAPPING");
+							break;
 
-					default:
-						break;
+						case Detected.BATTERY:
+							Trigger("CHARGE");
+							break;
+
+						case Detected.THERMAL:
+							if (CompanionData.Instance.InteractDesire > 40)
+								BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
+							else
+								BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
+
+							Trigger("INTERACT");
+							break;
+
+						default:
+							break;
+					}
 				}
 			}
 

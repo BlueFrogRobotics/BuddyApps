@@ -19,6 +19,7 @@ namespace BuddyApp.Companion
 
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
+			mActionManager = GetComponent<ActionManager>();
 			//mMouthCounter = 0;
 			//mEyeCounter = 0;
 			//mLastMouthTime = 0F;
@@ -30,7 +31,7 @@ namespace BuddyApp.Companion
 			mState.text = "Robot Touched " + mDetectionManager.mFacePartTouched;
 			Debug.Log("state: Robot Touched: " + mDetectionManager.mFacePartTouched);
 			if (mDetectionManager.mFacePartTouched == FaceTouch.MOUTH) {
-
+				mActionManager.StopAllActions();
 				if (CompanionData.Instance.InteractDesire > 80) {
 					//Interaction.TextToSpeech.Say("Hey! Si on faisait un jeu!", true);
 					Trigger("PROPOSEGAME");
@@ -39,7 +40,9 @@ namespace BuddyApp.Companion
 					Trigger("VOCALTRIGGERED");
 				}
 
-			}
+			} else
+				Trigger("INTERACT");
+
 			//} else {
 			//	// User touched the eye / face
 			//	if (mDetectionManager.mFacePartTouched == FaceTouch.MOUTH) {

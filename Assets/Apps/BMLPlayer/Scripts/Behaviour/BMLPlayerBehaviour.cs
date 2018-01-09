@@ -17,19 +17,15 @@ namespace BuddyApp.BMLPlayer
 
         [SerializeField]
         private UnityEngine.UI.Button launchButton;
-
-        private VocalManager mVM;
+        
         private TextToSpeech mTTS;
         private BMLManager mBMLManager;
 
         void Start()
         {
-            mVM = BYOS.Instance.Interaction.VocalManager;
             mTTS = BYOS.Instance.Interaction.TextToSpeech;
             mBMLManager = BYOS.Instance.Interaction.BMLManager;
-            mBMLManager.LoadAppBML();
-            mVM.EnableTrigger = true;
-            mVM.OnEndReco = Callback;
+            //mBMLManager.LoadAppBML();
         }
 
         public void Callback(string iInput)

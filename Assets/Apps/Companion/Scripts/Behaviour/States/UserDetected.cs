@@ -21,9 +21,9 @@ namespace BuddyApp.Companion
 			CompanionData.Instance.InteractDesire = 0;
 			CompanionData.Instance.ChargeAsked = false;
 			mState = GetComponentInGameObject<Text>(0);
-			Interaction.BMLManager.LoadAppBML();
+			//Interaction.BMLManager.LoadAppBML();
 			mDetectionManager = GetComponent<DetectionManager>();
-
+			mActionManager = GetComponent<ActionManager>();
 			Utils.LogI(LogContext.APP, "Start UserD");
 
 		}
@@ -35,15 +35,18 @@ namespace BuddyApp.Companion
 		{
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 			Utils.LogI(LogContext.APP, "Enter UserD 0");
-			mState.text = "User Detected" + Primitive.Battery.EnergyLevel;
+			mState.text = "User Detected";
 
 			mTimeState = 0F;
 			mTimeHumanDetected = 0F;
 
+
+
 			if (CompanionData.Instance.InteractDesire < 30) {
 				// Todo: we don't want to interact but we will still show the human we noticed him:
-				// => gaze toward position / react to screen touch...
+				// => gaze toward position ...
 			} else if (CompanionData.Instance.InteractDesire < 70) {
 				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 				Interaction.Mood.Set(MoodType.HAPPY);
@@ -62,27 +65,39 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mState.text = "User Detected nrj \n" + BYOS.Instance.Primitive.Battery.EnergyLevel;
+			mState.text = "User Detected move: " + !BYOS.Instance.Primitive.Motors.Wheels.Locked;
+
+			if (BYOS.Instance.Interaction.BMLManager.DonePlaying && !mActionManager.ThermalFollow && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+				mActionManager.StartThermalFollow(HumanFollowType.ROTATION_AND_HEAD);
+			}
 
 			mTimeHumanDetected += Time.deltaTime;
 			mTimeState += Time.deltaTime;
 
 			// If human not there anymore
-			if (mTimeHumanDetected > 20F) {
+			if (mTimeHumanDetected > 8F) {
 				if (CompanionData.Instance.InteractDesire > 80)
 					Trigger("SADBUDDY");
-				else
+				else if (CompanionData.Instance.InteractDesire > 50 && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
+					Trigger("LOOKINGFOR");
+				else if (CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+					if (CompanionData.Instance.MovingDesire < 30)
+						CompanionData.Instance.MovingDesire += 30;
+					Trigger("WANDER");
+				} else
 					Trigger("IDLE");
 
 
 				// 2) If human detected for a while and want to interact but no interaction, go to Crazy Buddy
-			} else if (mTimeState > 45F && CompanionData.Instance.InteractDesire > 50) {
+			} else if (mTimeState > 15F && mDetectionManager.TimeLastTouch > 5F && CompanionData.Instance.InteractDesire > 50) {
 				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 				Interaction.Face.SetEvent(FaceEvent.SMILE);
 				Trigger("SEEKATTENTION");
 
-				// 3) Otherwise, follow human head / body with head, eye or body
-			} else if (mTimeState > 500F && CompanionData.Instance.MovingDesire > 30) {
+				// 3) Otherwise, go wander
+			} else if (mTimeState > 20F && mDetectionManager.TimeLastTouch > 5F &&  CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+				if (CompanionData.Instance.MovingDesire < 30)
+					CompanionData.Instance.MovingDesire += 30;
 				Interaction.Mood.Set(MoodType.SURPRISED);
 				Trigger("WANDER");
 			} else {
@@ -108,12 +123,13 @@ namespace BuddyApp.Companion
 						Trigger("CHARGE");
 						break;
 
-					case Detected.HUMAN_RGB & Detected.THERMAL:
+					case Detected.THERMAL:
 						mTimeHumanDetected = 0F;
 						mDetectionManager.mDetectedElement = Detected.NONE;
 						break;
 
 					default:
+						mDetectionManager.mDetectedElement = Detected.NONE;
 						break;
 				}
 			}
@@ -123,6 +139,7 @@ namespace BuddyApp.Companion
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Debug.Log("User detected exit");
+			mActionManager.StopAllActions();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 	}
