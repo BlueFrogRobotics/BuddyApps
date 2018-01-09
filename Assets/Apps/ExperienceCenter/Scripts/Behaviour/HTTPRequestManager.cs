@@ -148,7 +148,7 @@ namespace BuddyApp.ExperienceCenter {
                             }
                         }
                         else if (response[i]["name"].Value == "internal:LightingLedPodModeState")
-                            ExperienceCenterData.Instance.IsLightOn = (response[i]["value"].Value == "1.0");
+                            ExperienceCenterData.Instance.IsLightOn = (response[i]["value"].Value == "1");
                     }
                 }
             };
