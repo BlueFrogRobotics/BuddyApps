@@ -29,9 +29,6 @@ namespace BuddyApp.ExperienceCenter
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mHttpManager = GameObject.Find ("AIBehaviour").GetComponent<HTTPRequestManager> ();
 
-            if (!mHttpManager.Connected)
-			    mHttpManager.Login ();
-
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 			radius = BYOS.Instance.Primitive.Motors.Wheels.Radius;
 			robotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
@@ -65,13 +62,33 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.SayKey ("iotparti", true);
 			mTTS.Silence (500, true);
 
+			if (!mHttpManager.Connected)
+				mHttpManager.Login();
+
 			yield return new WaitUntil (() => mHttpManager.RetrieveDevices);
 			mHttpManager.StoreDeploy (true);
 			mHttpManager.LightOn (true);
 			mHttpManager.SonosPlay (true);
-		
 
-			mTTS.SayKey ("iotsomfy", true);
+            // Dance for 50 seconds
+            DateTime lStartDance = DateTime.Now;
+            while(true)
+            {
+                TimeSpan lElapsedTime = DateTime.Now - lStartDance;
+                if (lElapsedTime.TotalSeconds > 50.0)
+                {
+                    mHttpManager.SonosPlay(false);
+                    BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+                    break;
+                }
+
+                if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
+                    BYOS.Instance.Interaction.BMLManager.LaunchByName("Dance01");
+
+                yield return new WaitUntil(() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
+            }
+
+            mTTS.SayKey ("iotsomfy", true);
 			mTTS.Silence (500, true);
 			mTTS.SayKey ("iotassez", true);
 			mTTS.Silence (500, true);
