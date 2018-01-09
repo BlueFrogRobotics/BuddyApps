@@ -205,7 +205,7 @@ namespace BuddyApp.BuddyLab
 
         public  IEnumerator PlaySequence()
         {
-            Debug.Log("START PLAYSEQUENCE LOLOLOLOLOKRHGRETJREJREHGJHJEHJGEHJGE");
+            //Debug.Log("START PLAYSEQUENCE LOLOLOLOLOKRHGRETJREJREHGJHJEHJGEHJGE");
             //string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("project.xml");
             ListBLI lListBLI = Utils.UnserializeXML<ListBLI>(mDirectoryPath);
 
@@ -214,14 +214,15 @@ namespace BuddyApp.BuddyLab
                 
                 if (bli.Category == Category.BML)
                 {
-                    Debug.Log("CATEGORY BML : ");
-                    Debug.Log("bli: " + bli.BML);
+                    //Debug.Log("CATEGORY BML : ");
+                    //Debug.Log("bli: " + bli.BML);
                     if (bli.ParameterKey != "")
                     {
                         //Debug.Log("key: " + bli.ParameterKey);
                         Dictionary<string, string> param = new Dictionary<string, string>();
                         param.Add(bli.ParameterKey, bli.Parameter);
-                        Debug.Log("has launched without param: " + mBMLManager.LaunchByName(bli.BML, param));
+                        mBMLManager.LaunchByName(bli.BML, param);
+                        Debug.Log("has launched : " + bli.BML + " with param: "+ bli.Parameter);
                     }
                     else
                     {
@@ -243,7 +244,7 @@ namespace BuddyApp.BuddyLab
                     while (!ConditionManager.IsEventDone && mIsRunning)
                     {
 
-                        Debug.Log("CONDITION COROUTINE");
+                        //Debug.Log("CONDITION COROUTINE");
                         yield return null;
                             
                     }

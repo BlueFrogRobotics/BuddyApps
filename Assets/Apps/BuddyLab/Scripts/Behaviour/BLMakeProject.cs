@@ -89,8 +89,9 @@ namespace BuddyApp.BuddyLab
 
         private void Cancel()
         {
+            GetGameObject(6).GetComponent<Animator>().SetTrigger("close");
             GetGameObject(5).GetComponent<Animator>().SetTrigger("close");
-            Trigger("ProjectToMenu"); 
+            Trigger("ProjectToMenu");
 
         }
 
