@@ -81,8 +81,8 @@ namespace BuddyApp.ExperienceCenter
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			InitStateDict ();
-            		ExperienceCenterData.Instance.ShouldSendCommand = false;
-            		StartCoroutine(HandleParametersCommands());
+			ExperienceCenterData.Instance.ShouldSendCommand = false;
+			StartCoroutine (HandleParametersCommands ());
 		}
 
 		void Update ()
@@ -97,55 +97,55 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 
-			if (TcpServer.clientConnected) {
-				if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName ("Init EC State")) {
-					if (mSwitchOnce) {
-						mMainAnimator.SetTrigger ("Idle");
-						Debug.Log ("[Animator] Switching to State: Idle");
-						mSwitchOnce = false;
-						stateDict [State.Idle] = true;
-					}
-				}
-				if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName (mOldState + " State")) {
-					string state = GetTriggerString ();
-					if (mOldState == "Idle") {
-						
-						if (!mIdleBehaviour.behaviourInit) {
-							Debug.LogWarning ("Waiting for Head postion to be initialized !");
-							return;
-						}
-					}
-					if (state != "" && state != mOldState) {
-						if (mSwitchOnce) {
-							mMainAnimator.SetTrigger (state);
-							mSwitchOnce = false;
-						}
-					}
-				}
-			} else {
+			//if (TcpServer.clientConnected) {
+			if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName ("Init EC State")) {
 				if (mSwitchOnce) {
-					string stateStr = GetTriggerString ();
-					while (stateStr != "") {
-						if (stateStr == "Idle") {
-							stateDict [State.Idle] = false;
-							Debug.Log ("[Animator] Switching to State: Init EC");
-							mMainAnimator.SetTrigger ("ReInit");
-							stateStr = GetTriggerString ();
-						} else {
-							State state = GetTrigger ();
-							stateDict [state] = false;
-							Debug.Log ("[Animator] Switching to State: Idle");
-							stateDict [State.Idle] = true;
-							mMainAnimator.SetTrigger ("Idle");
-							stateStr = GetTriggerString ();
-						}
-					}
-		
-					mOldState = "";
-					Debug.Log ("Waiting for connection !");
+					mMainAnimator.SetTrigger ("Idle");
+					Debug.Log ("[Animator] Switching to State: Idle");
 					mSwitchOnce = false;
+					stateDict [State.Idle] = true;
 				}
 			}
+			if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName (mOldState + " State")) {
+				string state = GetTriggerString ();
+				if (mOldState == "Idle") {
+						
+					if (!mIdleBehaviour.behaviourInit) {
+						Debug.LogWarning ("Waiting for Head postion to be initialized !");
+						return;
+					}
+				}
+				if (state != "" && state != mOldState) {
+					if (mSwitchOnce) {
+						mMainAnimator.SetTrigger (state);
+						mSwitchOnce = false;
+					}
+				}
+			}
+//			} else {
+//				if (mSwitchOnce) {
+//					string stateStr = GetTriggerString ();
+//					while (stateStr != "") {
+//						if (stateStr == "Idle") {
+//							stateDict [State.Idle] = false;
+//							Debug.Log ("[Animator] Switching to State: Init EC");
+//							mMainAnimator.SetTrigger ("ReInit");
+//							stateStr = GetTriggerString ();
+//						} else {
+//							State state = GetTrigger ();
+//							stateDict [state] = false;
+//							Debug.Log ("[Animator] Switching to State: Idle");
+//							stateDict [State.Idle] = true;
+//							mMainAnimator.SetTrigger ("Idle");
+//							stateStr = GetTriggerString ();
+//						}
+//					}
+//		
+//					mOldState = "";
+//					Debug.Log ("Waiting for connection !");
+//					mSwitchOnce = false;
+//				}
+//			}
 		}
 
 		public void ConnectionTrigger ()
@@ -329,9 +329,9 @@ namespace BuddyApp.ExperienceCenter
 					float level = BYOS.Instance.Primitive.Battery.EnergyLevel;
 					if (level <= 25)
 						return State.LowBattery;
-					else if(level > 25 && level <= 50)
+					else if (level > 25 && level <= 50)
 						return State.MiddleBattery;
-					else if(level > 50 && level <= 75)
+					else if (level > 50 && level <= 75)
 						return State.GoodBattery;
 					else
 						return State.HighBattery;
@@ -343,17 +343,15 @@ namespace BuddyApp.ExperienceCenter
 		}
 
 		// Fire commands enabled from application parameters layout
-		private IEnumerator HandleParametersCommands()
+		private IEnumerator HandleParametersCommands ()
 		{
-		    while(true)
-		    {
-		        if (ExperienceCenterData.Instance.ShouldSendCommand)
-		        {
-		            ActivateCmd((byte)ExperienceCenterData.Instance.Command);
-		            ExperienceCenterData.Instance.ShouldSendCommand = false;
-		        }
-		        yield return new WaitForSeconds(1.0f);
-		    }
+			while (true) {
+				if (ExperienceCenterData.Instance.ShouldSendCommand) {
+					ActivateCmd ((byte)ExperienceCenterData.Instance.Command);
+					ExperienceCenterData.Instance.ShouldSendCommand = false;
+				}
+				yield return new WaitForSeconds (1.0f);
+			}
 		}
 	}
 }
