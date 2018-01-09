@@ -12,7 +12,7 @@ namespace BuddyApp.ExperienceCenter
 
 	public class IOTBehaviour : MonoBehaviour
 	{
-		public const float DISTANCE_THRESHOLD = 0.05f;
+		public const float DISTANCE_THRESHOLD = 0.1f;
 		public float distance = 1.5f;
 		public float wheelSpeed = 200f;
 
@@ -59,12 +59,13 @@ namespace BuddyApp.ExperienceCenter
 				BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 			}
 
-			if (distance - Math.Abs (BYOS.Instance.Primitive.Motors.Wheels.Odometry.x - mRobotPose.x) > DISTANCE_THRESHOLD) {
+			if ((distance - CollisionDetector.Distance(BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose)) > DISTANCE_THRESHOLD) {
 				Debug.Log ("Restart MoveForward Coroutine");
 				StartCoroutine (MoveForward (wheelSpeed));
 			} else {
 				mRobotMoving = false;
 			}
+			Debug.LogFormat("mRobotMoving = {0}", mRobotMoving);
 		}
 
 		private IEnumerator Speaking ()
@@ -74,11 +75,15 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.SayKey ("iotrouler", true);
 			mTTS.Silence (2000, true);
 			yield return new WaitWhile (() => mRobotMoving);
+			//yield return new WaitForSeconds(5.0f);
 
 			mTTS.SayKey ("iotdemo", true);
 			mTTS.Silence (500, true);
 			mTTS.SayKey ("iotlance", true);
 			mTTS.Silence (500, true);
+
+			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
+
 			mTTS.SayKey ("iotparti", true);
 			mTTS.Silence (500, true);
 
@@ -87,28 +92,31 @@ namespace BuddyApp.ExperienceCenter
 
 			yield return new WaitUntil (() => mHttpManager.RetrieveDevices);
 			mHttpManager.StoreDeploy (true);
+			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsStoreDeployed);
 			mHttpManager.LightOn (true);
+			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsLightOn);
 			mHttpManager.SonosPlay (true);
+			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsMusicOn);
 
-            // Dance for 50 seconds
-            DateTime lStartDance = DateTime.Now;
-            while(true)
-            {
-                TimeSpan lElapsedTime = DateTime.Now - lStartDance;
-                if (lElapsedTime.TotalSeconds > 50.0)
-                {
-                    mHttpManager.SonosPlay(false);
-                    BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
-                    break;
-                }
+			// Dance for 50 seconds
+			DateTime lStartDance = DateTime.Now;
+			while(true)
+			{
+				TimeSpan lElapsedTime = DateTime.Now - lStartDance;
+				if (lElapsedTime.TotalSeconds > 50.0)
+				{
+					mHttpManager.SonosPlay(false);
+					BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+					break;
+				}
 
-                if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
-                    BYOS.Instance.Interaction.BMLManager.LaunchByName("Dance01");
+				if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
+					BYOS.Instance.Interaction.BMLManager.LaunchByName("Dance01");
 
-                yield return new WaitUntil(() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
-            }
+				yield return new WaitUntil(() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
+			}
 
-            mTTS.SayKey ("iotsomfy", true);
+			mTTS.SayKey ("iotsomfy", true);
 			mTTS.Silence (500, true);
 			mTTS.SayKey ("iotassez", true);
 			mTTS.Silence (500, true);

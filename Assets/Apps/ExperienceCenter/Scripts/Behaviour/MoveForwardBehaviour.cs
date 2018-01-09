@@ -50,7 +50,7 @@ namespace BuddyApp.ExperienceCenter
 				BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 			}
 				
-			if (distance - Math.Abs (BYOS.Instance.Primitive.Motors.Wheels.Odometry.x - mRobotPose.x) > DISTANCE_THRESHOLD) {
+			if ((distance - CollisionDetector.Distance(BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose)) > DISTANCE_THRESHOLD) {
 				Debug.Log ("Restart MoveForward Coroutine");
 				StartCoroutine (MoveForward (wheelSpeed));
 //			} else {
