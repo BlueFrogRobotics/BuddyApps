@@ -87,7 +87,7 @@ namespace BuddyApp.Companion
 					// If thermal signature, activate thermal follow for some time
 					case Detected.THERMAL:
 						mTimeLastThermal = Time.time;
-						if (!mActionManager.ThermalFollow) {
+						if (!mActionManager.ThermalFollow && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
 							//Stop wandering and go to thermal follow
 							Debug.Log("sadBuddy start following " + CompanionData.Instance.InteractDesire);
 							mTimeThermal = Time.time;

@@ -786,7 +786,7 @@ namespace BuddyApp.Companion
 			} else if (lKeywordsIndex != lWords.Length) {
 				for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
 					if (float.TryParse(lWords[j], out n)) {
-						if (!iSpeech.Contains(" meter") && !iSpeech.Contains(" mètre") && (iSpeech.Contains("centimeter") || iSpeech.Contains("centimètre") || iSpeech.Contains(" cm")))
+						if (!iSpeech.Contains(" meter") && !iSpeech.Contains(" mètre") && ( (iSpeech.Contains("centimeter") || iSpeech.Contains("centimètre") || iSpeech.Contains(" cm")) ))
 							lResult = "" + n / 100;
 						else
 							lResult = lWords[j];

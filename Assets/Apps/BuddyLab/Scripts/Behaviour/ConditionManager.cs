@@ -98,6 +98,7 @@ namespace BuddyApp.BuddyLab
         
 
         private float mTimer;
+        private float mTimerBis;
         //public float Timer { get { return mTimer; } set { mTimer = value; } }
 
         // Use this for initialization
@@ -114,6 +115,7 @@ namespace BuddyApp.BuddyLab
             mIsTactileDetect = false;
             mIsFireDetect = false;
             mTimer = 0F;
+            mTimerBis = 0;
             mSubscribed = false;
             mConditionType = "";
             mIsEventDone = false;
@@ -124,16 +126,22 @@ namespace BuddyApp.BuddyLab
         void Update()
         {
             mTimer += Time.deltaTime;
+            mTimerBis += Time.deltaTime;
+
             //Debug.Log("CONDITION TYPE : " + mConditionType + " SUBSCRIBE : " + mSubscribed + " Event Done : " + mIsEventDone);
-            LoadCondition();
-            if (mIsTactileDetect)
-                OnBuddyTactile();
-            if (mIRSensorDetect)
-                OnObstacleInFront();
-            if (mHeadMoving)
-                MovingHead();
-            if (mBodyMoving)
-                MovingWheels();
+            if (mTimerBis > 1.0F)
+            {
+                mTimerBis = 0.0F;
+                LoadCondition();
+                if (mIsTactileDetect)
+                    OnBuddyTactile();
+                if (mIRSensorDetect)
+                    OnObstacleInFront();
+                if (mHeadMoving)
+                    MovingHead();
+                if (mBodyMoving)
+                    MovingWheels();
+            }
         }
 
         private void LoadCondition()
@@ -368,6 +376,7 @@ namespace BuddyApp.BuddyLab
 
         private void OnMouthClicked()
         {
+            //Debug.Log("mouth clicked");
             ResetParam();
         }
 

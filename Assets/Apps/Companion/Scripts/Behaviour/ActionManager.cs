@@ -18,6 +18,7 @@ namespace BuddyApp.Companion
 		private float mLastEyeTime;
 		private float mTimeMood;
 		private float mDurationMood;
+		private float mTimeLastOrder;
 
 		public bool WanderingOrder { get; set; }
 		public MoodType WanderingMood { get; set; }
@@ -37,6 +38,7 @@ namespace BuddyApp.Companion
 			mLastHeadTime = 0F;
 			mLastEyeTime = 0F;
 			mDurationMood = 5F;
+			mTimeLastOrder = 0F;
 			//mRoomba = BYOS.Instance.Navigation.Roomba;
 			//mRoomba.enabled = false;
 		}
@@ -55,6 +57,17 @@ namespace BuddyApp.Companion
 				mTimeMood = 0F;
 				mHeadCounter = 0;
 				mEyeCounter = 0;
+			}
+
+			if (!ActiveAction()) {
+				// if we are far from default pose, go to default pose:
+				if (Math.Abs(BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition - CompanionData.Instance.HeadPosition) > 8 && Time.time - mTimeLastOrder > 0.5F) {
+					mTimeLastOrder = Time.time;
+					Debug.Log("no active action, angle current: " + BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition + " angle target: " +  CompanionData.Instance.HeadPosition);
+
+					BYOS.Instance.Primitive.Motors.YesHinge.SetPosition(CompanionData.Instance.HeadPosition, 200);
+
+				}
 			}
 		}
 
@@ -122,15 +135,15 @@ namespace BuddyApp.Companion
 			mLastHeadTime = Time.time;
 
 			//if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
-			//	if (mHeadCounter < 2) {
-			//		BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
-			//		BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
-			//	} else if (mHeadCounter < 3) {
-			//		BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
-			//	} else if (mHeadCounter > 4) {
-			//		BYOS.Instance.Interaction.BMLManager.LaunchRandom("love");
-			//		mTimeMood = Time.time;
-			//	}
+			//    if (mHeadCounter < 2) {
+			//        BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
+			//        BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+			//    } else if (mHeadCounter < 3) {
+			//        BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
+			//    } else if (mHeadCounter > 4) {
+			//        BYOS.Instance.Interaction.BMLManager.LaunchRandom("love");
+			//        mTimeMood = Time.time;
+			//    }
 
 			if (mHeadCounter < 2) {
 				BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
@@ -163,14 +176,14 @@ namespace BuddyApp.Companion
 			mLastEyeTime = Time.time;
 
 			//if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
-			//	if (mEyeCounter > 7)
-			//		BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
-			//	else
-			//		//BYOS.Instance.Interaction.Mood.Set(MoodType.GRUMPY);
-			//		//BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
-			//		//mTimeMood = Time.time;
+			//    if (mEyeCounter > 7)
+			//        BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
+			//    else
+			//        //BYOS.Instance.Interaction.Mood.Set(MoodType.GRUMPY);
+			//        //BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+			//        //mTimeMood = Time.time;
 
-			//		BYOS.Instance.Interaction.BMLManager.LaunchRandom("grumpy");
+			//        BYOS.Instance.Interaction.BMLManager.LaunchRandom("grumpy");
 
 
 			if (mEyeCounter > 7) {
@@ -204,7 +217,7 @@ namespace BuddyApp.Companion
 
 				} else {
 					//TODO: play BML instead
-					Debug.Log("no action + eye poked -> play grumpy wander");
+					Debug.Log("no action + eye poked  -> play grumpy wander");
 					TimedMood(MoodType.GRUMPY);
 					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
 				}
@@ -221,12 +234,14 @@ namespace BuddyApp.Companion
 			// Can't know if eyes are closed, open them in case...
 			BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.OPEN_EYES);
 
+			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+
 
 		}
 
 		internal void TimedMood(MoodType iMood, float iTime = 5F)
 		{
-			if(BYOS.Instance.Interaction.Mood.CurrentMood != iMood) {
+			if (BYOS.Instance.Interaction.Mood.CurrentMood != iMood) {
 				StopAllBML();
 				BYOS.Instance.Interaction.Mood.Set(iMood);
 			}

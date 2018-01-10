@@ -49,7 +49,7 @@ namespace BuddyApp.Companion
 			mLookingTime = Time.deltaTime;
 
 
-			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering && CompanionData.Instance.CanMoveBody) {
 				Debug.Log("CompanionLooking4 start wandering");
 				mActionManager.StartWander(MoodType.NEUTRAL);
 			}
