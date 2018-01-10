@@ -123,6 +123,8 @@ namespace BuddyApp.Companion
 
 				case Detected.TOUCH:
 					if (mDetectionManager.mFacePartTouched == FaceTouch.MOUTH) {
+						mDetectionManager.mFacePartTouched = FaceTouch.NONE;
+						mDetectionManager.mDetectedElement = Detected.NONE;
 						mActionManager.StopAllActions();
 						mNeedListen = true;
 					}
@@ -151,13 +153,14 @@ namespace BuddyApp.Companion
 					Debug.Log("finished motion, need listen");
 					mMoving = false;
 					mNeedListen = true;
-				} else if (mNeedListen && BYOS.Instance.Interaction.Face.IsStable) {
-					Debug.Log("Vocal instant reco");
+				} else if (mNeedListen && BYOS.Instance.Interaction.Face.IsStable && Interaction.SpeechToText.HasFinished) {
+					Debug.Log("Vocal instant reco + mNeedListen: " + mNeedListen);
 
 					//BYOS.Instance.Interaction.BMLManager.LaunchRandom("Listening");
 					Interaction.VocalManager.StartInstantReco();
 					mFirstErrorStt = true;
 					mNeedListen = false;
+					Debug.Log("Vocal instant reco 2 + mNeedListen: " + mNeedListen);
 					mTime = 0F;
 				} else if (!mVocalChat.BuildingAnswer && Interaction.VocalManager.RecognitionFinished && mTime > 15F && !mSpeechInput) {
 					//Mb this was a wrong trigger, back to IDLE
