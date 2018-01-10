@@ -8,6 +8,7 @@ namespace BuddyApp.Companion
 	{
 		private Gauge mMovingDesire;
 		private Gauge mInteractDesire;
+		private Gauge mHeadAngle;
 		private OnOff mWheelsMotion;
 		private OnOff mHeadMotion;
 		private OnOff mTrigger;
@@ -22,7 +23,8 @@ namespace BuddyApp.Companion
 		{
 			mMovingDesire.Slider.value = CompanionData.Instance.MovingDesire;
 			mInteractDesire.Slider.value = CompanionData.Instance.InteractDesire;
-		}
+			mHeadAngle.Slider.value = CompanionData.Instance.HeadPosition;
+        }
 
 		public override void Build()
 		{
@@ -36,10 +38,11 @@ namespace BuddyApp.Companion
 			//	mState = (UnityEngine.UI.Text) CompanionActivity.Objects[0];
 			//         }
 
-			Debug.Log("!!!!!!!!!!!!!!!!!Layout build mstate: " + mState);
+			Debug.Log("test1");
 
 			mMovingDesire = CreateWidget<Gauge>();
 			mInteractDesire = CreateWidget<Gauge>();
+			mHeadAngle = CreateWidget<Gauge>();
 			mWheelsMotion = CreateWidget<OnOff>();
 			mHeadMotion = CreateWidget<OnOff>();
 			mTrigger = CreateWidget<OnOff>();
@@ -60,7 +63,12 @@ namespace BuddyApp.Companion
 			mInteractDesire.Slider.wholeNumbers = true;
 			mInteractDesire.DisplayPercentage = true; /* Only the display will be in percentage, the value will still be within 0 and 10 */
 
+			mHeadAngle.Slider.minValue = -30;
+			mHeadAngle.Slider.maxValue = 60;
+			mHeadAngle.Slider.wholeNumbers = true;
+			mHeadAngle.DisplayPercentage = false;
 
+			Debug.Log("test2");
 			/*
              * Retrieve app data and display them inside the view
              * ==> What info must be displayed ?
@@ -72,6 +80,7 @@ namespace BuddyApp.Companion
 			mDebug.IsActive = CompanionData.Instance.Debug;
 			mMovingDesire.Slider.value = CompanionData.Instance.MovingDesire;
 			mInteractDesire.Slider.value = CompanionData.Instance.InteractDesire;
+			mHeadAngle.Slider.value = CompanionData.Instance.HeadPosition;
 
 			//mState.AddOption("IDLE");
 			//mState.AddOption("WANDER");
@@ -101,6 +110,8 @@ namespace BuddyApp.Companion
 
 			//         });
 
+			Debug.Log("test3");
+
 			mMovingDesire.OnUpdateEvent((iVal) => {
 				CompanionData.Instance.MovingDesire = iVal;
 			});
@@ -109,6 +120,11 @@ namespace BuddyApp.Companion
 			mInteractDesire.OnUpdateEvent((iVal) => {
 				CompanionData.Instance.InteractDesire = iVal;
 			});
+
+			mHeadAngle.OnUpdateEvent((iVal) => {
+				CompanionData.Instance.HeadPosition = iVal;
+			});
+
 
 			mWheelsMotion.OnSwitchEvent((iVal) => {
 				CompanionData.Instance.CanMoveBody = iVal;
@@ -134,13 +150,16 @@ namespace BuddyApp.Companion
                 mState.enabled = iVal;
 			});
 
+			Debug.Log("test4");
+
 		}
 
 		public override void LabelizeWidgets()
 		{
 			mMovingDesire.Label = BYOS.Instance.Dictionary.GetString("wanderdesire");
 			mInteractDesire.Label = BYOS.Instance.Dictionary.GetString("interactdesire");
-			mTrigger.Label = BYOS.Instance.Dictionary.GetString("cantrigger");
+			mHeadAngle.Label = "default head angle";
+            mTrigger.Label = BYOS.Instance.Dictionary.GetString("cantrigger");
 			mTriggerWander.Label = BYOS.Instance.Dictionary.GetString("cantrigger") + " wander";
 			mDebug.Label = "Debug";
 

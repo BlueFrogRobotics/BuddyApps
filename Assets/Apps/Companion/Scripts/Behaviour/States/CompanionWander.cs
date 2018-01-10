@@ -79,7 +79,7 @@ namespace BuddyApp.Companion
 				mState.text += "\n thermal follow <3";
 			}
 
-			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.ActiveAction() && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.ActiveAction() && CompanionData.Instance.CanMoveBody) {
 				Debug.Log("CompanionWander start wandering");
 				mActionManager.StartWander(mActionManager.WanderingMood);
 			}
@@ -174,7 +174,7 @@ namespace BuddyApp.Companion
 
 
 			// TODO CES HACK
-			if (CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
+			if (CompanionData.Instance.CanMoveHead)
 				mActionManager.RandomActionWander();
 		}
 

@@ -121,7 +121,7 @@ namespace BuddyApp.Companion
 		{
 			if (BYOS.Instance.Interaction.SphinxTrigger.FinishedSetup && !mInit) {
 				Utils.LogI(LogContext.INTERACTION, "Launching Sphinx Update");
-				BYOS.Instance.Interaction.SphinxTrigger.SetThreshold((float)1e-26);
+				//BYOS.Instance.Interaction.SphinxTrigger.SetThreshold((float)1e-26);
 				mInit = true;
 				StartSphinxTrigger();
 			}

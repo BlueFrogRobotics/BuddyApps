@@ -68,6 +68,7 @@ namespace BuddyApp.Companion
 		{
 			mLastHumanSpeech = iText;
 
+			mState.text = "Vocal Triggered: reco " + iText;
 			mError = false;
 			mTime = 0F;
 			mSpeechInput = true;
@@ -81,6 +82,8 @@ namespace BuddyApp.Companion
 			if (mFirstErrorStt) {
 				mFirstErrorStt = false;
 				Debug.Log("Error STT ");
+
+				mState.text = "Vocal Triggered: error " +  iError.ToString();
 
 				// To know if there is a connection issue
 				if (iError == STTError.ERROR_NETWORK) {
@@ -96,17 +99,21 @@ namespace BuddyApp.Companion
 				} else {
 					// else go away
 					Debug.Log("2cd error, go away");
-					if (mActionManager.Wandering && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
-						Trigger("WANDER");
+					if (mActionManager.Wandering && CompanionData.Instance.CanMoveHead)
+						if (CompanionData.Instance.InteractDesire > 80 && CompanionData.Instance.MovingDesire < 22) {
+							Trigger("LOOKINGFOR");
+						} else {
+							Trigger("WANDER");
+						}
 					else if (mActionManager.ThermalFollow)
-						Trigger("FOLLOW");
-					else if (mTimeHumanDetected < 5F)
-						Trigger("INTERACT");
-					else
-						Trigger("IDLE");
+								Trigger("FOLLOW");
+							else if (mTimeHumanDetected < 5F)
+								Trigger("INTERACT");
+							else
+								Trigger("IDLE");
+						}
 				}
 			}
-		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
@@ -155,7 +162,7 @@ namespace BuddyApp.Companion
 				} else if (!mVocalChat.BuildingAnswer && Interaction.VocalManager.RecognitionFinished && mTime > 15F && !mSpeechInput) {
 					//Mb this was a wrong trigger, back to IDLE
 					Debug.Log("Back to IDLE? ");
-					if (mActionManager.Wandering && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
+					if (mActionManager.Wandering && CompanionData.Instance.CanMoveHead)
 						Trigger("WANDER");
 					else if (mActionManager.ThermalFollow && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
 						Trigger("FOLLOW");
@@ -186,7 +193,7 @@ namespace BuddyApp.Companion
 		private void SortQuestionType(string iType)
 		{
 
-			
+
 
 
 			Debug.Log("Question Type found : " + iType);
@@ -336,6 +343,27 @@ namespace BuddyApp.Companion
 					StartApp("Guardian", mLastHumanSpeech);
 					break;
 
+				case "HeadDown":
+					{
+						CancelOrders();
+						mActionManager.UnlockHead();
+
+						int n;
+						if (!int.TryParse(mVocalChat.Answer, out n)) {
+							//default value
+							n = 25;
+						}
+
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("headdown").Replace("[degrees]", "" + n), true);
+
+						Debug.Log("Head down " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
+						CompanionData.Instance.HeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition + (float)n;
+						mMoving = true;
+						mTimeMotion = Time.time;
+					}
+					break;
+
 				case "HeadUp":
 					{
 						CancelOrders();
@@ -351,10 +379,11 @@ namespace BuddyApp.Companion
 						Say(Dictionary.GetRandomString("headup").Replace("[degrees]", "" + n), true);
 
 						Debug.Log("Head up " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-						Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n, 100F);
-						mMoving = true;
+						CompanionData.Instance.HeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n;
+						//Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n, 100F);
+                        mMoving = true;
 						mTimeMotion = Time.time;
-                    }
+					}
 					break;
 
 				case "HeadLeft":
@@ -399,27 +428,6 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "HeadDown":
-					{
-						CancelOrders();
-						mActionManager.UnlockHead();
-
-						int n;
-						if (!int.TryParse(mVocalChat.Answer, out n)) {
-							//default value
-							n = 25;
-						}
-
-						SayKey("accept", true);
-						Say(Dictionary.GetRandomString("headdown").Replace("[degrees]", "" + n), true);
-
-						Debug.Log("Head down " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-						Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition + (float)n, 100F);
-						mMoving = true;
-						mTimeMotion = Time.time;
-					}
-					break;
-
 				case "HideSeek":
 					CompanionData.Instance.InteractDesire -= 50;
 					StartApp("HideAndSeek", mLastHumanSpeech);
@@ -437,7 +445,7 @@ namespace BuddyApp.Companion
 					CompanionData.Instance.InteractDesire -= 10;
 					StartApp("Somfy", mLastHumanSpeech);
 					break;
-					
+
 				case "Joke":
 					Debug.Log("Playing BML joke");
 					Interaction.BMLManager.LaunchRandom("joke");
@@ -549,7 +557,7 @@ namespace BuddyApp.Companion
 					CompanionData.Instance.InteractDesire -= 50;
 					StartApp("MemoryGame", mLastHumanSpeech);
 					break;
-					
+
 				case "Play":
 					CompanionData.Instance.InteractDesire -= 30;
 
@@ -572,7 +580,7 @@ namespace BuddyApp.Companion
 				case "Quit":
 					if (mActionManager.ThermalFollow)
 						Trigger("FOLLOW");
-					else if (mActionManager.Wandering && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
+					else if (mActionManager.Wandering && CompanionData.Instance.CanMoveHead)
 						Trigger("WANDER");
 					else
 						Trigger("DISENGAGE");
