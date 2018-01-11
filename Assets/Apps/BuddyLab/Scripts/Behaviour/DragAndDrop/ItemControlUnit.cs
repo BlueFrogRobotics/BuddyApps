@@ -14,6 +14,9 @@ namespace BuddyApp.BuddyLab
     public class ItemControlUnit : MonoBehaviour
     {
 
+        public delegate void NextAction(int iNum);
+        public static NextAction OnNextAction;
+
         [SerializeField]
         private ItemManager itemManager;
 
@@ -208,10 +211,15 @@ namespace BuddyApp.BuddyLab
             //Debug.Log("START PLAYSEQUENCE LOLOLOLOLOKRHGRETJREJREHGJHJEHJGEHJGE");
             //string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("project.xml");
             ListBLI lListBLI = Utils.UnserializeXML<ListBLI>(mDirectoryPath);
+            int lNumAction = 0;
 
             foreach (BLItemSerializable bli in lListBLI.List)
             {
-                
+                if(OnNextAction!=null)
+                {
+                    OnNextAction(lNumAction);
+                }
+
                 if (bli.Category == Category.BML)
                 {
                     //Debug.Log("CATEGORY BML : ");
@@ -258,6 +266,7 @@ namespace BuddyApp.BuddyLab
                 ConditionManager.IsEventDone = false;
                 if (!mIsRunning)
                     break;
+                lNumAction++;
             }
             
 
