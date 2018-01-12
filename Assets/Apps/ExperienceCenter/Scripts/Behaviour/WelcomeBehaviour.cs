@@ -30,7 +30,7 @@ namespace BuddyApp.ExperienceCenter
 			mHeadMoving = true;
 			mChangeDirection = true;
 			mYesAngle = 0;
-			StartCoroutine(MoveHeadNoHinge(30,15));
+			StartCoroutine(MoveHeadNoHinge(30,50));
 			StartCoroutine(Speaking());
 			StartCoroutine(MoveHeadWhenSpeaking());
 		}
@@ -56,7 +56,7 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.Silence(1000, true);
 
 			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
-			StartCoroutine(MoveHeadNoHinge(0,15f));
+			StartCoroutine(MoveHeadNoHinge(0,50f));
 			mTTS.SayKey ("welcomechoix", true);
 			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomepose", true);
@@ -82,7 +82,7 @@ namespace BuddyApp.ExperienceCenter
 		{
 			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
 			//Comment this line if you need a linear movement of the head 
-			StartCoroutine(MoveHeadYesHinge(-5,5));
+			StartCoroutine(MoveHeadYesHinge(-5,50));
 			mHeadMoving = true;
 			BYOS.Instance.Primitive.Motors.NoHinge.SetPosition (lNoAngle, lNoSpeed);
 			yield return new WaitUntil(() => Math.Abs(BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition - lNoAngle) < ANGLE_THRESHOLD);
@@ -92,11 +92,11 @@ namespace BuddyApp.ExperienceCenter
 
 		private IEnumerator MoveHeadWhenSpeaking ()
 		{
-			if(mTTS.HasFinishedTalking) BYOS.Instance.Primitive.Motors.YesHinge.SetPosition (0, 15f);
+			if(mTTS.HasFinishedTalking) BYOS.Instance.Primitive.Motors.YesHinge.SetPosition (0, 50f);
 			yield return new WaitUntil(() => !mTTS.HasFinishedTalking);
 			float lYesAngle = BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition;
 			lYesAngle = lYesAngle - (float) (3 * Math.Sin(mYesAngle));
-			BYOS.Instance.Primitive.Motors.YesHinge.SetPosition (lYesAngle, 15f);
+			BYOS.Instance.Primitive.Motors.YesHinge.SetPosition (lYesAngle, 50f);
 			mYesAngle += UnityEngine.Random.Range(1.0F, 9.0F);
 			yield return new WaitUntil(() => Math.Abs(BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition - lYesAngle) < ANGLE_THRESHOLD || mTTS.HasFinishedTalking);
 			StartCoroutine (MoveHeadWhenSpeaking ());
