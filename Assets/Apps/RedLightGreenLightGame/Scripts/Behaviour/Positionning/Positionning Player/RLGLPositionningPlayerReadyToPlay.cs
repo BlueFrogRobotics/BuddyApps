@@ -39,7 +39,7 @@ namespace BuddyApp.RedLightGreenLightGame
             yield return SayKeyAndWait("willrecoil");
             Interaction.TextToSpeech.SayKey("smallrules");
             mSentenceDone = true;
-            Primitive.Motors.YesHinge.SetPosition(25.0F, 150.0F);
+            Primitive.Motors.YesHinge.SetPosition(45.0F, 150.0F);
             while (mRLGLBehaviour.TimerMove > 0F)
             {
                 if (!ObstacleInback())

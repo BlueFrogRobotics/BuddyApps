@@ -20,10 +20,14 @@ namespace BuddyApp.Jukebox
 
         private bool mIsCoroutineDone;
 
+        private Button mButtonDance;
+
         public override void Start()
         {
 
             BYOS.Instance.Header.DisplayParametersButton = false;
+            mButtonDance = GetGameObject(6).GetComponent<Button>();
+            mButtonDance.onClick.Invoke();
             mIndexToPlay = new List<int>();
             mIsCoroutineDone = false;
         }

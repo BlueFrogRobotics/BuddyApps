@@ -53,7 +53,7 @@ namespace BuddyApp.BuddyLab
         private void Stop()
         {
             ResetPosition();
-            Debug.Log("STOP BUTTON FDP");
+            
             mItemControl.IsRunning = false;
             if (Primitive.RGBCam.IsOpen)
             {

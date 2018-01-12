@@ -38,7 +38,8 @@ namespace BuddyApp.RedLightGreenLightGame
 
         private IEnumerator Congratulation()
         {
-            Primitive.Motors.YesHinge.SetPosition(0F, 150.0F);
+            //Primitive.Motors.YesHinge.SetPosition(0F, 150.0F);
+            Primitive.Motors.YesHinge.SetPosition(25.0F, 150.0F);
             yield return SayKeyAndWait("victory");
             Interaction.Mood.Set(MoodType.HAPPY);
             Interaction.Face.SetEvent(FaceEvent.SMILE);
