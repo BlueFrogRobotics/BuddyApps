@@ -67,8 +67,19 @@ namespace BuddyApp.BuddyLab
         private bool mIsEventDone;
         public bool IsEventDone { get { return mIsEventDone; } set { mIsEventDone = value; } }
 
-        //[SerializeField]
-        //private RawImage kikoo;
+        /// <summary>
+        /// Variables for sound detection
+        /// </summary>
+        public const float MAX_SOUND_THRESHOLD = 0.3F;
+        private NoiseDetection mNoiseDetection;
+
+        /// <summary>
+        /// Variables for specific string to detect
+        /// </summary>
+        private bool mIsStringSaid;
+        private bool mIsListening;
+        private string mSpeechReco;
+        private SpeechToText mSTT;
 
         /// <summary>
         /// String that describes the type of condition. Conditions : Fire, movement, obstacles in front of Buddy,
@@ -108,6 +119,10 @@ namespace BuddyApp.BuddyLab
             mFace = BYOS.Instance.Interaction.Face;
             mQRCodeDetect = BYOS.Instance.Perception.QRCode;
             mIRSensors = BYOS.Instance.Primitive.IRSensors;
+            mNoiseDetection = BYOS.Instance.Perception.Noise;
+            mSTT = BYOS.Instance.Interaction.SpeechToText;
+            mSpeechReco = "";
+            mIsStringSaid = false;
             mHeadMoving = false;
             mBodyMoving = false;
             mIRSensorDetect = false;
@@ -141,6 +156,8 @@ namespace BuddyApp.BuddyLab
                     MovingHead();
                 if (mBodyMoving)
                     MovingWheels();
+                if (mIsStringSaid)
+                    TextToSay();
             }
         }
 
@@ -237,11 +254,53 @@ namespace BuddyApp.BuddyLab
                         mIRSensorDetect = true;
                         mSubscribed = true;
                         break;
+                    case "AllSound":
+                        Debug.Log("Sound");
+                        mNoiseDetection.OnDetect(OnSoundDetected);
+                        mSubscribed = true;
+                        break;
+                    case "SomethingSound":
+                        Debug.Log("Sound something");
+                        mIsStringSaid = true;
+                        mSubscribed = true;
+                        break;
                     default:
                         //Debug.Log("no sensors");
                         break;
                 }
             }
+        }
+
+        private void TextToSay()
+        {
+            Debug.Log("TEXT TO SAY : " + mSpeechReco);
+            if (mIsListening)
+                return;
+            if(string.IsNullOrEmpty(mSpeechReco))
+            {
+                Debug.Log("TEXT TO SAY : " + mSpeechReco);
+                mSTT.Request();
+                mIsListening = true;
+                return;
+            }
+
+            if (mSpeechReco.Equals(mParamCondition))
+            {
+                ResetParam();
+            }
+            else
+                mSpeechReco = "";
+        }
+
+        private bool OnSoundDetected(float iSound)
+        {
+            if (iSound > (1 - (0.4F/ 100.0f)) * MAX_SOUND_THRESHOLD)
+            {
+                Debug.Log("Sound DETECTED");
+                ResetParam();
+                return true;
+            }
+            return true;
         }
 
         private bool OnMovementDetected(MotionEntity[] iMotion)
@@ -383,6 +442,8 @@ namespace BuddyApp.BuddyLab
 
         private void ResetParam()
         {
+            mIsStringSaid = false;
+            mSpeechReco = "";
             mHeadMoving = false;
             mBodyMoving = false;
             mIRSensorDetect = false;
@@ -401,5 +462,6 @@ namespace BuddyApp.BuddyLab
             mFace.OnClickMouth.Clear();
             mFace.OnClickRightEye.Clear();
         }
+       
     }
 }

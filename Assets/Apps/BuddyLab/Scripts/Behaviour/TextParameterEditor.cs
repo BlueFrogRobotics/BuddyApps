@@ -51,6 +51,11 @@ namespace BuddyApp.BuddyLab
         {
             GetComponent<ABLItem>().Parameter = inputField.text;
             CloseField();
+
+            popupField.GetComponent<Animator>().ResetTrigger("open");
+            backgroundBlack.GetComponent<Animator>().ResetTrigger("open");
+            popupField.GetComponent<Animator>().ResetTrigger("close");
+            backgroundBlack.GetComponent<Animator>().ResetTrigger("close");
         }
 
         private void Cancel()
