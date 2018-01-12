@@ -13,12 +13,14 @@ namespace BuddyApp.ExperienceCenter
 	public class QuestionsBehaviour : MonoBehaviour
 	{
 		private AnimatorManager mAnimatorManager;
+		private AttitudeBehaviour mAttitudeBehaviour;
 		private TextToSpeech mTTS;
 		private List <string> mKeyList;
 
 		public void InitBehaviour ()
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
+			mAttitudeBehaviour = GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>();
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
 			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
@@ -49,6 +51,7 @@ namespace BuddyApp.ExperienceCenter
 				foreach (string lClause in lPhonetics)
 				{
 					if (iSpeech.Contains (lClause)) {
+						mAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
 						mTTS.SayKey (lElement, true);
 						lClauseFound = true;
 						break;

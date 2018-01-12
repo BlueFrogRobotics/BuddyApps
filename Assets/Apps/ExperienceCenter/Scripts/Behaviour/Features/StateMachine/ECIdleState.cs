@@ -28,8 +28,8 @@ namespace BuddyApp.ExperienceCenter
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 			InitKeyList ();
 			//To test with the tablet comment the first line and uncomment the second one
-			//mBehaviour.InitBehaviour ();
-			mBehaviour.behaviourInit = true;
+			mBehaviour.InitBehaviour ();
+			//mBehaviour.behaviourInit = true;
 		}
 
 		//	 OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

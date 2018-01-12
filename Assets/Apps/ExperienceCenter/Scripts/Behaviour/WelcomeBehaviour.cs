@@ -19,9 +19,12 @@ namespace BuddyApp.ExperienceCenter
 		private bool mChangeDirection;
 		private float mYesAngle;
 
+		private AttitudeBehaviour mAttitudeBehaviour;
+
 		void Awake ()
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
+			mAttitudeBehaviour = GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>();
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 		}
 
@@ -32,12 +35,13 @@ namespace BuddyApp.ExperienceCenter
 			mYesAngle = 0;
 			StartCoroutine(MoveHeadNoHinge(30,50));
 			StartCoroutine(Speaking());
-			StartCoroutine(MoveHeadWhenSpeaking());
 		}
 
 		private IEnumerator Speaking ()
 		{
 			yield return new WaitUntil(() => !mHeadMoving);
+			mAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
+
 			mTTS.SayKey ("welcomebienvenue", true);
 			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomeinvitation", true);
@@ -88,18 +92,6 @@ namespace BuddyApp.ExperienceCenter
 			yield return new WaitUntil(() => Math.Abs(BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition - lNoAngle) < ANGLE_THRESHOLD);
 			mHeadMoving = false;
 			mChangeDirection = true;
-		}
-
-		private IEnumerator MoveHeadWhenSpeaking ()
-		{
-			if(mTTS.HasFinishedTalking) BYOS.Instance.Primitive.Motors.YesHinge.SetPosition (0, 50f);
-			yield return new WaitUntil(() => !mTTS.HasFinishedTalking);
-			float lYesAngle = BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition;
-			lYesAngle = lYesAngle - (float) (3 * Math.Sin(mYesAngle));
-			BYOS.Instance.Primitive.Motors.YesHinge.SetPosition (lYesAngle, 50f);
-			mYesAngle += UnityEngine.Random.Range(1.0F, 9.0F);
-			yield return new WaitUntil(() => Math.Abs(BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition - lYesAngle) < ANGLE_THRESHOLD || mTTS.HasFinishedTalking);
-			StartCoroutine (MoveHeadWhenSpeaking ());
 		}
 
 		public void StopBehaviour ()

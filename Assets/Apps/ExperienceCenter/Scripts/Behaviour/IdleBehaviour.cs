@@ -20,18 +20,18 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			behaviourInit = false;
+
 			if (!mAnimatorManager.emergencyStop)
-				StartCoroutine (InitHeadPosition (30));
+				StartCoroutine(InitHeadPosition());
 			else
 				behaviourInit = true;
+
 		}
 
-		private IEnumerator InitHeadPosition (float lSpeed)
+		private IEnumerator InitHeadPosition ()
 		{
-			BYOS.Instance.Primitive.Motors.NoHinge.SetPosition (0, lSpeed);
-			BYOS.Instance.Primitive.Motors.YesHinge.SetPosition (0, lSpeed);
-			yield return new WaitUntil (() => Math.Abs (BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition) < ANGLE_THRESHOLD);
-			yield return new WaitUntil (() => Math.Abs (BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition) < ANGLE_THRESHOLD);
+			BYOS.Instance.Interaction.BMLManager.LaunchByName("Reset01");
+			yield return new WaitUntil(() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
 			behaviourInit =  true;
 		}
 
