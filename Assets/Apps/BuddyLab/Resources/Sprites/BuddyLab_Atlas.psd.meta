@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ccaf885053445f144b5a373a570c9c26
-timeCreated: 1512731092
+timeCreated: 1515666855
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -140,6 +140,9 @@ TextureImporter:
     21300266: BuddyLab_Icon_Cog
     21300268: BuddyLab_Icon_Cogs
     21300270: BuddyLab_Icon_Help
+    21300272: Top_loop
+    21300274: Side_loop
+    21300276: Boucle_X
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -1978,6 +1981,45 @@ TextureImporter:
         height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Top_loop
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 1240
+        width: 106
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Side_loop
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 1140
+        width: 35
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Boucle_X
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 1119
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

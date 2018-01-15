@@ -81,7 +81,7 @@ namespace BuddyApp.BuddyLab
                 {
 
                 }
-                    GetGameObject(5).GetComponent<Animator>().SetTrigger("close");
+                GetGameObject(5).GetComponent<Animator>().SetTrigger("close");
                 Trigger("Scene");
             }
             

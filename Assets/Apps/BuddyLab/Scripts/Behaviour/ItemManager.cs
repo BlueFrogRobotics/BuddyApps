@@ -12,6 +12,9 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private List<GameObject> conditionItems;
 
+        [SerializeField]
+        private List<GameObject> loopItems;
+
         public GameObject GetBMLItem(int iIndex)
         {
             return bmlItems[iIndex];
@@ -20,6 +23,11 @@ namespace BuddyApp.BuddyLab
         public GameObject GetConditionItem(int iIndex)
         {
             return conditionItems[iIndex];
+        }
+
+        public GameObject GetLoopItem(int iIndex)
+        {
+            return loopItems[iIndex];
         }
     }
 }

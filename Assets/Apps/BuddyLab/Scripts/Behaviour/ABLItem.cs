@@ -34,6 +34,8 @@ namespace BuddyApp.BuddyLab
         public string ConditionName { get; set; }
 
         public LoopType LoopType { get; set; }
+
+        public int NbItemsInLoop { get; set; }
     }
 
 

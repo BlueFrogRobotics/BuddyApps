@@ -91,6 +91,20 @@ namespace BuddyApp.BuddyLab
                     desc.destinationCell.ItemToRemove.gameObject.transform.parent = child.transform;
                     Canvas.ForceUpdateCanvases();
                     desc.destinationCell.ItemToRemove.gameObject.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+
+                    //FillItemsArray();
+
+                    if (desc.destinationCell.GetItem().gameObject.GetComponent<ABLItem>().GetItem().Category==Category.LOOP)
+                    {
+                        Debug.Log("loop inclu");
+                        desc.destinationCell.GetItem().gameObject.transform.GetChild(0).localPosition = new Vector3(-56, 6.7F, 0);
+                        desc.destinationCell.GetItem().draggedObjects = new GameObject[1];
+                        desc.destinationCell.GetItem().draggedObjects[0] = mArrayItems[desc.destinationCell.transform.GetSiblingIndex()-2].GetComponentInChildren<DragAndDropItem>().gameObject;
+                        mArrayItems[desc.destinationCell.transform.GetSiblingIndex() - 2].GetComponentInChildren<DragAndDropItem>().LoopItem = desc.destinationCell.GetItem().gameObject.GetComponent<LoopItem>();
+                        //desc.destinationCell.GetItem().draggedObjects[1] = mArrayItems[desc.destinationCell.transform.GetSiblingIndex()-3].GetComponentInChildren<DragAndDropItem>().gameObject;
+
+                    }
+
                     desc.destinationCell.ItemToRemove = null;
                 }
                 //child.transform.SetSiblingIndex(child.transform.GetSiblingIndex() - 1);
@@ -107,12 +121,98 @@ namespace BuddyApp.BuddyLab
             }
             if (desc.destinationCell.cellType == DragAndDropCell.CellType.Swap && desc.sourceCell.cellType == DragAndDropCell.CellType.Swap)
             {
+                Debug.Log("source index: "+desc.sourceCell.transform.GetSiblingIndex());
+                Debug.Log("destinationCell index: " + desc.destinationCell.transform.GetSiblingIndex());
+                Debug.Log("num swap: " + desc.sourceCell.NumSwap);
+                bool lSwapToLeft = desc.destinationCell.transform.GetSiblingIndex() < desc.sourceCell.transform.GetSiblingIndex();
                 desc.sourceCell.transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex());
+                FillItemsArray();
+                if (desc.sourceCell.NumSwap == 1)
+                {
+                    //FillItemsArray();
+
+                    if (desc.destinationCell.GetItem().gameObject.GetComponent<ABLItem>().GetItem().Category == Category.LOOP && desc.sourceCell.GetItem().LoopItem == null)
+                    {
+                        desc.destinationCell.GetItem().gameObject.GetComponent<LoopItem>().AddItem();
+                        desc.sourceCell.GetItem().LoopItem = desc.destinationCell.GetItem().gameObject.GetComponent<LoopItem>();
+                        Debug.Log("le 1");
+
+                        desc.destinationCell.GetItem().draggedObjects = new GameObject[desc.sourceCell.GetItem().LoopItem.NbItems];
+                        for(int i=0; i< desc.sourceCell.GetItem().LoopItem.NbItems; i++)
+                        {
+                            desc.destinationCell.GetItem().draggedObjects[i]= mArrayItems[desc.destinationCell.transform.GetSiblingIndex() -i].GetComponentInChildren<DragAndDropItem>().gameObject;
+                        }
+                    }
+
+                    if (desc.destinationCell.GetItem().LoopItem != null && desc.sourceCell.GetItem().LoopItem == null && desc.sourceCell.GetComponentInChildren<LoopItem>()==null)
+                    {
+                        desc.destinationCell.GetItem().LoopItem.AddItem();
+                        desc.sourceCell.GetItem().LoopItem = desc.destinationCell.GetItem().LoopItem;
+                        Debug.Log("le 2");
+
+                        desc.sourceCell.GetItem().LoopItem.gameObject.GetComponent<DragAndDropItem>().draggedObjects = new GameObject[desc.sourceCell.GetItem().LoopItem.NbItems];
+                        for (int i = 0; i < desc.sourceCell.GetItem().LoopItem.NbItems; i++)
+                        {
+                            desc.sourceCell.GetItem().LoopItem.gameObject.GetComponent<DragAndDropItem>().draggedObjects[i] = mArrayItems[desc.destinationCell.transform.GetSiblingIndex() -i].GetComponentInChildren<DragAndDropItem>().gameObject;
+                        }
+                    }
+
+                    else if (desc.sourceCell.GetItem().LoopItem != null && (desc.destinationCell.GetItem().LoopItem == null && desc.destinationCell.GetItem().gameObject.GetComponent<LoopItem>() == null))
+                    {
+                        desc.sourceCell.GetItem().LoopItem.RemoveItem();
+                        desc.sourceCell.GetItem().LoopItem.gameObject.GetComponent<DragAndDropItem>().draggedObjects = new GameObject[desc.sourceCell.GetItem().LoopItem.NbItems];
+                        for (int i = 0; i < desc.sourceCell.GetItem().LoopItem.NbItems; i++)
+                        {
+                            desc.sourceCell.GetItem().LoopItem.gameObject.GetComponent<DragAndDropItem>().draggedObjects[i] = mArrayItems[desc.destinationCell.transform.GetSiblingIndex() -i].GetComponentInChildren<DragAndDropItem>().gameObject;
+                        }
+
+                        desc.sourceCell.GetItem().LoopItem = null;
+                    }
+
+                    
+
+                }
+
+                
+                if (desc.sourceCell.GetItem().gameObject.GetComponent<ABLItem>().GetItem().Category == Category.LOOP)
+                {
+
+                    if (lSwapToLeft)
+                    {
+                        Debug.Log("to left");
+                        for(int i= desc.sourceCell.GetItem().draggedObjects.Length-1; i>=0; i--)
+                        {
+                            desc.sourceCell.GetItem().draggedObjects[i].GetComponentInParent<DragAndDropCell>().transform.SetSiblingIndex(desc.sourceCell.transform.GetSiblingIndex());
+                        }
+                        //desc.sourceCell.GetItem().draggedObjects[1].GetComponentInParent<DragAndDropCell>().transform.SetSiblingIndex(desc.sourceCell.transform.GetSiblingIndex());
+                        //desc.sourceCell.GetItem().draggedObjects[0].GetComponentInParent<DragAndDropCell>().transform.SetSiblingIndex(desc.sourceCell.transform.GetSiblingIndex());
+                    }
+                    else
+                    {
+                        Debug.Log("to right");
+                        for (int i = desc.sourceCell.GetItem().draggedObjects.Length - 1; i >= 0; i--)
+                        {
+                            desc.sourceCell.GetItem().draggedObjects[i].GetComponentInParent<DragAndDropCell>().transform.SetSiblingIndex(desc.sourceCell.transform.GetSiblingIndex()-1);
+                        }
+                        //desc.sourceCell.GetItem().draggedObjects[1].GetComponentInParent<DragAndDropCell>().transform.SetSiblingIndex(desc.sourceCell.transform.GetSiblingIndex()-1);
+                        //desc.sourceCell.GetItem().draggedObjects[0].GetComponentInParent<DragAndDropCell>().transform.SetSiblingIndex(desc.sourceCell.transform.GetSiblingIndex() - 1);
+                    }
+
+                    //desc.destinationCell.GetItem().draggedObjects[1] = mArrayItems[2].GetComponentInChildren<DragAndDropItem>().gameObject;
+                }
+
+                
+
+                
                 FillItemsArray();
                 //mArrayItems.Remove(desc.sourceCell.gameObject);
                 //mArrayItems.Insert(desc.sourceCell.transform.GetSiblingIndex(), desc.sourceCell.gameObject);
             }
 
+            if (desc.sourceCell.NumSwap == 1)
+            {
+                InitLoopItems();
+            }
             // If item dropped between different sheets
             if (destinationSheet != sourceSheet)
             {
@@ -150,6 +250,11 @@ namespace BuddyApp.BuddyLab
                     }
                     else if (bli.Category == Category.CONDITION)
                         lItem = Instantiate(itemManager.GetConditionItem(bli.Index));
+                    else if(bli.Category == Category.LOOP)
+                    {
+                        lItem = Instantiate(itemManager.GetLoopItem(bli.Index));
+                        lItem.GetComponent<LoopItem>().NbItems = bli.NbItemsInLoop;
+                    }
 
                     lItem.GetComponent<ABLItem>().Parameter = bli.Parameter;
                     lItem.transform.parent = mArrayItems[mArrayItems.Count - 1].transform;
@@ -168,6 +273,7 @@ namespace BuddyApp.BuddyLab
                     Debug.Log("category: " + bli.Category);
                     Debug.Log("index: " + bli.Index);
                 }
+                InitLoopItems();
                // mArrayItems[0].GetComponentInChildren<DragAndDropItem>().gameObject.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0); // new Vector3(widthChild / 2, heightChild / 2, 0);
             }
         }
@@ -195,6 +301,8 @@ namespace BuddyApp.BuddyLab
                     listBLI.List.Add(item.gameObject.GetComponent<BMLItem>().GetItem());
                 else if(item != null && item.gameObject.GetComponent<ConditionItem>() != null)
                     listBLI.List.Add(item.gameObject.GetComponent<ConditionItem>().GetItem());
+                else if (item != null && item.gameObject.GetComponent<LoopItem>() != null)
+                    listBLI.List.Add(item.gameObject.GetComponent<LoopItem>().GetItem());
                 Debug.Log("hum");
             }
             Debug.Log("sequence: " + text);
@@ -279,6 +387,39 @@ namespace BuddyApp.BuddyLab
             foreach (DragAndDropCell cell in panel.GetComponentsInChildren<DragAndDropCell>())
             {
                 mArrayItems.Add(cell.gameObject);
+            }
+        }
+
+        private void InitLoopItems()
+        {
+            Debug.Log("a");
+            foreach(GameObject obj in mArrayItems)
+            {
+                Debug.Log("b");
+                if (obj.GetComponentInChildren<DragAndDropItem>()!=null)
+                {
+                    obj.GetComponentInChildren<DragAndDropItem>().LoopItem = null;
+                    obj.GetComponentInChildren<DragAndDropItem>().draggedObjects = null;
+                    Debug.Log("c");
+                }
+                if(obj.GetComponentInChildren<LoopItem>()!=null)
+                {
+                    Debug.Log("d");
+                    DragAndDropItem lLoop = obj.GetComponentInChildren<LoopItem>().GetComponent<DragAndDropItem>();
+                    lLoop.draggedObjects = new GameObject[obj.GetComponentInChildren<LoopItem>().NbItems];
+                    Debug.Log("nombre item dans loop: " + obj.GetComponentInChildren<LoopItem>().NbItems);
+                    for (int i=0; i< obj.GetComponentInChildren<LoopItem>().NbItems; i++)
+                    {
+                        Debug.Log("lul "+ obj.transform.GetSiblingIndex());
+                        if (obj.transform.GetSiblingIndex() - i - 2 < mArrayItems.Count - 1)
+                        {
+                            lLoop.draggedObjects[i] = mArrayItems[obj.transform.GetSiblingIndex() - i - 2].GetComponentInChildren<DragAndDropItem>().gameObject;
+                            Debug.Log("lul2");
+                            mArrayItems[obj.transform.GetSiblingIndex() - i - 2].GetComponentInChildren<DragAndDropItem>().LoopItem = obj.GetComponentInChildren<LoopItem>();
+                            Debug.Log("lul3");
+                        }
+                    }
+                }
             }
         }
     }

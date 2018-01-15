@@ -35,6 +35,8 @@ namespace BuddyApp.BuddyLab
 
         public float ItemPositionX { get; set; }
 
+        public int NumSwap { get; private set; }
+
         void OnEnable()
         {
             DragAndDropItem.OnItemDragStartEvent += OnAnyItemDragStart;         // Handle any item drag start
@@ -160,6 +162,7 @@ namespace BuddyApp.BuddyLab
                                         desc.sourceCell = sourceCell;
                                         desc.destinationCell = this;
                                         // Send message with DragAndDrop info to parents GameObjects
+                                        desc.sourceCell.NumSwap = 0;
                                         StartCoroutine(NotifyOnDragEnd(desc));
                                         if (currentItem != null)
                                         {
@@ -167,6 +170,7 @@ namespace BuddyApp.BuddyLab
                                             desc.item = currentItem;
                                             desc.sourceCell = this;
                                             desc.destinationCell = sourceCell;
+                                            desc.sourceCell.NumSwap = 1;
                                             // Send message with DragAndDrop info to parents GameObjects
                                             StartCoroutine(NotifyOnDragEnd(desc));
                                         }
