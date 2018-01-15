@@ -9,7 +9,8 @@ namespace BuddyApp.BuddyLab
         LOOP_X = 0,
         INFINITE = 1,
         VISION = 2,
-        SENSOR = 3
+        SENSOR = 3,
+        NONE = 4
     }
 
     public enum Category : int

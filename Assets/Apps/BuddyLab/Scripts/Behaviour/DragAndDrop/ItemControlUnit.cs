@@ -26,9 +26,6 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private GameObject cell;
 
-        [SerializeField]
-        private GameObject startPoint;
-
         private List<GameObject> mArrayItems;
 
         private BMLManager mBMLManager;
@@ -37,6 +34,9 @@ namespace BuddyApp.BuddyLab
 
         [SerializeField]
         private ConditionManager ConditionManager;
+
+        [SerializeField]
+        private LoopManager LoopManager;
 
         private bool mIsRunning;
         public bool IsRunning { get { return mIsRunning; } set { mIsRunning = value; } }
@@ -370,6 +370,11 @@ namespace BuddyApp.BuddyLab
                 else if (bli.Category == Category.LOOP)
                 {
                     Debug.Log("ITEMCONTROLUNIT : LOOP ");
+                    LoopManager.LoopType = bli.LoopType;
+                    if (bli.ParameterKey != "")
+                    {
+                        LoopManager.ParamLoop = bli.Parameter;
+                    }
                 }
                 ConditionManager.IsEventDone = false;
                 if (!mIsRunning)
