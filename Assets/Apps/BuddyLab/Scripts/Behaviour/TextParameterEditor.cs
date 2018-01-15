@@ -54,8 +54,8 @@ namespace BuddyApp.BuddyLab
 
             popupField.GetComponent<Animator>().ResetTrigger("open");
             backgroundBlack.GetComponent<Animator>().ResetTrigger("open");
-            popupField.GetComponent<Animator>().ResetTrigger("close");
-            backgroundBlack.GetComponent<Animator>().ResetTrigger("close");
+            //popupField.GetComponent<Animator>().ResetTrigger("close");
+            //backgroundBlack.GetComponent<Animator>().ResetTrigger("close");
         }
 
         private void Cancel()
