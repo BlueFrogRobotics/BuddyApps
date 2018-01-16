@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Buddy;
 
@@ -12,8 +13,7 @@ namespace BuddyApp.BuddyLab
         /// </summary>
         private string mParamLoop;
         public string ParamLoop { get { return mParamLoop; } set { mParamLoop = value; } }
-        private int mNbItemInLoop;
-        public int NbItemInLoop { get { return mNbItemInLoop; } set { mNbItemInLoop = value; } }
+
         private LoopType mLoopType;
         public LoopType LoopType
         {
@@ -31,6 +31,9 @@ namespace BuddyApp.BuddyLab
         /// </summary>
         private int mCounterLoopX;
         private bool mIsLoopX;
+        private int mLoopCounter;
+        public int LoopCounter { get { return mLoopCounter; } set { mLoopCounter = value; } }
+        private int mConvert;
 
         // Use this for initialization
         void Start()
@@ -83,7 +86,21 @@ namespace BuddyApp.BuddyLab
 
         private void LoopX()
         {
-
+            
+            try
+            {
+                mConvert = Int32.Parse(mParamLoop);
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            if (mLoopCounter < mConvert)
+                return;
+            else
+            {
+                ResetParam();
+            }
         }
 
         private void ResetParam()

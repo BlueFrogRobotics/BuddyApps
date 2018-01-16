@@ -37,6 +37,7 @@ namespace BuddyApp.BuddyLab
 
         [SerializeField]
         private LoopManager LoopManager;
+        private int mLoopCounter;
 
         private bool mIsRunning;
         public bool IsRunning { get { return mIsRunning; } set { mIsRunning = value; } }
@@ -193,7 +194,7 @@ namespace BuddyApp.BuddyLab
 
                 if (OnNextAction!=null)
                 {
-                    OnNextAction(lNumAction);
+                    OnNextAction(i);
                 }
 
                 if (bli.Category == Category.BML)
@@ -237,8 +238,8 @@ namespace BuddyApp.BuddyLab
                 }
                 else if (bli.Category == Category.LOOP)
                 {
+                    LoopManager.LoopCounter = mLoopCounter++;
                     i -= (bli.NbItemsInLoop+1);
-                    lNumAction -= (bli.NbItemsInLoop+1);
                     Debug.Log("ITEMCONTROLUNIT : LOOP ");
                     LoopManager.LoopType = bli.LoopType;
                     if (bli.ParameterKey != "")
@@ -249,7 +250,6 @@ namespace BuddyApp.BuddyLab
                 ConditionManager.IsEventDone = false;
                 if (!mIsRunning)
                     break;
-                lNumAction++;
                 i++;
             }
             
