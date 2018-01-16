@@ -89,6 +89,7 @@ namespace BuddyApp.ExperienceCenter
 		private IEnumerator MoveHeadNoHinge (float lNoAngle, float lNoSpeed)
 		{
 			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
+			yield return new WaitUntil(() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
 			//Comment this line if you need a linear movement of the head 
 			StartCoroutine(MoveHeadYesHinge(-5,50));
 			mHeadMoving = true;

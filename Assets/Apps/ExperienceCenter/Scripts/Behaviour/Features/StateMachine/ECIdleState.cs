@@ -15,27 +15,24 @@ namespace BuddyApp.ExperienceCenter
 		private TextToSpeech mTTS;
 		private List <string> mKeyList;
 
-        private BMLManager mBMLManager;
-
-		//	  OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
-            mBMLManager = BYOS.Instance.Interaction.BMLManager;
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
 			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 			InitKeyList ();
 			mBehaviour.InitBehaviour ();
+			GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>().StartWaiting();
 		}
 
-		//	 OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		override public void OnStateUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-		{
-            //if(mBMLManager.DonePlaying)
-            //    mBMLManager.LaunchRandom("Idle");
-        }
+		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+		//override public void OnStateUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		//{
+
+		//}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -44,7 +41,9 @@ namespace BuddyApp.ExperienceCenter
 //			if (!mTTS.HasFinishedTalking)
 //				mTTS.Stop ();
 			mBehaviour.StopBehaviour ();
-            //mBMLManager.StopAllBehaviors();
+			GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>().IsWaiting = false;
+			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+			BYOS.Instance.Interaction.BMLManager.LaunchByName("Reset01");
 		}
 
 		// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
@@ -59,10 +58,12 @@ namespace BuddyApp.ExperienceCenter
 
 		private void InitKeyList ()
 		{
-			mKeyList = new List<string> ();
-			mKeyList.Add ("idlesee");
-			mKeyList.Add ("idletalk");
-			mKeyList.Add ("idleleg");
+			mKeyList = new List<string>
+			{
+				"idlesee",
+				"idletalk",
+				"idleleg"
+			};
 		}
 
 		public void SpeechToTextCallback (string iSpeech)

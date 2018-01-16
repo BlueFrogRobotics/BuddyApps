@@ -5,29 +5,24 @@
     <headNo id="headNo1" position="10" speed="100"/>
     <headYes id="headYes1"  position="35" speed="100"/>
     <faceExp id="faceEx1" start="0.5" expression="BLINK_BOTH"/>
-    <move id="move1" angle="-10" speed="100" />
   </synchronized>
   <synchronized end="2">
     <headNo id="headNo2" position="0" speed="100"/>
     <headNo id="headNo2" position="-10" speed="100"/>
     <faceExp id="faceEx2" start="0.5" expression="SCREAM"/>
-    <move id="move2" angle="20" speed="100" />
+    <sound start="0.5" name="os_curious_02"/>
   </synchronized>
   <synchronized end="2">
     <headNo id="headNo3" position="10" speed="100"/>
     <headYes id="headYes3"  position="35" speed="100"/>
     <faceExp id="faceEx3" start="0.5" expression="BLINK_BOTH"/>
-    <move id="move3" angle="-10" speed="100" />
   </synchronized>
   <synchronized>
     <headNo id="headNo4" position="-20" speed="100"/>
     <headYes id="headYes4"  position="-15" speed="100"/>
-    <move id="move4" angle="180" speed="300" />
   </synchronized>
   <synchronized>
     <headNo id="headNo5" position="0" speed="100"/>
     <headYes id="headYes5"  position="0" speed="100"/>
-    <move id="move5" angle="180" speed="300" />
   </synchronized>
-  <faceExp id="faceEx4" start="0.5" expression="SMILE"/>
 </bml>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<bml category="Idle">
+  <faceMoodShift mood="TIRED"/>
+  <synchronized>
+    <headYes id="headYes5" position="-15" speed="600"/>
+    <headNo id="headNo5" position="20" speed="600"/>
+  </synchronized>
+  <synchronized end="3">
+    <sound name="os_yawn"/>
+    <faceExp id="faceExp5" expression="YAWN"/>
+  </synchronized>
+  <synchronized end="3">
+    <headYes id="headYes8"  position="0" speed="600"/>
+    <headNo id="headNo8" position="0" speed="600"/>
+    <faceExp id="faceExp7" start="1" expression="BLINK_BOTH"/>
+  </synchronized>
+  <faceMoodShift mood="NEUTRAL"/>
+</bml>
