@@ -7,9 +7,13 @@ namespace BuddyApp.BuddyLab
 {
     public class LoopManager : MonoBehaviour
     {
+        /// <summary>
+        /// Variables for LoopManager
+        /// </summary>
         private string mParamLoop;
         public string ParamLoop { get { return mParamLoop; } set { mParamLoop = value; } }
-
+        private int mNbItemInLoop;
+        public int NbItemInLoop { get { return mNbItemInLoop; } set { mNbItemInLoop = value; } }
         private LoopType mLoopType;
         public LoopType LoopType
         {
@@ -19,9 +23,14 @@ namespace BuddyApp.BuddyLab
                 mLoopType = value;
             }
         }
-
         private float mTimer;
         private bool mIsInLoop;
+
+        /// <summary>
+        /// Variables for loop_X
+        /// </summary>
+        private int mCounterLoopX;
+        private bool mIsLoopX;
 
         // Use this for initialization
         void Start()
@@ -37,7 +46,8 @@ namespace BuddyApp.BuddyLab
             {
                 mTimer = 0.0F;
                 LoadLoop();
-
+                if (mIsLoopX)
+                    LoopX();
             }
         }
 
@@ -53,6 +63,7 @@ namespace BuddyApp.BuddyLab
                         break;
                     case LoopType.LOOP_X:
                         Debug.Log("Loop X");
+                        mIsLoopX = true;
                         mIsInLoop = true;
                         break;
                     case LoopType.SENSOR:
@@ -67,6 +78,11 @@ namespace BuddyApp.BuddyLab
                         break;
                 }
             }
+
+        }
+
+        private void LoopX()
+        {
 
         }
 
