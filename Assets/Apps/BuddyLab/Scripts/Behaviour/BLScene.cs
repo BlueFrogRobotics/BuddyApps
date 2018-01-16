@@ -21,19 +21,20 @@ namespace BuddyApp.BuddyLab
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Interaction.Mood.Set(Buddy.MoodType.NEUTRAL);
-            Debug.Log("name project: " + mBLBehaviour.NameOpenProject);
-            mItemControl.CleanSequence();
-            mItemControl.ShowSequence(mBLBehaviour.NameOpenProject + ".xml");
-            //mUIManager.SetBackground(true);
-            mUIManager.OpenBottomUI();
-            mUIManager.OpenLineProgram();
-            mUIManager.OpenTrashArea();
+            StartCoroutine(InitScene());
+            //Interaction.Mood.Set(Buddy.MoodType.NEUTRAL);
+            //Debug.Log("name project: " + mBLBehaviour.NameOpenProject);
+            //mItemControl.CleanSequence();
+            //mItemControl.ShowSequence(mBLBehaviour.NameOpenProject + ".xml");
+            ////mUIManager.SetBackground(true);
+            //mUIManager.OpenBottomUI();
+            //mUIManager.OpenLineProgram();
+            //mUIManager.OpenTrashArea();
             
-            mUIManager.PlayButton.onClick.AddListener(PlaySequence);
-            mUIManager.SaveButton.onClick.AddListener(SaveSequence);
-            mUIManager.FolderButton.onClick.AddListener(OpenFolder);
-            mUIManager.BackButton.onClick.AddListener(GoToMenu);
+            //mUIManager.PlayButton.onClick.AddListener(PlaySequence);
+            //mUIManager.SaveButton.onClick.AddListener(SaveSequence);
+            //mUIManager.FolderButton.onClick.AddListener(OpenFolder);
+            //mUIManager.BackButton.onClick.AddListener(GoToMenu);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -82,6 +83,24 @@ namespace BuddyApp.BuddyLab
             mUIManager.CloseWindows();
             mItemControl.SaveSequence();
             Trigger("ProjectToMenu");
+        }
+
+        private IEnumerator InitScene()
+        {
+            Interaction.Mood.Set(Buddy.MoodType.NEUTRAL);
+            Debug.Log("name project: " + mBLBehaviour.NameOpenProject);
+            mItemControl.CleanSequence();
+            yield return null;
+            mItemControl.ShowSequence(mBLBehaviour.NameOpenProject + ".xml");
+            //mUIManager.SetBackground(true);
+            mUIManager.OpenBottomUI();
+            mUIManager.OpenLineProgram();
+            mUIManager.OpenTrashArea();
+
+            mUIManager.PlayButton.onClick.AddListener(PlaySequence);
+            mUIManager.SaveButton.onClick.AddListener(SaveSequence);
+            mUIManager.FolderButton.onClick.AddListener(OpenFolder);
+            mUIManager.BackButton.onClick.AddListener(GoToMenu);
         }
 
     }

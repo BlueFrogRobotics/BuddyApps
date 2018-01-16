@@ -61,6 +61,15 @@ namespace BuddyApp.BuddyLab
                     mSequence.GetComponent<RectTransform>().localPosition = new Vector3(-1* items[i].transform.localPosition.x, 80, 0);
                     items[i].gameObject.GetComponent<CanvasGroup>().alpha = 1;
                     items[i].transform.GetChild(0).gameObject.SetActive(true);
+                    //if(items[i].gameObject.GetComponentInChildren<DragAndDropItem>().LoopItem!=null)
+                    //{
+                    //    Debug.Log("DES CHIIIIIIPS!");
+                    //    items[i].gameObject.GetComponentInChildren<DragAndDropItem>().LoopItem.gameObject.GetComponentInParent<DragAndDropCell>().GetComponent<CanvasGroup>().alpha = 1F;
+                    //}
+                }
+                else if (items[i].gameObject.GetComponentInChildren<LoopItem>()!=null && i - items[i].gameObject.GetComponentInChildren<LoopItem>().NbItems-1 <= iNum && iNum < i)
+                {
+                    items[i].gameObject.GetComponent<CanvasGroup>().alpha = 1;
                 }
                 else
                 {

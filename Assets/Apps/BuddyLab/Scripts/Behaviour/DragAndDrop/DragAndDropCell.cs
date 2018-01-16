@@ -204,7 +204,7 @@ namespace BuddyApp.BuddyLab
                                 //DeleteItem(item.gameObject);
                                 if (sourceCell.cellType != CellType.UnlimitedSource)
                                 {
-                                    PlaceItem(item.gameObject);
+                                    //PlaceItem(item.gameObject);
                                     desc.item = item;
                                     desc.sourceCell = sourceCell;
                                     desc.destinationCell = this;
