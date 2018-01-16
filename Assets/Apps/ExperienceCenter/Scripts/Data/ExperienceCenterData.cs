@@ -23,6 +23,11 @@ namespace BuddyApp.ExperienceCenter
 
 		// EnableMovement 
 		public bool EnableMovement { get; set; }
+
+		// TCP Server 
+		public string IPAddress { get; set; }
+		public string StatusTcp { get; set; }
+
         public string Language { get; set; }
 
         public bool ShouldSendCommand { get; set; }

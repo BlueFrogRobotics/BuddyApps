@@ -16,7 +16,8 @@ namespace BuddyApp.ExperienceCenter
 		private TextField mUserID;
 		private Password mPassword;
 
-		private Dropdown mLanguage;
+		private TextField mIPAddress;
+		private TextField mStatusTcp;
 
 		public override void Build ()
 		{	
@@ -29,17 +30,17 @@ namespace BuddyApp.ExperienceCenter
 			CreateWidget<Blank> ();
 			CreateWidget<Blank> ();
 
-			BuildConfigurationSection ();
-			CreateWidget<Blank> ();
-			BuildIOTSection ();
-			CreateWidget<Blank> ();
-			BuildLanguageSection ();
-			CreateWidget<Blank> ();
-			BuildMovementSection ();
+			BuildStopSection ();
 			CreateWidget<Blank> ();
 			BuildActionSection ();
 			CreateWidget<Blank> ();
-			BuildStopSection ();
+			BuildIOTSection ();
+			CreateWidget<Blank> ();
+			BuildMovementSection ();
+			CreateWidget<Blank> ();
+			BuildTcpSection ();
+			CreateWidget<Blank> ();
+			BuildConfigurationSection ();
 
 			foreach (string label in mButtons.Keys) {
 				mButtons [label].OuterLabel = "";
@@ -61,8 +62,6 @@ namespace BuddyApp.ExperienceCenter
 			mPassword.Label = "USER PASSWORD";
 			mPassword.EmptyText = "Enter your password";
 
-			mLanguage.Label = "LANGUAGE";
-
 			mMovementCheckBox.Label = "Movement";
 
 			foreach (string label in mButtons.Keys)
@@ -73,6 +72,11 @@ namespace BuddyApp.ExperienceCenter
 
 			foreach (string label in mCheckBoxes.Keys)
 				mCheckBoxes [label].Label = label;
+
+			mIPAddress.Label = "Address";
+			mIPAddress.EmptyText = "-";
+			mStatusTcp.Label = "Status";
+			mStatusTcp.EmptyText = "-";
 		}
 
 		private void BuildConfigurationSection ()
@@ -103,6 +107,26 @@ namespace BuddyApp.ExperienceCenter
 			});
 		}
 
+		private void BuildTcpSection ()
+		{
+			AddSectionTitle ("TCP Server");
+
+			mIPAddress = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.IPAddress != "")
+				mIPAddress.FieldText = ExperienceCenterData.Instance.IPAddress;
+			mIPAddress.OnEndEditEvent ((string text) => {
+				mIPAddress.FieldText = ExperienceCenterData.Instance.IPAddress;
+			});
+
+			mStatusTcp = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.StatusTcp != "")
+				mStatusTcp.FieldText = ExperienceCenterData.Instance.StatusTcp;
+			mStatusTcp.OnEndEditEvent ((string text) => {
+				mStatusTcp.FieldText = ExperienceCenterData.Instance.StatusTcp;
+			});
+			
+		}
+
 		private void BuildIOTSection ()
 		{
 			AddSectionTitle ("IOT");
@@ -128,23 +152,14 @@ namespace BuddyApp.ExperienceCenter
 			AddSectionTitle ("COMMANDS");
 
 			mButtons.Add ("Welcome", CreateWidget<LabeledButton> ());
+			CreateWidget<Blank> ();
 			mButtons.Add ("Questions", CreateWidget<LabeledButton> ());
+			CreateWidget<Blank> ();
 			mButtons.Add ("ByeBye", CreateWidget<LabeledButton> ());
 			mButtons.Add ("MoveForward", CreateWidget<LabeledButton> ());
 			mButtons.Add ("IOT", CreateWidget<LabeledButton> ());
 		}
-
-		private void BuildLanguageSection ()
-		{
-			mLanguage = CreateWidget<Dropdown> ();
-			mLanguage.AddOption ("Français");
-			mLanguage.AddOption ("English");
-
-			mLanguage.OnSelectEvent ((string iLabel, object iAttachedObj, int iIndex) => {
-				Debug.Log ("Selected language : " + iLabel);
-				ExperienceCenterData.Instance.Language = iLabel;
-			});
-		}
+			
 
 		private void BuildMovementSection ()
 		{
@@ -155,8 +170,6 @@ namespace BuddyApp.ExperienceCenter
 				Debug.Log (String.Format ("Enable {0} : {1}", "Movement", iVal));
 				ExperienceCenterData.Instance.EnableMovement = iVal;
 			});
-			
-
 		}
 
 		private void BuildStopSection ()
@@ -183,5 +196,6 @@ namespace BuddyApp.ExperienceCenter
 			else if (device == "Sonos")
 				ExperienceCenterData.Instance.SonosState = status;
 		}
+			
 	}
 }

@@ -9,6 +9,8 @@ public class ECInitState : StateMachineBehaviour {
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+			ExperienceCenterData.Instance.StatusTcp = "Offline";
+			ExperienceCenterData.Instance.IPAddress = "-";
 			mTcpServer =  GameObject.Find ("AIBehaviour").GetComponent<TcpServer> ();
 			mTcpServer.Init ();
 			ExperienceCenterData.Instance.EnableMovement = false;

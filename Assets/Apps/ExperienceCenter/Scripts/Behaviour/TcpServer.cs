@@ -39,7 +39,6 @@ namespace BuddyApp.ExperienceCenter
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			clientConnected = false;
 			StartCoroutine (Listening ());
-			//InvokeRepeating ("SendStateRequest", 0.5f, 3.0f);
 		}
 
 		private string GetIPAddress ()
@@ -65,6 +64,7 @@ namespace BuddyApp.ExperienceCenter
 			IPEndPoint localEndPoint = new IPEndPoint (ipArray [0], 3000);
 
 			Debug.Log ("[TCP SERVER] Server address and port : " + localEndPoint.ToString ());
+			ExperienceCenterData.Instance.IPAddress = localEndPoint.ToString ();
 
 			// Create a TCP/IP socket if the port is released
 			Socket listener = new Socket (ipArray [0].AddressFamily,
@@ -78,6 +78,7 @@ namespace BuddyApp.ExperienceCenter
 
 			// Start listening for connections.
 			Debug.Log ("Start listening");
+			ExperienceCenterData.Instance.StatusTcp = "Waiting for connection";
 			while (true) {
 				mEventClient = false;
 				listener.BeginAccept (
@@ -112,6 +113,7 @@ namespace BuddyApp.ExperienceCenter
 				IPEndPoint clientIP = mHandler.RemoteEndPoint as IPEndPoint;
 				Debug.Log ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " connected");
 				clientConnected = true;
+				ExperienceCenterData.Instance.StatusTcp = "Client connected";
 				mAnimatorManager.ConnectionTrigger ();
 			} else {
 				Socket listener = (Socket)ar.AsyncState;
@@ -174,6 +176,7 @@ namespace BuddyApp.ExperienceCenter
 					// Client are offline will be detected here
 					IPEndPoint clientIP = handler.RemoteEndPoint as IPEndPoint;
 					Debug.Log ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " disconnected");
+					ExperienceCenterData.Instance.StatusTcp = "Waiting for connection";
 					clientConnected = false;
 					mAnimatorManager.ConnectionTrigger ();
 				}
@@ -249,6 +252,8 @@ namespace BuddyApp.ExperienceCenter
 			if (mHandler != null && mHandler.Connected) {
 				Debug.LogWarning ("Disconnecting all client !");
 				clientConnected = false;
+				ExperienceCenterData.Instance.StatusTcp = "Offline";
+				ExperienceCenterData.Instance.IPAddress = "-";
 				mAnimatorManager.ConnectionTrigger ();
 				mHandler.Shutdown (SocketShutdown.Both);
 				mHandler.Close ();
