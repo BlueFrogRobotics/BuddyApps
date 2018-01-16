@@ -21,6 +21,8 @@ namespace BuddyApp.ExperienceCenter
         public bool IsStoreDeployed { get; set; }
         public bool IsMusicOn { get; set; }
 
+		// EnableMovement 
+		public bool EnableMovement { get; set; }
         public string Language { get; set; }
 
         public bool ShouldSendCommand { get; set; }

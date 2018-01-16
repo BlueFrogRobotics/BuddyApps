@@ -23,52 +23,57 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mCollisionDetector = GameObject.Find ("AIBehaviour").GetComponent<CollisionDetector> ();
-			mCollisionDetector.InitBehaviour ();
+
+			if (ExperienceCenterData.Instance.EnableMovement)
+				mCollisionDetector.InitBehaviour ();
+
 			radius = BYOS.Instance.Primitive.Motors.Wheels.Radius;
 			mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
-			StartCoroutine (MoveForward (wheelSpeed));
+
+			if (ExperienceCenterData.Instance.EnableMovement)
+				StartCoroutine (MoveForward (wheelSpeed));
 		}
 
 		private IEnumerator MoveForward (float lSpeed)
 		{
 			distance = distance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose);
-            //Save the robot Pose for future iteration if any
-            mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
-            yield return new WaitUntil(() => mCollisionDetector.enableToMove);
+			//Save the robot Pose for future iteration if any
+			mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
+			yield return new WaitUntil (() => mCollisionDetector.enableToMove);
 
-            BYOS.Instance.Primitive.Motors.Wheels.SetWheelsSpeed(lSpeed);
+			BYOS.Instance.Primitive.Motors.Wheels.SetWheelsSpeed (lSpeed);
 
-            Debug.LogFormat("Speed = {0}, Distance to travel = {1}", BYOS.Instance.Primitive.Motors.Wheels.Speed, distance);
+			Debug.LogFormat ("Speed = {0}, Distance to travel = {1}", BYOS.Instance.Primitive.Motors.Wheels.Speed, distance);
 
-            yield return new WaitUntil(() => CheckSpeed() || CheckDistance() || !mCollisionDetector.enableToMove);
+			yield return new WaitUntil (() => CheckSpeed () || CheckDistance () || !mCollisionDetector.enableToMove);
 
-            Debug.LogFormat("Distance left to travel : {0}", distance - CollisionDetector.Distance(BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose));
-            BYOS.Instance.Primitive.Motors.Wheels.Stop();
+			Debug.LogFormat ("Distance left to travel : {0}", distance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose));
+			BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 
-            if (!CheckDistance())
-            {
-                Debug.Log("Restart MoveForward Coroutine");
-                StartCoroutine(MoveForward(wheelSpeed));
-            }
-        }
+			if (!CheckDistance ()) {
+				Debug.Log ("Restart MoveForward Coroutine");
+				StartCoroutine (MoveForward (wheelSpeed));
+			}
+		}
 
 		public void StopBehaviour ()
 		{
 			mCollisionDetector.StopBehaviour ();
 			Debug.LogWarning ("Stop Move Behaviour");
 			StopAllCoroutines ();
-			BYOS.Instance.Primitive.Motors.Wheels.Stop ();
+			if (ExperienceCenterData.Instance.EnableMovement)
+				BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 		}
 
-        private bool CheckSpeed()
-        {
-            return Math.Abs(BYOS.Instance.Primitive.Motors.Wheels.Speed) <= 0.1f;
-        }
+		private bool CheckSpeed ()
+		{
+			return Math.Abs (BYOS.Instance.Primitive.Motors.Wheels.Speed) <= 0.1f;
+		}
 
-        private bool CheckDistance()
-        {
-            return distance - CollisionDetector.Distance(BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose) <= DISTANCE_THRESHOLD;
-        }
+		private bool CheckDistance ()
+		{
+			return distance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose) <= DISTANCE_THRESHOLD;
+		}
 
-    }
+	}
 }

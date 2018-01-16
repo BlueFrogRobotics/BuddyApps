@@ -21,8 +21,8 @@ namespace BuddyApp.ExperienceCenter
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			behaviourInit = false;
 
-			if (!mAnimatorManager.emergencyStop)
-				StartCoroutine(InitHeadPosition());
+			if (!mAnimatorManager.emergencyStop && ExperienceCenterData.Instance.EnableMovement)
+				StartCoroutine (InitHeadPosition ());
 			else
 				behaviourInit = true;
 
@@ -30,9 +30,9 @@ namespace BuddyApp.ExperienceCenter
 
 		private IEnumerator InitHeadPosition ()
 		{
-			BYOS.Instance.Interaction.BMLManager.LaunchByName("Reset01");
-			yield return new WaitUntil(() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
-			behaviourInit =  true;
+			BYOS.Instance.Interaction.BMLManager.LaunchByName ("Reset01");
+			yield return new WaitUntil (() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
+			behaviourInit = true;
 		}
 
 		public void StopBehaviour ()

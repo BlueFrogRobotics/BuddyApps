@@ -45,10 +45,10 @@ namespace BuddyApp.ExperienceCenter
 
 		public void SpeechToTextCallback (string iSpeech)
 		{
-			Debug.Log ("MoveForward - SpeechToText : " + iSpeech);
+			Debug.LogFormat ("MoveForward - SpeechToText {0}: ", iSpeech);
 			bool lClauseFound = false;
 			string[] lPhonetics = BYOS.Instance.Dictionary.GetPhoneticStrings ("movego");
-			Debug.Log ("MoveForward - Phonetics : " + lPhonetics.Length);
+			Debug.LogFormat ("MoveForward - Phonetics : {0}", lPhonetics.Length);
 			foreach (string lClause in lPhonetics) {
 				if (iSpeech.Contains (lClause)) {
 					lClauseFound = true;

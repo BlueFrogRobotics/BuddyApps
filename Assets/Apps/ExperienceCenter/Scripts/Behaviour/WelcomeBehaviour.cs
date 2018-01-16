@@ -33,14 +33,16 @@ namespace BuddyApp.ExperienceCenter
 			mHeadMoving = true;
 			mChangeDirection = true;
 			mYesAngle = 0;
-			StartCoroutine(MoveHeadNoHinge(30,50));
+			if (ExperienceCenterData.Instance.EnableMovement) 
+				StartCoroutine(MoveHeadNoHinge(30,50));
 			StartCoroutine(Speaking());
 		}
 
 		private IEnumerator Speaking ()
 		{
-			yield return new WaitUntil(() => !mHeadMoving);
-			mAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
+			yield return new WaitUntil(() => !mHeadMoving || !ExperienceCenterData.Instance.EnableMovement);
+			if (ExperienceCenterData.Instance.EnableMovement) 
+				mAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
 
 			mTTS.SayKey ("welcomebienvenue", true);
 			mTTS.Silence(500, true);
@@ -60,7 +62,9 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.Silence(1000, true);
 
 			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
-			StartCoroutine(MoveHeadNoHinge(0,50f));
+			if (ExperienceCenterData.Instance.EnableMovement) 
+				StartCoroutine(MoveHeadNoHinge(0,50f));
+			
 			mTTS.SayKey ("welcomechoix", true);
 			mTTS.Silence(500, true);
 			mTTS.SayKey ("welcomepose", true);

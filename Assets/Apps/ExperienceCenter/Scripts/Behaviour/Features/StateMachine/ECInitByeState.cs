@@ -44,10 +44,10 @@ namespace BuddyApp.ExperienceCenter
 	
 		public void SpeechToTextCallback (string iSpeech)
 		{
-			Debug.Log ("ByeBye - SpeechToText : " + iSpeech);
+			Debug.LogFormat ("ByeBye - SpeechToText : {0}", iSpeech);
 			bool lClauseFound = false;
 			string[] lPhonetics = BYOS.Instance.Dictionary.GetPhoneticStrings ("byecome");
-			Debug.Log ("ByeBye - Phonetics : " + lPhonetics.Length);
+			Debug.LogFormat ("ByeBye - Phonetics : {0}", lPhonetics.Length);
 			foreach (string lClause in lPhonetics) {
 				if (iSpeech.Contains (lClause)) {
 					lClauseFound = true;

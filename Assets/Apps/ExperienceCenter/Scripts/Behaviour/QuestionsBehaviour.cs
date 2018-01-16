@@ -42,16 +42,17 @@ namespace BuddyApp.ExperienceCenter
 
 		public void SpeechToTextCallback (string iSpeech)
 		{
-			Debug.Log ("Questions - SpeechToText : " + iSpeech);
+			Debug.LogFormat ("Questions - SpeechToText : {0}", iSpeech);
 			bool lClauseFound = false;
 			foreach (string lElement in mKeyList)
 			{
 				string[] lPhonetics = BYOS.Instance.Dictionary.GetPhoneticStrings(lElement);
-				Debug.Log ("Questions - Phonetics : " + lPhonetics.Length);
+				Debug.LogFormat ("Questions - Phonetics : {0}", lPhonetics.Length);
 				foreach (string lClause in lPhonetics)
 				{
 					if (iSpeech.Contains (lClause)) {
-						mAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
+						if (ExperienceCenterData.Instance.EnableMovement) 
+							mAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
 						mTTS.SayKey (lElement, true);
 						lClauseFound = true;
 						break;
