@@ -13,6 +13,7 @@ namespace BuddyApp.ExperienceCenter
 		public const float DISTANCE_THRESHOLD = 0.05f;
 		public float distance = 1.5f;
 		public float wheelSpeed = 200f;
+		public bool behaviourEnd;
 
 		private AnimatorManager mAnimatorManager;
 		private CollisionDetector mCollisionDetector;
@@ -23,7 +24,7 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mCollisionDetector = GameObject.Find ("AIBehaviour").GetComponent<CollisionDetector> ();
-
+			behaviourEnd = false;
 			if (ExperienceCenterData.Instance.EnableMovement)
 				mCollisionDetector.InitBehaviour ();
 
@@ -32,6 +33,8 @@ namespace BuddyApp.ExperienceCenter
 
 			if (ExperienceCenterData.Instance.EnableMovement)
 				StartCoroutine (MoveForward (wheelSpeed));
+			else
+				behaviourEnd = true;
 		}
 
 		private IEnumerator MoveForward (float lSpeed)
@@ -53,6 +56,8 @@ namespace BuddyApp.ExperienceCenter
 			if (!CheckDistance ()) {
 				Debug.Log ("Restart MoveForward Coroutine");
 				StartCoroutine (MoveForward (wheelSpeed));
+			} else {
+				behaviourEnd = true;
 			}
 		}
 
@@ -63,6 +68,7 @@ namespace BuddyApp.ExperienceCenter
 			StopAllCoroutines ();
 			if (ExperienceCenterData.Instance.EnableMovement)
 				BYOS.Instance.Primitive.Motors.Wheels.Stop ();
+			behaviourEnd = true;
 		}
 
 		private bool CheckSpeed ()

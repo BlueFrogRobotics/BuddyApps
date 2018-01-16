@@ -65,6 +65,7 @@ namespace BuddyApp.ExperienceCenter
 		[SerializeField]
 		private Animator mMainAnimator;
 		private IdleBehaviour mIdleBehaviour;
+		private MoveForwardBehaviour mMoveBehaviour;
 
 		private bool mSwitchOnce;
 		public bool emergencyStop;
@@ -80,6 +81,8 @@ namespace BuddyApp.ExperienceCenter
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
+			mMoveBehaviour = GameObject.Find ("AIBehaviour").GetComponent<MoveForwardBehaviour> ();
+
 			InitStateDict ();
 			ExperienceCenterData.Instance.ShouldSendCommand = false;
 			StartCoroutine (HandleParametersCommands ());
@@ -262,6 +265,13 @@ namespace BuddyApp.ExperienceCenter
 			if (stateDict [State.MoveForward]) {
 				switch ((Command)cmd) {
 				case Command.IOT:
+					{
+						if (mMoveBehaviour.behaviourEnd)
+							UpdateStateDict (cmd, State.MoveForward);
+						else
+							Debug.LogWarning ("Behaviour MoveForward is still running !");
+						break;
+					}
 				case Command.Stop:
 					{
 						UpdateStateDict (cmd, State.MoveForward); 
