@@ -69,12 +69,16 @@ namespace BuddyApp.ExperienceCenter
 
 		private IEnumerator Speaking ()
 		{
+			AttitudeBehaviour lAttitudeBehaviour = GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>();
+
+			lAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
 			mTTS.SayKey ("iotboost", true);
 			mTTS.Silence (500, true);
 			mTTS.SayKey ("iotrouler", true);
 			mTTS.Silence (2000, true);
 			yield return new WaitUntil (() => !mRobotMoving || !ExperienceCenterData.Instance.EnableMovement);
 
+			lAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
 			mTTS.SayKey ("iotdemo", true);
 			mTTS.Silence (500, true);
 			mTTS.SayKey ("iotlance", true);
@@ -126,7 +130,7 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.SayKey ("iotcontinuation", true);
 			mTTS.Silence (500, true);
 
-			yield return new WaitUntil (() => mTTS.HasFinishedTalking);
+			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
 			mAnimatorManager.ActivateCmd ((byte)(Command.Stop));
 		}
 
