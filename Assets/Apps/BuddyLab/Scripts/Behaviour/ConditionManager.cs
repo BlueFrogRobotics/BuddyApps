@@ -157,7 +157,11 @@ namespace BuddyApp.BuddyLab
                 if (mBodyMoving)
                     MovingWheels();
                 if (mIsStringSaid)
+                {
+                    mIsListening = false;
                     TextToSay();
+                }
+                    
             }
         }
 
@@ -273,17 +277,21 @@ namespace BuddyApp.BuddyLab
 
         private void TextToSay()
         {
-            Debug.Log("TEXT TO SAY : " + mSpeechReco);
-            if (mIsListening)
-                return;
-            if(string.IsNullOrEmpty(mSpeechReco))
+
+            if (string.IsNullOrEmpty(mSpeechReco) && mSTT.HasFinished && !mSpeechReco.Equals(mParamCondition))
             {
-                Debug.Log("TEXT TO SAY : " + mSpeechReco);
+                Debug.Log("TEXT TO SAY SI SPEECHRECO NULL: " + mSpeechReco);
                 mSTT.Request();
-                mIsListening = true;
                 return;
             }
-
+            Debug.Log("TTS 2");
+            if (!mSTT.HasFinished)
+            {
+                if (mSTT.LastAnswer != null)
+                {
+                    mSpeechReco = mSTT.LastAnswer;
+                }
+            }
             if (mSpeechReco.Equals(mParamCondition))
             {
                 ResetParam();
