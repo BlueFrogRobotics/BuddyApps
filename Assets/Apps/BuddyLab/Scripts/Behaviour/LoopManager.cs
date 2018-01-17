@@ -34,11 +34,14 @@ namespace BuddyApp.BuddyLab
         private int mLoopCounter;
         public int LoopCounter { get { return mLoopCounter; } set { mLoopCounter = value; } }
         private int mConvert;
+        private int mIndexLoop;
+        public int IndexLoop { set { mIndexLoop = value; } }
 
         // Use this for initialization
         void Start()
         {
             mTimer = 0F;
+            mIndexLoop = 0;
         }
 
         // Update is called once per frame
@@ -99,6 +102,7 @@ namespace BuddyApp.BuddyLab
                 return;
             else
             {
+
                 ResetParam();
             }
         }
@@ -107,6 +111,7 @@ namespace BuddyApp.BuddyLab
         {
             mLoopType = LoopType.NONE;
             mIsInLoop = false;
+            mIndexLoop = 0;
         }
     }
 

@@ -38,6 +38,8 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private LoopManager LoopManager;
         private int mLoopCounter;
+        private int mIndex;
+        public int Index { set { mIndex = value; } }
 
         private bool mIsRunning;
         public bool IsRunning { get { return mIsRunning; } set { mIsRunning = value; } }
@@ -46,7 +48,8 @@ namespace BuddyApp.BuddyLab
 
         void Start()
         {
-
+            mLoopCounter = 0;
+            mIndex = 0;
             mIsRunning = false;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-us");
             mArrayItems = new List<GameObject>();
@@ -183,17 +186,17 @@ namespace BuddyApp.BuddyLab
             //Debug.Log("START PLAYSEQUENCE LOLOLOLOLOKRHGRETJREJREHGJHJEHJGEHJGE");
             //string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("project.xml");
             ListBLI lListBLI = Utils.UnserializeXML<ListBLI>(mDirectoryPath);
-            int lNumAction = 0;
 
             //foreach (BLItemSerializable bli in lListBLI.List)
-            int i = 0;
-            while(i< lListBLI.List.Count)
+            mLoopCounter = 0;
+            mIndex = 0;
+            while(mIndex< lListBLI.List.Count)
             {
-                BLItemSerializable bli = lListBLI.List[i];
+                BLItemSerializable bli = lListBLI.List[mIndex];
 
                 if (OnNextAction!=null)
                 {
-                    OnNextAction(i);
+                    OnNextAction(mIndex);
                 }
 
                 if (bli.Category == Category.BML)
@@ -237,8 +240,9 @@ namespace BuddyApp.BuddyLab
                 }
                 else if (bli.Category == Category.LOOP)
                 {
+                    LoopManager.IndexLoop = mIndex;
                     LoopManager.LoopCounter = mLoopCounter++;
-                    i -= (bli.NbItemsInLoop+1);
+                    mIndex -= (bli.NbItemsInLoop+1);
                     Debug.Log("ITEMCONTROLUNIT : LOOP ");
                     LoopManager.LoopType = bli.LoopType;
                     if (bli.ParameterKey != "")
@@ -249,7 +253,7 @@ namespace BuddyApp.BuddyLab
                 ConditionManager.IsEventDone = false;
                 if (!mIsRunning)
                     break;
-                i++;
+                mIndex++;
             }
             
 
