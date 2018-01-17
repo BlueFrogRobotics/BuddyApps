@@ -51,7 +51,6 @@ namespace BuddyApp.BuddyLab
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-us");
             mArrayItems = new List<GameObject>();
             mBMLManager = BYOS.Instance.Interaction.BMLManager;
-            //mBMLManager.LoadAppBML();
             string lPath = BYOS.Instance.Resources.GetPathToRaw("os_laugh_01.wav");
             Debug.Log("path to sound: " + lPath);
         }

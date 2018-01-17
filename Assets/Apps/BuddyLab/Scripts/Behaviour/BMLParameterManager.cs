@@ -22,7 +22,7 @@ namespace BuddyApp.BuddyLab
         {
             //textBli.text = GetComponent<BMLItem>().Parameter;
             float lNumParameter = 0;
-            float.TryParse(GetComponent<BMLItem>().Parameter, out lNumParameter);
+            float.TryParse(GetComponent<ABLItem>().Parameter, out lNumParameter);
             lNumParameter *= divisionCoeff;
             textBli.text = "" + lNumParameter;
             
@@ -41,7 +41,7 @@ namespace BuddyApp.BuddyLab
             if(lCell!=null && lCell.cellType==DragAndDropCell.CellType.Swap)
             {
                 float lNumParameter = 0;
-                float.TryParse(GetComponent<BMLItem>().Parameter, out lNumParameter);
+                float.TryParse(GetComponent<ABLItem>().Parameter, out lNumParameter);
                 lNumParameter *= divisionCoeff;
                 parameterWindow.SetValue(lNumParameter);
                 parameterWindow.ShowWindow();
@@ -63,7 +63,7 @@ namespace BuddyApp.BuddyLab
             textBli.text = ""+lNumParameter;
 
             lNumParameter /= divisionCoeff;
-            GetComponent<BMLItem>().Parameter = "" + lNumParameter;
+            GetComponent<ABLItem>().Parameter = "" + lNumParameter;
             
             parameterWindow.HideWindow();
             parameterWindow.ValidateButton.onClick.RemoveListener(OnValidation);
