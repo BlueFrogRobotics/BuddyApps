@@ -37,8 +37,8 @@ namespace BuddyApp.ExperienceCenter {
 		void Awake()
 		{
             ExperienceCenterData.Instance.ShouldTestIOT = false;
-			//StartCoroutine(ShouldTestIOT());
-            //StartCoroutine(RetrieveIOTStates());
+			StartCoroutine(ShouldTestIOT());
+            StartCoroutine(RetrieveIOTStates());
 		}
 
         /**********************************************************
@@ -148,7 +148,7 @@ namespace BuddyApp.ExperienceCenter {
                             }
                         }
                         else if (response[i]["name"].Value == "internal:LightingLedPodModeState")
-                            ExperienceCenterData.Instance.IsLightOn = (response[i]["value"].Value == "1");
+							ExperienceCenterData.Instance.IsLightOn = (float.Parse(response[i]["value"].Value) == 1);
                     }
                 }
             };
