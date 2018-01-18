@@ -11,18 +11,26 @@ namespace BuddyApp.ExperienceCenter
 
 	public class IdleBehaviour : MonoBehaviour
 	{
-		public const float ANGLE_THRESHOLD = 0.05f;
 		public bool behaviourInit;
 
 		private AnimatorManager mAnimatorManager;
+		private AttitudeBehaviour mAttitudeBehaviour;
+		private QuestionsBehaviour mQuestionBehaviour;
+		private const double IDLE_TIMEOUT = 10;
 
 		public void InitBehaviour ()
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
+			mAttitudeBehaviour = GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>();
+			mQuestionBehaviour = GameObject.Find("AIBehaviour").GetComponent<QuestionsBehaviour>();
+
 			behaviourInit = false;
 
 			if (!mAnimatorManager.emergencyStop && ExperienceCenterData.Instance.EnableHeadMovement)
-				StartCoroutine (InitHeadPosition ());
+			{
+				StartCoroutine(InitHeadPosition());
+				StartCoroutine(Idle());
+			}
 			else
 				behaviourInit = true;
 
@@ -39,6 +47,18 @@ namespace BuddyApp.ExperienceCenter
 		{
 			Debug.LogWarning ("Stop Idle Behaviour");
 			StopAllCoroutines ();
+		}
+
+		private IEnumerator Idle()
+		{
+			TimeSpan lElapsedTimeSinceLastTTS;
+			while(true)
+			{
+				lElapsedTimeSinceLastTTS = DateTime.Now - mQuestionBehaviour.LastSTTCallbackTime;
+
+				if(!mAttitudeBehaviour.IsWaiting && lElapsedTimeSinceLastTTS.TotalSeconds>IDLE_TIMEOUT)
+					mAttitudeBehaviour.StartWaiting();
+			}
 		}
 
 	}
