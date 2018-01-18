@@ -25,7 +25,8 @@ namespace BuddyApp.ExperienceCenter
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 			InitKeyList ();
 			mBehaviour.InitBehaviour ();
-			GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>().StartWaiting();
+			if(ExperienceCenterData.Instance.EnableHeadMovement)
+				GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>().StartWaiting();
 		}
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -41,9 +42,11 @@ namespace BuddyApp.ExperienceCenter
 //			if (!mTTS.HasFinishedTalking)
 //				mTTS.Stop ();
 			mBehaviour.StopBehaviour ();
-			GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>().IsWaiting = false;
-			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
-			BYOS.Instance.Interaction.BMLManager.LaunchByName("Reset01");
+			if (ExperienceCenterData.Instance.EnableHeadMovement) {
+				GameObject.Find ("AIBehaviour").GetComponent<AttitudeBehaviour> ().IsWaiting = false;
+				BYOS.Instance.Interaction.BMLManager.StopAllBehaviors ();
+				BYOS.Instance.Interaction.BMLManager.LaunchByName ("Reset01");
+			}
 		}
 
 		// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
@@ -76,7 +79,6 @@ namespace BuddyApp.ExperienceCenter
 				Debug.Log ("Idle - Phonetics : " + lPhonetics.Length);
 				foreach (string lClause in lPhonetics) {
 					if (iSpeech.Contains (lClause)) {
-						mTTS.SayKey (lElement, true);
 						lClauseFound = true;
 						lKey = lElement;
 						break;
@@ -95,6 +97,7 @@ namespace BuddyApp.ExperienceCenter
 				} else if (lKey == "idletalk") {
 					mAnimatorManager.ActivateCmd ((byte)(Command.Questions));
 				} else if (lKey == "idleleg") {
+					mTTS.SayKey (lKey, true);
 					mAnimatorManager.ActivateCmd ((byte)(Command.ByeBye));
 				}
 			}

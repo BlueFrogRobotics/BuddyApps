@@ -85,6 +85,7 @@ namespace BuddyApp.ExperienceCenter
 
 			InitStateDict ();
 			ExperienceCenterData.Instance.ShouldSendCommand = false;
+			ExperienceCenterData.Instance.Scenario = "Init";
 			StartCoroutine (HandleParametersCommands ());
 		}
 
@@ -104,6 +105,7 @@ namespace BuddyApp.ExperienceCenter
 			if (mMainAnimator.GetCurrentAnimatorStateInfo (0).IsName ("Init EC State")) {
 				if (mSwitchOnce) {
 					mMainAnimator.SetTrigger ("Idle");
+					ExperienceCenterData.Instance.Scenario = "Idle";
 					Debug.Log ("[Animator] Switching to State: Idle");
 					mSwitchOnce = false;
 					stateDict [State.Idle] = true;
@@ -121,6 +123,7 @@ namespace BuddyApp.ExperienceCenter
 				if (state != "" && state != mOldState) {
 					if (mSwitchOnce) {
 						mMainAnimator.SetTrigger (state);
+						ExperienceCenterData.Instance.Scenario = state;
 						mSwitchOnce = false;
 					}
 				}

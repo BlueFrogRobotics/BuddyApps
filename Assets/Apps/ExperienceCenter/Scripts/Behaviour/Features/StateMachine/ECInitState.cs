@@ -11,9 +11,14 @@ public class ECInitState : StateMachineBehaviour {
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			ExperienceCenterData.Instance.StatusTcp = "Offline";
 			ExperienceCenterData.Instance.IPAddress = "-";
+			ExperienceCenterData.Instance.StopDistance = 0.7f;
+			ExperienceCenterData.Instance.TableDistance = 1.5f;
+			ExperienceCenterData.Instance.IOTDistance = 1.5f;
+
 			mTcpServer =  GameObject.Find ("AIBehaviour").GetComponent<TcpServer> ();
 			mTcpServer.Init ();
-			ExperienceCenterData.Instance.EnableMovement = false;
+			ExperienceCenterData.Instance.EnableHeadMovement = false;
+			ExperienceCenterData.Instance.EnableBaseMovement = false;
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

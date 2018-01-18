@@ -22,7 +22,14 @@ namespace BuddyApp.ExperienceCenter
         public bool IsMusicOn { get; set; }
 
 		// EnableMovement 
-		public bool EnableMovement { get; set; }
+		public bool EnableHeadMovement { get; set; }
+		public bool EnableBaseMovement { get; set; }
+		public float StopDistance{ get; set; }
+		public float TableDistance{ get; set; }
+		public float IOTDistance{ get; set; }
+
+		// Scenario
+		public string Scenario { get; set; }
 
 		// TCP Server 
 		public string IPAddress { get; set; }

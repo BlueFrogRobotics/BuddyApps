@@ -21,7 +21,7 @@ namespace BuddyApp.ExperienceCenter
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			behaviourInit = false;
 
-			if (!mAnimatorManager.emergencyStop && ExperienceCenterData.Instance.EnableMovement)
+			if (!mAnimatorManager.emergencyStop && ExperienceCenterData.Instance.EnableHeadMovement)
 				StartCoroutine (InitHeadPosition ());
 			else
 				behaviourInit = true;

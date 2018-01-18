@@ -8,16 +8,17 @@ using Buddy;
 
 namespace BuddyApp.ExperienceCenter
 {
-
-
 	public class CollisionDetector : MonoBehaviour
 	{
-
 		//List of booleans for detecting collision
 		private bool mObstacle;
 		private bool mStoppingPhase;
 		private bool mBehaviourInit;
+		private float mStopDistance;
 		public bool enableToMove;
+
+		//private float mdist;
+		//private Vector3 mRobotPose;
 
 		public void InitBehaviour ()
 		{
@@ -25,14 +26,34 @@ namespace BuddyApp.ExperienceCenter
 			mStoppingPhase = false;
 			mBehaviourInit = true;
 			enableToMove = true;
+			mStopDistance = ExperienceCenterData.Instance.StopDistance;
+
+			//mdist = 0.0f;
+			//mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
 		}
 			
 		private void CheckObstacle ()
 		{
+			//mdist = mdist + CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose);
+			//Debug.LogWarningFormat ("Distance = {0}", mdist);
+			//mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
+
 			float leftObs = BYOS.Instance.Primitive.IRSensors.Left.Distance;
 			float rightObs = BYOS.Instance.Primitive.IRSensors.Right.Distance;
 			float middleObs = BYOS.Instance.Primitive.IRSensors.Middle.Distance;
-			if (leftObs >= 0.01f || rightObs >= 0.01f || middleObs >= 0.01f) {
+			if (mStopDistance != ExperienceCenterData.Instance.StopDistance) {
+				mStopDistance = ExperienceCenterData.Instance.StopDistance; 
+				Debug.LogWarningFormat ("Stop Distance = {0}m ", mStopDistance);
+			}
+
+			if (leftObs <= 0.2 || rightObs <= 0.2 || middleObs <= 0.2)  {
+				enableToMove = false;
+				mObstacle = true;
+				Debug.LogError ("There is a collision: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+				return;
+			}
+
+			if (leftObs <= mStopDistance || rightObs <= mStopDistance || middleObs <= mStopDistance) {
 				if (!mObstacle) {
 					Debug.LogWarning ("Stopping Buddy");
 					mStoppingPhase = true;
@@ -48,24 +69,23 @@ namespace BuddyApp.ExperienceCenter
 						enableToMove = false;
 						Debug.LogWarning ("Buddy is Slipping: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 					}
-
 				}
 			} else {
 				if (!mStoppingPhase) {
-					//Debug.LogWarning ("Safe Evironment: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+					Debug.LogWarning ("Safe Evironment: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 					mObstacle = false;
 					enableToMove = true;
 				} else {
-					enableToMove = false;
-					mStoppingPhase = true;
-					Debug.LogError ("There is a collision: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+					Debug.LogWarning ("Stopping slipping phase");
+					mStoppingPhase = false;
 				}
 			}
+
 		}
 
 		static public float Distance (Vector3 v1, Vector3 v2)
 		{
-			float d = (float)(Math.Sqrt ((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y) + (v1.z - v2.z) * (v1.z - v2.z)));
+			float d = (float)(Math.Sqrt ((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y)));
 			return d;
 		}
 

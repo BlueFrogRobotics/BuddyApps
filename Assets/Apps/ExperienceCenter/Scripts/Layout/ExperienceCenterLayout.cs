@@ -10,7 +10,13 @@ namespace BuddyApp.ExperienceCenter
 		private Dictionary<string,Label> mSectionTitle;
 		private Dictionary<string,LabeledButton> mButtons;
 		private Dictionary<string,OnOff> mCheckBoxes;
-		private OnOff mMovementCheckBox;
+		private TextField mScenario;
+
+		private OnOff mBaseMovementCheckBox;
+		private OnOff mHeadMovementCheckBox;
+		private TextField mStopDistance;
+		private TextField mTableDistance;
+		private TextField mIOTDistance;
 
 		private TextField mUrlAPI;
 		private TextField mUserID;
@@ -62,7 +68,14 @@ namespace BuddyApp.ExperienceCenter
 			mPassword.Label = "USER PASSWORD";
 			mPassword.EmptyText = "Enter your password";
 
-			mMovementCheckBox.Label = "Movement";
+			mBaseMovementCheckBox.Label = "Base Movement";
+			mHeadMovementCheckBox.Label = "Head Movement";
+			mStopDistance.Label = "Stop Distance";
+			mStopDistance.EmptyText = "-";
+			mTableDistance.Label = "Table Distance";
+			mTableDistance.EmptyText = "-";
+			mIOTDistance.Label = "IOT Distance";
+			mIOTDistance.EmptyText = "-";
 
 			foreach (string label in mButtons.Keys)
 				mButtons [label].InnerLabel = label;
@@ -77,6 +90,9 @@ namespace BuddyApp.ExperienceCenter
 			mIPAddress.EmptyText = "-";
 			mStatusTcp.Label = "Status";
 			mStatusTcp.EmptyText = "-";
+
+			mScenario.Label = "Scenario";
+			mScenario.EmptyText = "-";
 		}
 
 		private void BuildConfigurationSection ()
@@ -158,17 +174,56 @@ namespace BuddyApp.ExperienceCenter
 			mButtons.Add ("ByeBye", CreateWidget<LabeledButton> ());
 			mButtons.Add ("MoveForward", CreateWidget<LabeledButton> ());
 			mButtons.Add ("IOT", CreateWidget<LabeledButton> ());
+
+			CreateWidget<Blank> ();
+			mScenario = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.Scenario != "")
+				mScenario.FieldText = ExperienceCenterData.Instance.Scenario;
+			mScenario.OnEndEditEvent ((string text) => {
+				mScenario.FieldText = ExperienceCenterData.Instance.Scenario;
+			});
 		}
-			
+
 
 		private void BuildMovementSection ()
 		{
-			mMovementCheckBox = CreateWidget<OnOff> ();
-			mMovementCheckBox.IsActive = ExperienceCenterData.Instance.EnableMovement;
+			AddSectionTitle ("Movement");
+		
+			mBaseMovementCheckBox = CreateWidget<OnOff> ();
+			mBaseMovementCheckBox.IsActive = ExperienceCenterData.Instance.EnableBaseMovement;
 
-			mMovementCheckBox.OnSwitchEvent ((bool iVal) => {
-				Debug.Log (String.Format ("Enable {0} : {1}", "Movement", iVal));
-				ExperienceCenterData.Instance.EnableMovement = iVal;
+			mBaseMovementCheckBox.OnSwitchEvent ((bool iVal) => {
+				Debug.Log (String.Format ("Enable {0} : {1}", "Base Movement", iVal));
+				ExperienceCenterData.Instance.EnableBaseMovement = iVal;
+			});
+
+			mHeadMovementCheckBox = CreateWidget<OnOff> ();
+			mHeadMovementCheckBox.IsActive = ExperienceCenterData.Instance.EnableHeadMovement;
+
+			mHeadMovementCheckBox.OnSwitchEvent ((bool iVal) => {
+				Debug.Log (String.Format ("Enable {0} : {1}", "Head Movement", iVal));
+				ExperienceCenterData.Instance.EnableHeadMovement = iVal;
+			});
+
+			mStopDistance = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.StopDistance != 0.0f)
+				mStopDistance.FieldText = Convert.ToString (ExperienceCenterData.Instance.StopDistance);
+			mStopDistance.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.StopDistance = (float)Convert.ToDouble (text);
+			});
+
+			mTableDistance = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.TableDistance != 0.0f)
+				mTableDistance.FieldText = Convert.ToString (ExperienceCenterData.Instance.TableDistance);
+			mTableDistance.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.TableDistance = (float)Convert.ToDouble (text);
+			});
+
+			mIOTDistance = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.IOTDistance != 0.0f)
+				mIOTDistance.FieldText = Convert.ToString (ExperienceCenterData.Instance.IOTDistance);
+			mIOTDistance.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.IOTDistance = (float)Convert.ToDouble (text);
 			});
 		}
 

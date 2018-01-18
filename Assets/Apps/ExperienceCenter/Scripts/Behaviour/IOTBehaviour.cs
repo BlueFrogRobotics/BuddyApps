@@ -30,13 +30,13 @@ namespace BuddyApp.ExperienceCenter
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mHttpManager = GameObject.Find ("AIBehaviour").GetComponent<HTTPRequestManager> ();
 			mCollisionDetector = GameObject.Find ("AIBehaviour").GetComponent<CollisionDetector> ();
-			if (ExperienceCenterData.Instance.EnableMovement)
+			if (ExperienceCenterData.Instance.EnableBaseMovement)
 				mCollisionDetector.InitBehaviour ();
 
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 			radius = BYOS.Instance.Primitive.Motors.Wheels.Radius;
 			mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
-			if (ExperienceCenterData.Instance.EnableMovement)
+			if (ExperienceCenterData.Instance.EnableBaseMovement)
 				StartCoroutine (MoveForward (wheelSpeed));
 			StartCoroutine (Speaking ());
 		}
@@ -76,7 +76,7 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.Silence (500, true);
 			mTTS.SayKey ("iotrouler", true);
 			mTTS.Silence (2000, true);
-			yield return new WaitUntil (() => !mRobotMoving || !ExperienceCenterData.Instance.EnableMovement);
+			yield return new WaitUntil (() => !mRobotMoving || !ExperienceCenterData.Instance.EnableBaseMovement);
 
 			lAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
 			mTTS.SayKey ("iotdemo", true);
@@ -89,34 +89,34 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.SayKey ("iotparti", true);
 			mTTS.Silence (500, true);
 
-//			if (!mHttpManager.Connected)
-//				mHttpManager.Login();
-//
-//			yield return new WaitUntil (() => mHttpManager.RetrieveDevices);
-//			mHttpManager.StoreDeploy (true);
-//			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsStoreDeployed);
-//			mHttpManager.LightOn (true);
-//			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsLightOn);
-//			mHttpManager.SonosPlay (true);
-//			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsMusicOn);
+			if (!mHttpManager.Connected)
+				mHttpManager.Login();
+
+			yield return new WaitUntil (() => mHttpManager.RetrieveDevices);
+			mHttpManager.StoreDeploy (true);
+			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsStoreDeployed);
+			mHttpManager.LightOn (true);
+			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsLightOn);
+			mHttpManager.SonosPlay (true);
+			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsMusicOn);
 
 			// Dance for 50 seconds
 			DateTime lStartDance = DateTime.Now;
 			while (true) {
 				TimeSpan lElapsedTime = DateTime.Now - lStartDance;
 				if (lElapsedTime.TotalSeconds > 50.0) {
-					//mHttpManager.SonosPlay (false);
+					mHttpManager.SonosPlay (false);
 					BYOS.Instance.Interaction.BMLManager.StopAllBehaviors ();
 					break;
 				}
-				if (ExperienceCenterData.Instance.EnableMovement) { 
+				if (ExperienceCenterData.Instance.EnableBaseMovement) { 
 					if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
 						BYOS.Instance.Interaction.BMLManager.LaunchByName ("Dance01");
 
 					yield return new WaitUntil (() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
 				} else {
 					yield return new WaitForSeconds (50f);
-					//mHttpManager.SonosPlay (false);
+					mHttpManager.SonosPlay (false);
 					break;
 				}
 			}
@@ -141,7 +141,7 @@ namespace BuddyApp.ExperienceCenter
 			StopAllCoroutines ();
 			if (!mTTS.HasFinishedTalking)
 				mTTS.Stop ();
-			if (ExperienceCenterData.Instance.EnableMovement)
+			if (ExperienceCenterData.Instance.EnableBaseMovement)
 				BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 		}
 

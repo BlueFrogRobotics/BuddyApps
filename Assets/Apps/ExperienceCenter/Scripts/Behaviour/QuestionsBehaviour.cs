@@ -51,7 +51,7 @@ namespace BuddyApp.ExperienceCenter
 				foreach (string lClause in lPhonetics)
 				{
 					if (iSpeech.Contains (lClause)) {
-						if (ExperienceCenterData.Instance.EnableMovement) 
+						if (ExperienceCenterData.Instance.EnableHeadMovement) 
 							mAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
 						mTTS.SayKey (lElement, true);
 						lClauseFound = true;

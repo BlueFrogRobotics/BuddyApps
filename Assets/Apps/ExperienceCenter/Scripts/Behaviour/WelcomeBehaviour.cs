@@ -33,15 +33,15 @@ namespace BuddyApp.ExperienceCenter
 			mHeadMoving = true;
 			mChangeDirection = true;
 			mYesAngle = 0;
-			if (ExperienceCenterData.Instance.EnableMovement) 
+			if (ExperienceCenterData.Instance.EnableHeadMovement) 
 				StartCoroutine(MoveHeadNoHinge(30,50));
 			StartCoroutine(Speaking());
 		}
 
 		private IEnumerator Speaking ()
 		{
-			yield return new WaitUntil(() => !mHeadMoving || !ExperienceCenterData.Instance.EnableMovement);
-			if (ExperienceCenterData.Instance.EnableMovement) 
+			yield return new WaitUntil(() => !mHeadMoving || !ExperienceCenterData.Instance.EnableHeadMovement);
+			if (ExperienceCenterData.Instance.EnableHeadMovement) 
 				mAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
 
 			mTTS.SayKey ("welcomebienvenue", true);
@@ -62,7 +62,7 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.Silence(1000, true);
 
 			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
-			if (ExperienceCenterData.Instance.EnableMovement) 
+			if (ExperienceCenterData.Instance.EnableHeadMovement) 
 				StartCoroutine(MoveHeadNoHinge(0,50f));
 			
 			mTTS.SayKey ("welcomechoix", true);
@@ -91,7 +91,7 @@ namespace BuddyApp.ExperienceCenter
 			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
 			yield return new WaitUntil(() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
 			//Comment this line if you need a linear movement of the head 
-			StartCoroutine(MoveHeadYesHinge(-5,50));
+			//StartCoroutine(MoveHeadYesHinge(-5,50));
 			mHeadMoving = true;
 			BYOS.Instance.Primitive.Motors.NoHinge.SetPosition (lNoAngle, lNoSpeed);
 			yield return new WaitUntil(() => Math.Abs(BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition - lNoAngle) < ANGLE_THRESHOLD);
