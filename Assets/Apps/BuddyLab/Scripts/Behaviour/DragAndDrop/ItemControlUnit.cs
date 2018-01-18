@@ -188,7 +188,7 @@ namespace BuddyApp.BuddyLab
             ListBLI lListBLI = Utils.UnserializeXML<ListBLI>(mDirectoryPath);
 
             //foreach (BLItemSerializable bli in lListBLI.List)
-            mLoopCounter = 0;
+            //mLoopCounter = 0;
             mIndex = 0;
             while(mIndex< lListBLI.List.Count)
             {
@@ -198,7 +198,7 @@ namespace BuddyApp.BuddyLab
                 {
                     OnNextAction(mIndex);
                 }
-
+               
                 if (bli.Category == Category.BML)
                 {
                     //Debug.Log("CATEGORY BML : ");
@@ -230,29 +230,60 @@ namespace BuddyApp.BuddyLab
                     }
                     while (!ConditionManager.IsEventDone && mIsRunning)
                     {
-
-                        //Debug.Log("CONDITION COROUTINE");
                         yield return null;
-                            
                     }
                     if (!mIsRunning)
                         ConditionManager.ConditionType = "";
                 }
                 else if (bli.Category == Category.LOOP)
                 {
+                    Debug.Log("INDEX LOOP CATEGORY : " + mIndex);
                     LoopManager.IndexLoop = mIndex;
-                    LoopManager.LoopCounter = mLoopCounter++;
-                    mIndex -= (bli.NbItemsInLoop+1);
-                    Debug.Log("ITEMCONTROLUNIT : LOOP ");
+                    if (bli.LoopType == LoopType.LOOP_X)
+                    {
+                        LoopManager.LoopCounter = mLoopCounter++;
+                    }
+                    
+                   if(bli.LoopType == LoopType.INFINITE)
+                    {
+                        mIndex -= (bli.NbItemsInLoop + 1);
+                        if (!mIsRunning)
+                        {
+                            Debug.Log("LOOP INFINITE STOPPPPPPPPPPPPP");
+                            LoopManager.ResetParam();
+                        }   
+                    }
+                    
+                    Debug.Log("LOOPCOUNTER : " + mLoopCounter);
+                    if(bli.LoopType == LoopType.LOOP_X && !LoopManager.ChangeIndex)
+                        mIndex -= (bli.NbItemsInLoop+1);
+                    Debug.Log("ITEMCONTROLUNIT : LOOP " + mIndex);
                     LoopManager.LoopType = bli.LoopType;
+                   
                     if (bli.ParameterKey != "")
                     {
+                        Debug.Log("LOOP CATEGORY PARAMETER LOOP : " + bli.Parameter + " INDEX LOOP : " + mIndex);
                         LoopManager.ParamLoop = bli.Parameter;
                     }
+                    if (!mIsRunning)
+                    {
+                        LoopManager.LoopType = LoopType.NONE;
+                    }
+                    
+                }
+                if (LoopManager.ChangeIndex)
+                {
+                    Debug.Log("CHANGE INDEX : ");
+                    mLoopCounter = 0;
+                    mIndex = LoopManager.IndexLoop;
+                    Debug.Log("CHANGE INDEX : " + (LoopManager.IndexLoop));
+                    LoopManager.ChangeIndex = false;
+                    LoopManager.LoopType = LoopType.NONE;
                 }
                 ConditionManager.IsEventDone = false;
                 if (!mIsRunning)
                     break;
+                    
                 mIndex++;
             }
             

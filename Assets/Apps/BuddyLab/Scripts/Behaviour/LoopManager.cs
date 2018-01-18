@@ -35,13 +35,26 @@ namespace BuddyApp.BuddyLab
         public int LoopCounter { get { return mLoopCounter; } set { mLoopCounter = value; } }
         private int mConvert;
         private int mIndexLoop;
-        public int IndexLoop { set { mIndexLoop = value; } }
+        public int IndexLoop { get { return mIndexLoop; } set { mIndexLoop = value; } }
+
+        private bool mChangeIndex;
+        public bool ChangeIndex { get { return mChangeIndex; } set { mChangeIndex = value; } }
+
+        /// <summary>
+        /// Variables for Infinite loop
+        /// </summary>
+        private bool mIsInfiniteLoop;
 
         // Use this for initialization
         void Start()
         {
+            mIsInfiniteLoop = false;
+            mIsLoopX = false;
             mTimer = 0F;
             mIndexLoop = 0;
+            mChangeIndex = false;
+            mIsInLoop = false;
+            mLoopType = LoopType.NONE;
         }
 
         // Update is called once per frame
@@ -53,7 +66,14 @@ namespace BuddyApp.BuddyLab
                 mTimer = 0.0F;
                 LoadLoop();
                 if (mIsLoopX)
+                {
                     LoopX();
+                }
+                if(mIsInfiniteLoop)
+                {
+                    LoopInfinite();
+                }
+                    
             }
         }
 
@@ -65,6 +85,7 @@ namespace BuddyApp.BuddyLab
                 {
                     case LoopType.INFINITE:
                         Debug.Log("Loop Infinite");
+                        mIsInfiniteLoop = true;
                         mIsInLoop = true;
                         break;
                     case LoopType.LOOP_X:
@@ -89,29 +110,41 @@ namespace BuddyApp.BuddyLab
 
         private void LoopX()
         {
-            
-            try
+            Debug.Log("LOOPX : " + mIndexLoop);
+            if(mParamLoop != null)
             {
-                mConvert = Int32.Parse(mParamLoop);
+                try
+                {
+                    mConvert = Int32.Parse(mParamLoop);
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                Debug.Log("MCONVERT LOOP X : " + mConvert + " LOOPCOUNTER : " + mLoopCounter);
+                if (mLoopCounter < mConvert )
+                    return;
+                else
+                {
+                    Debug.Log("LOOPX RESETPARAM");
+                    mIsLoopX = false;
+                    ResetParam();
+                }
             }
-            catch (FormatException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            if (mLoopCounter < mConvert)
-                return;
-            else
-            {
 
-                ResetParam();
-            }
         }
 
-        private void ResetParam()
+        private void LoopInfinite()
         {
+            Debug.Log("INFINITE LOOP");
+        }
+
+        public void ResetParam()
+        {
+            mIsInfiniteLoop = false;
+            mChangeIndex = true;
             mLoopType = LoopType.NONE;
             mIsInLoop = false;
-            mIndexLoop = 0;
         }
     }
 
