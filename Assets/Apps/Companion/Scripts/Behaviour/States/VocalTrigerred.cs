@@ -83,7 +83,7 @@ namespace BuddyApp.Companion
 				mFirstErrorStt = false;
 				Debug.Log("Error STT ");
 
-				mState.text = "Vocal Triggered: error " +  iError.ToString();
+				mState.text = "Vocal Triggered: error " + iError.ToString();
 
 				// To know if there is a connection issue
 				if (iError == STTError.ERROR_NETWORK) {
@@ -104,16 +104,15 @@ namespace BuddyApp.Companion
 							Trigger("LOOKINGFOR");
 						} else {
 							Trigger("WANDER");
-						}
-					else if (mActionManager.ThermalFollow)
-								Trigger("FOLLOW");
-							else if (mTimeHumanDetected < 5F)
-								Trigger("INTERACT");
-							else
-								Trigger("IDLE");
-						}
+						} else if (mActionManager.ThermalFollow)
+						Trigger("FOLLOW");
+					else if (mTimeHumanDetected < 5F)
+						Trigger("INTERACT");
+					else
+						Trigger("IDLE");
 				}
 			}
+		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
@@ -266,6 +265,12 @@ namespace BuddyApp.Companion
 					break;
 
 				case "CanMove":
+					if (CompanionData.Instance.MovingDesire > 20)
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(3, 3, "moodcanmove", "CAN_MOVE", EmotionalEvent.EmotionalEventType.FULFILLED_DESIRE, InternalMood.EXCITED));
+
+					else
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(3, 1, "moodcanmove", "CAN_MOVE", EmotionalEvent.EmotionalEventType.INTERACTION, InternalMood.HAPPY));
+
 					mActionManager.UnlockAll();
 					mNeedListen = true;
 					break;
@@ -273,6 +278,15 @@ namespace BuddyApp.Companion
 
 				case "Dance":
 					Debug.Log("Playing BML dance");
+
+					if (CompanionData.Instance.MovingDesire > 20)
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(3, 3, "mooddance", "DANCE", EmotionalEvent.EmotionalEventType.FULFILLED_DESIRE, InternalMood.EXCITED));
+
+					else {
+						mActionManager.TimedMood(MoodType.GRUMPY);
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 0, "moodforceddance", "DANCE", EmotionalEvent.EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.SALTY));
+					}
+
 					Interaction.BMLManager.LaunchRandom("dance");
 					mNeedListen = true;
 					break;
@@ -310,6 +324,14 @@ namespace BuddyApp.Companion
 
 				case "DontMove":
 					SayKey("istopmoving", true);
+
+					if (CompanionData.Instance.MovingDesire > 20) {
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 0, "moodcantmove", "CANT_MOVE", EmotionalEvent.EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.SALTY));
+						mActionManager.TimedMood(MoodType.GRUMPY);
+
+					}
+
+
 					CompanionData.Instance.MovingDesire -= 20;
 					mActionManager.LockWheels();
 					mActionManager.WanderingMood = MoodType.NEUTRAL;
@@ -328,6 +350,11 @@ namespace BuddyApp.Companion
 
 				case "FollowMe":
 					mActionManager.UnlockAll();
+
+					if (CompanionData.Instance.InteractDesire > 20)
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, 0, "moodfollow", "FOLLOW_ORDER", EmotionalEvent.EmotionalEventType.FULFILLED_DESIRE, InternalMood.HAPPY));
+
+
 					if (!mActionManager.ThermalFollow) {
 						CompanionData.Instance.InteractDesire -= 10;
 						mActionManager.StartThermalFollow(HumanFollowType.BODY);
@@ -346,8 +373,7 @@ namespace BuddyApp.Companion
 					StartApp("Guardian", mLastHumanSpeech);
 					break;
 
-				case "HeadDown":
-					{
+				case "HeadDown": {
 						CancelOrders();
 						mActionManager.UnlockHead();
 
@@ -367,8 +393,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "HeadUp":
-					{
+				case "HeadUp": {
 						CancelOrders();
 						mActionManager.UnlockHead();
 
@@ -384,13 +409,12 @@ namespace BuddyApp.Companion
 						Debug.Log("Head up " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
 						CompanionData.Instance.HeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n;
 						//Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n, 100F);
-                        mMoving = true;
+						mMoving = true;
 						mTimeMotion = Time.time;
 					}
 					break;
 
-				case "HeadLeft":
-					{
+				case "HeadLeft": {
 						CancelOrders();
 						mActionManager.UnlockHead();
 
@@ -410,8 +434,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "HeadRight":
-					{
+				case "HeadRight": {
 						CancelOrders();
 						mActionManager.UnlockHead();
 
@@ -451,6 +474,8 @@ namespace BuddyApp.Companion
 
 				case "Joke":
 					Debug.Log("Playing BML joke");
+					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, 1, "moodjoke", "JOKE", EmotionalEvent.EmotionalEventType.INTERACTION, InternalMood.EXCITED));
+					
 					Interaction.BMLManager.LaunchRandom("joke");
 					mNeedListen = true;
 					break;
@@ -460,8 +485,23 @@ namespace BuddyApp.Companion
 					StartApp("Jukebox", mLastHumanSpeech);
 					break;
 
-				case "MoveBackward":
-					{
+				case "Mood":
+					EmotionalEvent lEventMood = Interaction.InternalState.ExplainMood();
+					if (lEventMood == null) {
+						Say(Dictionary.GetRandomString("nomood"));
+					} else {
+						Debug.Log("key: " + Interaction.InternalState.ExplainMood().ExplanationKey + " dico value: " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey));
+						mActionManager.ShowInternalMood();
+						Say(Dictionary.GetRandomString("ifeel") + " " + Dictionary.GetString(Interaction.InternalState.InternalStateMood.ToString().ToLower()) + " "
+							+ Dictionary.GetRandomString("because") + " " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey), true);
+
+					}
+
+					mNeedListen = true;
+					break;
+
+
+				case "MoveBackward": {
 						CancelOrders();
 						mActionManager.UnlockWheels();
 
@@ -488,8 +528,7 @@ namespace BuddyApp.Companion
 
 					break;
 
-				case "MoveForward":
-					{
+				case "MoveForward": {
 						CancelOrders();
 						mActionManager.UnlockWheels();
 
@@ -514,8 +553,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "MoveLeft":
-					{
+				case "MoveLeft": {
 						CancelOrders();
 						mActionManager.UnlockWheels();
 
@@ -535,8 +573,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "MoveRight":
-					{
+				case "MoveRight": {
 						CancelOrders();
 						mActionManager.UnlockWheels();
 
@@ -618,8 +655,7 @@ namespace BuddyApp.Companion
 					break;
 
 
-				case "Volume":
-					{
+				case "Volume": {
 						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
@@ -632,8 +668,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "VolumeDown":
-					{
+				case "VolumeDown": {
 						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
@@ -650,8 +685,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "VolumeUp":
-					{
+				case "VolumeUp": {
 						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
