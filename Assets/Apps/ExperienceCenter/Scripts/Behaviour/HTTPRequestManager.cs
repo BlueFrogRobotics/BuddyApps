@@ -147,8 +147,12 @@ namespace BuddyApp.ExperienceCenter {
                                 break;
                             }
                         }
-                        else if (response[i]["name"].Value == "internal:LightingLedPodModeState")
-							ExperienceCenterData.Instance.IsLightOn = (float.Parse(response[i]["value"].Value) == 1);
+						else if (response[i]["name"].Value == "internal:LightingLedPodModeState"){
+							float f1 = (float)Convert.ToDouble(response[i]["value"].Value);
+							bool b1 = (f1 == 1.0f);
+							Debug.LogWarningFormat("Light State value: {0}", f1);
+							ExperienceCenterData.Instance.IsLightOn = b1;
+						}
                     }
                 }
             };
