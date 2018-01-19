@@ -17,6 +17,7 @@ namespace BuddyApp.BuddyLab
         private QRCodeDetection mQRcodeDetection;
         private TimelineDisplayer mTimelineDisplayer;
         private LoopManager mLoopManager;
+        private BuddyLabBehaviour mBLBehaviour;
 
         public override void Start()
         {
@@ -24,6 +25,7 @@ namespace BuddyApp.BuddyLab
             mUIManager = GetComponent<LabUIEditorManager>();
             mItemControl = GetComponentInGameObject<ItemControlUnit>(4);
             mTimelineDisplayer = GetComponentInGameObject<TimelineDisplayer>(7);
+            mBLBehaviour = GetComponentInGameObject<BuddyLabBehaviour>(3);
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -37,7 +39,7 @@ namespace BuddyApp.BuddyLab
             mIsPlaying = false;
             mUIManager.StopButton.onClick.AddListener(Stop);
             mUIManager.ReplayButton.onClick.AddListener(Replay);
-            mTimelineDisplayer.DisplaySequence();
+            mTimelineDisplayer.DisplaySequence(mBLBehaviour.NameOpenProject + ".xml");
             ItemControlUnit.OnNextAction += ChangeItemHighlight;
             StartCoroutine(Play());
         }

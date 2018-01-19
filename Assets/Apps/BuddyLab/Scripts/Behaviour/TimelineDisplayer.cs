@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Buddy;
 
 namespace BuddyApp.BuddyLab
 {
@@ -16,6 +17,7 @@ namespace BuddyApp.BuddyLab
         private GameObject placeholderLine;
 
         private GameObject mSequence;
+        private ListBLI mListBLI;
 
         // Use this for initialization
         void Start()
@@ -29,7 +31,7 @@ namespace BuddyApp.BuddyLab
 
         }
 
-        public void DisplaySequence()
+        public void DisplaySequence(string iFileName)
         {
             mSequence = Instantiate(dropLine, placeholderLine.transform);
             placeholderLine.GetComponent<Animator>().SetTrigger("open");
@@ -37,7 +39,10 @@ namespace BuddyApp.BuddyLab
             //mSequence.transform.localPosition = new Vector3(0, 0, 0);
             mSequence.GetComponent<RectTransform>().localPosition = new Vector3(-400, 80, 0);
             Canvas.ForceUpdateCanvases();
-            HighlightElement(2);
+            string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("Projects/" + iFileName);
+            mListBLI = Utils.UnserializeXML<ListBLI>(lDirectoryPath);
+            Debug.Log("elements dans la liste: "+mListBLI.List.Count);
+            //HighlightElement(2);
         }
 
         public void HideSequence()
@@ -67,8 +72,9 @@ namespace BuddyApp.BuddyLab
                     //    items[i].gameObject.GetComponentInChildren<DragAndDropItem>().LoopItem.gameObject.GetComponentInParent<DragAndDropCell>().GetComponent<CanvasGroup>().alpha = 1F;
                     //}
                 }
-                else if (items[i].gameObject.GetComponentInChildren<LoopItem>()!=null && i - items[i].gameObject.GetComponentInChildren<LoopItem>().NbItems-1 <= iNum && iNum < i)
+                else if (i< mListBLI.List.Count && mListBLI.List[i].Category==Category.LOOP && i - mListBLI.List[i].NbItemsInLoop <= iNum && iNum < i)
                 {
+                    Debug.Log("le nombre d items: " + mListBLI.List[i].NbItemsInLoop);
                     items[i].gameObject.GetComponent<CanvasGroup>().alpha = 1;
                 }
                 else
