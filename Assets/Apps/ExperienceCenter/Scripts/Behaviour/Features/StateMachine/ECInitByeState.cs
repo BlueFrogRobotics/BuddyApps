@@ -9,39 +9,29 @@ namespace BuddyApp.ExperienceCenter
 	public class ECInitByeState : StateMachineBehaviour
 	{
 		private AnimatorManager mAnimatorManager;
+		private IdleBehaviour mIdleBehaviour;
+		private QuestionsBehaviour mQuestionsBehaviour;
 		private TextToSpeech mTTS;
+		private bool mAddReco;
 
-		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
-			BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
-			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
+			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
+			mQuestionsBehaviour = GameObject.Find ("AIBehaviour").GetComponent<QuestionsBehaviour> ();
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
+			mAddReco = false;
 		}
-
-		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		//override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
-
-		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+			
+		override public void OnStateUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			//BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+			if (!mAddReco && mIdleBehaviour.behaviourEnd && mQuestionsBehaviour.behaviourEnd) {
+				BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
+				BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
+				mAddReco = true;
+			}
 		}
 
-		// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-		//override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
-
-		// OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-		//override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
-
-	
 		public void SpeechToTextCallback (string iSpeech)
 		{
 			Debug.LogFormat ("ByeBye - SpeechToText : {0}", iSpeech);

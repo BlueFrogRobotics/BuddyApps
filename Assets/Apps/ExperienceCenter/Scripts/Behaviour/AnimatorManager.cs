@@ -115,7 +115,7 @@ namespace BuddyApp.ExperienceCenter
 				string state = GetTriggerString ();
 				if (mOldState == "Idle") {
 						
-					if (!mIdleBehaviour.behaviourInit) {
+					if (!mIdleBehaviour.headPoseInit) {
 						Debug.LogWarning ("Waiting for Head postion to be initialized !");
 						return;
 					}

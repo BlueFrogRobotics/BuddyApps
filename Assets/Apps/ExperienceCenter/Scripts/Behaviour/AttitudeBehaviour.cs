@@ -34,6 +34,7 @@ namespace BuddyApp.ExperienceCenter
 			StartCoroutine(Speaking(angleMin, angleMax));
 		}
 
+
 		private IEnumerator Speaking(int angleMin, int angleMax)
 		{
 			Dictionary<string, string> lParamDictionary = new Dictionary<string, string>();
@@ -72,6 +73,7 @@ namespace BuddyApp.ExperienceCenter
 				// Wait for a random few seconds before starting
 				yield return new WaitForSeconds((float)mRnd.NextDouble() * WAIT_TIMEOUT);
 				// Launch BML and wait until it ends
+				Debug.LogWarning ("Lunch a random BML");
 				mBMLManager.LaunchRandom("Idle");
 				yield return new WaitUntil(() => mBMLManager.DonePlaying);
 			} while (IsWaiting);

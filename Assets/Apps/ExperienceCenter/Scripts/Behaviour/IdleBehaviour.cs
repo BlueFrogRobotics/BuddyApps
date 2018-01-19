@@ -11,7 +11,8 @@ namespace BuddyApp.ExperienceCenter
 
 	public class IdleBehaviour : MonoBehaviour
 	{
-		public bool behaviourInit;
+		public bool headPoseInit;
+		public bool behaviourEnd;
 
 		private AnimatorManager mAnimatorManager;
 		private AttitudeBehaviour mAttitudeBehaviour;
@@ -23,16 +24,16 @@ namespace BuddyApp.ExperienceCenter
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mAttitudeBehaviour = GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>();
 			mQuestionBehaviour = GameObject.Find("AIBehaviour").GetComponent<QuestionsBehaviour>();
+			behaviourEnd = false;
 
-			behaviourInit = false;
+			headPoseInit = false;
 
 			if (!mAnimatorManager.emergencyStop && ExperienceCenterData.Instance.EnableHeadMovement)
 			{
-				StartCoroutine(InitHeadPosition());
 				StartCoroutine(Idle());
 			}
 			else
-				behaviourInit = true;
+				headPoseInit = true;
 
 		}
 
@@ -40,13 +41,20 @@ namespace BuddyApp.ExperienceCenter
 		{
 			BYOS.Instance.Interaction.BMLManager.LaunchByName ("Reset01");
 			yield return new WaitUntil (() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
-			behaviourInit = true;
+			headPoseInit = true;
 		}
 
 		public void StopBehaviour ()
 		{
 			Debug.LogWarning ("Stop Idle Behaviour");
 			StopAllCoroutines ();
+			if (ExperienceCenterData.Instance.EnableHeadMovement && !headPoseInit)
+			{
+				mAttitudeBehaviour.IsWaiting = false;
+				BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+				StartCoroutine (InitHeadPosition ());
+			}
+			behaviourEnd = true;
 		}
 
 		private IEnumerator Idle()
@@ -56,8 +64,13 @@ namespace BuddyApp.ExperienceCenter
 			{
 				lElapsedTimeSinceLastTTS = DateTime.Now - mQuestionBehaviour.LastSTTCallbackTime;
 
-				if(!mAttitudeBehaviour.IsWaiting && lElapsedTimeSinceLastTTS.TotalSeconds>IDLE_TIMEOUT)
-					mAttitudeBehaviour.StartWaiting();
+				if (!mAttitudeBehaviour.IsWaiting && lElapsedTimeSinceLastTTS.TotalSeconds > IDLE_TIMEOUT) {
+					Debug.LogWarning ("Start Waiting BML");
+					mAttitudeBehaviour.StartWaiting ();
+					headPoseInit = false;
+				}
+
+				yield return new WaitForSeconds(0.5f);
 			}
 		}
 

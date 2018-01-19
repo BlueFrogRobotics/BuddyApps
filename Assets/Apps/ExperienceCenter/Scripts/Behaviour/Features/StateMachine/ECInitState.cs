@@ -17,8 +17,8 @@ public class ECInitState : StateMachineBehaviour {
 
 			mTcpServer =  GameObject.Find ("AIBehaviour").GetComponent<TcpServer> ();
 			mTcpServer.Init ();
-			ExperienceCenterData.Instance.EnableHeadMovement = false;
-			ExperienceCenterData.Instance.EnableBaseMovement = false;
+			ExperienceCenterData.Instance.EnableHeadMovement = true;
+			ExperienceCenterData.Instance.EnableBaseMovement = true;
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

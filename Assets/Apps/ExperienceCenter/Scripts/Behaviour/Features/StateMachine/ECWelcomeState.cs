@@ -8,19 +8,30 @@ namespace BuddyApp.ExperienceCenter
 	public class ECWelcomeState : StateMachineBehaviour
 	{
 		private WelcomeBehaviour mBehaviour;
+		private IdleBehaviour mIdleBehaviour;
+		private QuestionsBehaviour mQuestionsBehaviour;
+
+		private bool mBehaviourInit;
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 			mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<WelcomeBehaviour> ();
-			mBehaviour.InitBehaviour ();
+			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
+			mQuestionsBehaviour = GameObject.Find ("AIBehaviour").GetComponent<QuestionsBehaviour> ();
+			mBehaviourInit = false;
+
 		}
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		//override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
+		override public void OnStateUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			if (!mBehaviourInit && mIdleBehaviour.behaviourEnd && mQuestionsBehaviour.behaviourEnd) {
+				mBehaviour.InitBehaviour ();
+				mBehaviourInit = true;
+			}
+		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
