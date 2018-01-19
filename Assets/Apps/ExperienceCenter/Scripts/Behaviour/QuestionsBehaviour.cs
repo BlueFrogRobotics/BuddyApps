@@ -35,7 +35,6 @@ namespace BuddyApp.ExperienceCenter
 			mKeyList = new List<string>
 			{
 				"idlesee",
-				"idletalk",
 				"idleleg",
 				"questiongreeting",
 				"questionshy",
