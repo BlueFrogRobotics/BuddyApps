@@ -63,9 +63,9 @@ namespace BuddyApp.BuddyLab
         private void Stop()
         {
             ResetPosition();
-            Debug.Log("STOP BUTTON FDP");
             mItemControl.IsRunning = false;
             mLoopManager.ResetParam();
+            mLoopManager.NeedChangeIndex();
             if (Primitive.RGBCam.IsOpen)
             {
                 Debug.Log("CAMERA OPEN");

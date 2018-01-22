@@ -122,12 +122,14 @@ namespace BuddyApp.BuddyLab
                     Console.WriteLine(e.Message);
                 }
                 Debug.Log("MCONVERT LOOP X : " + mConvert + " LOOPCOUNTER : " + mLoopCounter);
-                if (mLoopCounter < mConvert )
+                Debug.Log(" LOOP X MCHANGEINDEX: " + mChangeIndex);
+
+                if (mLoopCounter < mConvert-1 )
                     return;
                 else
                 {
                     Debug.Log("LOOPX RESETPARAM");
-                    mIsLoopX = false;
+                    mLoopCounter = 0;
                     ResetParam();
                 }
             }
@@ -141,11 +143,18 @@ namespace BuddyApp.BuddyLab
 
         public void ResetParam()
         {
+            mIsLoopX = false;
             mIsInfiniteLoop = false;
             mChangeIndex = true;
             mLoopType = LoopType.NONE;
             mIsInLoop = false;
         }
+
+        public void NeedChangeIndex()
+        {
+            mChangeIndex = false;
+        }
+
     }
 
 }
