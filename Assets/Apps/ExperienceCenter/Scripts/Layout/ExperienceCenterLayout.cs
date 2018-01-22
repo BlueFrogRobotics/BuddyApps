@@ -15,6 +15,7 @@ namespace BuddyApp.ExperienceCenter
 		private OnOff mBaseMovementCheckBox;
 		private OnOff mHeadMovementCheckBox;
 		private TextField mStopDistance;
+		private TextField mNoiseTime;
 		private TextField mTableDistance;
 		private TextField mIOTDistance;
 
@@ -72,6 +73,8 @@ namespace BuddyApp.ExperienceCenter
 			mHeadMovementCheckBox.Label = "Head Movement";
 			mStopDistance.Label = "Stop Distance";
 			mStopDistance.EmptyText = "-";
+			mNoiseTime.Label = "Noise Time";
+			mNoiseTime.EmptyText = "-";
 			mTableDistance.Label = "Table Distance";
 			mTableDistance.EmptyText = "-";
 			mIOTDistance.Label = "IOT Distance";
@@ -210,6 +213,13 @@ namespace BuddyApp.ExperienceCenter
 				mStopDistance.FieldText = Convert.ToString (ExperienceCenterData.Instance.StopDistance);
 			mStopDistance.OnEndEditEvent ((string text) => {
 				ExperienceCenterData.Instance.StopDistance = (float)Convert.ToDouble (text);
+			});
+
+			mNoiseTime = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.NoiseTime!= 0.0f)
+				mNoiseTime.FieldText = Convert.ToString (ExperienceCenterData.Instance.NoiseTime);
+			mNoiseTime.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.NoiseTime = (float)Convert.ToDouble (text);
 			});
 
 			mTableDistance = CreateWidget<TextField> ();

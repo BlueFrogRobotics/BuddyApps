@@ -11,6 +11,7 @@ namespace BuddyApp.ExperienceCenter
 
 		private AnimatorManager mAnimatorManager;
 		private MoveForwardBehaviour mBehaviour;
+		private bool mAddReco;
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -18,14 +19,20 @@ namespace BuddyApp.ExperienceCenter
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<MoveForwardBehaviour> ();
 			mBehaviour.InitBehaviour ();
-			BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
-			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
+			mAddReco = false;
+
 		}
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		//override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
+		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+
+			if (mBehaviour.behaviourEnd && !mAddReco) {
+				BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
+				BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
+				mAddReco = true;
+			}
+				
+		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

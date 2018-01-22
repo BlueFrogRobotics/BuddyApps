@@ -12,12 +12,13 @@ public class ECInitState : StateMachineBehaviour {
 			ExperienceCenterData.Instance.StatusTcp = "Offline";
 			ExperienceCenterData.Instance.IPAddress = "-";
 			ExperienceCenterData.Instance.StopDistance = 0.7f;
+			ExperienceCenterData.Instance.NoiseTime = 0.5f;
 			ExperienceCenterData.Instance.TableDistance = 1.5f;
 			ExperienceCenterData.Instance.IOTDistance = 1.5f;
 
 			mTcpServer =  GameObject.Find ("AIBehaviour").GetComponent<TcpServer> ();
 			mTcpServer.Init ();
-			ExperienceCenterData.Instance.EnableHeadMovement = true;
+			ExperienceCenterData.Instance.EnableHeadMovement = false;
 			ExperienceCenterData.Instance.EnableBaseMovement = true;
 	}
 
