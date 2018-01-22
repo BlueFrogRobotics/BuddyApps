@@ -16,7 +16,6 @@ namespace BuddyApp.Reminder
     /// You can have as many Linker as you have state machine.
     /// </summary>
     [RequireComponent(typeof(Animator))]
-    [RequireComponent(typeof(ReminderManager))]
     public sealed class ReminderStateMachineManager : MonoBehaviour
     {
         [SerializeField]
@@ -31,15 +30,9 @@ namespace BuddyApp.Reminder
 
         internal List<GameObject> GameObjects { get { return gameObjects; } }
 
-        void Awake()
-        {
-            mAnimator = GetComponent<Animator>();
-            ReminderActivity.Init(mAnimator, GetComponent<ReminderManager>());
-        }
-
         void Start()
         {
-            //mAnimator = GetComponent<Animator>();
+            mAnimator = GetComponent<Animator>();
             if (mAnimator != null) {
                 mAnimator.enabled = true;
 
@@ -51,7 +44,6 @@ namespace BuddyApp.Reminder
 
                 foreach (AStateMachineBehaviour lState in lStates) {
                     lState.Init();
-                    lState.ReminderManager = GetComponent<ReminderManager>();
                     lState.CommonIntegers = mCommonIntegers;
                     lState.CommonSingles = mCommonSingles;
                     lState.CommonStrings = mCommonStrings;

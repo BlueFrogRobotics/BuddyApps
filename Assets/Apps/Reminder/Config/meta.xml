@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AppInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <ID>o732031351234</ID>
+    <ID>j135124117211</ID>
     <ShortName>Reminder</ShortName>
     <CommercialName>Reminder</CommercialName>
     <MainScene>0</MainScene>
     <Authors>dev@bluefrogrobotics.com</Authors>
-    <Version>1.0.0.3</Version>
-    <VersionType>NONE</VersionType>
-    <VersionName>pre alpha</VersionName>
-    <Category>COMPANION</Category>
+    <Version>1.0.0.0</Version>
+    <VersionStatus>NONE</VersionStatus>
+    <VersionName>alpha</VersionName>
+    <Category>UTILITY</Category>
     <Permissions>
         <AppPermission>
             <Type>CAMERA_API_ACCESS</Type>
@@ -28,11 +28,19 @@
         </AppPermission>
         <AppPermission>
             <Type>USERS_DATA_ACCESS</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_DATA_WRITE</Type>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_MEDIA_DATA_ACCESS</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_MEDIA_DATA_WRITE</Type>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>PROCEDURAL_MEMORY</Type>
@@ -62,18 +70,11 @@
     <LangVocalKeys>
         <VocalKeys>
             <Language>EN</Language>
-            <Keys>
-                <string>remind me</string>
-                <string>reminder</string>
-            </Keys>
+            <Keys />
         </VocalKeys>
         <VocalKeys>
             <Language>FR</Language>
-            <Keys>
-                <string>rappelle moi</string>
-                <string>rappelle-moi</string>
-                <string>reminder</string>
-            </Keys>
+            <Keys />
         </VocalKeys>
     </LangVocalKeys>
     <OptionsLayoutClassName>Reminder.ReminderLayout</OptionsLayoutClassName>

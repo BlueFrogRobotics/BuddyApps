@@ -1,7 +1,12 @@
-using UnityEngine.UI;
-using UnityEngine;
-
 using Buddy;
+using Buddy.UI;
+
+using UnityEngine;
+using UnityEngine.UI;
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace BuddyApp.Reminder
 {
@@ -9,44 +14,59 @@ namespace BuddyApp.Reminder
     public class ReminderBehaviour : MonoBehaviour
     {
         /*
-         * Modified data from the UI interaction
-         */
-        [SerializeField]
-        private Text text;
-
-        /*
-         * API of the robot
-         */
-        private TextToSpeech mTextToSpeech;
-
-        /*
-         * Data of the application. Save on disc when app quit happened
+         * Data of the application. Save on disc when app is quitted
          */
         private ReminderData mAppData;
+        internal TextToSpeech mTTS = BYOS.Instance.Interaction.TextToSpeech;
+        internal bool IsVocalGet = false;
+        internal List<string> AllParam= new List<string>();
+        internal AudioClip RemindMe;
 
-        /*
-         * Init refs to API and your app data
-         */
         void Start()
         {
-            mTextToSpeech = BYOS.Instance.Interaction.TextToSpeech;
+			/*
+			* You can setup your App activity here.
+			*/
+			ReminderActivity.Init(null);
+			
+			/*
+			* Init your app data
+			*/
             mAppData = ReminderData.Instance;
         }
 
-        /*
-         * A sample of use of data (here for basic display purpose)
-         */
-        void Update()
+
+        public void QuestionTime(string iQuestion)
         {
-            text.text = "Value : " + mAppData.MyValue.ToString();
+            IsVocalGet = false;
+            mTTS.Say(iQuestion);
+            StartCoroutine(WaitTTSLoading());
         }
 
-        /*
-        * Want to make Buddy tell something ?
-        */
-        public void Speak()
+        private IEnumerator WaitTTSLoading()
         {
-            mTextToSpeech.Say("hello");
-        } 
+            yield return new WaitForSeconds(1.0f);
+            while (mTTS.IsSpeaking)
+                yield return null;
+            Debug.Log("Vocal");
+            BYOS.Instance.Interaction.VocalManager.OnEndReco = GetAnswer;
+            BYOS.Instance.Interaction.VocalManager.OnError = NoAnswer;
+            BYOS.Instance.Interaction.VocalManager.StartInstantReco();
+        }
+
+        private void GetAnswer(string iAnswer)
+        {
+
+            Utils.LogI(LogContext.APP, "GOT AN ANSWER: " + iAnswer);
+            ReminderData.Instance.VocalRequest = iAnswer.ToLower();
+            IsVocalGet = true;
+        }
+
+        private void NoAnswer(STTError iError)
+        {
+            Utils.LogI(LogContext.APP, "VM error");
+            Debug.Log("GOT NO ANSWER");
+        }
+
     }
 }

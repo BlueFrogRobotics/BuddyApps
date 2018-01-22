@@ -1,46 +1,64 @@
 using Buddy.UI;
+using Buddy.Command;
+using Buddy;
+using System;
+using UnityEngine;
 
 namespace BuddyApp.Reminder
 {
     public class ReminderLayout : AWindowLayout
     {
-		private Gauge mGaugeValOne;
-		
+        public Dropdown mContacts;
+
+        private Button mHearButton;
+
+        public Action HearCallback { get; set; }
+
+        public RemindersData Users { get; set; }
+
+        public DropdownCallback UserSelectCallback { get; set; }
+       
+        //public Button Hear { get; set; }
+        //public Button mDelete { get; set; }
+
+
         public override void Build()
-        {		
-            /*
-             * Create needed widgets
-             * ==> Which widget do I need for my app settings ?
-             */
-            mGaugeValOne = CreateWidget<Gauge>();
+        {
 
-            /*
-             * Set widgets parameters
-             */
-            mGaugeValOne.Slider.minValue = 0;
-            mGaugeValOne.Slider.maxValue = 10;
-            mGaugeValOne.Slider.wholeNumbers = true;
-            mGaugeValOne.DisplayPercentage = true; /* Only the display will be in percentage, the value will still be within 0 and 10 */
+            Title = "Current Rappel";
+            //HearCallback = null;
 
-            /*
-             * Retrieve app data and display them inside the view
-             * ==> What info must be displayed ?
-             */ 
-            mGaugeValOne.Slider.value = ReminderData.Instance.MyValue;
+            CreateWidgets();
 
-            /*
-            * Set command to widgets
-            * At each interaction with a widget, a callback will be called
-            * ==> What must happen when I interacted with a widget ?
-            */
-            mGaugeValOne.OnUpdateEvent((iVal) => {
-				ReminderData.Instance.MyValue = iVal;
-			});
-		}
+            mHearButton.OnClickEvent(() => HearCallback());
+
+            //////////////////////////
+            mContacts.OnSelectEvent((iLabel, iObj, iIdx) =>
+            {
+                UserSelectCallback(iLabel, iObj, iIdx);
+            });
+
+            foreach (Reminderkey lUser in Users.Reminders)
+            {
+                //Debug.Log("C CA : " + lUser.FirstName);
+                Debug.Log("Name " + lUser.Name + " KEY " + lUser.Key);
+                mContacts.AddOption(lUser.Name, lUser.Key);
+            }
+
+            mContacts.SetDefault("Bob" + " " + "Bob170120180200");
+        }
+
+        private void CreateWidgets()
+        {
+            mContacts = CreateWidget<Dropdown>();
+            mHearButton = CreateWidget<Button>();
+
+        }
 
         public override void LabelizeWidgets()
         {
-            mGaugeValOne.Label = "AN INTEGER";
+            mContacts.Label = "Contacts";
+            mHearButton.Label = "Lire";
         }
     }
 }

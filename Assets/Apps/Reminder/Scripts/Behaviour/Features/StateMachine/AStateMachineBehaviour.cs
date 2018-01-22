@@ -12,14 +12,6 @@ using IEnumerator = System.Collections.IEnumerator;
 /// </summary>
 namespace BuddyApp.Reminder
 {
-    public enum StateObject : int
-    {
-        WINDOW = 0,
-        PANEL_LIST = 1,
-        REMINDER_PREFAB = 2,
-        DATE_PREFAB = 3,
-    }
-
     /// <summary>
     /// If you planned to make a State Machine for your application, you will probably need to make your states inherit from this class.
     /// Add the possibility to use Coroutines, easy access to the Buddy API and retrieve Game Objects and Components on the StateMachineAppLinker.
@@ -32,6 +24,7 @@ namespace BuddyApp.Reminder
         private Dictionary<string, object> mCommonObjects;
         private ReminderStateMachineManager mManager;
         private Animator mAnimator;
+        protected ReminderBehaviour mVocal;
 
         /// <summary>
         /// Common integers through the animator
@@ -53,8 +46,6 @@ namespace BuddyApp.Reminder
         /// </summary>
         public Dictionary<string, object> CommonObjects { get { return mCommonObjects; } internal set { mCommonObjects = value; } }
 
-        public ReminderManager ReminderManager { get; set; }
-
         protected Interaction Interaction { get; private set; }
         protected Perception Perception { get; private set; }
         protected Primitive Primitive { get; private set; }
@@ -71,10 +62,6 @@ namespace BuddyApp.Reminder
 
         internal ReminderStateMachineManager Manager { set { mManager = value; } }
         internal Animator Animator { set { mAnimator = value; } }
-
-        /// <summary>
-        /// Simple access to ReminderManager
-        /// </summary>
 
         /// <summary>
         /// Trigger the named trigger in the current animator
@@ -267,16 +254,6 @@ namespace BuddyApp.Reminder
         }
 
         /// <summary>
-        /// Retrieve the linked gameObject to the StateMachineAppLinker by its StateObject equivalent.
-        /// </summary>
-        /// <param name="iStateObject">The StateObject associated with the linked gameobject</param>
-        /// <returns>The gameobject</returns>
-        protected GameObject GetGameObject(StateObject iStateObject)
-        {
-            return mManager.GameObjects[(int)iStateObject];
-        }
-
-        /// <summary>
         /// Retrieve the component in the linked gameObject to the StateMachineAppLinker at the iIndex index.
         /// </summary>
         /// <typeparam name="T">Type of the component</typeparam>
@@ -284,8 +261,8 @@ namespace BuddyApp.Reminder
         /// <returns></returns>
         protected T GetComponentInGameObject<T>(int iIndex) where T : Component
         {
-			if (iIndex < 0 || iIndex >= mManager.GameObjects.Count)
-				return default(T);
+            if (iIndex < 0 || iIndex >= mManager.GameObjects.Count)
+                return default(T);
             return mManager.GameObjects[iIndex].GetComponent<T>();
         }
 
@@ -296,11 +273,6 @@ namespace BuddyApp.Reminder
         {
             AAppActivity.QuitApp();
         }
-
-        /// <summary>
-        /// Method called once at the start of the application.
-        /// </summary>
-        public virtual void Start() { }
 
         internal void Init()
         {
@@ -318,5 +290,10 @@ namespace BuddyApp.Reminder
             Resources = BYOS.Instance.Resources;
             DataBase = BYOS.Instance.DataBase;
         }
+
+        /// <summary>
+        /// Method called once at the start of the application.
+        /// </summary>
+        public virtual void Start() { }
     }
 }

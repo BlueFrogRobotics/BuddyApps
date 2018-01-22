@@ -10,6 +10,8 @@ namespace BuddyApp.Reminder
          */
         public int MyValue { get; set; }
 
+        public string VocalRequest { get; set; }
+
         /*
          * Data singleton access
          */
