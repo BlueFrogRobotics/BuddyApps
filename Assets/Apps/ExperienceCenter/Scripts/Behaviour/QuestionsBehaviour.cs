@@ -29,9 +29,13 @@ namespace BuddyApp.ExperienceCenter
 			behaviourEnd = false;
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
 			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
+			//BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
+			//BYOS.Instance.Interaction.VocalManager.OnError =  SpeechToTextError;
+
 			BYOS.Instance.Interaction.SphinxTrigger.SetThreshold(1E-24f);
+
 			// To test with the real robot
-			//BYOS.Instance.Interaction.VocalManager.StartListenBehaviour = SpeechToTextStart;
+			BYOS.Instance.Interaction.VocalManager.StartListenBehaviour = SpeechToTextStart;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 			LastSTTCallbackTime = DateTime.Now;
 			InitKeyList ();
@@ -68,10 +72,15 @@ namespace BuddyApp.ExperienceCenter
             } 
 		}
 
+		public void SpeechToTextError(STTError iError)
+		{
+			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString());
+		}
+
 		public void SpeechToTextCallback (string iSpeech)
 		{
 			// To test with the simulator
-			SpeechToTextStart ();
+			//SpeechToTextStart ();
 			Debug.LogFormat ("SpeechToText : {0}", iSpeech);
 			bool lClauseFound = false;
 			string lKey = "";
