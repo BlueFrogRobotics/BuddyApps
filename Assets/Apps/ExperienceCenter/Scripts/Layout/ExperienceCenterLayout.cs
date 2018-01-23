@@ -19,6 +19,7 @@ namespace BuddyApp.ExperienceCenter
 		private TextField mTableDistance;
 		private TextField mIOTDistance;
 		private TextField mHeadPoseTolerance;
+		private OnOff mVoiceTrigger;
 
 		private TextField mUrlAPI;
 		private TextField mUserID;
@@ -82,6 +83,8 @@ namespace BuddyApp.ExperienceCenter
 			mIOTDistance.EmptyText = "-";
 			mHeadPoseTolerance.Label = "Head Tolerance";
 			mHeadPoseTolerance.EmptyText = "-";
+			mVoiceTrigger.Label = "Voice Trigger";
+
 
 			foreach (string label in mButtons.Keys)
 				mButtons [label].InnerLabel = label;
@@ -193,7 +196,7 @@ namespace BuddyApp.ExperienceCenter
 
 		private void BuildMovementSection ()
 		{
-			AddSectionTitle ("Movement");
+			AddSectionTitle ("Movement & Debug");
 		
 			mBaseMovementCheckBox = CreateWidget<OnOff> ();
 			mBaseMovementCheckBox.IsActive = ExperienceCenterData.Instance.EnableBaseMovement;
@@ -244,6 +247,14 @@ namespace BuddyApp.ExperienceCenter
 				mHeadPoseTolerance.FieldText = Convert.ToString (ExperienceCenterData.Instance.HeadPoseTolerance);
 			mHeadPoseTolerance.OnEndEditEvent ((string text) => {
 				ExperienceCenterData.Instance.HeadPoseTolerance = (float)Convert.ToDouble (text);
+			});
+
+			mVoiceTrigger = CreateWidget<OnOff> ();
+			mVoiceTrigger.IsActive = ExperienceCenterData.Instance.VoiceTrigger;
+
+			mVoiceTrigger.OnSwitchEvent ((bool iVal) => {
+				Debug.Log (String.Format ("Enable {0} : {1}", "Voice Trigger", iVal));
+				ExperienceCenterData.Instance.VoiceTrigger = iVal;
 			});
 		}
 

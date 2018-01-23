@@ -57,7 +57,11 @@ namespace BuddyApp.ExperienceCenter
 				Debug.Log ("Restart MoveForward Coroutine");
 				StartCoroutine (MoveForward (wheelSpeed));
 			} else {
-				BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
+				//Debug.Log ("New MoveForward Coroutine");
+				//mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
+				//mDistance = ExperienceCenterData.Instance.TableDistance;  
+				//StartCoroutine (MoveForward (wheelSpeed));
+				Debug.Log ("End MoveForward Coroutine");
 				behaviourEnd = true;
 			}
 		}

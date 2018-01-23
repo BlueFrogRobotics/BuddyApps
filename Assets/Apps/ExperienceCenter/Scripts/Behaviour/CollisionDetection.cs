@@ -84,7 +84,7 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 		}
-			
+
 
 		private void CheckObstacleTimeFiltred ()
 		{
@@ -97,13 +97,13 @@ namespace BuddyApp.ExperienceCenter
 				Debug.LogWarningFormat ("Stop Distance = {0}m ", mStopDistance);
 			}
 
-			if (middleObs <= 0.3) {
+			if (leftObs <= 0.3 || rightObs <= 0.3 || middleObs <= 0.3) {
 				enableToMove = false;
 				Debug.LogError ("There is a collision: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 				return;
 			}
-
-			if (middleObs <= mStopDistance) {
+				
+			if (leftObs <= mStopDistance || rightObs <= mStopDistance || middleObs <= mStopDistance) {
 				if (!mObstacle) {
 					Debug.LogWarning ("Something detected: Obstacle or Noise ?");
 					mObstacle = true;
@@ -123,6 +123,7 @@ namespace BuddyApp.ExperienceCenter
 						}
 					} else {
 						Debug.LogWarningFormat ("Check Obstacle: {0}s", lElapsedTime.TotalSeconds);
+						enableToMove = true;
 						//mObstacle = false;
 					}
 				}
@@ -130,7 +131,7 @@ namespace BuddyApp.ExperienceCenter
 				if (!mStoppingPhase) {
 					Debug.LogWarning ("Safe Evironment: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 					mObstacle = false;
-					enableToMove = false;
+					enableToMove = true;
 				} else {
 					Debug.LogWarning ("Stopping slipping phase");
 					mStoppingPhase = false;

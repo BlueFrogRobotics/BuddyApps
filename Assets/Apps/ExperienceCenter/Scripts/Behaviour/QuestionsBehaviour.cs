@@ -27,7 +27,7 @@ namespace BuddyApp.ExperienceCenter
 			mAttitudeBehaviour = GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>();
 			mIdleBehaviour = GameObject.Find("AIBehaviour").GetComponent<IdleBehaviour>();
 			behaviourEnd = false;
-			BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
+			BYOS.Instance.Interaction.VocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
 			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
 			//BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
 			//BYOS.Instance.Interaction.VocalManager.OnError =  SpeechToTextError;

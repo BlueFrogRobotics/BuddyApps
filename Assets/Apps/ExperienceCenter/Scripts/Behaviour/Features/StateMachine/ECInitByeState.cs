@@ -26,7 +26,7 @@ namespace BuddyApp.ExperienceCenter
 		override public void OnStateUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			if (!mAddReco && mIdleBehaviour.behaviourEnd && mQuestionsBehaviour.behaviourEnd) {
-				BYOS.Instance.Interaction.VocalManager.EnableTrigger = true;
+				BYOS.Instance.Interaction.VocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
 				BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
 				mAddReco = true;
 			}

@@ -21,6 +21,7 @@ public class ECInitState : StateMachineBehaviour {
 			mTcpServer.Init ();
 			ExperienceCenterData.Instance.EnableHeadMovement = true;
 			ExperienceCenterData.Instance.EnableBaseMovement = true;
+			ExperienceCenterData.Instance.VoiceTrigger = false;
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
