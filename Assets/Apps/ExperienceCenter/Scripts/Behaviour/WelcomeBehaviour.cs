@@ -16,9 +16,10 @@ namespace BuddyApp.ExperienceCenter
 		private AnimatorManager mAnimatorManager;
 		private TextToSpeech mTTS;
 		private bool mHeadMoving;
-		private bool mChangeDirection;
-		private float mYesAngle;
+//		private bool mChangeDirection;
+//		private float mYesAngle;
 		private const double WELCOME_TIMEOUT = 5;
+		private float mNoHingeSpeed;
 		private float mHeadPoseTolerance;
 		private AttitudeBehaviour mAttitudeBehaviour;
 
@@ -32,16 +33,21 @@ namespace BuddyApp.ExperienceCenter
 		public void InitBehaviour ()
 		{
 			mHeadMoving = true;
-			mChangeDirection = true;
-			mYesAngle = 0;
+			//mChangeDirection = true;
+			//mYesAngle = 0;
+
+			if (mNoHingeSpeed != ExperienceCenterData.Instance.NoHingeSpeed) {
+				mNoHingeSpeed = ExperienceCenterData.Instance.NoHingeSpeed; 
+				Debug.LogWarningFormat ("No Hinge Speed = {0} deg/s ", mNoHingeSpeed);
+			}
 
 			if (mHeadPoseTolerance != ExperienceCenterData.Instance.HeadPoseTolerance) {
 				mHeadPoseTolerance = ExperienceCenterData.Instance.HeadPoseTolerance; 
-				Debug.LogWarningFormat ("Head Pose Tolerance = {0}deg ", mHeadPoseTolerance);
+				Debug.LogWarningFormat ("Head Pose Tolerance = {0} deg ", mHeadPoseTolerance);
 			}
 
 			if (ExperienceCenterData.Instance.EnableHeadMovement) 
-				StartCoroutine(MoveHeadNoHinge(30,50));
+				StartCoroutine(MoveHeadNoHinge(30, mNoHingeSpeed));
 			StartCoroutine(Speaking());
 		}
 

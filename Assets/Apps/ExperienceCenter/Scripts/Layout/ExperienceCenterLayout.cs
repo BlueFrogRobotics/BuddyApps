@@ -18,6 +18,7 @@ namespace BuddyApp.ExperienceCenter
 		private TextField mNoiseTime;
 		private TextField mTableDistance;
 		private TextField mIOTDistance;
+		private TextField mNoHingeSpeed;
 		private TextField mHeadPoseTolerance;
 		private OnOff mVoiceTrigger;
 
@@ -81,6 +82,8 @@ namespace BuddyApp.ExperienceCenter
 			mTableDistance.EmptyText = "-";
 			mIOTDistance.Label = "IOT Distance";
 			mIOTDistance.EmptyText = "-";
+			mNoHingeSpeed.Label = "No Hinge Speed";
+			mNoHingeSpeed.EmptyText = "-";
 			mHeadPoseTolerance.Label = "Head Tolerance";
 			mHeadPoseTolerance.EmptyText = "-";
 			mVoiceTrigger.Label = "Voice Trigger";
@@ -247,6 +250,13 @@ namespace BuddyApp.ExperienceCenter
 				mHeadPoseTolerance.FieldText = Convert.ToString (ExperienceCenterData.Instance.HeadPoseTolerance);
 			mHeadPoseTolerance.OnEndEditEvent ((string text) => {
 				ExperienceCenterData.Instance.HeadPoseTolerance = (float)Convert.ToDouble (text);
+			});
+
+			mNoHingeSpeed = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.NoHingeSpeed != 0.0f)
+				mNoHingeSpeed.FieldText = Convert.ToString (ExperienceCenterData.Instance.NoHingeSpeed);
+			mNoHingeSpeed.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.NoHingeSpeed = (float)Convert.ToDouble (text);
 			});
 
 			mVoiceTrigger = CreateWidget<OnOff> ();

@@ -15,6 +15,7 @@ public class ECInitState : StateMachineBehaviour {
 			ExperienceCenterData.Instance.NoiseTime = 0.5f;
 			ExperienceCenterData.Instance.TableDistance = 1.5f;
 			ExperienceCenterData.Instance.IOTDistance = 1.5f;
+			ExperienceCenterData.Instance.NoHingeSpeed = 90f;
 			ExperienceCenterData.Instance.HeadPoseTolerance = 0.2f;
 
 			mTcpServer =  GameObject.Find ("AIBehaviour").GetComponent<TcpServer> ();
