@@ -401,6 +401,205 @@
             Very credible
             </summary>
         </member>
+        <member name="T:Buddy.Internal.AppManagement.AppManager">
+            <summary>
+            Loads, unloads apps and store transited data
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppManager.GetAppCategory(System.String)">
+            <summary>
+            Gets the category from an installed application.
+            </summary>
+            <param name="iIdentifier">The app's scene, id, vocalkey, shortname, commercialname.</param>
+            <returns>The application category.</returns>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppManager.Quit">
+            <summary>
+            Quit the current app and load the default app (if load default is enabled)
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.Sandbox">
+            <summary>
+            Loads, unloads apps and store transited data
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.AppUpdater">
+            <summary>
+            This class retrieves online apps and updates local apps
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppUpdater.CompareVersions(System.String,System.String)">
+            <summary>
+            Returns 1 if First greater than Second.
+            Returns 0 if equals.
+            Returns -1 if First lower than Second
+            </summary>
+            <param name="iFirstVersion">First version string</param>
+            <param name="iSecondVersion">Second version string</param>
+            <returns>Compared value</returns>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.AppCategory">
+            <summary>
+            Represents the different app categories
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.COMPANION">
+            <summary>
+            Companion category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.EDUTAINMENT">
+            <summary>
+            Edutainment category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.GAME">
+            <summary>
+            Game category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.MULTIMEDIA">
+            <summary>
+            Multimedia category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.UTILITY">
+            <summary>
+            Utility category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.SECURITY">
+            <summary>
+            Security category
+            </summary>
+        </member>
+        <member name="F:Buddy.Internal.AppManagement.AppCategory.OTHER">
+            <summary>
+            Other category
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.VocalKeys">
+            <summary>
+            Reprensts the differents vocal keys by language to trigger the application
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.VocalKeys.Language">
+            <summary>
+            The language of Buddy
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.VocalKeys.Keys">
+            <summary>
+            List of the differents trigger keys
+            </summary>
+        </member>
+        <member name="T:Buddy.Internal.AppManagement.AppInfo">
+            <summary>
+            Meta data of an application. External dev should never explicitly use this class.
+            It's an internal class for app managing.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.ID">
+            <summary>
+            Unique application identifier
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.ShortName">
+            <summary>
+            The string that will be used as directory / class name.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.CommercialName">
+            <summary>
+            The string that will be displayed in the menu / loading.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.MainScene">
+            <summary>
+            Application main scene (entrypoint). Error if NULL.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.Authors">
+            <summary>
+            The app authors.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.Version">
+            <summary>
+            Current installed app version
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionStatus">
+            <summary>
+            Current installed app version type
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionName">
+            <summary>
+            Current installed app version name
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.Category">
+            <summary>
+            The app category
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.Permissions">
+            <summary>
+            The app permissions
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.LangVocalKeys">
+            <summary>
+            Strings for speech to text activation.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.OptionsLayoutClassName">
+            <summary>
+            Application layout fullname. You should never use this. EmptyAppLayout will be setted if NULL.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.ActivityClassName">
+            <summary>
+            Application Activity fullname.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.OptionsLayout">
+            <summary>
+            The application menu layout that was created from OptionsLayoutStr.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.AppData">
+            <summary>
+            Application data. Automaticaly serialized after unload app, and deserialized after app loading.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.AppManagement.AppInfo.AppActivity">
+            <summary>
+            Application Activity entrypoint for callback
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppInfo.#ctor">
+            <summary>
+            AppInfo are build by deserialization inside the AppManager.
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppInfo.LoadLayout">
+            <summary>
+            Create the layout of the appinfo from the assembly where the class should be.
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppInfo.LoadActivity">
+            <summary>
+            Create the behaviour of the appinfo
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.AppManagement.AppInfo.SetLanguage(Buddy.Language)">
+            <summary>
+            Update vocal activation key in the input language
+            </summary>
+            <param name="iLanguage">The new requested language</param>
+        </member>
         <member name="F:Buddy.Internal.System.EntryType.BASE">
             <summary>
             Unique value for UI display purpose
@@ -600,198 +799,6 @@
         <member name="T:Buddy.Internal.Net.LaunchTelepresence">
             <summary>
             Behaviour for starting RemoteControlApp
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.Sandbox">
-            <summary>
-            Loads, unloads apps and store transited data
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.AppUpdater">
-            <summary>
-            This class retrieves online apps and updates local apps
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppUpdater.CompareVersions(System.String,System.String)">
-            <summary>
-            Returns 1 if First greater than Second.
-            Returns 0 if equals.
-            Returns -1 if First lower than Second
-            </summary>
-            <param name="iFirstVersion">First version string</param>
-            <param name="iSecondVersion">Second version string</param>
-            <returns>Compared value</returns>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.AppCategory">
-            <summary>
-            Represents the different app categories
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.COMPANION">
-            <summary>
-            Companion category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.EDUTAINMENT">
-            <summary>
-            Edutainment category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.GAME">
-            <summary>
-            Game category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.MULTIMEDIA">
-            <summary>
-            Multimedia category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.UTILITY">
-            <summary>
-            Utility category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.SECURITY">
-            <summary>
-            Security category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.OTHER">
-            <summary>
-            Other category
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.VocalKeys">
-            <summary>
-            Reprensts the differents vocal keys by language to trigger the application
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.VocalKeys.Language">
-            <summary>
-            The language of Buddy
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.VocalKeys.Keys">
-            <summary>
-            List of the differents trigger keys
-            </summary>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.AppInfo">
-            <summary>
-            Meta data of an application. External dev should never explicitly use this class.
-            It's an internal class for app managing.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.ID">
-            <summary>
-            Unique application identifier
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.ShortName">
-            <summary>
-            The string that will be used as directory / class name.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.CommercialName">
-            <summary>
-            The string that will be displayed in the menu / loading.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.MainScene">
-            <summary>
-            Application main scene (entrypoint). Error if NULL.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.Authors">
-            <summary>
-            The app authors.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.Version">
-            <summary>
-            Current installed app version
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionStatus">
-            <summary>
-            Current installed app version type
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.VersionName">
-            <summary>
-            Current installed app version name
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.Category">
-            <summary>
-            The app category
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.Permissions">
-            <summary>
-            The app permissions
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.LangVocalKeys">
-            <summary>
-            Strings for speech to text activation.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.OptionsLayoutClassName">
-            <summary>
-            Application layout fullname. You should never use this. EmptyAppLayout will be setted if NULL.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.ActivityClassName">
-            <summary>
-            Application Activity fullname.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.OptionsLayout">
-            <summary>
-            The application menu layout that was created from OptionsLayoutStr.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.AppData">
-            <summary>
-            Application data. Automaticaly serialized after unload app, and deserialized after app loading.
-            </summary>
-        </member>
-        <member name="P:Buddy.Internal.AppManagement.AppInfo.AppActivity">
-            <summary>
-            Application Activity entrypoint for callback
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppInfo.#ctor">
-            <summary>
-            AppInfo are build by deserialization inside the AppManager.
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppInfo.LoadLayout">
-            <summary>
-            Create the layout of the appinfo from the assembly where the class should be.
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppInfo.LoadActivity">
-            <summary>
-            Create the behaviour of the appinfo
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppInfo.SetLanguage(Buddy.Language)">
-            <summary>
-            Update vocal activation key in the input language
-            </summary>
-            <param name="iLanguage">The new requested language</param>
-        </member>
-        <member name="T:Buddy.Internal.AppManagement.AppManager">
-            <summary>
-            Loads, unloads apps and store transited data
-            </summary>
-        </member>
-        <member name="M:Buddy.Internal.AppManagement.AppManager.Quit">
-            <summary>
-            Quit the current app and load the default app (if load default is enabled)
             </summary>
         </member>
         <member name="T:Buddy.Internal.LocalRobotPref">
@@ -1050,6 +1057,19 @@
             Add a cumulative event to Buddy's actual list.
             </summary>
             <param name="iEmotionalEvent"></param>
+        </member>
+        <member name="M:Buddy.InternalState.AddBias(Buddy.EmotionalEvent)">
+            <summary>
+            Add an emotional event to the companion bias list (non-cumulative).
+            </summary>
+            <param name="iEvent">Emotional event to add.</param>
+        </member>
+        <member name="M:Buddy.InternalState.RemoveBias(Buddy.EmotionalEvent)">
+            <summary>
+            Remove an event from the companion bias list (non-cumulative).
+            </summary>
+            <param name="iEvent">Emotional event to remove.</param>
+            <returns>True if successfully removed, false otherwise.</returns>
         </member>
         <member name="T:Buddy.VocalDebug">
             <summary>
@@ -4568,7 +4588,7 @@
             <param name="iName">Name of the file / directory</param>
             <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.AAppActivity.Load``1(System.String)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.AAppActivity.Load``1(System.String)" -->
         <member name="M:Buddy.AAppActivity.LoadAtlas(System.String)">
             <summary>
             Load the atlas from Resource/ or from downloaded bundles. Equivalent to BYOS.Instance.Resources.LoadAtlas(iName)
@@ -6928,7 +6948,7 @@
         <member name="F:Buddy.UI.PoolInflationType.DOUBLE">
             When a dynamic pool inflates, double the size of the pool
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
         <member name="M:Buddy.UI.PoolManager.ReturnObjectToPool(UnityEngine.GameObject)">
             <summary>
             Return obj to the pool
