@@ -60,6 +60,8 @@ namespace BuddyApp.BuddyLab
                 lNumParameter = 0;
             if (lNumParameter > parameterWindow.MaxValue)
                 lNumParameter = parameterWindow.MaxValue;
+            if (lNumParameter < parameterWindow.MinValue)
+                lNumParameter = parameterWindow.MinValue;
             textBli.text = ""+lNumParameter;
 
             lNumParameter /= divisionCoeff;

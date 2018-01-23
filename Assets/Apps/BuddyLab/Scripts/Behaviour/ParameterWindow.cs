@@ -31,6 +31,8 @@ namespace BuddyApp.BuddyLab
 
         public float MaxValue { get { return maxValue; } }
 
+        public float MinValue { get { return minValue; } }
+
         public Button ValidateButton { get { return validateButton; } }
 
         public string Parameter { get; private set; }
@@ -83,7 +85,7 @@ namespace BuddyApp.BuddyLab
 
         public void SetValue(float iValue)
         {
-            slider.value = iValue / maxValue;
+            slider.value = (iValue-minValue) / (maxValue-minValue);
             inputField.text = "" + iValue;
         }
 
@@ -95,7 +97,9 @@ namespace BuddyApp.BuddyLab
             float.TryParse(iValue, out lNb);
             if (lNb > maxValue)
                 lNb = maxValue;
-            slider.value = lNb / maxValue;
+            if (lNb < minValue)
+                lNb = minValue;
+            slider.value = (lNb-minValue) / (maxValue-minValue);
         }
 
         public void EraseLastNumber()
@@ -107,7 +111,7 @@ namespace BuddyApp.BuddyLab
 
         private void OnSliderValueChange(float iValue)
         {
-            float lParam = (iValue * maxValue );
+            float lParam = (iValue * (maxValue-minValue)+minValue );
             inputField.text = ""+ Mathf.RoundToInt(lParam);
             Parameter = inputField.text;
             //ChangeValue(inputField.text);
