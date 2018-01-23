@@ -18,6 +18,7 @@ namespace BuddyApp.ExperienceCenter
 		private TextField mNoiseTime;
 		private TextField mTableDistance;
 		private TextField mIOTDistance;
+		private TextField mHeadPoseTolerance;
 
 		private TextField mUrlAPI;
 		private TextField mUserID;
@@ -79,6 +80,8 @@ namespace BuddyApp.ExperienceCenter
 			mTableDistance.EmptyText = "-";
 			mIOTDistance.Label = "IOT Distance";
 			mIOTDistance.EmptyText = "-";
+			mHeadPoseTolerance.Label = "Head Tolerance";
+			mHeadPoseTolerance.EmptyText = "-";
 
 			foreach (string label in mButtons.Keys)
 				mButtons [label].InnerLabel = label;
@@ -234,6 +237,13 @@ namespace BuddyApp.ExperienceCenter
 				mIOTDistance.FieldText = Convert.ToString (ExperienceCenterData.Instance.IOTDistance);
 			mIOTDistance.OnEndEditEvent ((string text) => {
 				ExperienceCenterData.Instance.IOTDistance = (float)Convert.ToDouble (text);
+			});
+
+			mHeadPoseTolerance = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.HeadPoseTolerance != 0.0f)
+				mHeadPoseTolerance.FieldText = Convert.ToString (ExperienceCenterData.Instance.HeadPoseTolerance);
+			mHeadPoseTolerance.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.HeadPoseTolerance = (float)Convert.ToDouble (text);
 			});
 		}
 

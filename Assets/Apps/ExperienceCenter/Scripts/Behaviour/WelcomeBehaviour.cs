@@ -19,6 +19,7 @@ namespace BuddyApp.ExperienceCenter
 		private bool mChangeDirection;
 		private float mYesAngle;
 		private const double WELCOME_TIMEOUT = 5;
+		private float mHeadPoseTolerance;
 		private AttitudeBehaviour mAttitudeBehaviour;
 
 		void Awake ()
@@ -33,6 +34,12 @@ namespace BuddyApp.ExperienceCenter
 			mHeadMoving = true;
 			mChangeDirection = true;
 			mYesAngle = 0;
+
+			if (mHeadPoseTolerance != ExperienceCenterData.Instance.HeadPoseTolerance) {
+				mHeadPoseTolerance = ExperienceCenterData.Instance.HeadPoseTolerance; 
+				Debug.LogWarningFormat ("Head Pose Tolerance = {0}deg ", mHeadPoseTolerance);
+			}
+
 			if (ExperienceCenterData.Instance.EnableHeadMovement) 
 				StartCoroutine(MoveHeadNoHinge(30,50));
 			StartCoroutine(Speaking());
@@ -43,8 +50,8 @@ namespace BuddyApp.ExperienceCenter
 			DateTime lLastTime = DateTime.Now;
 			float lHeadAngle = BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition;
 			while (mHeadMoving && ExperienceCenterData.Instance.EnableHeadMovement) {
-				Debug.LogWarningFormat ("NoHinge (velocity = {0}, angle = {1}) ", BYOS.Instance.Primitive.Motors.NoHinge.TargetSpeed, BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition);
-				if (Math.Abs (BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition) < 0.1 || Math.Abs (BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition - lHeadAngle) < 0.1) {
+				Debug.LogWarningFormat ("NoHinge (velocity = {0}, angle = {1}, old_angle = {2}) ", BYOS.Instance.Primitive.Motors.NoHinge.TargetSpeed, BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition, lHeadAngle);
+				if (Math.Abs (BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition) < 0.1 || Math.Abs (BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition - lHeadAngle) <= mHeadPoseTolerance) {
 					TimeSpan lElapsedTime = DateTime.Now - lLastTime;
 					if (lElapsedTime.TotalSeconds > WELCOME_TIMEOUT)
 						break;
@@ -52,7 +59,8 @@ namespace BuddyApp.ExperienceCenter
 					Debug.LogWarning ("Robot Head is moving");
 					lLastTime = DateTime.Now;
 				}
-				yield return new WaitForSeconds(0.2f);
+				lHeadAngle = BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition;
+				yield return new WaitForSeconds(0.5f);
 			}
 			//yield return new WaitUntil(() => !mHeadMoving || !ExperienceCenterData.Instance.EnableHeadMovement);
 			if (ExperienceCenterData.Instance.EnableHeadMovement) 
@@ -89,28 +97,28 @@ namespace BuddyApp.ExperienceCenter
 			mAnimatorManager.ActivateCmd ((byte)(Command.Stop));
 		}
 
-		private IEnumerator MoveHeadYesHinge (float lYesAngle, float lYesSpeed)
-		{
-			yield return new WaitUntil(() => mHeadMoving);
-			BYOS.Instance.Primitive.Motors.YesHinge.SetPosition (lYesAngle, lYesSpeed);
-			yield return new WaitUntil(() => Math.Abs(BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition - lYesAngle) < ANGLE_THRESHOLD || !mHeadMoving);
-			if (mHeadMoving && mChangeDirection) {
-				mChangeDirection = false;
-				StartCoroutine (MoveHeadYesHinge (0, lYesSpeed));
-			}
-		}
+//		private IEnumerator MoveHeadYesHinge (float lYesAngle, float lYesSpeed)
+//		{
+//			yield return new WaitUntil(() => mHeadMoving);
+//			BYOS.Instance.Primitive.Motors.YesHinge.SetPosition (lYesAngle, lYesSpeed);
+//			yield return new WaitUntil(() => Math.Abs(BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition - lYesAngle) < ANGLE_THRESHOLD || !mHeadMoving);
+//			if (mHeadMoving && mChangeDirection) {
+//				mChangeDirection = false;
+//				StartCoroutine (MoveHeadYesHinge (0, lYesSpeed));
+//			}
+//		}
 
 		private IEnumerator MoveHeadNoHinge (float lNoAngle, float lNoSpeed)
 		{
 			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
 			yield return new WaitUntil(() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
 			//Comment this line if you need a linear movement of the head 
-			StartCoroutine(MoveHeadYesHinge(-5,50));
+			//StartCoroutine(MoveHeadYesHinge(-5,50));
 			mHeadMoving = true;
 			BYOS.Instance.Primitive.Motors.NoHinge.SetPosition (lNoAngle, lNoSpeed);
 			yield return new WaitUntil(() => Math.Abs(BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition - lNoAngle) < ANGLE_THRESHOLD);
 			mHeadMoving = false;
-			mChangeDirection = true;
+			//mChangeDirection = true;
 		}
 
 		public void StopBehaviour ()

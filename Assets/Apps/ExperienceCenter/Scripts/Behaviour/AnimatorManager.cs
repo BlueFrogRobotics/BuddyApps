@@ -68,6 +68,7 @@ namespace BuddyApp.ExperienceCenter
 		private MoveForwardBehaviour mMoveBehaviour;
 
 		private bool mSwitchOnce;
+		private bool mSwitchIdleOnce;
 		public bool emergencyStop;
 		private string mOldState;
 		private TextToSpeech mTTS;
@@ -77,6 +78,7 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mOldState = "";
 			mSwitchOnce = true;
+			mSwitchIdleOnce = true;
 			emergencyStop = false;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
@@ -116,11 +118,16 @@ namespace BuddyApp.ExperienceCenter
 				if (mOldState == "Idle") {
 						
 					if (!mIdleBehaviour.headPoseInit) {
-						Debug.LogWarning ("Waiting for Head postion to be initialized !");
-						return;
+						if (mSwitchIdleOnce) {
+							Debug.LogWarning ("Waiting for Head postion to be initialized !");
+							mIdleBehaviour.StopBehaviour ();
+							mSwitchIdleOnce = false;
+						}
 					}
 				}
 				if (state != "" && state != mOldState) {
+					if (!mSwitchIdleOnce)
+						mSwitchIdleOnce = true;
 					if (mSwitchOnce) {
 						mMainAnimator.SetTrigger (state);
 						ExperienceCenterData.Instance.Scenario = state;

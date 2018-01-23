@@ -28,6 +28,7 @@ namespace BuddyApp.ExperienceCenter
 		public float NoiseTime{ get; set; }
 		public float TableDistance{ get; set; }
 		public float IOTDistance{ get; set; }
+		public float HeadPoseTolerance{ get; set; }
 
 		// Scenario
 		public string Scenario { get; set; }
