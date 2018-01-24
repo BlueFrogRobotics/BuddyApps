@@ -1,4 +1,5 @@
 ﻿using Buddy;
+using Buddy.UI;
 using Buddy.Command;
 using System;
 using System.Collections;
@@ -16,35 +17,40 @@ namespace BuddyApp.Companion
 
 		private List<string> mKeyOptions;
 
+        private string mProposal = "";
 
-		public override void Start()
+        private TextToSpeech mTTS = BYOS.Instance.Interaction.TextToSpeech;
+
+
+        public override void Start()
 		{
-			//mSensorManager = BYOS.Instance.SensorManager;
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
 			mActionManager = GetComponent<ActionManager>();
 			mKeyOptions = new List<string>();
 			mKeyOptions.Add("memory");
-			mKeyOptions.Add("calcul");
-			mKeyOptions.Add("quizz");
+			mKeyOptions.Add("playmath");
 			mKeyOptions.Add("freezedance");
 			mKeyOptions.Add("rlgl");
-			mKeyOptions.Add("hideseek");
-			mKeyOptions.Add("nogame");
+
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mDetectionManager.mDetectedElement = Detected.NONE;
-			mState.text = "Propose Game";
-			Debug.Log("state: Propose Game");
-			mTime = 0F;
+            mProposal = RandomProposal(mKeyOptions);
+
+            mDetectionManager.mDetectedElement = Detected.NONE;
+            mState.text = "Propose Game";
+            mTime = 0F;
 			mNoGame = false;
             Interaction.Mood.Set(MoodType.HAPPY);
-            Interaction.DialogManager.Ask(OnAnswer, "askgame", 0, mKeyOptions);
-		}
 
-		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+            mTTS.Say(Dictionary.GetRandomString("attention") + " "+ Dictionary.GetRandomString("propose" + mProposal));
+
+            Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetRandomString(mProposal), YesAnswer, NoAnswer);
+        }
+
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mTime += Time.deltaTime;
 
@@ -58,12 +64,45 @@ namespace BuddyApp.Companion
 			mDetectionManager.mDetectedElement = Detected.NONE;
 		}
 
+        private void YesAnswer ()
+        {
+            mTTS.Say(Dictionary.GetRandomString("herewego"));
+            OnAnswer(mProposal);
+        }
+
+        private void NoAnswer()
+        {
+            mTTS.Say(Dictionary.GetRandomString("nopb"));
+            OnAnswer("nogame");
+        }
+
+        private string RandomProposal(List<string> iProp)
+        {
+            string  lProp = "";
+            int lRdmOne = UnityEngine.Random.Range(1, 4);
+
+            switch (lRdmOne) {
+                case 1:
+                    lProp = "joke";
+                    break;
+                case 2:
+                    lProp = "dance";
+                    break;
+                case 3:
+                    lProp = iProp[UnityEngine.Random.Range(1, iProp.Count)] ;
+                    break;
+            }
+            return lProp;
+        }
+
+
+
 		void OnAnswer(string iAnswer)
 		{
-			switch (iAnswer) {
-				case "calcul":
+            switch (iAnswer) {
+				case "playmath":
 					CompanionData.Instance.InteractDesire -= 50;
-					new StartAppCmd("CalculGameApp").Execute();
+					new StartAppCmd("PlayMath").Execute();
 					break;
 
 				case "freezedance":
@@ -80,18 +119,15 @@ namespace BuddyApp.Companion
 					CompanionData.Instance.InteractDesire -= 50;
 					new StartAppCmd("MemoryGameApp").Execute();
 					break;
-
-				case "hideseek":
-					CompanionData.Instance.InteractDesire -= 50;
-					new StartAppCmd("HideAndSeek").Execute();
-					break;
-
-				case "quizz":
-					CompanionData.Instance.InteractDesire -= 50;
-					new StartAppCmd("QuizzGameApp").Execute();
-					break;
-
-				case "nogame":
+                case "jokes":
+                    CompanionData.Instance.InteractDesire -= 30;
+                    Interaction.BMLManager.LaunchRandom("joke");
+                    break;
+                case "dance":
+                    CompanionData.Instance.InteractDesire -= 30;
+                    Interaction.BMLManager.LaunchRandom("dance");
+                    break;
+                case "nogame":
 					CompanionData.Instance.InteractDesire += 10;
 					mNoGame = true;
 					break;
