@@ -16,11 +16,15 @@ namespace BuddyApp.ExperienceCenter
 		private OnOff mHeadMovementCheckBox;
 		private TextField mStopDistance;
 		private TextField mNoiseTime;
+		private TextField mSpeedThreshold;
 		private TextField mTableDistance;
 		private TextField mIOTDistance;
+		private TextField mWelcomeTimeOut;
+		private TextField mNoHingeAngle;
 		private TextField mNoHingeSpeed;
 		private TextField mHeadPoseTolerance;
-		private OnOff mVoiceTrigger;
+		private OnOff mVoiceTriggerCheckBox;
+		private OnOff mBMLCheckBox;
 
 		private TextField mUrlAPI;
 		private TextField mUserID;
@@ -78,16 +82,22 @@ namespace BuddyApp.ExperienceCenter
 			mStopDistance.EmptyText = "-";
 			mNoiseTime.Label = "Noise Time";
 			mNoiseTime.EmptyText = "-";
+			mSpeedThreshold.Label = "Speed Threshold";
+			mSpeedThreshold.EmptyText = "-";
 			mTableDistance.Label = "Table Distance";
 			mTableDistance.EmptyText = "-";
 			mIOTDistance.Label = "IOT Distance";
 			mIOTDistance.EmptyText = "-";
+			mWelcomeTimeOut.Label = "Welcome Time-out";
+			mWelcomeTimeOut.EmptyText = "-";
+			mNoHingeAngle.Label = "No Hinge Angle";
+			mNoHingeAngle.EmptyText = "-";
 			mNoHingeSpeed.Label = "No Hinge Speed";
 			mNoHingeSpeed.EmptyText = "-";
 			mHeadPoseTolerance.Label = "Head Tolerance";
 			mHeadPoseTolerance.EmptyText = "-";
-			mVoiceTrigger.Label = "Voice Trigger";
-
+			mVoiceTriggerCheckBox.Label = "Voice Trigger";
+			mBMLCheckBox.Label = "BML";
 
 			foreach (string label in mButtons.Keys)
 				mButtons [label].InnerLabel = label;
@@ -231,6 +241,13 @@ namespace BuddyApp.ExperienceCenter
 				ExperienceCenterData.Instance.NoiseTime = (float)Convert.ToDouble (text);
 			});
 
+			mSpeedThreshold = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.SpeedThreshold!= 0.0f)
+				mSpeedThreshold.FieldText = Convert.ToString (ExperienceCenterData.Instance.SpeedThreshold);
+			mSpeedThreshold.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.SpeedThreshold = (float)Convert.ToDouble (text);
+			});
+
 			mTableDistance = CreateWidget<TextField> ();
 			if (ExperienceCenterData.Instance.TableDistance != 0.0f)
 				mTableDistance.FieldText = Convert.ToString (ExperienceCenterData.Instance.TableDistance);
@@ -252,6 +269,20 @@ namespace BuddyApp.ExperienceCenter
 				ExperienceCenterData.Instance.HeadPoseTolerance = (float)Convert.ToDouble (text);
 			});
 
+			mWelcomeTimeOut = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.WelcomeTimeOut != 0.0f)
+				mWelcomeTimeOut.FieldText = Convert.ToString (ExperienceCenterData.Instance.WelcomeTimeOut);
+			mWelcomeTimeOut.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.WelcomeTimeOut = (float)Convert.ToDouble (text);
+			});
+
+			mNoHingeAngle = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.NoHingeAngle != 0.0f)
+				mNoHingeAngle.FieldText = Convert.ToString (ExperienceCenterData.Instance.NoHingeAngle);
+			mNoHingeAngle.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.NoHingeAngle = (float)Convert.ToDouble (text);
+			});
+
 			mNoHingeSpeed = CreateWidget<TextField> ();
 			if (ExperienceCenterData.Instance.NoHingeSpeed != 0.0f)
 				mNoHingeSpeed.FieldText = Convert.ToString (ExperienceCenterData.Instance.NoHingeSpeed);
@@ -259,12 +290,20 @@ namespace BuddyApp.ExperienceCenter
 				ExperienceCenterData.Instance.NoHingeSpeed = (float)Convert.ToDouble (text);
 			});
 
-			mVoiceTrigger = CreateWidget<OnOff> ();
-			mVoiceTrigger.IsActive = ExperienceCenterData.Instance.VoiceTrigger;
+			mVoiceTriggerCheckBox = CreateWidget<OnOff> ();
+			mVoiceTriggerCheckBox.IsActive = ExperienceCenterData.Instance.VoiceTrigger;
 
-			mVoiceTrigger.OnSwitchEvent ((bool iVal) => {
+			mVoiceTriggerCheckBox.OnSwitchEvent ((bool iVal) => {
 				Debug.Log (String.Format ("Enable {0} : {1}", "Voice Trigger", iVal));
 				ExperienceCenterData.Instance.VoiceTrigger = iVal;
+			});
+
+			mBMLCheckBox = CreateWidget<OnOff> ();
+			mBMLCheckBox.IsActive = ExperienceCenterData.Instance.VoiceTrigger;
+
+			mBMLCheckBox.OnSwitchEvent ((bool iVal) => {
+				Debug.Log (String.Format ("Enable {0} : {1}", "BML", iVal));
+				ExperienceCenterData.Instance.EnableBML = iVal;
 			});
 		}
 

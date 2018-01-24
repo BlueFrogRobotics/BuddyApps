@@ -19,11 +19,18 @@ namespace BuddyApp.ExperienceCenter
 		private float radius;
 		private Vector3 mRobotPose;
 		private float mDistance;
+		private float mSpeedThreshold;
 
 		public void InitBehaviour ()
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mCollisionDetector = GameObject.Find ("AIBehaviour").GetComponent<CollisionDetector> ();
+
+			if (mSpeedThreshold != ExperienceCenterData.Instance.SpeedThreshold) {
+				mSpeedThreshold = ExperienceCenterData.Instance.SpeedThreshold; 
+				Debug.LogWarningFormat ("Speed Threshold = {0} s ", mSpeedThreshold);
+			}
+
 			behaviourEnd = false;
 			if (ExperienceCenterData.Instance.EnableBaseMovement)
 				mCollisionDetector.InitBehaviour ();
@@ -78,7 +85,7 @@ namespace BuddyApp.ExperienceCenter
 
 		private bool CheckSpeed ()
 		{
-			return Math.Abs (BYOS.Instance.Primitive.Motors.Wheels.Speed) <= 0.1f;
+			return Math.Abs (BYOS.Instance.Primitive.Motors.Wheels.Speed) <= mSpeedThreshold;
 		}
 
 		private bool CheckDistance ()

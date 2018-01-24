@@ -26,11 +26,16 @@ namespace BuddyApp.ExperienceCenter
 		public bool EnableBaseMovement { get; set; }
 		public float StopDistance{ get; set; }
 		public float NoiseTime{ get; set; }
+		public float SpeedThreshold{ get; set; }
 		public float TableDistance{ get; set; }
 		public float IOTDistance{ get; set; }
 		public float HeadPoseTolerance{ get; set; }
+		public float WelcomeTimeOut{ get; set; }
+		public float NoHingeAngle{ get; set; }
 		public float NoHingeSpeed{ get; set; }
 		public bool VoiceTrigger{ get; set; }
+		public bool EnableBML{ get; set; }
+
 
 		// Scenario
 		public string Scenario { get; set; }

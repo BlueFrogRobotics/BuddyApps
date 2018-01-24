@@ -26,12 +26,14 @@ namespace BuddyApp.ExperienceCenter
 		public void StartWaiting()
 		{
 			IsWaiting = true;
-			StartCoroutine(Waiting());
+			if (ExperienceCenterData.Instance.EnableBML)
+				StartCoroutine(Waiting());
 		}
 
 		public void MoveHeadWhileSpeaking(int angleMin, int angleMax)
 		{
-			StartCoroutine(Speaking(angleMin, angleMax));
+			if (ExperienceCenterData.Instance.EnableBML)
+				StartCoroutine(Speaking(angleMin, angleMax));
 		}
 
 

@@ -18,8 +18,9 @@ namespace BuddyApp.ExperienceCenter
 		private bool mHeadMoving;
 //		private bool mChangeDirection;
 //		private float mYesAngle;
-		private const double WELCOME_TIMEOUT = 5;
+		private float mWelcomeTimeOut;
 		private float mNoHingeSpeed;
+		private float mNoHingeAngle;
 		private float mHeadPoseTolerance;
 		private AttitudeBehaviour mAttitudeBehaviour;
 
@@ -35,6 +36,15 @@ namespace BuddyApp.ExperienceCenter
 			mHeadMoving = true;
 			//mChangeDirection = true;
 			//mYesAngle = 0;
+			if (mWelcomeTimeOut != ExperienceCenterData.Instance.WelcomeTimeOut) {
+				mWelcomeTimeOut = ExperienceCenterData.Instance.WelcomeTimeOut; 
+				Debug.LogWarningFormat ("Welcome TimeOut = {0} s ", mWelcomeTimeOut);
+			}
+
+			if (mNoHingeAngle != ExperienceCenterData.Instance.NoHingeAngle) {
+				mNoHingeAngle = ExperienceCenterData.Instance.NoHingeAngle; 
+				Debug.LogWarningFormat ("No Hinge Angle = {0} deg ", mNoHingeAngle);
+			}
 
 			if (mNoHingeSpeed != ExperienceCenterData.Instance.NoHingeSpeed) {
 				mNoHingeSpeed = ExperienceCenterData.Instance.NoHingeSpeed; 
@@ -47,7 +57,7 @@ namespace BuddyApp.ExperienceCenter
 			}
 
 			if (ExperienceCenterData.Instance.EnableHeadMovement) 
-				StartCoroutine(MoveHeadNoHinge(30, mNoHingeSpeed));
+				StartCoroutine(MoveHeadNoHinge(mNoHingeAngle, mNoHingeSpeed));
 			StartCoroutine(Speaking());
 		}
 
@@ -59,7 +69,7 @@ namespace BuddyApp.ExperienceCenter
 				Debug.LogWarningFormat ("NoHinge (velocity = {0}, angle = {1}, old_angle = {2}) ", BYOS.Instance.Primitive.Motors.NoHinge.TargetSpeed, BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition, lHeadAngle);
 				if (Math.Abs (BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition) < 0.1 || Math.Abs (BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition - lHeadAngle) <= mHeadPoseTolerance) {
 					TimeSpan lElapsedTime = DateTime.Now - lLastTime;
-					if (lElapsedTime.TotalSeconds > WELCOME_TIMEOUT)
+					if (lElapsedTime.TotalSeconds > mWelcomeTimeOut)
 						break;
 				} else {
 					Debug.LogWarning ("Robot Head is moving");
@@ -68,6 +78,7 @@ namespace BuddyApp.ExperienceCenter
 				lHeadAngle = BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition;
 				yield return new WaitForSeconds(0.5f);
 			}
+			if(!mHeadMoving) Debug.LogWarning ("Robot Head reaches angle");
 			//yield return new WaitUntil(() => !mHeadMoving || !ExperienceCenterData.Instance.EnableHeadMovement);
 			if (ExperienceCenterData.Instance.EnableHeadMovement) 
 				mAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
@@ -91,7 +102,7 @@ namespace BuddyApp.ExperienceCenter
 
 			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
 			if (ExperienceCenterData.Instance.EnableHeadMovement) 
-				StartCoroutine(MoveHeadNoHinge(0,50f));
+				StartCoroutine(MoveHeadNoHinge(0, mNoHingeSpeed));
 			
 			mTTS.SayKey ("welcomechoix", true);
 			mTTS.Silence(500, true);
