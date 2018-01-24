@@ -13,16 +13,16 @@ namespace BuddyApp.ExperienceCenter
 	public class IOTBehaviour : MonoBehaviour
 	{
 		public const float DISTANCE_THRESHOLD = 0.1f;
-		public float distance = 1.5f;
 		public float wheelSpeed = 200f;
 
 		private AnimatorManager mAnimatorManager;
 		private HTTPRequestManager mHttpManager;
 		private CollisionDetector mCollisionDetector;
 		private TextToSpeech mTTS;
-		private float radius;
 		private Vector3 mRobotPose;
-		private bool mRobotMoving = false;
+		private float mDistance;
+		private bool mRobotMoving;
+		private float mSpeedThreshold;
 
 
 		public void InitBehaviour ()
@@ -30,12 +30,20 @@ namespace BuddyApp.ExperienceCenter
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mHttpManager = GameObject.Find ("AIBehaviour").GetComponent<HTTPRequestManager> ();
 			mCollisionDetector = GameObject.Find ("AIBehaviour").GetComponent<CollisionDetector> ();
+
+			if (mSpeedThreshold != ExperienceCenterData.Instance.SpeedThreshold) {
+				mSpeedThreshold = ExperienceCenterData.Instance.SpeedThreshold; 
+				Debug.LogWarningFormat ("Speed Threshold = {0} s ", mSpeedThreshold);
+			}
+
 			if (ExperienceCenterData.Instance.EnableBaseMovement)
 				mCollisionDetector.InitBehaviour ();
-
+			
+			mRobotMoving = false;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
-			radius = BYOS.Instance.Primitive.Motors.Wheels.Radius;
 			mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
+			mDistance = ExperienceCenterData.Instance.IOTDistance; 
+
 			if (ExperienceCenterData.Instance.EnableBaseMovement)
 				StartCoroutine (MoveForward (wheelSpeed));
 			StartCoroutine (Speaking ());
@@ -44,21 +52,23 @@ namespace BuddyApp.ExperienceCenter
 		private IEnumerator MoveForward (float lSpeed)
 		{
 			mRobotMoving = true;
-			distance = distance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose);
+			mDistance = mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose);
 			//Save the robot Pose for future iteration if any
 			mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
 			yield return new WaitUntil (() => mCollisionDetector.enableToMove);
 
 			BYOS.Instance.Primitive.Motors.Wheels.SetWheelsSpeed (lSpeed);
 
-			Debug.LogFormat ("Speed = {0}, Distance to travel = {1}", BYOS.Instance.Primitive.Motors.Wheels.Speed, distance);
+			Debug.LogFormat ("Speed = {0}, Distance to travel = {1}", BYOS.Instance.Primitive.Motors.Wheels.Speed, mDistance);
 
-			yield return new WaitUntil (() => CheckSpeed () || CheckDistance () || !mCollisionDetector.enableToMove);
+			yield return new WaitUntil (() => mCollisionDetector.CheckSpeed (mSpeedThreshold)
+			|| mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD)
+			|| !mCollisionDetector.enableToMove);
 
-			Debug.LogFormat ("Distance left to travel : {0}", distance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose));
+			Debug.LogFormat ("Distance left to travel : {0}", mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose));
 			BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 
-			if (!CheckDistance ()) {
+			if (! mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD)) {
 				Debug.Log ("Restart MoveForward Coroutine");
 				StartCoroutine (MoveForward (wheelSpeed));
 			} else {
@@ -69,16 +79,18 @@ namespace BuddyApp.ExperienceCenter
 
 		private IEnumerator Speaking ()
 		{
-			AttitudeBehaviour lAttitudeBehaviour = GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>();
+			AttitudeBehaviour lAttitudeBehaviour = GameObject.Find ("AIBehaviour").GetComponent<AttitudeBehaviour> ();
 
-			lAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
+			if (ExperienceCenterData.Instance.EnableHeadMovement)
+				lAttitudeBehaviour.MoveHeadWhileSpeaking (-10, 10);
+
 			mTTS.SayKey ("iotboost", true);
 			mTTS.Silence (500, true);
 			mTTS.SayKey ("iotrouler", true);
 			mTTS.Silence (2000, true);
 			yield return new WaitUntil (() => !mRobotMoving || !ExperienceCenterData.Instance.EnableBaseMovement);
 
-			lAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
+			lAttitudeBehaviour.MoveHeadWhileSpeaking (-10, 10);
 			mTTS.SayKey ("iotdemo", true);
 			mTTS.Silence (500, true);
 			mTTS.SayKey ("iotlance", true);
@@ -90,15 +102,15 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.Silence (500, true);
 
 			if (!mHttpManager.Connected)
-				mHttpManager.Login();
+				mHttpManager.Login ();
 
 			yield return new WaitUntil (() => mHttpManager.RetrieveDevices);
 			mHttpManager.StoreDeploy (true);
-			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsStoreDeployed);
+			yield return new WaitUntil (() => ExperienceCenterData.Instance.IsStoreDeployed);
 			mHttpManager.LightOn (true);
-			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsLightOn);
+			yield return new WaitUntil (() => ExperienceCenterData.Instance.IsLightOn);
 			mHttpManager.SonosPlay (true);
-			yield return new WaitUntil(() => ExperienceCenterData.Instance.IsMusicOn);
+			yield return new WaitUntil (() => ExperienceCenterData.Instance.IsMusicOn);
 
 			// Dance for 50 seconds
 			DateTime lStartDance = DateTime.Now;
@@ -130,7 +142,7 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.SayKey ("iotcontinuation", true);
 			mTTS.Silence (500, true);
 
-			yield return new WaitUntil(() => mTTS.HasFinishedTalking);
+			yield return new WaitUntil (() => mTTS.HasFinishedTalking);
 			mAnimatorManager.ActivateCmd ((byte)(Command.Stop));
 		}
 
@@ -144,15 +156,6 @@ namespace BuddyApp.ExperienceCenter
 			if (ExperienceCenterData.Instance.EnableBaseMovement)
 				BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 		}
-
-		private bool CheckSpeed ()
-		{
-			return Math.Abs (BYOS.Instance.Primitive.Motors.Wheels.Speed) <= 0.1f;
-		}
-
-		private bool CheckDistance ()
-		{
-			return distance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose) <= DISTANCE_THRESHOLD;
-		}
+			
 	}
 }

@@ -55,12 +55,15 @@ namespace BuddyApp.ExperienceCenter
 
 			Debug.LogFormat ("Speed = {0}, Distance to travel = {1}", BYOS.Instance.Primitive.Motors.Wheels.Speed, mDistance);
 
-			yield return new WaitUntil (() => CheckSpeed () || CheckDistance () || !mCollisionDetector.enableToMove);
+			yield return new WaitUntil (() => mCollisionDetector.CheckSpeed (mSpeedThreshold)
+			|| mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD)
+			|| !mCollisionDetector.enableToMove);
+
 
 			Debug.LogFormat ("Distance left to travel : {0}", mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose));
 			BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 
-			if (!CheckDistance ()) {
+			if (!mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD)) {
 				Debug.Log ("Restart MoveForward Coroutine");
 				StartCoroutine (MoveForward (wheelSpeed));
 			} else {
@@ -82,16 +85,6 @@ namespace BuddyApp.ExperienceCenter
 				BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 			behaviourEnd = true;
 		}
-
-		private bool CheckSpeed ()
-		{
-			return Math.Abs (BYOS.Instance.Primitive.Motors.Wheels.Speed) <= mSpeedThreshold;
-		}
-
-		private bool CheckDistance ()
-		{
-			return mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose) <= DISTANCE_THRESHOLD;
-		}
-
+			
 	}
 }
