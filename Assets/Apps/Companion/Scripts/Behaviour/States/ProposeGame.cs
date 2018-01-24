@@ -45,7 +45,7 @@ namespace BuddyApp.Companion
 			mNoGame = false;
             Interaction.Mood.Set(MoodType.HAPPY);
 
-            mTTS.Say(Dictionary.GetRandomString("attention") + " "+ Dictionary.GetRandomString(mProposal + "propose"));
+            mTTS.Say(Dictionary.GetRandomString("attention") + " "+ Dictionary.GetRandomString("propose" + mProposal));
 
             Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetRandomString(mProposal), YesAnswer, NoAnswer);
         }
