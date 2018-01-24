@@ -22,7 +22,6 @@ namespace BuddyApp.ExperienceCenter
 	public enum Command
 	{
 		Welcome = 0x01,
-		Questions = 0x02,
 		ByeBye = 0x03,
 		MoveForward = 0x04,
 		IOT = 0x05,
@@ -45,7 +44,6 @@ namespace BuddyApp.ExperienceCenter
 	{
 		Idle = 0x00,
 		Welcome = 0x01,
-		Questions = 0x02,
 		ByeBye = 0x03,
 		MoveForward = 0x04,
 		IOT = 0x05,
@@ -196,7 +194,6 @@ namespace BuddyApp.ExperienceCenter
 			stateDict = new Dictionary<State, bool> ();
 			stateDict.Add (State.Idle, false);
 			stateDict.Add (State.Welcome, false);
-			stateDict.Add (State.Questions, false);
 			stateDict.Add (State.ByeBye, false);
 			stateDict.Add (State.MoveForward, false);
 			stateDict.Add (State.IOT, false);
@@ -207,7 +204,6 @@ namespace BuddyApp.ExperienceCenter
 			if (stateDict [State.Idle]) {
 				switch ((Command)cmd) {
 				case Command.Welcome:
-				case Command.Questions:
 				case Command.ByeBye: 
 					{
 						UpdateStateDict (cmd, State.Idle); 
@@ -259,25 +255,7 @@ namespace BuddyApp.ExperienceCenter
 					break;
 				}
 			}
-
-			if (stateDict [State.Questions]) {
-				switch ((Command)cmd) {
-				case Command.Stop: 
-					{
-						UpdateStateDict (cmd, State.Questions); 
-						break;
-					}
-				case Command.EmergencyStop:
-					{
-						UpdateStateDict (cmd, State.Questions); 
-						emergencyStop = true;
-						break;
-					}
-				default:
-					break;
-				}
-			}
-
+				
 			if (stateDict [State.MoveForward]) {
 				switch ((Command)cmd) {
 				case Command.IOT:

@@ -118,8 +118,6 @@ namespace BuddyApp.ExperienceCenter
 			yield return new WaitUntil (() =>mTTS.HasFinishedTalking);
 			if (key == "idlesee")
 				mAnimatorManager.ActivateCmd((byte)(Command.Welcome));
-			else if (key == "idletalk")
-				mAnimatorManager.ActivateCmd((byte)(Command.Questions));
 			else if (key == "idleleg")
 				mAnimatorManager.ActivateCmd((byte)(Command.ByeBye));
 		}
