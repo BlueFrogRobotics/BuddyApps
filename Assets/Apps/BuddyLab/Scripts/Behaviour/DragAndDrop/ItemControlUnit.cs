@@ -34,6 +34,7 @@ namespace BuddyApp.BuddyLab
 
         [SerializeField]
         private ConditionManager ConditionManager;
+        private string mConditionParam;
 
         [SerializeField]
         private LoopManager LoopManager;
@@ -199,6 +200,12 @@ namespace BuddyApp.BuddyLab
                 {
                     OnNextAction(mIndex);
                 }
+                if(LoopManager.IsSensorLoopWithParam)
+                {
+                    //ConditionManager.ConditionType = ;
+                    if (!mIsRunning)
+                        ConditionManager.ConditionType = "";
+                }
                
                 if (bli.Category == Category.BML)
                 {
@@ -238,9 +245,10 @@ namespace BuddyApp.BuddyLab
                 }
                 else if (bli.Category == Category.LOOP)
                 {
-                   //Debug.Log("INDEX LOOP CATEGORY : " + mIndex);
-                   LoopManager.IndexLoop = mIndex;
-                   if(bli.LoopType == LoopType.INFINITE)
+                    //Debug.Log("INDEX LOOP CATEGORY : " + mIndex);
+                    LoopManager.LoopType = bli.LoopType;
+                    LoopManager.IndexLoop = mIndex;
+                    if(bli.LoopType == LoopType.INFINITE)
                     {
                         mIndex -= (bli.NbItemsInLoop + 1);
                         if (!mIsRunning)
@@ -254,6 +262,12 @@ namespace BuddyApp.BuddyLab
                         LoopManager.LoopCounter = mLoopCounter++;
                         mIndex -= (bli.NbItemsInLoop + 1);
                     }
+                    if(bli.LoopType == LoopType.SENSOR && !LoopManager.ChangeIndex)
+                    {
+                        mIndex -= (bli.NbItemsInLoop + 1);
+                        mConditionParam = bli.Parameter;
+                    }
+
                     Debug.Log("LOOPCOUNTER : " + mLoopCounter);
                     if (LoopManager.ChangeIndex)
                     {
@@ -267,9 +281,9 @@ namespace BuddyApp.BuddyLab
                     }
                    
                         
-                    LoopManager.LoopType = bli.LoopType;
                     
-                    if (bli.ParameterKey != "")
+                    
+                    if (bli.Parameter != "")
                     {
                         LoopManager.ParamLoop = bli.Parameter;
                     }

@@ -103,7 +103,8 @@ namespace BuddyApp.BuddyLab
         private string mParamCondition;
         public string ParamCondition { get { return mParamCondition; } set { mParamCondition = value; } }
 
-
+        private bool mLoopSensor;
+        public bool LoopSensor { get { return mLoopSensor; } set { mLoopSensor = value; } }
 
         private bool mSubscribed;
         
@@ -176,7 +177,6 @@ namespace BuddyApp.BuddyLab
                         Debug.Log("fire");
                         mFireDetection = BYOS.Instance.Perception.Thermal;
                         mFireDetection.OnDetect(OnThermalDetected, 35);
-                        
                         mSubscribed = true;
                         break;
                     case "Movement":
