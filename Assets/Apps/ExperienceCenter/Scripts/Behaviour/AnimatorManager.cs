@@ -72,6 +72,7 @@ namespace BuddyApp.ExperienceCenter
 		public bool emergencyStop;
 		private string mOldState;
 		private TextToSpeech mTTS;
+		private bool mTrigger;
 		public Dictionary <State, bool> stateDict;
 
 		void Start ()
@@ -93,6 +94,11 @@ namespace BuddyApp.ExperienceCenter
 
 		void Update ()
 		{
+			if (mTrigger != ExperienceCenterData.Instance.VoiceTrigger) {
+				mTrigger = ExperienceCenterData.Instance.VoiceTrigger; 
+				Debug.LogWarningFormat ("Voice Trigger = {0}", mTrigger);
+			}
+
 			if (emergencyStop) {
 				BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 				if (mTTS.HasFinishedTalking) {
