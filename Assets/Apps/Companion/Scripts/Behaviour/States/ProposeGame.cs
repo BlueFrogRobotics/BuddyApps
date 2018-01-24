@@ -45,7 +45,7 @@ namespace BuddyApp.Companion
 			mNoGame = false;
             Interaction.Mood.Set(MoodType.HAPPY);
 
-            mTTS.Say(Dictionary.GetRandomString("attention") + " "+ Dictionary.GetRandomString(mProposal));
+            mTTS.Say(Dictionary.GetRandomString("attention") + " "+ Dictionary.GetRandomString(mProposal + "propose"));
 
             Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetRandomString(mProposal), YesAnswer, NoAnswer);
         }
@@ -76,14 +76,14 @@ namespace BuddyApp.Companion
             OnAnswer("nogame");
         }
 
-        public string RandomProposal(List<string> iProp)
+        private string RandomProposal(List<string> iProp)
         {
             string  lProp = "";
             int lRdmOne = UnityEngine.Random.Range(1, 4);
 
             switch (lRdmOne) {
                 case 1:
-                    lProp = "jokes";
+                    lProp = "joke";
                     break;
                 case 2:
                     lProp = "dance";
