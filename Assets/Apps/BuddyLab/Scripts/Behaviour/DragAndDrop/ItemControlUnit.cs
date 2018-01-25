@@ -202,7 +202,8 @@ namespace BuddyApp.BuddyLab
                 }
                 if(LoopManager.IsSensorLoopWithParam)
                 {
-                    //ConditionManager.ConditionType = ;
+                    if(ConditionManager.ConditionType=="")
+                        ConditionManager.ConditionType = mConditionParam;
                     if (!mIsRunning)
                         ConditionManager.ConditionType = "";
                 }
@@ -230,7 +231,7 @@ namespace BuddyApp.BuddyLab
                 }
                 else if (bli.Category == Category.CONDITION)
                 {
-                    Debug.Log("CATEGORY CONDITION : ");
+                    //Debug.Log("CATEGORY CONDITION : ");
                     ConditionManager.ConditionType = bli.ConditionName;
                     if (bli.ParameterKey != "")
                     {
@@ -264,25 +265,23 @@ namespace BuddyApp.BuddyLab
                     }
                     if(bli.LoopType == LoopType.SENSOR && !LoopManager.ChangeIndex)
                     {
+                        
                         mIndex -= (bli.NbItemsInLoop + 1);
                         mConditionParam = bli.Parameter;
+                        
                     }
-
-                    Debug.Log("LOOPCOUNTER : " + mLoopCounter);
                     if (LoopManager.ChangeIndex)
                     {
+                        mConditionParam = "";
                         mLoopCounter = 0;
                         LoopManager.LoopCounter = 0;
                         mIndex = LoopManager.IndexLoop;
                         LoopManager.IndexLoop = 0;
-                        Debug.Log("CHANGE INDEX : " + (LoopManager.IndexLoop));
+                        //Debug.Log("CHANGE INDEX : " + (LoopManager.IndexLoop));
                         LoopManager.ChangeIndex = false;
                         LoopManager.LoopType = LoopType.NONE;
+                        LoopManager.IsSensorLoopWithParam = false;
                     }
-                   
-                        
-                    
-                    
                     if (bli.Parameter != "")
                     {
                         LoopManager.ParamLoop = bli.Parameter;

@@ -54,6 +54,8 @@ namespace BuddyApp.BuddyLab
         private bool mIsSensorLoop;
         private bool mIsSensorLoopWithParam;
         public bool IsSensorLoopWithParam { get { return mIsSensorLoopWithParam; } set { mIsSensorLoopWithParam = value; } }
+        
+
 
         // Use this for initialization
         void Start()
@@ -124,7 +126,6 @@ namespace BuddyApp.BuddyLab
 
         private void LoopSensor()
         {
-            Debug.Log("Sensor LOOP :");
             mIsSensorLoopWithParam = true;
         }
 
