@@ -222,8 +222,16 @@ namespace BuddyApp.Companion
 						mSynonymesFile = lStreamReader.ReadToEnd();
 						lStreamReader.Close();
 						mWebsiteHash[RequestType.DEFINITION] = "https://fr.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=";
-					}
-					InitSpeech();
+				    } else if (mCurrentLanguage == Language.IT) {
+                    StreamReader lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-it.xml"));
+                    mQuestionsFile = lStreamReader.ReadToEnd();
+                    lStreamReader.Close();
+                    lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-en.xml"));
+                    mSynonymesFile = lStreamReader.ReadToEnd();
+                    lStreamReader.Close();
+                    mWebsiteHash[RequestType.DEFINITION] = "https://it.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=";
+                }
+                InitSpeech();
 				}
 			}
 		}

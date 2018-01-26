@@ -156,7 +156,7 @@ namespace BuddyApp.Companion
 					mDetectedElement = Detected.BATTERY;
 
 
-			if (Input.touchCount > 0 || Input.GetMouseButtonDown(0)) {
+			if ( (Input.touchCount > 0 || Input.GetMouseButtonDown(0) ) && BYOS.Instance.Primitive.Motors.AreMovable) {
 
 				int i = 0;
 				for (i = 0; i < Input.touchCount; ++i) {
