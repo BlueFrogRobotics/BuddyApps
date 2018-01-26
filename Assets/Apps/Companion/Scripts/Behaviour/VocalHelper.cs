@@ -161,16 +161,19 @@ namespace BuddyApp.Companion
 			mBuildingAnswer = false;
 			mErrorCount = 0;
 
-			//Init all the questions and synonyms from files depending on language
-			StreamReader lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-fr.xml"));
-			if (mCurrentLanguage == Language.EN)
-				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-en.xml"));
+            //Init all the questions and synonyms from files depending on language
+            StreamReader lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-en.xml"));
+            if (mCurrentLanguage == Language.FR)
+                lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-fr.xml"));
+            else if (mCurrentLanguage == Language.IT)
+				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-it.xml"));
 			mQuestionsFile = lStreamReader.ReadToEnd();
 			lStreamReader.Close();
 
-			lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-fr.xml"));
-			if (mCurrentLanguage == Language.EN)
-				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-en.xml"));
+			lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-en.xml"));
+			if (mCurrentLanguage == Language.FR)
+				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-fr.xml"));
+
 			mSynonymesFile = lStreamReader.ReadToEnd();
 			lStreamReader.Close();
 
