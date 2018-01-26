@@ -147,8 +147,6 @@ namespace BuddyApp.Companion
 				Debug.Log("Detection manager other touched");
 				//mDetectedElement = Detected.TOUCH;
 				mFacePartTouched = FaceTouch.OTHER;
-
-				BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, 1, "othertouch", "TOUCH_FACE", EmotionalEvent.EmotionalEventType.INTERACTION, InternalMood.HAPPY));
 				mActionManager.HeadReaction();
 				mTimeOtherTouched = 0F;
 			}
@@ -158,7 +156,7 @@ namespace BuddyApp.Companion
 					mDetectedElement = Detected.BATTERY;
 
 
-			if ( ( Input.touchCount > 0 || Input.GetMouseButtonDown(0) ) && BYOS.Instance.Primitive.Motors.AreMovable) {
+			if (Input.touchCount > 0 || Input.GetMouseButtonDown(0)) {
 
 				int i = 0;
 				for (i = 0; i < Input.touchCount; ++i) {
@@ -209,8 +207,6 @@ namespace BuddyApp.Companion
 
 		private void RightEyeClicked()
 		{
-
-			BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-3, 1, "eyepoke", "POKE_EYE", EmotionalEvent.EmotionalEventType.INTERACTION, InternalMood.ANGRY));
 			Debug.Log("face touched r eye");
 			mTimeElementTouched = Time.time;
 			//mDetectedElement = Detected.TOUCH;
@@ -223,9 +219,7 @@ namespace BuddyApp.Companion
 
 		private void LeftEyeClicked()
 		{
-
-			BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-3, 1, "eyepoke", "POKE_EYE", EmotionalEvent.EmotionalEventType.INTERACTION, InternalMood.ANGRY));
-Debug.Log("face touched l eye");
+			Debug.Log("face touched l eye");
 			mTimeElementTouched = Time.time;
 			//mDetectedElement = Detected.TOUCH;
 			mFacePartTouched = FaceTouch.LEFT_EYE;

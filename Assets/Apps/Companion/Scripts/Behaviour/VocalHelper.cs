@@ -64,10 +64,13 @@ namespace BuddyApp.Companion
 		private Dictionary<RequestType, string> mWebsiteHash;
 
 		private List<string> mAcceptSpeech;
+		private List<string> mAlarmSpeech;
 		private List<string> mAnotherSpeech;
 		private List<string> mAnswersSpeech;
 		private List<string> mBabyphoneSpeech;
 		private List<string> mBehaviourSpeech;
+		private List<string> mBuddyLabSpeech;
+		private List<string> mCalculationSpeech;
 		private List<string> mCanMoveSpeech;
 		private List<string> mDanceSpeech;
 		private List<string> mDemoFullSpeech;
@@ -78,34 +81,49 @@ namespace BuddyApp.Companion
 		private List<string> mDidntUnderstandSpeech;
 		private List<string> mDontMoveSpeech;
 		private List<string> mDoSomethingSpeech;
+		private List<string> mFreezeDanceSpeech;
 		private List<string> mFollowMeSpeech;
 		private List<string> mGameSpeech;
 		private List<string> mGetSpeech;
+		private List<string> mGuardianSpeech;
 		private List<string> mHeadDownSpeech;
 		private List<string> mHeadUpSpeech;
 		private List<string> mHeadLeftSpeech;
 		private List<string> mHeadRightSpeech;
+		private List<string> mHideSeekSpeech;
 		private List<string> mHourSpeech;
 		private List<string> mICouldntSpeech;
+		private List<string> mISpeech;
+		private List<string> mIOTSpeech;
 		private List<string> mJokeSpeech;
+		private List<string> mJukeboxSpeech;
 		private List<string> mLeftSpeech;
 		private List<string> mLookAtMeSpeech;
 		private List<string> mLookForSpeech;
+		private List<string> mMemorySpeech;
+		private List<string> mMeteoSpeech;
 		private List<string> mMoveBackwardSpeech;
 		private List<string> mMoveForwardSpeech;
 		private List<string> mMoveLeftSpeech;
 		private List<string> mMoveRightSpeech;
 		private List<string> mNewsSpeech;
+		private List<string> mPhotoSpeech;
 		private List<string> mPlaySpeech;
+		private List<string> mPoseSpeech;
 		private List<string> mQuestionSpeech;
 		private List<string> mQuitSpeech;
+		private List<string> mQuizzSpeech;
 		private List<string> mRepeatAfterMeSpeech;
 		private List<string> mRepeatPlzSpeech;
+		private List<string> mRecipeSpeech;
+		private List<string> mRLGLSpeech;
 		private List<string> mSeveralResSpeech;
 		private List<string> mSorrySpeech;
+		private List<string> mStorySpeech;
 		private List<string> mTemperatureSpeech;
 		private List<string> mTempSpeech;
 		private List<string> mThanksSpeech;
+		private List<string> mTimerSpeech;
 		private List<string> mTurnSpeech;
 		private List<string> mURWelcomeSpeech;
 		private List<string> mVolumeSpeech;
@@ -211,10 +229,13 @@ namespace BuddyApp.Companion
 		{
 			//Reads through the synonym file to check for specific keywords
 			mAcceptSpeech = new List<string>();
+			mAlarmSpeech = new List<string>();
 			mAnotherSpeech = new List<string>();
 			mAnswersSpeech = new List<string>();
 			mBabyphoneSpeech = new List<string>();
 			mBehaviourSpeech = new List<string>();
+			mBuddyLabSpeech = new List<string>();
+			mCalculationSpeech = new List<string>();
 			mCanMoveSpeech = new List<string>();
 			mDateSpeech = new List<string>();
 			mDanceSpeech = new List<string>();
@@ -225,34 +246,49 @@ namespace BuddyApp.Companion
 			mDidntUnderstandSpeech = new List<string>();
 			mDontMoveSpeech = new List<string>();
 			mDoSomethingSpeech = new List<string>();
+			mFreezeDanceSpeech = new List<string>();
 			mFollowMeSpeech = new List<string>();
 			mGameSpeech = new List<string>();
 			mGetSpeech = new List<string>();
+			mGuardianSpeech = new List<string>();
 			mHeadDownSpeech = new List<string>();
 			mHeadLeftSpeech = new List<string>();
 			mHeadRightSpeech = new List<string>();
 			mHeadUpSpeech = new List<string>();
+			mHideSeekSpeech = new List<string>();
 			mHourSpeech = new List<string>();
 			mICouldntSpeech = new List<string>();
+			mISpeech = new List<string>();
+			mIOTSpeech = new List<string>();
 			mJokeSpeech = new List<string>();
+			mJukeboxSpeech = new List<string>();
 			mLeftSpeech = new List<string>();
 			mLookAtMeSpeech = new List<string>();
 			mLookForSpeech = new List<string>();
+			mMemorySpeech = new List<string>();
+			mMeteoSpeech = new List<string>();
 			mMoveBackwardSpeech = new List<string>();
 			mMoveForwardSpeech = new List<string>();
 			mMoveLeftSpeech = new List<string>();
 			mMoveRightSpeech = new List<string>();
 			mNewsSpeech = new List<string>();
+			mPhotoSpeech = new List<string>();
 			mPlaySpeech = new List<string>();
+			mPoseSpeech = new List<string>();
 			mQuestionSpeech = new List<string>();
 			mQuitSpeech = new List<string>();
+			mQuizzSpeech = new List<string>();
 			mRepeatAfterMeSpeech = new List<string>();
 			mRepeatPlzSpeech = new List<string>();
+			mRecipeSpeech = new List<string>();
+			mRLGLSpeech = new List<string>();
 			mSeveralResSpeech = new List<string>();
 			mSorrySpeech = new List<string>();
+			mStorySpeech = new List<string>();
 			mTemperatureSpeech = new List<string>();
 			mTempSpeech = new List<string>();
 			mThanksSpeech = new List<string>();
+			mTimerSpeech = new List<string>();
 			mTurnSpeech = new List<string>();
 			mURWelcomeSpeech = new List<string>();
 			mVolumeSpeech = new List<string>();
@@ -263,10 +299,13 @@ namespace BuddyApp.Companion
 			mWhoIs = new List<string>();
 
 			FillListSyn("Accept", mAcceptSpeech);
+			FillListSyn("Alarm", mAlarmSpeech);
 			FillListSyn("Another", mAnotherSpeech);
 			FillListSyn("Answers", mAnswersSpeech);
 			FillListSyn("Babyphone", mBabyphoneSpeech);
 			FillListSyn("Behaviour", mBehaviourSpeech);
+			FillListSyn("BuddyLab", mBuddyLabSpeech);
+			FillListSyn("Calculation", mCalculationSpeech);
 			FillListSyn("CanMove", mCanMoveSpeech);
 			FillListSyn("Date", mDateSpeech);
 			FillListSyn("Dance", mDanceSpeech);
@@ -277,34 +316,49 @@ namespace BuddyApp.Companion
 			FillListSyn("DidntUnderstand", mDidntUnderstandSpeech);
 			FillListSyn("DontMove", mDontMoveSpeech);
 			FillListSyn("DoSomething", mDoSomethingSpeech);
+			FillListSyn("FreezeDance", mFreezeDanceSpeech);
 			FillListSyn("FollowMe", mFollowMeSpeech);
 			FillListSyn("Game", mGameSpeech);
 			FillListSyn("Get", mGetSpeech);
+			FillListSyn("Guardian", mGuardianSpeech);
 			FillListSyn("HeadDown", mHeadDownSpeech);
 			FillListSyn("HeadLeft", mHeadLeftSpeech);
 			FillListSyn("HeadRight", mHeadRightSpeech);
 			FillListSyn("HeadUp", mHeadUpSpeech);
+			FillListSyn("HideSeek", mHideSeekSpeech);
 			FillListSyn("Hour", mHourSpeech);
 			FillListSyn("Left", mLeftSpeech);
 			FillListSyn("LookAtMe", mLookAtMeSpeech);
 			FillListSyn("ICouldnt", mICouldntSpeech);
+			FillListSyn("I", mISpeech);
+			FillListSyn("IOT", mIOTSpeech);
 			FillListSyn("Joke", mJokeSpeech);
+			FillListSyn("Jukebox", mJukeboxSpeech);
 			FillListSyn("LookFor", mLookForSpeech);
+			FillListSyn("Memory", mMemorySpeech);
+			FillListSyn("Meteo", mMeteoSpeech);
 			FillListSyn("MoveBackward", mMoveBackwardSpeech);
 			FillListSyn("MoveForward", mMoveForwardSpeech);
 			FillListSyn("MoveLeft", mMoveLeftSpeech);
 			FillListSyn("MoveRight", mMoveRightSpeech);
 			FillListSyn("News", mNewsSpeech);
+			FillListSyn("Photo", mPhotoSpeech);
 			FillListSyn("Play", mPlaySpeech);
+			FillListSyn("Pose", mPoseSpeech);
 			FillListSyn("Question", mQuestionSpeech);
 			FillListSyn("Quit", mQuitSpeech);
+			FillListSyn("Quizz", mQuizzSpeech);
 			FillListSyn("Repeat", mRepeatPlzSpeech);
 			FillListSyn("RepeatAfterMe", mRepeatAfterMeSpeech);
+			FillListSyn("Recipe", mRecipeSpeech);
+			FillListSyn("RLGL", mRLGLSpeech);
 			FillListSyn("SeveralRes", mSeveralResSpeech);
 			FillListSyn("Sorry", mSorrySpeech);
+			FillListSyn("Story", mStorySpeech);
 			FillListSyn("Temperature", mTemperatureSpeech);
 			FillListSyn("Temp", mTempSpeech);
 			FillListSyn("Thanks", mThanksSpeech);
+			FillListSyn("Timer", mTimerSpeech);
 			FillListSyn("Turn", mTurnSpeech);
 			FillListSyn("URWelcome", mURWelcomeSpeech);
 			FillListSyn("Volume", mVolumeSpeech);
@@ -446,36 +500,36 @@ namespace BuddyApp.Companion
 			////////////////////////////
 
 
-			if (ContainsOneOf(iSpeech, "alarm"))
+			if (ContainsOneOf(iSpeech, mAlarmSpeech))
 				lType = "Alarm";
 			//else if (ContainsOneOf(iSpeech, mQuizzSpeech))
 			//	lType = "Quizz";
-			else if (ContainsOneOf(iSpeech, "calculationgame"))
+			else if (ContainsOneOf(iSpeech, mCalculationSpeech))
 				lType = "Calcul";
-			else if (ContainsOneOf(iSpeech, "memorygame"))
+			else if (ContainsOneOf(iSpeech, mMemorySpeech))
 				lType = "Memory";
 			//else if (ContainsOneOf(iSpeech, mBabyphoneSpeech))
 			//	lType = "Babyphone";
-			else if (ContainsOneOf(iSpeech, "freezedance"))
+			else if (ContainsOneOf(iSpeech, mFreezeDanceSpeech))
 				lType = "FreezeDance";
-			else if (ContainsOneOf(iSpeech, "guardian"))
+			else if (ContainsOneOf(iSpeech, mGuardianSpeech))
 				lType = "Guardian";
-			else if (ContainsOneOf(iSpeech, "iot"))
+			else if (ContainsOneOf(iSpeech, mIOTSpeech))
 				lType = "IOT";
-			else if (ContainsOneOf(iSpeech, "jukebox"))
+			else if (ContainsOneOf(iSpeech, mJukeboxSpeech))
 				lType = "Jukebox";
 			//else if (ContainsOneOf(iSpeech, mRecipeSpeech))
 			//	lType = "Recipe";
-			else if (ContainsOneOf(iSpeech, "rlgl"))
+			else if (ContainsOneOf(iSpeech, mRLGLSpeech))
 				lType = "RLGL";
 			//else if (ContainsOneOf(iSpeech, mHideSeekSpeech))
 			//	lType = "HideSeek";
-			else if (ContainsOneOf(iSpeech, "pose"))
+			else if (ContainsOneOf(iSpeech, mPoseSpeech))
 				lType = "Pose";
-			else if (ContainsOneOf(iSpeech, "photo"))
+			else if (ContainsOneOf(iSpeech, mPhotoSpeech))
 				lType = "Photo";
-			//else if (ContainsOneOf(iSpeech, "story"))
-			//	lType = "Story";
+			else if (ContainsOneOf(iSpeech, mStorySpeech))
+				lType = "Story";
 
 
 			/////////////////////////
@@ -511,10 +565,19 @@ namespace BuddyApp.Companion
 				//TTSProcessAndSay(mPreviousAnswer, true);
 				//mAnswerGiven = true;
 				lType = "Repeat";
-			} else if (ContainsOneOf(iSpeech, "mood")) {
-				Debug.Log("vocalHelper mood");
-				lType = "Mood";
-			} else if (ContainsOneOf(iSpeech, "weather")) {
+			} else if (ContainsOneOf(iSpeech, mBehaviourSpeech)) {
+				int lKeywordsIndex = WordIndexOfOneOf(iSpeech, mBehaviourSpeech);
+				string[] lWords = iSpeech.Split(' ');
+
+				if (lKeywordsIndex != -1 && lKeywordsIndex + 1 != lWords.Length) {
+					//Take just the next word
+					//for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
+					Answer = lWords[lKeywordsIndex + 1];
+				}
+				lType = "BML";
+				//TTSProcessAndSay(lSentenceToRepeat, true);
+				//mAnswerGiven = true;
+			} else if (ContainsOneOf(iSpeech, mMeteoSpeech)) {
 				lType = "Weather";
 				//We search for the location of the weather request
 				/*int lKeywordIndex = WordIndexOfOneOf(iSpeech, mMeteoSpeech);
@@ -566,16 +629,18 @@ namespace BuddyApp.Companion
 					Answer = BuildGeneralAnswer(iSpeech.ToLower());
 				}
 
-			} else if (ContainsOneOf(iSpeech, "buddylab"))
+			} else if (ContainsOneOf(iSpeech, mBuddyLabSpeech))
 				lType = "BuddyLab";
-			else if (ContainsOneOf(iSpeech, "timer"))
+			else if (ContainsOneOf(iSpeech, mTimerSpeech))
 				lType = "Timer";
 			else if (ContainsOneOf(iSpeech, mFollowMeSpeech))
 				lType = "FollowMe";
 			else if (ContainsOneOf(iSpeech, mLookAtMeSpeech))
 				lType = "LookAtMe";
 			else if (ContainsOneOf(iSpeech, mWanderSpeech)) {
+				Debug.Log("Wander 1");
 				Answer = FindMood(iSpeech.ToLower());
+				Debug.Log("Wander 2");
 				lType = "Wander";
 			} else if (ContainsOneOf(iSpeech, mCanMoveSpeech))
 				lType = "CanMove";
@@ -1059,24 +1124,6 @@ namespace BuddyApp.Companion
 		private bool ContainsOneOf(string iSpeech, List<string> iListSpeech)
 		{
 			for (int i = 0; i < iListSpeech.Count; ++i) {
-				string[] words = iListSpeech[i].Split(' ');
-				if (words.Length < 2) {
-					words = iSpeech.Split(' ');
-					foreach (string word in words) {
-						if (word.ToLower() == iListSpeech[i].ToLower()) {
-							return true;
-						}
-					}
-				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
-					return true;
-			}
-			return false;
-		}
-
-		private bool ContainsOneOf(string iSpeech, string iKeySpeech)
-		{
-			string[] iListSpeech = BYOS.Instance.Dictionary.GetPhoneticStrings(iKeySpeech);
-			for (int i = 0; i < iListSpeech.Length; ++i) {
 				string[] words = iListSpeech[i].Split(' ');
 				if (words.Length < 2) {
 					words = iSpeech.Split(' ');

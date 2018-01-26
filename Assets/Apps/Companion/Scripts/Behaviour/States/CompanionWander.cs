@@ -39,7 +39,16 @@ namespace BuddyApp.Companion
 
 			Debug.Log("wander: " + CompanionData.Instance.MovingDesire);
 
-	
+			//Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
+			//Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
+
+
+			if (mDetectionManager.IsDetectingTrigger != CompanionData.Instance.CanTriggerWander)
+				if (CompanionData.Instance.CanTriggerWander)
+					mDetectionManager.StartSphinxTrigger();
+				else
+					mDetectionManager.StopSphinxTrigger();
+
 		}
 
 
