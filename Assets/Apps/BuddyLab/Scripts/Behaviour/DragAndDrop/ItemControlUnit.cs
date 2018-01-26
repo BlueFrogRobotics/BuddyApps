@@ -273,6 +273,7 @@ namespace BuddyApp.BuddyLab
                     if (LoopManager.ChangeIndex)
                     {
                         mConditionParam = "";
+                        ConditionManager.ConditionType = "";
                         mLoopCounter = 0;
                         LoopManager.LoopCounter = 0;
                         mIndex = LoopManager.IndexLoop;

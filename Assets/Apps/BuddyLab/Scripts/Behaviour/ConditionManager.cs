@@ -298,6 +298,13 @@ namespace BuddyApp.BuddyLab
             }
             if (mSpeechReco.Equals(mParamCondition))
             {
+                if (mLoopManager.IsSensorLoopWithParam)
+                {
+                    mConditionType = "";
+                    ClearEventTactile();
+                    mLoopManager.ChangeIndex = true;
+                    mLoopManager.IsSensorLoopWithParam = false;
+                }
                 ResetParam();
             }
             else
@@ -309,6 +316,13 @@ namespace BuddyApp.BuddyLab
             if (iSound > (1 - (0.4F/ 100.0f)) * MAX_SOUND_THRESHOLD)
             {
                 Debug.Log("Sound DETECTED");
+                if (mLoopManager.IsSensorLoopWithParam)
+                {
+                    mConditionType = "";
+                    ClearEventTactile();
+                    mLoopManager.ChangeIndex = true;
+                    mLoopManager.IsSensorLoopWithParam = false;
+                }
                 ResetParam();
                 return true;
             }
@@ -319,6 +333,13 @@ namespace BuddyApp.BuddyLab
         {
             if (mTimer > 1.5F && iMotion.Length > 2)
             {
+                if (mLoopManager.IsSensorLoopWithParam)
+                {
+                    mConditionType = "";
+                    ClearEventTactile();
+                    mLoopManager.ChangeIndex = true;
+                    mLoopManager.IsSensorLoopWithParam = false;
+                }
                 ResetParam();
                 mCam.Close();
                 mMotion.StopOnDetect(OnMovementDetected);
@@ -330,7 +351,13 @@ namespace BuddyApp.BuddyLab
         private bool OnThermalDetected(ObjectEntity[] iObject)
         {
             Debug.Log("FIRE DETECTED");
-            
+            if (mLoopManager.IsSensorLoopWithParam)
+            {
+                mConditionType = "";
+                ClearEventTactile();
+                mLoopManager.ChangeIndex = true;
+                mLoopManager.IsSensorLoopWithParam = false;
+            }
             ResetParam();
             mFireDetection.StopOnDetect(OnThermalDetected);
             return true;
@@ -346,6 +373,13 @@ namespace BuddyApp.BuddyLab
                 Debug.Log("Label : " + iQRCodeEntity[i].Label + " et i : " + i + iQRCodeEntity[i].MatInFrame == null);
                 if (iQRCodeEntity[i].Label == mParamCondition )
                 {
+                    if (mLoopManager.IsSensorLoopWithParam)
+                    {
+                        mConditionType = "";
+                        ClearEventTactile();
+                        mLoopManager.ChangeIndex = true;
+                        mLoopManager.IsSensorLoopWithParam = false;
+                    }
                     ResetParam();
                     mCam.Close();
                     mQRCodeDetect.StopOnDetect(OnQrcodeDetected);
@@ -362,6 +396,13 @@ namespace BuddyApp.BuddyLab
             {
                 if (mIRSensors.Middle.Distance < OBSTACLE_DISTANCE && mIRSensors.Middle.Distance != 0)
                 {
+                    if (mLoopManager.IsSensorLoopWithParam)
+                    {
+                        mConditionType = "";
+                        ClearEventTactile();
+                        mLoopManager.ChangeIndex = true;
+                        mLoopManager.IsSensorLoopWithParam = false;
+                    }
                     ResetParam();
                 }
             }
@@ -369,6 +410,13 @@ namespace BuddyApp.BuddyLab
             {
                 if (mIRSensors.Left.Distance < OBSTACLE_DISTANCE && mIRSensors.Left.Distance != 0)
                 {
+                    if (mLoopManager.IsSensorLoopWithParam)
+                    {
+                        mConditionType = "";
+                        ClearEventTactile();
+                        mLoopManager.ChangeIndex = true;
+                        mLoopManager.IsSensorLoopWithParam = false;
+                    }
                     ResetParam();
                 }
             }
@@ -376,6 +424,13 @@ namespace BuddyApp.BuddyLab
             {
                 if (mIRSensors.Right.Distance < OBSTACLE_DISTANCE && mIRSensors.Right.Distance != 0)
                 {
+                    if (mLoopManager.IsSensorLoopWithParam)
+                    {
+                        mConditionType = "";
+                        ClearEventTactile();
+                        mLoopManager.ChangeIndex = true;
+                        mLoopManager.IsSensorLoopWithParam = false;
+                    }
                     ResetParam();
                 }
             }
@@ -387,6 +442,13 @@ namespace BuddyApp.BuddyLab
             {
                 if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
                 {
+                    if (mLoopManager.IsSensorLoopWithParam)
+                    {
+                        mConditionType = "";
+                        ClearEventTactile();
+                        mLoopManager.ChangeIndex = true;
+                        mLoopManager.IsSensorLoopWithParam = false;
+                    }
                     ResetParam();
                 }
             }
@@ -423,6 +485,13 @@ namespace BuddyApp.BuddyLab
         {
             if (Mathf.Abs(mMotor.Wheels.Odometry.z - mOriginRobotAngle) > ANGLE_THRESH)
             {
+                if (mLoopManager.IsSensorLoopWithParam)
+                {
+                    mConditionType = "";
+                    ClearEventTactile();
+                    mLoopManager.ChangeIndex = true;
+                    mLoopManager.IsSensorLoopWithParam = false;
+                }
                 ResetParam();
             }
         }
@@ -431,6 +500,13 @@ namespace BuddyApp.BuddyLab
         {
             if (Mathf.Abs(mMotor.NoHinge.CurrentAnglePosition) > ANGLE_THRESH)
             {
+                if (mLoopManager.IsSensorLoopWithParam)
+                {
+                    mConditionType = "";
+                    ClearEventTactile();
+                    mLoopManager.ChangeIndex = true;
+                    mLoopManager.IsSensorLoopWithParam = false;
+                }
                 ResetParam();
             }
         }
@@ -474,8 +550,6 @@ namespace BuddyApp.BuddyLab
 
         private void ResetParam()
         {
-            
-                
             mIsStringSaid = false;
             mSpeechReco = "";
             mHeadMoving = false;
@@ -492,7 +566,6 @@ namespace BuddyApp.BuddyLab
 
         private void ClearEventTactile()
         {
-            Debug.Log("ALLAHAKBAR");
             mFace.OnClickLeftEye.Clear();
             mFace.OnClickMouth.Clear();
             mFace.OnClickRightEye.Clear();
