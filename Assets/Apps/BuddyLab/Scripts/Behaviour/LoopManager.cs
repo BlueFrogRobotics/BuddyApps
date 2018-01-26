@@ -26,6 +26,9 @@ namespace BuddyApp.BuddyLab
         private float mTimer;
         private bool mIsInLoop;
 
+        [SerializeField]
+        private ConditionManager ConditionManager;
+
         /// <summary>
         /// Variables for loop_X
         /// </summary>
@@ -44,6 +47,15 @@ namespace BuddyApp.BuddyLab
         /// Variables for Infinite loop
         /// </summary>
         private bool mIsInfiniteLoop;
+
+        /// <summary>
+        /// Variables for loop_Sensor
+        /// </summary>
+        private bool mIsSensorLoop;
+        private bool mIsSensorLoopWithParam;
+        public bool IsSensorLoopWithParam { get { return mIsSensorLoopWithParam; } set { mIsSensorLoopWithParam = value; } }
+        
+
 
         // Use this for initialization
         void Start()
@@ -72,11 +84,15 @@ namespace BuddyApp.BuddyLab
                 if(mIsInfiniteLoop)
                 {
                     LoopInfinite();
+                }       
+                if(mIsSensorLoop)
+                {
+                    LoopSensor();
                 }
-                    
             }
         }
 
+        // We could only do this in the update but we might need this, at the end of the development of Buddylab we will know if we delete this
         private void LoadLoop()
         {
             if(!mIsInLoop)
@@ -95,6 +111,7 @@ namespace BuddyApp.BuddyLab
                         break;
                     case LoopType.SENSOR:
                         Debug.Log("Loop Sensor");
+                        mIsSensorLoop = true;
                         mIsInLoop = true;
                         break;
                     case LoopType.VISION:
@@ -105,12 +122,15 @@ namespace BuddyApp.BuddyLab
                         break;
                 }
             }
+        }
 
+        private void LoopSensor()
+        {
+            mIsSensorLoopWithParam = true;
         }
 
         private void LoopX()
         {
-            Debug.Log("LOOPX : " + mIndexLoop);
             if(mParamLoop != null)
             {
                 try
@@ -121,13 +141,15 @@ namespace BuddyApp.BuddyLab
                 {
                     Console.WriteLine(e.Message);
                 }
-                Debug.Log("MCONVERT LOOP X : " + mConvert + " LOOPCOUNTER : " + mLoopCounter);
-                if (mLoopCounter < mConvert )
+                //Debug.Log("MCONVERT LOOP X : " + mConvert + " LOOPCOUNTER : " + mLoopCounter);
+                //Debug.Log(" LOOP X MCHANGEINDEX: " + mChangeIndex);
+
+                if (mLoopCounter < mConvert-1 )
                     return;
                 else
                 {
-                    Debug.Log("LOOPX RESETPARAM");
-                    mIsLoopX = false;
+                    //Debug.Log("LOOPX RESETPARAM");
+                    mLoopCounter = 0;
                     ResetParam();
                 }
             }
@@ -141,11 +163,19 @@ namespace BuddyApp.BuddyLab
 
         public void ResetParam()
         {
+            mIsSensorLoop = false;
+            mIsLoopX = false;
             mIsInfiniteLoop = false;
             mChangeIndex = true;
             mLoopType = LoopType.NONE;
             mIsInLoop = false;
         }
+
+        public void NeedChangeIndex()
+        {
+            mChangeIndex = false;
+        }
+
     }
 
 }

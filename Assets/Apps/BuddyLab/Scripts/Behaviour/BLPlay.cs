@@ -17,10 +17,12 @@ namespace BuddyApp.BuddyLab
         private QRCodeDetection mQRcodeDetection;
         private TimelineDisplayer mTimelineDisplayer;
         private LoopManager mLoopManager;
+        private ConditionManager mConditionManager;
         private BuddyLabBehaviour mBLBehaviour;
 
         public override void Start()
         {
+            mConditionManager = GetGameObject(3).GetComponent<ConditionManager>();
             mLoopManager = GetGameObject(3).GetComponent<LoopManager>();
             mUIManager = GetComponent<LabUIEditorManager>();
             mItemControl = GetComponentInGameObject<ItemControlUnit>(4);
@@ -63,9 +65,10 @@ namespace BuddyApp.BuddyLab
         private void Stop()
         {
             ResetPosition();
-            Debug.Log("STOP BUTTON FDP");
             mItemControl.IsRunning = false;
             mLoopManager.ResetParam();
+            mLoopManager.NeedChangeIndex();
+            mConditionManager.ConditionType = "";
             if (Primitive.RGBCam.IsOpen)
             {
                 Debug.Log("CAMERA OPEN");

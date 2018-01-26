@@ -318,7 +318,7 @@
         </member>
         <member name="T:Buddy.Language">
             <summary>
-            Language for Speech to text, text to speech and sphinx settings. Only FRA and ENG are currently managed
+            Language for Speech to text, text to speech and sphinx settings. Available : EN, FR, IT, JP, KR, GER, NL
             </summary>
         </member>
         <member name="F:Buddy.Language.EN">
@@ -329,6 +329,31 @@
         <member name="F:Buddy.Language.FR">
             <summary>
             French language
+            </summary>
+        </member>
+        <member name="F:Buddy.Language.IT">
+            <summary>
+            Italian language
+            </summary>
+        </member>
+        <member name="F:Buddy.Language.JP">
+            <summary>
+            Japanese language
+            </summary>
+        </member>
+        <member name="F:Buddy.Language.KR">
+            <summary>
+            Korean language
+            </summary>
+        </member>
+        <member name="F:Buddy.Language.GER">
+            <summary>
+            German language
+            </summary>
+        </member>
+        <member name="F:Buddy.Language.NL">
+            <summary>
+            Dutch language (Holland).
             </summary>
         </member>
         <member name="T:Buddy.MovingState">
@@ -1051,7 +1076,7 @@
             <param name="iSpeed">The speed in degrees per second</param>
             <param name="iTolerance">The angle tolerance to reach to stop command in radians</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.Internal.API.HardwareDivision.RealHardware.TurnAngle(System.Single,System.Single,System.Single)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.Internal.API.HardwareDivision.RealHardware.TurnAngle(System.Single,System.Single,System.Single)" -->
         <member name="M:Buddy.Internal.API.HardwareDivision.RealHardware.MoveToAbsolutePosition(UnityEngine.Vector2,System.Single,System.Single)">
             <summary>
             Make the robot go to a desired global position.

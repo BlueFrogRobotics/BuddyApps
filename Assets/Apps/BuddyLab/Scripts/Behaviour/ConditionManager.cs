@@ -93,6 +93,7 @@ namespace BuddyApp.BuddyLab
             get { return mConditionType; }
             set
             {
+                Debug.Log("condition set to: " + value);
                 ClearEventTactile();
                 if (value == "")
                     ResetParam();
@@ -103,7 +104,10 @@ namespace BuddyApp.BuddyLab
         private string mParamCondition;
         public string ParamCondition { get { return mParamCondition; } set { mParamCondition = value; } }
 
-
+        [SerializeField]
+        private LoopManager mLoopManager;
+        //private bool mLoopSensor;
+        //public bool LoopSensor { get { return mLoopSensor; } set { mLoopSensor = value; } }
 
         private bool mSubscribed;
         
@@ -149,7 +153,9 @@ namespace BuddyApp.BuddyLab
                 mTimerBis = 0.0F;
                 LoadCondition();
                 if (mIsTactileDetect)
+                {
                     OnBuddyTactile();
+                }
                 if (mIRSensorDetect)
                     OnObstacleInFront();
                 if (mHeadMoving)
@@ -160,8 +166,7 @@ namespace BuddyApp.BuddyLab
                 {
                     mIsListening = false;
                     TextToSay();
-                }
-                    
+                }  
             }
         }
 
@@ -176,7 +181,6 @@ namespace BuddyApp.BuddyLab
                         Debug.Log("fire");
                         mFireDetection = BYOS.Instance.Perception.Thermal;
                         mFireDetection.OnDetect(OnThermalDetected, 35);
-                        
                         mSubscribed = true;
                         break;
                     case "Movement":
@@ -433,23 +437,45 @@ namespace BuddyApp.BuddyLab
 
         private void OnLeftEyeClicked()
         {
+            if (mLoopManager.IsSensorLoopWithParam)
+            {
+                mConditionType = "";
+                ClearEventTactile();
+                mLoopManager.ChangeIndex = true;
+                mLoopManager.IsSensorLoopWithParam = false;
+            }
             ResetParam();
         }
 
         private void OnRightEyeClicked()
         {
+            if (mLoopManager.IsSensorLoopWithParam)
+            {
+                mConditionType = "";
+                ClearEventTactile();
+                mLoopManager.ChangeIndex = true;
+                mLoopManager.IsSensorLoopWithParam = false;
+            }
             ResetParam();
         }
 
         private void OnMouthClicked()
         {
-            //Debug.Log("mouth clicked");
+            Debug.Log("mouth clicked KIKOO CONDITION MANAGER");
+            if (mLoopManager.IsSensorLoopWithParam)
+            {
+                mConditionType = "";
+                ClearEventTactile();
+                mLoopManager.ChangeIndex = true;
+                mLoopManager.IsSensorLoopWithParam = false;
+            }
             ResetParam();
         }
 
-
         private void ResetParam()
         {
+            
+                
             mIsStringSaid = false;
             mSpeechReco = "";
             mHeadMoving = false;
@@ -466,6 +492,7 @@ namespace BuddyApp.BuddyLab
 
         private void ClearEventTactile()
         {
+            Debug.Log("ALLAHAKBAR");
             mFace.OnClickLeftEye.Clear();
             mFace.OnClickMouth.Clear();
             mFace.OnClickRightEye.Clear();
