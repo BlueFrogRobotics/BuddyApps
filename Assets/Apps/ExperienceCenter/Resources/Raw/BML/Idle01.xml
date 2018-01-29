@@ -8,23 +8,16 @@
     <faceExp id="faceEx1" start="0.5" expression="BLINK_BOTH"/>
   </synchronized>
   <synchronized end="3">
-    <headNo id="headNo1" position="-30" speed="300"/>
-    <gazeShift id="gazeShift1" direction="LEFT"/>
-    <faceExp id="faceEx1" start="0.5" expression="BLINK_BOTH"/>
+    <headNo id="headNo2" position="-30" speed="300"/>
+    <gazeShift id="gazeShift2" direction="LEFT"/>
+    <faceExp id="faceEx2" start="0.5" expression="BLINK_BOTH"/>
   </synchronized>
   <synchronized end="3">
-    <gazeShift id="gazeShift1" direction="CENTER"/>
-    <headNo id="headNo1" position="0" speed="300"/>
-    <headYes id="headYes1"  position="0" speed="300"/>
+    <gazeShift id="gazeShift3" direction="CENTER"/>
+    <headNo id="headNo3" position="0" speed="300"/>
+    <headYes id="headYes3"  position="0" speed="300"/>
   </synchronized>
-  <faceMoodShift mood="TIRED"/>
-  <synchronized>
-    <headYes id="headYes1"  position="-15" speed="300"/>
-    <sound name="os_yawn" start="0.5"/>
-    <faceExp id="faceEx3" start="0.5" expression="YAWN"/>
-  </synchronized>
-  <synchronized>
-    <headYes id="headYes1"  position="0" speed="300"/>
-    <faceMoodShift mood="NEUTRAL"/>
-  </synchronized>
+  <headYes id="headYes4"  position="-15" speed="300"/>
+  <headYes id="headYes5"  position="0" speed="300"/>
+  <faceMoodShift mood="NEUTRAL"/>
 </bml>

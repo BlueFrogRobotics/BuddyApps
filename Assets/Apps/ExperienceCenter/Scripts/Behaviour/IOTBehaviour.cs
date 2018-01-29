@@ -123,7 +123,7 @@ namespace BuddyApp.ExperienceCenter
 				}
 				if (ExperienceCenterData.Instance.EnableBaseMovement) { 
 					if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
-						BYOS.Instance.Interaction.BMLManager.LaunchByName ("Dance01");
+						BYOS.Instance.Interaction.BMLManager.LaunchByName ("dance");
 
 					yield return new WaitUntil (() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
 				} else {

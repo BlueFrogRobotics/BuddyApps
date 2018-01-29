@@ -19,8 +19,8 @@ namespace BuddyApp.ExperienceCenter
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			mQuestionBehaviour = GameObject.Find("AIBehaviour").GetComponent<QuestionsBehaviour>();
 						
-			mIdleBehaviour.InitBehaviour ();
 			mQuestionBehaviour.InitBehaviour();
+			mIdleBehaviour.InitBehaviour ();
 		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
