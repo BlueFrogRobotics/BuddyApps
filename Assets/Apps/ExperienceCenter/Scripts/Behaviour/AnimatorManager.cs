@@ -71,6 +71,7 @@ namespace BuddyApp.ExperienceCenter
 		private string mOldState;
 		private TextToSpeech mTTS;
 		private bool mTrigger;
+		private bool mBML;
 		public Dictionary <State, bool> stateDict;
 
 		void Start ()
@@ -97,6 +98,10 @@ namespace BuddyApp.ExperienceCenter
 				Debug.LogWarningFormat ("Voice Trigger = {0}", mTrigger);
 			}
 
+			if (mBML != ExperienceCenterData.Instance.EnableBML) {
+				mBML = ExperienceCenterData.Instance.EnableBML; 
+				Debug.LogWarningFormat ("BML active = {0}", mBML);
+			}
 			if (emergencyStop) {
 				BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 				if (mTTS.HasFinishedTalking) {
@@ -127,6 +132,7 @@ namespace BuddyApp.ExperienceCenter
 							mIdleBehaviour.StopBehaviour ();
 							mSwitchIdleOnce = false;
 						}
+						return;
 					}
 				}
 				if (state != "" && state != mOldState) {

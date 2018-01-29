@@ -13,18 +13,18 @@ public class ECInitState : StateMachineBehaviour {
 			if (FirstRun) {
 				ExperienceCenterData.Instance.StatusTcp = "Offline";
 				ExperienceCenterData.Instance.IPAddress = "-";
-				ExperienceCenterData.Instance.StopDistance = 0.7F;
-				ExperienceCenterData.Instance.NoiseTime = 0.5F;
+				ExperienceCenterData.Instance.StopDistance = 0.4F;
+				ExperienceCenterData.Instance.NoiseTime = 0.2F;
 				ExperienceCenterData.Instance.SpeedThreshold = 0.01F;
 				ExperienceCenterData.Instance.TableDistance = 1.5F;
 				ExperienceCenterData.Instance.IOTDistance = 1.5F;
-				ExperienceCenterData.Instance.NoHingeAngle = 30F;
+				ExperienceCenterData.Instance.NoHingeAngle = 60F;
 				ExperienceCenterData.Instance.NoHingeSpeed = 90F;
 				ExperienceCenterData.Instance.HeadPoseTolerance = 0.2F;
-				ExperienceCenterData.Instance.WelcomeTimeOut = 3F;
+				ExperienceCenterData.Instance.WelcomeTimeOut = 5F;
 				ExperienceCenterData.Instance.EnableHeadMovement = true;
 				ExperienceCenterData.Instance.EnableBaseMovement = true;
-				ExperienceCenterData.Instance.VoiceTrigger = false;
+				ExperienceCenterData.Instance.VoiceTrigger = true;
 				ExperienceCenterData.Instance.EnableBML = false;
 				FirstRun = false;
 			}

@@ -32,7 +32,7 @@ namespace BuddyApp.ExperienceCenter
 			//BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
 			//BYOS.Instance.Interaction.VocalManager.OnError =  SpeechToTextError;
 
-			BYOS.Instance.Interaction.SphinxTrigger.SetThreshold(1E-24f);
+			//BYOS.Instance.Interaction.SphinxTrigger.SetThreshold(1E-24f);
 
 			// To test with the real robot
 			BYOS.Instance.Interaction.VocalManager.StartListenBehaviour = SpeechToTextStart;

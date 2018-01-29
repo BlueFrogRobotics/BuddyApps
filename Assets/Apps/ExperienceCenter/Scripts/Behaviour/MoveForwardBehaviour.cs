@@ -55,11 +55,10 @@ namespace BuddyApp.ExperienceCenter
 
 			Debug.LogFormat ("Speed = {0}, Distance to travel = {1}", BYOS.Instance.Primitive.Motors.Wheels.Speed, mDistance);
 
-			yield return new WaitUntil (() => mCollisionDetector.CheckSpeed (mSpeedThreshold)
-			|| mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD)
+			yield return new WaitUntil (() => mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD)
 			|| !mCollisionDetector.enableToMove);
 
-
+			Debug.LogFormat ("Check condition : Distance = {0}, Obstacle ={1}",  mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD), !mCollisionDetector.enableToMove );
 			Debug.LogFormat ("Distance left to travel : {0}", mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose));
 			BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 

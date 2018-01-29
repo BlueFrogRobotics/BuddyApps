@@ -299,7 +299,7 @@ namespace BuddyApp.ExperienceCenter
 			});
 
 			mBMLCheckBox = CreateWidget<OnOff> ();
-			mBMLCheckBox.IsActive = ExperienceCenterData.Instance.VoiceTrigger;
+			mBMLCheckBox.IsActive = ExperienceCenterData.Instance.EnableBML;
 
 			mBMLCheckBox.OnSwitchEvent ((bool iVal) => {
 				Debug.Log (String.Format ("Enable {0} : {1}", "BML", iVal));

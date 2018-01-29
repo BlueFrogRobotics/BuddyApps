@@ -96,7 +96,7 @@ namespace BuddyApp.ExperienceCenter
 
 			if (leftObs <= 0.3 || rightObs <= 0.3 || middleObs <= 0.3) {
 				enableToMove = false;
-				Debug.LogError ("There is a collision: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+				Debug.LogWarning ("Critical distance : L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 				return;
 			}
 
