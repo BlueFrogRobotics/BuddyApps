@@ -21,12 +21,15 @@ namespace BuddyApp.BuddyLab
         private string mNameOpenProject;
         public string NameOpenProject { get { return mNameOpenProject; } set { mNameOpenProject = value; } }
 
-        void Start()
+        [SerializeField]
+        private ItemControlUnit itemControlUnit;
+
+        void Awake()
         {
 			/*
 			* You can setup your App activity here.
 			*/
-			BuddyLabActivity.Init(null);
+			BuddyLabActivity.Init(null, itemControlUnit);
 			
 			/*
 			* Init your app data

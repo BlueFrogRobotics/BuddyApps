@@ -13,6 +13,8 @@ namespace BuddyApp.BuddyLab
     /* This class contains useful callback during your app process */
     public class BuddyLabActivity : AAppActivity
     {
+        private ItemControlUnit mItemControl;
+
 		/*
 		* Called before the App scene loading.
 		*/
@@ -27,6 +29,7 @@ namespace BuddyApp.BuddyLab
         public override void OnAwake()
         {
             Utils.LogI(LogContext.APP, "On awake...");
+            mItemControl=(ItemControlUnit)Objects[0];
         }
 
 		/*
@@ -44,6 +47,7 @@ namespace BuddyApp.BuddyLab
         public override void OnQuit()
         {
             Utils.LogI(LogContext.APP, "On quit...");
+            mItemControl.IsRunning = false;
         }
     }
 }
