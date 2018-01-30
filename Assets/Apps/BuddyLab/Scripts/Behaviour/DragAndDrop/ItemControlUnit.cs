@@ -304,7 +304,6 @@ namespace BuddyApp.BuddyLab
                 ConditionManager.IsEventDone = false;
                 if (!mIsRunning)
                 {
-                    
                     break;
                 }
                 mIndex++;

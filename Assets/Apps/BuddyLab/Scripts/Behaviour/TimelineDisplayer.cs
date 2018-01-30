@@ -65,7 +65,7 @@ namespace BuddyApp.BuddyLab
 
         public void HighlightElement(int iNum)
         {
-            Debug.Log("miaou 1");
+            //Debug.Log("miaou 1");
             if (mSequence == null)
             {
                 Debug.Log("sequence nul!");
@@ -76,9 +76,9 @@ namespace BuddyApp.BuddyLab
                     mSequence.transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0.25F;
                 else
                     mSequence.transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 1F;
-                Debug.Log("miaou 2");
+                //Debug.Log("miaou 2");
                 DragAndDropCell[] items = mSequence.GetComponentsInChildren<DragAndDropCell>();
-                Debug.Log("miaou 3");
+                //Debug.Log("miaou 3");
                 for (int i = 0; i < items.Length; i++)
                 {
                     if (i == iNum)

@@ -37,7 +37,6 @@ namespace BuddyApp.BuddyLab
             mFireDetection = BYOS.Instance.Perception.Thermal;
             mQRcodeDetection = BYOS.Instance.Perception.QRCode;
             mUIManager.OpenPlayUI();
-            mPlay = Play();
             mIsPlaying = false;
             mUIManager.StopButton.onClick.AddListener(Stop);
             mUIManager.ReplayButton.onClick.AddListener(Replay);
@@ -83,17 +82,30 @@ namespace BuddyApp.BuddyLab
 
         private void Replay()
         {
+            Debug.Log("REPLAY ");
             ResetPosition();
+            mItemControl.IsRunning = false;
+            mLoopManager.ResetParam();
+            mLoopManager.NeedChangeIndex();
+            mConditionManager.ConditionType = "";
             mIsPlaying = false;
+            mLoopManager.ChangeIndex = false;
             if(!mIsPlaying)
-                StartCoroutine(mPlay);
+            {
+                Debug.Log("STARTCOROUTINE REPLAY ");
+                //mItemControl.IsRunning = true;
+                //mIsPlaying = true;
+                StartCoroutine(Play());
+            } 
         }
 
         private IEnumerator Play()
         {
             mItemControl.IsRunning = true;
             mIsPlaying = true;
+            Debug.Log("PLAY : AVANT YIELD RETURN : ISRUNNING " + mItemControl.IsRunning + " MISPLAYING : " + mIsPlaying);
             yield return mItemControl.PlaySequence();
+            Debug.Log("PLAY : APRES YIELD RETURN : ISRUNNING " + mItemControl.IsRunning + " MISPLAYING : " + mIsPlaying);
             mIsPlaying = false;
         }
 
