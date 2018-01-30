@@ -94,11 +94,11 @@ namespace BuddyApp.ExperienceCenter
 				Debug.LogWarningFormat ("Stop Distance = {0}m ", mStopDistance);
 			}
 
-//			if (leftObs <= 0.3 || rightObs <= 0.3 || middleObs <= 0.3) {
-//				enableToMove = false;
-//				Debug.LogWarning ("Critical distance : L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+			if (leftObs <= 0.3 || rightObs <= 0.3 || middleObs <= 0.3) {
+				enableToMove = false;
+				Debug.LogWarning ("Critical distance : L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 //				return;
-//			}
+			}
 
 			if (leftObs <= mStopDistance || rightObs <= mStopDistance || middleObs <= mStopDistance) {
 				//if (leftObs > 0.01 || rightObs > 0.01 || middleObs > 0.01) {

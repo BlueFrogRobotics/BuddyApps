@@ -90,9 +90,8 @@ namespace BuddyApp.ExperienceCenter
 			ExperienceCenterData.Instance.Scenario = "Init";
 			StartCoroutine (HandleParametersCommands ());
 
-			BYOS.Instance.Interaction.VocalManager.StopListenBehaviour = AvoidLock ;
 			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false ;
-			BYOS.Instance.Interaction.VocalManager.OnError = AvoidLock2 ;
+			BYOS.Instance.Interaction.VocalManager.OnError = AvoidLock ;
 
 		}
 
@@ -378,7 +377,7 @@ namespace BuddyApp.ExperienceCenter
 		}
 
 
-		private void AvoidLock2 (STTError iError)
+		private void AvoidLock (STTError iError)
 		{
 			Debug.LogWarningFormat ("Wheels lock 2: {0}", BYOS.Instance.Primitive.Motors.Wheels.Locked );
 			BYOS.Instance.Primitive.Motors.Wheels.Locked = false;
