@@ -29,10 +29,7 @@ namespace BuddyApp.ExperienceCenter
 			behaviourEnd = false;
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
 			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
-			//BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
-			//BYOS.Instance.Interaction.VocalManager.OnError =  SpeechToTextError;
 
-			//BYOS.Instance.Interaction.SphinxTrigger.SetThreshold(1E-24f);
 
 			// To test with the real robot
 			BYOS.Instance.Interaction.VocalManager.StartListenBehaviour = SpeechToTextStart;
@@ -71,12 +68,7 @@ namespace BuddyApp.ExperienceCenter
 				mIdleBehaviour.headPoseInit = true;
             } 
 		}
-
-		public void SpeechToTextError(STTError iError)
-		{
-			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString());
-		}
-
+			
 		public void SpeechToTextCallback (string iSpeech)
 		{
 			// To test with the simulator

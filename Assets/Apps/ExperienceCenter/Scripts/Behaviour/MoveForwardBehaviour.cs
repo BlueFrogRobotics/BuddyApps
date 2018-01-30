@@ -72,6 +72,7 @@ namespace BuddyApp.ExperienceCenter
 				//StartCoroutine (MoveForward (wheelSpeed));
 				Debug.Log ("End MoveForward Coroutine");
 				behaviourEnd = true;
+				mCollisionDetector.StopBehaviour ();
 			}
 		}
 

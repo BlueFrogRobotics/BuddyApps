@@ -34,6 +34,7 @@ namespace BuddyApp.ExperienceCenter
 		public float NoHingeAngle{ get; set; }
 		public float NoHingeSpeed{ get; set; }
 		public bool VoiceTrigger{ get; set; }
+		public bool RunTrigger{ get; set; }
 		public bool EnableBML{ get; set; }
 
 

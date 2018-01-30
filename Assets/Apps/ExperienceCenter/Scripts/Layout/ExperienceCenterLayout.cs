@@ -24,6 +24,7 @@ namespace BuddyApp.ExperienceCenter
 		private TextField mNoHingeSpeed;
 		private TextField mHeadPoseTolerance;
 		private OnOff mVoiceTriggerCheckBox;
+		private OnOff mRunTriggerCheckBox;
 		private OnOff mBMLCheckBox;
 
 		private TextField mUrlAPI;
@@ -97,6 +98,7 @@ namespace BuddyApp.ExperienceCenter
 			mHeadPoseTolerance.Label = "Head Tolerance";
 			mHeadPoseTolerance.EmptyText = "-";
 			mVoiceTriggerCheckBox.Label = "Voice Trigger";
+			mRunTriggerCheckBox.Label = "Run Trigger";
 			mBMLCheckBox.Label = "BML";
 
 			foreach (string label in mButtons.Keys)
@@ -289,7 +291,7 @@ namespace BuddyApp.ExperienceCenter
 			mNoHingeSpeed.OnEndEditEvent ((string text) => {
 				ExperienceCenterData.Instance.NoHingeSpeed = (float)Convert.ToDouble (text);
 			});
-
+				
 			mVoiceTriggerCheckBox = CreateWidget<OnOff> ();
 			mVoiceTriggerCheckBox.IsActive = ExperienceCenterData.Instance.VoiceTrigger;
 
@@ -304,6 +306,14 @@ namespace BuddyApp.ExperienceCenter
 			mBMLCheckBox.OnSwitchEvent ((bool iVal) => {
 				Debug.Log (String.Format ("Enable {0} : {1}", "BML", iVal));
 				ExperienceCenterData.Instance.EnableBML = iVal;
+			});
+
+			mRunTriggerCheckBox = CreateWidget<OnOff> ();
+			mRunTriggerCheckBox.IsActive = ExperienceCenterData.Instance.RunTrigger;
+
+			mRunTriggerCheckBox.OnSwitchEvent ((bool iVal) => {
+				Debug.Log (String.Format ("Enable {0} : {1}", "Run Trigger", iVal));
+				ExperienceCenterData.Instance.RunTrigger = iVal;
 			});
 		}
 

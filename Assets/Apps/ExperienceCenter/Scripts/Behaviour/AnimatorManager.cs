@@ -89,13 +89,26 @@ namespace BuddyApp.ExperienceCenter
 			ExperienceCenterData.Instance.ShouldSendCommand = false;
 			ExperienceCenterData.Instance.Scenario = "Init";
 			StartCoroutine (HandleParametersCommands ());
+
+			BYOS.Instance.Interaction.VocalManager.StopListenBehaviour = AvoidLock ;
+			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false ;
+			BYOS.Instance.Interaction.VocalManager.OnError = AvoidLock2 ;
+
 		}
 
 		void Update ()
 		{
+			//Debug.LogWarningFormat ("Wheels lock: {0}, NoHinge lock: {1}, YesHinge lock: {2}", BYOS.Instance.Primitive.Motors.Wheels.Locked, BYOS.Instance.Primitive.Motors.NoHinge.Locked, BYOS.Instance.Primitive.Motors.YesHinge.Locked );
+
 			if (mTrigger != ExperienceCenterData.Instance.VoiceTrigger) {
 				mTrigger = ExperienceCenterData.Instance.VoiceTrigger; 
 				Debug.LogWarningFormat ("Voice Trigger = {0}", mTrigger);
+			}
+
+			if (ExperienceCenterData.Instance.RunTrigger) {
+				BYOS.Instance.Interaction.VocalManager.StartInstantReco (true);
+				Debug.LogWarning ("Run Trigger ");
+				ExperienceCenterData.Instance.RunTrigger = false;
 			}
 
 			if (mBML != ExperienceCenterData.Instance.EnableBML) {
@@ -362,6 +375,17 @@ namespace BuddyApp.ExperienceCenter
 				}
 				yield return new WaitForSeconds (1.0f);
 			}
+		}
+
+
+		private void AvoidLock2 (STTError iError)
+		{
+			Debug.LogWarningFormat ("Wheels lock 2: {0}", BYOS.Instance.Primitive.Motors.Wheels.Locked );
+			BYOS.Instance.Primitive.Motors.Wheels.Locked = false;
+			Debug.LogWarningFormat ("Wheels lock 2: {0}", BYOS.Instance.Primitive.Motors.Wheels.Locked );
+			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString ());
+			//BYOS.Instance.Interaction.VocalManager.LaunchDebug ();
+			//BYOS.Instance.Interaction.VocalManager.DisplayNotification; 
 		}
 	}
 }
