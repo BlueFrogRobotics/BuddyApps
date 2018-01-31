@@ -32,8 +32,8 @@ namespace BuddyApp.ExperienceCenter
 
 		public void MoveHeadWhileSpeaking(int angleMin, int angleMax)
 		{
-			if (ExperienceCenterData.Instance.EnableBML)
-				StartCoroutine(Speaking(angleMin, angleMax));
+			//if (ExperienceCenterData.Instance.EnableBML)
+				//StartCoroutine(Speaking(angleMin, angleMax));
 		}
 
 

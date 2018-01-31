@@ -3,19 +3,19 @@
   <synchronized>
     <faceMoodShift mood="NEUTRAL"/>
     <headNo id="headNo1" position="-10" speed="100"/>
-    <headYes id="headYes1"  position="-5" speed="100"/>
+    <headYes id="headYes1"  position="-5" speed="75"/>
   </synchronized>
   <faceExp id="faceEx1" expression="BLINK_BOTH"/>
   <synchronized>
     <headNo id="headNo2" position="20" speed="100"/>
-    <headYes id="headYes2" position="0" speed="100"/>
+    <headYes id="headYes2" position="0" speed="75"/>
   </synchronized>
   <synchronized>
     <faceMoodShift mood="HAPPY"/>
-    <headYes id="headYes3"  position="10" speed="100"/>
+    <headYes id="headYes3"  position="-10" speed="75"/>
   </synchronized>
   <synchronized>
-    <headYes id="headYes4" position="0" speed="100"/>
+    <headYes id="headYes4" position="0" speed="75"/>
     <headNo id="headNo3" position="0" speed="100"/>
   </synchronized>
 </bml>
