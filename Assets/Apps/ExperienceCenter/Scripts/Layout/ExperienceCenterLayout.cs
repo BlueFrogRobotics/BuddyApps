@@ -16,7 +16,6 @@ namespace BuddyApp.ExperienceCenter
 		private OnOff mHeadMovementCheckBox;
 		private TextField mStopDistance;
 		private TextField mNoiseTime;
-		private TextField mSpeedThreshold;
 		private TextField mTableDistance;
 		private TextField mIOTDistance;
 		private TextField mWelcomeTimeOut;
@@ -83,8 +82,6 @@ namespace BuddyApp.ExperienceCenter
 			mStopDistance.EmptyText = "-";
 			mNoiseTime.Label = "Noise Time";
 			mNoiseTime.EmptyText = "-";
-			mSpeedThreshold.Label = "Speed Threshold";
-			mSpeedThreshold.EmptyText = "-";
 			mTableDistance.Label = "Table Distance";
 			mTableDistance.EmptyText = "-";
 			mIOTDistance.Label = "IOT Distance";
@@ -241,13 +238,6 @@ namespace BuddyApp.ExperienceCenter
 				mNoiseTime.FieldText = Convert.ToString (ExperienceCenterData.Instance.NoiseTime);
 			mNoiseTime.OnEndEditEvent ((string text) => {
 				ExperienceCenterData.Instance.NoiseTime = (float)Convert.ToDouble (text);
-			});
-
-			mSpeedThreshold = CreateWidget<TextField> ();
-			if (ExperienceCenterData.Instance.SpeedThreshold!= 0.0f)
-				mSpeedThreshold.FieldText = Convert.ToString (ExperienceCenterData.Instance.SpeedThreshold);
-			mSpeedThreshold.OnEndEditEvent ((string text) => {
-				ExperienceCenterData.Instance.SpeedThreshold = (float)Convert.ToDouble (text);
 			});
 
 			mTableDistance = CreateWidget<TextField> ();

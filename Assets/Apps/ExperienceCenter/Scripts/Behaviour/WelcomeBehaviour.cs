@@ -73,7 +73,7 @@ namespace BuddyApp.ExperienceCenter
 						break;
 				} else {
 					Debug.LogWarning ("Robot Head is moving");
-					lLastTime = DateTime.Now;
+					//lLastTime = DateTime.Now;
 				}
 				lHeadAngle = BYOS.Instance.Primitive.Motors.NoHinge.CurrentAnglePosition;
 				yield return new WaitForSeconds(0.5f);

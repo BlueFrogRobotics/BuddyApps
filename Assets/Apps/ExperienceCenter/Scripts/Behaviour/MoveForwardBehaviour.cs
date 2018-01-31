@@ -19,17 +19,11 @@ namespace BuddyApp.ExperienceCenter
 		private float radius;
 		private Vector3 mRobotPose;
 		private float mDistance;
-		private float mSpeedThreshold;
 
 		public void InitBehaviour ()
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mCollisionDetector = GameObject.Find ("AIBehaviour").GetComponent<CollisionDetector> ();
-
-			if (mSpeedThreshold != ExperienceCenterData.Instance.SpeedThreshold) {
-				mSpeedThreshold = ExperienceCenterData.Instance.SpeedThreshold; 
-				Debug.LogWarningFormat ("Speed Threshold = {0} s ", mSpeedThreshold);
-			}
 
 			behaviourEnd = false;
 			if (ExperienceCenterData.Instance.EnableBaseMovement)
@@ -51,6 +45,7 @@ namespace BuddyApp.ExperienceCenter
 			mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
 			yield return new WaitUntil (() => mCollisionDetector.enableToMove);
 
+			Debug.LogFormat ("Wheels lock: {0}", BYOS.Instance.Primitive.Motors.Wheels.Locked);
 			BYOS.Instance.Primitive.Motors.Wheels.SetWheelsSpeed (lSpeed);
 
 			Debug.LogFormat ("Speed = {0}, Distance to travel = {1}", BYOS.Instance.Primitive.Motors.Wheels.Speed, mDistance);
@@ -58,7 +53,7 @@ namespace BuddyApp.ExperienceCenter
 			yield return new WaitUntil (() => mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD)
 			|| !mCollisionDetector.enableToMove);
 
-			Debug.LogFormat ("Check condition : Distance = {0}, Obstacle ={1}",  mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD), !mCollisionDetector.enableToMove );
+			Debug.LogFormat ("Check condition : Distance = {0}, Obstacle ={1}", mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD), !mCollisionDetector.enableToMove);
 			Debug.LogFormat ("Distance left to travel : {0}", mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose));
 			BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 
@@ -78,7 +73,6 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopBehaviour ()
 		{
-			mCollisionDetector.StopBehaviour ();
 			Debug.LogWarning ("Stop Move Behaviour");
 			StopAllCoroutines ();
 			if (ExperienceCenterData.Instance.EnableBaseMovement)

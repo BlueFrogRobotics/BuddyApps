@@ -26,7 +26,6 @@ namespace BuddyApp.ExperienceCenter
 		public bool EnableBaseMovement { get; set; }
 		public float StopDistance{ get; set; }
 		public float NoiseTime{ get; set; }
-		public float SpeedThreshold{ get; set; }
 		public float TableDistance{ get; set; }
 		public float IOTDistance{ get; set; }
 		public float HeadPoseTolerance{ get; set; }

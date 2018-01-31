@@ -19,17 +19,16 @@ namespace BuddyApp.ExperienceCenter
 				ExperienceCenterData.Instance.IPAddress = "-";
 				ExperienceCenterData.Instance.StopDistance = 0.4F;
 				ExperienceCenterData.Instance.NoiseTime = 0.2F;
-				ExperienceCenterData.Instance.SpeedThreshold = 0.01F;
 				ExperienceCenterData.Instance.TableDistance = 1.5F;
 				ExperienceCenterData.Instance.IOTDistance = 1.5F;
-				ExperienceCenterData.Instance.NoHingeAngle = 60F;
-				ExperienceCenterData.Instance.NoHingeSpeed = 90F;
+				ExperienceCenterData.Instance.NoHingeAngle = 30F;
+				ExperienceCenterData.Instance.NoHingeSpeed = 75F;
 				ExperienceCenterData.Instance.HeadPoseTolerance = 0.2F;
-				ExperienceCenterData.Instance.WelcomeTimeOut = 10F;
+				ExperienceCenterData.Instance.WelcomeTimeOut = 3.5F;
 				ExperienceCenterData.Instance.EnableHeadMovement = true;
 				ExperienceCenterData.Instance.EnableBaseMovement = true;
 				ExperienceCenterData.Instance.VoiceTrigger = true;
-				ExperienceCenterData.Instance.EnableBML = false;
+				ExperienceCenterData.Instance.EnableBML = true;
 				FirstRun = false;
 			}
 			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
