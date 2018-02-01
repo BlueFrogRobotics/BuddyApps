@@ -72,6 +72,7 @@ namespace BuddyApp.ExperienceCenter
 		private TextToSpeech mTTS;
 		private bool mTrigger;
 		private bool mBML;
+		private float mBatteryLevel;
 		public Dictionary <State, bool> stateDict;
 
 		void Start ()
@@ -98,6 +99,7 @@ namespace BuddyApp.ExperienceCenter
 		void Update ()
 		{
 			//Debug.LogWarningFormat ("Wheels lock: {0}, NoHinge lock: {1}, YesHinge lock: {2}", BYOS.Instance.Primitive.Motors.Wheels.Locked, BYOS.Instance.Primitive.Motors.NoHinge.Locked, BYOS.Instance.Primitive.Motors.YesHinge.Locked );
+			mBatteryLevel = BYOS.Instance.Primitive.Battery.EnergyLevel;
 
 			if (mTrigger != ExperienceCenterData.Instance.VoiceTrigger) {
 				mTrigger = ExperienceCenterData.Instance.VoiceTrigger; 
@@ -348,12 +350,12 @@ namespace BuddyApp.ExperienceCenter
 				}
 			case StateReq.Battery:
 				{
-					float level = BYOS.Instance.Primitive.Battery.EnergyLevel;
-					if (level <= 25)
+					Debug.LogWarningFormat ("Battery level: {0}", mBatteryLevel);
+					if (mBatteryLevel <= 25)
 						return State.LowBattery;
-					else if (level > 25 && level <= 50)
+					else if (mBatteryLevel > 25 && mBatteryLevel <= 50)
 						return State.MiddleBattery;
-					else if (level > 50 && level <= 75)
+					else if (mBatteryLevel > 50 && mBatteryLevel <= 75)
 						return State.GoodBattery;
 					else
 						return State.HighBattery;
@@ -379,9 +381,7 @@ namespace BuddyApp.ExperienceCenter
 
 		private void AvoidLock (STTError iError)
 		{
-			Debug.LogWarningFormat ("Wheels lock 2: {0}", BYOS.Instance.Primitive.Motors.Wheels.Locked );
 			BYOS.Instance.Primitive.Motors.Wheels.Locked = false;
-			Debug.LogWarningFormat ("Wheels lock 2: {0}", BYOS.Instance.Primitive.Motors.Wheels.Locked );
 			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString ());
 			//BYOS.Instance.Interaction.VocalManager.LaunchDebug ();
 			//BYOS.Instance.Interaction.VocalManager.DisplayNotification; 
