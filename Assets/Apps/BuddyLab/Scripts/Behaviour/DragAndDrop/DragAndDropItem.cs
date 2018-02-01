@@ -96,6 +96,7 @@ namespace BuddyApp.BuddyLab
             {
                 OnItemDragStartEvent(this);                                             // Notify all about item drag start
             }
+
         }
 
         /// <summary>
