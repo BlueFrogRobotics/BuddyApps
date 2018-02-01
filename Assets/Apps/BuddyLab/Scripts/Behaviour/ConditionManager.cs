@@ -331,8 +331,12 @@ namespace BuddyApp.BuddyLab
 
         private bool OnMovementDetected(MotionEntity[] iMotion)
         {
+            //Debug.Log("ONMOVEMENTDETECTED 1 : ");
+            //if(iMotion.Length == 0 || iMotion == null)
+            //    Debug.Log("ONMOVEMENTDETECTED NULL IMOTION : ");
             if (mTimer > 1.5F && iMotion.Length > 2)
             {
+                //Debug.Log("ONMOVEMENTDETECTED 2 : ");
                 if (mLoopManager.IsSensorLoopWithParam)
                 {
                     mConditionType = "";
@@ -373,13 +377,13 @@ namespace BuddyApp.BuddyLab
                 Debug.Log("Label : " + iQRCodeEntity[i].Label + " et i : " + i + iQRCodeEntity[i].MatInFrame == null);
                 if (iQRCodeEntity[i].Label == mParamCondition )
                 {
-                    if (mLoopManager.IsSensorLoopWithParam)
-                    {
-                        mConditionType = "";
-                        ClearEventTactile();
-                        mLoopManager.ChangeIndex = true;
-                        mLoopManager.IsSensorLoopWithParam = false;
-                    }
+                    //if (mLoopManager.IsSensorLoopWithParam)
+                    //{
+                    //    mConditionType = "";
+                    //    ClearEventTactile();
+                    //    mLoopManager.ChangeIndex = true;
+                    //    mLoopManager.IsSensorLoopWithParam = false;
+                    //}
                     ResetParam();
                     mCam.Close();
                     mQRCodeDetect.StopOnDetect(OnQrcodeDetected);
@@ -440,8 +444,10 @@ namespace BuddyApp.BuddyLab
         {
             if(mTactile == TactileEvent.ALL_TACTILE)
             {
+                //Debug.Log("IN THE TACTILE MAGGLE");
                 if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
                 {
+                    //Debug.Log("KIKOO ALL TACTILE MODAFUKA");
                     if (mLoopManager.IsSensorLoopWithParam)
                     {
                         mConditionType = "";
@@ -537,7 +543,7 @@ namespace BuddyApp.BuddyLab
 
         private void OnMouthClicked()
         {
-            Debug.Log("mouth clicked KIKOO CONDITION MANAGER");
+            //Debug.Log("mouth clicked KIKOO CONDITION MANAGER");
             if (mLoopManager.IsSensorLoopWithParam)
             {
                 mConditionType = "";
