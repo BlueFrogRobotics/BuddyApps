@@ -17,25 +17,30 @@ namespace BuddyApp.ExperienceCenter
 		private IdleBehaviour mIdleBehaviour;
 		private TextToSpeech mTTS;
 		private List <string> mKeyList;
+		private VocalManager mVocalManager;
+		private bool mLaunchSTTOnce;
 
 		public DateTime LastSTTCallbackTime { get; private set; }
 		public bool behaviourEnd;
 
 		public void InitBehaviour ()
 		{
+			mVocalManager = BYOS.Instance.Interaction.VocalManager;
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mAttitudeBehaviour = GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>();
 			mIdleBehaviour = GameObject.Find("AIBehaviour").GetComponent<IdleBehaviour>();
 			behaviourEnd = false;
-			BYOS.Instance.Interaction.VocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
-			BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
-
+			mVocalManager.EnableTrigger = false; //ExperienceCenterData.Instance.VoiceTrigger;
+			mVocalManager.OnEndReco = SpeechToTextCallback;
+			mVocalManager.OnError = ErrorCallback;
+			mVocalManager.EnableDefaultErrorHandling = false;
 
 			// To test with the real robot
 			BYOS.Instance.Interaction.VocalManager.StartListenBehaviour = SpeechToTextStart;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 			LastSTTCallbackTime = DateTime.Now;
 			InitKeyList ();
+			StartCoroutine(EnableSpeechToText());
 		}
 			
 		private void InitKeyList ()
@@ -98,11 +103,12 @@ namespace BuddyApp.ExperienceCenter
 			}
 			// Launch Vocal Command if any
 			if (!lClauseFound)
-				Debug.Log ("SpeechToText : Not Found");
+				Debug.Log("SpeechToText : Not Found");
 			else
 			{
 				StartCoroutine (LaunchVocalCommand (lKey));
 			}
+			mLaunchSTTOnce = false;
 		}
 
 		private IEnumerator LaunchVocalCommand (string key)
@@ -120,6 +126,44 @@ namespace BuddyApp.ExperienceCenter
 			if (!mTTS.HasFinishedTalking)
 				mTTS.Stop ();
 			behaviourEnd = true;
+			if (mLaunchSTTOnce)
+			{
+				mVocalManager.StopAllCoroutines();
+				this.StopAllCoroutines();
+			}
+		}
+
+		private IEnumerator EnableSpeechToText()
+		{
+			mLaunchSTTOnce = false;
+			while (!behaviourEnd)
+			{
+				if (!mLaunchSTTOnce)
+				{
+					if (!mVocalManager.RecognitionFinished)
+					{
+						// Recognition not finished yet, waiting until it ends cleanly
+						yield return new WaitUntil(() => mVocalManager.RecognitionFinished);
+					}
+					else if(!mTTS.HasFinishedTalking)
+					{
+						// Buddy is answering, wait until he ends its sentence
+						yield return new WaitUntil(() => mTTS.HasFinishedTalking);
+					}
+					else
+					{
+						// Initiating Vocal Manager instance reco
+						mLaunchSTTOnce = true;
+						mVocalManager.StartInstantReco(false);
+					}
+				}
+				yield return new WaitForSeconds(0.5f);
+			}
+		}
+
+		public void ErrorCallback(STTError iError)
+		{
+			mLaunchSTTOnce = false;
 		}
 	}
 }
