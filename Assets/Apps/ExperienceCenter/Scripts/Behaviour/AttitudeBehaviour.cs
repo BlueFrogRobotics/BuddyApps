@@ -73,7 +73,7 @@ namespace BuddyApp.ExperienceCenter
 			do
 			{
 				// Wait for a random few seconds before starting
-				yield return new WaitForSeconds((float)mRnd.NextDouble() * WAIT_TIMEOUT);
+				yield return new WaitForSeconds((1+ (float)mRnd.NextDouble()) * WAIT_TIMEOUT);
 				// Launch BML and wait until it ends
 				bool status = mBMLManager.LaunchRandom("Idle");
 				Debug.LogWarningFormat("Launch a random BML : {0}",status);
@@ -82,7 +82,7 @@ namespace BuddyApp.ExperienceCenter
 				else
 				{
 					Debug.LogError("Could not launch idle BML");
-					yield return new WaitForSeconds(0.5f);
+					yield return new WaitForSeconds(1.0f);
 				}
 			} while (IsWaiting);
 		}

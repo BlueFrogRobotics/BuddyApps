@@ -17,7 +17,7 @@ namespace BuddyApp.ExperienceCenter
 		private AnimatorManager mAnimatorManager;
 		private AttitudeBehaviour mAttitudeBehaviour;
 		private QuestionsBehaviour mQuestionBehaviour;
-		private const double IDLE_TIMEOUT = 10;
+		private const double IDLE_TIMEOUT = 20;
 
 		public void InitBehaviour ()
 		{
