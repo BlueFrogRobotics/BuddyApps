@@ -148,7 +148,11 @@ namespace BuddyApp.ExperienceCenter {
                             }
                         }
 						else if (response[i]["name"].Value == "internal:LightingLedPodModeState"){
-							float f1 = (float)Convert.ToDouble(response[i]["value"].Value);
+							string value = response[i]["value"].Value;
+							if(BYOS.Instance.Language.CurrentLang == Language.FR)
+								value = value.Replace('.',',');
+
+							float f1 = (float)Convert.ToDouble(value);
 							bool b1 = (f1 == 1.0f);
 							Debug.LogWarningFormat("Light State value: {0}", f1);
 							ExperienceCenterData.Instance.IsLightOn = b1;
