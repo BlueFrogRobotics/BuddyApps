@@ -219,6 +219,7 @@ namespace BuddyApp.ExperienceCenter
 			stateDict.Add (State.ByeBye, false);
 			stateDict.Add (State.MoveForward, false);
 			stateDict.Add (State.IOT, false);
+			stateDict.Add (State.Wander, false);
 		}
 
 		public void ActivateCmd (byte cmd)
@@ -227,6 +228,7 @@ namespace BuddyApp.ExperienceCenter
 				switch ((Command)cmd) {
 				case Command.Welcome:
 				case Command.ByeBye: 
+				case Command.Wander:	
 					{
 						UpdateStateDict (cmd, State.Idle); 
 						break;
@@ -314,6 +316,24 @@ namespace BuddyApp.ExperienceCenter
 				case Command.EmergencyStop:
 					{
 						UpdateStateDict (cmd, State.IOT); 
+						emergencyStop = true;
+						break;
+					}
+				default:
+					break;
+				}
+			}
+
+			if (stateDict [State.Wander]) {
+				switch ((Command)cmd) {
+				case Command.Stop: 
+					{
+						UpdateStateDict (cmd, State.Wander); 
+						break;
+					}
+				case Command.EmergencyStop:
+					{
+						UpdateStateDict (cmd, State.Wander); 
 						emergencyStop = true;
 						break;
 					}

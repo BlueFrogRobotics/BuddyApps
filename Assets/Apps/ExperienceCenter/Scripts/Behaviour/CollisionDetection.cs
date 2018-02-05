@@ -16,8 +16,21 @@ namespace BuddyApp.ExperienceCenter
 		private bool mBehaviourInit;
 		private float mStopDistance;
 		private float mNoiseTime;
+		private float mMaxDistance;
+		private float mMinDistance;
+		private float mMaxSpeed;
+		private float mMinSpeed;
+		private float mA1;
+		private float mB1;
+		private float mA2;
+		private float mB2;
+
 		private DateTime mDetectionTime;
 		public bool enableToMove;
+		public bool updateSpeed;
+		public float leftSpeed;
+		public float rightSpeed;
+		public float middleSpeed;
 
 		public void InitBehaviour ()
 		{
@@ -25,6 +38,10 @@ namespace BuddyApp.ExperienceCenter
 			mStoppingPhase = false;
 			mBehaviourInit = true;
 			enableToMove = true;
+			updateSpeed = false;
+			leftSpeed = 0F;
+			rightSpeed = 0F;
+			middleSpeed = 0F;
 			mStopDistance = ExperienceCenterData.Instance.StopDistance;
 			mNoiseTime = ExperienceCenterData.Instance.NoiseTime;
 
@@ -93,7 +110,7 @@ namespace BuddyApp.ExperienceCenter
 				mStopDistance = ExperienceCenterData.Instance.StopDistance; 
 				Debug.LogWarningFormat ("Stop Distance = {0}m ", mStopDistance);
 			}
-
+			Debug.LogWarning ("Sensors : L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs);
 			if (leftObs <= 0.3 || rightObs <= 0.3 || middleObs <= 0.3) {
 				enableToMove = false;
 				Debug.LogWarning ("Critical distance : L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
@@ -156,9 +173,113 @@ namespace BuddyApp.ExperienceCenter
 
 		void Update ()
 		{
-			if (mBehaviourInit)
+			if (mMaxDistance != ExperienceCenterData.Instance.MaxDistance) {
+				mMaxDistance = ExperienceCenterData.Instance.MaxDistance; 
+				UpdateCoefficients ();
+				Debug.LogWarningFormat ("Distance ({0} deg/s) = {1}", mMaxSpeed, mMaxDistance);
+				Debug.LogWarningFormat ("Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
+			}
+
+			if (mMinDistance != ExperienceCenterData.Instance.MinDistance) {
+				mMinDistance = ExperienceCenterData.Instance.MinDistance; 
+				UpdateCoefficients ();
+				Debug.LogWarningFormat ("Distance ({0} deg/s) = {1}", mMinSpeed, mMaxDistance);
+				Debug.LogWarningFormat ("Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
+			}
+
+			if (mMaxSpeed != ExperienceCenterData.Instance.MaxSpeed) {
+				mMaxSpeed = ExperienceCenterData.Instance.MaxSpeed; 
+				UpdateCoefficients ();
+				Debug.LogWarningFormat ("Max Speed = {0} deg/s", mMaxSpeed);
+				Debug.LogWarningFormat ("Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
+			}
+
+			if (mMinSpeed != ExperienceCenterData.Instance.MinSpeed) {
+				mMinSpeed = ExperienceCenterData.Instance.MinSpeed; 
+				UpdateCoefficients ();
+				Debug.LogWarningFormat ("Min Speed = {0} deg/s", mMinSpeed);
+				Debug.LogWarningFormat ("Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
+			}
+
+			if (mBehaviourInit) {
 				CheckObstacleTimeFiltred ();
+				updateSpeed = false;
+				GetLeftSpeed ();
+				GetRightSpeed ();
+				GetMiddleSpeed ();
+			}
 		}
+
+		private void UpdateCoefficients ()
+		{
+			mA1 = mMaxSpeed / (mMaxDistance - mMinDistance);
+			mB1 = -mA1 * mMinDistance;
+			mA2 = -mMinSpeed / mMinDistance;
+			mB2 = mMinSpeed;
+		}
+
+
+		public float GetLeftSpeed ()
+		{
+			float leftObs = BYOS.Instance.Primitive.IRSensors.Left.Distance;
+			float speed = 0F;
+
+			if (leftObs >= mMaxDistance) {
+				speed = 200; 
+			} else if (leftObs >= mMinDistance) {
+				speed = mA1 * leftObs + mB1;
+			} else if (leftObs < mMinDistance) {
+				speed = mA2 * leftObs + mB2;
+			}
+
+			if (speed != leftSpeed) {
+				leftSpeed = speed;
+				updateSpeed = true;
+			}
+			return speed;
+		}
+
+		public float GetRightSpeed ()
+		{
+			float rightObs = BYOS.Instance.Primitive.IRSensors.Right.Distance;
+			float speed = 0F;
+
+			if (rightObs >= mMaxDistance) {
+				speed = 200;
+			} else if (rightObs >= mMinDistance) {
+				speed = mA1 * rightObs + mB1;
+			} else if (rightObs < mMinDistance) {
+				speed = mA2 * rightObs + mB2;
+			}
+
+			if (speed != rightSpeed) {
+				rightSpeed = speed;
+				updateSpeed = true;
+			}
+			return speed;
+		}
+
+		public float GetMiddleSpeed ()
+		{
+			float middleObs = BYOS.Instance.Primitive.IRSensors.Middle.Distance;
+			float speed = 0F;
+
+			if (middleObs >= mMaxDistance) {
+				speed = 200;
+			} else if (middleObs >= mMinDistance) {
+				speed = mA1 * middleObs + mB1;
+			} else if (middleObs < mMinDistance) {
+				speed = mA2 * middleObs + mB2;
+			}
+
+			if (speed != rightSpeed) {
+				middleSpeed = speed;
+				updateSpeed = true;
+			}
+			return speed;
+		}
+
+
 
 		public void StopBehaviour ()
 		{

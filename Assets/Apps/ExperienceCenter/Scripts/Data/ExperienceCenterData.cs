@@ -35,6 +35,10 @@ namespace BuddyApp.ExperienceCenter
 		public bool VoiceTrigger{ get; set; }
 		public bool RunTrigger{ get; set; }
 		public bool EnableBML{ get; set; }
+		public float MaxSpeed{ get; set; }
+		public float MinSpeed{ get; set; }
+		public float MaxDistance{ get; set; }
+		public float MinDistance{ get; set; }
 
 
 		// Scenario

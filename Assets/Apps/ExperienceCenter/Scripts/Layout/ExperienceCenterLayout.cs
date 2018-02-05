@@ -22,6 +22,10 @@ namespace BuddyApp.ExperienceCenter
 		private TextField mNoHingeAngle;
 		private TextField mNoHingeSpeed;
 		private TextField mHeadPoseTolerance;
+		private TextField mMaxDistance;
+		private TextField mMinDistance;
+		private TextField mMinSpeed;
+		private TextField mMaxSpeed;
 		private OnOff mVoiceTriggerCheckBox;
 		private OnOff mRunTriggerCheckBox;
 		private OnOff mBMLCheckBox;
@@ -94,6 +98,15 @@ namespace BuddyApp.ExperienceCenter
 			mNoHingeSpeed.EmptyText = "-";
 			mHeadPoseTolerance.Label = "Head Tolerance";
 			mHeadPoseTolerance.EmptyText = "-";
+			mMaxDistance.Label = "Max Distance";
+			mMaxDistance.EmptyText = "-";
+			mMinDistance.Label = "Min Distance";
+			mMinDistance.EmptyText = "-";
+			mMaxSpeed.Label = "Max Speed";
+			mMaxSpeed.EmptyText = "-";
+			mMinSpeed.Label = "Min Speed";
+			mMinSpeed.EmptyText = "-";
+
 			mVoiceTriggerCheckBox.Label = "Voice Trigger";
 			mRunTriggerCheckBox.Label = "Run Trigger";
 			mBMLCheckBox.Label = "BML";
@@ -281,7 +294,35 @@ namespace BuddyApp.ExperienceCenter
 			mNoHingeSpeed.OnEndEditEvent ((string text) => {
 				ExperienceCenterData.Instance.NoHingeSpeed = (float)Convert.ToDouble (text);
 			});
-				
+
+			mMaxDistance = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.MaxDistance != 0.0f)
+				mMaxDistance.FieldText = Convert.ToString (ExperienceCenterData.Instance.MaxDistance);
+			mMaxDistance.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.MaxDistance = (float)Convert.ToDouble (text);
+			});
+
+			mMinDistance = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.MinDistance != 0.0f)
+				mMinDistance.FieldText = Convert.ToString (ExperienceCenterData.Instance.MinDistance);
+			mMinDistance.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.MinDistance = (float)Convert.ToDouble (text);
+			});
+
+			mMaxSpeed = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.MaxSpeed != 0.0f)
+				mMaxSpeed.FieldText = Convert.ToString (ExperienceCenterData.Instance.MaxSpeed);
+			mMaxSpeed.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.MaxSpeed = (float)Convert.ToDouble (text);
+			});
+
+			mMinSpeed = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.MinSpeed != 0.0f)
+				mMinSpeed.FieldText = Convert.ToString (ExperienceCenterData.Instance.MinSpeed);
+			mMinSpeed.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.MinSpeed = (float)Convert.ToDouble (text);
+			});
+
 			mVoiceTriggerCheckBox = CreateWidget<OnOff> ();
 			mVoiceTriggerCheckBox.IsActive = ExperienceCenterData.Instance.VoiceTrigger;
 
