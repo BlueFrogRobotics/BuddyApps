@@ -27,7 +27,10 @@ namespace BuddyApp.ExperienceCenter
 		{
 			IsWaiting = true;
 			if (ExperienceCenterData.Instance.EnableBML)
+			{
+				Debug.LogWarning ("Start Waiting BML");
 				StartCoroutine(Waiting());
+			}
 		}
 
 		public void MoveHeadWhileSpeaking(int angleMin, int angleMax)

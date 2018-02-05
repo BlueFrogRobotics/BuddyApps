@@ -59,18 +59,14 @@ namespace BuddyApp.ExperienceCenter
 
 		private IEnumerator Idle()
 		{
-			TimeSpan lElapsedTimeSinceLastTTS;
 			while(true)
 			{
-				lElapsedTimeSinceLastTTS = DateTime.Now - mQuestionBehaviour.LastSTTCallbackTime;
-
-				if (!mAttitudeBehaviour.IsWaiting && lElapsedTimeSinceLastTTS.TotalSeconds > IDLE_TIMEOUT) {
-					Debug.LogWarning ("Start Waiting BML");
+				if (BYOS.Instance.Interaction.VocalManager.EnableTrigger && !mAttitudeBehaviour.IsWaiting) {
 					mAttitudeBehaviour.StartWaiting ();
 					headPoseInit = false;
 				}
 
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSeconds(1.0f);
 			}
 		}
 

@@ -31,20 +31,10 @@ namespace BuddyApp.ExperienceCenter
 				ExperienceCenterData.Instance.EnableBML = true;
 				FirstRun = false;
 			}
-			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
-			BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
-			BYOS.Instance.Interaction.SphinxTrigger.SetThreshold (1E-24f);
 
 			mTcpServer = GameObject.Find ("AIBehaviour").GetComponent<TcpServer> ();
 			mTcpServer.Init ();
 
 		}
-
-		public void SpeechToTextError (STTError iError)
-		{
-			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString ());
-		}
-
-			
 	}
 }

@@ -19,8 +19,8 @@ namespace BuddyApp.ExperienceCenter
 		private List <string> mKeyList;
 		private VocalManager mVocalManager;
 		private bool mLaunchSTTOnce;
+		private int mTimeOutCount;
 
-		public DateTime LastSTTCallbackTime { get; private set; }
 		public bool behaviourEnd;
 
 		public void InitBehaviour ()
@@ -30,17 +30,17 @@ namespace BuddyApp.ExperienceCenter
 			mAttitudeBehaviour = GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>();
 			mIdleBehaviour = GameObject.Find("AIBehaviour").GetComponent<IdleBehaviour>();
 			behaviourEnd = false;
-			mVocalManager.EnableTrigger = false; //ExperienceCenterData.Instance.VoiceTrigger;
+			mVocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
 			mVocalManager.OnEndReco = SpeechToTextCallback;
 			mVocalManager.OnError = ErrorCallback;
+			BYOS.Instance.Interaction.SphinxTrigger.SetThreshold (1E-24f);
 			mVocalManager.EnableDefaultErrorHandling = false;
+			mTimeOutCount = 0;
 
 			// To test with the real robot
 			BYOS.Instance.Interaction.VocalManager.StartListenBehaviour = SpeechToTextStart;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
-			LastSTTCallbackTime = DateTime.Now;
 			InitKeyList ();
-			StartCoroutine(EnableSpeechToText());
 		}
 			
 		private void InitKeyList ()
@@ -62,20 +62,27 @@ namespace BuddyApp.ExperienceCenter
 
 		public void SpeechToTextStart()
 		{
-			LastSTTCallbackTime = DateTime.Now;
+			if (mVocalManager.EnableTrigger)
+			{
+				mVocalManager.EnableTrigger = false;
+				StartCoroutine(EnableSpeechToText());
+
+				if (ExperienceCenterData.Instance.EnableHeadMovement && !mIdleBehaviour.headPoseInit)
+				{
+					mAttitudeBehaviour.IsWaiting = false;
+					Debug.LogWarning ("Stop BML");
+					BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+					BYOS.Instance.Interaction.BMLManager.LaunchByName("Reset01");
+					mIdleBehaviour.headPoseInit = true;
+				} 
+			}
+
 			Debug.LogWarning ("Head Pose =" + mIdleBehaviour.headPoseInit);
-			if (ExperienceCenterData.Instance.EnableHeadMovement && !mIdleBehaviour.headPoseInit)
-            {
-                mAttitudeBehaviour.IsWaiting = false;
-				Debug.LogWarning ("Stop BML");
-                BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
-                BYOS.Instance.Interaction.BMLManager.LaunchByName("Reset01");
-				mIdleBehaviour.headPoseInit = true;
-            } 
 		}
 			
 		public void SpeechToTextCallback (string iSpeech)
 		{
+			mTimeOutCount = 0;
 			// To test with the simulator
 			//SpeechToTextStart ();
 			Debug.LogFormat ("SpeechToText : {0}", iSpeech);
@@ -136,7 +143,7 @@ namespace BuddyApp.ExperienceCenter
 		private IEnumerator EnableSpeechToText()
 		{
 			mLaunchSTTOnce = false;
-			while (!behaviourEnd)
+			while (!mVocalManager.EnableTrigger)
 			{
 				if (!mLaunchSTTOnce)
 				{
@@ -163,7 +170,14 @@ namespace BuddyApp.ExperienceCenter
 
 		public void ErrorCallback(STTError iError)
 		{
-			mLaunchSTTOnce = false;
+			mTimeOutCount++;
+			if (mTimeOutCount > 2)
+			{
+				mTimeOutCount = 0;
+				mVocalManager.EnableTrigger = true;
+			}
+			else
+				mLaunchSTTOnce = false;
 		}
 	}
 }
