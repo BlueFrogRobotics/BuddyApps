@@ -22,9 +22,10 @@ namespace BuddyApp.ExperienceCenter
 	public enum Command
 	{
 		Welcome = 0x01,
-		ByeBye = 0x03,
-		MoveForward = 0x04,
-		IOT = 0x05,
+		ByeBye = 0x02,
+		MoveForward = 0x03,
+		IOT = 0x04,
+		Wander = 0x05,
 		English = 0x06,
 		French = 0x07,
 		Stop = 0x08,
@@ -44,9 +45,10 @@ namespace BuddyApp.ExperienceCenter
 	{
 		Idle = 0x00,
 		Welcome = 0x01,
-		ByeBye = 0x03,
-		MoveForward = 0x04,
-		IOT = 0x05,
+		ByeBye = 0x02,
+		MoveForward = 0x03,
+		IOT = 0x04,
+		Wander = 0x05,
 		English = 0x06,
 		French = 0x07,
 		LowBattery = 0x08,
