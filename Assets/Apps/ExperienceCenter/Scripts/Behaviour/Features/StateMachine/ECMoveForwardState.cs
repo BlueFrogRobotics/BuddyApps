@@ -18,6 +18,8 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<MoveForwardBehaviour> ();
+			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+			BYOS.Instance.Interaction.VocalManager.StopAllCoroutines();
 			mBehaviour.InitBehaviour ();
 			mAddReco = false;
 
@@ -29,6 +31,8 @@ namespace BuddyApp.ExperienceCenter
 			if (mBehaviour.behaviourEnd && !mAddReco) {
 				BYOS.Instance.Interaction.VocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
 				BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
+				BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
+				BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
 				mAddReco = true;
 			}
 		}
@@ -56,6 +60,12 @@ namespace BuddyApp.ExperienceCenter
 				Debug.Log ("MoveForward - SpeechToText : Not Found");
 			else
 				mAnimatorManager.ActivateCmd ((byte)(Command.IOT));
+		}
+
+		public void SpeechToTextError (STTError iError)
+		{
+			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString ());
+			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
 		}
 	}
 }

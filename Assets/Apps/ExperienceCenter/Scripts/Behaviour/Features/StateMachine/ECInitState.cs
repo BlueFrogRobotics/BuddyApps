@@ -21,10 +21,10 @@ namespace BuddyApp.ExperienceCenter
 				ExperienceCenterData.Instance.NoiseTime = 0.2F;
 				ExperienceCenterData.Instance.TableDistance = 1.5F;
 				ExperienceCenterData.Instance.IOTDistance = 1.5F;
-				ExperienceCenterData.Instance.NoHingeAngle = 30F;
-				ExperienceCenterData.Instance.NoHingeSpeed = 75F;
+				ExperienceCenterData.Instance.NoHingeAngle = 60F;
+				ExperienceCenterData.Instance.NoHingeSpeed = 120F;
 				ExperienceCenterData.Instance.HeadPoseTolerance = 0.2F;
-				ExperienceCenterData.Instance.WelcomeTimeOut = 3.5F;
+				ExperienceCenterData.Instance.WelcomeTimeOut = 2F;
 				ExperienceCenterData.Instance.MaxDistance = 1F;
 				ExperienceCenterData.Instance.MinDistance = 0.7F;
 				ExperienceCenterData.Instance.MaxSpeed = 200F;

@@ -14,6 +14,7 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IOTBehaviour> ();
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+			BYOS.Instance.Interaction.VocalManager.StopAllCoroutines();
 			mBehaviour.InitBehaviour ();
 		}
 

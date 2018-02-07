@@ -40,10 +40,11 @@ namespace BuddyApp.ExperienceCenter
 
 		private IEnumerator MoveForward (float lSpeed)
 		{
+			
 			mDistance = mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose);
 			//Save the robot Pose for future iteration if any
 			mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
-			yield return new WaitUntil (() => mCollisionDetector.enableToMove);
+			yield return new WaitUntil (() => mCollisionDetector.enableToMove && BYOS.Instance.Interaction.VocalManager.RecognitionFinished);
 
 			Debug.LogFormat ("Wheels lock: {0}", BYOS.Instance.Primitive.Motors.Wheels.Locked);
 			BYOS.Instance.Primitive.Motors.Wheels.SetWheelsSpeed (lSpeed);
