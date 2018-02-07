@@ -29,7 +29,9 @@ namespace BuddyApp.ExperienceCenter
 		English = 0x06,
 		French = 0x07,
 		Stop = 0x08,
-		EmergencyStop = 0x09
+		EmergencyStop = 0x09,
+        VocalTrigger = 0x0A,
+		Unlock = 0x0B
 	}
 
 	[Flags]
@@ -66,6 +68,7 @@ namespace BuddyApp.ExperienceCenter
 		private Animator mMainAnimator;
 		private IdleBehaviour mIdleBehaviour;
 		private MoveForwardBehaviour mMoveBehaviour;
+		private CollisionDetector mCollisionDetector;
 
 		private bool mSwitchOnce;
 		private bool mSwitchIdleOnce;
@@ -87,6 +90,7 @@ namespace BuddyApp.ExperienceCenter
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			mMoveBehaviour = GameObject.Find ("AIBehaviour").GetComponent<MoveForwardBehaviour> ();
+			mCollisionDetector = GameObject.Find ("AIBehaviour").GetComponent<CollisionDetector> ();
 
 			InitStateDict ();
 			ExperienceCenterData.Instance.ShouldSendCommand = false;
@@ -238,6 +242,13 @@ namespace BuddyApp.ExperienceCenter
 						emergencyStop = true;
 						break;
 					}
+				case Command.VocalTrigger:
+					{
+						if (ExperienceCenterData.Instance.VoiceTrigger) {
+							ExperienceCenterData.Instance.RunTrigger = true;
+						}
+						break;
+					}
 				default:
 					break;
 				}
@@ -275,6 +286,13 @@ namespace BuddyApp.ExperienceCenter
 						emergencyStop = true;
 						break;
 					}
+				case Command.VocalTrigger:
+					{
+						if (ExperienceCenterData.Instance.VoiceTrigger) {
+							ExperienceCenterData.Instance.RunTrigger = true;
+						}
+						break;
+					}
 				default:
 					break;
 				}
@@ -301,6 +319,21 @@ namespace BuddyApp.ExperienceCenter
 						emergencyStop = true;
 						break;
 					}
+				case Command.VocalTrigger:
+					{
+						if (ExperienceCenterData.Instance.VoiceTrigger) {
+							ExperienceCenterData.Instance.RunTrigger = true;
+						}
+						break;
+					}
+				case Command.Unlock:
+					{
+						if (mCollisionDetector.behaviourInit) {
+							Debug.LogWarning ("Simulated obstacle");
+							mCollisionDetector.enableToMove = false;
+						}
+						break;
+					}
 				default:
 					break;
 				}
@@ -317,6 +350,14 @@ namespace BuddyApp.ExperienceCenter
 					{
 						UpdateStateDict (cmd, State.IOT); 
 						emergencyStop = true;
+						break;
+					}
+				case Command.Unlock:
+					{
+						if (mCollisionDetector.behaviourInit) {
+							Debug.LogWarning ("Simulated obstacle");
+							mCollisionDetector.enableToMove = false;
+						}
 						break;
 					}
 				default:

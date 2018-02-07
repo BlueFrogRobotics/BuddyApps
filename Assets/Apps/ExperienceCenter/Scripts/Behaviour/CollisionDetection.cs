@@ -13,7 +13,7 @@ namespace BuddyApp.ExperienceCenter
 		//List of booleans for detecting collision
 		private bool mObstacle;
 		private bool mStoppingPhase;
-		private bool mBehaviourInit;
+
 		private float mStopDistance;
 		private float mNoiseTime;
 		private float mMaxDistance;
@@ -26,6 +26,7 @@ namespace BuddyApp.ExperienceCenter
 		private float mB2;
 
 		private DateTime mDetectionTime;
+		public bool behaviourInit;
 		public bool enableToMove;
 		public bool updateSpeed;
 		public float leftSpeed;
@@ -36,7 +37,7 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mObstacle = false;
 			mStoppingPhase = false;
-			mBehaviourInit = true;
+			behaviourInit = true;
 			enableToMove = true;
 			updateSpeed = false;
 			leftSpeed = 0F;
@@ -113,42 +114,42 @@ namespace BuddyApp.ExperienceCenter
 			Debug.LogWarning ("Sensors : L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs);
 			if (leftObs <= 0.3 || rightObs <= 0.3 || middleObs <= 0.3) {
 				enableToMove = false;
-				Debug.LogWarning ("Critical distance : L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+				//Debug.LogWarning ("Critical distance : L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 //				return;
 			}
 
 			if (leftObs <= mStopDistance || rightObs <= mStopDistance || middleObs <= mStopDistance) {
 				//if (leftObs > 0.01 || rightObs > 0.01 || middleObs > 0.01) {
 				if (!mObstacle) {
-					Debug.LogWarning ("Something detected: Obstacle or Noise ?");
+					//Debug.LogWarning ("Something detected: Obstacle or Noise ?");
 					mObstacle = true;
 					mDetectionTime = DateTime.Now;
 				} else {
 					TimeSpan lElapsedTime = DateTime.Now - mDetectionTime;
 					if (lElapsedTime.TotalSeconds > mNoiseTime) {
-						Debug.LogWarningFormat ("Obstacle is detected at {0}", DateTime.Now.Date.ToString ());
+						//Debug.LogWarningFormat ("Obstacle is detected at {0}", DateTime.Now.Date.ToString ());
 						if (BYOS.Instance.Primitive.Motors.Wheels.Speed <= 0.01f) {
-							Debug.LogWarning ("Buddy Stopped: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+						//	Debug.LogWarning ("Buddy Stopped: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 							mStoppingPhase = false;
 							enableToMove = false;
 						} else {
 							mStoppingPhase = true;
 							enableToMove = false;
-							Debug.LogWarning ("Buddy is Slipping: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+						//	Debug.LogWarning ("Buddy is Slipping: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 						}
 					} else {
-						Debug.LogWarningFormat ("Check Obstacle: {0}s", lElapsedTime.TotalSeconds);
+						//Debug.LogWarningFormat ("Check Obstacle: {0}s", lElapsedTime.TotalSeconds);
 						enableToMove = true;
 						//mObstacle = false;
 					}
 				}
 			} else {
 				if (!mStoppingPhase) {
-					Debug.LogWarning ("Safe Evironment: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+					//Debug.LogWarning ("Safe Evironment: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 					mObstacle = false;
 					enableToMove = true;
 				} else {
-					Debug.LogWarning ("Stopping slipping phase");
+					//Debug.LogWarning ("Stopping slipping phase");
 					mStoppingPhase = false;
 				}
 			}
@@ -201,7 +202,7 @@ namespace BuddyApp.ExperienceCenter
 				Debug.LogWarningFormat ("Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
 			}
 
-			if (mBehaviourInit) {
+			if (behaviourInit) {
 				CheckObstacleTimeFiltred ();
 				updateSpeed = false;
 				GetLeftSpeed ();
@@ -284,7 +285,7 @@ namespace BuddyApp.ExperienceCenter
 		public void StopBehaviour ()
 		{
 			Debug.LogWarning ("Stop Collision Detection");
-			mBehaviourInit = false;
+			behaviourInit = false;
 		}
 
 	}

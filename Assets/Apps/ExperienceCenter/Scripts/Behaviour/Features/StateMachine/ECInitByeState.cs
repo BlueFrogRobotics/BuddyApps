@@ -20,6 +20,8 @@ namespace BuddyApp.ExperienceCenter
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			mQuestionsBehaviour = GameObject.Find ("AIBehaviour").GetComponent<QuestionsBehaviour> ();
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
+			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
+			BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
 			mAddReco = false;
 		}
 			
@@ -47,9 +49,15 @@ namespace BuddyApp.ExperienceCenter
 				
 			if (!lClauseFound)
 				Debug.Log ("ByeBye - SpeechToText : Not Found");
-			else
+			else {
 				mAnimatorManager.ActivateCmd ((byte)(Command.MoveForward));
+			}
 		}
 
+		public void SpeechToTextError (STTError iError)
+		{
+			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString ());
+			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
+		}
 	}
 }
