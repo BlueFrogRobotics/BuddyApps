@@ -20,8 +20,10 @@ namespace BuddyApp.Companion
 		public int Bored { get; set; }
 		public int MovingDesire { get; set; }
 		public int InteractDesire { get; set; }
-		public int Excitement { get; set; }
-		public int Happiness { get; set; }
+		public int LearnDesire { get; set; }
+		public int TeachDesire { get; set; }
+		public int HelpDesire { get; set; }
+
 		public bool ChargeAsked { get; set; }
 		public string LastApp { get; set; }
 		public float LastAppTime { get; set; }

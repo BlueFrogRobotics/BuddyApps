@@ -7,6 +7,26 @@ using System;
 
 namespace BuddyApp.Companion
 {
+
+
+	public enum BUDDY_ACTION
+	{
+		NONE,
+		WANDER,
+		DANCE,
+		FOLLOW,
+		GAME,
+		EDUTAINMENT,
+		SERVICE,
+		JOKE,
+		CHAT,
+		TOUCH_INTERACT,
+		LOOK_FOR_USER,
+		ASK_USER_PROFILE,
+		INFORM_WEATHER,
+		INFORM_MOOD
+	}
+
 	/// <summary>
 	/// Manager class that have reference to the differents stimuli and subscribes to their callbacks
 	/// </summary>
@@ -21,8 +41,10 @@ namespace BuddyApp.Companion
 		private float mTimeLastOrder;
 		private InternalMood mInternalStateMood;
 
+
 		public bool WanderingOrder { get; set; }
 		public MoodType WanderingMood { get; set; }
+		public BUDDY_ACTION CurrentAction { get; set; }
 
 		public bool Wandering { get; private set; }
 		public bool ThermalFollow { get; private set; }
@@ -32,6 +54,7 @@ namespace BuddyApp.Companion
 
 		void Start()
 		{
+			CurrentAction = BUDDY_ACTION.NONE;
 			mInternalStateMood = BYOS.Instance.Interaction.InternalState.InternalStateMood;
 			WanderingOrder = false;
 			WanderingMood = MoodType.NEUTRAL;
@@ -76,7 +99,11 @@ namespace BuddyApp.Companion
 		//*  ACTIONS  *
 		//*************
 
-
+		public string LaunchDesiredAction(string iState)
+		{
+			//TODO return the right trigger
+			return "WANDER";
+		}
 
 		public bool StartWander(MoodType iMood)
 		{
@@ -133,6 +160,12 @@ namespace BuddyApp.Companion
 		//***************
 		//*  REACTIONS  *
 		//***************
+
+		public string LaunchReaction(string iState, Detected iDetectedElement)
+		{
+			//TODO return the right trigger
+			return "WANDER";
+		}
 
 
 		public void HeadReaction()

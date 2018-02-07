@@ -19,7 +19,7 @@ namespace BuddyApp.Companion
 		TOUCH,
 		BATTERY,
 		TRIGGER,
-		HUMAN_RGB
+		HUMAN_RGB,
 	}
 
 	public enum FaceTouch
