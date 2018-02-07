@@ -61,11 +61,11 @@ namespace BuddyApp.ExperienceCenter
 		}
 
 		public void SpeechToTextStart()
-		{
-			BYOS.Instance.Interaction.Mood.Set (MoodType.LISTENING); 
+		{ 
 			if (mVocalManager.EnableTrigger)
 			{
 				mVocalManager.EnableTrigger = false;
+				BYOS.Instance.Interaction.Mood.Set (MoodType.LISTENING);
 				StartCoroutine(EnableSpeechToText());
 
 				if (ExperienceCenterData.Instance.EnableHeadMovement && !mIdleBehaviour.headPoseInit)
@@ -131,7 +131,7 @@ namespace BuddyApp.ExperienceCenter
 			if (!mTTS.HasFinishedTalking)
 				mTTS.Stop ();
 			behaviourEnd = true;
-			if (mLaunchSTTOnce)
+			if (!mVocalManager.EnableTrigger)
 			{
 				mVocalManager.StopAllCoroutines();
 				this.StopAllCoroutines();
@@ -143,6 +143,7 @@ namespace BuddyApp.ExperienceCenter
 			mLaunchSTTOnce = false;
 			while (!mVocalManager.EnableTrigger)
 			{
+				Debug.LogWarning ("HERE EnableSpeechToText");
 				if (!mLaunchSTTOnce)
 				{
 					if (!mVocalManager.RecognitionFinished)
@@ -158,7 +159,9 @@ namespace BuddyApp.ExperienceCenter
 					else
 					{
 						// Initiating Vocal Manager instance reco
+						yield return new WaitForSeconds(ExperienceCenterData.Instance.WelcomeTimeOut);
 						mLaunchSTTOnce = true;
+						BYOS.Instance.Interaction.Mood.Set (MoodType.LISTENING);
 						mVocalManager.StartInstantReco(false);
 					}
 				}

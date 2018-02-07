@@ -30,17 +30,22 @@ namespace BuddyApp.ExperienceCenter
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
+			mQuestionBehaviour.StopBehaviour();
+			mIdleBehaviour.StopBehaviour ();
+
 			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
 			BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
 			BYOS.Instance.Interaction.VocalManager.StartListenBehaviour = mOriginalListenBehaviour;
+			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 
-			mQuestionBehaviour.StopBehaviour();
-			mIdleBehaviour.StopBehaviour ();
+			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
+
 		}
 
 		public void SpeechToTextError (STTError iError)
 		{
 			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString ());
+			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
 		}
 	}
 }

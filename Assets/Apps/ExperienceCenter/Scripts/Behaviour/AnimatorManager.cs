@@ -109,7 +109,7 @@ namespace BuddyApp.ExperienceCenter
 			}
 
 			if (ExperienceCenterData.Instance.RunTrigger) {
-				BYOS.Instance.Interaction.VocalManager.StartInstantReco (true);
+				BYOS.Instance.Interaction.VocalManager.StartInstantReco (false);
 				Debug.LogWarning ("Run Trigger ");
 				ExperienceCenterData.Instance.RunTrigger = false;
 			}

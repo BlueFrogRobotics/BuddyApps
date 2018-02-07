@@ -28,12 +28,7 @@ namespace BuddyApp.ExperienceCenter
 
 			mDistance = 5F; 
 			if (ExperienceCenterData.Instance.EnableBaseMovement) {
-				
-				if (!ExperienceCenterData.Instance.EnableBML) {
-					BYOS.Instance.Navigation.RandomWalk.StartWander (MoodType.HAPPY);
-				} else {
 					StartCoroutine (Walk ());
-				}
 
 			} else {
 				behaviourEnd = true;

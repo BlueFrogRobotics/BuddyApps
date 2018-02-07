@@ -43,7 +43,7 @@ namespace BuddyApp.ExperienceCenter
 					lClauseFound = true;
 					break;
 				}
-			}
+			} 
 				
 			if (!lClauseFound)
 				Debug.Log ("ByeBye - SpeechToText : Not Found");
