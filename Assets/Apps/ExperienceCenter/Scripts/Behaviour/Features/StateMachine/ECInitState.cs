@@ -39,6 +39,7 @@ namespace BuddyApp.ExperienceCenter
 			mTcpServer = GameObject.Find ("AIBehaviour").GetComponent<TcpServer> ();
 			mTcpServer.Init ();
 
+			BYOS.Instance.Header.DisplayParametersButton = false;
 		}
 	}
 }
