@@ -31,6 +31,9 @@ namespace BuddyApp.ExperienceCenter {
                 { "light", "Active button" },
                 { "sound", "Awabureau" },
                 { "store", "SUNEA io"}
+				//{ "light", "Led Outodoor" },
+				//{ "sound", "" },
+				//{ "store", "Awning outdoor" }
             };
         }
 
@@ -84,7 +87,7 @@ namespace BuddyApp.ExperienceCenter {
         // Command light
 		public void LightOn(bool enable)
 		{
-			ExecuteAction(IOTLabels["light"], enable ? "setPodLedOn" : "setPodLedOff");
+			ExecuteAction(IOTLabels["light"], enable ? "setPodLedOn" : "setPodLedOff"); //on - off
 		}
 
         // Command store
