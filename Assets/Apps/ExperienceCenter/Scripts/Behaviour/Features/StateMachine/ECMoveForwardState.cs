@@ -31,7 +31,6 @@ namespace BuddyApp.ExperienceCenter
 				BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
 				mAddReco = true;
 			}
-				
 		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -39,16 +38,6 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mBehaviour.StopBehaviour ();
 		}
-
-		// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-		//override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
-
-		// OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-		//override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//
-		//}
 
 		public void SpeechToTextCallback (string iSpeech)
 		{

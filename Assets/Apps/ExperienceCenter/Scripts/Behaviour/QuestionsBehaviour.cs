@@ -31,10 +31,10 @@ namespace BuddyApp.ExperienceCenter
 			mIdleBehaviour = GameObject.Find("AIBehaviour").GetComponent<IdleBehaviour>();
 			behaviourEnd = false;
 			mVocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
+			mVocalManager.EnableDefaultErrorHandling = false;
 			mVocalManager.OnEndReco = SpeechToTextCallback;
 			mVocalManager.OnError = ErrorCallback;
 			BYOS.Instance.Interaction.SphinxTrigger.SetThreshold (1E-24f);
-			mVocalManager.EnableDefaultErrorHandling = false;
 			mTimeOutCount = 0;
 
 			// To test with the real robot
@@ -62,6 +62,7 @@ namespace BuddyApp.ExperienceCenter
 
 		public void SpeechToTextStart()
 		{
+			BYOS.Instance.Interaction.Mood.Set (MoodType.LISTENING); 
 			if (mVocalManager.EnableTrigger)
 			{
 				mVocalManager.EnableTrigger = false;
@@ -82,16 +83,13 @@ namespace BuddyApp.ExperienceCenter
 			
 		public void SpeechToTextCallback (string iSpeech)
 		{
-			mTimeOutCount = 0;
-			// To test with the simulator
-			//SpeechToTextStart ();
+			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
 			Debug.LogFormat ("SpeechToText : {0}", iSpeech);
 			bool lClauseFound = false;
 			string lKey = "";
 			foreach (string lElement in mKeyList)
 			{
 				string[] lPhonetics = BYOS.Instance.Dictionary.GetPhoneticStrings(lElement);
-				Debug.LogFormat ("Phonetics : {0}", lPhonetics.Length);
 				foreach (string lClause in lPhonetics)
 				{
 					if (iSpeech.Contains (lClause)) {
@@ -104,7 +102,7 @@ namespace BuddyApp.ExperienceCenter
 					}
 				}
 				if (lClauseFound) {
-					BYOS.Instance.Interaction.SpeechToText.Stop ();
+					mTimeOutCount = 0;
 					break;
 				}
 			}
@@ -170,6 +168,8 @@ namespace BuddyApp.ExperienceCenter
 
 		public void ErrorCallback(STTError iError)
 		{
+			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString ());
+			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
 			mTimeOutCount++;
 			if (mTimeOutCount > 2)
 			{
