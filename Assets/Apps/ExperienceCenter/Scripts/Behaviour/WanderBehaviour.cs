@@ -63,6 +63,8 @@ namespace BuddyApp.ExperienceCenter
 
 			if (mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD)) {
 				mDistance = 5F;
+				BYOS.Instance.Interaction.BMLManager.LaunchRandom("Idle");
+				yield return new WaitUntil(() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
 			}
 			Debug.Log ("Restart Wander Coroutine");
 			StartCoroutine (Walk ());
