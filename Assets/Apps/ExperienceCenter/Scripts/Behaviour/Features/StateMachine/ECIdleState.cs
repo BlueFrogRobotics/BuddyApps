@@ -12,6 +12,7 @@ namespace BuddyApp.ExperienceCenter
 		private IdleBehaviour mIdleBehaviour;
 		private QuestionsBehaviour mQuestionBehaviour;
 
+		private System.Action mOriginalListenBehaviour;
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -19,7 +20,9 @@ namespace BuddyApp.ExperienceCenter
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			mQuestionBehaviour = GameObject.Find("AIBehaviour").GetComponent<QuestionsBehaviour>();
-						
+
+			mOriginalListenBehaviour = BYOS.Instance.Interaction.VocalManager.StartListenBehaviour;
+
 			mQuestionBehaviour.InitBehaviour();
 			mIdleBehaviour.InitBehaviour ();
 		}
@@ -29,6 +32,7 @@ namespace BuddyApp.ExperienceCenter
 		{
 			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
 			BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
+			BYOS.Instance.Interaction.VocalManager.StartListenBehaviour = mOriginalListenBehaviour;
 
 			mQuestionBehaviour.StopBehaviour();
 			mIdleBehaviour.StopBehaviour ();
