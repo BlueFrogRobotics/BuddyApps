@@ -29,6 +29,7 @@ namespace BuddyApp.ExperienceCenter
 		private OnOff mVoiceTriggerCheckBox;
 		private OnOff mRunTriggerCheckBox;
 		private OnOff mBMLCheckBox;
+		private OnOff mCollisionDebugCheckBox;
 
 		private TextField mUrlAPI;
 		private TextField mUserID;
@@ -110,6 +111,7 @@ namespace BuddyApp.ExperienceCenter
 			mVoiceTriggerCheckBox.Label = "Voice Trigger";
 			mRunTriggerCheckBox.Label = "Run Trigger";
 			mBMLCheckBox.Label = "BML";
+			mCollisionDebugCheckBox.Label = "Collision Debug";
 
 			foreach (string label in mButtons.Keys)
 				mButtons [label].InnerLabel = label;
@@ -344,6 +346,14 @@ namespace BuddyApp.ExperienceCenter
 			mRunTriggerCheckBox.OnSwitchEvent ((bool iVal) => {
 				Debug.Log (String.Format ("Enable {0} : {1}", "Run Trigger", iVal));
 				ExperienceCenterData.Instance.RunTrigger = iVal;
+			});
+
+			mCollisionDebugCheckBox = CreateWidget<OnOff> ();
+			mCollisionDebugCheckBox.IsActive = ExperienceCenterData.Instance.CollisionDebug;
+
+			mCollisionDebugCheckBox.OnSwitchEvent ((bool iVal) => {
+				Debug.Log (String.Format ("Enable {0} : {1}", "Collision Debug", iVal));
+				ExperienceCenterData.Instance.CollisionDebug = iVal;
 			});
 		}
 

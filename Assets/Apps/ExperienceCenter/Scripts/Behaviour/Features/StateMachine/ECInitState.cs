@@ -33,6 +33,7 @@ namespace BuddyApp.ExperienceCenter
 				ExperienceCenterData.Instance.EnableBaseMovement = true;
 				ExperienceCenterData.Instance.VoiceTrigger = true;
 				ExperienceCenterData.Instance.EnableBML = true;
+				ExperienceCenterData.Instance.CollisionDebug = false;
 				FirstRun = false;
 			}
 
