@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Collections;
 using System.Collections.Generic;
 using Buddy;
+using System;
 
 namespace BuddyApp.BuddyLab
 { 
@@ -50,7 +51,7 @@ namespace BuddyApp.BuddyLab
 
         void Start()
         {
-            mLoopCounter = 0;
+            mLoopCounter = 1;
             mIndex = 0;
             mIsRunning = false;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-us");
@@ -252,6 +253,10 @@ namespace BuddyApp.BuddyLab
                 }
                 else if (bli.Category == Category.LOOP)
                 {
+                    if (bli.Parameter != "")
+                    {
+                        LoopManager.ParamLoop = bli.Parameter;
+                    }
                     //Debug.Log("INDEX LOOP CATEGORY : " + mIndex);
                     LoopManager.LoopType = bli.LoopType;
                     LoopManager.IndexLoop = mIndex;
@@ -266,8 +271,12 @@ namespace BuddyApp.BuddyLab
                     }
                     if (bli.LoopType == LoopType.LOOP_X && !LoopManager.ChangeIndex)
                     {
-                        LoopManager.LoopCounter = mLoopCounter++;
-                        mIndex -= (bli.NbItemsInLoop + 1);
+                        if(Int32.Parse(bli.Parameter) != 1 )
+                        {
+                            LoopManager.LoopCounter = mLoopCounter++;
+                            mIndex -= (bli.NbItemsInLoop + 1);
+                        }
+
                     }
                     if(bli.LoopType == LoopType.SENSOR && !LoopManager.ChangeIndex)
                     {
@@ -280,8 +289,8 @@ namespace BuddyApp.BuddyLab
                     {
                         mConditionParam = "";
                         ConditionManager.ConditionType = "";
-                        mLoopCounter = 0;
-                        LoopManager.LoopCounter = 0;
+                        mLoopCounter = 1;
+                        LoopManager.LoopCounter = 1;
                         mIndex = LoopManager.IndexLoop;
                         LoopManager.IndexLoop = 0;
                         //Debug.Log("CHANGE INDEX : " + (LoopManager.IndexLoop));
@@ -289,10 +298,7 @@ namespace BuddyApp.BuddyLab
                         LoopManager.LoopType = LoopType.NONE;
                         LoopManager.IsSensorLoopWithParam = false;
                     }
-                    if (bli.Parameter != "")
-                    {
-                        LoopManager.ParamLoop = bli.Parameter;
-                    }
+                    
                     if (!mIsRunning)
                     {
                         LoopManager.LoopType = LoopType.NONE;

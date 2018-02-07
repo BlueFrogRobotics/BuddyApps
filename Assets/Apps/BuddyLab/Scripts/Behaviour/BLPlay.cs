@@ -101,6 +101,7 @@ namespace BuddyApp.BuddyLab
 
         private IEnumerator Play()
         {
+            yield return new WaitForSeconds(0.5F);
             mItemControl.IsRunning = true;
             mIsPlaying = true;
             Debug.Log("PLAY : AVANT YIELD RETURN : ISRUNNING " + mItemControl.IsRunning + " MISPLAYING : " + mIsPlaying);

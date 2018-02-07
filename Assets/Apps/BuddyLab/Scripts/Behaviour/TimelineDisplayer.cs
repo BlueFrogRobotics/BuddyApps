@@ -51,7 +51,7 @@ namespace BuddyApp.BuddyLab
             string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("Projects/" + iFileName);
             mListBLI = Utils.UnserializeXML<ListBLI>(lDirectoryPath);
             Debug.Log("elements dans la liste: "+mListBLI.List.Count);
-            HighlightElement(2);
+            HighlightElement(0);
             Debug.Log("highlight element 2");
         }
 
