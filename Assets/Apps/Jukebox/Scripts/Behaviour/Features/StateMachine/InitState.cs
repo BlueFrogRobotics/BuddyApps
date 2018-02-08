@@ -17,13 +17,15 @@ namespace BuddyApp.Jukebox
         private FileInfo[] mPath;
         private DirectoryInfo mDirectory;
         private string mURLAndroid;
-
+        private Button mButtonDance;
         private bool mIsCoroutineDone;
 
         public override void Start()
         {
 
             BYOS.Instance.Header.DisplayParametersButton = false;
+            mButtonDance = GetGameObject(6).GetComponent<Button>();
+            mButtonDance.onClick.Invoke();
             mIndexToPlay = new List<int>();
             mIsCoroutineDone = false;
         }
