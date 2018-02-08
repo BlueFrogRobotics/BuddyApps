@@ -24,8 +24,10 @@ namespace BuddyApp.Jukebox
         {
 
             BYOS.Instance.Header.DisplayParametersButton = false;
+
             mButtonDance = GetGameObject(6).GetComponent<Button>();
             mButtonDance.onClick.Invoke();
+            Debug.Log("INIT JUKEBOX : MBUTTON NAME " + mButtonDance.name);
             mIndexToPlay = new List<int>();
             mIsCoroutineDone = false;
         }

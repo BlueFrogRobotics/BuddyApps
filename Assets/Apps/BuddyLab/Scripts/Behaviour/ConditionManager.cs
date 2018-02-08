@@ -556,6 +556,7 @@ namespace BuddyApp.BuddyLab
 
         private void ResetParam()
         {
+            Debug.Log("RESETPARAM ");
             mIsStringSaid = false;
             mSpeechReco = "";
             mHeadMoving = false;

@@ -68,6 +68,8 @@ namespace BuddyApp.BuddyLab
             mLoopManager.ResetParam();
             mLoopManager.NeedChangeIndex();
             mConditionManager.ConditionType = "";
+            mIsPlaying = false;
+            mLoopManager.ChangeIndex = false;
             if (Primitive.RGBCam.IsOpen)
             {
                 Debug.Log("CAMERA OPEN");
