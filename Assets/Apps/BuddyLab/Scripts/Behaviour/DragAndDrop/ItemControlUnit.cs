@@ -189,7 +189,7 @@ namespace BuddyApp.BuddyLab
             //foreach (BLItemSerializable bli in lListBLI.List)
             //mLoopCounter = 0;
             mIndex = 0;
-            ConditionManager.IsEventDone = false;
+            //ConditionManager.IsEventDone = false;
             while (mIndex< lListBLI.List.Count)
             {
                 Debug.Log("------------------INDEX PLAY SEQUENCE ------------------- : " + mIndex);
