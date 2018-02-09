@@ -189,29 +189,26 @@ namespace BuddyApp.BuddyLab
             //foreach (BLItemSerializable bli in lListBLI.List)
             //mLoopCounter = 0;
             mIndex = 0;
-            //ConditionManager.IsEventDone = false;
+            Debug.Log("ENTER PLAY SEQUENCE : " + ConditionManager.IsEventDone);
+            ConditionManager.IsEventDone = false;
+            Debug.Log("ENTER PLAY SEQUENCE 2 : " + ConditionManager.IsEventDone);
             while (mIndex< lListBLI.List.Count)
             {
-                Debug.Log("------------------INDEX PLAY SEQUENCE ------------------- : " + mIndex);
-                Debug.Log("------------------ISRUNNING PLAY SEQUENCE ------------------- : " + mIsRunning);
-                Debug.Log("------------------Condition.IsEventDone PLAY SEQUENCE ------------------- : " + ConditionManager.IsEventDone);
+                //Debug.Log("------------------INDEX PLAY SEQUENCE ------------------- : " + mIndex);
+                //Debug.Log("------------------ISRUNNING PLAY SEQUENCE ------------------- : " + mIsRunning);
+                //Debug.Log("------------------Condition.IsEventDone PLAY SEQUENCE ------------------- : " + ConditionManager.IsEventDone);
                 BLItemSerializable bli = lListBLI.List[mIndex];
 
                 if (OnNextAction!=null)
                 {
                     OnNextAction(mIndex);
                 }
-                if(LoopManager.IsSensorLoopWithParam)
-                {
-                    if(ConditionManager.ConditionType=="")
-                        ConditionManager.ConditionType = mConditionParam;
-                    if (!mIsRunning)
-                        ConditionManager.ConditionType = "";
-                }
+                
                
                 if (bli.Category == Category.BML)
                 {
-
+                    ConditionManager.IsInCondition = false;
+                    Debug.Log("PLAY SEQ : BML");
                     if (bli.ParameterKey != "")
                     {
                         Dictionary<string, string> param = new Dictionary<string, string>();
@@ -230,6 +227,8 @@ namespace BuddyApp.BuddyLab
                 }
                 else if (bli.Category == Category.CONDITION)
                 {
+                    Debug.Log("PLAY SEQ : CONDITION");
+                    ConditionManager.IsInCondition = true;
                     ConditionManager.ConditionType = bli.ConditionName;
                     if (bli.ParameterKey != "")
                     {
@@ -240,10 +239,16 @@ namespace BuddyApp.BuddyLab
                         yield return null;
                     }
                     if (!mIsRunning)
+                    {
                         ConditionManager.ConditionType = "";
+                        ConditionManager.IsInCondition = false;
+                    }
+                        
                 }
                 else if (bli.Category == Category.LOOP)
                 {
+                    ConditionManager.IsInCondition = false;
+                    Debug.Log("PLAY SEQ : LOOP");
                     if (bli.Parameter != "")
                     {
                         LoopManager.ParamLoop = bli.Parameter;
@@ -270,9 +275,16 @@ namespace BuddyApp.BuddyLab
                     }
                     if(bli.LoopType == LoopType.SENSOR && !LoopManager.ChangeIndex)
                     {
-                        
                         mIndex -= (bli.NbItemsInLoop + 1);
                         mConditionParam = bli.Parameter;
+                        if (LoopManager.IsSensorLoopWithParam)
+                        {
+                            if (ConditionManager.ConditionType == "")
+                                ConditionManager.ConditionType = mConditionParam;
+                            if (!mIsRunning)
+                                ConditionManager.ConditionType = "";
+                        }
+                        
                         
                     }
                     if (LoopManager.ChangeIndex)
@@ -295,7 +307,7 @@ namespace BuddyApp.BuddyLab
                     }
                     LoopManager.ChangeIndex = false;
                 }
-                
+                ConditionManager.IsInCondition = false;
                 ConditionManager.IsEventDone = false;
                 if (!mIsRunning)
                 {

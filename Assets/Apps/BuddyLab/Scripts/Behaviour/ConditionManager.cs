@@ -118,6 +118,9 @@ namespace BuddyApp.BuddyLab
         private float mTimerBis;
         //public float Timer { get { return mTimer; } set { mTimer = value; } }
 
+        private bool mIsInCondition;
+        public bool IsInCondition { get { return mIsInCondition; } set { mIsInCondition = value; } }
+
         // Use this for initialization
         void Start()
         {
@@ -174,9 +177,11 @@ namespace BuddyApp.BuddyLab
 
         private void LoadCondition()
         {
+            
             //mIsEventDone = false;
             if (!mSubscribed)
             {
+                Debug.Log("CM : LOADCONDITION SUBSCRIBED");
                 switch (mConditionType)
                 {
                     case "Fire":
@@ -300,7 +305,7 @@ namespace BuddyApp.BuddyLab
             }
             if (mSpeechReco.Equals(mParamCondition))
             {
-                if (mLoopManager.IsSensorLoopWithParam)
+                if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
                 {
                     mConditionType = "";
                     ClearEventTactile();
@@ -318,7 +323,7 @@ namespace BuddyApp.BuddyLab
             if (iSound > (1 - (0.4F/ 100.0f)) * MAX_SOUND_THRESHOLD)
             {
                 Debug.Log("Sound DETECTED");
-                if (mLoopManager.IsSensorLoopWithParam)
+                if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
                 {
                     mConditionType = "";
                     ClearEventTactile();
@@ -339,7 +344,7 @@ namespace BuddyApp.BuddyLab
             if (mTimer > 1.5F && iMotion.Length > 2)
             {
                 //Debug.Log("ONMOVEMENTDETECTED 2 : ");
-                if (mLoopManager.IsSensorLoopWithParam)
+                if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
                 {
                     mConditionType = "";
                     ClearEventTactile();
@@ -357,7 +362,7 @@ namespace BuddyApp.BuddyLab
         private bool OnThermalDetected(ObjectEntity[] iObject)
         {
             Debug.Log("FIRE DETECTED");
-            if (mLoopManager.IsSensorLoopWithParam)
+            if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
             {
                 mConditionType = "";
                 ClearEventTactile();
@@ -402,7 +407,7 @@ namespace BuddyApp.BuddyLab
             {
                 if (mIRSensors.Middle.Distance < OBSTACLE_DISTANCE && mIRSensors.Middle.Distance != 0)
                 {
-                    if (mLoopManager.IsSensorLoopWithParam)
+                    if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
                     {
                         mConditionType = "";
                         ClearEventTactile();
@@ -416,7 +421,7 @@ namespace BuddyApp.BuddyLab
             {
                 if (mIRSensors.Left.Distance < OBSTACLE_DISTANCE && mIRSensors.Left.Distance != 0)
                 {
-                    if (mLoopManager.IsSensorLoopWithParam)
+                    if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
                     {
                         mConditionType = "";
                         ClearEventTactile();
@@ -430,7 +435,7 @@ namespace BuddyApp.BuddyLab
             {
                 if (mIRSensors.Right.Distance < OBSTACLE_DISTANCE && mIRSensors.Right.Distance != 0)
                 {
-                    if (mLoopManager.IsSensorLoopWithParam)
+                    if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
                     {
                         mConditionType = "";
                         ClearEventTactile();
@@ -450,7 +455,7 @@ namespace BuddyApp.BuddyLab
                 if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
                 {
                     //Debug.Log("KIKOO ALL TACTILE MODAFUKA");
-                    if (mLoopManager.IsSensorLoopWithParam)
+                    if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
                     {
                         mConditionType = "";
                         ClearEventTactile();
@@ -493,7 +498,7 @@ namespace BuddyApp.BuddyLab
         {
             if (Mathf.Abs(mMotor.Wheels.Odometry.z - mOriginRobotAngle) > ANGLE_THRESH)
             {
-                if (mLoopManager.IsSensorLoopWithParam)
+                if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
                 {
                     mConditionType = "";
                     ClearEventTactile();
@@ -508,7 +513,7 @@ namespace BuddyApp.BuddyLab
         {
             if (Mathf.Abs(mMotor.NoHinge.CurrentAnglePosition) > ANGLE_THRESH)
             {
-                if (mLoopManager.IsSensorLoopWithParam)
+                if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
                 {
                     mConditionType = "";
                     ClearEventTactile();
@@ -521,7 +526,7 @@ namespace BuddyApp.BuddyLab
 
         private void OnLeftEyeClicked()
         {
-            if (mLoopManager.IsSensorLoopWithParam)
+            if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
             {
                 mConditionType = "";
                 ClearEventTactile();
@@ -533,7 +538,7 @@ namespace BuddyApp.BuddyLab
 
         private void OnRightEyeClicked()
         {
-            if (mLoopManager.IsSensorLoopWithParam)
+            if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
             {
                 mConditionType = "";
                 ClearEventTactile();
@@ -546,7 +551,7 @@ namespace BuddyApp.BuddyLab
         private void OnMouthClicked()
         {
             //Debug.Log("mouth clicked KIKOO CONDITION MANAGER");
-            if (mLoopManager.IsSensorLoopWithParam)
+            if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
             {
                 mConditionType = "";
                 ClearEventTactile();
