@@ -228,7 +228,7 @@ namespace BuddyApp.Weather
                 yield return new WaitForSeconds(num);
             }
 
-            yield return new WaitForSeconds(12f);
+            yield return new WaitForSeconds(7f);
 
             for (int i = 7; i >= 0; i--)
             {
