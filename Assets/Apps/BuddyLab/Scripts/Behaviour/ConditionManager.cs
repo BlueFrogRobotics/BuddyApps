@@ -96,7 +96,11 @@ namespace BuddyApp.BuddyLab
                 Debug.Log("condition set to: " + value);
                 ClearEventTactile();
                 if (value == "")
+                {
+                    Debug.Log("CONDITIONMANAGER LOL RESETPARAM");
                     ResetParam();
+                }
+                    
                 mConditionType = value;
             }
         }
@@ -110,8 +114,6 @@ namespace BuddyApp.BuddyLab
         //public bool LoopSensor { get { return mLoopSensor; } set { mLoopSensor = value; } }
 
         private bool mSubscribed;
-        
-
         private float mTimer;
         private float mTimerBis;
         //public float Timer { get { return mTimer; } set { mTimer = value; } }

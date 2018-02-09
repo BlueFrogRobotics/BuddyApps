@@ -189,9 +189,12 @@ namespace BuddyApp.BuddyLab
             //foreach (BLItemSerializable bli in lListBLI.List)
             //mLoopCounter = 0;
             mIndex = 0;
-            while(mIndex< lListBLI.List.Count)
+            ConditionManager.IsEventDone = false;
+            while (mIndex< lListBLI.List.Count)
             {
                 Debug.Log("------------------INDEX PLAY SEQUENCE ------------------- : " + mIndex);
+                Debug.Log("------------------ISRUNNING PLAY SEQUENCE ------------------- : " + mIsRunning);
+                Debug.Log("------------------Condition.IsEventDone PLAY SEQUENCE ------------------- : " + ConditionManager.IsEventDone);
                 BLItemSerializable bli = lListBLI.List[mIndex];
 
                 if (OnNextAction!=null)
