@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Collections;
 using System.Collections.Generic;
 using Buddy;
+using System;
 
 namespace BuddyApp.BuddyLab
 { 
@@ -50,7 +51,7 @@ namespace BuddyApp.BuddyLab
 
         void Start()
         {
-            mLoopCounter = 0;
+            mLoopCounter = 1;
             mIndex = 0;
             mIsRunning = false;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-us");
@@ -64,23 +65,19 @@ namespace BuddyApp.BuddyLab
         {
             ItemControlUnit sourceSheet = desc.sourceCell.GetComponentInParent<ItemControlUnit>();
             ItemControlUnit destinationSheet = desc.destinationCell.GetComponentInParent<ItemControlUnit>();
-            //Debug.Log("truc ajouté");
+           
             if (desc.sourceCell.cellType == DragAndDropCell.CellType.UnlimitedSource)
             {
-                Debug.Log("from unlimited");
                 PlaceFromUnlimitedResources(desc);
             }
             if (desc.destinationCell.cellType == DragAndDropCell.CellType.Delete)
             {
-                Debug.Log("to delete");
                 PlaceToDelete(desc);
             }
             if (desc.destinationCell.cellType == DragAndDropCell.CellType.Swap && desc.sourceCell.cellType == DragAndDropCell.CellType.Swap)
             {
-                Debug.Log("to swap");
                 PlaceFromSwappedElements(desc);
             }
-            Debug.Log("trucmuche");
             if (desc.sourceCell.NumSwap == 1)
             {
                 InitLoopItems();
@@ -105,13 +102,10 @@ namespace BuddyApp.BuddyLab
             float widthChild = child.GetComponent<RectTransform>().rect.width;
             float heightChild = child.GetComponent<RectTransform>().rect.height;
             mDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("Projects/"+iFileName);
-            Debug.Log("directory path: " + mDirectoryPath);
             var fileInfo = new System.IO.FileInfo(mDirectoryPath);
-            Debug.Log("size file: "+fileInfo.Length);
             if (fileInfo.Length > 0)
             {
                 ListBLI lListBLI = Utils.UnserializeXML<ListBLI>(mDirectoryPath);
-                Debug.Log("lol mdr");
                 foreach (BLItemSerializable bli in lListBLI.List)
                 {
                     
@@ -165,7 +159,6 @@ namespace BuddyApp.BuddyLab
         {
             string text = "";
             ListBLI listBLI = new ListBLI();
-            Debug.Log("le liste");
             FillItemsArray();
             foreach (GameObject cell in mArrayItems)
             {
@@ -178,12 +171,10 @@ namespace BuddyApp.BuddyLab
                     listBLI.List.Add(item.gameObject.GetComponent<ConditionItem>().GetItem());
                 else if (item != null && item.gameObject.GetComponent<LoopItem>() != null)
                     listBLI.List.Add(item.gameObject.GetComponent<LoopItem>().GetItem());
-                Debug.Log("hum");
+                
             }
-            Debug.Log("sequence: " + text);
+            
             //string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("project.xml");
-            Debug.Log("list count: " + listBLI.List.Count);
-            Debug.Log("path: " + mDirectoryPath);
             Utils.SerializeXML<ListBLI>(listBLI, mDirectoryPath);
             //StartCoroutine(PlaySequence());
         }
@@ -191,36 +182,35 @@ namespace BuddyApp.BuddyLab
 
         public  IEnumerator PlaySequence()
         {
-            //Debug.Log("START PLAYSEQUENCE LOLOLOLOLOKRHGRETJREJREHGJHJEHJGEHJGE");
+            
             //string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("project.xml");
             ListBLI lListBLI = Utils.UnserializeXML<ListBLI>(mDirectoryPath);
 
             //foreach (BLItemSerializable bli in lListBLI.List)
             //mLoopCounter = 0;
             mIndex = 0;
-            while(mIndex< lListBLI.List.Count)
+            Debug.Log("ENTER PLAY SEQUENCE : " + ConditionManager.IsEventDone);
+            ConditionManager.IsEventDone = false;
+            Debug.Log("ENTER PLAY SEQUENCE 2 : " + ConditionManager.IsEventDone);
+            while (mIndex< lListBLI.List.Count)
             {
+                //Debug.Log("------------------INDEX PLAY SEQUENCE ------------------- : " + mIndex);
+                //Debug.Log("------------------ISRUNNING PLAY SEQUENCE ------------------- : " + mIsRunning);
+                //Debug.Log("------------------Condition.IsEventDone PLAY SEQUENCE ------------------- : " + ConditionManager.IsEventDone);
                 BLItemSerializable bli = lListBLI.List[mIndex];
 
                 if (OnNextAction!=null)
                 {
                     OnNextAction(mIndex);
                 }
-                if(LoopManager.IsSensorLoopWithParam)
-                {
-                    if(ConditionManager.ConditionType=="")
-                        ConditionManager.ConditionType = mConditionParam;
-                    if (!mIsRunning)
-                        ConditionManager.ConditionType = "";
-                }
+                
                
                 if (bli.Category == Category.BML)
                 {
-                    //Debug.Log("CATEGORY BML : ");
-                    //Debug.Log("bli: " + bli.BML);
+                    ConditionManager.IsInCondition = false;
+                    Debug.Log("PLAY SEQ : BML");
                     if (bli.ParameterKey != "")
                     {
-                        //Debug.Log("key: " + bli.ParameterKey);
                         Dictionary<string, string> param = new Dictionary<string, string>();
                         param.Add(bli.ParameterKey, bli.Parameter);
                         mBMLManager.LaunchByName(bli.BML, param);
@@ -237,7 +227,8 @@ namespace BuddyApp.BuddyLab
                 }
                 else if (bli.Category == Category.CONDITION)
                 {
-                    //Debug.Log("CATEGORY CONDITION : ");
+                    Debug.Log("PLAY SEQ : CONDITION");
+                    ConditionManager.IsInCondition = true;
                     ConditionManager.ConditionType = bli.ConditionName;
                     if (bli.ParameterKey != "")
                     {
@@ -248,11 +239,20 @@ namespace BuddyApp.BuddyLab
                         yield return null;
                     }
                     if (!mIsRunning)
+                    {
                         ConditionManager.ConditionType = "";
+                        ConditionManager.IsInCondition = false;
+                    }
+                        
                 }
                 else if (bli.Category == Category.LOOP)
                 {
-                    //Debug.Log("INDEX LOOP CATEGORY : " + mIndex);
+                    ConditionManager.IsInCondition = false;
+                    Debug.Log("PLAY SEQ : LOOP");
+                    if (bli.Parameter != "")
+                    {
+                        LoopManager.ParamLoop = bli.Parameter;
+                    }
                     LoopManager.LoopType = bli.LoopType;
                     LoopManager.IndexLoop = mIndex;
                     if(bli.LoopType == LoopType.INFINITE)
@@ -266,33 +266,40 @@ namespace BuddyApp.BuddyLab
                     }
                     if (bli.LoopType == LoopType.LOOP_X && !LoopManager.ChangeIndex)
                     {
-                        LoopManager.LoopCounter = mLoopCounter++;
-                        mIndex -= (bli.NbItemsInLoop + 1);
+                        if(Int32.Parse(bli.Parameter) != 1 )
+                        {
+                            LoopManager.LoopCounter = mLoopCounter++;
+                            mIndex -= (bli.NbItemsInLoop + 1);
+                        }
+
                     }
                     if(bli.LoopType == LoopType.SENSOR && !LoopManager.ChangeIndex)
                     {
-                        
                         mIndex -= (bli.NbItemsInLoop + 1);
                         mConditionParam = bli.Parameter;
+                        if (LoopManager.IsSensorLoopWithParam)
+                        {
+                            if (ConditionManager.ConditionType == "")
+                                ConditionManager.ConditionType = mConditionParam;
+                            if (!mIsRunning)
+                                ConditionManager.ConditionType = "";
+                        }
+                        
                         
                     }
                     if (LoopManager.ChangeIndex)
                     {
                         mConditionParam = "";
                         ConditionManager.ConditionType = "";
-                        mLoopCounter = 0;
-                        LoopManager.LoopCounter = 0;
+                        mLoopCounter = 1;
+                        LoopManager.LoopCounter = 1;
                         mIndex = LoopManager.IndexLoop;
                         LoopManager.IndexLoop = 0;
-                        //Debug.Log("CHANGE INDEX : " + (LoopManager.IndexLoop));
                         LoopManager.ChangeIndex = false;
                         LoopManager.LoopType = LoopType.NONE;
                         LoopManager.IsSensorLoopWithParam = false;
                     }
-                    if (bli.Parameter != "")
-                    {
-                        LoopManager.ParamLoop = bli.Parameter;
-                    }
+                    
                     if (!mIsRunning)
                     {
                         LoopManager.LoopType = LoopType.NONE;
@@ -300,7 +307,7 @@ namespace BuddyApp.BuddyLab
                     }
                     LoopManager.ChangeIndex = false;
                 }
-                
+                ConditionManager.IsInCondition = false;
                 ConditionManager.IsEventDone = false;
                 if (!mIsRunning)
                 {
@@ -324,19 +331,16 @@ namespace BuddyApp.BuddyLab
 
         private void InitLoopItems()
         {
-            Debug.Log("init loop");
             foreach(GameObject obj in mArrayItems)
             {
-                //Debug.Log("b");
                 if (obj.GetComponentInChildren<DragAndDropItem>()!=null)
                 {
                     obj.GetComponentInChildren<DragAndDropItem>().LoopItem = null;
                     obj.GetComponentInChildren<DragAndDropItem>().draggedObjects = null;
-                    //Debug.Log("c");
                 }
                 if(obj.GetComponentInChildren<LoopItem>()!=null && mArrayItems.Count>2)
                 {
-                    //Debug.Log("d");
+                   
                     DragAndDropItem lLoop = obj.GetComponentInChildren<LoopItem>().GetComponent<DragAndDropItem>();
                     lLoop.draggedObjects = new GameObject[obj.GetComponentInChildren<LoopItem>().NbItems];
                     Debug.Log("nombre item dans loop: " + obj.GetComponentInChildren<LoopItem>().NbItems);
@@ -346,9 +350,9 @@ namespace BuddyApp.BuddyLab
                         if (obj.transform.GetSiblingIndex() - i - 2 < mArrayItems.Count - 1 && obj.transform.GetSiblingIndex() - i - 2>=0)
                         {
                             lLoop.draggedObjects[i] = mArrayItems[obj.transform.GetSiblingIndex() - i - 2].GetComponentInChildren<DragAndDropItem>().gameObject;
-                            //Debug.Log("lul2");
+                           
                             mArrayItems[obj.transform.GetSiblingIndex() - i - 2].GetComponentInChildren<DragAndDropItem>().LoopItem = obj.GetComponentInChildren<LoopItem>();
-                            //Debug.Log("lul3");
+                           
                         }
                     }
                 }
@@ -403,7 +407,6 @@ namespace BuddyApp.BuddyLab
             //{
             GameObject child = Instantiate(cell);
             child.transform.parent = panel.transform;
-            //Debug.Log("unlimited poweeeeeeer");
             if (desc.destinationCell.gameObject.GetComponentsInChildren<DragAndDropItem>().Length > 1)
             {
                 //mArrayItems[desc.destinationCell.transform.GetSiblingIndex()].transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex() + 1);
@@ -417,20 +420,16 @@ namespace BuddyApp.BuddyLab
                         dragitem.LoopItem.AddItem();
                     }
                 }
-                Debug.Log("apres le add item");
                 if (desc.destinationCell.transform.GetSiblingIndex() >= mArrayItems.Count - 1 || (mArrayItems[desc.destinationCell.transform.GetSiblingIndex() + 1]!=null && mArrayItems[desc.destinationCell.transform.GetSiblingIndex() + 1].GetComponentInChildren<DragAndDropItem>() == null))
                 {
-                    //Debug.Log("a");
                     child.transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex() + 1);
                 }
                 else if (desc.destinationCell.transform.GetSiblingIndex() < mArrayItems.Count - 1 && (mArrayItems[desc.destinationCell.transform.GetSiblingIndex() + 1] != null && desc.destinationCell.ItemPositionX > (mArrayItems[desc.destinationCell.transform.GetSiblingIndex() + 1].GetComponentInChildren<DragAndDropItem>().transform.position.x - (desc.destinationCell.GetComponent<RectTransform>().rect.width * 2))) )
                 {
-                    //Debug.Log("b");
                     child.transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex());
                 }
                 else
                 {
-                    //Debug.Log("c");
                     child.transform.SetSiblingIndex(desc.destinationCell.transform.GetSiblingIndex() + 1);
                 }
                 desc.destinationCell.ItemToRemove.gameObject.transform.parent = child.transform;
@@ -447,18 +446,15 @@ namespace BuddyApp.BuddyLab
             {
                 if (mArrayItems.Count > 1)
                 {
-                    //Debug.Log("loop inclu");
                     desc.destinationCell.GetItem().gameObject.transform.GetChild(0).localPosition = new Vector3(-56, 6.7F, 0);
                     desc.destinationCell.GetItem().draggedObjects = new GameObject[1];
-                    //Debug.Log("apres des choses");
                     if (desc.destinationCell.transform.GetSiblingIndex() >= 2 && desc.destinationCell.GetItem()!=null && mArrayItems[desc.destinationCell.transform.GetSiblingIndex() - 2] != null && mArrayItems[desc.destinationCell.transform.GetSiblingIndex() - 2].GetComponentInChildren<DragAndDropItem>()!=null)
                     {
-                        //Debug.Log("dans le if");
                         desc.destinationCell.GetItem().draggedObjects[0] = mArrayItems[desc.destinationCell.transform.GetSiblingIndex() - 2].GetComponentInChildren<DragAndDropItem>().gameObject;
                         mArrayItems[desc.destinationCell.transform.GetSiblingIndex() - 2].GetComponentInChildren<DragAndDropItem>().LoopItem = desc.destinationCell.GetItem().gameObject.GetComponent<LoopItem>();
                     }
                     //desc.destinationCell.GetItem().draggedObjects[1] = mArrayItems[desc.destinationCell.transform.GetSiblingIndex()-3].GetComponentInChildren<DragAndDropItem>().gameObject;
-                    Debug.Log("meh 1");
+                    
                 }
                 //else
                 //{
@@ -514,7 +510,7 @@ namespace BuddyApp.BuddyLab
                 {
                     desc.destinationCell.GetItem().gameObject.GetComponent<LoopItem>().AddItem();
                     desc.sourceCell.GetItem().LoopItem = desc.destinationCell.GetItem().gameObject.GetComponent<LoopItem>();
-                    Debug.Log("le 1");
+                    
 
                     desc.destinationCell.GetItem().draggedObjects = new GameObject[desc.sourceCell.GetItem().LoopItem.NbItems];
                     for (int i = 0; i < desc.sourceCell.GetItem().LoopItem.NbItems; i++)
@@ -527,7 +523,7 @@ namespace BuddyApp.BuddyLab
                 {
                     desc.destinationCell.GetItem().LoopItem.AddItem();
                     desc.sourceCell.GetItem().LoopItem = desc.destinationCell.GetItem().LoopItem;
-                    Debug.Log("le 2");
+                    
 
                     desc.sourceCell.GetItem().LoopItem.gameObject.GetComponent<DragAndDropItem>().draggedObjects = new GameObject[desc.sourceCell.GetItem().LoopItem.NbItems];
                     for (int i = 0; i < desc.sourceCell.GetItem().LoopItem.NbItems; i++)
@@ -538,7 +534,6 @@ namespace BuddyApp.BuddyLab
 
                 else if (desc.sourceCell.GetItem().LoopItem != null && (desc.destinationCell.GetItem().LoopItem == null && desc.destinationCell.GetItem().gameObject.GetComponent<LoopItem>() == null))
                 {
-                    Debug.Log("le 3");
                     if (desc.sourceCell.GetItem().LoopItem.NbItems == 1)
                     {
                         Destroy(desc.sourceCell.GetItem().LoopItem.GetComponentInParent<DragAndDropCell>().gameObject);
@@ -563,7 +558,7 @@ namespace BuddyApp.BuddyLab
                         lLoopItem = desc.destinationCell.GetItem().LoopItem;
                     else
                         lLoopItem = desc.destinationCell.GetItem().gameObject.GetComponent<LoopItem>();
-                    Debug.Log("le 4");
+                   
                     if (desc.sourceCell.GetItem().LoopItem.NbItems == 1)
                     {
                         Destroy(desc.sourceCell.GetItem().LoopItem.GetComponentInParent<DragAndDropCell>().gameObject);
@@ -596,11 +591,8 @@ namespace BuddyApp.BuddyLab
                 //}
 
             }
-            Debug.Log("link");
-
             if (desc.sourceCell.GetItem()!=null && desc.sourceCell.GetItem().gameObject.GetComponent<ABLItem>()!=null && desc.sourceCell.GetItem().gameObject.GetComponent<ABLItem>().GetItem().Category == Category.LOOP && desc.destinationCell.GetItem()!=null && desc.destinationCell.GetItem().gameObject.GetComponent<ABLItem>()!=null && desc.destinationCell.GetItem().gameObject.GetComponent<ABLItem>().GetItem().Category != Category.LOOP && desc.destinationCell.GetItem().LoopItem==null)
             {
-                Debug.Log("zelda");
                 if (desc.sourceCell.GetItem() == null)
                     Debug.Log("getitem null");
                 if(desc.sourceCell.GetItem().draggedObjects==null)
@@ -608,20 +600,16 @@ namespace BuddyApp.BuddyLab
                 
                 if (lSwapToLeft && desc.sourceCell.NumSwap == 1)
                 {
-                    Debug.Log("to left");
                     for (int i = desc.sourceCell.GetItem().draggedObjects.Length - 1; i >= 0; i--)
                     {
-                        Debug.Log("woosh");
                         if(desc.sourceCell.GetItem().draggedObjects[i]!=null && desc.sourceCell.GetItem().draggedObjects[i].GetComponentInParent<DragAndDropCell>()!=null)
                             desc.sourceCell.GetItem().draggedObjects[i].GetComponentInParent<DragAndDropCell>().transform.SetSiblingIndex(desc.sourceCell.transform.GetSiblingIndex());
                     }
                 }
                 else if(!lSwapToLeft)
                 {
-                    Debug.Log("to right");
                     for (int i = desc.sourceCell.GetItem().draggedObjects.Length - 1; i >= 0; i--)
                     {
-                        Debug.Log("woosh");
                         if (desc.sourceCell.GetItem().draggedObjects[i] != null && desc.sourceCell.GetItem().draggedObjects[i].GetComponentInParent<DragAndDropCell>() != null)
                             desc.sourceCell.GetItem().draggedObjects[i].GetComponentInParent<DragAndDropCell>().transform.SetSiblingIndex(desc.sourceCell.transform.GetSiblingIndex() - 1);
                     }
@@ -631,8 +619,6 @@ namespace BuddyApp.BuddyLab
             }
             else if (desc.sourceCell.GetItem() != null && desc.sourceCell.GetItem().gameObject.GetComponent<ABLItem>() != null && desc.sourceCell.GetItem().gameObject.GetComponent<ABLItem>().GetItem().Category == Category.LOOP && desc.destinationCell.GetItem() != null && desc.destinationCell.GetItem().gameObject.GetComponent<ABLItem>() != null && (desc.destinationCell.GetItem().gameObject.GetComponent<ABLItem>().GetItem().Category == Category.LOOP || desc.destinationCell.GetItem().LoopItem != null) && desc.sourceCell.NumSwap == 1)
             {
-                Debug.Log("ganon");
-                Debug.Log("superposition de loop");
                 DragAndDropCell lCell = null;
                 if (desc.destinationCell.GetItem().gameObject.GetComponent<ABLItem>().GetItem().Category == Category.LOOP)
                 {
@@ -645,7 +631,7 @@ namespace BuddyApp.BuddyLab
                 LoopItem lLoopItem = lCell.GetComponentInChildren<LoopItem>();
                 if (!lSwapToLeft)
                 {
-                    Debug.Log("des chips");
+                    
                     int lIndex = lCell.transform.GetSiblingIndex() - lLoopItem.NbItems -1;// desc.sourceCell.transform.GetSiblingIndex();
 
                     //desc.sourceCell.transform.SetAsLastSibling();
@@ -667,8 +653,6 @@ namespace BuddyApp.BuddyLab
                 }
                 else
                 {
-                    Debug.Log("des fraises");
-
                     for (int i = desc.sourceCell.GetItem().draggedObjects.Length - 1; i >= 0; i--)
                     {
                         //Debug.Log("woosh");
@@ -680,7 +664,6 @@ namespace BuddyApp.BuddyLab
             }
             else if(desc.destinationCell.GetComponentInChildren<LoopItem>()!=null)
             {
-                Debug.Log("wario");
                 int lIndex = desc.destinationCell.transform.GetSiblingIndex();
                 for (int i = desc.destinationCell.GetItem().draggedObjects.Length - 1; i >= 0; i--)
                 {
@@ -690,7 +673,6 @@ namespace BuddyApp.BuddyLab
                 }
                 desc.destinationCell.transform.SetSiblingIndex(lIndex);
             }
-            Debug.Log("mario");
             FillItemsArray();
             //InitLoopItems();
             //Debug.Log("DU FRIC!!!");
@@ -700,10 +682,8 @@ namespace BuddyApp.BuddyLab
 
         private void PlaceToDelete(DragAndDropCell.DropDescriptor desc)
         {
-            Debug.Log("supprimé");
             if (desc.sourceCell.GetComponentInChildren<DragAndDropItem>() != null && desc.sourceCell.GetComponentInChildren<DragAndDropItem>().LoopItem != null)
             {
-                Debug.Log("dans la suppression");
                 if (desc.sourceCell.GetItem().LoopItem.NbItems == 1)
                 {
                     Destroy(desc.sourceCell.GetItem().LoopItem.GetComponentInParent<DragAndDropCell>().gameObject);
@@ -716,19 +696,13 @@ namespace BuddyApp.BuddyLab
             {
                 foreach(GameObject item in mArrayItems)
                 {
-                    Debug.Log("un item");
                     if(item!=null && item.GetComponentInChildren<DragAndDropItem>()!=null && item.GetComponentInChildren<DragAndDropItem>().LoopItem!=null && item.GetComponentInChildren<DragAndDropItem>().LoopItem== desc.sourceCell.GetComponentInChildren<LoopItem>())
                     {
-                        Debug.Log("avant destroy");
                         Destroy(item);
-                        Debug.Log("apres destroy");
                         //mArrayItems.Remove(item);
                     }
-                    Debug.Log("apres le if");
                 }
-                Debug.Log("apres le foreach");
             }
-            Debug.Log("chnapichnap");
             mArrayItems.Remove(desc.sourceCell.gameObject);
             Destroy(desc.sourceCell.gameObject);
             FillItemsArray();

@@ -59,7 +59,9 @@ namespace BuddyApp.BuddyLab
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            mInputField.onEndEdit.RemoveListener(FillStringWithInputField);
+            mYesNoButton.transform.GetChild(0).GetComponent<Button>().onClick.RemoveListener(Cancel);
+            mYesNoButton.transform.GetChild(2).GetComponent<Button>().onClick.RemoveListener(Validate);
         }
 
         private void Validate()

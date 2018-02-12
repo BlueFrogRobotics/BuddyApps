@@ -160,7 +160,7 @@ namespace BuddyApp.BuddyLab
                 else
                 {
                     //Debug.Log("LOOPX RESETPARAM");
-                    mLoopCounter = 0;
+                    mLoopCounter = 1;
                     ResetParam();
                 }
             }

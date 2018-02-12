@@ -68,6 +68,8 @@ namespace BuddyApp.BuddyLab
             mLoopManager.ResetParam();
             mLoopManager.NeedChangeIndex();
             mConditionManager.ConditionType = "";
+            mIsPlaying = false;
+            mLoopManager.ChangeIndex = false;
             if (Primitive.RGBCam.IsOpen)
             {
                 Debug.Log("CAMERA OPEN");
@@ -101,6 +103,7 @@ namespace BuddyApp.BuddyLab
 
         private IEnumerator Play()
         {
+            yield return new WaitForSeconds(0.5F);
             mItemControl.IsRunning = true;
             mIsPlaying = true;
             Debug.Log("PLAY : AVANT YIELD RETURN : ISRUNNING " + mItemControl.IsRunning + " MISPLAYING : " + mIsPlaying);
