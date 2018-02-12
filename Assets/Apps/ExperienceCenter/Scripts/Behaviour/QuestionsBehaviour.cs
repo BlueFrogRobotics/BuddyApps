@@ -40,6 +40,9 @@ namespace BuddyApp.ExperienceCenter
 			// To test with the real robot
 			BYOS.Instance.Interaction.VocalManager.StartListenBehaviour = SpeechToTextStart;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
+
+			BYOS.Instance.Interaction.Face.OnClickMouth.Add(MouthClicked);
+
 			InitKeyList ();
 		}
 			
@@ -128,6 +131,7 @@ namespace BuddyApp.ExperienceCenter
 		public void StopBehaviour ()
 		{
 			Debug.LogWarning ("Stop Question Behaviour");
+			BYOS.Instance.Interaction.Face.OnClickMouth.Remove(MouthClicked);
 			if (!mTTS.HasFinishedTalking)
 				mTTS.Stop ();
 			behaviourEnd = true;
@@ -181,6 +185,12 @@ namespace BuddyApp.ExperienceCenter
 			}
 			else
 				mLaunchSTTOnce = false;
+		}
+
+
+		public void MouthClicked()
+		{
+			ExperienceCenterData.Instance.RunTrigger = true;
 		}
 	}
 }
