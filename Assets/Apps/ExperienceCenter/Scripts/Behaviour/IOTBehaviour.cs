@@ -40,7 +40,7 @@ namespace BuddyApp.ExperienceCenter
 
 			if (ExperienceCenterData.Instance.EnableBaseMovement)
 				StartCoroutine (MoveForward (wheelSpeed));
-			StartCoroutine (Speaking ());
+			StartCoroutine (Scenario ());
 		}
 
 		private IEnumerator MoveForward (float lSpeed)
@@ -74,7 +74,7 @@ namespace BuddyApp.ExperienceCenter
 			Debug.LogFormat ("mRobotMoving = {0}", mRobotMoving);
 		}
 
-		private IEnumerator Speaking ()
+		private IEnumerator Scenario ()
 		{
 			AttitudeBehaviour lAttitudeBehaviour = GameObject.Find ("AIBehaviour").GetComponent<AttitudeBehaviour> ();
 
@@ -99,19 +99,24 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.SayKey ("iotparti", true);
 			mTTS.Silence (500, true);
 
-			yield return new WaitForSeconds (2); 
+			yield return new WaitForSeconds (2f); 
 			if (!mHttpManager.Connected)
 				mHttpManager.Login ();
 
-			yield return new WaitUntil (() => mHttpManager.RetrieveDevices);
-			mHttpManager.StoreDeploy (true);
-			yield return new WaitUntil (() => ExperienceCenterData.Instance.IsStoreDeployed);
-			mHttpManager.LightOn (true);
-			yield return new WaitUntil (() => ExperienceCenterData.Instance.IsLightOn);
-			mHttpManager.SonosPlay (true);
-			yield return new WaitUntil (() => ExperienceCenterData.Instance.IsMusicOn);
+			yield return new WaitForSeconds(2f);
+			if (mHttpManager.RetrieveDevices)
+			{
+				mHttpManager.StoreDeploy(true);
+				yield return new WaitForSeconds(10f);
+				mHttpManager.LightOn(true);
+				yield return new WaitForSeconds(5f);
+				mHttpManager.SonosPlay(true);
+				yield return new WaitForSeconds(2f);
+			}
+			else
+				Debug.LogError("Could not retrieve device list from targeted Tahoma box");
 
-			yield return new WaitForSeconds (2);
+			yield return new WaitForSeconds (2f);
 			// Dance for 50 seconds
 			DateTime lStartDance = DateTime.Now;
 			while (true) {
