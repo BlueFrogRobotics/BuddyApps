@@ -39,6 +39,7 @@ namespace BuddyApp.BuddyLab
             DragAndDropCell lCell = GetComponentInParent<DragAndDropCell>();
             if (lCell != null && lCell.cellType == DragAndDropCell.CellType.Swap)
             {
+                inputField.transform.GetChild(0).GetComponent<Text>().text = "";
                 buttonValidate.onClick.AddListener(Validate);
                 buttonCancel.onClick.AddListener(Cancel);
                 inputField.text = GetComponent<ABLItem>().Parameter;

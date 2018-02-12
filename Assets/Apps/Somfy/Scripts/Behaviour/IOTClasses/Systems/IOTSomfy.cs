@@ -10,7 +10,7 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using System;
-using System.Web; 
+//using System.Web; 
 
 namespace BuddyApp.Somfy
 {

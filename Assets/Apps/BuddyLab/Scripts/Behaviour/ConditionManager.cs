@@ -181,7 +181,7 @@ namespace BuddyApp.BuddyLab
             //mIsEventDone = false;
             if (!mSubscribed)
             {
-                Debug.Log("CM : LOADCONDITION SUBSCRIBED");
+                //Debug.Log("CM : LOADCONDITION SUBSCRIBED");
                 switch (mConditionType)
                 {
                     case "Fire":
