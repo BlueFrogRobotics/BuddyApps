@@ -28,12 +28,9 @@ namespace BuddyApp.ExperienceCenter {
             mCookie = "";
             IOTLabels = new Dictionary<string, string>()
             {
-                { "light", "Active button" },
-                { "sound", "Awabureau" },
-                { "store", "SUNEA io"}
-				//{ "light", "Led Outodoor" },
-				//{ "sound", "" },
-				//{ "store", "Awning outdoor" }
+				{ "light", "Led Outodoor" },
+				{ "sound", "Party Time" },
+				{ "store", "Awning outdoor" }
             };
         }
 
@@ -87,7 +84,7 @@ namespace BuddyApp.ExperienceCenter {
         // Command light
 		public void LightOn(bool enable)
 		{
-			ExecuteAction(IOTLabels["light"], enable ? "setPodLedOn" : "setPodLedOff"); //on - off
+			ExecuteAction(IOTLabels["light"], enable ? "on" : "off");
 		}
 
         // Command store
@@ -129,10 +126,6 @@ namespace BuddyApp.ExperienceCenter {
 
         private void LightStatus()
         {
-            // Active button
-            // core:NameState -> Box
-            // internal:LightingLedPodModeState -> 0/1
-
             System.Action<JSONArray, long> onLightStatus = delegate (JSONArray response, long responseCode)
             {
                 Debug.LogFormat("LightStatus received response code '{0}' with response '{1}'", responseCode, response.ToString());
@@ -141,24 +134,17 @@ namespace BuddyApp.ExperienceCenter {
                 {
                     for (int i = 0; i < response.Count; i++)
                     {
-                        if (response[i]["name"].Value == "core:NameState")
-                        {
+                        if (response[i]["name"].Value == "core:NameState"){
                             //Unexpected value, abort
-                            if (response[i]["value"].Value != "Box")
+                            if (response[i]["value"].Value != "Led Outodoor")
                             {
                                 Debug.LogErrorFormat("Unexpected core:NameState value : {0}", response[i]["value"].Value);
                                 break;
                             }
                         }
-						else if (response[i]["name"].Value == "internal:LightingLedPodModeState"){
-							string value = response[i]["value"].Value;
-							if(BYOS.Instance.Language.CurrentLang == Language.FR)
-								value = value.Replace('.',',');
-
-							float f1 = (float)Convert.ToDouble(value);
-							bool b1 = (f1 == 1.0f);
-							Debug.LogWarningFormat("Light State value: {0}", f1);
-							ExperienceCenterData.Instance.IsLightOn = b1;
+						else if(response[i]["name"].Value == "core:OnOffState")
+						{
+							ExperienceCenterData.Instance.IsLightOn = response[i]["value"].Value == "on" ;
 						}
                     }
                 }
@@ -171,10 +157,6 @@ namespace BuddyApp.ExperienceCenter {
 
         private void StoreStatus()
         {
-            // SUNEA io
-            // core:NameState -> SUNEA io
-            // core:OpenClosedState -> closed/open
-            // core:DeploymentState -> 0-100
             System.Action<JSONArray, long> onStoreStatus = delegate (JSONArray response, long responseCode)
             {
                 Debug.LogFormat("StoreStatus received response code '{0}' with response '{1}'", responseCode, response.ToString());
@@ -185,7 +167,7 @@ namespace BuddyApp.ExperienceCenter {
                         if (response[i]["name"].Value == "core:NameState")
                         {
                             //Unexpected value, abort
-                            if (response[i]["value"].Value != "SUNEA io")
+                            if (response[i]["value"].Value != "Awning outdoor")
                                 break;
                         }
                         else if (response[i]["name"].Value == "core:OpenClosedState")
