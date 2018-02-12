@@ -37,11 +37,10 @@ namespace BuddyApp.ExperienceCenter
 			BYOS.Instance.Interaction.SphinxTrigger.SetThreshold (1E-24f);
 			mTimeOutCount = 0;
 
-			// To test with the real robot
-			BYOS.Instance.Interaction.VocalManager.StartListenBehaviour = SpeechToTextStart;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 
 			BYOS.Instance.Interaction.Face.OnClickMouth.Add(MouthClicked);
+			StartCoroutine(WatchSphinxTrigger());
 
 			InitKeyList ();
 		}
@@ -63,12 +62,31 @@ namespace BuddyApp.ExperienceCenter
 			};
 		}
 
-		public void SpeechToTextStart()
+		private IEnumerator WatchSphinxTrigger()
+		{
+			bool triggerOnce = true;
+			while (!behaviourEnd)
+			{
+				if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered && triggerOnce)
+				{
+					triggerOnce = false;
+					OnSphinxTrigger();
+
+					yield return new WaitForSeconds(0.5f);
+					yield return new WaitUntil(() => mVocalManager.RecognitionFinished);
+
+					triggerOnce = true;
+				}
+
+				yield return new WaitForSeconds(0.5f);
+			}
+		}
+
+		private void OnSphinxTrigger()
 		{ 
 			if (mVocalManager.EnableTrigger)
 			{
 				mVocalManager.EnableTrigger = false;
-				BYOS.Instance.Interaction.Mood.Set (MoodType.LISTENING);
 				StartCoroutine(EnableSpeechToText());
 
 				if (ExperienceCenterData.Instance.EnableHeadMovement && !mIdleBehaviour.headPoseInit)
@@ -80,13 +98,10 @@ namespace BuddyApp.ExperienceCenter
 					mIdleBehaviour.headPoseInit = true;
 				} 
 			}
-
-			Debug.LogWarning ("Head Pose =" + mIdleBehaviour.headPoseInit);
 		}
 			
 		public void SpeechToTextCallback (string iSpeech)
 		{
-			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
 			Debug.LogFormat ("SpeechToText : {0}", iSpeech);
 			bool lClauseFound = false;
 			string lKey = "";
@@ -132,14 +147,13 @@ namespace BuddyApp.ExperienceCenter
 		{
 			Debug.LogWarning ("Stop Question Behaviour");
 			BYOS.Instance.Interaction.Face.OnClickMouth.Remove(MouthClicked);
+
 			if (!mTTS.HasFinishedTalking)
 				mTTS.Stop ();
 			behaviourEnd = true;
-			if (!mVocalManager.EnableTrigger)
-			{
-				mVocalManager.StopAllCoroutines();
-				this.StopAllCoroutines();
-			}
+
+			mVocalManager.StopAllCoroutines();
+			this.StopAllCoroutines();
 		}
 
 		private IEnumerator EnableSpeechToText()
@@ -176,9 +190,8 @@ namespace BuddyApp.ExperienceCenter
 		public void ErrorCallback(STTError iError)
 		{
 			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString ());
-			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
 			mTimeOutCount++;
-			if (mTimeOutCount > 2)
+			if (mTimeOutCount > 1)
 			{
 				mTimeOutCount = 0;
 				mVocalManager.EnableTrigger = true;

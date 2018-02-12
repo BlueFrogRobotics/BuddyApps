@@ -62,12 +62,12 @@ namespace BuddyApp.ExperienceCenter
 		{
 			while(true)
 			{
-				if (BYOS.Instance.Interaction.VocalManager.EnableTrigger && !mAttitudeBehaviour.IsWaiting) {
+				if (BYOS.Instance.Interaction.VocalManager.EnableTrigger && !mAttitudeBehaviour.IsWaiting && !behaviourEnd) {
 					mAttitudeBehaviour.StartWaiting ();
 					headPoseInit = false;
 				}
 
-				yield return new WaitForSeconds(1.0f);
+				yield return new WaitForSeconds(5.0f);
 			}
 		}
 
