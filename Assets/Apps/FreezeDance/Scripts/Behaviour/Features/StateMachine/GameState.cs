@@ -60,7 +60,7 @@ namespace BuddyApp.FreezeDance
                 mTimer += Time.deltaTime;
                 float lTime = Time.time;
                 if (mRandomStopDelay == 0)
-                    mRandomStopDelay = Random.Range(10, 15);
+                    mRandomStopDelay = Random.Range(4, 8);
                 if (lTime - mTime > 3.5f && !mHasDetected && !mHasTalked)
                 {
                     //Interaction.Mood.Set(MoodType.ANGRY);

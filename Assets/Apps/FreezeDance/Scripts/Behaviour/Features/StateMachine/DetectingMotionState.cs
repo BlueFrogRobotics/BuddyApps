@@ -15,6 +15,7 @@ namespace BuddyApp.FreezeDance
         private bool mHasDetected = false;
         private GameObject mIcon;
         private ScoreManager mScoreManager;
+        private float mTimerPause;
 
         public override void Start()
         {
@@ -26,6 +27,7 @@ namespace BuddyApp.FreezeDance
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("resolutioncam: " + Primitive.RGBCam.Resolution);
+            mTimerPause = Random.Range(1.5F, 6.0F);
             mTime = 0.0f;
             mTimer = 0.0f;
             mLost = false;
@@ -52,7 +54,7 @@ namespace BuddyApp.FreezeDance
                 mTimer = 0.0f;
             }
 
-            if (!mLost && mTime > 5.0F) {
+            if (!mLost && mTime > mTimerPause) {
                 mLost = true;
                 Toaster.Hide();
                 Trigger("Detection");
