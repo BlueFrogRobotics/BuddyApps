@@ -19,6 +19,7 @@ namespace BuddyApp.ExperienceCenter
 		private TextField mTableDistance;
 		private TextField mIOTDistance;
 		private TextField mWelcomeTimeOut;
+		private TextField mMoveTimeOut;
 		private TextField mNoHingeAngle;
 		private TextField mNoHingeSpeed;
 		private TextField mHeadPoseTolerance;
@@ -93,6 +94,8 @@ namespace BuddyApp.ExperienceCenter
 			mIOTDistance.EmptyText = "-";
 			mWelcomeTimeOut.Label = "Welcome Time-out";
 			mWelcomeTimeOut.EmptyText = "-";
+			mMoveTimeOut.Label = "Move Time-out";
+			mMoveTimeOut.EmptyText = "-";
 			mNoHingeAngle.Label = "No Hinge Angle";
 			mNoHingeAngle.EmptyText = "-";
 			mNoHingeSpeed.Label = "No Hinge Speed";
@@ -280,6 +283,13 @@ namespace BuddyApp.ExperienceCenter
 				mWelcomeTimeOut.FieldText = Convert.ToString (ExperienceCenterData.Instance.WelcomeTimeOut);
 			mWelcomeTimeOut.OnEndEditEvent ((string text) => {
 				ExperienceCenterData.Instance.WelcomeTimeOut = (float)Convert.ToDouble (text);
+			});
+
+			mMoveTimeOut = CreateWidget<TextField> ();
+			if (ExperienceCenterData.Instance.MoveTimeOut != 0.0f)
+				mMoveTimeOut.FieldText = Convert.ToString (ExperienceCenterData.Instance.MoveTimeOut);
+			mMoveTimeOut.OnEndEditEvent ((string text) => {
+				ExperienceCenterData.Instance.MoveTimeOut = (float)Convert.ToDouble (text);
 			});
 
 			mNoHingeAngle = CreateWidget<TextField> ();

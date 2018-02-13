@@ -30,6 +30,7 @@ namespace BuddyApp.ExperienceCenter
 		public float IOTDistance{ get; set; }
 		public float HeadPoseTolerance{ get; set; }
 		public float WelcomeTimeOut{ get; set; }
+		public float MoveTimeOut{ get; set; }
 		public float NoHingeAngle{ get; set; }
 		public float NoHingeSpeed{ get; set; }
 		public bool VoiceTrigger{ get; set; }
