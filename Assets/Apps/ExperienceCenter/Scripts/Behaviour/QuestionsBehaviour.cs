@@ -12,7 +12,6 @@ namespace BuddyApp.ExperienceCenter
 
 	public class QuestionsBehaviour : MonoBehaviour
 	{
-
 		private AnimatorManager mAnimatorManager;
 		private AttitudeBehaviour mAttitudeBehaviour;
 		private IdleBehaviour mIdleBehaviour;
@@ -22,8 +21,10 @@ namespace BuddyApp.ExperienceCenter
 		private List <string> mKeyList;
 
 		private bool mLaunchSTTOnce;
-
 		private int mTimeOutCount;
+
+		private bool mRestartSTT;
+		private bool mStartSTTCoroutine;
 
 		public bool behaviourEnd;
 
@@ -34,10 +35,12 @@ namespace BuddyApp.ExperienceCenter
 			mAttitudeBehaviour = GameObject.Find ("AIBehaviour").GetComponent<AttitudeBehaviour> ();
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			behaviourEnd = false;
+
 			mVocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
 			mVocalManager.EnableDefaultErrorHandling = false;
 			mVocalManager.OnEndReco = SpeechToTextCallback;
 			mVocalManager.OnError = ErrorCallback;
+
 			BYOS.Instance.Interaction.SphinxTrigger.SetThreshold (1E-24f);
 			mTimeOutCount = 0;
 
@@ -45,6 +48,7 @@ namespace BuddyApp.ExperienceCenter
 
 			BYOS.Instance.Interaction.Face.OnClickMouth.Add (MouthClicked);
 			StartCoroutine (WatchSphinxTrigger ());
+			StartCoroutine(ForceNeutralMood());
 
 			InitKeyList ();
 		}
@@ -65,40 +69,36 @@ namespace BuddyApp.ExperienceCenter
 			};
 		}
 
-		private IEnumerator WatchSphinxTrigger ()
+		private IEnumerator WatchSphinxTrigger()
 		{
-			bool triggerOnce = true;
-			while (!behaviourEnd) {
-				if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered && triggerOnce) {
-					triggerOnce = false;
-					OnSphinxTrigger ();
+			mStartSTTCoroutine = true;
+			while (!behaviourEnd)
+			{
+				if (!BYOS.Instance.Interaction.VocalManager.RecognitionFinished && mStartSTTCoroutine)
+				{
+					OnSphinxTrigger();
 
-					yield return new WaitForSeconds (0.5f);
-					yield return new WaitUntil (() => mVocalManager.RecognitionFinished);
-
-					triggerOnce = true;
+					yield return new WaitForSeconds(0.5f);
+					yield return new WaitUntil(() => mVocalManager.RecognitionFinished);
 				}
 
-				yield return new WaitForSeconds (0.5f);
+				yield return new WaitForSeconds(0.5f);
 			}
 		}
 
-		private void OnSphinxTrigger ()
+		private void OnSphinxTrigger()
 		{ 
-			if (mVocalManager.EnableTrigger) {
-				mVocalManager.EnableTrigger = false;
-				StartCoroutine (EnableSpeechToText ());
+			StartCoroutine(EnableSpeechToText());
 
-				if (ExperienceCenterData.Instance.EnableHeadMovement && !mIdleBehaviour.headPoseInit) {
-					mAttitudeBehaviour.IsWaiting = false;
-					Debug.LogWarning ("[EXCENTER] Stop BML");
-					BYOS.Instance.Interaction.BMLManager.StopAllBehaviors ();
-					BYOS.Instance.Interaction.BMLManager.LaunchByName ("Reset01");
-					mIdleBehaviour.headPoseInit = true;
-				} 
-			}
+			if (ExperienceCenterData.Instance.EnableHeadMovement && !mIdleBehaviour.headPoseInit)
+			{
+				mAttitudeBehaviour.IsWaiting = false;
+				BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+				BYOS.Instance.Interaction.BMLManager.LaunchByName("Reset01");
+				mIdleBehaviour.headPoseInit = true;
+			} 
 		}
-
+			
 		public void SpeechToTextCallback (string iSpeech)
 		{
 			Debug.LogFormat ("[EXCENTER] SpeechToText : {0}", iSpeech);
@@ -154,40 +154,62 @@ namespace BuddyApp.ExperienceCenter
 
 		private IEnumerator EnableSpeechToText ()
 		{
+			mStartSTTCoroutine = false;
+			mRestartSTT = true;
 			mLaunchSTTOnce = false;
-			while (!mVocalManager.EnableTrigger) {
-				if (!mLaunchSTTOnce) {
-					if (!mVocalManager.RecognitionFinished) {
+			while (mRestartSTT)
+			{
+				if (!mLaunchSTTOnce)
+				{
+					if (!mVocalManager.RecognitionFinished)
+					{
 						// Recognition not finished yet, waiting until it ends cleanly
-						yield return new WaitUntil (() => mVocalManager.RecognitionFinished);
-					} else if (!mTTS.HasFinishedTalking) {
+						yield return new WaitUntil(() => mVocalManager.RecognitionFinished);
+					}
+					else if(!mTTS.HasFinishedTalking)
+					{
 						// Buddy is answering, wait until he ends its sentence
-						yield return new WaitUntil (() => mTTS.HasFinishedTalking);
-					} else {
+						yield return new WaitUntil(() => mTTS.HasFinishedTalking);
+					}
+					else
+					{
 						// Initiating Vocal Manager instance reco
-						yield return new WaitForSeconds (ExperienceCenterData.Instance.WelcomeTimeOut);
+						yield return new WaitForSeconds(1.0f);
 						mLaunchSTTOnce = true;
-						BYOS.Instance.Interaction.Mood.Set (MoodType.LISTENING);
-						mVocalManager.StartInstantReco (false);
+						mVocalManager.StartInstantReco(false);
 					}
 				}
-				yield return new WaitForSeconds (0.5f);
+				yield return new WaitForSeconds(0.5f);
 			}
+			yield return new WaitForSeconds(1.0f);
+			mStartSTTCoroutine = true;
 		}
 
 		public void ErrorCallback (STTError iError)
 		{
 			Debug.LogWarningFormat ("[EXCENTER] ERROR STT: {0}", iError.ToString ());
 			mTimeOutCount++;
-			if (mTimeOutCount > 1) {
+			if (mTimeOutCount >= 2) {
 				mTimeOutCount = 0;
-				mVocalManager.EnableTrigger = true;
+				mRestartSTT = false;
 			} else
 				mLaunchSTTOnce = false;
 		}
 
+		private IEnumerator ForceNeutralMood()
+		{
+			Mood buddyMood = BYOS.Instance.Interaction.Mood;
+			MoodType current;
+			while(!behaviourEnd)
+			{
+				current = buddyMood.CurrentMood;
+				if (mVocalManager.RecognitionFinished && current!=MoodType.NEUTRAL)
+					buddyMood.Set(MoodType.NEUTRAL);
+				yield return new WaitForSeconds(0.5f);
+			}
+		}
 
-		public void MouthClicked ()
+		public void MouthClicked()
 		{
 			ExperienceCenterData.Instance.RunTrigger = true;
 		}
