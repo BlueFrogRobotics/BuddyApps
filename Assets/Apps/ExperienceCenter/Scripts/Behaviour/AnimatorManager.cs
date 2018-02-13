@@ -30,7 +30,7 @@ namespace BuddyApp.ExperienceCenter
 		French = 0x07,
 		Stop = 0x08,
 		EmergencyStop = 0x09,
-        VocalTrigger = 0x0A,
+		VocalTrigger = 0x0A,
 		Unlock = 0x0B
 	}
 
@@ -69,15 +69,19 @@ namespace BuddyApp.ExperienceCenter
 		private IdleBehaviour mIdleBehaviour;
 		private MoveForwardBehaviour mMoveBehaviour;
 		private CollisionDetector mCollisionDetector;
+		private TextToSpeech mTTS;
 
 		private bool mSwitchOnce;
 		private bool mSwitchIdleOnce;
-		public bool emergencyStop;
-		private string mOldState;
-		private TextToSpeech mTTS;
 		private bool mTrigger;
 		private bool mBML;
+
+		private string mOldState;
+
 		private float mBatteryLevel;
+
+		public bool emergencyStop;
+
 		public Dictionary <State, bool> stateDict;
 
 		void Start ()
@@ -97,35 +101,34 @@ namespace BuddyApp.ExperienceCenter
 			ExperienceCenterData.Instance.Scenario = "Init";
 			StartCoroutine (HandleParametersCommands ());
 
-			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false ;
-			BYOS.Instance.Interaction.VocalManager.OnError = AvoidLock ;
+			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
+			BYOS.Instance.Interaction.VocalManager.OnError = AvoidLock;
 
 		}
 
 		void Update ()
 		{
-			//Debug.LogWarningFormat ("Wheels lock: {0}, NoHinge lock: {1}, YesHinge lock: {2}", BYOS.Instance.Primitive.Motors.Wheels.Locked, BYOS.Instance.Primitive.Motors.NoHinge.Locked, BYOS.Instance.Primitive.Motors.YesHinge.Locked );
 			mBatteryLevel = BYOS.Instance.Primitive.Battery.EnergyLevel;
 
 			if (mTrigger != ExperienceCenterData.Instance.VoiceTrigger) {
 				mTrigger = ExperienceCenterData.Instance.VoiceTrigger; 
-				Debug.LogWarningFormat ("Voice Trigger = {0}", mTrigger);
+				Debug.LogFormat ("[EXCENTER] Voice Trigger = {0}", mTrigger);
 			}
 
 			if (ExperienceCenterData.Instance.RunTrigger) {
 				BYOS.Instance.Interaction.VocalManager.StartInstantReco (false);
-				Debug.LogWarning ("Run Trigger ");
+				Debug.Log ("[EXCENTER] Run Trigger ");
 				ExperienceCenterData.Instance.RunTrigger = false;
 			}
 
 			if (mBML != ExperienceCenterData.Instance.EnableBML) {
 				mBML = ExperienceCenterData.Instance.EnableBML; 
-				Debug.LogWarningFormat ("BML active = {0}", mBML);
+				Debug.LogFormat ("[EXCENTER] BML active = {0}", mBML);
 			}
 			if (emergencyStop) {
 				BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 				if (mTTS.HasFinishedTalking) {
-					Debug.LogWarning ("[EMERGENCY STOP] Run ! ");
+					Debug.LogWarning ("[EXCENTER] Run EMERGENCY STOP ! ");
 					emergencyStop = false;
 					ExperienceCenterActivity.QuitApp ();
 					return;
@@ -137,7 +140,7 @@ namespace BuddyApp.ExperienceCenter
 				if (mSwitchOnce) {
 					mMainAnimator.SetTrigger ("Idle");
 					ExperienceCenterData.Instance.Scenario = "Idle";
-					Debug.Log ("[Animator] Switching to State: Idle");
+					Debug.Log ("[EXCENTER] Switching to State: Idle");
 					mSwitchOnce = false;
 					stateDict [State.Idle] = true;
 				}
@@ -148,7 +151,7 @@ namespace BuddyApp.ExperienceCenter
 						
 					if (!mIdleBehaviour.headPoseInit) {
 						if (mSwitchIdleOnce) {
-							Debug.LogWarning ("Waiting for Head postion to be initialized !");
+							Debug.Log ("[EXCENTER] Waiting for Head postion to be initialized !");
 							mIdleBehaviour.StopBehaviour ();
 							mSwitchIdleOnce = false;
 						}
@@ -305,7 +308,7 @@ namespace BuddyApp.ExperienceCenter
 						if (mMoveBehaviour.behaviourEnd)
 							UpdateStateDict (cmd, State.MoveForward);
 						else
-							Debug.LogWarning ("Behaviour MoveForward is still running !");
+							Debug.LogWarning ("[EXCENTER] Behaviour MoveForward is still running !");
 						break;
 					}
 				case Command.Stop:
@@ -329,7 +332,7 @@ namespace BuddyApp.ExperienceCenter
 				case Command.Unlock:
 					{
 						if (mCollisionDetector.behaviourInit) {
-							Debug.LogWarning ("Simulated obstacle");
+							Debug.LogWarning ("[EXCENTER] Simulated obstacle !");
 							mCollisionDetector.enableToMove = false;
 						}
 						break;
@@ -355,7 +358,7 @@ namespace BuddyApp.ExperienceCenter
 				case Command.Unlock:
 					{
 						if (mCollisionDetector.behaviourInit) {
-							Debug.LogWarning ("Simulated obstacle");
+							Debug.LogWarning ("[EXCENTER] Simulated obstacle !");
 							mCollisionDetector.enableToMove = false;
 						}
 						break;
@@ -389,11 +392,11 @@ namespace BuddyApp.ExperienceCenter
 		{
 			Command cmd = (Command)b;
 			State toState = (cmd == Command.Stop || cmd == Command.EmergencyStop) ? State.Idle : (State)b;	
-			Debug.Log ("Running cmd: " + cmd);
+			Debug.Log ("[EXCENTER] Running cmd: " + cmd);
 			stateDict [fromState] = false;
 			mOldState = fromState.ToString ();
 			stateDict [toState] = true;
-			Debug.Log ("[Animator] Switching to State: " + toState.ToString ());
+			Debug.Log ("[EXCENTER] Switching to State: " + toState.ToString ());
 			mSwitchOnce = true;
 		}
 
@@ -413,7 +416,7 @@ namespace BuddyApp.ExperienceCenter
 				}
 			case StateReq.Battery:
 				{
-					Debug.LogWarningFormat ("Battery level: {0}", mBatteryLevel);
+					Debug.LogFormat ("[EXCENTER] Battery level: {0}", mBatteryLevel);
 					if (mBatteryLevel <= 25)
 						return State.LowBattery;
 					else if (mBatteryLevel > 25 && mBatteryLevel <= 50)
@@ -445,9 +448,7 @@ namespace BuddyApp.ExperienceCenter
 		private void AvoidLock (STTError iError)
 		{
 			BYOS.Instance.Primitive.Motors.Wheels.Locked = false;
-			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString ());
-			//BYOS.Instance.Interaction.VocalManager.LaunchDebug ();
-			//BYOS.Instance.Interaction.VocalManager.DisplayNotification; 
+			Debug.LogWarningFormat ("[EXCENTER] ERROR STT: {0}", iError.ToString ());
 		}
 	}
 }

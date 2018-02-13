@@ -7,13 +7,13 @@ namespace BuddyApp.ExperienceCenter
 {
 	public class ECInitState : StateMachineBehaviour
 	{
-
+		
 		private TcpServer mTcpServer;
+
 		private static bool FirstRun = true;
-		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			Debug.LogWarningFormat ("First Run : {0}", FirstRun);
 			if (FirstRun) {
 				ExperienceCenterData.Instance.StatusTcp = "Offline";
 				ExperienceCenterData.Instance.IPAddress = "-";
@@ -41,7 +41,7 @@ namespace BuddyApp.ExperienceCenter
 			mTcpServer = GameObject.Find ("AIBehaviour").GetComponent<TcpServer> ();
 			mTcpServer.Init ();
 
-			BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
+			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
 
 			BYOS.Instance.Header.DisplayParametersButton = false;
 		}

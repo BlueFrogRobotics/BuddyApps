@@ -8,25 +8,24 @@ namespace BuddyApp.ExperienceCenter
 {
 	public class ECIdleState : StateMachineBehaviour
 	{
+		
 		private AnimatorManager mAnimatorManager;
 		private IdleBehaviour mIdleBehaviour;
 		private QuestionsBehaviour mQuestionBehaviour;
 
-		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
-			mQuestionBehaviour = GameObject.Find("AIBehaviour").GetComponent<QuestionsBehaviour>();
+			mQuestionBehaviour = GameObject.Find ("AIBehaviour").GetComponent<QuestionsBehaviour> ();
 
-			mQuestionBehaviour.InitBehaviour();
+			mQuestionBehaviour.InitBehaviour ();
 			mIdleBehaviour.InitBehaviour ();
 		}
 
-		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			mQuestionBehaviour.StopBehaviour();
+			mQuestionBehaviour.StopBehaviour ();
 			mIdleBehaviour.StopBehaviour ();
 
 			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
@@ -36,7 +35,7 @@ namespace BuddyApp.ExperienceCenter
 
 		public void SpeechToTextError (STTError iError)
 		{
-			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString ());
+			Debug.LogWarningFormat ("[EXCENTER] ERROR STT: {0}", iError.ToString ());
 			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
 		}
 	}

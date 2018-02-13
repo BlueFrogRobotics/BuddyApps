@@ -11,22 +11,22 @@ namespace BuddyApp.ExperienceCenter
 
 		private AnimatorManager mAnimatorManager;
 		private MoveForwardBehaviour mBehaviour;
+
 		private bool mAddReco;
 
-		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<MoveForwardBehaviour> ();
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
-			BYOS.Instance.Interaction.VocalManager.StopAllCoroutines();
+			BYOS.Instance.Interaction.VocalManager.StopAllCoroutines ();
 			mBehaviour.InitBehaviour ();
 			mAddReco = false;
 
 		}
 
-		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		override public void OnStateUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
 
 			if (mBehaviour.behaviourEnd && !mAddReco) {
 				BYOS.Instance.Interaction.VocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
@@ -37,7 +37,6 @@ namespace BuddyApp.ExperienceCenter
 			}
 		}
 
-		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			mBehaviour.StopBehaviour ();
@@ -45,10 +44,10 @@ namespace BuddyApp.ExperienceCenter
 
 		public void SpeechToTextCallback (string iSpeech)
 		{
-			Debug.LogFormat ("MoveForward - SpeechToText {0}: ", iSpeech);
+			Debug.LogFormat ("[EXCENTER] MoveForward - SpeechToText {0}: ", iSpeech);
 			bool lClauseFound = false;
 			string[] lPhonetics = BYOS.Instance.Dictionary.GetPhoneticStrings ("movego");
-			Debug.LogFormat ("MoveForward - Phonetics : {0}", lPhonetics.Length);
+
 			foreach (string lClause in lPhonetics) {
 				if (iSpeech.Contains (lClause)) {
 					lClauseFound = true;
@@ -57,14 +56,14 @@ namespace BuddyApp.ExperienceCenter
 			}
 
 			if (!lClauseFound)
-				Debug.Log ("MoveForward - SpeechToText : Not Found");
+				Debug.Log ("[EXCENTER] MoveForward - SpeechToText : Not Found");
 			else
 				mAnimatorManager.ActivateCmd ((byte)(Command.IOT));
 		}
 
 		public void SpeechToTextError (STTError iError)
 		{
-			Debug.LogWarningFormat ("ERROR STT: {0}", iError.ToString ());
+			Debug.LogWarningFormat ("[EXCENTER] ERROR STT: {0}", iError.ToString ());
 			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
 		}
 	}

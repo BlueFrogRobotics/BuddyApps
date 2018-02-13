@@ -12,19 +12,23 @@ namespace BuddyApp.ExperienceCenter
 
 	public class IOTBehaviour : MonoBehaviour
 	{
-		public const float DISTANCE_THRESHOLD = 0.05f;
-		public float wheelSpeed = 200f;
+
+		private const float DISTANCE_THRESHOLD = 0.05f;
 
 		private AnimatorManager mAnimatorManager;
 		private HTTPRequestManager mHttpManager;
 		private CollisionDetector mCollisionDetector;
 		private TextToSpeech mTTS;
+
 		private Vector3 mRobotPose;
+
 		private float mDistance;
-		private bool mRobotMoving;
 		private float mMoveTimeOut;
+
+		private bool mRobotMoving;
 		private bool mTimeOut;
 
+		public float wheelSpeed = 200f;
 
 		public void InitBehaviour ()
 		{
@@ -34,7 +38,7 @@ namespace BuddyApp.ExperienceCenter
 
 			if (mMoveTimeOut != ExperienceCenterData.Instance.MoveTimeOut) {
 				mMoveTimeOut = ExperienceCenterData.Instance.MoveTimeOut; 
-				Debug.LogFormat ("IOT TimeOut = {0} s ", mMoveTimeOut);
+				Debug.LogFormat ("[EXCENTER] IOT TimeOut = {0} s ", mMoveTimeOut);
 			}
 
 			if (ExperienceCenterData.Instance.EnableBaseMovement)
@@ -60,29 +64,29 @@ namespace BuddyApp.ExperienceCenter
 			mDistance = mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose);
 			//Save the robot Pose for future iteration if any
 			mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
-    		yield return new WaitUntil (() => ((mCollisionDetector.enableToMove && BYOS.Instance.Interaction.VocalManager.RecognitionFinished) || mTimeOut));
+			yield return new WaitUntil (() => ((mCollisionDetector.enableToMove && BYOS.Instance.Interaction.VocalManager.RecognitionFinished) || mTimeOut));
 
 			if (!mTimeOut) {
 				BYOS.Instance.Primitive.Motors.Wheels.SetWheelsSpeed (lSpeed);
 
-				Debug.LogFormat ("Speed = {0}, Distance to travel = {1}", BYOS.Instance.Primitive.Motors.Wheels.Speed, mDistance);
+				Debug.LogFormat ("[EXCENTER] Speed = {0}, Distance to travel = {1}", BYOS.Instance.Primitive.Motors.Wheels.Speed, mDistance);
 
 				yield return new WaitUntil (() => mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD)
 				|| !mCollisionDetector.enableToMove
 				|| mTimeOut);
 			}
-			Debug.LogFormat ("Check condition : Distance = {0}, Obstacle ={1}, , TimeOut ={2}", mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD), !mCollisionDetector.enableToMove, mTimeOut);
-			Debug.LogFormat ("Distance left to travel : {0}", mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose));
+			Debug.LogFormat ("[EXCENTER] Check condition : Distance = {0}, Obstacle ={1}, , TimeOut ={2}", mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD), !mCollisionDetector.enableToMove, mTimeOut);
+			Debug.LogFormat ("[EXCENTER] Distance left to travel : {0}", mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose));
 			BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 
 			if (!mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD) && !mTimeOut) {
-				Debug.Log ("Restart Move IOT Coroutine");
+				Debug.Log ("[EXCENTER] Restart Move IOT Coroutine");
 				StartCoroutine (MoveForward (wheelSpeed));
 			} else {
 				if (!mTimeOut)
-					Debug.Log ("End Move IOT Coroutine");
+					Debug.Log ("[EXCENTER] End Move IOT Coroutine");
 				else
-					Debug.Log ("End Move IOT Coroutine: (Time-out)");
+					Debug.Log ("[EXCENTER] End Move IOT Coroutine: (Time-out)");
 				
 				mRobotMoving = false;
 				mCollisionDetector.StopBehaviour ();
@@ -96,14 +100,14 @@ namespace BuddyApp.ExperienceCenter
 			DateTime lLastTime = DateTime.Now;
 			while (!mTimeOut) {
 				if (CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, robotPose) <= DISTANCE_THRESHOLD) {
-					Debug.LogWarning ("Robot is stopped");
+					Debug.LogWarning ("[EXCENTER] Robot is stopped");
 					TimeSpan lElapsedTime = DateTime.Now - lLastTime;
 					if (lElapsedTime.TotalSeconds > mMoveTimeOut) {
 						mTimeOut = true;
 						break;
 					}
 				} else {
-					Debug.LogWarning ("Robot is moving");
+					Debug.LogWarning ("[EXCENTER] Robot is moving");
 					robotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
 					lLastTime = DateTime.Now;
 				}
@@ -149,7 +153,7 @@ namespace BuddyApp.ExperienceCenter
 				mHttpManager.SonosPlay (true);
 				yield return new WaitForSeconds (2f);
 			} else
-				Debug.LogError ("Could not retrieve device list from targeted Tahoma box");
+				Debug.LogError ("[EXCENTER] Could not retrieve device list from targeted Tahoma box");
 
 			yield return new WaitForSeconds (2f);
 			// Dance for 50 seconds
@@ -189,7 +193,7 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopBehaviour ()
 		{
-			Debug.LogWarning ("Stop IOT Behaviour");
+			Debug.LogWarning ("[EXCENTER] Stop IOT Behaviour");
 			StopAllCoroutines ();
 			if (!mTTS.HasFinishedTalking)
 				mTTS.Stop ();

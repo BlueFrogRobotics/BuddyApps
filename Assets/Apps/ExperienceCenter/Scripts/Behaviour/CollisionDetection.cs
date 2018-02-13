@@ -26,9 +26,11 @@ namespace BuddyApp.ExperienceCenter
 		private float mB2;
 
 		private DateTime mDetectionTime;
+
 		public bool behaviourInit;
 		public bool enableToMove;
 		public bool updateSpeed;
+
 		public float leftSpeed;
 		public float rightSpeed;
 		public float middleSpeed;
@@ -109,55 +111,55 @@ namespace BuddyApp.ExperienceCenter
 
 			if (mStopDistance != ExperienceCenterData.Instance.StopDistance) {
 				mStopDistance = ExperienceCenterData.Instance.StopDistance; 
-				Debug.LogWarningFormat ("Stop Distance = {0}m ", mStopDistance);
+				Debug.LogWarningFormat ("[EXCENTER] Stop Distance = {0}m ", mStopDistance);
 			}
 			if (debug)
-				Debug.LogWarning ("Sensors : L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs);
+				Debug.LogWarning ("[EXCENTER] Sensors : L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs);
 
 			if (leftObs <= 0.3 || rightObs <= 0.3 || middleObs <= 0.3) {
 				enableToMove = false;
 				if (debug)
-					Debug.LogWarning ("Critical distance : L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+					Debug.LogWarning ("[EXCENTER] Critical distance : L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 			}
 
 			if (leftObs <= mStopDistance || rightObs <= mStopDistance || middleObs <= mStopDistance) {
 				//if (leftObs > 0.01 || rightObs > 0.01 || middleObs > 0.01) {
 				if (!mObstacle) {
 					if (debug)
-						Debug.LogWarning ("Something detected: Obstacle or Noise ?");
+						Debug.LogWarning ("[EXCENTER] Something detected: Obstacle or Noise ?");
 					mObstacle = true;
 					mDetectionTime = DateTime.Now;
 				} else {
 					TimeSpan lElapsedTime = DateTime.Now - mDetectionTime;
 					if (lElapsedTime.TotalSeconds > mNoiseTime) {
 						if (debug)
-							Debug.LogWarningFormat ("Obstacle is detected at {0}", DateTime.Now.Date.ToString ());
+							Debug.LogWarningFormat ("[EXCENTER] Obstacle is detected at {0}", DateTime.Now.Date.ToString ());
 						if (BYOS.Instance.Primitive.Motors.Wheels.Speed <= 0.01f) {
 							if (debug)
-								Debug.LogWarning ("Buddy Stopped: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+								Debug.LogWarning ("[EXCENTER] Buddy Stopped: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 							mStoppingPhase = false;
 							enableToMove = false;
 						} else {
 							mStoppingPhase = true;
 							enableToMove = false;
 							if (debug)
-								Debug.LogWarning ("Buddy is Slipping: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+								Debug.LogWarning ("[EXCENTER] Buddy is Slipping: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 						}
 					} else {
 						if (debug)
-							Debug.LogWarningFormat ("Check Obstacle: {0}s", lElapsedTime.TotalSeconds);
+							Debug.LogWarningFormat ("[EXCENTER] Check Obstacle: {0}s", lElapsedTime.TotalSeconds);
 						enableToMove = true;
 					}
 				}
 			} else {
 				if (!mStoppingPhase) {
 					if (debug)
-						Debug.LogWarning ("Safe Evironment: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
+						Debug.LogWarning ("[EXCENTER] Safe Evironment: L= " + leftObs + ", M= " + middleObs + ", R= " + rightObs + ", V= " + BYOS.Instance.Primitive.Motors.Wheels.Speed);
 					mObstacle = false;
 					enableToMove = true;
 				} else {
 					if (debug)
-						Debug.LogWarning ("Stopping slipping phase");
+						Debug.LogWarning ("[EXCENTER] Stopping slipping phase");
 					mStoppingPhase = false;
 				}
 			}
@@ -185,29 +187,29 @@ namespace BuddyApp.ExperienceCenter
 			if (mMaxDistance != ExperienceCenterData.Instance.MaxDistance) {
 				mMaxDistance = ExperienceCenterData.Instance.MaxDistance; 
 				UpdateCoefficients ();
-				Debug.LogWarningFormat ("Distance ({0} deg/s) = {1}", mMaxSpeed, mMaxDistance);
-				Debug.LogWarningFormat ("Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
+				Debug.LogFormat ("[EXCENTER] Distance ({0} deg/s) = {1}", mMaxSpeed, mMaxDistance);
+				Debug.LogWarningFormat ("[EXCENTER] Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
 			}
 
 			if (mMinDistance != ExperienceCenterData.Instance.MinDistance) {
 				mMinDistance = ExperienceCenterData.Instance.MinDistance; 
 				UpdateCoefficients ();
-				Debug.LogWarningFormat ("Distance ({0} deg/s) = {1}", mMinSpeed, mMaxDistance);
-				Debug.LogWarningFormat ("Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
+				Debug.LogFormat ("[EXCENTER] Distance ({0} deg/s) = {1}", mMinSpeed, mMaxDistance);
+				Debug.LogFormat ("[EXCENTER] Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
 			}
 
 			if (mMaxSpeed != ExperienceCenterData.Instance.MaxSpeed) {
 				mMaxSpeed = ExperienceCenterData.Instance.MaxSpeed; 
 				UpdateCoefficients ();
-				Debug.LogWarningFormat ("Max Speed = {0} deg/s", mMaxSpeed);
-				Debug.LogWarningFormat ("Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
+				Debug.LogFormat ("[EXCENTER] Max Speed = {0} deg/s", mMaxSpeed);
+				Debug.LogFormat ("[EXCENTER] Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
 			}
 
 			if (mMinSpeed != ExperienceCenterData.Instance.MinSpeed) {
 				mMinSpeed = ExperienceCenterData.Instance.MinSpeed; 
 				UpdateCoefficients ();
-				Debug.LogWarningFormat ("Min Speed = {0} deg/s", mMinSpeed);
-				Debug.LogWarningFormat ("Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
+				Debug.LogFormat ("[EXCENTER] Min Speed = {0} deg/s", mMinSpeed);
+				Debug.LogFormat ("[EXCENTER] Coefficients A1={0}(deg/s/m), B1={1}(deg/s), A2={2}(deg/s/m), B2={3}(deg/s)", mA1, mB1, mA2, mB2);
 			}
 
 			if (behaviourInit) {
@@ -292,7 +294,7 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopBehaviour ()
 		{
-			Debug.Log ("Stop Collision Detection");
+			Debug.LogWarning ("[EXCENTER] Stop Collision Detection");
 			behaviourInit = false;
 		}
 

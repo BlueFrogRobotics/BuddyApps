@@ -10,13 +10,17 @@ namespace BuddyApp.ExperienceCenter
 {
 	public class WanderBehaviour : MonoBehaviour
 	{
-		public const float DISTANCE_THRESHOLD = 0.05f;
-		public float wheelSpeed = 200f;
-		public bool behaviourEnd;
+		private const float DISTANCE_THRESHOLD = 0.05f;
 
 		private CollisionDetector mCollisionDetector;
+
 		private Vector3 mRobotPose;
+
 		private float mDistance;
+
+		public float wheelSpeed = 200f;
+
+		public bool behaviourEnd;
 
 		public void InitBehaviour ()
 		{
@@ -42,7 +46,7 @@ namespace BuddyApp.ExperienceCenter
 			mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
 
 			yield return new WaitUntil (() => BYOS.Instance.Interaction.VocalManager.RecognitionFinished);
-			Debug.LogFormat ("Middle Speed = {0}, Right Speed = {1}, Left Speed = {2}", mCollisionDetector.middleSpeed, mCollisionDetector.rightSpeed, mCollisionDetector.leftSpeed);
+			Debug.LogFormat ("[EXCENTER] Middle Speed = {0}, Right Speed = {1}, Left Speed = {2}", mCollisionDetector.middleSpeed, mCollisionDetector.rightSpeed, mCollisionDetector.leftSpeed);
 //			if (mCollisionDetector.middleSpeed <= 0) {
 //				BYOS.Instance.Primitive.Motors.Wheels.MoveDistance (mCollisionDetector.middleSpeed, mCollisionDetector.middleSpeed, mDistance, 0.01F);
 //			} else 
@@ -62,7 +66,7 @@ namespace BuddyApp.ExperienceCenter
 				BYOS.Instance.Interaction.BMLManager.LaunchRandom("Idle");
 				yield return new WaitUntil(() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
 			}
-			Debug.Log ("Restart Wander Coroutine");
+			Debug.Log ("[EXCENTER] Restart Wander Coroutine");
 			StartCoroutine (Walk ());
 			
 		}
@@ -70,7 +74,7 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopBehaviour ()
 		{
-			Debug.LogWarning ("Stop Wander Behaviour");
+			Debug.LogWarning ("[EXCENTER] Stop Wander Behaviour");
 			mCollisionDetector.StopBehaviour ();
 			StopAllCoroutines ();
 			if (ExperienceCenterData.Instance.EnableBaseMovement)

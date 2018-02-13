@@ -14,28 +14,26 @@ namespace BuddyApp.ExperienceCenter
 		public bool headPoseInit;
 		public bool behaviourEnd;
 
+		private const double IDLE_TIMEOUT = 20;
+
 		private AnimatorManager mAnimatorManager;
 		private AttitudeBehaviour mAttitudeBehaviour;
 		private QuestionsBehaviour mQuestionBehaviour;
-		private const double IDLE_TIMEOUT = 20;
 
 		public void InitBehaviour ()
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
-			mAttitudeBehaviour = GameObject.Find("AIBehaviour").GetComponent<AttitudeBehaviour>();
-			mQuestionBehaviour = GameObject.Find("AIBehaviour").GetComponent<QuestionsBehaviour>();
+			mAttitudeBehaviour = GameObject.Find ("AIBehaviour").GetComponent<AttitudeBehaviour> ();
+			mQuestionBehaviour = GameObject.Find ("AIBehaviour").GetComponent<QuestionsBehaviour> ();
 
 			behaviourEnd = false;
 
 			headPoseInit = false;
 
-			if (!mAnimatorManager.emergencyStop && ExperienceCenterData.Instance.EnableHeadMovement)
-			{
-				StartCoroutine(Idle());
-			}
-			else
+			if (!mAnimatorManager.emergencyStop && ExperienceCenterData.Instance.EnableHeadMovement) {
+				StartCoroutine (Idle ());
+			} else
 				headPoseInit = true;
-
 		}
 
 		private IEnumerator InitHeadPosition ()
@@ -47,27 +45,25 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopBehaviour ()
 		{
-			Debug.LogWarning ("Stop Idle Behaviour");
+			Debug.LogWarning ("[EXCENTER] Stop Idle Behaviour");
 			StopAllCoroutines ();
-			if (ExperienceCenterData.Instance.EnableHeadMovement && !headPoseInit)
-			{
+			if (ExperienceCenterData.Instance.EnableHeadMovement && !headPoseInit) {
 				mAttitudeBehaviour.IsWaiting = false;
-				BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+				BYOS.Instance.Interaction.BMLManager.StopAllBehaviors ();
 				StartCoroutine (InitHeadPosition ());
 			}
 			behaviourEnd = true;
 		}
 
-		private IEnumerator Idle()
+		private IEnumerator Idle ()
 		{
-			while(true)
-			{
+			while (true) {
 				if (BYOS.Instance.Interaction.VocalManager.EnableTrigger && !mAttitudeBehaviour.IsWaiting && !behaviourEnd) {
 					mAttitudeBehaviour.StartWaiting ();
 					headPoseInit = false;
 				}
 
-				yield return new WaitForSeconds(5.0f);
+				yield return new WaitForSeconds (5.0f);
 			}
 		}
 

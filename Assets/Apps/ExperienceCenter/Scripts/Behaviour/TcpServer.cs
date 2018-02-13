@@ -13,27 +13,22 @@ namespace BuddyApp.ExperienceCenter
 	public class TcpServer : MonoBehaviour
 	{
 		public static bool clientConnected;
+		private static bool mEventClient;
 
 		private static Socket mHandler;
+
 		private static AnimatorManager mAnimatorManager;
-		private static bool mEventClient;
-		//private Socket listener;
+
 		public static bool mStop = false;
 
-		// State object for reading client data asynchronously
 		private class StateObject
 		{
-			// Client  socket.
 			public Socket workSocket = null;
-			// Size of receive buffer.
 			public const int bufferSize = 1024;
-			// Receive buffer.
 			public byte[] buffer = new byte[bufferSize];
-			// Received data string.
 			public StringBuilder Sb = new StringBuilder ();
 		}
-			
-		// Use this for initialization
+
 		public void Init ()
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
@@ -50,7 +45,6 @@ namespace BuddyApp.ExperienceCenter
 				if (ip.AddressFamily == AddressFamily.InterNetwork) {
 					localIP = ip.ToString ();
 				}
-
 			}
 			return localIP;
 		}
@@ -59,17 +53,15 @@ namespace BuddyApp.ExperienceCenter
 		private IEnumerator Listening ()
 		{
 			yield return new WaitUntil (() => !mStop);
-			// host running the application.
 			IPAddress[] ipArray = Dns.GetHostAddresses (GetIPAddress ());
 			IPEndPoint localEndPoint = new IPEndPoint (ipArray [0], 3000);
 
-			Debug.Log ("[TCP SERVER] Server address and port : " + localEndPoint.ToString ());
+			Debug.Log ("[EXCENTER] [TCP SERVER] Server address and port : " + localEndPoint.ToString ());
 			ExperienceCenterData.Instance.IPAddress = localEndPoint.ToString ();
 
 			// Create a TCP/IP socket if the port is released
 			Socket listener = new Socket (ipArray [0].AddressFamily,
 				                  SocketType.Stream, ProtocolType.Tcp);
-			//listener.SetSocketOption(SocketOptionLevel.Socket,SocketOptionName.ReuseAddress, true);
 
 			// Bind the socket to the local endpoint and 
 			// listen for incoming connections.
@@ -77,7 +69,7 @@ namespace BuddyApp.ExperienceCenter
 			listener.Listen (10);
 
 			// Start listening for connections.
-			Debug.Log ("Start listening");
+			Debug.Log ("[EXCENTER] Start listening");
 			ExperienceCenterData.Instance.StatusTcp = "Waiting for connection";
 			while (true) {
 				mEventClient = false;
@@ -90,10 +82,9 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 
-			listener.Close();
-			Debug.LogWarning ("Stop listening");
+			listener.Close ();
+			Debug.LogWarning ("[EXCENTER] Stop listening");
 			mStop = false;
-
 		}
 
 
@@ -111,7 +102,7 @@ namespace BuddyApp.ExperienceCenter
 					new AsyncCallback (ReadCallback), state);
 
 				IPEndPoint clientIP = mHandler.RemoteEndPoint as IPEndPoint;
-				Debug.Log ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " connected");
+				Debug.Log ("[EXCENTER] [TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " connected");
 				clientConnected = true;
 				ExperienceCenterData.Instance.StatusTcp = "Client connected";
 				mAnimatorManager.ConnectionTrigger ();
@@ -120,7 +111,7 @@ namespace BuddyApp.ExperienceCenter
 				Socket handler = listener.EndAccept (ar);
 				SendServerBusy (handler);
 				IPEndPoint clientIP = handler.RemoteEndPoint as IPEndPoint;
-				Debug.LogWarning ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " wants to connect, but server is busy");
+				Debug.LogWarning ("[EXCENTER] [TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " wants to connect, but server is busy");
 				handler.Shutdown (SocketShutdown.Both);
 				handler.Close ();
 			}
@@ -150,20 +141,20 @@ namespace BuddyApp.ExperienceCenter
 					case (byte) (Mode.CommandReq): 
 						{
 							ActivateCommand (handler, state.buffer [1]);
-							Debug.Log ("[TCP SERVER] Command Req" + (Command)(state.buffer [1]) + " is received");
+							Debug.Log ("[EXCENTER] [TCP SERVER] Command Req" + (Command)(state.buffer [1]) + " is received");
 							break;
 						}
 					
 					case (byte) (Mode.StateReq): 
 						{
 							CheckState (handler, state.buffer [1]);
-							Debug.Log ("[TCP SERVER] State Req " + (StateReq)(state.buffer [1]) + " is received");
+							Debug.Log ("[EXCENTER] [TCP SERVER] State Req " + (StateReq)(state.buffer [1]) + " is received");
 							break;
 						}
 					default:
 						{   
 							SendMsgUndef (handler);
-							Debug.LogWarning ("[TCP SERVER] Unrecognized message mode from the client");
+							Debug.LogWarning ("[EXCENTER] [TCP SERVER] Unrecognized message mode from the client");
 							break;
 						}
 					}
@@ -175,7 +166,7 @@ namespace BuddyApp.ExperienceCenter
 				if (handler.Connected) {
 					// Client are offline will be detected here
 					IPEndPoint clientIP = handler.RemoteEndPoint as IPEndPoint;
-					Debug.Log ("[TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " disconnected");
+					Debug.Log ("[EXCENTER] [TCP SERVER] Client: " + clientIP.Address + ":" + clientIP.Port + " disconnected");
 					ExperienceCenterData.Instance.StatusTcp = "Waiting for connection";
 					clientConnected = false;
 					mAnimatorManager.ConnectionTrigger ();
@@ -186,7 +177,7 @@ namespace BuddyApp.ExperienceCenter
 	
 		private static void SendServerBusy (Socket handler)
 		{
-			byte[] byteData = new byte[] {(byte)Mode.ServerBusy, 0x01};
+			byte[] byteData = new byte[] { (byte)Mode.ServerBusy, 0x01 };
 			handler.BeginSend (byteData, 0, byteData.Length, 0,
 				new AsyncCallback (SendCallback), handler);
 
@@ -194,7 +185,7 @@ namespace BuddyApp.ExperienceCenter
 
 		private static void SendMsgUndef (Socket handler)
 		{
-			byte[] byteData = new byte[] {(byte)Mode.ServerBusy, (byte) State.Undefined};
+			byte[] byteData = new byte[] { (byte)Mode.ServerBusy, (byte)State.Undefined };
 			handler.BeginSend (byteData, 0, byteData.Length, 0,
 				new AsyncCallback (SendCallback), handler);
 
@@ -229,7 +220,7 @@ namespace BuddyApp.ExperienceCenter
 				handler.BeginSend (byteData, 0, byteData.Length, 0,
 					new AsyncCallback (SendCallback), mHandler);
 			} else {
-				Debug.LogWarning ("[TCP SERVER] Unrecognized state request from the client");
+				Debug.LogWarning ("[EXCENTER] [TCP SERVER] Unrecognized state request from the client");
 				SendMsgUndef (handler);
 			}
 		}
@@ -238,7 +229,7 @@ namespace BuddyApp.ExperienceCenter
 		{
 			try {
 				Socket handler = (Socket)ar.AsyncState;
-				handler.EndSend(ar);
+				handler.EndSend (ar);
 
 			} catch (Exception e) {
 				Debug.LogError (e.ToString ());
@@ -248,9 +239,8 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopServer ()
 		{
-			
 			if (mHandler != null && mHandler.Connected) {
-				Debug.LogWarning ("Disconnecting all client !");
+				Debug.LogWarning ("[EXCENTER] Disconnecting all client !");
 				clientConnected = false;
 				ExperienceCenterData.Instance.StatusTcp = "Offline";
 				ExperienceCenterData.Instance.IPAddress = "-";
@@ -258,11 +248,8 @@ namespace BuddyApp.ExperienceCenter
 				mHandler.Shutdown (SocketShutdown.Both);
 				mHandler.Close ();
 			}
-			//StopAllCoroutines ();
 			mStop = true;
-				
 		}
-			
-	}
 
+	}
 }

@@ -10,17 +10,20 @@ namespace BuddyApp.ExperienceCenter
 {
 	public class MoveForwardBehaviour : MonoBehaviour
 	{
-		public const float DISTANCE_THRESHOLD = 0.05f;
-		public float wheelSpeed = 200f;
-		public bool behaviourEnd;
+		private const float DISTANCE_THRESHOLD = 0.05f;
 
 		private AnimatorManager mAnimatorManager;
 		private CollisionDetector mCollisionDetector;
-		private float radius;
+
 		private Vector3 mRobotPose;
+
 		private float mDistance;
 		private float mMoveTimeOut;
+
 		private bool mTimeOut;
+
+		public float wheelSpeed = 200f;
+		public bool behaviourEnd;
 
 		public void InitBehaviour ()
 		{
@@ -29,7 +32,7 @@ namespace BuddyApp.ExperienceCenter
 
 			if (mMoveTimeOut != ExperienceCenterData.Instance.MoveTimeOut) {
 				mMoveTimeOut = ExperienceCenterData.Instance.MoveTimeOut; 
-				Debug.LogFormat ("MoveForward TimeOut = {0} s ", mMoveTimeOut);
+				Debug.LogFormat ("[EXCENTER] MoveForward TimeOut = {0} s ", mMoveTimeOut);
 			}
 
 			behaviourEnd = false;
@@ -37,7 +40,6 @@ namespace BuddyApp.ExperienceCenter
 			if (ExperienceCenterData.Instance.EnableBaseMovement)
 				mCollisionDetector.InitBehaviour ();
 
-			radius = BYOS.Instance.Primitive.Motors.Wheels.Radius;
 			mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
 			mDistance = ExperienceCenterData.Instance.TableDistance; 
 			if (ExperienceCenterData.Instance.EnableBaseMovement) {
@@ -53,24 +55,24 @@ namespace BuddyApp.ExperienceCenter
 			mDistance = mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose);
 			//Save the robot Pose for future iteration if any
 			mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
-			Debug.LogWarningFormat ("Check condition : EnableMove = {0},  RecognitionFinished = {1}, TimeOut = {2}", mCollisionDetector.enableToMove, BYOS.Instance.Interaction.VocalManager.RecognitionFinished, mTimeOut);
+			Debug.LogWarningFormat ("[EXCENTER]  Check condition : EnableMove = {0},  RecognitionFinished = {1}, TimeOut = {2}", mCollisionDetector.enableToMove, BYOS.Instance.Interaction.VocalManager.RecognitionFinished, mTimeOut);
 			yield return new WaitUntil (() => (mCollisionDetector.enableToMove && BYOS.Instance.Interaction.VocalManager.RecognitionFinished) || mTimeOut);
 
 			if (!mTimeOut) {
 				BYOS.Instance.Primitive.Motors.Wheels.SetWheelsSpeed (lSpeed);
 
-				Debug.LogFormat ("Speed = {0}, Distance to travel = {1}", BYOS.Instance.Primitive.Motors.Wheels.Speed, mDistance);
+				Debug.LogFormat ("[EXCENTER]  Speed = {0}, Distance to travel = {1}", BYOS.Instance.Primitive.Motors.Wheels.Speed, mDistance);
 
 				yield return new WaitUntil (() => mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD)
 				|| !mCollisionDetector.enableToMove
 				|| mTimeOut);
 			}
-			Debug.LogFormat ("Check condition : Distance = {0}, Obstacle ={1}, TimeOut ={2}", mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD), !mCollisionDetector.enableToMove, mTimeOut);
-			Debug.LogFormat ("Distance left to travel : {0}", mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose));
+			Debug.LogFormat ("[EXCENTER]  Check condition : Distance = {0}, Obstacle ={1}, TimeOut ={2}", mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD), !mCollisionDetector.enableToMove, mTimeOut);
+			Debug.LogFormat ("[EXCENTER]  Distance left to travel : {0}", mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose));
 			BYOS.Instance.Primitive.Motors.Wheels.Stop ();
 
 			if (!mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD) && !mTimeOut) {
-				Debug.Log ("Restart MoveForward Coroutine");
+				Debug.Log ("[EXCENTER]  Restart MoveForward Coroutine");
 				StartCoroutine (MoveForward (wheelSpeed));
 			} else {
 				//Debug.Log ("New MoveForward Coroutine");
@@ -78,9 +80,9 @@ namespace BuddyApp.ExperienceCenter
 				//mDistance = ExperienceCenterData.Instance.TableDistance;  
 				//StartCoroutine (MoveForward (wheelSpeed));
 				if (!mTimeOut)
-					Debug.Log ("End MoveForward Coroutine");
+					Debug.Log ("[EXCENTER]  End MoveForward Coroutine");
 				else
-					Debug.Log ("End MoveForward Coroutine: (Time-out)");
+					Debug.Log ("[EXCENTER]  End MoveForward Coroutine: (Time-out)");
 				behaviourEnd = true;
 				mCollisionDetector.StopBehaviour ();
 			}
@@ -93,14 +95,14 @@ namespace BuddyApp.ExperienceCenter
 			DateTime lLastTime = DateTime.Now;
 			while (!mTimeOut) {
 				if (CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, robotPose) <= DISTANCE_THRESHOLD) {
-					Debug.LogWarning ("Robot is stopped");
+					Debug.LogWarning ("[EXCENTER]  Robot is stopped");
 					TimeSpan lElapsedTime = DateTime.Now - lLastTime;
 					if (lElapsedTime.TotalSeconds > mMoveTimeOut) {
 						mTimeOut = true;
 						break;
 					}
 				} else {
-					Debug.LogWarning ("Robot is moving");
+					Debug.LogWarning ("[EXCENTER]  Robot is moving");
 					robotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
 					lLastTime = DateTime.Now;
 				}
@@ -110,7 +112,7 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopBehaviour ()
 		{
-			Debug.LogWarning ("Stop Move Behaviour");
+			Debug.LogWarning ("[EXCENTER] Stop Move Behaviour");
 			StopAllCoroutines ();
 			if (ExperienceCenterData.Instance.EnableBaseMovement)
 				BYOS.Instance.Primitive.Motors.Wheels.Stop ();
