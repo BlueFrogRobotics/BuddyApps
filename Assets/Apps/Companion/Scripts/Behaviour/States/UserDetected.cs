@@ -11,15 +11,14 @@ namespace BuddyApp.Companion
 	{
 
 		private float mTimeState;
-		private float mTimeHumanDetected;
-		private string mActionTrigger;
+		private float mTimeHumanLastDetected;
+		private float mDurationDetected;
 
 		public override void Start()
 		{
 			Utils.LogI(LogContext.APP, "Start UserD");
-			CompanionData.Instance.Bored = 0;
-			CompanionData.Instance.MovingDesire = 0;
-			CompanionData.Instance.InteractDesire = 0;
+			CompanionData.Instance.mMovingDesire = 0;
+			CompanionData.Instance.mInteractDesire = 0;
 			CompanionData.Instance.ChargeAsked = false;
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
@@ -35,15 +34,11 @@ namespace BuddyApp.Companion
 		{
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
-			Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
-			Utils.LogI(LogContext.APP, "Enter UserD 0");
-			mState.text = "User Detected";
-			mActionTrigger = "";
+			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
+			Utils.LogI(LogContext.APP, "Enter UserD");
 			mTimeState = 0F;
-			mTimeHumanDetected = 0F;
-
-
-			Utils.LogI(LogContext.APP, "Enter UserD 0");
+			mTimeHumanLastDetected = 0F;
+			mDurationDetected = 0F;
 
 		}
 
@@ -53,9 +48,14 @@ namespace BuddyApp.Companion
 		{
 			mState.text = "User Detected move: " + !BYOS.Instance.Primitive.Motors.Wheels.Locked;
 
+			// if human is not detected for 1.5 seconds
+			if(mTimeHumanLastDetected > 1.5F) {
+				mDurationDetected = 0F;
+			} else {
+				mDurationDetected += Time.deltaTime;
+			}
 
-
-			mTimeHumanDetected += Time.deltaTime;
+			mTimeHumanLastDetected += Time.deltaTime;
 			mTimeState += Time.deltaTime;
 
 			if (BYOS.Instance.Interaction.BMLManager.DonePlaying && !mActionManager.ThermalFollow && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
@@ -63,9 +63,14 @@ namespace BuddyApp.Companion
 			}
 
 			// Play BML after 5 seconds every 15 seconds or launch desired action
-			if (((int)mTimeHumanDetected) % 15 == 5 && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
-				mActionTrigger = mActionManager.LaunchDesiredAction("USERDETECTED");
-				if (string.IsNullOrEmpty(mActionTrigger)) {
+			if (((int)mTimeState) % 15 == 5 && BYOS.Instance.Interaction.BMLManager.DonePlaying && mTimeHumanLastDetected < 8F) {
+
+				// We launch desired action for USER_DETECTED only if we are sure human is there
+				if (mDurationDetected > 6F)
+					mActionTrigger = mActionManager.LaunchDesiredAction(COMPANION_STATE.USER_DETECTED);
+
+				// if not sure human there or no action desired, play BML
+				if (mActionTrigger == "IDLE" || string.IsNullOrEmpty(mActionTrigger)) {
 					//if no desired action, play BML
 					Debug.Log("Play neutral BML user detected");
 					//TODO: play other BML?
@@ -77,73 +82,22 @@ namespace BuddyApp.Companion
 				}
 			}
 
-			// If human not there anymore
-			//if (mTimeHumanDetected > 8F) {
-			//	if (CompanionData.Instance.InteractDesire > 80)
-			//		Trigger("SADBUDDY");
-			//	else if (CompanionData.Instance.InteractDesire > 50 && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
-			//		Trigger("LOOKINGFOR");
-			//	else if (CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
-			//		if (CompanionData.Instance.MovingDesire < 30)
-			//			CompanionData.Instance.MovingDesire += 30;
-			//		Trigger("WANDER");
-			//	} else
-			//		Trigger("IDLE");
-
-
-			// 2) If human detected for a while and want to interact but no interaction, go to Crazy Buddy
-			//if (mTimeState > 15F && mDetectionManager.TimeLastTouch > 5F && CompanionData.Instance.InteractDesire > 50) {
-			//	BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
-			//	Interaction.Face.SetEvent(FaceEvent.SMILE);
-			//	Trigger("SEEKATTENTION");
-
-			//	// 3) Otherwise, go wander
-			//} else if (mTimeState > 20F && mDetectionManager.TimeLastTouch > 5F && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
-			//	if (CompanionData.Instance.MovingDesire < 30)
-			//		CompanionData.Instance.MovingDesire += 30;
-			//	Interaction.Mood.Set(MoodType.SURPRISED);
-			//	Trigger("WANDER");
-			//} else {
+			// if no one there, do whatever Buddy wants
+			else if (mTimeHumanLastDetected > 10F)
+				Trigger(mActionManager.LaunchDesiredAction(COMPANION_STATE.IDLE));
 
 
 
-			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
+			// 0) If trigger vocal or kidnapping or low battery... go to corresponding state
 			if (string.IsNullOrEmpty(mActionTrigger)) {
-				if (mDetectionManager.mDetectedElement == Detected.TRIGGER || mDetectionManager.mDetectedElement == Detected.TOUCH || mDetectionManager.mDetectedElement == Detected.THERMAL ||
-					mDetectionManager.mDetectedElement == Detected.KIDNAPPING || mDetectionManager.mDetectedElement == Detected.BATTERY || mDetectionManager.mDetectedElement == Detected.HUMAN_RGB) {
-
-					Trigger(mActionManager.LaunchReaction("IDLE", mDetectionManager.mDetectedElement));
-
+				if (mDetectionManager.mDetectedElement == Detected.THERMAL || mDetectionManager.mDetectedElement == Detected.HUMAN_RGB)
+					mTimeHumanLastDetected = 0;
+				else if (mDetectionManager.mDetectedElement != Detected.NONE) {
+					mActionTrigger = mActionManager.LaunchReaction(COMPANION_STATE.USER_DETECTED, mDetectionManager.mDetectedElement);
+					if (!string.IsNullOrEmpty(mActionTrigger))
+						Trigger(mActionTrigger);
 				}
 			}
-
-			//switch (mDetectionManager.mDetectedElement) {
-			//	case Detected.TRIGGER:
-			//		Trigger("VOCALTRIGGERED");
-			//		break;
-
-			//	case Detected.TOUCH:
-			//		Debug.Log("User Detected robot touched");
-			//		Trigger("ROBOTTOUCHED");
-			//		break;
-
-			//	case Detected.KIDNAPPING:
-			//		Trigger("KIDNAPPING");
-			//		break;
-
-			//	case Detected.BATTERY:
-			//		Trigger("CHARGE");
-			//		break;
-
-			//	case Detected.THERMAL:
-			//		mTimeHumanDetected = 0F;
-			//		mDetectionManager.mDetectedElement = Detected.NONE;
-			//		break;
-
-			//	default:
-			//		mDetectionManager.mDetectedElement = Detected.NONE;
-			//		break;
-			//}
 		}
 
 

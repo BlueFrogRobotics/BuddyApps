@@ -23,21 +23,21 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mActionManager.CurrentAction = BUDDY_ACTION.WANDER;
 
-			if (CompanionData.Instance.MovingDesire < 8)
-				CompanionData.Instance.MovingDesire = 8;
+			if (CompanionData.Instance.mMovingDesire < 8)
+				CompanionData.Instance.mMovingDesire = 8;
 
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mTimeThermal = 0F;
 			mTimeRaise = 0F;
 			mTimeLastThermal = 0F;
-			mState.text = "Wander";
 			mTrigged = false;
 			Debug.Log("state:  Wander");
 			Interaction.TextToSpeech.SayKey("startwander", true);
 
-			Debug.Log("wander: " + CompanionData.Instance.MovingDesire);
+			Debug.Log("wander: " + CompanionData.Instance.mMovingDesire);
 
 
 		}
@@ -45,6 +45,9 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+			mState.text = "WANDER \n interactDesire: " + CompanionData.Instance.mInteractDesire
+				+ "\n wanderDesire: " + CompanionData.Instance.mMovingDesire;
 
 			// Hack to remove trigger when wander because of false positive
 			if (mDetectionManager.IsDetectingTrigger != CompanionData.Instance.CanTriggerWander)
@@ -64,36 +67,34 @@ namespace BuddyApp.Companion
 					OnRandomMinuteActivation();
 			}
 
-			mState.text = "WANDER \n interactDesire: " + CompanionData.Instance.InteractDesire
-				+ "\n wanderDesire: " + CompanionData.Instance.MovingDesire;
 
 			if (!Interaction.BMLManager.DonePlaying)
 				mState.text += "\n BML: " + Interaction.BMLManager.ActiveBML[0].Name;
-			else if (mActionManager.ThermalFollow) {
-				mState.text += "\n thermal follow <3";
-			}
+			//else if (mActionManager.ThermalFollow) {
+			//	mState.text += "\n thermal follow <3";
+			//}
 
 			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.ActiveAction() && CompanionData.Instance.CanMoveBody) {
 				Debug.Log("CompanionWander start wandering");
 				mActionManager.StartWander(mActionManager.WanderingMood);
-			}
+			} else if (!CompanionData.Instance.CanMoveBody)
+				Trigger("IDLE");
 
 
 			// if we follow for a while, or lose the target for 5 seconds, go back to wander:
-			if (mActionManager.ThermalFollow && (Time.time - mTimeThermal > CompanionData.Instance.InteractDesire
-				|| (Time.time - mTimeLastThermal > 5.0F) && Interaction.BMLManager.DonePlaying && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody))
-				mActionManager.StartWander(mActionManager.WanderingMood);
-			
+			//if (mActionManager.ThermalFollow && (Time.time - mTimeThermal > CompanionData.Instance.mInteractDesire
+			//	|| (Time.time - mTimeLastThermal > 5.0F) && Interaction.BMLManager.DonePlaying && CompanionData.Instance.CanMoveBody))
+			//	mActionManager.StartWander(mActionManager.WanderingMood);
+
 			//////////////
 
 
 
 			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
 
-			if (mDetectionManager.mDetectedElement == Detected.TRIGGER || mDetectionManager.mDetectedElement == Detected.TOUCH || mDetectionManager.mDetectedElement == Detected.THERMAL ||
-					mDetectionManager.mDetectedElement == Detected.KIDNAPPING || mDetectionManager.mDetectedElement == Detected.BATTERY || mDetectionManager.mDetectedElement == Detected.HUMAN_RGB) {
+			if (mDetectionManager.mDetectedElement != Detected.NONE) {
 
-				string lTrigger = mActionManager.LaunchReaction("WANDER", mDetectionManager.mDetectedElement);
+				string lTrigger = mActionManager.LaunchReaction(COMPANION_STATE.WANDER, mDetectionManager.mDetectedElement);
 				if (!string.IsNullOrEmpty(lTrigger)) {
 					Trigger(lTrigger);
 					mTrigged = true;
@@ -155,13 +156,13 @@ namespace BuddyApp.Companion
 			//}
 
 			if (!mTrigged) {
-				// TODO check the situation only every x seconds
-				// and use mActionTrigger = mActionManager.LaunchDesiredAction("IDLE");
-				if (CompanionData.Instance.MovingDesire < 5) {
-					Debug.Log("wander -> IDLE: " + CompanionData.Instance.MovingDesire);
-					Trigger("IDLE");
-				} else if (CompanionData.Instance.InteractDesire > 80 && CompanionData.Instance.MovingDesire < 20) {
-					Trigger("LOOKINGFOR");
+				// TODO maybe check the situation only every x seconds
+				// if < 20
+				if (CompanionData.Instance.mMovingDesire < 5) {
+					string lTrigger = mActionManager.LaunchDesiredAction(COMPANION_STATE.WANDER);
+					if (!string.IsNullOrEmpty(lTrigger)) {
+						Trigger(lTrigger);
+					}
 				}
 			}
 		}
@@ -171,6 +172,8 @@ namespace BuddyApp.Companion
 			mActionManager.StopAllActions();
 			mDetectionManager.StartSphinxTrigger();
 			mDetectionManager.mDetectedElement = Detected.NONE;
+
+			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 		}
 
 

@@ -21,6 +21,7 @@ namespace BuddyApp.Companion
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 			mState.text = "User disengaged";
             Debug.Log("state: User disengaged");
 
@@ -34,14 +35,14 @@ namespace BuddyApp.Companion
         {
             mTimeState += Time.deltaTime;
 			
-            if (CompanionData.Instance.InteractDesire < 0) {
-                CompanionData.Instance.InteractDesire = 0;
+            if (CompanionData.Instance.mInteractDesire < 0) {
+                CompanionData.Instance.mInteractDesire = 0;
             } else {
-                CompanionData.Instance.InteractDesire -= 10;
+                CompanionData.Instance.mInteractDesire -= 10;
             }
 
-            if (CompanionData.Instance.MovingDesire > 50 & CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
-                Debug.Log("User disengaged -> wander: " + CompanionData.Instance.MovingDesire);
+            if (CompanionData.Instance.mMovingDesire > 50 & CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+                Debug.Log("User disengaged -> wander: " + CompanionData.Instance.mMovingDesire);
                 iAnimator.SetTrigger("WANDER");
             } else if (mTimeState > 5F) {
                 iAnimator.SetTrigger("IDLE");

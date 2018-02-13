@@ -20,17 +20,19 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			// TODO: lock wheels? + react according to mood
+			mActionManager.CurrentAction = BUDDY_ACTION.TOUCH_INTERACT;
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mState.text = "Buddy in Arms";
 			Debug.Log("state: Buddy in Arms");
 			mTimeInArmns = 0F;
-			if (CompanionData.Instance.InteractDesire > 40) {
+			if (CompanionData.Instance.mInteractDesire > 40) {
 				Interaction.TextToSpeech.SayKey("ilikearm", true);
-				CompanionData.Instance.InteractDesire -= 10;
+				CompanionData.Instance.mInteractDesire -= 10;
 				Interaction.Mood.Set(MoodType.HAPPY);
 			} else {
 				Interaction.TextToSpeech.SayKey("letmeroll", true);
-				CompanionData.Instance.InteractDesire -= 20;
+				CompanionData.Instance.mInteractDesire -= 20;
 				Interaction.Mood.Set(MoodType.GRUMPY);
 			}
 		}
@@ -40,11 +42,12 @@ namespace BuddyApp.Companion
 		{
 			mTimeInArmns += Time.deltaTime;
 
-			if (mDetectionManager.mDetectedElement == Detected.TRIGGER) {
+			if (mDetectionManager.mDetectedElement == Detected.TRIGGER || mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH) {
 				//Interaction.TextToSpeech.Say("Que puis-je pour toi?", true);
 				iAnimator.SetTrigger("VOCALTRIGGERED");
-			}else if (mTimeInArmns > 5F)
-				iAnimator.SetTrigger("INTERACT");
+			} else if (mTimeInArmns > 5F)
+				// TODO: do something? to define
+				Interaction.Mood.Set(MoodType.SICK);
 		}
 
 
@@ -52,6 +55,7 @@ namespace BuddyApp.Companion
 		{
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 		}
 	}
 }

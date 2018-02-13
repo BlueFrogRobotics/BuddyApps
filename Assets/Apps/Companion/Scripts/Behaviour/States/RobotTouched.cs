@@ -9,9 +9,10 @@ namespace BuddyApp.Companion
 {
 	public class RobotTouched : AStateMachineBehaviour
 	{
-		//private int mMouthCounter;
-		//private int mEyeCounter;
-		//private float mLastMouthTime;
+		private int mFaceCounter;
+		private int mEyeCounter;
+		private float mLastTouchTime;
+		private FaceTouch mLastPartTouched;
 
 		public override void Start()
 		{
@@ -20,64 +21,95 @@ namespace BuddyApp.Companion
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
 			mActionManager = GetComponent<ActionManager>();
-			//mMouthCounter = 0;
-			//mEyeCounter = 0;
 			//mLastMouthTime = 0F;
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mDetectionManager.mDetectedElement = Detected.NONE;
+			mActionManager.CurrentAction = BUDDY_ACTION.TOUCH_INTERACT;
 			mState.text = "Robot Touched " + mDetectionManager.mFacePartTouched;
 			Debug.Log("state: Robot Touched: " + mDetectionManager.mFacePartTouched);
-			if (mDetectionManager.mFacePartTouched == FaceTouch.MOUTH) {
-				mActionManager.StopAllActions();
-				if (CompanionData.Instance.InteractDesire > 80) {
-					//Interaction.TextToSpeech.Say("Hey! Si on faisait un jeu!", true);
-					//Trigger("PROPOSEGAME");
-					Trigger("VOCALTRIGGERED");
-				} else {
-					//Interaction.TextToSpeech.Say("Que puis-je pour vous?", true);
-					Trigger("VOCALTRIGGERED");
+			mLastTouchTime = 0F;
+			mFaceCounter = 0;
+			mEyeCounter = 0;
+			mLastPartTouched = mDetectionManager.mFacePartTouched;
+
+
+
+		}
+
+		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			// When we arrive here, it means face was touch but not mouth.
+			// TODO: if Buddy is not positive +3, ask for more after some time.
+			// if no more after some time, go away (desiredAction?).
+			// Otherwise, just keep reacting, say some stuff...
+
+
+			if (mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH || mDetectionManager.mDetectedElement == Detected.TRIGGER)
+				Trigger("VOCALCOMMAND");
+
+
+			if (mDetectionManager.mFacePartTouched == FaceTouch.LEFT_EYE || mDetectionManager.mFacePartTouched == FaceTouch.RIGHT_EYE) {
+				mLastTouchTime = Time.time;
+				//React
+				mActionManager.EyeReaction();
+				mEyeCounter++;
+
+				mLastPartTouched = mDetectionManager.mFacePartTouched;
+				// TODO: ask to stop poking
+			} else if (mDetectionManager.mFacePartTouched == FaceTouch.OTHER) {
+				mLastTouchTime = Time.time;
+				//React
+				mActionManager.HeadReaction();
+				mFaceCounter++;
+
+				mLastPartTouched = mDetectionManager.mFacePartTouched;
+				// TODO: then ask for more after some time if positivity < 3
+			}
+
+			// TO DO:
+			// after no touch for a while, go to user detected?
+
+			if (!mActionManager.ActiveAction() && Interaction.SpeechToText.HasFinished) {
+
+				if (mLastPartTouched == FaceTouch.OTHER) {
+					if (mLastTouchTime > 5F) {
+						// TODO ask touch again if not enough positivity
+						// else go back to User detected
+						Trigger("INTERACT");
+
+					} else {
+						// Say something from time to time according to mood
+					}
+
+				} else if (mLastPartTouched == FaceTouch.RIGHT_EYE || mLastPartTouched == FaceTouch.LEFT_EYE) {
+					
+					} if (mLastTouchTime > 4F){
+						// thanks to stop poking according to mood
+					}
+					else if (mEyeCounter == 2) {
+					// ask to stop according to mood
 				}
 
-			} else
+			}
+
+			if (mLastTouchTime > 10F) {
+				// if nothing for 10s
 				Trigger("INTERACT");
+			}
 
-			//} else {
-			//	// User touched the eye / face
-			//	if (mDetectionManager.mFacePartTouched == FaceTouch.MOUTH) {
-			//		if (mMouthCounter > 2)
-			//			//TODO: play BML instead
-			//			Interaction.Mood.Set(MoodType.SICK);
-			//		else {
-			//			if (Time.time - mLastMouthTime < 10F)
-			//				mMouthCounter++;
-			//			else
-			//				mMouthCounter = 0;
-			//			mLastMouthTime = Time.time;
-			//		}
-			//	}else if(mDetectionManager.mFacePartTouched == FaceTouch.LEFT_EYE || mDetectionManager.mFacePartTouched == FaceTouch.RIGHT_EYE) {
-			//		if (mMouthCounter > 2)
-			//			//TODO: play BML instead
-			//			Interaction.Mood.Set(MoodType.GRUMPY);
-			//		else {
-			//			Debug.Log("Time.time - mLastMouthTime " + (Time.time - mLastMouthTime) );
-			//                     if (Time.time - mLastMouthTime < 10F)
-			//				mMouthCounter++;
-			//			else
-			//				mMouthCounter = 0;
-			//			mLastMouthTime = Time.time;
-			//		}
-			//	}
+			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
+			mDetectionManager.mDetectedElement = Detected.NONE;
 
-			//	iAnimator.SetTrigger("INTERACT");
-			//}
+
+
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 		}
 
 	}

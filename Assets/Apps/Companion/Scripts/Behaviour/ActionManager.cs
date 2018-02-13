@@ -27,6 +27,21 @@ namespace BuddyApp.Companion
 		INFORM_MOOD
 	}
 
+
+
+	public enum COMPANION_STATE
+	{
+		IDLE,
+		USER_DETECTED,
+		WANDER,
+		DANCE,
+		FOLLOW,
+		TOUCHED,
+		LOOK_FOR_USER,
+		ASK_USER_PROFILE,
+		INFORM_MOOD
+	}
+
 	/// <summary>
 	/// Manager class that have reference to the differents stimuli and subscribes to their callbacks
 	/// </summary>
@@ -39,12 +54,15 @@ namespace BuddyApp.Companion
 		private float mTimeMood;
 		private float mDurationMood;
 		private float mTimeLastOrder;
+		private DetectionManager mDetectionManager;
+		private DesireManager mDesireManager;
 		private InternalMood mInternalStateMood;
 
 
 		public bool WanderingOrder { get; set; }
 		public MoodType WanderingMood { get; set; }
 		public BUDDY_ACTION CurrentAction { get; set; }
+		public bool CurrentActionHumanOrder { get; set; }
 
 		public bool Wandering { get; private set; }
 		public bool ThermalFollow { get; private set; }
@@ -64,6 +82,9 @@ namespace BuddyApp.Companion
 			mLastEyeTime = 0F;
 			mDurationMood = 5F;
 			mTimeLastOrder = 0F;
+			mDetectionManager = GetComponent<DetectionManager>();
+			mDesireManager = GetComponent<DesireManager>();
+			CurrentActionHumanOrder = false;
 		}
 
 		void Update()
@@ -99,13 +120,59 @@ namespace BuddyApp.Companion
 		//*  ACTIONS  *
 		//*************
 
-		public string LaunchDesiredAction(string iState)
+		// TODO may be better to return an element from a list of transitions
+		public string LaunchDesiredAction(COMPANION_STATE iState)
 		{
-			//TODO return the right trigger
-			return "WANDER";
+			if (mDesireManager.GetMaxDesireValue() > 40) {
+				switch (mDesireManager.GetMainDesire()) {
+
+					// TODO: add state propose interact to ask for caress or propose game or ...
+					case DESIRE.INTERACT:
+						if (mDetectionManager.UserPresent(iState))
+							return "PROPOSEINTERACT";
+						else
+							return "LOOKFORUSER";
+
+					case DESIRE.MOVE:
+						//TODO: add follow
+						// if Buddy happy and user present, raise chances of dance:
+						int lChancesToDance = BYOS.Instance.Interaction.InternalState.Positivity;
+						if (mDetectionManager.UserPresent(iState))
+							lChancesToDance += 3;
+
+						int lRand = UnityEngine.Random.Range(0, 9);
+						if (lRand < lChancesToDance)
+							return "DANCE";
+						else
+							return "WANDER";
+
+					// TODO: add this
+					case DESIRE.TEACH:
+						if (mDetectionManager.UserPresent(iState))
+							return "TEACH";
+						else
+							return "LOOKFORUSER";
+
+					case DESIRE.HELP:
+						if (mDetectionManager.UserPresent(iState))
+							return "HELP";
+						else
+							return "LOOKFORUSER";
+
+					case DESIRE.LEARN:
+						if (mDetectionManager.UserPresent(iState))
+							return "LEARN";
+						else
+							return "LOOKFORUSER";
+
+					default:
+						return "IDLE";
+				}
+			} else
+				return "IDLE";
 		}
 
-		public bool StartWander(MoodType iMood)
+		public bool StartWander(MoodType iMood = MoodType.NEUTRAL)
 		{
 			if (CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
 				Debug.Log("Start wander");
@@ -161,10 +228,50 @@ namespace BuddyApp.Companion
 		//*  REACTIONS  *
 		//***************
 
-		public string LaunchReaction(string iState, Detected iDetectedElement)
+		public string LaunchReaction(COMPANION_STATE iState, Detected iDetectedElement)
 		{
-			//TODO return the right trigger
-			return "WANDER";
+			mDetectionManager.mDetectedElement = Detected.NONE;
+
+			switch (iDetectedElement) {
+				case Detected.TRIGGER:
+					Debug.Log("[Companion][ActionManager] reaction vocal trigger");
+					// TODO: add exception states if needed
+					return "VOCALTRIGGERED";
+
+				case Detected.MOUTH_TOUCH:
+					Debug.Log("[Companion][ActionManager] reaction robot mouth touched");
+					// TODO: add exception states if needed
+					return "VOCALTRIGGERED";
+
+				case Detected.TOUCH:
+					Debug.Log("[Companion][ActionManager] reaction robot touched");
+					// TODO: add exception states if needed
+					return "ROBOTTOUCHED";
+
+				case Detected.KIDNAPPING:
+					Debug.Log("[Companion][ActionManager] reaction kidnapping");
+					// TODO: add exception states if needed
+					BYOS.Instance.Interaction.Mood.Set(MoodType.TIRED);
+					return "KIDNAPPING";
+
+				case Detected.BATTERY:
+					Debug.Log("[Companion][ActionManager] reaction battery low");
+					// TODO: add exception states if needed
+					return "CHARGE";
+
+				case Detected.THERMAL:
+					Debug.Log("[Companion][ActionManager] reaction thermal");
+					// TODO: add exception states if needed
+					return "INTERACT";
+
+				case Detected.HUMAN_RGB:
+					Debug.Log("[Companion][ActionManager] reaction human rgb");
+					// TODO: add exception states if needed
+					return "INTERACT";
+
+				default:
+					return "";
+			}
 		}
 
 
@@ -249,7 +356,7 @@ namespace BuddyApp.Companion
 
 
 
-		
+
 
 		public void EyeReaction()
 		{
@@ -530,8 +637,8 @@ namespace BuddyApp.Companion
 		//***************
 		//*  LOCKS      *
 		//***************
-		
-		
+
+
 		internal void LockAll()
 		{
 			LockWheels();

@@ -17,6 +17,8 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+			mActionManager.CurrentAction = BUDDY_ACTION.FOLLOW;
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mTimeThermal = Time.time;
 			Debug.Log("state: follow");
@@ -57,7 +59,7 @@ namespace BuddyApp.Companion
 				}
 			} else if (Time.time - mTimeThermal < 10.0F) {
 				if (Interaction.Face.IsStable && Interaction.Mood.CurrentMood != MoodType.THINKING) {
-					
+
 					Interaction.Mood.Set(MoodType.THINKING);
 					if (Primitive.Speaker.Voice.Status != SoundChannelStatus.PLAYING)
 						Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
@@ -77,55 +79,37 @@ namespace BuddyApp.Companion
 				}
 			} else if (Time.time - mTimeThermal > 20.0F) {
 				//Buddy is alone sad
-				mActionManager.StopThermalFollow();
-				Trigger("IDLE");
-				// TODO: Maybe Trigger("LOOKINGFOR");
+				if (!mActionManager.CurrentActionHumanOrder) {
+					//Follow was not an order -> do what Buddy desires
+					mActionManager.StopThermalFollow();
+
+					mActionTrigger = mActionManager.LaunchDesiredAction(COMPANION_STATE.FOLLOW);
+					Trigger(mActionTrigger);
+				}
 			}
 
 			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
-			switch (mDetectionManager.mDetectedElement) {
+			if (mDetectionManager.mDetectedElement == Detected.THERMAL) {
+				mDetectionManager.mDetectedElement = Detected.NONE;
+				mTimeThermal = Time.time;
+			} else if (mActionManager.CurrentActionHumanOrder && mDetectionManager.mDetectedElement == Detected.BATTERY && Interaction.Mood.CurrentMood != MoodType.TIRED) {
+				mDetectionManager.mDetectedElement = Detected.NONE;
+				Interaction.Mood.Set(MoodType.TIRED);
+			} else if(string.IsNullOrEmpty(mActionTrigger) ) {
 
-				case Detected.TRIGGER:
-					Trigger("VOCALTRIGGERED");
-					break;
-
-				case Detected.TOUCH:
-					Trigger("ROBOTTOUCHED");
-					break;
-
-				case Detected.KIDNAPPING:
-					Trigger("KIDNAPPING");
-					break;
-
-				case Detected.BATTERY:
-					mDetectionManager.mDetectedElement = Detected.NONE;
-					Interaction.Mood.Set(MoodType.TIRED);
-					break;
-
-				// If thermal signature, nothing
-				case Detected.THERMAL:
-					mDetectionManager.mDetectedElement = Detected.NONE;
-					mTimeThermal = Time.time;
-					break;
-
-				//case Detected.HUMAN_RGB & Detected.THERMAL:
-				//	// TODO: check false positive level
-				//	mTrigged = true;
-				//	if (CompanionData.Instance.InteractDesire > CompanionData.Instance.MovingDesire) {
-				//		mTrigged = true;
-				//		Trigger("INTERACT");
-				//	}
-				//	break;
-
-				default:
-					mDetectionManager.mDetectedElement = Detected.NONE;
-					break;
+				// We react only if Buddy didn't chose an action.
+				// This may not be the best way but this has very low chances (almost none) to happen at the same time (frame) ...
+				mActionTrigger = mActionManager.LaunchReaction(COMPANION_STATE.FOLLOW, mDetectionManager.mDetectedElement);
+				if (!string.IsNullOrEmpty(mActionTrigger))
+					Trigger(mActionTrigger);
 			}
+
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 			Interaction.Mood.Set(MoodType.NEUTRAL);
 			mDetectionManager.StartSphinxTrigger();
 		}

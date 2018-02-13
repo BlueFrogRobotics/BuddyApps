@@ -23,6 +23,7 @@ namespace BuddyApp.Companion
          * Data of the application. Save on disc when app quit happened
          */
 		private CompanionData mAppData;
+		private float mLastVoiceUpdate;
 
 		/*
          * Init refs to API and your app data
@@ -31,6 +32,7 @@ namespace BuddyApp.Companion
 		{
 			mTextToSpeech = BYOS.Instance.Interaction.TextToSpeech;
 			mAppData = CompanionData.Instance;
+			mLastVoiceUpdate = 0F;
 		}
 
 		/*
@@ -39,6 +41,14 @@ namespace BuddyApp.Companion
 		void Update()
 		{
 			// ensure motors stay in same state as config
+			
+			// TODO: do this only if needed, need getter...
+			if(Time.time - mLastVoiceUpdate > 2F) {
+				BYOS.Instance.Interaction.TextToSpeech.SetPitch(1.0F + 0.1F * BYOS.Instance.Interaction.InternalState.Positivity);
+				BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(1.0F + 0.1F * BYOS.Instance.Interaction.InternalState.Energy);
+				mLastVoiceUpdate = Time.time;
+
+			}
 
 			if (text.enabled != CompanionData.Instance.Debug) {
 				text.enabled = CompanionData.Instance.Debug;
@@ -48,7 +58,6 @@ namespace BuddyApp.Companion
 				// fixing issue
 				Debug.Log("fixing unconsistancy locked wheels");
 				BYOS.Instance.Primitive.Motors.Wheels.Locked = !CompanionData.Instance.CanMoveBody;
-
 			}
 
 			if (BYOS.Instance.Primitive.Motors.YesHinge.Locked == CompanionData.Instance.CanMoveHead) {
@@ -56,8 +65,6 @@ namespace BuddyApp.Companion
 				Debug.Log("fixing unconsistancy locked head");
 				BYOS.Instance.Primitive.Motors.YesHinge.Locked = !CompanionData.Instance.CanMoveHead;
 				BYOS.Instance.Primitive.Motors.NoHinge.Locked = !CompanionData.Instance.CanMoveHead;
-
-
 			}
 		}
 	}

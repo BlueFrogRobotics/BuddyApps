@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.Companion
 {
-	public class SeekAttention : AStateMachineBehaviour
+	public class ExpressMood : AStateMachineBehaviour
 	{
 		private float mTimeState;
 		private float mTimeHumanDetected;
@@ -29,6 +29,7 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			mActionManager.CurrentAction = BUDDY_ACTION.INFORM_MOOD;
 			mState.text = "Seek Attention";
 			Debug.Log("state: Seek Attention" + BYOS.Instance.Primitive.Battery.EnergyLevel);
 
@@ -80,7 +81,7 @@ namespace BuddyApp.Companion
 						
 					case Detected.HUMAN_RGB & Detected.THERMAL:
 						// TODO: check false positive level
-						if (CompanionData.Instance.InteractDesire > CompanionData.Instance.MovingDesire) {
+						if (CompanionData.Instance.mInteractDesire > CompanionData.Instance.mMovingDesire) {
 							if(Time.time - mTimeHumanDetected > 3F) {
 								mHumanDetectionCounter++;
 								mTimeHumanDetected = Time.time;
@@ -98,6 +99,7 @@ namespace BuddyApp.Companion
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 		}
 
 

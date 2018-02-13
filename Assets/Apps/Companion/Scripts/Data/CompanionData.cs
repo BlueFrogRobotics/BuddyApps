@@ -17,12 +17,12 @@ namespace BuddyApp.Companion
 		public bool Debug { get; set; }
 		//public bool ShowQRCode { get; set; }
 		public float HeadPosition { get; set; }
-		public int Bored { get; set; }
-		public int MovingDesire { get; set; }
-		public int InteractDesire { get; set; }
-		public int LearnDesire { get; set; }
-		public int TeachDesire { get; set; }
-		public int HelpDesire { get; set; }
+		//public int Bored { get; set; }
+		public int mMovingDesire;
+		public int mInteractDesire;
+		public int mLearnDesire;
+		public int mTeachDesire;
+		public int mHelpDesire;
 
 		public bool ChargeAsked { get; set; }
 		public string LastApp { get; set; }

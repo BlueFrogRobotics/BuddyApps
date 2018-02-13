@@ -26,6 +26,8 @@ namespace BuddyApp.Companion
 		protected DesireManager mDesireManager;
 		protected ActionManager mActionManager;
 
+		protected string mActionTrigger;
+
 		//public DetectionManager DetectionManager { get; set; }
 		//public ActionManager ActionManager { get; set; }
 

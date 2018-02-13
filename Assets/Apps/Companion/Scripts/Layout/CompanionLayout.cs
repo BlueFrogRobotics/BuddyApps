@@ -8,6 +8,9 @@ namespace BuddyApp.Companion
 	{
 		private Gauge mMovingDesire;
 		private Gauge mInteractDesire;
+		private Gauge mTeachDesire;
+		private Gauge mLearnDesire;
+		private Gauge mHelpDesire;
 		private Gauge mHeadAngle;
 		private OnOff mWheelsMotion;
 		private OnOff mHeadMotion;
@@ -21,8 +24,11 @@ namespace BuddyApp.Companion
 
 		public override void Update()
 		{
-			mMovingDesire.Slider.value = CompanionData.Instance.MovingDesire;
-			mInteractDesire.Slider.value = CompanionData.Instance.InteractDesire;
+			mMovingDesire.Slider.value = CompanionData.Instance.mMovingDesire;
+			mInteractDesire.Slider.value = CompanionData.Instance.mInteractDesire;
+			mTeachDesire.Slider.value = CompanionData.Instance.mTeachDesire;
+			mLearnDesire.Slider.value = CompanionData.Instance.mLearnDesire;
+			mHelpDesire.Slider.value = CompanionData.Instance.mHelpDesire;
 			mHeadAngle.Slider.value = CompanionData.Instance.HeadPosition;
         }
 
@@ -42,6 +48,9 @@ namespace BuddyApp.Companion
 
 			mMovingDesire = CreateWidget<Gauge>();
 			mInteractDesire = CreateWidget<Gauge>();
+			mTeachDesire = CreateWidget<Gauge>();
+			mLearnDesire = CreateWidget<Gauge>();
+			mHelpDesire = CreateWidget<Gauge>();
 			mHeadAngle = CreateWidget<Gauge>();
 			mWheelsMotion = CreateWidget<OnOff>();
 			mHeadMotion = CreateWidget<OnOff>();
@@ -63,6 +72,21 @@ namespace BuddyApp.Companion
 			mInteractDesire.Slider.wholeNumbers = true;
 			mInteractDesire.DisplayPercentage = true; /* Only the display will be in percentage, the value will still be within 0 and 10 */
 
+			mTeachDesire.Slider.minValue = 0;
+			mTeachDesire.Slider.maxValue = 100;
+			mTeachDesire.Slider.wholeNumbers = true;
+			mTeachDesire.DisplayPercentage = true; /* Only the display will be in percentage, the value will still be within 0 and 10 */
+
+			mLearnDesire.Slider.minValue = 0;
+			mLearnDesire.Slider.maxValue = 100;
+			mLearnDesire.Slider.wholeNumbers = true;
+			mLearnDesire.DisplayPercentage = true; /* Only the display will be in percentage, the value will still be within 0 and 10 */
+
+			mHelpDesire.Slider.minValue = 0;
+			mHelpDesire.Slider.maxValue = 100;
+			mHelpDesire.Slider.wholeNumbers = true;
+			mHelpDesire.DisplayPercentage = true; /* Only the display will be in percentage, the value will still be within 0 and 10 */
+
 			mHeadAngle.Slider.minValue = -30;
 			mHeadAngle.Slider.maxValue = 60;
 			mHeadAngle.Slider.wholeNumbers = true;
@@ -78,8 +102,11 @@ namespace BuddyApp.Companion
 			mTrigger.IsActive = CompanionData.Instance.CanTrigger;
 			mTriggerWander.IsActive = CompanionData.Instance.CanTriggerWander;
 			mDebug.IsActive = CompanionData.Instance.Debug;
-			mMovingDesire.Slider.value = CompanionData.Instance.MovingDesire;
-			mInteractDesire.Slider.value = CompanionData.Instance.InteractDesire;
+			mMovingDesire.Slider.value = CompanionData.Instance.mMovingDesire;
+			mInteractDesire.Slider.value = CompanionData.Instance.mInteractDesire;
+			mLearnDesire.Slider.value = CompanionData.Instance.mLearnDesire;
+			mHelpDesire.Slider.value = CompanionData.Instance.mHelpDesire;
+			mTeachDesire.Slider.value = CompanionData.Instance.mTeachDesire;
 			mHeadAngle.Slider.value = CompanionData.Instance.HeadPosition;
 
 			//mState.AddOption("IDLE");
@@ -110,21 +137,29 @@ namespace BuddyApp.Companion
 
 			//         });
 
-			Debug.Log("test3");
-
 			mMovingDesire.OnUpdateEvent((iVal) => {
-				CompanionData.Instance.MovingDesire = iVal;
+				CompanionData.Instance.mMovingDesire = iVal;
 			});
 
-
 			mInteractDesire.OnUpdateEvent((iVal) => {
-				CompanionData.Instance.InteractDesire = iVal;
+				CompanionData.Instance.mInteractDesire = iVal;
+			});
+			
+			mLearnDesire.OnUpdateEvent((iVal) => {
+				CompanionData.Instance.mLearnDesire = iVal;
+			});
+
+			mHelpDesire.OnUpdateEvent((iVal) => {
+				CompanionData.Instance.mHelpDesire = iVal;
+			});
+
+			mTeachDesire.OnUpdateEvent((iVal) => {
+				CompanionData.Instance.mTeachDesire = iVal;
 			});
 
 			mHeadAngle.OnUpdateEvent((iVal) => {
 				CompanionData.Instance.HeadPosition = iVal;
 			});
-
 
 			mWheelsMotion.OnSwitchEvent((iVal) => {
 				CompanionData.Instance.CanMoveBody = iVal;
@@ -150,14 +185,15 @@ namespace BuddyApp.Companion
                 mState.enabled = iVal;
 			});
 
-			Debug.Log("test4");
-
 		}
 
 		public override void LabelizeWidgets()
 		{
 			mMovingDesire.Label = BYOS.Instance.Dictionary.GetString("wanderdesire");
 			mInteractDesire.Label = BYOS.Instance.Dictionary.GetString("interactdesire");
+			mTeachDesire.Label = BYOS.Instance.Dictionary.GetString("teachdesire");
+			mHelpDesire.Label = BYOS.Instance.Dictionary.GetString("helpdesire");
+			mLearnDesire.Label = BYOS.Instance.Dictionary.GetString("learndesire");
 			mHeadAngle.Label = "default head angle";
             mTrigger.Label = BYOS.Instance.Dictionary.GetString("cantrigger");
 			mTriggerWander.Label = BYOS.Instance.Dictionary.GetString("cantrigger") + " wander";

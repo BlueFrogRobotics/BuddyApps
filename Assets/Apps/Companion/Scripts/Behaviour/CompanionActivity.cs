@@ -17,6 +17,11 @@ namespace BuddyApp.Companion
 			//BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(0.7F);
 		}
 
+		public override void OnFailStartApp(string iAppIdentifier)
+		{
+			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("faillaunchapp").Replace("[app]", iAppIdentifier), true);
+		}
+
 		public override void OnStart()
 		{
 			Utils.LogI(LogContext.APP, "On  start...");

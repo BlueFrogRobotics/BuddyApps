@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.Companion
 {
-	public class ProposeGame : AStateMachineBehaviour
+	public class AskInfo : AStateMachineBehaviour
 	{
 		private bool mNoGame;
 
