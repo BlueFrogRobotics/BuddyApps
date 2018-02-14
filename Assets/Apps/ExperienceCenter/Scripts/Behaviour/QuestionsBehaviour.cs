@@ -74,7 +74,7 @@ namespace BuddyApp.ExperienceCenter
 			mStartSTTCoroutine = true;
 			while (!behaviourEnd)
 			{
-				if (!BYOS.Instance.Interaction.VocalManager.RecognitionFinished && mStartSTTCoroutine)
+				if (!mVocalManager.RecognitionFinished && mStartSTTCoroutine)
 				{
 					OnSphinxTrigger();
 
@@ -154,6 +154,7 @@ namespace BuddyApp.ExperienceCenter
 
 		private IEnumerator EnableSpeechToText ()
 		{
+			mVocalManager.EnableTrigger = false;
 			mStartSTTCoroutine = false;
 			mRestartSTT = true;
 			mLaunchSTTOnce = false;
@@ -183,6 +184,7 @@ namespace BuddyApp.ExperienceCenter
 			}
 			yield return new WaitForSeconds(1.0f);
 			mStartSTTCoroutine = true;
+			mVocalManager.EnableTrigger = true;
 		}
 
 		public void ErrorCallback (STTError iError)
