@@ -32,7 +32,7 @@ namespace BuddyApp.ExperienceCenter
 
 			mDistance = 5F; 
 			if (ExperienceCenterData.Instance.EnableBaseMovement) {
-				BYOS.Instance.Navigation.RandomWalk.StartWander (MoodType.HAPPY);
+				BYOS.Instance.Navigation.RandomWalk.StartWander (MoodType.NEUTRAL);
 			} else {
 				behaviourEnd = true;
 			}
