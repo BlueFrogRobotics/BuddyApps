@@ -38,80 +38,59 @@ namespace BuddyApp.Companion
 		// Update desires
 		void Update()
 		{
-
-			//	NONE
-			//	WANDER,
-			//DANCE,
-			//FOLLOW,
-			//GAME,
-			//EDUTAINMENT,
-			//SERVICE,
-			//JOKE,
-			//CHAT,
-			//TOUCH_INTERACT,
-			//LOOK_FOR_USER,
-			//ASK_USER_PROFILE,
-			//INFORM_WEATHER,
-			//INFORM_MOOD
-
-			if (Time.time - mPreviousTime > 1F) {
-
-				int lRand = UnityEngine.Random.Range(0, 5);
-
-				switch (mActionManager.CurrentAction) {
+			if (GetMaxDesireValue() < 100) {
 
 
-					case BUDDY_ACTION.NONE:
-						UpdateDesire(3, 2, 2, 1, 1);
-						break;
+				if (Time.time - mPreviousTime > 1F) {
+					mPreviousTime = Time.time;
+					int lRand = UnityEngine.Random.Range(0, 5);
 
-					case BUDDY_ACTION.WANDER:
-						UpdateDesire(-2, 2, 2, 1, 1);
-						break;
+					switch (mActionManager.CurrentAction) {
 
-					case BUDDY_ACTION.DANCE:
-						UpdateDesire(-5, 1, 1, 1, 1);
-						break;
 
-					case BUDDY_ACTION.FOLLOW:
+						case BUDDY_ACTION.NONE:
+							UpdateDesire(3, 2, 2, 1, 1);
+							break;
 
-						UpdateDesire(-1, 3, 1, 2, 2);
-						break;
+						case BUDDY_ACTION.WANDER:
+							UpdateDesire(-2, 2, 2, 1, 1);
+							break;
 
-					case BUDDY_ACTION.LOOK_FOR_USER:
-						UpdateDesire(-2, 1, 3, 0, 2);
-						break;
+						case BUDDY_ACTION.DANCE:
+							UpdateDesire(-5, 1, 1, 1, 1);
+							break;
 
-					case BUDDY_ACTION.CHAT:
-						UpdateDesire(1, 0, -1, -1, -1);
-						break;
+						case BUDDY_ACTION.FOLLOW:
 
-					case BUDDY_ACTION.TOUCH_INTERACT:
-						UpdateDesire(1, 2, 1, 2, 0);
-						break;
+							UpdateDesire(-1, 3, 1, 2, 2);
+							break;
 
-					case BUDDY_ACTION.ASK_USER_PROFILE:
-						UpdateDesire(2, 1, 1, -5, 1);
-						break;
+						case BUDDY_ACTION.LOOK_FOR_USER:
+							UpdateDesire(-2, 1, 3, 0, 2);
+							break;
 
-					case BUDDY_ACTION.INFORM_MOOD:
-						UpdateDesire(-2, 2, 2, 1, 1);
-						break;
+						case BUDDY_ACTION.CHAT:
+							UpdateDesire(1, 0, -1, -1, -1);
+							break;
 
-					default:
-						break;
+						case BUDDY_ACTION.TOUCH_INTERACT:
+							UpdateDesire(1, 2, 1, 2, 0);
+							break;
 
+						case BUDDY_ACTION.ASK_USER_PROFILE:
+							UpdateDesire(2, 1, 1, -5, 1);
+							break;
+
+						case BUDDY_ACTION.INFORM_MOOD:
+							UpdateDesire(-2, 2, 2, 1, 1);
+							break;
+
+						default:
+							break;
+					}
 				}
 
 				NormalizeDesires();
-
-
-
-
-				if (mCompaData.mMovingDesire >= 100)
-					mCompaData.mMovingDesire = 100;
-
-
 			}
 		}
 

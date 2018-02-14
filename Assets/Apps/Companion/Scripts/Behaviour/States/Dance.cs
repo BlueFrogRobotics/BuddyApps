@@ -38,7 +38,6 @@ namespace BuddyApp.Companion
 		{
 
 			if ((Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.DonePlaying) || mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH) {
-				// TODO: if not interupted, reduce move desire?
 				mActionManager.StopAllBML();
 
 				if (mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH) {
