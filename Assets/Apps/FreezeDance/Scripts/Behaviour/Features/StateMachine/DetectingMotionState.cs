@@ -70,6 +70,7 @@ namespace BuddyApp.FreezeDance
 
         private void OnDetect()
         {
+            BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
             mHasDetected = true;
         }
     }
