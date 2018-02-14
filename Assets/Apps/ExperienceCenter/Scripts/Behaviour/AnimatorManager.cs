@@ -104,6 +104,8 @@ namespace BuddyApp.ExperienceCenter
 			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
 			BYOS.Instance.Interaction.VocalManager.OnError = AvoidLock;
 
+			BYOS.Instance.Interaction.Face.OnClickMouth.Add (MouthClicked);
+			StartCoroutine(ForceNeutralMood());
 		}
 
 		void Update ()
@@ -449,6 +451,26 @@ namespace BuddyApp.ExperienceCenter
 		{
 			BYOS.Instance.Primitive.Motors.Wheels.Locked = false;
 			Debug.LogWarningFormat ("[EXCENTER] ERROR STT: {0}", iError.ToString ());
+		}
+
+		public void MouthClicked()
+		{
+			string currentTrigger = GetTriggerString();
+			if(currentTrigger == "Idle" || currentTrigger == "ByeBye" || currentTrigger == "MoveForward")
+				ExperienceCenterData.Instance.RunTrigger = true;
+		}
+
+		private IEnumerator ForceNeutralMood()
+		{
+			Mood buddyMood = BYOS.Instance.Interaction.Mood;
+			VocalManager lVocalManager = BYOS.Instance.Interaction.VocalManager;
+			while(true)
+			{
+				Debug.LogFormat("[EXCENTER] Should set current mood to neutral ? {0} (current mood = {1})", lVocalManager.RecognitionFinished, buddyMood.CurrentMood);
+				if (lVocalManager.RecognitionFinished &&  buddyMood.CurrentMood!=MoodType.NEUTRAL)
+					buddyMood.Set(MoodType.NEUTRAL);
+				yield return new WaitForSeconds(0.5f);
+			}
 		}
 	}
 }

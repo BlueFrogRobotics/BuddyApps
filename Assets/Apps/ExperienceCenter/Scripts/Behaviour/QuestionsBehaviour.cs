@@ -46,9 +46,7 @@ namespace BuddyApp.ExperienceCenter
 
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
 
-			BYOS.Instance.Interaction.Face.OnClickMouth.Add (MouthClicked);
 			StartCoroutine (WatchSphinxTrigger ());
-			StartCoroutine(ForceNeutralMood());
 
 			InitKeyList ();
 		}
@@ -142,7 +140,6 @@ namespace BuddyApp.ExperienceCenter
 		public void StopBehaviour ()
 		{
 			Debug.LogWarning ("[EXCENTER] Stop Question Behaviour");
-			BYOS.Instance.Interaction.Face.OnClickMouth.Remove (MouthClicked);
 
 			if (!mTTS.HasFinishedTalking)
 				mTTS.Stop ();
@@ -196,24 +193,6 @@ namespace BuddyApp.ExperienceCenter
 				mRestartSTT = false;
 			} else
 				mLaunchSTTOnce = false;
-		}
-
-		private IEnumerator ForceNeutralMood()
-		{
-			Mood buddyMood = BYOS.Instance.Interaction.Mood;
-			MoodType current;
-			while(!behaviourEnd)
-			{
-				current = buddyMood.CurrentMood;
-				if (mVocalManager.RecognitionFinished && current!=MoodType.NEUTRAL)
-					buddyMood.Set(MoodType.NEUTRAL);
-				yield return new WaitForSeconds(0.5f);
-			}
-		}
-
-		public void MouthClicked()
-		{
-			ExperienceCenterData.Instance.RunTrigger = true;
 		}
 	}
 }
