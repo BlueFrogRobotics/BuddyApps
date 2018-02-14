@@ -39,6 +39,7 @@ namespace BuddyApp.Companion
 		TOUCHED,
 		LOOK_FOR_USER,
 		ASK_USER_PROFILE,
+		VOCAL_COMMAND,
 		INFORM_MOOD
 	}
 
@@ -120,7 +121,7 @@ namespace BuddyApp.Companion
 		//*  ACTIONS  *
 		//*************
 
-		// TODO may be better to return an element from a list of transitions
+		// TODO may be better to return an element from a list of transitions?
 		public string LaunchDesiredAction(COMPANION_STATE iState)
 		{
 			if (mDesireManager.GetMaxDesireValue() > 40) {
@@ -128,42 +129,73 @@ namespace BuddyApp.Companion
 
 					// TODO: add state propose interact to ask for caress or propose game or ...
 					case DESIRE.INTERACT:
-						if (mDetectionManager.UserPresent(iState))
-							return "PROPOSEINTERACT";
+						if (!mDetectionManager.UserPresent(iState))
+							if (CompanionData.Instance.CanMoveBody)
+								return "LOOKINGFORSOMEONE";
+							else
+								return "IDLE";
+						else if (CompanionData.Instance.CanMoveBody && CompanionData.Instance.mMovingDesire > 80)
+							return "FOLLOW";
+						else if (BYOS.Instance.Interaction.InternalState.Positivity > 3)
+							if (CompanionData.Instance.mLearnDesire > CompanionData.Instance.mTeachDesire)
+								return "ASKJOKE";
+							else
+								return "TELLJOKE";
 						else
-							return "LOOKFORUSER";
+							return "PROPOSEGAME";
 
 					case DESIRE.MOVE:
-						//TODO: add follow
 						// if Buddy happy and user present, raise chances of dance:
-						int lChancesToDance = BYOS.Instance.Interaction.InternalState.Positivity;
-						if (mDetectionManager.UserPresent(iState))
-							lChancesToDance += 3;
+						if (CompanionData.Instance.CanMoveBody) {
 
-						int lRand = UnityEngine.Random.Range(0, 9);
-						if (lRand < lChancesToDance)
-							return "DANCE";
-						else
-							return "WANDER";
+							int lChancesToDance = BYOS.Instance.Interaction.InternalState.Positivity;
+							if (mDetectionManager.UserPresent(iState))
+								lChancesToDance += 3;
+
+							int lRand = UnityEngine.Random.Range(0, 9);
+							if (lRand < lChancesToDance)
+								return "DANCE";
+							else
+								return "WANDER";
+						} else
+							// TODO maybe use 2cd highest desire?
+							return "IDLE";
 
 					// TODO: add this
 					case DESIRE.TEACH:
 						if (mDetectionManager.UserPresent(iState))
-							return "TEACH";
+							if (CompanionData.Instance.mHelpDesire > CompanionData.Instance.mInteractDesire)
+								return "INFORM";
+							else
+								return "PROPOSEEDUTAINMENT";
+						else if (CompanionData.Instance.CanMoveBody)
+							return "LOOKINGFORSOMEONE";
 						else
-							return "LOOKFORUSER";
+							return "IDLE";
 
 					case DESIRE.HELP:
 						if (mDetectionManager.UserPresent(iState))
-							return "HELP";
+							if (CompanionData.Instance.mTeachDesire > CompanionData.Instance.mInteractDesire)
+								return "INFORM";
+							else
+								return "PROPOSESERVICE";
+						else if (CompanionData.Instance.CanMoveBody)
+							return "LOOKINGFORSOMEONE";
 						else
-							return "LOOKFORUSER";
+							return "IDLE";
 
 					case DESIRE.LEARN:
 						if (mDetectionManager.UserPresent(iState))
-							return "LEARN";
+
+							//TODO: Check how much info we have on present person
+							if (BYOS.Instance.Interaction.InternalState.Positivity > 5 && CompanionData.Instance.mInteractDesire < 50)
+								return "ASKJOKE";
+							else
+								return "ASKINFO";
+						else if (CompanionData.Instance.CanMoveBody)
+							return "LOOKINGFORSOMEONE";
 						else
-							return "LOOKFORUSER";
+							return "IDLE";
 
 					default:
 						return "IDLE";
