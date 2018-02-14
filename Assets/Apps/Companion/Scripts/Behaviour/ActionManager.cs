@@ -23,7 +23,7 @@ namespace BuddyApp.Companion
 		TOUCH_INTERACT,
 		LOOK_FOR_USER,
 		ASK_USER_PROFILE,
-		INFORM_WEATHER,
+		INFORM,
 		INFORM_MOOD
 	}
 

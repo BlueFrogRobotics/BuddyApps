@@ -161,6 +161,7 @@ namespace BuddyApp.Companion
 				if (CompanionData.Instance.mMovingDesire < 5) {
 					string lTrigger = mActionManager.LaunchDesiredAction(COMPANION_STATE.WANDER);
 					if (!string.IsNullOrEmpty(lTrigger)) {
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, -3, "moodwander", "WANDEREND", EmotionalEventType.FULFILLED_DESIRE, InternalMood.RELAXED));
 						Trigger(lTrigger);
 					}
 				}

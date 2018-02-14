@@ -219,9 +219,6 @@ namespace BuddyApp.Companion
 
 			switch (iType) {
 
-
-
-
 				case "Accept":
 					Debug.Log("Accept VocalTrigger");
 					SayKey("ilisten");
@@ -250,6 +247,12 @@ namespace BuddyApp.Companion
 				case "Babyphone":
 					CompanionData.Instance.mInteractDesire -= 10;
 					StartApp("BabyPhone", mLastHumanSpeech);
+					break;
+
+				case "Battery":
+					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("informbattery")
+						.Replace("[batterylevel]", BYOS.Instance.Primitive.Battery.EnergyLevel.ToString()));
+					mNeedListen = true;
 					break;
 
 				case "BML":
@@ -484,11 +487,7 @@ namespace BuddyApp.Companion
 					break;
 
 				case "Joke":
-					Debug.Log("Playing BML joke");
-					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, 1, "moodjoke", "JOKE", EmotionalEventType.INTERACTION, InternalMood.EXCITED));
-
-					Interaction.BMLManager.LaunchRandom("joke");
-					mNeedListen = true;
+					Trigger("TELLJOKE");
 					break;
 
 				case "Jukebox":

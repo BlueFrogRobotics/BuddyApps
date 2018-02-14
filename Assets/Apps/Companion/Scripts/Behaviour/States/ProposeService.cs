@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.Companion
 {
-	public class ProposeGame : AStateMachineBehaviour
+	public class ProposeService : AStateMachineBehaviour
 	{
 		private bool mNoGame;
 
@@ -37,12 +37,14 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mState.text = "Propose Game";
+			//TODO!!! 
+			mState.text = "Propose Service";
+			mActionManager.CurrentAction = BUDDY_ACTION.SERVICE;
 
 			mProposal = RandomProposal(mKeyOptions);
 
             mDetectionManager.mDetectedElement = Detected.NONE;
-			mActionManager.CurrentAction = BUDDY_ACTION.GAME;
+            mState.text = "Propose Game";
             mTime = 0F;
 			mNoGame = false;
             Interaction.Mood.Set(MoodType.HAPPY);

@@ -1273,7 +1273,8 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>You asked me to dance and I like it!</string>
+                <string>I like to dance!</string>
+                <string>I danced!</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -1409,6 +1410,26 @@
             <RandomValues>
                 <string>I couldn't launch the application [app]. [300] Are you sure it is installed on my system?</string>
                 <string> I didn't learn to launch the application [app]. [200] You need to add it to my system!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>informbattery</Key>
+            <BaseValue>Battery level at [batterylevel]%</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>My Battery level is at [batterylevel] percent</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>moodjokestop</Key>
+            <BaseValue>You stopped my joke</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>You stopped me while I was telling a joke...</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

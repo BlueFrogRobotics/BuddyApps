@@ -9,10 +9,9 @@ using UnityEngine.UI;
 
 namespace BuddyApp.Companion
 {
-	public class AskInfo : AStateMachineBehaviour
+	public class AskJoke : AStateMachineBehaviour
 	{
 		
-
 
         public override void Start()
 		{
@@ -24,19 +23,17 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-
-			mState.text = "ask user profile";
+			mState.text = "Ask Joke";
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
-			mActionManager.CurrentAction = BUDDY_ACTION.ASK_USER_PROFILE;
+			mActionManager.CurrentAction = BUDDY_ACTION.JOKE;
 
-
-			//TODO: ask a missing info on current user
-
+			//TODO: ask for a joke, listen, laugh...
 		}
 
-		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -45,6 +42,6 @@ namespace BuddyApp.Companion
 			mActionManager.CurrentAction = BUDDY_ACTION.CHAT;
 		}
 
-       
+     
 	}
 }

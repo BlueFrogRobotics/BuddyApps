@@ -41,10 +41,8 @@ namespace BuddyApp.Companion
 
 			//		} else if (lTimeInApp < 100F) {
 			//			CompanionData.Instance.mTeachDesire -= 50;
-			//			// user changed his mind? go to propose edutainment?
 			//		} else {
 			//			CompanionData.Instance.mTeachDesire = 0;
-			//			// user changed his mind? go to propose edutainment?
 			//		}
 
 

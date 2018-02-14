@@ -45,6 +45,7 @@ namespace BuddyApp.Companion
 			// if no more after some time, go away (desiredAction?).
 			// Otherwise, just keep reacting, say some stuff...
 
+			mState.text = "Robot Touched " + mDetectionManager.mFacePartTouched;
 
 			if (mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH || mDetectionManager.mDetectedElement == Detected.TRIGGER)
 				Trigger("VOCALCOMMAND");
@@ -96,7 +97,10 @@ namespace BuddyApp.Companion
 
 			if (mLastTouchTime > 10F) {
 				// if nothing for 10s
-				Trigger("INTERACT");
+				if (mFaceCounter > 2 && mEyeCounter < 2)
+					Trigger("FOLLOW");
+				else
+					Trigger("INTERACT");
 			}
 
 			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
