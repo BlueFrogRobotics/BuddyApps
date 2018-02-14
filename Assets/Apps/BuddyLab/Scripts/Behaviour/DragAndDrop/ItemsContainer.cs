@@ -65,14 +65,45 @@ namespace BuddyApp.BuddyLab
                 if (iItem.OnlyDroppable)
                 {
                     Debug.Log("clone item droppe");
-                    GameObject lItem = Instantiate(iItem.gameObject);
-                    lItem.transform.SetParent(this.transform);
-                    lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
-                    lItem.transform.SetSiblingIndex(iIndex);
+                    if (CheckIfLoopItem(iItem, iIndex))
+                    {
+                        GameObject lItem = Instantiate(iItem.gameObject);
+                        lItem.transform.SetParent(this.transform);
+                        lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
+                        lItem.transform.SetSiblingIndex(iIndex);
+                        if (lItem.GetComponent<LoopItem>() != null)
+                        {
+                            lItem.GetComponent<LoopItem>().InitLoop(this.transform);
+                        }
+                    }
                 }
                 //if (!DropOnly)
                 //d.OnlyDroppable = false;
             }
+        }
+
+        public bool CheckIfLoopItem(DraggableItem iItem, int iIndex)
+        {
+            bool lCan = true;
+            Debug.Log("child count: " + transform.childCount);
+            Debug.Log("index: " + iIndex);
+            if (iItem.GetComponent<LoopItem>() == null)
+            {
+                lCan = true;
+                Debug.Log("1");
+            }
+            else if (transform.childCount < 4 || iIndex==1)
+            {
+                lCan = false;
+                Debug.Log("2: "+ transform.childCount);
+            }
+            else if (transform.GetChild(iIndex - 1).GetComponent<LoopItem>() != null )
+            {
+                lCan = false;
+                Debug.Log("3");
+            }
+
+            return lCan;
         }
 
     }

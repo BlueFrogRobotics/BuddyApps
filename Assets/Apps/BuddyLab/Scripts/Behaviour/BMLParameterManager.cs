@@ -37,8 +37,8 @@ namespace BuddyApp.BuddyLab
         public void ShowWindow()
         {
             Debug.Log("le show button");
-            DragAndDropCell lCell = GetComponentInParent<DragAndDropCell>();
-            if(lCell!=null && lCell.cellType==DragAndDropCell.CellType.Swap)
+            DraggableItem lItem = GetComponentInParent<DraggableItem>();
+            if(lItem!=null && !lItem.OnlyDroppable)
             {
                 float lNumParameter = 0;
                 float.TryParse(GetComponent<ABLItem>().Parameter, out lNumParameter);

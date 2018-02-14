@@ -39,8 +39,8 @@ namespace BuddyApp.BuddyLab
 
         public void ShowField()
         {
-            DragAndDropCell lCell = GetComponentInParent<DragAndDropCell>();
-            if (lCell != null && lCell.cellType == DragAndDropCell.CellType.Swap)
+            DraggableItem lCell = GetComponentInParent<DraggableItem>();
+            if (lCell != null && !lCell.OnlyDroppable)
             {
                 Placeholder.GetComponent<Text>().text = ""; 
                 buttonValidate.onClick.AddListener(Validate);

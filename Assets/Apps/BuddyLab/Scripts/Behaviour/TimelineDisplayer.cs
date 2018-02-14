@@ -48,7 +48,9 @@ namespace BuddyApp.BuddyLab
             {
                 Debug.Log("sequence nul apres update!");
             }
+            Debug.Log("avant path");
             string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("Projects/" + iFileName);
+            Debug.Log("apres path: "+ lDirectoryPath);
             mListBLI = Utils.UnserializeXML<ListBLI>(lDirectoryPath);
             Debug.Log("elements dans la liste: "+mListBLI.List.Count);
             HighlightElement(0);
@@ -77,7 +79,7 @@ namespace BuddyApp.BuddyLab
                 else
                     mSequence.transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 1F;
                 //Debug.Log("miaou 2");
-                DragAndDropCell[] items = mSequence.GetComponentsInChildren<DragAndDropCell>();
+                DraggableItem[] items = mSequence.GetComponentsInChildren<DraggableItem>();
                 //Debug.Log("miaou 3");
                 for (int i = 0; i < items.Length; i++)
                 {
@@ -85,7 +87,7 @@ namespace BuddyApp.BuddyLab
                     {
                         mSequence.GetComponent<RectTransform>().localPosition = new Vector3(-1 * items[i].transform.localPosition.x, 80, 0);
                         items[i].gameObject.GetComponent<CanvasGroup>().alpha = 1;
-                        items[i].transform.GetChild(0).gameObject.SetActive(true);
+                        items[i].transform.GetChild(1).gameObject.SetActive(true);
                         //if(items[i].gameObject.GetComponentInChildren<DragAndDropItem>().LoopItem!=null)
                         //{
                         //    Debug.Log("DES CHIIIIIIPS!");
@@ -100,7 +102,7 @@ namespace BuddyApp.BuddyLab
                     else
                     {
                         items[i].gameObject.GetComponent<CanvasGroup>().alpha = 0.25F;
-                        items[i].transform.GetChild(0).gameObject.SetActive(false);
+                        items[i].transform.GetChild(1).gameObject.SetActive(false);
                     }
                 }
             }
