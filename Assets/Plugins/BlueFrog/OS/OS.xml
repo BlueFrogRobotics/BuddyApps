@@ -622,46 +622,6 @@
             <param name="iSecondVersion">Second version string</param>
             <returns>Compared value</returns>
         </member>
-        <member name="T:Buddy.Internal.AppManagement.AppCategory">
-            <summary>
-            Represents the different app categories
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.COMPANION">
-            <summary>
-            Companion category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.EDUTAINMENT">
-            <summary>
-            Edutainment category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.GAME">
-            <summary>
-            Game category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.MULTIMEDIA">
-            <summary>
-            Multimedia category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.UTILITY">
-            <summary>
-            Utility category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.SECURITY">
-            <summary>
-            Security category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.OTHER">
-            <summary>
-            Other category
-            </summary>
-        </member>
         <member name="T:Buddy.Internal.AppManagement.VocalKeys">
             <summary>
             Reprensts the differents vocal keys by language to trigger the application
@@ -4750,6 +4710,46 @@
             </summary>
             <typeparam name="T">Type of your data class</typeparam>
             <returns>Your data object</returns>
+        </member>
+        <member name="T:Buddy.AppCategory">
+            <summary>
+            Represents the different app categories
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.COMPANION">
+            <summary>
+            Companion category
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.EDUTAINMENT">
+            <summary>
+            Edutainment category
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.GAME">
+            <summary>
+            Game category
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.MULTIMEDIA">
+            <summary>
+            Multimedia category
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.UTILITY">
+            <summary>
+            Utility category
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.SECURITY">
+            <summary>
+            Security category
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.OTHER">
+            <summary>
+            Other category
+            </summary>
         </member>
         <member name="M:Buddy.AppUtils.GetAppCategory(System.String)">
             <summary>
