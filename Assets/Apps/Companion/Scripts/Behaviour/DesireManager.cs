@@ -14,7 +14,8 @@ namespace BuddyApp.Companion
 		INTERACT,
 		TEACH,
 		LEARN,
-		HELP
+		HELP,
+		EXPRESSMOOD
 	}
 
 	/// <summary>
@@ -43,7 +44,8 @@ namespace BuddyApp.Companion
 
 				if (Time.time - mPreviousTime > 1F) {
 					mPreviousTime = Time.time;
-					int lRand = UnityEngine.Random.Range(0, 5);
+
+					
 
 					switch (mActionManager.CurrentAction) {
 
@@ -120,6 +122,10 @@ namespace BuddyApp.Companion
 
 		public DESIRE GetMainDesire()
 		{
+			if(Math.Max(Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity), Math.Abs(BYOS.Instance.Interaction.InternalState.Energy)) > 4) {
+				return DESIRE.EXPRESSMOOD;
+			}
+
 			if (IsMaxDesire(mCompaData.mInteractDesire))
 				return DESIRE.INTERACT;
 
@@ -143,6 +149,10 @@ namespace BuddyApp.Companion
 
 		public int GetMaxDesireValue()
 		{
+			int lMaxInternalValue = Math.Max(Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity), Math.Abs(BYOS.Instance.Interaction.InternalState.Energy));
+			if (lMaxInternalValue > 4)
+				return Math.Min(lMaxInternalValue, 100);
+
 			return Math.Max(mCompaData.mInteractDesire, Math.Max(mCompaData.mHelpDesire, Math.Max(mCompaData.mLearnDesire, Math.Max(mCompaData.mMovingDesire, mCompaData.mTeachDesire))));
 		}
 

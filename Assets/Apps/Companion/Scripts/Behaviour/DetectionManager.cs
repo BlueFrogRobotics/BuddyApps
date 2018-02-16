@@ -43,8 +43,8 @@ namespace BuddyApp.Companion
 		public const float MAX_MOVEMENT_THRESHOLD = 4.0F;
 		public const int MIN_TEMP = 25;
 
-		public Detected mDetectedElement;
-		public FaceTouch mFacePartTouched;
+		internal Detected mDetectedElement;
+		internal FaceTouch mFacePartTouched;
 
 		//private Animator mAnimator;
 		private KidnappingDetection mKidnappingDetection;

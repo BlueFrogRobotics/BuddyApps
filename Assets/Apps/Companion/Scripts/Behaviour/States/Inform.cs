@@ -11,10 +11,10 @@ namespace BuddyApp.Companion
 {
 	public class Inform : AStateMachineBehaviour
 	{
-		
 
 
-        public override void Start()
+
+		public override void Start()
 		{
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
@@ -42,11 +42,17 @@ namespace BuddyApp.Companion
 
 		}
 
-        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			if ((Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.DonePlaying) || mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH) {
-				// TODO: if not interupted, reduce teach desire?
 				mActionManager.StopAllBML();
+
+				if (mDetectionManager.mDetectedElement != Detected.MOUTH_TOUCH) {
+					// satisfaction
+					//BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, -1, "mooddance", "DANCE", EmotionalEventType.FULFILLED_DESIRE, InternalMood.RELAXED));
+					CompanionData.Instance.mTeachDesire -= 40;
+					CompanionData.Instance.mHelpDesire -= 20;
+				}
 				Trigger("VOCALCOMMAND");
 			}
 		}
@@ -56,6 +62,6 @@ namespace BuddyApp.Companion
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.CHAT;
 		}
-		
+
 	}
 }

@@ -18,42 +18,78 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mState.text = "Landing";
-			Debug.Log("state: Landing");
-		}
-
-		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-		{
+			Debug.Log("state: Landing ");
 
 			float lTimeInApp = Time.time - CompanionData.Instance.LastAppTime;
 
 
 			//TODO: check when the robot was turn on for 1st wake up!
+			// check time os on
 
-			if (lTimeInApp < 0.5F)
+			// Logs
+			System.IO.File.AppendAllText(Resources.GetPathToRaw("appLog.txt"), CompanionData.Instance.LastApp + " " + lTimeInApp.ToString("hh:mm:ss"));
+			Debug.Log("log file at " + Resources.GetPathToRaw("appLog.txt"));
+
+			if (lTimeInApp < 0.5F) {
 				Debug.Log("Warning, the app " + CompanionData.Instance.LastApp + " ran for less than 0.5 seconds. It may be an error??");
+				BYOS.Instance.Interaction.Mood.Set(MoodType.SICK);
+			}
+
+			else if (lTimeInApp < 10F && CompanionData.Instance.LastApp != "Weather" && CompanionData.Instance.LastApp != "Timer" && CompanionData.Instance.LastApp != "Reminder") {
+				BYOS.Instance.Interaction.TextToSpeech.SayKey("appcancelled");
+				BYOS.Instance.Interaction.Mood.Set(MoodType.THINKING);
+			}
 
 			// When we arrive in companion, depending on the previous application, we propose another request or...
-			//switch (BYOS.AppUtils.GetAppCategory(CompanionData.Instance.LastApp)) {
-			//	case "edutainment":
-			//		if (lTimeInApp < 10F) {
-			//			CompanionData.Instance.mTeachDesire += 15;
-			//			// user changed his mind? go to propose edutainment?
+			switch (AppUtils.GetAppCategory(CompanionData.Instance.LastApp)) {
 
-			//		} else if (lTimeInApp < 100F) {
-			//			CompanionData.Instance.mTeachDesire -= 50;
-			//		} else {
-			//			CompanionData.Instance.mTeachDesire = 0;
-			//		}
+				//case AppCategory.EDUTAINMENT:
+				//	if (lTimeInApp < 10F) {
+				//		CompanionData.Instance.mTeachDesire += 15;
+				//		// user changed his mind? go to propose edutainment?
+
+				//	} else if (lTimeInApp < 100F) {
+				//		CompanionData.Instance.mTeachDesire -= 50;
+				//	} else {
+				//		CompanionData.Instance.mTeachDesire = 0;
+				//	}
+
+				//	break;
+
+				//case AppCategory.GAME:
+				//	if (lTimeInApp < 10F) {
+				//		CompanionData.Instance.mInteractDesire += 15;
+				//		// user changed his mind? go to propose edutainment?
+
+				//	} else if (lTimeInApp < 100F) {
+				//		CompanionData.Instance.mInteractDesire -= 50;
+				//	} else {
+				//		CompanionData.Instance.mInteractDesire = 0;
+				//	}
+				//	break;
+
+				default:
+					if (lTimeInApp < 10F) {
+						CompanionData.Instance.mHelpDesire += 15;
+						// user changed his mind? go to propose edutainment?
+
+					} else if (lTimeInApp < 100F) {
+						CompanionData.Instance.mHelpDesire -= 50;
+					} else {
+						CompanionData.Instance.mHelpDesire = 0;
+					}
+					break;
 
 
-			//		break;
+			}
 
-			//	default:
-			//		break;
+		}
 
-			//}
+		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+		{
 
-			Trigger("Interact");
+			if (Interaction.TextToSpeech.HasFinishedTalking)
+				Trigger("INTERACT");
 		}
 
 	}

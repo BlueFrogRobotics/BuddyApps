@@ -23,6 +23,7 @@ namespace BuddyApp.Companion
 		public int mLearnDesire;
 		public int mTeachDesire;
 		public int mHelpDesire;
+		public int mExpressMoodDesire;
 
 		public bool ChargeAsked { get; set; }
 		public string LastApp { get; set; }

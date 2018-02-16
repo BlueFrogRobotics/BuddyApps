@@ -1,8 +1,6 @@
 ﻿using Buddy;
-using Buddy.UI;
 using Buddy.Command;
-using System;
-using System.Collections;
+using Buddy.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,126 +15,135 @@ namespace BuddyApp.Companion
 
 		private List<string> mKeyOptions;
 
-        private string mProposal = "";
+		private string mProposal;
 
-        private TextToSpeech mTTS = BYOS.Instance.Interaction.TextToSpeech;
+		private bool mNeedListen;
 
-
-        public override void Start()
+		public override void Start()
 		{
+			mProposal = "";
+			mKeyOptions = new List<string>();
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
 			mActionManager = GetComponent<ActionManager>();
 			mKeyOptions = new List<string>();
 			mKeyOptions.Add("memory");
 			mKeyOptions.Add("playmath");
-			mKeyOptions.Add("freezedance");
-			mKeyOptions.Add("rlgl");
 
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			//TODO 
+			mState.text = "Propose  edutain";
+			mNeedListen = true;
+			mProposal = mKeyOptions[UnityEngine.Random.Range(0, mKeyOptions.Count)];
 
-			mState.text = "Propose EDUTAINMENT";
 
-			mProposal = RandomProposal(mKeyOptions);
-
-            mDetectionManager.mDetectedElement = Detected.NONE;
-			mActionManager.CurrentAction = BUDDY_ACTION.EDUTAINMENT;
-
+			mDetectionManager.mDetectedElement = Detected.NONE;
+			mActionManager.CurrentAction = BUDDY_ACTION.GAME;
 			mTime = 0F;
 			mNoGame = false;
-            Interaction.Mood.Set(MoodType.HAPPY);
+			Interaction.Mood.Set(MoodType.HAPPY);
 
-            mTTS.Say(Dictionary.GetRandomString("attention") + " "+ Dictionary.GetRandomString("propose" + mProposal));
+			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("attention") + " " + Dictionary.GetRandomString("propose" + mProposal));
 
-            Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetRandomString(mProposal), YesAnswer, NoAnswer);
-        }
 
-        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
+			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
+
+			Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetRandomString(mProposal), YesAnswer, NoAnswer);
+		}
+
+		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mTime += Time.deltaTime;
 
 			if (mTime > 60F || mNoGame) {
-				iAnimator.SetTrigger("ASKNEWRQ");
+				iAnimator.SetTrigger("VOCALCOMMAND");
 			}
+
+			if (Interaction.TextToSpeech.HasFinishedTalking && mNeedListen) {
+				Interaction.VocalManager.StartInstantReco();
+				mNeedListen = false;
+			}
+
+		}
+
+		private void OnSpeechRecognition(string iMsg)
+		{
+			// TODO add emotion event
+			if (ContainsOneOf(iMsg, Dictionary.GetPhoneticStrings("yes")))
+				YesAnswer();
+			else if (ContainsOneOf(iMsg, Dictionary.GetPhoneticStrings("no")))
+				NoAnswer();
+			else
+				mNeedListen = true;
+		}
+
+		private void ErrorSTT(STTError iError)
+		{
+			mNeedListen = true;
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 		}
 
-        private void YesAnswer ()
-        {
-            mTTS.Say(Dictionary.GetRandomString("herewego"));
-            OnAnswer(mProposal);
-        }
+		private void YesAnswer()
+		{
+			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("herewego"));
+			OnAnswer(mProposal);
+		}
 
-        private void NoAnswer()
-        {
-            mTTS.Say(Dictionary.GetRandomString("nopb"));
-            OnAnswer("nogame");
-        }
-
-        private string RandomProposal(List<string> iProp)
-        {
-            string  lProp = "";
-            int lRdmOne = UnityEngine.Random.Range(1, 4);
-
-            switch (lRdmOne) {
-                case 1:
-                    lProp = "joke";
-                    break;
-                case 2:
-                    lProp = "dance";
-                    break;
-                case 3:
-                    lProp = iProp[UnityEngine.Random.Range(1, iProp.Count)] ;
-                    break;
-            }
-            return lProp;
-        }
+		private void NoAnswer()
+		{
+			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("nopb"));
+			OnAnswer("nogame");
+		}
 
 
 
 		void OnAnswer(string iAnswer)
 		{
-            switch (iAnswer) {
+			switch (iAnswer) {
 				case "playmath":
-					CompanionData.Instance.mInteractDesire -= 50;
+					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastApp = "PlayMath";
 					new StartAppCmd("PlayMath").Execute();
 					break;
 
-				case "freezedance":
-					CompanionData.Instance.mInteractDesire -= 50;
-					new StartAppCmd("FreezeDanceApp").Execute();
-					break;
-
-				case "rlgl":
-					CompanionData.Instance.mInteractDesire -= 50;
-					new StartAppCmd("RLGLApp").Execute();
-					break;
-
 				case "memory":
-					CompanionData.Instance.mInteractDesire -= 50;
+					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastApp = "MemoryGameApp";
 					new StartAppCmd("MemoryGameApp").Execute();
 					break;
-                case "jokes":
-                    CompanionData.Instance.mInteractDesire -= 30;
-                    Interaction.BMLManager.LaunchRandom("joke");
-                    break;
-                case "dance":
-                    CompanionData.Instance.mInteractDesire -= 30;
-                    Interaction.BMLManager.LaunchRandom("dance");
-                    break;
-                case "nogame":
-					CompanionData.Instance.mInteractDesire += 10;
+
+				case "nogame":
+					CompanionData.Instance.mTeachDesire += 10;
 					mNoGame = true;
 					break;
 			}
 		}
+
+		private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
+		{
+			iSpeech = iSpeech.ToLower();
+			for (int i = 0; i < iListSpeech.Length; ++i) {
+				string[] words = iListSpeech[i].Split(' ');
+				if (words.Length < 2) {
+					words = iSpeech.Split(' ');
+					foreach (string word in words) {
+						if (word == iListSpeech[i].ToLower()) {
+							return true;
+						}
+					}
+				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+					return true;
+			}
+			return false;
+		}
+
 	}
 }

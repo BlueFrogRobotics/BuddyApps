@@ -195,6 +195,7 @@ namespace BuddyApp.Companion
 			mNeedListen = true;
 			mSpeechInput = false;
 			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
+			Interaction.SpeechToText.OnErrorEnum.Remove(ErrorSTT);
 			mVocalChat.DisActivate();
 			mDetectionManager.StartSphinxTrigger();
 			mDetectionManager.mDetectedElement = Detected.NONE;
@@ -491,7 +492,6 @@ namespace BuddyApp.Companion
 					break;
 
 				case "Jukebox":
-					CompanionData.Instance.mInteractDesire -= 20;
 					StartApp("Jukebox", mLastHumanSpeech);
 					break;
 

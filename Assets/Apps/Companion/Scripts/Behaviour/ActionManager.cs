@@ -24,7 +24,8 @@ namespace BuddyApp.Companion
 		LOOK_FOR_USER,
 		ASK_USER_PROFILE,
 		INFORM,
-		INFORM_MOOD
+		INFORM_MOOD,
+		NOTIFY
 	}
 
 
@@ -126,6 +127,10 @@ namespace BuddyApp.Companion
 		{
 			if (mDesireManager.GetMaxDesireValue() > 40) {
 				switch (mDesireManager.GetMainDesire()) {
+
+
+					case DESIRE.EXPRESSMOOD:
+						return "EXPRESSMOOD";
 
 					// TODO: add state propose interact to ask for caress or propose game or ...
 					case DESIRE.INTERACT:
@@ -341,6 +346,7 @@ namespace BuddyApp.Companion
 				} else {
 					//TODO: play BML instead
 					Debug.Log("no action + face poked  -> play Surprise");
+					if(BYOS.Instance.Interaction.SpeechToText.HasFinished)
 					BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 					TimedMood(MoodType.SURPRISED);
 				}
@@ -410,7 +416,8 @@ namespace BuddyApp.Companion
 					Debug.Log("BML + eye poked -> play angry ");
 					TimedMood(MoodType.ANGRY);
 					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
-					BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
+					if (BYOS.Instance.Interaction.SpeechToText.HasFinished)
+						BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
 				}
 			} else if (BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.GRUMPY || BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.SALTY) {
 				if (!ActiveAction()) {
@@ -453,7 +460,7 @@ namespace BuddyApp.Companion
 					Debug.Log("No action + eye poked -> play random neutral BML");
 					BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
 					mTimeMood = Time.time;
-				} else
+				} else if (BYOS.Instance.Interaction.SpeechToText.HasFinished)
 					BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 
 

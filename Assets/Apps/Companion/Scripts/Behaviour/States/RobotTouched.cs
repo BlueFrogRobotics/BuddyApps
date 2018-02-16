@@ -45,7 +45,7 @@ namespace BuddyApp.Companion
 			// if no more after some time, go away (desiredAction?).
 			// Otherwise, just keep reacting, say some stuff...
 
-			mState.text = "Robot Touched " + mDetectionManager.mFacePartTouched;
+			mState.text = "Robot  Touched " + mDetectionManager.mFacePartTouched;
 
 			if (mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH || mDetectionManager.mDetectedElement == Detected.TRIGGER)
 				Trigger("VOCALCOMMAND");
@@ -58,7 +58,13 @@ namespace BuddyApp.Companion
 				mEyeCounter++;
 
 				mLastPartTouched = mDetectionManager.mFacePartTouched;
-				// TODO: ask to stop poking
+
+				if (mEyeCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking) {
+					Interaction.TextToSpeech.SayKey("stoppokeeye");
+				}
+
+
+
 			} else if (mDetectionManager.mFacePartTouched == FaceTouch.OTHER) {
 				mLastTouchTime = Time.time;
 				//React
@@ -66,7 +72,9 @@ namespace BuddyApp.Companion
 				mFaceCounter++;
 
 				mLastPartTouched = mDetectionManager.mFacePartTouched;
-				// TODO: then ask for more after some time if positivity < 3
+				if (mFaceCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking) {
+					Interaction.TextToSpeech.SayKey("ilikecaress");
+				}
 			}
 
 			// TO DO:
@@ -76,38 +84,40 @@ namespace BuddyApp.Companion
 
 				if (mLastPartTouched == FaceTouch.OTHER) {
 					if (mLastTouchTime > 5F) {
-						// TODO ask touch again if not enough positivity
+						// ask touch again if not enough positivity
+						if (Interaction.InternalState.Positivity < 3)
+							Interaction.TextToSpeech.SayKey("morecaress");
 						// else go back to User detected
-						Trigger("INTERACT");
+						else
+							Trigger("INTERACT");
 
 					} else {
 						// Say something from time to time according to mood
 					}
 
 				} else if (mLastPartTouched == FaceTouch.RIGHT_EYE || mLastPartTouched == FaceTouch.LEFT_EYE) {
-					
-					} if (mLastTouchTime > 4F){
+
+
+					if (mLastTouchTime > 4F) {
 						// thanks to stop poking according to mood
 					}
-					else if (mEyeCounter == 2) {
-					// ask to stop according to mood
+
 				}
 
+				if (mLastTouchTime > 7F) {
+					// if nothing for 10s
+					if (mFaceCounter > 2 && mEyeCounter < 2)
+						Trigger("FOLLOW");
+					else
+						Trigger("INTERACT");
+				}
+
+				mDetectionManager.mFacePartTouched = FaceTouch.NONE;
+				mDetectionManager.mDetectedElement = Detected.NONE;
+
+
+
 			}
-
-			if (mLastTouchTime > 10F) {
-				// if nothing for 10s
-				if (mFaceCounter > 2 && mEyeCounter < 2)
-					Trigger("FOLLOW");
-				else
-					Trigger("INTERACT");
-			}
-
-			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
-			mDetectionManager.mDetectedElement = Detected.NONE;
-
-
-
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
