@@ -45,7 +45,7 @@ namespace BuddyApp.Companion
 				if (Time.time - mPreviousTime > 1F) {
 					mPreviousTime = Time.time;
 
-					
+
 
 					switch (mActionManager.CurrentAction) {
 
@@ -122,11 +122,10 @@ namespace BuddyApp.Companion
 
 		public DESIRE GetMainDesire()
 		{
-			if(Math.Max(Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity), Math.Abs(BYOS.Instance.Interaction.InternalState.Energy)) > 4) {
+			if (Math.Max(Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity), Math.Abs(BYOS.Instance.Interaction.InternalState.Energy)) > 4 && mActionManager.LastMoodExpression > 200F)
 				return DESIRE.EXPRESSMOOD;
-			}
 
-			if (IsMaxDesire(mCompaData.mInteractDesire))
+			else if (IsMaxDesire(mCompaData.mInteractDesire))
 				return DESIRE.INTERACT;
 
 			else if (IsMaxDesire(mCompaData.mHelpDesire))

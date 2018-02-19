@@ -13,12 +13,12 @@ namespace BuddyApp.Companion
 	{
 
 
-
 		public override void Start()
 		{
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
 			mActionManager = GetComponent<ActionManager>();
+
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -28,17 +28,74 @@ namespace BuddyApp.Companion
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.INFORM;
 
+			int lRandom = UnityEngine.Random.Range(0, 4);
+				
+
+
+
 			// TODO: list of what to tell:
 
+
+
 			// 1 Robot State (battery, mood)
-			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("informbattery")
-				.Replace("[batterylevel]", BYOS.Instance.Primitive.Battery.EnergyLevel.ToString()));
+			switch (lRandom) {
 
-			// 2 external sensors (IOT, weather)
+				case 0:
+					// If desire to express mood, then express mood
+					int lMaxInternalValue = Math.Max(Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity), Math.Abs(BYOS.Instance.Interaction.InternalState.Energy));
+					EmotionalEvent lEventMood = Interaction.InternalState.ExplainMood();
+					if (lMaxInternalValue > 4 && lEventMood != null) {
+						Debug.Log("[COMPANION][INFORM] key: " + Interaction.InternalState.ExplainMood().ExplanationKey + " dico value: " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey));
+						mActionManager.ShowInternalMood();
+						Interaction.TextToSpeech.Say(Dictionary.GetRandomString("ifeel") + " " + Dictionary.GetString(Interaction.InternalState.InternalStateMood.ToString().ToLower()) + " "
+							+ Dictionary.GetRandomString("because") + " " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey), true);
 
-			// 3 General knowledge (fun facts)
+					} else {
+						Interaction.TextToSpeech.Say(Dictionary.GetRandomString("informbattery")
+						.Replace("[batterylevel]", BYOS.Instance.Primitive.Battery.EnergyLevel.ToString()));
+					}
+					break;
 
-			// 4 knowledge about other users
+
+				// 2 external sensors (IOT, weather)
+				case 1:
+					// TODO: add more random cities
+
+					string lParam = Dictionary.GetString("whatweather") + Dictionary.GetRandomString("citylist");
+
+					Debug.Log("[COMPANION][INFORM] start app weather with param " + lParam);
+					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastApp = "Weather";
+					new StartAppCmd("Weather", new int[] { }, new float[] { }, new string[] { lParam }).Execute();
+					CompanionData.Instance.LandingTrigger = true;
+
+					break;
+
+
+
+				// 3 General knowledge (fun facts)
+				case 2:
+
+					Interaction.TextToSpeech.Say("funfacts");
+
+					break;
+
+				// 4 knowledge about other users
+				// TODO
+				case 3:
+
+					Interaction.TextToSpeech.Say("funfacts");
+
+					break;
+
+				default:
+					Interaction.TextToSpeech.Say("funfacts");
+					break;
+
+			}
+
+
+
 
 		}
 

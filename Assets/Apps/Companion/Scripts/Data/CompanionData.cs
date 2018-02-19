@@ -28,6 +28,7 @@ namespace BuddyApp.Companion
 		public bool ChargeAsked { get; set; }
 		public string LastApp { get; set; }
 		public float LastAppTime { get; set; }
+		public bool LandingTrigger { get; set; }
 
 		/*
          * Data singleton access

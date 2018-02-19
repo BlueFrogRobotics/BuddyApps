@@ -68,6 +68,7 @@ namespace BuddyApp.Companion
 
 		public bool Wandering { get; private set; }
 		public bool ThermalFollow { get; private set; }
+		public float LastMoodExpression;
 		//private RoombaNavigation mRoomba;
 
 		//public RoombaNavigation Roomba { get; private set; }
@@ -84,6 +85,7 @@ namespace BuddyApp.Companion
 			mLastEyeTime = 0F;
 			mDurationMood = 5F;
 			mTimeLastOrder = 0F;
+			LastMoodExpression = 0F;
 			mDetectionManager = GetComponent<DetectionManager>();
 			mDesireManager = GetComponent<DesireManager>();
 			CurrentActionHumanOrder = false;
