@@ -172,7 +172,7 @@ namespace BuddyApp.ExperienceCenter
 					else
 					{
 						// Initiating Vocal Manager instance reco
-						yield return new WaitForSeconds(1.0f);
+						yield return new WaitForSeconds(2.0f);
 						mLaunchSTTOnce = true;
 						mVocalManager.StartInstantReco(false);
 					}
