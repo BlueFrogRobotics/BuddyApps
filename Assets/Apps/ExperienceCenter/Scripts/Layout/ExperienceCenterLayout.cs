@@ -212,8 +212,8 @@ namespace BuddyApp.ExperienceCenter
 			mButtons.Add ("MoveForward", CreateWidget<LabeledButton> ());
 			mButtons.Add ("IOT", CreateWidget<LabeledButton> ());
 			CreateWidget<Blank> ();
-			mButtons.Add ("Wander", CreateWidget<LabeledButton> ());
-			CreateWidget<Blank> ();
+			//mButtons.Add ("Wander", CreateWidget<LabeledButton> ());
+			//CreateWidget<Blank> ();
 			mScenario = CreateWidget<TextField> ();
 			if (ExperienceCenterData.Instance.Scenario != "")
 				mScenario.FieldText = ExperienceCenterData.Instance.Scenario;

@@ -237,7 +237,7 @@ namespace BuddyApp.ExperienceCenter
 				switch ((Command)cmd) {
 				case Command.Welcome:
 				case Command.ByeBye: 
-				case Command.Wander:	
+				//case Command.Wander:	
 					{
 						UpdateStateDict (cmd, State.Idle); 
 						break;
@@ -370,23 +370,23 @@ namespace BuddyApp.ExperienceCenter
 				}
 			}
 
-			if (stateDict [State.Wander]) {
-				switch ((Command)cmd) {
-				case Command.Stop: 
-					{
-						UpdateStateDict (cmd, State.Wander); 
-						break;
-					}
-				case Command.EmergencyStop:
-					{
-						UpdateStateDict (cmd, State.Wander); 
-						emergencyStop = true;
-						break;
-					}
-				default:
-					break;
-				}
-			}
+//			if (stateDict [State.Wander]) {
+//				switch ((Command)cmd) {
+//				case Command.Stop: 
+//					{
+//						UpdateStateDict (cmd, State.Wander); 
+//						break;
+//					}
+//				case Command.EmergencyStop:
+//					{
+//						UpdateStateDict (cmd, State.Wander); 
+//						emergencyStop = true;
+//						break;
+//					}
+//				default:
+//					break;
+//				}
+//			}
 		}
 
 

@@ -32,7 +32,8 @@ namespace BuddyApp.ExperienceCenter
 
 			mDistance = 5F; 
 			if (ExperienceCenterData.Instance.EnableBaseMovement) {
-				BYOS.Instance.Navigation.RandomWalk.StartWander (MoodType.NEUTRAL);
+				Debug.Log("[EXCENTER] Not Launching Random Walk");
+				//BYOS.Instance.Navigation.RandomWalk.StartWander (MoodType.NEUTRAL);
 			} else {
 				behaviourEnd = true;
 			}
@@ -76,8 +77,8 @@ namespace BuddyApp.ExperienceCenter
 			Debug.LogWarning ("[EXCENTER] Stop Wander Behaviour");
 			mCollisionDetector.StopBehaviour ();
 			StopAllCoroutines ();
-			if (ExperienceCenterData.Instance.EnableBaseMovement)
-				BYOS.Instance.Primitive.Motors.Wheels.Stop ();
+			//if (ExperienceCenterData.Instance.EnableBaseMovement)
+			//	BYOS.Instance.Navigation.RandomWalk.StopWander();
 			behaviourEnd = true;
 		}
 			
