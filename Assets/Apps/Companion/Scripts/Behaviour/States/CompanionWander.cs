@@ -159,7 +159,7 @@ namespace BuddyApp.Companion
 				// TODO maybe check the situation only every x seconds
 				// if < 20
 				if (CompanionData.Instance.mMovingDesire < 5) {
-					string lTrigger = mActionManager.LaunchDesiredAction(COMPANION_STATE.WANDER);
+					string lTrigger = mActionManager.DesiredAction(COMPANION_STATE.WANDER);
 					if (!string.IsNullOrEmpty(lTrigger)) {
 						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, -3, "moodwander", "WANDEREND", EmotionalEventType.FULFILLED_DESIRE, InternalMood.RELAXED));
 						Trigger(lTrigger);

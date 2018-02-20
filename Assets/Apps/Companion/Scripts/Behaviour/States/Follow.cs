@@ -83,7 +83,7 @@ namespace BuddyApp.Companion
 					//Follow was not an order -> do what Buddy desires
 					mActionManager.StopThermalFollow();
 
-					mActionTrigger = mActionManager.LaunchDesiredAction(COMPANION_STATE.FOLLOW);
+					mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.FOLLOW);
 					Trigger(mActionTrigger);
 				}
 			}

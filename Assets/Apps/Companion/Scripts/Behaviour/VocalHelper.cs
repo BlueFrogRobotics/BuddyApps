@@ -488,8 +488,11 @@ namespace BuddyApp.Companion
 			else if (ContainsOneOf(iSpeech, mDanceSpeech))
 				lType = "Dance";
 			else if (ContainsOneOf(iSpeech, mJokeSpeech)) {
-				Debug.Log("!!!!!!!!!!!!!!!!!Vocal helper joke");
-				lType = "Joke";
+				Debug.Log("Vocal helper joke");
+				if ( iSpeech.ToLower().Contains(BYOS.Instance.Dictionary.GetString("i")) )
+					lType = "ListenJoke";
+				else
+					lType = "Joke";
 			} else if (ContainsOneOf(iSpeech, mAcceptSpeech))
 				lType = "Accept";
 			else if (ContainsOneOf(iSpeech, mQuitSpeech))
@@ -625,6 +628,8 @@ namespace BuddyApp.Companion
 				Answer = GetNextNumber(iSpeech, mMoveRightSpeech);
 				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "MoveRight";
+			} else if (ContainsOneOf(iSpeech, "battery")) {
+				lType = "Battery";
 			} else if (ContainsOneOf(iSpeech, mVolumeSpeech)) {
 				Answer = "" + BYOS.Instance.Primitive.Speaker.GetVolume();
 				Debug.Log("Vocal helper answer: " + Answer);
@@ -683,9 +688,9 @@ namespace BuddyApp.Companion
 				Answer = BuildGeneralAnswer(iSpeech.ToLower());
 			}
 
-				OnQuestionTypeFound(lType);
-				return true;
-			}
+			OnQuestionTypeFound(lType);
+			return true;
+		}
 
 		private string FindMood(string iSpeech)
 		{
@@ -721,7 +726,7 @@ namespace BuddyApp.Companion
 			} else if (lKeywordsIndex != lWords.Length) {
 				for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
 					if (float.TryParse(lWords[j], out n)) {
-						if (!iSpeech.Contains(" meter") && !iSpeech.Contains(" mètre") && ( (iSpeech.Contains("centimeter") || iSpeech.Contains("centimètre") || iSpeech.Contains(" cm")) ))
+						if (!iSpeech.Contains(" meter") && !iSpeech.Contains(" mètre") && ((iSpeech.Contains("centimeter") || iSpeech.Contains("centimètre") || iSpeech.Contains(" cm"))))
 							lResult = "" + n / 100;
 						else
 							lResult = lWords[j];
@@ -1073,17 +1078,21 @@ namespace BuddyApp.Companion
 			return false;
 		}
 
+
 		private bool ContainsOneOf(string iSpeech, string iKeySpeech)
 		{
 			string[] iListSpeech = BYOS.Instance.Dictionary.GetPhoneticStrings(iKeySpeech);
+			
+
 			for (int i = 0; i < iListSpeech.Length; ++i) {
-				string[] words = iListSpeech[i].Split(' ');
-				if (words.Length < 2) {
-					words = iSpeech.Split(' ');
-					foreach (string word in words) {
-						if (word.ToLower() == iListSpeech[i].ToLower()) {
-							return true;
-						}
+
+				if (string.IsNullOrEmpty(iListSpeech[i]))
+					continue;
+
+				string[] words = iSpeech.Split(' ');
+				if (words.Length < 2 && !string.IsNullOrEmpty(words[0])) {
+					if (words[0].ToLower() == iListSpeech[i].ToLower()) {
+						return true;
 					}
 				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
 					return true;

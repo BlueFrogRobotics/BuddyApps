@@ -134,7 +134,7 @@ namespace BuddyApp.Companion
 			//Debug.Log("VOCAL TRIGGERED");
 			if (IsDetectingTrigger && CompanionData.Instance.CanTrigger)
 				if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered) {
-					Debug.Log("Vocal triggered detector");
+					//Debug.Log("Vocal triggered detector");
 
 					mDetectedElement = Detected.TRIGGER;
 				}
@@ -150,7 +150,8 @@ namespace BuddyApp.Companion
 				mFacePartTouched = FaceTouch.OTHER;
 				mDetectedElement = Detected.TOUCH;
 
-				BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, 1, "othertouch", "TOUCH_FACE", EmotionalEventType.INTERACTION, InternalMood.HAPPY));
+				BYOS.Instance.Interaction.InternalState.AddCumulative(
+					new EmotionalEvent(2, 1, "othertouch", "TOUCH_FACE", EmotionalEventType.INTERACTION, InternalMood.HAPPY));
 				
 				mTimeOtherTouched = 0F;
 			}
@@ -221,7 +222,8 @@ namespace BuddyApp.Companion
 		private void RightEyeClicked()
 		{
 
-			BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-3, 1, "eyepoke", "POKE_EYE", EmotionalEventType.INTERACTION, InternalMood.ANGRY));
+			BYOS.Instance.Interaction.InternalState.AddCumulative(
+				new EmotionalEvent(-3, 1, "eyepoke", "POKE_EYE", EmotionalEventType.INTERACTION, InternalMood.ANGRY));
 			Debug.Log("face touched r eye");
 			mTimeElementTouched = Time.time;
 			//mDetectedElement = Detected.TOUCH;
@@ -235,7 +237,8 @@ namespace BuddyApp.Companion
 		private void LeftEyeClicked()
 		{
 
-			BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-3, 1, "eyepoke", "POKE_EYE", EmotionalEventType.INTERACTION, InternalMood.ANGRY));
+			BYOS.Instance.Interaction.InternalState.AddCumulative(
+				new EmotionalEvent(-3, 1, "eyepoke", "POKE_EYE", EmotionalEventType.INTERACTION, InternalMood.ANGRY));
 Debug.Log("face touched l eye");
 			mTimeElementTouched = Time.time;
 			//mDetectedElement = Detected.TOUCH;
@@ -352,11 +355,8 @@ Debug.Log("face touched l eye");
 			//mNoiseDetection.StopAllDetection();
 			//mMotionDetection.StopAllOnDetect();
 
-			BYOS.Instance.Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HEAD_FORCED_SOFT, OnHeadForcedSoft);
-			BYOS.Instance.Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HEAD_FORCED_HARD, OnHeadForcedHard);
-
-			BYOS.Instance.Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
-			BYOS.Instance.Perception.Stimuli.Controllers[StimulusEvent.REGULAR_ACTIVATION_MINUTE].enabled = false;
+			//BYOS.Instance.Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HEAD_FORCED_SOFT, OnHeadForcedSoft);
+			//BYOS.Instance.Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.HEAD_FORCED_HARD, OnHeadForcedHard);
 			//mHumanReco.StopAllOnDetect();
 			mFace.OnClickLeftEye.Clear();
 			mFace.OnClickRightEye.Clear();

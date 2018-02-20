@@ -83,7 +83,7 @@ namespace BuddyApp.Companion
 							UpdateDesire(2, 1, 1, -5, 1);
 							break;
 
-						case BUDDY_ACTION.INFORM_MOOD:
+						case BUDDY_ACTION.EXPRESS_MOOD:
 							UpdateDesire(-2, 2, 2, 1, 1);
 							break;
 
@@ -122,7 +122,7 @@ namespace BuddyApp.Companion
 
 		public DESIRE GetMainDesire()
 		{
-			if (Math.Max(Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity), Math.Abs(BYOS.Instance.Interaction.InternalState.Energy)) > 4 && mActionManager.LastMoodExpression > 200F)
+			if (Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity) + Math.Abs(BYOS.Instance.Interaction.InternalState.Energy) > 5 && mActionManager.LastMoodExpression > 200F)
 				return DESIRE.EXPRESSMOOD;
 
 			else if (IsMaxDesire(mCompaData.mInteractDesire))
@@ -148,8 +148,8 @@ namespace BuddyApp.Companion
 
 		public int GetMaxDesireValue()
 		{
-			int lMaxInternalValue = Math.Max(Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity), Math.Abs(BYOS.Instance.Interaction.InternalState.Energy));
-			if (lMaxInternalValue > 4)
+			int lMaxInternalValue = Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity) + Math.Abs(BYOS.Instance.Interaction.InternalState.Energy);
+			if (lMaxInternalValue > 5)
 				return Math.Min(lMaxInternalValue, 100);
 
 			return Math.Max(mCompaData.mInteractDesire, Math.Max(mCompaData.mHelpDesire, Math.Max(mCompaData.mLearnDesire, Math.Max(mCompaData.mMovingDesire, mCompaData.mTeachDesire))));

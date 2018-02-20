@@ -29,11 +29,14 @@ namespace BuddyApp.Companion
 			mActionManager.CurrentAction = BUDDY_ACTION.JOKE;
 
 			//TODO: ask for a joke, listen, laugh...
+			Interaction.TextToSpeech.SayKey("askjoke");
+
 		}
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			
+			if (Interaction.TextToSpeech.HasFinishedTalking)
+				Trigger("LISTENJOKE");
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

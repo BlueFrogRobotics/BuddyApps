@@ -1,6 +1,7 @@
 ﻿using Buddy;
 using Buddy.Command;
 using Buddy.UI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -109,13 +110,13 @@ namespace BuddyApp.Companion
 		{
 			switch (iAnswer) {
 				case "playmath":
-					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastAppTime = DateTime.Now;
 					CompanionData.Instance.LastApp = "PlayMath";
 					new StartAppCmd("PlayMath").Execute();
 					break;
 
 				case "memory":
-					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastAppTime = DateTime.Now;
 					CompanionData.Instance.LastApp = "MemoryGameApp";
 					new StartAppCmd("MemoryGameApp").Execute();
 					break;

@@ -67,7 +67,7 @@ namespace BuddyApp.Companion
 
 				// We launch desired action for USER_DETECTED only if we are sure human is there
 				if (mDurationDetected > 6F)
-					mActionTrigger = mActionManager.LaunchDesiredAction(COMPANION_STATE.USER_DETECTED);
+					mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.USER_DETECTED);
 
 				// if not sure human there or no action desired, play BML
 				if (mActionTrigger == "IDLE" || string.IsNullOrEmpty(mActionTrigger)) {
@@ -84,7 +84,7 @@ namespace BuddyApp.Companion
 
 			// if no one there, do whatever Buddy wants
 			else if (mTimeHumanLastDetected > 10F)
-				Trigger(mActionManager.LaunchDesiredAction(COMPANION_STATE.IDLE));
+				Trigger(mActionManager.DesiredAction(COMPANION_STATE.IDLE));
 
 
 

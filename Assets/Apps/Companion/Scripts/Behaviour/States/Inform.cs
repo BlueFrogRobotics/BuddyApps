@@ -64,7 +64,7 @@ namespace BuddyApp.Companion
 					string lParam = Dictionary.GetString("whatweather") + Dictionary.GetRandomString("citylist");
 
 					Debug.Log("[COMPANION][INFORM] start app weather with param " + lParam);
-					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastAppTime = DateTime.Now;
 					CompanionData.Instance.LastApp = "Weather";
 					new StartAppCmd("Weather", new int[] { }, new float[] { }, new string[] { lParam }).Execute();
 					CompanionData.Instance.LandingTrigger = true;

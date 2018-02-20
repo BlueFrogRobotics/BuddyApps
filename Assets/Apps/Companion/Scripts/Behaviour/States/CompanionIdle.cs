@@ -59,7 +59,7 @@ namespace BuddyApp.Companion
 
 			// Play BML after 4 seconds every 8 seconds or launch desired action
 			if (((int)mTimeIdle) % 8 == 4 && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
-				mActionTrigger = mActionManager.LaunchDesiredAction(COMPANION_STATE.IDLE);
+				mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.IDLE);
 				if (string.IsNullOrEmpty(mActionTrigger)) {
 					//if no desired action, play BML
 					Debug.Log("Play neutral BML IDLE");

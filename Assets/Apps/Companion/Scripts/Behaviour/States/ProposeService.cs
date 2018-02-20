@@ -132,20 +132,23 @@ namespace BuddyApp.Companion
 		{
 			switch (iAnswer) {
 				case "jukebox":
-					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastAppTime = DateTime.Now;
 					CompanionData.Instance.LastApp = "Jukebox";
+					CompanionData.Instance.LandingTrigger = true;
 					new StartAppCmd("Jukebox").Execute();
 					break;
 
 				case "weather":
-					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastAppTime = DateTime.Now;
 					CompanionData.Instance.LastApp = "Weather";
+					CompanionData.Instance.LandingTrigger = true;
 					new StartAppCmd("Weather").Execute();
 					break;
 
 				case "somfy":
-					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastAppTime = DateTime.Now;
 					CompanionData.Instance.LastApp = "Somfy";
+					CompanionData.Instance.LandingTrigger = true;
 					new StartAppCmd("Somfy").Execute();
 					break;
 

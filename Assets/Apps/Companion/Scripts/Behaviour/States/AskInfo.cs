@@ -38,6 +38,17 @@ namespace BuddyApp.Companion
 			Interaction.TextToSpeech.SayKey("askname");
 		}
 
+		
+
+		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+		{
+			if (Interaction.TextToSpeech.HasFinishedTalking && mNeedListen) {
+				Interaction.VocalManager.StartInstantReco();
+				mNeedListen = false;
+			}
+		}
+
+
 		private void OnSpeechRecognition(string iMsg)
 		{
 			Interaction.TextToSpeech.SayKey("yournameis", true);
@@ -48,14 +59,6 @@ namespace BuddyApp.Companion
 		private void ErrorSTT(STTError iError)
 		{
 			mNeedListen = true;
-		}
-
-		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-		{
-			if (Interaction.TextToSpeech.HasFinishedTalking && mNeedListen) {
-				Interaction.VocalManager.StartInstantReco();
-				mNeedListen = false;
-			}
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

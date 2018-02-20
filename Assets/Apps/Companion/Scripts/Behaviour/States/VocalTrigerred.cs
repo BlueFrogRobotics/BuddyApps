@@ -65,7 +65,7 @@ namespace BuddyApp.Companion
 			mNeedListen = true;
 			mTime = 0F;
 			mActionManager.StopAllBML();
-			SayKey("ilisten");
+			Say(Dictionary.GetString("ilisten"));
 		}
 
 
@@ -491,6 +491,11 @@ namespace BuddyApp.Companion
 					Trigger("TELLJOKE");
 					break;
 
+				case "ListenJoke":
+					Interaction.TextToSpeech.SayKey("ilisten");
+					Trigger("LISTENJOKE");
+					break;
+
 				case "Jukebox":
 					StartApp("Jukebox", mLastHumanSpeech);
 					break;
@@ -795,12 +800,14 @@ namespace BuddyApp.Companion
 			mActionManager.StopAllActions();
 		}
 
-		private void StartApp(string iAppName, string iSpeech = null)
+		private void StartApp(string iAppName, string iSpeech = null, bool iLandingTrigg = false)
 		{
+
 			CancelOrders();
 			Debug.Log("start app " + iAppName + "with param " + iSpeech);
-			CompanionData.Instance.LastAppTime = Time.time;
+			CompanionData.Instance.LastAppTime = DateTime.Now;
 			CompanionData.Instance.LastApp = iAppName;
+			CompanionData.Instance.LandingTrigger = iLandingTrigg;
 			//new StartAppCmd(iAppName).Execute();
 			new StartAppCmd(iAppName, new int[] { }, new float[] { }, new string[] { iSpeech }).Execute();
 			mLaunchingApp = true;
@@ -824,20 +831,17 @@ namespace BuddyApp.Companion
 
 		private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
 		{
-			iSpeech = iSpeech.ToLower();
 			for (int i = 0; i < iListSpeech.Length; ++i) {
 				string[] words = iListSpeech[i].Split(' ');
-				if (words.Length < 2) {
-					words = iSpeech.Split(' ');
-					foreach (string word in words) {
-						if (word == iListSpeech[i].ToLower()) {
-							return true;
-						}
+				if (words.Length < 2 && !string.IsNullOrEmpty(words[0])) {
+					if (words[0].ToLower() == iSpeech.ToLower()) {
+						return true;
 					}
 				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
 					return true;
 			}
 			return false;
+
 		}
 
 	}

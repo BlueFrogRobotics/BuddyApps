@@ -24,7 +24,7 @@ namespace BuddyApp.Companion
 		LOOK_FOR_USER,
 		ASK_USER_PROFILE,
 		INFORM,
-		INFORM_MOOD,
+		EXPRESS_MOOD,
 		NOTIFY
 	}
 
@@ -41,7 +41,7 @@ namespace BuddyApp.Companion
 		LOOK_FOR_USER,
 		ASK_USER_PROFILE,
 		VOCAL_COMMAND,
-		INFORM_MOOD
+		EXPRESS_MOOD
 	}
 
 	/// <summary>
@@ -125,7 +125,7 @@ namespace BuddyApp.Companion
 		//*************
 
 		// TODO may be better to return an element from a list of transitions?
-		public string LaunchDesiredAction(COMPANION_STATE iState)
+		public string DesiredAction(COMPANION_STATE iState)
 		{
 			if (mDesireManager.GetMaxDesireValue() > 40) {
 				switch (mDesireManager.GetMainDesire()) {

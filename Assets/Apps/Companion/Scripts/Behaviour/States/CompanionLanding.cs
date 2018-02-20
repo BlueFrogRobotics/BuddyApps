@@ -9,6 +9,8 @@ namespace BuddyApp.Companion
 {
 	public class CompanionLanding : AStateMachineBehaviour
 	{
+		private bool mTrigger;
+
 		public override void Start()
 		{
 			mState = GetComponentInGameObject<Text>(0);
@@ -20,22 +22,25 @@ namespace BuddyApp.Companion
 			mState.text = "Landing";
 			Debug.Log("state: Landing ");
 
-			float lTimeInApp = Time.time - CompanionData.Instance.LastAppTime;
+			mTrigger = false;
+
+			TimeSpan lTimeInApp = DateTime.Now - CompanionData.Instance.LastAppTime;
 
 
 			//TODO: check when the robot was turn on for 1st wake up!
 			// check time os on
 
 			// Logs
-			System.IO.File.AppendAllText(Resources.GetPathToRaw("appLog.txt"), CompanionData.Instance.LastApp + " " + lTimeInApp.ToString("hh:mm:ss"));
+			System.IO.File.AppendAllText(Resources.GetPathToRaw("appLog.txt"), CompanionData.Instance.LastApp + " " + lTimeInApp.ToString());
 			Debug.Log("log file at " + Resources.GetPathToRaw("appLog.txt"));
 
-			if (lTimeInApp < 0.5F) {
+			if (lTimeInApp.TotalSeconds < 0.5) {
 				Debug.Log("Warning, the app " + CompanionData.Instance.LastApp + " ran for less than 0.5 seconds. It may be an error??");
+				// TODO: add sentences said by buddy
 				BYOS.Instance.Interaction.Mood.Set(MoodType.SICK);
 			}
 
-			else if (lTimeInApp < 10F && CompanionData.Instance.LastApp != "Weather" && CompanionData.Instance.LastApp != "Timer" && CompanionData.Instance.LastApp != "Reminder") {
+			else if (lTimeInApp.TotalSeconds < 10F && CompanionData.Instance.LastApp != "Weather" && CompanionData.Instance.LastApp != "Timer" && CompanionData.Instance.LastApp != "Reminder") {
 				BYOS.Instance.Interaction.TextToSpeech.SayKey("appcancelled");
 				BYOS.Instance.Interaction.Mood.Set(MoodType.THINKING);
 			}
@@ -69,11 +74,11 @@ namespace BuddyApp.Companion
 				//	break;
 
 				default:
-					if (lTimeInApp < 10F) {
+					if (lTimeInApp.TotalSeconds < 10F) {
 						CompanionData.Instance.mHelpDesire += 15;
 						// user changed his mind? go to propose edutainment?
 
-					} else if (lTimeInApp < 100F) {
+					} else if (lTimeInApp.TotalSeconds < 100F) {
 						CompanionData.Instance.mHelpDesire -= 50;
 					} else {
 						CompanionData.Instance.mHelpDesire = 0;
@@ -87,9 +92,14 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			if (Interaction.TextToSpeech.HasFinishedTalking && !mTrigger) {
+				if (CompanionData.Instance.LandingTrigger)
+					Trigger("INTERACT");
+				else
+					Trigger("VOCALCOMMAND");
+				mTrigger = true;
 
-			if (Interaction.TextToSpeech.HasFinishedTalking)
-				Trigger("INTERACT");
+			}
 		}
 
 	}

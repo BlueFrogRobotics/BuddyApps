@@ -132,26 +132,30 @@ namespace BuddyApp.Companion
 		{
 			switch (iAnswer) {
 				case "playmath":
-					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastAppTime = DateTime.Now;
 					CompanionData.Instance.LastApp = "PlayMath";
+					CompanionData.Instance.LandingTrigger = false;
 					new StartAppCmd("PlayMath").Execute();
 					break;
 
 				case "freezedance":
-					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastAppTime = DateTime.Now;
 					CompanionData.Instance.LastApp = "FreezeDanceApp";
+					CompanionData.Instance.LandingTrigger = false;
 					new StartAppCmd("FreezeDanceApp").Execute();
 					break;
 
 				case "rlgl":
-					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastAppTime = DateTime.Now;
 					CompanionData.Instance.LastApp = "RLGLApp";
+					CompanionData.Instance.LandingTrigger = false;
 					new StartAppCmd("RLGLApp").Execute();
 					break;
 
 				case "memory":
-					CompanionData.Instance.LastAppTime = Time.time;
+					CompanionData.Instance.LastAppTime = DateTime.Now;
 					CompanionData.Instance.LastApp = "MemoryGameApp";
+					CompanionData.Instance.LandingTrigger = false;
 					new StartAppCmd("MemoryGameApp").Execute();
 					break;
 

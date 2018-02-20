@@ -16,6 +16,7 @@ namespace BuddyApp.Companion
 		private bool mKidnapping;
 		private bool mGrumpy;
 		private float mHumanDetectionCounter;
+		private float mTimeIdle;
 
 		public override void Start()
 		{
@@ -29,71 +30,48 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
-			mActionManager.CurrentAction = BUDDY_ACTION.INFORM_MOOD;
-			mState.text = "Seek Attention";
-			Debug.Log("state: Seek Attention" + BYOS.Instance.Primitive.Battery.EnergyLevel);
+			mActionManager.CurrentAction = BUDDY_ACTION.EXPRESS_MOOD;
+			mState.text = "EXPRESS MOOD";
+			Debug.Log("state: EXRESSMOOD nrj:" + Interaction.InternalState.Energy + " positivity: " + Interaction.InternalState.Positivity);
 
 			mTimeState = 0F;
 			mTimeHumanDetected = 0F;
-			mGrumpy = false;
+			mTimeIdle = 0F;
 
-			Interaction.TextToSpeech.Say("Helloooooo", true);
+			mActionManager.LastMoodExpression = Time.time;
+
+			
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mTimeState += Time.deltaTime;
 
-			// 1) If no more human detected for a while, go back to IDLE or go to sad buddy
-			if (mHumanDetectionCounter > 10) {
-				iAnimator.SetTrigger("SADBUDDY");
+
+			if (BYOS.Instance.Interaction.BMLManager.DonePlaying) {
+
+				mTimeIdle += Time.deltaTime;
 
 
-				// 2) after a while
-			} else if (mTimeState > 45F && !mGrumpy) {
-				Interaction.Mood.Set(MoodType.GRUMPY);
-				mGrumpy = true;
-				Interaction.TextToSpeech.SayKey("catchattention", true);
-
-			} else if (mTimeState > 120F) {
-				iAnimator.SetTrigger("SADBUDDY");
-
-				// 3) Otherwise, do crazy stuff
-			} else {
-				// TODO -> move / dance / make noise
-
-				switch (mDetectionManager.mDetectedElement) {
-					case Detected.TRIGGER:
-						Trigger("VOCALTRIGGERED");
-						break;
-
-					case Detected.TOUCH:
-						Trigger("VOCALTRIGGERED");
-						break;
-
-					case Detected.KIDNAPPING:
-						Trigger("KIDNAPPING");
-						break;
-
-					case Detected.BATTERY:
-						Trigger("CHARGE");
-						break;
-						
-					case Detected.HUMAN_RGB & Detected.THERMAL:
-						// TODO: check false positive level
-						if (CompanionData.Instance.mInteractDesire > CompanionData.Instance.mMovingDesire) {
-							if(Time.time - mTimeHumanDetected > 3F) {
-								mHumanDetectionCounter++;
-								mTimeHumanDetected = Time.time;
-							}
-						}
-						break;
-
-					default:
-						break;
+				// Play BML after 4 seconds every 8 seconds or launch desired action
+				if (((int)mTimeIdle) % 8 == 4) {
+					mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.EXPRESS_MOOD);
+					if (string.IsNullOrEmpty(mActionTrigger) && mTimeState > 15F) {
+						//if no desired action, play BML
+						Debug.Log("Play mood BML with category: " + Interaction.InternalState.InternalStateMood.ToString());
+						BYOS.Instance.Interaction.BMLManager.LaunchRandom(Interaction.InternalState.InternalStateMood.ToString());
+					} else {
+						// Otherwise trigger to perform the action
+						Trigger(mActionTrigger);
+					}
 				}
 
 			}
+
+			// Otherwise, react on all detectors
+			if (string.IsNullOrEmpty(mActionTrigger))
+				if (mDetectionManager.mDetectedElement != Detected.NONE)
+					Trigger(mActionManager.LaunchReaction(COMPANION_STATE.EXPRESS_MOOD, mDetectionManager.mDetectedElement));
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
