@@ -41,6 +41,7 @@ namespace BuddyApp.ExperienceCenter
 		public float MaxDistance{ get; set; }
 		public float MinDistance{ get; set; }
 		public bool CollisionDebug{ get; set; }
+		public float DanceDuration{ get; set; }
 
 
 		// Scenario

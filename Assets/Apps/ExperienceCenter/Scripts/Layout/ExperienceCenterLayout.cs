@@ -27,6 +27,7 @@ namespace BuddyApp.ExperienceCenter
 		private TextField mMinDistance;
 		private TextField mMinSpeed;
 		private TextField mMaxSpeed;
+		private TextField mDanceDuration;
 		private OnOff mVoiceTriggerCheckBox;
 		private OnOff mRunTriggerCheckBox;
 		private OnOff mBMLCheckBox;
@@ -110,6 +111,8 @@ namespace BuddyApp.ExperienceCenter
 			mMaxSpeed.EmptyText = "-";
 			mMinSpeed.Label = "Min Speed";
 			mMinSpeed.EmptyText = "-";
+			mDanceDuration.Label = "Dance Duation";
+			mDanceDuration.EmptyText = "-";
 
 			mVoiceTriggerCheckBox.Label = "Voice Trigger";
 			mRunTriggerCheckBox.Label = "Run Trigger";
@@ -241,6 +244,13 @@ namespace BuddyApp.ExperienceCenter
 			mHeadMovementCheckBox.OnSwitchEvent ((bool iVal) => {
 				Debug.Log (String.Format ("Enable {0} : {1}", "Head Movement", iVal));
 				ExperienceCenterData.Instance.EnableHeadMovement = iVal;
+			});
+
+			mDanceDuration = CreateWidget<TextField>();
+			if (ExperienceCenterData.Instance.DanceDuration != 0.0f)
+				mDanceDuration.FieldText = Convert.ToString(ExperienceCenterData.Instance.DanceDuration);
+			mDanceDuration.OnEndEditEvent((string text) => {
+				ExperienceCenterData.Instance.DanceDuration = (float)Convert.ToDouble(text);
 			});
 
 			mStopDistance = CreateWidget<TextField> ();

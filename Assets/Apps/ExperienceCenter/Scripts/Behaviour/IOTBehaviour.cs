@@ -156,27 +156,23 @@ namespace BuddyApp.ExperienceCenter
 				Debug.LogError ("[EXCENTER] Could not retrieve device list from targeted Tahoma box");
 
 			yield return new WaitForSeconds (2f);
-			// Dance for 50 seconds
+
+			// Dance for 30 seconds (default)
 			DateTime lStartDance = DateTime.Now;
 			while (true) {
 				TimeSpan lElapsedTime = DateTime.Now - lStartDance;
-				if (lElapsedTime.TotalSeconds > 50.0) {
+				if (lElapsedTime.TotalSeconds > ExperienceCenterData.Instance.DanceDuration) {
 					mHttpManager.SonosPlay (false);
 					BYOS.Instance.Interaction.BMLManager.StopAllBehaviors ();
 					break;
 				}
-				if (ExperienceCenterData.Instance.EnableBaseMovement) { 
-					if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
-						BYOS.Instance.Interaction.BMLManager.LaunchByName ("dance");
-
-					yield return new WaitUntil (() => BYOS.Instance.Interaction.BMLManager.DonePlaying);
-				} else {
-					yield return new WaitForSeconds (50f);
-					mHttpManager.SonosPlay (false);
-					break;
+				if (ExperienceCenterData.Instance.EnableBaseMovement && BYOS.Instance.Interaction.BMLManager.DonePlaying) { 
+					BYOS.Instance.Interaction.BMLManager.LaunchByName ("dance");
 				}
+				yield return new WaitForSeconds(1f);
 			}
-			yield return new WaitForSeconds (2);
+
+			yield return new WaitForSeconds (2f);
 
 			mTTS.SayKey ("iotsomfy", true);
 			mTTS.Silence (500, true);
@@ -185,9 +181,19 @@ namespace BuddyApp.ExperienceCenter
 			mTTS.SayKey ("iotola", true);
 			mTTS.Silence (500, true);
 			mTTS.SayKey ("iotcontinuation", true);
-			mTTS.Silence (500, true);
 
 			yield return new WaitUntil (() => mTTS.HasFinishedTalking);
+
+			if (!mHttpManager.Connected)
+				mHttpManager.Login ();
+			yield return new WaitForSeconds (1f);
+			if (mHttpManager.RetrieveDevices)
+			{
+				mHttpManager.StoreDeploy (false);
+				yield return new WaitForSeconds (2f);
+				mHttpManager.LightOn (false);
+			}
+
 			mAnimatorManager.ActivateCmd ((byte)(Command.Stop));
 		}
 
