@@ -4559,7 +4559,7 @@
             <param name="iName">Name of the file / directory</param>
             <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:Buddy.AAppActivity.Load``1(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:Buddy.AAppActivity.Load``1(System.String)" -->
         <member name="M:Buddy.AAppActivity.LoadAtlas(System.String)">
             <summary>
             Load the atlas from Resource/ or from downloaded bundles. Equivalent to BYOS.Instance.Resources.LoadAtlas(iName)
@@ -4833,6 +4833,11 @@
         <member name="P:Buddy.BYOS.Primitive">
             <summary>
             Gather all primitives
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.StartTime">
+            <summary>
+            OS start up timestamp
             </summary>
         </member>
         <member name="P:Buddy.BYOS.Instance">
@@ -7008,7 +7013,7 @@
         <member name="F:Buddy.UI.PoolInflationType.DOUBLE">
             When a dynamic pool inflates, double the size of the pool
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
         <member name="M:Buddy.UI.PoolManager.ReturnObjectToPool(UnityEngine.GameObject)">
             <summary>
             Return obj to the pool
