@@ -51,6 +51,9 @@ namespace BuddyApp.BuddyLab
         private bool mIsRunning;
         public bool IsRunning { get { return mIsRunning; } set { mIsRunning = value; } }
 
+        [SerializeField]
+        private SpecialItemManager SpecialItemManager;
+
         private int mNbModifs = 0;
 
         private LinkedList<ListBLI> mStackUndoBli;
@@ -67,7 +70,7 @@ namespace BuddyApp.BuddyLab
             mBMLManager = BYOS.Instance.Interaction.BMLManager;
             sequenceContainer.OnModification += SaveModification;
             trashZoneContainer.OnModification += SaveModification;
-            Directory.Delete(BYOS.Instance.Resources.GetPathToRaw("Temp", LoadContext.APP), true);
+            //Directory.Delete(BYOS.Instance.Resources.GetPathToRaw("Temp", LoadContext.APP), true);
             mStackUndoBli = new LinkedList<ListBLI>();
             mStackRedoBli = new Stack<ListBLI>();
         }
@@ -77,6 +80,7 @@ namespace BuddyApp.BuddyLab
         {
             mStackUndoBli.Clear();
             mDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("Projects" + "/" + iFileName);
+            Debug.Log(mDirectoryPath);
             ShowSequence(iFileName, "Projects");
         }
 
@@ -85,6 +89,7 @@ namespace BuddyApp.BuddyLab
             mArrayItems = new List<GameObject>();
 
             string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw(iDirectory+"/" + iFileName);
+            Debug.Log(lDirectoryPath);
             var fileInfo = new System.IO.FileInfo(lDirectoryPath);
             if (fileInfo.Length > 0)
             {
@@ -111,20 +116,18 @@ namespace BuddyApp.BuddyLab
                             lItem.GetComponent<LoopConditionManager>().ChangeIcon(itemManager.GetConditionItemFromName(bli.Parameter).transform.GetChild(3).GetComponent<Image>().sprite);
                         }
                     }
-                    //Debug.Log("truc 1");
+                    else if (bli.Category == Category.SPECIAL)
+                    {
+                        lItem = Instantiate(itemManager.GetSpecialItem(bli.Index));
+                    }
                     lItem.GetComponent<ABLItem>().Parameter = bli.Parameter;
-                    //Debug.Log("truc 1.2");
                     lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
-                    //Debug.Log("truc 1.3");
                     lItem.transform.parent = panel.transform; //mArrayItems[mArrayItems.Count - 1].transform;
-                    //Debug.Log("truc 2");
+                   
                     if (lItem.GetComponent<LoopItem>() != null)
                     {
-                        //Debug.Log("truc 3");
                         lItem.GetComponent<LoopItem>().InitLoop(panel.transform);
                     }
-
-
                     mArrayItems.Add(lItem);
                     //Canvas.ForceUpdateCanvases();
                     //Debug.Log("category: " + bli.Category);
@@ -133,7 +136,7 @@ namespace BuddyApp.BuddyLab
 
             }
 
-            string lPath = BYOS.Instance.Resources.GetPathToRaw("Temp", LoadContext.APP) + "/0.xml";
+            //string lPath = BYOS.Instance.Resources.GetPathToRaw("Temp", LoadContext.APP) + "/0.xml";
             if (mStackUndoBli.Count==0)
             {
                 SaveModification();
@@ -159,6 +162,10 @@ namespace BuddyApp.BuddyLab
                     //Debug.Log("truc 0");
                     lItem = Instantiate(itemManager.GetLoopItem(bli.Index));
                     lItem.GetComponent<LoopItem>().NbItems = bli.NbItemsInLoop;
+                }
+                else if (bli.Category == Category.SPECIAL)
+                {
+                    lItem = Instantiate(itemManager.GetSpecialItem(bli.Index));
                 }
                 //Debug.Log("truc 1");
                 lItem.GetComponent<ABLItem>().Parameter = bli.Parameter;
@@ -216,7 +223,8 @@ namespace BuddyApp.BuddyLab
                     lListBLI.List.Add(item.GetComponent<ConditionItem>().GetItem());
                 else if (item != null && item.GetComponent<LoopItem>() != null)
                     lListBLI.List.Add(item.GetComponent<LoopItem>().GetItem());
-
+                else if (item != null && item.GetComponent<SpecialItem>() != null)
+                    lListBLI.List.Add(item.GetComponent<SpecialItem>().GetItem());
             }
 
             //string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("project.xml");
@@ -241,9 +249,6 @@ namespace BuddyApp.BuddyLab
             Debug.Log("ENTER PLAY SEQUENCE 2 : " + ConditionManager.IsEventDone);
             while (mIndex< lListBLI.List.Count)
             {
-                //Debug.Log("------------------INDEX PLAY SEQUENCE ------------------- : " + mIndex);
-                //Debug.Log("------------------ISRUNNING PLAY SEQUENCE ------------------- : " + mIsRunning);
-                //Debug.Log("------------------Condition.IsEventDone PLAY SEQUENCE ------------------- : " + ConditionManager.IsEventDone);
                 BLItemSerializable bli = lListBLI.List[mIndex];
 
                 if (OnNextAction!=null)
@@ -354,6 +359,23 @@ namespace BuddyApp.BuddyLab
                     }
                     LoopManager.ChangeIndex = false;
                 }
+                else if (bli.Category == Category.SPECIAL)
+                {
+                    Debug.Log("CATEGORY SPECIAL ITEM 1 " + bli.Index + " " + bli.Parameter + " " + bli.ParameterKey);
+                    if (bli.ParameterKey != "")
+                    {
+                        //SpecialItemManager.NameSItem = bli.ParameterKey;
+                        //Debug.Log("CATEGORY SPECIAL ITEM 2: " + bli.ParameterKey);
+                        //if (bli.ParameterKey == "GOTO")
+                        //{
+                        //    mIndex = Int32.Parse(bli.Parameter);
+                        //    Debug.Log("CATEGORY SPECIAL ITEM 3: " + bli.Parameter);
+                        //}
+                    }
+                    yield return new WaitForSeconds(1.0F);
+
+                    mIndex = Int32.Parse(bli.Parameter) - 1;
+                }
                 ConditionManager.IsInCondition = false;
                 ConditionManager.IsEventDone = false;
                 if (!mIsRunning)
@@ -399,7 +421,7 @@ namespace BuddyApp.BuddyLab
 
         public void Redo()
         {
-            string lPath = BYOS.Instance.Resources.GetPathToRaw("Temp", LoadContext.APP) + "/" + (mNbModifs) + ".xml";
+            //string lPath = BYOS.Instance.Resources.GetPathToRaw("Temp", LoadContext.APP) + "/" + (mNbModifs) + ".xml";
             if (mStackRedoBli.Count>0)//(File.Exists(lPath))
             {
                 CleanSequence();
@@ -418,19 +440,19 @@ namespace BuddyApp.BuddyLab
         /// </summary>
         private void SaveModification()
         {
-            string lPath = "";
-            string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("Temp", LoadContext.APP);
+            //string lPath = "";
+            //string lDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("Temp", LoadContext.APP);
             //if (mNbModifs < 10)
             //{
-                if(!Directory.Exists(lDirectoryPath))
-                    Directory.CreateDirectory(lDirectoryPath);
+                //if(!Directory.Exists(lDirectoryPath))
+                //    Directory.CreateDirectory(lDirectoryPath);
 
-                using (var file = File.Create(BYOS.Instance.Resources.GetPathToRaw("Temp", LoadContext.APP) + "/" + mNbModifs + ".xml"))
-                {
-                    lPath = file.Name;
-                    Debug.Log("avant save sequence");
-                }
-                SaveSequence(lPath);
+                //using (var file = File.Create(BYOS.Instance.Resources.GetPathToRaw("Temp", LoadContext.APP) + "/" + mNbModifs + ".xml"))
+                //{
+                //    lPath = file.Name;
+                //    Debug.Log("avant save sequence");
+                //}
+                //SaveSequence(lPath);
                 mNbModifs++;
                 mStackRedoBli.Clear();
            // }
