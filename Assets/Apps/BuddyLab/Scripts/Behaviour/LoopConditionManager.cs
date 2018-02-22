@@ -36,6 +36,11 @@ namespace BuddyApp.BuddyLab
             }
         }
 
+        public void ChangeIcon(Sprite iSprite)
+        {
+            icon.sprite = iSprite;
+        }
+
         private void OnConditionChoice(string iParam, Sprite iSprite)
         {
             icon.sprite = iSprite;

@@ -29,6 +29,9 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private float maxValue;
 
+        [SerializeField]
+        private AFeedback mFeedback;
+
         public float MaxValue { get { return maxValue; } }
 
         public float MinValue { get { return minValue; } }
@@ -100,6 +103,7 @@ namespace BuddyApp.BuddyLab
             if (lNb < minValue)
                 lNb = minValue;
             slider.value = (lNb-minValue) / (maxValue-minValue);
+            
         }
 
         public void EraseLastNumber()
@@ -114,6 +118,8 @@ namespace BuddyApp.BuddyLab
             float lParam = (iValue * (maxValue-minValue)+minValue );
             inputField.text = ""+ Mathf.RoundToInt(lParam);
             Parameter = inputField.text;
+            if(mFeedback!=null)
+                mFeedback.OnNewValue(iValue);
             //ChangeValue(inputField.text);
             Debug.Log("value du param: " + iValue * maxValue+" lParam: "+lParam+" min: "+minValue);
         }

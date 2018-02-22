@@ -8,6 +8,8 @@ namespace BuddyApp.BuddyLab
     public class ItemsContainer : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
     {
         public bool DropOnly=false;
+        public delegate void Modification();
+        public event Modification OnModification;
 
         public void OnPointerEnter(PointerEventData eventData)
         {
@@ -104,6 +106,12 @@ namespace BuddyApp.BuddyLab
             }
 
             return lCan;
+        }
+
+        public void EndDrag()
+        {
+            if (OnModification != null)
+                OnModification();
         }
 
     }

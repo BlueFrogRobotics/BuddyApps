@@ -68,7 +68,7 @@ namespace BuddyApp.BuddyLab
 
         public void OnDrag(PointerEventData eventData)
         {
-            Debug.Log ("OnDrag");
+            //Debug.Log ("OnDrag");
 
             mItem.transform.position = eventData.position;
 
@@ -108,10 +108,10 @@ namespace BuddyApp.BuddyLab
         {
             Debug.Log("OnEndDrag");
             //mItem.transform.SetParent(parentToReturnTo);
-            mItem.transform.SetParent(placeholderParent);
+            //mItem.transform.SetParent(placeholderParent);
             int lIndex = placeholder.transform.GetSiblingIndex();
-            mItem.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
-            mItem.GetComponent<CanvasGroup>().blocksRaycasts = true;
+            //mItem.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+            //mItem.GetComponent<CanvasGroup>().blocksRaycasts = true;
 
             Destroy(placeholder);
             if(OnlyDroppable)
@@ -124,9 +124,13 @@ namespace BuddyApp.BuddyLab
             }
             else
             {
+                mItem.transform.SetParent(placeholderParent);
+                mItem.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+                mItem.GetComponent<CanvasGroup>().blocksRaycasts = true;
                 DissociateItems();
             }
             IsDragged = false;
+            placeholderParent.GetComponent<ItemsContainer>().EndDrag();
         }
 
         public void AssociateItems()

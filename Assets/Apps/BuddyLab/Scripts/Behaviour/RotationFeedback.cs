@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BuddyApp.BuddyLab
 {
@@ -16,15 +17,23 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private int maxRotationValue;
 
+        [SerializeField]
+        private Image blueArea;
+
+        [SerializeField]
+        private float maxFill;
+
         // Use this for initialization
         void Start()
         {
 
         }
 
-        public override void OnNewValue(int iValue)
+        public override void OnNewValue(float iValue)
         {
-            objectToRotate.GetComponent<RectTransform>().rotation = new Quaternion(0, 0, 90, 0);
+            Debug.Log("value feedback: " + maxRotationValue * iValue);
+            objectToRotate.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, maxRotationValue * iValue);
+            blueArea.fillAmount = maxFill * iValue;
         }
 
        

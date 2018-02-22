@@ -55,6 +55,8 @@ namespace BuddyApp.BuddyLab
             mUIManager.SaveButton.onClick.RemoveListener(SaveSequence);
             mUIManager.FolderButton.onClick.RemoveListener(OpenFolder);
             mUIManager.BackButton.onClick.RemoveListener(GoToMenu);
+            mUIManager.UndoButton.onClick.RemoveListener(Undo);
+            mUIManager.RedoButton.onClick.RemoveListener(Redo);
             GetGameObject(6).GetComponent<Animator>().SetTrigger("close");
 
         }
@@ -85,6 +87,16 @@ namespace BuddyApp.BuddyLab
             Trigger("ProjectToMenu");
         }
 
+        private void Undo()
+        {
+            mItemControl.Undo();
+        }
+
+        private void Redo()
+        {
+            mItemControl.Redo();
+        }
+
         private IEnumerator InitScene()
         {
             Interaction.Mood.Set(Buddy.MoodType.NEUTRAL);
@@ -101,6 +113,8 @@ namespace BuddyApp.BuddyLab
             mUIManager.SaveButton.onClick.AddListener(SaveSequence);
             mUIManager.FolderButton.onClick.AddListener(OpenFolder);
             mUIManager.BackButton.onClick.AddListener(GoToMenu);
+            mUIManager.UndoButton.onClick.AddListener(Undo);
+            mUIManager.RedoButton.onClick.AddListener(Redo);
         }
 
     }

@@ -22,8 +22,8 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private InputField inputField;
 
-        [SerializeField]
-        private GameObject Placeholder;
+        //[SerializeField]
+        //private GameObject Placeholder;
 
         // Use this for initialization
         void Start()
@@ -42,7 +42,7 @@ namespace BuddyApp.BuddyLab
             DraggableItem lCell = GetComponentInParent<DraggableItem>();
             if (lCell != null && !lCell.OnlyDroppable)
             {
-                Placeholder.GetComponent<Text>().text = ""; 
+                //Placeholder.GetComponent<Text>().text = ""; 
                 buttonValidate.onClick.AddListener(Validate);
                 buttonCancel.onClick.AddListener(Cancel);
                 inputField.text = GetComponent<ABLItem>().Parameter;
