@@ -19,7 +19,7 @@ namespace BuddyApp.ExperienceCenter
 				ExperienceCenterData.Instance.IPAddress = "-";
 				ExperienceCenterData.Instance.StopDistance = 0.4F;
 				ExperienceCenterData.Instance.NoiseTime = 0.2F;
-				ExperienceCenterData.Instance.TableDistance = 0.9F;
+				ExperienceCenterData.Instance.TableDistance = 0.4F;
 				ExperienceCenterData.Instance.IOTDistance = 1.5F;
 				ExperienceCenterData.Instance.NoHingeAngle = 60F;
 				ExperienceCenterData.Instance.NoHingeSpeed = 120F;
