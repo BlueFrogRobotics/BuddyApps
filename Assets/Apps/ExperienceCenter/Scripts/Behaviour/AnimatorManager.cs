@@ -466,7 +466,6 @@ namespace BuddyApp.ExperienceCenter
 			VocalManager lVocalManager = BYOS.Instance.Interaction.VocalManager;
 			while(true)
 			{
-				Debug.LogFormat("[EXCENTER] Should set current mood to neutral ? {0} (current mood = {1})", lVocalManager.RecognitionFinished, buddyMood.CurrentMood);
 				if (lVocalManager.RecognitionFinished &&  buddyMood.CurrentMood!=MoodType.NEUTRAL)
 					buddyMood.Set(MoodType.NEUTRAL);
 				yield return new WaitForSeconds(0.5f);
