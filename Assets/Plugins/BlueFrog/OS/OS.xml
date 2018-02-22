@@ -622,46 +622,6 @@
             <param name="iSecondVersion">Second version string</param>
             <returns>Compared value</returns>
         </member>
-        <member name="T:Buddy.Internal.AppManagement.AppCategory">
-            <summary>
-            Represents the different app categories
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.COMPANION">
-            <summary>
-            Companion category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.EDUTAINMENT">
-            <summary>
-            Edutainment category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.GAME">
-            <summary>
-            Game category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.MULTIMEDIA">
-            <summary>
-            Multimedia category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.UTILITY">
-            <summary>
-            Utility category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.SECURITY">
-            <summary>
-            Security category
-            </summary>
-        </member>
-        <member name="F:Buddy.Internal.AppManagement.AppCategory.OTHER">
-            <summary>
-            Other category
-            </summary>
-        </member>
         <member name="T:Buddy.Internal.AppManagement.VocalKeys">
             <summary>
             Reprensts the differents vocal keys by language to trigger the application
@@ -4599,7 +4559,7 @@
             <param name="iName">Name of the file / directory</param>
             <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:Buddy.AAppActivity.Load``1(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:Buddy.AAppActivity.Load``1(System.String)" -->
         <member name="M:Buddy.AAppActivity.LoadAtlas(System.String)">
             <summary>
             Load the atlas from Resource/ or from downloaded bundles. Equivalent to BYOS.Instance.Resources.LoadAtlas(iName)
@@ -4751,6 +4711,46 @@
             <typeparam name="T">Type of your data class</typeparam>
             <returns>Your data object</returns>
         </member>
+        <member name="T:Buddy.AppCategory">
+            <summary>
+            Represents the different app categories
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.COMPANION">
+            <summary>
+            Companion category
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.EDUTAINMENT">
+            <summary>
+            Edutainment category
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.GAME">
+            <summary>
+            Game category
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.MULTIMEDIA">
+            <summary>
+            Multimedia category
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.UTILITY">
+            <summary>
+            Utility category
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.SECURITY">
+            <summary>
+            Security category
+            </summary>
+        </member>
+        <member name="F:Buddy.AppCategory.OTHER">
+            <summary>
+            Other category
+            </summary>
+        </member>
         <member name="M:Buddy.AppUtils.GetAppCategory(System.String)">
             <summary>
             Gets the category from an installed application.
@@ -4833,6 +4833,11 @@
         <member name="P:Buddy.BYOS.Primitive">
             <summary>
             Gather all primitives
+            </summary>
+        </member>
+        <member name="P:Buddy.BYOS.StartTime">
+            <summary>
+            OS start up timestamp
             </summary>
         </member>
         <member name="P:Buddy.BYOS.Instance">
@@ -7008,7 +7013,7 @@
         <member name="F:Buddy.UI.PoolInflationType.DOUBLE">
             When a dynamic pool inflates, double the size of the pool
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
         <member name="M:Buddy.UI.PoolManager.ReturnObjectToPool(UnityEngine.GameObject)">
             <summary>
             Return obj to the pool

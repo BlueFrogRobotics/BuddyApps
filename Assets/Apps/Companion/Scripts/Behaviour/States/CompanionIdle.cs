@@ -26,7 +26,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-
+			mActionTrigger = "";
 			mActionManager.StopAllActions();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
@@ -46,7 +46,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mState.text = "IDLE "  + "\n interactDesire: " + CompanionData.Instance.mInteractDesire
+			mState.text = "IDLE "  + (DateTime.Now - BYOS.Instance.StartTime).TotalSeconds +  "\n interactDesire: " + CompanionData.Instance.mInteractDesire
 				+ "\n wanderDesire: " + CompanionData.Instance.mMovingDesire;
 
 			if (BYOS.Instance.Interaction.BMLManager.DonePlaying) {
@@ -60,7 +60,7 @@ namespace BuddyApp.Companion
 			// Play BML after 4 seconds every 8 seconds or launch desired action
 			if (((int)mTimeIdle) % 8 == 4 && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
 				mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.IDLE);
-				if (string.IsNullOrEmpty(mActionTrigger)) {
+				if (string.IsNullOrEmpty(mActionTrigger) || mActionTrigger == "IDLE") {
 					//if no desired action, play BML
 					Debug.Log("Play neutral BML IDLE");
 					mHeadPlaying = false;
@@ -68,14 +68,18 @@ namespace BuddyApp.Companion
 					BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
 				} else {
 					// Otherwise trigger to perform the action
+					Debug.Log("Trigger action " + mActionTrigger);
 					Trigger(mActionTrigger);
 				}
 			}
 
 			// Otherwise, react on all detectors
-			if (string.IsNullOrEmpty(mActionTrigger))
-				if (mDetectionManager.mDetectedElement != Detected.NONE)
-					Trigger(mActionManager.LaunchReaction(COMPANION_STATE.IDLE, mDetectionManager.mDetectedElement));
+			if (string.IsNullOrEmpty(mActionTrigger) || mActionTrigger == "IDLE")
+				if (mDetectionManager.mDetectedElement != Detected.NONE) {
+					mActionTrigger = mActionManager.LaunchReaction(COMPANION_STATE.IDLE, mDetectionManager.mDetectedElement);
+					Debug.Log("!!!!!!!!!!!Idle trigger " + mActionTrigger);
+					Trigger(mActionTrigger);
+				}
 		}
 
 

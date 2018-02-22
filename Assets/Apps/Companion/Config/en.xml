@@ -1608,8 +1608,8 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>This was a funny joke!</string>
-                <string> This is really funny!!</string>
+                <string>[500] This was a funny joke! [500] </string>
+                <string> [500] This is really funny!! [500]</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -1619,9 +1619,9 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>I don't like this joke</string>
-                <string> Is this what you call humour?</string>
-                <string> You find this funny?</string>
+                <string>[500] I don't like this joke [500] </string>
+                <string> [500] Is this what you call humour? [500] </string>
+                <string> [500] You find this funny? [500]</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -1657,6 +1657,79 @@
                 <string>battery</string>
                 <string>energy level</string>
                 <string>power level</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>knockknock</Key>
+            <BaseValue>knock knock</BaseValue>
+            <ClosePhoneticValues>
+                <string>knock knock</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>knock knock</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>whoisthere</Key>
+            <BaseValue>who is there?</BaseValue>
+            <ClosePhoneticValues>
+                <string>who is there?</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>who is there?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>who</Key>
+            <BaseValue>who</BaseValue>
+            <ClosePhoneticValues>
+                <string>who</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>who</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>teachdesire</Key>
+            <BaseValue>Teach desire</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>helpdesire</Key>
+            <BaseValue>Help desire</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>learndesire</Key>
+            <BaseValue>Learn desire</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>buddyturnedon</Key>
+            <BaseValue>I am glad that youwoke me up!</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I am glad that you woke me up!</string>
+                <string> Did you just turn my switch on? Hello there!!!</string>
+                <string> I'm awake, Buddy is in the place!</string>
+                <string> I told you that I'll be back!</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

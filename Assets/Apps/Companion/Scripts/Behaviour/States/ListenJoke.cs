@@ -13,6 +13,7 @@ namespace BuddyApp.Companion
 	{
 		private bool mNeedListen;
 		private bool mTrigg;
+		private int mKnockKnock;
 
 		public override void Start()
 		{
@@ -26,13 +27,17 @@ namespace BuddyApp.Companion
 		{
 			mState.text = "LISTEN Joke";
 
+			mKnockKnock = 0;
+			if (ContainsOneOf(Interaction.SpeechToText.LastAnswer, "knockknock"))
+				mKnockKnock = 1;
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.JOKE;
 
-			mNeedListen = false;
+			mNeedListen = true;
 			mTrigg = false;
 
+			mDetectionManager.StopSphinxTrigger();
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
 			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
 
@@ -41,7 +46,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			if (Interaction.TextToSpeech.HasFinishedTalking)
+			if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.SpeechToText.HasFinished)
 				if (mTrigg)
 					Trigger("VOCALCOMMAND");
 				else if (mNeedListen) {
@@ -52,7 +57,12 @@ namespace BuddyApp.Companion
 
 		private void OnSpeechRecognition(string iMsg)
 		{
-			if (ContainsOneOf(iMsg, "accept")) {
+
+			if (mKnockKnock == 1) {
+				Interaction.TextToSpeech.Say(iMsg + " " + Dictionary.GetString("who"));
+				mKnockKnock++;
+				mNeedListen = true;
+			} else if (ContainsOneOf(iMsg, "accept")) {
 				Interaction.TextToSpeech.SayKey("ilisten");
 				mNeedListen = true;
 			} else if (ContainsOneOf(iMsg, "refuse")) {
@@ -61,6 +71,12 @@ namespace BuddyApp.Companion
 			} else if (ContainsOneOf(iMsg, "questionwords")) {
 				Interaction.TextToSpeech.SayKey("idontknow");
 				mNeedListen = true;
+			} else if (ContainsOneOf(Interaction.SpeechToText.LastAnswer, "knockknock")) {
+				mKnockKnock = 1;
+				Interaction.TextToSpeech.SayKey("whoisthere");
+				mNeedListen = true;
+
+				// end of joke
 			} else {
 
 				// if Buddy in good mood, laugh easily, otherwise, hardly
@@ -70,23 +86,25 @@ namespace BuddyApp.Companion
 						BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
 						Interaction.TextToSpeech.SayKey("jokefunny");
 						BYOS.Instance.Interaction.InternalState.AddCumulative(
-							new EmotionalEvent(2, 1, "ugoodjoke", "JOKE", EmotionalEventType.INTERACTION, InternalMood.HAPPY));
+							new EmotionalEvent(4, 1, "ugoodjoke", "JOKE", EmotionalEventType.INTERACTION, InternalMood.HAPPY));
 					} else {
 						mActionManager.SetMood(MoodType.GRUMPY, 6);
 						Interaction.TextToSpeech.SayKey("jokenotfunny");
 						BYOS.Instance.Interaction.InternalState.AddCumulative(
-							new EmotionalEvent(-2, 0, "ubadjoke", "JOKE", EmotionalEventType.INTERACTION, InternalMood.SALTY));
+							new EmotionalEvent(-2, 0, "ubadjoke", "JOKE", EmotionalEventType.INTERACTION, InternalMood.BITTER));
 					}
 				} else {
 					if (Interaction.InternalState.Positivity <= 0) {
+						mActionManager.SetMood(MoodType.HAPPY, 6);
 						BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
 						Interaction.TextToSpeech.SayKey("jokefunny");
 						BYOS.Instance.Interaction.InternalState.AddCumulative(
-							new EmotionalEvent(2, 1, "ugoodjoke", "JOKE", EmotionalEventType.INTERACTION, InternalMood.HAPPY));
+							new EmotionalEvent(4, 1, "ugoodjoke", "JOKE", EmotionalEventType.INTERACTION, InternalMood.HAPPY));
 					} else {
+						mActionManager.SetMood(MoodType.GRUMPY, 6);
 						Interaction.TextToSpeech.SayKey("jokenotfunny");
 						BYOS.Instance.Interaction.InternalState.AddCumulative(
-							new EmotionalEvent(-2, 0, "ubadjoke", "JOKE", EmotionalEventType.INTERACTION, InternalMood.SALTY));
+							new EmotionalEvent(-2, 0, "ubadjoke", "JOKE", EmotionalEventType.INTERACTION, InternalMood.BITTER));
 					}
 				}
 				mTrigg = true;
@@ -96,6 +114,8 @@ namespace BuddyApp.Companion
 
 		private void ErrorSTT(STTError iError)
 		{
+
+			mState.text = "LISTEN Joke " + iError;
 			mNeedListen = true;
 		}
 

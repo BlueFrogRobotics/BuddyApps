@@ -43,7 +43,7 @@ namespace BuddyApp.Companion
 
 				if (mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH) {
 					// frustration
-					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 0, "moodjokestop", "JOKESTOP", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.SALTY));
+					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 0, "moodjokestop", "JOKESTOP", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.BITTER));
 
 				} else {
 					// TODO: if not interupted, reduce interact desire?

@@ -13,7 +13,7 @@ namespace BuddyApp.Companion
 	{
 
 		// For now, just play BML
-        public override void Start()
+		public override void Start()
 		{
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
@@ -32,23 +32,29 @@ namespace BuddyApp.Companion
 
 			// TODO: improve this?
 			Interaction.BMLManager.LaunchRandom("dance");
-        }
+		}
 
-        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 
 			if ((Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.DonePlaying) || mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH) {
 				mActionManager.StopAllBML();
 
-				if (mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH) {
+				if (mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH || mDetectionManager.mDetectedElement == Detected.TRIGGER) {
 					// frustration
 					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 1, "mooddancestoped", "DANCESTOP", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.ANGRY));
+					CompanionData.Instance.mMovingDesire = -20;
 					Trigger("VOCALCOMMAND");
 
+				} else if (mDetectionManager.mDetectedElement == Detected.TOUCH) {
+					// frustration
+					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 1, "mooddancestoped", "DANCESTOP", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.ANGRY));
+					CompanionData.Instance.mMovingDesire = -20;
+					Trigger("ROBOTTOUCHED");
 				} else {
 					// satisfaction
 					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, -1, "mooddance", "DANCE", EmotionalEventType.FULFILLED_DESIRE, InternalMood.RELAXED));
-					CompanionData.Instance.mMovingDesire -= 40;
+					CompanionData.Instance.mMovingDesire = 0;
 					Trigger("IDLE");
 				}
 			}
@@ -60,6 +66,6 @@ namespace BuddyApp.Companion
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 		}
 
-        
+
 	}
 }

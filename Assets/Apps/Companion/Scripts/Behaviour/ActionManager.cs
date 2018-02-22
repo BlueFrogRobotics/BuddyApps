@@ -275,12 +275,12 @@ namespace BuddyApp.Companion
 				case Detected.TRIGGER:
 					Debug.Log("[Companion][ActionManager] reaction vocal trigger");
 					// TODO: add exception states if needed
-					return "VOCALTRIGGERED";
+					return "VOCALCOMMAND";
 
 				case Detected.MOUTH_TOUCH:
 					Debug.Log("[Companion][ActionManager] reaction robot mouth touched");
 					// TODO: add exception states if needed
-					return "VOCALTRIGGERED";
+					return "VOCALCOMMAND";
 
 				case Detected.TOUCH:
 					Debug.Log("[Companion][ActionManager] reaction robot touched");
@@ -421,7 +421,7 @@ namespace BuddyApp.Companion
 					if (BYOS.Instance.Interaction.SpeechToText.HasFinished)
 						BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
 				}
-			} else if (BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.GRUMPY || BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.SALTY) {
+			} else if (BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.GRUMPY || BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.BITTER) {
 				if (!ActiveAction()) {
 					Debug.Log("No action + eye poked -> play grumpy BML");
 					BYOS.Instance.Interaction.BMLManager.LaunchRandom("grumpy");
@@ -577,7 +577,7 @@ namespace BuddyApp.Companion
 		internal MoodType Internal2FaceMood(InternalMood iInternalMood)
 		{
 
-			if (iInternalMood == InternalMood.SALTY)
+			if (iInternalMood == InternalMood.BITTER)
 				return MoodType.GRUMPY;
 			else if (iInternalMood == InternalMood.EXCITED || iInternalMood == InternalMood.RELAXED)
 				return MoodType.HAPPY;

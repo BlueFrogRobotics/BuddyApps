@@ -51,7 +51,7 @@ namespace BuddyApp.Companion
 
 
 						case BUDDY_ACTION.NONE:
-							UpdateDesire(3, 2, 2, 1, 1);
+							UpdateDesire(2, 2, 2, 1, 1);
 							break;
 
 						case BUDDY_ACTION.WANDER:
@@ -76,11 +76,11 @@ namespace BuddyApp.Companion
 							break;
 
 						case BUDDY_ACTION.TOUCH_INTERACT:
-							UpdateDesire(1, 2, 1, 2, 0);
+							UpdateDesire(-1, 2, 1, 2, 0);
 							break;
 
 						case BUDDY_ACTION.ASK_USER_PROFILE:
-							UpdateDesire(2, 1, 1, -5, 1);
+							UpdateDesire(1, 1, 1, -5, 1);
 							break;
 
 						case BUDDY_ACTION.EXPRESS_MOOD:
@@ -150,7 +150,7 @@ namespace BuddyApp.Companion
 		{
 			int lMaxInternalValue = Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity) + Math.Abs(BYOS.Instance.Interaction.InternalState.Energy);
 			if (lMaxInternalValue > 5)
-				return Math.Min(lMaxInternalValue, 100);
+				return Math.Max( Math.Min(lMaxInternalValue, 100), Math.Max(mCompaData.mInteractDesire, Math.Max(mCompaData.mHelpDesire, Math.Max(mCompaData.mLearnDesire, Math.Max(mCompaData.mMovingDesire, mCompaData.mTeachDesire)))));
 
 			return Math.Max(mCompaData.mInteractDesire, Math.Max(mCompaData.mHelpDesire, Math.Max(mCompaData.mLearnDesire, Math.Max(mCompaData.mMovingDesire, mCompaData.mTeachDesire))));
 		}
@@ -159,17 +159,17 @@ namespace BuddyApp.Companion
 		{
 
 			// Update only one desire to avoid having same value
-			int lRand = UnityEngine.Random.Range(0, 5);
+			int lRand = UnityEngine.Random.Range(0, 8);
 
-			if (lRand < 1)
+			if (lRand == 0)
 				mCompaData.mMovingDesire += iMoving + BYOS.Instance.Interaction.InternalState.Energy;
-			else if (lRand < 2)
+			else if (lRand == 1)
 				mCompaData.mHelpDesire += iHelp + BYOS.Instance.Interaction.InternalState.Positivity;
-			else if (lRand < 3)
+			else if (lRand == 2)
 				mCompaData.mInteractDesire += iInteract;
-			else if (lRand < 4)
+			else if (lRand == 3)
 				mCompaData.mLearnDesire += iLearn;
-			else if (lRand < 5)
+			else if (lRand == 4)
 				mCompaData.mTeachDesire += iTeach;
 		}
 

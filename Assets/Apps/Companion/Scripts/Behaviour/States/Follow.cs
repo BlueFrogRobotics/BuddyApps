@@ -111,6 +111,7 @@ namespace BuddyApp.Companion
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 			Interaction.Mood.Set(MoodType.NEUTRAL);
+			mActionManager.StopAllActions();
 			mDetectionManager.StartSphinxTrigger();
 		}
 

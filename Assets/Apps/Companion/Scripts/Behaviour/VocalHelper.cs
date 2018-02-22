@@ -487,9 +487,9 @@ namespace BuddyApp.Companion
 				lType = "DemoFull";
 			else if (ContainsOneOf(iSpeech, mDanceSpeech))
 				lType = "Dance";
-			else if (ContainsOneOf(iSpeech, mJokeSpeech)) {
+			else if (ContainsOneOf(iSpeech, mJokeSpeech) || ContainsOneOf(iSpeech, "knockknock")) {
 				Debug.Log("Vocal helper joke");
-				if ( iSpeech.ToLower().Contains(BYOS.Instance.Dictionary.GetString("i")) )
+				if ( iSpeech.ToLower().Contains(BYOS.Instance.Dictionary.GetString("i")) || ContainsOneOf(iSpeech, "knockknock"))
 					lType = "ListenJoke";
 				else
 					lType = "Joke";

@@ -146,7 +146,7 @@ namespace BuddyApp.Companion
 
 
 			mTime += Time.deltaTime;
-			if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.DonePlaying) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.DonePlaying && Interaction.SpeechToText.HasFinished) {
 				if (!mVocalChat.BuildingAnswer && mNeedToGiveAnswer) {
 					//Give answer:
 					Debug.Log("give answer");
@@ -299,7 +299,7 @@ namespace BuddyApp.Companion
 
 					else {
 						mActionManager.TimedMood(MoodType.GRUMPY);
-						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 0, "moodforceddance", "DANCE", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.SALTY));
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 0, "moodforceddance", "DANCE", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.BITTER));
 					}
 
 					Interaction.BMLManager.LaunchRandom("dance");
@@ -313,7 +313,7 @@ namespace BuddyApp.Companion
 					break;
 
 				case "DemoFull":
-					Debug.Log("Playing BML demoFull");
+					Debug.Log("Playing BML  demoFull");
 					Interaction.BMLManager.LaunchByName("DemoFull");
 					mNeedListen = true;
 					break;
@@ -341,7 +341,7 @@ namespace BuddyApp.Companion
 					SayKey("istopmoving", true);
 
 					if (CompanionData.Instance.mMovingDesire > 20) {
-						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 0, "moodcantmove", "CANT_MOVE", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.SALTY));
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 0, "moodcantmove", "CANT_MOVE", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.BITTER));
 						mActionManager.TimedMood(MoodType.GRUMPY);
 
 					}
@@ -492,7 +492,10 @@ namespace BuddyApp.Companion
 					break;
 
 				case "ListenJoke":
-					Interaction.TextToSpeech.SayKey("ilisten");
+					if (ContainsOneOf(mLastHumanSpeech, "knockknock"))
+						Interaction.TextToSpeech.SayKey("whoisthere");
+					else
+						Interaction.TextToSpeech.SayKey("ilisten");
 					Trigger("LISTENJOKE");
 					break;
 
@@ -843,6 +846,28 @@ namespace BuddyApp.Companion
 			return false;
 
 		}
+
+		private bool ContainsOneOf(string iSpeech, string iKeySpeech)
+		{
+			string[] iListSpeech = BYOS.Instance.Dictionary.GetPhoneticStrings(iKeySpeech);
+
+
+			for (int i = 0; i < iListSpeech.Length; ++i) {
+
+				if (string.IsNullOrEmpty(iListSpeech[i]))
+					continue;
+
+				string[] words = iSpeech.Split(' ');
+				if (words.Length < 2 && !string.IsNullOrEmpty(words[0])) {
+					if (words[0].ToLower() == iListSpeech[i].ToLower()) {
+						return true;
+					}
+				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+					return true;
+			}
+			return false;
+		}
+
 
 	}
 }
