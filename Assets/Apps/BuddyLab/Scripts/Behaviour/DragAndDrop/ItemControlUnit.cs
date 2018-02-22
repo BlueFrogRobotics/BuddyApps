@@ -75,6 +75,7 @@ namespace BuddyApp.BuddyLab
 
         public void ShowSequence(string iFileName)
         {
+            mStackUndoBli.Clear();
             mDirectoryPath = BYOS.Instance.Resources.GetPathToRaw("Projects" + "/" + iFileName);
             ShowSequence(iFileName, "Projects");
         }
@@ -380,20 +381,20 @@ namespace BuddyApp.BuddyLab
             Debug.Log("nb modif: " + mNbModifs);
             if(mStackUndoBli.Count>1)//mNbModifs>1)
             {
+                mStackRedoBli.Push(mStackUndoBli.Last.Value);//mQueueUndoBli.ToArray()[mNbModifs]);
                 mStackUndoBli.RemoveLast();
                 mNbModifs--;
                 CleanSequence();
                 ListBLI lList = mStackUndoBli.Last.Value;
                 ShowSequence(lList);
                 //ShowSequence(mQueueUndoBli.ToArray()[mNbModifs-1]);
-                mStackRedoBli.Push(lList);//mQueueUndoBli.ToArray()[mNbModifs]);
                 //ShowSequence((mNbModifs-1) + ".xml", "Temp");
             }
-            else if(mStackUndoBli.Count==1)
-            {
-                ListBLI lList = mStackUndoBli.Last.Value;
-                mStackRedoBli.Push(lList);
-            }
+            //else if(mStackUndoBli.Count==1)
+            //{
+            //    ListBLI lList = mStackUndoBli.Last.Value;
+            //    mStackRedoBli.Push(lList);
+            //}
         }
 
         public void Redo()
