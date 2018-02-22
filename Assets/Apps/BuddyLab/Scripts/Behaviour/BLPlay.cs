@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
+using UnityEngine.UI;
 
 namespace BuddyApp.BuddyLab
 {
@@ -19,9 +20,15 @@ namespace BuddyApp.BuddyLab
         private LoopManager mLoopManager;
         private ConditionManager mConditionManager;
         private BuddyLabBehaviour mBLBehaviour;
+        private GameObject mButtonHideUI;
+        private GameObject mUIToHide;
+        private GameObject mSequenceToHide;
 
         public override void Start()
         {
+            mSequenceToHide = GetGameObject(10);
+            mButtonHideUI = GetGameObject(8);
+            mUIToHide = GetGameObject(9);
             mConditionManager = GetGameObject(3).GetComponent<ConditionManager>();
             mLoopManager = GetGameObject(3).GetComponent<LoopManager>();
             mUIManager = GetComponent<LabUIEditorManager>();
@@ -57,12 +64,14 @@ namespace BuddyApp.BuddyLab
             ItemControlUnit.OnNextAction -= ChangeItemHighlight;
             mTimelineDisplayer.HideSequence();
             mUIManager.StopButton.onClick.RemoveListener(Stop);
+            mButtonHideUI.GetComponent<Button>().onClick.RemoveListener(HideUi);
             mUIManager.ReplayButton.onClick.RemoveListener(Replay);
             mUIManager.ClosePlayUI();
         }
 
         private void Stop()
         {
+            mButtonHideUI.SetActive(false);
             ResetPosition();
             mItemControl.IsRunning = false;
             mLoopManager.ResetParam();
@@ -103,6 +112,10 @@ namespace BuddyApp.BuddyLab
 
         private IEnumerator Play()
         {
+            if (!mUIToHide.activeSelf)
+                mUIToHide.SetActive(true);
+            mButtonHideUI.SetActive(true);
+            mButtonHideUI.GetComponent<Button>().onClick.AddListener(HideUi);
             yield return new WaitForSeconds(0.5F);
             mItemControl.IsRunning = true;
             mIsPlaying = true;
@@ -125,6 +138,24 @@ namespace BuddyApp.BuddyLab
         private void ChangeItemHighlight(int iNum)
         {
             mTimelineDisplayer.HighlightElement(iNum);
+        }
+
+        private void HideUi()
+        {
+           
+            if (mUIToHide.activeSelf)
+            {
+                mUIToHide.SetActive(false);
+                mSequenceToHide.SetActive(false);
+                //Header.DisplayParametersButton = false;
+            }
+            else
+            {
+                mUIToHide.SetActive(true);
+                mSequenceToHide.SetActive(true);
+                //Header.DisplayParametersButton = true;
+                
+            }
         }
     }
 }

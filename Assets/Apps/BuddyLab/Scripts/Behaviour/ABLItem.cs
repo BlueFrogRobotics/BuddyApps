@@ -17,7 +17,8 @@ namespace BuddyApp.BuddyLab
     {
         BML=0,
         CONDITION=1,
-        LOOP=2
+        LOOP=2,
+        SPECIAL=3
     }
 
     public class BLItemSerializable
@@ -37,8 +38,8 @@ namespace BuddyApp.BuddyLab
         public LoopType LoopType { get; set; }
 
         public int NbItemsInLoop { get; set; }
-    }
 
+    }
 
     public class ListBLI
     {
@@ -52,7 +53,6 @@ namespace BuddyApp.BuddyLab
 
     public abstract class ABLItem : MonoBehaviour
     {
-      
         [SerializeField]
         protected int Index;
 
@@ -63,7 +63,5 @@ namespace BuddyApp.BuddyLab
         public string Parameter;
 
         public abstract BLItemSerializable GetItem();
-
-
     }
 }

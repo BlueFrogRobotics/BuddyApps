@@ -15,8 +15,6 @@ namespace BuddyApp.BuddyLab
 
         private bool mIsInitialised = false;
 
-
-
         public int NbItems { get { return mNbItems; }
         set {
                 mNbItems = value;
