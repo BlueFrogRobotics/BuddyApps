@@ -39,6 +39,7 @@ namespace BuddyApp.Companion
 			mTimeState = 0F;
 			mTimeHumanLastDetected = 0F;
 			mDurationDetected = 0F;
+			mActionTrigger = "";
 
 		}
 
@@ -48,8 +49,9 @@ namespace BuddyApp.Companion
 		{
 			mState.text = "User Detected move: " + !BYOS.Instance.Primitive.Motors.Wheels.Locked;
 
+
 			// if human is not detected for 1.5 seconds
-			if(mTimeHumanLastDetected > 1.5F) {
+			if (mTimeHumanLastDetected > 1.5F) {
 				mDurationDetected = 0F;
 			} else {
 				mDurationDetected += Time.deltaTime;
@@ -78,18 +80,19 @@ namespace BuddyApp.Companion
 					BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
 				} else {
 					// Otherwise trigger to perform the action
+					Debug.Log("[USERDETECTED]Trigger desired action: " + mActionTrigger);
 					Trigger(mActionTrigger);
 				}
 			}
 
 			// if no one there, do whatever Buddy wants
 			else if (mTimeHumanLastDetected > 10F)
-				Trigger(mActionManager.DesiredAction(COMPANION_STATE.IDLE));
+				Trigger(mActionManager.DesiredAction(COMPANION_STATE.USER_DETECTED));
 
 
 
 			// 0) If trigger vocal or kidnapping or low battery... go to corresponding state
-			if (string.IsNullOrEmpty(mActionTrigger)) {
+			if (mActionTrigger == "IDLE" || string.IsNullOrEmpty(mActionTrigger)) {
 				if (mDetectionManager.mDetectedElement == Detected.THERMAL || mDetectionManager.mDetectedElement == Detected.HUMAN_RGB)
 					mTimeHumanLastDetected = 0;
 				else if (mDetectionManager.mDetectedElement != Detected.NONE) {
@@ -103,6 +106,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mActionTrigger = "";
 			Debug.Log("User detected exit");
 			mActionManager.StopAllActions();
 			mDetectionManager.mDetectedElement = Detected.NONE;

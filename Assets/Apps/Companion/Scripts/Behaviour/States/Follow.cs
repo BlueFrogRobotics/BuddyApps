@@ -84,6 +84,7 @@ namespace BuddyApp.Companion
 					mActionManager.StopThermalFollow();
 
 					mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.FOLLOW);
+					if(mActionTrigger != "FOLLOW")
 					Trigger(mActionTrigger);
 				}
 			}
@@ -95,14 +96,20 @@ namespace BuddyApp.Companion
 			} else if (mActionManager.CurrentActionHumanOrder && mDetectionManager.mDetectedElement == Detected.BATTERY && Interaction.Mood.CurrentMood != MoodType.TIRED) {
 				mDetectionManager.mDetectedElement = Detected.NONE;
 				Interaction.Mood.Set(MoodType.TIRED);
-			} else if(string.IsNullOrEmpty(mActionTrigger) ) {
+			} else if(string.IsNullOrEmpty(mActionTrigger) || mActionTrigger != "FOLLOW" ) {
 
 				// We react only if Buddy didn't chose an action.
 				// This may not be the best way but this has very low chances (almost none) to happen at the same time (frame) ...
+
+				Debug.Log("No action chosen, react?");
+
 				mActionTrigger = mActionManager.LaunchReaction(COMPANION_STATE.FOLLOW, mDetectionManager.mDetectedElement);
-				if (!string.IsNullOrEmpty(mActionTrigger))
+				if (!string.IsNullOrEmpty(mActionTrigger)) {
 					Trigger(mActionTrigger);
-			}
+					Debug.Log("Follow reaction chosen " + mActionTrigger);
+				}
+			} else
+				Debug.Log("Follow action chosen " + mActionTrigger);
 
 		}
 

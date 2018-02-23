@@ -50,37 +50,35 @@ namespace BuddyApp.Companion
 			if (mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH || mDetectionManager.mDetectedElement == Detected.TRIGGER)
 				Trigger("VOCALCOMMAND");
 
-			else if (mDetectionManager.mDetectedElement == Detected.TOUCH) {
 
 
-				if (mDetectionManager.mFacePartTouched == FaceTouch.LEFT_EYE || mDetectionManager.mFacePartTouched == FaceTouch.RIGHT_EYE) {
-					Debug.Log("Robot touched eye");
-					mLastTouchTime = Time.time;
-					//React
-					mActionManager.EyeReaction();
-					mEyeCounter++;
+			if (mDetectionManager.mFacePartTouched == FaceTouch.LEFT_EYE || mDetectionManager.mFacePartTouched == FaceTouch.RIGHT_EYE) {
+				Debug.Log("Robot touched eye");
+				mLastTouchTime = Time.time;
+				//React
+				mActionManager.EyeReaction();
+				mEyeCounter++;
 
-					mLastPartTouched = mDetectionManager.mFacePartTouched;
+				mLastPartTouched = mDetectionManager.mFacePartTouched;
 
-					if (mEyeCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking) {
-						Interaction.TextToSpeech.SayKey("stoppokeeye");
-					}
+				if (mEyeCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking) {
+					Interaction.TextToSpeech.SayKey("stoppokeeye");
+				}
 
 
 
-				} else if (mDetectionManager.mFacePartTouched == FaceTouch.OTHER) {
-					Debug.Log("Robot touched other");
+			} else if (mDetectionManager.mFacePartTouched == FaceTouch.OTHER) {
+				Debug.Log("Robot touched other");
 
-					Debug.Log("Robot touched other " + mDetectionManager.mFacePartTouched.ToString() + " " + mDetectionManager.mDetectedElement.ToString());
-					mLastTouchTime = Time.time;
-					//React
-					mActionManager.HeadReaction();
-					mFaceCounter++;
+				Debug.Log("Robot touched other " + mDetectionManager.mFacePartTouched.ToString() + " " + mDetectionManager.mDetectedElement.ToString());
+				mLastTouchTime = Time.time;
+				//React
+				mActionManager.HeadReaction();
+				mFaceCounter++;
 
-					mLastPartTouched = mDetectionManager.mFacePartTouched;
-					if (mFaceCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking) {
-						Interaction.TextToSpeech.SayKey("ilikecaress");
-					}
+				mLastPartTouched = mDetectionManager.mFacePartTouched;
+				if (mFaceCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking) {
+					Interaction.TextToSpeech.SayKey("ilikecaress");
 				}
 			}
 
@@ -90,7 +88,7 @@ namespace BuddyApp.Companion
 			if (!mActionManager.ActiveAction() && Interaction.SpeechToText.HasFinished) {
 
 				if (mLastPartTouched == FaceTouch.OTHER) {
-					if (mLastTouchTime > 5F) {
+					if (Time.time - mLastTouchTime > 5F) {
 						Debug.Log("Robot touched ask again");
 						// ask touch again if not enough positivity
 						if (Interaction.InternalState.Positivity < 3)
@@ -106,13 +104,13 @@ namespace BuddyApp.Companion
 				} else if (mLastPartTouched == FaceTouch.RIGHT_EYE || mLastPartTouched == FaceTouch.LEFT_EYE) {
 
 
-					if (mLastTouchTime > 4F) {
+					if (Time.time - mLastTouchTime > 4F) {
 						// thanks to stop poking according to mood
 					}
 
 				}
 
-				if (mLastTouchTime > 7F) {
+				if (Time.time - mLastTouchTime > 7F) {
 					// if nothing for 7s
 					if (mFaceCounter > 2 && mEyeCounter < 2)
 						Trigger("FOLLOW");
@@ -124,7 +122,7 @@ namespace BuddyApp.Companion
 
 			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
 			mDetectionManager.mDetectedElement = Detected.NONE;
-			Debug.Log("Reset values: " + mDetectionManager.mFacePartTouched.ToString() + " " + mDetectionManager.mDetectedElement.ToString());
+			//Debug.Log("Reset values: " + mDetectionManager.mFacePartTouched.ToString() + " " + mDetectionManager.mDetectedElement.ToString());
 
 		}
 

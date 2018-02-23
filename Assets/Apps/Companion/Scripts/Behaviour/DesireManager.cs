@@ -51,24 +51,24 @@ namespace BuddyApp.Companion
 
 
 						case BUDDY_ACTION.NONE:
-							UpdateDesire(2, 2, 2, 1, 1);
+							UpdateDesire(2, 1, 0, 1, 1);
 							break;
 
 						case BUDDY_ACTION.WANDER:
-							UpdateDesire(-2, 2, 2, 1, 1);
+							UpdateDesire(-2, 1, 1, 1, 1);
 							break;
 
 						case BUDDY_ACTION.DANCE:
-							UpdateDesire(-5, 1, 1, 1, 1);
+							UpdateDesire(-5, 1, 0, 1, 1);
 							break;
 
 						case BUDDY_ACTION.FOLLOW:
 
-							UpdateDesire(-1, 3, 1, 2, 2);
+							UpdateDesire(-1, 1, 2, 2, 2);
 							break;
 
 						case BUDDY_ACTION.LOOK_FOR_USER:
-							UpdateDesire(-2, 1, 3, 0, 2);
+							UpdateDesire(-2, 1, 1, 0, 2);
 							break;
 
 						case BUDDY_ACTION.CHAT:
@@ -76,15 +76,15 @@ namespace BuddyApp.Companion
 							break;
 
 						case BUDDY_ACTION.TOUCH_INTERACT:
-							UpdateDesire(-1, 2, 1, 2, 0);
+							UpdateDesire(-1, 2, 2, 2, 0);
 							break;
 
 						case BUDDY_ACTION.ASK_USER_PROFILE:
-							UpdateDesire(1, 1, 1, -5, 1);
+							UpdateDesire(1, 1, 0, -5, 1);
 							break;
 
 						case BUDDY_ACTION.EXPRESS_MOOD:
-							UpdateDesire(-2, 2, 2, 1, 1);
+							UpdateDesire(-2, 1, 0, 1, 1);
 							break;
 
 						default:

@@ -39,6 +39,7 @@ namespace BuddyApp.Companion
 			mNeedListen = true;
 			mProposal = mKeyOptions[UnityEngine.Random.Range(0, mKeyOptions.Count)];
 
+			mDetectionManager.StopSphinxTrigger();
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.GAME;
@@ -52,7 +53,7 @@ namespace BuddyApp.Companion
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
 			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
 
-			Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetRandomString(mProposal), YesAnswer, NoAnswer);
+			Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("propose" + mProposal), YesAnswer, NoAnswer);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -95,12 +96,14 @@ namespace BuddyApp.Companion
 		private void YesAnswer()
 		{
 			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("herewego"));
+			Toaster.Hide();
 			OnAnswer(mProposal);
 		}
 
 		private void NoAnswer()
 		{
 			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("nopb"));
+			Toaster.Hide();
 			OnAnswer("nogame");
 		}
 

@@ -132,24 +132,32 @@ namespace BuddyApp.Companion
 
 
 					case DESIRE.EXPRESSMOOD:
+						Debug.Log("[Companion][ActionManager] desired action expressmood");
 						return "EXPRESSMOOD";
 
 					// TODO: add state propose interact to ask for caress or propose game or ...
 					case DESIRE.INTERACT:
 						if (!mDetectionManager.UserPresent(iState))
-							if (CompanionData.Instance.CanMoveBody)
+							if (CompanionData.Instance.CanMoveBody) {
+								Debug.Log("[Companion][ActionManager] desired action look 4");
 								return "LOOKINGFORSOMEONE";
-							else
+							} else {
+								Debug.Log("[Companion][ActionManager] desired action IDLE");
 								return "IDLE";
-						else if (CompanionData.Instance.CanMoveBody && CompanionData.Instance.mMovingDesire > 80)
+							} else if (CompanionData.Instance.CanMoveBody && CompanionData.Instance.mMovingDesire > 80) {
+							Debug.Log("[Companion][ActionManager] desired action FOLLOW");
 							return "FOLLOW";
-						else if (BYOS.Instance.Interaction.InternalState.Positivity > 3)
-							if (CompanionData.Instance.mLearnDesire > CompanionData.Instance.mTeachDesire)
+						} else if (BYOS.Instance.Interaction.InternalState.Positivity > 3)
+							if (CompanionData.Instance.mLearnDesire > CompanionData.Instance.mTeachDesire) {
+								Debug.Log("[Companion][ActionManager] desired action ASKJOKE");
 								return "ASKJOKE";
-							else
+							} else {
+								Debug.Log("[Companion][ActionManager] desired action TELLJOKE");
 								return "TELLJOKE";
-						else
+							} else {
+							Debug.Log("[Companion][ActionManager] desired action PROPOSEGAME");
 							return "PROPOSEGAME";
+						}
 
 					case DESIRE.MOVE:
 						// if Buddy happy and user present, raise chances of dance:
@@ -160,55 +168,78 @@ namespace BuddyApp.Companion
 								lChancesToDance += 3;
 
 							int lRand = UnityEngine.Random.Range(0, 9);
-							if (lRand < lChancesToDance)
+							if (lRand < lChancesToDance) {
+								Debug.Log("[Companion][ActionManager] desired action DANCE");
 								return "DANCE";
-							else
+							} else {
+								Debug.Log("[Companion][ActionManager] desired action WANDER");
 								return "WANDER";
-						} else
-							// TODO maybe use 2cd highest desire?
+							}
+						}
+							 // TODO maybe use 2cd highest desire?
+							 else {
+							Debug.Log("[Companion][ActionManager] desired action IDLE");
 							return "IDLE";
+						}
 
 					// TODO: add this
 					case DESIRE.TEACH:
 						if (mDetectionManager.UserPresent(iState))
-							if (CompanionData.Instance.mHelpDesire > CompanionData.Instance.mInteractDesire)
+							if (CompanionData.Instance.mHelpDesire > CompanionData.Instance.mInteractDesire) {
+								Debug.Log("[Companion][ActionManager] desired action INFORM");
 								return "INFORM";
-							else
+							} else
 								return "PROPOSEEDUTAINMENT";
-						else if (CompanionData.Instance.CanMoveBody)
+						else if (CompanionData.Instance.CanMoveBody) {
+							Debug.Log("[Companion][ActionManager] desired action LOOKINGFORSOMEONE");
 							return "LOOKINGFORSOMEONE";
-						else
+						} else {
+							Debug.Log("[Companion][ActionManager] desired action IDLE");
 							return "IDLE";
+						}
 
 					case DESIRE.HELP:
 						if (mDetectionManager.UserPresent(iState))
-							if (CompanionData.Instance.mTeachDesire > CompanionData.Instance.mInteractDesire)
+							if (CompanionData.Instance.mTeachDesire > CompanionData.Instance.mInteractDesire) {
+								Debug.Log("[Companion][ActionManager] desired action INFORM");
 								return "INFORM";
-							else
+							} else {
+								Debug.Log("[Companion][ActionManager] desired action PROPOSESERVICE");
 								return "PROPOSESERVICE";
-						else if (CompanionData.Instance.CanMoveBody)
+							} else if (CompanionData.Instance.CanMoveBody) {
+							Debug.Log("[Companion][ActionManager] desired action LOOKINGFORSOMEONE");
 							return "LOOKINGFORSOMEONE";
-						else
+						} else {
+							Debug.Log("[Companion][ActionManager] desired action IDLE");
 							return "IDLE";
+						}
 
 					case DESIRE.LEARN:
 						if (mDetectionManager.UserPresent(iState))
 
 							//TODO: Check how much info we have on present person
-							if (BYOS.Instance.Interaction.InternalState.Positivity > 5 && CompanionData.Instance.mInteractDesire < 50)
+							if (BYOS.Instance.Interaction.InternalState.Positivity > 5 && CompanionData.Instance.mInteractDesire < 50) {
+								Debug.Log("[Companion][ActionManager] desired action ASKJOKE");
 								return "ASKJOKE";
-							else
+							} else {
+								Debug.Log("[Companion][ActionManager] desired action ASKINFO");
 								return "ASKINFO";
-						else if (CompanionData.Instance.CanMoveBody)
+							} else if (CompanionData.Instance.CanMoveBody) {
+							Debug.Log("[Companion][ActionManager] desired action LOOKINGFORSOMEONE");
 							return "LOOKINGFORSOMEONE";
-						else
+						} else {
+							Debug.Log("[Companion][ActionManager] desired action IDLE");
 							return "IDLE";
+						}
 
 					default:
+						Debug.Log("[Companion][ActionManager] desired action IDLE");
 						return "IDLE";
 				}
-			} else
+			} else {
+				Debug.Log("[Companion][ActionManager] desired action IDLE");
 				return "IDLE";
+			}
 		}
 
 		public bool StartWander(MoodType iMood = MoodType.NEUTRAL)
@@ -301,7 +332,20 @@ namespace BuddyApp.Companion
 				case Detected.THERMAL:
 					Debug.Log("[Companion][ActionManager] reaction thermal");
 					// TODO: add exception states if needed
-					return "INTERACT";
+
+					StopAllActions();
+					if (BYOS.Instance.Interaction.InternalState.Positivity > 3)
+						BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
+					else if (BYOS.Instance.Interaction.InternalState.Positivity > -2)
+						BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
+					else
+						BYOS.Instance.Interaction.BMLManager.LaunchRandom(Internal2FaceMood(mInternalStateMood));
+
+					// if we look for a user it is because we have a desire...
+					if (iState == COMPANION_STATE.LOOK_FOR_USER) {
+						return DesiredAction(COMPANION_STATE.LOOK_FOR_USER);
+					} else
+						return "INTERACT";
 
 				case Detected.HUMAN_RGB:
 					Debug.Log("[Companion][ActionManager] reaction human rgb");
@@ -309,6 +353,7 @@ namespace BuddyApp.Companion
 					return "INTERACT";
 
 				default:
+					Debug.Log("[Companion][ActionManager] reaction dafault");
 					return "";
 			}
 		}
@@ -348,8 +393,8 @@ namespace BuddyApp.Companion
 				} else {
 					//TODO: play BML instead
 					Debug.Log("no action + face poked  -> play Surprise");
-					if(BYOS.Instance.Interaction.SpeechToText.HasFinished)
-					BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+					if (BYOS.Instance.Interaction.SpeechToText.HasFinished)
+						BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 					TimedMood(MoodType.SURPRISED);
 				}
 

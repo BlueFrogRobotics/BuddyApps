@@ -32,30 +32,31 @@ namespace BuddyApp.Companion
 			mKeyOptions = new List<string>();
 			mKeyOptions.Add("iot");
 			mKeyOptions.Add("weather");
-			mKeyOptions.Add("Jukebox");
+			mKeyOptions.Add("jukebox");
 
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mState.text = "Propose Game";
+			mState.text = "Propose Service";
 			mNeedListen = true;
 			mProposal = mKeyOptions[UnityEngine.Random.Range(0, mKeyOptions.Count)];
 
 
+			mDetectionManager.StopSphinxTrigger();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.GAME;
 			mTime = 0F;
 			mNoGame = false;
 			Interaction.Mood.Set(MoodType.HAPPY);
 
-			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("attention") + " " + Dictionary.GetRandomString("propose" + mProposal));
+			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("attention") + " " + Dictionary.GetRandomString("propose" + mProposal));
 
 
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
 			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
 
-			Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetRandomString(mProposal), YesAnswer, NoAnswer);
+			Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("propose" + mProposal), YesAnswer, NoAnswer);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -97,13 +98,15 @@ namespace BuddyApp.Companion
 
 		private void YesAnswer()
 		{
-			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("herewego"));
+			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("herewego"));
+			Toaster.Hide();
 			OnAnswer(mProposal);
 		}
 
 		private void NoAnswer()
 		{
-			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("nopb"));
+			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("nopb"));
+			Toaster.Hide();
 			OnAnswer("nogame");
 		}
 
