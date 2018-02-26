@@ -51,8 +51,13 @@ namespace BuddyApp.Companion
 							+ Dictionary.GetRandomString("because") + " " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey), true);
 
 					} else {
-						Interaction.TextToSpeech.Say(Dictionary.GetRandomString("informbattery")
-						.Replace("[batterylevel]", BYOS.Instance.Primitive.Battery.EnergyLevel.ToString()));
+						if(BYOS.Instance.Primitive.Battery.EnergyLevel < 0) {
+							mActionManager.TimedMood(MoodType.SCARED, 7F);
+							Interaction.TextToSpeech.Say("Oh my God! I can't feel my battery anymore! [200] Please put it back!!");
+						} else {
+							Interaction.TextToSpeech.Say(Dictionary.GetRandomString("informbattery")
+							.Replace("[batterylevel]", BYOS.Instance.Primitive.Battery.EnergyLevel.ToString()));
+						}
 					}
 					break;
 
@@ -61,7 +66,7 @@ namespace BuddyApp.Companion
 				case 1:
 					// TODO: add more random cities
 
-					string lParam = Dictionary.GetString("whatweather") + Dictionary.GetRandomString("citylist");
+					string lParam = Dictionary.GetString("whatweather") + " " + Dictionary.GetRandomString("citylist");
 
 					Debug.Log("[COMPANION][INFORM] start app weather with param " + lParam);
 					CompanionData.Instance.LastAppTime = DateTime.Now;
@@ -75,21 +80,17 @@ namespace BuddyApp.Companion
 
 				// 3 General knowledge (fun facts)
 				case 2:
-
-					Interaction.TextToSpeech.Say("funfacts");
-
+					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts") );
 					break;
 
 				// 4 knowledge about other users
 				// TODO
 				case 3:
-
-					Interaction.TextToSpeech.Say("funfacts");
-
+					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
 					break;
 
 				default:
-					Interaction.TextToSpeech.Say("funfacts");
+					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
 					break;
 
 			}
@@ -110,7 +111,7 @@ namespace BuddyApp.Companion
 					CompanionData.Instance.mTeachDesire -= 40;
 					CompanionData.Instance.mHelpDesire -= 20;
 				}
-				Trigger("VOCALCOMMAND");
+				Trigger("INTERACT");
 			}
 		}
 

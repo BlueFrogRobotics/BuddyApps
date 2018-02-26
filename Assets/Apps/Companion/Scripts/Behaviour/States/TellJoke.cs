@@ -26,7 +26,7 @@ namespace BuddyApp.Companion
 			mState.text = "Tell Joke";
 
 			Debug.Log("Playing BML joke");
-
+			
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.JOKE;
 

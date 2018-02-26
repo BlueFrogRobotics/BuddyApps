@@ -44,6 +44,7 @@ namespace BuddyApp.Companion
 			mLaunchingApp = false;
 			mLastHumanSpeech = "";
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
 			mState.text = "Vocal Triggered";
 			Debug.Log("state: Vocal Triggered");
 
@@ -183,6 +184,7 @@ namespace BuddyApp.Companion
 
 				// When launching app failed
 			} else if (!Interaction.TextToSpeech.HasFinishedTalking && mLaunchingApp) {
+				Debug.Log("Launching app failed");
 				mLaunchingApp = false;
 				mNeedListen = true;
 			}

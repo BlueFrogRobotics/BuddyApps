@@ -353,7 +353,7 @@ namespace BuddyApp.Companion
 					return "INTERACT";
 
 				default:
-					Debug.Log("[Companion][ActionManager] reaction dafault");
+					Debug.Log("[Companion][ActionManager] reaction default");
 					return "";
 			}
 		}

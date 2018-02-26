@@ -92,7 +92,7 @@ namespace BuddyApp.Companion
 
 			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
 
-			if (mDetectionManager.mDetectedElement != Detected.NONE) {
+			if (mDetectionManager.mDetectedElement != Detected.NONE && mDetectionManager.mDetectedElement != Detected.TOUCH) {
 
 				string lTrigger = mActionManager.LaunchReaction(COMPANION_STATE.WANDER, mDetectionManager.mDetectedElement);
 				if (!string.IsNullOrEmpty(lTrigger)) {

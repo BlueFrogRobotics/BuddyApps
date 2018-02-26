@@ -74,9 +74,9 @@ namespace BuddyApp.Companion
 		private void OnSpeechRecognition(string iMsg)
 		{
 			// TODO add emotion event
-			if (ContainsOneOf(iMsg, Dictionary.GetPhoneticStrings("yes")))
+			if (ContainsOneOf(iMsg, Dictionary.GetPhoneticStrings("accept")))
 				YesAnswer();
-			else if (ContainsOneOf(iMsg, Dictionary.GetPhoneticStrings("no")))
+			else if (ContainsOneOf(iMsg, Dictionary.GetPhoneticStrings("refuse")))
 				NoAnswer();
 			else
 				mNeedListen = true;
@@ -91,6 +91,8 @@ namespace BuddyApp.Companion
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
+			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
+			Interaction.SpeechToText.OnErrorEnum.Remove(ErrorSTT);
 		}
 
 		private void YesAnswer()
