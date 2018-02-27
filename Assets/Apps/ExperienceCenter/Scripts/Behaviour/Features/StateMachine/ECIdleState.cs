@@ -28,14 +28,17 @@ namespace BuddyApp.ExperienceCenter
 			mQuestionBehaviour.StopBehaviour ();
 			mIdleBehaviour.StopBehaviour ();
 
-			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
-			BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
-			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+            BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
+            //BYOS.Instance.Interaction.SpeechToText.OnErrorEnum.Clear();
+            //BYOS.Instance.Interaction.SpeechToText.OnErrorEnum.Add(SpeechToTextError);
+            //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
+            BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
+            BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 		}
 
 		public void SpeechToTextError (STTError iError)
 		{
-			Debug.LogWarningFormat ("[EXCENTER] ERROR STT: {0}", iError.ToString ());
+			Debug.LogWarningFormat ("[EXCENTER][ECIDLESTATE] ERROR STT: {0}", iError.ToString ());
 			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
 		}
 	}

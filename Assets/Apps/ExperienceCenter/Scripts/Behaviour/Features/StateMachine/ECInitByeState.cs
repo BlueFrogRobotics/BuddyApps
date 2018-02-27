@@ -22,7 +22,9 @@ namespace BuddyApp.ExperienceCenter
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			mQuestionsBehaviour = GameObject.Find ("AIBehaviour").GetComponent<QuestionsBehaviour> ();
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
-			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
+            BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
+            //BYOS.Instance.Interaction.SpeechToText.OnErrorEnum.Clear();
+            //BYOS.Instance.Interaction.SpeechToText.OnErrorEnum.Add(SpeechToTextError);
 			BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
 			mAddReco = false;
 		}
@@ -30,8 +32,12 @@ namespace BuddyApp.ExperienceCenter
 		override public void OnStateUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			if (!mAddReco && mIdleBehaviour.behaviourEnd && mQuestionsBehaviour.behaviourEnd) {
-				BYOS.Instance.Interaction.VocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
-				BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
+                //if (ExperienceCenterData.Instance.VoiceTrigger)
+                //    BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
+                BYOS.Instance.Interaction.VocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
+                //BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Clear();
+                //BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Add(SpeechToTextCallback);
+                BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
 				mAddReco = true;
 			}
 		}
@@ -57,7 +63,7 @@ namespace BuddyApp.ExperienceCenter
 
 		public void SpeechToTextError (STTError iError)
 		{
-			Debug.LogWarningFormat ("[EXCENTER] ERROR STT: {0}", iError.ToString ());
+			Debug.LogWarningFormat ("[EXCENTER][BYE] ERROR STT: {0}", iError.ToString ());
 			BYOS.Instance.Interaction.Mood.Set (MoodType.NEUTRAL);
 		}
 	}

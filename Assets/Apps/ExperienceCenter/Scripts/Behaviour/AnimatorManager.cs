@@ -70,6 +70,7 @@ namespace BuddyApp.ExperienceCenter
 		private MoveForwardBehaviour mMoveBehaviour;
 		private CollisionDetector mCollisionDetector;
 		private TextToSpeech mTTS;
+        //private SpeechToText mSpeechToText;
 
 		private bool mSwitchOnce;
 		private bool mSwitchIdleOnce;
@@ -91,6 +92,7 @@ namespace BuddyApp.ExperienceCenter
 			mSwitchIdleOnce = true;
 			emergencyStop = false;
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
+            //mSpeechToText = BYOS.Instance.Interaction.SpeechToText;
 			mMainAnimator = GameObject.Find ("AIBehaviour").GetComponent<Animator> ();
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			mMoveBehaviour = GameObject.Find ("AIBehaviour").GetComponent<MoveForwardBehaviour> ();
@@ -101,6 +103,8 @@ namespace BuddyApp.ExperienceCenter
 			ExperienceCenterData.Instance.Scenario = "Init";
 			StartCoroutine (HandleParametersCommands ());
 
+            //mSpeechToText.OnErrorEnum.Clear();
+            //mSpeechToText.OnErrorEnum.Add(AvoidLock);
 			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
 			BYOS.Instance.Interaction.VocalManager.OnError = AvoidLock;
 
@@ -114,23 +118,25 @@ namespace BuddyApp.ExperienceCenter
 
 			if (mTrigger != ExperienceCenterData.Instance.VoiceTrigger) {
 				mTrigger = ExperienceCenterData.Instance.VoiceTrigger; 
-				Debug.LogFormat ("[EXCENTER] Voice Trigger = {0}", mTrigger);
+				Debug.LogFormat ("[EXCENTER][ANIMMANAGER] Voice Trigger = {0}", mTrigger);
 			}
 
 			if (ExperienceCenterData.Instance.RunTrigger) {
+                //mSpeechToText.Request();
 				BYOS.Instance.Interaction.VocalManager.StartInstantReco (false);
-				Debug.Log ("[EXCENTER] Run Trigger ");
+				Debug.Log ("[EXCENTER][ANIMMANAGER] Run Trigger ");
 				ExperienceCenterData.Instance.RunTrigger = false;
 			}
 
 			if (mBML != ExperienceCenterData.Instance.EnableBML) {
 				mBML = ExperienceCenterData.Instance.EnableBML; 
-				Debug.LogFormat ("[EXCENTER] BML active = {0}", mBML);
+				Debug.LogFormat ("[EXCENTER][ANIMMANAGER] BML active = {0}", mBML);
 			}
 			if (emergencyStop) {
+                //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
 				BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 				if (mTTS.HasFinishedTalking) {
-					Debug.LogWarning ("[EXCENTER] Run EMERGENCY STOP ! ");
+					Debug.LogWarning ("[EXCENTER][ANIMMANAGER] Run EMERGENCY STOP ! ");
 					emergencyStop = false;
 					ExperienceCenterActivity.QuitApp ();
 					return;
@@ -142,7 +148,7 @@ namespace BuddyApp.ExperienceCenter
 				if (mSwitchOnce) {
 					mMainAnimator.SetTrigger ("Idle");
 					ExperienceCenterData.Instance.Scenario = "Idle";
-					Debug.Log ("[EXCENTER] Switching to State: Idle");
+					Debug.Log ("[EXCENTER][ANIMMANAGER] Switching to State: Idle");
 					mSwitchOnce = false;
 					stateDict [State.Idle] = true;
 				}
@@ -153,7 +159,7 @@ namespace BuddyApp.ExperienceCenter
 						
 					if (!mIdleBehaviour.headPoseInit) {
 						if (mSwitchIdleOnce) {
-							Debug.Log ("[EXCENTER] Waiting for Head postion to be initialized !");
+							Debug.Log ("[EXCENTER][ANIMMANAGER] Waiting for Head postion to be initialized !");
 							mIdleBehaviour.StopBehaviour ();
 							mSwitchIdleOnce = false;
 						}
@@ -310,7 +316,7 @@ namespace BuddyApp.ExperienceCenter
 						if (mMoveBehaviour.behaviourEnd)
 							UpdateStateDict (cmd, State.MoveForward);
 						else
-							Debug.LogWarning ("[EXCENTER] Behaviour MoveForward is still running !");
+							Debug.LogWarning ("[EXCENTER][ANIMMANAGER] Behaviour MoveForward is still running !");
 						break;
 					}
 				case Command.Stop:
@@ -334,7 +340,7 @@ namespace BuddyApp.ExperienceCenter
 				case Command.Unlock:
 					{
 						if (mCollisionDetector.behaviourInit) {
-							Debug.LogWarning ("[EXCENTER] Simulated obstacle !");
+							Debug.LogWarning ("[EXCENTER][ANIMMANAGER] Simulated obstacle !");
 							mCollisionDetector.enableToMove = false;
 						}
 						break;
@@ -360,7 +366,7 @@ namespace BuddyApp.ExperienceCenter
 				case Command.Unlock:
 					{
 						if (mCollisionDetector.behaviourInit) {
-							Debug.LogWarning ("[EXCENTER] Simulated obstacle !");
+							Debug.LogWarning ("[EXCENTER][ANIMMANAGER] Simulated obstacle !");
 							mCollisionDetector.enableToMove = false;
 						}
 						break;
@@ -394,11 +400,11 @@ namespace BuddyApp.ExperienceCenter
 		{
 			Command cmd = (Command)b;
 			State toState = (cmd == Command.Stop || cmd == Command.EmergencyStop) ? State.Idle : (State)b;	
-			Debug.Log ("[EXCENTER] Running cmd: " + cmd);
+			Debug.Log ("[EXCENTER][ANIMMANAGER] Running cmd: " + cmd);
 			stateDict [fromState] = false;
 			mOldState = fromState.ToString ();
 			stateDict [toState] = true;
-			Debug.Log ("[EXCENTER] Switching to State: " + toState.ToString ());
+			Debug.Log ("[EXCENTER][ANIMMANAGER] Switching to State: " + toState.ToString ());
 			mSwitchOnce = true;
 		}
 
@@ -418,7 +424,7 @@ namespace BuddyApp.ExperienceCenter
 				}
 			case StateReq.Battery:
 				{
-					Debug.LogFormat ("[EXCENTER] Battery level: {0}", mBatteryLevel);
+					Debug.LogFormat ("[EXCENTER][ANIMMANAGER] Battery level: {0}", mBatteryLevel);
 					if (mBatteryLevel <= 25)
 						return State.LowBattery;
 					else if (mBatteryLevel > 25 && mBatteryLevel <= 50)
@@ -450,7 +456,7 @@ namespace BuddyApp.ExperienceCenter
 		private void AvoidLock (STTError iError)
 		{
 			BYOS.Instance.Primitive.Motors.Wheels.Locked = false;
-			Debug.LogWarningFormat ("[EXCENTER] ERROR STT: {0}", iError.ToString ());
+			Debug.LogWarningFormat ("[EXCENTER][ANIMMANAGER] ERROR STT: {0}", iError.ToString ());
 		}
 
 		public void MouthClicked()
@@ -466,7 +472,7 @@ namespace BuddyApp.ExperienceCenter
 			VocalManager lVocalManager = BYOS.Instance.Interaction.VocalManager;
 			while(true)
 			{
-				if (lVocalManager.RecognitionFinished &&  buddyMood.CurrentMood!=MoodType.NEUTRAL)
+				if (lVocalManager.RecognitionFinished/*mSpeechToText.HasFinished */&&  buddyMood.CurrentMood!=MoodType.NEUTRAL)
 					buddyMood.Set(MoodType.NEUTRAL);
 				yield return new WaitForSeconds(0.5f);
 			}

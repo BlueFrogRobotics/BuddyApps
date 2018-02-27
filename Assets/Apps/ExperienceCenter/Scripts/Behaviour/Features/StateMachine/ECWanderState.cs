@@ -14,7 +14,8 @@ namespace BuddyApp.ExperienceCenter
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			mWalkBehaviour = GameObject.Find ("AIBehaviour").GetComponent<WanderBehaviour> ();
-			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+            //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
+            BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 			BYOS.Instance.Interaction.VocalManager.StopAllCoroutines ();
 			mWalkBehaviour.InitBehaviour ();
 		}

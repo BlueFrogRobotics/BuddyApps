@@ -69,7 +69,7 @@ namespace BuddyApp.ExperienceCenter
 			listener.Listen (10);
 
 			// Start listening for connections.
-			Debug.Log ("[EXCENTER] Start listening");
+			Debug.Log ("[EXCENTER][TCP SERVER] Start listening");
 			ExperienceCenterData.Instance.StatusTcp = "Waiting for connection";
 			while (true) {
 				mEventClient = false;
@@ -83,7 +83,7 @@ namespace BuddyApp.ExperienceCenter
 			}
 
 			listener.Close ();
-			Debug.LogWarning ("[EXCENTER] Stop listening");
+			Debug.LogWarning ("[EXCENTER][TCP SERVER] Stop listening");
 			mStop = false;
 		}
 
@@ -240,7 +240,7 @@ namespace BuddyApp.ExperienceCenter
 		public void StopServer ()
 		{
 			if (mHandler != null && mHandler.Connected) {
-				Debug.LogWarning ("[EXCENTER] Disconnecting all client !");
+				Debug.LogWarning ("[EXCENTER][TCP SERVER] Disconnecting all client !");
 				clientConnected = false;
 				ExperienceCenterData.Instance.StatusTcp = "Offline";
 				ExperienceCenterData.Instance.IPAddress = "-";

@@ -18,7 +18,8 @@ namespace BuddyApp.ExperienceCenter
 		{
 			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<MoveForwardBehaviour> ();
-			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+            //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
+            BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 			BYOS.Instance.Interaction.VocalManager.StopAllCoroutines ();
 			mBehaviour.InitBehaviour ();
 			mAddReco = false;
@@ -29,11 +30,17 @@ namespace BuddyApp.ExperienceCenter
 		{
 
 			if (mBehaviour.behaviourEnd && !mAddReco) {
-				BYOS.Instance.Interaction.VocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
-				BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
-				BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
-				BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
-				mAddReco = true;
+                //if (ExperienceCenterData.Instance.VoiceTrigger)
+                 //   BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
+                BYOS.Instance.Interaction.VocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
+                //BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Clear();
+                //BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Add(SpeechToTextCallback);
+                //BYOS.Instance.Interaction.SpeechToText.OnErrorEnum.Clear();
+                //BYOS.Instance.Interaction.SpeechToText.OnErrorEnum.Add(SpeechToTextError);
+                BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
+                BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
+                BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
+                mAddReco = true;
 			}
 		}
 

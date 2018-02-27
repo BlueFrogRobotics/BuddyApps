@@ -17,6 +17,8 @@ namespace BuddyApp.ExperienceCenter
 		private IdleBehaviour mIdleBehaviour;
 		private TextToSpeech mTTS;
 		private VocalManager mVocalManager;
+        //private SpeechToText mSpeechToText;
+        //private SphinxTrigger mSphinxTrigger;
 
 		private List <string> mKeyList;
 
@@ -31,17 +33,24 @@ namespace BuddyApp.ExperienceCenter
 		public void InitBehaviour ()
 		{
 			mVocalManager = BYOS.Instance.Interaction.VocalManager;
-			mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
+            //mSpeechToText = BYOS.Instance.Interaction.SpeechToText;
+            //mSphinxTrigger = BYOS.Instance.Interaction.SphinxTrigger;
+            mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mAttitudeBehaviour = GameObject.Find ("AIBehaviour").GetComponent<AttitudeBehaviour> ();
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			behaviourEnd = false;
+            //if (ExperienceCenterData.Instance.VoiceTrigger)
+            //    BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
+            //mSpeechToText.OnBestRecognition.Clear();
+            //mSpeechToText.OnBestRecognition.Add(SpeechToTextCallback);
+            //mSpeechToText.OnErrorEnum.Clear();
+            //mSpeechToText.OnErrorEnum.Add(ErrorCallback);
+            mVocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
+            mVocalManager.EnableDefaultErrorHandling = false;
+            mVocalManager.OnEndReco = SpeechToTextCallback;
+            mVocalManager.OnError = ErrorCallback;
 
-			mVocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
-			mVocalManager.EnableDefaultErrorHandling = false;
-			mVocalManager.OnEndReco = SpeechToTextCallback;
-			mVocalManager.OnError = ErrorCallback;
-
-			BYOS.Instance.Interaction.SphinxTrigger.SetThreshold (1E-24f);
+            BYOS.Instance.Interaction.SphinxTrigger.SetThreshold (1E-24f);
 			mTimeOutCount = 0;
 
 			mTTS = BYOS.Instance.Interaction.TextToSpeech;
@@ -72,12 +81,12 @@ namespace BuddyApp.ExperienceCenter
 			mStartSTTCoroutine = true;
 			while (!behaviourEnd)
 			{
-				if (!mVocalManager.RecognitionFinished && mStartSTTCoroutine)
+				if (/*!mSpeechToText.HasFinished*/ !mVocalManager.RecognitionFinished && mStartSTTCoroutine)
 				{
 					OnSphinxTrigger();
 
 					yield return new WaitForSeconds(0.5f);
-					yield return new WaitUntil(() => mVocalManager.RecognitionFinished);
+					yield return new WaitUntil(() => /*mSpeechToText.HasFinished*/mVocalManager.RecognitionFinished);
 				}
 
 				yield return new WaitForSeconds(0.5f);
@@ -99,7 +108,7 @@ namespace BuddyApp.ExperienceCenter
 			
 		public void SpeechToTextCallback (string iSpeech)
 		{
-			Debug.LogFormat ("[EXCENTER] SpeechToText : {0}", iSpeech);
+			Debug.LogFormat ("[EXCENTER][QUESTIONBEHAVIOUR] SpeechToText : {0}", iSpeech);
 			bool lClauseFound = false;
 			string lKey = "";
 			foreach (string lElement in mKeyList) {
@@ -119,13 +128,25 @@ namespace BuddyApp.ExperienceCenter
 					break;
 				}
 			}
-			// Launch Vocal Command if any
-			if (!lClauseFound)
-				Debug.Log ("[EXCENTER] SpeechToText : Not Found");
-			else {
-				StartCoroutine (LaunchVocalCommand (lKey));
-			}
-			mLaunchSTTOnce = false;
+            // Launch Vocal Command if any
+            if (!lClauseFound)
+            {
+                Debug.Log("[EXCENTER][QUESTIONBEHAVIOUR] SpeechToText : Not Found");
+                mTimeOutCount++;
+                Debug.Log("[EXCENTER][QUESTIONBEHAVIOUR] TimeOutCount : " + mTimeOutCount);
+                if (mTimeOutCount >= 2)
+                {
+                    mTimeOutCount = 0;
+                    mRestartSTT = false;
+                }
+                else
+                    mLaunchSTTOnce = false;
+            }
+            else
+            {
+                StartCoroutine(LaunchVocalCommand(lKey));
+                mLaunchSTTOnce = false;
+            }
 		}
 
 		private IEnumerator LaunchVocalCommand (string key)
@@ -139,12 +160,13 @@ namespace BuddyApp.ExperienceCenter
 
 		public void StopBehaviour ()
 		{
-			Debug.LogWarning ("[EXCENTER] Stop Question Behaviour");
+			Debug.LogWarning ("[EXCENTER][QUESTIONBEHAVIOUR] Stop Question Behaviour");
 
 			if (!mTTS.HasFinishedTalking)
 				mTTS.Stop ();
 			behaviourEnd = true;
 
+            //mSpeechToText.Stop();
 			mVocalManager.StopAllCoroutines ();
 			this.StopAllCoroutines ();
 		}
@@ -152,6 +174,7 @@ namespace BuddyApp.ExperienceCenter
 		private IEnumerator EnableSpeechToText ()
 		{
 			mVocalManager.EnableTrigger = false;
+            //mSphinxTrigger.StopRecognition();
 			mStartSTTCoroutine = false;
 			mRestartSTT = true;
 			mLaunchSTTOnce = false;
@@ -159,10 +182,10 @@ namespace BuddyApp.ExperienceCenter
 			{
 				if (!mLaunchSTTOnce)
 				{
-					if (!mVocalManager.RecognitionFinished)
+					if (/*!mSpeechToText.HasFinished*/ !mVocalManager.RecognitionFinished)
 					{
 						// Recognition not finished yet, waiting until it ends cleanly
-						yield return new WaitUntil(() => mVocalManager.RecognitionFinished);
+						yield return new WaitUntil(() => /*!mSpeechToText.HasFinished*/mVocalManager.RecognitionFinished);
 					}
 					else if(!mTTS.HasFinishedTalking)
 					{
@@ -174,6 +197,7 @@ namespace BuddyApp.ExperienceCenter
 						// Initiating Vocal Manager instance reco
 						yield return new WaitForSeconds(2.0f);
 						mLaunchSTTOnce = true;
+                        //mSpeechToText.Request();
 						mVocalManager.StartInstantReco(false);
 					}
 				}
@@ -181,13 +205,15 @@ namespace BuddyApp.ExperienceCenter
 			}
 			yield return new WaitForSeconds(1.0f);
 			mStartSTTCoroutine = true;
+            //mSphinxTrigger.LaunchRecognition();
 			mVocalManager.EnableTrigger = true;
 		}
 
 		public void ErrorCallback (STTError iError)
 		{
-			Debug.LogWarningFormat ("[EXCENTER] ERROR STT: {0}", iError.ToString ());
-			mTimeOutCount++;
+			Debug.LogWarningFormat ("[EXCENTER][QUESTIONBEHAVIOUR] ERROR STT: {0}", iError.ToString ());
+            mTimeOutCount++;
+            Debug.Log("[EXCENTER][QUESTIONBEHAVIOUR] TimeOutCount : "+mTimeOutCount);
 			if (mTimeOutCount >= 2) {
 				mTimeOutCount = 0;
 				mRestartSTT = false;

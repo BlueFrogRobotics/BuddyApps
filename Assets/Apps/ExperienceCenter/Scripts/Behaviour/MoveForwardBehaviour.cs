@@ -55,8 +55,8 @@ namespace BuddyApp.ExperienceCenter
 			mDistance = mDistance - CollisionDetector.Distance (BYOS.Instance.Primitive.Motors.Wheels.Odometry, mRobotPose);
 			//Save the robot Pose for future iteration if any
 			mRobotPose = BYOS.Instance.Primitive.Motors.Wheels.Odometry;
-			Debug.LogWarningFormat ("[EXCENTER]  Check condition : EnableMove = {0},  RecognitionFinished = {1}, TimeOut = {2}", mCollisionDetector.enableToMove, BYOS.Instance.Interaction.VocalManager.RecognitionFinished, mTimeOut);
-			yield return new WaitUntil (() => (mCollisionDetector.enableToMove && BYOS.Instance.Interaction.VocalManager.RecognitionFinished) || mTimeOut);
+			Debug.LogWarningFormat ("[EXCENTER]  Check condition : EnableMove = {0},  RecognitionFinished = {1}, TimeOut = {2}", mCollisionDetector.enableToMove, BYOS.Instance.Interaction.SpeechToText.HasFinished /*BYOS.Instance.Interaction.VocalManager.RecognitionFinished*/, mTimeOut);
+			yield return new WaitUntil (() => (mCollisionDetector.enableToMove && /*BYOS.Instance.Interaction.SpeechToText.HasFinished */BYOS.Instance.Interaction.VocalManager.RecognitionFinished) || mTimeOut);
 
 			if (!mTimeOut) {
 				BYOS.Instance.Primitive.Motors.Wheels.SetWheelsSpeed (lSpeed);

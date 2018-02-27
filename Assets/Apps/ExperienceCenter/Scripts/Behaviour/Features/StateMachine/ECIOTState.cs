@@ -13,7 +13,8 @@ namespace BuddyApp.ExperienceCenter
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IOTBehaviour> ();
-			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+            //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
+            BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
 			BYOS.Instance.Interaction.VocalManager.StopAllCoroutines ();
 			mBehaviour.InitBehaviour ();
 		}
