@@ -134,7 +134,7 @@ namespace BuddyApp.ExperienceCenter
                 Debug.Log("[EXCENTER][QUESTIONBEHAVIOUR] SpeechToText : Not Found");
                 mTimeOutCount++;
                 Debug.Log("[EXCENTER][QUESTIONBEHAVIOUR] TimeOutCount : " + mTimeOutCount);
-                if (mTimeOutCount >= 2)
+                if (mTimeOutCount >= 3)
                 {
                     mTimeOutCount = 0;
                     mRestartSTT = false;
@@ -214,7 +214,7 @@ namespace BuddyApp.ExperienceCenter
 			Debug.LogWarningFormat ("[EXCENTER][QUESTIONBEHAVIOUR] ERROR STT: {0}", iError.ToString ());
             mTimeOutCount++;
             Debug.Log("[EXCENTER][QUESTIONBEHAVIOUR] TimeOutCount : "+mTimeOutCount);
-			if (mTimeOutCount >= 2) {
+			if (mTimeOutCount >= 3) {
 				mTimeOutCount = 0;
 				mRestartSTT = false;
 			} else
