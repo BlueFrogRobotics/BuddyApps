@@ -26,6 +26,7 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("RLGL POSITION DETECTION");
             //Interaction.TextToSpeech.Silence(1000);
             mMotion = Perception.Motion;
             mMotion.enabled = true;

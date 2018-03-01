@@ -37,7 +37,9 @@ namespace BuddyApp.RedLightGreenLightGame
         private IEnumerator Repositionning()
         {
             yield return SayKeyAndWait("repositionning");
-            Toaster.Display<CountdownToast>().With(5, EndCountDown);
+            //Toaster.Display<CountdownToast>().With(5, EndCountDown);
+            if (Interaction.TextToSpeech.HasFinishedTalking)
+                EndCountDown();
             while (!mEndTimer)
                 yield return null;
             //yield return new WaitForSeconds(5);
