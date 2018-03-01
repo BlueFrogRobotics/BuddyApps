@@ -29,9 +29,9 @@ namespace BuddyApp.ExperienceCenter
 			RetrieveDevices = false;
 			mCookie = "";
 			IOTLabels = new Dictionary<string, string> () {
-				{ "light", "Led Outodoor" },
+				{ "light", "Led Outdoor" },
 				{ "sound", "Party Time" },
-				{ "store", "Awning outdoor" }
+				{ "store", "Awning" }
 			};
 		}
 
@@ -129,7 +129,7 @@ namespace BuddyApp.ExperienceCenter
 					for (int i = 0; i < response.Count; i++) {
 						if (response [i] ["name"].Value == "core:NameState") {
 							//Unexpected value, abort
-							if (response [i] ["value"].Value != "Led Outodoor") {
+							if (response [i] ["value"].Value != "Led Outdoor") {
 								Debug.LogErrorFormat ("[EXCENTER] Unexpected core:NameState value : {0}", response [i] ["value"].Value);
 								break;
 							}
@@ -153,7 +153,7 @@ namespace BuddyApp.ExperienceCenter
 					for (int i = 0; i < response.Count; i++) {
 						if (response [i] ["name"].Value == "core:NameState") {
 							//Unexpected value, abort
-							if (response [i] ["value"].Value != "Awning outdoor")
+							if (response [i] ["value"].Value != "Awning")
 								break;
 						} else if (response [i] ["name"].Value == "core:OpenClosedState")
 							ExperienceCenterData.Instance.IsStoreDeployed = (response [i] ["value"].Value == "open");
@@ -187,7 +187,7 @@ namespace BuddyApp.ExperienceCenter
 			WWWForm form = new WWWForm ();
 			form.AddField ("userId", ExperienceCenterData.Instance.UserID);
 			form.AddField ("userPassword", ExperienceCenterData.Instance.Password);
-
+            Debug.Log("userid: " + ExperienceCenterData.Instance.UserID + " psswd: " + ExperienceCenterData.Instance.Password);
 			System.Action<JSONObject,long> onLogin = delegate (JSONObject response, long responseCode) {
 				Debug.LogFormat ("[EXCENTER] Login response code : {0}", responseCode);
 				if (response ["success"]) {
@@ -228,8 +228,11 @@ namespace BuddyApp.ExperienceCenter
 		{
 			System.Action<JSONArray,long> onDevices = delegate (JSONArray response, long responseCode) {
 				Debug.LogFormat ("[EXCENTER] Get Devices response code : {0}", responseCode);
-				for (int i = 0; i < response.Count; i++)
-					jBuilder.AddDeviceURL (response [i] ["label"], response [i] ["deviceURL"]);
+                for (int i = 0; i < response.Count; i++)
+                {
+                    Debug.Log("[DEVICES] label: " + response[i]["label"]);
+                    jBuilder.AddDeviceURL(response[i]["label"], response[i]["deviceURL"]);
+                }
 
 				RetrieveDevices = true;
 			};
