@@ -57,6 +57,8 @@ namespace BuddyApp.Diagnostic
 				camerasRoot, thermalRoot, sensorsRoot
 			};
 
+			
+
 			mCurrentWindow = WindowType.FACE;
 			SetWindow((int)WindowType.VOCAL);
 		}

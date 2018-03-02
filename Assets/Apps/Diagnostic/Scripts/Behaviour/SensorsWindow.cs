@@ -78,6 +78,7 @@ namespace BuddyApp.Diagnostic
             leftIRValue.text = "" + mLeftIRSensor.Distance;
             middleIRValue.text = "" + mMiddleIRSensor.Distance;
             rightIRValue.text = "" + mRightIRSensor.Distance;
+			Debug.Log("RightIRSensor " + mRightIRSensor.Distance);
         }
     }
 }
