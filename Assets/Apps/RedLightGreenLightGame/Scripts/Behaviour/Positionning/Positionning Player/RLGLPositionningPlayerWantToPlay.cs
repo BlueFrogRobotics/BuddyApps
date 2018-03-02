@@ -24,7 +24,7 @@ namespace BuddyApp.RedLightGreenLightGame
             Vector2 lDist = Primitive.Motors.Wheels.Odometry - mRLGLBehaviour.StartingOdometry;
             Debug.Log("dist: " + lDist);
             Debug.Log("odom start: " + Primitive.Motors.Wheels.Odometry.ToString() + " end odom: " + mRLGLBehaviour.StartingOdometry.ToString());
-            if (lDist.magnitude < 2.0f)
+            if (lDist.magnitude < 1.5F)
                 Trigger("RecoilQuestion");
             else
                 Trigger("ReadyToPlay");
