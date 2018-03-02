@@ -142,7 +142,7 @@ namespace BuddyApp.Companion
 
 
 			mTime += Time.deltaTime;
-			if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.DonePlaying) {
+			if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.DonePlaying && Interaction.SpeechToText.HasFinished) {
 				if (!mVocalChat.BuildingAnswer && mNeedToGiveAnswer) {
 					//Give answer:
 					Debug.Log("give answer");
