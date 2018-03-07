@@ -79,14 +79,14 @@ namespace BuddyApp.BuddyLab
             mConditionManager.ConditionType = "";
             mIsPlaying = false;
             mLoopManager.ChangeIndex = false;
-            //if (Primitive.RGBCam.IsOpen)
-            //{
-            //    Debug.Log("CAMERA OPEN");
-            //    mMotionDetection.StopAllOnDetect();
-            //    mQRcodeDetection.StopAllOnDetect();
-            //    mFireDetection.StopAllOnDetect();
-            //    Primitive.RGBCam.Close();
-            //}
+            if (Primitive.RGBCam.IsOpen)
+            {
+                Debug.Log("CAMERA OPEN");
+                mMotionDetection.StopAllOnDetect();
+                //mQRcodeDetection.StopAllOnDetect();
+                mFireDetection.StopAllOnDetect();
+                Primitive.RGBCam.Close();
+            }
             GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
             Trigger("Scene");
         }

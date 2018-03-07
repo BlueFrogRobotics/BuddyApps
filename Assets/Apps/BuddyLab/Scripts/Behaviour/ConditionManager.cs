@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
 using UnityEngine.UI;
-using OpenCVUnity;
 
 namespace BuddyApp.BuddyLab
 {
@@ -122,30 +121,15 @@ namespace BuddyApp.BuddyLab
         private bool mIsInCondition;
         public bool IsInCondition { get { return mIsInCondition; } set { mIsInCondition = value; } }
 
-        //[SerializeField]
-        //private RawImage kikoo;
-
-        /// <summary>
-        /// Variables for color detection
-        /// </summary>
-        private ShadeProcessing mShade;
-        private bool mIsColorDetection;
-        private Mat mFrame;
-        private ShadeEntity[] mShadeEntity;
-        private int mAreaBoundingBoxSE;
-
         // Use this for initialization
         void Start()
         {
-            mFrame = new Mat();
             mMotor = BYOS.Instance.Primitive.Motors;
             mFace = BYOS.Instance.Interaction.Face;
             mQRCodeDetect = BYOS.Instance.Perception.QRCode;
             mIRSensors = BYOS.Instance.Primitive.IRSensors;
-            mShade = BYOS.Instance.Perception.Shade;
             mNoiseDetection = BYOS.Instance.Perception.Noise;
             mSTT = BYOS.Instance.Interaction.SpeechToText;
-            
             mSpeechReco = "";
             mIsStringSaid = false;
             mHeadMoving = false;
@@ -154,7 +138,6 @@ namespace BuddyApp.BuddyLab
             mTactileSubscribed = false;
             mIsTactileDetect = false;
             mIsFireDetect = false;
-            mIsColorDetection = false;
             mTimer = 0F;
             mTimerBis = 0;
             mSubscribed = false;
@@ -188,9 +171,7 @@ namespace BuddyApp.BuddyLab
                 {
                     mIsListening = false;
                     TextToSay();
-                }
-                if (mIsColorDetection)
-                    ColorDetection();
+                }  
             }
         }
 
@@ -256,10 +237,10 @@ namespace BuddyApp.BuddyLab
                         break;
                     case "Color":
                         Debug.Log("Color");
-                        mCam = BYOS.Instance.Primitive.RGBCam;
-                        mCam.Open(RGBCamResolution.W_320_H_240);
-                        mIsColorDetection = true;
-                        mSubscribed = true;
+                        //mCam = BYOS.Instance.Primitive.RGBCam;
+                        //mCam.Open(RGBCamResolution.W_320_H_240);
+                        //mIsColorDetection = true;
+                        //mSubscribed = true;
                         break;
                     case "HeadTactile":
                         Debug.Log("Head Motor move");
@@ -359,28 +340,6 @@ namespace BuddyApp.BuddyLab
             return true;
         }
 
-        private bool ColorDetection()
-        {
-            if(mCam.FrameMat != null )
-            {
-                mFrame = mCam.FrameMat.clone();
-                OpenCVUnity.Rect mRec = new OpenCVUnity.Rect(80, 60, 160, 120);
-                Mat mRoi = mFrame.submat(mRec);
-                mShadeEntity =  mShade.FindColor(mRoi, new Color32(0, 0, 255, 100));
-                for(int i = 0; i < mShadeEntity.Length; ++i)
-                {
-                    mAreaBoundingBoxSE = mShadeEntity[i].RectInFrame.height * mShadeEntity[i].RectInFrame.width;
-                    int mAreaMat = mRoi.width() * mRoi.height();
-                    if(mAreaBoundingBoxSE / mAreaMat >= 0.75)
-                    {
-                        Debug.Log("Good");
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
         private bool OnMovementDetected(MotionEntity[] iMotion)
         {
             //Debug.Log("ONMOVEMENTDETECTED 1 : ");
@@ -424,9 +383,8 @@ namespace BuddyApp.BuddyLab
 
             for(int i = 0; i < iQRCodeEntity.Length; ++i)
             {
-                //Debug.Log("Label QR CODE : " + iQRCodeEntity[i].Label + " QR CODE DETECTED : " + iQRCodeEntity.Length);
-                //Texture2D text =  Utils.MatToTexture2D(iQRCodeEntity[i].MatInFrame);
-                //kikoo.texture = text;
+               //Texture2D text =  Utils.MatToTexture2D(iQRCodeEntity[i].MatInFrame);
+               // kikoo.texture = text;
                 Debug.Log("Label : " + iQRCodeEntity[i].Label + " et i : " + i + iQRCodeEntity[i].MatInFrame == null);
                 if (iQRCodeEntity[i].Label == mParamCondition )
                 {
@@ -622,7 +580,6 @@ namespace BuddyApp.BuddyLab
             mTimer = 0F;
             mConditionType = "";
             mTactileSubscribed = false;
-            mParamCondition = "";
         }
 
         private void ClearEventTactile()
