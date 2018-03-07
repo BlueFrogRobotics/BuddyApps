@@ -39,6 +39,7 @@ namespace BuddyApp.Weather
         internal bool mWhen;
         internal CitiesData mCities = new CitiesData();
         internal bool mIsOk = true;
+        internal bool mWeekend;
 
 
         void Start()

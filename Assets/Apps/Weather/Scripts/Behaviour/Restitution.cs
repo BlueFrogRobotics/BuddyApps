@@ -30,19 +30,34 @@ namespace BuddyApp.Weather
             Debug.Log("ENTER RESTITUTION");
             mTimer = 0F;
             Debug.Log("ENTER RESTITUTION: " + mWeatherB.mIndice + " Weather info size: " + mWeatherB.mWeatherInfos.Length);
-            WeatherInfo lWeatherInfo = new WeatherInfo();
-            if (mWeatherB.mIndice != -1)
-                lWeatherInfo = mWeatherB.mWeatherInfos[mWeatherB.mIndice];
+            //WeatherInfo lWeatherInfo = new WeatherInfo();
+            //if (mWeatherB.mIndice != -1)
+            //    lWeatherInfo = mWeatherB.mWeatherInfos[mWeatherB.mIndice];
 
+            //SayWeather(lWeatherInfo);
+
+            StartCoroutine(Example(mWeatherB.mWeatherInfos));
+        }
+
+        private void SayWeather(WeatherInfo iWeatherInfo, bool iSayDayOfWeek=false)
+        {
             // Tell the weather
             string lAnswer = "";
             string lDayString = "";
+
+            string[] date = iWeatherInfo.Date.Split('-');
+            DateTime dt = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[1]), Int32.Parse(date[2]));
+
             if (mWeatherB.mDate < 1)
                 lDayString = Dictionary.GetString("today");
+            else if (iSayDayOfWeek)
+                lDayString = Dictionary.GetString(dt.DayOfWeek.ToString().ToLower().Trim());
             else if (mWeatherB.mDate == 1)
                 lDayString = Dictionary.GetString("tomorrow");
             else if (mWeatherB.mDate == 2)
                 lDayString = Dictionary.GetString("dayaftertomorrow");
+            else if (mWeatherB.mWeekend)
+                lDayString = Dictionary.GetString("weekend");
             else
                 lDayString = Dictionary.GetString("intime") + " " + mWeatherB.mDate + " " + Dictionary.GetString("days");
 
@@ -54,33 +69,43 @@ namespace BuddyApp.Weather
             //Forecast info
             //} else 
 
-            if (mWeatherB.mForecast != WeatherType.UNKNOWN) {
-                if (mWeatherB.mWhen) {
-                    if (mWeatherB.mIndice != -1) {
+            if (mWeatherB.mForecast != WeatherType.UNKNOWN)
+            {
+                if (mWeatherB.mWhen)
+                {
+                    if (mWeatherB.mIndice != -1)
+                    {
 
                         // Give date: It will rain ...
-                        lAnswer = Dictionary.GetRandomString("itwillbe") + " " + Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + Dictionary.GetRandomString("the") + " " + EnglishDate(lWeatherInfo.Day)  + " " + Dictionary.GetRandomString("inlocation") + " " + EnglishHour(lWeatherInfo.Hour) + " " + Dictionary.GetRandomString("hour") + " ";
-                    } else {
+                        lAnswer = Dictionary.GetRandomString("itwillbe") + " " + Dictionary.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + Dictionary.GetRandomString("the") + " " + EnglishDate(iWeatherInfo.Day) + " " + Dictionary.GetRandomString("inlocation") + " " + EnglishHour(iWeatherInfo.Hour) + " " + Dictionary.GetRandomString("hour") + " ";
+                    }
+                    else
+                    {
                         // Deny: There is no rain forecast for upcoming week
                         lAnswer = Dictionary.GetRandomString("notexpect") + Dictionary.GetRandomString(mWeatherB.mForecast.ToString().ToLower() + "ing");
 
-                        if (mWeatherB.mDate == -1) {
+                        if (mWeatherB.mDate == -1)
+                        {
                             lAnswer += " " + Dictionary.GetRandomString("week");
-                        } else {
+                        }
+                        else
+                        {
                             lAnswer += " " + lDayString;
                         }
                     }
-                } else {
+                }
+                else
+                {
 
 
                     string lNoAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("itwillbe") + " "
-                    + Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " " + Dictionary.GetRandomString("at") + " " + EnglishHour(lWeatherInfo.Hour);
+                    + Dictionary.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " " + Dictionary.GetRandomString("at") + " " + EnglishHour(iWeatherInfo.Hour);
                     string lYesAnswer = Dictionary.GetRandomString("yes") + " " + Dictionary.GetRandomString("itwillbe") + " "
-                        + Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " " + Dictionary.GetRandomString("at") + " " + EnglishHour(lWeatherInfo.Hour);
+                        + Dictionary.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " " + Dictionary.GetRandomString("at") + " " + EnglishHour(iWeatherInfo.Hour);
 
-                    if (mWeatherB.mForecast != lWeatherInfo.Type)
+                    if (mWeatherB.mForecast != iWeatherInfo.Type)
                     {
-                        if ((mWeatherB.mForecast == WeatherType.CHANCE_OF_RAIN && lWeatherInfo.Type == WeatherType.RAIN) || (mWeatherB.mForecast == WeatherType.RAIN && lWeatherInfo.Type == WeatherType.CHANCE_OF_RAIN))
+                        if ((mWeatherB.mForecast == WeatherType.CHANCE_OF_RAIN && iWeatherInfo.Type == WeatherType.RAIN) || (mWeatherB.mForecast == WeatherType.RAIN && iWeatherInfo.Type == WeatherType.CHANCE_OF_RAIN))
                             lAnswer = lYesAnswer;
                         else
                             lAnswer = lNoAnswer;
@@ -112,18 +137,18 @@ namespace BuddyApp.Weather
                     //	else
                     //		lAnswer = lNoAnswer;
                 }
-            } else {
+            }
+            else
+            {
                 lAnswer = Dictionary.GetRandomString("restitution");
                 lAnswer = lAnswer.Replace("[date]", lDayString);
-                lAnswer = lAnswer.Replace("[hour]", EnglishHour(lWeatherInfo.Hour));
-                lAnswer = lAnswer.Replace("[degree]", lWeatherInfo.MinTemperature.ToString());
-                lAnswer = lAnswer.Replace("[forecast]", Dictionary.GetRandomString((lWeatherInfo.Type.ToString().ToLower()).Replace("_", "")));
+                lAnswer = lAnswer.Replace("[hour]", EnglishHour(iWeatherInfo.Hour));
+                lAnswer = lAnswer.Replace("[degree]", iWeatherInfo.MinTemperature.ToString());
+                lAnswer = lAnswer.Replace("[forecast]", Dictionary.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")));
             }
 
             if (mWeatherB.mName != "")
                 Interaction.TextToSpeech.Say(lAnswer + " " + Dictionary.GetRandomString("inlocation") + " " + mWeatherB.mName);
-
-            StartCoroutine(Example(mWeatherB.mWeatherInfos));
         }
 
         private string EnglishHour(int Hour)
@@ -192,51 +217,73 @@ namespace BuddyApp.Weather
 
         IEnumerator Example(WeatherInfo[] lWeatherInfo)
         {
-            float num = 0.1f;
-            int j = 0;
+            int lNbDays = 0;
+            if (mWeatherB.mWeekend)
+                lNbDays = 1;
 
-            Toaster.Display<BackgroundToast>().With();
-
-            mWeatherB.mIsOk = false;
-            if (mWeatherB.mDate >= 1)
+            for (int d = 0; d <= lNbDays; d++)
             {
-                //if (lWeatherInfo[j].Hour != 20)
-                    //j++;
-                for (int k = 0; k < mWeatherB.mDate; k++)
+                //WeatherInfo lWeatherInfo = new WeatherInfo();
+               // if (mWeatherB.mIndice != -1)
+                //    lWeatherInfo = mWeatherB.mWeatherInfos[mWeatherB.mIndice];
+
+                if(mWeatherB.mWeekend)
+                    SayWeather(mWeatherB.mWeatherInfos[mWeatherB.mIndice+4*d], true);
+                else
+                    SayWeather(mWeatherB.mWeatherInfos[mWeatherB.mIndice + 4 * d]);
+
+                float num = 0.1f;
+                int j = 0;
+
+                Toaster.Display<BackgroundToast>().With();
+
+                mWeatherB.mIsOk = false;
+                if (mWeatherB.mDate >= 1)
                 {
-                    j++;
-                    while (lWeatherInfo[j].Hour != 8)
+                    //if (lWeatherInfo[j].Hour != 20)
+                        //j++;
+                    for (int k = 0; k < mWeatherB.mDate+d; k++)
+                    {
                         j++;
+                        while (lWeatherInfo[j].Hour != 8)
+                            j++;
+                    }
                 }
-            }
 
-            for (int i = 0; i < 8; i++)
-            {
-                if (i >= 4)
-                {
-                    j++;
-                    while (lWeatherInfo[j].Hour != 12)
-                        j++;
-                    SetPanel(trip[i], lWeatherInfo[j], true);
+                    for (int i = 0; i < 8; i++)
+                    {
+                        if (i >= 4)
+                        {
+                            j++;
+                            while (lWeatherInfo[j].Hour != 12)
+                                j++;
+                            SetPanel(trip[i], lWeatherInfo[j], true);
 
+                        }
+                        if (i < 4)
+                        {
+                            SetPanel(trip[i], lWeatherInfo[j], false);
+                            j++;
+                        }
+                        yield return new WaitForSeconds(num);
+                    }
+
+                    if(lNbDays==0)
+                        yield return new WaitForSeconds(6f);
+                    else
+                        yield return new WaitForSeconds(3f);
+
+                while (!Interaction.TextToSpeech.HasFinishedTalking)
+                    yield return null;
+
+                for (int i = 7; i >= 0; i--)
+                    {
+                        trip[i].Cancel();
+                        yield return new WaitForSeconds(num);
+                    }
+                    Toaster.Hide();
                 }
-                if (i < 4)
-                {
-                    SetPanel(trip[i], lWeatherInfo[j], false);
-                    j++;
-                }
-                yield return new WaitForSeconds(num);
-            }
-
-            yield return new WaitForSeconds(6f);
-
-            for (int i = 7; i >= 0; i--)
-            {
-                trip[i].Cancel();
-                yield return new WaitForSeconds(num);
-            }
-            mWeatherB.mIsOk = true;
-            Toaster.Hide();
+                mWeatherB.mIsOk = true;
         }
 
         public void SetPanel(WeatherPanel trip, WeatherInfo Info, bool Pan)

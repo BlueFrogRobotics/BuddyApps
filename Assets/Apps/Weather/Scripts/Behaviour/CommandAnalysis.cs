@@ -60,6 +60,7 @@ namespace BuddyApp.Weather
             vocalRequest.ToLower();
             if (ContainsOneOf(vocalRequest, Dictionary.GetPhoneticStrings("when")))
                 mWeatherB.mWhen = true;
+            mWeatherB.mWeekend = false;
             ExtractDate(vocalRequest);
             ExtractHour(vocalRequest);
             ExtractForecast(vocalRequest);
@@ -69,6 +70,7 @@ namespace BuddyApp.Weather
 
         private void ExtractDate(string iSpeech)
         {
+            Debug.Log("extract date");
             if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("today")))
             {
                 mWeatherB.mDate = 0;
@@ -80,6 +82,12 @@ namespace BuddyApp.Weather
             else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("tomorrow")))
             {
                 mWeatherB.mDate = 1;
+            }
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("weekend")))
+            {
+                mWeatherB.mDate = 6-(int)DateTime.Now.DayOfWeek;
+                mWeatherB.mWeekend = true;
+                Debug.Log("date weekend: " + mWeatherB.mDate);
             }
             else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("intime")) && ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("day")))
             {
