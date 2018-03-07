@@ -83,7 +83,7 @@ namespace BuddyApp.BuddyLab
             {
                 Debug.Log("CAMERA OPEN");
                 mMotionDetection.StopAllOnDetect();
-                mQRcodeDetection.StopAllOnDetect();
+                //mQRcodeDetection.StopAllOnDetect();
                 mFireDetection.StopAllOnDetect();
                 Primitive.RGBCam.Close();
             }
