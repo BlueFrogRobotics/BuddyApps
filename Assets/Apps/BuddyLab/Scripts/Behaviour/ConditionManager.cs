@@ -256,10 +256,10 @@ namespace BuddyApp.BuddyLab
                         break;
                     case "Color":
                         Debug.Log("Color");
-                        mCam = BYOS.Instance.Primitive.RGBCam;
-                        mCam.Open(RGBCamResolution.W_320_H_240);
-                        mIsColorDetection = true;
-                        mSubscribed = true;
+                        //mCam = BYOS.Instance.Primitive.RGBCam;
+                        //mCam.Open(RGBCamResolution.W_320_H_240);
+                        //mIsColorDetection = true;
+                        //mSubscribed = true;
                         break;
                     case "HeadTactile":
                         Debug.Log("Head Motor move");
