@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ccaf885053445f144b5a373a570c9c26
-timeCreated: 1520429850
+timeCreated: 1520500074
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -125,7 +125,7 @@ TextureImporter:
     21300236: BuddyLab_Feedback_Volume
     21300238: BuddyLab_BG_Sensor
     21300240: BuddyLab_BG_Vision
-    21300242: BuddyLab_StartPoint
+    21300242: BuddyLab_StartPoint_Classic
     21300244: BuddyLab_FeedBack_BuddyStroke
     21300246: BuddyLab_Feedback_BuddyHead
     21300248: BuddyLab_FeedBack_ArrowUp
@@ -159,11 +159,14 @@ TextureImporter:
     21300304: BuddyLab_AddLine_Top
     21300306: BuddyLab_Bubble_Goto
     21300308: BuddyLab_Icon_Goto
-    21300310: BuddyLab_Icon_ElseIf
+    21300310: BuddyLab_Icon_Start
     21300312: BuddyLab_Bubble_Sensor
     21300314: BuddyLab_Bubble_Vision
     21300316: BuddyLab_GradLine_Bottom
     21300318: BuddyLab_GradLine_Top
+    21300320: BuddyLab_Boutton_Advanced
+    21300322: BuddyLab_StartPoint_Drag
+    21300324: BuddyLab_StartPoint_Selected
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -1811,11 +1814,11 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: BuddyLab_StartPoint
+      name: BuddyLab_StartPoint_Classic
       rect:
         serializedVersion: 2
-        x: 1521
-        y: 1489
+        x: 1773
+        y: 498
         width: 150
         height: 160
       alignment: 0
@@ -1996,8 +1999,8 @@ TextureImporter:
       name: BuddyLab_Icon_Help
       rect:
         serializedVersion: 2
-        x: 1773
-        y: 892
+        x: 1902
+        y: 1916
         width: 100
         height: 100
       alignment: 0
@@ -2253,7 +2256,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: BuddyLab_Icon_ElseIf
+      name: BuddyLab_Icon_Start
       rect:
         serializedVersion: 2
         x: 1930
@@ -2300,7 +2303,7 @@ TextureImporter:
         width: 10
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -2313,7 +2316,46 @@ TextureImporter:
         width: 10
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_Boutton_Advanced
+      rect:
+        serializedVersion: 2
+        x: 1496
+        y: 1512
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_StartPoint_Drag
+      rect:
+        serializedVersion: 2
+        x: 1773
+        y: 658
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_StartPoint_Selected
+      rect:
+        serializedVersion: 2
+        x: 1773
+        y: 818
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
