@@ -30,5 +30,7 @@ namespace BuddyApp.SandboxApp
 			*/
             mAppData = SandboxAppData.Instance;
         }
+
+
     }
 }

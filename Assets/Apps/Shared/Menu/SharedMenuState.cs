@@ -10,12 +10,12 @@ using System.Collections.Generic;
 
 
 
-namespace BuddyApp.SandboxApp
+namespace BuddyApp.Shared
 {
     /// <summary>
     /// State where we ask the user to choose between the different monitoring modes
     /// </summary>
-    public class MenuState : AStateMachineBehaviour
+    public class SharedMenuState : ASharedSMB
     {
 
         [Serializable]
@@ -28,6 +28,9 @@ namespace BuddyApp.SandboxApp
 
         [SerializeField]
         private string titleKey;
+
+        [SerializeField]
+        private string speechKey;
 
         [SerializeField]
         private List<MenuItem> items;
@@ -59,7 +62,7 @@ namespace BuddyApp.SandboxApp
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
             mHasLoadedTTS = true;
             //Debug.Log("[TTS] Has TTS been setup: " + Interaction.TextToSpeech.IsSetup);
-            //Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askchoices"));
+            Interaction.TextToSpeech.Say(Dictionary.GetRandomString(speechKey));
 
             Interaction.VocalManager.OnEndReco = OnSpeechReco;
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
@@ -192,7 +195,6 @@ namespace BuddyApp.SandboxApp
 
             Interaction.Mood.Set(MoodType.NEUTRAL);
             mListening = false;
-
         }
 
         /// <summary>
