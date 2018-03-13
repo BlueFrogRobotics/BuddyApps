@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
 using UnityEngine.UI;
+using OpenCVUnity;
 
 namespace BuddyApp.BuddyLab
 {
@@ -121,15 +122,29 @@ namespace BuddyApp.BuddyLab
         private bool mIsInCondition;
         public bool IsInCondition { get { return mIsInCondition; } set { mIsInCondition = value; } }
 
+        [SerializeField]
+        private RawImage kikoo;
+
+        /// <summary>
+        /// Variables for color detection
+        /// </summary>
+        private ShadeProcessing mShade;
+        private bool mIsColorDetection;
+        private Mat mFrame;
+        private ShadeEntity[] mShadeEntity;
+        private int mAreaBoundingBoxSE;
+
         // Use this for initialization
         void Start()
         {
+            mFrame = new Mat();
             mMotor = BYOS.Instance.Primitive.Motors;
             mFace = BYOS.Instance.Interaction.Face;
             mQRCodeDetect = BYOS.Instance.Perception.QRCode;
             mIRSensors = BYOS.Instance.Primitive.IRSensors;
             mNoiseDetection = BYOS.Instance.Perception.Noise;
             mSTT = BYOS.Instance.Interaction.SpeechToText;
+            mShade = BYOS.Instance.Perception.Shade;
             mSpeechReco = "";
             mIsStringSaid = false;
             mHeadMoving = false;
@@ -138,6 +153,7 @@ namespace BuddyApp.BuddyLab
             mTactileSubscribed = false;
             mIsTactileDetect = false;
             mIsFireDetect = false;
+            mIsColorDetection = false;
             mTimer = 0F;
             mTimerBis = 0;
             mSubscribed = false;
@@ -171,7 +187,9 @@ namespace BuddyApp.BuddyLab
                 {
                     mIsListening = false;
                     TextToSay();
-                }  
+                }
+                //if (mIsColorDetection)
+                //    ColorDetection();
             }
         }
 
@@ -338,6 +356,30 @@ namespace BuddyApp.BuddyLab
                 return true;
             }
             return true;
+        }
+
+        private bool ColorDetection()
+        {
+            if (mCam.FrameMat != null)
+            {
+                mFrame = mCam.FrameMat.clone();
+                //OpenCVUnity.Rect mRec = new OpenCVUnity.Rect(80, 60, 160, 120);
+                //Mat mRoi = mFrame.submat(mRec);
+                mShadeEntity = mShade.FindColor(mFrame, new Color32(255, 0, 0, 100));
+                for (int i = 0; i < mShadeEntity.Length; ++i)
+                {
+                    mAreaBoundingBoxSE = mShadeEntity[i].RectInFrame.height * mShadeEntity[i].RectInFrame.width;
+                    Imgproc.circle(mFrame, Utils.Center(mShadeEntity[i].RectInFrame), 3, new Scalar(0, 255, 0), 3);
+                    kikoo.texture = Utils.MatToTexture2D(mFrame);
+                    int mAreaMat = mFrame.width() * mFrame.height();
+                    if (mAreaBoundingBoxSE / mAreaMat >= 0.5)
+                    {
+                        Debug.Log("Good");
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private bool OnMovementDetected(MotionEntity[] iMotion)
