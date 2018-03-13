@@ -5,17 +5,11 @@ using UnityEngine;
 using OpenCVUnity;
 using Buddy.UI;
 
-namespace BuddyApp.SandboxApp
+namespace BuddyApp.Shared
 {
-    public class MotionDetectionState : AStateMachineBehaviour {
+    public class SharedMotionDetectionState : ASharedSMB
+    {
 
-        /// <summary>
-        /// Parameters for the developer
-        /// </summary>
-        //[Header("PARAMETERS OF THE MOTION DETECTION")]
-        //[Space]
-        //[Header(" ")]
-        //[Space]
         [Header("Display Video Parameters : ")]
         [SerializeField]
         private bool VideoDisplay;
@@ -24,20 +18,24 @@ namespace BuddyApp.SandboxApp
         private bool BipSound;
         [SerializeField]
         private FXSound FxSound;
-        [Header("Display Movement Parameters (only if display video is checked) : ")]
+        [Header("Display Movement Parameters : ")]
         [SerializeField]
         private bool DisplayMovement;
         [SerializeField]
         private Color32 ColorOfDisplay;
+        [SerializeField]
+        private string TriggerWhenDetected;
+        [SerializeField]
+        private string TriggerWhenNotDetected;
         [SerializeField]
         private string Key;
         [Header("Movement Quantity Parameters : ")]
         [Tooltip("The quantity of movement represents the number you need to reach in order to move to another state.")]
         [SerializeField]
         private int QuantityMovement;
-        [Header("Timer : ")]
+        [Header("Timer (between 0 and 20) : ")]
         [Tooltip("You do the motion detection during the timer.")]
-        [Range(0F, 8F)]
+        [Range(0F, 20F)]
         [SerializeField]
         private float Timer;
         [Header("Area in the picture/video : ")]
@@ -47,8 +45,10 @@ namespace BuddyApp.SandboxApp
         [Header("Mood of Buddy when you exit the state : ")]
         [Tooltip("You can chose what mood will have Buddy when you detect enough movement and  when you quit this state.")]
         [SerializeField]
-        private  MoodType MoodType;
-        
+        private  MoodType MoodTypeWhenDetected;
+        [SerializeField]
+        private MoodType MoodTypeWhenNotDetected;
+
         private bool mIsDisplay;
         private RGBCam mCam;
         private Mat mMatDetection;
@@ -68,19 +68,11 @@ namespace BuddyApp.SandboxApp
             mMotion = Perception.Motion;
             mCam = Primitive.RGBCam;
             mIsDisplay = false;
-            //VideoDisplay = false;
-            //BipSound = false;
-            //FxSound = FXSound.NONE;
-            //DisplayMovement = false;
-            //ColorOfDisplay = new Color(255, 0, 0);
-            //Timer = 0F;
-            //AreaToDetect = false;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //if (mCam.IsOpen)
-            //    mCam.Close();
+
             mCam.Open(RGBCamResolution.W_320_H_240);
             if (!AreaToDetect)
                 mMotion.OnDetect(OnMovementDetected, 3F);
@@ -89,8 +81,6 @@ namespace BuddyApp.SandboxApp
                 mRect = new OpenCVUnity.Rect(new Point((int)(320 / 3), 0), new Point((int)(320 * 2 / 3), 240));
                 mMotion.OnDetect(OnMovementDetected, mRect, 3F);
             }
-                
-            
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -103,7 +93,7 @@ namespace BuddyApp.SandboxApp
 
             if (mCam.IsOpen && VideoDisplay && !mIsDisplay)
             {
-                Timer = 0F;
+                mTimer = 0F;
                 mIsDisplay = true;
                 mMat = mCam.FrameMat.clone();
                 mMatCopy = mMat.clone();
@@ -146,56 +136,43 @@ namespace BuddyApp.SandboxApp
                 mTexture.Apply();
                 mTimer = 0F;
             }
-
-            //if (!VideoDisplay )
-            //{
-            //    mMat = mCam.FrameMat.clone();
-            //    mTextureRefresh = Utils.MatToTexture2D(mMat);
-            //    mTexture.SetPixels(mTextureRefresh.GetPixels());
-            //    mTexture.Apply();
-            //}
-
-          
-
-            //if (Timer > mDurationDetection && mDetectionCount < 15 && mIsDisplay)
-            //    Debug.Log("lol");
+            if (mDurationDetection > Timer && mDetectionCount <= QuantityMovement)
+            {
+                if (Toaster.IsDisplayed)
+                    Toaster.Hide();
+                if(Interaction.Mood.CurrentMood != MoodTypeWhenNotDetected)
+                {
+                    Interaction.Mood.Set(MoodTypeWhenNotDetected);
+                }
+                Trigger(TriggerWhenNotDetected);
+            }
+            if(mDurationDetection > Timer && mDetectionCount > QuantityMovement)
+            {
+                if (Toaster.IsDisplayed)
+                    Toaster.Hide();
+                if (Interaction.Mood.CurrentMood != MoodTypeWhenDetected)
+                {
+                    Interaction.Mood.Set(MoodTypeWhenDetected);
+                }
+                Trigger(TriggerWhenDetected);
+            }
 
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Toaster.Hide();
             mMotion.StopOnDetect(OnMovementDetected);
         }
 
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
-            //if (iMotions.Length > 2 /*&& !mHasTriggered && mHasShowWindow*/)
-            //{
-            //    BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-            //    mMatDetection = mCam.FrameMat.clone();
-            //    //Core.flip(mMatSrc, mMatDetection, 1);
-            //    Imgproc.rectangle(mMatDetection, new Point((int)(mMatDetection.width() / 3), 0), new Point((int)(mMatDetection.width() * 2 / 3), mMatDetection.height()), new Scalar(255, 0, 0), 3);
-
-            //    bool lInRectangle = false;
-            //    foreach (MotionEntity lEntity in iMotions)
-            //    {
-            //        Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 3, new Scalar(255, 0, 0), 3);
-            //        if (lEntity.RectInFrame.x > (mMatDetection.width() / 3) && lEntity.RectInFrame.x < (mMatDetection.width() * 2 / 3))
-            //            lInRectangle = true;
-            //    }
-            //    if (lInRectangle)
-            //        mDetectionCount++;
-
-            //    //mMatDetection = mMatSrc.clone();
-            //}
-            //mTexture = Utils.MatToTexture2D(mMat);
             mMatDetection = mCam.FrameMat.clone();
             mMatDetectionCopy = mMatDetection.clone();
             Core.flip(mMatDetectionCopy, mMatDetectionCopy, 1);
             if (iMotions.Length > 2)
             {
-                if(BipSound)
+                bool lInRectangle = false;
+                if (BipSound)
                 {
                     if(FxSound == FXSound.NONE)
                     {
@@ -204,16 +181,22 @@ namespace BuddyApp.SandboxApp
                     Primitive.Speaker.FX.Play(FxSound);
                 }
 
-                if(AreaToDetect)
-                    Imgproc.rectangle(mMatDetectionCopy, new Point((int)(mMatDetectionCopy.width() / 3), 0), new Point((int)(mMatDetectionCopy.width() * 2 / 3), mMatDetectionCopy.height()), new Scalar(ColorOfDisplay), 3);
-                if(DisplayMovement)
+                foreach (MotionEntity lEntity in iMotions)
                 {
-                    foreach (MotionEntity lEntity in iMotions)
+                    if (AreaToDetect)
+                    {
+                        Imgproc.rectangle(mMatDetectionCopy, new Point((int)(mMatDetectionCopy.width() / 3), 0), new Point((int)(mMatDetectionCopy.width() * 2 / 3), mMatDetectionCopy.height()), new Scalar(ColorOfDisplay), 3);
+                        if (lEntity.RectInFrame.x > (mMatDetection.width() / 3) && lEntity.RectInFrame.x < (mMatDetection.width() * 2 / 3))
+                                lInRectangle = true;
+                    }
+
+                    if (DisplayMovement && VideoDisplay)
                     {
                         Imgproc.circle(mMatDetectionCopy, Utils.Center(lEntity.RectInFrame), 3, new Scalar(ColorOfDisplay), 3);
-                    }  
+                    }
                 }
-                
+                if (lInRectangle)
+                    mDetectionCount++;
             }
             return true;
         }
