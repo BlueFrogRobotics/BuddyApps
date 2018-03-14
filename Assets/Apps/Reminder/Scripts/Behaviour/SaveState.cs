@@ -70,7 +70,14 @@ namespace BuddyApp.Reminder
             Utils.SerializeXML<RemindersData>(mReminders, lReminderfile[0]);
 
             Utils.Save(BYOS.Instance.Resources.GetPathToRaw(lRemVoc + ".wav"), mVocal.RemindMe);
-
+            DateTime lDate = DateTime.ParseExact(lRk.Date, "dd/MM/yyyy",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+            double lHour = 0;
+            double.TryParse(lRk.Hour, out lHour);
+            lDate.AddHours(lHour);
+            Debug.Log("date saved: " + lDate.ToLongDateString());
+            //BYOS.Instance.DataBase.Memory.Procedural.AddReminder("content", 0, "adresse");
+            BYOS.Instance.DataBase.Memory.Procedural.AddReminder(lDate, RemindPrecision.MINUTE, "contenu", 1, "toto");
             BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("reminderok"));
             mOk = true;
         }

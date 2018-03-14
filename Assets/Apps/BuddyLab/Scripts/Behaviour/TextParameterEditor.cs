@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Buddy;
 
 namespace BuddyApp.BuddyLab
 {
@@ -46,6 +47,7 @@ namespace BuddyApp.BuddyLab
                 buttonValidate.onClick.AddListener(Validate);
                 buttonCancel.onClick.AddListener(Cancel);
                 inputField.text = GetComponent<ABLItem>().Parameter;
+                inputField.GetComponentsInChildren<Text>()[0].text = BYOS.Instance.Dictionary.GetString("texttosay");
                 popupField.GetComponent<Animator>().SetTrigger("open");
                 backgroundBlack.GetComponent<Animator>().SetTrigger("open");
             }
