@@ -71,6 +71,7 @@ namespace BuddyApp.BuddyLab
         {
             mAnimator.SetTrigger("close");
             backgroundBlack.GetComponent<Animator>().SetTrigger("close");
+
             //Destroy(mFeedback);
             //mFeedback = null;
         }
