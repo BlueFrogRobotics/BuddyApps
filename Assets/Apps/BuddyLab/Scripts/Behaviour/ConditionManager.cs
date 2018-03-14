@@ -101,7 +101,7 @@ namespace BuddyApp.BuddyLab
                     Debug.Log("CONDITIONMANAGER LOL RESETPARAM");
                     ResetParam();
                 }
-                    
+
                 mConditionType = value;
             }
         }
@@ -122,8 +122,8 @@ namespace BuddyApp.BuddyLab
         private bool mIsInCondition;
         public bool IsInCondition { get { return mIsInCondition; } set { mIsInCondition = value; } }
 
-        [SerializeField]
-        private RawImage kikoo;
+        //[SerializeField]
+        //private RawImage kikoo;
 
         /// <summary>
         /// Variables for color detection
@@ -132,11 +132,19 @@ namespace BuddyApp.BuddyLab
         private bool mIsColorDetection;
         private Mat mFrame;
         private ShadeEntity[] mShadeEntity;
-        private int mAreaBoundingBoxSE;
+        private float mAreaBoundingBoxSE;
+        private Texture2D mTexture;
+        private Mat lMat;
+        private Mat lRoi;
+        private Mat lResized;
+        private Color32 mColorToDetect;
 
         // Use this for initialization
         void Start()
         {
+            lRoi = new Mat();
+            lResized = new Mat();
+            lMat = new Mat();
             mFrame = new Mat();
             mMotor = BYOS.Instance.Primitive.Motors;
             mFace = BYOS.Instance.Interaction.Face;
@@ -188,14 +196,14 @@ namespace BuddyApp.BuddyLab
                     mIsListening = false;
                     TextToSay();
                 }
-                //if (mIsColorDetection)
-                //    ColorDetection();
+                if (mIsColorDetection)
+                    ColorDetection();
             }
         }
 
         private void LoadCondition()
         {
-            
+
             //mIsEventDone = false;
             if (!mSubscribed)
             {
@@ -255,10 +263,26 @@ namespace BuddyApp.BuddyLab
                         break;
                     case "Color":
                         Debug.Log("Color");
-                        //mCam = BYOS.Instance.Primitive.RGBCam;
-                        //mCam.Open(RGBCamResolution.W_320_H_240);
-                        //mIsColorDetection = true;
-                        //mSubscribed = true;
+                        mCam = BYOS.Instance.Primitive.RGBCam;
+                        mCam.Open(RGBCamResolution.W_320_H_240);
+                        if (mParamCondition == "Blue")
+                            mColorToDetect = new Color32(0, 0, 255, 100);
+                        else if (mParamCondition == "Green")
+                            mColorToDetect = new Color32(0, 255, 0, 100);
+                        else if (mParamCondition == "Yellow")
+                            mColorToDetect = new Color32(255, 255, 0, 100);
+                        else if (mParamCondition == "Orange")
+                            mColorToDetect = new Color32(255, 69, 0, 100);
+                        else if (mParamCondition == "Red")
+                            mColorToDetect = new Color32(255, 0, 0, 100);
+                        else if (mParamCondition == "Pink")
+                            mColorToDetect = new Color32(255, 105, 180, 100);
+                        else if (mParamCondition == "Purple")
+                            mColorToDetect = new Color32(128, 0, 128, 100);
+                        else if (mParamCondition == "DarkBlue")
+                            mColorToDetect = new Color32(0, 0, 139, 100);
+                        mIsColorDetection = true;
+                        mSubscribed = true;
                         break;
                     case "HeadTactile":
                         Debug.Log("Head Motor move");
@@ -342,7 +366,7 @@ namespace BuddyApp.BuddyLab
 
         private bool OnSoundDetected(float iSound)
         {
-            if (iSound > (1 - (0.4F/ 100.0f)) * MAX_SOUND_THRESHOLD)
+            if (iSound > (1 - (0.4F / 100.0f)) * MAX_SOUND_THRESHOLD)
             {
                 Debug.Log("Sound DETECTED");
                 if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
@@ -358,23 +382,36 @@ namespace BuddyApp.BuddyLab
             return true;
         }
 
+        //protected void Display(Mat iMatToDisplay)
+        //{
+
+        //    mTexture = Utils.ScaleTexture2DFromMat(iMatToDisplay, mTexture);
+        //    Utils.MatToTexture2D(iMatToDisplay, mTexture);
+        //    kikoo.texture = mTexture;
+        //}
+
         private bool ColorDetection()
         {
             if (mCam.FrameMat != null)
             {
                 mFrame = mCam.FrameMat.clone();
-                //OpenCVUnity.Rect mRec = new OpenCVUnity.Rect(80, 60, 160, 120);
-                //Mat mRoi = mFrame.submat(mRec);
-                mShadeEntity = mShade.FindColor(mFrame, new Color32(255, 0, 0, 100));
+                OpenCVUnity.Rect mRec = new OpenCVUnity.Rect(mCam.Width / 4, mCam.Height / 4 , mCam.Width / 2, mCam.Height / 2);
+                //Imgproc.cvtColor(mFrame, lGrayMat, Imgproc.COLOR_RGB2GRAY);
+                //Mat lRoi = new Mat(lGrayMat, mRec);
+                //Imgproc.resize(lRoi, lResized, lGrayMat.size());
+                //Display(lResized);
+                lRoi = new Mat(mFrame, mRec);
+                //Imgproc.resize(lRoi, lResized, lMat.size());
+                mShadeEntity = mShade.FindColor(lRoi, mColorToDetect);
                 for (int i = 0; i < mShadeEntity.Length; ++i)
                 {
                     mAreaBoundingBoxSE = mShadeEntity[i].RectInFrame.height * mShadeEntity[i].RectInFrame.width;
-                    Imgproc.circle(mFrame, Utils.Center(mShadeEntity[i].RectInFrame), 3, new Scalar(0, 255, 0), 3);
-                    kikoo.texture = Utils.MatToTexture2D(mFrame);
-                    int mAreaMat = mFrame.width() * mFrame.height();
-                    if (mAreaBoundingBoxSE / mAreaMat >= 0.5)
+                    //Imgproc.rectangle(mFrame, new Point(mShadeEntity[i].RectInFrame.x + (mCam.Width / 4), mShadeEntity[i].RectInFrame.y + (mCam.Height / 4)), new Point(mShadeEntity[i].RectInFrame.x + mShadeEntity[i].RectInFrame.width, mShadeEntity[i].RectInFrame.y + mShadeEntity[i].RectInFrame.height), new Scalar(255, 0, 0), -1);
+                    float mAreaMat = lRoi.width() * lRoi.height();
+                    if (mAreaBoundingBoxSE / mAreaMat > 0.75)
                     {
                         Debug.Log("Good");
+                        ResetParam();
                         return true;
                     }
                 }
@@ -423,12 +460,12 @@ namespace BuddyApp.BuddyLab
         private bool OnQrcodeDetected(QRCodeEntity[] iQRCodeEntity)
         {
 
-            for(int i = 0; i < iQRCodeEntity.Length; ++i)
+            for (int i = 0; i < iQRCodeEntity.Length; ++i)
             {
-               //Texture2D text =  Utils.MatToTexture2D(iQRCodeEntity[i].MatInFrame);
-               // kikoo.texture = text;
+                //Texture2D text =  Utils.MatToTexture2D(iQRCodeEntity[i].MatInFrame);
+                // kikoo.texture = text;
                 Debug.Log("Label : " + iQRCodeEntity[i].Label + " et i : " + i + iQRCodeEntity[i].MatInFrame == null);
-                if (iQRCodeEntity[i].Label == mParamCondition )
+                if (iQRCodeEntity[i].Label == mParamCondition)
                 {
                     //if (mLoopManager.IsSensorLoopWithParam)
                     //{
@@ -443,13 +480,13 @@ namespace BuddyApp.BuddyLab
                     return true;
                 }
             }
-            
+
             return true;
         }
 
         private void OnObstacleInFront()
         {
-            if(mIRSensor == IRSensor.FRONT)
+            if (mIRSensor == IRSensor.FRONT)
             {
                 if (mIRSensors.Middle.Distance < OBSTACLE_DISTANCE && mIRSensors.Middle.Distance != 0)
                 {
@@ -463,7 +500,7 @@ namespace BuddyApp.BuddyLab
                     ResetParam();
                 }
             }
-            if(mIRSensor == IRSensor.LEFT)
+            if (mIRSensor == IRSensor.LEFT)
             {
                 if (mIRSensors.Left.Distance < OBSTACLE_DISTANCE && mIRSensors.Left.Distance != 0)
                 {
@@ -477,7 +514,7 @@ namespace BuddyApp.BuddyLab
                     ResetParam();
                 }
             }
-            if(mIRSensor == IRSensor.RIGHT)
+            if (mIRSensor == IRSensor.RIGHT)
             {
                 if (mIRSensors.Right.Distance < OBSTACLE_DISTANCE && mIRSensors.Right.Distance != 0)
                 {
@@ -495,7 +532,7 @@ namespace BuddyApp.BuddyLab
 
         private void OnBuddyTactile()
         {
-            if(mTactile == TactileEvent.ALL_TACTILE)
+            if (mTactile == TactileEvent.ALL_TACTILE)
             {
                 //Debug.Log("IN THE TACTILE MAGGLE");
                 if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
@@ -511,33 +548,33 @@ namespace BuddyApp.BuddyLab
                     ResetParam();
                 }
             }
-            if(mTactile == TactileEvent.LEFT_EYE && !mTactileSubscribed)
+            if (mTactile == TactileEvent.LEFT_EYE && !mTactileSubscribed)
             {
                 mTactileSubscribed = true;
                 //ClearEventTactile();
                 mFace.OnClickLeftEye.Add(OnLeftEyeClicked);
             }
-            if(mTactile == TactileEvent.RIGHT_EYE && !mTactileSubscribed)
+            if (mTactile == TactileEvent.RIGHT_EYE && !mTactileSubscribed)
             {
                 mTactileSubscribed = true;
                 //ClearEventTactile();
                 mFace.OnClickRightEye.Add(OnRightEyeClicked);
             }
-            if(mTactile == TactileEvent.MOUTH && !mTactileSubscribed)
+            if (mTactile == TactileEvent.MOUTH && !mTactileSubscribed)
             {
                 mTactileSubscribed = true;
                 //ClearEventTactile();
                 mFace.OnClickMouth.Add(OnMouthClicked);
             }
-            if(mTactile == TactileEvent.BODY_MOVING)
+            if (mTactile == TactileEvent.BODY_MOVING)
             {
                 MovingWheels();
             }
-            if(mTactile == TactileEvent.HEAD_MOVING)
+            if (mTactile == TactileEvent.HEAD_MOVING)
             {
                 MovingHead();
             }
-            
+
         }
 
         private void MovingWheels()
@@ -616,6 +653,7 @@ namespace BuddyApp.BuddyLab
             mBodyMoving = false;
             mIRSensorDetect = false;
             mIsTactileDetect = false;
+            mIsColorDetection = false;
             mIsEventDone = true;
             mTactile = TactileEvent.NONE;
             mSubscribed = false;
@@ -630,6 +668,6 @@ namespace BuddyApp.BuddyLab
             mFace.OnClickMouth.Clear();
             mFace.OnClickRightEye.Clear();
         }
-       
+
     }
 }

@@ -82,9 +82,9 @@ namespace BuddyApp.BuddyLab
             if (Primitive.RGBCam.IsOpen)
             {
                 Debug.Log("CAMERA OPEN");
-                mMotionDetection.StopAllOnDetect();
+                //mMotionDetection.StopAllOnDetect();
                 //mQRcodeDetection.StopAllOnDetect();
-                mFireDetection.StopAllOnDetect();
+                //mFireDetection.StopAllOnDetect();
                 Primitive.RGBCam.Close();
             }
             GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
