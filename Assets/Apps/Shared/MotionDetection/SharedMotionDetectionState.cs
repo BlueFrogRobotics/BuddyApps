@@ -5,9 +5,9 @@ using UnityEngine;
 using OpenCVUnity;
 using Buddy.UI;
 
-namespace BuddyApp.SandboxApp
+namespace BuddyApp.Shared
 {
-    public class SharedMotionDetectionState : AStateMachineBehaviour
+    public class SharedMotionDetectionState : ASharedSMB
     {
 
         [Header("Display Video Parameters : ")]

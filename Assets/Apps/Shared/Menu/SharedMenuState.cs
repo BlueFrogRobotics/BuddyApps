@@ -10,12 +10,12 @@ using System.Collections.Generic;
 
 
 
-namespace BuddyApp.SandboxApp
+namespace BuddyApp.Shared
 {
     /// <summary>
     /// State where we ask the user to choose between the different monitoring modes
     /// </summary>
-    public class SharedMenuState : AStateMachineBehaviour
+    public class SharedMenuState : ASharedSMB
     {
 
         [Serializable]
