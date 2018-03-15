@@ -1308,7 +1308,7 @@
             Detect moving points in frame
             </summary>
         </member>
-        <member name="M:Buddy.FacialDetectionRework.InitImpl(System.Int32@,System.Single@)">
+        <member name="F:Buddy.FacialDetectionRework.mDetector">
             <summary>
             Init the movement tracker
             </summary>
@@ -1407,6 +1407,21 @@
         <member name="P:Buddy.Perception.FaceDetect">
             <summary>
             Feature to detect face
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.AprilTagsDetector">
+            <summary>
+            Feature to detect AprilTags
+            </summary>
+        </member>
+        <member name="T:Buddy.AprilTag">
+            <summary>
+            Detect AprilTags in frame
+            </summary>
+        </member>
+        <member name="T:Buddy.AprilTags">
+            <summary>
+            Detect AprilTags in frame
             </summary>
         </member>
         <member name="M:Buddy.TensorFlowClassifier.ConvertToGrayscale(OpenCVUnity.Mat,System.Int32,System.Int32)">
@@ -1517,7 +1532,7 @@
             <param name="ioDelay">Refresh time</param>
             
         </member>
-        <member name="M:Buddy.MotionDetection.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D)">
+        <member name="F:Buddy.MotionDetection.DllFilePath">
             <summary>
             Process the algorithm
             </summary>
