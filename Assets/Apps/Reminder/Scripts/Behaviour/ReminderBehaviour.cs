@@ -17,6 +17,9 @@ namespace BuddyApp.Reminder
          * Data of the application. Save on disc when app is quitted
          */
         private ReminderData mAppData;
+
+        public List<string> Name = new List<string>();
+
         internal TextToSpeech mTTS = BYOS.Instance.Interaction.TextToSpeech;
         internal bool IsVocalGet = false;
         internal List<string> AllParam= new List<string>();
@@ -33,6 +36,11 @@ namespace BuddyApp.Reminder
 			* Init your app data
 			*/
             mAppData = ReminderData.Instance;
+
+            Name.Add("Billy");
+            Name.Add("Jack");
+            Name.Add("Bob");
+            Name.Add(null);
         }
 
 

@@ -60,27 +60,35 @@ namespace BuddyApp.Reminder
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            foreach (Reminderkey key in mReminders.Reminders)
-            {
-                Debug.Log("NAME : " + key.Name);
-                Debug.Log("KEY : " + key.Key);
-                Debug.Log("DATE : " + key.Date);
-                Debug.Log("HOUR : " + key.Hour);
-            }
+            //foreach (Reminderkey key in mReminders.Reminders)
+            //{
+            //    Debug.Log("NAME : " + key.Name);
+            //    Debug.Log("KEY : " + key.Key);
+            //    Debug.Log("DATE : " + key.Date);
+            //    Debug.Log("HOUR : " + key.Hour);
+            //}
 
             mTime = 0.0F;
             mSongLength = 0.0F;
-
-            Toaster.Display<ParameterToast>().With(mLayout);
+            StartCoroutine(GiveReminder());
+            //Toaster.Display<ParameterToast>().With(mLayout);
             
         }
 
         private void PlayReminder()
         {
+            string lFilename = mVocal.Name[ReminderData.Instance.SenderID] + ReminderData.Instance.Date;
+            var charsToRemove = new string[] { ":", "/" };
 
-            url = url.Replace("[reminder]", KeyUser);
+            foreach (var c in charsToRemove)
+            {
+                lFilename = lFilename.Replace(c, string.Empty);
+            }
 
-            Debug.Log("Coucou coucou : " + KeyUser);
+            url = url.Replace("[reminder]", lFilename);
+            //url = url.Replace("[reminder]", KeyUser);
+
+            Debug.Log("Coucou coucou : " + lFilename);
             WWW audioLoader = new WWW(url);
 
             StartCoroutine(GetMusic(audioLoader));
@@ -133,7 +141,15 @@ namespace BuddyApp.Reminder
                 Debug.Log("coucou hiboux");
             }
             else
-            Debug.Log("WWW ERROR : " + iWWW.error);
+                Debug.Log("WWW ERROR : " + iWWW.error);
+        }
+
+        IEnumerator GiveReminder()
+        {
+            Interaction.TextToSpeech.Say("voici le message");
+            while (Interaction.TextToSpeech.IsSpeaking)
+                yield return null;
+            PlayReminder();
         }
     }
 }

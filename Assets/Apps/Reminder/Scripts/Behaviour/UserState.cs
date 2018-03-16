@@ -47,6 +47,7 @@ namespace BuddyApp.Reminder
                         Debug.Log("SALUT " + name[i]);
                         mVocal.AllParam.Add(name[i]);
                         ReminderData.Instance.VocalRequest = "";
+                        ReminderData.Instance.SenderID = i;
                         Trigger("Date");
                     }
                 }

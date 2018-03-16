@@ -74,10 +74,41 @@ namespace BuddyApp.Reminder
                                        System.Globalization.CultureInfo.InvariantCulture);
             double lHour = 0;
             double.TryParse(lRk.Hour, out lHour);
+
+            int lReccurence = 0;
+            int.TryParse(mVocal.AllParam[3], out lReccurence);
+            RemindType lRemindType = RemindType.ONE_TIME;
+            RemindRecurrence lRemindRecurrence = RemindRecurrence.NONE;
+
+            switch (lReccurence)
+            {
+                case 0:
+                    lRemindType = RemindType.ONE_TIME;
+                    lRemindRecurrence = RemindRecurrence.NONE;
+                    break;
+                case 1:
+                    lRemindType = RemindType.RECURRENT;
+                    lRemindRecurrence = RemindRecurrence.EVERY_DAY;
+                    break;
+                case 2:
+                    lRemindType = RemindType.RECURRENT;
+                    lRemindRecurrence = RemindRecurrence.EVERY_WEEK;
+                    break;
+                case 3:
+                    lRemindType = RemindType.RECURRENT;
+                    lRemindRecurrence = RemindRecurrence.EVERY_MONTH;
+                    break;
+                default:
+                    lRemindType = RemindType.ONE_TIME;
+                    lRemindRecurrence = RemindRecurrence.NONE;
+                    break;
+            }
+
             lDate.AddHours(lHour);
             Debug.Log("date saved: " + lDate.ToLongDateString());
+            //DateTime.Today.AddMinutes(5);
             //BYOS.Instance.DataBase.Memory.Procedural.AddReminder("content", 0, "adresse");
-            BYOS.Instance.DataBase.Memory.Procedural.AddReminder(lDate, RemindPrecision.MINUTE, "contenu", 1, "toto");
+            BYOS.Instance.DataBase.Memory.Procedural.AddReminder(lDate, RemindPrecision.MINUTE, "message", ReminderData.Instance.SenderID, mVocal.Name[ReminderData.Instance.SenderID], lRemindType, lRemindRecurrence);
             BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("reminderok"));
             mOk = true;
         }

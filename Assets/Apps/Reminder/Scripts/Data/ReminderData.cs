@@ -12,6 +12,12 @@ namespace BuddyApp.Reminder
 
         public string VocalRequest { get; set; }
 
+        public bool GiveReminder { get; set; }
+
+        public int SenderID { get; set; }
+
+        public string Date;
+
         /*
          * Data singleton access
          */
