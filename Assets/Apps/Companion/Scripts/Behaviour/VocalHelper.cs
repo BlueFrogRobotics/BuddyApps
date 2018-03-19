@@ -141,6 +141,8 @@ namespace BuddyApp.Companion
 		private ChatterBotFactory mChatBotFactory;
 		private ChatterBot mCleverbot;
 		private ChatterBotSession mCleverbotSession;
+		private List<string> mIHateU;
+		private List<string> mILoveU;
 
 		public string Answer { get; private set; }
 
@@ -161,11 +163,11 @@ namespace BuddyApp.Companion
 			mBuildingAnswer = false;
 			mErrorCount = 0;
 
-            //Init all the questions and synonyms from files depending on language
-            StreamReader lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-en.xml"));
-            if (mCurrentLanguage == Language.FR)
-                lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-fr.xml"));
-            else if (mCurrentLanguage == Language.IT)
+			//Init all the questions and synonyms from files depending on language
+			StreamReader lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-en.xml"));
+			if (mCurrentLanguage == Language.FR)
+				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-fr.xml"));
+			else if (mCurrentLanguage == Language.IT)
 				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-it.xml"));
 			mQuestionsFile = lStreamReader.ReadToEnd();
 			lStreamReader.Close();
@@ -222,16 +224,16 @@ namespace BuddyApp.Companion
 						mSynonymesFile = lStreamReader.ReadToEnd();
 						lStreamReader.Close();
 						mWebsiteHash[RequestType.DEFINITION] = "https://fr.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=";
-				    } else if (mCurrentLanguage == Language.IT) {
-                    StreamReader lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-it.xml"));
-                    mQuestionsFile = lStreamReader.ReadToEnd();
-                    lStreamReader.Close();
-                    lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-en.xml"));
-                    mSynonymesFile = lStreamReader.ReadToEnd();
-                    lStreamReader.Close();
-                    mWebsiteHash[RequestType.DEFINITION] = "https://it.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=";
-                }
-                InitSpeech();
+					} else if (mCurrentLanguage == Language.IT) {
+						StreamReader lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-it.xml"));
+						mQuestionsFile = lStreamReader.ReadToEnd();
+						lStreamReader.Close();
+						lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-en.xml"));
+						mSynonymesFile = lStreamReader.ReadToEnd();
+						lStreamReader.Close();
+						mWebsiteHash[RequestType.DEFINITION] = "https://it.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=";
+					}
+					InitSpeech();
 				}
 			}
 		}
@@ -269,6 +271,8 @@ namespace BuddyApp.Companion
 			mHideSeekSpeech = new List<string>();
 			mHourSpeech = new List<string>();
 			mICouldntSpeech = new List<string>();
+			mILoveU = new List<string>();
+			mIHateU = new List<string>();
 			mISpeech = new List<string>();
 			mIOTSpeech = new List<string>();
 			mJokeSpeech = new List<string>();
@@ -342,6 +346,8 @@ namespace BuddyApp.Companion
 			FillListSyn("LookAtMe", mLookAtMeSpeech);
 			FillListSyn("ICouldnt", mICouldntSpeech);
 			FillListSyn("I", mISpeech);
+			FillListSyn("ILoveU", mILoveU);
+			FillListSyn("IHateU", mIHateU);
 			FillListSyn("IOT", mIOTSpeech);
 			FillListSyn("Joke", mJokeSpeech);
 			FillListSyn("Jukebox", mJukeboxSpeech);
@@ -529,6 +535,8 @@ namespace BuddyApp.Companion
 				lType = "IOT";
 			else if (ContainsOneOf(iSpeech, mJukeboxSpeech))
 				lType = "Jukebox";
+			else if (ContainsOneOf(iSpeech, mPlaySpeech))
+				lType = "Play";
 			//else if (ContainsOneOf(iSpeech, mRecipeSpeech))
 			//	lType = "Recipe";
 			else if (ContainsOneOf(iSpeech, mRLGLSpeech))
@@ -555,6 +563,13 @@ namespace BuddyApp.Companion
 			else if (ContainsOneOf(iSpeech, mJokeSpeech)) {
 				Debug.Log("!!!!!!!!!!!!!!!!!Vocal helper joke");
 				lType = "Joke";
+
+
+			} else if (ContainsOneOf(iSpeech, mILoveU)) {
+				lType = "ILoveU";
+			} else if (ContainsOneOf(iSpeech, mIHateU)) {
+				lType = "IHateU";
+
 			} else if (ContainsOneOf(iSpeech, mAcceptSpeech))
 				lType = "Accept";
 			else if (ContainsOneOf(iSpeech, mQuitSpeech))
@@ -689,6 +704,14 @@ namespace BuddyApp.Companion
 				Answer = GetNextNumber(iSpeech, mMoveBackwardSpeech);
 				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "MoveBackward";
+
+				//hack hri 2018
+			} else if (iSpeech.ToLower().Contains("battery")) {
+				Debug.Log("Battery");
+				lType = "Battery";
+
+				//
+
 			} else if (ContainsOneOf(iSpeech, mMoveForwardSpeech)) {
 				Answer = GetNextNumber(iSpeech, mMoveForwardSpeech);
 				Debug.Log("Vocal helper answer: " + Answer);
@@ -736,9 +759,7 @@ namespace BuddyApp.Companion
 				//mTTS.Silence(1000, true);
 				//TTSProcessAndSay("and beep", true);
 
-			} else if (ContainsOneOf(iSpeech, mPlaySpeech))
-				lType = "Play";
-			else if (ContainsOneOf(iSpeech, mDoSomethingSpeech))
+			}else if (ContainsOneOf(iSpeech, mDoSomethingSpeech))
 				lType = "DoSomething";
 			else if (iSpeech.ToLower().Contains("propose"))
 				//lType = Suggest();
@@ -759,9 +780,9 @@ namespace BuddyApp.Companion
 				Answer = BuildGeneralAnswer(iSpeech.ToLower());
 			}
 
-				OnQuestionTypeFound(lType);
-				return true;
-			}
+			OnQuestionTypeFound(lType);
+			return true;
+		}
 
 		private string FindMood(string iSpeech)
 		{
@@ -797,7 +818,7 @@ namespace BuddyApp.Companion
 			} else if (lKeywordsIndex != lWords.Length) {
 				for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
 					if (float.TryParse(lWords[j], out n)) {
-						if (!iSpeech.Contains(" meter") && !iSpeech.Contains(" mètre") && ( (iSpeech.Contains("centimeter") || iSpeech.Contains("centimètre") || iSpeech.Contains(" cm")) ))
+						if (!iSpeech.Contains(" meter") && !iSpeech.Contains(" mètre") && ((iSpeech.Contains("centimeter") || iSpeech.Contains("centimètre") || iSpeech.Contains(" cm"))))
 							lResult = "" + n / 100;
 						else
 							lResult = lWords[j];

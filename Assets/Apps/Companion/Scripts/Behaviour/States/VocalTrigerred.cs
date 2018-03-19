@@ -83,7 +83,7 @@ namespace BuddyApp.Companion
 				mFirstErrorStt = false;
 				Debug.Log("Error STT ");
 
-				mState.text = "Vocal Triggered: error " +  iError.ToString();
+				mState.text = "Vocal Triggered: error " + iError.ToString();
 
 				// To know if there is a connection issue
 				if (iError == STTError.ERROR_NETWORK) {
@@ -104,16 +104,15 @@ namespace BuddyApp.Companion
 							Trigger("LOOKINGFOR");
 						} else {
 							Trigger("WANDER");
-						}
-					else if (mActionManager.ThermalFollow)
-								Trigger("FOLLOW");
-							else if (mTimeHumanDetected < 5F)
-								Trigger("INTERACT");
-							else
-								Trigger("IDLE");
-						}
+						} else if (mActionManager.ThermalFollow)
+						Trigger("FOLLOW");
+					else if (mTimeHumanDetected < 5F)
+						Trigger("INTERACT");
+					else
+						Trigger("IDLE");
 				}
 			}
+		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
@@ -241,6 +240,12 @@ namespace BuddyApp.Companion
 				case "Babyphone":
 					CompanionData.Instance.InteractDesire -= 10;
 					StartApp("BabyPhone", mLastHumanSpeech);
+					break;
+
+				case "Battery":
+					//ces hack
+					mNeedListen = true;
+					Say("My battery is at " + (int)Primitive.Battery.EnergyLevel + " percent");
 					break;
 
 				case "BML":
@@ -385,7 +390,7 @@ namespace BuddyApp.Companion
 						Debug.Log("Head up " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
 						CompanionData.Instance.HeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n;
 						//Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n, 100F);
-                        mMoving = true;
+						mMoving = true;
 						mTimeMotion = Time.time;
 					}
 					break;
@@ -438,12 +443,38 @@ namespace BuddyApp.Companion
 					break;
 
 				case "Hour":
+					// HRI 2018
+					if (BYOS.Instance.Language.CurrentLang == Language.FR) {
+						lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
+					} else {
+						if (DateTime.Now.Hour < 13)
+							lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour + " " + "am");
+						else {
+							lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + (DateTime.Now.Hour - 12) + " " + "pm");
+						}
+					}
+
+					//
+
 					lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
 					lSentence = lSentence.Replace("[minute]", "" + DateTime.Now.Minute);
 					lSentence = lSentence.Replace("[second]", "" + DateTime.Now.Second);
 					Say(lSentence);
 					mNeedListen = true;
 					break;
+
+				case "IHateU":
+					Debug.Log("Playing BML I hate u");
+					Interaction.BMLManager.LaunchRandom("angry");
+					mNeedListen = true;
+					break;
+
+				case "ILoveU":
+					Debug.Log("Playing BML ILoveU");
+					Interaction.BMLManager.LaunchRandom("love");
+					mNeedListen = true;
+					break;
+
 
 				case "IOT":
 					CompanionData.Instance.InteractDesire -= 10;
