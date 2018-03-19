@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
 using Buddy.UI;
+using System;
 
 namespace BuddyApp.SandboxApp
 {
@@ -34,6 +35,8 @@ namespace BuddyApp.SandboxApp
         private bool IsMultipleToaster;
 
         private bool mIsDisplayed;
+        ButtonInfo mButtonLeft;
+        ButtonInfo mButtonRight;
 
         public override void Start()
         {
@@ -50,7 +53,28 @@ namespace BuddyApp.SandboxApp
             if(IsBinaryQuestion && !mIsDisplayed)
             {
                 mIsDisplayed = true;
-                BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString(KeyQuestion), PressedLeftButton, PressedRightButton);
+                if (IsBinaryToaster)
+                {
+                    if (string.IsNullOrEmpty(RightButton))
+                        RightButton = Dictionary.GetString("yes");
+                    if (string.IsNullOrEmpty(LeftButton))
+                        RightButton = Dictionary.GetString("no");
+                    if (string.IsNullOrEmpty(KeyQuestion))
+                        KeyQuestion = " ";
+                    mButtonRight = new ButtonInfo
+                    {
+                        Label = RightButton,
+                        OnClick = PressedRightButton
+                    };
+                    mButtonLeft = new ButtonInfo
+                    {
+                        Label = LeftButton,
+                        OnClick = PressedLeftButton
+                    };
+                    //BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString(KeyQuestion), mButtonLeft, mButtonRight);
+                    Debug.Log("bug qamanager");
+                }
+                    
             }
             else if (IsMultipleQuestion && !mIsDisplayed)
             {
@@ -60,7 +84,7 @@ namespace BuddyApp.SandboxApp
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-        }
+        } 
 
         private void PressedRightButton()
         {
