@@ -117,32 +117,6 @@ namespace BuddyApp.Shared
                     }
                 }
 
-                //if (ContainsOneOf(mSpeechReco, mStartPhonetics))
-                //{
-                //    BYOS.Instance.Toaster.Hide();
-                //    //if (GuardianData.Instance.FirstRun)
-                //    //    GotoParameter();
-                //    //else
-                //    StartGuardian();
-                //}
-                //else if (ContainsOneOf(mSpeechReco, mParameterPhonetics))
-                //{
-                //    BYOS.Instance.Toaster.Hide();
-                //    //GotoParameter();
-                //}
-                //else if (ContainsOneOf(mSpeechReco, mQuitPhonetics))
-                //{
-                //    BYOS.Instance.Toaster.Hide();
-                //    QuitApp();
-                //}
-                //else
-                //{
-                //    Interaction.TextToSpeech.SayKey("notunderstand", true);
-                //    Interaction.TextToSpeech.Silence(1000, true);
-                //    Interaction.TextToSpeech.SayKey("askchoices", true);
-                //    mListening = false;
-                //    mSpeechReco = null;
-                //}
             }
         }
 
@@ -172,6 +146,7 @@ namespace BuddyApp.Shared
         {
             ButtonInfo[] lButtonsInfo = new ButtonInfo[items.Count];
             int i = 0;
+
             foreach(MenuItem item in items)
             {
                 lButtonsInfo[i] = new ButtonInfo
@@ -179,8 +154,7 @@ namespace BuddyApp.Shared
                     Label = Dictionary.GetString(item.key),
                     OnClick = delegate () { GotoParameter(item.trigger, item.quitApp); }
                 };
-                //if (item.quitApp)
-                //    lButtonsInfo[i].OnClick = QuitApp;
+                
                 i++;
             }
 

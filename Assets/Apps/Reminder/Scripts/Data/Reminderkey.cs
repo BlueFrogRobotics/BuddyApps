@@ -19,6 +19,8 @@ namespace BuddyApp.Reminder
         public string Date { get; set; }
 
         public string Hour { get; set; }
+
+        public int ID { get; set; }
     }
 
 }
