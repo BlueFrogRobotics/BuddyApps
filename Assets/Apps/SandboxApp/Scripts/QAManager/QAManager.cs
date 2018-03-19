@@ -8,7 +8,7 @@ using System;
 namespace BuddyApp.SandboxApp
 {
     public class QAManager : AStateMachineBehaviour
-    {
+    { 
         [Header("Binary Question Parameters: ")]
         [SerializeField]
         private bool IsBinaryQuestion;
@@ -38,14 +38,20 @@ namespace BuddyApp.SandboxApp
         ButtonInfo mButtonLeft;
         ButtonInfo mButtonRight;
 
+        private string mSpeechReco;
+        private bool mListening;
+
         public override void Start()
         {
-
+            Interaction.VocalManager.EnableTrigger = false;
+            BYOS.Instance.Header.DisplayParametersButton = false;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
+            Interaction.VocalManager.OnEndReco = OnSpeechReco;
+            Interaction.VocalManager.EnableDefaultErrorHandling = false;
+            Interaction.VocalManager.OnError = Empty;
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -58,9 +64,9 @@ namespace BuddyApp.SandboxApp
                     if (string.IsNullOrEmpty(RightButton))
                         RightButton = Dictionary.GetString("yes");
                     if (string.IsNullOrEmpty(LeftButton))
-                        RightButton = Dictionary.GetString("no");
-                    if (string.IsNullOrEmpty(KeyQuestion))
-                        KeyQuestion = " ";
+                        LeftButton = Dictionary.GetString("no");
+                    //if (string.IsNullOrEmpty(KeyQuestion))
+                    //    KeyQuestion = " ";
                     mButtonRight = new ButtonInfo
                     {
                         Label = RightButton,
@@ -68,11 +74,10 @@ namespace BuddyApp.SandboxApp
                     };
                     mButtonLeft = new ButtonInfo
                     {
-                        Label = LeftButton,
+                        Label = Dictionary.GetString("play"),
                         OnClick = PressedLeftButton
                     };
-                    //BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString(KeyQuestion), mButtonLeft, mButtonRight);
-                    Debug.Log("bug qamanager");
+                    BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With("lol", mButtonLeft, mButtonRight);
                 }
                     
             }
@@ -103,7 +108,18 @@ namespace BuddyApp.SandboxApp
             
         }
 
+        private void OnSpeechReco(string iVoiceInput)
+        {
+            mSpeechReco = iVoiceInput;
 
+            Interaction.Mood.Set(MoodType.NEUTRAL);
+            mListening = false;
+        }
+
+        private void Empty(STTError iError)
+        {
+            Interaction.Mood.Set(MoodType.NEUTRAL);
+        }
     }
 
 }
