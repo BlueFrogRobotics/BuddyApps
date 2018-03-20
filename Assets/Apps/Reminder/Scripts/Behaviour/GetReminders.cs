@@ -119,6 +119,8 @@ namespace BuddyApp.Reminder
                 {
                     aud.Stop();
                     aud.clip = null;
+                    Debug.Log("fin de clip");
+                    QuitApp();
                 }
             }
         }

@@ -42,7 +42,6 @@ namespace BuddyApp.Shared
 
         private bool mHasDisplayChoices;
         private bool mListening;
-        private bool mHasLoadedTTS;
 
         private float mTimer = 0.0f;
 
@@ -56,7 +55,6 @@ namespace BuddyApp.Shared
         {
             BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
-            mHasLoadedTTS = true;
             Interaction.TextToSpeech.Say(Dictionary.GetRandomString(speechKey));
 
             Interaction.VocalManager.OnEndReco = OnSpeechReco;
@@ -68,47 +66,43 @@ namespace BuddyApp.Shared
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (mHasLoadedTTS)
+            mTimer += Time.deltaTime;
+            if (mTimer > 6.0f)
             {
-                mTimer += Time.deltaTime;
-                if (mTimer > 6.0f)
+                Interaction.Mood.Set(MoodType.NEUTRAL);
+                mListening = false;
+                mTimer = 0.0f;
+                mSpeechReco = null;
+            }
+
+            if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
+                return;
+
+            if (!mHasDisplayChoices)
+            {
+                DisplayChoices();
+                mHasDisplayChoices = true;
+                return;
+            }
+
+
+            if (string.IsNullOrEmpty(mSpeechReco))
+            {
+
+                Interaction.VocalManager.StartInstantReco();
+
+                Interaction.Mood.Set(MoodType.LISTENING);
+                mListening = true;
+                return;
+            }
+            foreach(MenuItem item in items)
+            {
+                if (ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
                 {
-                    Interaction.Mood.Set(MoodType.NEUTRAL);
-                    mListening = false;
-                    mTimer = 0.0f;
-                    mSpeechReco = null;
+                    BYOS.Instance.Toaster.Hide();
+                    ActivateTrigger(item.trigger, item.quitApp);
+                    break;
                 }
-
-                if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
-                    return;
-
-                if (!mHasDisplayChoices)
-                {
-                    DisplayChoices();
-                    mHasDisplayChoices = true;
-                    return;
-                }
-
-
-                if (string.IsNullOrEmpty(mSpeechReco))
-                {
-
-                    Interaction.VocalManager.StartInstantReco();
-
-                    Interaction.Mood.Set(MoodType.LISTENING);
-                    mListening = true;
-                    return;
-                }
-                foreach(MenuItem item in items)
-                {
-                    if (ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
-                    {
-                        BYOS.Instance.Toaster.Hide();
-                        ActivateTrigger(item.trigger, item.quitApp);
-                        break;
-                    }
-                }
-
             }
         }
 
@@ -119,17 +113,6 @@ namespace BuddyApp.Shared
             mSpeechReco = null;
             mHasDisplayChoices = false;
         }
-
-        private IEnumerator WaitTTSLoading()
-        {
-            yield return new WaitForSeconds(1.0f);
-            BYOS.Instance.Header.SpinningWheel = true;
-            while (!Interaction.TextToSpeech.IsSpeaking)
-                yield return null;
-            mHasLoadedTTS = true;
-            BYOS.Instance.Header.SpinningWheel = false;
-        }
-
 
         /// <summary>
         /// Display the choice toaster

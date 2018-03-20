@@ -71,12 +71,12 @@ namespace BuddyApp.Reminder
 
             if (Microphone.IsRecording(microphone))
             { //check that the mic is recording, otherwise you'll get stuck in an infinite loop waiting for it to start
-                while (!(Microphone.GetPosition(microphone) > 0))
-                {
-                } // Wait until the recording has started. 
-                Debug.Log("recording started with " + microphone);
+                //while (!(Microphone.GetPosition(microphone) > 0))
+                //{
+                //} // Wait until the recording has started. 
+                //Debug.Log("recording started with " + microphone);
 
-                aud.Play();
+                //aud.Play();
             }
             else
             {
