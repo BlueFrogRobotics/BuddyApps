@@ -16,6 +16,8 @@ namespace BuddyApp.SandboxApp
         [SerializeField]
         private bool IsBinaryToaster;
         [SerializeField]
+        private string BuddySays;
+        [SerializeField]
         private string LeftButton;    
         [SerializeField]
         private string RightButton;
@@ -41,11 +43,13 @@ namespace BuddyApp.SandboxApp
 
         private string mSpeechReco;
         private bool mListening;
+        private TextToSpeech mTTS;
 
         public override void Start()
         {
             Interaction.VocalManager.EnableTrigger = false;
             BYOS.Instance.Header.DisplayParametersButton = false;
+            mTTS = Interaction.TextToSpeech;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -60,12 +64,16 @@ namespace BuddyApp.SandboxApp
             if(IsBinaryQuestion && !mIsDisplayed)
             {
                 mIsDisplayed = true;
+                if (string.IsNullOrEmpty(BuddySays))
+                    //if()
+                    mTTS.Say(Dictionary.GetRandomString(BuddySays));
                 if (IsBinaryToaster)
                 {
                     if (string.IsNullOrEmpty(RightButton))
                         RightButton = Dictionary.GetString("yes");
                     if (string.IsNullOrEmpty(LeftButton))
                         LeftButton = Dictionary.GetString("no");
+                    
                     //if (string.IsNullOrEmpty(KeyQuestion))
                     //    KeyQuestion = " ";
                     mButtonRight = new ButtonInfo
@@ -75,7 +83,7 @@ namespace BuddyApp.SandboxApp
                     };
                     mButtonLeft = new ButtonInfo
                     {
-                        Label = Dictionary.GetString("play"),
+                        Label = Dictionary.GetString("play"), 
                         OnClick = PressedLeftButton
                     };
                     BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With("lol", mButtonLeft, mButtonRight);
