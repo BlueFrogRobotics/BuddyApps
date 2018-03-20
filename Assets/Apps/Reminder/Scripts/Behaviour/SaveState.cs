@@ -65,7 +65,7 @@ namespace BuddyApp.Reminder
 
             
 
-            Utils.Save(BYOS.Instance.Resources.GetPathToRaw(lRemVoc + ".wav"), mVocal.RemindMe);
+            
             DateTime lDate = DateTime.ParseExact(lRk.Date, "dd/MM/yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
             double lHour = 0;
@@ -105,13 +105,16 @@ namespace BuddyApp.Reminder
             //DateTime.Today.AddMinutes(5);
             //BYOS.Instance.DataBase.Memory.Procedural.AddReminder("content", 0, "adresse");
             lRk.ID=BYOS.Instance.DataBase.Memory.Procedural.AddReminder(lDate, RemindPrecision.MINUTE, "message", ReminderData.Instance.SenderID, mVocal.Name[ReminderData.Instance.SenderID], lRemindType, lRemindRecurrence);
-
+            Debug.Log("2");
+            Debug.Log("id: "+ lRk.ID);
             mReminders.Reminders.Add(lRk);
-
+            Debug.Log("3");
+            Utils.Save(BYOS.Instance.Resources.GetPathToRaw(""+ lRk.ID + ".wav"), mVocal.RemindMe);
+            Debug.Log("4");
             string[] lReminderfile = Directory.GetFiles(BYOS.Instance.Resources.GetPathToRaw("Reminders"));
-
+            Debug.Log("5");
             Utils.SerializeXML<RemindersData>(mReminders, lReminderfile[0]);
-
+            Debug.Log("6");
             BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("reminderok"));
             mOk = true;
         }

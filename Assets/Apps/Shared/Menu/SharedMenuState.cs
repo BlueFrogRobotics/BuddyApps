@@ -13,7 +13,7 @@ using System.Collections.Generic;
 namespace BuddyApp.Shared
 {
     /// <summary>
-    /// State where we ask the user to choose between the different monitoring modes
+    /// State where we show a menu using buttons or the stt to activate triggers
     /// </summary>
     public class SharedMenuState : ASharedSMB
     {
@@ -26,18 +26,17 @@ namespace BuddyApp.Shared
             public bool quitApp;
         }
 
+        [Header("Key of menu title")]
         [SerializeField]
         private string titleKey;
 
+        [Header("Key of the text to be said")]
         [SerializeField]
         private string speechKey;
 
+        [Header("Buttons of the menu")]
         [SerializeField]
         private List<MenuItem> items;
-
-        //private List<string> mStartPhonetics;
-        //private List<string> mParameterPhonetics;
-        //private List<string> mQuitPhonetics;
 
         private string mSpeechReco;
 
@@ -51,9 +50,6 @@ namespace BuddyApp.Shared
         {
             Interaction.VocalManager.EnableTrigger = false;
             BYOS.Instance.Header.DisplayParametersButton = false;
-            //mStartPhonetics = new List<string>(Dictionary.GetPhoneticStrings("start"));
-            //mParameterPhonetics = new List<string>(Dictionary.GetPhoneticStrings("detectionparameters"));
-            //mQuitPhonetics = new List<string>(Dictionary.GetPhoneticStrings("quit"));
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -61,7 +57,6 @@ namespace BuddyApp.Shared
             BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
             mHasLoadedTTS = true;
-            //Debug.Log("[TTS] Has TTS been setup: " + Interaction.TextToSpeech.IsSetup);
             Interaction.TextToSpeech.Say(Dictionary.GetRandomString(speechKey));
 
             Interaction.VocalManager.OnEndReco = OnSpeechReco;
@@ -109,10 +104,7 @@ namespace BuddyApp.Shared
                     if (ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
                     {
                         BYOS.Instance.Toaster.Hide();
-                        //if (GuardianData.Instance.FirstRun)
-                        //    GotoParameter();
-                        //else
-                        GotoParameter(item.trigger, item.quitApp);
+                        ActivateTrigger(item.trigger, item.quitApp);
                         break;
                     }
                 }
@@ -152,7 +144,7 @@ namespace BuddyApp.Shared
                 lButtonsInfo[i] = new ButtonInfo
                 {
                     Label = Dictionary.GetString(item.key),
-                    OnClick = delegate () { GotoParameter(item.trigger, item.quitApp); }
+                    OnClick = delegate () { ActivateTrigger(item.trigger, item.quitApp); }
                 };
                 
                 i++;
@@ -171,23 +163,13 @@ namespace BuddyApp.Shared
             mListening = false;
         }
 
-        /// <summary>
-        /// Go to the next state
-        /// </summary>
-        /// <param name="iMode">the chosen mode</param>
-        private void StartGuardian()
-        {
-            mSpeechReco = null;
-            Trigger("NextStep");
-            //Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
-            Interaction.VocalManager.OnEndReco = Empty;
-        }
 
         /// <summary>
-        /// Go to parameters
+        /// Activate choosen trigger or quit the app
         /// </summary>
-        /// <param name="iMode">the chosen mode</param>
-        private void GotoParameter(string iTrigger, bool iQuit)
+        /// <param name="iTrigger">the trigger to activate</param>
+        /// <param name="iQuit">will quit the app if set to true</param>
+        private void ActivateTrigger(string iTrigger, bool iQuit)
         {
             mSpeechReco = null;
             if (iQuit)
