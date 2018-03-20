@@ -8,14 +8,15 @@ using System;
 namespace BuddyApp.SandboxApp
 {
     public class QAManager : AStateMachineBehaviour
-    { 
+    {   
+      
         [Header("Binary Question Parameters: ")]
         [SerializeField]
         private bool IsBinaryQuestion;
         [SerializeField]
         private bool IsBinaryToaster;
         [SerializeField]
-        private string LeftButton;
+        private string LeftButton;    
         [SerializeField]
         private string RightButton;
         [SerializeField]
