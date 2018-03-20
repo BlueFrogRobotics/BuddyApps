@@ -54,39 +54,39 @@ namespace BuddyApp.SandboxApp
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Interaction.VocalManager.OnEndReco = OnSpeechReco;
-            Interaction.VocalManager.EnableDefaultErrorHandling = false;
-            Interaction.VocalManager.OnError = Empty;
+            //Interaction.VocalManager.OnEndReco = OnSpeechReco;
+            //Interaction.VocalManager.EnableDefaultErrorHandling = false;
+            //Interaction.VocalManager.OnError = Empty;
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             if(IsBinaryQuestion && !mIsDisplayed)
-            {
+            { 
                 mIsDisplayed = true;
-                if (string.IsNullOrEmpty(BuddySays))
-                    //if()
-                    mTTS.Say(Dictionary.GetRandomString(BuddySays));
+                //Buddy speak at the start of the state
+                //if (!string.IsNullOrEmpty(BuddySays))
+                //    if(!VocalFunctions.ContainsWhiteSpace(BuddySays))
+                //        mTTS.Say(Dictionary.GetRandomString(BuddySays));
+                //Display toaster
                 if (IsBinaryToaster)
                 {
-                    if (string.IsNullOrEmpty(RightButton))
-                        RightButton = Dictionary.GetString("yes");
-                    if (string.IsNullOrEmpty(LeftButton))
-                        LeftButton = Dictionary.GetString("no");
-                    
-                    //if (string.IsNullOrEmpty(KeyQuestion))
-                    //    KeyQuestion = " ";
+                    //if (string.IsNullOrEmpty(RightButton))
+                    //    RightButton = Dictionary.GetString("yes");
+                    //if (string.IsNullOrEmpty(LeftButton))
+                    //    LeftButton = Dictionary.GetString("no");
+
                     mButtonRight = new ButtonInfo
                     {
-                        Label = RightButton,
+                        Label = "lololol",
                         OnClick = PressedRightButton
                     };
                     mButtonLeft = new ButtonInfo
-                    {
-                        Label = Dictionary.GetString("play"), 
+                    {  
+                        Label = Dictionary.GetString(LeftButton), 
                         OnClick = PressedLeftButton
                     };
-                    BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With("lol", mButtonLeft, mButtonRight);
+                    BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With(KeyQuestion, mButtonRight, mButtonLeft);
                 }
                     
             }
@@ -104,7 +104,12 @@ namespace BuddyApp.SandboxApp
         {
             Toaster.Hide();
             if(IsSoundForButton)
+            {
+                if (FxSound == FXSound.NONE)
+                    FxSound = FXSound.BEEP_1;
                 Primitive.Speaker.FX.Play(FxSound);
+            }
+                
             Trigger(TriggerRightButton);
         }
 
@@ -112,7 +117,12 @@ namespace BuddyApp.SandboxApp
         {
             Toaster.Hide();
             if (IsSoundForButton)
+            {
+                if (FxSound == FXSound.NONE)
+                    FxSound = FXSound.BEEP_1;
                 Primitive.Speaker.FX.Play(FxSound);
+            }
+               
             Trigger(TriggerLeftButton);
             
         }

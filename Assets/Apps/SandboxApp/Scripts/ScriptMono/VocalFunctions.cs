@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace BuddyApp.SandboxApp
 {
-    public class VocalFunctions : MonoBehaviour
+    static public class VocalFunctions
     {
 
-        public bool ContainsOneOf(string iSpeech, List<string> iListSpeech)
+        static public bool ContainsOneOf(string iSpeech, List<string> iListSpeech)
         {
             for (int i = 0; i < iListSpeech.Count; ++i)
             {
@@ -24,6 +24,16 @@ namespace BuddyApp.SandboxApp
                     }
                 }
                 else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+                    return true;
+            }
+            return false;
+        }
+
+        static public bool ContainsWhiteSpace(string iString)
+        {
+            for(int i = 0; i < iString.Length; ++i)
+            {
+                if (char.IsWhiteSpace(iString[i]))
                     return true;
             }
             return false;
