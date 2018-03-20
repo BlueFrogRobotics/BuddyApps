@@ -45,6 +45,8 @@ namespace BuddyApp.SandboxApp
         private bool mListening;
         private TextToSpeech mTTS;
         private float mTimer;
+        private MoodType mActualMood;
+        private List<string> mKeyList;
 
         public override void Start()
         {
@@ -59,12 +61,15 @@ namespace BuddyApp.SandboxApp
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
             Interaction.VocalManager.OnError = Empty;
             mListening = false;
+            mTimer = 0F;
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mTimer += Time.deltaTime;
             if(IsBinaryQuestion && !mIsDisplayed)
-            { 
+            {
+                mActualMood = Interaction.Mood.CurrentMood;
                 mIsDisplayed = true;
                 //Buddy speak at the start of the state
                 if (!string.IsNullOrEmpty(BuddySays))
@@ -91,11 +96,35 @@ namespace BuddyApp.SandboxApp
                         OnClick = PressedLeftButton
                     };
                     BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With(KeyQuestion, mButtonRight, mButtonLeft);
+                    mKeyList.Add(mButtonLeft.Label);
+                    mKeyList.Add(mButtonRight.Label);
                 }
 
                 //Vocal
+                if(mTimer > 6F)
+                {
+                    Interaction.Mood.Set(mActualMood);
+                    mListening = false;
+                    mTimer = 0F;
+                    mSpeechReco = null;
+                }
+
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
+                
+                if(string.IsNullOrEmpty(mSpeechReco))
+                {
+                    Interaction.VocalManager.StartInstantReco();
+                    Interaction.Mood.Set(MoodType.LISTENING);
+                    mListening = true;
+                    return;
+                }
+
+                if(VocalFunctions.ContainsOneOf(mSpeechReco, mKeyList))
+                {
+                    BYOS.Instance.Toaster.Hide();
+
+                }
 
             }
             else if (IsMultipleQuestion && !mIsDisplayed)
