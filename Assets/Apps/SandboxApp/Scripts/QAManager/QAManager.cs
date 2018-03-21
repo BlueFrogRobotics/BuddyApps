@@ -4,6 +4,7 @@ using UnityEngine;
 using Buddy;
 using Buddy.UI;
 using System;
+using System.Linq;
 
 namespace BuddyApp.SandboxApp
 {
@@ -59,7 +60,7 @@ namespace BuddyApp.SandboxApp
         {
             Interaction.VocalManager.OnEndReco = OnSpeechReco;
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
-            Interaction.VocalManager.OnError = Empty;
+            Interaction.VocalManager.OnError = null;
             mListening = false;
             mTimer = 0F;
         }
@@ -80,20 +81,24 @@ namespace BuddyApp.SandboxApp
                 //Display toaster
                 if (IsBinaryToaster)
                 {
+                    bool lResult = KeyQuestion.Where(char.IsUpper).Any();
                     if (string.IsNullOrEmpty(RightButton))
                         RightButton = Dictionary.GetString("yes");
                     if (string.IsNullOrEmpty(LeftButton))
                         LeftButton = Dictionary.GetString("no");
-
+                    if (!VocalFunctions.ContainsWhiteSpace(KeyQuestion) && !lResult && !VocalFunctions.ContainsSpecialChar(KeyQuestion))
+                    {
+                        KeyQuestion = Dictionary.GetString(KeyQuestion);
+                    }
                     mButtonRight = new ButtonInfo
                     {   
                         Label = Dictionary.GetString(RightButton),
-                        OnClick = PressedRightButton
+                        OnClick = delegate() { PressedButton(TriggerRightButton); }
                     };
                     mButtonLeft = new ButtonInfo
                     {  
                         Label = Dictionary.GetString(LeftButton), 
-                        OnClick = PressedLeftButton
+                        OnClick = delegate () { PressedButton(TriggerLeftButton); }
                     };
                     BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With(KeyQuestion, mButtonRight, mButtonLeft);
                     mKeyList.Add(mButtonLeft.Label);
@@ -119,12 +124,17 @@ namespace BuddyApp.SandboxApp
                     mListening = true;
                     return;
                 }
-
-                if(VocalFunctions.ContainsOneOf(mSpeechReco, mKeyList))
+                for(int i = 0; i < mKeyList.Count; ++i)
                 {
-                    BYOS.Instance.Toaster.Hide();
-
+                    if (VocalFunctions.ContainsOneOf(mSpeechReco,new List<string>( Dictionary.GetPhoneticStrings(mKeyList[i]))))
+                    {
+                        if (i == 0)
+                            PressedButton(TriggerLeftButton);
+                        else
+                            PressedButton(TriggerRightButton);
+                    }
                 }
+ 
 
             }
             else if (IsMultipleQuestion && !mIsDisplayed)
@@ -137,20 +147,7 @@ namespace BuddyApp.SandboxApp
         {
         } 
 
-        private void PressedRightButton()
-        {
-            Toaster.Hide();
-            if(IsSoundForButton)
-            {
-                if (FxSound == FXSound.NONE)
-                    FxSound = FXSound.BEEP_1;
-                Primitive.Speaker.FX.Play(FxSound);
-            }
-                
-            Trigger(TriggerRightButton);
-        }
-
-        private void PressedLeftButton()
+        private void PressedButton(string iKey)
         {
             Toaster.Hide();
             if (IsSoundForButton)
@@ -159,9 +156,7 @@ namespace BuddyApp.SandboxApp
                     FxSound = FXSound.BEEP_1;
                 Primitive.Speaker.FX.Play(FxSound);
             }
-               
-            Trigger(TriggerLeftButton);
-            
+            Trigger(iKey);
         }
 
         private void OnSpeechReco(string iVoiceInput)
@@ -171,11 +166,14 @@ namespace BuddyApp.SandboxApp
             Interaction.Mood.Set(MoodType.NEUTRAL);
             mListening = false;
         }
-
-        private void Empty(STTError iError)
+        
+        private void ActivateTrigger(string iTrigger)
         {
-            Interaction.Mood.Set(MoodType.NEUTRAL);
+            mSpeechReco = null;
+            Trigger(iTrigger);
+            Interaction.VocalManager.OnEndReco = null;
         }
+
     }
 
 }
