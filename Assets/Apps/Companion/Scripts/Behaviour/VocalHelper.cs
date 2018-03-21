@@ -1,13 +1,13 @@
 ﻿using Buddy.UI;
 using Buddy;
 using UnityEngine;
-
 using System;
 using System.Xml;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace BuddyApp.Companion
 {
@@ -517,6 +517,7 @@ namespace BuddyApp.Companion
 			////////////////////////////
 
 
+
 			if (ContainsOneOf(iSpeech, mAlarmSpeech))
 				lType = "Alarm";
 			//else if (ContainsOneOf(iSpeech, mQuizzSpeech))
@@ -592,8 +593,12 @@ namespace BuddyApp.Companion
 				//mAnswerGiven = true;
 				lType = "Repeat";
 			} else if (ContainsOneOf(iSpeech, mBehaviourSpeech)) {
-				int lKeywordsIndex = WordIndexOfOneOf(iSpeech, mBehaviourSpeech);
+				int lKeywordsIndex = WordIndexOfOneOf(iSpeech.ToLower(), mBehaviourSpeech);
 				string[] lWords = iSpeech.Split(' ');
+
+				Debug.Log("Keyword Index: " + lKeywordsIndex);
+				Debug.Log("lWords.Length: " + lWords.Length);
+				Debug.Log(" lWords[lKeywordsIndex + 1]: " + lWords[lKeywordsIndex + 1]);
 
 				if (lKeywordsIndex != -1 && lKeywordsIndex + 1 != lWords.Length) {
 					//Take just the next word
@@ -603,6 +608,14 @@ namespace BuddyApp.Companion
 				lType = "BML";
 				//TTSProcessAndSay(lSentenceToRepeat, true);
 				//mAnswerGiven = true;
+
+
+			} else if (ContainsOneOf(iSpeech, "accraalarm")) {
+				Debug.Log("Accra alarm vocalhelper");
+				lType = "AccraAlarm";
+
+
+
 			} else if (ContainsOneOf(iSpeech, mMeteoSpeech)) {
 				lType = "Weather";
 				//We search for the location of the weather request
@@ -705,13 +718,9 @@ namespace BuddyApp.Companion
 				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "MoveBackward";
 
-				//hack hri 2018
 			} else if (iSpeech.ToLower().Contains("battery")) {
 				Debug.Log("Battery");
 				lType = "Battery";
-
-				//
-
 			} else if (ContainsOneOf(iSpeech, mMoveForwardSpeech)) {
 				Answer = GetNextNumber(iSpeech, mMoveForwardSpeech);
 				Debug.Log("Vocal helper answer: " + Answer);
@@ -759,7 +768,7 @@ namespace BuddyApp.Companion
 				//mTTS.Silence(1000, true);
 				//TTSProcessAndSay("and beep", true);
 
-			}else if (ContainsOneOf(iSpeech, mDoSomethingSpeech))
+			} else if (ContainsOneOf(iSpeech, mDoSomethingSpeech))
 				lType = "DoSomething";
 			else if (iSpeech.ToLower().Contains("propose"))
 				//lType = Suggest();
@@ -775,14 +784,49 @@ namespace BuddyApp.Companion
 			//		mChatBotRequested = true;
 			//		InitChatBot();
 			//	}
-			else {
+			else if (!iSpeech.Any(c => char.IsDigit(c))) {
 				lType = "Answer";
 				Answer = BuildGeneralAnswer(iSpeech.ToLower());
+			} else {
+
+				string lSpeech = iSpeech.Trim();
+				//lSpeech = lSpeech.Replace("x", "*");
+				//lSpeech = lSpeech.Replace("÷", "/");
+
+
+				//if (lSpeech.Contains("√")) {
+				//	lSpeech = lSpeech.Replace("√", "sqrt");
+				//	lSpeech = Regex.Replace(lSpeech, @"\d", "($0)").Replace("sqrt ", "sqrt");
+				//}
+
+				lSpeech = Regex.Replace(lSpeech, @"\d", "($0)");
+				var parser = new ExpressionParser();
+
+
+
+
+				try {
+					Expression exp = parser.EvaluateExpression(lSpeech);
+					Debug.Log("Operation " + iSpeech);
+					lType = "Operation";
+				} catch {
+					lType = "Answer";
+					Answer = BuildGeneralAnswer(iSpeech.ToLower());
+				}
+				//if () {
+				//	Debug.Log("Operation? " + iSpeech);
+				//	lType = "Operation";
+				//} else {
+				//	lType = "Answer";
+				//	Answer = BuildGeneralAnswer(iSpeech.ToLower());
+				//}
 			}
 
 			OnQuestionTypeFound(lType);
 			return true;
 		}
+
+
 
 		private string FindMood(string iSpeech)
 		{
@@ -1170,11 +1214,32 @@ namespace BuddyApp.Companion
 			return false;
 		}
 
+		private bool ContainsOneOf(string iSpeech, string iKeySpeech)
+		{
+			string[] iListSpeech = BYOS.Instance.Dictionary.GetPhoneticStrings(iKeySpeech);
+
+
+			for (int i = 0; i < iListSpeech.Length; ++i) {
+
+				if (string.IsNullOrEmpty(iListSpeech[i]))
+					continue;
+
+				string[] words = iSpeech.Split(' ');
+				if (words.Length < 2 && !string.IsNullOrEmpty(words[0])) {
+					if (words[0].ToLower() == iListSpeech[i].ToLower().Trim()) {
+						return true;
+					}
+				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower().Trim()))
+					return true;
+			}
+			return false;
+		}
+
 		private int WordIndexOfOneOf(string iSpeech, List<string> iListSpeech)
 		{
 			//Returns the index of one of the words of iListSpeech keywords in the speech iSpeech
 			for (int i = 0; i < iListSpeech.Count; ++i) {
-				string[] lWords = iListSpeech[i].Split(' ');
+				string[] lWords = iListSpeech[i].ToLower().Split(' ');
 				string lKeyword = lWords[lWords.Length - 1];
 				string[] lSpeechWords = iSpeech.Split(' ');
 				for (int j = 0; j < lSpeechWords.Length; j++) {
