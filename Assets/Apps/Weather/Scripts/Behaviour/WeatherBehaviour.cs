@@ -30,6 +30,13 @@ namespace BuddyApp.Weather
             TOO_FAR
         }
 
+        internal enum WeatherCommand : int
+        {
+            NONE=0,
+            MIN=1,
+            MAX=2
+        }
+
         internal string mVocalRequest;
         internal string mLocation;
         internal string mName;
@@ -40,6 +47,7 @@ namespace BuddyApp.Weather
         internal CitiesData mCities = new CitiesData();
         internal bool mIsOk = true;
         internal bool mWeekend;
+        internal WeatherCommand mCommand;
 
 
         void Start()

@@ -36,7 +36,10 @@ namespace BuddyApp.Weather
 
             //SayWeather(lWeatherInfo);
 
-            StartCoroutine(Example(mWeatherB.mWeatherInfos));
+            if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.NONE)
+                StartCoroutine(Example(mWeatherB.mWeatherInfos));
+            else
+                ExecuteCommand(mWeatherB.mWeatherInfos);
         }
 
         private void SayWeather(WeatherInfo iWeatherInfo, bool iSayDayOfWeek=false)
@@ -149,6 +152,41 @@ namespace BuddyApp.Weather
 
             if (mWeatherB.mName != "")
                 Interaction.TextToSpeech.Say(lAnswer + " " + Dictionary.GetRandomString("inlocation") + " " + mWeatherB.mName);
+        }
+
+        private void ExecuteCommand(WeatherInfo[] lWeatherInfo)
+        {
+            int j = 0;
+            float lMinTemp = 200F;
+            float lMaxTemp = -200F;
+
+            mWeatherB.mIsOk = false;
+            if (mWeatherB.mDate >= 1)
+            {
+                //if (lWeatherInfo[j].Hour != 20)
+                //j++;
+                for (int k = 0; k < mWeatherB.mDate; k++)
+                {
+                    j++;
+                    while (lWeatherInfo[j].Hour != 8)
+                        j++;
+                }
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
+                if (lWeatherInfo[j].MinTemperature < lMinTemp)
+                    lMinTemp = lWeatherInfo[j].MinTemperature;
+                if (lWeatherInfo[j].MaxTemperature > lMaxTemp)
+                    lMaxTemp = lWeatherInfo[j].MaxTemperature;
+                j++;
+           
+            }
+
+            if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.MIN)
+                Interaction.TextToSpeech.Say("minimale de: " + lMinTemp);
+            else if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.MAX)
+                Interaction.TextToSpeech.Say("maximale de: " + lMaxTemp);
         }
 
         private string EnglishHour(int Hour)

@@ -107,6 +107,19 @@ namespace BuddyApp.Weather
                     }
                 }
             }
+
+            if(ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("min")))
+            {
+                mWeatherB.mCommand = WeatherBehaviour.WeatherCommand.MIN;
+            }
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("max")))
+            {
+                mWeatherB.mCommand = WeatherBehaviour.WeatherCommand.MAX;
+            }
+            else
+            {
+                mWeatherB.mCommand = WeatherBehaviour.WeatherCommand.NONE;
+            }
         }
 
 
