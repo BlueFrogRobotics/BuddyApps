@@ -8,7 +8,7 @@ namespace BuddyApp.RemoteControl
         /*
          * Data getters / setters
          */
-        public int MyValue { get; set; }
+        public bool DiscreteMode{ get; set; }
 
         /*
          * Data singleton access
