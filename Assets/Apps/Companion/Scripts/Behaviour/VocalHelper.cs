@@ -799,7 +799,12 @@ namespace BuddyApp.Companion
 				//	lSpeech = Regex.Replace(lSpeech, @"\d", "($0)").Replace("sqrt ", "sqrt");
 				//}
 
-				lSpeech = Regex.Replace(lSpeech, @"\d", "($0)");
+
+				string pattern = @"(\s?)(\d+\.?((?<=\.)\d+)?)";
+				Regex rgx = new Regex(pattern);
+				lSpeech = rgx.Replace(lSpeech, "($2)");
+
+				//lSpeech = Regex.Replace(lSpeech, @"\d+\.\d+", "($0)");
 				var parser = new ExpressionParser();
 
 
@@ -813,13 +818,6 @@ namespace BuddyApp.Companion
 					lType = "Answer";
 					Answer = BuildGeneralAnswer(iSpeech.ToLower());
 				}
-				//if () {
-				//	Debug.Log("Operation? " + iSpeech);
-				//	lType = "Operation";
-				//} else {
-				//	lType = "Answer";
-				//	Answer = BuildGeneralAnswer(iSpeech.ToLower());
-				//}
 			}
 
 			OnQuestionTypeFound(lType);

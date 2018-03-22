@@ -446,8 +446,8 @@ namespace BuddyApp.Companion
 				if (exp.Count == 1)
 					return exp[0];
 				return new OperationSum(exp.ToArray());
-			} else if (aExpression.Contains('x')) {
-				string[] parts = aExpression.Split('x');
+			} else if (aExpression.Contains('x') || aExpression.Contains('*')) {
+				string[] parts = aExpression.Split('x', '*');
 				List<IValue> exp = new List<IValue>(parts.Length);
 				for (int i = 0; i < parts.Length; i++) {
 					exp.Add(Parse(parts[i]));
@@ -455,8 +455,8 @@ namespace BuddyApp.Companion
 				if (exp.Count == 1)
 					return exp[0];
 				return new OperationProduct(exp.ToArray());
-			} else if (aExpression.Contains('÷')) {
-				string[] parts = aExpression.Split('÷');
+			} else if (aExpression.Contains('÷') || aExpression.Contains('/')) {
+				string[] parts = aExpression.Split('÷', '/');
 				List<IValue> exp = new List<IValue>(parts.Length);
 				if (!string.IsNullOrEmpty(parts[0].Trim()))
 					exp.Add(Parse(parts[0]));

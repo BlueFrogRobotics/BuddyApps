@@ -798,7 +798,9 @@ namespace BuddyApp.Companion
 			//	lSpeech = Regex.Replace(lSpeech, @"\d", "($0)").Replace("sqrt ", "sqrt");
 			//}
 
-			lSpeech = Regex.Replace(lSpeech, @"\d", "($0)");
+			string pattern = @"(\s?)(\d+\.?((?<=\.)\d+)?)";
+			Regex rgx = new Regex(pattern);
+			lSpeech = rgx.Replace(lSpeech, "($2)");
 			var parser = new ExpressionParser();
 
 			Expression exp = parser.EvaluateExpression(lSpeech);
