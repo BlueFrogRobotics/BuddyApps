@@ -653,7 +653,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>min</Key>
-            <BaseValue>Minimum</BaseValue>
+            <BaseValue>minimum</BaseValue>
             <ClosePhoneticValues>
                 <string>minimum</string>
             </ClosePhoneticValues>
@@ -669,6 +669,16 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>saycommand</Key>
+            <BaseValue>the [command] temperature at [localization] [date] is [temperature] degrees</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>the [command] temperature at [localization] [date] is [temperature] degrees</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

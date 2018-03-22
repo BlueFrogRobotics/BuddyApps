@@ -183,10 +183,37 @@ namespace BuddyApp.Weather
            
             }
 
+            string lDayString = "";
+            if (mWeatherB.mDate < 1)
+                lDayString = Dictionary.GetString("today");
+            else if (mWeatherB.mDate == 1)
+                lDayString = Dictionary.GetString("tomorrow");
+            else if (mWeatherB.mDate == 2)
+                lDayString = Dictionary.GetString("dayaftertomorrow");
+            else if (mWeatherB.mWeekend)
+                lDayString = Dictionary.GetString("weekend");
+            else
+                lDayString = Dictionary.GetString("intime") + " " + mWeatherB.mDate + " " + Dictionary.GetString("days");
+
+            string lAnswer = Dictionary.GetRandomString("saycommand");
+            Debug.Log("answer command: " + lAnswer);
+            lAnswer = lAnswer.Replace("[date]", lDayString);
+            Debug.Log("answer2 command: " + lAnswer);
+            lAnswer = lAnswer.Replace("[localization]", mWeatherB.mName);
+            Debug.Log("answer3 command: " + lAnswer);
+
             if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.MIN)
-                Interaction.TextToSpeech.Say("minimale de: " + lMinTemp);
+            {
+                lAnswer = lAnswer.Replace("[temperature]", lMinTemp.ToString());
+                lAnswer = lAnswer.Replace("[command]", Dictionary.GetString("min"));
+            }
             else if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.MAX)
-                Interaction.TextToSpeech.Say("maximale de: " + lMaxTemp);
+            {
+                lAnswer = lAnswer.Replace("[temperature]", lMaxTemp.ToString());
+                lAnswer = lAnswer.Replace("[command]", Dictionary.GetString("max"));
+            }
+            Debug.Log("answer4 command: " + lAnswer);
+            Interaction.TextToSpeech.Say(lAnswer);
         }
 
         private string EnglishHour(int Hour)
