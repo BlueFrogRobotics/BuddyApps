@@ -68,24 +68,26 @@ namespace BuddyApp.SandboxApp
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
-            if(IsBinaryQuestion && !mIsDisplayed)
+            if(IsBinaryQuestion )
             {
-                mActualMood = Interaction.Mood.CurrentMood;
-                mIsDisplayed = true;
-                //Buddy speak at the start of the state
-                if (!string.IsNullOrEmpty(BuddySays))
-                    if (!VocalFunctions.ContainsWhiteSpace(BuddySays))
-                        mTTS.Say(Dictionary.GetRandomString(BuddySays));
-                    else
-                        mTTS.Say(BuddySays);
+
                 //Display toaster
-                if (IsBinaryToaster)
+                if (IsBinaryToaster && !mIsDisplayed)
                 {
+                    mActualMood = Interaction.Mood.CurrentMood;
+                    mIsDisplayed = true;
+                    if (!string.IsNullOrEmpty(BuddySays))
+                        if (!VocalFunctions.ContainsWhiteSpace(BuddySays))
+                            mTTS.Say(Dictionary.GetRandomString(BuddySays));
+                        else
+                            mTTS.Say(BuddySays);
+
                     bool lResult = KeyQuestion.Where(char.IsUpper).Any();
                     if (string.IsNullOrEmpty(RightButton))
                         RightButton = Dictionary.GetString("yes");
                     if (string.IsNullOrEmpty(LeftButton))
                         LeftButton = Dictionary.GetString("no");
+                    Debug.Log("1");
                     if (!VocalFunctions.ContainsWhiteSpace(KeyQuestion) && !lResult && !VocalFunctions.ContainsSpecialChar(KeyQuestion))
                     {
                         KeyQuestion = Dictionary.GetString(KeyQuestion);
@@ -105,8 +107,9 @@ namespace BuddyApp.SandboxApp
                     mKeyList.Add(mButtonRight.Label);
                 }
 
+                Debug.Log("2");
                 //Vocal
-                if(mTimer > 6F)
+                if (mTimer > 6F)
                 {
                     Interaction.Mood.Set(mActualMood);
                     mListening = false;
@@ -116,15 +119,16 @@ namespace BuddyApp.SandboxApp
 
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
-                
-                if(string.IsNullOrEmpty(mSpeechReco))
+                Debug.Log("3");
+                if (string.IsNullOrEmpty(mSpeechReco))
                 {
                     Interaction.VocalManager.StartInstantReco();
                     Interaction.Mood.Set(MoodType.LISTENING);
                     mListening = true;
                     return;
                 }
-                for(int i = 0; i < mKeyList.Count; ++i)
+                Debug.Log("4");
+                for (int i = 0; i < mKeyList.Count; ++i)
                 {
                     if (VocalFunctions.ContainsOneOf(mSpeechReco,new List<string>( Dictionary.GetPhoneticStrings(mKeyList[i]))))
                     {
