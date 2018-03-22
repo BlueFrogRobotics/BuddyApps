@@ -3,6 +3,7 @@ using Buddy.Command;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -618,6 +619,11 @@ namespace BuddyApp.Companion
 					StartApp("MemoryGame", mLastHumanSpeech);
 					break;
 
+				case "Operation":
+					Say(Dictionary.GetRandomString("computeresult") + " " + Compute(mLastHumanSpeech).ToString());
+					mNeedListen = true;
+					break;
+
 				case "Play":
 					CompanionData.Instance.mInteractDesire -= 30;
 
@@ -750,6 +756,29 @@ namespace BuddyApp.Companion
 
 			}
 
+		}
+
+
+		private double Compute(string iSpeech)
+		{
+			string lSpeech = iSpeech.Trim();
+			//lSpeech = lSpeech.Replace("x", "*");
+			//lSpeech = lSpeech.Replace("÷", "/");
+
+			//if (lSpeech.Contains("√")) {
+			//	lSpeech = lSpeech.Replace("√", "sqrt");
+			//	lSpeech = Regex.Replace(lSpeech, @"\d", "($0)").Replace("sqrt ", "sqrt");
+			//}
+
+			string pattern = @"(\s?)(\d+\.?((?<=\.)\d+)?)";
+			Regex rgx = new Regex(pattern);
+			lSpeech = rgx.Replace(lSpeech, "($2)");
+			var parser = new ExpressionParser();
+
+			Expression exp = parser.EvaluateExpression(lSpeech);
+			Debug.Log("Result: " + exp.Value);  // prints: "Result: 522"
+
+			return exp.Value;
 		}
 
 		private void RandomBML()

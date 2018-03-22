@@ -8,6 +8,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace BuddyApp.Companion
 {
@@ -489,7 +490,7 @@ namespace BuddyApp.Companion
 				lType = "Dance";
 			else if (ContainsOneOf(iSpeech, mJokeSpeech) || ContainsOneOf(iSpeech, "knockknock")) {
 				Debug.Log("Vocal helper joke");
-				if ( iSpeech.ToLower().Contains(BYOS.Instance.Dictionary.GetString("i")) || ContainsOneOf(iSpeech, "knockknock"))
+				if (iSpeech.ToLower().Contains(BYOS.Instance.Dictionary.GetString("i")) || ContainsOneOf(iSpeech, "knockknock"))
 					lType = "ListenJoke";
 				else
 					lType = "Joke";
@@ -683,9 +684,49 @@ namespace BuddyApp.Companion
 			//		mChatBotRequested = true;
 			//		InitChatBot();
 			//	}
-			else {
+			else if (!iSpeech.Any(c => char.IsDigit(c))) {
 				lType = "Answer";
 				Answer = BuildGeneralAnswer(iSpeech.ToLower());
+			} else {
+
+				string lSpeech = iSpeech.Trim();
+				//lSpeech = lSpeech.Replace("x", "*");
+				//lSpeech = lSpeech.Replace("÷", "/");
+
+
+				//if (lSpeech.Contains("√")) {
+				//	lSpeech = lSpeech.Replace("√", "sqrt");
+				//	lSpeech = Regex.Replace(lSpeech, @"\d", "($0)").Replace("sqrt ", "sqrt");
+				//}
+
+				Debug.Log("pre: " + lSpeech);
+				string pattern = @"(\s?)(\d+\.?((?<=\.)\d+)?)";
+				Regex rgx = new Regex(pattern);
+				lSpeech = rgx.Replace(lSpeech, "($2)");
+
+				//lSpeech = Regex.Replace(lSpeech, @"\d+\.\d+", "($0)");
+				var parser = new ExpressionParser();
+
+				Debug.Log("post: " + lSpeech);
+
+
+
+
+				try {
+					Expression exp = parser.EvaluateExpression(lSpeech);
+					Debug.Log("Operation " + iSpeech);
+					lType = "Operation";
+				} catch {
+					lType = "Answer";
+					Answer = BuildGeneralAnswer(iSpeech.ToLower());
+				}
+				//if () {
+				//	Debug.Log("Operation? " + iSpeech);
+				//	lType = "Operation";
+				//} else {
+				//	lType = "Answer";
+				//	Answer = BuildGeneralAnswer(iSpeech.ToLower());
+				//}
 			}
 
 			OnQuestionTypeFound(lType);
@@ -1082,7 +1123,7 @@ namespace BuddyApp.Companion
 		private bool ContainsOneOf(string iSpeech, string iKeySpeech)
 		{
 			string[] iListSpeech = BYOS.Instance.Dictionary.GetPhoneticStrings(iKeySpeech);
-			
+
 
 			for (int i = 0; i < iListSpeech.Length; ++i) {
 
