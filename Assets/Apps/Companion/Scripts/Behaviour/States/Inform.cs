@@ -56,7 +56,7 @@ namespace BuddyApp.Companion
 							Interaction.TextToSpeech.Say("Oh my God! I can't feel my battery anymore! [200] Please put it back!!");
 						} else {
 							Interaction.TextToSpeech.Say(Dictionary.GetRandomString("informbattery")
-							.Replace("[batterylevel]", BYOS.Instance.Primitive.Battery.EnergyLevel.ToString()));
+							.Replace("[batterylevel]", ( (int) BYOS.Instance.Primitive.Battery.EnergyLevel).ToString()));
 						}
 					}
 					break;
@@ -66,7 +66,7 @@ namespace BuddyApp.Companion
 				case 1:
 					// TODO: add more random cities
 
-					string lParam = Dictionary.GetString("whatweather") + " " + Dictionary.GetRandomString("citylist");
+					string lParam = Dictionary.GetString("whatweather") + " " + Dictionary.GetRandomString("inlocation") + " " + Dictionary.GetRandomString("citylist");
 
 					Debug.Log("[COMPANION][INFORM] start app weather with param " + lParam);
 					CompanionData.Instance.LastAppTime = DateTime.Now;

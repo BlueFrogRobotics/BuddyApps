@@ -488,6 +488,10 @@ namespace BuddyApp.Companion
 				lType = "DemoFull";
 			else if (ContainsOneOf(iSpeech, mDanceSpeech))
 				lType = "Dance";
+			else if (ContainsOneOf(iSpeech, "iloveyou") || ContainsOneOf(iSpeech, "kissme"))
+				lType = "UserLove";
+			else if (ContainsOneOf(iSpeech, "ihateyou"))
+				lType = "UserHate";
 			else if (ContainsOneOf(iSpeech, mJokeSpeech) || ContainsOneOf(iSpeech, "knockknock")) {
 				Debug.Log("Vocal helper joke");
 				if (iSpeech.ToLower().Contains(BYOS.Instance.Dictionary.GetString("i")) || ContainsOneOf(iSpeech, "knockknock"))
@@ -643,6 +647,28 @@ namespace BuddyApp.Companion
 				Answer = GetNextNumber(iSpeech, mVolumeUpSpeech);
 				Debug.Log("Vocal helper answer: " + Answer);
 				lType = "VolumeUp";
+				//} else if (ContainsOneOf(iSpeech, "switchlanguage")) {
+				//	Answer = "";
+				//	if (ContainsOneOf(iSpeech, "english"))
+				//		Answer = "English";
+				//	else if (ContainsOneOf(iSpeech, "french"))
+				//		Answer = "French";
+				//	else if (ContainsOneOf(iSpeech, "Italian"))
+				//		Answer = "Italian";
+
+				//	lType = "SwitchLanguage";
+			} else if (ContainsOneOf(iSpeech, mVolumeSpeech)) {
+				Answer = "" + BYOS.Instance.Primitive.Speaker.GetVolume();
+				Debug.Log("Vocal helper answer: " + Answer);
+				lType = "Volume";
+			} else if (ContainsOneOf(iSpeech, mVolumeDownSpeech)) {
+				Answer = GetNextNumber(iSpeech, mVolumeDownSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
+				lType = "VolumeDown";
+			} else if (ContainsOneOf(iSpeech, mVolumeUpSpeech)) {
+				Answer = GetNextNumber(iSpeech, mVolumeUpSpeech);
+				Debug.Log("Vocal helper answer: " + Answer);
+				lType = "VolumeUp";
 			} else if (ContainsOneOf(iSpeech, mThanksSpeech)) {
 				//TTSProcessAndSay(RandomString(mURWelcomeSpeech));
 				lType = "Answer";
@@ -668,6 +694,8 @@ namespace BuddyApp.Companion
 
 			} else if (ContainsOneOf(iSpeech, mPlaySpeech))
 				lType = "Play";
+			else if (ContainsOneOf(iSpeech, "tellsomething"))
+				lType = "TellSomething";
 			else if (ContainsOneOf(iSpeech, mDoSomethingSpeech))
 				lType = "DoSomething";
 			else if (iSpeech.ToLower().Contains("propose"))
@@ -1109,11 +1137,11 @@ namespace BuddyApp.Companion
 				if (words.Length < 2) {
 					words = iSpeech.Split(' ');
 					foreach (string word in words) {
-						if (word.ToLower() == iListSpeech[i].ToLower()) {
+						if (word.ToLower() == iListSpeech[i].ToLower().Trim()) {
 							return true;
 						}
 					}
-				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower().Trim()))
 					return true;
 			}
 			return false;
@@ -1132,10 +1160,10 @@ namespace BuddyApp.Companion
 
 				string[] words = iSpeech.Split(' ');
 				if (words.Length < 2 && !string.IsNullOrEmpty(words[0])) {
-					if (words[0].ToLower() == iListSpeech[i].ToLower()) {
+					if (words[0].ToLower() == iListSpeech[i].ToLower().Trim()) {
 						return true;
 					}
-				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower().Trim()))
 					return true;
 			}
 			return false;

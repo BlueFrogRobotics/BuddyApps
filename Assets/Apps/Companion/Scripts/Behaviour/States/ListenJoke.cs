@@ -1,9 +1,6 @@
 ﻿using Buddy;
 using Buddy.UI;
 using Buddy.Command;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,10 +24,17 @@ namespace BuddyApp.Companion
 		{
 			mState.text = "LISTEN Joke";
 
-			mKnockKnock = 0;
-			if (ContainsOneOf(Interaction.SpeechToText.LastAnswer, "knockknock"))
-				mKnockKnock = 1;
+			Debug.Log("listen joke");
 
+			mKnockKnock = 0;
+
+			Debug.Log("listen joke lastans " + Interaction.SpeechToText.LastAnswer);
+			if (!string.IsNullOrEmpty(Interaction.SpeechToText.LastAnswer))
+				if (ContainsOneOf(Interaction.SpeechToText.LastAnswer, "knockknock"))
+					mKnockKnock = 1;
+
+
+			Debug.Log("listen joke knockknock " + mKnockKnock);
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.JOKE;
 

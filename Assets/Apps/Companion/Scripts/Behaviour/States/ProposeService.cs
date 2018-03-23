@@ -53,6 +53,8 @@ namespace BuddyApp.Companion
 			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("attention") + " " + Dictionary.GetRandomString("propose" + mProposal));
 
 
+			Interaction.VocalManager.EnableDefaultErrorHandling = false;
+
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
 			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
 
@@ -64,7 +66,7 @@ namespace BuddyApp.Companion
 			mTime += Time.deltaTime;
 
 			if (mTime > 60F || mNoGame) {
-				iAnimator.SetTrigger("VOCALCOMMAND");
+				iAnimator.SetTrigger("INTERACT");
 			}
 
 			if (Interaction.TextToSpeech.HasFinishedTalking && mNeedListen) {

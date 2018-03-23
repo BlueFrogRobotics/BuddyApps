@@ -333,6 +333,9 @@ namespace BuddyApp.Companion
 					Debug.Log("[Companion][ActionManager] reaction thermal");
 					// TODO: add exception states if needed
 
+					if (iState == COMPANION_STATE.WANDER && CompanionData.Instance.mMovingDesire < 60)
+						return "";
+
 					StopAllActions();
 					if (BYOS.Instance.Interaction.InternalState.Positivity > 3)
 						BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
@@ -343,7 +346,8 @@ namespace BuddyApp.Companion
 
 					// if we look for a user it is because we have a desire...
 					if (iState == COMPANION_STATE.LOOK_FOR_USER) {
-						return DesiredAction(COMPANION_STATE.LOOK_FOR_USER);
+						// launch the desire with "fake" user detected state to tell user is present
+						return DesiredAction(COMPANION_STATE.USER_DETECTED);
 					} else
 						return "INTERACT";
 
@@ -438,9 +442,7 @@ namespace BuddyApp.Companion
 			}
 
 		}
-
-
-
+		
 
 
 		public void EyeReaction()

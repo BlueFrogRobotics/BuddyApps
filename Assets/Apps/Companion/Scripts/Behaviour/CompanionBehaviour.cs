@@ -43,7 +43,7 @@ namespace BuddyApp.Companion
 			// ensure motors stay in same state as config
 			
 			// TODO: do this only if needed, need getter...
-			if(Time.time - mLastVoiceUpdate > 2F) {
+			if(Time.time - mLastVoiceUpdate > 10F) {
 				BYOS.Instance.Interaction.TextToSpeech.SetPitch(1.0F + 0.03F * BYOS.Instance.Interaction.InternalState.Positivity);
 				BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(1.0F + 0.02F * BYOS.Instance.Interaction.InternalState.Energy);
 				mLastVoiceUpdate = Time.time;

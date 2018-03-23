@@ -674,12 +674,41 @@ namespace BuddyApp.Companion
 					StartApp("RLGL", mLastHumanSpeech);
 					break;
 
+				//case "SwitchLanguage":
+				//	// TODO get command from OS
+				//	if (string.IsNullOrEmpty(mVocalChat.Answer)) {
+				//		Interaction.TextToSpeech.SayKey("whichlanguage", true);
+				//	} else
+				//		Interaction.TextToSpeech.SayKey("okispeaklang", true);
+				//	break;
+
+				case "TellSomething":
+					Debug.Log("VocalTrigger tell something");
+					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
+					mNeedListen = true;
+					break;
+
 				case "Timer":
 					Debug.Log("VocalTrigger Timer");
 					CompanionData.Instance.mInteractDesire -= 10;
 					StartApp("Timer", mLastHumanSpeech);
 					break;
 
+				case "UserLove":
+					Debug.Log("VocalTrigger userlove");
+					// react as a caress
+					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(5, -2, "mooduserlove", "USER_LOVE", EmotionalEventType.INTERACTION, InternalMood.RELAXED));
+					mActionManager.HeadReaction();
+					mNeedListen = true;
+					break;
+
+				case "UserHate":
+					Debug.Log("VocalTrigger userhate");
+					// react as eye poked
+					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-5, -4, "mooduserhate", "USER_HATE", EmotionalEventType.INTERACTION, InternalMood.SAD));
+					mActionManager.EyeReaction();
+					mNeedListen = true;
+					break;
 
 				case "Volume": {
 						int n;

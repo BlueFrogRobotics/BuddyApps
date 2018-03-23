@@ -53,6 +53,8 @@ namespace BuddyApp.Companion
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
 			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
 
+			Interaction.VocalManager.EnableDefaultErrorHandling = false;
+
 			Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("propose" + mProposal), YesAnswer, NoAnswer);
 		}
 
@@ -61,7 +63,7 @@ namespace BuddyApp.Companion
 			mTime += Time.deltaTime;
 
 			if (mTime > 60F || mNoGame) {
-				iAnimator.SetTrigger("VOCALCOMMAND");
+				iAnimator.SetTrigger("INTERACT");
 			}
 
 			if (Interaction.TextToSpeech.HasFinishedTalking && mNeedListen) {

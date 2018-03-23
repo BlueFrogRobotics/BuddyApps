@@ -18,19 +18,35 @@ namespace BuddyApp.Diagnostic
 
         private Face mFace;
 
-        void Start()
+		private MoodType mMood;
+		private FaceEvent mEvent;
+
+		void Start()
         {
             mFace = BYOS.Instance.Interaction.Face;
+			mMood = MoodType.NEUTRAL;
+			mEvent = FaceEvent.SMILE;
         }
 
-        public void SetMood()
+        public void SetMood(int iMood)
         {
-            //mFace.SetMood();
+			mMood = ((MoodType) iMood);
         }
 
-        public void SetEvent()
+		public void SetMood()
+		{
+			BYOS.Instance.Interaction.Mood.Set(mMood);
+		}
+
+		public void SetEvent(int iEvent)
         {
-            //mFace.SetEvent((FaceEvent)iEvent);
+           mEvent = (FaceEvent)iEvent;
         }
-    }
+
+		public void SetEvent()
+		{
+			mFace.SetEvent(mEvent);
+		}
+
+	}
 }
