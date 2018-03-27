@@ -16,6 +16,7 @@ namespace BuddyApp.Diagnostic
         public override void OnStart()
 		{
 			Utils.LogI(LogContext.APP, "On start...");
+			BYOS.Instance.Header.DisplayParametersButton = false;
 		}
 
         public override void OnQuit()

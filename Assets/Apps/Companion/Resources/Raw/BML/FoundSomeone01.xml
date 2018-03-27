@@ -2,7 +2,7 @@
 <bml id="FoundSomeone01" category="joy">
   <gazeShift id="gaze1" direction="UP"/>
 	<headYes id="headYes1" position="-40" speed="250"/>
-	<synchronized>
+	<synchronized start="1" >
     <gazeShift id="gaze2" direction="CENTER"/>
     <faceMoodShift mood="HAPPY"/>
     <headYes id="headYes2" position="60" speed="250"/>

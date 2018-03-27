@@ -15,7 +15,7 @@ namespace BuddyApp.SandboxApp
     /// <summary>
     /// State where we ask the user to choose between the different monitoring modes
     /// </summary>
-    public class SharedMenuState : AStateMachineBehaviour
+    public class SAMenuState : AStateMachineBehaviour
     {
 
         [Serializable]

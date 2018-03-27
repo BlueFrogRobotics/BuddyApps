@@ -77,7 +77,7 @@ namespace BuddyApp.Reminder
 
         private void PlayReminder()
         {
-            string lFilename = mVocal.Name[ReminderData.Instance.SenderID] + ReminderData.Instance.Date;
+            string lFilename = "" + ReminderData.Instance.SenderID;//mVocal.Name[ReminderData.Instance.SenderID] + ReminderData.Instance.Date;
             var charsToRemove = new string[] { ":", "/" };
 
             foreach (var c in charsToRemove)
@@ -119,6 +119,8 @@ namespace BuddyApp.Reminder
                 {
                     aud.Stop();
                     aud.clip = null;
+                    Debug.Log("fin de clip");
+                    QuitApp();
                 }
             }
         }

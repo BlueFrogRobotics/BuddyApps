@@ -666,5 +666,37 @@
                 <string>dimanche</string>
             </RandomValues>
         </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>min</Key>
+            <BaseValue>minimale</BaseValue>
+            <ClosePhoneticValues>
+                <string>minimum</string>
+                <string>minimale</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>max</Key>
+            <BaseValue>maximale</BaseValue>
+            <ClosePhoneticValues>
+                <string>maximum</string>
+                <string>maximale</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>saycommand</Key>
+            <BaseValue>la température [command] à [localization] [date] est de [temperature] degrés</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>la température [command] à [localization] [date] est de [temperature] degrés</string>
+            </RandomValues>
+        </DictionaryEntry>
     </Entries>
 </LanguageThesaurus>

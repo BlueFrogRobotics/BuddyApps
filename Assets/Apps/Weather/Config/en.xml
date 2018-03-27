@@ -651,5 +651,35 @@
                 <string>sunday</string>
             </RandomValues>
         </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>min</Key>
+            <BaseValue>minimum</BaseValue>
+            <ClosePhoneticValues>
+                <string>minimum</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>max</Key>
+            <BaseValue>maximum</BaseValue>
+            <ClosePhoneticValues>
+                <string>maximum</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>saycommand</Key>
+            <BaseValue>the [command] temperature at [localization] [date] is [temperature] degrees</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>the [command] temperature at [localization] [date] is [temperature] degrees</string>
+            </RandomValues>
+        </DictionaryEntry>
     </Entries>
 </LanguageThesaurus>

@@ -7,7 +7,7 @@ using Buddy.UI;
 
 namespace BuddyApp.SandboxApp
 {
-    public class SharedMotionDetectionState : AStateMachineBehaviour
+    public class MotionDetectionState : AStateMachineBehaviour
     {
 
         [Header("Display Video Parameters : ")]

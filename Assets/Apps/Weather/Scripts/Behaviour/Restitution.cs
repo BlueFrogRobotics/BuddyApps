@@ -36,7 +36,10 @@ namespace BuddyApp.Weather
 
             //SayWeather(lWeatherInfo);
 
-            StartCoroutine(Example(mWeatherB.mWeatherInfos));
+            if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.NONE)
+                StartCoroutine(Example(mWeatherB.mWeatherInfos));
+            else
+                ExecuteCommand(mWeatherB.mWeatherInfos);
         }
 
         private void SayWeather(WeatherInfo iWeatherInfo, bool iSayDayOfWeek=false)
@@ -149,6 +152,68 @@ namespace BuddyApp.Weather
 
             if (mWeatherB.mName != "")
                 Interaction.TextToSpeech.Say(lAnswer + " " + Dictionary.GetRandomString("inlocation") + " " + mWeatherB.mName);
+        }
+
+        private void ExecuteCommand(WeatherInfo[] lWeatherInfo)
+        {
+            int j = 0;
+            float lMinTemp = 200F;
+            float lMaxTemp = -200F;
+
+            mWeatherB.mIsOk = false;
+            if (mWeatherB.mDate >= 1)
+            {
+                //if (lWeatherInfo[j].Hour != 20)
+                //j++;
+                for (int k = 0; k < mWeatherB.mDate; k++)
+                {
+                    j++;
+                    while (lWeatherInfo[j].Hour != 8)
+                        j++;
+                }
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
+                if (lWeatherInfo[j].MinTemperature < lMinTemp)
+                    lMinTemp = lWeatherInfo[j].MinTemperature;
+                if (lWeatherInfo[j].MaxTemperature > lMaxTemp)
+                    lMaxTemp = lWeatherInfo[j].MaxTemperature;
+                j++;
+           
+            }
+
+            string lDayString = "";
+            if (mWeatherB.mDate < 1)
+                lDayString = Dictionary.GetString("today");
+            else if (mWeatherB.mDate == 1)
+                lDayString = Dictionary.GetString("tomorrow");
+            else if (mWeatherB.mDate == 2)
+                lDayString = Dictionary.GetString("dayaftertomorrow");
+            else if (mWeatherB.mWeekend)
+                lDayString = Dictionary.GetString("weekend");
+            else
+                lDayString = Dictionary.GetString("intime") + " " + mWeatherB.mDate + " " + Dictionary.GetString("days");
+
+            string lAnswer = Dictionary.GetRandomString("saycommand");
+            Debug.Log("answer command: " + lAnswer);
+            lAnswer = lAnswer.Replace("[date]", lDayString);
+            Debug.Log("answer2 command: " + lAnswer);
+            lAnswer = lAnswer.Replace("[localization]", mWeatherB.mName);
+            Debug.Log("answer3 command: " + lAnswer);
+
+            if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.MIN)
+            {
+                lAnswer = lAnswer.Replace("[temperature]", lMinTemp.ToString());
+                lAnswer = lAnswer.Replace("[command]", Dictionary.GetString("min"));
+            }
+            else if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.MAX)
+            {
+                lAnswer = lAnswer.Replace("[temperature]", lMaxTemp.ToString());
+                lAnswer = lAnswer.Replace("[command]", Dictionary.GetString("max"));
+            }
+            Debug.Log("answer4 command: " + lAnswer);
+            Interaction.TextToSpeech.Say(lAnswer);
         }
 
         private string EnglishHour(int Hour)

@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
 
 namespace BuddyApp.SandboxApp
 {
-    public class VocalFunctions : MonoBehaviour
+    static public class VocalFunctions
     {
 
-        public bool ContainsOneOf(string iSpeech, List<string> iListSpeech)
+        public static bool ContainsOneOf(string iSpeech, List<string> iListSpeech)
         {
             for (int i = 0; i < iListSpeech.Count; ++i)
             {
@@ -25,6 +27,25 @@ namespace BuddyApp.SandboxApp
                 }
                 else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
                     return true;
+            }
+            return false;
+        }
+
+        public static bool ContainsWhiteSpace(string iString)
+        {
+            for(int i = 0; i < iString.Length; ++i)
+            {
+                if (char.IsWhiteSpace(iString[i]))
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool ContainsSpecialChar(string iString)
+        {
+            for (int i = 0; i < iString.Length; ++i)
+            {
+                if (iString.Any(item => !Char.IsLetterOrDigit(iString[i]))) return true;
             }
             return false;
         }
