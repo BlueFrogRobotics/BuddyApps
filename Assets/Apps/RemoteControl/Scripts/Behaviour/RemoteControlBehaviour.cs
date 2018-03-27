@@ -54,6 +54,9 @@ namespace BuddyApp.RemoteControl
 	    [SerializeField]
 	    private Dropdown choiceDropdown;
 
+        [SerializeField]
+        private AudioClip musicCall;
+
 	    private bool mIncomingCallHandled;
 
 	    public void backToLobby()
@@ -69,7 +72,7 @@ namespace BuddyApp.RemoteControl
         void Start()
         {
             //callAnimator.SetTrigger("Open_WCall");
-            StartCoroutine(Call());
+            //StartCoroutine(Call());
 	        //RemoteUsers lUserList = new RemoteUsers();
 
 	        //StreamReader lstreamReader = new StreamReader(BuddyTools.Utils.GetStreamingAssetFilePath("callRights.txt"));
@@ -122,17 +125,29 @@ namespace BuddyApp.RemoteControl
 			AAppActivity.QuitApp();
 	    }
 
-        private IEnumerator Call()
+        public IEnumerator Call()
         {
             userCalling.text = Buddy.WebRTCListener.RemoteID;
             receiveCallAnim.SetTrigger("Open_WReceiveCall");
             backgroundAnim.SetTrigger("Open_BG");
             if (!RemoteControlData.Instance.DiscreteMode)
             {
-                BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+                //BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+                BYOS.Instance.Primitive.Speaker.Media.Play(musicCall);
                 yield return new WaitForSeconds(1.5F);
+                string lReceiver = "";
+                foreach (UserAccount lUser in BYOS.Instance.DataBase.GetUsers())
+                {
+                    if(Buddy.WebRTCListener.RemoteID.Trim()==lUser.Email)
+                    {
+                        lReceiver = lUser.FirstName;
+                    }
+                }
                 string lTextToSay = BYOS.Instance.Dictionary.GetString("incomingcall");
-                lTextToSay = lTextToSay.Replace("[user]", Buddy.WebRTCListener.RemoteID);
+                if(lReceiver=="")
+                    lTextToSay = lTextToSay.Replace("[user]", Buddy.WebRTCListener.RemoteID);
+                else
+                    lTextToSay = lTextToSay.Replace("[user]", lReceiver);
                 BYOS.Instance.Interaction.TextToSpeech.Say(lTextToSay);
             }
             yield return null;
