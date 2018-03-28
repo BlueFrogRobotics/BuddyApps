@@ -127,7 +127,6 @@ namespace BuddyApp.RemoteControl
 
         public IEnumerator Call()
         {
-            userCalling.text = Buddy.WebRTCListener.RemoteID;
             receiveCallAnim.SetTrigger("Open_WReceiveCall");
             backgroundAnim.SetTrigger("Open_BG");
             if (!RemoteControlData.Instance.DiscreteMode)
@@ -144,11 +143,18 @@ namespace BuddyApp.RemoteControl
                     }
                 }
                 string lTextToSay = BYOS.Instance.Dictionary.GetString("incomingcall");
-                if(lReceiver=="")
+                if (lReceiver == "")
+                {
                     lTextToSay = lTextToSay.Replace("[user]", Buddy.WebRTCListener.RemoteID);
+                    userCalling.text = Buddy.WebRTCListener.RemoteID;
+                }
                 else
+                {
                     lTextToSay = lTextToSay.Replace("[user]", lReceiver);
+                    userCalling.text = lReceiver;
+                }
                 BYOS.Instance.Interaction.TextToSpeech.Say(lTextToSay);
+                
             }
             yield return null;
         }
