@@ -855,21 +855,27 @@ namespace BuddyApp.Companion
 			string[] lWords = iText.Split(' ');
 			float n = 0F;
 
+			Debug.Log("keywordsIndex: " + lKeywordsIndex);
 			if (lKeywordsIndex == -1) {
 				return lResult;
-			} else if (lKeywordsIndex != lWords.Length) {
-				for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
+			} else if (lKeywordsIndex < lWords.Length) {
+				for (int j = lKeywordsIndex + 1; j < lWords.Length; j++) {
+					Debug.Log("j: " + j + " words length: " + lWords.Length);
 					if (float.TryParse(lWords[j], out n)) {
 						if (!iSpeech.Contains(" meter") && !iSpeech.Contains(" mètre") && ((iSpeech.Contains("centimeter") || iSpeech.Contains("centimètre") || iSpeech.Contains(" cm"))))
 							lResult = "" + n / 100;
 						else
 							lResult = lWords[j];
 						break;
-					} else if (float.TryParse(lWords[j].Remove(lWords[j].Length - 2), out n) && lWords[j][lWords[j].Length - 2] == 'c' && lWords[j][lWords[j].Length - 1] == 'm')
-						lResult = "" + n / 100;
+					} else if (lWords[j].Contains("cm"))
+						if (float.TryParse(lWords[j].Remove(lWords[j].Length - 2), out n) && lWords[j][lWords[j].Length - 2] == 'c' && lWords[j][lWords[j].Length - 1] == 'm')
+							lResult = "" + n / 100;
+
+				}
 			}
 			return lResult;
 		}
+
 
 		private string BuildGeneralAnswer(string iData)
 		{
