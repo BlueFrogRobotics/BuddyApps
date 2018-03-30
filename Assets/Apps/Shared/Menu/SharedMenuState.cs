@@ -119,6 +119,8 @@ namespace BuddyApp.Shared
         /// </summary>
         private void DisplayChoices()
         {
+            Debug.Log("display choice");
+            Debug.Log("display count "+ items.Count);
             ButtonInfo[] lButtonsInfo = new ButtonInfo[items.Count];
             int i = 0;
 
@@ -132,7 +134,7 @@ namespace BuddyApp.Shared
                 
                 i++;
             }
-
+            Debug.Log("apres foreach");
 
             BYOS.Instance.Toaster.Display<ChoiceToast>().With(Dictionary.GetString(titleKey), lButtonsInfo);
 

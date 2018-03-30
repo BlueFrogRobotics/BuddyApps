@@ -164,12 +164,13 @@ namespace BuddyApp.SandboxApp
             BYOS.Instance.Header.SpinningWheel = false;
         }
 
-
         /// <summary>
         /// Display the choice toaster
         /// </summary>
         private void DisplayChoices()
         {
+            Debug.Log("display choice");
+            Debug.Log("display count " + items.Count);
             ButtonInfo[] lButtonsInfo = new ButtonInfo[items.Count];
             int i = 0;
             foreach(MenuItem item in items)
@@ -183,7 +184,7 @@ namespace BuddyApp.SandboxApp
                 //    lButtonsInfo[i].OnClick = QuitApp;
                 i++;
             }
-
+            Debug.Log("apres foreach");
 
             BYOS.Instance.Toaster.Display<ChoiceToast>().With(Dictionary.GetString(titleKey), lButtonsInfo);
 

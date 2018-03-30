@@ -10,7 +10,6 @@ namespace BuddyApp.SandboxApp
 {
     public class QAManager : AStateMachineBehaviour
     {
-        
         [SerializeField]
         private string BuddySays;
         [SerializeField]
@@ -24,7 +23,6 @@ namespace BuddyApp.SandboxApp
         {
             public string key;
             public string trigger;
-
         }
     
         [Header("Buttons of the Multiple question ")]
@@ -51,9 +49,6 @@ namespace BuddyApp.SandboxApp
         [SerializeField]
         private bool IsMultipleToaster;
        
-
-        
-
         private bool mIsDisplayed;
         ButtonInfo mButtonLeft;
         ButtonInfo mButtonRight;
@@ -88,6 +83,7 @@ namespace BuddyApp.SandboxApp
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            
             mTimer += Time.deltaTime;
             if(IsBinaryQuestion )
             {
