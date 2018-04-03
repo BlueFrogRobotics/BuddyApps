@@ -143,6 +143,7 @@ namespace BuddyApp.Companion
 		private ChatterBotSession mCleverbotSession;
 		private List<string> mIHateU;
 		private List<string> mILoveU;
+		private bool mPreviousOperation;
 
 		public string Answer { get; private set; }
 
@@ -164,18 +165,25 @@ namespace BuddyApp.Companion
 			mErrorCount = 0;
 
 			//Init all the questions and synonyms from files depending on language
-			StreamReader lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-en.xml"));
-			if (mCurrentLanguage == Language.FR)
-				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-fr.xml"));
-			else if (mCurrentLanguage == Language.IT)
-				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-it.xml"));
+
+			StreamReader lStreamReader;
+			try {
+			lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-" + mCurrentLanguage.ToString().ToLower() + ".xml"));
+			} catch {
+					lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-en.xml"));
+			}
+
 			mQuestionsFile = lStreamReader.ReadToEnd();
 			lStreamReader.Close();
 
-			lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-en.xml"));
-			if (mCurrentLanguage == Language.FR)
-				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-fr.xml"));
 
+
+			try {
+				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-" + mCurrentLanguage.ToString().ToLower() + ".xml"));
+			} catch {
+				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-en.xml"));
+			}
+			
 			mSynonymesFile = lStreamReader.ReadToEnd();
 			lStreamReader.Close();
 
@@ -811,14 +819,80 @@ namespace BuddyApp.Companion
 
 
 				try {
-					Expression exp = parser.EvaluateExpression(lSpeech);
-					Debug.Log("Operation " + iSpeech);
-					lType = "Operation";
+
+					Debug.Log("VocalHelper parse arithm");
+
+					string lSpeechProcessed = "";
+
+					lSpeechProcessed += lSpeech.ToLower().Replace(BYOS.Instance.Dictionary.GetString("add"), "+");
+					lSpeechProcessed = lSpeechProcessed.Replace("plus", "+");
+					lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("devide"), "/");
+					lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("devideit"), "/");
+					lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("devideper"), "/");
+					lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("minus"), "-");
+					lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("times"), "*");
+					lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("power"), "^");
+
+
+					Debug.Log("Operation " + lSpeechProcessed);
+					Expression exp = parser.EvaluateExpression(lSpeechProcessed);
+
+
+					// Is it an operation from previous result?
+					if (lSpeechProcessed[0] == '+' || lSpeechProcessed[0] == '-' || lSpeechProcessed[0] == '/' || lSpeechProcessed[0] == 'x' || lSpeechProcessed[0] == '*' || lSpeechProcessed[0] == '÷' || lSpeechProcessed[0] == '^')
+						lType = "OperationAgain";
+					else
+						lType = "Operation";
+
+
+
+					mPreviousOperation = true;
 				} catch {
-					lType = "Answer";
-					Answer = BuildGeneralAnswer(iSpeech.ToLower());
+
+					Debug.Log("VocalHelper catch arithm");
+
+					// if previous is an operation, we need to try with a number at first
+					if (mPreviousOperation) {
+						try {
+
+
+							Debug.Log("VocalHelper parse arithm with previous");
+
+							string lSpeechProcessed = "1 ";
+
+
+							lSpeechProcessed += lSpeech.ToLower().Replace(BYOS.Instance.Dictionary.GetString("add"), "+");
+							lSpeechProcessed = lSpeechProcessed.Replace("plus", "+");
+							lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("devide"), "/");
+							lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("devideit"), "/");
+							lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("devideper"), "/");
+							lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("minus"), "-");
+							lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("times"), "*");
+							lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("power"), "^");
+
+
+							Debug.Log("Operation " + lSpeechProcessed);
+							Expression exp = parser.EvaluateExpression(lSpeechProcessed);
+							Debug.Log("Operation " + lSpeechProcessed);
+							lType = "OperationAgain";
+							mPreviousOperation = true;
+						} catch {
+
+							lType = "Answer";
+							Answer = BuildGeneralAnswer(iSpeech.ToLower());
+						}
+
+					} else {
+						lType = "Answer";
+						Answer = BuildGeneralAnswer(iSpeech.ToLower());
+					}
 				}
 			}
+
+			Debug.Log("VocalHelper:" + lType);
+
+			if (lType != "Operation" && lType != "OperationAgain")
+				mPreviousOperation = false;
 
 			OnQuestionTypeFound(lType);
 			return true;

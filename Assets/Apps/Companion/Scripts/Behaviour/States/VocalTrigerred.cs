@@ -24,6 +24,7 @@ namespace BuddyApp.Companion
 		private bool mFirstErrorStt;
 		private float mTimeHumanDetected;
 		private float mTimeMotion;
+		private string mPreviousOperationResult;
 
 		public override void Start()
 		{
@@ -48,6 +49,7 @@ namespace BuddyApp.Companion
 			mNeedToGiveAnswer = false;
 			mError = false;
 			mSpeechInput = false;
+			mPreviousOperationResult = "";
 			Interaction.VocalManager.EnableTrigger = false;
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
 			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
@@ -204,6 +206,8 @@ namespace BuddyApp.Companion
 			string lSentence = "";
 			if (iType != "Repeat")
 				mLastBuddySpeech = "";
+			if (iType != "Operation" && iType != "OperationAgain")
+				mPreviousOperationResult = "";
 
 
 			mSpeechInput = false;
@@ -358,8 +362,7 @@ namespace BuddyApp.Companion
 					StartApp("Guardian", mLastHumanSpeech);
 					break;
 
-				case "HeadDown":
-					{
+				case "HeadDown": {
 						CancelOrders();
 						mActionManager.UnlockHead();
 
@@ -379,8 +382,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "HeadUp":
-					{
+				case "HeadUp": {
 						CancelOrders();
 						mActionManager.UnlockHead();
 
@@ -401,8 +403,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "HeadLeft":
-					{
+				case "HeadLeft": {
 						CancelOrders();
 						mActionManager.UnlockHead();
 
@@ -422,8 +423,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "HeadRight":
-					{
+				case "HeadRight": {
 						CancelOrders();
 						mActionManager.UnlockHead();
 
@@ -498,8 +498,7 @@ namespace BuddyApp.Companion
 					StartApp("Jukebox", mLastHumanSpeech);
 					break;
 
-				case "MoveBackward":
-					{
+				case "MoveBackward": {
 						CancelOrders();
 						mActionManager.UnlockWheels();
 
@@ -526,8 +525,7 @@ namespace BuddyApp.Companion
 
 					break;
 
-				case "MoveForward":
-					{
+				case "MoveForward": {
 						CancelOrders();
 						mActionManager.UnlockWheels();
 
@@ -552,8 +550,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "MoveLeft":
-					{
+				case "MoveLeft": {
 						CancelOrders();
 						mActionManager.UnlockWheels();
 
@@ -573,8 +570,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "MoveRight":
-					{
+				case "MoveRight": {
 						CancelOrders();
 						mActionManager.UnlockWheels();
 
@@ -600,9 +596,66 @@ namespace BuddyApp.Companion
 					break;
 
 				case "Operation":
-					Say(Dictionary.GetRandomString("computeresult") + " " + Compute(mLastHumanSpeech).ToString());
+
+
+					Debug.Log("Operation");
+
+					string lComputeOrder = mLastHumanSpeech.ToLower().Replace(BYOS.Instance.Dictionary.GetString("add"), "+");
+					lComputeOrder = lComputeOrder.Replace("plus", "+");
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("devide"), "/");
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("devideit"), "/");
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("devideper"), "/");
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("minus"), "-");
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("times"), "*");
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("power"), "^");
+
+
+
+					mPreviousOperationResult = Compute(lComputeOrder).ToString();
+					Say(Dictionary.GetRandomString("computeresult") + " " + mPreviousOperationResult);
+
+
+					mState.text = "Vocal Triggered " + lComputeOrder + " = " + mPreviousOperationResult;
+
 					mNeedListen = true;
 					break;
+
+				case "OperationAgain":
+
+					// We add the current operation to the previous result
+
+					Debug.Log("OperationAgain");
+					string lComputeNewOrder = "";
+					if (!string.IsNullOrEmpty(mPreviousOperationResult)) {
+						lComputeNewOrder = mPreviousOperationResult + " ";
+
+
+
+						lComputeNewOrder += mLastHumanSpeech.ToLower().Replace(BYOS.Instance.Dictionary.GetString("add"), "+");
+						lComputeNewOrder = lComputeNewOrder.Replace("plus", "+");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("devide"), "/");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("devideit"), "/");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("devideper"), "/");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("minus"), "-");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("times"), "*");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("power"), "^");
+
+						mPreviousOperationResult = Compute(lComputeNewOrder).ToString();
+						Say(Dictionary.GetRandomString("computeresult") + " " + mPreviousOperationResult);
+
+
+						mState.text = "Vocal Triggered " + lComputeNewOrder + " = " + mPreviousOperationResult;
+
+					} else {
+						// an error occured
+						Say(Dictionary.GetRandomString("notunderstandcalcul"));
+					}
+
+
+					mNeedListen = true;
+
+					break;
+
 
 				case "Play":
 					CompanionData.Instance.InteractDesire -= 30;
@@ -661,8 +714,7 @@ namespace BuddyApp.Companion
 					break;
 
 
-				case "Volume":
-					{
+				case "Volume": {
 						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
@@ -675,8 +727,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "VolumeDown":
-					{
+				case "VolumeDown": {
 						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value
@@ -693,8 +744,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "VolumeUp":
-					{
+				case "VolumeUp": {
 						int n;
 						if (!int.TryParse(mVocalChat.Answer, out n)) {
 							//default value

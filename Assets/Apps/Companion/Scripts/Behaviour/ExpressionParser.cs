@@ -309,6 +309,9 @@ namespace BuddyApp.Companion
 			m_Funcs.Add("sin ", (p) => System.Math.Sin(p.FirstOrDefault()));
 			m_Funcs.Add("cos ", (p) => System.Math.Cos(p.FirstOrDefault()));
 			m_Funcs.Add("tan ", (p) => System.Math.Tan(p.FirstOrDefault()));
+			m_Funcs.Add("sinus ", (p) => System.Math.Sin(p.FirstOrDefault()));
+			m_Funcs.Add("cosinus ", (p) => System.Math.Cos(p.FirstOrDefault()));
+			m_Funcs.Add("tangent ", (p) => System.Math.Tan(p.FirstOrDefault()));
 
 			m_Funcs.Add("asin ", (p) => System.Math.Asin(p.FirstOrDefault()));
 			m_Funcs.Add("acos ", (p) => System.Math.Acos(p.FirstOrDefault()));
@@ -317,6 +320,8 @@ namespace BuddyApp.Companion
 			//System.Math.Floor
 			m_Funcs.Add("min ", (p) => System.Math.Min(p.FirstOrDefault(), p.ElementAtOrDefault(1)));
 			m_Funcs.Add("max ", (p) => System.Math.Max(p.FirstOrDefault(), p.ElementAtOrDefault(1)));
+			m_Funcs.Add("minimum ", (p) => System.Math.Min(p.FirstOrDefault(), p.ElementAtOrDefault(1)));
+			m_Funcs.Add("maximum ", (p) => System.Math.Max(p.FirstOrDefault(), p.ElementAtOrDefault(1)));
 			m_Funcs.Add("rnd ", (p) => {
 				if (p.Length == 2)
 					return p[0] + rnd.NextDouble() * (p[1] - p[0]);
@@ -337,6 +342,9 @@ namespace BuddyApp.Companion
 			m_Funcs.Add("sin", (p) => System.Math.Sin(p.FirstOrDefault()));
 			m_Funcs.Add("cos", (p) => System.Math.Cos(p.FirstOrDefault()));
 			m_Funcs.Add("tan", (p) => System.Math.Tan(p.FirstOrDefault()));
+			m_Funcs.Add("sinus", (p) => System.Math.Sin(p.FirstOrDefault()));
+			m_Funcs.Add("cosinus", (p) => System.Math.Cos(p.FirstOrDefault()));
+			m_Funcs.Add("tangent", (p) => System.Math.Tan(p.FirstOrDefault()));
 
 			m_Funcs.Add("asin", (p) => System.Math.Asin(p.FirstOrDefault()));
 			m_Funcs.Add("acos", (p) => System.Math.Acos(p.FirstOrDefault()));
@@ -345,6 +353,8 @@ namespace BuddyApp.Companion
 			//System.Math.Floor
 			m_Funcs.Add("min", (p) => System.Math.Min(p.FirstOrDefault(), p.ElementAtOrDefault(1)));
 			m_Funcs.Add("max", (p) => System.Math.Max(p.FirstOrDefault(), p.ElementAtOrDefault(1)));
+			m_Funcs.Add("minimum", (p) => System.Math.Min(p.FirstOrDefault(), p.ElementAtOrDefault(1)));
+			m_Funcs.Add("maximum", (p) => System.Math.Max(p.FirstOrDefault(), p.ElementAtOrDefault(1)));
 			m_Funcs.Add("rnd", (p) => {
 				if (p.Length == 2)
 					return p[0] + rnd.NextDouble() * (p[1] - p[0]);
