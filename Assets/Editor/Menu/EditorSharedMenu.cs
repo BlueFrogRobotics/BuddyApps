@@ -198,7 +198,8 @@ public class EditorSharedMenu : EditorWindow {
         {
             if (!string.IsNullOrEmpty(nameOfXml))
             {
-                mCreateXML = false;
+                //mCreateXML = false;
+
                 BuildXML();
 
             }
@@ -255,6 +256,7 @@ public class EditorSharedMenu : EditorWindow {
                             items[i-1].key = lNodeList[i].SelectSingleNode("Key").InnerText;
                             items[i-1].trigger = lNodeList[i].SelectSingleNode("Trigger").InnerText;
                             items[i-1].quitApp = bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[i - 1].quitApp);
+                            Debug.Log("LOL BOOL : " + bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[i - 1].quitApp));
                             //string lStringKey = lNodeList[i].SelectSingleNode("Key").InnerText;
                             //    string lStringTrigger = lNodeList[i].SelectSingleNode("Trigger").InnerText;
                             //    bool lBoolQuitApp = bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[i - 1].quitApp);

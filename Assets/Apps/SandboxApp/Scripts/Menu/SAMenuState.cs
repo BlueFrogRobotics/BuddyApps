@@ -7,7 +7,8 @@ using Buddy.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.IO;
+using System.Xml;
 
 
 namespace BuddyApp.SandboxApp
@@ -18,7 +19,7 @@ namespace BuddyApp.SandboxApp
     public class SAMenuState : AStateMachineBehaviour
     {
 
-        [Serializable]
+        //[Serializable]
         public class MenuItem
         {
             public string key;
@@ -32,8 +33,13 @@ namespace BuddyApp.SandboxApp
         [SerializeField]
         private string speechKey;
 
-        [SerializeField]
+        //[SerializeField]
         private List<MenuItem> items;
+
+        [SerializeField]
+        private string NameOfXML;
+        
+        private int mNumberOfButton;
 
         //private List<string> mStartPhonetics;
         //private List<string> mParameterPhonetics;
@@ -171,6 +177,7 @@ namespace BuddyApp.SandboxApp
         {
             Debug.Log("display choice");
             Debug.Log("display count " + items.Count);
+            FillMenu();
             ButtonInfo[] lButtonsInfo = new ButtonInfo[items.Count];
             int i = 0;
             foreach(MenuItem item in items)
@@ -254,6 +261,55 @@ namespace BuddyApp.SandboxApp
         {
         }
 
+        void AddNewButton()
+        {
+            items.Add(new MenuItem());
+        }
+
+        private void FillMenu()
+        {
+            //TODO : voir le unserialize pour les xml crée par l'editor et remplir les valeurs du menu
+            //string lPath = Application  .   pairsistentDataPath + "/XMLSHARED";
+            string lPath = BYOS.Instance.Resources.GetPathToRaw("/XMLSHARED");
+            //string lPath = Application  .  pairsistentDataPath + NameOfXML;
+            //Utils.UnserializeXML(lPath);
+            bool lResult = false;
+            int lValue = 0;
+
+            if (File.Exists(lPath + "/" + NameOfXML + ".xml"))
+            {
+                XmlDocument lDoc = new XmlDocument();
+                lDoc.Load(lPath + "/" + NameOfXML + ".xml");
+
+                XmlElement lElmt = lDoc.DocumentElement;
+                XmlNodeList lNodeList = lElmt.ChildNodes;
+
+
+                if (lNodeList[0].Name == "ListSize")
+                {
+
+                    lResult = int.TryParse(lNodeList[0].InnerText, out lValue);
+                    if (lResult)
+                        mNumberOfButton = lValue;
+
+                }
+
+                for (int i = 0; i < mNumberOfButton; ++i)
+                {
+                    Debug.Log("LNODE LIST : " + lNodeList[i].Name);
+                    AddNewButton();
+
+                    if(lNodeList[i].Name == "Button")
+                    {
+                        items[i].key = lNodeList[i+1].SelectSingleNode("Key").InnerText;
+                        items[i].trigger = lNodeList[i+1].SelectSingleNode("Trigger").InnerText;
+                        items[i].quitApp = bool.TryParse(lNodeList[i+1].SelectSingleNode("QuitApp").InnerText, out items[i].quitApp);
+                    }
+
+                }
+            }
+
+        }
 
     }
 }
