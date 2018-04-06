@@ -143,7 +143,7 @@ using Buddy.Editor;
     {
         
         ///BYOS.Instance.Resources.GetPathToRaw(file)
-        string lPath = mAppPath + "/Resources/Raw/XMLShared";
+        string lPath = mAppPath + "/Resources/Raw/XMLShared/Menu";
         //Debug.Log("BUILDING XML : " + lPath);
         Directory.CreateDirectory(lPath);
 
@@ -289,10 +289,8 @@ using Buddy.Editor;
     
     void ChangeXML()
     {
-        //TODO 2 step : premeire ca recup les donnée XML et deuxieme ça draw seulement
-
         mClearItems = true;
-        string lPath = mAppPath + "/Resources/Raw/XMLShared";
+        string lPath = mAppPath + "/Resources/Raw/XMLShared/Menu";
         if (!mEnterClicked)
         {
             mIsDraw = false;

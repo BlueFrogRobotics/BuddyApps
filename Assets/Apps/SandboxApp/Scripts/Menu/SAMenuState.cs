@@ -238,7 +238,7 @@ namespace BuddyApp.SandboxApp
         private void FillMenu()
         {
 
-            string lPath = BYOS.Instance.Resources.GetPathToRaw("XMLShared");
+            string lPath = BYOS.Instance.Resources.GetPathToRaw("XMLShared/Menu");
             bool lResult = false;
             int lValue = 0;
 
@@ -261,12 +261,10 @@ namespace BuddyApp.SandboxApp
                 {
                     if(lNodeList[i].Name == "Button")
                     {
-                        //Debug.Log("NEW BUTTON ADDED : " + mIndexButton + " i : " + i + " mNumberOfButton : " + mNumberOfButton + " COUNT NODELIST : " +lNodeList.Count );
                         AddNewButton();
                         items[mIndexButton].key = lNodeList[i].SelectSingleNode("Key").InnerText;
                         items[mIndexButton].trigger = lNodeList[i].SelectSingleNode("Trigger").InnerText;
                         bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[mIndexButton].quitApp);
-                        Debug.Log("QUIT APP : " + bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[mIndexButton].quitApp) + " QUIT APP 2 : " + items[mIndexButton].quitApp);
                         mIndexButton++;
                     }
 

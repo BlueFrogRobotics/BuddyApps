@@ -18,15 +18,15 @@ namespace BuddyApp.SandboxApp
         private bool IsSoundForButton;
         [SerializeField]
         private FXSound FxSound;
-        [Serializable]
+        //[Serializable]
         public class QuestionItem
         {
             public string key;
             public string trigger;
         }
     
-        [Header("Buttons of the Multiple question ")]
-        [SerializeField]
+        //[Header("Buttons of the Multiple question ")]
+        //[SerializeField]
         private List<QuestionItem> items;
 
         [Header("Binary Question Parameters: ")]
