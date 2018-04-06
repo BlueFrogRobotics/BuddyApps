@@ -34,16 +34,13 @@ namespace BuddyApp.SandboxApp
         private string speechKey;
 
         //[SerializeField]
-        private List<MenuItem> items;
+        private List<MenuItem> items = new List<MenuItem>(0);
 
         [SerializeField]
         private string NameOfXML;
         
         private int mNumberOfButton;
-
-        //private List<string> mStartPhonetics;
-        //private List<string> mParameterPhonetics;
-        //private List<string> mQuitPhonetics;
+        private int mIndexButton = 0;
 
         private string mSpeechReco;
 
@@ -55,11 +52,9 @@ namespace BuddyApp.SandboxApp
 
         public override void Start()
         {
+            items.Clear();
             Interaction.VocalManager.EnableTrigger = false;
             BYOS.Instance.Header.DisplayParametersButton = false;
-            //mStartPhonetics = new List<string>(Dictionary.GetPhoneticStrings("start"));
-            //mParameterPhonetics = new List<string>(Dictionary.GetPhoneticStrings("detectionparameters"));
-            //mQuitPhonetics = new List<string>(Dictionary.GetPhoneticStrings("quit"));
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -122,33 +117,6 @@ namespace BuddyApp.SandboxApp
                         break;
                     }
                 }
-
-                //if (ContainsOneOf(mSpeechReco, mStartPhonetics))
-                //{
-                //    BYOS.Instance.Toaster.Hide();
-                //    //if (GuardianData.Instance.FirstRun)
-                //    //    GotoParameter();
-                //    //else
-                //    StartGuardian();
-                //}
-                //else if (ContainsOneOf(mSpeechReco, mParameterPhonetics))
-                //{
-                //    BYOS.Instance.Toaster.Hide();
-                //    //GotoParameter();
-                //}
-                //else if (ContainsOneOf(mSpeechReco, mQuitPhonetics))
-                //{
-                //    BYOS.Instance.Toaster.Hide();
-                //    QuitApp();
-                //}
-                //else
-                //{
-                //    Interaction.TextToSpeech.SayKey("notunderstand", true);
-                //    Interaction.TextToSpeech.Silence(1000, true);
-                //    Interaction.TextToSpeech.SayKey("askchoices", true);
-                //    mListening = false;
-                //    mSpeechReco = null;
-                //}
             }
         }
 
@@ -176,8 +144,9 @@ namespace BuddyApp.SandboxApp
         private void DisplayChoices()
         {
             Debug.Log("display choice");
-            Debug.Log("display count " + items.Count);
+            
             FillMenu();
+            Debug.Log("display count " + items.Count); 
             ButtonInfo[] lButtonsInfo = new ButtonInfo[items.Count];
             int i = 0;
             foreach(MenuItem item in items)
@@ -268,11 +237,8 @@ namespace BuddyApp.SandboxApp
 
         private void FillMenu()
         {
-            //TODO : voir le unserialize pour les xml crée par l'editor et remplir les valeurs du menu
-            //string lPath = Application  .   pairsistentDataPath + "/XMLSHARED";
-            string lPath = BYOS.Instance.Resources.GetPathToRaw("/XMLSHARED");
-            //string lPath = Application  .  pairsistentDataPath + NameOfXML;
-            //Utils.UnserializeXML(lPath);
+
+            string lPath = BYOS.Instance.Resources.GetPathToRaw("XMLShared");
             bool lResult = false;
             int lValue = 0;
 
@@ -283,27 +249,25 @@ namespace BuddyApp.SandboxApp
 
                 XmlElement lElmt = lDoc.DocumentElement;
                 XmlNodeList lNodeList = lElmt.ChildNodes;
-
-
                 if (lNodeList[0].Name == "ListSize")
                 {
 
                     lResult = int.TryParse(lNodeList[0].InnerText, out lValue);
                     if (lResult)
                         mNumberOfButton = lValue;
-
                 }
 
-                for (int i = 0; i < mNumberOfButton; ++i)
+                for (int i = 0; i < lNodeList.Count; ++i)
                 {
-                    Debug.Log("LNODE LIST : " + lNodeList[i].Name);
-                    AddNewButton();
-
                     if(lNodeList[i].Name == "Button")
                     {
-                        items[i].key = lNodeList[i+1].SelectSingleNode("Key").InnerText;
-                        items[i].trigger = lNodeList[i+1].SelectSingleNode("Trigger").InnerText;
-                        items[i].quitApp = bool.TryParse(lNodeList[i+1].SelectSingleNode("QuitApp").InnerText, out items[i].quitApp);
+                        //Debug.Log("NEW BUTTON ADDED : " + mIndexButton + " i : " + i + " mNumberOfButton : " + mNumberOfButton + " COUNT NODELIST : " +lNodeList.Count );
+                        AddNewButton();
+                        items[mIndexButton].key = lNodeList[i].SelectSingleNode("Key").InnerText;
+                        items[mIndexButton].trigger = lNodeList[i].SelectSingleNode("Trigger").InnerText;
+                        bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[mIndexButton].quitApp);
+                        Debug.Log("QUIT APP : " + bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[mIndexButton].quitApp) + " QUIT APP 2 : " + items[mIndexButton].quitApp);
+                        mIndexButton++;
                     }
 
                 }
