@@ -3,10 +3,6 @@ using UnityEngine;
 
 using Buddy;
 
-//namespace BuddyApp.Weather
-//{
-//}
-
 namespace BuddyApp.Weather
 {
     /* A basic monobehaviour as "AI" behaviour for your app */
@@ -32,9 +28,18 @@ namespace BuddyApp.Weather
 
         internal enum WeatherCommand : int
         {
-            NONE=0,
-            MIN=1,
-            MAX=2
+            NONE = 0,
+            MIN = 1,
+            MAX = 2
+        }
+
+        internal enum WeatherMoment
+        {
+            NONE,
+            MORNING,
+            NOON,
+            AFTERNOON,
+            EVENING
         }
 
         internal string mVocalRequest;
@@ -48,6 +53,11 @@ namespace BuddyApp.Weather
         internal bool mIsOk = true;
         internal bool mWeekend;
         internal WeatherCommand mCommand;
+
+        /// <summary>
+        /// Define the Moment of the Weather : Morning, Noon, Afternoon or Evening
+        /// </summary>
+        internal WeatherMoment mWeatherTime;
 
 
         void Start()

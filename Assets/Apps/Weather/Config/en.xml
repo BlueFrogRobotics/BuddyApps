@@ -403,12 +403,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>restitution</Key>
-            <BaseValue>[date] at [hour] the temperature will be of [degree] and the weather will be [forecast]</BaseValue>
+            <BaseValue>[date] the temperature minimum will be [minTemp] degree at [hourMin] and temperature maximum will be [maxTemp] degree at [hourMax] and the weather will be [forecast]</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>[date] at [hour] the temperature will be of [degree] and the weather will be [forecast]</string>
+                <string>[date] [200] the temperature minimum will be [minTemp] degree at [hourMin] [300] and temperature maximum will be [maxTemp] degree at [hourMax] [300] and the weather will be [forecast]</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -679,6 +679,26 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>the [command] temperature at [localization] [date] is [temperature] degrees</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>restraintrestitution</Key>
+            <BaseValue>[date] in the [time] the temperature will be [degree] degree</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[date] in the [time] the temperature will be [degree] degree</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>literestitution</Key>
+            <BaseValue>[date] the temperature will be [degree] degree and the weather will be [forecast]</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[date] the temperature will be [degree] degree and the weather will be [forecast]</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
