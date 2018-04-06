@@ -19,7 +19,6 @@ namespace BuddyApp.MemoryGame
 
 		float mWaitTimer;
 		float mEndMaxTime;
-		static bool mResetTimer;
 
 		float mRandomMoveTimer;
 		float mRandomMoveTimerLimit;
@@ -55,7 +54,6 @@ namespace BuddyApp.MemoryGame
 
 			mWaitTimer = 0.0f;
 			mEndMaxTime = 20.0f;
-			mResetTimer = false;
 
 			mRandomMoveTimer = 0.0f;
 			//randomMoveStarted = false;
@@ -73,7 +71,6 @@ namespace BuddyApp.MemoryGame
 			if (IsSuccess()) {
 				if (mCurrentEvents.Count.Equals(mEvents.Count)) {
 					mSuccess = true;
-					mResetTimer = true;
 				}
 			} else {
 				mFail = true;
@@ -90,7 +87,6 @@ namespace BuddyApp.MemoryGame
 			if (IsSuccess()) {
 				if (mCurrentEvents.Count.Equals(mEvents.Count)) {
 					mSuccess = true;
-					mResetTimer = true;
 				}
 			} else {
 				mFail = true;
@@ -107,7 +103,6 @@ namespace BuddyApp.MemoryGame
 			if (IsSuccess()) {
 				if (mCurrentEvents.Count.Equals(mEvents.Count)) {
 					mSuccess = true;
-					mResetTimer = true;
 				}
 			} else {
 				mFail = true;
@@ -208,7 +203,6 @@ namespace BuddyApp.MemoryGame
 					if (IsSuccess()) {
 						if (mCurrentEvents.Count.Equals(mEvents.Count)) {
 							mSuccess = true;
-							mResetTimer = true;
 						}
 					} else {
 						mFail = true;
@@ -229,9 +223,7 @@ namespace BuddyApp.MemoryGame
 
 					if (IsSuccess()) {
 						if (mCurrentEvents.Count.Equals(mEvents.Count)) {
-
 							mSuccess = true;
-							mResetTimer = true;
 						}
 					} else {
 						mFail = true;
@@ -253,12 +245,12 @@ namespace BuddyApp.MemoryGame
 
 				if (Interaction.Face.IsStable && mSuccess) {
 
-					if (mResetTimer) {
-						mWaitTimer = 0.0f;
-						mResetTimer = false;
-					}
+					//if (mResetTimer) {
+					//	mWaitTimer = 0.0f;
+					//	mResetTimer = false;
+					//}
 
-					if (mWaitTimer > 1.5f) {
+					if (mWaitTimer > 0.1f) {
 						Utils.LogI(LogContext.APP, "Congrats, you win !");
 						animator.SetTrigger("PlayerSuccess");
 					}
@@ -325,7 +317,7 @@ namespace BuddyApp.MemoryGame
 					lTargetAngle = -lTargetAngle;
 				}
 
-				Primitive.Motors.Wheels.TurnAngle(lTargetAngle, 100.0f, 0.02f);
+				Primitive.Motors.Wheels.TurnAngle(lTargetAngle, 300.0f, 0.02f);
 
 				yield return new WaitForSeconds(0.5f);
 
@@ -337,7 +329,7 @@ namespace BuddyApp.MemoryGame
 				//Utils.LogI(LogContext.APP,"Moving wheels ok, move back ");
 
 				// Put the robot back
-				Primitive.Motors.Wheels.TurnAbsoluteAngle(mOriginRobotAngle, 100.0f, 0.02f);
+				Primitive.Motors.Wheels.TurnAbsoluteAngle(mOriginRobotAngle, 300.0f, 0.02f);
 
 				yield return new WaitForSeconds(0.5f);
 

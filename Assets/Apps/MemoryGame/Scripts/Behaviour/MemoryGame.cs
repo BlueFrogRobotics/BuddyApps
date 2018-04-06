@@ -69,7 +69,7 @@ namespace BuddyApp.MemoryGame
 
 		public void DoEvent()
 		{
-			if (mTimer > 0.1F) {
+			if (mTimer > 0.1F && Interaction.Face.IsStable) {
 				mTimer = 0;
 				Debug.Log("Do Event");
 				Debug.Log("event index : " + mEventIndex);
