@@ -418,12 +418,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>restitution</Key>
-            <BaseValue>[date] à [hour] la température sera de [degree] et il [forecast]</BaseValue>
+            <BaseValue>[date] la temperature minimum sera de [minTemp] degrés à [hourMin] et la température sera de [maxTemp] à [hourMax] et il [forecast]</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>[date] à [hour] la température sera de [degree] et il [forecast]</string>
+                <string>[date] [200] la temperature minimum sera de [minTemp] degrés à [hourMin] [300] et la température sera de [maxTemp] à [hourMax] [300] et il [forecast]</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -696,6 +696,26 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>la température [command] à [localization] [date] est de [temperature] degrés</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>restraintrestitution</Key>
+            <BaseValue>[date] la tempréature sera de [degree] le [time]</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[date] la tempréature sera de [degree] le [time]</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>literestitution</Key>
+            <BaseValue>[date] la température sera de [degree] degrés et le temps sera [forecast]</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[date] la température sera de [degree] degrés et le temps sera [forecast]</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
