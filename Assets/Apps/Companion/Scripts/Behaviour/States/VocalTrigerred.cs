@@ -462,7 +462,7 @@ namespace BuddyApp.Companion
 
 					//
 
-					lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
+					//lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
 					lSentence = lSentence.Replace("[minute]", "" + DateTime.Now.Minute);
 					lSentence = lSentence.Replace("[second]", "" + DateTime.Now.Second);
 					Say(lSentence);
