@@ -25,6 +25,12 @@ public class EditorSharedBinaryQuestion : AWindow
     private int mListSize;
     private bool mIsDrawCreateXML = false;
     private Vector2 mScrollView;
+    private bool mEnterClicked;
+    private bool mResult;
+    private bool mChangeIndex;
+    private int mValue;
+    private bool mIsDraw = true;
+    private bool mClearItems;
 
     [MenuItem ("Buddy/Shared/Question Manager")]
     public static void ShowWindow()
@@ -36,6 +42,7 @@ public class EditorSharedBinaryQuestion : AWindow
     {
         mChangeExistentXML = false;
         mCreateXML = false;
+        mChangeIndex = false;
     }
 
     private static void LoadApp(string iApplicationPath)
@@ -120,11 +127,11 @@ public class EditorSharedBinaryQuestion : AWindow
     private void CreateXML()
     {
         Debug.Log("ITEMS COUNT : " + items.Count);
-        //if (mClearItems)
-        //{
-        //    mClearItems = false;
-        //    items.Clear();
-        //}
+        if (mClearItems)
+        {
+            mClearItems = false;
+            items.Clear();
+        }
         EditorGUILayout.LabelField("Define the list size with a number : ");
         mListSize = EditorGUILayout.DelayedIntField("List Size", mListSize);
         if (items.Count > mListSize)
@@ -173,15 +180,108 @@ public class EditorSharedBinaryQuestion : AWindow
             else
             {
                 EditorUtils.LogE(LogContext.EDITOR, LogInfo.NOT_FOUND, "You forgot to put a name for your XML");
-                //Debug.Log("You forgot to put a name for your XML");
             }
 
+        }
+    }
+    private void DrawAfterChangeXML()
+    {
+        EditorGUILayout.LabelField("Define the list size with a number : ");
+        mListSize = EditorGUILayout.DelayedIntField("List Size", mListSize);
+        if (items.Count > mListSize)
+        {
+            for (int i = mListSize; i < items.Count - 1; ++i)
+            {
+                Remove(i);
+            }
+        }
+        else
+            mIsDraw = false;
+        EditorGUILayout.BeginVertical();
+        mScrollView = EditorGUILayout.BeginScrollView(mScrollView);
+
+        for (int i = 0; i < mListSize; ++i)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Button number n : " + i);
+            if (!mIsDraw)
+            {
+                AddNewButton();
+            }
+            items[i].key = EditorGUILayout.TextField("my key : ", items[i].key);
+            items[i].trigger = EditorGUILayout.TextField("Trigger to activate : ", items[i].trigger);
+            if (GUILayout.Button("Delete this button"))
+            {
+                mListSize -= 1;
+                Remove(i);
+            }
+            EditorGUILayout.Space();
+        }
+        mIsDraw = true;
+
+
+        EditorGUILayout.EndScrollView();
+        EditorGUILayout.EndVertical();
+
+        if (GUILayout.Button("Build XML"))
+        {
+            if (!string.IsNullOrEmpty(nameOfXml))
+            {
+                //mCreateXML = false;
+
+                BuildXML();
+
+            }
         }
     }
 
     private void ChangeXML()
     {
+        mClearItems = true;
+        string lPath = mAppPath + "/Resources/Raw/XMLShared/Question";
+        if (!mEnterClicked)
+        {
+            mIsDraw = false;
+            EditorGUILayout.LabelField("Which XML do you want to change : ");
+            nameOfXml = EditorGUILayout.TextField("Name of the XML", nameOfXml);
+            if (GUILayout.Button("Change this XML"))
+            {
+                mEnterClicked = true;
+            }
+        }
+        if (!string.IsNullOrEmpty(nameOfXml) && mEnterClicked)
+        {
+            if (File.Exists(lPath + "/" + nameOfXml + ".xml"))
+            {
+                XmlDocument lDoc = new XmlDocument();
+                lDoc.Load(lPath + "/" + nameOfXml + ".xml");
 
+                XmlElement lElmt = lDoc.DocumentElement;
+                XmlNodeList lNodeList = lElmt.ChildNodes;
+                if (!mChangeIndex)
+                {
+                    for (int i = 0; i < lNodeList.Count; ++i)
+                    {
+                        if (lNodeList[i].Name == "ListSize")
+                        {
+                            EditorGUILayout.LabelField("Define the list size with a number : ");
+                            mResult = int.TryParse(lNodeList[i].InnerText, out mValue);
+                            if (mResult)
+                                mListSize = mValue;
+
+                        }
+                        else if (lNodeList[i].Name == "Button")
+                        {
+                            AddNewButton();
+                            items[i - 1].key = lNodeList[i].SelectSingleNode("Key").InnerText;
+                            items[i - 1].trigger = lNodeList[i].SelectSingleNode("Trigger").InnerText;
+                        }
+                    }
+                    mChangeIndex = true;
+                }
+                DrawAfterChangeXML();
+            }
+        }
     }
 
     protected override void RenderImpl()
