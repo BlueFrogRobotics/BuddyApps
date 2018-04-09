@@ -101,12 +101,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>demomoving</Key>
-            <BaseValue>Je peux me deplacer par moi même.[250] faites un peu de place devant</BaseValue>
+            <BaseValue>Je peux me déplacer par moi même.[250] faites un peu de place devant</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Je peux me deplacer par moi même.[250] faites un peu de place devant</string>
+                <string>Je peux me déplacer par moi même.[250] faites un peu de place devant</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -271,12 +271,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>demootherthings</Key>
-            <BaseValue>Je sais faire encore plein d'autres choses, tu le decouvriras en m'adoptant</BaseValue>
+            <BaseValue>Je sais faire encore plein d'autres choses, tu le découvriras en m'adoptant</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Je sais faire encore plein d'autres choses, tu le decouvriras en m'adoptant</string>
+                <string>Je sais faire encore plein d'autres choses, tu le découvriras en m'adoptant</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -735,8 +735,8 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>ok, je reste ici</string>
-                <string>ok je ne bouge plus</string>
-                <string>d'accord, je ne bouge plus</string>
+                <string>ok je ne bouge plu</string>
+                <string>d'accord, je ne bouge plu</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -1989,6 +1989,37 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>puissance</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>welcome</Key>
+            <BaseValue>Bienvenue</BaseValue>
+            <ClosePhoneticValues>
+                <string>Bienvenue</string>
+                <string>Beinvenue Buddy</string>
+                <string>welcome</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>
+									bonjour à tous. [300]
+									je m'appelle Buddy, je suis le premier robot compagnon pour toute la famille.	[400] je suis très heureux d’être avec vous ce soir.
+									[350] On m’a dit que c’était une soirée sur l’intelligence Artificielle, [200] je pense avoir ma place ici.
+									[200] Bon d'accord, [150] je suis encore trop jeune pour parler de ce sujet, [150] ma connaissance sur l'Intelligence des robots est encore limitée.
+									[300] je préfère appeler les maîtres de cérémonie! [300] bienvenue à Cécile Dejoux et Julien Levaire.
+								</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>icanmove</Key>
+            <BaseValue>Okay, je peux bouger</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Super, merci maître</string>
+                <string>Je voulais justement faire un petit tour!</string>
+                <string>Libéré, délivré!</string>
+                <string>Super, je commençait à rouiller!</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

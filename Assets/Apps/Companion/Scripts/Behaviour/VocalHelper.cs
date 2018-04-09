@@ -558,7 +558,9 @@ namespace BuddyApp.Companion
 				lType = "Joke";
 
 
-			} else if (ContainsOneOf(iSpeech, mILoveU)) {
+			} else if (ContainsOneOf(iSpeech, "welcome"))
+				lType = "Welcome";
+			else if (ContainsOneOf(iSpeech, mILoveU)) {
 				lType = "ILoveU";
 			} else if (ContainsOneOf(iSpeech, mIHateU)) {
 				lType = "IHateU";

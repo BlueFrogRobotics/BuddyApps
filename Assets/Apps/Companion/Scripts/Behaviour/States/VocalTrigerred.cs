@@ -282,6 +282,8 @@ namespace BuddyApp.Companion
 					break;
 
 				case "CanMove":
+					SayKey("icanmove", true);
+					CompanionData.Instance.MovingDesire += 20;
 					mActionManager.UnlockAll();
 					mNeedListen = true;
 					break;
@@ -777,6 +779,12 @@ namespace BuddyApp.Companion
 					Debug.Log("VocalTrigger Weather");
 					CompanionData.Instance.InteractDesire -= 10;
 					StartApp("Weather", mLastHumanSpeech);
+					break;
+
+				case "Welcome":
+					Debug.Log("Playing BML Welcome");
+					Interaction.BMLManager.LaunchByName("Welcome");
+					mNeedListen = true;
 					break;
 
 				case "LookAtMe":

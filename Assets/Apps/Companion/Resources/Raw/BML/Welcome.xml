@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<bml id="bml1">
+	<synchronized>
+		<gaze id="gaze1" direction="UP"/>
+		<speech id="speech1" speed="50" intonation="HAPPY" volume="100">
+			<key>welcome</key>
+		</speech>
+	</synchronized>
+	<synchronized>
+		<sound name="os_yawn" start="0.5"/>
+		<faceExp id="faceExp1" start="0.5" expression="SCREAM"/>
+	</synchronized>
+</bml>
