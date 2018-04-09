@@ -145,26 +145,16 @@ namespace BuddyApp.Companion
 			mErrorCount = 0;
 
 			//Init all the questions and synonyms from files depending on language
-			StreamReader lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-fr.xml"));
-			if (mCurrentLanguage == Language.EN)
-				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-en.xml"));
-			mQuestionsFile = lStreamReader.ReadToEnd();
-			lStreamReader.Close();
-
-			lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-fr.xml"));
-			if (mCurrentLanguage == Language.EN)
-				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-en.xml"));
-			mSynonymesFile = lStreamReader.ReadToEnd();
-			lStreamReader.Close();
+			InitLanguageFiles();
 
 			//Init websites for queries on weather, defintion and news
 			mWebsiteHash = new Dictionary<RequestType, string>();
-			mWebsiteHash.Add(RequestType.WEATHER, "http://www.infoclimat.fr/public-api/gfs/xml?_auth=ABpQRwB%2BUnAFKFViBnBXflM7BzJdK1RzA39VNl8xAn8CaANjVD9VNFc8VyoALwMzAi9TOwg3CDgDaQdiWigEeABgUDQAYFI1BWxVPwY3V3xTfwdlXWdUcwN%2FVTpfMAJ%2FAmMDY1QxVSlXP1c9AC4DNQIxUzoIKAgvA2EHY1ozBG8Aa1AyAGZSNAVpVTQGKVd8U2UHZ11kVGoDYFVmXzsCaAJoA2ZUMVU2V2lXPQAuAzQCM1MwCDQIMANoB2RaNQR4AHxQTQAQUi0FKlV1BmNXJVN9BzJdPFQ4&_c=f30d5acf5e18de4f029990712316a936&_ll=");
-			if (mCurrentLanguage == Language.EN)
-				mWebsiteHash.Add(RequestType.DEFINITION, "https://en.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=");
-			else
-				mWebsiteHash.Add(RequestType.DEFINITION, "https://fr.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=");
-			mWebsiteHash.Add(RequestType.NEWS, "https://api.cognitive.microsoft.com/bing/v5.0/news/?Market=fr-FR&?count=1");
+			//mWebsiteHash.Add(RequestType.WEATHER, "http://www.infoclimat.fr/public-api/gfs/xml?_auth=ABpQRwB%2BUnAFKFViBnBXflM7BzJdK1RzA39VNl8xAn8CaANjVD9VNFc8VyoALwMzAi9TOwg3CDgDaQdiWigEeABgUDQAYFI1BWxVPwY3V3xTfwdlXWdUcwN%2FVTpfMAJ%2FAmMDY1QxVSlXP1c9AC4DNQIxUzoIKAgvA2EHY1ozBG8Aa1AyAGZSNAVpVTQGKVd8U2UHZ11kVGoDYFVmXzsCaAJoA2ZUMVU2V2lXPQAuAzQCM1MwCDQIMANoB2RaNQR4AHxQTQAQUi0FKlV1BmNXJVN9BzJdPFQ4&_c=f30d5acf5e18de4f029990712316a936&_ll=");
+			//if (mCurrentLanguage == Language.EN)
+			mWebsiteHash.Add(RequestType.DEFINITION, "https://" + mCurrentLanguage.ToString().ToLower() + ".wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=");
+			//else
+			//	mWebsiteHash.Add(RequestType.DEFINITION, "https://fr.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=");
+			//mWebsiteHash.Add(RequestType.NEWS, "https://api.cognitive.microsoft.com/bing/v5.0/news/?Market=fr-FR&?count=1");
 
 			// Init list of speech with same meaning
 			InitSpeech();
@@ -186,26 +176,38 @@ namespace BuddyApp.Companion
 					mCurrentLanguage = BYOS.Instance.Language.CurrentLang;
 					Utils.LogI(LogContext.INTERACTION, "Switching language");
 
-					if (mCurrentLanguage == Language.EN) {
-						StreamReader lstreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-en.xml"));
-						mQuestionsFile = lstreamReader.ReadToEnd();
-						lstreamReader.Close();
-						lstreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-en.xml"));
-						mSynonymesFile = lstreamReader.ReadToEnd();
-						lstreamReader.Close();
-						mWebsiteHash[RequestType.DEFINITION] = "https://en.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=";
-					} else if (mCurrentLanguage == Language.FR) {
-						StreamReader lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-fr.xml"));
-						mQuestionsFile = lStreamReader.ReadToEnd();
-						lStreamReader.Close();
-						lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-fr.xml"));
-						mSynonymesFile = lStreamReader.ReadToEnd();
-						lStreamReader.Close();
-						mWebsiteHash[RequestType.DEFINITION] = "https://fr.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=";
-					}
+					InitLanguageFiles();
+					mWebsiteHash[RequestType.DEFINITION] = "https://" + mCurrentLanguage.ToString().ToLower() + ".wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=";
+
 					InitSpeech();
 				}
 			}
+		}
+
+		private void InitLanguageFiles()
+		{
+
+			StreamReader lStreamReader;
+			try {
+				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-" + mCurrentLanguage.ToString().ToLower() + ".xml"));
+			} catch {
+				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("questions-en.xml"));
+			}
+
+			mQuestionsFile = lStreamReader.ReadToEnd();
+			lStreamReader.Close();
+
+
+
+			try {
+				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-" + mCurrentLanguage.ToString().ToLower() + ".xml"));
+			} catch {
+				lStreamReader = new StreamReader(BYOS.Instance.Resources.GetPathToRaw("synonymes-en.xml"));
+			}
+
+			mSynonymesFile = lStreamReader.ReadToEnd();
+			lStreamReader.Close();
+
 		}
 
 		private void InitSpeech()
@@ -492,6 +494,8 @@ namespace BuddyApp.Companion
 				lType = "UserLove";
 			else if (ContainsOneOf(iSpeech, "ihateyou"))
 				lType = "UserHate";
+			else if (ContainsOneOf(iSpeech, "welcome"))
+				lType = "Welcome";
 			else if (ContainsOneOf(iSpeech, mJokeSpeech) || ContainsOneOf(iSpeech, "knockknock")) {
 				Debug.Log("Vocal helper joke");
 				if (iSpeech.ToLower().Contains(BYOS.Instance.Dictionary.GetString("i")) || ContainsOneOf(iSpeech, "knockknock"))

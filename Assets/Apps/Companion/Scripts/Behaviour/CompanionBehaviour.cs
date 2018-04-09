@@ -2,6 +2,7 @@ using UnityEngine.UI;
 using UnityEngine;
 
 using Buddy;
+using System;
 
 namespace BuddyApp.Companion
 {
@@ -23,8 +24,6 @@ namespace BuddyApp.Companion
          * Data of the application. Save on disc when app quit happened
          */
 		private CompanionData mAppData;
-		private float mLastVoiceUpdate;
-
 		/*
          * Init refs to API and your app data
          */
@@ -32,7 +31,6 @@ namespace BuddyApp.Companion
 		{
 			mTextToSpeech = BYOS.Instance.Interaction.TextToSpeech;
 			mAppData = CompanionData.Instance;
-			mLastVoiceUpdate = 0F;
 		}
 
 		/*
@@ -40,21 +38,48 @@ namespace BuddyApp.Companion
          */
 		void Update()
 		{
-			// ensure motors stay in same state as config
-			
-			// TODO: do this only if needed, need getter...
-			if(Time.time - mLastVoiceUpdate > 10F) {
-				//TODO add max values
-				BYOS.Instance.Interaction.TextToSpeech.SetPitch(1.0F + 0.03F * BYOS.Instance.Interaction.InternalState.Positivity);
-				BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(1.0F + 0.02F * BYOS.Instance.Interaction.InternalState.Energy);
-				mLastVoiceUpdate = Time.time;
+
+			// Update speech rate / pitch with mood
+			if (Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity) < 10) {
+				if (!EquivalentFloat(BYOS.Instance.Interaction.TextToSpeech.Pitch, (1.0F + 0.03F * BYOS.Instance.Interaction.InternalState.Positivity)) ) {
+
+					Debug.Log("Pitchm: " + BYOS.Instance.Interaction.TextToSpeech.Pitch + " != " + (1.0F + 0.03F * BYOS.Instance.Interaction.InternalState.Positivity));
+					BYOS.Instance.Interaction.TextToSpeech.SetPitch(1.0F + 0.03F * BYOS.Instance.Interaction.InternalState.Positivity);
+					Debug.Log("Pitchm: " + BYOS.Instance.Interaction.TextToSpeech.Pitch + " == " + (1.0F + 0.03F * BYOS.Instance.Interaction.InternalState.Positivity));
+				}
+
+				//If max value
+			} else if (!EquivalentFloat(BYOS.Instance.Interaction.TextToSpeech.Pitch, Math.Sign(BYOS.Instance.Interaction.InternalState.Positivity) * 1.3F) ) {
+
+				Debug.Log("Pitch: " + BYOS.Instance.Interaction.TextToSpeech.Pitch + " != " + (Math.Sign(BYOS.Instance.Interaction.InternalState.Positivity) * 1.3F));
+				BYOS.Instance.Interaction.TextToSpeech.SetPitch(Math.Sign(BYOS.Instance.Interaction.InternalState.Positivity) * 1.3F);
+				Debug.Log("Pitch: " + BYOS.Instance.Interaction.TextToSpeech.Pitch + " == " + (1.0F + 0.03F * BYOS.Instance.Interaction.InternalState.Positivity));
+			}
+
+
+			if (Math.Abs(BYOS.Instance.Interaction.InternalState.Energy) < 10) {
+				if (!EquivalentFloat(BYOS.Instance.Interaction.TextToSpeech.SpeechRate , 1.0F + 0.02F * BYOS.Instance.Interaction.InternalState.Energy) ) {
+
+					Debug.Log("Rate: " + BYOS.Instance.Interaction.TextToSpeech.SpeechRate + " != " + (1.0F + 0.02F * BYOS.Instance.Interaction.InternalState.Energy));
+					BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(1.0F + 0.02F * BYOS.Instance.Interaction.InternalState.Energy);
+					Debug.Log("Rate: " + BYOS.Instance.Interaction.TextToSpeech.SpeechRate + " == " + (1.0F + 0.02F * BYOS.Instance.Interaction.InternalState.Energy));
+				}
+
+				//If max value
+			} else if (!EquivalentFloat(BYOS.Instance.Interaction.TextToSpeech.SpeechRate, Math.Sign(BYOS.Instance.Interaction.InternalState.Energy) * 1.2F)) {
+
+				Debug.Log("Ratem: " + BYOS.Instance.Interaction.TextToSpeech.SpeechRate + " != " + (1.2F * Math.Sign(BYOS.Instance.Interaction.InternalState.Energy)));
+				BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(Math.Sign(BYOS.Instance.Interaction.InternalState.Energy) * 1.2F);
+				Debug.Log("Ratem: " + BYOS.Instance.Interaction.TextToSpeech.SpeechRate + " == " + (1.2F * Math.Sign(BYOS.Instance.Interaction.InternalState.Energy)));
 
 			}
 
+
 			if (text.enabled != CompanionData.Instance.Debug) {
 				text.enabled = CompanionData.Instance.Debug;
-            }
+			}
 
+			// ensure motors stay in same state as config
 			if (BYOS.Instance.Primitive.Motors.Wheels.Locked == CompanionData.Instance.CanMoveBody) {
 				// fixing issue
 				Debug.Log("fixing unconsistancy locked wheels");
@@ -68,5 +93,14 @@ namespace BuddyApp.Companion
 				BYOS.Instance.Primitive.Motors.NoHinge.Locked = !CompanionData.Instance.CanMoveHead;
 			}
 		}
+
+		private bool EquivalentFloat(float iA, float iB)
+		{
+			if (Math.Abs(iA - iB) < 0.001)
+				return true;
+			else
+				return false;
+		}
+
 	}
 }

@@ -478,7 +478,20 @@ namespace BuddyApp.Companion
 					break;
 
 				case "Hour":
-					lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
+					// HRI 2018
+					if (BYOS.Instance.Language.CurrentLang == Language.FR) {
+						lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
+					} else {
+						if (DateTime.Now.Hour < 13)
+							lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour + " " + "am");
+						else {
+							lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + (DateTime.Now.Hour - 12) + " " + "pm");
+						}
+					}
+
+					//
+
+					//lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
 					lSentence = lSentence.Replace("[minute]", "" + DateTime.Now.Minute);
 					lSentence = lSentence.Replace("[second]", "" + DateTime.Now.Second);
 					Say(lSentence);
@@ -773,6 +786,12 @@ namespace BuddyApp.Companion
 					Debug.Log("VocalTrigger Weather");
 					CompanionData.Instance.mInteractDesire -= 10;
 					StartApp("Weather", mLastHumanSpeech);
+					break;
+
+				case "Welcome":
+					Debug.Log("Playing BML Welcome");
+					Interaction.BMLManager.LaunchByName("Welcome");
+					mNeedListen = true;
 					break;
 
 				case "LookAtMe":

@@ -109,6 +109,24 @@ namespace BuddyApp.Companion
 			NormalizeDesire(ref mCompaData.mHelpDesire);
 		}
 
+		public void MultiplyDesires(float iCoef)
+		{
+			MultiplyDesire(ref mCompaData.mMovingDesire, iCoef);
+
+			MultiplyDesire(ref mCompaData.mInteractDesire, iCoef);
+
+			MultiplyDesire(ref mCompaData.mLearnDesire, iCoef);
+
+			MultiplyDesire(ref mCompaData.mTeachDesire, iCoef);
+
+			MultiplyDesire(ref mCompaData.mHelpDesire, iCoef);
+		}
+
+		private void MultiplyDesire(ref int ioDesire, float iCoef)
+		{
+			ioDesire = (int) (iCoef*ioDesire);
+			NormalizeDesire(ref ioDesire);
+		}
 
 		private void NormalizeDesire(ref int ioDesire)
 		{

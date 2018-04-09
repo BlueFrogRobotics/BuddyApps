@@ -500,6 +500,11 @@
             A request is made while another is processing
             </summary>
         </member>
+        <member name="F:Buddy.STTError.ERROR_REQUEST_TOO_LONG">
+            <summary>
+            Request is taking too much time to answer.
+            </summary>
+        </member>
         <member name="T:Buddy.USPosition">
             <summary>
             Position of an ir sensor, use for internal purpose. You should never use it.
@@ -1076,7 +1081,7 @@
             <param name="iSpeed">The speed in degrees per second</param>
             <param name="iTolerance">The angle tolerance to reach to stop command in radians</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.Internal.API.HardwareDivision.RealHardware.TurnAngle(System.Single,System.Single,System.Single)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.Internal.API.HardwareDivision.RealHardware.TurnAngle(System.Single,System.Single,System.Single)" -->
         <member name="M:Buddy.Internal.API.HardwareDivision.RealHardware.MoveToAbsolutePosition(UnityEngine.Vector2,System.Single,System.Single)">
             <summary>
             Make the robot go to a desired global position.

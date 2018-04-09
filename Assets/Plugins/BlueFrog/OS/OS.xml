@@ -1308,7 +1308,7 @@
             Detect moving points in frame
             </summary>
         </member>
-        <member name="M:Buddy.FacialDetectionRework.InitImpl(System.Int32@,System.Single@)">
+        <member name="F:Buddy.FacialDetectionRework.mDetector">
             <summary>
             Init the movement tracker
             </summary>
@@ -1407,6 +1407,21 @@
         <member name="P:Buddy.Perception.FaceDetect">
             <summary>
             Feature to detect face
+            </summary>
+        </member>
+        <member name="P:Buddy.Perception.AprilTagsDetector">
+            <summary>
+            Feature to detect AprilTags
+            </summary>
+        </member>
+        <member name="T:Buddy.AprilTag">
+            <summary>
+            Detect AprilTags in frame
+            </summary>
+        </member>
+        <member name="T:Buddy.AprilTags">
+            <summary>
+            Detect AprilTags in frame
             </summary>
         </member>
         <member name="M:Buddy.TensorFlowClassifier.ConvertToGrayscale(OpenCVUnity.Mat,System.Int32,System.Int32)">
@@ -1517,7 +1532,7 @@
             <param name="ioDelay">Refresh time</param>
             
         </member>
-        <member name="M:Buddy.MotionDetection.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D)">
+        <member name="F:Buddy.MotionDetection.DllFilePath">
             <summary>
             Process the algorithm
             </summary>
@@ -3068,6 +3083,16 @@
             </summary>
             <returns>True if TextToSpeech has finished its setup.</returns>
         </member>
+        <member name="P:Buddy.TextToSpeech.Pitch">
+            <summary>
+            Pitch of the Text To Speech engine.
+            </summary>
+        </member>
+        <member name="P:Buddy.TextToSpeech.SpeechRate">
+            <summary>
+            Speech rate of the Text To Speech engine.
+            </summary>
+        </member>
         <member name="M:Buddy.TextToSpeech.Say(System.String)">
             <summary>
             Makes the robot speak the input string. Can also be added to the queue
@@ -4559,7 +4584,7 @@
             <param name="iName">Name of the file / directory</param>
             <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.AAppActivity.Load``1(System.String)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.AAppActivity.Load``1(System.String)" -->
         <member name="M:Buddy.AAppActivity.LoadAtlas(System.String)">
             <summary>
             Load the atlas from Resource/ or from downloaded bundles. Equivalent to BYOS.Instance.Resources.LoadAtlas(iName)
@@ -6395,6 +6420,12 @@
             <param name="iRecurrence">The time span between each reminder, for a recurrent one.</param>
             <returns>The new reminder</returns>
         </member>
+        <member name="M:Buddy.ProceduralMemManager.GetReminders">
+            <summary>
+            Get the list of all reminders.
+            </summary>
+            <returns>The list of all reminders.</returns>
+        </member>
         <member name="M:Buddy.ProceduralMemManager.ExistReminder(System.Int32)">
             <summary>
             Check if the reminder exists.
@@ -7013,7 +7044,7 @@
         <member name="F:Buddy.UI.PoolInflationType.DOUBLE">
             When a dynamic pool inflates, double the size of the pool
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
         <member name="M:Buddy.UI.PoolManager.ReturnObjectToPool(UnityEngine.GameObject)">
             <summary>
             Return obj to the pool
@@ -8039,6 +8070,11 @@
             </summary>
             <summary>
             Display a notification on the top of the robot screen
+            </summary>
+        </member>
+        <member name="P:Buddy.UI.Notifier.NbUnreadNotifs">
+            <summary>
+            Number of notifications that are waiting to be read.
             </summary>
         </member>
         <member name="M:Buddy.UI.Notifier.Display``1(System.Single)">
