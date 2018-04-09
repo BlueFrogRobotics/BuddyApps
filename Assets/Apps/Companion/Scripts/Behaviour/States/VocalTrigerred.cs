@@ -450,26 +450,38 @@ namespace BuddyApp.Companion
 					StartApp("HideAndSeek", mLastHumanSpeech);
 					break;
 
+				//case "Hour":
+				//	// HRI 2018
+				//	if (BYOS.Instance.Language.CurrentLang == Language.FR) {
+				//		lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
+				//	} else {
+				//		if (DateTime.Now.Hour < 13)
+				//			lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour + " " + "am");
+				//		else {
+				//			lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + (DateTime.Now.Hour - 12) + " " + "pm");
+				//		}
+				//	}
+
+				//
+
+				//lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
+				//lSentence = lSentence.Replace("[minute]", "" + DateTime.Now.Minute);
+				//lSentence = lSentence.Replace("[second]", "" + DateTime.Now.Second);
+				//Say(lSentence);
+				//mNeedListen = true;
+				//break;
+
+
 				case "Hour":
-					// HRI 2018
 					if (BYOS.Instance.Language.CurrentLang == Language.FR) {
 						lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
-					} else {
-						if (DateTime.Now.Hour < 13)
-							lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour + " " + "am");
-						else {
-							lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + (DateTime.Now.Hour - 12) + " " + "pm");
-						}
-					}
-
-					//
-
-					//lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
-					lSentence = lSentence.Replace("[minute]", "" + DateTime.Now.Minute);
-					lSentence = lSentence.Replace("[second]", "" + DateTime.Now.Second);
+						lSentence = lSentence.Replace("[minute]", "" + DateTime.Now.Minute);
+					} else
+						lSentence = GiveHourInEnglish();
 					Say(lSentence);
 					mNeedListen = true;
 					break;
+
 
 				case "IHateU":
 					Debug.Log("Playing BML I hate u");
@@ -798,6 +810,85 @@ namespace BuddyApp.Companion
 			}
 
 		}
+
+
+		/// FUNCTIONS ///
+
+		/// <summary>
+		/// Give The Hour in English
+		/// </summary>
+		private string GiveHourInEnglish()
+		{
+			string lSentence = Dictionary.GetRandomString("givehour");
+
+			if (lSentence.Contains("[Hour]"))
+				lSentence = GiveHour(lSentence);
+			else
+				lSentence = GiveSpokenHour(lSentence);
+			return (lSentence);
+		}
+
+		/// <summary>
+		/// Harder way to tell what time it is
+		/// </summary>
+		/// <param name="iSentence">Sentence to say</param>
+		/// <returns>Sentence to say</returns>
+		private string GiveSpokenHour(string iSentence)
+		{
+			if (DateTime.Now.ToString("%h").Contains("12") && DateTime.Now.ToString("mm").Contains("00")) {
+				iSentence = iSentence.Replace("[hour]", "Noon");
+				iSentence = iSentence.Replace("[minutes]", string.Empty);
+			} else if (DateTime.Now.ToString("%h").Contains("00") && DateTime.Now.ToString("mm").Contains("00")) {
+				iSentence = iSentence.Replace("[hour]", "Midnight");
+				iSentence = iSentence.Replace("[minutes]", string.Empty);
+			} else if (DateTime.Now.ToString("mm").Contains("00")) {
+				iSentence = iSentence.Replace("[minutes]", DateTime.Now.Hour.ToString());
+				iSentence = iSentence.Replace("[hour]", "o'clock");
+			} else if (Convert.ToInt32(DateTime.Now.ToString("mm")) > 0 && Convert.ToInt32(DateTime.Now.ToString("mm")) < 30) {
+				if (DateTime.Now.ToString("mm").Contains("15"))
+					iSentence = iSentence.Replace("[minutes]", "a quarter past");
+				else
+					iSentence = iSentence.Replace("[minutes]", DateTime.Now.ToString("mm") + " past");
+				iSentence = iSentence.Replace("[hour]", DateTime.Now.Hour.ToString());
+			} else if (Convert.ToInt32(DateTime.Now.ToString("mm")) == 30) {
+				iSentence = iSentence.Replace("[minutes]", "half past");
+				iSentence = iSentence.Replace("[hour]", DateTime.Now.Hour.ToString());
+			} else if (Convert.ToInt32(DateTime.Now.ToString("mm")) > 30 && Convert.ToInt32(DateTime.Now.ToString("mm")) <= 59) {
+				if (DateTime.Now.ToString("mm").Contains("45"))
+					iSentence = iSentence.Replace("[minutes]", "a quarter to");
+				else {
+					int lTime = 60 - Convert.ToInt32(DateTime.Now.ToString("mm"));
+					iSentence = iSentence.Replace("[minutes]", lTime + " to");
+				}
+				int lResult = Convert.ToInt32(DateTime.Now.ToString("%h")) + 1;
+				iSentence = iSentence.Replace("[hour]", lResult.ToString());
+			}
+			return (iSentence);
+		}
+
+		/// <summary>
+		///  Simple way to tell what time it is
+		/// </summary>
+		/// <param name="iSentence">Sentence to say</param>
+		/// <returns>Sentence to say</returns>
+		private string GiveHour(string iSentence)
+		{
+			int lTime = 0;
+			if (DateTime.Now.Hour > 12) {
+				lTime = DateTime.Now.Hour - 12;
+				iSentence = iSentence.Replace("[Meridiem]", "pm");
+			} else {
+				lTime = DateTime.Now.Hour;
+				iSentence = iSentence.Replace("[Meridiem]", "am");
+			}
+			iSentence = iSentence.Replace("[Hour]", lTime.ToString());
+			if (Convert.ToInt32(DateTime.Now.Minute.ToString()) != 0)
+				iSentence = iSentence.Replace("[Minutes]", DateTime.Now.Minute.ToString());
+			else
+				iSentence = iSentence.Replace("[Minutes]", string.Empty);
+			return (iSentence);
+		}
+
 
 		private void RandomBML()
 		{
