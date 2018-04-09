@@ -11,6 +11,12 @@ namespace BuddyApp.RedLightGreenLightGame
         //TODO take real level
         private int mLevel = 0;
         private bool mEndTimer = false;
+        private RedLightGreenLightGameBehaviour mRLGLBehaviour;
+
+        public override void Start()
+        {
+            mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
+        }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -44,6 +50,7 @@ namespace BuddyApp.RedLightGreenLightGame
                 yield return null;
             //yield return new WaitForSeconds(5);
             mLevel++;
+            //mRLGLBehaviour.StartPositionning();
             Trigger("Repositionning");
         }
 

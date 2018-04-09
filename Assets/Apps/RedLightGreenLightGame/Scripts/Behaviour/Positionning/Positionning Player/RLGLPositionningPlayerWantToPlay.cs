@@ -27,7 +27,10 @@ namespace BuddyApp.RedLightGreenLightGame
             if (lDist.magnitude < 1.5F)
                 Trigger("RecoilQuestion");
             else
+            {
+                mRLGLBehaviour.EndingOdometry = Primitive.Motors.Wheels.Odometry;
                 Trigger("ReadyToPlay");
+            }
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
