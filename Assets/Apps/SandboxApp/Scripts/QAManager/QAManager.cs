@@ -22,15 +22,12 @@ namespace BuddyApp.SandboxApp
         private bool IsSoundForButton;
         [SerializeField]
         private FXSound FxSound;
-        //[Serializable]
+
         public class QuestionItem
         {
             public string key;
             public string trigger;
         }
-    
-        //[Header("Buttons of the Multiple question ")]
-        //[SerializeField]
         private List<QuestionItem> items = new List<QuestionItem>(0);
 
         [Header("Binary Question Parameters: ")]
@@ -38,14 +35,6 @@ namespace BuddyApp.SandboxApp
         private bool IsBinaryQuestion;
         [SerializeField]
         private bool IsBinaryToaster;
-        //[SerializeField]
-        //private string LeftButton;    
-        //[SerializeField]
-        //private string RightButton;
-        //[SerializeField]
-        //private string TriggerLeftButton;
-        //[SerializeField]
-        //private string TriggerRightButton;
 
         [Header("Multiple Question Parameters : ")]
         [SerializeField]
@@ -69,7 +58,6 @@ namespace BuddyApp.SandboxApp
 
         public override void Start()
         {
-            //items = new List<QuestionItem>();
             Interaction.VocalManager.EnableTrigger = false;
             BYOS.Instance.Header.DisplayParametersButton = false;
             mTTS = Interaction.TextToSpeech;
@@ -111,46 +99,27 @@ namespace BuddyApp.SandboxApp
                     mActualMood = Interaction.Mood.CurrentMood;
                     mIsDisplayed = true;
                     if (!string.IsNullOrEmpty(BuddySays))
+                    {
                         if (IsKey(BuddySays))
-                            mTTS.Say(Dictionary.GetRandomString(BuddySays));
+                        {
+                            //Change this line when CORE did the correction about GetRandomString not working if the string is empty
+                            if (!string.IsNullOrEmpty(Dictionary.GetRandomString(BuddySays)))
+                                mTTS.Say(Dictionary.GetRandomString(BuddySays));
+                            else
+                                mTTS.Say(Dictionary.GetString(BuddySays));
+                        }
                         else
+                        {
                             mTTS.Say(BuddySays);
-
-                    //if (string.IsNullOrEmpty(RightButton))
-                    //    RightButton = Dictionary.GetString("yes");
-                    //if (string.IsNullOrEmpty(LeftButton))
-                    //    LeftButton = Dictionary.GetString("no");
-
-                    //Debug.Log("ITEM COUNT : " + items.Count);
-                    //if (IsKey(KeyQuestion))
-                    //{
-                    //    KeyQuestion = Dictionary.GetString(KeyQuestion);
-                    //}
-                    //mButtonRight = new ButtonInfo
-                    //{
-                    //    Label = Dictionary.GetString(RightButton),
-                    //    OnClick = delegate () { PressedButton(TriggerRightButton); }
-                    //};
-                    //mButtonLeft = new ButtonInfo
-                    //{
-                    //    Label = Dictionary.GetString(LeftButton),
-                    //    OnClick = delegate () { PressedButton(TriggerLeftButton); }
-                    //};
-                    //Debug.Log("RIGHT BUTTON  : " + Dictionary.GetString(RightButton) + " LEFT BUTTON : " + Dictionary.GetString(LeftButton));
-                    //Debug.Log("M RIGHT BUTTON  : " + mButtonRight.Label + " M LEFT BUTTON : " + mButtonLeft.Label);
-                    //BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With(KeyQuestion, mButtonRight, mButtonLeft);
+                        }
+                    }
                     if (items.Count == 0)
                     {
                         Debug.Log("items empty : not possible");
-                    }
-                        
+                    }  
                     DisplayQuestion();
-                    //mKeyList.Add(mButtonLeft.Label.ToLower());
-                    //mKeyList.Add(mButtonRight.Label.ToLower());
-
                 }
-
-                Debug.Log("2");
+                
                 //Vocal
                 if (mTimer > 6F)
                 {
@@ -159,10 +128,9 @@ namespace BuddyApp.SandboxApp
                     mTimer = 0F;
                     mSpeechReco = null;
                 }
-                Debug.Log("APRES 2  M SPEECH RECO: " + mSpeechReco);
+
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
-                Debug.Log("3");
                 if (string.IsNullOrEmpty(mSpeechReco))
                 {
                     Interaction.VocalManager.StartInstantReco();
@@ -170,37 +138,15 @@ namespace BuddyApp.SandboxApp
                     mListening = true;
                     return;
                 }
-                Debug.Log("4");
-                //List<string> lol = new List<string>(Dictionary.GetPhoneticStrings(mKeyList[0]));
-                //List<string> lol2 = new List<string>(Dictionary.GetPhoneticStrings(mKeyList[1]));
-
-                //if (lol == null)
-                //    Debug.Log("null");
-                //if (lol.Count == 0)
-                //    Debug.Log("count 0");
-                //for (int i = 0; i < lol.Count - 1; ++i)
-                //{
-                //    Debug.Log("NTM1");
-                //    Debug.Log(" STRING 1 : " + lol[i]);
-                //}
-
-                //for (int i = 0; i < lol2.Count - 1; ++i)
-                //{
-                //    Debug.Log("NTM2");
-                //    Debug.Log(" STRING 2 : " + lol2[i]); 
-                //}
-                //for (int i = 0; i < mKeyList.Count; ++i)
-                //{
-                //    if (VocalFunctions.ContainsOneOf(mSpeechReco,new List<string>( Dictionary.GetPhoneticStrings(mKeyList[i]))))
-                //    {
-                //        if (i == 0)
-                //            PressedButton(TriggerLeftButton);
-                //        else
-                //            PressedButton(TriggerRightButton);
-                //    }
-                //}
- 
-
+                foreach (QuestionItem item in items)
+                {
+                    if (VocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    {
+                        BYOS.Instance.Toaster.Hide();
+                        GotoParameter(item.trigger);
+                        break;
+                    }
+                }
             }
             else if (IsMultipleQuestion )
             {
@@ -209,11 +155,20 @@ namespace BuddyApp.SandboxApp
                     mActualMood = Interaction.Mood.CurrentMood;
                     mIsDisplayed = true;
                     if (!string.IsNullOrEmpty(BuddySays))
+                    {
                         if (IsKey(BuddySays))
-                            mTTS.Say(Dictionary.GetRandomString(BuddySays));
+                        {
+                            //Change this line when CORE did the correction about GetRandomString not working if the string is empty
+                            if(!string.IsNullOrEmpty( Dictionary.GetRandomString(BuddySays)))
+                                mTTS.Say(Dictionary.GetRandomString(BuddySays));
+                            else
+                                mTTS.Say(Dictionary.GetString(BuddySays));
+                        }
                         else
+                        {
                             mTTS.Say(BuddySays);
-
+                        }
+                    }
                     DisplayQuestion();
                 }
 
@@ -224,10 +179,9 @@ namespace BuddyApp.SandboxApp
                     mTimer = 0F;
                     mSpeechReco = null;
                 }
-                Debug.Log("APRES 2  M SPEECH RECO: " + mSpeechReco);
+                
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
-                Debug.Log("3");
                 if (string.IsNullOrEmpty(mSpeechReco))
                 {
                     Interaction.VocalManager.StartInstantReco();
@@ -236,13 +190,33 @@ namespace BuddyApp.SandboxApp
                     return;
                 }
 
+                foreach (QuestionItem item in items)
+                {
+                    if (VocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    {
+                        BYOS.Instance.Toaster.Hide();
+                        GotoParameter(item.trigger);
+                        break;
+                    }
+                }
             }
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Interaction.Mood.Set(mActualMood);
-        } 
+        }
+
+        /// <summary>
+        /// Go to parameters
+        /// </summary>
+        /// <param name="iMode">the chosen mode</param>
+        private void GotoParameter(string iTrigger)
+        {
+            mSpeechReco = null;
+            Trigger(iTrigger);
+            Interaction.SpeechToText.Stop();
+        }
 
         private void PressedButton(string iKey)
         {
@@ -261,7 +235,6 @@ namespace BuddyApp.SandboxApp
         private void OnSpeechReco(string iVoiceInput)
         {
             mSpeechReco = iVoiceInput;
-
             Interaction.Mood.Set(MoodType.NEUTRAL);
             mListening = false;
         }
@@ -276,14 +249,13 @@ namespace BuddyApp.SandboxApp
 
         private void DisplayQuestion()
         {
-            Debug.Log("DISPLAY QUESTIONNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+            Debug.Log("DISPLAY QUESTION");
             ButtonInfo[] lButtonsInfo = new ButtonInfo[this.items.Count];
             Debug.Log("Item count = " + items.Count);
             int i = 0;
 
             foreach (QuestionItem item in items)
             {
-                Debug.Log("Index i = " + i);
                 lButtonsInfo[i] = new ButtonInfo
                 {
                     Label = Dictionary.GetString(item.key),
@@ -296,26 +268,18 @@ namespace BuddyApp.SandboxApp
             string lTitle;
             if (!string.IsNullOrEmpty(KeyQuestion))
             {
-                Debug.Log("NTMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM : " + KeyQuestion);
                 if (IsKey(KeyQuestion))
                     lTitle = Dictionary.GetString(KeyQuestion);
                 else
                     lTitle = KeyQuestion;
 
                 if (IsBinaryToaster)
-                    BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With(lTitle, lButtonsInfo[0], lButtonsInfo[1]);
+                    BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With(lTitle, lButtonsInfo[1], lButtonsInfo[0]);
                 else if (IsMultipleToaster)
                 {
-                    Debug.Log("NTMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM: MULTIPLE TOASTER");
                     BYOS.Instance.Toaster.Display<ChoiceToast>().With(lTitle, lButtonsInfo);
                 }
-                    
             }
-
-
-
-            //    //BYOS.Instance.Toaster.Display<ChoiceToast>().With(Dictionary.GetString(KeyQuestion), lButtonsInfo);
-
         }
 
         private void AddNewButton()
@@ -325,7 +289,6 @@ namespace BuddyApp.SandboxApp
 
         private void FillMenu()
         {
-
             string lPath = BYOS.Instance.Resources.GetPathToRaw("XMLShared/Question");
             bool lResult = false;
             int lValue = 0;
@@ -339,7 +302,6 @@ namespace BuddyApp.SandboxApp
                 XmlNodeList lNodeList = lElmt.ChildNodes;
                 if (lNodeList[0].Name == "ListSize")
                 {
-
                     lResult = int.TryParse(lNodeList[0].InnerText, out lValue);
                     if (lResult)
                         mNumberOfButton = lValue;
@@ -354,13 +316,8 @@ namespace BuddyApp.SandboxApp
                         items[mIndexButton].trigger = lNodeList[i].SelectSingleNode("Trigger").InnerText;
                         mIndexButton++;
                     }
-
                 }
             }
-
         }
-
-
     }
-
 }

@@ -18,8 +18,6 @@ namespace BuddyApp.SandboxApp
     /// </summary>
     public class SAMenuState : AStateMachineBehaviour
     {
-
-        //[Serializable]
         public class MenuItem
         {
             public string key;
@@ -32,8 +30,7 @@ namespace BuddyApp.SandboxApp
 
         [SerializeField]
         private string speechKey;
-
-        //[SerializeField]
+        
         private List<MenuItem> items = new List<MenuItem>(0);
 
         [SerializeField]
@@ -62,9 +59,7 @@ namespace BuddyApp.SandboxApp
             BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
             mHasLoadedTTS = true;
-            //Debug.Log("[TTS] Has TTS been setup: " + Interaction.TextToSpeech.IsSetup);
             Interaction.TextToSpeech.Say(Dictionary.GetRandomString(speechKey));
-
             Interaction.VocalManager.OnEndReco = OnSpeechReco;
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
             Interaction.VocalManager.OnError = Empty;
@@ -94,8 +89,6 @@ namespace BuddyApp.SandboxApp
                     mHasDisplayChoices = true;
                     return;
                 }
-
-
                 if (string.IsNullOrEmpty(mSpeechReco))
                 {
 
@@ -107,12 +100,9 @@ namespace BuddyApp.SandboxApp
                 }
                 foreach(MenuItem item in items)
                 {
-                    if (ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    if (VocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
                     {
                         BYOS.Instance.Toaster.Hide();
-                        //if (GuardianData.Instance.FirstRun)
-                        //    GotoParameter();
-                        //else
                         GotoParameter(item.trigger, item.quitApp);
                         break;
                     }
@@ -122,6 +112,7 @@ namespace BuddyApp.SandboxApp
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Interaction.SpeechToText.Stop();
             Interaction.Mood.Set(MoodType.NEUTRAL);
 
             mSpeechReco = null;
@@ -156,8 +147,6 @@ namespace BuddyApp.SandboxApp
                     Label = Dictionary.GetString(item.key),
                     OnClick = delegate () { GotoParameter(item.trigger, item.quitApp); }
                 };
-                //if (item.quitApp)
-                //    lButtonsInfo[i].OnClick = QuitApp;
                 i++;
             }
             Debug.Log("apres foreach");
@@ -182,8 +171,6 @@ namespace BuddyApp.SandboxApp
         {
             mSpeechReco = null;
             Trigger("NextStep");
-            //Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
-            Interaction.VocalManager.OnEndReco = Empty;
         }
 
         /// <summary>
@@ -196,38 +183,11 @@ namespace BuddyApp.SandboxApp
             if (iQuit)
                 QuitApp();
             Trigger(iTrigger);
-            Interaction.VocalManager.OnEndReco = Empty;
-        }
-
-        private bool ContainsOneOf(string iSpeech, List<string> iListSpeech)
-        {
-            for (int i = 0; i < iListSpeech.Count; ++i)
-            {
-                string[] words = iListSpeech[i].Split(' ');
-                if (words.Length < 2)
-                {
-                    words = iSpeech.Split(' ');
-                    foreach (string word in words)
-                    {
-                        if (word == iListSpeech[i].ToLower())
-                        {
-                            return true;
-                        }
-                    }
-                }
-                else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
-                    return true;
-            }
-            return false;
         }
 
         private void Empty(STTError iError)
         {
             Interaction.Mood.Set(MoodType.NEUTRAL);
-        }
-
-        private void Empty(string iVoice)
-        {
         }
 
         void AddNewButton()
@@ -237,7 +197,6 @@ namespace BuddyApp.SandboxApp
 
         private void FillMenu()
         {
-
             string lPath = BYOS.Instance.Resources.GetPathToRaw("XMLShared/Menu");
             bool lResult = false;
             int lValue = 0;

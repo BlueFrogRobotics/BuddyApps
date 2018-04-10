@@ -230,7 +230,7 @@ using Buddy.Editor;
             else
             {
                 EditorUtils.LogE(LogContext.EDITOR, LogInfo.NOT_FOUND, "You forgot to put a name for your XML");
-                //Debug.Log("You forgot to put a name for your XML");
+               
             }
                 
         }
