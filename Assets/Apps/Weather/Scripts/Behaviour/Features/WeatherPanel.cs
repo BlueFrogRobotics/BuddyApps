@@ -106,7 +106,6 @@ namespace BuddyApp.Weather
         {
             cs.SetActive(true);
             css.SetActive(true);
-
         }
 
         public void SetCloud2()
@@ -114,7 +113,6 @@ namespace BuddyApp.Weather
             SetCloud1();
             cm.SetActive(true);
             cmm.SetActive(true);
-
         }
 
         public void SetCloud3()
