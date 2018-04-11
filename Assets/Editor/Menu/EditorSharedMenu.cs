@@ -9,11 +9,7 @@ using Buddy.Internal.System;
 using Buddy.Internal.AppManagement;
 using Buddy.Editor;
 
-//public class EditorSharedMenu : EditorWindow {
     public class EditorSharedMenu : AWindow {
-
-    //TODO : Do something to chose the app where you add the XML then we can chose the path in the build XML
-
     public class MenuItemObject
     {
         public string key;
@@ -50,7 +46,6 @@ using Buddy.Editor;
     public static void ShowWindow()
     {
         SelectAppPopup.Show(LoadApp);
-        
     }
 
     private void OnEnable()
@@ -63,15 +58,7 @@ using Buddy.Editor;
 
     private static void LoadApp(string iApplicationPath)
     {
-        ////string lMetaPath = iApplicationPath + "/Config/meta.xml";
-        //string lMetaPath = iApplicationPath + "/Resources/Raw/meta.xml";
         mAppPath = iApplicationPath;
-        //if (!File.Exists(mAppPath))
-        //{
-        //    EditorUtils.LogE(LogContext.EDITOR, LogInfo.NOT_FOUND,
-        //        "Cannot edit app settings. Cannot find " + lMetaPath);
-        //    return;
-        //} 
         if(string.IsNullOrEmpty(mAppPath))
         {
             EditorUtils.LogE(LogContext.EDITOR, LogInfo.NOT_FOUND, "Path is empty");
@@ -80,28 +67,11 @@ using Buddy.Editor;
         {
             EditorWindow.GetWindow(typeof(EditorSharedMenu));
         }
-
-        //AppInfo lAppInfo = Utils.UnserializeXML<AppInfo>(lMetaPath);
-        //if (lAppInfo == null)
-        //{
-        //    EditorUtils.LogE(LogContext.EDITOR, LogInfo.READING,
-        //        "Cannot edit app settings. Error while reading " + lMetaPath);
-        //    return;
-        //}
-
-        //sWindow = (AppEditor)GetWindowWithRect(typeof(AppEditor), new Rect(100, 100, 350, 560), true,
-        //    "Edit " + lAppInfo.ShortName + " settings");
-        //sWindow.maxSize = new Vector2(350, 560);
-        //sWindow.maxSize = new Vector2(350, 560);
-        //sWindow.mApplicationPath = iApplicationPath + "/";
-        //sWindow.mAppInfo = lAppInfo;
-        //sWindow.LoadAppSettings();
     }
 
 
     private void OnGUI()
     {
-        //Debug.Log("PATH RAW : " + mAppPath); 
         if (GUILayout.Button("Change existent XML"))
         {
             Refresh();
@@ -141,10 +111,7 @@ using Buddy.Editor;
 
     void BuildXML()
     {
-        
-        ///BYOS.Instance.Resources.GetPathToRaw(file)
         string lPath = mAppPath + "/Resources/Raw/XMLShared/Menu";
-        //Debug.Log("BUILDING XML : " + lPath);
         Directory.CreateDirectory(lPath);
 
         if(File.Exists(lPath + "/" + nameOfXml + ".xml"))
@@ -230,9 +197,7 @@ using Buddy.Editor;
             else
             {
                 EditorUtils.LogE(LogContext.EDITOR, LogInfo.NOT_FOUND, "You forgot to put a name for your XML");
-               
-            }
-                
+            }  
         }
     }
     void DrawAfterChangeXML() 
@@ -270,8 +235,6 @@ using Buddy.Editor;
             EditorGUILayout.Space();
         }
         mIsDraw = true;
-        
-
         EditorGUILayout.EndScrollView();
         EditorGUILayout.EndVertical();
 
@@ -279,10 +242,7 @@ using Buddy.Editor;
         {
             if (!string.IsNullOrEmpty(nameOfXml))
             {
-                //mCreateXML = false;
-
                 BuildXML();
-
             }
         }
     }
@@ -310,64 +270,32 @@ using Buddy.Editor;
 
                 XmlElement lElmt = lDoc.DocumentElement;
                 XmlNodeList lNodeList = lElmt.ChildNodes;
-
-                //items = new List<MenuItemObject>(lNodeList.Count);
                 if (!mChangeIndex)
                 {
                     for (int i = 0; i < lNodeList.Count; ++i)
                     {
-                        
-                        //Debug.Log("LNODE LIST : " + lNodeList[i].Name);
-
                         if (lNodeList[i].Name == "ListSize")
                         {
                             EditorGUILayout.LabelField("Define the list size with a number : ");
                             mResult = int.TryParse(lNodeList[i].InnerText, out mValue);
                             if (mResult)
                                 mListSize = mValue;
-
                         }
                         else if (lNodeList[i].Name == "Button")
                         {
-
                             AddNewButton();
 
                             items[i-1].key = lNodeList[i].SelectSingleNode("Key").InnerText;
                             items[i-1].trigger = lNodeList[i].SelectSingleNode("Trigger").InnerText;
                             items[i-1].quitApp = bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[i - 1].quitApp);
-                            //PROBLEME ICI TOUJOURS TRUE
-                            Debug.Log("LOL BOOL : " + bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[i - 1].quitApp));
-                            //string lStringKey = lNodeList[i].SelectSingleNode("Key").InnerText;
-                            //    string lStringTrigger = lNodeList[i].SelectSingleNode("Trigger").InnerText;
-                            //    bool lBoolQuitApp = bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[i - 1].quitApp);
-                            //    if (lNodeList[i].SelectSingleNode("Key") != null)
-                            //        items[i - 1].key = EditorGUILayout.TextField("my key : ", lStringKey);
-                            //    if (lNodeList[i].SelectSingleNode("Trigger") != null)
-                            //        items[i - 1].trigger = EditorGUILayout.TextField("Trigger to activate : ",lStringKey);
-                            //    if (bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[i - 1].quitApp))
-                            //        items[i - 1].quitApp = EditorGUILayout.Toggle("Does this button quit app : ",lBoolQuitApp);
-
-                        
-
-                        //}
-
-                        //items[i].key = EditorGUILayout.TextField("my key : ", lNodeList[i].SelectSingleNode("Key").InnerText);
-                        //items[i].trigger = EditorGUILayout.TextField("Trigger to activate : ", lNodeList[i].SelectSingleNode("Trigger").InnerText);
-                        //items[i].quitApp = EditorGUILayout.Toggle("Does this button quit app : ", bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[i].quitApp));
                         }
-
-                        //XmlNode lXmlNode = lNodeList[i].SelectSingleNode("Key");
-                        //if (lXmlNode != null)
-                        //    Debug.Log(lXmlNode.InnerText);
-                        //else if (lXmlNode == null)
-                        //    Debug.Log("lolol");
+                        
                     }
                     mChangeIndex = true;
                 }
 
                 DrawAfterChangeXML();
             }
-            //mChangeExistentXML = false;
         }
     }
 

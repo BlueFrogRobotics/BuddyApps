@@ -89,10 +89,7 @@ public class EditorSharedBinaryQuestion : AWindow
 
     void BuildXML()
     {
-
-        ///BYOS.Instance.Resources.GetPathToRaw(file)
         string lPath = mAppPath + "/Resources/Raw/XMLShared/Question";
-        //Debug.Log("BUILDING XML : " + lPath);
         Directory.CreateDirectory(lPath);
 
         if (File.Exists(lPath + "/" + nameOfXml + ".xml"))
@@ -126,7 +123,6 @@ public class EditorSharedBinaryQuestion : AWindow
 
     private void CreateXML()
     {
-        Debug.Log("ITEMS COUNT : " + items.Count);
         if (mClearItems)
         {
             mClearItems = false;
@@ -227,10 +223,7 @@ public class EditorSharedBinaryQuestion : AWindow
         {
             if (!string.IsNullOrEmpty(nameOfXml))
             {
-                //mCreateXML = false;
-
                 BuildXML();
-
             }
         }
     }
