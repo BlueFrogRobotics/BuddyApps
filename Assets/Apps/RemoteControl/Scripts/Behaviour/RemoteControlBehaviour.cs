@@ -105,12 +105,17 @@ namespace BuddyApp.RemoteControl
 	    public void LaunchCall()
 	    {
             receiveCallAnim.SetTrigger("Close_WReceiveCall");
-            backgroundAnim.SetTrigger("Close_BG");
+            backgroundAnim.SetTrigger("close");
             callAnimator.SetTrigger("Open_WCall");
             webRTC.gameObject.SetActive(true);
 	    }
 
-	    public void StopCall()
+        public void LaunchCallWithoutWindow()
+        {
+            webRTC.gameObject.SetActive(true);
+        }
+
+        public void StopCall()
 	    {
             receiveCallAnim.SetTrigger("Close_WReceiveCall");
             if (!mIncomingCallHandled)
@@ -128,7 +133,7 @@ namespace BuddyApp.RemoteControl
         public IEnumerator Call()
         {
             receiveCallAnim.SetTrigger("Open_WReceiveCall");
-            backgroundAnim.SetTrigger("Open_BG");
+            backgroundAnim.SetTrigger("open");
             if (!RemoteControlData.Instance.DiscreteMode)
             {
                 //BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);

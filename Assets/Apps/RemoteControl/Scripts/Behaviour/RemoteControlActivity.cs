@@ -11,6 +11,7 @@ namespace BuddyApp.RemoteControl
 		public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
 		{ 
 			Utils.LogI(LogContext.APP, "On loading...");
+            RemoteControlData.Instance.IsWizardOfOz = true;
 		}
 
         public override void OnStart()

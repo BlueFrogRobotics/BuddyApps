@@ -10,6 +10,8 @@ namespace BuddyApp.RemoteControl
          */
         public bool DiscreteMode{ get; set; }
 
+        public bool IsWizardOfOz { get; set; }
+
         /*
          * Data singleton access
          */
