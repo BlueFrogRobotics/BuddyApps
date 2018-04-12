@@ -27,7 +27,7 @@ namespace BuddyApp.RedLightGreenLightGame
         public override void Start()
         {
             mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
-            mLevelManager = GetComponent<LevelManager>();
+            mLevelManager = GetComponentInGameObject<LevelManager>(0);
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state

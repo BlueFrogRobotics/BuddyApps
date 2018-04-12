@@ -2,33 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
-using Buddy.UI;
 
 namespace BuddyApp.RedLightGreenLightGame
 {
-    public class RLGLAskReplay : AStateMachineBehaviour
+    public class RLGLAskLevel : AStateMachineBehaviour
     {
-        private LevelManager mLevelManager;
-        private LifeManager mLifeManager;
-        private RedLightGreenLightGameBehaviour mRLGLBehaviour;
-        private bool mSwitchState = false;
+        private TextToSpeech mTTS;
         private bool mListening;
+        private RedLightGreenLightGameBehaviour mRLGLBehaviour;
+        private bool mSwitchState;
 
         public override void Start()
         {
             mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
-            mLifeManager = GetComponent<LifeManager>();
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mLevelManager = GetComponentInGameObject<LevelManager>(0);
+            mTTS = Interaction.TextToSpeech;
             mRLGLBehaviour.Timer = 0;
-            mListening = false;
             mSwitchState = false;
+            //Interaction.Mood.Set(MoodType.THINKING);
             Interaction.SpeechToText.OnBestRecognition.Add(OnRecognition);
-            StartCoroutine(AskReplay());
+            StartCoroutine(AskLevel());
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -50,6 +47,15 @@ namespace BuddyApp.RedLightGreenLightGame
                 Interaction.SpeechToText.Request();
                 mListening = true;
             }
+            //if (!mIsSentenceDone)
+            //{
+            //    mTTS.SayKey("failedtopositionning");
+            //    mIsSentenceDone = true;
+            //}
+
+            //if (mTTS.HasFinishedTalking && mIsSentenceDone)
+            //    animator.SetTrigger("Start");
+
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -59,43 +65,44 @@ namespace BuddyApp.RedLightGreenLightGame
             Interaction.SpeechToText.OnBestRecognition.Remove(OnRecognition);
         }
 
-        private IEnumerator AskReplay()
+        private IEnumerator AskLevel()
         {
-            yield return SayKeyAndWait("askrestart");
-            Toaster.Display<BinaryQuestionToast>().With(
-                Dictionary.GetString("askrestart"), 
-                () => StartCoroutine(Restart()),
-                () => Trigger("Quit"));
+            string lText = Dictionary.GetRandomString("asklevel");
+            lText = lText.Replace("[maxlevel]", "" + 10);
+            mTTS.Say(lText);
+            yield return null;
+            //yield return SayKeyAndWait("asklevel");
 
-        }
-
-        private IEnumerator Restart()
-        {
-            mLifeManager.Reset();
-            //mRLGLBehaviour.Life = 3;
-            mLevelManager.Reset();
-            yield return SayAndWait("ok");
-            Trigger("Repositionning");
         }
 
         private void OnRecognition(string iText)
         {
             Debug.Log("reconnu: " + iText);
-            if (Dictionary.ContainsPhonetic(iText, "yes"))
-            {
-                Toaster.Hide();
-                StartCoroutine(Restart());
-                mSwitchState = true;
-            }
-            else if (Dictionary.ContainsPhonetic(iText, "no"))
-            {
-                Toaster.Hide();
-                Trigger("Quit");
-                mSwitchState = true;
-            }
+            int lLevel = 0;
+            string lText = iText.Replace(Dictionary.GetString("level"), "").Replace(Dictionary.GetString("the"), "");
+            bool lHasParsed = int.TryParse(lText, out lLevel);
             mListening = false;
+            if (lHasParsed)
+            {
+                mSwitchState = true;
+                GetComponentInGameObject<LevelManager>(0).SetLevel(lLevel-1);
+                Trigger("LevelAsked");
+            }
+            else
+                mTTS.SayKey("didntunderstand");
+            //if (Dictionary.ContainsPhonetic(iText, "yes"))
+            //{
+            //    Toaster.Hide();
+            //    StartCoroutine(Restart());
+            //    mSwitchState = true;
+            //}
+            //else if (Dictionary.ContainsPhonetic(iText, "no"))
+            //{
+            //    Toaster.Hide();
+            //    Trigger("Quit");
+            //    mSwitchState = true;
+            //}
         }
-
     }
-
 }
+

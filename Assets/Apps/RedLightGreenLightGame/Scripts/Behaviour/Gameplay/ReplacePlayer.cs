@@ -142,7 +142,7 @@ namespace BuddyApp.RedLightGreenLightGame
         private void Stop()
         {
             Primitive.Motors.Wheels.Stop();
-            Interaction.TextToSpeech.SayKey("recoilplease");
+            Interaction.TextToSpeech.SayKey("recoil");
             mTimer = 0.0f;
             mState = State.PAUSE;
         }

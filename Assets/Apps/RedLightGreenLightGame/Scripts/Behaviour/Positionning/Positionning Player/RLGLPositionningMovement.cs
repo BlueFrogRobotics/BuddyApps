@@ -21,6 +21,7 @@ namespace BuddyApp.RedLightGreenLightGame
         private RedLightGreenLightGameBehaviour mRLGLBehaviour;
         private bool mMustStop = false;
         private float mTimer = 0.0f;
+        private bool mIsInitialized;
         //private Vector3 mStartingOdometry;
 
         public override void Start()
@@ -31,6 +32,56 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+
+            StartCoroutine(TalkAndInit());
+        }
+
+        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            if (mIsInitialized)
+            {
+                if (mRLGLBehaviour.Timer > 15)
+                {
+                    Primitive.Motors.Wheels.Stop();
+                    mMustStop = true;
+                    Trigger("DisengagementQuestion");
+                }
+                else if (!mMustStop)
+                {
+                    switch (mState)
+                    {
+                        case State.FORWARD:
+                            GoForward();
+                            break;
+                        case State.STOP:
+                            Stop();
+                            break;
+                        case State.PAUSE:
+                            Pause();
+                            break;
+                        case State.TARGET_CLICKED:
+                            TargetClicked();
+                            break;
+                        default:
+                            Stop();
+                            break;
+                    }
+                }
+            }
+        }
+
+        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            GetGameObject(1).GetComponent<Animator>().SetTrigger("close");
+            //GetGameObject(1).SetActive(false);
+        }
+
+        private IEnumerator TalkAndInit()
+        {
+            mIsInitialized = false;
+            yield return SayKeyAndWait("willgo");
             GetGameObject(1).GetComponent<Animator>().SetTrigger("open");
             //GetGameObject(1).SetActive(true);
             mMustStop = false;
@@ -46,46 +97,7 @@ namespace BuddyApp.RedLightGreenLightGame
             mTimer = 0.0f;
             mState = State.FORWARD;
             mRLGLBehaviour.TargetClicked = false;
-            
-        }
-
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            if (mRLGLBehaviour.Timer > 15)
-            {
-                Primitive.Motors.Wheels.Stop();
-                mMustStop = true;
-                Trigger("DisengagementQuestion");
-            }
-            else if (!mMustStop)
-            {
-                switch (mState)
-                {
-                    case State.FORWARD:
-                        GoForward();
-                        break;
-                    case State.STOP:
-                        Stop();
-                        break;
-                    case State.PAUSE:
-                        Pause();
-                        break;
-                    case State.TARGET_CLICKED:
-                        TargetClicked();
-                        break;
-                    default:
-                        Stop();
-                        break;
-                }
-            }
-        }
-
-        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            GetGameObject(1).GetComponent<Animator>().SetTrigger("close");
-            //GetGameObject(1).SetActive(false);
+            mIsInitialized = true;
         }
 
         private bool ObstacleInFront()

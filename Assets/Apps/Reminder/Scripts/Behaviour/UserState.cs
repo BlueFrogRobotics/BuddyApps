@@ -19,6 +19,13 @@ namespace BuddyApp.Reminder
         // Use this for initialization
         public override void Start()
         {
+            //foreach (UserAccount lUser in BYOS.Instance.DataBase.GetUsers())
+            //{
+            //    if (Buddy.WebRTCListener.RemoteID.Trim() == lUser.Email)
+            //    {
+            //        lReceiver = lUser.FirstName;
+            //    }
+            //}
             name.Add("Billy");
             name.Add("Jack");
             name.Add("Bob");
