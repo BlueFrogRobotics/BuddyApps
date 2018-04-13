@@ -1,0 +1,1159 @@
+<?xml version="1.0"?>
+<ParameterSpecification version="1.0">
+  <ApplicationData name="recogtest" version="5.0.1 (Internal)" filter="ASR_RELEASE_TYPE=='internal'"/>
+  <ApplicationData name="recogtest" version="5.0.1" filter="ASR_RELEASE_TYPE=='VOCON3200EDS'"/>
+  <help>
+    <p>
+      Recogtest is a tool to test recognition with a given set of grammars or
+      context buffers.
+    </p>
+    <p>
+      Recogtest can work both from a recorded sound file and from your
+      microphone. (This last feature is currently only supported on Windows
+      platforms)
+    </p>
+    <p>
+      Recogtest is most useful for grammar development, since it allows
+      developers to test their grammars before their application is capable of
+      using speech and even before they have collected a substantial amount of
+      test utterances.
+    </p>
+    <p>
+      Recogtest has a rich set of options. Experimenting with these options
+      allows the developer to get acquainted with their effects.
+    </p>
+  </help>
+
+  <!-- Not in external release! -->
+  <StringDictionaryParameter name="configuration"
+                             optional="1"
+                             default="{}"
+                             filter="ASR_RELEASE_TYPE=='internal'">
+    <help>Internal option for running the tools from Clearcase. Refer to the
+      <a href="http://twiki/bin/view/Vocon3200/RunningToolsFromClearcase">TWiki page
+        http://twiki/bin/view/Vocon3200/RunningToolsFromClearcase</a>
+      to see how you can instruct the tool to find and select its binaries.
+    </help>
+  </StringDictionaryParameter>
+
+  <!-- engine parameters -->
+  <HexKeyValueList name="ctxDebugParams" optional="1" filter="ASR_RELEASE_TYPE=='internal'">
+    <help>
+      A comma separated list of <code>parameter-id:value</code> pairs where a <code>parameter-id</code> is an hexadecimal 
+      integer which represents a debug parameter and value is an integer of which the meaning depends on the parameter.
+    </help>
+  </HexKeyValueList> 
+
+  <HexKeyValueList name="recDebugParams" optional="1" filter="ASR_RELEASE_TYPE=='internal'">
+    <help>
+      A comma separated list of <code>parameter-id:value</code> pairs where a <code>parameter-id</code> is an hexadecimal 
+      integer which represents a debug parameter and value is an integer of which the meaning depends on the parameter.
+    </help>
+  </HexKeyValueList>
+  
+  <HexKeyValueList name="fxDebugParams" optional="1" filter="ASR_RELEASE_TYPE=='internal'">
+    <help>
+      A comma separated list of <code>parameter-id:value</code> pairs where a <code>parameter-id</code> is an hexadecimal 
+      integer which represents a debug parameter and value is an integer of which the meaning depends on the parameter.
+    </help>
+  </HexKeyValueList>
+
+  <BooleanParameter name="recomputeParameters"
+                    optional="1"
+                    default="true">
+    <help>
+      <p>
+        Disabling this option tells <code>recogtest</code> not to use computed values for computable parameters.
+      </p>
+      <p>
+        If you run recogtest with grammars (<code>--grammarFilepaths</code>) then recogtest will compile all grammars
+        into one context. By default the tool will then compute all computable parameters for you. The most 
+        important example of such a parameter is the <code>--accuracy</code> parameter (API name 
+        <code>LH_CTX_PARAM_ACCURACY</code>). The complete list of computable parameters may change between versions 
+        of VoCon and may be different depending on the context type (see also <a href="../../com.nuance.embed.vocon3200.help.appnotes/doc/engineParameters.html">Application 
+        Note on Engine Parameters</a>). You can see which values <code>recogtest</code> chooses by enabling the
+        <code>--dumpParameters</code> option. When setting <code>--recomputeParameters=false</code> we will also 
+        use a fixed value for the computable parameters. Take caution because these hard-coded values may not work 
+        well for your context.
+      </p>
+      <p>
+        If you run recogtest with context buffers (<code>--contextBufferFilepaths</code>) then the situation is a bit
+        different because context buffers may already contain parameters. If you pass <em>one context</em>
+        then the tool will re-compute all computable parameters by default. If you want to make sure that you use
+        the parameters inside the context then you should set <code>--recomputeParameters=false</code>. As with the 
+        previous case, you can see which values <code>recogtest</code> chooses by enabling the <code>--dumpParameters</code> 
+        option.
+      </p>
+      <p>
+        If you run recogtest with context buffers (<code>--contextBufferFilepaths</code>) and you pass <em>more than one 
+        context</em> then the tool will <em>only use parameters obtained from the buffers</em>. In this case setting 
+        parameters on the command-line or setting this options has no effect.
+      </p>
+      <p>
+        If you run from grammars or with one context buffer you can always choose your own values through the 
+        command-line. In those cases parameters set via the command always take precedence over the computed and 
+        fixed values. In other words, if you specify all parameters explicitly with the command-line or in a 
+        parameter file then the setting of the <code>--useComputedParameters</code> will be irrelevant for those cases.
+      </p>
+    </help>
+  </BooleanParameter>
+  
+  <IntegerParameter name="maxnbest"
+                    shortName="n"
+                    optional="1"
+                    min="1"
+                    max="1000">
+    <help>The maximum number of alternatives that the engine should return for
+    each recognition</help>
+  </IntegerParameter>
+
+  <IntegerParameter name="maxnbestSecondpass"
+                    optional="1"
+                    min="1"
+                    max="1000">
+    <help>
+      <p>
+        This parameter controls the maximum number of hypotheses that
+        will be considered during the second pass of the search
+        algorithm. The hypotheses that are considered during the
+        second pass are rescored with more precise acoustic models.
+        Use this parameter to find a trade-off between the time that
+        the second pass takes, and the recognition accuracy.</p>
+      <p>
+        The higher this parameter, the more time is taken by the
+        second pass, but this usually has a positive impact on the
+        recognition accuracy.</p>
+      <p>
+        This parameter can in no case be set to a value less than
+        <code>--maxnbest</code> (doing so will cause an error). It is
+        recommended to set <code>--maxnbest</code> to the number of
+        hypotheses that the application will really use and to set
+        <code>--maxnbestSecondpass</code> to at least the same value,
+        but with a minimum of 5. Only in case this leads to an
+        unacceptably large second pass time,
+        <code>--maxnbestSecondpass</code> should be set to a lower
+        value than this recommendation.</p>
+    </help>
+  </IntegerParameter>
+
+  <BooleanParameter name="startEnable"
+                    shortName="s"
+                    optional="1"
+                    default="true">
+    <help>
+      Enable start detection.
+    </help>
+  </BooleanParameter>
+
+  <IntegerParameter name="fxTsilence"
+                    aliases="tsFx"
+                    optional="1"
+                    min="0"
+                    max="10000"
+                    default="0">
+    <help>
+      <p>
+        Set the trailing silence threshold for the feature extractor (in milliseconds).
+        This value controls the working of the feature extractor's  voice activity detector.
+        The larger the value, the more time it takes for the engine
+        to decide that the speaker has stopped speaking. Setting this
+        option to 0 disables this trailing silence detection.
+        When enabling trailing silence the lowest legal value is <code>100</code>.
+      </p>
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="ctxTsilence"
+                    aliases="tsRec"
+                    optional="1"
+                    min="0"
+                    max="10000"
+                    default="1400">
+    <help>
+      <p>
+       Set the trailing silence threshold (in milliseconds) for the loaded context (search algorithm(s)).
+       The larger the value, the more time it takes for the engine to decide that the speaker 
+       has stopped speaking. Setting this option to 0 disables this trailing silence detection.
+       When enabling trailing silence the lowest legal value is <code>100</code>.
+      </p>
+      <p>
+       <strong>Warning</strong>: This option has no effect when passing multiple contexts to 
+       <code>--contextBufferFilepaths</code>.
+      </p>
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="ctxTsilenceFx"
+                    optional="1"
+                    min="0"
+                    max="5000"
+                    default="800">
+    <help>
+      <p>
+        Set the trailing silence threshold for the feature extractor (in milliseconds).
+        This value controls the working of the feature extractor's voice activity detector.
+        The larger the value, the more time it takes for the engine
+        to decide that the speaker has stopped speaking. Setting this
+        option to 0 disables this trailing silence detection.
+        When enabling trailing silence the lowest legal value is <code>100</code>.
+        The difference with the <code>--fxTsilence</code> option is that the decision to
+        stop the recognition is taken in the recognizer and not in the feature extractor.
+      </p>
+      <p>
+       <strong>Warning</strong>: This option has no effect when passing multiple contexts to 
+       <code>--contextBufferFilepaths</code>.
+      </p>
+    </help>
+  </IntegerParameter>
+
+  <BooleanParameter name="ctxTAnySpeech" optional="1" default="false">
+    <help>
+      <p>
+       Allows the recognizer to stop the recognition process during the trailing AnySpeech state.
+      </p>
+      <p>
+       This parameter changes the behavior of the <code>ctxTsilence</code> parameter.
+       Normally, enabling <code>ctxTsilence</code> makes the recognizer stop when the best hypothesis
+       remains in trailing silence for at least the specified amount of time. When also this parameter
+       <code>ctxTAnySpeech</code> is enabled, it makes the recognizer stop when the best hypothesis
+       remains in trailing silence <strong>or in the trailing AnySpeech state</strong> for at least the amount of time
+       specified in <code>ctxTsilence</code>. That is, when this parameter is enabled, the "end of utterance"
+       detection will not make a distinction between silence or AnySpeech.
+      </p>
+      <p>
+       Enabling this parameter only has an effect if the recognition grammar contains a trailing AnySpeech
+       state (&lt;...&gt;) in at least one of its paths. Enabling this parameter will not automatically add such an AnySpeech state
+       to the grammar.
+      </p>
+      <p>
+       <strong>Warning</strong>: This option has no effect when passing multiple contexts to 
+       <code>--contextBufferFilepaths</code>.
+      </p>
+    </help>
+  </BooleanParameter>
+
+  <BooleanParameter name="recAutomaticRestart"
+                        optional="1"
+                        default="false">
+    <help>
+      <p>
+        Restart recognizer after a result has been generated.
+      </p>
+      <p>
+        When this parameter is enabled, the recognizer will not finish after a result has been generated,
+        but rather restart listening to the incoming audio. A result is typically generated because
+        trailing silence has been detected by this recognizer.
+        Only the recognizer is restarted, not the entire audio chain. If trailing silence is detected
+        by the front end, or any timeout occurs, the recognizer will not restart, because no additional
+        input audio will come.
+      </p>
+    </help>
+  </BooleanParameter>
+
+  <IntegerParameter name="accuracy"
+                    shortName="A"
+                    optional="1"
+                    min="100"
+                    max="50000">
+    <help>
+      <p>
+        Set the accuracy parameter. Larger values may improve the recognition accuracy, but will slow down
+        the engine. If the user doesn't specify this parameter, then the engine will compute a reasonable value itself 
+        (Except when setting <code>--recomputeParameters=false</code>, refer to the document for this parameter for
+        more details). This value, often referred to as the <em>default accuracy</em>, is a measure of the complexity of
+        the context. If the context contains only one grammar it is also a measure of the complexity of the grammar. 
+        Use <code>--dumpParameters</code> to print out the value of the accuracy at the end of a run.
+      </p>
+      <p>
+       <strong>Warning</strong>: This option has no effect when passing multiple contexts to <code>--contextBufferFilepaths</code>.
+      </p>
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="minspeech"
+                    optional="1"
+                    min="10"
+                    max="400">
+    <help>
+      Set the minspeech parameter. Influences triggering.
+    </help>
+  </IntegerParameter>
+
+  <!-- Remove in external release! -->
+  <BooleanParameter name="fartalk"
+                    optional="1"
+                    filter="ASR_RELEASE_TYPE=='internal'">
+    <help>
+      Set optimal parameters for fartalk usage. Do not touch unless
+      you are absolutely sure about what you're doing.
+    </help>
+  </BooleanParameter>
+
+  <!-- Remove in external release! -->
+  <IntegerParameter name="agc"
+                    optional="1"
+                    min="0"
+                    max="65536"
+                    default="0"
+                    filter="ASR_RELEASE_TYPE=='internal'">
+    <help>
+      agc control. Do not touch unless you are
+      absolutely sure about what you're doing.
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="absoluteThreshold"
+                    optional="1"
+                    min="-7200"
+                    max="1800">
+    <help>
+      Set the absoluteThreshold parameter. Influences triggering.
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="sensitivity"
+                    optional="1"
+                    min="0"
+                    max="100">
+    <help>
+      Changes the sensitivity of the start detection. The higher this value
+      the easier begin of speech will be detected. <var>100</var> is very sensitive,
+      <var>0</var> is &quot;deaf&quot;.
+    </help>
+  </IntegerParameter>
+
+  <EnumerationParameter name="fxAdaptation"
+                        type="String"
+                        optional="1"
+                        default="fast">
+    <help>
+      This parameter allows to switch between three different adaptation settings.
+      When selecting the <code>fast</code> adaptation mode, the front end will adapt faster
+      to a new situation after a speaker reset when using acoustic model version 4 (acmod4)
+      or earlier, resulting in a lower error rate on the first few utterances after a speaker reset, 
+      but at the expense of an increased latency on the first few utterances, because more calculations 
+      are required. Once convergence has occurred, there is no increased latency anymore.
+      For an acoustic model version 5 (acmod5) the standard adaptation will be used. This is done 
+      because the extra CPU load (and hence potential extra latency) required by the fast adaptation
+      in combination with an acmod5 is much higher than it is for earlier acoustic model versions.
+      When selecting the <code>standard</code> adaptation mode, the adaptation on the first
+      utterances is slower, but there is no increased latency on the first few utterances 
+      compared to the rest of the utterances.
+      When selecting the <code>fastacmod5</code> adaptation mode, the fast adaptation will be used,
+      regardless of the used acoustic model version. Only use this mode when the CPU is powerful
+      enough to handle the extra computations without increasing the latency too much.
+    </help>
+    <value value="standard"/>
+    <value value="fast"/>
+    <value value="fastacmod5"/>
+  </EnumerationParameter>
+
+  <IntegerParameter name="garbage"
+                    optional="1"
+                    min="0"
+                    max="100">
+    <help>
+      Set the garbage parameter. Influences the ease with
+      with the &lt;...&gt; model is recognized. Useful to tune
+      keyword spotting behavior.
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="timeout"
+                    optional="1"
+                    min="0">
+    <help>
+      Maximum amount of time the engine can recognize in msec.
+      When this parameter is set, then the engine ALWAYS
+      stops after &lt;timeout&gt; seconds. See also <code>--timeoutLSilence</code>
+      and <code>--timeoutSpeech</code>.
+      0 means that this timeout is disabled.
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="timeoutLSilence"
+                    optional="1"
+                    min="0"
+                    max="10000">
+    <help>
+      Leading silence timeout in msec. After each <code>lh_AudioSourceStart()</code>,
+      if <em>no begin of speech is detected</em>, processing of input data will stop after &lt;timeoutLSilence&gt;
+      msec of input audio has been processed. See also <code>--timeout</code> and
+      <code>--timeoutSpeech</code>. 0 means that this timeout is disabled.
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="timeoutSpeech"
+                    optional="1"
+                    min="0"
+                    max="60000">
+    <help>
+      Utterance length timeout timeout in msec. After begin of speech detection,
+      processing of input data will stop after &lt;timeoutSpeech&gt;
+      msec of input audio has been processed. See also <code>--timeout</code> and
+      <code>--timeoutLSilence</code>. 0 means that this timeout is disabled. Note that
+      if <code>--startEnable</code> is set to <code>false</code>, this parameter has
+      the same behavior as <code>--timeout</code>.
+    </help>
+  </IntegerParameter>
+
+  <EnumerationParameter name="extraeventEnable" type="String" shortName="X" optional="1" default="automatic">
+    <help>Enable extra events to improve rejection behavior.
+    <ul>
+      <li>
+        <strong>automatic</strong>: Selects <strong>false</strong> for acoustic model 
+        version 6 and <strong>true</strong> for other acoustic model versions.</li>
+      <li>
+        <strong>false</strong>: For disabling extra events.</li>
+      <li>
+        <strong>true</strong>: For enabling extra events.</li>
+    </ul>
+    </help>
+    <value value="false"/>
+    <value value="true"/>
+    <value value="automatic"/>
+  </EnumerationParameter>
+
+  <IntegerParameter name="initbeamwidth"
+                    optional="1"
+                    min="0"
+                    max="10000">
+    <help>
+      <p>
+        Set the initial beam width. Change this parameter only if you can verify the impact with the <em>batch</em> tool 
+        on a large enough set of recordings.
+      </p>
+      <p>
+       <strong>Warning</strong>: This option has no effect when passing multiple contexts to
+       <code>--contextBufferFilepaths</code>.
+      </p>
+      
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="firstpassDistapprox"
+                    optional="1"
+                    min="0"
+                    max="15000">
+    <help>
+      Sets the first pass distance approximation parameter. Change this parameter only if you can verify the impact
+      with the <em>batch</em> tool on a large enough set of recordings.
+    </help>
+  </IntegerParameter>
+
+  <!-- dynprog configuration -->
+  <EnumerationParameter name="dynprogType"
+                        shortName="T"
+                        type="String"
+                        optional="1"
+                        default="lextreedp">
+    <help>
+      <p>
+        Set the dynamic programming algorithm to use. This parameter only has an effect if
+        you use BNF+ grammars as input. Should you use contexts then this parameter has no effect.
+        Possible values are:
+      </p>
+      <ul>
+      <li>
+        <b>lextreedp</b>: Creates a binary context especially for the lextree DP
+        algorithm. This algorithm is the general purpose search algorithm used in VoCon.
+        Specialized algorithms likee tree DP algorithm are for example limited to recognition
+        of isolated word lists or short sentence lists.</li>
+      <li>
+        <b>treedp</b>: Creates a binary context especially for the special purpose tree DP 
+        algorithm. This algorithm is useful for recognizing large lists of isolated names or
+        short sentences, because it requires (much) less memory and CPU for these tasks. 
+        It can only be used with context without recursion, e.g. with finite sentences. 
+        You must specify the maximum length of the sentences in the context with 
+        <code>--treedpMaxSentenceLength</code>.</li>
+      <li>
+        <b>spelling</b>: Creates a binary context especially for the special purpose spelling DP 
+        algorithm.</li>
+      <li>
+        <b>lextreedp_cicdci</b>: Create a context which is similar to one created with the 
+        <code>lextreedp</code> option, but with different settings which tell the engine 
+        to use more approximations in the first pass. Using this option is only 
+        recommended for grammars which contain a <em>large number of words</em> and 
+        are used on a <em>slow</em> platform.</li>
+      <li>
+        <b>treedp_cdci</b>: Create a context which is similar to one created with the <code>treedp</code> 
+        option, but with different settings which tell the engine to use more approximations in the 
+        first pass. Using this option is only recommended for <em>big word lists</em> 
+        and slow platforms.</li>
+      <li>
+        <b>lextreedp_ci</b>: Create a context which is similar to one created with the 
+        <code>lextreedp</code> option, but with different settings which tell the 
+        engine to use even more approximations in the first pass than with the 
+        <code>lextreedp_cicdci</code> option. Using this option should only be considered 
+        for grammars which contain either a <em>very large number of words</em> or are used 
+        on a <em>very slow</em> platform.</li>
+      <li>
+        <b>treedp_ci</b>: Create a context which is similar to one created with the 
+        <code>treedp</code> option, but with different settings which tell the 
+        engine to use even more approximations in the first pass than with the 
+        <code>treedp_cdci</code> option. Using this option should only be considered 
+        for word lists which contain either a <em>very large number of words</em> or are used 
+        on a <em>very slow</em> platform.</li>
+      <li>
+        <b>fstdphost</b>: Creates a binary context especially for the fst host DP algorithm. 
+      </li>
+      <li filter="ASR_RELEASE_TYPE=='internal'">
+        <b>lextreedp_cirg</b>:</li>
+      <li filter="ASR_RELEASE_TYPE=='internal'">
+        <b>lextreedp_cicdrg</b>:
+      </li>
+      <li>
+        <b>fstdphost</b>: Creates a binary context especially for the fst DP algorithm with host context.
+      </li>
+    </ul>
+    </help>
+    <value value="lextreedp"/>
+    <value value="treedp"/>
+    <value value="spelling"/>
+    <value value="lextreedp_cicdci"/>
+    <value value="treedp_cdci"/>
+    <value value="lextreedp_ci"/>
+    <value value="treedp_ci"/>
+    <value value="lextreedp_cirg" filter="ASR_RELEASE_TYPE=='internal'"/>
+    <value value="lextreedp_cicdrg" filter="ASR_RELEASE_TYPE=='internal'"/>
+    <value value="fstdphost"/>
+  </EnumerationParameter>
+
+  <IntegerParameter name="treedpMaxSentenceLength"
+                    optional="1"
+                    min="1"
+                    default="10">
+    <help>
+      To be used when <code>--dynprogType</code> is set to one of the <code>treedp...</code> options.
+      Indicates the maximum length of a sentence in a treedp compatible context. (Setting the value higher 
+      than this maximum is harmless, setting it less will make the context creation fail).
+    </help>
+  </IntegerParameter>
+
+  <!-- recog and speechfile input specific parameters !-->
+  <InputFileParameter name="waveFilepath"
+                      shortName="w"
+                      optional="1">
+    <help>
+      Use this option to recognize speech from a file.
+    </help>
+  </InputFileParameter>
+
+  <EnumerationParameter name="soundFileFormat"
+                        shortName="o"
+                        type="String"
+                        optional="1"
+                        default="wav">
+    <help>
+      <p>
+        <em>recogtest</em> can read 4 types of sound files.
+      </p>
+      <ul>
+        <li>
+          <strong>wav</strong>: The sound file is a Microsoft Wave file.
+        </li>
+        <li>
+          <strong>pcm</strong>: The sound file is a raw 16-bit intel (little-endian) PCM file.
+        </li>
+        <li>
+          <strong>pcmswap</strong>: The sound file is a raw 16-bit motorola (big-endian) PCM file.
+        </li>
+        <li>
+          <strong>nist</strong>: The sound file is in the National Institute of Standards
+          and Technologies (NIST) sound file format.
+        </li>
+      </ul>
+      <p>Use the sampleRate paramter to specify the sample rate of the audio files.</p>
+    </help>
+    <value value="nist"/>
+    <value value="pcm"/>
+    <value value="pcmswap"/>
+    <value value="wav"/>
+  </EnumerationParameter>
+
+  <EnumerationParameter name="sampleRate"
+                        type="Integer"
+                        optional="1">
+    <help>
+      <p>This parameter is to be used together with the <code>--soundFileFormat</code>
+      parameter. It specifies the sample rate at which the audio files were recorded.
+      </p>
+
+      <p>The <strong>nist</strong> and <strong>wav</strong> sound file formats contain the
+      sample rate in their file header. For those file formats, this parameter is optional.
+      If it is specified, an error is generated if the specified value does not match the
+      value in the audio files. For the <strong>pcm</strong> and <strong>pcmswap</strong>
+      file formats, this is a mandatory parameter.</p>
+
+      <p>Some of the allowed sample rates are only possible in combination with the <strong>
+      allowDownsampling</strong> parameter or the <strong>allowUpsampling</strong> parameter.</p>
+    </help>
+    <value value="8000"/>
+    <value value="11000"/>
+    <value value="11025"/>
+    <value value="16000"/>
+    <value value="22000"/>
+    <value value="22050"/>
+    <value value="32000"/>
+    <value value="44000"/>
+    <value value="44100"/>
+    <value value="48000"/>
+  </EnumerationParameter>
+
+  <BooleanParameter name="allowDownsampling"
+                    optional="1"
+                    default="false">
+    <help>
+      If the audio sample rate is higher than the sample rate used by the ASR engine, the
+      audio can be automatically downsampled to the engine sample rate. This is an optional 
+      parameter and its default value is false. If downsampling is desired, this parameter 
+      has to be enabled. See also the <code>--allowUpsampling</code> parameter.
+    </help>
+  </BooleanParameter>
+
+  <!-- Not in external release! -->
+  <InputFileParameter name="downsamplingFilterFilepath"
+                      optional="1"
+                      filter="ASR_RELEASE_TYPE=='internal'">
+    <help>
+      This file describes the downsampling filter to be used instead of the default build-in
+      downsampling filters. It is optional and can only be used if allowDownsampling is true.
+      Note that it can also be used to specify a filter for upsampling if allowUpsampling is 
+      true.   
+    </help>
+  </InputFileParameter>
+  
+  <BooleanParameter name="allowUpsampling" optional="1" default="false">
+    <help>
+      If the audio sample rate is lower than the sample rate used by the ASR engine, the
+      audio can be automatically upsampled to the engine sample rate. This is an optional 
+      parameter and its default value is false. If upsampling is desired, this parameter has 
+      to be enabled. Note that it is not recommended to upsample. Although some techniques are 
+      used to reduce the effects of the upsampling, it will always lead to a degradation in 
+      recognition accuracy. Only use this if you cannot get an audio signal with a sample rate 
+      equal or higher than the engine sample rate. See also the <code>--allowDownsampling</code>
+      parameter.
+    </help>
+  </BooleanParameter>
+  
+  <FloatParameter name="scalingFactor"
+                  optional="1"
+                  default="0.0">
+    <help>
+      With this option one can scale the samples of the input wave files.
+      This can be useful to simulate conditions on a target platform more accurately.
+      The scaling factor is specified in dB. For example: if you specify a factor of
+      -3.0 then an input sample with value 32768 is scaled to 23198. <em>(= times 10 ^ (factor/20))</em>.
+    </help>
+  </FloatParameter>  
+
+  <!-- InputFileParameter name="activationFilepath"
+                      shortName="V"
+                      optional="1">
+    <help>
+      If specified this file is used to set the activation status of a grammar
+      before each recognition.
+    </help>
+  </InputFileParameter-->
+
+  <!-- Context parameters !-->
+  <BooleanParameter name="contextOptimize"
+                    shortName="C"
+                    optional="1"
+                    default="false">
+    <help>If set forces optimization to be used during context opening.
+    </help>
+  </BooleanParameter>
+
+  <!-- Acoustic model selection !-->
+  <AcModSpecParameter name="modelSpec" shortName= "l" optional="1">
+    <help>This parameter helps you to select an installed acoustic model.
+      VoCon 3 acoustic models are uniquely identified via a signature like
+      <code>acmod3_800_enu_gen_car_f16_v1_0_0</code>. As can be seen a signature is
+      a composition of several fields.
+      <ul>
+        <li><code>acmod</code> is a fixed prefix to indicate that this is an acoustic model.</li>
+        <li><code>3</code> indicates the generation the acoustic model. Possible values are 3 and 4.</li>
+        <li><code>800</code> indicates the size class of the models, e.g. it is approximately 800K large.</li>
+        <li><code>enu</code> is the language code. The available languages are:<br/>
+          <installed-languages/>
+        </li>
+        <li><code>gen</code> is the target domain where <code>gen</code> stands for <em>generic</em>, which
+        means that this an acoustic model that is tuned on a broad range of tasks, like digit recognition,
+        command and control, name entry, voice destination entry, etc.</li>
+        <li><code>car</code> specifies an acoustic environment. <code>car</code> means that this model is particullary
+        suited to in car recognition.</li>
+        <li><code>f16</code> indicates the sampling frequency, in this case 16kHz. Other choices are <code>f11</code> (11kHz)
+        and <code>f8</code> (8kHz)</li>
+        <li><code>v1_0_0</code> is the version number of the model</li>
+      </ul>
+      <p>You can select a model by giving its full signature, but is also possible to specify a partial signature.
+      For example to select the latest enu 800K car model it is sufficient to type <code>--modelSpec=800_enu_gen_car_f16</code>
+      If you just want to try out any German model it is sufficient to type <code>--modelSpec=ged</code>. The tool will
+      select default values for the other fields. Wildcards are also possible, <code>--modelSpec=frf*f16</code> selects a model
+      from the installed French 16kHz models.
+      </p>
+    </help>
+  </AcModSpecParameter>
+
+  <InputFileParameter name="modelFilepath"
+                      shortName="M"
+                      optional="1">
+    <help>
+      The path to a file containing an acoustic model buffer.
+      This option overrides the <code>--modelSpec</code> option.
+    </help>
+  </InputFileParameter>
+
+  <!-- CLC model selection !-->
+  <CLCSpecParameter name="clcSpec" optional="1" default="">
+    <help>This parameter helps you to select an installed CLC buffer.
+      VoCon 3 CLC buffers are uniquely identified via a signature like
+      <code>clc_enu_cfg3_v1_0_0</code>. As can be seen a signature is
+      a composition of several fields.
+      <ul>
+        <li><code>clc_</code> is a fixed prefix to indicate that this is a CLC buffer.</li>
+        <li><code>enu</code> is the language code. The available languages are:<br/>
+          <installed-languages/>
+        </li>
+        <li><code>cfg3</code> is the general-purpose Network (or offline) configuration. Other choice is 
+            <code>cfg1</code> or <code>cfg2</code> (general-purpose Automotive configuration) 
+            depending on the language
+        </li>
+        <li><code>v1_0_0</code> is the version number of the model</li>
+      </ul>
+      <p>You can select a buffer by giving its full signature, but is also possible to specify a partial signature.
+        For example if you just want to try out any Mandarin Chinese buffer it is sufficient to type <code>--clcSpec=mnc</code>.The tool will
+      select default values for the other fields. Wildcards are also possible, <code>--clcSpec=mnc*cfg3</code> selects a buffer
+      from the installed Mandarin Chinese cfg3 buffers.
+      </p>
+    </help>
+  </CLCSpecParameter>
+  
+  <InputFileParameter name="clcFilepath" optional="1">
+    <help>
+      The path to a file containing a CLC buffer.
+      This option overrides the <code>--clcSpec</code> option.
+    </help>
+  </InputFileParameter>
+
+  <!-- Spelling -->
+  <InputFileParameter name="spellDataFilepath"
+                      shortName="S"
+                      optional="1">
+    <help>
+      If specified recogtest will post-process the recognition result with the spelling post-processor.
+      It will use the data in this file to configure the spelling post-processor.
+      When using spelling the input grammar specified in <code>--grammarFilepaths</code> should contain
+      the <code>!spelling</code> directive, and should describe the allowed letter sequences.
+      Typically the input grammar is just a loop on the letters that occur in the list of names.
+      Alternatively the <code>--dynprogType</code> parameter can be set to <code>spelling</code>, provided
+      that the grammar is suitable for spelling.
+    </help>
+  </InputFileParameter>
+
+  <EnumerationParameter name="spellDataType"
+                        type="String"
+                        optional="1"
+                        default="auto">
+    <help>
+      <p>
+        Specifies the type of the spelling data in <code>--spellDataFilepath</code>.
+        There are 3 values for this parameter.
+      </p>
+      <ul>
+        <li>
+          <strong>text</strong>: The spelling input is a list of name/id pairs in a text file.</li>
+        <li>
+          <strong>binary</strong>: The spelling input is a compiled binary spelling tree. One can use the
+          <em>spelltreecpl</em> tool to create such a binary tree.</li>
+        <li>
+          <strong>auto</strong>: The tool guesses the spelling data type based upon the
+            extension. If the extension is <var>.lst</var> or <var>.txt</var> then
+            the tool decides it's a list of name/id pairs. In the other cases the tool assumes
+            the data is a binary spelling tree.</li>
+      </ul>
+    </help>
+    <value value="text"/>
+    <value value="binary"/>
+    <value value="auto"/>
+  </EnumerationParameter>
+
+  <StringParameter name="lettersToSkip"
+                   optional="1">
+    <help>
+      This option makes it possible to make some letters in the input "optional" (most likely
+      <em>symbols</em> like <strong>.</strong> or <strong>/</strong>). This means that the
+      user may or may not pronounce them, but that the result will always be the same. An example:
+      The name list contains the entry "St. Martin". Apart from the letters there are the symbols " " (space)
+      and "." (period, point, ...). If one specifies <code>--lettersToSkip=" ."</code> then
+      the user can say (assuming partial spelling): "s" "t" "m" "a" , but also "s" "t" "point" "m" "a", or even
+      "s" "t" "point" "space" "m" "a".
+    </help>
+  </StringParameter>
+
+  <EncodingParameter name="spellDataEncoding"
+                        optional="1">
+    <help>
+      The encoding of the input file if the spelling is configured with a text file.
+    </help>
+    <value value="utf-8"/>
+    <value value="utf-16"/>
+  </EncodingParameter>
+
+  <BooleanParameter name="partialSpelling"
+                    optional="1"
+                    default="false">
+    <help>
+      Activates the partial spelling option on the spelling postprocessor.
+      This means that the engine returns complete results from the name list, even
+      if the utterance contains only part of the letters.
+    </help>
+  </BooleanParameter>
+
+  <IntegerParameter name="spellAccuracy"
+                    optional="1"
+                    min="0">
+    <help>
+      Sets the accuracy parameter on the spelling post-processor.
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="spellInsPenalty"
+                    optional="1"
+                    min="0">
+    <help>
+      Set the insertion penalty parameter on the spelling post-processor.
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="spellDelPenalty"
+                    optional="1"
+                    min="0">
+    <help>
+      Set the deletion penalty parameter on the spelling post-processor.
+    </help>
+  </IntegerParameter>
+
+  <!-- SEM -->
+  <InputFileParameter name="semDataFilepath"
+                      optional="1"
+                      filter="ASR_RELEASE_TYPE=='internal'">
+    <help>
+      A semantic classifier buffer.
+    </help>
+  </InputFileParameter>
+
+  <!-- Grammars -->
+  <EnumerationListParameter name="grammarOptions" shortName="G" type="String" optional="1" separator="," default="DEFAULT_BEHAVIOR">
+    <help>Sets options on the grammars. See the <a href="../../com.nuance.embed.vocon3200.help.appnotes/doc/grammarParameters.html">
+      application note on ASR grammar processing options and recommended usage</a>
+      for a detailed explanation of these parameters.
+      <ul>
+      <li>
+      <strong>DEFAULT_BEHAVIOR</strong> means that no grammar-level optimization is performed,
+      that the only activatable rules are the start rules and
+      the rules that are declared as activatable
+      in the grammar by means of the <code>!activatable</code> statement, and that the only
+      modifiable rules are the rules that are declared as such in the grammar by
+      means of the <code>!modifiable</code> statement. Each of these three default behaviours
+      can independently be overridden by means of the other grammar options:
+      </li>
+      <li>
+      <strong>OPTIMIZE</strong> turns on grammar-level optimization, i.e. optimization during
+      the compilation of the text BNF+ grammar.
+      This requires memory and CPU during grammar compilation, but can save a
+      substantial amount of memory and CPU after the grammar is
+      compiled in other grammar processing functions and at recognition-time.
+      This option should always be used in case the memory and CPU
+      requirements during grammar compilation are acceptable.
+      Therefore, this option should
+      certainly be used in case the grammar is compiled upfront,
+      even if some of the grammar rules are modifiable.
+      </li>
+      </ul>
+    </help>
+    <value value="DEFAULT_BEHAVIOR"/>
+    <value value="OPTIMIZE"/>
+  </EnumerationListParameter>
+
+  <InputFileListParameter name="grammarFilepaths"
+                          shortName="g"
+                          optional="1">
+    <help>
+      Recogtest will use the grammars in this list to build a context.
+    </help>
+  </InputFileListParameter>
+
+  <EnumerationParameter name="grammarType"
+                        shortName="K"
+                        type="String"
+                        optional="1"
+                        default="auto">
+    <help>
+      <p>
+        Specifies the type of the grammars in <code>--grammarFilepaths</code>.
+        There are 3 possible values for this parameter.
+      </p>
+      <ul>
+        <li>
+          <strong>text</strong>: The input grammars are text files.
+          The expected encoding of the grammar depends on the native
+          character type used by the installed Vocon3200 API. The encoding can be
+          changed via <code>--grammarEncoding</code>.</li>
+        <li>
+          <strong>binary</strong>: The input grammars are compiled binary grammars.</li>
+        <li>
+          <strong>auto</strong>: The tool guesses the grammar type based upon the
+            extension. If the extension is <var>.grm</var> or <var>.bin</var> then
+            the tool decides it's a binary grammar. In the other cases the tool assumes
+            the grammars are text grammars.</li>
+      </ul>
+    </help>
+    <value value="text"/>
+    <value value="binary"/>
+    <value value="auto"/>
+  </EnumerationParameter>
+
+  <EncodingParameter name="grammarEncoding"
+                        optional="1"
+                        default="utf-8">
+    <help>
+        Use this option if you use a different encoding than UTF-8 in your <em>text</em> grammars.
+    </help>
+    <value value="utf-8"/>
+    <value value="utf-16"/>
+  </EncodingParameter>
+
+  <InputFileListParameter name="contextBufferFilepaths"
+                          shortName="c"
+                          optional="1">
+    <help>
+      Alternative to the use of grammars as input (<code>--grammarFilepaths</code>). 
+      <code>recogtest will use the binary context buffers from this list</code>.
+      It is not possible to use both grammars and contexts as input to recogtest.
+    </help>
+  </InputFileListParameter>
+
+  <BooleanParameter name="useParallelContexts"
+                    shortName="P"
+                    optional="1"
+                    default="false">
+    <help>Load contexts specified with <code>--contextBufferFilepaths</code> in parallel on the recognizer.
+    </help>
+  </BooleanParameter>
+
+  <!-- Only in internal release! -->
+  <EnumerationParameter name="contextBufferType"
+                        shortName="L"
+                        type="String"
+                        optional="1"
+                        default="auto"
+                        filter="ASR_RELEASE_TYPE=='internal'">
+    <help>
+      <p>
+        Specifies the type of the context buffer in <code>--contextBufferFilepaths</code>.
+        There are 3 possible values for this parameter.
+      </p>
+      <ul>
+        <li>
+          <strong>text</strong>: The input context buffers are text files.
+          Their expected encoding depends on the native
+          character type used by the installed Vocon3200 API. The encoding can be
+          changed via <code>--contextBufferEncoding</code>.</li>
+        <li>
+          <strong>binary</strong>: The input context buffers are compiled binary contexts.</li>
+        <li>
+          <strong>auto</strong>: The tool guesses the context buffer type based upon the
+          file extension. If the extension is <var>.txt</var> then
+          the tool decides it is a text file (list of names). In all other cases the tool assumes
+          it's a binary context buffer.</li>
+      </ul>
+      It is currently not possible to mix textual and binary contexts as input to a recogtest run.
+    </help>
+    <value value="text"/>
+    <value value="binary"/>
+    <value value="auto"/>
+  </EnumerationParameter>
+
+  <EncodingParameter name="contextBufferEncoding"
+                   optional="1">
+    <help> The encoding of the input context buffers if they are in text
+    form. The supported encodings depend on your Python configuration</help>
+  </EncodingParameter>
+
+  <!-- Dictionaries -->
+  <BooleanParameter name="useg2p"
+                    shortName="U"
+                    optional="1"
+                    default="false"
+                    filter="ASR_RELEASE_TYPE=='internal'">
+    <help>
+      If set to true use the G2P as a fallback to generate transcriptions.
+      By default we fetch our transcriptions from dictionaries only (including the small
+      exception dictionary in the acoustic model).
+      This is an internal option.
+    </help>
+  </BooleanParameter>
+  
+  <BooleanParameter name="useclc"
+                    optional="1"
+                    default="false">
+    <help>
+      If set to true use the CLC as a fallback to generate transcriptions.
+      By default we fetch our transcriptions from dictionaries only.
+    </help>
+  </BooleanParameter>
+
+  <InputFileListParameter name="dictionaryFilepaths"
+                          shortName="d"
+                          optional="1">
+    <help>
+      <em>recogtest</em> will use the dictionaries in this list to look for phonetic transcriptions.
+      A transcription for a particular word is picked from the left-most dictionary where the word occurs.
+    </help>
+  </InputFileListParameter>
+
+  <EnumerationParameter name="dictionaryType"
+                        type="String"
+                        optional="1"
+                        default="auto">
+    <help>Sets the type of the dictionaries specified in <code>--dictionaryFilepaths</code>.
+    <ul>
+      <li>
+        <b>auto</b> means that the tool will use the extension of the dictionary as an
+        indication of the dictionary type: if the extension is <var>.dcb</var> or <var>.dcc</var>, the tool will
+        assume that it is a precompiled dictionary and open it as such.
+        Otherwise, the tool will assume that it is a text dictionary and will
+        compile it itself prior to using it.</li>
+      <li>
+        <b>binary</b> forces the tool to open the dictionary as a binary dictionary,
+        regardless of the extension (the dictionary must be precompiled without compression in this case).</li>
+      <li>
+        <b>compressed</b> forces the tool to open the dictionary as a compressed binary dictionary,
+        regardless of the extension (the dictionary must be compiled compressed in this case).</li>
+      <li>
+        <b>text</b> forces the tool to open the dictionary as text, regardless of
+        the extension. The expected encoding of the dictionary depends on the native
+        character type used by the installed Vocon3200 API. The encoding can be
+        changed via <code>--dictionaryEncoding</code>. Consult the documentation on
+        <a href="../../com.nuance.embed.vocon3200.help.form/doc/vocon3200_photrans_formalisms.html">user dictionaries</a> for a description of
+        the dictionary text format and the use of dictionaries.</li>
+    </ul>
+    </help>
+    <value value="auto"/>
+    <value value="text"/>
+    <value value="binary"/>
+    <value value="compressed"/>
+  </EnumerationParameter>
+
+  <EncodingParameter name="dictionaryEncoding"
+                        optional="1">
+    <help>Use this option if you use a different encoding than UTF-8 in your <em>text</em> dictionaries.</help>
+    <value value="utf-8"/>
+    <value value="utf-16"/>
+  </EncodingParameter>
+
+  <!-- Other parameters !-->
+  <EnumerationParameter name="outputFormat"
+                        type="String"
+                        optional="1"
+                        default="words">
+    <help>This option affects the output to the screen.
+    There are 2 values for this option:
+    <ul>
+      <li><code>words</code> (default format): If this is used then the words which
+        were actually recognized are printed.</li>
+      <li><code>userID</code>: If this option is used then the 32 bit user IDs are printed
+        out instead of the words or strings. This can be of use when evaluating
+        applications that only use user IDs to communicate with the recognizer.
+        All user IDs are printed as unsigned decimal digits except the largest 32-bit integer. 
+        For historical reasons we print -1 here instead of <code>4294967295</code>.
+        </li>
+      <li><code>userID64</code>: If this option is used then the 64 bit user IDs are printed
+        out instead of the words or strings. This can be of use when evaluating
+        applications that only use user IDs to communicate with the recognizer.
+        All user IDs are printed as 64 bit hexadecimal values. 
+        </li>
+    </ul>
+    </help>
+    <value value="words"/>
+    <value value="userID"/>
+    <value value="userID64"/>
+  </EnumerationParameter>
+
+  <BooleanParameter name="dumpParameters"
+                    optional="1"
+                    default="false">
+    <help>
+      Dump the list of parameters and values. This list is
+      the result of parameter settings in the param file (if any),
+      possibly overridden from command-line. Some parameters may
+      have been automatically assinged a value by the engine, an
+      example is the accuracy parameter.
+    </help>
+  </BooleanParameter>
+
+  <!-- Not in external release! -->
+  <!--OutputFileParameter name="loggingFilepath"
+                       optional="1"
+                       filter="ASR_RELEASE_TYPE=='internal'">
+    <help> If specified, writes the logging information into the specified file. </help>
+  </OutputFileParameter-->  
+  
+  <StringDictionaryParameter name="slotContextBufferFilepaths" 
+                             optional="1">
+    <help>Specifies a set of slot name - context buffer filename pairs:
+       <code>{'grammar1#slot1': 'slot1context.fcf','grammar2#slot2':'slot2context.fcf'}</code>.
+    </help>
+    The specified context buffer files have to be compiled to use the same acoustic model as the main context
+    and use the same way of handling strings and user IDs.
+  </StringDictionaryParameter>
+  
+  <BooleanParameter name="useGram2"
+                    optional="1"
+                    default="true">
+    <help>
+      Set this parameter as true to use new grammar compiler. Default as false.
+    </help>
+  </BooleanParameter>
+  
+  <StringParameter name="activatedRules" optional="1">
+    <help>
+        List all rules that should be active. Rules should be seperated by ";". 
+        If this parameter is set to true, all rules will be deactivated at the start, and then activate rules that are mentioned in this parameter.
+        Non-existent rules set in this parameter will be ignored, contexts which do not support activation are also ignored.
+        This parameter cannot be used together with <code>--deactivatedRules</code>.
+    </help>
+  </StringParameter>
+
+  <StringParameter name="deactivatedRules" optional="1">
+    <help>
+        List all rules that should NOT be active. Rules should be seperated by ";".
+        Non-existent rules set in this parameter will be ignored, contexts which do not support activation are also ignored.
+        This parameter cannot be used together with <code>--activatedRules</code>.
+    </help>
+  </StringParameter>
+
+  <StringParameter name="fieldActivation" optional="1">
+      <help>Specifies a ";"-separated list of field context activation commands to be applied to the top-level context.
+      The commands correspond
+      to the VoCon API calls of the same name:
+      <ul>
+          <li>
+              <code>setStartStop(start_field stop_field activation_flag)</code>. 
+          </li>
+          <li>
+              <code>activate(start_field activate_from_field userId1 userId2, ...)</code>.
+          </li>
+          <li>
+              <code>addStart(start_field activation_flag)</code>.
+          </li>
+      </ul>
+      activation_flag is either ACTIVATEALL or DEACTIVATEALL.
+      <p/>
+      Example:
+      <code> "setStartStop(city, street, DEACTIVATEALL); activate(city, city, 200)"</code>
+      </help>
+  </StringParameter>
+</ParameterSpecification>

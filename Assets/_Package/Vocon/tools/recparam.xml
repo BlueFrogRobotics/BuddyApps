@@ -1,0 +1,477 @@
+<?xml version="1.0"?>
+<ParameterSpecification version="1.0">
+  <ApplicationData name="recparam" version="0.0.1"/>
+  <help>
+    Set of parameters inside a context file. 
+    In v0.0.1 only slmcontext specific parameters can be specified.
+  </help>
+
+  <IntegerParameter name="LH_CTX_PARAM_ACCURACY"
+                    optional="1">
+      <help>
+          Trade-off between CPU-load, memory requirements and the obtained accuracy
+          of the DP. With a lower value, less CPU-time and memory are needed,
+          but the performance also degrades. With a higher value, more CPU-time and
+          memory are needed, but the performance increases.
+          Allowed values: 0 - 50000
+          Default: 10000 (You will always choose a lower value in practice)
+          Can be used on all DP types.
+      </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_CTX_PARAM_INITBEAMWIDTH"
+                    optional="1">
+        <help>
+            Initial beam width
+            Allowed values: 0 - 10000
+            Default: 2500
+            Can be used on all DP types.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_CTX_PARAM_MAXNBEST"
+                    optional="1">
+        <help>
+            Maximum number of hypotheses returned in a result.
+            Allowed values: 1 - 1000
+            Default: 3
+            Can be used on all, except spelling, DP types.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_CTX_PARAM_TSILENCE_FX"
+                    optional="1">
+        <help>
+            Minimum amount of trailing silence, in milliseconds, to be observed by the voice activity detector (VAD)
+            before the end of an utterance is detected. This parameter is similar to LH_FX_PARAM_TSILENCE
+            but the trailing silence decision is taken in the search algorithm instead of in the FX.
+            This allows different TSILENCE_FX values for different contexts.
+            Setting this value to 0 disables this feature.
+
+            Default: 0 ms (disabled)
+            Range: 0 ms, 100 ms -> 5000 ms
+            Can be used on all DP types
+
+            For an isolated word context, a value of 300 ms is recommended,
+            while for a continuous speech context a value of 800 ms is recommended.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_CTX_PARAM_TSILENCE"
+                    optional="1">
+        <help>
+            Minimum amount of trailing silence, in milliseconds, as observed by the search engine,
+            before the end of an utterance is detected. This parameter affects low-level behavior
+            of the algorithm and it should be used with care. Quite often, the optimal value of
+            LH_CTX_PARAM_TSILENCE is twice as high as the value of LH_CTX_PARAM_TSILENCE_FX.
+            The optimal value is context-dependent however. If you have a sufficient amount of
+            representative speech data, and the response time of the engine is too long, you may want to
+            experiment with different values.
+
+            Default: 0 ms (disabled)
+            Range: 0 ms, 100ms -> 10000 ms
+            Can be used on all DP types.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_CTX_PARAM_WORDPENALTY"
+                    optional="1">
+        <help>
+            Word Penalty. This parameter can only be set (and get) when a context has been
+            loaded and before starting the search engine.
+            This parameter affects low-level behavior of the algorithm. It is solely intended
+            for tuning tools. DO not touch, unless you know what you are doing.
+
+            Default: Depends on the acoustic models. Also depends on whether thecontext is a spelling context or not.
+            Range: 0->3000
+            
+            Not supported for contexts of type TREEDP.
+            Not supported for contexts of type FSTDP.
+            For Fst contexts the word penalty can only be set at compilation time,
+            changing this parameter at run time is not supported.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_CTX_PARAM_IG_LOWCONF"
+                    optional="1">
+        <help>
+            Maximum amount of confidence level that indicates that a spoken utterance is out of grammar.
+            If confidence level is equal or below this parameter value, it means that the spoken utterance is out of grammar.
+            If confidence level is above value of this parameter, the spoken utterance can be probably in grammar.
+
+            Default: 5000
+            Range: 0 -> 10000
+            Putting the LH_CTX_PARAM_IG_LOWCONF above the LH_CTX_PARAM_IG_HIGHCONF has no effect.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_CTX_PARAM_IG_HIGHCONF"
+                    optional="1">
+        <help>
+            Minimum amount of confidence level that indicates that a spoken utterance is in grammar.
+            If confidence level is equal or above this parameter value, it means that the spoken utterance is in grammar
+            (even through it is the same as LH_CTX_PARAM_IG_LOWCONF value).
+            If confidence level is below this parameter value, the spoken utterance can be probably in grammar or out of grammar.
+
+            Default: 5000
+            Range: 0 -> 10000
+            Putting the LH_CTX_PARAM_IG_HIGHCONF below the LH_CTX_PARAM_IG_LOWCONF has no effect.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_CTX_PARAM_TIMEOUT_SPEECH"
+                    optional="1">
+        <help>
+            Speech duration timeout in milliseconds.  A context will stop its search algorithm after seeing 
+            LH_CTX_PARAM_TIMEOUT_SPEECH milliseconds of speech. A result is generated. If the result supports 
+            the LH_IID_INBESTRESULT interface, lh_NBestResultGetType will return LH_RESULTTYPE_TIMEOUTSPEECH, 
+            lh_NBestResultIsInGrammar will return LH_NBESTRESULT_IG_SPEECH_TIMEDOUT and lh_NBestResultIsSpeech 
+            will return LH_NBESTRESULT_SPEECH. If the last context returns a result due to LH_RESULTTYPE_TIMEOUTSPEECH, 
+            lh_AudioSourceAdvance will return with LH_AUDIOCHAIN_EVENT_TIMEOUT event and eFinished set to LH_AUDIOCHAIN_FINISHED_TIMEOUT.
+            LH_CTX_PARAM_TIMEOUT_SPEECH is similar to LH_FX_PARAM_TIMEOUT_SPEECH but can be set per context instead of 
+            being global to all of them. LH_CTX_PARAM_TIMEOUT_SPEECH can force stopping the recognition of a 
+            specific context when the incoming speech is too long while continuing the recognition of other contexts.
+
+            Default: 0
+            Range: 0, 100 ms -> 60000 ms
+            See also LH_FX_PARAM_TIMEOUT_SPEECH.
+        </help>
+  </IntegerParameter>
+  
+  <IntegerParameter name="LH_CTX_PRIVPARAM_FIRSTPASSONLY"
+                    optional="1">
+        <help>
+            Disable second pass DP.
+            Allowed values: 0, 1
+            Default: 0
+            Can be used on all, except spelling, DP types.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_CTX_PRIVPARAM_RESULT_TYPE"
+                    optional="1">
+        <help>
+            Set the result type
+            Allowed values:
+              NBESTRESULT:   0x13d9d4ae
+              LATTICERESULT: 0x7725b90a
+            Default: 0x13d9d4ae
+            Can be used on all, except spelling, DP types.
+            Type LATTICERESULT only supported for FSTDP.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_CTX_PRIVPARAM_DOSTATESEGMENTATION"
+                    optional="1">
+        <help>
+            Create HMM state segmentation information
+            Allowed values: 0, 1
+            Default: 0
+            Can be used on WORDPAIRDP and FSTDP.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_CTX_PARAM_MAXNBEST_SECONDPASS"
+                    optional="1">
+        <help>
+            Maximum number of hypotheses passed to second pass.
+            Allowed values: 0 - 1000
+            Default: 0
+            Can be used on all, except spelling, DP types.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_FST_MAX_HYPS"
+                    optional="1">
+        <help>
+            Maximum number states in FSTDP histogram pruning (stateHypBeamMaxCount)
+            Allowed values: 0 - 50000
+            Default: 2000
+            FSTDP Internal parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_MERGE_MODE"
+                    optional="1">
+        <help>
+            Mode of FST merge in FSTDP contexts
+            Allowed values: 0 (FSTCONTEXT_MERGE_MODE_DELAYED), 1 (FSTCONTEXT_MERGE_MODE_IMMEDIATE_PACKED), 2 (FSTCONTEXT_MERGE_MODE_IMMEDIATE_FLAT)
+            Default: 0
+            FSTDP Internal context parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_CACHE_SIZE"
+                    optional="1">
+        <help>
+            Size of the FST cache
+            Allowed values: 0 - 50000
+            Default: 3000
+            FSTDP Internal context parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTCTX_PARAM_ONDEMANDLOADING"
+                    optional="1">
+        <help>
+            Use FST on-demand loading 
+            Allowed values: 0, 1
+            Default: 0
+            FST On-demand loading parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTCTX_PARAM_ONDEMANDLOADING_CACHE_SIZE"
+                    optional="1">
+        <help>
+            Size of the load cache for FST on-demand loading 
+            Allowed values: 0 - 50000
+            Default: 2000
+            FST context on-demand loading cache size
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTCTX_PARAM_ONDEMANDLOADING_CACHE_PREFILL"
+                    optional="1">
+        <help>
+            Pre-fill the FST on-demand loading cache
+            Allowed values: 0, 1
+            Default: 0
+            FST On-demand loading parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_LATTICE_NBEST_BEAMWIDTH"
+                    optional="1">
+        <help>
+            Pruning of the N-best generation from the result lattice
+            Allowed values: 0 - 50000
+            Default: 2500
+            FSTDP Internal context parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_INITBEAMWIDTH_SECONDPASS"
+                    optional="1">
+        <help>
+            Initial beam width applied to the 2nd pass
+            Allowed values: 0 - 50000
+            Default: 2500
+            FSTDP Internal context parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTCTX_PARAM_WORDSCORE_MODE"
+                    optional="1">
+        <help>
+          The mode in which scores are assigned to word transitions.
+          Possible values are: LH_FSTCTX_WORDSCORE_MODE_WORDPENALTY (1), LH_FSTCTX_WORDSCORE_MODE_UNIFORM (2),
+          and LH_FSTCTX_WORDSCORE_MODE_SLM (3).
+          Default: LH_FSTCTX_WORDSCORE_MODE_WORDPENALTY.
+        </help>
+  </IntegerParameter>
+  
+  LH_FSTCTX_PARAM_WORDSCORE_MODE
+  
+  <IntegerParameter name="LH_FSTCTX_PARAM_LMFACTOR"
+                    optional="1">
+        <help>
+            Weight of FST scores (arc weights) multiplied by 100
+            Attention: this also scales the WTP included in the FST, i.e.
+            search score = lmFactor * ( lmScore + wtp ) / 100
+            Typical values: 100 - 500
+            Default: 100
+            FSTDP Internal search parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_LMFACTOR_FIRSTPASS"
+                    optional="1">
+        <help>
+            Weight of FST scores (arc weights) multiplied by 100 for the first pass.
+            Attention: this also scales the WTP included in the FST, i.e.
+            search score = lmFactor * ( lmScore + wtp ) / 100
+            Typical values: 50 - 500
+            Default: 100
+            FSTDP Internal search parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_INTERNALLMFACTOR"
+                    optional="1">
+        <help>
+            Compiled-in value of the language model factor.
+            WARNING: The correct value of this parameter is set by the context compilers.
+            Only use this to read-out the value or set an appropriate value on
+            older contexts that don't have this parameter.
+            FSTDP Internal search parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_LMFACTOR_PROPERTIES"
+                    optional="1">
+        <help>
+            Sets flags to define how setting the LMFACTOR parameters in the API is percolated
+            to component contexts:
+            Default: 0 (percolation disabled)
+            Values:
+            0x01: percolate lmfactor to merge components
+            0x02: percolate lmfactor to slot components
+            0x04: ignore setting lmfactor percolation
+            FSTDP Internal search parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_INTERNALWORDPENALTY"
+                    optional="1">
+        <help>
+            Compiled-in value of the word penalty.
+            WARNING: The correct value of this parameter is set by the context compilers.
+            Only use this to read-out the value or set an appropriate value on
+            older contexts that don't have this parameter.
+            FSTDP Internal search parameter
+        </help>
+  </IntegerParameter>
+  
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_USEFSTDPINSECONDPASS"
+                    optional="1">
+        <help>
+            Enables/disables the use of the fstdp for the second pass. If disabled,
+            wordpairdp is used.
+            Allowed values: 0 (disabled), 1 (enabled, nbest-rescore), or 2 (enabled, lattice-rescore).
+            Default: 0 (disabled)
+            FSTDP Internal search parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_USESILENCEFORINJECTION"
+                    optional="1">
+        <help>
+            Enables/disables use of silence arcs to enter/exit embedded FST contexts. This reduces memory
+            usage when using fstdp lattice-rescore in second pass.
+            Allowed values: 0, 1
+            Default: 0
+            FSTDP Internal context parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_SEARCHTYPE"
+                    optional="1">
+        <help>
+            Set the FST search type to be used.
+            Allowed values: LH_FSTDP_SEARCHTYPE_* as defined in ictxfst.h
+            Default: LH_FSTDP_SEARCHTYPE_DEFAULT
+            FSTDP Internal context parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_SEARCHTYPE_SECONDPASS"
+                    optional="1">
+        <help>
+            Set the FST second-pass search type to be used.
+            Allowed values: LH_FSTDP_SEARCHTYPE_* as defined in ictxfst.h
+            Default: LH_FSTDP_SEARCHTYPE_DEFAULT
+            FSTDP Internal context parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_SEARCH_NBRTHREADS"
+                    optional="1">
+        <help>
+            Set the number of threads used in multi-threaded search.
+            Default: 1
+            FSTDP Internal context parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_FSTDP_PRIVPARAM_GRAMMARSTATECACHE_SIZE"
+                    optional="1">
+        <help>
+            Set the size of the FSTCompiler's internal grammar state cache.
+            Only used for dynamic FST composition.
+            Default: 50
+            FSTDP Internal context parameter
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_REC_PARAM_AUTOMATIC_RESTART"
+                    optional="1">
+        <help>
+            Restart recognizer after a result has been generated.
+  
+            When this parameter is enabled, the recognizer will not finish after a result has been generated,
+            but rather restart listening to the incoming audio. A result is typically generated because
+            trailing silence has been detected by this recognizer.
+            Only the recognizer is restarted, not the entire audio chain. If trailing silence is detected
+            by the front end, or any timeout occurs, the recognizer will not restart, because no additional
+            input audio will come.
+  
+            Allowed values: 0 (disabled) or 1 (enabled).
+            Default: 0 (disabled)
+            Can be used on all DP types
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_REC_PARAM_EXTRAEVENT_ENABLE"
+                    optional="1">
+        <help>
+            Enables/disables the detection of extra events on the ASR engine.
+            Allowed values: 0 (disabled) or 1 (enabled).
+            Default: 1 (enabled)
+            Can be used on all DP types, but has no use for spelling tasks.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_REC_PARAM_GARBAGE"
+                    optional="1">
+        <help>
+            Parameter for the garbage model. The garbage model is the model that matches
+            any speech in a keyword spotting-like context. The higher this parameter, the easier
+            this model matches speech and therefore may include the keywords.
+            Allowed values: 0 - 100
+            Default: 50
+            Can be used on all DP types, but has no use for spelling tasks.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_REC_PARAM_FIRSTPASS_DISTAPPROX"
+                    optional="1">
+        <help>
+            This parameter controls the amount of approximations that
+            are used for the computation of the acoustic model scores during the first-pass
+            of the search algorithm. With this parameter, a trade-off can be made between
+            the CPU-load and recognition accuracy of the first-pass: high values for this
+            parameter lead to more approximations and hence to a lower CPU-load, but also
+            potentially to a lower recognition accuracy after the first-pass of the search
+            algorithm. The approximations are turned off if the value of this parameter is
+            set to 0.
+            Allowed values: 0 - 15000
+            Default: 7000
+            Can be used on all DP types.
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_REC_PARAM_RESULTSTRATEGY"
+                    optional="1">
+        <help>
+            Sets the result strategy for recognition on multiple contexts on engine.
+            Possible values values: 0 (LH_RESULTSTRATEGY_DEFAULT), 1 (LH_RESULTSTRATEGY_ALL_AT_FIRST), 2 (LH_RESULTSTRATEGY_ONLY_FIRST).
+            See LH_REC_RESULTSTRATEGY_MODE for their meaning.
+            Default: 0 (LH_RESULTSTRATEGY_DEFAULT)
+        </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="LH_REC_PARAM_SPEAKER_ADAPTATION"
+                    optional="1">
+        <help>
+            Speaker adaptation mode
+            The parameter affects until Recognizer is not started.
+            If Recognizer is already started it will be applied for the next start.
+
+            Possible values values: 0 (LH_REC_SPEAKER_PROFILE_AUTOMATIC), 1 (LH_REC_SPEAKER_PROFILE_APPLY), 2 (LH_REC_SPEAKER_PROFILE_TRAIN), 3 (LH_REC_SPEAKER_PROFILE_DISABLE).
+            See LH_REC_SPEAKER_ADAPT_MODE for their meaning.
+            Default: 0 (LH_REC_SPEAKER_PROFILE_AUTOMATIC)
+        </help>
+  </IntegerParameter>
+
+</ParameterSpecification>
