@@ -4,10 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
 
-//namespace BuddyApp.Weather
-//{
-//}
-
 namespace BuddyApp.Weather
 {
 
@@ -101,24 +97,47 @@ namespace BuddyApp.Weather
         private void ExtractForecast(string iSpeech)
         {
             iSpeech = iSpeech.ToLower();
-            if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("snow")))
-                mWeatherB.mForecast = WeatherType.SNOWY;
+            if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("chanceflurries")))
+                mWeatherB.mForecast = WeatherType.CHANCE_FLURRIES;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("chanceofrain")))
+                mWeatherB.mForecast = WeatherType.CHANCE_OF_RAIN;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("chancesleet")))
+                mWeatherB.mForecast = WeatherType.CHANCE_SLEET;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("chancesnow")))
+                mWeatherB.mForecast = WeatherType.CHANCE_SNOW;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("chancestorms")))
+                mWeatherB.mForecast = WeatherType.CHANCE_STORMS;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("clear")))
+                mWeatherB.mForecast = WeatherType.CLEAR;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("cloudy")))
+                mWeatherB.mForecast = WeatherType.CLOUDY;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("flurries")))
+                mWeatherB.mForecast = WeatherType.FLURRIES;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("fog")))
+                mWeatherB.mForecast = WeatherType.FOG;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("hazy")))
+                mWeatherB.mForecast = WeatherType.HAZY;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("mostlycloudy")))
+                mWeatherB.mForecast = WeatherType.MOSTLY_CLOUDY;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("mostlysunny")))
+                mWeatherB.mForecast = WeatherType.MOSTLY_SUNNY;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("overcast")))
+                mWeatherB.mForecast = WeatherType.OVERCAST;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("partlycloudy")))
+                mWeatherB.mForecast = WeatherType.PARTLY_CLOUDY;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("partlysunny")))
+                mWeatherB.mForecast = WeatherType.PARTLY_SUNNY;
             else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("rainy")))
                 mWeatherB.mForecast = WeatherType.RAIN;
-            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("fog")))
-                mWeatherB.mForecast = WeatherType.OVERCAST;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("sleet")))
+                mWeatherB.mForecast = WeatherType.SLEET;
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("snow")))
+                mWeatherB.mForecast = WeatherType.SNOW;
             else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("sun")))
                 mWeatherB.mForecast = WeatherType.SUNNY;
-            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("chanceofrainy")))
-                mWeatherB.mForecast = WeatherType.CHANCE_OF_RAIN;
-            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("wind")))
-            {
-                // TODO
-            }
             else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("thunder")))
-                mWeatherB.mForecast = WeatherType.OVERCAST;
-            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("cloud")))
-                mWeatherB.mForecast = WeatherType.CLOUDY;
+                mWeatherB.mForecast = WeatherType.THUNDERSTORMS;
+
         }
 
         private void ExtractLocation(string iSpeech)
@@ -173,21 +192,21 @@ namespace BuddyApp.Weather
                 mWeatherB.mHour = lHour[0];
             }
 
-            if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("morning")))
+            if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("morning")) || ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("am")))
             {
                 if (mWeatherB.mHour == -1)
                     mWeatherB.mHour = 8;
 
                 mWeatherB.mWeatherTime = WeatherBehaviour.WeatherMoment.MORNING;
             }
-            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("noon")) || ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("pm")))
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("noon")) || ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("am")))
             {
                 if (mWeatherB.mHour == -1)
                     mWeatherB.mHour = 12;
                 mWeatherB.mWeatherTime = WeatherBehaviour.WeatherMoment.NOON;
 
             }
-            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("afternoon")))
+            else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("afternoon")) || ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("pm")))
             {
                 if (mWeatherB.mHour == -1)
                     mWeatherB.mHour = 16;
