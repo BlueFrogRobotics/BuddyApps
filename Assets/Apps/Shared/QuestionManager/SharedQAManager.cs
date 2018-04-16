@@ -65,19 +65,31 @@ namespace BuddyApp.Shared
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            //Debug.Log("0.1");
+            //Interaction lol;
+            //Debug.Log("0.2");
+            //VocalManager lol2;
+            Debug.Log("1");
             Interaction.VocalManager.OnEndReco = OnSpeechReco;
+            Debug.Log("2");
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
+            Debug.Log("3");
             Interaction.VocalManager.OnError = null;
-            
+            Debug.Log("4");
             mListening = false;
+            Debug.Log("5");
             mSoundPlayed = false;
+            Debug.Log("6");
             mKeyList = new List<string>();
+            Debug.Log("7");
             mTimer = 0F;
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("avant fill Menu");
             FillMenu();
+            Debug.Log("apres fill menu");
             mTimer += Time.deltaTime;
 
             if(mNumberOfButton > 3 && IsBinaryQuestion)
@@ -140,7 +152,7 @@ namespace BuddyApp.Shared
                 }
                 foreach (QuestionItem item in items)
                 {
-                    if (VocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    if (SharedVocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
                     {
                         BYOS.Instance.Toaster.Hide();
                         GotoParameter(item.trigger);
@@ -192,7 +204,7 @@ namespace BuddyApp.Shared
 
                 foreach (QuestionItem item in items)
                 {
-                    if (VocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    if (SharedVocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
                     {
                         BYOS.Instance.Toaster.Hide();
                         GotoParameter(item.trigger);
@@ -242,7 +254,7 @@ namespace BuddyApp.Shared
 
         private bool IsKey(string iKey)
         {
-            if (iKey.Where(char.IsUpper).Any() || VocalFunctions.ContainsWhiteSpace(iKey)  || VocalFunctions.ContainsSpecialChar(iKey))
+            if (iKey.Where(char.IsUpper).Any() || SharedVocalFunctions.ContainsWhiteSpace(iKey)  || SharedVocalFunctions.ContainsSpecialChar(iKey))
                 return false;
             else return true;
         }
@@ -318,6 +330,8 @@ namespace BuddyApp.Shared
                     }
                 }
             }
-        }
-    }
+            else
+                Debug.Log("Problem File doesnt exist");
+        }  
+    } 
 }

@@ -100,7 +100,7 @@ namespace BuddyApp.Shared
                 }
                 foreach (MenuItem item in items)
                 {
-                    if (VocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    if (SharedVocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
                     {
                         BYOS.Instance.Toaster.Hide();
                         GotoParameter(item.trigger, item.quitApp);

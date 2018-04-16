@@ -43,12 +43,10 @@ namespace BuddyApp.SandboxApp
         private bool IsMultipleToaster;
        
         private bool mIsDisplayed;
-        ButtonInfo mButtonLeft;
-        ButtonInfo mButtonRight;
 
         private string mSpeechReco;
         private bool mListening;
-        private TextToSpeech mTTS;
+        private TextToSpeech mTTS; 
         private float mTimer;
         private MoodType mActualMood;
         private List<string> mKeyList;

@@ -72,7 +72,7 @@ namespace BuddyApp.Shared
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
+            
             mCam.Open(RGBCamResolution.W_320_H_240);
             if (!AreaToDetect)
                 mMotion.OnDetect(OnMovementDetected, 3F);
