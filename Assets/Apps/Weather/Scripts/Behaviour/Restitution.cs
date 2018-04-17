@@ -504,27 +504,27 @@ namespace BuddyApp.Weather
             if (iWeatherInfo.Hour >= 8 && iWeatherInfo.Hour < 12)
             {
                 iTrip.Morning();
-                iTrip.SetMoment("MORNING");
+                iTrip.SetMoment(Dictionary.GetRandomString("morning").ToUpper());
             }
             else if (iWeatherInfo.Hour >= 12 && iWeatherInfo.Hour < 16)
             {
                 iTrip.Noon();
                 if (iDisplayDayOfWeek)
-                    iTrip.SetMoment(dt.DayOfWeek.ToString());
+                    iTrip.SetMoment(Dictionary.GetRandomString(dt.DayOfWeek.ToString().ToLower()).ToUpper());
                 else
-                    iTrip.SetMoment("NOON");
+                    iTrip.SetMoment(Dictionary.GetRandomString("noon").ToUpper());
             }
             else if (iWeatherInfo.Hour >= 16 && iWeatherInfo.Hour < 20)
             {
                 iTrip.After_Noon();
-                iTrip.SetMoment("AFTERNOON");
+                iTrip.SetMoment(Dictionary.GetRandomString("afternoon").ToUpper());
             }
             else
             {
                 iTrip.Evening();
                 iTrip.ChangeMomentColor(Color.white);
                 iTrip.ChangeTextColor(Color.white);
-                iTrip.SetMoment("EVENING");
+                iTrip.SetMoment(Dictionary.GetRandomString("evening").ToUpper());
             }
             if (iWeatherInfo.Hour >= 8 && iWeatherInfo.Hour <= 18)
                 iTrip.SetSun();
