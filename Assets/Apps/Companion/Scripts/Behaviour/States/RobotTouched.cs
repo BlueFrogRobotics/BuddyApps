@@ -85,10 +85,10 @@ namespace BuddyApp.Companion
 				// TO DO:
 				// after no touch for a while, go to user detected?
 
-				if (!mActionManager.ActiveAction() && Interaction.SpeechToText.HasFinished && Interaction.TextToSpeech.HasFinishedTalking) {
+				if (Interaction.BMLManager.DonePlaying && Interaction.SpeechToText.HasFinished && Interaction.TextToSpeech.HasFinishedTalking) {
 
 					if (mLastPartTouched == FaceTouch.OTHER) {
-						if (Time.time - mLastTouchTime > 5F) {
+						if (Time.time - mLastTouchTime > 4F) {
 							Debug.Log("Robot touched ask again");
 							// ask touch again if not enough positivity
 							if (Interaction.InternalState.Positivity < 3)
@@ -110,7 +110,7 @@ namespace BuddyApp.Companion
 
 					}
 
-					if (Time.time - mLastTouchTime > 7F) {
+					if (Time.time - mLastTouchTime > 8F) {
 						// if nothing for 7s
 						if (mFaceCounter > 2 && mEyeCounter < 2)
 							Trigger("FOLLOW");

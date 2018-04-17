@@ -144,10 +144,10 @@ namespace BuddyApp.Companion
 
 				string[] words = iSpeech.Split(' ');
 				if (words.Length < 2 && !string.IsNullOrEmpty(words[0])) {
-					if (words[0].ToLower() == iListSpeech[i].ToLower()) {
+					if (words[0].ToLower() == iListSpeech[i].ToLower().Trim()) {
 						return true;
 					}
-				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower().Trim()))
 					return true;
 			}
 			return false;

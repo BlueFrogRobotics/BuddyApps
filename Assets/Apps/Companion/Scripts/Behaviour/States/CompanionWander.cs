@@ -81,79 +81,29 @@ namespace BuddyApp.Companion
 				Trigger("IDLE");
 
 
-			// if we follow for a while, or lose the target for 5 seconds, go back to wander:
-			//if (mActionManager.ThermalFollow && (Time.time - mTimeThermal > CompanionData.Instance.mInteractDesire
-			//	|| (Time.time - mTimeLastThermal > 5.0F) && Interaction.BMLManager.DonePlaying && CompanionData.Instance.CanMoveBody))
-			//	mActionManager.StartWander(mActionManager.WanderingMood);
-
-			//////////////
-
-
 
 			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
+			if (mDetectionManager.mDetectedElement != Detected.NONE) {
 
-			if (mDetectionManager.mDetectedElement != Detected.NONE && mDetectionManager.mDetectedElement != Detected.TOUCH) {
+				if (mDetectionManager.mDetectedElement != Detected.TOUCH && ( mDetectionManager.mFacePartTouched == FaceTouch.LEFT_EYE || mDetectionManager.mFacePartTouched == FaceTouch.RIGHT_EYE)){
+					//If eye poked, angry / scared wander
+					if(Interaction.InternalState.Positivity > 0) {
+						mActionManager.WanderingMood = MoodType.SCARED;
+						mActionManager.StartWander(mActionManager.WanderingMood);
+					} else {
+						mActionManager.WanderingMood = MoodType.ANGRY;
+						mActionManager.StartWander(mActionManager.WanderingMood);
+					}
 
-				string lTrigger = mActionManager.LaunchReaction(COMPANION_STATE.WANDER, mDetectionManager.mDetectedElement);
-				if (!string.IsNullOrEmpty(lTrigger)) {
-					Trigger(lTrigger);
-					mTrigged = true;
-				} else
-					mTrigged = false;
+				} else {
+					string lTrigger = mActionManager.LaunchReaction(COMPANION_STATE.WANDER, mDetectionManager.mDetectedElement);
+					if (!string.IsNullOrEmpty(lTrigger)) {
+						Trigger(lTrigger);
+						mTrigged = true;
+					} else
+						mTrigged = false;
+				}
 			}
-
-			//switch (mDetectionManager.mDetectedElement) {
-
-
-			//	case Detected.TRIGGER:
-			//		mTrigged = true;
-			//		Trigger("VOCALTRIGGERED");
-			//		break;
-
-			//	case Detected.TOUCH:
-			//		mTrigged = true;
-			//		Trigger("ROBOTTOUCHED");
-			//		break;
-
-			//	case Detected.KIDNAPPING:
-			//		mTrigged = true;
-			//		Trigger("KIDNAPPING");
-			//		break;
-
-			//	case Detected.BATTERY:
-			//		mTrigged = true;
-			//		Trigger("CHARGE");
-			//		break;
-
-			//	// If thermal signature, activate thermal follow for some time
-			//	case Detected.THERMAL:
-			//		mTimeLastThermal = Time.time;
-			//		if (CompanionData.Instance.InteractDesire > 80 && CompanionData.Instance.InteractDesire > CompanionData.Instance.MovingDesire) {
-			//			mTrigged = true;
-			//			Trigger("INTERACT");
-			//		} else if (CompanionData.Instance.InteractDesire > 30 && !mActionManager.ThermalFollow && Interaction.BMLManager.DonePlaying && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
-			//			//Stop wandering and go to thermal follow
-			//			Debug.Log("CompanionWander start following " + CompanionData.Instance.InteractDesire);
-			//			mTimeThermal = Time.time;
-			//			mDetectionManager.mDetectedElement = Detected.NONE;
-			//			Interaction.Mood.Set(MoodType.HAPPY);
-			//			mActionManager.StartThermalFollow(HumanFollowType.BODY);
-			//		}
-			//		break;
-
-			//	//case Detected.HUMAN_RGB & Detected.THERMAL:
-			//	//	// TODO: check false positive level
-			//	//	mTrigged = true;
-			//	//	if (CompanionData.Instance.InteractDesire > CompanionData.Instance.MovingDesire) {
-			//	//		mTrigged = true;
-			//	//		Trigger("INTERACT");
-			//	//	}
-			//	//	break;
-
-			//	default:
-			//		mDetectionManager.mDetectedElement = Detected.NONE;
-			//		break;
-			//}
 
 			if (!mTrigged) {
 				// TODO maybe check the situation only every x seconds

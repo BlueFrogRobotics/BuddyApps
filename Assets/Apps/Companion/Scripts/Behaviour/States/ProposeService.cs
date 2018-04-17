@@ -65,8 +65,9 @@ namespace BuddyApp.Companion
 		{
 			mTime += Time.deltaTime;
 
-			if (mTime > 60F || mNoGame) {
+			if (mTime > 30F || mNoGame) {
 				iAnimator.SetTrigger("INTERACT");
+				CompanionData.Instance.mHelpDesire -= 30;
 			}
 
 			if (Interaction.TextToSpeech.HasFinishedTalking && mNeedListen) {
@@ -94,6 +95,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			Toaster.Hide();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
@@ -160,7 +162,7 @@ namespace BuddyApp.Companion
 					break;
 
 				case "nogame":
-					CompanionData.Instance.mHelpDesire += 10;
+					CompanionData.Instance.mHelpDesire -= 50;
 					mNoGame = true;
 					break;
 			}

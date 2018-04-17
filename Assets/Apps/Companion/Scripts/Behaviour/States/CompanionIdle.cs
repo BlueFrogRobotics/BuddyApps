@@ -62,15 +62,17 @@ namespace BuddyApp.Companion
 			// Play BML after 4 seconds every 8 seconds or launch desired action
 			if (((int)mTimeIdle) % 8 == 4 && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
 				mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.IDLE);
+				Debug.Log("Desired action: " + mActionTrigger);
 
 				// if no desired action
 				if (string.IsNullOrEmpty(mActionTrigger) || mActionTrigger == "IDLE") {
 
 
 					// if IDLE for a while and tired
-					if (mTimeIdle > 100 + 10 * BYOS.Instance.Interaction.InternalState.Energy) {
+					if (mTimeIdle > 0F /*+ 10 * BYOS.Instance.Interaction.InternalState.Energy*/) {
 						BYOS.Instance.Interaction.Mood.Set(MoodType.TIRED);
 						mActionTrigger = "NAP";
+						Debug.Log("!!!!!!!!!!!! NAP TRIGGERED !!!!!!!!!!!!!!");
 						Trigger("NAP");
 					} else {
 						//if no desired action, play BML
