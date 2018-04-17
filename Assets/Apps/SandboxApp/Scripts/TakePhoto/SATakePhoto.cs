@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
 using UnityEngine.UI;
+using System.Linq;
+using System.IO;
+using System.Xml;
 using OpenCVUnity;
 
 namespace BuddyApp.SandboxApp
@@ -26,23 +29,31 @@ namespace BuddyApp.SandboxApp
         private bool IsSoundForButton;
         [SerializeField]
         private FXSound FxSound;
+
+        [Header("Put your mouse on the index of the RawImage and follow the tooltip")]
         [SerializeField]
         private bool DisplayVideo;
+        [Tooltip("You need to create the rawimage in the canvas of your scene, then you put it in \"your app name\"stateMachineManager. And you put the index of your rawimage here : ")]
         [SerializeField]
-        private GameObject RawImageWhereDisplay;
+        private int IndexRawImageWhereDisplay;
+
+        [Space]
         [SerializeField]
         private bool DisplayPhotoTaken;
+        [Tooltip("If you check this you need to put all your overlays in the folder Overlay in \"your app name\"\\Resources\\Overlay")]
         [SerializeField]
         private bool WantOverlay;
         [SerializeField]
+        private string NameOfOverlay;
+        [SerializeField]
         private string TriggerToNextState;
-        private Shared.test test;
 
         private bool mIsDisplay;
         private bool mPhotoTaken;
         private Mat mMatSrc;
         private Mat mMatDest;
         private RawImage mRawImageWhereDisplay;
+        
 
         public override void Start()
         {
@@ -55,24 +66,36 @@ namespace BuddyApp.SandboxApp
         {
             if (!Primitive.RGBCam.IsOpen)
                 Primitive.RGBCam.Open(RGBCamResolution.W_640_H_480);
-            RawImageWhereDisplay.gameObject.SetActive(true);
+            GetGameObject(IndexRawImageWhereDisplay).SetActive(true);
+            mRawImageWhereDisplay = GetGameObject(IndexRawImageWhereDisplay).GetComponent<RawImage>();
+            
             mPhotoTaken = false;
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log(test.TestLol);
             Mat mMatSrc = Primitive.RGBCam.FrameMat;
             Core.flip(mMatSrc, mMatDest, 1);
 
             if (DisplayVideo)
             {
-                RawImageWhereDisplay.GetComponent<RawImage>().texture = Utils.MatToTexture2D(mMatDest);
-                if (!mIsDisplay)
+                if(!WantOverlay)
                 {
-                    DisplayToast();
-                    mIsDisplay = true;
+                    mRawImageWhereDisplay.texture = Utils.MatToTexture2D(mMatDest);
                 }
+                else
+                {
+                    if(IsFolderEmpty())
+                    {
+                        Debug.Log("Your overlay doesn't exist, check if it is in the right folder (\"your app name\"\\Resources\\Overlay) or check if your extension is .png or .PNG");
+                    }
+                    else
+                    {
+                        //l'overlay existe et on l'affiche
+                        
+                    }
+                }
+                
             }
             
         }
@@ -85,6 +108,16 @@ namespace BuddyApp.SandboxApp
         private void DisplayToast()
         {
             
+        }
+
+        private bool IsFolderEmpty()
+        {
+            string lPath = BYOS.Instance.Resources.GetPathToRaw("Overlay");
+            if(!File.Exists(lPath + "/" + NameOfOverlay + ".png") || !File.Exists(lPath + "/" + NameOfOverlay + ".PNG"))
+            {
+                return true;
+            }
+            return false;
         }
 
     }
