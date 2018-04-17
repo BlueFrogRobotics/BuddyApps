@@ -12,6 +12,8 @@ namespace BuddyApp.SandboxApp
 {
     public class QAManager : AStateMachineBehaviour
     {
+        //TODO : Add a timeout to all the question
+
         [SerializeField]
         private string NameOfXML;
         [SerializeField]
@@ -22,6 +24,8 @@ namespace BuddyApp.SandboxApp
         private bool IsSoundForButton;
         [SerializeField]
         private FXSound FxSound;
+        [SerializeField]
+        private float Timeout;
 
         public class QuestionItem
         {

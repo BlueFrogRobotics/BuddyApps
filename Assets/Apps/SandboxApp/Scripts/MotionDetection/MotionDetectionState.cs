@@ -22,6 +22,8 @@ namespace BuddyApp.SandboxApp
         [SerializeField]
         private bool DisplayMovement;
         [SerializeField]
+        private bool WantToFlip;
+        [SerializeField]
         private Color32 ColorOfDisplay;
         [SerializeField]
         private string TriggerWhenDetected;
@@ -68,6 +70,7 @@ namespace BuddyApp.SandboxApp
             mMotion = Perception.Motion;
             mCam = Primitive.RGBCam;
             mIsDisplay = false;
+            
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -97,7 +100,8 @@ namespace BuddyApp.SandboxApp
                 mIsDisplay = true;
                 mMat = mCam.FrameMat.clone();
                 mMatCopy = mMat.clone();
-                Core.flip(mMatCopy, mMatCopy, 1);
+                if(!WantToFlip)
+                    Core.flip(mMatCopy, mMatCopy, 1);
                 mTexture = Utils.MatToTexture2D(mMatCopy);
                 Toaster.Display<PictureToast>().With(Dictionary.GetString(Key), Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
             }
@@ -107,7 +111,8 @@ namespace BuddyApp.SandboxApp
                 {
                     mMat = mCam.FrameMat.clone();
                     mMatCopy = mMat.clone();
-                    Core.flip(mMatCopy, mMatCopy, 1);
+                    if (!WantToFlip)
+                        Core.flip(mMatCopy, mMatCopy, 1);
                     mTextureRefresh = Utils.MatToTexture2D(mMatCopy);
                     mTexture.SetPixels(mTextureRefresh.GetPixels());
                 }
@@ -115,7 +120,8 @@ namespace BuddyApp.SandboxApp
                 {
                     mMat = mCam.FrameMat.clone();
                     mMatCopy = mMat.clone();
-                    Core.flip(mMatCopy, mMatCopy, 1);
+                    if (!WantToFlip)
+                        Core.flip(mMatCopy, mMatCopy, 1);
                     Imgproc.rectangle(mMatCopy, new Point((int)(mMatCopy.width() / 3), 0), new Point((int)(mMatCopy.width() * 2 / 3), mMatCopy.height()), new Scalar(ColorOfDisplay), 3);
                     mTextureRefresh = Utils.MatToTexture2D(mMatCopy);
                     mTexture.SetPixels(mTextureRefresh.GetPixels());
@@ -168,7 +174,8 @@ namespace BuddyApp.SandboxApp
         {
             mMatDetection = mCam.FrameMat.clone();
             mMatDetectionCopy = mMatDetection.clone();
-            Core.flip(mMatDetectionCopy, mMatDetectionCopy, 1);
+            if (!WantToFlip)
+                Core.flip(mMatDetectionCopy, mMatDetectionCopy, 1);
             if (iMotions.Length > 2)
             {
                 bool lInRectangle = false;
