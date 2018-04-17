@@ -1196,11 +1196,12 @@
             The 'start rule' that produced the last best result. Format is 'grammarName#startRuleName'.
             </summary>
         </member>
-        <member name="M:Buddy.VoconSTT.LaunchRecognition(System.String)">
+        <member name="M:Buddy.VoconSTT.LaunchRecognition(System.String[],System.Int32)">
             <summary>
             Start the Vocon recognition engine.
             </summary>
             <param name="iGrammar">The path to the grammar that will be used.</param>
+            <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
         </member>
         <member name="M:Buddy.VoconSTT.SetLanguage(Buddy.Language)">
             <summary>
@@ -5113,6 +5114,54 @@
             <param name="iID"></param>
         </member>
         <member name="M:Buddy.Command.UninstallAppCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:Buddy.Command.LaunchBMLCmd">
+            <summary>
+            When executed : launches a BML with the given name.
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.LaunchBMLCmd.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.LaunchBMLCmd.#ctor(System.String)">
+            <summary>
+            When executed : launches a BML with the given name.
+            </summary>
+            <param name="iName">Name of the BML.</param>
+        </member>
+        <member name="M:Buddy.Command.LaunchBMLCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:Buddy.Command.LaunchRandomBMLCmd">
+            <summary>
+            When executed : launches a BML with the given category.
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.LaunchRandomBMLCmd.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.LaunchRandomBMLCmd.#ctor(System.String)">
+            <summary>
+            When executed : launches a BML with the given category.
+            </summary>
+            <param name="iCategory">The category to launch from.</param>
+        </member>
+        <member name="M:Buddy.Command.LaunchRandomBMLCmd.#ctor(Buddy.MoodType)">
+            <summary>
+            When executed : launches a BML with the given category.
+            </summary>
+            <param name="iType">The mood type category to launch from.</param>
+        </member>
+        <member name="M:Buddy.Command.LaunchRandomBMLCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
