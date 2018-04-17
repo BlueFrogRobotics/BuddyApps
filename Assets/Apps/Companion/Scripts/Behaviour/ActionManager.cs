@@ -33,6 +33,8 @@ namespace BuddyApp.Companion
 	public enum COMPANION_STATE
 	{
 		IDLE,
+		NAP,
+		NOTIFY,
 		USER_DETECTED,
 		WANDER,
 		DANCE,
@@ -306,17 +308,25 @@ namespace BuddyApp.Companion
 				case Detected.TRIGGER:
 					Debug.Log("[Companion][ActionManager] reaction vocal trigger");
 					// TODO: add exception states if needed
-					return "VOCALCOMMAND";
+					if (iState == COMPANION_STATE.NAP)
+						return "IDLE";
+					else
+						return "VOCALCOMMAND";
 
 				case Detected.MOUTH_TOUCH:
 					Debug.Log("[Companion][ActionManager] reaction robot mouth touched");
 					// TODO: add exception states if needed
+
 					return "VOCALCOMMAND";
 
 				case Detected.TOUCH:
 					Debug.Log("[Companion][ActionManager] reaction robot touched");
 					// TODO: add exception states if needed
-					return "ROBOTTOUCHED";
+
+					if (iState == COMPANION_STATE.NAP)
+						return "IDLE";
+					else
+						return "ROBOTTOUCHED";
 
 				case Detected.KIDNAPPING:
 					Debug.Log("[Companion][ActionManager] reaction kidnapping");
@@ -333,7 +343,8 @@ namespace BuddyApp.Companion
 					Debug.Log("[Companion][ActionManager] reaction thermal");
 					// TODO: add exception states if needed
 
-					if (iState == COMPANION_STATE.WANDER && CompanionData.Instance.mMovingDesire < 60)
+
+					if ((iState == COMPANION_STATE.WANDER && CompanionData.Instance.mMovingDesire < 60) || iState == COMPANION_STATE.NAP)
 						return "";
 
 					StopAllActions();
@@ -354,7 +365,11 @@ namespace BuddyApp.Companion
 				case Detected.HUMAN_RGB:
 					Debug.Log("[Companion][ActionManager] reaction human rgb");
 					// TODO: add exception states if needed
-					return "INTERACT";
+
+					if (iState == COMPANION_STATE.NAP)
+						return "";
+					else
+						return "INTERACT";
 
 				default:
 					Debug.Log("[Companion][ActionManager] reaction default");
@@ -442,7 +457,7 @@ namespace BuddyApp.Companion
 			}
 
 		}
-		
+
 
 
 		public void EyeReaction()

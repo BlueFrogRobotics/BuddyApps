@@ -35,9 +35,11 @@ namespace BuddyApp.Companion
 
 			mTimeIdle = 0F;
 
-			Interaction.Face.SetEvent(FaceEvent.YAWN);
-			Primitive.Speaker.Voice.Play(VoiceSound.YAWN);
-			
+			BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
+
+			//Interaction.Face.SetEvent(FaceEvent.YAWN);
+			//Primitive.Speaker.Voice.Play(VoiceSound.YAWN);
+
 			StartCoroutine(SearchingHeadCo());
 			mHeadPlaying = true;
 		}
@@ -46,7 +48,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mState.text = "IDLE "  + (DateTime.Now - BYOS.Instance.StartTime).TotalSeconds +  "\n interactDesire: " + CompanionData.Instance.mInteractDesire
+			mState.text = "IDLE " + (DateTime.Now - BYOS.Instance.StartTime).TotalSeconds + "\n interactDesire: " + CompanionData.Instance.mInteractDesire
 				+ "\n wanderDesire: " + CompanionData.Instance.mMovingDesire;
 
 			if (BYOS.Instance.Interaction.BMLManager.DonePlaying) {
@@ -60,12 +62,25 @@ namespace BuddyApp.Companion
 			// Play BML after 4 seconds every 8 seconds or launch desired action
 			if (((int)mTimeIdle) % 8 == 4 && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
 				mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.IDLE);
+
+				// if no desired action
 				if (string.IsNullOrEmpty(mActionTrigger) || mActionTrigger == "IDLE") {
-					//if no desired action, play BML
-					Debug.Log("Play neutral BML IDLE");
-					mHeadPlaying = false;
-					StopCoroutine(SearchingHeadCo());
-					BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
+
+
+					// if IDLE for a while and tired
+					if (mTimeIdle > 100 + 10 * BYOS.Instance.Interaction.InternalState.Energy) {
+						BYOS.Instance.Interaction.Mood.Set(MoodType.TIRED);
+						mActionTrigger = "NAP";
+						Trigger("NAP");
+					} else {
+						//if no desired action, play BML
+						Debug.Log("Play neutral BML IDLE");
+						mHeadPlaying = false;
+						StopCoroutine(SearchingHeadCo());
+						BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
+					}
+
+
 				} else {
 					// Otherwise trigger to perform the action
 					Debug.Log("Trigger action " + mActionTrigger);
@@ -93,7 +108,7 @@ namespace BuddyApp.Companion
 			mHeadPlaying = false;
 			StopCoroutine(SearchingHeadCo());
 		}
-		
+
 
 		//This makes the head look right and left on random angles
 		private IEnumerator SearchingHeadCo()

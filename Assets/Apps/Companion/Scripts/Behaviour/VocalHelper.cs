@@ -477,6 +477,9 @@ namespace BuddyApp.Companion
 				lType = "Pose";
 			else if (ContainsOneOf(iSpeech, "photo"))
 				lType = "Photo";
+			else if (ContainsOneOf(iSpeech, "weather"))
+				lType = "Weather";
+
 			//else if (ContainsOneOf(iSpeech, "story"))
 			//	lType = "Story";
 
@@ -502,6 +505,14 @@ namespace BuddyApp.Companion
 					lType = "ListenJoke";
 				else
 					lType = "Joke";
+
+
+
+
+
+
+
+
 			} else if (ContainsOneOf(iSpeech, mAcceptSpeech))
 				lType = "Accept";
 			else if (ContainsOneOf(iSpeech, mQuitSpeech))
@@ -526,18 +537,7 @@ namespace BuddyApp.Companion
 			} else if (ContainsOneOf(iSpeech, "mood")) {
 				Debug.Log("vocalHelper mood");
 				lType = "Mood";
-			} else if (ContainsOneOf(iSpeech, "weather")) {
-				lType = "Weather";
-				//We search for the location of the weather request
-				/*int lKeywordIndex = WordIndexOfOneOf(iSpeech, mMeteoSpeech);
-				string[] lWords = iSpeech.Split(' ');
-				string lWeatherPlace = "";
 
-				if (lKeywordIndex != -1 && lKeywordIndex != lWords.Length) {
-					for (int j = lKeywordIndex + 2; j < lWords.Length; j++)
-						lWeatherPlace += lWords[j] + " ";
-				}
-				StartCoroutine(BuildWeatherAnswer(lWeatherPlace));*/
 			} else if (ContainsOneOf(iSpeech, mDefinitionSpeech)) {
 				lType = "Definition";
 				//We search for the location of the weather request
