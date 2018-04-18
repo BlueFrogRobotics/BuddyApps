@@ -344,7 +344,7 @@ namespace BuddyApp.Companion
 					// TODO: add exception states if needed
 
 
-					if ((iState == COMPANION_STATE.WANDER && CompanionData.Instance.mMovingDesire < 60) || iState == COMPANION_STATE.NAP)
+					if ((iState == COMPANION_STATE.WANDER && CompanionData.Instance.mMovingDesire > 40) || iState == COMPANION_STATE.NAP)
 						return "";
 
 					StopAllActions();

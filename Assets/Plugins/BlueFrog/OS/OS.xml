@@ -927,6 +927,11 @@
             Buddy's internal state of mind.
             </summary>
         </member>
+        <member name="P:Buddy.Interaction.VoconSTT">
+            <summary>
+            An STT based on Nuance Vocon technology. It's a fully embedded solution which uses grammars during the recognition process.
+            </summary>
+        </member>
         <member name="P:Buddy.BMLManager.ActiveBML">
             <summary>
             The list of all currently running behaviors.
@@ -1160,6 +1165,48 @@
             <summary>
             STT recognition state
             </summary>
+        </member>
+        <member name="T:Buddy.VoconSTT">
+            <summary>
+            An STT based on Nuance Vocon technology. It's a fully embedded solution which uses grammars during the recognition process.
+            </summary>
+        </member>
+        <member name="P:Buddy.VoconSTT.HasFinished">
+            <summary>
+            Is the recognizer still running ?
+            </summary>
+        </member>
+        <member name="P:Buddy.VoconSTT.LastResult">
+            <summary>
+            Last best result.
+            </summary>
+        </member>
+        <member name="P:Buddy.VoconSTT.LastResultText">
+            <summary>
+            Last best result's text.
+            </summary>
+        </member>
+        <member name="P:Buddy.VoconSTT.LastResultConfidence">
+            <summary>
+            Last best result's confidence level, between 1 (low confidence) and 9999 (high confidence).
+            </summary>
+        </member>
+        <member name="P:Buddy.VoconSTT.LastResultStartRule">
+            <summary>
+            The 'start rule' that produced the last best result. Format is 'grammarName#startRuleName'.
+            </summary>
+        </member>
+        <member name="M:Buddy.VoconSTT.LaunchRecognition(System.String)">
+            <summary>
+            Start the Vocon recognition engine.
+            </summary>
+            <param name="iGrammar">The path to the grammar that will be used.</param>
+        </member>
+        <member name="M:Buddy.VoconSTT.SetLanguage(Buddy.Language)">
+            <summary>
+            Set the language of the Speech To Text
+            </summary>
+            <param name="iLanguage">The language enum.</param>
         </member>
         <member name="T:Buddy.IOT">
             <summary>
@@ -3626,9 +3673,69 @@
             Chance of rain
             </summary>
         </member>
-        <member name="F:Buddy.WeatherType.SNOWY">
+        <member name="F:Buddy.WeatherType.SNOW">
             <summary>
             Snowy weather
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.CHANCE_FLURRIES">
+            <summary>
+            Chance of flurries.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.CHANCE_SLEET">
+            <summary>
+            Chance of sleet.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.CHANCE_SNOW">
+            <summary>
+            Chance of snow.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.CHANCE_STORMS">
+            <summary>
+            Chance of storms.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.FLURRIES">
+            <summary>
+            Chance of flurries.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.FOG">
+            <summary>
+            Foggy weather.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.HAZY">
+            <summary>
+            Hazy weather.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.MOSTLY_CLOUDY">
+            <summary>
+            Mostly cloudy weather.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.MOSTLY_SUNNY">
+            <summary>
+            Mostly sunny weather.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.PARTLY_SUNNY">
+            <summary>
+            Some sun.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.SLEET">
+            <summary>
+            Sleet.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.THUNDERSTORMS">
+            <summary>
+            Thunderstorms.
             </summary>
         </member>
         <member name="T:Buddy.WeatherError">

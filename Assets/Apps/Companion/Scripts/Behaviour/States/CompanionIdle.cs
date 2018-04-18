@@ -69,7 +69,7 @@ namespace BuddyApp.Companion
 
 
 					// if IDLE for a while and tired
-					if (mTimeIdle > 0F /*+ 10 * BYOS.Instance.Interaction.InternalState.Energy*/) {
+					if (mTimeIdle > 40F + 5 * BYOS.Instance.Interaction.InternalState.Energy) {
 						BYOS.Instance.Interaction.Mood.Set(MoodType.TIRED);
 						mActionTrigger = "NAP";
 						Debug.Log("!!!!!!!!!!!! NAP TRIGGERED !!!!!!!!!!!!!!");

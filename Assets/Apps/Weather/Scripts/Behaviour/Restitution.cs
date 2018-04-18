@@ -314,7 +314,7 @@ namespace BuddyApp.Weather
                 trip.SetRain();
             }
 
-            else if (Info.Type == WeatherType.SNOWY)
+            else if (Info.Type == WeatherType.SNOW)
             {
                 Debug.Log("SNOWWW");
                 trip.SetCloud6();

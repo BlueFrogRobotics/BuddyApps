@@ -42,7 +42,7 @@ namespace BuddyApp.Companion
 			if (GetMaxDesireValue() < 100) {
 
 
-				if (Time.time - mPreviousTime > 5F) {
+				if (Time.time - mPreviousTime > 1F) {
 					mPreviousTime = Time.time;
 
 

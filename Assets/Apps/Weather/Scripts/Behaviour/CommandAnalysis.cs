@@ -107,7 +107,7 @@ namespace BuddyApp.Weather
             iSpeech = iSpeech.ToLower();
             if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("snow")))
             {
-                mWeatherB.mForecast = WeatherType.SNOWY;
+                mWeatherB.mForecast = WeatherType.SNOW;
             }
             else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("rainy")))
             {

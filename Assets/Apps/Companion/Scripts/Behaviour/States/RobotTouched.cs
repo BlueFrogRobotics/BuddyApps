@@ -13,6 +13,7 @@ namespace BuddyApp.Companion
 		private int mEyeCounter;
 		private float mLastTouchTime;
 		private FaceTouch mLastPartTouched;
+		private float mLastSpeechTime;
 
 		public override void Start()
 		{
@@ -30,6 +31,7 @@ namespace BuddyApp.Companion
 			mState.text = "Robot Touched " + mDetectionManager.mFacePartTouched;
 			Debug.Log("state: Robot Touched: " + mDetectionManager.mFacePartTouched);
 			mLastTouchTime = 0F;
+			mLastSpeechTime = 0F;
 			mFaceCounter = 0;
 			mEyeCounter = 0;
 			mLastPartTouched = mDetectionManager.mFacePartTouched;
@@ -61,7 +63,8 @@ namespace BuddyApp.Companion
 
 					mLastPartTouched = mDetectionManager.mFacePartTouched;
 
-					if (mEyeCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking) {
+					if (mEyeCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking && Time.time - mLastSpeechTime > 5F) {
+						mLastSpeechTime = Time.time;
 						Interaction.TextToSpeech.SayKey("stoppokeeye");
 					}
 
@@ -77,7 +80,8 @@ namespace BuddyApp.Companion
 					mFaceCounter++;
 
 					mLastPartTouched = mDetectionManager.mFacePartTouched;
-					if (mFaceCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking) {
+					if (mFaceCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking && Time.time - mLastSpeechTime > 5F) {
+						mLastSpeechTime = Time.time;
 						Interaction.TextToSpeech.SayKey("ilikecaress");
 					}
 				}
@@ -91,10 +95,12 @@ namespace BuddyApp.Companion
 						if (Time.time - mLastTouchTime > 4F) {
 							Debug.Log("Robot touched ask again");
 							// ask touch again if not enough positivity
-							if (Interaction.InternalState.Positivity < 3)
+							if (Interaction.InternalState.Positivity < 3 && Time.time - mLastSpeechTime > 10F) {
+								mLastSpeechTime = Time.time;
 								Interaction.TextToSpeech.SayKey("morecaress");
-							// else go back to User detected
-							else
+
+								// else go back to User detected
+							} else
 								Trigger("INTERACT");
 
 						} else {
@@ -110,7 +116,7 @@ namespace BuddyApp.Companion
 
 					}
 
-					if (Time.time - mLastTouchTime > 8F) {
+					if (Time.time - mLastTouchTime > 10F) {
 						// if nothing for 7s
 						if (mFaceCounter > 2 && mEyeCounter < 2)
 							Trigger("FOLLOW");
