@@ -24,7 +24,7 @@ namespace BuddyApp.Reminder
         private Dictionary<string, object> mCommonObjects;
         private ReminderStateMachineManager mManager;
         private Animator mAnimator;
-        protected ReminderBehaviour mVocal;
+        protected ReminderBehaviour mReminderBehaviour;
 
         /// <summary>
         /// Common integers through the animator

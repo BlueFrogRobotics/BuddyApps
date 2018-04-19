@@ -33,7 +33,7 @@ namespace BuddyApp.Reminder
             microphone = "Built-in Microphone";
             mListAudio = new Queue<AudioClip>();
             aud = GetComponent<AudioSource>();
-            mVocal = GetComponent<ReminderBehaviour>();
+            mReminderBehaviour = GetComponent<ReminderBehaviour>();
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -54,7 +54,7 @@ namespace BuddyApp.Reminder
             //aud.Stop();
             Microphone.End(microphone);
             //Utils.Save(BYOS.Instance.Resources.GetPathToRaw("music.wav"), aud.clip);
-            mVocal.RemindMe = Utils.Combine(mListAudio.ToArray());
+            mReminderBehaviour.RemindMe = Utils.Combine(mListAudio.ToArray());
             //Utils.Save(BYOS.Instance.Resources.GetPathToRaw("music.wav"), Utils.Combine(mListAudio.ToArray()));
         }
 

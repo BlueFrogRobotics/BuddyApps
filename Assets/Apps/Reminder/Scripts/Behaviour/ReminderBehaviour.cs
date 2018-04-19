@@ -37,10 +37,22 @@ namespace BuddyApp.Reminder
 			*/
             mAppData = ReminderData.Instance;
 
-            Name.Add("Billy");
-            Name.Add("Jack");
-            Name.Add("Bob");
-            Name.Add(null);
+            UserAccount[] lAccounts = BYOS.Instance.DataBase.GetUsers();
+                Debug.Log(lAccounts + " Poney");
+            foreach (UserAccount lUser in lAccounts)
+            {
+                if (lUser == null)
+                    Debug.Log(lUser + "Lol");
+
+                //if (Buddy.WebRTCListener.RemoteID.Trim() == lUser.Email)
+                //{
+                 Name.Add(lUser.FirstName);
+                //}
+            }
+            //Name.Add("Billy");
+            //Name.Add("Jack");
+            //Name.Add("Bob");
+            //Name.Add(null);
         }
 
 

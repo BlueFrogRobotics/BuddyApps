@@ -32,6 +32,12 @@ namespace BuddyApp.Reminder
                 ReminderData.Instance.GiveReminder = true;
                 ReminderData.Instance.SenderID = iIntArgs[0];
                 ReminderData.Instance.Date = iStrArgs[0];
+                //DateTime myDate;
+                //if (!DateTime.TryParse(ReminderData.Instance.Date, out myDate))
+                //{
+                //    // handle parse failure
+                //}
+                //Debug.Log("date du bonheur: " + myDate.ToString());
                 Debug.Log("date: " + iStrArgs[0] + " id: " + iIntArgs[0]);
             }
             else

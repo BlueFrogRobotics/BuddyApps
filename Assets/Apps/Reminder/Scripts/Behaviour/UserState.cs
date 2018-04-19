@@ -19,49 +19,60 @@ namespace BuddyApp.Reminder
         // Use this for initialization
         public override void Start()
         {
-            //foreach (UserAccount lUser in BYOS.Instance.DataBase.GetUsers())
-            //{
-            //    if (Buddy.WebRTCListener.RemoteID.Trim() == lUser.Email)
-            //    {
-            //        lReceiver = lUser.FirstName;
-            //    }
-            //}
-            name.Add("Billy");
-            name.Add("Jack");
-            name.Add("Bob");
-            name.Add(null);
+            
+            //name.Add("Billy");
+            //name.Add("Jack");
+            //name.Add("Bob");
+            //name.Add(null);
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mVocal = GetComponent <ReminderBehaviour>();
-            mVocal.QuestionTime(Dictionary.GetRandomString("wyname"));
+            UserAccount[] lAccounts = BYOS.Instance.DataBase.GetUsers();
+            foreach (UserAccount lUser in lAccounts)
+            {
+                //if (Buddy.WebRTCListener.RemoteID.Trim() == lUser.Email)
+                //{
+                name.Add(lUser.FirstName);
+                //}
+            }
+            //name.Add(null);
+            mReminderBehaviour = GetComponent <ReminderBehaviour>();
+            mReminderBehaviour.QuestionTime(Dictionary.GetRandomString("wyname"));
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (ReminderData.Instance.VocalRequest != "" && mVocal.IsVocalGet)
+            if (ReminderData.Instance.VocalRequest != "" && mReminderBehaviour.IsVocalGet)
             {
-                mVocal.IsVocalGet = false;
+                mReminderBehaviour.IsVocalGet = false;
                 Voice = ReminderData.Instance.VocalRequest.ToLower();
                 Debug.Log("Get this NAME !");
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < name.Count; i++)
                 {
                     Debug.Log("NUMERO = " + i);
                     Debug.Log("WORD = " + name[i]);
                     if (ContainsOneOf(Voice, name[i]))
                     {
                         Debug.Log("SALUT " + name[i]);
-                        mVocal.AllParam.Add(name[i]);
+                        mReminderBehaviour.AllParam.Add(name[i]);
                         ReminderData.Instance.VocalRequest = "";
                         ReminderData.Instance.SenderID = i;
                         Trigger("Date");
                     }
+
                 }
-                if (mVocal.AllParam.Count != 1)
+                if(Dictionary.ContainsPhonetic(Voice, "everybody"))
+                {
+                    mReminderBehaviour.AllParam.Add(Dictionary.GetString("everybody"));
+                    ReminderData.Instance.VocalRequest = "";
+                    ReminderData.Instance.SenderID = -1;
+                    Trigger("Date");
+                }
+                if (mReminderBehaviour.AllParam.Count != 1)
                 {
                     ReminderData.Instance.VocalRequest = "";
-                    mVocal.QuestionTime(Dictionary.GetRandomString("what") + ", " +Dictionary.GetRandomString("wyname"));
+                    mReminderBehaviour.QuestionTime(Dictionary.GetRandomString("what") + ", " +Dictionary.GetRandomString("wyname"));
                 }
                 // ADD CAROUSSEL WITH NAMES
             }
@@ -85,11 +96,6 @@ namespace BuddyApp.Reminder
                 else if (iSpeech.ToLower().Contains(iListSpeech.ToLower()))
                     return true;
             return false;
-        }
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
 

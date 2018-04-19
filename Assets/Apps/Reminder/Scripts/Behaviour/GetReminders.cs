@@ -27,24 +27,20 @@ namespace BuddyApp.Reminder
         private float mDiff;
 
 
-        private string url = "file:///" + BYOS.Instance.Resources.GetPathToRaw("[reminder].wav");
+        private string url = "";//"file:///" + BYOS.Instance.Resources.GetPathToRaw("[reminder].wav");
 
         // Use this for initialization
         public override void Start()
         {
-            mReminderManager = GetComponent<ReminderManager>();
-            mReminders = mReminderManager.RemindersData;
+            
 
-            mLayout = new ReminderLayout()
-            {
-                HearCallback = PlayReminder,
-                UserSelectCallback = GetUserString,
-                Users = mReminders
-              };
-            aud = GetComponent<AudioSource>();
-
-
-            aud.loop = false;
+            //mLayout = new ReminderLayout()
+            //{
+            //    HearCallback = PlayReminder,
+            //    UserSelectCallback = GetUserString,
+            //    Users = mReminders
+            //  };
+            
             //WWW audioLoader = new WWW(url);
             //while (!audioLoader.isDone)
             //{
@@ -67,38 +63,18 @@ namespace BuddyApp.Reminder
             //    Debug.Log("DATE : " + key.Date);
             //    Debug.Log("HOUR : " + key.Hour);
             //}
+            url = "file:///" + BYOS.Instance.Resources.GetPathToRaw("[reminder].wav");
+            mReminderManager = GetComponent<ReminderManager>();
+            mReminders = mReminderManager.RemindersData;
+            aud = GetComponent<AudioSource>();
 
+
+            aud.loop = false;
             mTime = 0.0F;
             mSongLength = 0.0F;
             StartCoroutine(GiveReminder());
             //Toaster.Display<ParameterToast>().With(mLayout);
             
-        }
-
-        private void PlayReminder()
-        {
-            string lFilename = "" + ReminderData.Instance.SenderID;//mVocal.Name[ReminderData.Instance.SenderID] + ReminderData.Instance.Date;
-            var charsToRemove = new string[] { ":", "/" };
-
-            foreach (var c in charsToRemove)
-            {
-                lFilename = lFilename.Replace(c, string.Empty);
-            }
-
-            url = url.Replace("[reminder]", lFilename);
-            //url = url.Replace("[reminder]", KeyUser);
-
-            Debug.Log("Coucou coucou : " + lFilename);
-            WWW audioLoader = new WWW(url);
-
-            StartCoroutine(GetMusic(audioLoader));
-        }
-
-        private void GetUserString(string User, object Obj, int idx)
-        {
-            Debug.Log("Name " + User + " NNAME " + NewUser + " KeyUser " + KeyUser + " Obj " + Obj.ToString());
-            NewUser = User;
-            KeyUser = "" + Obj;
         }
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -124,6 +100,39 @@ namespace BuddyApp.Reminder
                 }
             }
         }
+
+        private void PlayReminder()
+        {
+            string lFilename = "";// + ReminderData.Instance.SenderID;//mVocal.Name[ReminderData.Instance.SenderID] + ReminderData.Instance.Date;
+            if (ReminderData.Instance.SenderID == -1)
+                lFilename = "" + ReminderData.Instance.Date;
+            else
+                lFilename = "" + ReminderData.Instance.SenderID + "" + ReminderData.Instance.Date;
+
+            var charsToRemove = new string[] { ":", "/", " " };
+
+            foreach (var c in charsToRemove)
+            {
+                lFilename = lFilename.Replace(c, string.Empty);
+            }
+
+            url = url.Replace("[reminder]", lFilename);
+            //url = url.Replace("[reminder]", KeyUser);
+
+            Debug.Log("Coucou coucou : " + lFilename);
+            WWW audioLoader = new WWW(url);
+
+            StartCoroutine(GetMusic(audioLoader));
+        }
+
+        private void GetUserString(string User, object Obj, int idx)
+        {
+            Debug.Log("Name " + User + " NNAME " + NewUser + " KeyUser " + KeyUser + " Obj " + Obj.ToString());
+            NewUser = User;
+            KeyUser = "" + Obj;
+        }
+
+        
 
         IEnumerator GetMusic(WWW iWWW)
         {
