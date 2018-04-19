@@ -55,7 +55,7 @@ namespace BuddyApp.Companion
 
 			Interaction.VocalManager.EnableDefaultErrorHandling = false;
 
-			Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("propose" + mProposal), YesAnswer, NoAnswer);
+			//Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("propose" + mProposal), YesAnswer, NoAnswer);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -92,7 +92,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			Toaster.Hide();
+			//Toaster.Hide();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
@@ -102,14 +102,14 @@ namespace BuddyApp.Companion
 		private void YesAnswer()
 		{
 			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("herewego"));
-			Toaster.Hide();
+			//Toaster.Hide();
 			OnAnswer(mProposal);
 		}
 
 		private void NoAnswer()
 		{
 			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("nopb"));
-			Toaster.Hide();
+			//Toaster.Hide();
 			OnAnswer("nogame");
 		}
 
