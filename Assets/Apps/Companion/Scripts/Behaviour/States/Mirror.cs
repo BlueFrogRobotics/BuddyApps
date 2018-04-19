@@ -56,11 +56,11 @@ namespace BuddyApp.Companion
                     Debug.Log("MIRROR : New flux");
                 }
             }
-           
+
             mTexture.Apply();
 
             if (mTime > 10F)
-                OnStateExit(iAnimator, iStateInfo, iLayerIndex);
+                Trigger("VOCALCOMMAND");
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -71,8 +71,6 @@ namespace BuddyApp.Companion
 
             if (mCam.IsOpen)
                 mCam.Close();
-
-            Trigger("IDLE");
         }
     }
 }
