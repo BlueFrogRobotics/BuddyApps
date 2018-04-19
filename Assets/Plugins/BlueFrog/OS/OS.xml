@@ -1196,12 +1196,13 @@
             The 'start rule' that produced the last best result. Format is 'grammarName#startRuleName'.
             </summary>
         </member>
-        <member name="M:Buddy.VoconSTT.LaunchRecognition(System.String[],System.Int32)">
+        <member name="M:Buddy.VoconSTT.LaunchRecognition(System.String[],System.Int32,System.Boolean)">
             <summary>
             Start the Vocon recognition engine.
             </summary>
             <param name="iGrammar">The path to the grammar that will be used.</param>
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
+            <param name="iWithBeep">Should a beep be played when starting to listen ?</param>
         </member>
         <member name="M:Buddy.VoconSTT.SetLanguage(Buddy.Language)">
             <summary>
@@ -2028,6 +2029,11 @@
         <member name="P:Buddy.Face.Locked">
             <summary>
             Determine is Buddy face can be changed
+            </summary>
+        </member>
+        <member name="P:Buddy.Face.EyesOpen">
+            <summary>
+            Determines whether Buddy's eyes are closed.
             </summary>
         </member>
         <member name="M:Buddy.Face.SetExpression(Buddy.MoodType)">
