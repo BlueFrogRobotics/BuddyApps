@@ -2454,22 +2454,276 @@
         <DictionaryEntry>
             <Key>askname</Key>
             <BaseValue>Quel est ton nom?</BaseValue>
+          <ClosePhoneticValues>
+            <string />
+          </ClosePhoneticValues>
+          <RandomValues>
+            <string>Quel est ton nom?</string>
+          </RandomValues>
+        </DictionaryEntry>
+      <DictionaryEntry>
+        <Key>yournameis</Key>
+        <BaseValue>Votre nom est</BaseValue>
+        <ClosePhoneticValues>
+          <string />
+        </ClosePhoneticValues>
+        <RandomValues>
+          <string>Votre nom est</string>
+        </RandomValues>
+      </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>heat</Key>
+            <BaseValue>chaleur</BaseValue>
             <ClosePhoneticValues>
-                <string />
+                <string>chaleur que tu detectes</string>
+                <string>chaleur</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Quel est ton nom?</string>
-                <string>Pouvez-vous me donner votre nom?</string>
+                <string>Je detecte [degree] degrés de chaleur</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>yournameis</Key>
-            <BaseValue>Votre nom est</BaseValue>
+            <Key>answers</Key>
+            <BaseValue>réponses</BaseValue>
+            <ClosePhoneticValues>
+                <string>de réponses</string>
+                <string>de résultats</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>de réponses</string>
+                <string>de résultats</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>badanswer</Key>
+            <BaseValue>Mauvaise réponse</BaseValue>
+            <ClosePhoneticValues>
+                <string>Mauvaise réponse</string>
+                <string>perdu</string>
+                <string>pas du tout</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Mauvaise réponse</string>
+                <string>perdu</string>
+                <string>pas du tout</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>babyphone</Key>
+            <BaseValue>babyphone</BaseValue>
+            <ClosePhoneticValues>
+                <string>babyphone</string>
+                <string>babyphone</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>babyphone</string>
+                <string>babyphone</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>behaviour</Key>
+            <BaseValue>comportement</BaseValue>
+            <ClosePhoneticValues>
+                <string>comportement</string>
+                <string>comportements</string>
+                <string>BML</string>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>comportement</string>
+                <string>comportements</string>
+                <string>BML</string>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>calculation</Key>
+            <BaseValue>application de calcul</BaseValue>
+            <ClosePhoneticValues>
+                <string>application de calcul</string>
+                <string>jeu de calcul</string>
+                <string>jeux de calcul</string>
+                <string>jeu de calculs</string>
+                <string>jeux de calculs</string>
+                <string>playmath</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>application de calcul</string>
+                <string>jeu de calcul</string>
+                <string>jeux de calcul</string>
+                <string>jeu de calculs</string>
+                <string>jeux de calculs</string>
+                <string>playmath</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>canmove</Key>
+            <BaseValue>Tu peux bouger</BaseValue>
+            <ClosePhoneticValues>
+                <string>peux bouger</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Tu peux bouger</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>dance</Key>
+            <BaseValue>danse</BaseValue>
+            <ClosePhoneticValues>
+                <string>danse</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>danse</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>date</Key>
+            <BaseValue>Quel jour sommes nous</BaseValue>
+            <ClosePhoneticValues>
+                <string>Quel jour sommes nous</string>
+                <string>quel jour sommes-nous</string>
+                <string>la date</string>
+                <string>quelle date</string>
+                <string>quel jour on est</string>
+                <string>quel jour est-on</string>
+                <string>on est quel jour</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Quel jour sommes nous</string>
+                <string>quel jour sommes-nous</string>
+                <string>la date</string>
+                <string>quelle date</string>
+                <string>quel jour on est</string>
+                <string>quel jour est-on</string>
+                <string>on est quel jour</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>demofull</Key>
+            <BaseValue>ce que tu sais faire</BaseValue>
+            <ClosePhoneticValues>
+                <string>ce que tu sais faire</string>
+                <string>Présente-toi</string>
+                <string>une démo</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>ce que tu sais faire</string>
+                <string>Présente-toi</string>
+                <string>une démo</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>demoshort</Key>
+            <BaseValue>ce que tu sais faire rapidement</BaseValue>
+            <ClosePhoneticValues>
+                <string>ce que tu sais faire rapidement</string>
+                <string>rapidement ce que tu sais faire</string>
+                <string>Présente-toi rapidement</string>
+                <string>démo rapide</string>
+                <string>démo rapidement</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>ce que tu sais faire rapidement</string>
+                <string>rapidement ce que tu sais faire</string>
+                <string>Présente-toi rapidement</string>
+                <string>démo rapide</string>
+                <string>démo rapidement</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>definition</Key>
+            <BaseValue>définition</BaseValue>
+            <ClosePhoneticValues>
+                <string>définition de</string>
+                <string>ce que veut dire</string>
+                <string>ce que signifie</string>
+                <string>c'est quoi un</string>
+                <string>c'est quoi une</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>définition de</string>
+                <string>ce que veut dire</string>
+                <string>ce que signifie</string>
+                <string>c'est quoi un</string>
+                <string>c'est quoi une</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>degrees</Key>
+            <BaseValue />
+            <ClosePhoneticValues />
+            <RandomValues />
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>another</Key>
+            <BaseValue>Une autre</BaseValue>
+            <ClosePhoneticValues>
+                <string>Une autre</string>
+                <string>autre</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Une autre</string>
+                <string>autre</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>colorseen</Key>
+            <BaseValue>couleur vue</BaseValue>
+            <ClosePhoneticValues>
+                <string>quelle est la couleur de cet objet</string>
+                <string>couleur</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>la couleur de cet objet est [colour]</string>
+                <string>Je crois que je vois du [colour]</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>detectobject</Key>
+            <BaseValue>Détéction object</BaseValue>
+            <ClosePhoneticValues>
+                <string>quelque chose devant toi </string>
+                <string>objet devant</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>vois-tu quelque chose devant toi </string>
+                <string>vois-tu un objet </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>seesomething</Key>
+            <BaseValue>Il y a un objet devant moi</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Votre nom est</string>
+              <string>Il y a un objet devant moi</string>
+              <string>Oui, je peux voir un objet devant moi</string>
+              <string>Il y a quelque chose devant moi</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+          <Key>dontseeanything</Key>
+          <BaseValue>Il n'y a pas d'objet devant moi</BaseValue>
+          <ClosePhoneticValues>
+            <string />
+          </ClosePhoneticValues>
+          <RandomValues>
+            <string>Il n'y a pas d'objet devant moi</string>
+            <string>Non, je ne vois auncun objet devant moi</string>
+            <string>Il n'y a rien devant moi</string>
+          </RandomValues>
+        </DictionaryEntry>
+
+        <DictionaryEntry>
+            <Key>mirror</Key>
+            <BaseValue>miroir</BaseValue>
+            <ClosePhoneticValues>
+                <string>montre moi ce que tu vois</string>
+                <string>mirroir</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>miroir</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
