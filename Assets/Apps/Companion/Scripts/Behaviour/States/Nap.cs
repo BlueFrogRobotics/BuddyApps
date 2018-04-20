@@ -85,12 +85,11 @@ namespace BuddyApp.Companion
 			// Otherwise, react on all detectors
 			if (string.IsNullOrEmpty(mActionTrigger) || mActionTrigger == "IDLE" || mActionTrigger == "NAP")
 				if (mDetectionManager.mDetectedElement != Detected.NONE) {
-					Interaction.Face.SetEvent(FaceEvent.YAWN);
-					Primitive.Speaker.Voice.Play(VoiceSound.YAWN);
 					mActionTrigger = mActionManager.LaunchReaction(COMPANION_STATE.NAP, mDetectionManager.mDetectedElement);
 					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-3, -5, "stoppednap", "STOPPED_NAP", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.GRUMPY));
 					Debug.Log("!!!!!!!!!!!nap trigger " + mActionTrigger);
 					Trigger(mActionTrigger);
+					mDetectionManager.mDetectedElement = Detected.NONE;
 				}
 		}
 
