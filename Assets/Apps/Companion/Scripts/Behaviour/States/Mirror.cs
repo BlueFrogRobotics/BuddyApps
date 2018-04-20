@@ -20,7 +20,7 @@ namespace BuddyApp.Companion
         public override void Start()
         {
             mCam = BYOS.Instance.Primitive.RGBCam;
-            mCam.Resolution = RGBCamResolution.W_640_H_480;
+            mCam.Resolution = RGBCamResolution.W_176_H_144;
             mMat = new Mat();
             mHasShowWindow = false;
             mTime = 0F;

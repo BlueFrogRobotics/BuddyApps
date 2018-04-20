@@ -734,9 +734,9 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>ok, je reste ici</string>
-                <string>ok je ne bouge plus</string>
-                <string>d'accord, je ne bouge plus</string>
+							<string>ok, je reste ici</string>
+							<string>ok je ne bouge plu</string>
+							<string>d'accord, je ne bouge plu</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -2726,5 +2726,18 @@
                 <string>miroir</string>
             </RandomValues>
         </DictionaryEntry>
+			<DictionaryEntry>
+				<Key>icanmove</Key>
+				<BaseValue>Okay, je peux bouger</BaseValue>
+				<ClosePhoneticValues>
+					<string />
+				</ClosePhoneticValues>
+				<RandomValues>
+					<string>Super, merci maître</string>
+					<string>Je voulais justement faire un petit tour!</string>
+					<string>Libéré, délivré!</string>
+					<string>Super, je commençait à rouiller!</string>
+				</RandomValues>
+			</DictionaryEntry>
     </Entries>
 </LanguageThesaurus>

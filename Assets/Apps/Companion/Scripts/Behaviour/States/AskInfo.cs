@@ -12,6 +12,7 @@ namespace BuddyApp.Companion
 	public class AskInfo : AStateMachineBehaviour
 	{
 		private bool mNeedListen;
+		private float mTime;
 
 		public override void Start()
 		{
@@ -23,7 +24,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-
+			mTime = 0F;
 			mState.text = "ask user profile";
 			mNeedListen = true;
 			mDetectionManager.mDetectedElement = Detected.NONE;
@@ -42,6 +43,12 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mTime += Time.deltaTime;
+			if (mTime > 20F) {
+				iAnimator.SetTrigger("INTERACT");
+				CompanionData.Instance.mLearnDesire -= 30;
+			}
+
 			if (Interaction.TextToSpeech.HasFinishedTalking && mNeedListen) {
 				Interaction.VocalManager.StartInstantReco();
 				mNeedListen = false;

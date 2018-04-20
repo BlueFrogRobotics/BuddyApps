@@ -311,7 +311,11 @@ namespace BuddyApp.Companion
                     break;
 
                 case "CanMove":
-                    if (CompanionData.Instance.mMovingDesire > 20)
+
+
+					SayKey("icanmove", true);
+
+					if (CompanionData.Instance.mMovingDesire > 20)
                         BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(3, 3, "moodcanmove", "CAN_MOVE", EmotionalEventType.FULFILLED_DESIRE, InternalMood.EXCITED));
 
                     else
