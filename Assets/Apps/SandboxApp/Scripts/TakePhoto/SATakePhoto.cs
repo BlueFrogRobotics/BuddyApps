@@ -7,6 +7,7 @@ using System.Linq;
 using System.IO;
 using System.Xml;
 using OpenCVUnity;
+using Buddy.UI;
 
 namespace BuddyApp.SandboxApp
 {
@@ -21,19 +22,23 @@ namespace BuddyApp.SandboxApp
 
         //SHARED : Linker d'objet UI pour les utiliser dans shared
 
+        //Ce quil reste a faire pour la v1 : Overlay (a voir) + buddy qui dit le décompte
+
         [SerializeField]
         private string Title;
         [SerializeField]
         private string BuddySays;
+        //[SerializeField]
+        //private bool IsSoundForButton;
+        //[SerializeField]
+        //private FXSound FxSound;
         [SerializeField]
-        private bool IsSoundForButton;
-        [SerializeField]
-        private FXSound FxSound;
+        private string NameOfPicture;
 
         [Header("Put your mouse on the index of the RawImage and follow the tooltip")]
         [SerializeField]
         private bool DisplayVideo;
-        [Tooltip("You need to create the rawimage in the canvas of your scene, then you link it in \"your app name\"stateMachineManager. And you put the index of your rawimage int the stateMachineManager here : ")]
+        [Tooltip("You need to create the rawimage in the canvas of your scene, then you link it in \"your app name\"stateMachineManager of the AIBehaviour on your scene. And you put the index of your rawimage int the stateMachineManager here : ")]
         [SerializeField]
         private int IndexRawImageWhereDisplay;
 
@@ -52,9 +57,11 @@ namespace BuddyApp.SandboxApp
 
         [Space]
         [Header("Countdown Parameters : ")]
-        [Tooltip("If you want to have a visible countdown, you have to create a text in the canvas of your scene. Then you link it in \"your app name\"stateMachineManager. And you put the index of your text in the stateMachineManager here ")]
+        [Tooltip("If you want to have a visible countdown, you have to create a text in the canvas of your scene. Then you link it in \"your app name\"stateMachineManager of the AIBehaviour on your scene. And you put the index of your text in the stateMachineManager here ")]
         [SerializeField]
         private bool IsCountdownVisible;
+        [SerializeField]
+        private Color32 ColorOfCountdown;
         [SerializeField]
         private int IndexTextOfCountdown;
         [SerializeField]
@@ -73,6 +80,11 @@ namespace BuddyApp.SandboxApp
         private float mTimerForCountdown;
         private float mStarterCountdown;
         private bool mIsCountdownStarted;
+        private bool mIsDone;
+        private Sprite mPhotoSprite;
+        private bool mIsPhotoTaken;
+        private string mFilePath = "";
+        private bool mIsDisplayPhotoDone;
 
         public override void Start()
         {
@@ -86,6 +98,7 @@ namespace BuddyApp.SandboxApp
             mStarterCountdown = 5F;
             mCountdownSaid = false;
             mIsCountdownStarted = false;
+            
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -94,74 +107,107 @@ namespace BuddyApp.SandboxApp
                 Primitive.RGBCam.Open(RGBCamResolution.W_640_H_480);
             GetGameObject(IndexRawImageWhereDisplay).SetActive(true);
             mRawImageWhereDisplay = GetGameObject(IndexRawImageWhereDisplay).GetComponent<RawImage>();
-
+            mIsDone = false;
+            mIsDisplayPhotoDone = false;
             mPhotoTaken = false;
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if(InstantPhoto)
-            {
-                Primitive.RGBCam.TakePhotograph(OnFinish, false);
-                GetGameObject(IndexRawImageWhereDisplay).SetActive(false);
-            }
             mTimerForCountdown += Time.deltaTime;
             mTimer += Time.deltaTime;
-
-            Mat mMatSrc = Primitive.RGBCam.FrameMat;
-            Core.flip(mMatSrc, mMatDest, 1);
-
-            if (mTimer > 5.5F || (int)(mStarterCountdown - mTimer) < 1)
+            if (!mIsDone)
             {
-                Primitive.RGBCam.TakePhotograph(OnFinish, false);
-
-            }
-
-            if (IsCountdownSaid)
-            {
-                //mTTS.Say();
-            }
-
-            if (IsCountdownVisible && mTimerForCountdown > 2F)
-            {
-                if (GetGameObject(IndexTextOfCountdown).GetComponent<Text>() != null)
+                Debug.Log("1 "  + mIsDone);
+                if (InstantPhoto)
                 {
-                    if (!mIsCountdownStarted)
+                    mTimer = 0F;
+                    Primitive.RGBCam.TakePhotograph(OnFinish, false);
+
+                    GetGameObject(IndexRawImageWhereDisplay).SetActive(false);
+                    Reset();
+
+                }
+
+                Debug.Log("2");
+
+                Mat mMatSrc = Primitive.RGBCam.FrameMat;
+                Core.flip(mMatSrc, mMatDest, 1);
+
+                if (mTimer > 5.5F || (int)(mStarterCountdown - mTimer) < 1)
+                {
+                    mTimer = 0F;
+                    Primitive.RGBCam.TakePhotograph(OnFinish, false);
+                    Reset();
+
+                }
+                Debug.Log("4");
+
+                if (IsCountdownSaid)
+                {
+                    //mTTS.Say();
+                }
+
+                if (IsCountdownVisible && mTimerForCountdown > 2F)
+                {
+                    if (GetGameObject(IndexTextOfCountdown).GetComponent<Text>() != null)
                     {
-                        mTimer = -0.5F;
-                        mIsCountdownStarted = true;
+                        Debug.Log("6");
+
+                        if (!mIsCountdownStarted)
+                        {
+                            mTimer = -0.5F;
+                            mIsCountdownStarted = true;
+                        }
+                        Debug.Log("7");
+
+                        GetGameObject(IndexTextOfCountdown).SetActive(true);
+                        int test = (int)(mStarterCountdown - mTimer);
+                        GetGameObject(IndexTextOfCountdown).GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
+                        GetGameObject(IndexTextOfCountdown).GetComponent<Text>().fontSize = 180;
+                        GetGameObject(IndexTextOfCountdown).GetComponent<Text>().color = new Color32(ColorOfCountdown.r,ColorOfCountdown.g, ColorOfCountdown.b, 255);
+                        GetGameObject(IndexTextOfCountdown).GetComponent<Text>().text = test.ToString();
                     }
-
-                    GetGameObject(IndexTextOfCountdown).SetActive(true);
-                    int test = (int)(mStarterCountdown - mTimer);
-                    GetGameObject(IndexTextOfCountdown).GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
-                    GetGameObject(IndexTextOfCountdown).GetComponent<Text>().fontSize = 180;
-                    GetGameObject(IndexTextOfCountdown).GetComponent<Text>().text = test.ToString();
+                    else
+                        Debug.Log("You put the wrong index of your UI Object text in the StateMachineBehaviour");
                 }
-                else
-                    Debug.Log("You put the wrong index of your UI Object text in the StateMachineBehaviour");
-            }
+                Debug.Log("8");
 
-            if (DisplayVideo)
-            {
-                if (!WantOverlay)
+                if (DisplayVideo)
                 {
-                    mRawImageWhereDisplay.texture = Utils.MatToTexture2D(mMatDest);
-                }
-                else
-                {
-                    if (IsFolderEmpty())
+                    if (!WantOverlay)
                     {
-                        Debug.Log("Your overlay doesn't exist, check if it is in the right folder (\"your app name\"\\Resources\\Overlay) or check if your extension is .png or .PNG");
+                        mRawImageWhereDisplay.texture = Utils.MatToTexture2D(mMatDest);
                     }
                     else
                     {
-                        //l'overlay existe et on l'affiche
+                        if (IsFolderEmpty())
+                        {
+                            Debug.Log("Your overlay doesn't exist, check if it is in the right folder (\"your app name\"\\Resources\\Overlay) or check if your extension is .png or .PNG");
+                        }
+                        else
+                        {
+                            //l'overlay existe et on l'affiche
 
+                        }
                     }
+
+                }
+            }
+            if(mIsPhotoTaken)
+            {
+                if (DisplayPhotoTaken && !mIsDisplayPhotoDone)
+                {
+                    mIsDisplayPhotoDone = true;
+                    DisplayPhoto(mFilePath);
                 }
 
+                if(mTimer > 6F)
+                {
+                    //Trigger(TriggerToNextState);
+                }
             }
+          
 
         }
 
@@ -187,10 +233,79 @@ namespace BuddyApp.SandboxApp
 
         private void OnFinish(Photograph iMyPhoto)
         {
-            Primitive.RGBCam.Close();
+            Debug.Log("ONFINISH");
             GetGameObject(IndexTextOfCountdown).SetActive(false);
             GetGameObject(IndexRawImageWhereDisplay).SetActive(false);
-            Trigger(TriggerToNextState);
+            Primitive.RGBCam.Close();
+            string lFileName;
+            // save file 
+            if (string.IsNullOrEmpty(NameOfPicture))
+            {
+                lFileName = "Buddy_" + System.DateTime.Now.Day + "day" +
+                System.DateTime.Now.Month + "month" + System.DateTime.Now.Hour + "h" +
+                System.DateTime.Now.Minute + "min" + System.DateTime.Now.Second + "sec.png";
+            }
+            else
+                lFileName = NameOfPicture;
+            
+            if (File.Exists(Resources.GetPathToRaw(lFileName)))
+                File.Delete(Resources.GetPathToRaw(lFileName));
+            mFilePath = Resources.GetPathToRaw(lFileName);
+            if(WantOverlay)
+            {
+                //A faire plus tard avec le takephoto de greg pour mettre l'overlay sur la photo
+            }
+            else
+                mPhotoSprite = iMyPhoto.Image;
+            //peut add la fonction flip de limage ou pas
+            Sprite lFlipSprite;
+            lFlipSprite = Sprite.Create(FlipTexture(iMyPhoto.Image.texture), new UnityEngine.Rect(0, 0, iMyPhoto.Image.texture.width, iMyPhoto.Image.texture.height), new Vector2(0.5F, 0.5F));
+            Utils.SaveSpriteToFile(lFlipSprite, mFilePath);
+
+            if(DisplayPhotoTaken)
+            {
+                mIsPhotoTaken = true;
+            }
+            else
+                Trigger(TriggerToNextState);
+
+            
+            
+        }
+
+        private void Reset()
+        {
+            mIsDone = true;
+            DisplayVideo = false;
+            IsCountdownVisible = false;
+            InstantPhoto = false;
+        }
+
+        Texture2D FlipTexture(Texture2D iOriginal)
+        {
+            Texture2D lFlipped = new Texture2D(iOriginal.width, iOriginal.height);
+
+            int xN = iOriginal.width;
+            int yN = iOriginal.height;
+
+
+            for (int i = 0; i < xN; i++)
+            {
+                for (int j = 0; j < yN; j++)
+                {
+                    lFlipped.SetPixel(xN - i - 1, j, iOriginal.GetPixel(i, j));
+                }
+            }
+            lFlipped.Apply();
+
+            return lFlipped;
+        }
+
+        private void DisplayPhoto(string lol)
+        {
+            Sprite lsprite;
+            lsprite = Utils.CreateSpriteFromFile(lol);
+            Toaster.Display<PictureToast>().With(lsprite);
         }
     }
 }
