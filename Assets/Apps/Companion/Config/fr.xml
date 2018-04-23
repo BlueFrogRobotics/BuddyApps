@@ -734,9 +734,9 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-							<string>ok, je reste ici</string>
-							<string>ok je ne bouge plu</string>
-							<string>d'accord, je ne bouge plu</string>
+                <string>ok, je reste ici</string>
+                <string>ok je ne bouge plu</string>
+                <string>d'accord, je ne bouge plu</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -2454,23 +2454,23 @@
         <DictionaryEntry>
             <Key>askname</Key>
             <BaseValue>Quel est ton nom?</BaseValue>
-          <ClosePhoneticValues>
-            <string />
-          </ClosePhoneticValues>
-          <RandomValues>
-            <string>Quel est ton nom?</string>
-          </RandomValues>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Quel est ton nom?</string>
+            </RandomValues>
         </DictionaryEntry>
-      <DictionaryEntry>
-        <Key>yournameis</Key>
-        <BaseValue>Votre nom est</BaseValue>
-        <ClosePhoneticValues>
-          <string />
-        </ClosePhoneticValues>
-        <RandomValues>
-          <string>Votre nom est</string>
-        </RandomValues>
-      </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>yournameis</Key>
+            <BaseValue>Votre nom est</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Votre nom est</string>
+            </RandomValues>
+        </DictionaryEntry>
         <DictionaryEntry>
             <Key>heat</Key>
             <BaseValue>chaleur</BaseValue>
@@ -2697,24 +2697,23 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-              <string>Il y a un objet devant moi</string>
-              <string>Oui, je peux voir un objet devant moi</string>
-              <string>Il y a quelque chose devant moi</string>
+                <string>Il y a un objet devant moi</string>
+                <string>Oui, je peux voir un objet devant moi</string>
+                <string>Il y a quelque chose devant moi</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-          <Key>dontseeanything</Key>
-          <BaseValue>Il n'y a pas d'objet devant moi</BaseValue>
-          <ClosePhoneticValues>
-            <string />
-          </ClosePhoneticValues>
-          <RandomValues>
-            <string>Il n'y a pas d'objet devant moi</string>
-            <string>Non, je ne vois auncun objet devant moi</string>
-            <string>Il n'y a rien devant moi</string>
-          </RandomValues>
+            <Key>dontseeanything</Key>
+            <BaseValue>Il n'y a pas d'objet devant moi</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Il n'y a pas d'objet devant moi</string>
+                <string>Non, je ne vois auncun objet devant moi</string>
+                <string>Il n'y a rien devant moi</string>
+            </RandomValues>
         </DictionaryEntry>
-
         <DictionaryEntry>
             <Key>mirror</Key>
             <BaseValue>miroir</BaseValue>
@@ -2726,18 +2725,108 @@
                 <string>miroir</string>
             </RandomValues>
         </DictionaryEntry>
-			<DictionaryEntry>
-				<Key>icanmove</Key>
-				<BaseValue>Okay, je peux bouger</BaseValue>
-				<ClosePhoneticValues>
-					<string />
-				</ClosePhoneticValues>
-				<RandomValues>
-					<string>Super, merci maître</string>
-					<string>Je voulais justement faire un petit tour!</string>
-					<string>Libéré, délivré!</string>
-					<string>Super, je commençait à rouiller!</string>
-				</RandomValues>
-			</DictionaryEntry>
+        <DictionaryEntry>
+            <Key>icanmove</Key>
+            <BaseValue>Okay, je peux bouger</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Super, merci maître</string>
+                <string>Je voulais justement faire un petit tour!</string>
+                <string>Libéré, délivré!</string>
+                <string>Super, je commençait à rouiller!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>nap</Key>
+            <BaseValue>sieste</BaseValue>
+            <ClosePhoneticValues>
+                <string>va faire une sieste</string>
+                <string>va dormir</string>
+                <string>repose toi</string>
+                <string>sieste</string>
+                <string>dormir</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je vais dormir</string>
+                <string>Je vais faire une petite sieste</string>
+                <string>Bonne nuit</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>naptime</Key>
+            <BaseValue>sieste temps</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je vais faire une sieste pendant [hour] [minute] [second]</string>
+                <string>Je vais dormir pendant [hour] [minute] [second]</string>
+                <string>On se voit dans [hour] [minute] [second]</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>hour</Key>
+            <BaseValue>heure</BaseValue>
+            <ClosePhoneticValues>
+                <string>heure</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>heure</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>minute</Key>
+            <BaseValue>minute</BaseValue>
+            <ClosePhoneticValues>
+                <string>minute</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>minute</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>second</Key>
+            <BaseValue>second</BaseValue>
+            <ClosePhoneticValues>
+                <string>second</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>second</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>aquarterhour</Key>
+            <BaseValue>un quart d'heure</BaseValue>
+            <ClosePhoneticValues>
+                <string>un quart d'heure</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>threequarterhour</Key>
+            <BaseValue>trois quart d'heure</BaseValue>
+            <ClosePhoneticValues>
+                <string>trois quart d'heure</string>
+                <string>3 quart d'heure</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>halfhour</Key>
+            <BaseValue>une demi-heure</BaseValue>
+            <ClosePhoneticValues>
+                <string>une demi-heure</string>
+                <string>une demi heure</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
     </Entries>
 </LanguageThesaurus>
