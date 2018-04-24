@@ -66,6 +66,9 @@ namespace BuddyApp.SandboxApp
         private int IndexTextOfCountdown;
         [SerializeField]
         private bool IsCountdownSaid;
+
+        [Space]
+        [Header("If you want to take an instant photo without countdown : ")]
         [SerializeField]
         private bool InstantPhoto;
 
@@ -105,7 +108,8 @@ namespace BuddyApp.SandboxApp
         {
             if (!Primitive.RGBCam.IsOpen)
                 Primitive.RGBCam.Open(RGBCamResolution.W_640_H_480);
-            GetGameObject(IndexRawImageWhereDisplay).SetActive(true);
+            if(!InstantPhoto && DisplayVideo)
+                GetGameObject(IndexRawImageWhereDisplay).SetActive(true);
             mRawImageWhereDisplay = GetGameObject(IndexRawImageWhereDisplay).GetComponent<RawImage>();
             mIsDone = false;
             mIsDisplayPhotoDone = false;
@@ -121,18 +125,19 @@ namespace BuddyApp.SandboxApp
                 Debug.Log("1 "  + mIsDone);
                 if (InstantPhoto)
                 {
-                    mTimer = 0F;
-                    Primitive.RGBCam.TakePhotograph(OnFinish, false);
+                    Mat mMatSrc = Primitive.RGBCam.FrameMat;
+                    Core.flip(mMatSrc, mMatDest, 1);
+                    if (mTimer > 1F)
+                    {
+                        Primitive.RGBCam.TakePhotograph(OnFinish, false);
 
-                    GetGameObject(IndexRawImageWhereDisplay).SetActive(false);
-                    Reset();
-
+                        GetGameObject(IndexRawImageWhereDisplay).SetActive(false);
+                        Reset();
+                    }
+                    return;
                 }
 
                 Debug.Log("2");
-
-                Mat mMatSrc = Primitive.RGBCam.FrameMat;
-                Core.flip(mMatSrc, mMatDest, 1);
 
                 if (mTimer > 5.5F || (int)(mStarterCountdown - mTimer) < 1)
                 {
@@ -196,7 +201,7 @@ namespace BuddyApp.SandboxApp
             }
             if(mIsPhotoTaken)
             {
-                if (DisplayPhotoTaken && !mIsDisplayPhotoDone)
+                if (!mIsDisplayPhotoDone)
                 {
                     mIsDisplayPhotoDone = true;
                     DisplayPhoto(mFilePath);
@@ -204,7 +209,7 @@ namespace BuddyApp.SandboxApp
 
                 if(mTimer > 6F)
                 {
-                    //Trigger(TriggerToNextState);
+                    Trigger(TriggerToNextState);
                 }
             }
           
@@ -213,12 +218,7 @@ namespace BuddyApp.SandboxApp
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
-        }
-
-        private void DisplayToast()
-        {
-
+            Toaster.Hide();
         }
 
         private bool IsFolderEmpty()
@@ -246,7 +246,7 @@ namespace BuddyApp.SandboxApp
                 System.DateTime.Now.Minute + "min" + System.DateTime.Now.Second + "sec.png";
             }
             else
-                lFileName = NameOfPicture;
+                lFileName = NameOfPicture + ".png";
             
             if (File.Exists(Resources.GetPathToRaw(lFileName)))
                 File.Delete(Resources.GetPathToRaw(lFileName));
