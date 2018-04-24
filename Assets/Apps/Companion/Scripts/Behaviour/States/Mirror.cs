@@ -15,6 +15,7 @@ namespace BuddyApp.Companion
         private Texture2D mTexture = null;
         private bool mHasShowWindow;
         private float mTime;
+        private float mEndTime;
 
         // Use this for initialization
         public override void Start()
@@ -26,10 +27,17 @@ namespace BuddyApp.Companion
             mTime = 0F;
         }
 
-        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             if (!mCam.IsOpen)
                 mCam.Open(mCam.Resolution);
+            if (iAnimator.GetInteger("Duration") < 10F)
+                mEndTime = 10F;
+            else if ((iAnimator.GetInteger("Duration") > 60F))
+                mEndTime = 60;
+            else
+                mEndTime = iAnimator.GetInteger("Duration");
+
         }
 
         // Update is called once per frame
@@ -59,7 +67,7 @@ namespace BuddyApp.Companion
 
             mTexture.Apply();
 
-            if (mTime > 10F)
+            if (mTime > mEndTime)
                 Trigger("VOCALCOMMAND");
         }
 
@@ -68,6 +76,7 @@ namespace BuddyApp.Companion
             Toaster.Hide();
             mHasShowWindow = false;
             mTime = 0F;
+            iAnimator.SetInteger("Duration", 0);
 
             if (mCam.IsOpen)
                 mCam.Close();

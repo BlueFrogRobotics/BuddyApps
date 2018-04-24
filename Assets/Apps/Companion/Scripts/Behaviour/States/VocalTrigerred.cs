@@ -313,9 +313,9 @@ namespace BuddyApp.Companion
                 case "CanMove":
 
 
-					SayKey("icanmove", true);
+                    SayKey("icanmove", true);
 
-					if (CompanionData.Instance.mMovingDesire > 20)
+                    if (CompanionData.Instance.mMovingDesire > 20)
                         BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(3, 3, "moodcanmove", "CAN_MOVE", EmotionalEventType.FULFILLED_DESIRE, InternalMood.EXCITED));
 
                     else
@@ -590,6 +590,10 @@ namespace BuddyApp.Companion
                     break;
 
                 case "Mirror":
+                    int time = GetTime(mLastHumanSpeech);
+
+                    SetInteger("Duration", time);
+                    
                     Trigger("MIRROR");
                     break;
 
@@ -717,6 +721,36 @@ namespace BuddyApp.Companion
                 case "Memory":
                     CompanionData.Instance.mInteractDesire -= 50;
                     StartApp("MemoryGame", mLastHumanSpeech);
+                    break;
+
+                case "Nap":
+                    int lTimeInSeconds = GetTime(mLastHumanSpeech);
+
+                    if (lTimeInSeconds == 0)
+                        if (ContainsOneOf(mLastHumanSpeech, Dictionary.GetPhoneticStrings("aquarterhour")))
+                            lTimeInSeconds = 15 * 60;
+                        else if (ContainsOneOf(mLastHumanSpeech, Dictionary.GetPhoneticStrings("halfhour")))
+                            lTimeInSeconds = 30 * 60;
+                        else if (ContainsOneOf(mLastHumanSpeech, Dictionary.GetPhoneticStrings("threequarterhour")))
+                            lTimeInSeconds = 45 * 60;
+                        else
+                            // If Time is not specified
+                            lSentence = Dictionary.GetRandomString("nap");
+                    else
+                    {
+                        int[] lTime = SecondsToHour(lTimeInSeconds);
+
+                        // Get the correct sentence
+                        lSentence = Dictionary.GetRandomString("naptime");
+                        lSentence = SetNapSentence(lTime[0], "hour", lSentence);
+                        lSentence = SetNapSentence(lTime[1], "minute", lSentence);
+                        lSentence = SetNapSentence(lTime[2], "second", lSentence);
+                    }
+
+                    Say(lSentence);
+                    SetInteger("Duration", lTimeInSeconds);
+
+                    Trigger("NAP");
                     break;
 
                 case "Operation":
@@ -899,76 +933,80 @@ namespace BuddyApp.Companion
 
         }
 
-        //System.Collections.IEnumerator MirrorFunc()
-        //{
-        //    RGBCam cam;
-        //    OpenCVUnity.Mat mMat;
-        //    Texture2D mTexture = null;
-        //    bool mHasShowWindow;
-
-        //    cam = BYOS.Instance.Primitive.RGBCam;
-        //    cam.Resolution = RGBCamResolution.W_320_H_240;
-        //    mMat = new OpenCVUnity.Mat();
-        //    mHasShowWindow = false;
-
-        //    for (float ltime = 0F; ltime < 15F; ltime += Time.deltaTime)
-        //    {
-        //        if (cam.IsOpen && !mHasShowWindow)
-        //        {
-        //            mHasShowWindow = true;
-        //            OpenCVUnity.Mat mMatSrc = cam.FrameMat;
-        //            OpenCVUnity.Core.flip(mMatSrc, mMat, 1);
-        //            mTexture = Utils.MatToTexture2D(mMat);
-        //            Debug.Log("Toast opened !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        //            Toaster.Display<Buddy.UI.PictureToast>().With(Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
-        //        }
-        //        else
-        //        {
-        //            if (!cam.IsOpen)
-        //            {
-        //                cam.Open(cam.Resolution);
-        //                Debug.Log("Camera opened !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        //            }
-        //            else if (mHasShowWindow)
-        //            {
-        //                OpenCVUnity.Mat mMatSrc = cam.FrameMat.clone();
-        //                OpenCVUnity.Core.flip(mMatSrc, mMat, 1);
-        //                Texture2D lTexture = Utils.MatToTexture2D(mMat);
-        //                mTexture.SetPixels(lTexture.GetPixels());
-        //                Debug.Log("New flux !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        //            }
-        //        }
-        //    }
-        //    Debug.Log("La camera est ouverte et le toast aussi");
-        //    yield return null;
-        //}
-
-        public static bool RecoverFaceEntity(FaceEntity[] entities)
+        private string SetNapSentence(int iNumber, string iTimeUnit, string iSentence)
         {
-            foreach (FaceEntity item in entities)
+            if (iNumber == 0)
+                iSentence = iSentence.Replace("[" + iTimeUnit + "]", string.Empty);
+            else if (iNumber == 1)
+                iSentence = iSentence.Replace("[" + iTimeUnit + "]", iNumber.ToString() + " " + Dictionary.GetRandomString(iTimeUnit));
+            else
+                iSentence = iSentence.Replace("[" + iTimeUnit + "]", iNumber.ToString() + " " + Dictionary.GetRandomString(iTimeUnit) + "s");
+
+            return (iSentence);
+        }
+
+        /// <summary>
+        /// Recover Time In Seconds
+        /// </summary>
+        /// <param name="iSpeech">Speech</param>
+        /// <returns>Time in Seconds</returns>
+        private int GetTime(string iSpeech)
+        {
+            string lDigitHour = Regex.Match(iSpeech, "\\d{1,2} \\W*((?i)hour(?-i))").Value;
+            string lDigitMinute = Regex.Match(iSpeech, "\\d{1,2} \\W*((?i)minute(?-i))").Value;
+            string lDigitSecond = Regex.Match(iSpeech, "\\d{1,2} \\W*((?i)second(?-i))").Value;
+
+            lDigitHour = Regex.Match(lDigitHour, "\\d{1,2}").Value;
+            lDigitMinute = Regex.Match(lDigitMinute, "\\d{1,2}").Value;
+            lDigitSecond = Regex.Match(lDigitSecond, "\\d{1,2}").Value;
+
+            if (string.IsNullOrEmpty(lDigitHour))
+                lDigitHour = "0";
+            if (string.IsNullOrEmpty(lDigitMinute))
+                lDigitMinute = "0";
+            if (string.IsNullOrEmpty(lDigitSecond))
+                lDigitSecond = "0";
+
+            return ((int.Parse(lDigitHour) * 3600) + (int.Parse(lDigitMinute) * 60) + int.Parse(lDigitSecond));
+        }
+
+        /// <summary>
+        /// Recover the Time in (Hour, Minutes, Seconds)
+        /// </summary>
+        /// <param name="TimeInSeconds">time in seconds</param>
+        /// <returns>Array of int with 0 : hour, 1 : minutes, 2 : seconds</returns>
+        private int[] SecondsToHour(int iTimeInSeconds)
+        {
+            int lHour = iTimeInSeconds / 3600;
+            int lMinute = (iTimeInSeconds % 3600) / 60;
+            int lSecond = ((iTimeInSeconds % 3600) % 60) / 60;
+
+            int[] lResult = { lHour, lMinute, lSecond };
+
+            return (lResult);
+        }
+
+        public static bool RecoverFaceEntity(FaceEntity[] iEntities)
+        {
+            foreach (FaceEntity item in iEntities)
             {
                 Debug.Log("Pose : " + item.Pose + "Speed : " + item.Speed);
 
                 switch (item.Pose)
                 {
                     case PoseOrientation.LEFTPROFILE:
-                        Debug.Log("Je tourne à 90 degrés");
                         BYOS.Instance.Primitive.Motors.NoHinge.SetPosition(90);
                         break;
                     case PoseOrientation.RIGHTPROFILE:
-                        Debug.Log("Je tourne à 0 degrés");
                         BYOS.Instance.Primitive.Motors.NoHinge.SetPosition(0);
                         break;
                     case PoseOrientation.FACIAL:
-                        Debug.Log("Je tourne à 45 degrés");
                         BYOS.Instance.Primitive.Motors.NoHinge.SetPosition(45);
                         break;
                     case PoseOrientation.ROTATED30:
-                        Debug.Log("Je tourne à 30 degrés");
                         BYOS.Instance.Primitive.Motors.NoHinge.SetPosition(30);
                         break;
                     case PoseOrientation.ROTATED330:
-                        Debug.Log("Je tourne à 330 degrés");
                         BYOS.Instance.Primitive.Motors.NoHinge.SetPosition(330);
                         break;
                     default:
@@ -985,11 +1023,9 @@ namespace BuddyApp.Companion
 
             foreach (int item in iMatrix)
             {
-                Debug.Log("Voila le nombre dans la matrice : " + item);
                 if (lMax < item)
                     lMax = item;
             }
-            Debug.Log("J'ai fini, la température max est : " + lMax);
             return (lMax);
         }
 

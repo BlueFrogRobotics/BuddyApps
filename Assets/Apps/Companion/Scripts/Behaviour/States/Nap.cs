@@ -45,9 +45,12 @@ namespace BuddyApp.Companion
 			Interaction.Face.LookAt(FaceLookAt.BOTTOM);
 			Primitive.Motors.YesHinge.SetPosition(UnityEngine.Random.Range(-30F, -5F), 100F);
 
-			mTimeSleeping = UnityEngine.Random.Range(30F, 200F);
+            if (iAnimator.GetInteger("Duration") == 0)
+                mTimeSleeping = UnityEngine.Random.Range(30F, 200F);
+            else
+                mTimeSleeping = iAnimator.GetInteger("Duration");
 
-			StartCoroutine(SleepingHeadCo());
+            StartCoroutine(SleepingHeadCo());
 			mHeadPlaying = true;
 		}
 
@@ -97,6 +100,7 @@ namespace BuddyApp.Companion
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mTimeIdle = 0F;
+            iAnimator.SetInteger("Duration", 0);
 
 			Interaction.Face.SetEvent(FaceEvent.OPEN_EYES);
 			Debug.Log("Nap exit");

@@ -584,6 +584,8 @@ namespace BuddyApp.Companion
                 lType = "DetectObject";
             else if (ContainsOneOf(iSpeech, "mirror"))
                 lType = "Mirror";
+            else if (ContainsOneOf(iSpeech, "nap"))
+                lType = "Nap";
             else if (ContainsOneOf(iSpeech, mWanderSpeech))
             {
                 Answer = FindMood(iSpeech.ToLower());
