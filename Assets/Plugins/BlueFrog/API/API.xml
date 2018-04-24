@@ -1046,11 +1046,12 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Buddy.Internal.API.VoconAndroid.LaunchReco(System.String)">
+        <member name="M:Buddy.Internal.API.VoconAndroid.LaunchReco(System.String[],System.Int32)">
             <summary>
             Start the Vocon recognition engine.
             </summary>
             <param name="iGrammar">The path to the grammar that will be used.</param>
+            <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
         </member>
         <member name="M:Buddy.Internal.API.VoconAndroid.ChangeAccousticModel(System.String)">
             <summary>
@@ -1110,11 +1111,12 @@
             The 'start rule' that produced the last best result. Format is 'grammarName#startRuleName'.
             </summary>
         </member>
-        <member name="M:Buddy.Internal.API.VoconSTT.LaunchReco(System.String)">
+        <member name="M:Buddy.Internal.API.VoconSTT.LaunchReco(System.String[],System.Int32)">
             <summary>
             Start the Vocon recognition engine.
             </summary>
             <param name="iGrammar">The path to the grammar that will be used.</param>
+            <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
         </member>
         <member name="M:Buddy.Internal.API.VoconSTT.OnEndReco(System.String)">
             <summary>
