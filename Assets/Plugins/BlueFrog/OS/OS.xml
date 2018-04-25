@@ -1166,6 +1166,11 @@
             STT recognition state
             </summary>
         </member>
+        <member name="T:Buddy.VMVoconRecognitionState">
+            <summary>
+            Vocon recognition state.
+            </summary>
+        </member>
         <member name="T:Buddy.VoconSTT">
             <summary>
             An STT based on Nuance Vocon technology. It's a fully embedded solution which uses grammars during the recognition process.
@@ -3424,6 +3429,16 @@
             Tells if a notification should be displayed after a successful recognition.
             </summary>
         </member>
+        <member name="P:Buddy.VocalManager.UseVocon">
+            <summary>
+            Should Vocon be used instead of Google STT ?
+            </summary>
+        </member>
+        <member name="P:Buddy.VocalManager.VoconGrammars">
+            <summary>
+            The paths of the Vocon grammars to use.
+            </summary>
+        </member>
         <member name="P:Buddy.VocalManager.StartListenBehaviour">
             <summary>
             Action will be called when STT starts listening
@@ -3447,6 +3462,21 @@
         <member name="P:Buddy.VocalManager.OnError">
             <summary>
             Action will be called upon STT completion with an error. Throws a STTEnum error. After 3 consecutive errors, will momentally disable Sphinx.
+            </summary>
+        </member>
+        <member name="P:Buddy.VocalManager.OnVoconBest">
+            <summary>
+            Action will be called upon recognition completion (only best results).
+            </summary>
+        </member>
+        <member name="P:Buddy.VocalManager.OnVoconEnd">
+            <summary>
+            Action will be called upon recognition completion (all results).
+            </summary>
+        </member>
+        <member name="P:Buddy.VocalManager.OnVoconEvent">
+            <summary>
+            Action will be called when Vocon detectcs an audio event.
             </summary>
         </member>
         <member name="P:Buddy.VocalManager.EnableTrigger">
@@ -3479,9 +3509,27 @@
             <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
             the method restarts the trigger mode after instant recognition</param>
         </member>
+        <member name="M:Buddy.VocalManager.StartInstantReco(Buddy.VoconBestResultCallback,Buddy.VoconResultsCallback,Buddy.VoconEventCallback,System.Boolean)">
+            <summary>
+            Stops Trigger Mode and immediately starts Vocon STT request for instant listening.
+            </summary>
+            <param name="iOnBestReco">The end recognition callback that only gives the best recognition.</param>
+            <param name="iOnEndReco">The end recognition callback.</param>
+            <param name="iOnEvent">The event callback.</param>
+            <param name="iRestartTriggerIfEnabled">If true and EnableTrigger is true, 
+            the method restarts the trigger mode after instant recognition</param>
+        </member>
         <member name="M:Buddy.VocalManager.StartInstantReco(System.Boolean)">
             <summary>
             Stop Trigger Mode and immediately starts STT request for instant listening
+            <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
+            the method restarts the trigger mode after instant recognition</param>
+            </summary>
+        </member>
+        <member name="M:Buddy.VocalManager.StartInstantReco(System.Collections.Generic.List{System.String},System.Boolean)">
+            <summary>
+            Stop Trigger Mode and immediately starts the Vocon STT request for instant listening$
+            <param name="iGrammars">The paths to the grammars that will be used during recognition phase.</param>
             <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
             the method restarts the trigger mode after instant recognition</param>
             </summary>
@@ -8029,6 +8077,15 @@
             Specify parameters for the alert notification
             </summary>
             <param name="iText">Text to display</param>
+            <param name="iOnValidate">Callback function if the user click on validate</param>
+            <param name="iOnDelay">Callback function if the user click on delay</param>
+        </member>
+        <member name="M:Buddy.UI.AlertNot.With(System.String,System.DateTime,System.Action,System.Action)">
+            <summary>
+            Specify parameters for the alert notification
+            </summary>
+            <param name="iText">Text to display</param>
+            <param name="iDateTime">The hour and minute of the alert.</param>
             <param name="iOnValidate">Callback function if the user click on validate</param>
             <param name="iOnDelay">Callback function if the user click on delay</param>
         </member>

@@ -525,7 +525,7 @@
             Middle back position
             </summary>
         </member>
-        <member name="T:Buddy.AudioEventCallback">
+        <member name="T:Buddy.VoconEventCallback">
             <summary>
             Use this delegate to handle audio events detected by Vocon.
             Called during recognition when an event is detected.
@@ -1053,9 +1053,9 @@
             <param name="iGrammar">The path to the grammar that will be used.</param>
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
         </member>
-        <member name="M:Buddy.Internal.API.VoconAndroid.ChangeAccousticModel(System.String)">
+        <member name="M:Buddy.Internal.API.VoconAndroid.ChangeAcousticModel(System.String)">
             <summary>
-            Changes the accoustic model of the recognizer.
+            Changes the acoustic model of the recognizer.
             Only called when switching language.
             </summary>
             <param name="iAcMod"></param>
