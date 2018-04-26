@@ -45,7 +45,8 @@ namespace BuddyApp.ExperienceCenter
             //mSpeechToText.OnBestRecognition.Add(SpeechToTextCallback);
             //mSpeechToText.OnErrorEnum.Clear();
             //mSpeechToText.OnErrorEnum.Add(ErrorCallback);
-            mVocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
+            //mVocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
+            mVocalManager.EnableTrigger = false;
             mVocalManager.EnableDefaultErrorHandling = false;
             mVocalManager.OnEndReco = SpeechToTextCallback;
             mVocalManager.OnError = ErrorCallback;
@@ -206,7 +207,7 @@ namespace BuddyApp.ExperienceCenter
 			yield return new WaitForSeconds(1.0f);
 			mStartSTTCoroutine = true;
             //mSphinxTrigger.LaunchRecognition();
-			mVocalManager.EnableTrigger = true;
+			//mVocalManager.EnableTrigger = true;
 		}
 
 		public void ErrorCallback (STTError iError)

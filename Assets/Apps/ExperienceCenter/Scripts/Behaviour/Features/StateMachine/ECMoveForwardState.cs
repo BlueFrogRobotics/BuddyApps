@@ -32,7 +32,8 @@ namespace BuddyApp.ExperienceCenter
 			if (mBehaviour.behaviourEnd && !mAddReco) {
                 //if (ExperienceCenterData.Instance.VoiceTrigger)
                  //   BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
-                BYOS.Instance.Interaction.VocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
+                //BYOS.Instance.Interaction.VocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
+                BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
                 //BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Clear();
                 //BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Add(SpeechToTextCallback);
                 //BYOS.Instance.Interaction.SpeechToText.OnErrorEnum.Clear();
