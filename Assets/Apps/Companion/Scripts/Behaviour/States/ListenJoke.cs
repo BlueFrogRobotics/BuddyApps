@@ -11,6 +11,7 @@ namespace BuddyApp.Companion
 		private bool mNeedListen;
 		private bool mTrigg;
 		private int mKnockKnock;
+		private float mTime;
 
 		public override void Start()
 		{
@@ -26,6 +27,7 @@ namespace BuddyApp.Companion
 
 			Debug.Log("listen joke");
 
+			mTime = 0F;
 			mKnockKnock = 0;
 
 			Debug.Log("listen joke lastans " + Interaction.SpeechToText.LastAnswer);
@@ -50,6 +52,8 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mTime += Time.deltaTime;
+
 			if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.SpeechToText.HasFinished)
 				if (mTrigg)
 					Trigger("VOCALCOMMAND");
@@ -57,6 +61,12 @@ namespace BuddyApp.Companion
 					Interaction.VocalManager.StartInstantReco();
 					mNeedListen = false;
 				}
+
+
+			if (mTime > 20F ) {
+				iAnimator.SetTrigger("INTERACT");
+				CompanionData.Instance.mLearnDesire -= 30;
+			}
 		}
 
 		private void OnSpeechRecognition(string iMsg)
@@ -127,6 +137,8 @@ namespace BuddyApp.Companion
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.CHAT;
+			CompanionData.Instance.mLearnDesire -= 50;
+			CompanionData.Instance.mInteractDesire -= 50;
 
 			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
 			Interaction.SpeechToText.OnErrorEnum.Remove(ErrorSTT);

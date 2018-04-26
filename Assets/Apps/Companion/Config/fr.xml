@@ -2386,12 +2386,14 @@
             <Key>tellsomething</Key>
             <BaseValue>Dis moi quelque chose</BaseValue>
             <ClosePhoneticValues>
-                <string>Apprends moi un truc</string>
-                <string>Dis moi un truc</string>
-                <string>Dis moi quelque chose</string>
-                <string>Dis moi un fait amusant</string>
+                <string>Apprend-moi un truc</string>
+                <string>fais amusant</string>
+                <string>Dis-moi un truc</string>
+                <string>Dis-moi quelque chose</string>
+                <string>fais amusant</string>
                 <string>fait amusant</string>
-                <string />
+                <string>dis un truc</string>
+                <string>dis quelque chose</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Dis moi quelque chose</string>
@@ -2826,6 +2828,19 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>upsetcaress</Key>
+            <BaseValue>Laisse moi tranquile</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Laisse moi tranquile!</string>
+                <string>Je n'ai pas besoin de toi!</string>
+                <string>Méchant humain!</string>
+                <string>Pourquoi tant de haine?</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

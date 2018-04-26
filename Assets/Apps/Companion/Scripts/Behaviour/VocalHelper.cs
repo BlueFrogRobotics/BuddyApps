@@ -597,31 +597,31 @@ namespace BuddyApp.Companion
                 lType = "DontMove";
             else if (ContainsOneOf(iSpeech, mHeadDownSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mHeadDownSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 lType = "HeadDown";
             }
             else if (ContainsOneOf(iSpeech, mHeadLeftSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mHeadLeftSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 lType = "HeadLeft";
             }
             else if (ContainsOneOf(iSpeech, mHeadRightSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mHeadRightSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 lType = "HeadRight";
             }
             else if (ContainsOneOf(iSpeech, mHeadUpSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mHeadUpSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 lType = "HeadUp";
             }
             else if (ContainsOneOf(iSpeech, mTurnSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mTurnSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 if (iSpeech.ToLower().Contains(BYOS.Instance.Dictionary.GetString("head")))
                     lType = "Head";
@@ -635,25 +635,25 @@ namespace BuddyApp.Companion
             }
             else if (ContainsOneOf(iSpeech, mMoveBackwardSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mMoveBackwardSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 lType = "MoveBackward";
             }
             else if (ContainsOneOf(iSpeech, mMoveForwardSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mMoveForwardSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 lType = "MoveForward";
             }
             else if (ContainsOneOf(iSpeech, mMoveLeftSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mMoveLeftSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 lType = "MoveLeft";
             }
             else if (ContainsOneOf(iSpeech, mMoveRightSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mMoveRightSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 lType = "MoveRight";
             }
@@ -669,13 +669,13 @@ namespace BuddyApp.Companion
             }
             else if (ContainsOneOf(iSpeech, mVolumeDownSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mVolumeDownSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 lType = "VolumeDown";
             }
             else if (ContainsOneOf(iSpeech, mVolumeUpSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mVolumeUpSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 lType = "VolumeUp";
                 //} else if (ContainsOneOf(iSpeech, "switchlanguage")) {
@@ -697,13 +697,13 @@ namespace BuddyApp.Companion
             }
             else if (ContainsOneOf(iSpeech, mVolumeDownSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mVolumeDownSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 lType = "VolumeDown";
             }
             else if (ContainsOneOf(iSpeech, mVolumeUpSpeech))
             {
-                Answer = GetNextNumber(iSpeech, mVolumeUpSpeech);
+                Answer = GetNextNumber(iSpeech);
                 Debug.Log("Vocal helper answer: " + Answer);
                 lType = "VolumeUp";
             }
@@ -832,27 +832,45 @@ namespace BuddyApp.Companion
 				return MoodType.NEUTRAL.ToString(); ;
 		}
 
-		private string GetNextNumber(string iText, List<string> iSpeech)
-		{
-			string lResult = "";
-			int lKeywordsIndex = WordIndexOfOneOf(iText, iSpeech);
-			string[] lWords = iText.Split(' ');
-			float n = 0F;
+		//private string GetNextNumber(string iText, List<string> iSpeech)
+		//{
+		//	string lResult = "";
+		//	int lKeywordsIndex = WordIndexOfOneOf(iText, iSpeech);
+		//	string[] lWords = iText.Split(' ');
+		//	float n = 0F;
 
-			if (lKeywordsIndex == -1) {
-				return lResult;
-			} else if (lKeywordsIndex != lWords.Length) {
-				for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
-					if (float.TryParse(lWords[j], out n)) {
-						if (!iSpeech.Contains(" meter") && !iSpeech.Contains(" mètre") && ((iSpeech.Contains("centimeter") || iSpeech.Contains("centimètre") || iSpeech.Contains(" cm"))))
-							lResult = "" + n / 100;
-						else
-							lResult = lWords[j];
-						break;
-					} else if (float.TryParse(lWords[j].Remove(lWords[j].Length - 2), out n) && lWords[j][lWords[j].Length - 2] == 'c' && lWords[j][lWords[j].Length - 1] == 'm')
-						lResult = "" + n / 100;
+		//	if (lKeywordsIndex == -1) {
+		//		return lResult;
+		//	} else if (lKeywordsIndex != lWords.Length) {
+		//		for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
+		//			if (float.TryParse(lWords[j], out n)) {
+		//				if (!iSpeech.Contains(" meter") && !iSpeech.Contains(" mètre") && ((iSpeech.Contains("centimeter") || iSpeech.Contains("centimètre") || iSpeech.Contains(" cm"))))
+		//					lResult = "" + n / 100;
+		//				else
+		//					lResult = lWords[j];
+		//				break;
+		//			} else if (float.TryParse(lWords[j].Remove(lWords[j].Length - 2), out n) && lWords[j][lWords[j].Length - 2] == 'c' && lWords[j][lWords[j].Length - 1] == 'm')
+		//				lResult = "" + n / 100;
+		//	}
+		//	return lResult;
+		//}
+
+		private string GetNextNumber(string iText)
+		{
+			if (!string.IsNullOrEmpty(iText)) {
+				string[] lWords = iText.Split(' ');
+				for(int i=0; i<lWords.Length; ++i) {
+					try {
+						float.Parse(lWords[i]);
+						return lWords[i];
+					}
+
+					catch {
+						continue;
+					}
+				}
 			}
-			return lResult;
+			return "";
 		}
 
 		private string BuildGeneralAnswer(string iData)

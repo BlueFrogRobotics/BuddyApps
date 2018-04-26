@@ -145,6 +145,7 @@ namespace BuddyApp.Companion
                         mDetectionManager.mFacePartTouched = FaceTouch.NONE;
                         mDetectionManager.mDetectedElement = Detected.NONE;
                         mActionManager.StopAllActions();
+						Interaction.TextToSpeech.Stop();
                         mNeedListen = true;
                     }
                     break;
@@ -447,8 +448,8 @@ namespace BuddyApp.Companion
                         CancelOrders();
                         mActionManager.UnlockHead();
 
-                        int n;
-                        if (!int.TryParse(mVocalChat.Answer, out n))
+                        float n;
+                        if (!float.TryParse(mVocalChat.Answer, out n))
                         {
                             //default value
                             n = 25;
@@ -469,8 +470,8 @@ namespace BuddyApp.Companion
                         CancelOrders();
                         mActionManager.UnlockHead();
 
-                        int n;
-                        if (!int.TryParse(mVocalChat.Answer, out n))
+                        float n;
+                        if (!float.TryParse(mVocalChat.Answer, out n))
                         {
                             //default value
                             n = 25;
@@ -492,8 +493,8 @@ namespace BuddyApp.Companion
                         CancelOrders();
                         mActionManager.UnlockHead();
 
-                        int n;
-                        if (!int.TryParse(mVocalChat.Answer, out n))
+                        float n;
+                        if (!float.TryParse(mVocalChat.Answer, out n))
                         {
                             //default value
                             n = 35;
@@ -514,8 +515,8 @@ namespace BuddyApp.Companion
                         CancelOrders();
                         mActionManager.UnlockHead();
 
-                        int n;
-                        if (!int.TryParse(mVocalChat.Answer, out n))
+                        float n;
+                        if (!float.TryParse(mVocalChat.Answer, out n))
                         {
                             //default value
                             n = 35;
@@ -536,7 +537,8 @@ namespace BuddyApp.Companion
                     int lMax = RetrieveMaxInt(lMatrix);
                     lSentence = Dictionary.GetRandomString("heat").Replace("[degree]", lMax.ToString());
                     Say(lSentence);
-                    break;
+					mNeedListen = true;
+					break;
 
                 case "HideSeek":
                     CompanionData.Instance.mInteractDesire -= 50;
@@ -679,8 +681,8 @@ namespace BuddyApp.Companion
                         CancelOrders();
                         mActionManager.UnlockWheels();
 
-                        int n = 0;
-                        if (!int.TryParse(mVocalChat.Answer, out n))
+                        float n = 0;
+                        if (!float.TryParse(mVocalChat.Answer, out n))
                         {
                             //default value
                             n = 25;
@@ -701,8 +703,8 @@ namespace BuddyApp.Companion
                         CancelOrders();
                         mActionManager.UnlockWheels();
 
-                        int n;
-                        if (!int.TryParse(mVocalChat.Answer, out n))
+                        float n;
+                        if (!float.TryParse(mVocalChat.Answer, out n))
                         {
                             //default value
                             n = 25;
@@ -846,8 +848,8 @@ namespace BuddyApp.Companion
 
                 case "Volume":
                     {
-                        int n;
-                        if (!int.TryParse(mVocalChat.Answer, out n))
+                        float n;
+                        if (!float.TryParse(mVocalChat.Answer, out n))
                         {
                             //default value
 
@@ -861,8 +863,8 @@ namespace BuddyApp.Companion
 
                 case "VolumeDown":
                     {
-                        int n;
-                        if (!int.TryParse(mVocalChat.Answer, out n))
+                        float n;
+                        if (!float.TryParse(mVocalChat.Answer, out n))
                         {
                             //default value
                             n = 3;
@@ -872,7 +874,7 @@ namespace BuddyApp.Companion
 
                         Debug.Log("Decrease volume by " + n);
                         Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-                        BYOS.Instance.Primitive.Speaker.VolumeDown(n);
+                        BYOS.Instance.Primitive.Speaker.VolumeDown( (int) n);
                         Say(Dictionary.GetRandomString("volumedown") + " " + n, true);
                         mNeedListen = true;
                     }
@@ -880,8 +882,8 @@ namespace BuddyApp.Companion
 
                 case "VolumeUp":
                     {
-                        int n;
-                        if (!int.TryParse(mVocalChat.Answer, out n))
+                        float n;
+                        if (!float.TryParse(mVocalChat.Answer, out n))
                         {
                             //default value
                             n = 3;
@@ -889,7 +891,7 @@ namespace BuddyApp.Companion
                         SayKey("accept", true);
                         Debug.Log("Increase volume by " + n);
                         Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-                        BYOS.Instance.Primitive.Speaker.VolumeUp(n);
+                        BYOS.Instance.Primitive.Speaker.VolumeUp( (int) n);
                         Say(Dictionary.GetRandomString("volumeup") + " " + n);
                         mNeedListen = true;
                     }

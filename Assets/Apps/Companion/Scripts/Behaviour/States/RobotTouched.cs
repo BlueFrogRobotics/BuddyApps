@@ -82,7 +82,17 @@ namespace BuddyApp.Companion
 					mLastPartTouched = mDetectionManager.mFacePartTouched;
 					if (mFaceCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking && Time.time - mLastSpeechTime > 5F) {
 						mLastSpeechTime = Time.time;
-						Interaction.TextToSpeech.SayKey("ilikecaress");
+						if (Interaction.InternalState.Positivity > -2)
+							Interaction.TextToSpeech.SayKey("ilikecaress");
+						// if sad, tell it
+						else if(Interaction.InternalState.InternalStateMood == InternalMood.SAD) {
+							Interaction.TextToSpeech.Say(Dictionary.GetRandomString("ifeel") + " " + Dictionary.GetString(Interaction.InternalState.InternalStateMood.ToString().ToLower()) + " "
+								+ Dictionary.GetRandomString("because") + " " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey), true);
+							// if bitter or angry, tell why
+						} else {
+							Interaction.TextToSpeech.Say(Dictionary.GetRandomString("upsetcaress") + " " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey), true);
+						}
+
 					}
 				}
 

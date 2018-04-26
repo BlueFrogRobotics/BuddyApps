@@ -65,7 +65,7 @@ namespace BuddyApp.Companion
 		{
 			mTime += Time.deltaTime;
 
-			if (mTime > 30F || mNoGame) {
+			if (mTime > 20F || mNoGame) {
 				iAnimator.SetTrigger("INTERACT");
 				CompanionData.Instance.mHelpDesire -= 30;
 			}
