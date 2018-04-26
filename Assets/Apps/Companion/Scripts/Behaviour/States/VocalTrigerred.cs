@@ -326,11 +326,14 @@ namespace BuddyApp.Companion
                     mNeedListen = true;
                     break;
 
-                case "ColorSeen":
-                    var frame = BYOS.Instance.Primitive.RGBCam.FrameMat;
-                    Debug.Log("la couleur est : " + BYOS.Instance.Perception.Shade.GetColor(frame).Color.ToString());
-                    lSentence = BYOS.Instance.Dictionary.GetRandomString("colorseen").Replace("[colour]", BYOS.Instance.Perception.Shade.GetColor(BYOS.Instance.Primitive.RGBCam.FrameMat).Color.ToString());
+                case "ColourSeen":
+                    Trigger("COLOUR");
+                    break;
+
+                case "Copy":
+                    lSentence = Dictionary.GetRandomString("copy");
                     Say(lSentence);
+                    Trigger("COPY");
                     break;
 
                 case "DetectObject":
@@ -339,6 +342,7 @@ namespace BuddyApp.Companion
                     else
                         lSentence = BYOS.Instance.Dictionary.GetRandomString("dontseeanything");
                     Say(lSentence);
+                    mNeedListen = true;
                     break;
                 case "Dance":
                     Debug.Log("Playing BML dance");
@@ -539,6 +543,7 @@ namespace BuddyApp.Companion
                     Say(lSentence);
 					mNeedListen = true;
 					break;
+
 
                 case "HideSeek":
                     CompanionData.Instance.mInteractDesire -= 50;
@@ -937,6 +942,7 @@ namespace BuddyApp.Companion
 
         private string SetNapSentence(int iNumber, string iTimeUnit, string iSentence)
         {
+            Debug.Log(iNumber);
             if (iNumber == 0)
                 iSentence = iSentence.Replace("[" + iTimeUnit + "]", string.Empty);
             else if (iNumber == 1)
@@ -981,42 +987,13 @@ namespace BuddyApp.Companion
         {
             int lHour = iTimeInSeconds / 3600;
             int lMinute = (iTimeInSeconds % 3600) / 60;
-            int lSecond = ((iTimeInSeconds % 3600) % 60) / 60;
+            int lSecond = ((iTimeInSeconds % 3600) % 60);
+
+            Debug.Log(lHour + " heure " + lMinute + " minute " + lSecond + "seconde");
 
             int[] lResult = { lHour, lMinute, lSecond };
 
             return (lResult);
-        }
-
-        public static bool RecoverFaceEntity(FaceEntity[] iEntities)
-        {
-            foreach (FaceEntity item in iEntities)
-            {
-                Debug.Log("Pose : " + item.Pose + "Speed : " + item.Speed);
-
-                switch (item.Pose)
-                {
-                    case PoseOrientation.LEFTPROFILE:
-                        BYOS.Instance.Primitive.Motors.NoHinge.SetPosition(90);
-                        break;
-                    case PoseOrientation.RIGHTPROFILE:
-                        BYOS.Instance.Primitive.Motors.NoHinge.SetPosition(0);
-                        break;
-                    case PoseOrientation.FACIAL:
-                        BYOS.Instance.Primitive.Motors.NoHinge.SetPosition(45);
-                        break;
-                    case PoseOrientation.ROTATED30:
-                        BYOS.Instance.Primitive.Motors.NoHinge.SetPosition(30);
-                        break;
-                    case PoseOrientation.ROTATED330:
-                        BYOS.Instance.Primitive.Motors.NoHinge.SetPosition(330);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            return (true);
         }
 
         private int RetrieveMaxInt(int[] iMatrix)

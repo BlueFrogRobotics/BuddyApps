@@ -2669,10 +2669,10 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>colorseen</Key>
+            <Key>colourseen</Key>
             <BaseValue>couleur vue</BaseValue>
             <ClosePhoneticValues>
-                <string>quelle est la couleur de cet objet</string>
+                <string>couleur de cet objet</string>
                 <string>couleur</string>
             </ClosePhoneticValues>
             <RandomValues>
@@ -2720,8 +2720,9 @@
             <Key>mirror</Key>
             <BaseValue>miroir</BaseValue>
             <ClosePhoneticValues>
-                <string>montre moi ce que tu vois</string>
-                <string>mirroir</string>
+                <string>montre-moi ce que tu vois</string>
+                <string>miroir</string>
+                <string>tu vois</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>miroir</string>
@@ -2841,6 +2842,17 @@
                 <string>Je n'ai pas besoin de toi!</string>
                 <string>Méchant humain!</string>
                 <string>Pourquoi tant de haine?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>copy</Key>
+            <BaseValue>copie</BaseValue>
+            <ClosePhoneticValues>
+                <string>copie mes mouvements</string>
+                <string>fais comme moi</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+              <string>Rapproche ton visage de la camera, s'il te plait</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

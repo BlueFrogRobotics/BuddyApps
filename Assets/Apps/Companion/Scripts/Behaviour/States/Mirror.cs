@@ -53,6 +53,7 @@ namespace BuddyApp.Companion
                     Core.flip(mMatSrc, mMat, 1);
                     mTexture = Utils.MatToTexture2D(mMat);
                     Debug.Log("MIRROR : Toast opened");
+                    Debug.Log("Texture width " + mTexture.width + " " + mTexture.height);
                     Toaster.Display<Buddy.UI.PictureToast>().With(Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
                 }
                 else

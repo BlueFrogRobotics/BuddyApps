@@ -578,14 +578,16 @@ namespace BuddyApp.Companion
                 lType = "LookAtMe";
             else if (ContainsOneOf(iSpeech, "heat"))
                 lType = "Heat";
-            //else if (ContainsOneOf(iSpeech, "colorseen"))
-            //    lType = "ColorSeen";
+            else if (ContainsOneOf(iSpeech, "colourseen"))
+                lType = "ColourSeen";
             else if (ContainsOneOf(iSpeech, "detectobject"))
                 lType = "DetectObject";
             else if (ContainsOneOf(iSpeech, "mirror"))
                 lType = "Mirror";
             else if (ContainsOneOf(iSpeech, "nap"))
                 lType = "Nap";
+            else if (ContainsOneOf(iSpeech, "copy"))
+                lType = "Copy";
             else if (ContainsOneOf(iSpeech, mWanderSpeech))
             {
                 Answer = FindMood(iSpeech.ToLower());

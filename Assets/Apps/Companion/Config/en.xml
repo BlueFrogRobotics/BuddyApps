@@ -2128,15 +2128,15 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>colorseen</Key>
-            <BaseValue>color seen</BaseValue>
+            <Key>colourseen</Key>
+            <BaseValue>colour seen</BaseValue>
             <ClosePhoneticValues>
-                <string>color</string>
-                <string>what color do you see</string>
-                <string>what is the color of this object</string>
+                <string>colour</string>
+                <string>what colour do you see</string>
+                <string>colour of this object</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>The colour is [colour], I think</string>
+                <string>I think it's [colour]</string>
                 <string>I'm not sure but I think it's [colour]</string>
             </RandomValues>
         </DictionaryEntry>
@@ -2303,6 +2303,17 @@
                 <string>let me be!</string>
                 <string>I don't need you right now!</string>
                 <string>why did you do that?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>copy</Key>
+            <BaseValue>copy</BaseValue>
+            <ClosePhoneticValues>
+                <string>copy my moves</string>
+                <string>copy my movements</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+              <string>bring your face closer to the camera, please</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
