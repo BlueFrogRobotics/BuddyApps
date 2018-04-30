@@ -17,7 +17,6 @@ namespace BuddyApp.Companion
 		private float mTimeIdle;
 		private bool mHeadPlaying;
 		private bool mHeadUp;
-		private bool mEyeClosed;
 		private float mTimeSleeping;
 
 		public override void Start()
@@ -30,7 +29,6 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mHeadUp = false;
-			mEyeClosed = false;
 			mActionTrigger = "";
 			mActionManager.StopAllActions();
 			mDetectionManager.mDetectedElement = Detected.NONE;
@@ -61,8 +59,7 @@ namespace BuddyApp.Companion
 			mState.text = "NAP " + (DateTime.Now - BYOS.Instance.StartTime).TotalSeconds + "\n interactDesire: " + CompanionData.Instance.mInteractDesire
 				+ "\n wanderDesire: " + CompanionData.Instance.mMovingDesire;
 
-			if (Interaction.Face.IsStable && !mEyeClosed) {
-				mEyeClosed = true;
+			if (Interaction.Face.IsStable && Interaction.Face.EyesOpen) {
 				Interaction.Face.SetEvent(FaceEvent.CLOSE_EYES);
 			}
 
