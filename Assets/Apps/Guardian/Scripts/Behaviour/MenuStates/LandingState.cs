@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace BuddyApp.Guardian
 {
     /// <summary>
-    /// State that init that activate the detections chosen by hte user and pass to the next mode state
+    /// State that init that activate the detections chosen by the user and pass to the next mode state
     /// </summary>
     public class LandingState : AStateMachineBehaviour
     {

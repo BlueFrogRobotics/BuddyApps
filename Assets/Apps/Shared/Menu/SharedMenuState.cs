@@ -47,15 +47,23 @@ namespace BuddyApp.Shared
 
         private float mTimer = 0.0f;
 
+        private bool mListClear;
+
         public override void Start()
         {
             Interaction.VocalManager.EnableTrigger = false;
             BYOS.Instance.Header.DisplayParametersButton = false;
+            mListClear = false;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+            if(!mListClear)
+            {
+                mListClear = true;
+                //items.Clear();
+                //items = new List<MenuItem>(0);
+            }
             BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
             mHasLoadedTTS = true;
@@ -123,9 +131,11 @@ namespace BuddyApp.Shared
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mListClear = false;
             Interaction.SpeechToText.Stop();
             Interaction.Mood.Set(MoodType.NEUTRAL);
-            
+            mIndexButton = 0;
+            items.Clear();
             mSpeechReco = null;
             mHasDisplayChoices = false;
         }
