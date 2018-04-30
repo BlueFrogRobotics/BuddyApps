@@ -36,6 +36,7 @@ namespace BuddyApp.RedLightGreenLightGame
 
         private IEnumerator Recoil()
         {
+        //    Debug.Log("RECUL DE OUF DANS RLGL MAGGLE TKT " + Primitive.Motors.YesHinge.CurrentAnglePosition);
             yield return SayKeyAndWait("willrecoil");
             Interaction.TextToSpeech.SayKey("smallrules");
             mSentenceDone = true;

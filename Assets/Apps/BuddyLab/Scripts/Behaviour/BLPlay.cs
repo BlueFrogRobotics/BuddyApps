@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
+using UnityEngine.UI;
 
 namespace BuddyApp.BuddyLab
 {
@@ -19,9 +20,15 @@ namespace BuddyApp.BuddyLab
         private LoopManager mLoopManager;
         private ConditionManager mConditionManager;
         private BuddyLabBehaviour mBLBehaviour;
+        private GameObject mButtonHideUI;
+        private GameObject mUIToHide;
+        private GameObject mSequenceToHide;
 
         public override void Start()
         {
+            mSequenceToHide = GetGameObject(10);
+            mButtonHideUI = GetGameObject(8);
+            mUIToHide = GetGameObject(9);
             mConditionManager = GetGameObject(3).GetComponent<ConditionManager>();
             mLoopManager = GetGameObject(3).GetComponent<LoopManager>();
             mUIManager = GetComponent<LabUIEditorManager>();
@@ -37,7 +44,6 @@ namespace BuddyApp.BuddyLab
             mFireDetection = BYOS.Instance.Perception.Thermal;
             mQRcodeDetection = BYOS.Instance.Perception.QRCode;
             mUIManager.OpenPlayUI();
-            mPlay = Play();
             mIsPlaying = false;
             mUIManager.StopButton.onClick.AddListener(Stop);
             mUIManager.ReplayButton.onClick.AddListener(Replay);
@@ -58,23 +64,27 @@ namespace BuddyApp.BuddyLab
             ItemControlUnit.OnNextAction -= ChangeItemHighlight;
             mTimelineDisplayer.HideSequence();
             mUIManager.StopButton.onClick.RemoveListener(Stop);
+            mButtonHideUI.GetComponent<Button>().onClick.RemoveListener(HideUi);
             mUIManager.ReplayButton.onClick.RemoveListener(Replay);
             mUIManager.ClosePlayUI();
         }
 
         private void Stop()
         {
+            mButtonHideUI.SetActive(false);
             ResetPosition();
             mItemControl.IsRunning = false;
             mLoopManager.ResetParam();
             mLoopManager.NeedChangeIndex();
             mConditionManager.ConditionType = "";
+            mIsPlaying = false;
+            mLoopManager.ChangeIndex = false;
             if (Primitive.RGBCam.IsOpen)
             {
                 Debug.Log("CAMERA OPEN");
-                mMotionDetection.StopAllOnDetect();
-                mQRcodeDetection.StopAllOnDetect();
-                mFireDetection.StopAllOnDetect();
+                //mMotionDetection.StopAllOnDetect();
+                //mQRcodeDetection.StopAllOnDetect();
+                //mFireDetection.StopAllOnDetect();
                 Primitive.RGBCam.Close();
             }
             GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
@@ -83,17 +93,35 @@ namespace BuddyApp.BuddyLab
 
         private void Replay()
         {
+            Debug.Log("REPLAY ");
             ResetPosition();
+            mItemControl.IsRunning = false;
+            mLoopManager.ResetParam();
+            mLoopManager.NeedChangeIndex();
+            mConditionManager.ConditionType = "";
             mIsPlaying = false;
+            mLoopManager.ChangeIndex = false;
             if(!mIsPlaying)
-                StartCoroutine(mPlay);
+            {
+                Debug.Log("STARTCOROUTINE REPLAY ");
+                //mItemControl.IsRunning = true;
+                //mIsPlaying = true;
+                StartCoroutine(Play());
+            } 
         }
 
         private IEnumerator Play()
         {
+            if (!mUIToHide.activeSelf)
+                mUIToHide.SetActive(true);
+            mButtonHideUI.SetActive(true);
+            mButtonHideUI.GetComponent<Button>().onClick.AddListener(HideUi);
+            yield return new WaitForSeconds(0.5F);
             mItemControl.IsRunning = true;
             mIsPlaying = true;
+            Debug.Log("PLAY : AVANT YIELD RETURN : ISRUNNING " + mItemControl.IsRunning + " MISPLAYING : " + mIsPlaying);
             yield return mItemControl.PlaySequence();
+            Debug.Log("PLAY : APRES YIELD RETURN : ISRUNNING " + mItemControl.IsRunning + " MISPLAYING : " + mIsPlaying);
             mIsPlaying = false;
         }
 
@@ -110,6 +138,24 @@ namespace BuddyApp.BuddyLab
         private void ChangeItemHighlight(int iNum)
         {
             mTimelineDisplayer.HighlightElement(iNum);
+        }
+
+        private void HideUi()
+        {
+           
+            if (mUIToHide.activeSelf)
+            {
+                mUIToHide.SetActive(false);
+                mSequenceToHide.SetActive(false);
+                //Header.DisplayParametersButton = false;
+            }
+            else
+            {
+                mUIToHide.SetActive(true);
+                mSequenceToHide.SetActive(true);
+                //Header.DisplayParametersButton = true;
+                
+            }
         }
     }
 }

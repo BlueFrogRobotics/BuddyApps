@@ -29,6 +29,9 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private float maxValue;
 
+        [SerializeField]
+        private AFeedback mFeedback;
+
         public float MaxValue { get { return maxValue; } }
 
         public float MinValue { get { return minValue; } }
@@ -68,6 +71,7 @@ namespace BuddyApp.BuddyLab
         {
             mAnimator.SetTrigger("close");
             backgroundBlack.GetComponent<Animator>().SetTrigger("close");
+
             //Destroy(mFeedback);
             //mFeedback = null;
         }
@@ -76,8 +80,11 @@ namespace BuddyApp.BuddyLab
         {
             if (inputField.text.Length < 3)
             {
-                inputField.text += iNb;
-                ChangeValue(inputField.text);
+                if (!IsTextNumTooHigh(inputField.text + iNb))
+                {
+                    inputField.text += iNb;
+                    ChangeValue(inputField.text);
+                }
                 
             }
         }
@@ -100,6 +107,7 @@ namespace BuddyApp.BuddyLab
             if (lNb < minValue)
                 lNb = minValue;
             slider.value = (lNb-minValue) / (maxValue-minValue);
+            
         }
 
         public void EraseLastNumber()
@@ -114,8 +122,20 @@ namespace BuddyApp.BuddyLab
             float lParam = (iValue * (maxValue-minValue)+minValue );
             inputField.text = ""+ Mathf.RoundToInt(lParam);
             Parameter = inputField.text;
+            if(mFeedback!=null)
+                mFeedback.OnNewValue(iValue);
             //ChangeValue(inputField.text);
             Debug.Log("value du param: " + iValue * maxValue+" lParam: "+lParam+" min: "+minValue);
+        }
+
+        private bool IsTextNumTooHigh(string iText)
+        {
+            float lNb = 0;
+            float.TryParse(iText, out lNb);
+            if (lNb > maxValue)
+                return true;
+            else
+                return false;
         }
     }
 }

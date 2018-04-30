@@ -8,7 +8,9 @@ namespace BuddyApp.RemoteControl
         /*
          * Data getters / setters
          */
-        public int MyValue { get; set; }
+        public bool DiscreteMode{ get; set; }
+
+        public bool IsWizardOfOz { get; set; }
 
         /*
          * Data singleton access

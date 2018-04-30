@@ -17,6 +17,9 @@ namespace BuddyApp.Reminder
          * Data of the application. Save on disc when app is quitted
          */
         private ReminderData mAppData;
+
+        public List<string> Name = new List<string>();
+
         internal TextToSpeech mTTS = BYOS.Instance.Interaction.TextToSpeech;
         internal bool IsVocalGet = false;
         internal List<string> AllParam= new List<string>();
@@ -33,6 +36,23 @@ namespace BuddyApp.Reminder
 			* Init your app data
 			*/
             mAppData = ReminderData.Instance;
+
+            UserAccount[] lAccounts = BYOS.Instance.DataBase.GetUsers();
+                Debug.Log(lAccounts + " Poney");
+            foreach (UserAccount lUser in lAccounts)
+            {
+                if (lUser == null)
+                    Debug.Log(lUser + "Lol");
+
+                //if (Buddy.WebRTCListener.RemoteID.Trim() == lUser.Email)
+                //{
+                 Name.Add(lUser.FirstName);
+                //}
+            }
+            //Name.Add("Billy");
+            //Name.Add("Jack");
+            //Name.Add("Bob");
+            //Name.Add(null);
         }
 
 

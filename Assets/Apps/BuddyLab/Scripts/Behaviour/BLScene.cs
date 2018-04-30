@@ -21,6 +21,7 @@ namespace BuddyApp.BuddyLab
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("on enter de blscene");
             StartCoroutine(InitScene());
             //Interaction.Mood.Set(Buddy.MoodType.NEUTRAL);
             //Debug.Log("name project: " + mBLBehaviour.NameOpenProject);
@@ -55,6 +56,8 @@ namespace BuddyApp.BuddyLab
             mUIManager.SaveButton.onClick.RemoveListener(SaveSequence);
             mUIManager.FolderButton.onClick.RemoveListener(OpenFolder);
             mUIManager.BackButton.onClick.RemoveListener(GoToMenu);
+            mUIManager.UndoButton.onClick.RemoveListener(Undo);
+            mUIManager.RedoButton.onClick.RemoveListener(Redo);
             GetGameObject(6).GetComponent<Animator>().SetTrigger("close");
 
         }
@@ -85,6 +88,16 @@ namespace BuddyApp.BuddyLab
             Trigger("ProjectToMenu");
         }
 
+        private void Undo()
+        {
+            mItemControl.Undo();
+        }
+
+        private void Redo()
+        {
+            mItemControl.Redo();
+        }
+
         private IEnumerator InitScene()
         {
             Interaction.Mood.Set(Buddy.MoodType.NEUTRAL);
@@ -92,15 +105,20 @@ namespace BuddyApp.BuddyLab
             mItemControl.CleanSequence();
             yield return null;
             mItemControl.ShowSequence(mBLBehaviour.NameOpenProject + ".xml");
+            Debug.Log("BLSCENE 1 ");
             //mUIManager.SetBackground(true);
             mUIManager.OpenBottomUI();
+            Debug.Log("BLSCENE 2 ");
             mUIManager.OpenLineProgram();
+            Debug.Log("BLSCENE 3 ");
             mUIManager.OpenTrashArea();
-
+            Debug.Log("BLSCENE 4 ");
             mUIManager.PlayButton.onClick.AddListener(PlaySequence);
             mUIManager.SaveButton.onClick.AddListener(SaveSequence);
             mUIManager.FolderButton.onClick.AddListener(OpenFolder);
             mUIManager.BackButton.onClick.AddListener(GoToMenu);
+            mUIManager.UndoButton.onClick.AddListener(Undo);
+            mUIManager.RedoButton.onClick.AddListener(Redo);
         }
 
     }

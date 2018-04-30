@@ -16,7 +16,7 @@ namespace BuddyApp.RedLightGreenLightGame
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
-            mLevelManager = GetComponent<LevelManager>();
+            mLevelManager = GetComponentInGameObject<LevelManager>(0);
             StartCoroutine(Congratulation());
 			
 			//Interaction.TextToSpeech.Silence(1000);

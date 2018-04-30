@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Buddy;
 
 namespace BuddyApp.BuddyLab
 {
@@ -22,6 +23,9 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private InputField inputField;
 
+        //[SerializeField]
+        //private GameObject Placeholder;
+
         // Use this for initialization
         void Start()
         {
@@ -36,12 +40,14 @@ namespace BuddyApp.BuddyLab
 
         public void ShowField()
         {
-            DragAndDropCell lCell = GetComponentInParent<DragAndDropCell>();
-            if (lCell != null && lCell.cellType == DragAndDropCell.CellType.Swap)
+            DraggableItem lCell = GetComponentInParent<DraggableItem>();
+            if (lCell != null && !lCell.OnlyDroppable)
             {
+                //Placeholder.GetComponent<Text>().text = ""; 
                 buttonValidate.onClick.AddListener(Validate);
                 buttonCancel.onClick.AddListener(Cancel);
                 inputField.text = GetComponent<ABLItem>().Parameter;
+                inputField.GetComponentsInChildren<Text>()[0].text = BYOS.Instance.Dictionary.GetString("texttosay");
                 popupField.GetComponent<Animator>().SetTrigger("open");
                 backgroundBlack.GetComponent<Animator>().SetTrigger("open");
             }

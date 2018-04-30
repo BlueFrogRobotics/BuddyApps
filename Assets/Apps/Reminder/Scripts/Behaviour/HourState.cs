@@ -30,14 +30,14 @@ namespace BuddyApp.Reminder
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mVocal = GetComponent<ReminderBehaviour>();
-            mVocal.QuestionTime(Dictionary.GetRandomString("whours"));
+            mReminderBehaviour = GetComponent<ReminderBehaviour>();
+            mReminderBehaviour.QuestionTime(Dictionary.GetRandomString("whours"));
         }
          
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (ReminderData.Instance.VocalRequest != "" && mVocal.IsVocalGet)
+            if (ReminderData.Instance.VocalRequest != "" && mReminderBehaviour.IsVocalGet)
             {
 
                 Debug.Log("Coucou Hiboux");
@@ -53,7 +53,7 @@ namespace BuddyApp.Reminder
                         CreateCarousels();
                     }
                     ReminderData.Instance.VocalRequest = "";
-                    mVocal.QuestionTime(Dictionary.GetRandomString("what") + ", " + Dictionary.GetRandomString("whours"));
+                    mReminderBehaviour.QuestionTime(Dictionary.GetRandomString("what") + ", " + Dictionary.GetRandomString("whours"));
                 }
             }
         }
@@ -84,10 +84,10 @@ namespace BuddyApp.Reminder
             };
 
 
-            Toaster.Display<VerticalCarouselToast>().With(mCarouselHour, mCarouselMinute, null, OnValidate, null);
+            Toaster.Display<VerticalCarouselToast>().With(mCarouselHour, mCarouselMinute, null, OnValidation, null);
         }
 
-        private void OnValidate()
+        private void OnValidation()
         {
             string fString = "";
 
@@ -97,7 +97,7 @@ namespace BuddyApp.Reminder
             if (mMinute <= 9)
                 fString += "0";
             fString += mMinute;
-            mVocal.AllParam.Add(fString);
+            mReminderBehaviour.AllParam.Add(fString);
             HourOk();
             Toaster.Hide();
 
@@ -106,7 +106,7 @@ namespace BuddyApp.Reminder
         private void HourOk()
         {
             BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
-            foreach (string param in mVocal.AllParam)
+            foreach (string param in mReminderBehaviour.AllParam)
             {
                 Debug.Log("String : " + param);
             }
@@ -148,7 +148,7 @@ namespace BuddyApp.Reminder
                 if (time != "")
                 {
                     Debug.Log("TIME : " + time);
-                    mVocal.AllParam.Add(time);
+                    mReminderBehaviour.AllParam.Add(time);
                     return true;
                 }
             }

@@ -51,7 +51,7 @@ namespace BuddyApp.BuddyLab
         protected IOT IOT { get; private set; }
         protected Navigation Navigation { get; private set; }
         protected WebService WebService { get; private set; }
-
+        protected Header Header { get; private set; }
         protected Notifier Notifier { get; private set; }
         protected Toaster Toaster { get; private set; }
 
@@ -281,7 +281,7 @@ namespace BuddyApp.BuddyLab
             IOT = BYOS.Instance.IOT;
             Navigation = BYOS.Instance.Navigation;
             WebService = BYOS.Instance.WebService;
-
+            Header = BYOS.Instance.Header;
             Notifier = BYOS.Instance.Notifier;
             Toaster = BYOS.Instance.Toaster;
 

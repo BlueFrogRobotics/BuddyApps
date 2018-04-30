@@ -23,7 +23,7 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mLevelManager = GetComponent<LevelManager>();
+            mLevelManager = GetComponentInGameObject<LevelManager>(0);
             mRLGLBehaviour.Timer = 0;
             mListening = false;
             mSwitchState = false;

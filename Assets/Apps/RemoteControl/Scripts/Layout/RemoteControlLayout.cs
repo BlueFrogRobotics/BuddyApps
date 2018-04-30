@@ -1,46 +1,35 @@
+using Buddy;
 using Buddy.UI;
 
 namespace BuddyApp.RemoteControl
 {
     public class RemoteControlLayout : AWindowLayout
     {
-		private Gauge mGaugeValOne;
+        private OnOff mDiscreteMode;
 		
         public override void Build()
-        {		
+        {
             /*
              * Create needed widgets
              * ==> Which widget do I need for my app settings ?
              */
-            mGaugeValOne = CreateWidget<Gauge>();
+            mDiscreteMode = CreateWidget<OnOff>();
 
-            /*
-             * Set widgets parameters
-             */
-            mGaugeValOne.Slider.minValue = 0;
-            mGaugeValOne.Slider.maxValue = 10;
-            mGaugeValOne.Slider.wholeNumbers = true;
-            mGaugeValOne.DisplayPercentage = true; /* Only the display will be in percentage, the value will still be within 0 and 10 */
+            mDiscreteMode.OnSwitchEvent((bool iVal) => {
+                RemoteControlData.Instance.DiscreteMode = iVal;
+            });
 
             /*
              * Retrieve app data and display them inside the view
              * ==> What info must be displayed ?
-             */ 
-            mGaugeValOne.Slider.value = RemoteControlData.Instance.MyValue;
+             */
+            mDiscreteMode.IsActive = RemoteControlData.Instance.DiscreteMode;
 
-            /*
-            * Set command to widgets
-            * At each interaction with a widget, a callback will be called
-            * ==> What must happen when I interacted with a widget ?
-            */
-            mGaugeValOne.OnUpdateEvent((iVal) => {
-				RemoteControlData.Instance.MyValue = iVal;
-			});
 		}
 
         public override void LabelizeWidgets()
         {
-            mGaugeValOne.Label = "AN INTEGER";
+            mDiscreteMode.Label = BYOS.Instance.Dictionary.GetString("discretemode");
         }
     }
 }

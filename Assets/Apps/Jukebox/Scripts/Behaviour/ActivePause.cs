@@ -12,8 +12,8 @@ namespace BuddyApp.Jukebox
 
         [SerializeField]
         private GameObject play;
-
-
+         
+         
         public void PauseMusicAndIcon()
         {
             if (pause.activeSelf) {

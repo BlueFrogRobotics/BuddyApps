@@ -11,6 +11,7 @@ namespace BuddyApp.Recipe
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("play sound step");
             switch (UnityEngine.Random.Range(0, 10))
             {
                 case 0:

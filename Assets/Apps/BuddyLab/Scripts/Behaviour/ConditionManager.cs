@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Buddy;
 using UnityEngine.UI;
+using OpenCVUnity;
 
 namespace BuddyApp.BuddyLab
 {
@@ -96,7 +97,11 @@ namespace BuddyApp.BuddyLab
                 Debug.Log("condition set to: " + value);
                 ClearEventTactile();
                 if (value == "")
+                {
+                    Debug.Log("CONDITIONMANAGER LOL RESETPARAM");
                     ResetParam();
+                }
+
                 mConditionType = value;
             }
         }
@@ -110,21 +115,44 @@ namespace BuddyApp.BuddyLab
         //public bool LoopSensor { get { return mLoopSensor; } set { mLoopSensor = value; } }
 
         private bool mSubscribed;
-        
-
         private float mTimer;
         private float mTimerBis;
         //public float Timer { get { return mTimer; } set { mTimer = value; } }
 
+        private bool mIsInCondition;
+        public bool IsInCondition { get { return mIsInCondition; } set { mIsInCondition = value; } }
+
+        //[SerializeField]
+        //private RawImage kikoo;
+
+        /// <summary>
+        /// Variables for color detection
+        /// </summary>
+        private ShadeProcessing mShade;
+        private bool mIsColorDetection;
+        private Mat mFrame;
+        private ShadeEntity[] mShadeEntity;
+        private float mAreaBoundingBoxSE;
+        private Texture2D mTexture;
+        private Mat lMat;
+        private Mat lRoi;
+        private Mat lResized;
+        private Color32 mColorToDetect;
+
         // Use this for initialization
         void Start()
         {
+            lRoi = new Mat();
+            lResized = new Mat();
+            lMat = new Mat();
+            mFrame = new Mat();
             mMotor = BYOS.Instance.Primitive.Motors;
             mFace = BYOS.Instance.Interaction.Face;
             mQRCodeDetect = BYOS.Instance.Perception.QRCode;
             mIRSensors = BYOS.Instance.Primitive.IRSensors;
             mNoiseDetection = BYOS.Instance.Perception.Noise;
             mSTT = BYOS.Instance.Interaction.SpeechToText;
+            mShade = BYOS.Instance.Perception.Shade;
             mSpeechReco = "";
             mIsStringSaid = false;
             mHeadMoving = false;
@@ -133,6 +161,7 @@ namespace BuddyApp.BuddyLab
             mTactileSubscribed = false;
             mIsTactileDetect = false;
             mIsFireDetect = false;
+            mIsColorDetection = false;
             mTimer = 0F;
             mTimerBis = 0;
             mSubscribed = false;
@@ -166,15 +195,19 @@ namespace BuddyApp.BuddyLab
                 {
                     mIsListening = false;
                     TextToSay();
-                }  
+                }
+                if (mIsColorDetection)
+                    ColorDetection();
             }
         }
 
         private void LoadCondition()
         {
+
             //mIsEventDone = false;
             if (!mSubscribed)
             {
+                //Debug.Log("CM : LOADCONDITION SUBSCRIBED");
                 switch (mConditionType)
                 {
                     case "Fire":
@@ -230,6 +263,26 @@ namespace BuddyApp.BuddyLab
                         break;
                     case "Color":
                         Debug.Log("Color");
+                        mCam = BYOS.Instance.Primitive.RGBCam;
+                        mCam.Open(RGBCamResolution.W_320_H_240);
+                        if (mParamCondition == "Blue")
+                            mColorToDetect = new Color32(0, 0, 255, 100);
+                        else if (mParamCondition == "Green")
+                            mColorToDetect = new Color32(0, 255, 0, 100);
+                        else if (mParamCondition == "Yellow")
+                            mColorToDetect = new Color32(255, 255, 0, 100);
+                        else if (mParamCondition == "Orange")
+                            mColorToDetect = new Color32(255, 69, 0, 100);
+                        else if (mParamCondition == "Red")
+                            mColorToDetect = new Color32(255, 0, 0, 100);
+                        else if (mParamCondition == "Pink")
+                            mColorToDetect = new Color32(255, 105, 180, 100);
+                        else if (mParamCondition == "Purple")
+                            mColorToDetect = new Color32(128, 0, 128, 100);
+                        else if (mParamCondition == "DarkBlue")
+                            mColorToDetect = new Color32(0, 0, 139, 100);
+                        mIsColorDetection = true;
+                        mSubscribed = true;
                         break;
                     case "HeadTactile":
                         Debug.Log("Head Motor move");
@@ -298,6 +351,13 @@ namespace BuddyApp.BuddyLab
             }
             if (mSpeechReco.Equals(mParamCondition))
             {
+                if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
+                {
+                    mConditionType = "";
+                    ClearEventTactile();
+                    mLoopManager.ChangeIndex = true;
+                    mLoopManager.IsSensorLoopWithParam = false;
+                }
                 ResetParam();
             }
             else
@@ -306,19 +366,74 @@ namespace BuddyApp.BuddyLab
 
         private bool OnSoundDetected(float iSound)
         {
-            if (iSound > (1 - (0.4F/ 100.0f)) * MAX_SOUND_THRESHOLD)
+            if (iSound > (1 - (0.4F / 100.0f)) * MAX_SOUND_THRESHOLD)
             {
                 Debug.Log("Sound DETECTED");
+                if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
+                {
+                    mConditionType = "";
+                    ClearEventTactile();
+                    mLoopManager.ChangeIndex = true;
+                    mLoopManager.IsSensorLoopWithParam = false;
+                }
                 ResetParam();
                 return true;
             }
             return true;
         }
 
+        //protected void Display(Mat iMatToDisplay)
+        //{
+
+        //    mTexture = Utils.ScaleTexture2DFromMat(iMatToDisplay, mTexture);
+        //    Utils.MatToTexture2D(iMatToDisplay, mTexture);
+        //    kikoo.texture = mTexture;
+        //}
+
+        private bool ColorDetection()
+        {
+            if (mCam.FrameMat != null)
+            {
+                mFrame = mCam.FrameMat.clone();
+                OpenCVUnity.Rect mRec = new OpenCVUnity.Rect(mCam.Width / 4, mCam.Height / 4 , mCam.Width / 2, mCam.Height / 2);
+                //Imgproc.cvtColor(mFrame, lGrayMat, Imgproc.COLOR_RGB2GRAY);
+                //Mat lRoi = new Mat(lGrayMat, mRec);
+                //Imgproc.resize(lRoi, lResized, lGrayMat.size());
+                //Display(lResized);
+                lRoi = new Mat(mFrame, mRec);
+                //Imgproc.resize(lRoi, lResized, lMat.size());
+                mShadeEntity = mShade.FindColor(lRoi, mColorToDetect);
+                for (int i = 0; i < mShadeEntity.Length; ++i)
+                {
+                    mAreaBoundingBoxSE = mShadeEntity[i].RectInFrame.height * mShadeEntity[i].RectInFrame.width;
+                    //Imgproc.rectangle(mFrame, new Point(mShadeEntity[i].RectInFrame.x + (mCam.Width / 4), mShadeEntity[i].RectInFrame.y + (mCam.Height / 4)), new Point(mShadeEntity[i].RectInFrame.x + mShadeEntity[i].RectInFrame.width, mShadeEntity[i].RectInFrame.y + mShadeEntity[i].RectInFrame.height), new Scalar(255, 0, 0), -1);
+                    float mAreaMat = lRoi.width() * lRoi.height();
+                    if (mAreaBoundingBoxSE / mAreaMat > 0.75)
+                    {
+                        Debug.Log("Good");
+                        ResetParam();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         private bool OnMovementDetected(MotionEntity[] iMotion)
         {
+            //Debug.Log("ONMOVEMENTDETECTED 1 : ");
+            //if(iMotion.Length == 0 || iMotion == null)
+            //    Debug.Log("ONMOVEMENTDETECTED NULL IMOTION : ");
             if (mTimer > 1.5F && iMotion.Length > 2)
             {
+                //Debug.Log("ONMOVEMENTDETECTED 2 : ");
+                if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
+                {
+                    mConditionType = "";
+                    ClearEventTactile();
+                    mLoopManager.ChangeIndex = true;
+                    mLoopManager.IsSensorLoopWithParam = false;
+                }
                 ResetParam();
                 mCam.Close();
                 mMotion.StopOnDetect(OnMovementDetected);
@@ -330,7 +445,13 @@ namespace BuddyApp.BuddyLab
         private bool OnThermalDetected(ObjectEntity[] iObject)
         {
             Debug.Log("FIRE DETECTED");
-            
+            if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
+            {
+                mConditionType = "";
+                ClearEventTactile();
+                mLoopManager.ChangeIndex = true;
+                mLoopManager.IsSensorLoopWithParam = false;
+            }
             ResetParam();
             mFireDetection.StopOnDetect(OnThermalDetected);
             return true;
@@ -339,43 +460,71 @@ namespace BuddyApp.BuddyLab
         private bool OnQrcodeDetected(QRCodeEntity[] iQRCodeEntity)
         {
 
-            for(int i = 0; i < iQRCodeEntity.Length; ++i)
+            for (int i = 0; i < iQRCodeEntity.Length; ++i)
             {
-               //Texture2D text =  Utils.MatToTexture2D(iQRCodeEntity[i].MatInFrame);
-               // kikoo.texture = text;
+                //Texture2D text =  Utils.MatToTexture2D(iQRCodeEntity[i].MatInFrame);
+                // kikoo.texture = text;
                 Debug.Log("Label : " + iQRCodeEntity[i].Label + " et i : " + i + iQRCodeEntity[i].MatInFrame == null);
-                if (iQRCodeEntity[i].Label == mParamCondition )
+                if (iQRCodeEntity[i].Label == mParamCondition)
                 {
+                    //if (mLoopManager.IsSensorLoopWithParam)
+                    //{
+                    //    mConditionType = "";
+                    //    ClearEventTactile();
+                    //    mLoopManager.ChangeIndex = true;
+                    //    mLoopManager.IsSensorLoopWithParam = false;
+                    //}
                     ResetParam();
                     mCam.Close();
                     mQRCodeDetect.StopOnDetect(OnQrcodeDetected);
                     return true;
                 }
             }
-            
+
             return true;
         }
 
         private void OnObstacleInFront()
         {
-            if(mIRSensor == IRSensor.FRONT)
+            if (mIRSensor == IRSensor.FRONT)
             {
                 if (mIRSensors.Middle.Distance < OBSTACLE_DISTANCE && mIRSensors.Middle.Distance != 0)
                 {
+                    if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
+                    {
+                        mConditionType = "";
+                        ClearEventTactile();
+                        mLoopManager.ChangeIndex = true;
+                        mLoopManager.IsSensorLoopWithParam = false;
+                    }
                     ResetParam();
                 }
             }
-            if(mIRSensor == IRSensor.LEFT)
+            if (mIRSensor == IRSensor.LEFT)
             {
                 if (mIRSensors.Left.Distance < OBSTACLE_DISTANCE && mIRSensors.Left.Distance != 0)
                 {
+                    if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
+                    {
+                        mConditionType = "";
+                        ClearEventTactile();
+                        mLoopManager.ChangeIndex = true;
+                        mLoopManager.IsSensorLoopWithParam = false;
+                    }
                     ResetParam();
                 }
             }
-            if(mIRSensor == IRSensor.RIGHT)
+            if (mIRSensor == IRSensor.RIGHT)
             {
                 if (mIRSensors.Right.Distance < OBSTACLE_DISTANCE && mIRSensors.Right.Distance != 0)
                 {
+                    if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
+                    {
+                        mConditionType = "";
+                        ClearEventTactile();
+                        mLoopManager.ChangeIndex = true;
+                        mLoopManager.IsSensorLoopWithParam = false;
+                    }
                     ResetParam();
                 }
             }
@@ -383,46 +532,62 @@ namespace BuddyApp.BuddyLab
 
         private void OnBuddyTactile()
         {
-            if(mTactile == TactileEvent.ALL_TACTILE)
+            if (mTactile == TactileEvent.ALL_TACTILE)
             {
+                //Debug.Log("IN THE TACTILE MAGGLE");
                 if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
                 {
+                    //Debug.Log("KIKOO ALL TACTILE MODAFUKA");
+                    if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
+                    {
+                        mConditionType = "";
+                        ClearEventTactile();
+                        mLoopManager.ChangeIndex = true;
+                        mLoopManager.IsSensorLoopWithParam = false;
+                    }
                     ResetParam();
                 }
             }
-            if(mTactile == TactileEvent.LEFT_EYE && !mTactileSubscribed)
+            if (mTactile == TactileEvent.LEFT_EYE && !mTactileSubscribed)
             {
                 mTactileSubscribed = true;
                 //ClearEventTactile();
                 mFace.OnClickLeftEye.Add(OnLeftEyeClicked);
             }
-            if(mTactile == TactileEvent.RIGHT_EYE && !mTactileSubscribed)
+            if (mTactile == TactileEvent.RIGHT_EYE && !mTactileSubscribed)
             {
                 mTactileSubscribed = true;
                 //ClearEventTactile();
                 mFace.OnClickRightEye.Add(OnRightEyeClicked);
             }
-            if(mTactile == TactileEvent.MOUTH && !mTactileSubscribed)
+            if (mTactile == TactileEvent.MOUTH && !mTactileSubscribed)
             {
                 mTactileSubscribed = true;
                 //ClearEventTactile();
                 mFace.OnClickMouth.Add(OnMouthClicked);
             }
-            if(mTactile == TactileEvent.BODY_MOVING)
+            if (mTactile == TactileEvent.BODY_MOVING)
             {
                 MovingWheels();
             }
-            if(mTactile == TactileEvent.HEAD_MOVING)
+            if (mTactile == TactileEvent.HEAD_MOVING)
             {
                 MovingHead();
             }
-            
+
         }
 
         private void MovingWheels()
         {
             if (Mathf.Abs(mMotor.Wheels.Odometry.z - mOriginRobotAngle) > ANGLE_THRESH)
             {
+                if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
+                {
+                    mConditionType = "";
+                    ClearEventTactile();
+                    mLoopManager.ChangeIndex = true;
+                    mLoopManager.IsSensorLoopWithParam = false;
+                }
                 ResetParam();
             }
         }
@@ -431,13 +596,20 @@ namespace BuddyApp.BuddyLab
         {
             if (Mathf.Abs(mMotor.NoHinge.CurrentAnglePosition) > ANGLE_THRESH)
             {
+                if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
+                {
+                    mConditionType = "";
+                    ClearEventTactile();
+                    mLoopManager.ChangeIndex = true;
+                    mLoopManager.IsSensorLoopWithParam = false;
+                }
                 ResetParam();
             }
         }
 
         private void OnLeftEyeClicked()
         {
-            if (mLoopManager.IsSensorLoopWithParam)
+            if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
             {
                 mConditionType = "";
                 ClearEventTactile();
@@ -449,7 +621,7 @@ namespace BuddyApp.BuddyLab
 
         private void OnRightEyeClicked()
         {
-            if (mLoopManager.IsSensorLoopWithParam)
+            if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
             {
                 mConditionType = "";
                 ClearEventTactile();
@@ -461,8 +633,8 @@ namespace BuddyApp.BuddyLab
 
         private void OnMouthClicked()
         {
-            Debug.Log("mouth clicked KIKOO CONDITION MANAGER");
-            if (mLoopManager.IsSensorLoopWithParam)
+            //Debug.Log("mouth clicked KIKOO CONDITION MANAGER");
+            if (mLoopManager.IsSensorLoopWithParam && !mIsInCondition)
             {
                 mConditionType = "";
                 ClearEventTactile();
@@ -474,14 +646,14 @@ namespace BuddyApp.BuddyLab
 
         private void ResetParam()
         {
-            
-                
+            Debug.Log("RESETPARAM ");
             mIsStringSaid = false;
             mSpeechReco = "";
             mHeadMoving = false;
             mBodyMoving = false;
             mIRSensorDetect = false;
             mIsTactileDetect = false;
+            mIsColorDetection = false;
             mIsEventDone = true;
             mTactile = TactileEvent.NONE;
             mSubscribed = false;
@@ -492,11 +664,10 @@ namespace BuddyApp.BuddyLab
 
         private void ClearEventTactile()
         {
-            Debug.Log("ALLAHAKBAR");
             mFace.OnClickLeftEye.Clear();
             mFace.OnClickMouth.Clear();
             mFace.OnClickRightEye.Clear();
         }
-       
+
     }
 }

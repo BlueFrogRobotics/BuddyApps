@@ -54,6 +54,8 @@ namespace BuddyApp.RedLightGreenLightGame
 
         public Vector3 StartingOdometry { get; set; }
 
+        public Vector3 EndingOdometry { get; set; }
+
         public bool CanRecoil { get; set; }
 
         [SerializeField]
@@ -116,6 +118,7 @@ namespace BuddyApp.RedLightGreenLightGame
             //buttonObject.GetComponent<RLGLTargetMovement>().enabled = true;
             gameplayObject.SetActive(true);
             positionningObject.SetActive(false);
+            gameplayObject.GetComponent<Animator>().Play("Start");
         }
 
         public void StartPositionning()
@@ -123,6 +126,7 @@ namespace BuddyApp.RedLightGreenLightGame
             //buttonObject.GetComponent<RLGLTargetMovement>().enabled = false;
             gameplayObject.SetActive(false);
             positionningObject.SetActive(true);
+            positionningObject.GetComponent<Animator>().Play("Start");
         }
     }
 }

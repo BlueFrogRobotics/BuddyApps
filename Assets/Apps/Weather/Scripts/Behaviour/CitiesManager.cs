@@ -17,7 +17,7 @@ namespace BuddyApp.Weather
         void Awake()
         {
             CitiesData = new CitiesData();
-            ListCities= new List<CitiesData>();
+            ListCities = new List<CitiesData>();
 
             string[] lCitiesfile = Directory.GetFiles(BYOS.Instance.Resources.GetPathToRaw("Cities"));
 

@@ -7,17 +7,17 @@ namespace BuddyApp.Weather
     {
         /*
          * Data getters / setters
-         */ 
+         */
         public string VocalRequest { get; set; }
 
-		/*
+        /*
          * Data singleton access
          */
-		public static WeatherData Instance
-        { 
-			get
+        public static WeatherData Instance
+        {
+            get
             {
-				if (sInstance == null)
+                if (sInstance == null)
                     sInstance = GetInstance<WeatherData>();
                 return sInstance as WeatherData;
             }

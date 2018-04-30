@@ -6,6 +6,6 @@ namespace BuddyApp.BuddyLab
 {
     public abstract class AFeedback : MonoBehaviour
     {
-        public abstract void OnNewValue(int iValue);
+        public abstract void OnNewValue(float iValue);
     }
 }

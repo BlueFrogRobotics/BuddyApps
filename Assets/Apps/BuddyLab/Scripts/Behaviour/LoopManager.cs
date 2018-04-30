@@ -54,6 +54,11 @@ namespace BuddyApp.BuddyLab
         private bool mIsSensorLoop;
         private bool mIsSensorLoopWithParam;
         public bool IsSensorLoopWithParam { get { return mIsSensorLoopWithParam; } set { mIsSensorLoopWithParam = value; } }
+
+        /// <summary>
+        /// Variables for Vision loop
+        /// </summary>
+        private bool mIsVisionLoop;
         
 
 
@@ -116,12 +121,18 @@ namespace BuddyApp.BuddyLab
                         break;
                     case LoopType.VISION:
                         Debug.Log("Loop Vision");
+                        mIsVisionLoop = true;
                         mIsInLoop = true;
                         break;
                     default:
                         break;
                 }
             }
+        }
+
+        private void LoopVision()
+        {
+
         }
 
         private void LoopSensor()
@@ -149,7 +160,7 @@ namespace BuddyApp.BuddyLab
                 else
                 {
                     //Debug.Log("LOOPX RESETPARAM");
-                    mLoopCounter = 0;
+                    mLoopCounter = 1;
                     ResetParam();
                 }
             }

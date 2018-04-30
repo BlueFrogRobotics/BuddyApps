@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ccaf885053445f144b5a373a570c9c26
-timeCreated: 1515666855
+timeCreated: 1520500074
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -125,7 +125,7 @@ TextureImporter:
     21300236: BuddyLab_Feedback_Volume
     21300238: BuddyLab_BG_Sensor
     21300240: BuddyLab_BG_Vision
-    21300242: BuddyLab_StartPoint
+    21300242: BuddyLab_StartPoint_Classic
     21300244: BuddyLab_FeedBack_BuddyStroke
     21300246: BuddyLab_Feedback_BuddyHead
     21300248: BuddyLab_FeedBack_ArrowUp
@@ -140,9 +140,33 @@ TextureImporter:
     21300266: BuddyLab_Icon_Cog
     21300268: BuddyLab_Icon_Cogs
     21300270: BuddyLab_Icon_Help
-    21300272: Top_loop
-    21300274: Side_loop
-    21300276: Boucle_X
+    21300272: BuddyLab_GotoBloc_Classic
+    21300274: BuddyLab_GotoBloc_Drag
+    21300276: BuddyLab_GotoBloc_Selected
+    21300278: BuddyLab_SensorLine_Classic
+    21300280: BuddyLab_SensorLine_Drag
+    21300282: BuddyLab_SensorLine_Selected
+    21300284: BuddyLab_VisionLine_Classic
+    21300286: BuddyLab_VisionLine_Drag
+    21300288: BuddyLab_VisionLine_Selected
+    21300290: BuddyLab_AddLine_Classic
+    21300292: BuddyLab_Icon_Add
+    21300294: BuddyLab_SensorLine_Bottom
+    21300296: BuddyLab_SensorLine_Top
+    21300298: BuddyLab_VisionLine_Bottom
+    21300300: BuddyLab_VisionLine_Top
+    21300302: BuddyLab_AddLine_Bottom
+    21300304: BuddyLab_AddLine_Top
+    21300306: BuddyLab_Bubble_Goto
+    21300308: BuddyLab_Icon_Goto
+    21300310: BuddyLab_Icon_Start
+    21300312: BuddyLab_Bubble_Sensor
+    21300314: BuddyLab_Bubble_Vision
+    21300316: BuddyLab_GradLine_Bottom
+    21300318: BuddyLab_GradLine_Top
+    21300320: BuddyLab_Boutton_Advanced
+    21300322: BuddyLab_StartPoint_Drag
+    21300324: BuddyLab_StartPoint_Selected
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -324,7 +348,7 @@ TextureImporter:
       name: BuddyLab_BlueBloc_Selected
       rect:
         serializedVersion: 2
-        x: 300
+        x: 302
         y: 1888
         width: 150
         height: 160
@@ -1790,11 +1814,11 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: BuddyLab_StartPoint
+      name: BuddyLab_StartPoint_Classic
       rect:
         serializedVersion: 2
-        x: 1521
-        y: 1489
+        x: 1773
+        y: 498
         width: 150
         height: 160
       alignment: 0
@@ -1975,8 +1999,8 @@ TextureImporter:
       name: BuddyLab_Icon_Help
       rect:
         serializedVersion: 2
-        x: 1773
-        y: 892
+        x: 1902
+        y: 1916
         width: 100
         height: 100
       alignment: 0
@@ -1985,41 +2009,353 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Top_loop
+      name: BuddyLab_GotoBloc_Classic
       rect:
         serializedVersion: 2
-        x: 424
-        y: 1240
-        width: 106
-        height: 26
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Side_loop
-      rect:
-        serializedVersion: 2
-        x: 397
-        y: 1140
-        width: 35
-        height: 127
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Boucle_X
-      rect:
-        serializedVersion: 2
-        x: 164
-        y: 1119
+        x: 1400
+        y: 338
         width: 150
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_GotoBloc_Drag
+      rect:
+        serializedVersion: 2
+        x: 1550
+        y: 338
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_GotoBloc_Selected
+      rect:
+        serializedVersion: 2
+        x: 1700
+        y: 338
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_SensorLine_Classic
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 178
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_SensorLine_Drag
+      rect:
+        serializedVersion: 2
+        x: 1550
+        y: 178
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_SensorLine_Selected
+      rect:
+        serializedVersion: 2
+        x: 1700
+        y: 178
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_VisionLine_Classic
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 18
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_VisionLine_Drag
+      rect:
+        serializedVersion: 2
+        x: 1550
+        y: 18
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_VisionLine_Selected
+      rect:
+        serializedVersion: 2
+        x: 1700
+        y: 18
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_AddLine_Classic
+      rect:
+        serializedVersion: 2
+        x: 1850
+        y: 178
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_Icon_Add
+      rect:
+        serializedVersion: 2
+        x: 1850
+        y: 98
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_SensorLine_Bottom
+      rect:
+        serializedVersion: 2
+        x: 1858
+        y: 58
+        width: 25
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_SensorLine_Top
+      rect:
+        serializedVersion: 2
+        x: 1887
+        y: 57
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_VisionLine_Bottom
+      rect:
+        serializedVersion: 2
+        x: 1918
+        y: 57
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_VisionLine_Top
+      rect:
+        serializedVersion: 2
+        x: 1949
+        y: 57
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_AddLine_Bottom
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 57
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_AddLine_Top
+      rect:
+        serializedVersion: 2
+        x: 2011
+        y: 57
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_Bubble_Goto
+      rect:
+        serializedVersion: 2
+        x: 1850
+        y: 338
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_Icon_Goto
+      rect:
+        serializedVersion: 2
+        x: 1850
+        y: 418
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_Icon_Start
+      rect:
+        serializedVersion: 2
+        x: 1930
+        y: 338
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_Bubble_Sensor
+      rect:
+        serializedVersion: 2
+        x: 1934
+        y: 457
+        width: 41
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_Bubble_Vision
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 457
+        width: 41
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_GradLine_Bottom
+      rect:
+        serializedVersion: 2
+        x: 1934
+        y: 428
+        width: 10
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_GradLine_Top
+      rect:
+        serializedVersion: 2
+        x: 1946
+        y: 428
+        width: 10
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_Boutton_Advanced
+      rect:
+        serializedVersion: 2
+        x: 1496
+        y: 1512
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_StartPoint_Drag
+      rect:
+        serializedVersion: 2
+        x: 1773
+        y: 658
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BuddyLab_StartPoint_Selected
+      rect:
+        serializedVersion: 2
+        x: 1773
+        y: 818
+        width: 150
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

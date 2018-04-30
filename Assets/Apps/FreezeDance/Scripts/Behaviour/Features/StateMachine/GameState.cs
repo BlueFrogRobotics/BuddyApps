@@ -37,7 +37,12 @@ namespace BuddyApp.FreezeDance
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             SetBool("ScoreBool", true);
-            mMusicPlayer.ReinitMusic(Random.Range(0, mMusicPlayer.NbClips));
+            if(mFreezeBehaviour.ChangeMusic)
+            {
+                mMusicPlayer.ReinitMusic(Random.Range(0, mMusicPlayer.NbClips));
+                mFreezeBehaviour.ChangeMusic = false;
+            }
+            
             mMusicPlayer.Play();
             mTime = Time.time;
             mRandomStopDelay = 0;
@@ -60,7 +65,7 @@ namespace BuddyApp.FreezeDance
                 mTimer += Time.deltaTime;
                 float lTime = Time.time;
                 if (mRandomStopDelay == 0)
-                    mRandomStopDelay = Random.Range(10, 15);
+                    mRandomStopDelay = Random.Range(4, 8);
                 if (lTime - mTime > 3.5f && !mHasDetected && !mHasTalked)
                 {
                     //Interaction.Mood.Set(MoodType.ANGRY);
@@ -74,6 +79,12 @@ namespace BuddyApp.FreezeDance
                     mScoreManager.WinLife();
                     mTimer = 0.0f;
                     mHasDetected = false;
+                }
+
+                if (mTimer > 0.5f && !mHasDetected)
+                {
+                    mTimer = 0.0f;
+                    mScoreManager.LoseLife();
                 }
                 //Debug.Log("!!!!!!time " + (lTime - mTime)+" random: "+ mRandomStopDelay);
                 if (!mEnd && lTime - mTime > mRandomStopDelay)

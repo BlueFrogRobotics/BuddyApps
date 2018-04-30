@@ -3,6 +3,7 @@ using UnityEngine;
 
 using Buddy;
 using System;
+using System.Collections;
 
 namespace BuddyApp.RemoteControl
 {
@@ -53,6 +54,9 @@ namespace BuddyApp.RemoteControl
 	    [SerializeField]
 	    private Dropdown choiceDropdown;
 
+        [SerializeField]
+        private AudioClip musicCall;
+
 	    private bool mIncomingCallHandled;
 
 	    public void backToLobby()
@@ -67,10 +71,8 @@ namespace BuddyApp.RemoteControl
          */
         void Start()
         {
-			//callAnimator.SetTrigger("Open_WCall");
-			userCalling.text = Buddy.WebRTCListener.RemoteID;
-	        receiveCallAnim.SetTrigger("Open_WReceiveCall");
-	        backgroundAnim.SetTrigger("Open_BG");
+            //callAnimator.SetTrigger("Open_WCall");
+            //StartCoroutine(Call());
 	        //RemoteUsers lUserList = new RemoteUsers();
 
 	        //StreamReader lstreamReader = new StreamReader(BuddyTools.Utils.GetStreamingAssetFilePath("callRights.txt"));
@@ -102,12 +104,21 @@ namespace BuddyApp.RemoteControl
 
 	    public void LaunchCall()
 	    {
-	        webRTC.gameObject.SetActive(true);
+            receiveCallAnim.SetTrigger("Close_WReceiveCall");
+            backgroundAnim.SetTrigger("close");
+            callAnimator.SetTrigger("Open_WCall");
+            webRTC.gameObject.SetActive(true);
 	    }
 
-	    public void StopCall()
+        public void LaunchCallWithoutWindow()
+        {
+            webRTC.gameObject.SetActive(true);
+        }
+
+        public void StopCall()
 	    {
-	        if (!mIncomingCallHandled)
+            receiveCallAnim.SetTrigger("Close_WReceiveCall");
+            if (!mIncomingCallHandled)
 	            return;
 
 	        mIncomingCallHandled = false;
@@ -118,5 +129,39 @@ namespace BuddyApp.RemoteControl
 	    {
 			AAppActivity.QuitApp();
 	    }
+
+        public IEnumerator Call()
+        {
+            receiveCallAnim.SetTrigger("Open_WReceiveCall");
+            backgroundAnim.SetTrigger("open");
+            if (!RemoteControlData.Instance.DiscreteMode)
+            {
+                //BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+                BYOS.Instance.Primitive.Speaker.Media.Play(musicCall);
+                yield return new WaitForSeconds(1.5F);
+                string lReceiver = "";
+                foreach (UserAccount lUser in BYOS.Instance.DataBase.GetUsers())
+                {
+                    if(Buddy.WebRTCListener.RemoteID.Trim()==lUser.Email)
+                    {
+                        lReceiver = lUser.FirstName;
+                    }
+                }
+                string lTextToSay = BYOS.Instance.Dictionary.GetString("incomingcall");
+                if (lReceiver == "")
+                {
+                    lTextToSay = lTextToSay.Replace("[user]", Buddy.WebRTCListener.RemoteID);
+                    userCalling.text = Buddy.WebRTCListener.RemoteID;
+                }
+                else
+                {
+                    lTextToSay = lTextToSay.Replace("[user]", lReceiver);
+                    userCalling.text = lReceiver;
+                }
+                BYOS.Instance.Interaction.TextToSpeech.Say(lTextToSay);
+                
+            }
+            yield return null;
+        }
     }
 }

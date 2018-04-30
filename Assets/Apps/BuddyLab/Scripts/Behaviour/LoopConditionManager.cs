@@ -28,12 +28,17 @@ namespace BuddyApp.BuddyLab
         public void ShowWindow()
         {
             Debug.Log("le show button");
-            DragAndDropCell lCell = GetComponentInParent<DragAndDropCell>();
-            if (lCell != null && lCell.cellType == DragAndDropCell.CellType.Swap)
+            DraggableItem lCell = GetComponentInParent<DraggableItem>();
+            if (lCell != null && !lCell.OnlyDroppable)
             {
                 conditionChoiceWindow.OnChangeCondition += OnConditionChoice;
                 conditionChoiceWindow.ShowWindow();
             }
+        }
+
+        public void ChangeIcon(Sprite iSprite)
+        {
+            icon.sprite = iSprite;
         }
 
         private void OnConditionChoice(string iParam, Sprite iSprite)

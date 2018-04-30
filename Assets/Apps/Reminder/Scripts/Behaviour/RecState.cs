@@ -21,13 +21,13 @@ namespace BuddyApp.Reminder
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mVocal = GetComponent<ReminderBehaviour>();
-            mVocal.QuestionTime(Dictionary.GetRandomString("recurrence"));
+            mReminderBehaviour = GetComponent<ReminderBehaviour>();
+            mReminderBehaviour.QuestionTime(Dictionary.GetRandomString("recurrence"));
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (ReminderData.Instance.VocalRequest != "" && mVocal.IsVocalGet)
+            if (ReminderData.Instance.VocalRequest != "" && mReminderBehaviour.IsVocalGet)
             {
                 Debug.Log("Coucou Hiboux");
                 if (ExtractRec(ReminderData.Instance.VocalRequest))
@@ -42,7 +42,7 @@ namespace BuddyApp.Reminder
                         CreateCarousels();
                     }
                     ReminderData.Instance.VocalRequest = "";
-                    mVocal.QuestionTime(Dictionary.GetRandomString("what"));
+                    mReminderBehaviour.QuestionTime(Dictionary.GetRandomString("what"));
                 }
             }
         }
@@ -73,7 +73,7 @@ namespace BuddyApp.Reminder
             if (rec != "")
             {
                 Debug.Log("ReC : " + rec);
-                mVocal.AllParam.Add(rec);
+                mReminderBehaviour.AllParam.Add(rec);
                 return true;
             }
             if (!Toaster.IsDisplayed)
@@ -94,12 +94,12 @@ namespace BuddyApp.Reminder
                     BYOS.Instance.Primitive.Speaker.FX.Play(0);
             };
 
-            Toaster.Display<VerticalCarouselToast>().With(mCarouselRec, null, null, OnValidate, null);
+            Toaster.Display<VerticalCarouselToast>().With(mCarouselRec, null, null, OnValidation, null);
         }
 
-        private void OnValidate()
+        private void OnValidation()
         {
-            mVocal.AllParam.Add("" + mRec);
+            mReminderBehaviour.AllParam.Add("" + mRec);
             Toaster.Hide();
             RecOk();
 
@@ -108,7 +108,7 @@ namespace BuddyApp.Reminder
         private void RecOk()
         {
             BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
-            foreach (string param in mVocal.AllParam)
+            foreach (string param in mReminderBehaviour.AllParam)
             {
                 Debug.Log("String : " + param);
             }

@@ -20,6 +20,7 @@ namespace BuddyApp.BuddyLab
         private DirectoryInfo mDirectoryInfo;
         private FileInfo[] mFileInfo;
         private InputField.SubmitEvent mSe;
+        private GameObject mPlaceholder;
 
         private BuddyLabBehaviour mBLBehaviour;
 
@@ -38,6 +39,10 @@ namespace BuddyApp.BuddyLab
             mAnimDone = false;
             mYesNoButton = GetGameObject(5).transform.GetChild(0).gameObject;
             mInputField = mYesNoButton.transform.GetChild(1).GetComponent<InputField>();
+            mInputField.GetComponentsInChildren<Text>()[0].text = Dictionary.GetString("projectname");//placeholder
+
+            //mPlaceholder = GetGameObject(9);
+            //mPlaceholder.GetComponent<InputField>().text = "";
         }
         
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -59,7 +64,9 @@ namespace BuddyApp.BuddyLab
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            mInputField.onEndEdit.RemoveListener(FillStringWithInputField);
+            mYesNoButton.transform.GetChild(0).GetComponent<Button>().onClick.RemoveListener(Cancel);
+            mYesNoButton.transform.GetChild(2).GetComponent<Button>().onClick.RemoveListener(Validate);
         }
 
         private void Validate()
@@ -122,7 +129,11 @@ namespace BuddyApp.BuddyLab
                 foreach(string str in mProject)
                 {
                     if (string.CompareOrdinal(iName, str) == 0)
+                    {
+                        Debug.Log("Nom existant");
                         return true;
+                    }
+                        
                 }
             }
             return false;

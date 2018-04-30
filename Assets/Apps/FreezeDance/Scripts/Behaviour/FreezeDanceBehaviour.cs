@@ -12,9 +12,12 @@ namespace BuddyApp.FreezeDance
 
         private MotionDetection mMotion;
         public Action OnMovementDetect;
+        private bool mChangeMusic;
+        public bool ChangeMusic { get { return mChangeMusic; } set { mChangeMusic = value; } }
 
         void Awake()
         {
+            mChangeMusic = true;
         }
 
         /*
