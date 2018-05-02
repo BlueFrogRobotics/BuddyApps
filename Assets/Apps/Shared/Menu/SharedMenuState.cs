@@ -19,7 +19,7 @@ namespace BuddyApp.Shared
     {
 
         public class MenuItem
-        {
+        { 
             public string key;
             public string trigger;
             public bool quitApp;
