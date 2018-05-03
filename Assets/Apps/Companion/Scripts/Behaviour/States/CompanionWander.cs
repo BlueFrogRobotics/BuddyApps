@@ -29,6 +29,7 @@ namespace BuddyApp.Companion
 				CompanionData.Instance.mMovingDesire = 8;
 
 
+			mCompanion.mCurrentUser = null;
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mTimeThermal = 0F;
 			mTimeRaise = 0F;

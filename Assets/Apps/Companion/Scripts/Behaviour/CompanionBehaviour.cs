@@ -3,17 +3,24 @@ using UnityEngine;
 
 using Buddy;
 using System;
+using System.IO;
+using System.Collections.Generic;
 
 namespace BuddyApp.Companion
 {
 	/* A basic monobehaviour as "AI" behaviour for your app */
 	public class CompanionBehaviour : MonoBehaviour
 	{
+
+
+		public List<UserProfile> Profiles { get; set; }
+
 		/*
          * Modified data from the UI interaction
          */
 		[SerializeField]
 		private Text text;
+		private static CompanionBehaviour sInstance;
 
 		/*
          * API of the robot
@@ -27,10 +34,107 @@ namespace BuddyApp.Companion
 		/*
          * Init refs to API and your app data
          */
+
+
+		public UserProfile mCurrentUser;
+
+
+
+
+		public static void SaveProfiles()
+		{
+			string lFileName = BYOS.Instance.Resources.GetPathToRaw("usersProfile");
+			Utils.SerializeXML(sInstance.Profiles.ToArray(), lFileName);
+		}
+
+
+		public UserProfile AddProfile(string iName, string iCity, UserTastes iTastes, string iOccupation)
+		{
+
+			UserProfile lProfile = new UserProfile() {
+				FirstName = iName,
+				CityAddress = iCity,
+				Tastes = iTastes,
+				Occupation = iOccupation
+			};
+			Profiles.Add(lProfile);
+			SaveProfiles();
+
+			return lProfile;
+
+		}
+
+		public UserProfile AddProfile(string iName)
+		{
+			string[] lWords = iName.Split(' ');
+			UserProfile lProfile;
+
+			if (lWords.Length < 2) {
+
+				lProfile = new UserProfile() {
+					FirstName = iName
+				};
+			} else {
+
+				lProfile = new UserProfile() {
+					FirstName = lWords[0],
+					LastName = iName.Replace(lWords[0], "")
+				};
+			}
+
+			Profiles.Add(lProfile);
+			SaveProfiles();
+
+			return lProfile;
+
+		}
+
+		public UserProfile AddProfile(UserAccount iAccount)
+		{
+			UserProfile lProfile = GetProfile(iAccount);
+			if (lProfile == null) {
+				lProfile = new UserProfile() {
+					FirstName = iAccount.FirstName,
+					LastName = iAccount.LastName,
+					BirthDate = iAccount.BirthDate.ToLongDateString(),
+				};
+				Profiles.Add(lProfile);
+				SaveProfiles();
+			}
+
+			return lProfile;
+		}
+
+
 		void Start()
 		{
+			mCurrentUser = null;
+			sInstance = this;
 			mTextToSpeech = BYOS.Instance.Interaction.TextToSpeech;
 			mAppData = CompanionData.Instance;
+			string lFileName = BYOS.Instance.Resources.GetPathToRaw("usersProfile");
+
+			if (File.Exists(lFileName)) {
+				Profiles = new List<UserProfile>(Utils.UnserializeXML<UserProfile[]>(lFileName));
+			} else {
+				Profiles = new List<UserProfile>();
+			}
+
+
+			// Check if user in Buddy Account and add them if needed
+			for (int i = 0; i < BYOS.Instance.DataBase.GetUsers().Length; ++i) {
+				AddProfile(BYOS.Instance.DataBase.GetUsers()[i]);
+			}
+
+		}
+
+		private UserProfile GetProfile(UserAccount iAccount)
+		{
+			for (int i = 0; i < Profiles.Count; ++i) {
+				if (Profiles[i].FirstName == iAccount.FirstName && Profiles[i].FirstName == iAccount.LastName)
+					return Profiles[i];
+			}
+			return null;
 		}
 
 		/*

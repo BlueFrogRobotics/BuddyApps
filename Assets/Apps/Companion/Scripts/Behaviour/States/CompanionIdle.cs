@@ -33,6 +33,8 @@ namespace BuddyApp.Companion
 			mState.text = "IDLE";
 			Debug.Log("state: IDLE");
 
+
+			mCompanion.mCurrentUser = null;
 			mTimeIdle = 0F;
 
 			BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");

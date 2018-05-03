@@ -26,7 +26,8 @@ namespace BuddyApp.Companion
 			mState.text = "User disengaged";
             Debug.Log("state: User disengaged");
 
-            mTimeState = 0F;
+			mCompanion.mCurrentUser = null;
+			mTimeState = 0F;
 			Interaction.TextToSpeech.SayKey("userquit");
 
             Interaction.Mood.Set(MoodType.NEUTRAL);

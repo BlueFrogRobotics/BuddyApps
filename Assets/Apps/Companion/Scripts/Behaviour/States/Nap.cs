@@ -36,6 +36,8 @@ namespace BuddyApp.Companion
 			mState.text = "Nap";
 			Debug.Log("state: Nap");
 
+
+			mCompanion.mCurrentUser = null;
 			mTimeIdle = 0F;
 
 			Interaction.Face.SetEvent(FaceEvent.YAWN);

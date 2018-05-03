@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.Companion
 {
-	public class AskInfo : AStateMachineBehaviour
+	public class AskName : AStateMachineBehaviour
 	{
 		private bool mNeedListen;
 		private float mTime;
@@ -28,13 +28,13 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mTime = 0F;
-			mState.text = "ask user info";
+			mState.text = "ask user profile";
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.ASK_USER_PROFILE;
 
-			if (mCompanion.mCurrentUser == null)
-				Trigger("ASKNAME");
+			if (mCompanion.mCurrentUser != null)
+				Trigger("ASKINFO");
 			else {
 
 				mNeedListen = true;
@@ -45,21 +45,13 @@ namespace BuddyApp.Companion
 
 
 				//TODO: ask a missing info on current user
-				AskRandomMissingInfo(mCompanion.mCurrentUser);
+				Interaction.TextToSpeech.SayKey("askname");
 			}
 
 
 		}
 
-		private void AskRandomMissingInfo(UserProfile mCurrentUser)
-		{
-			// Ask corresponding missing info
-			if(string.IsNullOrEmpty(mCurrentUser.LastName) ) {
-				Interaction.TextToSpeech.SayKey("asklastname");
-			} else if(string.IsNullOrEmpty(mCurrentUser.BirthDate)) {
-				Interaction.TextToSpeech.SayKey("askbirth");
-			}
-		}
+
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
@@ -79,16 +71,26 @@ namespace BuddyApp.Companion
 		private void OnSpeechRecognition(string iMsg)
 		{
 
-			if (string.IsNullOrEmpty(mCompanion.mCurrentUser.LastName)) {
-				mCompanion.mCurrentUser.LastName = iMsg;
-			} else if (string.IsNullOrEmpty(mCompanion.mCurrentUser.BirthDate)) {
-				// Collect missing info
-				mCompanion.mCurrentUser.BirthDate = iMsg;
+
+			for (int i = 0; i < mProfiles.Count; ++i) {
+				if (iMsg == mProfiles[i].FirstName ||
+					iMsg == mProfiles[i].LastName ||
+					iMsg == mProfiles[i].FirstName + " " + mProfiles[i].LastName ||
+					iMsg == mProfiles[i].LastName + " " + mProfiles[i].FirstName) {
+					mCompanion.mCurrentUser = mProfiles[i];
+					break;
+				}
 			}
 
-				CompanionBehaviour.SaveProfiles();
+			if (mCompanion.mCurrentUser != null) {
+				string lSentenceToSay = "Hello " + mCompanion.mCurrentUser.FirstName + " " + mCompanion.mCurrentUser.LastName;
+				Interaction.TextToSpeech.Say(lSentenceToSay);
+			} else {
+				Interaction.TextToSpeech.Say("Nice to meet you " + iMsg);
+				mCompanion.mCurrentUser = mCompanion.AddProfile(iMsg);
+			}
 
-				Trigger("VOCALCOMMAND");
+			Trigger("ASKINFO");
 
 		}
 
