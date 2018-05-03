@@ -1,0 +1,418 @@
+<?xml version="1.0"?>
+<ParameterSpecification version="1.0">
+ <ApplicationData name="vocverify" version="1.1.0 (Internal)" filter="ASR_RELEASE_TYPE=='internal'" />
+ <ApplicationData name="vocverify" version="1.1.0" filter="ASR_RELEASE_TYPE=='VOCON3200EDS'" />
+ <help>
+  <p>
+   <code>vocverify</code> is a grammar vocabulary analysis tool. 
+    With this tool you can analyze which words are in a grammar, XLF file 
+    (intermediate compiler file) or binary context, and what their pronunciations are.
+    You have to specify a number of top parameters, one of which is the
+    name of the files of the grammars (which together form the context). The
+    most important parameter is the function that has to be executed.
+    There are a number of functions and every function has a corresponding
+    parameter group with the same name. A short overview of the
+    functions is given below. Make sure to also read the information about the
+    parameters for the corresponding parameter group.
+    </p>
+    <ul>
+    <li><code>--mode=findWords</code> can give you a list of all words that are in a context. 
+    It can also help you to find words with certain characters, which may help you
+    to identify problems with special characters. </li>
+    <li><code>--mode=findCharacters</code> can give you a list of the characters that are used in a
+    context. It can also give you a small set of words from the context that
+    together contain all characters that are in the context.</li>
+    <li><code>--mode=findWeirdTranscriptions</code> identifies words in the context that change in
+    transcription when they are changed to lower case. For example,
+    "I AM HOME" may get a bad phonetic transcription if the word AM is
+    misunderstood to be part of a time (as in 3 A.M.).</li>
+    </ul>
+  <p>
+   Refer to the individual options for more details.
+   features may change in the future.
+  </p>
+ </help>
+
+ <!-- Not in external release! -->
+ <StringDictionaryParameter name="configuration" optional="1" default="{}"
+  filter="ASR_RELEASE_TYPE=='internal'">
+  <help>
+   Internal option for running the tools from ClearCase. Refer to the
+   <a href="http://twiki/bin/view/Vocon3200/RunningToolsFromClearcase">TWiki page
+    http://twiki/bin/view/Vocon3200/RunningToolsFromClearcase</a>
+   to see how you can instruct the tool to find and select its binaries.
+  </help>
+ </StringDictionaryParameter>
+
+ <BooleanParameter name="makeFlatSyntax" optional="1" default="false"
+  filter="ASR_RELEASE_TYPE=='internal'">
+  <help> When this switch is on, the tool will collect all phonemes for a user id. 
+  This parameter can only be used with input from <code>--ctxFilepath</code>.
+  </help>
+ </BooleanParameter>
+
+ <!-- Mode of the tool -->
+ <EnumerationParameter name="mode" shortName="m" type="String" optional="0">
+  <help>This option select the mode of the tool:
+   <ul>
+    <li><strong>findWords</strong>: Show the words inside a grammar or XLF file.
+    With or without transcriptions</li>
+    <li><strong>findCharacters</strong>: Show lists of characters that are used in
+    the grammar. This is for example useful in case you also want spelling in your application.</li>
+    <li><strong>findWeirdTranscriptions</strong>: Report transcriptions of which the tool
+    thinks they may cause problems. The most common reported word are words whose transcription
+    is very different depending on the case.</li>
+   </ul>
+  </help>
+  <value value="findWords" />
+  <value value="findCharacters" />
+  <value value="findWeirdTranscriptions" />
+ </EnumerationParameter>
+
+ <!-- Xlf input -->
+ <InputFileParameter name="xlfFilepath" shortName="x" optional="1">
+   <help>Path of the input XLF file. This option cannot be combined with <code>--grmFilepath</code>.</help>
+ </InputFileParameter>
+
+ <EnumerationParameter name="xlfType" type="String" optional="1" default="guess"
+  filter="ASR_RELEASE_TYPE=='internal'">
+  <help>Type of the input XLF file (binary or text XLF format).</help>
+  <value value="binary" />
+  <value value="text" />
+  <value value="guess" />
+ </EnumerationParameter>
+
+ <!-- Grammar input -->
+ <InputFileParameter name="grmFilepath" shortName="g" optional="1">
+   <help>Path of the input grammar. This option cannot be combined with <code>--xlfFilepath</code>.</help>
+ </InputFileParameter>
+
+ <EncodingParameter name="grmEncoding" optional="1" default="utf-8">
+  <help>Use this option if you use a different encoding than UTF-8 in your <em>text</em> grammars.</help>
+  <value value="utf-8" />
+  <value value="utf-16" />
+ </EncodingParameter>
+
+ <!-- Context input -->
+  <InputFileParameter name="ctxFilepath" shortName="i" optional="1">
+  <help>Path of the input context file.
+        This option cannot be combined with <code>-xlfFilepath</code> or <code>--grmFilepath</code>.</help>
+ </InputFileParameter>
+
+ <!-- Output -->
+ <OutputFileParameter name="outputFilepath" shortName="o" optional="1">
+  <help>
+   Name of the output file. Default: stdout
+  </help>
+ </OutputFileParameter>
+
+ <EncodingParameter name="outputEncoding" shortName="C" optional="1" default="utf-8">
+  <help>
+   Output encoding name. Accepts names known to Python codecs module.
+  </help>
+ </EncodingParameter>
+
+ <!-- Language ! -->
+ <AcModSpecParameter name="modelSpec" shortName="l" optional="1">
+  <help>
+   This parameter helps you to select an installed acoustic model.
+   VoCon 3 acoustic models are uniquely identified via a signature like
+   <code>acmod3_800_enu_gen_car_f16_v1_0_0</code>
+   . As can be seen a signature is
+   a composition of several fields.
+   <ul>
+    <li>
+     <code>acmod3_</code>
+     is a fixed prefix to indicate that this is an acoustic model.
+    </li>
+    <li>
+     <code>800</code>
+     indicates the size class of the models, e.g. it is approximately 800K large.
+    </li>
+    <li>
+     <code>enu</code>
+     is the language code. The available languages are:
+     <br />
+     <installed-languages />
+    </li>
+    <li>
+     <code>gen</code>
+     is the target domain where
+     <code>gen</code>
+     stands for
+     <em>generic</em>
+     , which
+     means that this an acoustic model that is tuned on a broad range of tasks, like digit recognition,
+     command and control, name entry, voice destination entry, etc.
+    </li>
+    <li>
+     <code>car</code>
+     specifies an acoustic environment.
+     <code>car</code>
+     means that this model is particularly
+     suited to in-car recognition.
+    </li>
+    <li>
+     <code>f16</code>
+     indicates the sampling frequency, in this case 16kHz. Other choices are
+     <code>f11</code>
+     (11kHz)
+     and
+     <code>f8</code>
+     (8kHz)
+    </li>
+    <li>
+     <code>v1_0_0</code>
+     is the version number of the model
+    </li>
+   </ul>
+   <p>
+    You can select a model by giving its full signature, but is also possible to specify a partial
+    signature.
+    For example to select the latest enu 800K car model it is sufficient to type
+    <code>--modelSpec=800_enu_gen_car_f16</code>
+    If you just want to try out any German model it is sufficient to type
+    <code>--modelSpec=ged</code>
+    . The tool will
+    select default values for the other fields. Wildcards are also possible,
+    <code>--modelSpec=frf*f16</code>
+    selects a model
+    from the installed French 16kHz models.
+   </p>
+  </help>
+ </AcModSpecParameter>
+
+ <InputFileParameter name="modelFilepath" shortName="M" optional="1">
+  <help>
+   The path to a file containing an acoustic model buffer.
+   This option overrides the <code>--modelSpec</code> option.
+  </help>
+ </InputFileParameter>
+
+ <!-- Dictionaries -->
+ <BooleanParameter name="useclc" shortName="c" optional="1" default="false">
+  <help>
+   If set to true use the CLC as a fallback to generate transcriptions.
+   By default we fetch our transcriptions from dictionaries only (including the small
+   exception dictionary in the acoustic model).
+  </help>
+ </BooleanParameter>
+
+ <CLCSpecParameter name="clcSpec" optional="1" default="">
+  <help>
+   This parameter helps you to select an installed CLC buffer.
+   VoCon 3 CLC buffers are uniquely identified via a signature like
+   <code>clc_enu_cfg3_v1_0_0</code>. As can be seen a signature is
+   a composition of several fields.
+   <ul>
+    <li>
+     <code>clc_</code>
+     is a fixed prefix to indicate that this is a CLC buffer.
+    </li>
+    <li>
+     <code>enu</code> is the language code. The available languages are:
+     <br />
+     <installed-languages />
+    </li>
+    <li>
+     <code>cfg3</code> is the general-purpose Network (or offline) configuration. Other choice is
+     <code>cfg1</code> or <code>cfg2</code> (general-purpose Automotive configuration)
+     depending on the language
+    </li>
+    <li>
+     <code>v1_0_0</code> is the version number of the model.
+    </li>
+   </ul>
+   <p>
+    You can select a buffer by giving its full signature, but is also possible to specify a partial
+    signature. For example if you just want to try out any Mandarin Chinese buffer it is sufficient
+    to type <code>--clcSpec=mnc</code> .The tool will select default values for the other fields. 
+    Wildcards are also possible, <code>--clcSpec=mnc*cfg3</code> selects a buffer from the installed 
+    Mandarin Chinese cfg3 buffers.
+   </p>
+  </help>
+ </CLCSpecParameter>
+
+ <InputFileParameter name="clcFilepath" optional="1">
+  <help>
+   The path to a file containing a CLC buffer.
+   This option overrides the <code>--clcSpec</code> option.
+  </help>
+ </InputFileParameter>
+
+ <InputFileListParameter name="dictionaryFilepaths" shortName="d" optional="1">
+  <help>
+   The dictionaries that are used to look up phonetic transcriptions.
+   A transcription for a particular word is picked from the left-most dictionary where the word occurs.
+  </help>
+ </InputFileListParameter>
+
+ <EnumerationParameter name="dictionaryType" type="String" optional="1"
+  default="auto">
+  <help>
+   Sets the type of the dictionaries specified in <code>--dictionaryFilepaths</code>.
+   <ul>
+    <li>
+     <strong>auto</strong> means that the tool will use the extension of the dictionary as an
+     indication of the dictionary type: if the extension is <var>.dcb</var> or <var>.dcc</var>, 
+     the tool will assume that it is a pre-compiled dictionary and open it as such.
+     Otherwise, the tool will assume that it is a text dictionary and will compile it itself prior to using it.
+    </li>
+    <li>
+     <strong>binary</strong> forces the tool to open the dictionary as a binary dictionary,
+     regardless of the extension (the dictionary must be pre-compiled without compression in this case).
+    </li>
+    <!--li><strong>compressed</strong> forces the tool to open the dictionary as a compressed binary dictionary, 
+     regardless of the extension (the dictionary must be compiled compressed in this case).</li-->
+    <li>
+     <strong>text</strong> forces the tool to open the dictionary as text, regardless of
+     the extension. The expected encoding of the dictionary depends on the native
+     character type used by the installed Vocon3200 API. The encoding can be changed via <code>--dictionaryEncoding</code>.
+     Consult the documentation on
+     <a href="../../com.nuance.embed.vocon3200.help.form/doc/vocon3200_photrans_formalisms.html">exception dictionaries</a>
+     for a description of the dictionary text format and the use of dictionaries.
+    </li>
+   </ul>
+  </help>
+  <value value="auto" />
+  <value value="text" />
+  <value value="binary" />
+  <!--value value="compressed"/ -->
+ </EnumerationParameter>
+
+ <EncodingParameter name="dictionaryEncoding" optional="1">
+  <help>
+   Use this option if you use a different encoding than UTF-8 in your <em>text</em> dictionaries.
+  </help>
+  <value value="utf-8" />
+  <value value="utf-16" />
+ </EncodingParameter>
+
+ <!-- findWords subfunctions -->
+ <StringParameter name="allOf" optional="1" default="">
+  <help>If this is specified, only words which contain every character in this string will be selected.
+   For example, to find all words with both dashes and colons, set this to <code>-:</code>. 
+   Note that this parameter is case-sensitive. This parameter can only be used when <code>--mode=findWords</code>.
+  </help>
+ </StringParameter>
+
+ <StringParameter name="anyOf" optional="1" default="">
+  <help>If this is specified, only words that contain every character in this string will be selected. 
+  For example, to find all words with umlauts, set this to the strings of all umlaut-characters. 
+  Note that this is case-sensitive. This parameter can only be used when <code>--mode=findWords</code>.
+  </help>
+ </StringParameter>
+
+ <StringParameter name="noneOf" optional="1" default="">
+  <help>If this is specified, only words which contain none of the characters in this string will be
+   selected. For example, to find all words that do not contain vowels, set this to the string of
+   all vowels. Note that this is case-sensitive. This parameter can only be used when <code>--mode=findWords</code>.
+  </help>
+ </StringParameter>
+
+ <BooleanParameter name="showTranscriptions" optional="1" default="false">
+  <help>When this switch is on, the tool prints out the phonetic transcriptions with the words.
+   This parameter can only be used when <code>--mode</code> is set to <code>findWords</code>
+   or <code>findWeirdTranscriptions</code>. 
+   It only has an effect if <code>--findWordsOutputFileStyle=standard</code>.
+  </help>
+ </BooleanParameter>
+
+ <BooleanParameter name="showUserIDs" optional="1" default="false">
+  <help>When this switch is on, the tool prints out the user ids with the words.
+   This parameter can only be used when <code>--mode</code> is set to <code>findWords</code>
+   or <code>findWeirdTranscriptions</code>. 
+   It only has an effect if <code>--findWordsOutputFileStyle=standard</code>.
+  </help>
+ </BooleanParameter>
+
+ <BooleanParameter name="showGrammar" optional="1" default="false">
+  <help> When this switch is on, the tool will always print out the name of the grammar(s) in which a word was used. 
+  This parameter can only be used when <code>--mode=findWords</code>.
+  </help>
+ </BooleanParameter>
+
+ <EnumerationParameter name="findWordsOutputFileStyle" type="String" optional="1" default="standard">
+  <value value="standard" />
+  <value value="vocabulary" />
+  <value value="dictionary" />
+  <help>
+   <p>Desired format for the output. The available options are:</p>
+   <ul>
+     <li><strong>standard</strong>: This is the default format, prints the word optionally followed by the
+     list of transcriptions. Transcriptions are only printed if <code>--showTranscriptions</code> is set.</li>
+     <li><strong>vocabulary</strong>: This format has words and transcriptions on alternating lines, a word
+     on one line, its transcription on the next.</li>
+     <li><strong>dictionary</strong>: The format is the User Dictionary format.</li>
+    </ul>
+    <p>This parameter should only be used when <code>--mode=findWords</code>.</p>
+  </help>
+ </EnumerationParameter>
+
+ <!-- findCharacters subfunctions -->
+ <EnumerationParameter name="findCharactersMode" type="String" optional="1"
+  default="characterList">
+  <help><p>Chooses the character checking mode:</p>
+  <ul>
+    <li><strong>characterList</strong>: Produces a list of the characters that occur in the grammar.</li>
+    <li><strong>minimalWordCover</strong>: Produce a small set of words from the grammar that together contain 
+    all characters that occur in the grammar.</li>
+  </ul>
+  <p>Both of these functions are case-sensitive.  
+   This parameter should only be used when <code>--mode=findCharacters</code>.</p>
+  </help>
+  <value value="characterList" />
+  <value value="minimalWordCover" />
+ </EnumerationParameter>
+
+ <!-- transcription check dictionary -->
+ <InputFileParameter name="transDictionaryFilepath" shortName="t" optional="1">
+  <help>
+   The dictionary that is used to look up the orthography for a user id when checking the speech units
+   from a given context. 
+  </help>
+ </InputFileParameter>
+
+ <EnumerationParameter name="transDictionaryType" type="String" optional="1"
+  default="auto">
+  <help>
+   Sets the type of the dictionary specified in <code>--transDictionaryFilepath</code>.
+   <ul>
+    <li>
+     <strong>auto</strong> means that the tool will use the extension of the dictionary as an
+     indication of the dictionary type: if the extension is <var>.dcb</var> or <var>.dcc</var>, 
+     the tool will assume that it is a pre-compiled dictionary and open it as such.
+     Otherwise, the tool will assume that it is a text dictionary and will compile it itself prior to using it.
+    </li>
+    <li>
+     <strong>binary</strong> forces the tool to open the dictionary as a binary dictionary,
+     regardless of the extension (the dictionary must be pre-compiled without compression in this case).
+    </li>
+    <!--li><strong>compressed</strong> forces the tool to open the dictionary as a compressed binary dictionary, 
+     regardless of the extension (the dictionary must be compiled compressed in this case).</li-->
+    <li>
+     <strong>text</strong> forces the tool to open the dictionary as text, regardless of
+     the extension. The expected encoding of the dictionary depends on the native
+     character type used by the installed Vocon3200 API. The encoding can be changed via <code>--dictionaryEncoding</code>.
+     Consult the documentation on
+     <a href="../../com.nuance.embed.vocon3200.help.form/doc/vocon3200_photrans_formalisms.html">exception dictionaries</a>
+     for a description of the dictionary text format and the use of dictionaries.
+    </li>
+   </ul>
+  </help>
+  <value value="auto" />
+  <value value="text" />
+  <value value="binary" />
+  <!--value value="compressed"/ -->
+ </EnumerationParameter>
+
+ <EncodingParameter name="transDictionaryEncoding" optional="1">
+  <help>
+   Use this option if you use a different encoding than UTF-8 in your <em>text</em> dictionary.
+  </help>
+  <value value="utf-8" />
+  <value value="utf-16" />
+ </EncodingParameter>
+</ParameterSpecification>
+ 
+ 
