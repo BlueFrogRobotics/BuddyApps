@@ -47,7 +47,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mState.text = "User Detected move: " + !BYOS.Instance.Primitive.Motors.Wheels.Locked;
+			mState.text = "User Detected";
 
 
 			// if human is not detected for 1.5 seconds

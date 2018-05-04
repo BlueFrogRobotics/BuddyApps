@@ -4,21 +4,21 @@ using System;
 
 namespace BuddyApp.Companion
 {
-	public enum MusicStyle
-	{
-		CLASSICAL,
-		JAZZ,
-		BLUES,
-		ROCK,
-		METAL,
-		RAP,
-		HIP_HOP,
-		R_AND_B,
-		ELECTRO,
-		COUNTRY,
-		POP,
-		UNKNOWN
-	}
+	//public enum MusicStyle
+	//{
+	//	CLASSICAL,
+	//	JAZZ,
+	//	BLUES,
+	//	ROCK,
+	//	METAL,
+	//	RAP,
+	//	HIP_HOP,
+	//	R_AND_B,
+	//	ELECTRO,
+	//	COUNTRY,
+	//	POP,
+	//	UNKNOWN
+	//}
 
 	[Serializable]
 	public class UserProfile
@@ -44,7 +44,7 @@ namespace BuddyApp.Companion
 	public class UserTastes
 	{
 		public string Color { get; set; }
-		public MusicStyle MusicStyle { get; set; }
+		public string MusicBand { get; set; }
 
 		public UserTastes()
 		{

@@ -306,26 +306,6 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>accept</Key>
-            <BaseValue>oui</BaseValue>
-            <ClosePhoneticValues>
-                <string>oui</string>
-                <string>ouais</string>
-                <string>d'accord</string>
-                <string>yep</string>
-                <string>affirmatif</string>
-                <string>ok</string>
-                <string>okay</string>
-                <string>concombre</string>
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string>d'accord</string>
-                <string>affirmatif</string>
-                <string>ok</string>
-                <string>okay</string>
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
             <Key>refuse</Key>
             <BaseValue>non</BaseValue>
             <ClosePhoneticValues>
@@ -2874,6 +2854,156 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Quelle est votre date de naissance?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>askfavorite</Key>
+            <BaseValue>Quelle est [subject] préféré</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Quelle est [subject] préféré</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>color</Key>
+            <BaseValue>ta couleur</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>ta couleur</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>yourmusicband</Key>
+            <BaseValue>ton groupe de musique</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>ton groupe de musique</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>askoccupation</Key>
+            <BaseValue>Quelle est ta profession?</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Quelle est ta profession?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>ithoughitwas</Key>
+            <BaseValue>Je pensais que c'était</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je pensais que c'était</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>yourlastname</Key>
+            <BaseValue>Votre nom de famille</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Votre nom de famille</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>yourfirstname</Key>
+            <BaseValue>votre prénom</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>votre prénom</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>birthdate</Key>
+            <BaseValue>date de naissance</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>date de naissance</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>favoritecolor</Key>
+            <BaseValue>couleur préférée</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>couleur préférée</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>favoriteband</Key>
+            <BaseValue>groupe préféré</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>groupe préféré</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>occupation</Key>
+            <BaseValue>profession</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>profession</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>userbirthdateis</Key>
+            <BaseValue>la date de naissance de [user] est le</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>la date de naissance de [user] est le</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>userfavoritecoloris</Key>
+            <BaseValue>La couleur préférée de [user] est le</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>La couleur préférée de [user] est le</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>userfavoritebandis</Key>
+            <BaseValue>Le groupe préféré de [user] est</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Le groupe préféré de [user] est</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>useroccupationis</Key>
+            <BaseValue>la profession de [user] est</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>la profession de [user] est</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

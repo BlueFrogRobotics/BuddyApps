@@ -17,6 +17,7 @@ namespace BuddyApp.Companion
 			mDetectionManager = GetComponent<DetectionManager>();
 			mActionManager = GetComponent<ActionManager>();
 			mDesireManager = GetComponent<DesireManager>();
+			mCompanion = GetComponent<CompanionBehaviour>();
 		}
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

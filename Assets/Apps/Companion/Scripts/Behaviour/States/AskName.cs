@@ -70,27 +70,38 @@ namespace BuddyApp.Companion
 
 		private void OnSpeechRecognition(string iMsg)
 		{
+			if (!string.IsNullOrEmpty(iMsg)) {
 
+				Debug.Log("answer name: " + iMsg);
+				Debug.Log("answer Profiles: " + mProfiles.Count);
+				for (int i = 0; i < mProfiles.Count; ++i) {
+					if (iMsg == mProfiles[i].FirstName ||
+						iMsg == mProfiles[i].LastName ||
+						iMsg == mProfiles[i].FirstName + " " + mProfiles[i].LastName ||
+						iMsg == mProfiles[i].LastName + " " + mProfiles[i].FirstName) {
 
-			for (int i = 0; i < mProfiles.Count; ++i) {
-				if (iMsg == mProfiles[i].FirstName ||
-					iMsg == mProfiles[i].LastName ||
-					iMsg == mProfiles[i].FirstName + " " + mProfiles[i].LastName ||
-					iMsg == mProfiles[i].LastName + " " + mProfiles[i].FirstName) {
-					mCompanion.mCurrentUser = mProfiles[i];
-					break;
+						Debug.Log("found profile: " + mProfiles[i].FirstName);
+						mCompanion.mCurrentUser = mProfiles[i];
+						break;
+					}
 				}
-			}
 
-			if (mCompanion.mCurrentUser != null) {
-				string lSentenceToSay = "Hello " + mCompanion.mCurrentUser.FirstName + " " + mCompanion.mCurrentUser.LastName;
-				Interaction.TextToSpeech.Say(lSentenceToSay);
-			} else {
-				Interaction.TextToSpeech.Say("Nice to meet you " + iMsg);
-				mCompanion.mCurrentUser = mCompanion.AddProfile(iMsg);
-			}
+				if (mCompanion.mCurrentUser != null) {
 
-			Trigger("ASKINFO");
+					Debug.Log("mCompanion.mCurrentUser " + mCompanion.mCurrentUser.FirstName);
+					string lSentenceToSay = "Hello " + mCompanion.mCurrentUser.FirstName + " " + mCompanion.mCurrentUser.LastName;
+					Interaction.TextToSpeech.Say(lSentenceToSay);
+				} else {
+					Debug.Log("mCompanion.mCurrentUser unknown ");
+					Interaction.TextToSpeech.Say("Nice to meet you " + iMsg);
+					mCompanion.mCurrentUser = mCompanion.AddProfile(iMsg);
+
+					CompanionBehaviour.SaveProfiles();
+				}
+
+				Trigger("ASKINFO");
+			} else
+				mNeedListen = true;
 
 		}
 
