@@ -856,7 +856,7 @@
         </member>
         <member name="P:Buddy.EmotionalEvent.ExplanationKey">
             <summary>
-            This is used to explain Buddy's mood
+            This is used to explain Buddy's mood. These keys are stored in the OS' dictionary.
             </summary>
         </member>
         <member name="P:Buddy.EmotionalEvent.MoodDirection">
@@ -1592,6 +1592,26 @@
             </summary>
             <param name="iInputFrameMat">The input frame as Matrix</param>
             <param name="iInputFrameTexture">The inout frame as Texture</param>
+        </member>
+        <member name="T:Buddy.HSV">
+            <summary>
+            Structure containing HSV values for a color.
+            </summary>
+        </member>
+        <member name="F:Buddy.HSV.H">
+            <summary>
+            The "Hue" value (between 0 and 1).
+            </summary>
+        </member>
+        <member name="F:Buddy.HSV.S">
+            <summary>
+            The "Saturation" value (between 0 and 1).
+            </summary>
+        </member>
+        <member name="F:Buddy.HSV.V">
+            <summary>
+            The "Brightness" value (between 0 and 1).
+            </summary>
         </member>
         <member name="T:Buddy.Primitive">
             <summary>
