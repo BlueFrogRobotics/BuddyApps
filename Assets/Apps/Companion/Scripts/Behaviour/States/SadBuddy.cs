@@ -45,7 +45,7 @@ namespace BuddyApp.Companion
 			mLookingTime = Time.deltaTime;
 
 
-			if (mActionManager.ThermalFollow && (Time.time - mTimeThermal > CompanionData.Instance.InteractDesire
+			if (mActionManager.ThermalFollow && (Time.time - mTimeThermal > CompanionData.Instance.mInteractDesire
 				|| (Time.time - mTimeLastThermal > 5.0F))) {
 				Debug.Log("sad buddy start wandering");
 				mActionManager.StartWander(MoodType.SAD);
@@ -89,7 +89,7 @@ namespace BuddyApp.Companion
 						mTimeLastThermal = Time.time;
 						if (!mActionManager.ThermalFollow && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
 							//Stop wandering and go to thermal follow
-							Debug.Log("sadBuddy start following " + CompanionData.Instance.InteractDesire);
+							Debug.Log("sadBuddy start following " + CompanionData.Instance.mInteractDesire);
 							mTimeThermal = Time.time;
 							mDetectionManager.mDetectedElement = Detected.NONE;
 							Interaction.Mood.Set(MoodType.SAD);

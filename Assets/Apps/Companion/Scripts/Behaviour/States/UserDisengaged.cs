@@ -16,34 +16,34 @@ namespace BuddyApp.Companion
             mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
 			mActionManager = GetComponent<ActionManager>();
+			mDesireManager = GetComponent<DesireManager>();
 		}
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 			mState.text = "User disengaged";
             Debug.Log("state: User disengaged");
 
-            mTimeState = 0F;
+			mCompanion.mCurrentUser = null;
+			mTimeState = 0F;
 			Interaction.TextToSpeech.SayKey("userquit");
 
             Interaction.Mood.Set(MoodType.NEUTRAL);
-        }
+			mDesireManager.MultiplyDesires(0.5F);
+			CompanionData.Instance.mMovingDesire += 20;
+		}
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimeState += Time.deltaTime;
 			
-            if (CompanionData.Instance.InteractDesire < 0) {
-                CompanionData.Instance.InteractDesire = 0;
-            } else {
-                CompanionData.Instance.InteractDesire -= 10;
-            }
 
-            if (CompanionData.Instance.MovingDesire > 50 & CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
-                Debug.Log("User disengaged -> wander: " + CompanionData.Instance.MovingDesire);
+            if (CompanionData.Instance.mMovingDesire > 50 & CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+                Debug.Log("User disengaged -> wander: " + CompanionData.Instance.mMovingDesire);
                 iAnimator.SetTrigger("WANDER");
-            } else if (mTimeState > 5F) {
+            } else if (mTimeState > 3F) {
                 iAnimator.SetTrigger("IDLE");
             }
 

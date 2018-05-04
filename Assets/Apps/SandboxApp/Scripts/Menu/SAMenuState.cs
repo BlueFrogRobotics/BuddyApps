@@ -59,7 +59,17 @@ namespace BuddyApp.SandboxApp
             BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
             mHasLoadedTTS = true;
-            Interaction.TextToSpeech.Say(Dictionary.GetRandomString(speechKey));
+            if (!string.IsNullOrEmpty(speechKey))
+            {
+                if (!string.IsNullOrEmpty(Dictionary.GetRandomString(speechKey)))
+                {
+                    Interaction.TextToSpeech.Say(Dictionary.GetRandomString(speechKey));
+                }
+                else if (!string.IsNullOrEmpty(Dictionary.GetString(speechKey)))
+                {
+                    Interaction.TextToSpeech.Say(Dictionary.GetString(speechKey));
+                }
+            }
             Interaction.VocalManager.OnEndReco = OnSpeechReco;
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
             Interaction.VocalManager.OnError = Empty;

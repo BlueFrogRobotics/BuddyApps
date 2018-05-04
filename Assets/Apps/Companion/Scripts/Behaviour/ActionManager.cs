@@ -7,6 +7,45 @@ using System;
 
 namespace BuddyApp.Companion
 {
+
+
+	public enum BUDDY_ACTION
+	{
+		NONE,
+		WANDER,
+		DANCE,
+		FOLLOW,
+		GAME,
+		EDUTAINMENT,
+		SERVICE,
+		JOKE,
+		CHAT,
+		TOUCH_INTERACT,
+		LOOK_FOR_USER,
+		ASK_USER_PROFILE,
+		INFORM,
+		EXPRESS_MOOD,
+		NOTIFY
+	}
+
+
+
+	public enum COMPANION_STATE
+	{
+		IDLE,
+		NAP,
+		NOTIFY,
+		USER_DETECTED,
+		WANDER,
+		DANCE,
+		FOLLOW,
+		TOUCHED,
+		LOOK_FOR_USER,
+		ASK_USER_PROFILE,
+		VOCAL_COMMAND,
+		EXPRESS_MOOD
+	}
+
 	/// <summary>
 	/// Manager class that have reference to the differents stimuli and subscribes to their callbacks
 	/// </summary>
@@ -19,18 +58,27 @@ namespace BuddyApp.Companion
 		private float mTimeMood;
 		private float mDurationMood;
 		private float mTimeLastOrder;
+		private DetectionManager mDetectionManager;
+		private DesireManager mDesireManager;
+		private InternalMood mInternalStateMood;
+
 
 		public bool WanderingOrder { get; set; }
 		public MoodType WanderingMood { get; set; }
+		public BUDDY_ACTION CurrentAction { get; set; }
+		public bool CurrentActionHumanOrder { get; set; }
 
 		public bool Wandering { get; private set; }
 		public bool ThermalFollow { get; private set; }
+		public float LastMoodExpression;
 		//private RoombaNavigation mRoomba;
 
 		//public RoombaNavigation Roomba { get; private set; }
 
 		void Start()
 		{
+			CurrentAction = BUDDY_ACTION.NONE;
+			mInternalStateMood = BYOS.Instance.Interaction.InternalState.InternalStateMood;
 			WanderingOrder = false;
 			WanderingMood = MoodType.NEUTRAL;
 			mHeadCounter = 0;
@@ -39,17 +87,18 @@ namespace BuddyApp.Companion
 			mLastEyeTime = 0F;
 			mDurationMood = 5F;
 			mTimeLastOrder = 0F;
-			//mRoomba = BYOS.Instance.Navigation.Roomba;
-			//mRoomba.enabled = false;
+			LastMoodExpression = 0F;
+			mDetectionManager = GetComponent<DetectionManager>();
+			mDesireManager = GetComponent<DesireManager>();
+			CurrentActionHumanOrder = false;
 		}
 
 		void Update()
 		{
 			//Debug.Log("Mood check: time - lastime, mTimeMood" + (Time.time - mTimeMood) + "    " + mTimeMood );
 			if (Time.time - mTimeMood > mDurationMood && mTimeMood != 0F) {
-				Debug.Log("Mood  back to neutral");
+				Debug.Log("Mood back to neutral");
 				if (Wandering) {
-					StopWander();
 					StartWander(WanderingMood);
 				} else {
 					BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
@@ -63,7 +112,6 @@ namespace BuddyApp.Companion
 				// if we are far from default pose, go to default pose:
 				if (Math.Abs(BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition - CompanionData.Instance.HeadPosition) > 8 && Time.time - mTimeLastOrder > 0.5F) {
 					mTimeLastOrder = Time.time;
-					//Debug.Log("no active action, angle current: " + BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition + " angle target: " +  CompanionData.Instance.HeadPosition);
 
 					BYOS.Instance.Primitive.Motors.YesHinge.SetPosition(CompanionData.Instance.HeadPosition, 200);
 
@@ -71,7 +119,132 @@ namespace BuddyApp.Companion
 			}
 		}
 
-		public bool StartWander(MoodType iMood)
+
+
+
+		//*************
+		//*  ACTIONS  *
+		//*************
+
+		// TODO may be better to return an element from a list of transitions?
+		public string DesiredAction(COMPANION_STATE iState)
+		{
+			if (mDesireManager.GetMaxDesireValue() > 40) {
+				switch (mDesireManager.GetMainDesire()) {
+
+
+					case DESIRE.EXPRESSMOOD:
+						Debug.Log("[Companion][ActionManager] desired action expressmood");
+						return "EXPRESSMOOD";
+
+					// TODO: add state propose interact to ask for caress or propose game or ...
+					case DESIRE.INTERACT:
+						if (!mDetectionManager.UserPresent(iState))
+							if (CompanionData.Instance.CanMoveBody) {
+								Debug.Log("[Companion][ActionManager] desired action look 4");
+								return "LOOKINGFORSOMEONE";
+							} else {
+								Debug.Log("[Companion][ActionManager] desired action IDLE");
+								return "IDLE";
+							} else if (CompanionData.Instance.CanMoveBody && CompanionData.Instance.mMovingDesire > 80) {
+							Debug.Log("[Companion][ActionManager] desired action FOLLOW");
+							return "FOLLOW";
+						} else if (BYOS.Instance.Interaction.InternalState.Positivity > 3)
+							if (CompanionData.Instance.mLearnDesire > CompanionData.Instance.mTeachDesire) {
+								Debug.Log("[Companion][ActionManager] desired action ASKJOKE");
+								return "ASKJOKE";
+							} else {
+								Debug.Log("[Companion][ActionManager] desired action TELLJOKE");
+								return "TELLJOKE";
+							} else {
+							Debug.Log("[Companion][ActionManager] desired action PROPOSEGAME");
+							return "PROPOSEGAME";
+						}
+
+					case DESIRE.MOVE:
+						// if Buddy happy and user present, raise chances of dance:
+						if (CompanionData.Instance.CanMoveBody) {
+
+							int lChancesToDance = BYOS.Instance.Interaction.InternalState.Positivity;
+							if (mDetectionManager.UserPresent(iState))
+								lChancesToDance += 3;
+
+							int lRand = UnityEngine.Random.Range(0, 9);
+							if (lRand < lChancesToDance) {
+								Debug.Log("[Companion][ActionManager] desired action DANCE");
+								return "DANCE";
+							} else {
+								Debug.Log("[Companion][ActionManager] desired action WANDER");
+								return "WANDER";
+							}
+						}
+							 // TODO maybe use 2cd highest desire?
+							 else {
+							Debug.Log("[Companion][ActionManager] desired action IDLE");
+							return "IDLE";
+						}
+
+					// TODO: add this
+					case DESIRE.TEACH:
+						if (mDetectionManager.UserPresent(iState))
+							if (CompanionData.Instance.mHelpDesire > CompanionData.Instance.mInteractDesire) {
+								Debug.Log("[Companion][ActionManager] desired action INFORM");
+								return "INFORM";
+							} else
+								return "PROPOSEEDUTAINMENT";
+						else if (CompanionData.Instance.CanMoveBody) {
+							Debug.Log("[Companion][ActionManager] desired action LOOKINGFORSOMEONE");
+							return "LOOKINGFORSOMEONE";
+						} else {
+							Debug.Log("[Companion][ActionManager] desired action IDLE");
+							return "IDLE";
+						}
+
+					case DESIRE.HELP:
+						if (mDetectionManager.UserPresent(iState))
+							if (CompanionData.Instance.mTeachDesire > CompanionData.Instance.mInteractDesire) {
+								Debug.Log("[Companion][ActionManager] desired action INFORM");
+								return "INFORM";
+							} else {
+								Debug.Log("[Companion][ActionManager] desired action PROPOSESERVICE");
+								return "PROPOSESERVICE";
+							} else if (CompanionData.Instance.CanMoveBody) {
+							Debug.Log("[Companion][ActionManager] desired action LOOKINGFORSOMEONE");
+							return "LOOKINGFORSOMEONE";
+						} else {
+							Debug.Log("[Companion][ActionManager] desired action IDLE");
+							return "IDLE";
+						}
+
+					case DESIRE.LEARN:
+						if (mDetectionManager.UserPresent(iState))
+
+							//TODO: Check how much info we have on present person
+							if (BYOS.Instance.Interaction.InternalState.Positivity > 5 && CompanionData.Instance.mInteractDesire < 50) {
+								Debug.Log("[Companion][ActionManager] desired action ASKJOKE");
+								return "ASKJOKE";
+							} else {
+								Debug.Log("[Companion][ActionManager] desired action ASKINFO");
+								return "ASKINFO";
+							} else if (CompanionData.Instance.CanMoveBody) {
+							Debug.Log("[Companion][ActionManager] desired action LOOKINGFORSOMEONE");
+							return "LOOKINGFORSOMEONE";
+						} else {
+							Debug.Log("[Companion][ActionManager] desired action IDLE");
+							return "IDLE";
+						}
+
+					default:
+						Debug.Log("[Companion][ActionManager] desired action IDLE");
+						return "IDLE";
+				}
+			} else {
+				Debug.Log("[Companion][ActionManager] desired action IDLE");
+				return "IDLE";
+			}
+		}
+
+		public bool StartWander(MoodType iMood = MoodType.NEUTRAL)
 		{
 			if (CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
 				Debug.Log("Start wander");
@@ -123,78 +296,179 @@ namespace BuddyApp.Companion
 			return (Wandering || ThermalFollow || !BYOS.Instance.Interaction.BMLManager.DonePlaying);
 		}
 
+		//***************
+		//*  REACTIONS  *
+		//***************
+
+		public string LaunchReaction(COMPANION_STATE iState, Detected iDetectedElement)
+		{
+			mDetectionManager.mDetectedElement = Detected.NONE;
+
+			switch (iDetectedElement) {
+				case Detected.TRIGGER:
+					Debug.Log("[Companion][ActionManager] reaction vocal trigger");
+					// TODO: add exception states if needed
+					if (iState == COMPANION_STATE.NAP)
+						return "IDLE";
+					else
+						return "VOCALCOMMAND";
+
+				case Detected.MOUTH_TOUCH:
+					Debug.Log("[Companion][ActionManager] reaction robot mouth touched");
+					// TODO: add exception states if needed
+
+					return "VOCALCOMMAND";
+
+				case Detected.TOUCH:
+					Debug.Log("[Companion][ActionManager] reaction robot touched");
+					// TODO: add exception states if needed
+
+					if (iState == COMPANION_STATE.NAP)
+						return "IDLE";
+					else
+						return "ROBOTTOUCHED";
+
+				case Detected.KIDNAPPING:
+					Debug.Log("[Companion][ActionManager] reaction kidnapping");
+					// TODO: add exception states if needed
+					BYOS.Instance.Interaction.Mood.Set(MoodType.TIRED);
+					return "KIDNAPPING";
+
+				case Detected.BATTERY:
+					Debug.Log("[Companion][ActionManager] reaction battery low");
+					// TODO: add exception states if needed
+					return "CHARGE";
+
+				case Detected.THERMAL:
+					Debug.Log("[Companion][ActionManager] reaction thermal");
+					// TODO: add exception states if needed
+
+
+					if ((iState == COMPANION_STATE.WANDER && CompanionData.Instance.mMovingDesire > 40) || iState == COMPANION_STATE.NAP)
+						return "";
+
+					StopAllActions();
+					if (BYOS.Instance.Interaction.InternalState.Positivity > 3)
+						BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
+					else if (BYOS.Instance.Interaction.InternalState.Positivity > -2)
+						BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
+					else
+						BYOS.Instance.Interaction.BMLManager.LaunchRandom(Internal2FaceMood(mInternalStateMood));
+
+					// if we look for a user it is because we have a desire...
+					if (iState == COMPANION_STATE.LOOK_FOR_USER) {
+						// launch the desire with "fake" user detected state to tell user is present
+						return DesiredAction(COMPANION_STATE.USER_DETECTED);
+					} else
+						return "INTERACT";
+
+				case Detected.HUMAN_RGB:
+					Debug.Log("[Companion][ActionManager] reaction human rgb");
+					// TODO: add exception states if needed
+
+					if (iState == COMPANION_STATE.NAP)
+						return "";
+					else
+						return "INTERACT";
+
+				default:
+					Debug.Log("[Companion][ActionManager] reaction default");
+					return "";
+			}
+		}
+
+
 		public void HeadReaction()
 		{
-			Debug.Log("Head Reaction counter " + mHeadCounter);
-			mTimeMood = Time.time;
-			if (Time.time - mLastHeadTime < 5F)
-				mHeadCounter++;
-			else
-				mHeadCounter = 0;
 
-			mLastHeadTime = Time.time;
+			if (BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.SAD) {
+				if (!ActiveAction()) {
+					Debug.Log("No action + face poked -> play sad BML");
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("sad");
+					mTimeMood = Time.time;
+				} else if (Wandering) {
+					Debug.Log("wander + face poked -> play sad wander");
+					StartWander(MoodType.SAD);
+					mTimeMood = Time.time;
 
-			//if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
-			//    if (mHeadCounter < 2) {
-			//        BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
-			//        BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
-			//    } else if (mHeadCounter < 3) {
-			//        BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
-			//    } else if (mHeadCounter > 4) {
-			//        BYOS.Instance.Interaction.BMLManager.LaunchRandom("love");
-			//        mTimeMood = Time.time;
-			//    }
+				} else {
+					//TODO: play BML instead
+					Debug.Log("no action + face poked  -> play sad");
+					TimedMood(MoodType.SAD);
+					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+				}
 
-			if (mHeadCounter < 2) {
-				BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
-				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
-			} else if (mHeadCounter < 5) {
+			} else if (BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.IDLE) {
+				//surprise
+				if (!ActiveAction()) {
+					Debug.Log("No action + face poked -> play surprise BML");
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
+					mTimeMood = Time.time;
+				} else if (Wandering) {
+					Debug.Log("wander + face poked -> play happy wander");
+					StartWander(MoodType.HAPPY);
+					mTimeMood = Time.time;
+
+				} else {
+					//TODO: play BML instead
+					Debug.Log("no action + face poked  -> play Surprise");
+					if (BYOS.Instance.Interaction.SpeechToText.HasFinished)
+						BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+					TimedMood(MoodType.SURPRISED);
+				}
+
+			} else if (BYOS.Instance.Interaction.InternalState.Positivity < 0) {
 				//TODO: play BML instead
-				BYOS.Instance.Interaction.Mood.Set(MoodType.HAPPY);
-				BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-				mTimeMood = Time.time;
 
-			} else if (mHeadCounter > 4) {
-				//TODO: play BML instead
+				if (!ActiveAction()) {
+					Debug.Log("No action + face poked -> play grumpy BML");
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("grumpy");
+					mTimeMood = Time.time;
+				} else if (Wandering) {
+					Debug.Log("wander + face poked -> play grumpy wander");
+					StartWander(MoodType.GRUMPY);
+					mTimeMood = Time.time;
 
-				if (BYOS.Instance.Interaction.BMLManager.DonePlaying && !Wandering)
+				} else {
+					//TODO: play BML instead
+					Debug.Log("no action + eye poked  -> play grumpy");
+					TimedMood(MoodType.GRUMPY);
+					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+				}
+
+
+
+			} else if (BYOS.Instance.Interaction.InternalState.Positivity > 0) {
+				if (!ActiveAction()) {
+					Debug.Log("No action + face poked -> play random love BML");
 					BYOS.Instance.Interaction.BMLManager.LaunchRandom("love");
-				else {
+					mTimeMood = Time.time;
+				} else if (Wandering) {
+					Debug.Log("wander + face poked -> play love wander");
+					StartWander(MoodType.LOVE);
+					mTimeMood = Time.time;
+
+				} else {
+					//TODO: play BML instead
+					Debug.Log("no action + face poked  -> play love");
 					BYOS.Instance.Interaction.Mood.Set(MoodType.LOVE);
 					mTimeMood = Time.time;
 				}
 			}
+
 		}
+
+
 
 		public void EyeReaction()
 		{
-			Debug.Log("Time.time - mLastEyeTime " + (Time.time - mLastEyeTime));
-			if (Time.time - mLastEyeTime < 5F)
-				mEyeCounter++;
-			else
-				mEyeCounter = 0;
-			mLastEyeTime = Time.time;
 
-			//if (BYOS.Instance.Interaction.BMLManager.DonePlaying)
-			//    if (mEyeCounter > 7)
-			//        BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
-			//    else
-			//        //BYOS.Instance.Interaction.Mood.Set(MoodType.GRUMPY);
-			//        //BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
-			//        //mTimeMood = Time.time;
-
-			//        BYOS.Instance.Interaction.BMLManager.LaunchRandom("grumpy");
-
-
-			if (mEyeCounter > 7) {
+			if (BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.ANGRY) {
 				//TODO: play BML instead
 
 				if (!ActiveAction()) {
 					Debug.Log("No action + eye poked -> play angry BML");
 					BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
-					//BYOS.Instance.Interaction.Mood.Set(MoodType.ANGRY);
-					//BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
-					//BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
 					mTimeMood = Time.time;
 				} else if (Wandering) {
 					Debug.Log("wander + eye poked -> play angry wander");
@@ -203,13 +477,18 @@ namespace BuddyApp.Companion
 					mTimeMood = Time.time;
 
 				} else {
-					Debug.Log("BML + eye poked -> play angry wander");
+					Debug.Log("BML + eye poked -> play angry ");
 					TimedMood(MoodType.ANGRY);
 					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
-					BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
+					if (BYOS.Instance.Interaction.SpeechToText.HasFinished)
+						BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
 				}
-			} else {
-				if (Wandering) {
+			} else if (BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.GRUMPY || BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.BITTER) {
+				if (!ActiveAction()) {
+					Debug.Log("No action + eye poked -> play grumpy BML");
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("grumpy");
+					mTimeMood = Time.time;
+				} else if (Wandering) {
 					Debug.Log("wander + eye poked -> play grumpy wander");
 					StopWander();
 					StartWander(MoodType.GRUMPY);
@@ -217,30 +496,164 @@ namespace BuddyApp.Companion
 
 				} else {
 					//TODO: play BML instead
-					Debug.Log("no action + eye poked  -> play grumpy wander");
+					Debug.Log("no action + eye poked  -> play grumpy");
 					TimedMood(MoodType.GRUMPY);
 					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
 				}
+
+			} else if (BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.SAD) {
+				if (!ActiveAction()) {
+					Debug.Log("No action + eye poked -> play sad BML");
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("sad");
+					mTimeMood = Time.time;
+				} else if (Wandering) {
+					Debug.Log("wander + eye poked -> play sad wander");
+					StopWander();
+					StartWander(MoodType.SAD);
+					mTimeMood = Time.time;
+
+				} else {
+					//TODO: play BML instead
+					Debug.Log("no action + eye poked  -> play sad");
+					TimedMood(MoodType.SAD);
+					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+				}
+
+			} else if (BYOS.Instance.Interaction.InternalState.Positivity > 0) {
+				if (!ActiveAction()) {
+					Debug.Log("No action + eye poked -> play random neutral BML");
+					BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
+					mTimeMood = Time.time;
+				} else if (BYOS.Instance.Interaction.SpeechToText.HasFinished)
+					BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
+
+
 			}
 
 
 		}
+
+
+		//public void HeadReactionOld()
+		//{
+		//	Debug.Log("Head Reaction counter " + mHeadCounter);
+		//	mTimeMood = Time.time;
+		//	if (Time.time - mLastHeadTime < 5F)
+		//		mHeadCounter++;
+		//	else
+		//		mHeadCounter = 0;
+
+		//	mLastHeadTime = Time.time;
+
+		//	if (mHeadCounter < 2) {
+		//		BYOS.Instance.Interaction.Mood.Set(MoodType.SURPRISED);
+		//		BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
+		//	} else if (mHeadCounter < 5) {
+		//		BYOS.Instance.Interaction.Mood.Set(MoodType.HAPPY);
+		//		BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
+		//		mTimeMood = Time.time;
+
+		//	} else if (mHeadCounter > 4) {
+
+		//		if (BYOS.Instance.Interaction.BMLManager.DonePlaying && !Wandering)
+		//			BYOS.Instance.Interaction.BMLManager.LaunchRandom("love");
+		//		else {
+		//			BYOS.Instance.Interaction.Mood.Set(MoodType.LOVE);
+		//			mTimeMood = Time.time;
+		//		}
+		//	}
+		//}
+
+		//public void EyeReactionOld()
+		//{
+		//	Debug.Log("Time.time - mLastEyeTime " + (Time.time - mLastEyeTime));
+		//	if (Time.time - mLastEyeTime < 5F)
+		//		mEyeCounter++;
+		//	else
+		//		mEyeCounter = 0;
+		//	mLastEyeTime = Time.time;
+
+
+		//	if (mEyeCounter > 7) {
+
+		//		if (!ActiveAction()) {
+		//			Debug.Log("No action + eye poked -> play angry BML");
+		//			BYOS.Instance.Interaction.BMLManager.LaunchRandom("angry");
+		//			mTimeMood = Time.time;
+		//		} else if (Wandering) {
+		//			Debug.Log("wander + eye poked -> play angry wander");
+		//			StopWander();
+		//			StartWander(MoodType.ANGRY);
+		//			mTimeMood = Time.time;
+
+		//		} else {
+		//			Debug.Log("BML + eye poked -> play angry wander");
+		//			TimedMood(MoodType.ANGRY);
+		//			BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+		//			BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
+		//		}
+		//	} else {
+		//		if (Wandering) {
+		//			Debug.Log("wander + eye poked -> play grumpy wander");
+		//			StopWander();
+		//			StartWander(MoodType.GRUMPY);
+		//			mTimeMood = Time.time;
+
+		//		} else {
+		//			Debug.Log("no action + eye poked  -> play grumpy wander");
+		//			TimedMood(MoodType.GRUMPY);
+		//			BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
+		//		}
+		//	}
+
+
+		//}
+
+
+		//***************
+		//*  BML        *
+		//***************
 
 		internal void StopAllBML()
 		{
-			if (BYOS.Instance.Interaction.Mood.CurrentMood != MoodType.NEUTRAL) {
-				BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
-			}
+			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
+
 			// Can't know if eyes are closed, open them in case...
 			BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.OPEN_EYES);
 
-			BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
-
-
+			if (BYOS.Instance.Interaction.Mood.CurrentMood != MoodType.NEUTRAL) {
+				BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
+			}
 		}
+
+
+		//***************
+		//*  MOODS      *
+		//***************
+
+		internal void ShowInternalMood(float iTime = 5F)
+		{
+			TimedMood(Internal2FaceMood(mInternalStateMood), iTime);
+		}
+
+		internal MoodType Internal2FaceMood(InternalMood iInternalMood)
+		{
+
+			if (iInternalMood == InternalMood.BITTER)
+				return MoodType.GRUMPY;
+			else if (iInternalMood == InternalMood.EXCITED || iInternalMood == InternalMood.RELAXED)
+				return MoodType.HAPPY;
+			else if (iInternalMood == InternalMood.IDLE)
+				return MoodType.NEUTRAL;
+			else
+				return (MoodType)Enum.Parse(typeof(MoodType), iInternalMood.ToString());
+		}
+
 
 		internal void TimedMood(MoodType iMood, float iTime = 5F)
 		{
+			if (Wandering)
+				StartWander(iMood);
 			if (BYOS.Instance.Interaction.Mood.CurrentMood != iMood) {
 				StopAllBML();
 				BYOS.Instance.Interaction.Mood.Set(iMood);
@@ -278,7 +691,8 @@ namespace BuddyApp.Companion
 		{
 			StopAllActions();
 			if (UnityEngine.Random.Range(0, 2) == 0)
-				RandomMoodWander();
+				//RandomMoodWander();
+				ShowInternalMood(10F);
 			else
 				RandomBMLWander();
 		}
@@ -321,6 +735,12 @@ namespace BuddyApp.Companion
 					break;
 			}
 		}
+
+
+		//***************
+		//*  LOCKS      *
+		//***************
+
 
 		internal void LockAll()
 		{

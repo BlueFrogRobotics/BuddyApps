@@ -12,6 +12,8 @@ namespace BuddyApp.Shared
 {
     public class SharedQAManager : ASharedSMB
     {
+        /// TODO : avoir un paramètre pour afficher un toast pour la photo enregistré dans TakePhoto
+
         [SerializeField]
         private string NameOfXML;
         [SerializeField]

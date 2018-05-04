@@ -24,16 +24,16 @@ namespace BuddyApp.SandboxApp
 
         //Ce quil reste a faire pour la v1 : Overlay (a voir) + buddy qui dit le décompte
 
-        [SerializeField]
-        private string Title;
-        [SerializeField]
-        private string BuddySays;
+        //[SerializeField]
+        //private string Title;
+        //[SerializeField]
+        //private string BuddySays;
         //[SerializeField]
         //private bool IsSoundForButton;
         //[SerializeField]
         //private FXSound FxSound;
         [SerializeField]
-        private string NameOfPicture;
+        private string NameOfPhotoTaken;
 
         [Header("Put your mouse on the index of the RawImage and follow the tooltip")]
         [SerializeField]
@@ -55,11 +55,22 @@ namespace BuddyApp.SandboxApp
         [SerializeField]
         private string TriggerToNextState;
 
+        
+       
+        private enum Countdown
+        {
+            BUDDY_COUNTDOWN,
+            CLASSIC,
+            NONE,
+        };
+
         [Space]
         [Header("Countdown Parameters : ")]
-        [Tooltip("If you want to have a visible countdown, you have to create a text in the canvas of your scene. Then you link it in \"your app name\"stateMachineManager of the AIBehaviour on your scene. And you put the index of your text in the stateMachineManager here ")]
         [SerializeField]
-        private bool IsCountdownVisible;
+        private Countdown CountdownToDisplay;
+        [Tooltip("If you want to have a visible countdown, you have to create a text in the canvas of your scene. Then you link it in \"your app name\"stateMachineManager of the AIBehaviour on your scene. And you put the index of your text in the stateMachineManager here ")]
+        //[SerializeField]
+        //private bool IsCountdownVisible;
         [SerializeField]
         private Color32 ColorOfCountdown;
         [SerializeField]
@@ -88,11 +99,13 @@ namespace BuddyApp.SandboxApp
         private bool mIsPhotoTaken;
         private string mFilePath = "";
         private bool mIsDisplayPhotoDone;
+        private bool mCountDownDisplayed;
+        private bool mCountDownBuddy;
 
         public override void Start()
         {
             Interaction.VocalManager.EnableTrigger = false;
-            BYOS.Instance.Header.DisplayParametersButton = false;
+            BYOS.Instance.Header.DisplayParametersButton = false; 
             mTTS = Interaction.TextToSpeech;
             Primitive.RGBCam.Resolution = RGBCamResolution.W_640_H_480;
             mMatDest = new Mat();
@@ -114,6 +127,7 @@ namespace BuddyApp.SandboxApp
             mIsDone = false;
             mIsDisplayPhotoDone = false;
             mPhotoTaken = false;
+            mCountDownBuddy = false;
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -139,7 +153,7 @@ namespace BuddyApp.SandboxApp
 
                 Debug.Log("2");
 
-                if (mTimer > 5.5F || (int)(mStarterCountdown - mTimer) < 1)
+                if ((mTimer > 5.5F && mCountDownBuddy) || ((int)(mStarterCountdown - mTimer) < 1 && mCountDownBuddy))
                 {
                     mTimer = 0F;
                     Primitive.RGBCam.TakePhotograph(OnFinish, false);
@@ -153,7 +167,7 @@ namespace BuddyApp.SandboxApp
                     //mTTS.Say();
                 }
 
-                if (IsCountdownVisible && mTimerForCountdown > 2F)
+                if (CountdownToDisplay == Countdown.CLASSIC  && mTimerForCountdown > 2F && !mCountDownDisplayed && !mCountDownBuddy) 
                 {
                     if (GetGameObject(IndexTextOfCountdown).GetComponent<Text>() != null)
                     {
@@ -171,10 +185,34 @@ namespace BuddyApp.SandboxApp
                         GetGameObject(IndexTextOfCountdown).GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
                         GetGameObject(IndexTextOfCountdown).GetComponent<Text>().fontSize = 180;
                         GetGameObject(IndexTextOfCountdown).GetComponent<Text>().color = new Color32(ColorOfCountdown.r,ColorOfCountdown.g, ColorOfCountdown.b, 255);
+                        Debug.Log("MTIMER : " + mTimer + " TEST : " + test);
                         GetGameObject(IndexTextOfCountdown).GetComponent<Text>().text = test.ToString();
+                        if((int)(mStarterCountdown - mTimer) <= 0)
+                        {
+                            mCountDownDisplayed = true;
+                            mCountDownBuddy = true;
+                        }
+                        
                     }
                     else
                         Debug.Log("You put the wrong index of your UI Object text in the StateMachineBehaviour");
+                }
+                else if(CountdownToDisplay == Countdown.BUDDY_COUNTDOWN && mTimerForCountdown > 2F)
+                {
+                    if(!mCountDownDisplayed)
+                    {
+                        Toaster.Display<CountdownToast>().With(5, OnCountDownFinished);
+                        mCountDownDisplayed = true;
+                    }
+                }
+                else if(CountdownToDisplay == Countdown.NONE && mTimerForCountdown > 2F)
+                {
+                    if ((int)(mStarterCountdown - mTimer) <= 0)
+                    {
+                        mCountDownDisplayed = true;
+                        mCountDownBuddy = true;
+                    }
+
                 }
                 Debug.Log("8");
 
@@ -209,7 +247,10 @@ namespace BuddyApp.SandboxApp
 
                 if(mTimer > 6F)
                 {
-                    Trigger(TriggerToNextState);
+                    if (!string.IsNullOrEmpty(TriggerToNextState))
+                        Trigger(TriggerToNextState);
+                    else
+                        Debug.Log("You forgot to write the trigger to activate in the animator");
                 }
             }
           
@@ -231,6 +272,13 @@ namespace BuddyApp.SandboxApp
             return false;
         }
 
+        private void OnCountDownFinished()
+        {
+            Debug.Log("ON COUNTDOWN FINISHED LOL");
+            mCountDownBuddy = true;
+            Toaster.Hide();
+        }
+
         private void OnFinish(Photograph iMyPhoto)
         {
             Debug.Log("ONFINISH");
@@ -239,14 +287,14 @@ namespace BuddyApp.SandboxApp
             Primitive.RGBCam.Close();
             string lFileName;
             // save file 
-            if (string.IsNullOrEmpty(NameOfPicture))
+            if (string.IsNullOrEmpty(NameOfPhotoTaken))
             {
                 lFileName = "Buddy_" + System.DateTime.Now.Day + "day" +
                 System.DateTime.Now.Month + "month" + System.DateTime.Now.Hour + "h" +
                 System.DateTime.Now.Minute + "min" + System.DateTime.Now.Second + "sec.png";
             }
             else
-                lFileName = NameOfPicture + ".png";
+                lFileName = NameOfPhotoTaken + ".png";
             
             if (File.Exists(Resources.GetPathToRaw(lFileName)))
                 File.Delete(Resources.GetPathToRaw(lFileName));
@@ -267,17 +315,20 @@ namespace BuddyApp.SandboxApp
                 mIsPhotoTaken = true;
             }
             else
-                Trigger(TriggerToNextState);
+                if (!string.IsNullOrEmpty(TriggerToNextState))
+                    Trigger(TriggerToNextState);
+                else
+                    Debug.Log("You forgot to write the trigger to activate in the animator");
 
-            
-            
+
+
         }
 
         private void Reset()
         {
             mIsDone = true;
             DisplayVideo = false;
-            IsCountdownVisible = false;
+            //IsCountdownVisible = false;
             InstantPhoto = false;
         }
 

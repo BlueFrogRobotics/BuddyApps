@@ -1,6 +1,7 @@
 ﻿using Buddy.UI;
 using Buddy;
 using UnityEngine;
+
 using System;
 using System.Xml;
 using System.IO;
@@ -63,67 +64,39 @@ namespace BuddyApp.Companion
 
 		private Dictionary<RequestType, string> mWebsiteHash;
 
-		private List<string> mAcceptSpeech;
-		private List<string> mAlarmSpeech;
-		private List<string> mAnotherSpeech;
-		private List<string> mAnswersSpeech;
-		private List<string> mBabyphoneSpeech;
-		private List<string> mBehaviourSpeech;
-		private List<string> mBuddyLabSpeech;
-		private List<string> mCalculationSpeech;
-		private List<string> mCanMoveSpeech;
-		private List<string> mDanceSpeech;
-		private List<string> mDemoFullSpeech;
-		private List<string> mDemoShortSpeech;
-		private List<string> mDateSpeech;
-		private List<string> mDefinitionSpeech;
-		private List<string> mDegreesCSpeech;
+		private List<string> mDefinitionSpeech; //A VOIR
+
 		private List<string> mDidntUnderstandSpeech;
 		private List<string> mDontMoveSpeech;
 		private List<string> mDoSomethingSpeech;
-		private List<string> mFreezeDanceSpeech;
 		private List<string> mFollowMeSpeech;
 		private List<string> mGameSpeech;
 		private List<string> mGetSpeech;
-		private List<string> mGuardianSpeech;
 		private List<string> mHeadDownSpeech;
 		private List<string> mHeadUpSpeech;
 		private List<string> mHeadLeftSpeech;
 		private List<string> mHeadRightSpeech;
-		private List<string> mHideSeekSpeech;
 		private List<string> mHourSpeech;
 		private List<string> mICouldntSpeech;
-		private List<string> mISpeech;
-		private List<string> mIOTSpeech;
 		private List<string> mJokeSpeech;
-		private List<string> mJukeboxSpeech;
 		private List<string> mLeftSpeech;
 		private List<string> mLookAtMeSpeech;
 		private List<string> mLookForSpeech;
-		private List<string> mMemorySpeech;
-		private List<string> mMeteoSpeech;
 		private List<string> mMoveBackwardSpeech;
 		private List<string> mMoveForwardSpeech;
 		private List<string> mMoveLeftSpeech;
 		private List<string> mMoveRightSpeech;
 		private List<string> mNewsSpeech;
-		private List<string> mPhotoSpeech;
 		private List<string> mPlaySpeech;
-		private List<string> mPoseSpeech;
 		private List<string> mQuestionSpeech;
 		private List<string> mQuitSpeech;
-		private List<string> mQuizzSpeech;
 		private List<string> mRepeatAfterMeSpeech;
 		private List<string> mRepeatPlzSpeech;
-		private List<string> mRecipeSpeech;
-		private List<string> mRLGLSpeech;
 		private List<string> mSeveralResSpeech;
 		private List<string> mSorrySpeech;
-		private List<string> mStorySpeech;
 		private List<string> mTemperatureSpeech;
 		private List<string> mTempSpeech;
 		private List<string> mThanksSpeech;
-		private List<string> mTimerSpeech;
 		private List<string> mTurnSpeech;
 		private List<string> mURWelcomeSpeech;
 		private List<string> mVolumeSpeech;
@@ -141,9 +114,6 @@ namespace BuddyApp.Companion
 		private ChatterBotFactory mChatBotFactory;
 		private ChatterBot mCleverbot;
 		private ChatterBotSession mCleverbotSession;
-		private List<string> mIHateU;
-		private List<string> mILoveU;
-		private bool mPreviousOperation;
 
 		public string Answer { get; private set; }
 
@@ -198,7 +168,7 @@ namespace BuddyApp.Companion
 
 					InitLanguageFiles();
 					mWebsiteHash[RequestType.DEFINITION] = "https://" + mCurrentLanguage.ToString().ToLower() + ".wikipedia.org/w/api.php?format=xml&action=query&prop=extracts|categories|links&exintro=&explaintext=&titles=";
-					
+
 					InitSpeech();
 				}
 			}
@@ -233,69 +203,39 @@ namespace BuddyApp.Companion
 		private void InitSpeech()
 		{
 			//Reads through the synonym file to check for specific keywords
-			mAcceptSpeech = new List<string>();
-			mAlarmSpeech = new List<string>();
-			mAnotherSpeech = new List<string>();
-			mAnswersSpeech = new List<string>();
-			mBabyphoneSpeech = new List<string>();
-			mBehaviourSpeech = new List<string>();
-			mBuddyLabSpeech = new List<string>();
-			mCalculationSpeech = new List<string>();
-			mCanMoveSpeech = new List<string>();
-			mDateSpeech = new List<string>();
-			mDanceSpeech = new List<string>();
-			mDemoFullSpeech = new List<string>();
-			mDemoShortSpeech = new List<string>();
 			mDefinitionSpeech = new List<string>();
-			mDegreesCSpeech = new List<string>();
+
 			mDidntUnderstandSpeech = new List<string>();
 			mDontMoveSpeech = new List<string>();
 			mDoSomethingSpeech = new List<string>();
-			mFreezeDanceSpeech = new List<string>();
 			mFollowMeSpeech = new List<string>();
 			mGameSpeech = new List<string>();
 			mGetSpeech = new List<string>();
-			mGuardianSpeech = new List<string>();
 			mHeadDownSpeech = new List<string>();
 			mHeadLeftSpeech = new List<string>();
 			mHeadRightSpeech = new List<string>();
 			mHeadUpSpeech = new List<string>();
-			mHideSeekSpeech = new List<string>();
 			mHourSpeech = new List<string>();
 			mICouldntSpeech = new List<string>();
-			mILoveU = new List<string>();
-			mIHateU = new List<string>();
-			mISpeech = new List<string>();
-			mIOTSpeech = new List<string>();
 			mJokeSpeech = new List<string>();
-			mJukeboxSpeech = new List<string>();
 			mLeftSpeech = new List<string>();
 			mLookAtMeSpeech = new List<string>();
 			mLookForSpeech = new List<string>();
-			mMemorySpeech = new List<string>();
-			mMeteoSpeech = new List<string>();
 			mMoveBackwardSpeech = new List<string>();
 			mMoveForwardSpeech = new List<string>();
 			mMoveLeftSpeech = new List<string>();
 			mMoveRightSpeech = new List<string>();
 			mNewsSpeech = new List<string>();
-			mPhotoSpeech = new List<string>();
 			mPlaySpeech = new List<string>();
-			mPoseSpeech = new List<string>();
 			mQuestionSpeech = new List<string>();
 			mQuitSpeech = new List<string>();
-			mQuizzSpeech = new List<string>();
 			mRepeatAfterMeSpeech = new List<string>();
 			mRepeatPlzSpeech = new List<string>();
-			mRecipeSpeech = new List<string>();
-			mRLGLSpeech = new List<string>();
 			mSeveralResSpeech = new List<string>();
 			mSorrySpeech = new List<string>();
-			mStorySpeech = new List<string>();
 			mTemperatureSpeech = new List<string>();
 			mTempSpeech = new List<string>();
 			mThanksSpeech = new List<string>();
-			mTimerSpeech = new List<string>();
 			mTurnSpeech = new List<string>();
 			mURWelcomeSpeech = new List<string>();
 			mVolumeSpeech = new List<string>();
@@ -305,69 +245,39 @@ namespace BuddyApp.Companion
 			mWantToKnowSpeech = new List<string>();
 			mWhoIs = new List<string>();
 
-			FillListSyn("Accept", mAcceptSpeech);
-			FillListSyn("Alarm", mAlarmSpeech);
-			FillListSyn("Another", mAnotherSpeech);
-			FillListSyn("Answers", mAnswersSpeech);
-			FillListSyn("Babyphone", mBabyphoneSpeech);
-			FillListSyn("Behaviour", mBehaviourSpeech);
-			FillListSyn("BuddyLab", mBuddyLabSpeech);
-			FillListSyn("Calculation", mCalculationSpeech);
-			FillListSyn("CanMove", mCanMoveSpeech);
-			FillListSyn("Date", mDateSpeech);
-			FillListSyn("Dance", mDanceSpeech);
-			FillListSyn("DemoFull", mDemoFullSpeech);
-			FillListSyn("DemoShort", mDemoShortSpeech);
 			FillListSyn("Definition", mDefinitionSpeech);
-			FillListSyn("DegreesC", mDegreesCSpeech);
+
 			FillListSyn("DidntUnderstand", mDidntUnderstandSpeech);
 			FillListSyn("DontMove", mDontMoveSpeech);
 			FillListSyn("DoSomething", mDoSomethingSpeech);
-			FillListSyn("FreezeDance", mFreezeDanceSpeech);
 			FillListSyn("FollowMe", mFollowMeSpeech);
 			FillListSyn("Game", mGameSpeech);
 			FillListSyn("Get", mGetSpeech);
-			FillListSyn("Guardian", mGuardianSpeech);
 			FillListSyn("HeadDown", mHeadDownSpeech);
 			FillListSyn("HeadLeft", mHeadLeftSpeech);
 			FillListSyn("HeadRight", mHeadRightSpeech);
 			FillListSyn("HeadUp", mHeadUpSpeech);
-			FillListSyn("HideSeek", mHideSeekSpeech);
 			FillListSyn("Hour", mHourSpeech);
 			FillListSyn("Left", mLeftSpeech);
 			FillListSyn("LookAtMe", mLookAtMeSpeech);
 			FillListSyn("ICouldnt", mICouldntSpeech);
-			FillListSyn("I", mISpeech);
-			FillListSyn("ILoveU", mILoveU);
-			FillListSyn("IHateU", mIHateU);
-			FillListSyn("IOT", mIOTSpeech);
 			FillListSyn("Joke", mJokeSpeech);
-			FillListSyn("Jukebox", mJukeboxSpeech);
 			FillListSyn("LookFor", mLookForSpeech);
-			FillListSyn("Memory", mMemorySpeech);
-			FillListSyn("Meteo", mMeteoSpeech);
 			FillListSyn("MoveBackward", mMoveBackwardSpeech);
 			FillListSyn("MoveForward", mMoveForwardSpeech);
 			FillListSyn("MoveLeft", mMoveLeftSpeech);
 			FillListSyn("MoveRight", mMoveRightSpeech);
 			FillListSyn("News", mNewsSpeech);
-			FillListSyn("Photo", mPhotoSpeech);
 			FillListSyn("Play", mPlaySpeech);
-			FillListSyn("Pose", mPoseSpeech);
 			FillListSyn("Question", mQuestionSpeech);
 			FillListSyn("Quit", mQuitSpeech);
-			FillListSyn("Quizz", mQuizzSpeech);
 			FillListSyn("Repeat", mRepeatPlzSpeech);
 			FillListSyn("RepeatAfterMe", mRepeatAfterMeSpeech);
-			FillListSyn("Recipe", mRecipeSpeech);
-			FillListSyn("RLGL", mRLGLSpeech);
 			FillListSyn("SeveralRes", mSeveralResSpeech);
 			FillListSyn("Sorry", mSorrySpeech);
-			FillListSyn("Story", mStorySpeech);
 			FillListSyn("Temperature", mTemperatureSpeech);
 			FillListSyn("Temp", mTempSpeech);
 			FillListSyn("Thanks", mThanksSpeech);
-			FillListSyn("Timer", mTimerSpeech);
 			FillListSyn("Turn", mTurnSpeech);
 			FillListSyn("URWelcome", mURWelcomeSpeech);
 			FillListSyn("Volume", mVolumeSpeech);
@@ -504,387 +414,403 @@ namespace BuddyApp.Companion
 			//Search for specific keywords and send the type through the delegate QuestionAnalyzed
 			string lType = "";
 
-			/////////////////////////
-			//Apps
-			////////////////////////////
+            /////////////////////////
+            //Apps
+            ////////////////////////////
 
 
+            if (ContainsOneOf(iSpeech, "alarm"))
+                lType = "Alarm";
+            //else if (ContainsOneOf(iSpeech, mQuizzSpeech))
+            //	lType = "Quizz";
+            else if (ContainsOneOf(iSpeech, "calculationgame"))
+                lType = "Calcul";
+            else if (ContainsOneOf(iSpeech, "memorygame"))
+                lType = "Memory";
+            //else if (ContainsOneOf(iSpeech, "babyphone"))
+            //	lType = "Babyphone";
+            else if (ContainsOneOf(iSpeech, "freezedance"))
+                lType = "FreezeDance";
+            else if (ContainsOneOf(iSpeech, "guardian"))
+                lType = "Guardian";
+            else if (ContainsOneOf(iSpeech, "iot"))
+                lType = "IOT";
+            else if (ContainsOneOf(iSpeech, "jukebox"))
+                lType = "Jukebox";
+            //else if (ContainsOneOf(iSpeech, mRecipeSpeech))
+            //	lType = "Recipe";
+            else if (ContainsOneOf(iSpeech, "rlgl"))
+                lType = "RLGL";
+            //else if (ContainsOneOf(iSpeech, mHideSeekSpeech))
+            //	lType = "HideSeek";
+            else if (ContainsOneOf(iSpeech, "pose"))
+                lType = "Pose";
+            else if (ContainsOneOf(iSpeech, "photo"))
+                lType = "Photo";
+            else if (ContainsOneOf(iSpeech, "weather"))
+                lType = "Weather";
 
-			if (ContainsOneOf(iSpeech, mAlarmSpeech))
-				lType = "Alarm";
-			//else if (ContainsOneOf(iSpeech, mQuizzSpeech))
-			//	lType = "Quizz";
-			else if (ContainsOneOf(iSpeech, mCalculationSpeech))
-				lType = "Calcul";
-			else if (ContainsOneOf(iSpeech, mMemorySpeech))
-				lType = "Memory";
-			//else if (ContainsOneOf(iSpeech, mBabyphoneSpeech))
-			//	lType = "Babyphone";
-			else if (ContainsOneOf(iSpeech, mFreezeDanceSpeech))
-				lType = "FreezeDance";
-			else if (ContainsOneOf(iSpeech, mGuardianSpeech))
-				lType = "Guardian";
-			else if (ContainsOneOf(iSpeech, mIOTSpeech))
-				lType = "IOT";
-			else if (ContainsOneOf(iSpeech, mJukeboxSpeech))
-				lType = "Jukebox";
-			else if (ContainsOneOf(iSpeech, mPlaySpeech))
-				lType = "Play";
-			//else if (ContainsOneOf(iSpeech, mRecipeSpeech))
-			//	lType = "Recipe";
-			else if (ContainsOneOf(iSpeech, mRLGLSpeech))
-				lType = "RLGL";
-			//else if (ContainsOneOf(iSpeech, mHideSeekSpeech))
-			//	lType = "HideSeek";
-			else if (ContainsOneOf(iSpeech, mPoseSpeech))
-				lType = "Pose";
-			else if (ContainsOneOf(iSpeech, mPhotoSpeech))
-				lType = "Photo";
-			else if (ContainsOneOf(iSpeech, mStorySpeech))
-				lType = "Story";
-
-
-			/////////////////////////
-			//BML
-			////////////////////////////
-			else if (ContainsOneOf(iSpeech, mDemoShortSpeech))
-				lType = "DemoShort";
-			else if (ContainsOneOf(iSpeech, mDemoFullSpeech))
-				lType = "DemoFull";
-			else if (ContainsOneOf(iSpeech, mDanceSpeech))
-				lType = "Dance";
-			else if (ContainsOneOf(iSpeech, mJokeSpeech)) {
-				Debug.Log("!!!!!!!!!!!!!!!!!Vocal helper joke");
-				lType = "Joke";
+            //else if (ContainsOneOf(iSpeech, "story"))
+            //	lType = "Story";
 
 
-			} else if (ContainsOneOf(iSpeech, "welcome"))
-				lType = "Welcome";
-			else if (ContainsOneOf(iSpeech, mILoveU)) {
-				lType = "ILoveU";
-			} else if (ContainsOneOf(iSpeech, mIHateU)) {
-				lType = "IHateU";
-
-			} else if (ContainsOneOf(iSpeech, mAcceptSpeech))
-				lType = "Accept";
-			else if (ContainsOneOf(iSpeech, mQuitSpeech))
-				lType = "Quit";
-			else if (ContainsOneOf(iSpeech, mRepeatAfterMeSpeech)) {
-				int lKeywordsIndex = WordIndexOfOneOf(iSpeech, mRepeatAfterMeSpeech);
-				string[] lWords = iSpeech.Split(' ');
-				string lSentenceToRepeat = "";
-
-				if (lKeywordsIndex != -1 && lKeywordsIndex != lWords.Length) {
-					for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
-						lSentenceToRepeat += lWords[j] + " ";
-				}
-				lType = "Answer";
-				Answer = lSentenceToRepeat;
-				//TTSProcessAndSay(lSentenceToRepeat, true);
-				//mAnswerGiven = true;
-			} else if (ContainsOneOf(iSpeech, mRepeatPlzSpeech)) {
-				//TTSProcessAndSay(mPreviousAnswer, true);
-				//mAnswerGiven = true;
-				lType = "Repeat";
-			} else if (ContainsOneOf(iSpeech, mBehaviourSpeech)) {
-				int lKeywordsIndex = WordIndexOfOneOf(iSpeech.ToLower(), mBehaviourSpeech);
-				string[] lWords = iSpeech.Split(' ');
-
-				Debug.Log("Keyword Index: " + lKeywordsIndex);
-				Debug.Log("lWords.Length: " + lWords.Length);
-				Debug.Log(" lWords[lKeywordsIndex + 1]: " + lWords[lKeywordsIndex + 1]);
-
-				if (lKeywordsIndex != -1 && lKeywordsIndex + 1 != lWords.Length) {
-					//Take just the next word
-					//for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
-					Answer = lWords[lKeywordsIndex + 1];
-				}
-				lType = "BML";
-				//TTSProcessAndSay(lSentenceToRepeat, true);
-				//mAnswerGiven = true;
-
-
-			} else if (ContainsOneOf(iSpeech, "accraalarm")) {
-				Debug.Log("Accra alarm vocalhelper");
-				lType = "AccraAlarm";
-
-
-
-			} else if (ContainsOneOf(iSpeech, mMeteoSpeech)) {
-				lType = "Weather";
-				//We search for the location of the weather request
-				/*int lKeywordIndex = WordIndexOfOneOf(iSpeech, mMeteoSpeech);
-				string[] lWords = iSpeech.Split(' ');
-				string lWeatherPlace = "";
-
-				if (lKeywordIndex != -1 && lKeywordIndex != lWords.Length) {
-					for (int j = lKeywordIndex + 2; j < lWords.Length; j++)
-						lWeatherPlace += lWords[j] + " ";
-				}
-				StartCoroutine(BuildWeatherAnswer(lWeatherPlace));*/
-			} else if (ContainsOneOf(iSpeech, mDefinitionSpeech)) {
-				lType = "Definition";
-				//We search for the location of the weather request
-				int lKeywordIndex = WordIndexOfOneOf(iSpeech, mDefinitionSpeech);
-				string[] lWords = iSpeech.Split(' ');
-				string lDefinitionWord = "";
-
-				if (lKeywordIndex != -1 && lKeywordIndex != lWords.Length) {
-					for (int j = lKeywordIndex + 1; j < lWords.Length; j++)
-						lDefinitionWord += lWords[j] + " ";
-				}
-				StartCoroutine(BuildDefinitionAnswer(lDefinitionWord));
-			} else if (ContainsOneOf(iSpeech, mWhoIs)) {
-				Debug.Log("Contains who is");
-				//We search for the location of the weather request
-				int lKeywordIndex = WordIndexOfOneOf(iSpeech, mWhoIs);
-				string[] lWords = iSpeech.Split(' ');
-				if (lKeywordIndex + 1 < lWords.Length) {
-					if (char.IsUpper(lWords[lKeywordIndex + 1][0])) {
-						Debug.Log("next is upper: " + lWords[lKeywordIndex + 1]);
-						lType = "Definition";
-						string lDefinitionWord = "";
-
-						if (lKeywordIndex != -1 && lKeywordIndex != lWords.Length) {
-							for (int j = lKeywordIndex + 1; j < lWords.Length; j++)
-								lDefinitionWord += lWords[j] + " ";
-						}
-						StartCoroutine(BuildDefinitionAnswer(lDefinitionWord));
-					} else {
-
-						Debug.Log("next is not upper: " + lWords[lKeywordIndex + 1]);
-					}
-				}
-
-				// General answer if not common name
-				if (lType != "Definition") {
-					lType = "Answer";
-					Answer = BuildGeneralAnswer(iSpeech.ToLower());
-				}
-
-			} else if (ContainsOneOf(iSpeech, mBuddyLabSpeech))
-				lType = "BuddyLab";
-			else if (ContainsOneOf(iSpeech, mTimerSpeech))
-				lType = "Timer";
-			else if (ContainsOneOf(iSpeech, mFollowMeSpeech))
-				lType = "FollowMe";
-			else if (ContainsOneOf(iSpeech, mLookAtMeSpeech))
-				lType = "LookAtMe";
-			else if (ContainsOneOf(iSpeech, mWanderSpeech)) {
-				Debug.Log("Wander 1");
-				Answer = FindMood(iSpeech.ToLower());
-				Debug.Log("Wander 2");
-				lType = "Wander";
-			} else if (ContainsOneOf(iSpeech, mCanMoveSpeech))
-				lType = "CanMove";
-			else if (ContainsOneOf(iSpeech, mDontMoveSpeech))
-				lType = "DontMove";
-			else if (ContainsOneOf(iSpeech, mHeadDownSpeech)) {
-				Answer = GetNextNumber(iSpeech, mHeadDownSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "HeadDown";
-			} else if (ContainsOneOf(iSpeech, mHeadLeftSpeech)) {
-				Answer = GetNextNumber(iSpeech, mHeadLeftSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "HeadLeft";
-			} else if (ContainsOneOf(iSpeech, mHeadRightSpeech)) {
-				Answer = GetNextNumber(iSpeech, mHeadRightSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "HeadRight";
-			} else if (ContainsOneOf(iSpeech, mHeadUpSpeech)) {
-				Answer = GetNextNumber(iSpeech, mHeadUpSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "HeadUp";
-			} else if (ContainsOneOf(iSpeech, mTurnSpeech)) {
-				Answer = GetNextNumber(iSpeech, mTurnSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				if (iSpeech.ToLower().Contains(BYOS.Instance.Dictionary.GetString("head")))
-					lType = "Head";
-				else
-					lType = "Move";
-
-				if (ContainsOneOf(iSpeech, mLeftSpeech))
-					lType += "Left";
-				else
-					lType += "Right";
-			} else if (ContainsOneOf(iSpeech, mMoveBackwardSpeech)) {
-				Answer = GetNextNumber(iSpeech, mMoveBackwardSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "MoveBackward";
-
-			} else if (iSpeech.ToLower().Contains("battery")) {
-				Debug.Log("Battery");
-				lType = "Battery";
-			} else if (ContainsOneOf(iSpeech, mMoveForwardSpeech)) {
-				Answer = GetNextNumber(iSpeech, mMoveForwardSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "MoveForward";
-			} else if (ContainsOneOf(iSpeech, mMoveLeftSpeech)) {
-				Answer = GetNextNumber(iSpeech, mMoveLeftSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "MoveLeft";
-			} else if (ContainsOneOf(iSpeech, mMoveRightSpeech)) {
-				Answer = GetNextNumber(iSpeech, mMoveRightSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "MoveRight";
-			} else if (ContainsOneOf(iSpeech, mVolumeSpeech)) {
-				Answer = "" + BYOS.Instance.Primitive.Speaker.GetVolume();
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "Volume";
-			} else if (ContainsOneOf(iSpeech, mVolumeDownSpeech)) {
-				Answer = GetNextNumber(iSpeech, mVolumeDownSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "VolumeDown";
-			} else if (ContainsOneOf(iSpeech, mVolumeUpSpeech)) {
-				Answer = GetNextNumber(iSpeech, mVolumeUpSpeech);
-				Debug.Log("Vocal helper answer: " + Answer);
-				lType = "VolumeUp";
-			} else if (ContainsOneOf(iSpeech, mThanksSpeech)) {
-				//TTSProcessAndSay(RandomString(mURWelcomeSpeech));
-				lType = "Answer";
-				Answer = RandomString(mURWelcomeSpeech);
-			} else if (ContainsOneOf(iSpeech, mDateSpeech)) {
-				lType = "Date";
-
-				//TTSProcessAndSay("Today, we are the  " + DateTime.Now.Day +
-				//" " + DateTime.Now.Month +
-				//		" " + DateTime.Now.Year, true);
-			} else if (ContainsOneOf(iSpeech, mHourSpeech)) {
-				lType = "Hour";
-				//TTSProcessAndSay("After the third beep, it will exactly be " +
-				//	DateTime.Now.Hour + " hours " +
-				//	DateTime.Now.Minute + " minutes and " +
-				//	DateTime.Now.Second + " seconds ", true);
-				//mTTS.Silence(1000, true);
-				//TTSProcessAndSay("beep", true);
-				//mTTS.Silence(1000, true);
-				//TTSProcessAndSay("beep", true);
-				//mTTS.Silence(1000, true);
-				//TTSProcessAndSay("and beep", true);
-
-			} else if (ContainsOneOf(iSpeech, mDoSomethingSpeech))
-				lType = "DoSomething";
-			else if (iSpeech.ToLower().Contains("propose"))
-				//lType = Suggest();
-				lType = "propose";
-			//else if (iSpeech.Contains("cleverbot")) {
-			//	lType = "Cleverbot";
-
-			//	if (mChatBotRequested) {
-			//		TTSProcessAndSay("Cleverbot disabled", true);
-			//		mChatBotRequested = false;
-			//	} else {
-			//		TTSProcessAndSay("Cleverbot enabled", true);
-			//		mChatBotRequested = true;
-			//		InitChatBot();
-			//	}
-			else if (!iSpeech.Any(c => char.IsDigit(c))) {
-				lType = "Answer";
-				Answer = BuildGeneralAnswer(iSpeech.ToLower());
-			} else {
-
-				string lSpeech = iSpeech.Trim();
-				//lSpeech = lSpeech.Replace("x", "*");
-				//lSpeech = lSpeech.Replace("÷", "/");
-
-
-				//if (lSpeech.Contains("√")) {
-				//	lSpeech = lSpeech.Replace("√", "sqrt");
-				//	lSpeech = Regex.Replace(lSpeech, @"\d", "($0)").Replace("sqrt ", "sqrt");
-				//}
-
-
-				string pattern = @"(\s?)(\d+\.?((?<=\.)\d+)?)";
-				Regex rgx = new Regex(pattern);
-				lSpeech = rgx.Replace(lSpeech, "($2)");
-
-				//lSpeech = Regex.Replace(lSpeech, @"\d+\.\d+", "($0)");
-				var parser = new ExpressionParser();
+            /////////////////////////
+            //BML
+            ////////////////////////////
+            else if (ContainsOneOf(iSpeech, "demoshort"))
+                lType = "DemoShort";
+            else if (ContainsOneOf(iSpeech, "demofull"))
+                lType = "DemoFull";
+            else if (ContainsOneOf(iSpeech, "dance"))
+                lType = "Dance";
+            else if (ContainsOneOf(iSpeech, "iloveyou") || ContainsOneOf(iSpeech, "kissme"))
+                lType = "UserLove";
+            else if (ContainsOneOf(iSpeech, "ihateyou"))
+                lType = "UserHate";
+            else if (ContainsOneOf(iSpeech, "welcome"))
+                lType = "Welcome";
+            else if (ContainsOneOf(iSpeech, mJokeSpeech) || ContainsOneOf(iSpeech, "knockknock"))
+            {
+                Debug.Log("Vocal helper joke");
+                if (iSpeech.ToLower().Contains(BYOS.Instance.Dictionary.GetString("i")) || ContainsOneOf(iSpeech, "knockknock"))
+                    lType = "ListenJoke";
+                else
+                    lType = "Joke";
 
 
 
 
-				try {
-
-					Debug.Log("VocalHelper parse arithm");
-
-					string lSpeechProcessed = "";
-
-					lSpeechProcessed += lSpeech.ToLower().Replace(BYOS.Instance.Dictionary.GetString("add"), "+");
-					lSpeechProcessed = lSpeechProcessed.Replace("plus", "+");
-					lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("devide"), "/");
-					lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("devideit"), "/");
-					lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("devideper"), "/");
-					lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("minus"), "-");
-					lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("times"), "*");
-					lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("power"), "^");
-
-
-					Debug.Log("Operation " + lSpeechProcessed);
-					Expression exp = parser.EvaluateExpression(lSpeechProcessed);
-
-
-					// Is it an operation from previous result?
-					if (lSpeechProcessed[0] == '+' || lSpeechProcessed[0] == '-' || lSpeechProcessed[0] == '/' || lSpeechProcessed[0] == 'x' || lSpeechProcessed[0] == '*' || lSpeechProcessed[0] == '÷' || lSpeechProcessed[0] == '^')
-						lType = "OperationAgain";
-					else
-						lType = "Operation";
 
 
 
-					mPreviousOperation = true;
-				} catch {
 
-					Debug.Log("VocalHelper catch arithm");
+            }
+            else if (ContainsOneOf(iSpeech, "accept"))
+                lType = "Accept";
+            else if (ContainsOneOf(iSpeech, mQuitSpeech))
+                lType = "Quit";
+            else if (ContainsOneOf(iSpeech, mRepeatAfterMeSpeech))
+            {
+                int lKeywordsIndex = WordIndexOfOneOf(iSpeech, mRepeatAfterMeSpeech);
+                string[] lWords = iSpeech.Split(' ');
+                string lSentenceToRepeat = "";
 
-					// if previous is an operation, we need to try with a number at first
-					if (mPreviousOperation) {
-						try {
+                if (lKeywordsIndex != -1 && lKeywordsIndex != lWords.Length)
+                {
+                    for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
+                        lSentenceToRepeat += lWords[j] + " ";
+                }
+                lType = "Answer";
+                Answer = lSentenceToRepeat;
+                //TTSProcessAndSay(lSentenceToRepeat, true);
+                //mAnswerGiven = true;
+            }
+            else if (ContainsOneOf(iSpeech, mRepeatPlzSpeech))
+            {
+                //TTSProcessAndSay(mPreviousAnswer, true);
+                //mAnswerGiven = true;
+                lType = "Repeat";
+            }
+            else if (ContainsOneOf(iSpeech, "mood"))
+            {
+                Debug.Log("vocalHelper mood");
+                lType = "Mood";
+
+            }
+            else if (ContainsOneOf(iSpeech, "definition"))
+            {
+                lType = "Definition";
+                //We search for the location of the weather request
+                int lKeywordIndex = WordIndexOfOneOf(iSpeech, mDefinitionSpeech);
+                string[] lWords = iSpeech.Split(' ');
+                string lDefinitionWord = "";
+
+                if (lKeywordIndex != -1 && lKeywordIndex != lWords.Length)
+                {
+                    for (int j = lKeywordIndex + 1; j < lWords.Length; j++)
+                        lDefinitionWord += lWords[j] + " ";
+                }
+                StartCoroutine(BuildDefinitionAnswer(lDefinitionWord));
+            }
+            else if (ContainsOneOf(iSpeech, mWhoIs))
+            {
+                Debug.Log("Contains who is");
+                //We search for the location of the weather request
+                int lKeywordIndex = WordIndexOfOneOf(iSpeech, mWhoIs);
+                string[] lWords = iSpeech.Split(' ');
+                if (lKeywordIndex + 1 < lWords.Length)
+                {
+                    if (char.IsUpper(lWords[lKeywordIndex + 1][0]))
+                    {
+                        Debug.Log("next is upper: " + lWords[lKeywordIndex + 1]);
+                        lType = "Definition";
+                        string lDefinitionWord = "";
+
+                        if (lKeywordIndex != -1 && lKeywordIndex != lWords.Length)
+                        {
+                            for (int j = lKeywordIndex + 1; j < lWords.Length; j++)
+                                lDefinitionWord += lWords[j] + " ";
+                        }
+                        StartCoroutine(BuildDefinitionAnswer(lDefinitionWord));
+                    }
+                    else
+                    {
+
+                        Debug.Log("next is not upper: " + lWords[lKeywordIndex + 1]);
+                    }
+                }
+
+                // General answer if not common name
+                if (lType != "Definition")
+                {
+                    lType = "Answer";
+                    Answer = BuildGeneralAnswer(iSpeech.ToLower());
+                }
+
+            }
+            else if (ContainsOneOf(iSpeech, "buddylab"))
+                lType = "BuddyLab";
+            else if (ContainsOneOf(iSpeech, "timer"))
+                lType = "Timer";
+            else if (ContainsOneOf(iSpeech, mFollowMeSpeech))
+                lType = "FollowMe";
+            else if (ContainsOneOf(iSpeech, mLookAtMeSpeech))
+                lType = "LookAtMe";
+            else if (ContainsOneOf(iSpeech, "heat"))
+                lType = "Heat";
+            else if (ContainsOneOf(iSpeech, "colourseen"))
+                lType = "ColourSeen";
+            else if (ContainsOneOf(iSpeech, "detectobject"))
+                lType = "DetectObject";
+            else if (ContainsOneOf(iSpeech, "mirror"))
+                lType = "Mirror";
+            else if (ContainsOneOf(iSpeech, "nap"))
+                lType = "Nap";
+            else if (ContainsOneOf(iSpeech, "copy"))
+                lType = "Copy";
+            else if (ContainsOneOf(iSpeech, mWanderSpeech))
+            {
+                Answer = FindMood(iSpeech.ToLower());
+                lType = "Wander";
+            }
+            else if (ContainsOneOf(iSpeech, "canmove"))
+                lType = "CanMove";
+            else if (ContainsOneOf(iSpeech, mDontMoveSpeech))
+                lType = "DontMove";
+            else if (ContainsOneOf(iSpeech, mHeadDownSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "HeadDown";
+            }
+            else if (ContainsOneOf(iSpeech, mHeadLeftSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "HeadLeft";
+            }
+            else if (ContainsOneOf(iSpeech, mHeadRightSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "HeadRight";
+            }
+            else if (ContainsOneOf(iSpeech, mHeadUpSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "HeadUp";
+            }
+            else if (ContainsOneOf(iSpeech, mTurnSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                if (iSpeech.ToLower().Contains(BYOS.Instance.Dictionary.GetString("head")))
+                    lType = "Head";
+                else
+                    lType = "Move";
+
+                if (ContainsOneOf(iSpeech, mLeftSpeech))
+                    lType += "Left";
+                else
+                    lType += "Right";
+            }
+            else if (ContainsOneOf(iSpeech, mMoveBackwardSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "MoveBackward";
+            }
+            else if (ContainsOneOf(iSpeech, mMoveForwardSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "MoveForward";
+            }
+            else if (ContainsOneOf(iSpeech, mMoveLeftSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "MoveLeft";
+            }
+            else if (ContainsOneOf(iSpeech, mMoveRightSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "MoveRight";
+            }
+            else if (ContainsOneOf(iSpeech, "battery"))
+            {
+                lType = "Battery";
+            }
+            else if (ContainsOneOf(iSpeech, mVolumeSpeech))
+            {
+                Answer = "" + BYOS.Instance.Primitive.Speaker.GetVolume();
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "Volume";
+            }
+            else if (ContainsOneOf(iSpeech, mVolumeDownSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "VolumeDown";
+            }
+            else if (ContainsOneOf(iSpeech, mVolumeUpSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "VolumeUp";
+                //} else if (ContainsOneOf(iSpeech, "switchlanguage")) {
+                //	Answer = "";
+                //	if (ContainsOneOf(iSpeech, "english"))
+                //		Answer = "English";
+                //	else if (ContainsOneOf(iSpeech, "french"))
+                //		Answer = "French";
+                //	else if (ContainsOneOf(iSpeech, "Italian"))
+                //		Answer = "Italian";
+
+                //	lType = "SwitchLanguage";
+            }
+            else if (ContainsOneOf(iSpeech, mVolumeSpeech))
+            {
+                Answer = "" + BYOS.Instance.Primitive.Speaker.GetVolume();
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "Volume";
+            }
+            else if (ContainsOneOf(iSpeech, mVolumeDownSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "VolumeDown";
+            }
+            else if (ContainsOneOf(iSpeech, mVolumeUpSpeech))
+            {
+                Answer = GetNextNumber(iSpeech);
+                Debug.Log("Vocal helper answer: " + Answer);
+                lType = "VolumeUp";
+            }
+            else if (ContainsOneOf(iSpeech, mThanksSpeech))
+            {
+                //TTSProcessAndSay(RandomString(mURWelcomeSpeech));
+                lType = "Answer";
+                Answer = RandomString(mURWelcomeSpeech);
+            }
+            else if (ContainsOneOf(iSpeech, "date"))
+            {
+                lType = "Date";
+                //TTSProcessAndSay("Today, we are the  " + DateTime.Now.Day +
+                //" " + DateTime.Now.Month +
+                //		" " + DateTime.Now.Year, true);
+            }
+            else if (ContainsOneOf(iSpeech, mHourSpeech))
+            {
+                lType = "Hour";
+                //TTSProcessAndSay("After the third beep, it will exactly be " +
+                //	DateTime.Now.Hour + " hours " +
+                //	DateTime.Now.Minute + " minutes and " +
+                //	DateTime.Now.Second + " seconds ", true);
+                //mTTS.Silence(1000, true);
+                //TTSProcessAndSay("beep", true);
+                //mTTS.Silence(1000, true);
+                //TTSProcessAndSay("beep", true);
+                //mTTS.Silence(1000, true);
+                //TTSProcessAndSay("and beep", true);
+
+            }
+            else if (ContainsOneOf(iSpeech, mPlaySpeech))
+                lType = "Play";
+            else if (ContainsOneOf(iSpeech, "tellsomething"))
+                lType = "TellSomething";
+            else if (ContainsOneOf(iSpeech, mDoSomethingSpeech))
+                lType = "DoSomething";
+            else if (iSpeech.ToLower().Contains("propose"))
+                //lType = Suggest();
+                lType = "propose";
+            //else if (iSpeech.Contains("cleverbot")) {
+            //	lType = "Cleverbot";
+
+            //	if (mChatBotRequested) {
+            //		TTSProcessAndSay("Cleverbot disabled", true);
+            //		mChatBotRequested = false;
+            //	} else {
+            //		TTSProcessAndSay("Cleverbot enabled", true);
+            //		mChatBotRequested = true;
+            //		InitChatBot();
+            //	}
+            else if (!iSpeech.Any(c => char.IsDigit(c)))
+            {
+                lType = "Answer";
+                Answer = BuildGeneralAnswer(iSpeech.ToLower());
+            }
+            else
+            {
+
+                string lSpeech = iSpeech.Trim();
+                //lSpeech = lSpeech.Replace("x", "*");
+                //lSpeech = lSpeech.Replace("÷", "/");
 
 
-							Debug.Log("VocalHelper parse arithm with previous");
+                //if (lSpeech.Contains("√")) {
+                //	lSpeech = lSpeech.Replace("√", "sqrt");
+                //	lSpeech = Regex.Replace(lSpeech, @"\d", "($0)").Replace("sqrt ", "sqrt");
+                //}
 
-							string lSpeechProcessed = "1 ";
+                Debug.Log("pre: " + lSpeech);
+                string pattern = @"(\s?)(\d+\.?((?<=\.)\d+)?)";
+                Regex rgx = new Regex(pattern);
+                lSpeech = rgx.Replace(lSpeech, "($2)");
+
+                //lSpeech = Regex.Replace(lSpeech, @"\d+\.\d+", "($0)");
+                var parser = new ExpressionParser();
+
+                Debug.Log("post: " + lSpeech);
 
 
-							lSpeechProcessed += lSpeech.ToLower().Replace(BYOS.Instance.Dictionary.GetString("add"), "+");
-							lSpeechProcessed = lSpeechProcessed.Replace("plus", "+");
-							lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("devide"), "/");
-							lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("devideit"), "/");
-							lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("devideper"), "/");
-							lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("minus"), "-");
-							lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("times"), "*");
-							lSpeechProcessed = lSpeechProcessed.Replace(BYOS.Instance.Dictionary.GetString("power"), "^");
 
 
-							Debug.Log("Operation " + lSpeechProcessed);
-							Expression exp = parser.EvaluateExpression(lSpeechProcessed);
-							Debug.Log("Operation " + lSpeechProcessed);
-							lType = "OperationAgain";
-							mPreviousOperation = true;
-						} catch {
-
-							lType = "Answer";
-							Answer = BuildGeneralAnswer(iSpeech.ToLower());
-						}
-
-					} else {
-						lType = "Answer";
-						Answer = BuildGeneralAnswer(iSpeech.ToLower());
-					}
-				}
-			}
-
-			Debug.Log("VocalHelper:" + lType);
-
-			if (lType != "Operation" && lType != "OperationAgain")
-				mPreviousOperation = false;
+                try
+                {
+                    Expression exp = parser.EvaluateExpression(lSpeech);
+                    Debug.Log("Operation " + iSpeech);
+                    lType = "Operation";
+                }
+                catch
+                {
+                    lType = "Answer";
+                    Answer = BuildGeneralAnswer(iSpeech.ToLower());
+                }
+                //if () {
+                //	Debug.Log("Operation? " + iSpeech);
+                //	lType = "Operation";
+                //} else {
+                //	lType = "Answer";
+                //	Answer = BuildGeneralAnswer(iSpeech.ToLower());
+                //}
+            }
 
 			OnQuestionTypeFound(lType);
 			return true;
 		}
-
-
 
 		private string FindMood(string iSpeech)
 		{
@@ -908,34 +834,46 @@ namespace BuddyApp.Companion
 				return MoodType.NEUTRAL.ToString(); ;
 		}
 
-		private string GetNextNumber(string iText, List<string> iSpeech)
+		//private string GetNextNumber(string iText, List<string> iSpeech)
+		//{
+		//	string lResult = "";
+		//	int lKeywordsIndex = WordIndexOfOneOf(iText, iSpeech);
+		//	string[] lWords = iText.Split(' ');
+		//	float n = 0F;
+
+		//	if (lKeywordsIndex == -1) {
+		//		return lResult;
+		//	} else if (lKeywordsIndex != lWords.Length) {
+		//		for (int j = lKeywordsIndex + 1; j < lWords.Length; j++)
+		//			if (float.TryParse(lWords[j], out n)) {
+		//				if (!iSpeech.Contains(" meter") && !iSpeech.Contains(" mètre") && ((iSpeech.Contains("centimeter") || iSpeech.Contains("centimètre") || iSpeech.Contains(" cm"))))
+		//					lResult = "" + n / 100;
+		//				else
+		//					lResult = lWords[j];
+		//				break;
+		//			} else if (float.TryParse(lWords[j].Remove(lWords[j].Length - 2), out n) && lWords[j][lWords[j].Length - 2] == 'c' && lWords[j][lWords[j].Length - 1] == 'm')
+		//				lResult = "" + n / 100;
+		//	}
+		//	return lResult;
+		//}
+
+		private string GetNextNumber(string iText)
 		{
-			string lResult = "";
-			int lKeywordsIndex = WordIndexOfOneOf(iText, iSpeech);
-			string[] lWords = iText.Split(' ');
-			float n = 0F;
+			if (!string.IsNullOrEmpty(iText)) {
+				string[] lWords = iText.Split(' ');
+				for(int i=0; i<lWords.Length; ++i) {
+					try {
+						float.Parse(lWords[i]);
+						return lWords[i];
+					}
 
-			Debug.Log("keywordsIndex: " + lKeywordsIndex);
-			if (lKeywordsIndex == -1) {
-				return lResult;
-			} else if (lKeywordsIndex < lWords.Length) {
-				for (int j = lKeywordsIndex + 1; j < lWords.Length; j++) {
-					Debug.Log("j: " + j + " words length: " + lWords.Length);
-					if (float.TryParse(lWords[j], out n)) {
-						if (!iSpeech.Contains(" meter") && !iSpeech.Contains(" mètre") && ((iSpeech.Contains("centimeter") || iSpeech.Contains("centimètre") || iSpeech.Contains(" cm"))))
-							lResult = "" + n / 100;
-						else
-							lResult = lWords[j];
-						break;
-					} else if (lWords[j].Contains("cm"))
-						if (float.TryParse(lWords[j].Remove(lWords[j].Length - 2), out n) && lWords[j][lWords[j].Length - 2] == 'c' && lWords[j][lWords[j].Length - 1] == 'm')
-							lResult = "" + n / 100;
-
+					catch {
+						continue;
+					}
 				}
 			}
-			return lResult;
+			return "";
 		}
-
 
 		private string BuildGeneralAnswer(string iData)
 		{
@@ -1114,7 +1052,7 @@ namespace BuddyApp.Companion
 				" " + RandomString(mTemperatureSpeech);
 			if (!string.IsNullOrEmpty(lTemperature) && Int32.TryParse(lsubstrings[0], out loutValue)) {
 				loutValue = loutValue - 274;
-				lFinalSentence = RandomString(mTempSpeech) + " " + loutValue.ToString() + " " + RandomString(mDegreesCSpeech);
+				lFinalSentence = RandomString(mTempSpeech) + " " + loutValue.ToString() + " " + BYOS.Instance.Dictionary.GetRandomString("degrees");
 				StartCoroutine(DisplayWeatherNot(loutValue, iData, lInfos));
 			}
 			Answer = lFinalSentence;
@@ -1181,7 +1119,7 @@ namespace BuddyApp.Companion
 					} else
 						lAnswer = RandomString(mICouldntSpeech) + " " +
 							RandomString(mGetSpeech) + " " +
-							RandomString(mAnswersSpeech);
+							BYOS.Instance.Dictionary.GetRandomString("answers");
 
 					lReader.Close();
 				}
@@ -1268,15 +1206,16 @@ namespace BuddyApp.Companion
 				if (words.Length < 2) {
 					words = iSpeech.Split(' ');
 					foreach (string word in words) {
-						if (word.ToLower() == iListSpeech[i].ToLower()) {
+						if (word.ToLower() == iListSpeech[i].ToLower().Trim()) {
 							return true;
 						}
 					}
-				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+				} else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower().Trim()))
 					return true;
 			}
 			return false;
 		}
+
 
 		private bool ContainsOneOf(string iSpeech, string iKeySpeech)
 		{
@@ -1303,7 +1242,7 @@ namespace BuddyApp.Companion
 		{
 			//Returns the index of one of the words of iListSpeech keywords in the speech iSpeech
 			for (int i = 0; i < iListSpeech.Count; ++i) {
-				string[] lWords = iListSpeech[i].ToLower().Split(' ');
+				string[] lWords = iListSpeech[i].Split(' ');
 				string lKeyword = lWords[lWords.Length - 1];
 				string[] lSpeechWords = iSpeech.Split(' ');
 				for (int j = 0; j < lSpeechWords.Length; j++) {

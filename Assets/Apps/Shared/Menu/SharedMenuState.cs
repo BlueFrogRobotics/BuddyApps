@@ -19,7 +19,7 @@ namespace BuddyApp.Shared
     {
 
         public class MenuItem
-        {
+        { 
             public string key;
             public string trigger;
             public bool quitApp;
@@ -47,19 +47,38 @@ namespace BuddyApp.Shared
 
         private float mTimer = 0.0f;
 
+        private bool mListClear;
+
         public override void Start()
         {
-            items.Clear();
             Interaction.VocalManager.EnableTrigger = false;
             BYOS.Instance.Header.DisplayParametersButton = false;
+            mListClear = false;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if(!mListClear)
+            {
+                mListClear = true;
+                //items.Clear();
+                //items = new List<MenuItem>(0);
+            }
             BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
             mHasLoadedTTS = true;
-            Interaction.TextToSpeech.Say(Dictionary.GetRandomString(speechKey));
+            if(!string.IsNullOrEmpty(speechKey))
+            {
+                if (!string.IsNullOrEmpty(Dictionary.GetRandomString(speechKey)))
+                {
+                    Interaction.TextToSpeech.Say(Dictionary.GetRandomString(speechKey));
+                }
+                else if (!string.IsNullOrEmpty(Dictionary.GetString(speechKey)))
+                {
+                    Interaction.TextToSpeech.Say(Dictionary.GetString(speechKey));
+                }
+            }
+            
             Interaction.VocalManager.OnEndReco = OnSpeechReco;
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
             Interaction.VocalManager.OnError = Empty;
@@ -112,9 +131,11 @@ namespace BuddyApp.Shared
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mListClear = false;
             Interaction.SpeechToText.Stop();
             Interaction.Mood.Set(MoodType.NEUTRAL);
-
+            mIndexButton = 0;
+            items.Clear();
             mSpeechReco = null;
             mHasDisplayChoices = false;
         }

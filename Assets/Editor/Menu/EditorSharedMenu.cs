@@ -58,6 +58,7 @@ using Buddy.Editor;
 
     private static void LoadApp(string iApplicationPath)
     {
+        Debug.Log("LOADAPP");
         mAppPath = iApplicationPath;
         if(string.IsNullOrEmpty(mAppPath))
         {
@@ -188,6 +189,7 @@ using Buddy.Editor;
 
         if (GUILayout.Button("Build XML"))
         {
+            Debug.Log("BUILD XML");
             if (!string.IsNullOrEmpty(nameOfXml))
             {
                 mCreateXML = false;
