@@ -12,13 +12,14 @@ namespace BuddyApp.Companion
         private float mTime;
         private MoodType mMood;
         private float mHeadPosition;
+        private int mFrame;
 
         // Use this for initialization
         public override void Start()
         {
             mTimeRotation = 0F;
             mTime = 0F;
-
+            mFrame = 0;
             mMood = MoodType.NEUTRAL;
 
             mCam = BYOS.Instance.Primitive.RGBCam;
@@ -29,11 +30,11 @@ namespace BuddyApp.Companion
             BYOS.Instance.Primitive.Motors.NoHinge.SetPosition(0F, 400F);
 
             // We set YesHinge Position to -30 to have a better vision of the face
-            mHeadPosition =  CompanionData.Instance.HeadPosition;
+            mHeadPosition = CompanionData.Instance.HeadPosition;
             CompanionData.Instance.HeadPosition = -30F;
             if (!mCam.IsOpen)
             {
-                mCam.Open(RGBCamResolution.W_176_H_144);
+                mCam.Open(RGBCamResolution.W_320_H_240);
                 BYOS.Instance.Perception.FaceDetect.OnDetect(RecoverFaceEntity);
             }
         }
@@ -44,9 +45,15 @@ namespace BuddyApp.Companion
             {
                 mTime += Time.deltaTime;
                 mTimeRotation += Time.deltaTime;
+                ++mFrame;
 
-                if ((int)mMood != -1)
-                    BYOS.Instance.Interaction.Mood.Set(mMood);
+                // Set Mood every 5 frames
+                if (mFrame == 5)
+                {
+                    if ((int)mMood != -1)
+                        BYOS.Instance.Interaction.Mood.Set(mMood);
+                    mFrame = 0;
+                }
 
                 // Reset YesHinge position to -30
                 if (BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition > -20)
@@ -74,6 +81,7 @@ namespace BuddyApp.Companion
 
             mTimeRotation = 0F;
             mTime = 0F;
+            mFrame = 0;
 
             CompanionData.Instance.HeadPosition = mHeadPosition;
             BYOS.Instance.Perception.FaceDetect.StopOnDetect(RecoverFaceEntity);
@@ -117,7 +125,7 @@ namespace BuddyApp.Companion
                 default:
                     break;
             }
-            
+
             return (true);
         }
     }
