@@ -147,22 +147,23 @@ namespace BuddyApp.Weather
             {
                 if (words[iw].ToLower() == Dictionary.GetString("inlocation") && iw + 1 < words.Length)
                 {
-                    if (char.IsUpper(words[iw + 1][0]))
-                    {
-                        string lDefinitionWord = "";
-
-                        if (iw != -1 && iw != words.Length)
+                    if (!string.IsNullOrEmpty(words[iw + 1]))
+                        if (char.IsUpper(words[iw + 1][0]))
                         {
-                            for (int j = iw + 1; j < words.Length; j++)
-                            {
-                                if (!char.IsUpper(words[j][0]))
-                                    break;
-                                lDefinitionWord += words[j] + " ";
+                            string lDefinitionWord = "";
 
+                            if (iw != -1 && iw != words.Length)
+                            {
+                                for (int j = iw + 1; j < words.Length; j++)
+                                {
+                                    if (!char.IsUpper(words[j][0]))
+                                        break;
+                                    lDefinitionWord += words[j] + " ";
+
+                                }
                             }
+                            mWeatherB.mLocation = lDefinitionWord;
                         }
-                        mWeatherB.mLocation = lDefinitionWord;
-                    }
                 }
             }
             mWeatherB.mName = mWeatherB.mLocation;
