@@ -192,7 +192,6 @@ namespace BuddyApp.Weather
             {
                 WeatherInfo lMinWeather = RecoverMinMaxTempOfADay(mWeatherB.mWeatherInfos, true, iDayString);
                 WeatherInfo lMaxWeather = RecoverMinMaxTempOfADay(mWeatherB.mWeatherInfos, false, iDayString);
-
                 if (lMinWeather.Hour == lMaxWeather.Hour)
                 {
                     lAnswer = Dictionary.GetRandomString("lightrestitution");
@@ -236,6 +235,8 @@ namespace BuddyApp.Weather
             int hourMax = 0;
             int hourMin = 0;
 
+            // Get today's weather (8am to 8pm)
+
             if (mWeatherB.mDate >= 1)
             {
                 for (int k = 0; k < mWeatherB.mDate; k++)
@@ -254,7 +255,9 @@ namespace BuddyApp.Weather
                 if (iDayString.Equals("sunday"))
                 {
                     lTime = lTime.AddDays(1);
-                }
+                };
+
+            int index = j;
 
             for (int i = 0; i < 8; i++)
             {
@@ -272,6 +275,30 @@ namespace BuddyApp.Weather
                     }
                 }
                 j++;
+            }
+
+            // If the we don't have any information about today's weather, we set the weather of tomorrow 
+
+            if (lMinTemp == 200F)
+            {
+                lTime = lTime.AddDays(1);
+                for (int i = 0; i < 8; i++)
+                {
+                    if (lTime.Day.ToString().Equals(iWeatherInfo[index].Day.ToString()))
+                    {
+                        if (iWeatherInfo[index].MinTemperature < lMinTemp)
+                        {
+                            lMinTemp = iWeatherInfo[index].MinTemperature;
+                            hourMin = iWeatherInfo[index].Hour;
+                        }
+                        if (iWeatherInfo[index].MaxTemperature > lMaxTemp)
+                        {
+                            lMaxTemp = iWeatherInfo[index].MaxTemperature;
+                            hourMax = iWeatherInfo[index].Hour;
+                        }
+                    }
+                    index++;
+                }
             }
 
             WeatherInfo lWeatherInfoMin = new WeatherInfo()
