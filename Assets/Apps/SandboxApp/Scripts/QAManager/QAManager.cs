@@ -26,6 +26,8 @@ namespace BuddyApp.SandboxApp
         private FXSound FxSound;
         [SerializeField]
         private float Timeout;
+        [SerializeField]
+        private string NameVoconGrammarFile;
 
         public class QuestionItem
         {
@@ -45,12 +47,13 @@ namespace BuddyApp.SandboxApp
         private bool IsMultipleQuestion;
         [SerializeField]
         private bool IsMultipleToaster;
-       
+
         private bool mIsDisplayed;
 
         private string mSpeechReco;
+        private string mStartRule;
         private bool mListening;
-        private TextToSpeech mTTS; 
+        private TextToSpeech mTTS;
         private float mTimer;
         private MoodType mActualMood;
         private List<string> mKeyList;
@@ -62,19 +65,41 @@ namespace BuddyApp.SandboxApp
         {
             Interaction.VocalManager.EnableTrigger = false;
             BYOS.Instance.Header.DisplayParametersButton = false;
+            mStartRule = String.Empty;
+
+            if (IsBinaryQuestion)
+            {
+                // Say to Use vocon
+                Interaction.VocalManager.UseVocon = true;
+                List<String> paths = new List<string>()
+                {
+                    BYOS.Instance.Resources.GetPathToRaw(NameVoconGrammarFile + ".bin")
+                };
+                Interaction.VocalManager.VoconGrammars = paths;
+            }
             mTTS = Interaction.TextToSpeech;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Interaction.VocalManager.OnEndReco = OnSpeechReco;
+            if (IsBinaryQuestion)
+                Interaction.VocalManager.OnVoconBest = VoconBest;
+            else if (IsMultipleQuestion)
+                Interaction.VocalManager.OnEndReco = OnSpeechReco;
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
             Interaction.VocalManager.OnError = null;
-            
+
             mListening = false;
             mSoundPlayed = false;
             mKeyList = new List<string>();
             mTimer = 0F;
+        }
+
+        private void VoconBest(VoconResult iBestResult)
+        {
+            mSpeechReco = iBestResult.Utterance;
+            mStartRule = iBestResult.StartRule;
+            mListening = false;
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -82,18 +107,18 @@ namespace BuddyApp.SandboxApp
             FillMenu();
             mTimer += Time.deltaTime;
 
-            if(mNumberOfButton > 3 && IsBinaryQuestion)
+            if (mNumberOfButton > 3 && IsBinaryQuestion)
             {
                 Debug.Log("---You checked Binary Question with more than 2 buttons---");
                 return;
             }
-            if(mNumberOfButton < 3 && IsMultipleQuestion)
+            if (mNumberOfButton < 3 && IsMultipleQuestion)
             {
                 Debug.Log("---You checked Multiple Question with less than 3 buttons---");
                 return;
             }
 
-            if(IsBinaryQuestion)
+            if (IsBinaryQuestion)
             {
                 //Display toaster
                 if (IsBinaryToaster && !mIsDisplayed)
@@ -118,10 +143,10 @@ namespace BuddyApp.SandboxApp
                     if (items.Count == 0)
                     {
                         Debug.Log("items empty : not possible");
-                    }  
+                    }
                     DisplayQuestion();
                 }
-                
+
                 //Vocal
                 if (mTimer > 6F)
                 {
@@ -133,16 +158,17 @@ namespace BuddyApp.SandboxApp
 
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
-                if (string.IsNullOrEmpty(mSpeechReco))
+                if (string.IsNullOrEmpty(mSpeechReco) && !mListening)
                 {
                     Interaction.VocalManager.StartInstantReco();
+
                     Interaction.Mood.Set(MoodType.LISTENING);
                     mListening = true;
                     return;
                 }
                 foreach (QuestionItem item in items)
                 {
-                    if (VocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    if (mStartRule.Contains(item.key))
                     {
                         BYOS.Instance.Toaster.Hide();
                         GotoParameter(item.trigger);
@@ -150,9 +176,9 @@ namespace BuddyApp.SandboxApp
                     }
                 }
             }
-            else if (IsMultipleQuestion )
+            else if (IsMultipleQuestion)
             {
-                if(IsMultipleToaster && !mIsDisplayed)
+                if (IsMultipleToaster && !mIsDisplayed)
                 {
                     mActualMood = Interaction.Mood.CurrentMood;
                     mIsDisplayed = true;
@@ -161,7 +187,7 @@ namespace BuddyApp.SandboxApp
                         if (IsKey(BuddySays))
                         {
                             //Change this line when CORE did the correction about GetRandomString not working if the string is empty
-                            if(!string.IsNullOrEmpty( Dictionary.GetRandomString(BuddySays)))
+                            if (!string.IsNullOrEmpty(Dictionary.GetRandomString(BuddySays)))
                                 mTTS.Say(Dictionary.GetRandomString(BuddySays));
                             else
                                 mTTS.Say(Dictionary.GetString(BuddySays));
@@ -181,7 +207,7 @@ namespace BuddyApp.SandboxApp
                     mTimer = 0F;
                     mSpeechReco = null;
                 }
-                
+
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
                 if (string.IsNullOrEmpty(mSpeechReco))
@@ -244,7 +270,7 @@ namespace BuddyApp.SandboxApp
 
         private bool IsKey(string iKey)
         {
-            if (iKey.Where(char.IsUpper).Any() || VocalFunctions.ContainsWhiteSpace(iKey)  || VocalFunctions.ContainsSpecialChar(iKey))
+            if (iKey.Where(char.IsUpper).Any() || VocalFunctions.ContainsWhiteSpace(iKey) || VocalFunctions.ContainsSpecialChar(iKey))
                 return false;
             else return true;
         }
@@ -320,6 +346,7 @@ namespace BuddyApp.SandboxApp
                     }
                 }
             }
+
         }
     }
 }
