@@ -30,7 +30,7 @@ namespace BuddyApp.Companion
 			mLearnDesire.Slider.value = CompanionData.Instance.mLearnDesire;
 			mHelpDesire.Slider.value = CompanionData.Instance.mHelpDesire;
 			mHeadAngle.Slider.value = CompanionData.Instance.HeadPosition;
-        }
+		}
 
 		public override void Build()
 		{
@@ -44,7 +44,6 @@ namespace BuddyApp.Companion
 			//	mState = (UnityEngine.UI.Text) CompanionActivity.Objects[0];
 			//         }
 
-			Debug.Log("test1");
 
 			mMovingDesire = CreateWidget<Gauge>();
 			mInteractDesire = CreateWidget<Gauge>();
@@ -92,7 +91,6 @@ namespace BuddyApp.Companion
 			mHeadAngle.Slider.wholeNumbers = true;
 			mHeadAngle.DisplayPercentage = false;
 
-			Debug.Log("test2");
 			/*
              * Retrieve app data and display them inside the view
              * ==> What info must be displayed ?
@@ -144,7 +142,7 @@ namespace BuddyApp.Companion
 			mInteractDesire.OnUpdateEvent((iVal) => {
 				CompanionData.Instance.mInteractDesire = iVal;
 			});
-			
+
 			mLearnDesire.OnUpdateEvent((iVal) => {
 				CompanionData.Instance.mLearnDesire = iVal;
 			});
@@ -182,7 +180,7 @@ namespace BuddyApp.Companion
 
 			mDebug.OnSwitchEvent((iVal) => {
 				CompanionData.Instance.Debug = iVal;
-                mState.enabled = iVal;
+				mState.enabled = iVal;
 			});
 
 		}
@@ -195,7 +193,7 @@ namespace BuddyApp.Companion
 			mHelpDesire.Label = BYOS.Instance.Dictionary.GetString("helpdesire");
 			mLearnDesire.Label = BYOS.Instance.Dictionary.GetString("learndesire");
 			mHeadAngle.Label = "default head angle";
-            mTrigger.Label = BYOS.Instance.Dictionary.GetString("cantrigger");
+			mTrigger.Label = BYOS.Instance.Dictionary.GetString("cantrigger");
 			mTriggerWander.Label = BYOS.Instance.Dictionary.GetString("cantrigger") + " wander";
 			mDebug.Label = "Debug";
 

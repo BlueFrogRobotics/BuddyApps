@@ -23,6 +23,7 @@ namespace BuddyApp.Companion
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
 			mActionManager = GetComponent<ActionManager>();
+			mCompanion = GetComponent<CompanionBehaviour>();
 			Utils.LogI(LogContext.APP, "Start UserD");
 
 		}
@@ -40,6 +41,12 @@ namespace BuddyApp.Companion
 			mTimeHumanLastDetected = 0F;
 			mDurationDetected = 0F;
 			mActionTrigger = "";
+
+
+			if (mCompanion.mCurrentUser == null)
+				Debug.Log("userdetected CurrentUser Null");
+			else
+				Debug.Log("userdetected CurrentUser not Null");
 
 		}
 

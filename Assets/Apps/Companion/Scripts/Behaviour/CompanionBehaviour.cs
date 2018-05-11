@@ -109,22 +109,35 @@ namespace BuddyApp.Companion
 		void Start()
 		{
 			mCurrentUser = null;
-			sInstance = this;
+			if (mCurrentUser == null)
+				Debug.Log("start CurrentUser Null");
+			else
+
+				Debug.Log("start CurrentUser not Null");
+
+				sInstance = this;
 			mTextToSpeech = BYOS.Instance.Interaction.TextToSpeech;
 			mAppData = CompanionData.Instance;
+
+			Debug.Log("Get file usersProfile");
 			string lFileName = BYOS.Instance.Resources.GetPathToRaw("usersProfile");
+			Debug.Log("Get file usersProfile 2");
 
 			if (File.Exists(lFileName)) {
+				Debug.Log(" file usersProfile exists");
 				Profiles = new List<UserProfile>(Utils.UnserializeXML<UserProfile[]>(lFileName));
 			} else {
+				Debug.Log(" file usersProfile creation");
 				Profiles = new List<UserProfile>();
 			}
 
 
+			Debug.Log(" create profile from account");
 			// Check if user in Buddy Account and add them if needed
-			for (int i = 0; i < BYOS.Instance.DataBase.GetUsers().Length; ++i) {
-				AddProfile(BYOS.Instance.DataBase.GetUsers()[i]);
-			}
+			//for (int i = 0; i < BYOS.Instance.DataBase.GetUsers().Length; ++i) {
+			//	AddProfile(BYOS.Instance.DataBase.GetUsers()[i]);
+			//}
+			Debug.Log(" create profile from account");
 
 		}
 
@@ -142,6 +155,10 @@ namespace BuddyApp.Companion
          */
 		void Update()
 		{
+
+
+			//if (mCurrentUser != null)
+			//	Debug.Log("companionbehaviour CurrentUser not Null");
 
 			// Update speech rate / pitch with mood
 			if (Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity) < 10) {

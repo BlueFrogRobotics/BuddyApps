@@ -32,103 +32,125 @@ namespace BuddyApp.Companion
 			int lRandom = UnityEngine.Random.Range(0, 4);
 
 
+			if (mCompanion.Profiles.Count < 1) {
 
+				Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
+				Debug.Log("Inform: no recorded user");
+			} else {
+				string lRandomFact = GetRandomUserFact(GetRandomUser());
+				if (!string.IsNullOrEmpty(lRandomFact)) {
+					Debug.Log("Inform: user random fact");
+					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + GetRandomUserFact(GetRandomUser()));
+				} else {
+					Debug.Log("Inform: no user random fact");
+					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
+				}
+			}
 
 			// TODO: list of what to tell:
 
 
 
 			// 1 Robot State (battery, mood)
-			switch (lRandom) {
+			//switch (lRandom) {
 
-				case 0:
-					// If desire to express mood, then express mood
-					int lMaxInternalValue = Math.Max(Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity), Math.Abs(BYOS.Instance.Interaction.InternalState.Energy));
-					EmotionalEvent lEventMood = Interaction.InternalState.ExplainMood();
-					if (lMaxInternalValue > 4 && lEventMood != null) {
-						Debug.Log("[COMPANION][INFORM] key: " + Interaction.InternalState.ExplainMood().ExplanationKey + " dico value: " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey));
-						mActionManager.ShowInternalMood();
-						Interaction.TextToSpeech.Say(Dictionary.GetRandomString("ifeel") + " " + Dictionary.GetString(Interaction.InternalState.InternalStateMood.ToString().ToLower()) + " "
-							+ Dictionary.GetRandomString("because") + " " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey), true);
+			//	case 0:
+			//		// If desire to express mood, then express mood
+			//		int lMaxInternalValue = Math.Max(Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity), Math.Abs(BYOS.Instance.Interaction.InternalState.Energy));
+			//		EmotionalEvent lEventMood = Interaction.InternalState.ExplainMood();
+			//		if (lMaxInternalValue > 4 && lEventMood != null) {
+			//			Debug.Log("[COMPANION][INFORM] key: " + Interaction.InternalState.ExplainMood().ExplanationKey + " dico value: " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey));
+			//			mActionManager.ShowInternalMood();
+			//			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("ifeel") + " " + Dictionary.GetString(Interaction.InternalState.InternalStateMood.ToString().ToLower()) + " "
+			//				+ Dictionary.GetRandomString("because") + " " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey), true);
 
-					} else {
-						if (BYOS.Instance.Primitive.Battery.EnergyLevel < 0) {
-							mActionManager.TimedMood(MoodType.SCARED, 7F);
-							Interaction.TextToSpeech.Say("Oh my God! I can't feel my battery anymore! [200] Please put it back!!");
-						} else {
-							Interaction.TextToSpeech.Say(Dictionary.GetRandomString("informbattery")
-							.Replace("[batterylevel]", ((int)BYOS.Instance.Primitive.Battery.EnergyLevel).ToString()));
-						}
-					}
-					break;
-
-
-				// 2 external sensors (IOT, weather)
-				case 1:
-					// TODO: add more random cities
-
-					string lParam = Dictionary.GetString("whatweather") + " " + Dictionary.GetRandomString("inlocation") + " " + Dictionary.GetRandomString("citylist");
-
-					Debug.Log("[COMPANION][INFORM] start app weather with param " + lParam);
-					CompanionData.Instance.LastAppTime = DateTime.Now;
-					CompanionData.Instance.LastApp = "Weather";
-					new StartAppCmd("Weather", new int[] { }, new float[] { }, new string[] { lParam }).Execute();
-					CompanionData.Instance.LandingTrigger = true;
-
-					break;
+			//		} else {
+			//			if (BYOS.Instance.Primitive.Battery.EnergyLevel < 0) {
+			//				mActionManager.TimedMood(MoodType.SCARED, 7F);
+			//				Interaction.TextToSpeech.Say("Oh my God! I can't feel my battery anymore! [200] Please put it back!!");
+			//			} else {
+			//				Interaction.TextToSpeech.Say(Dictionary.GetRandomString("informbattery")
+			//				.Replace("[batterylevel]", ((int)BYOS.Instance.Primitive.Battery.EnergyLevel).ToString()));
+			//			}
+			//		}
+			//		break;
 
 
+			//	// 2 external sensors (IOT, weather)
+			//	case 1:
+			//		// TODO: add more random cities
 
-				// 3 General knowledge (fun facts)
-				case 2:
-					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
-					break;
+			//		string lParam = Dictionary.GetString("whatweather") + " " + Dictionary.GetRandomString("inlocation") + " " + Dictionary.GetRandomString("citylist");
 
-				// 4 knowledge about other users
-				case 3:
-					if (mCompanion.Profiles.Count < 1)
-						Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
-					else {
-						string lRandomFact = GetRandomUserFact(GetRandomUser());
-						if (!string.IsNullOrEmpty(lRandomFact))
-							Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + GetRandomUserFact(GetRandomUser()));
-						else
-							Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
-					}
-					break;
+			//		Debug.Log("[COMPANION][INFORM] start app weather with param " + lParam);
+			//		CompanionData.Instance.LastAppTime = DateTime.Now;
+			//		CompanionData.Instance.LastApp = "Weather";
+			//		new StartAppCmd("Weather", new int[] { }, new float[] { }, new string[] { lParam }).Execute();
+			//		CompanionData.Instance.LandingTrigger = true;
 
-				default:
-					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
-					break;
+			//		break;
 
-			}
+
+
+			//	// 3 General knowledge (fun facts)
+			//	case 2:
+			//		Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
+			//		break;
+
+			//	// 4 knowledge about other users
+			//	case 3:
+			//		if (mCompanion.Profiles.Count < 1)
+			//			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
+			//		else {
+			//			string lRandomFact = GetRandomUserFact(GetRandomUser());
+			//			if (!string.IsNullOrEmpty(lRandomFact))
+			//				Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + GetRandomUserFact(GetRandomUser()));
+			//			else
+			//				Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
+			//		}
+			//		break;
+
+			//	default:
+			//		Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
+			//		break;
+
+			//}
 
 
 
 
 		}
 
-		private string GetRandomUserFact(UserProfile userProfile)
+		private string GetRandomUserFact(UserProfile iUserProfile)
 		{
+
+			Debug.Log("Random user fact from user : " + iUserProfile.FirstName);
 			int lRand = UnityEngine.Random.Range(0, 4);
 
-			if (lRand == 0 && !string.IsNullOrEmpty(userProfile.BirthDate)) {
-				return Dictionary.GetRandomString("userbirthdateis").Replace("[user]", userProfile.FirstName) + " " + userProfile.BirthDate;
-			} else
-				lRand = 1;
+			if (lRand == 0)
+				if (!string.IsNullOrEmpty(iUserProfile.Occupation)) {
+					Debug.Log("Random user fact  " + Dictionary.GetRandomString("useroccupationis").Replace("[user]", iUserProfile.FirstName) + " " + iUserProfile.Occupation);
+					return Dictionary.GetRandomString("useroccupationis").Replace("[user]", iUserProfile.FirstName) + " " + iUserProfile.Occupation;
+				} else
+					lRand = 1;
 
-			if (lRand == 1 && !string.IsNullOrEmpty(userProfile.Tastes.Color)) {
-				return Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", userProfile.FirstName) + " " + userProfile.Tastes.Color;
-			} else
-				lRand = 2;
+			if (lRand == 1)
+				if (!string.IsNullOrEmpty(iUserProfile.Tastes.MusicBand)) {
+					Debug.Log("Random user fact  " + Dictionary.GetRandomString("userfavoritebandis").Replace("[user]", iUserProfile.FirstName) + " " + iUserProfile.Tastes.MusicBand);
+					return Dictionary.GetRandomString("userfavoritebandis").Replace("[user]", iUserProfile.FirstName) + " " + iUserProfile.Tastes.MusicBand;
+				} else
+					lRand = 2;
 
-			if (lRand == 2 && !string.IsNullOrEmpty(userProfile.Tastes.MusicBand)) {
-				return Dictionary.GetRandomString("userfavoritebandis").Replace("[user]", userProfile.FirstName) + " " + userProfile.Tastes.MusicBand;
-			} else
-				lRand = 3;
+			if (lRand == 2)
+				if (!string.IsNullOrEmpty(iUserProfile.Tastes.Color)) {
+					Debug.Log("Random user fact  " + Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", iUserProfile.FirstName) + " " + iUserProfile.Tastes.Color);
+					return Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", iUserProfile.FirstName) + " " + iUserProfile.Tastes.Color;
+				} else
+					lRand = 3;
 
-			if (lRand == 3 && !string.IsNullOrEmpty(userProfile.Occupation)) {
-				return Dictionary.GetRandomString("useroccupationis").Replace("[user]", userProfile.FirstName) + " " + userProfile.Occupation;
+			if (lRand == 3 && !string.IsNullOrEmpty(iUserProfile.BirthDate)) {
+				Debug.Log("Random user fact  " + Dictionary.GetRandomString("userbirthdateis").Replace("[user]", iUserProfile.FirstName) + " " + iUserProfile.BirthDate);
+				return Dictionary.GetRandomString("userbirthdateis").Replace("[user]", iUserProfile.FirstName) + " " + iUserProfile.BirthDate;
 			}
 
 			return "";
@@ -136,8 +158,8 @@ namespace BuddyApp.Companion
 
 		private UserProfile GetRandomUser()
 		{
-
 			int lRand = UnityEngine.Random.Range(0, mCompanion.Profiles.Count);
+			Debug.Log("Random user chosen: " + mCompanion.Profiles[lRand].FirstName);
 			return mCompanion.Profiles[lRand];
 		}
 

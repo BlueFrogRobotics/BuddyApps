@@ -28,13 +28,17 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mTime = 0F;
-			mState.text = "ask user profile";
+			mState.text = "ask user name";
+			Debug.Log("ask user name state");
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.ASK_USER_PROFILE;
 
-			if (mCompanion.mCurrentUser != null)
+			if (mCompanion.mCurrentUser != null && !string.IsNullOrEmpty(mCompanion.mCurrentUser.FirstName) ) {
+
+				Debug.Log("We know the current user, ask info");
 				Trigger("ASKINFO");
+			}
 			else {
 
 				mNeedListen = true;
@@ -45,6 +49,7 @@ namespace BuddyApp.Companion
 
 
 				//TODO: ask a missing info on current user
+				Debug.Log("asking name");
 				Interaction.TextToSpeech.SayKey("askname");
 			}
 

@@ -24,6 +24,7 @@ namespace BuddyApp.Companion
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
 			mActionManager = GetComponent<ActionManager>();
+			mCompanion = GetComponent<CompanionBehaviour>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -50,6 +51,7 @@ namespace BuddyApp.Companion
             else
                 mTimeSleeping = iAnimator.GetInteger("Duration");
 
+			Debug.Log("Sleeping for: " + mTimeSleeping);
             StartCoroutine(SleepingHeadCo());
 			mHeadPlaying = true;
 		}
@@ -75,6 +77,7 @@ namespace BuddyApp.Companion
 
 			// Play BML after 4 seconds every 8 seconds or launch desired action
 			if (((int)mTimeIdle) > mTimeSleeping) {
+				Debug.Log("mTimeIdle " + mTimeIdle + " > mTimeSleeping " + mTimeSleeping);
 				mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.NAP);
 				if (!string.IsNullOrEmpty(mActionTrigger) && mActionTrigger != "NAP") {
 					// Otherwise trigger to perform the action

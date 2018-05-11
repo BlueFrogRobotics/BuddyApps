@@ -16,6 +16,7 @@ namespace BuddyApp.Companion
 			mState = GetComponentInGameObject<Text>(0);
 			mDesireManager = GetComponent<DesireManager>();
 			mActionManager = GetComponent<ActionManager>();
+			mCompanion = GetComponent<CompanionBehaviour>();
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -24,6 +25,13 @@ namespace BuddyApp.Companion
 			Debug.Log("state: Landing ");
 
 			mTrigger = false;
+
+
+
+			if (mCompanion.mCurrentUser == null)
+				Debug.Log("landing CurrentUser Null");
+			else
+				Debug.Log("landing CurrentUser not Null");
 
 			TimeSpan lTimeInApp = DateTime.Now - CompanionData.Instance.LastAppTime;
 			TimeSpan lTimeSinceStart = DateTime.Now - BYOS.Instance.StartTime;

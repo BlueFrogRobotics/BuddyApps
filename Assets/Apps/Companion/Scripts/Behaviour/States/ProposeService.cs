@@ -30,7 +30,7 @@ namespace BuddyApp.Companion
 			mDetectionManager = GetComponent<DetectionManager>();
 			mActionManager = GetComponent<ActionManager>();
 			mKeyOptions = new List<string>();
-			mKeyOptions.Add("iot");
+			//mKeyOptions.Add("iot");
 			mKeyOptions.Add("weather");
 			mKeyOptions.Add("jukebox");
 
@@ -154,12 +154,12 @@ namespace BuddyApp.Companion
 					new StartAppCmd("Weather").Execute();
 					break;
 
-				case "somfy":
-					CompanionData.Instance.LastAppTime = DateTime.Now;
-					CompanionData.Instance.LastApp = "Somfy";
-					CompanionData.Instance.LandingTrigger = true;
-					new StartAppCmd("Somfy").Execute();
-					break;
+				//case "somfy":
+				//	CompanionData.Instance.LastAppTime = DateTime.Now;
+				//	CompanionData.Instance.LastApp = "Somfy";
+				//	CompanionData.Instance.LandingTrigger = true;
+				//	new StartAppCmd("Somfy").Execute();
+				//	break;
 
 				case "nogame":
 					CompanionData.Instance.mHelpDesire -= 50;

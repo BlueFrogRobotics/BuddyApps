@@ -23,6 +23,7 @@ namespace BuddyApp.Companion
 	public class AskInfo : AStateMachineBehaviour
 	{
 		private bool mNeedListen;
+		private bool mAskName;
 		private float mTime;
 		private List<UserProfile> mProfiles;
 		private QuestionToAsk mAskedQuestion;
@@ -39,22 +40,33 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			mAskName = false;
 			mTime = 0F;
 			mState.text = "ask user info";
+			Debug.Log("ask info state");
 
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.ASK_USER_PROFILE;
 
-			if (mCompanion.mCurrentUser == null)
+
+			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
+			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
+
+
+			if (mCompanion.mCurrentUser == null) {
+				Debug.Log("We didn't recognized the curent user, ask his name");
 				Trigger("ASKNAME");
-			else {
+				mAskName = true;
+			} else if (string.IsNullOrEmpty(mCompanion.mCurrentUser.FirstName)) {
+				Debug.Log("We don't know the current user name, ask him");
+				Trigger("ASKNAME");
+				mAskName = true;
+			} else {
+				Debug.Log("We know who is the curent user, ask some info: " + mCompanion.mCurrentUser.FirstName);
 
 				mNeedListen = true;
 
-
-				Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
-				Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
 
 
 				//TODO: make it random somehow...
@@ -118,6 +130,12 @@ namespace BuddyApp.Companion
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
+			if (mAskName) {
+				Debug.Log("need to ask name!!!!");
+				Trigger("ASKNAME");
+			}
+
 			mTime += Time.deltaTime;
 			if (mTime > 20F) {
 				iAnimator.SetTrigger("INTERACT");
@@ -216,6 +234,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+			Debug.Log("ask info exit!!!!!!!!");
 			mState.text = "";
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.CHAT;
