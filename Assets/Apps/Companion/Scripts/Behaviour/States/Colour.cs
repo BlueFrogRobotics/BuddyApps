@@ -52,7 +52,7 @@ namespace BuddyApp.Companion
                     mTexture.Apply();
 
                     BYOS.Instance.Primitive.LED.SetBodyLight(mColor.Color);
-                    string lSentence = BYOS.Instance.Dictionary.GetRandomString("colourseen").Replace("[colour]", mColor.NearestColor.ToString().ToLower());
+                    string lSentence = BYOS.Instance.Dictionary.GetRandomString("colourseen").Replace("[colour]", BYOS.Instance.Dictionary.GetRandomString(mColor.NearestColor.ToString().ToLower()));
                     BYOS.Instance.Interaction.TextToSpeech.Say(lSentence);
 
                     mHasShowWindow = true;
