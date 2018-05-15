@@ -43,16 +43,18 @@ namespace BuddyApp.Companion
         // Update is called once per frame
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("MIRROR : Start");
             mTime += Time.deltaTime;
+            Debug.Log("MIRROR : Time");
             if (mCam.IsOpen)
             {
+                Debug.Log("MIRROR : If is open");
                 if (!mHasShowWindow)
                 {
                     mHasShowWindow = true;
                     Mat mMatSrc = mCam.FrameMat;
                     Core.flip(mMatSrc, mMat, 1);
                     mTexture = Utils.MatToTexture2D(mMat);
-                    Debug.Log("MIRROR : Toast opened");
                     Debug.Log("Texture width " + mTexture.width + " " + mTexture.height);
                     Toaster.Display<Buddy.UI.PictureToast>().With(Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
                 }
@@ -64,9 +66,8 @@ namespace BuddyApp.Companion
                     mTexture.SetPixels(lTexture.GetPixels());
                     Debug.Log("MIRROR : New flux");
                 }
+                mTexture.Apply();
             }
-
-            mTexture.Apply();
 
             if (mTime > mEndTime)
                 Trigger("VOCALCOMMAND");
