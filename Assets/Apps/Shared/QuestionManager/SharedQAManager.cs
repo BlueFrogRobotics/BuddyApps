@@ -12,7 +12,7 @@ namespace BuddyApp.Shared
 {
     public class SharedQAManager : ASharedSMB
     {
-        /// TODO : avoir un paramètre pour afficher un toast pour la photo enregistré dans TakePhoto
+        //TODO : Add a timeout to all the question
 
         [SerializeField]
         private string NameOfXML;
@@ -24,6 +24,8 @@ namespace BuddyApp.Shared
         private bool IsSoundForButton;
         [SerializeField]
         private FXSound FxSound;
+        [SerializeField]
+        private float Timeout;
 
         public class QuestionItem
         {
@@ -43,12 +45,11 @@ namespace BuddyApp.Shared
         private bool IsMultipleQuestion;
         [SerializeField]
         private bool IsMultipleToaster;
-       
+
         private bool mIsDisplayed;
-        ButtonInfo mButtonLeft;
-        ButtonInfo mButtonRight;
 
         private string mSpeechReco;
+        private string mStartRule;
         private bool mListening;
         private TextToSpeech mTTS;
         private float mTimer;
@@ -62,50 +63,60 @@ namespace BuddyApp.Shared
         {
             Interaction.VocalManager.EnableTrigger = false;
             BYOS.Instance.Header.DisplayParametersButton = false;
+            mStartRule = String.Empty;
+
+            if (IsBinaryQuestion)
+            {
+                // Say to Use vocon
+                Interaction.VocalManager.UseVocon = true;
+                List<String> paths = new List<string>()
+                {
+                    BYOS.Instance.Resources.GetPathToRaw("common.bin")
+                };
+                Interaction.VocalManager.VoconGrammars = paths;
+            }
             mTTS = Interaction.TextToSpeech;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //Debug.Log("0.1");
-            //Interaction lol;
-            //Debug.Log("0.2");
-            //VocalManager lol2;
-            Debug.Log("1");
-            Interaction.VocalManager.OnEndReco = OnSpeechReco;
-            Debug.Log("2");
+            if (IsBinaryQuestion)
+                Interaction.VocalManager.OnVoconBest = VoconBest;
+            else if (IsMultipleQuestion)
+                Interaction.VocalManager.OnEndReco = OnSpeechReco;
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
-            Debug.Log("3");
             Interaction.VocalManager.OnError = null;
-            Debug.Log("4");
+
             mListening = false;
-            Debug.Log("5");
             mSoundPlayed = false;
-            Debug.Log("6");
             mKeyList = new List<string>();
-            Debug.Log("7");
             mTimer = 0F;
+        }
+
+        private void VoconBest(VoconResult iBestResult)
+        {
+            mSpeechReco = iBestResult.Utterance;
+            mStartRule = iBestResult.StartRule;
+            mListening = false;
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("avant fill Menu");
             FillMenu();
-            Debug.Log("apres fill menu");
             mTimer += Time.deltaTime;
 
-            if(mNumberOfButton > 3 && IsBinaryQuestion)
+            if (mNumberOfButton > 3 && IsBinaryQuestion)
             {
                 Debug.Log("---You checked Binary Question with more than 2 buttons---");
                 return;
             }
-            if(mNumberOfButton < 3 && IsMultipleQuestion)
+            if (mNumberOfButton < 3 && IsMultipleQuestion)
             {
                 Debug.Log("---You checked Multiple Question with less than 3 buttons---");
                 return;
             }
 
-            if(IsBinaryQuestion)
+            if (IsBinaryQuestion)
             {
                 //Display toaster
                 if (IsBinaryToaster && !mIsDisplayed)
@@ -130,10 +141,10 @@ namespace BuddyApp.Shared
                     if (items.Count == 0)
                     {
                         Debug.Log("items empty : not possible");
-                    }  
+                    }
                     DisplayQuestion();
                 }
-                
+
                 //Vocal
                 if (mTimer > 6F)
                 {
@@ -145,16 +156,17 @@ namespace BuddyApp.Shared
 
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
-                if (string.IsNullOrEmpty(mSpeechReco))
+                if (string.IsNullOrEmpty(mSpeechReco) && !mListening)
                 {
                     Interaction.VocalManager.StartInstantReco();
+
                     Interaction.Mood.Set(MoodType.LISTENING);
                     mListening = true;
                     return;
                 }
                 foreach (QuestionItem item in items)
                 {
-                    if (SharedVocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    if (mStartRule.Contains(item.key))
                     {
                         BYOS.Instance.Toaster.Hide();
                         GotoParameter(item.trigger);
@@ -162,9 +174,9 @@ namespace BuddyApp.Shared
                     }
                 }
             }
-            else if (IsMultipleQuestion )
+            else if (IsMultipleQuestion)
             {
-                if(IsMultipleToaster && !mIsDisplayed)
+                if (IsMultipleToaster && !mIsDisplayed)
                 {
                     mActualMood = Interaction.Mood.CurrentMood;
                     mIsDisplayed = true;
@@ -173,7 +185,7 @@ namespace BuddyApp.Shared
                         if (IsKey(BuddySays))
                         {
                             //Change this line when CORE did the correction about GetRandomString not working if the string is empty
-                            if(!string.IsNullOrEmpty( Dictionary.GetRandomString(BuddySays)))
+                            if (!string.IsNullOrEmpty(Dictionary.GetRandomString(BuddySays)))
                                 mTTS.Say(Dictionary.GetRandomString(BuddySays));
                             else
                                 mTTS.Say(Dictionary.GetString(BuddySays));
@@ -193,7 +205,7 @@ namespace BuddyApp.Shared
                     mTimer = 0F;
                     mSpeechReco = null;
                 }
-                
+
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
                 if (string.IsNullOrEmpty(mSpeechReco))
@@ -256,7 +268,7 @@ namespace BuddyApp.Shared
 
         private bool IsKey(string iKey)
         {
-            if (iKey.Where(char.IsUpper).Any() || SharedVocalFunctions.ContainsWhiteSpace(iKey)  || SharedVocalFunctions.ContainsSpecialChar(iKey))
+            if (iKey.Where(char.IsUpper).Any() || SharedVocalFunctions.ContainsWhiteSpace(iKey) || SharedVocalFunctions.ContainsSpecialChar(iKey))
                 return false;
             else return true;
         }
@@ -332,8 +344,7 @@ namespace BuddyApp.Shared
                     }
                 }
             }
-            else
-                Debug.Log("Problem File doesnt exist");
-        }  
-    } 
+
+        }
+    }
 }
