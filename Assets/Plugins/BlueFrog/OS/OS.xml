@@ -1468,6 +1468,11 @@
             Feature to detect AprilTags
             </summary>
         </member>
+        <member name="P:Buddy.Perception.RoomDetector">
+            <summary>
+            Detect in which room Buddy founds itself
+            </summary>
+        </member>
         <member name="T:Buddy.AprilTag">
             <summary>
             Detect AprilTags in frame
@@ -1477,6 +1482,28 @@
             <summary>
             Detect AprilTags in frame
             </summary>
+        </member>
+        <member name="T:Buddy.RoomDetector">
+            <summary>
+            Topological localisation.
+            Call LoadDict() before use
+            </summary>
+        </member>
+        <member name="M:Buddy.RoomDetector.RecogniseRoom(OpenCVUnity.Mat,System.Boolean@)">
+            <summary>
+            Returns room name or unidentified when finished
+            If result not credible enough, finished is false to require more images
+            </summary>
+            <param name="iRGBFrame"></param>
+            <param name="finished"></param> 
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.RoomDetector.LearnImage(OpenCVUnity.Mat,System.Int32)">
+            <summary>
+            Learn one single image
+            </summary>
+            <param name="iRGBFrame"></param>
+            <param name="label"></param>
         </member>
         <member name="M:Buddy.TensorFlowClassifier.ConvertToGrayscale(OpenCVUnity.Mat,System.Int32,System.Int32)">
             <summary>
@@ -6583,12 +6610,23 @@
             Access to the episodic (event, xp) memory of Buddy
             </summary>
         </member>
+        <member name="T:Buddy.ReminderAlert">
+            <summary>
+            Callback to handle incoming reminder alerts.
+            </summary>
+            <param name="iReminder">The list of incoming reminder alerts.</param>
+        </member>
         <member name="T:Buddy.ProceduralMemManager">
             <summary>
             This class represents the procedural memory of Buddy
             </summary>
             <summary>
             This class represents the procedural memory of Buddy
+            </summary>
+        </member>
+        <member name="P:Buddy.ProceduralMemManager.AlertCallbacks">
+            <summary>
+            The list of all alert callbacks.
             </summary>
         </member>
         <member name="M:Buddy.ProceduralMemManager.AddReminder(System.String,System.Int32)">
