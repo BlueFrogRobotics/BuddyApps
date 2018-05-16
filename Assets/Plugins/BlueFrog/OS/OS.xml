@@ -3481,11 +3481,6 @@
             Should Vocon be used instead of Google STT ?
             </summary>
         </member>
-        <member name="P:Buddy.VocalManager.VoconGrammars">
-            <summary>
-            The paths of the Vocon grammars to use.
-            </summary>
-        </member>
         <member name="P:Buddy.VocalManager.StartListenBehaviour">
             <summary>
             Action will be called when STT starts listening
@@ -3573,19 +3568,31 @@
             the method restarts the trigger mode after instant recognition</param>
             </summary>
         </member>
-        <member name="M:Buddy.VocalManager.StartInstantReco(System.Collections.Generic.List{System.String},System.Boolean)">
-            <summary>
-            Stop Trigger Mode and immediately starts the Vocon STT request for instant listening$
-            <param name="iGrammars">The paths to the grammars that will be used during recognition phase.</param>
-            <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
-            the method restarts the trigger mode after instant recognition</param>
-            </summary>
-        </member>
         <member name="M:Buddy.VocalManager.AsVocalInput(System.String)">
             <summary>
             Fake the input vocal signal with input text
             </summary>
             <param name="iInput">The input text that the Speech To Text will proceed</param>
+        </member>
+        <member name="M:Buddy.VocalManager.AddGrammar(System.String,Buddy.LoadContext)">
+            <summary>
+            Add a grammar for VoCon's recognition.
+            </summary>
+            <param name="iGrammarName">The name of the grammar to add.</param>
+            <param name="iContext">The context to load the grammar from.</param>
+        </member>
+        <member name="M:Buddy.VocalManager.RemoveGrammar(System.String,Buddy.LoadContext)">
+            <summary>
+            Remove a grammar from VoCon's grammar list.
+            </summary>
+            <param name="iGrammarName">The name of the grammar to remove.</param>
+            <param name="iContext">The context to load the grammar from.</param>
+            <returns>True if the grammar was successfully removed.</returns>
+        </member>
+        <member name="M:Buddy.VocalManager.ClearGrammars">
+            <summary>
+            Clear VoCon's grammar list.
+            </summary>
         </member>
         <member name="T:Buddy.GCVDetectionType">
             <summary>
