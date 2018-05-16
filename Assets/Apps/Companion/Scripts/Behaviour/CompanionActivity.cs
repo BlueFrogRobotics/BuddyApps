@@ -2,6 +2,7 @@ using UnityEngine.UI;
 using UnityEngine;
 
 using Buddy;
+using System.Collections.Generic;
 
 namespace BuddyApp.Companion
 {
@@ -21,6 +22,11 @@ namespace BuddyApp.Companion
 		{
 			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("faillaunchapp").Replace("[app]", iAppIdentifier), true);
 		}
+
+		//public override void OnAlertReminder(List<Buddy.Reminder> iIncomingEvents)
+		//{
+
+		//}
 
 		public override void OnStart()
 		{

@@ -803,7 +803,13 @@ namespace BuddyApp.Companion
                     StartApp("Recipe", mLastHumanSpeech);
                     break;
 
-                case "Repeat":
+
+				case "Reminder":
+					CompanionData.Instance.mHelpDesire -= 20;
+					StartApp("Reminder", mLastHumanSpeech);
+					break;
+
+				case "Repeat":
                     Interaction.TextToSpeech.SayKey("isaid", true);
                     Interaction.TextToSpeech.Say("[500]", true);
                     Interaction.TextToSpeech.Say(mLastBuddySpeech, true);

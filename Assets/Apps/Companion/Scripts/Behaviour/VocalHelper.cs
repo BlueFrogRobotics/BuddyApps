@@ -441,9 +441,11 @@ namespace BuddyApp.Companion
             //	lType = "Recipe";
             else if (ContainsOneOf(iSpeech, "rlgl"))
                 lType = "RLGL";
-            //else if (ContainsOneOf(iSpeech, mHideSeekSpeech))
-            //	lType = "HideSeek";
-            else if (ContainsOneOf(iSpeech, "pose"))
+			else if (ContainsOneOf(iSpeech, "reminder"))
+				lType = "Reminder";
+			//else if (ContainsOneOf(iSpeech, mHideSeekSpeech))
+			//	lType = "HideSeek";
+			else if (ContainsOneOf(iSpeech, "pose"))
                 lType = "Pose";
             else if (ContainsOneOf(iSpeech, "photo"))
                 lType = "Photo";
@@ -452,7 +454,6 @@ namespace BuddyApp.Companion
 
             //else if (ContainsOneOf(iSpeech, "story"))
             //	lType = "Story";
-
 
             /////////////////////////
             //BML

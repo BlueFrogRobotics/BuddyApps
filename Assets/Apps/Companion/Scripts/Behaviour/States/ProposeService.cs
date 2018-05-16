@@ -33,6 +33,7 @@ namespace BuddyApp.Companion
 			//mKeyOptions.Add("iot");
 			mKeyOptions.Add("weather");
 			mKeyOptions.Add("jukebox");
+			mKeyOptions.Add("photo");
 
 		}
 
@@ -152,6 +153,14 @@ namespace BuddyApp.Companion
 					CompanionData.Instance.LastApp = "Weather";
 					CompanionData.Instance.LandingTrigger = true;
 					new StartAppCmd("Weather").Execute();
+					break;
+
+
+				case "photo":
+					CompanionData.Instance.LastAppTime = DateTime.Now;
+					CompanionData.Instance.LastApp = "TakePhoto";
+					CompanionData.Instance.LandingTrigger = true;
+					new StartAppCmd("TakePhoto").Execute();
 					break;
 
 				//case "somfy":

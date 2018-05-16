@@ -134,9 +134,9 @@ namespace BuddyApp.Companion
 
 			Debug.Log(" create profile from account");
 			// Check if user in Buddy Account and add them if needed
-			//for (int i = 0; i < BYOS.Instance.DataBase.GetUsers().Length; ++i) {
-			//	AddProfile(BYOS.Instance.DataBase.GetUsers()[i]);
-			//}
+			for (int i = 0; i < BYOS.Instance.DataBase.GetUsers().Length; ++i) {
+				AddProfile(BYOS.Instance.DataBase.GetUsers()[i]);
+			}
 			Debug.Log(" create profile from account");
 
 		}

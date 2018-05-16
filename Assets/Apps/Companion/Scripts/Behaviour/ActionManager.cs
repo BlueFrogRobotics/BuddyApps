@@ -129,6 +129,12 @@ namespace BuddyApp.Companion
 		// TODO may be better to return an element from a list of transitions?
 		public string DesiredAction(COMPANION_STATE iState)
 		{
+
+			if(mDetectionManager.ActiveNotificationID != -1) {
+				// we need to deliver the message from notification
+				return "NOTIFY";
+			}
+
 			if (mDesireManager.GetMaxDesireValue() > 40) {
 				switch (mDesireManager.GetMainDesire()) {
 

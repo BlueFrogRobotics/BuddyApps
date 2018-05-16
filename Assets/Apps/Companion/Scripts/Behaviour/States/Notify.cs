@@ -28,6 +28,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NOTIFY;
