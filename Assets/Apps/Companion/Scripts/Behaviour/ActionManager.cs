@@ -130,8 +130,9 @@ namespace BuddyApp.Companion
 		public string DesiredAction(COMPANION_STATE iState)
 		{
 
-			if(mDetectionManager.ActiveNotificationID != -1) {
+			if(mDetectionManager.ActiveReminders.Count > 0) {
 				// we need to deliver the message from notification
+				Debug.Log("[Companion][ActionManager] need to notify");
 				return "NOTIFY";
 			}
 

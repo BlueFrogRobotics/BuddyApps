@@ -64,9 +64,11 @@ namespace BuddyApp.Companion
 		private bool mInit;
 		private float mTimeSphinx;
 
+
+
 		public string Logs { get; private set; }
 
-		public int ActiveNotificationID { get; set; }
+		public List<Buddy.Reminder> ActiveReminders { get; set; }
 		public float TimeLastTouch { get { return Math.Min(Time.time - mTimeElementTouched, Time.time - mTimeOtherTouched); } }
 		public bool IsDetectingThermal { get; set; }
 		public bool IsDetectingMovement { get; set; }
@@ -87,7 +89,8 @@ namespace BuddyApp.Companion
 			mTimeOtherTouched = 0F;
 			mDetectedElement = Detected.NONE;
 			mFacePartTouched = FaceTouch.NONE;
-			ActiveNotificationID = -1;
+
+			ActiveReminders = new List<Buddy.Reminder>();
 
 			mInit = false;
 			IsDetectingThermal = true;
@@ -102,10 +105,22 @@ namespace BuddyApp.Companion
 			//mHumanReco = BYOS.Instance.Perception.Human;
 			//BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
 
+
+			// Check if activeNotification
+			BYOS.Instance.DataBase.Memory.Procedural.AlertCallbacks.Add(NewNotif);
+			
+
 			mActionManager = GetComponent<ActionManager>();
 			mFace = BYOS.Instance.Interaction.Face;
 			LinkDetectorsEvents();
 		}
+
+		private void NewNotif(List<Buddy.Reminder> iReminder)
+		{
+			ActiveReminders = iReminder;
+			Debug.Log("[Companion][DetectionManager] need to notify");
+		}
+		
 
 		internal void StartSphinxTrigger()
 		{
@@ -123,15 +138,6 @@ namespace BuddyApp.Companion
 		void Update()
 		{
 
-			// Check if activeNotification
-			if(BYOS.Instance.DataBase.Memory.Procedural.GetReminders().Count > 0 && ActiveNotificationID == -1)
-				for(int i = 0; i < BYOS.Instance.DataBase.Memory.Procedural.GetReminders().Count; ++i) {
-					if( DateTime.Compare(BYOS.Instance.DataBase.Memory.Procedural.GetReminders()[i].EventDate,  DateTime.Now) <= 0) {
-						ActiveNotificationID = (BYOS.Instance.DataBase.Memory.Procedural.GetReminders()[i].ID);
-						Debug.Log("Active reminder i: " + i + " and ID: " + ActiveNotificationID);
-						break;
-					}
-				}
 
 			if (BYOS.Instance.Interaction.SphinxTrigger.FinishedSetup && !mInit) {
 				Utils.LogI(LogContext.INTERACTION, "Launching Sphinx Update");
