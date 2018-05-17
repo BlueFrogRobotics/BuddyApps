@@ -71,12 +71,9 @@ namespace BuddyApp.SandboxApp
             {
                 // Say to Use vocon
                 Interaction.VocalManager.UseVocon = true;
-                List<String> paths = new List<string>()
-                {
-                    BYOS.Instance.Resources.GetPathToRaw(NameVoconGrammarFile + ".bin")
-                };
-                Interaction.VocalManager.VoconGrammars = paths;
-            }
+
+				Interaction.VocalManager.AddGrammar("common", LoadContext.APP);
+			}
             mTTS = Interaction.TextToSpeech;
         }
 
