@@ -126,6 +126,7 @@ namespace BuddyApp.RedLightGreenLightGame
                 Interaction.Mood.Set(MoodType.HAPPY);
                 if(mLevelManager.LevelData.Level < 3)
                     Primitive.Motors.Wheels.TurnAngle(-180F, 250F, 1F);
+                mRLGLBehaviour.IsGameplayDone = false;
                 Trigger("Victory");
                 
             }

@@ -46,7 +46,10 @@ namespace BuddyApp.RedLightGreenLightGame
         private bool mIsPlaying;
         public bool IsPlaying { get { return mIsPlaying; } set { mIsPlaying = value; } }
 
-       // private int mLife;
+        private bool mIsGameplayDone;
+        public bool IsGameplayDone { get { return mIsGameplayDone; } set { mIsGameplayDone = value; } }
+
+        // private int mLife;
         //public int Life { get { return mLife; } set { if (value < 0) mLife = 0; else mLife = value; } }
 
         private float mTimerMove;
@@ -88,6 +91,7 @@ namespace BuddyApp.RedLightGreenLightGame
             mTargetClicked = false;
             mFirstTurn = false;
             mGameplay = false;
+            mIsGameplayDone = false;
             //Life = 3;
             Debug.Log("contient oui: " + BYOS.Instance.Dictionary.ContainsPhonetic("non", "yes"));
         }

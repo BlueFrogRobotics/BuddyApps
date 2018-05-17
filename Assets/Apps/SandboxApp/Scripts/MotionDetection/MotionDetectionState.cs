@@ -40,6 +40,9 @@ namespace BuddyApp.SandboxApp
         [Range(0F, 20F)]
         [SerializeField]
         private float Timer;
+        [Tooltip("If you want to change timer each time you go in this state, check this box and create a float Timer in the animator's parameter.")]
+        [SerializeField]
+        private bool WantChangingTimer;
         [Header("Area in the picture/video : ")]
         [Tooltip("Area in the picture where you do your motion detection.")]
         [SerializeField]
@@ -50,7 +53,7 @@ namespace BuddyApp.SandboxApp
         private  MoodType MoodTypeWhenDetected;
         [SerializeField]
         private MoodType MoodTypeWhenNotDetected;
-
+        
         private bool mIsDisplay;
         private RGBCam mCam;
         private Mat mMatDetection;
@@ -76,6 +79,12 @@ namespace BuddyApp.SandboxApp
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
 
+            if (WantChangingTimer && iAnimator.GetFloat("Timer") != 0F)
+            {
+                Timer = iAnimator.GetFloat("Timer");
+            }
+            else
+                Debug.Log("You didn't create a float named Timer in animtor's parameter, do it and change its value with  animator.SetFloat(\"Timer\", your value);");
             mCam.Open(RGBCamResolution.W_320_H_240);
             if (!AreaToDetect)
                 mMotion.OnDetect(OnMovementDetected, 3F);
@@ -168,6 +177,10 @@ namespace BuddyApp.SandboxApp
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mMotion.StopOnDetect(OnMovementDetected);
+            if (!string.IsNullOrEmpty(TriggerWhenDetected))
+                ResetTrigger(TriggerWhenDetected);
+            if (!string.IsNullOrEmpty(TriggerWhenNotDetected))
+                ResetTrigger(TriggerWhenNotDetected);
         }
 
         private bool OnMovementDetected(MotionEntity[] iMotions)
