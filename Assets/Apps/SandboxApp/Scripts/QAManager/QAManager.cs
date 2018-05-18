@@ -13,7 +13,6 @@ namespace BuddyApp.SandboxApp
     public class QAManager : AStateMachineBehaviour
     {
         //TODO : Add a timeout to all the question
-
         [SerializeField]
         private string NameOfXML;
         [SerializeField]
@@ -28,6 +27,8 @@ namespace BuddyApp.SandboxApp
         private float Timeout;
         [SerializeField]
         private string NameVoconGrammarFile;
+        [SerializeField]
+        private string BuddySayWhenQuit;
 
         public class QuestionItem
         {
@@ -48,6 +49,7 @@ namespace BuddyApp.SandboxApp
         [SerializeField]
         private bool IsMultipleToaster;
 
+
         private bool mIsDisplayed;
 
         private string mSpeechReco;
@@ -64,23 +66,24 @@ namespace BuddyApp.SandboxApp
         public override void Start()
         {
             Interaction.VocalManager.EnableTrigger = false;
+            Debug.Log("START");
             BYOS.Instance.Header.DisplayParametersButton = false;
             mStartRule = String.Empty;
 
-            if (IsBinaryQuestion)
-            {
-                // Say to Use vocon
-                Interaction.VocalManager.UseVocon = true;
-
-				Interaction.VocalManager.AddGrammar("common", LoadContext.APP);
-			}
             mTTS = Interaction.TextToSpeech;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("OnStateEnter " + IsBinaryQuestion);
             if (IsBinaryQuestion)
+            {
+                //Use vocon
+                Interaction.VocalManager.UseVocon = true;
+                Interaction.VocalManager.AddGrammar(NameVoconGrammarFile, LoadContext.APP);
                 Interaction.VocalManager.OnVoconBest = VoconBest;
+                Interaction.VocalManager.OnVoconEvent = EventVocon;
+            }
             else if (IsMultipleQuestion)
                 Interaction.VocalManager.OnEndReco = OnSpeechReco;
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
@@ -92,11 +95,17 @@ namespace BuddyApp.SandboxApp
             mTimer = 0F;
         }
 
+        private void EventVocon(VoconEvent iEvent)
+        {
+            Debug.Log(iEvent);
+        }
+
         private void VoconBest(VoconResult iBestResult)
         {
             mSpeechReco = iBestResult.Utterance;
             mStartRule = iBestResult.StartRule;
             mListening = false;
+            Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -117,15 +126,13 @@ namespace BuddyApp.SandboxApp
 
             if (IsBinaryQuestion)
             {
-                //Display toaster
-                if (IsBinaryToaster && !mIsDisplayed)
+                if (!mIsDisplayed)
                 {
-                    mActualMood = Interaction.Mood.CurrentMood;
-                    mIsDisplayed = true;
                     if (!string.IsNullOrEmpty(BuddySays))
                     {
                         if (IsKey(BuddySays))
                         {
+                            Debug.Log(BuddySays);
                             //Change this line when CORE did the correction about GetRandomString not working if the string is empty
                             if (!string.IsNullOrEmpty(Dictionary.GetRandomString(BuddySays)))
                                 mTTS.Say(Dictionary.GetRandomString(BuddySays));
@@ -137,40 +144,47 @@ namespace BuddyApp.SandboxApp
                             mTTS.Say(BuddySays);
                         }
                     }
-                    if (items.Count == 0)
+                    //Display toaster
+                    if (IsBinaryToaster)
                     {
-                        Debug.Log("items empty : not possible");
+                        mActualMood = Interaction.Mood.CurrentMood;
+                        if (items.Count == 0)
+                        {
+                            Debug.Log("items empty : not possible");
+                        }
+                        DisplayQuestion();
                     }
-                    DisplayQuestion();
-                }
-
-                //Vocal
-                if (mTimer > 6F)
-                {
-                    Interaction.Mood.Set(mActualMood);
-                    mListening = false;
-                    mTimer = 0F;
-                    mSpeechReco = null;
+                    mIsDisplayed = true;
                 }
 
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
                 if (string.IsNullOrEmpty(mSpeechReco) && !mListening)
                 {
+                    Debug.Log("STARTRECO");
                     Interaction.VocalManager.StartInstantReco();
 
-                    Interaction.Mood.Set(MoodType.LISTENING);
                     mListening = true;
                     return;
                 }
+
+                mStartRule = GetRealStartRule(mStartRule);
+
                 foreach (QuestionItem item in items)
                 {
-                    if (mStartRule.Contains(item.key))
+
+                    if (mStartRule.Equals(item.key))
                     {
-                        BYOS.Instance.Toaster.Hide();
-                        GotoParameter(item.trigger);
+                        if (IsBinaryToaster)
+                            BYOS.Instance.Toaster.Hide();
+                        if (item.trigger.Equals("quit"))
+                            Quit();
+                        else
+                            GotoParameter(item.trigger);
                         break;
                     }
+                    else if (mStartRule.Equals("quit"))
+                        Quit();
                 }
             }
             else if (IsMultipleQuestion)
@@ -227,9 +241,34 @@ namespace BuddyApp.SandboxApp
             }
         }
 
+        private void Quit()
+        {
+            if (!string.IsNullOrEmpty(BuddySayWhenQuit))
+            {
+                if (IsKey(BuddySayWhenQuit))
+                {
+                    Debug.Log(BuddySayWhenQuit);
+                    //Change this line when CORE did the correction about GetRandomString not working if the string is empty
+                    if (!string.IsNullOrEmpty(Dictionary.GetRandomString(BuddySayWhenQuit)))
+                        mTTS.Say(Dictionary.GetRandomString(BuddySayWhenQuit));
+                    else
+                        mTTS.Say(Dictionary.GetString(BuddySayWhenQuit));
+                }
+                else
+                {
+                    mTTS.Say(BuddySayWhenQuit);
+                }
+            }
+            QuitApp();
+        }
+
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, LoadContext.APP);
             Interaction.Mood.Set(mActualMood);
+            mIsDisplayed = false;
+            Interaction.VocalManager.UseVocon = false;
+            Debug.Log("EXIT");
         }
 
         /// <summary>
@@ -238,6 +277,7 @@ namespace BuddyApp.SandboxApp
         /// <param name="iMode">the chosen mode</param>
         private void GotoParameter(string iTrigger)
         {
+            Debug.Log("TRIGER = " + iTrigger);
             mSpeechReco = null;
             Trigger(iTrigger);
             Interaction.SpeechToText.Stop();
@@ -343,7 +383,24 @@ namespace BuddyApp.SandboxApp
                     }
                 }
             }
+            else
+                Debug.Log("Don't find");
+        }
 
+
+        /// <summary>
+        /// Change format of the StartRule (startrule#yes -> yes)
+        /// </summary>
+        /// <param name="iStartRuleVocon">Old format</param>
+        /// <returns>New format</returns>
+        private string GetRealStartRule(string iStartRuleVocon)
+        {
+            if (!string.IsNullOrEmpty(iStartRuleVocon) && iStartRuleVocon.Contains("#"))
+            {
+                string lStartRule = iStartRuleVocon.Split('#')[1];
+                return (lStartRule);
+            }
+            return (string.Empty);
         }
     }
 }
