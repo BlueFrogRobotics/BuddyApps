@@ -330,6 +330,10 @@ namespace BuddyApp.Companion
                     Trigger("COLOUR");
                     break;
 
+                case "Connection":
+                    Trigger("CONNECTION");
+                    break;
+
                 case "Copy":
                     lSentence = Dictionary.GetRandomString("copy");
                     Say(lSentence);
