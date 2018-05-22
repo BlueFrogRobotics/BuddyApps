@@ -8376,6 +8376,12 @@
             <param name="iNotifID">The unique identifier of a notification</param>
             <returns>True or False</returns>
         </member>
+        <member name="M:Buddy.UI.Notifier.ShowExisting(System.Int32)">
+            <summary>
+            Show an unread notification given a particular ID. If the notification isn't found, nothing is displayed.
+            </summary>
+            <param name="iNotifID">The to be displayed notification's ID.</param>
+        </member>
         <member name="T:Buddy.UI.ExplorerPool">
             <summary>
             Pool manager for widget (UI) gameobject
