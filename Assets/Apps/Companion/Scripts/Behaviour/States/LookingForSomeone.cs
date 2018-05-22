@@ -38,14 +38,32 @@ namespace BuddyApp.Companion
 			mWandering = false;
 
 			mLookingTime = 0F;
-			Interaction.TextToSpeech.SayKey("anyoneplay", true);
-			Interaction.Mood.Set(MoodType.THINKING);
+
+			if (mDetectionManager.ActiveReminders.Count == 0) {
+				Interaction.TextToSpeech.SayKey("anyoneplay", true);
+				Interaction.Mood.Set(MoodType.THINKING);
+			} else {
+				// TODO: check if notif is an emergency
+				Interaction.Mood.Set(MoodType.SCARED);
+				mActionManager.TellNotif(mDetectionManager.ActiveReminders[0]);
+
+			}
+
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mLookingTime = Time.deltaTime;
 
+			if (Interaction.TextToSpeech.HasFinishedTalking && ((int) mLookingTime) % 20 == 10) {
+				if (mDetectionManager.ActiveReminders.Count == 0) {
+					Interaction.TextToSpeech.SayKey("anyoneplay", true);
+				} else {
+					// TODO: check if notif is an emergency
+					Interaction.Mood.Set(MoodType.SCARED);
+					mActionManager.TellNotif(mDetectionManager.ActiveReminders[0]);
+				}
+			}
 
 			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering && CompanionData.Instance.CanMoveBody) {
 				Debug.Log("CompanionLooking4 start wandering");

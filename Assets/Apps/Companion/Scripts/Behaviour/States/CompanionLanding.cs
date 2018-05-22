@@ -27,6 +27,8 @@ namespace BuddyApp.Companion
 			mTrigger = false;
 
 
+			// TODO: remove this: it's just to test notifs
+			BYOS.Instance.DataBase.Memory.Procedural.AddReminder(DateTime.Now.AddMinutes(2), RemindPrecision.MINUTE, "testnotif", 0, "Marc");
 
 			if (mCompanion.mCurrentUser == null)
 				Debug.Log("landing CurrentUser Null");

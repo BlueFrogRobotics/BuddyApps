@@ -4,6 +4,8 @@ using UnityEngine;
 
 using Buddy;
 using System;
+using Buddy.UI;
+using Buddy.Command;
 
 namespace BuddyApp.Companion
 {
@@ -130,10 +132,15 @@ namespace BuddyApp.Companion
 		public string DesiredAction(COMPANION_STATE iState)
 		{
 
-			if(mDetectionManager.ActiveReminders.Count > 0) {
+			if (mDetectionManager.ActiveReminders.Count > 0) {
 				// we need to deliver the message from notification
 				Debug.Log("[Companion][ActionManager] need to notify");
-				return "NOTIFY";
+				if (mDetectionManager.UserPresent(iState)) {
+					return "VOCALCOMMAND";
+				} else {
+					//TODO: only if notif is an emergency
+					return "LOOKINGFORSOMEONE";
+				}
 			}
 
 			if (mDesireManager.GetMaxDesireValue() > 40) {
@@ -249,6 +256,91 @@ namespace BuddyApp.Companion
 				Debug.Log("[Companion][ActionManager] desired action IDLE");
 				return "IDLE";
 			}
+		}
+
+		/// <summary>
+		/// Tells and display the notification
+		/// </summary>
+		/// <param name="iReminder"></param>
+		internal void TellNotif(Buddy.Reminder iReminder)
+		{
+			// 1st Start saying
+
+			string lMessage = "";
+
+			//TODO adapt
+			// 1) I have a message for blabla: message
+
+			lMessage = BYOS.Instance.Dictionary.GetRandomString("shortnotif").Replace("[adressee]", iReminder.Addressee);
+			lMessage = lMessage.Replace("[shortmessage]", BYOS.Instance.Dictionary.GetRandomString(iReminder.Content));
+
+			BYOS.Instance.Interaction.TextToSpeech.Say(lMessage);
+
+			// if long
+			// 2) I have a message for blabla, press validate to display it.
+
+
+			// Then display
+			string lTextToDisplay = "";
+			if (!string.IsNullOrEmpty(iReminder.Addressee))
+				lTextToDisplay = "To " + iReminder.Addressee + " ";
+
+
+
+			lTextToDisplay += BYOS.Instance.Dictionary.GetString(iReminder.Content) + " ";
+
+
+			TimeSpan lTimeFromNow = iReminder.EventDate - DateTime.Now;
+			if (lTimeFromNow.Ticks < 0)
+				lTextToDisplay += (int) lTimeFromNow.Negate().TotalMinutes + " ago";
+			else
+				lTextToDisplay += "in " + (int) lTimeFromNow.TotalMinutes;
+
+			// If there is an app to display:
+			//BYOS.Instance.Notifier.Display<AlertNot>().With(lTextToDisplay,
+			//												(() => StartApp("Reminder", new string[] { lReminder.EventDate.ToString() }, new int[] { lReminder.ID })), null);
+
+			//else, if important notif, ask to validate
+
+			//BYOS.Instance.Notifier.ShowExisting(Notification ID);
+			
+			//int lNotifID = BYOS.Instance.Notification.Display<SimpleNot>().With(...);
+
+			BYOS.Instance.Notifier.Display<AlertNot>().With(lTextToDisplay,
+															(() => RemoveReminder(iReminder.ID)), null);
+
+
+
+			//else, just display notif
+			//BYOS.Instance.Notifier.Display<SimpleNot>().With(lTextToDisplay);
+			// and remove it
+			//BYOS.Instance.DataBase.Memory.Procedural.RemoveReminder(iReminder.ID);
+		}
+
+		internal void RemoveReminder(int iID)
+		{
+			if (BYOS.Instance.DataBase.Memory.Procedural.ExistReminder(iID))
+				BYOS.Instance.DataBase.Memory.Procedural.RemoveReminder(iID);
+
+				mDetectionManager.ActiveReminders.RemoveAt(0);
+		}
+
+		internal void StartApp(string iAppName, string iSpeech = null, bool iLandingTrigg = false)
+		{
+			CancelOrders();
+			Debug.Log("start app " + iAppName + "with param " + iSpeech);
+			CompanionData.Instance.LastAppTime = DateTime.Now;
+			CompanionData.Instance.LastApp = iAppName;
+			CompanionData.Instance.LandingTrigger = iLandingTrigg;
+			new StartAppCmd(iAppName, new int[] { }, new float[] { }, new string[] { iSpeech }).Execute();
+		}
+
+
+		internal void CancelOrders()
+		{
+			WanderingMood = MoodType.NEUTRAL;
+			WanderingOrder = false;
+			StopAllActions();
 		}
 
 		public bool StartWander(MoodType iMood = MoodType.NEUTRAL)

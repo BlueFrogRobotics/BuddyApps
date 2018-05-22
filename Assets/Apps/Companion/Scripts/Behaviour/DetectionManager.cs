@@ -118,7 +118,7 @@ namespace BuddyApp.Companion
 		private void NewNotif(List<Buddy.Reminder> iReminder)
 		{
 			ActiveReminders = iReminder;
-			Debug.Log("[Companion][DetectionManager] need to notify");
+			Debug.Log("[Companion][DetectionManager] need to notify!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		}
 		
 
@@ -137,7 +137,10 @@ namespace BuddyApp.Companion
 
 		void Update()
 		{
+			if (BYOS.Instance.DataBase.Memory.Procedural.GetReminders().Count > 0) {
 
+				Debug.Log("[Companion][UPDATE] need to notify!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + BYOS.Instance.DataBase.Memory.Procedural.GetReminders()[0].EventDate.ToString());
+			}
 
 			if (BYOS.Instance.Interaction.SphinxTrigger.FinishedSetup && !mInit) {
 				Utils.LogI(LogContext.INTERACTION, "Launching Sphinx Update");

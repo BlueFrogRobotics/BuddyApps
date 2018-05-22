@@ -43,7 +43,7 @@ namespace BuddyApp.Companion
 
 		public static void SaveProfiles()
 		{
-			string lFileName = BYOS.Instance.Resources.GetPathToRaw("usersProfile");
+			string lFileName = BYOS.Instance.Resources.GetPathToRaw("usersProfile.txt");
 			Utils.SerializeXML(sInstance.Profiles.ToArray(), lFileName);
 		}
 
@@ -120,7 +120,7 @@ namespace BuddyApp.Companion
 			mAppData = CompanionData.Instance;
 
 			Debug.Log("Get file usersProfile");
-			string lFileName = BYOS.Instance.Resources.GetPathToRaw("usersProfile");
+			string lFileName = BYOS.Instance.Resources.GetPathToRaw("usersProfile.txt");
 			Debug.Log("Get file usersProfile 2");
 
 			if (File.Exists(lFileName)) {
