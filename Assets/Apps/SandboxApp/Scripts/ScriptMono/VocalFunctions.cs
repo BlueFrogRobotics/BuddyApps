@@ -71,6 +71,21 @@ namespace BuddyApp.SandboxApp
             }
             return false;
         }
+
+        /// <summary>
+        /// Change format of the StartRule (startrule#yes -> yes)
+        /// </summary>
+        /// <param name="iStartRuleVocon">Old format</param>
+        /// <returns>New format</returns>
+        public static string GetRealStartRule(string iStartRuleVocon)
+        {
+            if (!string.IsNullOrEmpty(iStartRuleVocon) && iStartRuleVocon.Contains("#"))
+            {
+                string lStartRule = iStartRuleVocon.Substring(iStartRuleVocon.IndexOf("#") + 1);
+                return (lStartRule);
+            }
+            return (string.Empty);
+        }
     }
 }
 
