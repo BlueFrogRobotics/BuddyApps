@@ -75,16 +75,13 @@ namespace BuddyApp.Shared
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("OnStateEnter " + IsBinaryQuestion);
-            if (IsBinaryQuestion)
-            {
-                //Use vocon
-                Interaction.VocalManager.UseVocon = true;
-                Interaction.VocalManager.AddGrammar(NameVoconGrammarFile, LoadContext.APP);
-                Interaction.VocalManager.OnVoconBest = VoconBest;
-                Interaction.VocalManager.OnVoconEvent = EventVocon;
-            }
-            else if (IsMultipleQuestion)
-                Interaction.VocalManager.OnEndReco = OnSpeechReco;
+
+            //Use vocon
+            Interaction.VocalManager.UseVocon = true;
+            Interaction.VocalManager.AddGrammar(NameVoconGrammarFile, LoadContext.APP);
+            Interaction.VocalManager.OnVoconBest = VoconBest;
+            Interaction.VocalManager.OnVoconEvent = EventVocon;
+
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
             Interaction.VocalManager.OnError = null;
 
@@ -166,7 +163,7 @@ namespace BuddyApp.Shared
                     return;
                 }
 
-                mStartRule = GetRealStartRule(mStartRule);
+                mStartRule = SharedVocalFunctions.GetRealStartRule(mStartRule);
 
                 foreach (QuestionItem item in items)
                 {
@@ -209,32 +206,31 @@ namespace BuddyApp.Shared
                     DisplayQuestion();
                 }
 
-                if (mTimer > 6F)
-                {
-                    Interaction.Mood.Set(mActualMood);
-                    mListening = false;
-                    mTimer = 0F;
-                    mSpeechReco = null;
-                }
-
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
                 if (string.IsNullOrEmpty(mSpeechReco))
                 {
                     Interaction.VocalManager.StartInstantReco();
-                    Interaction.Mood.Set(MoodType.LISTENING);
                     mListening = true;
                     return;
                 }
 
+                mStartRule = SharedVocalFunctions.GetRealStartRule(mStartRule);
+
                 foreach (QuestionItem item in items)
                 {
-                    if (SharedVocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    if (mStartRule.Equals(item.key))
                     {
-                        BYOS.Instance.Toaster.Hide();
-                        GotoParameter(item.trigger);
+                        if (IsMultipleToaster)
+                            BYOS.Instance.Toaster.Hide();
+                        if (item.trigger.Equals("quit"))
+                            QuitApp();
+                        else
+                            GotoParameter(item.trigger);
                         break;
                     }
+                    else if (mStartRule.Equals("quit"))
+                        QuitApp();
                 }
             }
         }
@@ -381,22 +377,6 @@ namespace BuddyApp.Shared
                     }
                 }
             }
-        }
-
-
-        /// <summary>
-        /// Change format of the StartRule (startrule#yes -> yes)
-        /// </summary>
-        /// <param name="iStartRuleVocon">Old format</param>
-        /// <returns>New format</returns>
-        private string GetRealStartRule(string iStartRuleVocon)
-        {
-            if (!string.IsNullOrEmpty(iStartRuleVocon) && iStartRuleVocon.Contains("#"))
-            {
-                string lStartRule = iStartRuleVocon.Substring(iStartRuleVocon.IndexOf("#") + 1);
-                return (lStartRule);
-            }
-            return (string.Empty);
         }
     }
 }

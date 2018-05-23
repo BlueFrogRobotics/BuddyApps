@@ -30,16 +30,23 @@ namespace BuddyApp.SandboxApp
 
         [SerializeField]
         private string speechKey;
-        
+
         private List<MenuItem> items = new List<MenuItem>(0);
 
         [SerializeField]
         private string NameOfXML;
-        
+
+        /// <summary>
+        /// Name of the grammar Vocon, without "_language"/extension
+        /// </summary>
+        [SerializeField]
+        private string NameVoconGrammarFile;
+
         private int mNumberOfButton;
         private int mIndexButton = 0;
 
         private string mSpeechReco;
+        private string mStartRule;
 
         private bool mHasDisplayChoices;
         private bool mListening;
@@ -47,15 +54,23 @@ namespace BuddyApp.SandboxApp
 
         private float mTimer = 0.0f;
 
+        private bool mListClear;
+
         public override void Start()
         {
-            items.Clear();
             Interaction.VocalManager.EnableTrigger = false;
             BYOS.Instance.Header.DisplayParametersButton = false;
+            mListClear = false;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if (!mListClear)
+            {
+                mListClear = true;
+                //items.Clear();
+                //items = new List<MenuItem>(0);
+            }
             BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
             mHasLoadedTTS = true;
@@ -70,11 +85,31 @@ namespace BuddyApp.SandboxApp
                     Interaction.TextToSpeech.Say(Dictionary.GetString(speechKey));
                 }
             }
-            Interaction.VocalManager.OnEndReco = OnSpeechReco;
+
+            //Use vocon
+            Interaction.VocalManager.UseVocon = true;
+            Debug.Log(BYOS.Instance.Resources.GetPathToRaw(NameVoconGrammarFile + "_en.bin"));
+            Interaction.VocalManager.AddGrammar(NameVoconGrammarFile, LoadContext.APP);
+            Interaction.VocalManager.OnVoconBest = VoconBest;
+            Interaction.VocalManager.OnVoconEvent = EventVocon;
+
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
             Interaction.VocalManager.OnError = Empty;
             mTimer = 0.0f;
             mListening = false;
+        }
+
+        private void EventVocon(VoconEvent iEvent)
+        {
+            Debug.Log(iEvent);
+        }
+
+        private void VoconBest(VoconResult iBestResult)
+        {
+            mSpeechReco = iBestResult.Utterance;
+            mStartRule = iBestResult.StartRule;
+            mListening = false;
+            Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -82,13 +117,6 @@ namespace BuddyApp.SandboxApp
             if (mHasLoadedTTS)
             {
                 mTimer += Time.deltaTime;
-                if (mTimer > 6.0f)
-                {
-                    Interaction.Mood.Set(MoodType.NEUTRAL);
-                    mListening = false;
-                    mTimer = 0.0f;
-                    mSpeechReco = null;
-                }
 
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
@@ -108,9 +136,14 @@ namespace BuddyApp.SandboxApp
                     mListening = true;
                     return;
                 }
-                foreach(MenuItem item in items)
+
+                mStartRule = VocalFunctions.GetRealStartRule(mStartRule);
+
+                Debug.Log("mStartRule after = " + mStartRule);
+
+                foreach (MenuItem item in items)
                 {
-                    if (VocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    if (mStartRule.Equals(item.key))
                     {
                         BYOS.Instance.Toaster.Hide();
                         GotoParameter(item.trigger, item.quitApp);
@@ -122,9 +155,15 @@ namespace BuddyApp.SandboxApp
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            // Vocon
+            Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, LoadContext.APP);
+            Interaction.VocalManager.UseVocon = false;
+
+            mListClear = false;
             Interaction.SpeechToText.Stop();
             Interaction.Mood.Set(MoodType.NEUTRAL);
-
+            mIndexButton = 0;
+            items.Clear();
             mSpeechReco = null;
             mHasDisplayChoices = false;
         }
@@ -145,12 +184,12 @@ namespace BuddyApp.SandboxApp
         private void DisplayChoices()
         {
             Debug.Log("display choice");
-            
+
             FillMenu();
-            Debug.Log("display count " + items.Count); 
+            Debug.Log("display count " + items.Count);
             ButtonInfo[] lButtonsInfo = new ButtonInfo[items.Count];
             int i = 0;
-            foreach(MenuItem item in items)
+            foreach (MenuItem item in items)
             {
                 lButtonsInfo[i] = new ButtonInfo
                 {
@@ -228,7 +267,7 @@ namespace BuddyApp.SandboxApp
 
                 for (int i = 0; i < lNodeList.Count; ++i)
                 {
-                    if(lNodeList[i].Name == "Button")
+                    if (lNodeList[i].Name == "Button")
                     {
                         AddNewButton();
                         items[mIndexButton].key = lNodeList[i].SelectSingleNode("Key").InnerText;

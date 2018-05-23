@@ -36,10 +36,17 @@ namespace BuddyApp.Shared
         [SerializeField]
         private string NameOfXML;
 
+        /// <summary>
+        /// Name of the grammar Vocon, without "_language"/extension
+        /// </summary>
+        [SerializeField]
+        private string NameVoconGrammarFile;
+
         private int mNumberOfButton;
         private int mIndexButton = 0;
 
         private string mSpeechReco;
+        private string mStartRule;
 
         private bool mHasDisplayChoices;
         private bool mListening;
@@ -78,12 +85,31 @@ namespace BuddyApp.Shared
                     Interaction.TextToSpeech.Say(Dictionary.GetString(speechKey));
                 }
             }
-            
-            Interaction.VocalManager.OnEndReco = OnSpeechReco;
+
+            //Use vocon
+            Interaction.VocalManager.UseVocon = true;
+            Debug.Log(BYOS.Instance.Resources.GetPathToRaw(NameVoconGrammarFile + "_en.bin"));
+            Interaction.VocalManager.AddGrammar(NameVoconGrammarFile, LoadContext.APP);
+            Interaction.VocalManager.OnVoconBest = VoconBest;
+            Interaction.VocalManager.OnVoconEvent = EventVocon;
+
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
             Interaction.VocalManager.OnError = Empty;
             mTimer = 0.0f;
             mListening = false;
+        }
+
+        private void EventVocon(VoconEvent iEvent)
+        {
+            Debug.Log(iEvent);
+        }
+
+        private void VoconBest(VoconResult iBestResult)
+        {
+            mSpeechReco = iBestResult.Utterance;
+            mStartRule = iBestResult.StartRule;
+            mListening = false;
+            Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -91,13 +117,6 @@ namespace BuddyApp.Shared
             if (mHasLoadedTTS)
             {
                 mTimer += Time.deltaTime;
-                if (mTimer > 6.0f)
-                {
-                    Interaction.Mood.Set(MoodType.NEUTRAL);
-                    mListening = false;
-                    mTimer = 0.0f;
-                    mSpeechReco = null;
-                }
 
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
@@ -117,9 +136,12 @@ namespace BuddyApp.Shared
                     mListening = true;
                     return;
                 }
+
+                mStartRule = SharedVocalFunctions.GetRealStartRule(mStartRule);
+
                 foreach (MenuItem item in items)
                 {
-                    if (SharedVocalFunctions.ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    if (mStartRule.Equals(item.key))
                     {
                         BYOS.Instance.Toaster.Hide();
                         GotoParameter(item.trigger, item.quitApp);
@@ -131,6 +153,10 @@ namespace BuddyApp.Shared
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            // Vocon
+            Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, LoadContext.APP);
+            Interaction.VocalManager.UseVocon = false;
+
             mListClear = false;
             Interaction.SpeechToText.Stop();
             Interaction.Mood.Set(MoodType.NEUTRAL);
