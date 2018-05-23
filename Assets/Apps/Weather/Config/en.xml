@@ -18,18 +18,10 @@
             <ClosePhoneticValues>
                 <string>snow</string>
                 <string>snowy</string>
-                <string>snows</string>
-                <string>snooze</string>
-                <string>sneeze</string>
-                <string>snowing</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>snow</string>
-                <string>snowy</string>
-                <string>snows</string>
-                <string>snooze</string>
-                <string>sneeze</string>
-                <string>snowing</string>
+                <string>there will be snow </string>
+                <string> it will be snowy</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -47,15 +39,14 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>fog</Key>
-            <BaseValue>fog</BaseValue>
+            <BaseValue>there will be fog</BaseValue>
             <ClosePhoneticValues>
                 <string>fog</string>
                 <string>foggy</string>
-                <string>fogs</string>
-                <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>there will be foggy</string>
+                <string>it will be foggy</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -234,7 +225,7 @@
                 <string>sunny</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>sunny</string>
+                <string>it will be sunny</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -244,7 +235,7 @@
                 <string>overcast</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>overcast</string>
+                <string>it will be overcast</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -254,7 +245,7 @@
                 <string>cloudy</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>cloudy</string>
+                <string>it will be cloudy</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -340,6 +331,18 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
+            <Key>am</Key>
+            <BaseValue>a.m.</BaseValue>
+            <ClosePhoneticValues>
+                <string>a.m</string>
+                <string>am</string>
+                <string>a.m.</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>am</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
             <Key>pm</Key>
             <BaseValue>p.m.</BaseValue>
             <ClosePhoneticValues>
@@ -383,12 +386,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>partlycloudy</Key>
-            <BaseValue>partially cloudy</BaseValue>
+            <BaseValue>partly cloudy</BaseValue>
             <ClosePhoneticValues>
-                <string>partially cloudy</string>
+                <string>partly cloudy</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>partially cloudy</string>
+                <string>the weather will be partly cloudy</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -403,12 +406,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>restitution</Key>
-            <BaseValue>[date] at [hour] the temperature will be of [degree] and the weather will be [forecast]</BaseValue>
+            <BaseValue>[date] the minimum temperature will be [minTemp] degree at [hourMin] and maximum temperature will be [maxTemp] degree at [hourMax] and [forecast]</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>[date] at [hour] the temperature will be of [degree] and the weather will be [forecast]</string>
+                <string>[date] the minimum temperature will be [minTemp] degree at [hourMin] and maximum temperature will be [maxTemp] degree at [hourMax] and [forecast]</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -418,7 +421,8 @@
                 <string>perhaps rainy</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>perhaps rainy</string>
+                <string>there will be perhaps rainy</string>
+                <string>there will be possibility of rain</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -426,9 +430,19 @@
             <BaseValue>snow</BaseValue>
             <ClosePhoneticValues>
                 <string>snow</string>
+                <string>snowy</string>
+                <string>snows</string>
+                <string>snooze</string>
+                <string>sneeze</string>
+                <string>snowing</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>snow</string>
+                <string>snowy</string>
+                <string>snows</string>
+                <string>snooze</string>
+                <string>sneeze</string>
+                <string>snowing</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -448,7 +462,7 @@
                 <string>clear</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>clear</string>
+                <string>it will be clear</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -466,9 +480,11 @@
             <BaseValue>rain</BaseValue>
             <ClosePhoneticValues>
                 <string>rain</string>
+                <string>rainy</string>
+                <string>raining</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>rain</string>
+                <string>it will be rainy</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -649,6 +665,169 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>sunday</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>min</Key>
+            <BaseValue>minimum</BaseValue>
+            <ClosePhoneticValues>
+                <string>minimum</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>max</Key>
+            <BaseValue>maximum</BaseValue>
+            <ClosePhoneticValues>
+                <string>maximum</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>saycommand</Key>
+            <BaseValue>the [command] temperature at [localization] [date] is [temperature] degrees</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>the [command] temperature at [localization] [date] is [temperature] degrees</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>restraintrestitution</Key>
+            <BaseValue>[date] in the [time] the temperature will be [degree] degree</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[date] in the [time] the temperature will be [degree] degree</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>lightrestitution</Key>
+            <BaseValue>[date] the temperature will be [degree] degree and [forecast]</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[date] the temperature will be [degree] degree and [forecast]</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>chanceflurries</Key>
+            <BaseValue>chance of flurries</BaseValue>
+            <ClosePhoneticValues>
+                <string>chance of flurries</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>there will be chance of flurries</string>
+                <string>there will be perhaps flurry</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>chancesleet</Key>
+            <BaseValue>there is chance of sleet</BaseValue>
+            <ClosePhoneticValues>
+                <string>there is chance of sleet</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>there will be chance of sleet</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>chancesnow</Key>
+            <BaseValue>there is chance of snow</BaseValue>
+            <ClosePhoneticValues>
+                <string>there is chance of snow</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>there will be chance of snow</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>chancestorms</Key>
+            <BaseValue>there is chance of storm</BaseValue>
+            <ClosePhoneticValues>
+                <string>there is chance of storm</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>there is chance of storm</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>flurries</Key>
+            <BaseValue>there will be flurries, be careful</BaseValue>
+            <ClosePhoneticValues>
+                <string>flurries</string>
+                <string>flurry</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>there will be flurries, be careful</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>hazy</Key>
+            <BaseValue>it will be hazy</BaseValue>
+            <ClosePhoneticValues>
+                <string>hazy</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>it will be hazy</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>mostlycloudy</Key>
+            <BaseValue>cloudy</BaseValue>
+            <ClosePhoneticValues>
+                <string>cloudy</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>it will be cloudy</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>mostlysunny</Key>
+            <BaseValue>sunny</BaseValue>
+            <ClosePhoneticValues>
+                <string>sunny</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>it will be sunny</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>partlysunny</Key>
+            <BaseValue>sunny</BaseValue>
+            <ClosePhoneticValues>
+                <string>sunny</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>sunny</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sleet</Key>
+            <BaseValue>there will be sleet, be carefull</BaseValue>
+            <ClosePhoneticValues>
+                <string>sleet</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>there will be sleet, be carefull</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>thunderstorm</Key>
+            <BaseValue>there will be thunderstorm</BaseValue>
+            <ClosePhoneticValues>
+                <string>thunderstorm</string>
+                <string>thunder</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>there will be thunderstorm</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

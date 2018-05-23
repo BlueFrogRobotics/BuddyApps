@@ -39,9 +39,10 @@ namespace BuddyApp.BuddyLab
             mAnimDone = false;
             mYesNoButton = GetGameObject(5).transform.GetChild(0).gameObject;
             mInputField = mYesNoButton.transform.GetChild(1).GetComponent<InputField>();
+            mInputField.GetComponentsInChildren<Text>()[0].text = Dictionary.GetString("projectname");//placeholder
 
-            mPlaceholder = GetGameObject(9);
-            mPlaceholder.GetComponent<InputField>().text = "";
+            //mPlaceholder = GetGameObject(9);
+            //mPlaceholder.GetComponent<InputField>().text = "";
         }
         
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

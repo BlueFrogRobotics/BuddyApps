@@ -63,6 +63,7 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+            BYOS.Instance.Toaster.Hide();
 			mStartTimer = false;
             BYOS.Instance.WebService.EMailSender.enabled = true;
 		}

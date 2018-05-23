@@ -52,9 +52,32 @@ namespace BuddyApp.RedLightGreenLightGame
                 LevelData.Level++;
                 LevelData.WaitingTime -= LevelData.WaitingTime / 10.0f;
                 LevelData.Target.Speed += 3;
-                LevelData.Target.Size /= 2;
+                //LevelData.Target.Size /= 2;
+                LevelData.Target.Size -= LevelData.Target.Size * 0.1f;
                 //TODO: modify detection time
             }
+        }
+
+        public void SetLevel(int iLevel)
+        {
+            if (iLevel < 11 && iLevel >= 0)
+            {
+                Reset();
+                for (int i=0; i<iLevel; i++)
+                {
+                    LevelUp();
+                }
+
+            }
+            Debug.Log("level set to: " + LevelData.Level);
+            //if (iLevel < 3)
+            //    LevelData = mListLevels[iLevel];
+            //else
+            //{
+            //    //LevelData.WaitingTime -= LevelData.WaitingTime / 10.0f;
+            //    //LevelData.Target.Speed += 3;
+            //    //LevelData.Target.Size /= 2;
+            //}
         }
 
         public void Reset()

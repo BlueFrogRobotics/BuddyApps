@@ -77,6 +77,14 @@
             <param name="iTexture">The created/resized texture</param>
             <returns>The created/resized texture</returns>
         </member>
+        <member name="M:Buddy.Utils.ParseEnum``1(System.String)">
+            <summary>
+            Parse the string input to the correct enum value.
+            </summary>
+            <typeparam name="T">The enum type to parse.</typeparam>
+            <param name="iValue">The value of the enumerator as string.</param>
+            <returns>The appropriate value of the enumerator.</returns>
+        </member>
         <member name="M:Buddy.Utils.Save(System.String,OpenCVUnity.Mat[],System.Single)">
             <summary>
             Save the video in the Data folder

@@ -1,18 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CompanionData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <mMovingDesire>32</mMovingDesire>
+    <mInteractDesire>0</mInteractDesire>
+    <mLearnDesire>33</mLearnDesire>
+    <mTeachDesire>17</mTeachDesire>
+    <mHelpDesire>46</mHelpDesire>
+    <mExpressMoodDesire>0</mExpressMoodDesire>
     <CanMoveBody>true</CanMoveBody>
     <CanMoveHead>true</CanMoveHead>
-    <CanTrigger>true</CanTrigger>
+    <CanTrigger>false</CanTrigger>
     <CanTriggerWander>false</CanTriggerWander>
     <UseCamera>false</UseCamera>
     <CanSetHeadPos>false</CanSetHeadPos>
-    <HeadPosition>10</HeadPosition>
-    <Bored>0</Bored>
-    <MovingDesire>30</MovingDesire>
-    <InteractDesire>0</InteractDesire>
-    <Excitement>0</Excitement>
-    <Happiness>0</Happiness>
+    <Debug>true</Debug>
+    <HeadPosition>0</HeadPosition>
     <ChargeAsked>false</ChargeAsked>
-    <LastApp />
-    <LastAppTime>52.0583038</LastAppTime>
+    <LastApp>Weather</LastApp>
+    <LastAppTime>2018-05-07T12:07:21.0002775+02:00</LastAppTime>
+    <LandingTrigger>true</LandingTrigger>
 </CompanionData>

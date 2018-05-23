@@ -36,13 +36,13 @@ namespace BuddyApp.Reminder
         // Use this for initialization
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mVocal = GetComponent<ReminderBehaviour>();
-            mVocal.QuestionTime(Dictionary.GetRandomString("when"));
+            mReminderBehaviour = GetComponent<ReminderBehaviour>();
+            mReminderBehaviour.QuestionTime(Dictionary.GetRandomString("when"));
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (ReminderData.Instance.VocalRequest != "" && mVocal.IsVocalGet)
+            if (ReminderData.Instance.VocalRequest != "" && mReminderBehaviour.IsVocalGet)
             {
 
                 Debug.Log("Coucou Hiboux");
@@ -58,7 +58,7 @@ namespace BuddyApp.Reminder
                         CreateCarousels();
                     }
                     ReminderData.Instance.VocalRequest = "";
-                    mVocal.QuestionTime(Dictionary.GetRandomString("what") + ", " + Dictionary.GetRandomString("when"));
+                    mReminderBehaviour.QuestionTime(Dictionary.GetRandomString("what") + ", " + Dictionary.GetRandomString("when"));
                 }
             }
         }
@@ -101,13 +101,13 @@ namespace BuddyApp.Reminder
             };
 
 
-            Toaster.Display<VerticalCarouselToast>().With(mCarouselDay, mCarouselMonth, mCarouselYear, OnValidate, null);
+            Toaster.Display<VerticalCarouselToast>().With(mCarouselDay, mCarouselMonth, mCarouselYear, OnValidation, null);
            
         }
 
-        private void OnValidate()
+        private void OnValidation()
         {
-            mVocal.AllParam.Add(new DateTime(mYear, mMonth, mDay).Date.ToString("dd/MM/yyyy"));
+            mReminderBehaviour.AllParam.Add(new DateTime(mYear, mMonth, mDay).Date.ToString("dd/MM/yyyy"));
             Toaster.Hide();
             DateOk();
             //Trigger("CountDown");
@@ -117,7 +117,7 @@ namespace BuddyApp.Reminder
         private void DateOk()
         {
             BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
-            foreach (string param in mVocal.AllParam)
+            foreach (string param in mReminderBehaviour.AllParam)
             {
                 Debug.Log("String : " + param);
             }
@@ -131,18 +131,18 @@ namespace BuddyApp.Reminder
             Debug.Log("Alors ? " + Dictionary.GetPhoneticStrings("tomorrow")[0]);
             if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("today")))
             {
-                mVocal.AllParam.Add(dt.Date.ToString("dd/MM/yyyy"));
+                mReminderBehaviour.AllParam.Add(dt.Date.ToString("dd/MM/yyyy"));
             }
             else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("dayaftertomorrow")))
             {
                 dt = dt.AddDays(2);
-                mVocal.AllParam.Add(dt.Date.ToString("dd/MM/yyyy"));
+                mReminderBehaviour.AllParam.Add(dt.Date.ToString("dd/MM/yyyy"));
             }
             else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("tomorrow")))
             {
                 Debug.Log("Wtf Olivier ?");
                 dt = dt.AddDays(1);
-                mVocal.AllParam.Add(dt.Date.ToString("dd/MM/yyyy"));
+                mReminderBehaviour.AllParam.Add(dt.Date.ToString("dd/MM/yyyy"));
             }
             else if (ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("intime")) && ContainsOneOf(iSpeech, Dictionary.GetPhoneticStrings("day")))
             {
@@ -157,7 +157,7 @@ namespace BuddyApp.Reminder
                             Debug.Log("contains in days: " + words[iw + 2]);
 
                             dt = dt.AddDays(nbDay);
-                            mVocal.AllParam.Add(dt.Date.ToString("dd/MM/yyyy"));
+                            mReminderBehaviour.AllParam.Add(dt.Date.ToString("dd/MM/yyyy"));
                             break;
                         }
                     }
@@ -202,7 +202,7 @@ namespace BuddyApp.Reminder
                     }
                     if (lNum == 0)
                         lNum = dt.Day;
-                    mVocal.AllParam.Add(new DateTime(dt.Year, lMonth, lNum).Date.ToString("dd/MM/yyyy"));
+                    mReminderBehaviour.AllParam.Add(new DateTime(dt.Year, lMonth, lNum).Date.ToString("dd/MM/yyyy"));
                 }
                 else
                 {
@@ -210,14 +210,14 @@ namespace BuddyApp.Reminder
                     {
                         dt = dt.AddDays(1);
                     }
-                    mVocal.AllParam.Add(dt.Date.ToString());
+                    mReminderBehaviour.AllParam.Add(dt.Date.ToString());
                 }
                 if ((lNum == 0 && lMonth != 0) || (lMonth == 2 && lNum > 28) || lNum > 31)
                     return false;
 
             }
 
-            if (mVocal.AllParam.Count > 1)
+            if (mReminderBehaviour.AllParam.Count > 1)
                 return true;
             if (!Toaster.IsDisplayed)
                 ScrollOn = true;

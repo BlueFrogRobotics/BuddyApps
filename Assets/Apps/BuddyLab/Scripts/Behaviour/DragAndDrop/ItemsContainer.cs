@@ -94,7 +94,7 @@ namespace BuddyApp.BuddyLab
                 lCan = true;
                 Debug.Log("1");
             }
-            else if (transform.childCount < 4 || iIndex==1)
+            else if (transform.childCount < 3 || iIndex==1)
             {
                 lCan = false;
                 Debug.Log("2: "+ transform.childCount);

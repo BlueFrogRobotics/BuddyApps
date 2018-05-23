@@ -36,6 +36,7 @@ namespace BuddyApp.Guardian
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
+            mHeadControllerWindow.transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 1F;
 			mGoBack = false;
 			mMotors = Primitive.Motors;
 			mRGBCam = Primitive.RGBCam;
@@ -78,8 +79,8 @@ namespace BuddyApp.Guardian
 			mHeadControllerWindow.ButtonRight.onClick.RemoveAllListeners();
 			mHeadControllerWindow.ButtonUp.onClick.RemoveAllListeners();
 			mHeadControllerWindow.ButtonDown.onClick.RemoveAllListeners();
-
-		}
+            mHeadControllerWindow.transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0F;
+        }
 
 		/// <summary>
 		/// Function to control the head hinge

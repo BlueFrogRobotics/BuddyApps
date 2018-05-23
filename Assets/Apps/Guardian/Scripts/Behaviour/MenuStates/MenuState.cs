@@ -84,10 +84,10 @@ namespace BuddyApp.Guardian
 				}
 				if (ContainsOneOf(mSpeechReco, mStartPhonetics)) {
 					BYOS.Instance.Toaster.Hide();
-					if (GuardianData.Instance.FirstRun)
-						GotoParameter();
-					else
-						StartGuardian();
+					//if (GuardianData.Instance.FirstRun)
+					//	GotoParameter();
+					//else
+						StartGuardian(); 
 				} else if (ContainsOneOf(mSpeechReco, mParameterPhonetics)) {
 					BYOS.Instance.Toaster.Hide();
 					GotoParameter();

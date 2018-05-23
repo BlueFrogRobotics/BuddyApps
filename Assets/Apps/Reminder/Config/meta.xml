@@ -5,7 +5,7 @@
     <CommercialName>Reminder</CommercialName>
     <MainScene>0</MainScene>
     <Authors>dev@bluefrogrobotics.com</Authors>
-    <Version>1.0.0.4</Version>
+    <Version>1.0.2.6</Version>
     <VersionStatus>NONE</VersionStatus>
     <VersionName>alpha</VersionName>
     <Category>UTILITY</Category>
@@ -44,7 +44,7 @@
         </AppPermission>
         <AppPermission>
             <Type>PROCEDURAL_MEMORY</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>DECLARATIVE_MEMORY</Type>
@@ -74,6 +74,26 @@
         </VocalKeys>
         <VocalKeys>
             <Language>FR</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>IT</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>JP</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>KR</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>GER</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>NL</Language>
             <Keys />
         </VocalKeys>
     </LangVocalKeys>

@@ -21,9 +21,18 @@ namespace BuddyApp.Reminder
 
             RemindersData lRdata = Utils.UnserializeXML<RemindersData>(lReminderfile[0]);
 
-            ListReminders.Add(lRdata);
+            if (lRdata != null)
+            {
+                Debug.Log("remindr data pas nul");
+                ListReminders.Add(lRdata);
 
-            RemindersData = ListReminders[0];
+                RemindersData = ListReminders[0];
+            }
+            else
+            {
+                Debug.Log("remindr data nul");
+                RemindersData.Reminders = new List<Reminderkey>();
+            }
         }
 
     }

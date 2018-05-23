@@ -17,9 +17,24 @@ namespace BuddyApp.SandboxApp
     /// </summary>
     public class MenuState : AStateMachineBehaviour
     {
-        private List<string> mStartPhonetics;
-        private List<string> mParameterPhonetics;
-        private List<string> mQuitPhonetics;
+
+        [Serializable]
+        public class MenuItem
+        {
+            public string key;
+            public string trigger;
+            public bool quitApp;
+        }
+
+        [SerializeField]
+        private string titleKey;
+
+        [SerializeField]
+        private List<MenuItem> items;
+
+        //private List<string> mStartPhonetics;
+        //private List<string> mParameterPhonetics;
+        //private List<string> mQuitPhonetics;
 
         private string mSpeechReco;
 
@@ -33,9 +48,9 @@ namespace BuddyApp.SandboxApp
         {
             Interaction.VocalManager.EnableTrigger = false;
             BYOS.Instance.Header.DisplayParametersButton = false;
-            mStartPhonetics = new List<string>(Dictionary.GetPhoneticStrings("start"));
-            mParameterPhonetics = new List<string>(Dictionary.GetPhoneticStrings("detectionparameters"));
-            mQuitPhonetics = new List<string>(Dictionary.GetPhoneticStrings("quit"));
+            //mStartPhonetics = new List<string>(Dictionary.GetPhoneticStrings("start"));
+            //mParameterPhonetics = new List<string>(Dictionary.GetPhoneticStrings("detectionparameters"));
+            //mQuitPhonetics = new List<string>(Dictionary.GetPhoneticStrings("quit"));
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -44,7 +59,7 @@ namespace BuddyApp.SandboxApp
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
             mHasLoadedTTS = true;
             //Debug.Log("[TTS] Has TTS been setup: " + Interaction.TextToSpeech.IsSetup);
-            Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askchoices"));
+            //Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askchoices"));
 
             Interaction.VocalManager.OnEndReco = OnSpeechReco;
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
@@ -86,32 +101,45 @@ namespace BuddyApp.SandboxApp
                     mListening = true;
                     return;
                 }
-                if (ContainsOneOf(mSpeechReco, mStartPhonetics))
+                foreach(MenuItem item in items)
                 {
-                    BYOS.Instance.Toaster.Hide();
-                    //if (GuardianData.Instance.FirstRun)
-                    //    GotoParameter();
-                    //else
-                    StartGuardian();
+                    if (ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    {
+                        BYOS.Instance.Toaster.Hide();
+                        //if (GuardianData.Instance.FirstRun)
+                        //    GotoParameter();
+                        //else
+                        GotoParameter(item.trigger, item.quitApp);
+                        break;
+                    }
                 }
-                else if (ContainsOneOf(mSpeechReco, mParameterPhonetics))
-                {
-                    BYOS.Instance.Toaster.Hide();
-                    GotoParameter();
-                }
-                else if (ContainsOneOf(mSpeechReco, mQuitPhonetics))
-                {
-                    BYOS.Instance.Toaster.Hide();
-                    QuitApp();
-                }
-                else
-                {
-                    Interaction.TextToSpeech.SayKey("notunderstand", true);
-                    Interaction.TextToSpeech.Silence(1000, true);
-                    Interaction.TextToSpeech.SayKey("askchoices", true);
-                    mListening = false;
-                    mSpeechReco = null;
-                }
+
+                //if (ContainsOneOf(mSpeechReco, mStartPhonetics))
+                //{
+                //    BYOS.Instance.Toaster.Hide();
+                //    //if (GuardianData.Instance.FirstRun)
+                //    //    GotoParameter();
+                //    //else
+                //    StartGuardian();
+                //}
+                //else if (ContainsOneOf(mSpeechReco, mParameterPhonetics))
+                //{
+                //    BYOS.Instance.Toaster.Hide();
+                //    //GotoParameter();
+                //}
+                //else if (ContainsOneOf(mSpeechReco, mQuitPhonetics))
+                //{
+                //    BYOS.Instance.Toaster.Hide();
+                //    QuitApp();
+                //}
+                //else
+                //{
+                //    Interaction.TextToSpeech.SayKey("notunderstand", true);
+                //    Interaction.TextToSpeech.Silence(1000, true);
+                //    Interaction.TextToSpeech.SayKey("askchoices", true);
+                //    mListening = false;
+                //    mSpeechReco = null;
+                //}
             }
         }
 
@@ -139,20 +167,22 @@ namespace BuddyApp.SandboxApp
         /// </summary>
         private void DisplayChoices()
         {
+            ButtonInfo[] lButtonsInfo = new ButtonInfo[items.Count];
+            int i = 0;
+            foreach(MenuItem item in items)
+            {
+                lButtonsInfo[i] = new ButtonInfo
+                {
+                    Label = Dictionary.GetString(item.key),
+                    OnClick = delegate () { GotoParameter(item.trigger, item.quitApp); }
+                };
+                //if (item.quitApp)
+                //    lButtonsInfo[i].OnClick = QuitApp;
+                i++;
+            }
 
-            BYOS.Instance.Toaster.Display<ChoiceToast>().With("", new ButtonInfo[] {
-            new ButtonInfo {
-                Label = Dictionary.GetString("start"),
-                OnClick = delegate() { StartGuardian(); }
-            },
 
-            new ButtonInfo {
-                Label = Dictionary.GetString("modifyparam"),
-                OnClick = delegate() { GotoParameter(); }
-            },
-
-            new ButtonInfo { Label = Dictionary.GetString("quit"), OnClick = QuitApp },
-            });
+            BYOS.Instance.Toaster.Display<ChoiceToast>().With(Dictionary.GetString(titleKey), lButtonsInfo);
 
         }
 
@@ -162,6 +192,7 @@ namespace BuddyApp.SandboxApp
 
             Interaction.Mood.Set(MoodType.NEUTRAL);
             mListening = false;
+
         }
 
         /// <summary>
@@ -180,10 +211,12 @@ namespace BuddyApp.SandboxApp
         /// Go to parameters
         /// </summary>
         /// <param name="iMode">the chosen mode</param>
-        private void GotoParameter()
+        private void GotoParameter(string iTrigger, bool iQuit)
         {
             mSpeechReco = null;
-            Trigger("Parameter");
+            if (iQuit)
+                QuitApp();
+            Trigger(iTrigger);
             Interaction.VocalManager.OnEndReco = Empty;
         }
 

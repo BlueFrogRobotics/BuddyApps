@@ -5,9 +5,9 @@
     <CommercialName>RemoteControl</CommercialName>
     <MainScene>0</MainScene>
     <Authors>dev@bluefrogrobotics.com</Authors>
-    <Version>1.0.0.25</Version>
-    <VersionType>NONE</VersionType>
-    <VersionName>merge</VersionName>
+    <Version>1.0.2.7</Version>
+    <VersionStatus>NONE</VersionStatus>
+    <VersionName>rework</VersionName>
     <Category>COMPANION</Category>
     <Permissions>
         <AppPermission>
@@ -28,11 +28,11 @@
         </AppPermission>
         <AppPermission>
             <Type>USERS_DATA_ACCESS</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_MEDIA_DATA_ACCESS</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>PROCEDURAL_MEMORY</Type>
@@ -58,8 +58,45 @@
             <Type>DISABLE_LOADING_SCREEN</Type>
             <IsValid>true</IsValid>
         </AppPermission>
+        <AppPermission>
+            <Type>USERS_MEDIA_DATA_WRITE</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_DATA_WRITE</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
     </Permissions>
-    <LangVocalKeys />
+    <LangVocalKeys>
+        <VocalKeys>
+            <Language>EN</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>FR</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>IT</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>JP</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>KR</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>GER</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>NL</Language>
+            <Keys />
+        </VocalKeys>
+    </LangVocalKeys>
     <OptionsLayoutClassName>RemoteControl.RemoteControlLayout</OptionsLayoutClassName>
     <ActivityClassName>RemoteControl.RemoteControlActivity</ActivityClassName>
 </AppInfo>

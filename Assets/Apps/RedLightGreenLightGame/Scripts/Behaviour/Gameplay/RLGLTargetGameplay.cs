@@ -18,7 +18,7 @@ namespace BuddyApp.RedLightGreenLightGame
         public override void Start()
         {
             mRLGLBehaviour = GetComponentInGameObject<RedLightGreenLightGameBehaviour>(0);
-            mLevelManager = GetComponent<LevelManager>();
+            mLevelManager = GetComponentInGameObject<LevelManager>(0);
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -126,6 +126,7 @@ namespace BuddyApp.RedLightGreenLightGame
                 Interaction.Mood.Set(MoodType.HAPPY);
                 if(mLevelManager.LevelData.Level < 3)
                     Primitive.Motors.Wheels.TurnAngle(-180F, 250F, 1F);
+                mRLGLBehaviour.IsGameplayDone = false;
                 Trigger("Victory");
                 
             }

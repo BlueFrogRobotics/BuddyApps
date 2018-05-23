@@ -33,7 +33,7 @@ namespace BuddyApp.Reminder
             microphone = "Built-in Microphone";
             mListAudio = new Queue<AudioClip>();
             aud = GetComponent<AudioSource>();
-            mVocal = GetComponent<ReminderBehaviour>();
+            mReminderBehaviour = GetComponent<ReminderBehaviour>();
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -51,20 +51,19 @@ namespace BuddyApp.Reminder
             RecordOn = false;
             Debug.Log("Truc Muche");
             aud.loop = false;
-            aud.Stop();
+            //aud.Stop();
             Microphone.End(microphone);
             //Utils.Save(BYOS.Instance.Resources.GetPathToRaw("music.wav"), aud.clip);
-            mVocal.RemindMe = Utils.Combine(mListAudio.ToArray());
+            mReminderBehaviour.RemindMe = Utils.Combine(mListAudio.ToArray());
             //Utils.Save(BYOS.Instance.Resources.GetPathToRaw("music.wav"), Utils.Combine(mListAudio.ToArray()));
         }
 
             public void TurnMicroOn()
         {
             Debug.Log("Plot twist");
-            aud.Stop();
+            //aud.Stop();
 
             aud.clip = Microphone.Start(microphone, false, 1, 44100);
-            RecordOn = true;
             //aud
             //aud.loop = true;
             Debug.Log(Microphone.IsRecording(microphone).ToString());
@@ -76,7 +75,8 @@ namespace BuddyApp.Reminder
                 } // Wait until the recording has started. 
                 Debug.Log("recording started with " + microphone);
 
-                aud.Play();
+                RecordOn = true;
+                //aud.Play();
             }
             else
             {
@@ -93,7 +93,7 @@ namespace BuddyApp.Reminder
             //if (tWait > 20)
             //    SaveThat();
 
-            if (!aud.isPlaying && RecordOn)
+            if (/*!aud.isPlaying &&*/ RecordOn && !Microphone.IsRecording(microphone))
             {
                 Debug.Log("coucou hiv");
                 AudioClip lAudioClip = AudioClip.Create(aud.clip.name, aud.clip.samples, aud.clip.channels, aud.clip.frequency, false);

@@ -19,7 +19,7 @@ namespace BuddyApp.MemoryGame
 
 			mTTSTimer = 0.0f;
 			Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_LAUGH);
-			Interaction.Face.SetEvent(FaceEvent.SMILE);
+			//Interaction.Face.SetEvent(FaceEvent.SMILE);
 		}
 
 

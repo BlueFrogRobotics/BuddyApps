@@ -46,13 +46,18 @@ namespace BuddyApp.RedLightGreenLightGame
         private bool mIsPlaying;
         public bool IsPlaying { get { return mIsPlaying; } set { mIsPlaying = value; } }
 
-       // private int mLife;
+        private bool mIsGameplayDone;
+        public bool IsGameplayDone { get { return mIsGameplayDone; } set { mIsGameplayDone = value; } }
+
+        // private int mLife;
         //public int Life { get { return mLife; } set { if (value < 0) mLife = 0; else mLife = value; } }
 
         private float mTimerMove;
         public float TimerMove { get { return mTimerMove; } set { mTimerMove = value; } }
 
         public Vector3 StartingOdometry { get; set; }
+
+        public Vector3 EndingOdometry { get; set; }
 
         public bool CanRecoil { get; set; }
 
@@ -86,6 +91,7 @@ namespace BuddyApp.RedLightGreenLightGame
             mTargetClicked = false;
             mFirstTurn = false;
             mGameplay = false;
+            mIsGameplayDone = false;
             //Life = 3;
             Debug.Log("contient oui: " + BYOS.Instance.Dictionary.ContainsPhonetic("non", "yes"));
         }
@@ -116,6 +122,7 @@ namespace BuddyApp.RedLightGreenLightGame
             //buttonObject.GetComponent<RLGLTargetMovement>().enabled = true;
             gameplayObject.SetActive(true);
             positionningObject.SetActive(false);
+            gameplayObject.GetComponent<Animator>().Play("Start");
         }
 
         public void StartPositionning()
@@ -123,6 +130,7 @@ namespace BuddyApp.RedLightGreenLightGame
             //buttonObject.GetComponent<RLGLTargetMovement>().enabled = false;
             gameplayObject.SetActive(false);
             positionningObject.SetActive(true);
+            positionningObject.GetComponent<Animator>().Play("Start");
         }
     }
 }

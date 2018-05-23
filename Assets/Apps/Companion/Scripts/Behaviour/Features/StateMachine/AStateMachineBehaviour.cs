@@ -23,7 +23,11 @@ namespace BuddyApp.Companion
 
 
 		protected DetectionManager mDetectionManager;
+		protected DesireManager mDesireManager;
 		protected ActionManager mActionManager;
+		protected CompanionBehaviour mCompanion;
+
+		protected string mActionTrigger;
 
 		//public DetectionManager DetectionManager { get; set; }
 		//public ActionManager ActionManager { get; set; }

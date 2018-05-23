@@ -30,6 +30,7 @@ namespace BuddyApp.Companion
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
+			mActionManager.CurrentAction = BUDDY_ACTION.LOOK_FOR_USER;
 			mState.text = "Looking for someone";
 			Debug.Log("state: Looking 4 someone");
 			mLookForSomeone = false;
@@ -37,93 +38,52 @@ namespace BuddyApp.Companion
 			mWandering = false;
 
 			mLookingTime = 0F;
-			Interaction.TextToSpeech.SayKey("anyoneplay", true);
-			Interaction.Mood.Set(MoodType.THINKING);
 
-			Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = true;
+			if (mDetectionManager.ActiveReminders.Count == 0) {
+				Interaction.TextToSpeech.SayKey("anyoneplay", true);
+				Interaction.Mood.Set(MoodType.THINKING);
+			} else {
+				// TODO: check if notif is an emergency
+				Interaction.Mood.Set(MoodType.SCARED);
+				mActionManager.TellNotif(mDetectionManager.ActiveReminders[0]);
+
+			}
+
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mLookingTime = Time.deltaTime;
 
+			if (Interaction.TextToSpeech.HasFinishedTalking && ((int) mLookingTime) % 20 == 10) {
+				if (mDetectionManager.ActiveReminders.Count == 0) {
+					Interaction.TextToSpeech.SayKey("anyoneplay", true);
+				} else {
+					// TODO: check if notif is an emergency
+					Interaction.Mood.Set(MoodType.SCARED);
+					mActionManager.TellNotif(mDetectionManager.ActiveReminders[0]);
+				}
+			}
 
 			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering && CompanionData.Instance.CanMoveBody) {
 				Debug.Log("CompanionLooking4 start wandering");
-				mActionManager.StartWander(MoodType.NEUTRAL);
+				mActionManager.StartWander();
+			} else if (!CompanionData.Instance.CanMoveBody) {
+				Trigger("IDLE");
 			}
 
-			if (mLookingTime > 300) {
-				// We didn't find anybody, buddy is sad and wants some attention :/
-				if (CompanionData.Instance.InteractDesire < 80) {
-					Trigger("IDLE");
-				} else {
-					Trigger("SADBUDDY");
-					// Frustration => raise interact desire
-					CompanionData.Instance.InteractDesire = 100;
-				}
-			} else {
+			// TODO: define a strategy here, may be say something from time to time...
 
-				if (mDetectionManager.mFacePartTouched != FaceTouch.NONE) {
-					mDetectionManager.mFacePartTouched = FaceTouch.NONE;
-					//Trigger("PROPOSEGAME");
-
-					Trigger("ROBOTTOUCHED");
-
-				} else {
-
-					switch (mDetectionManager.mDetectedElement) {
-						case Detected.TRIGGER:
-							Interaction.Mood.Set(MoodType.HAPPY);
-							//Trigger("PROPOSEGAME");
-							Trigger("VOCALTRIGGERED");
-							break;
-
-						case Detected.TOUCH:
-							Interaction.Mood.Set(MoodType.HAPPY);
-							//Trigger("PROPOSEGAME");
-							Trigger("VOCALTRIGGERED");
-							break;
-
-						case Detected.KIDNAPPING:
-							Interaction.Mood.Set(MoodType.HAPPY);
-							Trigger("KIDNAPPING");
-							break;
-
-						case Detected.BATTERY:
-							Trigger("CHARGE");
-							break;
-
-						case Detected.THERMAL:
-							if (CompanionData.Instance.InteractDesire > 40)
-								BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
-							else
-								BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
-
-							Trigger("INTERACT");
-							break;
-
-						default:
-							break;
-					}
-				}
+			//if (string.IsNullOrEmpty(mActionTrigger)) {
+			if (mDetectionManager.mDetectedElement != Detected.NONE) {
+				Trigger(mActionManager.LaunchReaction(COMPANION_STATE.LOOK_FOR_USER, mDetectionManager.mDetectedElement));
 			}
-
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			Perception.Stimuli.RemoveStimuliCallback(StimulusEvent.RANDOM_ACTIVATION_MINUTE, OnRandomMinuteActivation);
-			Perception.Stimuli.Controllers[StimulusEvent.RANDOM_ACTIVATION_MINUTE].enabled = false;
 			mDetectionManager.mDetectedElement = Detected.NONE;
-		}
-
-
-		void OnRandomMinuteActivation()
-		{
-			// Say something?
-			Interaction.TextToSpeech.SayKey("anyoneplay", true);
+			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 		}
 
 	}

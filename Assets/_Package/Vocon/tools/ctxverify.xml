@@ -1,0 +1,394 @@
+<?xml version="1.0"?>
+<ParameterSpecification version="1.0">
+ <ApplicationData name="ctxverify" version="1.1.1 (Internal)" filter="ASR_RELEASE_TYPE=='internal'" />
+ <ApplicationData name="ctxverify" version="1.1.1" filter="ASR_RELEASE_TYPE=='VOCON3200EDS'" />
+ <help>
+  <p>
+   <code>ctxverify</code> is a tool to check the content of grammars, contexts or XLF intermediate compiler files.
+   The tool can check whether a particular sentence is in the input file.
+   The tool support filling of slots.
+  </p>
+ </help>
+
+ <!-- Not in external release! -->
+ <StringDictionaryParameter name="configuration" optional="1" default="{}"
+  filter="ASR_RELEASE_TYPE=='internal'">
+  <help>
+   Internal option for running the tools from ClearCase. Refer to the
+   <a href="http://twiki/bin/view/Vocon3200/RunningToolsFromClearcase">TWiki page
+    http://twiki/bin/view/Vocon3200/RunningToolsFromClearcase</a>
+   to see how you can instruct the tool to find and select its binaries.
+  </help>
+ </StringDictionaryParameter>
+
+ <!-- Mode of the tool -->
+ <EnumerationParameter name="mode" shortName="m" type="String" optional="1">
+  <help>
+   Select the functionality you want to use:
+   <ul>
+    <li><strong>check</strong>: Check whether a sentence is covered by the input grammar, context or XLF file.
+                                This can be done either interactively or from file if <code>--sentenceFilepath</code> is used.
+    </li>
+    <li><strong>count</strong>: Similar to the check mode but makes a summary of counted results.</li>
+    <li><strong>generate</strong>: Generate sentences from the input grammar, context or XLF file.</li>
+   </ul>
+  </help>
+  <value value="check" />
+  <value value="count" />
+  <value value="generate" />
+ </EnumerationParameter>
+
+ <!-- Xlf input -->
+ <InputFileParameter name="xlfFilepath" shortName="x" optional="1">
+  <help>Path of the input XLF file.
+        This option cannot be combined with <code>--ctxFilepath</code> or <code>--grmFilepath</code>.</help>
+ </InputFileParameter>
+
+ <EnumerationParameter name="xlfType" type="String" optional="1" default="guess" filter="ASR_RELEASE_TYPE=='internal'">
+  <help>Type of the input XLF file (binary or text XLF format).</help>
+  <value value="binary" />
+  <value value="text" />
+  <value value="guess" />
+ </EnumerationParameter>
+
+ <!-- Ctx input -->
+ <InputFileParameter name="ctxFilepath" shortName="i" optional="1">
+  <help>Path of the input context file.
+        This option cannot be combined with <code>-xlfFilepath</code> or <code>--grmFilepath</code>.</help>
+ </InputFileParameter>
+
+  <!-- Language !-->
+  <AcModSpecParameter name="modelSpec" shortName= "l" optional="1">
+    <help>Selection of the acoustic model used to compile ctxFilepath.
+    Available languages:<br/>
+    <installed-languages/>
+    </help>
+  </AcModSpecParameter>
+
+  <InputFileParameter name="modelFilepath"
+                      shortName="M"
+                      optional="1">
+    <help>
+      The path to a file containing the acoustic model buffer used to compile ctxFilepath.
+      This option overrides the <code>--modelSpec</code> option.
+    </help>
+  </InputFileParameter>
+
+ <!-- Grammar input -->
+ <InputFileParameter name="grmFilepath" shortName="g" optional="1">
+  <help>Path of the input grammar.
+        This option cannot be combined with <code>-xlfFilepath</code> or <code>--ctxFilepath</code>.</help>
+ </InputFileParameter>
+
+ <EncodingParameter name="grmEncoding" optional="1" default="utf-8">
+  <help>
+   Use this option if you use a different encoding than UTF-8 in your <em>text</em> grammars.
+   This option is only used when specifying <code>--grmFilepath</code>. It is ignored for other input formats.
+  </help>
+ </EncodingParameter>
+
+ <!-- Sentence file -->
+ <InputFileParameter name="sentenceFilepath" shortName="f" optional="1">
+  <help>Paths to a file with sentences to check. 
+        This option cannot be combined with <code>--hrlFilepath</code>.</help>
+ </InputFileParameter>
+
+ <EncodingParameter name="sentenceFileEncoding" optional="1" default="utf-8">
+  <help>Use this option if you use a different encoding than UTF-8 in your sentence reference.
+    This option is only used when specifying <code>--sentenceFilepath</code>. It is ignored for interactive mode.
+  </help>
+ </EncodingParameter>
+
+ <!--  HRL support -->
+ <InputFileParameter name="hrlFilepath" shortName="b" optional="1">
+  <help>If specified check sentences obtained from an HRL or RES file and produce a new HRL file specified with 
+  <code>--hrlOutFilepath</code> which marks
+  each sentence as OOV or not. (Out-of-vocabulary, but actually Out-of-grammar). By default the checked sentence
+  is taken from the field <code>reference word sequence</code> of a <code>ref#</code> record. If you want to use 
+  another field for checking you can specify it with <code>--hrlSourceFieldName</code>.
+  The parameter cannot be combined with <code>--sentenceFilepath</code>
+  </help>
+ </InputFileParameter>
+
+ <StringParameter name="hrlSourceFieldName" optional="1" default="reference word sequence">
+  <help>
+   Specifies another field than <code>reference word sequence</code> as the reference field in the HRL or RES file.
+   This makes it possible to check HRL files which contain user ID sequences for example.
+  </help>
+ </StringParameter>
+
+ <StringParameter name="hrlCheckResultFieldName" optional="1">
+  <help>
+   Specifies a field to recieve the result of the check done by ctxverify. This makes it
+   possible to see the output in the HRL files.
+  </help>
+ </StringParameter>
+
+ <OutputFileParameter name="hrlOutFilepath" shortName="O" optional="1">
+  <help>Path of the HRL output file. Only to be used when using <code>--hrlFilepath</code>.</help>
+ </OutputFileParameter>
+
+ <!-- Input -->
+ <BooleanParameter name="inputUserIDs" optional="1" shortName="I">
+  <help>
+    <p>Use only user IDs at the input instead of strings.</p>
+   
+    <p>Be careful that if some of your terminals have no user ID in the grammar 
+       then you should still enter the default user ID to match them. For example
+       the terminal sequence <code>"test" "test"!id(123)</code> will be returned as 'in grammar'
+       if you enter <code>0xffffffffffffffff 123</code>.
+    </p>
+  </help>
+ </BooleanParameter>
+
+ <!-- Output -->
+ <OutputFileParameter name="outputFilepath" shortName="o" optional="1">
+  <help>
+    Path of the output file. If not set then the output is written to  stdout (screen).
+  </help>
+ </OutputFileParameter>
+
+ <EncodingParameter name="outputEncoding" shortName="C" optional="1" default="utf-8">
+  <help>
+   Encoding of the output file. Only used if <code>--outputFilepath</code> is set.
+   Ignored in other cases.
+  </help>
+ </EncodingParameter>
+
+ <!-- Control -->
+ <StringParameter name="matchOptions" shortName="u" optional="1" default="iwuap">
+  <help>
+    This option controls the information that is printed to the output.
+    You specify the output by giving a combination of letter codes:
+    Possibe letter code are:
+   <ul>
+    <li><code>i</code>: Copy input sentence to the output.
+                        Outputs: <code>IN: my input</code></li>
+    <li><code>w</code>: Write unknown words, e.g. words that are not in the vocabulary of the grammar/context.
+                        Outputs: <code>UNK: my input</code></li>
+    <li><code>u</code>: Write sentences that only have a unique match to the output.
+                        Not specifying this option can be useful if you only want to detect ambiguous sentences.
+                        Outputs: <code>UNIQ: my input</code></li>
+    <li><code>a</code>: Write sentence that have multiple path in the grammar/contexts.
+                        Outputs: <code>AMB: my input</code></li>
+    <li><code>p</code>: Write partial matches to the output; write that part of your input which is in grammar.
+                        Outputs: <code>PART: my</code> 
+                        The word <code>input</code> does not match.</li>
+   </ul>
+  </help>
+ </StringParameter>
+
+ <StringParameter name="outputFormat" shortName="q" optional="1" default="t">
+  <help>
+   This option allows to control the information that should be visible in the output.
+   You specify the output by giving a combination of letter codes:
+   Most but not all letter codes can be combined.
+   <ul>
+    <li><code>w</code>: Write words to the output. Cannot be combined with any other letter code.
+                        With this letter code we don't write quotes around terminals with spaces.</li>
+    <li><code>t</code>: Write terminals to the output. Single words are written unquoted 
+                        multi-word terminals quoted. Cannot be combined with <code>w</code>.
+                        Combined with <code>u</code> gives output like <code>word!id(7)</code></li>
+    <li><code>u</code>: Write user IDs to the output. If specified without <code>t</code> we just write a number.g
+                        If specified with <code>t</code> then we write <code>!id()</code> around the number.
+                        User IDs which have the default value 0xffffffff (-1 signed) are not written.
+                        </li>
+    <li><code>U</code>: Same as <code>u</code> but also writes default user IDs to the output.</li>
+    <li><code>r</code>: Show start rules. Writes the start rule from which this sentences (partially) matches
+                           to the output. This is useful for debugging ambiguous sentences.</li>
+    <li><code>e</code>: Show export rules. Writes the export rule from which this sentences (partially) matches
+                           to the output. This is useful for debugging ambiguous sentences.</li>
+    <li><code>s</code>: Show tags (slots) in the output. Writes tags in the output.</li>
+    <li><code>T</code>: Show the transcriptions of each terminal.
+                        This options only works when using an XLF file as input which has been
+                        compiled with transcriptions.</li>
+    <!--li filter="ASR_RELEASE_TYPE=='internal'"><code>p</code>- graph path</li-->
+   </ul>
+  </help>
+ </StringParameter>
+
+ <!-- Generation options-->
+ <IntegerParameter name="maxSentLen" shortName="L" optional="1" min="1">
+  <help>
+   Maximum generated sentence length. 
+   Mandatory for sentence generation from FSTs with loops.
+  </help>
+ </IntegerParameter>
+
+ <IntegerParameter name="maxNumberOfSentences" optional="1" min="1">
+  <help>
+    Maximum number of sentences to be generated.
+  </help>
+ </IntegerParameter>
+ 
+ <StringParameter name="activeRules" shortName="R" optional="1" default="k:I,d:E,k:L,e:S,e:A">
+  <help>
+   Option to specify the active rules. Comma-separated list of entries in the form <code>[action]:[rulespec]</code>, 
+   where the action can be one of:
+   <ul>
+    <li><code>enable</code> or <code>e</code>: Activate a rule.</li>
+    <li><code>disable</code> or <code>d</code>: Deactivate a rule.</li>
+    <li><code>keep</code> or <code>k</code>: treat the rule(s) as words. 
+                                             They will appear as <code>&lt;rule-name&gt;</code> in the output.</li>
+   </ul>
+   The rulespec can have one of the following forms:
+   <ul>
+    <li><code>&lt;rule-name&gt;</code>: rule with rule-name name</li>
+    <li>String of rule type flags which can be any of the following <code>SEAILseail</code>.
+     Upper case letters correspond to all rule which have a particular flag, 
+     e.g. <code>A</code> means "all activatable rules", 
+     lower case letters correspond to all rules which do not have a particular flag:
+     e.g. <code>a</code> means "all rules which are not-activatable",
+     
+     The codes are:
+     <ul>
+      <li><strong>S</strong>tart</li>
+      <li><strong>E</strong>xport</li>
+      <li><strong>A</strong>ctivatable</li>
+      <li><strong>I</strong>mport</li>
+      <li>s<strong>L</strong>ot</li>
+     </ul>
+    </li>
+   </ul>
+   Examples:
+   <ul>
+    <li><code> -R e:&lt;my-rule&gt;,dis:&lt;other-rule&gt;</code>
+     enables rule <code>my-rule</code>, disables rule <code>other-rule</code>.</li>
+    <li>
+     <code> -R e:AS</code>
+     enables all rules that are both Start and Activatable
+    </li>
+    <li>
+     <code> -R d:s</code>
+     disables all rules that are not Start.
+    </li>
+   </ul>
+   The conditions are processed left-to-right. Note: when using <code>&lt;rule-name&gt;</code>, 
+   the option value must be quoted in most command shells so that the <code>&lt;</code>,
+   <code>&gt;</code> characters are not interpreted as I/O redirection.
+  </help>
+ </StringParameter>
+
+ <!-- Rule information -->
+ <BooleanParameter name="printRuleInfo" optional="1" default="false">
+  <help>
+   List all special rules in a context and write them to the standard output (screen) or to
+   a file. The file can be given with the <code>--ruleInfoFilepath</code>
+   option.
+  </help>
+ </BooleanParameter>
+
+ <OutputFileParameter name="ruleInfoFilepath" optional="1">
+  <help>Path of the rule information output file.</help>
+ </OutputFileParameter>
+
+ <!-- Slot filling paramaters -->
+ <StringParameter name="slotFileSpec" shortName="S" optional="1">
+  <help>
+   With this option content can be attached to slot in the main grammar file.
+   <code>slot name 1:file type 1:file path1 ;... ;slot name
+    n:file type n:file path n</code>
+   This option can be used in two ways:
+   <ol>
+    <li>
+     Specify the data for the slot filling with slot files.
+     If you use this option for slot filling with slot files, you need to
+     also specify the dictionary for the transcriptions.
+     An example of correct input is:
+     <p><code>grammar1#slot1:slot:slotfile1.txt</code></p>
+    </li>
+    <li>
+     specify the data for the slot filling with dictionaries only
+     (without slot files).
+     If you use this option for slot filling with dictionaries only, you
+     need to leave slot file field in the tuple as
+     <code>None</code>
+     or
+     <code>''</code>
+     . All items in the
+     dictionary will be added in parallel to the slot.
+     An example of correct input is:
+     <p><code>grammar1#slot1:slot:slotfile.txt;grammar2#slot2:dict:dictionary2.dct</code></p>
+    </li>
+   </ol>
+   Possible file types are:
+   <ol>
+    <li><code>slot</code>: slot file (*.txt/*.slot)</li>
+    <li><code>dict</code>: dictionary file (*.dcb/*.dct)</li>
+    <li><code>grammar</code>: grammar file (*.bnf/*.abnf/*.jsgf)</li>
+    <li><code>xlf</code>: xlf file (intermediate compiler file) (*.xlf)</li>
+    <li><code>context</code>: binary context file(*.fcf/*.ctx)</li>
+    If no type is given the file type will be auto-detected from the file extension.
+   </ol>
+  </help>
+ </StringParameter>
+
+ <EncodingParameter name="slotListEncoding" optional="1" default="utf-8">
+  <help>
+   Use this option if you want to specify the encoding of the slot list files explicitly. 
+   This option has only effect when passing slot file(s) to <code>--slotFileSpec</code>.
+  </help>
+ </EncodingParameter>
+
+ <EncodingParameter name="slotDictionaryEncoding" optional="1" default="utf-8">
+  <help>
+   Use this option if you want to specify the encoding of the slot dictionary files explicitly.
+   This option has only effect when passing dictionaries to <code>--slotFileSpec</code>.
+    </help>
+ </EncodingParameter>
+
+ <EnumerationParameter name="slotDictionaryType" type="String" optional="1"
+  default="auto">
+  <help>
+   Sets the type of the dictionary specified in <code>--slotFileSpec</code>.
+   <ul>
+    <li><code>auto</code>: means that the tool will use the extension of the dictionary as an
+     indication of the dictionary type: if the extension is <var>.dcb</var> or<var>.dcc</var>, 
+     the tool will assume that it is a pre-compiled dictionary and open it as such.
+     Otherwise, the tool will assume that it is a text dictionary and
+     will compile it itself prior to using it.
+    </li>
+    <li>
+     <strong>binary</strong>
+     Forces the tool to open the dictionary as a binary dictionary,
+     regardless of the extension (the dictionary must be pre-compiled without compression in this case).
+    </li>
+    <li>
+     <strong>compressed</strong>
+     forces the tool to open the dictionary as a compressed binary dictionary,
+     regardless of the extension (the dictionary must be compiled compressed in this case).
+    </li>
+    <li>
+     <strong>text</strong>
+     forces the tool to open the dictionary as text, regardless of the extension. 
+     The expected encoding of the dictionary depends on the native
+     character type used by the installed Vocon3200 API. The encoding can be changed via
+     <code>--slotDictionaryEncoding</code>. Consult the documentation on
+     <a href="../../com.nuance.embed.vocon3200.help.form/doc/vocon3200_photrans_formalisms.html">VoCon 3200 Phonetic Transcription Formalisms</a> 
+     for a description of the dictionary text format and the use of dictionaries.
+    </li>
+   </ul>
+  </help>
+  <value value="auto" />
+  <value value="text" />
+  <value value="binary" />
+  <value value="compressed" />
+ </EnumerationParameter>
+
+ <EncodingParameter name="slotGrammarEncoding" optional="1" default="utf-8">
+  <help>Use this option if you want to specify the encoding of the slot grammar files explicitly.
+  This option has only effect when passing grammars to <code>--slotFileSpec</code>.</help>
+ </EncodingParameter>
+
+ <BooleanParameter name="showContextDependencies" optional="1">
+  <help>
+    <p>Shows the dependencies of the binary context.</p>
+  </help>
+ </BooleanParameter>
+
+ <BooleanParameter name="showContextVersion" optional="1">
+  <help>
+    <p>Shows the version of the binary context.</p>
+  </help>
+ </BooleanParameter>
+</ParameterSpecification>

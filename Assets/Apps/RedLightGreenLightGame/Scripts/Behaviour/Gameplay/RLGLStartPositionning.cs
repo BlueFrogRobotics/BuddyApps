@@ -37,7 +37,7 @@ namespace BuddyApp.RedLightGreenLightGame
             GetGameObject(2).GetComponent<RLGLTargetMovement>().enabled = true;
             mRect = new OpenCVUnity.Rect(new Point((int)(320 / 3), 0), new Point((int)(320 * 2 / 3), 240));
             //Interaction.TextToSpeech.Silence(1000);
-            Interaction.TextToSpeech.SayKey("remplacementpositionningplayer");
+            Interaction.TextToSpeech.Say(Dictionary.GetRandomString("remplacementpositionningplayer"));
             mMotion = Perception.Motion;
             mMotion.enabled = true;
             mCam = Primitive.RGBCam;
@@ -78,7 +78,7 @@ namespace BuddyApp.RedLightGreenLightGame
 
 
                     mTexture = Utils.MatToTexture2D(mMat);
-                    Toaster.Display<PictureToast>().With(Dictionary.GetString("lookphoto"), Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
+                    Toaster.Display<PictureToast>().With(Dictionary.GetString("remplacementpositionningplayer"), Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
                 }
                 if (mRLGLBehaviour.Timer > 0.1 && mDetectionCount <= 12 && mHasShowWindow)
                 {

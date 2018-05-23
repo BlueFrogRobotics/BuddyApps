@@ -12,7 +12,7 @@ namespace BuddyApp.MemoryGame
 		private List<int> mEvents;
 		private int mEventIndex;
 		private float mTimer;
-		private float mMaxTime;
+		//private float mMaxTime;
 		private bool mPatternDone;
 		private float mTTSTimer;
 
@@ -63,13 +63,13 @@ namespace BuddyApp.MemoryGame
 			mEventIndex = 0;
 			mTimer = 0.0f;
 			mTTSTimer = 0.0f;
-			mMaxTime = 1.0f / mGameLevels.speed;
+			//mMaxTime = 1.0f / mGameLevels.speed;
 			mPatternDone = false;
 		}
 
 		public void DoEvent()
 		{
-			if (mTimer > mMaxTime) {
+			if (mTimer > 0.1F && Interaction.Face.IsStable) {
 				mTimer = 0;
 				Debug.Log("Do Event");
 				Debug.Log("event index : " + mEventIndex);
@@ -120,16 +120,16 @@ namespace BuddyApp.MemoryGame
 		{
 			Debug.Log("Moving : " + iMotion);
 			mBuddyMotion = true;
-			float lTimer = 0.0f;
+			float lTimer = 0.0F;
 
 			// Moving noHinge
 			if (iMotion == BuddyMotion.HEAD_LEFT || iMotion == BuddyMotion.HEAD_RIGHT) {
 				float lOriginAngle = Primitive.Motors.NoHinge.CurrentAnglePosition;
 				float lTargetAngle;
 				if (iMotion == BuddyMotion.HEAD_LEFT) {
-					lTargetAngle = lOriginAngle + 45.0f;
+					lTargetAngle = lOriginAngle + 45.0F;
 				} else {
-					lTargetAngle = lOriginAngle - 45.0f;
+					lTargetAngle = lOriginAngle - 45.0F;
 				}
 
 				// Put the head to the given direction
@@ -137,17 +137,17 @@ namespace BuddyApp.MemoryGame
 				Primitive.Motors.NoHinge.SetPosition(lTargetAngle);
 
 				// Wait for end of motion
-				while (Math.Abs(Primitive.Motors.NoHinge.CurrentAnglePosition - lOriginAngle) < 20.0f || lTimer > 5.0f) {
+				while ( (Math.Abs(Primitive.Motors.NoHinge.CurrentAnglePosition - lOriginAngle) < 20.0F) || lTimer > 3.0F) {
 					lTimer += Time.deltaTime;
 					yield return null;
 				}
 				lTimer = 0.0f;
 				Debug.Log("Moving head ok, move back ");
 				// Put the head back
-				Primitive.Motors.NoHinge.SetPosition(0.0f);
+				Primitive.Motors.NoHinge.SetPosition(0.0F);
 
 				// Wait for end of motion
-				while (Math.Abs(Primitive.Motors.NoHinge.CurrentAnglePosition) > 5.0f || lTimer > 5.0f) {
+				while ( (Math.Abs(Primitive.Motors.NoHinge.CurrentAnglePosition) > 5.0F) || lTimer > 3.0F) {
 					lTimer += Time.deltaTime;
 					yield return null;
 
@@ -167,9 +167,9 @@ namespace BuddyApp.MemoryGame
 					lTargetAngle = -lTargetAngle;
 				}
 
-				Primitive.Motors.Wheels.TurnAngle(lTargetAngle, 100.0f, 0.02f);
+				Primitive.Motors.Wheels.TurnAngle(lTargetAngle, 300.0F, 0.02F);
 
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSeconds(0.25F);
 
 				// Wait for end of motion
 				while (Primitive.Motors.Wheels.Status != MovingState.REACHED_GOAL && Primitive.Motors.Wheels.Status != MovingState.MOTIONLESS) {
@@ -179,9 +179,9 @@ namespace BuddyApp.MemoryGame
 				Debug.Log("Moving wheels ok, move back ");
 
 				// Put the robot back
-				Primitive.Motors.Wheels.TurnAbsoluteAngle(mOriginRobotAngle, 100.0f, 0.02f);
+				Primitive.Motors.Wheels.TurnAbsoluteAngle(mOriginRobotAngle, 300.0F, 0.02F);
 
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSeconds(0.25F);
 
 				// Wait for end of motion
 				while (Primitive.Motors.Wheels.Status != MovingState.REACHED_GOAL &&
@@ -191,7 +191,7 @@ namespace BuddyApp.MemoryGame
 
 			}
 
-			yield return new WaitForSeconds(1.0f);
+			yield return new WaitForSeconds(0.5F);
 			Debug.Log("Motion done");
 
 			mBuddyMotion = false;

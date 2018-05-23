@@ -187,6 +187,8 @@ namespace BuddyApp.RemoteControl
 	        using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
 	        {
 	            cls.CallStatic("StartWebrtc");
+                // Todo: remove (debug)
+                cls.CallStatic("setSoundActive", false);
 	        }
 	    }
 

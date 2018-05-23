@@ -14,8 +14,9 @@ namespace BuddyApp.Diagnostic
 		FACE,
 		CAMERAS,
 		THERMAL,
-		SENSORS
-	}
+		SENSORS,
+        CONNEXION
+    }
 
 	/* A basic monobehaviour as "AI" behaviour for your app */
 	public class DiagnosticBehaviour : MonoBehaviour
@@ -42,7 +43,10 @@ namespace BuddyApp.Diagnostic
 		[SerializeField]
 		private GameObject sensorsRoot;
 
-		private List<GameObject> mRoots;
+        [SerializeField]
+        private GameObject connexionRoot;
+
+        private List<GameObject> mRoots;
 
 		private WindowType mCurrentWindow;
 
@@ -54,8 +58,10 @@ namespace BuddyApp.Diagnostic
 
 			mRoots = new List<GameObject>() { vocalRoot,
 				ledRoot, motorsRoot, faceRoot,
-				camerasRoot, thermalRoot, sensorsRoot
-			};
+				camerasRoot, thermalRoot, sensorsRoot, connexionRoot
+            };
+
+			
 
 			mCurrentWindow = WindowType.FACE;
 			SetWindow((int)WindowType.VOCAL);
@@ -88,7 +94,10 @@ namespace BuddyApp.Diagnostic
 					case WindowType.SENSORS:
 						DisableAllExcept(sensorsRoot);
 						break;
-				}
+                    case WindowType.CONNEXION:
+                        DisableAllExcept(connexionRoot);
+                        break;
+                }
 			}
 		}
 

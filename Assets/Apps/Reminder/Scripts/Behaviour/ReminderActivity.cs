@@ -19,14 +19,32 @@ namespace BuddyApp.Reminder
             public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
         {
             Utils.LogI(LogContext.APP, "On loading...");
-            if (iStrArgs != null)
+            if (iStrArgs != null && iIntArgs==null)
             {
                 // We have an input sentence
+                Debug.Log("loading 1");
                 ReminderData.Instance.VocalRequest = iStrArgs[0];
+                ReminderData.Instance.GiveReminder = false;
+            }
+            else if(iStrArgs != null && iIntArgs != null)
+            {
+                Debug.Log("loading 2");
+                ReminderData.Instance.GiveReminder = true;
+                ReminderData.Instance.SenderID = iIntArgs[0];
+                ReminderData.Instance.Date = iStrArgs[0];
+                //DateTime myDate;
+                //if (!DateTime.TryParse(ReminderData.Instance.Date, out myDate))
+                //{
+                //    // handle parse failure
+                //}
+                //Debug.Log("date du bonheur: " + myDate.ToString());
+                Debug.Log("date: " + iStrArgs[0] + " id: " + iIntArgs[0]);
             }
             else
             {
+                Debug.Log("loading 3");
                 ReminderData.Instance.VocalRequest = "";
+                ReminderData.Instance.GiveReminder = false;
             }
         }
 		/*
