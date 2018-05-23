@@ -55,11 +55,14 @@ namespace BuddyApp.Companion
 		{
 			mLookingTime = Time.deltaTime;
 
-			if (Interaction.TextToSpeech.HasFinishedTalking && ((int) mLookingTime) % 20 == 10) {
+			if (Interaction.TextToSpeech.HasFinishedTalking &&  ( (int) (mLookingTime % 20) ) == 10) {
+				Debug.Log("[COMPANION][Lookingfor] say something, time: " + mLookingTime );
+
 				if (mDetectionManager.ActiveReminders.Count == 0) {
 					Interaction.TextToSpeech.SayKey("anyoneplay", true);
 				} else {
 					// TODO: check if notif is an emergency
+					Debug.Log("[COMPANION][Lookingfor] Tellnotif");
 					Interaction.Mood.Set(MoodType.SCARED);
 					mActionManager.TellNotif(mDetectionManager.ActiveReminders[0]);
 				}
