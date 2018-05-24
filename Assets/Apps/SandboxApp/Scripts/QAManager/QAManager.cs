@@ -29,6 +29,8 @@ namespace BuddyApp.SandboxApp
         private string NameVoconGrammarFile;
         [SerializeField]
         private string BuddySayWhenQuit;
+        [SerializeField]
+        private LoadContext context;
 
         public class QuestionItem
         {
@@ -78,7 +80,7 @@ namespace BuddyApp.SandboxApp
 
             //Use vocon
             Interaction.VocalManager.UseVocon = true;
-            Interaction.VocalManager.AddGrammar(NameVoconGrammarFile, LoadContext.APP);
+            Interaction.VocalManager.AddGrammar(NameVoconGrammarFile, context);
             Interaction.VocalManager.OnVoconBest = VoconBest;
             Interaction.VocalManager.OnVoconEvent = EventVocon;
 

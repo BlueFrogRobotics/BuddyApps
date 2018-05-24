@@ -42,6 +42,9 @@ namespace BuddyApp.Shared
         [SerializeField]
         private string NameVoconGrammarFile;
 
+        [SerializeField]
+        private LoadContext context;
+
         private int mNumberOfButton;
         private int mIndexButton = 0;
 
@@ -88,8 +91,8 @@ namespace BuddyApp.Shared
 
             //Use vocon
             Interaction.VocalManager.UseVocon = true;
-            Debug.Log(BYOS.Instance.Resources.GetPathToRaw(NameVoconGrammarFile + "_en.bin"));
-            Interaction.VocalManager.AddGrammar(NameVoconGrammarFile, LoadContext.APP);
+            Debug.Log(BYOS.Instance.Resources.GetPathToRaw(NameVoconGrammarFile + "_en.bin + " + context));
+            Interaction.VocalManager.AddGrammar(NameVoconGrammarFile, context);
             Interaction.VocalManager.OnVoconBest = VoconBest;
             Interaction.VocalManager.OnVoconEvent = EventVocon;
 
