@@ -100,6 +100,8 @@ namespace BuddyApp.FreezeDance
                     mRanking.AddPlayer((int)mScoreManager.Score);
                     mInGame.GetComponent<Animator>().SetTrigger("close");
                     Trigger("Ranking");
+
+                    mMusicPlayer.Restart();
                 }
             }
         }
