@@ -36,6 +36,8 @@ namespace BuddyApp.FreezeDance
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if (!Primitive.RGBCam.IsOpen)
+                Primitive.RGBCam.Open(RGBCamResolution.W_176_H_144);
             SetBool("ScoreBool", true);
             if(mFreezeBehaviour.ChangeMusic)
             {
@@ -100,6 +102,9 @@ namespace BuddyApp.FreezeDance
                     mRanking.AddPlayer((int)mScoreManager.Score);
                     mInGame.GetComponent<Animator>().SetTrigger("close");
                     Trigger("Ranking");
+                    if (BYOS.Instance.Primitive.RGBCam.IsOpen)
+                        BYOS.Instance.Primitive.RGBCam.Close();
+                    mMusicPlayer.Restart();
                 }
             }
         }
