@@ -12,42 +12,43 @@
     <headNo id="headNo2" position="20" speed="100"/>
     <gazeShift id="gazeShift1" direction="UP_LEFT"/>
     <move id="move2" angle="-90" speed="600"/>
-    <faceExp id="faceExp4" start="0.5" expression="BLINK_BOTH"/>
-    <headYes id="headYes4" position="0" speed="600"/>
-    <headNo id="headNo4" end="2" position="0" speed="600"/>
+    <faceExp id="faceExp2" start="0.5" expression="BLINK_BOTH"/>
+    <headYes id="headYes2" position="0" speed="600"/>
+    <headNo id="headNo3" position="0" speed="600"/>
   </synchronized>
   <synchronized>
     <gazeShift id="gaze1" direction="UP"/>
-    <faceMoodShift mood="HAPPY"/>
-    <headNo id="headNo1" position="0" speed="300"/>
-    <headYes id="headYes5" position="-20" speed="300"/>
-    <move id="move3" speed="200" angle="20"/>
+    <faceMoodShift id="faceMoodShift2" mood="HAPPY"/>
+    <move id="move3" speed="200" angle="-20"/>
+    <headNo id="headNo4" position="0" speed="300"/>
+    <headYes id="headYes3" position="-20" speed="300"/>
+    <move id="move4" speed="200" angle="20"/>
   </synchronized>
   <synchronized>
     <gazeShift id="gaze2" direction="CENTER"/>
-    <headYes id="headYes6" start="3" end="4" position="0" speed="300"/>
-    <move id="move4" speed="100" angle="10"/>
+    <headYes id="headYes4" start="3" end="4" position="0" speed="300"/>
+    <move id="move5" speed="100" angle="10"/>
   </synchronized>
-  <synchronized end="2">
-    <faceMoodShift mood="NEUTRAL"/>
+  <synchronized>
+    <faceMoodShift id="faceMoodShift3" mood="NEUTRAL"/>
     <speech>
       <key>demofinsprintbis</key>
     </speech>
-    <headNo id="headNo1" position="90" speed="600"/>
-    <headYes id="headYes1"  position="-15" speed="600"/>
-    <faceExp id="faceEx1" start="0.5" expression="BLINK_BOTH"/>
-    <move id="move1" angle="-45" speed="600" />
-    <headNo id="headNo1" position="-90" speed="600"/>
-    <faceExp id="faceEx1" start="0.5" expression="BLINK_BOTH"/>
-    <move id="move1" angle="90" speed="600" />
-    <headNo id="headNo1" position="0" speed="600"/>
-    <headYes id="headYes1"  position="0" speed="600"/>
-    <move id="move1" angle="-45" speed="600" />
-    <headYes id="headYes1"  position="-15" speed="600"/>
-    <faceExp id="faceEx3" start="0.5" expression="YAWN"/>
-    <headYes id="headYes1"  position="0" speed="600"/>
+    <headNo id="headNo5" position="90" speed="600"/>
+    <headYes id="headYes5"  position="-15" speed="600"/>
+    <faceExp id="faceEx3" start="0.5" expression="BLINK_BOTH"/>
+    <move id="move6" angle="-45" speed="600" />
+    <headNo id="headNo6" position="-90" speed="600"/>
+    <faceExp id="faceEx4" start="0.5" expression="BLINK_BOTH"/>
+    <move id="move7" angle="90" speed="600" />
+    <headNo id="headNo7" position="0" speed="600"/>
+    <headYes id="headYes6"  position="0" speed="600"/>
+    <move id="move8" angle="-45" speed="600" />
+    <headYes id="headYes7"  position="-15" speed="600"/>
+    <faceExp id="faceEx5" start="0.5" expression="YAWN"/>
+    <headYes id="headYes8"  position="0" speed="600"/>
   </synchronized>
   <synchronized>
-    <image id="image1" start="2" end="5" name="app_buddylab.jpg"/>
+    <image id="image1" start="1" end="3" name="app_buddylab.jpg"/>
   </synchronized>
 </bml>

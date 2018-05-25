@@ -303,12 +303,17 @@ namespace BuddyApp.Companion
 			//else, if important notif, ask to validate
 
 			//BYOS.Instance.Notifier.ShowExisting(Notification ID);
-			
+
 			//int lNotifID = BYOS.Instance.Notification.Display<SimpleNot>().With(...);
 
-			BYOS.Instance.Notifier.Display<AlertNot>().With(lTextToDisplay,
-															(() => RemoveReminder(iReminder.ID)), null);
+			//BYOS.Instance.Notifier.Display<AlertNot>().With(lTextToDisplay,
+			//												(() => RemoveReminder(iReminder.ID)), null);
 
+
+			BYOS.Instance.Notifier.ShowExisting(iReminder.NotifID);
+
+			//TODO: modify this!
+			RemoveReminder(iReminder.ID);
 
 
 			//else, just display notif
