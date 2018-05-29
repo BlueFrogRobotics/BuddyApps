@@ -537,7 +537,8 @@
                 <string>il n'est pas prévue de</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>il n'est pas prévue de</string>
+                <string>il n'y pas de [forecast] de prévu</string>
+                <string>il n'y aura pas de neige [forecast]</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -864,6 +865,36 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>il y aura de l'orage</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>snowing</Key>
+            <BaseValue>neige</BaseValue>
+            <ClosePhoneticValues>
+                <string>neige</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>neige</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>fogging</Key>
+            <BaseValue>brouillard</BaseValue>
+            <ClosePhoneticValues>
+                <string>brouillard</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>brouillard</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sleeting</Key>
+            <BaseValue>verglas</BaseValue>
+            <ClosePhoneticValues>
+                <string>verglas</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>verglas</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

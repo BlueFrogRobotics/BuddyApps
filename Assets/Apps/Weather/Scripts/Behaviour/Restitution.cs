@@ -85,6 +85,7 @@ namespace BuddyApp.Weather
             string lDayString = RecoverDay(iSayDayOfWeek, lDateTime);
             string lAnswer = string.Empty;
 
+
             if (mWeatherB.mForecast != WeatherType.UNKNOWN)
             {
                 if (mWeatherB.mWhen)
@@ -93,12 +94,13 @@ namespace BuddyApp.Weather
                     {
 
                         // Give date: It will rain ...
-                        lAnswer = Dictionary.GetRandomString("itwillbe") + " " + Dictionary.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + Dictionary.GetRandomString("the") + " " + EnglishDate(iWeatherInfo.Day) + " " + Dictionary.GetRandomString("inlocation") + " " + EnglishHour(iWeatherInfo.Hour) + " " + Dictionary.GetRandomString("hour") + " ";
+                        lAnswer = Dictionary.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + Dictionary.GetRandomString("the") + " " + EnglishDate(iWeatherInfo.Day) + " " + Dictionary.GetRandomString("inlocation") + " " + EnglishHour(iWeatherInfo.Hour) + " " + Dictionary.GetRandomString("hour") + " ";
                     }
                     else
                     {
+                        Debug.Log("NO " + mWeatherB.mForecast.ToString());
                         // Deny: There is no rain forecast for upcoming week
-                        lAnswer = Dictionary.GetRandomString("notexpect") + Dictionary.GetRandomString(mWeatherB.mForecast.ToString().ToLower() + "ing");
+                        lAnswer = Dictionary.GetRandomString("notexpect").Replace("[forecast]", Dictionary.GetRandomString(mWeatherB.mForecast.ToString().ToLower() + "ing"));
                         if (mWeatherB.mDate == -1)
                             lAnswer += " " + Dictionary.GetRandomString("week");
                         else
@@ -114,7 +116,10 @@ namespace BuddyApp.Weather
 
                     if (mWeatherB.mForecast != iWeatherInfo.Type)
                     {
-                        if ((mWeatherB.mForecast == WeatherType.CHANCE_OF_RAIN && iWeatherInfo.Type == WeatherType.RAIN) || (mWeatherB.mForecast == WeatherType.RAIN && iWeatherInfo.Type == WeatherType.CHANCE_OF_RAIN))
+                        if (((mWeatherB.mForecast == WeatherType.CHANCE_OF_RAIN && iWeatherInfo.Type == WeatherType.RAIN) || (mWeatherB.mForecast == WeatherType.RAIN && iWeatherInfo.Type == WeatherType.CHANCE_OF_RAIN)) ||
+                            ((mWeatherB.mForecast == WeatherType.CHANCE_FLURRIES && iWeatherInfo.Type == WeatherType.FLURRIES) || (mWeatherB.mForecast == WeatherType.FLURRIES && iWeatherInfo.Type == WeatherType.CHANCE_FLURRIES)) ||
+                            ((mWeatherB.mForecast == WeatherType.CHANCE_SLEET && iWeatherInfo.Type == WeatherType.SLEET) || (mWeatherB.mForecast == WeatherType.SLEET && iWeatherInfo.Type == WeatherType.CHANCE_SLEET)) ||
+                            ((mWeatherB.mForecast == WeatherType.CHANCE_SNOW && iWeatherInfo.Type == WeatherType.SNOW) || (mWeatherB.mForecast == WeatherType.SNOW && iWeatherInfo.Type == WeatherType.CHANCE_SNOW)))
                             lAnswer = lYesAnswer;
                         else
                             lAnswer = lNoAnswer;
@@ -127,7 +132,7 @@ namespace BuddyApp.Weather
                 lAnswer = InitAnswerRestitution(iWeatherInfo, lDayString);
 
             if (mWeatherB.mName != "")
-                Interaction.TextToSpeech.Say(lAnswer/* + " " + Dictionary.GetRandomString("inlocation") + " " + mWeatherB.mName*/);
+                Interaction.TextToSpeech.Say(lAnswer);
         }
 
         /// <summary>
@@ -456,7 +461,12 @@ namespace BuddyApp.Weather
                 if (mWeatherB.mWeekend)
                     SayWeather(mWeatherB.mWeatherInfos[mWeatherB.mIndice + 4 * d], true);
                 else
-                    SayWeather(mWeatherB.mWeatherInfos[mWeatherB.mIndice + 4 * d]);
+                {
+                    if ((mWeatherB.mIndice + 4 * d) == -1)
+                        SayWeather(mWeatherB.mWeatherInfos[0]);
+                    else
+                        SayWeather(mWeatherB.mWeatherInfos[mWeatherB.mIndice + 4 * d]);
+                }
 
                 float num = 0.1f;
                 int j = 0;
@@ -484,6 +494,7 @@ namespace BuddyApp.Weather
                         SetPanel(mTrip[i], iWeatherInfo[j], true);
 
                     }
+
                     if (i < 4)
                     {
                         SetPanel(mTrip[i], iWeatherInfo[j], false);

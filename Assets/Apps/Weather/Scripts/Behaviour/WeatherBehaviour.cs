@@ -48,9 +48,17 @@ namespace BuddyApp.Weather
         internal WeatherType mForecast;
         internal int mDate;
         internal int mHour;
+
+        /// <summary>
+        /// If the User ask with When keyword
+        /// </summary>
         internal bool mWhen;
         internal CitiesData mCities = new CitiesData();
         internal bool mIsOk = true;
+
+        /// <summary>
+        /// If the User ask weather for the Weekend
+        /// </summary>
         internal bool mWeekend;
         internal WeatherCommand mCommand;
 

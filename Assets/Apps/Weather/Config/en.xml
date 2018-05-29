@@ -391,7 +391,7 @@
                 <string>partly cloudy</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>the weather will be partly cloudy</string>
+                <string>it will be partly cloudy</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -514,7 +514,9 @@
                 <string>it is not planned to</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>it is not planned to</string>
+                <string>there is no [forecast] forecast</string>
+                <string>there is no [forecast] planned</string>
+                <string>There will be no [forecast]</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -806,7 +808,7 @@
                 <string>sunny</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>sunny</string>
+                <string>it will be sunny</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -814,6 +816,8 @@
             <BaseValue>there will be sleet, be carefull</BaseValue>
             <ClosePhoneticValues>
                 <string>sleet</string>
+                <string>freeze</string>
+                <string>frozen</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>there will be sleet, be carefull</string>
@@ -828,6 +832,36 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>there will be thunderstorm</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>snowing</Key>
+            <BaseValue>snow</BaseValue>
+            <ClosePhoneticValues>
+                <string>snow</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>snow</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>fogging</Key>
+            <BaseValue>fog</BaseValue>
+            <ClosePhoneticValues>
+                <string>fog</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>fog</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sleeting</Key>
+            <BaseValue>sleet</BaseValue>
+            <ClosePhoneticValues>
+                <string>sleet</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>sleet</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
