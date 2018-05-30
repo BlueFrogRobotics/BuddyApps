@@ -144,7 +144,7 @@ namespace BuddyApp.Companion
 		private UserProfile GetProfile(UserAccount iAccount)
 		{
 			for (int i = 0; i < Profiles.Count; ++i) {
-				if (Profiles[i].FirstName == iAccount.FirstName && Profiles[i].FirstName == iAccount.LastName)
+				if (Profiles[i].FirstName == iAccount.FirstName && Profiles[i].LastName == iAccount.LastName)
 					return Profiles[i];
 			}
 			return null;

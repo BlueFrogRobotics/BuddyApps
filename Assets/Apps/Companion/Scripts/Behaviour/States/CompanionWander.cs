@@ -87,13 +87,15 @@ namespace BuddyApp.Companion
 			// 0) If trigger vocal or kidnapping or low battery, go to corresponding state
 			if (mDetectionManager.mDetectedElement != Detected.NONE) {
 
-				if (mDetectionManager.mDetectedElement != Detected.TOUCH && ( mDetectionManager.mFacePartTouched == FaceTouch.LEFT_EYE || mDetectionManager.mFacePartTouched == FaceTouch.RIGHT_EYE)){
+				if (mDetectionManager.mDetectedElement == Detected.TOUCH && ( mDetectionManager.mFacePartTouched == FaceTouch.LEFT_EYE || mDetectionManager.mFacePartTouched == FaceTouch.RIGHT_EYE)){
 					//If eye poked, angry / scared wander
 					if(Interaction.InternalState.Positivity > 0) {
 						mActionManager.WanderingMood = MoodType.SCARED;
-						mActionManager.StartWander(mActionManager.WanderingMood);
+						if (Interaction.TextToSpeech.HasFinishedTalking && CompanionData.Instance.CanMoveBody)
+							mActionManager.StartWander(mActionManager.WanderingMood);
 					} else {
-						mActionManager.WanderingMood = MoodType.ANGRY;
+						if (Interaction.TextToSpeech.HasFinishedTalking && CompanionData.Instance.CanMoveBody)
+							mActionManager.WanderingMood = MoodType.ANGRY;
 						mActionManager.StartWander(mActionManager.WanderingMood);
 					}
 
@@ -118,6 +120,9 @@ namespace BuddyApp.Companion
 					}
 				}
 			}
+
+			mDetectionManager.mDetectedElement = Detected.NONE;
+
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
