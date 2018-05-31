@@ -6636,24 +6636,26 @@
             The list of all alert callbacks.
             </summary>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.String,System.Int32)">
+        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.String,System.Int32,Buddy.ReminderType)">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
             <param name="iContent">Content of the reminder</param>
             <param name="iSenderID">An ID representing the reminder sender</param>
+            <param name="iType">The type of reminder.</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.String,System.Int32,System.String)">
+        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.String,System.Int32,System.String,Buddy.ReminderType)">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
             <param name="iContent">Content of the reminder</param>
             <param name="iSenderID">An ID representing the sender</param>
             <param name="iAddressee">The target person to deliver the reminder to.</param>
+            <param name="iType">The type of reminder.</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,System.String,System.Int32)">
+        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,System.String,System.Int32,Buddy.ReminderType)">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -6662,7 +6664,7 @@
             <param name="iSenderID">An ID representing the sender</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,System.String,System.Int32,System.String)">
+        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,System.String,System.Int32,System.String,Buddy.ReminderType)">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -6672,7 +6674,7 @@
             <param name="iAddressee">The target person to deliver the reminder to.</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32)">
+        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32,Buddy.ReminderType)">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -6682,7 +6684,7 @@
             <param name="iSenderID">An ID representing the sender</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32,System.String,Buddy.RemindType,Buddy.RemindRecurrence)">
+        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32,System.String,Buddy.ReminderType,Buddy.ReminderRecurrence,Buddy.RemindTimespan,System.Boolean,System.Action,System.DateTime)">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -6691,8 +6693,8 @@
             <param name="iContent">Content of the reminder</param>
             <param name="iSenderID">An ID representing the sender</param>
             <param name="iAddressee">The target person to deliver the reminder to.</param>
-            <param name="iType">The type of reminder.</param>
-            <param name="iRecurrence">The time span between each reminder, for a recurrent one.</param>
+            <param name="iRecurrence">The type of reminder.</param>
+            <param name="iSpan">The time span between each reminder, for a recurrent one.</param>
             <returns>The new reminder</returns>
         </member>
         <member name="M:Buddy.ProceduralMemManager.GetReminders">
@@ -6727,47 +6729,102 @@
             </summary>
             <param name="iID">The reminder ID</param>
         </member>
-        <member name="T:Buddy.RemindType">
+        <member name="T:Buddy.ReminderState">
             <summary>
-            Type of reminder
+            Status of the reminder.
             </summary>
         </member>
-        <member name="F:Buddy.RemindType.RECURRENT">
+        <member name="F:Buddy.ReminderState.NEW">
+            <summary>
+            Reminder newly added.
+            </summary>
+        </member>
+        <member name="F:Buddy.ReminderState.SHOWN">
+            <summary>
+            Reminder was shown.
+            </summary>
+        </member>
+        <member name="F:Buddy.ReminderState.DELIVERED">
+            <summary>
+            Reminder was delivered to someone.
+            </summary>
+        </member>
+        <member name="F:Buddy.ReminderState.VALIDATED">
+            <summary>
+            The reminder's notification was validated.
+            </summary>
+        </member>
+        <member name="T:Buddy.ReminderType">
+            <summary>
+            Type of reminder.
+            </summary>
+        </member>
+        <member name="F:Buddy.ReminderType.UPDATE">
+            <summary>
+            Update of application or OS.
+            </summary>
+        </member>
+        <member name="F:Buddy.ReminderType.ALARM">
+            <summary>
+            Alarm reminder.
+            </summary>
+        </member>
+        <member name="F:Buddy.ReminderType.NEWS">
+            <summary>
+            Reminder for news.
+            </summary>
+        </member>
+        <member name="F:Buddy.ReminderType.AGENDA">
+            <summary>
+            Agenda event reminder.
+            </summary>
+        </member>
+        <member name="F:Buddy.ReminderType.CALL">
+            <summary>
+            Call reminder.
+            </summary>
+        </member>
+        <member name="T:Buddy.ReminderRecurrence">
+            <summary>
+            Recurrence of reminder.
+            </summary>
+        </member>
+        <member name="F:Buddy.ReminderRecurrence.RECURRENT">
             <summary>
             A recurrent reminder. Might happen every day, week, month or year.
             </summary>
         </member>
-        <member name="F:Buddy.RemindType.ONE_TIME">
+        <member name="F:Buddy.ReminderRecurrence.ONE_TIME">
             <summary>
             A one-time reminder.
             </summary>
         </member>
-        <member name="T:Buddy.RemindRecurrence">
+        <member name="T:Buddy.RemindTimespan">
             <summary>
             The time span between each reminder, for a recurrent reminder.
             </summary>
         </member>
-        <member name="F:Buddy.RemindRecurrence.NONE">
+        <member name="F:Buddy.RemindTimespan.NONE">
             <summary>
             No repetition.
             </summary>
         </member>
-        <member name="F:Buddy.RemindRecurrence.EVERY_DAY">
+        <member name="F:Buddy.RemindTimespan.EVERY_DAY">
             <summary>
             Every day.
             </summary>
         </member>
-        <member name="F:Buddy.RemindRecurrence.EVERY_WEEK">
+        <member name="F:Buddy.RemindTimespan.EVERY_WEEK">
             <summary>
             Every week.
             </summary>
         </member>
-        <member name="F:Buddy.RemindRecurrence.EVERY_MONTH">
+        <member name="F:Buddy.RemindTimespan.EVERY_MONTH">
             <summary>
             Every month.
             </summary>
         </member>
-        <member name="F:Buddy.RemindRecurrence.EVERY_YEAR">
+        <member name="F:Buddy.RemindTimespan.EVERY_YEAR">
             <summary>
             Every year.
             </summary>
@@ -6814,7 +6871,17 @@
         </member>
         <member name="P:Buddy.Reminder.Content">
             <summary>
-            The reminder content
+            The reminder content.
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Intrusive">
+            <summary>
+            Is reminder/notification intrusive ?
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Urgent">
+            <summary>
+            Is the current reminder urgent or not ?
             </summary>
         </member>
         <member name="P:Buddy.Reminder.Attachment">
@@ -6832,6 +6899,11 @@
             The event date at which the remender will issued
             </summary>
         </member>
+        <member name="P:Buddy.Reminder.RemindDate">
+            <summary>
+            The date at which a reminder should be issued prior to the actual event date.
+            </summary>
+        </member>
         <member name="P:Buddy.Reminder.CreationDate">
             <summary>
             The creation date
@@ -6844,12 +6916,32 @@
         </member>
         <member name="P:Buddy.Reminder.Type">
             <summary>
-            The reminder type
+            The reminder type (agenda, call, alarm, etc.)
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Recurrence">
+            <summary>
+            The reminder recurrence.
             </summary>
         </member>
         <member name="P:Buddy.Reminder.Precision">
             <summary>
             The reminder precision
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.State">
+            <summary>
+            The status of the reminder.
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Action">
+            <summary>
+            Action to execute when reminder's notification is validated.
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.Emotion">
+            <summary>
+            Emotion related to a reminder (??).
             </summary>
         </member>
         <member name="M:Buddy.Reminder.#ctor">
@@ -6862,6 +6954,11 @@
             Make a copy of the reminder
             </summary>
             <returns>A new copy of the reminder</returns>
+        </member>
+        <member name="M:Buddy.Reminder.DisplayNotif">
+            <summary>
+            Display the notification of the reminder.
+            </summary>
         </member>
         <member name="T:Buddy.SessionType">
             <summary>
@@ -7038,6 +7135,11 @@
         <member name="P:Buddy.WebRTCListener.RemoteID">
             <summary>
             Used to know the Remote ID for RTC communication
+            </summary>
+        </member>
+        <member name="P:Buddy.WebRTCListener.RemoteType">
+            <summary>
+            The type of the remote.
             </summary>
         </member>
         <member name="P:Buddy.WebRTCListener.MessageFromChat">
