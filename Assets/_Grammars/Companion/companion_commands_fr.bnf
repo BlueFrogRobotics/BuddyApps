@@ -66,7 +66,6 @@
 !start <volumeup>;
 !start <wander>;
 !start <welcome>;
-!start <whois>;
 !start <sick>;
 !start <sad>;
 !start <lovely>;
@@ -92,7 +91,7 @@
 <buddylab> : [<asklaunch>] ( buddylab | [le] lab | buddy lab | [le] laboratoire);
 <calculationgame> : [<asklaunch>] ([de] calcul | [le] jeu de calcul | playmath);
 <canmove> : tu peux bouger;
-<colourseen> : de quel couleur de cet objet;
+<colourseen> : de quel couleur est cet objet;
 <copy> : copie mes mouvements | fais comme moi | recopie moi;
 <dance> : [je voudrais que tu | vas-y] danse | [peux-tu | sais-tu] danser;
 <date> : quel jour sommes nous | <askgive> la date | quelle est la date | quel jour on est | quel jour est-on | on est quel jour;
@@ -152,7 +151,6 @@
 <volumeup> : ((augmenter | augmente | monte | monter) [le] (volume | son)) | (mets [le] (volume | son) plus fort) | (parle plus fort);
 <wander> : [va te] (balader | promener) | va t'en | pars | (balade | promène) [toi];
 <welcome> : bienvenue;
-<whois> : qui est | connais-tu | connaissez-vous;
 <show> : montre [moi | nous] quand tu es | sois;
 <sick> : [<show>] malade;
 <sad> : [<show>] triste;

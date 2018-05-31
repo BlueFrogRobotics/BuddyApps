@@ -93,17 +93,22 @@ namespace BuddyApp.Companion
 
 		void OnSpeechRecognition(VoconResult iBestResult)
 		{
-			mLastHumanSpeech = iBestResult.Utterance;
+			if (string.IsNullOrEmpty(iBestResult.Utterance))
+				ErrorSTT(STTError.ERROR_NO_MATCH);
+			else {
 
-			mState.text = "Vocal Triggered: reco " + mLastHumanSpeech;
-			mError = false;
-			mTime = 0F;
-			mSpeechInput = true;
-			Debug.Log("Reco vocal: " + mLastHumanSpeech);
+				mLastHumanSpeech = iBestResult.Utterance;
 
-			SortQuestionType(GetRealStartRule(iBestResult.StartRule));
+				mState.text = "Vocal Triggered: reco " + mLastHumanSpeech;
+				mError = false;
+				mTime = 0F;
+				mSpeechInput = true;
+				Debug.Log("Reco vocal: " + mLastHumanSpeech);
 
-			mFirstErrorStt = true;
+				SortQuestionType(GetRealStartRule(iBestResult.StartRule), iBestResult.Utterance);
+
+				mFirstErrorStt = true;
+			}
 		}
 
 		void ErrorSTT(STTError iError)
@@ -241,9 +246,9 @@ namespace BuddyApp.Companion
 
 		//Sort the type of the question returned by the Vocal Chat.
 		//It either corresponds to orders on movement or launch applications
-		private void SortQuestionType(string iType)
+		private void SortQuestionType(string iType, string iUtterance)
 		{
-			
+			iType = char.ToUpper(iType[0]) + iType.Substring(1);
 			Debug.Log("Question Type found : " + iType);
 			string lSentence = "";
 			if (iType != "Repeat")
@@ -453,86 +458,91 @@ namespace BuddyApp.Companion
 					mLaunchingApp = true;
 					break;
 
-				//case "HeadDown": {
-				//		mActionManager.CancelOrders();
-				//		mActionManager.UnlockHead();
+				case "HeadDown": {
+						mActionManager.CancelOrders();
+						mActionManager.UnlockHead();
 
-				//		float n;
-				//		if (!float.TryParse(mVocalChat.Answer, out n)) {
-				//			//default value
-				//			n = 25;
-				//		}
+						float n = GetNextNumber(iUtterance);
 
-				//		SayKey("accept", true);
-				//		Say(Dictionary.GetRandomString("headdown").Replace("[degrees]", "" + n), true);
+						if (n == -1.23456F) {
+							//default value
+							n = 25F;
+						}
 
-				//		Debug.Log("Head down " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-				//		CompanionData.Instance.HeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition + (float)n;
-				//		mMoving = true;
-				//		mTimeMotion = Time.time;
-				//	}
-				//	break;
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("headdown").Replace("[degrees]", "" + n), true);
 
-				//case "HeadUp": {
-				//		mActionManager.CancelOrders();
-				//		mActionManager.UnlockHead();
+						Debug.Log("Head down " + n + " degrees + VocalChat.Answer: " + n);
+						CompanionData.Instance.HeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition + n;
+						mMoving = true;
+						mTimeMotion = Time.time;
+					}
+					break;
 
-				//		float n;
-				//		if (!float.TryParse(mVocalChat.Answer, out n)) {
-				//			//default value
-				//			n = 25;
-				//		}
+				case "HeadUp": {
+						mActionManager.CancelOrders();
+						mActionManager.UnlockHead();
 
-				//		SayKey("accept", true);
-				//		Say(Dictionary.GetRandomString("headup").Replace("[degrees]", "" + n), true);
+						float n = GetNextNumber(iUtterance);
 
-				//		Debug.Log("Head up " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-				//		CompanionData.Instance.HeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n;
-				//		//Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n, 100F);
-				//		mMoving = true;
-				//		mTimeMotion = Time.time;
-				//	}
-				//	break;
+						if (n == -1.23456F) {
+							//default value
+							n = 25F;
+						}
 
-				//case "HeadLeft": {
-				//		mActionManager.CancelOrders();
-				//		mActionManager.UnlockHead();
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("headup").Replace("[degrees]", "" + n), true);
 
-				//		float n;
-				//		if (!float.TryParse(mVocalChat.Answer, out n)) {
-				//			//default value
-				//			n = 35;
-				//		}
+						Debug.Log("Head up " + n + " degrees + VocalChat.Answer: " + n);
+						CompanionData.Instance.HeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition - n;
+						//Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n, 100F);
+						mMoving = true;
+						mTimeMotion = Time.time;
+					}
+					break;
 
-				//		SayKey("accept", true);
-				//		Say(Dictionary.GetRandomString("headleft").Replace("[degrees]", "" + n), true);
+				case "HeadLeft": {
+						mActionManager.CancelOrders();
+						mActionManager.UnlockHead();
 
-				//		Debug.Log("Head left " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-				//		Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition + (float)n, 100F);
-				//		mMoving = true;
-				//		mTimeMotion = Time.time;
-				//	}
-				//	break;
+						float n = GetNextNumber(iUtterance);
 
-				//case "HeadRight": {
-				//		mActionManager.CancelOrders();
-				//		mActionManager.UnlockHead();
+						if (n == -1.23456F) {
+							//default value
+							n = 35F;
+						}
 
-				//		float n;
-				//		if (!float.TryParse(mVocalChat.Answer, out n)) {
-				//			//default value
-				//			n = 35;
-				//		}
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("headleft").Replace("[degrees]", "" + n), true);
 
-				//		SayKey("accept", true);
-				//		Say(Dictionary.GetRandomString("headright").Replace("[degrees]", "" + n), true);
+						Debug.Log("Head left " + n + " degrees + VocalChat.Answer: " + n);
+						Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition + n, 100F);
+						mMoving = true;
+						mTimeMotion = Time.time;
+					}
+					break;
 
-				//		Debug.Log("Head right " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-				//		Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition - (float)n, 100F);
-				//		mMoving = true;
-				//		mTimeMotion = Time.time;
-				//	}
-				//	break;
+				case "HeadRight": {
+						mActionManager.CancelOrders();
+						mActionManager.UnlockHead();
+
+
+						float n = GetNextNumber(iUtterance);
+
+						if (n == -1.23456F) {
+							//default value
+							n = 35F;
+						}
+
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("headright").Replace("[degrees]", "" + n), true);
+
+						Debug.Log("Head right " + n + " degrees + VocalChat.Answer: " + n);
+						Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition - (float)n, 100F);
+						mMoving = true;
+						mTimeMotion = Time.time;
+					}
+					break;
 
 				case "Heat":
 					int[] lMatrix = BYOS.Instance.Primitive.ThermalSensor.MatrixArray;
@@ -617,97 +627,99 @@ namespace BuddyApp.Companion
 					break;
 
 
-				//case "MoveBackward": {
-				//		mActionManager.CancelOrders();
-				//		mActionManager.UnlockWheels();
+				case "MoveBackward": {
+						mActionManager.CancelOrders();
+						mActionManager.UnlockWheels();
 
-				//		float n;
-				//		//default value
-				//		string nStr = "1";
-				//		if (float.TryParse(mVocalChat.Answer, out n)) {
-				//			nStr = mVocalChat.Answer;
-				//		} else {
-				//			n = 1F;
-				//		}
+						float n;
+						//default value
+						string nStr = GetStringNextNumber(iUtterance);
+						if (!float.TryParse(nStr, out n)) {
+							// If no float, default value
+							nStr = "1";
+						}
 
-				//		//Primitive.Motors.Wheels.MoveDistance(-150.0f, -150.0f, n, 0.02f);
-				//		Dictionary<string, string> lParam = new Dictionary<string, string>();
-				//		lParam.Add("MOVE_DISTANCE", nStr);
+						//Primitive.Motors.Wheels.MoveDistance(-150.0f, -150.0f, n, 0.02f);
+						Dictionary<string, string> lParam = new Dictionary<string, string>();
+						lParam.Add("MOVE_DISTANCE", nStr);
 
-				//		Interaction.BMLManager.LaunchByName("MoveBackward", lParam);
-				//		Debug.Log("MoveBackward: " + nStr);
-				//		SayKey("accept", true);
-				//		Say(Dictionary.GetRandomString("movebackward").Replace("[meters]", "" + nStr), true);
-				//		mMoving = true;
-				//		mTimeMotion = Time.time;
-				//	}
+						Interaction.BMLManager.LaunchByName("MoveBackward", lParam);
+						Debug.Log("MoveBackward: " + nStr);
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("movebackward").Replace("[meters]", "" + nStr), true);
+						mMoving = true;
+						mTimeMotion = Time.time;
+					}
 
-				//	break;
+					break;
 
-				//case "MoveForward": {
-				//		mActionManager.CancelOrders();
-				//		mActionManager.UnlockWheels();
+				case "MoveForward": {
+						mActionManager.CancelOrders();
+						mActionManager.UnlockWheels();
 
-				//		float n;
-				//		//default value
-				//		string nStr = "1";
-				//		if (float.TryParse(mVocalChat.Answer, out n)) {
-				//			nStr = mVocalChat.Answer;
-				//		}
+						float n;
+						//default value
+						string nStr = GetStringNextNumber(iUtterance);
+						if (!float.TryParse(nStr, out n)) {
+							// If no float, default value
+							nStr = "1";
+						}
 
-				//		//Primitive.Motors.Wheels.MoveDistance(-150.0f, -150.0f, n, 0.02f);
+						//Primitive.Motors.Wheels.MoveDistance(-150.0f, -150.0f, n, 0.02f);
 
-				//		Dictionary<string, string> lParam = new Dictionary<string, string>();
-				//		lParam.Add("MOVE_DISTANCE", nStr);
+						Dictionary<string, string> lParam = new Dictionary<string, string>();
+						lParam.Add("MOVE_DISTANCE", nStr);
 
-				//		Interaction.BMLManager.LaunchByName("MoveForward", lParam);
-				//		Debug.Log("MoveForward: " + nStr);
-				//		SayKey("accept", true);
-				//		Say(Dictionary.GetRandomString("moveforward").Replace("[meters]", "" + nStr), true);
-				//		mMoving = true;
-				//		mTimeMotion = Time.time;
-				//	}
-				//	break;
+						Interaction.BMLManager.LaunchByName("MoveForward", lParam);
+						Debug.Log("MoveForward: " + nStr);
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("moveforward").Replace("[meters]", "" + nStr), true);
+						mMoving = true;
+						mTimeMotion = Time.time;
+					}
+					break;
 
-				//case "MoveLeft": {
-				//		mActionManager.CancelOrders();
-				//		mActionManager.UnlockWheels();
+				case "MoveLeft": {
+						mActionManager.CancelOrders();
+						mActionManager.UnlockWheels();
 
-				//		float n = 0;
-				//		if (!float.TryParse(mVocalChat.Answer, out n)) {
-				//			//default value
-				//			n = 25;
-				//		}
+						float n = GetNextNumber(iUtterance);
 
-				//		SayKey("accept", true);
-				//		Say(Dictionary.GetRandomString("moveleft").Replace("[degrees]", "" + n), true);
+						if (n == -1.23456F) {
+							//default value
+							n = 25F;
+						}
 
-				//		Debug.Log("Move left " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-				//		Primitive.Motors.Wheels.TurnAngle((float)n, 200F, 0.02F);
-				//		mMoving = true;
-				//		mTimeMotion = Time.time;
-				//	}
-				//	break;
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("moveleft").Replace("[degrees]", "" + n), true);
 
-				//case "MoveRight": {
-				//		mActionManager.CancelOrders();
-				//		mActionManager.UnlockWheels();
+						Debug.Log("Move left " + n + " degrees + VocalChat.Answer: " + n);
+						Primitive.Motors.Wheels.TurnAngle((float)n, 200F, 0.02F);
+						mMoving = true;
+						mTimeMotion = Time.time;
+					}
+					break;
 
-				//		float n;
-				//		if (!float.TryParse(mVocalChat.Answer, out n)) {
-				//			//default value
-				//			n = 25;
-				//		}
+				case "MoveRight": {
+						mActionManager.CancelOrders();
+						mActionManager.UnlockWheels();
 
-				//		SayKey("accept", true);
-				//		Say(Dictionary.GetRandomString("moveright").Replace("[degrees]", "" + n), true);
+						float n = GetNextNumber(iUtterance);
 
-				//		Debug.Log("Move right " + n + " degrees + VocalChat.Answer: " + mVocalChat.Answer);
-				//		Primitive.Motors.Wheels.TurnAngle((float)-n, 200F, 0.02F);
-				//		mMoving = true;
-				//		mTimeMotion = Time.time;
-				//	}
-				//	break;
+						if (n == -1.23456F) {
+							//default value
+							n = 25F;
+						}
+
+						SayKey("accept", true);
+						Say(Dictionary.GetRandomString("moveright").Replace("[degrees]", "" + n), true);
+
+						Debug.Log("Move right " + n + " degrees + VocalChat.Answer: " + n);
+						Primitive.Motors.Wheels.TurnAngle((float)-n, 200F, 0.02F);
+						mMoving = true;
+						mTimeMotion = Time.time;
+					}
+					break;
 
 				case "Memory":
 					CompanionData.Instance.mInteractDesire -= 50;
@@ -848,64 +860,71 @@ namespace BuddyApp.Companion
 					mNeedListen = true;
 					break;
 
-				//case "Volume": {
-				//		float n;
-				//		if (!float.TryParse(mVocalChat.Answer, out n)) {
-				//			//default value
+				case "Volume": {
+						float n = GetNextNumber(iUtterance);
 
-				//			SayKey("getvolumeerror");
-				//		}
-				//		Say(Dictionary.GetRandomString("volume") + " " + n, true);
+						if (n == -1.23456F) {
+							//default value
+							SayKey("getvolumeerror");
+						} else {
+							BYOS.Instance.Primitive.Speaker.ChangeVolume((int)n);
+							Say(Dictionary.GetRandomString("volume") + " " + n, true);
+						}
 
-				//		mNeedListen = true;
-				//	}
-				//	break;
+						mNeedListen = true;
+					}
+					break;
 
-				//case "VolumeDown": {
-				//		float n;
-				//		if (!float.TryParse(mVocalChat.Answer, out n)) {
-				//			//default value
-				//			n = 3;
-				//		}
+				case "VolumeDown": {
+						float n = GetNextNumber(iUtterance);
 
-				//		SayKey("accept", true);
+						if (n == -1.23456F) {
+							//default value
+							n = 3F;
+						}
 
-				//		Debug.Log("Decrease volume by " + n);
-				//		Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-				//		BYOS.Instance.Primitive.Speaker.VolumeDown((int)n);
-				//		Say(Dictionary.GetRandomString("volumedown") + " " + n, true);
-				//		mNeedListen = true;
-				//	}
-				//	break;
+						SayKey("accept", true);
 
-				//case "VolumeUp": {
-				//		float n;
-				//		if (!float.TryParse(mVocalChat.Answer, out n)) {
-				//			//default value
-				//			n = 3;
-				//		}
-				//		SayKey("accept", true);
-				//		Debug.Log("Increase volume by " + n);
-				//		Primitive.Speaker.FX.Play(FXSound.BEEP_1);
-				//		BYOS.Instance.Primitive.Speaker.VolumeUp((int)n);
-				//		Say(Dictionary.GetRandomString("volumeup") + " " + n);
-				//		mNeedListen = true;
-				//	}
-				//	break;
+						Debug.Log("Decrease volume by " + n);
+						Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+						BYOS.Instance.Primitive.Speaker.VolumeDown((int)n);
+						Say(Dictionary.GetRandomString("volumedown") + " " + n, true);
+						mNeedListen = true;
+					}
+					break;
 
-				//case "Wander":
-				//	mActionManager.UnlockAll();
-				//	SayKey("wander");
-				//	//TODO, maybe ask for interaction instead if Buddy really wants to interact
-				//	CompanionData.Instance.mInteractDesire -= 10;
-				//	if (CompanionData.Instance.mMovingDesire < 40)
-				//		CompanionData.Instance.mMovingDesire = 40;
+				case "VolumeUp": {
 
-				//	Debug.Log("Start wanderring by voice " + mVocalChat.Answer);
-				//	mActionManager.WanderingOrder = true;
-				//	mActionManager.WanderingMood = (MoodType)Enum.Parse(typeof(MoodType), mVocalChat.Answer, true);
-				//	Trigger("WANDER");
-				//	break;
+						float n = GetNextNumber(iUtterance);
+
+						if (n == -1.23456F) {
+							//default value
+							n = 3F;
+						}
+
+						SayKey("accept", true);
+						Debug.Log("Increase volume by " + n);
+						Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+						BYOS.Instance.Primitive.Speaker.VolumeUp((int)n);
+						Say(Dictionary.GetRandomString("volumeup") + " " + n);
+						mNeedListen = true;
+					}
+					break;
+
+				case "Wander":
+					mActionManager.UnlockAll();
+					SayKey("wander");
+					//TODO, maybe ask for interaction instead if Buddy really wants to interact
+					CompanionData.Instance.mInteractDesire -= 10;
+					if (CompanionData.Instance.mMovingDesire < 40)
+						CompanionData.Instance.mMovingDesire = 40;
+
+					//Debug.Log("Start wanderring by voice " + mVocalChat.Answer);
+					mActionManager.WanderingOrder = true;
+					//mActionManager.WanderingMood = (MoodType)Enum.Parse(typeof(MoodType), mVocalChat.Answer, true);
+					// TODO get it from vocalhelper code
+					Trigger("WANDER");
+					break;
 
 				case "Weather":
 					Debug.Log("VocalTrigger Weather");
@@ -926,11 +945,51 @@ namespace BuddyApp.Companion
 					break;
 
 				default:
+					//Maybe a question / answer thing
+					Debug.Log("[COMPANION] I believe this is a question? " + iType.ToLower());
+					try {
+						SayKey(iType.ToLower(), true);
+					} catch {
+						Debug.Log("[COMPANION] Answer key not found: " + iType.ToLower());
+					}
+					mNeedListen = true;
 					break;
 
 			}
 
 		}
+
+		private string GetStringNextNumber(string iText)
+		{
+			if (!string.IsNullOrEmpty(iText)) {
+				string[] lWords = iText.Split(' ');
+				for (int i = 0; i < lWords.Length; ++i) {
+					try {
+						float.Parse(lWords[i]);
+						return lWords[i];
+					} catch {
+						continue;
+					}
+				}
+			}
+			return "";
+		}
+
+		private float GetNextNumber(string iText)
+		{
+			if (!string.IsNullOrEmpty(iText)) {
+				string[] lWords = iText.Split(' ');
+				for (int i = 0; i < lWords.Length; ++i) {
+					try {
+						return float.Parse(lWords[i]);
+					} catch {
+						continue;
+					}
+				}
+			}
+			return -1.23456F;
+		}
+
 
 		private string SetNapSentence(int iNumber, string iTimeUnit, string iSentence)
 		{
