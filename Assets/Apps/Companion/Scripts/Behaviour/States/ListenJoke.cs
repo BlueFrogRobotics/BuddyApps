@@ -30,10 +30,10 @@ namespace BuddyApp.Companion
 			mTime = 0F;
 			mKnockKnock = 0;
 
-			Debug.Log("listen joke lastans " + Interaction.SpeechToText.LastAnswer);
-			if (!string.IsNullOrEmpty(Interaction.SpeechToText.LastAnswer))
-				if (ContainsOneOf(Interaction.SpeechToText.LastAnswer, "knockknock"))
-					mKnockKnock = 1;
+			//Debug.Log("listen joke lastans " + Interaction.SpeechToText.LastAnswer);
+			//if (!string.IsNullOrEmpty(Interaction.SpeechToText.LastAnswer))
+			//	if (ContainsOneOf(Interaction.SpeechToText.LastAnswer, "knockknock"))
+			//		mKnockKnock = 1;
 
 
 			Debug.Log("listen joke knockknock " + mKnockKnock);
@@ -44,8 +44,8 @@ namespace BuddyApp.Companion
 			mTrigg = false;
 
 			mDetectionManager.StopSphinxTrigger();
-			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
-			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
+			//Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
+			//Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
 
 			// TODO add log
 		}
@@ -54,7 +54,7 @@ namespace BuddyApp.Companion
 		{
 			mTime += Time.deltaTime;
 
-			if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.SpeechToText.HasFinished)
+			if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.VocalManager.RecognitionFinished)
 				if (mTrigg)
 					Trigger("VOCALCOMMAND");
 				else if (mNeedListen) {
@@ -85,12 +85,12 @@ namespace BuddyApp.Companion
 			} else if (ContainsOneOf(iMsg, "questionwords")) {
 				Interaction.TextToSpeech.SayKey("idontknow");
 				mNeedListen = true;
-			} else if (ContainsOneOf(Interaction.SpeechToText.LastAnswer, "knockknock")) {
-				mKnockKnock = 1;
-				Interaction.TextToSpeech.SayKey("whoisthere");
-				mNeedListen = true;
+			//} else if (ContainsOneOf(Interaction.SpeechToText.LastAnswer, "knockknock")) {
+			//	mKnockKnock = 1;
+			//	Interaction.TextToSpeech.SayKey("whoisthere");
+			//	mNeedListen = true;
 
-				// end of joke
+			//	// end of joke
 			} else {
 
 				// if Buddy in good mood, laugh easily, otherwise, hardly
@@ -140,8 +140,8 @@ namespace BuddyApp.Companion
 			CompanionData.Instance.mLearnDesire -= 50;
 			CompanionData.Instance.mInteractDesire -= 50;
 
-			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
-			Interaction.SpeechToText.OnErrorEnum.Remove(ErrorSTT);
+			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
+			//Interaction.SpeechToText.OnErrorEnum.Remove(ErrorSTT);
 		}
 
 		private bool ContainsOneOf(string iSpeech, string iKeySpeech)

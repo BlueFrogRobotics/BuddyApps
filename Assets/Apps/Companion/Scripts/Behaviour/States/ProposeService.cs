@@ -56,8 +56,8 @@ namespace BuddyApp.Companion
 
 			Interaction.VocalManager.EnableDefaultErrorHandling = false;
 
-			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
-			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
+			//Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
+			//Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
 
 			//Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("propose" + mProposal), YesAnswer, NoAnswer);
 		}
@@ -99,8 +99,8 @@ namespace BuddyApp.Companion
 			//Toaster.Hide();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
-			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
-			Interaction.SpeechToText.OnErrorEnum.Remove(ErrorSTT);
+			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
+			//Interaction.SpeechToText.OnErrorEnum.Remove(ErrorSTT);
 		}
 
 		private void YesAnswer()

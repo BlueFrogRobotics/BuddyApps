@@ -36,8 +36,8 @@ namespace BuddyApp.Companion
 
 			Interaction.TextToSpeech.SayKey("askcharge");
 
-			Interaction.SpeechToText.OnBestRecognition.Clear();
-			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
+			//Interaction.SpeechToText.OnBestRecognition.Clear();
+			//Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
 
 
 		}
@@ -50,7 +50,7 @@ namespace BuddyApp.Companion
 				return;
 
 			if (string.IsNullOrEmpty(mSpeechReco)) {
-				Interaction.SpeechToText.Request();
+				//Interaction.SpeechToText.Request();
 				mListening = true;
 
 				Interaction.Mood.Set(MoodType.LISTENING);

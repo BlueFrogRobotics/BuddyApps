@@ -70,7 +70,7 @@ namespace BuddyApp.Companion
 				return;
 
 			if (string.IsNullOrEmpty(mSpeechReco)) {
-				Interaction.SpeechToText.Request();
+				//Interaction.SpeechToText.Request();
 				mListening = true;
 
 				Interaction.Mood.Set(MoodType.LISTENING);

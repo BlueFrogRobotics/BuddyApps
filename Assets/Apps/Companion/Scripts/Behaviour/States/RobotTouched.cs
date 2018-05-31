@@ -99,7 +99,7 @@ namespace BuddyApp.Companion
 				// TO DO:
 				// after no touch for a while, go to user detected?
 
-				if (Interaction.BMLManager.DonePlaying && Interaction.SpeechToText.HasFinished && Interaction.TextToSpeech.HasFinishedTalking) {
+				if (Interaction.BMLManager.DonePlaying && Interaction.VocalManager.RecognitionFinished && Interaction.TextToSpeech.HasFinishedTalking) {
 
 					if (mLastPartTouched == FaceTouch.OTHER) {
 						if (Time.time - mLastTouchTime > 4F) {

@@ -516,7 +516,7 @@ namespace BuddyApp.Companion
 				} else {
 					//TODO: play BML instead
 					Debug.Log("no action + face poked  -> play Surprise");
-					if (BYOS.Instance.Interaction.SpeechToText.HasFinished)
+					if (BYOS.Instance.Interaction.VocalManager.RecognitionFinished)
 						BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_SURPRISED);
 					TimedMood(MoodType.SURPRISED);
 				}
@@ -584,7 +584,7 @@ namespace BuddyApp.Companion
 					Debug.Log("BML + eye poked -> play angry ");
 					TimedMood(MoodType.ANGRY);
 					BYOS.Instance.Interaction.Face.SetEvent(FaceEvent.SCREAM);
-					if (BYOS.Instance.Interaction.SpeechToText.HasFinished)
+					if (BYOS.Instance.Interaction.VocalManager.RecognitionFinished)
 						BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.SIGH);
 				}
 			} else if (BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.GRUMPY || BYOS.Instance.Interaction.InternalState.InternalStateMood == InternalMood.BITTER) {
@@ -628,7 +628,7 @@ namespace BuddyApp.Companion
 					Debug.Log("No action + eye poked -> play random neutral BML");
 					BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
 					mTimeMood = Time.time;
-				} else if (BYOS.Instance.Interaction.SpeechToText.HasFinished)
+				} else if (BYOS.Instance.Interaction.VocalManager.RecognitionFinished)
 					BYOS.Instance.Primitive.Speaker.Voice.Play(VoiceSound.RANDOM_CURIOUS);
 
 
