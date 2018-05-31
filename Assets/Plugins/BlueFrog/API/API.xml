@@ -525,6 +525,108 @@
             Middle back position
             </summary>
         </member>
+        <member name="T:Buddy.VoconEventCallback">
+            <summary>
+            Use this delegate to handle audio events detected by Vocon.
+            Called during recognition when an event is detected.
+            </summary>
+            <param name="iEvent">The audio event detected.</param>
+        </member>
+        <member name="T:Buddy.VoconResultsCallback">
+            <summary>
+            Use this delegate to handle the results produced by the recognizer.
+            Called after the recognition is finished.
+            </summary>
+            <param name="iResults">The results of the recognition process.</param>
+        </member>
+        <member name="T:Buddy.VoconBestResultCallback">
+            <summary>
+            Use this delegate to handle the best result produced by the recognizer.
+            Called after the recognition is finished.
+            </summary>
+            <param name="iBestResult">The best result of the recognition process.</param>
+        </member>
+        <member name="F:Buddy.VoconResult.Confidence">
+            <summary>
+            The confidence level of the result. Values are between 1 (low confidence) and 9999 (high confidence).
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconResult.Utterance">
+            <summary>
+            The text of the result from the recognition process.
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconResult.StartRule">
+            <summary>
+            The name of the 'start rule' which produced the result. The format is 'grammarName#startRuleName'.
+            </summary>
+        </member>
+        <member name="T:Buddy.VoconEvent">
+            <summary>
+            All the possible audio events that can be detected by Vocon.
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconEvent.BEGINNING_OF_SPEECH">
+            <summary>
+            User started to speak.
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconEvent.MAYBE_SPEECH">
+            <summary>
+            Could be the beginning of speech.
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconEvent.NO_SPEECH">
+            <summary>
+            The previously sent MAYBE_SPEECH event did not lead
+            to and actual beginning of speech.
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconEvent.TIMEOUT">
+            <summary>
+            A timeout occured.
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconEvent.TRAILING_SILENCE">
+            <summary>
+            A trailing silence was detected.
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconEvent.BAD_SIGNAL_NOISE_RATIO">
+            <summary>
+            The signal to noise ratio is too low.
+            This event is generated if at the end of an utterance
+            the signal/noise ratio remains below 12dB.
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconEvent.OVERLOAD">
+            <summary>
+            The speech level is too loud.
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconEvent.TOO_QUIET">
+            <summary>
+            The speech level is too weak.
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconEvent.NO_SIGNAL">
+            <summary>
+            No or very low input signal.
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconEvent.POOR_MIC">
+            <summary>
+            This could mean that the microphone or the audio hardware is of poor quality. 
+            </summary>
+        </member>
+        <member name="F:Buddy.VoconEvent.NO_LEADING_SILENCE">
+            <summary>
+            The recording apparantly does not start with leading silence.
+            Possibly the speaker started speaking too soon,
+            but because this detection is only energy based,
+            other noise events at the start of the utterance may also trigger this condition.
+            </summary>
+        </member>
         <member name="T:Buddy.Internal.API.RegularFace">
             <summary>
             Class which includes the speficities of the animator for the regular face and provides every methods to control it.
@@ -944,6 +1046,99 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Buddy.Internal.API.VoconAndroid.LaunchReco(System.String[],System.Int32)">
+            <summary>
+            Start the Vocon recognition engine.
+            </summary>
+            <param name="iGrammar">The path to the grammar that will be used.</param>
+            <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
+        </member>
+        <member name="M:Buddy.Internal.API.VoconAndroid.ChangeAcousticModel(System.String)">
+            <summary>
+            Changes the acoustic model of the recognizer.
+            Only called when switching language.
+            </summary>
+            <param name="iAcMod"></param>
+        </member>
+        <member name="M:Buddy.Internal.API.VoconAndroid.OnEndReco(System.String)">
+            <summary>
+            Callback when recognition is finished.
+            This is the callback called from the android plugin. Its name shouldn't be changed.
+            </summary>
+            <param name="iResult">Result of the recognition.</param>
+        </member>
+        <member name="M:Buddy.Internal.API.VoconAndroid.OnError(System.String)">
+            <summary>
+            Error thrown during the recognition process.
+            This is the callback called from the android plugin. Its name shouldn't be changed.
+            </summary>
+            <param name="iError">Error thrown during recognition.</param>
+        </member>
+        <member name="M:Buddy.Internal.API.VoconAndroid.OnAudioEvent(System.String)">
+            <summary>
+            Audio event detected by the Vocon recognition.
+            This is the callback called from the android plugin. Its name shouldn't be changed.
+            </summary>
+            <param name="iEvent">Audio event detected by Vocon.</param>
+        </member>
+        <member name="T:Buddy.Internal.API.VoconSTT">
+            <summary>
+            An STT based on Nuance Vocon technology. It's a fully embedded solution which uses grammars during the recognition process.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.API.VoconSTT.HasFinished">
+            <summary>
+            Is the recognizer still running ?
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.API.VoconSTT.LastResult">
+            <summary>
+            Last best result.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.API.VoconSTT.LastResultText">
+            <summary>
+            Last best result's text.
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.API.VoconSTT.LastResultConfidence">
+            <summary>
+            Last best result's confidence level, between 1 (low confidence) and 9999 (high confidence).
+            </summary>
+        </member>
+        <member name="P:Buddy.Internal.API.VoconSTT.LastResultStartRule">
+            <summary>
+            The 'start rule' that produced the last best result. Format is 'grammarName#startRuleName'.
+            </summary>
+        </member>
+        <member name="M:Buddy.Internal.API.VoconSTT.LaunchReco(System.String[],System.Int32)">
+            <summary>
+            Start the Vocon recognition engine.
+            </summary>
+            <param name="iGrammar">The path to the grammar that will be used.</param>
+            <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
+        </member>
+        <member name="M:Buddy.Internal.API.VoconSTT.OnEndReco(System.String)">
+            <summary>
+            Callback when recognition is finished.
+            This is the callback called from the android plugin. Its name shouldn't be changed.
+            </summary>
+            <param name="iResult">Result of the recognition.</param>
+        </member>
+        <member name="M:Buddy.Internal.API.VoconSTT.OnError(System.String)">
+            <summary>
+            Error thrown during the recognition process.
+            This is the callback called from the android plugin. Its name shouldn't be changed.
+            </summary>
+            <param name="iError">Error thrown during recognition.</param>
+        </member>
+        <member name="M:Buddy.Internal.API.VoconSTT.OnAudioEvent(System.String)">
+            <summary>
+            Audio event detected by the Vocon recognition.
+            This is the callback called from the android plugin. Its name shouldn't be changed.
+            </summary>
+            <param name="iEvent">Audio event detected by Vocon.</param>
+        </member>
         <member name="T:Buddy.Internal.API.TextToSpeech">
             <summary>
             This class allows Buddy to "speak" an input sentence.
@@ -1081,7 +1276,7 @@
             <param name="iSpeed">The speed in degrees per second</param>
             <param name="iTolerance">The angle tolerance to reach to stop command in radians</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.Internal.API.HardwareDivision.RealHardware.TurnAngle(System.Single,System.Single,System.Single)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.Internal.API.HardwareDivision.RealHardware.TurnAngle(System.Single,System.Single,System.Single)" -->
         <member name="M:Buddy.Internal.API.HardwareDivision.RealHardware.MoveToAbsolutePosition(UnityEngine.Vector2,System.Single,System.Single)">
             <summary>
             Make the robot go to a desired global position.
