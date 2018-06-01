@@ -1,0 +1,30 @@
+#BNF+EMV2.0;
+!grammar experiencecenter_en;
+!start <idleleg>;
+!start <questiongreeting>;
+!start <questionshy>;
+!start <questionability>;
+!start <questiondance>;
+!start <questionlaguage>;
+!start <questionvibe>;
+!start <questionpresence>;
+!start <questionpresentation>;
+!start <idlesee>;
+!start <byecome>;
+!start <movego>;
+<idleleg> : stretch your (leg | legs);
+<questiongreeting> : how are (you [doing] | doing) | how's it going;
+<questionshy> : shy | cat got your tongue;
+<questionability> : what [can | could] you [can | could | know to] do;
+<questiondance> : dance;
+<questionlaguage> : (which | what | how many) language [do you (speak | spoke)];
+<questionvibe> : ambiance | vibe;
+<questionpresence> : (why | what) are you (here | doing);
+<questionpresentation> : tell us about you | (introduce | present) yourself | explain who you are | who are you;
+<idlesee> : nice to (see | meet) you;
+<byecome> : to my (arms | arm) | come here;
+<movego>  : you can go;
+
+
+
+

@@ -123,7 +123,7 @@ namespace BuddyApp.ExperienceCenter
 
             if (ExperienceCenterData.Instance.RunTrigger) {
                 //mSpeechToText.Request();
-                BYOS.Instance.Interaction.VocalManager.StartInstantReco(false);
+                BYOS.Instance.Interaction.VocalManager.StartInstantReco();
                 Debug.Log("[EXCENTER][ANIMMANAGER] Run Trigger ");
                 ExperienceCenterData.Instance.RunTrigger = false;
             }

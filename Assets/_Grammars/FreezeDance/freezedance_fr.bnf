@@ -1,0 +1,7 @@
+#BNF+EMV2.1;
+!grammar freezedance_fr;
+!start <play>;
+!start <bestscores>;
+<play> : jouer [maintenant];
+<bestscores> : meilleurs (score | scores) | classement;
+

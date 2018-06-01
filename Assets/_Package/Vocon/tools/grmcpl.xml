@@ -1,0 +1,569 @@
+<?xml version="1.0"?>
+<ParameterSpecification version="1.0">
+<ApplicationData name="grmcpl" version="2.1.0 (Internal)" filter="ASR_RELEASE_TYPE=='internal'"/>
+<ApplicationData name="grmcpl" version="2.1.0" filter="ASR_RELEASE_TYPE=='VOCON3200EDS'"/>
+<help>
+    <p>
+      <code>grmcpl</code> is a tool that creates a context which can be used on the VoCon recognizer.
+      The created context is of type <code>fstdphost</code>.
+      The input is a set of BNF+ grammars. The tool also adds the factory settings to the created context.
+      Factory settings are reasonable default settings for context parameters. 
+    </p>
+    <p>
+      Refer to the individual options for more details.
+    </p>
+  </help>
+
+  <!-- Not in external release! -->
+  <StringDictionaryParameter name="configuration" optional="1" default="{}" filter="ASR_RELEASE_TYPE=='internal'">
+    <help>Internal option for running the tools from ClearCase. Refer to the 
+      <a href="http://twiki/bin/view/Vocon3200/RunningToolsFromClearcase">TWiki page 
+        http://twiki/bin/view/Vocon3200/RunningToolsFromClearcase</a> 
+      to see how you can instruct the tool to find and select its binaries.
+    </help>
+  </StringDictionaryParameter>
+
+  <!-- Language !-->
+  <AcModSpecParameter name="modelSpec" shortName= "l" optional="1">
+    <help>This parameter helps you to select an installed acoustic model.
+      VoCon 3 acoustic models are uniquely identified via a signature like
+      <code>acmod3_800_enu_gen_car_f16_v1_0_0</code>. As can be seen a signature is
+      a composition of several fields.
+      <ul>
+        <li><code>acmod</code> is a fixed prefix to indicate that this is an acoustic model.</li>
+        <li><code>3</code> indicates the generation the acoustic model. Possible values are 3 and 4.</li>
+        <li><code>800</code> indicates the size class of the models, e.g. it is approximately 800K large.</li>
+        <li><code>enu</code> is the language code. The available languages are:<br/>
+          <installed-languages/>
+        </li>
+        <li><code>gen</code> is the target domain where <code>gen</code> stands for <em>generic</em>, which
+        means that this an acoustic model that is tuned on a broad range of tasks, like digit recognition,
+        command and control, name entry, voice destination entry, etc.</li>
+        <li><code>car</code> specifies an acoustic environment. <code>car</code> means that this model is particularly
+        suited to in-car recognition.</li>
+        <li><code>f16</code> indicates the sampling frequency, in this case 16kHz. Other choices are <code>f11</code> (11kHz)
+        and <code>f8</code> (8kHz)</li>
+        <li><code>v1_0_0</code> is the version number of the model</li>
+      </ul>
+      <p>You can select a model by giving its full signature, but is also possible to specify a partial signature.
+      For example to select the latest enu 800K car model it is sufficient to type <code>--modelSpec=800_enu_gen_car_f16</code>
+      If you just want to try out any German model it is sufficient to type <code>--modelSpec=ged</code>. The tool will
+      select default values for the other fields. Wildcards are also possible, <code>--modelSpec=frf*f16</code> selects a model
+      from the installed French 16kHz models.
+      </p>
+    </help>
+  </AcModSpecParameter>
+
+  <InputFileParameter name="modelFilepath" shortName="M" optional="1">
+    <help>
+      The path to a file containing an acoustic model buffer.
+      This option overrides the <code>--modelSpec</code> option.
+    </help>
+  </InputFileParameter>
+
+  <!-- Grammars -->
+  <InputFileListParameter name="grammarFilepaths" shortName="g" optional="1">
+    <help>
+      The paths of the grammars that will be used to build the context.
+    </help>
+  </InputFileListParameter>
+  
+  <InputFileListParameter name="xlfInFilepaths" shortName="x" optional="1">
+    <help>
+      Use this option to pass a set of XLF files into a context.
+    </help>
+  </InputFileListParameter>
+
+  <EncodingParameter name="grammarEncoding" optional="1" default="utf-8">
+    <help>
+        Use this option if you use a different encoding than UTF-8 in your <em>text</em> grammars.
+    </help>
+    <value value="utf-8"/>
+    <value value="utf-16"/>
+  </EncodingParameter>
+
+  <!-- Output -->
+  <OutputFileListParameter name="contextBufferFilepaths" shortName="C" optional="1">
+    <help>
+      <p>
+        The path to the output file(s) in which the context buffer(s) will be written.
+        You can create a buffer which is adapted to the byte-order, string type,
+        etc. of your target platform using the the archiving options.
+        The number of context buffers needs to be the same as the number of input grammars.
+      </p>
+    </help>
+  </OutputFileListParameter>
+
+  <OutputFileListParameter name="xlfOutFilepaths" shortName="X" optional="1">
+    <help>
+      Use this option to pass a set of paths to write the intermediate XLF files to.
+    </help>
+  </OutputFileListParameter>
+  
+  <OutputFileParameter name="mergedXlfOutFilepath" shortName="Y" optional="1">
+    <help>
+      Use this option to set the output path to write the merged XLF files to.
+    </help>
+  </OutputFileParameter>
+  
+  <!--  Output configuration parameters -->
+  <EnumerationParameter name="storageOption" type="String" optional="1" shortName="S" default="STRING_AND_USERID_TABLE">
+    <help>
+    <p>
+    The possible options are:</p>
+    <ul>
+      <li>
+          <strong>STRING_AND_USERID_TABLE</strong>: If this option is used then the output context will contain strings and user IDs. 
+          Recognition with the output context will put strings and user IDs in the result.
+      </li>
+      <li>
+          <strong>STRING_AND_USERID_TABLE_UNCOMPRESSED</strong>: This option is the same as STRING_AND_USERID_TABLE, but allows using
+          64 bit uder IDs and for "on-demand" loading of the table, rather than keeping it in memory. This will increase the size of 
+          context files somewhat.
+      </li>
+      <li>
+          <strong>STRING_AND_USERID_TABLE_COMPRESSED</strong> This option is the same as STRING_AND_USERID_TABLE_UNCOMPRESSED, but uses a block wise 
+          compressed format.
+      </li>
+      <li>
+          <strong>STRING_TABLE</strong>: If this option is used then the output context contains only strings and no user IDs.
+          Recognition with the output context will put strings in the result.
+          All returned user IDs will have value <code>LH_DEFAULT_USERID</code>.
+      </li>
+      <li>
+          <strong>STRING_TABLE_UNCOMPRESSED</strong>: This option is the same as STRING_TABLE, but allows for
+          "on-demand" loading of the table, rather than keeping it in memory. This will increase the size of context files somewhat.
+      </li>
+      <li>
+          <strong>STRING_TABLE_COMPRESSED</strong> This option is the same as STRING_TABLE_UNCOMPRESSED, but uses a block wise 
+          compressed format.
+      </li>
+      <li>
+          <strong>USERID_TABLE</strong>: If this option is used then the output context contains only user IDs and no strings.
+          Recognition with the output context will put user IDs in the result.
+          All strings in the result will be <code>NULL</code>.
+      </li>
+      <li>
+          <strong>USERID_TABLE_UNCOMPRESSED</strong>: This option is the same as USERID_TABLE, but allows using 64 bit user IDs 
+          and for "on-demand" loading of the table, rather than keeping it in memory.
+      </li>
+      <li>
+          <strong>USERID_TABLE_COMPRESSED</strong> This option is the same as USERID_TABLE_UNCOMPRESSED, but uses a block wise 
+          compressed format.
+      </li>
+      <li>
+          <strong>USERID_LABELS</strong>: If this option is used then the output context contains only user IDs and no strings.
+          Recognition with the output context will put user IDs in the result.
+          All strings in the result will be <code>NULL</code>.
+          This options uses a more compact storage method, but be careful,
+          the set of possible user IDs is restricted: 
+          <ul>
+            <li>You can only use 32-bit IDs.</li>
+            <li>The values <code>0x0</code>,<code>0xffffffff</code> and <code>0xfffffffe</code> should never be used.</li>
+            <li>If your grammar contains <code>!id()</code> on words with a silence transcription 
+             (for example using <code>!pronounce _ L&amp;H "##";</code>) 
+             then the user IDs of these words can only use the lower 29 bits!</li>
+          </ul>
+      </li>
+    </ul>
+    </help>
+    <value value="STRING_AND_USERID_TABLE"/>
+    <value value="STRING_AND_USERID_TABLE_UNCOMPRESSED"/>
+    <value value="STRING_AND_USERID_TABLE_COMPRESSED"/>
+    <value value="STRING_TABLE"/>
+    <value value="STRING_TABLE_UNCOMPRESSED"/>
+    <value value="STRING_TABLE_COMPRESSED"/>
+    <value value="USERID_TABLE"/>
+    <value value="USERID_TABLE_UNCOMPRESSED"/>
+    <value value="USERID_TABLE_COMPRESSED"/>
+    <value value="USERID_LABELS"/>
+  </EnumerationParameter>
+  
+  <EnumerationParameter name="decodingStrategy" type="String" optional="1" default="FORWARD">
+    <help>
+      <p>Configures the decoding strategy that the recognizer will use for the created context.
+        Possible values are:
+        <ul>
+          <li><strong>FORWARD</strong>: Chooses the standard decoding strategy.
+             Will usually give the best latency, accuracy performance.</li>
+          <li><strong>BACKWARD</strong>: Possible value for the <code>LH_GRMCPL_PARAM_DECODING_STRATEGY</code> parameter.
+             This parameter is used when the end of the context a terminal or small set of
+             terminals is preceded by a huge set of possible terminals.
+             This option is also needed when compiling a host context with slots,
+             and if you plan to embed a context with backward decoding strategy
+             inside the host context.
+          </li>
+        </ul>
+      </p>
+    </help>
+    <value value="FORWARD"/>
+    <value value="BACKWARD"/>
+  </EnumerationParameter>
+    
+  <!-- Stored parameters -->
+  <IntegerParameter name="maxnbest" shortName="n" optional="1" min="1" max="1000">
+    <help>
+      Set the maximum number of alternatives that the recognizer will return when using the created context.
+      Use <code>--dumpParameters</code> to print out the value of the parameter at the end of the compilation.
+    </help>
+  </IntegerParameter>
+  
+  <IntegerParameter name="maxnbestSecondpass" optional="1" min="1" max="1000">
+   <help>
+      <p>
+        This parameter controls the maximum number of hypotheses that will be considered during the second pass of the 
+        recognition. The hypotheses that are considered during the second pass are rescored with more precise 
+        acoustic models. Use this parameter to find a trade-off between the time that the second pass takes, and the 
+        recognition accuracy.</p>
+      <p>
+        The higher this parameter, the more time is taken by the second pass, but this usually has a positive impact 
+        on the recognition accuracy.</p>
+      <p>
+        This parameter should not be set to a value less than <code>--maxnbest</code>. It is recommended to set 
+        <code>--maxnbest</code> to the number of hypotheses that the application will really use and to set
+        <code>--maxnbestSecondpass</code> to at least the same value, but with a minimum of 5. Only in case this 
+        leads to an unacceptably large second pass time, <code>--maxnbestSecondpass</code> should be set to a lower
+        value.</p>
+      <p>Use <code>--dumpParameters</code> to print out the value of the parameter at the end of the compilation.</p>
+    </help>
+  </IntegerParameter>
+  
+  <IntegerParameter name="ctxTsilence" aliases="tsRec" optional="1" min="0" max="10000" default="0">
+    <help>
+       Set the trailing silence threshold (in milliseconds) for the created context.
+       The larger the value, the more time it will take for the engine to decide that the speaker 
+       has stopped speaking. Setting this option to 0 disables this trailing silence detection.
+       The lowest legal value is <code>100</code>.
+       By default trailing silence detection is disabled.
+       Use <code>--dumpParameters</code> to print out the value of the parameter at the end of the compilation.
+    </help>
+  </IntegerParameter>
+  
+  <IntegerParameter name="ctxTsilenceFx" optional="1" min="0" max="5000" default="0">
+    <help>
+      <p>
+        Set the trailing silence threshold for the feature extractor (in milliseconds). This value controls the working 
+        of the feature extractor's voice activity detector. The larger the value, the more time it takes for the engine
+        to decide that the speaker has stopped speaking. Setting this option to 0 disables this trailing silence detection.
+        The lowest legal value is <code>100</code>.
+        By default trailing silence detection is disabled.
+        Use <code>--dumpParameters</code> to print out the value of the parameter at the end of the compilation.
+      </p>
+    </help>
+  </IntegerParameter>
+  
+  <BooleanParameter name="ctxTAnySpeech" optional="1" default="false">
+    <help>
+      <p>
+       Allows the recognizer to stop the recognition process during the trailing AnySpeech state.
+      </p>
+      <p>
+       This parameter changes the behavior of the <code>ctxTsilence</code> parameter.
+       Normally, enabling <code>ctxTsilence</code> makes the recognizer stop when the best hypothesis
+       remains in trailing silence for at least the specified amount of time. When also this parameter
+       <code>ctxTAnySpeech</code> is enabled, it makes the recognizer stop when the best hypothesis
+       remains in trailing silence <strong>or in the trailing AnySpeech state</strong> for at least the amount of time
+       specified in <code>ctxTsilence</code>. That is, when this parameter is enabled, the "end of utterance"
+       detection will not make a distinction between silence or AnySpeech.
+      </p>
+      <p>  
+       Enabling this parameter only has an effect if the recognition grammar contains a trailing AnySpeech
+       state (&lt;...&gt;) in at least one of its paths. Enabling this parameter will not automatically add such an AnySpeech state
+       to the grammar.
+      </p>
+      <p>
+       This parameter sets the LH_CTX_PARAM_TANYSPEECH engine parameter.
+      </p>
+      <p>
+       Use <code>--dumpParameters</code> to print out the value of the parameter at the end of the compilation.
+      </p>
+    </help>
+  </BooleanParameter>
+  
+  <IntegerParameter name="accuracy" optional="1" min="100" max="50000">
+    <help>
+      <p>
+        Set the accuracy parameter for the created context. Larger values may improve the recognition accuracy, 
+        but will slow down the engine. If no value is specified for this parameter, then we will compute a 
+        reasonable value and store it in the context. This value, often referred to as the <em>default accuracy</em>, 
+        is a measure of the complexity of the context. If the context contains only one grammar it is a measure
+        of the complexity of the grammar.
+      </p>
+      <p>
+        Use <code>--dumpParameters</code> to print out the value of the parameter at the end of the compilation.
+      </p>
+    </help>
+  </IntegerParameter>
+  
+  <IntegerParameter name="initbeamwidth" optional="1" min="0" max="10000">
+    <help>
+      Set the initial search beam width. Change this parameter only if you can verify the impact on the accuracy with 
+      the <em>batch</em> tool on a large enough set of recordings.
+      Use <code>--dumpParameters</code> to print out the value of the parameter at the end of the compilation.
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="igLowconf" optional="1" min="0" max="10000">
+    <help>Sets the maximum amount of confidence level that indicates that a spoken utterance is out of grammar.
+      If the confidence level is equal or below this parameter value, it means that the spoken utterance is out of grammar.
+      If the confidence level is above value of this parameter, the spoken utterance can be probably in grammar.
+      Use <code>lh_NBestResultIsInGrammar</code> to check whether the spoken utterance is in grammar.
+      Putting this value greater than <code>--igHighConf</code> has no effect.
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="igHighconf" optional="1" min="0" max="10000">
+    <help> Minimum amount of confidence level that indicates that a spoken utterance is in grammar.
+     If confidence level is equal or above this parameter value, it means that the spoken utterance is in grammar,
+     even when it is the same as <code>--igLowConf</code> value. If confidence level is below this parameter value, 
+     the spoken utterance can be probably in grammar or out of grammar.
+     Use <code>lh_NBestResultIsInGrammar</code> to check whether the spoken utterance is in grammar.
+     Putting this value less than <code>--igLowConf</code> has no effect.
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="gateTagConf" optional="1" min="0" max="10000">
+    <help> Minimal wake-up word/gate command tag confidence value for the result to be accepted as the wake-up word/gate command.
+      This parameter is used in combination with the GateRec object. It specifies a threshold for the tag confidence value
+      of the wake-up word or gate command tag in the grammar. If the actual tag confidence value is below the set threshold, 
+      the result will be ignored and the GateRec will continue to listen to the audio until it finds the wak-up word/gate command
+      that satisfies this and the <code>--gateWordConf</code> condition.
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="gateWordConf" optional="1" min="0" max="10000">
+    <help> Minimal wake-up word/gate command word confidence value for the result to be accepted as the wake-up word/gate command.
+      This parameter is used in combination with the GateRec object. It specifies a threshold for the word confidence value
+      of the wake-up or gate command words in the grammar. If any actual word confidence value is below the set threshold, 
+      the result will be ignored and the GateRec will continue to listen to the audio until it finds the wak-up word/gate command
+      that satisfies this and the <code>--gateTagConf</code> condition.
+    </help>
+  </IntegerParameter>
+
+  <BooleanParameter name="dumpParameters" optional="1" default="false">
+    <help>
+      Dump the list of parameters and values. This list is the result of parameter settings in the param file (if any),
+      possibly overridden from command-line. Some parameters may have been automatically assinged a value; 
+      an example is the accuracy parameter.
+    </help>
+  </BooleanParameter>
+  
+  <BooleanParameter name="allowShortcut" optional="1" default="false">
+    <help>
+      If set to true then the compiler will allow a short cut that has been detected and
+      there will be a warning only. A grammar with a short-cut contains a sentence without 
+      terminals (words). This is usually unwanted and may influence recognition accuracy negatively.
+    </help>
+  </BooleanParameter>
+
+  <!-- BooleanParameter name="noInternalActivation" optional="1" default="false">
+    <help>
+      If this option is set then only start rules are activatable. 
+    </help>
+  </BooleanParameter-->
+
+  <!-- Dictionaries -->
+  <BooleanParameter name="useclc" shortName="c" optional="1" default="false">
+    <help>
+      If set to true use the CLC as a fallback to generate transcriptions.
+      By default we fetch our transcriptions from dictionaries only (including the small 
+      exception dictionary in the acoustic model).
+    </help>
+  </BooleanParameter>
+  
+    <CLCSpecParameter name="clcSpec" optional="1" default="">
+    <help>This parameter helps you to select an installed CLC buffer.
+      VoCon 3 CLC buffers are uniquely identified via a signature like
+      <code>clc_enu_cfg3_v1_0_0</code>. As can be seen a signature is
+      a composition of several fields.
+      <ul>
+        <li><code>clc_</code> is a fixed prefix to indicate that this is a CLC buffer.</li>
+        <li><code>enu</code> is the language code. The available languages are:<br/>
+          <installed-languages/>
+        </li>
+        <li><code>cfg3</code> is the general-purpose Network (or offline) configuration. Other choice is 
+            <code>cfg1</code> or <code>cfg2</code> (general-purpose Automotive configuration) 
+            depending on the language
+        </li>
+        <li><code>v1_0_0</code> is the version number of the model</li>
+      </ul>
+      <p>You can select a buffer by giving its full signature, but is also possible to specify a partial signature.
+        For example if you just want to try out any Mandarin Chinese buffer it is sufficient to type <code>--clcSpec=mnc</code>.The tool will
+      select default values for the other fields. Wildcards are also possible, <code>--clcSpec=mnc*cfg3</code> selects a buffer
+      from the installed Mandarin Chinese cfg3 buffers.
+      </p>
+    </help>
+  </CLCSpecParameter>
+  
+  <InputFileParameter name="clcFilepath" optional="1">
+    <help>
+      The path to a file containing a CLC buffer.
+      This option overrides the <code>--clcSpec</code> option.
+    </help>
+  </InputFileParameter>
+
+  <IntegerParameter name="ctxOptLevel"
+                    shortName="O"
+                    optional="1"
+                    min="0"
+                    max="3"
+                    default="3">
+    <help>
+        Controls which optimizations to use to reduce context size. 
+        A value of  0 does not use any optimizations, larger values apply more or better optimizations. 
+    </help>
+  </IntegerParameter>
+
+  <!-- Not in external release! -->
+  <EnumerationParameter name="fstType"
+                        shortName="F"
+                        type="String"
+                        optional="1"
+                        default="static"
+                        filter="ASR_RELEASE_TYPE=='internal'">
+      <help>Set the type of FST written to the context
+      <ul>
+          <li>
+              <b>static</b>:
+              The FST is fully expaned. This yields the fastest runtime,
+              but also results in a large buffer.
+          </li>
+          <li>
+              <b>dynamic</b>:
+              The FST is combined at runtime from separately stored syntax and transcriptions.
+              This yields a slighlty slower runtime, but also results in a much smaller buffer.
+          </li>
+   </ul>
+    </help>
+    <value value="static"/>
+    <value value="dynamic"/>
+  </EnumerationParameter>
+
+  <BooleanParameter name="useg2p" shortName="U" optional="1" default="false" filter="ASR_RELEASE_TYPE=='internal'">
+    <help>
+      Older alternative to useclc. If the language that you are using has a general purpose CLC
+      buffer, then prefer to use <code>--useclc</code>.
+      If set to true use the G2P as a fallback to generate transcriptions.
+      By default we fetch our transcriptions from dictionaries only (including the small 
+      exception dictionary in the acoustic model).
+      This is an internal option.
+    </help>
+  </BooleanParameter>
+  
+  <InputFileListParameter name="dictionaryFilepaths" shortName="d" optional="1">
+    <help>
+      The dictionaries that are used to look up phonetic transcriptions.
+      A transcription for a particular word is picked from the left-most dictionary where the word occurs.
+    </help>
+  </InputFileListParameter>
+
+  <EnumerationParameter name="dictionaryType" type="String" optional="1" default="auto">
+    <help>Sets the type of the dictionaries specified in <code>--dictionaryFilepaths</code>.
+    <ul>
+      <li>
+        <b>auto</b> means that the tool will use the extension of the dictionary as an
+        indication of the dictionary type: if the extension is <var>.dcb</var> or <var>.dcc</var>, the tool will
+        assume that it is a pre-compiled dictionary and open it as such.
+        Otherwise, the tool will assume that it is a text dictionary and will
+        compile it itself prior to using it.</li>
+      <li>
+        <b>binary</b> forces the tool to open the dictionary as a binary dictionary,
+        regardless of the extension (the dictionary must be pre-compiled without compression in this case).</li>
+      <!--li>
+        <b>compressed</b> forces the tool to open the dictionary as a compressed binary dictionary,
+        regardless of the extension (the dictionary must be compiled compressed in this case).</li-->
+      <li>
+        <b>text</b> forces the tool to open the dictionary as text, regardless of
+        the extension. The expected encoding of the dictionary depends on the native
+        character type used by the installed Vocon3200 API. The encoding can be
+        changed via <code>--dictionaryEncoding</code>. Consult the documentation on
+        <a href="../../com.nuance.embed.vocon3200.help.form/doc/vocon3200_photrans_formalisms.html">exception dictionaries</a> for a description of
+        the dictionary text format and the use of dictionaries.</li>
+    </ul>
+    </help>
+    <value value="auto"/>
+    <value value="text"/>
+    <value value="binary"/>
+    <!--value value="compressed"/-->
+  </EnumerationParameter>
+
+  <EncodingParameter name="dictionaryEncoding" optional="1">
+    <help>
+      Use this option if you use a different encoding than UTF-8 in your <em>text</em> dictionaries.
+    </help>
+    <value value="utf-8"/>
+    <value value="utf-16"/>
+  </EncodingParameter>
+
+  <EnumerationParameter name="contextBufferSearchTreeType" type="String" optional="1" shortName="A" default="fstdphost">
+    <help>
+    <p>This option controls the search type used by the compiled context. 
+    In all cases, the compiler decides the search algorithm to use.
+    Please refer to the application note on context compilation or the API reference
+    "working with contexts" for details on this decision. 
+    The possible options are:</p>
+    <ul>
+      <li>
+        <strong>fstdphost</strong>: Creates a binary context especially for the fst DP algorithm with host context.</li>
+      <li>
+        <strong>fuzzymatchhost</strong>: Creates a binary host context especially for the fuzzy match search algorithm.</li>
+      <li>
+        <strong>matcherdp</strong>: Creates a binary context especially for the matcher DP algorithm.</li>
+        
+    </ul>
+    </help>
+    <value value="fstdphost"/>
+    <value value="fuzzymatchhost"/>
+    <value value="matcherdp"/>
+  </EnumerationParameter>
+  
+  <EnumerationParameter name="wordscoreMode" type="String" optional="1" default="wordpenalty">
+      <help>
+          <p>Use this option to switch the mode in which scores are assigned to word transitions:</p>
+          <ul>
+              <li><strong>wordpenalty</strong>:
+              Applies the same wordpenalty (value of option <code>--wordpenalty</code>) to all word transitions.
+              The value of option <code>--lmfactor</code> is ignored in this mode.
+              This has been the only mode up VoCon Hybrid version 4.10.</li>
+              <li><strong>uniform</strong>:
+              Applies a uniform, normalized probability distribution to the word transitions, scaled by the value
+              of the option <code>--lmfactor</code>. The value of option <code>--wordpenalty</code> is ignored
+              in this mode.
+              This mode allows for better combination (i.e. slot-filling or merging) of grammars and statistical language models.
+              </li>
+          </ul>
+      </help>
+    <value value="wordpenalty"/>
+    <value value="uniform"/>
+  </EnumerationParameter>
+ 
+  <IntegerParameter name="wordpenalty" optional="1" min="0" max="3000">
+    <help>
+      Sets the word penalty parameter. Change this parameter only if you can verify the impact with the 
+      <em>batch</em> tool on a large enough set of recordings.
+      This option only applies if <code>--wordscoreMode=wordpenalty</code> is used.
+      Use <code>--dumpParameters</code> to print out the value of the parameter at the end of the compilation.
+    </help>
+  </IntegerParameter>
+
+  <IntegerParameter name="lmfactor" optional="1" min="0" max="5000">
+      <help>
+        Set the language-model factor in percent. The language-model factor defines the relative weight that is given to the
+        word transition scores with respect to the acoustic scores. 
+        This option only applies if <code>--wordscoreMode=uniform</code> is used.
+        Use <code>--dumpParameters</code> to print out the value of the parameter at the end of the compilation.
+      </help>
+  </IntegerParameter>
+
+  <OutputFileParameter name="logFilepath" optional="1">
+    <help>
+      Use this option to write a log of the transcription lookup process.
+    </help>
+  </OutputFileParameter>  
+
+  <OutputFileParameter name="streamLogFilepath" optional="1" filter="ASR_RELEASE_TYPE=='internal'">
+    <help>
+      Use this option to write the API logging to file.
+    </help>
+  </OutputFileParameter>  
+</ParameterSpecification>

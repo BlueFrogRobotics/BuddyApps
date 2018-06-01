@@ -1,0 +1,13 @@
+#BNF+EMV2.1;
+!grammar guardian_fr;
+!start <fixed>;
+!start <mobile>;
+!start <modifyparam>;
+!start <start>;
+!start <quit>;
+<fixed> : [surveillance] (fixe | immobile);
+<mobile> : mobile | surveillance mobile;
+<modifyparam> : paramètres | paramètrer | configurer | configuration;
+<start> : commencer | démarrer | lancer | activer;
+<quit> : quitter;
+

@@ -30,7 +30,7 @@ namespace BuddyApp.ExperienceCenter
 
             BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
             //BYOS.Instance.Interaction.SpeechToText.OnErrorEnum.Clear();
-            //BYOS.Instance.Interaction.SpeechToText.OnErrorEnum.Add(SpeechToTextError);
+            //BYOS.Instance.Interaction.SpeechToText.OnErrorEnum.Add(SpeechToTextError);     
             //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
             BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
             BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;

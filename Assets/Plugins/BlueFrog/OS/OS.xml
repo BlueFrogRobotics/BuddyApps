@@ -856,7 +856,7 @@
         </member>
         <member name="P:Buddy.EmotionalEvent.ExplanationKey">
             <summary>
-            This is used to explain Buddy's mood
+            This is used to explain Buddy's mood. These keys are stored in the OS' dictionary.
             </summary>
         </member>
         <member name="P:Buddy.EmotionalEvent.MoodDirection">
@@ -925,6 +925,11 @@
         <member name="P:Buddy.Interaction.InternalState">
             <summary>
             Buddy's internal state of mind.
+            </summary>
+        </member>
+        <member name="P:Buddy.Interaction.VoconSTT">
+            <summary>
+            An STT based on Nuance Vocon technology. It's a fully embedded solution which uses grammars during the recognition process.
             </summary>
         </member>
         <member name="P:Buddy.BMLManager.ActiveBML">
@@ -1160,6 +1165,55 @@
             <summary>
             STT recognition state
             </summary>
+        </member>
+        <member name="T:Buddy.VMVoconRecognitionState">
+            <summary>
+            Vocon recognition state.
+            </summary>
+        </member>
+        <member name="T:Buddy.VoconSTT">
+            <summary>
+            An STT based on Nuance Vocon technology. It's a fully embedded solution which uses grammars during the recognition process.
+            </summary>
+        </member>
+        <member name="P:Buddy.VoconSTT.HasFinished">
+            <summary>
+            Is the recognizer still running ?
+            </summary>
+        </member>
+        <member name="P:Buddy.VoconSTT.LastResult">
+            <summary>
+            Last best result.
+            </summary>
+        </member>
+        <member name="P:Buddy.VoconSTT.LastResultText">
+            <summary>
+            Last best result's text.
+            </summary>
+        </member>
+        <member name="P:Buddy.VoconSTT.LastResultConfidence">
+            <summary>
+            Last best result's confidence level, between 1 (low confidence) and 9999 (high confidence).
+            </summary>
+        </member>
+        <member name="P:Buddy.VoconSTT.LastResultStartRule">
+            <summary>
+            The 'start rule' that produced the last best result. Format is 'grammarName#startRuleName'.
+            </summary>
+        </member>
+        <member name="M:Buddy.VoconSTT.LaunchRecognition(System.String[],System.Int32,System.Boolean)">
+            <summary>
+            Start the Vocon recognition engine.
+            </summary>
+            <param name="iGrammar">The path to the grammar that will be used.</param>
+            <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
+            <param name="iWithBeep">Should a beep be played when starting to listen ?</param>
+        </member>
+        <member name="M:Buddy.VoconSTT.SetLanguage(Buddy.Language)">
+            <summary>
+            Set the language of the Speech To Text
+            </summary>
+            <param name="iLanguage">The language enum.</param>
         </member>
         <member name="T:Buddy.IOT">
             <summary>
@@ -1414,6 +1468,11 @@
             Feature to detect AprilTags
             </summary>
         </member>
+        <member name="P:Buddy.Perception.RoomDetector">
+            <summary>
+            Detect in which room Buddy founds itself
+            </summary>
+        </member>
         <member name="T:Buddy.AprilTag">
             <summary>
             Detect AprilTags in frame
@@ -1423,6 +1482,28 @@
             <summary>
             Detect AprilTags in frame
             </summary>
+        </member>
+        <member name="T:Buddy.RoomDetector">
+            <summary>
+            Topological localisation.
+            Call LoadDict() before use
+            </summary>
+        </member>
+        <member name="M:Buddy.RoomDetector.RecogniseRoom(OpenCVUnity.Mat,System.Boolean@)">
+            <summary>
+            Returns room name or unidentified when finished
+            If result not credible enough, finished is false to require more images
+            </summary>
+            <param name="iRGBFrame"></param>
+            <param name="finished"></param> 
+            <returns></returns>
+        </member>
+        <member name="M:Buddy.RoomDetector.LearnImage(OpenCVUnity.Mat,System.Int32)">
+            <summary>
+            Learn one single image
+            </summary>
+            <param name="iRGBFrame"></param>
+            <param name="label"></param>
         </member>
         <member name="M:Buddy.TensorFlowClassifier.ConvertToGrayscale(OpenCVUnity.Mat,System.Int32,System.Int32)">
             <summary>
@@ -1538,6 +1619,26 @@
             </summary>
             <param name="iInputFrameMat">The input frame as Matrix</param>
             <param name="iInputFrameTexture">The inout frame as Texture</param>
+        </member>
+        <member name="T:Buddy.HSV">
+            <summary>
+            Structure containing HSV values for a color.
+            </summary>
+        </member>
+        <member name="F:Buddy.HSV.H">
+            <summary>
+            The "Hue" value (between 0 and 1).
+            </summary>
+        </member>
+        <member name="F:Buddy.HSV.S">
+            <summary>
+            The "Saturation" value (between 0 and 1).
+            </summary>
+        </member>
+        <member name="F:Buddy.HSV.V">
+            <summary>
+            The "Brightness" value (between 0 and 1).
+            </summary>
         </member>
         <member name="T:Buddy.Primitive">
             <summary>
@@ -1980,6 +2081,11 @@
         <member name="P:Buddy.Face.Locked">
             <summary>
             Determine is Buddy face can be changed
+            </summary>
+        </member>
+        <member name="P:Buddy.Face.EyesOpen">
+            <summary>
+            Determines whether Buddy's eyes are closed.
             </summary>
         </member>
         <member name="M:Buddy.Face.SetExpression(Buddy.MoodType)">
@@ -3370,6 +3476,11 @@
             Tells if a notification should be displayed after a successful recognition.
             </summary>
         </member>
+        <member name="P:Buddy.VocalManager.UseVocon">
+            <summary>
+            Should Vocon be used instead of Google STT ?
+            </summary>
+        </member>
         <member name="P:Buddy.VocalManager.StartListenBehaviour">
             <summary>
             Action will be called when STT starts listening
@@ -3393,6 +3504,21 @@
         <member name="P:Buddy.VocalManager.OnError">
             <summary>
             Action will be called upon STT completion with an error. Throws a STTEnum error. After 3 consecutive errors, will momentally disable Sphinx.
+            </summary>
+        </member>
+        <member name="P:Buddy.VocalManager.OnVoconBest">
+            <summary>
+            Action will be called upon recognition completion (only best results).
+            </summary>
+        </member>
+        <member name="P:Buddy.VocalManager.OnVoconEnd">
+            <summary>
+            Action will be called upon recognition completion (all results).
+            </summary>
+        </member>
+        <member name="P:Buddy.VocalManager.OnVoconEvent">
+            <summary>
+            Action will be called when Vocon detectcs an audio event.
             </summary>
         </member>
         <member name="P:Buddy.VocalManager.EnableTrigger">
@@ -3425,6 +3551,16 @@
             <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
             the method restarts the trigger mode after instant recognition</param>
         </member>
+        <member name="M:Buddy.VocalManager.StartInstantReco(Buddy.VoconBestResultCallback,Buddy.VoconResultsCallback,Buddy.VoconEventCallback,System.Boolean)">
+            <summary>
+            Stops Trigger Mode and immediately starts Vocon STT request for instant listening.
+            </summary>
+            <param name="iOnBestReco">The end recognition callback that only gives the best recognition.</param>
+            <param name="iOnEndReco">The end recognition callback.</param>
+            <param name="iOnEvent">The event callback.</param>
+            <param name="iRestartTriggerIfEnabled">If true and EnableTrigger is true, 
+            the method restarts the trigger mode after instant recognition</param>
+        </member>
         <member name="M:Buddy.VocalManager.StartInstantReco(System.Boolean)">
             <summary>
             Stop Trigger Mode and immediately starts STT request for instant listening
@@ -3437,6 +3573,26 @@
             Fake the input vocal signal with input text
             </summary>
             <param name="iInput">The input text that the Speech To Text will proceed</param>
+        </member>
+        <member name="M:Buddy.VocalManager.AddGrammar(System.String,Buddy.LoadContext)">
+            <summary>
+            Add a grammar for VoCon's recognition.
+            </summary>
+            <param name="iGrammarName">The name of the grammar to add.</param>
+            <param name="iContext">The context to load the grammar from.</param>
+        </member>
+        <member name="M:Buddy.VocalManager.RemoveGrammar(System.String,Buddy.LoadContext)">
+            <summary>
+            Remove a grammar from VoCon's grammar list.
+            </summary>
+            <param name="iGrammarName">The name of the grammar to remove.</param>
+            <param name="iContext">The context to load the grammar from.</param>
+            <returns>True if the grammar was successfully removed.</returns>
+        </member>
+        <member name="M:Buddy.VocalManager.ClearGrammars">
+            <summary>
+            Clear VoCon's grammar list.
+            </summary>
         </member>
         <member name="T:Buddy.GCVDetectionType">
             <summary>
@@ -3626,9 +3782,69 @@
             Chance of rain
             </summary>
         </member>
-        <member name="F:Buddy.WeatherType.SNOWY">
+        <member name="F:Buddy.WeatherType.SNOW">
             <summary>
             Snowy weather
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.CHANCE_FLURRIES">
+            <summary>
+            Chance of flurries.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.CHANCE_SLEET">
+            <summary>
+            Chance of sleet.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.CHANCE_SNOW">
+            <summary>
+            Chance of snow.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.CHANCE_STORMS">
+            <summary>
+            Chance of storms.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.FLURRIES">
+            <summary>
+            Chance of flurries.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.FOG">
+            <summary>
+            Foggy weather.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.HAZY">
+            <summary>
+            Hazy weather.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.MOSTLY_CLOUDY">
+            <summary>
+            Mostly cloudy weather.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.MOSTLY_SUNNY">
+            <summary>
+            Mostly sunny weather.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.PARTLY_SUNNY">
+            <summary>
+            Some sun.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.SLEET">
+            <summary>
+            Sleet.
+            </summary>
+        </member>
+        <member name="F:Buddy.WeatherType.THUNDERSTORMS">
+            <summary>
+            Thunderstorms.
             </summary>
         </member>
         <member name="T:Buddy.WeatherError">
@@ -4584,7 +4800,7 @@
             <param name="iName">Name of the file / directory</param>
             <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.AAppActivity.Load``1(System.String)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.AAppActivity.Load``1(System.String)" -->
         <member name="M:Buddy.AAppActivity.LoadAtlas(System.String)">
             <summary>
             Load the atlas from Resource/ or from downloaded bundles. Equivalent to BYOS.Instance.Resources.LoadAtlas(iName)
@@ -5006,6 +5222,54 @@
             <param name="iID"></param>
         </member>
         <member name="M:Buddy.Command.UninstallAppCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:Buddy.Command.LaunchBMLCmd">
+            <summary>
+            When executed : launches a BML with the given name.
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.LaunchBMLCmd.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.LaunchBMLCmd.#ctor(System.String)">
+            <summary>
+            When executed : launches a BML with the given name.
+            </summary>
+            <param name="iName">Name of the BML.</param>
+        </member>
+        <member name="M:Buddy.Command.LaunchBMLCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:Buddy.Command.LaunchRandomBMLCmd">
+            <summary>
+            When executed : launches a BML with the given category.
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.LaunchRandomBMLCmd.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Buddy.Command.LaunchRandomBMLCmd.#ctor(System.String)">
+            <summary>
+            When executed : launches a BML with the given category.
+            </summary>
+            <param name="iCategory">The category to launch from.</param>
+        </member>
+        <member name="M:Buddy.Command.LaunchRandomBMLCmd.#ctor(Buddy.MoodType)">
+            <summary>
+            When executed : launches a BML with the given category.
+            </summary>
+            <param name="iType">The mood type category to launch from.</param>
+        </member>
+        <member name="M:Buddy.Command.LaunchRandomBMLCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -6353,12 +6617,23 @@
             Access to the episodic (event, xp) memory of Buddy
             </summary>
         </member>
+        <member name="T:Buddy.ReminderAlert">
+            <summary>
+            Callback to handle incoming reminder alerts.
+            </summary>
+            <param name="iReminder">The list of incoming reminder alerts.</param>
+        </member>
         <member name="T:Buddy.ProceduralMemManager">
             <summary>
             This class represents the procedural memory of Buddy
             </summary>
             <summary>
             This class represents the procedural memory of Buddy
+            </summary>
+        </member>
+        <member name="P:Buddy.ProceduralMemManager.AlertCallbacks">
+            <summary>
+            The list of all alert callbacks.
             </summary>
         </member>
         <member name="M:Buddy.ProceduralMemManager.AddReminder(System.String,System.Int32)">
@@ -6419,6 +6694,12 @@
             <param name="iType">The type of reminder.</param>
             <param name="iRecurrence">The time span between each reminder, for a recurrent one.</param>
             <returns>The new reminder</returns>
+        </member>
+        <member name="M:Buddy.ProceduralMemManager.GetReminders">
+            <summary>
+            Get the list of all reminders.
+            </summary>
+            <returns>The list of all reminders.</returns>
         </member>
         <member name="M:Buddy.ProceduralMemManager.ExistReminder(System.Int32)">
             <summary>
@@ -6524,6 +6805,11 @@
         <member name="P:Buddy.Reminder.Sender">
             <summary>
             The ID of sender
+            </summary>
+        </member>
+        <member name="P:Buddy.Reminder.NotifID">
+            <summary>
+            The ID of the notification.
             </summary>
         </member>
         <member name="P:Buddy.Reminder.Content">
@@ -7038,7 +7324,7 @@
         <member name="F:Buddy.UI.PoolInflationType.DOUBLE">
             When a dynamic pool inflates, double the size of the pool
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
         <member name="M:Buddy.UI.PoolManager.ReturnObjectToPool(UnityEngine.GameObject)">
             <summary>
             Return obj to the pool
@@ -7864,6 +8150,15 @@
             <param name="iOnValidate">Callback function if the user click on validate</param>
             <param name="iOnDelay">Callback function if the user click on delay</param>
         </member>
+        <member name="M:Buddy.UI.AlertNot.With(System.String,System.DateTime,System.Action,System.Action)">
+            <summary>
+            Specify parameters for the alert notification
+            </summary>
+            <param name="iText">Text to display</param>
+            <param name="iDateTime">The hour and minute of the alert.</param>
+            <param name="iOnValidate">Callback function if the user click on validate</param>
+            <param name="iOnDelay">Callback function if the user click on delay</param>
+        </member>
         <member name="T:Buddy.UI.WeatherNot">
             <summary>
             Display a weather notification on the Top of the robot screen
@@ -8085,6 +8380,12 @@
             </summary>
             <param name="iNotifID">The unique identifier of a notification</param>
             <returns>True or False</returns>
+        </member>
+        <member name="M:Buddy.UI.Notifier.ShowExisting(System.Int32)">
+            <summary>
+            Show an unread notification given a particular ID. If the notification isn't found, nothing is displayed.
+            </summary>
+            <param name="iNotifID">The to be displayed notification's ID.</param>
         </member>
         <member name="T:Buddy.UI.ExplorerPool">
             <summary>

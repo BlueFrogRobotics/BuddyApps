@@ -1,0 +1,30 @@
+#BNF+EMV2.0;
+!grammar experiencecenter_fr;
+!start <idleleg>;
+!start <questiongreeting>;
+!start <questionshy>;
+!start <questionability>;
+!start <questiondance>;
+!start <questionlaguage>;
+!start <questionvibe>;
+!start <questionpresence>;
+!start <questionpresentation>;
+!start <idlesee>;
+!start <byecome>;
+!start <movego>;
+<idleleg> :(dégourdi [toi] | dégourdir) (tes | vos | les) jambes ;
+<questiongreeting> : comment [tu vas | vas-tu | ça va] | ça va;
+<questionshy> : ([es-tu |  tu es] timide) | ([as-tu | tu as] perdu ta langue);
+<questionability> : [que | qu'est ce que] (sais-tu | tu sais | tu peux | peux-tu) faire [quoi] ;
+<questiondance> : [peux-tu | sais-tu | tu sais | tu peux] danser | danse;
+<questionlaguage> : tu parles (quelle langue | combien de langues) | quelle langue tu parles;
+<questionvibe> : ((peux-tu [gérer | mettre de]) | mets de) l'ambiance;
+<questionpresence> : (es-tu | que fais-tu | [pourquoi] tu es) (là | ici) ;
+<questionpresentation> : parles [moi | nous] de toi | présente toi;
+<idlesee> : (ravi | content) de te revoir;
+<byecome> : viens ([par] (ici | là) | dans mes bras);
+<movego>  : vas y | tu peux y aller;
+
+
+
+
