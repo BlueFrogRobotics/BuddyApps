@@ -49,11 +49,13 @@ namespace BuddyApp.Companion
 
 			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("attention") + " " + Dictionary.GetRandomString("propose" + mProposal));
 
-
-			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
-			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
+			Interaction.VocalManager.UseVocon = true;
+			Interaction.VocalManager.AddGrammar("common", LoadContext.OS);
+			Interaction.VocalManager.OnVoconBest = OnSpeechRecognition;
+			Interaction.VocalManager.OnVoconEvent = EventVocon;
 
 			Interaction.VocalManager.EnableDefaultErrorHandling = false;
+			Interaction.VocalManager.OnError = ErrorSTT;
 
 			Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("propose" + mProposal), YesAnswer, NoAnswer);
 		}
@@ -74,15 +76,50 @@ namespace BuddyApp.Companion
 
 		}
 
-		private void OnSpeechRecognition(string iMsg)
+		private void EventVocon(VoconEvent iEvent)
 		{
+			mState.text = "Vocal Triggered " + iEvent.ToString();
+			Debug.Log("Vocal triggered vocon event:" + iEvent.ToString());
+		}
+
+		private void OnSpeechRecognition(VoconResult iMsg)
+		{
+
 			// TODO add emotion event
-			if (ContainsOneOf(iMsg, Dictionary.GetPhoneticStrings("accept")))
-				YesAnswer();
-			else if (ContainsOneOf(iMsg, Dictionary.GetPhoneticStrings("refuse")))
-				NoAnswer();
-			else
-				mNeedListen = true;
+			// TODO: remove fix after vocon multi callback call fix
+			if (Interaction.TextToSpeech.IsSpeaking) {
+				if (string.IsNullOrEmpty(iMsg.Utterance))
+					ErrorSTT(STTError.ERROR_NO_MATCH);
+				else {
+
+					mState.text = "Vocal Triggered: reco " + iMsg.Utterance;
+					Debug.Log("Reco vocal: " + iMsg.Utterance);
+
+					string lStartRule = GetRealStartRule(iMsg.StartRule);
+
+					if (lStartRule == "yes")
+						YesAnswer();
+					else if (lStartRule == "no" || lStartRule == "quit")
+						NoAnswer();
+					else
+						mNeedListen = true;
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// Change format of the StartRule (startrule#yes -> yes)
+		/// </summary>
+		/// <param name="iStartRuleVocon">Old format</param>
+		/// <returns>New format</returns>
+		public static string GetRealStartRule(string iStartRuleVocon)
+		{
+			if (!string.IsNullOrEmpty(iStartRuleVocon) && iStartRuleVocon.Contains("#")) {
+				string lStartRule = iStartRuleVocon.Substring(iStartRuleVocon.IndexOf("#") + 1);
+				return (lStartRule);
+			}
+			return (string.Empty);
 		}
 
 		private void ErrorSTT(STTError iError)
@@ -95,7 +132,10 @@ namespace BuddyApp.Companion
 			Toaster.Hide();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
-			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
+			Interaction.VocalManager.UseVocon = false;
+			Interaction.VocalManager.OnError = null;
+			Interaction.VocalManager.OnVoconBest = null;
+			Interaction.VocalManager.OnVoconEvent = null;
 			Interaction.SpeechToText.OnErrorEnum.Remove(ErrorSTT);
 		}
 

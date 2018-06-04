@@ -244,6 +244,8 @@ namespace BuddyApp.Companion
 
 			Interaction.VocalManager.UseVocon = false;
 			Interaction.VocalManager.OnError = null;
+			Interaction.VocalManager.OnVoconBest = null;
+			Interaction.VocalManager.OnVoconEvent = null;
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
 		}
