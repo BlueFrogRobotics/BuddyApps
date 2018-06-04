@@ -48,10 +48,9 @@ namespace BuddyApp.Companion
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.ASK_USER_PROFILE;
-
-
-			//Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
-			//Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
+			
+			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
+			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
 
 
 			if (mCompanion.mCurrentUser == null) {
@@ -66,8 +65,7 @@ namespace BuddyApp.Companion
 				Debug.Log("We know who is the curent user, ask some info: " + mCompanion.mCurrentUser.FirstName);
 
 				mNeedListen = true;
-
-
+				
 
 				//TODO: make it random somehow...
 				if (!AskMissingInfo()) {
@@ -239,8 +237,8 @@ namespace BuddyApp.Companion
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.CHAT;
 
-			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
-			//Interaction.SpeechToText.OnErrorEnum.Remove(ErrorSTT);
+			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
+			Interaction.SpeechToText.OnErrorEnum.Remove(ErrorSTT);
 		}
 
 

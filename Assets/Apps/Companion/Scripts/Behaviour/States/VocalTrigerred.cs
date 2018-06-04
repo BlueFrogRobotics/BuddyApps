@@ -46,7 +46,7 @@ namespace BuddyApp.Companion
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
 			mState.text = "Vocal Triggered";
-			Debug.Log("state: Vocal Triggered");
+			Debug.Log("state : Vocal Triggered");
 
 			mTimeHumanDetected = 0F;
 
@@ -93,21 +93,24 @@ namespace BuddyApp.Companion
 
 		void OnSpeechRecognition(VoconResult iBestResult)
 		{
-			if (string.IsNullOrEmpty(iBestResult.Utterance))
-				ErrorSTT(STTError.ERROR_NO_MATCH);
-			else {
+			// TODO: remove fix after vocon multi callback call fix
+			if (Interaction.TextToSpeech.IsSpeaking) {
+				if (string.IsNullOrEmpty(iBestResult.Utterance))
+					ErrorSTT(STTError.ERROR_NO_MATCH);
+				else {
 
-				mLastHumanSpeech = iBestResult.Utterance;
+					mLastHumanSpeech = iBestResult.Utterance;
 
-				mState.text = "Vocal Triggered: reco " + mLastHumanSpeech;
-				mError = false;
-				mTime = 0F;
-				mSpeechInput = true;
-				Debug.Log("Reco vocal: " + mLastHumanSpeech);
+					mState.text = "Vocal Triggered: reco " + mLastHumanSpeech;
+					mError = false;
+					mTime = 0F;
+					mSpeechInput = true;
+					Debug.Log("Reco vocal: " + mLastHumanSpeech);
 
-				SortQuestionType(GetRealStartRule(iBestResult.StartRule), iBestResult.Utterance);
+					SortQuestionType(GetRealStartRule(iBestResult.StartRule), iBestResult.Utterance);
 
-				mFirstErrorStt = true;
+					mFirstErrorStt = true;
+				}
 			}
 		}
 
@@ -239,6 +242,7 @@ namespace BuddyApp.Companion
 			Interaction.VocalManager.RemoveGrammar("companion_questions", LoadContext.APP);
 			mDetectionManager.StartSphinxTrigger();
 
+			Interaction.VocalManager.UseVocon = false;
 			Interaction.VocalManager.OnError = null;
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
@@ -844,7 +848,7 @@ namespace BuddyApp.Companion
 					mLaunchingApp = true;
 					break;
 
-				case "UserLove":
+				case "Iloveyou":
 					Debug.Log("VocalTrigger userlove");
 					// react as a caress
 					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(5, -2, "mooduserlove", "USER_LOVE", EmotionalEventType.INTERACTION, InternalMood.RELAXED));
@@ -852,7 +856,7 @@ namespace BuddyApp.Companion
 					mNeedListen = true;
 					break;
 
-				case "UserHate":
+				case "Ihateyou":
 					Debug.Log("VocalTrigger userhate");
 					// react as eye poked
 					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-5, -4, "mooduserhate", "USER_HATE", EmotionalEventType.INTERACTION, InternalMood.SAD));

@@ -73,32 +73,32 @@ namespace BuddyApp.Reminder
 
             int lReccurence = 0;
             int.TryParse(mReminderBehaviour.AllParam[3], out lReccurence);
-            RemindType lRemindType = RemindType.ONE_TIME;
-            RemindRecurrence lRemindRecurrence = RemindRecurrence.NONE;
+            //RemindType lRemindType = RemindType.ONE_TIME;
+            //RemindRecurrence lRemindRecurrence = RemindRecurrence.NONE;
 
-            switch (lReccurence)
-            {
-                case 0:
-                    lRemindType = RemindType.ONE_TIME;
-                    lRemindRecurrence = RemindRecurrence.NONE;
-                    break;
-                case 1:
-                    lRemindType = RemindType.RECURRENT;
-                    lRemindRecurrence = RemindRecurrence.EVERY_DAY;
-                    break;
-                case 2:
-                    lRemindType = RemindType.RECURRENT;
-                    lRemindRecurrence = RemindRecurrence.EVERY_WEEK;
-                    break;
-                case 3:
-                    lRemindType = RemindType.RECURRENT;
-                    lRemindRecurrence = RemindRecurrence.EVERY_MONTH;
-                    break;
-                default:
-                    lRemindType = RemindType.ONE_TIME;
-                    lRemindRecurrence = RemindRecurrence.NONE;
-                    break;
-            }
+            //switch (lReccurence)
+            //{
+            //    case 0:
+            //        lRemindType = RemindType.ONE_TIME;
+            //        lRemindRecurrence = RemindRecurrence.NONE;
+            //        break;
+            //    case 1:
+            //        lRemindType = RemindType.RECURRENT;
+            //        lRemindRecurrence = RemindRecurrence.EVERY_DAY;
+            //        break;
+            //    case 2:
+            //        lRemindType = RemindType.RECURRENT;
+            //        lRemindRecurrence = RemindRecurrence.EVERY_WEEK;
+            //        break;
+            //    case 3:
+            //        lRemindType = RemindType.RECURRENT;
+            //        lRemindRecurrence = RemindRecurrence.EVERY_MONTH;
+            //        break;
+            //    default:
+            //        lRemindType = RemindType.ONE_TIME;
+            //        lRemindRecurrence = RemindRecurrence.NONE;
+            //        break;
+            //}
 
             lDate.AddHours(lHour);
             Debug.Log("date saved: " + lDate.ToString());
@@ -109,7 +109,7 @@ namespace BuddyApp.Reminder
                 lName = Dictionary.GetString("everybody");
             else
                 lName = mReminderBehaviour.Name[ReminderData.Instance.SenderID];
-            lRk.ID=BYOS.Instance.DataBase.Memory.Procedural.AddReminder(lDate, RemindPrecision.MINUTE, "message", ReminderData.Instance.SenderID, lName, lRemindType, lRemindRecurrence);
+            //lRk.ID=BYOS.Instance.DataBase.Memory.Procedural.AddReminder(lDate, RemindPrecision.MINUTE, "message", ReminderData.Instance.SenderID, lName, lRemindType, lRemindRecurrence);
             Debug.Log("2");
             Debug.Log("id: "+ lRk.ID);
             mReminders.Reminders.Add(lRk);

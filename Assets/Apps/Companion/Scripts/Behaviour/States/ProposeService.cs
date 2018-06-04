@@ -18,8 +18,7 @@ namespace BuddyApp.Companion
 		private List<string> mKeyOptions;
 
 		private string mProposal;
-
-		//private TextToSpeech mTTS = BYOS.Instance.Interaction.TextToSpeech;
+		
 		private bool mNeedListen;
 
 		public override void Start()
@@ -56,10 +55,10 @@ namespace BuddyApp.Companion
 
 			Interaction.VocalManager.EnableDefaultErrorHandling = false;
 
-			//Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
-			//Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
+			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
+			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
 
-			//Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("propose" + mProposal), YesAnswer, NoAnswer);
+			Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("propose" + mProposal), YesAnswer, NoAnswer);
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -96,24 +95,24 @@ namespace BuddyApp.Companion
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			//Toaster.Hide();
+			Toaster.Hide();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
-			//Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
-			//Interaction.SpeechToText.OnErrorEnum.Remove(ErrorSTT);
+			Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechRecognition);
+			Interaction.SpeechToText.OnErrorEnum.Remove(ErrorSTT);
 		}
 
 		private void YesAnswer()
 		{
 			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("herewego"));
-			//Toaster.Hide();
+			Toaster.Hide();
 			OnAnswer(mProposal);
 		}
 
 		private void NoAnswer()
 		{
 			Interaction.TextToSpeech.Say(Dictionary.GetRandomString("nopb"));
-			//Toaster.Hide();
+			Toaster.Hide();
 			OnAnswer("nogame");
 		}
 
