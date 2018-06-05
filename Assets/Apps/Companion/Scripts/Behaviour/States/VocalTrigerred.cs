@@ -197,7 +197,7 @@ namespace BuddyApp.Companion
 					// If we need to listen, it means we already answered.
 					// We can tell a notification if needed:
 					if (mDetectionManager.ActiveReminders.Count > 0) {
-						mActionManager.TellNotif(mDetectionManager.ActiveReminders[0]);
+						mActionManager.TellNotifPriority(mDetectionManager.ActiveReminders);
 					}
 
 
