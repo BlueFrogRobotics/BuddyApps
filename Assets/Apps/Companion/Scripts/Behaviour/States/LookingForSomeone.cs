@@ -39,13 +39,13 @@ namespace BuddyApp.Companion
 
 			mLookingTime = 0F;
 
-			if (mDetectionManager.ActiveReminders.Count == 0) {
+
+			if (mActionManager.EmergencyNotif(mDetectionManager.ActiveReminders) == null) {
 				Interaction.TextToSpeech.SayKey("anyoneplay", true);
 				Interaction.Mood.Set(MoodType.THINKING);
 			} else {
-				// TODO: check if notif is an emergency
 				Interaction.Mood.Set(MoodType.SCARED);
-				mActionManager.TellNotif(mDetectionManager.ActiveReminders[0]);
+				mActionManager.TellNotifPriority(mDetectionManager.ActiveReminders);
 
 			}
 

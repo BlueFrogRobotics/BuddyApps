@@ -137,7 +137,7 @@ namespace BuddyApp.Companion
 				Debug.Log("[Companion][ActionManager] need to notify");
 				if (mDetectionManager.UserPresent(iState)) {
 					return "VOCALCOMMAND";
-				} else {
+				} else if(EmergencyNotif(mDetectionManager.ActiveReminders) != -1){
 					//TODO: only if notif is an emergency
 					return "LOOKINGFORSOMEONE";
 				}
@@ -258,6 +258,18 @@ namespace BuddyApp.Companion
 			}
 		}
 
+		
+
+		public Buddy.Reminder EmergencyNotif(List<Buddy.Reminder> iActiveReminders)
+		{
+			for(int i = 0; i < iActiveReminders.Count; ++i) {
+				if (iActiveReminders[i].Urgent)
+					return iActiveReminders[i];
+			}
+
+			return null;
+		}
+
 		/// <summary>
 		/// Tells and display the notification
 		/// </summary>
@@ -279,47 +291,17 @@ namespace BuddyApp.Companion
 			// if long
 			// 2) I have a message for blabla, press validate to display it.
 
+			iReminder.DisplayNotif();
+		}
 
-			// Then display
-			string lTextToDisplay = "";
-			if (!string.IsNullOrEmpty(iReminder.Addressee))
-				lTextToDisplay = "To " + iReminder.Addressee + " ";
-
-
-
-			lTextToDisplay += BYOS.Instance.Dictionary.GetString(iReminder.Content) + " ";
-
-
-			TimeSpan lTimeFromNow = iReminder.EventDate - DateTime.Now;
-			if (lTimeFromNow.Ticks < 0)
-				lTextToDisplay += (int) lTimeFromNow.Negate().TotalMinutes + " ago";
-			else
-				lTextToDisplay += "in " + (int) lTimeFromNow.TotalMinutes;
-
-			// If there is an app to display:
-			//BYOS.Instance.Notifier.Display<AlertNot>().With(lTextToDisplay,
-			//												(() => StartApp("Reminder", new string[] { lReminder.EventDate.ToString() }, new int[] { lReminder.ID })), null);
-
-			//else, if important notif, ask to validate
-
-			//BYOS.Instance.Notifier.ShowExisting(Notification ID);
-
-			//int lNotifID = BYOS.Instance.Notification.Display<SimpleNot>().With(...);
-
-			//BYOS.Instance.Notifier.Display<AlertNot>().With(lTextToDisplay,
-			//												(() => RemoveReminder(iReminder.ID)), null);
-
-
-			BYOS.Instance.Notifier.ShowExisting(iReminder.NotifID);
-
-			//TODO: modify this!
-			RemoveReminder(iReminder.ID);
-
-
-			//else, just display notif
-			//BYOS.Instance.Notifier.Display<SimpleNot>().With(lTextToDisplay);
-			// and remove it
-			//BYOS.Instance.DataBase.Memory.Procedural.RemoveReminder(iReminder.ID);
+		internal void TellNotifPriority(List<Buddy.Reminder> activeReminders)
+		{
+			if(activeReminders.Count > 0) {
+				Buddy.Reminder lReminder = EmergencyNotif(activeReminders);
+				lReminder = (lReminder == null) ? activeReminders[0] : lReminder;
+				
+				TellNotif(lReminder);
+			}
 		}
 
 		internal void RemoveReminder(int iID)
