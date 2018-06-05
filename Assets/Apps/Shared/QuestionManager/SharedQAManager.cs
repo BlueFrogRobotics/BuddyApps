@@ -59,7 +59,6 @@ namespace BuddyApp.Shared
         private bool mListening;
         private TextToSpeech mTTS;
         private float mTimer;
-        private MoodType mActualMood;
         private List<string> mKeyList;
         private bool mSoundPlayed;
         private int mNumberOfButton;
@@ -103,7 +102,6 @@ namespace BuddyApp.Shared
             mSpeechReco = iBestResult.Utterance;
             mStartRule = iBestResult.StartRule;
             mListening = false;
-            Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -145,7 +143,6 @@ namespace BuddyApp.Shared
                     //Display toaster
                     if (IsBinaryToaster)
                     {
-                        mActualMood = Interaction.Mood.CurrentMood;
                         if (items.Count == 0)
                         {
                             Debug.Log("items empty : not possible");
@@ -188,7 +185,6 @@ namespace BuddyApp.Shared
             {
                 if (IsMultipleToaster && !mIsDisplayed)
                 {
-                    mActualMood = Interaction.Mood.CurrentMood;
                     mIsDisplayed = true;
                     if (!string.IsNullOrEmpty(BuddySays))
                     {
@@ -261,7 +257,6 @@ namespace BuddyApp.Shared
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, LoadContext.APP);
-            Interaction.Mood.Set(mActualMood);
             mIsDisplayed = false;
             Interaction.VocalManager.UseVocon = false;
             Debug.Log("EXIT");
@@ -296,7 +291,6 @@ namespace BuddyApp.Shared
         private void OnSpeechReco(string iVoiceInput)
         {
             mSpeechReco = iVoiceInput;
-            Interaction.Mood.Set(MoodType.NEUTRAL);
             mListening = false;
         }
 
