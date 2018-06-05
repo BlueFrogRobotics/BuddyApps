@@ -6693,8 +6693,12 @@
             <param name="iContent">Content of the reminder</param>
             <param name="iSenderID">An ID representing the sender</param>
             <param name="iAddressee">The target person to deliver the reminder to.</param>
+            <param name="iType">The reminder type.</param>
             <param name="iRecurrence">The type of reminder.</param>
             <param name="iSpan">The time span between each reminder, for a recurrent one.</param>
+            <param name="iUrgent">Is the reminder a top priority at specified date ?</param>
+            <param name="iAction">The action to call when the linked notification is validated.</param>
+            <param name="iRemindDate">A date at which a notification should be displayed, prior to the actual event date.</param>
             <returns>The new reminder</returns>
         </member>
         <member name="M:Buddy.ProceduralMemManager.GetReminders">
