@@ -66,6 +66,7 @@
 !start <scared>;
 !start <knockknock>;
 !start <operation>;
+!start <radio>;
 !import <numbers#nb>;
 
 <asklaunch> : ((ouvre | lance ) | (<canyou> (ouvrir | lancer)) | je voudrais [utiliser | jouer à | que tu (ouvres | lances)]) [[l'] application ];
@@ -144,3 +145,5 @@
 <delai> : <numbers#nb> (secondes | minutes | heures);
 <rotationangle> : [de] <numbers#nb> degrés;
 <operation> : [combien (font | ça fait) <numbers#nb>] (plus | moins | divisé par | multiplié par | fois) <numbers#nb>;
+<radioname> : RTL | NRJ | Europe 1 | RFM | Nostalgie | france info | france culture | beur fm | RMC | fun radio | skyrock | rire et chansons;
+<radio> : [<asklaunch>] ([la] radio) [<radioname>]; 
