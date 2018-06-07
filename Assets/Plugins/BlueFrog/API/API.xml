@@ -1053,12 +1053,19 @@
             <param name="iGrammar">The path to the grammar that will be used.</param>
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
         </member>
-        <member name="M:Buddy.Internal.API.VoconAndroid.ChangeAcousticModel(System.String)">
+        <member name="M:Buddy.Internal.API.VoconAndroid.CompileGrammars(System.String[])">
+            <summary>
+            Compile grammars to create a context.
+            </summary>
+            <param name="iGrammars">The grammars needed for compilation. The main grammar has to be the first element.</param>
+        </member>
+        <member name="M:Buddy.Internal.API.VoconAndroid.ChangeAcousticModel(System.String,System.String)">
             <summary>
             Changes the acoustic model of the recognizer.
             Only called when switching language.
             </summary>
             <param name="iAcMod"></param>
+            <param name="iCLCFile"></param>
         </member>
         <member name="M:Buddy.Internal.API.VoconAndroid.OnEndReco(System.String)">
             <summary>
@@ -1117,6 +1124,12 @@
             </summary>
             <param name="iGrammar">The path to the grammar that will be used.</param>
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
+        </member>
+        <member name="M:Buddy.Internal.API.VoconSTT.CompileGrammars(System.String[])">
+            <summary>
+            Compile grammars to create a context.
+            </summary>
+            <param name="iGrammars">The grammars needed for compilation. The main grammar has to be the first element.</param>
         </member>
         <member name="M:Buddy.Internal.API.VoconSTT.OnEndReco(System.String)">
             <summary>

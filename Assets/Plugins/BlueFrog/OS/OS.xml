@@ -1209,6 +1209,12 @@
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
             <param name="iWithBeep">Should a beep be played when starting to listen ?</param>
         </member>
+        <member name="M:Buddy.VoconSTT.CompileGrammars(System.Collections.Generic.List{System.String})">
+            <summary>
+            Compile grammars to create a context.
+            </summary>
+            <param name="iGrammars">The full grammars' path needed for compilation. The main grammar has to be the first element.</param>
+        </member>
         <member name="M:Buddy.VoconSTT.SetLanguage(Buddy.Language)">
             <summary>
             Set the language of the Speech To Text
