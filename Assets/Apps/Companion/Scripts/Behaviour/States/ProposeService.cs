@@ -53,6 +53,7 @@ namespace BuddyApp.Companion
 			BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetRandomString("attention") + " " + Dictionary.GetRandomString("propose" + mProposal));
 
 			Interaction.VocalManager.UseVocon = true;
+			Interaction.VocalManager.ClearGrammars();
 			Interaction.VocalManager.AddGrammar("common", LoadContext.OS);
 			Interaction.VocalManager.OnVoconBest = OnSpeechRecognition;
 			Interaction.VocalManager.OnVoconEvent = EventVocon;
@@ -90,7 +91,7 @@ namespace BuddyApp.Companion
 
 			// TODO add emotion event
 			// TODO: remove fix after vocon multi callback call fix
-			if (Interaction.TextToSpeech.IsSpeaking) {
+			if (!Interaction.TextToSpeech.IsSpeaking) {
 				if (string.IsNullOrEmpty(iMsg.Utterance))
 					ErrorSTT(STTError.ERROR_NO_MATCH);
 				else {
@@ -99,6 +100,7 @@ namespace BuddyApp.Companion
 					Debug.Log("Reco vocal: " + iMsg.Utterance);
 
 					string lStartRule = GetRealStartRule(iMsg.StartRule);
+					Debug.Log("Reco vocal: " + iMsg.Utterance + " start rule: " + lStartRule);
 
 					if (lStartRule == "yes")
 						YesAnswer();
@@ -135,6 +137,7 @@ namespace BuddyApp.Companion
 			Toaster.Hide();
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
+			Interaction.VocalManager.ClearGrammars();
 			Interaction.VocalManager.UseVocon = false;
 			Interaction.VocalManager.OnError = null;
 			Interaction.VocalManager.OnVoconBest = null;

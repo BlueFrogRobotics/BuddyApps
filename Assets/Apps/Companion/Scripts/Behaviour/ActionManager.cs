@@ -137,7 +137,7 @@ namespace BuddyApp.Companion
 				Debug.Log("[Companion][ActionManager] need to notify");
 				if (mDetectionManager.UserPresent(iState)) {
 					return "VOCALCOMMAND";
-				} else if(EmergencyNotif(mDetectionManager.ActiveReminders) != -1){
+				} else if (EmergencyNotif(mDetectionManager.ActiveReminders) != null) {
 					//TODO: only if notif is an emergency
 					return "LOOKINGFORSOMEONE";
 				}
@@ -258,15 +258,14 @@ namespace BuddyApp.Companion
 			}
 		}
 
-		
+
 
 		public Buddy.Reminder EmergencyNotif(List<Buddy.Reminder> iActiveReminders)
 		{
-			for(int i = 0; i < iActiveReminders.Count; ++i) {
+			for (int i = 0; i < iActiveReminders.Count; ++i) {
 				if (iActiveReminders[i].Urgent)
 					return iActiveReminders[i];
 			}
-
 			return null;
 		}
 
@@ -277,31 +276,22 @@ namespace BuddyApp.Companion
 		internal void TellNotif(Buddy.Reminder iReminder)
 		{
 			// 1st Start saying
-
-			string lMessage = "";
-
-			//TODO adapt
-			// 1) I have a message for blabla: message
-
-			lMessage = BYOS.Instance.Dictionary.GetRandomString("shortnotif").Replace("[adressee]", iReminder.Addressee);
-			lMessage = lMessage.Replace("[shortmessage]", BYOS.Instance.Dictionary.GetRandomString(iReminder.Content));
-
-			BYOS.Instance.Interaction.TextToSpeech.Say(lMessage);
-
-			// if long
-			// 2) I have a message for blabla, press validate to display it.
-
+			iReminder.Say();
 			iReminder.DisplayNotif();
 		}
 
-		internal void TellNotifPriority(List<Buddy.Reminder> activeReminders)
+		internal Buddy.Reminder TellNotifPriority(List<Buddy.Reminder> activeReminders)
 		{
-			if(activeReminders.Count > 0) {
+			if (activeReminders.Count > 0) {
 				Buddy.Reminder lReminder = EmergencyNotif(activeReminders);
 				lReminder = (lReminder == null) ? activeReminders[0] : lReminder;
-				
+
 				TellNotif(lReminder);
+
+				return lReminder;
 			}
+
+			return null;
 		}
 
 		internal void RemoveReminder(int iID)
@@ -309,7 +299,7 @@ namespace BuddyApp.Companion
 			if (BYOS.Instance.DataBase.Memory.Procedural.ExistReminder(iID))
 				BYOS.Instance.DataBase.Memory.Procedural.RemoveReminder(iID);
 
-				mDetectionManager.ActiveReminders.RemoveAt(0);
+			mDetectionManager.ActiveReminders.RemoveAt(0);
 		}
 
 		internal void StartApp(string iAppName, string iSpeech = null, bool iLandingTrigg = false)

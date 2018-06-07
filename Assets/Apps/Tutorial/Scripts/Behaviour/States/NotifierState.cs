@@ -24,11 +24,11 @@ namespace BuddyApp.Tutorial
                 () => { },
                 () => { }
             );
-            Notifier.Display<AlertNot>(5F).With(
-                Dictionary.GetString("alertnottext"),
-                () => { },
-                () => { }
-            );
+            //Notifier.Display<AlertNot>(5F).With(
+            //    Dictionary.GetString("alertnottext"),
+            //    () => { },
+            //    () => { }
+            //);
 
             yield return new WaitForSeconds(29F);
 

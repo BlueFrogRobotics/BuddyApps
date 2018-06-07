@@ -18,7 +18,12 @@ namespace BuddyApp.Timer
         {
             finalcountdown = CommonIntegers["finalcountdown"];
             Interaction.Mood.Set(MoodType.THINKING);
-            BYOS.Instance.Toaster.Display<CountdownToast>().With(finalcountdown, EndTimer);
+			if (finalcountdown > 60) {
+				BYOS.Instance.DataBase.Memory.Procedural.AddReminder(DateTime.Now.AddSeconds(-finalcountdown), "", 0, ReminderType.ALARM);
+				QuitApp();
+			} else
+				BYOS.Instance.Toaster.Display<CountdownToast>().With(finalcountdown, EndTimer);
+
 			TimerData.Instance.VocalRequest = "";
 
 		}

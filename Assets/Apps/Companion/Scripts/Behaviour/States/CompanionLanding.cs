@@ -40,7 +40,7 @@ namespace BuddyApp.Companion
 			// Buddy just turned on?
 			if (lTimeSinceStart.TotalSeconds < 75F) {
 
-				mActionManager.TimedMood(MoodType.HAPPY, 5F);
+				mActionManager.TimedMood(MoodType.HAPPY, 8F);
 				BYOS.Instance.Interaction.TextToSpeech.SayKey("buddyturnedon");
 				Debug.Log("Buddy turned on");
 				Trigger("INTERACT");

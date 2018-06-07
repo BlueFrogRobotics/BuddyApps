@@ -75,8 +75,10 @@ namespace BuddyApp.Companion
 
 			Interaction.VocalManager.EnableTrigger = false;
 			Interaction.VocalManager.UseVocon = true;
+			Interaction.VocalManager.ClearGrammars();
 			Interaction.VocalManager.AddGrammar("companion_commands", LoadContext.APP);
 			Interaction.VocalManager.AddGrammar("companion_questions", LoadContext.APP);
+			Interaction.VocalManager.AddGrammar("weather", LoadContext.APP);
 			Interaction.VocalManager.OnVoconBest = OnSpeechRecognition;
 			Interaction.VocalManager.OnVoconEvent = EventVocon;
 
@@ -94,7 +96,9 @@ namespace BuddyApp.Companion
 		void OnSpeechRecognition(VoconResult iBestResult)
 		{
 			// TODO: remove fix after vocon multi callback call fix
-			if (Interaction.TextToSpeech.IsSpeaking) {
+
+			Debug.Log("[COMPANION][ONBESTRECO] Reco vocal: " + iBestResult.Utterance);
+			if (! Interaction.TextToSpeech.IsSpeaking) {
 				if (string.IsNullOrEmpty(iBestResult.Utterance))
 					ErrorSTT(STTError.ERROR_NO_MATCH);
 				else {
@@ -197,7 +201,11 @@ namespace BuddyApp.Companion
 					// If we need to listen, it means we already answered.
 					// We can tell a notification if needed:
 					if (mDetectionManager.ActiveReminders.Count > 0) {
-						mActionManager.TellNotifPriority(mDetectionManager.ActiveReminders);
+						Buddy.Reminder lReminder = mActionManager.TellNotifPriority(mDetectionManager.ActiveReminders);
+
+						if (!lReminder.Urgent) {
+							mDetectionManager.ActiveReminders.Remove(lReminder);
+						}
 					}
 
 
@@ -238,8 +246,7 @@ namespace BuddyApp.Companion
 			mNeedListen = true;
 			mSpeechInput = false;
 
-			Interaction.VocalManager.RemoveGrammar("companion_commands", LoadContext.APP);
-			Interaction.VocalManager.RemoveGrammar("companion_questions", LoadContext.APP);
+			Interaction.VocalManager.ClearGrammars();
 			mDetectionManager.StartSphinxTrigger();
 
 			Interaction.VocalManager.UseVocon = false;
@@ -254,7 +261,6 @@ namespace BuddyApp.Companion
 		//It either corresponds to orders on movement or launch applications
 		private void SortQuestionType(string iType, string iUtterance)
 		{
-			iType = char.ToUpper(iType[0]) + iType.Substring(1);
 			Debug.Log("Question Type found : " + iType);
 			string lSentence = "";
 			if (iType != "Repeat")
@@ -265,13 +271,13 @@ namespace BuddyApp.Companion
 
 			switch (iType) {
 
-				case "Accept":
+				case "accept":
 					Debug.Log("Accept VocalTrigger");
 					SayKey("ilisten");
 					mNeedListen = true;
 					break;
 
-				case "Alarm":
+				case "alarm":
 					mActionManager.StartApp("Alarm", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
@@ -291,13 +297,13 @@ namespace BuddyApp.Companion
 				//	mNeedListen = true;
 				//	break;
 
-				case "Babyphone":
+				case "babyphone":
 					CompanionData.Instance.mInteractDesire -= 10;
 					mActionManager.StartApp("BabyPhone", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "Battery":
+				case "battery":
 					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("informbattery")
 						.Replace("[batterylevel]", BYOS.Instance.Primitive.Battery.EnergyLevel.ToString()));
 					mNeedListen = true;
@@ -315,22 +321,20 @@ namespace BuddyApp.Companion
 				//	mNeedListen = true;
 				//	break;
 
-				case "BuddyLab":
+				case "buddylab":
 					CompanionData.Instance.mInteractDesire -= 20;
 					mActionManager.StartApp("BuddyLab", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
 
-				case "Calcul":
+				case "calcul":
 					CompanionData.Instance.mInteractDesire -= 50;
 					mActionManager.StartApp("PlayMath", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "CanMove":
-
-
+				case "canmove":
 					SayKey("icanmove", true);
 
 					if (CompanionData.Instance.mMovingDesire > 20)
@@ -343,21 +347,21 @@ namespace BuddyApp.Companion
 					mNeedListen = true;
 					break;
 
-				case "ColourSeen":
+				case "colourseen":
 					Trigger("COLOUR");
 					break;
 
-				case "Connection":
+				case "connection":
 					Trigger("CONNECTION");
 					break;
 
-				case "Copy":
+				case "copy":
 					lSentence = Dictionary.GetRandomString("copy");
 					Say(lSentence);
 					Trigger("COPY");
 					break;
 
-				case "DetectObject":
+				case "detectobject":
 					if (BYOS.Instance.Perception.Obstacle.Detect().Length != 0)
 						lSentence = BYOS.Instance.Dictionary.GetRandomString("seesomething");
 					else
@@ -365,7 +369,7 @@ namespace BuddyApp.Companion
 					Say(lSentence);
 					mNeedListen = true;
 					break;
-				case "Dance":
+				case "dance":
 					Debug.Log("Playing BML dance");
 
 					if (CompanionData.Instance.mMovingDesire > 20)
@@ -380,19 +384,19 @@ namespace BuddyApp.Companion
 					mNeedListen = true;
 					break;
 
-				case "DemoShort":
+				case "demoshort":
 					Debug.Log("Playing BML demoShort");
 					Interaction.BMLManager.LaunchByName("DemoShort");
 					mNeedListen = true;
 					break;
 
-				case "DemoFull":
+				case "demofull":
 					Debug.Log("Playing BML  demoFull");
 					Interaction.BMLManager.LaunchByName("DemoFull");
 					mNeedListen = true;
 					break;
 
-				case "Date":
+				case "date":
 					if (BYOS.Instance.Language.CurrentLang == Language.FR) {
 						lSentence = Dictionary.GetRandomString("givedate").Replace("[weekday]", DateTime.Now.ToString("dddd", new CultureInfo("fr-FR")));
 						lSentence = lSentence.Replace("[month]", "" + DateTime.Now.ToString("MMMM", new CultureInfo("fr-FR")));
@@ -407,11 +411,11 @@ namespace BuddyApp.Companion
 					mNeedListen = true;
 					break;
 
-				case "Definition":
+				case "definition":
 					mNeedToGiveAnswer = true;
 					break;
 
-				case "DontMove":
+				case "dontmove":
 					SayKey("istopmoving", true);
 
 					if (CompanionData.Instance.mMovingDesire > 20) {
@@ -429,7 +433,7 @@ namespace BuddyApp.Companion
 					mActionManager.StopAllActions();
 					break;
 
-				case "DoSomething":
+				case "dosomething":
 					Debug.Log("do something");
 					if (UnityEngine.Random.Range(0, 2) == 0)
 						RandomGame();
@@ -437,7 +441,7 @@ namespace BuddyApp.Companion
 						RandomBML();
 					break;
 
-				case "FollowMe":
+				case "followme":
 					mActionManager.UnlockAll();
 
 					if (CompanionData.Instance.mInteractDesire > 20)
@@ -452,19 +456,19 @@ namespace BuddyApp.Companion
 					Trigger("FOLLOW");
 					break;
 
-				case "FreezeDance":
+				case "freezedance":
 					CompanionData.Instance.mInteractDesire -= 50;
 					mActionManager.StartApp("FreezeDance", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "Guardian":
+				case "guardian":
 					CompanionData.Instance.mInteractDesire -= 20;
 					mActionManager.StartApp("Guardian", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "HeadDown": {
+				case "headdown": {
 						mActionManager.CancelOrders();
 						mActionManager.UnlockHead();
 
@@ -478,14 +482,14 @@ namespace BuddyApp.Companion
 						SayKey("accept", true);
 						Say(Dictionary.GetRandomString("headdown").Replace("[degrees]", "" + n), true);
 
-						Debug.Log("Head down " + n + " degrees + VocalChat.Answer: " + n);
+						Debug.Log("head down " + n + " degrees + VocalChat.Answer: " + n);
 						CompanionData.Instance.HeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition + n;
 						mMoving = true;
 						mTimeMotion = Time.time;
 					}
 					break;
 
-				case "HeadUp": {
+				case "headup": {
 						mActionManager.CancelOrders();
 						mActionManager.UnlockHead();
 
@@ -499,7 +503,7 @@ namespace BuddyApp.Companion
 						SayKey("accept", true);
 						Say(Dictionary.GetRandomString("headup").Replace("[degrees]", "" + n), true);
 
-						Debug.Log("Head up " + n + " degrees + VocalChat.Answer: " + n);
+						Debug.Log("head up " + n + " degrees + VocalChat.Answer: " + n);
 						CompanionData.Instance.HeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition - n;
 						//Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n, 100F);
 						mMoving = true;
@@ -507,7 +511,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "HeadLeft": {
+				case "headleft": {
 						mActionManager.CancelOrders();
 						mActionManager.UnlockHead();
 
@@ -521,14 +525,14 @@ namespace BuddyApp.Companion
 						SayKey("accept", true);
 						Say(Dictionary.GetRandomString("headleft").Replace("[degrees]", "" + n), true);
 
-						Debug.Log("Head left " + n + " degrees + VocalChat.Answer: " + n);
+						Debug.Log("head left " + n + " degrees + VocalChat.Answer: " + n);
 						Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition + n, 100F);
 						mMoving = true;
 						mTimeMotion = Time.time;
 					}
 					break;
 
-				case "HeadRight": {
+				case "headright": {
 						mActionManager.CancelOrders();
 						mActionManager.UnlockHead();
 
@@ -543,14 +547,14 @@ namespace BuddyApp.Companion
 						SayKey("accept", true);
 						Say(Dictionary.GetRandomString("headright").Replace("[degrees]", "" + n), true);
 
-						Debug.Log("Head right " + n + " degrees + VocalChat.Answer: " + n);
+						Debug.Log("head right " + n + " degrees + VocalChat.Answer: " + n);
 						Primitive.Motors.NoHinge.SetPosition(Primitive.Motors.NoHinge.CurrentAnglePosition - (float)n, 100F);
 						mMoving = true;
 						mTimeMotion = Time.time;
 					}
 					break;
 
-				case "Heat":
+				case "heat":
 					int[] lMatrix = BYOS.Instance.Primitive.ThermalSensor.MatrixArray;
 					int lMax = RetrieveMaxInt(lMatrix);
 					lSentence = Dictionary.GetRandomString("heat").Replace("[degree]", lMax.ToString());
@@ -559,13 +563,13 @@ namespace BuddyApp.Companion
 					break;
 
 
-				case "HideSeek":
+				case "hideseek":
 					CompanionData.Instance.mInteractDesire -= 50;
-					mActionManager.StartApp("HideAndSeek", mLastHumanSpeech);
+					mActionManager.StartApp("hideAndSeek", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "Hour":
+				case "hour":
 					// HRI 2018
 					if (BYOS.Instance.Language.CurrentLang == Language.FR) {
 						lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
@@ -586,17 +590,17 @@ namespace BuddyApp.Companion
 					mNeedListen = true;
 					break;
 
-				case "IOT":
+				case "iot":
 					CompanionData.Instance.mInteractDesire -= 10;
 					mActionManager.StartApp("Somfy", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "Joke":
+				case "joke":
 					Trigger("TELLJOKE");
 					break;
 
-				case "ListenJoke":
+				case "listenjoke":
 					if (ContainsOneOf(mLastHumanSpeech, "knockknock"))
 						Interaction.TextToSpeech.SayKey("whoisthere");
 					else
@@ -604,12 +608,12 @@ namespace BuddyApp.Companion
 					Trigger("LISTENJOKE");
 					break;
 
-				case "Jukebox":
+				case "jukebox":
 					mActionManager.StartApp("Jukebox", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "Mirror":
+				case "mirror":
 					int time = GetTime(mLastHumanSpeech);
 
 					SetInteger("Duration", time);
@@ -617,7 +621,7 @@ namespace BuddyApp.Companion
 					Trigger("MIRROR");
 					break;
 
-				case "Mood":
+				case "mood":
 					EmotionalEvent lEventMood = Interaction.InternalState.ExplainMood();
 					if (lEventMood == null) {
 						Say(Dictionary.GetRandomString("nomood"));
@@ -633,7 +637,7 @@ namespace BuddyApp.Companion
 					break;
 
 
-				case "MoveBackward": {
+				case "movebackward": {
 						mActionManager.CancelOrders();
 						mActionManager.UnlockWheels();
 
@@ -659,7 +663,7 @@ namespace BuddyApp.Companion
 
 					break;
 
-				case "MoveForward": {
+				case "moveforward": {
 						mActionManager.CancelOrders();
 						mActionManager.UnlockWheels();
 
@@ -685,7 +689,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "MoveLeft": {
+				case "moveleft": {
 						mActionManager.CancelOrders();
 						mActionManager.UnlockWheels();
 
@@ -706,7 +710,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "MoveRight": {
+				case "moveright": {
 						mActionManager.CancelOrders();
 						mActionManager.UnlockWheels();
 
@@ -727,13 +731,13 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "Memory":
+				case "memory":
 					CompanionData.Instance.mInteractDesire -= 50;
 					mActionManager.StartApp("MemoryGame", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "Nap":
+				case "nap":
 					int lTimeInSeconds = GetTime(mLastHumanSpeech);
 
 					if (lTimeInSeconds == 0)
@@ -762,12 +766,12 @@ namespace BuddyApp.Companion
 					Trigger("NAP");
 					break;
 
-				case "Operation":
+				case "operation":
 					Say(Dictionary.GetRandomString("computeresult") + " " + Compute(mLastHumanSpeech).ToString());
 					mNeedListen = true;
 					break;
 
-				case "Play":
+				case "play":
 					CompanionData.Instance.mInteractDesire -= 30;
 
 					Say("ok");
@@ -775,20 +779,20 @@ namespace BuddyApp.Companion
 					RandomGame();
 					break;
 
-				case "Photo":
+				case "photo":
 					CompanionData.Instance.mInteractDesire -= 30;
 					Debug.Log("starting app takephoto");
 					mActionManager.StartApp("TakePhoto", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "Pose":
+				case "pose":
 					CompanionData.Instance.mInteractDesire -= 30;
 					mActionManager.StartApp("Take Pose", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "Quit":
+				case "quit":
 					if (mActionManager.ThermalFollow)
 						Trigger("FOLLOW");
 					else if (mActionManager.Wandering && CompanionData.Instance.CanMoveHead)
@@ -797,33 +801,33 @@ namespace BuddyApp.Companion
 						Trigger("DISENGAGE");
 					break;
 
-				case "Quizz":
+				case "quizz":
 					CompanionData.Instance.mInteractDesire -= 50;
 					mActionManager.StartApp("QuizzGame", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "Recipe":
+				case "recipe":
 					CompanionData.Instance.mInteractDesire -= 20;
 					mActionManager.StartApp("Recipe", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
 
-				case "Reminder":
+				case "reminder":
 					CompanionData.Instance.mHelpDesire -= 20;
 					mActionManager.StartApp("Reminder", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "Repeat":
+				case "repeat":
 					Interaction.TextToSpeech.SayKey("isaid", true);
 					Interaction.TextToSpeech.Say("[500]", true);
 					Interaction.TextToSpeech.Say(mLastBuddySpeech, true);
 					mNeedListen = true;
 					break;
 
-				case "RLGL":
+				case "rlgl":
 					CompanionData.Instance.mInteractDesire -= 50;
 					mActionManager.StartApp("RLGL", mLastHumanSpeech);
 					mLaunchingApp = true;
@@ -837,20 +841,20 @@ namespace BuddyApp.Companion
 				//		Interaction.TextToSpeech.SayKey("okispeaklang", true);
 				//	break;
 
-				case "TellSomething":
+				case "tellsomething":
 					Debug.Log("VocalTrigger tell something");
 					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("introfunfact") + " " + Dictionary.GetRandomString("funfacts"));
 					mNeedListen = true;
 					break;
 
-				case "Timer":
+				case "timer":
 					Debug.Log("VocalTrigger Timer");
 					CompanionData.Instance.mInteractDesire -= 10;
 					mActionManager.StartApp("Timer", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "Iloveyou":
+				case "iloveyou":
 					Debug.Log("VocalTrigger userlove");
 					// react as a caress
 					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(5, -2, "mooduserlove", "USER_LOVE", EmotionalEventType.INTERACTION, InternalMood.RELAXED));
@@ -858,7 +862,7 @@ namespace BuddyApp.Companion
 					mNeedListen = true;
 					break;
 
-				case "Ihateyou":
+				case "ihateyou":
 					Debug.Log("VocalTrigger userhate");
 					// react as eye poked
 					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-5, -4, "mooduserhate", "USER_HATE", EmotionalEventType.INTERACTION, InternalMood.SAD));
@@ -866,7 +870,7 @@ namespace BuddyApp.Companion
 					mNeedListen = true;
 					break;
 
-				case "Volume": {
+				case "volume": {
 						float n = GetNextNumber(iUtterance);
 
 						if (n == -1.23456F) {
@@ -881,7 +885,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "VolumeDown": {
+				case "volumeDown": {
 						float n = GetNextNumber(iUtterance);
 
 						if (n == -1.23456F) {
@@ -899,7 +903,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "VolumeUp": {
+				case "volumeUp": {
 
 						float n = GetNextNumber(iUtterance);
 
@@ -917,7 +921,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "Wander":
+				case "wander":
 					mActionManager.UnlockAll();
 					SayKey("wander");
 					//TODO, maybe ask for interaction instead if Buddy really wants to interact
@@ -932,20 +936,20 @@ namespace BuddyApp.Companion
 					Trigger("WANDER");
 					break;
 
-				case "Weather":
+				case "weather":
 					Debug.Log("VocalTrigger Weather");
 					CompanionData.Instance.mInteractDesire -= 10;
 					mActionManager.StartApp("Weather", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
 
-				case "Welcome":
+				case "welcome":
 					Debug.Log("Playing BML Welcome");
 					Interaction.BMLManager.LaunchByName("Welcome");
 					mNeedListen = true;
 					break;
 
-				case "LookAtMe":
+				case "lookAtMe":
 					//mReaction.SearchFace();
 					mNeedListen = true;
 					break;
