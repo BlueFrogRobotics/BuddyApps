@@ -25,7 +25,6 @@ namespace BuddyApp.RedLightGreenLightGame
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             GetGameObject(2).GetComponent<RLGLTargetMovement>().ResetTargetMovement();
-            Debug.Log("ON STATE ENTER TARGET GAMEPLAY");
             if(!mRLGLBehaviour.IsPlaying)
             {
                 mRLGLBehaviour.TargetClicked = false;
@@ -49,10 +48,9 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("ON UPDATE TARGET GAMEPLAY");
-
             if (mRLGLBehaviour.Timer < mLimit)
             {
+                Debug.Log("CLICK TARGET");
                 ClickTarget();
             }
             else if(!mSentenceDone)
@@ -89,7 +87,6 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("ON EXIT TARGET GAMEPLAY");
             //GetGameObject(1).GetComponent<Animator>().ResetTrigger("close");
             //GetGameObject(1).GetComponent<Animator>().ResetTrigger("open");
             //GetGameObject(1).GetComponent<Animator>().SetTrigger("close");

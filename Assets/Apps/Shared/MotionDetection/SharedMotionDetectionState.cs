@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using OpenCVUnity;
 using Buddy.UI;
+using System.IO;
 
 namespace BuddyApp.Shared
 {
@@ -15,6 +16,12 @@ namespace BuddyApp.Shared
         private bool VideoDisplay;
         [SerializeField]
         private bool LookForUser;
+        [SerializeField]
+        private bool WantToSavePicture;
+        [SerializeField]
+        private string NameOfPictureSaved;
+        [SerializeField]
+        private bool ImageWithMovementDisplayed;
         [Header("Bip Sound Parameters : ")]
         [SerializeField]
         private bool BipSound;
@@ -33,10 +40,14 @@ namespace BuddyApp.Shared
         private string TriggerWhenNotDetected;
         [SerializeField]
         private string Key;
+        [SerializeField]
+        private bool OnlyOneDetection;
         [Header("Movement Quantity Parameters : ")]
         [Tooltip("The quantity of movement represents the number you need to reach in order to move to another state.")]
         [SerializeField]
         private int QuantityMovement;
+        [SerializeField]
+        private bool WantChangingQuantity;
         [Header("Timer (between 0 and 20) : ")]
         [Tooltip("You do the motion detection during the timer.")]
         [Range(0F, 20F)]
@@ -104,6 +115,12 @@ namespace BuddyApp.Shared
             }
             else
                 Debug.Log("You didn't create a float named Timer in animtor's parameter, do it and change its value with  animator.SetFloat(\"Timer\", your value);");
+            if (WantChangingQuantity && iAnimator.GetFloat("QuantityMovement") != 0)
+            {
+                QuantityMovement = iAnimator.GetInteger("QuantityMovement");
+            }
+            else
+                Debug.Log("You didn't create a integer named QuantityMovement in animator's parameter, do it and change its value with animator.SetInteger(\"QuantityMovement\", your value);");
             //mCam.Resolution = RGBCamResolution.W_320_H_240; 
             mCam.Open(RGBCamResolution.W_320_H_240);
             if (!AreaToDetect)
@@ -237,14 +254,13 @@ namespace BuddyApp.Shared
 
                 }
             }
-
-
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mMotion.StopOnDetect(OnMovementDetected);
-            if (!string.IsNullOrEmpty(TriggerWhenDetected))
+            mMotion.StopAllOnDetect();
+            mCam.Close();
+            if (!string.IsNullOrEmpty(TriggerWhenDetected)) 
                 ResetTrigger(TriggerWhenDetected);
             if (!string.IsNullOrEmpty(TriggerWhenNotDetected))
                 ResetTrigger(TriggerWhenNotDetected);
@@ -253,12 +269,45 @@ namespace BuddyApp.Shared
 
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
+            Debug.Log("SharedMotionDetection");
             mMatDetection = mCam.FrameMat.clone();
             mMatDetectionCopy = mMatDetection.clone();
+            Texture2D lTexture = new Texture2D(mCam.Width,mCam.Height);
             if (!WantToFlip)
                 Core.flip(mMatDetectionCopy, mMatDetectionCopy, 1);
             if (iMotions.Length > 5)
             {
+                if(OnlyOneDetection)
+                {
+                    if(WantToSavePicture )
+                    {
+                        if (!string.IsNullOrEmpty(NameOfPictureSaved))
+                        {
+                            if(ImageWithMovementDisplayed)
+                            {
+                                foreach(MotionEntity lEntity in iMotions)
+                                {
+                                    Imgproc.circle(mMatDetectionCopy, Utils.Center(lEntity.RectInFrame), 3, new Scalar(Color.yellow), 3); 
+                                }
+                               
+                                Utils.MatToTexture2D(mMatDetectionCopy, Utils.ScaleTexture2DFromMat(mMatDetectionCopy, lTexture));
+                                File.WriteAllBytes(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved), lTexture.EncodeToJPG());
+                            }
+                            else
+                            {
+                                Utils.MatToTexture2D(mMatDetectionCopy, Utils.ScaleTexture2DFromMat(mMatDetectionCopy, lTexture));
+                                File.WriteAllBytes(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved), lTexture.EncodeToJPG());
+                            }
+                        }
+                        else
+                            Debug.Log("The name of the picture is empty.");
+                    }
+                    if (!string.IsNullOrEmpty(TriggerWhenDetected))
+                        Trigger(TriggerWhenDetected);
+                    else
+                        Debug.Log("your trigger when detected is empty.");
+                }
+
                 bool lInRectangle = false;
                 if (BipSound)
                 {
@@ -303,7 +352,6 @@ namespace BuddyApp.Shared
                         }
                     }
                 }
-
                 //if (lInRectangle)
                 mDetectionCount++;
             }

@@ -101,6 +101,12 @@ namespace BuddyApp.SandboxApp
         private bool mIsDisplayPhotoDone;
         private bool mCountDownDisplayed;
         private bool mCountDownBuddy;
+        private Mat MatOverlay;
+        private Texture2D lTexture;
+        private Texture2D lOverlayTexture;
+        private Sprite lSpriteOverlay;
+        private bool mIsLoadSpritedone;
+        private RawImage mCopy;
 
         public override void Start()
         {
@@ -114,16 +120,21 @@ namespace BuddyApp.SandboxApp
             mStarterCountdown = 5F;
             mCountdownSaid = false;
             mIsCountdownStarted = false;
-            
+            mMatSrc = new Mat();
+            mIsLoadSpritedone = false;
         }
+        
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mTimer = 0F;
             if (!Primitive.RGBCam.IsOpen)
                 Primitive.RGBCam.Open(RGBCamResolution.W_640_H_480);
             if(!InstantPhoto && DisplayVideo)
                 GetGameObject(IndexRawImageWhereDisplay).SetActive(true);
             mRawImageWhereDisplay = GetGameObject(IndexRawImageWhereDisplay).GetComponent<RawImage>();
+            mCopy = Instantiate(mRawImageWhereDisplay);
+            mCopy.transform.SetAsLastSibling();
             mIsDone = false;
             mIsDisplayPhotoDone = false;
             mPhotoTaken = false;
@@ -134,13 +145,15 @@ namespace BuddyApp.SandboxApp
         {
             mTimerForCountdown += Time.deltaTime;
             mTimer += Time.deltaTime;
+
             if (!mIsDone)
             {
-                Debug.Log("1 "  + mIsDone);
+                mMatSrc = Primitive.RGBCam.FrameMat;
+                Core.flip(mMatSrc, mMatDest, 1);
                 if (InstantPhoto)
                 {
-                    Mat mMatSrc = Primitive.RGBCam.FrameMat;
-                    Core.flip(mMatSrc, mMatDest, 1);
+                    Debug.Log("INSTANT PHOTO : ");
+                    
                     if (mTimer > 1F)
                     {
                         Primitive.RGBCam.TakePhotograph(OnFinish, false);
@@ -151,19 +164,20 @@ namespace BuddyApp.SandboxApp
                     return;
                 }
 
-                Debug.Log("2");
+               
 
                 if ((mTimer > 5.5F && mCountDownBuddy) || ((int)(mStarterCountdown - mTimer) < 1 && mCountDownBuddy))
                 {
+                    Debug.Log("TIMER > 5.5 OU StarterCountdown - timer < 1 : ");
                     mTimer = 0F;
                     Primitive.RGBCam.TakePhotograph(OnFinish, false);
                     Reset();
 
                 }
-                Debug.Log("4");
 
                 if (IsCountdownSaid)
                 {
+                    //A voir en fonction de quand commence le countdown (peut etre que ça sera simple avec VOCON)
                     //mTTS.Say();
                 }
 
@@ -171,21 +185,19 @@ namespace BuddyApp.SandboxApp
                 {
                     if (GetGameObject(IndexTextOfCountdown).GetComponent<Text>() != null)
                     {
-                        Debug.Log("6");
+                        Debug.Log("COUNTDOWN CLASSIC ET NON NULL : ");
 
                         if (!mIsCountdownStarted)
                         {
                             mTimer = -0.5F;
                             mIsCountdownStarted = true;
                         }
-                        Debug.Log("7");
 
                         GetGameObject(IndexTextOfCountdown).SetActive(true);
                         int test = (int)(mStarterCountdown - mTimer);
                         GetGameObject(IndexTextOfCountdown).GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
                         GetGameObject(IndexTextOfCountdown).GetComponent<Text>().fontSize = 180;
                         GetGameObject(IndexTextOfCountdown).GetComponent<Text>().color = new Color32(ColorOfCountdown.r,ColorOfCountdown.g, ColorOfCountdown.b, 255);
-                        Debug.Log("MTIMER : " + mTimer + " TEST : " + test);
                         GetGameObject(IndexTextOfCountdown).GetComponent<Text>().text = test.ToString();
                         if((int)(mStarterCountdown - mTimer) <= 0)
                         {
@@ -199,7 +211,9 @@ namespace BuddyApp.SandboxApp
                 }
                 else if(CountdownToDisplay == Countdown.BUDDY_COUNTDOWN && mTimerForCountdown > 2F)
                 {
-                    if(!mCountDownDisplayed)
+                    Debug.Log("COUNTDOWN BUDDY ET NON NULL : ");
+
+                    if (!mCountDownDisplayed)
                     {
                         Toaster.Display<CountdownToast>().With(5, OnCountDownFinished);
                         mCountDownDisplayed = true;
@@ -207,6 +221,8 @@ namespace BuddyApp.SandboxApp
                 }
                 else if(CountdownToDisplay == Countdown.NONE && mTimerForCountdown > 2F)
                 {
+                    Debug.Log(" PAS DE COUNTDOWN ET NON NULL : ");
+
                     if ((int)(mStarterCountdown - mTimer) <= 0)
                     {
                         mCountDownDisplayed = true;
@@ -214,38 +230,50 @@ namespace BuddyApp.SandboxApp
                     }
 
                 }
-                Debug.Log("8");
 
-                if (DisplayVideo)
+                if (DisplayVideo && !mIsPhotoTaken)
                 {
+                    Debug.Log("DISPLAY VIDEO : ");
+
                     if (!WantOverlay)
                     {
                         mRawImageWhereDisplay.texture = Utils.MatToTexture2D(mMatDest);
                     }
                     else
                     {
-                        if (IsFolderEmpty())
+                        //if (IsFolderEmpty())
+                        //{
+                        //    Debug.Log("Your overlay doesn't exist, check if it is in the right folder (\"your app name\"\\Resources\\Overlay) or check if your extension is .png or .PNG");
+                        //}
+                        //else
+                        //{
+                        //l'overlay existe et on l'affiche
+                        if(!mIsLoadSpritedone)
                         {
-                            Debug.Log("Your overlay doesn't exist, check if it is in the right folder (\"your app name\"\\Resources\\Overlay) or check if your extension is .png or .PNG");
+                            lSpriteOverlay = Resources.Load<Sprite>(NameOfOverlay);
+                            mCopy.texture = lSpriteOverlay.texture;
+                            mIsLoadSpritedone = true;
                         }
-                        else
-                        {
-                            //l'overlay existe et on l'affiche
 
-                        }
+                        //mRawImageWhereDisplay.texture = lSpriteOverlay.texture;
+                        //DrawOverlayOnPicture(Utils.MatToTexture2D(mMatDest));
+                        mRawImageWhereDisplay.texture = Utils.MatToTexture2D(mMatDest);
+                        //}
                     }
 
                 }
             }
             if(mIsPhotoTaken)
             {
+                Debug.Log("IS PHOTO TAKEN :" + mTimer);
                 if (!mIsDisplayPhotoDone)
                 {
+                    mTimer = 0F;
                     mIsDisplayPhotoDone = true;
                     DisplayPhoto(mFilePath);
                 }
 
-                if(mTimer > 6F)
+                if(mTimer > 6F && mIsDisplayPhotoDone)
                 {
                     if (!string.IsNullOrEmpty(TriggerToNextState))
                         Trigger(TriggerToNextState);
@@ -282,9 +310,8 @@ namespace BuddyApp.SandboxApp
         private void OnFinish(Photograph iMyPhoto)
         {
             Debug.Log("ONFINISH");
-            GetGameObject(IndexTextOfCountdown).SetActive(false);
-            GetGameObject(IndexRawImageWhereDisplay).SetActive(false);
-            Primitive.RGBCam.Close();
+
+            Sprite lFlipSprite;
             string lFileName;
             // save file 
             if (string.IsNullOrEmpty(NameOfPhotoTaken))
@@ -302,11 +329,15 @@ namespace BuddyApp.SandboxApp
             if(WantOverlay)
             {
                 //A faire plus tard avec le takephoto de greg pour mettre l'overlay sur la photo
+                lFlipSprite = Sprite.Create(FlipTexture(Utils.MatToTexture2D(mMatDest)), new UnityEngine.Rect(0, 0, iMyPhoto.Image.texture.width, iMyPhoto.Image.texture.height), new Vector2(0.5F, 0.5F));
             }
             else
-                mPhotoSprite = iMyPhoto.Image;
+            {
+                lFlipSprite = Sprite.Create(FlipTexture(iMyPhoto.Image.texture), new UnityEngine.Rect(0, 0, iMyPhoto.Image.texture.width, iMyPhoto.Image.texture.height), new Vector2(0.5F, 0.5F));
+            }
+            //    mPhotoSprite = iMyPhoto.Image;
             //peut add la fonction flip de limage ou pas
-            Sprite lFlipSprite;
+            
             lFlipSprite = Sprite.Create(FlipTexture(iMyPhoto.Image.texture), new UnityEngine.Rect(0, 0, iMyPhoto.Image.texture.width, iMyPhoto.Image.texture.height), new Vector2(0.5F, 0.5F));
             Utils.SaveSpriteToFile(lFlipSprite, mFilePath);
 
@@ -320,8 +351,9 @@ namespace BuddyApp.SandboxApp
                 else
                     Debug.Log("You forgot to write the trigger to activate in the animator");
 
-
-
+            GetGameObject(IndexTextOfCountdown).SetActive(false);
+            GetGameObject(IndexRawImageWhereDisplay).SetActive(false);
+            Primitive.RGBCam.Close();
         }
 
         private void Reset()
@@ -352,11 +384,46 @@ namespace BuddyApp.SandboxApp
             return lFlipped;
         }
 
-        private void DisplayPhoto(string lol)
+        private void DisplayPhoto(string iFile)
         {
             Sprite lsprite;
-            lsprite = Utils.CreateSpriteFromFile(lol);
+            lsprite = Utils.CreateSpriteFromFile(iFile);
             Toaster.Display<PictureToast>().With(lsprite);
+        }
+
+        private  Mat  DrawOverlayOnPicture(Texture2D iTexture)
+        {
+
+            lTexture = iTexture;
+
+            
+            lOverlayTexture = lSpriteOverlay.texture;
+
+            var cols1 = lOverlayTexture.GetPixels();
+            var cols2 = lTexture.GetPixels();
+
+            // We scale the overlay and put it on top of the picture
+            // it's ok if you don't get it ^^
+            int x = 0;
+            int y = 0;
+            int i2 = 0;
+            for (var i = 0; i < cols2.Length; ++i)
+            {
+
+                x = i % lTexture.width;
+                y = i / lTexture.width;
+                i2 = (x * lOverlayTexture.width / lTexture.width) + (y * lOverlayTexture.height / lTexture.height) * lOverlayTexture.width;
+                if (cols1[i2].a != 0)
+                {
+                    cols2[i] = (1 - cols1[i2].a) * cols2[i] + cols1[i2].a * cols1[i2];
+                }
+            }
+
+            lTexture.SetPixels(cols2);
+            lTexture.Apply();
+            //iSpriteToSave = Sprite.Create(lTexture, new UnityEngine.Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
+            Utils.Texture2DToMat(lTexture, mMatDest);
+            return mMatDest;
         }
     }
 }

@@ -50,10 +50,11 @@ namespace BuddyApp.RedLightGreenLightGame
             
             yield return SayKeyAndWait("lookphoto");
 
-            Texture2D lTexture = mRLGLBehaviour.PictureMoving;//mCam.FrameTexture2D;
+            //Texture2D lTexture = mRLGLBehaviour.PictureMoving;//mCam.FrameTexture2D;
+            Texture2D lTexture = LoadPNG(BYOS.Instance.Resources.GetPathToRaw("RLGLDetected"));
             //Texture2D lTexture = LoadPNG("C:/Users/Walid/Pictures/buddy.png");
             //Utils.Texture2DToMat(lTexture);
-            
+
             Toaster.Display<PictureToast>().With(Dictionary.GetString("lookphoto"), Sprite.Create(lTexture, new Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5f, 0.5f)));
             
             yield return new WaitForSeconds(3);
