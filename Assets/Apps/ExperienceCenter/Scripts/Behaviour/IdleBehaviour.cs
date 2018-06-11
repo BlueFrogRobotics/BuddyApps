@@ -58,7 +58,7 @@ namespace BuddyApp.ExperienceCenter
 		private IEnumerator Idle ()
 		{
 			while (true) {
-				if (/*ExperienceCenterData.Instance.VoiceTrigger*/BYOS.Instance.Interaction.VocalManager.EnableTrigger && !mAttitudeBehaviour.IsWaiting && !behaviourEnd) {
+				if (/*ExperienceCenterData.Instance.VoiceTrigger*//*BYOS.Instance.Interaction.VocalManager.EnableTrigger && */!mAttitudeBehaviour.IsWaiting && !behaviourEnd) {
 					mAttitudeBehaviour.StartWaiting ();
 					headPoseInit = false;
 				}
