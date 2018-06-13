@@ -68,6 +68,7 @@ namespace BuddyApp.Shared
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("StateENterShared");
             if(!mListClear)
             {
                 mListClear = true;
@@ -77,7 +78,7 @@ namespace BuddyApp.Shared
             BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
             mHasLoadedTTS = true;
-            if(!string.IsNullOrEmpty(speechKey))
+            if (!string.IsNullOrEmpty(speechKey))
             {
                 if (!string.IsNullOrEmpty(Dictionary.GetRandomString(speechKey)))
                 {
@@ -91,6 +92,7 @@ namespace BuddyApp.Shared
 
             //Use vocon
             Interaction.VocalManager.UseVocon = true;
+
             Debug.Log(BYOS.Instance.Resources.GetPathToRaw(NameVoconGrammarFile + "_en.bin + " + context));
             Interaction.VocalManager.AddGrammar(NameVoconGrammarFile, context);
             Interaction.VocalManager.OnVoconBest = VoconBest;
@@ -110,6 +112,7 @@ namespace BuddyApp.Shared
         private void VoconBest(VoconResult iBestResult)
         {
             mSpeechReco = iBestResult.Utterance;
+            Debug.Log("SpeechReco = " + mSpeechReco);
             mStartRule = iBestResult.StartRule;
             mListening = false;
             Interaction.Mood.Set(MoodType.NEUTRAL);
@@ -130,9 +133,10 @@ namespace BuddyApp.Shared
                     mHasDisplayChoices = true;
                     return;
                 }
+                Debug.Log("mSpeechReco = " + mSpeechReco + "lol");
                 if (string.IsNullOrEmpty(mSpeechReco))
                 {
-
+                    Debug.Log("StartInstantReco");
                     Interaction.VocalManager.StartInstantReco();
 
                     Interaction.Mood.Set(MoodType.LISTENING);
@@ -156,9 +160,12 @@ namespace BuddyApp.Shared
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("StateExitShared");
             // Vocon
             Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, LoadContext.APP);
             Interaction.VocalManager.UseVocon = false;
+            Interaction.VocalManager.OnVoconBest = null;
+            Interaction.VocalManager.OnVoconEvent = null;
 
             mListClear = false;
             Interaction.SpeechToText.Stop();
@@ -199,9 +206,14 @@ namespace BuddyApp.Shared
                 };
                 i++;
             }
-            Debug.Log("apres foreach");
 
-            BYOS.Instance.Toaster.Display<ChoiceToast>().With(Dictionary.GetString(titleKey), lButtonsInfo);
+            if (string.IsNullOrEmpty(Dictionary.GetString(titleKey)))
+                BYOS.Instance.Toaster.Display<ChoiceToast>().With(titleKey, lButtonsInfo);
+            else
+                BYOS.Instance.Toaster.Display<ChoiceToast>().With(Dictionary.GetString(titleKey), lButtonsInfo);
+
+
+
 
         }
 
