@@ -7,8 +7,7 @@ namespace BuddyApp.PlayMath{
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-			Animator lBackgroundAnimator = GameObject.Find("UI/Background_Black").GetComponent<Animator>();
-			lBackgroundAnimator.SetTrigger("open");
+
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

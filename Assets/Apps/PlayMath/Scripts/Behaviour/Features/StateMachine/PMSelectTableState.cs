@@ -42,7 +42,7 @@ namespace BuddyApp.PlayMath{
         private void SetTablesStarProgress()
         {
             Text[] childs = GameObject.Find("UI/Set_Table/Middle_UI").GetComponentsInChildren<Text>();
-            foreach(Text child in childs)
+            foreach (Text child in childs)
             {
                 int table = int.Parse(Regex.Match(child.text,@"\d+").Value);
                 GameObject StarProgress = child.gameObject.transform.parent.Find("Star_Progress").gameObject;
