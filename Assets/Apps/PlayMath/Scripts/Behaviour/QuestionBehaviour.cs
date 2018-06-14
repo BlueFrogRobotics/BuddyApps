@@ -56,9 +56,9 @@ namespace BuddyApp.PlayMath{
             // Disable VocalManager trigger mode
             mVocalManager.EnableTrigger = false;
             // Define VocalManager STT Callback
-            mVocalManager.OnEndReco = SpeechToTextCallback;
+            //mVocalManager.OnEndReco = SpeechToTextCallback;
             // Define VocalManager STT Error Callback
-            mVocalManager.OnError = ErrorCallback;
+            //mVocalManager.OnError = ErrorCallback;
             // Disable default error handling (Buddy asking the user to repeat)
             mVocalManager.EnableDefaultErrorHandling = false;
             mSTTChoices = new List<string>();
@@ -67,6 +67,19 @@ namespace BuddyApp.PlayMath{
         public void InitState()
         {
             mTriggerOnce = true;
+
+            //Use vocon
+            mVocalManager.UseVocon = true;
+            mVocalManager.ClearGrammars();
+            Debug.Log(BYOS.Instance.Resources.GetPathToRaw("playmath_question_en.bin"));
+            mVocalManager.AddGrammar("playmath_question", LoadContext.APP);
+            mVocalManager.OnVoconBest = SpeechToTextCallback;
+            mVocalManager.OnVoconEvent = EventVocon;
+        }
+
+        private void EventVocon(VoconEvent iEvent)
+        {
+            Debug.Log(iEvent);
         }
 
         public void ResetGame()
@@ -195,13 +208,14 @@ namespace BuddyApp.PlayMath{
             mLaunchSTTOnce = false;
         }
 
-        public void SpeechToTextCallback(string iSpeech)
+        public void SpeechToTextCallback(VoconResult iSpeech)
         {
+            Debug.Log("Speech = " + iSpeech.Utterance);
             // in case an anwser has already been given with onClick()
             if(!HasAnswer)
             {
                 // extract response from any sentence
-                string answer = ExtractNumber(iSpeech);
+                string answer = ExtractNumber(iSpeech.Utterance);
 
                 if (answer != "")
                 {
