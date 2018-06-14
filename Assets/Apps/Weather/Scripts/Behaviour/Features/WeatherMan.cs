@@ -28,7 +28,6 @@ namespace BuddyApp.Weather
 
         void Awake()
         {
-            Debug.Log("Coucou Hiboux");
 
             gridGO.GetComponent<Animator>().SetTrigger("open");
             for (int i = 0; i < 4; i++)

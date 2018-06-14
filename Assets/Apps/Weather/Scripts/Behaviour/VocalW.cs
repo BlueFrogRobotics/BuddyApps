@@ -16,7 +16,6 @@ namespace BuddyApp.Weather
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mListening = false;
-            Debug.Log("ENTER LISTEN test");
             //if (!string.IsNullOrEmpty(WeatherData.Instance.VocalRequest))
             //Trigger("Vocal");
 
@@ -60,7 +59,6 @@ namespace BuddyApp.Weather
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("EXIT LISTEN");
 
             Interaction.VocalManager.UseVocon = false;
             Interaction.VocalManager.RemoveGrammar("weather", LoadContext.APP);
@@ -79,7 +77,6 @@ namespace BuddyApp.Weather
         private void NoAnswer(STTError iError)
         {
             Utils.LogI(LogContext.APP, "VM error");
-            Debug.Log("GOT NO ANSWER");
         }
 
     }
