@@ -108,18 +108,14 @@ namespace BuddyApp.Weather
             {
                 if (mWeatherB.mWhen && mWeatherB.mDate == -1)
                 {
-                    Debug.Log("mWeatherB.mWhen = " + mWeatherB.mWhen + "mWeatherB.mDate = " + mWeatherB.mDate);
                     for (int i = 0; i < iWeather.Length; ++i)
                     {
-                        Debug.Log("iWeather[i].Type = " + iWeather[i].Type + " iWeatherType " + iWeatherType);
-                        Debug.Log("i = " + i);
                         if (((iWeather[i].Type == WeatherType.CHANCE_OF_RAIN && iWeatherType == WeatherType.RAIN) || (iWeather[i].Type == WeatherType.RAIN && iWeatherType == WeatherType.CHANCE_OF_RAIN)) ||
                             ((iWeather[i].Type == WeatherType.CHANCE_FLURRIES && iWeatherType == WeatherType.FLURRIES) || (iWeather[i].Type == WeatherType.FLURRIES && iWeatherType == WeatherType.CHANCE_FLURRIES)) ||
                             ((iWeather[i].Type == WeatherType.CHANCE_SNOW && iWeatherType == WeatherType.SNOW) || (iWeather[i].Type == WeatherType.SNOW && iWeatherType == WeatherType.CHANCE_SNOW)) ||
                             ((iWeather[i].Type == WeatherType.CHANCE_SLEET && iWeatherType == WeatherType.SLEET) || (iWeather[i].Type == WeatherType.SLEET && iWeatherType == WeatherType.CHANCE_SLEET)) ||
                             iWeather[i].Type == iWeatherType)
                         {
-                            Debug.Log("iWeather[i].Type = " + iWeather[i].Type + " iWeatherType " + iWeatherType);
                             mWeatherB.mIndice = i;
                             lFound = true;
                             break;

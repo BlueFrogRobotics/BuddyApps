@@ -98,7 +98,6 @@ namespace BuddyApp.Weather
                     }
                     else
                     {
-                        Debug.Log("NO " + mWeatherB.mForecast.ToString());
                         // Deny: There is no rain forecast for upcoming week
                         lAnswer = Dictionary.GetRandomString("notexpect").Replace("[forecast]", Dictionary.GetRandomString(mWeatherB.mForecast.ToString().ToLower() + "ing"));
                         if (mWeatherB.mDate == -1)
