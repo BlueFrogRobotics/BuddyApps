@@ -1,18 +1,13 @@
 ﻿<List>
-  <ListSize>3</ListSize>
+  <ListSize>2</ListSize>
   <Button>
     <Key>menusimple</Key>
     <Trigger>MakeProject</Trigger>
-    <QuitApp>False</QuitApp>
+    <QuitApp>True</QuitApp>
   </Button>
   <Button>
     <Key>menuopen</Key>
     <Trigger>StartOpen</Trigger>
-    <QuitApp>False</QuitApp>
-  </Button>
-  <Button>
-    <Key>menututo</Key>
-    <Trigger>StartTuto</Trigger>
-    <QuitApp>False</QuitApp>
+    <QuitApp>True</QuitApp>
   </Button>
 </List>

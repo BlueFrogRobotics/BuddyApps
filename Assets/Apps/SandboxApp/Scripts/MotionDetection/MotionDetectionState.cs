@@ -247,7 +247,7 @@ namespace BuddyApp.SandboxApp
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mMotion.StopOnDetect(OnMovementDetected);
+            //mMotion.StopOnDetect(OnMovementDetected);
             if (!string.IsNullOrEmpty(TriggerWhenDetected))
                 ResetTrigger(TriggerWhenDetected);
             if (!string.IsNullOrEmpty(TriggerWhenNotDetected))

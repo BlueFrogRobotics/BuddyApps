@@ -44,7 +44,7 @@ namespace BuddyApp.RedLightGreenLightGame
                 mCam = Primitive.RGBCam;
                 mDone = false;
                 mTexture = new Texture2D(mCam.Width, mCam.Height);
-                Perception.Motion.OnDetect(OnMovementDetected);
+                //Perception.Motion.OnDetect(OnMovementDetected);
                 //Timer limit a changer en fonction du xml
                 mTimerLimit = mLevelManager.LevelData.WaitingTime;
                
@@ -113,7 +113,7 @@ namespace BuddyApp.RedLightGreenLightGame
                         Debug.Log("DETECTION PERCEPTION GAMEPLAY 2 : ");
                         animator.SetFloat("Timer", mRLGLBehaviour.Timer);
                         Trigger("MotionDetection");
-                        Perception.Motion.OnDetect(OnMovementDetected, 5F);
+                        //Perception.Motion.OnDetect(OnMovementDetected, 5F);
                         
                     }
                     
@@ -144,26 +144,26 @@ namespace BuddyApp.RedLightGreenLightGame
             mRLGLBehaviour.Gameplay = false;
         }
 
-        private bool OnMovementDetected(MotionEntity[] iMotions)
-        {
-            Mat lCurrentFrame = mCam.FrameMat.clone();
-            foreach (MotionEntity lEntity in iMotions)
-            {
-                Imgproc.circle(lCurrentFrame, Utils.Center(lEntity.RectInFrame), 10, new Scalar(255, 255, 0), -1);
-            }
+        //private bool OnMovementDetected(MotionEntity[] iMotions)
+        //{
+        //    Mat lCurrentFrame = mCam.FrameMat.clone();
+        //    foreach (MotionEntity lEntity in iMotions)
+        //    {
+        //        Imgproc.circle(lCurrentFrame, Utils.Center(lEntity.RectInFrame), 10, new Scalar(255, 255, 0), -1);
+        //    }
 
-            Mat mMat = new Mat();
-            Mat mMatSrc = lCurrentFrame;
-            Core.flip(mMatSrc, mMat, 1);
-            Utils.MatToTexture2D(mMat, Utils.ScaleTexture2DFromMat(mMat, mTexture));
-            mRLGLBehaviour.PictureMoving = mTexture;
-            Trigger("Defeat");
-            mDetectionDone = true;
-            //Change the value 30 by the value in XML (maybe useless with the treshold of the motion detection)
-            //if (iMotions.Length > 30)
-            //    mIsDetectedMouv = true;
-            return false;
-        }
+        //    Mat mMat = new Mat();
+        //    Mat mMatSrc = lCurrentFrame;
+        //    Core.flip(mMatSrc, mMat, 1);
+        //    Utils.MatToTexture2D(mMat, Utils.ScaleTexture2DFromMat(mMat, mTexture));
+        //    mRLGLBehaviour.PictureMoving = mTexture;
+        //    Trigger("Defeat");
+        //    mDetectionDone = true;
+        //    //Change the value 30 by the value in XML (maybe useless with the treshold of the motion detection)
+        //    //if (iMotions.Length > 30)
+        //    //    mIsDetectedMouv = true;
+        //    return false;
+        //}
 
     }
 }

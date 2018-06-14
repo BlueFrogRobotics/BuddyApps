@@ -98,17 +98,22 @@ namespace BuddyApp.Shared
         {
             mMotion = Perception.Motion;
             mCam = Primitive.RGBCam;
-            mIsDisplay = false;
-            mPositionX = 0;
-            mPositionY = 0;
-            mReposeDone = false;
+
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+
+            mPositionX = 0;
+            mPositionY = 0;
+            mReposeDone = false;
             mExitOne = false;
             mExitTwo = false;
+            mIsDisplay = false;
+            mDurationDetection = 0F;
+            mTimer = 0F;
             mSoundPlayedWhenDetected = false;
+            mDetectionCount = 0;
             if (WantChangingTimer && iAnimator.GetFloat("Timer") != 0F)
             {
                 Timer = iAnimator.GetFloat("Timer");
@@ -136,7 +141,7 @@ namespace BuddyApp.Shared
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("UPDATE MOTION DETECTOR");
+            
             mDurationDetection += Time.deltaTime;
             mTimer += Time.deltaTime;
             if (Timer == 0F)
@@ -145,6 +150,8 @@ namespace BuddyApp.Shared
 
             if (mCam.IsOpen && VideoDisplay && !mIsDisplay)
             {
+                Debug.Log("UPDATE MOTION DETECTOR 1");
+
                 mTimer = 0F;
                 mIsDisplay = true;
                 mMat = mCam.FrameMat.clone();
@@ -158,8 +165,12 @@ namespace BuddyApp.Shared
 
             if (VideoDisplay && mIsDisplay && mTimer > 0.1F)
             {
+                Debug.Log("UPDATE MOTION DETECTOR 2");
+
                 if (mMatDetectionCopy == null && !AreaToDetect)
                 {
+                    Debug.Log("UPDATE MOTION DETECTOR 3");
+
                     mMat = mCam.FrameMat.clone();
                     mMatCopy = mMat.clone();
                     if (!WantToFlip)
@@ -169,6 +180,8 @@ namespace BuddyApp.Shared
                 }
                 else if (mMatDetectionCopy == null && AreaToDetect)
                 {
+                    Debug.Log("UPDATE MOTION DETECTOR 4");
+
                     mMat = mCam.FrameMat.clone();
                     mMatCopy = mMat.clone();
                     if (!WantToFlip)
@@ -180,12 +193,16 @@ namespace BuddyApp.Shared
 
                 if (mMatDetectionCopy != null && AreaToDetect)
                 {
+                    Debug.Log("UPDATE MOTION DETECTOR 5");
+
                     mTextureRefresh = Utils.MatToTexture2D(mMatDetectionCopy);
                     mTexture.SetPixels(mTextureRefresh.GetPixels());
                     mMatDetection = null;
                 }
                 else if (mMatDetectionCopy != null && !AreaToDetect)
                 {
+                    Debug.Log("UPDATE MOTION DETECTOR 6");
+
                     mTextureRefresh = Utils.MatToTexture2D(mMatDetectionCopy);
                     mTexture.SetPixels(mTextureRefresh.GetPixels());
                     mMatDetection = null;
@@ -196,6 +213,8 @@ namespace BuddyApp.Shared
 
             if ((mDetectionCount > QuantityMovement || (mDetectionCountTest / 15F) > QuantityMovement) && !mExitTwo)
             {
+                Debug.Log("UPDATE MOTION DETECTOR 7");
+
                 mExitOne = true;
                 if (Toaster.IsDisplayed)
                     Toaster.Hide();
@@ -233,6 +252,8 @@ namespace BuddyApp.Shared
 
             if (mDurationDetection > Timer && mDetectionCount <= QuantityMovement && !mExitOne)
             {
+                Debug.Log("UPDATE MOTION DETECTOR 8");
+
                 mExitTwo = true;
                 if (Toaster.IsDisplayed)
                     Toaster.Hide();
@@ -250,6 +271,7 @@ namespace BuddyApp.Shared
                     Trigger(TriggerWhenNotDetected);
                 else
                 {
+                    Debug.Log("avant kikoo");
                     mMotion.StopOnDetect(OnMovementDetected);
 
                 }
@@ -258,7 +280,8 @@ namespace BuddyApp.Shared
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mMotion.StopAllOnDetect();
+            Debug.Log("kikoo 0");
+            mMotion.StopOnDetect(OnMovementDetected);
             mCam.Close();
             if (!string.IsNullOrEmpty(TriggerWhenDetected)) 
                 ResetTrigger(TriggerWhenDetected);
@@ -272,24 +295,24 @@ namespace BuddyApp.Shared
             Debug.Log("SharedMotionDetection");
             mMatDetection = mCam.FrameMat.clone();
             mMatDetectionCopy = mMatDetection.clone();
-            Texture2D lTexture = new Texture2D(mCam.Width,mCam.Height);
+            Texture2D lTexture = new Texture2D(mCam.Width, mCam.Height);
             if (!WantToFlip)
                 Core.flip(mMatDetectionCopy, mMatDetectionCopy, 1);
             if (iMotions.Length > 5)
             {
-                if(OnlyOneDetection)
+                if (OnlyOneDetection)
                 {
-                    if(WantToSavePicture )
+                    if (WantToSavePicture)
                     {
                         if (!string.IsNullOrEmpty(NameOfPictureSaved))
                         {
-                            if(ImageWithMovementDisplayed)
+                            if (ImageWithMovementDisplayed)
                             {
-                                foreach(MotionEntity lEntity in iMotions)
+                                foreach (MotionEntity lEntity in iMotions)
                                 {
-                                    Imgproc.circle(mMatDetectionCopy, Utils.Center(lEntity.RectInFrame), 3, new Scalar(Color.yellow), 3); 
+                                    Imgproc.circle(mMatDetectionCopy, Utils.Center(lEntity.RectInFrame), 3, new Scalar(Color.yellow), 3);
                                 }
-                               
+
                                 Utils.MatToTexture2D(mMatDetectionCopy, Utils.ScaleTexture2DFromMat(mMatDetectionCopy, lTexture));
                                 File.WriteAllBytes(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved), lTexture.EncodeToJPG());
                             }
@@ -354,6 +377,7 @@ namespace BuddyApp.Shared
                 }
                 //if (lInRectangle)
                 mDetectionCount++;
+                Debug.Log("DETECTION MOTION SHARED COUNT : " + mDetectionCount);
             }
             return true;
         }

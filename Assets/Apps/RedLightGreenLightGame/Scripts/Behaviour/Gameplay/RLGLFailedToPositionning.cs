@@ -13,6 +13,8 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("debut failed to positionning");
+
             mIsSentenceDone = false;
             mTTS = Interaction.TextToSpeech;
             Interaction.Mood.Set(MoodType.THINKING);
@@ -35,6 +37,7 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("Fin failed to positionning");
             Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 

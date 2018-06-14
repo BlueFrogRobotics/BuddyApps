@@ -452,7 +452,7 @@ namespace BuddyApp.BuddyLab
                 //    lPath = file.Name;
                 //    Debug.Log("avant save sequence");
                 //}
-                //SaveSequence(lPath);
+                SaveSequence();
                 mNbModifs++;
                 mStackRedoBli.Clear();
            // }
