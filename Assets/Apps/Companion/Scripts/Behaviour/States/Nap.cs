@@ -67,35 +67,42 @@ namespace BuddyApp.Companion
 				Interaction.Face.SetEvent(FaceEvent.CLOSE_EYES);
 			}
 
-			if (BYOS.Instance.Interaction.BMLManager.DonePlaying) {
-				if (!mHeadPlaying) {
-					mHeadPlaying = true;
-					SleepingHeadCo();
-				}
-				mTimeIdle += Time.deltaTime;
-			}
+			mActionTrigger = mActionManager.NeededAction(COMPANION_STATE.IDLE);
+			if (!string.IsNullOrEmpty(mActionTrigger))
+				Trigger(mActionTrigger);
+			else {
 
-			// Play BML after 4 seconds every 8 seconds or launch desired action
-			if (((int)mTimeIdle) > mTimeSleeping) {
-				Debug.Log("mTimeIdle " + mTimeIdle + " > mTimeSleeping " + mTimeSleeping);
-				mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.NAP);
-				if (!string.IsNullOrEmpty(mActionTrigger) && mActionTrigger != "NAP") {
-					// Otherwise trigger to perform the action
-					Debug.Log("Trigger action " + mActionTrigger);
-					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, -5, "endnap", "END_NAP", EmotionalEventType.FULFILLED_DESIRE, InternalMood.RELAXED));
-					Trigger(mActionTrigger);
+				if (BYOS.Instance.Interaction.BMLManager.DonePlaying) {
+					if (!mHeadPlaying) {
+						mHeadPlaying = true;
+						SleepingHeadCo();
+					}
+					mTimeIdle += Time.deltaTime;
 				}
-			}
 
-			// Otherwise, react on all detectors
-			if (string.IsNullOrEmpty(mActionTrigger) || mActionTrigger == "IDLE" || mActionTrigger == "NAP")
-				if (mDetectionManager.mDetectedElement != Detected.NONE) {
-					mActionTrigger = mActionManager.LaunchReaction(COMPANION_STATE.NAP, mDetectionManager.mDetectedElement);
-					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-3, -5, "stoppednap", "STOPPED_NAP", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.GRUMPY));
-					Debug.Log("!!!!!!!!!!!nap trigger " + mActionTrigger);
-					Trigger(mActionTrigger);
-					mDetectionManager.mDetectedElement = Detected.NONE;
+				// Play BML after 4 seconds every 8 seconds or launch desired action
+				if (((int)mTimeIdle) > mTimeSleeping) {
+					Debug.Log("mTimeIdle " + mTimeIdle + " > mTimeSleeping " + mTimeSleeping);
+					mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.NAP);
+					if (!string.IsNullOrEmpty(mActionTrigger) && mActionTrigger != "NAP") {
+						// Otherwise trigger to perform the action
+						Debug.Log("Trigger action " + mActionTrigger);
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, -5, "endnap", "END_NAP", EmotionalEventType.FULFILLED_DESIRE, InternalMood.RELAXED));
+						Trigger(mActionTrigger);
+					}
 				}
+
+				// Otherwise, react on all detectors
+				if (string.IsNullOrEmpty(mActionTrigger) || mActionTrigger == "IDLE" || mActionTrigger == "NAP")
+					if (mDetectionManager.mDetectedElement != Detected.NONE) {
+						mActionTrigger = mActionManager.LaunchReaction(COMPANION_STATE.NAP, mDetectionManager.mDetectedElement);
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-3, -5, "stoppednap", "STOPPED_NAP", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.GRUMPY));
+						Debug.Log("!!!!!!!!!!!nap trigger " + mActionTrigger);
+						Trigger(mActionTrigger);
+						mDetectionManager.mDetectedElement = Detected.NONE;
+					}
+
+			}
 		}
 
 

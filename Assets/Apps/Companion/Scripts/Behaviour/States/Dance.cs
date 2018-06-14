@@ -37,26 +37,35 @@ namespace BuddyApp.Companion
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 
-			if ((Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.DonePlaying) || mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH) {
-				mActionManager.StopAllBML();
 
-				if (mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH || mDetectionManager.mDetectedElement == Detected.TRIGGER) {
-					// frustration
-					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 1, "mooddancestoped", "DANCESTOP", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.ANGRY));
-					CompanionData.Instance.mMovingDesire = -20;
-					Trigger("VOCALCOMMAND");
 
-				} else if (mDetectionManager.mDetectedElement == Detected.TOUCH) {
-					// frustration
-					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 1, "mooddancestoped", "DANCESTOP", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.ANGRY));
-					CompanionData.Instance.mMovingDesire = -20;
-					Trigger("ROBOTTOUCHED");
-				} else {
-					// satisfaction
-					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, -1, "mooddance", "DANCE", EmotionalEventType.FULFILLED_DESIRE, InternalMood.RELAXED));
-					CompanionData.Instance.mMovingDesire = 0;
-					Trigger("IDLE");
+			mActionTrigger = mActionManager.NeededAction(COMPANION_STATE.IDLE);
+			if (!string.IsNullOrEmpty(mActionTrigger))
+				Trigger(mActionTrigger);
+			else {
+				if ((Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.DonePlaying) || mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH) {
+					mActionManager.StopAllBML();
+
+					if (mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH || mDetectionManager.mDetectedElement == Detected.TRIGGER) {
+						// frustration
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 1, "mooddancestoped", "DANCESTOP", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.ANGRY));
+						CompanionData.Instance.mMovingDesire = -20;
+						Trigger("VOCALCOMMAND");
+
+					} else if (mDetectionManager.mDetectedElement == Detected.TOUCH) {
+						// frustration
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 1, "mooddancestoped", "DANCESTOP", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.ANGRY));
+						CompanionData.Instance.mMovingDesire = -20;
+						Trigger("ROBOTTOUCHED");
+					} else {
+						// satisfaction
+						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(2, -1, "mooddance", "DANCE", EmotionalEventType.FULFILLED_DESIRE, InternalMood.RELAXED));
+						CompanionData.Instance.mMovingDesire = 0;
+						Trigger("IDLE");
+					}
 				}
+
+
 			}
 		}
 

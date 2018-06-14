@@ -49,98 +49,105 @@ namespace BuddyApp.Companion
 
 			mState.text = "Robot  Touched " + mDetectionManager.mFacePartTouched;
 
-			if (mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH || mDetectionManager.mDetectedElement == Detected.TRIGGER)
-				Trigger("VOCALCOMMAND");
+			mActionTrigger = mActionManager.NeededAction(COMPANION_STATE.TOUCHED);
+			if (!string.IsNullOrEmpty(mActionTrigger)) {
+				Trigger(mActionTrigger);
+				Debug.Log("Trigger: " + mActionTrigger);
+			} else {
 
 
-			else {
-				if (mDetectionManager.mFacePartTouched == FaceTouch.LEFT_EYE || mDetectionManager.mFacePartTouched == FaceTouch.RIGHT_EYE) {
-					Debug.Log("Robot touched eye");
-					mLastTouchTime = Time.time;
-					//React
-					mActionManager.EyeReaction();
-					mEyeCounter++;
-
-					mLastPartTouched = mDetectionManager.mFacePartTouched;
-
-					if (mEyeCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking && Time.time - mLastSpeechTime > 5F) {
-						mLastSpeechTime = Time.time;
-						Interaction.TextToSpeech.SayKey("stoppokeeye");
-					}
+				if (mDetectionManager.mDetectedElement == Detected.MOUTH_TOUCH || mDetectionManager.mDetectedElement == Detected.TRIGGER)
+					Trigger("VOCALCOMMAND");
 
 
+				else {
+					if (mDetectionManager.mFacePartTouched == FaceTouch.LEFT_EYE || mDetectionManager.mFacePartTouched == FaceTouch.RIGHT_EYE) {
+						Debug.Log("Robot touched eye");
+						mLastTouchTime = Time.time;
+						//React
+						mActionManager.EyeReaction();
+						mEyeCounter++;
 
-				} else if (mDetectionManager.mFacePartTouched == FaceTouch.OTHER) {
-					Debug.Log("Robot touched other");
+						mLastPartTouched = mDetectionManager.mFacePartTouched;
 
-					Debug.Log("Robot touched other " + mDetectionManager.mFacePartTouched.ToString() + " " + mDetectionManager.mDetectedElement.ToString());
-					mLastTouchTime = Time.time;
-					//React
-					mActionManager.HeadReaction();
-					mFaceCounter++;
-
-					mLastPartTouched = mDetectionManager.mFacePartTouched;
-					if (mFaceCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking && Time.time - mLastSpeechTime > 5F) {
-						mLastSpeechTime = Time.time;
-						if (Interaction.InternalState.Positivity > -2)
-							Interaction.TextToSpeech.SayKey("ilikecaress");
-						// if sad, tell it
-						else if(Interaction.InternalState.InternalStateMood == InternalMood.SAD) {
-							Interaction.TextToSpeech.Say(Dictionary.GetRandomString("ifeel") + " " + Dictionary.GetString(Interaction.InternalState.InternalStateMood.ToString().ToLower()) + " "
-								+ Dictionary.GetRandomString("because") + " " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey), true);
-							// if bitter or angry, tell why
-						} else {
-							Interaction.TextToSpeech.Say(Dictionary.GetRandomString("upsetcaress") + " " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey), true);
+						if (mEyeCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking && Time.time - mLastSpeechTime > 5F) {
+							mLastSpeechTime = Time.time;
+							Interaction.TextToSpeech.SayKey("stoppokeeye");
 						}
 
+
+
+					} else if (mDetectionManager.mFacePartTouched == FaceTouch.OTHER) {
+						Debug.Log("Robot touched other");
+
+						Debug.Log("Robot touched other " + mDetectionManager.mFacePartTouched.ToString() + " " + mDetectionManager.mDetectedElement.ToString());
+						mLastTouchTime = Time.time;
+						//React
+						mActionManager.HeadReaction();
+						mFaceCounter++;
+
+						mLastPartTouched = mDetectionManager.mFacePartTouched;
+						if (mFaceCounter % 5 == 2 && Interaction.TextToSpeech.HasFinishedTalking && Time.time - mLastSpeechTime > 5F) {
+							mLastSpeechTime = Time.time;
+							if (Interaction.InternalState.Positivity > -2)
+								Interaction.TextToSpeech.SayKey("ilikecaress");
+							// if sad, tell it
+							else if (Interaction.InternalState.InternalStateMood == InternalMood.SAD) {
+								Interaction.TextToSpeech.Say(Dictionary.GetRandomString("ifeel") + " " + Dictionary.GetString(Interaction.InternalState.InternalStateMood.ToString().ToLower()) + " "
+									+ Dictionary.GetRandomString("because") + " " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey), true);
+								// if bitter or angry, tell why
+							} else {
+								Interaction.TextToSpeech.Say(Dictionary.GetRandomString("upsetcaress") + " " + Dictionary.GetRandomString(Interaction.InternalState.ExplainMood().ExplanationKey), true);
+							}
+
+						}
 					}
-				}
 
-				// TO DO:
-				// after no touch for a while, go to user detected?
+					// TO DO:
+					// after no touch for a while, go to user detected?
 
-				if (Interaction.BMLManager.DonePlaying && Interaction.VocalManager.RecognitionFinished && Interaction.TextToSpeech.HasFinishedTalking) {
+					if (Interaction.BMLManager.DonePlaying && Interaction.VocalManager.RecognitionFinished && Interaction.TextToSpeech.HasFinishedTalking) {
 
-					if (mLastPartTouched == FaceTouch.OTHER) {
-						if (Time.time - mLastTouchTime > 4F) {
-							Debug.Log("Robot touched ask again");
-							// ask touch again if not enough positivity
-							if (Interaction.InternalState.Positivity < 3 && Time.time - mLastSpeechTime > 10F) {
-								mLastSpeechTime = Time.time;
-								Interaction.TextToSpeech.SayKey("morecaress");
+						if (mLastPartTouched == FaceTouch.OTHER) {
+							if (Time.time - mLastTouchTime > 4F) {
+								Debug.Log("Robot touched ask again");
+								// ask touch again if not enough positivity
+								if (Interaction.InternalState.Positivity < 3 && Time.time - mLastSpeechTime > 10F) {
+									mLastSpeechTime = Time.time;
+									Interaction.TextToSpeech.SayKey("morecaress");
 
-								// else go back to User detected
-							} else
+									// else go back to User detected
+								} else
+									Trigger("INTERACT");
+
+							} else {
+								// Say something from time to time according to mood
+							}
+
+						} else if (mLastPartTouched == FaceTouch.RIGHT_EYE || mLastPartTouched == FaceTouch.LEFT_EYE) {
+
+
+							if (Time.time - mLastTouchTime > 4F) {
+								// thanks to stop poking according to mood
+							}
+
+						}
+
+						if (Time.time - mLastTouchTime > 10F) {
+							// if nothing for 7s
+							if (mFaceCounter > 2 && mEyeCounter < 2)
+								Trigger("FOLLOW");
+							else
 								Trigger("INTERACT");
-
-						} else {
-							// Say something from time to time according to mood
-						}
-
-					} else if (mLastPartTouched == FaceTouch.RIGHT_EYE || mLastPartTouched == FaceTouch.LEFT_EYE) {
-
-
-						if (Time.time - mLastTouchTime > 4F) {
-							// thanks to stop poking according to mood
 						}
 
 					}
 
-					if (Time.time - mLastTouchTime > 10F) {
-						// if nothing for 7s
-						if (mFaceCounter > 2 && mEyeCounter < 2)
-							Trigger("FOLLOW");
-						else
-							Trigger("INTERACT");
-					}
-
+					mDetectionManager.mFacePartTouched = FaceTouch.NONE;
+					mDetectionManager.mDetectedElement = Detected.NONE;
+					//Debug.Log("Reset values: " + mDetectionManager.mFacePartTouched.ToString() + " " + mDetectionManager.mDetectedElement.ToString());
 				}
-
-				mDetectionManager.mFacePartTouched = FaceTouch.NONE;
-				mDetectionManager.mDetectedElement = Detected.NONE;
-				//Debug.Log("Reset values: " + mDetectionManager.mFacePartTouched.ToString() + " " + mDetectionManager.mDetectedElement.ToString());
 			}
-
 		}
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

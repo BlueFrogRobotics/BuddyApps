@@ -72,29 +72,20 @@ namespace BuddyApp.Reminder
 
 			int lReccurence = 0;
 			int.TryParse(mReminderBehaviour.AllParam[3], out lReccurence);
-			ReminderRecurrence lRemindREccurence = ReminderRecurrence.ONE_TIME;
-			RemindTimespan lRemindTimeSpan = RemindTimespan.NONE;
+			ReminderTimespan lRemindREccurence = ReminderTimespan.NONE;
 
 			switch (lReccurence) {
-				case 0:
-					lRemindREccurence = ReminderRecurrence.ONE_TIME;
-					lRemindTimeSpan = RemindTimespan.NONE;
-					break;
 				case 1:
-					lRemindREccurence = ReminderRecurrence.RECURRENT;
-					lRemindTimeSpan = RemindTimespan.EVERY_DAY;
+					lRemindREccurence = ReminderTimespan.EVERY_DAY;
 					break;
 				case 2:
-					lRemindREccurence = ReminderRecurrence.RECURRENT;
-					lRemindTimeSpan = RemindTimespan.EVERY_WEEK;
+					lRemindREccurence = ReminderTimespan.EVERY_WEEK;
 					break;
 				case 3:
-					lRemindREccurence = ReminderRecurrence.RECURRENT;
-					lRemindTimeSpan = RemindTimespan.EVERY_MONTH;
+					lRemindREccurence = ReminderTimespan.EVERY_MONTH;
 					break;
 				default:
-					lRemindREccurence = ReminderRecurrence.ONE_TIME;
-					lRemindTimeSpan = RemindTimespan.NONE;
+					lRemindREccurence =  ReminderTimespan.NONE;
 					break;
 			}
 
@@ -107,7 +98,7 @@ namespace BuddyApp.Reminder
 				lName = Dictionary.GetString("everybody");
 			else
 				lName = mReminderBehaviour.Name[ReminderData.Instance.SenderID];
-			lRk.ID = BYOS.Instance.DataBase.Memory.Procedural.AddReminder(lDate, RemindPrecision.MINUTE, "message", ReminderData.Instance.SenderID, lName, ReminderType.AGENDA, lRemindREccurence, lRemindTimeSpan);
+			lRk.ID = BYOS.Instance.DataBase.Memory.Procedural.AddReminder(lDate, "message", ReminderData.Instance.SenderID, lName, ReminderType.AGENDA, true, lRemindREccurence);
 
 
 			Debug.Log("2");

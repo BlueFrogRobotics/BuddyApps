@@ -128,17 +128,44 @@ namespace BuddyApp.Companion
 		//*  ACTIONS  *
 		//*************
 
-		// TODO may be better to return an element from a list of transitions?
+		/// <summary>
+		/// This function is used to tell if there is a needed action to performed
+		/// </summary>
+		/// <param name="iState"></param>
+		/// <returns></returns>
+		public string NeededAction(COMPANION_STATE iState)
+		{
+			if (mDetectionManager.ActiveReminder) {
+				// we need to deliver the message from notification
+				Debug.Log("[Companion][ActionManager] need to notify");
+				if (mDetectionManager.UserPresent(iState)) {
+					return "NOTIF";
+				} else if (mDetectionManager.ActiveUrgentReminder) {
+					// Only if notif is an emergency
+					return "LOOKINGFORSOMEONE";
+				}
+			}
+
+
+			// TODO: add battery
+			//if (mDetectionManager.mDetectedElement == Detected.BATTERY) {
+			//}
+
+			return "";
+		}
+
+
+		// TODO may be safer to return an element from a list of transitions?
 		public string DesiredAction(COMPANION_STATE iState)
 		{
 
-			if (mDetectionManager.ActiveReminders.Count > 0) {
+			if (mDetectionManager.ActiveReminder) {
 				// we need to deliver the message from notification
 				Debug.Log("[Companion][ActionManager] need to notify");
 				if (mDetectionManager.UserPresent(iState)) {
 					return "VOCALCOMMAND";
-				} else if (EmergencyNotif(mDetectionManager.ActiveReminders) != null) {
-					//TODO: only if notif is an emergency
+				} else if (mDetectionManager.ActiveUrgentReminder) {
+					// Only if notif is an emergency
 					return "LOOKINGFORSOMEONE";
 				}
 			}
@@ -258,48 +285,49 @@ namespace BuddyApp.Companion
 			}
 		}
 
-
-
-		public Buddy.Reminder EmergencyNotif(List<Buddy.Reminder> iActiveReminders)
-		{
-			for (int i = 0; i < iActiveReminders.Count; ++i) {
-				if (iActiveReminders[i].Urgent)
-					return iActiveReminders[i];
-			}
-			return null;
-		}
-
 		/// <summary>
 		/// Tells and display the notification
 		/// </summary>
 		/// <param name="iReminder"></param>
-		internal void TellNotif(Buddy.Reminder iReminder)
+		internal void InformNotif(Buddy.Reminder iReminder, ReminderState iUpdateState = ReminderState.SHOWN, bool iTell = true, bool iDisplay = true)
 		{
 			// 1st Start saying
-			iReminder.Say();
-			iReminder.DisplayNotif();
+			if (iTell) {
+				Debug.Log("Tell notif: " + iReminder.State + " " + iReminder.Type + " " + iReminder.Content);
+
+				Debug.Log("[ActionManager] Say Reminder: " + iReminder.Say());
+				
+			}
+
+			if (iDisplay) {
+				Debug.Log("Display notif: " + iReminder.State + " " + iReminder.Type + " " + iReminder.Content);
+				iReminder.DisplayNotif(iUpdateState);
+			}
 		}
 
-		internal Buddy.Reminder TellNotifPriority(List<Buddy.Reminder> activeReminders)
+		internal Buddy.Reminder InformNotifPriority(ReminderState iUpdateState = ReminderState.SHOWN, bool iTell = true, bool iDisplay = true)
 		{
-			if (activeReminders.Count > 0) {
-				Buddy.Reminder lReminder = EmergencyNotif(activeReminders);
-				lReminder = (lReminder == null) ? activeReminders[0] : lReminder;
 
-				TellNotif(lReminder);
+			List<Buddy.Reminder> lReminders = new List<Buddy.Reminder>();
+			lReminders = BYOS.Instance.DataBase.Memory.Procedural.GetIssuedReminders(ReminderState.SHOWN);
+
+			if (lReminders.Count == 0)
+				lReminders = BYOS.Instance.DataBase.Memory.Procedural.GetIssuedReminders(ReminderState.DELIVERED);
+
+
+
+			if (lReminders.Count > 0) {
+				Buddy.Reminder lReminder = BYOS.Instance.DataBase.Memory.Procedural.GetIssuedUrgentReminders(ReminderState.DELIVERED)[0];
+				lReminder = (lReminder == null) ? lReminders[0] : lReminder;
+
+				InformNotif(lReminder, iUpdateState, iTell, iDisplay);
 
 				return lReminder;
 			}
 
+			Debug.Log("[ActionManager] No reminder to tell");
+
 			return null;
-		}
-
-		internal void RemoveReminder(int iID)
-		{
-			if (BYOS.Instance.DataBase.Memory.Procedural.ExistReminder(iID))
-				BYOS.Instance.DataBase.Memory.Procedural.RemoveReminder(iID);
-
-			mDetectionManager.ActiveReminders.RemoveAt(0);
 		}
 
 		internal void StartApp(string iAppName, string iSpeech = null, bool iLandingTrigg = false)

@@ -62,34 +62,41 @@ namespace BuddyApp.Companion
 				mTimeIdle += Time.deltaTime;
 			}
 
-			// Play BML after 4 seconds every 8 seconds or launch desired action
-			if (((int)mTimeIdle) % 8 == 4 && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
-				mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.IDLE);
-				Debug.Log("Desired action: " + mActionTrigger);
+			// Is there a needed action?
+			mActionTrigger = mActionManager.NeededAction(COMPANION_STATE.IDLE);
+			if (!string.IsNullOrEmpty(mActionTrigger)) {
+				Trigger(mActionTrigger);
+			} else {
 
-				// if no desired action
-				if (string.IsNullOrEmpty(mActionTrigger) || mActionTrigger == "IDLE") {
+				// Play BML after 4 seconds every 8 seconds or launch desired action
+				if (((int)mTimeIdle) % 8 == 4 && BYOS.Instance.Interaction.BMLManager.DonePlaying) {
+					mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.IDLE);
+					Debug.Log("Desired action: " + mActionTrigger);
+
+					// if no desired action
+					if (string.IsNullOrEmpty(mActionTrigger) || mActionTrigger == "IDLE") {
 
 
-					// if IDLE for a while and tired
-					if (mTimeIdle > 40F + 5 * BYOS.Instance.Interaction.InternalState.Energy) {
-						BYOS.Instance.Interaction.Mood.Set(MoodType.TIRED);
-						mActionTrigger = "NAP";
-						Debug.Log("!!!!!!!!!!!! NAP TRIGGERED !!!!!!!!!!!!!!");
-						Trigger("NAP");
+						// if IDLE for a while and tired
+						if (mTimeIdle > 40F + 5 * BYOS.Instance.Interaction.InternalState.Energy) {
+							BYOS.Instance.Interaction.Mood.Set(MoodType.TIRED);
+							mActionTrigger = "NAP";
+							Debug.Log("!!!!!!!!!!!! NAP TRIGGERED !!!!!!!!!!!!!!");
+							Trigger("NAP");
+						} else {
+							//if no desired action, play BML
+							Debug.Log("Play neutral BML IDLE");
+							mHeadPlaying = false;
+							StopCoroutine(SearchingHeadCo());
+							BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
+						}
+
+
 					} else {
-						//if no desired action, play BML
-						Debug.Log("Play neutral BML IDLE");
-						mHeadPlaying = false;
-						StopCoroutine(SearchingHeadCo());
-						BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
+						// Otherwise trigger to perform the action
+						Debug.Log("Trigger action " + mActionTrigger);
+						Trigger(mActionTrigger);
 					}
-
-
-				} else {
-					// Otherwise trigger to perform the action
-					Debug.Log("Trigger action " + mActionTrigger);
-					Trigger(mActionTrigger);
 				}
 			}
 

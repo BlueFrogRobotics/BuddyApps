@@ -57,7 +57,7 @@ namespace BuddyApp.Companion
 			mNeedListen = true;
 			mTime = 0F;
 			mActionManager.StopAllBML();
-			if (mDetectionManager.ActiveReminders.Count == 0) {
+			if (!mDetectionManager.ActiveReminder) {
 				Say(Dictionary.GetString("ilisten"));
 			}
 		}
@@ -98,7 +98,7 @@ namespace BuddyApp.Companion
 			// TODO: remove fix after vocon multi callback call fix
 
 			Debug.Log("[COMPANION][ONBESTRECO] Reco vocal: " + iBestResult.Utterance);
-			if (! Interaction.TextToSpeech.IsSpeaking) {
+			if (!Interaction.TextToSpeech.IsSpeaking) {
 				if (string.IsNullOrEmpty(iBestResult.Utterance))
 					ErrorSTT(STTError.ERROR_NO_MATCH);
 				else {
@@ -159,83 +159,87 @@ namespace BuddyApp.Companion
 		{
 			mTimeHumanDetected += Time.deltaTime;
 
-			switch (mDetectionManager.mDetectedElement) {
-
-				case Detected.TOUCH:
-					if (mDetectionManager.mFacePartTouched == FaceTouch.MOUTH) {
-						mDetectionManager.mFacePartTouched = FaceTouch.NONE;
-						mDetectionManager.mDetectedElement = Detected.NONE;
-						mActionManager.StopAllActions();
-						Interaction.TextToSpeech.Stop();
-						mNeedListen = true;
-					}
-					break;
-
-				case Detected.THERMAL:
-					mTimeHumanDetected = 0F;
-					mDetectionManager.mDetectedElement = Detected.NONE;
-					break;
-
-				default:
-					mDetectionManager.mDetectedElement = Detected.NONE;
-					break;
-			}
+			// Is there a needed action?
+			mActionTrigger = mActionManager.NeededAction(COMPANION_STATE.IDLE);
+			if (!string.IsNullOrEmpty(mActionTrigger)) {
+				Trigger(mActionTrigger);
+			} else {
 
 
-			mTime += Time.deltaTime;
-			if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.DonePlaying && Interaction.VocalManager.RecognitionFinished) {
-				/*if (!mVocalChat.BuildingAnswer && mNeedToGiveAnswer) {
-					//Give answer:
-					Debug.Log("give answer");
-					Say(mVocalChat.Answer);
-					mNeedToGiveAnswer = false;
-					mFirstErrorStt = true;
-				} else */
-				if (mMoving && !IsMoving() && Time.time - mTimeMotion > 3F) {
-					Debug.Log("finished motion, need listen");
-					mMoving = false;
-					mNeedListen = true;
-				} else if (mNeedListen && BYOS.Instance.Interaction.Face.IsStable && Interaction.VocalManager.RecognitionFinished) {
-					Debug.Log("Vocal instant reco + mNeedListen: " + mNeedListen);
+				switch (mDetectionManager.mDetectedElement) {
 
-					// If we need to listen, it means we already answered.
-					// We can tell a notification if needed:
-					if (mDetectionManager.ActiveReminders.Count > 0) {
-						Buddy.Reminder lReminder = mActionManager.TellNotifPriority(mDetectionManager.ActiveReminders);
-
-						if (!lReminder.Urgent) {
-							mDetectionManager.ActiveReminders.Remove(lReminder);
+					case Detected.TOUCH:
+						if (mDetectionManager.mFacePartTouched == FaceTouch.MOUTH) {
+							mDetectionManager.mFacePartTouched = FaceTouch.NONE;
+							mDetectionManager.mDetectedElement = Detected.NONE;
+							mActionManager.StopAllActions();
+							Interaction.TextToSpeech.Stop();
+							mNeedListen = true;
 						}
-					}
+						break;
 
+					case Detected.THERMAL:
+						mTimeHumanDetected = 0F;
+						mDetectionManager.mDetectedElement = Detected.NONE;
+						break;
 
-
-					//BYOS.Instance.Interaction.BMLManager.LaunchRandom("Listening");
-					Interaction.VocalManager.StartInstantReco();
-					mFirstErrorStt = true;
-					mNeedListen = false;
-					Debug.Log("Vocal instant reco 2 + mNeedListen: " + mNeedListen);
-					mTime = 0F;
-				} else if (/*!mVocalChat.BuildingAnswer &&*/ Interaction.VocalManager.RecognitionFinished && mTime > 15F && !mSpeechInput) {
-					//Mb this was a wrong trigger, back to IDLE
-					Debug.Log("Back to IDLE? ");
-					if (mActionManager.Wandering && CompanionData.Instance.CanMoveHead)
-						Trigger("WANDER");
-					else if (mActionManager.ThermalFollow && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
-						Trigger("FOLLOW");
-					else if (mTimeHumanDetected < 5F)
-						Trigger("INTERACT");
-					else
-						Trigger("IDLE");
-				} else {
-					//Debug.Log("Why locked: building answer: " + mVocalChat.BuildingAnswer + " Reco finished: " + Interaction.VocalManager.RecognitionFinished + " mTime " + mTime + " speechInput: " + mSpeechInput);
+					default:
+						mDetectionManager.mDetectedElement = Detected.NONE;
+						break;
 				}
 
-				// When launching app failed
-			} else if (!Interaction.TextToSpeech.HasFinishedTalking && mLaunchingApp) {
-				Debug.Log("Launching app failed");
-				mLaunchingApp = false;
-				mNeedListen = true;
+
+				mTime += Time.deltaTime;
+				if (Interaction.TextToSpeech.HasFinishedTalking && Interaction.BMLManager.DonePlaying && Interaction.VocalManager.RecognitionFinished) {
+					/*if (!mVocalChat.BuildingAnswer && mNeedToGiveAnswer) {
+						//Give answer:
+						Debug.Log("give answer");
+						Say(mVocalChat.Answer);
+						mNeedToGiveAnswer = false;
+						mFirstErrorStt = true;
+					} else */
+					if (mMoving && !IsMoving() && Time.time - mTimeMotion > 3F) {
+						Debug.Log("finished motion, need listen");
+						mMoving = false;
+						mNeedListen = true;
+					} else if (mNeedListen && BYOS.Instance.Interaction.Face.IsStable && Interaction.VocalManager.RecognitionFinished) {
+						Debug.Log("Vocal instant reco + mNeedListen: " + mNeedListen);
+
+						// If we need to listen, it means we already answered.
+						// We can tell a notification if needed:
+						if (mDetectionManager.ActiveReminder) {
+							Buddy.Reminder lReminder = mActionManager.InformNotifPriority(ReminderState.DELIVERED);
+						}
+
+
+
+						//BYOS.Instance.Interaction.BMLManager.LaunchRandom("Listening");
+						Interaction.VocalManager.StartInstantReco();
+						mFirstErrorStt = true;
+						mNeedListen = false;
+						Debug.Log("Vocal instant reco 2 + mNeedListen: " + mNeedListen);
+						mTime = 0F;
+					} else if (/*!mVocalChat.BuildingAnswer &&*/ Interaction.VocalManager.RecognitionFinished && mTime > 15F && !mSpeechInput) {
+						//Mb this was a wrong trigger, back to IDLE
+						Debug.Log("Back to IDLE? ");
+						if (mActionManager.Wandering && CompanionData.Instance.CanMoveHead)
+							Trigger("WANDER");
+						else if (mActionManager.ThermalFollow && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody)
+							Trigger("FOLLOW");
+						else if (mTimeHumanDetected < 5F)
+							Trigger("INTERACT");
+						else
+							Trigger("IDLE");
+					} else {
+						//Debug.Log("Why locked: building answer: " + mVocalChat.BuildingAnswer + " Reco finished: " + Interaction.VocalManager.RecognitionFinished + " mTime " + mTime + " speechInput: " + mSpeechInput);
+					}
+
+					// When launching app failed
+				} else if (!Interaction.TextToSpeech.HasFinishedTalking && mLaunchingApp) {
+					Debug.Log("Launching app failed");
+					mLaunchingApp = false;
+					mNeedListen = true;
+				}
 			}
 		}
 
@@ -731,7 +735,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "memory":
+				case "memorygame":
 					CompanionData.Instance.mInteractDesire -= 50;
 					mActionManager.StartApp("MemoryGame", mLastHumanSpeech);
 					mLaunchingApp = true;
@@ -903,7 +907,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "volumeUp": {
+				case "volumeup": {
 
 						float n = GetNextNumber(iUtterance);
 

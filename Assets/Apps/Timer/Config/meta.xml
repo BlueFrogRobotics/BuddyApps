@@ -5,7 +5,7 @@
     <CommercialName>Timer</CommercialName>
     <MainScene>0</MainScene>
     <Authors>dev@bluefrogrobotics.com</Authors>
-    <Version>1.0.0.12</Version>
+    <Version>1.0.1.10</Version>
     <VersionStatus>NONE</VersionStatus>
     <VersionName>test</VersionName>
     <Category>UTILITY</Category>
@@ -44,7 +44,7 @@
         </AppPermission>
         <AppPermission>
             <Type>PROCEDURAL_MEMORY</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>DECLARATIVE_MEMORY</Type>
@@ -64,10 +64,39 @@
         </AppPermission>
         <AppPermission>
             <Type>DISABLE_LOADING_SCREEN</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
     </Permissions>
-    <LangVocalKeys />
+    <LangVocalKeys>
+        <VocalKeys>
+            <Language>EN</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>FR</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>IT</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>JP</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>KR</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>GER</Language>
+            <Keys />
+        </VocalKeys>
+        <VocalKeys>
+            <Language>NL</Language>
+            <Keys />
+        </VocalKeys>
+    </LangVocalKeys>
     <OptionsLayoutClassName>Timer.TimerLayout</OptionsLayoutClassName>
     <ActivityClassName>Timer.TimerActivity</ActivityClassName>
 </AppInfo>

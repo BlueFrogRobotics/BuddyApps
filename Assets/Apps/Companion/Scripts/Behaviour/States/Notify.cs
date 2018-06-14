@@ -1,7 +1,4 @@
 ﻿using Buddy;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,12 +7,8 @@ namespace BuddyApp.Companion
 	//[RequireComponent(typeof(Reaction))]
 	public class Notify : AStateMachineBehaviour
 	{
-
-		private float mLookingTime;
-
-		private bool mLookForSomeone;
-		private bool mWander;
-		private bool mWandering;
+		private float mNotifTime;
+		private bool mAlarmSound;
 
 		//private Reaction mReaction;
 
@@ -24,7 +17,11 @@ namespace BuddyApp.Companion
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
 			mActionManager = GetComponent<ActionManager>();
+			BYOS.Instance.Primitive.Speaker.FX.Load(
+					BYOS.Instance.Resources.Load<AudioClip>("alarm"), 1
+				);
 		}
+
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
@@ -34,32 +31,38 @@ namespace BuddyApp.Companion
 			mActionManager.CurrentAction = BUDDY_ACTION.NOTIFY;
 			mState.text = "Notify";
 			Debug.Log("state: Notify ");
-			mLookForSomeone = false;
-			mWander = false;
-			mWandering = false;
 
-			mLookingTime = 0F;
-			Interaction.TextToSpeech.SayKey("anyoneplay", true);
-			Interaction.Mood.Set(MoodType.THINKING);
+			mNotifTime = 0F;
+			Interaction.Mood.Set(MoodType.SCARED);
+
+			BYOS.Instance.Primitive.Speaker.FX.Loop = true;
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mLookingTime = Time.deltaTime;
+			mNotifTime += Time.deltaTime;
 
-
-			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering && CompanionData.Instance.CanMoveBody) {
-				Debug.Log("CompanionLooking4 start wandering");
-				mActionManager.StartWander();
-			} else if (!CompanionData.Instance.CanMoveBody) {
-				Trigger("IDLE");
-			}
-
-			// TODO: define a strategy here, may be say something from time to time...
-
-			//if (string.IsNullOrEmpty(mActionTrigger)) {
-			if (mDetectionManager.mDetectedElement != Detected.NONE) {
-				Trigger(mActionManager.LaunchReaction(COMPANION_STATE.LOOK_FOR_USER, mDetectionManager.mDetectedElement));
+			if (!mDetectionManager.ActiveUrgentReminder) {
+				Trigger("INTERACT");
+			} else {
+				Debug.Log("mNotifTime: " + mNotifTime + " " + mAlarmSound);
+				if (Interaction.TextToSpeech.HasFinishedTalking) {
+					if (!mAlarmSound) {
+						Debug.Log("Start alarm");
+						//Play alarm sound
+						BYOS.Instance.Primitive.Speaker.FX.Play(1);
+						mAlarmSound = true;
+						mActionManager.InformNotifPriority(ReminderState.SHOWN, false);
+						mNotifTime = 0F;
+					} else if (mAlarmSound && (mNotifTime > 3F)) {
+						Debug.Log("Stop alarm and tell notif");
+						// Stop alarm sound
+						Primitive.Speaker.Voice.Stop();
+						mAlarmSound = false;
+						//Tell the notif
+						mActionManager.InformNotifPriority(ReminderState.DELIVERED);
+					}
+				}
 			}
 		}
 
@@ -67,7 +70,8 @@ namespace BuddyApp.Companion
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
+			BYOS.Instance.Primitive.Speaker.FX.Loop = false;
+			Primitive.Speaker.FX.Stop();
 		}
-
 	}
 }

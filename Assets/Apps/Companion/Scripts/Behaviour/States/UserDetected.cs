@@ -56,56 +56,61 @@ namespace BuddyApp.Companion
 		{
 			mState.text = "User Detected";
 
+			mActionTrigger = mActionManager.NeededAction(COMPANION_STATE.IDLE);
+			if (!string.IsNullOrEmpty(mActionTrigger))
+				Trigger(mActionTrigger);
+			else {
 
-			// if human is not detected for 1.5 seconds
-			if (mTimeHumanLastDetected > 1.5F) {
-				mDurationDetected = 0F;
-			} else {
-				mDurationDetected += Time.deltaTime;
-			}
-
-			mTimeHumanLastDetected += Time.deltaTime;
-			mTimeState += Time.deltaTime;
-
-			if (BYOS.Instance.Interaction.BMLManager.DonePlaying && !mActionManager.ThermalFollow && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
-				mActionManager.StartThermalFollow(HumanFollowType.ROTATION_AND_HEAD);
-			}
-
-			// Play BML after 5 seconds every 15 seconds or launch desired action
-			if (((int)mTimeState) % 15 == 5 && BYOS.Instance.Interaction.BMLManager.DonePlaying && mTimeHumanLastDetected < 8F) {
-
-				// We launch desired action for USER_DETECTED only if we are sure human is there
-				if (mDurationDetected > 6F)
-					mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.USER_DETECTED);
-
-				// if not sure human there or no action desired, play BML
-				if (mActionTrigger == "IDLE" || string.IsNullOrEmpty(mActionTrigger)) {
-					//if no desired action, play BML
-					Debug.Log("Play neutral BML user detected");
-					//TODO: play other BML?
-					mActionManager.StopAllActions();
-					BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
+				// if human is not detected for 1.5 seconds
+				if (mTimeHumanLastDetected > 1.5F) {
+					mDurationDetected = 0F;
 				} else {
-					// Otherwise trigger to perform the action
-					Debug.Log("[USERDETECTED]Trigger desired action: " + mActionTrigger);
-					Trigger(mActionTrigger);
+					mDurationDetected += Time.deltaTime;
 				}
-			}
 
-			// if no one there, do whatever Buddy wants
-			else if (mTimeHumanLastDetected > 10F)
-				Trigger(mActionManager.DesiredAction(COMPANION_STATE.USER_DETECTED));
+				mTimeHumanLastDetected += Time.deltaTime;
+				mTimeState += Time.deltaTime;
 
+				if (BYOS.Instance.Interaction.BMLManager.DonePlaying && !mActionManager.ThermalFollow && CompanionData.Instance.CanMoveHead && CompanionData.Instance.CanMoveBody) {
+					mActionManager.StartThermalFollow(HumanFollowType.ROTATION_AND_HEAD);
+				}
 
+				// Play BML after 5 seconds every 15 seconds or launch desired action
+				if (((int)mTimeState) % 15 == 5 && BYOS.Instance.Interaction.BMLManager.DonePlaying && mTimeHumanLastDetected < 8F) {
 
-			// 0) If trigger vocal or kidnapping or low battery... go to corresponding state
-			if (mActionTrigger == "IDLE" || string.IsNullOrEmpty(mActionTrigger)) {
-				if (mDetectionManager.mDetectedElement == Detected.THERMAL || mDetectionManager.mDetectedElement == Detected.HUMAN_RGB)
-					mTimeHumanLastDetected = 0;
-				else if (mDetectionManager.mDetectedElement != Detected.NONE) {
-					mActionTrigger = mActionManager.LaunchReaction(COMPANION_STATE.USER_DETECTED, mDetectionManager.mDetectedElement);
-					if (!string.IsNullOrEmpty(mActionTrigger))
+					// We launch desired action for USER_DETECTED only if we are sure human is there
+					if (mDurationDetected > 6F)
+						mActionTrigger = mActionManager.DesiredAction(COMPANION_STATE.USER_DETECTED);
+
+					// if not sure human there or no action desired, play BML
+					if (mActionTrigger == "IDLE" || string.IsNullOrEmpty(mActionTrigger)) {
+						//if no desired action, play BML
+						Debug.Log("Play neutral BML user detected");
+						//TODO: play other BML?
+						mActionManager.StopAllActions();
+						BYOS.Instance.Interaction.BMLManager.LaunchRandom("neutral");
+					} else {
+						// Otherwise trigger to perform the action
+						Debug.Log("[USERDETECTED]Trigger desired action: " + mActionTrigger);
 						Trigger(mActionTrigger);
+					}
+				}
+
+				// if no one there, do whatever Buddy wants
+				else if (mTimeHumanLastDetected > 10F)
+					Trigger(mActionManager.DesiredAction(COMPANION_STATE.USER_DETECTED));
+
+
+
+				// 0) If trigger vocal or kidnapping or low battery... go to corresponding state
+				if (mActionTrigger == "IDLE" || string.IsNullOrEmpty(mActionTrigger)) {
+					if (mDetectionManager.mDetectedElement == Detected.THERMAL || mDetectionManager.mDetectedElement == Detected.HUMAN_RGB)
+						mTimeHumanLastDetected = 0;
+					else if (mDetectionManager.mDetectedElement != Detected.NONE) {
+						mActionTrigger = mActionManager.LaunchReaction(COMPANION_STATE.USER_DETECTED, mDetectionManager.mDetectedElement);
+						if (!string.IsNullOrEmpty(mActionTrigger))
+							Trigger(mActionTrigger);
+					}
 				}
 			}
 		}

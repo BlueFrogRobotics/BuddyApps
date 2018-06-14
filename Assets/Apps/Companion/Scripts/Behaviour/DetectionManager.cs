@@ -68,7 +68,10 @@ namespace BuddyApp.Companion
 
 		public string Logs { get; private set; }
 
-		public List<Buddy.Reminder> ActiveReminders { get; set; }
+		//public List<Buddy.Reminder> ActiveReminders { get; set; }
+
+		public bool ActiveReminder { get; set; }
+		public bool ActiveUrgentReminder { get; set; }
 		public float TimeLastTouch { get { return Math.Min(Time.time - mTimeElementTouched, Time.time - mTimeOtherTouched); } }
 		public bool IsDetectingThermal { get; set; }
 		public bool IsDetectingMovement { get; set; }
@@ -90,7 +93,8 @@ namespace BuddyApp.Companion
 			mDetectedElement = Detected.NONE;
 			mFacePartTouched = FaceTouch.NONE;
 
-			ActiveReminders = new List<Buddy.Reminder>();
+			//ActiveReminders = new List<Buddy.Reminder>();
+			ActiveReminder = false;
 
 			mInit = false;
 			IsDetectingThermal = true;
@@ -107,20 +111,20 @@ namespace BuddyApp.Companion
 
 
 			// Check if activeNotification
-			BYOS.Instance.DataBase.Memory.Procedural.AlertCallbacks.Add(NewNotif);
-			
+			//BYOS.Instance.DataBase.Memory.Procedural.AlertCallbacks.Add(NewNotif);
+
 
 			mActionManager = GetComponent<ActionManager>();
 			mFace = BYOS.Instance.Interaction.Face;
 			LinkDetectorsEvents();
 		}
 
-		private void NewNotif(List<Buddy.Reminder> iReminder)
-		{
-			ActiveReminders = iReminder;
-			Debug.Log("[Companion][DetectionManager] need to notify: " + iReminder.Count + " " + iReminder[0].Content +  " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		}
-		
+		//private void NewNotif(List<Buddy.Reminder> iReminder)
+		//{
+		//	ActiveReminders = iReminder;
+		//	Debug.Log("[Companion][DetectionManager] need to notify: " + iReminder.Count + " " + iReminder[0].Content +  " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		//}
+
 
 		internal void StartSphinxTrigger()
 		{
@@ -137,9 +141,21 @@ namespace BuddyApp.Companion
 
 		void Update()
 		{
-			if (BYOS.Instance.DataBase.Memory.Procedural.GetReminders().Count > 0) {
+			List<Buddy.Reminder> lUrgentReminders = BYOS.Instance.DataBase.Memory.Procedural.GetIssuedUrgentReminders(ReminderState.DELIVERED);
+			if (BYOS.Instance.DataBase.Memory.Procedural.GetIssuedReminders(ReminderState.SHOWN).Count > 0 || lUrgentReminders.Count > 0) {
+				if (!ActiveReminder)
+					ActiveReminder = true;
 
-				Debug.Log("[Companion][UPDATE] need to notify!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! type and date " + BYOS.Instance.DataBase.Memory.Procedural.GetReminders()[0].Type + " " + BYOS.Instance.DataBase.Memory.Procedural.GetReminders()[0].EventDate.ToString());
+				if (!ActiveUrgentReminder && BYOS.Instance.DataBase.Memory.Procedural.GetIssuedUrgentReminders(ReminderState.DELIVERED).Count > 0)
+					ActiveUrgentReminder = true;
+
+				if (ActiveUrgentReminder && BYOS.Instance.DataBase.Memory.Procedural.GetIssuedUrgentReminders(ReminderState.DELIVERED).Count == 0)
+					ActiveUrgentReminder = false;
+
+
+			} else {
+				ActiveReminder = false;
+				ActiveUrgentReminder = false;
 			}
 
 			if (BYOS.Instance.Interaction.SphinxTrigger.FinishedSetup && !mInit) {
@@ -215,7 +231,7 @@ namespace BuddyApp.Companion
 		// TODO: this may need some addition later
 		internal bool UserPresent(COMPANION_STATE iState)
 		{
-			if (iState == COMPANION_STATE.IDLE || iState == COMPANION_STATE.LOOK_FOR_USER || iState == COMPANION_STATE.WANDER)
+			if (iState == COMPANION_STATE.IDLE || iState == COMPANION_STATE.NAP || iState == COMPANION_STATE.LOOK_FOR_USER || iState == COMPANION_STATE.WANDER)
 				return false;
 			else return true;
 		}

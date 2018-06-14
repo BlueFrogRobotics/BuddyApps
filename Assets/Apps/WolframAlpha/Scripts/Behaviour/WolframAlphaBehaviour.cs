@@ -34,9 +34,15 @@ namespace BuddyApp.WolframAlpha
             mAppData = WolframAlphaData.Instance;
 			pendingRequest = false;
 			BYOS.Instance.Interaction.VocalManager.EnableTrigger = false;
+			BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
+			BYOS.Instance.Interaction.VocalManager.OnError = OnError;
 			BYOS.Instance.Interaction.VocalManager.OnEndReco = OnSpeechRecognition;
 		}
-		
+
+		private void OnError(STTError iError)
+		{
+			pendingRequest = false;
+		}
 
 		private void Update()
 		{

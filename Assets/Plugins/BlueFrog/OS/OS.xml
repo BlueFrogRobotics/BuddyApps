@@ -1368,14 +1368,6 @@
             Detect moving points in frame
             </summary>
         </member>
-        <member name="F:Buddy.FacialDetectionRework.mDetector">
-            <summary>
-            Init the movement tracker
-            </summary>
-            <param name="ioOutputType">The output type</param>
-            <param name="ioDelay">Refresh time</param>
-            
-        </member>
         <member name="M:Buddy.FacialDetectionRework.ProcessFrameImpl(OpenCVUnity.Mat,UnityEngine.Texture2D)">
             <summary>
             Process the algorithm
@@ -4806,7 +4798,7 @@
             <param name="iName">Name of the file / directory</param>
             <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:Buddy.AAppActivity.Load``1(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:Buddy.AAppActivity.Load``1(System.String)" -->
         <member name="M:Buddy.AAppActivity.LoadAtlas(System.String)">
             <summary>
             Load the atlas from Resource/ or from downloaded bundles. Equivalent to BYOS.Instance.Resources.LoadAtlas(iName)
@@ -6668,40 +6660,19 @@
             <param name="iEventDate">Date on which reminder will be issued</param>
             <param name="iContent">Content of the reminder</param>
             <param name="iSenderID">An ID representing the sender</param>
+            <param name="iType">Type of the reminder</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,System.String,System.Int32,System.String,Buddy.ReminderType)">
+        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,System.String,System.Int32,System.String,Buddy.ReminderType,System.Boolean,Buddy.ReminderTimespan,System.Action,System.DateTime)">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
             <param name="iEventDate">Date on which reminder will be issued</param>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the sender</param>
-            <param name="iAddressee">The target person to deliver the reminder to.</param>
-            <returns>The new reminder</returns>
-        </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32,Buddy.ReminderType)">
-            <summary>
-            Add a new reminder to the procedural memory
-            </summary>
-            <param name="iEventDate">Date on which reminder will be issued</param>
-            <param name="iPrecision"></param>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the sender</param>
-            <returns>The new reminder</returns>
-        </member>
-        <member name="M:Buddy.ProceduralMemManager.AddReminder(System.DateTime,Buddy.RemindPrecision,System.String,System.Int32,System.String,Buddy.ReminderType,Buddy.ReminderRecurrence,Buddy.RemindTimespan,System.Boolean,System.Action,System.DateTime)">
-            <summary>
-            Add a new reminder to the procedural memory
-            </summary>
-            <param name="iEventDate">Date on which reminder will be issued</param>
-            <param name="iPrecision">Precision of the event date</param>
             <param name="iContent">Content of the reminder</param>
             <param name="iSenderID">An ID representing the sender</param>
             <param name="iAddressee">The target person to deliver the reminder to.</param>
             <param name="iType">The reminder type.</param>
-            <param name="iRecurrence">The type of reminder.</param>
-            <param name="iSpan">The time span between each reminder, for a recurrent one.</param>
+            <param name="iRecurrence">The time span between each reminder, for a recurrent one.</param>
             <param name="iUrgent">Is the reminder a top priority at specified date ?</param>
             <param name="iAction">The action to call when the linked notification is validated.</param>
             <param name="iRemindDate">A date at which a notification should be displayed, prior to the actual event date.</param>
@@ -6711,6 +6682,20 @@
             <summary>
             Get the list of all reminders.
             </summary>
+            <returns>The list of all reminders.</returns>
+        </member>
+        <member name="M:Buddy.ProceduralMemManager.GetIssuedReminders(Buddy.ReminderState)">
+            <summary>
+            Get the list of issued reminders with max state.
+            </summary>
+            <param name="iMaxState">Maximum state of the reminders to return</param>
+            <returns>The list of all reminders.</returns>
+        </member>
+        <member name="M:Buddy.ProceduralMemManager.GetIssuedUrgentReminders(Buddy.ReminderState)">
+            <summary>
+            Get the list of issued urgent reminders with max state.
+            </summary>
+            <param name="iMaxState">Maximum state of the reminders to return</param>
             <returns>The list of all reminders.</returns>
         </member>
         <member name="M:Buddy.ProceduralMemManager.ExistReminder(System.Int32)">
@@ -6726,6 +6711,13 @@
             </summary>
             <param name="iID">The reminder ID</param>
         </member>
+        <member name="M:Buddy.ProceduralMemManager.RemoveReminderSafe(System.Int32)">
+            <summary>
+            Remove a speicific reminder from procedural memory.
+            And add the next one if reccurent reminder
+            </summary>
+            <param name="iID">The reminder ID</param>
+        </member>
         <member name="M:Buddy.ProceduralMemManager.RetrieveRemindersWhere(System.Predicate{Buddy.Reminder})">
             <summary>
             Retrieve all the reminders where the predicate is verified
@@ -6733,11 +6725,12 @@
             <param name="iMatchPredicate">The predicate to match reminders</param>
             <returns>A list of reminders</returns>
         </member>
-        <member name="M:Buddy.ProceduralMemManager.DisplayReminder(System.Int32)">
+        <member name="M:Buddy.ProceduralMemManager.DisplayReminder(System.Int32,Buddy.ReminderState)">
             <summary>
             Display a specific reminder
             </summary>
             <param name="iID">The reminder ID</param>
+            <param name="iUpdateState">Reminder will be updated to this state after display</param>
         </member>
         <member name="T:Buddy.ReminderState">
             <summary>
@@ -6794,69 +6787,34 @@
             Call reminder.
             </summary>
         </member>
-        <member name="T:Buddy.ReminderRecurrence">
-            <summary>
-            Recurrence of reminder.
-            </summary>
-        </member>
-        <member name="F:Buddy.ReminderRecurrence.RECURRENT">
-            <summary>
-            A recurrent reminder. Might happen every day, week, month or year.
-            </summary>
-        </member>
-        <member name="F:Buddy.ReminderRecurrence.ONE_TIME">
-            <summary>
-            A one-time reminder.
-            </summary>
-        </member>
-        <member name="T:Buddy.RemindTimespan">
+        <member name="T:Buddy.ReminderTimespan">
             <summary>
             The time span between each reminder, for a recurrent reminder.
             </summary>
         </member>
-        <member name="F:Buddy.RemindTimespan.NONE">
+        <member name="F:Buddy.ReminderTimespan.NONE">
             <summary>
             No repetition.
             </summary>
         </member>
-        <member name="F:Buddy.RemindTimespan.EVERY_DAY">
+        <member name="F:Buddy.ReminderTimespan.EVERY_DAY">
             <summary>
             Every day.
             </summary>
         </member>
-        <member name="F:Buddy.RemindTimespan.EVERY_WEEK">
+        <member name="F:Buddy.ReminderTimespan.EVERY_WEEK">
             <summary>
             Every week.
             </summary>
         </member>
-        <member name="F:Buddy.RemindTimespan.EVERY_MONTH">
+        <member name="F:Buddy.ReminderTimespan.EVERY_MONTH">
             <summary>
             Every month.
             </summary>
         </member>
-        <member name="F:Buddy.RemindTimespan.EVERY_YEAR">
+        <member name="F:Buddy.ReminderTimespan.EVERY_YEAR">
             <summary>
             Every year.
-            </summary>
-        </member>
-        <member name="T:Buddy.RemindPrecision">
-            <summary>
-            The reminder precision
-            </summary>
-        </member>
-        <member name="F:Buddy.RemindPrecision.DAY">
-            <summary>
-            Day precision
-            </summary>
-        </member>
-        <member name="F:Buddy.RemindPrecision.HOUR">
-            <summary>
-            Hour precision
-            </summary>
-        </member>
-        <member name="F:Buddy.RemindPrecision.MINUTE">
-            <summary>
-            Minute precision
             </summary>
         </member>
         <member name="T:Buddy.Reminder">
@@ -6909,7 +6867,7 @@
             The event date at which the remender will issued
             </summary>
         </member>
-        <member name="P:Buddy.Reminder.RemindDate">
+        <member name="P:Buddy.Reminder.ReminderDate">
             <summary>
             The date at which a reminder should be issued prior to the actual event date.
             </summary>
@@ -6931,12 +6889,7 @@
         </member>
         <member name="P:Buddy.Reminder.Recurrence">
             <summary>
-            The reminder recurrence.
-            </summary>
-        </member>
-        <member name="P:Buddy.Reminder.Precision">
-            <summary>
-            The reminder precision
+            The reminder recurrence (non, day, week mont.)
             </summary>
         </member>
         <member name="P:Buddy.Reminder.State">
@@ -6959,15 +6912,26 @@
             Default constructor
             </summary>
         </member>
+        <member name="M:Buddy.Reminder.#ctor(System.Int32,System.String,System.Boolean,System.Boolean,System.String,System.String,System.DateTime,System.DateTime,System.DateTime,Buddy.ReminderTimespan,Buddy.ReminderType,Buddy.ReminderState,System.Action,Buddy.InternalMood)">
+            <summary>
+            reminder constructor
+            </summary>
+            <returns>A new copy of the reminder</returns>
+        </member>
         <member name="M:Buddy.Reminder.Copy">
             <summary>
             Make a copy of the reminder
             </summary>
             <returns>A new copy of the reminder</returns>
         </member>
-        <member name="M:Buddy.Reminder.DisplayNotif">
+        <member name="M:Buddy.Reminder.DisplayNotif(Buddy.ReminderState)">
             <summary>
             Display the notification of the reminder.
+            </summary>
+        </member>
+        <member name="M:Buddy.Reminder.Say">
+            <summary>
+            Says that there is a special reminder waiting for someone to read it.
             </summary>
         </member>
         <member name="T:Buddy.SessionType">
@@ -7436,7 +7400,7 @@
         <member name="F:Buddy.UI.PoolInflationType.DOUBLE">
             When a dynamic pool inflates, double the size of the pool
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
         <member name="M:Buddy.UI.PoolManager.ReturnObjectToPool(UnityEngine.GameObject)">
             <summary>
             Return obj to the pool

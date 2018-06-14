@@ -40,37 +40,44 @@ namespace BuddyApp.Companion
 			mLookingTime = 0F;
 
 
-			if (mActionManager.EmergencyNotif(mDetectionManager.ActiveReminders) == null) {
+			if (mDetectionManager.ActiveUrgentReminder) {
+				Interaction.Mood.Set(MoodType.SCARED);
+				Debug.Log("[COMPANION][Lookingfor] Set mood to scared for notif! " + Interaction.Mood.CurrentMood);
+				mActionManager.InformNotifPriority();
+			} else {
 				Interaction.TextToSpeech.SayKey("anyoneplay", true);
 				Interaction.Mood.Set(MoodType.THINKING);
-			} else {
-				Interaction.Mood.Set(MoodType.SCARED);
-				mActionManager.TellNotifPriority(mDetectionManager.ActiveReminders);
-
+				Debug.Log("[COMPANION][Lookingfor] Set mood to Thinking for notif! " + Interaction.Mood.CurrentMood);
 			}
 
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mLookingTime = Time.deltaTime;
+			mLookingTime += Time.deltaTime;
 
-			if (Interaction.TextToSpeech.HasFinishedTalking &&  ( (int) (mLookingTime % 20) ) == 10) {
-				Debug.Log("[COMPANION][Lookingfor] say something, time: " + mLookingTime );
+			if (Interaction.TextToSpeech.HasFinishedTalking && (mLookingTime > 20F)) {
+				Debug.Log("[COMPANION][Lookingfor] say something, time: " + mLookingTime);
+				Debug.Log("[COMPANION][Lookingfor] current mood: " + Interaction.Mood.CurrentMood);
 
-				if (mDetectionManager.ActiveReminders.Count == 0) {
+				if (!mDetectionManager.ActiveReminder) {
+					Debug.Log("[COMPANION][Lookingfor] anyone play?");
 					Interaction.TextToSpeech.SayKey("anyoneplay", true);
+					if (Interaction.Mood.CurrentMood != MoodType.THINKING && Interaction.Face.IsStable)
+						Interaction.Mood.Set(MoodType.THINKING);
 				} else {
 					// TODO: check if notif is an emergency
 					Debug.Log("[COMPANION][Lookingfor] Tellnotif");
-					Interaction.Mood.Set(MoodType.SCARED);
-					mActionManager.TellNotif(mDetectionManager.ActiveReminders[0]);
+					if (Interaction.Mood.CurrentMood != MoodType.SCARED && Interaction.Face.IsStable)
+						Interaction.Mood.Set(MoodType.SCARED);
+					mActionManager.InformNotifPriority();
 				}
+				mLookingTime = 0F;
 			}
 
 			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering && CompanionData.Instance.CanMoveBody) {
 				Debug.Log("CompanionLooking4 start wandering");
-				mActionManager.StartWander();
+				mActionManager.StartWander(Interaction.Mood.CurrentMood);
 			} else if (!CompanionData.Instance.CanMoveBody) {
 				Trigger("IDLE");
 			}
@@ -87,6 +94,7 @@ namespace BuddyApp.Companion
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.NONE;
+			Debug.Log("[COMPANION][Lookingfor] quit");
 		}
 
 	}
