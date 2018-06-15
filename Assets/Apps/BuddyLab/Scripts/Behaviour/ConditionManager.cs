@@ -71,7 +71,7 @@ namespace BuddyApp.BuddyLab
         /// <summary>
         /// Variables for sound detection
         /// </summary>
-        public const float MAX_SOUND_THRESHOLD = 0.3F;
+        public const float MAX_SOUND_THRESHOLD = 0.05F; 
         private NoiseDetection mNoiseDetection;
 
         /// <summary>
