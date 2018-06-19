@@ -34,7 +34,7 @@ namespace BuddyApp.RedLightGreenLightGame
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mRLGLBehaviour.Timer = 0F;
-            Debug.Log("ON STATE ENTER RLGL GAMEPLAY");
+            //Debug.Log("ON STATE ENTER RLGL GAMEPLAY");
             //if (!mRLGLBehaviour.IsGameplayDone)
             //{
                 
@@ -63,7 +63,7 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbFaFailedacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log(mRLGLBehaviour.Gameplay + " LOLRLGLGP");
+            //Debug.Log(mRLGLBehaviour.Gameplay + " LOLRLGLGP");
             if(!mRLGLBehaviour.FirstTurn)
             {
                 Interaction.TextToSpeech.SayKey("gameplayaller");
@@ -72,7 +72,7 @@ namespace BuddyApp.RedLightGreenLightGame
                 
             if (!mRLGLBehaviour.Gameplay)
             {
-                Debug.Log("GAMEPLAY FALSE");
+                //Debug.Log("GAMEPLAY FALSE");
                 //mRLGLBehaviour.OpenFlash();
                 //Close the flash, depends on the fact that the flash is auto so it close by itself or if we have to close it
                 if (mIdLevel >= 0 && mIdLevel < 3)
@@ -101,16 +101,16 @@ namespace BuddyApp.RedLightGreenLightGame
             else
             {
                 // mRLGLBehaviour.IsGameplayDone = true;
-                Debug.Log("GAMEPLAY TRUE");
+                //Debug.Log("GAMEPLAY TRUE");
                 //open the eyes, a voir quand on aura l'animation
                 if (mRLGLBehaviour.Timer < mTimerLimit + 4F /*&& !mDone */&& !mFirst)
                 {
-                    Debug.Log("DETECTION PERCEPTION GAMEPLAY 1");
+                    //Debug.Log("DETECTION PERCEPTION GAMEPLAY 1");
                     if (((Primitive.Motors.Wheels.Status == MovingState.REACHED_GOAL || Primitive.Motors.Wheels.Status == MovingState.MOTIONLESS)) && mRLGLBehaviour.Timer > 3F)
                     {
                         //put the treshold on the xml 
                         mFirst = true;
-                        Debug.Log("DETECTION PERCEPTION GAMEPLAY 2 : ");
+                       // Debug.Log("DETECTION PERCEPTION GAMEPLAY 2 : ");
                         animator.SetFloat("Timer", mRLGLBehaviour.Timer);
                         Trigger("MotionDetection");
                         //Perception.Motion.OnDetect(OnMovementDetected, 5F);
@@ -120,7 +120,7 @@ namespace BuddyApp.RedLightGreenLightGame
                 }
                 else if(mRLGLBehaviour.Timer > mTimerLimit/* && !mDone*/ && !mSecond)
                 {
-                    Debug.Log("DETECTION PERCEPTION GAMEPLAY 3");
+                   // Debug.Log("DETECTION PERCEPTION GAMEPLAY 3");
                     //if (!mDetectionDone)
                     //    Perception.Motion.StopOnDetect(OnMovementDetected);
                     Interaction.TextToSpeech.SayKey("goodatthisgame");
@@ -129,7 +129,7 @@ namespace BuddyApp.RedLightGreenLightGame
 
                 if (/*mDone && */Interaction.TextToSpeech.HasFinishedTalking && mFirst && mSecond)
                 {
-                    Debug.Log("DETECTION PERCEPTION GAMEPLAY 4");
+                    //Debug.Log("DETECTION PERCEPTION GAMEPLAY 4");
                     mRLGLBehaviour.Gameplay = false;
                     //mRLGLBehaviour.IsGameplayDone = false;
                 }

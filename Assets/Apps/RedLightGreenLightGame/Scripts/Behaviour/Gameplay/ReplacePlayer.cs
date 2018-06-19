@@ -95,7 +95,11 @@ namespace BuddyApp.RedLightGreenLightGame
         private bool ObstacleInFront()
         {
             if (Primitive.IRSensors.Middle.Distance < OBSTACLE_DISTANCE && Primitive.IRSensors.Middle.Distance != 0)
+            { 
+                Debug.Log("RLGL OBSTACLE : " + Primitive.IRSensors.Middle.Distance);
                 return true;
+
+            }
 
             return false;
         }

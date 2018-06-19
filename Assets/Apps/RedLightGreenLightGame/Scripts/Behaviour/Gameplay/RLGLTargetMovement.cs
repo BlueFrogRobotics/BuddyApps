@@ -57,7 +57,9 @@ namespace BuddyApp.RedLightGreenLightGame
 
         void Update()
         {
-            Debug.Log("movement rlgl target !!!");
+            Debug.Log("UPDATE MOVEMENT TARGET");
+
+            //Debug.Log("movement rlgl target !!!");
             //Debug.Log("TARGET MOVEMENTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT : " + mSpeed);
             if (transform.localPosition.x < 0 - ((mCanvasRect.rect.width / 2) - mWidth) || transform.localPosition.x > ((mCanvasRect.rect.width / 2) - mWidth))
                 mRestrictX = true;
@@ -109,7 +111,7 @@ namespace BuddyApp.RedLightGreenLightGame
 
         public void ResetTargetMovement()
         {
-            Debug.Log("Reset target Movement");
+            //Debug.Log("Reset target Movement");
             mLevelManager = mGameplayGO.GetComponent<LevelManager>();
             mButton = gameObject.GetComponent<RectTransform>();
             mCanvasRect = mCanvas.GetComponent<RectTransform>();

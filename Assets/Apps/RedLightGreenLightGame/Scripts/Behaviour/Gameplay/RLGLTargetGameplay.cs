@@ -24,8 +24,11 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if(!GetGameObject(2).GetComponent<RLGLTargetMovement>().enabled)
+                GetGameObject(2).GetComponent<RLGLTargetMovement>().enabled = true;
             GetGameObject(2).GetComponent<RLGLTargetMovement>().ResetTargetMovement();
-            if(!mRLGLBehaviour.IsPlaying)
+            
+            if (!mRLGLBehaviour.IsPlaying)
             {
                 mRLGLBehaviour.TargetClicked = false;
                 mAnimIsOpen = false;
@@ -50,12 +53,12 @@ namespace BuddyApp.RedLightGreenLightGame
         {
             if (mRLGLBehaviour.Timer < mLimit)
             {
-                Debug.Log("CLICK TARGET");
+               // Debug.Log("CLICK TARGET");
                 ClickTarget();
             }
             else if(!mSentenceDone)
             {
-                Interaction.TextToSpeech.SayKey("top");
+                //Interaction.TextToSpeech.SayKey("top");
                 mSentenceDone = true;
             }
             if(mSentenceDone && mRLGLBehaviour.Timer > mLimit && Interaction.TextToSpeech.HasFinishedTalking)

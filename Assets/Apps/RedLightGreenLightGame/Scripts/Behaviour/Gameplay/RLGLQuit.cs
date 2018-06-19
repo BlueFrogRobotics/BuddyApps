@@ -38,10 +38,10 @@ namespace BuddyApp.RedLightGreenLightGame
         {
             if (!mIsDone)
             {
-                lTexture = mCam.FrameTexture2D;
-                yield return SayKeyAndWait("showphotos");
-                Interaction.Mood.Set(MoodType.HAPPY);
-                Toaster.Display<PictureToast>().With(Dictionary.GetString("lookphoto"), Sprite.Create(mCam.FrameTexture2D, new Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5f, 0.5f)));
+                //lTexture = mCam.FrameTexture2D;
+                //yield return SayKeyAndWait("showphotos");
+                //Interaction.Mood.Set(MoodType.HAPPY);
+                //Toaster.Display<PictureToast>().With(Dictionary.GetString("lookphoto"), Sprite.Create(mCam.FrameTexture2D, new Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5f, 0.5f)));
                 mIsDone = true;
             }
             yield return new WaitForSeconds(2);

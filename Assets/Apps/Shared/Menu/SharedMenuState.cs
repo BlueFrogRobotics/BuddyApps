@@ -115,7 +115,7 @@ namespace BuddyApp.Shared
             Debug.Log("SpeechReco = " + mSpeechReco);
             mStartRule = iBestResult.StartRule;
             mListening = false;
-            Interaction.Mood.Set(MoodType.NEUTRAL);
+            //Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -212,9 +212,6 @@ namespace BuddyApp.Shared
                 BYOS.Instance.Toaster.Display<ChoiceToast>().With(titleKey, lButtonsInfo);
             else
                 BYOS.Instance.Toaster.Display<ChoiceToast>().With(Dictionary.GetString(titleKey), lButtonsInfo);
-
-
-
 
         }
 
