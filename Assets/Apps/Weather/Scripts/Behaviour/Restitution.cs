@@ -108,9 +108,9 @@ namespace BuddyApp.Weather
                 }
                 else
                 {
-                    string lNoAnswer = Dictionary.GetRandomString("no") + " " + Dictionary.GetRandomString("itwillbe") + " "
+                    string lNoAnswer = Dictionary.GetRandomString("no") + " "
                     + Dictionary.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " " + Dictionary.GetRandomString("at") + " " + EnglishHour(iWeatherInfo.Hour);
-                    string lYesAnswer = Dictionary.GetRandomString("yes") + " " + Dictionary.GetRandomString("itwillbe") + " "
+                    string lYesAnswer = Dictionary.GetRandomString("yes") + " "
                         + Dictionary.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " " + Dictionary.GetRandomString("at") + " " + EnglishHour(iWeatherInfo.Hour);
 
                     if (mWeatherB.mForecast != iWeatherInfo.Type)
