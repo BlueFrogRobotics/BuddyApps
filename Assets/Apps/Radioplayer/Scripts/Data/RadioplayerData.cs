@@ -1,4 +1,5 @@
 using Buddy;
+using System;
 
 namespace BuddyApp.Radioplayer
 {
@@ -11,6 +12,10 @@ namespace BuddyApp.Radioplayer
         public int MyValue { get; set; }
 
         public string DefaultRadio { get; set; }
+
+        public string Token { get; set; }
+
+        public string TokenCreationDate { get; set; }
 
         /*
          * Data singleton access

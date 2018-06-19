@@ -811,7 +811,13 @@ namespace BuddyApp.Companion
 					mLaunchingApp = true;
 					break;
 
-				case "recipe":
+                case "radio":
+                    CompanionData.Instance.mInteractDesire -= 20;
+                    mActionManager.StartApp("Radioplayer", mLastHumanSpeech);
+                    mLaunchingApp = true;
+                    break;
+
+                case "recipe":
 					CompanionData.Instance.mInteractDesire -= 20;
 					mActionManager.StartApp("Recipe", mLastHumanSpeech);
 					mLaunchingApp = true;

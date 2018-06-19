@@ -18,6 +18,9 @@ namespace BuddyApp.Radioplayer
         private Text showDescription;
 
         [SerializeField]
+        private Text singerName;
+
+        [SerializeField]
         private InputField radioSearch;
 
         [SerializeField]
@@ -31,6 +34,10 @@ namespace BuddyApp.Radioplayer
         // Use this for initialization
         void Start()
         {
+            sliderVolume.minValue = 0;
+            sliderVolume.maxValue = 15;
+            sliderVolume.value = BYOS.Instance.Primitive.Speaker.GetVolume();
+            sliderVolume.wholeNumbers = true;
             sliderVolume.onValueChanged.AddListener(OnVolumeChanged);
         }
 
@@ -48,6 +55,11 @@ namespace BuddyApp.Radioplayer
         public void SetRadioName(string iName)
         {
             radioName.text = iName;
+        }
+
+        public void SetSingerName(string iName)
+        {
+            singerName.text = iName;
         }
 
         public void SetPictureFromUrl(string iUrl)
@@ -74,7 +86,8 @@ namespace BuddyApp.Radioplayer
 
         private void OnVolumeChanged(float iVolume)
         {
-            int lVolume = (int)(iVolume * 100.0F);
+            Debug.Log("volume du speaker: " + BYOS.Instance.Primitive.Speaker.GetVolume());
+            int lVolume = (int)(iVolume);
             Debug.Log("volume: " + lVolume);
             BYOS.Instance.Primitive.Speaker.ChangeVolume(lVolume);
         }

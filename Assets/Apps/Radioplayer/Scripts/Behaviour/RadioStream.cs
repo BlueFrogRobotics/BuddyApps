@@ -30,6 +30,10 @@ namespace BuddyApp.Radioplayer
         /// </summary>
         private const string CLIENT_ID = "N2amcZh_-9LNt?X2=R;XWOfsZ8B@.;PwxozfLqoE";
 
+        public string Permalink { get { return mPermaLink; } }
+
+        public bool IsUpdatingLiveInfos { get; private set; }
+
         private AndroidJavaObject currentActivity;
 
         /// <summary>
@@ -40,12 +44,17 @@ namespace BuddyApp.Radioplayer
         /// <summary>
         /// Token retreived
         /// </summary>
-        private string mToken = "";
+        //private string mToken = "";
 
         /// <summary>
         /// Current radio logo url
         /// </summary>
         private string mLogoUrl = "";
+
+        private string mPermaLink = "";
+
+        private string mRadioName = "";
+        private string mShowDescription = "";
 
         private void Awake()
         {
@@ -71,11 +80,12 @@ namespace BuddyApp.Radioplayer
         /// Needed to make get requests (with bearer authentification)
         /// Tokens expire after one day 
         /// </summary>
-        public void GetToken()
+        public string GetToken()
         {
             string poststring = String.Format("client_id={0}&device_serial={1}&grant_type={2}", System.Uri.EscapeDataString(CLIENT_ID), "test", "password");
             string lPostResult = PostData("https://test.auth.radioline.fr/auth/token", poststring);
-            mToken = GetToken(lPostResult);
+            //mToken = GetToken(lPostResult);
+            return GetToken(lPostResult);
         }
 
         /// <summary>
@@ -89,6 +99,7 @@ namespace BuddyApp.Radioplayer
             StartCoroutine(GetRadioInformations(iName));
             StartCoroutine(GetLiveInformations(iName));
             StartCoroutine(PlayRadio(iName));
+            //StartCoroutine(SearchRadioName(iName));
         }
 
         /// <summary>
@@ -111,6 +122,12 @@ namespace BuddyApp.Radioplayer
             currentActivity.Call("stopStreamWithExo");
         }
 
+        public void UpdateLiveInformations()
+        {
+            StartCoroutine(GetLiveInformations(mPermaLink));
+        }
+
+
         /// <summary>
         /// Get and save a streaming radio url
         /// </summary>
@@ -123,7 +140,7 @@ namespace BuddyApp.Radioplayer
             UnityWebRequest lWww = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/radios/"+ lRadioName +"/play");
             //Send request
             lWww.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            lWww.SetRequestHeader("Authorization", "Bearer " + mToken);
+            lWww.SetRequestHeader("Authorization", "Bearer " + RadioplayerData.Instance.Token);
             yield return lWww.Send();
 
             if (!lWww.isError)
@@ -151,7 +168,7 @@ namespace BuddyApp.Radioplayer
             UnityWebRequest www = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/radios/" + lRadioName);
             //Send request
             www.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            www.SetRequestHeader("Authorization", "Bearer " + mToken);
+            www.SetRequestHeader("Authorization", "Bearer " + RadioplayerData.Instance.Token);
             yield return www.Send();
 
             if (!www.isError)
@@ -160,7 +177,9 @@ namespace BuddyApp.Radioplayer
                 Debug.Log("le token: " + resultContent);
                 mLogoUrl = GetInformations(resultContent);
                 mRadioUI.SetPictureFromUrl(mLogoUrl);
-                mRadioUI.SetRadioName(GetRadioName(resultContent));
+                //mRadioUI.SetRadioName(GetRadioName(resultContent));
+                mRadioName = GetRadioName(resultContent);
+                mRadioUI.SetRadioName(mRadioName + " / " + mShowDescription);
                 //StartCoroutine(LoadPicture(mLogoUrl));
 
             }
@@ -177,20 +196,57 @@ namespace BuddyApp.Radioplayer
         /// <returns></returns>
         private IEnumerator GetLiveInformations(string iRadioName)
         {
+            IsUpdatingLiveInfos = true;
             string lRadioName = iRadioName.Trim().ToLower().Replace(" ", "_");
             UnityWebRequest www = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/radios/" + lRadioName+"/live");
             //Send request
             www.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            www.SetRequestHeader("Authorization", "Bearer " + mToken);
+            www.SetRequestHeader("Authorization", "Bearer " + RadioplayerData.Instance.Token);
             yield return www.Send();
 
             if (!www.isError)
             {
                 string resultContent = www.downloadHandler.text;
                 Debug.Log("le live info: " + resultContent);
-                mRadioUI.SetShowDescription(GetShowDescription(resultContent));
+                //mRadioUI.SetShowDescription(GetShowDescription(resultContent));
+                mShowDescription = GetShowDescription(resultContent);
+                string lSongName = GetSongName(resultContent);
+                if (lSongName != "" && lSongName != "error")
+                    mShowDescription = lSongName;
+                mRadioUI.SetRadioName(mRadioName + " / " + mShowDescription);
+                string lSingerName = GetSingerName(resultContent);
+                if (lSingerName != "" && lSingerName != "error")
+                    mRadioUI.SetSingerName(lSingerName);
+                else
+                    mRadioUI.SetSingerName("");
+
                 //showDescription.text = GetShowDescription(resultContent);
 
+
+            }
+            else
+            {
+
+            }
+            IsUpdatingLiveInfos = false;
+        }
+
+        public IEnumerator SearchRadioName(string iRadioName)
+        {
+            string lRadioName = iRadioName.Trim().ToLower().Replace(" ", "_");
+            UnityWebRequest www = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/search?query="+System.Uri.EscapeDataString(iRadioName) +"&type=radio");
+            //Send request
+            www.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            www.SetRequestHeader("Authorization", "Bearer " + RadioplayerData.Instance.Token);
+            yield return www.Send();
+
+            if (!www.isError)
+            {
+                string resultContent = www.downloadHandler.text;
+                Debug.Log("radio name found: " + resultContent);
+                //mRadioUI.SetShowDescription(GetShowDescription(resultContent));
+                //showDescription.text = GetShowDescription(resultContent);
+                mPermaLink = GetPermalink(resultContent);
 
             }
             else
@@ -330,7 +386,16 @@ namespace BuddyApp.Radioplayer
             }
             else
             {
-                lLink = lJsonNode["body"]["content"]["streams"][0]["url"].Value;
+                for(int i=0; i< lJsonNode["body"]["content"]["streams"].Count; i++)
+                {
+                    if (!lJsonNode["body"]["content"]["streams"][i]["protocol"].Value.Contains("hls"))
+                    {
+                        lLink = lJsonNode["body"]["content"]["streams"][i]["url"].Value;
+                        break;
+                    }
+                }
+
+                Debug.Log("le link: " + lLink);
                 return lLink;
             }
         }
@@ -398,9 +463,58 @@ namespace BuddyApp.Radioplayer
             }
         }
 
-        
+        private string GetSongName(string iJson)
+        {
+            string lSongName = "";
 
-        
+            JSONNode lJsonNode = Buddy.JSON.Parse(iJson);
+            if (lJsonNode["body"]["type"] == "error")
+            {
+                return "error";
+            }
+            else
+            {
+                if(lJsonNode["body"]["content"]["track"]!=null)
+                    lSongName = lJsonNode["body"]["content"]["track"]["name"].Value;
+                return lSongName;
+            }
+        }
+
+        private string GetSingerName(string iJson)
+        {
+            string lSingerName = "";
+
+            JSONNode lJsonNode = Buddy.JSON.Parse(iJson);
+            if (lJsonNode["body"]["type"] == "error")
+            {
+                return "error";
+            }
+            else
+            {
+                if (lJsonNode["body"]["content"]["track"] != null)
+                    lSingerName = lJsonNode["body"]["content"]["track"]["artist"]["name"].Value;
+                return lSingerName;
+            }
+        }
+
+        private string GetPermalink(string iJson)
+        {
+            string lPermalink = "";
+
+            JSONNode lJsonNode = Buddy.JSON.Parse(iJson);
+            if (lJsonNode["body"]["type"] == "error")
+            {
+                return "error";
+            }
+            else
+            {
+                lPermalink = lJsonNode["body"]["content"][0]["permalink"].Value;
+                lPermalink = lPermalink.Replace("radios/", "");
+                return lPermalink;
+            }
+        }
+
+
 
         /// <summary>
         /// Start playing given radio 
