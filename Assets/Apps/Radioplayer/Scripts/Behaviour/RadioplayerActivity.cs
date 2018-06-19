@@ -30,7 +30,7 @@ namespace BuddyApp.Radioplayer
             if (lRadio != "")
                 RadioplayerData.Instance.DefaultRadio = lRadio;
             //Debug.Log("la radio: "+ExtractRadio("lance la radio europe 1"));
-            RadioplayerData.Instance.DefaultRadio = "voltage";
+            //RadioplayerData.Instance.DefaultRadio = "voltage";
         }
 
 		/*
