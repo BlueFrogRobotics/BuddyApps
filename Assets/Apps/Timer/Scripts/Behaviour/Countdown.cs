@@ -17,7 +17,7 @@ namespace BuddyApp.Timer
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             finalcountdown = CommonIntegers["finalcountdown"];
-            Interaction.Mood.Set(MoodType.THINKING);
+            //Interaction.Mood.Set(MoodType.THINKING);
 			if (finalcountdown > 60) {
 				DateTime lDateTimer = DateTime.Now.AddSeconds(finalcountdown);
 				BYOS.Instance.DataBase.Memory.Procedural.AddReminder(lDateTimer, "Timer ended!! (" + lDateTimer.Hour + ":" + lDateTimer.Minute + ")", 0, "", ReminderType.ALARM, true);
