@@ -932,6 +932,11 @@
             An STT based on Nuance Vocon technology. It's a fully embedded solution which uses grammars during the recognition process.
             </summary>
         </member>
+        <member name="M:Buddy.BMLManager.LoadAppBML">
+            <summary>
+            Loads all BML from current App.
+            </summary>
+        </member>
         <member name="P:Buddy.BMLManager.ActiveBML">
             <summary>
             The list of all currently running behaviors.
@@ -940,11 +945,6 @@
         <member name="P:Buddy.BMLManager.DonePlaying">
             <summary>
             Tells whether all behaviors are done playing.
-            </summary>
-        </member>
-        <member name="M:Buddy.BMLManager.LoadAppBML">
-            <summary>
-            Loads all BML from current App.
             </summary>
         </member>
         <member name="M:Buddy.BMLManager.LoadFile(System.String)">
@@ -1214,6 +1214,11 @@
             Compile grammars to create a context.
             </summary>
             <param name="iGrammars">The full grammars' path needed for compilation. The main grammar has to be the first element.</param>
+        </member>
+        <member name="M:Buddy.VoconSTT.StopReco">
+            <summary>
+            Stop current recognition.
+            </summary>
         </member>
         <member name="M:Buddy.VoconSTT.SetLanguage(Buddy.Language)">
             <summary>
@@ -3592,6 +3597,11 @@
             Clear VoCon's grammar list.
             </summary>
         </member>
+        <member name="M:Buddy.VocalManager.StopRecognition">
+            <summary>
+            Stop the current vocon recognition.
+            </summary>
+        </member>
         <member name="T:Buddy.GCVDetectionType">
             <summary>
             Kind of detection request for Google Cloud Vision API
@@ -4798,7 +4808,7 @@
             <param name="iName">Name of the file / directory</param>
             <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.AAppActivity.Load``1(System.String)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.AAppActivity.Load``1(System.String)" -->
         <member name="M:Buddy.AAppActivity.LoadAtlas(System.String)">
             <summary>
             Load the atlas from Resource/ or from downloaded bundles. Equivalent to BYOS.Instance.Resources.LoadAtlas(iName)
@@ -7405,7 +7415,7 @@
         <member name="F:Buddy.UI.PoolInflationType.DOUBLE">
             When a dynamic pool inflates, double the size of the pool
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
         <member name="M:Buddy.UI.PoolManager.ReturnObjectToPool(UnityEngine.GameObject)">
             <summary>
             Return obj to the pool

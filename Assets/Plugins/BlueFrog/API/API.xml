@@ -1067,6 +1067,11 @@
             <param name="iAcMod"></param>
             <param name="iCLCFile"></param>
         </member>
+        <member name="M:Buddy.Internal.API.VoconAndroid.StopReco">
+            <summary>
+            Stop current recognition.
+            </summary>
+        </member>
         <member name="M:Buddy.Internal.API.VoconAndroid.OnEndReco(System.String)">
             <summary>
             Callback when recognition is finished.
@@ -1130,6 +1135,11 @@
             Compile grammars to create a context.
             </summary>
             <param name="iGrammars">The grammars needed for compilation. The main grammar has to be the first element.</param>
+        </member>
+        <member name="M:Buddy.Internal.API.VoconSTT.StopReco">
+            <summary>
+            Stop current recognition.
+            </summary>
         </member>
         <member name="M:Buddy.Internal.API.VoconSTT.OnEndReco(System.String)">
             <summary>
@@ -1289,7 +1299,7 @@
             <param name="iSpeed">The speed in degrees per second</param>
             <param name="iTolerance">The angle tolerance to reach to stop command in radians</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Buddy.Internal.API.HardwareDivision.RealHardware.TurnAngle(System.Single,System.Single,System.Single)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.Internal.API.HardwareDivision.RealHardware.TurnAngle(System.Single,System.Single,System.Single)" -->
         <member name="M:Buddy.Internal.API.HardwareDivision.RealHardware.MoveToAbsolutePosition(UnityEngine.Vector2,System.Single,System.Single)">
             <summary>
             Make the robot go to a desired global position.
