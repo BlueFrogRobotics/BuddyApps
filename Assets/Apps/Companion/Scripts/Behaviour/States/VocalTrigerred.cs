@@ -790,11 +790,11 @@ namespace BuddyApp.Companion
 					Debug.Log("Operation2 " + lComputeOrder);
 					lComputeOrder = lComputeOrder.Replace("plus", "+");
 					Debug.Log("Operation3 " + lComputeOrder);
-					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("devide"), "/");
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("divided"), "/");
 					Debug.Log("Operation4 " + lComputeOrder);
-					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("devideit"), "/");
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("divideit"), "/");
 					Debug.Log("Operation5 " + lComputeOrder);
-					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("devideper"), "/");
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("dividedper"), "/");
 					Debug.Log("Operation6 " + lComputeOrder);
 					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("minus"), "-");
 					Debug.Log("Operation7 " + lComputeOrder);
@@ -827,9 +827,9 @@ namespace BuddyApp.Companion
 
 						lComputeNewOrder += mLastHumanSpeech.ToLower().Replace(BYOS.Instance.Dictionary.GetString("add"), "+");
 						lComputeNewOrder = lComputeNewOrder.Replace("plus", "+");
-						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("devide"), "/");
-						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("devideit"), "/");
-						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("devideper"), "/");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("divided"), "/");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("divideit"), "/");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("dividedper"), "/");
 						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("minus"), "-");
 						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("times"), "*");
 						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("power"), "^");
