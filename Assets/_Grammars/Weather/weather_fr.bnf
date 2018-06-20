@@ -1,6 +1,6 @@
 #BNF+EMV2.1;
 !grammar weather_fr;
-!export <weather>;
+!start <weather>;
 !import <cities#name>;
 <weather> : (<request1> | <request2> | <request3> | <request4> | <request5>) [à <cities#name> [<when>] | <when> [à <cities#name>]] [s'il te plait];
 <request1> : (<subrequest11> | <subrequest12>) (la température | (la | les prévisions) météo | le temps);
