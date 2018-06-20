@@ -22,7 +22,6 @@ namespace BuddyApp.Companion
 			mActionManager = GetComponent<ActionManager>();
 			mCompanion = GetComponent<CompanionBehaviour>();
 			mProfiles = mCompanion.Profiles;
-
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -44,8 +43,8 @@ namespace BuddyApp.Companion
 				mNeedListen = true;
 
 
-				//Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
-				//Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
+				Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
+				Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
 
 
 				//TODO: ask a missing info on current user

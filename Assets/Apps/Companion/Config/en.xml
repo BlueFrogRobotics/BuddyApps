@@ -525,12 +525,13 @@
 		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>givehour</Key>
-			<BaseValue>The hour is [hour]</BaseValue>
+			<BaseValue>It's [minutes]</BaseValue>
 			<ClosePhoneticValues>
 				<string />
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string>After the third beep, it will exactly be [hour] hours, [minute] minutes and [second] seconds [700] beep [700] beep [700] and beep</string>
+				<string>It's [minutes] [50] [hour]</string>
+				<string>It's [Hour] [50] [Minutes] [Meridiem]</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -1768,6 +1769,112 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>add</Key>
+			<BaseValue>add</BaseValue>
+			<ClosePhoneticValues>
+				<string>add</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>add</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>devide</Key>
+			<BaseValue>devide</BaseValue>
+			<ClosePhoneticValues>
+				<string>devide</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>devide</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>devideit</Key>
+			<BaseValue>devide it per</BaseValue>
+			<ClosePhoneticValues>
+				<string>devide it per</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>devide it per</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>devideper</Key>
+			<BaseValue>devide per</BaseValue>
+			<ClosePhoneticValues>
+				<string>devide per</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>devide per</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>minus</Key>
+			<BaseValue>minus</BaseValue>
+			<ClosePhoneticValues>
+				<string>minus</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>minus</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>times</Key>
+			<BaseValue>times</BaseValue>
+			<ClosePhoneticValues>
+				<string>times</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>times</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>notunderstandcalcul</Key>
+			<BaseValue>I didn't get what I have to compute</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>I didn't get what I have to compute</string>
+				<string>I think I have to calculate something but I didn't get it</string>
+				<string>Could you repeat the calculation please?</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>power</Key>
+			<BaseValue>power</BaseValue>
+			<ClosePhoneticValues>
+				<string>power</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>power</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>welcome</Key>
+			<BaseValue>Welcome</BaseValue>
+			<ClosePhoneticValues>
+				<string>welcome</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>welcome guys! I'm glad to be here!</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>icanmove</Key>
+			<BaseValue>Okay</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Okay, thanks master!</string>
+				<string>Youpi</string>
+				<string>Nice!</string>
+				<string>My wheels where itchie!</string>
+				<string>Let's roll!</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>inlocation</Key>
 			<BaseValue>in</BaseValue>
 			<ClosePhoneticValues>
@@ -2952,9 +3059,10 @@
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>
-				First: [666] A robot may not injure a human being or, through inaction, allow a human being to come to harm.
-				[666] Second: [500] A robot must obey the orders given it by human beings except where such orders would conflict with the First Law
-				[666] Third: [500] A robot must protect its own existence as long as such protection does not conflict with the First or Second Laws.</string>
+					First: [666] A robot may not injure a human being or, through inaction, allow a human being to come to harm.
+					[666] Second: [500] A robot must obey the orders given it by human beings except where such orders would conflict with the First Law
+					[666] Third: [500] A robot must protect its own existence as long as such protection does not conflict with the First or Second Laws.
+				</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>

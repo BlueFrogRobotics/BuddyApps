@@ -296,7 +296,7 @@ namespace BuddyApp.Companion
 				Debug.Log("Tell notif: " + iReminder.State + " " + iReminder.Type + " " + iReminder.Content);
 
 				Debug.Log("[ActionManager] Say Reminder: " + iReminder.Say());
-				
+
 			}
 
 			if (iDisplay) {
@@ -407,78 +407,91 @@ namespace BuddyApp.Companion
 		public string LaunchReaction(COMPANION_STATE iState, Detected iDetectedElement)
 		{
 			mDetectionManager.mDetectedElement = Detected.NONE;
+			string lNeededAction;
 
-			switch (iDetectedElement) {
-				case Detected.TRIGGER:
-					Debug.Log("[Companion][ActionManager] reaction vocal trigger");
-					// TODO: add exception states if needed
-					if (iState == COMPANION_STATE.NAP)
-						return "IDLE";
-					else
+			if (mDetectionManager.HumanDectected(iDetectedElement))
+				lNeededAction = NeededAction(COMPANION_STATE.USER_DETECTED);
+			else
+				lNeededAction = NeededAction(iState);
+
+
+
+			if (string.IsNullOrEmpty(lNeededAction)) {
+				switch (iDetectedElement) {
+					case Detected.TRIGGER:
+						Debug.Log("[Companion][ActionManager] reaction vocal trigger");
+						// TODO: add exception states if needed
+						if (iState == COMPANION_STATE.NAP)
+							return "IDLE";
+						else
+							return "VOCALCOMMAND";
+
+					case Detected.MOUTH_TOUCH:
+						Debug.Log("[Companion][ActionManager] reaction robot mouth touched");
+						// TODO: add exception states if needed
+
 						return "VOCALCOMMAND";
 
-				case Detected.MOUTH_TOUCH:
-					Debug.Log("[Companion][ActionManager] reaction robot mouth touched");
-					// TODO: add exception states if needed
+					case Detected.TOUCH:
+						Debug.Log("[Companion][ActionManager] reaction robot touched");
+						// TODO: add exception states if needed
 
-					return "VOCALCOMMAND";
+						if (iState == COMPANION_STATE.NAP)
+							return "IDLE";
+						else
+							return "ROBOTTOUCHED";
 
-				case Detected.TOUCH:
-					Debug.Log("[Companion][ActionManager] reaction robot touched");
-					// TODO: add exception states if needed
+					case Detected.KIDNAPPING:
+						Debug.Log("[Companion][ActionManager] reaction kidnapping");
+						// TODO: add exception states if needed
+						BYOS.Instance.Interaction.Mood.Set(MoodType.TIRED);
+						return "KIDNAPPING";
 
-					if (iState == COMPANION_STATE.NAP)
-						return "IDLE";
-					else
-						return "ROBOTTOUCHED";
+					case Detected.BATTERY:
+						Debug.Log("[Companion][ActionManager] reaction battery low");
+						// TODO: add exception states if needed
+						return "CHARGE";
 
-				case Detected.KIDNAPPING:
-					Debug.Log("[Companion][ActionManager] reaction kidnapping");
-					// TODO: add exception states if needed
-					BYOS.Instance.Interaction.Mood.Set(MoodType.TIRED);
-					return "KIDNAPPING";
-
-				case Detected.BATTERY:
-					Debug.Log("[Companion][ActionManager] reaction battery low");
-					// TODO: add exception states if needed
-					return "CHARGE";
-
-				case Detected.THERMAL:
-					Debug.Log("[Companion][ActionManager] reaction thermal");
-					// TODO: add exception states if needed
+					case Detected.THERMAL:
+						Debug.Log("[Companion][ActionManager] reaction thermal");
+						// TODO: add exception states if needed
 
 
-					if ((iState == COMPANION_STATE.WANDER && CompanionData.Instance.mMovingDesire > 40) || iState == COMPANION_STATE.NAP)
+						if ((iState == COMPANION_STATE.WANDER && CompanionData.Instance.mMovingDesire > 40) || iState == COMPANION_STATE.NAP)
+							return "";
+
+						StopAllActions();
+						if (BYOS.Instance.Interaction.InternalState.Positivity > 3)
+							BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
+						else if (BYOS.Instance.Interaction.InternalState.Positivity > -2)
+							BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
+						else
+							BYOS.Instance.Interaction.BMLManager.LaunchRandom(Internal2FaceMood(mInternalStateMood));
+
+						// if we look for a user it is because we have a desire...
+						if (iState == COMPANION_STATE.LOOK_FOR_USER) {
+							// launch the desire with "fake" user detected state to tell user is present
+							return DesiredAction(COMPANION_STATE.USER_DETECTED);
+						} else
+							return "INTERACT";
+
+					case Detected.HUMAN_RGB:
+						Debug.Log("[Companion][ActionManager] reaction human rgb");
+						// TODO: add exception states if needed
+
+						if (iState == COMPANION_STATE.NAP)
+							return "";
+						else
+							return "INTERACT";
+
+					default:
+						Debug.Log("[Companion][ActionManager] reaction default");
 						return "";
+				}
 
-					StopAllActions();
-					if (BYOS.Instance.Interaction.InternalState.Positivity > 3)
-						BYOS.Instance.Interaction.BMLManager.LaunchRandom("joy");
-					else if (BYOS.Instance.Interaction.InternalState.Positivity > -2)
-						BYOS.Instance.Interaction.BMLManager.LaunchRandom("surprised");
-					else
-						BYOS.Instance.Interaction.BMLManager.LaunchRandom(Internal2FaceMood(mInternalStateMood));
+			} else
+				return lNeededAction;
 
-					// if we look for a user it is because we have a desire...
-					if (iState == COMPANION_STATE.LOOK_FOR_USER) {
-						// launch the desire with "fake" user detected state to tell user is present
-						return DesiredAction(COMPANION_STATE.USER_DETECTED);
-					} else
-						return "INTERACT";
-
-				case Detected.HUMAN_RGB:
-					Debug.Log("[Companion][ActionManager] reaction human rgb");
-					// TODO: add exception states if needed
-
-					if (iState == COMPANION_STATE.NAP)
-						return "";
-					else
-						return "INTERACT";
-
-				default:
-					Debug.Log("[Companion][ActionManager] reaction default");
-					return "";
-			}
 		}
 
 

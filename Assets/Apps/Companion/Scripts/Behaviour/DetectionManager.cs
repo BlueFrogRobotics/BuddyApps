@@ -406,5 +406,13 @@ namespace BuddyApp.Companion
 			mFace.OnClickMouth.Clear();
 			BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
 		}
+
+		internal bool HumanDectected(Detected iDetectedElement)
+		{
+			if (iDetectedElement == Detected.BATTERY || iDetectedElement == Detected.NONE || iDetectedElement == Detected.MOVEMENT || iDetectedElement == Detected.SOUND)
+				return false;
+			else
+				return true;
+		}
 	}
 }

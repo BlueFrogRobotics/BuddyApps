@@ -107,7 +107,7 @@ namespace BuddyApp.Companion
 					// We react only if Buddy didn't chose an action.
 					// This may not be the best way but this has very low chances (almost none) to happen at the same time (frame) ...
 
-					Debug.Log("No action chosen, react?");
+					//Debug.Log("No action chosen, react?");
 
 					mActionTrigger = mActionManager.LaunchReaction(COMPANION_STATE.FOLLOW, mDetectionManager.mDetectedElement);
 					if (!string.IsNullOrEmpty(mActionTrigger)) {

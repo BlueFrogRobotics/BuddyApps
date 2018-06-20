@@ -61,7 +61,7 @@ namespace BuddyApp.Companion
 				Debug.Log("[COMPANION][Lookingfor] current mood: " + Interaction.Mood.CurrentMood);
 
 				if (!mDetectionManager.ActiveReminder) {
-					Debug.Log("[COMPANION][Lookingfor] anyone play?");
+					Debug.Log("[COMPANION][Lookingfor] anyone  play?");
 					Interaction.TextToSpeech.SayKey("anyoneplay", true);
 					if (Interaction.Mood.CurrentMood != MoodType.THINKING && Interaction.Face.IsStable)
 						Interaction.Mood.Set(MoodType.THINKING);

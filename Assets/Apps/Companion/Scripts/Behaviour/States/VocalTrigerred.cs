@@ -25,8 +25,7 @@ namespace BuddyApp.Companion
 		private bool mFirstErrorStt;
 		private float mTimeHumanDetected;
 		private float mTimeMotion;
-
-
+		private string mPreviousOperationResult;
 
 		public override void Start()
 		{
@@ -160,7 +159,7 @@ namespace BuddyApp.Companion
 			mTimeHumanDetected += Time.deltaTime;
 
 			// Is there a needed action?
-			mActionTrigger = mActionManager.NeededAction(COMPANION_STATE.IDLE);
+			mActionTrigger = mActionManager.NeededAction(COMPANION_STATE.VOCAL_COMMAND);
 			if (!string.IsNullOrEmpty(mActionTrigger)) {
 				Trigger(mActionTrigger);
 			} else {
@@ -270,6 +269,12 @@ namespace BuddyApp.Companion
 			if (iType != "Repeat")
 				mLastBuddySpeech = "";
 
+			string lMood = FindMood(iType);
+			if (!string.IsNullOrEmpty(lMood))
+				iType = "bml";
+
+
+			Debug.Log("last human utterance : " + mLastHumanSpeech);
 
 			mSpeechInput = false;
 
@@ -313,17 +318,18 @@ namespace BuddyApp.Companion
 					mNeedListen = true;
 					break;
 
-				//case "BML":
-				//	Debug.Log("Playing BML " + mVocalChat.Answer);
-				//	if (string.IsNullOrEmpty(mVocalChat.Answer))
-				//		Interaction.BMLManager.LaunchByName("AllIn");
-				//	else if (!Interaction.BMLManager.LaunchByName(mVocalChat.Answer)) {
-				//		if (!Interaction.BMLManager.LaunchRandom(mVocalChat.Answer))
-				//			Say("I don't know the behaviour " + mVocalChat.Answer);
+				case "bml":
+					Debug.Log("Playing BML " + lMood);
+					//if (string.IsNullOrEmpty(mVocalChat.Answer))
+					//	Interaction.BMLManager.LaunchByName("AllIn");
+					//else if (!Interaction.BMLManager.LaunchByName(mVocalChat.Answer)) {
+					if (!Interaction.BMLManager.LaunchRandom(lMood))
+						Say("I don't know the behaviour " + lMood);
 
-				//	}
-				//	mNeedListen = true;
-				//	break;
+					//}
+					mNeedListen = true;
+					break;
+
 
 				case "buddylab":
 					CompanionData.Instance.mInteractDesire -= 20;
@@ -332,7 +338,7 @@ namespace BuddyApp.Companion
 					break;
 
 
-				case "calcul":
+				case "calculationgame":
 					CompanionData.Instance.mInteractDesire -= 50;
 					mActionManager.StartApp("PlayMath", mLastHumanSpeech);
 					mLaunchingApp = true;
@@ -574,23 +580,28 @@ namespace BuddyApp.Companion
 					break;
 
 				case "hour":
-					// HRI 2018
 					if (BYOS.Instance.Language.CurrentLang == Language.FR) {
 						lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
-					} else {
-						if (DateTime.Now.Hour < 13)
-							lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour + " " + "am");
-						else {
-							lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + (DateTime.Now.Hour - 12) + " " + "pm");
-						}
-					}
-
-					//
-
-					//lSentence = Dictionary.GetRandomString("givehour").Replace("[hour]", "" + DateTime.Now.Hour);
-					lSentence = lSentence.Replace("[minute]", "" + DateTime.Now.Minute);
-					lSentence = lSentence.Replace("[second]", "" + DateTime.Now.Second);
+						lSentence = lSentence.Replace("[minute]", "" + DateTime.Now.Minute);
+					} else
+						lSentence = GiveHourInEnglish();
 					Say(lSentence);
+					mNeedListen = true;
+					break;
+
+				case "ihateyou":
+					Debug.Log("VocalTrigger userhate");
+					// react as eye poked
+					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-5, -4, "mooduserhate", "USER_HATE", EmotionalEventType.INTERACTION, InternalMood.SAD));
+					mActionManager.EyeReaction();
+					mNeedListen = true;
+					break;
+
+				case "iloveyou":
+					Debug.Log("VocalTrigger userlove");
+					// react as a caress
+					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(5, -2, "mooduserlove", "USER_LOVE", EmotionalEventType.INTERACTION, InternalMood.RELAXED));
+					mActionManager.HeadReaction();
 					mNeedListen = true;
 					break;
 
@@ -771,9 +782,74 @@ namespace BuddyApp.Companion
 					break;
 
 				case "operation":
-					Say(Dictionary.GetRandomString("computeresult") + " " + Compute(mLastHumanSpeech).ToString());
+
+
+					Debug.Log("Operation " + mLastHumanSpeech);
+
+					string lComputeOrder = mLastHumanSpeech.ToLower().Replace(BYOS.Instance.Dictionary.GetString("add"), "+");
+					Debug.Log("Operation2 " + lComputeOrder);
+					lComputeOrder = lComputeOrder.Replace("plus", "+");
+					Debug.Log("Operation3 " + lComputeOrder);
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("devide"), "/");
+					Debug.Log("Operation4 " + lComputeOrder);
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("devideit"), "/");
+					Debug.Log("Operation5 " + lComputeOrder);
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("devideper"), "/");
+					Debug.Log("Operation6 " + lComputeOrder);
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("minus"), "-");
+					Debug.Log("Operation7 " + lComputeOrder);
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("times"), "*");
+					Debug.Log("Operation8 " + lComputeOrder);
+					lComputeOrder = lComputeOrder.Replace(BYOS.Instance.Dictionary.GetString("power"), "^");
+					Debug.Log("Operation9 " + lComputeOrder);
+
+
+
+					mPreviousOperationResult = Compute(lComputeOrder).ToString();
+					Say(Dictionary.GetRandomString("computeresult") + " " + mPreviousOperationResult);
+
+
+					mState.text = "Vocal Triggered " + lComputeOrder + " = " + mPreviousOperationResult;
+
 					mNeedListen = true;
 					break;
+
+				case "operationagain":
+
+					// We add the current operation to the previous result
+
+					Debug.Log("OperationAgain");
+					string lComputeNewOrder = "";
+					if (!string.IsNullOrEmpty(mPreviousOperationResult)) {
+						lComputeNewOrder = mPreviousOperationResult + " ";
+
+
+
+						lComputeNewOrder += mLastHumanSpeech.ToLower().Replace(BYOS.Instance.Dictionary.GetString("add"), "+");
+						lComputeNewOrder = lComputeNewOrder.Replace("plus", "+");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("devide"), "/");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("devideit"), "/");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("devideper"), "/");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("minus"), "-");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("times"), "*");
+						lComputeNewOrder = lComputeNewOrder.Replace(BYOS.Instance.Dictionary.GetString("power"), "^");
+
+						mPreviousOperationResult = Compute(lComputeNewOrder).ToString();
+						Say(Dictionary.GetRandomString("computeresult") + " " + mPreviousOperationResult);
+
+
+						mState.text = "Vocal Triggered " + lComputeNewOrder + " = " + mPreviousOperationResult;
+
+					} else {
+						// an error occured
+						Say(Dictionary.GetRandomString("notunderstandcalcul"));
+					}
+
+
+					mNeedListen = true;
+
+					break;
+
 
 				case "play":
 					CompanionData.Instance.mInteractDesire -= 30;
@@ -862,22 +938,6 @@ namespace BuddyApp.Companion
 					CompanionData.Instance.mInteractDesire -= 10;
 					mActionManager.StartApp("Timer", mLastHumanSpeech);
 					mLaunchingApp = true;
-					break;
-
-				case "iloveyou":
-					Debug.Log("VocalTrigger userlove");
-					// react as a caress
-					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(5, -2, "mooduserlove", "USER_LOVE", EmotionalEventType.INTERACTION, InternalMood.RELAXED));
-					mActionManager.HeadReaction();
-					mNeedListen = true;
-					break;
-
-				case "ihateyou":
-					Debug.Log("VocalTrigger userhate");
-					// react as eye poked
-					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-5, -4, "mooduserhate", "USER_HATE", EmotionalEventType.INTERACTION, InternalMood.SAD));
-					mActionManager.EyeReaction();
-					mNeedListen = true;
 					break;
 
 				case "volume": {
@@ -977,6 +1037,105 @@ namespace BuddyApp.Companion
 
 			}
 
+		}
+
+		/// <summary>
+		/// Give The Hour in English
+		/// </summary>
+		private string GiveHourInEnglish()
+		{
+			string lSentence = Dictionary.GetRandomString("givehour");
+
+			if (lSentence.Contains("[Hour]"))
+				lSentence = GiveHour(lSentence);
+			else
+				lSentence = GiveSpokenHour(lSentence);
+			return (lSentence);
+		}
+
+		/// <summary>
+		/// Harder way to tell what time it is
+		/// </summary>
+		/// <param name="iSentence">Sentence to say</param>
+		/// <returns>Sentence to say</returns>
+		private string GiveSpokenHour(string iSentence)
+		{
+			if (DateTime.Now.ToString("%h").Contains("12") && DateTime.Now.ToString("mm").Contains("00")) {
+				iSentence = iSentence.Replace("[hour]", "Noon");
+				iSentence = iSentence.Replace("[minutes]", string.Empty);
+			} else if (DateTime.Now.ToString("%h").Contains("00") && DateTime.Now.ToString("mm").Contains("00")) {
+				iSentence = iSentence.Replace("[hour]", "Midnight");
+				iSentence = iSentence.Replace("[minutes]", string.Empty);
+			} else if (DateTime.Now.ToString("mm").Contains("00")) {
+				iSentence = iSentence.Replace("[minutes]", DateTime.Now.Hour.ToString());
+				iSentence = iSentence.Replace("[hour]", "o'clock");
+			} else if (Convert.ToInt32(DateTime.Now.ToString("mm")) > 0 && Convert.ToInt32(DateTime.Now.ToString("mm")) < 30) {
+				if (DateTime.Now.ToString("mm").Contains("15"))
+					iSentence = iSentence.Replace("[minutes]", "a quarter past");
+				else
+					iSentence = iSentence.Replace("[minutes]", DateTime.Now.ToString("mm") + " past");
+				iSentence = iSentence.Replace("[hour]", DateTime.Now.Hour.ToString());
+			} else if (Convert.ToInt32(DateTime.Now.ToString("mm")) == 30) {
+				iSentence = iSentence.Replace("[minutes]", "half past");
+				iSentence = iSentence.Replace("[hour]", DateTime.Now.Hour.ToString());
+			} else if (Convert.ToInt32(DateTime.Now.ToString("mm")) > 30 && Convert.ToInt32(DateTime.Now.ToString("mm")) <= 59) {
+				if (DateTime.Now.ToString("mm").Contains("45"))
+					iSentence = iSentence.Replace("[minutes]", "a quarter to");
+				else {
+					int lTime = 60 - Convert.ToInt32(DateTime.Now.ToString("mm"));
+					iSentence = iSentence.Replace("[minutes]", lTime + " to");
+				}
+				int lResult = Convert.ToInt32(DateTime.Now.ToString("%h")) + 1;
+				iSentence = iSentence.Replace("[hour]", lResult.ToString());
+			}
+			return (iSentence);
+		}
+
+		/// <summary>
+		///  Simple way to tell what time it is
+		/// </summary>
+		/// <param name="iSentence">Sentence to say</param>
+		/// <returns>Sentence to say</returns>
+		private string GiveHour(string iSentence)
+		{
+			int lTime = 0;
+			if (DateTime.Now.Hour > 12) {
+				lTime = DateTime.Now.Hour - 12;
+				iSentence = iSentence.Replace("[Meridiem]", "pm");
+			} else {
+				lTime = DateTime.Now.Hour;
+				iSentence = iSentence.Replace("[Meridiem]", "am");
+			}
+			iSentence = iSentence.Replace("[Hour]", lTime.ToString());
+			if (Convert.ToInt32(DateTime.Now.Minute.ToString()) != 0)
+				iSentence = iSentence.Replace("[Minutes]", DateTime.Now.Minute.ToString());
+			else
+				iSentence = iSentence.Replace("[Minutes]", string.Empty);
+			return (iSentence);
+		}
+
+		private string FindMood(string iSpeech)
+		{
+			if (iSpeech.ToLower() == BYOS.Instance.Dictionary.GetString("sad"))
+				return MoodType.SAD.ToString();
+			else if (iSpeech.ToLower() == BYOS.Instance.Dictionary.GetString("happy"))
+				return MoodType.HAPPY.ToString();
+			else if (iSpeech.ToLower() == BYOS.Instance.Dictionary.GetString("lovely"))
+				return MoodType.LOVE.ToString();
+			else if (iSpeech.ToLower() == BYOS.Instance.Dictionary.GetString("sick"))
+				return MoodType.SICK.ToString();
+			else if (iSpeech.ToLower() == BYOS.Instance.Dictionary.GetString("tired"))
+				return MoodType.TIRED.ToString();
+			else if (iSpeech.ToLower() == BYOS.Instance.Dictionary.GetString("angry"))
+				return MoodType.ANGRY.ToString();
+			else if (iSpeech.ToLower() == BYOS.Instance.Dictionary.GetString("grumpy"))
+				return MoodType.GRUMPY.ToString();
+			else if (iSpeech.ToLower() == BYOS.Instance.Dictionary.GetString("scared"))
+				return MoodType.SCARED.ToString();
+			else if (iSpeech.ToLower() == BYOS.Instance.Dictionary.GetString("neutral"))
+				return MoodType.NEUTRAL.ToString();
+			else
+				return "";
 		}
 
 		private string GetStringNextNumber(string iText)
