@@ -86,6 +86,8 @@ namespace BuddyApp.Companion
                 lType = "Jukebox";
             //else if (ContainsOneOf(iSpeech, mRecipeSpeech))
             //	lType = "Recipe";
+            else if (ContainsOneOf(iSpeech, "radio"))
+                lType = "Radio";
             else if (ContainsOneOf(iSpeech, "rlgl"))
                 lType = "RLGL";
             else if (ContainsOneOf(iSpeech, "reminder"))
