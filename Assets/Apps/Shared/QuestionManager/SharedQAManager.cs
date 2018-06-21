@@ -87,6 +87,7 @@ namespace BuddyApp.Shared
             Interaction.VocalManager.OnError = null;
 
             mListening = false;
+            mIsDisplayed = false;
             mSoundPlayed = false;
             mKeyList = new List<string>();
             mTimer = 0F;
@@ -122,8 +123,10 @@ namespace BuddyApp.Shared
 
             if (IsBinaryQuestion)
             {
+                Debug.Log("mIsDisplayed " + mIsDisplayed);
                 if (!mIsDisplayed)
                 {
+                    Debug.Log("BuddySays " + BuddySays);
                     if (!string.IsNullOrEmpty(BuddySays))
                     {
                         if (IsKey(BuddySays))
@@ -256,9 +259,15 @@ namespace BuddyApp.Shared
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, LoadContext.APP);
             mIsDisplayed = false;
+
+            // Vocon
+            Interaction.VocalManager.StopRecognition();
+            Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, context);
             Interaction.VocalManager.UseVocon = false;
+            Interaction.VocalManager.OnVoconBest = null;
+            Interaction.VocalManager.OnVoconEvent = null;
+
             Debug.Log("EXIT");
         }
 

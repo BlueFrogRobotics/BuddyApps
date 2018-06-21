@@ -162,8 +162,8 @@ namespace BuddyApp.Shared
         {
             Debug.Log("StateExitShared");
             // Vocon
-            Interaction.VocalManager.StopListenBehaviour(); 
-            Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, LoadContext.APP);
+            Interaction.VocalManager.StopRecognition(); 
+            Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, context);
             Interaction.VocalManager.UseVocon = false;
             Interaction.VocalManager.OnVoconBest = null;
             Interaction.VocalManager.OnVoconEvent = null;
