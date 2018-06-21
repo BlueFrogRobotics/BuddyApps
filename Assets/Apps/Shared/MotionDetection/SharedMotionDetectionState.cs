@@ -21,6 +21,8 @@ namespace BuddyApp.Shared
         [SerializeField]
         private string NameOfPictureSaved;
         [SerializeField]
+        private int QuantityBeforeTrigger;
+        [SerializeField]
         private bool ImageWithMovementDisplayed;
         [Header("Bip Sound Parameters : ")]
         [SerializeField]
@@ -42,6 +44,7 @@ namespace BuddyApp.Shared
         private string Key;
         [SerializeField]
         private bool OnlyOneDetection;
+
         [Header("Movement Quantity Parameters : ")]
         [Tooltip("The quantity of movement represents the number you need to reach in order to move to another state.")]
         [SerializeField]
@@ -89,6 +92,7 @@ namespace BuddyApp.Shared
         private bool mExitOne;
         private bool mExitTwo;
         private bool mSoundPlayedWhenDetected;
+        //private Sprite mSprite;
 
         //Position in the Image
         private float mPositionX;
@@ -103,7 +107,7 @@ namespace BuddyApp.Shared
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
+            QuantityBeforeTrigger = 0;
             mPositionX = 0;
             mPositionY = 0;
             mReposeDone = false;
@@ -203,8 +207,7 @@ namespace BuddyApp.Shared
             if ((mDetectionCount > QuantityMovement || (mDetectionCountTest / 15F) > QuantityMovement) && !mExitTwo)
             {
                 mExitOne = true;
-                if (Toaster.IsDisplayed)
-                    Toaster.Hide();
+
                 if (Interaction.Mood.CurrentMood != MoodTypeWhenDetected)
                 {
                     Interaction.Mood.Set(MoodTypeWhenDetected);
@@ -240,8 +243,7 @@ namespace BuddyApp.Shared
             if (mDurationDetection > Timer && mDetectionCount <= QuantityMovement && !mExitOne)
             {
                 mExitTwo = true;
-                if (Toaster.IsDisplayed)
-                    Toaster.Hide();
+
                 if (Interaction.Mood.CurrentMood != MoodTypeWhenNotDetected)
                 {
                     Interaction.Mood.Set(MoodTypeWhenNotDetected);
@@ -263,6 +265,12 @@ namespace BuddyApp.Shared
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if(!File.Exists(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved)))
+            {
+                Debug.Log("SHARED PAS DE PICTURE");
+            }
+            if (Toaster.IsDisplayed)
+                Toaster.Hide();
             mMotion.StopOnDetect(OnMovementDetected);
             mCam.Close();
             if (!string.IsNullOrEmpty(TriggerWhenDetected)) 
@@ -270,7 +278,7 @@ namespace BuddyApp.Shared
             if (!string.IsNullOrEmpty(TriggerWhenNotDetected))
                 ResetTrigger(TriggerWhenNotDetected);
             mReposeDone = false;
-        }
+        } 
 
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
@@ -279,39 +287,50 @@ namespace BuddyApp.Shared
             Texture2D lTexture = new Texture2D(mCam.Width, mCam.Height);
             if (!WantToFlip)
                 Core.flip(mMatDetectionCopy, mMatDetectionCopy, 1);
-            if (iMotions.Length > 2)
-            {
-                if (OnlyOneDetection)
-                {
-                    if (WantToSavePicture)
-                    {
-                        if (!string.IsNullOrEmpty(NameOfPictureSaved))
-                        {
-                            if (ImageWithMovementDisplayed)
-                            {
-                                foreach (MotionEntity lEntity in iMotions)
-                                {
-                                    Imgproc.circle(mMatDetectionCopy, Utils.Center(lEntity.RectInFrame), 3, new Scalar(Color.yellow), 3);
-                                }
 
-                                Utils.MatToTexture2D(mMatDetectionCopy, Utils.ScaleTexture2DFromMat(mMatDetectionCopy, lTexture));
-                                File.WriteAllBytes(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved), lTexture.EncodeToJPG());
-                            }
-                            else
+            if (OnlyOneDetection)
+            {
+                if (WantToSavePicture)
+                {
+                    if (!string.IsNullOrEmpty(NameOfPictureSaved))
+                    {
+                        if (ImageWithMovementDisplayed)
+                        {
+                            foreach (MotionEntity lEntity in iMotions)
                             {
-                                Utils.MatToTexture2D(mMatDetectionCopy, Utils.ScaleTexture2DFromMat(mMatDetectionCopy, lTexture));
-                                File.WriteAllBytes(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved), lTexture.EncodeToJPG());
+                                Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 3, new Scalar(ColorOfDisplay), 3);
+
+                                //Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 3, new Scalar(ColorOfDisplay), 3);
+                                Core.flip(mMatDetection, mMatDetectionCopy, 1);
                             }
+                            //Core.flip(mMatDetection, mMatDetection, 1);
+
+                            Utils.MatToTexture2D(mMatDetectionCopy, Utils.ScaleTexture2DFromMat(mMatDetectionCopy, lTexture));
+                            File.WriteAllBytes(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved), lTexture.EncodeToJPG());
+                            //mSprite = Sprite.Create(lTexture, new UnityEngine.Rect(0,0,lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
+                            //Utils.SaveSpriteToFile(mSprite, BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved));
                         }
                         else
-                            Debug.Log("The name of the picture is empty.");
-                    }
-                    if (!string.IsNullOrEmpty(TriggerWhenDetected))
-                        Trigger(TriggerWhenDetected);
-                    else
-                        Debug.Log("your trigger when detected is empty.");
-                }
+                        {
+                            Core.flip(mMatDetection, mMatDetection, 1);
 
+                            Utils.MatToTexture2D(mMatDetection, Utils.ScaleTexture2DFromMat(mMatDetection, lTexture));
+                            File.WriteAllBytes(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved), lTexture.EncodeToJPG());
+                            //mSprite = Sprite.Create(lTexture, new UnityEngine.Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
+                            //Utils.SaveSpriteToFile(mSprite, BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved));
+                        }
+                    }
+                    else
+                        Debug.Log("The name of the picture is empty.");
+                }
+                if (!string.IsNullOrEmpty(TriggerWhenDetected) && mDetectionCount > QuantityBeforeTrigger && File.Exists(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved)))
+                    Trigger(TriggerWhenDetected);
+                else
+                    Debug.Log("your trigger when detected is empty.");
+                mDetectionCount++;
+            }
+            if (iMotions.Length > 5)
+            {
                 bool lInRectangle = false;
                 if (BipSound)
                 {

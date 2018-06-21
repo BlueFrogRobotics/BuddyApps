@@ -4,6 +4,7 @@ using UnityEngine;
 using Buddy;
 using OpenCVUnity;
 using UnityEngine.UI;
+using System.IO;
 
 namespace BuddyApp.RedLightGreenLightGame
 {
@@ -33,26 +34,30 @@ namespace BuddyApp.RedLightGreenLightGame
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (GetGameObject(2).GetComponent<RLGLTargetMovement>().enabled)
+                GetGameObject(2).GetComponent<RLGLTargetMovement>().enabled = false;
+            if (File.Exists(BYOS.Instance.Resources.GetPathToRaw("defeat")))
+                File.Delete(BYOS.Instance.Resources.GetPathToRaw("defeat"));
             mRLGLBehaviour.Timer = 0F;
             //Debug.Log("ON STATE ENTER RLGL GAMEPLAY");
             //if (!mRLGLBehaviour.IsGameplayDone)
             //{
-                
+                 
 
-                mGameplay = false;
-                mFirstStep = false;
-                mCam = Primitive.RGBCam;
-                mDone = false;
-                mTexture = new Texture2D(mCam.Width, mCam.Height);
-                //Perception.Motion.OnDetect(OnMovementDetected);
-                //Timer limit a changer en fonction du xml
-                mTimerLimit = mLevelManager.LevelData.WaitingTime;
+            mGameplay = false;
+            mFirstStep = false;
+            mCam = Primitive.RGBCam;
+            mDone = false;
+            mTexture = new Texture2D(mCam.Width, mCam.Height);
+            //Perception.Motion.OnDetect(OnMovementDetected);
+            //Timer limit a changer en fonction du xml
+            mTimerLimit = mLevelManager.LevelData.WaitingTime;
                
-                mFirst = false;
-                mSecond = false;
-                mDetectionDone = false;
-                //WARNING : pour après quand on aura le parseur de level ect
-                mIdLevel = mLevelManager.LevelData.Level;
+            mFirst = false;
+            mSecond = false;
+            mDetectionDone = false;
+            //WARNING : pour après quand on aura le parseur de level ect
+            mIdLevel = mLevelManager.LevelData.Level;
             //mRLGLBehaviour.GetComponent<Animator>().ResetTrigger("TargetGameplay");
             //mRLGLBehaviour.GetComponent<Animator>().ResetTrigger("MotionDetection");
             //mIdLevel = mRLGLBehaviour.idLevel;

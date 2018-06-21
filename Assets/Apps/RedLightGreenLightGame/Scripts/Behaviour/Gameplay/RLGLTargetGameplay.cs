@@ -58,7 +58,7 @@ namespace BuddyApp.RedLightGreenLightGame
             }
             else if(!mSentenceDone)
             {
-                //Interaction.TextToSpeech.SayKey("top");
+                Interaction.TextToSpeech.SayKey("top");
                 mSentenceDone = true;
             }
             if(mSentenceDone && mRLGLBehaviour.Timer > mLimit && Interaction.TextToSpeech.HasFinishedTalking)

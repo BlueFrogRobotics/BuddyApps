@@ -49,11 +49,25 @@ namespace BuddyApp.RedLightGreenLightGame
             yield return SayKeyAndWait("youmoved");
             
             yield return SayKeyAndWait("lookphoto");
-
+           //if(File.Exists(BYOS.Instance.Resources.GetPathToRaw("defeat")))
+           // {
+           //     Debug.Log("CA EXISTE LOL");
+           // }
+           //else
+           // {
+           //     Debug.Log("CA EXISTE PAS LOL");
+           // } 
             //Texture2D lTexture = mRLGLBehaviour.PictureMoving;//mCam.FrameTexture2D;
-            Texture2D lTexture = LoadPNG(BYOS.Instance.Resources.GetPathToRaw("RLGLDetected"));
+            Texture2D lTexture = LoadPNG(BYOS.Instance.Resources.GetPathToRaw("defeat"));
             //Texture2D lTexture = LoadPNG("C:/Users/Walid/Pictures/buddy.png");
             //Utils.Texture2DToMat(lTexture);
+
+            //if (lTexture != null)
+            //{
+            //    Debug.Log("DEFEAT EXIST");
+            //}
+            //else
+            //    Debug.Log("DEFEAT NEXISTE PAS");
 
             Toaster.Display<PictureToast>().With(Dictionary.GetString("lookphoto"), Sprite.Create(lTexture, new Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5f, 0.5f)));
             
