@@ -14,10 +14,12 @@ namespace BuddyApp.Weather
         private int mNumberWeatherInfos;
         private bool mAnswerReceived;
         private bool mQuit;
+        private int mTimeout;
 
         public override void Start()
         {
             mWeatherB = GetComponent<WeatherBehaviour>();
+            mTimeout = 0;
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -48,7 +50,7 @@ namespace BuddyApp.Weather
             {
                 Trigger("Restitution");
             }
-            else if (mQuit && Interaction.SpeechToText.HasFinished)
+            else if (mQuit && Interaction.SpeechToText.HasFinished && Interaction.TextToSpeech.HasFinishedTalking)
                 QuitApp();
         }
 
@@ -56,29 +58,49 @@ namespace BuddyApp.Weather
         {
             mWeatherB.mWeatherInfos = iWeather;
 
+            if (mTimeout >= 3)
+            {
+                Interaction.TextToSpeech.SayKey("requestfailed");
+                mTimeout = 0;
+                mQuit = true;
+                return;
+            }
             Debug.Log("WeatherProcessing");
             if (iError != WeatherError.NONE)
             {
-                if (iError == WeatherError.UNKNOWN_LOCATION)
-                    Interaction.TextToSpeech.SayKey("locationissue");
-                else if (iError == WeatherError.GEOLOCALIZATION_FAILED)
-                    Interaction.TextToSpeech.SayKey("geolocfailed");
-                else if (iError == WeatherError.GEOLOCALIZATION_DISABLED)
-                    Interaction.TextToSpeech.SayKey("geolocdisable");
-                else if (iError == WeatherError.MANY_LOCATIONS)
+                switch (iError)
                 {
-                    CityData lNewCity = new CityData();
-                    string[] lCitiesfile = Directory.GetFiles(BYOS.Instance.Resources.GetPathToRaw("Cities"));
+                    case WeatherError.UNKNOWN_LOCATION:
+                        Interaction.TextToSpeech.SayKey("locationissue");
+                        mTimeout = 0;
+                        break;
+                    case WeatherError.GEOLOCALIZATION_FAILED:
+                        Interaction.TextToSpeech.SayKey("geolocfailed");
+                        mTimeout = 0;
+                        break;
+                    case WeatherError.GEOLOCALIZATION_DISABLED:
+                        Interaction.TextToSpeech.SayKey("geolocdisable");
+                        mTimeout = 0;
+                        break;
+                    case WeatherError.MANY_LOCATIONS:
+                        CityData lNewCity = new CityData();
+                        string[] lCitiesfile = Directory.GetFiles(BYOS.Instance.Resources.GetPathToRaw("Cities"));
 
-                    lNewCity.Name = mWeatherB.mName;
-                    lNewCity.Key = iWeather[0].Location.APICode;
-                    mWeatherB.mLocation = lNewCity.Key;
+                        lNewCity.Name = mWeatherB.mName;
+                        lNewCity.Key = iWeather[0].Location.APICode;
+                        mWeatherB.mLocation = lNewCity.Key;
 
-                    mWeatherB.mCities.Cities.Add(lNewCity);
+                        mWeatherB.mCities.Cities.Add(lNewCity);
 
-                    Utils.SerializeXML<CitiesData>(mWeatherB.mCities, lCitiesfile[0]);
+                        Utils.SerializeXML<CitiesData>(mWeatherB.mCities, lCitiesfile[0]);
 
-                    Trigger("Reset");
+                        Trigger("Reset");
+                        mTimeout = 0;
+                        break;
+                    case WeatherError.REQUEST_FAILED:
+                        mTimeout++;
+                        Trigger("Reset");
+                        break;
                 }
                 mQuit = true;
                 return;
@@ -93,6 +115,7 @@ namespace BuddyApp.Weather
             else
             {
                 GetWeatherInfos(iWeather, mWeatherB.mForecast);
+                mTimeout = 0;
             }
             mAnswerReceived = true;
         }
