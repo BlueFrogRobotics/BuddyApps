@@ -30,8 +30,8 @@ namespace BuddyApp.Companion
             BYOS.Instance.Primitive.Motors.NoHinge.SetPosition(0F, 400F);
 
             // We set YesHinge Position to -30 to have a better vision of the face
-            mHeadPosition = CompanionData.Instance.HeadPosition;
-            CompanionData.Instance.HeadPosition = -30F;
+            mHeadPosition = CompanionData.Instance.mHeadPosition;
+            CompanionData.Instance.mHeadPosition = -30F;
             if (!mCam.IsOpen)
             {
                 mCam.Open(RGBCamResolution.W_320_H_240);
@@ -83,7 +83,7 @@ namespace BuddyApp.Companion
             mTime = 0F;
             mFrame = 0;
 
-            CompanionData.Instance.HeadPosition = mHeadPosition;
+            CompanionData.Instance.mHeadPosition = mHeadPosition;
             BYOS.Instance.Perception.FaceDetect.StopOnDetect(RecoverFaceEntity);
 
         }

@@ -27,7 +27,6 @@
 !start <icouldnt>;
 !start <ihateyou>;
 !start <iloveyou>;
-!start <installallapp>;
 !start <iot>;
 !start <joke>;
 !start <jukebox>;
@@ -42,12 +41,9 @@
 !start <moveright>;
 !start <nap>;
 !start <photo>;
-!start <play>;
 !start <pose>;
-!start <profilingwholikes>;
-!start <profilingwhoisborn>;
-!start <profilingwhat>;
 !start <propose>;
+!start <play>;
 !start <recipe>;
 !start <repeat>;
 !start <rlgl>;
@@ -73,7 +69,6 @@
 !start <radio>;
 !start <operationagain>;
 !import <numbers#nb>;
-!import <names#anyname>;
 
 <asklaunch> : [<canyou>] (open | launch) [[the] application];
 <askgive> : [<canyou>] give (me | us) ;
@@ -86,8 +81,7 @@
 <buddylab> : [<asklaunch>] ( buddylab | [the] lab | buddy lab | [the] laboratory);
 <calculationgame> : [<asklaunch>] (calculation | [the] calculation game | playmath);
 <canmove> : you can move;
-<colour> : blue | white | red | green | yellow | black | brown | orange | purple | grey | pink | cyan | magenta;
-<colourseen> : what is the (color | colour) of this object;
+<colourseen> : what is the color of this object;
 <copy> : copy (my moves | my movements | my move | my movement);
 <dance> : [can you | I want you to | let's] dance;
 <date> : what (day | date) are we | [what is | give me] the date;
@@ -109,7 +103,6 @@
 <icouldnt> : I couldn't | I could not | I didn't manage to;
 <ihateyou> : I (hate | despite | don't like)  you | you (sucks | are (a loser | [so] bad | mean | stupid | a stupid robot)) | you are not funny;
 <iloveyou> : I love you | I really like you |  I like playing with you | [you are a] good boy | you are (nice | smart);
-<installallapp> : (install | get) (all [apps | applications]);  
 <iot> : iot | connected objects | connected object | smart house | internet of things | ((turn | switch) (on | off)) [the] (light | prise) | (open | close) the blind;
 <joke> : [<asktell>] (a joke | a funny story | something funny);
 <jukebox> : jukebox | music application | play music; 
@@ -125,15 +118,11 @@
 <nap> : take a nap | go to sleep;
 <photo> : [can you take | let's take] (a photo | a picture | pictures | photos);
 <pose> : (can I take | I would like) a (picture | photo) with you | (can we take | let's take) (a selfie | a (picture | photo) together);
-<profilingwholikes> : [[can you] find] who likes (<colour> | <sport> | <colour> and <sport> | <sport> and <colour>);
-<profilingwhoisborn> : [[can you] find] who is born (after | before | in) <numbers#nb>;
-<profilingwhat> : what is <names#anyname> (favorite) (<colour> | <sport>);
 <propose> : propose [me | us] something;
 <play> : [let's | I want to | I wanna] play | propose a game | random game;
 <recipe> : recipe;
 <repeat> : I didn't hear you [well] | I didn't understand | can you (repeat | say [it] again) [please] | [sorry] what did you say;
 <rlgl> : [<asklaunch>] (red light green light);
-<sport> : (basket | basetball) | (foot | football) | handball | rugby | tennis | ping pong | table tennis | cricket | swimming | running | archery | fencing | curling | climbing;
 <story> : [<asktell>] a story;
 <tellsomething> : tell me something | [tell me a] fun fact;
 <timer> : set a (timer | countdown) [of <delai>];
@@ -156,6 +145,6 @@
 <delai> : <numbers#nb> (seconds | minutes | hours);
 <rotationangle> : <numbers#nb> degrees;
 <radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;
-<radio> : [<asklaunch>] ([the] radio | [[the] radio] <radioname>);
+<radio> : [<asklaunch>] ([the] radio) [<radioname>];
 <operation> : [(how much are | what is) <numbers#nb>] <numbers#nb> (plus | minus | divided by | multiplied by) <numbers#nb>;
 <operationagain> :  (plus | minus | divided by | multiplied by) <numbers#nb>;

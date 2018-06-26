@@ -17,7 +17,7 @@ namespace BuddyApp.Companion
 		public bool CanSetHeadPos { get; set; }
 		public bool Debug { get; set; }
 		//public bool ShowQRCode { get; set; }
-		public float HeadPosition { get; set; }
+		public float mHeadPosition { get; set; }
 		//public int Bored { get; set; }
 		public int mMovingDesire;
 		public int mInteractDesire;
@@ -25,6 +25,8 @@ namespace BuddyApp.Companion
 		public int mTeachDesire;
 		public int mHelpDesire;
 		public int mExpressMoodDesire;
+		public int mSpeechSpeed;
+		public int mProactivity;
 
 		public bool ChargeAsked { get; set; }
 		public string LastApp { get; set; }

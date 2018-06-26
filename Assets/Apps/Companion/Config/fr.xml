@@ -467,6 +467,16 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>noone</Key>
+			<BaseValue>Personne</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>personne</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>nooneplay</Key>
 			<BaseValue>Personne ne veut jouer!</BaseValue>
 			<ClosePhoneticValues>
@@ -1393,497 +1403,6 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
-			<Key>mood</Key>
-			<BaseValue>humeur</BaseValue>
-			<ClosePhoneticValues>
-				<string>humeur</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>humeur</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>iam</Key>
-			<BaseValue>Je suis</BaseValue>
-			<ClosePhoneticValues>
-				<string>Je suis</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Je suis</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>ifeel</Key>
-			<BaseValue>Je me sens</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Je me sens</string>
-				<string>Je suis</string>
-				<string>Je suis un peu</string>
-				<string>Mes circuits me signalent que je suis</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>jukebox</Key>
-			<BaseValue>jukebox</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-				<string>jukebox</string>
-				<string>application musique</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>alarm</Key>
-			<BaseValue>alarme</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-				<string>lance une alarme</string>
-				<string>programme une alarme</string>
-				<string>mets une alarme</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>buddylab</Key>
-			<BaseValue>BuddyLab</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-				<string>Buddylab</string>
-				<string>lab</string>
-				<string>Buddy lab</string>
-				<string>laboratoire</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>timer</Key>
-			<BaseValue>Minuteur</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-				<string>minuteur</string>
-				<string>minuterie</string>
-				<string>décompte</string>
-				<string>compte à rebours</string>
-				<string>timer</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>calculationgame</Key>
-			<BaseValue>Jeu de Calculs</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-				<string>application de calcul</string>
-				<string>jeu de calcul</string>
-				<string>jeux de calcul</string>
-				<string>jeu de calculs</string>
-				<string>jeux de calculs</string>
-				<string>playmath</string>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>memorygame</Key>
-			<BaseValue>Jeu de Mémoire</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-				<string>application de mémoire</string>
-				<string>jeu de mémoire</string>
-				<string>jeux de mémoire</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>freezedance</Key>
-			<BaseValue>Freezedance</BaseValue>
-			<ClosePhoneticValues>
-				<string>freeze dance</string>
-				<string>frise dance</string>
-				<string>je veux danser</string>
-				<string>je veux dancer</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>guardian</Key>
-			<BaseValue>gardien</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-				<string>gardien</string>
-				<string>application surveillance</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>iot</Key>
-			<BaseValue>IOT</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-				<string>IOT</string>
-				<string>objets connectés</string>
-				<string>objet connecté</string>
-				<string>maison intelligente</string>
-				<string>température</string>
-				<string>températures</string>
-				<string>allume</string>
-				<string>éteins</string>
-				<string>allumer</string>
-				<string>éteindre</string>
-				<string>ouvre le store</string>
-				<string>ferme le store</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>rlgl</Key>
-			<BaseValue>1 2 3 soleil</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-				<string>un deux trois soleil</string>
-				<string>1 2 3 soleil</string>
-				<string>redlight</string>
-				<string>red light</string>
-				<string>green light</string>
-				<string>greenlight</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>photo</Key>
-			<BaseValue>Photo</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-				<string>nous prenons photo</string>
-				<string>1 photo</string>
-				<string>roman-photo</string>
-				<string>roman photo</string>
-				<string>30 photo</string>
-				<string>photos</string>
-				<string>photo</string>
-				<string>Promo photo</string>
-				<string>Prends-moi en photo</string>
-				<string>Prends-nous en photo</string>
-				<string>Prends moi</string>
-				<string>Prend nous</string>
-				<string>Prends une photo</string>
-				<string>Prend une photo</string>
-				<string>Fait une photo</string>
-				<string>Prendre en photo</string>
-				<string>Prendre photo</string>
-				<string>prendre une photo</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>pose</Key>
-			<BaseValue>Pose</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-				<string>selfie</string>
-				<string>photo avec toi</string>
-				<string>photo ensemble</string>
-				<string>prend la pose</string>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>weather</Key>
-			<BaseValue>Météo</BaseValue>
-			<ClosePhoneticValues>
-				<string>quel temps</string>
-				<string>quel est le temps</string>
-				<string>temps qu’il fait</string>
-				<string>temps fait-il</string>
-				<string>météo</string>
-				<string>pleut</string>
-				<string>pluie</string>
-				<string>pleuvoir</string>
-				<string>pluvieux</string>
-				<string>neige</string>
-				<string>neigé</string>
-				<string>neiger</string>
-				<string>enneigé</string>
-				<string>nuageux</string>
-				<string>nuages</string>
-				<string>nuage</string>
-				<string>couvert</string>
-				<string>faire soleil</string>
-				<string>ensoleillé</string>
-				<string>chaud</string>
-				<string>froid</string>
-				<string>couvert</string>
-				<string>éclaire</string>
-				<string>éclaires</string>
-				<string>tonnerre</string>
-				<string>tonnerres</string>
-				<string>brouillard</string>
-				<string>bruine</string>
-				<string>bruiner</string>
-				<string>faire beau</string>
-				<string>fait beau</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>eyepoke</Key>
-			<BaseValue />
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Tu m’as tapé dans l’oeil</string>
-				<string>tu m’as fait mal à l’oeil</string>
-				<string>tu as mis le doigt dans mon oeil</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>othertouch</Key>
-			<BaseValue />
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Vous m’avez carressé le visage</string>
-				<string>vous m’avez délicatement toucher le visage</string>
-				<string>vous m’avez chatouillé le visage</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>because</Key>
-			<BaseValue>parce que</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>parce que</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>excited</Key>
-			<BaseValue>excité</BaseValue>
-			<ClosePhoneticValues>
-				<string>excité</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>excité</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>salty</Key>
-			<BaseValue>salé</BaseValue>
-			<ClosePhoneticValues>
-				<string>salé</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>salé</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>relaxed</Key>
-			<BaseValue>serein</BaseValue>
-			<ClosePhoneticValues>
-				<string>serein</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>serein</string>
-				<string>zen</string>
-				<string>à la cool</string>
-				<string>tranquilou pilou</string>
-				<string>à l’aise</string>
-				<string>au calme</string>
-				<string>au KLM</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>nomood</Key>
-			<BaseValue />
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Je vais bien, je ne ressent rien de particulier</string>
-				<string>Mes circuits n’ont pas d’humeur</string>
-				<string>Je suis comme un robot, je n’ai pas d’émotion</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>moodcanmove</Key>
-			<BaseValue />
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Vous m’avez autorisé à bouger</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>mooddance</Key>
-			<BaseValue />
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Vous m’avez demander de dancer et j’aime ça!</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>moodforceddance</Key>
-			<BaseValue />
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Vous m’avez ordonné de dancer alors que je ne voulais pas</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>moodcantmove</Key>
-			<BaseValue />
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Vous m’avez interdit de bouger!</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>moodfollow</Key>
-			<BaseValue />
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>J’aime rester prêt de toi</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>moodjoke</Key>
-			<BaseValue />
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>J’aime bien raconter des blagues!</string>
-				<string>J’aime faire des blagues!</string>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>proposememory</Key>
-			<BaseValue>Veux tu jouer avec moi au Mémorie ?</BaseValue>
-			<ClosePhoneticValues>
-				<string>Veux tu jouer avec moi au Mémorie ?</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Veux tu jouer avec moi au Mémorie ?</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>proposeplaymath</Key>
-			<BaseValue>Voudrais tu te tester avec quelques opérations ?</BaseValue>
-			<ClosePhoneticValues>
-				<string>Voudrais tu te tester avec quelques opérations ?</string>
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Voudrais tu te tester avec quelques opérations ?</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>proposefreezedance</Key>
-			<BaseValue>Veux tu jouer à FreezeDance ?</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Veux tu jouer à FreezeDance ?</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>proposerlgl</Key>
-			<BaseValue>Jouons à 1 2 3 soleil !</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Jouons à 1 2 3 soleil !</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>proposejoke</Key>
-			<BaseValue>Je viens de me souvenir d’une bonne blague ! Tu veux l’entendre ?</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Je viens de me souvenir d’une bonne blague ! Tu veux l’entendre ?</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>proposedance</Key>
-			<BaseValue>Je ne peux plus tenir ! Veux tu dancer avec moi ?</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Je ne peux plus tenir ! Veux tu dancer avec moi ?</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>herewego</Key>
-			<BaseValue>Yeah ! [100] C’est parti !</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Yeah ! [100] C’est parti !</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>attention</Key>
-			<BaseValue>Hey !</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Hey ! </string>
-				<string> Comment çà va ? </string>
-				<string> Coucou </string>
-				<string> Tu veux t’amuser ? </string>
-				<string> Youhou !</string>
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
 			<Key>faillaunchapp</Key>
 			<BaseValue>Je ne peux pas lancer l'application</BaseValue>
 			<ClosePhoneticValues>
@@ -2031,7 +1550,6 @@
 				<string>Le plus grand flocon de neige enregistré était de 45 cm de large et 24 cm d'épaisseur.</string>
 				<string>La pointe d'un fouet se déplace si vite lors d'un coup de fouet, que le son qu'il produit est en fait un petit bang sonique.</string>
 				<string>Le Coca-Cola serait vert si un colorant alimentaire n'était pas ajouté.</string>
-				<string>Les cercueils utilisés pour la crémation sont généralement faits avec des poignées en plastique.</string>
 				<string>L'os de la cuisse de l'homme est plus dur que le béton.</string>
 				<string>Les cafards peuvent vivre plusieurs semaines avec la tête coupée.</string>
 				<string>Vous pouvez connaître le sexe d'un cheval en comptant ses dents. La plupart des mâles en ont 40, contre 36 pour les femelles.</string>
@@ -2059,15 +1577,15 @@
 				<string>Le cœur de la crevette est dans sa tête.</string>
 				<string>Les gens disent « Dieu vous bénisse » lorsque vous éternuez parce que quand vous éternuez, votre cœur s'arrête une mili-seconde.</string>
 				<string>Dans une étude sur 200.000 autruches durant une période de 80 ans, on ne fait état d'un seul cas où une autruche a enterré sa tête dans le sable.</string>
-				<string>Il est physiquement impossible pour les porcs à regarder vers le ciel.</string>
+				<string>Il est physiquement impossible pour les porcs de regarder vers le ciel.</string>
 				<string>Plus de 50% des personnes dans le monde n'ont jamais émis ou reçu un appel téléphonique.</string>
 				<string>Les rats et les chevaux ne peuvent pas vomir.</string>
 				<string>Si vous éternuez trop fort, vous pouvez vous fracturer une côte.</string>
-				<string>Les rats se multiplient tellement vite qu'en 18 mois, deux rats pourraient avoir plus d'un million descendants.</string>
+				<string>Les rats se multiplient tellement vite qu'en 18 mois, deux rats pourraient avoir plus d'un million de descendants.</string>
 				<string>Porter un casque pendant seulement une heure multiplierait les bactéries de votre oreille par 700 fois.</string>
 				<string>Le briquet a été inventé avant les allumettes.</string>
 				<string>35% des personnes qui utilisent des annonces de rencontres sont déjà mariées.</string>
-				<string>Un « coin » d'un canard ne fait pas écho, et personne ne sait pourquoi.</string>
+				<string> Le coincoin du canard ne fait pas écho, et personne ne sait pourquoi.</string>
 				<string>Au cours d'une durée de vie moyenne, pendant le sommeil, vous mangez 70 insectes différents et 10 araignées.</string>
 				<string>La plupart des rouges à lèvres contiennent des écailles de poisson.</string>
 			</RandomValues>
@@ -2393,6 +1911,36 @@
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>à</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>indate</Key>
+			<BaseValue>en</BaseValue>
+			<ClosePhoneticValues>
+				<string>en</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>en</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>before</Key>
+			<BaseValue>avant</BaseValue>
+			<ClosePhoneticValues>
+				<string>avant</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>avant</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>after</Key>
+			<BaseValue>après</BaseValue>
+			<ClosePhoneticValues>
+				<string>après</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>après</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -3112,6 +2660,16 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>userfavoritesportis</Key>
+			<BaseValue>Le sport préférée de [user] est le</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Le sport préférée de [user] est le</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>useroccupationis</Key>
 			<BaseValue>la profession de [user] est</BaseValue>
 			<ClosePhoneticValues>
@@ -3179,6 +2737,16 @@
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>vert</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>pink</Key>
+			<BaseValue>rose</BaseValue>
+			<ClosePhoneticValues>
+				<string>rose</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>rose</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -3592,10 +3160,12 @@
 				<string/>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string>La première: [666] Un robot ne peut porter atteinte à un être humain, ni, en restant passif, permettre qu'un être humain soit exposé au danger.
-				[666] La deuxième: [500] un robot doit obéir aux ordres qui lui sont donnés par un être humain, sauf si de tels ordres entrent en conflit avec la première loi.
-				[666] La troisième: [500] un robot doit protéger son existence tant que cette protection n'entre pas en conflit avec la première ou la deuxième loi.
-				[1000] J'espère que tu es rassuré?</string>
+				<string>
+					La première: [666] Un robot ne peut porter atteinte à un être humain, ni, en restant passif, permettre qu'un être humain soit exposé au danger.
+					[666] La deuxième: [500] un robot doit obéir aux ordres qui lui sont donnés par un être humain, sauf si de tels ordres entrent en conflit avec la première loi.
+					[666] La troisième: [500] un robot doit protéger son existence tant que cette protection n'entre pas en conflit avec la première ou la deuxième loi.
+					[1000] J'espère que tu es rassuré?
+				</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -3792,6 +3362,142 @@
 			<RandomValues>
 				<string>Au revoir, à bientôt!</string>
 				<string>Au revoir.</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>tabletennis</Key>
+			<BaseValue>tennis de table</BaseValue>
+			<ClosePhoneticValues>
+				<string>ping pong</string>
+				<string>tennis sur table</string>
+				<string>tennis de table</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>ping pong</string>
+				<string>tennis de table</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>tennis</Key>
+			<BaseValue>tennis</BaseValue>
+			<ClosePhoneticValues>
+				<string>tennis</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>tennis</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>football</Key>
+			<BaseValue>football</BaseValue>
+			<ClosePhoneticValues>
+				<string>foot</string>
+				<string>football</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>football</string>
+				<string>foot</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>handball</Key>
+			<BaseValue>handball</BaseValue>
+			<ClosePhoneticValues>
+				<string>handball</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>handball</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>basketball</Key>
+			<BaseValue>basketball</BaseValue>
+			<ClosePhoneticValues>
+				<string>basketball</string>
+				<string>basket</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>basketball</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>fencing</Key>
+			<BaseValue>escrime</BaseValue>
+			<ClosePhoneticValues>
+				<string>escrime</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>escrime</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>rugby</Key>
+			<BaseValue>rugby</BaseValue>
+			<ClosePhoneticValues>
+				<string>rugby</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>rugby</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>curling</Key>
+			<BaseValue>curling</BaseValue>
+			<ClosePhoneticValues>
+				<string>curling</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>curling</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>archery</Key>
+			<BaseValue>tire à l'arc</BaseValue>
+			<ClosePhoneticValues>
+				<string>tire à l'arc</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>tire à l'arc</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>running</Key>
+			<BaseValue>course à pieds</BaseValue>
+			<ClosePhoneticValues>
+				<string>course à pieds</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>course à pieds</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>swimming</Key>
+			<BaseValue>natation</BaseValue>
+			<ClosePhoneticValues>
+				<string>natation</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>natation</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>climbing</Key>
+			<BaseValue>escalade</BaseValue>
+			<ClosePhoneticValues>
+				<string>escalade</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>escalade</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>cricket</Key>
+			<BaseValue>cricket</BaseValue>
+			<ClosePhoneticValues>
+				<string>cricket</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>cricket</string>
 			</RandomValues>
 		</DictionaryEntry>
 	</Entries>

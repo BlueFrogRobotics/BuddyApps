@@ -478,6 +478,16 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>noone</Key>
+			<BaseValue>no one</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>no one</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>nooneplay</Key>
 			<BaseValue>Nobody wants to play!</BaseValue>
 			<ClosePhoneticValues>
@@ -1885,6 +1895,36 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>indate</Key>
+			<BaseValue>in</BaseValue>
+			<ClosePhoneticValues>
+				<string>in</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>in</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>before</Key>
+			<BaseValue>before</BaseValue>
+			<ClosePhoneticValues>
+				<string>before</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>before</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>after</Key>
+			<BaseValue>after</BaseValue>
+			<ClosePhoneticValues>
+				<string>after</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>after</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>iloveyou</Key>
 			<BaseValue>I love you</BaseValue>
 			<ClosePhoneticValues>
@@ -2586,6 +2626,28 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>userfavoritesportis</Key>
+			<BaseValue>[user] favorite sport is</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>
+					[user] favorite sport is
+					<DictionaryEntry>
+						<Key>noone</Key>
+						<BaseValue>Personne</BaseValue>
+						<ClosePhoneticValues>
+							<string />
+						</ClosePhoneticValues>
+						<RandomValues>
+							<string>personne</string>
+						</RandomValues>
+					</DictionaryEntry>
+				</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>useroccupationis</Key>
 			<BaseValue>[user] occupation is</BaseValue>
 			<ClosePhoneticValues>
@@ -2703,6 +2765,16 @@
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>brown</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>pink</Key>
+			<BaseValue>pink</BaseValue>
+			<ClosePhoneticValues>
+				<string>pink</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>pink</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -3258,6 +3330,141 @@
 			<RandomValues>
 				<string>Goodbye</string>
 				<string>Goodbye.See you soon.</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>tabletennis</Key>
+			<BaseValue>table tennis</BaseValue>
+			<ClosePhoneticValues>
+				<string>ping pong</string>
+				<string>table tennis</string>
+				<string>tennis table</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>ping pong</string>
+				<string>table tennis</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>tennis</Key>
+			<BaseValue>tennis</BaseValue>
+			<ClosePhoneticValues>
+				<string>tennis</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>tennis</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>football</Key>
+			<BaseValue>football</BaseValue>
+			<ClosePhoneticValues>
+				<string>foot</string>
+				<string>football</string>
+				<string>soccer</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>football</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>handball</Key>
+			<BaseValue>handball</BaseValue>
+			<ClosePhoneticValues>
+				<string>handball</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>handball</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>basketball</Key>
+			<BaseValue>basketball</BaseValue>
+			<ClosePhoneticValues>
+				<string>basketball</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>basketball</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>fencing</Key>
+			<BaseValue>fencing</BaseValue>
+			<ClosePhoneticValues>
+				<string>fencing</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>fencing</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>rugby</Key>
+			<BaseValue>rugby</BaseValue>
+			<ClosePhoneticValues>
+				<string>rugby</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>rugby</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>curling</Key>
+			<BaseValue>curling</BaseValue>
+			<ClosePhoneticValues>
+				<string>curling</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>curling</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>archery</Key>
+			<BaseValue>archery</BaseValue>
+			<ClosePhoneticValues>
+				<string>archery</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>archery</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>running</Key>
+			<BaseValue>running</BaseValue>
+			<ClosePhoneticValues>
+				<string>running</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>running</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>swimming</Key>
+			<BaseValue>swimming</BaseValue>
+			<ClosePhoneticValues>
+				<string>swimming</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>swimming</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>climbing</Key>
+			<BaseValue>climbing</BaseValue>
+			<ClosePhoneticValues>
+				<string>climbing</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>climbing</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>cricket</Key>
+			<BaseValue>cricket</BaseValue>
+			<ClosePhoneticValues>
+				<string>cricket</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>cricket</string>
 			</RandomValues>
 		</DictionaryEntry>
 	</Entries>

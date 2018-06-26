@@ -112,10 +112,10 @@ namespace BuddyApp.Companion
 
 			if (!ActiveAction()) {
 				// if we are far from default pose, go to default pose:
-				if (Math.Abs(BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition - CompanionData.Instance.HeadPosition) > 8 && Time.time - mTimeLastOrder > 0.5F) {
+				if (Math.Abs(BYOS.Instance.Primitive.Motors.YesHinge.CurrentAnglePosition - CompanionData.Instance.mHeadPosition) > 8 && Time.time - mTimeLastOrder > 0.5F) {
 					mTimeLastOrder = Time.time;
 
-					BYOS.Instance.Primitive.Motors.YesHinge.SetPosition(CompanionData.Instance.HeadPosition, 200);
+					BYOS.Instance.Primitive.Motors.YesHinge.SetPosition(CompanionData.Instance.mHeadPosition, 200);
 
 				}
 			}

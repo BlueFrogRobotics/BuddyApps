@@ -6,11 +6,15 @@ namespace BuddyApp.Companion
 {
 	public class CompanionLayout : AWindowLayout
 	{
+		//private Gauge mInternalEnergy;
+		//private Gauge mInternalPositivity;
 		private Gauge mMovingDesire;
 		private Gauge mInteractDesire;
 		private Gauge mTeachDesire;
 		private Gauge mLearnDesire;
 		private Gauge mHelpDesire;
+		private Gauge mSpeechSpeed;
+		private Gauge mProactivity;
 		private Gauge mHeadAngle;
 		private OnOff mWheelsMotion;
 		private OnOff mHeadMotion;
@@ -24,12 +28,16 @@ namespace BuddyApp.Companion
 
 		public override void Update()
 		{
+			//mInternalEnergy.Slider.value = CompanionData.Instance.mInternalEnergy;
+			//mInternalPositivity.Slider.value = CompanionData.Instance.mInternalPositivity;
 			mMovingDesire.Slider.value = CompanionData.Instance.mMovingDesire;
 			mInteractDesire.Slider.value = CompanionData.Instance.mInteractDesire;
 			mTeachDesire.Slider.value = CompanionData.Instance.mTeachDesire;
 			mLearnDesire.Slider.value = CompanionData.Instance.mLearnDesire;
 			mHelpDesire.Slider.value = CompanionData.Instance.mHelpDesire;
-			mHeadAngle.Slider.value = CompanionData.Instance.HeadPosition;
+			mHeadAngle.Slider.value = CompanionData.Instance.mHeadPosition;
+			//mSpeechSpeed.Slider.value = CompanionData.Instance.mSpeechSpeed;
+			//mProactivity.Slider.value = CompanionData.Instance.mProactivity;
 		}
 
 		public override void Build()
@@ -51,6 +59,8 @@ namespace BuddyApp.Companion
 			mLearnDesire = CreateWidget<Gauge>();
 			mHelpDesire = CreateWidget<Gauge>();
 			mHeadAngle = CreateWidget<Gauge>();
+			mSpeechSpeed = CreateWidget<Gauge>();
+			mProactivity = CreateWidget<Gauge>();
 			mWheelsMotion = CreateWidget<OnOff>();
 			mHeadMotion = CreateWidget<OnOff>();
 			mTrigger = CreateWidget<OnOff>();
@@ -90,6 +100,16 @@ namespace BuddyApp.Companion
 			mHeadAngle.Slider.maxValue = 60;
 			mHeadAngle.Slider.wholeNumbers = true;
 			mHeadAngle.DisplayPercentage = false;
+			
+			mSpeechSpeed.Slider.minValue = -50;
+			mSpeechSpeed.Slider.maxValue = 50;
+			mSpeechSpeed.Slider.wholeNumbers = true;
+			mSpeechSpeed.DisplayPercentage = false;
+
+			mProactivity.Slider.minValue = 0;
+			mProactivity.Slider.maxValue = 100;
+			mProactivity.Slider.wholeNumbers = true;
+			mProactivity.DisplayPercentage = true;
 
 			/*
              * Retrieve app data and display them inside the view
@@ -105,7 +125,9 @@ namespace BuddyApp.Companion
 			mLearnDesire.Slider.value = CompanionData.Instance.mLearnDesire;
 			mHelpDesire.Slider.value = CompanionData.Instance.mHelpDesire;
 			mTeachDesire.Slider.value = CompanionData.Instance.mTeachDesire;
-			mHeadAngle.Slider.value = CompanionData.Instance.HeadPosition;
+			mHeadAngle.Slider.value = CompanionData.Instance.mHeadPosition;
+			mSpeechSpeed.Slider.value = CompanionData.Instance.mSpeechSpeed;
+			mProactivity.Slider.value = CompanionData.Instance.mProactivity;
 
 			//mState.AddOption("IDLE");
 			//mState.AddOption("WANDER");
@@ -156,7 +178,15 @@ namespace BuddyApp.Companion
 			});
 
 			mHeadAngle.OnUpdateEvent((iVal) => {
-				CompanionData.Instance.HeadPosition = iVal;
+				CompanionData.Instance.mHeadPosition = iVal;
+			});
+
+			mSpeechSpeed.OnUpdateEvent((iVal) => {
+				CompanionData.Instance.mSpeechSpeed = iVal;
+			});
+
+			mProactivity.OnUpdateEvent((iVal) => {
+				CompanionData.Instance.mProactivity = iVal;
 			});
 
 			mWheelsMotion.OnSwitchEvent((iVal) => {
@@ -193,6 +223,8 @@ namespace BuddyApp.Companion
 			mHelpDesire.Label = BYOS.Instance.Dictionary.GetString("helpdesire");
 			mLearnDesire.Label = BYOS.Instance.Dictionary.GetString("learndesire");
 			mHeadAngle.Label = "default head angle";
+			mSpeechSpeed.Label = "Speech Speed";
+			mProactivity.Label = "proactivity";
 			mTrigger.Label = BYOS.Instance.Dictionary.GetString("cantrigger");
 			mTriggerWander.Label = BYOS.Instance.Dictionary.GetString("cantrigger") + " wander";
 			mDebug.Label = "Debug";

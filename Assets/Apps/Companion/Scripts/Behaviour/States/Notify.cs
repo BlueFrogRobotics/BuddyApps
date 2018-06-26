@@ -57,7 +57,7 @@ namespace BuddyApp.Companion
 					} else if (mAlarmSound && (mNotifTime > 3F)) {
 						Debug.Log("Stop alarm and tell notif");
 						// Stop alarm sound
-						Primitive.Speaker.Voice.Stop();
+						Primitive.Speaker.FX.Stop();
 						mAlarmSound = false;
 						//Tell the notif
 						mActionManager.InformNotifPriority(ReminderState.DELIVERED);

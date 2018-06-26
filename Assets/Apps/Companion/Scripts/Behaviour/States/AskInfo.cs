@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 namespace BuddyApp.Companion
 {
@@ -15,9 +16,10 @@ namespace BuddyApp.Companion
 		FIRSTNAME,
 		LASTNAME,
 		BIRTH,
-		FAVORITECOLOR,
+		FAVORITECOLOUR,
 		FAVORITEMUSICBAND,
-		OCCUPATION
+		OCCUPATION,
+		FAVORITESPORT
 	}
 
 	public class AskInfo : AStateMachineBehaviour
@@ -48,7 +50,7 @@ namespace BuddyApp.Companion
 
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mActionManager.CurrentAction = BUDDY_ACTION.ASK_USER_PROFILE;
-			
+
 			Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechRecognition);
 			Interaction.SpeechToText.OnErrorEnum.Add(ErrorSTT);
 
@@ -65,7 +67,7 @@ namespace BuddyApp.Companion
 				Debug.Log("We know who is the curent user, ask some info: " + mCompanion.mCurrentUser.FirstName);
 
 				mNeedListen = true;
-				
+
 
 				//TODO: make it random somehow...
 				if (!AskMissingInfo()) {
@@ -84,12 +86,15 @@ namespace BuddyApp.Companion
 			if (string.IsNullOrEmpty(mCompanion.mCurrentUser.LastName)) {
 				Interaction.TextToSpeech.SayKey("asklastname");
 				mAskedQuestion = QuestionToAsk.LASTNAME;
-			} else if (string.IsNullOrEmpty(mCompanion.mCurrentUser.BirthDate)) {
+			} else if (mCompanion.mCurrentUser.BirthDate.Year < 1900) {
 				Interaction.TextToSpeech.SayKey("askbirth");
 				mAskedQuestion = QuestionToAsk.BIRTH;
-			} else if (string.IsNullOrEmpty(mCompanion.mCurrentUser.Tastes.Color)) {
+			} else if (mCompanion.mCurrentUser.Tastes.Colour == COLOUR.NONE) {
 				Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askfavorite").Replace("[subject]", Dictionary.GetRandomString("color")));
-				mAskedQuestion = QuestionToAsk.FAVORITECOLOR;
+				mAskedQuestion = QuestionToAsk.FAVORITECOLOUR;
+			} else if (mCompanion.mCurrentUser.Tastes.Sport == SPORT.NONE) {
+				Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askfavorite").Replace("[subject]", "sport"));
+				mAskedQuestion = QuestionToAsk.FAVORITESPORT;
 			} else if (string.IsNullOrEmpty(mCompanion.mCurrentUser.Tastes.MusicBand)) {
 				Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askfavorite").Replace("[subject]", Dictionary.GetRandomString("musicband")));
 				mAskedQuestion = QuestionToAsk.FAVORITEMUSICBAND;
@@ -105,7 +110,7 @@ namespace BuddyApp.Companion
 		{
 			// Ask random info
 
-			int lRand = UnityEngine.Random.Range(0, 5);
+			int lRand = UnityEngine.Random.Range(0, 6);
 
 			if (lRand == 0) {
 				Interaction.TextToSpeech.SayKey("asklastname");
@@ -115,11 +120,14 @@ namespace BuddyApp.Companion
 				mAskedQuestion = QuestionToAsk.BIRTH;
 			} else if (lRand == 2) {
 				Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askfavorite").Replace("[subject]", Dictionary.GetRandomString("color")));
-				mAskedQuestion = QuestionToAsk.FAVORITECOLOR;
+				mAskedQuestion = QuestionToAsk.FAVORITECOLOUR;
 			} else if (lRand == 3) {
+				Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askfavorite").Replace("[subject]", Dictionary.GetRandomString("sport")));
+				mAskedQuestion = QuestionToAsk.FAVORITESPORT;
+			} else if (lRand == 4) {
 				Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askfavorite").Replace("[subject]", Dictionary.GetRandomString("musicband")));
 				mAskedQuestion = QuestionToAsk.FAVORITEMUSICBAND;
-			} else if (lRand == 4) {
+			} else if (lRand == 5) {
 				Interaction.TextToSpeech.SayKey("askoccupation");
 				mAskedQuestion = QuestionToAsk.OCCUPATION;
 			}
@@ -183,21 +191,44 @@ namespace BuddyApp.Companion
 				}
 
 			} else if (mAskedQuestion == QuestionToAsk.BIRTH) {
-				if (!string.IsNullOrEmpty(mCompanion.mCurrentUser.BirthDate) && iMsg.ToLower() != mCompanion.mCurrentUser.BirthDate.ToLower())
+				DateTime lBirthDate = StringToDate(iMsg.ToLower());
+
+				if (mCompanion.mCurrentUser.BirthDate.Year < 1900 && lBirthDate.Year > 1900 && lBirthDate != mCompanion.mCurrentUser.BirthDate)
 					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("ithoughitwas") + " " + mCompanion.mCurrentUser.BirthDate, true);
-				else
+				else if (lBirthDate.Year < 1900) {
+					//TODO error
+					Interaction.TextToSpeech.Say("error date:" + " " + iMsg);
+					return;
+				} else
 					Interaction.TextToSpeech.Say("ok" + " " + iMsg);
 
+				mCompanion.mCurrentUser.BirthDate = StringToDate(iMsg.ToLower());
 
-				mCompanion.mCurrentUser.BirthDate = iMsg;
-
-			} else if (mAskedQuestion == QuestionToAsk.FAVORITECOLOR) {
-				if (!string.IsNullOrEmpty(mCompanion.mCurrentUser.Tastes.Color) && iMsg.ToLower() != mCompanion.mCurrentUser.Tastes.Color.ToLower())
-					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("ithoughitwas") + " " + mCompanion.mCurrentUser.Tastes.Color, true);
-				else
+			} else if (mAskedQuestion == QuestionToAsk.FAVORITECOLOUR) {
+				COLOUR lColour = VocalTrigerred.StringToEnum<COLOUR>(iMsg.ToLower());
+				if (!(mCompanion.mCurrentUser.Tastes.Colour == COLOUR.NONE) && lColour != COLOUR.NONE && lColour != mCompanion.mCurrentUser.Tastes.Colour)
+					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("ithoughitwas") + " " + Dictionary.GetString(mCompanion.mCurrentUser.Tastes.Colour.ToString().ToLower()), true);
+				else if (lColour == COLOUR.NONE) {
+					//TODO error
+					Interaction.TextToSpeech.Say("error color:" + " " + iMsg);
+					return;
+				} else
 					Interaction.TextToSpeech.Say("ok" + " " + iMsg);
 
-				mCompanion.mCurrentUser.Tastes.Color = iMsg;
+				mCompanion.mCurrentUser.Tastes.Colour = lColour;
+
+			} else if (mAskedQuestion == QuestionToAsk.FAVORITESPORT) {
+				SPORT lSport = VocalTrigerred.StringToEnum<SPORT>(iMsg.ToLower());
+				if (!(mCompanion.mCurrentUser.Tastes.Colour == COLOUR.NONE) && lSport != SPORT.NONE && lSport != mCompanion.mCurrentUser.Tastes.Sport)
+					Interaction.TextToSpeech.Say(Dictionary.GetRandomString("ithoughitwas") + " " + Dictionary.GetString(mCompanion.mCurrentUser.Tastes.Colour.ToString().ToLower()), true);
+				else if (lSport == SPORT.NONE) {
+					//TODO error
+					Interaction.TextToSpeech.Say("error sport:" + " " + iMsg);
+					return;
+				} else
+					Interaction.TextToSpeech.Say("ok" + " " + iMsg);
+
+				mCompanion.mCurrentUser.Tastes.Sport = lSport;
 
 			} else if (mAskedQuestion == QuestionToAsk.FAVORITEMUSICBAND) {
 				if (!string.IsNullOrEmpty(mCompanion.mCurrentUser.Tastes.MusicBand) && iMsg.ToLower() != mCompanion.mCurrentUser.Tastes.MusicBand.ToLower())
@@ -223,6 +254,80 @@ namespace BuddyApp.Companion
 			if (!mNeedListen)
 				Trigger("VOCALCOMMAND");
 
+		}
+
+
+		//private COLOUR StringToColour(string iColor)
+		//{
+		//	if (VocalTrigerred.ContainsOneOf(iColor, "red"))
+		//		return COLOUR.RED;
+		//	else if (VocalTrigerred.ContainsOneOf(iColor, "blue"))
+		//		return COLOUR.BLUE;
+		//	else if (VocalTrigerred.ContainsOneOf(iColor, "black"))
+		//		return COLOUR.BLACK;
+		//	else if (VocalTrigerred.ContainsOneOf(iColor, "green"))
+		//		return COLOUR.GREEN;
+		//	else if (VocalTrigerred.ContainsOneOf(iColor, "grey"))
+		//		return COLOUR.GREY;
+		//	else if (VocalTrigerred.ContainsOneOf(iColor, "pink"))
+		//		return COLOUR.PINK;
+		//	else if (VocalTrigerred.ContainsOneOf(iColor, "yellow"))
+		//		return COLOUR.YELLOW;
+		//	else if (VocalTrigerred.ContainsOneOf(iColor, "purple"))
+		//		return COLOUR.PURPLE;
+		//	else if (VocalTrigerred.ContainsOneOf(iColor, "orange"))
+		//		return COLOUR.ORANGE;
+		//	else if (VocalTrigerred.ContainsOneOf(iColor, "brown"))
+		//		return COLOUR.BROWN;
+
+		//	else return COLOUR.NONE;
+		//}
+
+
+		private DateTime StringToDate(string iDate)
+		{
+			string lPattern;
+			if (BYOS.Instance.Language.CurrentLang == Language.FR)
+				lPattern = @"^((31(?!\ (Fév(rier)?|avr(il)?|juin?|(sep(?=\b|t)t?|nov)(embre)?)))|((30|29)(?!\ fév(rier)?))|(29(?=\ fév(rier)?\ (((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)))))|(0?[1-9])|1\d|2[0-8])\ (jan(vier)?|fev(rier)?|ma(r(s)?|i)|avr(il)?|ju((illet?)|(in?))|ao(ût)?|oct(obre)?|(sep(?=\b|t)t?|nov|déc)(embre)?)\ ((1[6-9]|[2-9]\d)\d{2})$";
+			else
+				lPattern = @"^((31(?!\ (feb(ruary)?|apr(il)?|june?|(sep(?=\b|t)t?|nov)(ember)?)))|((30|29)(?!\ feb(ruary)?))|(29(?=\ feb(ruary)?\ (((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)))))|(0?[1-9])|1\d|2[0-8])\ (jan(uary)?|feb(ruary)?|ma(r(ch)?|y)|apr(il)?|ju((ly?)|(ne?))|aug(ust)?|oct(ober)?|(sep(?=\b|t)t?|nov|dec)(ember)?)\ ((1[6-9]|[2-9]\d)\d{2})$";
+			//Regex rgx = new Regex(pattern);
+			Match lMatch = Regex.Match(iDate, lPattern);
+			if (lMatch.Success) {
+				string[] lWords = lMatch.Value.Split(' ');
+				return new DateTime(int.Parse(lWords[2]), Month2Int(lWords[1].ToLower()), int.Parse(lWords[0]));
+			} else return new DateTime();
+		}
+
+		//TODO: replace with StringToEnum
+		private int Month2Int(string iMonth)
+		{
+			if (iMonth.Contains("ja"))
+				return 1;
+			else if (iMonth[0] == 'f')
+				return 2;
+			else if (iMonth.Contains("mar"))
+				return 3;
+			else if (iMonth[0] == 'a' && iMonth.Contains("il"))
+				return 4;
+			else if (iMonth.Contains("ma"))
+				return 5;
+			else if (iMonth.Contains("ju") && iMonth.Contains("n"))
+				return 6;
+			else if (iMonth.Contains("ju"))
+				return 7;
+			else if (iMonth[0] == 'a')
+				return 8;
+			else if (iMonth.Contains("sept"))
+				return 9;
+			else if (iMonth.Contains("octo"))
+				return 10;
+			else if (iMonth.Contains("nov"))
+				return 11;
+			else if (iMonth.Contains("decem"))
+				return 12;
+
+			else return 1;
 		}
 
 		private void ErrorSTT(STTError iError)

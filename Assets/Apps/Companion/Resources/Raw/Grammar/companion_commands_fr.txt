@@ -27,7 +27,6 @@
 !start <icouldnt>;
 !start <ihateyou>;
 !start <iloveyou>;
-!start <installallapp>;
 !start <iot>;
 !start <joke>;
 !start <jukebox>;
@@ -42,12 +41,9 @@
 !start <moveright>;
 !start <nap>;
 !start <photo>;
-!start <play>;
 !start <pose>;
-!start <profilingwholikes>;
-!start <profilingwhoisborn>;
-!start <profilingwhat>;
 !start <propose>;
+!start <play>;
 !start <recipe>;
 !start <repeat>;
 !start <rlgl>;
@@ -73,7 +69,6 @@
 !start <radio>;
 !start <operationagain>;
 !import <numbers#nb>;
-!import <names#anyname>;
 
 <asklaunch> : ((ouvre | lance ) | (<canyou> (ouvrir | lancer)) | je voudrais [utiliser | jouer à | que tu (ouvres | lances)]) [[l'] application ];
 <askgive> : (<canyou> [me | nous] (donner | dire)) | ((donne | dis) [moi | nous]) | (je (veux | voudrais) que tu [me | nous] (donnes | dises)) ;
@@ -87,7 +82,6 @@
 <buddylab> : [<asklaunch>] ( buddylab | [le] lab | buddy lab | [le] laboratoire);
 <calculationgame> : [<asklaunch>] ([de] calcul | [le] jeu de calcul | playmath);
 <canmove> : tu peux bouger;
-<colour> : bleu | blanc | rouge | vert | jaune | noire | marron | orange | violet | gris | beige | rose;
 <colourseen> : de quel couleur est cet objet;
 <copy> : copie mes mouvements | fais comme moi | recopie moi;
 <dance> : [je voudrais que tu | vas-y] danse | [peux-tu | sais-tu] danser;
@@ -109,8 +103,7 @@
 <hour> : quelle heure est-il | <askgive> l'heure | il est quelle heure | c'est quoi l'heure;
 <icouldnt> : je n'ai pas (pu | su | réussi);
 <ihateyou> : je te (hais | déteste) | je ne t'aime pas | tu es (nul | stupide | idiot | con | bête | naze | un loser) | tu n'es pas drôle | tu ne comprends rien;
-<iloveyou> : je (t'aime | t'adore | t'apprécie) | tu es (sympa | sympathique | gentil | cool | mignon | intelligent) | j'aime jouer avec toi | Nathalie | Roméo et Juliette;
-<installallapp> : (installe | récupère | télécharge) (toutes les applications | tout | les applications);  
+<iloveyou> : je (t'aime | t'adore | t'apprécie) | tu es (sympa | sympathique | gentil | cool | mignon | intelligent) | j'aime jouer avec toi;
 <iot> : iot | objets connectés | maison intelligente | (monte | descend) [la] température | (allume | éteins | allumer | éteindre) [la] (lumière | prise) | (ouvre | ferme) le store;
 <joke> : <asktell> (une blague | une histoire (drôle | amusante | marrante) | quelque chose (de drôle | d'amusant | de marrant));
 <jukebox> : [<asklaunch>] (jukebox | [la] musique); 
@@ -125,16 +118,12 @@
 <moveright> : (tourne | tourner | va | fais une rotation) ([<rotationangle>] (à | sur la | vers la) droite | (à | sur la | vers la) droite <rotationangle>);
 <nap> : (va dormir | repose toi | dort) [pendant <delai>] | (va faire | fait) une sieste [(de | pendant) <delai>];
 <photo> : [<asktake>] [en | une] photo;
-<play> : je (veux | voudrais) jouer | (<canyou> [me] proposer | propose [moi] | faisons) un jeu | jouons;
 <pose> : ([<asktake>] (un selfie | une photo avec toi | une photo ensemble)) | prend la pose;
-<profilingwholikes> : [peux tu trouver | trouve | Dis moi] qui aime le (<colour> | <sport> | <colour> et le <sport> | <sport> et le <colour>);
-<profilingwhoisborn> : [peux tu trouver | trouve | Dis moi] qui est né (après | avant | en) <numbers#nb>;
-<profilingwhat> : quel est (le | la) (<colour> | <sport>) (préféré | favori) de <names#anyname>;
 <propose> : propose [moi | nous] quelque chose;
+<play> : je (veux | voudrais) jouer | (<canyou> [me] proposer | propose [moi] | faisons) un jeu | jouons;
 <recipe> : recette | application recette | mes recettes;
 <repeat> : répète | je n'ai pas entendu | je n'ai pas compris | pas compris | redis | répéter | qu'est ce que tu as dit | qu'est ce que tu dis | tu as dit quoi;
 <rlgl> : [<asklaunch>] (un deux trois soleil | 1 2 3 soleil);
-<sport> : (basket | basetball) | (foot | football) [en salle] | handball | rugby | tennis | ping pong | tennis de table | cricket | natation | course à pieds | pétanque | tir à l'arc | escrime | curling | escalade;
 <story> : <asktell> une histoire;
 <tellsomething> : dis [moi | nous] quelque chose;
 <timer> : [mets | <canyou> mettre | je (veux | voudrais) que tu mettes] ([un] (minuteur | décompte | compte à rebours | timer) | [une] minuterie) [de <delai>];
@@ -157,6 +146,6 @@
 <delai> : <numbers#nb> (secondes | minutes | heures);
 <rotationangle> : [de] <numbers#nb> degrés;
 <radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;
-<radio> : [<asklaunch>] ([the] radio | [[the] radio] <radioname>);
+<radio> : [<asklaunch>] ([la] radio) [<radioname>]; 
 <operation> : [combien (font | ça fait)]  <numbers#nb> (plus | moins | divisé par | multiplié par | fois) <numbers#nb>;
 <operationagain> : <numbers#nb> (plus | moins | divisé par | multiplié par | fois) <numbers#nb>;

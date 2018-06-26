@@ -4,6 +4,43 @@ using System;
 
 namespace BuddyApp.Companion
 {
+
+	public enum COLOUR
+	{
+		NONE,
+		BLUE,
+		RED,
+		YELLOW,
+		GREEN,
+		BROWN,
+		BLACK,
+		PINK,
+		PURPLE,
+		ORANGE,
+		GREY,
+		WHITE,
+		CYAN,
+		MAGENTA
+	}
+
+	public enum SPORT
+	{
+		NONE,
+		BASKETBALL,
+		FOOTBALL,
+		HANDBALL,
+		RUGBY,
+		TENNIS,
+		TABLETENNIS,
+		CRICKET,
+		SWIMMING,
+		RUNNING,
+		ARCHERY,
+		FENCING,
+		CURLING,
+		CLIMBING
+	}
+
 	//public enum MusicStyle
 	//{
 	//	CLASSICAL,
@@ -27,7 +64,7 @@ namespace BuddyApp.Companion
 		public string LastName { get; set; }
 
 		//Birthdate can be written "YYYY-MM-DD"
-		public string BirthDate { get; set; }
+		public DateTime BirthDate { get; set; }
 
 		public Gender Gender { get; set; }
 		public UserTastes Tastes { get; set; }
@@ -43,12 +80,12 @@ namespace BuddyApp.Companion
 	[Serializable]
 	public class UserTastes
 	{
-		public string Color { get; set; }
+		public COLOUR Colour { get; set; }
+		public SPORT Sport { get; set; }
 		public string MusicBand { get; set; }
 
 		public UserTastes()
 		{
-
 		}
 	}
 	

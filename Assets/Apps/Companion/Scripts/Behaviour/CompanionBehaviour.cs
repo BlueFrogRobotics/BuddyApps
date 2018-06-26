@@ -96,7 +96,7 @@ namespace BuddyApp.Companion
 				lProfile = new UserProfile() {
 					FirstName = iAccount.FirstName,
 					LastName = iAccount.LastName,
-					BirthDate = iAccount.BirthDate.ToLongDateString(),
+					BirthDate = iAccount.BirthDate,
 				};
 				Profiles.Add(lProfile);
 				SaveProfiles();
@@ -155,12 +155,13 @@ namespace BuddyApp.Companion
          */
 		void Update()
 		{
-
-
 			//if (mCurrentUser != null)
 			//	Debug.Log("companionbehaviour CurrentUser not Null");
 
 			// Update speech rate / pitch with mood
+
+			float lTheoreticalSpeed = 1.0F + 0.02F * BYOS.Instance.Interaction.InternalState.Energy + ( (float) CompanionData.Instance.mSpeechSpeed) / 100F;
+
 			if (Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity) < 10) {
 				if (!EquivalentFloat(BYOS.Instance.Interaction.TextToSpeech.Pitch, (1.0F + 0.03F * BYOS.Instance.Interaction.InternalState.Positivity)))
 					BYOS.Instance.Interaction.TextToSpeech.SetPitch(1.0F + 0.03F * BYOS.Instance.Interaction.InternalState.Positivity);
@@ -171,11 +172,11 @@ namespace BuddyApp.Companion
 
 
 			if (Math.Abs(BYOS.Instance.Interaction.InternalState.Energy) < 10) {
-				if (!EquivalentFloat(BYOS.Instance.Interaction.TextToSpeech.SpeechRate, 1.0F + 0.02F * BYOS.Instance.Interaction.InternalState.Energy))
-					BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(1.0F + 0.02F * BYOS.Instance.Interaction.InternalState.Energy);
+				if (!EquivalentFloat(BYOS.Instance.Interaction.TextToSpeech.SpeechRate, lTheoreticalSpeed))
+					BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(lTheoreticalSpeed);
 				//If max value
-			} else if (!EquivalentFloat(BYOS.Instance.Interaction.TextToSpeech.SpeechRate, Math.Sign(BYOS.Instance.Interaction.InternalState.Energy) * 1.2F))
-				BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(Math.Sign(BYOS.Instance.Interaction.InternalState.Energy) * 1.2F);
+			} else if (!EquivalentFloat(BYOS.Instance.Interaction.TextToSpeech.SpeechRate, Math.Sign(BYOS.Instance.Interaction.InternalState.Energy) * 1.2F + ((float)CompanionData.Instance.mSpeechSpeed) / 100F))
+				BYOS.Instance.Interaction.TextToSpeech.SetSpeechRate(Math.Sign(BYOS.Instance.Interaction.InternalState.Energy) * 1.2F + ((float)CompanionData.Instance.mSpeechSpeed) / 100F);
 
 
 			if (text.enabled != CompanionData.Instance.Debug) {

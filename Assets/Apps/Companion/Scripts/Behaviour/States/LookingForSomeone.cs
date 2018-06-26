@@ -78,7 +78,7 @@ namespace BuddyApp.Companion
 			if (Interaction.TextToSpeech.HasFinishedTalking && !mActionManager.Wandering && CompanionData.Instance.CanMoveBody) {
 				Debug.Log("CompanionLooking4 start wandering");
 				mActionManager.StartWander(Interaction.Mood.CurrentMood);
-			} else if (!CompanionData.Instance.CanMoveBody) {
+			} else if (!CompanionData.Instance.CanMoveBody && !mDetectionManager.ActiveReminder) {
 				Trigger("IDLE");
 			}
 

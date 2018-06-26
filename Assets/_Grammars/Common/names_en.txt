@@ -1,0 +1,10 @@
+#BNF+EMV2.1;
+!grammar names;
+!export <firstname>;
+!export <lastname>;
+!export <fullname>;
+!export <anyname>;
+<anyname>: (<firstname> | <lastname> | <fullname>);
+<fullname>: (<firstname> <lastname> | <lastname> <firstname>); 
+<firstname>: Mathieu | Walid | Mickael | Gregoire | Kilian | Louis | Delphine | Marc | Valentin | Karama | Isabelle | Sophie | Jean Michel | Rodolphe | Chineray | Maud | Jallal;
+<lastname>: Sibille | Abderrahmani | Cocquempot | Denise | Le Brun | Macheret | Milliez | Lefebvre | Mourrier | Petitjean | Li | Gache | Gimbale | Veraes | Lecoq | Gourlan | Hasselvander;

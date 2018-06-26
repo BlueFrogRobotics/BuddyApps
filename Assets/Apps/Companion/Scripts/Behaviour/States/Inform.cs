@@ -125,7 +125,7 @@ namespace BuddyApp.Companion
 		{
 
 			Debug.Log("Random user fact from user : " + iUserProfile.FirstName);
-			int lRand = UnityEngine.Random.Range(0, 4);
+			int lRand = UnityEngine.Random.Range(0, 5);
 
 			if (lRand == 0)
 				if (!string.IsNullOrEmpty(iUserProfile.Occupation)) {
@@ -142,13 +142,20 @@ namespace BuddyApp.Companion
 					lRand = 2;
 
 			if (lRand == 2)
-				if (!string.IsNullOrEmpty(iUserProfile.Tastes.Color)) {
-					Debug.Log("Random user fact  " + Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", iUserProfile.FirstName) + " " + iUserProfile.Tastes.Color);
-					return Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", iUserProfile.FirstName) + " " + iUserProfile.Tastes.Color;
+				if (iUserProfile.Tastes.Colour != COLOUR.NONE) {
+					Debug.Log("Random user fact  " + Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", iUserProfile.FirstName) + " " + Dictionary.GetRandomString(iUserProfile.Tastes.Colour.ToString()));
+					return Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", iUserProfile.FirstName) + " " + Dictionary.GetRandomString(iUserProfile.Tastes.Colour.ToString());
 				} else
 					lRand = 3;
 
-			if (lRand == 3 && !string.IsNullOrEmpty(iUserProfile.BirthDate)) {
+			if (lRand == 3)
+				if (iUserProfile.Tastes.Sport != SPORT.NONE) {
+					Debug.Log("Random user fact  " + Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", iUserProfile.FirstName) + " " + Dictionary.GetRandomString(iUserProfile.Tastes.Sport.ToString()));
+					return Dictionary.GetRandomString("userfavoritesportis").Replace("[user]", iUserProfile.FirstName) + " " + Dictionary.GetRandomString(iUserProfile.Tastes.Sport.ToString());
+				} else
+					lRand = 4;
+
+			if (lRand == 4 && iUserProfile.BirthDate.Year < 1900 ) {
 				Debug.Log("Random user fact  " + Dictionary.GetRandomString("userbirthdateis").Replace("[user]", iUserProfile.FirstName) + " " + iUserProfile.BirthDate);
 				return Dictionary.GetRandomString("userbirthdateis").Replace("[user]", iUserProfile.FirstName) + " " + iUserProfile.BirthDate;
 			}

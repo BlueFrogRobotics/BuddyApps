@@ -1,6 +1,7 @@
 ﻿using Buddy;
 using Buddy.Command;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -9,6 +10,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.Companion
 {
+
 	//[RequireComponent(typeof(Reaction))]
 	public class VocalTrigerred : AStateMachineBehaviour
 	{
@@ -26,6 +28,7 @@ namespace BuddyApp.Companion
 		private float mTimeHumanDetected;
 		private float mTimeMotion;
 		private string mPreviousOperationResult;
+		private List<UserProfile> mProfiles;
 
 		public override void Start()
 		{
@@ -33,6 +36,8 @@ namespace BuddyApp.Companion
 			mState = GetComponentInGameObject<Text>(0);
 			mDetectionManager = GetComponent<DetectionManager>();
 			mActionManager = GetComponent<ActionManager>();
+			mCompanion = GetComponent<CompanionBehaviour>();
+			mProfiles = mCompanion.Profiles;
 		}
 
 
@@ -269,10 +274,11 @@ namespace BuddyApp.Companion
 			if (iType != "Repeat")
 				mLastBuddySpeech = "";
 
-			string lMood = FindMood(iType);
-			if (!string.IsNullOrEmpty(lMood))
+			string lMood = "";
+			if (Enum.IsDefined(typeof(MoodType), iType.ToUpper())) {
+				lMood = iType;
 				iType = "bml";
-
+			}
 
 			Debug.Log("last human utterance : " + mLastHumanSpeech);
 
@@ -355,6 +361,7 @@ namespace BuddyApp.Companion
 
 					mActionManager.UnlockAll();
 					mNeedListen = true;
+
 					break;
 
 				case "colourseen":
@@ -493,7 +500,7 @@ namespace BuddyApp.Companion
 						Say(Dictionary.GetRandomString("headdown").Replace("[degrees]", "" + n), true);
 
 						Debug.Log("head down " + n + " degrees + VocalChat.Answer: " + n);
-						CompanionData.Instance.HeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition + n;
+						CompanionData.Instance.mHeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition + n;
 						mMoving = true;
 						mTimeMotion = Time.time;
 					}
@@ -514,7 +521,7 @@ namespace BuddyApp.Companion
 						Say(Dictionary.GetRandomString("headup").Replace("[degrees]", "" + n), true);
 
 						Debug.Log("head up " + n + " degrees + VocalChat.Answer: " + n);
-						CompanionData.Instance.HeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition - n;
+						CompanionData.Instance.mHeadPosition = Primitive.Motors.YesHinge.CurrentAnglePosition - n;
 						//Primitive.Motors.YesHinge.SetPosition(Primitive.Motors.YesHinge.CurrentAnglePosition - (float)n, 100F);
 						mMoving = true;
 						mTimeMotion = Time.time;
@@ -598,10 +605,19 @@ namespace BuddyApp.Companion
 					break;
 
 				case "iloveyou":
-					Debug.Log("VocalTrigger userlove");
+					Debug.Log("VocalTrigger  userlove");
 					// react as a caress
 					BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(5, -2, "mooduserlove", "USER_LOVE", EmotionalEventType.INTERACTION, InternalMood.RELAXED));
 					mActionManager.HeadReaction();
+					mNeedListen = true;
+					break;
+
+				case "installallapp":
+					Debug.Log("installallapp");
+
+					StartCoroutine(InstallAllApps());
+
+					Interaction.TextToSpeech.Say("ok");
 					mNeedListen = true;
 					break;
 
@@ -615,11 +631,13 @@ namespace BuddyApp.Companion
 					Trigger("TELLJOKE");
 					break;
 
+				case "knockknock":
+					Interaction.TextToSpeech.SayKey("whoisthere");
+					Trigger("LISTENJOKE");
+					break;
+
 				case "listenjoke":
-					if (ContainsOneOf(mLastHumanSpeech, "knockknock"))
-						Interaction.TextToSpeech.SayKey("whoisthere");
-					else
-						Interaction.TextToSpeech.SayKey("ilisten");
+					Interaction.TextToSpeech.SayKey("ilisten");
 					Trigger("LISTENJOKE");
 					break;
 
@@ -872,6 +890,74 @@ namespace BuddyApp.Companion
 					mLaunchingApp = true;
 					break;
 
+				case "profilingwholikes":
+					// We need to find who likes a sport or a color
+					// first, let's find what:
+					if (!string.IsNullOrEmpty(mLastHumanSpeech)) {
+						SPORT lSport;
+						COLOUR lColour;
+
+						lSport = StringToEnum<SPORT>(mLastHumanSpeech.ToLower());
+						lColour = StringToEnum<COLOUR>(mLastHumanSpeech.ToLower());
+						if (lSport != SPORT.NONE || lColour != COLOUR.NONE) {
+							Debug.Log("Looking for users who like " + lSport.ToString() + " and " + lColour);
+
+							List<UserProfile> lUserProfiles = GetUsersFromTaste(new UserTastes() { Colour = lColour, MusicBand = "", Sport = lSport });
+
+							string lUsers;
+							if (lUserProfiles.Count == 0)
+								lUsers = Dictionary.GetRandomString("noone");
+							else {
+								lUsers = lUserProfiles[0].FirstName;
+								for (int i = 1; i < lUserProfiles.Count; ++i)
+									lUsers += ", " + lUserProfiles[i].FirstName;
+							}
+
+							Say(lUsers);
+						} else
+							// This shouldn't happen with vocon:
+							Debug.Log("error while Looking for users with question " + mLastHumanSpeech);
+
+					}
+
+					mNeedListen = true;
+
+					break;
+
+				case "profilingwhoisborn":
+					// We need to find all users who are born before or after or in a given year
+
+					// first, let's find the date:
+					if (!string.IsNullOrEmpty(mLastHumanSpeech)) {
+						string[] lWords = mLastHumanSpeech.Split(' ');
+						int lYear = int.Parse(lWords[4]);
+
+						Debug.Log("Looking for users who are born " + lWords[3] + " " + lWords[4]);
+
+						List<UserProfile> lUserProfiles = GetUsersFromDate(lYear, lWords[3]);
+
+						string lUsers;
+						if (lUserProfiles.Count == 0)
+							lUsers = Dictionary.GetRandomString("noone") + mLastHumanSpeech.Replace(lWords[0], "");
+						else {
+							lUsers = lUserProfiles[0].FirstName;
+							for (int i = 1; i < lUserProfiles.Count; ++i)
+								lUsers += ", " + lUserProfiles[i].FirstName;
+						}
+
+						Say(lUsers);
+					} else
+						// This shouldn't happen with vocon:
+						Debug.Log("error while Looking for users with question " + mLastHumanSpeech);
+
+					mNeedListen = true;
+
+					break;
+
+				case "profilingwhat":
+					// We need to find the favorite sport / color of a user.
+					break;
+
 				case "quit":
 					if (mActionManager.ThermalFollow)
 						Trigger("FOLLOW");
@@ -887,13 +973,13 @@ namespace BuddyApp.Companion
 					mLaunchingApp = true;
 					break;
 
-                case "radio":
-                    CompanionData.Instance.mInteractDesire -= 20;
-                    mActionManager.StartApp("Radioplayer", mLastHumanSpeech);
-                    mLaunchingApp = true;
-                    break;
+				case "radio":
+					CompanionData.Instance.mInteractDesire -= 20;
+					mActionManager.StartApp("Radioplayer", mLastHumanSpeech);
+					mLaunchingApp = true;
+					break;
 
-                case "recipe":
+				case "recipe":
 					CompanionData.Instance.mInteractDesire -= 20;
 					mActionManager.StartApp("Recipe", mLastHumanSpeech);
 					mLaunchingApp = true;
@@ -1035,6 +1121,86 @@ namespace BuddyApp.Companion
 					mNeedListen = true;
 					break;
 
+			}
+		}
+
+		private List<UserProfile> GetUsersFromDate(int lYear, string iCondition)
+		{
+			List<UserProfile> oResult = new List<UserProfile>();
+			for (int i = 0; i < mProfiles.Count; ++i) {
+				if ((ContainsOneOf(iCondition, "indate") && mProfiles[i].BirthDate.Year == lYear) || (ContainsOneOf(iCondition, "before") && mProfiles[i].BirthDate.Year < lYear) || (ContainsOneOf(iCondition, "after") && mProfiles[i].BirthDate.Year > lYear))
+					oResult.Add(mProfiles[i]);
+			}
+
+			return oResult;
+		}
+
+		private List<UserProfile> GetUsersFromTaste(UserTastes iUserTastes)
+		{
+			List<UserProfile> oResult = new List<UserProfile>();
+			for (int i = 0; i < mProfiles.Count; ++i) {
+				if (iUserTastes.Colour == COLOUR.NONE || mProfiles[i].Tastes.Colour == iUserTastes.Colour)
+					if (iUserTastes.Sport == SPORT.NONE || mProfiles[i].Tastes.Sport == iUserTastes.Sport)
+						if (string.IsNullOrEmpty(iUserTastes.MusicBand) || mProfiles[i].Tastes.MusicBand == iUserTastes.MusicBand)
+							oResult.Add(mProfiles[i]);
+			}
+			return oResult;
+		}
+
+		static internal T StringToEnum<T>(string iSpeech)
+		{
+			foreach (T lItem in Enum.GetValues(typeof(T))) {
+				if (VocalTrigerred.ContainsOneOf(iSpeech, lItem.ToString().ToLower()))
+					return lItem;
+			}
+			return default(T);
+		}
+
+		private IEnumerator InstallAllApps()
+		{
+
+			//yield return InstallApp("a245149154250");
+			yield return InstallApp("a252702222215989717117712515750");
+			yield return InstallApp("q176106562212");
+			yield return InstallApp("x222012346757");
+			yield return InstallApp("k148193211096");
+			yield return InstallApp("b971654323624");
+			yield return InstallApp("w492995972511");
+			yield return InstallApp("u124244124125");
+			yield return InstallApp("p183871934241");
+			yield return InstallApp("q7019876795122696718514310515");
+			yield return InstallApp("c133176852293");
+			yield return InstallApp("s220187231061");
+			yield return InstallApp("j135124117211");
+			yield return InstallApp("u214261131914");
+			yield return InstallApp("w117622318359");
+			yield return InstallApp("k261293816951");
+			yield return InstallApp("f249249142218");
+			yield return InstallApp("r788501819293");
+			yield return InstallApp("m292221112879");
+			yield return InstallApp("m611218018105");
+			yield return InstallApp("w172222091964");
+			yield return InstallApp("a844342024520");
+			yield return InstallApp("f887310220247");
+			yield return InstallApp("z112154136255");
+
+			Interaction.TextToSpeech.Say("I installed everything!");
+
+		}
+
+		private IEnumerator InstallApp(string iID)
+		{
+			Debug.Log("try install " + iID);
+
+			if (!BYOS.Instance.AppManager.ExistsInstalledApp(iID)) {
+
+				while (BYOS.Instance.AppManager.InstallingApp) {
+					Debug.Log("installing " + BYOS.Instance.AppManager.InstallingApp);
+					yield return new WaitForSeconds(0.5F);
+				}
+
+				Debug.Log("install " + iID);
+				new InstallAppCmd(iID).Execute();
 			}
 
 		}
@@ -1343,7 +1509,7 @@ namespace BuddyApp.Companion
 			Say(Dictionary.GetRandomString(iSpeech), iQueue);
 		}
 
-		private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
+		static internal bool ContainsOneOf(string iSpeech, string[] iListSpeech)
 		{
 			for (int i = 0; i < iListSpeech.Length; ++i) {
 				string[] words = iListSpeech[i].Split(' ');
@@ -1358,7 +1524,7 @@ namespace BuddyApp.Companion
 
 		}
 
-		private bool ContainsOneOf(string iSpeech, string iKeySpeech)
+		static internal bool ContainsOneOf(string iSpeech, string iKeySpeech)
 		{
 			string[] iListSpeech = BYOS.Instance.Dictionary.GetPhoneticStrings(iKeySpeech);
 

@@ -41,56 +41,55 @@ namespace BuddyApp.Companion
 		{
 			if (GetMaxDesireValue() < 100) {
 
+				if (CompanionData.Instance.mProactivity > 0)
+					// if 100%, update every seconds, else every 100/mProactivity seconds
+					if ((Time.time - mPreviousTime) > (100F / CompanionData.Instance.mProactivity)) {
+						mPreviousTime = Time.time;
 
-				if (Time.time - mPreviousTime > 1F) {
-					mPreviousTime = Time.time;
+						switch (mActionManager.CurrentAction) {
 
 
+							case BUDDY_ACTION.NONE:
+								UpdateDesire(2, 1, 0, 1, 1);
+								break;
 
-					switch (mActionManager.CurrentAction) {
+							case BUDDY_ACTION.WANDER:
+								UpdateDesire(-2, 1, 1, 1, 1);
+								break;
 
+							case BUDDY_ACTION.DANCE:
+								UpdateDesire(-5, 1, 0, 1, 1);
+								break;
 
-						case BUDDY_ACTION.NONE:
-							UpdateDesire(2, 1, 0, 1, 1);
-							break;
+							case BUDDY_ACTION.FOLLOW:
 
-						case BUDDY_ACTION.WANDER:
-							UpdateDesire(-2, 1, 1, 1, 1);
-							break;
+								UpdateDesire(-1, 1, 2, 2, 2);
+								break;
 
-						case BUDDY_ACTION.DANCE:
-							UpdateDesire(-5, 1, 0, 1, 1);
-							break;
+							case BUDDY_ACTION.LOOK_FOR_USER:
+								UpdateDesire(-2, 1, 1, 0, 2);
+								break;
 
-						case BUDDY_ACTION.FOLLOW:
+							case BUDDY_ACTION.CHAT:
+								UpdateDesire(1, 0, -1, -1, -1);
+								break;
 
-							UpdateDesire(-1, 1, 2, 2, 2);
-							break;
+							case BUDDY_ACTION.TOUCH_INTERACT:
+								UpdateDesire(-1, 2, 2, 2, 0);
+								break;
 
-						case BUDDY_ACTION.LOOK_FOR_USER:
-							UpdateDesire(-2, 1, 1, 0, 2);
-							break;
+							case BUDDY_ACTION.ASK_USER_PROFILE:
+								UpdateDesire(1, 1, 0, -5, 1);
+								break;
 
-						case BUDDY_ACTION.CHAT:
-							UpdateDesire(1, 0, -1, -1, -1);
-							break;
+							case BUDDY_ACTION.EXPRESS_MOOD:
+								UpdateDesire(-2, 1, 0, 1, 1);
+								break;
 
-						case BUDDY_ACTION.TOUCH_INTERACT:
-							UpdateDesire(-1, 2, 2, 2, 0);
-							break;
-
-						case BUDDY_ACTION.ASK_USER_PROFILE:
-							UpdateDesire(1, 1, 0, -5, 1);
-							break;
-
-						case BUDDY_ACTION.EXPRESS_MOOD:
-							UpdateDesire(-2, 1, 0, 1, 1);
-							break;
-
-						default:
-							break;
+							default:
+								break;
+						}
 					}
-				}
 
 				NormalizeDesires();
 			}
@@ -124,7 +123,7 @@ namespace BuddyApp.Companion
 
 		private void MultiplyDesire(ref int ioDesire, float iCoef)
 		{
-			ioDesire = (int) (iCoef*ioDesire);
+			ioDesire = (int)(iCoef * ioDesire);
 			NormalizeDesire(ref ioDesire);
 		}
 
@@ -168,7 +167,7 @@ namespace BuddyApp.Companion
 		{
 			int lMaxInternalValue = Math.Abs(BYOS.Instance.Interaction.InternalState.Positivity) + Math.Abs(BYOS.Instance.Interaction.InternalState.Energy);
 			if (lMaxInternalValue > 5)
-				return Math.Max( Math.Min(lMaxInternalValue, 100), Math.Max(mCompaData.mInteractDesire, Math.Max(mCompaData.mHelpDesire, Math.Max(mCompaData.mLearnDesire, Math.Max(mCompaData.mMovingDesire, mCompaData.mTeachDesire)))));
+				return Math.Max(Math.Min(lMaxInternalValue, 100), Math.Max(mCompaData.mInteractDesire, Math.Max(mCompaData.mHelpDesire, Math.Max(mCompaData.mLearnDesire, Math.Max(mCompaData.mMovingDesire, mCompaData.mTeachDesire)))));
 
 			return Math.Max(mCompaData.mInteractDesire, Math.Max(mCompaData.mHelpDesire, Math.Max(mCompaData.mLearnDesire, Math.Max(mCompaData.mMovingDesire, mCompaData.mTeachDesire))));
 		}
