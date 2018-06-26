@@ -22,13 +22,11 @@ namespace BuddyApp.BuddyLab
         // Use this for initialization
         void Start()
         {
-
         }
 
         // Update is called once per frame
         void Update()
         {
-
         }
 
         public void DisplaySequence(string iFileName)
@@ -67,6 +65,7 @@ namespace BuddyApp.BuddyLab
 
         public void HighlightElement(int iNum)
         {
+
             //Debug.Log("miaou 1");
             if (mSequence == null)
             {

@@ -137,7 +137,7 @@ namespace BuddyApp.BuddyLab
 
         private void ChangeItemHighlight(int iNum)
         {
-            mTimelineDisplayer.HighlightElement(iNum);
+            StartCoroutine(test(iNum , 1.2F)); 
         }
 
         private void HideUi()
@@ -156,6 +156,11 @@ namespace BuddyApp.BuddyLab
                 //Header.DisplayParametersButton = true;
                 
             }
+        }
+        IEnumerator test (int iNum, float iDelay)
+        {
+            yield return new WaitForSeconds(iDelay);
+            mTimelineDisplayer.HighlightElement(iNum);
         }
     }
 }
