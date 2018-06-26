@@ -406,12 +406,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>restitution</Key>
-            <BaseValue>[date] the minimum temperature will be [minTemp] degree at [hourMin] and maximum temperature will be [maxTemp] degree at [hourMax] and [forecast]</BaseValue>
+            <BaseValue>[date] the minimum temperature will be [minTemp] degree [300] at [hourMin] [200] and maximum temperature will be [maxTemp] degree [300] at [hourMax] [200] and [forecast]</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>[date] the minimum temperature will be [minTemp] degree at [hourMin] and maximum temperature will be [maxTemp] degree at [hourMax] and [forecast]</string>
+                <string>[date] the minimum temperature will be [minTemp] degree [300] at [hourMin] [200] and maximum temperature will be [maxTemp] degree [300] at [hourMax] [300] and [forecast]</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -701,22 +701,22 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>restraintrestitution</Key>
-            <BaseValue>[date] in the [time] the temperature will be [degree] degree</BaseValue>
+            <BaseValue>[date] in the [time] [300] the temperature will be [degree] degree</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>[date] in the [time] the temperature will be [degree] degree</string>
+                <string>[date] in the [time] [300] the temperature will be [degree] degree</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>lightrestitution</Key>
-            <BaseValue>[date] the temperature will be [degree] degree and [forecast]</BaseValue>
+            <BaseValue>[date] the temperature will be [degree] degree [300] and [forecast]</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>[date] the temperature will be [degree] degree and [forecast]</string>
+                <string>[date] the temperature will be [degree] degree [300] and [forecast]</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -862,6 +862,17 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>sleet</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>requestfailed</Key>
+            <BaseValue>I'm sorry, request failed, try again later.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I asked my friend froggy for weather but she is not available.</string>
+                <string>I suggest you ask me again in a few moments.</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
