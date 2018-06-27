@@ -1,8 +1,13 @@
 ﻿<List>
-  <ListSize>2</ListSize>
+  <ListSize>3</ListSize>
   <Button>
     <Key>tablelabel</Key>
     <Trigger>SelectTable</Trigger>
+    <QuitApp>False</QuitApp>
+  </Button>
+  <Button>
+    <Key>playlabel</Key>
+    <Trigger>Play</Trigger>
     <QuitApp>False</QuitApp>
   </Button>
   <Button>
