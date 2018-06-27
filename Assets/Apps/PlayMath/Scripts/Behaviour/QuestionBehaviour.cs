@@ -194,9 +194,13 @@ namespace BuddyApp.PlayMath{
                     }
                     else
                     {
-                        // Initiating Vocal Manager instance reco
-                        mLaunchSTTOnce = true;
-                        mVocalManager.StartInstantReco(false);
+                        if (mTTS.HasFinishedTalking)
+                        {
+                            // Initiating Vocal Manager instance reco
+                            mLaunchSTTOnce = true;
+                            Debug.Log("START RECO");
+                            mVocalManager.StartInstantReco(5800, false);
+                        }
                     }
                 }
                 yield return new WaitForSeconds(0.5f);
@@ -211,8 +215,13 @@ namespace BuddyApp.PlayMath{
         public void SpeechToTextCallback(VoconResult iSpeech)
         {
             Debug.Log("Speech = " + iSpeech.Utterance);
+            if (string.IsNullOrEmpty(iSpeech.Utterance))
+            {
+                mLaunchSTTOnce = false;
+                return;
+            }
             // in case an anwser has already been given with onClick()
-            if(!HasAnswer)
+            if (!HasAnswer)
             {
                 // extract response from any sentence
                 string answer = ExtractNumber(iSpeech.Utterance);

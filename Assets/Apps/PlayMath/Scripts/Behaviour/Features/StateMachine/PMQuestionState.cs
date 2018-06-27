@@ -39,7 +39,7 @@ namespace BuddyApp.PlayMath{
                 mQuestionAnimator.SetTrigger("open");
                 mIsOpen = true;
 
-                mQuestionBehaviour.AskNextQuestion();
+                mQuestionBehaviour.AskNextQuestion(); 
             }
             else if (mIsOpen)
             {
