@@ -1186,6 +1186,11 @@
             Last best result.
             </summary>
         </member>
+        <member name="P:Buddy.VoconSTT.ConfidenceThreshold">
+            <summary>
+            Minimum Confidence Threshold
+            </summary>
+        </member>
         <member name="P:Buddy.VoconSTT.LastResultText">
             <summary>
             Last best result's text.
@@ -3571,6 +3576,7 @@
             the method restarts the trigger mode after instant recognition</param>
             </summary>
         </member>
+        <!-- Commentaire XML incorrect pour le membre "M:Buddy.VocalManager.StartInstantReco(System.Int32,System.Boolean)" -->
         <member name="M:Buddy.VocalManager.AsVocalInput(System.String)">
             <summary>
             Fake the input vocal signal with input text
