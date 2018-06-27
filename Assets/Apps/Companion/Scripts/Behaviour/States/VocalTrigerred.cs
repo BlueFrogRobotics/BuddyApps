@@ -1193,7 +1193,7 @@ namespace BuddyApp.Companion
 
 		private IEnumerator InstallApp(string iID)
 		{
-			Debug.Log("try install " + iID);
+			Debug.Log("try  install " + iID);
 
 			if (!BYOS.Instance.AppManager.ExistsInstalledApp(iID)) {
 
