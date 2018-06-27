@@ -137,7 +137,7 @@ namespace BuddyApp.BuddyLab
 
         private void ChangeItemHighlight(int iNum)
         {
-            StartCoroutine(test(iNum , 1.2F)); 
+            StartCoroutine(DelayForTimeline(iNum , 0.8F)); 
         }
 
         private void HideUi()
@@ -157,7 +157,7 @@ namespace BuddyApp.BuddyLab
                 
             }
         }
-        IEnumerator test (int iNum, float iDelay)
+        IEnumerator DelayForTimeline (int iNum, float iDelay)
         {
             yield return new WaitForSeconds(iDelay);
             mTimelineDisplayer.HighlightElement(iNum);

@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 namespace BuddyApp.Companion
 {
@@ -28,7 +29,11 @@ namespace BuddyApp.Companion
 		private float mTimeHumanDetected;
 		private float mTimeMotion;
 		private string mPreviousOperationResult;
+
 		private List<UserProfile> mProfiles;
+
+        private bool mAsked;
+
 
 		public override void Start()
 		{
@@ -43,7 +48,7 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-
+            mAsked = false;
 			mActionManager.CurrentAction = BUDDY_ACTION.CHAT;
 
 			mLaunchingApp = false;
@@ -1091,13 +1096,11 @@ namespace BuddyApp.Companion
 					// TODO get it from vocalhelper code
 					Trigger("WANDER");
 					break;
-
 				case "weather":
 					Debug.Log("VocalTrigger Weather");
-					CompanionData.Instance.mInteractDesire -= 10;
-					mActionManager.StartApp("Weather", mLastHumanSpeech);
-					mLaunchingApp = true;
-					break;
+                    CompanionData.Instance.mInteractDesire -= 10;
+                    LaunchAppAfterWifiDetection(iType);
+                    break;
 
 				case "welcome":
 					Debug.Log("Playing BML Welcome");
@@ -1545,6 +1548,61 @@ namespace BuddyApp.Companion
 			return false;
 		}
 
+        /// <summary>
+        /// Verify if the wifi is enabled in Buddy and check after if Buddy is connected to a wifi
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator IsWifiEnabledAndConnected(Action <bool> action)
+        {
+            //TODO : check if the wifi is enabled in the menu, in Byos.instance.primitive.wifi there is nothing to know if the wifi is enabled
+            WWW www;
+            if (BYOS.Instance.Language.CurrentLang == Language.FR)
+                www = new WWW("http://google.fr");
+            else
+                www = new WWW("http://google.com");
+            yield return www;
+            if (www.error != null)
+            {
+                action(false);
+            }
+            else
+            {
+                action(true);
+            }
+
+        }
+
+        private void LaunchAppAfterWifiDetection(string iApp)
+        {
+            FirstLetterUpper(iApp);
+            StartCoroutine(IsWifiEnabledAndConnected((mIsConnected) =>
+            {
+                if(mIsConnected)
+                {
+                    mActionManager.StartApp(iApp, mLastHumanSpeech);
+                    mLaunchingApp = true;
+                }
+                else
+                {
+                    //TODO : put the key of the good sentence
+                    BYOS.Instance.Interaction.TextToSpeech.Say("You are not connected to the WIFI");
+                }
+            }));
+                       
+        }
+
+        private string FirstLetterUpper(string iString)
+        {
+            if(!string.IsNullOrEmpty(iString))
+            {
+                return char.ToUpper(iString[0]) + iString.Substring(1);
+            }
+            else
+            {
+                Debug.Log("Your app is empty");
+                return string.Empty;
+            }
+        }
 
 	}
 }
