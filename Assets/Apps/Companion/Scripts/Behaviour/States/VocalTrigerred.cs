@@ -32,9 +32,6 @@ namespace BuddyApp.Companion
 
 		private List<UserProfile> mProfiles;
 
-        private bool mAsked;
-
-
 		public override void Start()
 		{
 			//mVocalChat = GetComponent<VocalHelper>();
@@ -48,7 +45,6 @@ namespace BuddyApp.Companion
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-            mAsked = false;
 			mActionManager.CurrentAction = BUDDY_ACTION.CHAT;
 
 			mLaunchingApp = false;
@@ -979,10 +975,10 @@ namespace BuddyApp.Companion
 					break;
 
 				case "radio":
-					CompanionData.Instance.mInteractDesire -= 20;
-					mActionManager.StartApp("Radioplayer", mLastHumanSpeech);
-					mLaunchingApp = true;
-					break;
+                    //TODO : Try LaunchAppAfterWifiDetection when radio is pushed to the serveur
+                    CompanionData.Instance.mInteractDesire -= 20;
+                    LaunchAppAfterWifiDetection(iType);
+                    break;
 
 				case "recipe":
 					CompanionData.Instance.mInteractDesire -= 20;
@@ -1585,7 +1581,8 @@ namespace BuddyApp.Companion
                 else
                 {
                     //TODO : put the key of the good sentence
-                    BYOS.Instance.Interaction.TextToSpeech.Say("You are not connected to the WIFI");
+                    
+                    StartCoroutine(SayAndRelaunchVocal());
                 }
             }));
                        
@@ -1602,6 +1599,14 @@ namespace BuddyApp.Companion
                 Debug.Log("Your app is empty");
                 return string.Empty;
             }
+        }
+
+        IEnumerator SayAndRelaunchVocal()
+        {
+            BYOS.Instance.Interaction.TextToSpeech.Say("You are not connected to the WIFI");
+            while (!BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking)
+                yield return null;
+            mNeedListen = true;
         }
 
 	}
