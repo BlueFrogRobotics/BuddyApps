@@ -3569,14 +3569,7 @@
             <param name="iRestartTriggerIfEnabled">If true and EnableTrigger is true, 
             the method restarts the trigger mode after instant recognition</param>
         </member>
-        <member name="M:Buddy.VocalManager.StartInstantReco(System.Boolean)">
-            <summary>
-            Stop Trigger Mode and immediately starts STT request for instant listening
-            <param name="iRestartTriggerIfEnabled">If true and EnableTrigger == true, 
-            the method restarts the trigger mode after instant recognition</param>
-            </summary>
-        </member>
-        <!-- Commentaire XML incorrect pour le membre "M:Buddy.VocalManager.StartInstantReco(System.Int32,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:Buddy.VocalManager.StartInstantReco(System.Boolean,System.Int32)" -->
         <member name="M:Buddy.VocalManager.AsVocalInput(System.String)">
             <summary>
             Fake the input vocal signal with input text
@@ -4814,7 +4807,7 @@
             <param name="iName">Name of the file / directory</param>
             <returns>Fullpath to the file (including the file name with it extension), empty if not found or if APP context is setted without loaded app</returns>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:Buddy.AAppActivity.Load``1(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:Buddy.AAppActivity.Load``1(System.String)" -->
         <member name="M:Buddy.AAppActivity.LoadAtlas(System.String)">
             <summary>
             Load the atlas from Resource/ or from downloaded bundles. Equivalent to BYOS.Instance.Resources.LoadAtlas(iName)
@@ -5207,12 +5200,13 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Buddy.Command.InstallAppCmd.#ctor(System.String,System.String)">
+        <member name="M:Buddy.Command.InstallAppCmd.#ctor(System.String,System.String,Buddy.Internal.AppManagement.AppVersionReleaseStatus)">
             <summary>
             Constructor which install the specified app
             </summary>
             <param name="iID">The app ID</param>
             <param name="iVersion">The version of the app to install, develop by default</param>
+            <param name="iVersionStatus"></param>
         </member>
         <member name="M:Buddy.Command.InstallAppCmd.ExecuteImpl">
             <summary>
@@ -7421,7 +7415,7 @@
         <member name="F:Buddy.UI.PoolInflationType.DOUBLE">
             When a dynamic pool inflates, double the size of the pool
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Buddy.UI.PoolManager.GetObjectFromPool(System.String,System.Boolean,System.Int32)" -->
         <member name="M:Buddy.UI.PoolManager.ReturnObjectToPool(UnityEngine.GameObject)">
             <summary>
             Return obj to the pool

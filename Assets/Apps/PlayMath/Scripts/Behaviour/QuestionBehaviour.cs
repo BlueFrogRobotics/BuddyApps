@@ -199,7 +199,7 @@ namespace BuddyApp.PlayMath{
                             // Initiating Vocal Manager instance reco
                             mLaunchSTTOnce = true;
                             Debug.Log("START RECO");
-                            mVocalManager.StartInstantReco(5800, false);
+                            mVocalManager.StartInstantReco(false, 5800);
                         }
                     }
                 }

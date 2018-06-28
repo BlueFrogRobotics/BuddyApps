@@ -31,7 +31,6 @@ namespace BuddyApp.Companion
 		private string mPreviousOperationResult;
 
 		private List<UserProfile> mProfiles;
-
 		public override void Start()
 		{
 			//mVocalChat = GetComponent<VocalHelper>();
@@ -949,14 +948,46 @@ namespace BuddyApp.Companion
 						Say(lUsers);
 					} else
 						// This shouldn't happen with vocon:
-						Debug.Log("error while Looking for users with question " + mLastHumanSpeech);
+						Debug.Log("error  while Looking for users with question " + mLastHumanSpeech);
 
 					mNeedListen = true;
 
 					break;
 
 				case "profilingwhat":
+					// TODO: deal with more info
+					// TODO: deal with mum / dad
+					// TODO: deal with "what is MY favorite..."
+					
 					// We need to find the favorite sport / color of a user.
+
+					// first, let's find the user:
+					if (!string.IsNullOrEmpty(mLastHumanSpeech)) {
+
+						UserProfile lUserProfile = GetUserFromSentence(mLastHumanSpeech);
+
+						if(lUserProfile != null)
+
+						if (ContainsOneOf(mLastHumanSpeech, "color")) {
+								if (lUserProfile.Tastes.Colour != COLOUR.NONE)
+									Say(Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", lUserProfile.FirstName) + " "
+										+ Dictionary.GetRandomString(lUserProfile.Tastes.Colour.ToString().ToLower()));
+								else
+									Say(Dictionary.GetRandomString("idontknow") + " " + mLastHumanSpeech);
+
+						} else {
+								if (lUserProfile.Tastes.Sport != SPORT.NONE)
+									Say(Dictionary.GetRandomString("userfavoritesportis").Replace("[user]", lUserProfile.FirstName) + " "
+								+ Dictionary.GetRandomString(lUserProfile.Tastes.Sport.ToString().ToLower()));
+								else
+								Say(Dictionary.GetRandomString("idontknow") + " " + mLastHumanSpeech);
+							}
+					} else
+						// This shouldn't happen with vocon:
+						Debug.Log("error while Looking for users with question " + mLastHumanSpeech);
+
+					mNeedListen = true;
+
 					break;
 
 				case "quit":
@@ -1094,9 +1125,9 @@ namespace BuddyApp.Companion
 					break;
 				case "weather":
 					Debug.Log("VocalTrigger Weather");
-                    CompanionData.Instance.mInteractDesire -= 10;
-                    LaunchAppAfterWifiDetection(iType);
-                    break;
+					CompanionData.Instance.mInteractDesire -= 10;
+					LaunchAppAfterWifiDetection(iType);
+					break;
 
 				case "welcome":
 					Debug.Log("Playing BML Welcome");
@@ -1121,6 +1152,19 @@ namespace BuddyApp.Companion
 					break;
 
 			}
+		}
+
+		private UserProfile GetUserFromSentence(string mLastHumanSpeech)
+		{
+			string[] lWords = mLastHumanSpeech.Split(' ');
+			for (int i = 0; i < lWords.Length; ++i) {
+				for (int j = 0; j < mProfiles.Count; ++j) {
+					// TODO manage if several persons with the same name
+					if (lWords[i].ToLower() == mProfiles[j].FirstName.ToLower() || lWords[i].ToLower() == mProfiles[j].LastName.ToLower())
+						return mProfiles[j];
+				}
+			}
+			return null;
 		}
 
 		private List<UserProfile> GetUsersFromDate(int lYear, string iCondition)
