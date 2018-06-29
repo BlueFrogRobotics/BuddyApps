@@ -72,6 +72,7 @@
 !start <operation>;
 !start <radio>;
 !start <operationagain>;
+!start <cancel>;
 !import <numbers#nb>;
 !import <names#anyname>;
 
@@ -159,3 +160,4 @@
 <radio> : [<asklaunch>] ([the] radio | [[the] radio] <radioname>);
 <operation> : [(how much are | what is) <numbers#nb>] <numbers#nb> (plus | minus | divided by | multiplied by) <numbers#nb>;
 <operationagain> :  (plus | minus | divided by | multiplied by) <numbers#nb>;
+<cancel> : (cancel | delete) [all] the timer;

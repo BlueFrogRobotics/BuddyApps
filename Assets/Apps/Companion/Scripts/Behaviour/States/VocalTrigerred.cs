@@ -29,6 +29,7 @@ namespace BuddyApp.Companion
 		private float mTimeHumanDetected;
 		private float mTimeMotion;
 		private string mPreviousOperationResult;
+        private int mNbTimerDeleted;
 
 		private List<UserProfile> mProfiles;
 		public override void Start()
@@ -45,7 +46,7 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mActionManager.CurrentAction = BUDDY_ACTION.CHAT;
-
+            mNbTimerDeleted = 0;
 			mLaunchingApp = false;
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
@@ -349,7 +350,10 @@ namespace BuddyApp.Companion
 					mActionManager.StartApp("PlayMath", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
-
+                case "cancel":
+                    test();
+                    //DeleteTimer();
+                    break;
 				case "canmove":
 					SayKey("icanmove", true);
 
@@ -1647,11 +1651,62 @@ namespace BuddyApp.Companion
 
         IEnumerator SayAndRelaunchVocal()
         {
+            //TODO : Put the key from the dico
+
             BYOS.Instance.Interaction.TextToSpeech.Say("You are not connected to the WIFI");
             while (!BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
             mNeedListen = true;
         }
 
+        private void DeleteTimer()
+        {
+            List<Buddy.Reminder> lListReminder;
+            string lContent;
+            string lStringToFind = "timer";
+            lListReminder =  BYOS.Instance.DataBase.Memory.Procedural.GetReminders();
+            for(int i = 0; i < lListReminder.Count; ++i)
+            {
+                lContent = lListReminder[i].Content.ToLower();
+                
+                if(lContent.Contains(lStringToFind))
+                {
+                    lListReminder.RemoveAt(i);
+                    mNbTimerDeleted++;
+                    Debug.Log("REMINDER TIMER DELETED : " + mNbTimerDeleted);
+                }
+            }
+            
+            if(mNbTimerDeleted >= 1)
+            {
+                //TODO : Put the key from the dico
+                BYOS.Instance.Interaction.TextToSpeech.Say("Ok, I deleted " + mNbTimerDeleted + " timers.");
+            }
+            else
+            {
+                //TODO : Put the key from the dico
+                BYOS.Instance.Interaction.TextToSpeech.Say("You had 0 timers in reminders");
+
+            }
+        }
+
+        private void test()
+        {
+            List<Buddy.Reminder> lListReminder;
+            string lContent;
+            string lStringToFind = "timer";
+            lListReminder = BYOS.Instance.DataBase.Memory.Procedural.GetReminders();
+            Debug.Log(lListReminder.Count);
+            for (int i = 0; i < lListReminder.Count; ++i)
+            {
+                lContent = lListReminder[i].Content.ToLower();
+
+                if (lContent.Contains(lStringToFind))
+                {
+                    mNbTimerDeleted++;
+                    Debug.Log("REMINDER TIMER DELETED : " + mNbTimerDeleted);
+                }
+            }
+        }
 	}
 }
