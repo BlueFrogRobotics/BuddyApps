@@ -988,7 +988,7 @@ namespace BuddyApp.Companion
 							} else {
 								if (lUserProfile.BirthDate.Year > 1000)
 									Say(Dictionary.GetRandomString("userbirthdateis").Replace("[user]", lUserProfile.FirstName) + " "
-								+ Dictionary.GetRandomString(lUserProfile.BirthDate.ToString().ToLower()));
+								+ lUserProfile.BirthDate.ToString("D", CultureInfo.CurrentCulture).ToLower());
 								else
 									Say(Dictionary.GetRandomString("idontknow") + " " + mLastHumanSpeech);
 							}
