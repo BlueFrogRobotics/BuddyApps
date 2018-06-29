@@ -1,0 +1,5 @@
+#BNF+EMV2.1;
+!grammar number_player_fr;
+!start <answer>;
+!import <numbers#nb>;
+<answer> : [Il y a | Il y en a] <numbers#nb>;
