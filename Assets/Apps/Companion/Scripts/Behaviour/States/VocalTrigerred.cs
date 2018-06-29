@@ -952,7 +952,7 @@ namespace BuddyApp.Companion
 						Say(lUsers);
 					} else
 						// This shouldn't happen with vocon:
-						Debug.Log("error  while Looking for users with question " + mLastHumanSpeech);
+						Debug.Log("error while Looking for users with question " + mLastHumanSpeech);
 
 					mNeedListen = true;
 
