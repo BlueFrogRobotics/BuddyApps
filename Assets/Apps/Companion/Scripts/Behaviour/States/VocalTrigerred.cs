@@ -29,7 +29,7 @@ namespace BuddyApp.Companion
 		private float mTimeHumanDetected;
 		private float mTimeMotion;
 		private string mPreviousOperationResult;
-        private int mNbTimerDeleted;
+		private int mNbTimerDeleted;
 
 		private List<UserProfile> mProfiles;
 		public override void Start()
@@ -46,7 +46,7 @@ namespace BuddyApp.Companion
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			mActionManager.CurrentAction = BUDDY_ACTION.CHAT;
-            mNbTimerDeleted = 0;
+			mNbTimerDeleted = 0;
 			mLaunchingApp = false;
 			mDetectionManager.mDetectedElement = Detected.NONE;
 			mDetectionManager.mFacePartTouched = FaceTouch.NONE;
@@ -350,10 +350,10 @@ namespace BuddyApp.Companion
 					mActionManager.StartApp("PlayMath", mLastHumanSpeech);
 					mLaunchingApp = true;
 					break;
-                case "cancel":
-                    //test();
-                    DeleteTimer();
-                    break;
+				case "cancel":
+					//test();
+					DeleteTimer();
+					break;
 				case "canmove":
 					SayKey("icanmove", true);
 
@@ -962,7 +962,7 @@ namespace BuddyApp.Companion
 					// TODO: deal with more info
 					// TODO: deal with mum / dad
 					// TODO: deal with "what is MY favorite..."
-					
+
 					// We need to find the favorite sport / color of a user.
 
 					// first, let's find the user:
@@ -970,22 +970,29 @@ namespace BuddyApp.Companion
 
 						UserProfile lUserProfile = GetUserFromSentence(mLastHumanSpeech);
 
-						if(lUserProfile != null)
+						if (lUserProfile != null)
 
-						if (ContainsOneOf(mLastHumanSpeech, "color")) {
+							if (ContainsOneOf(mLastHumanSpeech, "color")) {
 								if (lUserProfile.Tastes.Colour != COLOUR.NONE)
 									Say(Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", lUserProfile.FirstName) + " "
 										+ Dictionary.GetRandomString(lUserProfile.Tastes.Colour.ToString().ToLower()));
 								else
 									Say(Dictionary.GetRandomString("idontknow") + " " + mLastHumanSpeech);
 
-						} else {
+							} else if (ContainsOneOf(mLastHumanSpeech, "sport")) {
 								if (lUserProfile.Tastes.Sport != SPORT.NONE)
 									Say(Dictionary.GetRandomString("userfavoritesportis").Replace("[user]", lUserProfile.FirstName) + " "
 								+ Dictionary.GetRandomString(lUserProfile.Tastes.Sport.ToString().ToLower()));
 								else
-								Say(Dictionary.GetRandomString("idontknow") + " " + mLastHumanSpeech);
+									Say(Dictionary.GetRandomString("idontknow") + " " + mLastHumanSpeech);
+							} else {
+								if (lUserProfile.BirthDate.Year > 1000)
+									Say(Dictionary.GetRandomString("userbirthdateis").Replace("[user]", lUserProfile.FirstName) + " "
+								+ Dictionary.GetRandomString(lUserProfile.Tastes.Sport.ToString().ToLower()));
+								else
+									Say(Dictionary.GetRandomString("idontknow") + " " + mLastHumanSpeech);
 							}
+
 					} else
 						// This shouldn't happen with vocon:
 						Debug.Log("error while Looking for users with question " + mLastHumanSpeech);
@@ -1010,10 +1017,10 @@ namespace BuddyApp.Companion
 					break;
 
 				case "radio":
-                    //TODO : Try LaunchAppAfterWifiDetection when radio is pushed to the serveur
-                    CompanionData.Instance.mInteractDesire -= 20;
-                    LaunchAppAfterWifiDetection(iType);
-                    break;
+					//TODO : Try LaunchAppAfterWifiDetection when radio is pushed to the serveur
+					CompanionData.Instance.mInteractDesire -= 20;
+					LaunchAppAfterWifiDetection(iType);
+					break;
 
 				case "recipe":
 					CompanionData.Instance.mInteractDesire -= 20;
@@ -1592,128 +1599,112 @@ namespace BuddyApp.Companion
 			return false;
 		}
 
-        /// <summary>
-        /// Verify if the wifi is enabled in Buddy and check after if Buddy is connected to a wifi
-        /// </summary>
-        /// <returns></returns>
-        IEnumerator IsWifiEnabledAndConnected(Action <bool> action)
-        {
-            //TODO : check if the wifi is enabled in the menu, in Byos.instance.primitive.wifi there is nothing to know if the wifi is enabled
-            WWW www;
-            if (BYOS.Instance.Language.CurrentLang == Language.FR)
-                www = new WWW("http://google.fr");
-            else
-                www = new WWW("http://google.com");
-            yield return www;
-            if (www.error != null)
-            {
-                action(false);
-            }
-            else
-            {
-                action(true);
-            }
+		/// <summary>
+		/// Verify if the wifi is enabled in Buddy and check after if Buddy is connected to a wifi
+		/// </summary>
+		/// <returns></returns>
+		IEnumerator IsWifiEnabledAndConnected(Action<bool> action)
+		{
+			//TODO : check if the wifi is enabled in the menu, in Byos.instance.primitive.wifi there is nothing to know if the wifi is enabled
+			WWW www;
+			if (BYOS.Instance.Language.CurrentLang == Language.FR)
+				www = new WWW("http://google.fr");
+			else
+				www = new WWW("http://google.com");
+			yield return www;
+			if (www.error != null) {
+				action(false);
+			} else {
+				action(true);
+			}
 
-        }
+		}
 
-        private void LaunchAppAfterWifiDetection(string iApp)
-        {
-            FirstLetterUpper(iApp);
-            StartCoroutine(IsWifiEnabledAndConnected((mIsConnected) =>
-            {
-                if(mIsConnected)
-                {
-                    mActionManager.StartApp(iApp, mLastHumanSpeech);
-                    mLaunchingApp = true;
-                }
-                else
-                {
-                    //TODO : put the key of the good sentence
-                    
-                    StartCoroutine(SayAndRelaunchVocal());
-                }
-            }));
-                       
-        }
+		private void LaunchAppAfterWifiDetection(string iApp)
+		{
+			FirstLetterUpper(iApp);
+			StartCoroutine(IsWifiEnabledAndConnected((mIsConnected) => {
+				if (mIsConnected) {
+					mActionManager.StartApp(iApp, mLastHumanSpeech);
+					mLaunchingApp = true;
+				} else {
+					//TODO : put the key of the good sentence
 
-        private string FirstLetterUpper(string iString)
-        {
-            if(!string.IsNullOrEmpty(iString))
-            {
-                return char.ToUpper(iString[0]) + iString.Substring(1);
-            }
-            else
-            {
-                Debug.Log("Your app is empty");
-                return string.Empty;
-            }
-        }
+					StartCoroutine(SayAndRelaunchVocal());
+				}
+			}));
 
-        IEnumerator SayAndRelaunchVocal()
-        {
-            //TODO : Put the key from the dico
+		}
 
-            BYOS.Instance.Interaction.TextToSpeech.Say("You are not connected to the WIFI");
-            while (!BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking)
-                yield return null;
-            mNeedListen = true;
-        }
+		private string FirstLetterUpper(string iString)
+		{
+			if (!string.IsNullOrEmpty(iString)) {
+				return char.ToUpper(iString[0]) + iString.Substring(1);
+			} else {
+				Debug.Log("Your app is empty");
+				return string.Empty;
+			}
+		}
 
-        private void DeleteTimer()
-        {
-            List<Buddy.Reminder> lListReminder;
-            string lContent;
-            string lStringToFind = "timer";
-            List<int> mIndexToDelete = new List<int>();
-            
-            lListReminder =  BYOS.Instance.DataBase.Memory.Procedural.GetReminders();
-            for(int i = 0; i < lListReminder.Count; ++i)
-            {
-                lContent = lListReminder[i].Content.ToLower();
-                
-                if(lContent.Contains(lStringToFind))
-                {
-                    mIndexToDelete.Add(i);
-                    Debug.Log("REMINDER TIMER DELETED : " + mNbTimerDeleted);
-                }
-            }
-            
-            for(int i = 0; i < mIndexToDelete.Count; ++i)
-            {
-                lListReminder.RemoveAt(mIndexToDelete[i]);
-                mNbTimerDeleted++;
-            }
+		IEnumerator SayAndRelaunchVocal()
+		{
+			//TODO : Put the key from the dico
 
-            if(mNbTimerDeleted >= 1)
-            {
-                //TODO : Put the key from the dico
-                BYOS.Instance.Interaction.TextToSpeech.Say("Ok, I deleted " + mNbTimerDeleted + " timers.");
-            }
-            else
-            {
-                //TODO : Put the key from the dico
-                BYOS.Instance.Interaction.TextToSpeech.Say("You had 0 timers in reminders");
+			BYOS.Instance.Interaction.TextToSpeech.Say("You are not connected to the WIFI");
+			while (!BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking)
+				yield return null;
+			mNeedListen = true;
+		}
 
-            }
-        }
+		private void DeleteTimer()
+		{
+			List<Buddy.Reminder> lListReminder;
+			string lContent;
+			string lStringToFind = "timer";
+			List<int> mIndexToDelete = new List<int>();
 
-        //private void test()
-        //{
-        //    List<Buddy.Reminder> lListReminder;
-        //    string lContent;
-        //    string lStringToFind = "timer";
-        //    lListReminder = BYOS.Instance.DataBase.Memory.Procedural.GetReminders();
-        //    Debug.Log(lListReminder.Count);
-        //    for (int i = 0; i < lListReminder.Count; ++i)
-        //    {
-        //        lContent = lListReminder[i].Content.ToLower();
+			lListReminder = BYOS.Instance.DataBase.Memory.Procedural.GetReminders();
+			for (int i = 0; i < lListReminder.Count; ++i) {
+				lContent = lListReminder[i].Content.ToLower();
 
-        //        if (lContent.Contains(lStringToFind))
-        //        {
-        //            mNbTimerDeleted++;
-        //            Debug.Log("REMINDER TIMER DELETED : " + mNbTimerDeleted);
-        //        }
-        //    }
-        //}
+				if (lContent.Contains(lStringToFind)) {
+					mIndexToDelete.Add(i);
+					Debug.Log("REMINDER TIMER DELETED : " + mNbTimerDeleted);
+				}
+			}
+
+			for (int i = 0; i < mIndexToDelete.Count; ++i) {
+				lListReminder.RemoveAt(mIndexToDelete[i]);
+				mNbTimerDeleted++;
+			}
+
+			if (mNbTimerDeleted >= 1) {
+				//TODO : Put the key from the dico
+				BYOS.Instance.Interaction.TextToSpeech.Say("Ok, I deleted " + mNbTimerDeleted + " timers.");
+			} else {
+				//TODO : Put the key from the dico
+				BYOS.Instance.Interaction.TextToSpeech.Say("You had 0 timers in reminders");
+
+			}
+		}
+
+		//private void test()
+		//{
+		//    List<Buddy.Reminder> lListReminder;
+		//    string lContent;
+		//    string lStringToFind = "timer";
+		//    lListReminder = BYOS.Instance.DataBase.Memory.Procedural.GetReminders();
+		//    Debug.Log(lListReminder.Count);
+		//    for (int i = 0; i < lListReminder.Count; ++i)
+		//    {
+		//        lContent = lListReminder[i].Content.ToLower();
+
+		//        if (lContent.Contains(lStringToFind))
+		//        {
+		//            mNbTimerDeleted++;
+		//            Debug.Log("REMINDER TIMER DELETED : " + mNbTimerDeleted);
+		//        }
+		//    }
+		//}
 	}
 }
