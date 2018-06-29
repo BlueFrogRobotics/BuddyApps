@@ -351,8 +351,8 @@ namespace BuddyApp.Companion
 					mLaunchingApp = true;
 					break;
                 case "cancel":
-                    test();
-                    //DeleteTimer();
+                    //test();
+                    DeleteTimer();
                     break;
 				case "canmove":
 					SayKey("icanmove", true);
@@ -1664,6 +1664,8 @@ namespace BuddyApp.Companion
             List<Buddy.Reminder> lListReminder;
             string lContent;
             string lStringToFind = "timer";
+            List<int> mIndexToDelete = new List<int>();
+            
             lListReminder =  BYOS.Instance.DataBase.Memory.Procedural.GetReminders();
             for(int i = 0; i < lListReminder.Count; ++i)
             {
@@ -1671,12 +1673,17 @@ namespace BuddyApp.Companion
                 
                 if(lContent.Contains(lStringToFind))
                 {
-                    lListReminder.RemoveAt(i);
-                    mNbTimerDeleted++;
+                    mIndexToDelete.Add(i);
                     Debug.Log("REMINDER TIMER DELETED : " + mNbTimerDeleted);
                 }
             }
             
+            for(int i = 0; i < mIndexToDelete.Count; ++i)
+            {
+                lListReminder.RemoveAt(mIndexToDelete[i]);
+                mNbTimerDeleted++;
+            }
+
             if(mNbTimerDeleted >= 1)
             {
                 //TODO : Put the key from the dico
@@ -1690,23 +1697,23 @@ namespace BuddyApp.Companion
             }
         }
 
-        private void test()
-        {
-            List<Buddy.Reminder> lListReminder;
-            string lContent;
-            string lStringToFind = "timer";
-            lListReminder = BYOS.Instance.DataBase.Memory.Procedural.GetReminders();
-            Debug.Log(lListReminder.Count);
-            for (int i = 0; i < lListReminder.Count; ++i)
-            {
-                lContent = lListReminder[i].Content.ToLower();
+        //private void test()
+        //{
+        //    List<Buddy.Reminder> lListReminder;
+        //    string lContent;
+        //    string lStringToFind = "timer";
+        //    lListReminder = BYOS.Instance.DataBase.Memory.Procedural.GetReminders();
+        //    Debug.Log(lListReminder.Count);
+        //    for (int i = 0; i < lListReminder.Count; ++i)
+        //    {
+        //        lContent = lListReminder[i].Content.ToLower();
 
-                if (lContent.Contains(lStringToFind))
-                {
-                    mNbTimerDeleted++;
-                    Debug.Log("REMINDER TIMER DELETED : " + mNbTimerDeleted);
-                }
-            }
-        }
+        //        if (lContent.Contains(lStringToFind))
+        //        {
+        //            mNbTimerDeleted++;
+        //            Debug.Log("REMINDER TIMER DELETED : " + mNbTimerDeleted);
+        //        }
+        //    }
+        //}
 	}
 }
