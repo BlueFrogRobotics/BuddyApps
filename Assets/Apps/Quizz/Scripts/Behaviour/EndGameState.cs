@@ -37,6 +37,7 @@ namespace BuddyApp.Quizz
             Interaction.TextToSpeech.Say(Dictionary.GetRandomString("givewinnername").Replace("[name]", "" + GetWinnerName()));
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
+            Trigger("AskRestart");
         }
 
         private string GetWinnerName()

@@ -39,9 +39,12 @@ namespace BuddyApp.Quizz
             Interaction.VocalManager.AddGrammar("funny_names", Buddy.LoadContext.APP);
             Interaction.VocalManager.OnVoconBest = VoconBest;
             Interaction.VocalManager.OnVoconEvent = EventVocon;
+            mHasSaidName = false;
+            mGoodName = false;
+            mActualName = "";
             mQuizzBehaviour.InitPlayers();
             StartCoroutine(Engagement());
-            foreach(Player player in mQuizzBehaviour.Players)
+            foreach (Player player in mQuizzBehaviour.Players)
             {
                 Debug.Log("player: " + player.Name);
             }
@@ -61,33 +64,33 @@ namespace BuddyApp.Quizz
 
         private IEnumerator Engagement()
         {
-            Interaction.TextToSpeech.Say(Dictionary.GetString("super").Replace("[numplayer]", ""+mQuizzBehaviour.NumPlayer));
+            Interaction.TextToSpeech.Say(Dictionary.GetString("super").Replace("[numplayer]", "" + mQuizzBehaviour.NumPlayer));
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
-            for(int i=0; i< mQuizzBehaviour.NumPlayer; i++)
+            for (int i = 0; i < mQuizzBehaviour.NumPlayer; i++)
             {
                 mActualName = mQuizzBehaviour.Players[i].Name;
-                Interaction.TextToSpeech.Say(Dictionary.GetString("sayname").Replace("[num]", "" + (i+1)) + mQuizzBehaviour.Players[i].Name);
+                Interaction.TextToSpeech.Say(Dictionary.GetString("sayname").Replace("[num]", "" + (i + 1)) + mQuizzBehaviour.Players[i].Name);
                 while (!Interaction.TextToSpeech.HasFinishedTalking)
                     yield return null;
                 mHasSaidName = false;
                 mGoodName = false;
                 Interaction.VocalManager.StartInstantReco();
-               while(!mHasSaidName)
+                while (!mHasSaidName)
                     yield return null;
-               if(mGoodName)
+                if (mGoodName)
                     Interaction.TextToSpeech.Say(Dictionary.GetRandomString("namerecognized").Replace("[name]", mQuizzBehaviour.Players[i].Name));
-               else
+                else
                     Interaction.TextToSpeech.Say(Dictionary.GetRandomString("namenotrecognized").Replace("[name]", mQuizzBehaviour.Players[i].Name));
                 while (!Interaction.TextToSpeech.HasFinishedTalking)
                     yield return null;
-                mQuizzBehaviour.Beginning = true;
             }
-                Trigger("CheckNumQuestion");
-
+            mQuizzBehaviour.Beginning = true;
+            mQuizzBehaviour.ListQuestionsIdAsked = new HashSet<int>();
+            Trigger("CheckNumQuestion");
         }
 
-        
+
 
         private void EventVocon(VoconEvent iEvent)
         {
@@ -96,7 +99,7 @@ namespace BuddyApp.Quizz
 
         private void VoconBest(VoconResult iBestResult)
         {
-            Debug.Log("le best result: " + iBestResult.Utterance+" confidence: "+iBestResult.Confidence);
+            Debug.Log("le best result: " + iBestResult.Utterance + " confidence: " + iBestResult.Confidence);
             if (iBestResult.Utterance == null || iBestResult.Utterance == "" || iBestResult.Confidence == 0)
             {
                 //Interaction.VocalManager.StopRecognition();

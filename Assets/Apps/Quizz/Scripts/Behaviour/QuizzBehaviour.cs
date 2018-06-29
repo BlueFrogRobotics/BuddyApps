@@ -57,6 +57,8 @@ namespace BuddyApp.Quizz
 
         public bool Beginning { get; set; }
 
+         public HashSet<int> ListQuestionsIdAsked { get; set; }
+
         public const int MAX_ROUNDS = 2;
 
         /*
@@ -83,6 +85,7 @@ namespace BuddyApp.Quizz
             }
 
             Questions = Utils.UnserializeXML<QuestionsData>(BYOS.Instance.Resources.GetPathToRaw("quizz_fr.xml"));
+            ListQuestionsIdAsked = new HashSet<int>();
             //PlayerNamesData playerNamesData = new PlayerNamesData();
             //playerNamesData.Names = new List<string>();
             //playerNamesData.Names.Add("Aigle");

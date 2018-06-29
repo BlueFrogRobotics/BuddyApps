@@ -41,6 +41,7 @@ namespace BuddyApp.Quizz
                 Interaction.TextToSpeech.Say(mQuizzBehaviour.ActualQuestion.AnswerComplement);
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
+            mQuizzBehaviour.Players[mQuizzBehaviour.ActualPlayerId].Score++;
             Trigger("CheckNumQuestion");
         }
     }

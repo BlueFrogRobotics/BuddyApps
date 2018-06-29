@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Linq;
 
 namespace BuddyApp.Quizz
 {
@@ -16,7 +18,7 @@ namespace BuddyApp.Quizz
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("check num question state");
-            if (mQuizzBehaviour.ActualPlayerId >= mQuizzBehaviour.NumPlayer && mQuizzBehaviour.ActualRound >= QuizzBehaviour.MAX_ROUNDS - 1)
+            if (mQuizzBehaviour.ActualPlayerId >= mQuizzBehaviour.NumPlayer -1 && mQuizzBehaviour.ActualRound >= QuizzBehaviour.MAX_ROUNDS - 1)
                 StartCoroutine(WillEndGame());
             else
                 StartCoroutine(WillAskQuestion());
@@ -51,9 +53,12 @@ namespace BuddyApp.Quizz
                 mQuizzBehaviour.ActualPlayerId = 0;
                 mQuizzBehaviour.ActualRound = 0;
             }
+            Debug.Log("actual player: " + mQuizzBehaviour.ActualPlayerId + " actual round: " + mQuizzBehaviour.ActualRound);
+            mQuizzBehaviour.Beginning = false;
             Interaction.TextToSpeech.Say((Dictionary.GetRandomString("questiontoplayer").Replace("[name]", mQuizzBehaviour.Players[mQuizzBehaviour.ActualPlayerId].Name)));
-            System.Random random = new System.Random();
-            int lId = random.Next(mQuizzBehaviour.Questions.Questions.Count);
+            //System.Random random = new System.Random();
+            int lId = GetNextQuestionId();
+            mQuizzBehaviour.ListQuestionsIdAsked.Add(lId);
             mQuizzBehaviour.ActualQuestion = mQuizzBehaviour.Questions.Questions[lId];
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
@@ -66,6 +71,15 @@ namespace BuddyApp.Quizz
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
             Trigger("EndGame");
+        }
+
+        private int GetNextQuestionId()
+        {
+            IEnumerable<int> lRange = Enumerable.Range(1, 100).Where(i => !mQuizzBehaviour.ListQuestionsIdAsked.Contains(i));
+
+            System.Random lRand = new System.Random();
+            int lIndex = lRand.Next(0, mQuizzBehaviour.Questions.Questions.Count - mQuizzBehaviour.ListQuestionsIdAsked.Count);
+            return lRange.ElementAt(lIndex);
         }
     }
 }
