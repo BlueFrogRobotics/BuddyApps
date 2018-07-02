@@ -958,6 +958,60 @@ namespace BuddyApp.Companion
 
 					break;
 
+
+				case "profilingnextbirthday":
+					// We need to find who and when is the next birthday
+
+					// first, let's find who:
+					Debug.Log("Looking for user's next birthday ");
+					UserProfile lUserPro = GetUserNextBirthdate();
+
+					string lAnswer;
+
+					if (lUserPro != null) {
+						lAnswer = Dictionary.GetRandomString("usernextbirthday").Replace("[user]", lUserPro.FirstName);
+						lAnswer = lAnswer.Replace("[age]", (DateTime.Now.Year - lUserPro.BirthDate.Year).ToString());
+						lAnswer = lAnswer.Replace("[date]", lUserPro.BirthDate.ToString("m", CultureInfo.CurrentCulture).ToLower());
+
+					} else
+						lAnswer = Dictionary.GetRandomString("idontknow");
+
+					Say(lAnswer);
+					mNeedListen = true;
+
+					break;
+
+				case "profilingalluser":
+					//Need to tell all about a user
+
+					if (!string.IsNullOrEmpty(mLastHumanSpeech)) {
+
+						UserProfile lUserProfile = GetUserFromSentence(mLastHumanSpeech);
+						string lAnswerAll = "";
+
+						if (lUserProfile != null) {
+							// Tell everything
+							if (lUserProfile.Tastes.Colour != COLOUR.NONE)
+								lAnswerAll = Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", lUserProfile.FirstName + " " + lUserProfile.LastName) + " "
+								+ Dictionary.GetRandomString(lUserProfile.Tastes.Colour.ToString().ToLower());
+
+							if (lUserProfile.Tastes.Sport != SPORT.NONE)
+								lAnswerAll += " [400]" + Dictionary.GetRandomString("userfavoritesportis").Replace("[user]", string.IsNullOrEmpty(lAnswerAll) ? (lUserProfile.Gender == Gender.FEMALE ? Dictionary.GetRandomString("her") : Dictionary.GetRandomString("his")) : lUserProfile.FirstName + " " + lUserProfile.LastName) + " "
+							+ Dictionary.GetRandomString(lUserProfile.Tastes.Sport.ToString().ToLower());
+
+							if (lUserProfile.BirthDate.Year > 1000)
+								lAnswerAll += " [400]" + Dictionary.GetRandomString("userbirthdateis").Replace("[user]", string.IsNullOrEmpty(lAnswerAll) ? (lUserProfile.Gender == Gender.FEMALE ? Dictionary.GetRandomString("her") : Dictionary.GetRandomString("his")) : lUserProfile.FirstName + " " + lUserProfile.LastName) + " "
+							+ lUserProfile.BirthDate.ToString("D", CultureInfo.CurrentCulture).ToLower();
+
+						}
+					} else
+						// This shouldn't happen with vocon:
+						Debug.Log("error while Looking for users with question " + mLastHumanSpeech);
+
+					mNeedListen = true;
+
+					break;
+
 				case "profilingwhat":
 					// TODO: deal with more info
 					// TODO: deal with mum / dad
@@ -1163,6 +1217,33 @@ namespace BuddyApp.Companion
 					break;
 
 			}
+		}
+
+		private UserProfile GetUserNextBirthdate()
+		{
+			UserProfile lResult = new UserProfile();
+			DateTime lToday = DateTime.Today;
+			int lMinNbDays = 366;
+
+			for (int i = 0; i < mProfiles.Count; ++i) {
+				// TODO manage if several persons with the same date?
+
+				if (mProfiles[i].BirthDate.Year > 1900) {
+					DateTime lNext = mProfiles[i].BirthDate.AddYears(lToday.Year - mProfiles[i].BirthDate.Year);
+
+					if (lNext < lToday)
+						lNext = lNext.AddYears(1);
+
+					int lNbDays = (lNext - lToday).Days;
+
+					if (lNbDays < lMinNbDays) {
+						lResult = mProfiles[i];
+						lMinNbDays = lNbDays;
+					}
+				}
+			}
+
+			return lResult;
 		}
 
 		private UserProfile GetUserFromSentence(string mLastHumanSpeech)
@@ -1535,7 +1616,8 @@ namespace BuddyApp.Companion
 
 		private bool IsMoving()
 		{
-			return Primitive.Motors.Wheels.Status == MovingState.MOVING || Math.Abs(Primitive.Motors.YesHinge.DestinationAnglePosition - Primitive.Motors.YesHinge.CurrentAnglePosition) > 5F || Math.Abs(Primitive.Motors.NoHinge.DestinationAnglePosition - Primitive.Motors.NoHinge.CurrentAnglePosition) > 5F;
+			return Primitive.Motors.Wheels.Status == MovingState.MOVING || Math.Abs(Primitive.Motors.YesHinge.DestinationAnglePosition - Primitive.Motors.YesHinge.CurrentAnglePosition) > 5F
+				|| Math.Abs(Primitive.Motors.NoHinge.DestinationAnglePosition - Primitive.Motors.NoHinge.CurrentAnglePosition) > 5F;
 		}
 
 		private void Say(string iSpeech, bool iQueue = false)
