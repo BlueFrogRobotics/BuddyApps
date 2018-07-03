@@ -1731,10 +1731,10 @@ namespace BuddyApp.Companion
 
 		IEnumerator SayAndRelaunchVocal()
 		{
-			//TODO : Put the key from the dico
+            //TODO : Put the key from the dico
 
-			BYOS.Instance.Interaction.TextToSpeech.Say("You are not connected to the WIFI");
-			while (!BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking)
+            SayKey("nowifi");
+            while (!BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking)
 				yield return null;
 			mNeedListen = true;
 		}
@@ -1762,13 +1762,12 @@ namespace BuddyApp.Companion
 			}
 
 			if (mNbTimerDeleted >= 1) {
-				//TODO : Put the key from the dico
-				BYOS.Instance.Interaction.TextToSpeech.Say("Ok, I deleted " + mNbTimerDeleted + " timers.");
-			} else {
-				//TODO : Put the key from the dico
-				BYOS.Instance.Interaction.TextToSpeech.Say("You had 0 timers in reminders");
-
-			}
+                SayKey(Dictionary.GetString("hadtimer").Replace("[nbTimer]", mNbTimerDeleted.ToString()));
+            }
+            else
+            {
+                SayKey("notimer");
+            }
 		}
 
 	}

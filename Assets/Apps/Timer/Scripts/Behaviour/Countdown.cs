@@ -13,21 +13,37 @@ namespace BuddyApp.Timer
     public class Countdown : AStateMachineBehaviour {
 
         int finalcountdown;
+        private bool mIsDone;
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mIsDone = false;
+
             finalcountdown = CommonIntegers["finalcountdown"];
             //Interaction.Mood.Set(MoodType.THINKING);
 			if (finalcountdown > 60) {
 				DateTime lDateTimer = DateTime.Now.AddSeconds(finalcountdown);
 				BYOS.Instance.DataBase.Memory.Procedural.AddReminder(lDateTimer, "Timer ended!! (" + lDateTimer.Hour + ":" + lDateTimer.Minute + ")", 0, "", ReminderType.ALARM, true);
-				QuitApp();
-			} else
+                mIsDone = true;
+                
+                
+            } else
 				BYOS.Instance.Toaster.Display<CountdownToast>().With(finalcountdown, EndTimer);
 
 			TimerData.Instance.VocalRequest = "";
 
 		}
+
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            if(mIsDone)
+            {
+                BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetString("whenalarm").Replace("[nbSecond]", finalcountdown.ToString()));
+                mIsDone = false;
+            }
+            if (BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking)
+                QuitApp();
+        }
 
         private IEnumerator DisplayAlert(String bipbip)
         {
