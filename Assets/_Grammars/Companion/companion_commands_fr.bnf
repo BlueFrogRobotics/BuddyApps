@@ -49,6 +49,7 @@
 !start <profilingnextbirthday>;
 !start <profilingalluser>;
 !start <profilingwhat>;
+!start <profilinghowold>;
 !start <propose>;
 !start <recipe>;
 !start <repeat>;
@@ -80,7 +81,7 @@
 
 <asklaunch> : ((ouvre | lance ) | (<canyou> (ouvrir | lancer)) | je voudrais [utiliser | jouer à | que tu (ouvres | lances)]) [[l'] application ];
 <askgive> : (<canyou> [me | nous] (donner | dire)) | ((donne | dis) [moi | nous]) | (je (veux | voudrais) que tu [me | nous] (donnes | dises)) ;
-<asktell> : raconte [moi | nous] | je (veux | voudrais) | (<canyou> [me | nous] (raconter | dire));
+<asktell> : raconte [moi | nous] | je (veux | voudrais) | (<canyou> [me | nous] (raconter | dire)) | <canyou> trouver | trouve;
 <asktake> : ([<canyou>] [nous | me] | peut-on | pouvons-nous) (prendre | faire) | (prends [nous | moi] | fais) | prenons [nous] | on [se] prend | on fait;
 <canyou> : (peux-tu | pourrais-tu | [est-ce que] tu (peux | pourrais));
 
@@ -130,11 +131,12 @@
 <photo> : [<asktake>] [en | une] photo;
 <play> : je (veux | voudrais) jouer | (<canyou> [me] proposer | propose [moi] | faisons) un jeu | jouons;
 <pose> : ([<asktake>] (un selfie | une photo avec toi | une photo ensemble)) | prend la pose;
-<profilingwholikes> : [peux tu trouver | trouve | Dis moi] qui aime le (<colour> | <sport> | <colour> et le <sport> | <sport> et le <colour>);
-<profilingwhoisborn> : [peux tu trouver | trouve | Dis moi] qui est né (après | avant | en) <numbers#nb>;
-<profilingnextbirthday> : [peux tu trouver | trouve | Dis moi] ( (quel | quand | qui) est le prochain | qui fêtera prochainement son) anniversaire;
-<profilingalluser> : [peux tu trouver | trouve | Dis moi] [tout] ce que tu sais sur <names#anyname>;
-<profilingwhat> : quel est (le | la) ( (couleur | sport [préféré | favori] de (<names#anyname> | la famille) ) | date de naissance) de <names#anyname>;
+<profilingwholikes> : [<asktell>] qui aime le (<colour> | <sport> | <colour> et le <sport> | <sport> et le <colour>);
+<profilingwhoisborn> : [<asktell>] qui est né (après | avant | en) <numbers#nb>;
+<profilingnextbirthday> : [<asktell>] ( (quel | quand | qui) est le prochain | qui fêtera prochainement son) anniversaire;
+<profilingalluser> : [<asktell>] [tout] ce que tu sais sur (<names#anyname> | lui | elle);
+<profilingwhat> : [<asktell>] quel est (le | la | son | sa) ( (couleur | sport [préféré | favori] [de (<names#anyname> | la famille) ]) | date de naissance) [de <names#anyname>];
+<profilinghowold> : [<asktell>] (quel (âge a | est l'âge de) <names#anyname> | quel (est son âge | âge il a) );
 <propose> : propose [moi | nous] quelque chose;
 <recipe> : recette | application recette | mes recettes;
 <repeat> : répète | je n'ai pas entendu | je n'ai pas compris | pas compris | redis | répéter | qu'est ce que tu as dit | qu'est ce que tu dis | tu as dit quoi;

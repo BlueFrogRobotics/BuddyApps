@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Linq;
 
 namespace BuddyApp.Companion
 {
@@ -32,6 +33,8 @@ namespace BuddyApp.Companion
 		private int mNbTimerDeleted;
 
 		private List<UserProfile> mProfiles;
+		private UserProfile mLastProfile;
+
 		public override void Start()
 		{
 			//mVocalChat = GetComponent<VocalHelper>();
@@ -40,7 +43,10 @@ namespace BuddyApp.Companion
 			mActionManager = GetComponent<ActionManager>();
 			mCompanion = GetComponent<CompanionBehaviour>();
 			mProfiles = mCompanion.Profiles;
+
+			mLastProfile = new UserProfile();
 		}
+
 
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -272,7 +278,7 @@ namespace BuddyApp.Companion
 		{
 			Debug.Log("Question Type found : " + iType);
 			string lSentence = "";
-			if (iType != "Repeat")
+			if (iType != "repeat")
 				mLastBuddySpeech = "";
 
 			string lMood = "";
@@ -912,9 +918,13 @@ namespace BuddyApp.Companion
 							if (lUserProfiles.Count == 0)
 								lUsers = Dictionary.GetRandomString("noone");
 							else {
+								if (lUserProfiles.Count == 1)
+									mLastProfile = lUserProfiles[0];
+
 								lUsers = lUserProfiles[0].FirstName;
 								for (int i = 1; i < lUserProfiles.Count; ++i)
 									lUsers += ", " + lUserProfiles[i].FirstName;
+
 							}
 
 							Say(lUsers);
@@ -944,6 +954,9 @@ namespace BuddyApp.Companion
 						if (lUserProfiles.Count == 0)
 							lUsers = Dictionary.GetRandomString("noone") + mLastHumanSpeech.Replace(lWords[0], "");
 						else {
+							if (lUserProfiles.Count == 1)
+								mLastProfile = lUserProfiles[0];
+
 							lUsers = lUserProfiles[0].FirstName;
 							for (int i = 1; i < lUserProfiles.Count; ++i)
 								lUsers += ", " + lUserProfiles[i].FirstName;
@@ -965,6 +978,7 @@ namespace BuddyApp.Companion
 					// first, let's find who:
 					Debug.Log("Looking for user's next birthday ");
 					UserProfile lUserPro = GetUserNextBirthdate();
+					mLastProfile = lUserPro;
 
 					string lAnswer;
 
@@ -981,12 +995,46 @@ namespace BuddyApp.Companion
 
 					break;
 
-				case "profilingalluser":
-					//Need to tell all about a user
+				case "profilinghowold":
+					// We need to find the birthdate of a user to get his age.
 
+					// first, let's find the user:
 					if (!string.IsNullOrEmpty(mLastHumanSpeech)) {
 
 						UserProfile lUserProfile = GetUserFromSentence(mLastHumanSpeech);
+						lUserProfile = lUserProfile ?? mLastProfile;
+
+						if (lUserProfile != null) {
+
+							int lAge = DateTime.Today.Year - lUserProfile.BirthDate.Year;
+
+							if (lAge < 150) {
+
+								string lAnswerAge = "";
+								lAnswerAge = Dictionary.GetRandomString("userageis").Replace("[user]", lUserProfile.FirstName);
+								lAnswerAge = lAnswerAge.Replace("[age]", (lUserProfile.BirthDate > DateTime.Today.AddYears(-lAge) ? lAge - 1 : lAge).ToString());
+								Say(lAnswerAge);
+
+							} else
+								Say(Dictionary.GetRandomString("idontknow") + " " + mLastHumanSpeech);
+
+						} else
+							// This shouldn't happen with vocon:
+							Debug.Log("error  while Looking for users with question " + mLastHumanSpeech);
+					}
+
+					mNeedListen = true;
+
+					break;
+
+
+				case "profilingalluser":
+					//Need to tell all about a user
+					Debug.Log("All you know about... get user");
+					if (!string.IsNullOrEmpty(mLastHumanSpeech)) {
+
+						UserProfile lUserProfile = GetUserFromSentence(mLastHumanSpeech);
+						lUserProfile = lUserProfile ?? mLastProfile;
 						string lAnswerAll = "";
 
 						if (lUserProfile != null) {
@@ -996,20 +1044,28 @@ namespace BuddyApp.Companion
 								+ Dictionary.GetRandomString(lUserProfile.Tastes.Colour.ToString().ToLower());
 
 							if (lUserProfile.Tastes.Sport != SPORT.NONE)
-								lAnswerAll += " [400]" + Dictionary.GetRandomString("userfavoritesportis").Replace("[user]", string.IsNullOrEmpty(lAnswerAll) ? (lUserProfile.Gender == Gender.FEMALE ? Dictionary.GetRandomString("her") : Dictionary.GetRandomString("his")) : lUserProfile.FirstName + " " + lUserProfile.LastName) + " "
+								lAnswerAll += " [400]" + Dictionary.GetRandomString("userfavoritesportis").Replace("[user]", !string.IsNullOrEmpty(lAnswerAll) ? (lUserProfile.Gender == Gender.FEMALE ? Dictionary.GetRandomString("her") : Dictionary.GetRandomString("his")) : lUserProfile.FirstName + " " + lUserProfile.LastName) + " "
 							+ Dictionary.GetRandomString(lUserProfile.Tastes.Sport.ToString().ToLower());
 
 							if (lUserProfile.BirthDate.Year > 1000)
-								lAnswerAll += " [400]" + Dictionary.GetRandomString("userbirthdateis").Replace("[user]", string.IsNullOrEmpty(lAnswerAll) ? (lUserProfile.Gender == Gender.FEMALE ? Dictionary.GetRandomString("her") : Dictionary.GetRandomString("his")) : lUserProfile.FirstName + " " + lUserProfile.LastName) + " "
+								lAnswerAll += " [400]" + Dictionary.GetRandomString("userbirthdateis").Replace("[user]", !string.IsNullOrEmpty(lAnswerAll) ? (lUserProfile.Gender == Gender.FEMALE ? Dictionary.GetRandomString("her") : Dictionary.GetRandomString("his")) : lUserProfile.FirstName + " " + lUserProfile.LastName) + " "
 							+ lUserProfile.BirthDate.ToString("D", CultureInfo.CurrentCulture).ToLower();
 
-						}
+
+						} else
+							Debug.Log("Couldn't find user in " + mLastHumanSpeech);
+
+
+						if (!string.IsNullOrEmpty(lAnswerAll))
+							Say(lAnswerAll);
+						else
+							SayKey("idontknow");
+
 					} else
 						// This shouldn't happen with vocon:
 						Debug.Log("error while Looking for users with question " + mLastHumanSpeech);
 
 					mNeedListen = true;
-
 					break;
 
 				case "profilingwhat":
@@ -1024,7 +1080,11 @@ namespace BuddyApp.Companion
 
 						UserProfile lUserProfile = GetUserFromSentence(mLastHumanSpeech);
 
-						if (lUserProfile != null)
+						if (!ContainsOneOf(mLastHumanSpeech, "family"))
+							lUserProfile = lUserProfile ?? mLastProfile;
+
+						if (lUserProfile != null) {
+
 
 							if (ContainsOneOf(mLastHumanSpeech, "color")) {
 								if (lUserProfile.Tastes.Colour != COLOUR.NONE)
@@ -1047,9 +1107,30 @@ namespace BuddyApp.Companion
 									Say(Dictionary.GetRandomString("idontknow") + " " + mLastHumanSpeech);
 							}
 
-					} else
-						// This shouldn't happen with vocon:
-						Debug.Log("error while Looking for users with question " + mLastHumanSpeech);
+						} else if (ContainsOneOf(mLastHumanSpeech, "family")) {
+							if (ContainsOneOf(mLastHumanSpeech, "color")) {
+								string lColour = GetMainElement<COLOUR>();
+								Debug.Log("family favorite color is " + lColour);
+								if (!string.IsNullOrEmpty(lColour))
+									Say(Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", Dictionary.GetRandomString("family")) + " "
+										+ Dictionary.GetRandomString(lColour));
+								else
+									Say(Dictionary.GetRandomString("idontknow") + " " + mLastHumanSpeech);
+
+							} else if (ContainsOneOf(mLastHumanSpeech, "sport")) {
+								string lSport = GetMainElement<SPORT>();
+								Debug.Log("family favorite sport is " + lSport);
+								if (!string.IsNullOrEmpty(lSport))
+									Say(Dictionary.GetRandomString("userfavoritesportis").Replace("[user]", Dictionary.GetRandomString("family")) + " "
+										+ Dictionary.GetRandomString(lSport));
+								else
+									Say(Dictionary.GetRandomString("idontknow") + " " + mLastHumanSpeech);
+							}
+
+						} else
+							// This shouldn't happen with vocon:
+							Debug.Log("error  while Looking for users with question " + mLastHumanSpeech);
+					}
 
 					mNeedListen = true;
 
@@ -1219,6 +1300,38 @@ namespace BuddyApp.Companion
 			}
 		}
 
+
+		private string GetMainElement<T>()
+		{
+			Dictionary<string, int> lNbElement = new Dictionary<string, int>();
+
+			Debug.Log("Get main of " + typeof(T).ToString().ToUpper());
+			for (int i = 0; i < mProfiles.Count; ++i) {
+				if (typeof(T).ToString().ToUpper().Contains("SPORT")) {
+					if (mProfiles[i].Tastes.Sport != SPORT.NONE) {
+						if ((lNbElement.ContainsKey(mProfiles[i].Tastes.Sport.ToString())))
+							lNbElement[mProfiles[i].Tastes.Sport.ToString()] += 1;
+						else {
+							lNbElement[mProfiles[i].Tastes.Sport.ToString()] = 1;
+						}
+					}
+				} else if (typeof(T).ToString().ToUpper().Contains("COLOUR"))
+					if (mProfiles[i].Tastes.Colour != COLOUR.NONE) {
+						if ((lNbElement.ContainsKey(mProfiles[i].Tastes.Colour.ToString())))
+							lNbElement[mProfiles[i].Tastes.Colour.ToString()] += 1;
+						else {
+							lNbElement[mProfiles[i].Tastes.Colour.ToString()] = 1;
+						}
+					}
+			}
+
+			if (lNbElement.Count < 1)
+				return "";
+			else
+				return lNbElement.Aggregate((l, r) => l.Value > r.Value ? l : r).Key.ToLower(); ;
+		}
+
+
 		private UserProfile GetUserNextBirthdate()
 		{
 			UserProfile lResult = new UserProfile();
@@ -1252,8 +1365,11 @@ namespace BuddyApp.Companion
 			for (int i = 0; i < lWords.Length; ++i) {
 				for (int j = 0; j < mProfiles.Count; ++j) {
 					// TODO manage if several persons with the same name
-					if (lWords[i].ToLower() == mProfiles[j].FirstName.ToLower() || lWords[i].ToLower() == mProfiles[j].LastName.ToLower())
+					if (lWords[i].ToLower() == mProfiles[j].FirstName.ToLower() || lWords[i].ToLower() == mProfiles[j].LastName.ToLower()) {
+						Debug.Log("User found: " + mProfiles[j].FirstName);
+						mLastProfile = mProfiles[j];
 						return mProfiles[j];
+					}
 				}
 			}
 			return null;

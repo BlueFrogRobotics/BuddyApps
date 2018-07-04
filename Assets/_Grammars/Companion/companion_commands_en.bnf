@@ -49,6 +49,7 @@
 !start <profilingnextbirthday>;
 !start <profilingalluser>;
 !start <profilingwhat>;
+!start <profilinghowold>;
 !start <propose>;
 !start <recipe>;
 !start <repeat>;
@@ -80,7 +81,7 @@
 
 <asklaunch> : [<canyou>] (open | launch) [[the] application];
 <askgive> : [<canyou>] give (me | us) ;
-<asktell> : [<canyou>] tell (me | us) | I want to hear;
+<asktell> : [<canyou>] (tell | find | give) (me | us) | I want to hear;
 <canyou> : (can | could) you;
 
 
@@ -128,15 +129,16 @@
 <nap> : take a nap | go to sleep;
 <photo> : [can you take | let's take] (a photo | a picture | pictures | photos);
 <pose> : (can I take | I would like) a (picture | photo) with you | (can we take | let's take) (a selfie | a (picture | photo) together);
-<profilingwholikes> : [[can you] find] who likes (<colour> | <sport> | <colour> and <sport> | <sport> and <colour>);
-<profilingwhoisborn> : [[can you] find] who is born (after | before | in) <numbers#nb>;
-<profilingnextbirthday> : [can you find | could you find | find | tell (us | me)] (when | who | what) is the next birthday;
-<profilingalluser> : [can you find | could you find | find | tell (us | me)] (all | what | something) [you know] about <names#anyname>;
-<profilingwhat> : what is (<names#anyname>'s | the) ( (favorite (colour | sport)) [of the family] | birthdate);
+<profilingwholikes> : [<asktell>] who likes (<colour> | <sport> | <colour> and <sport> | <sport> and <colour>);
+<profilingwhoisborn> : [<asktell>] who is born (after | before | in) <numbers#nb>;
+<profilingnextbirthday> : [<asktell>] (when | who | what) is the next birthday;
+<profilingalluser> : [<asktell>] (all | what [do] | something) [you know] about (<names#anyname> | him | her);
+<profilingwhat> : [<asktell>] what is (<names#anyname>'s | the family's | the) ( (favorite (colour | sport)) [of the family] | birthdate);
+<profilinghowold> : [<asktell>] (How old is (<names#anyname> | he | she) | what is (<names#anyname>'s | her | his) age);
 <propose> : propose [me | us] something;
 <play> : [let's | I want to | I wanna] play | propose a game | random game;
 <recipe> : recipe;
-<repeat> : I didn't hear you [well] | I didn't understand | can you (repeat | say [it] again) [please] | [sorry] what did you say;
+<repeat> : I didn't hear you [well] | I didn't understand | can you (repeat | say [it] again) [please] | [sorry] what did you say | repeat;
 <rlgl> : [<asklaunch>] (red light green light);
 <sport> : (basket | basetball) | (foot | football) | handball | rugby | tennis | ping pong | table tennis | cricket | swimming | running | archery | fencing | curling | climbing;
 <story> : [<asktell>] a story;
