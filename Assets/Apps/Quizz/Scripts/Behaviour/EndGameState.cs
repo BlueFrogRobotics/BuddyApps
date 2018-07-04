@@ -7,15 +7,19 @@ namespace BuddyApp.Quizz
     public class EndGameState : AStateMachineBehaviour
     {
         private QuizzBehaviour mQuizzBehaviour;
+        private SoundsManager mSoundsManager;
+        private List<Player> mWinners;
 
         public override void Start()
         {
             mQuizzBehaviour = GetComponent<QuizzBehaviour>();
+            mSoundsManager = GetComponent<SoundsManager>();
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("end game state");
+            mWinners = new List<Player>();
             StartCoroutine(EndGame());
         }
 
@@ -33,8 +37,33 @@ namespace BuddyApp.Quizz
 
         private IEnumerator EndGame()
         {
-            
-            Interaction.TextToSpeech.Say(Dictionary.GetRandomString("givewinnername").Replace("[name]", "" + GetWinnerName()));
+            GetWinnerName();
+            mSoundsManager.PlaySound(SoundsManager.Sound.COMPUTING);
+            while (mSoundsManager.IsPlaying)
+                yield return null;
+            if(mQuizzBehaviour.Players.Count==1)
+            {
+                Interaction.TextToSpeech.Say(Dictionary.GetRandomString("givescore").Replace("[name]", "" + mQuizzBehaviour.Players[0].Name).Replace("[score]", ""+mQuizzBehaviour.Players[0].Score));
+            }
+            else if (mWinners.Count == 1 && mWinners[0].Score < QuizzBehaviour.MAX_ROUNDS)
+                Interaction.TextToSpeech.Say(Dictionary.GetRandomString("givewinnername").Replace("[name]", "" + mWinners[0].Name));
+            else if (mWinners.Count == 1 && mWinners[0].Score == QuizzBehaviour.MAX_ROUNDS)
+                Interaction.TextToSpeech.Say(Dictionary.GetRandomString("perfectwinnername").Replace("[name]", "" + mWinners[0].Name).Replace("[number]", "" + QuizzBehaviour.MAX_ROUNDS));
+            else
+            {
+                string lNames = "";
+                for (int i = 0; i < mWinners.Count; i++)
+                {
+                    lNames += " , ";
+                    if (i == mWinners.Count - 1)
+                    {
+                        lNames += Dictionary.GetString("and");
+                        lNames += " ";
+                    }
+                    lNames += mWinners[i].Name;
+                }
+                Interaction.TextToSpeech.Say(Dictionary.GetRandomString("severalwinners").Replace("[names]", lNames));
+            }
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
             Trigger("AskRestart");
@@ -44,13 +73,17 @@ namespace BuddyApp.Quizz
         {
             string lPlayerName = "";
             int lMaxScore = 0;
-            foreach(Player player in mQuizzBehaviour.Players)
+            foreach (Player player in mQuizzBehaviour.Players)
             {
-                if(player.Score>lMaxScore)
+                if (player.Score > lMaxScore)
                 {
+                    mWinners.Clear();
+                    mWinners.Add(player);
                     lMaxScore = player.Score;
                     lPlayerName = player.Name;
                 }
+                else if (player.Score == lMaxScore)
+                    mWinners.Add(player);
             }
             return lPlayerName;
         }

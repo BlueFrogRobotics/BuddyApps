@@ -19,6 +19,7 @@ namespace BuddyApp.Quizz
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Interaction.VocalManager.UseVocon = true;
+            Interaction.VocalManager.ClearGrammars();
             Interaction.VocalManager.AddGrammar("number_player", Buddy.LoadContext.APP);
             Interaction.VocalManager.OnVoconBest = VoconBest;
             Interaction.VocalManager.OnVoconEvent = EventVocon;
@@ -39,8 +40,10 @@ namespace BuddyApp.Quizz
 
         private IEnumerator AskNumberPlayer()
         {
+            while (!Interaction.TextToSpeech.HasFinishedTalking)
+                yield return null;
             Interaction.TextToSpeech.SayKey("howmanyplayer");
-            while(!Interaction.TextToSpeech.HasFinishedTalking)
+            while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
             Interaction.VocalManager.StartInstantReco();
         }
@@ -52,14 +55,40 @@ namespace BuddyApp.Quizz
 
         private void VoconBest(VoconResult iBestResult)
         {
-            Debug.Log("best result: " + iBestResult.Utterance);
-            string[] lElements = iBestResult.Utterance.Trim().Split(' ');
-            int lNumPlayer = 0;
-            Debug.Log("le element" + lElements[lElements.Length - 1]);
-            int.TryParse(lElements[lElements.Length - 1].Trim(), out lNumPlayer);
-            mQuizzBehaviour.NumPlayer = lNumPlayer;
-            Debug.Log("nb player: " + lNumPlayer);
-            Trigger("Engagement");
+            Debug.Log("le best result: " + iBestResult.Utterance + " confidence: " + iBestResult.Confidence + " best rule: " + iBestResult.StartRule);
+            if (iBestResult.Utterance == null || iBestResult.Utterance == "" || iBestResult.Confidence == 0)
+            {
+                //Interaction.VocalManager.StopRecognition();
+                Interaction.VocalManager.StartInstantReco();
+            }
+            else if(iBestResult.StartRule == "number_player_fr#quit")
+            {
+                Trigger("Quit");
+            }
+            else
+            {
+                Debug.Log("best result: " + iBestResult.Utterance);
+                string[] lElements = iBestResult.Utterance.Trim().Split(' ');
+                int lNumPlayer = 0;
+                Debug.Log("le element" + lElements[lElements.Length - 1]);
+                int.TryParse(lElements[lElements.Length - 1].Trim(), out lNumPlayer);
+                if (lNumPlayer <= 0)
+                {
+                    Interaction.TextToSpeech.SayKey("notenoughplayer");
+                    StartCoroutine(AskNumberPlayer());
+                }
+                else if (lNumPlayer > QuizzBehaviour.MAX_PLAYER)
+                {
+                    Interaction.TextToSpeech.SayKey("toomuchplayer");
+                    StartCoroutine(AskNumberPlayer());
+                }
+                else
+                {
+                    mQuizzBehaviour.NumPlayer = lNumPlayer;
+                    Debug.Log("nb player: " + lNumPlayer);
+                    Trigger("Engagement");
+                }
+            }
         }
     }
 }

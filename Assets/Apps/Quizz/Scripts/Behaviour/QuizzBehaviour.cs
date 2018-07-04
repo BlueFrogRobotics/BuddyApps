@@ -59,7 +59,9 @@ namespace BuddyApp.Quizz
 
          public HashSet<int> ListQuestionsIdAsked { get; set; }
 
-        public const int MAX_ROUNDS = 2;
+        public const int MAX_ROUNDS = 3;
+
+        public const int MAX_PLAYER = 4;
 
         /*
          * Data of the application. Save on disc when app is quitted
@@ -84,7 +86,9 @@ namespace BuddyApp.Quizz
                 Debug.Log(player);
             }
 
+            Debug.Log("avant deserialisation");
             Questions = Utils.UnserializeXML<QuestionsData>(BYOS.Instance.Resources.GetPathToRaw("quizz_fr.xml"));
+            Debug.Log("nombre de questions: " + Questions.Questions.Count);
             ListQuestionsIdAsked = new HashSet<int>();
             //PlayerNamesData playerNamesData = new PlayerNamesData();
             //playerNamesData.Names = new List<string>();

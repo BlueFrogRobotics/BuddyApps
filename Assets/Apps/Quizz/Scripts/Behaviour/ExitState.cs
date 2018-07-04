@@ -4,22 +4,20 @@ using UnityEngine;
 
 namespace BuddyApp.Quizz
 {
-    public class WinState : AStateMachineBehaviour
+    public class ExitState : AStateMachineBehaviour
     {
 
         private QuizzBehaviour mQuizzBehaviour;
-        private SoundsManager mSoundsManager;
 
         public override void Start()
         {
             mQuizzBehaviour = GetComponent<QuizzBehaviour>();
-            mSoundsManager = GetComponent<SoundsManager>();
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("win state");
-            StartCoroutine(Win());
+            Debug.Log("exit state");
+            StartCoroutine(Exit());
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -34,22 +32,13 @@ namespace BuddyApp.Quizz
 
         }
 
-        private IEnumerator Win()
+        private IEnumerator Exit()
         {
-            Interaction.Face.SetExpression(Buddy.MoodType.HAPPY);
-            mSoundsManager.PlaySound(SoundsManager.Sound.GOOD_ANSWER);
-            while (mSoundsManager.IsPlaying)
-                yield return null;
-            Interaction.TextToSpeech.Say(Dictionary.GetRandomString("win").Replace("[answer]", "" + mQuizzBehaviour.ActualQuestion.Answers[mQuizzBehaviour.ActualQuestion.GoodAnswer]));
-            while (!Interaction.TextToSpeech.HasFinishedTalking)
-                yield return null;
             Interaction.Face.SetExpression(Buddy.MoodType.NEUTRAL);
-            if (mQuizzBehaviour.ActualQuestion.AnswerComplement != "")
-                Interaction.TextToSpeech.Say(mQuizzBehaviour.ActualQuestion.AnswerComplement);
+            Interaction.TextToSpeech.Say(Dictionary.GetRandomString("exit"));
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
-            mQuizzBehaviour.Players[mQuizzBehaviour.ActualPlayerId].Score++;
-            Trigger("CheckNumQuestion");
+            QuitApp();
         }
     }
 }

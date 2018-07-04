@@ -9,10 +9,12 @@ namespace BuddyApp.Quizz
     public class CheckNumQuestionState : AStateMachineBehaviour
     {
         private QuizzBehaviour mQuizzBehaviour;
+        private SoundsManager mSoundsManager;
 
         public override void Start()
         {
             mQuizzBehaviour = GetComponent<QuizzBehaviour>();
+            mSoundsManager = GetComponent<SoundsManager>();
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -67,6 +69,9 @@ namespace BuddyApp.Quizz
 
         private IEnumerator WillEndGame()
         {
+            mSoundsManager.PlaySound(SoundsManager.Sound.END_GAME);
+            while (mSoundsManager.IsPlaying)
+                yield return null;
             Interaction.TextToSpeech.SayKey("endgame");
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
@@ -75,7 +80,7 @@ namespace BuddyApp.Quizz
 
         private int GetNextQuestionId()
         {
-            IEnumerable<int> lRange = Enumerable.Range(1, 100).Where(i => !mQuizzBehaviour.ListQuestionsIdAsked.Contains(i));
+            IEnumerable<int> lRange = Enumerable.Range(0, mQuizzBehaviour.Questions.Questions.Count).Where(i => !mQuizzBehaviour.ListQuestionsIdAsked.Contains(i));
 
             System.Random lRand = new System.Random();
             int lIndex = lRand.Next(0, mQuizzBehaviour.Questions.Questions.Count - mQuizzBehaviour.ListQuestionsIdAsked.Count);

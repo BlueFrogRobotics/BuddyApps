@@ -1,4 +1,6 @@
 #BNF+EMV2.0;
 !grammar funny_names_fr;
 !start <names>;
+!start <quit>;
 <names> : Aigle | Poulet |Appolon | Biscotte | Poupette | Piou-piou | Biquet | Poussin | Vengeur | Intergalactique | Râleur;
+ <quit> : quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | ce sera tout | rien | fin;

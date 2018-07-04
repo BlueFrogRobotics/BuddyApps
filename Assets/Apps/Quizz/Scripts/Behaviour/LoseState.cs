@@ -8,10 +8,12 @@ namespace BuddyApp.Quizz
     {
 
         private QuizzBehaviour mQuizzBehaviour;
+        private SoundsManager mSoundsManager;
 
         public override void Start()
         {
             mQuizzBehaviour = GetComponent<QuizzBehaviour>();
+            mSoundsManager = GetComponent<SoundsManager>();
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -34,9 +36,14 @@ namespace BuddyApp.Quizz
 
         private IEnumerator Lose()
         {
+            Interaction.Face.SetExpression(Buddy.MoodType.SAD);
+            mSoundsManager.PlaySound(SoundsManager.Sound.BAD_ANSWER);
+            while (mSoundsManager.IsPlaying)
+                yield return null;
             Interaction.TextToSpeech.Say(Dictionary.GetRandomString("lose").Replace("[answer]", "" + mQuizzBehaviour.ActualQuestion.Answers[mQuizzBehaviour.ActualQuestion.GoodAnswer]));
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
+            Interaction.Face.SetExpression(Buddy.MoodType.NEUTRAL);
             if (mQuizzBehaviour.ActualQuestion.AnswerComplement != "")
                 Interaction.TextToSpeech.Say(mQuizzBehaviour.ActualQuestion.AnswerComplement);
             while (!Interaction.TextToSpeech.HasFinishedTalking)

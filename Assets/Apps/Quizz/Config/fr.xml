@@ -135,13 +135,94 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>goodbye</Key>
-            <BaseValue />
+            <BaseValue>OK on s'est bien amusé </BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
                 <string>C'était génial, j'ai adoré. Vous aussi, j'espère ? Au revoir </string>
                 <string> OK on s'est bien amusé </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>canrepeat</Key>
+            <BaseValue>Oui bien sur</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Oui bien sur</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>and</Key>
+            <BaseValue>et</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>et</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>perfectwinnername</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Chapeau bas, [name] avez trouvé les [number] réponses. C'est un sans-faute !  </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>severalwinners</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Aujourd'hui nous avons plusieurs gagnants. Félicitations à [names]</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>exit</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Ok pas de problème</string>
+                <string> Ok pas de soucis</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>notenoughplayer</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Il faut au moins 1 joueur!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>toomuchplayer</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>C'est trop. Je ne peut accepter que 4 joueurs maximum.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>givescore</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Vous avez trouvé [score] bonnes réponses. Bien joué!</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

@@ -8,16 +8,19 @@ namespace BuddyApp.Quizz
     public class AskQuestionState : AStateMachineBehaviour
     {
         private QuizzBehaviour mQuizzBehaviour;
+        private SoundsManager mSoundsManager;
 
         public override void Start()
         {
             mQuizzBehaviour = GetComponent<QuizzBehaviour>();
+            mSoundsManager = GetComponent<SoundsManager>();
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("ask question state");
             Interaction.VocalManager.UseVocon = true;
+            Interaction.VocalManager.ClearGrammars();
             Interaction.VocalManager.AddGrammar("answers", Buddy.LoadContext.APP);
             Interaction.VocalManager.OnVoconBest = VoconBest;
             Interaction.VocalManager.OnVoconEvent = EventVocon;
@@ -57,7 +60,18 @@ namespace BuddyApp.Quizz
             Interaction.TextToSpeech.Say(lAnswers);
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
+            mSoundsManager.PlaySound(SoundsManager.Sound.QUIZZ_BUZZER);
+            while(mSoundsManager.IsPlaying)
+                yield return null;
             Interaction.VocalManager.StartInstantReco();
+        }
+
+        private IEnumerator RepeatQuestion()
+        {
+            Interaction.TextToSpeech.SayKey("canrepeat");
+            while (!Interaction.TextToSpeech.HasFinishedTalking)
+                yield return null;
+            yield return AskQuestion();
         }
 
         private void EventVocon(VoconEvent iEvent)
@@ -67,13 +81,29 @@ namespace BuddyApp.Quizz
 
         private void VoconBest(VoconResult iBestResult)
         {
-            Debug.Log("le best result: " + iBestResult.Utterance + " confidence: " + iBestResult.Confidence+" start rule: "+ iBestResult.StartRule);
-            if (iBestResult.StartRule == "answers_fr#answer" && iBestResult.Utterance.Contains(mQuizzBehaviour.ActualQuestion.Answers[mQuizzBehaviour.ActualQuestion.GoodAnswer]))
+            Debug.Log("le best result: " + iBestResult.Utterance + " confidence: " + iBestResult.Confidence + " start rule: " + iBestResult.StartRule);
+            if (iBestResult.Utterance == null || iBestResult.Utterance == "" || iBestResult.Confidence == 0)
             {
-                Trigger("Win");
+                //Interaction.VocalManager.StopRecognition();
+                Interaction.VocalManager.StartInstantReco();
             }
             else
-                Trigger("Lose");
+            {
+                if (iBestResult.StartRule == "answers_fr#answer" && iBestResult.Utterance.Contains(mQuizzBehaviour.ActualQuestion.Answers[mQuizzBehaviour.ActualQuestion.GoodAnswer]))
+                {
+                    Trigger("Win");
+                }
+                else if (iBestResult.StartRule == "answers_fr#repeat")
+                {
+                    StartCoroutine(RepeatQuestion());
+                }
+                else if (iBestResult.StartRule == "answers_fr#quit")
+                {
+                    Trigger("Quit");
+                }
+                else
+                    Trigger("Lose");
+            }
         }
 
     }

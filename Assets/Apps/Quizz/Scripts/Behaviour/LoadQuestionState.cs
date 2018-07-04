@@ -19,6 +19,7 @@ namespace BuddyApp.Quizz
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("load question state");
+            //mQuizzBehaviour.ActualQuestion = mQuizzBehaviour.Questions.Questions[0];
             SaveText();
             CompileAnswersGrammar();
             Trigger("AskQuestion");
@@ -42,8 +43,13 @@ namespace BuddyApp.Quizz
             lLines.Add("#BNF+EMV2.1;");
             lLines.Add("!grammar answers_fr;");
             lLines.Add("!start <answer>;");
-            string lAllAnswers = "<answer> : ";
-            for(int i=0; i< mQuizzBehaviour.ActualQuestion.Answers.Count; i++)
+            lLines.Add("!start <repeat>;");
+            lLines.Add("!start <quit>;");
+            //lLines.Add("<repeat>;");
+            lLines.Add("<repeat> : ([est-ce que] je peux | peut-on | [est-ce qu'] on peut) répeter;");
+            lLines.Add("<quit> : quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | ce sera tout | rien | fin;");
+            string lAllAnswers = "<answer> :";
+            for (int i=0; i< mQuizzBehaviour.ActualQuestion.Answers.Count; i++)
             {
                 lAllAnswers += mQuizzBehaviour.ActualQuestion.Answers[i];
                 if (i < mQuizzBehaviour.ActualQuestion.Answers.Count - 1)
