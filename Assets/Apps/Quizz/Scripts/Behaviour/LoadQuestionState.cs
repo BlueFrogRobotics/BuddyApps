@@ -43,11 +43,11 @@ namespace BuddyApp.Quizz
             lLines.Add("#BNF+EMV2.1;");
             lLines.Add("!grammar answers_fr;");
             lLines.Add("!start <answer>;");
-            lLines.Add("!start <repeat>;");
-            lLines.Add("!start <quit>;");
+            //lLines.Add("!start <repeat>;");
+            //lLines.Add("!start <quit>;");
             //lLines.Add("<repeat>;");
-            lLines.Add("<repeat> : ([est-ce que] je peux | peut-on | [est-ce qu'] on peut) répeter;");
-            lLines.Add("<quit> : quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | ce sera tout | rien | fin;");
+            //lLines.Add("<repeat> : ([est-ce que] je peux | peut-on | [est-ce qu'] on peut) répeter;");
+            //lLines.Add("<quit> : quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | ce sera tout | rien | fin;");
             string lAllAnswers = "<answer> :";
             for (int i=0; i< mQuizzBehaviour.ActualQuestion.Answers.Count; i++)
             {

@@ -21,6 +21,7 @@ namespace BuddyApp.Quizz
             Debug.Log("ask question state");
             Interaction.VocalManager.UseVocon = true;
             Interaction.VocalManager.ClearGrammars();
+            Interaction.VocalManager.AddGrammar("commands", Buddy.LoadContext.APP);
             Interaction.VocalManager.AddGrammar("answers", Buddy.LoadContext.APP);
             Interaction.VocalManager.OnVoconBest = VoconBest;
             Interaction.VocalManager.OnVoconEvent = EventVocon;
@@ -60,9 +61,10 @@ namespace BuddyApp.Quizz
             Interaction.TextToSpeech.Say(lAnswers);
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
-            mSoundsManager.PlaySound(SoundsManager.Sound.QUIZZ_BUZZER);
-            while(mSoundsManager.IsPlaying)
-                yield return null;
+
+            //mSoundsManager.PlaySound(SoundsManager.Sound.QUIZZ_BUZZER);
+            //while(mSoundsManager.IsPlaying)
+            //    yield return null;
             Interaction.VocalManager.StartInstantReco();
         }
 
@@ -89,20 +91,40 @@ namespace BuddyApp.Quizz
             }
             else
             {
-                if (iBestResult.StartRule == "answers_fr#answer" && iBestResult.Utterance.Contains(mQuizzBehaviour.ActualQuestion.Answers[mQuizzBehaviour.ActualQuestion.GoodAnswer]))
+                int lAnswerId = -1;
+                if (iBestResult.StartRule == "answers_fr#answer" /*&& iBestResult.Utterance.Contains(mQuizzBehaviour.ActualQuestion.Answers[mQuizzBehaviour.ActualQuestion.GoodAnswer])*/)
                 {
-                    Trigger("Win");
+                    for (int i = 0; i < mQuizzBehaviour.ActualQuestion.Answers.Count; i++)
+                    {
+                        if (iBestResult.Utterance.Contains(mQuizzBehaviour.ActualQuestion.Answers[i]))
+                            lAnswerId = i;
+                    }
+                    //Trigger("Win");
                 }
-                else if (iBestResult.StartRule == "answers_fr#repeat")
+                else if (iBestResult.StartRule == "commands_fr#first")
+                    lAnswerId = 0;
+                else if (iBestResult.StartRule == "commands_fr#second")
+                    lAnswerId = 1;
+                else if (iBestResult.StartRule == "commands_fr#third")
+                    lAnswerId = 2;
+                if (lAnswerId != -1)
+                {
+                    if (mQuizzBehaviour.ActualQuestion.GoodAnswer == lAnswerId)
+                        Trigger("Win");
+                    else
+                        Trigger("Lose");
+                }
+                else if (iBestResult.StartRule == "commands_fr#repeat")
                 {
                     StartCoroutine(RepeatQuestion());
                 }
-                else if (iBestResult.StartRule == "answers_fr#quit")
+                else if (iBestResult.StartRule == "commands_fr#quit")
                 {
                     Trigger("Quit");
                 }
                 else
-                    Trigger("Lose");
+                    StartCoroutine(AskQuestion());//Trigger("Lose");
+                Debug.Log("mdr");
             }
         }
 

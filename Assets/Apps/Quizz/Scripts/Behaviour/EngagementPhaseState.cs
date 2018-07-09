@@ -37,6 +37,7 @@ namespace BuddyApp.Quizz
             Debug.Log("debut engagement");
             Interaction.VocalManager.UseVocon = true;
             Interaction.VocalManager.ClearGrammars();
+            Interaction.VocalManager.AddGrammar("commands", Buddy.LoadContext.APP);
             Interaction.VocalManager.AddGrammar("funny_names", Buddy.LoadContext.APP);
             Interaction.VocalManager.OnVoconBest = VoconBest;
             Interaction.VocalManager.OnVoconEvent = EventVocon;
@@ -104,9 +105,10 @@ namespace BuddyApp.Quizz
             if (iBestResult.Utterance == null || iBestResult.Utterance == "" || iBestResult.Confidence == 0)
             {
                 //Interaction.VocalManager.StopRecognition();
-                Interaction.VocalManager.StartInstantReco();
+                mHasSaidName = true;
+                //Interaction.VocalManager.StartInstantReco();
             }
-            else if (iBestResult.StartRule == "funny_names_fr#quit")
+            else if (iBestResult.StartRule == "commands_fr#quit")
             {
                 Trigger("Quit");
             }

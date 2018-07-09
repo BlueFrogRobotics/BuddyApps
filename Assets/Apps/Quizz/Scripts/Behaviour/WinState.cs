@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Buddy;
 
 namespace BuddyApp.Quizz
 {
@@ -36,20 +37,23 @@ namespace BuddyApp.Quizz
 
         private IEnumerator Win()
         {
-            Interaction.Face.SetExpression(Buddy.MoodType.HAPPY);
+            Interaction.VocalManager.StopListenBehaviour();
+            Interaction.Mood.Set(MoodType.HAPPY);
+            //Debug.Log("happy");
             mSoundsManager.PlaySound(SoundsManager.Sound.GOOD_ANSWER);
             while (mSoundsManager.IsPlaying)
                 yield return null;
             Interaction.TextToSpeech.Say(Dictionary.GetRandomString("win").Replace("[answer]", "" + mQuizzBehaviour.ActualQuestion.Answers[mQuizzBehaviour.ActualQuestion.GoodAnswer]));
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
-            Interaction.Face.SetExpression(Buddy.MoodType.NEUTRAL);
+            Interaction.Mood.Set(MoodType.NEUTRAL);
             if (mQuizzBehaviour.ActualQuestion.AnswerComplement != "")
                 Interaction.TextToSpeech.Say(mQuizzBehaviour.ActualQuestion.AnswerComplement);
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
             mQuizzBehaviour.Players[mQuizzBehaviour.ActualPlayerId].Score++;
             Trigger("CheckNumQuestion");
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Buddy;
 
 namespace BuddyApp.Quizz
 {
@@ -38,10 +39,13 @@ namespace BuddyApp.Quizz
         private IEnumerator EndGame()
         {
             GetWinnerName();
+            Interaction.VocalManager.StopListenBehaviour();
+            Interaction.Mood.Set(MoodType.THINKING);
             mSoundsManager.PlaySound(SoundsManager.Sound.COMPUTING);
             while (mSoundsManager.IsPlaying)
                 yield return null;
-            if(mQuizzBehaviour.Players.Count==1)
+            Interaction.Mood.Set(MoodType.NEUTRAL);
+            if (mQuizzBehaviour.Players.Count==1)
             {
                 Interaction.TextToSpeech.Say(Dictionary.GetRandomString("givescore").Replace("[name]", "" + mQuizzBehaviour.Players[0].Name).Replace("[score]", ""+mQuizzBehaviour.Players[0].Score));
             }
@@ -66,7 +70,8 @@ namespace BuddyApp.Quizz
             }
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
-            Trigger("AskRestart");
+            QuitApp();
+            //Trigger("AskRestart");
         }
 
         private string GetWinnerName()

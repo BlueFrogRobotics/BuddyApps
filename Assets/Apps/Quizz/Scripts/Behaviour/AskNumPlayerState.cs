@@ -20,6 +20,7 @@ namespace BuddyApp.Quizz
         {
             Interaction.VocalManager.UseVocon = true;
             Interaction.VocalManager.ClearGrammars();
+            Interaction.VocalManager.AddGrammar("commands", Buddy.LoadContext.APP);
             Interaction.VocalManager.AddGrammar("number_player", Buddy.LoadContext.APP);
             Interaction.VocalManager.OnVoconBest = VoconBest;
             Interaction.VocalManager.OnVoconEvent = EventVocon;
@@ -61,7 +62,7 @@ namespace BuddyApp.Quizz
                 //Interaction.VocalManager.StopRecognition();
                 Interaction.VocalManager.StartInstantReco();
             }
-            else if(iBestResult.StartRule == "number_player_fr#quit")
+            else if(iBestResult.StartRule == "commands_fr#quit")
             {
                 Trigger("Quit");
             }
