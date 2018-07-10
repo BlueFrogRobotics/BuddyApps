@@ -1,6 +1,0 @@
-#BNF+EMV2.1;
-!grammar answers_fr;
-!start <answer>;
-!start <repeat>;
-<repeat> : ([est-ce que] je peux | peut-on | [est-ce qu'] on peut) répeter;
-<answer> :Neil Armstrong | Youri Gagarine | Buzz Aldrin;

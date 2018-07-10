@@ -1,9 +1,0 @@
-#BNF+EMV2.1;
-!grammar buddylab_fr;
-!start <menusimple>;
-!start <menuopen>;
-!start <menututo>;
-<menusimple> : [projet] simple;
-<menuopen> : ouvrir [un | le] projet;
-<menututo> : [lancer] [le] tutoriel;
-

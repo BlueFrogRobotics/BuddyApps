@@ -1,5 +1,0 @@
-#BNF+EMV2.0;
-!grammar rlgl_fr;
-!start <level>;
-!import <numbers#nb>;
-<level> : [le] [niveau] <numbers#nb>;

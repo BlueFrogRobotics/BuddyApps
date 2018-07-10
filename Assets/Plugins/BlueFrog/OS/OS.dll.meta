@@ -1,11 +1,34 @@
 fileFormatVersion: 2
 guid: ecf5bb8773c8fb94f9066bd24505e74f
-timeCreated: 1513593676
+timeCreated: 1523006311
 licenseType: Pro
 PluginImporter:
   serializedVersion: 2
   iconMap: {}
   executionOrder:
+    BDK.Buddy: -50
+    BDK.Explorer: -15
+    BDK.Header: -12
+    BDK.Interaction: -14
+    BDK.Internal.AppManagement.AppManager: -3
+    BDK.Internal.AppManagement.AppUpdater: -5
+    BDK.Internal.AppManagement.Sandbox: -10
+    BDK.Internal.EventBus: -100
+    BDK.Internal.Framework.Framework: -200
+    BDK.Internal.Framework.InnerClock: -17
+    BDK.Internal.Framework.Looper: -200
+    BDK.Internal.Injector: -50
+    BDK.Internal.LogManager: -30
+    BDK.Internal.Looper: -200
+    BDK.Internal.Main: -8
+    BDK.Internal.OSBehaviourManager: -100
+    BDK.Notifier: -18
+    BDK.Toaster: -13
+    BlueQuark.Internal.EventBus: -150
+    BlueQuark.Internal.Injector: -100
+    BlueQuark.Internal.LogManager: -80
+    BlueQuark.Internal.Looper: -200
+    BlueQuark.Internal.Main: -50
     Buddy.APIBridge: -28
     Buddy.BYOS: -500
     Buddy.DialogManager: -9
@@ -28,7 +51,6 @@ PluginImporter:
     Buddy.UI.Explorer: -12
     Buddy.UI.ExplorerPool: -26
     Buddy.UI.Notifier: -25
-    Buddy.UI.Toaster: -24
     Buddy.VocalManager: -10
     Buddy.WiFiManager: -4
     BuddyOS.App.AppManager: -1
