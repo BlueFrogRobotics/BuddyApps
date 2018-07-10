@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-using Buddy;
+using BlueQuark;
 
 using System;
 

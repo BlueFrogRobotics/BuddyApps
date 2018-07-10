@@ -19,7 +19,7 @@ namespace BuddyApp.TakePose
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-            if (!Buddy.Vocal.IsSpeaking && !Buddy.Vocal.IsBusy)
+            if (!Buddy.Vocal.IsSpeaking)
             {
                 QuitApp();
             }

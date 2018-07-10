@@ -1,11 +1,13 @@
-using UnityEngine;
-using System.Collections.Generic;
-using IEnumerator = System.Collections.IEnumerator;
-using Buddy.UI;
 using BlueQuark;
 
+using UnityEngine;
+
+using System.Collections.Generic;
+
+using IEnumerator = System.Collections.IEnumerator;
+
 /// <summary>
-/// Tool namespace to create embedded apps. Concerns only app behaviour. See BuddyOS.UI for layout.
+/// Your script app namespace. You must keep BuddyApp.TakePose namespace for every script file
 /// </summary>
 namespace BuddyApp.TakePose
 {
@@ -15,48 +17,10 @@ namespace BuddyApp.TakePose
     /// </summary>
     public abstract class AStateMachineBehaviour : StateMachineBehaviour
     {
-        private Dictionary<string, int> mCommonIntegers;
-        private Dictionary<string, float> mCommonSingles;
-        private Dictionary<string, string> mCommonStrings;
-        private Dictionary<string, object> mCommonObjects;
-        private StateMachineAppLinker mManager;
+        private TakePoseStateMachineManager mManager;
         private Animator mAnimator;
 
-        /// <summary>
-        /// Common integers through the animator
-        /// </summary>
-        public Dictionary<string, int> CommonIntegers { get { return mCommonIntegers; } internal set { mCommonIntegers = value; } }
-
-        /// <summary>
-        /// Common float through the animator
-        /// </summary>
-        public Dictionary<string, float> CommonSingles { get { return mCommonSingles; } internal set { mCommonSingles = value; } }
-
-        /// <summary>
-        /// Common strings through the animator
-        /// </summary>
-        public Dictionary<string, string> CommonStrings { get { return mCommonStrings; } internal set { mCommonStrings = value; } }
-
-        /// <summary>
-        /// Common objects through the animator
-        /// </summary>
-        public Dictionary<string, object> CommonObjects { get { return mCommonObjects; } internal set { mCommonObjects = value; } }
-
-        protected Interaction Interaction { get; private set; }
-        protected Perception Perception { get; private set; }
-        protected Primitive Primitive { get; private set; }
-        protected IOT IOT { get; private set; }
-        protected Navigation Navigation { get; private set; }
-        protected WebService WebService { get; private set; }
-
-        protected Notifier Notifier { get; private set; }
-        protected Toaster Toaster { get; private set; }
-
-        protected Dictionary Dictionary { get; private set; }
-        protected ResourceManager Resources { get; private set; }
-        protected DataBase DataBase { get; private set; }
-
-        internal StateMachineAppLinker Manager { set { mManager = value; } }
+        internal TakePoseStateMachineManager Manager { set { mManager = value; } }
         internal Animator Animator { set { mAnimator = value; } }
 
         /// <summary>
@@ -268,23 +232,6 @@ namespace BuddyApp.TakePose
         protected void QuitApp()
         {
             AAppActivity.QuitApp();
-        }
-
-        internal void Init()
-        {
-            Interaction = BYOS.Instance.Interaction;
-            Perception = BYOS.Instance.Perception;
-            Primitive = BYOS.Instance.Primitive;
-            IOT = BYOS.Instance.IOT;
-            Navigation = BYOS.Instance.Navigation;
-            WebService = BYOS.Instance.WebService;
-
-            Notifier = BYOS.Instance.Notifier;
-            Toaster = BYOS.Instance.Toaster;
-
-            Dictionary = BYOS.Instance.Dictionary;
-            Resources = BYOS.Instance.Resources;
-            DataBase = BYOS.Instance.DataBase;
         }
 
         /// <summary>

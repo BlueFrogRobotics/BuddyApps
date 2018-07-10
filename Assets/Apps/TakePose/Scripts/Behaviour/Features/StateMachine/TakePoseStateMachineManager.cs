@@ -1,10 +1,12 @@
+using BlueQuark;
+
 using UnityEngine;
+
 using System.Collections;
 using System.Collections.Generic;
-using Buddy;
 
 /// <summary>
-/// Tool namespace to create embedded apps. Concerns only app behaviour. See BuddyOS.UI for layout.
+/// Your script app namespace. You must keep BuddyApp.TakePose namespace for every script file
 /// </summary>
 namespace BuddyApp.TakePose
 {
@@ -14,40 +16,24 @@ namespace BuddyApp.TakePose
     /// You can have as many Linker as you have state machine.
     /// </summary>
     [RequireComponent(typeof(Animator))]
-    public sealed class StateMachineAppLinker : MonoBehaviour
+    public sealed class TakePoseStateMachineManager : MonoBehaviour
     {
         [SerializeField]
         private List<GameObject> gameObjects = new List<GameObject>();
 
         private Animator mAnimator;
 
-        private Dictionary<string, int> mCommonIntegers;
-        private Dictionary<string, float> mCommonSingles;
-        private Dictionary<string, string> mCommonStrings;
-        private Dictionary<string, object> mCommonObjects;
-
         internal List<GameObject> GameObjects { get { return gameObjects; } }
 
         void Start()
         {
             mAnimator = GetComponent<Animator>();
-            if (mAnimator != null)
-            {
+            if (mAnimator != null) {
                 mAnimator.enabled = true;
 
                 AStateMachineBehaviour[] lStates = mAnimator.GetBehaviours<AStateMachineBehaviour>();
-                mCommonIntegers = new Dictionary<string, int>();
-                mCommonSingles = new Dictionary<string, float>();
-                mCommonStrings = new Dictionary<string, string>();
-                mCommonObjects = new Dictionary<string, object>();
 
-                foreach (AStateMachineBehaviour lState in lStates)
-                {
-                    lState.Init();
-                    lState.CommonIntegers = mCommonIntegers;
-                    lState.CommonSingles = mCommonSingles;
-                    lState.CommonStrings = mCommonStrings;
-                    lState.CommonObjects = mCommonObjects;
+                foreach (AStateMachineBehaviour lState in lStates) {
                     lState.Animator = mAnimator;
                     lState.Manager = this;
                     lState.Start();
@@ -55,7 +41,7 @@ namespace BuddyApp.TakePose
             }
             else
                 Utils.LogE(LogContext.APP, LogInfo.NULL_VALUE,
-                    "Animator of the state machine app linker is not set", true);
+                    "Animator of the state machine manager is not set", true);
         }
 
         internal void AddComponentLink<T>() where T : Component

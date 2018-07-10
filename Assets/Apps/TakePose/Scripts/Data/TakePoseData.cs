@@ -1,4 +1,4 @@
-using Buddy;
+using BlueQuark;
 
 namespace BuddyApp.TakePose
 {

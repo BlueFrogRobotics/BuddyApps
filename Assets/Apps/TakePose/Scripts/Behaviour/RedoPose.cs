@@ -3,8 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using Buddy;
-using Buddy.UI;
+using BlueQuark;
 
 namespace BuddyApp.TakePose
 {
@@ -28,46 +27,57 @@ namespace BuddyApp.TakePose
             mListening = false;
             mSpeechReco = "";
 
-            mAcceptPhonetics = new List<string>(Dictionary.GetPhoneticStrings("accept"));
-            mRefusePhonetics = new List<string>(Dictionary.GetPhoneticStrings("refuse"));
-            mAnotherPhonetics = new List<string>(Dictionary.GetPhoneticStrings("another"));
-            mQuitPhonetics = new List<string>(Dictionary.GetPhoneticStrings("quit"));
+            mAcceptPhonetics = new List<string>(Buddy.Resources.GetPhoneticStrings("accept"));
+            mRefusePhonetics = new List<string>(Buddy.Resources.GetPhoneticStrings("refuse"));
+            mAnotherPhonetics = new List<string>(Buddy.Resources.GetPhoneticStrings("another"));
+            mQuitPhonetics = new List<string>(Buddy.Resources.GetPhoneticStrings("quit"));
 
-            Interaction.TextToSpeech.SayKey("redopose");
+            Buddy.Vocal.SayKey("redopose");
 
-            Interaction.SpeechToText.OnBestRecognition.Clear();
-            Interaction.SpeechToText.OnBestRecognition.Add(OnSpeechReco);
+            Buddy.Vocal.OnEndListening.Add((iInput) => { OnSpeechReco(iInput.Utterance); });
+            
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
 
-            Toaster.Display<BinaryQuestionToast>().With(Dictionary.GetString("redopose"), PressedYes, PressedNo);
+                iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("redopose"));
+            },
+
+                () => { PressedYes(); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("yes"),
+
+                () => { PressedNo(); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("no")
+
+            );
         }
 
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
+            if (Buddy.Vocal.IsSpeaking || mListening)
                 return;
 
             if (string.IsNullOrEmpty(mSpeechReco)) {
-                Interaction.SpeechToText.Request();
+                Buddy.Vocal.Listen();
+                //Interaction.SpeechToText.Request();
                 mListening = true;
 
-                Interaction.Mood.Set(MoodType.LISTENING);
+                Buddy.Behaviour.Mood.Set(FacialExpression.LISTENING);
                 return;
             }
 
             if (mAcceptPhonetics.Contains(mSpeechReco) || mAnotherPhonetics.Contains(mSpeechReco)) {
-                Toaster.Hide();
+                Buddy.GUI.Toaster.Hide();
                 RedoTakePose();
             } else if (mRefusePhonetics.Contains(mSpeechReco) || mQuitPhonetics.Contains(mSpeechReco)) {
-                Toaster.Hide();
+                Buddy.GUI.Toaster.Hide();
                 ExitTakePose();
             } else {
-                Interaction.TextToSpeech.SayKey("notunderstand", true);
-                Interaction.TextToSpeech.Silence(1000, true);
-                Interaction.TextToSpeech.SayKey("yesorno", true);
-                Interaction.TextToSpeech.Silence(1000, true);
-                Interaction.TextToSpeech.SayKey("redopose", true);
+                Buddy.Vocal.SayKey("notunderstand", true);
+                //Buddy.Vocal.Silence(1000, true);
+                Buddy.Vocal.Say("[1000]");
+                Buddy.Vocal.SayKey("yesorno", true);
+                Buddy.Vocal.Say("[1000]");
+                //Buddy.Vocal.Silence(1000, true);
+                Buddy.Vocal.SayKey("redopose", true);
 
                 mSpeechReco = "";
             }
@@ -76,40 +86,39 @@ namespace BuddyApp.TakePose
 
         private void PressedYes()
         {
-            Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+            Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
             RedoTakePose();
         }
 
         private void PressedNo()
         {
-            Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+            Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
             ExitTakePose();
         }
 
         private void OnSpeechReco(string iVoiceInput)
         {
-            Interaction.Mood.Set(MoodType.NEUTRAL);
-
+            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
             mSpeechReco = iVoiceInput;
             mListening = false;
         }
 
         private void RedoTakePose()
         {
-            Interaction.Mood.Set(MoodType.NEUTRAL);
+            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
             Trigger("Pose");
         }
 
         private void ExitTakePose()
         {
-            Interaction.Mood.Set(MoodType.NEUTRAL);
-            Interaction.TextToSpeech.SayKey("noredo");
+            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Vocal.SayKey("noredo");
             Trigger("Exit");
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Interaction.Mood.Set(MoodType.NEUTRAL);
+            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
             mSpeechReco = "";
             mListening = false;
         }

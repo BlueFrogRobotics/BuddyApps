@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
-using Buddy;
-using Buddy.UI;
+using BlueQuark;
 
 namespace BuddyApp.TakePose
 {
@@ -21,8 +20,8 @@ namespace BuddyApp.TakePose
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Interaction.Mood.Set(MoodType.HAPPY);
-            Interaction.TextToSpeech.SayKey("sharetwitter");
+            Buddy.Behaviour.Mood.Set(FacialExpression.HAPPY);
+            Buddy.Vocal.SayKey("sharetwitter");
 
             mHasDisplayNotif = false;
             mReadyToExit = false;
@@ -36,14 +35,14 @@ namespace BuddyApp.TakePose
                 mHasDisplayNotif = true;
             }
 
-            if (Interaction.TextToSpeech.HasFinishedTalking && mReadyToExit)
+            if (!Buddy.Vocal.IsSpeaking && mReadyToExit)
                 Trigger("Exit");
         }
 
         private IEnumerator DisplayNotif()
         {
-            Notifier.Display<SimpleNot>(4F).With("#SocialRobot @adoptbuddy", 
-                Resources.GetSpriteFromAtlas("Ico_Twitter"), Color.blue);
+            Buddy.GUI.Notifier.Display<SimpleNotification>().With("#SocialRobot @adoptbuddy",
+                Buddy.Resources.Get<Sprite>("Ico_Twitter"), 4F);
 
             yield return new WaitForSeconds(5F);
 
@@ -53,7 +52,8 @@ namespace BuddyApp.TakePose
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Interaction.Mood.Set(MoodType.NEUTRAL);
+            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            
         }
     }
 }
