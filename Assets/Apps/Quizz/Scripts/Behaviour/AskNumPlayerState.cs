@@ -62,7 +62,7 @@ namespace BuddyApp.Quizz
                 //Interaction.VocalManager.StopRecognition();
                 Interaction.VocalManager.StartInstantReco();
             }
-            else if(iBestResult.StartRule == "commands_fr#quit")
+            else if(iBestResult.StartRule == "commands_fr#quit" && iBestResult.Confidence > 6000)
             {
                 Trigger("Quit");
             }

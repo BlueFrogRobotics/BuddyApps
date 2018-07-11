@@ -118,7 +118,7 @@ namespace BuddyApp.Quizz
                 {
                     StartCoroutine(RepeatQuestion());
                 }
-                else if (iBestResult.StartRule == "commands_fr#quit")
+                else if (iBestResult.StartRule == "commands_fr#quit" && iBestResult.Confidence > 6000)
                 {
                     Trigger("Quit");
                 }

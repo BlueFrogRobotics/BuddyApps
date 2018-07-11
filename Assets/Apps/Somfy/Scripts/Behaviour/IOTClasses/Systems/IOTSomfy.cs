@@ -170,6 +170,7 @@ namespace BuddyApp.Somfy
                     for (int i = 0; i < mDevices.Count; ++i)
                     {
                         string iUiClass = ((IOTSomfyDevice)mDevices[i]).uiClass;
+                        Debug.Log("ui class: " + iUiClass);
                         if (iUiClass == "Pod")
                         {
                             mDevices.RemoveAt(i);
@@ -188,6 +189,8 @@ namespace BuddyApp.Somfy
                                 mDevices[i] = new IOTSomfyThermostat(lDevices.devices[i + j], mSessionID);
                             else if (iUiClass == "TemperatureSensor")
                                 mDevices[i] = new IOTSomfyThermometer(lDevices.devices[i + j], mSessionID);
+                            else if (iUiClass == "MusicPlayer")
+                                mDevices[i] = new IOTSomfySonos(lDevices.devices[i + j], mSessionID);
                         }
                     }
                 }

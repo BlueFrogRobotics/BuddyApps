@@ -5,7 +5,7 @@ namespace BuddyApp.Somfy
 {
     public class IOTDevices : IOTObjects
     {
-        public enum DeviceType : int { DEVICE, LIGHT, SWITCH, STORE, THERMOSTAT, THERMOMETER}
+        public enum DeviceType : int { DEVICE, LIGHT, SWITCH, STORE, THERMOSTAT, THERMOMETER, SPEAKER}
         protected DeviceType mType = DeviceType.DEVICE;
         public DeviceType Type { get { return mType; } }
 

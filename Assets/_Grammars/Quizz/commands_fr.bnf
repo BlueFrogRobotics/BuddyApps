@@ -1,12 +1,12 @@
-#BNF+EMV2.1;
+﻿#BNF+EMV2.1;
 !grammar commands_fr;
 !start <repeat>;
 !start <quit>;
 !start <first>;
 !start <second>;
 !start <third>;
-<repeat> : ([est-ce que] je peux | peut-on | [est-ce qu'] on peut) répeter;
-<quit> : quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | ce sera tout | rien | fin;
-<first> : premier | la première | la premiere;
-<second> : deuxième | la deuxième | second;
-<third> : (la) troisième | troisieme;
+<repeat> : ([est-ce que] je peux | peut-on | [est-ce qu'] on peut) repeter;
+<quit> : quitter | arreter | sortir | terminer | quitte | ferme | arrete | arret| fin;
+<first> : premier | la premiere | la premiere;
+<second> : deuxieme | la deuxieme | second;
+<third> : (la) troisieme | troisieme;

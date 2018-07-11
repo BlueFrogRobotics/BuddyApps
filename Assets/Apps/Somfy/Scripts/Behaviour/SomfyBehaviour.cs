@@ -23,6 +23,7 @@ namespace BuddyApp.Somfy
         private IOTSomfyDevice plug;
         private IOTSomfyDevice thermostat;
         private IOTSomfyDevice thermometer;
+        private IOTSomfyDevice sonos;
 
 
         void Start()
@@ -99,6 +100,11 @@ namespace BuddyApp.Somfy
                             Debug.Log("state temperature, " + state.name + ": " + state.value);
                         }
                     }
+                }
+                else if (device.Type == IOTDevices.DeviceType.SPEAKER)
+                {
+                    Debug.Log("le sonos: " + device.Name);
+                    sonos = (IOTSomfyDevice)device;
                 }
             }
         }
@@ -183,6 +189,24 @@ namespace BuddyApp.Somfy
                 }
             }
             return lTemperature;
+        }
+
+        public void PlayMusic()
+        {
+            if (sonos != null && sonos.HasFinishedCommand())
+            {
+                BYOS.Instance.Interaction.TextToSpeech.SayKey("playmusic");
+                sonos.Command(2);
+            }
+        }
+
+        public void StopMusic()
+        {
+            if (sonos != null && sonos.HasFinishedCommand())
+            {
+                BYOS.Instance.Interaction.TextToSpeech.SayKey("stopmusic");
+                sonos.Command(3);
+            }
         }
 
         //public void OpenThermostat()

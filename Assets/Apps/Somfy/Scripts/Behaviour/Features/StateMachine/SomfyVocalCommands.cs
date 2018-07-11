@@ -105,6 +105,14 @@ namespace BuddyApp.Somfy
             {
                 mSomfyBehaviour.CloseStore();
             }
+            else if (Dictionary.ContainsPhonetic(iText, "playmusic"))
+            {
+                mSomfyBehaviour.PlayMusic();
+            }
+            else if (Dictionary.ContainsPhonetic(iText, "stopmusic"))
+            {
+                mSomfyBehaviour.StopMusic();
+            }
             else if (Dictionary.ContainsPhonetic(iText, "temperature") && Dictionary.ContainsPhonetic(iText, "what"))
             {
                 Interaction.TextToSpeech.Say("The temperature is "+float.Parse(mSomfyBehaviour.GetTemperature()).ToString().Replace(".", " point ") + " degrees");
