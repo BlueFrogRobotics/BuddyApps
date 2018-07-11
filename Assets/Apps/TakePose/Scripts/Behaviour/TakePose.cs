@@ -26,6 +26,7 @@ namespace BuddyApp.TakePose
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("ON STATE ENTER TAKE POSE");
             mCoroutineLaunch = false;
             mStartCountDown = null;
             Buddy.Vocal.EnableTrigger = false;
@@ -49,16 +50,13 @@ namespace BuddyApp.TakePose
 
         private IEnumerator CountDownImpl()
         {
-            Debug.Log("start countdown");
             Buddy.GUI.Toaster.Display<CountdownToast>().With(COUNTDOWN_START, 0, 0, null, iCountDown =>
              {
-                 Debug.Log("Count down : " + iCountDown.Second.ToString());
                  Buddy.Vocal.Say(iCountDown.Second.ToString());
                  if (iCountDown.IsDone)
                  {
-                     Debug.Log("Countdone is finished");
+                     OnFinishCountdown();
                      Buddy.GUI.Toaster.Hide();
-                     Debug.Log("TO : " + Buddy.GUI.Toaster.TaskOwners.Length);
                  }
              });
             yield return null;
@@ -72,7 +70,7 @@ namespace BuddyApp.TakePose
 
         private IEnumerator WaitForPicture()
         {
-            SetFace();
+            SetFace(); 
 
             yield return new WaitForSeconds(HOLD_POSE_TIME);
 

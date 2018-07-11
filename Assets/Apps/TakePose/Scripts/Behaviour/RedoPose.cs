@@ -32,6 +32,7 @@ namespace BuddyApp.TakePose
             mAnotherPhonetics = new List<string>(Buddy.Resources.GetPhoneticStrings("another"));
             mQuitPhonetics = new List<string>(Buddy.Resources.GetPhoneticStrings("quit"));
 
+            Debug.Log("REDOPOSE : " + Buddy.Resources.GetString("redopose"));
             Buddy.Vocal.SayKey("redopose");
 
             Buddy.Vocal.OnEndListening.Add((iInput) => { OnSpeechReco(iInput.Utterance); });
@@ -41,9 +42,9 @@ namespace BuddyApp.TakePose
                 iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("redopose"));
             },
 
-                () => { PressedYes(); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("yes"),
+                () => { PressedNo(); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("no"),
 
-                () => { PressedNo(); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("no")
+                () => { PressedYes(); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("yes")
 
             );
         }
@@ -87,7 +88,7 @@ namespace BuddyApp.TakePose
         private void PressedYes()
         {
             Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
-            RedoTakePose();
+            RedoTakePose(); 
         }
 
         private void PressedNo()
