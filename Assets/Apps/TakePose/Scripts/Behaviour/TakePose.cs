@@ -9,11 +9,13 @@ namespace BuddyApp.TakePose
 {
     public class TakePose : AStateMachineBehaviour
     {
-        private const int COUNTDOWN_START = 3;
+        private const int COUNTDOWN_START = 4;
         private const float HOLD_POSE_TIME = 5F;
 
         private IEnumerator mStartCountDown;
         private IEnumerator mWaitForPicture;
+
+        private bool mCoroutineLaunch;
 
         public override void Start()
         {
@@ -24,6 +26,7 @@ namespace BuddyApp.TakePose
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mCoroutineLaunch = false;
             mStartCountDown = null;
             Buddy.Vocal.EnableTrigger = false;
 
@@ -33,26 +36,31 @@ namespace BuddyApp.TakePose
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!Buddy.Vocal.IsSpeaking && mStartCountDown == null)
+            if (!Buddy.Vocal.IsSpeaking && mStartCountDown == null && !mCoroutineLaunch)
                 StartCountDown();
         }
 
         private void StartCountDown()
         {
+            mCoroutineLaunch = true;
             mStartCountDown = CountDownImpl();
             StartCoroutine(mStartCountDown);
         }
 
         private IEnumerator CountDownImpl()
         {
-            Buddy.GUI.Toaster.Display<CountdownToast>().With(COUNTDOWN_START, 0, 0, iCountDown =>
-            {
-                Buddy.Vocal.Say(iCountDown.Second.ToString());
-                if(iCountDown.IsDone)
-                {
-                    Buddy.GUI.Toaster.Hide();
-                }
-            });
+            Debug.Log("start countdown");
+            Buddy.GUI.Toaster.Display<CountdownToast>().With(COUNTDOWN_START, 0, 0, null, iCountDown =>
+             {
+                 Debug.Log("Count down : " + iCountDown.Second.ToString());
+                 Buddy.Vocal.Say(iCountDown.Second.ToString());
+                 if (iCountDown.IsDone)
+                 {
+                     Debug.Log("Countdone is finished");
+                     Buddy.GUI.Toaster.Hide();
+                     Debug.Log("TO : " + Buddy.GUI.Toaster.TaskOwners.Length);
+                 }
+             });
             yield return null;
         }
 
@@ -219,6 +227,7 @@ namespace BuddyApp.TakePose
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mCoroutineLaunch = false;
             mStartCountDown = null;
             mWaitForPicture = null;
 
