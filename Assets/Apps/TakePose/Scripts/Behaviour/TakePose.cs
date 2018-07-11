@@ -38,7 +38,9 @@ namespace BuddyApp.TakePose
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (!Buddy.Vocal.IsSpeaking && mStartCountDown == null && !mCoroutineLaunch)
+            {
                 StartCountDown();
+            }
         }
 
         private void StartCountDown()
@@ -50,11 +52,14 @@ namespace BuddyApp.TakePose
 
         private IEnumerator CountDownImpl()
         {
+            Debug.Log("CountDownImpl");
             Buddy.GUI.Toaster.Display<CountdownToast>().With(COUNTDOWN_START, 0, 0, null, iCountDown =>
              {
+                 Debug.Log("IN CountDownImpl");
                  Buddy.Vocal.Say(iCountDown.Second.ToString());
                  if (iCountDown.IsDone)
                  {
+                     Debug.Log("3 CountDownImpl");
                      OnFinishCountdown();
                      Buddy.GUI.Toaster.Hide();
                  }
@@ -64,6 +69,7 @@ namespace BuddyApp.TakePose
 
         private void OnFinishCountdown()
         {
+            Debug.Log("OnfinishCountdown");
             mWaitForPicture = WaitForPicture();
             StartCoroutine(mWaitForPicture);
         }
@@ -73,12 +79,13 @@ namespace BuddyApp.TakePose
             SetFace(); 
 
             yield return new WaitForSeconds(HOLD_POSE_TIME);
-
+            Debug.Log("Trigger Redo");
             Trigger("Redo");
         }
 
         private void SetFace()
         {
+            Debug.Log("SetFace");
             int lRandom = UnityEngine.Random.Range(0, 9);
 
             switch (lRandom)
