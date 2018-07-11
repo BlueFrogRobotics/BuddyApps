@@ -659,11 +659,11 @@
             </summary>
             <returns>Returns the error in string</returns>
         </member>
-        <member name="M:Buddy.Internal.API.ASpeechToText.HasFinishedListenning">
+        <member name="M:Buddy.Internal.API.ASpeechToText.HasFinishedListening">
             <summary>
-            Tells if the listenning is over
+            Tells if the listening is over
             </summary>
-            <returns>Returns true if it has finished listenning</returns>
+            <returns>Returns true if it has finished listening</returns>
         </member>
         <member name="M:Buddy.Internal.API.ASpeechToText.LastAnswer">
             <summary>
@@ -861,7 +861,7 @@
         </member>
         <member name="M:Buddy.Internal.API.SpeechToText.DBCallback(System.String)">
             <summary>
-            Set the decibels while listenning
+            Set the decibels while listening
             </summary>
         </member>
         <member name="T:Buddy.Internal.API.SpeechToTextAndroid">
@@ -930,7 +930,7 @@
         </member>
         <member name="M:Buddy.Internal.API.SpeechToTextAndroid.DBCallback(System.String)">
             <summary>
-            Set the decibels while listenning
+            Set the decibels while listening
             </summary>
         </member>
         <member name="T:Buddy.Internal.API.SpeechToTextWindows">
@@ -1299,7 +1299,7 @@
             <param name="iSpeed">The speed in degrees per second</param>
             <param name="iTolerance">The angle tolerance to reach to stop command in radians</param>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:Buddy.Internal.API.HardwareDivision.RealHardware.TurnAngle(System.Single,System.Single,System.Single)" -->
+        <!-- Badly formed XML comment ignored for member "M:Buddy.Internal.API.HardwareDivision.RealHardware.TurnAngle(System.Single,System.Single,System.Single)" -->
         <member name="M:Buddy.Internal.API.HardwareDivision.RealHardware.MoveToAbsolutePosition(UnityEngine.Vector2,System.Single,System.Single)">
             <summary>
             Make the robot go to a desired global position.

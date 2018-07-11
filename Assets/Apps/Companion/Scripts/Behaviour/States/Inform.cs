@@ -143,14 +143,14 @@ namespace BuddyApp.Companion
 
 			if (lRand == 2)
 				if (iUserProfile.Tastes.Colour != COLOUR.NONE) {
-					Debug.Log("Random user fact  " + Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", iUserProfile.FirstName) + " " + Dictionary.GetRandomString(iUserProfile.Tastes.Colour.ToString()));
+					Debug.Log("Random user fact  " + Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", iUserProfile.FirstName) + " " + Dictionary.GetRandomString(iUserProfile.Tastes.Colour.ToString().ToLower()));
 					return Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", iUserProfile.FirstName) + " " + Dictionary.GetRandomString(iUserProfile.Tastes.Colour.ToString().ToLower());
 				} else
 					lRand = 3;
 
 			if (lRand == 3)
 				if (iUserProfile.Tastes.Sport != SPORT.NONE) {
-					Debug.Log("Random user fact  " + Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", iUserProfile.FirstName) + " " + Dictionary.GetRandomString(iUserProfile.Tastes.Sport.ToString()));
+					Debug.Log("Random user fact  " + Dictionary.GetRandomString("userfavoritecoloris").Replace("[user]", iUserProfile.FirstName) + " " + Dictionary.GetRandomString(iUserProfile.Tastes.Sport.ToString().ToLower()));
 					return Dictionary.GetRandomString("userfavoritesportis").Replace("[user]", iUserProfile.FirstName) + " " + Dictionary.GetRandomString(iUserProfile.Tastes.Sport.ToString().ToLower());
 				} else
 					lRand = 4;

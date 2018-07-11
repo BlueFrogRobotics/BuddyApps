@@ -56,7 +56,7 @@ namespace BuddyApp.Companion
 
 
 			if (mCompanion.mCurrentUser == null) {
-				Debug.Log("We didn't recognized the curent user, ask his name");
+				Debug.Log("We didn't recognize the curent user, ask his name");
 				Trigger("ASKNAME");
 				mAskName = true;
 			} else if (string.IsNullOrEmpty(mCompanion.mCurrentUser.FirstName)) {

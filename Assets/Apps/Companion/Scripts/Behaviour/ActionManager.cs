@@ -135,12 +135,12 @@ namespace BuddyApp.Companion
 		/// <returns></returns>
 		public string NeededAction(COMPANION_STATE iState)
 		{
-			if (mDetectionManager.ActiveReminder) {
+			if (mDetectionManager.ActiveUrgentReminder) {
 				// we need to deliver the message from notification
-				Debug.Log("[Companion][ActionManager] need to notify");
+				Debug.Log("[Companion][ActionManager] need to notify urgent");
 				if (mDetectionManager.UserPresent(iState)) {
 					return "NOTIF";
-				} else if (mDetectionManager.ActiveUrgentReminder) {
+				} else {
 					// Only if notif is an emergency
 					return "LOOKINGFORSOMEONE";
 				}
@@ -309,18 +309,33 @@ namespace BuddyApp.Companion
 		{
 
 			List<Buddy.Reminder> lReminders = new List<Buddy.Reminder>();
+
+
+			Debug.Log("[ActionManager] InformNotifPriority");
 			lReminders = BYOS.Instance.DataBase.Memory.Procedural.GetIssuedReminders(ReminderState.SHOWN);
+
+			Debug.Log("[ActionManager] InformNotifPriority got shown messages");
 
 			if (lReminders.Count == 0)
 				lReminders = BYOS.Instance.DataBase.Memory.Procedural.GetIssuedReminders(ReminderState.DELIVERED);
 
 
+			Debug.Log("[ActionManager] InformNotifPriority lReminders count: " + lReminders.Count);
 
 			if (lReminders.Count > 0) {
-				Buddy.Reminder lReminder = BYOS.Instance.DataBase.Memory.Procedural.GetIssuedUrgentReminders(ReminderState.DELIVERED)[0];
-				lReminder = (lReminder == null) ? lReminders[0] : lReminder;
+				Debug.Log("[ActionManager] InformNotifPriority lReminders count>0 ");
+				Buddy.Reminder lReminder = new Buddy.Reminder();
+				List<Buddy.Reminder> lRemindersUrgent = BYOS.Instance.DataBase.Memory.Procedural.GetIssuedUrgentReminders(ReminderState.DELIVERED);
+				if (lRemindersUrgent.Count > 0)
+					lReminder = BYOS.Instance.DataBase.Memory.Procedural.GetIssuedUrgentReminders(ReminderState.DELIVERED)[0];
 
+				Debug.Log("[ActionManager] urgent reminder null: " + (lReminder == null));
+				lReminder = lReminder ?? lReminders[0];
+
+
+				Debug.Log("[ActionManager]inform notif");
 				InformNotif(lReminder, iUpdateState, iTell, iDisplay);
+				Debug.Log("[ActionManager]inform notif");
 
 				return lReminder;
 			}
