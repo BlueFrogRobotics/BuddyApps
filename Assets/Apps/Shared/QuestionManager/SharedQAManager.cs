@@ -28,9 +28,9 @@ namespace BuddyApp.Shared
         [SerializeField]
         private string NameVoconGrammarFile;
         [SerializeField]
-        private LoadContext context;
-        [SerializeField]
         private string BuddySayWhenQuit;
+        [SerializeField]
+        private LoadContext context;
 
         public class QuestionItem
         {
@@ -52,6 +52,16 @@ namespace BuddyApp.Shared
         private bool IsMultipleToaster;
 
 
+        [Header("BML")]
+        [SerializeField]
+        private bool PlayBML;
+        [SerializeField]
+        private bool RandomBML;
+        [SerializeField]
+        private string[] AnswerBML;
+        [SerializeField]
+        private string QuitBML;
+
         private bool mIsDisplayed;
 
         private string mSpeechReco;
@@ -59,10 +69,13 @@ namespace BuddyApp.Shared
         private bool mListening;
         private TextToSpeech mTTS;
         private float mTimer;
+        private MoodType mActualMood;
         private List<string> mKeyList;
         private bool mSoundPlayed;
         private int mNumberOfButton;
         private int mIndexButton = 0;
+        private bool BmlIsLaunch = true;
+
 
         public override void Start()
         {
@@ -87,8 +100,8 @@ namespace BuddyApp.Shared
             Interaction.VocalManager.OnError = null;
 
             mListening = false;
-            mIsDisplayed = false;
             mSoundPlayed = false;
+            mIsDisplayed = false;
             mKeyList = new List<string>();
             mTimer = 0F;
         }
@@ -103,6 +116,7 @@ namespace BuddyApp.Shared
             mSpeechReco = iBestResult.Utterance;
             mStartRule = iBestResult.StartRule;
             mListening = false;
+            Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -123,10 +137,8 @@ namespace BuddyApp.Shared
 
             if (IsBinaryQuestion)
             {
-                Debug.Log("mIsDisplayed " + mIsDisplayed);
                 if (!mIsDisplayed)
                 {
-                    Debug.Log("BuddySays " + BuddySays);
                     if (!string.IsNullOrEmpty(BuddySays))
                     {
                         if (IsKey(BuddySays))
@@ -146,6 +158,7 @@ namespace BuddyApp.Shared
                     //Display toaster
                     if (IsBinaryToaster)
                     {
+                        mActualMood = Interaction.Mood.CurrentMood;
                         if (items.Count == 0)
                         {
                             Debug.Log("items empty : not possible");
@@ -166,28 +179,33 @@ namespace BuddyApp.Shared
                 }
 
                 mStartRule = SharedVocalFunctions.GetRealStartRule(mStartRule);
-
+                int lNumberAnswer = 0;
                 foreach (QuestionItem item in items)
                 {
-
                     if (mStartRule.Equals(item.key))
                     {
                         if (IsBinaryToaster)
                             BYOS.Instance.Toaster.Hide();
                         if (item.trigger.Equals("quit"))
-                            Quit();
+                            StartCoroutine(Quit());
                         else
-                            GotoParameter(item.trigger);
+                            StartCoroutine(GotoParameter(item.trigger, lNumberAnswer));
                         break;
                     }
                     else if (mStartRule.Equals("quit"))
-                        Quit();
+                    {
+                        if (IsMultipleToaster)
+                            BYOS.Instance.Toaster.Hide();
+                        StartCoroutine(Quit());
+                    }
+                    lNumberAnswer++;
                 }
             }
             else if (IsMultipleQuestion)
             {
                 if (IsMultipleToaster && !mIsDisplayed)
                 {
+                    mActualMood = Interaction.Mood.CurrentMood;
                     mIsDisplayed = true;
                     if (!string.IsNullOrEmpty(BuddySays))
                     {
@@ -218,6 +236,7 @@ namespace BuddyApp.Shared
 
                 mStartRule = SharedVocalFunctions.GetRealStartRule(mStartRule);
 
+                int lNumberAnswer = 0;
                 foreach (QuestionItem item in items)
                 {
                     if (mStartRule.Equals(item.key))
@@ -225,18 +244,62 @@ namespace BuddyApp.Shared
                         if (IsMultipleToaster)
                             BYOS.Instance.Toaster.Hide();
                         if (item.trigger.Equals("quit"))
-                            QuitApp();
+                            StartCoroutine(Quit());
                         else
-                            GotoParameter(item.trigger);
+                            StartCoroutine(GotoParameter(item.trigger, lNumberAnswer));
                         break;
                     }
                     else if (mStartRule.Equals("quit"))
-                        QuitApp();
+                    {
+                        if (IsMultipleToaster)
+                            BYOS.Instance.Toaster.Hide();
+                        StartCoroutine(Quit());
+                    }
+                    lNumberAnswer++;
                 }
             }
         }
 
-        private void Quit()
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, LoadContext.APP);
+            Interaction.VocalManager.StopListenBehaviour();
+            Interaction.Mood.Set(mActualMood);
+            mIsDisplayed = false;
+            Interaction.VocalManager.UseVocon = false;
+            Debug.Log("EXIT");
+        }
+
+        /// <summary>
+        /// Go to parameters
+        /// </summary>
+        /// <param name="iMode">the chosen mode</param>
+        private IEnumerator GotoParameter(string iTrigger, int iNumberAnswer)
+        {
+            if (PlayBML)
+            {
+                try {
+                    BMLLauncher(AnswerBML[iNumberAnswer]);
+                }
+                catch (Exception e) {
+                    Utils.LogE(LogContext.APP, e.Message + " You need to have the same number of button and AnswerBML in Shared Inspector");
+                    QuitApp();
+                }
+                while (!Interaction.BMLManager.DonePlaying)
+                    yield return null;
+
+                BmlIsLaunch = true;
+            }
+            mSpeechReco = null;
+            Trigger(iTrigger);
+            Interaction.SpeechToText.Stop();
+        }
+
+        /// <summary>
+        /// Quit application
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator Quit()
         {
             if (!string.IsNullOrEmpty(BuddySayWhenQuit))
             {
@@ -254,33 +317,39 @@ namespace BuddyApp.Shared
                     mTTS.Say(BuddySayWhenQuit);
                 }
             }
+
+            try {
+                BMLLauncher(QuitBML);
+            }
+            catch (Exception e) {
+                Utils.LogE(LogContext.APP, e.Message + " You need to have the same number of button and AnswerBML in Editor");
+                QuitApp();
+            }
+
+            while (!Interaction.BMLManager.DonePlaying && !Interaction.TextToSpeech.HasFinishedTalking)
+                yield return null;
+            BmlIsLaunch = true;
             QuitApp();
         }
 
-        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-        {
-            mIsDisplayed = false;
-
-            // Vocon
-            Interaction.VocalManager.StopRecognition();
-            Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, context);
-            Interaction.VocalManager.UseVocon = false;
-            Interaction.VocalManager.OnVoconBest = null;
-            Interaction.VocalManager.OnVoconEvent = null;
-
-            Debug.Log("EXIT");
-        }
-
         /// <summary>
-        /// Go to parameters
+        /// Launch Random or By name BML
         /// </summary>
-        /// <param name="iMode">the chosen mode</param>
-        private void GotoParameter(string iTrigger)
+        /// <param name="iBMLName"></param>
+        private void BMLLauncher(string iBMLName)
         {
-            Debug.Log("TRIGER = " + iTrigger);
-            mSpeechReco = null;
-            Trigger(iTrigger);
-            Interaction.SpeechToText.Stop();
+            if (BmlIsLaunch)
+            {
+                if (RandomBML) {
+                    if (!Interaction.BMLManager.LaunchRandom(iBMLName))
+                        Utils.LogE(LogContext.APP, "This category of BML doesn't exist in your app and in the OS");
+                }
+                else {
+                    if (!Interaction.BMLManager.LaunchByName(iBMLName))
+                        Utils.LogE(LogContext.APP, "This BML doesn't exist in your app and in the OS");
+                }
+                BmlIsLaunch = false;
+            }
         }
 
         private void PressedButton(string iKey)
@@ -300,6 +369,7 @@ namespace BuddyApp.Shared
         private void OnSpeechReco(string iVoiceInput)
         {
             mSpeechReco = iVoiceInput;
+            Interaction.Mood.Set(MoodType.NEUTRAL);
             mListening = false;
         }
 

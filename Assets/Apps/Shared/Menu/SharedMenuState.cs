@@ -17,9 +17,8 @@ namespace BuddyApp.Shared
     /// </summary>
     public class SharedMenuState : ASharedSMB
     {
-
         public class MenuItem
-        { 
+        {
             public string key;
             public string trigger;
             public bool quitApp;
@@ -45,6 +44,15 @@ namespace BuddyApp.Shared
         [SerializeField]
         private LoadContext context;
 
+
+        [Header("BML")]
+        [SerializeField]
+        private bool PlayBML;
+        [SerializeField]
+        private bool RandomBML;
+        [SerializeField]
+        private string[] BMLs;
+
         private int mNumberOfButton;
         private int mIndexButton = 0;
 
@@ -58,6 +66,7 @@ namespace BuddyApp.Shared
         private float mTimer = 0.0f;
 
         private bool mListClear;
+        private bool BmlIsLaunch = false;
 
         public override void Start()
         {
@@ -69,7 +78,7 @@ namespace BuddyApp.Shared
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("StateENterShared");
-            if(!mListClear)
+            if (!mListClear)
             {
                 mListClear = true;
                 //items.Clear();
@@ -146,14 +155,16 @@ namespace BuddyApp.Shared
 
                 mStartRule = SharedVocalFunctions.GetRealStartRule(mStartRule);
 
+                int lNumber = 0;
                 foreach (MenuItem item in items)
                 {
                     if (mStartRule.Equals(item.key))
                     {
                         BYOS.Instance.Toaster.Hide();
-                        GotoParameter(item.trigger, item.quitApp);
+                        StartCoroutine(GotoParameter(item.trigger, lNumber, item.quitApp));
                         break;
                     }
+                    lNumber++;
                 }
             }
         }
@@ -162,12 +173,12 @@ namespace BuddyApp.Shared
         {
             Debug.Log("StateExitShared");
             // Vocon
-            Interaction.VocalManager.StopRecognition(); 
+            Interaction.VocalManager.StopListenBehaviour();
             Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, context);
             Interaction.VocalManager.UseVocon = false;
             Interaction.VocalManager.OnVoconBest = null;
             Interaction.VocalManager.OnVoconEvent = null;
-            
+
             mListClear = false;
             Interaction.SpeechToText.Stop();
             Interaction.Mood.Set(MoodType.NEUTRAL);
@@ -203,7 +214,7 @@ namespace BuddyApp.Shared
                 lButtonsInfo[i] = new ButtonInfo
                 {
                     Label = Dictionary.GetString(item.key),
-                    OnClick = delegate () { GotoParameter(item.trigger, item.quitApp); }
+                    OnClick = delegate () { StartCoroutine(GotoParameter(item.trigger, i, item.quitApp)); }
                 };
                 i++;
             }
@@ -237,12 +248,45 @@ namespace BuddyApp.Shared
         /// Go to parameters
         /// </summary>
         /// <param name="iMode">the chosen mode</param>
-        private void GotoParameter(string iTrigger, bool iQuit)
+        private IEnumerator GotoParameter(string iTrigger, int iNumber, bool iQuit)
         {
+            if (PlayBML)
+            {
+                try {
+                    BMLLauncher(BMLs[iNumber]);
+                }
+                catch (Exception e) {
+                    Utils.LogE(LogContext.APP, e.Message + " You need to have the same number of button and BMLs in Shared Inspector");
+                    QuitApp();
+                }
+
+
+                while (!Interaction.BMLManager.DonePlaying)
+                    yield return null;
+            }
+            BmlIsLaunch = false;
             mSpeechReco = null;
             if (iQuit)
                 QuitApp();
             Trigger(iTrigger);
+        }
+
+        private void BMLLauncher(string iBMLName)
+        {
+            if (!BmlIsLaunch)
+            {
+                if (RandomBML)
+                {
+                    if (!Interaction.BMLManager.LaunchRandom(iBMLName))
+                        Utils.LogE(LogContext.APP, "This category of BML doesn't exist in your app and in the OS");
+                }
+                else
+                {
+                    if (!Interaction.BMLManager.LaunchByName(iBMLName))
+                        Utils.LogE(LogContext.APP, "This BML doesn't exist in your app and in the OS");
+                }
+                BmlIsLaunch = true;
+            }
         }
 
         private void Empty(STTError iError)

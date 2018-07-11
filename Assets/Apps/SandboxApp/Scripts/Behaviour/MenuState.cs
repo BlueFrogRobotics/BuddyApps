@@ -7,8 +7,8 @@ using Buddy.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
-
+using System.IO;
+using System.Xml;
 
 namespace BuddyApp.SandboxApp
 {
@@ -18,7 +18,6 @@ namespace BuddyApp.SandboxApp
     public class MenuState : AStateMachineBehaviour
     {
 
-        [Serializable]
         public class MenuItem
         {
             public string key;
@@ -30,13 +29,36 @@ namespace BuddyApp.SandboxApp
         private string titleKey;
 
         [SerializeField]
-        private List<MenuItem> items;
+        private string speechKey;
 
-        //private List<string> mStartPhonetics;
-        //private List<string> mParameterPhonetics;
-        //private List<string> mQuitPhonetics;
+        private List<MenuItem> items = new List<MenuItem>(0);
+
+        [SerializeField]
+        private string NameOfXML;
+
+        /// <summary>
+        /// Name of the grammar Vocon, without "_language"/extension
+        /// </summary>
+        [SerializeField]
+        private string NameVoconGrammarFile;
+
+        [SerializeField]
+        private LoadContext context;
+
+
+        [Header("BML")]
+        [SerializeField]
+        private bool PlayBML;
+        [SerializeField]
+        private bool RandomBML;
+        [SerializeField]
+        private string[] BMLs;
+
+        private int mNumberOfButton;
+        private int mIndexButton = 0;
 
         private string mSpeechReco;
+        private string mStartRule;
 
         private bool mHasDisplayChoices;
         private bool mListening;
@@ -44,28 +66,66 @@ namespace BuddyApp.SandboxApp
 
         private float mTimer = 0.0f;
 
+        private bool mListClear;
+        private bool BmlIsLaunch = false;
+
         public override void Start()
         {
             Interaction.VocalManager.EnableTrigger = false;
             BYOS.Instance.Header.DisplayParametersButton = false;
-            //mStartPhonetics = new List<string>(Dictionary.GetPhoneticStrings("start"));
-            //mParameterPhonetics = new List<string>(Dictionary.GetPhoneticStrings("detectionparameters"));
-            //mQuitPhonetics = new List<string>(Dictionary.GetPhoneticStrings("quit"));
+            mListClear = false;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("StateENterShared");
+            if (!mListClear)
+            {
+                mListClear = true;
+                //items.Clear();
+                //items = new List<MenuItem>(0);
+            }
             BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
             mHasLoadedTTS = true;
-            //Debug.Log("[TTS] Has TTS been setup: " + Interaction.TextToSpeech.IsSetup);
-            //Interaction.TextToSpeech.Say(Dictionary.GetRandomString("askchoices"));
+            if (!string.IsNullOrEmpty(speechKey))
+            {
+                if (!string.IsNullOrEmpty(Dictionary.GetRandomString(speechKey)))
+                {
+                    Interaction.TextToSpeech.Say(Dictionary.GetRandomString(speechKey));
+                }
+                else if (!string.IsNullOrEmpty(Dictionary.GetString(speechKey)))
+                {
+                    Interaction.TextToSpeech.Say(Dictionary.GetString(speechKey));
+                }
+            }
 
-            Interaction.VocalManager.OnEndReco = OnSpeechReco;
+            //Use vocon
+            Interaction.VocalManager.UseVocon = true;
+
+            Debug.Log(BYOS.Instance.Resources.GetPathToRaw(NameVoconGrammarFile + "_en.bin + " + context));
+            Interaction.VocalManager.AddGrammar(NameVoconGrammarFile, context);
+            Interaction.VocalManager.OnVoconBest = VoconBest;
+            Interaction.VocalManager.OnVoconEvent = EventVocon;
+
             Interaction.VocalManager.EnableDefaultErrorHandling = false;
             Interaction.VocalManager.OnError = Empty;
             mTimer = 0.0f;
             mListening = false;
+        }
+
+        private void EventVocon(VoconEvent iEvent)
+        {
+            Debug.Log(iEvent);
+        }
+
+        private void VoconBest(VoconResult iBestResult)
+        {
+            mSpeechReco = iBestResult.Utterance;
+            Debug.Log("SpeechReco = " + mSpeechReco);
+            mStartRule = iBestResult.StartRule;
+            mListening = false;
+            //Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -73,13 +133,6 @@ namespace BuddyApp.SandboxApp
             if (mHasLoadedTTS)
             {
                 mTimer += Time.deltaTime;
-                if (mTimer > 6.0f)
-                {
-                    Interaction.Mood.Set(MoodType.NEUTRAL);
-                    mListening = false;
-                    mTimer = 0.0f;
-                    mSpeechReco = null;
-                }
 
                 if (!Interaction.TextToSpeech.HasFinishedTalking || mListening)
                     return;
@@ -90,63 +143,48 @@ namespace BuddyApp.SandboxApp
                     mHasDisplayChoices = true;
                     return;
                 }
-
-
+                Debug.Log("mSpeechReco = " + mSpeechReco + "lol");
                 if (string.IsNullOrEmpty(mSpeechReco))
                 {
-
+                    Debug.Log("StartInstantReco");
                     Interaction.VocalManager.StartInstantReco();
 
                     Interaction.Mood.Set(MoodType.LISTENING);
                     mListening = true;
                     return;
                 }
-                foreach(MenuItem item in items)
+
+                mStartRule = VocalFunctions.GetRealStartRule(mStartRule);
+
+                int lNumber = 0;
+                foreach (MenuItem item in items)
                 {
-                    if (ContainsOneOf(mSpeechReco, new List<string>(Dictionary.GetPhoneticStrings(item.key))))
+                    if (mStartRule.Equals(item.key))
                     {
                         BYOS.Instance.Toaster.Hide();
-                        //if (GuardianData.Instance.FirstRun)
-                        //    GotoParameter();
-                        //else
-                        GotoParameter(item.trigger, item.quitApp);
+                        StartCoroutine(GotoParameter(item.trigger, lNumber, item.quitApp));
                         break;
                     }
+                    lNumber++;
                 }
-
-                //if (ContainsOneOf(mSpeechReco, mStartPhonetics))
-                //{
-                //    BYOS.Instance.Toaster.Hide();
-                //    //if (GuardianData.Instance.FirstRun)
-                //    //    GotoParameter();
-                //    //else
-                //    StartGuardian();
-                //}
-                //else if (ContainsOneOf(mSpeechReco, mParameterPhonetics))
-                //{
-                //    BYOS.Instance.Toaster.Hide();
-                //    //GotoParameter();
-                //}
-                //else if (ContainsOneOf(mSpeechReco, mQuitPhonetics))
-                //{
-                //    BYOS.Instance.Toaster.Hide();
-                //    QuitApp();
-                //}
-                //else
-                //{
-                //    Interaction.TextToSpeech.SayKey("notunderstand", true);
-                //    Interaction.TextToSpeech.Silence(1000, true);
-                //    Interaction.TextToSpeech.SayKey("askchoices", true);
-                //    mListening = false;
-                //    mSpeechReco = null;
-                //}
             }
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Interaction.Mood.Set(MoodType.NEUTRAL);
+            Debug.Log("StateExitShared");
+            // Vocon
+            Interaction.VocalManager.StopListenBehaviour();
+            Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, context);
+            Interaction.VocalManager.UseVocon = false;
+            Interaction.VocalManager.OnVoconBest = null;
+            Interaction.VocalManager.OnVoconEvent = null;
 
+            mListClear = false;
+            Interaction.SpeechToText.Stop();
+            Interaction.Mood.Set(MoodType.NEUTRAL);
+            mIndexButton = 0;
+            items.Clear();
             mSpeechReco = null;
             mHasDisplayChoices = false;
         }
@@ -161,28 +199,31 @@ namespace BuddyApp.SandboxApp
             BYOS.Instance.Header.SpinningWheel = false;
         }
 
-
         /// <summary>
         /// Display the choice toaster
         /// </summary>
         private void DisplayChoices()
         {
+            Debug.Log("display choice");
+
+            FillMenu();
+            Debug.Log("display count " + items.Count);
             ButtonInfo[] lButtonsInfo = new ButtonInfo[items.Count];
             int i = 0;
-            foreach(MenuItem item in items)
+            foreach (MenuItem item in items)
             {
                 lButtonsInfo[i] = new ButtonInfo
                 {
                     Label = Dictionary.GetString(item.key),
-                    OnClick = delegate () { GotoParameter(item.trigger, item.quitApp); }
+                    OnClick = delegate () { StartCoroutine(GotoParameter(item.trigger, i, item.quitApp)); }
                 };
-                //if (item.quitApp)
-                //    lButtonsInfo[i].OnClick = QuitApp;
                 i++;
             }
 
-
-            BYOS.Instance.Toaster.Display<ChoiceToast>().With(Dictionary.GetString(titleKey), lButtonsInfo);
+            if (string.IsNullOrEmpty(Dictionary.GetString(titleKey)))
+                BYOS.Instance.Toaster.Display<ChoiceToast>().With(titleKey, lButtonsInfo);
+            else
+                BYOS.Instance.Toaster.Display<ChoiceToast>().With(Dictionary.GetString(titleKey), lButtonsInfo);
 
         }
 
@@ -192,7 +233,6 @@ namespace BuddyApp.SandboxApp
 
             Interaction.Mood.Set(MoodType.NEUTRAL);
             mListening = false;
-
         }
 
         /// <summary>
@@ -203,43 +243,53 @@ namespace BuddyApp.SandboxApp
         {
             mSpeechReco = null;
             Trigger("NextStep");
-            //Interaction.SpeechToText.OnBestRecognition.Remove(OnSpeechReco);
-            Interaction.VocalManager.OnEndReco = Empty;
         }
 
         /// <summary>
         /// Go to parameters
         /// </summary>
         /// <param name="iMode">the chosen mode</param>
-        private void GotoParameter(string iTrigger, bool iQuit)
+        private IEnumerator GotoParameter(string iTrigger, int iNumber, bool iQuit)
         {
+            if (PlayBML)
+            {
+                try
+                {
+                    BMLLauncher(BMLs[iNumber]);
+                }
+                catch (Exception e)
+                {
+                    Utils.LogE(LogContext.APP, e.Message + " You need to have the same number of button and BMLs in Shared Inspector");
+                    QuitApp();
+                }
+
+
+                while (!Interaction.BMLManager.DonePlaying)
+                    yield return null;
+            }
+            BmlIsLaunch = false;
             mSpeechReco = null;
             if (iQuit)
                 QuitApp();
             Trigger(iTrigger);
-            Interaction.VocalManager.OnEndReco = Empty;
         }
 
-        private bool ContainsOneOf(string iSpeech, List<string> iListSpeech)
+        private void BMLLauncher(string iBMLName)
         {
-            for (int i = 0; i < iListSpeech.Count; ++i)
+            if (!BmlIsLaunch)
             {
-                string[] words = iListSpeech[i].Split(' ');
-                if (words.Length < 2)
+                if (RandomBML)
                 {
-                    words = iSpeech.Split(' ');
-                    foreach (string word in words)
-                    {
-                        if (word == iListSpeech[i].ToLower())
-                        {
-                            return true;
-                        }
-                    }
+                    if (!Interaction.BMLManager.LaunchRandom(iBMLName))
+                        Utils.LogE(LogContext.APP, "This category of BML doesn't exist in your app and in the OS");
                 }
-                else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
-                    return true;
+                else
+                {
+                    if (!Interaction.BMLManager.LaunchByName(iBMLName))
+                        Utils.LogE(LogContext.APP, "This BML doesn't exist in your app and in the OS");
+                }
+                BmlIsLaunch = true;
             }
-            return false;
         }
 
         private void Empty(STTError iError)
@@ -247,10 +297,47 @@ namespace BuddyApp.SandboxApp
             Interaction.Mood.Set(MoodType.NEUTRAL);
         }
 
-        private void Empty(string iVoice)
+        void AddNewButton()
         {
+            items.Add(new MenuItem());
         }
 
+        private void FillMenu()
+        {
+            string lPath = BYOS.Instance.Resources.GetPathToRaw("XMLShared/Menu");
+            bool lResult = false;
+            int lValue = 0;
+
+            if (File.Exists(lPath + "/" + NameOfXML + ".xml"))
+            {
+                XmlDocument lDoc = new XmlDocument();
+                lDoc.Load(lPath + "/" + NameOfXML + ".xml");
+
+                XmlElement lElmt = lDoc.DocumentElement;
+                XmlNodeList lNodeList = lElmt.ChildNodes;
+                if (lNodeList[0].Name == "ListSize")
+                {
+
+                    lResult = int.TryParse(lNodeList[0].InnerText, out lValue);
+                    if (lResult)
+                        mNumberOfButton = lValue;
+                }
+
+                for (int i = 0; i < lNodeList.Count; ++i)
+                {
+                    if (lNodeList[i].Name == "Button")
+                    {
+                        AddNewButton();
+                        items[mIndexButton].key = lNodeList[i].SelectSingleNode("Key").InnerText;
+                        items[mIndexButton].trigger = lNodeList[i].SelectSingleNode("Trigger").InnerText;
+                        bool.TryParse(lNodeList[i].SelectSingleNode("QuitApp").InnerText, out items[mIndexButton].quitApp);
+                        mIndexButton++;
+                    }
+
+                }
+            }
+
+        }
 
     }
 }
