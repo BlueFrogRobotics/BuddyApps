@@ -92,7 +92,7 @@ namespace BuddyApp.Quizz
             else
             {
                 int lAnswerId = -1;
-                if (iBestResult.StartRule == "answers_fr#answer" /*&& iBestResult.Utterance.Contains(mQuizzBehaviour.ActualQuestion.Answers[mQuizzBehaviour.ActualQuestion.GoodAnswer])*/)
+                if (iBestResult.StartRule == "answers_" + mQuizzBehaviour.Lang + "#answer" /*&& iBestResult.Utterance.Contains(mQuizzBehaviour.ActualQuestion.Answers[mQuizzBehaviour.ActualQuestion.GoodAnswer])*/)
                 {
                     for (int i = 0; i < mQuizzBehaviour.ActualQuestion.Answers.Count; i++)
                     {
@@ -101,11 +101,11 @@ namespace BuddyApp.Quizz
                     }
                     //Trigger("Win");
                 }
-                else if (iBestResult.StartRule == "commands_fr#first")
+                else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#first")
                     lAnswerId = 0;
-                else if (iBestResult.StartRule == "commands_fr#second")
+                else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#second")
                     lAnswerId = 1;
-                else if (iBestResult.StartRule == "commands_fr#third")
+                else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#third")
                     lAnswerId = 2;
                 if (lAnswerId != -1)
                 {
@@ -114,11 +114,11 @@ namespace BuddyApp.Quizz
                     else
                         Trigger("Lose");
                 }
-                else if (iBestResult.StartRule == "commands_fr#repeat")
+                else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#repeat")
                 {
                     StartCoroutine(RepeatQuestion());
                 }
-                else if (iBestResult.StartRule == "commands_fr#quit" && iBestResult.Confidence > 6000)
+                else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#quit" && iBestResult.Confidence > 6000)
                 {
                     Trigger("Quit");
                 }

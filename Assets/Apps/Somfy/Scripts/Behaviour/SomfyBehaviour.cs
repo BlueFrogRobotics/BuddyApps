@@ -21,6 +21,7 @@ namespace BuddyApp.Somfy
         public IOTSomfy Box { get; private set; }
         private IOTSomfyDevice store;
         private IOTSomfyDevice plug;
+        private IOTSomfyDevice plug2;
         private IOTSomfyDevice thermostat;
         private IOTSomfyDevice thermometer;
         private IOTSomfyDevice sonos;
@@ -76,6 +77,18 @@ namespace BuddyApp.Somfy
                 {
                     Debug.Log("plug");
                     plug = (IOTSomfyDevice)device;
+                    //if (plug.states != null)
+                    //{
+                    //    foreach (IOTSomfyStateJSON state in plug.states)
+                    //    {
+                    //        Debug.Log("state, " + state.name + ": " + state.value);
+                    //    }
+                    //}
+                }
+                else if (device.Type == IOTDevices.DeviceType.SWITCH && device.Name == "kitchen")
+                {
+                    Debug.Log("plug2");
+                    plug2 = (IOTSomfyDevice)device;
                     //if (plug.states != null)
                     //{
                     //    foreach (IOTSomfyStateJSON state in plug.states)

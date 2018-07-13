@@ -9,6 +9,7 @@ namespace BuddyApp.Quizz
     {
 
         private QuizzBehaviour mQuizzBehaviour;
+        private Animator mAnimator;
 
         public override void Start()
         {
@@ -62,7 +63,7 @@ namespace BuddyApp.Quizz
                 //Interaction.VocalManager.StopRecognition();
                 Interaction.VocalManager.StartInstantReco();
             }
-            else if(iBestResult.StartRule == "commands_fr#quit" && iBestResult.Confidence > 6000)
+            else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#quit" && iBestResult.Confidence > 6000)
             {
                 Trigger("Quit");
             }
@@ -90,6 +91,11 @@ namespace BuddyApp.Quizz
                     Trigger("Engagement");
                 }
             }
+        }
+
+        private void OnLanguageChange()
+        {
+            mAnimator.Play("AskNumPlayer");
         }
     }
 }

@@ -57,7 +57,11 @@ namespace BuddyApp.Quizz
 
         public bool Beginning { get; set; }
 
-         public HashSet<int> ListQuestionsIdAsked { get; set; }
+        public HashSet<int> ListQuestionsIdAsked { get; set; }
+
+        public string Lang { get { return BYOS.Instance.Language.CurrentLang.ToString().ToLower(); } }
+
+        public Action OnLanguageChange;
 
         public const int MAX_ROUNDS = 3;
 
@@ -68,57 +72,42 @@ namespace BuddyApp.Quizz
          */
         private QuizzData mAppData;
 
+        private Language mCurrentLanguage;
+
         void Start()
         {
             /*
 			* You can setup your App activity here.
 			*/
             QuizzActivity.Init(null);
-
+            Debug.Log("format: " + BYOS.Instance.Language.CurrentFormat + " lang: " + BYOS.Instance.Language.CurrentLang.ToString());
             /*
 			* Init your app data
 			*/
             mAppData = QuizzData.Instance;
-
-            PlayerNamesData = Utils.UnserializeXML<PlayerNamesData>(BYOS.Instance.Resources.GetPathToRaw("player_names.xml"));
+            Debug.Log("player truc: " + BYOS.Instance.Resources.GetPathToRaw("player_names_" + Lang + ".xml"));
+            PlayerNamesData = Utils.UnserializeXML<PlayerNamesData>(BYOS.Instance.Resources.GetPathToRaw("player_names_" + Lang + ".xml"));
             foreach (string player in PlayerNamesData.Names)
             {
                 Debug.Log(player);
             }
 
-            Debug.Log("avant deserialisation");
-            Questions = Utils.UnserializeXML<QuestionsData>(BYOS.Instance.Resources.GetPathToRaw("quizz_fr.xml"));
+            Debug.Log("avant deserialisation: ");
+            Questions = Utils.UnserializeXML<QuestionsData>(BYOS.Instance.Resources.GetPathToRaw("quizz_" + Lang + ".xml"));
             Debug.Log("nombre de questions: " + Questions.Questions.Count);
             ListQuestionsIdAsked = new HashSet<int>();
-            //PlayerNamesData playerNamesData = new PlayerNamesData();
-            //playerNamesData.Names = new List<string>();
-            //playerNamesData.Names.Add("Aigle");
-            //playerNamesData.Names.Add("Poupette");
-            //Utils.SerializeXML(playerNamesData, BYOS.Instance.Resources.GetPathToRaw("player_names"));
-            //QuestionsData questions = new QuestionsData();
-            //questions.Questions = new List<QuestionData>();
-            //QuestionData question = new QuestionData();
-            //question.Answers = new List<string>();
-            //question.Question = "Qui a mis le premier le pied sur la Lune ?";
-            //question.Theme = Theme.HISTORY;
-            //question.Answers.Add("Neil Armstrong");
-            //question.Answers.Add("Youri Gagarine");
-            //question.Answers.Add("Buzz Aldrin");
-            //question.GoodAnswer = 0;
-            //question.AnswerComplement = "L'astronaute américain Neil Armstrong a été le premier homme à marcher sur la Lune le 21 juillet 1969. En posant son pied gauche sur le sol lunaire, il a prononcé ces mots désormais célèbres : « C'est un petit pas pour l'homme, un bond de géant pour l'humanité. ».";
-            //questions.Questions.Add(question);
-            //QuestionData question2 = new QuestionData();
-            //question2.Answers = new List<string>();
-            //question2.Question = "Quelle est la capitale du Brésil ?";
-            //question2.Theme = Theme.GEOGRAPHY;
-            //question2.Answers.Add("Rio de Janeiro");
-            //question2.Answers.Add("Brasilia");
-            //question2.Answers.Add("Sao Paulo");
-            //question2.GoodAnswer = 1;
-            //question2.AnswerComplement = "C'est en 1960 que les autorités brésiliennes, qui ne parvenaient pas à se décider entre Rio et Sao Paulo, décident de faire de Brasilia la capitale du pays. La ville fut construite pour l'occasion, en moins de trois ans. Aujourd'hui, elle fait partie des plus grandes villes du Brésil.";
-            //questions.Questions.Add(question2);
-            //Utils.SerializeXML(questions, BYOS.Instance.Resources.GetPathToRaw("quizz_fr.xml"));
+            mCurrentLanguage = BYOS.Instance.Language.CurrentLang;
 
+
+        }
+
+        private void Update()
+        {
+            if (BYOS.Instance.Language.CurrentLang != mCurrentLanguage && OnLanguageChange != null)
+            {
+                OnLanguageChange();
+                mCurrentLanguage = BYOS.Instance.Language.CurrentLang;
+            }
         }
 
         public void InitPlayers()

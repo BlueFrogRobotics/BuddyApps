@@ -101,14 +101,14 @@ namespace BuddyApp.Quizz
 
         private void VoconBest(VoconResult iBestResult)
         {
-            Debug.Log("le best result: " + iBestResult.Utterance + " confidence: " + iBestResult.Confidence+ " best rule: "+ iBestResult.StartRule);
+            Debug.Log("le best result: " + iBestResult.Utterance + " confidence: " + iBestResult.Confidence + " best rule: " + iBestResult.StartRule);
             if (iBestResult.Utterance == null || iBestResult.Utterance == "" || iBestResult.Confidence == 0)
             {
                 //Interaction.VocalManager.StopRecognition();
                 mHasSaidName = true;
                 //Interaction.VocalManager.StartInstantReco();
             }
-            else if (iBestResult.StartRule == "commands_fr#quit" && iBestResult.Confidence > 6000)
+            else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#quit" && iBestResult.Confidence > 6000)
             {
                 Trigger("Quit");
             }

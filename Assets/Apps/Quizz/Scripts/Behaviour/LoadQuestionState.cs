@@ -10,6 +10,7 @@ namespace BuddyApp.Quizz
     public class LoadQuestionState : AStateMachineBehaviour
     {
         private QuizzBehaviour mQuizzBehaviour;
+        private string mGrammarPath;
 
         public override void Start()
         {
@@ -19,6 +20,7 @@ namespace BuddyApp.Quizz
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("load question state");
+            mGrammarPath = BYOS.Instance.Resources.GetPathToRaw("answers_" + mQuizzBehaviour.Lang + ".txt");
             //mQuizzBehaviour.ActualQuestion = mQuizzBehaviour.Questions.Questions[0];
             SaveText();
             CompileAnswersGrammar();
@@ -41,7 +43,7 @@ namespace BuddyApp.Quizz
         {
             List<string> lLines = new List<string>();
             lLines.Add("#BNF+EMV2.1;");
-            lLines.Add("!grammar answers_fr;");
+            lLines.Add("!grammar answers_" + mQuizzBehaviour.Lang + ";");
             lLines.Add("!start <answer>;");
             //lLines.Add("!start <repeat>;");
             //lLines.Add("!start <quit>;");
@@ -49,7 +51,7 @@ namespace BuddyApp.Quizz
             //lLines.Add("<repeat> : ([est-ce que] je peux | peut-on | [est-ce qu'] on peut) répeter;");
             //lLines.Add("<quit> : quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | ce sera tout | rien | fin;");
             string lAllAnswers = "<answer> :";
-            for (int i=0; i< mQuizzBehaviour.ActualQuestion.Answers.Count; i++)
+            for (int i = 0; i < mQuizzBehaviour.ActualQuestion.Answers.Count; i++)
             {
                 lAllAnswers += mQuizzBehaviour.ActualQuestion.Answers[i];
                 if (i < mQuizzBehaviour.ActualQuestion.Answers.Count - 1)
@@ -57,15 +59,15 @@ namespace BuddyApp.Quizz
             }
             lAllAnswers += ";";
             lLines.Add(lAllAnswers);
-            File.WriteAllLines(BYOS.Instance.Resources.GetPathToRaw("answers_fr.txt"), lLines.ToArray());
-            
+            File.WriteAllLines(mGrammarPath, lLines.ToArray());
+
         }
 
         private void CompileAnswersGrammar()
         {
-            List<string> lGramars = new List<string>();
-            lGramars.Add(BYOS.Instance.Resources.GetPathToRaw("answers_fr.txt"));
-            Interaction.VoconSTT.CompileGrammars(lGramars);
+            List<string> lGrammars = new List<string>();
+            lGrammars.Add(mGrammarPath);
+            Interaction.VoconSTT.CompileGrammars(lGrammars);
         }
     }
 }
