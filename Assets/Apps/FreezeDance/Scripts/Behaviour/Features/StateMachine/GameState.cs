@@ -22,6 +22,7 @@ namespace BuddyApp.FreezeDance
         private Ranking mRanking;
         private bool mHasTalked;
         private bool mFinishedState;
+        private bool mFirst = true;
 
         public override void Start()
         {
@@ -39,12 +40,12 @@ namespace BuddyApp.FreezeDance
             if (!Primitive.RGBCam.IsOpen)
                 Primitive.RGBCam.Open(RGBCamResolution.W_176_H_144);
             SetBool("ScoreBool", true);
-            if(mFreezeBehaviour.ChangeMusic)
+            if (mFreezeBehaviour.ChangeMusic)
             {
                 mMusicPlayer.ReinitMusic(Random.Range(0, mMusicPlayer.NbClips));
                 mFreezeBehaviour.ChangeMusic = false;
             }
-            
+
             mMusicPlayer.Play();
             mTime = Time.time;
             mRandomStopDelay = 0;
@@ -62,6 +63,9 @@ namespace BuddyApp.FreezeDance
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+
+            Primitive.LED.SetBodyLight((LEDColor)Random.Range(0, 12));
+
             if (!mFinishedState)
             {
                 mTimer += Time.deltaTime;
@@ -111,6 +115,7 @@ namespace BuddyApp.FreezeDance
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Primitive.LED.SetBodyLight(LEDColor.BLUE_NEUTRAL);
             mFreezeBehaviour.OnMovementDetect -= OnDetect;
             Interaction.Mood.Set(MoodType.NEUTRAL);
             ResetTrigger("Detection");
