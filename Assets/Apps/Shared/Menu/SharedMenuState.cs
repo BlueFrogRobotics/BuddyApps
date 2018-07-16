@@ -35,6 +35,9 @@ namespace BuddyApp.Shared
         [SerializeField]
         private string NameOfXML;
 
+        [SerializeField]
+        private int Timeout = 3;
+
         /// <summary>
         /// Name of the grammar Vocon, without "_language"/extension
         /// </summary>
@@ -62,8 +65,9 @@ namespace BuddyApp.Shared
         private bool mHasDisplayChoices;
         private bool mListening;
         private bool mHasLoadedTTS;
-
         private float mTimer = 0.0f;
+        private int mTimeout;
+        private bool mSayText;
 
         private bool mListClear;
         private bool BmlIsLaunch = false;
@@ -122,6 +126,8 @@ namespace BuddyApp.Shared
         {
             mSpeechReco = iBestResult.Utterance;
             Debug.Log("SpeechReco = " + mSpeechReco);
+            if (string.IsNullOrEmpty(mSpeechReco))
+                mSayText = true;
             mStartRule = iBestResult.StartRule;
             mListening = false;
             //Interaction.Mood.Set(MoodType.NEUTRAL);
@@ -145,12 +151,37 @@ namespace BuddyApp.Shared
                 Debug.Log("mSpeechReco = " + mSpeechReco + "lol");
                 if (string.IsNullOrEmpty(mSpeechReco))
                 {
-                    Debug.Log("StartInstantReco");
-                    Interaction.VocalManager.StartInstantReco();
+                    if (mSayText)
+                    {
+                        Debug.Log(mTimeout + " == " + Timeout);
+                        if (mTimeout >= Timeout && Timeout != 0)
+                        {
+                            QuitApp();
+                            return;
+                        }
+                        Debug.Log("StartInstantReco");
 
-                    Interaction.Mood.Set(MoodType.LISTENING);
-                    mListening = true;
-                    return;
+                        if (!string.IsNullOrEmpty(speechKey))
+                        {
+                            if (!string.IsNullOrEmpty(Dictionary.GetRandomString(speechKey)))
+                            {
+                                Interaction.TextToSpeech.Say(Dictionary.GetRandomString(speechKey));
+                            }
+                            else if (!string.IsNullOrEmpty(Dictionary.GetString(speechKey)))
+                            {
+                                Interaction.TextToSpeech.Say(Dictionary.GetString(speechKey));
+                            }
+                        }
+                        mSayText = false;
+                    }
+                    if (Interaction.TextToSpeech.HasFinishedTalking)
+                    {
+                        Interaction.VocalManager.StartInstantReco();
+                        mTimeout++;
+                        Interaction.Mood.Set(MoodType.LISTENING);
+                        mListening = true;
+                        return;
+                    }
                 }
 
                 mStartRule = SharedVocalFunctions.GetRealStartRule(mStartRule);
@@ -186,6 +217,9 @@ namespace BuddyApp.Shared
             items.Clear();
             mSpeechReco = null;
             mHasDisplayChoices = false;
+           mTimeout = 0;
+            mSayText = true;
+
         }
 
         private IEnumerator WaitTTSLoading()
@@ -252,10 +286,12 @@ namespace BuddyApp.Shared
         {
             if (PlayBML)
             {
-                try {
+                try
+                {
                     BMLLauncher(BMLs[iNumber]);
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     Utils.LogE(LogContext.APP, e.Message + " You need to have the same number of button and BMLs in Shared Inspector");
                     QuitApp();
                 }
