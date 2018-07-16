@@ -24,6 +24,8 @@ namespace BuddyApp.TakePose
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            //Mettre Vocon 
+
             mListening = false;
             mSpeechReco = "";
 
@@ -31,8 +33,7 @@ namespace BuddyApp.TakePose
             mRefusePhonetics = new List<string>(Buddy.Resources.GetPhoneticStrings("refuse"));
             mAnotherPhonetics = new List<string>(Buddy.Resources.GetPhoneticStrings("another"));
             mQuitPhonetics = new List<string>(Buddy.Resources.GetPhoneticStrings("quit"));
-
-            Debug.Log("REDOPOSE : " + Buddy.Resources.GetString("redopose"));
+            
             Buddy.Vocal.SayKey("redopose");
 
             Buddy.Vocal.OnEndListening.Add((iInput) => { OnSpeechReco(iInput.Utterance); });
@@ -54,7 +55,10 @@ namespace BuddyApp.TakePose
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (Buddy.Vocal.IsSpeaking || mListening)
+            {
                 return;
+
+            }
 
             if (string.IsNullOrEmpty(mSpeechReco)) {
                 Buddy.Vocal.Listen();

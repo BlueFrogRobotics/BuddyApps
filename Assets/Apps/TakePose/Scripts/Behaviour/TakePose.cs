@@ -52,14 +52,11 @@ namespace BuddyApp.TakePose
 
         private IEnumerator CountDownImpl()
         {
-            Debug.Log("CountDownImpl");
             Buddy.GUI.Toaster.Display<CountdownToast>().With(COUNTDOWN_START, 0, 0, null, iCountDown =>
              {
-                 Debug.Log("IN CountDownImpl");
                  Buddy.Vocal.Say(iCountDown.Second.ToString());
                  if (iCountDown.IsDone)
                  {
-                     Debug.Log("3 CountDownImpl");
                      OnFinishCountdown();
                      Buddy.GUI.Toaster.Hide();
                  }
@@ -87,11 +84,11 @@ namespace BuddyApp.TakePose
         {
             Debug.Log("SetFace");
             int lRandom = UnityEngine.Random.Range(0, 9);
-
             switch (lRandom)
             {
 
                 case 0:
+                    Debug.Log("case 0 ");
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.SIGH);
                     Buddy.Behaviour.Face.SetFacialExpression(FacialExpression.ANGRY);
 
@@ -110,16 +107,22 @@ namespace BuddyApp.TakePose
                     break;
 
                 case 1:
+                    Debug.Log("case 1 ");
+
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.RANDOM_CURIOUS);
                     Buddy.Behaviour.Face.SetFacialExpression(FacialExpression.SURPRISED);
                     break;
 
                 case 2:
+                    Debug.Log("case 2 ");
+
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.RANDOM_SURPRISED);
                     Buddy.Behaviour.Face.SetFacialExpression(FacialExpression.SCARED);
                     break;
 
                 case 3:
+                    Debug.Log("case 3 ");
+
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.RANDOM_LAUGH);
                     Buddy.Behaviour.Face.SetFacialExpression(FacialExpression.HAPPY);
 
@@ -138,11 +141,15 @@ namespace BuddyApp.TakePose
                     break;
 
                 case 4:
+                    Debug.Log("case 4 ");
+
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.SIGH);
                     Buddy.Behaviour.Mood.Set(FacialExpression.SICK);
                     break;
 
                 case 5:
+                    Debug.Log("case 5 ");
+
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.SIGH);
                     Buddy.Behaviour.Mood.Set(FacialExpression.TIRED);
                     switch (UnityEngine.Random.Range(0, 1))
@@ -160,6 +167,8 @@ namespace BuddyApp.TakePose
                     break;
 
                 case 6:
+                    Debug.Log("case 6 ");
+
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.SIGH);
                     Buddy.Behaviour.Mood.Set(FacialExpression.THINKING);
                     switch (UnityEngine.Random.Range(0, 1))
@@ -177,6 +186,8 @@ namespace BuddyApp.TakePose
                     break;
 
                 case 7:
+                    Debug.Log("case 7 ");
+
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.SIGH);
                     Buddy.Behaviour.Mood.Set(FacialExpression.GRUMPY);
                     switch (UnityEngine.Random.Range(0, 1))
@@ -195,6 +206,8 @@ namespace BuddyApp.TakePose
 
 
                 case 8:
+                    Debug.Log("case 8 ");
+
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.BEEP_2);
                     Buddy.Behaviour.Mood.Set(FacialExpression.LOVE);
                     switch (UnityEngine.Random.Range(0, 1))
@@ -212,6 +225,8 @@ namespace BuddyApp.TakePose
                     break;
 
                 default:
+                    Debug.Log("case defaut ");
+
                     Buddy.Behaviour.Mood.Set(FacialExpression.GRUMPY);
                     switch (UnityEngine.Random.Range(0, 1))
                     {
