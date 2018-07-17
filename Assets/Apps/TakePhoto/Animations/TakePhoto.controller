@@ -448,6 +448,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 1102217717031398364}
     m_Position: {x: 564, y: -96, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102457733201482866}
+    m_Position: {x: 576, y: -192, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -457,7 +460,7 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 336, y: -156, z: 0}
   m_ExitPosition: {x: 168, y: -156, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 1102884818564748644}
+  m_DefaultState: {fileID: 1102457733201482866}
 --- !u!114 &114078270485738170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -533,12 +536,16 @@ MonoBehaviour:
   FxSound: 0
   Timeout: 0
   NameVoconGrammarFile: redoorshare
-  context: 1
   BuddySayWhenQuit: 
+  context: 1
   IsBinaryQuestion: 1
   IsBinaryToaster: 0
   IsMultipleQuestion: 0
   IsMultipleToaster: 0
+  PlayBML: 0
+  RandomBML: 0
+  AnswerBML: []
+  QuitBML: 
 --- !u!114 &114339789469444394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -573,12 +580,16 @@ MonoBehaviour:
   FxSound: 0
   Timeout: 0
   NameVoconGrammarFile: common
-  context: 0
   BuddySayWhenQuit: bye
+  context: 0
   IsBinaryQuestion: 1
   IsBinaryToaster: 1
   IsMultipleQuestion: 0
   IsMultipleToaster: 0
+  PlayBML: 0
+  RandomBML: 0
+  AnswerBML: []
+  QuitBML: 
 --- !u!114 &114470677882371358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -625,6 +636,17 @@ MonoBehaviour:
   m_Script: {fileID: 1590775620, guid: 5824aec9ddecbc147aad6e8a298ea02b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114672179222740070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1845108336, guid: 5824aec9ddecbc147aad6e8a298ea02b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114711262625915810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -649,16 +671,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VideoDisplay: 1
   LookForUser: 1
+  WantToSavePicture: 0
+  NameOfPictureSaved: 
+  QuantityBeforeTrigger: 0
+  ImageWithMovementDisplayed: 0
   BipSound: 1
   FxSound: 1
   DisplayMovement: 1
   WantToFlip: 0
   ColorOfDisplay:
+    serializedVersion: 2
     rgba: 14156031
   TriggerWhenDetected: Photo
   TriggerWhenNotDetected: Photo
   Key: movehands
+  OnlyOneDetection: 0
   QuantityMovement: 30
+  WantChangingQuantity: 0
   Timer: 10
   WantChangingTimer: 0
   AreaToDetect: 0
@@ -942,6 +971,32 @@ AnimatorState:
   m_Transitions:
   - {fileID: 1101955932921071892}
   m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 0}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &1102457733201482866
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: test
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours:
+  - {fileID: 114672179222740070}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
