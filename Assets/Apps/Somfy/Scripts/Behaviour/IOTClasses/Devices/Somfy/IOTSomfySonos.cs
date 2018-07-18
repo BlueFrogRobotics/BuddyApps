@@ -49,6 +49,18 @@ namespace BuddyApp.Somfy
                 case 3:
                     PostAction("stop");
                     break;
+                case 4:
+                    PostAction("setVolume", new object[] { iParam });
+                    break;
+                case 5:
+                    PostAction("next");
+                    break;
+                case 6:
+                    PostAction("previous");
+                    break;
+                case 7:
+                    PostAction("rewind");
+                    break;
             }
         }
     }

@@ -29,21 +29,21 @@ namespace BuddyApp.Somfy
 
         void Start()
         {
-			/*
+            /*
 			* You can setup your App activity here.
 			*/
-			SomfyActivity.Init(null);
+            SomfyActivity.Init(null);
 
-			
-			/*
+
+            /*
 			* Init your app data
 			*/
             mAppData = SomfyData.Instance;
 
             SomfyData.Instance.URL_API = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI";
 
-            
-            
+
+
         }
 
         public void Login()
@@ -56,12 +56,12 @@ namespace BuddyApp.Somfy
         {
             //box.GetDevices();
             Debug.Log("nb devices: " + Box.Devices.Count);
-            foreach(IOTDevices  device in Box.Devices)
+            foreach (IOTDevices device in Box.Devices)
             {
                 //Debug.Log("le machin");
                 Debug.Log("category : " + device.Type.ToString());
 
-                if (device.Type == IOTDevices.DeviceType.STORE)
+                if (device.Type == IOTDevices.DeviceType.STORE && device.Name == "screen 1")
                 {
                     Debug.Log("store");
                     store = (IOTSomfyDevice)device;
@@ -142,7 +142,7 @@ namespace BuddyApp.Somfy
             }
         }
 
-        public void SwitchOnPlug()
+        public void SwitchOnLivingRoomPlug()
         {
             if (plug != null && plug.HasFinishedCommand())
             {
@@ -152,7 +152,7 @@ namespace BuddyApp.Somfy
             }
         }
 
-        public void SwitchOffPlug()
+        public void SwitchOffLivingRoomPlug()
         {
             if (plug != null && plug.HasFinishedCommand())
             {
@@ -162,6 +162,71 @@ namespace BuddyApp.Somfy
             }
         }
 
+        public void SwitchOnOfficeRoomPlug()
+        {
+            if (plug2 != null && plug2.HasFinishedCommand())
+            {
+                BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
+                BYOS.Instance.Interaction.TextToSpeech.SayKey("on");
+                plug2.OnOff(true);
+            }
+        }
+
+        public void SwitchOffOfficeRoomPlug()
+        {
+            if (plug2 != null && plug2.HasFinishedCommand())
+            {
+                BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
+                BYOS.Instance.Interaction.TextToSpeech.SayKey("off");
+                plug2.OnOff(false);
+            }
+        }
+
+        public void SwitchOnAllPlugs()
+        {
+            if (plug2 != null && plug2.HasFinishedCommand())
+                StartCoroutine(SwitchOnAllPlugsCoroutine());
+        }
+
+        IEnumerator SwitchOnAllPlugsCoroutine()
+        {
+            BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
+            BYOS.Instance.Interaction.TextToSpeech.SayKey("onalllights");
+            if (plug2 != null && plug2.HasFinishedCommand())
+            {
+                plug2.OnOff(true);
+            }
+            while (!plug2.HasFinishedCommand())
+                yield return null;
+            if (plug != null && plug.HasFinishedCommand())
+            {
+                plug.OnOff(true);
+            }
+        }
+
+        public void SwitchOffAllPlugs()
+        {
+            if (plug2 != null && plug2.HasFinishedCommand())
+            {
+                StartCoroutine(SwitchOffAllPlugsCoroutine());
+            }
+        }
+
+        IEnumerator SwitchOffAllPlugsCoroutine()
+        {
+            BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
+            BYOS.Instance.Interaction.TextToSpeech.SayKey("offalllights");
+            if (plug2 != null && plug2.HasFinishedCommand())
+            {
+                plug2.OnOff(false);
+            }
+            while (!plug2.HasFinishedCommand())
+                yield return null;
+            if (plug != null && plug.HasFinishedCommand())
+            {
+                plug.OnOff(false);
+            }
+        }
         public void SwitchPlug(bool iVal)
         {
             if (plug != null && plug.HasFinishedCommand())
@@ -175,11 +240,21 @@ namespace BuddyApp.Somfy
             }
         }
 
+        public void SetSonosVolume(float iVolume)
+        {
+            if (sonos != null && sonos.HasFinishedCommand())
+            {
+                //BYOS.Instance.Interaction.TextToSpeech.Say("Ok, " + string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
+                //Debug.Log(string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
+                sonos.Command(4, iVolume);
+            }
+        }
+
         public void SetTemperature(float iTemp)
         {
             if (thermostat != null && thermostat.HasFinishedCommand())
             {
-                BYOS.Instance.Interaction.TextToSpeech.Say("Ok, "+string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
+                BYOS.Instance.Interaction.TextToSpeech.Say("Ok, " + string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
                 //Debug.Log(string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
                 thermostat.Command(4, iTemp);
             }
@@ -188,12 +263,12 @@ namespace BuddyApp.Somfy
         public string GetTemperature()
         {
             string lTemperature = "";
-            if(thermometer!=null && thermometer.states!=null)
+            if (thermometer != null && thermometer.states != null)
             {
-                foreach(IOTSomfyStateJSON state in thermometer.states)
+                foreach (IOTSomfyStateJSON state in thermometer.states)
                 {
                     Debug.Log("le temp state name : " + state.name + " value: " + state.value);
-                    if(state.name.Contains("core:TemperatureState"))
+                    if (state.name.Contains("core:TemperatureState"))
                     {
                         Debug.Log("la temperature: " + state.value);
                         lTemperature = state.value;
@@ -219,6 +294,33 @@ namespace BuddyApp.Somfy
             {
                 BYOS.Instance.Interaction.TextToSpeech.SayKey("stopmusic");
                 sonos.Command(3);
+            }
+        }
+
+        public void NextMusic()
+        {
+            if (sonos != null && sonos.HasFinishedCommand())
+            {
+                //BYOS.Instance.Interaction.TextToSpeech.SayKey("stopmusic");
+                sonos.Command(5);
+            }
+        }
+
+        public void PreviousMusic()
+        {
+            if (sonos != null && sonos.HasFinishedCommand())
+            {
+                //BYOS.Instance.Interaction.TextToSpeech.SayKey("stopmusic");
+                sonos.Command(6);
+            }
+        }
+
+        public void RewindMusic()
+        {
+            if (sonos != null && sonos.HasFinishedCommand())
+            {
+                //BYOS.Instance.Interaction.TextToSpeech.SayKey("stopmusic");
+                sonos.Command(7);
             }
         }
 

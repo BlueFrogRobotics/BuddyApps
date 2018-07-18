@@ -46,6 +46,7 @@ namespace BuddyApp.Quizz
             mActualName = "";
             mQuizzBehaviour.InitPlayers();
             StartCoroutine(Engagement());
+            mQuizzBehaviour.OnLanguageChange = OnLanguageChange;
             foreach (Player player in mQuizzBehaviour.Players)
             {
                 Debug.Log("player: " + player.Name);
@@ -61,7 +62,7 @@ namespace BuddyApp.Quizz
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            mQuizzBehaviour.OnLanguageChange = null;
         }
 
         private IEnumerator Engagement()

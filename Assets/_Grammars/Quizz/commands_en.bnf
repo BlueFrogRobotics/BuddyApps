@@ -1,0 +1,12 @@
+﻿#BNF+EMV2.1;
+!grammar commands_en;
+!start <repeat>;
+!start <quit>;
+!start <first>;
+!start <second>;
+!start <third>;
+<repeat> : I didn't hear you [well] | I didn't understand | can you (repeat | say [it] again) [please] | [sorry] what did you say | repeat;
+<quit> : quit | stop | end;
+<first> : [the] first;
+<second> : [the] second;
+<third> : [the] third;

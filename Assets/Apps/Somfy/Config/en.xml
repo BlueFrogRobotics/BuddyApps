@@ -6,6 +6,7 @@
             <BaseValue>open</BaseValue>
             <ClosePhoneticValues>
                 <string>open</string>
+                <string>raise</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
@@ -16,6 +17,7 @@
             <BaseValue>close</BaseValue>
             <ClosePhoneticValues>
                 <string>close</string>
+                <string>lower</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
@@ -26,6 +28,7 @@
             <BaseValue>light</BaseValue>
             <ClosePhoneticValues>
                 <string>light</string>
+                <string>lights</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
@@ -37,6 +40,8 @@
             <ClosePhoneticValues>
                 <string>store</string>
                 <string>screen</string>
+                <string>blind</string>
+                <string>blinds</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
@@ -69,7 +74,7 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>I open the screen</string>
+                <string>I open the blind</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -79,7 +84,7 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>I close the screen</string>
+                <string>I close the blind</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -109,6 +114,7 @@
                 <string>set temperature to</string>
                 <string>set the temperature to</string>
                 <string>set temperatures to</string>
+                <string>change the temperature to</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
@@ -131,6 +137,10 @@
             <ClosePhoneticValues>
                 <string>play music</string>
                 <string>play</string>
+                <string>Play my music in the living room</string>
+                <string>Turn on the speaker of the living room</string>
+                <string>Play some music in the living room</string>
+                <string>Play some music on Sonos speaker</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>I play the music</string>
@@ -143,9 +153,127 @@
                 <string>stop music</string>
                 <string>stop the music</string>
                 <string>stop the speaker</string>
+                <string>Stop my music in the living room</string>
+                <string>Turn off the speaker of the living room</string>
+                <string>Stop the music in the living room</string>
+                <string>Stop the music on Sonos Speaker</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>I stop the music</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>livingroom</Key>
+            <BaseValue>living room</BaseValue>
+            <ClosePhoneticValues>
+                <string>living room</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>officeroom</Key>
+            <BaseValue>office room</BaseValue>
+            <ClosePhoneticValues>
+                <string>office room</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>all</Key>
+            <BaseValue>all</BaseValue>
+            <ClosePhoneticValues>
+                <string>all</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>onalllights</Key>
+            <BaseValue>I switch on all the lights</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I switch on all the lights</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>offalllights</Key>
+            <BaseValue>I switch off all the lights</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I switch off all the lights</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>song</Key>
+            <BaseValue>song</BaseValue>
+            <ClosePhoneticValues>
+                <string>song</string>
+                <string>music</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>next</Key>
+            <BaseValue>next</BaseValue>
+            <ClosePhoneticValues>
+                <string>next</string>
+                <string>after</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>previous</Key>
+            <BaseValue>previous</BaseValue>
+            <ClosePhoneticValues>
+                <string>previous</string>
+                <string>before</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>rewind</Key>
+            <BaseValue>rewind</BaseValue>
+            <ClosePhoneticValues>
+                <string>rewind</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>setvolume</Key>
+            <BaseValue>I set the volume to {0}</BaseValue>
+            <ClosePhoneticValues>
+                <string>set the volume to</string>
+                <string>set the music volume to</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I set the volume to {0}</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>percent</Key>
+            <BaseValue>percent</BaseValue>
+            <ClosePhoneticValues>
+                <string>percent</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
             </RandomValues>
         </DictionaryEntry>
     </Entries>

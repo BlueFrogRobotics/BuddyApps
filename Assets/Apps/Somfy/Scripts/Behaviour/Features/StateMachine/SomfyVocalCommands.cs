@@ -89,13 +89,29 @@ namespace BuddyApp.Somfy
         private void ParseText(string iText)
         {
 
-            if (Dictionary.ContainsPhonetic(iText, "on") && Dictionary.ContainsPhonetic(iText, "light"))
+            if (Dictionary.ContainsPhonetic(iText, "on") && Dictionary.ContainsPhonetic(iText, "light") && !Dictionary.ContainsPhonetic(iText, "officeroom") && !Dictionary.ContainsPhonetic(iText, "all"))
             {
-                mSomfyBehaviour.SwitchOnPlug();
+                mSomfyBehaviour.SwitchOnLivingRoomPlug();
             }
-            else if (Dictionary.ContainsPhonetic(iText, "off") && Dictionary.ContainsPhonetic(iText, "light"))
+            else if (Dictionary.ContainsPhonetic(iText, "off") && Dictionary.ContainsPhonetic(iText, "light") && !Dictionary.ContainsPhonetic(iText, "officeroom") && !Dictionary.ContainsPhonetic(iText, "all"))
             {
-                mSomfyBehaviour.SwitchOffPlug();
+                mSomfyBehaviour.SwitchOffLivingRoomPlug();
+            }
+            else if (Dictionary.ContainsPhonetic(iText, "on") && Dictionary.ContainsPhonetic(iText, "light") && Dictionary.ContainsPhonetic(iText, "officeroom") && !Dictionary.ContainsPhonetic(iText, "all"))
+            {
+                mSomfyBehaviour.SwitchOnOfficeRoomPlug();
+            }
+            else if (Dictionary.ContainsPhonetic(iText, "off") && Dictionary.ContainsPhonetic(iText, "light") && Dictionary.ContainsPhonetic(iText, "officeroom") && !Dictionary.ContainsPhonetic(iText, "all"))
+            {
+                mSomfyBehaviour.SwitchOffOfficeRoomPlug();
+            }
+            else if (Dictionary.ContainsPhonetic(iText, "on") && Dictionary.ContainsPhonetic(iText, "light") && Dictionary.ContainsPhonetic(iText, "all"))
+            {
+                mSomfyBehaviour.SwitchOnAllPlugs();
+            }
+            else if (Dictionary.ContainsPhonetic(iText, "off") && Dictionary.ContainsPhonetic(iText, "light") && Dictionary.ContainsPhonetic(iText, "all"))
+            {
+                mSomfyBehaviour.SwitchOffAllPlugs();
             }
             else if (Dictionary.ContainsPhonetic(iText, "open") && Dictionary.ContainsPhonetic(iText, "store"))
             {
@@ -113,9 +129,40 @@ namespace BuddyApp.Somfy
             {
                 mSomfyBehaviour.StopMusic();
             }
+            else if (Dictionary.ContainsPhonetic(iText, "next") && Dictionary.ContainsPhonetic(iText, "song"))
+            {
+                mSomfyBehaviour.NextMusic();
+            }
+            else if (Dictionary.ContainsPhonetic(iText, "previous") && Dictionary.ContainsPhonetic(iText, "song"))
+            {
+                mSomfyBehaviour.PreviousMusic();
+            }
+            else if (Dictionary.ContainsPhonetic(iText, "rewind") && Dictionary.ContainsPhonetic(iText, "song"))
+            {
+                mSomfyBehaviour.RewindMusic();
+            }
             else if (Dictionary.ContainsPhonetic(iText, "temperature") && Dictionary.ContainsPhonetic(iText, "what"))
             {
-                Interaction.TextToSpeech.Say("The temperature is "+float.Parse(mSomfyBehaviour.GetTemperature()).ToString().Replace(".", " point ") + " degrees");
+                Interaction.TextToSpeech.Say("The temperature is " + float.Parse(mSomfyBehaviour.GetTemperature()).ToString().Replace(".", " point ") + " degrees");
+            }
+            else if (Dictionary.ContainsPhonetic(iText, "setvolume"))
+            {
+                string lParse = iText.ToLower();
+                foreach (string lPhonetic in Dictionary.GetPhoneticStrings("setvolume"))
+                {
+                    lParse = lParse.Replace(lPhonetic, "");
+                }
+                foreach (string lPhonetic in Dictionary.GetPhoneticStrings("percent"))
+                {
+                    lParse = lParse.Replace(lPhonetic, "");
+                }
+                lParse = lParse.Trim();
+                float lVolume = 0;
+                if (float.TryParse(lParse, out lVolume))
+                {
+                    mSomfyBehaviour.SetSonosVolume(lVolume);
+                }
+                Debug.Log("texte parse: " + lParse);
             }
             else if (Dictionary.ContainsPhonetic(iText, "settemperature"))
             {
@@ -130,7 +177,7 @@ namespace BuddyApp.Somfy
                 }
                 lParse = lParse.Trim();
                 float lTemperature = 0;
-                if(float.TryParse(lParse, out lTemperature))
+                if (float.TryParse(lParse, out lTemperature))
                 {
                     mSomfyBehaviour.SetTemperature(lTemperature);
                 }
@@ -174,5 +221,5 @@ namespace BuddyApp.Somfy
             Debug.Log("onclick");
             mChangeState = true;
         }
-    } 
+    }
 }

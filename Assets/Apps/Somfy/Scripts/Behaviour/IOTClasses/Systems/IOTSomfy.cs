@@ -17,7 +17,7 @@ namespace BuddyApp.Somfy
     public class IOTSomfy : IOTSystems
     {
         private string mSessionID;
-        private Dictionary<string,string> mHeaders = new Dictionary<string, string>();
+        private Dictionary<string, string> mHeaders = new Dictionary<string, string>();
 
         public IOTSomfy()
         {
@@ -92,9 +92,9 @@ namespace BuddyApp.Somfy
                 getSessionId();
                 GetDevices();
             }
-       
+
             Upload(Credentials[1], Credentials[2]);
-            
+
         }
 
 
@@ -119,7 +119,7 @@ namespace BuddyApp.Somfy
             }
             else
             {
-                Debug.Log("Form upload complete!"+www.downloadHandler.text);
+                Debug.Log("Form upload complete!" + www.downloadHandler.text);
             }
         }
 
@@ -160,9 +160,10 @@ namespace BuddyApp.Somfy
 
 
 
-
-                Debug.Log("{\"devices\" :" + lResult.response.Text + "}");
-                if(lDevices != null)
+                //string lResponseText = "{\"devices\" :" + lResult.response.Text + "}";
+                File.WriteAllText(BYOS.Instance.Resources.GetPathToRaw("response.txt"), response);
+                //Debug.Log("{\"devices\" :" + lResult.response.Text + "}");
+                if (lDevices != null)
                 {
                     Debug.Log("nombre somfy devices: " + lDevices.devices.Length);
                     mDevices = lDevices.devices.ToList<IOTDevices>();
@@ -203,7 +204,7 @@ namespace BuddyApp.Somfy
             string[] data = null;
             if (mHeaders != null)
             {
-                foreach (KeyValuePair<string,string> post_arg in mHeaders)
+                foreach (KeyValuePair<string, string> post_arg in mHeaders)
                 {
                     if (post_arg.Key.Equals("SET-COOKIE"))
                     {

@@ -9,7 +9,6 @@ namespace BuddyApp.Quizz
     {
 
         private QuizzBehaviour mQuizzBehaviour;
-        private Animator mAnimator;
 
         public override void Start()
         {
@@ -25,6 +24,7 @@ namespace BuddyApp.Quizz
             Interaction.VocalManager.AddGrammar("number_player", Buddy.LoadContext.APP);
             Interaction.VocalManager.OnVoconBest = VoconBest;
             Interaction.VocalManager.OnVoconEvent = EventVocon;
+            mQuizzBehaviour.OnLanguageChange = OnLanguageChange;
             StartCoroutine(AskNumberPlayer());
         }
 
@@ -37,7 +37,7 @@ namespace BuddyApp.Quizz
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            mQuizzBehaviour.OnLanguageChange = null;
         }
 
         private IEnumerator AskNumberPlayer()
@@ -93,9 +93,6 @@ namespace BuddyApp.Quizz
             }
         }
 
-        private void OnLanguageChange()
-        {
-            mAnimator.Play("AskNumPlayer");
-        }
+        
     }
 }

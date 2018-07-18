@@ -20,6 +20,7 @@ namespace BuddyApp.Quizz
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("check num question state");
+            mQuizzBehaviour.OnLanguageChange = OnLanguageChange;
             if (mQuizzBehaviour.ActualPlayerId >= mQuizzBehaviour.NumPlayer -1 && mQuizzBehaviour.ActualRound >= QuizzBehaviour.MAX_ROUNDS - 1)
                 StartCoroutine(WillEndGame());
             else
@@ -36,7 +37,7 @@ namespace BuddyApp.Quizz
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            mQuizzBehaviour.OnLanguageChange = null;
         }
 
         private IEnumerator WillAskQuestion()

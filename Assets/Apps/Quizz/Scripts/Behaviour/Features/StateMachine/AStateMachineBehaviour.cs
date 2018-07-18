@@ -273,6 +273,11 @@ namespace BuddyApp.Quizz
             AAppActivity.QuitApp();
         }
 
+        protected void OnLanguageChange()
+        {
+            mAnimator.Play("StartGame");
+        }
+
         internal void Init()
         {
             Interaction = BYOS.Instance.Interaction;
