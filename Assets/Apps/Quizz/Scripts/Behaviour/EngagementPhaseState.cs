@@ -67,6 +67,7 @@ namespace BuddyApp.Quizz
 
         private IEnumerator Engagement()
         {
+            
             Interaction.TextToSpeech.Say(Dictionary.GetString("super").Replace("[numplayer]", "" + mQuizzBehaviour.NumPlayer));
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
@@ -82,9 +83,19 @@ namespace BuddyApp.Quizz
                 while (!mHasSaidName)
                     yield return null;
                 if (mGoodName)
+                {
+                    Interaction.BMLManager.LaunchByName("Happy02");
+                    while (!Interaction.BMLManager.DonePlaying)
+                        yield return null;
                     Interaction.TextToSpeech.Say(Dictionary.GetRandomString("namerecognized").Replace("[name]", mQuizzBehaviour.Players[i].Name));
+                }
                 else
+                {
                     Interaction.TextToSpeech.Say(Dictionary.GetRandomString("namenotrecognized").Replace("[name]", mQuizzBehaviour.Players[i].Name));
+                    Interaction.BMLManager.LaunchByName("Grumpy01");
+                    while (!Interaction.BMLManager.DonePlaying)
+                        yield return null;
+                }
                 while (!Interaction.TextToSpeech.HasFinishedTalking)
                     yield return null;
             }

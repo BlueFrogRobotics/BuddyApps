@@ -38,9 +38,12 @@ namespace BuddyApp.Quizz
         private IEnumerator Win()
         {
             Interaction.VocalManager.StopListenBehaviour();
-            Interaction.Mood.Set(MoodType.HAPPY);
+            //Interaction.Mood.Set(MoodType.HAPPY);
+            Interaction.BMLManager.LaunchByName("Happy01");
             //Debug.Log("happy");
             mSoundsManager.PlaySound(SoundsManager.Sound.GOOD_ANSWER);
+            while(!Interaction.BMLManager.DonePlaying)
+                    yield return null;
             while (mSoundsManager.IsPlaying)
                 yield return null;
             Interaction.TextToSpeech.Say(Dictionary.GetRandomString("win").Replace("[answer]", "" + mQuizzBehaviour.ActualQuestion.Answers[mQuizzBehaviour.ActualQuestion.GoodAnswer]));

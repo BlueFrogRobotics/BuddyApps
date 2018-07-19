@@ -61,6 +61,9 @@ namespace BuddyApp.Somfy
                 case 7:
                     PostAction("rewind");
                     break;
+                case 8:
+                    PostAction("getGroupVolume");
+                    break;
             }
         }
     }

@@ -71,6 +71,9 @@ namespace BuddyApp.Quizz
         private IEnumerator WillEndGame()
         {
             mSoundsManager.PlaySound(SoundsManager.Sound.END_GAME);
+            Interaction.BMLManager.LaunchByName("Happy02");
+            while (!Interaction.BMLManager.DonePlaying)
+                yield return null;
             while (mSoundsManager.IsPlaying)
                 yield return null;
             Interaction.TextToSpeech.SayKey("endgame");

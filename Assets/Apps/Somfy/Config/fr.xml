@@ -41,6 +41,7 @@
             <ClosePhoneticValues>
                 <string>store</string>
                 <string>rideau</string>
+                <string>volet</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
@@ -118,7 +119,10 @@
             <BaseValue>je met la température à {0} degrés celcius</BaseValue>
             <ClosePhoneticValues>
                 <string>met la température à</string>
-                <string>règle la temperature sur</string>
+                <string>règle la température sur</string>
+                <string>mets la température à</string>
+                <string>règler la température sur</string>
+                <string>mets la température sur</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
@@ -235,6 +239,7 @@
             <BaseValue>suivant</BaseValue>
             <ClosePhoneticValues>
                 <string>suivant</string>
+                <string>suivante</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
@@ -283,6 +288,16 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>gettemperature</Key>
+            <BaseValue>la température est de [temperature] degrés</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>la température est de [temperature] degrés</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

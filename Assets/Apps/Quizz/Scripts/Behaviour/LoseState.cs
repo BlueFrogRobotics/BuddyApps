@@ -38,8 +38,11 @@ namespace BuddyApp.Quizz
         private IEnumerator Lose()
         {
             Interaction.VocalManager.StopListenBehaviour();
-            Interaction.Mood.Set(MoodType.SAD);
+            //Interaction.Mood.Set(MoodType.SAD);
+            Interaction.BMLManager.LaunchByName("Sad01");
             mSoundsManager.PlaySound(SoundsManager.Sound.BAD_ANSWER);
+            while (!Interaction.BMLManager.DonePlaying)
+                yield return null;
             while (mSoundsManager.IsPlaying)
                 yield return null;
             Interaction.TextToSpeech.Say(Dictionary.GetRandomString("lose").Replace("[answer]", "" + mQuizzBehaviour.ActualQuestion.Answers[mQuizzBehaviour.ActualQuestion.GoodAnswer]));

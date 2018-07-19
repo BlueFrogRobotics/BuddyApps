@@ -36,6 +36,9 @@ namespace BuddyApp.Quizz
         {
             Interaction.Face.SetExpression(Buddy.MoodType.NEUTRAL);
             Interaction.TextToSpeech.Say(Dictionary.GetRandomString("exit"));
+            Interaction.BMLManager.LaunchByName("Sad02");
+            while (!Interaction.BMLManager.DonePlaying)
+                yield return null;
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
             QuitApp();

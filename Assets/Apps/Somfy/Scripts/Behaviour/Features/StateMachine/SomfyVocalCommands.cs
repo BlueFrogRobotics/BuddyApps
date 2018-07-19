@@ -143,7 +143,14 @@ namespace BuddyApp.Somfy
             }
             else if (Dictionary.ContainsPhonetic(iText, "temperature") && Dictionary.ContainsPhonetic(iText, "what"))
             {
-                Interaction.TextToSpeech.Say("The temperature is " + float.Parse(mSomfyBehaviour.GetTemperature()).ToString().Replace(".", " point ") + " degrees");
+                //Interaction.TextToSpeech.Say("The temperature is " + float.Parse(mSomfyBehaviour.GetTemperature()).ToString().Replace(".", " point ") + " degrees");
+                string lTemp = mSomfyBehaviour.GetTemperature();
+                if (BYOS.Instance.Language.CurrentLang == Language.FR)
+                {
+                    Debug.Log("dans fr");
+                    lTemp = lTemp.Replace('.', ',');
+                }
+                Interaction.TextToSpeech.Say(Dictionary.GetRandomString("gettemperature").Replace("[temperature]", lTemp));
             }
             else if (Dictionary.ContainsPhonetic(iText, "setvolume"))
             {

@@ -102,7 +102,7 @@ namespace BuddyApp.Somfy
                     Debug.Log("le thermos: " + device.Name);
                     thermostat = (IOTSomfyDevice)device;
                 }
-                else if (device.Type == IOTDevices.DeviceType.THERMOMETER)
+                else if (device.Type == IOTDevices.DeviceType.THERMOMETER && device.Name == "thermostat-1")
                 {
                     Debug.Log("le thermos");
                     thermometer = (IOTSomfyDevice)device;
@@ -237,6 +237,15 @@ namespace BuddyApp.Somfy
                 else
                     BYOS.Instance.Interaction.TextToSpeech.SayKey("off");
                 plug.OnOff(iVal);
+            }
+        }
+
+        public void GetVolume()
+        {
+            if (sonos != null && sonos.HasFinishedCommand())
+            {
+                //BYOS.Instance.Interaction.TextToSpeech.SayKey("playmusic");
+                sonos.Command(8);
             }
         }
 
