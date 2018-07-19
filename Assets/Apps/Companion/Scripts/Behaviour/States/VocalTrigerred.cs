@@ -403,7 +403,7 @@ namespace BuddyApp.Companion
 						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(3, 3, "mooddance", "DANCE", EmotionalEventType.FULFILLED_DESIRE, InternalMood.EXCITED));
 
 					else {
-						mActionManager.TimedMood(MoodType.GRUMPY);
+						// mActionManager.TimedMood(MoodType.GRUMPY);
 						BYOS.Instance.Interaction.InternalState.AddCumulative(new EmotionalEvent(-2, 0, "moodforceddance", "DANCE", EmotionalEventType.UNFULFILLED_DESIRE, InternalMood.BITTER));
 					}
 
@@ -1219,7 +1219,7 @@ namespace BuddyApp.Companion
 					}
 					break;
 
-				case "volumeDown": {
+				case "volumedown": {
 						float n = GetNextNumber(iUtterance);
 
 						if (n == -1.23456F) {
