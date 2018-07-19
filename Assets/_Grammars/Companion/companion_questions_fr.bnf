@@ -42,6 +42,8 @@
 !start <qgoodnight>;
 !start <qgoodday>;
 !start <qgoodbye>;
+!start <qwhoisobama>;
+!start <qwhoismbouygues>;
 
 <qhello> : bonjour [buddy];
 <qhappy> : ([est-ce que] (tu es | t'es) | es-tu) (content | heureux) [d'être (avec nous | là)];
@@ -85,3 +87,5 @@
 <qgoodnight> : bonne nuit;
 <qgoodday> : bonne journée;
 <qgoodbye> : au revoir | à bientôt;
+<qwhoisobama> : qui est Barack Obama;
+<qwhoismbouygues> : qui est Martin Bouygues;

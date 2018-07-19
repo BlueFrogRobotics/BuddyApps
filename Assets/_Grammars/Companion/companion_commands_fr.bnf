@@ -115,11 +115,12 @@
 <ihateyou> : je te (hais | déteste) | je ne t'aime pas | tu es (nul | stupide | idiot | con | bête | naze | un loser) | tu n'es pas drôle | tu ne comprends rien;
 <iloveyou> : je (t'aime | t'adore | t'apprécie) | tu es (sympa | sympathique | gentil | cool | mignon | intelligent) | j'aime jouer avec toi | Nathalie | Roméo et Juliette;
 <installallapp> : (installe | récupère | télécharge) (toutes les applications | tout | les applications);  
-<iot> : iot | objets connectés | maison intelligente | <iot_temperature> | <iot_lights> | <iot_blinds> | <iot_music>;
-<iot_temperature> : (monte | descend | augmente | baisse) ([la] température | le thermostat) [de <numbers#nb> degrés] | (règle | mets) (la température | le thermostat) (à | sur) <numbers#nb> degrés;
+<iot> : iot | objets connectés | maison intelligente | <iot_temperature> | <iot_lights> | <iot_blinds> | <iot_music> | <iot_music_volume>;
+<iot_temperature> : (monte | descend | augmente | baisse) ([la] température | le thermostat) [de <numbers#nb> degrés] | (règle | mets) (la température | le thermostat) (à | sur) <numbers#nb> degrés | quelle est la température dans (la maison | le salon);
 <iot_lights> : (allume | éteins | allumer | éteindre) [la | toutes les] (lumière | prise) [du (salon | bureau)];
 <iot_blinds> : (ouvre | ferme | monte | baisse) (le store [du (salon | bureau)] | tous les stores);
-<iot_music> : (joue | mets | stop | arrête | lance | allume) (([de] la | ma) musique ((sur [l'enceinte] sonos | du salon) | dans le salon) | l'enceinte du salon);
+<iot_music> : (joue | mets | stop | arrête | lance | allume) (([de] la | ma) musique ((sur [l'enceinte] sonos | du salon) | dans le salon) | l'enceinte du salon) | mets (le morceau (suivant | précédent) | la chanson (suivante | précédente)) [dans le salon];
+<iot_music_volume> : met le volume de la musique à <numbers#nb> [dans le salon] | (monte | baisse) [le (volume | son) de] la musique [(dans le | du) salon];
 <joke> : <asktell> (une blague | une histoire (drôle | amusante | marrante) | quelque chose (de drôle | d'amusant | de marrant));
 <jukebox> : [<asklaunch>] (jukebox | [la] musique); 
 <kissme> : embrasse moi | [fais moi | je veux] (un | des) bisou | bisou | embrassons nous;
@@ -151,8 +152,8 @@
 <timer> : [mets | <canyou> mettre | je (veux | voudrais) que tu mettes] ([un] (minuteur | décompte | compte à rebours | timer) | [une] minuterie) [de <delai>];
 <true> : c'est exact | vrai | correct | affirmatif | exact | c'est très juste | en effet;
 <volume> : (quel est | donne [moi | nous]) le [niveau (de | du)] volume;
-<volumedown> : ((descend | diminue | baisse | baisser | diminuer | descendre) [le] (volume | son)) | (mets [le] (volume | son) moins fort) | (parle moins fort);
-<volumeup> : ((augmenter | augmente | monte | monter) [le] (volume | son)) | (mets [le] (volume | son) plus fort) | (parle plus fort);
+<volumedown> : ((descend | diminue | baisse | baisser | diminuer | descendre) [le] (volume | son)) [de <numbers#nb>] | (mets [le] (volume | son) moins fort) | (parle moins fort);
+<volumeup> : ((augmenter | augmente | monte | monter) [le] (volume | son)) [de <numbers#nb>] | (mets [le] (volume | son) plus fort) | (parle plus fort);
 <wander> : [va te] (balader | promener) | va t'en | pars | (balade | promène) [toi];
 <welcome> : bienvenue;
 <show> : montre [moi | nous] quand tu es | sois;
@@ -168,7 +169,7 @@
 <delai> : <numbers#nb> (secondes | minutes | heures);
 <rotationangle> : [de] <numbers#nb> degrés;
 <radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;
-<radio> : [<asklaunch>] ([the] radio | [[the] radio] <radioname>);
+<radio> : [<asklaunch>] ([la] radio | [[la] radio] <radioname>);
 <operation> : [combien (font | ça fait)]  <numbers#nb> (plus | moins | divisé par | multiplié par | fois) <numbers#nb>;
-<operationagain> : <numbers#nb> (plus | moins | divisé par | multiplié par | fois) <numbers#nb>;
+<operationagain> : (plus | moins | divisé par | multiplié par | fois) <numbers#nb>;
 <cancel> : (supprime | enlève) [tous] les (minuteur | décompte | compte à rebours | timer);

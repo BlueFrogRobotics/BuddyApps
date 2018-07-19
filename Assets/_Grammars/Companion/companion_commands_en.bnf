@@ -114,11 +114,12 @@
 <ihateyou> : I (hate | despite | don't like)  you | you (sucks | are (a loser | [so] bad | mean | stupid | a stupid robot)) | you are not funny;
 <iloveyou> : I love you | I really like you |  I like playing with you | [you are a] good boy | you are (nice | smart);
 <installallapp> : (install | get) (all [apps | applications]);  
-<iot> : iot | connected objects | connected object | smart house | internet of things | <iot_temperature> | <iot_lights> | <iot_blinds> | <iot_music>;
-<iot_temperature> : (raise | lower) the temperature | (set | change | turn) the (temperature | thermostat) [up | down] to <numbers#nb> [degrees] | make it (warmer | cooler);
+<iot> : iot | connected objects | connected object | smart house | internet of things | <iot_temperature> | <iot_lights> | <iot_blinds> | <iot_music> | <iot_music_volume>;
+<iot_temperature> : (raise | lower) the temperature | (set | change | turn) the (temperature | thermostat) [up | down] to <numbers#nb> [degrees] | make it (warmer | cooler) | what is the temperature in the ([living] room | house);
 <iot_lights> : (turn | switch) (on | off) ([the] (light | plug) [(of | in) the (living | office) room] | all the lights);
 <iot_blinds> : (open | close | lower | raise) (the blind [(of | in) the (living | office) room] | all the blinds);
-<iot_music> : (play | stop | (turn (on | off))) ([my | the | some] music (on sonos [speaker] | in the living room) | the speaker (of | in) the living room);
+<iot_music> : (play | stop | (turn (on | off))) ([my | the | some] music (on sonos [speaker] | in the living room) | the speaker (of | in) the living room) | [put | set] [the] (next | previous) song [in the living room];
+<iot_music_volume> : (set the music volume to <numbers#nb> | turn up the music (volume | sound) | turn the music (volume | sound) up) [in the living room];
 <joke> : [<asktell>] (a joke | a funny story | something funny);
 <jukebox> : jukebox | music application | play music; 
 <kissme> : kiss me |  I want a kiss | give me a kiss;
