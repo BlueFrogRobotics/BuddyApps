@@ -41,7 +41,7 @@ namespace BuddyApp.Timer
                 BYOS.Instance.Interaction.TextToSpeech.Say(Dictionary.GetString("whenalarm").Replace("[nbSecond]", finalcountdown.ToString()));
                 mIsDone = false;
             }
-            if (BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking)
+            if (BYOS.Instance.Interaction.TextToSpeech.HasFinishedTalking && finalcountdown > 60)
                 QuitApp();
         }
 
