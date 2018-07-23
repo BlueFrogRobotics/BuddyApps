@@ -91,17 +91,6 @@ namespace BuddyApp.Shared
             BYOS.Instance.Header.DisplayParametersButton = false;
             BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
             mHasLoadedTTS = true;
-            if (!string.IsNullOrEmpty(speechKey))
-            {
-                if (!string.IsNullOrEmpty(Dictionary.GetRandomString(speechKey)))
-                {
-                    Interaction.TextToSpeech.Say(Dictionary.GetRandomString(speechKey));
-                }
-                else if (!string.IsNullOrEmpty(Dictionary.GetString(speechKey)))
-                {
-                    Interaction.TextToSpeech.Say(Dictionary.GetString(speechKey));
-                }
-            }
 
             //Use vocon
             Interaction.VocalManager.UseVocon = true;
@@ -115,6 +104,7 @@ namespace BuddyApp.Shared
             Interaction.VocalManager.OnError = Empty;
             mTimer = 0.0f;
             mListening = false;
+            mSayText = true;
         }
 
         private void EventVocon(VoconEvent iEvent)

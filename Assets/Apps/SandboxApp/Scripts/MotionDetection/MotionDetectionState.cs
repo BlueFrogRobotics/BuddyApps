@@ -4,17 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using OpenCVUnity;
 using Buddy.UI;
+using System.IO;
 
 namespace BuddyApp.SandboxApp
 {
     public class MotionDetectionState : AStateMachineBehaviour
     {
-
         [Header("Display Video Parameters : ")]
         [SerializeField]
         private bool VideoDisplay;
         [SerializeField]
         private bool LookForUser;
+        [SerializeField]
+        private bool WantToSavePicture;
+        [SerializeField]
+        private string NameOfPictureSaved;
+        [SerializeField]
+        private int QuantityBeforeTrigger;
+        [SerializeField]
+        private bool ImageWithMovementDisplayed;
         [Header("Bip Sound Parameters : ")]
         [SerializeField]
         private bool BipSound;
@@ -33,10 +41,15 @@ namespace BuddyApp.SandboxApp
         private string TriggerWhenNotDetected;
         [SerializeField]
         private string Key;
+        [SerializeField]
+        private bool OnlyOneDetection;
+
         [Header("Movement Quantity Parameters : ")]
         [Tooltip("The quantity of movement represents the number you need to reach in order to move to another state.")]
         [SerializeField]
         private int QuantityMovement;
+        [SerializeField]
+        private bool WantChangingQuantity;
         [Header("Timer (between 0 and 20) : ")]
         [Tooltip("You do the motion detection during the timer.")]
         [Range(0F, 20F)]
@@ -78,6 +91,7 @@ namespace BuddyApp.SandboxApp
         private bool mExitOne;
         private bool mExitTwo;
         private bool mSoundPlayedWhenDetected;
+        //private Sprite mSprite;
 
         //Position in the Image
         private float mPositionX;
@@ -87,23 +101,35 @@ namespace BuddyApp.SandboxApp
         {
             mMotion = Perception.Motion;
             mCam = Primitive.RGBCam;
-            mIsDisplay = false;
-            mPositionX = 0;
-            mPositionY = 0;
-            mReposeDone = false;
+
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            QuantityBeforeTrigger = 0;
+            mPositionX = 0;
+            mPositionY = 0;
+            mReposeDone = false;
             mExitOne = false;
             mExitTwo = false;
+            mIsDisplay = false;
+            mDurationDetection = 0F;
+            mDetectionCountTest = 0;
+            mTimer = 0F;
             mSoundPlayedWhenDetected = false;
+            mDetectionCount = 0;
             if (WantChangingTimer && iAnimator.GetFloat("Timer") != 0F)
             {
                 Timer = iAnimator.GetFloat("Timer");
             }
             else
                 Debug.Log("You didn't create a float named Timer in animtor's parameter, do it and change its value with  animator.SetFloat(\"Timer\", your value);");
+            if (WantChangingQuantity && iAnimator.GetFloat("QuantityMovement") != 0)
+            {
+                QuantityMovement = iAnimator.GetInteger("QuantityMovement");
+            }
+            else
+                Debug.Log("You didn't create a integer named QuantityMovement in animator's parameter, do it and change its value with animator.SetInteger(\"QuantityMovement\", your value);");
             //mCam.Resolution = RGBCamResolution.W_320_H_240; 
             mCam.Open(RGBCamResolution.W_320_H_240);
             if (!AreaToDetect)
@@ -119,7 +145,7 @@ namespace BuddyApp.SandboxApp
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("UPDATE MOTION DETECTOR"); 
+
             mDurationDetection += Time.deltaTime;
             mTimer += Time.deltaTime;
             if (Timer == 0F)
@@ -137,11 +163,11 @@ namespace BuddyApp.SandboxApp
                 mTexture = Utils.MatToTexture2D(mMatCopy);
                 Toaster.Display<PictureToast>().With(Dictionary.GetString(Key), Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
             }
-           
+
 
             if (VideoDisplay && mIsDisplay && mTimer > 0.1F)
             {
-                Debug.Log("3");
+
                 if (mMatDetectionCopy == null && !AreaToDetect)
                 {
                     mMat = mCam.FrameMat.clone();
@@ -178,13 +204,10 @@ namespace BuddyApp.SandboxApp
                 mTimer = 0F;
             }
 
-            Debug.Log("TIMER : " + mDurationDetection + " QUANTITY MOVEMENT : " + QuantityMovement + " mdetectionCount 1 : " + mDetectionCount + " mdetectioncounttest 2 " + mDetectionCountTest / 15F);
-            if ((mDetectionCount > QuantityMovement || (mDetectionCountTest / 15F) > QuantityMovement ) && !mExitTwo)
+            if ((mDetectionCount > QuantityMovement || (mDetectionCountTest / 15F) > QuantityMovement) && !mExitTwo)
             {
                 mExitOne = true;
-                Debug.Log("1");
-                if (Toaster.IsDisplayed)
-                    Toaster.Hide();
+
                 if (Interaction.Mood.CurrentMood != MoodTypeWhenDetected)
                 {
                     Interaction.Mood.Set(MoodTypeWhenDetected);
@@ -220,9 +243,7 @@ namespace BuddyApp.SandboxApp
             if (mDurationDetection > Timer && mDetectionCount <= QuantityMovement && !mExitOne)
             {
                 mExitTwo = true;
-                Debug.Log("2");
-                if (Toaster.IsDisplayed)
-                    Toaster.Hide();
+
                 if (Interaction.Mood.CurrentMood != MoodTypeWhenNotDetected)
                 {
                     Interaction.Mood.Set(MoodTypeWhenNotDetected);
@@ -238,16 +259,20 @@ namespace BuddyApp.SandboxApp
                 else
                 {
                     mMotion.StopOnDetect(OnMovementDetected);
-                    
                 }
             }
-
-
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //mMotion.StopOnDetect(OnMovementDetected);
+            if (!File.Exists(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved)))
+            {
+                Debug.Log("SHARED PAS DE PICTURE");
+            }
+            if (Toaster.IsDisplayed)
+                Toaster.Hide();
+            mMotion.StopOnDetect(OnMovementDetected);
+            mCam.Close();
             if (!string.IsNullOrEmpty(TriggerWhenDetected))
                 ResetTrigger(TriggerWhenDetected);
             if (!string.IsNullOrEmpty(TriggerWhenNotDetected))
@@ -259,8 +284,51 @@ namespace BuddyApp.SandboxApp
         {
             mMatDetection = mCam.FrameMat.clone();
             mMatDetectionCopy = mMatDetection.clone();
+            Texture2D lTexture = new Texture2D(mCam.Width, mCam.Height);
             if (!WantToFlip)
                 Core.flip(mMatDetectionCopy, mMatDetectionCopy, 1);
+
+            if (OnlyOneDetection)
+            {
+                if (WantToSavePicture)
+                {
+                    if (!string.IsNullOrEmpty(NameOfPictureSaved))
+                    {
+                        if (ImageWithMovementDisplayed)
+                        {
+                            foreach (MotionEntity lEntity in iMotions)
+                            {
+                                Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 3, new Scalar(ColorOfDisplay), 3);
+
+                                //Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 3, new Scalar(ColorOfDisplay), 3);
+                                Core.flip(mMatDetection, mMatDetectionCopy, 1);
+                            }
+                            //Core.flip(mMatDetection, mMatDetection, 1);
+
+                            Utils.MatToTexture2D(mMatDetectionCopy, Utils.ScaleTexture2DFromMat(mMatDetectionCopy, lTexture));
+                            File.WriteAllBytes(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved), lTexture.EncodeToJPG());
+                            //mSprite = Sprite.Create(lTexture, new UnityEngine.Rect(0,0,lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
+                            //Utils.SaveSpriteToFile(mSprite, BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved));
+                        }
+                        else
+                        {
+                            Core.flip(mMatDetection, mMatDetection, 1);
+
+                            Utils.MatToTexture2D(mMatDetection, Utils.ScaleTexture2DFromMat(mMatDetection, lTexture));
+                            File.WriteAllBytes(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved), lTexture.EncodeToJPG());
+                            //mSprite = Sprite.Create(lTexture, new UnityEngine.Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
+                            //Utils.SaveSpriteToFile(mSprite, BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved));
+                        }
+                    }
+                    else
+                        Debug.Log("The name of the picture is empty.");
+                }
+                if (!string.IsNullOrEmpty(TriggerWhenDetected) && mDetectionCount > QuantityBeforeTrigger && File.Exists(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved)))
+                    Trigger(TriggerWhenDetected);
+                else
+                    Debug.Log("your trigger when detected is empty.");
+                mDetectionCount++;
+            }
             if (iMotions.Length > 5)
             {
                 bool lInRectangle = false;
@@ -307,9 +375,9 @@ namespace BuddyApp.SandboxApp
                         }
                     }
                 }
-
                 //if (lInRectangle)
                 mDetectionCount++;
+                Debug.Log("DETECTION MOTION SHARED COUNT : " + mDetectionCount);
             }
             return true;
         }
