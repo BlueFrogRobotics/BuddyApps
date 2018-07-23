@@ -263,24 +263,43 @@ namespace BuddyApp.Shared
             //    };
             //    i++;
             //}
-
+            Debug.Log("ITEMS COUNT SHARED :" + items.Count);
+            List<int> mIndexHashList = new List<int>();
             if (string.IsNullOrEmpty(Buddy.Resources.GetString(titleKey)))
             {
                 //BYOS.Instance.Toaster.Display<ChoiceToast>().With(titleKey, lButtonsInfo);
                 Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) => {
-                    TVerticalListBox lBox = iBuilder.CreateBox();
                     for (int i = 0; i < items.Count; ++i)
                     {
-                        lBox.OnClick.Add(() => { StartCoroutine(GotoParameter(items[i].trigger, i, items[i].quitApp)); Buddy.GUI.Toaster.Hide(); });
+                        TVerticalListBox lBox = iBuilder.CreateBox();
+                        int mHash = lBox.GetHashCode();
+                        mIndexHashList.Add(mHash);
+                        lBox.OnClick.Add(() => {
+                            int mIndex = mIndexHashList.FindIndex(x => x == mHash);
+                            StartCoroutine(GotoParameter(items[mIndex].trigger, mIndex, items[mIndex].quitApp));
+                            Buddy.GUI.Toaster.Hide(); });
                         lBox.SetLabel(Buddy.Resources.GetString(items[i].key));
                     }
-
                 });
             }
             else
             {
                 //BYOS.Instance.Toaster.Display<ChoiceToast>().With(Buddy.Resources.GetString(titleKey), lButtonsInfo);
+                Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) => {
 
+                    for (int i = 0; i < items.Count; ++i)
+                    {
+                        TVerticalListBox lBox = iBuilder.CreateBox();
+                        int mHash = lBox.GetHashCode();
+                        mIndexHashList.Add(mHash);
+                        lBox.OnClick.Add(() => {
+                            int mIndex = mIndexHashList.FindIndex(x => x == mHash);
+                            StartCoroutine(GotoParameter(items[mIndex].trigger, mIndex, items[mIndex].quitApp));
+                            Buddy.GUI.Toaster.Hide();
+                        });
+                        lBox.SetLabel(Buddy.Resources.GetString(items[i].key));
+                    }
+                });
             }
 
         }
@@ -291,16 +310,6 @@ namespace BuddyApp.Shared
 
             Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
             mListening = false;
-        }
-
-        /// <summary>
-        /// Go to the next state
-        /// </summary>
-        /// <param name="iMode">the chosen mode</param>
-        private void StartGuardian()
-        {
-            mSpeechReco = null;
-            Trigger("NextStep");
         }
 
         /// <summary>

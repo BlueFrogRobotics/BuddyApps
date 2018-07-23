@@ -15,10 +15,10 @@ namespace BuddyApp.TestCoroutineDisplay
 		/*
 		* Called before the App scene loading.
 		*/
-		public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
-		{ 
-			Utils.LogI(LogContext.APP, "On loading...");
-		}
+		//public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
+		//{ 
+		//	Utils.LogI(LogContext.APP, "On loading...");
+		//}
 
 		/*
 		* Called after every Awake() in your scene

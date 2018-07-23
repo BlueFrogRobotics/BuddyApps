@@ -43,13 +43,13 @@ namespace BuddyApp.Shared
         [SerializeField]
         private bool IsBinaryQuestion;
         [SerializeField]
-        private bool IsBinaryToaster;
+        private bool WantBinaryToasterDisplay;
 
         [Header("Multiple Question Parameters : ")]
         [SerializeField]
         private bool IsMultipleQuestion;
         [SerializeField]
-        private bool IsMultipleToaster;
+        private bool WantMultipleQuestionToasterDisplay;
 
 
         [Header("BML")]
@@ -70,7 +70,7 @@ namespace BuddyApp.Shared
         private Vocal mTTS;
         private float mTimer;
         private FacialExpression mActualMood;
-        private List<string> mKeyList;
+        //private List<string> mKeyList;
         private bool mSoundPlayed;
         private int mNumberOfButton;
         private int mIndexButton = 0;
@@ -104,7 +104,7 @@ namespace BuddyApp.Shared
             mListening = false;
             mSoundPlayed = false;
             mIsDisplayed = false;
-            mKeyList = new List<string>();
+            //mKeyList = new List<string>();
             mTimer = 0F;
         }
 
@@ -125,15 +125,17 @@ namespace BuddyApp.Shared
         {
             FillMenu();
             mTimer += Time.deltaTime;
-
-            if (mNumberOfButton > 3 && IsBinaryQuestion)
+            Debug.Log(mNumberOfButton + " " + IsBinaryQuestion);
+            if (mNumberOfButton > 2 && IsBinaryQuestion)
             {
                 Debug.Log("---You checked Binary Question with more than 2 buttons---");
+                Utils.LogE(LogContext.APP, "---You checked Binary Question with more than 2 buttons---");
                 return;
             }
             if (mNumberOfButton < 3 && IsMultipleQuestion)
             {
                 Debug.Log("---You checked Multiple Question with less than 3 buttons---");
+                Utils.LogE(LogContext.APP, "---You checked Multiple Question with less than 3 buttons---");
                 return;
             }
 
@@ -158,7 +160,7 @@ namespace BuddyApp.Shared
                         }
                     }
                     //Display toaster
-                    if (IsBinaryToaster)
+                    if (WantBinaryToasterDisplay)
                     {
                         mActualMood = Buddy.Behaviour.Mood.CurrentMood;
                         if (items.Count == 0)
@@ -187,7 +189,7 @@ namespace BuddyApp.Shared
                 {
                     if (mStartRule.Equals(item.key))
                     {
-                        if (IsBinaryToaster)
+                        if (WantBinaryToasterDisplay)
                             Buddy.GUI.Toaster.Hide();
                         if (item.trigger.Equals("quit"))
                             StartCoroutine(Quit());
@@ -197,7 +199,7 @@ namespace BuddyApp.Shared
                     }
                     else if (mStartRule.Equals("quit"))
                     {
-                        if (IsMultipleToaster)
+                        if (WantMultipleQuestionToasterDisplay)
                             Buddy.GUI.Toaster.Hide();
                         StartCoroutine(Quit());
                     }
@@ -206,7 +208,7 @@ namespace BuddyApp.Shared
             }
             else if (IsMultipleQuestion)
             {
-                if (IsMultipleToaster && !mIsDisplayed)
+                if (WantMultipleQuestionToasterDisplay && !mIsDisplayed)
                 {
                     mActualMood = Buddy.Behaviour.Mood.CurrentMood;
                     mIsDisplayed = true;
@@ -244,7 +246,7 @@ namespace BuddyApp.Shared
                 {
                     if (mStartRule.Equals(item.key))
                     {
-                        if (IsMultipleToaster)
+                        if (WantMultipleQuestionToasterDisplay)
                             Buddy.GUI.Toaster.Hide();
                         if (item.trigger.Equals("quit"))
                             StartCoroutine(Quit());
@@ -254,7 +256,7 @@ namespace BuddyApp.Shared
                     }
                     else if (mStartRule.Equals("quit"))
                     {
-                        if (IsMultipleToaster)
+                        if (WantMultipleQuestionToasterDisplay)
                             Buddy.GUI.Toaster.Hide();
                         StartCoroutine(Quit());
                     }
@@ -265,6 +267,7 @@ namespace BuddyApp.Shared
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("ON STATE EXIT QA MANAGER");
             Buddy.Vocal.Stop();
             //Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, Context.APP);
             //Interaction.VocalManager.StopListenBehaviour();
@@ -412,14 +415,23 @@ namespace BuddyApp.Shared
                 else
                     lTitle = KeyQuestion;
 
-                if (IsBinaryToaster)
+                if (WantBinaryToasterDisplay)
                 {
+                    for (int i = 0; i < items.Count; ++i)
+                    {
+                        if (string.IsNullOrEmpty(Buddy.Resources.GetString(items[i].key)))
+                        {
+                            Debug.Log("---Your key doesn't exist in the dictionnary---");
+                            Utils.LogE(LogContext.APP, "---Your key doesn't exist in the dictionnary---");
+                            return;
+                        }
+                    }
                     //BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With(lTitle, lButtonsInfo[1], lButtonsInfo[0]);
                     Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => iBuilder.CreateWidget<TText>().SetLabel(lTitle),
                         () => { PressedButton(items[0].trigger); }, Buddy.Resources.GetString(items[0].key), 
                         () => { PressedButton(items[1].trigger); }, Buddy.Resources.GetString(items[1].key));
                 }
-                else if (IsMultipleToaster)
+                else if (WantMultipleQuestionToasterDisplay)
                 {
                     //BYOS.Instance.Toaster.Display<ChoiceToast>().With(lTitle, lButtonsInfo);
                     //A VOIR SI JE LE FAIS APRES (pas utilisé pour le moment)
@@ -452,7 +464,7 @@ namespace BuddyApp.Shared
                     if (lResult)
                         mNumberOfButton = lValue;
                 }
-
+                
                 for (int i = 0; i < lNodeList.Count; ++i)
                 {
                     if (lNodeList[i].Name == "Button")

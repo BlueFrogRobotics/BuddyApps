@@ -285,6 +285,7 @@ GameObject:
   - component: {fileID: 1669233717}
   - component: {fileID: 1669233718}
   - component: {fileID: 1669233716}
+  - component: {fileID: 1669233719}
   m_Layer: 0
   m_Name: AIBehaviour
   m_TagString: Untagged
@@ -335,6 +336,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1669233719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1669233715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -386293657, guid: 5824aec9ddecbc147aad6e8a298ea02b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjects: []
 --- !u!1 &1860517778
 GameObject:
   m_ObjectHideFlags: 0

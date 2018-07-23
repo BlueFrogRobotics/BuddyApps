@@ -118,25 +118,35 @@ namespace BuddyApp.Shared
             mTimer = 0F;
             mSoundPlayedWhenDetected = false;
             mDetectionCount = 0;
-            if (WantChangingTimer && iAnimator.GetFloat("Timer") != 0F)
+            mMotionDetectorParameter = new MotionDetectorParameter();
+            if (WantChangingTimer)
             {
-                Timer = iAnimator.GetFloat("Timer");
+                if (iAnimator.GetFloat("Timer") != 0F)
+                    Timer = iAnimator.GetFloat("Timer");
+                else
+                    Debug.Log("You didn't create a float named Timer in animtor's parameter, do it and change its value with  animator.SetFloat(\"Timer\", your value);");
             }
-            else
-                Debug.Log("You didn't create a float named Timer in animtor's parameter, do it and change its value with  animator.SetFloat(\"Timer\", your value);");
-            if (WantChangingQuantity && iAnimator.GetFloat("QuantityMovement") != 0)
+                
+            if (WantChangingQuantity)
             {
-                QuantityMovement = iAnimator.GetInteger("QuantityMovement");
+                if (iAnimator.GetFloat("QuantityMovement") != 0F)
+                    QuantityMovement = iAnimator.GetInteger("QuantityMovement");
+                else
+                    Debug.Log("You didn't create a integer named QuantityMovement in animator's parameter, do it and change its value with animator.SetInteger(\"QuantityMovement\", your value);");
             }
-            else
-                Debug.Log("You didn't create a integer named QuantityMovement in animator's parameter, do it and change its value with animator.SetInteger(\"QuantityMovement\", your value);");
+
             //mCam.Resolution = RGBCamResolution.W_320_H_240; 
-            mCam.Open(HDCameraMode.COLOR_320x240_30FPS_RGB);
+            mCam.Open(HDCameraMode.COLOR_640x480_30FPS_RGB);
             if (!AreaToDetect)
             {
-                mMotionDetectorParameter.RegionOfInterest = null;
-                mMotionDetectorParameter.SensibilityThreshold = 3F;
-                mMotion.OnDetect.AddP(OnMovementDetected, mMotionDetectorParameter);                
+                //mMotionDetectorParameter.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240);
+                //mMotionDetectorParameter.SensibilityThreshold = 1F;
+                //mMotion.OnDetect.AddP(OnMovementDetected, mMotionDetectorParameter);
+                mMotion.OnDetect.AddP(OnMovementDetected, new MotionDetectorParameter()
+                {
+                    RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240),
+                    SensibilityThreshold = 3.0F
+                });
             }
             else
             {
@@ -149,12 +159,10 @@ namespace BuddyApp.Shared
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
             mDurationDetection += Time.deltaTime;
             mTimer += Time.deltaTime;
             if (Timer == 0F)
                 Timer = 5F;
-
 
             if (mCam.IsOpen && VideoDisplay && !mIsDisplay)
             {
@@ -172,7 +180,6 @@ namespace BuddyApp.Shared
 
             if (VideoDisplay && mIsDisplay && mTimer > 0.1F)
             {
-
                 if (mMatDetectionCopy == null && !AreaToDetect)
                 {
                     mMat = mCam.Frame.clone();
@@ -212,7 +219,6 @@ namespace BuddyApp.Shared
             if ((mDetectionCount > QuantityMovement || (mDetectionCountTest / 15F) > QuantityMovement) && !mExitTwo)
             {
                 mExitOne = true;
-
                 if (Buddy.Behaviour.Mood.CurrentMood != MoodTypeWhenDetected)
                 {
                     Buddy.Behaviour.Mood.Set(MoodTypeWhenDetected);
@@ -227,7 +233,6 @@ namespace BuddyApp.Shared
                         {
                             mSoundPlayedWhenDetected = true;
                             Buddy.Actuators.Speakers.Media.Play(SoundWhenDetected);
-
                         }
                         Trigger(TriggerWhenDetected);
                     }
@@ -238,11 +243,9 @@ namespace BuddyApp.Shared
                     {
                         mSoundPlayedWhenDetected = true;
                         Buddy.Actuators.Speakers.Media.Play(SoundWhenDetected);
-
                     }
                     Trigger(TriggerWhenDetected);
                 }
-
             }
 
             if (mDurationDetection > Timer && mDetectionCount <= QuantityMovement && !mExitOne)
@@ -263,6 +266,7 @@ namespace BuddyApp.Shared
                     Trigger(TriggerWhenNotDetected);
                 else
                 {
+                    Debug.Log("REMOVE ON DETECT");
                     mMotion.OnDetect.RemoveP(OnMovementDetected);
                 }
             }
@@ -287,6 +291,7 @@ namespace BuddyApp.Shared
 
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
+            Debug.Log("ONMOVEMENT DETECTED");
             mMatDetection = mCam.Frame.clone();
             mMatDetectionCopy = mMatDetection.clone();
             Texture2D lTexture = new Texture2D(mCam.Width, mCam.Height);
@@ -336,6 +341,7 @@ namespace BuddyApp.Shared
             }
             if (iMotions.Length > 5)
             {
+                Debug.Log("ON MOVEMENT DETECTED SHARED");
                 bool lInRectangle = false;
                 if (BipSound)
                 {

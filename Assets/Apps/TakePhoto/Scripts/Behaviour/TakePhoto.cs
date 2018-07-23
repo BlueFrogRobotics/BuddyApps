@@ -90,7 +90,7 @@ namespace BuddyApp.TakePhoto
 			mTimer = 0;
 			mSpeechId = 0;
 
-			int lRandomIndice = UnityEngine.Random.Range(0, mOverlaysTextures.Count - 1);
+			//int lRandomIndice = UnityEngine.Random.Range(0, mOverlaysTextures.Count - 1);
 
 			// Random Overlay selection
 			string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
