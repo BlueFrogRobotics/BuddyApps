@@ -56,7 +56,11 @@ namespace BuddyApp.Companion
 					Debug.Log("Warning, the app " + CompanionData.Instance.LastApp + " ran for less than 0.5 seconds. It may be an error??");
 					// TODO: add sentences said by buddy
 					BYOS.Instance.Interaction.Mood.Set(MoodType.SICK);
-				} else if (lTimeInApp.TotalSeconds < 10F && CompanionData.Instance.LastApp != "Weather" && CompanionData.Instance.LastApp != "Timer" && CompanionData.Instance.LastApp != "Reminder") {
+				} else if (lTimeInApp.TotalSeconds < 10F 
+							&& CompanionData.Instance.LastApp != "Weather" 
+							&& CompanionData.Instance.LastApp != "Timer" 
+							&& CompanionData.Instance.LastApp != "Reminder"
+							&& CompanionData.Instance.LastApp != "Somfy") {
 					BYOS.Instance.Interaction.TextToSpeech.SayKey("appcancelled");
 					BYOS.Instance.Interaction.Mood.Set(MoodType.THINKING);
 				}
