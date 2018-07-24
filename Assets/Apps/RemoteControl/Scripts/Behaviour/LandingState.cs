@@ -19,7 +19,10 @@ namespace BuddyApp.RemoteControl
             if (RemoteControlData.Instance.IsWizardOfOz)
                 Trigger("WizardOfOz");
             else
+            {
+                mRemoteControlBehaviour.LaunchCall();
                 Trigger("Remote");
+            }
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

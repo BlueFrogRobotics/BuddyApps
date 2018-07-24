@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bml id="BeListening01" category="listening">
+	<synchronized>
+    <faceMoodShift mood="LISTENING"/>
+    <headNo id="headNo1" position="-20" speed="600"/>   
+    <headYes id="headYes1" position="-10" speed="600"/>
+    <faceExp id="BLINK_BOTH"/>
+    <gazeShift id="gaze1" direction="UP_LEFT"/>
+	</synchronized>
+  <synchronized>
+    <faceExp id="faceExp1" expression="CLOSE_EYES"/>
+    <headYes id="headYes2" start="0" end="0.5" position="10" speed="600"/>
+    <headYes id="headYes3" start="0.5" end="1" position="-10" speed="600"/>
+    <headYes id="headYes4" start="1" end="1.5" position="10" speed="600"/>
+    <headYes id="headYes5" start="1.5" end="2" position="-10" speed="600"/>
+    <faceExp id="faceExp2" start="2" expression="OPEN_EYES"/>
+  </synchronized>
+  <synchronized>
+    <gazeShift id="gaze2" direction="UP"/>
+    <headNo id="headNo2" end="2" position="0" speed="600"/>
+  </synchronized>
+  <synchronized>
+    <headNo id="headNo3" end="2"  position="-20" speed="600"/>
+    <gazeShift id="gaze3" direction="UP_LEFT"/>
+  </synchronized>
+		<faceMoodShift mood="NEUTRAL"/>
+</bml>

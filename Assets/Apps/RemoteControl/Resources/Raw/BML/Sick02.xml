@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bml id="BeSick02" category="sick">
+	<synchronized>
+    <faceMoodShift start="1" mood="SICK"/>
+    <headNo id="headNo1" position="-25" speed="200"/>   
+    <headYes id="headYes1" position="30" speed="600"/>
+	</synchronized>
+  <move id="move1" speed="100" angle="45"/>
+  <headNo id="headNo2" end="0.5" position="25" speed="200"/>
+  <headNo id="headNo3" end="0.5" position="-25" speed="200"/>
+  <headNo id="headNo4" end="0.5" position="25" speed="200"/>
+  <headNo id="headNo5" end="0.5" position="-25" speed="200"/>
+  <synchronized>
+    <move id="move2" speed="100" angle="-45"/>
+    <faceExp id="faceExp1" start="0.5" expression="SCREAM"/>
+    <sound name="os_sigh"/>
+    <headYes id="headYes2" position="0" speed="200"/>
+    <headYes id="headYes3" start="1" position="30" speed="600"/>
+  </synchronized>
+   <headNo id="headNo6" end="2" position="0" speed="200"/>
+   <headYes id="headYes4" position="0" speed="200"/>
+</bml>
