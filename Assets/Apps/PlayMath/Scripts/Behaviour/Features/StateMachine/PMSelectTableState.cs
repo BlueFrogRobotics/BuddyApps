@@ -31,6 +31,7 @@ namespace BuddyApp.PlayMath
             mSetTableAnimator = GameObject.Find("UI/Set_Table").GetComponent<Animator>();
 
             mPreviousStateBehaviours.Add(GameObject.Find("UI/Menu").GetComponent<MainMenuBehaviour>());
+            GameObject.Find("UI/Menu").GetComponent<MainMenuBehaviour>().OnClickTables();
 
             mIsOpen = false;
             mListening = false;
@@ -58,7 +59,7 @@ namespace BuddyApp.PlayMath
             int lNumberTable = 0;
             mListening = false;
             mSpeechReco = iBestResult.Utterance;
-            if (int.TryParse(mSpeechReco, out lNumberTable))
+            if (int.TryParse(Regex.Match(mSpeechReco, @"\d+").Value, out lNumberTable))
                 if (lNumberTable > 0 && lNumberTable <= 9)
                 {
                     mSelectTableBehaviour.SetTimeTable(lNumberTable);

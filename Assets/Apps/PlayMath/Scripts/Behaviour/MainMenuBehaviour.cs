@@ -67,12 +67,12 @@ namespace BuddyApp.PlayMath{
 		}
 
         public void OnClickTables() {
-            if (mTriggerOnce)
-            {
-                User.Instance.GameParameters.Sequence = 12;
+            //if (mTriggerOnce)
+            //{
+                User.Instance.GameParameters.Sequence = 10;
                 mTriggerOnce = false;
-                mPlayMathAnimator.SetTrigger("SelectTable");
-            }
+                //mPlayMathAnimator.SetTrigger("SelectTable"); 
+            //}
         }
 	}
 }
