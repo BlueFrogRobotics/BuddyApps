@@ -169,6 +169,6 @@
 <rotationangle> : <numbers#nb> degrees;
 <radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;
 <radio> : [<asklaunch>] ([the] radio | [[the] radio] <radioname>);
-<operation> : [(how much are | what is) <numbers#nb>] <numbers#nb> (plus | minus | divided by | multiplied by) <numbers#nb>;
-<operationagain> :  (plus | minus | divided by | multiplied by) <numbers#nb>;
+<operation> : [(how much are | what is)] <numbers#nb> (plus | minus | divided by | multiplied by | times) <numbers#nb>;
+<operationagain> :  (plus | minus | divided by | multiplied by | times) <numbers#nb>;
 <cancel> : (cancel | delete) [all] the timer;
