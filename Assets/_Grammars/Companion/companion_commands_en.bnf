@@ -76,6 +76,8 @@
 !start <radio>;
 !start <operationagain>;
 !start <cancel>;
+!start <accraactivity>;
+!start <accraalarm>;
 !import <numbers#nb>;
 !import <names#anyname>;
 
@@ -172,3 +174,5 @@
 <operation> : [(how much are | what is)] <numbers#nb> (plus | minus | divided by | multiplied by | times) <numbers#nb>;
 <operationagain> :  (plus | minus | divided by | multiplied by | times) <numbers#nb>;
 <cancel> : (cancel | delete) [all] the timer;
+<accraactivity> : [<canyou> | (I | we) (want to | would like [you] to) | can I] (launch | start | do | make) (an exercice | an activity | a session);
+<accraalarm> : Call for help | Alert (an helper | someone) | I'm not really well | I have a problem;

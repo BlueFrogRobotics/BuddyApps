@@ -1285,6 +1285,18 @@ namespace BuddyApp.Companion
 					//mReaction.SearchFace();
 					mNeedListen = true;
 					break;
+					
+				case "accraactivity":
+					CompanionData.Instance.mInteractDesire -= 10;
+					mActionManager.StartApp("ACCRAWellBeing", mLastHumanSpeech);
+					mLaunchingApp = true;
+					break;
+					
+				case "accraalarm":
+					CompanionData.Instance.mInteractDesire -= 10;
+					mActionManager.StartApp("AccraProject", mLastHumanSpeech);
+					mLaunchingApp = true;
+					break;
 
 				default:
 					//Maybe a question / answer thing

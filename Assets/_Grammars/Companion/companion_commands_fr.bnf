@@ -76,6 +76,8 @@
 !start <radio>;
 !start <operationagain>;
 !start <cancel>;
+!start <accraactivity>;
+!start <accraalarm>;
 !import <numbers#nb>;
 !import <names#anyname>;
 
@@ -173,3 +175,5 @@
 <operation> : [combien (font | ça fait)]  <numbers#nb> (plus | moins | divisé par | multiplié par | fois) <numbers#nb>;
 <operationagain> : (plus | moins | divisé par | multiplié par | fois) <numbers#nb>;
 <cancel> : (supprime | enlève) [tous] les (minuteur | décompte | compte à rebours | timer);
+<accraactivity> : (([<canyou> | je (veux | voudrais | peux) | puis-je | on (veut | voudrait)] (lancer | faire | démarrer)) | (lance | fait | démarre)) (un exercice | une activité | une séance);
+<accraalarm> : (Préviens | Appelle | Alerte) ((de | à) l'aide | du secours | un aidant | quelqu'un) | Je [ne] vais [vraiment] pas bien | Je vais [vraiment] [très] mal | J'ai un problème | Je suis tombé;
