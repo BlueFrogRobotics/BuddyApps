@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bml id="BeNeutral04" category="neutral">
+  <synchronized>
+    <faceMoodShift mood="NEUTRAL"/>
+    <headNo id="headNo1" position="0" speed="100"/>
+    <headYes id="headYes1"  position="35" speed="100"/>
+    <faceExp id="faceEx1" start="0.5" expression="CLOSE_EYES"/>
+    <move id="move1" angle="-180" speed="100"/>
+  </synchronized>
+  <move id="move2" angle="-180" speed="100"/>
+  <move id="move3" angle="-180" speed="100"/>
+  <move id="move4" angle="-180" speed="100"/>
+  <synchronized end="1">
+    <headYes id="headYes3"  position="10" speed="100"/>
+    <faceExp id="faceEx3" start="0.5" expression="OPEN_EYES"/>
+  </synchronized>
+  <faceExp id="faceEx4" start="0.5" expression="SMILE"/>
+</bml>

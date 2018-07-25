@@ -19,7 +19,7 @@ namespace BuddyApp.RemoteControl
 		/*[SerializeField]
 		private PoolManager mPoolManager = null;*/
 
-		private bool mActive = true;
+		private bool mActive = false;
 
 		public void onToggleSound()
 		{

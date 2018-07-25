@@ -115,6 +115,7 @@ namespace BuddyApp.Shared
             mExitTwo = false;
             mIsDisplay = false;
             mDurationDetection = 0F;
+            mDetectionCountTest = 0;
             mTimer = 0F;
             mSoundPlayedWhenDetected = false;
             mDetectionCount = 0;

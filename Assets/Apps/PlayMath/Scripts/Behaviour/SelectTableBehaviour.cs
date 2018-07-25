@@ -38,6 +38,16 @@ namespace BuddyApp.PlayMath{
             }
         }
 
+        public void SetTimeTable(int number)
+        {
+            if (mTriggerOnce)
+            {
+                User.Instance.GameParameters.Table = number;
+                mTriggerOnce = false;
+                mPlayMathAnimator.SetTrigger("Play");
+            }
+        }
+
         public void OnClickGoToMenu() {
             if (mTriggerOnce)
             {
