@@ -38,23 +38,25 @@ namespace BuddyApp.Shared
         [SerializeField]
         private int Timeout = 3;
 
-        /// <summary>
-        /// Name of the grammar Vocon, without "_language"/extension
-        /// </summary>
+        [Tooltip("Name of the grammar Vocon, without \"_language/extension")]
         [SerializeField]
         private string NameVoconGrammarFile;
 
+        [Tooltip("Context of vocon grammar")]
         [SerializeField]
         private LoadContext context;
 
 
         [Header("BML")]
+        [Tooltip("Check if you want to play Bml")]
         [SerializeField]
         private bool PlayBML;
+        [Tooltip("Check if you want to play Random Bml (with a category)")]
         [SerializeField]
         private bool RandomBML;
+        [Tooltip("Name of bml or category")]
         [SerializeField]
-        private string[] BMLs;
+        private string[] NameOfBML;
 
         private int mNumberOfButton;
         private int mIndexButton = 0;
@@ -276,17 +278,12 @@ namespace BuddyApp.Shared
         {
             if (PlayBML)
             {
-                try
-                {
-                    BMLLauncher(BMLs[iNumber]);
+                try {
+                    BMLLauncher(NameOfBML[iNumber]);
                 }
-                catch (Exception e)
-                {
-                    Utils.LogE(LogContext.APP, e.Message + " You need to have the same number of button and BMLs in Shared Inspector");
-                    QuitApp();
+                catch (Exception e){
                 }
-
-
+                
                 while (!Interaction.BMLManager.DonePlaying)
                     yield return null;
             }
