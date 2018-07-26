@@ -59,6 +59,7 @@ namespace BuddyApp.PlayMath
             int lNumberTable = 0;
             mListening = false;
             mSpeechReco = iBestResult.Utterance;
+            if (!string.IsNullOrEmpty(mSpeechReco))
             if (int.TryParse(Regex.Match(mSpeechReco, @"\d+").Value, out lNumberTable))
                 if (lNumberTable > 0 && lNumberTable <= 9)
                 {
