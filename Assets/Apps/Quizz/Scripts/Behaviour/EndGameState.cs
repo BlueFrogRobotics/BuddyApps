@@ -47,7 +47,8 @@ namespace BuddyApp.Quizz
             Interaction.Mood.Set(MoodType.NEUTRAL);
             if (mQuizzBehaviour.Players.Count==1)
             {
-                Interaction.TextToSpeech.Say(Dictionary.GetRandomString("givescore").Replace("[name]", "" + mQuizzBehaviour.Players[0].Name).Replace("[score]", ""+mQuizzBehaviour.Players[0].Score));
+                GiveScore1Player();
+                //Interaction.TextToSpeech.Say(Dictionary.GetRandomString("givescore").Replace("[name]", "" + mQuizzBehaviour.Players[0].Name).Replace("[score]", ""+mQuizzBehaviour.Players[0].Score));
             }
             else if (mWinners.Count == 1 && mWinners[0].Score < QuizzBehaviour.MAX_ROUNDS)
                 Interaction.TextToSpeech.Say(Dictionary.GetRandomString("givewinnername").Replace("[name]", "" + mWinners[0].Name));
@@ -70,8 +71,8 @@ namespace BuddyApp.Quizz
             }
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
-            QuitApp();
-            //Trigger("AskRestart");
+            //QuitApp();
+            Trigger("AskRestart");
         }
 
         private string GetWinnerName()
@@ -91,6 +92,31 @@ namespace BuddyApp.Quizz
                     mWinners.Add(player);
             }
             return lPlayerName;
+        }
+
+        private void GiveScore1Player()
+        {
+            switch(mQuizzBehaviour.Players[0].Score)
+            {
+                case 0:
+                    Interaction.TextToSpeech.Say(Dictionary.GetRandomString("nogoodanswer").Replace("[name]", "" + mQuizzBehaviour.Players[0].Name).Replace("[n]", "" + QuizzBehaviour.MAX_ROUNDS));
+                    break;
+                case 1:
+                    Interaction.TextToSpeech.Say(Dictionary.GetRandomString("onegoodanswer").Replace("[name]", "" + mQuizzBehaviour.Players[0].Name).Replace("[n]", "" + QuizzBehaviour.MAX_ROUNDS));
+                    break;
+                case 2:
+                    Interaction.TextToSpeech.Say(Dictionary.GetRandomString("twogoodanswers").Replace("[name]", "" + mQuizzBehaviour.Players[0].Name).Replace("[n]", "" + QuizzBehaviour.MAX_ROUNDS));
+                    break;
+                case 3:
+                    Interaction.TextToSpeech.Say(Dictionary.GetRandomString("threegoodanswers").Replace("[name]", "" + mQuizzBehaviour.Players[0].Name).Replace("[n]", "" + QuizzBehaviour.MAX_ROUNDS));
+                    break;
+                case 4:
+                    Interaction.TextToSpeech.Say(Dictionary.GetRandomString("fourgoodanswers").Replace("[name]", "" + mQuizzBehaviour.Players[0].Name).Replace("[n]", "" + QuizzBehaviour.MAX_ROUNDS));
+                    break;
+                case 5:
+                    Interaction.TextToSpeech.Say(Dictionary.GetRandomString("perfectwinnername").Replace("[name]", "" + mQuizzBehaviour.Players[0].Name).Replace("[number]", "" + QuizzBehaviour.MAX_ROUNDS));
+                    break;
+            }
         }
     }
 }

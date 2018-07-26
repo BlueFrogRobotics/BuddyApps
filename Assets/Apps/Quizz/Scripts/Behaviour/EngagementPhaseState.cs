@@ -44,6 +44,7 @@ namespace BuddyApp.Quizz
             mHasSaidName = false;
             mGoodName = false;
             mActualName = "";
+            mQuizzBehaviour.LastStateId = 1;
             mQuizzBehaviour.InitPlayers();
             StartCoroutine(Engagement());
             mQuizzBehaviour.OnLanguageChange = OnLanguageChange;

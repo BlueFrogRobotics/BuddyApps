@@ -47,6 +47,7 @@ namespace BuddyApp.BuddyLab
         public override void OnQuit()
         {
             Utils.LogI(LogContext.APP, "On quit...");
+            ItemControlUnit.OnNextAction = null;
             mItemControl.IsRunning = false;
         }
     }

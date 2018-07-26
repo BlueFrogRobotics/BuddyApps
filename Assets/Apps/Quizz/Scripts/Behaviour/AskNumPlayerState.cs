@@ -25,6 +25,7 @@ namespace BuddyApp.Quizz
             Interaction.VocalManager.OnVoconBest = VoconBest;
             Interaction.VocalManager.OnVoconEvent = EventVocon;
             mQuizzBehaviour.OnLanguageChange = OnLanguageChange;
+            mQuizzBehaviour.LastStateId = 0;
             StartCoroutine(AskNumberPlayer());
         }
 

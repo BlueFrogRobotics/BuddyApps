@@ -25,6 +25,7 @@ namespace BuddyApp.Quizz
             Interaction.VocalManager.AddGrammar("answers", Buddy.LoadContext.APP);
             Interaction.VocalManager.OnVoconBest = VoconBest;
             Interaction.VocalManager.OnVoconEvent = EventVocon;
+            mQuizzBehaviour.LastStateId = 2;
             StartCoroutine(AskQuestion());
         }
 
@@ -96,7 +97,7 @@ namespace BuddyApp.Quizz
                 {
                     for (int i = 0; i < mQuizzBehaviour.ActualQuestion.Answers.Count; i++)
                     {
-                        if (iBestResult.Utterance.Contains(mQuizzBehaviour.ActualQuestion.Answers[i]))
+                        if (iBestResult.Utterance.Trim().Contains(mQuizzBehaviour.ActualQuestion.Answers[i].Trim()))
                             lAnswerId = i;
                     }
                     //Trigger("Win");

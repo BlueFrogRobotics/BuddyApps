@@ -18,6 +18,7 @@ namespace BuddyApp.Quizz
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mQuizzBehaviour.Init();
             mQuizzBehaviour.OnLanguageChange = null;
             Interaction.VocalManager.ClearGrammars();
             Interaction.VocalManager.OnVoconBest = null;
@@ -41,7 +42,7 @@ namespace BuddyApp.Quizz
         {
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
-            Interaction.TextToSpeech.SayKey("welcome");
+            Interaction.TextToSpeech.Say(Dictionary.GetRandomString("welcome").Replace("[n]", ""+QuizzBehaviour.MAX_ROUNDS));
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
             Trigger("Start");

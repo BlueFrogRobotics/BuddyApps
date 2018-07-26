@@ -38,9 +38,9 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Vous m'avez bluffé, bien joué, vous vous appelez [name] à partir de maintenant </string>
-                <string> super ça sonne bien, c'est chic et élégant. [name] est donc votre nouveau pseudo. </string>
-                <string> [name], ça sonne bien. Je vais vous appeler [name] le temps de cette partie. </string>
+                <string> Vous vous appelez [name] à partir de maintenant </string>
+                <string> [name]  est donc votre nouveau pseudo </string>
+                <string>Je vais vous appeler [name] le temps de cette partie.  </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -50,7 +50,7 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>ce n'est pas tout à fait ce que j'ai dit mais je vais écrire [name]. Ce sera votre pseudo </string>
+                <string>Ce n'est pas tout à fait ce que j'ai dit mais je vais vous appelez quand même [name]. Ce sera votre pseudo </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -101,6 +101,9 @@
                 <string> Au tour de [name] </string>
                 <string> maintenant [name] , c'est à vous </string>
                 <string>  [name], c'est à vous, votre question</string>
+                <string>[name] Voici une question sur le thème [theme]  </string>
+                <string>  [name] Passons maintenant à une question sur le thème [theme]  </string>
+                <string>  [name] Votre question porte sur le thème [theme]  </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -242,7 +245,183 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Bienvenue sur le jeu du Quizz</string>
+                <string>Jouez avec moi c'est ludique et instructif !  C'est parti pour un quizz de [n] questions</string>
+                <string>Rien ne vaut un petit quiz afin de tester nos connaissances !   C'est parti pour un quiz de [n] questions</string>
+                <string>Vérifions ce que vous savez du monde dans lequel vous vivez !   C'est parti pour un quiz de [n] questions</string>
+                <string>Faites chauffer vos neurones en répondant aux questions du test qui va suivre !</string>
+                <string>Mettez votre intelligence à l'épreuve avec ce quiz qui va suivre </string>
+                <string>Pour tester nos connaissances, quoi de mieux qu'un petit quiz </string>
+                <string>Attention, vous êtes prêts, c'est parti pour un quiz de [n] questions  </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>lastquestion</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Attention, voici la dernière question, je compte sur vous pour finir en beauté </string>
+                <string>Le temps passe trop vite avec vous, on arrive déjà à la dernière question </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>transitiononeplayer</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Passons maintenant à une question sur [theme]  </string>
+                <string> Passons maintenant à la question [n] </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>transitiontheme</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Vérifions vos connaissances en [theme] </string>
+                <string>Voici un quiz bien frappé pour tester vos connaissances en [these] </string>
+                <string>  Êtes-vous sûr de bien tout connaitre sur le thème [theme] ? Allons-y, vérifions-le !  </string>
+                <string>  Vérifions si vous maîtrisez bien vos classiques avec les [n] questions de ce quiz spécial [theme]! </string>
+                <string>  Êtes-vous sûr de tout connaître au sujet du thème [theme]? Vérifions-le dès à présent   [le</string>
+                <string>la</string>
+                <string>l' + Thème] n'a pas de secrets pour vous ? Vérifions ça !   Voici une nouvelle série de questions sur [le</string>
+                <string>la</string>
+                <string>l' +  Thème] . Saurez-vous y répondre correctement ?    Etes-vous vraiment calée en [Thème] ?  Allons-y, vérifions-le !  </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>onegoodanswer</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[name] Vous avez 1 bonne réponse sur [n]. Ce n'est pas suffisant malheureusement </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>twogoodanswers</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[name] Vous avez 2 bonne réponses sur [n]. Ne relâchez rien, vous ferez mieux la prochaine fois </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>threegoodanswers</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[name] Vous avez 3 bonnes réponses sur [n]. Vous êtes sur la bonne voie.  </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>fourgoodanswers</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[name] Vous avez 4 bonnes réponses sur [n]. Belle performance, continuez comme ça  </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>nogoodanswer</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[name] Vous n'avez trouvé aucune bonne réponse. Au moins la prochaine fois vous ne pourrez pas faire pire</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>geography</Key>
+            <BaseValue>Géographie</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Géographie</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>history</Key>
+            <BaseValue>Histoire</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Histoire</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>generalknowledge</Key>
+            <BaseValue>Culture générale</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Culture générale</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>nature</Key>
+            <BaseValue>Nature</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Nature</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sport</Key>
+            <BaseValue>Sport</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Sport</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>cinema</Key>
+            <BaseValue>Cinéma</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Cinéma</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>music</Key>
+            <BaseValue>Musique</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Musique</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>tvshow</Key>
+            <BaseValue>émission de télé</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>émission de télé</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

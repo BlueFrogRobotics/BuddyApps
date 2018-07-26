@@ -38,7 +38,9 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>Your name is [name] from now on </string>
+                <string>[name], It's so cute ! it's your new nickname from now on </string>
+                <string>I will call you [name] the time of this game. </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -48,7 +50,7 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>That's not quite what I said but never mind I'll call you [name]. It's your new nickname from now on </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -68,7 +70,23 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>Absolutely correct!  </string>
+                <string> Oh, Yes, that's right ! </string>
+                <string>  That's a good answer  </string>
+                <string>  That's exactly right  </string>
+                <string>  Good answer, You're a great team player! </string>
+                <string>  Impressive, it's very well played  </string>
+                <string>  Yes, that's right  </string>
+                <string> Good job! </string>
+                <string>  Wow, correct answer </string>
+                <string>  Well played! </string>
+                <string>  Not bad  </string>
+                <string>  Perfect, good answer </string>
+                <string>   You are right  </string>
+                <string>  Excellent  </string>
+                <string> Hats off to the performer!  </string>
+                <string> Well done !  </string>
+                <string> Congratulations, you have found the right answer! </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -78,7 +96,15 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>Wrong answer. Better luck next time. The correct answer was [answer]  </string>
+                <string>  Incorrect response. you should have answered [answer]  </string>
+                <string>  Nice effort, but it's not enough. The right answer is [answer]  </string>
+                <string>  Shame! you should have answered [answer]  </string>
+                <string>  Not exactly. You should have answered [answer]  </string>
+                <string>  Too bad. It was [answer].  </string>
+                <string>  You do not score [answer]  </string>
+                <string>  Everyone can make a mistake, even you! The correct answer was [answer]  </string>
+                <string>  Pity ! Wrong answer.  It was [answer].  </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -88,7 +114,14 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>Another question for you [name] </string>
+                <string>Get ready [name]</string>
+                <string> Your turn [name], now </string>
+                <string>[name], it's your turn </string>
+                <string>  [name], it's your question  </string>
+                <string>[name] Here is a question about [theme]  </string>
+                <string>  [name] Now let's go for a question about [theme] </string>
+                <string>   [name] Your question is about [theme] </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -108,7 +141,9 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>It is always a pleasure to announce a victory. Congratulations to [name]  </string>
+                <string> The champion today is  [name] ! BRAVO  </string>
+                <string> And the winner is [name] ! Well done  </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -158,7 +193,7 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>Hats off to the performer! [name] you found all the [number] anwsers. You played a perfect game !  </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -168,7 +203,9 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>Today we have several winners ! Congratulations to [names] </string>
+                <string>  Today, there is a draw between  [names] Congratulations!  </string>
+                <string>  [names]  are tied for the first place. </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -228,7 +265,186 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Welcome to the Quizz game</string>
+                <string>Playing with me, it's fun and informative ! So let's go for a quiz of [n] questions </string>
+                <string>Nothing beats a little quiz to test our knowledge ! Let's go for a quiz of [n] questions </string>
+                <string>Let's check what you know about the world you live in! Let's go for a quiz of [n] questions </string>
+                <string>Warm up your neurons by answering the questions that will follow!Please do not Google while taking this quiz.  </string>
+                <string>Put your intelligence to the test with this quiz </string>
+                <string>To test our knowledge, what's better than a little quiz ? </string>
+                <string>Are you a real know-it-all? Test your knowledge in different fields with this quiz  </string>
+                <string>What do you know ? Test your knowledge with the following quiz  </string>
+                <string>Are you ready to have fun ?  let's go for a quiz of [n] questions </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>lastquestion</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Attention, this is the last question, I'm counting on you to end on a high note </string>
+                <string>Time goes so fast with you, we already are at the last question </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>transitiononeplayer</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Now let's move on to a question about [theme] </string>
+                <string> Now let's move on to question  [n] </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>transitiontheme</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>How much do you know about [theme]?  </string>
+                <string> Do you have faith in your knowledge of [theme]?  </string>
+                <string> Let's check your knowledge of [theme]  </string>
+                <string>  Here is a quiz  to test your knowledge of [theme]  </string>
+                <string>  Are you sure you know everything about [theme]? let's check!  </string>
+                <string>  Let's check if you have a good kwolgedge of your basics with the [n] questions of this special  [theme] quiz!  </string>
+                <string>  Are you sure you know everything about [theme]? Let's check it now  </string>
+                <string>  The  [theme] has no secrets for you? Let's check !  </string>
+                <string>  Here is a new set of questions about [theme]. Can you answer it correctly?  </string>
+                <string>  Are you really stuck in [theme]? Let's check </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>onegoodanswer</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[name] You've scored 1 good anwser on [n]. It's not enough unfortunatelly  </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>twogoodanswers</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[name] You've scored 2 good anwser on [n]. Do not give up, you'll do better next time </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>threegoodanswers</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[name] You've scored 3 good anwsers on [n]. You are on the good road </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>fourgoodanswers</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[name] You've scored 4 good anwsers on [n]. Nice performance, keep it up !  </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>nogoodanswer</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[name] You have scored 0 on this quizz. Well you won't be worse next time</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>geography</Key>
+            <BaseValue>Geography</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Geography</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>history</Key>
+            <BaseValue>History</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>History</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>generalknowledge</Key>
+            <BaseValue>General knowledge</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>General knowledge</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>nature</Key>
+            <BaseValue>Nature</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Nature</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sport</Key>
+            <BaseValue>Sport</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Sport</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>cinema</Key>
+            <BaseValue>Cinema</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Cinema</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>music</Key>
+            <BaseValue>Music</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Music</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>tvshow</Key>
+            <BaseValue>Tv Show</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Tv Show</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

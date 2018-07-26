@@ -19,12 +19,12 @@ namespace BuddyApp.Somfy
         private SomfyData mAppData;
 
         public IOTSomfy Box { get; private set; }
-        private IOTSomfyDevice store;
-        private IOTSomfyDevice plug;
-        private IOTSomfyDevice plug2;
-        private IOTSomfyDevice thermostat;
-        private IOTSomfyDevice thermometer;
-        private IOTSomfyDevice sonos;
+        private IOTSomfyDevice mStore;
+        private IOTSomfyDevice mPlug;
+        private IOTSomfyDevice mPlug2;
+        private IOTSomfyDevice mThermostat;
+        private IOTSomfyDevice mThermometer;
+        private IOTSomfyDevice mSonos;
 
 
         void Start()
@@ -56,15 +56,15 @@ namespace BuddyApp.Somfy
         {
             //box.GetDevices();
             Debug.Log("nb devices: " + Box.Devices.Count);
-            foreach (IOTDevices device in Box.Devices)
+            foreach (IOTDevices lDevice in Box.Devices)
             {
                 //Debug.Log("le machin");
-                Debug.Log("category : " + device.Type.ToString());
+                Debug.Log("category : " + lDevice.Type.ToString());
 
-                if (device.Type == IOTDevices.DeviceType.STORE && device.Name == "screen 1")
+                if (lDevice.Type == IOTDevices.DeviceType.STORE && lDevice.Name == "Living room blind")
                 {
                     Debug.Log("store");
-                    store = (IOTSomfyDevice)device;
+                    mStore = (IOTSomfyDevice)lDevice;
                     //if (store.states != null)
                     //{
                     //    foreach (IOTSomfyStateJSON state in store.states)
@@ -73,10 +73,10 @@ namespace BuddyApp.Somfy
                     //    }
                     //}
                 }
-                else if (device.Type == IOTDevices.DeviceType.SWITCH && device.Name == "plug 2")
+                else if (lDevice.Type == IOTDevices.DeviceType.SWITCH && lDevice.Name == "Living room plug")
                 {
-                    Debug.Log("plug");
-                    plug = (IOTSomfyDevice)device;
+                    Debug.Log("plug living room");
+                    mPlug = (IOTSomfyDevice)lDevice;
                     //if (plug.states != null)
                     //{
                     //    foreach (IOTSomfyStateJSON state in plug.states)
@@ -85,10 +85,10 @@ namespace BuddyApp.Somfy
                     //    }
                     //}
                 }
-                else if (device.Type == IOTDevices.DeviceType.SWITCH && device.Name == "kitchen")
+                else if (lDevice.Type == IOTDevices.DeviceType.SWITCH && lDevice.Name == "Office plug")
                 {
-                    Debug.Log("plug2");
-                    plug2 = (IOTSomfyDevice)device;
+                    Debug.Log("plug Office");
+                    mPlug2 = (IOTSomfyDevice)lDevice;
                     //if (plug.states != null)
                     //{
                     //    foreach (IOTSomfyStateJSON state in plug.states)
@@ -97,94 +97,94 @@ namespace BuddyApp.Somfy
                     //    }
                     //}
                 }
-                else if (device.Type == IOTDevices.DeviceType.THERMOSTAT && device.Name == "thermostat")
+                else if (lDevice.Type == IOTDevices.DeviceType.THERMOSTAT && lDevice.Name == "thermostat")
                 {
-                    Debug.Log("le thermos: " + device.Name);
-                    thermostat = (IOTSomfyDevice)device;
+                    Debug.Log("le thermos: " + lDevice.Name);
+                    mThermostat = (IOTSomfyDevice)lDevice;
                 }
-                else if (device.Type == IOTDevices.DeviceType.THERMOMETER && device.Name == "thermostat-1")
+                else if (lDevice.Type == IOTDevices.DeviceType.THERMOMETER && lDevice.Name == "thermostat-1")
                 {
                     Debug.Log("le thermos");
-                    thermometer = (IOTSomfyDevice)device;
-                    if (thermometer.states != null)
+                    mThermometer = (IOTSomfyDevice)lDevice;
+                    if (mThermometer.states != null)
                     {
-                        foreach (IOTSomfyStateJSON state in thermometer.states)
+                        foreach (IOTSomfyStateJSON state in mThermometer.states)
                         {
                             Debug.Log("state temperature, " + state.name + ": " + state.value);
                         }
                     }
                 }
-                else if (device.Type == IOTDevices.DeviceType.SPEAKER)
+                else if (lDevice.Type == IOTDevices.DeviceType.SPEAKER)
                 {
-                    Debug.Log("le sonos: " + device.Name);
-                    sonos = (IOTSomfyDevice)device;
+                    Debug.Log("le sonos: " + lDevice.Name);
+                    mSonos = (IOTSomfyDevice)lDevice;
                 }
             }
         }
 
         public void OpenStore()
         {
-            if (store != null && store.HasFinishedCommand())
+            if (mStore != null && mStore.HasFinishedCommand())
             {
                 BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
                 BYOS.Instance.Interaction.TextToSpeech.SayKey("openstore");
-                store.Command(3);
+                mStore.Command(3);
             }
         }
 
         public void CloseStore()
         {
-            if (store != null && store.HasFinishedCommand())
+            if (mStore != null && mStore.HasFinishedCommand())
             {
                 BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
                 BYOS.Instance.Interaction.TextToSpeech.SayKey("closestore");
-                store.Command(2);
+                mStore.Command(2);
             }
         }
 
         public void SwitchOnLivingRoomPlug()
         {
-            if (plug != null && plug.HasFinishedCommand())
+            if (mPlug != null && mPlug.HasFinishedCommand())
             {
                 BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
                 BYOS.Instance.Interaction.TextToSpeech.SayKey("on");
-                plug.OnOff(true);
+                mPlug.OnOff(true);
             }
         }
 
         public void SwitchOffLivingRoomPlug()
         {
-            if (plug != null && plug.HasFinishedCommand())
+            if (mPlug != null && mPlug.HasFinishedCommand())
             {
                 BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
                 BYOS.Instance.Interaction.TextToSpeech.SayKey("off");
-                plug.OnOff(false);
+                mPlug.OnOff(false);
             }
         }
 
         public void SwitchOnOfficeRoomPlug()
         {
-            if (plug2 != null && plug2.HasFinishedCommand())
+            if (mPlug2 != null && mPlug2.HasFinishedCommand())
             {
                 BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
                 BYOS.Instance.Interaction.TextToSpeech.SayKey("on");
-                plug2.OnOff(true);
+                mPlug2.OnOff(true);
             }
         }
 
         public void SwitchOffOfficeRoomPlug()
         {
-            if (plug2 != null && plug2.HasFinishedCommand())
+            if (mPlug2 != null && mPlug2.HasFinishedCommand())
             {
                 BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
                 BYOS.Instance.Interaction.TextToSpeech.SayKey("off");
-                plug2.OnOff(false);
+                mPlug2.OnOff(false);
             }
         }
 
         public void SwitchOnAllPlugs()
         {
-            if (plug2 != null && plug2.HasFinishedCommand())
+            if (mPlug2 != null && mPlug2.HasFinishedCommand())
                 StartCoroutine(SwitchOnAllPlugsCoroutine());
         }
 
@@ -192,21 +192,21 @@ namespace BuddyApp.Somfy
         {
             BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
             BYOS.Instance.Interaction.TextToSpeech.SayKey("onalllights");
-            if (plug2 != null && plug2.HasFinishedCommand())
+            if (mPlug2 != null && mPlug2.HasFinishedCommand())
             {
-                plug2.OnOff(true);
+                mPlug2.OnOff(true);
             }
-            while (!plug2.HasFinishedCommand())
+            while (!mPlug2.HasFinishedCommand())
                 yield return null;
-            if (plug != null && plug.HasFinishedCommand())
+            if (mPlug != null && mPlug.HasFinishedCommand())
             {
-                plug.OnOff(true);
+                mPlug.OnOff(true);
             }
         }
 
         public void SwitchOffAllPlugs()
         {
-            if (plug2 != null && plug2.HasFinishedCommand())
+            if (mPlug2 != null && mPlug2.HasFinishedCommand())
             {
                 StartCoroutine(SwitchOffAllPlugsCoroutine());
             }
@@ -216,65 +216,65 @@ namespace BuddyApp.Somfy
         {
             BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
             BYOS.Instance.Interaction.TextToSpeech.SayKey("offalllights");
-            if (plug2 != null && plug2.HasFinishedCommand())
+            if (mPlug2 != null && mPlug2.HasFinishedCommand())
             {
-                plug2.OnOff(false);
+                mPlug2.OnOff(false);
             }
-            while (!plug2.HasFinishedCommand())
+            while (!mPlug2.HasFinishedCommand())
                 yield return null;
-            if (plug != null && plug.HasFinishedCommand())
+            if (mPlug != null && mPlug.HasFinishedCommand())
             {
-                plug.OnOff(false);
+                mPlug.OnOff(false);
             }
         }
         public void SwitchPlug(bool iVal)
         {
-            if (plug != null && plug.HasFinishedCommand())
+            if (mPlug != null && mPlug.HasFinishedCommand())
             {
                 BYOS.Instance.Interaction.TextToSpeech.Say("Ok");
                 if (iVal)
                     BYOS.Instance.Interaction.TextToSpeech.SayKey("on");
                 else
                     BYOS.Instance.Interaction.TextToSpeech.SayKey("off");
-                plug.OnOff(iVal);
+                mPlug.OnOff(iVal);
             }
         }
 
         public void GetVolume()
         {
-            if (sonos != null && sonos.HasFinishedCommand())
+            if (mSonos != null && mSonos.HasFinishedCommand())
             {
                 //BYOS.Instance.Interaction.TextToSpeech.SayKey("playmusic");
-                sonos.Command(8);
+                mSonos.Command(8);
             }
         }
 
         public void SetSonosVolume(float iVolume)
         {
-            if (sonos != null && sonos.HasFinishedCommand())
+            if (mSonos != null && mSonos.HasFinishedCommand())
             {
                 //BYOS.Instance.Interaction.TextToSpeech.Say("Ok, " + string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
                 //Debug.Log(string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
-                sonos.Command(4, iVolume);
+                mSonos.Command(4, iVolume);
             }
         }
 
         public void SetTemperature(float iTemp)
         {
-            if (thermostat != null && thermostat.HasFinishedCommand())
+            if (mThermostat != null && mThermostat.HasFinishedCommand())
             {
                 BYOS.Instance.Interaction.TextToSpeech.Say("Ok, " + string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
                 //Debug.Log(string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
-                thermostat.Command(4, iTemp);
+                mThermostat.Command(4, iTemp);
             }
         }
 
         public string GetTemperature()
         {
             string lTemperature = "";
-            if (thermometer != null && thermometer.states != null)
+            if (mThermometer != null && mThermometer.states != null)
             {
-                foreach (IOTSomfyStateJSON state in thermometer.states)
+                foreach (IOTSomfyStateJSON state in mThermometer.states)
                 {
                     Debug.Log("le temp state name : " + state.name + " value: " + state.value);
                     if (state.name.Contains("core:TemperatureState"))
@@ -290,46 +290,46 @@ namespace BuddyApp.Somfy
 
         public void PlayMusic()
         {
-            if (sonos != null && sonos.HasFinishedCommand())
+            if (mSonos != null && mSonos.HasFinishedCommand())
             {
                 BYOS.Instance.Interaction.TextToSpeech.SayKey("playmusic");
-                sonos.Command(2);
+                mSonos.Command(2);
             }
         }
 
         public void StopMusic()
         {
-            if (sonos != null && sonos.HasFinishedCommand())
+            if (mSonos != null && mSonos.HasFinishedCommand())
             {
                 BYOS.Instance.Interaction.TextToSpeech.SayKey("stopmusic");
-                sonos.Command(3);
+                mSonos.Command(3);
             }
         }
 
         public void NextMusic()
         {
-            if (sonos != null && sonos.HasFinishedCommand())
+            if (mSonos != null && mSonos.HasFinishedCommand())
             {
                 //BYOS.Instance.Interaction.TextToSpeech.SayKey("stopmusic");
-                sonos.Command(5);
+                mSonos.Command(5);
             }
         }
 
         public void PreviousMusic()
         {
-            if (sonos != null && sonos.HasFinishedCommand())
+            if (mSonos != null && mSonos.HasFinishedCommand())
             {
                 //BYOS.Instance.Interaction.TextToSpeech.SayKey("stopmusic");
-                sonos.Command(6);
+                mSonos.Command(6);
             }
         }
 
         public void RewindMusic()
         {
-            if (sonos != null && sonos.HasFinishedCommand())
+            if (mSonos != null && mSonos.HasFinishedCommand())
             {
                 //BYOS.Instance.Interaction.TextToSpeech.SayKey("stopmusic");
-                sonos.Command(7);
+                mSonos.Command(7);
             }
         }
 

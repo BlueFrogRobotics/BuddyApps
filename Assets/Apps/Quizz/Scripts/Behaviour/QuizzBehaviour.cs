@@ -59,11 +59,13 @@ namespace BuddyApp.Quizz
 
         public HashSet<int> ListQuestionsIdAsked { get; set; }
 
+        public int LastStateId { get; set; }
+
         public string Lang { get { return BYOS.Instance.Language.CurrentLang.ToString().ToLower(); } }
 
         public Action OnLanguageChange;
 
-        public const int MAX_ROUNDS = 3;
+        public const int MAX_ROUNDS = 5;
 
         public const int MAX_PLAYER = 4;
 
@@ -110,6 +112,13 @@ namespace BuddyApp.Quizz
             }
         }
 
+        public void Init()
+        {
+            ActualPlayerId = 0;
+            ActualRound = 0;
+            ListQuestionsIdAsked = new HashSet<int>();
+        }
+
         public void InitPlayers()
         {
             Players = new List<Player>();
@@ -128,6 +137,41 @@ namespace BuddyApp.Quizz
                 string lName = PlayerNamesData.Names[hash];
                 Players.Add(new Player(lName, 0));
             }
+        }
+
+        public string ThemeToString(Theme iTheme)
+        {
+            string lText = "";
+            switch(iTheme)
+            {
+                case Theme.CINEMA:
+                    lText = BYOS.Instance.Dictionary.GetString("cinema");
+                    break;
+                case Theme.GENERAL_KNOWLEDGE:
+                    lText = BYOS.Instance.Dictionary.GetString("generalknowledge");
+                    break;
+                case Theme.GEOGRAPHY:
+                    lText = BYOS.Instance.Dictionary.GetString("geography");
+                    break;
+                case Theme.HISTORY:
+                    lText = BYOS.Instance.Dictionary.GetString("history");
+                    break;
+                case Theme.MUSIC:
+                    lText = BYOS.Instance.Dictionary.GetString("music");
+                    break;
+                case Theme.NATURE:
+                    lText = BYOS.Instance.Dictionary.GetString("nature");
+                    break;
+                case Theme.SPORT:
+                    lText = BYOS.Instance.Dictionary.GetString("sport");
+                    break;
+                case Theme.TV_SHOW:
+                    lText = BYOS.Instance.Dictionary.GetString("tvshow");
+                    break;
+                default:
+                    break;
+            }
+            return lText;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace BuddyApp.Quizz
         {
             Debug.Log("check num question state");
             mQuizzBehaviour.OnLanguageChange = OnLanguageChange;
-            if (mQuizzBehaviour.ActualPlayerId >= mQuizzBehaviour.NumPlayer -1 && mQuizzBehaviour.ActualRound >= QuizzBehaviour.MAX_ROUNDS - 1)
+            if (mQuizzBehaviour.ActualPlayerId >= mQuizzBehaviour.NumPlayer - 1 && mQuizzBehaviour.ActualRound >= QuizzBehaviour.MAX_ROUNDS - 1)
                 StartCoroutine(WillEndGame());
             else
                 StartCoroutine(WillAskQuestion());
@@ -56,13 +56,27 @@ namespace BuddyApp.Quizz
                 mQuizzBehaviour.ActualPlayerId = 0;
                 mQuizzBehaviour.ActualRound = 0;
             }
-            Debug.Log("actual player: " + mQuizzBehaviour.ActualPlayerId + " actual round: " + mQuizzBehaviour.ActualRound);
-            mQuizzBehaviour.Beginning = false;
-            Interaction.TextToSpeech.Say((Dictionary.GetRandomString("questiontoplayer").Replace("[name]", mQuizzBehaviour.Players[mQuizzBehaviour.ActualPlayerId].Name)));
-            //System.Random random = new System.Random();
+
             int lId = GetNextQuestionId();
             mQuizzBehaviour.ListQuestionsIdAsked.Add(lId);
             mQuizzBehaviour.ActualQuestion = mQuizzBehaviour.Questions.Questions[lId];
+
+            Debug.Log("actual player: " + mQuizzBehaviour.ActualPlayerId + " actual round: " + mQuizzBehaviour.ActualRound);
+            Debug.Log("theme de la question: " + mQuizzBehaviour.ActualQuestion.Theme);
+            Debug.Log("apres theme");
+            mQuizzBehaviour.Beginning = false;
+            if (mQuizzBehaviour.ActualPlayerId == mQuizzBehaviour.NumPlayer - 1 && mQuizzBehaviour.ActualRound == QuizzBehaviour.MAX_ROUNDS - 1)
+                Interaction.TextToSpeech.Say((Dictionary.GetRandomString("lastquestion")));
+
+            while (!Interaction.TextToSpeech.HasFinishedTalking)
+                yield return null;
+
+            if (mQuizzBehaviour.Players.Count>1)
+                Interaction.TextToSpeech.Say((Dictionary.GetRandomString("questiontoplayer").Replace("[name]", mQuizzBehaviour.Players[mQuizzBehaviour.ActualPlayerId].Name).Replace("[theme]", mQuizzBehaviour.ThemeToString(mQuizzBehaviour.ActualQuestion.Theme))));
+            else
+                Interaction.TextToSpeech.Say((Dictionary.GetRandomString("transitiononeplayer").Replace("[n]", ""+(mQuizzBehaviour.ActualRound+1)).Replace("[name]", mQuizzBehaviour.Players[mQuizzBehaviour.ActualPlayerId].Name).Replace("[theme]", mQuizzBehaviour.ThemeToString(mQuizzBehaviour.ActualQuestion.Theme))));
+            
+            //System.Random random = new System.Random();
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
             Trigger("LoadQuestion");
