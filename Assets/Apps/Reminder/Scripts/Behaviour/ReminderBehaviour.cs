@@ -71,7 +71,7 @@ namespace BuddyApp.Reminder
             Debug.Log("Vocal");
             BYOS.Instance.Interaction.VocalManager.OnEndReco = GetAnswer;
             BYOS.Instance.Interaction.VocalManager.OnError = NoAnswer;
-            BYOS.Instance.Interaction.VocalManager.StartInstantReco();
+            BYOS.Instance.Interaction.VocalManager.StartInstantReco(false);
         }
 
         private void GetAnswer(string iAnswer)
