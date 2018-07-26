@@ -10,7 +10,9 @@ namespace BuddyApp.Shared
 {
     public class SharedMotionDetectionState : ASharedSMB
     {
-
+        [Tooltip("The sentence said before the detection")]
+        [SerializeField]
+        private string FirstSentence;
         [Header("Display Video Parameters : ")]
         [SerializeField]
         private bool VideoDisplay;
@@ -92,6 +94,7 @@ namespace BuddyApp.Shared
         private bool mExitOne;
         private bool mExitTwo;
         private bool mSoundPlayedWhenDetected;
+        private bool mFirst;
         //private Sprite mSprite;
 
         //Position in the Image
@@ -114,11 +117,21 @@ namespace BuddyApp.Shared
             mExitOne = false;
             mExitTwo = false;
             mIsDisplay = false;
+            mFirst = false;
             mDurationDetection = 0F;
             mDetectionCountTest = 0;
             mTimer = 0F;
             mSoundPlayedWhenDetected = false;
             mDetectionCount = 0;
+            if (!string.IsNullOrEmpty(FirstSentence))
+            {
+                string lSentence = Dictionary.GetRandomString(FirstSentence);
+                if (!string.IsNullOrEmpty(lSentence))
+                    Interaction.TextToSpeech.SayKey(FirstSentence);
+                else
+                    Interaction.TextToSpeech.Say(FirstSentence);
+            }
+            mFirst = true;
             if (WantChangingTimer && iAnimator.GetFloat("Timer") != 0F)
             {
                 Timer = iAnimator.GetFloat("Timer");
@@ -142,11 +155,13 @@ namespace BuddyApp.Shared
                 mRect = new OpenCVUnity.Rect(new Point((int)(320 / 3), 0), new Point((int)(320 * 2 / 3), 240));
                 mMotion.OnDetect(OnMovementDetected, mRect, 3F);
             }
+
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+            if (!Interaction.TextToSpeech.HasFinishedTalking && !mFirst)
+                return;
             mDurationDetection += Time.deltaTime;
             mTimer += Time.deltaTime;
             if (Timer == 0F)
@@ -266,7 +281,7 @@ namespace BuddyApp.Shared
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if(!File.Exists(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved)))
+            if (!File.Exists(BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved)))
             {
                 Debug.Log("SHARED PAS DE PICTURE");
             }
@@ -274,12 +289,12 @@ namespace BuddyApp.Shared
                 Toaster.Hide();
             mMotion.StopOnDetect(OnMovementDetected);
             mCam.Close();
-            if (!string.IsNullOrEmpty(TriggerWhenDetected)) 
+            if (!string.IsNullOrEmpty(TriggerWhenDetected))
                 ResetTrigger(TriggerWhenDetected);
             if (!string.IsNullOrEmpty(TriggerWhenNotDetected))
                 ResetTrigger(TriggerWhenNotDetected);
             mReposeDone = false;
-        } 
+        }
 
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {

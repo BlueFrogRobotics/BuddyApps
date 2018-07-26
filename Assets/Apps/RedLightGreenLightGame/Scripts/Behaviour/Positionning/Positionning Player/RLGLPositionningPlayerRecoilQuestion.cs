@@ -19,8 +19,7 @@ namespace BuddyApp.RedLightGreenLightGame
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mRLGLBehaviour.CanRecoil = true;
-
-            //StartCoroutine(Question());
+            Trigger("Start");
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -33,21 +32,6 @@ namespace BuddyApp.RedLightGreenLightGame
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             //Interaction.Mood.Set(MoodType.NEUTRAL);
-        }
-
-        IEnumerator Question()
-        {
-            yield return SayKeyAndWait("recoilquestion");
-            Toaster.Display<BinaryQuestionToast>().With(
-                Dictionary.GetString("recoilquestion"),
-                () => GoForward(),
-                () => Trigger("DisengagementQuestion"));
-        }
-
-        private void GoForward()
-        {
-            mRLGLBehaviour.CanRecoil = true;
-            Trigger("Start");
         }
     }
 }
