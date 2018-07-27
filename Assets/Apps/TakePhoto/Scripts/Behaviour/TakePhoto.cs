@@ -90,12 +90,16 @@ namespace BuddyApp.TakePhoto
 			mTimer = 0;
 			mSpeechId = 0;
 
-			//int lRandomIndice = UnityEngine.Random.Range(0, mOverlaysTextures.Count - 1);
+            //int lRandomIndice = UnityEngine.Random.Range(0, mOverlaysTextures.Count - 1);
 
-			// Random Overlay selection
+            // Random Overlay selection
+            if (mOverlaysNames.Count <= 0)
+                Debug.Log("OVERLAYNAMES NULL");
 			string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
 			if (!mOverlaysTextures.ContainsKey(lRandomSpriteName)) {
 				Sprite lOverlaySprite = Buddy.Resources.Get<Sprite>(lRandomSpriteName);
+                if (lOverlaySprite == null)
+                    Debug.Log("SPRITE NULL");
 				mOverlaysTextures[lRandomSpriteName] = lOverlaySprite.texture;
 			}
 
@@ -114,6 +118,8 @@ namespace BuddyApp.TakePhoto
 
 			Mat mMatSrc = Buddy.Sensors.RGBCamera.Frame;
 			Core.flip(mMatSrc, mMat, 1);
+            if (mMat.empty())
+                Debug.Log("takephoto on state enter : MAT NULL ");
 			mVideo.texture = Utils.MatToTexture2D(mMat);
 			Debug.Log("TakePhoto 3");
 		}

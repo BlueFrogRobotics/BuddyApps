@@ -20,7 +20,7 @@ namespace BuddyApp.Shared
         [SerializeField]
         private string NameOfPictureSaved;
         [SerializeField]
-        private int QuantityBeforeTrigger;
+        private int QuantityBeforeSavingPicture;
         [SerializeField]
         private bool ImageWithMovementDisplayed;
         [Header("Bip Sound Parameters : ")]
@@ -74,7 +74,7 @@ namespace BuddyApp.Shared
         private SoundSample SoundWhenNotDetected;
 
         private bool mIsDisplay;
-        private HDCamera mCam;
+        private RGBCamera mCam;
         private Mat mMatDetection;
         private MotionDetector mMotion;
         private OpenCVUnity.Rect mRect;
@@ -96,18 +96,20 @@ namespace BuddyApp.Shared
         //Position in the Image
         private float mPositionX;
         private float mPositionY;
+        private Sprite mMotionDetectionSprite;
         MotionDetectorParameter mMotionDetectorParameter;
 
         public override void Start()
         {
             mMotion = Buddy.Perception.MotionDetector;
-            mCam = Buddy.Sensors.HDCamera;
+            mCam = Buddy.Sensors.RGBCamera;
 
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            QuantityBeforeTrigger = 0;
+            mDetectionCountTest = 0;
+            QuantityBeforeSavingPicture = 0;
             mPositionX = 0;
             mPositionY = 0;
             mReposeDone = false;
@@ -119,6 +121,7 @@ namespace BuddyApp.Shared
             mSoundPlayedWhenDetected = false;
             mDetectionCount = 0;
             mMotionDetectorParameter = new MotionDetectorParameter();
+
             if (WantChangingTimer)
             {
                 if (iAnimator.GetFloat("Timer") != 0F)
@@ -136,7 +139,7 @@ namespace BuddyApp.Shared
             }
 
             //mCam.Resolution = RGBCamResolution.W_320_H_240; 
-            mCam.Open(HDCameraMode.COLOR_640x480_30FPS_RGB);
+            mCam.Open(RGBCameraMode.COLOR_640x480_30FPS_RGB);
             if (!AreaToDetect)
             {
                 //mMotionDetectorParameter.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240);
@@ -144,13 +147,13 @@ namespace BuddyApp.Shared
                 //mMotion.OnDetect.AddP(OnMovementDetected, mMotionDetectorParameter);
                 mMotion.OnDetect.AddP(OnMovementDetected, new MotionDetectorParameter()
                 {
-                    RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240),
+                    RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480),
                     SensibilityThreshold = 3.0F
                 });
             }
             else
             {
-                mRect = new OpenCVUnity.Rect(new Point((int)(320 / 3), 0), new Point((int)(320 * 2 / 3), 240));
+                mRect = new OpenCVUnity.Rect(new Point((int)(320 / 3), 0), new Point((int)(640 * 2 / 3), 480));
                 mMotionDetectorParameter.SensibilityThreshold = 3F;
                 mMotionDetectorParameter.RegionOfInterest = mRect;
                 mMotion.OnDetect.AddP(OnMovementDetected, mMotionDetectorParameter);
@@ -174,7 +177,11 @@ namespace BuddyApp.Shared
                     Core.flip(mMatCopy, mMatCopy, 1);
                 mTexture = Utils.MatToTexture2D(mMatCopy);
                 //Toaster.Display<PictureToast>().With(Dictionary.GetString(Key), Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
-                Buddy.GUI.Toaster.Display<PictureToast>().With(Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
+                mMotionDetectionSprite = Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f));
+                if (mMotionDetectionSprite == null)
+                    mIsDisplay = false;
+                else
+                    Buddy.GUI.Toaster.Display<PictureToast>().With(mMotionDetectionSprite);
             }
 
 
@@ -266,7 +273,6 @@ namespace BuddyApp.Shared
                     Trigger(TriggerWhenNotDetected);
                 else
                 {
-                    Debug.Log("REMOVE ON DETECT");
                     mMotion.OnDetect.RemoveP(OnMovementDetected);
                 }
             }
@@ -276,7 +282,7 @@ namespace BuddyApp.Shared
         {
             if(!File.Exists(Buddy.Resources.GetRawFullPath(NameOfPictureSaved)))
             {
-                Debug.Log("SHARED PAS DE PICTURE");
+                Debug.Log("SHARED NO PICTURE");
             }
             if (Buddy.GUI.Toaster.IsBusy)
                 Buddy.GUI.Toaster.Hide();
@@ -333,7 +339,7 @@ namespace BuddyApp.Shared
                     else
                         Debug.Log("The name of the picture is empty.");
                 }
-                if (!string.IsNullOrEmpty(TriggerWhenDetected) && mDetectionCount > QuantityBeforeTrigger && File.Exists(Buddy.Resources.GetRawFullPath(NameOfPictureSaved)))
+                if (!string.IsNullOrEmpty(TriggerWhenDetected) && mDetectionCount > QuantityBeforeSavingPicture && File.Exists(Buddy.Resources.GetRawFullPath(NameOfPictureSaved)))
                     Trigger(TriggerWhenDetected);
                 else
                     Debug.Log("your trigger when detected is empty.");
@@ -342,14 +348,15 @@ namespace BuddyApp.Shared
             if (iMotions.Length > 5)
             {
                 Debug.Log("ON MOVEMENT DETECTED SHARED");
-                bool lInRectangle = false;
+                //bool lInRectangle = false;
                 if (BipSound)
                 {
                     if (FxSound == SoundSample.NONE)
                     {
                         FxSound = SoundSample.BEEP_1;
                     }
-                    Buddy.Actuators.Speakers.Media.Play(FxSound);
+                    if(!Buddy.Actuators.Speakers.IsBusy)
+                        Buddy.Actuators.Speakers.Media.Play(FxSound);
                 }
 
                 //MotionBlob[] lBlob = iMotions.GetBlobs();
@@ -368,8 +375,8 @@ namespace BuddyApp.Shared
                     if (AreaToDetect)
                     {
                         Imgproc.rectangle(mMatDetectionCopy, new Point((int)(mMatDetectionCopy.width() / 3), 0), new Point((int)(mMatDetectionCopy.width() * 2 / 3), mMatDetectionCopy.height()), new Scalar(ColorOfDisplay), 3);
-                        if (lEntity.RectInFrame.x > (mMatDetection.width() / 3) && lEntity.RectInFrame.x < (mMatDetection.width() * 2 / 3))
-                            lInRectangle = true;
+                        //if (lEntity.RectInFrame.x > (mMatDetection.width() / 3) && lEntity.RectInFrame.x < (mMatDetection.width() * 2 / 3))
+                        //    lInRectangle = true;
                     }
 
                     if (DisplayMovement && VideoDisplay)

@@ -53,7 +53,7 @@ namespace BuddyApp.Shared
         [SerializeField]
         private bool RandomBML;
         [SerializeField]
-        private string[] BMLs;
+        private string[] NameOfBML;
 
         private int mNumberOfButton;
         private int mIndexButton = 0;
@@ -322,12 +322,10 @@ namespace BuddyApp.Shared
             {
                 try
                 {
-                    BMLLauncher(BMLs[iNumber]);
+                    BMLLauncher(NameOfBML[iNumber]);
                 }
                 catch (Exception e)
                 {
-                    Utils.LogE(LogContext.APP, e.Message + " You need to have the same number of button and BMLs in Shared Inspector");
-                    QuitApp();
                 }
 
 
