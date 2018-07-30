@@ -106,22 +106,22 @@ namespace BuddyApp.TakePhoto
 			}
             mOverlayTexture = mOverlaysTextures[lRandomSpriteName];
             mOverlay.texture = mOverlayTexture;
-            if (Buddy.Sensors.RGBCamera.IsBusy)
+            if (Buddy.Sensors.HDCamera.IsBusy)
             {
-                Buddy.Sensors.RGBCamera.Close();
+                Buddy.Sensors.HDCamera.Close();
             }
 
-            if (!Buddy.Sensors.RGBCamera.IsOpen)
+            if (!Buddy.Sensors.HDCamera.IsOpen)
             {
-                Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_640x480_30FPS_RGB);
+                Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_640x480_30FPS_RGB);
                 
             }
             mVideo.gameObject.SetActive(true);
             if (TakePhotoData.Instance.Overlay)
 				mOverlay.gameObject.SetActive(true);
             Buddy.Vocal.SayKey("takephoto", true);
-            Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
-            mMatSrc = Buddy.Sensors.RGBCamera.Frame;
+            Buddy.Sensors.HDCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
+            mMatSrc = Buddy.Sensors.HDCamera.Frame;
             //Buddy.Sensors.RGBCamera.Frame.copyTo(mMatSrc);
             //Debug.Log("8");
             //if (Buddy.Sensors.RGBCamera.Frame.empty())
@@ -153,7 +153,7 @@ namespace BuddyApp.TakePhoto
                 if (TakePhotoData.Instance.Overlay != mOverlay.gameObject.activeSelf)
                     mOverlay.gameObject.SetActive(TakePhotoData.Instance.Overlay);
 
-                Mat mMatSrc = Buddy.Sensors.RGBCamera.Frame;
+                Mat mMatSrc = Buddy.Sensors.HDCamera.Frame;
                 Core.flip(mMatSrc, mMat, 1);
                 mVideo.texture = Utils.MatToTexture2D(mMat);
 
@@ -174,7 +174,7 @@ namespace BuddyApp.TakePhoto
                         }
                         else if (!mPhotoTaken)
                         {
-                            if (Buddy.Sensors.RGBCamera.Width > 0)
+                            if (Buddy.Sensors.HDCamera.Width > 0)
                             {
                                 mPictureSound.Play();
                                 Buddy.Sensors.HDCamera.TakePhotograph(OnFinish, false);
@@ -223,7 +223,7 @@ namespace BuddyApp.TakePhoto
 
 		private void OnFinish(Photograph iMyPhoto)
 		{
-
+            Debug.Log("START ONFINISH TAKEPHOTO");
 			mVideo.gameObject.SetActive(false);
 			mOverlay.gameObject.SetActive(false);
 			//Primitive.RGBCam.Close();
