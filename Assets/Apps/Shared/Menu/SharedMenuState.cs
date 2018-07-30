@@ -75,15 +75,14 @@ namespace BuddyApp.Shared
         {
             Buddy.Vocal.EnableTrigger = false;
             Buddy.GUI.Header.DisplayParametersButton(false);
-            
+
             mListClear = false;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("StateENterShared");
-            if (!mListClear)
-            {
+            if (!mListClear) {
                 mListClear = true;
                 //items.Clear();
                 //items = new List<MenuItem>(0);
@@ -92,14 +91,10 @@ namespace BuddyApp.Shared
             //BYOS.Instance.Primitive.TouchScreen.UnlockScreen();
             Buddy.GUI.Screen.Locked = false;
             mHasLoadedTTS = true;
-            if (!string.IsNullOrEmpty(speechKey))
-            {
-                if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(speechKey)))
-                {
+            if (!string.IsNullOrEmpty(speechKey)) {
+                if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(speechKey))) {
                     Buddy.Vocal.Say(Buddy.Resources.GetRandomString(speechKey));
-                }
-                else if (!string.IsNullOrEmpty(Buddy.Resources.GetString(speechKey)))
-                {
+                } else if (!string.IsNullOrEmpty(Buddy.Resources.GetString(speechKey))) {
                     Buddy.Vocal.Say(Buddy.Resources.GetString(speechKey));
                 }
             }
@@ -116,7 +111,7 @@ namespace BuddyApp.Shared
             //Interaction.VocalManager.OnError = Empty;
             Buddy.Vocal.OnEndListening.Add((iInput) => { VoconBest(iInput); });
             Buddy.Vocal.OnListeningEvent.Add((iInput) => { EventVocon(iInput); });
-            
+
             Buddy.Vocal.Listen(NameVoconGrammarFile, SpeechRecognitionMode.OFFLINE_ONLY);
             mTimer = 0.0f;
             mListening = false;
@@ -125,7 +120,7 @@ namespace BuddyApp.Shared
         private void EventVocon(SpeechEvent iEvent)
         {
             Debug.Log(iEvent);
-            if(iEvent.IsError)
+            if (iEvent.IsError)
                 Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
         }
 
@@ -142,47 +137,37 @@ namespace BuddyApp.Shared
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (mHasLoadedTTS)
-            {
+            if (mHasLoadedTTS) {
                 mTimer += Time.deltaTime;
 
                 if (Buddy.Vocal.IsSpeaking || mListening)
                     return;
 
-                if (!mHasDisplayChoices)
-                {
+                if (!mHasDisplayChoices) {
                     DisplayChoices();
                     mHasDisplayChoices = true;
                     return;
                 }
                 Debug.Log("mSpeechReco = " + mSpeechReco + "lol");
-                if (string.IsNullOrEmpty(mSpeechReco))
-                {
-                    if (mSayText)
-                    {
+                if (string.IsNullOrEmpty(mSpeechReco)) {
+                    if (mSayText) {
                         Debug.Log(mTimeout + " == " + Timeout);
-                        if (mTimeout >= Timeout && Timeout != 0)
-                        {
+                        if (mTimeout >= Timeout && Timeout != 0) {
                             QuitApp();
                             return;
                         }
                         Debug.Log("StartInstantReco");
 
-                        if (!string.IsNullOrEmpty(speechKey))
-                        {
-                            if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(speechKey)))
-                            {
+                        if (!string.IsNullOrEmpty(speechKey)) {
+                            if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(speechKey))) {
                                 Buddy.Vocal.Say(Buddy.Resources.GetRandomString(speechKey));
-                            }
-                            else if (!string.IsNullOrEmpty(Buddy.Resources.GetString(speechKey)))
-                            {
+                            } else if (!string.IsNullOrEmpty(Buddy.Resources.GetString(speechKey))) {
                                 Buddy.Vocal.Say(Buddy.Resources.GetString(speechKey));
                             }
                         }
                         mSayText = false;
                     }
-                    if (!Buddy.Vocal.IsSpeaking)
-                    {
+                    if (!Buddy.Vocal.IsSpeaking) {
                         //Interaction.VocalManager.StartInstantReco();
                         Buddy.Vocal.Listen();
                         mTimeout++;
@@ -195,10 +180,8 @@ namespace BuddyApp.Shared
                 mStartRule = SharedVocalFunctions.GetRealStartRule(mStartRule);
 
                 int lNumber = 0;
-                foreach (MenuItem item in items)
-                {
-                    if (mStartRule.Equals(item.key))
-                    {
+                foreach (MenuItem item in items) {
+                    if (mStartRule.Equals(item.key)) {
                         Buddy.GUI.Toaster.Hide();
                         StartCoroutine(GotoParameter(item.trigger, lNumber, item.quitApp));
                         break;
@@ -220,13 +203,13 @@ namespace BuddyApp.Shared
             //Interaction.VocalManager.OnVoconEvent = null;
 
             mListClear = false;
-            
+
             Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
             mIndexButton = 0;
             items.Clear();
             mSpeechReco = null;
             mHasDisplayChoices = false;
-           mTimeout = 0;
+            mTimeout = 0;
             mSayText = true;
 
         }
@@ -236,7 +219,7 @@ namespace BuddyApp.Shared
             yield return new WaitForSeconds(1.0f);
             //Pas encore mis dans le new SDK, a voir quand antoine les aura remis
             //BYOS.Instance.Header.SpinningWheel = true;
-            
+
             while (!Buddy.Vocal.IsSpeaking)
                 yield return null;
             mHasLoadedTTS = true;
@@ -265,30 +248,26 @@ namespace BuddyApp.Shared
             //}
             Debug.Log("ITEMS COUNT SHARED :" + items.Count);
             List<int> mIndexHashList = new List<int>();
-            if (string.IsNullOrEmpty(Buddy.Resources.GetString(titleKey)))
-            {
+            if (string.IsNullOrEmpty(Buddy.Resources.GetString(titleKey))) {
                 //BYOS.Instance.Toaster.Display<ChoiceToast>().With(titleKey, lButtonsInfo);
                 Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) => {
-                    for (int i = 0; i < items.Count; ++i)
-                    {
+                    for (int i = 0; i < items.Count; ++i) {
                         TVerticalListBox lBox = iBuilder.CreateBox();
                         int mHash = lBox.GetHashCode();
                         mIndexHashList.Add(mHash);
                         lBox.OnClick.Add(() => {
                             int mIndex = mIndexHashList.FindIndex(x => x == mHash);
                             StartCoroutine(GotoParameter(items[mIndex].trigger, mIndex, items[mIndex].quitApp));
-                            Buddy.GUI.Toaster.Hide(); });
+                            Buddy.GUI.Toaster.Hide();
+                        });
                         lBox.SetLabel(Buddy.Resources.GetString(items[i].key));
                     }
                 });
-            }
-            else
-            {
+            } else {
                 //BYOS.Instance.Toaster.Display<ChoiceToast>().With(Buddy.Resources.GetString(titleKey), lButtonsInfo);
                 Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) => {
 
-                    for (int i = 0; i < items.Count; ++i)
-                    {
+                    for (int i = 0; i < items.Count; ++i) {
                         TVerticalListBox lBox = iBuilder.CreateBox();
                         int mHash = lBox.GetHashCode();
                         mIndexHashList.Add(mHash);
@@ -318,14 +297,10 @@ namespace BuddyApp.Shared
         /// <param name="iMode">the chosen mode</param>
         private IEnumerator GotoParameter(string iTrigger, int iNumber, bool iQuit)
         {
-            if (PlayBML)
-            {
-                try
-                {
+            if (PlayBML) {
+                try {
                     BMLLauncher(NameOfBML[iNumber]);
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                 }
 
 
@@ -341,22 +316,21 @@ namespace BuddyApp.Shared
 
         private void BMLLauncher(string iBMLName)
         {
-            if (!BmlIsLaunch)
-            {
-                if (RandomBML)
-                {
+            if (!BmlIsLaunch) {
+                if (RandomBML) {
                     if (!Buddy.Behaviour.PlayRandom(iBMLName))
-                        Utils.LogE(LogContext.APP, "This category of BML doesn't exist in your app and in the OS");
-                }
-                else
-                {
+                        ExtLog.E(ExtLogModule.APP, GetType(),
+                            LogStatus.FAILURE, LogInfo.NOT_FOUND,
+                            "This category of BML doesn't exist in your app and in the OS");
+                } else {
                     if (!Buddy.Behaviour.PlayRandom(iBMLName))
-                        Utils.LogE(LogContext.APP, "This BML doesn't exist in your app and in the OS");
+                        ExtLog.E(ExtLogModule.APP, GetType(),
+                            LogStatus.FAILURE, LogInfo.NOT_FOUND, 
+                            "This BML doesn't exist in your app and in the OS");
                 }
                 BmlIsLaunch = true;
             }
         }
-
 
         void AddNewButton()
         {
@@ -369,25 +343,21 @@ namespace BuddyApp.Shared
             bool lResult = false;
             int lValue = 0;
 
-            if (File.Exists(lPath + "/" + NameOfXML + ".xml"))
-            {
+            if (File.Exists(lPath + "/" + NameOfXML + ".xml")) {
                 XmlDocument lDoc = new XmlDocument();
                 lDoc.Load(lPath + "/" + NameOfXML + ".xml");
 
                 XmlElement lElmt = lDoc.DocumentElement;
                 XmlNodeList lNodeList = lElmt.ChildNodes;
-                if (lNodeList[0].Name == "ListSize")
-                {
+                if (lNodeList[0].Name == "ListSize") {
 
                     lResult = int.TryParse(lNodeList[0].InnerText, out lValue);
                     if (lResult)
                         mNumberOfButton = lValue;
                 }
 
-                for (int i = 0; i < lNodeList.Count; ++i)
-                {
-                    if (lNodeList[i].Name == "Button")
-                    {
+                for (int i = 0; i < lNodeList.Count; ++i) {
+                    if (lNodeList[i].Name == "Button") {
                         AddNewButton();
                         items[mIndexButton].key = lNodeList[i].SelectSingleNode("Key").InnerText;
                         items[mIndexButton].trigger = lNodeList[i].SelectSingleNode("Trigger").InnerText;

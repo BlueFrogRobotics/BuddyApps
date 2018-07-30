@@ -30,7 +30,7 @@ namespace BuddyApp.Shared
         private string BuddySayWhenQuit;
         [SerializeField]
         private Context context;
-        
+
 
         public class QuestionItem
         {
@@ -126,45 +126,39 @@ namespace BuddyApp.Shared
             FillMenu();
             mTimer += Time.deltaTime;
             Debug.Log(mNumberOfButton + " " + IsBinaryQuestion);
-            if (mNumberOfButton > 2 && IsBinaryQuestion)
-            {
+            if (mNumberOfButton > 2 && IsBinaryQuestion) {
                 Debug.Log("---You checked Binary Question with more than 2 buttons---");
-                Utils.LogE(LogContext.APP, "---You checked Binary Question with more than 2 buttons---");
+                ExtLog.E(ExtLogModule.APP, GetType(),
+                         LogStatus.FAILURE, LogInfo.BAD_ARGUMENT,
+                         "---You checked Binary Question with more than 2 buttons---");
                 return;
             }
-            if (mNumberOfButton < 3 && IsMultipleQuestion)
-            {
+            if (mNumberOfButton < 3 && IsMultipleQuestion) {
                 Debug.Log("---You checked Multiple Question with less than 3 buttons---");
-                Utils.LogE(LogContext.APP, "---You checked Multiple Question with less than 3 buttons---");
+                ExtLog.E(ExtLogModule.APP, GetType(),
+                         LogStatus.FAILURE, LogInfo.BAD_ARGUMENT,
+                         "---You checked Multiple Question with less than 3 buttons---");
                 return;
             }
 
-            if (IsBinaryQuestion)
-            {
-                if (!mIsDisplayed)
-                {
-                    if (!string.IsNullOrEmpty(BuddySays))
-                    {
-                        if (IsKey(BuddySays))
-                        {
+            if (IsBinaryQuestion) {
+                if (!mIsDisplayed) {
+                    if (!string.IsNullOrEmpty(BuddySays)) {
+                        if (IsKey(BuddySays)) {
                             Debug.Log(BuddySays);
                             //Change this line when CORE did the correction about GetRandomString not working if the string is empty
                             if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(BuddySays)))
                                 mTTS.Say(Buddy.Resources.GetRandomString(BuddySays));
                             else
                                 mTTS.Say(Buddy.Resources.GetString(BuddySays));
-                        }
-                        else
-                        {
+                        } else {
                             mTTS.Say(BuddySays);
                         }
                     }
                     //Display toaster
-                    if (WantBinaryToasterDisplay)
-                    {
+                    if (WantBinaryToasterDisplay) {
                         mActualMood = Buddy.Behaviour.Mood.CurrentMood;
-                        if (items.Count == 0)
-                        {
+                        if (items.Count == 0) {
                             Debug.Log("items empty : not possible");
                         }
                         DisplayQuestion();
@@ -174,8 +168,7 @@ namespace BuddyApp.Shared
 
                 if (Buddy.Vocal.IsSpeaking || mListening)
                     return;
-                if (string.IsNullOrEmpty(mSpeechReco) && !mListening)
-                {
+                if (string.IsNullOrEmpty(mSpeechReco) && !mListening) {
                     Buddy.Vocal.Listen();
                     //Interaction.VocalManager.StartInstantReco();
 
@@ -185,10 +178,8 @@ namespace BuddyApp.Shared
 
                 mStartRule = SharedVocalFunctions.GetRealStartRule(mStartRule);
                 int lNumberAnswer = 0;
-                foreach (QuestionItem item in items)
-                {
-                    if (mStartRule.Equals(item.key))
-                    {
+                foreach (QuestionItem item in items) {
+                    if (mStartRule.Equals(item.key)) {
                         if (WantBinaryToasterDisplay)
                             Buddy.GUI.Toaster.Hide();
                         if (item.trigger.Equals("quit"))
@@ -196,34 +187,25 @@ namespace BuddyApp.Shared
                         else
                             StartCoroutine(GotoParameter(item.trigger, lNumberAnswer));
                         break;
-                    }
-                    else if (mStartRule.Equals("quit"))
-                    {
+                    } else if (mStartRule.Equals("quit")) {
                         if (WantMultipleQuestionToasterDisplay)
                             Buddy.GUI.Toaster.Hide();
                         StartCoroutine(Quit());
                     }
                     lNumberAnswer++;
                 }
-            }
-            else if (IsMultipleQuestion)
-            {
-                if (WantMultipleQuestionToasterDisplay && !mIsDisplayed)
-                {
+            } else if (IsMultipleQuestion) {
+                if (WantMultipleQuestionToasterDisplay && !mIsDisplayed) {
                     mActualMood = Buddy.Behaviour.Mood.CurrentMood;
                     mIsDisplayed = true;
-                    if (!string.IsNullOrEmpty(BuddySays))
-                    {
-                        if (IsKey(BuddySays))
-                        {
+                    if (!string.IsNullOrEmpty(BuddySays)) {
+                        if (IsKey(BuddySays)) {
                             //Change this line when CORE did the correction about GetRandomString not working if the string is empty
                             if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(BuddySays)))
                                 mTTS.Say(Buddy.Resources.GetRandomString(BuddySays));
                             else
                                 mTTS.Say(Buddy.Resources.GetString(BuddySays));
-                        }
-                        else
-                        {
+                        } else {
                             mTTS.Say(BuddySays);
                         }
                     }
@@ -232,8 +214,7 @@ namespace BuddyApp.Shared
 
                 if (Buddy.Vocal.IsSpeaking || mListening)
                     return;
-                if (string.IsNullOrEmpty(mSpeechReco))
-                {
+                if (string.IsNullOrEmpty(mSpeechReco)) {
                     Buddy.Vocal.Listen();
                     mListening = true;
                     return;
@@ -242,10 +223,8 @@ namespace BuddyApp.Shared
                 mStartRule = SharedVocalFunctions.GetRealStartRule(mStartRule);
 
                 int lNumberAnswer = 0;
-                foreach (QuestionItem item in items)
-                {
-                    if (mStartRule.Equals(item.key))
-                    {
+                foreach (QuestionItem item in items) {
+                    if (mStartRule.Equals(item.key)) {
                         if (WantMultipleQuestionToasterDisplay)
                             Buddy.GUI.Toaster.Hide();
                         if (item.trigger.Equals("quit"))
@@ -253,9 +232,7 @@ namespace BuddyApp.Shared
                         else
                             StartCoroutine(GotoParameter(item.trigger, lNumberAnswer));
                         break;
-                    }
-                    else if (mStartRule.Equals("quit"))
-                    {
+                    } else if (mStartRule.Equals("quit")) {
                         if (WantMultipleQuestionToasterDisplay)
                             Buddy.GUI.Toaster.Hide();
                         StartCoroutine(Quit());
@@ -283,13 +260,13 @@ namespace BuddyApp.Shared
         /// <param name="iMode">the chosen mode</param>
         private IEnumerator GotoParameter(string iTrigger, int iNumberAnswer)
         {
-            if (PlayBML)
-            {
+            if (PlayBML) {
                 try {
                     BMLLauncher(AnswerBML[iNumberAnswer]);
-                }
-                catch (Exception e) {
-                    Utils.LogE(LogContext.APP, e.Message + " You need to have the same number of button and AnswerBML in Shared Inspector");
+                } catch (Exception e) {
+                    ExtLog.E(ExtLogModule.APP, GetType(),
+                         LogStatus.FAILURE, LogInfo.BAD_ARGUMENT,
+                         e.Message + " You need to have the same number of button and AnswerBML in Shared Inspector");
                     QuitApp();
                 }
                 while (Buddy.Behaviour.IsBusy)
@@ -309,28 +286,25 @@ namespace BuddyApp.Shared
         /// <returns></returns>
         private IEnumerator Quit()
         {
-            if (!string.IsNullOrEmpty(BuddySayWhenQuit))
-            {
-                if (IsKey(BuddySayWhenQuit))
-                {
+            if (!string.IsNullOrEmpty(BuddySayWhenQuit)) {
+                if (IsKey(BuddySayWhenQuit)) {
                     Debug.Log(BuddySayWhenQuit);
                     //Change this line when CORE did the correction about GetRandomString not working if the string is empty
                     if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(BuddySayWhenQuit)))
                         mTTS.Say(Buddy.Resources.GetRandomString(BuddySayWhenQuit));
                     else
                         mTTS.Say(Buddy.Resources.GetString(BuddySayWhenQuit));
-                }
-                else
-                {
+                } else {
                     mTTS.Say(BuddySayWhenQuit);
                 }
             }
 
             try {
                 BMLLauncher(QuitBML);
-            }
-            catch (Exception e) {
-                Utils.LogE(LogContext.APP, e.Message + " You need to have the same number of button and AnswerBML in Editor");
+            } catch (Exception e) {
+                ExtLog.E(ExtLogModule.APP, GetType(),
+                         LogStatus.FAILURE, LogInfo.BAD_ARGUMENT,
+                         e.Message + " You need to have the same number of button and AnswerBML in Editor");
                 QuitApp();
             }
 
@@ -346,15 +320,17 @@ namespace BuddyApp.Shared
         /// <param name="iBMLName"></param>
         private void BMLLauncher(string iBMLName)
         {
-            if (BmlIsLaunch)
-            {
+            if (BmlIsLaunch) {
                 if (RandomBML) {
                     if (!Buddy.Behaviour.PlayRandom(iBMLName))
-                        Utils.LogE(LogContext.APP, "This category of BML doesn't exist in your app and in the OS");
-                }
-                else {
+                        ExtLog.E(ExtLogModule.APP, GetType(),
+                         LogStatus.FAILURE, LogInfo.NOT_FOUND,
+                         "This category of BML doesn't exist in your app and in the OS");
+                } else {
                     if (!Buddy.Behaviour.PlayRandom(iBMLName))
-                        Utils.LogE(LogContext.APP, "This BML doesn't exist in your app and in the OS");
+                        ExtLog.E(ExtLogModule.APP, GetType(),
+                         LogStatus.FAILURE, LogInfo.NOT_FOUND, 
+                         "This BML doesn't exist in your app and in the OS");
                 }
                 BmlIsLaunch = false;
             }
@@ -364,8 +340,7 @@ namespace BuddyApp.Shared
         {
             Debug.Log("IKEY : " + iKey);
             Buddy.GUI.Toaster.Hide();
-            if (IsSoundForButton && !mSoundPlayed)
-            {
+            if (IsSoundForButton && !mSoundPlayed) {
                 if (FxSound == SoundSample.NONE)
                     FxSound = SoundSample.BEEP_1;
                 Buddy.Actuators.Speakers.Media.Play(FxSound);
@@ -408,31 +383,27 @@ namespace BuddyApp.Shared
             //}
 
             string lTitle;
-            if (!string.IsNullOrEmpty(KeyQuestion))
-            {
+            if (!string.IsNullOrEmpty(KeyQuestion)) {
                 if (IsKey(KeyQuestion))
                     lTitle = Buddy.Resources.GetString(KeyQuestion);
                 else
                     lTitle = KeyQuestion;
 
-                if (WantBinaryToasterDisplay)
-                {
-                    for (int i = 0; i < items.Count; ++i)
-                    {
-                        if (string.IsNullOrEmpty(Buddy.Resources.GetString(items[i].key)))
-                        {
+                if (WantBinaryToasterDisplay) {
+                    for (int i = 0; i < items.Count; ++i) {
+                        if (string.IsNullOrEmpty(Buddy.Resources.GetString(items[i].key))) {
                             Debug.Log("---Your key doesn't exist in the dictionnary---");
-                            Utils.LogE(LogContext.APP, "---Your key doesn't exist in the dictionnary---");
+                            ExtLog.E(ExtLogModule.APP, GetType(),
+                                LogStatus.FAILURE, LogInfo.NOT_FOUND,
+                                "---Your key doesn't exist in the dictionnary---");
                             return;
                         }
                     }
                     //BYOS.Instance.Toaster.Display<BinaryQuestionToast>().With(lTitle, lButtonsInfo[1], lButtonsInfo[0]);
                     Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => iBuilder.CreateWidget<TText>().SetLabel(lTitle),
-                        () => { PressedButton(items[0].trigger); }, Buddy.Resources.GetString(items[0].key), 
+                        () => { PressedButton(items[0].trigger); }, Buddy.Resources.GetString(items[0].key),
                         () => { PressedButton(items[1].trigger); }, Buddy.Resources.GetString(items[1].key));
-                }
-                else if (WantMultipleQuestionToasterDisplay)
-                {
+                } else if (WantMultipleQuestionToasterDisplay) {
                     //BYOS.Instance.Toaster.Display<ChoiceToast>().With(lTitle, lButtonsInfo);
                     //A VOIR SI JE LE FAIS APRES (pas utilisé pour le moment)
                     //Buddy.GUI.Toaster.Display<VerticalListToast>().With();
@@ -451,24 +422,20 @@ namespace BuddyApp.Shared
             bool lResult = false;
             int lValue = 0;
 
-            if (File.Exists(lPath + "/" + NameOfXML + ".xml"))
-            {
+            if (File.Exists(lPath + "/" + NameOfXML + ".xml")) {
                 XmlDocument lDoc = new XmlDocument();
                 lDoc.Load(lPath + "/" + NameOfXML + ".xml");
 
                 XmlElement lElmt = lDoc.DocumentElement;
                 XmlNodeList lNodeList = lElmt.ChildNodes;
-                if (lNodeList[0].Name == "ListSize")
-                {
+                if (lNodeList[0].Name == "ListSize") {
                     lResult = int.TryParse(lNodeList[0].InnerText, out lValue);
                     if (lResult)
                         mNumberOfButton = lValue;
                 }
-                
-                for (int i = 0; i < lNodeList.Count; ++i)
-                {
-                    if (lNodeList[i].Name == "Button")
-                    {
+
+                for (int i = 0; i < lNodeList.Count; ++i) {
+                    if (lNodeList[i].Name == "Button") {
                         AddNewButton();
                         items[mIndexButton].key = lNodeList[i].SelectSingleNode("Key").InnerText;
                         items[mIndexButton].trigger = lNodeList[i].SelectSingleNode("Trigger").InnerText;

@@ -40,8 +40,9 @@ namespace BuddyApp.TestCoroutineDisplay
                 }
             }
             else
-                Utils.LogE(LogContext.APP, LogInfo.NULL_VALUE,
-                    "Animator of the state machine manager is not set", true);
+                ExtLog.E(ExtLogModule.APP, GetType(),
+                    LogStatus.FAILURE, LogInfo.NULL_VALUE,
+                    "Animator of the state machine manager is not set");
         }
 
         internal void AddComponentLink<T>() where T : Component

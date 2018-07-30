@@ -11,16 +11,13 @@ namespace BuddyApp.Weather
         /*
 		* Called before the App scene loading.
 		*/
-        public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
+        public override void OnLoading(object[] iInputArgs)
         {
-            Utils.LogI(LogContext.APP, "On loading...");
-            if (iStrArgs != null)
-            {
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On loading...");
+            if (iInputArgs != null) {
                 // We have an input sentence
-                WeatherData.Instance.VocalRequest = iStrArgs[0];
-            }
-            else
-            {
+                WeatherData.Instance.VocalRequest = (string)iInputArgs[0];
+            } else {
                 WeatherData.Instance.VocalRequest = "";
             }
 
@@ -31,8 +28,8 @@ namespace BuddyApp.Weather
 		*/
         public override void OnAwake()
         {
-            Utils.LogI(LogContext.APP, "On awake...");
             //Buddy.Resources.LoadAtlas("Atlas_Meteo");
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.RUNNING, "On awake...");
         }
 
         /*
@@ -40,7 +37,7 @@ namespace BuddyApp.Weather
 		*/
         public override void OnStart()
         {
-            Utils.LogI(LogContext.APP, "On start...");
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.SUCCESS, LogInfo.LOADING, "On start...");
         }
 
         /*
@@ -48,7 +45,7 @@ namespace BuddyApp.Weather
 		*/
         public override void OnQuit()
         {
-            Utils.LogI(LogContext.APP, "On quit...");
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LEAVING, "On quit...");
         }
     }
 }

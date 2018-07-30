@@ -53,8 +53,7 @@ namespace BuddyApp.Weather
         {
             if (mListening)
                 return;
-            if (!mListening && string.IsNullOrEmpty(WeatherData.Instance.VocalRequest))
-            {
+            if (!mListening && string.IsNullOrEmpty(WeatherData.Instance.VocalRequest)) {
                 Buddy.Vocal.Listen("weather");
                 mListening = true;
                 return;
@@ -72,9 +71,8 @@ namespace BuddyApp.Weather
 
         private void GetAnswer(string iAnswer)
         {
-            if (mWeatherB.mIsOk)
-            {
-                Utils.LogI(LogContext.APP, "GOT AN ANSWER: " + iAnswer);
+            if (mWeatherB.mIsOk) {
+                ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.SUCCESS, LogInfo.OUTPUT, "GOT AN ANSWER: " + iAnswer);
                 WeatherData.Instance.VocalRequest = iAnswer;
                 Trigger("Vocal");
             }
@@ -82,9 +80,8 @@ namespace BuddyApp.Weather
 
         private void NoAnswer(SpeechEvent iEvent)
         {
-            if(iEvent.IsError)
-                Utils.LogI(LogContext.APP, "VM error");
+            if (iEvent.IsError)
+                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.OUTPUT, "VM error...");
         }
-
     }
 }

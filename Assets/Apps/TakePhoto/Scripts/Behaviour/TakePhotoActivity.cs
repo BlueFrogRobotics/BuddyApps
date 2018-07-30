@@ -11,20 +11,20 @@ namespace BuddyApp.TakePhoto
     /* This class contains useful callback during your app process */
     public class TakePhotoActivity : AAppActivity
     {
-		/*
+        /*
 		* Called before the App scene loading.
 		*/
-		//public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
-		//{ 
-		//	Utils.LogI(LogContext.APP, "On loading...");
-		//}
+        //public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
+        //{ 
+        //	ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On loading...");
+        //}
 
-		/*
+        /*
 		* Called after every Awake() in your scene
 		*/
         public override void OnAwake()
         {
-            Utils.LogI(LogContext.APP, "On awake...");
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.RUNNING, "On awake...");
         }
 
 		/*
@@ -32,7 +32,7 @@ namespace BuddyApp.TakePhoto
 		*/
         public override void OnStart()
         {
-            Utils.LogI(LogContext.APP, "On start...");
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.SUCCESS, LogInfo.LOADING, "On start...");
         }
 
 		/*
@@ -40,7 +40,7 @@ namespace BuddyApp.TakePhoto
 		*/
         public override void OnQuit()
         {
-            Utils.LogI(LogContext.APP, "On quit...");
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LEAVING, "On quit...");
         }
     }
 }

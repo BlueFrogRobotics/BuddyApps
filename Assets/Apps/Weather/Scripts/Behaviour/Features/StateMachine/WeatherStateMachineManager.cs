@@ -39,9 +39,6 @@ namespace BuddyApp.Weather
                     lState.Start();
                 }
             }
-            else
-                Utils.LogE(LogContext.APP, LogInfo.NULL_VALUE,
-                    "Animator of the state machine manager is not set", true);
         }
 
         internal void AddComponentLink<T>() where T : Component

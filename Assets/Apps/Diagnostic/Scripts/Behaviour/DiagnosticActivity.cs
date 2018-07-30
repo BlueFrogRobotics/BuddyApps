@@ -8,20 +8,20 @@ namespace BuddyApp.Diagnostic
     /* This class contains useful callback during your app process */
     public class DiagnosticActivity : AAppActivity
     {
-		public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
-		{ 
-			Utils.LogI(LogContext.APP, "On loading...");
-		}
+		public override void OnLoading(object[] iInputArgs)
+		{
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On loading...");
+        }
 
         public override void OnStart()
 		{
-			Utils.LogI(LogContext.APP, "On start...");
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.SUCCESS, LogInfo.LOADING, "On start...");
             Buddy.GUI.Header.DisplayParametersButton(false);
-		}
+        }
 
         public override void OnQuit()
 		{
-			Utils.LogI(LogContext.APP, "On quit...");	
-		}
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LEAVING, "On quit...");
+        }
     }
 }
