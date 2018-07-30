@@ -28,11 +28,12 @@ namespace BuddyApp.TakePhoto
 		private List<string> mOverlaysNames;
 		private Mat mMat;
         private TakePhotoBehaviour mTakePhotoBH;
-        
-        
+        private Mat mMatSrc;
+        private bool mIsFrameCaptured;
 
-		public override void Start()
+        public override void Start()
 		{
+            mIsFrameCaptured = false;
             //Mettre le mtakePhotoBH = GetcomponentInGameObject<TakePhotoBehaviour>();
             Debug.Log("Init TakePhoto");
 			mVideo = GetComponentInGameObject<RawImage>(0);
@@ -76,8 +77,9 @@ namespace BuddyApp.TakePhoto
 
 			Debug.Log("Init TakePhoto done");
 
-			//Buddy.Sensors.HDCamera.Mode = HDCameraMode.COLOR_640x480_30FPS_RGB;
-			mMat = new Mat();
+            //Buddy.Sensors.HDCamera.Mode = HDCameraMode.COLOR_640x480_30FPS_RGB;
+            mMatSrc = new Mat();
+            mMat = new Mat();
 
 		}
 
@@ -93,80 +95,110 @@ namespace BuddyApp.TakePhoto
             //int lRandomIndice = UnityEngine.Random.Range(0, mOverlaysTextures.Count - 1);
 
             // Random Overlay selection
-            if (mOverlaysNames.Count <= 0)
-                Debug.Log("OVERLAYNAMES NULL");
 			string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
+            Debug.Log("RANDOM SPRITE NAME : " + lRandomSpriteName);
 			if (!mOverlaysTextures.ContainsKey(lRandomSpriteName)) {
 				Sprite lOverlaySprite = Buddy.Resources.Get<Sprite>(lRandomSpriteName);
                 if (lOverlaySprite == null)
                     Debug.Log("SPRITE NULL");
 				mOverlaysTextures[lRandomSpriteName] = lOverlaySprite.texture;
+                
 			}
+            mOverlayTexture = mOverlaysTextures[lRandomSpriteName];
+            mOverlay.texture = mOverlayTexture;
+            if (Buddy.Sensors.RGBCamera.IsBusy)
+            {
+                Buddy.Sensors.RGBCamera.Close();
+            }
 
-			mOverlayTexture = mOverlaysTextures[lRandomSpriteName];
-			mOverlay.texture = mOverlayTexture;
-
-
-			if (!Buddy.Sensors.RGBCamera.IsOpen)
-				Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_640x480_30FPS_RGB);
-			mVideo.gameObject.SetActive(true);
-
-			if (TakePhotoData.Instance.Overlay)
+            if (!Buddy.Sensors.RGBCamera.IsOpen)
+            {
+                Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_640x480_30FPS_RGB);
+                
+            }
+            mVideo.gameObject.SetActive(true);
+            if (TakePhotoData.Instance.Overlay)
 				mOverlay.gameObject.SetActive(true);
-
-			Buddy.Vocal.SayKey("takephoto", true);
-
-			Mat mMatSrc = Buddy.Sensors.RGBCamera.Frame;
-			Core.flip(mMatSrc, mMat, 1);
-            if (mMat.empty())
-                Debug.Log("takephoto on state enter : MAT NULL ");
-			mVideo.texture = Utils.MatToTexture2D(mMat);
+            Buddy.Vocal.SayKey("takephoto", true);
+            Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
+            mMatSrc = Buddy.Sensors.RGBCamera.Frame;
+            //Buddy.Sensors.RGBCamera.Frame.copyTo(mMatSrc);
+            //Debug.Log("8");
+            //if (Buddy.Sensors.RGBCamera.Frame.empty())
+            //    Debug.Log("FRAME EMPTY");
+            //if (mMatSrc.empty())
+            //    Debug.Log("MAT SRC EMPTY");
+   //         Core.flip(mMatSrc, mMat, 1);
+   //         //if (mMat.empty())
+   //         //    Debug.Log("takephoto on state enter : MAT NULL ");
+			//mVideo.texture = Utils.MatToTexture2D(mMat);
 			Debug.Log("TakePhoto 3");
 		}
 
+        private void OnFrameCaptured(Mat iInput)
+        {
+            mMatSrc = iInput;
+            Core.flip(mMatSrc, mMat, 1);
+            mVideo.texture = Utils.MatToTexture2D(mMat);
+            mIsFrameCaptured = true;
+        }
+
+        
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			// update overlay if updated in params
-			if (TakePhotoData.Instance.Overlay != mOverlay.gameObject.activeSelf)
-				mOverlay.gameObject.SetActive(TakePhotoData.Instance.Overlay);
+            if(mIsFrameCaptured)
+            {
+                // update overlay if updated in params
+                if (TakePhotoData.Instance.Overlay != mOverlay.gameObject.activeSelf)
+                    mOverlay.gameObject.SetActive(TakePhotoData.Instance.Overlay);
 
-			Mat mMatSrc = Buddy.Sensors.RGBCamera.Frame;
-            Core.flip(mMatSrc, mMat, 1);
-			mVideo.texture = Utils.MatToTexture2D(mMat);
+                Mat mMatSrc = Buddy.Sensors.RGBCamera.Frame;
+                Core.flip(mMatSrc, mMat, 1);
+                mVideo.texture = Utils.MatToTexture2D(mMat);
 
-			if (!Buddy.Vocal.IsSpeaking) {
-				//if (!mNeedExit) {
-				mTimer += Time.deltaTime;
+                if (!Buddy.Vocal.IsSpeaking)
+                {
+                    //if (!mNeedExit) {
+                    mTimer += Time.deltaTime;
 
-				if (mTimer > 0.5F)
-					if (mSpeechId < 3) {
-						Buddy.Vocal.Say((3 - mSpeechId).ToString(), true);
-						if (mSpeechId == 2)
-							Buddy.Vocal.Say("[200] cheese", true);
-						mSpeechId++;
-						mTimer = 0F;
+                    if (mTimer > 0.5F)
+                        if (mSpeechId < 3)
+                        {
+                            Buddy.Vocal.Say((3 - mSpeechId).ToString(), true);
+                            if (mSpeechId == 2)
+                                Buddy.Vocal.Say("[200] cheese", true);
+                            mSpeechId++;
+                            mTimer = 0F;
 
-					} else if (!mPhotoTaken) {
-						if (Buddy.Sensors.RGBCamera.Width > 0) {
-							mPictureSound.Play();
-							Buddy.Sensors.HDCamera.TakePhotograph(OnFinish, false);
-							mPhotoTaken = true;
-						} else {
-							Debug.Log("RGBCAM with null!!!!!!!!!!!!!!!!!!!!");
-						}
-					}
+                        }
+                        else if (!mPhotoTaken)
+                        {
+                            if (Buddy.Sensors.RGBCamera.Width > 0)
+                            {
+                                mPictureSound.Play();
+                                Buddy.Sensors.HDCamera.TakePhotograph(OnFinish, false);
+                                Debug.Log("PHOTO TAKEN");
+                                mPhotoTaken = true; 
+                            }
+                            else
+                            {
+                                Debug.Log("RGBCAM with null!!!!!!!!!!!!!!!!!!!!");
+                            }
+                        }
 
 
-				// Rejected option because of camera feed back too much hidden
-				//if (!ToastRender) {
+                    // Rejected option because of camera feed back too much hidden
+                    //if (!ToastRender) {
 
-				//	// DisplayTimer
-				//	Toaster.Display<CountdownToast>().With(3, OnFinish, false);
-				//	ToastRender = true;
+                    //	// DisplayTimer
+                    //	Toaster.Display<CountdownToast>().With(3, OnFinish, false);
+                    //	ToastRender = true;
 
-				//}
-			}
+                    //}
+                }
+            }
+			
             
 		}
 
@@ -257,7 +289,7 @@ namespace BuddyApp.TakePhoto
             mOnClick = () => DialogerToast();
 			//Toaster.Display<PictureToast>().With(Dictionary.GetString("redoorshare"), mPhotoSprite, mShareButton, mRedoButton);
             Buddy.GUI.Toaster.Display<PictureToast>().With(mPhotoSprite, mOnClick);
-
+            mIsFrameCaptured = false;
 
             //mShareButton = new ButtonInfo()
             //{
