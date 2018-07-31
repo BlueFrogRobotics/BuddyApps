@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace BuddyApp.Quizz
 {
@@ -23,12 +24,17 @@ namespace BuddyApp.Quizz
         }
     }
 
-    /* A basic monobehaviour as "AI" behaviour for your app */
+    /// <summary>
+    /// Classes that is used mainly to expose some global variables used in the states
+    /// </summary>
     public class QuizzBehaviour : MonoBehaviour
     {
 
         private int mNumPlayer = 0;
 
+        /// <summary>
+        /// Number of players in the quizz
+        /// </summary>
         public int NumPlayer
         {
             get { return mNumPlayer; }
@@ -43,30 +49,69 @@ namespace BuddyApp.Quizz
             }
         }
 
+        /// <summary>
+        /// Contains the list of players possible nickname retrieved from the xml
+        /// </summary>
         public PlayerNamesData PlayerNamesData { get; private set; }
 
+        /// <summary>
+        /// The list of players in the game
+        /// </summary>
         public List<Player> Players { get; private set; }
 
+        /// <summary>
+        /// Contains all the possible questions of the quizz retrieved from the xml
+        /// </summary>
         public QuestionsData Questions { get; private set; }
 
+        /// <summary>
+        /// The question which will be asked
+        /// </summary>
         public QuestionData ActualQuestion { get; set; }
 
+        /// <summary>
+        /// The number of the player who will answer now
+        /// </summary>
         public int ActualPlayerId { get; set; }
 
+        /// <summary>
+        /// Number of the actual round
+        /// </summary>
         public int ActualRound { get; set; }
 
+        /// <summary>
+        /// Tells if the game has started
+        /// </summary>
         public bool Beginning { get; set; }
 
+        /// <summary>
+        /// List of the id of the questions that have already been asked
+        /// </summary>
         public HashSet<int> ListQuestionsIdAsked { get; set; }
 
+        /// <summary>
+        /// Return the last state id when entering the ask exit state
+        /// </summary>
         public int LastStateId { get; set; }
 
+        /// <summary>
+        /// Return the actual language abreviation in lower case
+        /// </summary>
         public string Lang { get { return BYOS.Instance.Language.CurrentLang.ToString().ToLower(); } }
 
+        /// <summary>
+        /// Event that triggers when the language of buddy changes
+        /// </summary>
         public Action OnLanguageChange;
 
+        /// <summary>
+        /// Maximum number of rounds
+        /// </summary>
         public const int MAX_ROUNDS = 5;
 
+        /// <summary>
+        /// Maximum number of players
+        /// </summary>
         public const int MAX_PLAYER = 4;
 
         /*
@@ -82,7 +127,9 @@ namespace BuddyApp.Quizz
 			* You can setup your App activity here.
 			*/
             QuizzActivity.Init(null);
+            //BYOS.Instance.Interaction.BMLManager.LaunchByName("Sad02");
             Debug.Log("format: " + BYOS.Instance.Language.CurrentFormat + " lang: " + BYOS.Instance.Language.CurrentLang.ToString());
+            Debug.Log(RemoveSpecialCharacters("les chips c'est émouvant (lol) à manger"));
             /*
 			* Init your app data
 			*/
@@ -112,6 +159,9 @@ namespace BuddyApp.Quizz
             }
         }
 
+        /// <summary>
+        /// Initilize the player and round id
+        /// </summary>
         public void Init()
         {
             ActualPlayerId = 0;
@@ -119,6 +169,9 @@ namespace BuddyApp.Quizz
             ListQuestionsIdAsked = new HashSet<int>();
         }
 
+        /// <summary>
+        /// Retrive a random nickname for each player from the list
+        /// </summary>
         public void InitPlayers()
         {
             Players = new List<Player>();
@@ -139,10 +192,15 @@ namespace BuddyApp.Quizz
             }
         }
 
+        /// <summary>
+        /// Used to convert the enum theme into a string
+        /// </summary>
+        /// <param name="iTheme">the theme</param>
+        /// <returns>the string in the actual language</returns>
         public string ThemeToString(Theme iTheme)
         {
             string lText = "";
-            switch(iTheme)
+            switch (iTheme)
             {
                 case Theme.CINEMA:
                     lText = BYOS.Instance.Dictionary.GetString("cinema");
@@ -172,6 +230,20 @@ namespace BuddyApp.Quizz
                     break;
             }
             return lText;
+        }
+
+        /// <summary>
+        /// Removes the special characters in a string
+        /// </summary>
+        /// <param name="iStr">the string which has special characters</param>
+        /// <returns>the string without special characters</returns>
+        public string RemoveSpecialCharacters(string iStr)
+        {
+            char[] lSeparators = new char[] { ';', ',', '~', '?', '!', ':', '/', '*', '(', ')', '|', '[', ']', '<', '>', '%', '^' };
+
+            string[] lTemp = iStr.Split(lSeparators, StringSplitOptions.None);
+            string lReturn = String.Join(" ", lTemp);
+            return lReturn;
         }
     }
 }

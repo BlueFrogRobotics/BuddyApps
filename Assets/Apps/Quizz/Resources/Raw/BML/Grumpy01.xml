@@ -11,11 +11,8 @@
     <headNo id="headNo2" position="0" speed="300"/>
     <faceExp id="faceExp1" expression="SCREAM"/>
   </synchronized>
-  <synchronized>
-    <gazeShift id="gaze3" direction="CENTER"/>
-    <headNo id="headNo3" position="-45" speed="300"/>
-    <move id="move1" start="1" end="2"  speed="300" angle="-180"/>
-	</synchronized>
+	<headNo id="headNo3" position="0" speed="300"/>
+	<headYes id="headYes2" position="0" speed="300"/>
 	<faceMoodShift mood="NEUTRAL"/>
 
 </bml>

@@ -12,14 +12,8 @@
     <headYes id="headYes2" start="1.5" position="-25" speed="600"/>
   </synchronized>
   <synchronized end="3">
-    <headNo id="headNo3" position="0" speed="600"/>
-    <faceExp id="faceEx3" start="0.5" expression="BLINK_BOTH"/>
+	<headNo id="headNo2" position="0" speed="600"/>
+      <headYes id="headYes3"  position="0" speed="600"/>
   </synchronized>
-  <synchronized>
-    <headYes id="headYes4"  position="0" speed="600"/>
-    <faceExp id="faceEx4" start="0.5" expression="YAWN"/>
-  </synchronized>
-  <synchronized end="3">
-      <headYes id="headYes5"  position="25" speed="600"/>
-  </synchronized>
+  <faceMoodShift mood="NEUTRAL"/>
 </bml>

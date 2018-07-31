@@ -18,6 +18,7 @@ namespace BuddyApp.Quizz
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("ask num player");
             Interaction.VocalManager.UseVocon = true;
             Interaction.VocalManager.ClearGrammars();
             Interaction.VocalManager.AddGrammar("commands", Buddy.LoadContext.APP);
@@ -39,10 +40,14 @@ namespace BuddyApp.Quizz
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mQuizzBehaviour.OnLanguageChange = null;
+            Debug.Log("avant arret coroutine");
+            StopCoroutine(AskNumberPlayer());
+            Debug.Log("apres arret coroutine");
         }
 
         private IEnumerator AskNumberPlayer()
         {
+            Debug.Log("coroutine ask num player");
             while (!Interaction.TextToSpeech.HasFinishedTalking)
                 yield return null;
             Interaction.TextToSpeech.SayKey("howmanyplayer");
@@ -66,7 +71,7 @@ namespace BuddyApp.Quizz
             }
             else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#quit" && iBestResult.Confidence > 6000)
             {
-                Trigger("Quit");
+                Trigger("Exit");
             }
             else
             {

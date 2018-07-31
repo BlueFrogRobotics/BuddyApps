@@ -16,10 +16,11 @@
   <synchronized>
     <faceExp id="faceExp1" expression="SCREAM"/>
     <headNo id="headNo6" end="2" position="0" speed="600"/>
-    <headYes id="headYes2" position="-20" speed="600"/>
   </synchronized>
   <synchronized>
     <faceExp id="faceExp2" expression="OPEN_EYES"/>
     <headYes id="headYes2" end="2" position="20" speed="600"/>
   </synchronized>
+  <headYes id="headYes3" position="0" speed="300"/>
+  <faceMoodShift mood="NEUTRAL"/>
 </bml>

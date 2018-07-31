@@ -53,7 +53,7 @@ namespace BuddyApp.Quizz
             string lAllAnswers = "<answer> :";
             for (int i = 0; i < mQuizzBehaviour.ActualQuestion.Answers.Count; i++)
             {
-                lAllAnswers += mQuizzBehaviour.ActualQuestion.Answers[i];
+                lAllAnswers += mQuizzBehaviour.RemoveSpecialCharacters(mQuizzBehaviour.ActualQuestion.Answers[i]);
                 if (i < mQuizzBehaviour.ActualQuestion.Answers.Count - 1)
                     lAllAnswers += " | ";
             }

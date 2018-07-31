@@ -5,6 +5,9 @@ using Buddy;
 
 namespace BuddyApp.Quizz
 {
+    /// <summary>
+    /// State in which each player has to repeat the nickname to engage
+    /// </summary>
     public class EngagementPhaseState : AStateMachineBehaviour
     {
 
@@ -16,19 +19,6 @@ namespace BuddyApp.Quizz
         public override void Start()
         {
             mQuizzBehaviour = GetComponent<QuizzBehaviour>();
-            //HashSet<int> hashset = new HashSet<int>();
-            //hashset.Add(3);
-            //hashset.Add(4);
-            //hashset.Add(5);
-            //hashset.Add(3);
-            //hashset.Add(2);
-            //hashset.Add(2);
-            //foreach(int a in hashset)
-            //{
-            //    Debug.Log("dans hash: " + a);
-            //}
-            //mQuizzBehaviour.NumPlayer = 3;
-
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -123,7 +113,7 @@ namespace BuddyApp.Quizz
             }
             else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#quit" && iBestResult.Confidence > 6000)
             {
-                Trigger("Quit");
+                Trigger("Exit");
             }
             else
             {

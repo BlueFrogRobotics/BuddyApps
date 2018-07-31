@@ -97,7 +97,7 @@ namespace BuddyApp.Quizz
                 {
                     for (int i = 0; i < mQuizzBehaviour.ActualQuestion.Answers.Count; i++)
                     {
-                        if (iBestResult.Utterance.Trim().Contains(mQuizzBehaviour.ActualQuestion.Answers[i].Trim()))
+                        if (iBestResult.Utterance.Trim().Contains(mQuizzBehaviour.RemoveSpecialCharacters(mQuizzBehaviour.ActualQuestion.Answers[i]).Trim()))
                             lAnswerId = i;
                     }
                     //Trigger("Win");
@@ -121,7 +121,7 @@ namespace BuddyApp.Quizz
                 }
                 else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#quit" && iBestResult.Confidence > 6000)
                 {
-                    Trigger("Quit");
+                    Trigger("Exit");
                 }
                 else
                     StartCoroutine(AskQuestion());//Trigger("Lose");
