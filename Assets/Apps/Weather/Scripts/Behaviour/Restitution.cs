@@ -114,12 +114,12 @@ namespace BuddyApp.Weather
 
                     if (mWeatherB.mForecast != iWeatherInfo.Type)
                     {
-                        //if (((mWeatherB.mForecast == WeatherType.CHANCE_OF_RAIN && iWeatherInfo.Type == WeatherType.RAIN) || (mWeatherB.mForecast == WeatherType.RAIN && iWeatherInfo.Type == WeatherType.CHANCE_OF_RAIN)) ||
-                        //    ((mWeatherB.mForecast == WeatherType.CHANCE_FLURRIES && iWeatherInfo.Type == WeatherType.FLURRIES) || (mWeatherB.mForecast == WeatherType.FLURRIES && iWeatherInfo.Type == WeatherType.CHANCE_FLURRIES)) ||
-                        //    ((mWeatherB.mForecast == WeatherType.CHANCE_SLEET && iWeatherInfo.Type == WeatherType.SLEET) || (mWeatherB.mForecast == WeatherType.SLEET && iWeatherInfo.Type == WeatherType.CHANCE_SLEET)) ||
-                        //    ((mWeatherB.mForecast == WeatherType.CHANCE_SNOW && iWeatherInfo.Type == WeatherType.SNOW) || (mWeatherB.mForecast == WeatherType.SNOW && iWeatherInfo.Type == WeatherType.CHANCE_SNOW)))
-                        //    lAnswer = lYesAnswer;
-                        //else
+                        if (((mWeatherB.mForecast == WeatherType.CHANCE_OF_RAIN && iWeatherInfo.Type == WeatherType.RAIN) || (mWeatherB.mForecast == WeatherType.RAIN && iWeatherInfo.Type == WeatherType.CHANCE_OF_RAIN)) ||
+                            ((mWeatherB.mForecast == WeatherType.CHANCE_FLURRIES && iWeatherInfo.Type == WeatherType.FLURRIES) || (mWeatherB.mForecast == WeatherType.FLURRIES && iWeatherInfo.Type == WeatherType.CHANCE_FLURRIES)) ||
+                            ((mWeatherB.mForecast == WeatherType.CHANCE_SLEET && iWeatherInfo.Type == WeatherType.SLEET) || (mWeatherB.mForecast == WeatherType.SLEET && iWeatherInfo.Type == WeatherType.CHANCE_SLEET)) ||
+                            ((mWeatherB.mForecast == WeatherType.CHANCE_SNOW && iWeatherInfo.Type == WeatherType.SNOW) || (mWeatherB.mForecast == WeatherType.SNOW && iWeatherInfo.Type == WeatherType.CHANCE_SNOW)))
+                            lAnswer = lYesAnswer;
+                        else
                             lAnswer = lNoAnswer;
                     }
                     else
@@ -199,16 +199,16 @@ namespace BuddyApp.Weather
                 {
                     lAnswer = Buddy.Resources.GetRandomString("lightrestitution");
                     lAnswer = lAnswer.Replace("[date]", iDayString + " " + Buddy.Resources.GetRandomString("inlocation") + " " + mWeatherB.mName);
-                    //lAnswer = lAnswer.Replace("[degree]", lMinWeather.MinTemperature.ToString());
+                    lAnswer = lAnswer.Replace("[degree]", lMinWeather.MinTemperature.ToString());
                     lAnswer = lAnswer.Replace("[forecast]", Buddy.Resources.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")));
                 }
                 else
                 {
                     lAnswer = Buddy.Resources.GetRandomString("restitution");
                     lAnswer = lAnswer.Replace("[date]", iDayString + " " + Buddy.Resources.GetRandomString("inlocation") + " " + mWeatherB.mName);
-                    //lAnswer = lAnswer.Replace("[minTemp]", lMinWeather.MinTemperature.ToString());
+                    lAnswer = lAnswer.Replace("[minTemp]", lMinWeather.MinTemperature.ToString());
                     lAnswer = lAnswer.Replace("[hourMin]", EnglishHour(lMinWeather.Hour));
-                    //lAnswer = lAnswer.Replace("[maxTemp]", lMaxWeather.MaxTemperature.ToString());
+                    lAnswer = lAnswer.Replace("[maxTemp]", lMaxWeather.MaxTemperature.ToString());
                     lAnswer = lAnswer.Replace("[hourMax]", EnglishHour(lMaxWeather.Hour));
                     lAnswer = lAnswer.Replace("[forecast]", Buddy.Resources.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")));
                 }
@@ -218,7 +218,7 @@ namespace BuddyApp.Weather
                 lAnswer = Buddy.Resources.GetRandomString("restraintrestitution");
                 lAnswer = lAnswer.Replace("[date]", iDayString + " " + Buddy.Resources.GetRandomString("inlocation") + " " + mWeatherB.mName);
                 lAnswer = lAnswer.Replace("[time]", Buddy.Resources.GetRandomString(mWeatherB.mWeatherTime.ToString().ToLower()));
-                //lAnswer = lAnswer.Replace("[degree]", iWeatherInfo.MinTemperature.ToString());
+                lAnswer = lAnswer.Replace("[degree]", iWeatherInfo.MinTemperature.ToString());
             }
             return (lAnswer);
         }
@@ -264,19 +264,19 @@ namespace BuddyApp.Weather
 
             for (int i = 0; i < 8; i++)
             {
-                //if (lTime.Day.ToString().Equals(iWeatherInfo[j].Day.ToString()))
-                //{
-                //    if (iWeatherInfo[j].MinTemperature < lMinTemp)
-                //    {
-                //        lMinTemp = iWeatherInfo[j].MinTemperature;
-                //        hourMin = iWeatherInfo[j].Hour;
-                //    }
-                //    if (iWeatherInfo[j].MaxTemperature > lMaxTemp)
-                //    {
-                //        lMaxTemp = iWeatherInfo[j].MaxTemperature;
-                //        hourMax = iWeatherInfo[j].Hour;
-                //    }
-                //}
+                if (lTime.Day.ToString().Equals(iWeatherInfo[j].Day.ToString()))
+                {
+                    if (iWeatherInfo[j].MinTemperature < lMinTemp)
+                    {
+                        lMinTemp = iWeatherInfo[j].MinTemperature;
+                        hourMin = iWeatherInfo[j].Hour;
+                    }
+                    if (iWeatherInfo[j].MaxTemperature > lMaxTemp)
+                    {
+                        lMaxTemp = iWeatherInfo[j].MaxTemperature;
+                        hourMax = iWeatherInfo[j].Hour;
+                    }
+                }
                 j++;
             }
 
@@ -287,31 +287,31 @@ namespace BuddyApp.Weather
                 lTime = lTime.AddDays(1);
                 for (int i = 0; i < 8; i++)
                 {
-                    //if (lTime.Day.ToString().Equals(iWeatherInfo[index].Day.ToString()))
-                    //{
-                    //    if (iWeatherInfo[index].MinTemperature < lMinTemp)
-                    //    {
-                    //        lMinTemp = iWeatherInfo[index].MinTemperature;
-                    //        hourMin = iWeatherInfo[index].Hour;
-                    //    }
-                    //    if (iWeatherInfo[index].MaxTemperature > lMaxTemp)
-                    //    {
-                    //        lMaxTemp = iWeatherInfo[index].MaxTemperature;
-                    //        hourMax = iWeatherInfo[index].Hour;
-                    //    }
-                    //}
+                    if (lTime.Day.ToString().Equals(iWeatherInfo[index].Day.ToString()))
+                    {
+                        if (iWeatherInfo[index].MinTemperature < lMinTemp)
+                        {
+                            lMinTemp = iWeatherInfo[index].MinTemperature;
+                            hourMin = iWeatherInfo[index].Hour;
+                        }
+                        if (iWeatherInfo[index].MaxTemperature > lMaxTemp)
+                        {
+                            lMaxTemp = iWeatherInfo[index].MaxTemperature;
+                            hourMax = iWeatherInfo[index].Hour;
+                        }
+                    }
                     index++;
                 }
             }
 
             WeatherInfo lWeatherInfoMin = new WeatherInfo()
             {
-                //MinTemperature = (int)Math.Ceiling(lMinTemp),
+                MinTemperature = (int)Math.Ceiling(lMinTemp),
                 Hour = hourMin
             };
             WeatherInfo lWeatherInfoMax = new WeatherInfo()
             {
-                //MaxTemperature = (int)Math.Ceiling(lMaxTemp),
+                MaxTemperature = (int)Math.Ceiling(lMaxTemp),
                 Hour = hourMax
             };
 
@@ -347,27 +347,27 @@ namespace BuddyApp.Weather
 
             for (int i = 0; i < 8; i++)
             {
-                //if (iWeatherInfo[j].MinTemperature < lMinTemp)
-                //{
-                //    lMinTemp = iWeatherInfo[j].MinTemperature;
-                //    hourMin = iWeatherInfo[j].Hour;
-                //}
-                //if (iWeatherInfo[j].MaxTemperature > lMaxTemp)
-                //{
-                //    lMaxTemp = iWeatherInfo[j].MaxTemperature;
-                //    hourMax = iWeatherInfo[j].Hour;
-                //}
+                if (iWeatherInfo[j].MinTemperature < lMinTemp)
+                {
+                    lMinTemp = iWeatherInfo[j].MinTemperature;
+                    hourMin = iWeatherInfo[j].Hour;
+                }
+                if (iWeatherInfo[j].MaxTemperature > lMaxTemp)
+                {
+                    lMaxTemp = iWeatherInfo[j].MaxTemperature;
+                    hourMax = iWeatherInfo[j].Hour;
+                }
                 j++;
             }
 
             WeatherInfo lWeatherInfoMin = new WeatherInfo()
             {
-                //MinTemperature = (int)Math.Ceiling(lMinTemp),
+                MinTemperature = (int)Math.Ceiling(lMinTemp),
                 Hour = hourMin
             };
             WeatherInfo lWeatherInfoMax = new WeatherInfo()
             {
-                //MaxTemperature = (int)Math.Ceiling(lMaxTemp),
+                MaxTemperature = (int)Math.Ceiling(lMaxTemp),
                 Hour = hourMax
             };
 
@@ -389,12 +389,12 @@ namespace BuddyApp.Weather
 
             if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.MIN)
             {
-                //lAnswer = lAnswer.Replace("[temperature]", RecoverMinMaxTemperature(iWeatherInfo, true).MinTemperature.ToString());
+                lAnswer = lAnswer.Replace("[temperature]", RecoverMinMaxTemperature(iWeatherInfo, true).MinTemperature.ToString());
                 lAnswer = lAnswer.Replace("[command]", Buddy.Resources.GetString("min"));
             }
             else if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.MAX)
             {
-                //lAnswer = lAnswer.Replace("[temperature]", RecoverMinMaxTemperature(iWeatherInfo, false).MaxTemperature.ToString());
+                lAnswer = lAnswer.Replace("[temperature]", RecoverMinMaxTemperature(iWeatherInfo, false).MaxTemperature.ToString());
                 lAnswer = lAnswer.Replace("[command]", Buddy.Resources.GetString("max"));
             }
             Buddy.Vocal.Say(lAnswer);
@@ -532,120 +532,120 @@ namespace BuddyApp.Weather
         /// <param name="iDisplayDayOfWeek">if true, display days; if false, opposite</param>
         public void SetPanel(WeatherPanel iTrip, WeatherInfo iWeatherInfo, bool iDisplayDayOfWeek)
         {
-            //string[] date = iWeatherInfo.Date.Split('-');
-            //DateTime dt = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[1]), Int32.Parse(date[2]));
+            string[] date = iWeatherInfo.Date.Split('-');
+            DateTime dt = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[1]), Int32.Parse(date[2]));
 
-            //if (iWeatherInfo.MinTemperature <= 0)
-            //    iTrip.SetFrost();
-            //iTrip.SetText(iWeatherInfo.MinTemperature.ToString() + "°C");
-            //if (iWeatherInfo.Hour >= 8 && iWeatherInfo.Hour < 12)
-            //{
-            //    iTrip.Morning();
-            //    iTrip.SetMoment(Buddy.Resources.GetRandomString("morning").ToUpper());
-            //}
-            //else if (iWeatherInfo.Hour >= 12 && iWeatherInfo.Hour < 16)
-            //{
-            //    iTrip.Noon();
-            //    if (iDisplayDayOfWeek)
-            //        iTrip.SetMoment(Buddy.Resources.GetRandomString(dt.DayOfWeek.ToString().ToLower()).ToUpper());
-            //    else
-            //        iTrip.SetMoment(Buddy.Resources.GetRandomString("noon").ToUpper());
-            //}
-            //else if (iWeatherInfo.Hour >= 16 && iWeatherInfo.Hour < 20)
-            //{
-            //    iTrip.After_Noon();
-            //    iTrip.SetMoment(Buddy.Resources.GetRandomString("afternoon").ToUpper());
-            //}
-            //else
-            //{
-            //    iTrip.Evening();
-            //    iTrip.ChangeMomentColor(Color.white);
-            //    iTrip.ChangeTextColor(Color.white);
-            //    iTrip.SetMoment(Buddy.Resources.GetRandomString("evening").ToUpper());
-            //}
-            //if (iWeatherInfo.Hour >= 8 && iWeatherInfo.Hour <= 18)
-            //    iTrip.SetSun();
-            //else
-            //    iTrip.SetMoon();
+            if (iWeatherInfo.MinTemperature <= 0)
+                iTrip.SetFrost();
+            iTrip.SetText(iWeatherInfo.MinTemperature.ToString() + "°C");
+            if (iWeatherInfo.Hour >= 8 && iWeatherInfo.Hour < 12)
+            {
+                iTrip.Morning();
+                iTrip.SetMoment(Buddy.Resources.GetRandomString("morning").ToUpper());
+            }
+            else if (iWeatherInfo.Hour >= 12 && iWeatherInfo.Hour < 16)
+            {
+                iTrip.Noon();
+                if (iDisplayDayOfWeek)
+                    iTrip.SetMoment(Buddy.Resources.GetRandomString(dt.DayOfWeek.ToString().ToLower()).ToUpper());
+                else
+                    iTrip.SetMoment(Buddy.Resources.GetRandomString("noon").ToUpper());
+            }
+            else if (iWeatherInfo.Hour >= 16 && iWeatherInfo.Hour < 20)
+            {
+                iTrip.After_Noon();
+                iTrip.SetMoment(Buddy.Resources.GetRandomString("afternoon").ToUpper());
+            }
+            else
+            {
+                iTrip.Evening();
+                iTrip.ChangeMomentColor(Color.white);
+                iTrip.ChangeTextColor(Color.white);
+                iTrip.SetMoment(Buddy.Resources.GetRandomString("evening").ToUpper());
+            }
+            if (iWeatherInfo.Hour >= 8 && iWeatherInfo.Hour <= 18)
+                iTrip.SetSun();
+            else
+                iTrip.SetMoon();
 
-            //switch (iWeatherInfo.Type)
-            //{
-            //    case WeatherType.CHANCE_FLURRIES:
-            //        iTrip.SetSnow();
-            //        iTrip.SetCloud3();
-            //        break;
-            //    case WeatherType.CHANCE_OF_RAIN:
-            //        iTrip.SetRain();
-            //        iTrip.SetCloud3();
-            //        break;
-            //    case WeatherType.CHANCE_SLEET:
-            //        iTrip.SetRain();
-            //        iTrip.SetCloud3();
-            //        break;
-            //    case WeatherType.CHANCE_SNOW:
-            //        iTrip.SetSnow();
-            //        iTrip.SetCloud3();
-            //        break;
-            //    case WeatherType.CHANCE_STORMS:
-            //        iTrip.SetCloud3();
-            //        break;
-            //    case WeatherType.CLEAR:
-            //        if (iWeatherInfo.Hour > 6 && iWeatherInfo.Hour < 19)
-            //            iTrip.SetHalo();
-            //        break;
-            //    case WeatherType.CLOUDY:
-            //        iTrip.SetCloud3();
-            //        break;
-            //    case WeatherType.FLURRIES:
-            //        iTrip.SetSnow();
-            //        iTrip.SetCloud6();
-            //        break;
-            //    case WeatherType.FOG:
-            //        iTrip.SetCloud3();
-            //        break;
-            //    case WeatherType.HAZY:
-            //        iTrip.SetCloud3();
-            //        break;
-            //    case WeatherType.MOSTLY_CLOUDY:
-            //        iTrip.SetCloud3();
-            //        break;
-            //    case WeatherType.MOSTLY_SUNNY:
-            //        if (iWeatherInfo.Hour > 6 && iWeatherInfo.Hour < 19)
-            //            iTrip.SetHalo();
-            //        break;
-            //    case WeatherType.OVERCAST:
-            //        iTrip.SetCloud6();
-            //        break;
-            //    case WeatherType.PARTLY_CLOUDY:
-            //        iTrip.SetCloud1();
-            //        break;
-            //    case WeatherType.PARTLY_SUNNY:
-            //        if (iWeatherInfo.Hour > 6 && iWeatherInfo.Hour < 19)
-            //            iTrip.SetHalo();
-            //        break;
-            //    case WeatherType.RAIN:
-            //        iTrip.SetCloud6();
-            //        iTrip.SetRain();
-            //        break;
-            //    case WeatherType.SLEET:
-            //        break;
-            //    case WeatherType.SNOW:
-            //        iTrip.SetCloud6();
-            //        iTrip.SetSnow();
-            //        break;
-            //    case WeatherType.SUNNY:
-            //        if (iWeatherInfo.Hour > 6 && iWeatherInfo.Hour < 19)
-            //            iTrip.SetHalo();
-            //        break;
-            //    case WeatherType.THUNDERSTORMS:
-            //        iTrip.SetCloud6();
-            //        iTrip.SetRain();
-            //        break;
-            //    default:
-            //        break;
-            //}
+            switch (iWeatherInfo.Type)
+            {
+                case WeatherType.CHANCE_FLURRIES:
+                    iTrip.SetSnow();
+                    iTrip.SetCloud3();
+                    break;
+                case WeatherType.CHANCE_OF_RAIN:
+                    iTrip.SetRain();
+                    iTrip.SetCloud3();
+                    break;
+                case WeatherType.CHANCE_SLEET:
+                    iTrip.SetRain();
+                    iTrip.SetCloud3();
+                    break;
+                case WeatherType.CHANCE_SNOW:
+                    iTrip.SetSnow();
+                    iTrip.SetCloud3();
+                    break;
+                case WeatherType.CHANCE_STORMS:
+                    iTrip.SetCloud3();
+                    break;
+                case WeatherType.CLEAR:
+                    if (iWeatherInfo.Hour > 6 && iWeatherInfo.Hour < 19)
+                        iTrip.SetHalo();
+                    break;
+                case WeatherType.CLOUDY:
+                    iTrip.SetCloud3();
+                    break;
+                case WeatherType.FLURRIES:
+                    iTrip.SetSnow();
+                    iTrip.SetCloud6();
+                    break;
+                case WeatherType.FOG:
+                    iTrip.SetCloud3();
+                    break;
+                case WeatherType.HAZY:
+                    iTrip.SetCloud3();
+                    break;
+                case WeatherType.MOSTLY_CLOUDY:
+                    iTrip.SetCloud3();
+                    break;
+                case WeatherType.MOSTLY_SUNNY:
+                    if (iWeatherInfo.Hour > 6 && iWeatherInfo.Hour < 19)
+                        iTrip.SetHalo();
+                    break;
+                case WeatherType.OVERCAST:
+                    iTrip.SetCloud6();
+                    break;
+                case WeatherType.PARTLY_CLOUDY:
+                    iTrip.SetCloud1();
+                    break;
+                case WeatherType.PARTLY_SUNNY:
+                    if (iWeatherInfo.Hour > 6 && iWeatherInfo.Hour < 19)
+                        iTrip.SetHalo();
+                    break;
+                case WeatherType.RAIN:
+                    iTrip.SetCloud6();
+                    iTrip.SetRain();
+                    break;
+                case WeatherType.SLEET:
+                    break;
+                case WeatherType.SNOW:
+                    iTrip.SetCloud6();
+                    iTrip.SetSnow();
+                    break;
+                case WeatherType.SUNNY:
+                    if (iWeatherInfo.Hour > 6 && iWeatherInfo.Hour < 19)
+                        iTrip.SetHalo();
+                    break;
+                case WeatherType.THUNDERSTORMS:
+                    iTrip.SetCloud6();
+                    iTrip.SetRain();
+                    break;
+                default:
+                    break;
+            }
 
-            //iTrip.Open();
+            iTrip.Open();
         }
 
         #endregion

@@ -122,16 +122,6 @@ namespace BuddyApp.TakePhoto
             Buddy.Vocal.SayKey("takephoto", true);
             Buddy.Sensors.HDCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
             mMatSrc = Buddy.Sensors.HDCamera.Frame;
-            //Buddy.Sensors.RGBCamera.Frame.copyTo(mMatSrc);
-            //Debug.Log("8");
-            //if (Buddy.Sensors.RGBCamera.Frame.empty())
-            //    Debug.Log("FRAME EMPTY");
-            //if (mMatSrc.empty())
-            //    Debug.Log("MAT SRC EMPTY");
-   //         Core.flip(mMatSrc, mMat, 1);
-   //         //if (mMat.empty())
-   //         //    Debug.Log("takephoto on state enter : MAT NULL ");
-			//mVideo.texture = Utils.MatToTexture2D(mMat);
 			Debug.Log("TakePhoto 3");
 		}
 
@@ -159,7 +149,6 @@ namespace BuddyApp.TakePhoto
 
                 if (!Buddy.Vocal.IsSpeaking)
                 {
-                    //if (!mNeedExit) {
                     mTimer += Time.deltaTime;
 
                     if (mTimer > 0.5F)
@@ -186,16 +175,6 @@ namespace BuddyApp.TakePhoto
                                 Debug.Log("RGBCAM with null!!!!!!!!!!!!!!!!!!!!");
                             }
                         }
-
-
-                    // Rejected option because of camera feed back too much hidden
-                    //if (!ToastRender) {
-
-                    //	// DisplayTimer
-                    //	Toaster.Display<CountdownToast>().With(3, OnFinish, false);
-                    //	ToastRender = true;
-
-                    //}
                 }
             }
 			

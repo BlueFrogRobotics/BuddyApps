@@ -40,7 +40,6 @@ namespace BuddyApp.Weather
                 mWeatherB.mName = "Paris";
                 mWeatherB.mLocation = "zmw:00000.45.07156";
             }
-            
             Buddy.WebServices.Weather.At(mWeatherB.mLocation, WeatherProcessing, mNumberWeatherInfos);
         }
 
@@ -83,21 +82,21 @@ namespace BuddyApp.Weather
                         Buddy.Vocal.SayKey("geolocdisable");
                         mTimeout = 0;
                         break;
-                    //case WeatherError.MANY_LOCATIONS:
-                    //    CityData lNewCity = new CityData();
-                    //    string[] lCitiesfile = Directory.GetFiles(Buddy.Resources.GetRawFullPath("Cities"));
+                    case WeatherError.MANY_LOCATIONS:
+                        CityData lNewCity = new CityData();
+                        string[] lCitiesfile = Directory.GetFiles(Buddy.Resources.GetRawFullPath("Cities"));
 
-                    //    lNewCity.Name = mWeatherB.mName;
-                    //    lNewCity.Key = iWeather[0].Location.APICode;
-                    //    mWeatherB.mLocation = lNewCity.Key;
+                        lNewCity.Name = mWeatherB.mName;
+                        lNewCity.Key = iWeather[0].Location.APICode;
+                        mWeatherB.mLocation = lNewCity.Key;
 
-                    //    mWeatherB.mCities.Cities.Add(lNewCity);
+                        mWeatherB.mCities.Cities.Add(lNewCity);
 
-                    //    Utils.SerializeXML<CitiesData>(mWeatherB.mCities, lCitiesfile[0]);
+                        Utils.SerializeXML<CitiesData>(mWeatherB.mCities, lCitiesfile[0]);
 
-                    //    Trigger("Reset");
-                    //    mTimeout = 0;
-                    //    break;
+                        Trigger("Reset");
+                        mTimeout = 0;
+                        break;
                     case WeatherError.REQUEST_FAILED:
                         mTimeout++;
                         Trigger("Reset");
@@ -134,16 +133,16 @@ namespace BuddyApp.Weather
                 {
                     for (int i = 0; i < iWeather.Length; ++i)
                     {
-                        //if (((iWeather[i].Type == WeatherType.CHANCE_OF_RAIN && iWeatherType == WeatherType.RAIN) || (iWeather[i].Type == WeatherType.RAIN && iWeatherType == WeatherType.CHANCE_OF_RAIN)) ||
-                        //    ((iWeather[i].Type == WeatherType.CHANCE_FLURRIES && iWeatherType == WeatherType.FLURRIES) || (iWeather[i].Type == WeatherType.FLURRIES && iWeatherType == WeatherType.CHANCE_FLURRIES)) ||
-                        //    ((iWeather[i].Type == WeatherType.CHANCE_SNOW && iWeatherType == WeatherType.SNOW) || (iWeather[i].Type == WeatherType.SNOW && iWeatherType == WeatherType.CHANCE_SNOW)) ||
-                        //    ((iWeather[i].Type == WeatherType.CHANCE_SLEET && iWeatherType == WeatherType.SLEET) || (iWeather[i].Type == WeatherType.SLEET && iWeatherType == WeatherType.CHANCE_SLEET)) ||
-                        //    iWeather[i].Type == iWeatherType)
-                        //{
-                        //    mWeatherB.mIndice = i;
-                        //    lFound = true;
-                        //    break;
-                        //}
+                        if (((iWeather[i].Type == WeatherType.CHANCE_OF_RAIN && iWeatherType == WeatherType.RAIN) || (iWeather[i].Type == WeatherType.RAIN && iWeatherType == WeatherType.CHANCE_OF_RAIN)) ||
+                            ((iWeather[i].Type == WeatherType.CHANCE_FLURRIES && iWeatherType == WeatherType.FLURRIES) || (iWeather[i].Type == WeatherType.FLURRIES && iWeatherType == WeatherType.CHANCE_FLURRIES)) ||
+                            ((iWeather[i].Type == WeatherType.CHANCE_SNOW && iWeatherType == WeatherType.SNOW) || (iWeather[i].Type == WeatherType.SNOW && iWeatherType == WeatherType.CHANCE_SNOW)) ||
+                            ((iWeather[i].Type == WeatherType.CHANCE_SLEET && iWeatherType == WeatherType.SLEET) || (iWeather[i].Type == WeatherType.SLEET && iWeatherType == WeatherType.CHANCE_SLEET)) ||
+                            iWeather[i].Type == iWeatherType)
+                        {
+                            mWeatherB.mIndice = i;
+                            lFound = true;
+                            break;
+                        }
 
                     }
                     if (!lFound)
@@ -171,13 +170,13 @@ namespace BuddyApp.Weather
 
                     for (int i = 0; i < iWeather.Length; ++i)
                     {
-                        //if (iWeather[i].Day == lDay && ((iWeather[i].Type == WeatherType.CHANCE_OF_RAIN && iWeatherType == WeatherType.RAIN) || (iWeather[i].Type == WeatherType.RAIN && iWeatherType == WeatherType.CHANCE_OF_RAIN)
-                        //    || iWeather[i].Type == iWeatherType))
-                        //{
-                        //    mWeatherB.mIndice = i;
-                        //    lFound = true;
-                        //    break;
-                        //}
+                        if (iWeather[i].Day == lDay && ((iWeather[i].Type == WeatherType.CHANCE_OF_RAIN && iWeatherType == WeatherType.RAIN) || (iWeather[i].Type == WeatherType.RAIN && iWeatherType == WeatherType.CHANCE_OF_RAIN)
+                            || iWeather[i].Type == iWeatherType))
+                        {
+                            mWeatherB.mIndice = i;
+                            lFound = true;
+                            break;
+                        }
                     }
                     if (!lFound)
                     {
