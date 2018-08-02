@@ -40,7 +40,7 @@ namespace BuddyApp.Weather
                 mWeatherB.mName = "Paris";
                 mWeatherB.mLocation = "zmw:00000.45.07156";
             }
-            Buddy.WebServices.Weather.At(mWeatherB.mLocation, WeatherProcessing, mNumberWeatherInfos);
+            Buddy.WebServices.Weather.HourlyAt(mWeatherB.mLocation, WeatherProcessing, mNumberWeatherInfos);
         }
 
         //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -68,7 +68,7 @@ namespace BuddyApp.Weather
             Debug.Log("WeatherProcessing");
             if (iError != WeatherError.NONE)
             {
-                switch (iError)
+                switch (iError) 
                 {
                     case WeatherError.UNKNOWN_LOCATION:
                         Buddy.Vocal.SayKey("locationissue");

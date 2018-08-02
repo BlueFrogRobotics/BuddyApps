@@ -443,7 +443,7 @@ GameObject:
   - component: {fileID: 114876602201229938}
   - component: {fileID: 95626158775474510}
   - component: {fileID: 225338536752694072}
-  - component: {fileID: 114659402594833544}
+  - component: {fileID: 114859418143704696}
   m_Layer: 0
   m_Name: Bloc_WeatherSmall
   m_TagString: Untagged
@@ -1283,42 +1283,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114659402594833544
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1756950766917804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1101421616, guid: 511a732c5c83f9e48a3001abd27e4cb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gm: {fileID: 1756950766917804}
-  text: {fileID: 114137141462293356}
-  Moment: {fileID: 114051661191406610}
-  cs: {fileID: 1712430405442146}
-  css: {fileID: 1993526985805190}
-  cm: {fileID: 1964554048692908}
-  cmm: {fileID: 1008805379613816}
-  cb: {fileID: 1757968708819920}
-  cbb: {fileID: 1347678226567660}
-  gs: {fileID: 1674546672825486}
-  gss: {fileID: 1445500698727268}
-  gcm: {fileID: 1834808697597884}
-  gcmm: {fileID: 1440546143709130}
-  gb: {fileID: 1675380911890620}
-  gbb: {fileID: 1266585888681838}
-  gsky: {fileID: 1386403858957220}
-  rain: {fileID: 1953144754500862}
-  snow: {fileID: 1147834401734752}
-  frost: {fileID: 1538665749947688}
-  halo: {fileID: 1292148288691466}
-  lsun: {fileID: 1098580376348114}
-  bsun: {fileID: 1996285144441744}
-  lmoon: {fileID: 1328244785499388}
-  bmoon: {fileID: 1997209390451682}
-  image: {fileID: 114447945973061118}
 --- !u!114 &114693448091837054
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1468,6 +1432,42 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114859418143704696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1756950766917804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1101421616, guid: d9cc928508cacda4bb2c826fccda53c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gm: {fileID: 1756950766917804}
+  text: {fileID: 114137141462293356}
+  Moment: {fileID: 114051661191406610}
+  cs: {fileID: 1712430405442146}
+  css: {fileID: 1993526985805190}
+  cm: {fileID: 1964554048692908}
+  cmm: {fileID: 1008805379613816}
+  cb: {fileID: 1757968708819920}
+  cbb: {fileID: 1347678226567660}
+  gs: {fileID: 1674546672825486}
+  gss: {fileID: 1445500698727268}
+  gcm: {fileID: 1834808697597884}
+  gcmm: {fileID: 1440546143709130}
+  gb: {fileID: 1675380911890620}
+  gbb: {fileID: 1266585888681838}
+  gsky: {fileID: 1386403858957220}
+  rain: {fileID: 1953144754500862}
+  snow: {fileID: 1147834401734752}
+  frost: {fileID: 1538665749947688}
+  halo: {fileID: 1292148288691466}
+  lsun: {fileID: 1098580376348114}
+  bsun: {fileID: 1996285144441744}
+  lmoon: {fileID: 1328244785499388}
+  bmoon: {fileID: 1997209390451682}
+  image: {fileID: 114447945973061118}
 --- !u!114 &114876602201229938
 MonoBehaviour:
   m_ObjectHideFlags: 1

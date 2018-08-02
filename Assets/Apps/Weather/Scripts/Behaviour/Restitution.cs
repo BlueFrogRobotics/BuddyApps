@@ -249,7 +249,6 @@ namespace BuddyApp.Weather
                         j++;
                 }
             }
-
             DateTime lTime = DateTime.Today;
 
             if (mWeatherB.mDate >= 1)
@@ -259,7 +258,6 @@ namespace BuddyApp.Weather
                 {
                     lTime = lTime.AddDays(1);
                 };
-
             int index = j;
 
             for (int i = 0; i < 8; i++)
@@ -279,7 +277,6 @@ namespace BuddyApp.Weather
                 }
                 j++;
             }
-
             // If the we don't have any information about today's weather, we set the weather of tomorrow 
 
             if (lMinTemp == 200F)
@@ -314,7 +311,6 @@ namespace BuddyApp.Weather
                 MaxTemperature = (int)Math.Ceiling(lMaxTemp),
                 Hour = hourMax
             };
-
             if (iIsMin)
                 return (lWeatherInfoMin);
             else
@@ -359,7 +355,6 @@ namespace BuddyApp.Weather
                 }
                 j++;
             }
-
             WeatherInfo lWeatherInfoMin = new WeatherInfo()
             {
                 MinTemperature = (int)Math.Ceiling(lMinTemp),
@@ -370,7 +365,6 @@ namespace BuddyApp.Weather
                 MaxTemperature = (int)Math.Ceiling(lMaxTemp),
                 Hour = hourMax
             };
-
             if (iIsMin)
                 return (lWeatherInfoMin);
             else
@@ -532,19 +526,26 @@ namespace BuddyApp.Weather
         /// <param name="iDisplayDayOfWeek">if true, display days; if false, opposite</param>
         public void SetPanel(WeatherPanel iTrip, WeatherInfo iWeatherInfo, bool iDisplayDayOfWeek)
         {
+            Debug.Log("SETPANEL 1");
             string[] date = iWeatherInfo.Date.Split('-');
             DateTime dt = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[1]), Int32.Parse(date[2]));
-
+            Debug.Log("SETPANEL 2");
             if (iWeatherInfo.MinTemperature <= 0)
                 iTrip.SetFrost();
+            Debug.Log("SETPANEL 3");
             iTrip.SetText(iWeatherInfo.MinTemperature.ToString() + "°C");
+            Debug.Log("SETPANEL 3.1");
             if (iWeatherInfo.Hour >= 8 && iWeatherInfo.Hour < 12)
             {
+                Debug.Log("SETPANEL 4");
                 iTrip.Morning();
+                Debug.Log("SETPANEL 4.1");
                 iTrip.SetMoment(Buddy.Resources.GetRandomString("morning").ToUpper());
+                Debug.Log("SETPANEL 4.2");
             }
             else if (iWeatherInfo.Hour >= 12 && iWeatherInfo.Hour < 16)
             {
+                Debug.Log("SETPANEL 5");
                 iTrip.Noon();
                 if (iDisplayDayOfWeek)
                     iTrip.SetMoment(Buddy.Resources.GetRandomString(dt.DayOfWeek.ToString().ToLower()).ToUpper());
@@ -553,11 +554,13 @@ namespace BuddyApp.Weather
             }
             else if (iWeatherInfo.Hour >= 16 && iWeatherInfo.Hour < 20)
             {
+                Debug.Log("SETPANEL 6");
                 iTrip.After_Noon();
                 iTrip.SetMoment(Buddy.Resources.GetRandomString("afternoon").ToUpper());
             }
             else
             {
+                Debug.Log("SETPANEL 7");
                 iTrip.Evening();
                 iTrip.ChangeMomentColor(Color.white);
                 iTrip.ChangeTextColor(Color.white);
@@ -567,7 +570,8 @@ namespace BuddyApp.Weather
                 iTrip.SetSun();
             else
                 iTrip.SetMoon();
-
+             
+            Debug.Log("SETPANEL 8");
             switch (iWeatherInfo.Type)
             {
                 case WeatherType.CHANCE_FLURRIES:
@@ -644,7 +648,7 @@ namespace BuddyApp.Weather
                 default:
                     break;
             }
-
+            Debug.Log("SETPANEL 9");
             iTrip.Open();
         }
 
