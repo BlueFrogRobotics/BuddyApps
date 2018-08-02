@@ -78,10 +78,11 @@
 !start <cancel>;
 !start <accraactivity>;
 !start <accraalarm>;
+!start <quit>;
 !import <numbers#nb>;
 !import <names#anyname>;
 
-<asklaunch> : [<canyou>] (open | launch) [[the] application];
+<asklaunch> : [<canyou>] (open | launch | play) [[the] application];
 <askgive> : [<canyou>] give (me | us) ;
 <asktell> : [<canyou>] (tell | find | give) (me | us) | I want to hear;
 <canyou> : (can | could) you;
@@ -176,3 +177,4 @@
 <cancel> : (cancel | delete) [all] the timer;
 <accraactivity> : [<canyou> | (I | we) (want to | would like [you] to) | can I] (launch | start | do | make) (an exercice | an activity | a session);
 <accraalarm> : Call for help | Alert (an helper | someone) | I'm not really well | I have a problem;
+<quit> : quit | cancel | stop | exit | that's all | back | end | leave;

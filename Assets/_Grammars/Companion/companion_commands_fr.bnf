@@ -78,6 +78,7 @@
 !start <cancel>;
 !start <accraactivity>;
 !start <accraalarm>;
+!start <quit>;
 !import <numbers#nb>;
 !import <names#anyname>;
 
@@ -177,3 +178,4 @@
 <cancel> : (supprime | enlève) [tous] les (minuteur | décompte | compte à rebours | timer);
 <accraactivity> : (([<canyou> | je (veux | voudrais | peux) | puis-je | on (veut | voudrait)] (lancer | faire | démarrer)) | (lance | fait | démarre)) (un exercice | une activité | une séance);
 <accraalarm> : (Préviens | Appelle | Alerte) ((de | à) l'aide | du secours | un aidant | quelqu'un) | Je [ne] vais [vraiment] pas bien | Je vais [vraiment] [très] mal | J'ai un problème | Je suis tombé;
+<quit> : quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | ce sera tout;
