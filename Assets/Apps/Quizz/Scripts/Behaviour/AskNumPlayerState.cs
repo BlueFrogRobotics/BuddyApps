@@ -5,6 +5,9 @@ using Buddy;
 
 namespace BuddyApp.Quizz
 {
+    /// <summary>
+    /// State in which the number of player will be asked
+    /// </summary>
     public class AskNumPlayerState : AStateMachineBehaviour
     {
 

@@ -8,19 +8,28 @@ namespace BuddyApp.MemoryGame
     /* This class contains useful callback during your app process */
     public class MemoryGameActivity : AAppActivity
     {
-		public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
-		{ 
-			Utils.LogI(LogContext.APP, "On loading...");
-		}
+        public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
+        {
+            Utils.LogI(LogContext.APP, "On loading...");
+            //BYOS.Instance.Header.OnHideParameters(OnHideParameters);
+
+        }
 
         public override void OnStart()
-		{
-			Utils.LogI(LogContext.APP, "On start...");
-		}
+        {
+            Utils.LogI(LogContext.APP, "On start...");
+        }
 
         public override void OnQuit()
-		{
-			Utils.LogI(LogContext.APP, "On quit...");	
-		}
+        {
+            Utils.LogI(LogContext.APP, "On quit...");
+            //BYOS.Instance.Header.RemoveOnHideParameters(OnHideParameters);
+        }
+
+        //private void OnHideParameters()
+        //{
+        //    Debug.Log("on hide parameter");
+        //    BYOS.Instance.Toaster.Hide();
+        //}
     }
 }

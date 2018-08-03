@@ -104,6 +104,7 @@ namespace BuddyApp.Quizz
                 }
                 else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#first")
                     lAnswerId = 0;
+
                 else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#second")
                     lAnswerId = 1;
                 else if (iBestResult.StartRule == "commands_" + mQuizzBehaviour.Lang + "#third")

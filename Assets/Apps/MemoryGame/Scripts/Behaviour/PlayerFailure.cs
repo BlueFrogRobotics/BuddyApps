@@ -21,7 +21,7 @@ namespace BuddyApp.MemoryGame
 			mRestartSaid = false;
 			mGameLevels = ((MemoryGameRandomLevel)CommonObjects["gameLevels"]);
 
-			//Debug.Log("Player Failure !");
+			Debug.Log("Player Failure !");
 
 
 			Interaction.Mood.Set(MoodType.SAD);

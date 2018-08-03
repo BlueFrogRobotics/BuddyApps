@@ -27,8 +27,8 @@ namespace BuddyApp.Quizz
             Debug.Log("debut engagement");
             Interaction.VocalManager.UseVocon = true;
             Interaction.VocalManager.ClearGrammars();
-            Interaction.VocalManager.AddGrammar("commands", Buddy.LoadContext.APP);
-            Interaction.VocalManager.AddGrammar("funny_names", Buddy.LoadContext.APP);
+            Interaction.VocalManager.AddGrammar("commands", Buddy.LoadContext.APP);//grammar containing the general commands
+            Interaction.VocalManager.AddGrammar("funny_names", Buddy.LoadContext.APP);//grammar containing all the possible nicknames
             Interaction.VocalManager.OnVoconBest = VoconBest;
             Interaction.VocalManager.OnVoconEvent = EventVocon;
             mHasSaidName = false;
@@ -56,6 +56,11 @@ namespace BuddyApp.Quizz
             mQuizzBehaviour.OnLanguageChange = null;
         }
 
+        /// <summary>
+        /// Asks each player to repeat their nickname.
+        /// Reacts depending on if they repeated it well
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator Engagement()
         {
             
