@@ -44,7 +44,7 @@ namespace BuddyApp.Weather
         {
             Debug.Log(iBestResult.Utterance);
             WeatherData.Instance.VocalRequest = iBestResult.Utterance;
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 
             mListening = false;
         }

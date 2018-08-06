@@ -44,13 +44,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Hummm
+  - m_Name: Suspicious
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: LookClosely
+  - m_Name: Doubtful
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -68,7 +68,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Surprise
+  - m_Name: Surprised
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -80,19 +80,25 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: WTF
+  - m_Name: What
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Grrrr
+  - m_Name: Growling
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Tongue
+  - m_Name: Tease
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: Relative_Event
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -188,7 +194,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Buddy_Surprise
+  - m_Name: Buddy_Surprised
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -397,7 +403,7 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Surprise
+    m_Name: Surprised
     m_StateMachine: {fileID: 110748532}
     m_Mask: {fileID: 0}
     m_Motions:
@@ -657,8 +663,8 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: Expressions
+  - m_ConditionMode: 2
+    m_ConditionEvent: RelativeScream
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -1003,7 +1009,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Happy
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110279630}
@@ -1186,7 +1192,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -1255,7 +1261,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110292978}
@@ -1587,9 +1593,6 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: RelativeScream
-    m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Buddy_Listening
     m_EventTreshold: 0
@@ -1604,6 +1607,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Buddy_Neutral
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: RelativeScream
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110296072}
@@ -2266,7 +2272,7 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Surprise
+  m_Name: Surprised
   m_ChildStates: []
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
@@ -2973,7 +2979,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Grumpy
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: LookClosely
+    m_ConditionEvent: Doubtful
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102680174250822718}
@@ -3000,7 +3006,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: Surprise
+    m_ConditionEvent: Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102335069504584114}
@@ -3024,7 +3030,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -3099,7 +3105,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Scared
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: LookClosely
+    m_ConditionEvent: Doubtful
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102680174250822718}
@@ -3123,7 +3129,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -3198,7 +3204,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: WTF
+    m_ConditionEvent: What
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
@@ -3216,7 +3222,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102940528816263420}
@@ -3252,7 +3258,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -3276,10 +3282,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: LookClosely
+    m_ConditionEvent: Doubtful
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102680174250822718}
@@ -3405,7 +3411,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Scared
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: Surprise
+    m_ConditionEvent: Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102335069504584114}
@@ -3489,7 +3495,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -3537,7 +3543,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Grrrr
+    m_ConditionEvent: Growling
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
@@ -3600,13 +3606,13 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: Tongue
+    m_ConditionEvent: Tease
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102506267629990618}
@@ -3654,7 +3660,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Surprise
+    m_ConditionEvent: Surprised
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
@@ -3714,7 +3720,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -3792,7 +3798,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Grumpy
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: Tongue
+    m_ConditionEvent: Tease
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102506267629990618}
@@ -3816,7 +3822,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Hummm
+    m_ConditionEvent: Suspicious
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
@@ -3831,7 +3837,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Scared
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Buddy_Sick
@@ -3858,7 +3864,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -3894,7 +3900,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -3945,7 +3951,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: Tongue
+    m_ConditionEvent: Tease
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102506267629990618}
@@ -4020,7 +4026,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Happy
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: LookClosely
+    m_ConditionEvent: Doubtful
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102680174250822718}
@@ -4053,7 +4059,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Buddy_Happy
@@ -4080,7 +4086,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: WTF
+    m_ConditionEvent: What
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
@@ -4200,10 +4206,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: Surprise
+    m_ConditionEvent: Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102335069504584114}
@@ -4251,7 +4257,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Tongue
+    m_ConditionEvent: Tease
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
@@ -4362,7 +4368,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -4389,7 +4395,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Happy
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: Surprise
+    m_ConditionEvent: Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102335069504584114}
@@ -4464,7 +4470,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: LookClosely
+    m_ConditionEvent: Doubtful
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
@@ -4482,7 +4488,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102680174250822718}
@@ -4524,7 +4530,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102615105825608634}
@@ -4548,7 +4554,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Grrrr
+    m_ConditionEvent: Growling
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
@@ -4590,7 +4596,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: LookClosely
+    m_ConditionEvent: Doubtful
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
@@ -4611,7 +4617,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -4659,7 +4665,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Hummm
+    m_ConditionEvent: Suspicious
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
@@ -4713,7 +4719,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: LookClosely
+    m_ConditionEvent: Doubtful
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102680174250822718}
@@ -4788,7 +4794,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Thinking
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: Tongue
+    m_ConditionEvent: Tease
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102506267629990618}
@@ -4833,7 +4839,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -4857,7 +4863,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Surprise
+    m_ConditionEvent: Surprised
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
@@ -4875,7 +4881,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102335069504584114}
@@ -4995,7 +5001,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: LookClosely
+    m_ConditionEvent: Doubtful
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Speak
@@ -5103,7 +5109,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}
@@ -5127,7 +5133,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Yawn
@@ -5163,7 +5169,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Scared
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Buddy_Sick
@@ -5202,7 +5208,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Buddy_Sick
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Buddy_Surprise
+    m_ConditionEvent: Buddy_Surprised
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110291850}

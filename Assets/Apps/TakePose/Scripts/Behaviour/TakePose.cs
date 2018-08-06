@@ -95,13 +95,13 @@ namespace BuddyApp.TakePose
                     switch (UnityEngine.Random.Range(0, 1))
                     {
                         case 0:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.SCREAM);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_DOUBLE);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
                             break;
                         default:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.SCREAM);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                     }
                     break;
@@ -132,10 +132,10 @@ namespace BuddyApp.TakePose
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.SMILE);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_DOUBLE);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
                             break;
                         default:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.SCREAM);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                     }
                     break;
@@ -144,24 +144,24 @@ namespace BuddyApp.TakePose
                     Debug.Log("case 4 ");
 
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.SIGH);
-                    Buddy.Behaviour.Mood.Set(FacialExpression.SICK);
+                    Buddy.Behaviour.SetMood(Mood.SICK);
                     break;
 
                 case 5:
                     Debug.Log("case 5 ");
 
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.SIGH);
-                    Buddy.Behaviour.Mood.Set(FacialExpression.TIRED);
+                    Buddy.Behaviour.SetMood(Mood.TIRED);
                     switch (UnityEngine.Random.Range(0, 1))
                     {
                         case 0:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.SCREAM);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_DOUBLE);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
                             break;
                         default:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.SCREAM);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                     }
                     break;
@@ -170,17 +170,17 @@ namespace BuddyApp.TakePose
                     Debug.Log("case 6 ");
 
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.SIGH);
-                    Buddy.Behaviour.Mood.Set(FacialExpression.THINKING);
+                    Buddy.Behaviour.SetMood(Mood.THINKING);
                     switch (UnityEngine.Random.Range(0, 1))
                     {
                         case 0:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.SCREAM);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_DOUBLE);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
                             break;
                         default:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.SCREAM);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                     }
                     break;
@@ -189,17 +189,17 @@ namespace BuddyApp.TakePose
                     Debug.Log("case 7 ");
 
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.SIGH);
-                    Buddy.Behaviour.Mood.Set(FacialExpression.GRUMPY);
+                    Buddy.Behaviour.SetMood(Mood.GRUMPY);
                     switch (UnityEngine.Random.Range(0, 1))
                     {
                         case 0:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.SCREAM);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_DOUBLE);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
                             break;
                         default:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.SCREAM);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                     }
                     break;
@@ -209,17 +209,17 @@ namespace BuddyApp.TakePose
                     Debug.Log("case 8 ");
 
                     Buddy.Actuators.Speakers.Vocal.Play(SoundSample.BEEP_2);
-                    Buddy.Behaviour.Mood.Set(FacialExpression.LOVE);
+                    Buddy.Behaviour.SetMood(Mood.LOVE);
                     switch (UnityEngine.Random.Range(0, 1))
                     {
                         case 0:
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.SMILE);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_DOUBLE);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
                             break;
                         default:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.SCREAM);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                     }
                     break;
@@ -227,17 +227,17 @@ namespace BuddyApp.TakePose
                 default:
                     Debug.Log("case defaut ");
 
-                    Buddy.Behaviour.Mood.Set(FacialExpression.GRUMPY);
+                    Buddy.Behaviour.SetMood(Mood.GRUMPY);
                     switch (UnityEngine.Random.Range(0, 1))
                     {
                         case 0:
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.SMILE);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_DOUBLE);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
                             break;
                         default:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.SCREAM);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                     }
                     break;
@@ -257,7 +257,7 @@ namespace BuddyApp.TakePose
             if (mWaitForPicture != null)
                 StopCoroutine(mWaitForPicture);
 
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
         }
     }
 }

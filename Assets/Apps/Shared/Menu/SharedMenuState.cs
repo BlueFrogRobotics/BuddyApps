@@ -121,7 +121,7 @@ namespace BuddyApp.Shared
         {
             Debug.Log(iEvent);
             if (iEvent.IsError)
-                Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+                Buddy.Behaviour.SetMood(Mood.NEUTRAL);
         }
 
         private void VoconBest(SpeechInput iBestResult)
@@ -171,7 +171,7 @@ namespace BuddyApp.Shared
                         //Interaction.VocalManager.StartInstantReco();
                         Buddy.Vocal.Listen();
                         mTimeout++;
-                        Buddy.Behaviour.Mood.Set(FacialExpression.LISTENING);
+                        Buddy.Behaviour.SetMood(Mood.LISTENING);
                         mListening = true;
                         return;
                     }
@@ -204,7 +204,7 @@ namespace BuddyApp.Shared
 
             mListClear = false;
 
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             mIndexButton = 0;
             items.Clear();
             mSpeechReco = null;
@@ -287,7 +287,7 @@ namespace BuddyApp.Shared
         {
             mSpeechReco = iVoiceInput;
 
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             mListening = false;
         }
 

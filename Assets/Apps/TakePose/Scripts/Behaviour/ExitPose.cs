@@ -14,7 +14,7 @@ namespace BuddyApp.TakePose
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
         }
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

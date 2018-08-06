@@ -20,7 +20,7 @@ namespace BuddyApp.TakePose
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Buddy.Behaviour.Mood.Set(FacialExpression.HAPPY);
+            Buddy.Behaviour.SetMood(Mood.HAPPY);
             Buddy.Vocal.SayKey("sharetwitter");
 
             mHasDisplayNotif = false;
@@ -52,7 +52,7 @@ namespace BuddyApp.TakePose
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             
         }
     }

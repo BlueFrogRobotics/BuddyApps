@@ -65,11 +65,11 @@ namespace BuddyApp.Shared
         [Header("Mood of Buddy when you exit the state : ")]
         [Tooltip("You can chose what mood will have Buddy when you detect enough movement and  when you quit this state.")]
         [SerializeField]
-        private FacialExpression MoodTypeWhenDetected;
+        private Mood MoodTypeWhenDetected;
         [SerializeField]
         private SoundSample SoundWhenDetected;
         [SerializeField]
-        private FacialExpression MoodTypeWhenNotDetected;
+        private Mood MoodTypeWhenNotDetected;
         [SerializeField]
         private SoundSample SoundWhenNotDetected;
 
@@ -226,9 +226,9 @@ namespace BuddyApp.Shared
             if ((mDetectionCount > QuantityMovement || (mDetectionCountTest / 15F) > QuantityMovement) && !mExitTwo)
             {
                 mExitOne = true;
-                if (Buddy.Behaviour.Mood.CurrentMood != MoodTypeWhenDetected)
+                if (Buddy.Behaviour.Mood != MoodTypeWhenDetected)
                 {
-                    Buddy.Behaviour.Mood.Set(MoodTypeWhenDetected);
+                    Buddy.Behaviour.SetMood(MoodTypeWhenDetected);
                 }
                 if (LookForUser)
                 {
@@ -259,9 +259,9 @@ namespace BuddyApp.Shared
             {
                 mExitTwo = true;
 
-                if (Buddy.Behaviour.Mood.CurrentMood != MoodTypeWhenNotDetected)
+                if (Buddy.Behaviour.Mood != MoodTypeWhenNotDetected)
                 {
-                    Buddy.Behaviour.Mood.Set(MoodTypeWhenNotDetected);
+                    Buddy.Behaviour.SetMood(MoodTypeWhenNotDetected);
                 }
                 if (SoundWhenNotDetected != SoundSample.NONE && !mSoundPlayedWhenDetected)
                 {

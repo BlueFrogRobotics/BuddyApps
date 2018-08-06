@@ -69,7 +69,7 @@ namespace BuddyApp.Shared
         private bool mListening;
         private Vocal mTTS;
         private float mTimer;
-        private FacialExpression mActualMood;
+        private Mood mActualMood;
         //private List<string> mKeyList;
         private bool mSoundPlayed;
         private int mNumberOfButton;
@@ -118,7 +118,7 @@ namespace BuddyApp.Shared
             mSpeechReco = iBestResult.Utterance;
             mStartRule = iBestResult.Rule;
             mListening = false;
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -157,7 +157,7 @@ namespace BuddyApp.Shared
                     }
                     //Display toaster
                     if (WantBinaryToasterDisplay) {
-                        mActualMood = Buddy.Behaviour.Mood.CurrentMood;
+                        mActualMood = Buddy.Behaviour.Mood;
                         if (items.Count == 0) {
                             Debug.Log("items empty : not possible");
                         }
@@ -196,7 +196,7 @@ namespace BuddyApp.Shared
                 }
             } else if (IsMultipleQuestion) {
                 if (WantMultipleQuestionToasterDisplay && !mIsDisplayed) {
-                    mActualMood = Buddy.Behaviour.Mood.CurrentMood;
+                    mActualMood = Buddy.Behaviour.Mood;
                     mIsDisplayed = true;
                     if (!string.IsNullOrEmpty(BuddySays)) {
                         if (IsKey(BuddySays)) {
@@ -248,7 +248,7 @@ namespace BuddyApp.Shared
             Buddy.Vocal.Stop();
             //Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, Context.APP);
             //Interaction.VocalManager.StopListenBehaviour();
-            Buddy.Behaviour.Mood.Set(mActualMood);
+            Buddy.Behaviour.SetMood(mActualMood);
             mIsDisplayed = false;
             //Interaction.VocalManager.UseVocon = false;
             Debug.Log("EXIT");
@@ -352,7 +352,7 @@ namespace BuddyApp.Shared
         private void OnSpeechReco(string iVoiceInput)
         {
             mSpeechReco = iVoiceInput;
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             mListening = false;
         }
 

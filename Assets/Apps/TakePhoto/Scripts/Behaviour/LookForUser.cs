@@ -78,12 +78,12 @@ namespace BuddyApp.TakePhoto
 				}
 				if (mTimerLimit > 10F && mDetectionCount < 30 && mHasShowWindow) {
 					Debug.Log("Too long, takephoto anyway");
-					Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+					Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 					TakePhoto();
 				} else if (mDetectionCount >= 200) {
 					Debug.Log("takephoto 30 motions");
 					Buddy.Actuators.Speakers.Media.Play(SoundSample.SURPRISED_1);
-					Buddy.Behaviour.Mood.Set(FacialExpression.HAPPY);
+					Buddy.Behaviour.SetMood(Mood.HAPPY);
 					Position();
 				}
 			}
@@ -92,7 +92,7 @@ namespace BuddyApp.TakePhoto
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+			Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 			//mMotion.StopOnDetect(OnMovementDetected);
             
 			//Toaster.Hide();

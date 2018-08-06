@@ -57,7 +57,7 @@ namespace BuddyApp.TakePhoto
                 Buddy.Vocal.Listen();
 				mListening = true;
 
-				Buddy.Behaviour.Mood.Set(FacialExpression.LISTENING);
+				Buddy.Behaviour.SetMood(Mood.LISTENING);
 				return;
 			}
 
@@ -83,7 +83,7 @@ namespace BuddyApp.TakePhoto
 
 		private void Quit()
 		{
-			Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+			Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 			//Trigger(quitTrigger);
 			if (Buddy.Sensors.RGBCamera.IsOpen) {
                 Buddy.Sensors.RGBCamera.Close();
@@ -94,7 +94,7 @@ namespace BuddyApp.TakePhoto
 
 		private void OnSpeechReco(string iVoiceInput)
 		{
-			Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+			Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 
 			mSpeechReco = iVoiceInput;
 			mListening = false;
@@ -102,13 +102,13 @@ namespace BuddyApp.TakePhoto
 
 		private void Option2()
 		{
-			Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+			Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 			Trigger(option2Trigger);
 		}
 
 		private void Option1()
 		{
-			Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+			Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 			Trigger(option1Trigger);
 		}
 
@@ -116,7 +116,7 @@ namespace BuddyApp.TakePhoto
 		{
 			Buddy.Vocal.Say("ok");
 			Buddy.GUI.Toaster.Hide();
-			Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+			Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 			mSpeechReco = "";
 			mListening = false;
 		}

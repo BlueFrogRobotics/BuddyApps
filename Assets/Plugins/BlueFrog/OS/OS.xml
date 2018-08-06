@@ -162,14 +162,14 @@
         </member>
         <member name="M:BlueQuark.Internal.ABasePresenter`2.Require(System.Object)">
             <summary>
-            Set a flag that the current component (this) will be used by a the calling component. 
-            A unique type in app can require a component. Multiple components in OS can require a component.
+            Sets a flag that the current component (this) is used by the calling component (owner). 
+            An app can require a component only one time. Multiple components in OS can require a same component.
             MUST be call from Impl side.
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.ABasePresenter`2.Release">
             <summary>
-            Remove the 'require' flag that the current component (this) is used by a the calling component. 
+            Free the current component (this) by the calling component. 
             MUST be call from Impl side.
             </summary>
         </member>
@@ -809,6 +809,12 @@
             For GUI widget, use UIFactory instead.
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.Injector.UniqueComponents">
+            <summary>
+            All instanciate Unique components.
+            </summary>
+            <seealso cref="T:BlueQuark.Internal.IUniqueComponent"/>
+        </member>
         <member name="M:BlueQuark.Internal.Injector.Provide``1">
             <summary>
             Provides an instance of the wished type. UniqueComponent can be instantiate ONLY ONCE. 
@@ -816,6 +822,7 @@
             </summary>
             <typeparam name="C">Type of the component to instantiate</typeparam>
             <returns>The new component, null if already instantiate or error</returns>
+            <seealso cref="T:BlueQuark.Internal.IUniqueComponent"/>
         </member>
         <member name="M:BlueQuark.Internal.Injector.Provide``1(System.Int32)">
             <summary>
@@ -825,6 +832,7 @@
             <typeparam name="C">Type of the component to instantiate</typeparam>
             <param name="iIndex">Index of the component to retrieve in the scene</param>
             <returns>The new component, null if error</returns>
+            <seealso cref="T:BlueQuark.Internal.IRegularComponent"/>
         </member>
         <member name="M:BlueQuark.Internal.DevConnection.GetPrivateCredInfo">
             <summary>
@@ -1258,6 +1266,26 @@
             Calls a method in the presenter part with the same name of the calling method with the suffix "Impl". Use that method to forward an Unity event in the ULink to the Presenter side.
             </summary>
             <param name="iArg">Optional arg that will be forward to the Presenter method</param>
+        </member>
+        <member name="T:BlueQuark.Internal.IMotor">
+            <summary>
+            Base interface for robot motors
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.IMotor.Angle">
+            <summary>
+            Can represent the angle of the motor or the main axe of the component.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.IMotor.Speed">
+            <summary>
+            Current speed of the component, the unit depends on the component.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.IMotor.Locked">
+            <summary>
+            Enable/Disable the lock of the component. A locked motor cannot move.
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.Sandbox">
             <summary>
@@ -1967,13 +1995,6 @@
             <param name="iStrings">Strings that will replace existing Strings in Parameters</param>
             <returns>The updated command</returns>
         </member>
-        <member name="M:BlueQuark.Internal.ARemoteCommand.UpdateParams(System.Object[])">
-            <summary>
-            Update params in existing command. Allows to avoid recreate a new command for the same purpose.
-            </summary>
-            <param name="iObjects">Objects that will replace existing Objects in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
         <member name="M:BlueQuark.Internal.ARemoteCommand.Serialize">
             <summary>
             Create a custom byte array representing the command.
@@ -2035,14 +2056,6 @@
             </summary>
             <param name="iCommands">List of commands to update</param>
             <param name="iSingles">Singles that will replace existing Singles in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ACommandExtention.UpdateParams(System.Collections.Generic.IEnumerable{BlueQuark.Internal.ARemoteCommand},System.Object[])">
-            <summary>
-            Update params in all commands. Allows to avoid recreate a new command for the same purpose.
-            </summary>
-            <param name="iCommands">List of commands to update</param>
-            <param name="iObjects">Objects that will replace existing Objects in Parameters</param>
             <returns>The updated command</returns>
         </member>
         <member name="M:BlueQuark.Internal.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.Int32}},System.Int32)">
@@ -2144,38 +2157,33 @@
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.RemoteCommandParam">
+        <member name="T:BlueQuark.Internal.RemoteCommandParameters">
             <summary>
             Represents parameters for command. Contains it own serialization implementation
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.RemoteCommandParam.Integers">
+        <member name="P:BlueQuark.Internal.RemoteCommandParameters.Integers">
             <summary>
             Integer storage.
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.RemoteCommandParam.Singles">
+        <member name="P:BlueQuark.Internal.RemoteCommandParameters.Singles">
             <summary>
             Float storage.
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.RemoteCommandParam.Strings">
+        <member name="P:BlueQuark.Internal.RemoteCommandParameters.Strings">
             <summary>
             Unicode string storage.
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.RemoteCommandParam.Objects">
-            <summary>
-            Miscellaneous object storage. Won't be serialized.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.RemoteCommandParam.Serialize">
+        <member name="M:BlueQuark.Internal.RemoteCommandParameters.Serialize">
             <summary>
             Serialization to byte array of the current param
             </summary>
             <returns>Parameter byte array equivalent</returns>
         </member>
-        <member name="M:BlueQuark.Internal.RemoteCommandParam.Deserialize(System.Byte[],System.Int32@)">
+        <member name="M:BlueQuark.Internal.RemoteCommandParameters.Deserialize(System.Byte[],System.Int32@)">
             <summary>
             Create a new CommandParam object from the input byte array
             </summary>
@@ -2183,7 +2191,7 @@
             <param name="ioIndex">The index at the end of the parameter area</param>
             <returns>The new CommandParam</returns>
         </member>
-        <member name="M:BlueQuark.Internal.RemoteCommandParam.ToString">
+        <member name="M:BlueQuark.Internal.RemoteCommandParameters.ToString">
             <summary>
             String basic serialization of the commandparam
             </summary>
@@ -3136,6 +3144,11 @@
             </summary>
             <param name="iEvent">Audio event detected by Vocon.</param>
         </member>
+        <member name="T:BlueQuark.Internal.WindowsVoConSpeechULink">
+            <summary>
+            WIP : fake timer
+            </summary>
+        </member>
         <member name="T:BlueQuark.Internal.VoConEvent">
             <summary>
             All the possible audio events that can be detected by Vocon.
@@ -3314,15 +3327,15 @@
             <summary>
             Makes the head targets the wished position.
             </summary>
-            <param name="iX">The x (horizontal) position to target, from 0 to 1</param>
-            <param name="iY">The y (vertical) position to target, from 0 to 1</param>
+            <param name="iX">The x (horizontal) position to target, from -1 to 1</param>
+            <param name="iY">The y (vertical) position to target, from -1 to 1</param>
         </member>
         <member name="M:BlueQuark.Head.SetPosition(System.Single,System.Single,System.Single,BlueQuark.AccDecMode)">
             <summary>
             Makes the head targets the wished position.
             </summary>
-            <param name="iX">The x (horizontal) position to target, from 0 to 1</param>
-            <param name="iY">The y (vertical) position to target, from 0 to 1</param>
+            <param name="iX">The x (horizontal) position to target, from -1 to 1</param>
+            <param name="iY">The y (vertical) position to target, from -1 to 1</param>
             <param name="iAngularVelocity">The velocity that will be applied to the move</param>
             <param name="iAccDecMode">Accelration mode</param>
         </member>
@@ -3738,26 +3751,71 @@
         </member>
         <member name="T:BlueQuark.Behaviour">
             <summary>
-            Class that contains all the interaction features (Mood, Face, ...)
+            Module that contains all the interaction features (Mood, Face, Behaviour player)
             </summary>
+        </member>
+        <member name="F:BlueQuark.Behaviour.MIN_MOOD_DURATION">
             <summary>
-            Class that contains all the interaction features (Mood, Face, BML manager ...)
+            Minimal mood duration before any change.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Behaviour.DEFAULT_MOOD">
+            <summary>
+            Default robot's mood.
             </summary>
         </member>
         <member name="P:BlueQuark.Behaviour.IsBusy">
             <summary>
-            Tells whether all behaviours are done playing.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Behaviour.Mood">
-            <summary>
-            Mood of the robot
+            Tells whether all behaviours are playing.
             </summary>
         </member>
         <member name="P:BlueQuark.Behaviour.Face">
             <summary>
             Face of the robot (Eyes and mouth)
             </summary>
+        </member>
+        <member name="P:BlueQuark.Behaviour.Mood">
+            <summary>
+            The current robot's mood (face + LED color). The mood stays until end of duration AND new mood request.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Behaviour.SetMood(BlueQuark.Mood,System.Boolean)">
+            <summary>
+            Sets the robot's mood (face + LED color). The mood stays until end of duration AND new mood request.
+            </summary>
+            <param name="iMood">The mood to set</param>
+            <param name="iEnqueue">A NO queued request WON'T be executed if the module is already busy</param>
+        </member>
+        <member name="M:BlueQuark.Behaviour.SetMood(BlueQuark.Mood,System.Single,System.Boolean)">
+            <summary>
+            Sets the robot's mood (face + LED color). The mood stays until end of duration AND new mood request.
+            </summary>
+            <param name="iMood">The mood to set</param>
+            <param name="iDuration">Duration in seconds of the mood before swap to the next queued mood. Stay if no next mood</param>
+            <param name="iEnqueue">A NO queued request WON'T be executed if the module is already busy</param>
+        </member>
+        <member name="M:BlueQuark.Behaviour.SetMood(BlueQuark.Mood,System.Action{BlueQuark.Mood},System.Boolean)">
+            <summary>
+            Sets the robot's mood.  The mood stays until end of duration AND new mood request.
+            </summary>
+            <param name="iMood">The mood to set</param>
+            <param name="iOnEndSwap">Callback called when the action is done</param>
+            <param name="iEnqueue">A NO queued request WON'T be executed if the module is already busy</param>
+        </member>
+        <member name="M:BlueQuark.Behaviour.SetMood(BlueQuark.Mood,System.Single,System.Action{BlueQuark.Mood},System.Boolean)">
+            <summary>
+            Sets the robot's mood.  The mood stays until end of duration AND new mood request.
+            </summary>
+            <param name="iMood">The mood to set</param>
+            <param name="iDuration">Duration in seconds of the mood before swap to the next queued mood. Stay if no next mood</param>
+            <param name="iOnEndSwap">Callback called when the action is done</param>
+            <param name="iEnqueue">A NO queued request WON'T be executed if the module is already busy</param>
+        </member>
+        <member name="M:BlueQuark.Behaviour.ResetMood">
+            <summary>
+            Sets the default mood.
+            </summary>
+            <seealso cref="F:BlueQuark.Behaviour.DEFAULT_MOOD"/>>
         </member>
         <member name="M:BlueQuark.Behaviour.Play(System.String,System.Collections.Generic.Dictionary{System.String,System.String},BlueQuark.BMLComposition)">
             <summary>
@@ -3768,7 +3826,7 @@
             <param name="iComposition">Composition type of the behaviour.</param>
             <returns>False if the BML was not found.</returns>
         </member>
-        <member name="M:BlueQuark.Behaviour.PlayRandom(BlueQuark.FacialExpression,System.Collections.Generic.Dictionary{System.String,System.String},BlueQuark.BMLComposition,BlueQuark.BMLContext)">
+        <member name="M:BlueQuark.Behaviour.PlayRandom(BlueQuark.Mood,System.Collections.Generic.Dictionary{System.String,System.String},BlueQuark.BMLComposition,BlueQuark.BMLContext)">
             <summary>
             Launches a random behaviour that belongs to a certain category.
             </summary>
@@ -3807,22 +3865,84 @@
         </member>
         <member name="T:BlueQuark.Face">
             <summary>
-            Class which includes the speficities of the animator for the regular face and provides every methods to control it.
-            </summary>
-            <summary>
             Face of the robot. You can use this component to make Buddy smiling or crying, depending on your needs.
             Some events are also available like blinking, swallowing, yawning...
             If you use the Text to speech component, the robot face will automaticaly "talk".
             </summary>
         </member>
-        <member name="P:BlueQuark.Face.GazeX">
+        <member name="F:BlueQuark.Face.MAX_X_GAZE_POSITION">
             <summary>
-            The current gaze X position of the face.
+            Max value for x (horizontal) gaze position.
             </summary>
         </member>
-        <member name="P:BlueQuark.Face.GazeY">
+        <member name="F:BlueQuark.Face.MIN_X_GAZE_POSITION">
             <summary>
-            The current gaz Y position of the face.
+            Min value for x (horizontal) gaze position.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.DEFAULT_X_GAZE_POSITION">
+            <summary>
+            Default x (horizontal) gaze position.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MAX_Y_GAZE_POSITION">
+            <summary>
+            Max value for y (vertical) gaze position.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MIN_Y_GAZE_POSITION">
+            <summary>
+            Min value for y (vertical) gaze position.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.DEFAULT_Y_GAZE_POSITION">
+            <summary>
+            Default y (vertical) gaz position.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MAX_ENERGY">
+            <summary>
+            Max value for face energy.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MIN_ENERGY">
+            <summary>
+            Min value for face energy.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.DEFAULT_ENERGY">
+            <summary>
+            Default face energy value.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MAX_POSITIVITY">
+            <summary>
+            Max value for face positivity.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MIN_POSITIVITY">
+            <summary>
+            Min value for face positivity.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.DEFAULT_POSITIVITY">
+            <summary>
+            Default face positivity value.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MIN_FACE_DURATION">
+            <summary>
+            Minimal face duration before any change.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.DEFAULT_FACIAL_EXPRESSION">
+            <summary>
+            Default facial expression.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.DEFAULT_LABIAL_EXPRESSION">
+            <summary>
+            Default labial expression during speaking.
             </summary>
         </member>
         <member name="P:BlueQuark.Face.IsBusy">
@@ -3855,9 +3975,56 @@
             Texture of Buddy's face.
             </summary>
         </member>
-        <member name="P:BlueQuark.Face.Locked">
+        <member name="P:BlueQuark.Face.GazeX">
             <summary>
-            Lock the face. A locked face cannot be changed.
+            The current gaze X position of the face. From -1 to 1.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Face.GazeY">
+            <summary>
+            The current gaz Y position of the face. From -1 to 1.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Face.Energy">
+            <summary>
+            Energy of the face. From -1 to 1.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Face.Positivity">
+            <summary>
+            Positivity of the face. From -1 to 1.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Face.SetEnergySmoothly(System.Single,System.Action{System.Single})">
+            <summary>
+            Sets the face energy. From -1 to 1. Interrupt any other SetPositivity/Energy smoothly process.
+            </summary>
+            <param name="iEnergy">The value to set</param>
+            <param name="iOnEndSwap">Callbak called on the end of the swap</param>
+        </member>
+        <member name="M:BlueQuark.Face.SetPositivitySmoothly(System.Single,System.Action{System.Single})">
+            <summary>
+            Sets the face positivity. From -1 to 1. Interrupt any other SetPositivity/Energy smoothly process.
+            </summary>
+            <param name="iPositivity">The value to set</param>
+            <param name="iOnEndSwap">Callback called on the end of the swap</param>
+        </member>
+        <member name="M:BlueQuark.Face.SetPositivityAndEnergySmoothly(System.Single,System.Single,System.Action{System.Single,System.Single})">
+            <summary>
+            Sets both energy and positivity. From -1 to 1. Interrupt any other SetPositivity/Energy smoothly process.
+            </summary>
+            <param name="iPositivity">The value to set</param>
+            <param name="iEnergy">The value to set</param>
+            <param name="iOnEndSwap">Callback called on the end of the swap</param>
+        </member>
+        <member name="M:BlueQuark.Face.ResetPositivity">
+            <summary>
+            Resets the face positivity.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Face.ResetEnergy">
+            <summary>
+            Resets the face energy.
             </summary>
         </member>
         <member name="M:BlueQuark.Face.SetLabialExpression(BlueQuark.LabialExpression)">
@@ -3866,30 +4033,87 @@
             </summary>
             <param name="iLabialExpression">The face expression to set</param>
         </member>
-        <member name="M:BlueQuark.Face.SetFacialExpression(BlueQuark.FacialExpression)">
+        <member name="M:BlueQuark.Face.ResetLabialExpression">
             <summary>
-            Ask the face to switch to the specified mood.
+            Resets the labial expression.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Face.SetFacialExpression(BlueQuark.FacialExpression,System.Boolean)">
+            <summary>
+            Asks the face to switch to the specified mood.
             </summary>
             <param name="iFacialExpression">The name of the mood to switch to</param>
+            <param name="iEnqueue">A NO queued request WON'T be executed if the component is already busy</param>
         </member>
-        <member name="M:BlueQuark.Face.PlayEvent(BlueQuark.FacialEvent)">
+        <member name="M:BlueQuark.Face.SetFacialExpression(BlueQuark.FacialExpression,System.Action{BlueQuark.FacialExpression},System.Boolean)">
+            <summary>
+            Asks the face to switch to the specified mood.
+            </summary>
+            <param name="iFacialExpression">The name of the mood to switch to</param>
+            <param name="iOnEndSwap">Callback called at the end of the swap</param>
+            <param name="iEnqueue">A NO queued request WON'T be executed if the component is already busy</param>
+        </member>
+        <member name="M:BlueQuark.Face.ResetFacialExpression">
+            <summary>
+            Resets the face facial expression.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Face.PlayEvent(BlueQuark.FacialEvent,System.Boolean)">
             <summary>
             Buddy will make a mouth event. Last until MouthEvent.NONE or speak.
             </summary>
             <param name="iFacialEvent">The mouth event</param>
+            <param name="iEnqueue">A NO queued request WON'T be executed if the component is already busy</param>
         </member>
-        <member name="M:BlueQuark.Face.LookAt(System.Int32,System.Int32)">
+        <member name="M:BlueQuark.Face.PlayEvent(BlueQuark.FacialEvent,System.Action{BlueQuark.FacialEvent},System.Boolean)">
+            <summary>
+            Buddy will make a mouth event.
+            </summary>
+            <param name="iFacialEvent">The mouth event</param>
+            <param name="iOnStartEvent">Callback called at the beginning of the event</param>
+            <param name="iEnqueue">A NO queued request WON'T be executed if the component is already busy</param>
+        </member>
+        <member name="M:BlueQuark.Face.PlayEvent(BlueQuark.FacialEvent,System.Action{BlueQuark.FacialEvent},System.Action{BlueQuark.FacialEvent},System.Boolean)">
+            <summary>
+            Buddy will make a mouth event.
+            </summary>
+            <param name="iFacialEvent">The mouth event</param>
+            <param name="iOnStartEvent">Callback called at the beginning of the event</param>
+            <param name="iOnEndEvent">Callback called at the end of the event</param>
+            <param name="iEnqueue">A NO queued request WON'T be executed if the component is already busy</param>
+        </member>
+        <member name="M:BlueQuark.Face.LookAtSmoothly(System.Single,System.Single,System.Action{System.Single,System.Single})">
+            <summary>
+            Look at the specified location. Interrupt any other LookAtSmoothly process.
+            </summary>
+            <param name="iX">X coordinate, from -1 to 1</param>
+            <param name="iY">Y coordinate, from -1 to 1</param>
+            <param name="iOnEndLookAt">Callback called at the end of the gaze changement</param>
+        </member>
+        <member name="M:BlueQuark.Face.LookAtSmoothly(BlueQuark.GazePosition,System.Action{System.Single,System.Single})">
+            <summary>
+            Facility to LookAt(X, Y) method. Interrupt any other LookAtSmoothly process.
+            </summary>
+            <param name="iLookAt">The location to look at</param>
+            <param name="iOnEndLookAt">Callback called at the end of the gaze changement</param>
+        </member>
+        <member name="M:BlueQuark.Face.LookAt(System.Single,System.Single)">
             <summary>
             Look at the specified location (bottom left => 0, 0).
             </summary>
-            <param name="iX">X coordinate, max val = Screen.width</param>
-            <param name="iY">Y coordinate, max val = Screen.height</param>
+            <param name="iX">X coordinate, from -1 to 1</param>
+            <param name="iY">Y coordinate, from -1 to 1</param>
         </member>
         <member name="M:BlueQuark.Face.LookAt(BlueQuark.GazePosition)">
             <summary>
             Facility to LookAt(X, Y) method.
             </summary>
             <param name="iLookAt">The location to look at</param>
+        </member>
+        <member name="M:BlueQuark.Face.ResetLookAt">
+            <summary>
+            Resets the face gaze to the default position.
+            </summary>
         </member>
         <member name="T:BlueQuark.FacialEvent">
             <summary>
@@ -3898,32 +4122,77 @@
         </member>
         <member name="F:BlueQuark.FacialEvent.SMILE">
             <summary>
-            Make the face smile
+            Makes the face smile.
             </summary>
         </member>
         <member name="F:BlueQuark.FacialEvent.YAWN">
             <summary>
-            Make the face yawn
+            Makes the face yawn.
             </summary>
         </member>
-        <member name="F:BlueQuark.FacialEvent.SCREAM">
+        <member name="F:BlueQuark.FacialEvent.SURPRISED">
             <summary>
-            Make the face scream like a barbarian
+            Makes the face scream like a cute barbarian.
             </summary>
         </member>
-        <member name="F:BlueQuark.FacialEvent.BLINK_RIGHT">
+        <member name="F:BlueQuark.FacialEvent.RIGHT_BLINK">
             <summary>
-            Make the face blinking the right eye
+            Makes the face blinking the right eye.
             </summary>
         </member>
-        <member name="F:BlueQuark.FacialEvent.BLINK_LEFT">
+        <member name="F:BlueQuark.FacialEvent.LEFT_BLINK">
             <summary>
-            Make the face blinking the left eye
+            Makes the face blinking the left eye.
             </summary>
         </member>
-        <member name="F:BlueQuark.FacialEvent.BLINK_DOUBLE">
+        <member name="F:BlueQuark.FacialEvent.DOUBLE_BLINK">
             <summary>
-            Make the face blinking both eyes
+            Makes the face blinking both eyes.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.TEASE">
+            <summary>
+            Puts the tong out of the mouth.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.SUSPICIOUS">
+            <summary>
+            Makes half blink of an eye.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.DOUBTFUL">
+            <summary>
+            Makes half blink of both eyes.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.WHAT">
+            <summary>
+            What on earth ?!
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.GROWLING">
+            <summary>
+            Like angry, but different.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.WHISTLE">
+            <summary>
+            Makes the mouse whistle.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.OPEN_EYES">
+            <summary>
+            Opens both eyes.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.CLOSE_EYES">
+            <summary>
+            Closes both eyes.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.RELATIVE_EVENT">
+            <summary>
+            A relative event to some mood. WORK IN PROGRESS => Bug : cannot stop repeating event.
             </summary>
         </member>
         <member name="T:BlueQuark.GazePosition">
@@ -3934,6 +4203,26 @@
         <member name="F:BlueQuark.GazePosition.CENTER">
             <summary>
             Look at center
+            </summary>
+        </member>
+        <member name="F:BlueQuark.GazePosition.TOP">
+            <summary>
+            Look at the top
+            </summary>
+        </member>
+        <member name="F:BlueQuark.GazePosition.LEFT">
+            <summary>
+            Look at the extreme left
+            </summary>
+        </member>
+        <member name="F:BlueQuark.GazePosition.RIGHT">
+            <summary>
+            Look at the extreme right
+            </summary>
+        </member>
+        <member name="F:BlueQuark.GazePosition.BOTTOM">
+            <summary>
+            Look at the bottom
             </summary>
         </member>
         <member name="F:BlueQuark.GazePosition.TOP_LEFT">
@@ -4043,44 +4332,67 @@
         </member>
         <member name="T:BlueQuark.Mood">
             <summary>
-            Mood element of the robot. It is an helper component combining Face, LED and moving commands.
-            </summary>
-            <summary>
-            Mood element of the robot. It is an helper component combining Face, LED and moving commands.
+            Represents different expressions that Buddy can show
             </summary>
         </member>
-        <member name="P:BlueQuark.Mood.IsBusy">
+        <member name="F:BlueQuark.Mood.NEUTRAL">
             <summary>
-            Returns true if the face is currently processing something
+            Neutral
             </summary>
         </member>
-        <member name="P:BlueQuark.Mood.CurrentMood">
+        <member name="F:BlueQuark.Mood.ANGRY">
             <summary>
-            Retrieve the current buddy mood
+            Angry
             </summary>
         </member>
-        <member name="P:BlueQuark.Mood.LastMood">
+        <member name="F:BlueQuark.Mood.GRUMPY">
             <summary>
-            Retrive the last buddy mood
+            Grumpy
             </summary>
         </member>
-        <member name="M:BlueQuark.Mood.Set(BlueQuark.FacialExpression,System.Boolean)">
+        <member name="F:BlueQuark.Mood.HAPPY">
             <summary>
-            Ask the face to switch to the specified mood.
+            Happy
             </summary>
-            <param name="iMood">The name of the mood to switch to</param>
-            <param name="iSound">Does the robot must make a sound with its mood ?</param>
         </member>
-        <member name="M:BlueQuark.Mood.Set(BlueQuark.FacialExpression,BlueQuark.SoundSample)">
+        <member name="F:BlueQuark.Mood.LISTENING">
             <summary>
-            Ask the face to switch to the specified mood.
+            Listening
             </summary>
-            <param name="iMood">The name of the mood to switch to</param>
-            <param name="iSound">Does the robot must make a sound with its mood ?</param>
         </member>
-        <member name="P:BlueQuark.Mood.Locked">
+        <member name="F:BlueQuark.Mood.SAD">
             <summary>
-            Determine is Buddy mood can be changed
+            Sad
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Mood.SCARED">
+            <summary>
+            Scared
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Mood.SICK">
+            <summary>
+            Sick
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Mood.SURPRISED">
+            <summary>
+            Surprised
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Mood.THINKING">
+            <summary>
+            Thinking
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Mood.TIRED">
+            <summary>
+            Tired
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Mood.LOVE">
+            <summary>
+            In love !
             </summary>
         </member>
         <member name="P:BlueQuark.Cognitive.ProceduralMemory">
@@ -5939,6 +6251,8 @@
             </summary>
             <param name="iLinearVelocity">Rate of change (in meters by second) of an object position with in a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see></param>
             <param name="iAngularVelocity">Rate (in degrees by second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see></param>
+            <seealso cref="F:BlueQuark.Wheels.MAX_LIN_VELOCITY"/>>
+            <seealso cref="F:BlueQuark.Wheels.MAX_ANG_VELOCITY"/>>
         </member>
         <member name="M:BlueQuark.Wheels.Stop">
             <summary>
@@ -6265,11 +6579,12 @@
             <param name="iIdentifier">The app's scene, id, shortname, commercialname.</param>
             <returns>The application category.</returns>
         </member>
-        <member name="M:BlueQuark.AppManager.StartApp(BlueQuark.AppInfo)">
+        <member name="M:BlueQuark.AppManager.StartApp(BlueQuark.AppInfo,System.Object[])">
             <summary>
             Starts the specified application.
             </summary>
             <param name="iApp">The app to start up</param>
+            <param name="iAppParameters">The app's parameters. Will be given to the AppActivity at start</param>
         </member>
         <member name="M:BlueQuark.AppManager.StartApp(System.String,System.Object[])">
             <summary>
@@ -6289,6 +6604,7 @@
             Core of the Buddy Operating System.
             Gave access to robot control and tools like UI, sensors, actuators, resources and miscellaneous managers.
             A Unique instance of Buddy is created in the whole application.
+            SDK documentation at <see cref="!:http://bfr-dev.azurewebsites.net/documentation/class_blue_quark_1_1_buddy.html"/>
             </summary>
             <remarks>
             Access to Buddy's modules by using Buddy.[MODULE_NAME] in a static way.
@@ -6563,9 +6879,6 @@
         </member>
         <member name="T:BlueQuark.Navigation">
             <summary>
-            Class able to run one chosen navigation strategy
-            </summary>
-            <summary>
             Module managing navigation strategies.
             </summary>
         </member>
@@ -6742,9 +7055,6 @@
             </summary>
         </member>
         <member name="T:BlueQuark.Perception">
-            <summary>
-            This class contains all the base perception features (Face tracking, Detectors...)
-            </summary>
             <summary>
             This module contains all the base perception features (Face tracking, Detectors...)
             </summary>
@@ -7137,6 +7447,14 @@
             <summary>
             Allow you to retrieve the full path from the name of the raw file
             </summary>
+        </member>
+        <member name="P:BlueQuark.Resources.Item(System.String)">
+            <summary>
+            Retrieve the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length)
+            </summary>
+            <param name="iKey">The key word corresponding to the wished word</param>
+            <returns>The word in the current language, default value if not found</returns>
         </member>
         <member name="P:BlueQuark.Resources.AppRawDataPath">
             <summary>
@@ -7751,6 +8069,11 @@
         <member name="T:BlueQuark.HDCameraMode">
             <summary>
             Resolution (width, height) of the HD RGB camera in pixels.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Sensors">
+            <summary>
+            Module containing all robot sensors.
             </summary>
         </member>
         <member name="P:BlueQuark.Sensors.Battery">
@@ -10250,6 +10573,19 @@
             The requested parameters for the speech output.
             </summary>
         </member>
+        <member name="M:BlueQuark.SpeechOutput.#ctor(System.String)">
+            <summary>
+            Creates a new speech output (TTS).
+            </summary>
+            <param name="iUtterance">The text to say</param>
+        </member>
+        <member name="M:BlueQuark.SpeechOutput.#ctor(System.String,BlueQuark.SpeechOutputParameters)">
+            <summary>
+            Creates a new speech output (TTS).
+            </summary>
+            <param name="iUtterance">The text to say</param>
+            <param name="iParameters">Speech parameters</param>
+        </member>
         <member name="T:BlueQuark.SpeechRecognitionEvent">
             <summary>
             Event type for speech recognition
@@ -10378,7 +10714,7 @@
         </member>
         <member name="T:BlueQuark.Vocal">
             <summary>
-            The master component (module) for vocal management (say and listen). This is a FIFO process.
+            The module for vocal management (say and listen). This is a FIFO process.
             </summary>
         </member>
         <member name="P:BlueQuark.Vocal.DefaultOutputParameters">
@@ -11343,7 +11679,12 @@
             Class that connect to an smtp server to send a mail
             </summary>
             <summary>
-            Class that connects to an smtp server to send a mail
+            Wrapper that connects to an smtp server to send a mail
+            </summary>
+        </member>
+        <member name="P:BlueQuark.EMailSender.IsBusy">
+            <summary>
+            Returns true if a message is sending.
             </summary>
         </member>
         <member name="M:BlueQuark.EMailSender.Send(System.String,System.String,BlueQuark.SMTP,BlueQuark.EMail,System.Action)">
@@ -11354,6 +11695,7 @@
             <param name="iFromPwd">password of the mail adress</param>
             <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
             <param name="iEMail">mail that will be send</param>
+            <param name="iOnEndSending">Callback called at the end of the sending</param>
         </member>
         <member name="M:BlueQuark.EMailSender.Send(System.String,System.String,System.String,BlueQuark.EMail,System.Action)">
             <summary>
@@ -11363,6 +11705,7 @@
             <param name="iFromPwd">password of the mail adress</param>
             <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
             <param name="iEMail">mail that will be send</param>
+            <param name="iOnEndSending">Callback called at the end of the sending</param>
         </member>
         <member name="M:BlueQuark.EMailSender.Send(System.String,System.String,System.String,System.Collections.Generic.List{BlueQuark.EMail},System.Action)">
             <summary>
@@ -11372,6 +11715,7 @@
             <param name="iFromPwd">password of the mail adress</param>
             <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
             <param name="iEMails">mails that will be send</param>
+            <param name="iOnEndSending">Callback called at the end of the sending</param>
         </member>
         <member name="M:BlueQuark.EMailSender.Send(System.String,System.String,BlueQuark.SMTP,System.Collections.Generic.List{BlueQuark.EMail},System.Action)">
             <summary>
@@ -11381,6 +11725,7 @@
             <param name="iFromPwd">password of the mail adress</param>
             <param name="iSMTP">smtp server of the mail adress. You can use an adress from gmail, yahoo, hotmail or from bfr smtp</param>
             <param name="iEMails">mails that will be send</param>
+            <param name="iOnEndSending">Callback called at the end of the sending</param>
         </member>
         <member name="T:BlueQuark.Twitter">
             <summary>
@@ -11717,9 +12062,6 @@
             <param name="iChatMessage">Chat message received through WebRTC</param>
         </member>
         <member name="T:BlueQuark.WebServices">
-            <summary>
-            Class that contains all remote API access (Email, Twitter, Facebook...)
-            </summary>
             <summary>
             Module that contains all web API (Email, Twitter, Facebook...)
             </summary>

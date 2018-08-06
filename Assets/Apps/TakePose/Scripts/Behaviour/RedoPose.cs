@@ -65,7 +65,7 @@ namespace BuddyApp.TakePose
                 //Interaction.SpeechToText.Request();
                 mListening = true;
 
-                Buddy.Behaviour.Mood.Set(FacialExpression.LISTENING);
+                Buddy.Behaviour.SetMood(Mood.LISTENING);
                 return;
             }
 
@@ -103,27 +103,27 @@ namespace BuddyApp.TakePose
 
         private void OnSpeechReco(string iVoiceInput)
         {
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             mSpeechReco = iVoiceInput;
             mListening = false;
         }
 
         private void RedoTakePose()
         {
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             Trigger("Pose");
         }
 
         private void ExitTakePose()
         {
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             Buddy.Vocal.SayKey("noredo");
             Trigger("Exit");
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             mSpeechReco = "";
             mListening = false;
         }
