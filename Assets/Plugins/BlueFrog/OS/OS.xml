@@ -111,12 +111,12 @@
         </member>
         <member name="T:BlueQuark.Internal.IAvailable">
             <summary>
-            A IAvailable component can be considered as busy.
+            An IAvailable component can be considered as busy or available.
             </summary>
         </member>
         <member name="P:BlueQuark.Internal.IAvailable.IsBusy">
             <summary>
-            Returns true if the component is currently busy
+            Returns true if the component is currently busy (displayed or processing something).
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.IStoppable">
@@ -255,13 +255,19 @@
             The execution of a coroutine can be paused at any point using the yield statement.The yield return value specifies when the coroutine is resumed.
             </summary>
             <param name="iEnumerator">The method to start. Must return an IEnumerator</param>
-            <returns></returns>
+            <returns>The new started coroutine</returns>
         </member>
         <member name="M:BlueQuark.Internal.APresenter`1.StopCoroutine(System.Collections.IEnumerator)">
             <summary>
             Stops the arg coroutine.
             </summary>
-            <param name="iEnumerator"></param>
+            <param name="iEnumerator">The coroutine to stop</param>
+        </member>
+        <member name="M:BlueQuark.Internal.APresenter`1.StopCoroutine(UnityEngine.Coroutine)">
+            <summary>
+            Stops the arg coroutine.
+            </summary>
+            <param name="iRoutine">The coroutine to stop</param>
         </member>
         <member name="M:BlueQuark.Internal.APresenter`1.StopAllCoroutines">
             <summary>
@@ -359,6 +365,26 @@
         <member name="F:BlueQuark.Internal.BML.mBlocksID">
             <summary>
             Dictionary that contains the ID of every block.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.LabialExpression">
+            <summary>
+            Represents different labial expressions that Buddy can show.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.LabialExpression.NEUTRAL">
+            <summary>
+            Neutral way to talk.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.LabialExpression.ANGRY">
+            <summary>
+            Angry way to talk.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.LabialExpression.HAPPY">
+            <summary>
+            Happy way to talk.
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.AUIFactory`2">
@@ -732,9 +758,109 @@
             </summary>
             <typeparam name="U">ULink</typeparam>
         </member>
+        <member name="T:BlueQuark.Internal.Waver">
+            <summary>
+            GUI component handling the lateral wave of the face.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.Waver.IsBusy">
+            <summary>
+            Returns true if displayed.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.Waver.Display(BlueQuark.FacialExpression)">
+            <summary>
+            Shows the lateral waves with the wished expression color.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.Waver.Hide">
+            <summary>
+            Hides the lateral waves.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.AMainNavigationStrategy">
+            <summary>
+            Base class for navigation strategy. Only one main navigation strategy can run at the same time.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ASubNavigationStrategy">
+            <summary>
+            A sub navigation strategy is a navigation strategy that can be started by another strategy (main or sub).
+            Some main navigation strategies can rely only on substrategy use.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.ASubNavigationStrategy.Stop">
+            <summary>
+            Stops the current sub strategy. Call this method when the job is done. Cannot be undone.
+            </summary>
+        </member>
         <member name="T:BlueQuark.Internal.ANavigationStrategy">
             <summary>
-            Base class for navigation strategy. A navigation strategy can starts sub navigation strategies. Only one main navigation strategy can run at the same time.
+            Base class for navigation strategy. A navigation strategy can starts sub navigation strategies.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.ANavigationStrategy.mCurrentSubStrategy">
+            <summary>
+            The running sub strategy of the current (this) strategy. Must be null if not sub strategy is running.
+            </summary>
+            <seealso cref="M:BlueQuark.Internal.ANavigationStrategy.StartSubStrategy``1"/>>
+            <seealso cref="M:BlueQuark.Internal.ANavigationStrategy.StopSubStrategy"/>>
+        </member>
+        <member name="M:BlueQuark.Internal.ANavigationStrategy.StartSubStrategy``1">
+            <summary>
+            Stops any running sub strategy and starts a new one. Only one sub strategy can be started by the current (this) strategy at a time.
+            </summary>
+            <typeparam name="S">Type of the sub strategy to start</typeparam>
+            <returns>The new created sub strategy to parametrize</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.ANavigationStrategy.StopSubStrategy">
+            <summary>
+            Stops the running sub strategy of the current (this) strategy.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.ANavigationStrategy.StartCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Starts a coroutine.
+            The execution of a coroutine can be paused at any point using the yield statement.The yield return value specifies when the coroutine is resumed.
+            </summary>
+            <param name="iEnumerator">The method to start. Must return an IEnumerator</param>
+            <returns>The new started coroutine</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.ANavigationStrategy.StopCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Stops the arg coroutine.
+            </summary>
+            <param name="iEnumerator">The coroutine to stop</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ANavigationStrategy.StopCoroutine(UnityEngine.Coroutine)">
+            <summary>
+            Stops the arg coroutine.
+            </summary>
+            <param name="iRoutine">The coroutine to stop</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ANavigationStrategy.StopAllCoroutines">
+            <summary>
+            Stop all started coroutines.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.ANavigationStrategy.Stop">
+            <summary>
+            Stops the whole navigation process. Must be automatically called at the end of any main strategy.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.MoveSubStrategy">
+            <summary>
+            Sub navigation strategy to move forward or backward until a reached distance or a specific condition.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.RotateToSubStrategy">
+            <summary>
+            Sub navigation strategy to turn to an absolute angle.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.RotateSubStrategy">
+            <summary>
+            Sub navigation strategy to turn until a reached angle or a specific condition.
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.AEContentWidget`1">
@@ -3336,7 +3462,7 @@
             </summary>
             <param name="iX">The x (horizontal) position to target, from -1 to 1</param>
             <param name="iY">The y (vertical) position to target, from -1 to 1</param>
-            <param name="iAngularVelocity">The velocity that will be applied to the move</param>
+            <param name="iAngularVelocity">The velocity that will be applied to the move. Value in degrees by second</param>
             <param name="iAccDecMode">Accelration mode</param>
         </member>
         <member name="M:BlueQuark.Head.SetPosition(BlueQuark.GazePosition)">
@@ -3350,7 +3476,7 @@
             Makes the head targets the wished position.
             </summary>
             <param name="iLookAt">The position to target</param>
-            <param name="iAngularVelocity">The velocity that will be applied to the move</param>
+            <param name="iAngularVelocity">The velocity that will be applied to the move. Value in degrees by second</param>
             <param name="iAccDecMode">Accelration mode</param>
         </member>
         <member name="M:BlueQuark.Head.ResetPosition">
@@ -3565,6 +3691,11 @@
         <member name="P:BlueQuark.ASoundChannel`2.Mute">
             <summary>
             Tells if the audiosource is muted or not.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ASoundChannel`2.Repeat">
+            <summary>
+            Specifies if the channel must repeat the current audio source.
             </summary>
         </member>
         <member name="P:BlueQuark.ASoundChannel`2.Volume">
@@ -3900,36 +4031,6 @@
             Default y (vertical) gaz position.
             </summary>
         </member>
-        <member name="F:BlueQuark.Face.MAX_ENERGY">
-            <summary>
-            Max value for face energy.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Face.MIN_ENERGY">
-            <summary>
-            Min value for face energy.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Face.DEFAULT_ENERGY">
-            <summary>
-            Default face energy value.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Face.MAX_POSITIVITY">
-            <summary>
-            Max value for face positivity.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Face.MIN_POSITIVITY">
-            <summary>
-            Min value for face positivity.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Face.DEFAULT_POSITIVITY">
-            <summary>
-            Default face positivity value.
-            </summary>
-        </member>
         <member name="F:BlueQuark.Face.MIN_FACE_DURATION">
             <summary>
             Minimal face duration before any change.
@@ -3938,11 +4039,6 @@
         <member name="F:BlueQuark.Face.DEFAULT_FACIAL_EXPRESSION">
             <summary>
             Default facial expression.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Face.DEFAULT_LABIAL_EXPRESSION">
-            <summary>
-            Default labial expression during speaking.
             </summary>
         </member>
         <member name="P:BlueQuark.Face.IsBusy">
@@ -3970,6 +4066,11 @@
             Set of callback called when the skin is touched (ie : except mouth and eyes).
             </summary>
         </member>
+        <member name="P:BlueQuark.Face.OnTouch">
+            <summary>
+            Set of callback called when the face is touched anywhere.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Face.Texture">
             <summary>
             Texture of Buddy's face.
@@ -3983,59 +4084,6 @@
         <member name="P:BlueQuark.Face.GazeY">
             <summary>
             The current gaz Y position of the face. From -1 to 1.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Face.Energy">
-            <summary>
-            Energy of the face. From -1 to 1.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Face.Positivity">
-            <summary>
-            Positivity of the face. From -1 to 1.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Face.SetEnergySmoothly(System.Single,System.Action{System.Single})">
-            <summary>
-            Sets the face energy. From -1 to 1. Interrupt any other SetPositivity/Energy smoothly process.
-            </summary>
-            <param name="iEnergy">The value to set</param>
-            <param name="iOnEndSwap">Callbak called on the end of the swap</param>
-        </member>
-        <member name="M:BlueQuark.Face.SetPositivitySmoothly(System.Single,System.Action{System.Single})">
-            <summary>
-            Sets the face positivity. From -1 to 1. Interrupt any other SetPositivity/Energy smoothly process.
-            </summary>
-            <param name="iPositivity">The value to set</param>
-            <param name="iOnEndSwap">Callback called on the end of the swap</param>
-        </member>
-        <member name="M:BlueQuark.Face.SetPositivityAndEnergySmoothly(System.Single,System.Single,System.Action{System.Single,System.Single})">
-            <summary>
-            Sets both energy and positivity. From -1 to 1. Interrupt any other SetPositivity/Energy smoothly process.
-            </summary>
-            <param name="iPositivity">The value to set</param>
-            <param name="iEnergy">The value to set</param>
-            <param name="iOnEndSwap">Callback called on the end of the swap</param>
-        </member>
-        <member name="M:BlueQuark.Face.ResetPositivity">
-            <summary>
-            Resets the face positivity.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Face.ResetEnergy">
-            <summary>
-            Resets the face energy.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Face.SetLabialExpression(BlueQuark.LabialExpression)">
-            <summary>
-            Sets the labial expression of the face
-            </summary>
-            <param name="iLabialExpression">The face expression to set</param>
-        </member>
-        <member name="M:BlueQuark.Face.ResetLabialExpression">
-            <summary>
-            Resets the labial expression.
             </summary>
         </member>
         <member name="M:BlueQuark.Face.SetFacialExpression(BlueQuark.FacialExpression,System.Boolean)">
@@ -4082,6 +4130,13 @@
             <param name="iOnEndEvent">Callback called at the end of the event</param>
             <param name="iEnqueue">A NO queued request WON'T be executed if the component is already busy</param>
         </member>
+        <member name="M:BlueQuark.Face.LookAtSmoothly(System.Single,System.Single)">
+            <summary>
+            Look at the specified location. Interrupt any other LookAtSmoothly process.
+            </summary>
+            <param name="iX">X coordinate, from -1 to 1</param>
+            <param name="iY">Y coordinate, from -1 to 1</param>
+        </member>
         <member name="M:BlueQuark.Face.LookAtSmoothly(System.Single,System.Single,System.Action{System.Single,System.Single})">
             <summary>
             Look at the specified location. Interrupt any other LookAtSmoothly process.
@@ -4089,6 +4144,12 @@
             <param name="iX">X coordinate, from -1 to 1</param>
             <param name="iY">Y coordinate, from -1 to 1</param>
             <param name="iOnEndLookAt">Callback called at the end of the gaze changement</param>
+        </member>
+        <member name="M:BlueQuark.Face.LookAtSmoothly(BlueQuark.GazePosition)">
+            <summary>
+            Facility to LookAt(X, Y) method. Interrupt any other LookAtSmoothly process.
+            </summary>
+            <param name="iLookAt">The location to look at</param>
         </member>
         <member name="M:BlueQuark.Face.LookAtSmoothly(BlueQuark.GazePosition,System.Action{System.Single,System.Single})">
             <summary>
@@ -4114,6 +4175,87 @@
             <summary>
             Resets the face gaze to the default position.
             </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MAX_AROUSAL">
+            <summary>
+            Max value for face arousal.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MIN_AROUSAL">
+            <summary>
+            Min value for face arousal.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.DEFAULT_AROUSAL">
+            <summary>
+            Default face arousal value.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MAX_PLEASURE">
+            <summary>
+            Max value for face pleasure.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MIN_PLEASURE">
+            <summary>
+            Min value for face pleasure.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.DEFAULT_PLEASURE">
+            <summary>
+            Default face pleasure value.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Face.Arousal">
+            <summary>
+            Arousal of the face. From -1 to 1.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Face.Pleasure">
+            <summary>
+            Pleasure of the face. From -1 to 1.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Face.SetArousalSmoothly(System.Single)">
+            <summary>
+            Sets the face arousal. From -1 to 1. Interrupt any other SetPleasure/Arousal smoothly process.
+            </summary>
+            <param name="iArousal">The value to set</param>
+        </member>
+        <member name="M:BlueQuark.Face.SetArousalSmoothly(System.Single,System.Action{System.Single})">
+            <summary>
+            Sets the face arousal. From -1 to 1. Interrupt any other SetPleasure/Arousal smoothly process.
+            </summary>
+            <param name="iArousal">The value to set</param>
+            <param name="iOnEndSwap">Callbak called on the end of the swap</param>
+        </member>
+        <member name="M:BlueQuark.Face.SetPleasureSmoothly(System.Single)">
+            <summary>
+            Sets the face pleasure. From -1 to 1. Interrupt any other SetPleasure/Arousal smoothly process.
+            </summary>
+            <param name="iPleasure">The value to set</param>
+        </member>
+        <member name="M:BlueQuark.Face.SetPleasureSmoothly(System.Single,System.Action{System.Single})">
+            <summary>
+            Sets the face pleasure. From -1 to 1. Interrupt any other SetPleasure/Arousal smoothly process.
+            </summary>
+            <param name="iPleasure">The value to set</param>
+            <param name="iOnEndSwap">Callback called on the end of the swap</param>
+        </member>
+        <member name="M:BlueQuark.Face.SetInternalMoodSmoothly(System.Single,System.Single)">
+            <summary>
+            Sets both Arousal and Pleasure. From -1 to 1. Interrupt any other SetPleasure/Arousal smoothly process.
+            </summary>
+            <param name="iPleasure">The value to set</param>
+            <param name="iArousal">The value to set</param>
+        </member>
+        <member name="M:BlueQuark.Face.SetInternalMoodSmoothly(System.Single,System.Single,System.Action{System.Single,System.Single})">
+            <summary>
+            Sets both Arousal and Pleasure. From -1 to 1. Interrupt any other SetPleasure/Arousal smoothly process.
+            </summary>
+            <param name="iPleasure">The value to set</param>
+            <param name="iArousal">The value to set</param>
+            <param name="iOnEndSwap">Callback called on the end of the swap</param>
         </member>
         <member name="T:BlueQuark.FacialEvent">
             <summary>
@@ -4243,26 +4385,6 @@
         <member name="F:BlueQuark.GazePosition.BOTTOM_LEFT">
             <summary>
             Look at bottom left
-            </summary>
-        </member>
-        <member name="T:BlueQuark.LabialExpression">
-            <summary>
-            Represents different expressions that Buddy can show
-            </summary>
-        </member>
-        <member name="F:BlueQuark.LabialExpression.NEUTRAL">
-            <summary>
-            Neutral
-            </summary>
-        </member>
-        <member name="F:BlueQuark.LabialExpression.ANGRY">
-            <summary>
-            Angry
-            </summary>
-        </member>
-        <member name="F:BlueQuark.LabialExpression.HAPPY">
-            <summary>
-            Happy
             </summary>
         </member>
         <member name="T:BlueQuark.FacialExpression">
@@ -5311,63 +5433,132 @@
             Navigation strategies for basic robot movement.
             </summary>
         </member>
-        <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Action)">
+        <member name="F:BlueQuark.DisplacementStrategy.MAX_DISTANCE">
+            <summary>
+            Max distance that can be done in one move instruction. Value in meters.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.DisplacementStrategy.MAX_ROTATION_ANGLE">
+            <summary>
+            Max angle that can be rotate in one rotation instruction. Value in degrees.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single)">
             <summary>
             Moves forward or backward to the given distance.
             </summary>
-            <param name="iDistance">Distance in meters</param>
-            <param name="iSpeed">Speed in meters by seconds</param>
-            <param name="iOnEnd">Callback called at the end of the course</param>
+            <param name="iDistance">Target distance in meters</param>
         </member>
-        <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Single,System.Action)">
+        <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single)">
             <summary>
             Moves forward or backward to the given distance.
             </summary>
-            <param name="iDistance">Distance in meters</param>
-            <param name="iLeftSpeed">Left wheel speed in meters by seconds</param>
-            <param name="iRightSpeed">Right wheel speed in meters by seconds</param>
-            <param name="iOnEnd">Callback called at the end of the course</param>
+            <param name="iDistance">Target distance in meters</param>
+            <param name="iSpeed">Target speed in meters by seconds</param>
         </member>
-        <member name="M:BlueQuark.DisplacementStrategy.MoveUntil(System.Predicate{System.Object},System.Single)">
+        <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Action{UnityEngine.Vector3})">
+            <summary>
+            Moves forward or backward to the given distance.
+            </summary>
+            <param name="iDistance">Target distance in meters</param>
+            <param name="iSpeed">Target speed in meters by seconds</param>
+            <param name="iOnEndMove">Callback called at the end of the course</param>
+        </member>
+        <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Single)">
+            <summary>
+            Moves forward or backward to the given distance.
+            </summary>
+            <param name="iDistance">Target distance in meters</param>
+            <param name="iLeftSpeed">Target left wheel speed in meters by seconds</param>
+            <param name="iRightSpeed">Target right wheel speed in meters by seconds</param>
+        </member>
+        <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Single,System.Action{UnityEngine.Vector3})">
+            <summary>
+            Moves forward or backward to the given distance.
+            </summary>
+            <param name="iDistance">Target distance in meters</param>
+            <param name="iLeftSpeed">Target left wheel speed in meters by seconds</param>
+            <param name="iRightSpeed">Target right wheel speed in meters by seconds</param>
+            <param name="iOnEndMove">Callback called at the end of the course</param>
+        </member>
+        <member name="M:BlueQuark.DisplacementStrategy.MoveWhile(System.Predicate{UnityEngine.Vector3})">
             <summary>
             Moves forward or backward until the condition is true.
             </summary>
-            <param name="iCondition">The movement condition</param>
-            <param name="iSpeed">Speed in meters by seconds</param>
+            <param name="iCondition">The movement condition. Must returns true until the user condition is not fulfilled. Cannot be null</param>
         </member>
-        <member name="M:BlueQuark.DisplacementStrategy.Rotate(System.Single,System.Single,System.Action)">
+        <member name="M:BlueQuark.DisplacementStrategy.MoveWhile(System.Predicate{UnityEngine.Vector3},System.Single)">
+            <summary>
+            Moves forward or backward until the condition is true.
+            </summary>
+            <param name="iCondition">The movement condition. Must returns true until the user condition is not fulfilled. Cannot be null</param>
+            <param name="iSpeed">Target speed in meters by seconds</param>
+        </member>
+        <member name="M:BlueQuark.DisplacementStrategy.Rotate(System.Single)">
             <summary>
             Turns relativity the robot body.
             </summary>
-            <param name="iAngle">Angle in degrees</param>
-            <param name="iSpeed">Speed in degrees by second</param>
-            <param name="iOnEnd">Callback called at the end of the course</param>
+            <param name="iAngle">Target angle in degrees</param>
         </member>
-        <member name="M:BlueQuark.DisplacementStrategy.RotateTo(System.Single,System.Single,System.Action)">
+        <member name="M:BlueQuark.DisplacementStrategy.Rotate(System.Single,System.Single)">
+            <summary>
+            Turns relativity the robot body.
+            </summary>
+            <param name="iAngle">Target angle in degrees</param>
+            <param name="iSpeed">Target speed in degrees by second</param>
+        </member>
+        <member name="M:BlueQuark.DisplacementStrategy.Rotate(System.Single,System.Single,System.Action{UnityEngine.Vector3})">
+            <summary>
+            Turns relativity the robot body.
+            </summary>
+            <param name="iAngle">Target angle in degrees</param>
+            <param name="iSpeed">Target speed in degrees by second</param>
+            <param name="iOnEndMove">Callback called at the end of the course</param>
+        </member>
+        <member name="M:BlueQuark.DisplacementStrategy.RotateTo(System.Single)">
             <summary>
             Turns the robot body to the given angle (absolute).
             </summary>
-            <param name="iAngle">Angle in degrees</param>
-            <param name="iSpeed">Speed in degrees by second</param>
-            <param name="iOnEnd">Callback called at the end of the course</param>
+            <param name="iAngle">Target angle in degrees</param>
         </member>
-        <member name="M:BlueQuark.DisplacementStrategy.RotateUntil(System.Predicate{System.Object},System.Single)">
+        <member name="M:BlueQuark.DisplacementStrategy.RotateTo(System.Single,System.Single)">
+            <summary>
+            Turns the robot body to the given angle (absolute).
+            </summary>
+            <param name="iAngle">Target angle in degrees</param>
+            <param name="iSpeed">Target speed in degrees by second</param>
+        </member>
+        <member name="M:BlueQuark.DisplacementStrategy.RotateTo(System.Single,System.Single,System.Action{UnityEngine.Vector3})">
+            <summary>
+            Turns the robot body to the given angle (absolute).
+            </summary>
+            <param name="iAngle">Target angle in degrees</param>
+            <param name="iSpeed">Target speed in degrees by second</param>
+            <param name="iOnEndMove">Callback called at the end of the course</param>
+        </member>
+        <member name="M:BlueQuark.DisplacementStrategy.RotateWhile(System.Predicate{UnityEngine.Vector3})">
             <summary>
             Makes the robot rotate until the condition is true.
             </summary>
-            <param name="iCondition">The movement condition</param>
-            <param name="iSpeed">Speed in degrees by seconds</param>
+            <param name="iCondition">The movement condition. Must returns true until the user condition is not fulfilled. Cannot be null</param>
+        </member>
+        <member name="M:BlueQuark.DisplacementStrategy.RotateWhile(System.Predicate{UnityEngine.Vector3},System.Single)">
+            <summary>
+            Makes the robot rotate until the condition is true.
+            </summary>
+            <param name="iCondition">The movement condition. Must returns true until the user condition is not fulfilled. Cannot be null</param>
+            <param name="iSpeed">Target speed in degrees by seconds</param>
         </member>
         <member name="T:BlueQuark.ExplorationStrategy">
             <summary>
             Exploration strategy.
             </summary>
         </member>
-        <member name="M:BlueQuark.ExplorationStrategy.Until(System.Predicate{System.Object})">
+        <member name="M:BlueQuark.ExplorationStrategy.While(System.Predicate{UnityEngine.Vector3})">
             <summary>
-            The robot will explore as much as it can the environment until the specified condition is true.
+            The robot will explore as much as it can the environment while the specified condition is true.
             </summary>
-            <param name="iCondition"></param>
+            <param name="iCondition">The while condition. Cannot be null</param>
         </member>
         <member name="T:BlueQuark.MotionDetectorRework">
             <summary>
@@ -6132,12 +6323,12 @@
         </member>
         <member name="F:BlueQuark.Wheels.ENTRAX">
             <summary>
-            Distance in millimeters between each wheels.
+            Distance between each wheels in meters.
             </summary>
         </member>
         <member name="F:BlueQuark.Wheels.RADIUS">
             <summary>
-            Radius in millimeters of one wheels.
+            Radius of one wheels in meters.
             </summary>
         </member>
         <member name="F:BlueQuark.Wheels.MAX_LIN_VELOCITY">
@@ -6647,7 +6838,7 @@
         </member>
         <member name="P:BlueQuark.Buddy.Navigation">
             <summary>
-            The navigation component (module) in charge of running one (or none) navigation strategy. 
+            The navigation module in charge of running one navigation strategy. 
             </summary>
         </member>
         <member name="P:BlueQuark.Buddy.Perception">
@@ -6657,7 +6848,7 @@
         </member>
         <member name="P:BlueQuark.Buddy.Vocal">
             <summary>
-            The master component (module) for vocal management (say and listen).
+            The master component (module) for vocal management (say, hot word and listen).
             </summary>
         </member>
         <member name="P:BlueQuark.Buddy.GUI">
@@ -6822,33 +7013,33 @@
             Local roaming strategy
             </summary>
         </member>
-        <member name="M:BlueQuark.RoamStrategy.Until(System.Predicate{System.Object})">
+        <member name="M:BlueQuark.RoamStrategy.While(System.Predicate{UnityEngine.Vector3})">
             <summary>
-            The robot will roam locally until the condition is true.
+            The robot will roam locally while the condition is true.
             </summary>
-            <param name="iCondition"></param>
+            <param name="iCondition">The while condition. Cannot be null</param>
         </member>
         <member name="T:BlueQuark.HumanSearchStrategy">
             <summary>
             Searching human strategy in the known environment.
             </summary>
         </member>
-        <member name="M:BlueQuark.HumanSearchStrategy.Until(System.Predicate{BlueQuark.HumanEntity[]})">
+        <member name="M:BlueQuark.HumanSearchStrategy.While(System.Predicate{UnityEngine.Vector3})">
             <summary>
-            Starts a human search inside the known environment until the condition is true.
+            Starts a human search inside the known environment while the condition is true.
             </summary>
-            <param name="iCondition">The condition</param>
+            <param name="iCondition">The while condition. Cannot be null.</param>
         </member>
         <member name="T:BlueQuark.ObjectSearchStrategy">
             <summary>
             Searching object strategy in the known environment.
             </summary>
         </member>
-        <member name="M:BlueQuark.ObjectSearchStrategy.Until(System.Predicate{BlueQuark.ObjectEntity[]})">
+        <member name="M:BlueQuark.ObjectSearchStrategy.While(System.Predicate{UnityEngine.Vector3})">
             <summary>
-            Starts an object search inside the known environment until the condition is true.
+            Starts an object search inside the known environment while the condition is true.
             </summary>
-            <param name="iCondition">The condition</param>
+            <param name="iCondition">The while condition. Cannot be null</param>
         </member>
         <member name="T:BlueQuark.HumanTrackStrategy">
             <summary>
@@ -6879,7 +7070,7 @@
         </member>
         <member name="T:BlueQuark.Navigation">
             <summary>
-            Module managing navigation strategies.
+            Module managing navigation strategies. Able to run one main navigation strategy.
             </summary>
         </member>
         <member name="P:BlueQuark.Navigation.IsBusy">
@@ -6889,9 +7080,10 @@
         </member>
         <member name="M:BlueQuark.Navigation.Run``1">
             <summary>
-            Enable the requested exploration strategy type. If any strategy is running, stops it.
+            Run a navigation strategy. This strategy can be parametrize in this way : Run().With(args).
+            Start a strategy will stop any running strategy.
             </summary>
-            <typeparam name="S">A strategy type</typeparam>
+            <typeparam name="S">The strategy type</typeparam>
             <returns>The strategy to parametrize</returns>
         </member>
         <member name="M:BlueQuark.Navigation.Stop">
@@ -7558,7 +7750,12 @@
         </member>
         <member name="P:BlueQuark.CliffSensor.OnVoid">
             <summary>
-            Called when a cliff is detected by this cliff sensor.
+            Called when a cliff is detected by this cliff sensor. Called once by detection.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.CliffSensor.OnFull">
+            <summary>
+            Called when a full floor is detected after a cliff. Called once by detection.
             </summary>
         </member>
         <member name="P:BlueQuark.CliffSensor.Value">
@@ -7917,7 +8114,7 @@
         </member>
         <member name="P:BlueQuark.TimeOfFlightSensor.Value">
             <summary>
-            Current value of the sensor. Value in centimeters.
+            Current value of the sensor. Value in millimeters.
             </summary>
         </member>
         <member name="P:BlueQuark.TimeOfFlightSensor.Orientation">
@@ -7932,7 +8129,7 @@
         </member>
         <member name="P:BlueQuark.TimeOfFlightSensor.VerticalFOV">
             <summary>
-            The vertical field of view of the sensor . Value in degrees.
+            The vertical field of view of the sensor. Value in degrees.
             </summary>
         </member>
         <member name="P:BlueQuark.TimeOfFlightSensor.Error">
@@ -8266,7 +8463,7 @@
         </member>
         <member name="P:BlueQuark.UltrasonicSensor.Value">
             <summary>
-            Current value of the sensor. Value in centimeters.
+            Current value of the sensor. Value in millimeters.
             </summary>
         </member>
         <member name="P:BlueQuark.UltrasonicSensor.Orientation">
@@ -8281,7 +8478,7 @@
         </member>
         <member name="P:BlueQuark.UltrasonicSensor.VerticalFOV">
             <summary>
-            The vertical field of view of the sensor . Value in degrees.
+            The vertical field of view of the sensor. Value in degrees.
             </summary>
         </member>
         <member name="P:BlueQuark.UltrasonicSensor.Error">
@@ -8598,6 +8795,11 @@
             </summary>
             <summary>
             The footer is a UI component handle top screen display.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Header.OnClickParameters">
+            <summary>
+            Callback called when the user click on the top right parameter button of an app.
             </summary>
         </member>
         <member name="M:BlueQuark.Header.DisplayParametersButton(System.Boolean)">
@@ -9119,7 +9321,12 @@
         </member>
         <member name="P:BlueQuark.GUI.FakeSpeecher">
             <summary>
-            The FakeSpeecher is the input text bar to type a fake input speech text.
+            The FakeSpeecher is the input text bar to type a fake input speech text. Can be displayed/hide with Y key.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.GUI.Waver">
+            <summary>
+            Lateral face waves handler.
             </summary>
         </member>
         <member name="T:BlueQuark.HSVColor">
@@ -10125,6 +10332,20 @@
             <param name="iTheta">Theta value of the coordinate, i.e : the angle of the coordinate</param>
             <returns>Cartesian coordinate (x, y)</returns>
         </member>
+        <member name="M:BlueQuark.Utils.RadToDegrees(System.Int16)">
+            <summary>
+            Converts the input radian value into degrees value.
+            </summary>
+            <param name="iRadValue">The radian value</param>
+            <returns>The degree value</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.RadToDegrees(System.Int32)">
+            <summary>
+            Converts the input radian value into degrees value.
+            </summary>
+            <param name="iRadValue">The radian value</param>
+            <returns>The degree value</returns>
+        </member>
         <member name="M:BlueQuark.Utils.RadToDegrees(System.Single)">
             <summary>
             Converts the input radian value into degrees value.
@@ -10553,9 +10774,9 @@
             The pich of the speech. From 0 to 1.
             </summary>
         </member>
-        <member name="P:BlueQuark.SpeechOutputParameters.LabialExpression">
+        <member name="M:BlueQuark.SpeechOutputParameters.#ctor">
             <summary>
-            Synchronized labial expression during the output speech.
+            Creates a new output parameters set.
             </summary>
         </member>
         <member name="T:BlueQuark.SpeechOutput">
