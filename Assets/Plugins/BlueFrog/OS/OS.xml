@@ -492,7 +492,7 @@
         </member>
         <member name="T:BlueQuark.Internal.FakeSpeecher">
             <summary>
-            The FakeSpeecher is the input text bar to type a fake input speech text.
+            The FakeSpeecher is the input text bar to type a fake input speech text. Can be displayed/hide with Enter key.
             </summary>
         </member>
         <member name="P:BlueQuark.Internal.FakeSpeecher.IsBusy">
@@ -515,9 +515,22 @@
             Toast that includes only an only central GUI element.
             </summary>
         </member>
+        <member name="M:BlueQuark.Internal.AMonolithToast.SetMainWidget``1(``0)">
+            <summary>
+            Set the solo widget inside the monolith layout of the toast.
+            </summary>
+            <typeparam name="T">Type of the widget</typeparam>
+            <param name="iWidget">The widget that will be the main item of the layout</param>
+        </member>
+        <member name="M:BlueQuark.Internal.AMonolithToast.SetMainWidget(UnityEngine.GameObject)">
+            <summary>
+            Set the solo gameobject inside the monolith layout of the toast.
+            </summary>
+            <param name="iGameObject">The gameobject that will be the main item of the layout</param>
+        </member>
         <member name="T:BlueQuark.Internal.TMonolithLayout">
             <summary>
-            Represents a one block layout able to store only one big sealed widget.
+            Represents a one block layout able to store only one big sealed widget or custom gameobject.
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.TMonolithLayout.SetMainWidget``1(``0)">
@@ -526,6 +539,12 @@
             </summary>
             <typeparam name="T">Type of the widget</typeparam>
             <param name="iWidget">The widget to display. Must be a monolith widget</param>
+        </member>
+        <member name="M:BlueQuark.Internal.TMonolithLayout.SetMainWidget(UnityEngine.GameObject)">
+            <summary>
+            Sets the main widget. 
+            </summary>
+            <param name="iGameObject">The custom game object to display.</param>
         </member>
         <member name="M:BlueQuark.Internal.TMonolithLayout.AppearFromRight">
             <summary>
@@ -2952,6 +2971,26 @@
             Base class for any toast. A toast is only a storage system waiting for its display.
             </summary>
         </member>
+        <member name="F:BlueQuark.Internal.AToast.mLayoutType">
+            <summary>
+            Type of the layout of the toast.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.AToast.mOnSideClick">
+            <summary>
+            Callback called when the user click on the side of the current displayed toast.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.AToast.mOnDisplay">
+            <summary>
+            Callback called when the toast is displayed.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.AToast.mOnHide">
+            <summary>
+            Callback called when the toast is hidden.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Internal.AToast.OnSideClick">
             <summary>
             Called when the current toast is displayed and a side click happened.
@@ -5020,6 +5059,22 @@
             </summary>
             <param name="iVal">True to active the pulsation, false otherwise</param>
         </member>
+        <member name="M:BlueQuark.CountdownToast.With(System.DateTime)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iTime">Remaining time</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.CountdownToast.With(System.DateTime,System.Action{BlueQuark.CountdownToast},System.Action{BlueQuark.CountdownToast})">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iTime">Remaining time</param>
+            <param name="iOnClick">Callback called when the countdown is clicked</param>
+            <param name="iOnTic">Callack called on each second tic</param>
+            <returns>GUID of the toast</returns>
+        </member>
         <member name="M:BlueQuark.CountdownToast.With(System.DateTime,System.Action{BlueQuark.CountdownToast},System.Action{BlueQuark.CountdownToast},System.Action)">
             <summary>
             Set toast parameters.
@@ -5028,6 +5083,41 @@
             <param name="iOnClick">Callback called when the countdown is clicked</param>
             <param name="iOnTic">Callack called on each second tic</param>
             <param name="iOnSideClick">Callback called when a user click outside the countdown occured</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.CountdownToast.With(System.Int32)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSecond">Remaining seconds in the current minute</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.CountdownToast.With(System.Int32,System.Int32)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSecond">Remaining seconds in the current minute</param>
+            <param name="iMinute">Remaining minutes in the current hour</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.CountdownToast.With(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSecond">Remaining seconds in the current minute</param>
+            <param name="iMinute">Remaining minutes in the current hour</param>
+            <param name="iHour">Remaining hours</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.CountdownToast.With(System.Int32,System.Int32,System.Int32,System.Action{BlueQuark.CountdownToast},System.Action{BlueQuark.CountdownToast})">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSecond">Remaining seconds in the current minute</param>
+            <param name="iMinute">Remaining minutes in the current hour</param>
+            <param name="iHour">Remaining hours</param>
+            <param name="iOnClick">Callback called when the countdown is clicked</param>
+            <param name="iOnTic">Callack called on each second tic</param>
             <returns>GUID of the toast</returns>
         </member>
         <member name="M:BlueQuark.CountdownToast.With(System.Int32,System.Int32,System.Int32,System.Action{BlueQuark.CountdownToast},System.Action{BlueQuark.CountdownToast},System.Action)">
@@ -5053,6 +5143,24 @@
             <param name="iOnSideClick">Callback called when a user click outside the countdown occured</param>
             <returns>GUID of the toast</returns>
         </member>
+        <member name="M:BlueQuark.CountdownToast.With(System.DateTime,UnityEngine.Color)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iTime">Remaining time</param>
+            <param name="iBackgroundColor">Color of the backgrounb</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.CountdownToast.With(System.Int32,UnityEngine.Color,System.Action{BlueQuark.CountdownToast},System.Action{BlueQuark.CountdownToast})">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSecond">Remaining seconds in the current minute</param>
+            <param name="iBackgroundColor">Color of the backgrounb</param>
+            <param name="iOnClick">Callback called when the countdown is clicked</param>
+            <param name="iOnTic">Callack called on each second tic</param>
+            <returns>GUID of the toast</returns>
+        </member>
         <member name="M:BlueQuark.CountdownToast.With(System.Int32,UnityEngine.Color,System.Action{BlueQuark.CountdownToast},System.Action{BlueQuark.CountdownToast},System.Action)">
             <summary>
             Set toast parameters.
@@ -5062,6 +5170,26 @@
             <param name="iOnClick">Callback called when the countdown is clicked</param>
             <param name="iOnTic">Callack called on each second tic</param>
             <param name="iOnSideClick">Callback called when a user click outside the countdown occured</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.CountdownToast.With(System.Int32,System.Int32,UnityEngine.Color)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSecond">Remaining seconds in the current minute</param>
+            <param name="iMinute">Remaining minutes in the current hour</param>
+            <param name="iBackgroundColor">Color of the backgrounb</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.CountdownToast.With(System.Int32,System.Int32,UnityEngine.Color,System.Action{BlueQuark.CountdownToast},System.Action{BlueQuark.CountdownToast})">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSecond">Remaining seconds in the current minute</param>
+            <param name="iMinute">Remaining minutes in the current hour</param>
+            <param name="iBackgroundColor">Color of the backgrounb</param>
+            <param name="iOnClick">Callback called when the countdown is clicked</param>
+            <param name="iOnTic">Callack called on each second tic</param>
             <returns>GUID of the toast</returns>
         </member>
         <member name="M:BlueQuark.CountdownToast.With(System.Int32,System.Int32,UnityEngine.Color,System.Action{BlueQuark.CountdownToast},System.Action{BlueQuark.CountdownToast},System.Action)">
@@ -5074,6 +5202,28 @@
             <param name="iOnClick">Callback called when the countdown is clicked</param>
             <param name="iOnTic">Callack called on each second tic</param>
             <param name="iOnSideClick">Callback called when a user click outside the countdown occured</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.CountdownToast.With(System.Int32,System.Int32,System.Int32,UnityEngine.Color)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSecond">Remaining seconds in the current minute</param>
+            <param name="iMinute">Remaining minutes in the current hour</param>
+            <param name="iHour">Remaining hours</param>
+            <param name="iBackgroundColor">Color of the backgrounb</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.CountdownToast.With(System.Int32,System.Int32,System.Int32,UnityEngine.Color,System.Action{BlueQuark.CountdownToast},System.Action{BlueQuark.CountdownToast})">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSecond">Remaining seconds in the current minute</param>
+            <param name="iMinute">Remaining minutes in the current hour</param>
+            <param name="iHour">Remaining hours</param>
+            <param name="iBackgroundColor">Color of the backgrounb</param>
+            <param name="iOnClick">Callback called when the countdown is clicked</param>
+            <param name="iOnTic">Callack called on each second tic</param>
             <returns>GUID of the toast</returns>
         </member>
         <member name="M:BlueQuark.CountdownToast.With(System.Int32,System.Int32,System.Int32,UnityEngine.Color,System.Action{BlueQuark.CountdownToast},System.Action{BlueQuark.CountdownToast},System.Action)">
@@ -5091,13 +5241,46 @@
         </member>
         <member name="T:BlueQuark.CustomToast">
             <summary>
-            Represents a custom element that can be displayed with the Toaster or Dialoger. TODO: WIP
+            Represents a custom element that can be displayed with the Toaster or Dialoger.
             </summary>
+        </member>
+        <member name="M:BlueQuark.CustomToast.With(UnityEngine.GameObject)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iCustomGameObject">The gameobject to display at the center of the layout</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.CustomToast.With(UnityEngine.GameObject,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iCustomGameObject">The gameobject to display at the center of the layout</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.CustomToast.With(UnityEngine.GameObject,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iCustomGameObject">The gameobject to display at the center of the layout</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
+            <returns>GUID of the toast</returns>
         </member>
         <member name="T:BlueQuark.PictureToast">
             <summary>
             Represents a full screen picture UI element.
             </summary>
+        </member>
+        <member name="M:BlueQuark.PictureToast.With(UnityEngine.Sprite)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iSprite">The sprite to display. Cannot be null.</param>
+            <returns>The toast GUID</returns>
         </member>
         <member name="M:BlueQuark.PictureToast.With(UnityEngine.Sprite,System.Action)">
             <summary>
@@ -5107,10 +5290,38 @@
             <param name="iOnClick">Called when the image is clicked</param>
             <returns>The toast GUID</returns>
         </member>
+        <member name="M:BlueQuark.PictureToast.With(UnityEngine.Sprite,System.Action,System.Action,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iSprite">The sprite to display. Cannot be null.</param>
+            <param name="iOnClick">Called when the image is clicked</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>The toast GUID</returns>
+        </member>
+        <member name="M:BlueQuark.PictureToast.With(UnityEngine.Sprite,System.Action,System.Action,System.Action,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iSprite">The sprite to display. Cannot be null.</param>
+            <param name="iOnClick">Called when the image is clicked</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
+            <returns>The toast GUID</returns>
+        </member>
         <member name="T:BlueQuark.IconToast">
             <summary>
             Represents a toast composed by an icon.
             </summary>
+        </member>
+        <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSprite">The image to display. Cannot be null.</param>
+            <returns>GUID of the toast</returns>
         </member>
         <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,System.Action)">
             <summary>
@@ -5118,6 +5329,35 @@
             </summary>
             <param name="iSprite">The image to display. Cannot be null.</param>
             <param name="iOnClick">Callback called when </param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSprite">The image to display. Cannot be null.</param>
+            <param name="iOnClick">Callback called when </param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,System.Action,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSprite">The image to display. Cannot be null.</param>
+            <param name="iOnClick">Callback called when </param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,UnityEngine.Color)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSprite">The image to display. Cannot be null.</param>
+            <param name="iIconColor">Color of the image</param>
             <returns>GUID of the toast</returns>
         </member>
         <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,UnityEngine.Color,System.Action)">
@@ -5129,6 +5369,38 @@
             <param name="iOnClick">Callback called when </param>
             <returns>GUID of the toast</returns>
         </member>
+        <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,UnityEngine.Color,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSprite">The image to display. Cannot be null.</param>
+            <param name="iIconColor">Color of the image</param>
+            <param name="iOnClick">Callback called when </param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,UnityEngine.Color,System.Action,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSprite">The image to display. Cannot be null.</param>
+            <param name="iIconColor">Color of the image</param>
+            <param name="iOnClick">Callback called when </param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,UnityEngine.Color,UnityEngine.Color)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSprite">The image to display. Cannot be null.</param>
+            <param name="iIconColor">Color of the image</param>
+            <param name="iBackgroundColor">Color of the background</param>
+            <returns>GUID of the toast</returns>
+        </member>
         <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,UnityEngine.Color,UnityEngine.Color,System.Action)">
             <summary>
             Set toast parameters.
@@ -5137,6 +5409,31 @@
             <param name="iIconColor">Color of the image</param>
             <param name="iBackgroundColor">Color of the background</param>
             <param name="iOnClick">Callback called when </param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,UnityEngine.Color,UnityEngine.Color,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSprite">The image to display. Cannot be null.</param>
+            <param name="iIconColor">Color of the image</param>
+            <param name="iBackgroundColor">Color of the background</param>
+            <param name="iOnClick">Callback called when </param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,UnityEngine.Color,UnityEngine.Color,System.Action,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSprite">The image to display. Cannot be null.</param>
+            <param name="iIconColor">Color of the image</param>
+            <param name="iBackgroundColor">Color of the background</param>
+            <param name="iOnClick">Callback called when </param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
             <returns>GUID of the toast</returns>
         </member>
         <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,System.Boolean,System.Action)">
@@ -5158,6 +5455,35 @@
             <param name="iDisplayCircle">Does the surrounding circle must be displayed ?</param>
             <param name="iDisplayDisk">Doest the disk must be displayed ?</param>
             <param name="iOnClick">Callback called when </param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,UnityEngine.Color,UnityEngine.Color,System.Boolean,System.Boolean,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSprite">The image to display. Cannot be null.</param>
+            <param name="iIconColor">Color of the image</param>
+            <param name="iBackgroundColor">Color of the background</param>
+            <param name="iDisplayCircle">Does the surrounding circle must be displayed ?</param>
+            <param name="iDisplayDisk">Doest the disk must be displayed ?</param>
+            <param name="iOnClick">Callback called when </param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.IconToast.With(UnityEngine.Sprite,UnityEngine.Color,UnityEngine.Color,System.Boolean,System.Boolean,System.Action,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iSprite">The image to display. Cannot be null.</param>
+            <param name="iIconColor">Color of the image</param>
+            <param name="iBackgroundColor">Color of the background</param>
+            <param name="iDisplayCircle">Does the surrounding circle must be displayed ?</param>
+            <param name="iDisplayDisk">Doest the disk must be displayed ?</param>
+            <param name="iOnClick">Callback called when </param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
             <returns>GUID of the toast</returns>
         </member>
         <member name="T:BlueQuark.VerticalListToast">
@@ -9114,7 +9440,7 @@
             <param name="iRightLabel">Right label text to display</param>
             <returns>GUID of the toast</returns>
         </member>
-        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},UnityEngine.Sprite,System.Action,System.String,System.Action,System.String)">
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},System.Action,System.String,System.Action,System.String,System.Action,System.Action)">
             <summary>
             Set toast parameters.
             </summary>
@@ -9123,6 +9449,63 @@
             <param name="iLeftLabel">Left label text to display</param>
             <param name="iOnClickRight">Callback called when right button is clicked</param>
             <param name="iRightLabel">Right label text to display</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},System.Action,System.String,System.Action,System.String,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <param name="iOnClickLeft">Callback called when left button is clicked</param>
+            <param name="iLeftLabel">Left label text to display</param>
+            <param name="iOnClickRight">Callback called when right button is clicked</param>
+            <param name="iRightLabel">Right label text to display</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},UnityEngine.Sprite,System.Action,System.String,System.Action,System.String)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <param name="iIcon">Top icon to display</param>
+            <param name="iOnClickLeft">Callback called when left button is clicked</param>
+            <param name="iLeftLabel">Left label text to display</param>
+            <param name="iOnClickRight">Callback called when right button is clicked</param>
+            <param name="iRightLabel">Right label text to display</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},UnityEngine.Sprite,System.Action,System.String,System.Action,System.String,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <param name="iIcon">Top icon to display</param>
+            <param name="iOnClickLeft">Callback called when left button is clicked</param>
+            <param name="iLeftLabel">Left label text to display</param>
+            <param name="iOnClickRight">Callback called when right button is clicked</param>
+            <param name="iRightLabel">Right label text to display</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},UnityEngine.Sprite,System.Action,System.String,System.Action,System.String,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <param name="iIcon">Top icon to display</param>
+            <param name="iOnClickLeft">Callback called when left button is clicked</param>
+            <param name="iLeftLabel">Left label text to display</param>
+            <param name="iOnClickRight">Callback called when right button is clicked</param>
+            <param name="iRightLabel">Right label text to display</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
             <returns>GUID of the toast</returns>
         </member>
         <member name="M:BlueQuark.ParameterToast.CreateWidget``1">
@@ -9321,7 +9704,7 @@
         </member>
         <member name="P:BlueQuark.GUI.FakeSpeecher">
             <summary>
-            The FakeSpeecher is the input text bar to type a fake input speech text. Can be displayed/hide with Y key.
+            The FakeSpeecher is the input text bar to type a fake input speech text. Can be displayed/hide with Enter key.
             </summary>
         </member>
         <member name="P:BlueQuark.GUI.Waver">
