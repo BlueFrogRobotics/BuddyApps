@@ -6,7 +6,7 @@
     <members>
         <member name="T:BlueQuark.Internal.AComponent">
             <summary>
-            Most abstract class of the BlueQuark system. A component is a logical class that subcribe to the looper system.
+            Most abstract class of the BlueQuark inner system. A component is a logical class that can subcribe to the looper system.
             </summary>
             <seealso cref="T:BlueQuark.Internal.Looper"/>
         </member>
@@ -129,6 +129,15 @@
             Stop the running process
             </summary>
         </member>
+        <member name="T:BlueQuark.Internal.AModule`2">
+            <summary>
+            Base class for operating system module. A module is a unique main component handling major features.
+            All modules are accessibles through Buddy static class.
+            </summary>
+            <seealso cref="T:BlueQuark.Buddy"/>
+            <typeparam name="U">Type of the Presenter's ULink</typeparam>
+            <typeparam name="M">Type of the metric suite</typeparam>
+        </member>
         <member name="T:BlueQuark.Internal.AMetricSuite">
             <summary>
             A metric suite class is used by each ABasePresenter class to test itself.
@@ -197,7 +206,8 @@
         </member>
         <member name="T:BlueQuark.Internal.APresenter`1">
             <summary>
-            A presenter class is linked to a Unity MonoBehaviour (called ULink). ULink are not directly accessible and must be manage for the presenter.
+            A presenter class is linked to a Unity MonoBehaviour (called ULink). 
+            ULink are not directly accessible and must be managed by the presenter.
             </summary>
             <seealso cref="T:BlueQuark.Internal.AULink"/>
             <typeparam name="U">Type of the Presenter's ULink</typeparam>
@@ -882,6 +892,47 @@
             Sub navigation strategy to turn until a reached angle or a specific condition.
             </summary>
         </member>
+        <member name="M:BlueQuark.Internal.BroadcastListener.StartAsClient">
+            <summary>
+            Starts the service as client and listens for broadcast
+            </summary>
+            <returns>True if started succesfully, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.BroadcastListener.StartAsServer">
+            <summary>
+            Starts the service as server and emits a broadcast
+            </summary>
+            <returns>True if started succesfully, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.BroadcastListener.StopBroadcast">
+            <summary>
+            Stops the broadcast service
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.BroadcastListener.OnReceivedBroadcast(System.String,System.String)">
+            <summary>
+            Own method to configure what to do when receiving a Broadcast
+            </summary>
+            <param name="iFromAddress">The address that send the broadcast</param>
+            <param name="iData">Data contained in the broadcast</param>
+        </member>
+        <member name="T:BlueQuark.Internal.LocalNetworkListener">
+            <summary>
+            This class handles the Local Broadcast Listener and messages with the Smartphone app to launch local remote control
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.WebRTCListenerULink.OnMessageReceived(System.String)">
+            <summary>
+            Used by Android plugin when chat message is received through WebRTC and send it back to user
+            </summary>
+            <param name="iChatMessage">Chat message received through WebRTC</param>
+        </member>
+        <member name="M:BlueQuark.Internal.WebRTCListenerULink.OnConnectionRequest(System.String)">
+            <summary>
+            Called by Android plugin when message is received from the PubSub of Crossbar
+            </summary>
+            <param name="iMessage"></param>
+        </member>
         <member name="T:BlueQuark.Internal.AEContentWidget`1">
             <summary>
             Base class for content (right opened window) widget for Explorer.
@@ -1432,9 +1483,9 @@
             Enable/Disable the lock of the component. A locked motor cannot move.
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.Sandbox">
+        <member name="T:BlueQuark.Internal.AppSandbox">
             <summary>
-            Loads, unloads apps and store transited data
+            Loads, unloads apps and store transited data.
             </summary>
             <summary>
             Loads, unloads apps and store transited data
@@ -1469,74 +1520,8 @@
         </member>
         <member name="T:BlueQuark.Internal.TimeStamp">
             <summary>
-            Represents the executed command timestamp
+            Represents a timestamp data
             </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.BroadcastListener">
-            <summary>
-            This is to create a Broadcast client to let
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.BroadcastListener.OnReceivedBroadcast(System.String,System.String)">
-            <summary>
-            Own method to configure what to do when receiving a Broadcast
-            </summary>
-            <param name="iFromAddress">The address that send the broadcast</param>
-            <param name="iData">Data contained in the broadcast</param>
-        </member>
-        <member name="T:BlueQuark.Internal.LaunchTelepresence">
-            <summary>
-            Behaviour for starting RemoteControlApp
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.LocalListener">
-            <summary>
-            This class handles the Local Broadcast Listener and messages with the Smartphone app to launch local remote control
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.NetworkBroadcastResult">
-            <summary>
-            Structure for broadcast messages
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.NetworkBroadcastResult.serverAddress">
-            <summary>
-            The address of the server that sent the broadcast
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.NetworkBroadcastResult.broadcastData">
-            <summary>
-            Content of the broadcast
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.NetDiscovery">
-            <summary>
-            Unity Networking NetworkDiscovery added in this dll for namespace separation in dll reasons
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.NetDiscovery.StartAsClient">
-            <summary>
-            Starts the service as client and listens for broadcast
-            </summary>
-            <returns>True if started succesfully, false otherwise</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.NetDiscovery.StartAsServer">
-            <summary>
-            Starts the service as server and emits a broadcast
-            </summary>
-            <returns>True if started succesfully, false otherwise</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.NetDiscovery.StopBroadcast">
-            <summary>
-            Stops the broadcast service
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.NetDiscovery.OnReceivedBroadcast(System.String,System.String)">
-            <summary>
-            Callback called when a broadcast is received
-            </summary>
-            <param name="iFromAddress">Address that sent the broadcast</param>
-            <param name="iData">Body data of the broadcast</param>
         </member>
         <member name="T:BlueQuark.Internal.HardwareCom">
             <summary>
@@ -1893,17 +1878,17 @@
             <param name="iKey">Key to check</param>
             <returns>True if the key already exists in Entries</returns>
         </member>
-        <member name="F:BlueQuark.Internal.EntryType.BASE">
+        <member name="F:BlueQuark.Internal.DictionaryEntryType.BASE">
             <summary>
             Unique value for UI display purpose
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.EntryType.CLOSE_PHONETIC">
+        <member name="F:BlueQuark.Internal.DictionaryEntryType.CLOSE_PHONETIC">
             <summary>
             Dictionary entry for STT purpose mainly
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.EntryType.RANDOM">
+        <member name="F:BlueQuark.Internal.DictionaryEntryType.RANDOM">
             <summary>
             Dictionary entry for TTS purpose mainly
             </summary>
@@ -1932,6 +1917,50 @@
             <summary>
             Say list containing value that will be choosen randomly 
             </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.StringDictionary.Contains(System.String,BlueQuark.Context)">
+            <summary>
+            Checks if a specified key-value pair is contained in the dictionary.
+            Lookup speed in Th(iKey.Length).
+            </summary>
+            <param name="iKey">The key word to check</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>True if the key is stored inside the dictionary</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.StringDictionary.Get(System.String,BlueQuark.Context)">
+            <summary>
+            Retrieves the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length).
+            </summary>
+            <param name="iKey">The key word corresponding to the wished word</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>The word in the current language, empty if not found</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.StringDictionary.GetRandom(System.String,BlueQuark.Context)">
+            <summary>
+            Retrieves a random word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length).
+            </summary>
+            <param name="iKey">The key word corresponding to the wished random word</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>The word in the current language, empty if not found</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.StringDictionary.GetPhonetics(System.String,BlueQuark.Context)">
+            <summary>
+            Retrieves the corresponding list to the input iKey. Useful for multiple response handling with the SpeechToText
+            </summary>
+            <param name="iKey">The key corresponding to the wished list</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>List of strings that must sound similar</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.StringDictionary.ContainsPhonetic(System.String,System.String,BlueQuark.Context)">
+            <summary>
+            Proceed to a GetPhoneticsStrings(iKey, iContext = APP) and checks if one element on the closephonetic array is contained in iRef
+            </summary>
+            <param name="iRef">The sentence to compare to each word into the list</param>
+            <param name="iKey">The key corresponding to the wished list</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>True if the one element of the closephonetic array in contained in iRef sentence (not null and not empty), false otherwise</returns>
         </member>
         <member name="T:BlueQuark.Internal.IBinarySensor">
             <summary>
@@ -2085,8 +2114,12 @@
         </member>
         <member name="T:BlueQuark.Internal.ARemoteCommand">
             <summary>
-            Atomic behaviour from the Command pattern. You can define your own commands by inherit from ACommand.
-            Parameters can be setted with the Parameters attributes.
+            Represents an embedded command sended remotely and executed on the robot.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.ARemoteCommand.Timestamp">
+            <summary>
+            Timestamp of the command execution
             </summary>
         </member>
         <member name="P:BlueQuark.Internal.ARemoteCommand.Parameters">
@@ -2097,11 +2130,6 @@
         <member name="P:BlueQuark.Internal.ARemoteCommand.IsExecuted">
             <summary>
             Check if the command has been executed
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.ARemoteCommand.IsExecutedImpl">
-            <summary>
-            Own implementation to check if the current command was executed
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.ARemoteCommand.#ctor">
@@ -2169,135 +2197,68 @@
             </summary>
             <returns>Command string value for debug</returns>
         </member>
-        <member name="T:BlueQuark.Internal.ACommandExtention">
-            <summary>
-            Static command extention for IEnumerable of ACommand
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{BlueQuark.Internal.ARemoteCommand})">
-            <summary>
-            Execute all command behaviours defined in ExecuteImpl
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.ACommandExtention.UpdateParams(System.Collections.Generic.IEnumerable{BlueQuark.Internal.ARemoteCommand},System.Int32[])">
-            <summary>
-            Update params in existing command. Allows to avoid recreate a new command for the same purpose.
-            </summary>
-            <param name="iCommands">List of commands to update</param>
-            <param name="iIntegers">Integers that will replace existing Integers in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ACommandExtention.UpdateParams(System.Collections.Generic.IEnumerable{BlueQuark.Internal.ARemoteCommand},System.String[])">
-            <summary>
-            Update params in all commands. Allows to avoid recreate a new command for the same purpose.
-            </summary>
-            <param name="iCommands">List of commands to update</param>
-            <param name="iStrings">Strings that will replace existing Strings in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ACommandExtention.UpdateParams(System.Collections.Generic.IEnumerable{BlueQuark.Internal.ARemoteCommand},System.Single[])">
-            <summary>
-            Update params in all commands. Allows to avoid recreate a new command for the same purpose.
-            </summary>
-            <param name="iCommands">List of commands to update</param>
-            <param name="iSingles">Singles that will replace existing Singles in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.Int32}},System.Int32)">
-            <summary>
-            Update params in existing command. Allows to avoid recreate a new command for the same purpose.
-            </summary>
-            <param name="iActions">List of actions to execute</param>
-            <param name="iInteger">Integers that will replace existing Integers in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.String}},System.String)">
-            <summary>
-            Update params in all commands. Allows to avoid recreate a new command for the same purpose.
-            </summary>
-            <param name="iActions">List of actions to execute</param>
-            <param name="iString">Strings that will replace existing Strings in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.Single}},System.Single)">
-            <summary>
-            Update params in all commands. Allows to avoid recreate a new command for the same purpose.
-            </summary>
-            <param name="iActions">List of actions to execute</param>
-            <param name="iSingle">Singles that will replace existing Singles in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ACommandExtention.Execute(System.Collections.Generic.IEnumerable{System.Action{System.Object}},System.Object)">
-            <summary>
-            Update params in all commands. Allows to avoid recreate a new command for the same purpose.
-            </summary>
-            <param name="iActions">List of actions to execute</param>
-            <param name="iObject">Objects that will replace existing Objects in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="T:BlueQuark.Internal.RotateNoCmd">
+        <member name="T:BlueQuark.Internal.SetNoHingePositionCmd">
             <summary>
             When executed : Set the angular position of the motor at a specific speed
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.RotateNoCmd.#ctor">
+        <member name="M:BlueQuark.Internal.SetNoHingePositionCmd.#ctor">
             <summary>
             Default constructor
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.RotateNoCmd.#ctor(System.Single,System.Single)">
+        <member name="M:BlueQuark.Internal.SetNoHingePositionCmd.#ctor(System.Single,System.Single)">
             <summary>
             When executed : Set the angular position of the motor at a specific speed
             </summary>
             <param name="iAngle">Angle in degrees of the angular position</param>
             <param name="iSpeed">Speed in degrees/sec of the motor</param>
         </member>
-        <member name="M:BlueQuark.Internal.RotateNoCmd.ExecuteImpl">
+        <member name="M:BlueQuark.Internal.SetNoHingePositionCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.RotateYesCmd">
+        <member name="T:BlueQuark.Internal.SetYesPositionCmd">
             <summary>
             When executed : Set the angular position of the motor at a specific speed
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.RotateYesCmd.#ctor">
+        <member name="M:BlueQuark.Internal.SetYesPositionCmd.#ctor">
             <summary>
             Default constructor
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.RotateYesCmd.#ctor(System.Single,System.Single)">
+        <member name="M:BlueQuark.Internal.SetYesPositionCmd.#ctor(System.Single,System.Single)">
             <summary>
             When executed : Set the angular position of the motor at a specific speed
             </summary>
             <param name="iAngle">Angle in degrees of the angular position</param>
             <param name="iSpeed">Speed in degrees/sec of the motor</param>
         </member>
-        <member name="M:BlueQuark.Internal.RotateYesCmd.ExecuteImpl">
+        <member name="M:BlueQuark.Internal.SetYesPositionCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.SetWheelsSpeedCmd">
+        <member name="T:BlueQuark.Internal.SetWheelsVelocitiesCmd">
             <summary>
             When executed : Controls the speed of the wheels, stops after the timeout.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.SetWheelsSpeedCmd.#ctor">
+        <member name="M:BlueQuark.Internal.SetWheelsVelocitiesCmd.#ctor">
             <summary>
             Default constructor
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.SetWheelsSpeedCmd.#ctor(System.Single,System.Single,System.Int32)">
+        <member name="M:BlueQuark.Internal.SetWheelsVelocitiesCmd.#ctor(System.Single,System.Single)">
             <summary>
-            When executed : Controls the speed of the wheels, stops after the timeout.
+            When executed : Sets robot linear (meters / s) and angular (deg / s) velocities.
             </summary>
-            <param name="iLeft">Desired left wheel speed, in degrees per seconds</param>
-            <param name="iRight">Desired right wheel speed, in degrees per seconds</param>
-            <param name="iTimeout">Timeout in milliseconds</param>
+            <param name="iLinearVelocity">Rate of change (in meters by second) of an object position with in a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see></param>
+            <param name="iAngularVelocity">Rate (in degrees by second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see></param>
         </member>
-        <member name="M:BlueQuark.Internal.SetWheelsSpeedCmd.ExecuteImpl">
+        <member name="M:BlueQuark.Internal.SetWheelsVelocitiesCmd.ExecuteImpl">
             <summary>
             Execute the command behaviour.
             </summary>
@@ -2789,7 +2750,7 @@
         </member>
         <member name="T:BlueQuark.Internal.ETwoColumnsLayout">
             <summary>
-            Two columns layout for Explorer GUI component
+            Two columns layout for Explorer GUI component.
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.EOneColumnLayout">
@@ -3442,6 +3403,52 @@
             </summary>
             <param name="iUtterance">The text to say</param>
             <param name="iOnEnSpeaking">callback called on end of output speech</param>
+        </member>
+        <member name="T:BlueQuark.Internal.WebRTCListener">
+            <summary>
+            This part listens on the Crossbar server to know if there is any incoming call
+            </summary>
+            <summary>
+            This part listens on the Crossbar server to know if there is any incoming call
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.WebRTCListener.PublishNotification(System.String)">
+            <summary>
+            Format of the notification is the following : BuddyID / Title @ Message
+            </summary>
+            <param name="iMessage">Notification message to send</param>
+        </member>
+        <member name="M:BlueQuark.Internal.WebRTCListener.StartListener(System.String,System.String)">
+            <summary>
+            Initialize the Java Android Object that handles PubSub messages from Crossbar
+            </summary>
+            <param name="iUri">Crossbar uri</param>
+            <param name="iRealm">Name of the realm</param>
+        </member>
+        <member name="M:BlueQuark.Internal.WebRTCListener.WaitSTTFinished(System.String)">
+            <summary>
+            Wait until STT has finished listening and is free to use
+            </summary>
+            <param name="iChatMessage">The Chat message received to process</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.WebRTCListener.PublishConnectionRequest(System.String)">
+            <summary>
+            Use this to make a call towards another Buddy
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.WebRTCListener.SendNotification(System.String,System.String)">
+            <summary>
+            Send notification as Crossbar published event
+            </summary>
+            <param name="iTitle">Title of the notification</param>
+            <param name="iMessage">Body message of the notification</param>
+        </member>
+        <member name="M:BlueQuark.Internal.WebRTCListener.ProcessAnswer(System.String)">
+            <summary>
+            Use this to send back the answer to the user.
+            </summary>
+            <param name="iAnswer"></param>
         </member>
         <member name="T:BlueQuark.TaskOwner">
             <summary>
@@ -6782,11 +6789,6 @@
             The data object will be serialized when the application is quited and unserialized the first that that GetInstance()
             will be called. Do never change the name of your {APP_NAME}Data class.
             </summary>
-            <summary>
-            Your app data class must inherit from this class. Your app data will be store here.
-            The data object will be serialized when the application is quited and unserialized the first that that GetInstance()
-            will be called. Do never change the name of your {APP_NAME}Data class.
-            </summary>
         </member>
         <member name="F:BlueQuark.AAppData.sInstance">
             <summary>
@@ -7120,7 +7122,7 @@
             <summary>
             Core of the Buddy Operating System.
             Gave access to robot control and tools like UI, sensors, actuators, resources and miscellaneous managers.
-            A Unique instance of Buddy is created in the whole application.
+            A Unique instance of Buddy is created in the whole program.
             SDK documentation at <see cref="!:http://bfr-dev.azurewebsites.net/documentation/class_blue_quark_1_1_buddy.html"/>
             </summary>
             <remarks>
@@ -7129,37 +7131,37 @@
         </member>
         <member name="P:BlueQuark.Buddy.Actuators">
             <summary>
-            The master component (module) containing sub components responsible of moving and controlling the robot system.
+            The module containing sub components responsible of moving and controlling the robot system.
             </summary>
         </member>
         <member name="P:BlueQuark.Buddy.Sensors">
             <summary>
-            The master component (module) containing whole robot sensors. Sensors are used for detection and perception systems.
+            The module containing whole robot sensors. Sensors are used for detection and perception systems.
             </summary>
         </member>
         <member name="P:BlueQuark.Buddy.IO">
             <summary>
-            The master component (module) containing all IO hardware components like Bluetooth, WiFi or GPIO.
+            The module containing all IO hardware components like Bluetooth, WiFi or GPIO.
             </summary>
         </member>
         <member name="P:BlueQuark.Buddy.Resources">
             <summary>
-            The master component (module) in charge of handling all application assets (scene, sprites, raw files, sounds ...).
+            The module in charge of handling all application assets (scene, sprites, raw files, sounds ...).
             </summary>
         </member>
         <member name="P:BlueQuark.Buddy.Cognitive">
             <summary>
-            The master component (module) containing all cognitive aspect of the robot.
+            The module containing all cognitive aspect of the robot.
             </summary>
         </member>
         <member name="P:BlueQuark.Buddy.Behaviour">
             <summary>
-            The master component (module) containing all behaviour component such as Mood or the Behaviour player.
+            The module containing all behaviour component such as Mood or the Behaviour player.
             </summary>
         </member>
         <member name="P:BlueQuark.Buddy.WebServices">
             <summary>
-            The master component (module) containing all miscenalleous web service components.
+            The module containing all miscenalleous web service components.
             </summary>
         </member>
         <member name="P:BlueQuark.Buddy.Navigation">
@@ -7169,22 +7171,22 @@
         </member>
         <member name="P:BlueQuark.Buddy.Perception">
             <summary>
-            The master component (module) containing all sensor's base algorithms.
+            The module containing all sensor's base algorithms.
             </summary>
         </member>
         <member name="P:BlueQuark.Buddy.Vocal">
             <summary>
-            The master component (module) for vocal management (say, hot word and listen).
+            The module for vocal management (say, hot word and listen).
             </summary>
         </member>
         <member name="P:BlueQuark.Buddy.GUI">
             <summary>
-            The master component (module) containing all GUI built-in tools such like notification or contextual widgets.
+            The module containing all GUI built-in tools such like notification or contextual widgets.
             </summary>
         </member>
         <member name="P:BlueQuark.Buddy.Platform">
             <summary>
-            The master component (module) handling all external data like apps, language or users. 
+            The module handling all external data like apps, language or users. 
             </summary>
         </member>
         <member name="T:BlueQuark.Platform">
@@ -7197,7 +7199,7 @@
             Name of the SDK.
             </summary>
         </member>
-        <member name="P:BlueQuark.Platform.App">
+        <member name="P:BlueQuark.Platform.Application">
             <summary>
             App management.
             </summary>
@@ -7960,46 +7962,52 @@
         </member>
         <member name="T:BlueQuark.Resources">
             <summary>
-            Allow you to retrieve the full path from the name of the raw file
-            </summary>
-            <summary>
-            Allow you to retrieve the full path from the name of the raw file
+            The module in charge of handling all application assets (sprites, raw files path, sounds ...).
             </summary>
         </member>
         <member name="P:BlueQuark.Resources.Item(System.String)">
             <summary>
-            Retrieve the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
-            Lookup speed in Th(iKey.Length)
+            Retrieves the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length).
             </summary>
             <param name="iKey">The key word corresponding to the wished word</param>
             <returns>The word in the current language, default value if not found</returns>
         </member>
         <member name="P:BlueQuark.Resources.AppRawDataPath">
             <summary>
-            Allow you to retrieve the full path from the name of the raw file / directory
+            Allows you to retrieve the full path from the name of the raw file / directory
             </summary>
+        </member>
+        <member name="M:BlueQuark.Resources.ContainsKey(System.String,BlueQuark.Context)">
+            <summary>
+            Checks if a specified key-value pair is contained in the dictionary.
+            Lookup speed in Th(iKey.Length).
+            </summary>
+            <param name="iKey">The key word to check</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>True if the key is stored inside the dictionary</returns>
         </member>
         <member name="M:BlueQuark.Resources.GetString(System.String,BlueQuark.Context)">
             <summary>
-            Retrieve the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
-            Lookup speed in Th(iKey.Length)
+            Retrieves the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length).
             </summary>
             <param name="iKey">The key word corresponding to the wished word</param>
             <param name="iContext">The context corresponding to the dictionary to use</param>
-            <returns>The word in the current language, default value if not found</returns>
+            <returns>The word in the current language, empty if not found</returns>
         </member>
         <member name="M:BlueQuark.Resources.GetRandomString(System.String,BlueQuark.Context)">
             <summary>
-            Retrieve a random word from the input key word. Checks first in app dict if exists, if not checks in native dict.
-            Lookup speed in Th(iKey.Length)
+            Retrieves a random word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length).
             </summary>
             <param name="iKey">The key word corresponding to the wished random word</param>
             <param name="iContext">The context corresponding to the dictionary to use</param>
-            <returns>The word in the current language, default value if not found</returns>
+            <returns>The word in the current language, empty if not found</returns>
         </member>
         <member name="M:BlueQuark.Resources.GetPhoneticStrings(System.String,BlueQuark.Context)">
             <summary>
-            Retrieve the corresponding list to the input iKey. Useful for multiple response handling with the SpeechToText
+            Retrieves the corresponding list to the input iKey. Useful for multiple response handling with the SpeechToText
             </summary>
             <param name="iKey">The key corresponding to the wished list</param>
             <param name="iContext">The context corresponding to the dictionary to use</param>
@@ -8033,7 +8041,7 @@
         </member>
         <member name="M:BlueQuark.Resources.GetJIT``1(System.String)">
             <summary>
-            Load the resource from Resource/ or from downloaded bundles.
+            Load the resource from Resource/ or from downloaded bundles. Does not store the retrieved resource.
             </summary>
             <typeparam name="T">Type of the resource</typeparam>
             <param name="iFullPath">Full absolute path of the resource</param>
@@ -9429,6 +9437,32 @@
             Represents a toast composed by an horizontal capsule with many paramters.
             </summary>
         </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast})">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
+            <returns>GUID of the toast</returns>
+        </member>
         <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},System.Action,System.String,System.Action,System.String)">
             <summary>
             Set toast parameters.
@@ -9875,6 +9909,201 @@
         <member name="M:BlueQuark.CallbackArray`3.FireEvent(`0,`1,`2)">
             <summary>
             Trigger all callbacks
+            </summary>
+        </member>
+        <member name="T:BlueQuark.LogInfo">
+            <summary>
+            Represents a kind of log error/event
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.BAD_ARGUMENT">
+            <summary>
+            The input argument is bad.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.BAD_FORMAT">
+            <summary>
+            The input argument has a bad format. Specific for parsing purposes.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.NULL_VALUE">
+            <summary>
+            The value is null. Use BAD_ARGMENT for input arguments.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.OUT_OF_BOUND">
+            <summary>
+            An out of bound problem arised.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.ENABLED">
+            <summary>
+            The process is enabled.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.DISABLED">
+            <summary>
+            The process is disabled.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.BUSY">
+            <summary>
+            The process cannot perform something immediatly because it is busy.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.TIME_OUT">
+            <summary>
+            A time out problem arised.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.RUNNING">
+            <summary>
+            Attempt to start an heavy process.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.COMPILING">
+            <summary>
+            Attempt to start a compilation process
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.COMPUTING">
+            <summary>
+            Attempt to start an heavy computing process.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.STOPPING">
+            <summary>
+            Stopping an heavy process.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.UPLOADING">
+            <summary>
+            Uploading a file to the WWW.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.DOWNLOADING">
+            <summary>
+            Uploading a file from the WWW.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.SENDING">
+            <summary>
+            Sending a data through any communication mechanism.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.LOADING">
+            <summary>
+            Loading a resource.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.UNLOADING">
+            <summary>
+            Unloading a resource.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.RETRIEVING">
+            <summary>
+            Retrieving a process.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.RELEASING">
+            <summary>
+            Releasing a process.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.UNAUTHORIZED">
+            <summary>
+            Unauthorized to do this.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.ALREADY_EXISTS">
+            <summary>
+            This element already exsist.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.ACCESSING">
+            <summary>
+            Attempt to access a resource.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.NOT_FOUND">
+            <summary>
+            The resource was not found in that place.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.READING">
+            <summary>
+            Attempt to read something from solid drive.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.WRITING">
+            <summary>
+            Attempt to write something in solid drive.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.DELETING">
+            <summary>
+            Attempt to delete something from solid drive.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.SYNCHRONIZING">
+            <summary>
+            Attempt to synchronize.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogInfo.DESYNCHRONIZED">
+            <summary>
+            A desynchonization between many process has been detected.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.LogStatus">
+            <summary>
+            Represents the status of the log situation
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogStatus.INFO">
+            <summary>
+            The log is just a basic info.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogStatus.START">
+            <summary>
+            The log signals that a specific process is starting.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogStatus.SUCCESS">
+            <summary>
+            The log signals that a started process has succeed.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogStatus.FAILURE">
+            <summary>
+            The log signals that a process cannot be done due to some error.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.ExtLogModule">
+            <summary>
+            Represents an external module from the OS.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ExtLogModule.OPENCVUNITY">
+            <summary>
+            Inside the OpenCVUnity library.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ExtLogModule.BLUEQUARK_EDITOR">
+            <summary>
+            Inside the BlueQuark Editor libraries.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ExtLogModule.APP">
+            <summary>
+            Inside a running application.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ExtLogModule.APP_EDITOR">
+            <summary>
+            Inside an app editor.
             </summary>
         </member>
         <member name="T:BlueQuark.AStarNode">
@@ -12590,80 +12819,6 @@
             <summary>
             Thunderstorms.
             </summary>
-        </member>
-        <member name="T:BlueQuark.WebRTCListener">
-            <summary>
-            This part listens on the Crossbar server to know if there is any incoming call
-            </summary>
-            <summary>
-            This part listens on the Crossbar server to know if there is any incoming call
-            </summary>
-        </member>
-        <member name="M:BlueQuark.WebRTCListener.PublishNotification(System.String)">
-            <summary>
-            Format of the notification is the following : BuddyID / Title @ Message
-            </summary>
-            <param name="iMessage">Notification message to send</param>
-        </member>
-        <member name="M:BlueQuark.WebRTCListener.StartListener(System.String,System.String)">
-            <summary>
-            Initialize the Java Android Object that handles PubSub messages from Crossbar
-            </summary>
-            <param name="iUri">Crossbar uri</param>
-            <param name="iRealm">Name of the realm</param>
-        </member>
-        <member name="M:BlueQuark.WebRTCListener.WaitSTTFinished(System.String)">
-            <summary>
-            Wait until STT has finished listening and is free to use
-            </summary>
-            <param name="iChatMessage">The Chat message received to process</param>
-            <returns></returns>
-        </member>
-        <member name="P:BlueQuark.WebRTCListener.RemoteID">
-            <summary>
-            Used to know the Remote ID for RTC communication
-            </summary>
-        </member>
-        <member name="P:BlueQuark.WebRTCListener.MessageFromChat">
-            <summary>
-            Use this to know if answer from STT comes from a Chat question
-            </summary>
-        </member>
-        <member name="M:BlueQuark.WebRTCListener.PublishConnectionRequest(System.String)">
-            <summary>
-            Use this to make a call towards another Buddy
-            </summary>
-        </member>
-        <member name="M:BlueQuark.WebRTCListener.OnConnectionRequest(System.String)">
-            <summary>
-            Called by Android plugin when message is received from the PubSub of Crossbar
-            </summary>
-            <param name="iMessage"></param>
-        </member>
-        <member name="M:BlueQuark.WebRTCListener.OnAndroidLog(System.String)">
-            <summary>
-            Called by Android plugin for Debug purposes
-            </summary>
-            <param name="iLogText"></param>
-        </member>
-        <member name="M:BlueQuark.WebRTCListener.SendNotification(System.String,System.String)">
-            <summary>
-            Send notification as Crossbar published event
-            </summary>
-            <param name="iTitle">Title of the notification</param>
-            <param name="iMessage">Body message of the notification</param>
-        </member>
-        <member name="M:BlueQuark.WebRTCListener.ProcessAnswer(System.String)">
-            <summary>
-            Use this to send back the answer to the user.
-            </summary>
-            <param name="iAnwser"></param>
-        </member>
-        <member name="M:BlueQuark.WebRTCListener.OnMessageReceived(System.String)">
-            <summary>
-            Used by Android plugin when chat message is received through WebRTC and send it back to user
-            </summary>
-            <param name="iChatMessage">Chat message received through WebRTC</param>
         </member>
         <member name="T:BlueQuark.WebServices">
             <summary>
