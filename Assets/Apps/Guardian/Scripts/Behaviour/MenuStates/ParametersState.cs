@@ -33,6 +33,7 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+            Debug.Log("ON STATE ENTER PARAMETER STATE !!!!!!!!!!!!!!!!!!!!!!");
 			GuardianData.Instance.HeadOrientation = false;
 			GuardianData.Instance.MovementDebug = false;
 			GuardianData.Instance.SoundDebug = false;
@@ -46,9 +47,21 @@ namespace BuddyApp.Guardian
                
             }
 
-			//Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
-			//	() => { Trigger("NextStep"); },
-			//	null);
+            //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
+            //	() => { Trigger("NextStep"); }, 
+            //	null);
+
+            //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+            {
+                iBuilder.CreateWidget<TText>().SetLabel("test");
+                iBuilder.CreateWidget<TSlider>().OnSlide.Add((iVal) => Debug.Log(iVal));
+                iBuilder.CreateWidget<TToggle>().OnToggle.Add((iVal) => Debug.Log(iVal));
+                iBuilder.CreateWidget<TText>().SetLabel("test2");
+            },
+            () => { Debug.Log("Click cancel"); }, "Cancel",  
+            () => { Debug.Log("Click next"); Buddy.GUI.Toaster.Hide(); }, "Next"
+            );
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

@@ -33,6 +33,8 @@ namespace BuddyApp.Guardian
         /// </summary>
         //public GuardianMode Mode { get; set; }
 
+        public int Angle { get; set; }
+
         /// <summary>
         /// Tells if param as already be launched
         /// </summary>

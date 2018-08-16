@@ -43,7 +43,7 @@ namespace BuddyApp.Guardian
 
             mAlert = GetAlert();
 
-            Buddy.Behaviour.Mood.Set(FacialExpression.SCARED);
+            Buddy.Behaviour.SetMood(Mood.SCARED);
             Buddy.Vocal.Say(mAlert.GetSpeechText());
 
             mAction = DisplayAlert();
@@ -75,7 +75,7 @@ namespace BuddyApp.Guardian
                 mDetectionManager.Countdown += Time.deltaTime;
                 mAlarm = false;
                 mDetectionManager.IsAlarmWorking = true;
-                Buddy.Actuators.Speakers.Media.loop = true;
+                Buddy.Actuators.Speakers.Media.Repeat = true;
                 Buddy.Actuators.Speakers.Media.Play(0);
             }
 
@@ -86,7 +86,7 @@ namespace BuddyApp.Guardian
 				iAnimator.SetBool("Password", false);
 
                 mDetectionManager.IsAlarmWorking = false;
-                Buddy.Actuators.Speakers.Media.Loop = false;
+                Buddy.Actuators.Speakers.Media.Repeat = false;
                 Buddy.Actuators.Speakers.Media.Stop();
                 Trigger("InitDetection");
             }
@@ -95,7 +95,7 @@ namespace BuddyApp.Guardian
         
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
         }
 
         private IEnumerator DisplayAlert()
@@ -141,7 +141,7 @@ namespace BuddyApp.Guardian
 
         private void OnMailSent()
         {
-            Notifier.Display<SimpleNotification>().With(Dictionary.GetString("mailsent"), null);
+            Buddy.GUI.Notifier.Display<SimpleNotification>().With(Buddy.Resources.GetString("mailsent"), null);
         }
 
     }

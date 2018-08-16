@@ -15,7 +15,7 @@ namespace BuddyApp.Weather
         private bool mAnswerReceived;
         private bool mQuit;
         private int mTimeout;
-
+         
         public override void Start()
         {
             mWeatherB = GetComponent<WeatherBehaviour>();

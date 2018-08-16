@@ -101,7 +101,7 @@ namespace BuddyApp.BuddyLab
 
         private IEnumerator InitScene()
         {
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             Debug.Log("name project: " + mBLBehaviour.NameOpenProject);
             mItemControl.CleanSequence();
             yield return null;

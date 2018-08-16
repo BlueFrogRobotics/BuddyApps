@@ -24,7 +24,7 @@ namespace BuddyApp.Guardian
         [SerializeField]
         private UnityEngine.UI.Button buttonBack;
 
-        [SerializeField]
+        [SerializeField] 
         private RawImage rawCamImage;
 
         [SerializeField]
@@ -42,16 +42,5 @@ namespace BuddyApp.Guardian
         public Animator HeadControlAnimator { get { return headControlAnimator; } }
         public RawImage RawBuddyFaceImage { get { return rawBuddyFaceImage; } }
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

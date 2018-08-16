@@ -34,7 +34,7 @@ namespace BuddyApp.Guardian
         public override void Start()
         {
             mTimer = 0.0f;
-            mDebugSoundWindow = GetGameObject(StateObject.DEBUG_SOUND).GetComponent<DebugSoundWindow>();
+            mDebugSoundWindow = GetGameObject(DEBUG_SOUND).GetComponent<DebugSoundWindow>();
             mRaw = mDebugSoundWindow.Raw;
             mGauge = mDebugSoundWindow.GaugeSensibility;
             mMatShow = new Mat(480, 640, CvType.CV_8UC3);

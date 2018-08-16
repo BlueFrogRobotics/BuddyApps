@@ -28,7 +28,7 @@ namespace BuddyApp.Guardian
 
 		public override void Start()
 		{
-			mHeadControllerWindow = GetGameObject(StateObject.HEAD_CONTROLLER).GetComponent<HeadControllerWindow>();
+			mHeadControllerWindow = GetGameObject(HEAD_CONTROLLER).GetComponent<HeadControllerWindow>();
 		}
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state

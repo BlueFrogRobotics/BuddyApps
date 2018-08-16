@@ -234,8 +234,12 @@ MonoBehaviour:
   titleKey: menutitle
   speechKey: askchoices
   NameOfXML: guardianmenu
+  Timeout: 3
   NameVoconGrammarFile: guardian
   context: 1
+  PlayBML: 0
+  RandomBML: 0
+  NameOfBML: []
 --- !u!114 &114526552403090516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -272,8 +276,12 @@ MonoBehaviour:
   titleKey: menutitle
   speechKey: askchoices
   NameOfXML: guardianmenu
+  Timeout: 3
   NameVoconGrammarFile: 
   context: 0
+  PlayBML: 0
+  RandomBML: 0
+  NameOfBML: []
 --- !u!114 &114559512238742066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -371,6 +379,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1575095165, guid: 2b4499283e983694288120942d3be80e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114852423393231454
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1978149089, guid: 2b4499283e983694288120942d3be80e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114869007710980580

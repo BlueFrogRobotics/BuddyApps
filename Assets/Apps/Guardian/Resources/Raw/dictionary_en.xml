@@ -1,0 +1,467 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageThesaurus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Entries>
+        <DictionaryEntry>
+            <Key>askchoices</Key>
+            <BaseValue>What do you want to do?</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>What do you want to do?</string>
+                <string>What do we do now?</string>
+                <string>Make a choice</string>
+                <string>Select the action</string>
+                <string>What's next?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>notunderstand</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Sorry, I didn't understand.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>fixed</Key>
+            <BaseValue>Fixed guard</BaseValue>
+            <ClosePhoneticValues>
+                <string>fixed</string>
+                <string>fix</string>
+                <string>don't move</string>
+                <string>fixed guard</string>
+                <string>fix guard</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>mobile</Key>
+            <BaseValue>Mobile guard</BaseValue>
+            <ClosePhoneticValues>
+                <string>mobile</string>
+                <string>mobile guard</string>
+                <string>move</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>quit</Key>
+            <BaseValue>Quit</BaseValue>
+            <ClosePhoneticValues>
+                <string>quit</string>
+                <string>stop</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headorientation</Key>
+            <BaseValue>Head Orientation</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>movementdetection</Key>
+            <BaseValue>Movement detection</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sounddetection</Key>
+            <BaseValue>Sound detection</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firedetection</Key>
+            <BaseValue>Fire detection</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>kidnappingdetection</Key>
+            <BaseValue>Kidnapping detection</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>whotocontact</Key>
+            <BaseValue>Who to contact ?</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>startdetectiontimer</Key>
+            <BaseValue>I start monitoring the place in :</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I start monitoring the place in 5 seconds.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>nobody</Key>
+            <BaseValue>Personne</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>detectionparameters</Key>
+            <BaseValue>Parameters</BaseValue>
+            <ClosePhoneticValues>
+                <string>parameters</string>
+                <string>parameter</string>
+                <string>configuration</string>
+                <string>parameterize</string>
+                <string>settings</string>
+                <string>set</string>
+                <string>setting</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>soundalert</Key>
+            <BaseValue>Alert ! Sound detected !</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I have detected some noise.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>movementalert</Key>
+            <BaseValue>Beware ! Movement detected !</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I have detected some movement.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firealert</Key>
+            <BaseValue>Beware ! Fire detected !</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I have detected fire.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>kidnappingalert</Key>
+            <BaseValue>Alert ! I'm being kidnapped !</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>I'm being kidnapped.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>alertdate</Key>
+            <BaseValue>It's XXX.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firealertmessage</Key>
+            <BaseValue>I have detected fire.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>soundalertmessage</Key>
+            <BaseValue>I have detected some noise.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>movementalertmessage</Key>
+            <BaseValue>I have detected some movement.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>changeheadorientation</Key>
+            <BaseValue>Setting</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>mailsent</Key>
+            <BaseValue>Mail sent</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>selectsensibility</Key>
+            <BaseValue>Select the appropriate sensibility then press the back button to come back to the parameters</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sensibility</Key>
+            <BaseValue>Sensibility</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>textdebugtemp</Key>
+            <BaseValue>Press the back button to come back to the parameters</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sensibilitysettings</Key>
+            <BaseValue>Setting</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>movementsensibility</Key>
+            <BaseValue>Motion detection sensibility</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>noisesensibility</Key>
+            <BaseValue>Sensibility to noise</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>testfiredetection</Key>
+            <BaseValue>Thermal sensitivity</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>thermicview</Key>
+            <BaseValue>Setting</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>mailnotif</Key>
+            <BaseValue>Enable mail notification</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>modifyparam</Key>
+            <BaseValue>Modify parameters</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>start</Key>
+            <BaseValue>Start watch</BaseValue>
+            <ClosePhoneticValues>
+                <string>Start</string>
+                <string>launch</string>
+                <string>begin</string>
+                <string>surveillance</string>
+                <string>watch</string>
+                <string>activate</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Start the watch</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firstmenu</Key>
+            <BaseValue>Welcome to guardian mode, before I start monitoring your place, we need to set up some parameters. Click on the button parameter or say "set the parameters".</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Welcome to guardian mode [500] before I start monitoring your place, we need to set up some parameters [500] Click on the button parameter [200] or say set the parameters.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firstparam</Key>
+            <BaseValue>In this panel, you can set the surveillance's parameters as you desire. Hit the validate button when you are done.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>In this panel, you can set the surveillance's parameters as you desire. Hit the validate button when you are done.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>audiodetectionmessage</Key>
+            <BaseValue> You can use the horizontal scrollbar at the bottom of the screen to adjust the sensitivity of the noise detection.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[1500] You can use the horizontal scrollbar at the bottom of the screen to adjust the sensitivity of the noise detection.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firststartdetectiontimer</Key>
+            <BaseValue>Press the top right button to change the application's settings</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>If you want to change the application's settings, press the parameter button at the top right of this screen</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>motiondetectionmessage</Key>
+            <BaseValue>You can use the horizontal scrollbar at the bottom of the screen to adjust the sensitivity of the motion detection.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[1500] You can use the horizontal scrollbar at the bottom of the screen to adjust the sensitivity of the motion detection.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>headorientationmessage</Key>
+            <BaseValue>Press the arrows to set my head's position</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>[1000] Press the arrows to set my head's position</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>thermaldebug</Key>
+            <BaseValue>Thermal Debug</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>The coloured squares represents the heat. [300] The red one are the hotter. [500] You can put your hand in front of me to visualize its warmth</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>scan</Key>
+            <BaseValue>Mobile head</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Mobile head</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>menutitle</Key>
+            <BaseValue>Menu</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+    </Entries>
+</LanguageThesaurus>

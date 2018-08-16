@@ -32,7 +32,7 @@ namespace BuddyApp.Guardian
         public override void Start()
         {
             mMaxThreshold = DetectionManager.MAX_MOVEMENT_THRESHOLD;
-            mDebugMovementWindow = GetGameObject(StateObject.DEBUG_MOVEMENT).GetComponent<DebugMovementWindow>();
+            mDebugMovementWindow = GetGameObject(DEBUG_MOVEMENT).GetComponent<DebugMovementWindow>();
             mRaw = mDebugMovementWindow.Raw;
             mGauge = mDebugMovementWindow.GaugeSensibility;
             mHasDetectedMouv = false;
@@ -113,7 +113,10 @@ namespace BuddyApp.Guardian
             if (lNewThreshold != mCurrentThreshold)
             {
                 mCurrentThreshold = lNewThreshold;
-                mMovementTracker.ChangeThreshold(OnMovementDetected, lNewThreshold);
+                MotionDetectorParameter lParamDetect = new MotionDetectorParameter();
+                lParamDetect.SensibilityThreshold = lNewThreshold;
+                mMovementTracker.OnDetect.ModifyParameterP(OnMovementDetected, lParamDetect);
+                
                 Debug.Log("threshold de test: " + lNewThreshold);
             }
 			Mat mMat = new Mat();

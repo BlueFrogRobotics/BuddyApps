@@ -27,7 +27,7 @@ namespace BuddyApp.Guardian
             Debug.Log("on awake activity");
             //Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
             Debug.Log("on loading activity");
-            Buddy.GUI.Header.OnClickParameters = OnClickParameters;
+            Buddy.GUI.Header.OnClickParameters.Add(OnClickParameters); 
             Buddy.GUI.Screen.OnClickToUnlock.Add(OnClickLockedScreen);
             Buddy.GUI.Screen.OnSuccessUnlock.Add(OnSuccessUnlockScreen);
             Buddy.GUI.Screen.OnFailUnlock.Add(OnFailureUnlockScreen);
@@ -37,11 +37,11 @@ namespace BuddyApp.Guardian
         }
 
 
-        private bool OnClickParameters()
+        private void OnClickParameters()
         {
             Animator.Play("Parameters");
             Buddy.GUI.Header.DisplayParametersButton(false);
-			return false;
+			//return false;
         }
 
         private void OnCancelUnlockScreen()
@@ -106,7 +106,7 @@ namespace BuddyApp.Guardian
                 Animator.GetBehaviour<WalkState>().StopWalkCoroutines();
                 Animator.GetBehaviour<TurnState>().StopTurnCoroutines();
 
-                mDetectionManager.Roomba.enabled = false;
+                //mDetectionManager.Roomba.enabled = false;
                 Buddy.Actuators.Wheels.Stop();
 
                 Animator.SetBool("Password", true);
@@ -115,14 +115,14 @@ namespace BuddyApp.Guardian
 
 		private void OnSuccessUnlockScreen()
 		{
-			BYOS.Instance.Primitive.Speaker.ChangeVolume(mDetectionManager.Volume);
+			Buddy.Actuators.Speakers.Volume = mDetectionManager.Volume;
 			mDetectionManager.CurrentTimer = 0f;
             mDetectionManager.Countdown = 0f;
 
             mDetectionManager.IsPasswordCorrect = true;
             mDetectionManager.IsAlarmWorking = false;
 
-            BYOS.Instance.Primitive.Speaker.FX.Loop = false;
+            Buddy.Actuators.Speakers.Media.Repeat = false;
 
             Animator.ResetTrigger("InitDetection");
 			Animator.ResetTrigger("FixedDetection");
@@ -138,7 +138,7 @@ namespace BuddyApp.Guardian
 
         private void OnFailureUnlockScreen()
         {
-            BYOS.Instance.Primitive.Speaker.FX.Loop = false;
+            Buddy.Actuators.Speakers.Media.Repeat = false;
 
             Animator.ResetTrigger("InitDetection");
             Animator.ResetTrigger("FixedDetection");
@@ -148,8 +148,8 @@ namespace BuddyApp.Guardian
             Animator.ResetTrigger("Alert");
 
             if (mDetectionManager.IsAlarmWorking) {
-                BYOS.Instance.Primitive.Speaker.FX.Loop = true;
-                BYOS.Instance.Primitive.Speaker.FX.Play(0);
+                Buddy.Actuators.Speakers.Media.Repeat = true;
+                Buddy.Actuators.Speakers.Media.Play(0);
                 Animator.Play("Alert");
 
             } else if (mDetectionManager.CurrentTimer > 0.0f && mDetectionManager.CurrentTimer < 15f) {
@@ -171,7 +171,8 @@ namespace BuddyApp.Guardian
 
 		private void OnMailSent()
 		{
-			Notifier.Display<SimpleNot>().With(Dictionary.GetString("mailsent"), null);
+            Buddy.GUI.Notifier.Display<SimpleNotification>().With(Buddy.Resources.GetString("mailsent"), null);
+            
 			Debug.Log("mail sent");
 		}
 	}

@@ -6,6 +6,7 @@ namespace BuddyApp.Guardian
 {
     public class TurnState : AStateMachineBehaviour
     {
+        private GuardianData mData;
         private DetectionManager mDetectionManager;
         private IEnumerator mAction;
 
@@ -16,7 +17,7 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Buddy.Behaviour.Mood.Set(FacialExpression.LISTENING);
+            Buddy.Behaviour.SetMood(Mood.LISTENING);
 
             mAction = WatchAtAngle();
             StartCoroutine(mAction);
@@ -40,7 +41,8 @@ namespace BuddyApp.Guardian
 
             yield return new WaitForSeconds(1F);
 
-            CommonIntegers["Angle"] += 30;
+            mData.Angle += 30;
+            //CommonIntegers["Angle"] += 30;
             Trigger("MobileDetection");
         }
 
@@ -56,7 +58,7 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
         }
     }
 }

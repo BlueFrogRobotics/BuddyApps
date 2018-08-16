@@ -24,6 +24,11 @@ namespace BuddyApp.Guardian
     /// </summary>
     public abstract class AStateMachineBehaviour : StateMachineBehaviour
     {
+        public const int HEAD_CONTROLLER = 0;
+        public const int DEBUG_MOVEMENT = 1;
+        public const int DEBUG_SOUND = 2;
+        public const int DEBUG_FIRE = 3;
+
         private GuardianStateMachineManager mManager;
         private Animator mAnimator;
 

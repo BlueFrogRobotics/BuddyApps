@@ -207,8 +207,8 @@ namespace BuddyApp.Diagnostic
             //                            (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
             //                            toleranceSetter.value);
             Debug.Log("NOT IMPLEMENTED YET");
-            Buddy.Navigation.Run<LocationStrategy>().To(new Vector2(float.Parse(xPosSetter.text),
-                                        float.Parse(yPosSetter.text)));
+            //Buddy.Navigation.Run<LocationStrategy>().To(new Vector2(float.Parse(xPosSetter.text),
+            //                            float.Parse(yPosSetter.text)));
         }
 
         public void SetYesPos()

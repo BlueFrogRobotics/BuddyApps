@@ -22,7 +22,7 @@ namespace BuddyApp.Guardian
 		{
 			Debug.Log("EnterHead Turn!!!!");
 			mHasFinishedScan = false;
-            Buddy.Behaviour.Mood.Set(FacialExpression.LISTENING);
+            Buddy.Behaviour.SetMood(Mood.LISTENING);
 			
 			StartCoroutine(ScanNextPose());
 		}
@@ -98,7 +98,7 @@ namespace BuddyApp.Guardian
 		{
 			// Go back to middle
 			Buddy.Actuators.Head.No.SetPosition(0, NoHeadHinge.MAX_ANG_VELOCITY);
-			Buddy.Behaviour.Mood.Set(FacialExpression.NEUTRAL);
+			Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 		}
 	}
 }

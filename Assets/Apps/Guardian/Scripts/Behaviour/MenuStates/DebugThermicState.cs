@@ -20,7 +20,7 @@ namespace BuddyApp.Guardian
             mThermalDetection.OnDetect.AddP(OnFireDetected, 50);
            // Perception.Stimuli.RegisterStimuliCallback(StimulusEvent.FIRE_DETECTED, OnFireDetected);
             
-            mShowTemperature = GetGameObject(StateObject.DEBUG_FIRE).GetComponent<ShowTemperature>();
+            mShowTemperature = GetGameObject(DEBUG_FIRE).GetComponent<ShowTemperature>();
             mDebugTempAnimator = mShowTemperature.gameObject.GetComponent<Animator>();
             mShowTemperature.ButtonBack.onClick.AddListener(GoBack);
             mGoBack = false;
@@ -42,15 +42,13 @@ namespace BuddyApp.Guardian
                 mHasOpenedWindow = true;
                 mDebugTempAnimator.SetTrigger("Open_WDebugs");
             }
-            else if (mHasOpenedWindow)
+            else if (mHasOpenedWindow) 
             {
-                int[] lMatArrayFromFrame;
-                int[] lThermicMatrix;
-                for (int i = 0; i < Buddy.Sensors.ThermalCamera.Frame.width() * Buddy.Sensors.ThermalCamera.Frame.cols(); ++i)
-                {
-                    //lThermicMatrix[i] = 
-                }
-                //int[] lThermicMatrix = Buddy.Sensors.ThermalCamera.Frame;
+                int[] lThermicMatrix = new int[64];
+                OpenCVUnity.Mat lMatConverted = new OpenCVUnity.Mat(8,8, OpenCVUnity.CvType.CV_32SC1);
+                Buddy.Sensors.ThermalCamera.Frame.put(0, 0, lThermicMatrix); 
+                //.convertTo(lMatConverted, OpenCVUnity.CvType.CV_32SC1);
+                //lMatConverted.put(0,0, lThermicMatrix);
                 mShowTemperature.FillTemperature(lThermicMatrix);
                 mShowTemperature.UpdateTexture();
                 if (mDebugTempAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
