@@ -46,7 +46,7 @@ namespace BuddyApp.BuddyLab
 		*/
         public override void OnQuit()
         {
-            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LEAVING, "On quit...");
+            //ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LEAVING, "On quit...");
             ItemControlUnit.OnNextAction = null;
             mItemControl.IsRunning = false;
         }

@@ -41,7 +41,7 @@ namespace BuddyApp.TestCoroutineDisplay
 		*/
         public override void OnQuit()
         {
-            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LEAVING, "On quit...");
+            //ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LEAVING, "On quit...");
         }
     }
 }

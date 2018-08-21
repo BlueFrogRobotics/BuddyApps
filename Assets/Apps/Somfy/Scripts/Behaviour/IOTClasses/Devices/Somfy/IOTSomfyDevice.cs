@@ -375,34 +375,34 @@ namespace BuddyApp.Somfy
         /// <param name="iJson"></param>
         public IOTSomfyDeviceCollection(string iJson)
         {
-            //Debug.Log("le json d origin: " + iJson);
-            JSONNode lJsonNode = Buddy.JSON.Parse(iJson);
-            //Debug.Log("le json d apres: " + lJsonNode.ToString());
-            devices = new IOTSomfyDevice[lJsonNode["devices"].Count];
-            //Debug.Log("device count " + lJsonNode["devices"].Count);
-            for (int i = 0; i < lJsonNode["devices"].Count; i++)
-            {
-                devices[i] = new IOTSomfyDevice();
-                long.TryParse(lJsonNode["devices"][i]["creationTime"].Value, out devices[i].creationTime);
-                long.TryParse(lJsonNode["devices"][i]["lastUpdateTime"].Value, out devices[i].lastUpdateTime);
-                //Debug.Log("1");
-                devices[i].label = lJsonNode["devices"][i]["label"].Value;
-                //Debug.Log("device: " + lJsonNode["devices"][i]["label"].Value);
-                devices[i].deviceURL = lJsonNode["devices"][i]["deviceURL"].Value;
-                bool.TryParse(lJsonNode["devices"][i]["shortcut"].Value, out devices[i].shortcut);
-                devices[i].uiClass = lJsonNode["devices"][i]["uiClass"].Value;
-                //Debug.Log("un device: "+lJsonNode["devices"][i]["states"][0]["name"].ToString());
-                devices[i].states = new IOTSomfyStateJSON[lJsonNode["devices"][i]["states"].Count];
-                //Debug.Log("state lenght: "+devices[i].states.Length);
-                for (int j = 0; j < lJsonNode["devices"][i]["states"].Count; j++)
-                {
-                    devices[i].states[j] = new IOTSomfyStateJSON();
-                    //Debug.Log("le name : " + lJsonNode["devices"][i]["states"][j]["name"].Value);
-                    devices[i].states[j].name = lJsonNode["devices"][i]["states"][j]["name"].Value;
-                    //int.TryParse(lJsonNode["devices"][i]["states"][j]["type"].Value, out devices[i].states[j].type);
-                    devices[i].states[j].value = lJsonNode["devices"][i]["states"][j]["value"].Value;
-                }
-            }
+            ////Debug.Log("le json d origin: " + iJson);
+            //JSONNode lJsonNode = Buddy.JSON.Parse(iJson);
+            ////Debug.Log("le json d apres: " + lJsonNode.ToString());
+            //devices = new IOTSomfyDevice[lJsonNode["devices"].Count];
+            ////Debug.Log("device count " + lJsonNode["devices"].Count);
+            //for (int i = 0; i < lJsonNode["devices"].Count; i++)
+            //{
+            //    devices[i] = new IOTSomfyDevice();
+            //    long.TryParse(lJsonNode["devices"][i]["creationTime"].Value, out devices[i].creationTime);
+            //    long.TryParse(lJsonNode["devices"][i]["lastUpdateTime"].Value, out devices[i].lastUpdateTime);
+            //    //Debug.Log("1");
+            //    devices[i].label = lJsonNode["devices"][i]["label"].Value;
+            //    //Debug.Log("device: " + lJsonNode["devices"][i]["label"].Value);
+            //    devices[i].deviceURL = lJsonNode["devices"][i]["deviceURL"].Value;
+            //    bool.TryParse(lJsonNode["devices"][i]["shortcut"].Value, out devices[i].shortcut);
+            //    devices[i].uiClass = lJsonNode["devices"][i]["uiClass"].Value;
+            //    //Debug.Log("un device: "+lJsonNode["devices"][i]["states"][0]["name"].ToString());
+            //    devices[i].states = new IOTSomfyStateJSON[lJsonNode["devices"][i]["states"].Count];
+            //    //Debug.Log("state lenght: "+devices[i].states.Length);
+            //    for (int j = 0; j < lJsonNode["devices"][i]["states"].Count; j++)
+            //    {
+            //        devices[i].states[j] = new IOTSomfyStateJSON();
+            //        //Debug.Log("le name : " + lJsonNode["devices"][i]["states"][j]["name"].Value);
+            //        devices[i].states[j].name = lJsonNode["devices"][i]["states"][j]["name"].Value;
+            //        //int.TryParse(lJsonNode["devices"][i]["states"][j]["type"].Value, out devices[i].states[j].type);
+            //        devices[i].states[j].value = lJsonNode["devices"][i]["states"][j]["value"].Value;
+            //    }
+            //}
         }
     }
 

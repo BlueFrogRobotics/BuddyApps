@@ -80,7 +80,7 @@ namespace BuddyApp.Somfy
             {
 
             }
-            if (www.isError)
+            if (www.isNetworkError)
             {
                 Debug.Log(www.error);
             }
@@ -113,7 +113,7 @@ namespace BuddyApp.Somfy
             {
 
             }
-            if (www.isError)
+            if (www.isNetworkError)
             {
                 Debug.Log(www.error);
             }

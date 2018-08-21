@@ -21,7 +21,7 @@ namespace BuddyApp.Diagnostic
 
         public override void OnQuit()
 		{
-            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LEAVING, "On quit...");
+            //ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LEAVING, "On quit...");
         }
     }
 }

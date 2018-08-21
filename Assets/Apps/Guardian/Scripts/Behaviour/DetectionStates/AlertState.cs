@@ -50,7 +50,7 @@ namespace BuddyApp.Guardian
             StartCoroutine(mAction);
 
 			// Send notification to mybuddyapp
-			WebRTCListener.SendNotification(mAlert.GetMail().Subject, mAlert.GetMail().Body);
+			//WebRTCListener.SendNotification(mAlert.GetMail().Subject, mAlert.GetMail().Body);
 
 			string lMailAddress = GuardianData.Instance.Contact.Email;
             if (!string.IsNullOrEmpty(lMailAddress) && GuardianData.Instance.SendMail)
@@ -103,7 +103,11 @@ namespace BuddyApp.Guardian
             Debug.Log("display alert");
             //Buddy.GUI.Toaster.Display<IconToast>().With(mAlert.GetDisplayText(), mAlert.GetIcon(), new Color32(212, 0, 22, 255), true);
             Buddy.GUI.Header.DisplayLightTitle(mAlert.GetDisplayText());
-            Buddy.GUI.Toaster.Display<IconToast>().With(mAlert.GetIcon(), Color.white, new Color32(212, 0, 22, 255), true);
+            Buddy.GUI.Toaster.Display<IconToast>().With(mAlert.GetIcon(), Color.white, new Color32(212, 0, 22, 255), () => {
+
+                Buddy.GUI.Toaster.Hide();
+
+            });
 
             yield return new WaitForSeconds(5F);
         }
