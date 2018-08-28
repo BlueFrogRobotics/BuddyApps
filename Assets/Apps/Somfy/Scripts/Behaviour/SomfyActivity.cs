@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace BuddyApp.Somfy
-{
+{ 
     /* This class contains useful callback during your app process */
     public class SomfyActivity : AAppActivity
     {
@@ -33,7 +33,7 @@ namespace BuddyApp.Somfy
 		* Called after every Awake() in your scene
 		*/
         public override void OnAwake()
-        {
+        { 
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.RUNNING, "On awake...");
         }
 
@@ -50,7 +50,7 @@ namespace BuddyApp.Somfy
 		*/
         public override void OnQuit()
         {
-            //ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LEAVING, "On quit...");
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On quit...");
         }
     }
 }

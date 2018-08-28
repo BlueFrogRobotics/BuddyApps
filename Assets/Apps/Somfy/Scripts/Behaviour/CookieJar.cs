@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace BuddyApp.Somfy
 {
     public class CookieAccessInfo
-    {
+    { 
         public string domain = null;
         public string path = null;
         public bool secure = false;
@@ -162,7 +162,7 @@ namespace BuddyApp.Somfy
             return String.Join("; ", elements.ToArray());
         }
     }
-
+    
     public delegate void ContentsChangedDelegate();
 
     public class CookieJar
