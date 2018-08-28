@@ -18,7 +18,7 @@ namespace BuddyApp.Tutorial
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Buddy.Vocal.SayKey(Buddy.Resources.GetString("hello"), true);
+            //Buddy.Vocal.SayKey(Buddy.Resources.GetString("hello"), true);
             
         }
 
