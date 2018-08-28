@@ -397,6 +397,307 @@
             Happy way to talk.
             </summary>
         </member>
+        <member name="T:BlueQuark.Internal.BuddyAction">
+            <summary>
+            Enum of actions that Buddy can perform
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.CompanionState">
+            <summary>
+            Different states of Companion
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ActionManager">
+            <summary>
+            The action manager class defines high level function to control Buddy action.
+            It also contains some function for decision making based on situation (state), mood and desire.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.ActionManager.NeededAction(BlueQuark.Internal.CompanionState)">
+            <summary>
+            This function is used to tell if there is a needed action to performed
+            </summary>
+            <param name="iState"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.ActionManager.InformNotif(BlueQuark.Reminder,BlueQuark.ReminderState,System.Boolean,System.Boolean)">
+            <summary>
+            Tells and display the notification
+            </summary>
+            <param name="iReminder"></param>
+            <param name="iUpdateState"></param>
+            <param name="iTell"></param>
+            <param name="iDisplay"></param>
+        </member>
+        <member name="T:BlueQuark.Internal.DesireManager">
+            <summary>
+            Manager class that controls the desire values
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.DetectionManager">
+            <summary>
+            Manager class that have reference to the differents stimuli and subscribes to their callbacks
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.DetectionManager.AddLog(System.String)">
+            <summary>
+            Add a string to the log string
+            </summary>
+            <param name="iLog"></param>
+        </member>
+        <member name="M:BlueQuark.Internal.DetectionManager.OnThermalDetected(BlueQuark.ObjectEntity[])">
+            <summary>
+            Called when fire has been detected
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.DetectionManager.OnKidnappingDetected">
+            <summary>
+            Called when buddy is being kidnapped
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.DetectionManager.LinkDetectorsEvents">
+            <summary>
+            Subscribe to the detectors callbacks
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.DetectionManager.UnlinkDetectorsEvents">
+            <summary>
+            Unsubscibe to the detectors callbacks
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ACompanionState">
+            <summary>
+            Base class for Companion state machine's state.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.ACompanionState.StartCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Starts a coroutine.
+            The execution of a coroutine can be paused at any point using the yield statement.The yield return value specifies when the coroutine is resumed.
+            </summary>
+            <param name="iEnumerator">The method to start. Must return an IEnumerator</param>
+            <returns>The new started coroutine</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.ACompanionState.StopCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Stops the arg coroutine.
+            </summary>
+            <param name="iEnumerator">The coroutine to stop</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ACompanionState.StopCoroutine(UnityEngine.Coroutine)">
+            <summary>
+            Stops the arg coroutine.
+            </summary>
+            <param name="iRoutine">The coroutine to stop</param> 
+        </member>
+        <member name="T:BlueQuark.Internal.AskInfoState">
+            <summary>
+            This state is used to ask a personal info to the user
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.AskJokeState">
+            <summary>
+            This state is used to ask for a joke to the user
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.AskNameState">
+            <summary>
+            This state is used to ask the name of the current user
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.BuddyInArmsState">
+            <summary>
+            This state is used when Buddy is in the arm of a user
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ChargingState">
+            <summary>
+            This state is used when the robot is charging
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ColourRecoState">
+            <summary>
+            This state is used to recognize the colour perceived by Buddy
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ConnectionState">
+            <summary>
+            This state is used to test the connection
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.CopyUserState">
+            <summary>
+            This state is used to mimic user head position + facial emotion
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.DanceState">
+            <summary>
+            This state is used when Buddy wants to move and decides to dance
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ExpressMoodState">
+            <summary>
+            This state is used when Buddy wants to express its emotion
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.FollowState">
+            <summary>
+            This state is used when Buddy needs to follow a user
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.GotoChargeState">
+            <summary>
+            This Navigating state is used to go back to charging station
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.IdleState">
+            <summary>
+            This class is used when the robot is in default mode
+            It will then go wander, interact, look for someone or charge according to the stimuli
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.InformState">
+            <summary>
+            When Buddy wants to teach, it can also
+            inform the user of some of its knowledge
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.InformState.GetRandomUserFact(BlueQuark.Internal.UserProfile)">
+            <summary>
+            TODO: move this function in profiling?
+            </summary>
+            <param name="iUserProfile"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlueQuark.Internal.LandingState">
+            <summary>
+            State used when we come back to Companion
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ListenJokeState">
+            <summary>
+            This state is used when Buddy listens to a joke from the user
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.LookingForSomeoneState">
+            <summary>
+            This state is called when Buddy is looking for a/any user
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.MirrorState">
+            <summary>
+            This state is to show the camera feedback
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.MonitorAppState">
+            <summary>
+            This is the state we use when an app is launched.
+            Buddy shouldn't behave anymore....
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.NapState">
+            <summary>
+            This class is used when the robot is in default mode
+            It will then go wander, interact, look for someone or charge according to the stimuli
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.NotifyState">
+            <summary>
+            This state is used when Buddy needs to inform the user of a notification
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ProposeEdutainementState">
+            <summary>
+            This state is used to propose an edutainement app when
+            Buddy feels like teaching
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ProposeGameState">
+            <summary>
+            Buddy wants to play and will propose some game to the user.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ProposeServiceState">
+            <summary>
+            Buddy will propose a service to the user
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.RobotTouchedState">
+            <summary>
+            This state is called when the robot is touched
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.TellJokeState">
+            <summary>
+            This state is called when Buddy wants to tell a joke
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.UserDetectedState">
+            <summary>
+            This state is called when a user is detected but not engaged (yet).
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.UserDisengagedState">
+            <summary>
+            This state is used when the user explicitly ask Buddy to go away
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.VocalCommandState">
+            <summary>
+            This state is to manage all type of vocal commands from user
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.Internal.VocalCommandState.SortQuestionType(System.String,System.String)" -->
+        <member name="M:BlueQuark.Internal.VocalCommandState.GiveHourInEnglish">
+            <summary>
+            Give The Hour in English
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.VocalCommandState.VerbalizeHour(System.String)">
+            <summary>
+            Harder way to tell what time it is
+            </summary>
+            <param name="iSentence">Sentence to say</param>
+            <returns>Sentence to say</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.VocalCommandState.GiveHourMeridiem(System.String)">
+            <summary>
+             Simple way to tell what time it is
+            </summary>
+            <param name="iSentence">Sentence to say</param>
+            <returns>Sentence to say</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.VocalCommandState.GetTime(System.String)">
+            <summary>
+            Recover Time In Seconds
+            </summary>
+            <param name="iSpeech">Speech</param>
+            <returns>Time in Seconds</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.VocalCommandState.SecondsToHour(System.Int32)">
+            <summary>
+            Recover the Time in (Hour, Minutes, Seconds)
+            </summary>
+            <param name="iTimeInSeconds">time in seconds</param>
+            <returns>Array of int with 0 : hour, 1 : minutes, 2 : seconds</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.VocalCommandState.IsWifiEnabledAndConnectedAsync(System.Action{System.Boolean})">
+            <summary>
+            Verify if the wifi is enabled in Buddy and check after if Buddy is connected to a wifi
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlueQuark.Internal.WaitStartState">
+            <summary>
+            This state is just to wait for everything to be up in OS
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.WanderState">
+            <summary>
+            This state is call when Buddy wants to move
+            it will roam around the house
+            </summary>
+        </member>
         <member name="T:BlueQuark.Internal.AUIFactory`2">
             <summary>
             UI factory provides UI widgets.
@@ -1376,7 +1677,7 @@
         </member>
         <member name="F:BlueQuark.Internal.AULink.mEventBus">
             <summary>
-            The event bus system. Allow to subscribe and unsubscribe from events. Also used to fire events.
+            The event bus system. Allows to fire events.
             </summary>
         </member>
         <member name="F:BlueQuark.Internal.AULink.mPresenter">
@@ -1396,17 +1697,6 @@
             <param name="iPresenter">The assigned presenter</param>
             <param name="iEventBus">The eventbus system</param>
         </member>
-        <member name="M:BlueQuark.Internal.AULink.Bind">
-            <summary>
-            Register in tis method your listener to wished event.
-            </summary>
-            <seealso cref="T:BlueQuark.Internal.AEvent"/>
-        </member>
-        <member name="M:BlueQuark.Internal.AULink.Unbind">
-            <summary>
-            Unsubscribe to all events.
-            </summary>
-        </member>
         <member name="M:BlueQuark.Internal.AULink.Initialize">
             <summary>
             Called after ctor and setup
@@ -1419,11 +1709,6 @@
             </summary>
             <seealso cref="M:BlueQuark.Internal.AULink.EnableLoop"/>
             <seealso cref="M:BlueQuark.Internal.AULink.DisableLoop"/>
-        </member>
-        <member name="M:BlueQuark.Internal.AULink.Reset">
-            <summary>
-            Called automatically when on app leaving.
-            </summary>
         </member>
         <member name="M:BlueQuark.Internal.AULink.Dispose">
             <summary>
@@ -2018,6 +2303,16 @@
             </summary>
             <typeparam name="T">Type of the mode</typeparam>
         </member>
+        <member name="P:BlueQuark.Internal.IClosableCamera`1.OnOpen">
+            <summary>
+            Called when the camera is opened.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.IClosableCamera`1.OnClose">
+            <summary>
+            Called when the camera is closed.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Internal.IClosableCamera`1.IsOpen">
             <summary>
             Returns true if the device is opened.
@@ -2029,16 +2324,16 @@
             Set has no effect if the camera is not opened. Set during open will close and reopen the camera.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.IClosableCamera`1.Close">
-            <summary>
-            Close the device. May take a certain time.
-            </summary>
-        </member>
         <member name="M:BlueQuark.Internal.IClosableCamera`1.Open(`0)">
             <summary>
             Open the device. May take a certain time.
             </summary>
             <param name="iMode">Mode to apply for the opening</param>
+        </member>
+        <member name="M:BlueQuark.Internal.IClosableCamera`1.Close">
+            <summary>
+            Close the device. May take a certain time.
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.IApertureSensor">
             <summary>
@@ -3061,10 +3356,90 @@
             </summary>
             <typeparam name="U">ULink</typeparam>
         </member>
-        <member name="T:BlueQuark.Internal.IIndexedObject">
+        <member name="T:BlueQuark.Internal.AState">
             <summary>
-            Interface for item indexation.
+            Base class for state machine's state.
             </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.AState.mStateMachine">
+            <summary>
+            State machine of the state.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.AState.mEventBus">
+            <summary>
+            The event bus system. Allows to fire events.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.AState.mName">
+            <summary>
+            The name of the state.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.AState.Name">
+            <summary>
+            The name of the state.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.AState.Setup(System.String,BlueQuark.Internal.StateMachine,BlueQuark.Internal.EventBus)">
+            <summary>
+            Called after ctor to setup base dependencies.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.AState.Initialize">
+            <summary>
+            Called after ctor and setup.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.AState.OnStateEnter">
+            <summary>
+            Called when the state machine target comes in the current state.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.AState.OnStateUpdate">
+            <summary>
+            Called at each frame when the state machine target is in the current state.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.AState.OnStateExit">
+            <summary>
+            Called when the state machine target leaves the current state.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.AState.Dispose">
+            <summary>
+            Called automatically when the master component must be destroyed.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.AState.OnStateEnter(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
+            <summary>
+            Called when the state machine target comes in the current state.
+            </summary>
+            <param name="iAnimator">The state machine</param>
+            <param name="iStateInfo">The state info</param>
+            <param name="iLayerIndex">The state layer index</param>
+        </member>
+        <member name="M:BlueQuark.Internal.AState.OnStateUpdate(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
+            <summary>
+            Called at each frame when the state machine target is in the current state.
+            </summary>
+            <param name="iAnimator">The state machine</param>
+            <param name="iStateInfo">The state info</param>
+            <param name="iLayerIndex">The state layer index</param>
+        </member>
+        <member name="M:BlueQuark.Internal.AState.OnStateExit(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
+            <summary>
+            Called when the state machine target leaves the current state.
+            </summary>
+            <param name="iAnimator">The state machine</param>
+            <param name="iStateInfo">The state info</param>
+            <param name="iLayerIndex">The state layer index</param>
+        </member>
+        <member name="T:BlueQuark.Internal.StateMachine">
+            <summary>
+            State machine data structure. Composed of AStates.
+            </summary>
+            <seealso cref="T:BlueQuark.Internal.AState"/>>
         </member>
         <member name="T:BlueQuark.Internal.GoogleSpeech">
             <summary>
@@ -3734,6 +4109,16 @@
             Status of the Speaker.
             </summary>
         </member>
+        <member name="P:BlueQuark.ASoundChannel`2.Pitch">
+            <summary>
+            The pitch of the audio source.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ASoundChannel`2.Time">
+            <summary>
+            Playback position in seconds.
+            </summary>
+        </member>
         <member name="P:BlueQuark.ASoundChannel`2.Mute">
             <summary>
             Tells if the audiosource is muted or not.
@@ -4007,7 +4392,7 @@
             <summary>
             Launches a random behaviour that belongs to a certain category.
             </summary>
-            <param name="iType">The MoodType to look for.</param>
+            <param name="iType">The FacialExpression to look for.</param>
             <param name="iParams">Parameters for the execution of the behaviour. The keys should be the parameter's names and the value the target value of the attribute.</param>
             <param name="iComposition">Composition type of the behaviour.</param>
             <param name="iContext">The context from which a random BML should be executed. Cand be from current APP, from the OS or both.</param>
@@ -4568,11 +4953,6 @@
             Access to the procedural (skills, tasks) memory of Buddy
             </summary>
         </member>
-        <member name="P:BlueQuark.Cognitive.EpisodicMemory">
-            <summary>
-            Access to the episodic (event, xp) memory of Buddy
-            </summary>
-        </member>
         <member name="P:BlueQuark.Cognitive.InternalState">
             <summary>
             Buddy's internal state of mind.
@@ -4603,14 +4983,6 @@
             Feature to detect short range Waving
             </summary>
         </member>
-        <member name="T:BlueQuark.EpisodicMemory">
-            <summary>
-            This class represents the declarative memory of Buddy
-            </summary>
-            <summary>
-            This class represents the declarative memory of Buddy
-            </summary>
-        </member>
         <member name="M:BlueQuark.InternalState.ComputeBias">
             <summary>
             Compute the uncumulative emotional stimuli
@@ -4623,17 +4995,17 @@
             <param name="iPositivity"></param>
             <param name="iEnergy"></param>
         </member>
-        <member name="P:BlueQuark.InternalState.InternalStateMood">
+        <member name="P:BlueQuark.InternalState.Mood">
             <summary>
             The current state of mind of Buddy.
             </summary>
         </member>
-        <member name="P:BlueQuark.InternalState.Positivity">
+        <member name="P:BlueQuark.InternalState.Pleasure">
             <summary>
             The positivity value of the current state.
             </summary>
         </member>
-        <member name="P:BlueQuark.InternalState.Energy">
+        <member name="P:BlueQuark.InternalState.Arousal">
             <summary>
             The energy value of the current state.
             </summary>
@@ -4654,7 +5026,7 @@
             This is used to get the category of the event
             </summary>
         </member>
-        <member name="F:BlueQuark.EmotionalEvent.EventDescriber">
+        <member name="P:BlueQuark.EmotionalEvent.EventDescriber">
             <summary>
             This is used to compare if events are similar
             </summary>
@@ -4718,26 +5090,25 @@
             <param name="iAddressees">An array of ID representing reminder receivers</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.AddReminder(System.DateTime,BlueQuark.RemindPrecision,System.String,System.Int32)">
+        <member name="M:BlueQuark.ProceduralMemory.GetReminders">
             <summary>
-            Add a new reminder to the procedural memory
+            Get the list of all reminders.
             </summary>
-            <param name="iEventDate">Date on which reminder will be issued</param>
-            <param name="iPrecision"></param>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the sender</param>
-            <returns>The new reminder</returns>
+            <returns>The list of all reminders.</returns>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.AddReminder(System.DateTime,BlueQuark.RemindPrecision,System.String,System.Int32,System.Int32[])">
+        <member name="M:BlueQuark.ProceduralMemory.GetIssuedReminders(BlueQuark.ReminderState)">
             <summary>
-            Add a new reminder to the procedural memory
+            Get the list of issued reminders with max state.
             </summary>
-            <param name="iEventDate">Date on which reminder will be issued</param>
-            <param name="iPrecision">Precision of the event date</param>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the sender</param>
-            <param name="iReceivers">An array of ID representing reminder receivers</param>
-            <returns>The new reminder</returns>
+            <param name="iMaxState">Maximum state of the reminders to return</param>
+            <returns>The list of all reminders.</returns>
+        </member>
+        <member name="M:BlueQuark.ProceduralMemory.GetIssuedUrgentReminders(BlueQuark.ReminderState)">
+            <summary>
+            Get the list of issued urgent reminders with max state.
+            </summary>
+            <param name="iMaxState">Maximum state of the reminders to return</param>
+            <returns>The list of all reminders.</returns>
         </member>
         <member name="M:BlueQuark.ProceduralMemory.ExistReminder(System.Int32)">
             <summary>
@@ -4745,6 +5116,13 @@
             </summary>
             <param name="iID">The reminder ID</param>
             <returns>True if the reminder exists. Else returns false</returns>
+        </member>
+        <member name="M:BlueQuark.ProceduralMemory.RemoveReminderSafe(System.Int32)">
+            <summary>
+            Remove a speicific reminder from procedural memory.
+            And add the next one if reccurent reminder
+            </summary>
+            <param name="iID">The reminder ID</param>
         </member>
         <member name="M:BlueQuark.ProceduralMemory.RemoveReminder(System.Int32)">
             <summary>
@@ -4765,6 +5143,12 @@
             </summary>
             <param name="iID">The reminder ID</param>
         </member>
+        <member name="M:BlueQuark.ProceduralMemory.DisplayReminder(BlueQuark.Reminder)">
+            <summary>
+            Display a specific reminder
+            </summary>
+            <param name="iReminder"></param>
+        </member>
         <member name="T:BlueQuark.Reminder">
             <summary>
             Thic class represents a reminder
@@ -4775,19 +5159,34 @@
             The ID of the reminder
             </summary>
         </member>
-        <member name="P:BlueQuark.Reminder.Sender">
+        <member name="P:BlueQuark.Reminder.NotifID">
             <summary>
-            The ID of sender
+            The ID of the notification.
             </summary>
         </member>
         <member name="P:BlueQuark.Reminder.Content">
             <summary>
-            The reminder content
+            The reminder content.
             </summary>
         </member>
-        <member name="P:BlueQuark.Reminder.Receivers">
+        <member name="P:BlueQuark.Reminder.Intrusive">
             <summary>
-            The list of receivers ID
+            Is reminder/notification intrusive ?
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Reminder.Urgent">
+            <summary>
+            Is the current reminder urgent or not ?
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Reminder.Attachment">
+            <summary>
+            The path for an attached file.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Reminder.Addressee">
+            <summary>
+            The name of the person who the reminder should be addressed to.
             </summary>
         </member>
         <member name="P:BlueQuark.Reminder.EventDate">
@@ -4795,19 +5194,54 @@
             The event date at which the remender will issued
             </summary>
         </member>
+        <member name="P:BlueQuark.Reminder.ReminderDate">
+            <summary>
+            The date at which a reminder should be issued prior to the actual event date.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Reminder.CreationDate">
             <summary>
             The creation date
             </summary>
         </member>
-        <member name="P:BlueQuark.Reminder.Type">
+        <member name="P:BlueQuark.Reminder.TimeRepetition">
             <summary>
-            The reminder type
+            The time span between two reminders.
             </summary>
         </member>
-        <member name="P:BlueQuark.Reminder.Precision">
+        <member name="P:BlueQuark.Reminder.Type">
             <summary>
-            The reminder precision
+            The reminder type (agenda, call, alarm, etc.)
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Reminder.Recurrence">
+            <summary>
+            The reminder recurrence (non, day, week mont.)
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Reminder.State">
+            <summary>
+            The status of the reminder.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Reminder.Action">
+            <summary>
+            Action to execute when reminder's notification is validated.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Reminder.Sender">
+            <summary>
+            The ID of sender
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Reminder.Receivers">
+            <summary>
+            The list of receivers ID
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Reminder.Emotion">
+            <summary>
+            Emotion related to a reminder (??).
             </summary>
         </member>
         <member name="M:BlueQuark.Reminder.#ctor">
@@ -4815,45 +5249,116 @@
             Default constructor
             </summary>
         </member>
+        <member name="M:BlueQuark.Reminder.#ctor(System.Int32,System.String,System.Boolean,System.Boolean,System.String,System.String,System.DateTime,System.DateTime,System.DateTime,BlueQuark.ReminderTimespan,BlueQuark.ReminderType,BlueQuark.ReminderState,System.Action,BlueQuark.InternalMood)">
+            <summary>
+            reminder constructor
+            </summary>
+            <returns>A new copy of the reminder</returns>
+        </member>
         <member name="M:BlueQuark.Reminder.Copy">
             <summary>
             Make a copy of the reminder
             </summary>
             <returns>A new copy of the reminder</returns>
         </member>
-        <member name="T:BlueQuark.RemindPrecision">
+        <member name="M:BlueQuark.Reminder.DisplayNotif(BlueQuark.ReminderState)">
             <summary>
-            The reminder precision
+            Display the notification of the reminder.
             </summary>
         </member>
-        <member name="F:BlueQuark.RemindPrecision.DAY">
+        <member name="M:BlueQuark.Reminder.Say">
             <summary>
-            Day precision
+            Says that there is a special reminder waiting for someone to read it.
             </summary>
         </member>
-        <member name="F:BlueQuark.RemindPrecision.HOUR">
+        <member name="T:BlueQuark.ReminderState">
             <summary>
-            Hour precision
+            Status of the reminder.
             </summary>
         </member>
-        <member name="F:BlueQuark.RemindPrecision.MINUTE">
+        <member name="F:BlueQuark.ReminderState.NEW">
             <summary>
-            Minute precision
+            Reminder newly added.
             </summary>
         </member>
-        <member name="T:BlueQuark.RemindType">
+        <member name="F:BlueQuark.ReminderState.SHOWN">
             <summary>
-            Type of reminder
+            Reminder was shown.
             </summary>
         </member>
-        <member name="F:BlueQuark.RemindType.STICKY">
+        <member name="F:BlueQuark.ReminderState.DELIVERED">
+            <summary>
+            Reminder was delivered to someone.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderState.VALIDATED">
+            <summary>
+            The reminder's notification was validated.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.ReminderTimespan">
+            <summary>
+            The time span between each reminder, for a recurrent reminder.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderTimespan.NONE">
+            <summary>
+            No repetition.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderTimespan.EVERY_DAY">
+            <summary>
+            Every day.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderTimespan.EVERY_WEEK">
+            <summary>
+            Every week.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderTimespan.EVERY_MONTH">
+            <summary>
+            Every month.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderTimespan.EVERY_YEAR">
+            <summary>
+            Every year.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.ReminderType">
+            <summary>
+            Type of reminder.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderType.UPDATE">
+            <summary>
+            Update of application or OS.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderType.ALARM">
+            <summary>
+            Alarm reminder.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderType.NEWS">
+            <summary>
+            Reminder for news.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderType.AGENDA">
+            <summary>
+            Agenda event reminder.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderType.STICKY">
             <summary>
             A persistend reminder
             </summary>
         </member>
-        <member name="F:BlueQuark.RemindType.ALARM">
+        <member name="F:BlueQuark.ReminderType.CALL">
             <summary>
-            An event reminder
+            Call reminder.
             </summary>
         </member>
         <member name="T:BlueQuark.Screen">
@@ -5656,6 +6161,16 @@
             Called when the button is clicked.
             </summary>
         </member>
+        <member name="M:BlueQuark.TLeftSideButton.Display">
+            <summary>
+            Display the button.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TLeftSideButton.Hide">
+            <summary>
+            Hide the button.
+            </summary>
+        </member>
         <member name="M:BlueQuark.TLeftSideButton.SetLabel(System.String)">
             <summary>
             Sets the label of the button. Hides icon.
@@ -5742,6 +6257,12 @@
             </summary>
             <param name="iUpperText">The upper text to display. If null or empty, a SetLabel will be applied.</param>
             <param name="iLowerText">The lower text to display. If null or empty, a SetLabel will be applied.</param>
+        </member>
+        <member name="M:BlueQuark.TVerticalListBox.SetCenteredLabel(System.Boolean)">
+            <summary>
+            Sets the text as centered within the box.
+            </summary>
+            <param name="iVal">Set as true to center text, false to set to left alignment</param>
         </member>
         <member name="M:BlueQuark.TVerticalListBox.CreateRightButton">
             <summary>
@@ -6786,8 +7307,8 @@
         <member name="T:BlueQuark.AAppData">
             <summary>
             Your app data class must inherit from this class. Your app data will be store here.
-            The data object will be serialized when the application is quited and unserialized the first that that GetInstance()
-            will be called. Do never change the name of your {APP_NAME}Data class.
+            The data object will be serialized when the application is quited and unserialized the first time GetInstance()
+            will be called. Don't ever change the name of your {APP_NAME}Data class.
             </summary>
         </member>
         <member name="F:BlueQuark.AAppData.sInstance">
@@ -7196,7 +7717,7 @@
         </member>
         <member name="F:BlueQuark.Platform.SDK_NAME">
             <summary>
-            Name of the SDK.
+            Name of the Software development kit.
             </summary>
         </member>
         <member name="P:BlueQuark.Platform.Application">
@@ -8152,6 +8673,16 @@
             See InfraredCameraMode enumeration for more precision about resolution.
             </summary>
         </member>
+        <member name="P:BlueQuark.InfraredCamera.OnOpen">
+            <summary>
+            Called when the camera is opened.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.InfraredCamera.OnClose">
+            <summary>
+            Called when the camera is closed.
+            </summary>
+        </member>
         <member name="P:BlueQuark.InfraredCamera.OnNewFrame">
             <summary>
             Called when a new well formed frame is captured. 
@@ -8209,22 +8740,32 @@
             Set has no effect if the camera is not opened. Set during open will close and reopen the camera.
             </summary>
         </member>
-        <member name="M:BlueQuark.InfraredCamera.Close">
-            <summary>
-            Close the device. May take a certain time.
-            </summary>
-        </member>
         <member name="M:BlueQuark.InfraredCamera.Open(BlueQuark.InfraredCameraMode)">
             <summary>
             Open the device. May take a certain time.
             </summary>
             <param name="iMode">Mode to apply for the opening</param>
         </member>
+        <member name="M:BlueQuark.InfraredCamera.Close">
+            <summary>
+            Close the device. May take a certain time.
+            </summary>
+        </member>
         <member name="T:BlueQuark.RGBCamera">
             <summary>
             The robot Red-Green-Blue camera. Can be easily opened with the Open() method.
             It automatically be Close() when quitting an application.
             See RGBCameraMode enumeration for more precision about resolution.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RGBCamera.OnOpen">
+            <summary>
+            Called when the camera is opened.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RGBCamera.OnClose">
+            <summary>
+            Called when the camera is closed.
             </summary>
         </member>
         <member name="P:BlueQuark.RGBCamera.OnNewFrame">
@@ -8284,16 +8825,16 @@
             Set has no effect if the camera is not opened. Set during open will close and reopen the camera.
             </summary>
         </member>
-        <member name="M:BlueQuark.RGBCamera.Close">
-            <summary>
-            Close the device. May take a certain time.
-            </summary>
-        </member>
         <member name="M:BlueQuark.RGBCamera.Open(BlueQuark.RGBCameraMode)">
             <summary>
             Open the device. May take a certain time.
             </summary>
             <param name="iMode">Mode to apply for the opening</param>
+        </member>
+        <member name="M:BlueQuark.RGBCamera.Close">
+            <summary>
+            Close the device. May take a certain time.
+            </summary>
         </member>
         <member name="T:BlueQuark.RGBCameraMode">
             <summary>
@@ -8305,6 +8846,16 @@
             Depth camera device component of the robot. Can be easily opened with the Open() method.
             It automatically be Close() when quitting an application.
             See DepthCameraMode enumeration for more precision about resolution.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.DepthCamera.OnOpen">
+            <summary>
+            Called when the camera is opened.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.DepthCamera.OnClose">
+            <summary>
+            Called when the camera is closed.
             </summary>
         </member>
         <member name="P:BlueQuark.DepthCamera.OnNewFrame">
@@ -8364,16 +8915,16 @@
             Set has no effect if the camera is not opened. Set during open will close and reopen the camera.
             </summary>
         </member>
-        <member name="M:BlueQuark.DepthCamera.Close">
-            <summary>
-            Close the device. May take a certain time.
-            </summary>
-        </member>
         <member name="M:BlueQuark.DepthCamera.Open(BlueQuark.DepthCameraMode)">
             <summary>
             Open the device. May take a certain time.
             </summary>
             <param name="iMode">Mode to apply for the opening</param>
+        </member>
+        <member name="M:BlueQuark.DepthCamera.Close">
+            <summary>
+            Close the device. May take a certain time.
+            </summary>
         </member>
         <member name="T:BlueQuark.IMU">
             <summary>
@@ -8521,6 +9072,16 @@
             See HDCameraMode enumeration for more precision about resolution.
             </summary>
         </member>
+        <member name="P:BlueQuark.HDCamera.OnOpen">
+            <summary>
+            Called when the camera is opened.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HDCamera.OnClose">
+            <summary>
+            Called when the camera is closed.
+            </summary>
+        </member>
         <member name="P:BlueQuark.HDCamera.OnNewFrame">
             <summary>
             Called when a new well formed frame is captured. 
@@ -8578,16 +9139,16 @@
             Set has no effect if the camera is not opened. Set during open will close and reopen the camera.
             </summary>
         </member>
-        <member name="M:BlueQuark.HDCamera.Close">
-            <summary>
-            Close the device. May take a certain time.
-            </summary>
-        </member>
         <member name="M:BlueQuark.HDCamera.Open(BlueQuark.HDCameraMode)">
             <summary>
             Open the device. May take a certain time.
             </summary>
             <param name="iMode">Mode to apply for the opening</param>
+        </member>
+        <member name="M:BlueQuark.HDCamera.Close">
+            <summary>
+            Close the device. May take a certain time.
+            </summary>
         </member>
         <member name="M:BlueQuark.HDCamera.TakePhotograph(System.Action{BlueQuark.Photograph},System.Boolean,BlueQuark.FlashLightMode)">
             <summary>
@@ -9378,6 +9939,12 @@
             Display all unread notifications
             </summary>
         </member>
+        <member name="M:BlueQuark.Notifier.ShowExisting(System.Int32)">
+            <summary>
+            Show an unread notification given a particular ID. If the notification isn't found, nothing is displayed.
+            </summary>
+            <param name="iNotifID">The to be displayed notification's ID.</param>
+        </member>
         <member name="M:BlueQuark.Notifier.Hide">
             <summary>
             Hide the current displayed notification(s)
@@ -9746,6 +10313,11 @@
             Lateral face waves handler.
             </summary>
         </member>
+        <member name="T:BlueQuark.CallbackParamArray`1">
+            <summary>
+            Linear data structure to store and execute action (ie : callbacks) on demand.
+            </summary>
+        </member>
         <member name="T:BlueQuark.HSVColor">
             <summary>
             Structure containing HSV values for a color.
@@ -10103,228 +10675,7 @@
         </member>
         <member name="F:BlueQuark.ExtLogModule.APP_EDITOR">
             <summary>
-            Inside an app editor.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.AStarNode">
-            <summary>
-            Unit node for A* algorithm.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.AStarNode.Comparer">
-            <summary>
-            Comparer for node comparaison
-            </summary>
-        </member>
-        <member name="P:BlueQuark.AStarNode.Value">
-            <summary>
-            Heuristic value of node
-            </summary>
-        </member>
-        <member name="P:BlueQuark.AStarNode.PrievousNode">
-            <summary>
-            Previous node (Dijkstra algo)
-            </summary>
-        </member>
-        <member name="P:BlueQuark.AStarNode.AdjacentNodes">
-            <summary>
-            AdjacentNodes
-            </summary>
-        </member>
-        <member name="M:BlueQuark.AStarNode.#ctor">
-            <summary>
-            Base constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.AStarNode.Compare(BlueQuark.AStarNode,BlueQuark.AStarNode)">
-            <summary>
-            Comparaison function
-            </summary>
-            <param name="iFirstNode"></param>
-            <param name="iSecondNode"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BlueQuark.Node">
-            <summary>
-            Unit node for graph algorithms.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Node.Comparer">
-            <summary>
-            Comparer for node comparison
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Node.Index">
-            <summary>
-            Index of the node
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Node.MinDistance">
-            <summary>
-            Min known distance
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Node.PrievousNode">
-            <summary>
-            Previous node (Dijkstra algo)
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Node.AdjacentNodes">
-            <summary>
-            AdjacentNodes
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Node.#ctor">
-            <summary>
-            Base constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Node.Compare(BlueQuark.Node,BlueQuark.Node)">
-            <summary>
-            Comparison function
-            </summary>
-            <param name="iFirstNode"></param>
-            <param name="iSecondNode"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BlueQuark.Pair`2">
-            <summary>
-            Create a pair of element.
-            </summary>
-            <typeparam name="A">Type of the first element</typeparam>
-            <typeparam name="B">Type of the second element</typeparam>
-        </member>
-        <member name="P:BlueQuark.Pair`2.First">
-            <summary>
-            The first element
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Pair`2.Second">
-            <summary>
-            The second element
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Pair`2.#ctor(`0,`1)">
-            <summary>
-            Constructor of the complete pair.
-            </summary>
-            <param name="iFirst">The first element</param>
-            <param name="iSecond">The second element</param>
-        </member>
-        <member name="T:BlueQuark.PriorityQueue`1">
-            <summary>
-            C# Implementation of the priority queue
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:BlueQuark.PriorityQueue`1.#ctor">
-            <summary>
-            Create a new priority queue.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.PriorityQueue`1.#ctor(System.Collections.Generic.IComparer{`0})">
-            <summary>
-            Create a new priority queue with a specific comparator.
-            </summary>
-            <param name="iComparer">The element comparator</param>
-        </member>
-        <member name="M:BlueQuark.PriorityQueue`1.#ctor(System.Collections.Generic.IComparer{`0},System.Int32)">
-            <summary>
-            Create a new priority queue with a specific comparator and a max size.
-            </summary>
-            <param name="iComparer">The element comparator</param>
-            <param name="iCapacity">The max capacity of the queue</param>
-        </member>
-        <member name="M:BlueQuark.PriorityQueue`1.SwitchElements(System.Int32,System.Int32)">
-            <summary>
-            Switch two elements.
-            </summary>
-            <param name="iFirstIndex">Index of the first element</param>
-            <param name="iSecondIndex">Index of the second element</param>
-        </member>
-        <member name="M:BlueQuark.PriorityQueue`1.OnCompare(System.Int32,System.Int32)">
-            <summary>
-            Compare two elements.
-            </summary>
-            <param name="iFirstIndex">Index of the first element</param>
-            <param name="iSecondIndex">Index of the second element</param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.PriorityQueue`1.Remove(`0)">
-            <summary>
-            Remove an element
-            </summary>
-            <param name="iItem"></param>
-        </member>
-        <member name="M:BlueQuark.PriorityQueue`1.Push(`0)">
-            <summary>
-            Add a new element in the queue.
-            </summary>
-            <param name="iItem"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.PriorityQueue`1.Pop">
-            <summary>
-            Return and delete the first element of the queue.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.PriorityQueue`1.Update(`0)">
-            <summary>
-            Update the queue with the specific element.
-            </summary>
-            <param name="iItem">The element to update</param>
-        </member>
-        <member name="M:BlueQuark.PriorityQueue`1.Peek">
-            <summary>
-            Return the first element of the queue without delete it.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.PriorityQueue`1.Clear">
-            <summary>
-            Clear the queue.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.PriorityQueue`1.Count">
-            <summary>
-            Number of elements in the queue.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Tuple`3">
-            <summary>
-            Tuple of three elements
-            </summary>
-            <typeparam name="A">Type of the first element</typeparam>
-            <typeparam name="B">Type of the second element</typeparam>
-            <typeparam name="C">Type of the third element</typeparam>
-        </member>
-        <member name="P:BlueQuark.Tuple`3.First">
-            <summary>
-            The first element
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Tuple`3.Second">
-            <summary>
-            The second element
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Tuple`3.Third">
-            <summary>
-            The thirst elemnt
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Tuple`3.#ctor(`0,`1,`2)">
-            <summary>
-            Contructor of the complete tuple
-            </summary>
-            <param name="iFirst">The first element</param>
-            <param name="iSecond">The second element</param>
-            <param name="iThird">The third element</param>
-        </member>
-        <member name="M:BlueQuark.Tuple`3.#ctor">
-            <summary>
-            Basic contructor
+            Inside an app editor process.
             </summary>
         </member>
         <member name="T:BlueQuark.Utils">
@@ -10502,6 +10853,69 @@
             <param name="iString">The input string to upper first</param>
             <returns>The string with an upper first character</returns>
         </member>
+        <member name="M:BlueQuark.Utils.ContainsOneOf(System.String,System.String[])">
+            <summary>
+            Tells if iSpeech contains one of iListSpeech element
+            </summary>
+            <param name="iSpeech"></param>
+            <param name="iListSpeech"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Utils.ContainsOneOf(System.String,System.String)">
+            <summary>
+            Tells if iSpeech contains one of Phonetics from the dico value given by the key iKeySpeech
+            </summary>
+            <param name="iSpeech"></param>
+            <param name="iKeySpeech"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Utils.GetRealStartRule(System.String)">
+            <summary>
+            Change format of the StartRule (startrule#yes -> yes)
+            </summary>
+            <param name="iStartRuleVocon">Old format</param>
+            <returns>New format</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.GetRule(BlueQuark.SpeechInput)">
+            <summary>
+            Change format of the StartRule (startrule#yes -> yes)
+            </summary>
+            <param name="iSpeechInput">Old format</param>
+            <returns>New format</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.NL2Operator(System.String)">
+            <summary>
+            This function replaces Natural Language by operator symbol in a sentence 
+            </summary>
+            <param name="iSpeech"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Utils.StringToEnum``1(System.String)">
+            <summary>
+            This function convert a string into an enum element
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="iSpeech"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Utils.StringToDate(System.String)">
+            <summary>
+            Convert the string date into DateTime
+            Currently works for French and English
+            returns default datetime if format not respected
+            </summary>
+            <param name="iDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Utils.Month2Int(System.String)">
+            <summary>
+            Convert a month given as a string to an int
+            Currently works with French and English
+            returns 1 by default
+            </summary>
+            <param name="iMonth"></param>
+            <returns></returns>
+        </member>
         <member name="M:BlueQuark.Utils.CollectionToString``1(System.Collections.Generic.ICollection{``0},System.String)">
             <summary>
             Converts an T element array to a string. Elements are separate with a coma (without space).
@@ -10534,30 +10948,6 @@
             <param name="iStructure">The structure to convert</param>
             <param name="iLength">The size of the structure. Must be specified for a complex structure</param>
             <returns>The data representation of the structure</returns>
-        </member>
-        <member name="M:BlueQuark.Utils.FindMostFrequentElement``1(System.Collections.Generic.ICollection{``0})">
-            <summary>
-            Finds the most frequent element in a list.
-            </summary>
-            <typeparam name="T">Type of elements of the list</typeparam>
-            <param name="iCollection">The list</param>
-            <returns>A pair containing the element and its occurences ratio (occ / size)</returns>
-        </member>
-        <member name="M:BlueQuark.Utils.MakeUniquePairs``1(System.Collections.Generic.List{``0})">
-            <summary>
-            Creates a list of unique pair for an original list of element.
-            </summary>
-            <typeparam name="T">Type of the elements</typeparam>
-            <param name="iOriginalSet">The original list of elements</param>
-            <returns>A list of unique pairs</returns>
-        </member>
-        <member name="M:BlueQuark.Utils.MakeUniquePairsID``1(System.Collections.Generic.List{``0})">
-            <summary>
-            Creates a list of unique id pair for an original list of element.
-            </summary>
-            <typeparam name="T">Type of the elements</typeparam>
-            <param name="iOriginalSet">The original list of elements</param>
-            <returns>A list of unique pairs of element id</returns>
         </member>
         <member name="M:BlueQuark.Utils.Interpolate(System.Single,System.Single,System.Single)">
             <summary>
@@ -11291,66 +11681,6 @@
             </summary>
             <returns>The MAC address</returns>
         </member>
-        <member name="M:BlueQuark.Utils.ShortestPath(BlueQuark.Node,BlueQuark.Node,System.Collections.Generic.List{BlueQuark.Node})">
-            <summary>
-            Gets the shortest path between the sourcenode and the destination node with Dijkstra algorithm.
-            It has a polynomial complexity.
-            </summary>
-            <param name="iSourceNode">The source node of the path</param>
-            <param name="iDestinationNode">The destination node of the path</param>
-            <param name="iGraph">The graph with all nodes and weight between them</param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.Utils.ShortestPathAStar(BlueQuark.AStarNode,BlueQuark.AStarNode,System.Collections.Generic.List{BlueQuark.AStarNode})">
-            <summary>
-            Gets the shortest path between the sourcenode and the destination node with A* algorithm.
-            It has a polynomial complexity.
-            </summary>
-            <param name="iSourceNode">The source node of the path</param>
-            <param name="iDestinationNode">The destination node of the path</param>
-            <param name="iGraph">The graph with all nodes and weight between them</param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.Utils.ComputePaths(BlueQuark.Node)">
-            <summary>
-            Computes paths from the source node.
-            </summary>
-            <param name="iSourceNode">The source node</param>
-        </member>
-        <member name="M:BlueQuark.Utils.ComputePaths(BlueQuark.AStarNode)">
-            <summary>
-            Computes paths from the source node.
-            </summary>
-            <param name="iSourceNode">The source node</param>
-        </member>
-        <member name="M:BlueQuark.Utils.ShortestPathTo(BlueQuark.Node,BlueQuark.Node)">
-            <summary>
-            Gets the shorstest path between iSource and iDestination
-            </summary>
-            <param name="iSourceNode">The source node</param>
-            <param name="iDestinationNode">the destination node</param>
-            <returns>The list including the shorstest path between iSource and iDestination</returns>
-        </member>
-        <member name="M:BlueQuark.Utils.ShortestPathAStarTo(BlueQuark.AStarNode,BlueQuark.AStarNode)">
-            <summary>
-            Gets the shorstest path between iSource and iDestination
-            </summary>
-            <param name="iSourceNode">The source node</param>
-            <param name="iDestinationNode">the destination node</param>
-            <returns>The list including the shorstest path between iSource and iDestination</returns>
-        </member>
-        <member name="M:BlueQuark.Utils.ResetGraph(System.Collections.Generic.List{BlueQuark.Node})">
-            <summary>
-            Reset the graph for compute.
-            </summary>
-            <param name="iGraph">The graph</param>
-        </member>
-        <member name="M:BlueQuark.Utils.ResetGraph(System.Collections.Generic.List{BlueQuark.AStarNode})">
-            <summary>
-            Reset the graph for compute.
-            </summary>
-            <param name="iGraph">The graph</param>
-        </member>
         <member name="T:BlueQuark.SpeechInputParameters">
             <summary>
             Parameters for a listening recognition.
@@ -11547,7 +11877,7 @@
         </member>
         <member name="T:BlueQuark.Vocal">
             <summary>
-            The module for vocal management (say and listen). This is a FIFO process.
+            The module for vocal management (say, hot word and listen). This is a FIFO process.
             </summary>
         </member>
         <member name="P:BlueQuark.Vocal.DefaultOutputParameters">
