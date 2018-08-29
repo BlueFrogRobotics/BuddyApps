@@ -6414,6 +6414,19 @@
             </summary>
             <param name="iCondition">The while condition. Cannot be null</param>
         </member>
+        <member name="T:BlueQuark.HumanDetector">
+            <summary>
+            Tracker that tracks the position of a moving object 
+            </summary>
+            <summary>
+            Human detection algorithm.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanDetector.OnDetect">
+            <summary>
+            Called when a face is detected. Remove all callback to stop the algorithm.
+            </summary>
+        </member>
         <member name="T:BlueQuark.MotionDetectorRework">
             <summary>
             Tracker that tracks the position of a moving object 
@@ -8343,11 +8356,6 @@
         <member name="T:BlueQuark.HumanEntity">
             <summary>
             Human entity detected.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HumanEntity.BodyPart">
-            <summary>
-            Part of the body detected
             </summary>
         </member>
         <member name="M:BlueQuark.UserManager.GetCurrentUser">
