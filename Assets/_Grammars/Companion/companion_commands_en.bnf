@@ -84,7 +84,7 @@
 
 <asklaunch> : [<canyou>] (open | launch | play) [[the] application];
 <askgive> : [<canyou>] give (me | us) ;
-<asktell> : [<canyou>] (tell | find | give) (me | us) | I want to hear;
+<asktell> : [<canyou>] (tell | find | give) [me | us] | I want to hear;
 <canyou> : (can | could) you;
 
 
@@ -135,7 +135,7 @@
 <moveleft> : (move | turn | go | rotate) [<rotationangle>] [(on | to) the] left;
 <moveright> : (move | turn | go | rotate) [<rotationangle>] [(on | to) the] right;
 <nap> : take a nap | go to sleep;
-<photo> : [can you take | let's take] (a photo | a picture | pictures | photos);
+<photo> : [[can you | let's] take] (a photo | a picture | pictures | photos);
 <pose> : (can I take | I would like) a (picture | photo) with you | (can we take | let's take) (a selfie | a (picture | photo) together);
 <profilingwholikes> : [<asktell>] who likes (<colour> | <sport> | <colour> and <sport> | <sport> and <colour>);
 <profilingwhoisborn> : [<asktell>] who is born (after | before | in) <numbers#nb>;

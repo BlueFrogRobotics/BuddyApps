@@ -122,7 +122,7 @@
 <iot_temperature> : (monte | descend | augmente | baisse) ([la] température | le thermostat) [de <numbers#nb> degrés] | (règle | mets) (la température | le thermostat) (à | sur) <numbers#nb> degrés | quelle est la température dans (la maison | le salon);
 <iot_lights> : (allume | éteins | allumer | éteindre) [la | toutes les] (lumière | prise) [du (salon | bureau)];
 <iot_blinds> : (ouvre | ferme | monte | baisse) (le store [du (salon | bureau)] | tous les stores);
-<iot_music> : (joue | mets | stop | arrête | lance | allume) (([de] la | ma) musique ((sur [l'enceinte] sonos | du salon) | dans le salon) | l'enceinte du salon) | mets (le morceau (suivant | précédent) | la chanson (suivante | précédente)) [dans le salon];
+<iot_music> : (joue | mets | stop | arrête | lance | allume) (([de] la | ma) musique ((sur [l'enceinte] sonos | du salon) | dans le salon) | l'enceinte du salon) | [mets | passe à] ([le] morceau (suivant | précédent) | [la] chanson (suivante | précédente)) [dans le salon];
 <iot_music_volume> : met le volume de la musique à <numbers#nb> [dans le salon] | (monte | baisse) [le (volume | son) de] la musique [(dans le | du) salon];
 <joke> : <asktell> (une blague | une histoire (drôle | amusante | marrante) | quelque chose (de drôle | d'amusant | de marrant));
 <jukebox> : [<asklaunch>] (jukebox | [la] musique); 
