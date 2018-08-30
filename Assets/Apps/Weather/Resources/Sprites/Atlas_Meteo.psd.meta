@@ -1,30 +1,32 @@
 fileFormatVersion: 2
 guid: 148f9df4a54defe4ea6cd3efc14b064a
-timeCreated: 1510073669
-licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: BG_Morning
-    21300002: BG_Noon
-    21300004: BG_Afternoon
-    21300006: BG_Night
-    21300008: Over_Rain
-    21300010: BG_Frost
-    21300012: BG_Snow
-    21300014: Full_Sun
-    21300016: Light_Sun
-    21300018: Moon_Quarter
-    21300020: Cloud_Big_White
-    21300022: Cloud_Big_Grey
-    21300024: Cloud_Medium_White
-    21300026: Cloud_Medium_Grey
-    21300028: Cloud_Small_White
-    21300030: Cloud_Small_Grey
-    21300032: Shad_Bloc
-    21300034: BG_Bloc
-    21300036: Mask_Bloc
-    21300038: HaloFlare
-  serializedVersion: 4
+    21300000: Weather_BG_Morning
+    21300002: Weather_BG_Noon
+    21300004: Weather_BG_Afternoon
+    21300006: Weather_BG_Night
+    21300008: Weather_Over_Rain
+    21300010: Weather_BG_Frost
+    21300012: Weather_BG_Snow
+    21300014: Weather_Full_Sun
+    21300016: Weather_Light_Sun
+    21300018: Weather_Moon_Quarter
+    21300020: Weather_Cloud_Big_White
+    21300022: Weather_Cloud_Big_Grey
+    21300024: Weather_Cloud_Medium_White
+    21300026: Weather_Cloud_Medium_Grey
+    21300028: Weather_Cloud_Small_White
+    21300030: Weather_Cloud_Small_Grey
+    21300032: Weather_Shad_Bloc
+    21300034: Weather_BG_Bloc
+    21300036: Weather_Mask_Bloc
+    21300038: Weather_HaloFlare
+    21300040: Weather_Triangle
+    21300042: Weather_Line
+    21300044: Weather_Drop
+  externalObjects: {}
+  serializedVersion: 5
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -32,6 +34,8 @@ TextureImporter:
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -47,10 +51,13 @@ TextureImporter:
   textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
+    serializedVersion: 2
     filterMode: -1
     aniso: -1
     mipBias: -1
-    wrapMode: -1
+    wrapU: -1
+    wrapV: -1
+    wrapW: -1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -59,305 +66,523 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
+  singleChannelComponent: 0
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - buildTarget: DefaultTexturePlatform
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: Standalone
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: Android
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Android
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BG_Morning
+      name: Weather_BG_Morning
       rect:
         serializedVersion: 2
         x: 4
-        y: 1619
+        y: 1547
         width: 280
-        height: 425
+        height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: f3e85da510b77c04ba802b46d0645400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: BG_Noon
+      name: Weather_BG_Noon
       rect:
         serializedVersion: 2
         x: 287
-        y: 1619
+        y: 1547
         width: 280
-        height: 425
+        height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 96c885c7527ded549aeb288410446859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: BG_Afternoon
+      name: Weather_BG_Afternoon
       rect:
         serializedVersion: 2
         x: 572
-        y: 1619
+        y: 1547
         width: 280
-        height: 425
+        height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: d1e60bdd43a00724f925db1f75d305f4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: BG_Night
+      name: Weather_BG_Night
       rect:
         serializedVersion: 2
         x: 856
-        y: 1618
+        y: 1547
         width: 280
-        height: 425
+        height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 9f785dfaee43f8b4f945233c7f1ff014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Over_Rain
+      name: Weather_Over_Rain
       rect:
         serializedVersion: 2
-        x: 1141
-        y: 1619
+        x: 1142
+        y: 1547
         width: 280
-        height: 425
+        height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 76, y: 0, z: 77, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 4f9f0de7c24a6824196f896259f9f360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: BG_Frost
+      name: Weather_BG_Frost
       rect:
         serializedVersion: 2
-        x: 1433
-        y: 1619
+        x: 1432
+        y: 1547
         width: 280
-        height: 425
+        height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 76, y: 0, z: 77, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 52aafe2568575c04ab19966c50429137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: BG_Snow
+      name: Weather_BG_Snow
       rect:
         serializedVersion: 2
-        x: 1717
-        y: 1618
+        x: 1721
+        y: 1546
         width: 280
-        height: 425
+        height: 500
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 76, y: 0, z: 77, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: e802c25e844dfc843b67e821d2526223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Full_Sun
+      name: Weather_Full_Sun
       rect:
         serializedVersion: 2
         x: 0
-        y: 1253
+        y: 1195
         width: 340
         height: 340
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 78b301af7be3ca34eae3f4be4d0e3378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Light_Sun
+      name: Weather_Light_Sun
       rect:
         serializedVersion: 2
         x: 340
-        y: 1253
+        y: 1195
         width: 340
         height: 340
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: bcc470327e357a3409dc72367d58bb59
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Moon_Quarter
+      name: Weather_Moon_Quarter
       rect:
         serializedVersion: 2
-        x: 680
-        y: 1253
+        x: 681
+        y: 1195
         width: 340
         height: 340
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 2d53c15e9062d684eb2fcc8a5f6e40f0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Cloud_Big_White
+      name: Weather_Cloud_Big_White
       rect:
         serializedVersion: 2
         x: 0
-        y: 750
+        y: 705
         width: 635
         height: 465
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 031f10814f37815429291ce625963566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Cloud_Big_Grey
+      name: Weather_Cloud_Big_Grey
       rect:
         serializedVersion: 2
         x: 0
-        y: 285
+        y: 240
         width: 635
         height: 465
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 6d8b2a9d9d1657448b5db4705b559e5d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Cloud_Medium_White
+      name: Weather_Cloud_Medium_White
       rect:
         serializedVersion: 2
         x: 635
-        y: 750
+        y: 705
         width: 782
         height: 465
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 7cb1463fc09e5844da82ff081f8e4f49
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Cloud_Medium_Grey
+      name: Weather_Cloud_Medium_Grey
       rect:
         serializedVersion: 2
         x: 635
-        y: 285
+        y: 240
         width: 782
         height: 465
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 97452edc03d219b42bf27b5f0ac3cfb3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Cloud_Small_White
+      name: Weather_Cloud_Small_White
       rect:
         serializedVersion: 2
         x: 1417
-        y: 927
+        y: 882
         width: 512
         height: 288
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 1b0fc7b7505ecdd4891f3bc4b7bd115f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Cloud_Small_Grey
+      name: Weather_Cloud_Small_Grey
       rect:
         serializedVersion: 2
         x: 1417
-        y: 462
+        y: 415
         width: 512
         height: 288
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: d91578b04a4106340a68e939b4b64caa
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Shad_Bloc
+      name: Weather_Shad_Bloc
       rect:
         serializedVersion: 2
         x: 5
-        y: 156
+        y: 111
         width: 110
         height: 110
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 55, y: 55, z: 54, w: 54}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 0d54b93d704c5c141a86bd2168f9c344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: BG_Bloc
+      name: Weather_BG_Bloc
       rect:
         serializedVersion: 2
         x: 122
-        y: 156
+        y: 111
         width: 110
         height: 110
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 55, y: 55, z: 54, w: 54}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 3e2ae9053bda61c4ca9a41a3933ab4a4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: Mask_Bloc
+      name: Weather_Mask_Bloc
       rect:
         serializedVersion: 2
         x: 243
-        y: 156
+        y: 111
         width: 110
         height: 110
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 54, y: 55, z: 55, w: 54}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 87cef947456ca7a4d847b62879f5ff38
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: HaloFlare
+      name: Weather_HaloFlare
       rect:
         serializedVersion: 2
         x: 392
-        y: 77
+        y: 32
         width: 200
         height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 793d2416ee1e12f49bca645f2a4e1d40
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Weather_Triangle
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 138
+        width: 22
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 21addc0897c58a545a464232feaa176d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Weather_Line
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 195
+        width: 300
+        height: 3
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 75, y: 0, z: 75, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 248c9faecb0c01941a1ddead302a24ce
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Weather_Drop
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 85
+        width: 250
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 75, y: 0, z: 75, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8b173468fd175348aafe786b5f93563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
+    physicsShape: []
+    bones: []
+    spriteID: a826977e6c8e6c44b988f644c52d76da
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
   spritePackingTag: 
   userData: 
   assetBundleName: 
