@@ -9540,6 +9540,12 @@ GameObject:
   m_PrefabParentObject: {fileID: 1662180318620304, guid: 0a59eaed3c2881241a50053ee7bea99b,
     type: 2}
   m_PrefabInternal: {fileID: 1576119276}
+--- !u!114 &1576119333 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114853116863436576, guid: 0a59eaed3c2881241a50053ee7bea99b,
+    type: 2}
+  m_PrefabInternal: {fileID: 1576119276}
+  m_Script: {fileID: 813478773, guid: 20ade69cededc084aba48de6e5523239, type: 3}
 --- !u!1 &1652170138 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1466063318722662, guid: 0a59eaed3c2881241a50053ee7bea99b,
@@ -9763,7 +9769,7 @@ MonoBehaviour:
   m_Script: {fileID: 296498845, guid: 20ade69cededc084aba48de6e5523239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mLoopManager: {fileID: 0}
+  mLoopManager: {fileID: 1669233723}
 --- !u!114 &1669233722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9775,7 +9781,7 @@ MonoBehaviour:
   m_Script: {fileID: -1933077135, guid: 20ade69cededc084aba48de6e5523239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemControlUnit: {fileID: 0}
+  itemControlUnit: {fileID: 1576119333}
 --- !u!114 &1669233723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9787,7 +9793,7 @@ MonoBehaviour:
   m_Script: {fileID: 1954751640, guid: 20ade69cededc084aba48de6e5523239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConditionManager: {fileID: 0}
+  ConditionManager: {fileID: 1669233721}
 --- !u!114 &1669233724
 MonoBehaviour:
   m_ObjectHideFlags: 0

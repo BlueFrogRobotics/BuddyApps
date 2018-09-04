@@ -126,7 +126,6 @@ namespace BuddyApp.BuddyLab
                     lItem.GetComponent<ABLItem>().Parameter = bli.Parameter;
                     lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
                     //lItem.transform.parent = panel.transform; //mArrayItems[mArrayItems.Count - 1].transform;
-
                     lItem.transform.SetParent(panel.transform, false);
 
                     if (lItem.GetComponent<LoopItem>() != null)
@@ -271,12 +270,14 @@ namespace BuddyApp.BuddyLab
                     {
                         Dictionary<string, string> param = new Dictionary<string, string>();
                         param.Add(bli.ParameterKey, bli.Parameter);
+                        Debug.Log("try to launch : " + bli.BML + " with param: " + bli.Parameter);
                         mBMLManager.Play(bli.BML, param);
                         
                         Debug.Log("has launched : " + bli.BML + " with param: "+ bli.Parameter);
                     }
                     else
                     {
+                        Debug.Log("try to launch without param: " + bli.BML);
                         Debug.Log("has launched without param: " + mBMLManager.Play(bli.BML));
                     }
                     while (mIsRunning && mBMLManager.IsBusy /*mBMLManager.ActiveBML.Count>0 && mBMLManager.ActiveBML[0].IsRunning*/)
