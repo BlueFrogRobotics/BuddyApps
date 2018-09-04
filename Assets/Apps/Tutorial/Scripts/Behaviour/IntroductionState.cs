@@ -6,7 +6,7 @@ using System;
 
 
 namespace BuddyApp.Tutorial
-{
+{ 
     enum Step : int
     {
         FIRST_STEP = 0,
