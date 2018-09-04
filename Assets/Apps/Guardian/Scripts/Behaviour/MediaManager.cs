@@ -225,8 +225,7 @@ namespace BuddyApp.Guardian
             mMail.AddFile(Buddy.Resources.GetRawFullPath("audio.wav"));
             Buddy.WebServices.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, mMail, OnMailSent);
             //BYOS.Instance.WebService.EMailSender.enabled = true;
-            if (OnFilesSaved != null)
-                OnFilesSaved();
+            OnFilesSaved?.Invoke();
             mState = State.MAIL_SENDING;
         }
 

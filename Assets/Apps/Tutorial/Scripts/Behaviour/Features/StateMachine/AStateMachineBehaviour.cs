@@ -238,5 +238,7 @@ namespace BuddyApp.Tutorial
         /// Method called once at the start of the application.
         /// </summary>
         public virtual void Start() { }
+
+
     }
 }
