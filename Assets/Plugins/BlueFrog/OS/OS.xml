@@ -377,6 +377,27 @@
             Dictionary that contains the ID of every block.
             </summary>
         </member>
+        <member name="T:BlueQuark.Internal.IdleFaceState">
+            <summary>
+            Base class for state machine's state.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.IdleFaceState.OnStateEnter(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
+            <summary>
+            Called when the state machine target comes in the current state.
+            </summary>
+            <param name="iAnimator">The state machine</param>
+            <param name="iStateInfo">The state info</param>
+            <param name="iLayerIndex">The state layer index</param>
+        </member>
+        <member name="M:BlueQuark.Internal.IdleFaceState.OnStateExit(UnityEngine.Animator,UnityEngine.AnimatorStateInfo,System.Int32)">
+            <summary>
+            Called when the state machine target leaves the current state.
+            </summary>
+            <param name="iAnimator">The state machine</param>
+            <param name="iStateInfo">The state info</param>
+            <param name="iLayerIndex">The state layer index</param>
+        </member>
         <member name="T:BlueQuark.Internal.LabialExpression">
             <summary>
             Represents different labial expressions that Buddy can show.
@@ -397,7 +418,7 @@
             Happy way to talk.
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.BuddyAction">
+        <member name="T:BlueQuark.Internal.CompanionAction">
             <summary>
             Enum of actions that Buddy can perform
             </summary>
@@ -412,22 +433,6 @@
             The action manager class defines high level function to control Buddy action.
             It also contains some function for decision making based on situation (state), mood and desire.
             </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.ActionManager.NeededAction(BlueQuark.Internal.CompanionState)">
-            <summary>
-            This function is used to tell if there is a needed action to performed
-            </summary>
-            <param name="iState"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ActionManager.InformNotif(BlueQuark.Reminder,BlueQuark.ReminderState,System.Boolean,System.Boolean)">
-            <summary>
-            Tells and display the notification
-            </summary>
-            <param name="iReminder"></param>
-            <param name="iUpdateState"></param>
-            <param name="iTell"></param>
-            <param name="iDisplay"></param>
         </member>
         <member name="T:BlueQuark.Internal.DesireManager">
             <summary>
@@ -490,6 +495,44 @@
             </summary>
             <param name="iRoutine">The coroutine to stop</param> 
         </member>
+        <member name="T:BlueQuark.Internal.ChargingState">
+            <summary>
+            This state is used when the robot is charging
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.DanceState">
+            <summary>
+            This state is used when Buddy wants to move and decides to dance
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.GotoChargeState">
+            <summary>
+            This Navigating state is used to go back to charging station
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.IdleState">
+            <summary>
+            This class is used when the robot is in default mode
+            It will then go wander, interact, look for someone or charge according to the stimuli
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.LookingForSomeoneState">
+            <summary>
+            This state is called when Buddy is looking for a/any user
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.NapState">
+            <summary>
+            This class is used when the robot is in default mode
+            It will then go wander, interact, look for someone or charge according to the stimuli
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.WanderState">
+            <summary>
+            This state is call when Buddy wants to move
+            it will roam around the house
+            </summary>
+        </member>
         <member name="T:BlueQuark.Internal.AskInfoState">
             <summary>
             This state is used to ask a personal info to the user
@@ -503,16 +546,6 @@
         <member name="T:BlueQuark.Internal.AskNameState">
             <summary>
             This state is used to ask the name of the current user
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.BuddyInArmsState">
-            <summary>
-            This state is used when Buddy is in the arm of a user
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.ChargingState">
-            <summary>
-            This state is used when the robot is charging
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.ColourRecoState">
@@ -530,32 +563,6 @@
             This state is used to mimic user head position + facial emotion
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.DanceState">
-            <summary>
-            This state is used when Buddy wants to move and decides to dance
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.ExpressMoodState">
-            <summary>
-            This state is used when Buddy wants to express its emotion
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.FollowState">
-            <summary>
-            This state is used when Buddy needs to follow a user
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.GotoChargeState">
-            <summary>
-            This Navigating state is used to go back to charging station
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.IdleState">
-            <summary>
-            This class is used when the robot is in default mode
-            It will then go wander, interact, look for someone or charge according to the stimuli
-            </summary>
-        </member>
         <member name="T:BlueQuark.Internal.InformState">
             <summary>
             When Buddy wants to teach, it can also
@@ -569,41 +576,14 @@
             <param name="iUserProfile"></param>
             <returns></returns>
         </member>
-        <member name="T:BlueQuark.Internal.LandingState">
-            <summary>
-            State used when we come back to Companion
-            </summary>
-        </member>
         <member name="T:BlueQuark.Internal.ListenJokeState">
             <summary>
             This state is used when Buddy listens to a joke from the user
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.LookingForSomeoneState">
-            <summary>
-            This state is called when Buddy is looking for a/any user
-            </summary>
-        </member>
         <member name="T:BlueQuark.Internal.MirrorState">
             <summary>
             This state is to show the camera feedback
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.MonitorAppState">
-            <summary>
-            This is the state we use when an app is launched.
-            Buddy shouldn't behave anymore....
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.NapState">
-            <summary>
-            This class is used when the robot is in default mode
-            It will then go wander, interact, look for someone or charge according to the stimuli
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.NotifyState">
-            <summary>
-            This state is used when Buddy needs to inform the user of a notification
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.ProposeEdutainementState">
@@ -630,16 +610,6 @@
         <member name="T:BlueQuark.Internal.TellJokeState">
             <summary>
             This state is called when Buddy wants to tell a joke
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.UserDetectedState">
-            <summary>
-            This state is called when a user is detected but not engaged (yet).
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.UserDisengagedState">
-            <summary>
-            This state is used when the user explicitly ask Buddy to go away
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.VocalCommandState">
@@ -687,16 +657,67 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:BlueQuark.Internal.BuddyInArmsState">
+            <summary>
+            This state is used when Buddy is in the arm of a user
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ExpressMoodState">
+            <summary>
+            This state is used when Buddy wants to express its emotion
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.FollowState">
+            <summary>
+            This state is used when Buddy needs to follow a user
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.LandingState">
+            <summary>
+            State used when we come back to Companion
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.MonitorAppState">
+            <summary>
+            This is the state we use when an app is launched.
+            Buddy shouldn't behave anymore....
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.NotifyState">
+            <summary>
+            This state is used when Buddy needs to inform the user of a notification
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.UserDetectedState">
+            <summary>
+            This state is called when a user is detected but not engaged (yet).
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.UserDisengagedState">
+            <summary>
+            This state is used when the user explicitly ask Buddy to go away
+            </summary>
+        </member>
         <member name="T:BlueQuark.Internal.WaitStartState">
             <summary>
             This state is just to wait for everything to be up in OS
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.WanderState">
+        <member name="T:BlueQuark.Internal.TVideoStream">
             <summary>
-            This state is call when Buddy wants to move
-            it will roam around the house
+            Represents a full screen stream that can be displayed in a monolith layout.
             </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.TVideoStream.OnClick">
+            <summary>
+            Called when the main image is clicked.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TVideoStream.SetTexture(UnityEngine.Texture2D)">
+            <summary>
+            Set the main image.
+            </summary>
+            <param name="iTexture">The sprite to display. Cannot be null.</param>
         </member>
         <member name="T:BlueQuark.Internal.AUIFactory`2">
             <summary>
@@ -3371,17 +3392,12 @@
             The event bus system. Allows to fire events.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.AState.mName">
-            <summary>
-            The name of the state.
-            </summary>
-        </member>
         <member name="P:BlueQuark.Internal.AState.Name">
             <summary>
-            The name of the state.
+            Name of the state.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.AState.Setup(System.String,BlueQuark.Internal.StateMachine,BlueQuark.Internal.EventBus)">
+        <member name="M:BlueQuark.Internal.AState.Setup(BlueQuark.Internal.StateMachine,BlueQuark.Internal.EventBus)">
             <summary>
             Called after ctor to setup base dependencies.
             </summary>
@@ -3781,10 +3797,7 @@
         </member>
         <member name="T:BlueQuark.Internal.WebRTCListener">
             <summary>
-            This part listens on the Crossbar server to know if there is any incoming call
-            </summary>
-            <summary>
-            This part listens on the Crossbar server to know if there is any incoming call
+            This part listens on the Crossbar server to know if there is any incoming call.
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.WebRTCListener.PublishNotification(System.String)">
@@ -3809,21 +3822,21 @@
         </member>
         <member name="M:BlueQuark.Internal.WebRTCListener.PublishConnectionRequest(System.String)">
             <summary>
-            Use this to make a call towards another Buddy
+            Use this to make a call towards another Buddy.
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.WebRTCListener.SendNotification(System.String,System.String)">
             <summary>
-            Send notification as Crossbar published event
+            Send notification as Crossbar published event.
             </summary>
-            <param name="iTitle">Title of the notification</param>
-            <param name="iMessage">Body message of the notification</param>
+            <param name="iTitle">Title of the notification. Cannot be null or empty.</param>
+            <param name="iMessage">Body message of the notification. Cannot be null or empty.</param>
         </member>
         <member name="M:BlueQuark.Internal.WebRTCListener.ProcessAnswer(System.String)">
             <summary>
             Use this to send back the answer to the user.
             </summary>
-            <param name="iAnswer"></param>
+            <param name="iAnswer">The text to send. Cannot be null or empty.</param>
         </member>
         <member name="T:BlueQuark.TaskOwner">
             <summary>
@@ -4690,7 +4703,7 @@
         </member>
         <member name="T:BlueQuark.FacialEvent">
             <summary>
-            Mouth and eye events that Buddy face can handle
+            Mouth and eye events that Buddy face can desplay.
             </summary>
         </member>
         <member name="F:BlueQuark.FacialEvent.SMILE">
@@ -4708,17 +4721,17 @@
             Makes the face scream like a cute barbarian.
             </summary>
         </member>
-        <member name="F:BlueQuark.FacialEvent.RIGHT_BLINK">
+        <member name="F:BlueQuark.FacialEvent.BLINK_RIGHT_EYE">
             <summary>
             Makes the face blinking the right eye.
             </summary>
         </member>
-        <member name="F:BlueQuark.FacialEvent.LEFT_BLINK">
+        <member name="F:BlueQuark.FacialEvent.BLINK_LEFT_EYE">
             <summary>
             Makes the face blinking the left eye.
             </summary>
         </member>
-        <member name="F:BlueQuark.FacialEvent.DOUBLE_BLINK">
+        <member name="F:BlueQuark.FacialEvent.BLINK_EYES">
             <summary>
             Makes the face blinking both eyes.
             </summary>
@@ -4740,12 +4753,12 @@
         </member>
         <member name="F:BlueQuark.FacialEvent.WHAT">
             <summary>
-            What on earth ?!
+            What on fuck ?!
             </summary>
         </member>
         <member name="F:BlueQuark.FacialEvent.GROWLING">
             <summary>
-            Like angry, but different.
+            Like angry face expression, but different.
             </summary>
         </member>
         <member name="F:BlueQuark.FacialEvent.WHISTLE">
@@ -4753,19 +4766,49 @@
             Makes the mouse whistle.
             </summary>
         </member>
-        <member name="F:BlueQuark.FacialEvent.OPEN_EYES">
-            <summary>
-            Opens both eyes.
-            </summary>
-        </member>
         <member name="F:BlueQuark.FacialEvent.CLOSE_EYES">
             <summary>
             Closes both eyes.
             </summary>
         </member>
+        <member name="F:BlueQuark.FacialEvent.OPEN_EYES">
+            <summary>
+            Opens both eyes.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.CLOSE_LEFT_EYE">
+            <summary>
+            Closes left eye.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.OPEN_LEFT_EYE">
+            <summary>
+            Opens left eye.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.CLOSE_RIGHT_EYE">
+            <summary>
+            Closes right eye.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.OPEN_RIGHT_EYE">
+            <summary>
+            Opens right eye.
+            </summary>
+        </member>
         <member name="F:BlueQuark.FacialEvent.RELATIVE_EVENT">
             <summary>
-            A relative event to some mood. WORK IN PROGRESS => Bug : cannot stop repeating event.
+            A relative event to some mood.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.FALL_ASLEEP">
+            <summary>
+            Asleep Buddy.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FacialEvent.AWAKE">
+            <summary>
+            Awakes the mighty Buddy.
             </summary>
         </member>
         <member name="T:BlueQuark.GazePosition">
@@ -4948,9 +4991,9 @@
             In love !
             </summary>
         </member>
-        <member name="P:BlueQuark.Cognitive.ProceduralMemory">
+        <member name="T:BlueQuark.Cognitive">
             <summary>
-            Access to the procedural (skills, tasks) memory of Buddy
+            High valuable module containing recognition, AI and memory components.
             </summary>
         </member>
         <member name="P:BlueQuark.Cognitive.InternalState">
@@ -5046,7 +5089,167 @@
             Time when the event was registered
             </summary>
         </member>
-        <member name="T:BlueQuark.ProceduralMemory">
+        <member name="T:BlueQuark.FLabeledButton">
+            <summary>
+            Labeled button widget for the Footer UI component.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.FLabeledButton.OnClick">
+            <summary>
+            Called when the button is clicked.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.FLabeledButton.SetLabel(System.String)">
+            <summary>
+            Sets the label.
+            </summary>
+            <param name="iText">The text to display</param>
+        </member>
+        <member name="T:BlueQuark.FLabeledHorizontalSlider">
+            <summary>
+            Slider bar for Footer GUI component.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.FLabeledHorizontalSlider.OnSlide">
+            <summary>
+            Called when the value changed.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.FLabeledHorizontalSlider.SlidingValue">
+            <summary>
+            The current sliding value.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.FLabeledHorizontalSlider.SetLabel(System.String)">
+            <summary>
+            Sets the left label.
+            </summary>
+            <param name="iText">The text to display</param>
+        </member>
+        <member name="M:BlueQuark.FLabeledHorizontalSlider.SetButtonBackgroundIcon(UnityEngine.Sprite)">
+            <summary>
+            Sets background icon of the button.
+            </summary>
+            <param name="iSprite">The sprite to display. Cannot be null</param>
+        </member>
+        <member name="M:BlueQuark.FLabeledHorizontalSlider.SetButtonBackgroundColor(UnityEngine.Color)">
+            <summary>
+            Sets the background color of the button.
+            </summary>
+            <param name="iColor">The color of the button background</param>
+        </member>
+        <member name="M:BlueQuark.FLabeledHorizontalSlider.SetSliderBackground(UnityEngine.Sprite)">
+            <summary>
+            Sets the background of the slider.
+            </summary>
+            <param name="iSprite">The sprite to display. Cannot be null</param>
+        </member>
+        <member name="M:BlueQuark.FLabeledHorizontalSlider.SetSliderColor(UnityEngine.Color)">
+            <summary>
+            Sets the slider's color.
+            </summary>
+            <param name="iColor">The color to set</param>
+        </member>
+        <member name="M:BlueQuark.FLabeledHorizontalSlider.SetFillBackground(UnityEngine.Sprite)">
+            <summary>
+            Sets th fill gauge background image.
+            </summary>
+            <param name="iSprite">The sprite to display. Cannot be null.</param>
+        </member>
+        <member name="M:BlueQuark.FLabeledHorizontalSlider.SetFillColor(UnityEngine.Color)">
+            <summary>
+            Sets the fill gauge color.
+            </summary>
+            <param name="iColor">The color to set</param>
+        </member>
+        <member name="T:BlueQuark.VideoStreamToast">
+            <summary>
+            Represents a full screen video stream UI element.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.VideoStreamToast.With(UnityEngine.Texture2D)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iTexture">The texture stream to display. Cannot be null.</param>
+            <returns>The toast GUID</returns>
+        </member>
+        <member name="M:BlueQuark.VideoStreamToast.With(UnityEngine.Texture2D,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iTexture">The texture stream to display. Cannot be null.</param>
+            <param name="iOnClick">Called when the image is clicked</param>
+            <returns>The toast GUID</returns>
+        </member>
+        <member name="M:BlueQuark.VideoStreamToast.With(UnityEngine.Texture2D,System.Action,System.Action,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iTexture">The texture stream to display. Cannot be null.</param>
+            <param name="iOnClick">Called when the image is clicked</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>The toast GUID</returns>
+        </member>
+        <member name="M:BlueQuark.VideoStreamToast.With(UnityEngine.Texture2D,System.Action,System.Action,System.Action,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iTexture">The texture stream to display. Cannot be null.</param>
+            <param name="iOnClick">Called when the image is clicked</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
+            <returns>The toast GUID</returns>
+        </member>
+        <member name="T:BlueQuark.TSliderToggle">
+            <summary>
+            Toggable slider sealed widget for Explorer GUI component with a left label.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TSliderToggle.OnSlide">
+            <summary>
+            Called when the sliding value is changed.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TSliderToggle.OnToggle">
+            <summary>
+            Called when the toggling value is changed.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TSliderToggle.SlidingValue">
+            <summary>
+            The current selected sliding value.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TSliderToggle.ToggleValue">
+            <summary>
+            The current selected toggling value.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.TLabeledToggle">
+            <summary>
+            Toggle sealed widget for Explorer GUI component with a left label.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TLabeledToggle.OnToggle">
+            <summary>
+            Called when the toggling value is changed.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TLabeledToggle.ToggleValue">
+            <summary>
+            The current selected toggling value.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TLabeledToggle.SetLabel(System.String)">
+            <summary>
+            Sets the left label.
+            </summary>
+            <param name="iText">The text to display</param>
+        </member>
+        <member name="T:BlueQuark.ReminderManager">
             <summary>
             This class represents the procedural memory of Buddy
             </summary>
@@ -5054,7 +5257,7 @@
             This class represents the procedural memory of Buddy
             </summary>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.AddReminder(System.String,System.Int32)">
+        <member name="M:BlueQuark.ReminderManager.AddReminder(System.String,System.Int32)">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -5062,7 +5265,7 @@
             <param name="iSenderID">An ID representing the reminder sender</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.AddReminder(System.String,System.Int32,System.Int32[])">
+        <member name="M:BlueQuark.ReminderManager.AddReminder(System.String,System.Int32,System.Int32[])">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -5071,7 +5274,7 @@
             <param name="iAddressees">An array of ID representing reminder receivers</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.AddReminder(System.DateTime,System.String,System.Int32)">
+        <member name="M:BlueQuark.ReminderManager.AddReminder(System.DateTime,System.String,System.Int32)">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -5080,7 +5283,7 @@
             <param name="iSenderID">An ID representing the sender</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.AddReminder(System.DateTime,System.String,System.Int32,System.Int32[])">
+        <member name="M:BlueQuark.ReminderManager.AddReminder(System.DateTime,System.String,System.Int32,System.Int32[])">
             <summary>
             Add a new reminder to the procedural memory
             </summary>
@@ -5090,60 +5293,60 @@
             <param name="iAddressees">An array of ID representing reminder receivers</param>
             <returns>The new reminder</returns>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.GetReminders">
+        <member name="M:BlueQuark.ReminderManager.GetReminders">
             <summary>
             Get the list of all reminders.
             </summary>
             <returns>The list of all reminders.</returns>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.GetIssuedReminders(BlueQuark.ReminderState)">
+        <member name="M:BlueQuark.ReminderManager.GetIssuedReminders(BlueQuark.ReminderState)">
             <summary>
             Get the list of issued reminders with max state.
             </summary>
             <param name="iMaxState">Maximum state of the reminders to return</param>
             <returns>The list of all reminders.</returns>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.GetIssuedUrgentReminders(BlueQuark.ReminderState)">
+        <member name="M:BlueQuark.ReminderManager.GetIssuedUrgentReminders(BlueQuark.ReminderState)">
             <summary>
             Get the list of issued urgent reminders with max state.
             </summary>
             <param name="iMaxState">Maximum state of the reminders to return</param>
             <returns>The list of all reminders.</returns>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.ExistReminder(System.Int32)">
+        <member name="M:BlueQuark.ReminderManager.ExistReminder(System.Int32)">
             <summary>
             Check if the reminder exists.
             </summary>
             <param name="iID">The reminder ID</param>
             <returns>True if the reminder exists. Else returns false</returns>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.RemoveReminderSafe(System.Int32)">
+        <member name="M:BlueQuark.ReminderManager.RemoveReminderSafe(System.Int32)">
             <summary>
             Remove a speicific reminder from procedural memory.
             And add the next one if reccurent reminder
             </summary>
             <param name="iID">The reminder ID</param>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.RemoveReminder(System.Int32)">
+        <member name="M:BlueQuark.ReminderManager.RemoveReminder(System.Int32)">
             <summary>
             Remove a speicific reminder from procedural memory.
             </summary>
             <param name="iID">The reminder ID</param>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.RetrieveRemindersWhere(System.Predicate{BlueQuark.Reminder})">
+        <member name="M:BlueQuark.ReminderManager.RetrieveRemindersWhere(System.Predicate{BlueQuark.Reminder})">
             <summary>
             Retrieve all the reminders where the predicate is verified
             </summary>
             <param name="iMatchPredicate">The predicate to match reminders</param>
             <returns>A list of reminders</returns>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.DisplayReminder(System.Int32)">
+        <member name="M:BlueQuark.ReminderManager.DisplayReminder(System.Int32)">
             <summary>
             Display a specific reminder
             </summary>
             <param name="iID">The reminder ID</param>
         </member>
-        <member name="M:BlueQuark.ProceduralMemory.DisplayReminder(BlueQuark.Reminder)">
+        <member name="M:BlueQuark.ReminderManager.DisplayReminder(BlueQuark.Reminder)">
             <summary>
             Display a specific reminder
             </summary>
@@ -7725,7 +7928,7 @@
         </member>
         <member name="T:BlueQuark.Platform">
             <summary>
-            Module containg all meta data of the operating system.
+            Module containing all meta data of the operating system.
             </summary>
         </member>
         <member name="F:BlueQuark.Platform.SDK_NAME">
@@ -7736,6 +7939,11 @@
         <member name="P:BlueQuark.Platform.Application">
             <summary>
             App management.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Platform.Reminder">
+            <summary>
+            Memo/Reminding storage and management.
             </summary>
         </member>
         <member name="P:BlueQuark.Platform.Users">
@@ -7768,6 +7976,11 @@
         <member name="M:BlueQuark.Platform.Restart">
             <summary>
             Restarts the core application.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Platform.ReinstallCore">
+            <summary>
+            Starts the Android process to reinstall the core APK.
             </summary>
         </member>
         <member name="M:BlueQuark.Platform.Stop">
@@ -9448,6 +9661,12 @@
             </summary>
             <param name="iCustomGameObject">Gameobject to add</param>
         </member>
+        <member name="M:BlueQuark.Footer.AddOnMiddle(UnityEngine.GameObject)">
+            <summary>
+            Add a custom gameobject on the Footer middle side
+            </summary>
+            <param name="iCustomGameObject">Gameobject to add</param>
+        </member>
         <member name="M:BlueQuark.Footer.AddOnRight(UnityEngine.GameObject)">
             <summary>
             Add a custom gameobject on the Footer right side
@@ -9463,6 +9682,13 @@
         <member name="M:BlueQuark.Footer.CreateOnLeft``1">
             <summary>
             Create and add on the Footer left side a pre Footer built widget
+            </summary>
+            <typeparam name="FW">Type of the footer widget to build</typeparam>
+            <returns>The fully built widget</returns>
+        </member>
+        <member name="M:BlueQuark.Footer.CreateOnMiddle``1">
+            <summary>
+            Create and add on the Footer middle side a pre Footer built widget
             </summary>
             <typeparam name="FW">Type of the footer widget to build</typeparam>
             <returns>The fully built widget</returns>
@@ -9629,64 +9855,64 @@
             Optional parameter to store
             </summary>
         </member>
-        <member name="T:BlueQuark.FSlider">
+        <member name="T:BlueQuark.FVerticalSlider">
             <summary>
             Slider bar for Footer GUI component.
             </summary>
         </member>
-        <member name="P:BlueQuark.FSlider.OnSlide">
+        <member name="P:BlueQuark.FVerticalSlider.OnSlide">
             <summary>
             Called when the value changed.
             </summary>
         </member>
-        <member name="P:BlueQuark.FSlider.SlidingValue">
+        <member name="P:BlueQuark.FVerticalSlider.SlidingValue">
             <summary>
             The current sliding value.
             </summary>
         </member>
-        <member name="M:BlueQuark.FSlider.SetButtonIcon(UnityEngine.Sprite)">
+        <member name="M:BlueQuark.FVerticalSlider.SetButtonIcon(UnityEngine.Sprite)">
             <summary>
             Sets the button icon.
             </summary>
             <param name="iSprite">The sprite to display. Cannot be null</param>
         </member>
-        <member name="M:BlueQuark.FSlider.SetButtonIconColor(UnityEngine.Color)">
+        <member name="M:BlueQuark.FVerticalSlider.SetButtonIconColor(UnityEngine.Color)">
             <summary>
             Sets the color of the button icon.
             </summary>
             <param name="iColor">The color of the button icon</param>
         </member>
-        <member name="M:BlueQuark.FSlider.SetButtonBackgroundIcon(UnityEngine.Sprite)">
+        <member name="M:BlueQuark.FVerticalSlider.SetButtonBackgroundIcon(UnityEngine.Sprite)">
             <summary>
             Sets background icon of the button.
             </summary>
             <param name="iSprite">The sprite to display. Cannot be null</param>
         </member>
-        <member name="M:BlueQuark.FSlider.SetButtonBackgroundColor(UnityEngine.Color)">
+        <member name="M:BlueQuark.FVerticalSlider.SetButtonBackgroundColor(UnityEngine.Color)">
             <summary>
             Sets the background color of the button.
             </summary>
             <param name="iColor">The color of the button background</param>
         </member>
-        <member name="M:BlueQuark.FSlider.SetSliderBackground(UnityEngine.Sprite)">
+        <member name="M:BlueQuark.FVerticalSlider.SetSliderBackground(UnityEngine.Sprite)">
             <summary>
             Sets the background of the slider.
             </summary>
             <param name="iSprite">The sprite to display. Cannot be null</param>
         </member>
-        <member name="M:BlueQuark.FSlider.SetSliderColor(UnityEngine.Color)">
+        <member name="M:BlueQuark.FVerticalSlider.SetSliderColor(UnityEngine.Color)">
             <summary>
             Sets the slider's color.
             </summary>
             <param name="iColor">The color to set</param>
         </member>
-        <member name="M:BlueQuark.FSlider.SetFillBackground(UnityEngine.Sprite)">
+        <member name="M:BlueQuark.FVerticalSlider.SetFillBackground(UnityEngine.Sprite)">
             <summary>
             Sets th fill gauge background image.
             </summary>
             <param name="iSprite">The sprite to display. Cannot be null.</param>
         </member>
-        <member name="M:BlueQuark.FSlider.SetFillColor(UnityEngine.Color)">
+        <member name="M:BlueQuark.FVerticalSlider.SetFillColor(UnityEngine.Color)">
             <summary>
             Sets the fill gauge color.
             </summary>
@@ -9710,6 +9936,12 @@
             Activate/Deactivate the top right parameter app button. Active by default at app start.
             </summary>
             <param name="iVal">Activate or deactivate the object</param>
+        </member>
+        <member name="M:BlueQuark.Header.DisplaySpinningWheel(System.Boolean)">
+            <summary>
+            Activate/Deactivate the top right spinningwheel.
+            </summary>
+            <param name="iVal">Activate or deactivate the spinning wheel</param>
         </member>
         <member name="M:BlueQuark.Header.DisplayBoldTitle(System.String)">
             <summary>
@@ -9806,12 +10038,6 @@
         <member name="M:BlueQuark.Header.DisplayAppIcon(System.Boolean)">
             <summary>
             Activate/Deactivate the top left app icon. Active by default at app start.
-            </summary>
-            <param name="iVal">Activate or deactivate the object</param>
-        </member>
-        <member name="M:BlueQuark.Header.DisplaySpinningWheel(System.Boolean)">
-            <summary>
-            Activate/Deactivate the top-right spinning wheel
             </summary>
             <param name="iVal">Activate or deactivate the object</param>
         </member>

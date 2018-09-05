@@ -221,6 +221,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114026018815978966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -239,6 +240,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114070464960167278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -257,6 +259,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 1000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114115837225353600
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -274,7 +277,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 3
-  m_Spacing: 0
+  m_Spacing: 10
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -297,6 +300,7 @@ MonoBehaviour:
   m_PreferredHeight: 105
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114357911871113242
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -315,6 +319,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114432435900053894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -333,6 +338,7 @@ MonoBehaviour:
   m_PreferredHeight: 100
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114445480885050594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -496,6 +502,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 10000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114765505710979852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -653,6 +660,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 1000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!222 &222023782978671048
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -784,8 +792,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 76.58984, y: -79.53734}
-  m_SizeDelta: {x: 153.17969, y: 40.925316}
+  m_AnchoredPosition: {x: 439.974, y: -75}
+  m_SizeDelta: {x: 879.948, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224719669808306446
 RectTransform:
@@ -880,8 +888,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 76.58984, y: -29.537342}
-  m_SizeDelta: {x: 153.17969, y: 59.074684}
+  m_AnchoredPosition: {x: 439.974, y: -27.5}
+  m_SizeDelta: {x: 879.948, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224989887233458120
 RectTransform:
@@ -900,8 +908,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 181.58984, y: -50}
-  m_SizeDelta: {x: 153.17969, y: 100}
+  m_AnchoredPosition: {x: 554.974, y: -50}
+  m_SizeDelta: {x: 879.948, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &225013402038922828
 CanvasGroup:

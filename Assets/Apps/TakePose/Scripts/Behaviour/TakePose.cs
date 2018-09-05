@@ -98,7 +98,7 @@ namespace BuddyApp.TakePose
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_EYES);
                             break;
                         default:
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
@@ -132,7 +132,7 @@ namespace BuddyApp.TakePose
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.SMILE);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_EYES);
                             break;
                         default:
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
@@ -158,7 +158,7 @@ namespace BuddyApp.TakePose
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_EYES);
                             break;
                         default:
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
@@ -177,7 +177,7 @@ namespace BuddyApp.TakePose
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_EYES);
                             break;
                         default:
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
@@ -196,7 +196,7 @@ namespace BuddyApp.TakePose
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_EYES);
                             break;
                         default:
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
@@ -216,7 +216,7 @@ namespace BuddyApp.TakePose
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.SMILE);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_EYES);
                             break;
                         default:
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);
@@ -234,7 +234,7 @@ namespace BuddyApp.TakePose
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.SMILE);
                             break;
                         case 1:
-                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.DOUBLE_BLINK);
+                            Buddy.Behaviour.Face.PlayEvent(FacialEvent.BLINK_EYES);
                             break;
                         default:
                             Buddy.Behaviour.Face.PlayEvent(FacialEvent.RELATIVE_EVENT);

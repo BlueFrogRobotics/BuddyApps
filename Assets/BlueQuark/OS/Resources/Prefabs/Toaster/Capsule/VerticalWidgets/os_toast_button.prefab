@@ -121,6 +121,7 @@ MonoBehaviour:
   m_PreferredHeight: 100
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114203331964602856
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,7 +148,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 48
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -172,6 +173,7 @@ MonoBehaviour:
   m_PreferredHeight: 98
   m_FlexibleWidth: 1000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114410685902342602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -190,6 +192,7 @@ MonoBehaviour:
   m_PreferredHeight: 98
   m_FlexibleWidth: 1000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114518159781300306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -309,6 +312,7 @@ MonoBehaviour:
   m_PreferredHeight: 98
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114717452300461114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -402,6 +406,7 @@ MonoBehaviour:
   m_PreferredHeight: 60
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!222 &222072759038796974
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -460,7 +465,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 260, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224282461667699320
