@@ -17,7 +17,6 @@ namespace BuddyApp.Guardian
 		public const float KIDNAPPING_THRESHOLD = 4.5F;
 		public const float MAX_MOVEMENT_THRESHOLD = 5.0F;
 
-
 		private Animator mAnimator;
 		private KidnappingDetector mKidnappingDetection;
 		private MotionDetector mMotionDetection;
