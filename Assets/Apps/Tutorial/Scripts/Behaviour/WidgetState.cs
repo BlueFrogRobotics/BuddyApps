@@ -26,8 +26,8 @@ namespace BuddyApp.Tutorial
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mStepWidget = StepWidget.FIRST_WIDGET;
             Buddy.Vocal.SayKey("introwidgetstate");
+            mStepWidget = StepWidget.FIRST_WIDGET;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -37,7 +37,6 @@ namespace BuddyApp.Tutorial
             {
                 if (mStepWidget == StepWidget.FIRST_WIDGET)
                 {
-                    //TIMER DE 5 SEC
                     Buddy.GUI.Toaster.Display<CountdownToast>().With(5, 0, 0,
                     (iCountDown) =>
                     { // When Clicked 
@@ -47,6 +46,8 @@ namespace BuddyApp.Tutorial
                     (iCountDown) =>
                     { // On each tic 
                         Debug.Log(iCountDown.Second);
+                        if (iCountDown.Second < 5 && iCountDown.Second >= 4)
+                            Buddy.Vocal.SayKey("widgetcountdown");
                         if (iCountDown.IsDone)
                         {
                             mStepWidget = StepWidget.SECOND_WIDGET;
@@ -57,14 +58,12 @@ namespace BuddyApp.Tutorial
                 }
                 else if (mStepWidget == StepWidget.SECOND_WIDGET)
                 {
-                    //NUMPAD AVEC UN CODE ET DEUX BOUTONS (VALIDER ET CANCEL)
                     Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
                     {
                         TNumPad lNumPad = iBuilder.CreateWidget<TNumPad>();
                         lNumPad.OnChangeValue.Add((iInput) => { mInputNumPad = iInput; Debug.Log(iInput); });
                         lNumPad.SetPlaceHolder(Buddy.Resources.GetString("numpadwidget"));
-                        //iBuilder.CreateWidget<TNumPad>().OnChangeValue.Add((iInput) => { mInputNumPad = iInput; Debug.Log(iInput); });
-                        //iBuilder.CreateWidget<TNumPad>().SetPlaceHolder("numpadwidget");
+                        Buddy.Vocal.SayKey("widgetnumpad");
                     },
 
                     () => { Buddy.GUI.Toaster.Hide(); Debug.Log("Click cancel"); Trigger("MenuTrigger"); }, "Cancel",
@@ -87,44 +86,67 @@ namespace BuddyApp.Tutorial
                 }
                 else if (mStepWidget == StepWidget.THIRD_WIDGET)
                 {
-                    //VERTICAL LIST AVEC UN SEUL BOUTON
                     Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) =>
                     {
+                        Buddy.Vocal.Say("verticallisttoast");
                         TVerticalListBox lBox = iBuilder.CreateBox();
-                        lBox.OnClick.Add(() => { Debug.Log("Click Box"); });
-                        lBox.SetLabel("Left", "Right label");
-                            //lBox.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("icon"));
-                            lBox.LeftButton.SetBackgroundColor(new Color(0.5f, 0.5f, 0.5f, 1F));
-                        lBox.LeftButton.OnClick.Add(() => { Debug.Log("Click Left"); });
-
+                        lBox.OnClick.Add(() => {
+                            Debug.Log("Click Box");
+                            //Check if Buddy is speaking if you want to avoid Buddy saying multiple time the key in the event if you click multiple time on the button during the speech
+                            if (!Buddy.Vocal.IsSpeaking)
+                            {
+                                Buddy.Vocal.SayKey("widgetboxclick");
+                            }
+                        });
+                        lBox.SetLabel("Box upper text", "box lower text");
+                        //You can add an icon to your left button
+                        //lBox.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("icon"));
+                        lBox.LeftButton.SetBackgroundColor(new Color(0.5f, 0.5f, 0.5f, 1F));
+                        lBox.LeftButton.OnClick.Add(() => {
+                            Debug.Log("Click Left");
+                            if (Buddy.Vocal.IsSpeaking)
+                                Buddy.Vocal.SayKey("widgetleftclick");
+                        });
                         TRightSideButton lButton = lBox.CreateRightButton();
-                            //lButton.SetIcon(Buddy.Resources.Get<Sprite>("icon"));
-                            lButton.OnClick.Add(() =>
+                        //You can add an icon to your RightSideButton
+                        //lButton.SetIcon(Buddy.Resources.Get<Sprite>("icon"));
+                        
+                        lButton.OnClick.Add(() =>
                         {
                             Debug.Log("Click right");
+                            mStepWidget = StepWidget.FORTH_WIDGET;
                             Buddy.GUI.Toaster.Hide();
                         });
                     });
                 }
-                
-                //PARAMETER TOAST AVEC PLEIN DE WIDGET
-                //Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
-                //    iBuilder.CreateWidget<TButton>().SetLabel("ButtonLabel");
-                //    iBuilder.CreateWidget<TSlider>().OnSlide.Add((iVal) => { Debug.Log(iVal); });
-                //    iBuilder.CreateWidget<TToggle>().SetLabel("ToggleLabel");
-                //    iBuilder.CreateWidget<TTextField>().SetPlaceHolder("PlaceHolder");
-                //    iBuilder.CreateWidget<TTextBox>().SetPlaceHolder("PlaceHolder");
-                //    iBuilder.CreateWidget<TText>().SetLabel("A text");
-                //    iBuilder.CreateWidget<TRate>();
-                //    iBuilder.CreateWidget<TPasswordField>().SetPlaceHolder("PlaceHolderPwd");
-                //},
+                else if(mStepWidget == StepWidget.FORTH_WIDGET)
+                {
+                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+                    {
+                        iBuilder.CreateWidget<TButton>().SetLabel("ButtonLabel");
+                        iBuilder.CreateWidget<TSlider>().OnSlide.Add((iVal) => { Debug.Log(iVal); });
+                        iBuilder.CreateWidget<TToggle>().SetLabel("ToggleLabel");
+                        iBuilder.CreateWidget<TTextField>().SetPlaceHolder("PlaceHolder");
+                        iBuilder.CreateWidget<TTextBox>().SetPlaceHolder("PlaceHolder");
+                        iBuilder.CreateWidget<TText>().SetLabel("A text");
+                        iBuilder.CreateWidget<TRate>();
+                        iBuilder.CreateWidget<TPasswordField>().SetPlaceHolder("PlaceHolderPwd");
+                    },
 
-                //() => { Debug.Log("Click cancel"); }, "Cancel",
-                //() => {
-                //    Debug.Log("Click next");
-                //    Buddy.GUI.Toaster.Hide();
-                //}, "Next"
-                //);
+                    () => { Debug.Log("Click cancel"); }, "Cancel",
+                    () =>
+                    {
+                        Debug.Log("Click next");
+                        Buddy.Vocal.SayKey("parametertoast");
+                        Buddy.GUI.Toaster.Hide();
+                        mStepWidget = StepWidget.DONE;
+                    }, "Next"
+                    );
+                }
+                else
+                {
+                    Trigger("MenuTrigger");
+                }
             }
         }
 
