@@ -74,6 +74,13 @@ namespace BuddyApp.Guardian
 		{
 			Volume = (int)(Buddy.Actuators.Speakers.Volume * 100F);
             Init();
+            //RecipientData recipient = new RecipientData();
+            //recipient.Name = "rodolphe";
+            //recipient.Mail = "rh@bluefrogrobotics.com";
+            //RecipientsData contacts = new RecipientsData();
+            //contacts.Recipients = new List<RecipientData>();
+            //contacts.Recipients.Add(recipient);
+            //Utils.SerializeXML<RecipientsData>(contacts, Buddy.Resources.GetRawFullPath("contacts.xml"));
 		}
 
 

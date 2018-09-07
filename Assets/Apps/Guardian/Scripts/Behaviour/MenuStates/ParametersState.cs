@@ -6,47 +6,50 @@ using System.Collections.Generic;
 
 namespace BuddyApp.Guardian
 {
-	/// <summary>
-	/// State where the user can set the detection sensibility, test them and set the head orientation
-	/// </summary>
-	public class ParametersState : AStateMachineBehaviour
-	{
-		//private GuardianLayout mDetectionLayout;
-		private bool mHasSwitchState = false;
+    /// <summary>
+    /// State where the user can set the detection sensibility, test them and set the head orientation
+    /// </summary>
+    public class ParametersState : AStateMachineBehaviour
+    {
+        //private GuardianLayout mDetectionLayout;
+        private bool mHasSwitchState = false;
 
         private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
+
+        private FButton lLeftButton;
+        private FButton lValidateButton;
 
         /// <summary>
         /// Enum of the different sub parameters windows
         /// </summary>
         private enum ParameterWindow : int
-		{
-			HEAD_ORIENTATION = 0,
-			MOVEMENT = 1,
-			SOUND = 2,
-			FIRE = 3
-		}
+        {
+            HEAD_ORIENTATION = 0,
+            MOVEMENT = 1,
+            SOUND = 2,
+            FIRE = 3
+        }
 
-		public override void Start()
-		{
-			//mDetectionLayout = new GuardianLayout();
-			mHasSwitchState = false;
-		}
+        public override void Start()
+        {
+            //mDetectionLayout = new GuardianLayout();
+            mHasSwitchState = false;
+        }
 
-		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-		{
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
             Debug.Log("ON STATE ENTER PARAMETER STATE !!!!!!!!!!!!!!!!!!!!!!");
-			GuardianData.Instance.HeadOrientation = false;
-			GuardianData.Instance.MovementDebug = false;
-			GuardianData.Instance.SoundDebug = false;
-			GuardianData.Instance.FireDebug = false;
-            
-			mHasSwitchState = false;
+            GuardianData.Instance.HeadOrientation = false;
+            GuardianData.Instance.MovementDebug = false;
+            GuardianData.Instance.SoundDebug = false;
+            GuardianData.Instance.FireDebug = false;
+
+            mHasSwitchState = false;
 
             if (GuardianData.Instance.FirstRunParam)
             {
                 Buddy.Vocal.SayKey("firstparam");
-               
+
             }
 
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
@@ -94,37 +97,75 @@ namespace BuddyApp.Guardian
                     lBox.LeftButton.SetBackgroundColor(new Color(0.5f, 0.5f, 0.5f, 1F));
                 }
             });
+
+            lLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+
+            lLeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
+
+            lLeftButton.SetBackgroundColor(Color.white);
+            lLeftButton.SetIconColor(Color.black);
+
+            //lTrash.SetStroke(true);
+
+            //lTrash.SetStrokeColor(Color.red);
+
+            lLeftButton.OnClick.Add(() => { });
+
+
+
+            lValidateButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
+
+            lValidateButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
+
+            lValidateButton.SetBackgroundColor(Utils.BUDDY_COLOR);
+            lValidateButton.SetIconColor(Color.white);
+
+            //lButton.SetStroke(true);
+
+            //lButton.SetStrokeColor(Utils.BUDDY_COLOR);
+
+            lValidateButton.OnClick.Add(() => { });
         }
 
-		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-		{
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
             GuardianData.Instance.FirstRunParam = true;
-            if (!mHasSwitchState) {
-				if (GuardianData.Instance.HeadOrientation) {
-					SwitchState(iAnimator, ParameterWindow.HEAD_ORIENTATION);
-				} else if (GuardianData.Instance.MovementDebug) {
-					SwitchState(iAnimator, ParameterWindow.MOVEMENT);
-				} else if (GuardianData.Instance.SoundDebug) {
-					SwitchState(iAnimator, ParameterWindow.SOUND);
-				} else if (GuardianData.Instance.FireDebug) {
-					SwitchState(iAnimator, ParameterWindow.FIRE);
-				}
-			}
-		}
-
-		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-		{
-            Buddy.GUI.Toaster.Hide();
+            if (!mHasSwitchState)
+            {
+                if (GuardianData.Instance.HeadOrientation)
+                {
+                    SwitchState(iAnimator, ParameterWindow.HEAD_ORIENTATION);
+                }
+                else if (GuardianData.Instance.MovementDebug)
+                {
+                    SwitchState(iAnimator, ParameterWindow.MOVEMENT);
+                }
+                else if (GuardianData.Instance.SoundDebug)
+                {
+                    SwitchState(iAnimator, ParameterWindow.SOUND);
+                }
+                else if (GuardianData.Instance.FireDebug)
+                {
+                    SwitchState(iAnimator, ParameterWindow.FIRE);
+                }
+            }
         }
 
-		private void SwitchState(Animator iAnimator, ParameterWindow iParamWindow)
-		{
-			Buddy.GUI.Toaster.Hide();
-            //Add the custom toast with background
-			//Toaster.Display<BackgroundToast>().With();
-			mHasSwitchState = true;
-			iAnimator.SetInteger("DebugMode", (int)iParamWindow);
-		}
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Footer.Remove<FButton>(lLeftButton);
+            Buddy.GUI.Footer.Remove<FButton>(lValidateButton);
+        }
 
-	}
+        private void SwitchState(Animator iAnimator, ParameterWindow iParamWindow)
+        {
+            Buddy.GUI.Toaster.Hide();
+            //Add the custom toast with background
+            //Toaster.Display<BackgroundToast>().With();
+            mHasSwitchState = true;
+            iAnimator.SetInteger("DebugMode", (int)iParamWindow);
+        }
+
+    }
 }

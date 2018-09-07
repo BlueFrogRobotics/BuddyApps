@@ -36,10 +36,12 @@ namespace BuddyApp.Guardian
             {
                 iBuilder.CreateWidget<TText>().SetLabel("setup sound detection");
                 //iBuilder.CreateWidget<TText>().SetLabel("test");
-                iBuilder.CreateWidget<TSlider>().OnSlide.Add((iVal) => Debug.Log(iVal));
-                iBuilder.CreateWidget<TToggle>();
+                iBuilder.CreateWidget<TSliderToggle>().OnSlide.Add((iVal) => Debug.Log(iVal));
+                //iBuilder.CreateWidget<TToggle>();
                 iBuilder.CreateWidget<TButton>().SetLabel("Test Sensibility");
+
                 //iBuilder.CreateWidget<TText>().SetLabel("test2");
+
             },
             () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, "Cancel",
             () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, "Next"

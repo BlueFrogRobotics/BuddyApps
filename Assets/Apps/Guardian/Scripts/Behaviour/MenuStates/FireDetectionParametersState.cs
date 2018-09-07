@@ -14,7 +14,8 @@ namespace BuddyApp.Guardian
         //private GuardianLayout mDetectionLayout;
         private bool mHasSwitchState = false;
 
-        private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
+        private TToggle mToggleFireDetection;
+        private TButton mButtonTestSensibility;
 
 
         public override void Start()
@@ -35,12 +36,17 @@ namespace BuddyApp.Guardian
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
                 //iBuilder.CreateWidget<TText>().SetLabel("test");
-                iBuilder.CreateWidget<TToggle>().SetLabel("setup fire detection");
-                iBuilder.CreateWidget<TButton>().SetLabel("Test Sensibility");
+                mToggleFireDetection = iBuilder.CreateWidget<TToggle>();
+                mToggleFireDetection.SetLabel("setup fire detection");
+                mToggleFireDetection.ToggleValue = GuardianData.Instance.FireDetection;
+
+                mButtonTestSensibility = iBuilder.CreateWidget<TButton>();
+                mButtonTestSensibility.SetLabel("Test Sensibility");
+                mButtonTestSensibility.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_cog"));
                 //iBuilder.CreateWidget<TText>().SetLabel("test2");
             },
             () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, "Cancel",
-            () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, "Next"
+            () => { SaveParam(); Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, "Next"
             );
 
 
@@ -54,6 +60,11 @@ namespace BuddyApp.Guardian
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
 
+        }
+
+        private void SaveParam()
+        {
+            GuardianData.Instance.FireDetection = mToggleFireDetection.ToggleValue;
         }
 
     }

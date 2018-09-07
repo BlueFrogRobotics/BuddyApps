@@ -8,7 +8,7 @@ namespace BuddyApp.Guardian
     {
         private DetectionManager mDetectionManager;
 
-        //public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
+        //public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)  
         //{
         //    Resources.LoadAtlas("GuardianAtlas");
         //    //Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;

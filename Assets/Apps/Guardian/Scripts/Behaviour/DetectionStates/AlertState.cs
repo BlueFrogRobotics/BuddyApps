@@ -20,9 +20,9 @@ namespace BuddyApp.Guardian
         {
             mDetectionManager = GetComponent<DetectionManager>();
 
-            Buddy.Actuators.Speakers.Media.Play(
-                   Buddy.Resources.Get<AudioClip>("alarmbeep")
-               );
+            //Buddy.Actuators.Speakers.Media.Play(
+            //       Buddy.Resources.Get<AudioClip>("alarmbeep")
+            //   );
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
