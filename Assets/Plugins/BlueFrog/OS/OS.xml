@@ -1831,10 +1831,7 @@
         </member>
         <member name="T:BlueQuark.Internal.HardwareCom">
             <summary>
-            Arduino component of the robot
-            </summary>
-            <summary>
-            Hardware communication with the Hemise board
+            Hardware communication with the Hemise board.
             </summary>
         </member>
         <member name="P:BlueQuark.Internal.HardwareCom.OnNewDataFrame">
@@ -7065,21 +7062,21 @@
         </member>
         <member name="M:BlueQuark.Photograph.Update(UnityEngine.Sprite)">
             <summary>
-            Update the stored image. Must be saved for permanent effect
+            Update the stored image. Must be saved for permanent effect.
             </summary>
             <param name="iNewImage">The new image to set</param>
             <returns>True if operation is successful</returns>
         </member>
         <member name="M:BlueQuark.Photograph.Update(UnityEngine.Texture2D)">
             <summary>
-            Update the stored image. Must be saved for permanent effect
+            Update the stored image. Must be saved for permanent effect.
             </summary>
             <param name="iNewImage">The new image to set</param>
             <returns>True if operation is successful</returns>
         </member>
         <member name="M:BlueQuark.Photograph.Update(OpenCVUnity.Mat)">
             <summary>
-            Update the stored image. Must be saved for permanent effect
+            Update the stored image. Must be saved for permanent effect.
             </summary>
             <param name="iNewImage">The new image to set</param>
             <returns>True if operation is successful</returns>
@@ -7517,7 +7514,7 @@
         </member>
         <member name="M:BlueQuark.Wheels.Stop">
             <summary>
-            Stops wheels
+            Stops wheels.
             </summary>
         </member>
         <member name="T:BlueQuark.AAppData">
@@ -10368,6 +10365,11 @@
             Called when the button is clicked.
             </summary>
         </member>
+        <member name="M:BlueQuark.TButton.SetActive(System.Boolean)">
+            <summary>
+            Enable/Disable the button for interaction.
+            </summary>
+        </member>
         <member name="M:BlueQuark.TButton.SetLabel(System.String)">
             <summary>
             Sets the button labels.
@@ -10602,7 +10604,7 @@
         </member>
         <member name="M:BlueQuark.CallbackArray.FireEvent">
             <summary>
-            Trigger all callbacks
+            Trigger all callbacks.
             </summary>
         </member>
         <member name="T:BlueQuark.CallbackArray`1">
@@ -10648,7 +10650,7 @@
         </member>
         <member name="M:BlueQuark.CallbackArray`1.FireEvent(`0)">
             <summary>
-            Trigger all callbacks
+            Trigger all callbacks.
             </summary>
         </member>
         <member name="T:BlueQuark.CallbackArray`2">
@@ -10681,7 +10683,7 @@
         </member>
         <member name="M:BlueQuark.CallbackArray`2.FireEvent(`0,`1)">
             <summary>
-            Trigger all callbacks
+            Trigger all callbacks.
             </summary>
         </member>
         <member name="T:BlueQuark.CallbackArray`3">
@@ -10714,7 +10716,7 @@
         </member>
         <member name="M:BlueQuark.CallbackArray`3.FireEvent(`0,`1,`2)">
             <summary>
-            Trigger all callbacks
+            Trigger all callbacks.
             </summary>
         </member>
         <member name="T:BlueQuark.LogInfo">
@@ -12087,6 +12089,11 @@
         <member name="T:BlueQuark.SpeechInput">
             <summary>
             Input speech from user listened by the robot.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.SpeechInput.IsInterrupted">
+            <summary>
+            True if the listening process was interrupted.
             </summary>
         </member>
         <member name="P:BlueQuark.SpeechInput.Utterance">
