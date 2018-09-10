@@ -8,7 +8,7 @@ namespace BuddyApp.Guardian
 		public override void Start()
 		{
 			//CommonIntegers.Add("Angle", 0);
-            mData.Angle = 0;
+            //mData.Angle = 0;
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

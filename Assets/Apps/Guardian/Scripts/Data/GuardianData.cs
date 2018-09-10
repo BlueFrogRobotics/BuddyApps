@@ -52,7 +52,7 @@ namespace BuddyApp.Guardian
 
 
 		/// <summary>
-		/// Tells if user want to enable scan detection
+		/// Tells if user want to enable scan detection by moving head
 		/// </summary>
 		public bool ScanDetection { get; set; }
 
