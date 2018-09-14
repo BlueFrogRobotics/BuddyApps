@@ -2,7 +2,7 @@
 <LanguageThesaurus xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <Entries>
         <DictionaryEntry>
-            <Key>hello</Key>
+            <Key>introstatehello</Key>
             <BaseValue>Hey c'est bien de te voir ici, je vais t'apprendre les bases pour faire de super applications pour moi! Je vais commencer par te montrer mes différentes émotions, et quelques un de mes B M L qui correspond à des répertoires d’actions liés à mon émotion, mais ne t’inquiètes pas tout est expliqué sur notre site internet.[2000]</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -12,7 +12,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>menumotion</Key>
+            <Key>menustatemotion</Key>
             <BaseValue>Détection de mouvement</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -22,7 +22,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>menuphoto</Key>
+            <Key>menustatephoto</Key>
             <BaseValue>Prendre une photo</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -32,7 +32,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>menuwidget</Key>
+            <Key>menustatewidget</Key>
             <BaseValue>Widget - UI</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -42,7 +42,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>menuquit</Key>
+            <Key>menustatequit</Key>
             <BaseValue>Quitter</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -82,8 +82,8 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>intromotionstate</Key>
-            <BaseValue>Ok je vais te montrer comment faire de la détection de mouvement et comment c'est affiché sur moi.</BaseValue>
+            <Key>motionstateintro</Key>
+            <BaseValue>Ok je vais te montrer comment faire de la détection de mouvement et comment c'est affiché sur moi. Tout d'abord on commence par montrer le flux vidéo.</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -92,7 +92,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>introsecondstep</Key>
+            <Key>introstatesecondstep</Key>
             <BaseValue>Voici quelques une de mes émotions.[2000] Comme tu peux le voir, j'ai plusieurs émotions différentes.</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -102,7 +102,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>introwidgetstate</Key>
+            <Key>widgetstateintro</Key>
             <BaseValue>Je vais te montrer les différents types de widgets qu'on utilise dans nos applications, je ne vais pas tout te montrer mais nne t'inquiétes pas le reste des widgets est listé sur le site internet.</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -112,7 +112,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>numpadwidget</Key>
+            <Key>widgetstatenumpadtext</Key>
             <BaseValue>écrit 1337 pour avancer</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -122,7 +122,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>wrongnumpad</Key>
+            <Key>widgetstatewrongnumpad</Key>
             <BaseValue>Ce n'est pas le bon nombre!</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -132,7 +132,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>widgetboxclick</Key>
+            <Key>widgetstateboxclick</Key>
             <BaseValue>Tu as cliqué sur le conteneur.</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -142,7 +142,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>widgetleftclick</Key>
+            <Key>widgetstateleftclick</Key>
             <BaseValue>Tu as cliqué sur le bouton gauche.</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -152,7 +152,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>widgetcountdown</Key>
+            <Key>widgetstatecountdown</Key>
             <BaseValue>Voici le toaster de décompte.</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -162,7 +162,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>widgetnumpad</Key>
+            <Key>widgetstatenumpad</Key>
             <BaseValue>Voici le toaster numpad, écrit 1337 pour voir le prochain toaster.</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -172,7 +172,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>parametertoast</Key>
+            <Key>widgetstateparametertoast</Key>
             <BaseValue>Tu peux voir ici le toast parametre avec plusieurs widget.</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -182,7 +182,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>verticallisttoast</Key>
+            <Key>widgetstateverticallisttoast</Key>
             <BaseValue>Dans ce toaster tu peux cliquer sur les trois éléments qui sont bouton gauche, bouton droit et le conteneur au milieu.</BaseValue>
             <ClosePhoneticValues>
                 <string />
@@ -200,6 +200,32 @@
             <RandomValues>
                 <string />
             </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>tpstatesteptakephoto</Key>
+            <BaseValue>Dans trois secondes je vais prendre la photo, fais ton plus beau sourire.[1000] 3 [1000] 2 [1000] 1 [1000] souris!</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>tpstatephototaken</Key>
+            <BaseValue>Voici la photo prise.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>introstatethirdstep</Key>
+            <BaseValue />
+            <ClosePhoneticValues />
+            <RandomValues />
         </DictionaryEntry>
     </Entries>
 </LanguageThesaurus>

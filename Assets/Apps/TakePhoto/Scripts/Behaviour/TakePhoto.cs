@@ -165,7 +165,7 @@ namespace BuddyApp.TakePhoto
                         {
                             if (Buddy.Sensors.HDCamera.Width > 0)
                             {
-                                mPictureSound.Play();
+                                //mPictureSound.Play();
                                 Buddy.Sensors.HDCamera.TakePhotograph(OnFinish, false);
                                 Debug.Log("PHOTO TAKEN");
                                 mPhotoTaken = true; 

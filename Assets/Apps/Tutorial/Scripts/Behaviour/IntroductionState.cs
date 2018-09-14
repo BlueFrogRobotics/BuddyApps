@@ -40,7 +40,7 @@ namespace BuddyApp.Tutorial
             //mTimer += Time.deltaTime;
             if(mStep == Step.FIRST_STEP)
             {
-                Buddy.Vocal.SayKey("hello", true);
+                Buddy.Vocal.SayKey("introstatehello", true);
                 mStep = Step.SECOND_STEP;
             }
             else if(mStep == Step.SECOND_STEP && !Buddy.Vocal.IsBusy /*&& mTimer > 2F*/)
@@ -49,7 +49,7 @@ namespace BuddyApp.Tutorial
                 //mTimer = 0F;
                 if (!mIsFirstSentenceDone)
                 {
-                    Buddy.Vocal.SayKey("introseconstep");
+                    Buddy.Vocal.SayKey("introstateseconstep");
                     mIsFirstSentenceDone = true;
                 }
                 Buddy.Behaviour.SetMood((Mood)mValue.GetValue(mRandom.Next(mValue.Length)));
@@ -58,7 +58,7 @@ namespace BuddyApp.Tutorial
             }
             else if(mStep == Step.LAST_STEP && !Buddy.Vocal.IsBusy)
             {
-                Buddy.Vocal.SayKey("introthirdstep");
+                Buddy.Vocal.SayKey("introstatethirdstep");
                 //Mettre les BML quand ils fonctionneront dans l'OS
                 mStep = Step.DONE;
             }

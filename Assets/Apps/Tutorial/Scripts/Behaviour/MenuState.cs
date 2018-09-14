@@ -18,10 +18,10 @@ namespace BuddyApp.Tutorial
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mButtonContent.Clear();
-            mButtonContent.Add(Buddy.Resources.GetString("menumotion"), "MotionTrigger");
-            mButtonContent.Add(Buddy.Resources.GetString("menuphoto"), "TakePhotoTrigger");
-            mButtonContent.Add(Buddy.Resources.GetString("menuwidget"), "WidgetTrigger");
-            mButtonContent.Add(Buddy.Resources.GetString("menuquit"), "QuitTrigger");
+            mButtonContent.Add(Buddy.Resources.GetString("menustatemotion"), "MotionTrigger");
+            mButtonContent.Add(Buddy.Resources.GetString("menustatephoto"), "TakePhotoTrigger");
+            mButtonContent.Add(Buddy.Resources.GetString("menustatewidget"), "WidgetTrigger");
+            mButtonContent.Add(Buddy.Resources.GetString("menustatequit"), "QuitTrigger");
 
             //We have differents parts of the UI : Header - Toaster - footer.
             //Each of them control one part of the Buddy's screen, header controls the top, toaster will be all the widgets/UI in the middle and the footer controls the bottom.

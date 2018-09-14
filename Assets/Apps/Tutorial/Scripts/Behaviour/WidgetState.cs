@@ -26,7 +26,7 @@ namespace BuddyApp.Tutorial
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Buddy.Vocal.SayKey("introwidgetstate");
+            Buddy.Vocal.SayKey("widgetstateintro");
             mStepWidget = StepWidget.FIRST_WIDGET;
         }
 
@@ -47,7 +47,7 @@ namespace BuddyApp.Tutorial
                     { // On each tic 
                         Debug.Log(iCountDown.Second);
                         if (iCountDown.Second < 5 && iCountDown.Second >= 4)
-                            Buddy.Vocal.SayKey("widgetcountdown");
+                            Buddy.Vocal.SayKey("widgetstatecountdown");
                         if (iCountDown.IsDone)
                         {
                             mStepWidget = StepWidget.SECOND_WIDGET;
@@ -62,8 +62,8 @@ namespace BuddyApp.Tutorial
                     {
                         TNumPad lNumPad = iBuilder.CreateWidget<TNumPad>();
                         lNumPad.OnChangeValue.Add((iInput) => { mInputNumPad = iInput; Debug.Log(iInput); });
-                        lNumPad.SetPlaceHolder(Buddy.Resources.GetString("numpadwidget"));
-                        Buddy.Vocal.SayKey("widgetnumpad");
+                        lNumPad.SetPlaceHolder(Buddy.Resources.GetString("widgetstatenumpadtext"));
+                        Buddy.Vocal.SayKey("widgetstatenumpad");
                     },
 
                     () => { Buddy.GUI.Toaster.Hide(); Debug.Log("Click cancel"); Trigger("MenuTrigger"); }, "Cancel",
@@ -72,7 +72,7 @@ namespace BuddyApp.Tutorial
                         Int32.TryParse(mInputNumPad, out mInputNumPadToInt);
                         if (mInputNumPadToInt != NUMBER_NUMPAD)
                         {
-                            Buddy.Vocal.SayKey("wrongnumpad");
+                            Buddy.Vocal.SayKey("widgetstatewrongnumpad");
                         }
                         else
                         {
@@ -88,14 +88,14 @@ namespace BuddyApp.Tutorial
                 {
                     Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) =>
                     {
-                        Buddy.Vocal.Say("verticallisttoast");
+                        Buddy.Vocal.Say("widgetstateverticallisttoast");
                         TVerticalListBox lBox = iBuilder.CreateBox();
                         lBox.OnClick.Add(() => {
                             Debug.Log("Click Box");
                             //Check if Buddy is speaking if you want to avoid Buddy saying multiple time the key in the event if you click multiple time on the button during the speech
                             if (!Buddy.Vocal.IsSpeaking)
                             {
-                                Buddy.Vocal.SayKey("widgetboxclick");
+                                Buddy.Vocal.SayKey("widgetstateboxclick");
                             }
                         });
                         lBox.SetLabel("Box upper text", "box lower text");
@@ -105,7 +105,7 @@ namespace BuddyApp.Tutorial
                         lBox.LeftButton.OnClick.Add(() => {
                             Debug.Log("Click Left");
                             if (Buddy.Vocal.IsSpeaking)
-                                Buddy.Vocal.SayKey("widgetleftclick");
+                                Buddy.Vocal.SayKey("widgetstateleftclick");
                         });
                         TRightSideButton lButton = lBox.CreateRightButton();
                         //You can add an icon to your RightSideButton
@@ -137,7 +137,7 @@ namespace BuddyApp.Tutorial
                     () =>
                     {
                         Debug.Log("Click next");
-                        Buddy.Vocal.SayKey("parametertoast");
+                        Buddy.Vocal.SayKey("widgetstateparametertoast");
                         Buddy.GUI.Toaster.Hide();
                         mStepWidget = StepWidget.DONE;
                     }, "Next"
