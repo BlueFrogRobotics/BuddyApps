@@ -16,7 +16,11 @@ namespace BuddyApp.Guardian
 
         private TToggle mToggleMobileGuard;
         private TToggle mToggleMobileHead;
+        private TToggle mToggleAlarm;
         private TToggle mToggleMailNotif;
+        private TButton mButtonRecipient;
+
+        private RecipientsData mContacts;
 
 
         public override void Start()
@@ -27,37 +31,48 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
+            mContacts = Utils.UnserializeXML<RecipientsData>(Buddy.Resources.GetRawFullPath("contacts.xml"));
 
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
             //	() => { Trigger("NextStep"); }, 
             //	null);
-
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("generalsettings"));
             //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
                 //iBuilder.CreateWidget<TText>().SetLabel("setup sound detection");
                 //iBuilder.CreateWidget<TText>().SetLabel("test");
                 mToggleMobileGuard = iBuilder.CreateWidget<TToggle>();
-                mToggleMobileGuard.SetLabel("mobile guard");
+                mToggleMobileGuard.SetLabel(Buddy.Resources.GetString("mobile"));
                 mToggleMobileGuard.ToggleValue = GuardianData.Instance.MobileDetection;
 
                 mToggleMobileHead = iBuilder.CreateWidget<TToggle>();
-                mToggleMobileHead.SetLabel("mobile head");
+                mToggleMobileHead.SetLabel(Buddy.Resources.GetString("scan"));
                 mToggleMobileHead.ToggleValue = GuardianData.Instance.ScanDetection;
 
-                mToggleMailNotif = iBuilder.CreateWidget<TToggle>();
-                mToggleMailNotif.SetLabel("mail notification");
-                mToggleMailNotif.ToggleValue = GuardianData.Instance.SendMail;
+                mToggleAlarm = iBuilder.CreateWidget<TToggle>();
+                mToggleAlarm.SetLabel(Buddy.Resources.GetString("alarm"));
+                mToggleAlarm.ToggleValue = GuardianData.Instance.AlarmActivated;
 
-                TButton lButtonRecipient = iBuilder.CreateWidget<TButton>();
-                lButtonRecipient.SetLabel("who to contact");
-                lButtonRecipient.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_sort_down"));
-                lButtonRecipient.OnClick.Add(() => { Trigger("RecipientChoice"); Buddy.GUI.Toaster.Hide(); });
+                mToggleMailNotif = iBuilder.CreateWidget<TToggle>();
+                mToggleMailNotif.SetLabel(Buddy.Resources.GetString("notification"));
+                mToggleMailNotif.ToggleValue = GuardianData.Instance.SendMail;
+                mToggleMailNotif.OnToggle.Add(OnToggleNotif);
+
+                mButtonRecipient = iBuilder.CreateWidget<TButton>();
+
+                if(GuardianData.Instance.ContactId != -1 && GuardianData.Instance.ContactId < mContacts.Recipients.Count)
+                    mButtonRecipient.SetLabel(mContacts.Recipients[GuardianData.Instance.ContactId].Name);
+                else
+                    mButtonRecipient.SetLabel(Buddy.Resources.GetString("whotocontact"));
+
+                mButtonRecipient.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_sort_down"));
+                mButtonRecipient.OnClick.Add(() => { Trigger("RecipientChoice"); Buddy.GUI.Toaster.Hide(); });
                 //iBuilder.CreateWidget<TText>().SetLabel("test2");
+                OnToggleNotif(mToggleMailNotif.ToggleValue);
             },
-            () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, "Cancel",
-            () => { SaveValues(); Trigger("Parameter");  Buddy.GUI.Toaster.Hide(); }, "Next"
+            () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("cancel"),
+            () => { SaveValues(); Trigger("Parameter");  Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("save")
             );
 
 
@@ -70,7 +85,7 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
+            Buddy.GUI.Header.HideTitle();
         }
 
         private void SaveValues()
@@ -78,6 +93,13 @@ namespace BuddyApp.Guardian
             GuardianData.Instance.MobileDetection = mToggleMobileGuard.ToggleValue;
             GuardianData.Instance.ScanDetection = mToggleMobileHead.ToggleValue;
             GuardianData.Instance.SendMail = mToggleMailNotif.ToggleValue;
+            GuardianData.Instance.AlarmActivated = mToggleAlarm.ToggleValue;
+        }
+
+        private void OnToggleNotif(bool iNotif)
+        {
+            mButtonRecipient.SetActive(iNotif);
+            GuardianData.Instance.SendMail = iNotif;
         }
 
     }

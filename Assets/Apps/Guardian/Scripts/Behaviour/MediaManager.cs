@@ -61,9 +61,11 @@ namespace BuddyApp.Guardian
             mListAudio = new Queue<AudioClip>();
             //mCam = BYOS.Instance.Primitive.RGBCam;
             mTime = 0.0f;
+            mCam = Buddy.Sensors.RGBCamera;
+            mNoiseDetection = Buddy.Perception.NoiseDetector;
+            mNewFrame = true;
             AndroidJavaClass unity = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
-            mNewFrame = true;
         }
 
         // Update is called once per frame

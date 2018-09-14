@@ -14,10 +14,26 @@ namespace BuddyApp.Guardian
         //private GuardianLayout mDetectionLayout;
         private bool mHasSwitchState = false;
 
-        private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
+        //private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
 
-        private FButton lLeftButton;
-        private FButton lValidateButton;
+        private FButton mLeftButton;
+        private FButton mValidateButton;
+
+        private List<ButtonContent> mButtonContents = new List<ButtonContent>();
+
+        private class ButtonContent
+        {
+            public string Label { get; set; }
+            public string TriggerName { get; set; }
+            public string SpriteName { get; set; }
+
+            public ButtonContent(string iLabel, string iTriggerName, string iSpriteName)
+            {
+                Label = iLabel;
+                TriggerName = iTriggerName;
+                SpriteName = iSpriteName;
+            }
+        }
 
         /// <summary>
         /// Enum of the different sub parameters windows
@@ -69,62 +85,68 @@ namespace BuddyApp.Guardian
             //() => { Debug.Log("Click next"); Buddy.GUI.Toaster.Hide(); }, "Next"
             //);
 
-            mButtonContent.Clear();
-            mButtonContent.Add(Buddy.Resources.GetString("movementdetection"), "MovementDetection");
-            mButtonContent.Add(Buddy.Resources.GetString("sounddetection"), "SoundDetection");
-            mButtonContent.Add(Buddy.Resources.GetString("firedetection"), "FireDetection");
-            mButtonContent.Add(Buddy.Resources.GetString("generalparameters"), "GeneralParameters");
+            //mButtonContent.Clear();
+            //mButtonContent.Add(Buddy.Resources.GetString("movementdetection"), "MovementDetection");
+            //mButtonContent.Add(Buddy.Resources.GetString("sounddetection"), "SoundDetection");
+            //mButtonContent.Add(Buddy.Resources.GetString("firedetection"), "FireDetection");
+            //mButtonContent.Add(Buddy.Resources.GetString("generalparameters"), "GeneralParameters");
+
+            mButtonContents.Clear();
+            mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("movementdetection"), "MovementDetection", "os_icon_agent"));
+            mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("sounddetection"), "SoundDetection", "os_icon_sound_on"));
+            mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("firedetection"), "FireDetection", "Fire_Alert"));
+            mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("generalparameters"), "GeneralParameters", "os_icon_cog"));
 
 
             Buddy.GUI.Header.DisplayParametersButton(false);
-            Buddy.GUI.Header.DisplayLightTitle("Menu");
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("detectionparameters"));
 
             Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) =>
             {
-                foreach (KeyValuePair<string, string> lButtonContent in mButtonContent)
+                foreach (ButtonContent lButtonContent in mButtonContents)
                 {
                     //We create the container
                     TVerticalListBox lBox = iBuilder.CreateBox();
                     //We create en event OnClick so we can trigger en event when we click on the box
-                    lBox.OnClick.Add(() => { Debug.Log("Click " + lButtonContent.Key); Trigger(lButtonContent.Value); });
+                    lBox.OnClick.Add(() => { Debug.Log("Click " + lButtonContent.Label); Trigger(lButtonContent.TriggerName); });
                     //We label our button with our informations in the dictionary
-                    lBox.SetLabel(lButtonContent.Key);
+                    lBox.SetLabel(lButtonContent.Label);
                     //You can set a left button if you need to add en event or an icon at the left
                     //lBox.LeftButton.Hide();
-                    lBox.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("Fire_Alert"));
+                    lBox.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>(lButtonContent.SpriteName));
                     //We place the text of the button in the center of the box
                     lBox.SetCenteredLabel(true);
                     lBox.LeftButton.SetBackgroundColor(new Color(0.5f, 0.5f, 0.5f, 1F));
                 }
             });
 
-            lLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+            mLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
 
-            lLeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
+            mLeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
 
-            lLeftButton.SetBackgroundColor(Color.white);
-            lLeftButton.SetIconColor(Color.black);
+            mLeftButton.SetBackgroundColor(Color.white);
+            mLeftButton.SetIconColor(Color.black);
 
             //lTrash.SetStroke(true);
 
             //lTrash.SetStrokeColor(Color.red);
 
-            lLeftButton.OnClick.Add(() => { });
+            mLeftButton.OnClick.Add(() => { });
 
 
 
-            lValidateButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
+            mValidateButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
 
-            lValidateButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
+            mValidateButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
 
-            lValidateButton.SetBackgroundColor(Utils.BUDDY_COLOR);
-            lValidateButton.SetIconColor(Color.white);
+            mValidateButton.SetBackgroundColor(Utils.BUDDY_COLOR);
+            mValidateButton.SetIconColor(Color.white);
 
             //lButton.SetStroke(true);
 
             //lButton.SetStrokeColor(Utils.BUDDY_COLOR);
 
-            lValidateButton.OnClick.Add(() => { });
+            mValidateButton.OnClick.Add(() => { Trigger("NextStep"); });
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -154,8 +176,9 @@ namespace BuddyApp.Guardian
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Buddy.GUI.Toaster.Hide();
-            Buddy.GUI.Footer.Remove<FButton>(lLeftButton);
-            Buddy.GUI.Footer.Remove<FButton>(lValidateButton);
+            Buddy.GUI.Header.HideTitle();
+            Buddy.GUI.Footer.Remove<FButton>(mLeftButton);
+            Buddy.GUI.Footer.Remove<FButton>(mValidateButton);
         }
 
         private void SwitchState(Animator iAnimator, ParameterWindow iParamWindow)

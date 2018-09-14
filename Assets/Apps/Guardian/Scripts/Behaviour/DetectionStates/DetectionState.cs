@@ -27,7 +27,7 @@ namespace BuddyApp.Guardian
             mDetectionManager.IsDetectingFire = GuardianData.Instance.FireDetection;
             mDetectionManager.IsDetectingKidnapping = GuardianData.Instance.KidnappingDetection;
             //BYOS.Instance.WebService.EMailSender.enabled = true;
-
+            Debug.Log("detecting sound set a " + mDetectionManager.IsDetectingSound);
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Screen.Locked = true;
 

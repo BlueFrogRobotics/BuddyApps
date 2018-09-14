@@ -13,7 +13,7 @@ namespace BuddyApp.Guardian
 	public class DetectionManager : MonoBehaviour
 	{
 
-		public const float MAX_SOUND_THRESHOLD = 0.3F;
+		public const float MAX_SOUND_THRESHOLD = 0.03F;
 		public const float KIDNAPPING_THRESHOLD = 4.5F;
 		public const float MAX_MOVEMENT_THRESHOLD = 5.0F;
 
@@ -91,14 +91,14 @@ namespace BuddyApp.Guardian
 		{
             HasLinkedDetector = false;
 
-			//mMotionDetection = BYOS.Instance.Perception.Motion;
-			//mNoiseDetection = BYOS.Instance.Perception.Noise;
-			//mFireDetection = BYOS.Instance.Perception.Thermal;		
-			//mKidnappingDetection = BYOS.Instance.Perception.Kidnapping;
+            mMotionDetection = Buddy.Perception.MotionDetector;
+            mNoiseDetection = Buddy.Perception.NoiseDetector;
+            mFireDetection = Buddy.Perception.ThermalDetector;
+            mKidnappingDetection = Buddy.Perception.KidnappingDetector;
 
-			//Roomba = BYOS.Instance.Navigation.Roomba;
-			//Roomba.enabled = false;
-		}
+            //Roomba = BYOS.Instance.Navigation.Roomba;
+            //Roomba.enabled = false;
+        }
 
 		/// <summary>
 		/// Add a string to the log string
@@ -116,9 +116,10 @@ namespace BuddyApp.Guardian
 		{
             MotionDetectorParameter lMotionParam = new MotionDetectorParameter();
             lMotionParam.SensibilityThreshold = GuardianData.Instance.MovementDetectionThreshold * MAX_MOVEMENT_THRESHOLD / 100;
+            lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240);
             HasLinkedDetector = true;
             mMotionDetection.OnDetect.AddP(OnMovementDetected, lMotionParam);
-            mNoiseDetection.OnDetect.AddP(OnSoundDetected);
+            mNoiseDetection.OnDetect.AddP(OnSoundDetected, 0.0F);
             mFireDetection.OnDetect.AddP(OnThermalDetected, 50);
             mKidnappingDetection.OnDetect.Add(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
             Buddy.Sensors.RGBCamera.Mode = RGBCameraMode.COLOR_320x240_30FPS_RGB;
@@ -157,7 +158,7 @@ namespace BuddyApp.Guardian
 			Debug.Log("============== Sound detected! detector");
 			if (!IsDetectingSound)
 				return true;
-
+            Debug.Log("iSound: " + iSound + " thresh: " + (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * MAX_SOUND_THRESHOLD);
 			if (iSound > (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * MAX_SOUND_THRESHOLD) {
 				Debug.Log("============== Threshold passed!");
 				Detected = Alert.SOUND;

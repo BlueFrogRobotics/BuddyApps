@@ -14,11 +14,16 @@ namespace BuddyApp.Guardian
         //private GuardianLayout mDetectionLayout;
         private bool mHasSwitchState = false;
 
-        private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
+        //private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
 
         private GameObject mVerticalBox;
 
         private RecipientsData mContacts;
+
+        private FButton mLeftButton;
+        private FButton mValidateButton;
+
+        private RecipientData mSelectedContact;
 
 
         public override void Start()
@@ -30,24 +35,30 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("chooserecipient"));
 
             mContacts = Utils.UnserializeXML<RecipientsData>(Buddy.Resources.GetRawFullPath("contacts.xml"));
+
+            if(GuardianData.Instance.ContactId!=-1 && GuardianData.Instance.ContactId<mContacts.Recipients.Count)
+            {
+                mSelectedContact = mContacts.Recipients[GuardianData.Instance.ContactId];
+            }
 
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
             //	() => { Trigger("NextStep"); }, 
             //	null);
-            mButtonContent.Clear();
-            mButtonContent.Add("Add new contact", "AddRecipient");
-            mButtonContent.Add("rodolphe", "SoundDetection");
-            mButtonContent.Add("maud", "SoundDetection");
+            //mButtonContent.Clear();
+            //mButtonContent.Add(Buddy.Resources.GetString("addrecipient"), "AddRecipient");
+            //mButtonContent.Add("rodolphe", "SoundDetection");
+            //mButtonContent.Add("maud", "SoundDetection");
 
             Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) =>
             {
                 TVerticalListBox lBox = iBuilder.CreateBox();
                 //We create en event OnClick so we can trigger en event when we click on the box
-                lBox.OnClick.Add(() => { Debug.Log("Click add"); iBuilder.Select(lBox); Trigger("AddRecipient"); Buddy.GUI.Toaster.Hide(); });
+                lBox.OnClick.Add(() => { Debug.Log("Click add"); iBuilder.Select(lBox); Trigger("AddRecipient"); Buddy.GUI.Toaster.Hide(); CloseFooter(); });
                 //We label our button with our informations in the dictionary
-                lBox.SetLabel("Add new contact");
+                lBox.SetLabel(Buddy.Resources.GetString("addrecipient"));
                 lBox.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_user_circle"));
                 lBox.LeftButton.SetIconColor(Color.black);
                 lBox.LeftButton.SetBackgroundColor(Color.white);
@@ -57,13 +68,15 @@ namespace BuddyApp.Guardian
                 {
                     TVerticalListBox lBoxContact = iBuilder.CreateBox();
                     //We create en event OnClick so we can trigger en event when we click on the box
-                    lBoxContact.OnClick.Add(() => { Debug.Log("Click add"); iBuilder.Select(lBoxContact); /*Trigger(lButtonContent.Value); Buddy.GUI.Toaster.Hide();*/ });
+                    lBoxContact.OnClick.Add(() => { Debug.Log("Click add"); iBuilder.Select(lBoxContact); mSelectedContact = contact;/*Trigger(lButtonContent.Value); Buddy.GUI.Toaster.Hide();*/ });
                     //We label our button with our informations in the dictionary
                     lBoxContact.SetLabel(contact.Name, contact.Mail);
                     lBoxContact.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_user_circle"));
                     lBoxContact.LeftButton.SetIconColor(Color.black);
                     lBoxContact.LeftButton.SetBackgroundColor(Color.white);
                     lBoxContact.SetCenteredLabel(false);
+                    if(mSelectedContact==contact)
+                        iBuilder.Select(lBoxContact);
                 }
 
                 //foreach (KeyValuePair<string, string> lButtonContent in mButtonContent)
@@ -90,6 +103,33 @@ namespace BuddyApp.Guardian
                 //}
             });
 
+            mLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+
+            mLeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
+
+            mLeftButton.SetBackgroundColor(Color.white);
+            mLeftButton.SetIconColor(Color.black);
+
+            //lTrash.SetStroke(true);
+
+            //lTrash.SetStrokeColor(Color.red);
+
+            mLeftButton.OnClick.Add(() => { });
+
+
+
+            mValidateButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
+
+            mValidateButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
+
+            mValidateButton.SetBackgroundColor(Utils.BUDDY_COLOR);
+            mValidateButton.SetIconColor(Color.white);
+
+            //lButton.SetStroke(true);
+
+            //lButton.SetStrokeColor(Utils.BUDDY_COLOR);
+
+            mValidateButton.OnClick.Add(() => { Trigger("GeneralParameters"); });
 
         }
 
@@ -100,7 +140,16 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            GuardianData.Instance.ContactId = mContacts.Recipients.IndexOf(mSelectedContact);
+            CloseFooter();
+            Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Header.HideTitle();
+        }
 
+        private void CloseFooter()
+        {
+            Buddy.GUI.Footer.Remove(mLeftButton);
+            Buddy.GUI.Footer.Remove(mValidateButton);
         }
 
     }

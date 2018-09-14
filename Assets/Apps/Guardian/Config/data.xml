@@ -7,11 +7,11 @@
     <ScanDetection>false</ScanDetection>
     <MovementDetectionThreshold>69</MovementDetectionThreshold>
     <SoundDetectionThreshold>53</SoundDetectionThreshold>
-    <MovementDetection>false</MovementDetection>
-    <SoundDetection>false</SoundDetection>
-    <FireDetection>true</FireDetection>
+    <MovementDetection>true</MovementDetection>
+    <SoundDetection>true</SoundDetection>
+    <FireDetection>false</FireDetection>
     <KidnappingDetection>false</KidnappingDetection>
-    <SendMail>false</SendMail>
+    <SendMail>true</SendMail>
     <HeadOrientation>false</HeadOrientation>
     <MovementDebug>false</MovementDebug>
     <SoundDebug>false</SoundDebug>
@@ -28,4 +28,5 @@
         <Session>USER</Session>
         <Permissions />
     </Contact>
+    <ContactId>1</ContactId>
 </GuardianData>

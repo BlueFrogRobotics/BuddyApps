@@ -26,6 +26,7 @@ namespace BuddyApp.Guardian
 			SendMail = true;
 			Contact = new UserAccount();
 			Contact.FirstName = "NONE";
+            ContactId = -1;
         }
 
         /// <summary>
@@ -122,6 +123,9 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public UserAccount Contact { get; set; }
 
+        public int ContactId { get; set; }
+
+        public bool AlarmActivated { get; set; }
 
 		public static GuardianData Instance
 		{

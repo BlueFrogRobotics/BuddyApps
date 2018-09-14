@@ -27,7 +27,7 @@ namespace BuddyApp.Guardian
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
 
-
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("firedetection"));
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
             //	() => { Trigger("NextStep"); }, 
             //	null);
@@ -37,16 +37,18 @@ namespace BuddyApp.Guardian
             {
                 //iBuilder.CreateWidget<TText>().SetLabel("test");
                 mToggleFireDetection = iBuilder.CreateWidget<TToggle>();
-                mToggleFireDetection.SetLabel("setup fire detection");
+                mToggleFireDetection.SetLabel(Buddy.Resources.GetString("setupfire"));
                 mToggleFireDetection.ToggleValue = GuardianData.Instance.FireDetection;
+                mToggleFireDetection.OnToggle.Add(OnToggleParam);
 
                 mButtonTestSensibility = iBuilder.CreateWidget<TButton>();
-                mButtonTestSensibility.SetLabel("Test Sensibility");
+                mButtonTestSensibility.SetLabel(Buddy.Resources.GetString("testsensibility"));
                 mButtonTestSensibility.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_cog"));
+                mButtonTestSensibility.SetActive(mToggleFireDetection.ToggleValue);
                 //iBuilder.CreateWidget<TText>().SetLabel("test2");
             },
-            () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, "Cancel",
-            () => { SaveParam(); Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, "Next"
+            () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("cancel"),
+            () => { SaveParam(); Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("save")
             );
 
 
@@ -59,12 +61,17 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
+            Buddy.GUI.Header.HideTitle();
         }
 
         private void SaveParam()
         {
             GuardianData.Instance.FireDetection = mToggleFireDetection.ToggleValue;
+        }
+
+        private void OnToggleParam(bool iValue)
+        {
+            mButtonTestSensibility.SetActive(iValue);
         }
 
     }

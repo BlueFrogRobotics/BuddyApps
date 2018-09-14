@@ -16,16 +16,10 @@ namespace BuddyApp.Guardian
 
         private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
 
-        /// <summary>
-        /// Enum of the different sub parameters windows
-        /// </summary>
-        private enum ParameterWindow : int
-        {
-            HEAD_ORIENTATION = 0,
-            MOVEMENT = 1,
-            SOUND = 2,
-            FIRE = 3
-        }
+        private TSliderToggle mSliderToggle;
+        private TButton mButton;
+        private TToggle mToggleKidnapping;
+
 
         public override void Start()
         {
@@ -40,22 +34,32 @@ namespace BuddyApp.Guardian
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
             //	() => { Trigger("NextStep"); }, 
             //	null);
-
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("movementdetection"));
             //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
-                iBuilder.CreateWidget<TText>().SetLabel("setup movement detection");
+                iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("setupmovement"));
                 //iBuilder.CreateWidget<TText>().SetLabel("test");
-                iBuilder.CreateWidget<TSliderToggle>().OnSlide.Add((iVal) => Debug.Log(iVal));
+                mSliderToggle = iBuilder.CreateWidget<TSliderToggle>();
+                mSliderToggle.OnSlide.Add((iVal) => Debug.Log(iVal));
+                mSliderToggle.ToggleValue = GuardianData.Instance.MovementDetection;
+                mSliderToggle.SlidingValue = GuardianData.Instance.MovementDetectionThreshold;
+                mSliderToggle.OnToggle.Add(OnToggleKidnapping);
                 //iBuilder.CreateWidget<TToggle>();
-                iBuilder.CreateWidget<TButton>().SetLabel("Test Sensibility");
-                TToggle lToggleKidnapping = iBuilder.CreateWidget<TToggle>();
-                lToggleKidnapping.OnToggle.Add((iVal) => Debug.Log(iVal));
-                lToggleKidnapping.SetLabel("kidnapping detection");
+                mButton = iBuilder.CreateWidget<TButton>();
+                mButton.SetLabel(Buddy.Resources.GetString("testsensibility"));
+                mButton.SetActive(mSliderToggle.ToggleValue);
+                mButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_cog"));
+                mButton.OnClick.Add(() => { Trigger("Test"); Buddy.GUI.Toaster.Hide(); });
+
+                mToggleKidnapping = iBuilder.CreateWidget<TToggle>();
+                mToggleKidnapping.OnToggle.Add((iVal) => Debug.Log(iVal));
+                mToggleKidnapping.SetLabel(Buddy.Resources.GetString("kidnappingdetection"));
+                mToggleKidnapping.ToggleValue = GuardianData.Instance.KidnappingDetection;
                 //iBuilder.CreateWidget<TText>().SetLabel("test2");
             },
-            () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, "Cancel",
-            () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, "Next"
+            () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("cancel"),
+            () => { SaveParam(); Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("save")
             );
 
 
@@ -68,7 +72,19 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Buddy.GUI.Header.HideTitle();
+        }
 
+        private void SaveParam()
+        {
+            GuardianData.Instance.MovementDetection = mSliderToggle.ToggleValue;
+            GuardianData.Instance.MovementDetectionThreshold = (int)mSliderToggle.SlidingValue;
+            GuardianData.Instance.KidnappingDetection = mToggleKidnapping.ToggleValue;
+        }
+
+        private void OnToggleKidnapping(bool iValue)
+        {
+            mButton.SetActive(iValue);
         }
 
     }

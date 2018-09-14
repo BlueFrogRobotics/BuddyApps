@@ -16,6 +16,8 @@ namespace BuddyApp.Guardian
 
         private IEnumerator mAction;
 
+        private RecipientsData mContacts;
+
         public override void Start()
         {
             mDetectionManager = GetComponent<DetectionManager>();
@@ -28,6 +30,7 @@ namespace BuddyApp.Guardian
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mAlarm = true;
+            mContacts = Utils.UnserializeXML<RecipientsData>(Buddy.Resources.GetRawFullPath("contacts.xml"));
 
             mDetectionManager.CurrentTimer = 0.0f;
             mDetectionManager.Countdown = 0.0f;
@@ -49,10 +52,10 @@ namespace BuddyApp.Guardian
             mAction = DisplayAlert();
             StartCoroutine(mAction);
 
-			// Send notification to mybuddyapp
-			//WebRTCListener.SendNotification(mAlert.GetMail().Subject, mAlert.GetMail().Body);
+            // Send notification to mybuddyapp
+            //WebRTCListener.SendNotification(mAlert.GetMail().Subject, mAlert.GetMail().Body);
 
-			string lMailAddress = GuardianData.Instance.Contact.Email;
+            string lMailAddress = mContacts.Recipients[GuardianData.Instance.ContactId].Mail;//GuardianData.Instance.Contact.Email;
             if (!string.IsNullOrEmpty(lMailAddress) && GuardianData.Instance.SendMail)
                 SendMail(lMailAddress);
 
@@ -68,7 +71,7 @@ namespace BuddyApp.Guardian
             if (iAnimator.GetBool("Password"))
                 Buddy.GUI.Toaster.Hide();
 
-            if (mDetectionManager.CurrentTimer > 15f && !mDetectionManager.IsPasswordCorrect && mAlarm) 
+            if (mDetectionManager.CurrentTimer > 15f && !mDetectionManager.IsPasswordCorrect && mAlarm && GuardianData.Instance.AlarmActivated) 
             {
 				mDetectionManager.Volume = (int)(Buddy.Actuators.Speakers.Volume*100F);
 				Buddy.Actuators.Speakers.Volume = 0.15F;
@@ -76,18 +79,21 @@ namespace BuddyApp.Guardian
                 mAlarm = false;
                 mDetectionManager.IsAlarmWorking = true;
                 Buddy.Actuators.Speakers.Media.Repeat = true;
-                Buddy.Actuators.Speakers.Media.Play(0);
+                Buddy.Actuators.Speakers.Media.Play(Buddy.Resources.Get<AudioClip>("alarmbeep"));
             }
 
             if (mDetectionManager.Countdown > 30f)
             {
 
-				Buddy.Actuators.Speakers.Volume = (float)(mDetectionManager.Volume/100F);
 				iAnimator.SetBool("Password", false);
 
                 mDetectionManager.IsAlarmWorking = false;
-                Buddy.Actuators.Speakers.Media.Repeat = false;
-                Buddy.Actuators.Speakers.Media.Stop();
+                if (GuardianData.Instance.AlarmActivated)
+                {
+                    Buddy.Actuators.Speakers.Volume = (float)(mDetectionManager.Volume / 100F);
+                    Buddy.Actuators.Speakers.Media.Repeat = false;
+                    Buddy.Actuators.Speakers.Media.Stop();
+                }
                 Trigger("InitDetection");
             }
             

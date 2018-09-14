@@ -5,10 +5,12 @@ namespace BuddyApp.Guardian
 	public class MobileDetectionState : AStateMachineBehaviour
 	{
         private GuardianData mData;
+
 		public override void Start()
 		{
-			//CommonIntegers.Add("Angle", 0);
+            //CommonIntegers.Add("Angle", 0);
             //mData.Angle = 0;
+            mData = GuardianData.Instance;
 		}
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
