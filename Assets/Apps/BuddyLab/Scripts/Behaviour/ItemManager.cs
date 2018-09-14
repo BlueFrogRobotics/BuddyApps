@@ -6,7 +6,6 @@ namespace BuddyApp.BuddyLab
 {
     public class ItemManager : MonoBehaviour
     {
-
         [SerializeField]
         private List<GameObject> bmlItems;
 
