@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Net;
+using System.Net.Mail;
 
 using BlueQuark;
 
@@ -52,7 +54,13 @@ namespace BuddyApp.Guardian
         public bool HasLinkedDetector { get; private set; }
 
         
+        public MailAddress fromAddress = new MailAddress("notif.buddy@gmail.com", "notif");
+        MailAddress toAddress = new MailAddress("wa@bluefrogrobotics.com", "walid");
+        const string fromPassword = "autruchemagiquebuddy";
+        const string subject = "Subject";
+        const string body = "Body";
 
+        
 		/// <summary>
 		/// Enum of the different alerts that Guardian app can send
 		/// </summary>
@@ -64,7 +72,9 @@ namespace BuddyApp.Guardian
 			KIDNAPPING
 		}
 
-		void Awake()
+
+
+    void Awake()
 		{
             mAnimator = GetComponent<Animator>();
 			GuardianActivity.Init(mAnimator, this);
@@ -74,6 +84,27 @@ namespace BuddyApp.Guardian
 		{
 			Volume = (int)(Buddy.Actuators.Speakers.Volume * 100F);
             Init();
+            EMail mMail = new EMail("sujet", "truc");
+            mMail.AddTo("wa@bluefrogrobotics.com");
+            Debug.Log("envoi du mail");
+            //Buddy.WebServices.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, mMail);
+            //SmtpClient smtp = new SmtpClient
+            //{
+            //    Host = "smtp.gmail.com",
+            //    Port = 587,
+            //    EnableSsl = true,
+            //    DeliveryMethod = SmtpDeliveryMethod.Network,
+            //    UseDefaultCredentials = false,
+            //    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            //};
+            //using (var message = new MailMessage(fromAddress, toAddress)
+            //{
+            //    Subject = subject,
+            //    Body = body
+            //})
+            //{
+            //    smtp.SendAsync(message, null);
+            //}
             //RecipientData recipient = new RecipientData();
             //recipient.Name = "rodolphe";
             //recipient.Mail = "rh@bluefrogrobotics.com";
@@ -81,7 +112,7 @@ namespace BuddyApp.Guardian
             //contacts.Recipients = new List<RecipientData>();
             //contacts.Recipients.Add(recipient);
             //Utils.SerializeXML<RecipientsData>(contacts, Buddy.Resources.GetRawFullPath("contacts.xml"));
-		}
+        }
 
 
 		/// <summary>
@@ -100,11 +131,16 @@ namespace BuddyApp.Guardian
             //Roomba.enabled = false;
         }
 
-		/// <summary>
-		/// Add a string to the log string
-		/// </summary>
-		/// <param name="iLog"></param>
-		public void AddLog(string iLog)
+        private void Update()
+        {
+            Debug.Log("mail busy: " + Buddy.WebServices.EMailSender.IsBusy);
+        }
+
+        /// <summary>
+        /// Add a string to the log string
+        /// </summary>
+        /// <param name="iLog"></param>
+        public void AddLog(string iLog)
 		{
 			Logs += iLog + "\n";
 		}
@@ -155,10 +191,10 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		private bool OnSoundDetected(float iSound)
 		{
-			Debug.Log("============== Sound detected! detector");
+			//Debug.Log("============== Sound detected! detector");
 			if (!IsDetectingSound)
 				return true;
-            Debug.Log("iSound: " + iSound + " thresh: " + (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * MAX_SOUND_THRESHOLD);
+            //Debug.Log("iSound: " + iSound + " thresh: " + (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * MAX_SOUND_THRESHOLD);
 			if (iSound > (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * MAX_SOUND_THRESHOLD) {
 				Debug.Log("============== Threshold passed!");
 				Detected = Alert.SOUND;

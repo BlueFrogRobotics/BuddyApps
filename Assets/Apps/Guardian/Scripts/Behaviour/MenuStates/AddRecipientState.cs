@@ -70,7 +70,7 @@ namespace BuddyApp.Guardian
 
         private void AddAndQuit()
         {
-            if (IsValidEmail(mMail))
+            if (!mMail.Contains("@"))
             {
                 Buddy.GUI.Toaster.Hide();
                 Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
@@ -103,17 +103,17 @@ namespace BuddyApp.Guardian
             }
         }
 
-        bool IsValidEmail(string iEmail)
-        {
-            try
-            {
-                System.Net.Mail.MailAddress lAddr = new System.Net.Mail.MailAddress(iEmail);
-                return lAddr.Address == iEmail;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+        //bool IsValidEmail(string iEmail)
+        //{
+        //    try
+        //    {
+        //        System.Net.Mail.MailAddress lAddr = new System.Net.Mail.MailAddress(iEmail);
+        //        return lAddr.Address == iEmail;
+        //    }
+        //    catch
+        //    {
+        //        return false;
+        //    }
+        //}
     }
 }

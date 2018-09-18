@@ -58,7 +58,7 @@ namespace BuddyApp.Guardian
                 //We create en event OnClick so we can trigger en event when we click on the box
                 lBox.OnClick.Add(() => { Debug.Log("Click add"); iBuilder.Select(lBox); Trigger("AddRecipient"); Buddy.GUI.Toaster.Hide(); CloseFooter(); });
                 //We label our button with our informations in the dictionary
-                lBox.SetLabel(Buddy.Resources.GetString("addrecipient"));
+                lBox.SetLabel(Buddy.Resources.GetString("addcontact"));
                 lBox.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_user_circle"));
                 lBox.LeftButton.SetIconColor(Color.black);
                 lBox.LeftButton.SetBackgroundColor(Color.white);

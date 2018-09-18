@@ -3,11 +3,11 @@
     <Angle>0</Angle>
     <FirstRunParam>true</FirstRunParam>
     <FirstRun>false</FirstRun>
-    <MobileDetection>true</MobileDetection>
+    <MobileDetection>false</MobileDetection>
     <ScanDetection>false</ScanDetection>
     <MovementDetectionThreshold>69</MovementDetectionThreshold>
-    <SoundDetectionThreshold>53</SoundDetectionThreshold>
-    <MovementDetection>true</MovementDetection>
+    <SoundDetectionThreshold>65</SoundDetectionThreshold>
+    <MovementDetection>false</MovementDetection>
     <SoundDetection>true</SoundDetection>
     <FireDetection>false</FireDetection>
     <KidnappingDetection>false</KidnappingDetection>
@@ -28,5 +28,6 @@
         <Session>USER</Session>
         <Permissions />
     </Contact>
-    <ContactId>1</ContactId>
+    <ContactId>2</ContactId>
+    <AlarmActivated>true</AlarmActivated>
 </GuardianData>

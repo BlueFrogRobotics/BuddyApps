@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using BlueQuark;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
 
 namespace BuddyApp.Guardian
 {
@@ -37,11 +39,11 @@ namespace BuddyApp.Guardian
         /// </summary>
         private int mNbSecAfter = 9;
 
-        private RGBCamera mCam;
+        //private RGBCamera mCam;
 
         private State mState;
 
-        private Queue<byte[]> mListFrame;
+        //private Queue<byte[]> mListFrame;
         private Queue<AudioClip> mListAudio;
 
         private bool mNewFrame = true;
@@ -52,25 +54,28 @@ namespace BuddyApp.Guardian
 
         private EMail mMail;
 
+        private MailAddress fromAddress = new MailAddress("notif.buddy@gmail.com", "notif");
+        const string fromPassword = "autruchemagiquebuddy";
+
         // Use this for initialization
         void Start()
         {
             //mNoiseDetection = BYOS.Instance.Perception.Noise;
             mState = State.DEFAULT;
-            mListFrame = new Queue<byte[]>();
+            //mListFrame = new Queue<byte[]>();
             mListAudio = new Queue<AudioClip>();
-            //mCam = BYOS.Instance.Primitive.RGBCam;
             mTime = 0.0f;
-            mCam = Buddy.Sensors.RGBCamera;
+            //mCam = Buddy.Sensors.RGBCamera;
             mNoiseDetection = Buddy.Perception.NoiseDetector;
             mNewFrame = true;
-            AndroidJavaClass unity = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-            currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
+            //AndroidJavaClass unity = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            //currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
         }
 
         // Update is called once per frame
         void Update()
         {
+            Debug.Log("state mail: "+mState);
             switch(mState)
             {
                 case State.DEFAULT:
@@ -105,6 +110,7 @@ namespace BuddyApp.Guardian
         {
             if (mState == State.DEFAULT)
             {
+                Debug.Log("save mail");
                 mMail = iMail;
                 mState = State.ASKED;
                 mTime = 0.0f;
@@ -118,7 +124,7 @@ namespace BuddyApp.Guardian
         public void VideoSaved(string message)
         {
             Debug.Log("message: "+message);
-            mListFrame.Clear();
+            //mListFrame.Clear();
             mListAudio.Clear();
             mState = State.FILES_SAVED;
             currentActivity.Call("clearPicture");
@@ -130,12 +136,12 @@ namespace BuddyApp.Guardian
         /// </summary>
         private void FillCircularBuffer()
         {
-            if (mCam.IsOpen)
-            {
-                mListFrame.Enqueue(mCam.TexFrame.EncodeToPNG());
-                if (mListFrame.Count > mFPS * mNbSecBefore)
-                    mListFrame.Dequeue();
-            }
+            //if (mCam.IsOpen)
+            //{
+            //    mListFrame.Enqueue(mCam.TexFrame.EncodeToPNG());
+            //    if (mListFrame.Count > mFPS * mNbSecBefore)
+            //        mListFrame.Dequeue();
+            //}
             FillAudioBuffer(1);
 
         }
@@ -145,10 +151,10 @@ namespace BuddyApp.Guardian
         /// </summary>
         private void FillNextBuffer()
         {
-            if (mCam.IsOpen)
-            {
-                mListFrame.Enqueue(mCam.TexFrame.EncodeToPNG());
-            }
+            //if (mCam.IsOpen)
+            //{
+            //    mListFrame.Enqueue(mCam.TexFrame.EncodeToPNG());
+            //}
             
             mTime += Time.deltaTime;
             FillAudioBuffer(4);
@@ -186,17 +192,17 @@ namespace BuddyApp.Guardian
         /// </summary>
         private void SaveFiles()
         {
-            byte[][] lArrayFrames = mListFrame.ToArray();
+            //byte[][] lArrayFrames = mListFrame.ToArray();
              
-            string lDirectoryPath = Path.GetDirectoryName(Buddy.Resources.GetRawFullPath("monitoring.mp4"));
-            Directory.CreateDirectory(lDirectoryPath);
+            //string lDirectoryPath = Path.GetDirectoryName(Buddy.Resources.GetRawFullPath("monitoring.mp4"));
+            //Directory.CreateDirectory(lDirectoryPath);
 
-            for (int i = 0; i < lArrayFrames.Length; i++)
-            {
-                currentActivity.Call("addPicture", lArrayFrames[i]);
-            }
-            mFPS = mListFrame.Count / (mNbSecAfter+mNbSecBefore);
-            currentActivity.Call("saveVideo", mFPS, Buddy.Resources.GetRawFullPath("monitoring.mp4"), "AIBehaviour", "VideoSaved");
+            //for (int i = 0; i < lArrayFrames.Length; i++)
+            //{
+            //    currentActivity.Call("addPicture", lArrayFrames[i]);
+            //}
+            //mFPS = mListFrame.Count / (mNbSecAfter+mNbSecBefore);
+            //currentActivity.Call("saveVideo", mFPS, Buddy.Resources.GetRawFullPath("monitoring.mp4"), "AIBehaviour", "VideoSaved");
             Utils.Save(Buddy.Resources.GetRawFullPath("audio.wav"), Utils.Combine(mListAudio.ToArray()));
             mState = State.WAIT_SAVE;
         }
@@ -206,7 +212,7 @@ namespace BuddyApp.Guardian
         /// </summary>
         private void WaitForSave()
         {
-            //mState = State.FILES_SAVED;
+            mState = State.FILES_SAVED;
         }
 
         /// <summary>
@@ -223,9 +229,32 @@ namespace BuddyApp.Guardian
         private void StartSendmail()
         {
             //Buddy.WebServices.EMailSender..enabled = true;
-            mMail.AddFile(Buddy.Resources.GetRawFullPath("monitoring.mp4"));
+            //mMail.AddFile(Buddy.Resources.GetRawFullPath("monitoring.mp4"));
             mMail.AddFile(Buddy.Resources.GetRawFullPath("audio.wav"));
-            Buddy.WebServices.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, mMail, OnMailSent);
+            Debug.Log("envoi du mail a  l adresse: " + mMail.Addresses[0]);
+            SmtpClient smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            using (var message = new MailMessage(fromAddress, new MailAddress(mMail.Addresses[0], "truc") )
+            {
+                Subject = mMail.Subject,
+                Body = mMail.Body
+            })
+            {
+                for (int i = 0; i < mMail.FilePaths.Count; ++i)
+                {
+                    string lFilePath = mMail.FilePaths[i];
+                    message.Attachments.Add(new Attachment(@lFilePath));
+                }
+                smtp.SendAsync(message, null);
+            }
+            //Buddy.WebServices.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, mMail, OnMailSent);
             //BYOS.Instance.WebService.EMailSender.enabled = true;
             if (OnFilesSaved != null)
                 OnFilesSaved.Invoke();
