@@ -43,6 +43,7 @@ namespace BuddyApp.Tutorial
             mStepTP = StepTakePhoto.DISPLAY_CAMERA;
             mSentenceDone = false;
             Buddy.Vocal.SayKey("tpstateintro");
+            //When you use algorithms from perception you don't need to do this part because they open themselves the camera. Do this part only if you want to use OnNewFrame alone.
             if (Buddy.Sensors.HDCamera.IsBusy)
             {
                 Buddy.Sensors.HDCamera.Close();
@@ -111,13 +112,22 @@ namespace BuddyApp.Tutorial
             
         }
 
+        /// <summary>
+        /// Callback for every frame updated
+        /// </summary>
+        /// <param name="iInput"></param>
         private void OnFrameCaptured(Mat iInput)
         {
+            Debug.Log("on new frame take photo");
             mMatSrc = iInput;
             Core.flip(mMatSrc, mMatSrc, 1);
             Utils.MatToTexture2D(mMatSrc, mTextPhoto);
         }
 
+        /// <summary>
+        /// Callback called when the photo is taken.
+        /// </summary>
+        /// <param name="iMyPhoto"></param>
         private void OnFinish(Photograph iMyPhoto)
         {
             mPhotograph = iMyPhoto;

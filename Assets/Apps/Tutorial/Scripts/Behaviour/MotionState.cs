@@ -6,15 +6,12 @@ using OpenCVUnity;
 
 namespace BuddyApp.Tutorial
 {
-
     /// <summary>
     /// In this state we display what buddy sees and we will detect motion
     /// </summary>
     public class MotionState : AStateMachineBehaviour
     {
-        private MotionDetector mMotion;
         private Mat mMatSrc;
-        private Mat mMatCopy;
         private Mat mMatDest;
         private Texture2D mTextPhoto;
         private bool mDisplayed;
@@ -25,38 +22,33 @@ namespace BuddyApp.Tutorial
         {
             
             mDisplayed = false;
-            mColorOfDisplay = new Color(255,0,0);
-            if (Buddy.Sensors.HDCamera.IsBusy)
-                Buddy.Sensors.HDCamera.Close();
-            if (!Buddy.Sensors.HDCamera.IsOpen)
-            {
-                Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_640x480_30FPS_RGB);
-            }
+            mColorOfDisplay = new Color(255, 0, 0);
+           //initialize your texture to avoid nullref and crashes
+            mTextPhoto = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             Buddy.Vocal.SayKey("motionstateintro");
-            
-            mMatSrc = Buddy.Sensors.HDCamera.Frame;
-            Core.flip(mMatSrc, mMatSrc, 1);
-            mTextPhoto = Utils.MatToTexture2D(Buddy.Sensors.HDCamera.Frame);
-            Buddy.Sensors.HDCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
-            Buddy.Perception.MotionDetector.OnDetect.AddP(OnMovementDetected, new MotionDetectorParameter()
-            {
-                RegionOfInterest = new OpenCVUnity.Rect(0, 0, Buddy.Sensors.HDCamera.Width, Buddy.Sensors.HDCamera.Height),
-                SensibilityThreshold = 3.0F
-            });
-            
+
+            //You get the frame from the RGBCamera with the OnNewFrame
+            Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
+            //You change parameters for your OnDetect : regionOfInterest represents where you want to do your detection in the current frame
+            //and sensibilityThreshold represents your threshold for the detection
+            MotionDetectorParameter mMotionDetectorParameter = new MotionDetectorParameter();
+            mMotionDetectorParameter.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480);
+            mMotionDetectorParameter.SensibilityThreshold = 2.5F;
+            //OnDetect open the camera itself so you don't have to do it and the reseolution is 640*480 by default
+            Buddy.Perception.MotionDetector.OnDetect.AddP(OnMovementDetected, mMotionDetectorParameter);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!Buddy.Vocal.IsBusy && !mDisplayed /*mMotionStep == MotionStep.DISPLAY_CAMERA*/)
+            if (!Buddy.Vocal.IsBusy && !mDisplayed)
             {
-                Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTextPhoto);
+                Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTextPhoto, OnDisplayClicked);
                 mDisplayed = true;
             }
             else if (mDisplayed)
             {
-                
+                Buddy.Vocal.SayKey("motionstatedisplayed");
             }
         }
 
@@ -66,24 +58,46 @@ namespace BuddyApp.Tutorial
 
         }
 
+        /// <summary>
+        /// Callback for every frame updated
+        /// </summary>
+        /// <param name="iInput"></param>
         private void OnFrameCaptured(Mat iInput)
         {
-            mMatSrc = iInput;
+            //Always clone the input matrix to avoid working with the matrix when the C++ part wants to modify it. It will crash.
+            Mat lTest = iInput.clone();
+            mMatSrc = lTest.clone();
             Core.flip(mMatSrc, mMatSrc, 1);
+            mTextPhoto = Utils.ScaleTexture2DFromMat(mMatSrc, mTextPhoto);
             Utils.MatToTexture2D(mMatSrc, mTextPhoto);
         }
 
+        /// <summary>
+        /// Callback when the is movement detected
+        /// </summary>
+        /// <param name="iMotions"></param>
+        /// <returns></returns>
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
-            Debug.Log("Movement detected");
+            Core.flip(mMatSrc, mMatSrc, 1);
+            //Draw circle on every motions detected in the image.
             foreach (MotionEntity lEntity in iMotions)
             {
                 Imgproc.circle(mMatSrc, Utils.Center(lEntity.RectInFrame), 3, new Scalar(mColorOfDisplay), 3);
             }
-            Utils.MatToTexture2D(mMatDest, mTextPhoto);
+            Core.flip(mMatSrc, mMatSrc, 1);
+            mTextPhoto = Utils.ScaleTexture2DFromMat(mMatSrc, mTextPhoto);
+            Utils.MatToTexture2D(mMatSrc, mTextPhoto);
 
             return true;
         }
+
+        private void OnDisplayClicked()
+        {
+            Buddy.GUI.Toaster.Hide();
+            Trigger("MenuTrigger");
+        }
+
     }
 }
 

@@ -156,10 +156,6 @@ namespace BuddyApp.Tutorial
 
         }
 
-        private string  OnChangedValueWidget(string kikoo)
-        {
-            return kikoo;
-        }
     }
 
 }
