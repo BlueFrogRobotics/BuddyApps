@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace BuddyApp.Shared
 {
-    public class SharedQAManager : ASharedSMB
+    public sealed class SharedQAManager : ASharedSMB
     {
         //TODO : Add a timeout to all the question
         [SerializeField]
@@ -32,7 +32,7 @@ namespace BuddyApp.Shared
         private Context context;
 
 
-        public class QuestionItem
+        public sealed class QuestionItem
         {
             public string key;
             public string trigger;

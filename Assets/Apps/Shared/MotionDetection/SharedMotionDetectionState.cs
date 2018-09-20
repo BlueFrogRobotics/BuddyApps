@@ -7,7 +7,7 @@ using System.IO;
 
 namespace BuddyApp.Shared
 {
-    public class SharedMotionDetectionState : ASharedSMB
+    public sealed class SharedMotionDetectionState : ASharedSMB
     {
 
         [Header("Display Video Parameters : ")]

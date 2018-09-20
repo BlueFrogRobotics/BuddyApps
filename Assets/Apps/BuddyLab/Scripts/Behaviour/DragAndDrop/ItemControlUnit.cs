@@ -14,7 +14,7 @@ namespace BuddyApp.BuddyLab
     /// <summary>
     /// Example of control unit for drag and drop events handle
     /// </summary>
-    public class ItemControlUnit : MonoBehaviour
+    public sealed class ItemControlUnit : MonoBehaviour
     {
 
         public delegate void NextAction(int iNum);

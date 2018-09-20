@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace BuddyApp.TakePhoto
 {
     /* A basic monobehaviour as "AI" behaviour for your app */
-    public class TakePhotoBehaviour : MonoBehaviour
+    public sealed class TakePhotoBehaviour : MonoBehaviour
     {
         /*
          * Data of the application. Save on disc when app is quitted

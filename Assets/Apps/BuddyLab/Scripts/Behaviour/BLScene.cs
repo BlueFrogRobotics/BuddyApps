@@ -5,7 +5,7 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
-    public class BLScene : AStateMachineBehaviour
+    public sealed class BLScene : AStateMachineBehaviour
     {
         private LabUIEditorManager mUIManager;
         private ItemControlUnit mItemControl;
@@ -20,7 +20,7 @@ namespace BuddyApp.BuddyLab
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("on enter de blscene");
             StartCoroutine(InitScene());
@@ -40,13 +40,13 @@ namespace BuddyApp.BuddyLab
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
 
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             //mUIManager.SetBackground(false);
             

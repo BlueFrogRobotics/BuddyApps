@@ -7,7 +7,7 @@ using BlueQuark;
 
 namespace BuddyApp.TakePose
 {
-    public class TakePose : AStateMachineBehaviour
+    public sealed class TakePose : AStateMachineBehaviour
     {
         private const int COUNTDOWN_START = 4;
         private const float HOLD_POSE_TIME = 5F;
@@ -24,7 +24,7 @@ namespace BuddyApp.TakePose
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("ON STATE ENTER TAKE POSE");
             mCoroutineLaunch = false;
@@ -35,7 +35,7 @@ namespace BuddyApp.TakePose
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             if (!Buddy.Vocal.IsSpeaking && mStartCountDown == null && !mCoroutineLaunch)
             {
@@ -245,7 +245,7 @@ namespace BuddyApp.TakePose
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mCoroutineLaunch = false;
             mStartCountDown = null;

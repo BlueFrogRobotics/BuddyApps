@@ -14,9 +14,9 @@ namespace BuddyApp.Shared
     /// <summary>
     /// State where we show a menu using buttons or the stt to activate triggers
     /// </summary>
-    public class SharedMenuState : ASharedSMB
+    public sealed class SharedMenuState : ASharedSMB
     {
-        public class MenuItem
+        public sealed class MenuItem
         {
             public string key;
             public string trigger;

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace BuddyApp.Tutorial
 {
     /* This class contains useful callback during your app process */
-    public class TutorialActivity : AAppActivity
+    public sealed class TutorialActivity : AAppActivity
     {
 		/*
 		* Called before the App scene loading.

@@ -7,7 +7,7 @@ using BlueQuark;
 
 namespace BuddyApp.Diagnostic
 {
-    public class ThermalWindow : MonoBehaviour
+    public sealed class ThermalWindow : MonoBehaviour
     {
         private LEDs mLED;
         private Face mFace;

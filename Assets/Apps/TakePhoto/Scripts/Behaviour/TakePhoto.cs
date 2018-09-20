@@ -10,7 +10,7 @@ namespace BuddyApp.TakePhoto
     // Voir si on peut remplacer par un Shared take photo après
 
 
-	public class TakePhoto : AStateMachineBehaviour
+	public sealed class TakePhoto : AStateMachineBehaviour
 	{
 		private RawImage mVideo;
 		private AudioSource mPictureSound;
@@ -84,7 +84,7 @@ namespace BuddyApp.TakePhoto
 		}
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			//Primitive.RGBCam.Resolution = RGBCamResolution.W_640_H_480;
 			ToastRender = false;
@@ -135,7 +135,7 @@ namespace BuddyApp.TakePhoto
 
         
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
             if(mIsFrameCaptured)
             {
@@ -256,7 +256,7 @@ namespace BuddyApp.TakePhoto
 		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Debug.Log("State exit");
 

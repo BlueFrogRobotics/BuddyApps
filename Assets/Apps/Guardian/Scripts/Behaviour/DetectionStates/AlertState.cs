@@ -8,7 +8,7 @@ namespace BuddyApp.Guardian
     /// <summary>
     /// State that display the alert and send the notification
     /// </summary>
-    public class AlertState : AStateMachineBehaviour
+    public sealed class AlertState : AStateMachineBehaviour
     {
         private DetectionManager mDetectionManager;
         private AAlert mAlert;

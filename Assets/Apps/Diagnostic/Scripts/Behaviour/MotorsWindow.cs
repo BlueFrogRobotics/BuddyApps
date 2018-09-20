@@ -8,7 +8,7 @@ using BlueQuark;
 
 namespace BuddyApp.Diagnostic
 {
-    public class MotorsWindow : MonoBehaviour
+    public sealed class MotorsWindow : MonoBehaviour
     {
         /// <summary>
         /// Variables from the hardware

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.Guardian
 {
-    public class WalkState : AStateMachineBehaviour
+    public sealed class WalkState : AStateMachineBehaviour
     {
         private DetectionManager mDetectionManager;
 

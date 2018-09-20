@@ -11,7 +11,7 @@ namespace BuddyApp.Weather
     /// <summary>
     /// Restition class is the final state of Weather
     /// </summary>
-    public class Restitution : AStateMachineBehaviour
+    public sealed class Restitution : AStateMachineBehaviour
     {
         private float mTimer;
 
@@ -33,7 +33,7 @@ namespace BuddyApp.Weather
         /// <param name="animator"></param>
         /// <param name="stateInfo"></param>
         /// <param name="layerIndex"></param>
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mWeatherB.mIsOk = true;
 
@@ -52,7 +52,7 @@ namespace BuddyApp.Weather
         /// <param name="animator"></param>
         /// <param name="stateInfo"></param>
         /// <param name="layerIndex"></param>
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
 
             mTimer += Time.deltaTime;

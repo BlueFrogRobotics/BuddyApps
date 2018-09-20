@@ -7,7 +7,7 @@ using BlueQuark;
 
 namespace BuddyApp.TakePose
 {
-    public class RedoPose : AStateMachineBehaviour
+    public sealed class RedoPose : AStateMachineBehaviour
     {
         private bool mListening;
         private string mSpeechReco;
@@ -22,7 +22,7 @@ namespace BuddyApp.TakePose
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             //Mettre Vocon 
 
@@ -52,7 +52,7 @@ namespace BuddyApp.TakePose
 
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             if (Buddy.Vocal.IsSpeaking || mListening)
             {
@@ -121,7 +121,7 @@ namespace BuddyApp.TakePose
             Trigger("Exit");
         }
 
-        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             mSpeechReco = "";

@@ -10,7 +10,7 @@ namespace BuddyApp.Guardian
     /// <summary>
     /// Define the fire detection alert
     /// </summary>
-    public class FireAlert : AAlert
+    public sealed class FireAlert : AAlert
     {
 
         public FireAlert() : base()

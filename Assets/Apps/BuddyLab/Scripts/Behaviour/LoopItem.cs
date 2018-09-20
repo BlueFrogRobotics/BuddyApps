@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.BuddyLab
 {
-    public class LoopItem : ABLItem
+    public sealed class LoopItem : ABLItem
     {
 
         [SerializeField]

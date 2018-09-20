@@ -8,7 +8,7 @@ using BlueQuark;
 
 namespace BuddyApp.Diagnostic
 {
-    public class CamerasWindow : MonoBehaviour
+    public sealed class CamerasWindow : MonoBehaviour
     {
         [SerializeField]
         private RawImage rgbImage;

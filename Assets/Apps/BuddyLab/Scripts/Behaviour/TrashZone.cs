@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuddyApp.BuddyLab
 {
-    public class TrashZone : MonoBehaviour
+    public sealed class TrashZone : MonoBehaviour
     {
         [SerializeField]
         private GameObject mZone;

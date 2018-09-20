@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuddyApp.BuddyLab
 {
-    public class ConditionItem : ABLItem
+    public sealed class ConditionItem : ABLItem
     {
         [SerializeField]
         private string Name;

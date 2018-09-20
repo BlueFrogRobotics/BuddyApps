@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace BuddyApp.BuddyLab
 {
-    public class ItemsContainer : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+    public sealed class ItemsContainer : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
     {
         public bool DropOnly=false;
         public delegate void Modification();

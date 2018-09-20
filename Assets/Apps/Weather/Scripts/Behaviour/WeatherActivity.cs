@@ -6,7 +6,7 @@ using BlueQuark;
 namespace BuddyApp.Weather
 {
     /* This class contains useful callback during your app process */
-    public class WeatherActivity : AAppActivity
+    public sealed class WeatherActivity : AAppActivity
     {
         /*
 		* Called before the App scene loading.

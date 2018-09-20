@@ -7,7 +7,7 @@ namespace BuddyApp.Guardian
 	/// <summary>
 	/// State that init that activate the detections chosen by hte user and pass to the next mode state
 	/// </summary>
-	public class DetectionState : AStateMachineBehaviour
+	public sealed class DetectionState : AStateMachineBehaviour
 	{
 		private DetectionManager mDetectionManager;
         private MediaManager mMediamanager;

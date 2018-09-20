@@ -17,13 +17,13 @@ namespace BuddyApp.TakePhoto
 {
 	namespace Twitter
 	{
-		public class RequestTokenResponse
+		public sealed class RequestTokenResponse
 		{
 			public string Token { get; set; }
 			public string TokenSecret { get; set; }
 		}
 
-		public class AccessTokenResponse
+		public sealed class AccessTokenResponse
 		{
 			public string Token { get; set; }
 			public string TokenSecret { get; set; }
@@ -35,7 +35,7 @@ namespace BuddyApp.TakePhoto
 		public delegate void AccessTokenCallback(bool success, AccessTokenResponse response);
 		public delegate void PostTweetCallback(bool success);
 
-		public class API
+		public sealed class API
 		{
 
 			#region OAuth Token Methods

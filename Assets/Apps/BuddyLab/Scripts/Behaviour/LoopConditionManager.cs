@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.BuddyLab
 {
-    public class LoopConditionManager : MonoBehaviour
+    public sealed class LoopConditionManager : MonoBehaviour
     {
         [SerializeField]
         private ConditionChoiceWindow conditionChoiceWindow;

@@ -7,7 +7,7 @@ using BlueQuark;
 
 namespace BuddyApp.TakePhoto
 {
-	public class RedoPhoto : AStateMachineBehaviour
+	public sealed class RedoPhoto : AStateMachineBehaviour
 	{
 		private string mSpeechReco;
 
@@ -32,7 +32,7 @@ namespace BuddyApp.TakePhoto
 		private bool mQuit; 
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Debug.Log("Ask new request");
 			mError = 0;
@@ -63,7 +63,7 @@ namespace BuddyApp.TakePhoto
 
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			if (Buddy.Vocal.IsSpeaking || Buddy.Vocal.IsListening)
 				return;
@@ -141,7 +141,7 @@ namespace BuddyApp.TakePhoto
 			mQuit = true;
 		}
 
-		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
             Buddy.GUI.Toaster.Hide();
 

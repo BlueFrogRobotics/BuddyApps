@@ -5,7 +5,7 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
-    public class TimelineDisplayer : MonoBehaviour
+    public sealed class TimelineDisplayer : MonoBehaviour
     {
         [SerializeField]
         private GameObject dropLine;

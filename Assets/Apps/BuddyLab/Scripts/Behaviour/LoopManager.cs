@@ -6,7 +6,7 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
-    public class LoopManager : MonoBehaviour
+    public sealed class LoopManager : MonoBehaviour
     {
         /// <summary>
         /// Variables for LoopManager

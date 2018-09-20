@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.BuddyLab
 {
-    public class ConditionChoiceWindow : MonoBehaviour
+    public sealed class ConditionChoiceWindow : MonoBehaviour
     {
         public delegate void ChangeCondition(string iParameter, Sprite iIcon);
         public ChangeCondition OnChangeCondition;

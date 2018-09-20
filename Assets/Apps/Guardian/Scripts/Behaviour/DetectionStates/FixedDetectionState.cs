@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BuddyApp.Guardian
 {
-    public class FixedDetectionState : AStateMachineBehaviour
+    public sealed class FixedDetectionState : AStateMachineBehaviour
     {
         public override void Start()
         {

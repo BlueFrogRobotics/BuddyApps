@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.BuddyLab
 {
-    public class RotationFeedback : AFeedback
+    public sealed class RotationFeedback : AFeedback
     {
 
         [SerializeField]

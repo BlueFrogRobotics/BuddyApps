@@ -12,7 +12,7 @@ namespace BuddyApp.Guardian
     /// <summary>
     /// Class used to save continuously video and audio and sent them by mail when an alert occurs
     /// </summary>
-    public class MediaManager : MonoBehaviour
+    public sealed class MediaManager : MonoBehaviour
     {
         private enum State : int
         {

@@ -5,7 +5,7 @@ using System;
 
 namespace BuddyApp.Guardian
 {
-	public class HeadTurnState : AStateMachineBehaviour
+	public sealed class HeadTurnState : AStateMachineBehaviour
 	{
 		private DetectionManager mDetectionManager;
 		//private IEnumerator mAction;

@@ -9,7 +9,7 @@ using OpenCVUnity;
 
 namespace BuddyApp.Diagnostic
 {
-	public class VocalWindow : MonoBehaviour
+	public sealed class VocalWindow : MonoBehaviour
 	{
         //Pas besoin pour le pole hardwware
 		//private SpeechToText mSTT;

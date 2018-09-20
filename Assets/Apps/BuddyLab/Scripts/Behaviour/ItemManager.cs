@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuddyApp.BuddyLab
 {
-    public class ItemManager : MonoBehaviour
+    public sealed class ItemManager : MonoBehaviour
     {
         [SerializeField]
         private List<GameObject> bmlItems;

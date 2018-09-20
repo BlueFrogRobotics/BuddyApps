@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BuddyApp.Guardian
 {
-	public class MobileDetectionState : AStateMachineBehaviour
+	public sealed class MobileDetectionState : AStateMachineBehaviour
 	{
         private GuardianData mData;
 

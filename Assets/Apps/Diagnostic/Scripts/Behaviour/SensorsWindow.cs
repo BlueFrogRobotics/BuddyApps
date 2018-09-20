@@ -8,7 +8,7 @@ using BlueQuark;
 
 namespace BuddyApp.Diagnostic
 {
-    public class SensorsWindow : MonoBehaviour
+    public sealed class SensorsWindow : MonoBehaviour
     {
         [SerializeField]
         private Text leftUSError;

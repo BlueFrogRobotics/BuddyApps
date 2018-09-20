@@ -11,7 +11,7 @@ namespace BuddyApp.BuddyLab
     //TODO : when the file name is too long, just put 4-5 first letter then 3 ... and then 3 last letters
 
 
-    public class BlOpen : AStateMachineBehaviour
+    public sealed class BlOpen : AStateMachineBehaviour
     {
         private List<string> mProject;
         private int mNumberProject;
@@ -33,7 +33,7 @@ namespace BuddyApp.BuddyLab
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
             mTimer = 0F;
@@ -85,7 +85,7 @@ namespace BuddyApp.BuddyLab
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
             if(mTimer > 0.4F && !mAnimDone)
@@ -105,7 +105,7 @@ namespace BuddyApp.BuddyLab
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             
         }

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace BuddyApp.Weather
 {
-    public class CitiesManager : MonoBehaviour
+    public sealed class CitiesManager : MonoBehaviour
     {
         public CitiesData CitiesData { get; private set; }
 

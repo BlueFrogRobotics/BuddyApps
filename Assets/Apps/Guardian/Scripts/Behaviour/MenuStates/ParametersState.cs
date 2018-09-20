@@ -9,7 +9,7 @@ namespace BuddyApp.Guardian
     /// <summary>
     /// State where the user can set the detection sensibility, test them and set the head orientation
     /// </summary>
-    public class ParametersState : AStateMachineBehaviour
+    public sealed class ParametersState : AStateMachineBehaviour
     {
         //private GuardianLayout mDetectionLayout;
         private bool mHasSwitchState = false;

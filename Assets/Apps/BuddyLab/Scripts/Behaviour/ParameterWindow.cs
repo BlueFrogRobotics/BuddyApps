@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.BuddyLab
 {
-    public class ParameterWindow : MonoBehaviour
+    public sealed class ParameterWindow : MonoBehaviour
     {
         [SerializeField]
         private GameObject backgroundBlack;

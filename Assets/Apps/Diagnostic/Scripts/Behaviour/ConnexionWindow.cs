@@ -6,7 +6,7 @@ using BlueQuark;
 
 namespace BuddyApp.Diagnostic
 {
-    public class ConnexionWindow : MonoBehaviour
+    public sealed class ConnexionWindow : MonoBehaviour
     {
 
         [SerializeField]

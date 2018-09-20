@@ -8,7 +8,7 @@ using BlueQuark;
 
 namespace BuddyApp.Diagnostic
 {
-    public class FaceWindow : MonoBehaviour
+    public sealed class FaceWindow : MonoBehaviour
     {
         [SerializeField]
         private Dropdown dropdownMood;

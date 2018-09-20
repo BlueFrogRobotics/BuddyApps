@@ -12,7 +12,7 @@ namespace BuddyApp.Guardian
 	/// Manager class that have reference to the differents stimuli and subscribes to their callbacks
 	/// </summary>
 	[RequireComponent(typeof(Navigation))]
-	public class DetectionManager : MonoBehaviour
+	public sealed class DetectionManager : MonoBehaviour
 	{
 
 		public const float MAX_SOUND_THRESHOLD = 0.03F;

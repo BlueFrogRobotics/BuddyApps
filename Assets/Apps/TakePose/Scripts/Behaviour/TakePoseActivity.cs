@@ -7,7 +7,7 @@ using System;
 
 namespace BuddyApp.TakePose
 {
-    public class TakePoseActivity : AAppActivity
+    public sealed class TakePoseActivity : AAppActivity
     {
     }
 }

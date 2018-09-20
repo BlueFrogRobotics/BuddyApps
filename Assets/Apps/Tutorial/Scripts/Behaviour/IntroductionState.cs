@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using BlueQuark;
 using System;
 
+using Random = System.Random;
 
 namespace BuddyApp.Tutorial
 { 
@@ -15,27 +14,33 @@ namespace BuddyApp.Tutorial
         DONE = 3
     }
 
-    public class IntroductionState : AStateMachineBehaviour
+    public sealed class IntroductionState : AStateMachineBehaviour
     {
-        private Step mStep = Step.FIRST_STEP;
+        private Step mStep;
         private bool mIsFirstSentenceDone;
-        private System.Random mRandom;
+        private Random mRandom;
         private Array mValue;
         private float mTimer;
         private int mNumberOfRandom;
-        //private int mRandom;
-        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+
+		public override void Start()
+		{
+			mStep = Step.FIRST_STEP;
+		}
+
+		//private int mRandom;
+		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mNumberOfRandom = 0;
             mTimer = 0F;
             mIsFirstSentenceDone = false;
             mValue =  Enum.GetValues(typeof(Mood));
-            mRandom = new System.Random();
+            mRandom = new Random();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             //mTimer += Time.deltaTime;
             if(mStep == Step.FIRST_STEP)
@@ -69,7 +74,7 @@ namespace BuddyApp.Tutorial
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
 
         }

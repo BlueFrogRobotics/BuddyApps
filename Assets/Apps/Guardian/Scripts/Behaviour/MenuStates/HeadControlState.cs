@@ -7,7 +7,7 @@ namespace BuddyApp.Guardian
 	/// <summary>
 	/// State which show the window to set the head orientation and get the camera stream
 	/// </summary>
-	public class HeadControlState : AStateMachineBehaviour
+	public sealed class HeadControlState : AStateMachineBehaviour
 	{
         private RGBCamera mRGBCam;
 
@@ -32,7 +32,7 @@ namespace BuddyApp.Guardian
 		}
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
             mHeadControllerWindow.transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 1F;
 			mGoBack = false;
@@ -51,7 +51,7 @@ namespace BuddyApp.Guardian
         }
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			ControlNoAxis();
 			ControlYesAxis();
@@ -66,7 +66,7 @@ namespace BuddyApp.Guardian
 		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
             if (mRGBCam.IsOpen)
                 mRGBCam.Close();

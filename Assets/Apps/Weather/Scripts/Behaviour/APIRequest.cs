@@ -8,7 +8,7 @@ using System.IO;
 
 namespace BuddyApp.Weather
 {
-    public class APIRequest : AStateMachineBehaviour
+    public sealed class APIRequest : AStateMachineBehaviour
     {
         private int mDate;
         private int mNumberWeatherInfos;
@@ -23,7 +23,7 @@ namespace BuddyApp.Weather
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mNumberWeatherInfos = 60;
             mAnswerReceived = false;

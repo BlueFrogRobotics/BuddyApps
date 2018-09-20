@@ -5,81 +5,113 @@ using BlueQuark;
 
 namespace BuddyApp.Tutorial
 {
-    /// <summary>
-    /// In this state we show you how to leave an application with a message displayed in a toast + the vocal to do that.
-    /// It's important for the user to have the choice between the touch screen and the vocal so try to put both on your application (You don't have to but it's a good practice)
-    /// But you also can quit the app when you press the button Quit without another state with text displayed ect.
-    /// </summary>
-    public class QuitState : AStateMachineBehaviour
-    {
-        private int mNumberListen;
-        //The field 
-        [SerializeField]
-        private int mMaxNumberOfListen;
-        
-        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            //We need Buddy to listen at least one time, if the developer forgot to enter the number of listen we initialize it at minimum 1.
-            if (mMaxNumberOfListen == 0)
-                mMaxNumberOfListen = 1;
-            mNumberListen = 0;
-            
-            //ParameterToast can display many of our widgets and you also can display two buttons and set an action when you click on it. 
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
-                //First you put the widget you want to use, there is a lot of widget option, they will be listed on our website.
-                iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("quit"));
-            },
-                //Then you can add Action to the two buttons and label on those buttons.
-                () => {
-                     Debug.Log("Click no");
-                     Buddy.GUI.Toaster.Hide();
-                     Trigger("MenuTrigger");
-                },  Buddy.Resources.GetString("no"),
+	/// <summary>
+	/// In this state we show how to ask a question to the user with vocal and tactile answer options.
+	/// In this example, we ask the user to confirm he wants to quit the app.
+	/// It's important for the user to have the choice between the touch screen and the vocal 
+	/// so the developer should provide both on its application (You don't need to but it's a good UX practice)
+	/// Keep in mind that the user can also quit the app when it press the button Quit (top right).
+	/// </summary>
+	public sealed class QuitState : AStateMachineBehaviour
+	{
+		// Number of listenning iteration before quit
+		// Used as a timeout
+		private int mNumberListen;
 
-                () => {
-                     Debug.Log("Click yes");
-                     Buddy.GUI.Toaster.Hide();
-                     QuitApp();
-                },  Buddy.Resources.GetString("yes")
+		// When we want a parameter to be field directly in the Unity editor, we use SerializeField
+		// to keep it private and still give access from the unity interface.
+		[SerializeField]
+		private int MaxListenningIter;
 
-            );
-            Buddy.Vocal.Say(Buddy.Resources.GetString("quit"));
-        }
+		public override void Start()
+		{
+			base.Start();
 
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            //We check if the vocal part of Buddy is busy so we know if we can lauch a vocal command.
-            if(!Buddy.Vocal.IsBusy)
-            {
-                if (mNumberListen < mMaxNumberOfListen)
-                {
-                    Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("quit"), null, (iInput) => {
+			//We need Buddy to listen at least once, if the developer forgot to enter the number of listen we initialize it at 1.
+			if (MaxListenningIter == 0)
+				MaxListenningIter = 1;
+		}
 
-                        if (Buddy.Vocal.LastHeardInput.Utterance == Buddy.Resources.GetString("yes").ToLower())
-                        {
-                            Buddy.GUI.Toaster.Hide();
-                            QuitApp();
-                        }
-                        else if (Buddy.Vocal.LastHeardInput.Utterance == Buddy.Resources.GetString("no").ToLower())
-                        {
-                            Buddy.GUI.Toaster.Hide();
-                            Trigger("MenuTrigger");
-                        }
-                    });
-                    mNumberListen++;
-                }
-                else
-                    QuitApp();
-            }
-        }
+		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+		{
 
-        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
+			mNumberListen = 0;
 
-        }
-    }
+			// ParameterToast can display many widgets and also display two buttons and set actions when you click on it. 
+			Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+				// First we put the widget we want to use, there is a lot of widget option, they are listed in the documentation.
+				iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("quit"));
+			},
+				// Then we add Action to the two buttons and label on those buttons.
+				() => {
+					// If the user click on no, we log (print) it
+					ExtLog.I(ExtLogModule.APP, typeof(QuitState), LogStatus.INFO, LogInfo.RUNNING, "Click no");
+
+					// If the user click on no, we hide the toast
+					Buddy.GUI.Toaster.Hide();
+
+					// then we go back to the menu
+					Trigger("MenuTrigger");
+				},
+
+				// We put the correct tag on the button, using the dictionary key "no"
+				Buddy.Resources.GetString("no"),
+
+				// Same for the button yes...
+				() => {
+					ExtLog.I(ExtLogModule.APP, typeof(QuitState), LogStatus.INFO, LogInfo.RUNNING, "Click yes");
+					Buddy.GUI.Toaster.Hide();
+					QuitApp();
+				},
+
+				Buddy.Resources.GetString("yes")
+
+			);
+
+			// While showing the toast, the robot also say a random sentence from the dico
+			// to give the instructions, then listen to the user's answer
+			Buddy.Vocal.SayAndListen(
+				Buddy.Resources.GetRandomString("quit"),
+				null,
+				(iInput) => { OnEndListen(iInput); });
+		}
+
+		/// <summary>
+		/// This function is called when an answer is received from the user
+		/// </summary>
+		/// <param name="iInput">User speech input</param>
+		private void OnEndListen(SpeechInput iInput)
+		{
+			// We collect the human answer in Buddy.Vocal.LastHeardInput.Utterance and check if it
+			// is one of the expected sentences in the dico
+			if (Utils.ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, "yes")) {
+
+				// if the user says yes, we hide the toast and quit the app
+				Buddy.GUI.Toaster.Hide();
+				QuitApp();
+
+			} else if (Utils.ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, "no")) {
+
+				// If the user says no, we hide the toast and get back to the menu
+				Buddy.GUI.Toaster.Hide();
+				Trigger("MenuTrigger");
+			} else {
+				if (mNumberListen < MaxListenningIter) {
+					// if the human answer is outside of planned sentences, we increment the
+					// number of listen and we listen again.
+					mNumberListen++;
+					Buddy.Vocal.Listen(
+						iInputRec => { OnEndListen(iInputRec); }
+						);
+				} else {
+					// If we launch the listen too many times, it's like a timeout and
+					// we get back to the menu
+					Buddy.GUI.Toaster.Hide();
+					Trigger("MenuTrigger");
+				}
+			}
+		}
+	}
 }
 

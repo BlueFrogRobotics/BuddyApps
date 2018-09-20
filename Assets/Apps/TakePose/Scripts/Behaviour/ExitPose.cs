@@ -6,7 +6,7 @@ using BlueQuark;
 
 namespace BuddyApp.TakePose
 {
-    public class ExitPose : AStateMachineBehaviour
+    public sealed class ExitPose : AStateMachineBehaviour
     {
         public override void Start()
         {

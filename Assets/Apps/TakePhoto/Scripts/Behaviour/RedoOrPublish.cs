@@ -3,7 +3,7 @@ using BlueQuark;
 
 namespace BuddyApp.TakePhoto
 {
-	public class RedoOrPublish : AStateMachineBehaviour
+	public sealed class RedoOrPublish : AStateMachineBehaviour
 	{
 		private bool mListening;
 		private string mSpeechReco;
@@ -26,7 +26,7 @@ namespace BuddyApp.TakePhoto
 		private bool mQuit;
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Debug.Log("Ask new request");
 			mListening = false;
@@ -45,7 +45,7 @@ namespace BuddyApp.TakePhoto
 		}
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			if (!Buddy.Vocal.IsSpeaking || mListening)
 				return;
@@ -112,7 +112,7 @@ namespace BuddyApp.TakePhoto
 			Trigger(option1Trigger);
 		}
 
-		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Buddy.Vocal.Say("ok");
 			Buddy.GUI.Toaster.Hide();

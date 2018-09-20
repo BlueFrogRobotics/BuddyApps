@@ -7,7 +7,7 @@ using OpenCVUnity;
 
 namespace BuddyApp.BuddyLab
 {
-    public class ConditionManager : MonoBehaviour
+    public sealed class ConditionManager : MonoBehaviour
     {
         /// <summary>
         /// Variables linked to the tactile

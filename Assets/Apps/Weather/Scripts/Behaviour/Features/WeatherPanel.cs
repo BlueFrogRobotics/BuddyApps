@@ -11,7 +11,7 @@ using UnityEngine;
 namespace BuddyApp.Weather
 {
 
-    public class WeatherPanel : MonoBehaviour
+    public sealed class WeatherPanel : MonoBehaviour
     {
 
         private Image myImage;

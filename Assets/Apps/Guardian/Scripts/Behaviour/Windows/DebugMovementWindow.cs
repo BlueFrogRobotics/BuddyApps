@@ -9,7 +9,7 @@ namespace BuddyApp.Guardian
     /// <summary>
     /// Class that contains the references to the different elements of the movement test window
     /// </summary>
-    public class DebugMovementWindow : MonoBehaviour
+    public sealed class DebugMovementWindow : MonoBehaviour
     {
 
         [SerializeField]

@@ -6,10 +6,10 @@ using BlueQuark;
 
 namespace BuddyApp.TakePhoto
 {
-	public class Landing : AStateMachineBehaviour
+	public sealed class Landing : AStateMachineBehaviour
 	{
 
-		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Buddy.Vocal.SayKey("movehands");
 			Trigger("LookForUser");

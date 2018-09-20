@@ -1,103 +1,112 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using BlueQuark;
 using OpenCVUnity;
 
 namespace BuddyApp.Tutorial
 {
-    /// <summary>
-    /// In this state we display what buddy sees and we will detect motion
-    /// </summary>
-    public class MotionState : AStateMachineBehaviour
-    {
-        private Mat mMatSrc;
-        private Mat mMatDest;
-        private Texture2D mTextPhoto;
-        private bool mDisplayed;
-        private Color mColorOfDisplay;
+	/// <summary>
+	/// In this state we display what buddy sees and we will detect motion
+	/// </summary>
+	public sealed class MotionState : AStateMachineBehaviour
+	{
+		private bool mDisplayed;
+		private Mat mMatDetect;
+		private Mat mMatFlip;
+		private Mat mMatDest;
+		private Texture2D mTextureCam;
+		private Color mColorOfDisplay;
 
-        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            
-            mDisplayed = false;
-            mColorOfDisplay = new Color(255, 0, 0);
-           //initialize your texture to avoid nullref and crashes
-            mTextPhoto = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
-            Buddy.Vocal.SayKey("motionstateintro");
+		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+		{
+			// This bool is used to know when the display is active
+			mDisplayed = false;
 
-            //You get the frame from the RGBCamera with the OnNewFrame
-            Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
-            //You change parameters for your OnDetect : regionOfInterest represents where you want to do your detection in the current frame
-            //and sensibilityThreshold represents your threshold for the detection
-            MotionDetectorParameter mMotionDetectorParameter = new MotionDetectorParameter();
-            mMotionDetectorParameter.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480);
-            mMotionDetectorParameter.SensibilityThreshold = 2.5F;
-            //OnDetect open the camera itself so you don't have to do it and the reseolution is 640*480 by default
-            Buddy.Perception.MotionDetector.OnDetect.AddP(OnMovementDetected, mMotionDetectorParameter);
-        }
+			// This define a color for the circle for the detected motion
+			mColorOfDisplay = new Color(255, 0, 0);
 
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            if (!Buddy.Vocal.IsBusy && !mDisplayed)
-            {
-                Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTextPhoto, OnDisplayClicked);
-                mDisplayed = true;
-            }
-            else if (mDisplayed)
-            {
-                Buddy.Vocal.SayKey("motionstatedisplayed");
-            }
-        }
+			// initialize the texture to avoid nullref and crashes
+			mTextureCam = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
 
-        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
+			// This command is to make Buddy say the key from the dictionnary
+			Buddy.Vocal.SayKey("motionstateintro");
 
-        }
+			// We get the frame from the RGBCamera with the OnNewFrame
+			Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
 
-        /// <summary>
-        /// Callback for every frame updated
-        /// </summary>
-        /// <param name="iInput"></param>
-        private void OnFrameCaptured(Mat iInput)
-        {
-            //Always clone the input matrix to avoid working with the matrix when the C++ part wants to modify it. It will crash.
-            Mat lTest = iInput.clone();
-            mMatSrc = lTest.clone();
-            Core.flip(mMatSrc, mMatSrc, 1);
-            mTextPhoto = Utils.ScaleTexture2DFromMat(mMatSrc, mTextPhoto);
-            Utils.MatToTexture2D(mMatSrc, mTextPhoto);
-        }
+			// We parameter the motion detection : regionOfInterest represents where the detection will be done in the current frame
+			// sensibilityThreshold represents the threshold for the detection
+			MotionDetectorParameter mMotionDetectorParameter = new MotionDetectorParameter();
+			mMotionDetectorParameter.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480);
+			mMotionDetectorParameter.SensibilityThreshold = 2.5F;
 
-        /// <summary>
-        /// Callback when the is movement detected
-        /// </summary>
-        /// <param name="iMotions"></param>
-        /// <returns></returns>
-        private bool OnMovementDetected(MotionEntity[] iMotions)
-        {
-            Core.flip(mMatSrc, mMatSrc, 1);
-            //Draw circle on every motions detected in the image.
-            foreach (MotionEntity lEntity in iMotions)
-            {
-                Imgproc.circle(mMatSrc, Utils.Center(lEntity.RectInFrame), 3, new Scalar(mColorOfDisplay), 3);
-            }
-            Core.flip(mMatSrc, mMatSrc, 1);
-            mTextPhoto = Utils.ScaleTexture2DFromMat(mMatSrc, mTextPhoto);
-            Utils.MatToTexture2D(mMatSrc, mTextPhoto);
+			// OnDetect opens the camera itself so we don't have to do it. Default resolution is 640*480
+			Buddy.Perception.MotionDetector.OnDetect.AddP(OnMovementDetected, mMotionDetectorParameter);
+		}
 
-            return true;
-        }
+		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+		{
+			// If buddy is not listenning or speaking (i.e. we wait for the end of speech) and the display is not activated yet
+			if (!Buddy.Vocal.IsBusy && !mDisplayed) {
+				// We activate the display
+				Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTextureCam, OnDisplayClicked);
 
-        private void OnDisplayClicked()
-        {
-            Buddy.GUI.Toaster.Hide();
-            Trigger("MenuTrigger");
-        }
+				// We wait 500 ms then Buddy tells a random sentence from the dictionnary
+				Buddy.Vocal.Say("[500]" + Buddy.Resources.GetRandomString("motionstatedisplayed"));
+				mDisplayed = true;
+			}
+		}
 
-    }
+		/// <summary>
+		/// Callback for every frame updated from the camera
+		/// </summary>
+		/// <param name="iInput">The matrix returned by the camera</param>
+		private void OnFrameCaptured(Mat iInput)
+		{
+			// Always clone the input matrix to avoid working with the matrix when the C++ part wants to modify it. It will crash.
+			mMatDetect = iInput.clone();
+			mMatFlip = iInput.clone();
+
+			// We flip the image to have a "mirror" effect
+			Core.flip(mMatFlip, mMatFlip, 1);
+
+			// We convert the matrix into a texture
+			mTextureCam = Utils.ScaleTexture2DFromMat(mMatFlip, mTextureCam);
+			Utils.MatToTexture2D(mMatFlip, mTextureCam);
+		}
+
+		/// <summary>
+		/// Callback when there is motions detected
+		/// </summary>
+		/// <param name="iMotions">The list of motion entities</param>
+		/// <returns></returns>
+		private bool OnMovementDetected(MotionEntity[] iMotions)
+		{
+
+			//Draw circle on every motions detected in the image.
+			foreach (MotionEntity lEntity in iMotions) {
+				Imgproc.circle(mMatDetect, Utils.Center(lEntity.RectInFrame), 3, new Scalar(mColorOfDisplay), 3);
+			}
+
+			// Give mirror effect to the mat with detection
+			Core.flip(mMatDetect, mMatDetect, 1);
+
+			// We convert the matrix into a texture
+			mTextureCam = Utils.ScaleTexture2DFromMat(mMatDetect, mTextureCam);
+			Utils.MatToTexture2D(mMatDetect, mTextureCam);
+
+			return true;
+		}
+
+		private void OnDisplayClicked()
+		{
+			// When the user touches the screen, the app goes back to the menu,
+			// so we hide the toast and trigger the menu transition
+			Buddy.GUI.Toaster.Hide();
+			Trigger("MenuTrigger");
+		}
+
+	}
 }
 

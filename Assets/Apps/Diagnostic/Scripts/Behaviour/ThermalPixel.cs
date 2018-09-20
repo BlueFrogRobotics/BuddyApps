@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace BuddyApp.Diagnostic
 {
-    public class ThermalPixel : MonoBehaviour
+    public sealed class ThermalPixel : MonoBehaviour
     {
         private Image mImage;
         private Text mText;

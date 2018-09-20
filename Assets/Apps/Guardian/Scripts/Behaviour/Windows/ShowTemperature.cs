@@ -11,7 +11,7 @@ namespace BuddyApp.Guardian
     /// Class that contains the references to the different elements of the fire detection test window
     /// It also has methods to fill its matrix texture
     /// </summary>
-    public class ShowTemperature : MonoBehaviour
+    public sealed class ShowTemperature : MonoBehaviour
     {
 
         [SerializeField]
@@ -161,7 +161,7 @@ namespace BuddyApp.Guardian
     }
 
     [System.Serializable]
-    public class ColorZone
+    public sealed class ColorZone
     {
         public int maxTemp;
         public Color color;

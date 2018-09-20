@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.BuddyLab
 {
-    public class LabUIEditorManager : MonoBehaviour
+    public sealed class LabUIEditorManager : MonoBehaviour
     {
 
         [SerializeField]

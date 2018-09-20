@@ -4,7 +4,7 @@ using BlueQuark;
 
 namespace BuddyApp.Diagnostic
 {
-    public class ThermalMatrixDrawer : MonoBehaviour
+    public sealed class ThermalMatrixDrawer : MonoBehaviour
     {
         //pas besoin pour le pole hardware
         //private ThermalSensor mThermalSensor;

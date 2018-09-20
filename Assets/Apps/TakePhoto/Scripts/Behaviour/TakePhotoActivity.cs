@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace BuddyApp.TakePhoto
 {
     /* This class contains useful callback during your app process */
-    public class TakePhotoActivity : AAppActivity
+    public sealed class TakePhotoActivity : AAppActivity
     {
         /*
 		* Called before the App scene loading.

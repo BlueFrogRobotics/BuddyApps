@@ -3,7 +3,7 @@ using BlueQuark;
 namespace BuddyApp.Diagnostic
 {
     /* Data are stored in xml file for persistent data purpose */
-    public class DiagnosticData : AAppData
+    public sealed class DiagnosticData : AAppData
     {
         /*
          * Data getters / setters

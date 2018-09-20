@@ -10,7 +10,7 @@ namespace BuddyApp.Guardian
     /// <summary>
     /// Defines a sound detection alert
     /// </summary>
-    public class SoundAlert : AAlert
+    public sealed class SoundAlert : AAlert
     {
 
         public SoundAlert() : base()

@@ -9,7 +9,7 @@ namespace BuddyApp.Guardian
     /// <summary>
     /// State that display a window to test the movement detection sensibility
     /// </summary>
-    public class DebugMovementState : AStateMachineBehaviour
+    public sealed class DebugMovementState : AStateMachineBehaviour
     {
         private Animator mDebugMovementAnimator;
         private MotionDetector mMovementTracker;
@@ -43,7 +43,7 @@ namespace BuddyApp.Guardian
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Start();
             mTexture = new Texture2D(mCam.Width, mCam.Height);
@@ -58,7 +58,7 @@ namespace BuddyApp.Guardian
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
             if (!mHasOpenedWindow && mTimer > 1.3f) {
@@ -89,7 +89,7 @@ namespace BuddyApp.Guardian
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             GuardianData.Instance.FirstRunParam = false;
             GuardianData.Instance.MovementDetectionThreshold = (int)mGauge.SlidingValue;

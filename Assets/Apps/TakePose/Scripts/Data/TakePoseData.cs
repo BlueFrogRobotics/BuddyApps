@@ -3,7 +3,7 @@ using BlueQuark;
 namespace BuddyApp.TakePose
 {
     /* Data are stored in xml file for persistent data purpose */
-    public class TakePoseData : AAppData
+    public sealed class TakePoseData : AAppData
     {
         /*
          * Data getters / setters

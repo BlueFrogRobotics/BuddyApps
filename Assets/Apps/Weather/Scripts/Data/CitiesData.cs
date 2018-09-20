@@ -10,7 +10,7 @@ using System.IO;
 namespace BuddyApp.Weather
 {
     [Serializable]
-    public class CitiesData
+    public sealed class CitiesData
     {
         public List<CityData> Cities { get; set; }
     }

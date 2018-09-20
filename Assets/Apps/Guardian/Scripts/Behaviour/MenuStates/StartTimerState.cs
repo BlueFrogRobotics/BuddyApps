@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace BuddyApp.Guardian
 {
-	public class StartTimerState : AStateMachineBehaviour
+	public sealed class StartTimerState : AStateMachineBehaviour
 	{
 		int mTimer;
 

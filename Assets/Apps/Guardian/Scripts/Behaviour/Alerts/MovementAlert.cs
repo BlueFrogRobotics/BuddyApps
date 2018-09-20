@@ -12,7 +12,7 @@ namespace BuddyApp.Guardian
     /// <summary>
     /// Defines a mouvement detection alert
     /// </summary>
-	public class MovementAlert : AAlert
+	public sealed class MovementAlert : AAlert
 	{
 
 		public MovementAlert() : base()

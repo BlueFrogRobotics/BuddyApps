@@ -6,7 +6,7 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
-    public class TextParameterEditor : MonoBehaviour
+    public sealed class TextParameterEditor : MonoBehaviour
     {
         [SerializeField]
         private GameObject popupField;

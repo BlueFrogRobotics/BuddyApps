@@ -7,7 +7,7 @@ namespace BuddyApp.Guardian
     /// <summary>
     /// Class that contains the references to the different elements of the head orientation window
     /// </summary>
-    public class HeadControllerWindow : MonoBehaviour
+    public sealed class HeadControllerWindow : MonoBehaviour
     {
         [SerializeField]
         private UnityEngine.UI.Button buttonLeft;

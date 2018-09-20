@@ -8,7 +8,7 @@ namespace BuddyApp.Guardian
 	//    MOBILE
 	//}
 
-	public class GuardianData : AAppData
+	public sealed class GuardianData : AAppData
 	{
 
 		public GuardianData()

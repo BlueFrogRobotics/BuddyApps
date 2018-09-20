@@ -3,7 +3,7 @@ using BlueQuark;
 
 namespace BuddyApp.Weather
 {
-    public class VocalW : AStateMachineBehaviour
+    public sealed class VocalW : AStateMachineBehaviour
     {
 
         private bool mListening;

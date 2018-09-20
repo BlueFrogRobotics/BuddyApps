@@ -11,7 +11,7 @@ namespace BuddyApp.Weather
 {
 
     [Serializable]
-    public class CityData
+    public sealed class CityData
     {
         public string Name { get; set; }
 

@@ -19,7 +19,7 @@ namespace BuddyApp.Diagnostic
     }
 
 	/* A basic monobehaviour as "AI" behaviour for your app */
-	public class DiagnosticBehaviour : MonoBehaviour
+	public sealed class DiagnosticBehaviour : MonoBehaviour
     {
 
 		[SerializeField]

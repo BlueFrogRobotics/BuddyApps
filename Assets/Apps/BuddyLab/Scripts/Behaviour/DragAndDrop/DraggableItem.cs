@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace BuddyApp.BuddyLab
 {
-    public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public sealed class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         public bool IsDragged { get; private set; }
         public Transform parentToReturnTo = null;

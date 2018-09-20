@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.BuddyLab
 {
-    public class BMLParameterManager : MonoBehaviour
+    public sealed class BMLParameterManager : MonoBehaviour
     {
         [SerializeField]
         private ParameterWindow parameterWindow;

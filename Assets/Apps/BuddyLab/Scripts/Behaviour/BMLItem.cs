@@ -6,7 +6,7 @@ namespace BuddyApp.BuddyLab
 {
     
 
-    public class BMLItem : ABLItem
+    public sealed class BMLItem : ABLItem
     {
         [SerializeField]
         private string BML;

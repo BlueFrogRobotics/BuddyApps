@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BuddyApp.Weather
 {
 
-    public class WeatherMan : MonoBehaviour
+    public sealed class WeatherMan : MonoBehaviour
     {
 
         // Use this for initialization

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace BuddyApp.Guardian
 {
-	public class KidnappingAlert : AAlert
+	public sealed class KidnappingAlert : AAlert
 	{
         /// <summary>
         /// Return the text that will be display during a kidnapping detection

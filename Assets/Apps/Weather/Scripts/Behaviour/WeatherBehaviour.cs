@@ -6,7 +6,7 @@ using BlueQuark;
 namespace BuddyApp.Weather
 {
     /* A basic monobehaviour as "AI" behaviour for your app */
-    public class WeatherBehaviour : MonoBehaviour
+    public sealed class WeatherBehaviour : MonoBehaviour
     {
         /*
          * Data of the application. Save on disc when app is quittedq

@@ -3,7 +3,7 @@ using BlueQuark;
 namespace BuddyApp.Weather
 {
     /* Data are stored in xml file for persistent data purpose */
-    public class WeatherData : AAppData
+    public sealed class WeatherData : AAppData
     {
         /*
          * Data getters / setters

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuddyApp.BuddyLab
 {
-    public class SpecialItem : ABLItem
+    public sealed class SpecialItem : ABLItem
     {
         
         public override BLItemSerializable GetItem()

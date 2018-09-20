@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuddyApp.Guardian
 {
-    public class GuardianActivity : AAppActivity
+    public sealed class GuardianActivity : AAppActivity
     {
         private DetectionManager mDetectionManager;
 

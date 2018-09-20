@@ -6,7 +6,7 @@ using BlueQuark;
 namespace BuddyApp.Diagnostic
 {
     /* This class contains useful callback during your app process */
-    public class DiagnosticActivity : AAppActivity
+    public sealed class DiagnosticActivity : AAppActivity
     {
 		public override void OnLoading(object[] iInputArgs)
 		{

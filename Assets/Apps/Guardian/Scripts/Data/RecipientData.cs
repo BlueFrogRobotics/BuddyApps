@@ -6,7 +6,7 @@ namespace BuddyApp.Guardian
 {
 
     [SerializeField]
-    public class RecipientData
+    public sealed class RecipientData
     {
         public string Name { get; set; }
         public string Mail { get; set; }

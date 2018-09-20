@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace BuddyApp.BuddyLab
 {
     /* This class contains useful callback during your app process */
-    public class BuddyLabActivity : AAppActivity
+    public sealed class BuddyLabActivity : AAppActivity
     {
         private ItemControlUnit mItemControl;
 

@@ -5,7 +5,7 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
-    public class SpecialItemManager : MonoBehaviour
+    public sealed class SpecialItemManager : MonoBehaviour
     {
         private string mNameSItem;
         public string NameSItem { get { return mNameSItem; } set { mNameSItem = value; } }

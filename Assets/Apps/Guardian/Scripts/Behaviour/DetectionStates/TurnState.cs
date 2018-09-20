@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace BuddyApp.Guardian
 {
-    public class TurnState : AStateMachineBehaviour
+    public sealed class TurnState : AStateMachineBehaviour
     {
         private GuardianData mData;
         private DetectionManager mDetectionManager;

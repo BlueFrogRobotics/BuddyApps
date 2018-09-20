@@ -11,7 +11,7 @@ namespace BuddyApp.Guardian
     /// <summary>
     /// State that display a window to test the noise detection sensibility
     /// </summary>
-    public class DebugSoundState : AStateMachineBehaviour
+    public sealed class DebugSoundState : AStateMachineBehaviour
     {
         private RawImage mRaw;
         private TSlider mGauge;
@@ -47,7 +47,7 @@ namespace BuddyApp.Guardian
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Start();
 
@@ -66,7 +66,7 @@ namespace BuddyApp.Guardian
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
 
@@ -102,7 +102,7 @@ namespace BuddyApp.Guardian
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             GuardianData.Instance.SoundDetectionThreshold = (int)mGauge.SlidingValue;
             GuardianData.Instance.FirstRunParam = false;

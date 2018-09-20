@@ -7,7 +7,7 @@ using BlueQuark;
 namespace BuddyApp.Weather
 {
 
-    public class CommandAnalysis : AStateMachineBehaviour
+    public sealed class CommandAnalysis : AStateMachineBehaviour
     {
         private CitiesManager mCitiesManager;
         private CitiesData mCities;
@@ -28,7 +28,7 @@ namespace BuddyApp.Weather
             mWeatherB.mCities = mCities;
         }
 
-        override public void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("VocalRequest : " + WeatherData.Instance.VocalRequest);
 

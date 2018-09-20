@@ -21,7 +21,7 @@ namespace BuddyApp.BuddyLab
         SPECIAL=3
     }
 
-    public class BLItemSerializable
+    public sealed class BLItemSerializable
     {
         public Category Category { get; set; }
 
@@ -41,7 +41,7 @@ namespace BuddyApp.BuddyLab
 
     }
 
-    public class ListBLI
+    public sealed class ListBLI
     {
         public List<BLItemSerializable> List { get; set; }
 

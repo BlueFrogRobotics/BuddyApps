@@ -8,7 +8,7 @@ using BlueQuark;
 
 namespace BuddyApp.TakePhoto
 {
-	public class SendTwitter : AStateMachineBehaviour
+	public sealed class SendTwitter : AStateMachineBehaviour
 	{
 		private bool mNeedListen;
 		private bool mFirst;
@@ -51,7 +51,7 @@ namespace BuddyApp.TakePhoto
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			Debug.Log("OnEnter SendTwitter");
 
@@ -67,12 +67,12 @@ namespace BuddyApp.TakePhoto
 		}
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			//TODO: deal with failure?
 		}
 
-		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 
 		}

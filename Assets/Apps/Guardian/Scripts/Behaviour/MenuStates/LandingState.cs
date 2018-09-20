@@ -10,7 +10,7 @@ namespace BuddyApp.Guardian
     /// <summary>
     /// State that init that activate the detections chosen by the user and pass to the next mode state
     /// </summary>
-    public class LandingState : AStateMachineBehaviour
+    public sealed class LandingState : AStateMachineBehaviour
     {
 
         public override void Start()

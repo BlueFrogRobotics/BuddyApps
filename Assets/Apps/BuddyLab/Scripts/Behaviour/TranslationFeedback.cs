@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace BuddyApp.BuddyLab
 {
-    public class TranslationFeedback : AFeedback
+    public sealed class TranslationFeedback : AFeedback
     {
         [SerializeField]
         private GameObject objectToTranslate;

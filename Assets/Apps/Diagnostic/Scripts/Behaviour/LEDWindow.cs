@@ -8,7 +8,7 @@ using BlueQuark;
 
 namespace BuddyApp.Diagnostic
 {
-    public class LEDWindow : MonoBehaviour
+    public sealed class LEDWindow : MonoBehaviour
     {
         [SerializeField]
         private Text textH;

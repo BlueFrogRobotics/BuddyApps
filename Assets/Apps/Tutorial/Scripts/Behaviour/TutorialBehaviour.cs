@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace BuddyApp.Tutorial
 {
     /* A basic monobehaviour as "AI" behaviour for your app */
-    public class TutorialBehaviour : MonoBehaviour
+    public sealed class TutorialBehaviour : MonoBehaviour
     {
         /*
          * Data of the application. Save on disc when app is quitted

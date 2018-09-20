@@ -10,7 +10,7 @@ namespace BuddyApp.Guardian
     /// <summary>
     /// State where the user can set the detection sensibility, test them and set the head orientation
     /// </summary>
-    public class SoundDetectionTestState : AStateMachineBehaviour
+    public sealed class SoundDetectionTestState : AStateMachineBehaviour
     {
         private Texture2D mTexture;
         private Mat mMatSrc;
