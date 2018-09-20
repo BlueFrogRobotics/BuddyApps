@@ -61,24 +61,15 @@ namespace BuddyApp.Tutorial
 		/// <param name="iMyPhoto"></param>
 		private void OnFinish(Photograph iMyPhoto)
 		{
-            Sprite lPhotoSprite;
-            Debug.Log("1");
-            lPhotoSprite = iMyPhoto.Image;
-            Debug.Log("2");
-            mPhoto = iMyPhoto;
-            Debug.Log("3");
             Buddy.GUI.Toaster.Hide();
-            // We display the picture while Buddy is still speaking
-            Buddy.GUI.Toaster.Display<PictureToast>().With(lPhotoSprite, OnMenuTrigger);
-
-            Debug.Log("lol");
+            
             Buddy.Vocal.SayKey("tpstatephototaken", oOutput => {
-				//User can find picture in persistentDataPath/Users/"name of the user"/AppData/"id of the app"/Pictures
-
-				// Save the picture and go back to the menu
-				mPhoto.Save();
-			});
-
+                //User can find picture in persistentDataPath/Users/"name of the user"/AppData/"id of the app"/Pictures
+                // Save the picture and go back to the menu
+                iMyPhoto.Save();
+            });
+            // We display the picture while Buddy is still speaking
+            Buddy.GUI.Toaster.Display<PictureToast>().With(iMyPhoto.Image, OnMenuTrigger);
         }
 
         private void OnMenuTrigger()
