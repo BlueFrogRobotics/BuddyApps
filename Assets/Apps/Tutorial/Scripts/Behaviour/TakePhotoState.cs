@@ -15,9 +15,10 @@ namespace BuddyApp.Tutorial
 
 		private Mat mMatSrc;
 		private Texture2D mCameraTexture;
+        private Photograph mPhoto;
 
-		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+        public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			// Buddy give random sentence from the dico as instruction
 			Buddy.Vocal.SayKey("tpstateintro");
@@ -60,20 +61,31 @@ namespace BuddyApp.Tutorial
 		/// <param name="iMyPhoto"></param>
 		private void OnFinish(Photograph iMyPhoto)
 		{
-			Buddy.GUI.Toaster.Hide();
+            Sprite lPhotoSprite;
+            Debug.Log("1");
+            lPhotoSprite = iMyPhoto.Image;
+            Debug.Log("2");
+            mPhoto = iMyPhoto;
+            Debug.Log("3");
+            Buddy.GUI.Toaster.Hide();
+            // We display the picture while Buddy is still speaking
+            Buddy.GUI.Toaster.Display<PictureToast>().With(lPhotoSprite, OnMenuTrigger);
 
-			Buddy.Vocal.SayKey("tpstatephototaken", oOutput => {
+            Debug.Log("lol");
+            Buddy.Vocal.SayKey("tpstatephototaken", oOutput => {
 				//User can find picture in persistentDataPath/Users/"name of the user"/AppData/"id of the app"/Pictures
 
 				// Save the picture and go back to the menu
-				iMyPhoto.Save();
-				Buddy.GUI.Toaster.Hide();
-				Trigger("MenuTrigger");
+				mPhoto.Save();
 			});
 
-			// We display the picture while Buddy is still speaking
-			Buddy.GUI.Toaster.Display<PictureToast>().With(iMyPhoto.Image);
-		}
+        }
+
+        private void OnMenuTrigger()
+        {
+            Buddy.GUI.Toaster.Hide();
+            Trigger("MenuTrigger");
+        }
 	}
 }
 
