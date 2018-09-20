@@ -53,7 +53,7 @@ namespace BuddyApp.Guardian
                 mShowTemperature.UpdateTexture();
                 if (mDebugTempAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
                 {
-                    animator.SetInteger("DebugMode", -1);
+                    iAnimator.SetInteger("DebugMode", -1);
                     mGoBack = false;
                     mShowTemperature.IcoFire.enabled = false;
                 }

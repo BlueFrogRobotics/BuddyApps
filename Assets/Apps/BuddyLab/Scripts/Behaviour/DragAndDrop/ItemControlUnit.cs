@@ -271,14 +271,14 @@ namespace BuddyApp.BuddyLab
                         Dictionary<string, string> param = new Dictionary<string, string>();
                         param.Add(bli.ParameterKey, bli.Parameter);
                         Debug.Log("try to launch : " + bli.BML + " with param: " + bli.Parameter);
-                        mBMLManager.Play(bli.BML, param);
+                        //mBMLManager.Interpreter.Run(bli.BML, param);
                         
                         Debug.Log("has launched : " + bli.BML + " with param: "+ bli.Parameter);
                     }
                     else
                     {
                         Debug.Log("try to launch without param: " + bli.BML);
-                        Debug.Log("has launched without param: " + mBMLManager.Play(bli.BML));
+                        Debug.Log("has launched without param: " + mBMLManager.Interpreter.Run(bli.BML));
                     }
                     while (mIsRunning && mBMLManager.IsBusy /*mBMLManager.ActiveBML.Count>0 && mBMLManager.ActiveBML[0].IsRunning*/)
                     {

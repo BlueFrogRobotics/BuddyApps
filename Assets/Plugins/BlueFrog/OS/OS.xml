@@ -342,41 +342,6 @@
             Stops any running hinge command.
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.BML.IsRunning">
-            <summary>
-            Tells if the BML is running.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.BML.NbSteps">
-            <summary>
-            Total number of steps in the behavior.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.BML.ActiveStep">
-            <summary>
-            If the behavior is running, tells at which step it's currently at.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.BML.Name">
-            <summary>
-            Name of the BML (its filename).
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.BML.Category">
-            <summary>
-            Category of the behavior.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.BML.Parameters">
-            <summary>
-            The parameters related to the execution of this behavior.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.BML.mBlocksID">
-            <summary>
-            Dictionary that contains the ID of every block.
-            </summary>
-        </member>
         <member name="T:BlueQuark.Internal.IdleFaceState">
             <summary>
             Base class for state machine's state.
@@ -443,12 +408,6 @@
             <summary>
             Manager class that have reference to the differents stimuli and subscribes to their callbacks
             </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.DetectionManager.AddLog(System.String)">
-            <summary>
-            Add a string to the log string
-            </summary>
-            <param name="iLog"></param>
         </member>
         <member name="M:BlueQuark.Internal.DetectionManager.OnThermalDetected(BlueQuark.ObjectEntity[])">
             <summary>
@@ -702,6 +661,23 @@
             <summary>
             This state is just to wait for everything to be up in OS
             </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.TGraphPlot">
+            <summary>
+            Represents a full screen data plot that can be displayed in a monolith layout.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.TGraphPlot.OnClick">
+            <summary>
+            Called when the plot is clicked.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TGraphPlot.SetUpdates(System.Func{System.Single[]},System.Func{System.Collections.Generic.List{System.Single[]}})">
+            <summary>
+            Set the graph callback methods.
+            </summary>
+            <param name="iOnUpdateAbscissa">Function called to update graph points. Cannot be null</param>
+            <param name="iOnUpdateOrdinates">Function called to update graph points. Cannot be null</param>
         </member>
         <member name="T:BlueQuark.Internal.TVideoStream">
             <summary>
@@ -3928,12 +3904,12 @@
             Represents the no axe hinge of the robot (Yaw Euler axe)
             </summary>
         </member>
-        <member name="F:BlueQuark.NoHeadHinge.MAX_ANGLE">
+        <member name="F:BlueQuark.NoHeadHinge.MAX_LEFT_ANGLE">
             <summary>
             Max reachable angle for this hinge. Value in degrees.
             </summary>
         </member>
-        <member name="F:BlueQuark.NoHeadHinge.MIN_ANGLE">
+        <member name="F:BlueQuark.NoHeadHinge.MAX_RIGHT_ANGLE">
             <summary>
             Min reachable angle for this hinge. Value in degrees.
             </summary>
@@ -3981,14 +3957,14 @@
             Represents the yes axe hinge of the robot (Roll Euler axe)
             </summary>
         </member>
-        <member name="F:BlueQuark.YesHeadHinge.MAX_ANGLE">
+        <member name="F:BlueQuark.YesHeadHinge.MAX_UP_ANGLE">
             <summary>
-            Max reachable angle for this hinge. Value in degrees.
+            Max reachable angle for this hinge in up position. Value in degrees.
             </summary>
         </member>
-        <member name="F:BlueQuark.YesHeadHinge.MIN_ANGLE">
+        <member name="F:BlueQuark.YesHeadHinge.MAX_DOWN_ANGLE">
             <summary>
-            Min reachable angle for this hinge. Value in degrees.
+            Max reachable angle for this hinge in down position. Value in degrees.
             </summary>
         </member>
         <member name="F:BlueQuark.YesHeadHinge.DEFAULT_ANGLE">
@@ -4321,9 +4297,12 @@
             No sound is playing
             </summary>
         </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(System.String)">
+            TMP
+        </member>
         <member name="T:BlueQuark.Behaviour">
             <summary>
-            Module that contains all the interaction features (Mood, Face, Behaviour player)
+            Module that contains all the interaction features (Mood, Face, Behaviour player).
             </summary>
         </member>
         <member name="F:BlueQuark.Behaviour.MIN_MOOD_DURATION">
@@ -4343,7 +4322,12 @@
         </member>
         <member name="P:BlueQuark.Behaviour.Face">
             <summary>
-            Face of the robot (Eyes and mouth)
+            Face of the robot (Eyes and mouth).
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Behaviour.Interpreter">
+            <summary>
+            Behaviour algorithm player.
             </summary>
         </member>
         <member name="P:BlueQuark.Behaviour.Mood">
@@ -4368,7 +4352,7 @@
         </member>
         <member name="M:BlueQuark.Behaviour.SetMood(BlueQuark.Mood,System.Action{BlueQuark.Mood},System.Boolean)">
             <summary>
-            Sets the robot's mood.  The mood stays until end of duration AND new mood request.
+            Sets the robot's mood. The mood stays until end of duration AND new mood request.
             </summary>
             <param name="iMood">The mood to set</param>
             <param name="iOnEndSwap">Callback called when the action is done</param>
@@ -4376,7 +4360,7 @@
         </member>
         <member name="M:BlueQuark.Behaviour.SetMood(BlueQuark.Mood,System.Single,System.Action{BlueQuark.Mood},System.Boolean)">
             <summary>
-            Sets the robot's mood.  The mood stays until end of duration AND new mood request.
+            Sets the robot's mood. The mood stays until end of duration AND new mood request.
             </summary>
             <param name="iMood">The mood to set</param>
             <param name="iDuration">Duration in seconds of the mood before swap to the next queued mood. Stay if no next mood</param>
@@ -4388,47 +4372,6 @@
             Sets the default mood.
             </summary>
             <seealso cref="F:BlueQuark.Behaviour.DEFAULT_MOOD"/>>
-        </member>
-        <member name="M:BlueQuark.Behaviour.Play(System.String,System.Collections.Generic.Dictionary{System.String,System.String},BlueQuark.BMLComposition)">
-            <summary>
-            Launches a Behaviour. Will check first in App's BML, then OS's BML.
-            </summary>
-            <param name="iName">The name of the behaviour described by the BML's name.</param>
-            <param name="iParams">Parameters for the execution of the behaviour. The keys should be the parameter's names and the value the target value of the attribute.</param>
-            <param name="iComposition">Composition type of the behaviour.</param>
-            <returns>False if the BML was not found.</returns>
-        </member>
-        <member name="M:BlueQuark.Behaviour.PlayRandom(BlueQuark.Mood,System.Collections.Generic.Dictionary{System.String,System.String},BlueQuark.BMLComposition,BlueQuark.BMLContext)">
-            <summary>
-            Launches a random behaviour that belongs to a certain category.
-            </summary>
-            <param name="iType">The FacialExpression to look for.</param>
-            <param name="iParams">Parameters for the execution of the behaviour. The keys should be the parameter's names and the value the target value of the attribute.</param>
-            <param name="iComposition">Composition type of the behaviour.</param>
-            <param name="iContext">The context from which a random BML should be executed. Cand be from current APP, from the OS or both.</param>
-            <returns>False if no behaviour was found for the category, true if one was successfuly started.</returns>
-        </member>
-        <member name="M:BlueQuark.Behaviour.PlayRandom(System.String,System.Collections.Generic.Dictionary{System.String,System.String},BlueQuark.BMLComposition,BlueQuark.BMLContext)">
-            <summary>
-            Launches a random behaviour that belongs to a certain category.
-            </summary>
-            <param name="iCategory">The Category type to search in.</param>
-            <param name="iParams">Parameters for the execution of the behaviour. The keys should be the parameter's names and the value the target value of the attribute.</param>
-            <param name="iComposition">Composition type of the behaviour.</param>
-            <param name="iContext">The context from which a random BML should be executed. Cand be from current APP, from the OS or both.</param>
-            <returns>False if no behaviour was found for the category, true if one was successfuly started.</returns>
-        </member>
-        <member name="M:BlueQuark.Behaviour.Load(System.String)">
-            <summary>
-            Loads a single BML from current App.
-            </summary>
-            <param name="iFileName">The full name of the BML to load (e.g. "bml.xml").</param>
-            <returns>False if file is not found or doesn't exist.</returns>
-        </member>
-        <member name="M:BlueQuark.Behaviour.LoadAll(BlueQuark.Context)">
-            <summary>
-            Loads all BML from current App.
-            </summary>
         </member>
         <member name="M:BlueQuark.Behaviour.Stop">
             <summary>
@@ -4925,7 +4868,7 @@
         </member>
         <member name="T:BlueQuark.Mood">
             <summary>
-            Represents different expressions that Buddy can show
+            Represents different expressions that Buddy can show.
             </summary>
         </member>
         <member name="F:BlueQuark.Mood.NEUTRAL">
@@ -4986,41 +4929,6 @@
         <member name="F:BlueQuark.Mood.LOVE">
             <summary>
             In love !
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Cognitive">
-            <summary>
-            High valuable module containing recognition, AI and memory components.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Cognitive.InternalState">
-            <summary>
-            Buddy's internal state of mind.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Cognitive.GoogleCloudVision">
-            <summary>
-            Access to the google cloud vision feature
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Cognitive.Localization">
-            <summary>
-            Localization tool
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Cognitive.RoomDetector">
-            <summary>
-            Localization tool
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Cognitive.TensorFlow">
-            <summary>
-            Feature to make prediction on available models
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Cognitive.FaceRecognizer">
-            <summary>
-            Feature to detect short range Waving
             </summary>
         </member>
         <member name="M:BlueQuark.InternalState.ComputeBias">
@@ -5159,6 +5067,51 @@
             </summary>
             <param name="iColor">The color to set</param>
         </member>
+        <member name="T:BlueQuark.GraphPlotToast">
+            <summary>
+            Represents a graph plot UI element.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.GraphPlotToast.With(System.Func{System.Single[]},System.Func{System.Collections.Generic.List{System.Single[]}})">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iOnUpdateAbscissa">Function called to update graph X coordinate points</param>
+            <param name="iOnUpdateOrdinates">Function called to update graph Y coordinate points</param>
+            <returns>The toast GUID</returns>
+        </member>
+        <member name="M:BlueQuark.GraphPlotToast.With(System.Func{System.Single[]},System.Func{System.Collections.Generic.List{System.Single[]}},System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iOnUpdateAbscissa">Function called to update graph X coordinate points</param>
+            <param name="iOnUpdateOrdinates">Function called to update graph Y coordinate points</param>
+            <param name="iOnClick">Called when the image is clicked</param>
+            <returns>The toast GUID</returns>
+        </member>
+        <member name="M:BlueQuark.GraphPlotToast.With(System.Func{System.Single[]},System.Func{System.Collections.Generic.List{System.Single[]}},System.Action,System.Action,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iOnUpdateAbscissa">Function called to update graph X coordinate points</param>
+            <param name="iOnUpdateOrdinates">Function called to update graph Y coordinate points</param>
+            <param name="iOnClick">Called when the image is clicked</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>The toast GUID</returns>
+        </member>
+        <member name="M:BlueQuark.GraphPlotToast.With(System.Func{System.Single[]},System.Func{System.Collections.Generic.List{System.Single[]}},System.Action,System.Action,System.Action,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iOnUpdateAbscissa">Function called to update graph X coordinate points</param>
+            <param name="iOnUpdateOrdinates">Function called to update graph Y coordinate points</param>
+            <param name="iOnClick">Called when the image is clicked</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
+            <returns>The toast GUID</returns>
+        </member>
         <member name="T:BlueQuark.VideoStreamToast">
             <summary>
             Represents a full screen video stream UI element.
@@ -5245,6 +5198,11 @@
             Sets the left label.
             </summary>
             <param name="iText">The text to display</param>
+        </member>
+        <member name="T:BlueQuark.BluetoothDevice">
+            <summary>
+            
+            </summary>
         </member>
         <member name="T:BlueQuark.ReminderManager">
             <summary>
@@ -7052,12 +7010,17 @@
         </member>
         <member name="P:BlueQuark.Photograph.TimeStamp">
             <summary>
-            The date time when the photo has been taken
+            The date time when the photo has been created.
             </summary>
         </member>
         <member name="P:BlueQuark.Photograph.Image">
             <summary>
-            The photo as sprite
+            Content of the photograph.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Photograph.Name">
+            <summary>
+            Name of the photo.
             </summary>
         </member>
         <member name="M:BlueQuark.Photograph.Update(UnityEngine.Sprite)">
@@ -7091,6 +7054,13 @@
             <summary>
             Delete the local version of the photo
             </summary>
+        </member>
+        <member name="M:BlueQuark.Photograph.CreateFromFile(System.String)">
+            <summary>
+            Creates a photograph object from the given full path.
+            </summary>
+            <param name="iFullpath">Full path (with file and extension) to the image file</param>
+            <returns></returns>
         </member>
         <member name="T:BlueQuark.Language">
             <summary>
@@ -7384,9 +7354,6 @@
             <summary>
             Wheels (right and left) of the robot.
             </summary>
-            <summary>
-            Wheels (right and left) of the robot.
-            </summary>
         </member>
         <member name="F:BlueQuark.Wheels.ENTRAX">
             <summary>
@@ -7516,6 +7483,17 @@
             <summary>
             Stops wheels.
             </summary>
+        </member>
+        <member name="M:BlueQuark.Wheels.SetPIDs(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Set the proportional–integral–derivative controller. It is a control loop feedback mechanism.
+            </summary>
+            <param name="iKpLin">Term P is proportional to the current value of the SP − PV error e(t)</param>
+            <param name="iKiLin">Term I accounts for past values of the SP − PV error and integrates them over time to produce the I ter</param>
+            <param name="iKdLin">erm D is a best estimate of the future trend of the SP − PV error, based on its current rate of change</param>
+            <param name="iKpAng">Term P is proportional to the current value of the SP − PV error e(t)</param>
+            <param name="iKiAng">Term I accounts for past values of the SP − PV error and integrates them over time to produce the I ter</param>
+            <param name="iKdAng">erm D is a best estimate of the future trend of the SP − PV error, based on its current rate of change</param>
         </member>
         <member name="T:BlueQuark.AAppData">
             <summary>
@@ -7812,12 +7790,12 @@
         </member>
         <member name="P:BlueQuark.AppManager.IsBusy">
             <summary>
-            Returns true if manager is currently loading or running an app
+            Returns true if the manager is currently loading or running an app.
             </summary>
         </member>
         <member name="P:BlueQuark.AppManager.CurrentApp">
             <summary>
-            The current running application
+            The current running application.
             </summary>
         </member>
         <member name="P:BlueQuark.AppManager.InstalledApps">
@@ -7986,9 +7964,6 @@
             </summary>
         </member>
         <member name="T:BlueQuark.Bluetooth">
-            <summary>
-            Bluetooth component of the robot
-            </summary>
             <summary>
             Wireless technology to connect with other close devices.
             </summary>
@@ -8378,6 +8353,31 @@
             Feature to detect short range Waving
             </summary>
         </member>
+        <member name="P:BlueQuark.Perception.GoogleCloudVision">
+            <summary>
+            Access to the google cloud vision feature
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Perception.Localization">
+            <summary>
+            Localization tool
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Perception.RoomDetector">
+            <summary>
+            Localization tool
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Perception.TensorFlow">
+            <summary>
+            Feature to make prediction on available models
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Perception.FaceRecognizer">
+            <summary>
+            Feature to detect short range Waving
+            </summary>
+        </member>
         <member name="T:BlueQuark.QRCodeDetector">
             <summary>
             QR code detection algorithm.
@@ -8594,6 +8594,18 @@
             <param name="iPassword">The password to set. Must be a 4 digits string</param>
             <returns>True if the password was correctly setted</returns>
         </member>
+        <member name="M:BlueQuark.UserManager.GetUserPhotographs">
+            <summary>
+            Gets all current user photographes saved by the running app.
+            </summary>
+            <returns>Photographes taken by the running app concerning the current user</returns>
+        </member>
+        <member name="M:BlueQuark.UserManager.GetPhotographs">
+            <summary>
+            Gets all photographes saved by the running app.
+            </summary>
+            <returns>Photographes taken by the running app</returns>
+        </member>
         <member name="T:BlueQuark.Gender">
             <summary>
             Gender of the user
@@ -8763,7 +8775,7 @@
         </member>
         <member name="M:BlueQuark.Resources.GetRawFullPath(System.String,BlueQuark.Context)">
             <summary>
-            Allow you to retrieve the full path from the name of the raw file / directory
+            Retrieves the full path from the name of the raw file / directory
             </summary>
             <param name="iFilename">Name of the file / directory</param>
             <param name="iContext">The context corresponding to the path to find</param>
@@ -9650,6 +9662,11 @@
         <member name="T:BlueQuark.Footer">
             <summary>
             The footer is a UI component handle bottom screen display. You can add custom widget or add builtin FWidgets.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Footer.Hide">
+            <summary>
+            Remove all added widgets and hide the Footer.
             </summary>
         </member>
         <member name="M:BlueQuark.Footer.AddOnLeft(UnityEngine.GameObject)">
@@ -12056,17 +12073,17 @@
             Speech recognition mode.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionMode.OFFLINE_ONLY">
+        <member name="F:BlueQuark.SpeechRecognitionMode.GRAMMAR_ONLY">
             <summary>
             Based on VoCon (Nuance) API.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionMode.ONLINE_ONLY">
+        <member name="F:BlueQuark.SpeechRecognitionMode.FREESPEECH_ONLY">
             <summary>
-            Based on Google Speech API
+            Based on Google Speech API.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionMode.OFFLINE_THEN_ONLINE">
+        <member name="F:BlueQuark.SpeechRecognitionMode.GRAMMAR_THEN_FREESPEECH">
             <summary>
             Based on VoCon grammar system. If no result, a Google Speech API request will be sended.
             </summary>

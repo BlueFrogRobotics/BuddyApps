@@ -112,7 +112,7 @@ namespace BuddyApp.Shared
             Buddy.Vocal.OnEndListening.Add((iInput) => { VoconBest(iInput); });
             Buddy.Vocal.OnListeningEvent.Add((iInput) => { EventVocon(iInput); });
 
-            Buddy.Vocal.Listen(NameVoconGrammarFile, SpeechRecognitionMode.OFFLINE_ONLY);
+            Buddy.Vocal.Listen(NameVoconGrammarFile, SpeechRecognitionMode.GRAMMAR_ONLY);
             mTimer = 0.0f;
             mListening = false;
         }
@@ -318,12 +318,12 @@ namespace BuddyApp.Shared
         {
             if (!BmlIsLaunch) {
                 if (RandomBML) {
-                    if (!Buddy.Behaviour.PlayRandom(iBMLName))
+                    if (!Buddy.Behaviour.Interpreter.RunRandom(iBMLName))
                         ExtLog.E(ExtLogModule.APP, GetType(),
                             LogStatus.FAILURE, LogInfo.NOT_FOUND,
                             "This category of BML doesn't exist in your app and in the OS");
                 } else {
-                    if (!Buddy.Behaviour.PlayRandom(iBMLName))
+                    if (!Buddy.Behaviour.Interpreter.RunRandom(iBMLName))
                         ExtLog.E(ExtLogModule.APP, GetType(),
                             LogStatus.FAILURE, LogInfo.NOT_FOUND, 
                             "This BML doesn't exist in your app and in the OS");

@@ -60,7 +60,7 @@ namespace BuddyApp.Guardian
 			mHeadControllerWindow.RawBuddyFaceImage.texture = Buddy.Behaviour.Face.Texture;
 
 			if (mGoBack && mHeadControllerWindow.HeadControlAnimator.GetCurrentAnimatorStateInfo(0).IsName("WindowHeadController_Gardien_Off")) {
-				animator.SetInteger("DebugMode", -1);
+				iAnimator.SetInteger("DebugMode", -1);
 				mGoBack = false;
 			}
 		}

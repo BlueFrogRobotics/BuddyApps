@@ -80,7 +80,7 @@ namespace BuddyApp.Guardian
                 }
 
                 if (mHasInitSlider && mDebugMovementAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack) {
-                    animator.SetInteger("DebugMode", -1);
+                    iAnimator.SetInteger("DebugMode", -1);
 
                     mGoBack = false;
                     mDebugMovementWindow.IcoMouv.enabled = false;

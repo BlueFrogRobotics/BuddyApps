@@ -93,7 +93,7 @@ namespace BuddyApp.Guardian
 
                 if (mHasInitSlider && mDebugSoundAnimator.GetCurrentAnimatorStateInfo(0).IsName("Window_Debugs_Off") && mGoBack)
                 {
-                    animator.SetInteger("DebugMode", -1);
+                    iAnimator.SetInteger("DebugMode", -1);
                     GuardianData.Instance.SoundDetectionThreshold = (int)mGauge.SlidingValue;
                     mGoBack = false;
                     mDebugSoundWindow.Ico.enabled = false;
