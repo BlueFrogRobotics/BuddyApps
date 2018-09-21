@@ -69,10 +69,10 @@ namespace BuddyApp.Tutorial
 
 			);
 
-			// While showing the toast, the robot also say a random sentence from the dico
+			// While showing the toast, the robot also says a random sentence from the dico
 			// to give the instructions, then listen to the user's answer
 			Buddy.Vocal.SayAndListen(
-				Buddy.Resources.GetRandomString("quit"),
+				Buddy.Resources.GetString("quit"),
 				null,
 				(iInput) => { OnEndListen(iInput); });
 		}
