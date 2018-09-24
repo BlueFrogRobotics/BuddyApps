@@ -342,6 +342,30 @@
             Stops any running hinge command.
             </summary>
         </member>
+        <member name="T:BlueQuark.Internal.ABehaviourStructure">
+            <summary>
+            Base class for Behaviour Instruction and Algorithm. A structure is executed by the BehaviourInterpreter.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.ABehaviourStructure.IsBusy">
+            <summary>
+            Returns true if the current structure is currently executed.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.ABehaviourStructure.Accept(BlueQuark.ISimpleBehaviourStructureVisitor)">
+            <summary>
+            Visitor design pattern method. Use that to pass through the structure with the ISimpleBehaviourStructureVisitor.
+            </summary>
+            <param name="iVisitor">The visitor to visit</param>
+            <seealso cref="T:BlueQuark.ISimpleBehaviourStructureVisitor"/>>
+        </member>
+        <member name="M:BlueQuark.Internal.ABehaviourStructure.StartCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Starts a coroutine.
+            </summary>
+            <param name="iFunc">The routine to start</param>
+            <returns>The started coroutine</returns>
+        </member>
         <member name="T:BlueQuark.Internal.IdleFaceState">
             <summary>
             Base class for state machine's state.
@@ -4297,8 +4321,695 @@
             No sound is playing
             </summary>
         </member>
+        <member name="T:BlueQuark.BehaviourInterpreter">
+            <summary>
+            Interpretes and run Behaviour Algorithms which are sequential or parallel instructions to play robot behaviours.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.BehaviourInterpreter.IsBusy">
+            <summary>
+            Returns true if an algorithm is running.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Boolean)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Boolean)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[])">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Action)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Boolean,System.Action)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Action)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Action)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+            <summary>
+            Run the specified behaviour algorithm filepath.
+            </summary>
+            <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Boolean)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Boolean)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[])">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Action)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Boolean,System.Action)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Action)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Action)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+            <summary>
+            Run the specified behaviour algorithm.
+            </summary>
+            <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
+            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
+            <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,System.Boolean)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iConsidereInternalMood">Does the algorithm considere the local</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,System.Action)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,System.Boolean,System.Action)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iConsidereInternalMood">Does the algorithm considere the local</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,System.Boolean)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
+            <param name="iConsidereInternalMood">Does the algorithm considere the local</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,System.Action)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,System.Boolean,System.Action)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
+            <param name="iConsidereInternalMood">Does the algorithm considere the local</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourCommitment)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iBehaviourCommitment">Engagement status of the robot</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourCommitment,System.Boolean)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iBehaviourCommitment">Engagement status of the robot</param>
+            <param name="iConsidereInternalMood">Does the algorithm considere the local</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourCommitment,System.Action)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iBehaviourCommitment">Engagement status of the robot</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourCommitment,System.Boolean,System.Action)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iBehaviourCommitment">Engagement status of the robot</param>
+            <param name="iConsidereInternalMood">Does the algorithm considere the local</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,BlueQuark.BehaviourCommitment)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
+            <param name="iBehaviourCommitment">Engagement status of the robot</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,BlueQuark.BehaviourCommitment,System.Boolean)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
+            <param name="iBehaviourCommitment">Engagement status of the robot</param>
+            <param name="iConsidereInternalMood">Does the algorithm considere the local</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,BlueQuark.BehaviourCommitment,System.Action)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
+            <param name="iBehaviourCommitment">Engagement status of the robot</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,BlueQuark.BehaviourCommitment,System.Boolean,System.Action)">
+            <summary>
+            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            </summary>
+            <param name="iMood">General mood of the behaviour</param>
+            <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
+            <param name="iBehaviourCommitment">Engagement status of the robot</param>
+            <param name="iConsidereInternalMood">Does the algorithm considere the local</param>
+            <param name="iOnEndRun">Callback called at the end of the algorithm</param>
+            <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.Stop">
+            <summary>
+            Stops the running algorithm and empty the algorithm queue.
+            </summary>
+        </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(System.String)">
-            TMP
+            TMP ==> TO REMOVE
+        </member>
+        <member name="T:BlueQuark.BehaviourCommitment">
+            <summary>
+            Represents the robot human interaction engagement.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BehaviourCommitment.UNKNOWN">
+            <summary>
+            Unknown state of engagement.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BehaviourCommitment.ENGAGED">
+            <summary>
+            The robot is considered as fully engaged with a human.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BehaviourCommitment.NOT_ENGAGED">
+            <summary>
+            The robot is considered as not engaged.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.BehaviourMovementPattern">
+            <summary>
+            Represents a kind of motion.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BehaviourMovementPattern.HEAD">
+            <summary>
+            Head motion only
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BehaviourMovementPattern.BODY_ROTATION">
+            <summary>
+            Robot body rotation (Theta only)
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BehaviourMovementPattern.BODY_DISPLACEMENT">
+            <summary>
+            Full Motion (X, Y, theta, head)
+            </summary>
+        </member>
+        <member name="T:BlueQuark.BehaviourInstructionVariable`1">
+            <summary>
+            Represents a named variable for a specific instruction. 
+            </summary>
+            <typeparam name="T">Type of the data of the variable</typeparam>
+        </member>
+        <member name="P:BlueQuark.BehaviourInstructionVariable`1.Name">
+            <summary>
+            Name of the variable.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.BehaviourInstructionVariable`1.Value">
+            <summary>
+            Value of the variable.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.BehaviourAlgorithmVariable">
+            <summary>
+            Represents a named variable given to a Behaviour algorithm. 
+            </summary>
+        </member>
+        <member name="P:BlueQuark.BehaviourAlgorithmVariable.Name">
+            <summary>
+            The name of the variable.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.BehaviourAlgorithmVariable.Value">
+            <summary>
+            The value of the variable.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.BehaviourAlgorithm.Instructions">
+            <summary>
+            Instructions of the algorithms. Some instructions can contains some sub instructions.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.BehaviourAlgorithm.Accept(BlueQuark.ISimpleBehaviourStructureVisitor)">
+            <summary>
+            Visitor design pattern method. Use that to pass through the structure with the ISimpleBehaviourStructureVisitor.
+            </summary>
+            <param name="iVisitor">The visitor to visit</param>
+            <seealso cref="T:BlueQuark.ISimpleBehaviourStructureVisitor"/>>
+        </member>
+        <member name="M:BlueQuark.BehaviourAlgorithm.#ctor">
+            <summary>
+            Creates a new behaviour algorithm. Can be serialize for further usages.
+            </summary>
         </member>
         <member name="T:BlueQuark.Behaviour">
             <summary>
@@ -4430,17 +5141,17 @@
             Returns true if the 
             </summary>
         </member>
-        <member name="P:BlueQuark.Face.OnClickMouth">
+        <member name="P:BlueQuark.Face.OnTouchMouth">
             <summary>
             Set of callback called when mouth is clicked by the user.
             </summary>
         </member>
-        <member name="P:BlueQuark.Face.OnClickLeftEye">
+        <member name="P:BlueQuark.Face.OnTouchLeftEye">
             <summary>
             Set of callback called when left eye is clicked by the user.
             </summary>
         </member>
-        <member name="P:BlueQuark.Face.OnClickRightEye">
+        <member name="P:BlueQuark.Face.OnTouchRightEye">
             <summary>
             Set of callback called when right eye is clicked by the user.
             </summary>
@@ -6663,7 +7374,7 @@
             <summary>
             April tag detected via AprilTagDetector
             </summary>
-            <seealso cref="T:BlueQuark.AprilTagsDetector"/>>
+            <seealso cref="T:BlueQuark.AprilTagDetector"/>>
         </member>
         <member name="P:BlueQuark.AprilTagEntity.ID">
             <summary>
@@ -6720,12 +7431,12 @@
             <param name="iFrame">The frame where the face belong</param>
             <returns>The estimated emotion</returns>
         </member>
-        <member name="T:BlueQuark.AprilTagsDetector">
+        <member name="T:BlueQuark.AprilTagDetector">
             <summary>
             April tags detection. Based on : <see href="https://april.eecs.umich.edu/software/apriltag/">Article</see>
             </summary>
         </member>
-        <member name="P:BlueQuark.AprilTagsDetector.OnDetect">
+        <member name="P:BlueQuark.AprilTagDetector.OnDetect">
             <summary>
             Called when any april tags face the camera of the robot. Remove all callback to stop the algorithm.
             </summary>
@@ -8338,7 +9049,7 @@
             Use this feature to callback if Buddy is kidnapped
             </summary>
         </member>
-        <member name="P:BlueQuark.Perception.AprilTagsDetector">
+        <member name="P:BlueQuark.Perception.AprilTagDetector">
             <summary>
             Feature to detect AprilTags
             </summary>
@@ -11079,7 +11790,7 @@
         </member>
         <member name="M:BlueQuark.Utils.UnserializeXML``1(System.String)">
             <summary>
-            Deserializes an xml file into an object list
+            Deserializes an xml file into an object.
             </summary>
             <typeparam name="T">Type of the objet to deserialize</typeparam>
             <param name="iPath">Path to the file</param>
