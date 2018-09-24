@@ -19,6 +19,9 @@ namespace BuddyApp.Guardian
         private FButton mLeftButton;
         private FButton mValidateButton;
 
+        private bool mToastVisible;
+        private float mTimer;
+
         private List<ButtonContent> mButtonContents = new List<ButtonContent>();
 
         private class ButtonContent
@@ -61,6 +64,8 @@ namespace BuddyApp.Guardian
             GuardianData.Instance.FireDebug = false;
 
             mHasSwitchState = false;
+            mToastVisible = false;
+            mTimer = 0.0F;
 
             if (GuardianData.Instance.FirstRunParam)
             {
@@ -91,6 +96,49 @@ namespace BuddyApp.Guardian
             //mButtonContent.Add(Buddy.Resources.GetString("firedetection"), "FireDetection");
             //mButtonContent.Add(Buddy.Resources.GetString("generalparameters"), "GeneralParameters");
 
+            
+        }
+
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            GuardianData.Instance.FirstRunParam = true;
+            mTimer += Time.deltaTime;
+            if(mTimer>1.0F && !mToastVisible)
+            {
+                ShowToast();
+                mToastVisible = true;
+            }
+            if (!mHasSwitchState)
+            {
+                if (GuardianData.Instance.HeadOrientation)
+                {
+                    SwitchState(iAnimator, ParameterWindow.HEAD_ORIENTATION);
+                }
+                else if (GuardianData.Instance.MovementDebug)
+                {
+                    SwitchState(iAnimator, ParameterWindow.MOVEMENT);
+                }
+                else if (GuardianData.Instance.SoundDebug)
+                {
+                    SwitchState(iAnimator, ParameterWindow.SOUND);
+                }
+                else if (GuardianData.Instance.FireDebug)
+                {
+                    SwitchState(iAnimator, ParameterWindow.FIRE);
+                }
+            }
+        }
+
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Header.HideTitle();
+            Buddy.GUI.Footer.Remove<FButton>(mLeftButton);
+            Buddy.GUI.Footer.Remove<FButton>(mValidateButton);
+        }
+
+        private void ShowToast()
+        {
             mButtonContents.Clear();
             mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("movementdetection"), "MovementDetection", "os_icon_agent"));
             mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("sounddetection"), "SoundDetection", "os_icon_sound_on"));
@@ -147,38 +195,6 @@ namespace BuddyApp.Guardian
             //lButton.SetStrokeColor(Utils.BUDDY_COLOR);
 
             mValidateButton.OnClick.Add(() => { Trigger("NextStep"); });
-        }
-
-        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-        {
-            GuardianData.Instance.FirstRunParam = true;
-            if (!mHasSwitchState)
-            {
-                if (GuardianData.Instance.HeadOrientation)
-                {
-                    SwitchState(iAnimator, ParameterWindow.HEAD_ORIENTATION);
-                }
-                else if (GuardianData.Instance.MovementDebug)
-                {
-                    SwitchState(iAnimator, ParameterWindow.MOVEMENT);
-                }
-                else if (GuardianData.Instance.SoundDebug)
-                {
-                    SwitchState(iAnimator, ParameterWindow.SOUND);
-                }
-                else if (GuardianData.Instance.FireDebug)
-                {
-                    SwitchState(iAnimator, ParameterWindow.FIRE);
-                }
-            }
-        }
-
-        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-        {
-            Buddy.GUI.Toaster.Hide();
-            Buddy.GUI.Header.HideTitle();
-            Buddy.GUI.Footer.Remove<FButton>(mLeftButton);
-            Buddy.GUI.Footer.Remove<FButton>(mValidateButton);
         }
 
         private void SwitchState(Animator iAnimator, ParameterWindow iParamWindow)

@@ -45,6 +45,7 @@ namespace BuddyApp.Guardian
                 mButtonTestSensibility.SetLabel(Buddy.Resources.GetString("testsensibility"));
                 mButtonTestSensibility.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_cog"));
                 mButtonTestSensibility.SetActive(mToggleFireDetection.ToggleValue);
+                mButtonTestSensibility.OnClick.Add(() => { SaveParam(); Trigger("Test"); Buddy.GUI.Toaster.Hide(); });
                 //iBuilder.CreateWidget<TText>().SetLabel("test2");
             },
             () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("cancel"),

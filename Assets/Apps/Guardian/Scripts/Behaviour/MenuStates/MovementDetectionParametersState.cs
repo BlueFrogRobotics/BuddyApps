@@ -50,7 +50,7 @@ namespace BuddyApp.Guardian
                 mButton.SetLabel(Buddy.Resources.GetString("testsensibility"));
                 mButton.SetActive(mSliderToggle.ToggleValue);
                 mButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_cog"));
-                mButton.OnClick.Add(() => { Trigger("Test"); Buddy.GUI.Toaster.Hide(); });
+                mButton.OnClick.Add(() => { SaveParam(); Trigger("Test"); Buddy.GUI.Toaster.Hide(); });
 
                 mToggleKidnapping = iBuilder.CreateWidget<TToggle>();
                 mToggleKidnapping.OnToggle.Add((iVal) => Debug.Log(iVal));

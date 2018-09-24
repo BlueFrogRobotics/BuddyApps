@@ -39,7 +39,7 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			if (Buddy.Vocal.IsSpeaking|| mStartTimer)
+			if (/*Buddy.Vocal.IsSpeaking|| */mStartTimer)
 				return;
 
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("startdetectiontimer"));

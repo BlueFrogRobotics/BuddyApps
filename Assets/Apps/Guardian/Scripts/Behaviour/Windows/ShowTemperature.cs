@@ -33,8 +33,8 @@ namespace BuddyApp.Guardian
         private Image icoFire;
 
         private List<ColorZone> zones = new List<ColorZone>();
-        private int mWidth = 4;
-        private int mHeight = 4;
+        private int mWidth = 8;
+        private int mHeight = 8;
         private int mCountChange = 0;
         private Mat mGrid;
         private float[] mTemperature;
@@ -70,28 +70,29 @@ namespace BuddyApp.Guardian
         // Update is called once per frame
         void Update()
         {
+
         }
 
         public void UpdateTexture()
         {
-            if (mTemperature != null)
-            {
-                mGrid = temperatureToColor();
+            //if (mTemperature != null)
+            //{
+            //    mGrid = TemperatureToColor();
 
-				//Flip
-				Mat mMat = new Mat();
-				Core.flip(mGrid, mMat, 1);
-				Utils.MatToTexture2D(mMat, mTexture);
-                if (Interpolation)
-                    mTexture.filterMode = FilterMode.Trilinear;
-                else
-                    mTexture.filterMode = FilterMode.Point;
-                mTexture.wrapMode = TextureWrapMode.Clamp;
-            }
-            raw.texture = mTexture;
+            //    //Flip
+            //    Mat mMat = new Mat();
+            //    Core.flip(mGrid, mMat, 1);
+            //    Utils.MatToTexture2D(mMat, mTexture);
+            //    if (Interpolation)
+            //        mTexture.filterMode = FilterMode.Trilinear;
+            //    else
+            //        mTexture.filterMode = FilterMode.Point;
+            //    mTexture.wrapMode = TextureWrapMode.Clamp;
+            //}
+            //raw.texture = mTexture;
         }
 
-        public void FillTemperature(int[] lLocalThermic)
+        public void FillTemperature(float[] lLocalThermic)
         {
             string test = "";
             if (lLocalThermic != null)
@@ -102,6 +103,7 @@ namespace BuddyApp.Guardian
                     test += " " + mTemperature[i];
                 }
             }
+            //Debug.Log("test: "+test);
         }
 
         public void setTemperature(int num, float temp)
@@ -113,8 +115,9 @@ namespace BuddyApp.Guardian
             }
         }
 
-        private Mat temperatureToColor()
+        public Mat TemperatureToColor()
         {
+
             Mat lColorTemp = new Mat(new Size(mWidth, mHeight), CvType.CV_8SC3);
             mColorGrid = new byte[3 * mWidth * mHeight];
             for (int i = 0; i < mWidth * mHeight; i++)
@@ -154,6 +157,10 @@ namespace BuddyApp.Guardian
             }
 
             lColorTemp.put(0, 0, mColorGrid);
+            if (lColorTemp == null)
+                Debug.Log("c est nul!!!");
+            else
+                Debug.Log("c est PAS nul!!!");
             return lColorTemp;
         }
 

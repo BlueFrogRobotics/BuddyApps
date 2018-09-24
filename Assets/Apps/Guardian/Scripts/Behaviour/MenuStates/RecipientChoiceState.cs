@@ -114,7 +114,7 @@ namespace BuddyApp.Guardian
 
             //lTrash.SetStrokeColor(Color.red);
 
-            mLeftButton.OnClick.Add(() => { });
+            mLeftButton.OnClick.Add(() => { Trigger("GeneralParameters"); });
 
 
 
@@ -129,7 +129,7 @@ namespace BuddyApp.Guardian
 
             //lButton.SetStrokeColor(Utils.BUDDY_COLOR);
 
-            mValidateButton.OnClick.Add(() => { Trigger("GeneralParameters"); });
+            mValidateButton.OnClick.Add(() => { SaveChoice(); Trigger("GeneralParameters"); });
 
         }
 
@@ -140,10 +140,15 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            GuardianData.Instance.ContactId = mContacts.Recipients.IndexOf(mSelectedContact);
             CloseFooter();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Header.HideTitle();
+        }
+
+        private void SaveChoice()
+        {
+            GuardianData.Instance.ContactId = mContacts.Recipients.IndexOf(mSelectedContact);
+
         }
 
         private void CloseFooter()

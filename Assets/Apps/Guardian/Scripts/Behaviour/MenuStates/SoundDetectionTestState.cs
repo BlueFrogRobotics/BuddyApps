@@ -25,6 +25,8 @@ namespace BuddyApp.Guardian
         private Queue<float> mSoundIntensities;
         private int mNbSoundPics = 50;
         private float mTimer;
+        private float mTimerToast = 0.0F;
+        private bool mToasterVisible;
 
 
         public override void Start()
@@ -38,11 +40,12 @@ namespace BuddyApp.Guardian
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
             //	() => { Trigger("NextStep"); }, 
             //	null);
-            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("selectsensibility"));
-            //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
             mNoiseDetection = Buddy.Perception.NoiseDetector;
             mNoiseDetection.OnDetect.AddP(OnNewSound, 0.0F);
             mTimer = 0.0F;
+            mTimerToast = 0.0F;
+            mToasterVisible = false;
+            //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
             mIntensity = 0.0F;
             mTexture = new Texture2D(640, 480);
             mSoundIntensities = new Queue<float>();
@@ -51,34 +54,23 @@ namespace BuddyApp.Guardian
                 mSoundIntensities.Enqueue(0.0F);
             }
 
-            Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTexture);
-
-            mSlider = Buddy.GUI.Footer.CreateOnMiddle<FLabeledHorizontalSlider>();
-            mSlider.SlidingValue = GuardianData.Instance.SoundDetectionThreshold;
-            mLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
-
-            mLeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
-
-            mLeftButton.SetBackgroundColor(Color.white);
-            mLeftButton.SetIconColor(Color.black);
-            mLeftButton.OnClick.Add(() => { Buddy.GUI.Toaster.Hide(); CloseFooter(); Trigger("SoundDetection"); });
-            mValidateButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
-
-            mValidateButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
-
-            mValidateButton.SetBackgroundColor(Utils.BUDDY_COLOR);
-            mValidateButton.SetIconColor(Color.white);
-            mValidateButton.OnClick.Add(() => { SaveAndQuit(); });
+            
             
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
-            if (mTimer > 0.04F)
+            mTimerToast += Time.deltaTime;
+            if (mTimer > 0.04F && mToasterVisible)
             {
                 mTimer = 0.0F;
                 DisplaySound();
+            }
+            if (!mToasterVisible && mTimerToast > 1.0F)
+            {
+                ShowToaster();
+                mToasterVisible = true;
             }
         }
 
@@ -115,6 +107,29 @@ namespace BuddyApp.Guardian
             //}
 
             return true;
+        }
+
+        private void ShowToaster()
+        {
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("selectsensibility"));
+            Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTexture);
+
+            mSlider = Buddy.GUI.Footer.CreateOnMiddle<FLabeledHorizontalSlider>();
+            mSlider.SlidingValue = GuardianData.Instance.SoundDetectionThreshold;
+            mLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+
+            mLeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
+
+            mLeftButton.SetBackgroundColor(Color.white);
+            mLeftButton.SetIconColor(Color.black);
+            mLeftButton.OnClick.Add(() => { Buddy.GUI.Toaster.Hide(); CloseFooter(); Trigger("SoundDetection"); });
+            mValidateButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
+
+            mValidateButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
+
+            mValidateButton.SetBackgroundColor(Utils.BUDDY_COLOR);
+            mValidateButton.SetIconColor(Color.white);
+            mValidateButton.OnClick.Add(() => { SaveAndQuit(); });
         }
 
         private void DisplaySound()

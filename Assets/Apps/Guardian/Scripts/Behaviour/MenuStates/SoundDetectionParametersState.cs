@@ -19,6 +19,9 @@ namespace BuddyApp.Guardian
         private TSliderToggle mSliderToggle;
         private TButton mButton;
 
+        private float mTimer = 0.0F;
+        private bool mToasterVisible;
+
 
         public override void Start()
         {
@@ -28,11 +31,33 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
-
+            mToasterVisible = false;
+            mTimer = 0.0F;
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
             //	() => { Trigger("NextStep"); }, 
             //	null);
+            
+
+
+        }
+
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            mTimer += Time.deltaTime;
+            if(!mToasterVisible && mTimer > 1.0F)
+            {
+                ShowToaster();
+                mToasterVisible = true;
+            }
+        }
+
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            Buddy.GUI.Header.HideTitle();
+        }
+
+        private void ShowToaster()
+        {
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("sounddetection"));
             //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
@@ -55,18 +80,6 @@ namespace BuddyApp.Guardian
             () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("cancel"),
             () => { SaveParam(); Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("save")
             );
-
-
-        }
-
-        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-        {
-
-        }
-
-        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-        {
-            Buddy.GUI.Header.HideTitle();
         }
 
         private void SaveParam()

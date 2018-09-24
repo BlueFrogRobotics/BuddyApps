@@ -54,11 +54,11 @@ namespace BuddyApp.Guardian
         public bool HasLinkedDetector { get; private set; }
 
         
-        public MailAddress fromAddress = new MailAddress("notif.buddy@gmail.com", "notif");
-        MailAddress toAddress = new MailAddress("wa@bluefrogrobotics.com", "walid");
-        const string fromPassword = "autruchemagiquebuddy";
-        const string subject = "Subject";
-        const string body = "Body";
+        //public MailAddress fromAddress = new MailAddress("notif.buddy@gmail.com", "notif");
+        //MailAddress toAddress = new MailAddress("wa@bluefrogrobotics.com", "walid");
+        //const string fromPassword = "autruchemagiquebuddy";
+        //const string subject = "Subject";
+        //const string body = "Body";
 
         
 		/// <summary>
@@ -84,9 +84,9 @@ namespace BuddyApp.Guardian
 		{
 			Volume = (int)(Buddy.Actuators.Speakers.Volume * 100F);
             Init();
-            EMail mMail = new EMail("sujet", "truc");
-            mMail.AddTo("wa@bluefrogrobotics.com");
-            Debug.Log("envoi du mail");
+            //EMail mMail = new EMail("sujet", "truc");
+            //mMail.AddTo("wa@bluefrogrobotics.com");
+            //Debug.Log("envoi du mail");
             //Buddy.WebServices.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, mMail);
             //SmtpClient smtp = new SmtpClient
             //{
@@ -133,7 +133,7 @@ namespace BuddyApp.Guardian
 
         private void Update()
         {
-            Debug.Log("mail busy: " + Buddy.WebServices.EMailSender.IsBusy);
+            //Debug.Log("mail busy: " + Buddy.WebServices.EMailSender.IsBusy);
         }
 
         /// <summary>
@@ -150,15 +150,21 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public void LinkDetectorsEvents()
 		{
+            Debug.Log("link detector events");
             MotionDetectorParameter lMotionParam = new MotionDetectorParameter();
             lMotionParam.SensibilityThreshold = GuardianData.Instance.MovementDetectionThreshold * MAX_MOVEMENT_THRESHOLD / 100;
-            lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240);
+            lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480);
             HasLinkedDetector = true;
-            mMotionDetection.OnDetect.AddP(OnMovementDetected, lMotionParam);
-            mNoiseDetection.OnDetect.AddP(OnSoundDetected, 0.0F);
-            mFireDetection.OnDetect.AddP(OnThermalDetected, 50);
-            mKidnappingDetection.OnDetect.Add(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
-            Buddy.Sensors.RGBCamera.Mode = RGBCameraMode.COLOR_320x240_30FPS_RGB;
+            if (!IsDetectingMovement)
+                mMotionDetection.OnDetect.AddP(OnMovementDetected, lMotionParam);
+            //if (!IsDetectingSound)
+            //{
+                Debug.Log("on detecte son");
+                mNoiseDetection.OnDetect.AddP(OnSoundDetected, 0.0F);
+            //}
+            //mFireDetection.OnDetect.AddP(OnThermalDetected, 50);
+            //mKidnappingDetection.OnDetect.Add(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
+            //Buddy.Sensors.RGBCamera.Mode = RGBCameraMode.COLOR_320x240_30FPS_RGB;
         }
 
 		/// <summary>
@@ -166,11 +172,14 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public void UnlinkDetectorsEvents()
 		{
+            Debug.Log("unlink detector events");
             HasLinkedDetector = false;
-            mKidnappingDetection.OnDetect.Remove(OnKidnappingDetected);
-            mFireDetection.OnDetect.RemoveP(OnThermalDetected);
-            mNoiseDetection.OnDetect.RemoveP(OnSoundDetected);
-            mMotionDetection.OnDetect.RemoveP(OnMovementDetected);
+            //mKidnappingDetection.OnDetect.Remove(OnKidnappingDetected);
+            //mFireDetection.OnDetect.RemoveP(OnThermalDetected);
+            //if (!IsDetectingSound)
+                mNoiseDetection.OnDetect.RemoveP(OnSoundDetected);
+            if (!IsDetectingMovement)
+                mMotionDetection.OnDetect.RemoveP(OnMovementDetected);
         }
 
 		/// <summary>
@@ -191,7 +200,7 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		private bool OnSoundDetected(float iSound)
 		{
-			//Debug.Log("============== Sound detected! detector");
+			Debug.Log("============== Sound detected! detector");
 			if (!IsDetectingSound)
 				return true;
             //Debug.Log("iSound: " + iSound + " thresh: " + (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * MAX_SOUND_THRESHOLD);
@@ -223,7 +232,7 @@ namespace BuddyApp.Guardian
 		private void OnKidnappingDetected()
 		{
 			if (!IsDetectingKidnapping)
-				//return true;
+				return;
 
 			Detected = Alert.KIDNAPPING;
 			mAnimator.SetTrigger("Alert");

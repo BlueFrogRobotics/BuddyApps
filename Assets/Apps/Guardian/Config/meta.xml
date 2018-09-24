@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<AppInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<AppInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ID>a252702222215989717117712515750</ID>
     <ShortName>Guardian</ShortName>
     <CommercialName>Guardian</CommercialName>
     <MainScene>0</MainScene>
     <Authors>dev@bluefrogrobotics.com</Authors>
-    <Version>1.0.5.16</Version>
+    <Version>1.0.6.21</Version>
     <VersionStatus>NONE</VersionStatus>
     <VersionName>alpha</VersionName>
     <Category>SECURITY</Category>
@@ -55,20 +55,5 @@
             <IsValid>true</IsValid>
         </AppPermission>
     </Permissions>
-    <LangVocalKeys>
-        <VocalKeys>
-            <Language>EN</Language>
-            <Keys>
-                <string>guardian</string>
-            </Keys>
-        </VocalKeys>
-        <VocalKeys>
-            <Language>FR</Language>
-            <Keys>
-                <string>gardien</string>
-            </Keys>
-        </VocalKeys>
-    </LangVocalKeys>
-    <OptionsLayoutClassName>Guardian.GuardianLayout</OptionsLayoutClassName>
     <ActivityClassName>Guardian.GuardianActivity</ActivityClassName>
 </AppInfo>
