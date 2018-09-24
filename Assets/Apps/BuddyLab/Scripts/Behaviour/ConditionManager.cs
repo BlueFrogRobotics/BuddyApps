@@ -553,19 +553,19 @@ namespace BuddyApp.BuddyLab
             {
                 mTactileSubscribed = true;
                 //ClearEventTactile();
-                mFace.OnClickLeftEye.Add(OnLeftEyeClicked);
+                mFace.OnTouchLeftEye.Add(OnLeftEyeClicked);
             }
             if (mTactile == TactileEvent.RIGHT_EYE && !mTactileSubscribed)
             {
                 mTactileSubscribed = true;
                 //ClearEventTactile();
-                mFace.OnClickRightEye.Add(OnRightEyeClicked);
+                mFace.OnTouchRightEye.Add(OnRightEyeClicked);
             }
             if (mTactile == TactileEvent.MOUTH && !mTactileSubscribed)
             {
                 mTactileSubscribed = true;
                 //ClearEventTactile();
-                mFace.OnClickMouth.Add(OnMouthClicked);
+                mFace.OnTouchMouth.Add(OnMouthClicked);
             }
             if (mTactile == TactileEvent.BODY_MOVING)
             {
@@ -665,9 +665,9 @@ namespace BuddyApp.BuddyLab
 
         private void ClearEventTactile()
         {
-            mFace.OnClickLeftEye.Clear();
-            mFace.OnClickMouth.Clear();
-            mFace.OnClickRightEye.Clear();
+            mFace.OnTouchLeftEye.Clear();
+            mFace.OnTouchMouth.Clear();
+            mFace.OnTouchRightEye.Clear();
         }
 
     }
