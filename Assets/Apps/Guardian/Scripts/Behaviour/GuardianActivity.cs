@@ -115,13 +115,17 @@ namespace BuddyApp.Guardian
 
 		private void OnSuccessUnlockScreen()
 		{
+            Debug.Log("on success unlock screen");
 			Buddy.Actuators.Speakers.Volume = mDetectionManager.Volume;
+            Debug.Log("unlock 1");
 			mDetectionManager.CurrentTimer = 0f;
             mDetectionManager.Countdown = 0f;
+            Debug.Log("unlock 2");
 
             mDetectionManager.IsPasswordCorrect = true;
             mDetectionManager.IsAlarmWorking = false;
 
+            Debug.Log("unlock 3");
             Buddy.Actuators.Speakers.Media.Repeat = false;
 
             Animator.ResetTrigger("InitDetection");
@@ -130,10 +134,13 @@ namespace BuddyApp.Guardian
 			Animator.ResetTrigger("Turn");
 			Animator.ResetTrigger("Walk");
 			Animator.ResetTrigger("Alert");
+            Debug.Log("unlock 4");
             mDetectionManager.UnlinkDetectorsEvents();
+            Debug.Log("unlock 5");
 
             Animator.SetBool("Password", false);
 			Animator.Play("EnterMenu");
+            Debug.Log("unlock 6");
 		}
 
         private void OnFailureUnlockScreen()

@@ -5,7 +5,7 @@ using System.Collections;
 
 namespace BuddyApp.Guardian
 {
-	public class FireDetectionTestState : AStateMachineBehaviour {
+	public sealed class FireDetectionTestState : AStateMachineBehaviour {
 
         private Texture2D mTexture;
         private Mat mMatSrc;
@@ -81,6 +81,7 @@ namespace BuddyApp.Guardian
         {
             Buddy.GUI.Footer.Remove(mLeftButton);
             Buddy.GUI.Footer.Remove(mValidateButton);
+            Buddy.GUI.Footer.Remove(mInterpolateButton);
         }
 
         private void OnNewFrame(Mat iMat)

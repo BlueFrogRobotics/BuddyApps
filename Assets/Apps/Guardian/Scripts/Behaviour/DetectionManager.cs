@@ -18,6 +18,7 @@ namespace BuddyApp.Guardian
 		public const float MAX_SOUND_THRESHOLD = 0.03F;
 		public const float KIDNAPPING_THRESHOLD = 4.5F;
 		public const float MAX_MOVEMENT_THRESHOLD = 5.0F;
+        public const int MAX_TEMPERATURE_THRESHOLD = 50;
 
 		private Animator mAnimator;
 		private KidnappingDetector mKidnappingDetection;
@@ -162,7 +163,7 @@ namespace BuddyApp.Guardian
                 Debug.Log("on detecte son");
                 mNoiseDetection.OnDetect.AddP(OnSoundDetected, 0.0F);
             //}
-            //mFireDetection.OnDetect.AddP(OnThermalDetected, 50);
+            mFireDetection.OnDetect.AddP(OnThermalDetected, MAX_TEMPERATURE_THRESHOLD);
             //mKidnappingDetection.OnDetect.Add(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
             //Buddy.Sensors.RGBCamera.Mode = RGBCameraMode.COLOR_320x240_30FPS_RGB;
         }
@@ -175,7 +176,7 @@ namespace BuddyApp.Guardian
             Debug.Log("unlink detector events");
             HasLinkedDetector = false;
             //mKidnappingDetection.OnDetect.Remove(OnKidnappingDetected);
-            //mFireDetection.OnDetect.RemoveP(OnThermalDetected);
+            mFireDetection.OnDetect.RemoveP(OnThermalDetected);
             //if (!IsDetectingSound)
                 mNoiseDetection.OnDetect.RemoveP(OnSoundDetected);
             if (!IsDetectingMovement)
