@@ -44,13 +44,14 @@ namespace BuddyApp.BuddyLab
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            mUIManager.OpenPlayUI();
-            mIsPlaying = false;
-            mUIManager.StopButton.onClick.AddListener(Stop);
-            mUIManager.ReplayButton.onClick.AddListener(Replay);
-            mTimelineDisplayer.DisplaySequence(mBLBehaviour.NameOpenProject + ".xml");
-            ItemControlUnit.OnNextAction += ChangeItemHighlight;
-            StartCoroutine(Play());
+            //mUIManager.OpenPlayUI();
+            //mIsPlaying = false;
+            //mUIManager.StopButton.onClick.AddListener(Stop);
+            //mUIManager.ReplayButton.onClick.AddListener(Replay);
+            //mTimelineDisplayer.DisplaySequence(mBLBehaviour.NameOpenProject + ".xml");
+            //ItemControlUnit.OnNextAction += ChangeItemHighlight;
+            //StartCoroutine(Play());
+            StartCoroutine(PlayTestInterpreter());
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -162,6 +163,28 @@ namespace BuddyApp.BuddyLab
         {
             yield return new WaitForSeconds(iDelay);
             mTimelineDisplayer.HighlightElement(iNum);
+        }
+
+        IEnumerator PlayTestInterpreter()
+        {
+            //BehaviourAlgorithm lBeAlgo = new BehaviourAlgorithm();
+            //lBeAlgo.Instructions.Add(new WaitBehaviourInstruction()
+            //{
+            //    Duration = 5F,
+            //});
+            //lBeAlgo.Instructions.Add(new SetMoodBehaviourInstruction()
+            //{
+            //    Duration = 4F,
+            //    Mood = Mood.HAPPY
+            //});
+            //lBeAlgo.Instructions.Add(new SetMoodBehaviourInstruction()
+            //{
+            //    Duration = 4F,
+            //    Mood = Mood.ANGRY
+            //});
+            mItemControl.SaveAlgorithm();
+            Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm);
+            yield return null;
         }
     }
 }
