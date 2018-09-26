@@ -342,30 +342,6 @@
             Stops any running hinge command.
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.ABehaviourStructure">
-            <summary>
-            Base class for Behaviour Instruction and Algorithm. A structure is executed by the BehaviourInterpreter.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.ABehaviourStructure.IsBusy">
-            <summary>
-            Returns true if the current structure is currently executed.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.ABehaviourStructure.Accept(BlueQuark.ISimpleBehaviourStructureVisitor)">
-            <summary>
-            Visitor design pattern method. Use that to pass through the structure with the ISimpleBehaviourStructureVisitor.
-            </summary>
-            <param name="iVisitor">The visitor to visit</param>
-            <seealso cref="T:BlueQuark.ISimpleBehaviourStructureVisitor"/>>
-        </member>
-        <member name="M:BlueQuark.Internal.ABehaviourStructure.StartCoroutine(System.Collections.IEnumerator)">
-            <summary>
-            Starts a coroutine.
-            </summary>
-            <param name="iFunc">The routine to start</param>
-            <returns>The started coroutine</returns>
-        </member>
         <member name="T:BlueQuark.Internal.IdleFaceState">
             <summary>
             Base class for state machine's state.
@@ -422,6 +398,72 @@
             The action manager class defines high level function to control Buddy action.
             It also contains some function for decision making based on situation (state), mood and desire.
             </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.OLD.NetworkBroadcastResult">
+            <summary>
+            Structure for broadcast messages
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.OLD.NetworkBroadcastResult.serverAddress">
+            <summary>
+            The address of the server that sent the broadcast
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.OLD.NetworkBroadcastResult.broadcastData">
+            <summary>
+            Content of the broadcast
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.OLD.NetDiscovery">
+            <summary>
+            Unity Networking NetworkDiscovery added in this dll for namespace separation in dll reasons
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.OLD.NetDiscovery.StartAsClient">
+            <summary>
+            Starts the service as client and listens for broadcast
+            </summary>
+            <returns>True if started succesfully, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.OLD.NetDiscovery.StartAsServer">
+            <summary>
+            Starts the service as server and emits a broadcast
+            </summary>
+            <returns>True if started succesfully, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.OLD.NetDiscovery.StopBroadcast">
+            <summary>
+            Stops the broadcast service
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.OLD.NetDiscovery.OnReceivedBroadcast(System.String,System.String)">
+            <summary>
+            Callback called when a broadcast is received
+            </summary>
+            <param name="iFromAddress">Address that sent the broadcast</param>
+            <param name="iData">Body data of the broadcast</param>
+        </member>
+        <member name="T:BlueQuark.Internal.OLD.LocalListener">
+            <summary>
+            This class handles the Local Broadcast Listener and messages with the Smartphone app to launch local remote control
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.OLD.LaunchTelepresence">
+            <summary>
+            Behaviour for starting RemoteControlApp
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.OLD.BroadcastListener">
+            <summary>
+            This is to create a Broadcast client to let
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.OLD.BroadcastListener.OnReceivedBroadcast(System.String,System.String)">
+            <summary>
+            Own method to configure what to do when receiving a Broadcast
+            </summary>
+            <param name="iFromAddress">The address that send the broadcast</param>
+            <param name="iData">Data contained in the broadcast</param>
         </member>
         <member name="T:BlueQuark.Internal.DesireManager">
             <summary>
@@ -2425,197 +2467,6 @@
             <param name="iOnNewFrame">The event handler to remove</param>
             <returns>True if the unsubscription was effective</returns>
         </member>
-        <member name="T:BlueQuark.Internal.ARemoteCommand">
-            <summary>
-            Represents an embedded command sended remotely and executed on the robot.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.ARemoteCommand.Timestamp">
-            <summary>
-            Timestamp of the command execution
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.ARemoteCommand.Parameters">
-            <summary>
-            Parameters of the command
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.ARemoteCommand.IsExecuted">
-            <summary>
-            Check if the command has been executed
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.ARemoteCommand.#ctor">
-            <summary>
-            Base constructor for deserialization
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.ARemoteCommand.Execute">
-            <summary>
-            Execute the command behaviour defined in ExecuteImpl
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.ARemoteCommand.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.ARemoteCommand.UpdateParams(System.Int32[])">
-            <summary>
-            Update params in existing command. Allows to avoid recreate a new command for the same purpose.
-            </summary>
-            <param name="iIntegers">Integers that will replace existing Integers in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ARemoteCommand.UpdateParams(System.Single[])">
-            <summary>
-            Update params in existing command. Allows to avoid recreate a new command for the same purpose.
-            </summary>
-            <param name="iSingles">Singles that will replace existing Singles in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ARemoteCommand.UpdateParams(System.String[])">
-            <summary>
-            Update params in existing command. Allows to avoid recreate a new command for the same purpose.
-            </summary>
-            <param name="iStrings">Strings that will replace existing Strings in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ARemoteCommand.Serialize">
-            <summary>
-            Create a custom byte array representing the command.
-            </summary>
-            <returns>The command serialization</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ARemoteCommand.Deserialize(System.String,System.Char,System.String)">
-            <summary>
-            Create a command from a string containing successive bytes, separate by ","
-            </summary>
-            <param name="iBytes">The byte string</param>
-            <param name="iSeparator">Separator character between each byte</param>
-            <param name="iAssembly">The assembly where the command belongs</param>
-            <returns>The command, created and init</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ARemoteCommand.Deserialize(System.Byte[],System.String)">
-            <summary>
-            Create a command from a byte array
-            </summary>
-            <param name="iBytes">The byte array</param>
-            <param name="iAssembly">The assembly where the command belongs</param>
-            <returns>The command, created and init</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.ARemoteCommand.ToString">
-            <summary>
-            String basic serialization of the command
-            </summary>
-            <returns>Command string value for debug</returns>
-        </member>
-        <member name="T:BlueQuark.Internal.SetNoHingePositionCmd">
-            <summary>
-            When executed : Set the angular position of the motor at a specific speed
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.SetNoHingePositionCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.SetNoHingePositionCmd.#ctor(System.Single,System.Single)">
-            <summary>
-            When executed : Set the angular position of the motor at a specific speed
-            </summary>
-            <param name="iAngle">Angle in degrees of the angular position</param>
-            <param name="iSpeed">Speed in degrees/sec of the motor</param>
-        </member>
-        <member name="M:BlueQuark.Internal.SetNoHingePositionCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.SetYesPositionCmd">
-            <summary>
-            When executed : Set the angular position of the motor at a specific speed
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.SetYesPositionCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.SetYesPositionCmd.#ctor(System.Single,System.Single)">
-            <summary>
-            When executed : Set the angular position of the motor at a specific speed
-            </summary>
-            <param name="iAngle">Angle in degrees of the angular position</param>
-            <param name="iSpeed">Speed in degrees/sec of the motor</param>
-        </member>
-        <member name="M:BlueQuark.Internal.SetYesPositionCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.SetWheelsVelocitiesCmd">
-            <summary>
-            When executed : Controls the speed of the wheels, stops after the timeout.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.SetWheelsVelocitiesCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.SetWheelsVelocitiesCmd.#ctor(System.Single,System.Single)">
-            <summary>
-            When executed : Sets robot linear (meters / s) and angular (deg / s) velocities.
-            </summary>
-            <param name="iLinearVelocity">Rate of change (in meters by second) of an object position with in a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see></param>
-            <param name="iAngularVelocity">Rate (in degrees by second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see></param>
-        </member>
-        <member name="M:BlueQuark.Internal.SetWheelsVelocitiesCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.RemoteCommandParameters">
-            <summary>
-            Represents parameters for command. Contains it own serialization implementation
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.RemoteCommandParameters.Integers">
-            <summary>
-            Integer storage.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.RemoteCommandParameters.Singles">
-            <summary>
-            Float storage.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.RemoteCommandParameters.Strings">
-            <summary>
-            Unicode string storage.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.RemoteCommandParameters.Serialize">
-            <summary>
-            Serialization to byte array of the current param
-            </summary>
-            <returns>Parameter byte array equivalent</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.RemoteCommandParameters.Deserialize(System.Byte[],System.Int32@)">
-            <summary>
-            Create a new CommandParam object from the input byte array
-            </summary>
-            <param name="iBytes">The byte array</param>
-            <param name="ioIndex">The index at the end of the parameter area</param>
-            <returns>The new CommandParam</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.RemoteCommandParameters.ToString">
-            <summary>
-            String basic serialization of the commandparam
-            </summary>
-            <returns>CommandParam string value for debug</returns>
-        </member>
         <member name="T:BlueQuark.Internal.ILayoutExplorerWidget">
             <summary>
             Base interface for typed Explorer layout widget. Layout widget can contains many sealed widgets.
@@ -4346,7 +4197,7 @@
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
             Run the specified behaviour algorithm filepath.
             </summary>
@@ -4354,7 +4205,7 @@
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
             Run the specified behaviour algorithm filepath.
             </summary>
@@ -4397,7 +4248,7 @@
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
             Run the specified behaviour algorithm filepath.
             </summary>
@@ -4406,7 +4257,7 @@
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
             Run the specified behaviour algorithm filepath.
             </summary>
@@ -4416,7 +4267,7 @@
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
             Run the specified behaviour algorithm filepath.
             </summary>
@@ -4425,7 +4276,7 @@
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
             Run the specified behaviour algorithm filepath.
             </summary>
@@ -4452,7 +4303,7 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
             Run the specified behaviour algorithm filepath.
             </summary>
@@ -4461,7 +4312,7 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
             Run the specified behaviour algorithm filepath.
             </summary>
@@ -4509,7 +4360,7 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
             Run the specified behaviour algorithm filepath.
             </summary>
@@ -4519,7 +4370,7 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
             Run the specified behaviour algorithm filepath.
             </summary>
@@ -4530,7 +4381,7 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
             Run the specified behaviour algorithm filepath.
             </summary>
@@ -4540,7 +4391,7 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
             Run the specified behaviour algorithm filepath.
             </summary>
@@ -4566,7 +4417,7 @@
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
             Run the specified behaviour algorithm.
             </summary>
@@ -4574,7 +4425,7 @@
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
             Run the specified behaviour algorithm.
             </summary>
@@ -4617,7 +4468,7 @@
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
             Run the specified behaviour algorithm.
             </summary>
@@ -4626,7 +4477,7 @@
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
             Run the specified behaviour algorithm.
             </summary>
@@ -4636,7 +4487,7 @@
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
             Run the specified behaviour algorithm.
             </summary>
@@ -4645,7 +4496,7 @@
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
             Run the specified behaviour algorithm.
             </summary>
@@ -4672,7 +4523,7 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
             Run the specified behaviour algorithm.
             </summary>
@@ -4681,7 +4532,7 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
             Run the specified behaviour algorithm.
             </summary>
@@ -4729,7 +4580,7 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
             Run the specified behaviour algorithm.
             </summary>
@@ -4739,7 +4590,7 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
             Run the specified behaviour algorithm.
             </summary>
@@ -4750,7 +4601,7 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
             Run the specified behaviour algorithm.
             </summary>
@@ -4760,7 +4611,7 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.Internal.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
             Run the specified behaviour algorithm.
             </summary>
@@ -4962,6 +4813,30 @@
             <summary>
             Full Motion (X, Y, theta, head)
             </summary>
+        </member>
+        <member name="T:BlueQuark.ABehaviourStructure">
+            <summary>
+            Base class for Behaviour Instruction and Algorithm. A structure is executed by the BehaviourInterpreter.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ABehaviourStructure.IsBusy">
+            <summary>
+            Returns true if the current structure is currently executed.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.ABehaviourStructure.Accept(BlueQuark.ISimpleBehaviourStructureVisitor)">
+            <summary>
+            Visitor design pattern method. Use that to pass through the structure with the ISimpleBehaviourStructureVisitor.
+            </summary>
+            <param name="iVisitor">The visitor to visit</param>
+            <seealso cref="T:BlueQuark.ISimpleBehaviourStructureVisitor"/>>
+        </member>
+        <member name="M:BlueQuark.ABehaviourStructure.StartCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            Starts a coroutine.
+            </summary>
+            <param name="iFunc">The routine to start</param>
+            <returns>The started coroutine</returns>
         </member>
         <member name="T:BlueQuark.BehaviourInstructionVariable`1">
             <summary>
@@ -5641,6 +5516,293 @@
             <summary>
             In love !
             </summary>
+        </member>
+        <member name="T:BlueQuark.Remote.StopWheelsCmd">
+            <summary>
+            When executed : Stops wheels motors.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.StopWheelsCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.StopWheelsCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Remote.WebRTCListener">
+            <summary>
+            This part listens on the Crossbar server to know if there is any incoming call
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Remote.WebRTCListener.RemoteID">
+            <summary>
+            Used to know the Remote ID for RTC communication
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Remote.WebRTCListener.Ringing">
+            <summary>
+            Used to know if there is a call ongoing
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Remote.WebRTCListener.RemoteType">
+            <summary>
+            The type of the remote.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Remote.WebRTCListener.MessageFromChat">
+            <summary>
+            Use this to know if answer from STT comes from a Chat question
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.WebRTCListener.PublishConnectionRequest(System.String)">
+            <summary>
+            Use this to make a call towards another Buddy
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.WebRTCListener.OnConnectionRequest(System.String)">
+            <summary>
+            Called by Android plugin when message is received from the PubSub of Crossbar
+            </summary>
+            <param name="iMessage"></param>
+        </member>
+        <member name="M:BlueQuark.Remote.WebRTCListener.OnAndroidLog(System.String)">
+            <summary>
+            Called by Android plugin for Debug purposes
+            </summary>
+            <param name="iLogText"></param>
+        </member>
+        <member name="M:BlueQuark.Remote.WebRTCListener.SendNotification(System.String,System.String)">
+            <summary>
+            Send notification as Crossbar published event
+            </summary>
+            <param name="iTitle">Title of the notification</param>
+            <param name="iMessage">Body message of the notification</param>
+        </member>
+        <member name="M:BlueQuark.Remote.WebRTCListener.ProcessAnswer(System.String)">
+            <summary>
+            Use this to send back the answer to the user.
+            </summary>
+            <param name="iAnwser"></param>
+        </member>
+        <member name="M:BlueQuark.Remote.WebRTCListener.OnMessageReceived(System.String)">
+            <summary>
+            Used by Android plugin when chat message is received through WebRTC and send it back to user
+            </summary>
+            <param name="iChatMessage">Chat message received through WebRTC</param>
+        </member>
+        <member name="M:BlueQuark.Remote.WebRTCListener.PublishNotification(System.String)">
+            <summary>
+            Format of the notification is the following : BuddyID / Title @ Message
+            </summary>
+            <param name="iMessage">Notification message to send</param>
+        </member>
+        <member name="M:BlueQuark.Remote.WebRTCListener.StartListener(System.String,System.String)">
+            <summary>
+            Initialize the Java Android Object that handles PubSub messages from Crossbar
+            </summary>
+            <param name="iUri">Crossbar uri</param>
+            <param name="iRealm">Name of the realm</param>
+        </member>
+        <member name="M:BlueQuark.Remote.WebRTCListener.SendStatus">
+            <summary>
+            Wait until STT has finished listening and is free to use
+            </summary>
+            <param name="iChatMessage">The Chat message received to process</param>
+            <returns></returns>
+        </member>
+        <member name="T:BlueQuark.Remote.ARemoteCommand">
+            <summary>
+            Represents an embedded command sended remotely and executed on the robot.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Remote.ARemoteCommand.Timestamp">
+            <summary>
+            Timestamp of the command execution
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Remote.ARemoteCommand.Parameters">
+            <summary>
+            Parameters of the command
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Remote.ARemoteCommand.IsExecuted">
+            <summary>
+            Check if the command has been executed
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.ARemoteCommand.#ctor">
+            <summary>
+            Base constructor for deserialization
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.ARemoteCommand.Execute">
+            <summary>
+            Execute the command behaviour defined in ExecuteImpl
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.ARemoteCommand.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.ARemoteCommand.UpdateParams(System.Int32[])">
+            <summary>
+            Update params in existing command. Allows to avoid recreate a new command for the same purpose.
+            </summary>
+            <param name="iIntegers">Integers that will replace existing Integers in Parameters</param>
+            <returns>The updated command</returns>
+        </member>
+        <member name="M:BlueQuark.Remote.ARemoteCommand.UpdateParams(System.Single[])">
+            <summary>
+            Update params in existing command. Allows to avoid recreate a new command for the same purpose.
+            </summary>
+            <param name="iSingles">Singles that will replace existing Singles in Parameters</param>
+            <returns>The updated command</returns>
+        </member>
+        <member name="M:BlueQuark.Remote.ARemoteCommand.UpdateParams(System.String[])">
+            <summary>
+            Update params in existing command. Allows to avoid recreate a new command for the same purpose.
+            </summary>
+            <param name="iStrings">Strings that will replace existing Strings in Parameters</param>
+            <returns>The updated command</returns>
+        </member>
+        <member name="M:BlueQuark.Remote.ARemoteCommand.Serialize">
+            <summary>
+            Create a custom byte array representing the command.
+            </summary>
+            <returns>The command serialization</returns>
+        </member>
+        <member name="M:BlueQuark.Remote.ARemoteCommand.Deserialize(System.String,System.Char,System.String)">
+            <summary>
+            Create a command from a string containing successive bytes, separate by ","
+            </summary>
+            <param name="iBytes">The byte string</param>
+            <param name="iSeparator">Separator character between each byte</param>
+            <param name="iAssembly">The assembly where the command belongs</param>
+            <returns>The command, created and init</returns>
+        </member>
+        <member name="M:BlueQuark.Remote.ARemoteCommand.Deserialize(System.Byte[],System.String)">
+            <summary>
+            Create a command from a byte array
+            </summary>
+            <param name="iBytes">The byte array</param>
+            <param name="iAssembly">The assembly where the command belongs</param>
+            <returns>The command, created and init</returns>
+        </member>
+        <member name="M:BlueQuark.Remote.ARemoteCommand.ToString">
+            <summary>
+            String basic serialization of the command
+            </summary>
+            <returns>Command string value for debug</returns>
+        </member>
+        <member name="T:BlueQuark.Remote.SetNoHingePositionCmd">
+            <summary>
+            When executed : Set the angular position of the motor at a specific speed
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.SetNoHingePositionCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.SetNoHingePositionCmd.#ctor(System.Single,System.Single)">
+            <summary>
+            When executed : Set the angular position of the motor at a specific speed
+            </summary>
+            <param name="iAngle">Angle in degrees of the angular position</param>
+            <param name="iSpeed">Speed in degrees/sec of the motor</param>
+        </member>
+        <member name="M:BlueQuark.Remote.SetNoHingePositionCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Remote.SetYesHingePositionCmd">
+            <summary>
+            When executed : Set the angular position of the motor at a specific speed
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.SetYesHingePositionCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.SetYesHingePositionCmd.#ctor(System.Single,System.Single)">
+            <summary>
+            When executed : Set the angular position of the motor at a specific speed
+            </summary>
+            <param name="iAngle">Angle in degrees of the angular position</param>
+            <param name="iSpeed">Speed in degrees/sec of the motor</param>
+        </member>
+        <member name="M:BlueQuark.Remote.SetYesHingePositionCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Remote.SetWheelsVelocitiesCmd">
+            <summary>
+            When executed : Controls the speed of the wheels, stops after the timeout.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.SetWheelsVelocitiesCmd.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.SetWheelsVelocitiesCmd.#ctor(System.Single,System.Single)">
+            <summary>
+            When executed : Sets robot linear (meters / s) and angular (deg / s) velocities.
+            </summary>
+            <param name="iLinearVelocity">Rate of change (in meters by second) of an object position with in a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see></param>
+            <param name="iAngularVelocity">Rate (in degrees by second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see></param>
+        </member>
+        <member name="M:BlueQuark.Remote.SetWheelsVelocitiesCmd.ExecuteImpl">
+            <summary>
+            Execute the command behaviour.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Remote.RemoteCommandParameters">
+            <summary>
+            Represents parameters for command. Contains it own serialization implementation
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Remote.RemoteCommandParameters.Integers">
+            <summary>
+            Integer storage.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Remote.RemoteCommandParameters.Singles">
+            <summary>
+            Float storage.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Remote.RemoteCommandParameters.Strings">
+            <summary>
+            Unicode string storage.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Remote.RemoteCommandParameters.Serialize">
+            <summary>
+            Serialization to byte array of the current param
+            </summary>
+            <returns>Parameter byte array equivalent</returns>
+        </member>
+        <member name="M:BlueQuark.Remote.RemoteCommandParameters.Deserialize(System.Byte[],System.Int32@)">
+            <summary>
+            Create a new CommandParam object from the input byte array
+            </summary>
+            <param name="iBytes">The byte array</param>
+            <param name="ioIndex">The index at the end of the parameter area</param>
+            <returns>The new CommandParam</returns>
+        </member>
+        <member name="M:BlueQuark.Remote.RemoteCommandParameters.ToString">
+            <summary>
+            String basic serialization of the commandparam
+            </summary>
+            <returns>CommandParam string value for debug</returns>
         </member>
         <member name="M:BlueQuark.InternalState.ComputeBias">
             <summary>
@@ -9089,6 +9251,11 @@
             Feature to detect short range Waving
             </summary>
         </member>
+        <member name="P:BlueQuark.Perception.HumanDetector">
+            <summary>
+            Human full body detection feature
+            </summary>
+        </member>
         <member name="T:BlueQuark.QRCodeDetector">
             <summary>
             QR code detection algorithm.
@@ -9912,9 +10079,6 @@
         </member>
         <member name="T:BlueQuark.Microphones">
             <summary>
-            Micro of the robot.
-            </summary>
-            <summary>
             Set of 4 microphones at the top of the robot's head.
             </summary>
         </member>
@@ -9932,6 +10096,12 @@
             <summary>
             Error code. 0 is not error.
             </summary>
+        </member>
+        <member name="M:BlueQuark.Microphones.ToString">
+            <summary>
+            Serializes in string the current microphones state.
+            </summary>
+            <returns>The current microphones state</returns>
         </member>
         <member name="T:BlueQuark.TimeOfFlightSensor">
             <summary>
