@@ -59,6 +59,8 @@ namespace BuddyApp.BuddyLab
         private LinkedList<ListBLI> mStackUndoBli;
         private Stack<ListBLI> mStackRedoBli;
 
+        public BehaviourAlgorithm BehaviourAlgorithm { get; set; }
+
 
         void Start()
         {
@@ -73,7 +75,7 @@ namespace BuddyApp.BuddyLab
             //Directory.Delete(BYOS.Instance.Resources.GetPathToRaw("Temp", LoadContext.APP), true);
             mStackUndoBli = new LinkedList<ListBLI>();
             mStackRedoBli = new Stack<ListBLI>();
-
+            BehaviourAlgorithm = new BehaviourAlgorithm();
         }
 
 
@@ -239,6 +241,15 @@ namespace BuddyApp.BuddyLab
                 mStackUndoBli.RemoveFirst();
         }
 
+
+        public void SaveAlgorithm()
+        {
+            foreach (GameObject item in mArrayItems)
+            {
+                if (item != null && item.GetComponent<AGraphicElement>() != null)
+                    BehaviourAlgorithm.Instructions.Add(item.GetComponent<AGraphicElement>().GetInstruction());
+            }
+        }
 
         public  IEnumerator PlaySequence()
         {
