@@ -127,7 +127,7 @@ namespace BuddyApp.BuddyLab
                 mItem.transform.SetParent(placeholderParent);
                 mItem.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
                 mItem.GetComponent<CanvasGroup>().blocksRaycasts = true;
-                DissociateItems();
+                //DissociateItems();
             }
             IsDragged = false;
             placeholderParent.GetComponent<ItemsContainer>().EndDrag();
