@@ -249,6 +249,7 @@ namespace BuddyApp.BuddyLab
                 if (item != null && item.GetComponent<AGraphicElement>() != null)
                     BehaviourAlgorithm.Instructions.Add(item.GetComponent<AGraphicElement>().GetInstruction());
             }
+            Utils.SerializeXML<BehaviourAlgorithm>(BehaviourAlgorithm, Buddy.Resources.GetRawFullPath("algo.xml"));
         }
 
         public  IEnumerator PlaySequence()

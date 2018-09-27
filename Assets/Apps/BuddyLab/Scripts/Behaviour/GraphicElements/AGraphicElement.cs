@@ -8,16 +8,16 @@ namespace BuddyApp.BuddyLab
     public abstract class AGraphicElement : MonoBehaviour
     {
 
-        protected ASealedBehaviourInstruction mInstruction;
+        protected ABehaviourInstruction mInstruction;
 
-        public ASealedBehaviourInstruction GetInstruction()
+        public ABehaviourInstruction GetInstruction()
         {
             SetParameter();
 
             return mInstruction;
         }
 
-        public void SetInstruction(ASealedBehaviourInstruction iInstruction)
+        public void SetInstruction(ABehaviourInstruction iInstruction)
         {
             mInstruction = iInstruction;
         }
