@@ -4838,6 +4838,11 @@
             <param name="iFunc">The routine to start</param>
             <returns>The started coroutine</returns>
         </member>
+        <member name="T:BlueQuark.AConditionalBehaviourInstruction">
+            <summary>
+            Base class for conditional instruction (condition or loop).
+            </summary>
+        </member>
         <member name="T:BlueQuark.BehaviourInstructionVariable`1">
             <summary>
             Represents a named variable for a specific instruction. 
@@ -4852,6 +4857,46 @@
         <member name="P:BlueQuark.BehaviourInstructionVariable`1.Value">
             <summary>
             Value of the variable.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.ABehaviourInstruction">
+            <summary>
+            Base class for behaviour instruction. Behaviour instruction is the atomic element for a any behaviour algorithm.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ABehaviourInstruction.Parent">
+            <summary>
+            The block (condition or loop) parent of the current instruction. Null if not contained in a block.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ABehaviourInstruction.IsBlocking">
+            <summary>
+            True if the instruction is a blocking instruction. The execution process will not wait for the end of a non blocking instruction.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ABehaviourInstruction.IsRequired">
+            <summary>
+            If a required instruction failed, all the algorithm stops.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.ABehaviourInstruction.#ctor">
+            <summary>
+            Creates a base instruction object.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.ABlockBehaviourInstruction">
+            <summary>
+            Base class for block instruction (condition or loop).
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ABlockBehaviourInstruction.SubInstructions">
+            <summary>
+            Instructions contained in the block.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.ABlockBehaviourInstruction.#ctor">
+            <summary>
+            Creates a new block instruction.
             </summary>
         </member>
         <member name="T:BlueQuark.BehaviourAlgorithmVariable">
@@ -4869,9 +4914,20 @@
             The value of the variable.
             </summary>
         </member>
+        <member name="T:BlueQuark.BehaviourAlgorithm">
+            <summary>
+            Represents a set of (behaviour) intructions. Can be run asynchroneously by the BehaviourInterpreter.
+            </summary>
+            <seealso cref="T:BlueQuark.BehaviourInterpreter"/>>
+        </member>
         <member name="P:BlueQuark.BehaviourAlgorithm.Instructions">
             <summary>
             Instructions of the algorithms. Some instructions can contains some sub instructions.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.BehaviourAlgorithm.#ctor">
+            <summary>
+            Creates a new behaviour algorithm. Can be serialize for further usages.
             </summary>
         </member>
         <member name="M:BlueQuark.BehaviourAlgorithm.Accept(BlueQuark.ISimpleBehaviourStructureVisitor)">
@@ -4880,11 +4936,6 @@
             </summary>
             <param name="iVisitor">The visitor to visit</param>
             <seealso cref="T:BlueQuark.ISimpleBehaviourStructureVisitor"/>>
-        </member>
-        <member name="M:BlueQuark.BehaviourAlgorithm.#ctor">
-            <summary>
-            Creates a new behaviour algorithm. Can be serialize for further usages.
-            </summary>
         </member>
         <member name="T:BlueQuark.Behaviour">
             <summary>
@@ -8781,7 +8832,7 @@
         </member>
         <member name="F:BlueQuark.Platform.SDK_NAME">
             <summary>
-            Name of the Software development kit.
+            Name of the Software development kit API and runtime Operating system.
             </summary>
         </member>
         <member name="P:BlueQuark.Platform.Application">
@@ -8807,6 +8858,11 @@
         <member name="P:BlueQuark.Platform.Language">
             <summary>
             Current language applied in the system.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Platform.RobotUID">
+            <summary>
+            The unique identifier for the robot.
             </summary>
         </member>
         <member name="M:BlueQuark.Platform.SendMessageToCore(System.String)">
@@ -9604,7 +9660,17 @@
         </member>
         <member name="P:BlueQuark.Resources.AppRawDataPath">
             <summary>
-            Allows you to retrieve the full path from the name of the raw file / directory
+            Full path to the current Raw/ app directory
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Resources.AppSpritesPath">
+            <summary>
+            Full path to the current Sprites/ app directory
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Resources.AppSoundsPath">
+            <summary>
+            Full path to the current Sounds/ app directory
             </summary>
         </member>
         <member name="M:BlueQuark.Resources.ContainsKey(System.String,BlueQuark.Context)">
@@ -9654,6 +9720,22 @@
         <member name="M:BlueQuark.Resources.GetRawFullPath(System.String,BlueQuark.Context)">
             <summary>
             Retrieves the full path from the name of the raw file / directory
+            </summary>
+            <param name="iFilename">Name of the file / directory</param>
+            <param name="iContext">The context corresponding to the path to find</param>
+            <returns>Fullpath to the file (including the iFilename)</returns>
+        </member>
+        <member name="M:BlueQuark.Resources.GetSpritesFullPath(System.String,BlueQuark.Context)">
+            <summary>
+            Retrieves the full path from the name of the sprite file / directory
+            </summary>
+            <param name="iFilename">Name of the file / directory</param>
+            <param name="iContext">The context corresponding to the path to find</param>
+            <returns>Fullpath to the file (including the iFilename)</returns>
+        </member>
+        <member name="M:BlueQuark.Resources.GetSoundsFullPath(System.String,BlueQuark.Context)">
+            <summary>
+            Retrieves the full path from the name of the sound file / directory
             </summary>
             <param name="iFilename">Name of the file / directory</param>
             <param name="iContext">The context corresponding to the path to find</param>
