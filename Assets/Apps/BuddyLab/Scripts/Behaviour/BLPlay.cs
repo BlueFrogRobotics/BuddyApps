@@ -183,7 +183,7 @@ namespace BuddyApp.BuddyLab
             //    Mood = Mood.ANGRY
             //});
             mItemControl.SaveAlgorithm();
-            //Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm);
+            Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm);
             yield return null;
         }
     }

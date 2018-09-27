@@ -11,8 +11,10 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private string key;
 
-        [SerializeField]
-        private string utterance;
+        //[SerializeField]
+        //private string utterance;
+
+        public string Utterance { get; set; }
 
         // Use this for initialization
         void Start()
@@ -35,10 +37,22 @@ namespace BuddyApp.BuddyLab
             if (mInstruction == null)
                 mInstruction = new SayBehaviourInstruction();
             SayBehaviourInstruction lSayInstruction = (SayBehaviourInstruction)mInstruction;
-            lSayInstruction.Key = key;
-            lSayInstruction.Utterance = utterance;
+
+            if(key!=null)
+                lSayInstruction.Key = key;
+            if (Utterance != null)
+                lSayInstruction.Utterance = Utterance;
         }
 
-        
+        protected override void SetInternalParameters()
+        {
+            base.SetInternalParameters();
+            if (mInstruction == null)
+                mInstruction = new SayBehaviourInstruction();
+            SayBehaviourInstruction lSayInstruction = (SayBehaviourInstruction)mInstruction;
+            if(lSayInstruction.Utterance!=null)
+                Utterance = lSayInstruction.Utterance.Value;
+        }
+
     }
 }

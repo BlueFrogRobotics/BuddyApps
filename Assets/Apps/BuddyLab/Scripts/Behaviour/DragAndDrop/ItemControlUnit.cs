@@ -78,6 +78,13 @@ namespace BuddyApp.BuddyLab
             BehaviourAlgorithm = new BehaviourAlgorithm();
         }
 
+        public void ShowAlgo()
+        {
+            BehaviourAlgorithm lAlgo = Utils.UnserializeXML<BehaviourAlgorithm>(Buddy.Resources.GetRawFullPath("algo.xml"));
+            OpenProjectVisitor lVisitor = new OpenProjectVisitor(itemManager, panel.transform);
+            lVisitor.Visit(lAlgo);
+        }
+
 
         public void ShowSequence(string iFileName)
         {
