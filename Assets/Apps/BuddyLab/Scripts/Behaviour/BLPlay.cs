@@ -25,6 +25,9 @@ namespace BuddyApp.BuddyLab
         private GameObject mSequenceToHide;
         private HDCamera mHDCamera;
 
+        private FButton mStopButton;
+        private FButton mReplayButton;
+
         public override void Start()
         {
             //mMotionDetection = Buddy.Perception.MotionDetector;
@@ -89,6 +92,14 @@ namespace BuddyApp.BuddyLab
                 //mFireDetection.StopAllOnDetect();
                Buddy.Sensors.HDCamera.Close();
             }
+            GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
+            Trigger("Scene");
+        }
+
+        private void StopAlgo()
+        {
+            Buddy.Behaviour.Interpreter.Stop();
+            CloseFooter();
             GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
             Trigger("Scene");
         }
@@ -182,9 +193,35 @@ namespace BuddyApp.BuddyLab
             //    Duration = 4F,
             //    Mood = Mood.ANGRY
             //});
-            mItemControl.SaveAlgorithm();
+            //mItemControl.SaveAlgorithm();
+            ShowFooter();
             Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm);
             yield return null;
+        }
+
+        private void ShowFooter()
+        {
+            mStopButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+
+            mStopButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_stop"));
+
+            mStopButton.SetBackgroundColor(Color.white);
+            mStopButton.SetIconColor(Color.black);
+            mStopButton.OnClick.Add(() => { StopAlgo(); });
+
+            mReplayButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
+
+            mReplayButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_redo"));
+
+            mReplayButton.SetBackgroundColor(Color.white);
+            mReplayButton.SetIconColor(Color.black);
+            //mValidateButton.OnClick.Add(() => { Buddy.GUI.Toaster.Hide(); CloseFooter(); Trigger("FireDetection"); });
+        }
+
+        private void CloseFooter()
+        {
+            Buddy.GUI.Footer.Remove(mStopButton);
+            Buddy.GUI.Footer.Remove(mReplayButton);
         }
     }
 }

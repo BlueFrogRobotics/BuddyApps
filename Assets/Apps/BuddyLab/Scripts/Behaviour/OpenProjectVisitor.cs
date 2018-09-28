@@ -72,7 +72,7 @@ namespace BuddyApp.BuddyLab
         public void Visit(SayBehaviourInstruction iStructure)
         {
             int lIndex = 0;
-            if (iStructure.Key != null || iStructure.Key != "")
+            if (iStructure.Key != null && iStructure.Key != "")
             {
                 Debug.Log("machin");
                 switch (iStructure.Key.Value)
@@ -129,6 +129,33 @@ namespace BuddyApp.BuddyLab
                     break;
                 case Mood.HAPPY:
                     lIndex = 24;
+                    break;
+                case Mood.LISTENING:
+                    lIndex = 19;
+                    break;
+                case Mood.LOVE:
+                    lIndex = 25;
+                    break;
+                case Mood.SAD:
+                    lIndex = 18;
+                    break;
+                case Mood.SCARED:
+                    lIndex = 26;
+                    break;
+                case Mood.SICK:
+                    lIndex = 21;
+                    break;
+                case Mood.SURPRISED:
+                    lIndex = 22;
+                    break;
+                case Mood.THINKING:
+                    lIndex = 23;
+                    break;
+                case Mood.TIRED:
+                    lIndex = 17;
+                    break;
+                case Mood.GRUMPY:
+                    lIndex = 27;
                     break;
                 default:
                     lIndex = 16;

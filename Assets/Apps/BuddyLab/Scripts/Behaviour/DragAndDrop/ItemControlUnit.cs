@@ -78,11 +78,18 @@ namespace BuddyApp.BuddyLab
             BehaviourAlgorithm = new BehaviourAlgorithm();
         }
 
-        public void ShowAlgo()
+        public void ShowAlgo(string iFileName)
         {
-            BehaviourAlgorithm lAlgo = Utils.UnserializeXML<BehaviourAlgorithm>(Buddy.Resources.GetRawFullPath("algo.xml"));
+            mDirectoryPath = Buddy.Resources.GetRawFullPath("Projects" + "/" + iFileName);
+            BehaviourAlgorithm.Instructions.Clear();
+            BehaviourAlgorithm lAlgo = Utils.UnserializeXML<BehaviourAlgorithm>(Buddy.Resources.GetRawFullPath("Projects" + "/" + iFileName));
+            if (lAlgo != null)
+            {
+                BehaviourAlgorithm = lAlgo;
+            }
+            
             OpenProjectVisitor lVisitor = new OpenProjectVisitor(itemManager, panel.transform);
-            lVisitor.Visit(lAlgo);
+            lVisitor.Visit(BehaviourAlgorithm);
         }
 
 
@@ -204,24 +211,25 @@ namespace BuddyApp.BuddyLab
 
         public void CleanSequence()
         {
-            foreach (GameObject item in mArrayItems)
-            {
-                Destroy(item);
-            }
+            //foreach (GameObject item in mArrayItems)
+            //{
+            //    Destroy(item);
+            //}
 
             foreach(Transform child in panel.transform)
             {
-                if(child.gameObject.name=="endofloop")
+                if (child != null && child.GetComponent<AGraphicElement>() != null)
                 {
                     Destroy(child.gameObject);
                 }
             }
-            mArrayItems.Clear();
+            //mArrayItems.Clear();
         }
 
         public void SaveSequence()
         {
-            SaveSequence(mDirectoryPath);
+            SaveAlgorithm(mDirectoryPath);
+            //SaveSequence(mDirectoryPath);
         }
 
         public void SaveSequence(string iPath)
@@ -249,14 +257,15 @@ namespace BuddyApp.BuddyLab
         }
 
 
-        public void SaveAlgorithm()
+        public void SaveAlgorithm(string iPath)
         {
-            foreach (GameObject item in mArrayItems)
+            BehaviourAlgorithm.Instructions.Clear();
+            foreach (Transform child in panel.transform)
             {
-                if (item != null && item.GetComponent<AGraphicElement>() != null)
-                    BehaviourAlgorithm.Instructions.Add(item.GetComponent<AGraphicElement>().GetInstruction());
+                if (child != null && child.GetComponent<AGraphicElement>() != null)
+                    BehaviourAlgorithm.Instructions.Add(child.GetComponent<AGraphicElement>().GetInstruction());
             }
-            Utils.SerializeXML<BehaviourAlgorithm>(BehaviourAlgorithm, Buddy.Resources.GetRawFullPath("algo.xml"));
+            Utils.SerializeXML<BehaviourAlgorithm>(BehaviourAlgorithm, iPath);
         }
 
         public  IEnumerator PlaySequence()

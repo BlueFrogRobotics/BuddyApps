@@ -106,7 +106,7 @@ namespace BuddyApp.BuddyLab
             mItemControl.CleanSequence();
             yield return null;
             Debug.Log("avant algo");
-            mItemControl.ShowAlgo();
+            mItemControl.ShowAlgo(mBLBehaviour.NameOpenProject + ".xml");
             Debug.Log("apres algo");
             //mItemControl.ShowSequence(mBLBehaviour.NameOpenProject + ".xml");
             //mUIManager.SetBackground(true);

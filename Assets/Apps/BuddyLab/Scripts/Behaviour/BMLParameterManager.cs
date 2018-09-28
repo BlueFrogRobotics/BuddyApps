@@ -22,7 +22,7 @@ namespace BuddyApp.BuddyLab
         {
             //textBli.text = GetComponent<BMLItem>().Parameter;
             float lNumParameter = 0;
-            float.TryParse(GetComponent<ABLItem>().Parameter, out lNumParameter);
+            //float.TryParse(GetComponent<ABLItem>().Parameter, out lNumParameter);
             lNumParameter *= divisionCoeff;
             textBli.text = "" + lNumParameter;
             

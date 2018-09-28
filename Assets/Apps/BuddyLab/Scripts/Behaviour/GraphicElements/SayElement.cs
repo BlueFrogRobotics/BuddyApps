@@ -50,7 +50,7 @@ namespace BuddyApp.BuddyLab
             if (mInstruction == null)
                 mInstruction = new SayBehaviourInstruction();
             SayBehaviourInstruction lSayInstruction = (SayBehaviourInstruction)mInstruction;
-            if(lSayInstruction.Utterance!=null)
+            //if(lSayInstruction.Utterance!=null)
                 Utterance = lSayInstruction.Utterance.Value;
         }
 
