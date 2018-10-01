@@ -32,9 +32,7 @@ namespace BuddyApp.BuddyLab
             if (mInstruction == null)
                 mInstruction = new PlaySoundBehaviourInstruction();
             PlaySoundBehaviourInstruction lSoundInstruction = (PlaySoundBehaviourInstruction)mInstruction;
-            lSoundInstruction.Sound = sound;
+            lSoundInstruction.SoundSample = sound;
         }
-
-        
     }
 }

@@ -38,7 +38,5 @@ namespace BuddyApp.BuddyLab
             lSayInstruction.Key = key;
             lSayInstruction.Utterance = utterance;
         }
-
-        
     }
 }
