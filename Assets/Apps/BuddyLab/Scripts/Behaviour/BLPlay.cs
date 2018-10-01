@@ -104,6 +104,12 @@ namespace BuddyApp.BuddyLab
             Trigger("Scene");
         }
 
+        private void ReplayAlgo()
+        {
+            Buddy.Behaviour.Interpreter.Stop();
+            Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm);
+        }
+
         private void Replay()
         {
             Debug.Log("REPLAY ");
@@ -215,7 +221,7 @@ namespace BuddyApp.BuddyLab
 
             mReplayButton.SetBackgroundColor(Color.white);
             mReplayButton.SetIconColor(Color.black);
-            //mValidateButton.OnClick.Add(() => { Buddy.GUI.Toaster.Hide(); CloseFooter(); Trigger("FireDetection"); });
+            mReplayButton.OnClick.Add(() => { ReplayAlgo(); });
         }
 
         private void CloseFooter()
