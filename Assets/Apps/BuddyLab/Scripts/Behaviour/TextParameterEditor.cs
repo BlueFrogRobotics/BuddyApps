@@ -46,7 +46,8 @@ namespace BuddyApp.BuddyLab
                 //Placeholder.GetComponent<Text>().text = ""; 
                 buttonValidate.onClick.AddListener(Validate);
                 buttonCancel.onClick.AddListener(Cancel);
-                inputField.text = GetComponent<ABLItem>().Parameter;
+                //inputField.text = GetComponent<ABLItem>().Parameter;
+                inputField.text = GetComponent<SayElement>().Utterance;
                 inputField.GetComponentsInChildren<Text>()[0].text = Buddy.Resources.GetString("texttosay");
                 popupField.GetComponent<Animator>().SetTrigger("open");
                 backgroundBlack.GetComponent<Animator>().SetTrigger("open");
@@ -55,7 +56,7 @@ namespace BuddyApp.BuddyLab
 
         private void Validate()
         {
-            GetComponent<ABLItem>().Parameter = inputField.text;
+            GetComponent<SayElement>().Utterance = inputField.text;
             CloseField();
 
             popupField.GetComponent<Animator>().ResetTrigger("open");

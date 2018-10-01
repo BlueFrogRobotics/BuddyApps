@@ -105,7 +105,10 @@ namespace BuddyApp.BuddyLab
             Debug.Log("name project: " + mBLBehaviour.NameOpenProject);
             mItemControl.CleanSequence();
             yield return null;
-            mItemControl.ShowSequence(mBLBehaviour.NameOpenProject + ".xml");
+            Debug.Log("avant algo");
+            mItemControl.ShowAlgo(mBLBehaviour.NameOpenProject + ".xml");
+            Debug.Log("apres algo");
+            //mItemControl.ShowSequence(mBLBehaviour.NameOpenProject + ".xml");
             //mUIManager.SetBackground(true);
             mUIManager.OpenBottomUI();
             mUIManager.OpenLineProgram();

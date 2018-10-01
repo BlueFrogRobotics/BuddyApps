@@ -20,9 +20,15 @@ namespace BuddyApp.BuddyLab
         public void SetInstruction(ABehaviourInstruction iInstruction)
         {
             mInstruction = iInstruction;
+            SetInternalParameters();
         }
 
         protected abstract void SetParameter();
+
+        protected virtual void SetInternalParameters()
+        {
+
+        }
 
         public abstract void Highlight();
     }
