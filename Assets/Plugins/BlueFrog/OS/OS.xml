@@ -194,13 +194,13 @@
         </member>
         <member name="M:BlueQuark.Internal.ABasePresenter`2.RunTests">
             <summary>
-            Run the test suite of the component.
+            Runs the test suite of the component.
             </summary>
             <returns>IEnumerator for yield instruction</returns>
         </member>
         <member name="M:BlueQuark.Internal.ABasePresenter`2.RunMetric">
             <summary>
-            Run the metric suite of the component class.
+            Runs the metric suite of the component class.
             </summary>
             <returns>IEnumerator for yield instruction</returns>
         </member>
@@ -397,6 +397,164 @@
             <summary>
             The action manager class defines high level function to control Buddy action.
             It also contains some function for decision making based on situation (state), mood and desire.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.TopologicalMappingNativeLibrary">
+            <summary>
+            Class for native DLL of topological navigation.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.TopologocalMappingNativeObj">
+            <summary>
+            Native C++ topo navigation class
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.TopologocalMappingNativeObj.Instance">
+            <summary>
+            Get instance
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.TopologocalMappingNativeObj.Localizer">
+            <summary>
+            The localizer object
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TopologocalMappingNativeObj.JITInitialize(System.Boolean)">
+            <summary>
+            Initialize C++ object.
+            TODO: Unity is single threaded? no need for thread safe?
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TopologocalMappingNativeObj.SaveObj">
+            <summary>
+            Save C++ object
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.Tools">
+            <summary>
+            Functions to calculate angles during navigation
+            Conversion between command and real-world odometry measures
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.Tools.COEFF_ODO">
+            <summary>
+            TODO: Coefficient on Old Robot. To be updated!
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.Tools.ConvertDistToTime(System.Single,System.Single)">
+            <summary>
+            Given a distance and the speed, get the time needed for SetWheelsSpeed()
+            In milliseconds
+            </summary>
+            <param name="iSpeed"></param>
+            <param name="iDist"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Tools.ConvertCmdToDist(System.Single,System.Int32)">
+            <summary>
+            Given the time and the speed, calculate the dist travelled
+            </summary>
+            <param name="iSpeed"></param>
+            <param name="iTimeout"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Tools.GetEndPoint(UnityEngine.Vector3,System.Single)">
+            <summary>
+            Given a starting point and a distance, get the theoretical end point
+            </summary>
+            <param name="iStart">Starting point</param>
+            <param name="iDist">Distance in meter</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Tools.Angle(UnityEngine.Vector3,UnityEngine.Vector3)">
+            <summary>
+            Get the angle in degrees between two points, counterclockwise 
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns>Angle in degrees</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Tools.GetCommand(UnityEngine.Vector3,UnityEngine.Vector3,System.Single@,System.Single@)">
+            <summary>
+            Get a command to go from start to end point
+            </summary>
+            <param name="iStart"></param>
+            <param name="iEnd"></param>
+            <param name="iDist">Distance in meter</param>
+            <param name="iAngle">Angle in degree</param>
+        </member>
+        <member name="M:BlueQuark.Internal.Tools.FormatAngle(System.Single)">
+            <summary>
+            Make angle between -180 and 180 degrees
+            </summary>
+            <param name="iAngle"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlueQuark.Internal.InputExtensions">
+            <summary>
+            Extensions for calculation
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.InputExtensions.Clamp``1(``0,``0,``0)">
+            <summary>
+            Clamp the value between min and max
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="val"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlueQuark.Internal.TopologicalMapPersistentData">
+            <summary>
+            Class for persistent data:
+            The positions and angles of landmarks, etc
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.TopologicalMapPersistentData.LandmarkPositions">
+            <summary>
+            Landmarks' positions by odometry
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.TopologicalMapPersistentData.OrientationToNext">
+            <summary>
+            Landmarks' orientation on the path to the next landmark
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.TopologicalMapPersistentData.Landmarks">
+            <summary>
+            Landmarks organized in rooms
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.TopologicalMapPersistentData.LandmarkCount">
+            <summary>
+            Total number of landmarks
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.TopologicalMapPersistentData.CurrentLandmark">
+            <summary>
+            Current Landmark to be added
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.TopologicalMapPersistentData.Rooms">
+            <summary>
+            Room Names
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TopologicalMapPersistentData.Clear">
+            <summary>
+            Clear saved data.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TopologicalMapPersistentData.Save(System.String)">
+            <summary>
+            Save data
+            </summary>
+            <param name="iPath">Path to be saved</param>
+        </member>
+        <member name="T:BlueQuark.Internal.MapperULink">
+            <summary>
+            ULink
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.OLD.NetworkBroadcastResult">
@@ -1454,6 +1612,16 @@
             With of the last retrieved Depth frame
             </summary>
         </member>
+        <member name="F:BlueQuark.Internal.AVisionAlgorithm`2.mThermalHeight">
+            <summary>
+            Height of the last retrieved Thermal frame
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.AVisionAlgorithm`2.mThermalWidth">
+            <summary>
+            With of the last retrieved Thermal frame
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.AVisionAlgorithm`2.OnNewFrame(OpenCVUnity.Mat,OpenCVUnity.Mat,OpenCVUnity.Mat)">
             <summary>
             Called at each valuable frame.
@@ -2019,102 +2187,6 @@
             Set the output specified GPIO on low value.
             </summary>
             <param name="iGPIOIdx">Index of the GPIO</param>
-        </member>
-        <member name="T:BlueQuark.Internal.LocalizationGraph">
-            <summary>
-            Graph representing the topological map
-            A graph can be build from a serialized file with DeSerialize(str).
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.LocalizationNode">
-            <summary>
-            Node for topological mapping.
-            Each node represents a place in a global graph. 
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.LocalizationNode.ID">
-            <summary>
-            ID of the node
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.LocalizationNode.Coordinates">
-            <summary>
-            Position of the node
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.LocalizationNode.AdjacentNodes">
-            <summary>
-            Adjacent nodes
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.LocalizationNode.Observations">
-            <summary>
-            Observations of the node
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.LocalizationNode.Weight">
-            <summary>
-            Weight of the node ==> Weight of the observation
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.LocalizationNode.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.LocalizationNode.ToString">
-            <summary>
-            Serialization tool
-            </summary>
-            <returns>The corresponding string</returns>
-        </member>
-        <member name="T:BlueQuark.Internal.MinTriLocalizationStrategy">
-            <summary>
-            Best localization strategy by searching for the minimal area triangle
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.MinTriLocalizationStrategy.Execute(BlueQuark.SharpLocation[])">
-            <summary>
-            Best localization strategy by searching for the minimal area triangle
-            </summary>
-            <param name="iConjecturalLocalizations">Best find position of the robot</param>
-            <returns>Hypothetical position of the robot</returns>
-        </member>
-        <member name="T:BlueQuark.Internal.Observation">
-            <summary>
-            Observations of the robot at a given orientation
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.Observation.Orientation">
-            <summary>
-            Orientation of the observation
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.Observation.Weight">
-            <summary>
-            Weight (rate) of the observation
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.Observation.Descriptors">
-            <summary>
-            Descriptor of the observation
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.Observation.Landmarks">
-            <summary>
-            Landmarks of the observation
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.Observation.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.Observation.ToString">
-            <summary>
-            Serialization tool
-            </summary>
-            <returns>The corresponding string</returns>
         </member>
         <member name="T:BlueQuark.Internal.AEntity">
             <summary>
@@ -3307,10 +3379,6 @@
         </member>
         <member name="T:BlueQuark.Internal.GoogleSpeech">
             <summary>
-            Speech to text layer that allows you to translate an input signal to a basic System.String.
-            Only works on Android builds.
-            </summary>
-            <summary>
             Google Speech API interface component.
             </summary>
         </member>
@@ -4184,14 +4252,14 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Boolean)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
@@ -4199,7 +4267,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
@@ -4207,88 +4275,88 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Boolean)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable,System.Boolean)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[])">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable[])">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable[],System.Boolean)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable[],System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable[],System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Action)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
@@ -4296,7 +4364,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Boolean,System.Action)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
@@ -4305,7 +4373,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
@@ -4314,7 +4382,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
@@ -4322,81 +4390,81 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable,System.Action)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable,System.Boolean,System.Action)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable[],System.Action)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable[],System.Boolean,System.Action)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable[],System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,BlueQuark.InputAlgorithmBehaviourVariable[],System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
-            Run the specified behaviour algorithm filepath.
+            Runs the specified behaviour algorithm filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
@@ -4404,14 +4472,14 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Boolean)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
@@ -4419,7 +4487,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
@@ -4427,88 +4495,88 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Boolean)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable,System.Boolean)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[])">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable[])">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable[],System.Boolean)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable[],System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable[],System.Boolean,System.Action{BlueQuark.ABehaviourInstruction})">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Action)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
@@ -4516,7 +4584,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Boolean,System.Action)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
@@ -4525,7 +4593,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
@@ -4534,7 +4602,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
@@ -4542,81 +4610,81 @@
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable,System.Action)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable,System.Boolean,System.Action)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable[],System.Action)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable[],System.Boolean,System.Action)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable,System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariable">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariable">Named variable to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable[],System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.BehaviourAlgorithmVariable[],System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
+        <member name="M:BlueQuark.BehaviourInterpreter.Run(BlueQuark.BehaviourAlgorithm,BlueQuark.InputAlgorithmBehaviourVariable[],System.Boolean,System.Action{BlueQuark.ABehaviourInstruction},System.Action)">
             <summary>
-            Run the specified behaviour algorithm.
+            Runs the specified behaviour algorithm.
             </summary>
             <param name="iAlgorithm">The algorithm to run. Cannot be null.</param>
-            <param name="iVariables">Set of named variables to set before algorithm execution</param>
+            <param name="iInputVariables">Set of named variables to set before algorithm execution</param>
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnExecuteInstruction">Callback called on each instruction execution</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
@@ -4624,14 +4692,14 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,System.Boolean)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iConsidereInternalMood">Does the algorithm considere the local</param>
@@ -4639,7 +4707,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,System.Action)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
@@ -4647,7 +4715,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,System.Boolean,System.Action)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iConsidereInternalMood">Does the algorithm considere the local</param>
@@ -4656,7 +4724,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
@@ -4664,7 +4732,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,System.Boolean)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
@@ -4673,7 +4741,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,System.Action)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
@@ -4682,7 +4750,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,System.Boolean,System.Action)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
@@ -4692,7 +4760,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourCommitment)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iBehaviourCommitment">Engagement status of the robot</param>
@@ -4700,7 +4768,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourCommitment,System.Boolean)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iBehaviourCommitment">Engagement status of the robot</param>
@@ -4709,7 +4777,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourCommitment,System.Action)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iBehaviourCommitment">Engagement status of the robot</param>
@@ -4718,7 +4786,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourCommitment,System.Boolean,System.Action)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iBehaviourCommitment">Engagement status of the robot</param>
@@ -4728,7 +4796,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,BlueQuark.BehaviourCommitment)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
@@ -4737,7 +4805,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,BlueQuark.BehaviourCommitment,System.Boolean)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
@@ -4747,7 +4815,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,BlueQuark.BehaviourCommitment,System.Action)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
@@ -4757,7 +4825,7 @@
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(BlueQuark.Mood,BlueQuark.BehaviourMovementPattern,BlueQuark.BehaviourCommitment,System.Boolean,System.Action)">
             <summary>
-            Run a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
+            Runs a random behaviour algorithm (included in the OS) corresponding to the given search parameters.
             </summary>
             <param name="iMood">General mood of the behaviour</param>
             <param name="iBehaviourMovementPattern">Movement scope of the behaviour</param>
@@ -4838,23 +4906,38 @@
             <param name="iFunc">The routine to start</param>
             <returns>The started coroutine</returns>
         </member>
-        <member name="T:BlueQuark.AConditionalBehaviourInstruction">
+        <member name="T:BlueQuark.AAlgorithmBehaviourVariable">
             <summary>
-            Base class for conditional instruction (condition or loop).
+            Represents a named variable declared during a Behaviour algorithm. 
             </summary>
         </member>
-        <member name="T:BlueQuark.BehaviourInstructionVariable`1">
+        <member name="P:BlueQuark.AAlgorithmBehaviourVariable.Name">
+            <summary>
+            The name of the variable.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.AAlgorithmBehaviourVariable.Value">
+            <summary>
+            The value of the variable.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.LocalAlgorithmBehaviourVariable">
+            <summary>
+            Represents a named variable declared during a Behaviour algorithm. 
+            </summary>
+        </member>
+        <member name="T:BlueQuark.BehaviourInstructionArgument`1">
             <summary>
             Represents a named variable for a specific instruction. 
             </summary>
             <typeparam name="T">Type of the data of the variable</typeparam>
         </member>
-        <member name="P:BlueQuark.BehaviourInstructionVariable`1.Name">
+        <member name="P:BlueQuark.BehaviourInstructionArgument`1.Name">
             <summary>
             Name of the variable.
             </summary>
         </member>
-        <member name="P:BlueQuark.BehaviourInstructionVariable`1.Value">
+        <member name="P:BlueQuark.BehaviourInstructionArgument`1.Value">
             <summary>
             Value of the variable.
             </summary>
@@ -4884,34 +4967,29 @@
             Creates a base instruction object.
             </summary>
         </member>
-        <member name="T:BlueQuark.ABlockBehaviourInstruction">
+        <member name="T:BlueQuark.AControlBehaviourInstruction">
             <summary>
             Base class for block instruction (condition or loop).
             </summary>
         </member>
-        <member name="P:BlueQuark.ABlockBehaviourInstruction.SubInstructions">
+        <member name="P:BlueQuark.AControlBehaviourInstruction.SubInstructions">
             <summary>
             Instructions contained in the block.
             </summary>
         </member>
-        <member name="M:BlueQuark.ABlockBehaviourInstruction.#ctor">
+        <member name="M:BlueQuark.AControlBehaviourInstruction.#ctor">
             <summary>
             Creates a new block instruction.
             </summary>
         </member>
-        <member name="T:BlueQuark.BehaviourAlgorithmVariable">
+        <member name="T:BlueQuark.InputAlgorithmBehaviourVariable">
             <summary>
-            Represents a named variable given to a Behaviour algorithm. 
+            Represents an input named variable given to a Behaviour algorithm. 
             </summary>
         </member>
-        <member name="P:BlueQuark.BehaviourAlgorithmVariable.Name">
+        <member name="T:BlueQuark.AProcedureBehaviourInstruction">
             <summary>
-            The name of the variable.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.BehaviourAlgorithmVariable.Value">
-            <summary>
-            The value of the variable.
+            Base class for method call instruction.
             </summary>
         </member>
         <member name="T:BlueQuark.BehaviourAlgorithm">
@@ -5567,6 +5645,611 @@
             <summary>
             In love !
             </summary>
+        </member>
+        <member name="T:BlueQuark.LocationStrategy">
+            <summary>
+            General GoTo navigation strategies.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.LocationStrategy.ToImpl(UnityEngine.Vector3)">
+            <summary>
+            Navigate to a relative iPosition
+            </summary>
+            <param name="iPosition"></param>
+        </member>
+        <member name="M:BlueQuark.LocationStrategy.ToTopoImpl(BlueQuark.Room)">
+            <summary>
+            Topological navigation to a room
+            </summary>
+            <param name="iRoom"></param>
+        </member>
+        <member name="M:BlueQuark.LocationStrategy.To(System.Single,System.Single,System.Single)">
+            <summary>
+            Starts a navigation to go to the specified position
+            </summary>
+            <param name="iX">The X relative position in meters</param>
+            <param name="iY">The Y relative position in meters</param>
+            <param name="iT">The Theta angle position</param>
+        </member>
+        <member name="M:BlueQuark.LocationStrategy.To(UnityEngine.Vector2)">
+            <summary>
+            Starts a navigation to go to the specified position
+            </summary>
+            <param name="iPosition">The position</param>
+        </member>
+        <member name="M:BlueQuark.LocationStrategy.To(OpenCVUnity.Point)">
+            <summary>
+            Starts a navigation to go to the specified position
+            </summary>
+            <param name="iPosition">The position</param>
+        </member>
+        <member name="M:BlueQuark.LocationStrategy.To(OpenCVUnity.Point3)">
+            <summary>
+            Starts a navigation to go to the specified position
+            </summary>
+            <param name="iPosition">The position</param>
+        </member>
+        <member name="M:BlueQuark.LocationStrategy.To(UnityEngine.Vector3)">
+            <summary>
+            Starts a navigation to go to the specified position
+            </summary>
+            <param name="iPosition">The position</param>
+        </member>
+        <member name="M:BlueQuark.LocationStrategy.To(BlueQuark.Room)">
+            <summary>
+            Starts a topological navigation to a room
+            </summary>
+            <param name="iRoom">Room as objective</param>
+        </member>
+        <member name="T:BlueQuark.TopoNav.TopoNavigationControler">
+            <summary>
+            Class that commands the navigation movement of the robot.
+            Main functions:
+            1. Localization
+            2. Find Orientation during navigation
+            3. Advance with obstacle detection / obstacle avoidance
+            4. Navigation controller
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TopoNav.TopoNavigationControler.CurrentLandmark">
+            <summary>
+            Current landmark identified by odometry
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TopoNav.TopoNavigationControler.CurrentStep">
+            <summary>
+            Current step in path identified by odometry
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TopoNav.TopoNavigationControler.CurrentDist">
+            <summary>
+            Distance advanced in current step
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TopoNav.TopoNavigationControler.IdxPath">
+            <summary>
+            Current path
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TopoNav.TopoNavigationControler.CurrentRoom">
+            <summary>
+            Current room after identification
+            </summary>
+        </member>
+        <member name="F:BlueQuark.TopoNav.TopoNavigationControler.mCurrentRoom">
+            <summary>
+            Property cannot be used as out parameter!
+            </summary>
+        </member>
+        <member name="F:BlueQuark.TopoNav.TopoNavigationControler.mVisionStep">
+            <summary>
+            Step in path identified by vision
+            </summary>
+        </member>
+        <member name="F:BlueQuark.TopoNav.TopoNavigationControler.mVisionStepmax">
+            <summary>
+            The max step vision till now
+            </summary>
+        </member>
+        <member name="F:BlueQuark.TopoNav.TopoNavigationControler.mStepsAfterTurning">
+            <summary>
+            How many times the robot has been turning
+            </summary>
+        </member>
+        <member name="F:BlueQuark.TopoNav.TopoNavigationControler.mConfidence">
+            <summary>
+            The confidence of orientation
+            </summary>
+        </member>
+        <member name="F:BlueQuark.TopoNav.TopoNavigationControler.mLastPosition">
+            <summary>
+            Position of the last learned landmark
+            </summary>
+        </member>
+        <member name="F:BlueQuark.TopoNav.TopoNavigationControler.mVerificationCountdown">
+            <summary>
+            Vision verification of landmark transition countdown
+            </summary>
+        </member>
+        <member name="F:BlueQuark.TopoNav.TopoNavigationControler.mOdometryNeedVerify">
+            <summary>
+            If odometry determined landmark transition needs verified
+            </summary>
+        </member>
+        <member name="F:BlueQuark.TopoNav.TopoNavigationControler.mTotalSteps">
+            <summary>
+            Total navigation steps
+            </summary>
+        </member>
+        <member name="T:BlueQuark.TopoNav.TopoNavigationControler.Speed">
+            <summary>
+            Command for wheel speed
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TopoNav.TopoNavigationControler.Speed.Left">
+            <summary>
+            Left wheel speed in degree by second
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TopoNav.TopoNavigationControler.Speed.Right">
+            <summary>
+            Right wheel speed in degree by second
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.Speed.#ctor(System.Single)">
+            <summary>
+            Set sepped of both wheels
+            </summary>
+            <param name="iBoth"></param>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.Init">
+            <summary>
+            Initialize the topological navigation controler
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.Start">
+            <summary>
+            Initialize variables used in navigation
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.Update">
+            <summary>
+            Check obstalce using infrared sensors each frame
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.SaveRecord">
+            <summary>
+            Save diagnostic data
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.GetOrientationToLandmark">
+            <summary>
+            Take camera image to determine orientation on path (the angle to turn)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.NavigateAsync(BlueQuark.Room)">
+            <summary>
+            Navigation function
+            </summary>
+            <param name="iRoom">The destination room</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.AdvanceStep">
+            <summary>
+            Navigation function to turn and advance a step
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.FindLandmarkAsync">
+            <summary>
+            Localization by first finding the room then the landmark
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.FindInitialPositonAndPath(BlueQuark.Room)">
+            <summary>
+            Coroutine to find the room, the landmark and finds a path to goal
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.DetermineAngle(System.Single)">
+            <summary>
+            Determine angle only from IR detections
+            </summary>
+            <param name="iAngle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.RunNavigation(BlueQuark.Room)">
+            <summary>
+            Navigation function called by #Unity#
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.StopAllMovements">
+            <summary>
+            Stop all movements
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.StartMv">
+            <summary>
+            Test a movement command
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.TestOneMeter">
+            <summary>
+            Test movement command
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.Watcher(UnityEngine.Vector3,System.Single)">
+            <summary>
+            Monitor the termination of AdvanceIntelligent()
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.AdvanceIntelligent(System.Single,System.Int32)">
+            <summary>
+            Advance to goal with obstacle avoidance
+            Adjust direction by re-calculating command after detours
+            </summary>
+            <param name="iSpeed">Speed</param>
+            <param name="iTimeout">Time</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.AlignBetweenWalls(BlueQuark.TopoNav.IRDetection)">
+            <summary>
+            Align to center of the corridor
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.AdvanceWithObstacleDetection(System.Single,System.Single,System.Boolean)">
+            <summary>
+            Advance a certain distance with obstacle detection 
+            </summary>
+            <param name="iDist">Distance in m</param>
+            <param name="iSpeed">Speed in m/s</param>
+            <param name="iDetour">When encoutnered obstalce, advance or stop</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.UpdatePathProgress(System.Int32,System.Int32)">
+            <summary>
+            Update progress in the path (which landmarks to search)
+            SetActive iStep et iStep + 1
+            When starting, iStep = 0
+            </summary>
+            <param name="iPath"></param>
+            <param name="iStep"></param>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.GetLandmarkAtStep(System.Int32,System.Int32)">
+            <summary>
+            Get the landmark corresponding to iStep in iPath   
+            </summary>
+            <param name="iPath"></param>
+            <param name="iStep"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.FindLandmarkInPath(System.Int32,System.Int32)">
+            <summary>
+            Find at which step is the landmark in a path
+            If not found, return 0
+            </summary>
+            <param name="iPath"></param>
+            <param name="iLandmark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.GetOrientation(OpenCVUnity.Mat,System.Int32,System.Int32,System.Single,System.Int32@,System.Int32@)">
+            <summary>
+            Get orientation by comparing the current image with images learned
+            In the model.
+            </summary>
+            <param name="iRGBFrame">Image</param>
+            <param name="iPath">In which path</param>
+            <param name="iStep">At which step in path</param>
+            <param name="iOdo">Odometry info</param>
+            <param name="oConfidence">The confidence in the orientation result</param>
+            <param name="oVisualStep">(for testing purpose) vision-identified step</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.FindPathToRoom(System.Int32,BlueQuark.Room)">
+            <summary>
+            Find a path leading to the room in the topological map.
+            Dijkstra's algorithm is used to find the shortest-length path.
+            The path index is returned.
+            </summary>
+            <param name="iStart">Index of start landmark</param>
+            <param name="iRoom">Destination room</param>
+            <returns>Path index</returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.FindRoomThenLandmark(OpenCVUnity.Mat,BlueQuark.Room@,System.Int32)">
+            <summary>
+            Using vision find first the room then the nearest landmark in room
+            The robot will turn on itself to take [iNumImages] photos
+            Once finished, oRoom is assigned the room result.
+            </summary>
+            <param name="iRGBFrame"></param>
+            <param name="oRoom"></param>
+            <param name="iNumImages"></param>
+            <returns>Landmark index</returns>
+        </member>
+        <member name="M:BlueQuark.TopoNav.TopoNavigationControler.FinishedPath(System.Int32,System.Int32)">
+            <summary>
+            Return if a step of the path has finished during navigation.
+            </summary>
+            <param name="iPath">Path index</param>
+            <param name="iStep">Step</param>
+            <returns>If path has finished</returns>
+        </member>
+        <member name="T:BlueQuark.TopoNav.IRDetection">
+            <summary>
+            Distance data given by infrared sensors
+            </summary>
+        </member>
+        <member name="T:BlueQuark.TopoNav.Wall">
+            <summary>
+            Detection results of walls
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TopoNav.ObstacleAvoidance.Detection">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TopoNav.ObstacleAvoidance.IRDetectWall">
+            <summary>
+            Wall detection using infrared sensors
+            Front, left, right or clear
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlueQuark.TopoNav.Map">
+            <summary>
+            Map data class used by Mapper
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TopoNav.Map.LOCAL_FILE">
+            <summary>
+            C# level map data
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TopoNav.Map.#ctor(System.String)">
+            <summary>
+            Create a path
+            </summary>
+            <param name="iPath">Path to the file</param>
+        </member>
+        <member name="M:BlueQuark.TopoNav.Map.#ctor">
+            <summary>
+            Default ctor
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TopoNav.Waypoint.ID">
+            <summary>
+            Identifier of waypoint
+            </summary>
+        </member>
+        <member name="P:BlueQuark.TopoNav.Waypoint.Position">
+            <summary>
+            Global coordianation by odometry
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Mapper">
+            <summary>
+            Mapper class.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Mapper.RoomCountImpl">
+            <summary>
+            Return the number of rooms present in the model
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Mapper.AddRoomImpl(BlueQuark.Room)">
+            <summary>
+            Add a new room in the topological map
+            </summary>
+            <param name="iRoom"></param>
+        </member>
+        <member name="M:BlueQuark.Mapper.RemoveRoomImpl(BlueQuark.Room)">
+            <summary>
+            Remove room from the topological map
+            </summary>
+            <param name="iRoom"></param>
+        </member>
+        <member name="M:BlueQuark.Mapper.LearnLocalizationImpl(OpenCVUnity.Mat,BlueQuark.Room)">
+            <summary>
+            Function to calculate the keypoints and features of a single image,
+            And then add them to the bag of words model for localization
+            </summary>
+            <param name="iRGBFrame"></param>
+            <param name="iRoom"></param>
+        </member>
+        <member name="M:BlueQuark.Mapper.StartFromExistingLandmarkImpl(System.Int32)">
+            <summary>
+            Start a new path from existing landmark
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Mapper.ArriveAtExistingLandmarkImpl(System.Int32)">
+            <summary>
+            Join path at a existing landmark
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Mapper.UpdateLandmarkDistance(System.Int32,System.Int32,System.Single,System.Single)">
+            <summary>
+            Update the connection between two landmarks
+            </summary>
+            <param name="iStart"></param>
+            <param name="iEnd"></param>
+            <param name="iDist">Distance in meter</param>
+            <param name="iOrientation">Orientation in degree</param>
+            <returns></returns>
+        </member>
+        <member name="P:BlueQuark.Mapper.RoomCount">
+            <summary>
+            Count the number of rooms
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Mapper.RoomList">
+            <summary>
+            Return the list of rooms
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Mapper.Init(BlueQuark.TopoNav.Map,System.Boolean)">
+            <summary>
+            Explicitly initialize Mapper
+            </summary>
+            <param name="iMap"></param>
+            <param name="iReinit"></param>
+        </member>
+        <member name="M:BlueQuark.Mapper.AddRoom(BlueQuark.Room)">
+            <summary>
+            Add a room into the map
+            </summary>
+            <param name="iRoom"></param>
+        </member>
+        <member name="M:BlueQuark.Mapper.RemoveRoom(BlueQuark.Room)">
+            <summary>
+            Remove a room from the map
+            </summary>
+            <param name="iRoom"></param>
+        </member>
+        <member name="M:BlueQuark.Mapper.AddRoomConnection(BlueQuark.Room,BlueQuark.Room)">
+            <summary>
+            Add connection between two rooms in the topological map
+            </summary>
+            <param name="iRoom1"></param>
+            <param name="iRoom2"></param>
+        </member>
+        <member name="M:BlueQuark.Mapper.RoomsConnected(BlueQuark.Room,BlueQuark.Room)">
+            <summary>
+            Return if room1 and room2 are connected in the topological map
+            </summary>
+            <param name="iRoom1"></param>
+            <param name="iRoom2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Mapper.SetDirection">
+            <summary>
+            Used when learning landmarks for navigation.
+            After learning a landmark, set direction leading to the next landmark.
+            The orientation will be used to update the path info between two landmarks.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Mapper.StartFromExistingLandmark(System.Int32)">
+            <summary>
+            During learning landmarks for navigation,
+            Start a new path from existing landmark.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Mapper.ArriveAtExistingLandmark(System.Int32)">
+            <summary>
+            During learning landmarks for navigation,
+            Use this function to join an existing landmark,
+            A path will corresponding length and orientation 
+            will be created in the topological map.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Mapper.SaveModel">
+            <summary>
+            Save navigation and localization model,
+            Calculated image featuers as wells as the topological map
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Mapper.ClearModel">
+            <summary>
+            Clear navigation and localization model,
+            Calculated image featuers as wells as the topological map
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Mapper.LearnNavigationAsync(BlueQuark.Room,System.Int32)">
+            <summary>
+            Run the coroutine to learn a landmark for navigation.
+            The robot will rotate on itself iNImages times to takes images.
+            Images wiil be learned in both the bag of words model (localization)
+            And nav model.
+            </summary>
+            <param name="iRoom"></param>
+            <param name="iNImages"></param>
+            <returns>Coroutine</returns>
+        </member>
+        <member name="M:BlueQuark.Mapper.LearnLocalizationAsync(BlueQuark.Room,System.Int32)">
+            <summary>
+            Coroutine to learn images in bag of words model for localization.
+            Will take nImages with equal angular distance.
+            (for example, 6 images = 60 degrees)
+            </summary>
+            <param name="iRoom">Room</param>
+            <param name="iNumImages">The total number of images in this landmark</param>
+            <returns>Coroutine</returns>
+        </member>
+        <member name="T:BlueQuark.Room">
+            <summary>
+            Room class for topological map
+            <see cref="!:https://stackoverflow.com/questions/2779743/can-you-add-to-an-enum-type-in-run-time"/>
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Room.Name">
+            <summary>
+            Room name
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Room.Owner">
+            <summary>
+            For example, it is Loulou's room
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Room.#ctor">
+            <summary>
+            Default ctor
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Room.#ctor(System.String)">
+            <summary>
+            Create a room by label
+            </summary>
+            <param name="iLabel"></param>
+        </member>
+        <member name="P:BlueQuark.Room.DefaultRooms">
+            <summary>
+            Get the list of rooms by default
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Room.Equals(System.Object)">
+            <summary>
+            override object.Equals 
+            </summary>
+            <param name="iObj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Room.GetHashCode">
+            <summary>
+            override object.GetHashCode
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlueQuark.Rooms">
+            <summary>
+            A default collection of rooms
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Rooms.Kitchen">
+            <summary>
+            Kitchen by default
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Rooms.LivingRoom">
+            <summary>
+            Living room by default
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Rooms.Bedroom">
+            <summary>
+            Bedroom by default
+            </summary>
+        </member>
+        <member name="T:BlueQuark.SerializableDictionary`2">
+            <summary>
+            Serializable Dictionary
+            </summary>
+            <typeparam name="TKey">Key</typeparam>
+            <typeparam name="TValue">Value</typeparam>
         </member>
         <member name="T:BlueQuark.Remote.StopWheelsCmd">
             <summary>
@@ -7551,22 +8234,91 @@
             </summary>
             <param name="iName">The label to forget</param>
         </member>
-        <member name="M:BlueQuark.RoomDetector.RecognizeRoom(OpenCVUnity.Mat,System.Boolean@,System.Int32)">
+        <member name="T:BlueQuark.RoomDetector">
             <summary>
-            Returns room name or unidentified when finished
-            If result not credible enough, finished is false to require more images
+            Class containing functions of topological localization and navigation.
+            Using images from a single RGB-Camera. 
+            A bag of words model is used for localization, while navigation is based on image matching.
+            OpenCV is used for keypoint detection and descriptor calculation.
             </summary>
-            <param name="iRGBFrame"></param>
-            <param name="ioFinished"></param> 
-            <param name="iReal"></param>
+        </member>
+        <member name="M:BlueQuark.RoomDetector.RunLocalizationImpl(System.Action{BlueQuark.Room})">
+            <summary>
+            Run localization coroutine. 
+            When finished, will call iSetOutput to return room result
+            </summary>
+            <param name="iOnEndLocalization"> For example, (x) => {lReuslt = x;} </param>
             <returns></returns>
         </member>
-        <member name="M:BlueQuark.RoomDetector.LearnImage(OpenCVUnity.Mat,System.Int32)">
+        <member name="M:BlueQuark.RoomDetector.GetPathLengthImpl(System.Int32,System.Int32)">
             <summary>
-            Learn one image with its label
+            Get the path length at a step
+            </summary>
+            <param name="iPath"></param>
+            <param name="iStep"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.RoomDetector.DistanceBetweenLandmarksImpl(System.Int32,System.Int32)">
+            <summary>
+            Get the distance measured by odometry between two landmarks.
+            </summary>
+            <param name="iLdmk1"></param>
+            <param name="iLdmk2"></param>
+            <returns>Distance in meter</returns>
+        </member>
+        <member name="M:BlueQuark.RoomDetector.FindPathImpl(System.Int32,System.Int32)">
+            <summary>
+            Find path between start landmark and end landmark.
+            Dijkstra's algorithm is used to find the shortest-length path.
+            The path index is returned.
+            </summary>
+            <param name="iStart">Index of start landmark</param>
+            <param name="iEnd">Index of end landmark</param>
+            <returns>Found path index</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.RoomDetector.FacingWallImpl(OpenCVUnity.Mat)" -->
+        <member name="M:BlueQuark.RoomDetector.JITInitialize(BlueQuark.TopoNav.Map,System.Boolean)">
+            <summary>
+            Initialize model by deserialization two config files
+            </summary>
+        </member>
+        <member name="M:BlueQuark.RoomDetector.LocalizeAsync(System.Action{BlueQuark.Room})">
+            <summary>
+            Localize in which room is the robot
+            </summary>
+            <param name="iSetRoom">Action to get localization result after finished</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.RoomDetector.RecognizeRoom(OpenCVUnity.Mat,System.Boolean@)">
+            <summary>
+            When finished, returns room name or Unidentified.
+            If more images are required, oFinished is false.
             </summary>
             <param name="iRGBFrame"></param>
-            <param name="iLabel"></param>
+            <param name="oFinished"></param> 
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.RoomDetector.SetMap(BlueQuark.TopoNav.Map)">
+            <summary>
+            Set a specific map to use for mapper
+            Else the default map shall be used
+            </summary>
+            <param name="iMap">A map file</param>
+        </member>
+        <member name="M:BlueQuark.RoomDetector.RunLocalization(System.Action{BlueQuark.Room})">
+            <summary>
+            Run localization coroutine. 
+            When finished, will call iSetOutput to return room result
+            </summary>
+            <param name="iOnEndLocalization"> For example, (x) => {lReuslt = x;} </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.RoomDetector.Correct(BlueQuark.Room)">
+            <summary>
+            When the localization result is incorrect,
+            Use this function to give the right answer to retrain model
+            </summary>
+            <param name="iCorrectRoom"></param>
         </member>
         <member name="T:BlueQuark.WavingDetector">
             <summary>
@@ -9046,7 +9798,7 @@
         </member>
         <member name="T:BlueQuark.Navigation">
             <summary>
-            Module managing navigation strategies. Able to run one main navigation strategy.
+            Module managing navigation strategies. Able to run one main navigation strategy at a time.
             </summary>
         </member>
         <member name="P:BlueQuark.Navigation.IsBusy">
@@ -9056,7 +9808,7 @@
         </member>
         <member name="M:BlueQuark.Navigation.Run``1">
             <summary>
-            Run a navigation strategy. This strategy can be parametrize in this way : Run().With(args).
+            Runs a navigation strategy. This strategy can be parametrize in this way : Run().With(args).
             Start a strategy will stop any running strategy.
             </summary>
             <typeparam name="S">The strategy type</typeparam>
@@ -9066,49 +9818,6 @@
             <summary>
             Stops the running navigation strategy. No effect if no running navigation strategy
             </summary>
-        </member>
-        <member name="T:BlueQuark.LocationStrategy">
-            <summary>
-            General GoTo navigation strategies.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.LocationStrategy.To(System.Single,System.Single,System.Single)">
-            <summary>
-            Starts a navigation to go to the specified position
-            </summary>
-            <param name="iX">The X relative position in meters</param>
-            <param name="iY">The Y relative position in meters</param>
-            <param name="iT">The Theta angle position</param>
-        </member>
-        <member name="M:BlueQuark.LocationStrategy.To(BlueQuark.SharpLocation)">
-            <summary>
-            Starts a navigation to go to the specified position
-            </summary>
-            <param name="iLocation">The position</param>
-        </member>
-        <member name="M:BlueQuark.LocationStrategy.To(UnityEngine.Vector2)">
-            <summary>
-            Starts a navigation to go to the specified position
-            </summary>
-            <param name="iPosition">The position</param>
-        </member>
-        <member name="M:BlueQuark.LocationStrategy.To(OpenCVUnity.Point)">
-            <summary>
-            Starts a navigation to go to the specified position
-            </summary>
-            <param name="iPosition">The position</param>
-        </member>
-        <member name="M:BlueQuark.LocationStrategy.To(OpenCVUnity.Point3)">
-            <summary>
-            Starts a navigation to go to the specified position
-            </summary>
-            <param name="iPosition">The position</param>
-        </member>
-        <member name="M:BlueQuark.LocationStrategy.To(UnityEngine.Vector3)">
-            <summary>
-            Starts a navigation to go to the specified position
-            </summary>
-            <param name="iPosition">The position</param>
         </member>
         <member name="T:BlueQuark.GoogleCloudVision">
             <summary>
@@ -9158,46 +9867,6 @@
             <summary>
             Called when the robot is detected as kidnapped. Remove all callback to stop the algorithm.
             </summary>
-        </member>
-        <member name="T:BlueQuark.Localization">
-            <summary>
-            Localization component. Works on a topological graph where nodes are X,Y positions in the user space.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Localization.Extrapolate">
-            <summary>
-            Blocking position extrapolation. Must be used after many scans in the user space.
-            </summary>
-            <returns>Return an extrapolate position in the space</returns>
-        </member>
-        <member name="M:BlueQuark.Localization.NearestSpots">
-            <summary>
-            Returns 3 nearest extimate spots. Must be used after many scans in the user space.
-            </summary>
-            <returns>Best estimate spots for the current localization</returns>
-        </member>
-        <member name="M:BlueQuark.Localization.Extrapolate(System.Action{BlueQuark.SharpLocation},System.String)">
-            <summary>
-            Non blocking position extrapolation. Must be used after many scans in the user space.
-            </summary>
-            <param name="iOnEndLocalization">Callback called on end of localization</param>
-            <param name="iGCVkey">Google Cloud Vision key to use labelization</param>
-            <returns>Return an extrapolate position in the space</returns>
-        </member>
-        <member name="M:BlueQuark.Localization.NearestSpots(System.Action{BlueQuark.SharpLocation[]},System.String)">
-            <summary>
-            Returns 3 nearest extimate spots. Must be used after many scans in the user space.
-            </summary>
-            <param name="iOnEndLocalization">Callback called on end of localization</param>
-            <param name="iGCVkey">Google Cloud Vision key to use labelization</param>
-            <returns>Return an extrapolate position in the space</returns>
-        </member>
-        <member name="M:BlueQuark.Localization.Scan(System.Action,System.String)">
-            <summary>
-            Starts a scan on the current position.
-            </summary>
-            <param name="iOnEndScan">Callback called on end of scan</param>
-            <param name="iGCVKey">Google Cloud Vision key to use labelization</param>
         </member>
         <member name="T:BlueQuark.MotionDetector">
             <summary>
@@ -9287,14 +9956,14 @@
             Access to the google cloud vision feature
             </summary>
         </member>
-        <member name="P:BlueQuark.Perception.Localization">
+        <member name="P:BlueQuark.Perception.RoomDetector">
             <summary>
             Localization tool
             </summary>
         </member>
-        <member name="P:BlueQuark.Perception.RoomDetector">
+        <member name="P:BlueQuark.Perception.Mapper">
             <summary>
-            Localization tool
+            A topological map of rooms and waypoints 
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.TensorFlow">
