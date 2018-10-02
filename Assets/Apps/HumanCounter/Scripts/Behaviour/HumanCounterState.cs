@@ -7,153 +7,130 @@ using OpenCVUnity;
 
 namespace BuddyApp.HumanCounter
 {
-    enum ViewMode : int
-    {
-        COUNTER_MODE,
-        VIDEO_MODE,
-    }
-
-    // The number of frame use to calcul the average of human detected.
-    enum AverageFrameNumber : int
-    {
-        TINY = 2,
-        MEDIUM = 6,
-    }
-
     public sealed class HumanCounterState : AStateMachineBehaviour
     {
-        private int humanCounter;
-        private int currentHumanCount;
+        // The number of frame use to calcul the average of human detected.
+        private const int AVERAGE_FRAME_NUMBER = 6;
 
-        private List<int> sampleCount = new List<int> { };
-        private int averageMemory;
+        private int mHumanCounter;
+        private int mCurrentHumanCount;
 
-        private float observationTimeStamp;
-        private float detectTimeStamp;
-        private float resetTimer = 0.200F;
+        private List<int> mSampleCount;
+        private int mAverageMemory;
 
-        private bool displayed;
-        private ViewMode viewMode;
-        private Mat mMatSrc;
-        private Mat matDetect;
-        private Texture2D camView;
-        private Color detectColor;
+        private float mObservationTimeStamp;
+        private float mDetectTimeStamp;
+        private float mResetTimer;
 
+        private bool mDefaultHeader;
+        private bool mDisplayed;
+        private bool mVideoMode;
+        private Mat mMatDetect;
+        private Texture2D mCamView;
 
-        // Enable or Disable the using of removeP function - /!\ on windows crash of unity are possible
-        private bool windows = false;
-
-        private bool humanDetectEnable;
-        private bool isInit = false;
+        /*
+        *   Temporary variable, used to deal with some feature in WIP.
+        *   On Windows crash of unity are possible, with removeP.
+        *   mWindows is used to enable or disable removeP, quickly.
+        *   mHumanDetectEnable is use to enable or disable the code in the callback.
+        *   mIsInit is used to initialize just once the callback, if mWindows is true.
+        */
+        private bool mWindows;
+        private bool mHumanDetectEnable;
+        private bool mIsInit;
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            viewMode = ViewMode.VIDEO_MODE;
-            displayed = false;
-            detectColor = new Color(255, 0, 0);
-            observationTimeStamp = Time.time;
-            detectTimeStamp = Time.time;
-            humanCounter = 0;
-            currentHumanCount = 0;
-            averageMemory = 0;
-
-            // Set windows to true: initialize the callback juste once, false: at every OnStateEnter
-            if (!isInit || !windows)
-            {
+            // Initialization - By default the app is open in video mode.
+            mVideoMode = true;
+            mDefaultHeader = true;
+            mDisplayed = false;
+            mObservationTimeStamp = Time.time;
+            mDetectTimeStamp = Time.time;
+            mHumanCounter = 0;
+            mCurrentHumanCount = 0;
+            mAverageMemory = 0;
+            mSampleCount = new List<int> { };
+            mIsInit = false;
+            mHumanDetectEnable = true;
+            mWindows = true;
+            // The mCurrentHumanCount is reset every 200ms.
+            mResetTimer = 0.200F;
+            // Set mWindows to true: initialize the callback juste once, false: at every OnStateEnter.
+            if (!mIsInit || !mWindows) {
                 Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect);
-                isInit = true;
+                mIsInit = true;
             }
-
-            // Enable the code inside the callback
-            humanDetectEnable = true;
-
-            // Initialize texture
-            camView = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
-
-            // The matrix is send to OnNewFrame
+            // Initialize texture.
+            mCamView = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
+            // The matrix is send to OnNewFrame.
             Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
-
-            // Hide the default parameter button
+            // Hide the default parameter button.
             Buddy.GUI.Header.DisplayParametersButton(false);
-
-            // Custom Font (Not working because of a bug - wait for bug fix)
-            Font headerFont = Buddy.Resources.Get<Font>("os_awesome");
-            headerFont.material.color = new Color(0F, 0F, 0F, 1F);
-            Buddy.GUI.Header.SetCustomLightTitle(headerFont);
-
-            string field_counter = Buddy.Resources.GetString("realtimecount") + currentHumanCount + " ";
-            field_counter += Buddy.Resources.GetString("totalhuman") + humanCounter;
-            Buddy.GUI.Header.DisplayLightTitle(field_counter);
-            
-            // Create the top left button to switch between count mode and video mode
-            FButton viewModeButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
-            viewModeButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
-            viewModeButton.OnClick.Add(() =>
-            {
-                if (viewMode == ViewMode.VIDEO_MODE)
-                    viewMode = ViewMode.COUNTER_MODE;
-                else
-                    viewMode = ViewMode.VIDEO_MODE;
-            });
+            // Custom Font (Not working because of a bug - wait for bug fix).
+            Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
+            lHeaderFont.material.color = new Color(0F, 0F, 0F, 1F);
+            Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
+            string lFieldCounter = Buddy.Resources.GetString("realtimecount") + mCurrentHumanCount + " ";
+            lFieldCounter += Buddy.Resources.GetString("totalhuman") + mHumanCounter;
+            Buddy.GUI.Header.DisplayLightTitle(lFieldCounter);
+            // Create the top left button to switch between count mode and video mode.
+            FButton lViewModeButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+            lViewModeButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
+            lViewModeButton.OnClick.Add(() => { mVideoMode = !mVideoMode; });
         }
 
-        private void timer_handler()
+        private void TimerHandler()
         {
-            // If the observation time is reach, back to the settings states
-            if ((Time.time - observationTimeStamp) >= HumanCounterData.Instance.observationTime)
-            {
+            // If the observation time is reach, back to the settings states.
+            if ((Time.time - mObservationTimeStamp) >= HumanCounterData.Instance.observationTime) {
                 if (!Buddy.Behaviour.IsBusy)
                     Trigger("BackToSettings");
             }
-
-            // Reset real time counter if OnHumanDetect is not call since resetTimer
-            if ((Time.time - detectTimeStamp) >= resetTimer)
-            {
-                currentHumanCount = 0;
-                if (sampleCount.Count < (int)AverageFrameNumber.MEDIUM)
-                    sampleCount.Add(currentHumanCount);
-
-                // Refresh the header
-                string field_counter = Buddy.Resources.GetString("realtimecount") + currentHumanCount + " ";
-                field_counter += Buddy.Resources.GetString("totalhuman") + humanCounter;
-                Buddy.GUI.Header.DisplayLightTitle(field_counter);
+            // Reset real time counter if OnHumanDetect is not call since mResetTimer.
+            if ((Time.time - mDetectTimeStamp) >= mResetTimer) {
+                mCurrentHumanCount = 0;
+                // If nobody is detect, it's important to continue to take sample, to keep consistency of the average.
+                if (mSampleCount.Count < AVERAGE_FRAME_NUMBER)
+                    mSampleCount.Add(mCurrentHumanCount);
+                // Refresh the header.
+                if (!mDefaultHeader) {
+                    string lFieldCounter = Buddy.Resources.GetString("realtimecount") + mCurrentHumanCount + " ";
+                    lFieldCounter += Buddy.Resources.GetString("totalhuman") + mHumanCounter;
+                    Buddy.GUI.Header.DisplayLightTitle(lFieldCounter);
+                    mDefaultHeader = true;
+                }
             }
         }
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            timer_handler();
-            // Calcul the average of human on a sample of frame
-            if (sampleCount.Count == (int)AverageFrameNumber.MEDIUM)
-            {
-                int currentAverage = 0;
-
-                foreach (int numb in sampleCount)
-                    currentAverage += numb;
-                currentAverage /= (int)AverageFrameNumber.MEDIUM;
-                if (currentAverage > averageMemory)
-                    humanCounter += currentAverage - averageMemory;
-                averageMemory = currentAverage;
-                sampleCount.Clear();
+            TimerHandler();
+            // Calcul the average of human on a sample of frame.
+            if (mSampleCount.Count == AVERAGE_FRAME_NUMBER) {
+                int lCurrentAverage = 0;
+                foreach (int lNumb in mSampleCount)
+                    lCurrentAverage += lNumb;
+                lCurrentAverage /= AVERAGE_FRAME_NUMBER;
+                if (lCurrentAverage > mAverageMemory)
+                    mHumanCounter += lCurrentAverage - mAverageMemory;
+                mAverageMemory = lCurrentAverage;
+                mSampleCount.Clear();
             }
-
-            // Reset mood to neutral when nobody is detect or surprised if someone is detect
-            if (currentHumanCount == 0 && !Buddy.Behaviour.IsBusy)
+            // Reset mood to neutral when nobody is detect or surprised if someone is detect.
+            if (Buddy.Behaviour.Mood != Mood.NEUTRAL && mCurrentHumanCount == 0 && !Buddy.Behaviour.IsBusy)
                 Buddy.Behaviour.SetMood(Mood.NEUTRAL, true);
-            if (currentHumanCount > 0 && !Buddy.Behaviour.IsBusy)
+            if (Buddy.Behaviour.Mood != Mood.SURPRISED && mCurrentHumanCount > 0 && !Buddy.Behaviour.IsBusy)
                 Buddy.Behaviour.SetMood(Mood.SURPRISED, true);
-
-            // Video Mode: Display the camera view with a visual of detection
-            if (viewMode == ViewMode.VIDEO_MODE && !displayed)
-            {
-                Buddy.GUI.Toaster.Display<VideoStreamToast>().With(camView);
-                displayed = true;
+            // Video Mode: Display the camera view with a visual of detection.
+            if (mVideoMode && !mDisplayed) {
+                Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mCamView);
+                mDisplayed = true;
             }
-            // Counter mode: Display Buddy's face
-            if (viewMode == ViewMode.COUNTER_MODE && displayed)
-            {
+            // If the video mode is disable: Buddy's face is display.
+            if (!mVideoMode && mDisplayed) {
                 Buddy.GUI.Toaster.Hide();
-                displayed = false;
+                mDisplayed = false;
             }
         }
 
@@ -162,47 +139,53 @@ namespace BuddyApp.HumanCounter
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            // The code in OnHumanDetect is disable but the callback is still running if windows is true
-            humanDetectEnable = false;
-            // The removeP function is in work in progress - set windows to false to run on android
-            if (!windows)
+            // The code in OnHumanDetect is disable but the callback is still running if mWindows is true.
+            mHumanDetectEnable = false;
+            // The removeP function is in work in progress - set mWindows to false to run on android.
+            if (!mWindows)
                 Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
         }
 
         //  -----CALLBACK------  //
 
+        // On each frame captured by the camera this function is called, with the matrix of pixel.
         private void OnFrameCaptured(Mat iInput)
         {
-            //Always clone the input matrix to avoid working with the matrix when the C++ part wants to modify it. It will crash.
-            mMatSrc = iInput.clone();
-            matDetect = iInput.clone();
-            // Flip to avoid mirror effect
-            Core.flip(mMatSrc, mMatSrc, 1);
-            // Use matrice format, to scale the texture
-            camView = Utils.ScaleTexture2DFromMat(mMatSrc, camView);
-            // Use matrice to fill the texture
-            Utils.MatToTexture2D(mMatSrc, camView);
+            Mat lMatSrc;
+           //Always clone the input matrix to avoid working with the matrix when the C++ part wants to modify it. It will crash.
+            lMatSrc = iInput.clone();
+            mMatDetect = iInput.clone();
+            // Flip to avoid mirror effect.
+            Core.flip(lMatSrc, lMatSrc, 1);
+            // Use matrice format, to scale the texture.
+            mCamView = Utils.ScaleTexture2DFromMat(lMatSrc, mCamView);
+            // Use matrice to fill the texture.
+            Utils.MatToTexture2D(lMatSrc, mCamView);
         }
 
+        /*
+        *   On a human detection this function is called.
+        *   mHumanDetectEnable: Enable or disable the code when mWindows is true.
+        *   Because the removeP function is in WIP on windows, we juste disable the code, for now.
+        */
         private bool OnHumanDetect(HumanEntity[] iHumans)
         {
-            if ((!humanDetectEnable && windows) || sampleCount.Count == (int)AverageFrameNumber.MEDIUM)
+            if ((!mHumanDetectEnable && mWindows) || mSampleCount.Count == AVERAGE_FRAME_NUMBER)
                 return true;
-
-            // Refresh the header
-            string field_counter = Buddy.Resources.GetString("realtimecount") + currentHumanCount + " ";
-            field_counter += Buddy.Resources.GetString("totalhuman") + humanCounter;
-            Buddy.GUI.Header.DisplayLightTitle(field_counter);
-
-            currentHumanCount = iHumans.Length;
-            detectTimeStamp = Time.time;
-            foreach (HumanEntity human in iHumans) {
-                Imgproc.rectangle(matDetect, human.BoundingBox.tl(), human.BoundingBox.br(), new Scalar(detectColor));
-            }
-            sampleCount.Add(currentHumanCount);
-            Core.flip(matDetect, matDetect, 1);
-            camView = Utils.ScaleTexture2DFromMat(matDetect, camView);
-            Utils.MatToTexture2D(matDetect, camView);
+            // Refresh the header.
+            string lFieldCounter = Buddy.Resources.GetString("realtimecount") + mCurrentHumanCount + " ";
+            lFieldCounter += Buddy.Resources.GetString("totalhuman") + mHumanCounter;
+            Buddy.GUI.Header.DisplayLightTitle(lFieldCounter);
+            mCurrentHumanCount = iHumans.Length;
+            mDetectTimeStamp = Time.time;
+            // Reset the display of the header if nobody is detect.
+            mDefaultHeader = false;
+            foreach (HumanEntity human in iHumans)
+                Imgproc.rectangle(mMatDetect, human.BoundingBox.tl(), human.BoundingBox.br(), new Scalar(new Color(255, 0, 0)));
+            mSampleCount.Add(mCurrentHumanCount);
+            Core.flip(mMatDetect, mMatDetect, 1);
+            mCamView = Utils.ScaleTexture2DFromMat(mMatDetect, mCamView);
+            Utils.MatToTexture2D(mMatDetect, mCamView);
             return true;
         }
     }

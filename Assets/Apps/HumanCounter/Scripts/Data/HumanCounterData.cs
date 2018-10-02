@@ -8,8 +8,7 @@ namespace BuddyApp.HumanCounter
         /*
          * Data getters / setters
          */
-        public float observationTime { get; set; }
-        public float sensibility { get; set; }
+        public int observationTime { get; set; }
 
         /*
          * Data singleton access

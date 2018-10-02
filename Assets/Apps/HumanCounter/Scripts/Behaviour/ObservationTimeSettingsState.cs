@@ -5,77 +5,80 @@ using BlueQuark;
 
 namespace BuddyApp.HumanCounter
 {
-    enum observationTime : int
-    {
-        DEFAULT = 30,
-        INCREMENT = 10,
-    }
-
     public sealed class ObservationTimeSettingsState : AStateMachineBehaviour
     {
-        private TText settingMessage;
-        private string time;
-        private float minimumTime = 10F;
-        private float maximumTime = 3600F;
+        private const int MINIMUM_TIME = 10;
+        private const int MAXIMUM_TIME = 3600;
+        private const int DEFAULT_OBSERVATION_TIME = 30;
+        private const int TIME_INCREMENT = 10;
+
+        private TText mSettingMessage;
+        private string mTimeInfo;
 
         /*
-         *  Ajout de boutons et messages pour le reglage du temps. 
-         *  (Code temporaire en attendant les carrousels)
+         *  Temporary parameter toaster to set the observation time.
+         *  This will be replace by carrousel toast when available.
          */
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Buddy.Behaviour.SetMood(Mood.THINKING, true);
-
-            // Custom Font (Not working because of a bug - [TODO] Have to wait for bug fix)
-            Font headerFont = Buddy.Resources.Get<Font>("os_awesome");
-            headerFont.material.color = new Color(0F, 0F, 0F, 1F);
-            Buddy.GUI.Header.SetCustomLightTitle(headerFont); 
+            // Custom Font (Not working because of a bug - wait for bug fix).
+            Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
+            lHeaderFont.material.color = new Color(0F, 0F, 0F, 1F);
+            Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont); 
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("timertitle"));
 
-            // Setup to 30 seconds by default
-            HumanCounterData.Instance.observationTime = (float)observationTime.DEFAULT;
+            // Setup to 30 seconds by default.
+            HumanCounterData.Instance.observationTime = DEFAULT_OBSERVATION_TIME;
 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
-                TButton incrementTime = iOnBuild.CreateWidget<TButton>();
-                incrementTime.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_plus"));
-                incrementTime.SetLabel(Buddy.Resources.GetString("incrementtimer"));
-                incrementTime.OnClick.Add(() => 
+                // Create a button to increment the time.
+                TButton lIncrementTime = iOnBuild.CreateWidget<TButton>();
+                lIncrementTime.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_plus"));
+                lIncrementTime.SetLabel(Buddy.Resources.GetString("incrementtimer"));
+                // On click TIME_INCREMENT is add to the timer and the text is updated.
+                lIncrementTime.OnClick.Add(() => 
                 {
-                    HumanCounterData.Instance.observationTime += (float)observationTime.INCREMENT;
-                    updateMessageText();
+                    HumanCounterData.Instance.observationTime += TIME_INCREMENT;
+                    UpdateTimeInfo();
                 });
 
-                time = ((int)(HumanCounterData.Instance.observationTime / 60)).ToString();
-                time += "m:" + Mathf.RoundToInt(HumanCounterData.Instance.observationTime % 60) + "s";
-                settingMessage = iOnBuild.CreateWidget<TText>();
-                settingMessage.SetLabel(Buddy.Resources.GetString("timerinfo") + time);
+                // Create the text to inform the user about the timer value.
+                mTimeInfo = (HumanCounterData.Instance.observationTime / 60).ToString();
+                mTimeInfo += "m:" + (HumanCounterData.Instance.observationTime % 60) + "s";
+                mSettingMessage = iOnBuild.CreateWidget<TText>();
+                mSettingMessage.SetLabel(Buddy.Resources.GetString("timerinfo") + mTimeInfo);
 
-                TButton decrementTime = iOnBuild.CreateWidget<TButton>();
-                decrementTime.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_minus"));
-                decrementTime.SetLabel(Buddy.Resources.GetString("decrementtimer"));
-                decrementTime.OnClick.Add(() => 
+                // Create a button to decrement the time.
+                TButton lDecrementTime = iOnBuild.CreateWidget<TButton>();
+                lDecrementTime.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_minus"));
+                lDecrementTime.SetLabel(Buddy.Resources.GetString("decrementtimer"));
+                // On click TIME_INCREMENT is substract to the timer and the text is updated.
+                lDecrementTime.OnClick.Add(() => 
                 {
-                    HumanCounterData.Instance.observationTime -= (float)observationTime.INCREMENT;
-                    updateMessageText();
+                    HumanCounterData.Instance.observationTime -= TIME_INCREMENT;
+                    UpdateTimeInfo();
                 });
 
-                TButton resetTime = iOnBuild.CreateWidget<TButton>();
-                resetTime.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_spinning"));
-                resetTime.SetLabel(Buddy.Resources.GetString("resettimer"));
-                resetTime.OnClick.Add(() => 
+                // Create a button to reset to default observation time.
+                TButton lResetTime = iOnBuild.CreateWidget<TButton>();
+                lResetTime.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_spinning"));
+                lResetTime.SetLabel(Buddy.Resources.GetString("resettimer"));
+                // On click reset the timer to DEFAULT_OBSERVATION_TIME and the text is updated.
+                lResetTime.OnClick.Add(() => 
                 {
-                    HumanCounterData.Instance.observationTime = (float)observationTime.DEFAULT;
-                    updateMessageText();
+                    HumanCounterData.Instance.observationTime = DEFAULT_OBSERVATION_TIME;
+                    UpdateTimeInfo();
                 });
             },
-            // Click left
-            () => { /* Back to next settings when available */ },
+            // Click left.
+            () => { /* Back to next settings when available. */ },
             // Left label
             Buddy.Resources.GetString("cancel"),
-            // Click right
+            // Click right.
             () => { Trigger("ObservationView"); }
-            // Right Label
+            // Right Label.
             , Buddy.Resources.GetString("next"));
         }
 
@@ -88,18 +91,18 @@ namespace BuddyApp.HumanCounter
             Buddy.GUI.Toaster.Hide();
         }
 
-        private void updateMessageText()
+        private void UpdateTimeInfo()
         {
-            // Check time coherence
-            if (HumanCounterData.Instance.observationTime < minimumTime)
-                HumanCounterData.Instance.observationTime = minimumTime;
-            if (HumanCounterData.Instance.observationTime > maximumTime)
-                HumanCounterData.Instance.observationTime = maximumTime;
+            // Check time consistency.
+            if (HumanCounterData.Instance.observationTime < MINIMUM_TIME)
+                HumanCounterData.Instance.observationTime = MINIMUM_TIME;
+            if (HumanCounterData.Instance.observationTime > MAXIMUM_TIME)
+                HumanCounterData.Instance.observationTime = MAXIMUM_TIME;
 
-            // Update message TText
-            time = ((int)(HumanCounterData.Instance.observationTime / 60)).ToString();
-            time += "m:" + Mathf.RoundToInt(HumanCounterData.Instance.observationTime % 60) + "s";
-            settingMessage.SetLabel(Buddy.Resources.GetString("timerinfo") + time);
+            // Update label TText.
+            mTimeInfo = (HumanCounterData.Instance.observationTime / 60).ToString();
+            mTimeInfo += "m:" + (HumanCounterData.Instance.observationTime % 60) + "s";
+            mSettingMessage.SetLabel(Buddy.Resources.GetString("timerinfo") + mTimeInfo);
         }
     }
 }
