@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 using UnityEngine;
 using BlueQuark;
 
@@ -16,12 +18,24 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private GameObject placeholderLine;
 
+        [SerializeField]
+        private GameObject displayDropLine;
+
+        [SerializeField]
+        private ItemControlUnit itemControlUnit;
+
+        [SerializeField]
+        private ItemManager itemManager;
+
         private GameObject mSequence;
         private ListBLI mListBLI;
+
+        private Dictionary<ABehaviourInstruction, AGraphicElement> mItemsKeys;
 
         // Use this for initialization
         void Start()
         {
+            mItemsKeys = new Dictionary<ABehaviourInstruction, AGraphicElement>();
         }
 
         // Update is called once per frame
@@ -58,9 +72,46 @@ namespace BuddyApp.BuddyLab
         public void HideSequence()
         {
             Debug.Log("hide sequence!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Destroy(mSequence);
-            mSequence = null;
+            //Destroy(mSequence);
+            //mSequence = null;
+
+            foreach (Transform child in displayDropLine.transform)
+            {
+                if (child != null && child.GetComponent<AGraphicElement>() != null)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+
             placeholderLine.GetComponent<Animator>().SetTrigger("close");
+        }
+
+        public void DisplayAlgo()
+        {
+            //mSequence = Instantiate(dropLine, placeholderLine.transform);
+            placeholderLine.GetComponent<Animator>().SetTrigger("open");
+            displayDropLine.transform.parent = placeholderLine.transform;
+            displayDropLine.GetComponent<RectTransform>().localPosition = new Vector3(-400, 80, 0);
+            OpenProjectVisitor lVisitor = new OpenProjectVisitor(itemManager, displayDropLine.transform);
+            lVisitor.Visit(itemControlUnit.BehaviourAlgorithm);
+            foreach(AGraphicElement element in displayDropLine.GetComponentsInChildren<AGraphicElement>())
+            {
+                mItemsKeys.Add(element.GetInstruction(), element);
+            }
+
+            mItemsKeys.Values.ToList();
+        }
+
+        public void OnExecuteInstruction(ABehaviourInstruction iInstruction)
+        {
+            Debug.Log("INSTRUCTION");
+            displayDropLine.GetComponent<RectTransform>().localPosition = new Vector3(-1 * mItemsKeys[iInstruction].transform.localPosition.x, 80, 0);
+            foreach (AGraphicElement element in displayDropLine.GetComponentsInChildren<AGraphicElement>())
+            {
+                element.gameObject.GetComponent<CanvasGroup>().alpha = 0.25F;
+            }
+            mItemsKeys[iInstruction].gameObject.GetComponent<CanvasGroup>().alpha = 1;
+            //mItemsKeys[iInstruction].gameObject.SetActive(false);
         }
 
         public void HighlightElement(int iNum)

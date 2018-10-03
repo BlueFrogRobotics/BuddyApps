@@ -31,5 +31,7 @@ namespace BuddyApp.BuddyLab
         }
 
         public abstract void Highlight();
+
+        //public abstract void Lowlight();
     }
 }

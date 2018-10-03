@@ -54,6 +54,7 @@ namespace BuddyApp.BuddyLab
             //mTimelineDisplayer.DisplaySequence(mBLBehaviour.NameOpenProject + ".xml");
             //ItemControlUnit.OnNextAction += ChangeItemHighlight;
             //StartCoroutine(Play());
+            mTimelineDisplayer.DisplayAlgo();
             StartCoroutine(PlayTestInterpreter());
         }
 
@@ -107,7 +108,7 @@ namespace BuddyApp.BuddyLab
         private void ReplayAlgo()
         {
             Buddy.Behaviour.Interpreter.Stop();
-            Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm);
+            Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm, mTimelineDisplayer.OnExecuteInstruction);
         }
 
         private void Replay()
@@ -125,6 +126,8 @@ namespace BuddyApp.BuddyLab
                 Debug.Log("STARTCOROUTINE REPLAY ");
                 //mItemControl.IsRunning = true;
                 //mIsPlaying = true;
+                //mTimelineDisplayer.HideSequence();
+                //mTimelineDisplayer.DisplayAlgo();
                 StartCoroutine(Play());
             } 
         }
@@ -201,7 +204,7 @@ namespace BuddyApp.BuddyLab
             //});
             //mItemControl.SaveAlgorithm();
             ShowFooter();
-            Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm);
+            Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm, mTimelineDisplayer.OnExecuteInstruction);
             yield return null;
         }
 
