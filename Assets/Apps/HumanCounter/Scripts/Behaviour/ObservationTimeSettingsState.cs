@@ -13,6 +13,7 @@ namespace BuddyApp.HumanCounter
         private const int TIME_INCREMENT = 10;
 
         private TText mSettingMessage;
+        private TToggle mToggleDetect;
         private string mTimeInfo;
 
         /*
@@ -28,6 +29,7 @@ namespace BuddyApp.HumanCounter
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont); 
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("timertitle"));
 
+            HumanCounterData.Instance.humanDetectToggle = false;
             // Setup to 30 seconds by default.
             HumanCounterData.Instance.observationTime = DEFAULT_OBSERVATION_TIME;
 
@@ -71,6 +73,18 @@ namespace BuddyApp.HumanCounter
                     HumanCounterData.Instance.observationTime = DEFAULT_OBSERVATION_TIME;
                     UpdateTimeInfo();
                 });
+
+                // Create a toggle button to select face or human detect
+                mToggleDetect = iOnBuild.CreateWidget<TToggle>();
+                if (HumanCounterData.Instance.humanDetectToggle)
+                    mToggleDetect.SetLabel(Buddy.Resources.GetString("toggledetect") + Buddy.Resources.GetString("human"));
+                else
+                    mToggleDetect.SetLabel(Buddy.Resources.GetString("toggledetect") + Buddy.Resources.GetString("face"));
+                mToggleDetect.OnToggle.Add((iBool) =>
+                {
+                    HumanCounterData.Instance.humanDetectToggle = iBool;
+                    UpdateToggleText();
+                });
             },
             // Click left.
             () => { /* Back to next settings when available. */ },
@@ -89,6 +103,13 @@ namespace BuddyApp.HumanCounter
         {
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
+        }
+        private void UpdateToggleText()
+        {
+            if (HumanCounterData.Instance.humanDetectToggle)
+                mToggleDetect.SetLabel(Buddy.Resources.GetString("toggledetect") + Buddy.Resources.GetString("human"));
+            else
+                mToggleDetect.SetLabel(Buddy.Resources.GetString("toggledetect") + Buddy.Resources.GetString("face"));
         }
 
         private void UpdateTimeInfo()

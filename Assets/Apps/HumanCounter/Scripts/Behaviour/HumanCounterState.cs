@@ -15,6 +15,7 @@ namespace BuddyApp.HumanCounter
         private int mHumanCounter;
         private int mCurrentHumanCount;
 
+        private List<OpenCVUnity.Rect> mDetectedBox;
         private List<int> mSampleCount;
         private int mAverageMemory;
 
@@ -25,19 +26,18 @@ namespace BuddyApp.HumanCounter
         private bool mDefaultHeader;
         private bool mDisplayed;
         private bool mVideoMode;
-        private Mat mMatDetect;
         private Texture2D mCamView;
 
         /*
         *   Temporary variable, used to deal with some feature in WIP.
         *   On Windows crash of unity are possible, with removeP.
-        *   mWindows is used to enable or disable removeP, quickly.
-        *   mHumanDetectEnable is use to enable or disable the code in the callback.
-        *   mIsInit is used to initialize just once the callback, if mWindows is true.
+        *   WINDOWS is used to enable or disable removeP, quickly.
+        *   mHumanDetectEnable & mFaceDetectEnable are use to enable or disable the code in each callback.
         */
-        private bool mWindows;
+        private const bool WINDOWS = true;
         private bool mHumanDetectEnable;
-        private bool mIsInit;
+        private bool mFaceDetectEnable;
+
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -51,15 +51,20 @@ namespace BuddyApp.HumanCounter
             mCurrentHumanCount = 0;
             mAverageMemory = 0;
             mSampleCount = new List<int> { };
-            mIsInit = false;
-            mHumanDetectEnable = true;
-            mWindows = true;
+            mDetectedBox = new List<OpenCVUnity.Rect> { };
+
             // The mCurrentHumanCount is reset every 200ms.
             mResetTimer = 0.200F;
-            // Set mWindows to true: initialize the callback juste once, false: at every OnStateEnter.
-            if (!mIsInit || !mWindows) {
-                Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect);
-                mIsInit = true;
+            // Set WINDOWS to true: initialize the callback juste once, false: at every OnStateEnter.
+            if (HumanCounterData.Instance.humanDetectToggle) {
+                mHumanDetectEnable = true;
+                if ((Buddy.Perception.HumanDetector.OnDetect.Count == 0 || !WINDOWS))
+                    Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect);
+            }
+            else {
+                mFaceDetectEnable = true;
+                if ((Buddy.Perception.FaceDetector.OnDetect.Count == 0 || !WINDOWS))
+                    Buddy.Perception.FaceDetector.OnDetect.AddP(OnFaceDetect);
             }
             // Initialize texture.
             mCamView = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
@@ -89,6 +94,8 @@ namespace BuddyApp.HumanCounter
             }
             // Reset real time counter if OnHumanDetect is not call since mResetTimer.
             if ((Time.time - mDetectTimeStamp) >= mResetTimer) {
+                // Clear all old box, from the last detection
+                mDetectedBox.Clear();
                 mCurrentHumanCount = 0;
                 // If nobody is detect, it's important to continue to take sample, to keep consistency of the average.
                 if (mSampleCount.Count < AVERAGE_FRAME_NUMBER)
@@ -129,7 +136,7 @@ namespace BuddyApp.HumanCounter
             }
             // If the video mode is disable: Buddy's face is display.
             if (!mVideoMode && mDisplayed) {
-                Buddy.GUI.Toaster.Hide();
+                Buddy.GUI.Toaster.Hide(); 
                 mDisplayed = false;
             }
         }
@@ -139,11 +146,16 @@ namespace BuddyApp.HumanCounter
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            // The code in OnHumanDetect is disable but the callback is still running if mWindows is true.
+            // The code in OnHumanDetect is disable but the callback is still running if WINDOWS is true.
             mHumanDetectEnable = false;
-            // The removeP function is in work in progress - set mWindows to false to run on android.
-            if (!mWindows)
-                Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
+            mFaceDetectEnable = false;
+            // The removeP function is in work in progress - set WINDOWS to false to run on android.
+            if (!WINDOWS) {
+                if (HumanCounterData.Instance.humanDetectToggle)
+                    Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
+                else
+                    Buddy.Perception.FaceDetector.OnDetect.RemoveP(OnFaceDetect);
+            }
         }
 
         //  -----CALLBACK------  //
@@ -152,9 +164,12 @@ namespace BuddyApp.HumanCounter
         private void OnFrameCaptured(Mat iInput)
         {
             Mat lMatSrc;
-           //Always clone the input matrix to avoid working with the matrix when the C++ part wants to modify it. It will crash.
+
+            // Always clone the input matrix to avoid working with the matrix when the C++ part wants to modify it. It will crash.
             lMatSrc = iInput.clone();
-            mMatDetect = iInput.clone();
+            // Adding of each box on the frame
+            foreach (OpenCVUnity.Rect lBox in mDetectedBox)
+               Imgproc.rectangle(lMatSrc, lBox.tl(), lBox.br(), new Scalar(new Color(255, 0, 0)));
             // Flip to avoid mirror effect.
             Core.flip(lMatSrc, lMatSrc, 1);
             // Use matrice format, to scale the texture.
@@ -165,27 +180,55 @@ namespace BuddyApp.HumanCounter
 
         /*
         *   On a human detection this function is called.
-        *   mHumanDetectEnable: Enable or disable the code when mWindows is true.
+        *   mHumanDetectEnable: Enable or disable the code when WINDOWS is true.
         *   Because the removeP function is in WIP on windows, we juste disable the code, for now.
         */
         private bool OnHumanDetect(HumanEntity[] iHumans)
         {
-            if ((!mHumanDetectEnable && mWindows) || mSampleCount.Count == AVERAGE_FRAME_NUMBER)
+            if ((!mHumanDetectEnable && WINDOWS) || mSampleCount.Count == AVERAGE_FRAME_NUMBER)
                 return true;
+            // Clear all old box, from the last detection
+            mDetectedBox.Clear();
             // Refresh the header.
             string lFieldCounter = Buddy.Resources.GetString("realtimecount") + mCurrentHumanCount + " ";
             lFieldCounter += Buddy.Resources.GetString("totalhuman") + mHumanCounter;
-            Buddy.GUI.Header.DisplayLightTitle(lFieldCounter);
+            Buddy.GUI.Header.DisplayLightTitle(lFieldCounter); 
             mCurrentHumanCount = iHumans.Length;
             mDetectTimeStamp = Time.time;
             // Reset the display of the header if nobody is detect.
             mDefaultHeader = false;
-            foreach (HumanEntity human in iHumans)
-                Imgproc.rectangle(mMatDetect, human.BoundingBox.tl(), human.BoundingBox.br(), new Scalar(new Color(255, 0, 0)));
+            // We add each box to a list, to display them later in OnNewFrame
+            foreach (HumanEntity lHuman in iHumans)
+                mDetectedBox.Add(new OpenCVUnity.Rect(lHuman.BoundingBox.tl(), lHuman.BoundingBox.br()));
+            // We add a measure to the list of sample
             mSampleCount.Add(mCurrentHumanCount);
-            Core.flip(mMatDetect, mMatDetect, 1);
-            mCamView = Utils.ScaleTexture2DFromMat(mMatDetect, mCamView);
-            Utils.MatToTexture2D(mMatDetect, mCamView);
+            return true;
+        }
+
+        /*
+        *   On a face detection this function is called.
+        *   mFaceDetectEnable: Enable or disable the code when WINDOWS is true.
+        *   Because the removeP function is in WIP on windows, we juste disable the code, for now.
+        */
+        private bool OnFaceDetect(FaceEntity[] iFaces)
+        {
+            if ((!mFaceDetectEnable && WINDOWS) || mSampleCount.Count == AVERAGE_FRAME_NUMBER)
+                return true;
+            // Clear all old box, from the last detection
+            mDetectedBox.Clear();
+            // Refresh the header.
+            string lFieldCounter = Buddy.Resources.GetString("realtimecount") + mCurrentHumanCount + " ";
+            lFieldCounter += Buddy.Resources.GetString("totalhuman") + mHumanCounter;
+            Buddy.GUI.Header.DisplayLightTitle(lFieldCounter);
+            mCurrentHumanCount = iFaces.Length;
+            mDetectTimeStamp = Time.time;
+            // Reset the display of the header if nobody is detect.
+            mDefaultHeader = false;
+            // We add each box to a list, to display them later in OnNewFrame
+            foreach (FaceEntity lFace in iFaces)
+                mDetectedBox.Add(new OpenCVUnity.Rect(lFace.BoundingBox.tl(), lFace.BoundingBox.br()));
+            // We add a measure to the list of sample
+            mSampleCount.Add(mCurrentHumanCount);
             return true;
         }
     }

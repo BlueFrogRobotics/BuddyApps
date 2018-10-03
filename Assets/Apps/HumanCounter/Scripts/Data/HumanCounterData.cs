@@ -9,7 +9,7 @@ namespace BuddyApp.HumanCounter
          * Data getters / setters
          */
         public int observationTime { get; set; }
-
+        public bool humanDetectToggle { get; set; }
         /*
          * Data singleton access
          */
