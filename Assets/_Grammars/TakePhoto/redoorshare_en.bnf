@@ -1,0 +1,8 @@
+#BNF+EMV2.1;
+!grammar redoorshare;
+!start <redo>;
+!start <share>;
+!start <quit>;
+<redo> : photo | do again | take another [one | picture] | [new] picture;
+<share> : twitter | (share | tweet | publish) [on twitter];
+<quit> : quit | cancel | stop | exit | that's [all | it] | nothing | back | end | leave | no;

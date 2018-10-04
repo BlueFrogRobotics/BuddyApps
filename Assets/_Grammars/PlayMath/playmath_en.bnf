@@ -1,0 +1,12 @@
+#BNF+EMV2.1;
+!grammar playmath_en;
+!start <tablelabel>;
+!start <playlabel>;
+!start <settingslabel>;
+!start <leaderboardlabel>;
+!start <certificationlabel>;
+<tablelabel> : times tables;
+<playlabel> : [let's] play;
+<settingslabel> : settings | parameters;
+<leaderboardlabel> : leaderboard | best scores;
+<certificationlabel> : [my | your] degrees | certification;
