@@ -19,8 +19,6 @@ namespace BuddyApp.Tutorial
 
 		public override void Start()
 		{
-			base.Start();
-
 			// We initialize the dictionary, adding the text for the buttons (using the dictionnary) 
 			// and the name of the transition to trigger
 			if (mButtonContent.Count == 0) {

@@ -12,7 +12,6 @@ namespace BuddyApp.Tutorial
 		private bool mDisplayed;
 		private Mat mMatDetect;
 		private Mat mMatFlip;
-		private Mat mMatDest;
 		private Texture2D mTextureCam;
 		private Color mColorOfDisplay;
 
@@ -89,8 +88,12 @@ namespace BuddyApp.Tutorial
 				Imgproc.circle(mMatDetect, Utils.Center(lEntity.RectInFrame), 3, new Scalar(mColorOfDisplay), 3);
 			}
 
-			// Give mirror effect to the mat with detection
-			Core.flip(mMatDetect, mMatDetect, 1);
+            // Give mirror effect to the mat with detection
+            //More information from opencv doc for the flipcode : 
+            // a flag to specify how to flip the array; 0 means flipping around the x-axis
+            //and positive value (for example, 1) means flipping around y-axis. 
+            //Negative value (for example, -1) means flipping around both axes (see the discussion  in opencv doc for the formulas).
+            Core.flip(mMatDetect, mMatDetect, 1);
 
 			// We convert the matrix into a texture
 			mTextureCam = Utils.ScaleTexture2DFromMat(mMatDetect, mTextureCam);
@@ -101,9 +104,10 @@ namespace BuddyApp.Tutorial
 
 		private void OnDisplayClicked()
 		{
-			// When the user touches the screen, the app goes back to the menu,
-			// so we hide the toast and trigger the menu transition
-			Buddy.GUI.Toaster.Hide();
+            // When the user touches the screen, the app goes back to the menu,
+            // so we hide the toast and trigger the menu transition
+            Buddy.Perception.MotionDetector.OnDetect.RemoveP(OnMovementDetected);
+            Buddy.GUI.Toaster.Hide();
 			Trigger("MenuTrigger");
 		}
 

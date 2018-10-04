@@ -55,7 +55,8 @@ namespace BuddyApp.Tutorial
 					// We define what happens when the numpad value is modified
 					lNumPad.OnChangeValue.Add((iInput) => {
 						// we collect the new value in mInputNumPad variable
-						mInputNumPad = iInput; Debug.Log(iInput);
+						mInputNumPad = iInput;
+                        Debug.Log(iInput);
 					});
 
 					// We display info
@@ -67,7 +68,8 @@ namespace BuddyApp.Tutorial
 
 					   // We define here what happens when clicking on the left button
 					   () => {
-						   Buddy.GUI.Toaster.Hide();
+                           mInputNumPad = "";
+                           Buddy.GUI.Toaster.Hide();
 						   Debug.Log("Click cancel");
 						   // When clicking cancel, we go back to the app menu
 						   Trigger("MenuTrigger");
@@ -84,8 +86,9 @@ namespace BuddyApp.Tutorial
 							   // Buddy tells the user if it's wrong
 							   Buddy.Vocal.SayKey("widgetstatewrongnumpad");
 						   } else {
-							   // We quit the toast and get to the next if right code is given
-							   Buddy.GUI.Toaster.Hide();
+                               // We quit the toast and get to the next if right code is given
+                               mInputNumPad = "";
+                               Buddy.GUI.Toaster.Hide();
 							   Debug.Log("Click valid");
 							   OnEndNumpad();
 						   }

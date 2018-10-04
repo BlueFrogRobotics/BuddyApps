@@ -6,6 +6,7 @@ using Random = System.Random;
 
 namespace BuddyApp.Tutorial
 { 
+
     enum Step : int
     {
         FIRST_STEP = 0,
@@ -16,6 +17,7 @@ namespace BuddyApp.Tutorial
 
     public sealed class IntroductionState : AStateMachineBehaviour
     {
+        private const int NUMBER_OF_RANDOM = 5;
         private Step mStep;
         private bool mIsFirstSentenceDone;
         private Random mRandom;
@@ -58,7 +60,7 @@ namespace BuddyApp.Tutorial
                     mIsFirstSentenceDone = true;
                 }
                 Buddy.Behaviour.SetMood((Mood)mValue.GetValue(mRandom.Next(mValue.Length)));
-                if (mNumberOfRandom > 5)
+                if (mNumberOfRandom > NUMBER_OF_RANDOM)
                     mStep = Step.LAST_STEP;
             }
             else if(mStep == Step.LAST_STEP && !Buddy.Vocal.IsBusy)

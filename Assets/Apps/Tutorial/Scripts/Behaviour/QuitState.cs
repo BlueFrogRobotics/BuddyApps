@@ -25,8 +25,6 @@ namespace BuddyApp.Tutorial
 
 		public override void Start()
 		{
-			base.Start();
-
 			//We need Buddy to listen at least once, if the developer forgot to enter the number of listen we initialize it at 1.
 			if (MaxListenningIter == 0)
 				MaxListenningIter = 1;

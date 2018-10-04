@@ -15,7 +15,6 @@ namespace BuddyApp.Tutorial
 
 		private Mat mMatSrc;
 		private Texture2D mCameraTexture;
-        private Photograph mPhoto;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -50,8 +49,12 @@ namespace BuddyApp.Tutorial
 			Debug.Log("on new frame take photo");
 			mMatSrc = iInput;
 
-			// We flip the frame from camera to have the "mirror" effect
-			Core.flip(mMatSrc, mMatSrc, 1);
+            // We flip the frame from camera to have the "mirror" effect
+            //More information from opencv doc for the flipcode : 
+            // a flag to specify how to flip the array; 0 means flipping around the x-axis
+            //and positive value (for example, 1) means flipping around y-axis. 
+            //Negative value (for example, -1) means flipping around both axes (see the discussion in opencv doc for the formulas).
+            Core.flip(mMatSrc, mMatSrc, 1);
 			Utils.MatToTexture2D(mMatSrc, mCameraTexture);
 		}
 
@@ -75,6 +78,7 @@ namespace BuddyApp.Tutorial
         private void OnMenuTrigger()
         {
             Buddy.GUI.Toaster.Hide();
+            Buddy.Sensors.HDCamera.Close();
             Trigger("MenuTrigger");
         }
 	}
