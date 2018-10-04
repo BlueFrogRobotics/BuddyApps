@@ -7,11 +7,13 @@ namespace BuddyApp.BuddyLab
 {
     public class LoopElement : AGraphicElement
     {
-        [SerializeField]
-        private int numLoop;
+        //[SerializeField]
+        public int NumLoop;
 
         [SerializeField]
         private GameObject container;
+
+        public GameObject Container { get { return container; } }
 
         // Use this for initialization
         void Start()
@@ -35,13 +37,17 @@ namespace BuddyApp.BuddyLab
             if (mInstruction == null)
                 mInstruction = new ForLoopBehaviourInstruction();
             ForLoopBehaviourInstruction lForLoopInstruction = (ForLoopBehaviourInstruction)mInstruction;
-            lForLoopInstruction.Iterations = numLoop;
-            foreach (Transform item in container.transform)
-            {
-                if (item != null && item.GetComponent<AGraphicElement>() != null)
-                    lForLoopInstruction.SubInstructions.Add(item.GetComponent<AGraphicElement>().GetInstruction());
-            }
-            
+            lForLoopInstruction.Iterations = NumLoop;
+            Debug.Log("setloop");
+            //if (lForLoopInstruction.SubInstructions.Count != container.transform.childCount)
+            //{
+                lForLoopInstruction.SubInstructions.Clear();
+                foreach (Transform item in container.transform)
+                {
+                    if (item != null && item.GetComponent<AGraphicElement>() != null)
+                        lForLoopInstruction.SubInstructions.Add(item.GetComponent<AGraphicElement>().GetInstruction(true));
+                }
+            //}
 
         }
     }

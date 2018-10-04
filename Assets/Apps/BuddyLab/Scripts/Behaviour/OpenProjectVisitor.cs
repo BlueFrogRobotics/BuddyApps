@@ -340,10 +340,14 @@ namespace BuddyApp.BuddyLab
 
         public void Visit(ForLoopBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            int lIndex = 0;
+            GameObject lItem = InstantiateItem(lIndex, iStructure, Category.LOOP);
+            OpenProjectVisitor lVisitor = new OpenProjectVisitor(mItemManager, lItem.GetComponent<LoopElement>().Container.transform);
+            foreach (ABehaviourInstruction lInstruction in iStructure.SubInstructions)
+                lInstruction.Accept(lVisitor);
         }
 
-        private void InstantiateItem(int iIndex, ABehaviourInstruction iStructure, Category iCategory)
+        private GameObject InstantiateItem(int iIndex, ABehaviourInstruction iStructure, Category iCategory)
         {
             GameObject lItem;
             switch(iCategory)
@@ -368,6 +372,7 @@ namespace BuddyApp.BuddyLab
             lItem.GetComponent<AGraphicElement>().SetInstruction(iStructure);
             lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
             lItem.transform.SetParent(mRootLine, false);
+            return lItem;
         }
 
     }

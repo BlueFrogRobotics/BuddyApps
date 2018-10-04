@@ -10,9 +10,10 @@ namespace BuddyApp.BuddyLab
 
         protected ABehaviourInstruction mInstruction;
 
-        public ABehaviourInstruction GetInstruction()
+        public ABehaviourInstruction GetInstruction(bool iSetParam)
         {
-            SetParameter();
+            if(iSetParam)
+                SetParameter();
 
             return mInstruction;
         }

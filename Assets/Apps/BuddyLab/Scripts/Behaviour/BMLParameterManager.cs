@@ -41,7 +41,8 @@ namespace BuddyApp.BuddyLab
             if(lItem!=null && !lItem.OnlyDroppable)
             {
                 float lNumParameter = 0;
-                float.TryParse(GetComponent<ABLItem>().Parameter, out lNumParameter);
+                lNumParameter = GetComponent<LoopElement>().NumLoop;
+                //float.TryParse(GetComponent<ABLItem>().Parameter, out lNumParameter);
                 lNumParameter *= divisionCoeff;
                 parameterWindow.SetValue(lNumParameter);
                 parameterWindow.ShowWindow();
@@ -65,7 +66,8 @@ namespace BuddyApp.BuddyLab
             textBli.text = ""+lNumParameter;
 
             lNumParameter /= divisionCoeff;
-            GetComponent<ABLItem>().Parameter = "" + lNumParameter;
+            //GetComponent<ABLItem>().Parameter = "" + lNumParameter;
+            //GetComponent<LoopElement>().NumLoop = (int)lNumParameter;
             
             parameterWindow.HideWindow();
             parameterWindow.ValidateButton.onClick.RemoveListener(OnValidation);
