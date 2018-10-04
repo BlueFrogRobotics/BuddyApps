@@ -1,0 +1,5 @@
+#BNF+EMV2.1;
+!grammar playmath_question_fr;
+!start <answer>;
+!import <numbers#nb>;
+<answer> : [C'est | la réponse est] <numbers#nb>;
