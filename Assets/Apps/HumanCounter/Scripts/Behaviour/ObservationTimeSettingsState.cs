@@ -41,6 +41,8 @@ namespace BuddyApp.HumanCounter
             // Setup to 30 seconds by default.
             HumanCounterData.Instance.ObservationTime = DEFAULT_OBSERVATION_TIME;
 
+            HeadYesSetPosition(45F);
+
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
                 // Create a button to increment the time.
@@ -137,6 +139,23 @@ namespace BuddyApp.HumanCounter
                 lBoxThird.SetLabel(Buddy.Resources.GetString("skeletondetect"));
 
             });
+        }
+
+        public void HeadYesSetPosition(float iAngle)
+        {
+            if (iAngle < 0 || iAngle > 90)
+            {
+                Debug.Log("Choose an angle between 0 and 90 degrees.");
+                return;
+            }
+            try
+            {
+                Buddy.Actuators.Head.Yes.SetPosition(iAngle);
+            }
+            catch
+            {
+                Debug.Log("Enter a new float");
+            }
         }
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
