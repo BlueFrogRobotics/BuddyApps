@@ -34,7 +34,19 @@ namespace BuddyApp.BuddyLab
 
         public void Visit(MoveBodyBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            int lIndex = 0;
+            if (iStructure.Distance.Value > 0 && iStructure.Speed.Value > 0 )
+                lIndex = 11;
+            else if(iStructure.Distance.Value > 0 && iStructure.Speed.Value < 0)
+                lIndex = 9;
+            else if (iStructure.Angle.Value > 0)
+                lIndex = 15;
+            else if (iStructure.Angle.Value < 0)
+                lIndex = 13;
+            else
+                lIndex = 11;
+
+            InstantiateItem(lIndex, iStructure, Category.BML);
         }
 
         public void Visit(RunScriptBehaviourInstruction iStructure)
@@ -335,7 +347,11 @@ namespace BuddyApp.BuddyLab
 
         public void Visit(InfinitLoopBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            int lIndex = 1;
+            GameObject lItem = InstantiateItem(lIndex, iStructure, Category.LOOP);
+            OpenProjectVisitor lVisitor = new OpenProjectVisitor(mItemManager, lItem.GetComponent<InfinityLoopElement>().Container.transform);
+            foreach (ABehaviourInstruction lInstruction in iStructure.SubInstructions)
+                lInstruction.Accept(lVisitor);
         }
 
         public void Visit(ForLoopBehaviourInstruction iStructure)

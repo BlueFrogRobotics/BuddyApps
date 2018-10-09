@@ -67,6 +67,7 @@ namespace BuddyApp.BuddyLab
         {
             mUIManager.CloseWindows();
             mItemControl.SaveSequence();
+            mItemControl.FillBehaviourAlgorithm(mBLBehaviour.NameOpenProject + ".xml");
             Trigger("Play");
         }
 

@@ -16,15 +16,17 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private float divisionCoeff =1;
 
+        public float DivisionCoeff { get { return divisionCoeff; } }
+
 
         // Use this for initialization
         void Start()
         {
             //textBli.text = GetComponent<BMLItem>().Parameter;
-            float lNumParameter = 0;
+            //float lNumParameter = 0;
             //float.TryParse(GetComponent<ABLItem>().Parameter, out lNumParameter);
-            lNumParameter *= divisionCoeff;
-            textBli.text = "" + lNumParameter;
+            //lNumParameter *= divisionCoeff;
+            //textBli.text = "" + lNumParameter;
             
         }
 
@@ -41,8 +43,9 @@ namespace BuddyApp.BuddyLab
             if(lItem!=null && !lItem.OnlyDroppable)
             {
                 float lNumParameter = 0;
-                lNumParameter = GetComponent<LoopElement>().NumLoop;
+                //lNumParameter = GetComponent<LoopElement>().NumLoop;
                 //float.TryParse(GetComponent<ABLItem>().Parameter, out lNumParameter);
+                float.TryParse(GetComponent<IEditableParameter>().GetEditableParameter(), out lNumParameter);
                 lNumParameter *= divisionCoeff;
                 parameterWindow.SetValue(lNumParameter);
                 parameterWindow.ShowWindow();
@@ -67,6 +70,7 @@ namespace BuddyApp.BuddyLab
 
             lNumParameter /= divisionCoeff;
             //GetComponent<ABLItem>().Parameter = "" + lNumParameter;
+            GetComponent<IEditableParameter>().SetEditableParameter("" + lNumParameter);
             //GetComponent<LoopElement>().NumLoop = (int)lNumParameter;
             
             parameterWindow.HideWindow();

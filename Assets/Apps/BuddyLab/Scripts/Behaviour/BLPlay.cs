@@ -28,6 +28,8 @@ namespace BuddyApp.BuddyLab
         private FButton mStopButton;
         private FButton mReplayButton;
 
+        private bool mButtonsVisible;
+
         public override void Start()
         {
             //mMotionDetection = Buddy.Perception.MotionDetector;
@@ -165,18 +167,24 @@ namespace BuddyApp.BuddyLab
         private void HideUi()
         {
            
-            if (mUIToHide.activeSelf)
+            if (mButtonsVisible)
             {
-                mUIToHide.SetActive(false);
-                mSequenceToHide.SetActive(false);
+                mTimelineDisplayer.EnableTimeline(false);
+                CloseFooter();
+                mButtonsVisible = false;
+                //mUIToHide.SetActive(false);
+                //mSequenceToHide.SetActive(false);
                 //Header.DisplayParametersButton = false;
             }
             else
             {
-                mUIToHide.SetActive(true);
-                mSequenceToHide.SetActive(true);
+                mTimelineDisplayer.EnableTimeline(true);
+                ShowFooter();
+                mButtonsVisible = true;
+                //mUIToHide.SetActive(true);
+                //mSequenceToHide.SetActive(true);
                 //Header.DisplayParametersButton = true;
-                
+
             }
         }
         IEnumerator DelayForTimeline (int iNum, float iDelay)
@@ -203,6 +211,9 @@ namespace BuddyApp.BuddyLab
             //    Mood = Mood.ANGRY
             //});
             //mItemControl.SaveAlgorithm();
+            mButtonsVisible = true;
+            mButtonHideUI.SetActive(true);
+            mButtonHideUI.GetComponent<Button>().onClick.AddListener(HideUi);
             ShowFooter();
             Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm, mTimelineDisplayer.OnExecuteInstruction);
             yield return null;

@@ -1,14 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
-    public class LoopElement : AGraphicElement
+    public class LoopElement : AGraphicElement, IEditableParameter
     {
         //[SerializeField]
         public int NumLoop;
+
+        [SerializeField]
+        private Text textIteration;
 
         [SerializeField]
         private GameObject container;
@@ -38,7 +42,8 @@ namespace BuddyApp.BuddyLab
                 mInstruction = new ForLoopBehaviourInstruction();
             ForLoopBehaviourInstruction lForLoopInstruction = (ForLoopBehaviourInstruction)mInstruction;
             lForLoopInstruction.Iterations = NumLoop;
-            Debug.Log("setloop");
+            textIteration.text = "" + NumLoop;
+            Debug.Log("setloop: "+NumLoop);
             //if (lForLoopInstruction.SubInstructions.Count != container.transform.childCount)
             //{
                 lForLoopInstruction.SubInstructions.Clear();
@@ -49,6 +54,23 @@ namespace BuddyApp.BuddyLab
                 }
             //}
 
+        }
+
+        public string GetEditableParameter()
+        {
+            return "" + NumLoop;
+        }
+
+        public void SetEditableParameter(string iParameter)
+        {
+            int.TryParse(iParameter, out NumLoop);
+        }
+
+        protected override void SetInternalParameters()
+        {
+            ForLoopBehaviourInstruction lForLoopInstruction = (ForLoopBehaviourInstruction)mInstruction;
+            NumLoop = lForLoopInstruction.Iterations.Value;
+            textIteration.text = "" + NumLoop;
         }
     }
 }

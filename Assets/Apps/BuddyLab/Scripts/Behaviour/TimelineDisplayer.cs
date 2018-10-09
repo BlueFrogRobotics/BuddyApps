@@ -46,6 +46,7 @@ namespace BuddyApp.BuddyLab
         public void DisplaySequence(string iFileName)
         {
             Debug.Log("display sequence");
+            mItemsKeys.Clear();
             mSequence = Instantiate(dropLine, placeholderLine.transform);
             placeholderLine.GetComponent<Animator>().SetTrigger("open");
             mSequence.transform.parent = placeholderLine.transform;
@@ -173,6 +174,14 @@ namespace BuddyApp.BuddyLab
                     }
                 }
             }
+        }
+
+        public void EnableTimeline(bool iParam)
+        {
+            if(iParam)
+                placeholderLine.GetComponent<Animator>().SetTrigger("open");
+            else
+                placeholderLine.GetComponent<Animator>().SetTrigger("close");
         }
     }
 }

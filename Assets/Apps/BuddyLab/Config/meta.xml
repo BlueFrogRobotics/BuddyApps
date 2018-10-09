@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<AppInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<AppInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ID>b971654323624</ID>
     <ShortName>BuddyLab</ShortName>
     <CommercialName>BuddyLab</CommercialName>
     <MainScene>0</MainScene>
     <Authors>dev@bluefrogrobotics.com</Authors>
-    <Version>1.1.3.103</Version>
+    <Version>1.1.5.5</Version>
     <VersionStatus>NONE</VersionStatus>
     <VersionName>test undo redo</VersionName>
     <Category>EDUTAINMENT</Category>
@@ -67,16 +67,5 @@
             <IsValid>false</IsValid>
         </AppPermission>
     </Permissions>
-    <LangVocalKeys>
-        <VocalKeys>
-            <Language>EN</Language>
-            <Keys />
-        </VocalKeys>
-        <VocalKeys>
-            <Language>FR</Language>
-            <Keys />
-        </VocalKeys>
-    </LangVocalKeys>
-    <OptionsLayoutClassName>BuddyLab.BuddyLabLayout</OptionsLayoutClassName>
     <ActivityClassName>BuddyLab.BuddyLabActivity</ActivityClassName>
 </AppInfo>

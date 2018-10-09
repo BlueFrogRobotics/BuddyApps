@@ -80,6 +80,14 @@ namespace BuddyApp.BuddyLab
 
         public void ShowAlgo(string iFileName)
         {
+            FillBehaviourAlgorithm(iFileName);
+
+            OpenProjectVisitor lVisitor = new OpenProjectVisitor(itemManager, panel.transform);
+            lVisitor.Visit(BehaviourAlgorithm);
+        }
+
+        public void FillBehaviourAlgorithm(string iFileName)
+        {
             mDirectoryPath = Buddy.Resources.GetRawFullPath("Projects" + "/" + iFileName);
             BehaviourAlgorithm.Instructions.Clear();
             BehaviourAlgorithm lAlgo = Utils.UnserializeXML<BehaviourAlgorithm>(Buddy.Resources.GetRawFullPath("Projects" + "/" + iFileName));
@@ -87,9 +95,6 @@ namespace BuddyApp.BuddyLab
             {
                 BehaviourAlgorithm = lAlgo;
             }
-            
-            OpenProjectVisitor lVisitor = new OpenProjectVisitor(itemManager, panel.transform);
-            lVisitor.Visit(BehaviourAlgorithm);
         }
 
 
