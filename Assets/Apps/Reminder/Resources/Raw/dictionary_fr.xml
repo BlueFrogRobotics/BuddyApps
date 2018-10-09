@@ -99,7 +99,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>month</Key>
+            <Key>allmonth</Key>
             <BaseValue>mois</BaseValue>
             <ClosePhoneticValues>
                 <string>janvier</string>
@@ -128,6 +128,48 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>suivant</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>intime</Key>
+            <BaseValue>dans</BaseValue>
+            <ClosePhoneticValues>
+                <string>dans</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>dans</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>day</Key>
+            <BaseValue>jour</BaseValue>
+            <ClosePhoneticValues>
+                <string>jour</string>
+                <string>jours</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>jour</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>year</Key>
+            <BaseValue>année</BaseValue>
+            <ClosePhoneticValues>
+                <string>année</string>
+                <string>années</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>année</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>month</Key>
+            <BaseValue>mois</BaseValue>
+            <ClosePhoneticValues>
+                <string>mois</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>mois</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

@@ -66,7 +66,6 @@
             <BaseValue>day after tomorrow</BaseValue>
             <ClosePhoneticValues>
                 <string>day after tomorrow</string>
-                <string />
             </ClosePhoneticValues>
             <RandomValues>
                 <string>day after tomorrow</string>
@@ -99,7 +98,7 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>month</Key>
+            <Key>allmonth</Key>
             <BaseValue>month</BaseValue>
             <ClosePhoneticValues>
                 <string>january</string>
@@ -127,6 +126,48 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>next</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>intime</Key>
+            <BaseValue>in</BaseValue>
+            <ClosePhoneticValues>
+                <string>in</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>in</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>day</Key>
+            <BaseValue>day</BaseValue>
+            <ClosePhoneticValues>
+                <string>day</string>
+                <string>days</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>day</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>year</Key>
+            <BaseValue>year</BaseValue>
+            <ClosePhoneticValues>
+                <string>year</string>
+                <string>years</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>year</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>month</Key>
+            <BaseValue>month</BaseValue>
+            <ClosePhoneticValues>
+                <string>month</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>month</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
