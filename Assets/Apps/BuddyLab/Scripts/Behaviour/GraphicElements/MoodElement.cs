@@ -33,6 +33,7 @@ namespace BuddyApp.BuddyLab
             if (mInstruction == null)
                 mInstruction = new SetMoodBehaviourInstruction();
             SetMoodBehaviourInstruction lMoodInstruction = (SetMoodBehaviourInstruction)mInstruction;
+            lMoodInstruction.Duration = 1.5F;
             lMoodInstruction.Mood = mood;
         }
 

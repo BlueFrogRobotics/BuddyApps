@@ -263,7 +263,7 @@ namespace BuddyApp.BuddyLab
             foreach (Transform child in panel.transform)
             {
                 if (child != null && child.GetComponent<AGraphicElement>() != null)
-                    BehaviourAlgorithm.Instructions.Add(child.GetComponent<AGraphicElement>().GetInstruction());
+                    BehaviourAlgorithm.Instructions.Add(child.GetComponent<AGraphicElement>().GetInstruction(true));
             }
             Utils.SerializeXML<BehaviourAlgorithm>(BehaviourAlgorithm, iPath);
         }

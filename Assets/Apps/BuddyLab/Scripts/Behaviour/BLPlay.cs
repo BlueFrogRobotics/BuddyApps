@@ -54,6 +54,7 @@ namespace BuddyApp.BuddyLab
             //mTimelineDisplayer.DisplaySequence(mBLBehaviour.NameOpenProject + ".xml");
             //ItemControlUnit.OnNextAction += ChangeItemHighlight;
             //StartCoroutine(Play());
+            mTimelineDisplayer.DisplayAlgo();
             StartCoroutine(PlayTestInterpreter());
         }
 
@@ -104,6 +105,12 @@ namespace BuddyApp.BuddyLab
             Trigger("Scene");
         }
 
+        private void ReplayAlgo()
+        {
+            Buddy.Behaviour.Interpreter.Stop();
+            Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm, mTimelineDisplayer.OnExecuteInstruction);
+        }
+
         private void Replay()
         {
             Debug.Log("REPLAY ");
@@ -119,6 +126,8 @@ namespace BuddyApp.BuddyLab
                 Debug.Log("STARTCOROUTINE REPLAY ");
                 //mItemControl.IsRunning = true;
                 //mIsPlaying = true;
+                //mTimelineDisplayer.HideSequence();
+                //mTimelineDisplayer.DisplayAlgo();
                 StartCoroutine(Play());
             } 
         }
@@ -195,7 +204,7 @@ namespace BuddyApp.BuddyLab
             //});
             //mItemControl.SaveAlgorithm();
             ShowFooter();
-            Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm);
+            Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm, mTimelineDisplayer.OnExecuteInstruction);
             yield return null;
         }
 
@@ -215,7 +224,7 @@ namespace BuddyApp.BuddyLab
 
             mReplayButton.SetBackgroundColor(Color.white);
             mReplayButton.SetIconColor(Color.black);
-            //mValidateButton.OnClick.Add(() => { Buddy.GUI.Toaster.Hide(); CloseFooter(); Trigger("FireDetection"); });
+            mReplayButton.OnClick.Add(() => { ReplayAlgo(); });
         }
 
         private void CloseFooter()

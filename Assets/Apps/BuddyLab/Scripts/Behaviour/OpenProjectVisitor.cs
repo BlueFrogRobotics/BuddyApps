@@ -62,10 +62,7 @@ namespace BuddyApp.BuddyLab
                     lIndex = 28;
                     break;
             }
-            GameObject lItem = MonoBehaviour.Instantiate(mItemManager.GetBMLItem(lIndex));
-            lItem.GetComponent<SoundElement>().SetInstruction(iStructure);
-            lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
-            lItem.transform.SetParent(mRootLine, false);
+            InstantiateItem(lIndex, iStructure, Category.BML);
         }
 
         public void Visit(SayBehaviourInstruction iStructure)
@@ -96,15 +93,7 @@ namespace BuddyApp.BuddyLab
                 Debug.Log("machin2");
             } else if (iStructure.Utterance != null)
                 lIndex = 45;
-            Debug.Log("machin3");
-            GameObject lItem = MonoBehaviour.Instantiate(mItemManager.GetBMLItem(lIndex));
-            Debug.Log("machin4");
-            lItem.GetComponent<SayElement>().SetInstruction(iStructure);
-            Debug.Log("machin5");
-            lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
-            Debug.Log("machin6");
-            lItem.transform.SetParent(mRootLine, false);
-            Debug.Log("machin7");
+            InstantiateItem(lIndex, iStructure, Category.BML);
         }
 
         public void Visit(SetLightBehaviourInstruction iStructure)
@@ -156,10 +145,7 @@ namespace BuddyApp.BuddyLab
                     lIndex = 16;
                     break;
             }
-            GameObject lItem = MonoBehaviour.Instantiate(mItemManager.GetBMLItem(lIndex));
-            lItem.GetComponent<MoodElement>().SetInstruction(iStructure);
-            lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
-            lItem.transform.SetParent(mRootLine, false);
+            InstantiateItem(lIndex, iStructure, Category.BML);
         }
 
         public void Visit(WaitBehaviourInstruction iStructure)
@@ -179,12 +165,78 @@ namespace BuddyApp.BuddyLab
 
         public void Visit(ColorInputBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            int lIndex = 0;
+            if (iStructure.ConditionalColors.Value.Length == 0)
+                return;
+
+            ShadeColor lColor = iStructure.ConditionalColors.Value[0];
+            switch (lColor)
+            {
+                case ShadeColor.BLUE:
+                    lIndex = 29;
+                    break;
+                case ShadeColor.GREEN:
+                    lIndex = 17;
+                    break;
+                case ShadeColor.ORANGE:
+                    lIndex = 21;
+                    break;
+                case ShadeColor.PINK:
+                    lIndex = 25;
+                    break;
+                case ShadeColor.PURPLE:
+                    lIndex = 27;
+                    break;
+                case ShadeColor.RED:
+                    lIndex = 23;
+                    break;
+                case ShadeColor.YELLOW:
+                    lIndex = 19;
+                    break;
+                case ShadeColor.CYAN:
+                    lIndex = 15;
+                    break;
+                case ShadeColor.GREY:
+                    lIndex = 31;
+                    break;
+                default:
+                    lIndex = 15;
+                    break;
+            }
+            
+            InstantiateItem(lIndex, iStructure, Category.CONDITION);
         }
 
         public void Visit(FaceInteractionInputBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            int lIndex = 0;
+            if (iStructure.ConditionalParts.Value.Length == 0)
+                return;
+            if (iStructure.AnyPart.Value)
+                lIndex = 1;
+            else
+            {
+                FacialPart lFacialPart = iStructure.ConditionalParts.Value[0];
+                switch (lFacialPart)
+                {
+                    case FacialPart.LEFT_EYE:
+                        lIndex = 9;
+                        break;
+                    case FacialPart.MOUTH:
+                        lIndex = 11;
+                        break;
+                    case FacialPart.RIGHT_EYE:
+                        lIndex = 7;
+                        break;
+                    case FacialPart.SKIN:
+                        lIndex = 5;
+                        break;
+                    default:
+                        lIndex = 1;
+                        break;
+                }
+            }
+            InstantiateItem(lIndex, iStructure, Category.CONDITION);
         }
 
         public void Visit(ListenInputBehaviourInstruction iStructure)
@@ -204,7 +256,49 @@ namespace BuddyApp.BuddyLab
 
         public void Visit(AprilTagInputBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            int lIndex = 0;
+            if (iStructure.ConditionalContents.Value.Length == 0)
+                return;
+            //if (iStructure.AnyPart.Value)
+            //    lIndex = 1;
+            else
+            {
+                int lId = iStructure.ConditionalContents.Value[0];
+                switch (lId)
+                {
+                    case 1:
+                        lIndex = 14;
+                        break;
+                    case 2:
+                        lIndex = 16;
+                        break;
+                    case 3:
+                        lIndex = 18;
+                        break;
+                    case 4:
+                        lIndex = 20;
+                        break;
+                    case 5:
+                        lIndex = 22;
+                        break;
+                    case 6:
+                        lIndex = 24;
+                        break;
+                    case 7:
+                        lIndex = 26;
+                        break;
+                    case 8:
+                        lIndex = 28;
+                        break;
+                    case 9:
+                        lIndex = 30;
+                        break;
+                    default:
+                        lIndex = 14;
+                        break;
+                }
+            }
+            InstantiateItem(lIndex, iStructure, Category.CONDITION);
         }
 
         public void Visit(QRCodeInputBehaviourInstruction iStructure)
@@ -214,12 +308,14 @@ namespace BuddyApp.BuddyLab
 
         public void Visit(MotionInputBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            int lIndex = 2;
+            InstantiateItem(lIndex, iStructure, Category.CONDITION);
         }
 
         public void Visit(NoiseInputBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            int lIndex = 12;
+            InstantiateItem(lIndex, iStructure, Category.CONDITION);
         }
 
         public void Visit(ThermalInputBehaviourInstruction iStructure)
@@ -244,7 +340,39 @@ namespace BuddyApp.BuddyLab
 
         public void Visit(ForLoopBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            int lIndex = 0;
+            GameObject lItem = InstantiateItem(lIndex, iStructure, Category.LOOP);
+            OpenProjectVisitor lVisitor = new OpenProjectVisitor(mItemManager, lItem.GetComponent<LoopElement>().Container.transform);
+            foreach (ABehaviourInstruction lInstruction in iStructure.SubInstructions)
+                lInstruction.Accept(lVisitor);
+        }
+
+        private GameObject InstantiateItem(int iIndex, ABehaviourInstruction iStructure, Category iCategory)
+        {
+            GameObject lItem;
+            switch(iCategory)
+            {
+                case Category.BML:
+                    lItem = MonoBehaviour.Instantiate(mItemManager.GetBMLItem(iIndex));
+                    break;
+                case Category.CONDITION:
+                    lItem = MonoBehaviour.Instantiate(mItemManager.GetConditionItem(iIndex));
+                    break;
+                case Category.LOOP:
+                    lItem = MonoBehaviour.Instantiate(mItemManager.GetLoopItem(iIndex));
+                    break;
+                case Category.SPECIAL:
+                    lItem = MonoBehaviour.Instantiate(mItemManager.GetSpecialItem(iIndex));
+                    break;
+                default:
+                    lItem = MonoBehaviour.Instantiate(mItemManager.GetBMLItem(iIndex));
+                    break;
+            }
+            
+            lItem.GetComponent<AGraphicElement>().SetInstruction(iStructure);
+            lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
+            lItem.transform.SetParent(mRootLine, false);
+            return lItem;
         }
 
     }
