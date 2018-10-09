@@ -17,8 +17,7 @@ namespace BuddyApp.TakePhoto
          */
         private TakePhotoData mAppData;
 
-        private string mPhotoPath;
-        public string PhotoPath { get { return mPhotoPath; } set { mPhotoPath = value; } }
+
 
         void Start()
         {

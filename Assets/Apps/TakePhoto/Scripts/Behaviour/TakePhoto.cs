@@ -27,12 +27,20 @@ namespace BuddyApp.TakePhoto
 		private Texture2D mOverlayTexture;
 		private List<string> mOverlaysNames;
 		private Mat mMat;
-        private TakePhotoBehaviour mTakePhotoBH;
+        private TakePhotoData mTakePhotoBH;
         private Mat mMatSrc;
         private bool mIsFrameCaptured;
 
+        private XMLData mXMLData;
+        private Publish mWhereToPublish;
+
+        private const int MAXLISTENNINGITER = 3;
+        private int mNumberListen;
+
         public override void Start()
 		{
+            mXMLData = new XMLData();
+            mNumberListen = 0;
             mIsFrameCaptured = false;
             //Mettre le mtakePhotoBH = GetcomponentInGameObject<TakePhotoBehaviour>();
             Debug.Log("Init TakePhoto");
@@ -122,7 +130,6 @@ namespace BuddyApp.TakePhoto
             Buddy.Vocal.SayKey("takephoto", true);
             Buddy.Sensors.HDCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
             mMatSrc = Buddy.Sensors.HDCamera.Frame;
-			Debug.Log("TakePhoto 3");
 		}
 
         private void OnFrameCaptured(Mat iInput)
@@ -139,6 +146,7 @@ namespace BuddyApp.TakePhoto
 		{
             if(mIsFrameCaptured)
             {
+               
                 // update overlay if updated in params
                 if (TakePhotoData.Instance.Overlay != mOverlay.gameObject.activeSelf)
                     mOverlay.gameObject.SetActive(TakePhotoData.Instance.Overlay);
@@ -172,7 +180,7 @@ namespace BuddyApp.TakePhoto
                             }
                             else
                             {
-                                Debug.Log("RGBCAM with null!!!!!!!!!!!!!!!!!!!!");
+                                Debug.Log("RGBCAM with null!");
                             }
                         }
                 }
@@ -202,7 +210,7 @@ namespace BuddyApp.TakePhoto
 
 		private void OnFinish(Photograph iMyPhoto)
 		{
-            Debug.Log("START ONFINISH TAKEPHOTO");
+            Buddy.Sensors.HDCamera.Close();
 			mVideo.gameObject.SetActive(false);
 			mOverlay.gameObject.SetActive(false);
 			//Primitive.RGBCam.Close();
@@ -213,23 +221,20 @@ namespace BuddyApp.TakePhoto
 				System.DateTime.Now.Minute + "min" + System.DateTime.Now.Second + "sec.png";
 			string lFilePath = "";
 			lFilePath = Buddy.Resources.GetRawFullPath(lFileName);
+            // Take random Overlay
 
-			// Take random Overlay
 
+            //lOverlay.Resize(lTexture.width, lTexture.height, lOverlay.format, false);
+            //lOverlay.Apply();
 
-			//lOverlay.Resize(lTexture.width, lTexture.height, lOverlay.format, false);
-			//lOverlay.Apply();
-
-			if (TakePhotoData.Instance.Overlay) {
+            if (TakePhotoData.Instance.Overlay) {
 
 				Texture2D lTexture = FlipTexture(iMyPhoto.Image.texture);
-
-				var cols1 = mOverlayTexture.GetPixels();
+                var cols1 = mOverlayTexture.GetPixels();
 				var cols2 = lTexture.GetPixels();
-
-				// We scale the overlay and put it on top of the picture
-				// it's ok if you don't get it ^^
-				int x = 0;
+                // We scale the overlay and put it on top of the picture
+                // it's ok if you don't get it ^^
+                int x = 0;
 				int y = 0;
 				int i2 = 0;
 				for (var i = 0; i < cols2.Length; ++i) {
@@ -241,77 +246,118 @@ namespace BuddyApp.TakePhoto
 						cols2[i] = (1 - cols1[i2].a) * cols2[i] + cols1[i2].a * cols1[i2];
 					}
 				}
-
-				lTexture.SetPixels(cols2);
-				lTexture.Apply();
-				mPhotoSprite = Sprite.Create(lTexture, new UnityEngine.Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
-
-			} else
-				mPhotoSprite = iMyPhoto.Image;
+                lTexture.SetPixels(cols2);
+                lTexture.Apply();
+                mPhotoSprite = Sprite.Create(lTexture, new UnityEngine.Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
+            } else
+            {
+                mPhotoSprite = iMyPhoto.Image;
+            }
+				
 
 			Utils.SaveSpriteToFile(mPhotoSprite, lFilePath);
-            mTakePhotoBH.PhotoPath = lFilePath;
-			//CommonStrings["photoPath"] = lFilePath;
-			Trigger("AskPhotoAgain");
-		}
+            TakePhotoData.Instance.PhotoPath = lFilePath;
+            mIsFrameCaptured = false;
+            //Action mOnClick;
+            //mOnClick = () => DialogerToast();
+            //Toaster.Display<PictureToast>().With(Dictionary.GetString("redoorshare"), mPhotoSprite, mShareButton, mRedoButton);
+            Buddy.Vocal.SayAndListen(Buddy.Resources.GetRandomString("redoorshare"), null,  iInput => { OnEndListening(iInput); });
+            Buddy.GUI.Toaster.Display<PictureToast>().With(mPhotoSprite/*, mOnClick*/);
+            FButton lLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+            FButton LRightButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
+            lLeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_share"));
+            LRightButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_redo"));
+            //LRightButton.SetBackgroundColor(Color.red);
+            //lLeftButton.SetBackgroundColor(Color.green);
+            lLeftButton.OnClick.Add(() => { OnButtonShare(); });
+            LRightButton.OnClick.Add(() => { OnButtonRedo(); });
+
+            //TEST AVANT PUSH DE VALENTIN
+            //lLeftButton.OnClick.Add(() => { OnButtonRedo(); });
+            //LRightButton.OnClick.Add(() => { OnButtonShare(); });
+
+            //Trigger("AskPhotoAgain");
+        }
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			Debug.Log("State exit");
-
-            //if (Primitive.RGBCam.IsOpen) {
-            //	Primitive.RGBCam.Close(); 
-            //}
-            Action mOnClick;
-
-            mOnClick = () => DialogerToast();
-			//Toaster.Display<PictureToast>().With(Dictionary.GetString("redoorshare"), mPhotoSprite, mShareButton, mRedoButton);
-            Buddy.GUI.Toaster.Display<PictureToast>().With(mPhotoSprite, mOnClick);
             mIsFrameCaptured = false;
-
-            //mShareButton = new ButtonInfo()
-            //{
-            //    Label = Dictionary.GetString("share"),
-            //    OnClick = OnButtonShare
-            //};
-
-            //mRedoButton = new ButtonInfo()
-            //{
-            //    Label = Dictionary.GetString("redo"),
-            //    OnClick = OnButtonRedo
-            //};
-
-            //Debug.Log("State exit end camera state: " + Primitive.RGBCam.IsOpen);
         }
 
-        private void DialogerToast()
+        private void OnEndListening(SpeechInput iInput)
         {
-            Buddy.GUI.Toaster.Hide();
-            if(!Buddy.GUI.Toaster.IsBusy)
+            if (ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, Buddy.Resources.GetPhoneticStrings("share")))
             {
-                Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+                Buddy.GUI.Toaster.Hide();
+                Buddy.GUI.Footer.Hide();
+                Play("Twitter");
+            }
+            else if (ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, Buddy.Resources.GetPhoneticStrings("redo")))
+            {
+                Buddy.GUI.Toaster.Hide();
+                Buddy.GUI.Footer.Hide();
+                Play("Landing");
+            }
+            else
+            {
+                if (mNumberListen < MAXLISTENNINGITER)
                 {
-                    iBuilder.CreateWidget<TText>().SetLabel("Script : TakePhoto display");
-                },
-                () => { OnButtonShare(); }, "Share script : Takephoto",
-                () => { OnButtonRedo(); } , "Redo script : Takephoto"
-                );
+                    // if the human answer is outside of planned sentences, we increment the
+                    // number of listen and we listen again.
+                    mNumberListen++;
+                    Buddy.Vocal.Listen(
+                        iInputRec => { OnEndListening(iInputRec); }
+                        );
+                }
+                else
+                {
+                    // If we launch the listen too many times, it's like a timeout and
+                    // we get back to the menu
+                    Buddy.GUI.Toaster.Hide();
+                    Buddy.GUI.Footer.Hide();
+
+                }
             }
         }
 
-		private void OnButtonShare()
+        private void OnButtonShare()
 		{
 			Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
-
-			Play("Twitter");
+            Buddy.Vocal.StopListening();
+            Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Footer.Hide();
+            Play("Twitter");
 		}
 
 		private void OnButtonRedo()
 		{
 			Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
-			Play("Landing");
+            Buddy.Vocal.StopListening();
+            Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Footer.Hide();
+            Play("Landing");
 		}
+        public static bool ContainsOneOf(string iSpeech, string[] iListSpeech)
+        {
+            if(!string.IsNullOrEmpty(iSpeech))
+            {
+                for (int i = 0; i < iListSpeech.Length; ++i)
+                {
+                    string[] lWords = iListSpeech[i].Split(' ');
+                    if (lWords.Length < 2 && !string.IsNullOrEmpty(lWords[0]))
+                    {
+                        if (lWords[0].ToLower() == iSpeech.ToLower())
+                        {
+                            return true;
+                        }
+                    }
+                    else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+                        return true;
+                }
+            }
+            return false;
+        }
 
-	}
+    }
 }

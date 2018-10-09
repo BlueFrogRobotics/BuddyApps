@@ -9,6 +9,8 @@ namespace BuddyApp.TakePhoto
          * Data getters / setters
          */
         public bool Overlay { get; set; }
+        private string mPhotoPath;
+        public string PhotoPath { get { return mPhotoPath; } set { mPhotoPath = value; } }
 
         /*
          * Data singleton access

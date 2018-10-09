@@ -145,7 +145,6 @@ namespace BuddyApp.Shared
                 if (!mIsDisplayed) {
                     if (!string.IsNullOrEmpty(BuddySays)) {
                         if (IsKey(BuddySays)) {
-                            Debug.Log(BuddySays);
                             //Change this line when CORE did the correction about GetRandomString not working if the string is empty
                             if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(BuddySays)))
                                 mTTS.Say(Buddy.Resources.GetRandomString(BuddySays));
@@ -161,6 +160,7 @@ namespace BuddyApp.Shared
                         if (items.Count == 0) {
                             Debug.Log("items empty : not possible");
                         }
+                        Debug.Log("BNARY QUESTION AVANT TOASTER");
                         DisplayQuestion();
                     }
                     mIsDisplayed = true;

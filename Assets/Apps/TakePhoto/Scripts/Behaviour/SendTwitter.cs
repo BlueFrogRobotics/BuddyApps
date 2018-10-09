@@ -1,8 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
-using System.Collections.Generic;
-using UnityEngine.UI;
 using System.IO;
 using BlueQuark;
 
@@ -10,15 +6,6 @@ namespace BuddyApp.TakePhoto
 {
     public sealed class SendTwitter : AStateMachineBehaviour
 	{
-		private bool mNeedListen;
-		private bool mFirst;
-
-		bool mPressedYes;
-		bool mPressedNo;
-
-		private string mLastSpeech;
-		private short mErrorCount;
-
         //robotHuehuehue
         //private const string mToken = "3107499058-DtOkSKQVm9aXk7g8DsT9ZyNKeixWCdQ5bnkuB5y";
         //private const string mTokenSecret = "tszMyp6cFjeBb9k9raT7fxuHTCsw0g70eiMhJOmZYeJAG";
@@ -39,30 +26,30 @@ namespace BuddyApp.TakePhoto
         private Publish mWhereToPublish;
         private string[] mTweetMsg;
         private EMail mMail;
-        
+        private bool mUseKey;
 
         private int mRandom;
         private Texture2D mTexture;
-        private TakePhotoBehaviour mTakePhotoBH;
+        private TakePhotoData mTakePhotoBH;
 
-        private XMLData mTwitterData;
+        private XMLData mXMLData;
 
         public override void Start()
         {
             mRandom = 0;
-            mTwitterData = new XMLData();
+            mXMLData = new XMLData();
             mMail = new EMail();
             mTexture = new Texture2D(1, 1);
-            mTwitterData = Utils.UnserializeXML<XMLData>(Buddy.Resources.GetRawFullPath("Twitter/config.xml"));
-            Debug.Log("KIKOO : " + mTwitterData.WhereToPublish);
+            mXMLData = Utils.UnserializeXML<XMLData>(Buddy.Resources.GetRawFullPath("Twitter/config.xml"));
 
-            mToken = mTwitterData.Token;
-            mTokenSecret = mTwitterData.TokenSecret;
-            mConsumerKey = mTwitterData.ConsumerKey;
-            mConsumerSecret = mTwitterData.ConsumerSecret;
-
-            mAllHashtag = mTwitterData.TwitterHashtag;
-            mTweetMsg = mTwitterData.TwitterText.Split('/');
+            mToken = mXMLData.Token;
+            mTokenSecret = mXMLData.TokenSecret;
+            mConsumerKey = mXMLData.ConsumerKey;
+            mConsumerSecret = mXMLData.ConsumerSecret;
+            mUseKey = mXMLData.UseKey;
+            mAllHashtag = mXMLData.TwitterHashtag;
+            mTweetMsg = mXMLData.TwitterText.Split('/');
+            mWhereToPublish = mXMLData.WhereToPublish;
 
         }
 
@@ -71,18 +58,27 @@ namespace BuddyApp.TakePhoto
         {
             mMail.Addresses.Clear();
             string lMessage;
-            lMessage = mTweetMsg[UnityEngine.Random.Range(0, mTweetMsg.Length)];
+            lMessage = mTweetMsg[Random.Range(0, mTweetMsg.Length)];
             lMessage += " " + mAllHashtag;
-            //Debug.Log("TOKEN : " + mToken + " TOKEN SECRET : " + mTokenSecret + " CONSUMER KEY : " + mConsumerKey + " CONSUMER SECRET : " + mConsumerSecret + " HASHTAG : " + mAllHashtag + " TEXT : " + lTweetMsg);
             //Buddy.GUI.Notifier.Display<SimpleNotification>().With(mAllHashtag, Buddy.Resources.Get<Sprite>("Ico_Twitter"));
-            Debug.Log("AVANT MAIL");
-            SendMail();
-            Debug.Log("APRES MAIL");
-            // SendTweet(lTweetMsg);
+            if(mWhereToPublish == Publish.MAIL)
+            {
+                SendMail();
+            }
+            else if (mWhereToPublish == Publish.TWITTER)
+            {
+                SendTweet(lMessage);
+            }
+            else
+            {
+                SendMail();
+                SendTweet(lMessage);
+            }
+
             //Buddy.Vocal.SayKey("tweetpublished", true);
             //Buddy.Vocal.Say(mAllHashtag, true);
 
-            //Trigger("AskPhotoAgain");
+            Trigger("AskPhotoAgain");
         }
 
         
@@ -101,15 +97,13 @@ namespace BuddyApp.TakePhoto
 
         private void SendMail()
         {
-            string lAdress = mTwitterData.AdressMailSender;
-            string lPasswordMail = mTwitterData.PasswordMail;
-            ////mMail.AddTexture2D(LoadTexture(mTexture) , mTakePhotoBH.PhotoPath);
-            //mMail.Addresses.Add(mTwitterData.AdressMailReceiver);
-            //mMail.Subject = mTwitterData.SubjectMail;
-            //mMail.Body = mTwitterData.BodyMail;
-            EMail lMail = new EMail(mTwitterData.SubjectMail, mTwitterData.BodyMail, mTwitterData.AdressMailReceiver);
-            Debug.Log("sender : " + mTwitterData.AdressMailSender + " pass : " + mTwitterData.PasswordMail + " subject : " + mTwitterData.SubjectMail + " body : " + mTwitterData.BodyMail + " receiver : " + mTwitterData.AdressMailReceiver);
-            Buddy.WebServices.EMailSender.Send(lAdress, lPasswordMail, SMTP.GMAIL, lMail);
+            string lAdress = mXMLData.AdressMailSender;
+            string lPasswordMail = mXMLData.PasswordMail;
+            mMail.AddTexture2D(LoadTexture(mTexture) , TakePhotoData.Instance.PhotoPath);
+            mMail.Addresses.Add(mXMLData.AdressMailReceiver);
+            mMail.Subject = mXMLData.SubjectMail;
+            mMail.Body = mXMLData.BodyMail;
+            Buddy.WebServices.EMailSender.Send(lAdress, lPasswordMail, SMTP.GMAIL, mMail);
         }
 
         void OnPostTweet(bool success)
@@ -119,22 +113,10 @@ namespace BuddyApp.TakePhoto
 
         private Texture2D LoadTexture(Texture2D iText)
         {
-            //byte[] bytes = new byte[File.ReadAllBytes(mTakePhotoBH.PhotoPath).Length];
-            byte[] bytes = File.ReadAllBytes(mTakePhotoBH.PhotoPath);
+            byte[] bytes = new byte[File.ReadAllBytes(TakePhotoData.Instance.PhotoPath).Length];
+            bytes = File.ReadAllBytes(TakePhotoData.Instance.PhotoPath);
             iText.LoadImage(bytes);
             return iText;
         }
-
-        /// <summary>
-        /// Function that will be called when the email has beent sent
-        /// </summary>
-        private void OnMailSent()
-        {
-            Debug.Log("EMAIL SENT");
-            mMail = null;
-
-        }
-
-
     }
 }

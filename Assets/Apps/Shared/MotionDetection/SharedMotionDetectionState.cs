@@ -280,9 +280,12 @@ namespace BuddyApp.Shared
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if(!File.Exists(Buddy.Resources.GetRawFullPath(NameOfPictureSaved)))
+            if(!string.IsNullOrEmpty(NameOfPictureSaved))
             {
-                Debug.Log("SHARED NO PICTURE");
+                if (!File.Exists(Buddy.Resources.GetRawFullPath(NameOfPictureSaved)))
+                {
+                    Debug.Log("SHARED NO PICTURE");
+                }
             }
             if (Buddy.GUI.Toaster.IsBusy)
                 Buddy.GUI.Toaster.Hide();
