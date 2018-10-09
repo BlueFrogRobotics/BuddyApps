@@ -12,7 +12,11 @@ namespace BuddyApp.Reminder
         private const int DECEMBER = 12;
         private const int TRY_NUMBER = 2;
         private const string DATE_FORMAT = "dd/MM/yyyy";
+
+        private bool mVocal;
         private int mListen;
+        private bool mHeaderTitle;
+        private string mCarousselDate;
         private SpeechInputParameters mGrammar;
 
         // TMP
@@ -24,13 +28,14 @@ namespace BuddyApp.Reminder
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mVocal = false;
             mListen = 0;
-
+            mHeaderTitle = true;
+            ReminderData.Instance.AppState = 1;
             // Setting of the grammar for STT
             ReminderData.Instance.DateChoice = "";
             mGrammar = new SpeechInputParameters();
             mGrammar.Grammars = new string[] { "reminder" };
-
             // Setting of the callback
             Buddy.Vocal.OnEndListening.Add((iSpeechInput) => { VoconGetResult(iSpeechInput); });
         }
@@ -39,40 +44,78 @@ namespace BuddyApp.Reminder
         {
             Debug.Log(DC_BLUE + "SPEECH.ToString: " + iSpeechInput.ToString() + DC_END);
             Debug.Log(DC_BLUE + "SPEECH.Utterance: " + iSpeechInput.Utterance + DC_END);
-            ReminderData.Instance.DateChoice = iSpeechInput.Utterance;
-            mListen++;
-            if (iSpeechInput.Utterance.Length > 0)
-            {
+            if (iSpeechInput.Utterance != null)
                 ReminderData.Instance.DateChoice = ExtractDateFromSpeech(iSpeechInput.Utterance);
-                Debug.Log(DC_GREEN + "DATE IS: " + ReminderData.Instance.DateChoice + DC_END);
-            }
+            Debug.Log(DC_GREEN + "DATE IS: " + ReminderData.Instance.DateChoice + DC_END);
+            mListen++;
+            mVocal = false;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (mVocal)
+                return;
             if (mListen < TRY_NUMBER && string.IsNullOrEmpty(ReminderData.Instance.DateChoice))
             {
-                if (!Buddy.Vocal.IsBusy)
-                {
-                    Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), mGrammar.Grammars);
-                }
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), mGrammar.Grammars);
+                mVocal = true;
             }
-            else if (mListen >= TRY_NUMBER || Input.GetKeyDown(KeyCode.RightArrow))
-                Trigger("DateEntryState");
+            else if (mListen > TRY_NUMBER || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                //if (!mHeaderTitle)
+                //{
+                //    ////Display of the title
+                //    //Buddy.GUI.Header.DisplayParametersButton(false);
+                //    //Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
+                //    //Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
+                //    //Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("setupdate"));
+                //    ////Set to default for now
+                //    //mCarousselDate = DateTime.Today.ToString(DATE_FORMAT);
+                //    ////The last listenning
+                //    //Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), mGrammar.Grammars);
+                //    //mVocal = true;
+                //    //mHeaderTitle = true;
+                //    //DisplayDateEntry();
+                //}
+                //if (!Buddy.Vocal.IsBusy && string.IsNullOrEmpty(ReminderData.Instance.DateChoice))
+                //    Debug.Log("------- QUIT -------");//QUIT
+                //else
+                //    Trigger("HourChoiceState");
+            }
 
             // Temporary reset to quick test
             if (Input.GetKeyDown(KeyCode.DownArrow))
                 ReminderData.Instance.DateChoice = "";
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-                Trigger("DateEntryState");
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("------ NEXT STEP ------");
+            Buddy.GUI.Header.HideTitle();
+            Buddy.GUI.Footer.Hide();
             Buddy.Vocal.Stop();
+        }
+
+        private void DisplayDateEntry()
+        {
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
+            {
+                TText lTmpText = iOnBuild.CreateWidget<TText>();
+                lTmpText.SetLabel("Waiting for Caroussel Toast - Default date:" + ReminderData.Instance.DateChoice);
+            },
+            () =>
+            {
+                // Back to recipient when available
+            },
+            "Cancel",
+            () =>
+            {
+                // Next step - Hour choice
+                ReminderData.Instance.DateChoice = mCarousselDate;
+                Trigger("HourChoiceState");
+            },
+            "Next");
         }
 
         //  ---- PARSING FUNCTION ---- 
@@ -171,7 +214,7 @@ namespace BuddyApp.Reminder
         private bool ContainsOneOf(string iSpeech, string iKey)
         {
             return ContainsOneOfFromWeatherApp(iSpeech, iKey);
-         //   return Utils.ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings(iKey));
+            //   return Utils.ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings(iKey));
         }
 
         private bool ContainsOneOfFromWeatherApp(string iSpeech, string iKey)

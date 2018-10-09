@@ -9,7 +9,8 @@ namespace BuddyApp.Reminder
          * Data getters / setters
          */
         public string DateChoice { get; set; }
-        public string HourChoice { get; set; }        
+        public string HourChoice { get; set; }
+        public int AppState { get; set; }
 
         /*
          * Data singleton access
