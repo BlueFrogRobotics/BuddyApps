@@ -77,7 +77,7 @@ namespace BuddyApp.RemoteControl
             }
 
             if (string.IsNullOrEmpty(mSpeechReco)) {
-                Buddy.Vocal.Listen();
+                //Buddy.Vocal.Listen();
                 mListening = true;
 
                 Buddy.Behaviour.SetMood(Mood.LISTENING);
@@ -169,8 +169,8 @@ namespace BuddyApp.RemoteControl
         {
             yield return mRemoteControlBehaviour.Call();
             mHasInitializedRemote = true;
-            Buddy.Vocal.OnEndListening.Clear();
-            Buddy.Vocal.OnEndListening.Add(OnSpeechReco);
+            //Buddy.Vocal.OnEndListening.Clear();
+            //Buddy.Vocal.OnEndListening.Add(OnSpeechReco);
         }
 
         private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
