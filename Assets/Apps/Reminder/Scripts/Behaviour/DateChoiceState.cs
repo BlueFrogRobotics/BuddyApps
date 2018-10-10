@@ -8,11 +8,13 @@ namespace BuddyApp.Reminder
 {
     public sealed class DateChoiceState : AStateMachineBehaviour
     {
+        private const float TITLE_TIMER = 2.500F;
         private const int JANUARY = 1;
         private const int DECEMBER = 12;
         private const int TRY_NUMBER = 2;
         private const string DATE_FORMAT = "dd/MM/yyyy";
 
+        private float mTitleTStamp;
         private bool mVocal;
         private int mListen;
         private bool mHeaderTitle;
@@ -20,33 +22,48 @@ namespace BuddyApp.Reminder
         private SpeechInputParameters mGrammar;
 
         // TMP
-        private const string DC_GREEN = "<color=green>-----";
-        private const string DC_RED = "<color=red>-----";
-        private const string DC_BLUE = "<color=blue>-----";
-        private const string DC_END = "-----</color>";
+        private void DebugColor(string msg, string color)
+        {
+            Debug.Log("<color=" + color + ">----" + msg + "----</color>");
+        }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mVocal = false;
             mListen = 0;
-            mHeaderTitle = true;
+            mVocal = false;
+            mHeaderTitle = false;
+            mTitleTStamp = 0;
+            // Init the data in an InitState - For now, when we go back to that state the date is reset
             ReminderData.Instance.AppState = 1;
-            // Setting of the grammar for STT
             ReminderData.Instance.DateChoice = "";
+            // tmp
+            Buddy.GUI.Header.HideTitle();
+            Buddy.Vocal.Stop();
+            // Header setting
+            DebugColor("ENTER", "red");
+            Buddy.GUI.Header.DisplayParametersButton(false);
+            Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
+            Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
+            // Grammar setting for STT
             mGrammar = new SpeechInputParameters();
             mGrammar.Grammars = new string[] { "reminder" };
-            // Setting of the callback
-            Buddy.Vocal.OnEndListening.Add((iSpeechInput) => { VoconGetResult(iSpeechInput); });
+            // STT Callback Setting
+            Buddy.Vocal.OnEndListening.Add((iSpeechInput) => { VoconGetDateResult(iSpeechInput); });
         }
 
-        private void VoconGetResult(SpeechInput iSpeechInput)
+        private void VoconGetDateResult(SpeechInput iSpeechInput)
         {
-            Debug.Log(DC_BLUE + "SPEECH.ToString: " + iSpeechInput.ToString() + DC_END);
-            Debug.Log(DC_BLUE + "SPEECH.Utterance: " + iSpeechInput.Utterance + DC_END);
-            if (iSpeechInput.Utterance != null)
+            DebugColor("SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
+            DebugColor("SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
+            if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
                 ReminderData.Instance.DateChoice = ExtractDateFromSpeech(iSpeechInput.Utterance);
-            Debug.Log(DC_GREEN + "DATE IS: " + ReminderData.Instance.DateChoice + DC_END);
+            if (!string.IsNullOrEmpty(ReminderData.Instance.DateChoice) && !mHeaderTitle)
+            {
+                DebugColor("DATE IS: " + ReminderData.Instance.DateChoice, "green");
+                Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderData.Instance.DateChoice);
+                mTitleTStamp = Time.time;
+            }
             mListen++;
             mVocal = false;
         }
@@ -54,6 +71,8 @@ namespace BuddyApp.Reminder
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (!string.IsNullOrEmpty(ReminderData.Instance.DateChoice) && (Time.time - mTitleTStamp) > TITLE_TIMER)
+                Trigger("HourChoiceState");
             if (mVocal)
                 return;
             if (mListen < TRY_NUMBER && string.IsNullOrEmpty(ReminderData.Instance.DateChoice))
@@ -61,57 +80,63 @@ namespace BuddyApp.Reminder
                 Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), mGrammar.Grammars);
                 mVocal = true;
             }
-            else if (mListen > TRY_NUMBER || Input.GetKeyDown(KeyCode.RightArrow))
+            else if (mListen >= TRY_NUMBER)
             {
-                //if (!mHeaderTitle)
-                //{
-                //    ////Display of the title
-                //    //Buddy.GUI.Header.DisplayParametersButton(false);
-                //    //Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
-                //    //Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
-                //    //Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("setupdate"));
-                //    ////Set to default for now
-                //    //mCarousselDate = DateTime.Today.ToString(DATE_FORMAT);
-                //    ////The last listenning
-                //    //Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), mGrammar.Grammars);
-                //    //mVocal = true;
-                //    //mHeaderTitle = true;
-                //    //DisplayDateEntry();
-                //}
-                //if (!Buddy.Vocal.IsBusy && string.IsNullOrEmpty(ReminderData.Instance.DateChoice))
-                //    Debug.Log("------- QUIT -------");//QUIT
-                //else
-                //    Trigger("HourChoiceState");
+                if (!mHeaderTitle && string.IsNullOrEmpty(ReminderData.Instance.DateChoice))
+                {
+                    //Set to default for now
+                    mCarousselDate = DateTime.Today.ToString(DATE_FORMAT);
+                    //The last listenning
+                    Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), mGrammar.Grammars);
+                    mVocal = true;
+                    mHeaderTitle = true;
+                    DisplayDateEntry();
+                }
+                else if (!Buddy.Vocal.IsBusy && string.IsNullOrEmpty(ReminderData.Instance.DateChoice))
+                {
+                    Debug.Log("------- QUIT -------");
+                    Buddy.GUI.Header.HideTitle();
+                    Buddy.GUI.Toaster.Hide();
+                    Buddy.GUI.Footer.Hide();
+                    Buddy.Vocal.SayKey("bye");
+                    if (!Buddy.Vocal.IsBusy)
+                    {
+                        Buddy.Vocal.Stop();
+                        QuitApp();
+                    }
+                }
             }
-
-            // Temporary reset to quick test
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-                ReminderData.Instance.DateChoice = "";
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            ReminderData.Instance.AppState++;
             Buddy.GUI.Header.HideTitle();
+            Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
             Buddy.Vocal.Stop();
         }
 
         private void DisplayDateEntry()
         {
+            //Display of the title
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("setupdate"));
+            // Create Caroussel Here
+            // TMP - waiting for caroussel and dot list
+            Buddy.GUI.Footer.CreateOnMiddle<FLabeledButton>().SetLabel("STEP:" + ReminderData.Instance.AppState + "of 3");
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
                 TText lTmpText = iOnBuild.CreateWidget<TText>();
-                lTmpText.SetLabel("Waiting for Caroussel Toast - Default date:" + ReminderData.Instance.DateChoice);
+                lTmpText.SetLabel("Waiting for Caroussel Toast - Default date:" + mCarousselDate);
             },
             () =>
             {
-                // Back to recipient when available
+                // [TODO] Back to recipient when available
             },
             "Cancel",
             () =>
             {
-                // Next step - Hour choice
                 ReminderData.Instance.DateChoice = mCarousselDate;
                 Trigger("HourChoiceState");
             },
@@ -122,20 +147,20 @@ namespace BuddyApp.Reminder
 
         private string ExtractDateFromSpeech(string iSpeech)
         {
-            if (ContainsOneOf(iSpeech, "today"))
+            string[] lWords = iSpeech.Split(' ');
+            if (ContainsOneOf(iSpeech, "today") && lWords.Length == 1)
                 return DateTime.Today.ToString(DATE_FORMAT);
-            else if (ContainsOneOf(iSpeech, "tomorrow"))
+            else if (ContainsOneOf(iSpeech, "tomorrow") && lWords.Length == 1)
                 return DateTime.Today.AddDays(1F).ToString(DATE_FORMAT);
+            else if (ContainsOneOf(iSpeech, "weekdays") && lWords.Length == 1)
+                return GetNextDay(DateTime.Today, iSpeech.Split(' '));
             else if (ContainsOneOf(iSpeech, "dayaftertomorrow"))
                 return DateTime.Today.AddDays(2F).ToString(DATE_FORMAT);
-            else if (ContainsOneOf(iSpeech, "weekdays"))
-                return GetNextDay(DateTime.Today, iSpeech.Split(' '));
             else if (ContainsOneOf(iSpeech, "weekdays") || ContainsOneOf(iSpeech, "the") || ContainsOneOf(iSpeech, "allmonth"))
                 return TryToBuildDate(iSpeech);
             else if (ContainsOneOf(iSpeech, "intime"))
             {
                 UInt16 lNb = 0;
-                string[] lWords = iSpeech.Split(' ');
                 // If the speech contain less than 3 word, the order is inconsistent
                 if (lWords.Length < 3)
                     return "";
