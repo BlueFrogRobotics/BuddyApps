@@ -495,6 +495,21 @@
             <param name="iAngle"></param>
             <returns></returns>
         </member>
+        <member name="T:BlueQuark.Internal.InputExtensions">
+            <summary>
+            Extensions for calculation
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.InputExtensions.Clamp``1(``0,``0,``0)">
+            <summary>
+            Clamp the value between min and max
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="val"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
         <member name="T:BlueQuark.Internal.TopologicalMapPersistentData">
             <summary>
             Class for persistent data:
@@ -8227,6 +8242,11 @@
             Human detection algorithm.
             </summary>
         </member>
+        <member name="P:BlueQuark.HumanDetector.RGBCameraMode">
+            <summary>
+            RGB Camera mode used by human detector
+            </summary>
+        </member>
         <member name="P:BlueQuark.HumanDetector.OnDetect">
             <summary>
             Called when a face is detected. Remove all callback to stop the algorithm.
@@ -8783,31 +8803,6 @@
         <member name="F:BlueQuark.Language.FR">
             <summary>
             French language
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Language.IT">
-            <summary>
-            Italian language
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Language.DE">
-            <summary>
-            German language
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Language.JP">
-            <summary>
-            Japanese language
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Language.NL">
-            <summary>
-            Dutch language
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Language.KR">
-            <summary>
-            Korean language
             </summary>
         </member>
         <member name="T:BlueQuark.WiFiNetwork">
@@ -9831,24 +9826,26 @@
             Following strategy to track and follow a targeted human.
             </summary>
         </member>
-        <member name="M:BlueQuark.HumanTrackStrategy.PositionInFOV(BlueQuark.HumanEntity[])">
+        <member name="M:BlueQuark.HumanTrackStrategy.HumanDisplacement(BlueQuark.HumanEntity,BlueQuark.HumanEntity)">
             <summary>
-            
+            Evaluate the distance between two human entities
             </summary>
-            <returns>Target's relative position in the robot's FOV</returns>
+            <param name="iFirstHuman"></param>
+            <param name="iSecondHuman"></param>
+            <returns></returns>
         </member>
         <member name="M:BlueQuark.HumanTrackStrategy.TurningControler(UnityEngine.Vector2,BlueQuark.MovingParts)">
             <summary>
             
             </summary>
-            <param name="iTarget">Target's relative position in the robot's FOV</param>
+            <param name="iTargetRelative">Target's relative position in the robot's FOV. Positive for the robot's right and upward.</param>
             <param name="iMovingParts"></param>
         </member>
-        <member name="M:BlueQuark.HumanTrackStrategy.Targeting">
+        <member name="M:BlueQuark.HumanTrackStrategy.StaticTracking(BlueQuark.MovingParts)">
             <summary>
             Starts a tracking strategy based on the human in the rect. Rect base on the current RGBCamera frame.
             </summary>
-            <param name="iRectInFrame">The rect in the current RGBCamera frame</param>
+            <param name="iMovingParts"></param>
         </member>
         <member name="M:BlueQuark.HumanTrackStrategy.Facing">
             <summary>
@@ -13198,6 +13195,16 @@
             </remarks>
             <param name="iValue"></param>
             <returns>The Thresholded value</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.Clamp``1(``0,``0,``0)">
+            <summary>
+            Clamp the value between min and max
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="val"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
         </member>
         <member name="M:BlueQuark.Utils.RadiusFromTrajectory(UnityEngine.Vector3[])">
             <summary>
