@@ -29,7 +29,19 @@ namespace BuddyApp.BuddyLab
 
         public void Visit(MoveHeadBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            int lIndex = 0;
+            if (iStructure.YesAngle.Value > 0)
+                lIndex = 10;
+            else if (iStructure.YesAngle.Value < 0)
+                lIndex = 8;
+            else if (iStructure.NoAngle.Value > 0)
+                lIndex = 14;
+            else if (iStructure.NoAngle.Value < 0)
+                lIndex = 12;
+            else
+                lIndex = 10;
+
+            InstantiateItem(lIndex, iStructure, Category.BML);
         }
 
         public void Visit(MoveBodyBehaviourInstruction iStructure)
@@ -361,6 +373,11 @@ namespace BuddyApp.BuddyLab
             OpenProjectVisitor lVisitor = new OpenProjectVisitor(mItemManager, lItem.GetComponent<LoopElement>().Container.transform);
             foreach (ABehaviourInstruction lInstruction in iStructure.SubInstructions)
                 lInstruction.Accept(lVisitor);
+        }
+
+        public void Visit(PlayFacialEventBehaviourInstruction iStructure)
+        {
+            throw new System.NotImplementedException();
         }
 
         private GameObject InstantiateItem(int iIndex, ABehaviourInstruction iStructure, Category iCategory)

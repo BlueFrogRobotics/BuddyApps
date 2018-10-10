@@ -112,7 +112,8 @@ namespace BuddyApp.Shared
             Buddy.Vocal.OnEndListening.Add((iInput) => { VoconBest(iInput); });
             Buddy.Vocal.OnListeningEvent.Add((iInput) => { EventVocon(iInput); });
 
-            Buddy.Vocal.Listen(NameVoconGrammarFile, SpeechRecognitionMode.GRAMMAR_ONLY);
+            if(!string.IsNullOrEmpty(NameVoconGrammarFile))
+                Buddy.Vocal.Listen(NameVoconGrammarFile, SpeechRecognitionMode.GRAMMAR_ONLY);
             mTimer = 0.0f;
             mListening = false;
         }
