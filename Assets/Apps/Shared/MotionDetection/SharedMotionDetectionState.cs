@@ -108,6 +108,7 @@ namespace BuddyApp.Shared
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mTexture = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             mDetectionCountTest = 0;
             QuantityBeforeSavingPicture = 0;
             mPositionX = 0;
@@ -148,13 +149,13 @@ namespace BuddyApp.Shared
                 mMotion.OnDetect.AddP(OnMovementDetected, new MotionDetectorParameter()
                 {
                     RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480),
-                    SensibilityThreshold = 3.0F
+                    SensibilityThreshold = 2.5F
                 });
             }
             else
             {
                 mRect = new OpenCVUnity.Rect(new Point((int)(320 / 3), 0), new Point((int)(640 * 2 / 3), 480));
-                mMotionDetectorParameter.SensibilityThreshold = 3F;
+                mMotionDetectorParameter.SensibilityThreshold = 2.5F;
                 mMotionDetectorParameter.RegionOfInterest = mRect;
                 mMotion.OnDetect.AddP(OnMovementDetected, mMotionDetectorParameter);
             }
@@ -166,25 +167,28 @@ namespace BuddyApp.Shared
             mTimer += Time.deltaTime;
             if (Timer == 0F)
                 Timer = 5F;
+            if (mCam.IsOpen)
+                Debug.Log("CAMERA OPEN LLOTJRAGJHAEHJJEHJAEJH");
 
             if (mCam.IsOpen && VideoDisplay && !mIsDisplay)
             {
                 mTimer = 0F;
                 mIsDisplay = true;
                 mMat = mCam.Frame.clone();
+
+                
                 mMatCopy = mMat.clone();
                 if (!WantToFlip)
                     Core.flip(mMatCopy, mMatCopy, 1);
+                mTexture = Utils.ScaleTexture2DFromMat(mMatCopy, mTexture);
                 mTexture = Utils.MatToTexture2D(mMatCopy);
-                //Toaster.Display<PictureToast>().With(Dictionary.GetString(Key), Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
                 mMotionDetectionSprite = Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f));
+
                 if (mMotionDetectionSprite == null)
                     mIsDisplay = false;
-                else
+                else 
                     Buddy.GUI.Toaster.Display<PictureToast>().With(mMotionDetectionSprite);
             }
-
-
             if (VideoDisplay && mIsDisplay && mTimer > 0.1F)
             {
                 if (mMatDetectionCopy == null && !AreaToDetect)
@@ -221,7 +225,7 @@ namespace BuddyApp.Shared
                 }
                 mTexture.Apply();
                 mTimer = 0F;
-            }
+            } 
 
             if ((mDetectionCount > QuantityMovement || (mDetectionCountTest / 15F) > QuantityMovement) && !mExitTwo)
             {
@@ -276,6 +280,8 @@ namespace BuddyApp.Shared
                     mMotion.OnDetect.RemoveP(OnMovementDetected);
                 }
             }
+
+
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -351,7 +357,6 @@ namespace BuddyApp.Shared
             if (iMotions.Length > 5)
             {
                 Debug.Log("ON MOVEMENT DETECTED SHARED");
-                //bool lInRectangle = false;
                 if (BipSound)
                 {
                     if (FxSound == SoundSample.NONE)
@@ -361,9 +366,7 @@ namespace BuddyApp.Shared
                     if(!Buddy.Actuators.Speakers.IsBusy)
                         Buddy.Actuators.Speakers.Media.Play(FxSound);
                 }
-
-                //MotionBlob[] lBlob = iMotions.GetBlobs();
-                //MotionBlob lMainBlob = iMotions.GetMainBlob(lBlob);
+                
                 if (LookForUser)
                 {
                     foreach (MotionEntity lEntity in iMotions)
@@ -378,8 +381,6 @@ namespace BuddyApp.Shared
                     if (AreaToDetect)
                     {
                         Imgproc.rectangle(mMatDetectionCopy, new Point((int)(mMatDetectionCopy.width() / 3), 0), new Point((int)(mMatDetectionCopy.width() * 2 / 3), mMatDetectionCopy.height()), new Scalar(ColorOfDisplay), 3);
-                        //if (lEntity.RectInFrame.x > (mMatDetection.width() / 3) && lEntity.RectInFrame.x < (mMatDetection.width() * 2 / 3))
-                        //    lInRectangle = true;
                     }
 
                     if (DisplayMovement && VideoDisplay)
@@ -396,7 +397,6 @@ namespace BuddyApp.Shared
                         }
                     }
                 }
-                //if (lInRectangle)
                 mDetectionCount++;
                 Debug.Log("DETECTION MOTION SHARED COUNT : " + mDetectionCount);
             }
