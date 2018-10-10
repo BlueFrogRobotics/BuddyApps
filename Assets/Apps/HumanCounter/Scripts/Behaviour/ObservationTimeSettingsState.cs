@@ -33,7 +33,7 @@ namespace BuddyApp.HumanCounter
             Buddy.Behaviour.SetMood(Mood.THINKING, true);
             // Custom Font (Not working because of a bug - wait for bug fix).
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
-            lHeaderFont.material.color = new Color(0F, 0F, 0F, 1F);
+            lHeaderFont.material.color = Color.white;
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont); 
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("timertitle"));
              
