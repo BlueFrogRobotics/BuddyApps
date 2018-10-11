@@ -404,6 +404,39 @@
             It also contains some function for decision making based on situation (state), mood and desire.
             </summary>
         </member>
+        <member name="T:BlueQuark.Internal.FDotNavigationDot">
+            <summary>
+            Dot navigation bullet for dot navigation bar Footer component.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.FDotNavigationDot.OnClick">
+            <summary>
+            Called when the dot is clicked.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.FDotNavigationDot.Index">
+            <summary>
+            Index of the dot.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.FDotNavigationDot.SetIcon(UnityEngine.Sprite)">
+            <summary>
+            Sets a custom image to the dot element.
+            </summary>
+            <param name="iSprite">The sprite to set</param>
+        </member>
+        <member name="M:BlueQuark.Internal.FDotNavigationDot.SetColor(UnityEngine.Color)">
+            <summary>
+            Sets a custom color to the dot element.
+            </summary>
+            <param name="iColor">The color to set</param>
+        </member>
+        <member name="M:BlueQuark.Internal.FDotNavigationDot.Select(System.Boolean)">
+            <summary>
+            Sets the dot as selected or not.
+            </summary>
+            <param name="iVal">The value of the selection</param>
+        </member>
         <member name="T:BlueQuark.Internal.TopologicalMappingNativeLibrary">
             <summary>
             Class for native DLL of topological navigation.
@@ -2018,9 +2051,6 @@
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.AppUpdater">
-            <summary>
-            This class retrieves online apps and updates local apps
-            </summary>
             <summary>
             This class retrieves online apps and updates local apps
             </summary>
@@ -5665,6 +5695,58 @@
             <summary>
             In love !
             </summary>
+        </member>
+        <member name="T:BlueQuark.FDotNavigation">
+            <summary>
+            Dot navigation bar for Footer GUI component.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.FDotNavigation.OnClick">
+            <summary>
+            Called when a dot is clicked. Developer is responsible to set (or not) the clicked dot as selected.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.FDotNavigation.Item(System.Int32)">
+            <summary>
+            Select the dot navigation dot at the given index. Starts at 0. Unselect the current selected dot.
+            </summary>
+            <param name="iIndex">Index of the dot to select</param>
+            <returns>Index of the dot to select</returns>
+        </member>
+        <member name="P:BlueQuark.FDotNavigation.Dots">
+            <summary>
+            Number of dots. If set, clear all previously setted dots. Don't forget to select a dot after call this function. 
+            </summary>
+        </member>
+        <member name="M:BlueQuark.FDotNavigation.SetLabel(System.String)">
+            <summary>
+            Sets the label of the component
+            </summary>
+            <param name="iText">Text to display. Null to hide</param>
+        </member>
+        <member name="M:BlueQuark.FDotNavigation.SetCustomDotIcon(UnityEngine.Sprite)">
+            <summary>
+            Sets a custom image to the dot elements.
+            </summary>
+            <param name="iSprite">The sprite to set for each element</param>
+        </member>
+        <member name="M:BlueQuark.FDotNavigation.SetCustomDotColor(UnityEngine.Color)">
+            <summary>
+            Sets a custom color to the dot elements.
+            </summary>
+            <param name="iColor">The color to set for each element</param>
+        </member>
+        <member name="M:BlueQuark.FDotNavigation.SetCustomLabelFont(UnityEngine.Font)">
+            <summary>
+            Sets a custom font to the optional text.
+            </summary>
+            <param name="iFont">The font to set</param>
+        </member>
+        <member name="M:BlueQuark.FDotNavigation.Select(System.Int32)">
+            <summary>
+            Select the dot navigation dot at the given index. Starts at 0. Unselect the current selected dot.
+            </summary>
+            <returns>Index of the dot to select</returns>
         </member>
         <member name="T:BlueQuark.LocationStrategy">
             <summary>
@@ -9484,9 +9566,6 @@
             </summary>
         </member>
         <member name="T:BlueQuark.AppManager">
-            <summary>
-            Loads, unloads apps and store transited data
-            </summary>
             <summary>
             Loads, unloads apps and store transited data
             </summary>
