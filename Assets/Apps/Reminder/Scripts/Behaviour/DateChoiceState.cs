@@ -18,7 +18,7 @@ namespace BuddyApp.Reminder
         private bool mVocal;
         private int mListen;
         private bool mHeaderTitle;
-        private string mCarousselDate;
+        private DateTime mCarousselDate;
         private SpeechInputParameters mGrammar;
 
         // TMP
@@ -36,7 +36,7 @@ namespace BuddyApp.Reminder
             mTitleTStamp = 0;
             // Init the data in an InitState - For now, when we go back to that state the date is reset
             ReminderData.Instance.AppState = 1;
-            ReminderData.Instance.DateChoice = "";
+            ReminderData.Instance.ReminderDate = new DateTime(0001, 01, 01);
             // tmp
             Buddy.GUI.Header.HideTitle();
             Buddy.Vocal.Stop();
@@ -49,19 +49,28 @@ namespace BuddyApp.Reminder
             mGrammar = new SpeechInputParameters();
             mGrammar.Grammars = new string[] { "reminder" };
             // STT Callback Setting
-            Buddy.Vocal.OnEndListening.Add((iSpeechInput) => { VoconGetDateResult(iSpeechInput); });
+            Buddy.Vocal.OnEndListening.Add(VoconGetDateResult);
+        }
+
+        private bool DateIsDefault(DateTime iDate)
+        {
+            if (DateTime.Compare(iDate, new DateTime(0001, 01, 01)) == 0)
+                return true;
+            return false;
         }
 
         private void VoconGetDateResult(SpeechInput iSpeechInput)
         {
-            DebugColor("SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
-            DebugColor("SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
+            DebugColor("Date SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
+            DebugColor("Date SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
-                ReminderData.Instance.DateChoice = ExtractDateFromSpeech(iSpeechInput.Utterance);
-            if (!string.IsNullOrEmpty(ReminderData.Instance.DateChoice) && !mHeaderTitle)
             {
-                DebugColor("DATE IS: " + ReminderData.Instance.DateChoice, "green");
-                Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderData.Instance.DateChoice);
+                ReminderData.Instance.ReminderDate = ExtractDateFromSpeech(iSpeechInput.Utterance);
+            }
+            if (!DateIsDefault(ReminderData.Instance.ReminderDate) && !mHeaderTitle)
+            {
+                DebugColor("DATE IS: " + ReminderData.Instance.ReminderDate.ToShortDateString(), "green");
+                Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderData.Instance.ReminderDate.ToShortDateString());
                 mTitleTStamp = Time.time;
             }
             mListen++;
@@ -71,28 +80,28 @@ namespace BuddyApp.Reminder
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!string.IsNullOrEmpty(ReminderData.Instance.DateChoice) && (Time.time - mTitleTStamp) > TITLE_TIMER)
+            if (!DateIsDefault(ReminderData.Instance.ReminderDate) && (Time.time - mTitleTStamp) > TITLE_TIMER)
                 Trigger("HourChoiceState");
             if (mVocal)
                 return;
-            if (mListen < TRY_NUMBER && string.IsNullOrEmpty(ReminderData.Instance.DateChoice))
+            if (mListen < TRY_NUMBER && DateIsDefault(ReminderData.Instance.ReminderDate))
             {
                 Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), mGrammar.Grammars);
                 mVocal = true;
             }
             else if (mListen >= TRY_NUMBER)
             {
-                if (!mHeaderTitle && string.IsNullOrEmpty(ReminderData.Instance.DateChoice))
+                if (!mHeaderTitle && DateIsDefault(ReminderData.Instance.ReminderDate))
                 {
                     //Set to default for now
-                    mCarousselDate = DateTime.Today.ToString(DATE_FORMAT);
+                    mCarousselDate = DateTime.Today.Date;
                     //The last listenning
                     Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), mGrammar.Grammars);
                     mVocal = true;
                     mHeaderTitle = true;
                     DisplayDateEntry();
                 }
-                else if (!Buddy.Vocal.IsBusy && string.IsNullOrEmpty(ReminderData.Instance.DateChoice))
+                else if (!Buddy.Vocal.IsBusy && DateIsDefault(ReminderData.Instance.ReminderDate))
                 {
                     Debug.Log("------- QUIT -------");
                     Buddy.GUI.Header.HideTitle();
@@ -101,6 +110,7 @@ namespace BuddyApp.Reminder
                     Buddy.Vocal.SayKey("bye");
                     if (!Buddy.Vocal.IsBusy)
                     {
+                        Buddy.Vocal.OnEndListening.Remove(VoconGetDateResult);
                         Buddy.Vocal.Stop();
                         QuitApp();
                     }
@@ -115,6 +125,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
+            Buddy.Vocal.OnEndListening.Remove(VoconGetDateResult);
             Buddy.Vocal.Stop();
         }
 
@@ -128,7 +139,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
                 TText lTmpText = iOnBuild.CreateWidget<TText>();
-                lTmpText.SetLabel("Waiting for Caroussel Toast - Default date:" + mCarousselDate);
+                lTmpText.SetLabel("Waiting for Caroussel Toast - Default date:" + mCarousselDate.ToShortDateString());
             },
             () =>
             {
@@ -137,7 +148,7 @@ namespace BuddyApp.Reminder
             "Cancel",
             () =>
             {
-                ReminderData.Instance.DateChoice = mCarousselDate;
+                ReminderData.Instance.ReminderDate = mCarousselDate;
                 Trigger("HourChoiceState");
             },
             "Next");
@@ -145,17 +156,17 @@ namespace BuddyApp.Reminder
 
         //  ---- PARSING FUNCTION ---- 
 
-        private string ExtractDateFromSpeech(string iSpeech)
+        private DateTime ExtractDateFromSpeech(string iSpeech)
         {
             string[] lWords = iSpeech.Split(' ');
             if (ContainsOneOf(iSpeech, "today") && lWords.Length == 1)
-                return DateTime.Today.ToString(DATE_FORMAT);
+                return DateTime.Today.Date;
             else if (ContainsOneOf(iSpeech, "tomorrow") && lWords.Length == 1)
-                return DateTime.Today.AddDays(1F).ToString(DATE_FORMAT);
+                return DateTime.Today.AddDays(1F).Date;
             else if (ContainsOneOf(iSpeech, "weekdays") && lWords.Length == 1)
                 return GetNextDay(DateTime.Today, iSpeech.Split(' '));
             else if (ContainsOneOf(iSpeech, "dayaftertomorrow"))
-                return DateTime.Today.AddDays(2F).ToString(DATE_FORMAT);
+                return DateTime.Today.AddDays(2F).Date;
             else if (ContainsOneOf(iSpeech, "weekdays") || ContainsOneOf(iSpeech, "the") || ContainsOneOf(iSpeech, "allmonth"))
                 return TryToBuildDate(iSpeech);
             else if (ContainsOneOf(iSpeech, "intime"))
@@ -163,34 +174,32 @@ namespace BuddyApp.Reminder
                 UInt16 lNb = 0;
                 // If the speech contain less than 3 word, the order is inconsistent
                 if (lWords.Length < 3)
-                    return "";
+                    new DateTime(0001, 01, 01);
                 for (int lIndex = 0; lIndex < lWords.Length; ++lIndex)
                 {
                     if (lWords[lIndex].ToLower() == Buddy.Resources.GetString("intime") && lIndex + 2 < lWords.Length)
                     {
                         // Check if is't necessary to test the presence of the word "day" / "month" / "year", maybe the grammar of vocon is enough
                         if (UInt16.TryParse(lWords[lIndex + 1], out lNb) && ContainsOneOf(lWords[lIndex + 2], "day"))
-                            return DateTime.Today.AddDays(lNb).ToString(DATE_FORMAT);
+                            return DateTime.Today.AddDays(lNb).Date;
                         else if (UInt16.TryParse(lWords[lIndex + 1], out lNb) && ContainsOneOf(lWords[lIndex + 2], "month"))
-                            return DateTime.Today.AddMonths(lNb).ToString(DATE_FORMAT);
+                            return DateTime.Today.AddMonths(lNb).Date;
                         else if (UInt16.TryParse(lWords[lIndex + 1], out lNb) && ContainsOneOf(lWords[lIndex + 2], "year"))
-                            return DateTime.Today.AddYears(lNb).ToString(DATE_FORMAT);
+                            return DateTime.Today.AddYears(lNb).Date;
                     }
                 }
             }
-            return null;
+            return new DateTime(0001, 01, 01);
         }
 
         // Try to build a date - Find day / number, month,
         // If number or month is absent - check if "next" is present -> GetNextDay
         // Find a day number
-        private string TryToBuildDate(string iSpeech)
+        private DateTime TryToBuildDate(string iSpeech)
         {
-            DateTime lDate;
             UInt16 lDayNum = 0;
             int lMonth = DateTime.Today.Month;
             int lYear = DateTime.Today.Year;
-            string lResult = null;
             string[] lSpeechWords = iSpeech.Split(' ');
 
             // Get a number in speech
@@ -204,12 +213,11 @@ namespace BuddyApp.Reminder
             {
                 // Find the choosen month - If an error occured, the date extraction is stopped.
                 if ((lMonth = FindMonthNumber(lSpeechWords)) < 0)
-                    return "";
+                    return new DateTime(0001, 01, 01);
                 // If the month number is passed OR, if the day is passed and the choosen month is the current month, increment the year.
                 if (lMonth < DateTime.Today.Month || (lMonth == DateTime.Today.Month && lDayNum < DateTime.Today.Day))
                     lYear++;
-                lDate = new DateTime(lYear, lMonth, lDayNum);
-                lResult = lDate.ToString(DATE_FORMAT);
+                return new DateTime(lYear, lMonth, lDayNum);
             }
             // If the day number is valid but without month, we create a date to the next day number.
             else if (lDayNum >= 1 && lDayNum <= 31)
@@ -223,18 +231,69 @@ namespace BuddyApp.Reminder
                     lMonth = JANUARY;
                     lYear++;
                 }
-                lDate = new DateTime(lYear, lMonth, lDayNum);
-                lResult = lDate.ToString(DATE_FORMAT);
+                return new DateTime(lYear, lMonth, lDayNum);
             }
             // If no number is choose => speech = "the" + "next" ([TODO] Make this impossible with the grammar) || "weekdays" + "next"
             else if (lDayNum == 0 && ContainsOneOf(iSpeech, "next"))
                 return GetNextDay(DateTime.Today, lSpeechWords);
-            return lResult;
+            return new DateTime(0001, 01, 01);
         }
 
         /*
-         *  TMP - waiting for bug fix in utils - bug with "intime"
+         *  Return the number of the first month found in iSpeech.
+         *  If no month are found, negative value is return.
          */
+        private int FindMonthNumber(string[] iSpeech)
+        {
+            string[] lMonthArray = Buddy.Resources.GetPhoneticStrings("allmonth");
+
+            foreach (string lWord in iSpeech)
+            {
+                for (int lIndex = 0; lIndex < lMonthArray.Length; lIndex++)
+                {
+                    if (lMonthArray[lIndex].ToLower() == lWord.ToLower())
+                        return (lIndex + 1);
+                }
+            }
+            return -1;
+        }
+
+        /*
+         *  Return the date in string format, of the next day, from a start day.
+         *  (It takes the first encounter day in the array)
+         *  If an error occured, a negative value is return.
+         */
+        private DateTime GetNextDay(DateTime iStartDay, string[] iSpeech)
+        {
+            bool lFind = false;
+            string[] lWeekDays = Buddy.Resources.GetPhoneticStrings("weekdays");
+            int lNumDay = -1;
+            int lDaysToAdd = 0;
+
+            // Find the first day in the array
+            foreach (string lWord in iSpeech)
+            {
+                for (int lIndex = 0; lIndex < lWeekDays.Length; lIndex++)
+                {
+                    if (lWeekDays[lIndex] == lWord)
+                    {
+                        lNumDay = lIndex;
+                        lFind = true;
+                        break;
+                    }
+                }
+                if (lFind)
+                    break;
+            }
+            if (lNumDay < 0)
+                return new DateTime(0001, 01, 01);
+            // Substract the choosen day number with the current day number
+            // The calcul assure the range is between [1-7]
+            lDaysToAdd = ((lNumDay - (int)iStartDay.DayOfWeek + 7) % 7) + 1;
+            return iStartDay.AddDays(lDaysToAdd).Date;
+        }
+
+        //  TMP - waiting for bug fix in utils - bug with "intime"
 
         private bool ContainsOneOf(string iSpeech, string iKey)
         {
@@ -264,60 +323,6 @@ namespace BuddyApp.Reminder
                     return true;
             }
             return false;
-        }
-
-        /*
-         *  Return the number of the first month found in iSpeech.
-         *  If no month are found, negative value is return.
-         */
-        private int FindMonthNumber(string[] iSpeech)
-        {
-            string[] lMonthArray = Buddy.Resources.GetPhoneticStrings("allmonth");
-
-            foreach (string lWord in iSpeech)
-            {
-                for (int lIndex = 0; lIndex < lMonthArray.Length; lIndex++)
-                {
-                    if (lMonthArray[lIndex].ToLower() == lWord.ToLower())
-                        return (lIndex + 1);
-                }
-            }
-            return -1;
-        }
-
-        /*
-         *  Return the date in string format, of the next day, from a start day.
-         *  (It takes the first encounter day in the array)
-         *  If an error occured, a negative value is return.
-         */
-        private string GetNextDay(DateTime iStartDay, string[] iSpeech)
-        {
-            bool lFind = false;
-            string[] lWeekDays = Buddy.Resources.GetPhoneticStrings("weekdays");
-            int lNumDay = -1;
-            int lDaysToAdd = 0;
-
-            // Find the first day in the array
-            foreach (string lWord in iSpeech)
-            {
-                for (int lIndex = 0; lIndex < lWeekDays.Length; lIndex++)
-                {
-                    if (lWeekDays[lIndex] == lWord)
-                    {
-                        lNumDay = lIndex;
-                        lFind = true;
-                        break;
-                    }
-                }
-                if (lFind)
-                    break;
-            }
-            if (lNumDay < 0)
-                return null;
-            // Substract the choosen day number with the current day number
-            // The calcul assure the range is between [1-7]
-            lDaysToAdd = ((lNumDay - (int)iStartDay.DayOfWeek + 7) % 7) + 1;
-            return iStartDay.AddDays(lDaysToAdd).ToString(DATE_FORMAT);
         }
     }
 }

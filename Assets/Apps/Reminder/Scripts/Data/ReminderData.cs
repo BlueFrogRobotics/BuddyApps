@@ -1,3 +1,4 @@
+using System;
 using BlueQuark;
 
 namespace BuddyApp.Reminder
@@ -8,8 +9,7 @@ namespace BuddyApp.Reminder
         /*
          * Data getters / setters
          */
-        public string DateChoice { get; set; }
-        public string HourChoice { get; set; }
+        public DateTime ReminderDate { get; set; }
         public int AppState { get; set; }
 
         /*
