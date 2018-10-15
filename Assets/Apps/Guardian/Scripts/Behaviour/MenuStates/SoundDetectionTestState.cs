@@ -111,11 +111,12 @@ namespace BuddyApp.Guardian
 
         private void ShowToaster()
         {
-            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("selectsensibility"));
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("setnoisesensitivity"));
             Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTexture);
 
             mSlider = Buddy.GUI.Footer.CreateOnMiddle<FLabeledHorizontalSlider>();
             mSlider.SlidingValue = GuardianData.Instance.SoundDetectionThreshold;
+            mSlider.SetLabel(Buddy.Resources.GetString("threshold"));
             mLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
 
             mLeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
@@ -137,7 +138,8 @@ namespace BuddyApp.Guardian
             mMatSrc = new Mat(480, 640, CvType.CV_8UC3, new Scalar(255, 255, 255, 255));
 
             float lMaxThreshold = DetectionManager.MAX_SOUND_THRESHOLD;
-            float lThreshold = (1.0f - mSlider.SlidingValue / 100F) * lMaxThreshold;
+            //float lThreshold = (1.0f - mSlider.SlidingValue / 100F) * lMaxThreshold;
+            float lThreshold = (mSlider.SlidingValue / 100F) * lMaxThreshold;
             float lLevelSound = mIntensity * 400.0F / lMaxThreshold;
 
             mSoundIntensities.Enqueue(lLevelSound);

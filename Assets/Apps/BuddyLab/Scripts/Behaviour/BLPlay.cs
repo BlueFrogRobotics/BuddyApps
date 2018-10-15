@@ -102,6 +102,8 @@ namespace BuddyApp.BuddyLab
         private void StopAlgo()
         {
             Buddy.Behaviour.Interpreter.Stop();
+            Buddy.Actuators.Head.Yes.SetPosition(0);
+            Buddy.Actuators.Head.No.SetPosition(0);
             CloseFooter();
             GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
             Trigger("Scene");

@@ -11,8 +11,8 @@ namespace BuddyApp.Guardian
         private Mat mMatSrc;
 
         private FButton mLeftButton;
-        private FButton mValidateButton;
-        private FButton mInterpolateButton;
+        //private FButton mValidateButton;
+        //private FButton mInterpolateButton;
 
         private ShowTemperature mShowTemp;
 
@@ -32,7 +32,7 @@ namespace BuddyApp.Guardian
             mShowTemp = GetComponent<ShowTemperature>();
             Buddy.Sensors.ThermalCamera.OnNewFrame.Add(OnNewFrame);
             ShowToaster();
-            mTexture.filterMode = FilterMode.Point;
+            mTexture.filterMode = FilterMode.Trilinear;
             mTexture.wrapMode = TextureWrapMode.Clamp;
             //TestPrintTemperature(45.0F);
             mTimer = 0.0F;
@@ -64,24 +64,24 @@ namespace BuddyApp.Guardian
             mLeftButton.SetBackgroundColor(Color.white);
             mLeftButton.SetIconColor(Color.black);
             mLeftButton.OnClick.Add(() => { Buddy.GUI.Toaster.Hide(); CloseFooter(); Trigger("FireDetection"); });
-            mValidateButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
+            //mValidateButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
 
-            mValidateButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
+            //mValidateButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
 
-            mValidateButton.SetBackgroundColor(Utils.BUDDY_COLOR);
-            mValidateButton.SetIconColor(Color.white);
-            mValidateButton.OnClick.Add(() => { Buddy.GUI.Toaster.Hide(); CloseFooter(); Trigger("FireDetection"); });
+            //mValidateButton.SetBackgroundColor(Utils.BUDDY_COLOR);
+            //mValidateButton.SetIconColor(Color.white);
+            //mValidateButton.OnClick.Add(() => { Buddy.GUI.Toaster.Hide(); CloseFooter(); Trigger("FireDetection"); });
 
-            mInterpolateButton = Buddy.GUI.Footer.CreateOnMiddle<FButton>();
-            mInterpolateButton.OnClick.Add(ChangeInterpolateMode);
+            //mInterpolateButton = Buddy.GUI.Footer.CreateOnMiddle<FButton>();
+            //mInterpolateButton.OnClick.Add(ChangeInterpolateMode);
 
         }
 
         private void CloseFooter()
         {
             Buddy.GUI.Footer.Remove(mLeftButton);
-            Buddy.GUI.Footer.Remove(mValidateButton);
-            Buddy.GUI.Footer.Remove(mInterpolateButton);
+            //Buddy.GUI.Footer.Remove(mValidateButton);
+            //Buddy.GUI.Footer.Remove(mInterpolateButton);
         }
 
         private void OnNewFrame(Mat iMat)

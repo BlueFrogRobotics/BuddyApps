@@ -16,7 +16,7 @@ namespace BuddyApp.Guardian
 
         //private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
 
-        private FButton mLeftButton;
+        //private FButton mLeftButton;
         private FButton mValidateButton;
 
         private bool mToastVisible;
@@ -69,7 +69,7 @@ namespace BuddyApp.Guardian
 
             if (GuardianData.Instance.FirstRunParam)
             {
-                Buddy.Vocal.SayKey("firstparam");
+                //Buddy.Vocal.SayKey("firstparam");
 
             }
 
@@ -133,16 +133,16 @@ namespace BuddyApp.Guardian
         {
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Header.HideTitle();
-            Buddy.GUI.Footer.Remove<FButton>(mLeftButton);
+            //Buddy.GUI.Footer.Remove<FButton>(mLeftButton);
             Buddy.GUI.Footer.Remove<FButton>(mValidateButton);
         }
 
         private void ShowToast()
         {
             mButtonContents.Clear();
-            mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("movementdetection"), "MovementDetection", "os_icon_agent"));
-            mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("sounddetection"), "SoundDetection", "os_icon_sound_on"));
-            mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("firedetection"), "FireDetection", "Fire_Alert"));
+            mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("motiondetection"), "MovementDetection", "os_icon_agent"));
+            mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("noisedetection"), "SoundDetection", "os_icon_sound_on"));
+            mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("heatdetection"), "FireDetection", "Fire_Alert"));
             mButtonContents.Add(new ButtonContent(Buddy.Resources.GetString("generalparameters"), "GeneralParameters", "os_icon_cog"));
 
 
@@ -155,8 +155,9 @@ namespace BuddyApp.Guardian
                 {
                     //We create the container
                     TVerticalListBox lBox = iBuilder.CreateBox();
+                    
                     //We create en event OnClick so we can trigger en event when we click on the box
-                    lBox.OnClick.Add(() => { Debug.Log("Click " + lButtonContent.Label); Trigger(lButtonContent.TriggerName); });
+                    lBox.OnClick.Add(() => { iBuilder.Select(lBox); Debug.Log("Click " + lButtonContent.Label); Trigger(lButtonContent.TriggerName); });
                     //We label our button with our informations in the dictionary
                     lBox.SetLabel(lButtonContent.Label);
                     //You can set a left button if you need to add en event or an icon at the left
@@ -165,21 +166,23 @@ namespace BuddyApp.Guardian
                     //We place the text of the button in the center of the box
                     lBox.SetCenteredLabel(true);
                     lBox.LeftButton.SetBackgroundColor(new Color(0.5f, 0.5f, 0.5f, 1F));
+                    if (lButtonContent == mButtonContents[0])
+                        iBuilder.Select(lBox);
                 }
             });
 
-            mLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+            //mLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
 
-            mLeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
+            //mLeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
 
-            mLeftButton.SetBackgroundColor(Color.white);
-            mLeftButton.SetIconColor(Color.black);
+            //mLeftButton.SetBackgroundColor(Color.white);
+            //mLeftButton.SetIconColor(Color.black);
 
             //lTrash.SetStroke(true);
 
             //lTrash.SetStrokeColor(Color.red);
 
-            mLeftButton.OnClick.Add(() => { });
+            //mLeftButton.OnClick.Add(() => { });
 
 
 

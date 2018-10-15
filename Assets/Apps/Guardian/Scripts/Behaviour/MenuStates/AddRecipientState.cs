@@ -17,10 +17,12 @@ namespace BuddyApp.Guardian
         private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
 
         private RecipientsData mContacts;
-        private TTextField mNameField;
+        private TTextField mFirstNameField;
+        private TTextField mLastNameField;
         private TTextField mMailField;
 
-        private string mName;
+        private string mFirstName;
+        private string mLastName;
         private string mMail;
 
 
@@ -38,22 +40,9 @@ namespace BuddyApp.Guardian
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
             //	() => { Trigger("NextStep"); }, 
             //	null);
-            
 
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
-            {
-                //iBuilder.CreateWidget<TText>().SetLabel("test");
-                mNameField = iBuilder.CreateWidget<TTextField>();
-                mNameField.SetPlaceHolder(Buddy.Resources.GetString("entercontactname"));
-                mNameField.OnChangeValue.Add((iName) => { mName = iName; });
-                mMailField = iBuilder.CreateWidget<TTextField>();
-                mMailField.SetPlaceHolder(Buddy.Resources.GetString("entercontactemail"));
-                mMailField.OnChangeValue.Add((iMail) => { mMail = iMail; });
-                //iBuilder.CreateWidget<TText>().SetLabel("test2");
-            },
-            () => { Trigger("RecipientChoice"); Buddy.GUI.Toaster.Hide(); }, "Cancel",
-            () => { AddAndQuit(); }, "Next"
-            );
+
+            ShowToaster(false);
 
 
         }
@@ -70,37 +59,53 @@ namespace BuddyApp.Guardian
 
         private void AddAndQuit()
         {
-            if (!mMail.Contains("@"))
+            if (string.IsNullOrEmpty(mMail) || !mMail.Contains("@"))
             {
                 Buddy.GUI.Toaster.Hide();
-                Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
-                {
-                    //iBuilder.CreateWidget<TText>().SetLabel("test");
-                    mNameField = iBuilder.CreateWidget<TTextField>();
-                    mNameField.SetPlaceHolder(Buddy.Resources.GetString("entercontactname"));
-                    mNameField.OnChangeValue.Add((iName) => { mName = iName; });
-                    iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("invalidemail"));
-                    mMailField = iBuilder.CreateWidget<TTextField>();
-                    mMailField.SetPlaceHolder(Buddy.Resources.GetString("entercontactemail"));
-                    mMailField.OnChangeValue.Add((iMail) => { mMail = iMail; });
-                    //iBuilder.CreateWidget<TText>().SetLabel("test2");
-                },
-            () => { Trigger("RecipientChoice"); Buddy.GUI.Toaster.Hide(); }, "Cancel",
-            () => { AddAndQuit(); }, "Next"
-            );
+                ShowToaster(true);
             }
             else
             {
                 RecipientData lRecipient = new RecipientData();
-                lRecipient.Name = mName;
+                lRecipient.FirstName = mFirstName;
+                lRecipient.LastName = mLastName;
                 lRecipient.Mail = mMail;
                 mContacts.Recipients.Add(lRecipient);
                 Utils.SerializeXML<RecipientsData>(mContacts, Buddy.Resources.GetRawFullPath("contacts.xml"));
-                mNameField.OnChangeValue.Clear();
+                mFirstNameField.OnChangeValue.Clear();
                 mMailField.OnChangeValue.Clear();
                 Trigger("RecipientChoice");
                 Buddy.GUI.Toaster.Hide();
             }
+        }
+
+        private void ShowToaster(bool iError)
+        {
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+            {
+                //iBuilder.CreateWidget<TText>().SetLabel("test");
+                mFirstNameField = iBuilder.CreateWidget<TTextField>();
+                mFirstNameField.SetPlaceHolder(Buddy.Resources.GetString("firstname"));
+                mFirstNameField.OnChangeValue.Add((iName) => { mFirstName = iName; });
+                mFirstNameField.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_user"));
+
+                mLastNameField = iBuilder.CreateWidget<TTextField>();
+                mLastNameField.SetPlaceHolder(Buddy.Resources.GetString("lastname"));
+                mLastNameField.OnChangeValue.Add((iName) => { mLastName = iName; });
+                mLastNameField.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_user"));
+
+                if(iError)
+                    iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("invalidemail"));
+
+                mMailField = iBuilder.CreateWidget<TTextField>();
+                mMailField.SetPlaceHolder(Buddy.Resources.GetString("email"));
+                mMailField.OnChangeValue.Add((iMail) => { mMail = iMail; });
+                mMailField.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_mail"));
+                //iBuilder.CreateWidget<TText>().SetLabel("test2");
+            },
+            () => { Trigger("RecipientChoice"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("cancel"),
+            () => { AddAndQuit(); }, Buddy.Resources.GetString("add")
+            );
         }
 
         //bool IsValidEmail(string iEmail)

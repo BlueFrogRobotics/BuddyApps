@@ -156,7 +156,7 @@ namespace BuddyApp.Guardian
             lMotionParam.SensibilityThreshold = GuardianData.Instance.MovementDetectionThreshold * MAX_MOVEMENT_THRESHOLD / 100;
             lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480);
             HasLinkedDetector = true;
-            if (!IsDetectingMovement)
+            //if (!IsDetectingMovement)
                 mMotionDetection.OnDetect.AddP(OnMovementDetected, lMotionParam);
             //if (!IsDetectingSound)
             //{
@@ -205,7 +205,7 @@ namespace BuddyApp.Guardian
 			if (!IsDetectingSound)
 				return true;
             //Debug.Log("iSound: " + iSound + " thresh: " + (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * MAX_SOUND_THRESHOLD);
-			if (iSound > (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * MAX_SOUND_THRESHOLD) {
+			if (iSound > (((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * MAX_SOUND_THRESHOLD) {
 				Debug.Log("============== Threshold passed!");
 				Detected = Alert.SOUND;
 				mAnimator.SetTrigger("Alert");

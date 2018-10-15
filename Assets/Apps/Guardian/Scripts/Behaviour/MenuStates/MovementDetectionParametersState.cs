@@ -34,11 +34,11 @@ namespace BuddyApp.Guardian
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
             //	() => { Trigger("NextStep"); }, 
             //	null);
-            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("movementdetection"));
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("motiondetection"));
             //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
-                iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("setupmovement"));
+                //iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("setupmovement"));
                 //iBuilder.CreateWidget<TText>().SetLabel("test");
                 mSliderToggle = iBuilder.CreateWidget<TSliderToggle>();
                 mSliderToggle.OnSlide.Add((iVal) => Debug.Log(iVal));
@@ -47,7 +47,7 @@ namespace BuddyApp.Guardian
                 mSliderToggle.OnToggle.Add(OnToggleKidnapping);
                 //iBuilder.CreateWidget<TToggle>();
                 mButton = iBuilder.CreateWidget<TButton>();
-                mButton.SetLabel(Buddy.Resources.GetString("testsensibility"));
+                mButton.SetLabel(Buddy.Resources.GetString("setmotionsensitivity"));
                 mButton.SetActive(mSliderToggle.ToggleValue);
                 mButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_cog"));
                 mButton.OnClick.Add(() => { SaveParam(); Trigger("Test"); Buddy.GUI.Toaster.Hide(); });

@@ -27,7 +27,7 @@ namespace BuddyApp.Guardian
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
 
-            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("firedetection"));
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("heatdetection"));
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
             //	() => { Trigger("NextStep"); }, 
             //	null);
@@ -37,13 +37,14 @@ namespace BuddyApp.Guardian
             {
                 //iBuilder.CreateWidget<TText>().SetLabel("test");
                 mToggleFireDetection = iBuilder.CreateWidget<TToggle>();
-                mToggleFireDetection.SetLabel(Buddy.Resources.GetString("setupfire"));
+                mToggleFireDetection.SetLabel(Buddy.Resources.GetString("activation"));
                 mToggleFireDetection.ToggleValue = GuardianData.Instance.FireDetection;
                 mToggleFireDetection.OnToggle.Add(OnToggleParam);
 
                 mButtonTestSensibility = iBuilder.CreateWidget<TButton>();
-                mButtonTestSensibility.SetLabel(Buddy.Resources.GetString("testsensibility"));
-                mButtonTestSensibility.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_cog"));
+                mButtonTestSensibility.SetLabel(Buddy.Resources.GetString("viewheatdetection"));
+                //mButtonTestSensibility.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_cog"));
+                mButtonTestSensibility.SetIcon(Buddy.Resources.Get<Sprite>("os_circle_button"));
                 mButtonTestSensibility.SetActive(mToggleFireDetection.ToggleValue);
                 mButtonTestSensibility.OnClick.Add(() => { SaveParam(); Trigger("Test"); Buddy.GUI.Toaster.Hide(); });
                 //iBuilder.CreateWidget<TText>().SetLabel("test2");

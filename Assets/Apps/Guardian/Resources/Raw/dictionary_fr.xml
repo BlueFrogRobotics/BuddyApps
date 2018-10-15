@@ -39,7 +39,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>mobile</Key>
-            <BaseValue>Surveillance mobile</BaseValue>
+            <BaseValue>Patrouille</BaseValue>
             <ClosePhoneticValues>
                 <string>mobile</string>
                 <string>surveillance mobile</string>
@@ -446,12 +446,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>scan</Key>
-            <BaseValue>Mouvement de la tête</BaseValue>
+            <BaseValue>Balayage de la tête</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Mouvement de la tête</string>
+                <string>Balayage de la tête</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -511,7 +511,7 @@
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>Ajouter un contact</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -536,12 +536,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>invalidemail</Key>
-            <BaseValue>Email invalide </BaseValue>
+            <BaseValue>Vérifiez votre adresse email</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>Vérifiez votre adresse email</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -612,6 +612,186 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>motiondetection</Key>
+            <BaseValue>Détection de mouvement</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>noisedetection</Key>
+            <BaseValue>Détection de bruit</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>heatdetection</Key>
+            <BaseValue>Détection de chaleur</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>noisealert</Key>
+            <BaseValue>Attention ! Son détecté !</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>J'ai détecté du bruit.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>motionalert</Key>
+            <BaseValue>Attention ! Mouvement détecté !</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>J'ai détecté du mouvement.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>heatalert</Key>
+            <BaseValue>Attention ! Chaleur élevée détectée !</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>J'ai détecté une forte chaleur.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>heatalertmessage</Key>
+            <BaseValue>Je viens de détecter une forte chaleur.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je viens de détecter une forte chaleur.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>noisealertmessage</Key>
+            <BaseValue>Je viens de détecter du bruit.</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je viens de détecter du bruit.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>motionalertmessage</Key>
+            <BaseValue>Je viens de détecter du mouvement. </BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Je viens de détecter du mouvement. </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>threshold</Key>
+            <BaseValue>Seuil</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Seuil</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>setmotionsensitivity</Key>
+            <BaseValue>Régler la sensibilité</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Régler la sensibilité</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>setnoisesensitivity</Key>
+            <BaseValue>Régler la sensibilité</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Régler la sensibilité</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>choosecontact</Key>
+            <BaseValue>Choisir un contact</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Choisir un contact</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>firstname</Key>
+            <BaseValue>Prénom</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Prénom</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>lastname</Key>
+            <BaseValue>Nom</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Nom</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>email</Key>
+            <BaseValue>Email</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Email</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>activation</Key>
+            <BaseValue>Activation</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Activation</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>viewheatdetection</Key>
+            <BaseValue>Voir la chaleur détectée</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Voir la chaleur détectée</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

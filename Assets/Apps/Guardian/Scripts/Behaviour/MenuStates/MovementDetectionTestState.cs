@@ -30,7 +30,7 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("selectsensibility"));
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("setmotionsensitivity"));
             mInit = false;
             //if (Buddy.Sensors.RGBCamera.IsBusy)
             //{
@@ -52,6 +52,7 @@ namespace BuddyApp.Guardian
             mSlider = Buddy.GUI.Footer.CreateOnMiddle<FLabeledHorizontalSlider>();
             mSlider.SlidingValue = GuardianData.Instance.MovementDetectionThreshold;
             mSlider.OnSlide.Add(OnSlideChange);
+            mSlider.SetLabel(Buddy.Resources.GetString("threshold"));
             mLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
 
             mLeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
@@ -68,7 +69,7 @@ namespace BuddyApp.Guardian
             mValidateButton.OnClick.Add(() => { SaveAndQuit(); });
 
             MotionDetectorParameter lMotionParam = new MotionDetectorParameter();
-            lMotionParam.SensibilityThreshold = GuardianData.Instance.MovementDetectionThreshold * 5.0F / 100;
+            lMotionParam.SensibilityThreshold = GuardianData.Instance.MovementDetectionThreshold * DetectionManager.MAX_MOVEMENT_THRESHOLD / 100;
             lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480);
 
             mMovementTracker = Buddy.Perception.MotionDetector;
@@ -114,7 +115,7 @@ namespace BuddyApp.Guardian
             Mat lTest = iInput.clone();
             if (lTest.empty())
                 Debug.Log("on new frame empty");
-            Debug.Log("on new frame " + mTexture.width + " x " + mTexture.height);
+            //Debug.Log("on new frame " + mTexture.width + " x " + mTexture.height);
             mMatSrc = lTest.clone();
             Core.flip(mMatSrc, mMatSrc, 1);
             mTexture = Utils.ScaleTexture2DFromMat(mMatSrc, mTexture);
@@ -153,7 +154,7 @@ namespace BuddyApp.Guardian
         private void OnSlideChange(float iValue)
         {
             MotionDetectorParameter lMotionParam = new MotionDetectorParameter();
-            lMotionParam.SensibilityThreshold = iValue * 5.0F / 100;
+            lMotionParam.SensibilityThreshold = iValue * DetectionManager.MAX_MOVEMENT_THRESHOLD / 100;
             lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480);
 
             mMovementTracker.OnDetect.ModifyParameterP(OnMovementDetected, lMotionParam);

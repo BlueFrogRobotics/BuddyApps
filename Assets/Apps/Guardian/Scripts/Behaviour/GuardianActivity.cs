@@ -139,7 +139,8 @@ namespace BuddyApp.Guardian
             Debug.Log("unlock 5");
 
             Animator.SetBool("Password", false);
-			Animator.Play("EnterMenu");
+            QuitApp();
+			//Animator.Play("EnterMenu");
             Debug.Log("unlock 6");
 		}
 

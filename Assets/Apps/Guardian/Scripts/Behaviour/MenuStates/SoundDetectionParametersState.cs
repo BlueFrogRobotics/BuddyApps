@@ -58,11 +58,11 @@ namespace BuddyApp.Guardian
 
         private void ShowToaster()
         {
-            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("sounddetection"));
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("noisedetection"));
             //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
-                iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("setupsound"));
+                //iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("setupsound"));
                 //iBuilder.CreateWidget<TText>().SetLabel("test");
                 mSliderToggle = iBuilder.CreateWidget<TSliderToggle>();
                 mSliderToggle.OnSlide.Add((iVal) => Debug.Log(iVal));
@@ -70,7 +70,7 @@ namespace BuddyApp.Guardian
                 mSliderToggle.SlidingValue = GuardianData.Instance.SoundDetectionThreshold;
                 //iBuilder.CreateWidget<TToggle>();
                 mButton = iBuilder.CreateWidget<TButton>();
-                mButton.SetLabel(Buddy.Resources.GetString("testsensibility"));
+                mButton.SetLabel(Buddy.Resources.GetString("setnoisesensitivity"));
                 mButton.SetActive(mSliderToggle.ToggleValue);
                 mButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_cog"));
                 mButton.OnClick.Add(() => { SaveParam(); Trigger("Test"); Buddy.GUI.Toaster.Hide(); });

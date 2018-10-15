@@ -35,7 +35,7 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("chooserecipient"));
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("choosecontact"));
 
             mContacts = Utils.UnserializeXML<RecipientsData>(Buddy.Resources.GetRawFullPath("contacts.xml"));
 
@@ -70,7 +70,7 @@ namespace BuddyApp.Guardian
                     //We create en event OnClick so we can trigger en event when we click on the box
                     lBoxContact.OnClick.Add(() => { Debug.Log("Click add"); iBuilder.Select(lBoxContact); mSelectedContact = contact;/*Trigger(lButtonContent.Value); Buddy.GUI.Toaster.Hide();*/ });
                     //We label our button with our informations in the dictionary
-                    lBoxContact.SetLabel(contact.Name, contact.Mail);
+                    lBoxContact.SetLabel(contact.FirstName, contact.Mail);
                     lBoxContact.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_user_circle"));
                     lBoxContact.LeftButton.SetIconColor(Color.black);
                     lBoxContact.LeftButton.SetBackgroundColor(Color.white);
