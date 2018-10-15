@@ -8,38 +8,48 @@ namespace BuddyApp.Reminder
 {
     public sealed class DateChoiceState : AStateMachineBehaviour
     {
+        private enum DateModify
+        {
+            DAY,
+            MONTH,
+            YEAR,
+        }
+
         private const float TITLE_TIMER = 2.500F;
         private const int JANUARY = 1;
         private const int DECEMBER = 12;
         private const int TRY_NUMBER = 2;
-        private const string DATE_FORMAT = "dd/MM/yyyy";
 
         private float mTitleTStamp;
         private bool mVocal;
         private int mListen;
         private bool mHeaderTitle;
         private DateTime mCarousselDate;
+        private TText mDateText;
+        private TButton mSwitch;
+        private DateModify mDateModify;
         private SpeechInputParameters mGrammar;
 
         // TMP
         private void DebugColor(string msg, string color)
         {
-            Debug.Log("<color=" + color + ">----" + msg + "----</color>");
+            if (string.IsNullOrEmpty(color))
+                Debug.Log(msg);
+            else
+                Debug.Log("<color=" + color + ">----" + msg + "----</color>");
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mDateModify = DateModify.DAY;
             mListen = 0;
             mVocal = false;
             mHeaderTitle = false;
             mTitleTStamp = 0;
             // Init the data in an InitState - For now, when we go back to that state the date is reset
-            ReminderData.Instance.AppState = 1;
+            ReminderData.Instance.AppState = 0;
             ReminderData.Instance.ReminderDate = new DateTime(0001, 01, 01);
-            // tmp
-            Buddy.GUI.Header.HideTitle();
-            Buddy.Vocal.Stop();
             // Header setting
             DebugColor("ENTER", "red");
             Buddy.GUI.Header.DisplayParametersButton(false);
@@ -64,9 +74,7 @@ namespace BuddyApp.Reminder
             DebugColor("Date SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
             DebugColor("Date SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
-            {
                 ReminderData.Instance.ReminderDate = ExtractDateFromSpeech(iSpeechInput.Utterance);
-            }
             if (!DateIsDefault(ReminderData.Instance.ReminderDate) && !mHeaderTitle)
             {
                 DebugColor("DATE IS: " + ReminderData.Instance.ReminderDate.ToShortDateString(), "green");
@@ -81,7 +89,10 @@ namespace BuddyApp.Reminder
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (!DateIsDefault(ReminderData.Instance.ReminderDate) && (Time.time - mTitleTStamp) > TITLE_TIMER)
+            {
+                ReminderData.Instance.AppState++;
                 Trigger("HourChoiceState");
+            }
             if (mVocal)
                 return;
             if (mListen < TRY_NUMBER && DateIsDefault(ReminderData.Instance.ReminderDate))
@@ -121,7 +132,6 @@ namespace BuddyApp.Reminder
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            ReminderData.Instance.AppState++;
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
@@ -129,17 +139,72 @@ namespace BuddyApp.Reminder
             Buddy.Vocal.Stop();
         }
 
+        // ---- UI -----
         private void DisplayDateEntry()
         {
-            //Display of the title
+            //  Display of the title
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("setupdate"));
-            // Create Caroussel Here
             // TMP - waiting for caroussel and dot list
-            Buddy.GUI.Footer.CreateOnMiddle<FLabeledButton>().SetLabel("STEP:" + ReminderData.Instance.AppState + "of 3");
+            FDotNavigation lSteps = Buddy.GUI.Footer.CreateOnMiddle<FDotNavigation>();
+            lSteps.Dots = ReminderData.Instance.AppStepNumbers;
+            lSteps.Select(ReminderData.Instance.AppState);
+            // TODO wait for fix, NullRef in SetLabel 
+            // lSteps.SetLabel("Steps");
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
-                TText lTmpText = iOnBuild.CreateWidget<TText>();
-                lTmpText.SetLabel("Waiting for Caroussel Toast - Default date:" + mCarousselDate.ToShortDateString());
+                // Init date to today
+                mCarousselDate = DateTime.Today.Date;
+                // Increment Button
+                TButton lInc = iOnBuild.CreateWidget<TButton>();
+                lInc.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_plus"));
+                lInc.SetLabel(Buddy.Resources.GetString("inc"));
+                lInc.OnClick.Add(() => 
+                {
+                    if (mDateModify == DateModify.DAY)
+                        mCarousselDate = mCarousselDate.AddDays(1);
+                    else if (mDateModify == DateModify.MONTH)
+                        mCarousselDate = mCarousselDate.AddMonths(1);
+                    else if (mDateModify == DateModify.YEAR)
+                        mCarousselDate = mCarousselDate.AddYears(1);
+                    mDateText.SetLabel(Buddy.Resources.GetString("datesetto") + mCarousselDate.ToShortDateString());
+                });
+
+                // Text to display choosen date
+                mDateText = iOnBuild.CreateWidget<TText>();
+                mDateText.SetLabel(Buddy.Resources.GetString("datesetto") + mCarousselDate.ToShortDateString());
+
+                // Decrement Button
+                TButton lDec = iOnBuild.CreateWidget<TButton>();
+                lDec.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_minus"));
+                lDec.SetLabel(Buddy.Resources.GetString("dec"));
+                lDec.OnClick.Add(() => 
+                {
+                    if (mDateModify == DateModify.DAY)
+                        mCarousselDate = mCarousselDate.AddDays(-1);
+                    else if (mDateModify == DateModify.MONTH)
+                        mCarousselDate = mCarousselDate.AddMonths(-1);
+                    else if (mDateModify == DateModify.YEAR)
+                        mCarousselDate = mCarousselDate.AddYears(-1);
+                    mDateText.SetLabel(Buddy.Resources.GetString("datesetto") + mCarousselDate.ToShortDateString());
+                });
+
+                // Switch button - (day/month/year)
+                mSwitch = iOnBuild.CreateWidget<TButton>();
+                mSwitch.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_agenda_check"));
+                mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("day"));
+                mSwitch.OnClick.Add(() =>
+                {
+                    if (mDateModify >= DateModify.YEAR)
+                        mDateModify = DateModify.DAY;
+                    else
+                        mDateModify++;
+                    if (mDateModify == DateModify.DAY)
+                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("day"));
+                    else if (mDateModify == DateModify.MONTH)
+                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("month"));
+                    else if (mDateModify == DateModify.YEAR)
+                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("year"));
+                });
             },
             () =>
             {
@@ -149,6 +214,8 @@ namespace BuddyApp.Reminder
             () =>
             {
                 ReminderData.Instance.ReminderDate = mCarousselDate;
+                DebugColor(ReminderData.Instance.ReminderDate.ToShortDateString(), "green");
+                ReminderData.Instance.AppState++;
                 Trigger("HourChoiceState");
             },
             "Next");
@@ -293,15 +360,8 @@ namespace BuddyApp.Reminder
             return iStartDay.AddDays(lDaysToAdd).Date;
         }
 
-        //  TMP - waiting for bug fix in utils - bug with "intime"
-
+        //  TMP - waiting for bug fix in utils
         private bool ContainsOneOf(string iSpeech, string iKey)
-        {
-            return ContainsOneOfFromWeatherApp(iSpeech, iKey);
-            //   return Utils.ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings(iKey));
-        }
-
-        private bool ContainsOneOfFromWeatherApp(string iSpeech, string iKey)
         {
             string[] iListSpeech = Buddy.Resources.GetPhoneticStrings(iKey);
             iSpeech = iSpeech.ToLower();

@@ -15,9 +15,14 @@ namespace BuddyApp.Reminder
             PM,
         }
 
-        private const int DEFAULT_TIME = 30;
-        private const int TRY_NUMBER = 20;
-        private const string HOUR_FORMAT = "H:mm:ss";
+        private enum HourModify
+        {
+            HOUR,
+            MINUTE,
+            SECOND,
+        }
+
+        private const int TRY_NUMBER = 2;
 
         private int mHour;
         private int mMinute;
@@ -26,8 +31,11 @@ namespace BuddyApp.Reminder
         private bool mVocal;
         private int mListen;
         private bool mHeaderTitle;
-        private string mCarousselHour;
         private SpeechInputParameters mGrammar;
+        private TText mHourText;
+        private TButton mSwitch;
+        private TimeSpan mCarousselHour;
+        private HourModify mHourModify;
 
         // TMP
         private void DebugColor(string msg, string color)
@@ -58,6 +66,9 @@ namespace BuddyApp.Reminder
             Buddy.Vocal.OnEndListening.Add(VoconGetHourResult);
         }
 
+        /*
+         *  Test if the hour has been correctly set
+         */
         private bool HourIsDefault()
         {
             if (mHour < 0 || mMinute < 0 || mSecond < 0)
@@ -65,6 +76,9 @@ namespace BuddyApp.Reminder
             return false;
         }
 
+        /*
+         *   The function set hour variables, with the day moment parameter (AM/PM)
+         */
         private bool HourSet(int iH, int iM, int iS, DayMoment iDayMoment)
         {
             // TODO Convert with iDayMoment
@@ -74,6 +88,15 @@ namespace BuddyApp.Reminder
                 mMinute = iM;
             if (iS >= 0 && iS <= 59)
                 mSecond = iS;
+            // Convert to AM
+            if (iDayMoment == DayMoment.AM)
+                ;
+            // Convert to PM
+            else if (iDayMoment == DayMoment.PM)
+                ;
+            // No convert - Use the nearest if consistent
+            else
+                ;
             return true;
         }
 
@@ -96,8 +119,12 @@ namespace BuddyApp.Reminder
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            // If Hour is correctly set - go to next step
             if (!HourIsDefault())
-                ;
+            {
+                ReminderData.Instance.AppState++;
+                Trigger("GetMessageState");
+            }
             if (mVocal)
                 return;
             if (mListen < TRY_NUMBER && HourIsDefault())
@@ -163,8 +190,10 @@ namespace BuddyApp.Reminder
          *  8 heure moins 10 / 10 to 8 => 7h50
          *  
          */
-        private bool ExtractHourFromSpeech2(string iSpeech)
+
+        private bool ExtractHourFromSpeech(string iSpeech)
         {
+            TimeSpan lTs;
             Int16 lFirstNum = -1;
             Int16 lSecondNum = -1;
             DayMoment lDayMoment = DayMoment.NEAREST;
@@ -176,7 +205,7 @@ namespace BuddyApp.Reminder
             else if (ContainsOneOf(iSpeech, "evening") || ContainsOneOf(iSpeech, "afternoon"))
                 lDayMoment = DayMoment.PM;
 
-            // Get a number in speech
+            // Get two numbers in speech
             for (int lIndex = 0; lIndex < lSpeechWords.Length; lIndex++)
             {
                 // Find first number
@@ -191,38 +220,56 @@ namespace BuddyApp.Reminder
                     break;
                 }
             }
-
             // Two numbers in the speech
             if (lFirstNum > 0 && lSecondNum > 0)
             {
-                // 10 past 8 => 8h10 - So use lSeconNum to hours and lMinuteNum to minutes
-                if (ContainsOneOf(iSpeech, "hour"))
-                    HourSet(lSecondNum, lFirstNum, 0, lDayMoment);
-                // 10 to 8 => 7h50 - So use lSecondNum to hours and substract to it lFirstNum in minutes
+                // Ex: 10 past 8 => 8h10 - So use lSeconNum to hours and lMinuteNum to minutes
+                if (ContainsOneOf(iSpeech, "pasthour"))
+                    return HourSet(lSecondNum, lFirstNum, 0, lDayMoment);
+                // Ex: 10 to 8 => 7h50 - So use lSecondNum to hours and substract to it lFirstNum in minutes
                 else if (ContainsOneOf(iSpeech, "to"))
-                   HourSet(lSecondNum - 1, 60 - lFirstNum, 0, lDayMoment);
-                if (ContainsOneOf(iSpeech, "intime"))
+                   return HourSet(lSecondNum - 1, 60 - lFirstNum, 0, lDayMoment);
+                // Ex: in 2 hours and 10 minutes
+                else if (ContainsOneOf(iSpeech, "intime") && ContainsOneOf(iSpeech, "hour") && ContainsOneOf(iSpeech, "minute"))
                 {
-                    TimeSpan lTs = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                    lTs = new TimeSpan(DateTime.Now.Hour + lFirstNum, DateTime.Now.Minute + lSecondNum, DateTime.Now.Second);
                     ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + lTs;
-                    ReminderData.Instance.ReminderDate.AddMinutes(mMinute);
-                    ReminderData.Instance.ReminderDate.AddHours(mHour);
-                    return true;
+                    return HourSet(ReminderData.Instance.ReminderDate.Hour, ReminderData.Instance.ReminderDate.Minute, ReminderData.Instance.ReminderDate.Second, lDayMoment);
                 }
             }
             // One numbers in the speech
-            else if (lFirstNum > 0 && lSecondNum < 0)
+            else if (lFirstNum > 0 && lSecondNum <= 0)
             {
-                // 8 o'clock => 8h00
-                if (ContainsOneOf(iSpeech, "oclock") && lSecondNum < 0)
+                if (ContainsOneOf(iSpeech, "oclock"))
                     return HourSet(lFirstNum, 0, 0, lDayMoment);
                 if (ContainsOneOf(iSpeech, "half"))
                     return HourSet(lFirstNum, 30, 0, lDayMoment);
+                else if (ContainsOneOf(iSpeech, "quarterto"))
+                    return HourSet((lFirstNum - 1), 45, 0, lDayMoment);
                 else if (ContainsOneOf(iSpeech, "quarter"))
                     return HourSet(lFirstNum, 15, 0, lDayMoment);
+                else if (ContainsOneOf(iSpeech, "intime"))
+                {
+                    lTs = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                    if (ContainsOneOf(iSpeech, "hour"))
+                    {
+                    lTs = new TimeSpan(DateTime.Now.Hour + lFirstNum, DateTime.Now.Minute, DateTime.Now.Second);
+                        ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + lTs;
+                        return HourSet(ReminderData.Instance.ReminderDate.Hour, ReminderData.Instance.ReminderDate.Minute, ReminderData.Instance.ReminderDate.Second, lDayMoment);
+                    }
+                    else if (ContainsOneOf(iSpeech, "minute"))
+                    {
+                        lTs = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute + lFirstNum, DateTime.Now.Second);
+                        ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + lTs;
+                        return HourSet(ReminderData.Instance.ReminderDate.Hour, ReminderData.Instance.ReminderDate.Minute, ReminderData.Instance.ReminderDate.Second, lDayMoment);
+                    }
+                    else
+                        DebugColor("add hours or minutes", "red");
+                    return false;
+                }
             }
             // No numbers in the speech
-            else if (lFirstNum < 0 && lSecondNum < 0)
+            else if (lFirstNum <= 0 && lSecondNum <= 0)
             {
                 if (ContainsOneOf(iSpeech, "midnight"))
                     return HourSet(0, 0, 0, lDayMoment);
@@ -232,108 +279,6 @@ namespace BuddyApp.Reminder
                     return HourSet(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, lDayMoment);
             }
             return false;
-        }
-
-        private void ExtractHourFromSpeech(string iSpeech)
-        {
-            UInt16 lHour = 0;
-            string[] lSpeechWords = iSpeech.Split(' ');
-            DayMoment lDayMoment = DayMoment.NEAREST;
-            if (lSpeechWords.Length == 1)
-            {
-                if (ContainsOneOf(iSpeech, "midnight"))
-                    HourSet(0, 0, 0, lDayMoment);
-                else if (ContainsOneOf(iSpeech, "noon"))
-                    HourSet(12, 0, 0, lDayMoment);
-                else if (ContainsOneOf(iSpeech, "now"))
-                    HourSet(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, lDayMoment);
-            }
-
-            // Check if the user asked AM or PM
-            if (ContainsOneOf(iSpeech, "morning"))
-                lDayMoment = DayMoment.AM;
-            else if (ContainsOneOf(iSpeech, "evening") || ContainsOneOf(iSpeech, "afternoon"))
-                lDayMoment = DayMoment.PM;
-
-            // Just parse "<numbers> heure" and set minutes to 30, "<numbers> heure et demi"
-            if (ContainsOneOf(iSpeech, "half"))
-            {
-                DebugColor("half", "yellow");
-                foreach (string lWord in lSpeechWords)
-                {
-                    if (UInt16.TryParse(lWord, out lHour))
-                        break;
-                }
-                HourSet(lHour, 30, 0, lDayMoment);
-            }
-            // Just parse "<numbers> heure" and substrart 15 minutes, "<numbers> heure moins le quart"
-            else if (ContainsOneOf(iSpeech, "quarterto"))
-            {
-                DebugColor("quarterto", "yellow");
-                foreach (string lWord in lSpeechWords)
-                {
-                    if (UInt16.TryParse(lWord, out lHour))
-                        break;
-                }
-                HourSet((lHour - 1), 45, 0, lDayMoment);
-            }
-            // Just parse "<numbers> heure" and set minutes to 15, "<numbers> heure et quart"
-            else if (ContainsOneOf(iSpeech, "quarter"))
-            {
-                DebugColor("quarter", "yellow");
-                foreach (string lWord in lSpeechWords)
-                {
-                    if (UInt16.TryParse(lWord, out lHour))
-                        break;
-                }
-                HourSet(lHour, 15, 0, lDayMoment);
-            }
-            // Handling <intime>
-            else if (ContainsOneOf(iSpeech, "intime"))
-                DebugColor("intime", "yellow");
-            else if (Buddy.Platform.Language == Language.EN)
-                ExtractHourEn(iSpeech, lDayMoment);
-        }
-
-        /*
-         *  Handling of "[a | pour] <numbers> heure [ [moins] <numbers> ]"
-         *  "[to | for] <numbers> (past | to) <numbers>" 
-         *  8 heure 10 / 10 past 8 => 8h10
-         *  8 heure moins 10 / 10 to 8 => 7h50
-         */
-        private void ExtractHourEn(string iSpeech, DayMoment iDayMoment)
-        {
-            Int16 lFirstNum = -1;
-            Int16 lSecondNum = -1;
-            string[] lSpeechWords = iSpeech.Split(' ');
-
-            // Get a number in speech
-            for (int lIndex = 0; lIndex < lSpeechWords.Length; lIndex++)
-            {
-                // Find first number
-                if (Int16.TryParse(lSpeechWords[lIndex], out lFirstNum))
-                {
-                    // Find second number
-                    for (int lI = lIndex + 1; lI < lSpeechWords.Length; lI++)
-                    {
-                        if (Int16.TryParse(lSpeechWords[lI], out lSecondNum))
-                            break;
-                    }
-                    break;
-                }
-            }
-            if (lFirstNum < 0)
-                return;
-            DebugColor("First:" + lFirstNum.ToString() + " Second:" + lSecondNum.ToString(), "cyan");
-            // 8 o'clock => 8h00
-            if (ContainsOneOf(iSpeech, "oclock") && lSecondNum < 0)
-                HourSet(lFirstNum, 0, 0, iDayMoment);
-            // 10 past 8 => 8h10 - So use lSeconNum to hours and lMinuteNum to minutes
-            else if (ContainsOneOf(iSpeech, "hour"))
-                HourSet(lSecondNum, lFirstNum, 0, iDayMoment);
-            // 10 to 8 => 7h50 - So use lSecondNum to hours and substract to it lFirstNum in minutes
-            else if (ContainsOneOf(iSpeech, "to"))
-                HourSet(lSecondNum - 1, 60 - lFirstNum, 0, iDayMoment);
         }
 
         // ----- UI -----
@@ -349,45 +294,96 @@ namespace BuddyApp.Reminder
             {
                 // For now we restart to zero when user go back to date choice
                 if (!Buddy.Vocal.IsSpeaking)
+                {
+                    ReminderData.Instance.AppState--;
                     Trigger("DateChoiceState");
+                }
             });
-            // Create Caroussel Here
             // TMP - waiting for caroussel and dot list
-            Buddy.GUI.Footer.CreateOnMiddle<FLabeledButton>().SetLabel("STEP:" + ReminderData.Instance.AppState + "of 3");
+            FDotNavigation lSteps = Buddy.GUI.Footer.CreateOnMiddle<FDotNavigation>();
+            lSteps.Dots = ReminderData.Instance.AppStepNumbers;
+            lSteps.Select(ReminderData.Instance.AppState);
+            // TODO wait for fix, NullRef in SetLabel 
+            // lSteps.SetLabel("Steps");
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
-                mCarousselHour = "null";
-                TText lTmpText = iOnBuild.CreateWidget<TText>();
-                lTmpText.SetLabel("Waiting for Caroussel Toast - Default time: in " + DEFAULT_TIME + "seconds");
-                //Set to default for now - Current time + 10 sec
-                //mCarousselHour = DateTime.Today.AddSeconds(30F).TimeOfDay.ToString(HOUR_FORMAT);
+                // Init hour to now
+                mCarousselHour = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                // Increment Button
+                TButton lInc = iOnBuild.CreateWidget<TButton>();
+                lInc.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_plus"));
+                lInc.SetLabel(Buddy.Resources.GetString("inc"));
+                lInc.OnClick.Add(() =>
+                {
+                    if (mHourModify == HourModify.HOUR)
+                        mCarousselHour = mCarousselHour.Add(new TimeSpan(1, 0, 0));
+                    else if (mHourModify == HourModify.MINUTE)
+                        mCarousselHour = mCarousselHour.Add(new TimeSpan(0, 1, 0));
+                    else if (mHourModify == HourModify.SECOND)
+                        mCarousselHour = mCarousselHour.Add(new TimeSpan(0, 0, 10));
+                    string lUpdateHour = mCarousselHour.Hours.ToString() + ":" + mCarousselHour.Minutes.ToString() + ":" + mCarousselHour.Seconds.ToString();
+                    mHourText.SetLabel(Buddy.Resources.GetString("hoursetto") + lUpdateHour);
+                });
+
+                // Text to display choosen date
+                string lHour = mCarousselHour.Hours.ToString() + ":" + mCarousselHour.Minutes.ToString() + ":" + mCarousselHour.Seconds.ToString();
+                mHourText = iOnBuild.CreateWidget<TText>();
+                mHourText.SetLabel(Buddy.Resources.GetString("hoursetto") + lHour);
+
+                // Decrement Button
+                TButton lDec = iOnBuild.CreateWidget<TButton>();
+                lDec.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_minus"));
+                lDec.SetLabel(Buddy.Resources.GetString("dec"));
+                lDec.OnClick.Add(() =>
+                {
+                    if (mHourModify == HourModify.HOUR)
+                        mCarousselHour = mCarousselHour.Subtract(new TimeSpan(1, 0, 0));
+                    else if (mHourModify == HourModify.MINUTE)
+                        mCarousselHour = mCarousselHour.Subtract(new TimeSpan(0, 1, 0));
+                    else if (mHourModify == HourModify.SECOND)
+                        mCarousselHour = mCarousselHour.Subtract(new TimeSpan(0, 0, 10));
+                    string lUpdateHour = mCarousselHour.Hours.ToString() + ":" + mCarousselHour.Minutes.ToString() + ":" + mCarousselHour.Seconds.ToString();
+                    mHourText.SetLabel(Buddy.Resources.GetString("hoursetto") + lUpdateHour);
+                });
+
+                // Switch button - (hour/minute/second)
+                mSwitch = iOnBuild.CreateWidget<TButton>();
+                mSwitch.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_clock"));
+                mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("hour"));
+                mSwitch.OnClick.Add(() =>
+                {
+                    if (mHourModify >= HourModify.SECOND)
+                        mHourModify = HourModify.HOUR;
+                    else
+                        mHourModify++;
+                    if (mHourModify == HourModify.HOUR)
+                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("hour"));
+                    else if (mHourModify == HourModify.MINUTE)
+                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("minute"));
+                    else if (mHourModify == HourModify.SECOND)
+                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("second"));
+                });
             },
             () =>
             {
-                if (!Buddy.Vocal.IsSpeaking)
-                    Trigger("DateChoiceState");
+                ReminderData.Instance.AppState--;
+                Trigger("DateChoiceState");
             },
             "Cancel",
             () =>
             {
-                TimeSpan lTs = new TimeSpan(DateTime.Today.Hour, DateTime.Today.Minute, DateTime.Today.Second + DEFAULT_TIME);
-                ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + lTs;
-                Trigger("HourChoiceState");
+                ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + mCarousselHour;
+                DebugColor(ReminderData.Instance.ReminderDate.ToLongTimeString(), "green");
+                ReminderData.Instance.AppState++;
+                Trigger("GetMessageState");
             },
             "Next");
         }
 
         /*
-         *  TMP - waiting for bug fix in utils - bug with "intime"
+         *  TMP - waiting for bug fix in utils - After that use Utils.ContainsOneOf
          */
-
         private bool ContainsOneOf(string iSpeech, string iKey)
-        {
-            return ContainsOneOfFromWeatherApp(iSpeech, iKey);
-            //   return Utils.ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings(iKey));
-        }
-
-        private bool ContainsOneOfFromWeatherApp(string iSpeech, string iKey)
         {
             string[] iListSpeech = Buddy.Resources.GetPhoneticStrings(iKey);
             iSpeech = iSpeech.ToLower();
