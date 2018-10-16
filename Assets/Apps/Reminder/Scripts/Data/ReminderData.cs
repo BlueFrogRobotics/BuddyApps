@@ -14,7 +14,6 @@ namespace BuddyApp.Reminder
         public int AppState { get; set; }
 
         public DateTime ReminderDate { get; set; }
-        public string ReminderMsg { get; set; }
 
         /*
          * Data singleton access

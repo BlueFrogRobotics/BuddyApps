@@ -13,6 +13,7 @@ namespace BuddyApp.Reminder
         private bool mReminderOk;
         private string mRecordedMessage;
 
+
         // TMP
         public void DebugColor(string msg, string color)
         {
@@ -44,16 +45,21 @@ namespace BuddyApp.Reminder
             }
             if (mReminderOk && !Buddy.Vocal.IsBusy)
             {
-                DebugColor(ReminderData.Instance.ReminderMsg, "green");
+                DebugColor(mRecordedMessage, "green");
                 DebugColor(ReminderData.Instance.ReminderDate.ToShortDateString() + " at " + ReminderData.Instance.ReminderDate.ToLongTimeString(), "green");
                 QuitApp();
             }
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        //{
-        //}
+        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            Buddy.GUI.Header.HideTitle();
+            Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Footer.Hide();
+            //  Buddy.Vocal.OnEndListening.Remove(VoconGet...Result);
+            //  Buddy.Vocal.Stop();
+        }
 
         private void DisplayMessageEntry()
         {
@@ -86,20 +92,25 @@ namespace BuddyApp.Reminder
             },
             () =>
             {
-                ReminderData.Instance.AppState--;
-                Trigger("HourChoiceState");
+                // Back to the free speech record
             },
-            Buddy.Resources.GetString("cancel"),
+            Buddy.Resources.GetString("modify"),
             () =>
             {
-                ReminderData.Instance.ReminderMsg = mRecordedMessage;
+                if (string.IsNullOrEmpty(mRecordedMessage))
+                    return ;
+                //mReminderEvent.EventTime = ReminderData.Instance.ReminderDate;
+                //mReminderEvent.ReminderTime = ReminderData.Instance.ReminderDate;
+                //mReminderEvent.ReminderContent = mRecordedMessage;
+                //mReminderEvent.NotifyUser = true;
+                //Buddy.Platform.Calendar.Add(mReminderEvent);
                 Buddy.Vocal.SayKey("reminderok");
                 Buddy.GUI.Header.HideTitle();
                 Buddy.GUI.Toaster.Hide();
                 Buddy.GUI.Footer.Hide();
                 mReminderOk = true;
             },
-            Buddy.Resources.GetString("next"));
+            Buddy.Resources.GetString("validate"));
         }
     }
 }
