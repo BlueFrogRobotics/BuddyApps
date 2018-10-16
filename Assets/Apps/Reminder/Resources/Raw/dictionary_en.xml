@@ -224,10 +224,10 @@
             <Key>cancel</Key>
             <BaseValue>Cancel</BaseValue>
             <ClosePhoneticValues>
-                <string />
+                <string>Cancel</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>Cancel</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -393,12 +393,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>modify</Key>
-            <BaseValue>Modify: </BaseValue>
+            <BaseValue>Modify</BaseValue>
             <ClosePhoneticValues>
-                <string>modify</string>
+                <string>Modify</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Modify: </string>
+                <string>Modify</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -449,6 +449,76 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Hour set to: </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>reminderok</Key>
+            <BaseValue>Your reminder have been save !</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>hereisthemsg</Key>
+            <BaseValue>Here is the message</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>validateormodify</Key>
+            <BaseValue>Do you want to validate or modify it ?</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>message</Key>
+            <BaseValue>Message</BaseValue>
+            <ClosePhoneticValues>
+                <string>Message</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Message</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>validate</Key>
+            <BaseValue>Validate</BaseValue>
+            <ClosePhoneticValues>
+                <string>Validate</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Validate</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>no</Key>
+            <BaseValue>No</BaseValue>
+            <ClosePhoneticValues>
+                <string>No</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>No</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>enteryourmsg</Key>
+            <BaseValue>Enter your message</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
             </RandomValues>
         </DictionaryEntry>
     </Entries>

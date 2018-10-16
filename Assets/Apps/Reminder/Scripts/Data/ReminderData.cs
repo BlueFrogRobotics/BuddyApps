@@ -9,9 +9,12 @@ namespace BuddyApp.Reminder
         /*
          * Data getters / setters
          */
+
         public int AppStepNumbers { get { return 3; } }
-        public DateTime ReminderDate { get; set; }
         public int AppState { get; set; }
+
+        public DateTime ReminderDate { get; set; }
+        public string ReminderMsg { get; set; }
 
         /*
          * Data singleton access

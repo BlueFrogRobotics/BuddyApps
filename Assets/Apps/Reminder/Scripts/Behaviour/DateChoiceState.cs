@@ -23,12 +23,12 @@ namespace BuddyApp.Reminder
         private float mTitleTStamp;
         private bool mVocal;
         private int mListen;
-        private bool mHeaderTitle;
+        private bool mUi;
         private DateTime mCarousselDate;
         private TText mDateText;
         private TButton mSwitch;
         private DateModify mDateModify;
-        private SpeechInputParameters mGrammar;
+        private SpeechInputParameters mVoconParam;
 
         // TMP
         private void DebugColor(string msg, string color)
@@ -45,19 +45,18 @@ namespace BuddyApp.Reminder
             mDateModify = DateModify.DAY;
             mListen = 0;
             mVocal = false;
-            mHeaderTitle = false;
+            mUi = false;
             mTitleTStamp = 0;
             // Init the data in an InitState - For now, when we go back to that state the date is reset
             ReminderData.Instance.AppState = 0;
             ReminderData.Instance.ReminderDate = new DateTime(0001, 01, 01);
             // Header setting
-            DebugColor("ENTER", "red");
             Buddy.GUI.Header.DisplayParametersButton(false);
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
             // Grammar setting for STT
-            mGrammar = new SpeechInputParameters();
-            mGrammar.Grammars = new string[] { "reminder" };
+            mVoconParam = new SpeechInputParameters();
+            mVoconParam.Grammars = new string[] { "reminder" };
             // STT Callback Setting
             Buddy.Vocal.OnEndListening.Add(VoconGetDateResult);
         }
@@ -75,7 +74,7 @@ namespace BuddyApp.Reminder
             DebugColor("Date SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
                 ReminderData.Instance.ReminderDate = ExtractDateFromSpeech(iSpeechInput.Utterance);
-            if (!DateIsDefault(ReminderData.Instance.ReminderDate) && !mHeaderTitle)
+            if (!DateIsDefault(ReminderData.Instance.ReminderDate) && !mUi)
             {
                 DebugColor("DATE IS: " + ReminderData.Instance.ReminderDate.ToShortDateString(), "green");
                 Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderData.Instance.ReminderDate.ToShortDateString());
@@ -97,20 +96,18 @@ namespace BuddyApp.Reminder
                 return;
             if (mListen < TRY_NUMBER && DateIsDefault(ReminderData.Instance.ReminderDate))
             {
-                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), mGrammar.Grammars);
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), mVoconParam.Grammars);
                 mVocal = true;
             }
             else if (mListen >= TRY_NUMBER)
             {
-                if (!mHeaderTitle && DateIsDefault(ReminderData.Instance.ReminderDate))
+                if (!mUi && DateIsDefault(ReminderData.Instance.ReminderDate))
                 {
-                    //Set to default for now
-                    mCarousselDate = DateTime.Today.Date;
                     //The last listenning
-                    Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), mGrammar.Grammars);
+                    Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), mVoconParam.Grammars);
                     mVocal = true;
-                    mHeaderTitle = true;
-                    DisplayDateEntry();
+                    if (!Buddy.Vocal.IsSpeaking)
+                        DisplayDateEntry();
                 }
                 else if (!Buddy.Vocal.IsBusy && DateIsDefault(ReminderData.Instance.ReminderDate))
                 {
@@ -142,13 +139,16 @@ namespace BuddyApp.Reminder
         // ---- UI -----
         private void DisplayDateEntry()
         {
+            mUi = true;
+            //Set to default for now
+            mCarousselDate = DateTime.Today.Date;
             //  Display of the title
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("setupdate"));
             // TMP - waiting for caroussel and dot list
             FDotNavigation lSteps = Buddy.GUI.Footer.CreateOnMiddle<FDotNavigation>();
             lSteps.Dots = ReminderData.Instance.AppStepNumbers;
             lSteps.Select(ReminderData.Instance.AppState);
-            // TODO wait for fix, NullRef in SetLabel 
+            // Bug is fix - wait for push
             // lSteps.SetLabel("Steps");
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
@@ -199,18 +199,18 @@ namespace BuddyApp.Reminder
                     else
                         mDateModify++;
                     if (mDateModify == DateModify.DAY)
-                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("day"));
+                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("day"));
                     else if (mDateModify == DateModify.MONTH)
-                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("month"));
+                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("month"));
                     else if (mDateModify == DateModify.YEAR)
-                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("year"));
+                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("year"));
                 });
             },
             () =>
             {
                 // [TODO] Back to recipient when available
             },
-            "Cancel",
+            Buddy.Resources.GetString("cancel"),
             () =>
             {
                 ReminderData.Instance.ReminderDate = mCarousselDate;
@@ -218,7 +218,7 @@ namespace BuddyApp.Reminder
                 ReminderData.Instance.AppState++;
                 Trigger("HourChoiceState");
             },
-            "Next");
+            Buddy.Resources.GetString("next"));
         }
 
         //  ---- PARSING FUNCTION ---- 

@@ -6,7 +6,7 @@ using BlueQuark;
 
 namespace BuddyApp.Reminder
 {
-    public class HourChoiceState : AStateMachineBehaviour
+    public sealed class HourChoiceState : AStateMachineBehaviour
     {
         private enum DayMoment
         {
@@ -30,15 +30,15 @@ namespace BuddyApp.Reminder
 
         private bool mVocal;
         private int mListen;
-        private bool mHeaderTitle;
-        private SpeechInputParameters mGrammar;
+        private bool mUi;
+        private SpeechInputParameters mVoconParam;
         private TText mHourText;
         private TButton mSwitch;
         private TimeSpan mCarousselHour;
         private HourModify mHourModify;
 
         // TMP
-        private void DebugColor(string msg, string color)
+        public void DebugColor(string msg, string color)
         {
             if (string.IsNullOrEmpty(color))
                 Debug.Log(msg);
@@ -51,7 +51,7 @@ namespace BuddyApp.Reminder
         {
             mVocal = false;
             mListen = 0;
-            mHeaderTitle = false;
+            mUi = false;
             mHour = -1;
             mMinute = -1;
             mSecond = -1;
@@ -60,8 +60,8 @@ namespace BuddyApp.Reminder
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
             // Setting of the grammar for STT
-            mGrammar = new SpeechInputParameters();
-            mGrammar.Grammars = new string[] { "reminder" };
+            mVoconParam = new SpeechInputParameters();
+            mVoconParam.Grammars = new string[] { "reminder" };
             // Setting of the callback
             Buddy.Vocal.OnEndListening.Add(VoconGetHourResult);
         }
@@ -129,18 +129,18 @@ namespace BuddyApp.Reminder
                 return;
             if (mListen < TRY_NUMBER && HourIsDefault())
             {
-                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("whours"), mGrammar.Grammars);
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("whours"), mVoconParam.Grammars);
                 mVocal = true;
             }
             else if (mListen >= TRY_NUMBER)
             {
-                if (!mHeaderTitle && HourIsDefault())
+                if (!mUi && HourIsDefault())
                 {
                     //The last listenning
-                    Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), mGrammar.Grammars);
+                    Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), mVoconParam.Grammars);
                     mVocal = true;
-                    mHeaderTitle = true;
-                    DisplayHourEntry();
+                    if (!Buddy.Vocal.IsSpeaking)
+                        DisplayHourEntry();
                 }
                 else if (!Buddy.Vocal.IsBusy && HourIsDefault())
                 {
@@ -285,9 +285,10 @@ namespace BuddyApp.Reminder
 
         private void DisplayHourEntry()
         {
+            mUi = true;
             //Display of the title
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("setuptime"));
-            // Create the top left button to switch between count mode and video mode.
+            // Create the top left button
             FButton lViewModeButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
             lViewModeButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
             lViewModeButton.OnClick.Add(() =>
@@ -303,7 +304,7 @@ namespace BuddyApp.Reminder
             FDotNavigation lSteps = Buddy.GUI.Footer.CreateOnMiddle<FDotNavigation>();
             lSteps.Dots = ReminderData.Instance.AppStepNumbers;
             lSteps.Select(ReminderData.Instance.AppState);
-            // TODO wait for fix, NullRef in SetLabel 
+            // Bug is fix - wait for push
             // lSteps.SetLabel("Steps");
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
@@ -357,11 +358,11 @@ namespace BuddyApp.Reminder
                     else
                         mHourModify++;
                     if (mHourModify == HourModify.HOUR)
-                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("hour"));
+                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("hour"));
                     else if (mHourModify == HourModify.MINUTE)
-                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("minute"));
+                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("minute"));
                     else if (mHourModify == HourModify.SECOND)
-                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + Buddy.Resources.GetString("second"));
+                        mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("second"));
                 });
             },
             () =>
@@ -369,7 +370,7 @@ namespace BuddyApp.Reminder
                 ReminderData.Instance.AppState--;
                 Trigger("DateChoiceState");
             },
-            "Cancel",
+            Buddy.Resources.GetString("cancel"),
             () =>
             {
                 ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + mCarousselHour;
@@ -377,7 +378,7 @@ namespace BuddyApp.Reminder
                 ReminderData.Instance.AppState++;
                 Trigger("GetMessageState");
             },
-            "Next");
+            Buddy.Resources.GetString("next"));
         }
 
         /*
