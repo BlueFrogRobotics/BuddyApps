@@ -18,6 +18,8 @@ namespace BuddyApp.HumanCounter
 		public override void OnLoading(object[] iArgs)
 		{ 
 			ExtLog.I(ExtLogModule.APP, typeof(HumanCounterActivity), LogStatus.START, LogInfo.LOADING, "On loading...");
+            // Set to human detect
+            HumanCounterData.Instance.humanDetectToggle = true;
 		}
 
 		/*

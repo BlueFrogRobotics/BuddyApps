@@ -105,7 +105,7 @@ namespace BuddyApp.HumanCounter
             Buddy.GUI.Header.DisplayParametersButton(false);
             // Custom Font (Not working because of a bug - wait for bug fix).
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
-            lHeaderFont.material.color = Color.gray;
+            lHeaderFont.material.color = new Color(0, 0, 0, 1F);
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
             string lFieldCounter = Buddy.Resources.GetString("realtimecount") + mCurrentHumanCount + " ";
             lFieldCounter += Buddy.Resources.GetString("totalhuman") + mHumanCounter;
