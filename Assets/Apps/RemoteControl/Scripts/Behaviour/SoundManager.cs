@@ -5,33 +5,43 @@ using UnityEngine.UI;
 
 namespace BuddyApp.RemoteControl
 {
-	public class SoundManager : MonoBehaviour
-	{
-		[SerializeField]
-		private GameObject microOn;
+    public class SoundManager : MonoBehaviour
+    {
+        [SerializeField]
+        private GameObject microOn;
 
-	    [SerializeField]
-	    private GameObject microOff;
+        [SerializeField]
+        private GameObject microOff;
 
-		[SerializeField]
-		private GameObject webRTC = null;
+        [SerializeField]
+        private GameObject webRTC = null;
 
-		/*[SerializeField]
+        /*[SerializeField]
 		private PoolManager mPoolManager = null;*/
 
-		private bool mActive = true;
+        private bool mActive = true;
 
-		public void onToggleSound()
-		{
-			if (webRTC.activeSelf) {
-				mActive = !mActive;
-	            microOn.SetActive(mActive);
-	            microOff.SetActive(!mActive);
+        void Start()
+        {
+            microOn.SetActive(mActive);
+            microOff.SetActive(!mActive);
 
-	            using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc")) {
-					cls.CallStatic("setSoundActive", mActive);
-				}
-			}
-		}
-	}
+            using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc")) {
+                cls.CallStatic("setSoundActive", mActive);
+            }
+        }
+
+        public void onToggleSound()
+        {
+            if (webRTC.activeSelf) {
+                mActive = !mActive;
+                microOn.SetActive(mActive);
+                microOff.SetActive(!mActive);
+
+                using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc")) {
+                    cls.CallStatic("setSoundActive", mActive);
+                }
+            }
+        }
+    }
 }
