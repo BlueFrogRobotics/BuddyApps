@@ -22,7 +22,10 @@ namespace BuddyApp.Guardian
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             if (GuardianData.Instance.FirstRun)
+            {
+                Debug.Log("first run " + GuardianData.Instance.FirstRun);
                 Trigger("Parameter");
+            }
             else
                 Trigger("NextStep");
         }

@@ -113,6 +113,8 @@ namespace BuddyApp.Guardian
             else
                 Debug.Log("c est PAS nul 2!!!");
             //mTexture = Utils.ScaleTexture2DFromMat(mMatSrc, mTexture);
+            Core.flip(mMatSrc, mMatSrc, 1);
+            Core.flip(mMatSrc, mMatSrc, 0);
             Utils.MatToTexture2D(mMatSrc, mTexture);
         }
 

@@ -64,13 +64,14 @@ namespace BuddyApp.Guardian
                 lBox.LeftButton.SetBackgroundColor(Color.white);
                 lBox.SetCenteredLabel(false);
 
+
                 foreach(RecipientData contact in mContacts.Recipients)
                 {
                     TVerticalListBox lBoxContact = iBuilder.CreateBox();
                     //We create en event OnClick so we can trigger en event when we click on the box
                     lBoxContact.OnClick.Add(() => { Debug.Log("Click add"); iBuilder.Select(lBoxContact); mSelectedContact = contact;/*Trigger(lButtonContent.Value); Buddy.GUI.Toaster.Hide();*/ });
                     //We label our button with our informations in the dictionary
-                    lBoxContact.SetLabel(contact.FirstName, contact.Mail);
+                    lBoxContact.SetLabel(contact.FirstName + " " + contact.LastName, contact.Mail);
                     lBoxContact.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_user_circle"));
                     lBoxContact.LeftButton.SetIconColor(Color.black);
                     lBoxContact.LeftButton.SetBackgroundColor(Color.white);

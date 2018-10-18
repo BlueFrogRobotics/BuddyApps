@@ -47,9 +47,9 @@ namespace BuddyApp.BuddyLab
         public void Visit(MoveBodyBehaviourInstruction iStructure)
         {
             int lIndex = 0;
-            if (iStructure.Distance.Value > 0 && iStructure.Speed.Value > 0)
+            if (iStructure.Distance.Value > 0 && iStructure.Speed.Value > 0 )
                 lIndex = 11;
-            else if (iStructure.Distance.Value > 0 && iStructure.Speed.Value < 0)
+            else if(iStructure.Distance.Value > 0 && iStructure.Speed.Value < 0)
                 lIndex = 9;
             else if (iStructure.Angle.Value > 0)
                 lIndex = 15;
@@ -89,17 +89,18 @@ namespace BuddyApp.BuddyLab
             InstantiateItem(lIndex, iStructure, Category.BML);
         }
 
-        public void Visit(LookAtBehaviourInstruction iStructure)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void Visit(SayBehaviourInstruction iStructure)
         {
             int lIndex = 0;
-            if (iStructure.Key != null && iStructure.Key != "") {
-                Debug.Log("machin");
-                switch (iStructure.Key.Value) {
+            string lKey = iStructure.Key.Value;
+            Debug.Log("chips");
+            string lUtterance = iStructure.Key.Value;
+            Debug.Log("chips 2");
+            if (!string.IsNullOrEmpty(lKey)/*iStructure.Key != null && iStructure.Key != ""*/)
+            {
+                Debug.Log("machin *" + iStructure.Key.Value + "*");
+                switch (iStructure.Key.Value)
+                {
                     case "blhello":
                         lIndex = 35;
                         break;
@@ -120,7 +121,10 @@ namespace BuddyApp.BuddyLab
                         break;
                 }
                 Debug.Log("machin2");
-            } else if (iStructure.Utterance != null)
+            }
+            else if (!string.IsNullOrEmpty(lUtterance))
+                lIndex = 45;
+            else
                 lIndex = 45;
             InstantiateItem(lIndex, iStructure, Category.BML);
         }
@@ -198,8 +202,9 @@ namespace BuddyApp.BuddyLab
             if (iStructure.ConditionalColors.Value.Length == 0)
                 return;
 
-            ShadeColor lColor = Utils.GetNearestColor(iStructure.ConditionalColors.Value[0]);
-            switch (lColor) {
+            ShadeColor lColor = iStructure.ConditionalColors.Value[0];
+            switch (lColor)
+            {
                 case ShadeColor.BLUE:
                     lIndex = 29;
                     break;
@@ -231,7 +236,7 @@ namespace BuddyApp.BuddyLab
                     lIndex = 15;
                     break;
             }
-
+            
             InstantiateItem(lIndex, iStructure, Category.CONDITION);
         }
 
@@ -242,9 +247,11 @@ namespace BuddyApp.BuddyLab
                 return;
             if (iStructure.AnyPart.Value)
                 lIndex = 1;
-            else {
+            else
+            {
                 FacialPart lFacialPart = iStructure.ConditionalParts.Value[0];
-                switch (lFacialPart) {
+                switch (lFacialPart)
+                {
                     case FacialPart.LEFT_EYE:
                         lIndex = 9;
                         break;
@@ -254,11 +261,11 @@ namespace BuddyApp.BuddyLab
                     case FacialPart.RIGHT_EYE:
                         lIndex = 7;
                         break;
-                    case FacialPart.SKIN:
-                        lIndex = 5;
-                        break;
+                    //case FacialPart.SKIN:
+                    //    lIndex = 5;
+                    //    break;
                     default:
-                        lIndex = 1;
+                        lIndex = 9;
                         break;
                 }
             }
@@ -267,7 +274,7 @@ namespace BuddyApp.BuddyLab
 
         public void Visit(ListenInputBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            InstantiateItem(13, iStructure, Category.CONDITION);
         }
 
         public void Visit(MoveBodyInputBehaviourInstruction iStructure)
@@ -277,7 +284,7 @@ namespace BuddyApp.BuddyLab
 
         public void Visit(MoveHeadInputBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            InstantiateItem(5, iStructure, Category.CONDITION);
         }
 
         public void Visit(AprilTagInputBehaviourInstruction iStructure)
@@ -287,9 +294,11 @@ namespace BuddyApp.BuddyLab
                 return;
             //if (iStructure.AnyPart.Value)
             //    lIndex = 1;
-            else {
+            else
+            {
                 int lId = iStructure.ConditionalContents.Value[0];
-                switch (lId) {
+                switch (lId)
+                {
                     case 1:
                         lIndex = 14;
                         break;
@@ -344,7 +353,7 @@ namespace BuddyApp.BuddyLab
 
         public void Visit(ThermalInputBehaviourInstruction iStructure)
         {
-            throw new System.NotImplementedException();
+            InstantiateItem(0, iStructure, Category.CONDITION);
         }
 
         public void Visit<T>(IfConditionBehaviourInstruction<T> iStructure)
@@ -383,7 +392,8 @@ namespace BuddyApp.BuddyLab
         private GameObject InstantiateItem(int iIndex, ABehaviourInstruction iStructure, Category iCategory)
         {
             GameObject lItem;
-            switch (iCategory) {
+            switch(iCategory)
+            {
                 case Category.BML:
                     lItem = MonoBehaviour.Instantiate(mItemManager.GetBMLItem(iIndex));
                     break;
@@ -400,10 +410,13 @@ namespace BuddyApp.BuddyLab
                     lItem = MonoBehaviour.Instantiate(mItemManager.GetBMLItem(iIndex));
                     break;
             }
-
+            Debug.Log("1");
             lItem.GetComponent<AGraphicElement>().SetInstruction(iStructure);
+            Debug.Log("2");
             lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
+            Debug.Log("3");
             lItem.transform.SetParent(mRootLine, false);
+            Debug.Log("4");
             return lItem;
         }
 

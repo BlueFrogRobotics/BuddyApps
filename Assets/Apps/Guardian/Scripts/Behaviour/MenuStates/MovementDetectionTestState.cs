@@ -45,7 +45,7 @@ namespace BuddyApp.Guardian
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
             //	() => { Trigger("NextStep"); }, 
             //	null);
-
+            Debug.Log("debug 1");
             //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
 
 
@@ -53,6 +53,7 @@ namespace BuddyApp.Guardian
             mSlider.SlidingValue = GuardianData.Instance.MovementDetectionThreshold;
             mSlider.OnSlide.Add(OnSlideChange);
             mSlider.SetLabel(Buddy.Resources.GetString("threshold"));
+            Debug.Log("debug 2");
             mLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
 
             mLeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
@@ -60,6 +61,9 @@ namespace BuddyApp.Guardian
             mLeftButton.SetBackgroundColor(Color.white);
             mLeftButton.SetIconColor(Color.black);
             mLeftButton.OnClick.Add(() => { Trigger("MovementDetection"); });
+
+            Debug.Log("debug 3");
+
             mValidateButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
 
             mValidateButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
@@ -67,14 +71,15 @@ namespace BuddyApp.Guardian
             mValidateButton.SetBackgroundColor(Utils.BUDDY_COLOR);
             mValidateButton.SetIconColor(Color.white);
             mValidateButton.OnClick.Add(() => { SaveAndQuit(); });
-
+            Debug.Log("debug 4");
             MotionDetectorParameter lMotionParam = new MotionDetectorParameter();
             lMotionParam.SensibilityThreshold = GuardianData.Instance.MovementDetectionThreshold * DetectionManager.MAX_MOVEMENT_THRESHOLD / 100;
             lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480);
-
+            Debug.Log("debug 5");
             mMovementTracker = Buddy.Perception.MotionDetector;
             mMovementTracker.OnDetect.AddP(OnMovementDetected, lMotionParam);
-            mTexture = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
+            Debug.Log("debug 6");
+            mTexture = new Texture2D(640, 480);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -83,6 +88,7 @@ namespace BuddyApp.Guardian
             {
                 Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTexture);
                 mInit = true;
+                Debug.Log("debug 7");
             }
         }
 
@@ -111,15 +117,18 @@ namespace BuddyApp.Guardian
 
         private void OnFrameCaptured(Mat iInput)
         {
-            Debug.Log("frame");
-            Mat lTest = iInput.clone();
-            if (lTest.empty())
-                Debug.Log("on new frame empty");
-            //Debug.Log("on new frame " + mTexture.width + " x " + mTexture.height);
-            mMatSrc = lTest.clone();
-            Core.flip(mMatSrc, mMatSrc, 1);
-            mTexture = Utils.ScaleTexture2DFromMat(mMatSrc, mTexture);
-            Utils.MatToTexture2D(mMatSrc, mTexture);
+            Debug.Log("frame: " + iInput.width()+" * "+ iInput.height());
+            if (iInput.width() > 0 && iInput.height() > 0)
+            {
+                Mat lTest = iInput.clone();
+                if (lTest.empty())
+                    Debug.Log("on new frame empty");
+                //Debug.Log("on new frame " + mTexture.width + " x " + mTexture.height);
+                mMatSrc = lTest.clone();
+                Core.flip(mMatSrc, mMatSrc, 1);
+                mTexture = Utils.ScaleTexture2DFromMat(mMatSrc, mTexture);
+                Utils.MatToTexture2D(mMatSrc, mTexture);
+            }
         }
 
         private void SaveAndQuit()
@@ -133,7 +142,8 @@ namespace BuddyApp.Guardian
 
             Debug.Log(iMotions.Length + " it's Motion");
             if (iMotions.Length > 1)
-                Buddy.Actuators.Speakers.Media.Play(Buddy.Resources.Get<AudioClip>("os_tone_beep"));
+                Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
+            //Buddy.Actuators.Speakers.Media.Play(Buddy.Resources.Get<AudioClip>("os_tone_beep"));
 
             Core.flip(mMatSrc, mMatSrc, 1);
 

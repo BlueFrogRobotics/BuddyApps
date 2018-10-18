@@ -62,7 +62,7 @@ namespace BuddyApp.Guardian
                 mButtonRecipient = iBuilder.CreateWidget<TButton>();
 
                 if(GuardianData.Instance.ContactId != -1 && GuardianData.Instance.ContactId < mContacts.Recipients.Count)
-                    mButtonRecipient.SetLabel(mContacts.Recipients[GuardianData.Instance.ContactId].FirstName);
+                    mButtonRecipient.SetLabel(mContacts.Recipients[GuardianData.Instance.ContactId].FirstName + " " + mContacts.Recipients[GuardianData.Instance.ContactId].LastName);
                 else
                     mButtonRecipient.SetLabel(Buddy.Resources.GetString("whotocontact"));
 
