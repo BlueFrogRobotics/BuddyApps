@@ -61,7 +61,7 @@ namespace BuddyApp.Tutorial
 					lBox.LeftButton.Hide();
 					// We place the text of the button in the center of the box
 					lBox.SetCenteredLabel(true);
-					// And we set the backroung color for the button
+					// And we set the background color for the button
 					lBox.LeftButton.SetBackgroundColor(new Color(0.5f, 0.5f, 0.5f, 1F));
 				}
 			});

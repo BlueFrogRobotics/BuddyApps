@@ -91,6 +91,7 @@ namespace BuddyApp.Shared
         private bool mExitOne;
         private bool mExitTwo;
         private bool mSoundPlayedWhenDetected;
+        private bool mIsInit = false;
         //private Sprite mSprite;
 
         //Position in the Image
@@ -102,13 +103,16 @@ namespace BuddyApp.Shared
         public override void Start()
         {
             mMotion = Buddy.Perception.MotionDetector;
-            mCam = Buddy.Sensors.RGBCamera;
-
+            mCam = Buddy.Sensors.RGBCamera; 
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTexture = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
+            mTextureRefresh = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
+            mIsInit = false;
+            mMat = new Mat();
+            mMatCopy = new Mat();
             mDetectionCountTest = 0;
             QuantityBeforeSavingPicture = 0;
             mPositionX = 0;
@@ -122,7 +126,7 @@ namespace BuddyApp.Shared
             mSoundPlayedWhenDetected = false;
             mDetectionCount = 0;
             mMotionDetectorParameter = new MotionDetectorParameter();
-
+            
             if (WantChangingTimer)
             {
                 if (iAnimator.GetFloat("Timer") != 0F)
@@ -140,7 +144,13 @@ namespace BuddyApp.Shared
             }
 
             //mCam.Resolution = RGBCamResolution.W_320_H_240; 
-            mCam.Open(RGBCameraMode.COLOR_640x480_30FPS_RGB);
+            mCam.Open();
+
+            mCam.OnNewFrame.Add((iFrame) =>
+            {
+                mMat = iFrame.clone();
+                mIsInit = true;
+            });
             if (!AreaToDetect)
             {
                 //mMotionDetectorParameter.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240);
@@ -168,32 +178,38 @@ namespace BuddyApp.Shared
             if (Timer == 0F)
                 Timer = 5F;
             if (mCam.IsOpen)
-                Debug.Log("CAMERA OPEN LLOTJRAGJHAEHJJEHJAEJH");
+                Debug.Log("CAMERA OPEN");
+
+            // Astra is open but not sending frames
+            if (!mIsInit)
+                return;
 
             if (mCam.IsOpen && VideoDisplay && !mIsDisplay)
             {
                 mTimer = 0F;
                 mIsDisplay = true;
-                mMat = mCam.Frame.clone();
-
+                //mMat = mCam.Frame.clone();
                 
                 mMatCopy = mMat.clone();
                 if (!WantToFlip)
                     Core.flip(mMatCopy, mMatCopy, 1);
                 mTexture = Utils.ScaleTexture2DFromMat(mMatCopy, mTexture);
-                mTexture = Utils.MatToTexture2D(mMatCopy);
+                Utils.MatToTexture2D(mMatCopy , mTexture);
                 mMotionDetectionSprite = Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f));
-
                 if (mMotionDetectionSprite == null)
+                {
                     mIsDisplay = false;
-                else 
+                }
+                else
+                {
                     Buddy.GUI.Toaster.Display<PictureToast>().With(mMotionDetectionSprite);
+                }
             }
             if (VideoDisplay && mIsDisplay && mTimer > 0.1F)
             {
                 if (mMatDetectionCopy == null && !AreaToDetect)
                 {
-                    mMat = mCam.Frame.clone();
+                    //mMat = mCam.Frame.clone();
                     mMatCopy = mMat.clone();
                     if (!WantToFlip)
                         Core.flip(mMatCopy, mMatCopy, 1);
@@ -202,7 +218,7 @@ namespace BuddyApp.Shared
                 }
                 else if (mMatDetectionCopy == null && AreaToDetect)
                 {
-                    mMat = mCam.Frame.clone();
+                    //mMat = mCam.Frame.clone();
                     mMatCopy = mMat.clone();
                     if (!WantToFlip)
                         Core.flip(mMatCopy, mMatCopy, 1);
@@ -280,8 +296,6 @@ namespace BuddyApp.Shared
                     mMotion.OnDetect.RemoveP(OnMovementDetected);
                 }
             }
-
-
         }
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

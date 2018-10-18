@@ -14,10 +14,10 @@ namespace BuddyApp.TakePhoto
         /*
 		* Called before the App scene loading.
 		*/
-        //public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
-        //{ 
-        //	ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On loading...");
-        //}
+        public override void OnLoading(object[] iArgs)
+        {
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On loading...");
+        }
 
         /*
 		* Called after every Awake() in your scene

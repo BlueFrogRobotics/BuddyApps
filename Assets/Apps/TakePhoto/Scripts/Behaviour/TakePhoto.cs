@@ -64,7 +64,6 @@ namespace BuddyApp.TakePhoto
 			string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
 			Sprite lOverlaySprite = Buddy.Resources.Get<Sprite>(lRandomSpriteName);
 			mOverlaysTextures[lRandomSpriteName] = lOverlaySprite.texture;
-
 			//Sprite lOverlaySprite = Resources.Load<Sprite>("overcrazy");
 			//mOverlaysTextures.Add(lOverlaySprite.texture);
 
@@ -229,7 +228,6 @@ namespace BuddyApp.TakePhoto
             //lOverlay.Apply();
 
             if (TakePhotoData.Instance.Overlay) {
-
 				Texture2D lTexture = FlipTexture(iMyPhoto.Image.texture);
                 var cols1 = mOverlayTexture.GetPixels();
 				var cols2 = lTexture.GetPixels();
@@ -262,7 +260,8 @@ namespace BuddyApp.TakePhoto
             //Action mOnClick;
             //mOnClick = () => DialogerToast();
             //Toaster.Display<PictureToast>().With(Dictionary.GetString("redoorshare"), mPhotoSprite, mShareButton, mRedoButton);
-            Buddy.Vocal.SayAndListen(Buddy.Resources.GetRandomString("redoorshare"), null,  iInput => { OnEndListening(iInput); });
+            Buddy.Vocal.Listen("redoorshare", SpeechRecognitionMode.GRAMMAR_ONLY);
+            Buddy.Vocal.SayAndListen(Buddy.Resources.GetRandomString("redoorshare"), null, "redoorshare",  OnEndListening, null);
             Buddy.GUI.Toaster.Display<PictureToast>().With(mPhotoSprite/*, mOnClick*/);
             FButton lLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
             FButton LRightButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
@@ -288,38 +287,43 @@ namespace BuddyApp.TakePhoto
 
         private void OnEndListening(SpeechInput iInput)
         {
-            if (ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, Buddy.Resources.GetPhoneticStrings("share")))
+            Debug.Log("INPUT ON END LISTENING : " + iInput.Utterance);
+            if(!iInput.IsInterrupted)
             {
-                Buddy.GUI.Toaster.Hide();
-                Buddy.GUI.Footer.Hide();
-                Play("Twitter");
-            }
-            else if (ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, Buddy.Resources.GetPhoneticStrings("redo")))
-            {
-                Buddy.GUI.Toaster.Hide();
-                Buddy.GUI.Footer.Hide();
-                Play("Landing");
-            }
-            else
-            {
-                if (mNumberListen < MAXLISTENNINGITER)
+                if (ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, Buddy.Resources.GetPhoneticStrings("share")))
                 {
-                    // if the human answer is outside of planned sentences, we increment the
-                    // number of listen and we listen again.
-                    mNumberListen++;
-                    Buddy.Vocal.Listen(
-                        iInputRec => { OnEndListening(iInputRec); }
-                        );
+                    Buddy.GUI.Toaster.Hide();
+                    Buddy.GUI.Footer.Hide();
+                    Play("Twitter");
+                }
+                else if (ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, Buddy.Resources.GetPhoneticStrings("redo")))
+                {
+                    Buddy.GUI.Toaster.Hide();
+                    Buddy.GUI.Footer.Hide();
+                    Play("Landing");
                 }
                 else
                 {
-                    // If we launch the listen too many times, it's like a timeout and
-                    // we get back to the menu
-                    Buddy.GUI.Toaster.Hide();
-                    Buddy.GUI.Footer.Hide();
+                    if (mNumberListen < MAXLISTENNINGITER)
+                    {
+                        // if the human answer is outside of planned sentences, we increment the
+                        // number of listen and we listen again.
+                        mNumberListen++;
+                        Buddy.Vocal.Listen(
+                            iInputRec => { OnEndListening(iInputRec); }
+                            );
+                    }
+                    else
+                    {
+                        // If we launch the listen too many times, it's like a timeout and
+                        // we get back to the menu
+                        Buddy.GUI.Toaster.Hide();
+                        Buddy.GUI.Footer.Hide();
 
+                    }
                 }
             }
+
         }
 
         private void OnButtonShare()

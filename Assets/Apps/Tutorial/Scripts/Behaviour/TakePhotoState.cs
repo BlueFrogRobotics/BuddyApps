@@ -11,7 +11,7 @@ namespace BuddyApp.Tutorial
 	/// In this state we take a photo and then we save the photo in a folder and we show you how you can access to this photo
 	/// </summary>
 	public sealed class TakePhotoState : AStateMachineBehaviour
-	{
+	{ 
 
 		private Mat mMatSrc;
 		private Texture2D mCameraTexture;

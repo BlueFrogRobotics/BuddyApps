@@ -49,6 +49,8 @@ namespace BuddyApp.Tutorial
 					// If the user click on no, we hide the toast
 					Buddy.GUI.Toaster.Hide();
 
+                    Buddy.Vocal.StopListening();
+
 					// then we go back to the menu
 					Trigger("MenuTrigger");
 				},
@@ -59,7 +61,8 @@ namespace BuddyApp.Tutorial
 				// Same for the button yes...
 				() => {
 					ExtLog.I(ExtLogModule.APP, typeof(QuitState), LogStatus.INFO, LogInfo.RUNNING, "Click yes");
-					Buddy.GUI.Toaster.Hide();
+                    Buddy.Vocal.StopListening();
+                    Buddy.GUI.Toaster.Hide();
 					QuitApp();
 				},
 
