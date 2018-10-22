@@ -74,12 +74,12 @@ namespace BuddyApp.Guardian
             Debug.Log("debug 4");
             MotionDetectorParameter lMotionParam = new MotionDetectorParameter();
             lMotionParam.SensibilityThreshold = GuardianData.Instance.MovementDetectionThreshold * DetectionManager.MAX_MOVEMENT_THRESHOLD / 100;
-            lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480);
+            lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240);
             Debug.Log("debug 5");
             mMovementTracker = Buddy.Perception.MotionDetector;
             mMovementTracker.OnDetect.AddP(OnMovementDetected, lMotionParam);
             Debug.Log("debug 6");
-            mTexture = new Texture2D(640, 480);
+            mTexture = new Texture2D(320, 240);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -165,7 +165,7 @@ namespace BuddyApp.Guardian
         {
             MotionDetectorParameter lMotionParam = new MotionDetectorParameter();
             lMotionParam.SensibilityThreshold = iValue * DetectionManager.MAX_MOVEMENT_THRESHOLD / 100;
-            lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480);
+            lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240);
 
             mMovementTracker.OnDetect.ModifyParameterP(OnMovementDetected, lMotionParam);
         }

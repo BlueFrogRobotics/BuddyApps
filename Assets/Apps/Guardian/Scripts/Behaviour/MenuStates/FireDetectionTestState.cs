@@ -14,10 +14,12 @@ namespace BuddyApp.Guardian
         //private FButton mValidateButton;
         //private FButton mInterpolateButton;
 
+        private ThermalDetector mFireDetection;
+
         private ShowTemperature mShowTemp;
 
         private float mTimer;
-        private bool mInterpolate = false;
+        private bool mInterpolate = true;
 
         public override void Start()
 		{
@@ -34,23 +36,28 @@ namespace BuddyApp.Guardian
             ShowToaster();
             mTexture.filterMode = FilterMode.Trilinear;
             mTexture.wrapMode = TextureWrapMode.Clamp;
-            //TestPrintTemperature(45.0F);
+            mFireDetection = Buddy.Perception.ThermalDetector;
+            mFireDetection.OnDetect.Add(OnThermalDetected, DetectionManager.MAX_TEMPERATURE_THRESHOLD);
+            //ChangeInterpolateMode();
+            //TestPrintTemperature(65.0F);
             mTimer = 0.0F;
 		}
 			
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-            //mTimer += Time.deltaTime;
-            //if(mTimer>0.5F)
-            //{
-            //    mTimer = 0.0F;
-            //    TestPrintTemperature(45.0F);
-            //}
-		}
+            mTimer += Time.deltaTime;
+            if (mTimer > 0.5F)
+            {
+                mTimer = 0.0F;
+                Debug.Log("temp max: " + mFireDetection.GetHottestTemp());
+                //TestPrintTemperature(45.0F);
+            }
+        }
 
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-		}
+            mFireDetection.OnDetect.Remove(OnThermalDetected);
+        }
 
         private void ShowToaster()
         {
@@ -86,14 +93,19 @@ namespace BuddyApp.Guardian
 
         private void OnNewFrame(Mat iMat)
         {
-            Debug.Log("frame temperature");
+            //Debug.Log("frame temperature");
             float[] lThermicValues = new float[8 * 8];
 
             iMat.get(0, 0, lThermicValues);
             mShowTemp.FillTemperature(lThermicValues);
             mMatSrc = mShowTemp.TemperatureToColor();
             //mTexture = Utils.ScaleTexture2DFromMat(mMatSrc, mTexture);
+            Core.flip(mMatSrc, mMatSrc, 0);
             Utils.MatToTexture2D(mMatSrc, mTexture);
+            if(mFireDetection.GetHottestTemp()> DetectionManager.MAX_TEMPERATURE_THRESHOLD)
+            {
+                Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
+            }
         }
 
         private void TestPrintTemperature(float iTemperature)
@@ -101,20 +113,22 @@ namespace BuddyApp.Guardian
             float[] lThermicValues = new float[8 * 8];
             for(int i=0; i<lThermicValues.Length; i++)
             {
-                if(i%2==0)
+                if(i<16)
                     lThermicValues[i] = iTemperature;
-                else
+                else if(i>=16 && i<28)
                     lThermicValues[i] = iTemperature/2;
+                else
+                    lThermicValues[i] = iTemperature / 3;
             }
             mShowTemp.FillTemperature(lThermicValues);
             mMatSrc = mShowTemp.TemperatureToColor();
-            if (mMatSrc == null)
-                Debug.Log("c est nul 2!!!");
-            else
-                Debug.Log("c est PAS nul 2!!!");
+            //if (mMatSrc == null)
+            //    Debug.Log("c est nul 2!!!");
+            //else
+            //    Debug.Log("c est PAS nul 2!!!");
             //mTexture = Utils.ScaleTexture2DFromMat(mMatSrc, mTexture);
-            Core.flip(mMatSrc, mMatSrc, 1);
-            Core.flip(mMatSrc, mMatSrc, 0);
+            //Core.flip(mMatSrc, mMatSrc, -1);
+            //Core.flip(mMatSrc, mMatSrc, 0);
             Utils.MatToTexture2D(mMatSrc, mTexture);
         }
 
@@ -126,6 +140,14 @@ namespace BuddyApp.Guardian
                 mTexture.filterMode = FilterMode.Trilinear;
             else
                 mTexture.filterMode = FilterMode.Point;
+        }
+
+        private void OnThermalDetected(ObjectEntity[] iObject)
+        {
+            Debug.Log("thermal de la detection");
+            if (iObject.Length > 0)
+                Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
+
         }
     }
 }
