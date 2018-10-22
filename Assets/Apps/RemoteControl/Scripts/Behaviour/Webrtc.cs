@@ -199,8 +199,10 @@ namespace BuddyApp.RemoteControl
 	    /// </summary>
 	    public void StopWebRTC()
 	    {
-	        mRemoteRawImage.transform.localScale = new Vector3(1, 1, 0);
-	        mLocalRawImage.transform.localScale = new Vector3(1, 1, 0);
+            if (mRemoteRawImage)
+    	        mRemoteRawImage.transform.localScale = new Vector3(1, 1, 0);
+            if (mLocalRawImage)
+    	        mLocalRawImage.transform.localScale = new Vector3(1, 1, 0);
 
 	        mRemoteNativeTexture.Destroy();
 	        mLocalNativeTexture.Destroy();

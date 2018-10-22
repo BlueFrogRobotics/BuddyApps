@@ -33,13 +33,7 @@ namespace BuddyApp.RemoteControl
         private RemoteControlData mAppData;
 
         [SerializeField]
-        private Animator receiveCallAnim;
-
-        [SerializeField]
-        private Animator receiveCallTimeAnim;
-
-        [SerializeField]
-        private Animator backgroundAnim;
+        private Animator mReceiveCallAnim;
 
         [SerializeField]
         private Animator callAnimator;
@@ -48,13 +42,7 @@ namespace BuddyApp.RemoteControl
         private Webrtc webRTC;
 
         [SerializeField]
-        private Text userCalling;
-
-        [SerializeField]
-        private Text userCallingTime;
-
-        [SerializeField]
-        private Dropdown choiceDropdown;
+        private Text userCalling = null;
 
         [SerializeField]
         private AudioClip musicCall;
@@ -88,11 +76,53 @@ namespace BuddyApp.RemoteControl
             //// il faut lire la liste des users, l'enregistrer après acceptation de l'appel, si changement des autorisations
             //// Faire une fonction qui confirme et check tout au lieu des trigger toussa toussa
 
-            //receiveCallAnim.SetTrigger("Open_WReceiveCall");
-            //backgroundAnim.SetTrigger("Open_BG");
-            ////receiveCallTimeAnim.SetTrigger("Close_WReceiveCallTime");
+            //mReceiveCallAnim.SetTrigger("Select");
             ////callAnimator.SetTrigger("Close_WCall");
-            //mIncomingCallHandled = false;
+            mIncomingCallHandled = true;
+        }
+
+        public void LaunchCall()
+        {
+            callAnimator.SetTrigger("Open_WCall");
+            webRTC.gameObject.SetActive(true);
+            // Launch the hide animation of the prefab toast inside the custom toast
+            mReceiveCallAnim.SetTrigger("Unselect");
+            // Hide the custom toast
+            Buddy.GUI.Toaster.Hide();
+        }
+
+        public void StopCall()
+        {
+            if (!mIncomingCallHandled)
+                return;
+
+            mIncomingCallHandled = false;
+            callAnimator.SetTrigger("Close_WCall");
+        }
+
+        public IEnumerator CloseApp()
+        {
+            Buddy.GUI.Toaster.Hide();
+            while (Buddy.GUI.Toaster.IsBusy)
+                yield return null;
+            AAppActivity.QuitApp();
+        }
+
+        public void PressedYes()
+        {
+            Debug.Log("AcceptCallWithButton");
+            Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
+            LaunchCall();
+        }
+
+        public void PressedNo()
+        {
+            Debug.Log("RejectCallWithButton");
+            callAnimator.SetTrigger("Close_WCall");
+            Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
+            StartCoroutine(CloseApp());
         }
 
         public void GetIncomingCall()
@@ -101,15 +131,7 @@ namespace BuddyApp.RemoteControl
                 return;
 
             mIncomingCallHandled = true;
-            receiveCallAnim.SetTrigger("Open_WReceiveCall");
-        }
-
-        public void LaunchCall()
-        {
-            receiveCallAnim.SetTrigger("Close_WReceiveCall");
-            backgroundAnim.SetTrigger("close");
-            callAnimator.SetTrigger("Open_WCall");
-            webRTC.gameObject.SetActive(true);
+            mReceiveCallAnim.SetTrigger("Select");
         }
 
         public void LaunchCallWithoutWindow()
@@ -117,43 +139,34 @@ namespace BuddyApp.RemoteControl
             webRTC.gameObject.SetActive(true);
         }
 
-        public void StopCall()
-        {
-            receiveCallAnim.SetTrigger("Close_WReceiveCall");
-            if (!mIncomingCallHandled)
-                return;
-
-            mIncomingCallHandled = false;
-            callAnimator.SetTrigger("Close_WCall");
-        }
-
-        public void CloseApp()
-        {
-            AAppActivity.QuitApp();
-        }
 
         public IEnumerator Call()
         {
-            receiveCallAnim.SetTrigger("Open_WReceiveCall");
-            backgroundAnim.SetTrigger("open");
-            if (!RemoteControlData.Instance.DiscreteMode) {
-                //BYOS.Instance.Primitive.Speaker.FX.Play(FXSound.BEEP_1);
+            if (!RemoteControlData.Instance.DiscreteMode)
+            {
                 Buddy.Actuators.Speakers.Media.Play(musicCall);
                 yield return new WaitForSeconds(1.5F);
                 string lReceiver = "";
                 UserAccount[] lUsers = Buddy.Platform.Users.GetUsers();
-                foreach (UserAccount lUser in lUsers) {
-                    if (WebRTCListener.RemoteID.Trim() == lUser.Email) {
+                foreach (UserAccount lUser in lUsers)
+                {
+                    if (WebRTCListener.RemoteID.Trim() == lUser.Email)
+                    {
                         lReceiver = lUser.FirstName;
                     }
                 }
-                string lTextToSay = "[user]";// Buddy.Resources["incomingcall"];
-                if (lReceiver == "") {
+                string lTextToSay = "[user]";
+                if (lReceiver == "")
+                {
                     lTextToSay = lTextToSay.Replace("[user]", WebRTCListener.RemoteID);
-                    userCalling.text = WebRTCListener.RemoteID;
-                } else {
+                    if (userCalling)
+                        userCalling.text = WebRTCListener.RemoteID;
+                }
+                else
+                {
                     lTextToSay = lTextToSay.Replace("[user]", lReceiver);
-                    userCalling.text = lReceiver;
+                    if (userCalling)
+                        userCalling.text = lReceiver;
                 }
                 Buddy.Vocal.Say(lTextToSay);
 

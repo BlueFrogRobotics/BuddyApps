@@ -16,6 +16,9 @@ namespace BuddyApp.RemoteControl
         [SerializeField]
         private GameObject webRTC = null;
 
+        [SerializeField]
+        private bool mPreSelection;
+
         /*[SerializeField]
 		private PoolManager mPoolManager = null;*/
 
@@ -26,20 +29,44 @@ namespace BuddyApp.RemoteControl
             microOn.SetActive(mActive);
             microOff.SetActive(!mActive);
 
-            using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc")) {
-                cls.CallStatic("setSoundActive", mActive);
+            try
+            {
+                using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+                {
+                    cls.CallStatic("setSoundActive", mActive);
+                }
             }
+            catch (System.Exception ex)
+            {
+                Debug.LogWarning("------ EXCEPTION SoundManager.Start: " + ex.Message + " ------");
+            }
+        }
+
+        public void SoundUpdateToggle()
+        {
+            mActive = !mActive;
+            microOn.SetActive(mActive);
+            microOff.SetActive(!mActive);
         }
 
         public void onToggleSound()
         {
-            if (webRTC.activeSelf) {
+            if (webRTC.activeSelf || mPreSelection)
+            {
                 mActive = !mActive;
                 microOn.SetActive(mActive);
                 microOff.SetActive(!mActive);
 
-                using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc")) {
-                    cls.CallStatic("setSoundActive", mActive);
+                try
+                {
+                    using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
+                    {
+                        cls.CallStatic("setSoundActive", mActive);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogWarning("------ EXCEPTION onToggleSound: " + ex.Message + " ------");
                 }
             }
         }

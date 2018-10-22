@@ -5,10 +5,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 402556}
-  - 114: {fileID: 11449230}
+  - component: {fileID: 402556}
+  - component: {fileID: 11449230}
   m_Layer: 0
   m_Name: CallAcceptOTOSender
   m_TagString: Untagged
@@ -21,10 +21,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 423504}
-  - 114: {fileID: 11486696}
+  - component: {fileID: 423504}
+  - component: {fileID: 11486696}
   m_Layer: 0
   m_Name: CommandOTOReceiver
   m_TagString: Untagged
@@ -37,10 +37,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 493792}
-  - 114: {fileID: 11416414}
+  - component: {fileID: 493792}
+  - component: {fileID: 11416414}
   m_Layer: 0
   m_Name: SensorOTOSender
   m_TagString: Untagged
@@ -53,11 +53,11 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 438602}
-  - 114: {fileID: 11487594}
-  - 114: {fileID: 11436336}
+  - component: {fileID: 438602}
+  - component: {fileID: 11487594}
+  - component: {fileID: 11436336}
   m_Layer: 0
   m_Name: VideoOTOSender
   m_TagString: Untagged
@@ -70,10 +70,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 455992}
-  - 114: {fileID: 11471052}
+  - component: {fileID: 455992}
+  - component: {fileID: 11471052}
   m_Layer: 0
   m_Name: VideoOTOReceiver
   m_TagString: Untagged
@@ -86,10 +86,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 489866}
-  - 114: {fileID: 11408264}
+  - component: {fileID: 489866}
+  - component: {fileID: 11408264}
   m_Layer: 0
   m_Name: OTONetworkManager
   m_TagString: Untagged
@@ -106,10 +106,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 489866}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &423504
 Transform:
   m_ObjectHideFlags: 1
@@ -119,10 +119,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 489866}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &438602
 Transform:
   m_ObjectHideFlags: 1
@@ -132,10 +132,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 489866}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &455992
 Transform:
   m_ObjectHideFlags: 1
@@ -145,10 +145,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 489866}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &489866
 Transform:
   m_ObjectHideFlags: 1
@@ -158,7 +158,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 455992}
   - {fileID: 438602}
@@ -167,6 +166,7 @@ Transform:
   - {fileID: 402556}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &493792
 Transform:
   m_ObjectHideFlags: 1
@@ -176,10 +176,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 489866}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11408264
 MonoBehaviour:
   m_ObjectHideFlags: 1
