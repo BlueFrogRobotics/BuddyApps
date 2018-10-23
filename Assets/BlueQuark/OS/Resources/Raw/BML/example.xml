@@ -1,7 +1,114 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<bml id="bml1">
-	<gaze id="gaze1" direction="UP"/>
-	<speech id="speech1" speed="50" intonation="HAPPY" volume="100">
-		<text>Bonjour</text>
-	</speech>
-</bml>
+<?xml version="1.0" encoding="utf-8"?>
+<BehaviourAlgorithm xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Instructions>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+            <Mood>
+                <Value>NEUTRAL</Value>
+            </Mood>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+            <Mood>
+                <Value>ANGRY</Value>
+            </Mood>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <SoundSample>
+                <Value>LAUGH_1</Value>
+            </SoundSample>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Key>
+                <Value>hi</Value>
+            </Key>
+            <Utterance />
+            <Pitch>
+                <Value>0</Value>
+            </Pitch>
+            <Speed>
+                <Value>0</Value>
+            </Speed>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Key>
+                <Value />
+            </Key>
+            <Utterance>
+                <Value>bonjour tout le monde</Value>
+            </Utterance>
+            <Pitch>
+                <Value>0</Value>
+            </Pitch>
+            <Speed>
+                <Value>0</Value>
+            </Speed>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+            <Mood>
+                <Value>GRUMPY</Value>
+            </Mood>
+        </ABehaviourInstruction>
+    </Instructions>
+</BehaviourAlgorithm>

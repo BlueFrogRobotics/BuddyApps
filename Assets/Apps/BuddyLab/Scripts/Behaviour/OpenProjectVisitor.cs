@@ -47,9 +47,9 @@ namespace BuddyApp.BuddyLab
         public void Visit(MoveBodyBehaviourInstruction iStructure)
         {
             int lIndex = 0;
-            if (iStructure.Distance.Value > 0 && iStructure.Speed.Value > 0 )
+            if (iStructure.Distance.Value > 0 && iStructure.Speed.Value > 0)
                 lIndex = 11;
-            else if(iStructure.Distance.Value > 0 && iStructure.Speed.Value < 0)
+            else if (iStructure.Distance.Value > 0 && iStructure.Speed.Value < 0)
                 lIndex = 9;
             else if (iStructure.Angle.Value > 0)
                 lIndex = 15;
@@ -87,6 +87,11 @@ namespace BuddyApp.BuddyLab
                     break;
             }
             InstantiateItem(lIndex, iStructure, Category.BML);
+        }
+
+        public void Visit(LookAtBehaviourInstruction iStructure)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void Visit(SayBehaviourInstruction iStructure)
@@ -193,9 +198,8 @@ namespace BuddyApp.BuddyLab
             if (iStructure.ConditionalColors.Value.Length == 0)
                 return;
 
-            ShadeColor lColor = iStructure.ConditionalColors.Value[0];
-            switch (lColor)
-            {
+            ShadeColor lColor = Utils.GetNearestColor(iStructure.ConditionalColors.Value[0]);
+            switch (lColor) {
                 case ShadeColor.BLUE:
                     lIndex = 29;
                     break;
@@ -227,7 +231,7 @@ namespace BuddyApp.BuddyLab
                     lIndex = 15;
                     break;
             }
-            
+
             InstantiateItem(lIndex, iStructure, Category.CONDITION);
         }
 
@@ -238,11 +242,9 @@ namespace BuddyApp.BuddyLab
                 return;
             if (iStructure.AnyPart.Value)
                 lIndex = 1;
-            else
-            {
+            else {
                 FacialPart lFacialPart = iStructure.ConditionalParts.Value[0];
-                switch (lFacialPart)
-                {
+                switch (lFacialPart) {
                     case FacialPart.LEFT_EYE:
                         lIndex = 9;
                         break;
@@ -285,11 +287,9 @@ namespace BuddyApp.BuddyLab
                 return;
             //if (iStructure.AnyPart.Value)
             //    lIndex = 1;
-            else
-            {
+            else {
                 int lId = iStructure.ConditionalContents.Value[0];
-                switch (lId)
-                {
+                switch (lId) {
                     case 1:
                         lIndex = 14;
                         break;
@@ -383,8 +383,7 @@ namespace BuddyApp.BuddyLab
         private GameObject InstantiateItem(int iIndex, ABehaviourInstruction iStructure, Category iCategory)
         {
             GameObject lItem;
-            switch(iCategory)
-            {
+            switch (iCategory) {
                 case Category.BML:
                     lItem = MonoBehaviour.Instantiate(mItemManager.GetBMLItem(iIndex));
                     break;
@@ -401,7 +400,7 @@ namespace BuddyApp.BuddyLab
                     lItem = MonoBehaviour.Instantiate(mItemManager.GetBMLItem(iIndex));
                     break;
             }
-            
+
             lItem.GetComponent<AGraphicElement>().SetInstruction(iStructure);
             lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
             lItem.transform.SetParent(mRootLine, false);

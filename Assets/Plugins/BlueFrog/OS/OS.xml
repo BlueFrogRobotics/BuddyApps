@@ -468,81 +468,6 @@
             Save C++ object
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.Tools">
-            <summary>
-            Functions to calculate angles during navigation
-            Conversion between command and real-world odometry measures
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.Tools.COEFF_ODO">
-            <summary>
-            TODO: Coefficient on Old Robot. To be updated!
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.Tools.ConvertDistToTime(System.Single,System.Single)">
-            <summary>
-            Given a distance and the speed, get the time needed for SetWheelsSpeed()
-            In milliseconds
-            </summary>
-            <param name="iSpeed"></param>
-            <param name="iDist"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.Internal.Tools.ConvertCmdToDist(System.Single,System.Int32)">
-            <summary>
-            Given the time and the speed, calculate the dist travelled
-            </summary>
-            <param name="iSpeed"></param>
-            <param name="iTimeout"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.Internal.Tools.GetEndPoint(UnityEngine.Vector3,System.Single)">
-            <summary>
-            Given a starting point and a distance, get the theoretical end point
-            </summary>
-            <param name="iStart">Starting point</param>
-            <param name="iDist">Distance in meter</param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.Internal.Tools.Angle(UnityEngine.Vector3,UnityEngine.Vector3)">
-            <summary>
-            Get the angle in degrees between two points, counterclockwise 
-            </summary>
-            <param name="v1"></param>
-            <param name="v2"></param>
-            <returns>Angle in degrees</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.Tools.GetCommand(UnityEngine.Vector3,UnityEngine.Vector3,System.Single@,System.Single@)">
-            <summary>
-            Get a command to go from start to end point
-            </summary>
-            <param name="iStart"></param>
-            <param name="iEnd"></param>
-            <param name="iDist">Distance in meter</param>
-            <param name="iAngle">Angle in degree</param>
-        </member>
-        <member name="M:BlueQuark.Internal.Tools.FormatAngle(System.Single)">
-            <summary>
-            Make angle between -180 and 180 degrees
-            </summary>
-            <param name="iAngle"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BlueQuark.Internal.InputExtensions">
-            <summary>
-            Extensions for calculation
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.InputExtensions.Clamp``1(``0,``0,``0)">
-            <summary>
-            Clamp the value between min and max
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="val"></param>
-            <param name="min"></param>
-            <param name="max"></param>
-            <returns></returns>
-        </member>
         <member name="T:BlueQuark.Internal.TopologicalMapPersistentData">
             <summary>
             Class for persistent data:
@@ -589,6 +514,121 @@
             Save data
             </summary>
             <param name="iPath">Path to be saved</param>
+        </member>
+        <member name="T:BlueQuark.Internal.CalendarEventType">
+            <summary>
+            Type of diary event.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.CalendarEventType.PARTY">
+            <summary>
+            Party
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.CalendarEventType.APPOINTMENT">
+            <summary>
+            Appointment
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.CalendarEventType.HOLIDAYS">
+            <summary>
+            holidays
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.CalendarEventType.HOBBY">
+            <summary>
+            hobby
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.CalendarEventType.BIRTHDAY">
+            <summary>
+            An error occured
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.DiaryEventType">
+            <summary>
+            Type of diary event.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.DiaryEventType.INFORM">
+            <summary>
+            Robots needs to inform
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.DiaryEventType.MISSED_CALL">
+            <summary>
+            Missed Call
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.DiaryEventType.MEDIA_RECIEVED">
+            <summary>
+            An external media was recived
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.DiaryEventType.SYSTEM_ERROR">
+            <summary>
+            An error occured
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ReminderState">
+            <summary>
+            Status of the reminder.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.ReminderState.NEW">
+            <summary>
+            Reminder newly added.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.ReminderState.ACTIVE">
+            <summary>
+            Reminder newly added.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.ReminderState.DELIVERED">
+            <summary>
+            Reminder was delivered to someone.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.ReminderState.VALIDATED">
+            <summary>
+            The reminder's notification was validated.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.RepetitionTime">
+            <summary>
+            Type of diary event.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.RepetitionTime.ONCE">
+            <summary>
+            event happens only once
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.RepetitionTime.DAYLY">
+            <summary>
+            dayly
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.RepetitionTime.WEEKLY">
+            <summary>
+            Weekly
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.RepetitionTime.EVERY_TWO_WEEKS">
+            <summary>
+            Every two weeks
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.RepetitionTime.MONTHLY">
+            <summary>
+            repetition every month
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.RepetitionTime.ANNUAL">
+            <summary>
+            every year
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.MapperULink">
             <summary>
@@ -1126,25 +1166,37 @@
             </summary>
             <param name="iGameObject">The custom game object to display.</param>
         </member>
-        <member name="M:BlueQuark.Internal.TMonolithLayout.AppearFromRight">
+        <member name="M:BlueQuark.Internal.TMonolithLayout.AppearFromLeft">
             <summary>
             Plays an animation to make the layout appeared from the right side.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.TMonolithLayout.AppearFromLeft">
+        <member name="M:BlueQuark.Internal.TMonolithLayout.AppearFromRight">
             <summary>
             Plays an animation to make the layout appeared from the left side.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.TMonolithLayout.SlideToLeft">
+        <member name="M:BlueQuark.Internal.TMonolithLayout.SlideToRight">
             <summary>
             Plays an animation to make the layout disappeared to the left side.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.TMonolithLayout.SlideToRight">
+        <member name="M:BlueQuark.Internal.TMonolithLayout.SlideToLeft">
             <summary>
             Plays an animation to make the layout disappeared to the right side.
             </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TMonolithLayout.SetActiveRightArrow(System.Boolean)">
+            <summary>
+            Active or inactive the right arrow.
+            </summary>
+            <param name="iActive">True to enable the rigth arrow</param>
+        </member>
+        <member name="M:BlueQuark.Internal.TMonolithLayout.SetActiveLeftArrow(System.Boolean)">
+            <summary>
+            Active or inactive the left arrow.
+            </summary>
+            <param name="iActive">True to enable the left arrow</param>
         </member>
         <member name="M:BlueQuark.Internal.TMonolithLayout.Clear">
             <summary>
@@ -3291,11 +3343,23 @@
             Display a capsule layout with two lateral buttons for. The capsule element can store many sealed widgets.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.TCapsuleLayout.SetIcon(UnityEngine.Sprite)">
+        <member name="M:BlueQuark.Internal.TCapsuleLayout.SetTopIcon(UnityEngine.Sprite)">
             <summary>
             Sets an optional top icon.
             </summary>
             <param name="iSprite">The sprite to display. Cannot be null.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.TCapsuleLayout.SetRightIcon(UnityEngine.Sprite)">
+            <summary>
+            Set the icon of the right button.
+            </summary>
+            <param name="iSprite">The sprite to display</param>
+        </member>
+        <member name="M:BlueQuark.Internal.TCapsuleLayout.SetLeftIcon(UnityEngine.Sprite)">
+            <summary>
+            Set the icon of the left button.
+            </summary>
+            <param name="iSprite">The sprite to display</param>
         </member>
         <member name="M:BlueQuark.Internal.TCapsuleLayout.SetLeftLabel(System.String)">
             <summary>
@@ -3452,11 +3516,26 @@
             Stop the current request.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.GoogleSpeech.Listen(System.Action{BlueQuark.SpeechInput})">
+        <member name="M:BlueQuark.Internal.GoogleSpeech.Listen(System.Boolean)">
             <summary>
             Starts a listening request.
             </summary>
-            <param name="iOnEndListening">Callback called at the end of the request</param>
+            <param name="iListenUntilSilence"></param>
+        </member>
+        <member name="M:BlueQuark.Internal.GoogleSpeech.Listen(System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInput},System.Boolean)">
+            <summary>
+            Starts a listening request.
+            </summary>
+            <param name="iOnStartListening">Callback called at the start of a sentence</param>
+            <param name="iOnEndListening">Callback called at the end of a sentence</param>
+            <param name="iListenUntilSilence"></param>
+        </member>
+        <member name="M:BlueQuark.Internal.GoogleSpeech.RecognizeFromFile(System.Action{BlueQuark.SpeechInput},System.String)">
+            <summary>
+            Audio format must be in FLAC or WAV.
+            </summary>
+            <param name="iOnEndRecognition"></param>
+            <param name="iPath"></param>
         </member>
         <member name="T:BlueQuark.Internal.VocalTrigger">
             <summary>
@@ -5190,6 +5269,36 @@
             Default facial expression.
             </summary>
         </member>
+        <member name="F:BlueQuark.Face.MAX_AROUSAL">
+            <summary>
+            Max value for face arousal.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MIN_AROUSAL">
+            <summary>
+            Min value for face arousal.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.DEFAULT_AROUSAL">
+            <summary>
+            Default face arousal value.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MAX_PLEASURE">
+            <summary>
+            Max value for face pleasure.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.MIN_PLEASURE">
+            <summary>
+            Min value for face pleasure.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Face.DEFAULT_PLEASURE">
+            <summary>
+            Default face pleasure value.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Face.IsBusy">
             <summary>
             Returns true if the 
@@ -5323,36 +5432,6 @@
         <member name="M:BlueQuark.Face.ResetLookAt">
             <summary>
             Resets the face gaze to the default position.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Face.MAX_AROUSAL">
-            <summary>
-            Max value for face arousal.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Face.MIN_AROUSAL">
-            <summary>
-            Min value for face arousal.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Face.DEFAULT_AROUSAL">
-            <summary>
-            Default face arousal value.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Face.MAX_PLEASURE">
-            <summary>
-            Max value for face pleasure.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Face.MIN_PLEASURE">
-            <summary>
-            Min value for face pleasure.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Face.DEFAULT_PLEASURE">
-            <summary>
-            Default face pleasure value.
             </summary>
         </member>
         <member name="P:BlueQuark.Face.Arousal">
@@ -5888,27 +5967,6 @@
             Total navigation steps
             </summary>
         </member>
-        <member name="T:BlueQuark.TopoNavigationSubStrategy.Speed">
-            <summary>
-            Command for wheel speed
-            </summary>
-        </member>
-        <member name="P:BlueQuark.TopoNavigationSubStrategy.Speed.Left">
-            <summary>
-            Left wheel speed in degree by second
-            </summary>
-        </member>
-        <member name="P:BlueQuark.TopoNavigationSubStrategy.Speed.Right">
-            <summary>
-            Right wheel speed in degree by second
-            </summary>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.Speed.#ctor(System.Single)">
-            <summary>
-            Set sepped of both wheels
-            </summary>
-            <param name="iBoth"></param>
-        </member>
         <member name="M:BlueQuark.TopoNavigationSubStrategy.Initialize">
             <summary>
             Initialize variables used in navigation
@@ -5988,13 +6046,13 @@
             Monitor the termination of AdvanceIntelligent()
             </summary>
         </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.AdvanceIntelligent(System.Single,System.Int32)">
+        <member name="M:BlueQuark.TopoNavigationSubStrategy.AdvanceIntelligent(System.Single,System.Single)">
             <summary>
             Advance to goal with obstacle avoidance
             Adjust direction by re-calculating command after detours
             </summary>
             <param name="iSpeed">Speed</param>
-            <param name="iTimeout">Time</param>
+            <param name="iDist">Distance to be traveled</param>
             <returns></returns>
         </member>
         <member name="M:BlueQuark.TopoNavigationSubStrategy.AlignBetweenWalls(BlueQuark.IRDetection)">
@@ -6102,6 +6160,60 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:BlueQuark.PathStrategy">
+            <summary>
+            Navigation strategy for path planning and tracking
+            </summary>
+        </member>
+        <member name="M:BlueQuark.PathStrategy.FollowPath(System.Collections.Generic.List{UnityEngine.Vector3})">
+            <summary>
+            Follow a general path given by absolute coordinates by pure pursuit
+            </summary>
+            <param name="iPose"></param>
+            <param name="iPath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.PathStrategy.GenerateBezierPath(UnityEngine.Vector2,UnityEngine.Vector3,System.Single,System.Func{System.Single,System.Single}@,System.Func{System.Single,System.Single}@,System.Single@)">
+            <summary>
+            Quadratic bezier curve from starting point to end point
+            </summary>
+            <param name="iAbsolueGoal">Coordinates of the goal</param>
+            <param name="iCurrentPose">Current position and orientation</param>
+            <param name="iSpeed">Current wheel speed (degrees per second)</param>
+        </member>
+        <member name="M:BlueQuark.PathStrategy.VelBezier(UnityEngine.Vector2,UnityEngine.Vector2,System.Single)">
+            <summary>
+            Velocity function of Bezier curve
+            </summary>
+            <param name="iStartToMid"></param>
+            <param name="iMidToEnd"></param>
+            <param name="iTimeScale"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.PathStrategy.FollowBezierPathTo(UnityEngine.Vector2)">
+            <summary>
+            Follow a Bezier path to the relative goal point.
+            </summary>
+            <param name="iRelativeGoal"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.PathStrategy.Plan(UnityEngine.Vector2)">
+            <summary>
+            Plan a Beizer a path from the robot's current pose to the goal.
+            </summary>
+            <param name="iRelativeGoal"></param>
+        </member>
+        <member name="M:BlueQuark.PathStrategy.Follow(System.Collections.Generic.List{UnityEngine.Vector3})">
+            <summary>
+            Follow a given path with pure pursuit
+            </summary>
+            <param name="iPath">List of points' positions in the robot's coordiante system.</param>
+        </member>
+        <member name="T:BlueQuark.SkeletonEntity">
+            <summary>
+            Human skeleton data structure.
+            </summary>
+        </member>
         <member name="T:BlueQuark.TopoNav.Map">
             <summary>
             Map data class used by Mapper
@@ -6126,6 +6238,8 @@
         <member name="T:BlueQuark.Mapper">
             <summary>
             Mapper class.
+            For a topological map, it is possible to add and remove rooms, as well as connect these rooms.
+            One can learn landmarks in the room for navigation.
             </summary>
         </member>
         <member name="P:BlueQuark.Mapper.RoomCountImpl">
@@ -6257,8 +6371,8 @@
             Images wiil be learned in both the bag of words model (localization)
             And nav model.
             </summary>
-            <param name="iRoom"></param>
-            <param name="iNImages"></param>
+            <param name="iRoom">Room</param>
+            <param name="iNImages">Number of images to take</param>
             <returns>Coroutine</returns>
         </member>
         <member name="M:BlueQuark.Mapper.LearnLocalizationAsync(BlueQuark.Room,System.Int32)">
@@ -6336,50 +6450,78 @@
             Bedroom by default
             </summary>
         </member>
-        <member name="T:BlueQuark.Remote.StartAppCmd">
+        <member name="T:BlueQuark.SkeletonDetector">
             <summary>
-            When executed : Set robot mood.
+            Skeleton detector algorithm.
             </summary>
         </member>
-        <member name="M:BlueQuark.Remote.StartAppCmd.#ctor(System.String)">
+        <member name="F:BlueQuark.SkeletonDetector.MAX_BODIES">
             <summary>
-            Default constructor
+            Max tracked bodies.
             </summary>
         </member>
-        <member name="M:BlueQuark.Remote.StartAppCmd.ExecuteImpl">
+        <member name="P:BlueQuark.SkeletonDetector.OnDetect">
             <summary>
-            Execute the command behaviour.
+            Called when an skeleton is detected. Remove all callback to stops the algorithm.
             </summary>
         </member>
-        <member name="T:BlueQuark.Remote.SayCmd">
+        <member name="P:BlueQuark.CalendarManager.PlannedAlarms">
             <summary>
-            When executed : Set robot mood.
+            List of all alarms of the system
             </summary>
         </member>
-        <member name="M:BlueQuark.Remote.SayCmd.#ctor(System.String)">
+        <member name="P:BlueQuark.CalendarManager.PlannedEvents">
             <summary>
-            Default constructor
+            List of all active events in the system
             </summary>
         </member>
-        <member name="M:BlueQuark.Remote.SayCmd.ExecuteImpl">
+        <member name="P:BlueQuark.CalendarManager.DiaryEvents">
             <summary>
-            Execute the command behaviour.
+            List of all active diary events
             </summary>
         </member>
-        <member name="T:BlueQuark.Remote.SetMoodCmd">
+        <member name="M:BlueQuark.CalendarManager.Add(BlueQuark.Internal.DiaryEventReminder)">
             <summary>
-            When executed : Set robot mood.
+            Add an issued event to the current list
             </summary>
+            <param name="iIssuedEvent"></param>
         </member>
-        <member name="M:BlueQuark.Remote.SetMoodCmd.#ctor(System.String)">
+        <member name="M:BlueQuark.CalendarManager.Add(BlueQuark.Internal.PlannedEventReminder)">
             <summary>
-            Default constructor
+            Add a planned event to the current list
             </summary>
+            <param name="iPlannedEvent"></param>
         </member>
-        <member name="M:BlueQuark.Remote.SetMoodCmd.ExecuteImpl">
+        <member name="M:BlueQuark.CalendarManager.Add(BlueQuark.Internal.PlannedAlarmReminder)">
             <summary>
-            Execute the command behaviour.
+            Add a planned alarm to the list
             </summary>
+            <param name="iPlannedAlarm"></param>
+        </member>
+        <member name="M:BlueQuark.CalendarManager.Remove(BlueQuark.Internal.DiaryEventReminder)">
+            <summary>
+            Remove a given diary event from the active list
+            </summary>
+            <param name="iIssuedEvent"></param>
+        </member>
+        <member name="M:BlueQuark.CalendarManager.Remove(BlueQuark.Internal.PlannedEventReminder)">
+            <summary>
+            Remove a Planned event from the active list
+            </summary>
+            <param name="iPlannedEvent"></param>
+        </member>
+        <member name="M:BlueQuark.CalendarManager.Remove(BlueQuark.Internal.PlannedAlarmReminder)">
+            <summary>
+            Remove a planned alarm from the active list
+            </summary>
+            <param name="iPlannedAlarm"></param>
+        </member>
+        <member name="T:BlueQuark.SerializableDictionary`2">
+            <summary>
+            Serializable Dictionary
+            </summary>
+            <typeparam name="TKey">Key</typeparam>
+            <typeparam name="TValue">Value</typeparam>
         </member>
         <member name="T:BlueQuark.Remote.StopWheelsCmd">
             <summary>
@@ -6668,13 +6810,6 @@
             </summary>
             <returns>CommandParam string value for debug</returns>
         </member>
-        <member name="T:BlueQuark.SerializableDictionary`2">
-            <summary>
-            Serializable Dictionary
-            </summary>
-            <typeparam name="TKey">Key</typeparam>
-            <typeparam name="TValue">Value</typeparam>
-        </member>
         <member name="M:BlueQuark.InternalState.ComputeBias">
             <summary>
             Compute the uncumulative emotional stimuli
@@ -6948,321 +7083,6 @@
             
             </summary>
         </member>
-        <member name="T:BlueQuark.ReminderManager">
-            <summary>
-            This class represents the procedural memory of Buddy
-            </summary>
-            <summary>
-            This class represents the procedural memory of Buddy
-            </summary>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.AddReminder(System.String,System.Int32)">
-            <summary>
-            Add a new reminder to the procedural memory
-            </summary>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the reminder sender</param>
-            <returns>The new reminder</returns>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.AddReminder(System.String,System.Int32,System.Int32[])">
-            <summary>
-            Add a new reminder to the procedural memory
-            </summary>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the sender</param>
-            <param name="iAddressees">An array of ID representing reminder receivers</param>
-            <returns>The new reminder</returns>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.AddReminder(System.DateTime,System.String,System.Int32)">
-            <summary>
-            Add a new reminder to the procedural memory
-            </summary>
-            <param name="iEventDate">Date on which reminder will be issued</param>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the sender</param>
-            <returns>The new reminder</returns>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.AddReminder(System.DateTime,System.String,System.Int32,System.Int32[])">
-            <summary>
-            Add a new reminder to the procedural memory
-            </summary>
-            <param name="iEventDate">Date on which reminder will be issued</param>
-            <param name="iContent">Content of the reminder</param>
-            <param name="iSenderID">An ID representing the sender</param>
-            <param name="iAddressees">An array of ID representing reminder receivers</param>
-            <returns>The new reminder</returns>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.GetReminders">
-            <summary>
-            Get the list of all reminders.
-            </summary>
-            <returns>The list of all reminders.</returns>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.GetIssuedReminders(BlueQuark.ReminderState)">
-            <summary>
-            Get the list of issued reminders with max state.
-            </summary>
-            <param name="iMaxState">Maximum state of the reminders to return</param>
-            <returns>The list of all reminders.</returns>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.GetIssuedUrgentReminders(BlueQuark.ReminderState)">
-            <summary>
-            Get the list of issued urgent reminders with max state.
-            </summary>
-            <param name="iMaxState">Maximum state of the reminders to return</param>
-            <returns>The list of all reminders.</returns>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.ExistReminder(System.Int32)">
-            <summary>
-            Check if the reminder exists.
-            </summary>
-            <param name="iID">The reminder ID</param>
-            <returns>True if the reminder exists. Else returns false</returns>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.RemoveReminderSafe(System.Int32)">
-            <summary>
-            Remove a speicific reminder from procedural memory.
-            And add the next one if reccurent reminder
-            </summary>
-            <param name="iID">The reminder ID</param>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.RemoveReminder(System.Int32)">
-            <summary>
-            Remove a speicific reminder from procedural memory.
-            </summary>
-            <param name="iID">The reminder ID</param>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.RetrieveRemindersWhere(System.Predicate{BlueQuark.Reminder})">
-            <summary>
-            Retrieve all the reminders where the predicate is verified
-            </summary>
-            <param name="iMatchPredicate">The predicate to match reminders</param>
-            <returns>A list of reminders</returns>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.DisplayReminder(System.Int32)">
-            <summary>
-            Display a specific reminder
-            </summary>
-            <param name="iID">The reminder ID</param>
-        </member>
-        <member name="M:BlueQuark.ReminderManager.DisplayReminder(BlueQuark.Reminder)">
-            <summary>
-            Display a specific reminder
-            </summary>
-            <param name="iReminder"></param>
-        </member>
-        <member name="T:BlueQuark.Reminder">
-            <summary>
-            Thic class represents a reminder
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.ID">
-            <summary>
-            The ID of the reminder
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.NotifID">
-            <summary>
-            The ID of the notification.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.Content">
-            <summary>
-            The reminder content.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.Intrusive">
-            <summary>
-            Is reminder/notification intrusive ?
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.Urgent">
-            <summary>
-            Is the current reminder urgent or not ?
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.Attachment">
-            <summary>
-            The path for an attached file.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.Addressee">
-            <summary>
-            The name of the person who the reminder should be addressed to.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.EventDate">
-            <summary>
-            The event date at which the remender will issued
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.ReminderDate">
-            <summary>
-            The date at which a reminder should be issued prior to the actual event date.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.CreationDate">
-            <summary>
-            The creation date
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.TimeRepetition">
-            <summary>
-            The time span between two reminders.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.Type">
-            <summary>
-            The reminder type (agenda, call, alarm, etc.)
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.Recurrence">
-            <summary>
-            The reminder recurrence (non, day, week mont.)
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.State">
-            <summary>
-            The status of the reminder.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.Action">
-            <summary>
-            Action to execute when reminder's notification is validated.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.Sender">
-            <summary>
-            The ID of sender
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.Receivers">
-            <summary>
-            The list of receivers ID
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Reminder.Emotion">
-            <summary>
-            Emotion related to a reminder (??).
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Reminder.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Reminder.#ctor(System.Int32,System.String,System.Boolean,System.Boolean,System.String,System.String,System.DateTime,System.DateTime,System.DateTime,BlueQuark.ReminderTimespan,BlueQuark.ReminderType,BlueQuark.ReminderState,System.Action,BlueQuark.InternalMood)">
-            <summary>
-            reminder constructor
-            </summary>
-            <returns>A new copy of the reminder</returns>
-        </member>
-        <member name="M:BlueQuark.Reminder.Copy">
-            <summary>
-            Make a copy of the reminder
-            </summary>
-            <returns>A new copy of the reminder</returns>
-        </member>
-        <member name="M:BlueQuark.Reminder.DisplayNotif(BlueQuark.ReminderState)">
-            <summary>
-            Display the notification of the reminder.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Reminder.Say">
-            <summary>
-            Says that there is a special reminder waiting for someone to read it.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.ReminderState">
-            <summary>
-            Status of the reminder.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderState.NEW">
-            <summary>
-            Reminder newly added.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderState.SHOWN">
-            <summary>
-            Reminder was shown.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderState.DELIVERED">
-            <summary>
-            Reminder was delivered to someone.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderState.VALIDATED">
-            <summary>
-            The reminder's notification was validated.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.ReminderTimespan">
-            <summary>
-            The time span between each reminder, for a recurrent reminder.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderTimespan.NONE">
-            <summary>
-            No repetition.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderTimespan.EVERY_DAY">
-            <summary>
-            Every day.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderTimespan.EVERY_WEEK">
-            <summary>
-            Every week.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderTimespan.EVERY_MONTH">
-            <summary>
-            Every month.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderTimespan.EVERY_YEAR">
-            <summary>
-            Every year.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.ReminderType">
-            <summary>
-            Type of reminder.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderType.UPDATE">
-            <summary>
-            Update of application or OS.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderType.ALARM">
-            <summary>
-            Alarm reminder.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderType.NEWS">
-            <summary>
-            Reminder for news.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderType.AGENDA">
-            <summary>
-            Agenda event reminder.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderType.STICKY">
-            <summary>
-            A persistend reminder
-            </summary>
-        </member>
-        <member name="F:BlueQuark.ReminderType.CALL">
-            <summary>
-            Call reminder.
-            </summary>
-        </member>
         <member name="T:BlueQuark.Screen">
             <summary>
             Screen component of the robot. Handle miscellaneous data and locking system.
@@ -7399,18 +7219,52 @@
             The movement is right->left
             </summary>
         </member>
+        <member name="P:BlueQuark.SlideSet.Count">
+            <summary>
+            Number of slide in the current slide set.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.SlideSet.CurrentIndex">
+            <summary>
+            Index of the current displayed slide.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.SlideSet.SetDefaultSlide``1">
+            <summary>
+            Set the default slide. Displayed when no slide is present.
+            </summary>
+            <typeparam name="T">Type of the toast</typeparam>
+            <returns>The toast as default toast to configure</returns>
+        </member>
+        <member name="M:BlueQuark.SlideSet.AddFirstDisplayedSlide``1">
+            <summary>
+            Set the first slide to be displayed.
+            </summary>
+            <typeparam name="T">Type of the toast</typeparam>
+            <returns>The toast as the first displayed toast to configure</returns>
+        </member>
         <member name="M:BlueQuark.SlideSet.AddSlide``1">
             <summary>
-            Add a sliding toast to the slide set. Slide are append from left to right. Up to 5 toasts in a slide. 
+            Add a sliding toast to the slide set. Slide are append from left to right. Up to 1000 toasts in a slide. 
             </summary>
             <typeparam name="T">Type of the toast</typeparam>
             <returns>The added toast to configure</returns>
+        </member>
+        <member name="M:BlueQuark.SlideSet.RemoveSlide``1(``0,System.Boolean)">
+            <summary>
+            Remove a sliding toast from the curent slide set.
+            </summary>
+            <typeparam name="T">Type of the toast</typeparam>
+            <param name="iSlide">The slide to remove</param>
+            <param name="iGoNextIfCurrent">If the removed slide was the current slide, set iGoNextIfCurrent to true to go to the next slide, false for the previous one</param>
+            <returns>True if the remove was successful, false otherwise</returns>
         </member>
         <member name="M:BlueQuark.SlideSet.GoTo(System.Int32,System.Action)">
             <summary>
             Go to the wished toast. Make a swap transition if the wished toast is near to the current toast.
             </summary>
             <param name="iSlideIdx">The target toast index, must be between 0 and 4</param>
+            <param name="iOnEndAnim">Callback called at the end of the animation</param>
             <returns>True if the target toast is in bound</returns>
         </member>
         <member name="M:BlueQuark.SlideSet.GoTo(BlueQuark.Internal.ASlideToast,System.Action)">
@@ -7418,6 +7272,7 @@
             Go to the wished toast. Make a swap transition if the wished toast is near to the current toast.
             </summary>
             <param name="iSlide">The target toast</param>
+            <param name="iOnEndAnim">Callback called at the end of the animation</param>
             <returns>True if the target toast is in bound</returns>
         </member>
         <member name="M:BlueQuark.SlideSet.GoNext(System.Action)">
@@ -8392,7 +8247,7 @@
             <param name="iOnEndLocalization"> For example, (x) => {lReuslt = x;} </param>
             <returns></returns>
         </member>
-        <member name="M:BlueQuark.RoomDetector.GetPathLengthImpl(System.Int32,System.Int32)">
+        <member name="M:BlueQuark.RoomDetector.GetPathLength(System.Int32,System.Int32)">
             <summary>
             Get the path length at a step
             </summary>
@@ -8400,7 +8255,7 @@
             <param name="iStep"></param>
             <returns></returns>
         </member>
-        <member name="M:BlueQuark.RoomDetector.DistanceBetweenLandmarksImpl(System.Int32,System.Int32)">
+        <member name="M:BlueQuark.RoomDetector.DistanceBetweenLandmarks(System.Int32,System.Int32)">
             <summary>
             Get the distance measured by odometry between two landmarks.
             </summary>
@@ -8408,7 +8263,7 @@
             <param name="iLdmk2"></param>
             <returns>Distance in meter</returns>
         </member>
-        <member name="M:BlueQuark.RoomDetector.FindPathImpl(System.Int32,System.Int32)">
+        <member name="M:BlueQuark.RoomDetector.FindPath(System.Int32,System.Int32)">
             <summary>
             Find path between start landmark and end landmark.
             Dijkstra's algorithm is used to find the shortest-length path.
@@ -8418,7 +8273,7 @@
             <param name="iEnd">Index of end landmark</param>
             <returns>Found path index</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:BlueQuark.RoomDetector.FacingWallImpl(OpenCVUnity.Mat)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.RoomDetector.FacingWall(OpenCVUnity.Mat)" -->
         <member name="M:BlueQuark.RoomDetector.JITInitialize(BlueQuark.TopoNav.Map,System.Boolean)">
             <summary>
             Initialize model by deserialization two config files
@@ -9383,12 +9238,6 @@
             Called after all Start() calls in the loaded App
             </summary>
         </member>
-        <member name="M:BlueQuark.AAppActivity.OnAlertReminder(System.Collections.Generic.List{BlueQuark.Reminder})">
-            <summary>
-            Called when a reminder alert rised
-            </summary>
-            <param name="iIncomingEvents">The array of rised reminders</param>
-        </member>
         <member name="M:BlueQuark.AAppActivity.OnQuit">
             <summary>
             Called when the application is currently unloading. It will be your last call
@@ -9698,7 +9547,7 @@
             App management.
             </summary>
         </member>
-        <member name="P:BlueQuark.Platform.Reminder">
+        <member name="P:BlueQuark.Platform.Calendar">
             <summary>
             Memo/Reminding storage and management.
             </summary>
@@ -9895,9 +9744,28 @@
             Eyes, head, wheels turning on place
             </summary>
         </member>
-        <member name="F:BlueQuark.MovingParts.EYES_HEAD_WHEELS_DYNAMIC">
+        <member name="F:BlueQuark.MovingParts.EYES_WHEELS">
+            <summary> 
+            Only eyes and wheels
+            </summary>
+        </member>
+        <member name="T:BlueQuark.SensorMode">
             <summary>
-            Eyes, head and the robot can move around
+            Sensors to be used for tracking
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SensorMode.THERMAL">
+            Use only thermal sensor
+        </member>
+        <member name="F:BlueQuark.SensorMode.VISION">
+            <summary>
+            Camera
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Velocity">
+            <summary>
+            Linear and angular velocities of the robot
+            Can be used with Wheels.SetVelocities
             </summary>
         </member>
         <member name="T:BlueQuark.HumanTrackStrategy">
@@ -9913,18 +9781,31 @@
             <param name="iSecondHuman"></param>
             <returns></returns>
         </member>
-        <member name="M:BlueQuark.HumanTrackStrategy.TurningControler(UnityEngine.Vector2,BlueQuark.MovingParts)">
+        <member name="M:BlueQuark.HumanTrackStrategy.StaticControler(UnityEngine.Vector2,BlueQuark.MovingParts)">
             <summary>
-            
+            Controler of static human tracking.
             </summary>
             <param name="iTargetRelative">Target's relative position in the robot's FOV. Positive for the robot's right and upward.</param>
             <param name="iMovingParts"></param>
         </member>
-        <member name="M:BlueQuark.HumanTrackStrategy.StaticTracking(BlueQuark.MovingParts)">
+        <member name="M:BlueQuark.HumanTrackStrategy.DynamicControler(UnityEngine.Vector2,System.Single)">
             <summary>
-            Starts a tracking strategy based on the human in the rect. Rect base on the current RGBCamera frame.
+            Dynamic human following, keeping the distance around 1.5 meters
+            </summary>
+            <param name="iTargetRelative"></param>
+            <param name="iDistance"></param>
+        </member>
+        <member name="M:BlueQuark.HumanTrackStrategy.StaticTracking(BlueQuark.MovingParts,BlueQuark.SensorMode,System.Int32)">
+            <summary>
+            Starts a static human tracking with different options for moving parts.
             </summary>
             <param name="iMovingParts"></param>
+            <param name="iSensorMode"></param>
+        </member>
+        <member name="M:BlueQuark.HumanTrackStrategy.DynamicTracking">
+            <summary>
+            Start a dynamic human tracking. The robot will follow the user.
+            </summary>
         </member>
         <member name="M:BlueQuark.HumanTrackStrategy.Facing">
             <summary>
@@ -10044,87 +9925,92 @@
         </member>
         <member name="P:BlueQuark.Perception.ShadeProcessing">
             <summary>
-            Color tool
+            Color tool.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.ThermalDetector">
             <summary>
-            Thermal tool
+            Thermal tool.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.QRCodeDetector">
             <summary>
-            QRCode tool for read and write
+            QRCode tool for read and write.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.MotionDetector">
             <summary>
-            Feature to detect and track movement
+            Feature to detect and track movement.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.MotionDetectorRework">
             <summary>
-            Feature to detect and track movement
+            Feature to detect and track movement.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.ObstacleDetector">
             <summary>
-            Feature to detect arround obstacles
+            Feature to detect arround obstacles.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.NoiseDetector">
             <summary>
-            Feature to detect loud sound pike
+            Feature to detect loud sound pike.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.KidnappingDetector">
             <summary>
-            Use this feature to callback if Buddy is kidnapped
+            Use this feature to callback if Buddy is kidnapped.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.AprilTagDetector">
             <summary>
-            Feature to detect AprilTags
+            Feature to detect AprilTags.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.FaceDetector">
             <summary>
-            Feature to detect Faces
+            Feature to detect Faces.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.WavingDetector">
             <summary>
-            Feature to detect short range Waving
+            Feature to detect short range Waving.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.GoogleCloudVision">
             <summary>
-            Access to the google cloud vision feature
+            Access to the google cloud vision feature.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.RoomDetector">
             <summary>
-            Localization tool
+            Localization tool.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.Mapper">
             <summary>
-            A topological map of rooms and waypoints 
+            A topological map of rooms and waypoints.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.TensorFlow">
             <summary>
-            Feature to make prediction on available models
+            Feature to make prediction on available models.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.FaceRecognizer">
             <summary>
-            Feature to detect short range Waving
+            Feature to detect short range Waving.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.HumanDetector">
             <summary>
-            Human full body detection feature
+            Human full body detection feature.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Perception.SkeletonDetector">
+            <summary>
+            Body detection with skeleton data structure.
             </summary>
         </member>
         <member name="T:BlueQuark.QRCodeDetector">
@@ -12067,6 +11953,17 @@
             <param name="iRightLabel">Right label text to display</param>
             <returns>GUID of the toast</returns>
         </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},System.Action,UnityEngine.Sprite,System.Action,UnityEngine.Sprite)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <param name="iOnClickLeft">Callback called when left button is clicked</param>
+            <param name="iLeftIcon">Left icon to display</param>
+            <param name="iOnClickRight">Callback called when right button is clicked</param>
+            <param name="iRightIcon">Right icon to display</param>
+            <returns>GUID of the toast</returns>
+        </member>
         <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},System.Action,System.String,System.Action,System.String,System.Action,System.Action)">
             <summary>
             Set toast parameters.
@@ -12076,6 +11973,19 @@
             <param name="iLeftLabel">Left label text to display</param>
             <param name="iOnClickRight">Callback called when right button is clicked</param>
             <param name="iRightLabel">Right label text to display</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},System.Action,UnityEngine.Sprite,System.Action,UnityEngine.Sprite,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <param name="iOnClickLeft">Callback called when left button is clicked</param>
+            <param name="iLeftIcon">Left icon to display</param>
+            <param name="iOnClickRight">Callback called when right button is clicked</param>
+            <param name="iRightIcon">Right icon to display</param>
             <param name="iOnDisplay">Callback called when the toast is displayed</param>
             <param name="iOnHide">Callback called when the toast is hidden</param>
             <returns>GUID of the toast</returns>
@@ -12094,16 +12004,42 @@
             <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
             <returns>GUID of the toast</returns>
         </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},System.Action,UnityEngine.Sprite,System.Action,UnityEngine.Sprite,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <param name="iOnClickLeft">Callback called when left button is clicked</param>
+            <param name="iLeftIcon">Left icon to display</param>
+            <param name="iOnClickRight">Callback called when right button is clicked</param>
+            <param name="iRightIcon">Right icon to display</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
+            <returns>GUID of the toast</returns>
+        </member>
         <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},UnityEngine.Sprite,System.Action,System.String,System.Action,System.String)">
             <summary>
             Set toast parameters.
             </summary>
             <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
-            <param name="iIcon">Top icon to display</param>
+            <param name="iTopIcon">Top icon to display</param>
             <param name="iOnClickLeft">Callback called when left button is clicked</param>
             <param name="iLeftLabel">Left label text to display</param>
             <param name="iOnClickRight">Callback called when right button is clicked</param>
             <param name="iRightLabel">Right label text to display</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},UnityEngine.Sprite,System.Action,UnityEngine.Sprite,System.Action,UnityEngine.Sprite)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <param name="iTopIcon">Top icon to display</param>
+            <param name="iOnClickLeft">Callback called when left button is clicked</param>
+            <param name="iLeftIcon">Left icon to display</param>
+            <param name="iOnClickRight">Callback called when right button is clicked</param>
+            <param name="iRightIcon">Right icon to display</param>
             <returns>GUID of the toast</returns>
         </member>
         <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},UnityEngine.Sprite,System.Action,System.String,System.Action,System.String,System.Action,System.Action)">
@@ -12111,11 +12047,25 @@
             Set toast parameters.
             </summary>
             <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
-            <param name="iIcon">Top icon to display</param>
+            <param name="iTopIcon">Top icon to display</param>
             <param name="iOnClickLeft">Callback called when left button is clicked</param>
             <param name="iLeftLabel">Left label text to display</param>
             <param name="iOnClickRight">Callback called when right button is clicked</param>
             <param name="iRightLabel">Right label text to display</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},UnityEngine.Sprite,System.Action,UnityEngine.Sprite,System.Action,UnityEngine.Sprite,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <param name="iTopIcon">Top icon to display</param>
+            <param name="iOnClickLeft">Callback called when left button is clicked</param>
+            <param name="iLeftIcon">Left icon to display</param>
+            <param name="iOnClickRight">Callback called when right button is clicked</param>
+            <param name="iRightIcon">Right icon to display</param>
             <param name="iOnDisplay">Callback called when the toast is displayed</param>
             <param name="iOnHide">Callback called when the toast is hidden</param>
             <returns>GUID of the toast</returns>
@@ -12125,11 +12075,26 @@
             Set toast parameters.
             </summary>
             <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
-            <param name="iIcon">Top icon to display</param>
+            <param name="iTopIcon">Top icon to display</param>
             <param name="iOnClickLeft">Callback called when left button is clicked</param>
             <param name="iLeftLabel">Left label text to display</param>
             <param name="iOnClickRight">Callback called when right button is clicked</param>
             <param name="iRightLabel">Right label text to display</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
+            <returns>GUID of the toast</returns>
+        </member>
+        <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast},UnityEngine.Sprite,System.Action,UnityEngine.Sprite,System.Action,UnityEngine.Sprite,System.Action,System.Action,System.Action)">
+            <summary>
+            Set toast parameters.
+            </summary>
+            <param name="iOnBuildWidgets">Use this callback to create capsule widget with CreateWidget() method. Callback called when the toast is displayed.</param>
+            <param name="iTopIcon">Top icon to display</param>
+            <param name="iOnClickLeft">Callback called when left button is clicked</param>
+            <param name="iLeftIcon">Left icon to display</param>
+            <param name="iOnClickRight">Callback called when right button is clicked</param>
+            <param name="iRightIcon">Right icon to display</param>
             <param name="iOnDisplay">Callback called when the toast is displayed</param>
             <param name="iOnHide">Callback called when the toast is hidden</param>
             <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
@@ -12892,6 +12857,14 @@
             <param name="iListSpeech"></param>
             <returns></returns>
         </member>
+        <member name="M:BlueQuark.Utils.ContainsOneOf(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Tells if iSpeech contains one of iListSpeech element
+            </summary>
+            <param name="iSpeech"></param>
+            <param name="iListSpeech"></param>
+            <returns></returns>
+        </member>
         <member name="M:BlueQuark.Utils.ContainsOneOf(System.String,System.String)">
             <summary>
             Tells if iSpeech contains one of Phonetics from the dico value given by the key iKeySpeech
@@ -13277,12 +13250,26 @@
         </member>
         <member name="M:BlueQuark.Utils.Clamp``1(``0,``0,``0)">
             <summary>
-            Clamp the value between min and max
+            Clamp between min and max
             </summary>
             <typeparam name="T"></typeparam>
             <param name="val"></param>
             <param name="min"></param>
             <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Utils.AngleDeg(UnityEngine.Vector3)">
+            <summary>
+            Angle in degree
+            </summary>
+            <param name="vec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Utils.AngleRad(UnityEngine.Vector3)">
+            <summary>
+            Angle in radian
+            </summary>
+            <param name="vec"></param>
             <returns></returns>
         </member>
         <member name="M:BlueQuark.Utils.RadiusFromTrajectory(UnityEngine.Vector3[])">
@@ -13722,6 +13709,30 @@
             </summary>
             <returns>The MAC address</returns>
         </member>
+        <member name="M:BlueQuark.Utils.GetEndPoint(UnityEngine.Vector3,System.Single)">
+            <summary>
+            Given a starting point and a distance, get the theoretical end point
+            </summary>
+            <param name="iStart">Starting point</param>
+            <param name="iDist">Distance in meter</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Utils.GetCommand(UnityEngine.Vector3,UnityEngine.Vector3,System.Single@,System.Single@)">
+            <summary>
+            Get a command to go from start to end point
+            </summary>
+            <param name="iStart"></param>
+            <param name="iEnd"></param>
+            <param name="iDist">Distance in meter</param>
+            <param name="iAngle">Angle in degree</param>
+        </member>
+        <member name="M:BlueQuark.Utils.FormatAngle(System.Single)">
+            <summary>
+            Make angle between -180 and 180 degrees
+            </summary>
+            <param name="iAngle"></param>
+            <returns></returns>
+        </member>
         <member name="T:BlueQuark.SpeechInputParameters">
             <summary>
             Parameters for a listening recognition.
@@ -13857,18 +13868,50 @@
             </summary>
         </member>
         <member name="T:BlueQuark.SpeechRecognitionMode">
-            <summary>
-            Speech recognition mode.
-            </summary>
+             <summary>
+             Speech recognition mode.
+             </summary>
+             <example>
+             <code>
+            Use the grammar based Vocal API like this : 
+            Buddy.Vocal.Listen("my_grammar" /* from my_grammar_[fr/en].bin. The function will take the current language automatically */,
+                  (iSpeechInputResult) => { /* Callback methods */
+                     Debug.Log(iSpeechInputResult.Utterance); /* Display the speech input result */
+                  },
+                  SpeechRecognitionMode.GRAMMAR_ONLY /* Recognition mode, can be ignored (GRAMMAR_ONLY is default) or set at Buddy.Vocal.DefaultInputParameters */
+            );
+             </code>
+             </example>
+             <example>
+             <code>
+            Use the free speech Vocal API like this : 
+            Buddy.Vocal.Listen((iSpeechInputResult) => { /* Callback methods */
+                     Debug.Log(iSpeechInputResult.Utterance); /* Display the speech input result */
+                  },
+                  SpeechRecognitionMode.FREESPEECH_ONLY /* Recognition mode, can be set at Buddy.Vocal.DefaultInputParameters */
+            );
+             </code>
+             </example>
+             <example>
+             <code>
+            Use the hybrid Vocal API like this : 
+            Buddy.Vocal.Listen("my_grammar" /* from my_grammar_[fr/en].bin. The function will take the current language automatically */,
+                  (iSpeechInputResult) => { /* Callback methods */
+                     Debug.Log(iSpeechInputResult.Utterance); /* Display the speech input result */
+                  },
+                  SpeechRecognitionMode.GRAMMAR_THEN_FREESPEECH /* Recognition mode, can be set at Buddy.Vocal.DefaultInputParameters */
+            );
+             </code>
+             </example>
         </member>
         <member name="F:BlueQuark.SpeechRecognitionMode.GRAMMAR_ONLY">
             <summary>
-            Based on VoCon (Nuance) API.
+            Based on VoCon (Nuance) API. If no grammar is specified, default grammar will be used for the recognition. A grammar must be writen for each language.
             </summary>
         </member>
         <member name="F:BlueQuark.SpeechRecognitionMode.FREESPEECH_ONLY">
             <summary>
-            Based on Google Speech API.
+            Based on Google Speech API. It is a nofree API reserved for exclusive BFR partners. It is not grammar based, so call a Listen method in that mode with grammar, the grammar won't be considered.
             </summary>
         </member>
         <member name="F:BlueQuark.SpeechRecognitionMode.GRAMMAR_THEN_FREESPEECH">
@@ -13924,7 +13967,9 @@
         <member name="T:BlueQuark.Vocal">
             <summary>
             The module for vocal management (say, hot word and listen). This is a FIFO process.
+            The listening process can works with GoogleSpeech API for the free speech and VoCon for the grammar based system. Those mode are specified with the SpeechRecognitionMode.
             </summary>
+            <seealso cref="T:BlueQuark.SpeechRecognitionMode"/>>
         </member>
         <member name="P:BlueQuark.Vocal.DefaultOutputParameters">
             <summary>
@@ -14833,6 +14878,56 @@
             Stops the running listening process (speech to text). Do nothing if not listening.
             </summary>
         </member>
+        <member name="T:BlueQuark.EMailCrawler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:BlueQuark.EMailFetchParameters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BlueQuark.EMailFetchParameters.EMailMask">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BlueQuark.EMailFetchParameters.Address">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BlueQuark.EMailFetchParameters.Password">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BlueQuark.EMailFetchParameters.SMTP">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:BlueQuark.EMailCrawlerMask.NO_FILTER">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:BlueQuark.EMailCrawlerMask.UNREAD">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:BlueQuark.EMailCrawlerMask.READ">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:BlueQuark.EMailCrawlerMask.ATTACHMENT">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:BlueQuark.SMTP">
             <summary>
             Enum of the different smtp that can be used to send mail
@@ -15258,6 +15353,11 @@
             Subject of the mail
             </summary>
         </member>
+        <member name="P:BlueQuark.EMail.Date">
+            <summary>
+            * of the mail
+            </summary>
+        </member>
         <member name="P:BlueQuark.EMail.Body">
             <summary>
             Body of the mail
@@ -15269,6 +15369,7 @@
             </summary>
             <param name="iSubject">subject of the mail</param>
             <param name="iBody">body of the mail</param>
+            <param name="iToAddresses"></param>
         </member>
         <member name="M:BlueQuark.EMail.#ctor(System.String,System.String)">
             <summary>

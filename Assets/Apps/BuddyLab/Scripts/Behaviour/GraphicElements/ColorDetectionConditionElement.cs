@@ -8,7 +8,7 @@ namespace BuddyApp.BuddyLab
     public class ColorDetectionConditionElement : AGraphicElement
     {
         [SerializeField]
-        private ShadeColor color;
+        private Color32 color;
 
         public override void Highlight()
         {
@@ -20,7 +20,7 @@ namespace BuddyApp.BuddyLab
             if (mInstruction == null)
                 mInstruction = new ColorInputBehaviourInstruction();
             ColorInputBehaviourInstruction lColorInputInstruction = (ColorInputBehaviourInstruction)mInstruction;
-            lColorInputInstruction.ConditionalColors = new ShadeColor[1];
+            lColorInputInstruction.ConditionalColors = new Color32[1];
             lColorInputInstruction.ConditionalColors.Value[0] = color;
         }
     }
