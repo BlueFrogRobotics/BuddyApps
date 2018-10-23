@@ -57,6 +57,7 @@ namespace BuddyApp.Guardian
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
             mFireDetection.OnDetect.Remove(OnThermalDetected);
+            Buddy.Sensors.ThermalCamera.OnNewFrame.Remove(OnNewFrame);
         }
 
         private void ShowToaster()

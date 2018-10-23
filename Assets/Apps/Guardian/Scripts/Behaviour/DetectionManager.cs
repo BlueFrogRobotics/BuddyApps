@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using OpenCVUnity;
 using System.Net;
 using System.Net.Mail;
 
@@ -167,6 +168,7 @@ namespace BuddyApp.Guardian
             //{
                 Debug.Log("on detecte son");
                 mNoiseDetection.OnDetect.AddP(OnSoundDetected, 0.0F);
+            Buddy.Sensors.ThermalCamera.OnNewFrame.Add(OnNewFrame);
             //}
             //mFireDetection.OnDetect.AddP(OnThermalDetected, MAX_TEMPERATURE_THRESHOLD);
             //mKidnappingDetection.OnDetect.Add(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
@@ -184,8 +186,10 @@ namespace BuddyApp.Guardian
             //mFireDetection.OnDetect.RemoveP(OnThermalDetected);
             //if (!IsDetectingSound)
                 mNoiseDetection.OnDetect.RemoveP(OnSoundDetected);
-            if (!IsDetectingMovement)
+            //if (!IsDetectingMovement)
                 mMotionDetection.OnDetect.RemoveP(OnMovementDetected);
+
+            Buddy.Sensors.ThermalCamera.OnNewFrame.Remove(OnNewFrame);
         }
 
 		/// <summary>
@@ -244,6 +248,18 @@ namespace BuddyApp.Guardian
 			mAnimator.SetTrigger("Alert");
             //return true;
 		}
+
+        private void OnNewFrame(Mat iMat)
+        {
+            if (!IsDetectingFire)
+                return;
+
+            if (mFireDetection.GetHottestTemp() > DetectionManager.MAX_TEMPERATURE_THRESHOLD)
+            {
+                Detected = Alert.FIRE;
+                mAnimator.SetTrigger("Alert");
+            }
+        }
 
         private void OnMediaSaved()
         {
