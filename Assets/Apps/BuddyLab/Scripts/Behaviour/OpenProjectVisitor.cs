@@ -202,7 +202,7 @@ namespace BuddyApp.BuddyLab
             if (iStructure.ConditionalColors.Value.Length == 0)
                 return;
 
-            ShadeColor lColor = iStructure.ConditionalColors.Value[0];
+            ShadeColor lColor = Utils.GetNearestColor(iStructure.ConditionalColors.Value[0]);
             switch (lColor)
             {
                 case ShadeColor.BLUE:
@@ -385,6 +385,11 @@ namespace BuddyApp.BuddyLab
         }
 
         public void Visit(PlayFacialEventBehaviourInstruction iStructure)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Visit(LookAtBehaviourInstruction iStructure)
         {
             throw new System.NotImplementedException();
         }
