@@ -20,10 +20,14 @@ namespace BuddyApp.Tutorial
         private const int NUMBER_OF_RANDOM = 5;
         private Step mStep;
         private bool mIsFirstSentenceDone;
+        private bool mIsSecondSentenceDone;
         private Random mRandom;
         private Array mValue;
         private float mTimer;
         private int mNumberOfRandom;
+        private BehaviourAlgorithm mBehaviourAlgorithm;
+
+        private UnityEngine.UI.Button kikoo;
 
 		public override void Start()
 		{
@@ -37,13 +41,35 @@ namespace BuddyApp.Tutorial
             mNumberOfRandom = 0;
             mTimer = 0F;
             mIsFirstSentenceDone = false;
+            mIsSecondSentenceDone = false;
             mValue =  Enum.GetValues(typeof(Mood));
             mRandom = new Random();
+
+            mBehaviourAlgorithm = new BehaviourAlgorithm();
+            mBehaviourAlgorithm.Instructions.Add(new SetMoodBehaviourInstruction() {
+                Mood = Mood.HAPPY,
+            });
+            mBehaviourAlgorithm.Instructions.Add(new MoveBodyBehaviourInstruction() {
+                Distance = 1F,
+                Speed = 1F,
+                IsBlocking = true
+            });
+            mBehaviourAlgorithm.Instructions.Add(new MoveBodyBehaviourInstruction()
+            {
+                Angle = -180F,
+                Speed = 120F
+            });
+            mBehaviourAlgorithm.Instructions.Add(new MoveHeadBehaviourInstruction()
+            {
+                NoAngle = 30F,
+                NoSpeed = 90F
+            });
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+
             //mTimer += Time.deltaTime;
             if(mStep == Step.FIRST_STEP)
             {
@@ -56,7 +82,7 @@ namespace BuddyApp.Tutorial
                 //mTimer = 0F;
                 if (!mIsFirstSentenceDone)
                 {
-                    Buddy.Vocal.SayKey("introstateseconstep");
+                    Buddy.Vocal.SayKey("introstatesecondstep");
                     mIsFirstSentenceDone = true;
                 }
                 Buddy.Behaviour.SetMood((Mood)mValue.GetValue(mRandom.Next(mValue.Length)));
@@ -65,20 +91,18 @@ namespace BuddyApp.Tutorial
             }
             else if(mStep == Step.LAST_STEP && !Buddy.Vocal.IsBusy)
             {
-                Buddy.Vocal.SayKey("introstatethirdstep");
-                //Mettre les BML quand ils fonctionneront dans l'OS
-                mStep = Step.DONE;
+                if(!mIsSecondSentenceDone)
+                {
+                    Buddy.Vocal.SayKey("introstatethirdstep");
+                    mIsSecondSentenceDone = true;
+                }
+                Buddy.Behaviour.Interpreter.Run(mBehaviourAlgorithm, OnEndBehaviourAlgorithm);
             }
-            else if (mStep == Step.DONE)
-                Trigger("MenuTrigger");
-
-
         }
-
-        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        
+        private void OnEndBehaviourAlgorithm()
         {
-
+            Trigger("MenuTrigger");
         }
     }
 }

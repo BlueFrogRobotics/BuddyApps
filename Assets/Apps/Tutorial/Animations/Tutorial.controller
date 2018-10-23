@@ -13,31 +13,31 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: WidgetTrigger
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: QuitTrigger
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: TakePhotoTrigger
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: MenuTrigger
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: -21531816, guid: 3f73d08c1c24768469c6ab37d86ac9db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mMaxNumberOfListen: 0
+  MaxListenningIter: 0
 --- !u!114 &114821489106859232
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -547,4 +547,4 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 48, y: 120, z: 0}
   m_ExitPosition: {x: 48, y: 48, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 1102425778273007732}
+  m_DefaultState: {fileID: 1102761539986367776}

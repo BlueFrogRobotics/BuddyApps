@@ -37,10 +37,14 @@ namespace BuddyApp.HumanCounter
         private const bool WINDOWS = true;
         private bool mHumanDetectEnable;
         private bool mFaceDetectEnable;
+        private bool mSkeletonDetectEnable;
 
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mHumanDetectEnable = false;
+            mFaceDetectEnable = false;
+            mSkeletonDetectEnable = false;
             // Initialization - By default the app is open in video mode.
             mVideoMode = true;
             mDefaultHeader = true;
@@ -56,15 +60,22 @@ namespace BuddyApp.HumanCounter
             // The mCurrentHumanCount is reset every 200ms.
             mResetTimer = 0.200F;
             // Set WINDOWS to true: initialize the callback juste once, false: at every OnStateEnter.
-            if (HumanCounterData.Instance.humanDetectToggle) {
+            if (HumanCounterData.Instance.DetectionOption == DetectionOption.HUMAN_DETECT) {
                 mHumanDetectEnable = true;
                 if ((Buddy.Perception.HumanDetector.OnDetect.Count == 0 || !WINDOWS))
                     Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect);
             }
-            else {
+            else if(HumanCounterData.Instance.DetectionOption == DetectionOption.FACE_DETECT)
+            {
                 mFaceDetectEnable = true;
                 if ((Buddy.Perception.FaceDetector.OnDetect.Count == 0 || !WINDOWS))
                     Buddy.Perception.FaceDetector.OnDetect.AddP(OnFaceDetect);
+            }
+            else
+            {
+                mSkeletonDetectEnable = true;
+                if ((Buddy.Perception.SkeletonDetector.OnDetect.Count == 0 || !WINDOWS))
+                    Buddy.Perception.SkeletonDetector.AddP(OnSkeletonDetect);
             }
             // Initialize texture.
             mCamView = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
@@ -87,8 +98,9 @@ namespace BuddyApp.HumanCounter
 
         private void TimerHandler()
         {
+            
             // If the observation time is reach, back to the settings states.
-            if ((Time.time - mObservationTimeStamp) >= HumanCounterData.Instance.observationTime) {
+            if ((Time.time - mObservationTimeStamp) >= HumanCounterData.Instance.ObservationTime) {
                 if (!Buddy.Behaviour.IsBusy)
                     Trigger("BackToSettings");
             }
@@ -229,6 +241,18 @@ namespace BuddyApp.HumanCounter
                 mDetectedBox.Add(new OpenCVUnity.Rect(lFace.BoundingBox.tl(), lFace.BoundingBox.br()));
             // We add a measure to the list of sample
             mSampleCount.Add(mCurrentHumanCount);
+            return true;
+        }
+
+        /*
+        *   On a skeleton detection this function is called.
+        *   mSkeletonDetectEnable: Enable or disable the code when WINDOWS is true.
+        *   Because the removeP function is in WIP on windows, we juste disable the code, for now.
+        */
+        private bool OnSkeletonDetect(SkeletonEntity[] iSkeleton)
+        {
+            if ((!mSkeletonDetectEnable && WINDOWS) || mSampleCount.Count == AVERAGE_FRAME_NUMBER)
+                return true;
             return true;
         }
     }
