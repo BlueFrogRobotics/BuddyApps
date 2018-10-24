@@ -94,13 +94,13 @@ namespace BuddyApp.RemoteControl
 
             mSpeechReco = iVoiceInput.Utterance;
             mListening = false;
-        }
+        } 
 
         private void RejectCall()
         {
             Debug.Log("RejectCall");
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            StartCoroutine(mRemoteControlBehaviour.CloseApp());
+            mQuit = true;
         }
 
         private void AcceptCall()

@@ -97,14 +97,15 @@ namespace BuddyApp.RemoteControl
                 return;
 
             mIncomingCallHandled = false;
-            callAnimator.SetTrigger("Close_WCall");
+            StartCoroutine(CloseApp());
         }
 
+        // Hide all call object, (Feedback window, buddy face window, ...)
+        // Wait until the hide animation is finished, (When the animator state is on Window_Call_Off, using a tag)
         public IEnumerator CloseApp()
         {
-            Buddy.GUI.Toaster.Hide();
-            while (Buddy.GUI.Toaster.IsBusy)
-                yield return null;
+            callAnimator.SetTrigger("Close_WCall");
+            yield return new WaitUntil(() => { return callAnimator.GetCurrentAnimatorStateInfo(0).IsTag("windowCallOff"); });
             AAppActivity.QuitApp();
         }
 
@@ -119,7 +120,6 @@ namespace BuddyApp.RemoteControl
         public void PressedNo()
         {
             Debug.Log("RejectCallWithButton");
-            callAnimator.SetTrigger("Close_WCall");
             Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             StartCoroutine(CloseApp());
