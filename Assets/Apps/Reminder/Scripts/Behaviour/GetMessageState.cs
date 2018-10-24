@@ -8,11 +8,22 @@ namespace BuddyApp.Reminder
 {
     public sealed class GetMessageState : AStateMachineBehaviour
     {
+        /*
+         *  TODO: 25.10.18
+         *  Fix increment / decrement inverser
+         *  test freespeech sur banc de test et demande MaJ sur epsilon
+         *  ne pas regler les secondes
+         */
 
         private bool mUi;
         private bool mReminderOk;
+        private bool mEndRecord;
+        private bool mVocal;
         private string mRecordedMessage;
 
+        private TTextBox mRecordMsg;
+ 
+        private SpeechInputParameters mVoconParam;
 
         // TMP
         public void DebugColor(string msg, string color)
@@ -26,6 +37,8 @@ namespace BuddyApp.Reminder
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mVocal = false;
+            mEndRecord = false;
             mReminderOk = false;
             mUi = false;
             mRecordedMessage = null;
@@ -33,21 +46,54 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.DisplayParametersButton(false);
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
+            mVoconParam = new SpeechInputParameters();
+            mVoconParam.Grammars = new string[] { "reminder" };
+            //Buddy.Vocal.OnEndListening.Add(FreeSpeechResult);
         }
+
+        private void FreeSpeechResult(SpeechInput iSpeechInput)
+        {
+            DebugColor("FreeSpeech SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
+            DebugColor("FreeSpeech SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
+            mRecordMsg.SetPlaceHolder(iSpeechInput.Utterance);
+            mEndRecord = true;
+            mVocal = false;
+        }
+
+        private void VoconResult(SpeechInput iSpeechInput)
+        {
+            DebugColor("Vocon SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
+            DebugColor("Vocon SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
+            mVocal = false;
+        }   
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (mVocal)
+                return;
+            //if (!mEndRecord && !mVocal)
+            //{
+            //    // Freespech reco
+            //    DebugColor("FREESPEECH", "blue");
+            //    //mVocal = true;
+            //    //Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("record"),
+            //    //    null,
+            //    //    (iOnEndListening) => { FreeSpeechResult(iOnEndListening); },
+            //    //    null,
+            //    //    SpeechRecognitionMode.FREESPEECH_ONLY);
+            //}
             if (!mUi && !Buddy.GUI.Toaster.IsBusy)
             {
-                Buddy.Vocal.SayKey("enteryourmsg");
+                DebugColor("DISPLAY MSG", "blue");
+                Buddy.Vocal.Say(Buddy.Resources.GetString("hereisthemsg"));
                 DisplayMessageEntry();
             }
             if (mReminderOk && !Buddy.Vocal.IsBusy)
             {
                 DebugColor(mRecordedMessage, "green");
                 DebugColor(ReminderData.Instance.ReminderDate.ToShortDateString() + " at " + ReminderData.Instance.ReminderDate.ToLongTimeString(), "green");
-                QuitApp();
+//                QuitApp();
             }
         }
 
@@ -64,6 +110,13 @@ namespace BuddyApp.Reminder
         private void DisplayMessageEntry()
         {
             mUi = true;
+            //mVocal = true;
+            //// Ask validate or modify and reco with vocon
+            //Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("validateormodify"),
+            //    null,
+            //    mVoconParam.Grammars,
+            //    (iOnEndListening) => { VoconResult(iOnEndListening); },
+            //    null);
             //  Display of the title
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("message"));
             // Create the top left button
@@ -86,9 +139,9 @@ namespace BuddyApp.Reminder
             // lSteps.SetLabel("Steps");
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
-                TTextBox lRecordMsg = iOnBuild.CreateWidget<TTextBox>();
-                lRecordMsg.SetPlaceHolder(Buddy.Resources.GetString("enteryourmsg"));
-                lRecordMsg.OnEndEdit.Add((iText) => { mRecordedMessage = iText; DebugColor(iText, "green"); });
+                mRecordMsg = iOnBuild.CreateWidget<TTextBox>();
+                mRecordMsg.SetPlaceHolder(Buddy.Resources.GetString("enteryourmsg"));
+                mRecordMsg.OnEndEdit.Add((iText) => { mRecordedMessage = iText; DebugColor(iText, "green"); });
             },
             () =>
             {
@@ -99,11 +152,13 @@ namespace BuddyApp.Reminder
             {
                 if (string.IsNullOrEmpty(mRecordedMessage))
                     return ;
+                DebugColor("MSG RECORD !", "blue");
+                PlannedEventReminder mReminderEvent = new PlannedEventReminder(mRecordedMessage, ReminderData.Instance.ReminderDate);
                 //mReminderEvent.EventTime = ReminderData.Instance.ReminderDate;
                 //mReminderEvent.ReminderTime = ReminderData.Instance.ReminderDate;
                 //mReminderEvent.ReminderContent = mRecordedMessage;
-                //mReminderEvent.NotifyUser = true;
-                //Buddy.Platform.Calendar.Add(mReminderEvent);
+                mReminderEvent.NotifyUser = true;
+                Buddy.Platform.Calendar.Add(mReminderEvent);
                 Buddy.Vocal.SayKey("reminderok");
                 Buddy.GUI.Header.HideTitle();
                 Buddy.GUI.Toaster.Hide();

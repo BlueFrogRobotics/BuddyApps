@@ -139,8 +139,8 @@ namespace BuddyApp.Reminder
                     if (!Buddy.Vocal.IsSpeaking)
                         DisplayHourEntry();
                 }
-                else if (!Buddy.Vocal.IsBusy && HourIsDefault())
-                    QuitReminder();
+                //else if (!Buddy.Vocal.IsBusy && HourIsDefault())
+                //    QuitReminder();
             }
         }
 
@@ -341,11 +341,11 @@ namespace BuddyApp.Reminder
             if (iIncrement > 0)
                 lSecondInc = 10;
             if (mHourModify == HourModify.HOUR)
-                mCarousselHour = mCarousselHour.Subtract(new TimeSpan(iIncrement, 0, 0));
+                mCarousselHour = mCarousselHour.Add(new TimeSpan(iIncrement, 0, 0));
             else if (mHourModify == HourModify.MINUTE)
-                mCarousselHour = mCarousselHour.Subtract(new TimeSpan(0, iIncrement, 0));
+                mCarousselHour = mCarousselHour.Add(new TimeSpan(0, iIncrement, 0));
             else if (mHourModify == HourModify.SECOND)
-                mCarousselHour = mCarousselHour.Subtract(new TimeSpan(0, 0, lSecondInc));
+                mCarousselHour = mCarousselHour.Add(new TimeSpan(0, 0, lSecondInc));
             string lUpdateHour = mCarousselHour.Hours.ToString() + ":" + mCarousselHour.Minutes.ToString() + ":" + mCarousselHour.Seconds.ToString();
             mHourText.SetLabel(Buddy.Resources.GetString("hoursetto") + lUpdateHour);
         }

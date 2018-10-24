@@ -67,27 +67,37 @@ namespace BuddyApp.Reminder
             if (!DateIsDefault(ReminderData.Instance.ReminderDate) && (Time.time - mTitleTStamp) > TITLE_TIMER)
             {
                 ReminderData.Instance.AppState++;
+                DebugColor("Trig HOUR", "red");
                 Trigger("HourChoiceState");
             }
             if (mVocal)
                 return;
             if (mListen < TRY_NUMBER && DateIsDefault(ReminderData.Instance.ReminderDate))
             {
+                DebugColor("LISTEN", "red");
                 Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), mVoconParam.Grammars);
                 mVocal = true;
             }
             else if (mListen >= TRY_NUMBER)
             {
+                DebugColor("mListen >= TRY NUMBER", "red");
                 if (!mUi && DateIsDefault(ReminderData.Instance.ReminderDate))
                 {
                     //The last listenning
+                    DebugColor("LAST LISTEN", "red");
                     Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), mVoconParam.Grammars);
                     mVocal = true;
-                    if (!Buddy.Vocal.IsSpeaking)
+                    if (!Buddy.Vocal.IsSpeaking && !mUi)
+                    {
+                        DebugColor("CALL DISPLAY ENTRY", "red");
                         DisplayDateEntry();
+                    }
                 }
-                else if (!Buddy.Vocal.IsBusy && DateIsDefault(ReminderData.Instance.ReminderDate))
-                    QuitReminder();
+                //else if (!Buddy.Vocal.IsBusy && DateIsDefault(ReminderData.Instance.ReminderDate))
+                //{
+                //    DebugColor("CALL QUIT REMINDER", "red");
+                //    QuitReminder();
+                //}
             }
         }
 
@@ -103,6 +113,7 @@ namespace BuddyApp.Reminder
 
         private void QuitReminder()
         {
+            DebugColor("QUIT", "red");
             Debug.Log("------- QUIT -------");
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
@@ -142,6 +153,7 @@ namespace BuddyApp.Reminder
         // ---- UI -----
         private void DisplayDateEntry()
         {
+            DebugColor("Display TOASTER", "red");
             mUi = true;
             //Set to default for now
             mCarousselDate = DateTime.Today.Date;
@@ -157,7 +169,7 @@ namespace BuddyApp.Reminder
             {
                 // Init date to today
                 mCarousselDate = DateTime.Today.Date;
-
+                DebugColor("PARAM TOASTER", "red");
                 // Increment Button
                 TButton lInc = iOnBuild.CreateWidget<TButton>();
                 lInc.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_plus"));
