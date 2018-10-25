@@ -1,0 +1,12 @@
+#BNF+EMV2.0;
+!grammar gallery_en;
+!start <delete>;
+!start <next>;
+!start <previous>;
+!start <fullscreen>;
+!start <share>;
+<delete>: (remove | delete) [(the | this) (picture | photo)]; 
+<next>: next [one | picture | photo]; 
+<previous>:  previous  [one | picture | photo];
+<fullscreen>: (show | display) (the | this) (picture | photo) [full screen] | full screen; 
+<share>: share | publish; 

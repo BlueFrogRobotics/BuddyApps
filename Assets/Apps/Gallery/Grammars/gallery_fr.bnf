@@ -1,0 +1,12 @@
+#BNF+EMV2.0;
+!grammar gallery_fr;
+!start <delete>;
+!start <next>;
+!start <previous>;
+!start <fullscreen>;
+!start <share>;
+<delete>: (supprimer | supprime | retirer | retire | effacer | efface) [(la | cette) photo]; 
+<next>: (suivant | prochain | avance | droite | [(aller | passer) à la] [photo] (suivante | prochaine)); 
+<previous>:  (précédent | recule | gauche | avant | [(aller | passer) à la] [photo]  précédente); 
+<fullscreen>: (affiche | montre) la photo [en plein écran] | plein écran; 
+<share>: (partager | partage | envoie | envoyer | publier | publie | expédier | expédie);
