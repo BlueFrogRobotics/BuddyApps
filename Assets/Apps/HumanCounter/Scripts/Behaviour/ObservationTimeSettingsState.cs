@@ -36,8 +36,8 @@ namespace BuddyApp.HumanCounter
             lHeaderFont.material.color = new Color(0F, 0F, 0F, 1F);
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont); 
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("timertitle"));
-
-            HumanCounterData.Instance.humanDetectToggle = false;
+             
+            //HumanCounterData.Instance.humanDetectToggle = false;
             // Setup to 30 seconds by default.
             HumanCounterData.Instance.ObservationTime = DEFAULT_OBSERVATION_TIME;
 

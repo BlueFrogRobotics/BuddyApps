@@ -16,6 +16,7 @@ namespace BuddyApp.HumanCounter
         private int mCurrentHumanCount;
 
         private List<OpenCVUnity.Rect> mDetectedBox;
+        private List<SkeletonJoint[]> mListJoint;
         private List<int> mSampleCount;
         private int mAverageMemory;
 
@@ -38,6 +39,7 @@ namespace BuddyApp.HumanCounter
         private bool mHumanDetectEnable;
         private bool mFaceDetectEnable;
         private bool mSkeletonDetectEnable;
+        private List<Scalar> mColor = new List<Scalar> { };
 
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -56,16 +58,26 @@ namespace BuddyApp.HumanCounter
             mAverageMemory = 0;
             mSampleCount = new List<int> { };
             mDetectedBox = new List<OpenCVUnity.Rect> { };
+            mListJoint = new List<SkeletonJoint[]> { };
+
+            for (int j = 0; j < 20; ++j)
+            {
+                double r = UnityEngine.Random.Range(0, 256);
+                double g = UnityEngine.Random.Range(0, 256);
+                double b = UnityEngine.Random.Range(0, 256);
+                mColor.Add(new Scalar(r, g, b));
+            }
 
             // The mCurrentHumanCount is reset every 200ms.
             mResetTimer = 0.200F;
             // Set WINDOWS to true: initialize the callback juste once, false: at every OnStateEnter.
-            if (HumanCounterData.Instance.DetectionOption == DetectionOption.HUMAN_DETECT) {
+            if (HumanCounterData.Instance.DetectionOption == DetectionOption.HUMAN_DETECT)
+            {
                 mHumanDetectEnable = true;
                 if ((Buddy.Perception.HumanDetector.OnDetect.Count == 0 || !WINDOWS))
                     Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect);
             }
-            else if(HumanCounterData.Instance.DetectionOption == DetectionOption.FACE_DETECT)
+            else if (HumanCounterData.Instance.DetectionOption == DetectionOption.FACE_DETECT)
             {
                 mFaceDetectEnable = true;
                 if ((Buddy.Perception.FaceDetector.OnDetect.Count == 0 || !WINDOWS))
@@ -75,7 +87,11 @@ namespace BuddyApp.HumanCounter
             {
                 mSkeletonDetectEnable = true;
                 if ((Buddy.Perception.SkeletonDetector.OnDetect.Count == 0 || !WINDOWS))
-                    Buddy.Perception.SkeletonDetector.AddP(OnSkeletonDetect);
+                {
+                    Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320x240_30FPS_RGB);
+                    Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetect);
+
+                }
             }
             // Initialize texture.
             mCamView = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
@@ -98,22 +114,26 @@ namespace BuddyApp.HumanCounter
 
         private void TimerHandler()
         {
-            
+
             // If the observation time is reach, back to the settings states.
-            if ((Time.time - mObservationTimeStamp) >= HumanCounterData.Instance.ObservationTime) {
+            if ((Time.time - mObservationTimeStamp) >= HumanCounterData.Instance.ObservationTime)
+            {
                 if (!Buddy.Behaviour.IsBusy)
                     Trigger("BackToSettings");
             }
             // Reset real time counter if OnHumanDetect is not call since mResetTimer.
-            if ((Time.time - mDetectTimeStamp) >= mResetTimer) {
+            if ((Time.time - mDetectTimeStamp) >= mResetTimer)
+            {
                 // Clear all old box, from the last detection
                 mDetectedBox.Clear();
+                mListJoint.Clear();
                 mCurrentHumanCount = 0;
                 // If nobody is detect, it's important to continue to take sample, to keep consistency of the average.
                 if (mSampleCount.Count < AVERAGE_FRAME_NUMBER)
                     mSampleCount.Add(mCurrentHumanCount);
                 // Refresh the header.
-                if (!mDefaultHeader) {
+                if (!mDefaultHeader)
+                {
                     string lFieldCounter = Buddy.Resources.GetString("realtimecount") + mCurrentHumanCount + " ";
                     lFieldCounter += Buddy.Resources.GetString("totalhuman") + mHumanCounter;
                     Buddy.GUI.Header.DisplayLightTitle(lFieldCounter);
@@ -126,7 +146,8 @@ namespace BuddyApp.HumanCounter
         {
             TimerHandler();
             // Calcul the average of human on a sample of frame.
-            if (mSampleCount.Count == AVERAGE_FRAME_NUMBER) {
+            if (mSampleCount.Count == AVERAGE_FRAME_NUMBER)
+            {
                 int lCurrentAverage = 0;
                 foreach (int lNumb in mSampleCount)
                     lCurrentAverage += lNumb;
@@ -142,31 +163,38 @@ namespace BuddyApp.HumanCounter
             if (Buddy.Behaviour.Mood != Mood.SURPRISED && mCurrentHumanCount > 0 && !Buddy.Behaviour.IsBusy)
                 Buddy.Behaviour.SetMood(Mood.SURPRISED, true);
             // Video Mode: Display the camera view with a visual of detection.
-            if (mVideoMode && !mDisplayed) {
+            if (mVideoMode && !mDisplayed)
+            {
                 Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mCamView);
                 mDisplayed = true;
             }
             // If the video mode is disable: Buddy's face is display.
-            if (!mVideoMode && mDisplayed) {
-                Buddy.GUI.Toaster.Hide(); 
+            if (!mVideoMode && mDisplayed)
+            {
+                Buddy.GUI.Toaster.Hide();
                 mDisplayed = false;
             }
         }
 
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mColor.Clear();
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
             // The code in OnHumanDetect is disable but the callback is still running if WINDOWS is true.
             mHumanDetectEnable = false;
             mFaceDetectEnable = false;
+            mSkeletonDetectEnable = false;
             // The removeP function is in work in progress - set WINDOWS to false to run on android.
-            if (!WINDOWS) {
-                if (HumanCounterData.Instance.humanDetectToggle)
+            if (!WINDOWS)
+            {
+                if (HumanCounterData.Instance.DetectionOption == DetectionOption.HUMAN_DETECT)
                     Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
-                else
+                else if (HumanCounterData.Instance.DetectionOption == DetectionOption.FACE_DETECT)
                     Buddy.Perception.FaceDetector.OnDetect.RemoveP(OnFaceDetect);
+                else if (HumanCounterData.Instance.DetectionOption == DetectionOption.SKELETON_DETECT)
+                    Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetect);
             }
         }
 
@@ -175,19 +203,46 @@ namespace BuddyApp.HumanCounter
         // On each frame captured by the camera this function is called, with the matrix of pixel.
         private void OnFrameCaptured(Mat iInput)
         {
-            Mat lMatSrc;
 
+            const float COEFF_X = 1.7F;
+            const float COEFF_Y = 1.6F;
+            Mat lMatSrc;
             // Always clone the input matrix to avoid working with the matrix when the C++ part wants to modify it. It will crash.
             lMatSrc = iInput.clone();
             // Adding of each box on the frame
-            foreach (OpenCVUnity.Rect lBox in mDetectedBox)
-               Imgproc.rectangle(lMatSrc, lBox.tl(), lBox.br(), new Scalar(new Color(255, 0, 0)));
+            if (HumanCounterData.Instance.DetectionOption == DetectionOption.FACE_DETECT || HumanCounterData.Instance.DetectionOption == DetectionOption.HUMAN_DETECT)
+            {
+                foreach (OpenCVUnity.Rect lBox in mDetectedBox)
+                    Imgproc.rectangle(lMatSrc, lBox.tl(), lBox.br(), new Scalar(new Color(255, 0, 0)));
+            }
+            else
+            {
+
+                for (int k = 0; k < mListJoint.Count; ++k)
+                {
+                    int lWidth = lMatSrc.cols();
+                    int lHeight = lMatSrc.rows();
+                    for (int i = 0; i < mListJoint[k].Length; ++i)
+                    {
+                        var lJoint = mListJoint[k][i];
+                        Point lCenter = new Point(lWidth / 2, lHeight / 2);
+                        Point lLocal = new Point(lJoint.WorldPosition.x / lJoint.WorldPosition.z, lJoint.WorldPosition.y / lJoint.WorldPosition.z);
+
+                        lLocal.x *= COEFF_X * lWidth / 2;
+                        lLocal.y *= COEFF_Y * lHeight / 2;
+
+                        Imgproc.circle(lMatSrc, lCenter - lLocal, (int)(10 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)), mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                    }
+                }
+
+            }
             // Flip to avoid mirror effect.
             Core.flip(lMatSrc, lMatSrc, 1);
             // Use matrice format, to scale the texture.
             mCamView = Utils.ScaleTexture2DFromMat(lMatSrc, mCamView);
             // Use matrice to fill the texture.
             Utils.MatToTexture2D(lMatSrc, mCamView);
+
         }
 
         /*
@@ -204,7 +259,7 @@ namespace BuddyApp.HumanCounter
             // Refresh the header.
             string lFieldCounter = Buddy.Resources.GetString("realtimecount") + mCurrentHumanCount + " ";
             lFieldCounter += Buddy.Resources.GetString("totalhuman") + mHumanCounter;
-            Buddy.GUI.Header.DisplayLightTitle(lFieldCounter); 
+            Buddy.GUI.Header.DisplayLightTitle(lFieldCounter);
             mCurrentHumanCount = iHumans.Length;
             mDetectTimeStamp = Time.time;
             // Reset the display of the header if nobody is detect.
@@ -253,6 +308,24 @@ namespace BuddyApp.HumanCounter
         {
             if ((!mSkeletonDetectEnable && WINDOWS) || mSampleCount.Count == AVERAGE_FRAME_NUMBER)
                 return true;
+            mListJoint.Clear();
+            // Refresh the header.
+            string lFieldCounter = Buddy.Resources.GetString("realtimecount") + mCurrentHumanCount + " ";
+            lFieldCounter += Buddy.Resources.GetString("totalhuman") + mHumanCounter;
+            Buddy.GUI.Header.DisplayLightTitle(lFieldCounter);
+            mCurrentHumanCount = iSkeleton.Length;
+            mDetectTimeStamp = Time.time;
+            // Reset the display of the header if nobody is detect.
+            mDefaultHeader = false;
+            // We add each box to a list, to display them later in OnNewFrame
+            foreach (SkeletonEntity lSkeleton in iSkeleton)
+            {
+                Debug.Log("center" + lSkeleton.CenterOfMass);
+                Debug.Log("joint" + lSkeleton.Joints[(int)SkeletonJointType.MID_SPINE].WorldPosition);
+                mListJoint.Add(lSkeleton.Joints);
+            }
+            // We add a measure to the list of sample
+            mSampleCount.Add(mCurrentHumanCount);
             return true;
         }
     }
