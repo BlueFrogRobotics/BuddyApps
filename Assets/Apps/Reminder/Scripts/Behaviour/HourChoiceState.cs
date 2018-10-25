@@ -17,13 +17,14 @@ namespace BuddyApp.Reminder
 
         private enum HourModify
         {
-            HOUR,
             MINUTE,
-            SECOND,
+            HOUR,
         }
 
         private const int TRY_NUMBER = 2;
+        private const float TITLE_TIMER = 2.500F;
 
+        private float mTitleTStamp;
         private int mHour;
         private int mMinute;
         private int mSecond;
@@ -61,7 +62,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
             // Setting of the grammar for STT
             mVoconParam = new SpeechInputParameters();
-            mVoconParam.Grammars = new string[] { "reminder" };
+            mVoconParam.Grammars = new string[] { "reminder", "common"};
             // Setting of the callback
             Buddy.Vocal.OnEndListening.Add(VoconGetHourResult);
         }
@@ -81,7 +82,7 @@ namespace BuddyApp.Reminder
          */
         private bool HourSet(int iH, int iM, int iS, DayMoment iDayMoment)
         {
-            // TODO Convert with iDayMoment
+            // TODO Check if the conversion with iDayMoment is good
             if (iH >= 0 && iH <= 24)
                 mHour = iH;
             if (iM >= 0 && iM <= 59)
@@ -108,6 +109,8 @@ namespace BuddyApp.Reminder
                 TimeSpan lTs = new TimeSpan(mHour, mMinute, mSecond);
                 ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + lTs;
                 DebugColor("HOUR IS: " + ReminderData.Instance.ReminderDate.ToShortTimeString(), "green");
+                Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderData.Instance.ReminderDate.ToShortTimeString());
+                mTitleTStamp = Time.time;
             }
             mListen++;
             mVocal = false;
@@ -117,7 +120,7 @@ namespace BuddyApp.Reminder
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             // If Hour is correctly set - go to next step
-            if (!HourIsDefault())
+            if (!HourIsDefault() && (Time.time - mTitleTStamp) > TITLE_TIMER)
             {
                 ReminderData.Instance.AppState++;
                 Trigger("GetMessageState");
@@ -213,12 +216,15 @@ namespace BuddyApp.Reminder
                     return HourSet(0, 0, 0, lDayMoment);
                 else if (ContainsOneOf(iSpeech, "noon"))
                     return HourSet(12, 0, 0, lDayMoment);
-                else if (ContainsOneOf(iSpeech, "now"))
-                    return HourSet(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, lDayMoment);
             }
             // One numbers in the speech
             else if (lNumbers.Count == 1)
             {
+                if (ContainsOneOf(iSpeech, "cancel"))
+                {
+                    ReminderData.Instance.AppState--;
+                    Trigger("DateChoiceState");
+                }
                 if (ContainsOneOf(iSpeech, "oclock"))
                     return HourSet(lNumbers[0], 0, 0, lDayMoment);
                 if (ContainsOneOf(iSpeech, "half"))
@@ -286,12 +292,13 @@ namespace BuddyApp.Reminder
                     Trigger("DateChoiceState");
                 }
             });
-            // TMP - waiting for caroussel and dot list
+
             FDotNavigation lSteps = Buddy.GUI.Footer.CreateOnMiddle<FDotNavigation>();
             lSteps.Dots = ReminderData.Instance.AppStepNumbers;
             lSteps.Select(ReminderData.Instance.AppState);
-            // Bug is fix - wait for push
-            // lSteps.SetLabel("Steps");
+            lSteps.SetLabel(Buddy.Resources.GetString("steps"));
+
+            // TMP - waiting for caroussel and dot list
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
                 // Init hour to now
@@ -302,8 +309,8 @@ namespace BuddyApp.Reminder
                 lInc.SetLabel(Buddy.Resources.GetString("inc"));
                 lInc.OnClick.Add(() => IncrementHour(1));
 
-                // Text to display choosen date
-                string lHour = mCarousselHour.Hours.ToString() + ":" + mCarousselHour.Minutes.ToString() + ":" + mCarousselHour.Seconds.ToString();
+                // Text to display choosen hour
+                string lHour = mCarousselHour.Hours.ToString() + ":" + mCarousselHour.Minutes.ToString() + ":0";
                 mHourText = iOnBuild.CreateWidget<TText>();
                 mHourText.SetLabel(Buddy.Resources.GetString("hoursetto") + lHour);
 
@@ -316,52 +323,52 @@ namespace BuddyApp.Reminder
                 // Switch button - (hour/minute/second)
                 mSwitch = iOnBuild.CreateWidget<TButton>();
                 mSwitch.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_clock"));
-                mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("hour"));
+                mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("minute"));
                 mSwitch.OnClick.Add(() => UpdateModifOnHour());
             },
             () =>
             {
-                ReminderData.Instance.AppState--;
-                Trigger("DateChoiceState");
+                if (!Buddy.Vocal.IsSpeaking)
+                {
+                    ReminderData.Instance.AppState--;
+                    Trigger("DateChoiceState");
+                }
             },
             Buddy.Resources.GetString("cancel"),
             () =>
             {
-                ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + mCarousselHour;
-                DebugColor(ReminderData.Instance.ReminderDate.ToLongTimeString(), "green");
-                ReminderData.Instance.AppState++;
-                Trigger("GetMessageState");
+                if (!Buddy.Vocal.IsSpeaking)
+                {
+                    ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + mCarousselHour;
+                    DebugColor(ReminderData.Instance.ReminderDate.ToLongTimeString(), "green");
+                    ReminderData.Instance.AppState++;
+                    Trigger("GetMessageState");
+                }
             },
             Buddy.Resources.GetString("next"));
         }
 
         private void IncrementHour(int iIncrement)
         {
-            int lSecondInc = -10;
-            if (iIncrement > 0)
-                lSecondInc = 10;
             if (mHourModify == HourModify.HOUR)
                 mCarousselHour = mCarousselHour.Add(new TimeSpan(iIncrement, 0, 0));
-            else if (mHourModify == HourModify.MINUTE)
+            else
                 mCarousselHour = mCarousselHour.Add(new TimeSpan(0, iIncrement, 0));
-            else if (mHourModify == HourModify.SECOND)
-                mCarousselHour = mCarousselHour.Add(new TimeSpan(0, 0, lSecondInc));
+            mCarousselHour = mCarousselHour.Subtract(new TimeSpan(0, 0, mCarousselHour.Seconds));
             string lUpdateHour = mCarousselHour.Hours.ToString() + ":" + mCarousselHour.Minutes.ToString() + ":" + mCarousselHour.Seconds.ToString();
             mHourText.SetLabel(Buddy.Resources.GetString("hoursetto") + lUpdateHour);
         }
 
         private void UpdateModifOnHour()
         {
-            if (mHourModify >= HourModify.SECOND)
-                mHourModify = HourModify.HOUR;
+            if (mHourModify >= HourModify.HOUR)
+                mHourModify = HourModify.MINUTE;
             else
                 mHourModify++;
             if (mHourModify == HourModify.HOUR)
                 mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("hour"));
-            else if (mHourModify == HourModify.MINUTE)
+            else
                 mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("minute"));
-            else if (mHourModify == HourModify.SECOND)
-                mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("second"));
         }
 
         // --- Generic Function for Exctrat info in Speech ---

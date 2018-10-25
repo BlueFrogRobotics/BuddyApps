@@ -41,7 +41,18 @@ namespace BuddyApp.Reminder
 		*/
         public override void OnQuit()
         {
+            StartCoroutine(CloseApp());
             ExtLog.I(ExtLogModule.APP, typeof(ReminderActivity), LogStatus.START, LogInfo.STOPPING, "On quit...");
+        }
+
+        public IEnumerator CloseApp()
+        {
+            yield return new WaitUntil(() =>
+            {
+                if (Buddy.GUI.Toaster.IsBusy || Buddy.Vocal.IsBusy)
+                    return true;
+                return false;
+            });
         }
     }
 }

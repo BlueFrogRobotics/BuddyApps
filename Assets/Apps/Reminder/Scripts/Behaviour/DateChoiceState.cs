@@ -56,7 +56,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
             // Grammar setting for STT
             mVoconParam = new SpeechInputParameters();
-            mVoconParam.Grammars = new string[] { "reminder" };
+            mVoconParam.Grammars = new string[] { "reminder", "common" };
             // STT Callback Setting
             Buddy.Vocal.OnEndListening.Add(VoconGetDateResult);
         }
@@ -67,7 +67,6 @@ namespace BuddyApp.Reminder
             if (!DateIsDefault(ReminderData.Instance.ReminderDate) && (Time.time - mTitleTStamp) > TITLE_TIMER)
             {
                 ReminderData.Instance.AppState++;
-                DebugColor("Trig HOUR", "red");
                 Trigger("HourChoiceState");
             }
             if (mVocal)
@@ -80,7 +79,6 @@ namespace BuddyApp.Reminder
             }
             else if (mListen >= TRY_NUMBER)
             {
-                DebugColor("mListen >= TRY NUMBER", "red");
                 if (!mUi && DateIsDefault(ReminderData.Instance.ReminderDate))
                 {
                     //The last listenning
@@ -88,10 +86,7 @@ namespace BuddyApp.Reminder
                     Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), mVoconParam.Grammars);
                     mVocal = true;
                     if (!Buddy.Vocal.IsSpeaking && !mUi)
-                    {
-                        DebugColor("CALL DISPLAY ENTRY", "red");
                         DisplayDateEntry();
-                    }
                 }
                 //else if (!Buddy.Vocal.IsBusy && DateIsDefault(ReminderData.Instance.ReminderDate))
                 //{
@@ -159,12 +154,13 @@ namespace BuddyApp.Reminder
             mCarousselDate = DateTime.Today.Date;
             //  Display of the title
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("setupdate"));
-            // TMP - waiting for caroussel and dot list
+
             FDotNavigation lSteps = Buddy.GUI.Footer.CreateOnMiddle<FDotNavigation>();
             lSteps.Dots = ReminderData.Instance.AppStepNumbers;
             lSteps.Select(ReminderData.Instance.AppState);
-            // Bug is fix - wait for push
-            // lSteps.SetLabel("Steps");
+            lSteps.SetLabel(Buddy.Resources.GetString("steps"));
+
+            // TMP - waiting for caroussel and dot list
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
                 // Init date to today
@@ -199,10 +195,13 @@ namespace BuddyApp.Reminder
             Buddy.Resources.GetString("cancel"),
             () =>
             {
-                ReminderData.Instance.ReminderDate = mCarousselDate;
-                DebugColor(ReminderData.Instance.ReminderDate.ToShortDateString(), "green");
-                ReminderData.Instance.AppState++;
-                Trigger("HourChoiceState");
+                if (!Buddy.Vocal.IsSpeaking)
+                {
+                    ReminderData.Instance.ReminderDate = mCarousselDate;
+                    DebugColor(ReminderData.Instance.ReminderDate.ToShortDateString(), "green");
+                    ReminderData.Instance.AppState++;
+                    Trigger("HourChoiceState");
+                }
             },
             Buddy.Resources.GetString("next"));
         }
