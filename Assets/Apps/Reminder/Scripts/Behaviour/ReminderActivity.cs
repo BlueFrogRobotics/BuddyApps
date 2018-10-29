@@ -49,8 +49,11 @@ namespace BuddyApp.Reminder
         {
             yield return new WaitUntil(() =>
             {
-                if (Buddy.GUI.Toaster.IsBusy || Buddy.Vocal.IsBusy)
+                if (Buddy.GUI.Toaster.IsBusy || Buddy.Vocal.IsSpeaking)
+                {
+                    Debug.Log("------------ BUSY ------------");
                     return true;
+                }
                 return false;
             });
         }

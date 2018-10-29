@@ -8,6 +8,7 @@ namespace BuddyApp.Reminder
 {
     public sealed class DateChoiceState : AStateMachineBehaviour
     {
+        // TMP - Waiting for caroussel
         private enum DateModify
         {
             DAY,
@@ -15,22 +16,21 @@ namespace BuddyApp.Reminder
             YEAR,
         }
 
+        private const int TRY_NUMBER = 2;
         private const float TITLE_TIMER = 2.500F;
         private const int JANUARY = 1;
         private const int DECEMBER = 12;
-        private const int TRY_NUMBER = 2;
 
-        private float mTitleTStamp;
-        private bool mVocal;
+        private bool mQuit;
         private int mListen;
-        private bool mUi;
+
+        // TMP - Waiting for caroussel
         private DateTime mCarousselDate;
         private TText mDateText;
         private TButton mSwitch;
         private DateModify mDateModify;
-        private SpeechInputParameters mVoconParam;
 
-        // TMP
+        // TMP - Debug function - Add to shared ?
         private void DebugColor(string msg, string color)
         {
             if (string.IsNullOrEmpty(color))
@@ -39,67 +39,73 @@ namespace BuddyApp.Reminder
                 Debug.Log("<color=" + color + ">----" + msg + "----</color>");
         }
 
+        /*
+         *  This function wait for iTitleLifeTime seconds
+         *  and then Hide the header title.
+         */
+        public IEnumerator TitleLifeTime(float iTitleLifeTime)
+        {
+            yield return new WaitForSeconds(iTitleLifeTime);
+            Buddy.GUI.Header.HideTitle();
+        }
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mDateModify = DateModify.DAY;
             mListen = 0;
-            mVocal = false;
-            mUi = false;
-            mTitleTStamp = 0;
-            // Init the data in an InitState - For now, when we go back to that state the date is reset
+            mQuit = false;
+
+            // For now, when we go back to that state the date is reset
             ReminderData.Instance.AppState = 0;
             ReminderData.Instance.ReminderDate = new DateTime(0001, 01, 01);
+            mCarousselDate = new DateTime(0001, 01, 01);
+
             // Header setting
             Buddy.GUI.Header.DisplayParametersButton(false);
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
-            // Grammar setting for STT
-            mVoconParam = new SpeechInputParameters();
-            mVoconParam.Grammars = new string[] { "reminder", "common" };
-            // STT Callback Setting
+
+            // Callback & Grammar setting & First call to Vocon
             Buddy.Vocal.OnEndListening.Add(VoconGetDateResult);
+            Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), new string[] { "reminder", "common" });
         }
 
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        private void VoconGetDateResult(SpeechInput iSpeechInput)
         {
-            if (!DateIsDefault(ReminderData.Instance.ReminderDate) && (Time.time - mTitleTStamp) > TITLE_TIMER)
-            {
-                ReminderData.Instance.AppState++;
-                Trigger("HourChoiceState");
-            }
-            if (mVocal)
+            if (iSpeechInput.IsInterrupted || mQuit)
                 return;
-            if (mListen < TRY_NUMBER && DateIsDefault(ReminderData.Instance.ReminderDate))
+            mListen++;
+            DebugColor("Date SPEECH" + mListen + ".ToString: " + iSpeechInput.ToString(), "blue");
+            DebugColor("Date SPEECH" + mListen + ".Utterance: " + iSpeechInput.Utterance, "blue");
+
+            // Launch Extraction date
+            if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
+                ReminderData.Instance.ReminderDate = ExtractDateFromSpeech(iSpeechInput.Utterance);
+
+            // Extraction date success - Show the heard date and go to next state
+            if (!DateIsDefault(ReminderData.Instance.ReminderDate))
             {
-                DebugColor("LISTEN", "red");
-                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), mVoconParam.Grammars);
-                mVocal = true;
+                Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderData.Instance.ReminderDate.ToShortDateString());
+                StartCoroutine(TitleLifeTime(TITLE_TIMER));
+                GoToNextState();
+                return;
             }
-            else if (mListen >= TRY_NUMBER)
-            {
-                if (!mUi && DateIsDefault(ReminderData.Instance.ReminderDate))
-                {
-                    //The last listenning
-                    DebugColor("LAST LISTEN", "red");
-                    Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), mVoconParam.Grammars);
-                    mVocal = true;
-                    if (!Buddy.Vocal.IsSpeaking && !mUi)
-                        DisplayDateEntry();
-                }
-                //else if (!Buddy.Vocal.IsBusy && DateIsDefault(ReminderData.Instance.ReminderDate))
-                //{
-                //    DebugColor("CALL QUIT REMINDER", "red");
-                //    QuitReminder();
-                //}
-            }
+
+            // Extraction date failed - Relaunch listenning until we make less than 2 listenning
+            if (mListen < TRY_NUMBER)
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), new string[] { "reminder", "common" });
+            // Listenning count is reached - So display UI & launch the last listenning
+            else if (!Buddy.GUI.Toaster.IsBusy)
+                DisplayDateEntry();
+            // Misunderstood & User didn't click on validate - We request to quit
+            else
+                QuitReminder();
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
             Buddy.Vocal.OnEndListening.Remove(VoconGetDateResult);
@@ -108,20 +114,21 @@ namespace BuddyApp.Reminder
 
         private void QuitReminder()
         {
-            DebugColor("QUIT", "red");
-            Debug.Log("------- QUIT -------");
+            mQuit = true;
+            DebugColor("QUITTING", "red");
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
+            Buddy.Vocal.StopListening();
             Buddy.Vocal.SayKey("bye");
-            if (!Buddy.Vocal.IsBusy)
-            {
-                Buddy.Vocal.OnEndListening.Remove(VoconGetDateResult);
-                Buddy.Vocal.Stop();
-                QuitApp();
-            }
+            Buddy.Vocal.OnEndListening.Remove(VoconGetDateResult);
+            QuitApp();
         }
 
+        /*
+         *  Return true if iDate is equal to the default date time.
+         *  The default date time is set to 0001, 01, 01 in StateEnter
+         */
         private bool DateIsDefault(DateTime iDate)
         {
             if (DateTime.Compare(iDate, new DateTime(0001, 01, 01)) == 0)
@@ -129,50 +136,39 @@ namespace BuddyApp.Reminder
             return false;
         }
 
-        private void VoconGetDateResult(SpeechInput iSpeechInput)
-        {
-            DebugColor("Date SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
-            DebugColor("Date SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
-            if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
-                ReminderData.Instance.ReminderDate = ExtractDateFromSpeech(iSpeechInput.Utterance);
-            if (!DateIsDefault(ReminderData.Instance.ReminderDate) && !mUi)
-            {
-                DebugColor("DATE IS: " + ReminderData.Instance.ReminderDate.ToShortDateString(), "green");
-                Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderData.Instance.ReminderDate.ToShortDateString());
-                mTitleTStamp = Time.time;
-            }
-            mListen++;
-            mVocal = false;
-        }
 
-        // ---- UI -----
+        /*
+         *  Displaying UI to choose Date
+         *  And launch the last listenning
+         */
         private void DisplayDateEntry()
         {
-            DebugColor("Display TOASTER", "red");
-            mUi = true;
-            //Set to default for now
-            mCarousselDate = DateTime.Today.Date;
+            DebugColor("Display DATE TOASTER", "red");
+            //  The last listenning
+            Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), new string[] { "reminder", "common" });
+
             //  Display of the title
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("setupdate"));
 
+            //  Creating of dot view at the bottom
             FDotNavigation lSteps = Buddy.GUI.Footer.CreateOnMiddle<FDotNavigation>();
             lSteps.Dots = ReminderData.Instance.AppStepNumbers;
             lSteps.Select(ReminderData.Instance.AppState);
             lSteps.SetLabel(Buddy.Resources.GetString("steps"));
 
-            // TMP - waiting for caroussel and dot list
+            // TMP - waiting for caroussel
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
-                // Init date to today
+                //  Starting point is the today's date
                 mCarousselDate = DateTime.Today.Date;
-                DebugColor("PARAM TOASTER", "red");
+
                 // Increment Button
                 TButton lInc = iOnBuild.CreateWidget<TButton>();
                 lInc.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_plus"));
                 lInc.SetLabel(Buddy.Resources.GetString("inc"));
                 lInc.OnClick.Add(() => IncrementDate(1));
 
-                // Text to display choosen date
+                // Creating of a text box to display the choosen date in UI. (save to update it at each click)
                 mDateText = iOnBuild.CreateWidget<TText>();
                 mDateText.SetLabel(Buddy.Resources.GetString("datesetto") + mCarousselDate.ToShortDateString());
 
@@ -186,26 +182,33 @@ namespace BuddyApp.Reminder
                 mSwitch = iOnBuild.CreateWidget<TButton>();
                 mSwitch.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_agenda_check"));
                 mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("day"));
-                mSwitch.OnClick.Add(() => UpdateModifOnDate());
+                mSwitch.OnClick.Add(() => UpdateTargetIncrement());
             },
-            () =>
-            {
-                // [TODO] Back to recipient when available
-            },
-            Buddy.Resources.GetString("cancel"),
-            () =>
-            {
-                if (!Buddy.Vocal.IsSpeaking)
-                {
-                    ReminderData.Instance.ReminderDate = mCarousselDate;
-                    DebugColor(ReminderData.Instance.ReminderDate.ToShortDateString(), "green");
-                    ReminderData.Instance.AppState++;
-                    Trigger("HourChoiceState");
-                }
-            },
-            Buddy.Resources.GetString("next"));
+            // Cancel date
+            () => { /* Back to recipient when available */}, Buddy.Resources.GetString("cancel"),
+            // Validate date
+            () => GoToNextState(), Buddy.Resources.GetString("next"));
         }
 
+        private void GoToNextState()
+        {
+            if (!Buddy.Vocal.IsSpeaking)
+            {
+                if (Buddy.GUI.Toaster.IsBusy)
+                {
+                    if (DateIsDefault(ReminderData.Instance.ReminderDate))
+                        ReminderData.Instance.ReminderDate = mCarousselDate;
+                    Buddy.GUI.Header.HideTitle();
+                }
+                DebugColor("DATE IS: " + ReminderData.Instance.ReminderDate.ToShortDateString(), "green");
+                ReminderData.Instance.AppState++;
+                Trigger("HourChoiceState");
+            }
+        }
+
+        /*
+         *  This function increment each part of the date ReminderDate, using iIncrement.
+         */
         private void IncrementDate(int iIncrement)
         {
             if (mDateModify == DateModify.DAY)
@@ -218,7 +221,11 @@ namespace BuddyApp.Reminder
 
         }
 
-        private void UpdateModifOnDate()
+        /*
+         *  This function switch between day/month/year as a target to the modification on date.
+         *  It also update target text in UI.
+         */
+        private void UpdateTargetIncrement()
         {
             if (mDateModify >= DateModify.YEAR)
                 mDateModify = DateModify.DAY;
@@ -232,8 +239,11 @@ namespace BuddyApp.Reminder
                 mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("year"));
         }
 
-        //  ---- PARSING FUNCTION ---- 
-
+        /*  ---- PARSING FUNCTION ---- 
+         *  
+         *  This function find the way the date is pronounce
+         *  and create date according to that.
+         */
         private DateTime ExtractDateFromSpeech(string iSpeech)
         {
             string[] lWords = iSpeech.Split(' ');
@@ -270,6 +280,9 @@ namespace BuddyApp.Reminder
             return new DateTime(0001, 01, 01);
         }
 
+        /*
+         *  This function try to buid an entire date with the speech string.
+         */
         private DateTime TryToBuildDate(string iSpeech)
         {
             int lMonth = DateTime.Today.Month;
@@ -279,7 +292,13 @@ namespace BuddyApp.Reminder
 
             lNumbers = GetNumbersInString(iSpeech, 2);
 
-            // If no number is choose => speech = "the" + "next" ([TODO] Make this impossible with the grammar) || "weekdays" + "next"
+            /*
+             *  If no number is choose the speech is:
+             *  "the next"              -   error to fix in grammar
+             *  "<weekdays> next"       -   error to fix in grammar
+             *  "the next <weekdays>"   -   OK
+             *  "next <weekdays>"       -   OK
+             */
             if (lNumbers == null)
             {
                 if (ContainsOneOf(iSpeech, "next"))
@@ -299,7 +318,7 @@ namespace BuddyApp.Reminder
                     lYear++;
                 return new DateTime(lYear, lMonth, lNumbers[0]);
             }
-            // If the day number is valid but without month, we create a date to the next day number.
+            // If the day number is valid but without month, we create a date to the next same day number.
             else if (lNumbers[0] >= 1 && lNumbers[0] <= 31)
             {
                 // If the day number is passed, use the next month
@@ -343,6 +362,7 @@ namespace BuddyApp.Reminder
          *  (It takes the first encounter day in the array)
          *  If an error occured, a negative value is return.
          */
+
         private DateTime GetNextDay(DateTime iStartDay, string[] iSpeech)
         {
             bool lFind = false;
@@ -378,7 +398,8 @@ namespace BuddyApp.Reminder
          *  Possibility to choose the amount of numbers to extract.
          *  If iHowMany = 0, the function will extract all the number in the string.
          *  Return null on error or if no number was found
-        */
+         */
+
         private List<int> GetNumbersInString(string iText, UInt16 iHowMany)
         {
             int lNum;
@@ -402,7 +423,7 @@ namespace BuddyApp.Reminder
             return null;
         }
 
-        //  TMP - waiting for bug fix in utils
+        //  TMP - Will be in shared
         private bool ContainsOneOf(string iSpeech, string iKey)
         {
             string[] iListSpeech = Buddy.Resources.GetPhoneticStrings(iKey);

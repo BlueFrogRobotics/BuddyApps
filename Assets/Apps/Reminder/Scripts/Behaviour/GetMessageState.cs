@@ -8,20 +8,10 @@ namespace BuddyApp.Reminder
 {
     public sealed class GetMessageState : AStateMachineBehaviour
     {
-        /*
-         *  TODO:
-         *  Afficher heure sur retour dans get msg
-         *  Afficher date sur retour dans get hour
-         */
-
-        private bool mEndRecord;
-        private string mRecordedMessage;
-        private SpeechInputParameters mVoconParam;
-
         // TMP - Wait for time out in freespeech function
-        private float mFreeSpeechTimeStamp;
         private float FREESPEECH_TIMER = 15F;
 
+        private string mRecordedMessage;
 
         // TMP - Debug
         public void DebugColor(string msg, string color)
@@ -32,10 +22,19 @@ namespace BuddyApp.Reminder
                 Debug.Log("<color=" + color + ">----" + msg + "----</color>");
         }
 
+        /*
+         *   This function wait for iFreeSpeechTimer seconds
+         *   and then stop vocal listenning.
+         */
+        public IEnumerator FreeSpeechLifeTime(float iFreeSpeechTimer)
+        {
+            yield return new WaitForSeconds(iFreeSpeechTimer);
+            Buddy.Vocal.StopListening();
+        }
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mEndRecord = false;
             mRecordedMessage = null;
 
             // Setting of Header
@@ -43,18 +42,14 @@ namespace BuddyApp.Reminder
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
 
-            // Setting of vocon grammar
-            mVoconParam = new SpeechInputParameters();
-            mVoconParam.Grammars = new string[] { "reminder", "common" };
-
             // Call freespeech
             DebugColor("FREESPEECH", "blue");
-            mFreeSpeechTimeStamp = Time.time;
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("record"),
                 null,
                 (iOnEndListening) => { FreeSpeechResult(iOnEndListening); },
                 null,
                 SpeechRecognitionMode.FREESPEECH_ONLY);
+            StartCoroutine(FreeSpeechLifeTime(FREESPEECH_TIMER));
         }
 
         private void FreeSpeechResult(SpeechInput iSpeechInput)
@@ -62,7 +57,6 @@ namespace BuddyApp.Reminder
             DebugColor("FreeSpeech Msg SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
             DebugColor("FreeSpeech Msg SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
             mRecordedMessage = iSpeechInput.Utterance;
-            mEndRecord = true;
             DisplayMessageEntry();
         }
 
@@ -81,14 +75,6 @@ namespace BuddyApp.Reminder
                 ModifyMessage();
         }
 
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            // FreeSpeech is stopped, if time out is reached
-            if (!mEndRecord && ((Time.time - mFreeSpeechTimeStamp) >= FREESPEECH_TIMER))
-                Buddy.Vocal.Stop();
-        }
-
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -102,11 +88,11 @@ namespace BuddyApp.Reminder
         private void DisplayMessageEntry()
         {
             DebugColor("DISPLAY MSG", "blue");
+
             // Ask validate or modify and reco with vocon
-            Buddy.Vocal.Say(Buddy.Resources.GetString("hereisthemsg"));
-            Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("validateormodify"),
+            Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify"),
                 null,
-                mVoconParam.Grammars,
+                new string[] { "reminder", "common" },
                 (iOnEndListening) => { VoconResult(iOnEndListening); },
                 null);
 
@@ -142,7 +128,7 @@ namespace BuddyApp.Reminder
                     lRecordMsg.SetPlaceHolder(Buddy.Resources.GetString("enteryourmsg"));
                 else
                     lRecordMsg.SetPlaceHolder(mRecordedMessage);
-                lRecordMsg.OnEndEdit.Add((iText) => { mRecordedMessage = iText;});
+                lRecordMsg.OnEndEdit.Add((iText) => { mRecordedMessage = iText; });
             },
             () =>
             {
@@ -163,8 +149,6 @@ namespace BuddyApp.Reminder
         private void ModifyMessage()
         {
             DebugColor("MODIFY !", "blue");
-
-            mEndRecord = false;
             mRecordedMessage = null;
 
             Buddy.GUI.Header.HideTitle();
@@ -174,13 +158,12 @@ namespace BuddyApp.Reminder
 
             // Call freespeech
             DebugColor("FREESPEECH", "blue");
-            mFreeSpeechTimeStamp = Time.time;
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("record"),
                 null,
                 (iOnEndListening) => { FreeSpeechResult(iOnEndListening); },
                 null,
                 SpeechRecognitionMode.FREESPEECH_ONLY);
-            mFreeSpeechTimeStamp = Time.time;
+            StartCoroutine(FreeSpeechLifeTime(FREESPEECH_TIMER));
         }
 
         private void ValidateMessage()
