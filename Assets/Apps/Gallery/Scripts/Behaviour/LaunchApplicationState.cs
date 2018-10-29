@@ -10,7 +10,7 @@ namespace BuddyApp.Gallery
 {
     public class LaunchApplicationState : AStateMachineBehaviour
     {
-        private readonly string STR_DEFAULT_SPRITE = "big-icon.png";
+        private readonly string STR_DEFAULT_SPRITE = "os_icon_photo";
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -20,9 +20,10 @@ namespace BuddyApp.Gallery
             // Define vocal listening
             Buddy.Vocal.EnableTrigger = true; // Active auto Okay Buddy
             Buddy.Vocal.ListenOnTrigger = true; // Active auto listen after Okay Buddy
-            string[] grammars = { "app_grammar", "gallery" };
+            string[] grammars = { "grammar", "gallery" };
             Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters();
             Buddy.Vocal.DefaultInputParameters.Grammars = grammars;
+            Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 15000; // More accurate recognition for "sure" / "share"
 
             InitializeHeader();
             InitializeSlides();
@@ -45,15 +46,15 @@ namespace BuddyApp.Gallery
 
             //
             /// Create default sprite
-            Texture2D spriteTexture = new Texture2D(980, 512);
+           /* Texture2D spriteTexture = new Texture2D(980, 512);
             spriteTexture.LoadImage(File.ReadAllBytes(Buddy.Resources.GetSpritesFullPath(STR_DEFAULT_SPRITE)));
             spriteTexture.Apply();
             Sprite defaultSprite = Sprite.Create(spriteTexture, new UnityEngine.Rect(0, 0, spriteTexture.width, spriteTexture.height), new Vector2(0.5F, 0.5F));
-
+            */
             //
             /// Set default sprite
             PictureToast defaultSlide = slider.SetDefaultSlide<PictureToast>();
-            defaultSlide.With(defaultSprite);
+            defaultSlide.With(Buddy.Resources.Get<Sprite>(STR_DEFAULT_SPRITE));
             
             //
             /// Initializing slider with image sorted

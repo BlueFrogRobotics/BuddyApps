@@ -31,6 +31,8 @@ namespace BuddyApp.Gallery
 
             // Display graphical interface
             InitializeDialoger();
+
+            Buddy.Vocal.Listen();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -95,16 +97,25 @@ namespace BuddyApp.Gallery
 
         private void OnEndListening(SpeechInput iSpeechInput)
         {
+            ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.OUT_OF_BOUND, "RULE : " + iSpeechInput.Rule);
+            ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.OUT_OF_BOUND, "UTTERANCE : " + iSpeechInput.Utterance);
+
             if (string.IsNullOrEmpty(iSpeechInput.Rule)) {
                 return;
             }
 
-            if (string.Equals(iSpeechInput.Rule, STR_NO)) {
+            if (iSpeechInput.Rule.EndsWith(STR_NO))
+            {
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.DELETING, "Cancel");
                 RemoveCanceled();
-            } else if (string.Equals(iSpeechInput.Rule, STR_YES)) {
+                return;
+            }
+
+            if (iSpeechInput.Rule.EndsWith(STR_YES))
+            {
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.DELETING, "Confirm");
                 RemoveConfirmed();
+                return;
             }
         }
     }
