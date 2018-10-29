@@ -46,21 +46,31 @@ namespace BuddyApp.Gallery
             return mFileInfo.Name;
         }
         
-        public void GetDirectoryPath(ref string oStrDirPath)
+        public string GetDirectoryPath()
         {
             if (null == mFileInfo) {
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.ACCESSING, "Error: File does not exist!");
-                return;
+                return null;
             }
 
-            oStrDirPath = mFileInfo.DirectoryName;
+            return mFileInfo.DirectoryName;
         }
-
-        public void GetKeyValue(ref string oStrKey)
+        
+        public string GetFullPath()
         {
             if (null == mFileInfo) {
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.ACCESSING, "Error: File does not exist!");
-                return;
+                return null;
+            }
+
+            return mFileInfo.FullName;
+        }
+
+        public string GetKeyValue()
+        {
+            if (null == mFileInfo) {
+                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.ACCESSING, "Error: File does not exist!");
+                return null;
             }
             
 
@@ -70,7 +80,7 @@ namespace BuddyApp.Gallery
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.ACCESSING, "Cannot read creation time!");
             }
 
-            oStrKey = ""
+            return ""
                 + mCreationDate.Year
                 + mCreationDate.Month
                 + mCreationDate.Day
@@ -116,13 +126,6 @@ namespace BuddyApp.Gallery
             if (null == mFileInfo)
             {
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.ACCESSING, "File does not exist!");
-                return false;
-            }
-
-            DirectoryInfo recycleBinDir = new DirectoryInfo(STR_RECYCLE_BIN_PATH);
-            if (!recycleBinDir.Exists)
-            {
-                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.ACCESSING, "Recycle bin could not be found!");
                 return false;
             }
 

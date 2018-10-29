@@ -33,8 +33,6 @@ namespace BuddyApp.Gallery
 
             // In case of error or no parameter, use default initialization
             PhotoManager.GetInstance().Initialize();
-
-            Buddy.Vocal.SayKey(STR_WELCOME);
         }
         
         /*
@@ -42,7 +40,7 @@ namespace BuddyApp.Gallery
 		*/
         public override void OnAwake()
         {
-            ExtLog.I(ExtLogModule.APP, typeof(GalleryActivity), LogStatus.START, LogInfo.RUNNING, "On awake...");
+            ExtLog.I(ExtLogModule.APP, typeof(GalleryActivity), LogStatus.START, LogInfo.RUNNING, "On awake..."); 
         }
 
 		/*
@@ -51,6 +49,8 @@ namespace BuddyApp.Gallery
         public override void OnStart()
         {
             ExtLog.I(ExtLogModule.APP, typeof(GalleryActivity), LogStatus.SUCCESS, LogInfo.LOADING, "On start...");
+
+            Buddy.Vocal.SayKey(STR_WELCOME);
         }
 
 		/*
@@ -59,6 +59,11 @@ namespace BuddyApp.Gallery
         public override void OnQuit()
         {
             ExtLog.I(ExtLogModule.APP, typeof(GalleryActivity), LogStatus.START, LogInfo.STOPPING, "On quit...");
+
+            Buddy.Vocal.OnEndListening.Clear();
+
+            if (Buddy.Vocal.IsListening || Buddy.Vocal.IsSpeaking)
+                Buddy.Vocal.Stop();
         }
     }
 }

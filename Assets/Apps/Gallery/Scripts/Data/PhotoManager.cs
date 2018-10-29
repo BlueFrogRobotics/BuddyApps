@@ -12,7 +12,7 @@ namespace BuddyApp.Gallery
     public sealed class PhotoManager
     {
         public static readonly string STR_GALLERY_DIRECTORY = "Images"; //"C:\\Users\\YavinIV\\GalleryTest";
-        public static readonly string[] ALLOWED_EXTENSION_LIST = { "*.png", "*.jpg" };
+        public static readonly string[] ALLOWED_EXTENSION_LIST = { "*.psd", "*.tiff", "*.jpg", "*.tga", "*.png", "*.gif", "*.bmp", "*.iff", "*.pict"};
         
         // Singleton design pattern
         [SerializeField]
@@ -71,16 +71,14 @@ namespace BuddyApp.Gallery
                 {
                     ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.LOADING, "File: " + strCurrentFile);
 
-                    Photo p = new Photo(strCurrentFile);
+                    Photo photo = new Photo(strCurrentFile);
 
-                    if (null == p)
+                    if (null == photo)
                     {
                         return;
                     }
                 
-                    string key = "";
-                    p.GetKeyValue(ref key);
-                    AddPhoto(ref key, ref p);
+                    AddPhoto(photo);
                 }
             }
         }
@@ -132,15 +130,19 @@ namespace BuddyApp.Gallery
             mSlideSet.GoTo(index);
         }
 
-        public void AddPhoto(ref string key, ref Photo ioPhoto)
+        public void AddPhoto(Photo photo)
         {
             if (null == mPhotoSortedList) {
                 // Error, not initialized.
-                ioPhoto = null;
                 return;
             }
 
-            mPhotoSortedList.Add(key, ioPhoto);
+            if (null == photo) {
+                // Error, not initialized.
+                return;
+            }
+
+            mPhotoSortedList.Add(photo.GetKeyValue(), photo);
         }
         
         public Photo GetPhotoByIndex(int index)
