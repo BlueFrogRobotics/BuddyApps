@@ -35,7 +35,7 @@ namespace BuddyApp.HumanCounter
         *   WINDOWS is used to enable or disable removeP, quickly.
         *   mHumanDetectEnable & mFaceDetectEnable are use to enable or disable the code in each callback.
         */
-        private const bool WINDOWS = true;
+        private const bool WINDOWS = false;
         private bool mHumanDetectEnable;
         private bool mFaceDetectEnable;
         private bool mSkeletonDetectEnable;
@@ -74,8 +74,12 @@ namespace BuddyApp.HumanCounter
             if (HumanCounterData.Instance.DetectionOption == DetectionOption.HUMAN_DETECT)
             {
                 mHumanDetectEnable = true;
+                OpenCVUnity.Rect lRoi = new OpenCVUnity.Rect(0, 0, 0, 0);
+                HumanDetectorParameter lParameters = new HumanDetectorParameter();
+                lParameters.RegionOfInterest = lRoi;
+                lParameters.UseThermal = false;
                 if ((Buddy.Perception.HumanDetector.OnDetect.Count == 0 || !WINDOWS))
-                    Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect);
+                    Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect, lParameters);
             }
             else if (HumanCounterData.Instance.DetectionOption == DetectionOption.FACE_DETECT)
             {
@@ -101,7 +105,7 @@ namespace BuddyApp.HumanCounter
             Buddy.GUI.Header.DisplayParametersButton(false);
             // Custom Font (Not working because of a bug - wait for bug fix).
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
-            lHeaderFont.material.color = new Color(0F, 0F, 0F, 1F);
+            lHeaderFont.material.color = new Color(0, 0, 0, 1F);
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
             string lFieldCounter = Buddy.Resources.GetString("realtimecount") + mCurrentHumanCount + " ";
             lFieldCounter += Buddy.Resources.GetString("totalhuman") + mHumanCounter;

@@ -1,5 +1,0 @@
-#BNF+EMV2.1;
-!grammar timestable_fr;
-!start <num>;
-!import <numbers#nb>;
-<num> : [table] <numbers#nb>;

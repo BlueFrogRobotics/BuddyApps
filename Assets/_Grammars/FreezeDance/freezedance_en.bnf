@@ -1,7 +1,0 @@
-#BNF+EMV2.1;
-!grammar freezedance_en;
-!start <play>;
-!start <bestscores>;
-<play> : play [now];
-<bestscores> : ranking | rank | best ([score] | [scores]);
-

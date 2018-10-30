@@ -2,12 +2,15 @@ using UnityEngine.UI;
 using UnityEngine;
 
 using BlueQuark;
+using System;
+using System.Collections;
 
 namespace BuddyApp.RemoteControl
 {
     /* This class contains useful callback during your app process */
     public class RemoteControlActivity : AAppActivity
     {
+
         public override void OnLoading(object[] iArgs)
         {
             return;
@@ -24,6 +27,13 @@ namespace BuddyApp.RemoteControl
 
         public override void OnQuit()
         {
+            StartCoroutine(CloseApp());
+        }
+
+        public IEnumerator CloseApp()
+        {
+            Buddy.GUI.Toaster.Hide();
+            yield return new WaitUntil(() => { return Buddy.GUI.Toaster.IsBusy; });
         }
     }
 }

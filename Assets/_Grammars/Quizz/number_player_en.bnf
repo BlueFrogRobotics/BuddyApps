@@ -1,5 +1,0 @@
-#BNF+EMV2.1;
-!grammar number_player_en;
-!start <answer>;
-!import <numbers#nb>;
-<answer> : [There are] <numbers#nb>;

@@ -1,5 +1,0 @@
-#BNF+EMV2.1;
-!grammar playmath_question_en;
-!start <answer>;
-!import <numbers#nb>;
-<answer> : [It's] <numbers#nb>;

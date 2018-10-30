@@ -13,36 +13,22 @@ namespace BuddyApp.RemoteControl
         private bool mListening;
         private string mSpeechReco;
 
-        [SerializeField]
-        private string option1Key;
-
-        [SerializeField]
-        private string option1Trigger;
-
-        [SerializeField]
-        private string option2Key;
-
-        [SerializeField]
-        private string option2Trigger;
-
-        [SerializeField]
-        private string questionKey;
-
-        [SerializeField]
-        private string QuitTrigger;
-
-        [SerializeField]
-        private Sprite spriteCall;
-
         private int mError;
         private bool mQuit;
         private bool mHasInitializedRemote;
 
         private RemoteControlBehaviour mRemoteControlBehaviour;
 
+        private GameObject mCustomCapsuleToast;
+        private Animator mCustomCapAnim;
+
         public override void Start()
         {
             mRemoteControlBehaviour = GetComponent<RemoteControlBehaviour>();
+            // Get the custom capsule toast
+            mCustomCapsuleToast = GetGameObject(0);
+            // Get the animator of the capsule toast
+            mCustomCapAnim = mCustomCapsuleToast.GetComponent<Animator>();
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -55,15 +41,19 @@ namespace BuddyApp.RemoteControl
 
             mQuit = false;
             mHasInitializedRemote = false;
-            //Interaction.TextToSpeech.SayKey(questionKey);
+
             StartCoroutine(ActivateDisplay());
 
-            //Dictionary.GetString(questionKey)
-            //Sprite[] lSpriteTab = new Sprite[1];
-            //lSpriteTab[0] = spriteCall;
-            //List<int> lSelectedImage = new List<int>();
-            //Toaster.Display<PictureToast>().With(lSpriteTab, PressedYes, PressedNo, ref lSelectedImage);
-
+            Buddy.GUI.Toaster.Display<CustomToast>().With(mCustomCapsuleToast,
+            () =>
+            {
+                // On Display
+                // Launch the display animation of the custom toast
+                mCustomCapAnim.SetTrigger("Select");
+            }, () =>
+            {
+                // On Hide
+            });
         }
 
 
@@ -73,47 +63,28 @@ namespace BuddyApp.RemoteControl
             if (Buddy.Vocal.IsSpeaking || mListening || !mHasInitializedRemote)
                 return;
             else if (mQuit) {
-                QuitApp();
+               StartCoroutine(mRemoteControlBehaviour.CloseApp());
             }
 
             if (string.IsNullOrEmpty(mSpeechReco)) {
                 //Buddy.Vocal.Listen();
                 mListening = true;
-
                 Buddy.Behaviour.SetMood(Mood.LISTENING);
                 return;
             }
-            Debug.Log("chips");
-            if (ContainsOneOf(mSpeechReco, Buddy.Resources.GetPhoneticStrings(option2Key))) {
-                //Toaster.Hide();
-                Debug.Log("option2");
-                Option2();
-            } else if (ContainsOneOf(mSpeechReco, Buddy.Resources.GetPhoneticStrings(option1Key))) {
-                //Toaster.Hide();
-                Debug.Log("option1");
-                Option1();
-            }
-            //else if (ContainsOneOf(mSpeechReco, Dictionary.GetPhoneticStrings("quit")))
-            //{
-            //    Toaster.Hide();
-            //    Option1();
-            //}
-            //else
-            //{
-            //    Interaction.TextToSpeech.SayKey("notunderstandyesno", true);
-            //    mError++;
-            //    if (mError > 2)
-            //    {
-            //        QuitApp();
-            //    }
-            //    else
-            //    {
-            //        Interaction.TextToSpeech.Silence(1000, true);
-            //        Interaction.TextToSpeech.SayKey(questionKey, true);
-            //    }
+            // On accept call reco
+            if (ContainsOneOf(mSpeechReco, Buddy.Resources.GetPhoneticStrings("yes")))
+                AcceptCall();
+            // On reject call reco
+            else if (ContainsOneOf(mSpeechReco, Buddy.Resources.GetPhoneticStrings("no")))
+                RejectCall();
+        }
 
-            //    mSpeechReco = "";
-            //}
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
+            mSpeechReco = "";
+            mListening = false;
         }
 
         private void OnSpeechReco(SpeechInput iVoiceInput)
@@ -123,46 +94,20 @@ namespace BuddyApp.RemoteControl
 
             mSpeechReco = iVoiceInput.Utterance;
             mListening = false;
-        }
+        } 
 
-        private void PressedYes()
+        private void RejectCall()
         {
-            Buddy.GUI.Toaster.Hide();
-            Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
-            Option2();
-        }
-
-        private void PressedNo()
-        {
-            Buddy.GUI.Toaster.Hide();
-            Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
-            Option1();
-        }
-
-        private void Option2()
-        {
-            mRemoteControlBehaviour.CloseApp();
+            Debug.Log("RejectCall");
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            Trigger(option2Trigger);
+            mQuit = true;
         }
 
-        private void Option1()
+        private void AcceptCall()
         {
+            Debug.Log("AcceptCall");
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             mRemoteControlBehaviour.LaunchCall();
-            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            Trigger(option1Trigger);
-            //Interaction.TextToSpeech.SayKey("bye");
-            //mQuit = true;
-        }
-
-        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            //Toaster.Hide();
-
-            //Interaction.TextToSpeech.Say("ok");
-            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            mSpeechReco = "";
-            mListening = false;
         }
 
         private IEnumerator ActivateDisplay()

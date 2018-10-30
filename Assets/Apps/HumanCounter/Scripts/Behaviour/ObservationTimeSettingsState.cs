@@ -33,13 +33,15 @@ namespace BuddyApp.HumanCounter
             Buddy.Behaviour.SetMood(Mood.THINKING, true);
             // Custom Font (Not working because of a bug - wait for bug fix).
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
-            lHeaderFont.material.color = new Color(0F, 0F, 0F, 1F);
+            lHeaderFont.material.color = Color.white;
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont); 
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("timertitle"));
              
             //HumanCounterData.Instance.humanDetectToggle = false;
             // Setup to 30 seconds by default.
             HumanCounterData.Instance.ObservationTime = DEFAULT_OBSERVATION_TIME;
+
+            HeadYesSetPosition(45F);
 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
@@ -137,6 +139,23 @@ namespace BuddyApp.HumanCounter
                 lBoxThird.SetLabel(Buddy.Resources.GetString("skeletondetect"));
 
             });
+        }
+
+        public void HeadYesSetPosition(float iAngle)
+        {
+            if (iAngle < 0 || iAngle > 90)
+            {
+                Debug.Log("Choose an angle between 0 and 90 degrees.");
+                return;
+            }
+            try
+            {
+                Buddy.Actuators.Head.Yes.SetPosition(iAngle);
+            }
+            catch
+            {
+                Debug.Log("Enter a new float");
+            }
         }
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

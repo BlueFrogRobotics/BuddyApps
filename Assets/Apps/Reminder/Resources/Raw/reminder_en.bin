@@ -1,0 +1,19 @@
+#BNF+EMV2.0;
+!grammar reminder;
+!import <numbers#nb>;
+!start <day>;
+!start <month>;
+!start <time>;
+!start <recurrenceweek>;
+!start <recurrencemonth>;
+!start <recurrenceday>;
+!start <everybody>;
+<cancel>
+<day> : today | tomorrow | day after tomorrow | (monday | tuesday | wednesday | thursday | friday | saturday | sunday) [next | <numbers#nb> [<month>]] | the <numbers#nb> [<month>];
+<month> : january | february | march | april | may | june | july | august | september | october | november | december;
+<intime> : in <numbers#nb> (hour | minutes)
+<time> : [at] ((quarter to <numbers#nb>) | <numbers#nb> (o'clock | (past <numbers#nb>) | (to <numbers#nb>) | and half | and quarter));
+<recurrenceweek> : every week;
+<recurrencemonth> : every month;
+<recurrenceday> : every day;
+<everybody> : everyone | nobody;

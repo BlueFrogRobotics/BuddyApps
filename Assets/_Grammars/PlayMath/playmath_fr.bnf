@@ -1,12 +1,0 @@
-#BNF+EMV2.1;
-!grammar playmath_fr;
-!start <tablelabel>;
-!start <playlabel>;
-!start <settingslabel>;
-!start <leaderboardlabel>;
-!start <certificationlabel>;
-<tablelabel> : tables de mutiplications;
-<playlabel> : jouer | jouons;
-<settingslabel> : paramètres | configuration;
-<leaderboardlabel> : meilleurs scores | table des scores;
-<certificationlabel> : [mes | tes] diplômes | [mes] certifications;

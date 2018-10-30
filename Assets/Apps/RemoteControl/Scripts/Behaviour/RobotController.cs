@@ -23,6 +23,8 @@ namespace BuddyApp.RemoteControl
         private UltrasonicSensors mUSSensors;
         private TimeOfFlightSensors mTOFSensors;
 
+        private bool mBuddyMovement = true;
+
         // Use this for initialization
         void Start()
         {
@@ -42,12 +44,19 @@ namespace BuddyApp.RemoteControl
             }
         }
 
+        public void DisableMovement()
+        {
+            mBuddyMovement = !mBuddyMovement;
+            Debug.Log("Robot movement is set to:" + mBuddyMovement);
+        }
+
         // This function is called when a webrtc data is received
         public void onMessage(string iMessage)
         {
             Debug.Log("new data : " + iMessage);
             ARemoteCommand lCmd = ARemoteCommand.Deserialize(GetBytes(iMessage));
-            lCmd.Execute();
+            if (mBuddyMovement == true)
+                lCmd.Execute();
         }
 
         private byte[] GetSensorsValue()
