@@ -40,8 +40,6 @@ namespace BuddyApp.Shared
         [SerializeField]
         private string TriggerWhenNotDetected;
         [SerializeField]
-        private string Key;
-        [SerializeField]
         private bool OnlyOneDetection;
 
         [Header("Movement Quantity Parameters : ")]
@@ -196,13 +194,14 @@ namespace BuddyApp.Shared
                 mTexture = Utils.ScaleTexture2DFromMat(mMatCopy, mTexture);
                 Utils.MatToTexture2D(mMatCopy , mTexture);
                 mMotionDetectionSprite = Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f));
-                if (mMotionDetectionSprite == null)
+                if (mTexture == null)
                 {
                     mIsDisplay = false;
                 }
                 else
                 {
-                    Buddy.GUI.Toaster.Display<PictureToast>().With(mMotionDetectionSprite);
+                    //Buddy.GUI.Toaster.Display<PictureToast>().With(mMotionDetectionSprite);
+                    Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTexture);
                 }
             }
             if (VideoDisplay && mIsDisplay && mTimer > 0.1F)
@@ -329,7 +328,7 @@ namespace BuddyApp.Shared
 
             if (OnlyOneDetection)
             {
-                if (WantToSavePicture)
+                if (WantToSavePicture && mDetectionCount > QuantityBeforeSavingPicture)
                 {
                     if (!string.IsNullOrEmpty(NameOfPictureSaved))
                     {

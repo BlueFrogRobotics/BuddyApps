@@ -255,6 +255,7 @@ namespace BuddyApp.TakePhoto
 				
 
 			Utils.SaveSpriteToFile(mPhotoSprite, lFilePath);
+            iMyPhoto.Save();
             TakePhotoData.Instance.PhotoPath = lFilePath;
             mIsFrameCaptured = false;
             //Action mOnClick;

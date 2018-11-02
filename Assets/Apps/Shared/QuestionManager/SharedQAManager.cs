@@ -22,12 +22,12 @@ namespace BuddyApp.Shared
         private bool IsSoundForButton;
         [SerializeField]
         private SoundSample FxSound;
-        [SerializeField]
-        private float Timeout;
+        //[SerializeField]
+        //private float Timeout;
         [SerializeField]
         private string NameVoconGrammarFile;
         [SerializeField]
-        private string BuddySayWhenQuit;
+        private string BuddySaysWhenQuit;
         [SerializeField]
         private Context context;
 
@@ -286,16 +286,16 @@ namespace BuddyApp.Shared
         /// <returns></returns>
         private IEnumerator Quit()
         {
-            if (!string.IsNullOrEmpty(BuddySayWhenQuit)) {
-                if (IsKey(BuddySayWhenQuit)) {
-                    Debug.Log(BuddySayWhenQuit);
+            if (!string.IsNullOrEmpty(BuddySaysWhenQuit)) {
+                if (IsKey(BuddySaysWhenQuit)) {
+                    Debug.Log(BuddySaysWhenQuit);
                     //Change this line when CORE did the correction about GetRandomString not working if the string is empty
-                    if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(BuddySayWhenQuit)))
-                        mTTS.Say(Buddy.Resources.GetRandomString(BuddySayWhenQuit));
+                    if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(BuddySaysWhenQuit)))
+                        mTTS.Say(Buddy.Resources.GetRandomString(BuddySaysWhenQuit));
                     else
-                        mTTS.Say(Buddy.Resources.GetString(BuddySayWhenQuit));
+                        mTTS.Say(Buddy.Resources.GetString(BuddySaysWhenQuit));
                 } else {
-                    mTTS.Say(BuddySayWhenQuit);
+                    mTTS.Say(BuddySaysWhenQuit);
                 }
             }
 
@@ -367,21 +367,6 @@ namespace BuddyApp.Shared
         private void DisplayQuestion()
         {
             Debug.Log("DISPLAY QUESTION");
-            //ButtonInfo[] lButtonsInfo = new ButtonInfo[this.items.Count];
-            //Debug.Log("Item count = " + items.Count);
-            //int i = 0;
-
-            //foreach (QuestionItem item in items)
-            //{
-            //    lButtonsInfo[i] = new ButtonInfo
-            //    {
-            //        Label = Buddy.Resources.GetString(item.key),
-            //        OnClick = delegate () { PressedButton(item.trigger); }
-            //    };
-
-            //    i++;
-            //}
-
             string lTitle;
             if (!string.IsNullOrEmpty(KeyQuestion)) {
                 if (IsKey(KeyQuestion))

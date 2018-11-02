@@ -82,18 +82,18 @@ namespace BuddyApp.Somfy
             {
 
             }
-            if (www.isError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log(www.downloadHandler.text);
-                mHeaders.Clear();
-                mHeaders["SET-COOKIE"] = www.GetResponseHeader("SET-COOKIE");
-                getSessionId();
-                GetDevices();
-            }
+            //if (www.isError)
+            //{
+            //    Debug.Log(www.error);
+            //}
+            //else
+            //{
+            //    Debug.Log(www.downloadHandler.text);
+            //    mHeaders.Clear();
+            //    mHeaders["SET-COOKIE"] = www.GetResponseHeader("SET-COOKIE");
+            //    getSessionId();
+            //    GetDevices();
+            //}
 
             Upload(Credentials[1], Credentials[2]);
 
@@ -115,14 +115,14 @@ namespace BuddyApp.Somfy
             {
 
             }
-            if (www.isError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log("Form upload complete!" + www.downloadHandler.text);
-            }
+            //if (www.isError)
+            //{
+            //    Debug.Log(www.error);
+            //}
+            //else
+            //{
+            //    Debug.Log("Form upload complete!" + www.downloadHandler.text);
+            //}
         }
 
         public override void GetDevices()
