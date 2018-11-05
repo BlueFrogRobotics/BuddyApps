@@ -388,9 +388,10 @@
             Happy way to talk.
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.CompanionAction">
+        <member name="T:BlueQuark.Internal.ActionManager">
             <summary>
-            Enum of actions that Buddy can perform
+            The action manager class defines high level function to control Buddy action.
+            It also contains some function for decision making based on situation (state), mood and desire.
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.CompanionState">
@@ -398,10 +399,19 @@
             Different states of Companion
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.ActionManager">
+        <member name="T:BlueQuark.Internal.CompanionAction">
             <summary>
-            The action manager class defines high level function to control Buddy action.
-            It also contains some function for decision making based on situation (state), mood and desire.
+            Enum of actions that Buddy can perform
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.LookingToNotifyState">
+            <summary>
+            This state is called when Buddy is looking for a/any user
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.AskNotifyState">
+            <summary>
+            This state is used to ask the name of the current user
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.FDotNavigationDot">
@@ -436,6 +446,301 @@
             Sets the dot as selected or not.
             </summary>
             <param name="iVal">The value of the selection</param>
+        </member>
+        <member name="T:BlueQuark.Internal.Velocity">
+            <summary>
+            Linear and angular velocities of the robot
+            Can be used with Wheels.SetVelocities
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.Velocity.Linear">
+            <summary>
+            Linear velocity m/s
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.Velocity.Angular">
+            <summary>
+            Angular velocity deg/s counterclockwise
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.Velocity.PIDControl(BlueQuark.Internal.Velocity)">
+            <summary>
+            Naive controler
+            </summary>
+            <param name="iCommand"></param>
+        </member>
+        <member name="T:BlueQuark.Internal.TopoNavigationSubStrategy">
+            <summary>
+            Class that commands the navigation movement of the robot.
+            Main functions:
+            1. Localization
+            2. Find Orientation during navigation
+            3. Advance with obstacle detection / obstacle avoidance
+            4. Navigation controller
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mCurrentLandmark">
+            <summary>
+            Current landmark identified by odometry
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mCurrentStep">
+            <summary>
+            Current step in path identified by odometry
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mCurrentDist">
+            <summary>
+            Distance advanced in current step
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mIdxPath">
+            <summary>
+            Current path
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.TopoNavigationSubStrategy.CurrentRoom">
+            <summary>
+            Current room after identification
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mCurrentRoom">
+            <summary>
+            Property cannot be used as out parameter!
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mGoalRoom">
+            <summary>
+            Goal room
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mVisionStep">
+            <summary>
+            Step in path identified by vision
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mVisionStepmax">
+            <summary>
+            The max step vision till now
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mStepsAfterTurning">
+            <summary>
+            How many times the robot has been turning
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mConfidence">
+            <summary>
+            The confidence of orientation
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mLastPosition">
+            <summary>
+            Position of the last learned landmark
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mVerificationCountdown">
+            <summary>
+            Vision verification of landmark transition countdown
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mOdometryNeedVerify">
+            <summary>
+            If odometry determined landmark transition needs verified
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.TopoNavigationSubStrategy.mTotalSteps">
+            <summary>
+            Total navigation steps
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.Initialize">
+            <summary>
+            Initialize variables used in navigation
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.Loop">
+            <summary>
+            Check obstalce using infrared sensors each frame
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.SaveRecord">
+            <summary>
+            Save diagnostic data
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.GetOrientationToLandmark">
+            <summary>
+            Take camera image to determine orientation on path (the angle to turn)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.NavigateAsync(BlueQuark.Room)">
+            <summary>
+            Navigation function
+            </summary>
+            <param name="iRoom">The destination room</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.AdvanceStep">
+            <summary>
+            Navigation function to turn and advance a step
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.FindLandmarkAsync">
+            <summary>
+            Localization by first finding the room then the landmark
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.FindInitialPositonAndPath(BlueQuark.Room)">
+            <summary>
+            Coroutine to find the room, the landmark and finds a path to goal
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.DetermineAngle(System.Single)">
+            <summary>
+            Determine angle only from IR detections
+            </summary>
+            <param name="iAngle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.RunNavigation(BlueQuark.Room)">
+            <summary>
+            Navigation function called by #Unity#
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.StopAllMovements">
+            <summary>
+            Stop all movements
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.StartMv">
+            <summary>
+            Test a movement command
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.TestOneMeter">
+            <summary>
+            Test movement command
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.Watcher(UnityEngine.Vector3,System.Single)">
+            <summary>
+            Monitor the termination of AdvanceIntelligent()
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.AdvanceIntelligent(System.Single,System.Single)">
+            <summary>
+            Advance to goal with obstacle avoidance
+            Adjust direction by re-calculating command after detours
+            </summary>
+            <param name="iSpeed">Speed</param>
+            <param name="iDist">Distance to be traveled</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.AlignBetweenWalls(BlueQuark.Internal.IRDetection)">
+            <summary>
+            Align to center of the corridor
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.AdvanceWithObstacleDetection(System.Single,System.Single,System.Boolean)">
+            <summary>
+            Advance a certain distance with obstacle detection 
+            </summary>
+            <param name="iDist">Distance in m</param>
+            <param name="iSpeed">Speed in m/s</param>
+            <param name="iDetour">When encoutnered obstalce, advance or stop</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.UpdatePathProgress(System.Int32,System.Int32)">
+            <summary>
+            Update progress in the path (which landmarks to search)
+            SetActive iStep et iStep + 1
+            When starting, iStep = 0
+            </summary>
+            <param name="iPath"></param>
+            <param name="iStep"></param>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.GetLandmarkAtStep(System.Int32,System.Int32)">
+            <summary>
+            Get the landmark corresponding to iStep in iPath   
+            </summary>
+            <param name="iPath"></param>
+            <param name="iStep"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.FindLandmarkInPath(System.Int32,System.Int32)">
+            <summary>
+            Find at which step is the landmark in a path
+            If not found, return 0
+            </summary>
+            <param name="iPath"></param>
+            <param name="iLandmark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.GetOrientation(OpenCVUnity.Mat,System.Int32,System.Int32,System.Single,System.Int32@,System.Int32@)">
+            <summary>
+            Get orientation by comparing the current image with images learned
+            In the model.
+            </summary>
+            <param name="iRGBFrame">Image</param>
+            <param name="iPath">In which path</param>
+            <param name="iStep">At which step in path</param>
+            <param name="iOdo">Odometry info</param>
+            <param name="oConfidence">The confidence in the orientation result</param>
+            <param name="oVisualStep">(for testing purpose) vision-identified step</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.FindPathToRoom(System.Int32,BlueQuark.Room)">
+            <summary>
+            Find a path leading to the room in the topological map.
+            Dijkstra's algorithm is used to find the shortest-length path.
+            The path index is returned.
+            </summary>
+            <param name="iStart">Index of start landmark</param>
+            <param name="iRoom">Destination room</param>
+            <returns>Path index</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.FindRoomThenLandmark(OpenCVUnity.Mat,BlueQuark.Room@,System.Int32)">
+            <summary>
+            Using vision find first the room then the nearest landmark in room
+            The robot will turn on itself to take [iNumImages] photos
+            Once finished, oRoom is assigned the room result.
+            </summary>
+            <param name="iRGBFrame"></param>
+            <param name="oRoom"></param>
+            <param name="iNumImages"></param>
+            <returns>Landmark index</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.FinishedPath(System.Int32,System.Int32)">
+            <summary>
+            Return if a step of the path has finished during navigation.
+            </summary>
+            <param name="iPath">Path index</param>
+            <param name="iStep">Step</param>
+            <returns>If path has finished</returns>
+        </member>
+        <member name="T:BlueQuark.Internal.IRDetection">
+            <summary>
+            Distance data given by infrared sensors
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.Wall">
+            <summary>
+            Detection results of walls
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.ObstacleAvoidance.IRDetectWall">
+            <summary>
+            Wall detection using infrared sensors
+            Front, left, right or clear
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:BlueQuark.Internal.TopologicalMappingNativeLibrary">
             <summary>
@@ -514,121 +819,6 @@
             Save data
             </summary>
             <param name="iPath">Path to be saved</param>
-        </member>
-        <member name="T:BlueQuark.Internal.CalendarEventType">
-            <summary>
-            Type of diary event.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.CalendarEventType.PARTY">
-            <summary>
-            Party
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.CalendarEventType.APPOINTMENT">
-            <summary>
-            Appointment
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.CalendarEventType.HOLIDAYS">
-            <summary>
-            holidays
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.CalendarEventType.HOBBY">
-            <summary>
-            hobby
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.CalendarEventType.BIRTHDAY">
-            <summary>
-            An error occured
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.DiaryEventType">
-            <summary>
-            Type of diary event.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.DiaryEventType.INFORM">
-            <summary>
-            Robots needs to inform
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.DiaryEventType.MISSED_CALL">
-            <summary>
-            Missed Call
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.DiaryEventType.MEDIA_RECIEVED">
-            <summary>
-            An external media was recived
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.DiaryEventType.SYSTEM_ERROR">
-            <summary>
-            An error occured
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.ReminderState">
-            <summary>
-            Status of the reminder.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.ReminderState.NEW">
-            <summary>
-            Reminder newly added.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.ReminderState.ACTIVE">
-            <summary>
-            Reminder newly added.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.ReminderState.DELIVERED">
-            <summary>
-            Reminder was delivered to someone.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.ReminderState.VALIDATED">
-            <summary>
-            The reminder's notification was validated.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.RepetitionTime">
-            <summary>
-            Type of diary event.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.RepetitionTime.ONCE">
-            <summary>
-            event happens only once
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.RepetitionTime.DAYLY">
-            <summary>
-            dayly
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.RepetitionTime.WEEKLY">
-            <summary>
-            Weekly
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.RepetitionTime.EVERY_TWO_WEEKS">
-            <summary>
-            Every two weeks
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.RepetitionTime.MONTHLY">
-            <summary>
-            repetition every month
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.RepetitionTime.ANNUAL">
-            <summary>
-            every year
-            </summary>
         </member>
         <member name="T:BlueQuark.Internal.MapperULink">
             <summary>
@@ -2109,7 +2299,7 @@
         </member>
         <member name="T:BlueQuark.Internal.Main">
             <summary>
-            Entry point of the BlueQuark operating system. Initialization order : Looper > EventBus > Injector > Main
+            Entry point of the BlueQuark operating system. Initialization order : Looper > EventBus > Injector > Main 
             </summary>
             <seealso cref="T:BlueQuark.Internal.Injector"/>
             <seealso cref="T:BlueQuark.Internal.Looper"/>
@@ -2677,6 +2867,16 @@
             Index of the currently selected item.
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.ELabeledDropdown.SelectedOptionIdx">
+            <summary>
+            Index of the currently selected item.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.ELabeledDropdown.SelectedOptionInfo">
+            <summary>
+            Info of the currently selected item.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.ELabeledDropdown.SetLabel(System.String)">
             <summary>
             Set the left label.
@@ -2695,6 +2895,11 @@
             Add a new item to the dropdown.
             </summary>
             <param name="iInfo">The info to add</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ELabeledDropdown.Clear">
+            <summary>
+            Close and remove all options.
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.EDropdownOption">
             <summary>
@@ -2846,7 +3051,17 @@
         </member>
         <member name="P:BlueQuark.Internal.EDropdown.SelectedOption">
             <summary>
+            Label of the currently selected item.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.EDropdown.SelectedOptionIdx">
+            <summary>
             Index of the currently selected item.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.EDropdown.SelectedOptionInfo">
+            <summary>
+            Info of the currently selected item.
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.EDropdown.Add(System.String,System.Object)">
@@ -2861,6 +3076,11 @@
             Add a new item to the dropdown.
             </summary>
             <param name="iInfo">The info to add</param>
+        </member>
+        <member name="M:BlueQuark.Internal.EDropdown.Clear">
+            <summary>
+            Close and remove all options.
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.EPasswordField">
             <summary>
@@ -4001,6 +4221,27 @@
             Default Tolerance allowed during control. Value in degrees.
             </summary>
         </member>
+        <member name="M:BlueQuark.NoHeadHinge.SetPosition(System.Single)">
+            <summary>
+            Requests to move the hinge at the wished angle position.
+            </summary>
+            <param name="iAngle">Position to target. Value in degrees</param>
+        </member>
+        <member name="M:BlueQuark.NoHeadHinge.SetPosition(System.Single,System.Single)">
+            <summary>
+            Requests to move the hinge at the wished angle position.
+            </summary>
+            <param name="iAngle">Position to target. Value in degrees</param>
+            <param name="iAngularVelocity">Speed to target. Value in degrees per second</param>
+        </member>
+        <member name="M:BlueQuark.NoHeadHinge.SetPosition(System.Single,System.Single,BlueQuark.AccDecMode)">
+            <summary>
+            Requests to move the hinge at the wished angle position.
+            </summary>
+            <param name="iAngle">Position to target. Value in degrees</param>
+            <param name="iAngularVelocity">Speed to target. Value in degrees per second</param>
+            <param name="iAccDecMode">Acceleration mode</param>
+        </member>
         <member name="M:BlueQuark.NoHeadHinge.SetPosition(System.Single,System.Single,BlueQuark.AccDecMode,System.Single)">
             <summary>
             Requests to move the hinge at the wished angle position.
@@ -4053,6 +4294,27 @@
             <summary>
             Default Tolerance allowed during control. Value in degrees.
             </summary>
+        </member>
+        <member name="M:BlueQuark.YesHeadHinge.SetPosition(System.Single)">
+            <summary>
+            Requests to move the hinge at the wished angle position.
+            </summary>
+            <param name="iAngle">Position to target. Value in degrees</param>
+        </member>
+        <member name="M:BlueQuark.YesHeadHinge.SetPosition(System.Single,System.Single)">
+            <summary>
+            Requests to move the hinge at the wished angle position.
+            </summary>
+            <param name="iAngle">Position to target. Value in degrees</param>
+            <param name="iAngularVelocity">Speed to target. Value in degrees per second</param>
+        </member>
+        <member name="M:BlueQuark.YesHeadHinge.SetPosition(System.Single,System.Single,BlueQuark.AccDecMode)">
+            <summary>
+            Requests to move the hinge at the wished angle position.
+            </summary>
+            <param name="iAngle">Position to target. Value in degrees</param>
+            <param name="iAngularVelocity">Speed to target. Value in degrees per second</param>
+            <param name="iAccDecMode">Acceleration mode</param>
         </member>
         <member name="M:BlueQuark.YesHeadHinge.SetPosition(System.Single,System.Single,BlueQuark.AccDecMode,System.Single)">
             <summary>
@@ -5827,6 +6089,81 @@
             </summary>
             <returns>Index of the dot to select</returns>
         </member>
+        <member name="T:BlueQuark.MovingParts">
+            <summary>
+            Robot's mobility options during tracking
+            </summary>
+        </member>
+        <member name="F:BlueQuark.MovingParts.EYES">
+            <summary>
+            Eyes only
+            </summary>
+        </member>
+        <member name="F:BlueQuark.MovingParts.EYES_HEAD">
+            <summary>
+            Eyes and head
+            </summary>
+        </member>
+        <member name="F:BlueQuark.MovingParts.EYES_WHEELS">
+            <summary> 
+            Only eyes and wheels
+            </summary>
+        </member>
+        <member name="F:BlueQuark.MovingParts.EYES_HEAD_WHEELS_STATIC">
+            <summary>
+            Eyes, head, wheels turning on place
+            </summary>
+        </member>
+        <member name="T:BlueQuark.SensorMode">
+            <summary>
+            Sensors to be used for tracking
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SensorMode.THERMAL">
+            <summary>
+            Thermal sensor only
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SensorMode.VISION">
+            <summary>
+            RGB camera with human detect
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SensorMode.SKELETON">
+            <summary>
+            Using depth-based skeleton detection by Orbbec 
+            </summary>
+        </member>
+        <member name="T:BlueQuark.AttentionState">
+            <summary>
+            States for two(multi)-human situation
+            </summary>
+        </member>
+        <member name="F:BlueQuark.AttentionState.IDLE">
+            <summary>
+            No human present
+            </summary>
+        </member>
+        <member name="F:BlueQuark.AttentionState.TRACKING">
+            <summary>
+            Tracking one human
+            </summary>
+        </member>
+        <member name="F:BlueQuark.AttentionState.GLANCING">
+            <summary>
+            When another human entered while tracking, glance breifly
+            </summary>
+        </member>
+        <member name="F:BlueQuark.AttentionState.ALTERNATING">
+            <summary>
+            Alternating between two humans
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Attention">
+            <summary>
+            Areas of attention to look at based on perception.
+            </summary>
+        </member>
         <member name="T:BlueQuark.LocationStrategy">
             <summary>
             General GoTo navigation strategies.
@@ -5882,296 +6219,10 @@
             </summary>
             <param name="iRoom">Room as objective</param>
         </member>
-        <member name="T:BlueQuark.TopoNavigationSubStrategy">
-            <summary>
-            Class that commands the navigation movement of the robot.
-            Main functions:
-            1. Localization
-            2. Find Orientation during navigation
-            3. Advance with obstacle detection / obstacle avoidance
-            4. Navigation controller
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mCurrentLandmark">
-            <summary>
-            Current landmark identified by odometry
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mCurrentStep">
-            <summary>
-            Current step in path identified by odometry
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mCurrentDist">
-            <summary>
-            Distance advanced in current step
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mIdxPath">
-            <summary>
-            Current path
-            </summary>
-        </member>
-        <member name="P:BlueQuark.TopoNavigationSubStrategy.CurrentRoom">
-            <summary>
-            Current room after identification
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mCurrentRoom">
-            <summary>
-            Property cannot be used as out parameter!
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mGoalRoom">
-            <summary>
-            Goal room
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mVisionStep">
-            <summary>
-            Step in path identified by vision
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mVisionStepmax">
-            <summary>
-            The max step vision till now
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mStepsAfterTurning">
-            <summary>
-            How many times the robot has been turning
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mConfidence">
-            <summary>
-            The confidence of orientation
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mLastPosition">
-            <summary>
-            Position of the last learned landmark
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mVerificationCountdown">
-            <summary>
-            Vision verification of landmark transition countdown
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mOdometryNeedVerify">
-            <summary>
-            If odometry determined landmark transition needs verified
-            </summary>
-        </member>
-        <member name="F:BlueQuark.TopoNavigationSubStrategy.mTotalSteps">
-            <summary>
-            Total navigation steps
-            </summary>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.Initialize">
-            <summary>
-            Initialize variables used in navigation
-            </summary>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.Loop">
-            <summary>
-            Check obstalce using infrared sensors each frame
-            </summary>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.SaveRecord">
-            <summary>
-            Save diagnostic data
-            </summary>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.GetOrientationToLandmark">
-            <summary>
-            Take camera image to determine orientation on path (the angle to turn)
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.NavigateAsync(BlueQuark.Room)">
-            <summary>
-            Navigation function
-            </summary>
-            <param name="iRoom">The destination room</param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.AdvanceStep">
-            <summary>
-            Navigation function to turn and advance a step
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.FindLandmarkAsync">
-            <summary>
-            Localization by first finding the room then the landmark
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.FindInitialPositonAndPath(BlueQuark.Room)">
-            <summary>
-            Coroutine to find the room, the landmark and finds a path to goal
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.DetermineAngle(System.Single)">
-            <summary>
-            Determine angle only from IR detections
-            </summary>
-            <param name="iAngle"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.RunNavigation(BlueQuark.Room)">
-            <summary>
-            Navigation function called by #Unity#
-            </summary>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.StopAllMovements">
-            <summary>
-            Stop all movements
-            </summary>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.StartMv">
-            <summary>
-            Test a movement command
-            </summary>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.TestOneMeter">
-            <summary>
-            Test movement command
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.Watcher(UnityEngine.Vector3,System.Single)">
-            <summary>
-            Monitor the termination of AdvanceIntelligent()
-            </summary>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.AdvanceIntelligent(System.Single,System.Single)">
-            <summary>
-            Advance to goal with obstacle avoidance
-            Adjust direction by re-calculating command after detours
-            </summary>
-            <param name="iSpeed">Speed</param>
-            <param name="iDist">Distance to be traveled</param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.AlignBetweenWalls(BlueQuark.IRDetection)">
-            <summary>
-            Align to center of the corridor
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.AdvanceWithObstacleDetection(System.Single,System.Single,System.Boolean)">
-            <summary>
-            Advance a certain distance with obstacle detection 
-            </summary>
-            <param name="iDist">Distance in m</param>
-            <param name="iSpeed">Speed in m/s</param>
-            <param name="iDetour">When encoutnered obstalce, advance or stop</param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.UpdatePathProgress(System.Int32,System.Int32)">
-            <summary>
-            Update progress in the path (which landmarks to search)
-            SetActive iStep et iStep + 1
-            When starting, iStep = 0
-            </summary>
-            <param name="iPath"></param>
-            <param name="iStep"></param>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.GetLandmarkAtStep(System.Int32,System.Int32)">
-            <summary>
-            Get the landmark corresponding to iStep in iPath   
-            </summary>
-            <param name="iPath"></param>
-            <param name="iStep"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.FindLandmarkInPath(System.Int32,System.Int32)">
-            <summary>
-            Find at which step is the landmark in a path
-            If not found, return 0
-            </summary>
-            <param name="iPath"></param>
-            <param name="iLandmark"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.GetOrientation(OpenCVUnity.Mat,System.Int32,System.Int32,System.Single,System.Int32@,System.Int32@)">
-            <summary>
-            Get orientation by comparing the current image with images learned
-            In the model.
-            </summary>
-            <param name="iRGBFrame">Image</param>
-            <param name="iPath">In which path</param>
-            <param name="iStep">At which step in path</param>
-            <param name="iOdo">Odometry info</param>
-            <param name="oConfidence">The confidence in the orientation result</param>
-            <param name="oVisualStep">(for testing purpose) vision-identified step</param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.FindPathToRoom(System.Int32,BlueQuark.Room)">
-            <summary>
-            Find a path leading to the room in the topological map.
-            Dijkstra's algorithm is used to find the shortest-length path.
-            The path index is returned.
-            </summary>
-            <param name="iStart">Index of start landmark</param>
-            <param name="iRoom">Destination room</param>
-            <returns>Path index</returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.FindRoomThenLandmark(OpenCVUnity.Mat,BlueQuark.Room@,System.Int32)">
-            <summary>
-            Using vision find first the room then the nearest landmark in room
-            The robot will turn on itself to take [iNumImages] photos
-            Once finished, oRoom is assigned the room result.
-            </summary>
-            <param name="iRGBFrame"></param>
-            <param name="oRoom"></param>
-            <param name="iNumImages"></param>
-            <returns>Landmark index</returns>
-        </member>
-        <member name="M:BlueQuark.TopoNavigationSubStrategy.FinishedPath(System.Int32,System.Int32)">
-            <summary>
-            Return if a step of the path has finished during navigation.
-            </summary>
-            <param name="iPath">Path index</param>
-            <param name="iStep">Step</param>
-            <returns>If path has finished</returns>
-        </member>
-        <member name="T:BlueQuark.IRDetection">
-            <summary>
-            Distance data given by infrared sensors
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Wall">
-            <summary>
-            Detection results of walls
-            </summary>
-        </member>
-        <member name="P:BlueQuark.ObstacleAvoidance.Detection">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:BlueQuark.ObstacleAvoidance.IRDetectWall">
-            <summary>
-            Wall detection using infrared sensors
-            Front, left, right or clear
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:BlueQuark.PathStrategy">
             <summary>
             Navigation strategy for path planning and tracking
             </summary>
-        </member>
-        <member name="M:BlueQuark.PathStrategy.FollowPath(System.Collections.Generic.List{UnityEngine.Vector3})">
-            <summary>
-            Follow a general path given by absolute coordinates by pure pursuit
-            </summary>
-            <param name="iPose"></param>
-            <param name="iPath"></param>
-            <returns></returns>
         </member>
         <member name="M:BlueQuark.PathStrategy.GenerateBezierPath(UnityEngine.Vector2,UnityEngine.Vector3,System.Single,System.Func{System.Single,System.Single}@,System.Func{System.Single,System.Single}@,System.Single@)">
             <summary>
@@ -6180,15 +6231,6 @@
             <param name="iAbsolueGoal">Coordinates of the goal</param>
             <param name="iCurrentPose">Current position and orientation</param>
             <param name="iSpeed">Current wheel speed (degrees per second)</param>
-        </member>
-        <member name="M:BlueQuark.PathStrategy.VelBezier(UnityEngine.Vector2,UnityEngine.Vector2,System.Single)">
-            <summary>
-            Velocity function of Bezier curve
-            </summary>
-            <param name="iStartToMid"></param>
-            <param name="iMidToEnd"></param>
-            <param name="iTimeScale"></param>
-            <returns></returns>
         </member>
         <member name="M:BlueQuark.PathStrategy.FollowBezierPathTo(UnityEngine.Vector2)">
             <summary>
@@ -6214,23 +6256,23 @@
             Human skeleton data structure.
             </summary>
         </member>
-        <member name="T:BlueQuark.TopoNav.Map">
+        <member name="T:BlueQuark.Map">
             <summary>
             Map data class used by Mapper
             </summary>
         </member>
-        <member name="P:BlueQuark.TopoNav.Map.LOCAL_FILE">
+        <member name="P:BlueQuark.Map.LOCAL_FILE">
             <summary>
             C# level map data
             </summary>
         </member>
-        <member name="M:BlueQuark.TopoNav.Map.#ctor(System.String)">
+        <member name="M:BlueQuark.Map.#ctor(System.String)">
             <summary>
             Create a path
             </summary>
             <param name="iPath">Path to the file</param>
         </member>
-        <member name="M:BlueQuark.TopoNav.Map.#ctor">
+        <member name="M:BlueQuark.Map.#ctor">
             <summary>
             Default ctor
             </summary>
@@ -6297,7 +6339,7 @@
             Return the list of rooms
             </summary>
         </member>
-        <member name="M:BlueQuark.Mapper.Init(BlueQuark.TopoNav.Map,System.Boolean)">
+        <member name="M:BlueQuark.Mapper.Init(BlueQuark.Map,System.Boolean)">
             <summary>
             Explicitly initialize Mapper
             </summary>
@@ -6465,6 +6507,42 @@
             Called when an skeleton is detected. Remove all callback to stops the algorithm.
             </summary>
         </member>
+        <member name="M:BlueQuark.CalendarManager.Add(BlueQuark.DiaryEventReminder)">
+            <summary>
+            Add an issued event to the current list
+            </summary>
+            <param name="iIssuedEvent"></param>
+        </member>
+        <member name="M:BlueQuark.CalendarManager.Add(BlueQuark.PlannedEventReminder)">
+            <summary>
+            Add a planned event to the current list
+            </summary>
+            <param name="iPlannedEvent"></param>
+        </member>
+        <member name="M:BlueQuark.CalendarManager.Add(BlueQuark.PlannedAlarmReminder)">
+            <summary>
+            Add a planned alarm to the list
+            </summary>
+            <param name="iPlannedAlarm"></param>
+        </member>
+        <member name="M:BlueQuark.CalendarManager.Remove(BlueQuark.DiaryEventReminder)">
+            <summary>
+            Remove a given diary event from the active list
+            </summary>
+            <param name="iIssuedEvent"></param>
+        </member>
+        <member name="M:BlueQuark.CalendarManager.Remove(BlueQuark.PlannedEventReminder)">
+            <summary>
+            Remove a Planned event from the active list
+            </summary>
+            <param name="iPlannedEvent"></param>
+        </member>
+        <member name="M:BlueQuark.CalendarManager.Remove(BlueQuark.PlannedAlarmReminder)">
+            <summary>
+            Remove a planned alarm from the active list
+            </summary>
+            <param name="iPlannedAlarm"></param>
+        </member>
         <member name="P:BlueQuark.CalendarManager.PlannedAlarms">
             <summary>
             List of all alarms of the system
@@ -6480,41 +6558,120 @@
             List of all active diary events
             </summary>
         </member>
-        <member name="M:BlueQuark.CalendarManager.Add(BlueQuark.Internal.DiaryEventReminder)">
+        <member name="T:BlueQuark.CalendarEventType">
             <summary>
-            Add an issued event to the current list
+            Type of diary event.
             </summary>
-            <param name="iIssuedEvent"></param>
         </member>
-        <member name="M:BlueQuark.CalendarManager.Add(BlueQuark.Internal.PlannedEventReminder)">
+        <member name="F:BlueQuark.CalendarEventType.PARTY">
             <summary>
-            Add a planned event to the current list
+            Party
             </summary>
-            <param name="iPlannedEvent"></param>
         </member>
-        <member name="M:BlueQuark.CalendarManager.Add(BlueQuark.Internal.PlannedAlarmReminder)">
+        <member name="F:BlueQuark.CalendarEventType.APPOINTMENT">
             <summary>
-            Add a planned alarm to the list
+            Appointment
             </summary>
-            <param name="iPlannedAlarm"></param>
         </member>
-        <member name="M:BlueQuark.CalendarManager.Remove(BlueQuark.Internal.DiaryEventReminder)">
+        <member name="F:BlueQuark.CalendarEventType.HOLIDAYS">
             <summary>
-            Remove a given diary event from the active list
+            holidays
             </summary>
-            <param name="iIssuedEvent"></param>
         </member>
-        <member name="M:BlueQuark.CalendarManager.Remove(BlueQuark.Internal.PlannedEventReminder)">
+        <member name="F:BlueQuark.CalendarEventType.HOBBY">
             <summary>
-            Remove a Planned event from the active list
+            hobby
             </summary>
-            <param name="iPlannedEvent"></param>
         </member>
-        <member name="M:BlueQuark.CalendarManager.Remove(BlueQuark.Internal.PlannedAlarmReminder)">
+        <member name="F:BlueQuark.CalendarEventType.BIRTHDAY">
             <summary>
-            Remove a planned alarm from the active list
+            An error occured
             </summary>
-            <param name="iPlannedAlarm"></param>
+        </member>
+        <member name="T:BlueQuark.DiaryEventType">
+            <summary>
+            Type of diary event.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.DiaryEventType.INFORM">
+            <summary>
+            Robots needs to inform
+            </summary>
+        </member>
+        <member name="F:BlueQuark.DiaryEventType.MISSED_CALL">
+            <summary>
+            Missed Call
+            </summary>
+        </member>
+        <member name="F:BlueQuark.DiaryEventType.MEDIA_RECIEVED">
+            <summary>
+            An external media was recived
+            </summary>
+        </member>
+        <member name="F:BlueQuark.DiaryEventType.SYSTEM_ERROR">
+            <summary>
+            An error occured
+            </summary>
+        </member>
+        <member name="T:BlueQuark.ReminderState">
+            <summary>
+            Status of the reminder.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderState.NEW">
+            <summary>
+            Reminder newly added.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderState.ACTIVE">
+            <summary>
+            Reminder newly added.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderState.DELIVERED">
+            <summary>
+            Reminder was delivered to someone.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ReminderState.VALIDATED">
+            <summary>
+            The reminder's notification was validated.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.RepetitionTime">
+            <summary>
+            Type of diary event.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RepetitionTime.ONCE">
+            <summary>
+            event happens only once
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RepetitionTime.DAYLY">
+            <summary>
+            dayly
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RepetitionTime.WEEKLY">
+            <summary>
+            Weekly
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RepetitionTime.EVERY_TWO_WEEKS">
+            <summary>
+            Every two weeks
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RepetitionTime.MONTHLY">
+            <summary>
+            repetition every month
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RepetitionTime.ANNUAL">
+            <summary>
+            every year
+            </summary>
         </member>
         <member name="T:BlueQuark.SerializableDictionary`2">
             <summary>
@@ -7256,6 +7413,15 @@
             </summary>
             <typeparam name="T">Type of the toast</typeparam>
             <param name="iSlide">The slide to remove</param>
+            <param name="iGoNextIfCurrent">If the removed slide was the current slide, set iGoNextIfCurrent to true to go to the next slide, false for the previous one</param>
+            <returns>True if the remove was successful, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.SlideSet.RemoveSlide(System.Int32,System.Boolean)">
+            <summary>
+            Remove a sliding toast from the curent slide set.
+            </summary>
+            <typeparam name="T">Type of the toast</typeparam>
+            <param name="iIdx">Index of the slide to remove</param>
             <param name="iGoNextIfCurrent">If the removed slide was the current slide, set iGoNextIfCurrent to true to go to the next slide, false for the previous one</param>
             <returns>True if the remove was successful, false otherwise</returns>
         </member>
@@ -8274,7 +8440,7 @@
             <returns>Found path index</returns>
         </member>
         <!-- Badly formed XML comment ignored for member "M:BlueQuark.RoomDetector.FacingWall(OpenCVUnity.Mat)" -->
-        <member name="M:BlueQuark.RoomDetector.JITInitialize(BlueQuark.TopoNav.Map,System.Boolean)">
+        <member name="M:BlueQuark.RoomDetector.JITInitialize(BlueQuark.Map,System.Boolean)">
             <summary>
             Initialize model by deserialization two config files
             </summary>
@@ -8295,7 +8461,7 @@
             <param name="oFinished"></param> 
             <returns></returns>
         </member>
-        <member name="M:BlueQuark.RoomDetector.SetMap(BlueQuark.TopoNav.Map)">
+        <member name="M:BlueQuark.RoomDetector.SetMap(BlueQuark.Map)">
             <summary>
             Set a specific map to use for mapper
             Else the default map shall be used
@@ -8683,9 +8849,19 @@
             Content of the photograph.
             </summary>
         </member>
+        <member name="P:BlueQuark.Photograph.Location">
+            <summary>
+            Path to the parent directory.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Photograph.Name">
             <summary>
             Name of the photo.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Photograph.Extension">
+            <summary>
+            Extension of the file.
             </summary>
         </member>
         <member name="M:BlueQuark.Photograph.Update(UnityEngine.Sprite)">
@@ -9724,62 +9900,11 @@
             </summary>
             <param name="iCondition">The while condition. Cannot be null</param>
         </member>
-        <member name="T:BlueQuark.MovingParts">
-            <summary>
-            Robot's mobility options during tracking
-            </summary>
-        </member>
-        <member name="F:BlueQuark.MovingParts.EYES">
-            <summary>
-            Eyes only
-            </summary>
-        </member>
-        <member name="F:BlueQuark.MovingParts.EYES_HEAD">
-            <summary>
-            Eyes and head
-            </summary>
-        </member>
-        <member name="F:BlueQuark.MovingParts.EYES_HEAD_WHEELS_STATIC">
-            <summary>
-            Eyes, head, wheels turning on place
-            </summary>
-        </member>
-        <member name="F:BlueQuark.MovingParts.EYES_WHEELS">
-            <summary> 
-            Only eyes and wheels
-            </summary>
-        </member>
-        <member name="T:BlueQuark.SensorMode">
-            <summary>
-            Sensors to be used for tracking
-            </summary>
-        </member>
-        <member name="F:BlueQuark.SensorMode.THERMAL">
-            Use only thermal sensor
-        </member>
-        <member name="F:BlueQuark.SensorMode.VISION">
-            <summary>
-            Camera
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Velocity">
-            <summary>
-            Linear and angular velocities of the robot
-            Can be used with Wheels.SetVelocities
-            </summary>
-        </member>
         <member name="T:BlueQuark.HumanTrackStrategy">
             <summary>
             Following strategy to track and follow a targeted human.
+            Can be static (on place) or dynamic (follow user).
             </summary>
-        </member>
-        <member name="M:BlueQuark.HumanTrackStrategy.HumanDisplacement(BlueQuark.HumanEntity,BlueQuark.HumanEntity)">
-            <summary>
-            Evaluate the distance between two human entities
-            </summary>
-            <param name="iFirstHuman"></param>
-            <param name="iSecondHuman"></param>
-            <returns></returns>
         </member>
         <member name="M:BlueQuark.HumanTrackStrategy.StaticControler(UnityEngine.Vector2,BlueQuark.MovingParts)">
             <summary>
@@ -9797,12 +9922,13 @@
         </member>
         <member name="M:BlueQuark.HumanTrackStrategy.StaticTracking(BlueQuark.MovingParts,BlueQuark.SensorMode,System.Int32)">
             <summary>
-            Starts a static human tracking with different options for moving parts.
+            Starts a static human tracking with different options for moving parts. 
             </summary>
-            <param name="iMovingParts"></param>
-            <param name="iSensorMode"></param>
+            <param name="iMovingParts">Which parts of the robot will move</param>
+            <param name="iSensorMode">Using thermal, vision(RGB) or depth camera</param>
+            <param name="iFrameNum">Parameter for SensorMode.VISION. Do one detection every iFrameNum frames</param>
         </member>
-        <member name="M:BlueQuark.HumanTrackStrategy.DynamicTracking">
+        <member name="M:BlueQuark.HumanTrackStrategy.DynamicTracking(BlueQuark.SensorMode)">
             <summary>
             Start a dynamic human tracking. The robot will follow the user.
             </summary>
@@ -10197,6 +10323,14 @@
             Gets current camera frame and feeds it into current active model.
             </summary>
             <param name="iFrame">Frame that's going to be analyzed as an OpenCV Mat</param>
+        </member>
+        <member name="M:BlueQuark.ThermalDetector.HumanPresent(System.Single)">
+            <summary>
+            Tell if human present by comparing average temperatures over regions 
+            </summary>
+            <param name="iThresholdDiff">When difference of average temperature
+            of hottest and coldest regions is greater than this value, return true</param>
+            <returns>Yes if human present</returns>
         </member>
         <member name="T:BlueQuark.HumanEntity">
             <summary>
@@ -12195,6 +12329,12 @@
             </summary>
             <param name="iText">The text to display</param>
         </member>
+        <member name="M:BlueQuark.TTextBox.SetText(System.String)">
+            <summary>
+            Sets the default input text.
+            </summary>
+            <param name="iText">The text to display</param>
+        </member>
         <member name="T:BlueQuark.TTextField">
             <summary>
             Represents a text field to add inside a capsule layout.
@@ -12221,6 +12361,12 @@
             Sets text field image.
             </summary>
             <param name="iSprite">The sprite to display. Null to hide</param>
+        </member>
+        <member name="M:BlueQuark.TTextField.SetText(System.String)">
+            <summary>
+            Sets the default input text.
+            </summary>
+            <param name="iText">The text to display</param>
         </member>
         <member name="T:BlueQuark.TText">
             <summary>
@@ -13753,6 +13899,11 @@
             The speech input recognition mode.
             </summary>
         </member>
+        <member name="T:BlueQuark.SpeechGrammar">
+            <summary>
+            Speech grammar for speech to text recognition request 
+            </summary>
+        </member>
         <member name="T:BlueQuark.SpeechOutputParameters">
             <summary>
             Parameters for a text to speech process.
@@ -13865,6 +14016,11 @@
             Possibly the speaker started speaking too soon,
             but because this detection is only energy based,
             other noise events at the start of the utterance may also trigger this condition.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SpeechRecognitionEvent.ERROR_ON_START">
+            <summary>
+            Error on start.
             </summary>
         </member>
         <member name="T:BlueQuark.SpeechRecognitionMode">
@@ -14883,6 +15039,53 @@
             
             </summary>
         </member>
+        <member name="P:BlueQuark.EMailCrawler.IsBusy">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BlueQuark.EMailCrawler.Fetch(System.String,System.String,System.String,BlueQuark.EMailCrawlerMask,System.Action{BlueQuark.EMail[]})">
+            <summary>
+            
+            </summary>
+            <param name="iFromAddress"></param>
+            <param name="iFromPassword"></param>
+            <param name="iSMTP"></param>
+            <param name="iMask"></param>
+            <param name="iOnEndFetch"></param>
+        </member>
+        <member name="M:BlueQuark.EMailCrawler.Fetch(System.String,System.String,System.String,System.Action{BlueQuark.EMail[]})">
+            <summary>
+            
+            </summary>
+            <param name="iFromAddress"></param>
+            <param name="iFromPassword"></param>
+            <param name="iSMTP"></param>
+            <param name="iOnEndFetch"></param>
+        </member>
+        <member name="P:BlueQuark.EMailAttachement.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BlueQuark.EMailAttachement.Size">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BlueQuark.EMailAttachement.Content">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BlueQuark.EMailAttachement.#ctor(System.String,System.Int32,System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="iName"></param>
+            <param name="iSize"></param>
+            <param name="iContent"></param>
+        </member>
         <member name="T:BlueQuark.EMailFetchParameters">
             <summary>
             
@@ -14907,6 +15110,26 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="M:BlueQuark.EMailFetchParameters.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BlueQuark.EMailFetchParameters.#ctor(BlueQuark.EMailCrawlerMask)">
+            <summary>
+            
+            </summary>
+            <param name="iMask"></param>
+        </member>
+        <member name="M:BlueQuark.EMailFetchParameters.#ctor(System.String,System.String,System.String,BlueQuark.EMailCrawlerMask)">
+            <summary>
+            
+            </summary>
+            <param name="iAddress"></param>
+            <param name="iPassword"></param>
+            <param name="iSMTP"></param>
+            <param name="iMask"></param>
         </member>
         <member name="F:BlueQuark.EMailCrawlerMask.NO_FILTER">
             <summary>
@@ -15290,12 +15513,17 @@
         </member>
         <member name="T:BlueQuark.WebServices">
             <summary>
-            Module that contains all web API (Email, Twitter, Facebook...)
+            Module that contains all web API (Email, Twitter, Facebook...).
             </summary>
         </member>
         <member name="P:BlueQuark.WebServices.EMailSender">
             <summary>
             Tool to send emails.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WebServices.EMailCrawler">
+            <summary>
+            Tool to fetch emails
             </summary>
         </member>
         <member name="P:BlueQuark.WebServices.Weather">
@@ -15348,6 +15576,11 @@
             List of adresses to send the mail
             </summary>
         </member>
+        <member name="P:BlueQuark.EMail.Attachment">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:BlueQuark.EMail.Subject">
             <summary>
             Subject of the mail
@@ -15355,7 +15588,7 @@
         </member>
         <member name="P:BlueQuark.EMail.Date">
             <summary>
-            * of the mail
+            Date of the mail
             </summary>
         </member>
         <member name="P:BlueQuark.EMail.Body">

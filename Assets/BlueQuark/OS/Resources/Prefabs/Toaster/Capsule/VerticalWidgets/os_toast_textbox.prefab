@@ -101,6 +101,7 @@ MonoBehaviour:
   m_PreferredHeight: 250
   m_FlexibleWidth: 1000
   m_FlexibleHeight: 1
+  m_LayoutPriority: 1
 --- !u!114 &114268549211468756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -152,6 +153,7 @@ MonoBehaviour:
   m_PreferredHeight: 250
   m_FlexibleWidth: 1000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114365721677984054
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -343,7 +345,8 @@ MonoBehaviour:
   m_Script: {fileID: 737618074, guid: ecf5bb8773c8fb94f9066bd24505e74f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plageholderText: {fileID: 114365721677984054}
+  placeholderText: {fileID: 114365721677984054}
+  inputField: {fileID: 114922424511734264}
 --- !u!222 &222284248936857492
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -416,7 +419,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 260, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224886455003730224
