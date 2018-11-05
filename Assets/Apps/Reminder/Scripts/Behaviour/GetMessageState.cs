@@ -24,7 +24,7 @@ namespace BuddyApp.Reminder
 
         /*
          *   This function wait for iFreeSpeechTimer seconds
-         *   and then stop vocal listenning.
+         *   and then stop vocal listenning
          */
         public IEnumerator FreeSpeechLifeTime(float iFreeSpeechTimer)
         {
@@ -40,6 +40,7 @@ namespace BuddyApp.Reminder
             // Setting of Header
             Buddy.GUI.Header.DisplayParametersButton(false);
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
+            lHeaderFont.material.color = new Color(0, 0, 0, 1F);
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
 
             // Call freespeech
@@ -123,12 +124,18 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
                 // Create Text box to store / modify the reminder msg
-                TTextBox lRecordMsg = iOnBuild.CreateWidget<TTextBox>();
+                // Wait for  bug fix
+                //TTextBox lRecordMsg = iOnBuild.CreateWidget<TTextBox>();
+                //if (string.IsNullOrEmpty(mRecordedMessage))
+                //    lRecordMsg.SetPlaceHolder(Buddy.Resources.GetString("enteryourmsg"));
+                //else
+                //    lRecordMsg.SetPlaceHolder(mRecordedMessage);
+                //lRecordMsg.OnEndEdit.Add((iText) => { mRecordedMessage = iText; });
+
                 if (string.IsNullOrEmpty(mRecordedMessage))
-                    lRecordMsg.SetPlaceHolder(Buddy.Resources.GetString("enteryourmsg"));
+                    iOnBuild.CreateWidget<TText>().SetLabel("NULL");
                 else
-                    lRecordMsg.SetPlaceHolder(mRecordedMessage);
-                lRecordMsg.OnEndEdit.Add((iText) => { mRecordedMessage = iText; });
+                    iOnBuild.CreateWidget<TText>().SetLabel("MSG: " + mRecordedMessage);
             },
             () =>
             {

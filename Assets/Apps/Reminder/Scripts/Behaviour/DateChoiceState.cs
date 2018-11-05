@@ -16,7 +16,7 @@ namespace BuddyApp.Reminder
             YEAR,
         }
 
-        private const int TRY_NUMBER = 2;
+        private const int TRY_NUMBER = 4;
         private const float TITLE_TIMER = 2.500F;
         private const int JANUARY = 1;
         private const int DECEMBER = 12;
@@ -64,6 +64,7 @@ namespace BuddyApp.Reminder
             // Header setting
             Buddy.GUI.Header.DisplayParametersButton(false);
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
+            lHeaderFont.material.color = new Color(0, 0, 0, 1F);
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
 
             // Callback & Grammar setting & First call to Vocon
@@ -247,6 +248,9 @@ namespace BuddyApp.Reminder
         private DateTime ExtractDateFromSpeech(string iSpeech)
         {
             string[] lWords = iSpeech.Split(' ');
+
+            if (ContainsOneOf(iSpeech, "cancel"))
+                QuitReminder();
             if (ContainsOneOf(iSpeech, "today") && lWords.Length == 1)
                 return DateTime.Today.Date;
             else if (ContainsOneOf(iSpeech, "tomorrow") && lWords.Length == 1)
@@ -304,7 +308,7 @@ namespace BuddyApp.Reminder
                 if (ContainsOneOf(iSpeech, "next"))
                     return GetNextDay(DateTime.Today, lSpeechWords);
             }
-            // If the first found number is a valid day number - and a month is specidied
+            // If the first number is a valid day number - and a month is specidied
             else if (lNumbers[0] >= 1 && lNumbers[0] <= 31 && ContainsOneOf(iSpeech, "allmonth"))
             {
                 // Find the choosen month - If an error occured, the date extraction is stopped.
