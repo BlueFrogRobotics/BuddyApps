@@ -15,11 +15,9 @@ namespace BuddyApp.HumanCounter
         /*
          * Data getters / setters
          */
+        public float HeadPosition { get; set; }
         public int ObservationTime { get; set; }
         public DetectionOption DetectionOption { get; set; }
-
-        //public bool humanDetectToggle { get; set; }
-
         
         /*
          * Data singleton access

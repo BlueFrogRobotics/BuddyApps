@@ -37,12 +37,14 @@ namespace BuddyApp.HumanCounter
             lHeaderFont.material.color = Color.white;
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont); 
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("timertitle"));
-             
-            //HumanCounterData.Instance.humanDetectToggle = false;
+
+            // Create the top left button to switch between count mode and video mode.
+            FButton lBackButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+            lBackButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
+            lBackButton.OnClick.Add(() => { Trigger("BackToHeadSettings"); });
+
             // Setup to 30 seconds by default.
             HumanCounterData.Instance.ObservationTime = DEFAULT_OBSERVATION_TIME;
-
-            //HeadYesSetPosition(45F);
 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
@@ -93,17 +95,6 @@ namespace BuddyApp.HumanCounter
                 {
                     DialogerDropDown();
                 });
-                // Create a toggle button to select face or human detect
-                //mToggleDetect = iOnBuild.CreateWidget<TToggle>();
-                //if (HumanCounterData.Instance.humanDetectToggle)
-                //    mToggleDetect.SetLabel(Buddy.Resources.GetString("toggledetect") + Buddy.Resources.GetString("human"));
-                //else
-                //    mToggleDetect.SetLabel(Buddy.Resources.GetString("toggledetect") + Buddy.Resources.GetString("face"));
-                //mToggleDetect.OnToggle.Add((iBool) =>
-                //{
-                //    HumanCounterData.Instance.humanDetectToggle = iBool;
-                //    UpdateToggleText();
-                //});
             },
             // Click left.
             () => { /* Back to next settings when available. */ },
@@ -166,7 +157,9 @@ namespace BuddyApp.HumanCounter
         {
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Footer.Hide();
         }
+
         private void UpdateOptionDetectText()
         {
 
