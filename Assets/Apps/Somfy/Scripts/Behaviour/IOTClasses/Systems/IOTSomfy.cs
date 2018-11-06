@@ -39,12 +39,15 @@ namespace BuddyApp.Somfy
         {
             string lUrl = SomfyData.Instance.URL_API + "/" + "login"/* + "?userId=" + Credentials[1] + "&userPassword=" + Credentials[2]*/;
             Hashtable user = new Hashtable();
-            //Credentials[1] = SomfyData.Instance.Login;//"innofair2";
-            //Credentials[2] = SomfyData.Instance.Password;//"2016fair2";
-            Credentials[1] = "innofair2";
-            Credentials[2] = "2016fair2";
+            Debug.Log("somfy machin");
+            Debug.Log("somfy login: "+ SomfyData.Instance.Login);
+            Credentials[1] = SomfyData.Instance.Login;//"innofair2";
+            Credentials[2] = SomfyData.Instance.Password;//"2016fair2";
+            //Credentials[1] = "innofair2";
+            //Credentials[2] = "2016fair2";
             user["userId"] = Credentials[1];
             user["userPassword"] = Credentials[2];
+
             /*Request lRequest = new Request("POST",lUrl, user);
             lRequest.Send((lResult) =>
             {
@@ -82,20 +85,21 @@ namespace BuddyApp.Somfy
             {
 
             }
-            //if (www.isError)
-            //{
-            //    Debug.Log(www.error);
-            //}
-            //else
-            //{
-            //    Debug.Log(www.downloadHandler.text);
-            //    mHeaders.Clear();
-            //    mHeaders["SET-COOKIE"] = www.GetResponseHeader("SET-COOKIE");
-            //    getSessionId();
-            //    GetDevices();
-            //}
+            if (www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log(www.downloadHandler.text);
+                mHeaders.Clear();
+                mHeaders["SET-COOKIE"] = www.GetResponseHeader("SET-COOKIE");
+                getSessionId();
+                GetDevices();
+            }
 
             Upload(Credentials[1], Credentials[2]);
+
 
         }
 
@@ -115,19 +119,19 @@ namespace BuddyApp.Somfy
             {
 
             }
-            //if (www.isError)
-            //{
-            //    Debug.Log(www.error);
-            //}
-            //else
-            //{
-            //    Debug.Log("Form upload complete!" + www.downloadHandler.text);
-            //}
+            if (www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!" + www.downloadHandler.text);
+            }
         }
 
         public override void GetDevices()
         {
-            string url = SomfyData.Instance.URL_API + "/setup/devices";
+            string url = SomfyData.Instance.URL_API + "/setup/devices";   
 
             Request lRequest = new Request("GET", url);
             lRequest.cookieJar = null;
@@ -140,9 +144,10 @@ namespace BuddyApp.Somfy
                     Debug.LogError("Somfy not connected");
                     return;
                 }
+                Debug.Log("avant response");
                 string response = "{\"devices\" :" + lResult.response.Text + "}";
                 //JSONNode lJsonNode = Buddy.JSON.Parse(response);
-
+                //Debug.Log("response: " + response);
                 //IOTSomfyDeviceCollection lDevices = JsonUtility.FromJson<IOTSomfyDeviceCollection>(response.Trim());
                 IOTSomfyDeviceCollection lDevices = new IOTSomfyDeviceCollection(response);
                 //lDevices.devices = new IOTSomfyDevice[lJsonNode["devices"].Count];
@@ -163,12 +168,15 @@ namespace BuddyApp.Somfy
 
 
                 //string lResponseText = "{\"devices\" :" + lResult.response.Text + "}";
+                Debug.Log("avant ecriture reponse");
                 File.WriteAllText(Buddy.Resources.GetRawFullPath("response.txt"), response);
+                Debug.Log("apres ecriture reponse");
                 //Debug.Log("{\"devices\" :" + lResult.response.Text + "}");
                 if (lDevices != null)
                 {
                     Debug.Log("nombre somfy devices: " + lDevices.devices.Length);
                     mDevices = lDevices.devices.ToList<IOTDevices>();
+                    Debug.Log("apres init mdevice");
                     int j = 0;
                     for (int i = 0; i < mDevices.Count; ++i)
                     {

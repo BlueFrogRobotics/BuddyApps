@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<bml category="Idle">
+  <synchronized>
+    <headNo id="headNo1" position="-20" speed="100"/>
+    <headYes id="headYes1"  position="50" speed="75"/>
+  </synchronized>
+  <faceExp id="faceEx1" expression="BLINK_BOTH"/>
+  <synchronized>
+    <headNo id="headNo2" position="20" speed="100"/>
+    <headYes id="headYes2" position="50" speed="75"/>
+  </synchronized>
+  <synchronized>
+    <headYes id="headYes3"  position="50" speed="75"/>
+  </synchronized>
+  <synchronized>
+    <headYes id="headYes4" position="50" speed="75"/>
+    <headNo id="headNo3" position="0" speed="100"/>
+  </synchronized>
+</bml>

@@ -198,6 +198,8 @@ namespace BuddyApp.Somfy
             Debug.Log("nombre de devices: " + mSomfyBehaviour.Box.Devices.Count);
             while (mSomfyBehaviour.Box.Devices.Count == 0)
                 yield return null;
+            Debug.Log("avant get device");
+            Debug.Log("les devices trouves: " + mSomfyBehaviour.Box.Devices.Count);
             mSomfyBehaviour.GetDevices();
             mListening = false;
             mSpeechReco = "";

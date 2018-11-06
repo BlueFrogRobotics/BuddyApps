@@ -16,6 +16,8 @@ namespace BuddyApp.Somfy
         private TButton mCloseStore;
         private TText mLabelTemperature;
         private TTextField mTemperatureField;
+        private TButton mPlay;
+        private TButton mStop;
 
         public override void Start()
         {
@@ -47,6 +49,15 @@ namespace BuddyApp.Somfy
                     mTemperatureField = iBuilder.CreateWidget<TTextField>();
                     mTemperatureField.SetPlaceHolder("temperature");
                     mTemperatureField.OnEndEdit.Add(SetTemperature);
+
+                    mPlay = iBuilder.CreateWidget<TButton>();
+                    mPlay.SetLabel("play");
+                    mPlay.OnClick.Add(mSomfyBehaviour.PlayMusic);
+
+                    mStop = iBuilder.CreateWidget<TButton>();
+                    mStop.SetLabel("stop");
+                    mStop.OnClick.Add(mSomfyBehaviour.StopMusic);
+
                 },
                 SaveAndQuit, "cancel", SaveAndQuit, "save");
         }
@@ -75,6 +86,7 @@ namespace BuddyApp.Somfy
             {
                 mSomfyBehaviour.SetTemperature(lTemp);
             }
+
         }
     }
 }

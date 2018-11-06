@@ -54,6 +54,7 @@ namespace BuddyApp.Somfy
         public void GetDevices()
         {
             //box.GetDevices();
+            Debug.Log("debut de get device");
             Debug.Log("nb devices: " + Box.Devices.Count);
             foreach (IOTDevices lDevice in Box.Devices)
             {
@@ -252,8 +253,8 @@ namespace BuddyApp.Somfy
         {
             if (mSonos != null && mSonos.HasFinishedCommand())
             {
-                //Buddy.Vocal.Say("Ok, " + string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
-                //Debug.Log(string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
+                //Buddy.Vocal.Say("Ok, " + string.Format(Buddy.Resources.GetString("settemperature"), iTemp));
+                //Debug.Log(string.Format(Buddy.Resources.GetString("settemperature"), iTemp));
                 mSonos.Command(4, iVolume);
             }
         }
@@ -263,7 +264,7 @@ namespace BuddyApp.Somfy
             if (mThermostat != null && mThermostat.HasFinishedCommand())
             {
                 Buddy.Vocal.Say("Ok, " + string.Format(Buddy.Resources.GetString("settemperature"), iTemp));
-                //Debug.Log(string.Format(BYOS.Instance.Dictionary.GetString("settemperature"), iTemp));
+                //Debug.Log(string.Format(Buddy.Resources.GetString("settemperature"), iTemp));
                 mThermostat.Command(4, iTemp);
             }
         }

@@ -40,11 +40,11 @@ namespace BuddyApp.Somfy
 
         //public override void LabelizeWidgets()
         //{
-        //    mLight.Label = BYOS.Instance.Dictionary.GetString("light");
-        //    mOpenStore.OuterLabel= BYOS.Instance.Dictionary.GetString("openstore");
-        //    mOpenStore.InnerLabel = BYOS.Instance.Dictionary.GetString("open");
-        //    mCloseStore.OuterLabel = BYOS.Instance.Dictionary.GetString("closestore");
-        //    mCloseStore.InnerLabel = BYOS.Instance.Dictionary.GetString("close");
+        //    mLight.Label = Buddy.Resources.GetString("light");
+        //    mOpenStore.OuterLabel= Buddy.Resources.GetString("openstore");
+        //    mOpenStore.InnerLabel = Buddy.Resources.GetString("open");
+        //    mCloseStore.OuterLabel = Buddy.Resources.GetString("closestore");
+        //    mCloseStore.InnerLabel = Buddy.Resources.GetString("close");
         //    mLabelTemperature.Text = "temperature: " + mBehaviour.GetTemperature()+" °C";
         //    mTemperatureField.Label = "set temperature";
         //}

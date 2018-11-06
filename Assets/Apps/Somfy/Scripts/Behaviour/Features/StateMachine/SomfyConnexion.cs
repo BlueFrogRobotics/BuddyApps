@@ -30,8 +30,8 @@ namespace BuddyApp.Somfy
 
         private void Login()
         {
-            GetComponent<SomfyBehaviour>().Login();
             Trigger("NextStep");
+            GetComponent<SomfyBehaviour>().Login();
         }
     }
 }

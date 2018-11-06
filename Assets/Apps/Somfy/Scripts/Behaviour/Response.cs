@@ -16,6 +16,7 @@ namespace BuddyApp.Somfy
         private string mMessage;
         private byte[] mBytes;
 
+
         public Request Request { get { return mRequest; } set { mRequest = value; } }
 
         public int Status { get { return mStatus; } }
@@ -68,6 +69,7 @@ namespace BuddyApp.Somfy
                     return null;
 
                 bool lResult = false;
+
                 ArrayList oArray = (ArrayList)JSON.JsonDecode(this.Text, ref lResult);
                 if (!lResult) {
                     oArray = null;
