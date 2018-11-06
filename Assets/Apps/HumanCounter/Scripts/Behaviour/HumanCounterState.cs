@@ -4,11 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using BlueQuark;
 using OpenCVUnity;
+using UnityEngine.UI;
 
 namespace BuddyApp.HumanCounter
 {
     public sealed class HumanCounterState : AStateMachineBehaviour
     {
+
+        private float COEFF_X;
+        private float COEFF_Y;
+
         // The number of frame use to calcul the average of human detected.
         private const int AVERAGE_FRAME_NUMBER = 6;
 
@@ -44,6 +49,8 @@ namespace BuddyApp.HumanCounter
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            COEFF_X = 1.7F;
+            COEFF_Y = 2.26F;
             mHumanDetectEnable = false;
             mFaceDetectEnable = false;
             mSkeletonDetectEnable = false;
@@ -148,6 +155,16 @@ namespace BuddyApp.HumanCounter
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (Input.GetKey("a"))
+            {
+                COEFF_Y = COEFF_Y + 0.01F;
+                Debug.Log("ADD Y : " + COEFF_Y);
+            }
+            else if (Input.GetKey("z"))
+            {
+                COEFF_Y = COEFF_Y - 0.01F;
+                Debug.Log("REMOVE Y : " + COEFF_Y);
+            }
             TimerHandler();
             // Calcul the average of human on a sample of frame.
             if (mSampleCount.Count == AVERAGE_FRAME_NUMBER)
@@ -172,6 +189,7 @@ namespace BuddyApp.HumanCounter
                 Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mCamView);
                 mDisplayed = true;
             }
+
             // If the video mode is disable: Buddy's face is display.
             if (!mVideoMode && mDisplayed)
             {
@@ -207,9 +225,6 @@ namespace BuddyApp.HumanCounter
         // On each frame captured by the camera this function is called, with the matrix of pixel.
         private void OnFrameCaptured(Mat iInput)
         {
-
-            const float COEFF_X = 1.7F;
-            const float COEFF_Y = 1.6F;
             Mat lMatSrc;
             // Always clone the input matrix to avoid working with the matrix when the C++ part wants to modify it. It will crash.
             lMatSrc = iInput.clone();
@@ -222,7 +237,7 @@ namespace BuddyApp.HumanCounter
             else
             {
 
-                for (int k = 0; k < mListJoint.Count; ++k)
+                for (int k = 0; k < /*mListJoint.Count*/ 2; ++k)
                 {
                     int lWidth = lMatSrc.cols();
                     int lHeight = lMatSrc.rows();
@@ -231,9 +246,101 @@ namespace BuddyApp.HumanCounter
                         var lJoint = mListJoint[k][i];
                         Point lCenter = new Point(lWidth / 2, lHeight / 2);
                         Point lLocal = new Point(lJoint.WorldPosition.x / lJoint.WorldPosition.z, lJoint.WorldPosition.y / lJoint.WorldPosition.z);
-
                         lLocal.x *= COEFF_X * lWidth / 2;
                         lLocal.y *= COEFF_Y * lHeight / 2;
+
+                        for (int j = 0; j < mListJoint[k].Length; j++)
+                        {
+                            var lSecondJoint = mListJoint[k][j];
+                            Point lSecondLocal = new Point(lSecondJoint.WorldPosition.x / lSecondJoint.WorldPosition.z, lSecondJoint.WorldPosition.y / lSecondJoint.WorldPosition.z);
+                            lSecondLocal.x *= COEFF_X * lWidth / 2;
+                            lSecondLocal.y *= COEFF_Y * lHeight / 2;
+#region JOINTS_LINKED
+
+                            if (lJoint.Type != SkeletonJointType.UNKNOWN || lSecondJoint.Type != SkeletonJointType.UNKNOWN)
+                            {
+                                if (lJoint.Type == SkeletonJointType.HEAD && lSecondJoint.Type == SkeletonJointType.SHOULDER_SPINE)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+
+                                //RIGHT ARM
+                                if (lJoint.Type == SkeletonJointType.SHOULDER_SPINE && lSecondJoint.Type == SkeletonJointType.RIGHT_SHOULDER)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+                                if (lJoint.Type == SkeletonJointType.RIGHT_SHOULDER && lSecondJoint.Type == SkeletonJointType.RIGHT_ELBOW)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+                                if (lJoint.Type == SkeletonJointType.RIGHT_ELBOW && lSecondJoint.Type == SkeletonJointType.RIGHT_WRIST)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+                                if (lJoint.Type == SkeletonJointType.RIGHT_WRIST && lSecondJoint.Type == SkeletonJointType.RIGHT_HAND)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+
+                                //LEFT ARM
+                                if (lJoint.Type == SkeletonJointType.SHOULDER_SPINE && lSecondJoint.Type == SkeletonJointType.LEFT_SHOULDER)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+                                if (lJoint.Type == SkeletonJointType.LEFT_SHOULDER && lSecondJoint.Type == SkeletonJointType.LEFT_ELBOW)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+                                if (lJoint.Type == SkeletonJointType.LEFT_ELBOW && lSecondJoint.Type == SkeletonJointType.LEFT_WRIST)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+                                if (lJoint.Type == SkeletonJointType.LEFT_WRIST && lSecondJoint.Type == SkeletonJointType.LEFT_HAND)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+
+
+
+                                if (lJoint.Type == SkeletonJointType.SHOULDER_SPINE && lSecondJoint.Type == SkeletonJointType.MID_SPINE)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+                                if (lJoint.Type == SkeletonJointType.MID_SPINE && lSecondJoint.Type == SkeletonJointType.BASE_SPINE)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+
+                                //RIGHT LEG
+                                if (lJoint.Type == SkeletonJointType.BASE_SPINE && lSecondJoint.Type == SkeletonJointType.RIGHT_HIP)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+                                if (lJoint.Type == SkeletonJointType.RIGHT_HIP && lSecondJoint.Type == SkeletonJointType.RIGHT_KNEE)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+                                if (lJoint.Type == SkeletonJointType.RIGHT_KNEE && lSecondJoint.Type == SkeletonJointType.RIGHT_FOOT)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+
+                                //LEFT LEG
+                                if (lJoint.Type == SkeletonJointType.BASE_SPINE && lSecondJoint.Type == SkeletonJointType.LEFT_HIP)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+                                if (lJoint.Type == SkeletonJointType.LEFT_HIP && lSecondJoint.Type == SkeletonJointType.LEFT_KNEE)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+                                if (lJoint.Type == SkeletonJointType.LEFT_KNEE && lSecondJoint.Type == SkeletonJointType.LEFT_FOOT)
+                                {
+                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                }
+                            }
+#endregion
+                        }
 
                         Imgproc.circle(lMatSrc, lCenter - lLocal, (int)(10 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)), mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
                     }
@@ -324,8 +431,7 @@ namespace BuddyApp.HumanCounter
             // We add each box to a list, to display them later in OnNewFrame
             foreach (SkeletonEntity lSkeleton in iSkeleton)
             {
-                Debug.Log("center" + lSkeleton.CenterOfMass);
-                Debug.Log("joint" + lSkeleton.Joints[(int)SkeletonJointType.MID_SPINE].WorldPosition);
+
                 mListJoint.Add(lSkeleton.Joints);
             }
             // We add a measure to the list of sample

@@ -24,6 +24,7 @@ namespace BuddyApp.HumanCounter
          */
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            
             if (HumanCounterData.Instance.DetectionOption == DetectionOption.HUMAN_DETECT)
                 mNameDetectOption = Buddy.Resources.GetString("humandetect");
             else if (HumanCounterData.Instance.DetectionOption == DetectionOption.FACE_DETECT)
@@ -41,7 +42,7 @@ namespace BuddyApp.HumanCounter
             // Setup to 30 seconds by default.
             HumanCounterData.Instance.ObservationTime = DEFAULT_OBSERVATION_TIME;
 
-            HeadYesSetPosition(45F);
+            //HeadYesSetPosition(45F);
 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {

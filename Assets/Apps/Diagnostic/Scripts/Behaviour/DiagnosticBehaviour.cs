@@ -64,8 +64,9 @@ namespace BuddyApp.Diagnostic
 			
 
 			mCurrentWindow = WindowType.FACE;
-			SetWindow((int)WindowType.VOCAL);
-		}
+            //SetWindow((int)WindowType.VOCAL);
+            SetWindow((int)WindowType.MOTORS);
+        }
 
 		public void SetWindow(int iIndex)
 		{

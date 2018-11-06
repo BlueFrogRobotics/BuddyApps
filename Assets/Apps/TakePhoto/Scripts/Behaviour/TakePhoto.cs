@@ -158,7 +158,7 @@ namespace BuddyApp.TakePhoto
                 if (!Buddy.Vocal.IsSpeaking)
                 {
                     mTimer += Time.deltaTime;
-
+                    
                     if (mTimer > 0.5F)
                         if (mSpeechId < 3)
                         {
@@ -252,9 +252,8 @@ namespace BuddyApp.TakePhoto
             {
                 mPhotoSprite = iMyPhoto.Image;
             }
-				
-
-			Utils.SaveSpriteToFile(mPhotoSprite, lFilePath);
+            
+            Utils.SaveSpriteToFile(mPhotoSprite, lFilePath);
             iMyPhoto.Save();
             TakePhotoData.Instance.PhotoPath = lFilePath;
             mIsFrameCaptured = false;
