@@ -11,23 +11,27 @@
     <Category>OTHER</Category>
     <Permissions>
         <AppPermission>
-            <Type>CAMERA_API_ACCESS</Type>
+            <Type>CAMERA_API</Type>
             <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
-            <Type>MOVE_API_ACCESS</Type>
+            <Type>MOVE_API</Type>
             <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
-            <Type>VISUAL_API_ACCESS</Type>
+            <Type>VOCAL_API</Type>
             <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
-            <Type>AUDIO_API_ACCESS</Type>
-            <IsValid>true</IsValid>
+            <Type>USERS_CALENDAR_WRITE</Type>
+            <IsValid>false</IsValid>
         </AppPermission>
         <AppPermission>
-            <Type>USERS_DATA_ACCESS</Type>
+            <Type>USERS_CALENDAR_READ</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_DATA_READ</Type>
             <IsValid>false</IsValid>
         </AppPermission>
         <AppPermission>
@@ -35,23 +39,11 @@
             <IsValid>false</IsValid>
         </AppPermission>
         <AppPermission>
-            <Type>USERS_MEDIA_DATA_ACCESS</Type>
+            <Type>USERS_MEDIA_DATA_READ</Type>
             <IsValid>false</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_MEDIA_DATA_WRITE</Type>
-            <IsValid>false</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>PROCEDURAL_MEMORY</Type>
-            <IsValid>false</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>DECLARATIVE_MEMORY</Type>
-            <IsValid>false</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>SEMANTIC_MEMORY</Type>
             <IsValid>false</IsValid>
         </AppPermission>
         <AppPermission>

@@ -171,9 +171,9 @@ namespace BuddyApp.Guardian
         {
             //if (mNoiseDetection.enabled)
             //{
-                if (mNoiseDetection.MicrophonePosition < 122000)
+                if (mNoiseDetection.MicrophoneIdx < 122000)
                     mNewFrame = true;
-                if (mNewFrame && mNoiseDetection.MicrophonePosition > 122000 && mNoiseDetection.RecordClip.length > 2 && mNoiseDetection.MicrophoneData != null)
+                if (mNewFrame && mNoiseDetection.MicrophoneIdx > 122000 && mNoiseDetection.RecordClip.length > 2 && mNoiseDetection.MicrophoneData != null)
                 {
                     mNewFrame = false;
                     AudioClip lAudioClip = AudioClip.Create(mNoiseDetection.RecordClip.name, mNoiseDetection.RecordClip.samples, mNoiseDetection.RecordClip.channels, mNoiseDetection.RecordClip.frequency, false);

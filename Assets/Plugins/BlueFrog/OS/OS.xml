@@ -6673,6 +6673,85 @@
             every year
             </summary>
         </member>
+        <member name="T:BlueQuark.Photograph">
+            <summary>
+            This class represents a photo taken during a running app. Can be saved as PNG on the HDD
+            </summary>
+            <summary>
+            This class represents a photo taken during a running app. Can be saved as PNG on the HDD
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Photograph.TimeStamp">
+            <summary>
+            The date time when the photo has been created.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Photograph.Image">
+            <summary>
+            Content of the photograph.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Photograph.Location">
+            <summary>
+            Path to the parent directory.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Photograph.Name">
+            <summary>
+            Name of the photo.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Photograph.Extension">
+            <summary>
+            Extension of the file.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Photograph.Update(UnityEngine.Sprite)">
+            <summary>
+            Update the stored image. Must be saved for permanent effect.
+            </summary>
+            <param name="iNewImage">The new image to set</param>
+            <returns>True if operation is successful</returns>
+        </member>
+        <member name="M:BlueQuark.Photograph.Update(UnityEngine.Texture2D)">
+            <summary>
+            Update the stored image. Must be saved for permanent effect.
+            </summary>
+            <param name="iNewImage">The new image to set</param>
+            <returns>True if operation is successful</returns>
+        </member>
+        <member name="M:BlueQuark.Photograph.Update(OpenCVUnity.Mat)">
+            <summary>
+            Update the stored image. Must be saved for permanent effect.
+            </summary>
+            <param name="iNewImage">The new image to set</param>
+            <returns>True if operation is successful</returns>
+        </member>
+        <member name="M:BlueQuark.Photograph.Save">
+            <summary>
+            Save the image on HDD. The Photo will be readable only for the running App
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Photograph.Delete">
+            <summary>
+            Delete the local version of the photo
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Photograph.CreateFromFile(System.String)">
+            <summary>
+            Creates a photograph object from the given full path.
+            </summary>
+            <param name="iFullpath">Full path (with file and extension) to the image file</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Photograph.CreateFromBytes(System.Byte[])">
+            <summary>
+            Creates a photograph object from the given full path.
+            </summary>
+            <param name="iData">Full path (with file and extension) to the image file</param>
+            <returns></returns>
+        </member>
         <member name="T:BlueQuark.SerializableDictionary`2">
             <summary>
             Serializable Dictionary
@@ -8347,7 +8426,7 @@
         </member>
         <member name="P:BlueQuark.HumanDetector.RGBCameraMode">
             <summary>
-            RGB Camera mode used by human detector
+            RGB Camera mode used by human detector.
             </summary>
         </member>
         <member name="P:BlueQuark.HumanDetector.OnDetect">
@@ -8833,75 +8912,6 @@
             <summary>
             The name of the device
             </summary>
-        </member>
-        <member name="T:BlueQuark.Photograph">
-            <summary>
-            This class represents a photo taken during a running app. Can be saved as PNG on the HDD
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Photograph.TimeStamp">
-            <summary>
-            The date time when the photo has been created.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Photograph.Image">
-            <summary>
-            Content of the photograph.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Photograph.Location">
-            <summary>
-            Path to the parent directory.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Photograph.Name">
-            <summary>
-            Name of the photo.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Photograph.Extension">
-            <summary>
-            Extension of the file.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Photograph.Update(UnityEngine.Sprite)">
-            <summary>
-            Update the stored image. Must be saved for permanent effect.
-            </summary>
-            <param name="iNewImage">The new image to set</param>
-            <returns>True if operation is successful</returns>
-        </member>
-        <member name="M:BlueQuark.Photograph.Update(UnityEngine.Texture2D)">
-            <summary>
-            Update the stored image. Must be saved for permanent effect.
-            </summary>
-            <param name="iNewImage">The new image to set</param>
-            <returns>True if operation is successful</returns>
-        </member>
-        <member name="M:BlueQuark.Photograph.Update(OpenCVUnity.Mat)">
-            <summary>
-            Update the stored image. Must be saved for permanent effect.
-            </summary>
-            <param name="iNewImage">The new image to set</param>
-            <returns>True if operation is successful</returns>
-        </member>
-        <member name="M:BlueQuark.Photograph.Save">
-            <summary>
-            Save the image on HDD. The Photo will be readable only for the running App
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.Photograph.Delete">
-            <summary>
-            Delete the local version of the photo
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Photograph.CreateFromFile(System.String)">
-            <summary>
-            Creates a photograph object from the given full path.
-            </summary>
-            <param name="iFullpath">Full path (with file and extension) to the image file</param>
-            <returns></returns>
         </member>
         <member name="T:BlueQuark.Language">
             <summary>
@@ -10324,7 +10334,7 @@
             </summary>
             <param name="iFrame">Frame that's going to be analyzed as an OpenCV Mat</param>
         </member>
-        <member name="M:BlueQuark.ThermalDetector.HumanPresent(System.Single)">
+        <member name="M:BlueQuark.ThermalDetector.CheckHumanPresence(System.Single)">
             <summary>
             Tell if human present by comparing average temperatures over regions 
             </summary>
@@ -10495,17 +10505,17 @@
         </member>
         <member name="P:BlueQuark.Resources.AppRawDataPath">
             <summary>
-            Full path to the current Raw/ app directory
+            Full path to the current Raw/ app directory.
             </summary>
         </member>
         <member name="P:BlueQuark.Resources.AppSpritesPath">
             <summary>
-            Full path to the current Sprites/ app directory
+            Full path to the current Sprites/ app directory.
             </summary>
         </member>
         <member name="P:BlueQuark.Resources.AppSoundsPath">
             <summary>
-            Full path to the current Sounds/ app directory
+            Full path to the current Sounds/ app directory.
             </summary>
         </member>
         <member name="M:BlueQuark.Resources.ContainsKey(System.String,BlueQuark.Context)">
@@ -11868,9 +11878,6 @@
             <summary>
             Represents a validation notification on the Top of the robot screen
             </summary>
-            <summary>
-            Display a validation notification on the Top of the robot screen
-            </summary>
         </member>
         <member name="M:BlueQuark.AlertNotification.With(System.String,System.Action,System.Action,System.Single)">
             <summary>
@@ -11894,9 +11901,6 @@
         <member name="T:BlueQuark.ConfirmationNotification">
             <summary>
             Represents a confirmation notification on the Top of the robot screen
-            </summary>
-            <summary>
-            Display a notification on the Top of the robot screen
             </summary>
         </member>
         <member name="M:BlueQuark.ConfirmationNotification.With(System.String,System.Action,System.Action,System.Single)">
@@ -11924,9 +11928,6 @@
             <summary>
             Represents a message callback notification on the Top of the robot screen
             </summary>
-            <summary>
-            Display a message callback notification on the Top of the robot screen
-            </summary>
         </member>
         <member name="M:BlueQuark.MessageNotification.With(System.String,System.Action,System.Action,System.Single)">
             <summary>
@@ -11940,9 +11941,6 @@
         <member name="T:BlueQuark.SimpleNotification">
             <summary>
             Represents a basic notification on the Top of the robot screen
-            </summary>
-            <summary>
-            Display a basic notification on the Top of the robot screen
             </summary>
         </member>
         <member name="M:BlueQuark.SimpleNotification.With(System.String,System.Single)">
@@ -11962,49 +11960,46 @@
         </member>
         <member name="T:BlueQuark.Notifier">
             <summary>
-            Display a notification on the top of the robot screen
-            </summary>
-            <summary>
-            Display a notification on the top of the robot screen
+            Display manager for notification on the top of the robot screen.
             </summary>
         </member>
         <member name="P:BlueQuark.Notifier.IsBusy">
             <summary>
-            Returns true if the notifier is processing/displaying something
+            Returns true if the notifier is processing/displaying something.
             </summary>
         </member>
         <member name="M:BlueQuark.Notifier.Display``1">
             <summary>
-            Display the typed notification. After this call, use immediatly the With method to specify notification arguments
+            Display the typed notification. After this call, use immediatly the With method to specify notification arguments.
             </summary>
-            <typeparam name="N">Type of the notification. Meteo, timer confirmation ... </typeparam>
+            <typeparam name="N">Type of the notification. Meteo, timer, confirmation ... </typeparam>
             <returns>The not that will be displayed</returns>
         </member>
         <member name="M:BlueQuark.Notifier.DisplayUnread">
             <summary>
-            Display all unread notifications
+            Display all unread notifications.
             </summary>
         </member>
-        <member name="M:BlueQuark.Notifier.ShowExisting(System.Int32)">
+        <member name="M:BlueQuark.Notifier.DisplayUnread(System.Int32)">
             <summary>
-            Show an unread notification given a particular ID. If the notification isn't found, nothing is displayed.
+            Display an unread notification given a particular ID. If the notification isn't found, nothing is displayed.
             </summary>
-            <param name="iNotifID">The to be displayed notification's ID.</param>
+            <param name="iID"></param>
         </member>
         <member name="M:BlueQuark.Notifier.Hide">
             <summary>
-            Hide the current displayed notification(s)
+            Hide the current displayed notification(s).
             </summary>
         </member>
         <member name="M:BlueQuark.Notifier.Select(BlueQuark.Internal.NBox)">
             <summary>
-            Set the specified notification as selected and unselect any other notification
+            Set the specified notification as selected and unselect any other notification.
             </summary>
             <param name="iNotification">Notification to select</param>
         </member>
         <member name="M:BlueQuark.Notifier.CloseCurrentNotification">
             <summary>
-            Close and remove the current selected notification
+            Close and remove the current selected notification.
             </summary>
         </member>
         <member name="T:BlueQuark.Toaster">
@@ -14321,7 +14316,7 @@
         <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
-            </summary>
+            </summary> 
             <param name="iUtterance">The text to tell</param>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammars">VoCon grammars to rely on for the speech to text request</param>
