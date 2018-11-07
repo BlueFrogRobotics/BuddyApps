@@ -342,6 +342,14 @@
             Stops any running hinge command.
             </summary>
         </member>
+        <member name="M:BlueQuark.Internal.AHeadHinge`2.SetPIDs(System.Single,System.Single,System.Single)">
+            <summary>
+            Set the proportional–integral–derivative controller. It is a control loop feedback mechanism.
+            </summary>
+            <param name="iKp">Term P is proportional to the current value of the SP − PV error e(t)</param>
+            <param name="iKi">Term I accounts for past values of the SP − PV error and integrates them over time to produce the I ter</param>
+            <param name="Lin">erm D is a best estimate of the future trend of the SP − PV error, based on its current rate of change</param>
+        </member>
         <member name="T:BlueQuark.Internal.LocalBehaviourAlgorithmVariable">
             <summary>
             Represents a named variable declared during a Behaviour algorithm. 
@@ -413,6 +421,12 @@
             <summary>
             This state is used to ask the name of the current user
             </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.AskNotifyState.OnEndListen(BlueQuark.SpeechInput)">
+            <summary>
+            This function is called when an answer is received from the user
+            </summary>
+            <param name="iInput">User speech input</param>
         </member>
         <member name="T:BlueQuark.Internal.FDotNavigationDot">
             <summary>
@@ -3405,6 +3419,11 @@
             Pool manager for widget (UI) gameobject
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.ANotification.ID">
+            <summary>
+            ID of the notification.
+            </summary>
+        </member>
         <member name="T:BlueQuark.Internal.ANWidget`1">
             <summary>
             Base class for Notifier widget.
@@ -3416,17 +3435,22 @@
             Base box for Notifier GUI component.
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.NBox.ID">
+            <summary>
+            ID of the stored notification.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.NBox.Info">
+            <summary>
+            The stored notification info.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.NBox.Select(System.Boolean,System.Boolean)">
             <summary>
             Sets the box as selected or not.
             </summary>
             <param name="iVal">Does the box is selected ?</param>
             <param name="iWithSides">Does the side wave must be displayed ? Effect only if iVal is true</param>
-        </member>
-        <member name="P:BlueQuark.Internal.NBox.Info">
-            <summary>
-            The stored notification info.
-            </summary>
         </member>
         <member name="M:BlueQuark.Internal.NBox.SetIcon(UnityEngine.Sprite)">
             <summary>
@@ -3505,6 +3529,11 @@
             Callback called when the toast is hidden.
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.AToast.ID">
+            <summary>
+            ID of the toast.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Internal.AToast.OnSideClick">
             <summary>
             Called when the current toast is displayed and a side click happened.
@@ -3523,6 +3552,11 @@
         <member name="P:BlueQuark.Internal.AToast.LayoutType">
             <summary>
             Type of the layout (Presenter) to display.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.AToast.Dispose">
+            <summary>
+            Called when the toast must be revoked.
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.ATWidget`1">
@@ -6675,10 +6709,7 @@
         </member>
         <member name="T:BlueQuark.Photograph">
             <summary>
-            This class represents a photo taken during a running app. Can be saved as PNG on the HDD
-            </summary>
-            <summary>
-            This class represents a photo taken during a running app. Can be saved as PNG on the HDD
+            This class represents a photo taken during a running app. Can be saved as PNG on the HDD.
             </summary>
         </member>
         <member name="P:BlueQuark.Photograph.TimeStamp">
@@ -6706,6 +6737,11 @@
             Extension of the file.
             </summary>
         </member>
+        <member name="P:BlueQuark.Photograph.FullPath">
+            <summary>
+            Full path of the photograph.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Photograph.Update(UnityEngine.Sprite)">
             <summary>
             Update the stored image. Must be saved for permanent effect.
@@ -6729,28 +6765,50 @@
         </member>
         <member name="M:BlueQuark.Photograph.Save">
             <summary>
-            Save the image on HDD. The Photo will be readable only for the running App
+            Save the image on HDD. The Photo will be readable only for the running App.
             </summary>
-            <returns></returns>
+            <returns>The fullpath to the saved photograph</returns>
         </member>
         <member name="M:BlueQuark.Photograph.Delete">
             <summary>
             Delete the local version of the photo
             </summary>
+            <returns>True if the deletion was successful, false otherwise</returns>
         </member>
         <member name="M:BlueQuark.Photograph.CreateFromFile(System.String)">
             <summary>
             Creates a photograph object from the given full path.
             </summary>
             <param name="iFullpath">Full path (with file and extension) to the image file</param>
-            <returns></returns>
+            <returns>The loaded photograph from the file. Null if error or not found</returns>
+        </member>
+        <member name="M:BlueQuark.Photograph.CreateSpritelessFromFile(System.String)">
+            <summary>
+            Creates a spriteless (no sprite will be load into memory) photograph object from the given full path.
+            </summary>
+            <returns>The metadata object without loaded sprite. Null if error or not found</returns>
         </member>
         <member name="M:BlueQuark.Photograph.CreateFromBytes(System.Byte[])">
             <summary>
             Creates a photograph object from the given full path.
             </summary>
             <param name="iData">Full path (with file and extension) to the image file</param>
-            <returns></returns>
+            <returns>The loaded photograph from the file. Null if error or nor found</returns>
+        </member>
+        <member name="M:BlueQuark.Photograph.SaveBytes(System.Byte[])">
+            <summary>
+            Save a byte array as a photograph. The location will be choosen regarding the running app and the current user.
+            </summary>
+            <param name="iData">Byte array of the sprite</param>
+            <returns>The fullpath to the saved photograph</returns>
+        </member>
+        <member name="M:BlueQuark.Photograph.SaveBytes(System.Byte[],System.String)">
+            <summary>
+            Save a byte array as a photograph. The location will be choosen regarding the running app and the current user.
+            </summary>
+            <param name="iData">Byte array of the sprite</param>
+            <param name="iFilename">Filename of the sprite to save</param>
+            <returns>The fullpath to the saved photograph</returns>
         </member>
         <member name="T:BlueQuark.SerializableDictionary`2">
             <summary>
@@ -7825,6 +7883,42 @@
             <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
             <returns>The toast GUID</returns>
         </member>
+        <member name="M:BlueQuark.PictureToast.With(System.String)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iFilePath">The path to the sprite to display. Cannot be null.</param>
+            <returns>The toast GUID</returns>
+        </member>
+        <member name="M:BlueQuark.PictureToast.With(System.String,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iFilePath">The path to the sprite to display. Cannot be null.</param>
+            <param name="iOnClick">Called when the image is clicked</param>
+            <returns>The toast GUID</returns>
+        </member>
+        <member name="M:BlueQuark.PictureToast.With(System.String,System.Action,System.Action,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iFilePath">The path to the sprite to display. Cannot be null.</param>
+            <param name="iOnClick">Called when the image is clicked</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <returns>The toast GUID</returns>
+        </member>
+        <member name="M:BlueQuark.PictureToast.With(System.String,System.Action,System.Action,System.Action,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iFilePath">The path to the sprite to display. Cannot be null.</param>
+            <param name="iOnClick">Called when the image is clicked</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed</param>
+            <param name="iOnHide">Callback called when the toast is hidden</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display</param>
+            <returns>The toast GUID</returns>
+        </member>
         <member name="T:BlueQuark.IconToast">
             <summary>
             Represents a toast composed by an icon.
@@ -8305,12 +8399,13 @@
             </summary>
             <param name="iDistance">Target distance in meters</param>
         </member>
-        <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single)">
+        <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Boolean)">
             <summary>
             Moves forward or backward to the given distance.
             </summary>
             <param name="iDistance">Target distance in meters</param>
             <param name="iLinearVelocity">Target speed in meters by seconds</param>
+            <param name="iAvoidingObstacles">If avoid obstacles</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Action{UnityEngine.Vector3})">
             <summary>
@@ -8320,13 +8415,14 @@
             <param name="iLinearVelocity">Target speed in meters by seconds</param>
             <param name="iOnEndMove">Callback called at the end of the course</param>
         </member>
-        <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Single)">
+        <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Single,System.Boolean)">
             <summary>
             Moves forward or backward to the given distance.
             </summary>
             <param name="iDistance">Target distance in meters</param>
             <param name="iLinearVelocity">Target speed in meters by seconds</param>
             <param name="iAngularVelocity">Target right wheel speed in meters by seconds</param>
+            <param name="iAvoidingObstacles">If avoid obstacles</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Single,System.Action{UnityEngine.Vector3})">
             <summary>
@@ -10373,16 +10469,18 @@
             <param name="iPassword">The password to set. Must be a 4 digits string</param>
             <returns>True if the password was correctly setted</returns>
         </member>
-        <member name="M:BlueQuark.UserManager.GetUserPhotographs">
+        <member name="M:BlueQuark.UserManager.GetUserPhotographs(System.Boolean)">
             <summary>
             Gets all current user photographes saved by the running app.
             </summary>
+            <param name="iLoadSprite">Tells if the picture sprite must be loaded. False to get a "spriteless" photograph.</param>
             <returns>Photographes taken by the running app concerning the current user</returns>
         </member>
-        <member name="M:BlueQuark.UserManager.GetPhotographs">
+        <member name="M:BlueQuark.UserManager.GetPhotographs(System.Boolean)">
             <summary>
             Gets all photographes saved by the running app.
             </summary>
+            <param name="iLoadSprite">Tells if the picture sprite must be loaded. False to get a "spriteless" photograph.</param>
             <returns>Photographes taken by the running app</returns>
         </member>
         <member name="T:BlueQuark.Gender">
@@ -11986,6 +12084,12 @@
             </summary>
             <param name="iID"></param>
         </member>
+        <member name="M:BlueQuark.Notifier.RemoveUnread(System.Int32)">
+            <summary>
+            Remove an unread notification from its id.
+            </summary>
+            <param name="iID"></param>
+        </member>
         <member name="M:BlueQuark.Notifier.Hide">
             <summary>
             Hide the current displayed notification(s).
@@ -12030,7 +12134,7 @@
         </member>
         <member name="M:BlueQuark.Toaster.DisplaySlide">
             <summary>
-            Queue a slide of toast. It will be displayed as soon as possible after any previous queued toasts or slides.
+            Queue a slide set of toast. It will be displayed as soon as possible after any previous queued toasts or slides.
             Slides are displayed until Toaster.Hide() is called.
             </summary>
             <returns></returns>
@@ -13947,65 +14051,65 @@
             <param name="iUtterance">The text to say</param>
             <param name="iParameters">Speech parameters</param>
         </member>
-        <member name="T:BlueQuark.SpeechRecognitionEvent">
+        <member name="T:BlueQuark.SpeechRecognitionStatus">
             <summary>
             Event type for speech recognition
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionEvent.BEGINNING_OF_SPEECH">
+        <member name="F:BlueQuark.SpeechRecognitionStatus.BEGINNING_OF_SPEECH">
             <summary>
             User started to speak.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionEvent.MAYBE_SPEECH">
+        <member name="F:BlueQuark.SpeechRecognitionStatus.MAYBE_SPEECH">
             <summary>
             Could be the beginning of speech.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionEvent.NO_SPEECH">
+        <member name="F:BlueQuark.SpeechRecognitionStatus.NO_SPEECH">
             <summary>
             The previously sent MAYBE_SPEECH event did not lead
             to and actual beginning of speech.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionEvent.TIMEOUT">
+        <member name="F:BlueQuark.SpeechRecognitionStatus.TIMEOUT">
             <summary>
             A timeout occured.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionEvent.TRAILING_SILENCE">
+        <member name="F:BlueQuark.SpeechRecognitionStatus.TRAILING_SILENCE">
             <summary>
             A trailing silence was detected.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionEvent.BAD_SIGNAL_NOISE_RATIO">
+        <member name="F:BlueQuark.SpeechRecognitionStatus.BAD_SIGNAL_NOISE_RATIO">
             <summary>
             The signal to noise ratio is too low.
             This event is generated if at the end of an utterance
             the signal/noise ratio remains below 12dB.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionEvent.OVERLOAD">
+        <member name="F:BlueQuark.SpeechRecognitionStatus.OVERLOAD">
             <summary>
             The speech level is too loud.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionEvent.TOO_QUIET">
+        <member name="F:BlueQuark.SpeechRecognitionStatus.TOO_QUIET">
             <summary>
             The speech level is too weak.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionEvent.NO_SIGNAL">
+        <member name="F:BlueQuark.SpeechRecognitionStatus.NO_SIGNAL">
             <summary>
             No or very low input signal.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionEvent.POOR_MIC">
+        <member name="F:BlueQuark.SpeechRecognitionStatus.POOR_MIC">
             <summary>
             This could mean that the microphone or the audio hardware is of poor quality. 
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionEvent.NO_LEADING_SILENCE">
+        <member name="F:BlueQuark.SpeechRecognitionStatus.NO_LEADING_SILENCE">
             <summary>
             The recording apparantly does not start with leading silence.
             Possibly the speaker started speaking too soon,
@@ -14013,7 +14117,7 @@
             other noise events at the start of the utterance may also trigger this condition.
             </summary>
         </member>
-        <member name="F:BlueQuark.SpeechRecognitionEvent.ERROR_ON_START">
+        <member name="F:BlueQuark.SpeechRecognitionStatus.ERROR_ON_START">
             <summary>
             Error on start.
             </summary>
@@ -14070,17 +14174,17 @@
             Based on VoCon grammar system. If no result, a Google Speech API request will be sended.
             </summary>
         </member>
-        <member name="T:BlueQuark.SpeechEvent">
+        <member name="T:BlueQuark.SpeechInputStatus">
             <summary>
             Input speech event from user listened by the robot.
             </summary>
         </member>
-        <member name="P:BlueQuark.SpeechEvent.Type">
+        <member name="P:BlueQuark.SpeechInputStatus.Type">
             <summary>
             Type of event.
             </summary>
         </member>
-        <member name="P:BlueQuark.SpeechEvent.IsError">
+        <member name="P:BlueQuark.SpeechInputStatus.IsError">
             <summary>
             Is this event an error ?
             </summary>
@@ -14182,7 +14286,7 @@
             Called after any end of STT request
             </summary>
         </member>
-        <member name="P:BlueQuark.Vocal.OnListeningEvent">
+        <member name="P:BlueQuark.Vocal.OnListeningStatus">
             <summary>
             Called when any occurence of event/error during the listening process
             </summary>
@@ -14290,18 +14394,18 @@
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary>
             <param name="iUtterance">The text to tell</param>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary>
@@ -14309,11 +14413,11 @@
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammar">The VoCon grammar to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary> 
@@ -14321,23 +14425,23 @@
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammars">VoCon grammars to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary>
             <param name="iUtterance">The text to tell</param>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>       
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary>
@@ -14345,12 +14449,12 @@
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammar">The VoCon grammar to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary>
@@ -14358,7 +14462,7 @@
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammars">VoCon grammars to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
@@ -14389,18 +14493,18 @@
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary>
             <param name="iOutput">The output speech to proceed. Cannot be null</param>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary>
@@ -14408,11 +14512,11 @@
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammar">The VoCon grammar to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary>
@@ -14420,23 +14524,23 @@
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammars">VoCon grammars to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary>
             <param name="iOutput">The output speech to proceed. Cannot be null</param>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary>
@@ -14444,24 +14548,24 @@
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammar">The VoCon grammar to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechInputParameters,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechInputParameters,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary>
             <param name="iOutput">The output speech to proceed. Cannot be null</param>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iParameters">The speech to text recognition mode/grammars/confidence. Cannot be null</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAndListen(BlueQuark.SpeechOutput,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request then a speech to text request
             </summary>
@@ -14469,7 +14573,7 @@
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammars">VoCon grammars to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
@@ -14610,7 +14714,7 @@
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request based on the stored value of the corresponding key inside the app dictionary.
             Check first inside GetRandomString(key), if empty check in GetString(key) storage. Then perform a speech to text request.
@@ -14618,12 +14722,12 @@
             <param name="iKey">The key (from dictionary) of the text to tell</param>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request based on the stored value of the corresponding key inside the app dictionary.
             Check first inside GetRandomString(key), if empty check in GetString(key) storage. Then perform a speech to text request.
@@ -14632,12 +14736,12 @@
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammar">The VoCon grammar to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request based on the stored value of the corresponding key inside the app dictionary.
             Check first inside GetRandomString(key), if empty check in GetString(key) storage. Then perform a speech to text request.
@@ -14646,12 +14750,12 @@
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammars">VoCon grammars to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,BlueQuark.Context,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,BlueQuark.Context,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request based on the stored value of the corresponding key inside the app dictionary.
             Check first inside GetRandomString(key), if empty check in GetString(key) storage. Then perform a speech to text request.
@@ -14660,12 +14764,12 @@
             <param name="iContext">The context where to retrieve the string</param>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,BlueQuark.Context,System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,BlueQuark.Context,System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request based on the stored value of the corresponding key inside the app dictionary.
             Check first inside GetRandomString(key), if empty check in GetString(key) storage. Then perform a speech to text request.
@@ -14675,12 +14779,12 @@
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammar">The VoCon grammar to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,BlueQuark.Context,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,BlueQuark.Context,System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request based on the stored value of the corresponding key inside the app dictionary.
             Check first inside GetRandomString(key), if empty check in GetString(key) storage. Then perform a speech to text request.
@@ -14690,12 +14794,12 @@
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammars">VoCon grammars to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,BlueQuark.Context,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechInputParameters,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayKeyAndListen(System.String,BlueQuark.Context,System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechInputParameters,System.Boolean)">
             <summary>
             Asks the vocal to perform a text to speech request based on the stored value of the corresponding key inside the app dictionary.
             Check first inside GetRandomString(key), if empty check in GetString(key) storage. Then perform a speech to text request.
@@ -14704,7 +14808,7 @@
             <param name="iContext">The context where to retrieve the string</param>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iParameters">The speech to text recognition mode/grammars/confidence. Cannot be null</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
@@ -14766,58 +14870,58 @@
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAgainAndListen(System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAgainAndListen(System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},System.Boolean)">
             <summary>
             Asks to repeat the last said sentence then starts a speech to text request
             </summary>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAgainAndListen(System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAgainAndListen(System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks to repeat the last said sentence then starts a speech to text request
             </summary>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAgainAndListen(System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAgainAndListen(System.Action{BlueQuark.SpeechOutput},System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks to repeat the last said sentence then starts a speech to text request
             </summary>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammar">the VoCon grammar to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAgainAndListen(System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAgainAndListen(System.Action{BlueQuark.SpeechOutput},System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Asks to repeat the last said sentence then starts a speech to text request
             </summary>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iSpeechGrammars">VoCon grammars to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.SayAgainAndListen(System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechInputParameters,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.SayAgainAndListen(System.Action{BlueQuark.SpeechOutput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechInputParameters,System.Boolean)">
             <summary>
             Asks to repeat the last said sentence then starts a speech to text request
             </summary>
             <param name="iOnEndSpeaking">Callback called at the complete end of the output speech</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iParameters">The speech to text recognition mode/grammars/confidence. Cannot be null</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
@@ -14888,12 +14992,12 @@
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.Listen(System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},System.Boolean)">
+        <member name="M:BlueQuark.Vocal.Listen(System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},System.Boolean)">
             <summary>
             Ask for a speech to text request. Any queued request will be executed as soon as possible after all previous requests 
             </summary>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
@@ -14915,23 +15019,23 @@
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.Listen(System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},System.Boolean)">
+        <member name="M:BlueQuark.Vocal.Listen(System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},System.Boolean)">
             <summary>
             Ask for a speech to text request. Any queued request will be executed as soon as possible after all previous requests 
             </summary>
             <param name="iSpeechGrammar">The VoCon grammar to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.Listen(System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},System.Boolean)">
+        <member name="M:BlueQuark.Vocal.Listen(System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},System.Boolean)">
             <summary>
             Ask for a speech to text request. Any queued request will be executed as soon as possible after all previous requests 
             </summary>
             <param name="iSpeechGrammars">VoCon grammars to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
@@ -14944,12 +15048,12 @@
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.Listen(System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.Listen(System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Ask for a speech to text request. Any queued request will be executed as soon as possible after all previous requests 
             </summary>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
@@ -14974,34 +15078,34 @@
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.Listen(System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.Listen(System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Ask for a speech to text request. Any queued request will be executed as soon as possible after all previous requests 
             </summary>
             <param name="iSpeechGrammar">The VoCon grammar to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.Listen(System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechRecognitionMode,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.Listen(System.String[],System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechRecognitionMode,System.Boolean)">
             <summary>
             Ask for a speech to text request. Any queued request will be executed as soon as possible after all previous requests 
             </summary>
             <param name="iSpeechGrammars">VoCon grammars to rely on for the speech to text request</param>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iMode">The speech to text recognition mode</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>
         </member>
-        <member name="M:BlueQuark.Vocal.Listen(System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechEvent},BlueQuark.SpeechInputParameters,System.Boolean)">
+        <member name="M:BlueQuark.Vocal.Listen(System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInputStatus},BlueQuark.SpeechInputParameters,System.Boolean)">
             <summary>
             Ask for a speech to text request. Any queued request will be executed as soon as possible after all previous requests 
             </summary>
             <param name="iOnEndListening">Callback called at the complete end of the input speech</param>
-            <param name="iOnListeningEvent">Callback called at any error / event during the input speech</param>
+            <param name="iOnListeningStatus">Callback called at any error / event during the input speech</param>
             <param name="iParameters">The speech to text recognition mode/grammars/confidence. Cannot be null</param>
             <param name="iEnqueue">A NON queued request WONT be executed if the module is already busy</param>
             <returns>Does the request is considered ?</returns>

@@ -1789,6 +1789,17 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>thank</Key>
+			<BaseValue>Merci</BaseValue>
+			<ClosePhoneticValues>
+				<string>merci</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>merci</string>
+				<string>merci bien</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>buddyturnedon</Key>
 			<BaseValue>Je suis content que vous m'ayez rallumé!</BaseValue>
 			<ClosePhoneticValues>
@@ -2942,13 +2953,49 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
-			<Key>testnotif</Key>
-			<BaseValue>Rendez-vous chez le médecin</BaseValue>
+			<Key>ihavereminder</Key>
+			<BaseValue>J'ai un rappel</BaseValue>
 			<ClosePhoneticValues>
 				<string />
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string>Vous avez rendez-vous chez le médecin</string>
+				<string>Je dois rappeler quelque chose!</string>
+				<string>J'ai quelque chose à vous dire!</string>
+				<string>J'ai un message à vous rappeler!</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>reminderis</Key>
+			<BaseValue>The reminder is</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Le message du rappel est [200]</string>
+				<string>Vous m'avez demander de rappeller le message suivant: [200]</string>
+				<string>Je vous rappel le message suivant: [200]</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>seepicture</Key>
+			<BaseValue>J'ai reçu une photo, Voulez-vous l'afficher?</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>J'ai reçu une photo, voulez vous que je l'affiche?</string>
+				<string>J'ai une photo, je vous la montre?</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>listennotif</Key>
+			<BaseValue>Ecouter le Rappel?</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Voulez-vous écouter le Rappel?</string>
+				<string>Voulez-vous que je vous lise le Rappel?</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>

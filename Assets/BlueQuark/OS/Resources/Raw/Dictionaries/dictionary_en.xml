@@ -1737,7 +1737,7 @@
 		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>buddyturnedon</Key>
-			<BaseValue>I am glad that youwoke me up!</BaseValue>
+			<BaseValue>I am glad that you woke me up!</BaseValue>
 			<ClosePhoneticValues>
 				<string />
 			</ClosePhoneticValues>
@@ -2345,6 +2345,22 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>thank</Key>
+			<BaseValue>Thank you</BaseValue>
+			<ClosePhoneticValues>
+				<string>Thank you</string>
+				<string>thank you human</string>
+				<string>thanks</string>
+				<string>much obliged!</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Thank you</string>
+				<string>thank you human</string>
+				<string>thanks</string>
+				<string>much obliged!</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>icanmove</Key>
 			<BaseValue>Okay</BaseValue>
 			<ClosePhoneticValues>
@@ -2906,15 +2922,52 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
-			<Key>testnotif</Key>
-			<BaseValue>medical appointment</BaseValue>
+			<Key>ihavereminder</Key>
+			<BaseValue>I have a reminder</BaseValue>
 			<ClosePhoneticValues>
 				<string />
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string>You have a medical appointment</string>
+				<string>I need to remind you something!</string>
+				<string>Human, I have something to remind you!</string>
+				<string>I need to tell you something!</string>
 			</RandomValues>
 		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>reminderis</Key>
+			<BaseValue>The reminder is</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>The message of the reminder is [200]</string>
+				<string>You asked me to remind you the following message: [200]</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>seepicture</Key>
+			<BaseValue>I received a picture, Do you want to see it?</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>I received a picture, Do you want to see it?</string>
+				<string>I've got an image for you, should I display it?</string>
+				<string>A picture was send to me. Can I show it to you?</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+				<Key>listennotif</Key>
+				<BaseValue>Listen to the reminder?</BaseValue>
+				<ClosePhoneticValues>
+					<string />
+				</ClosePhoneticValues>
+				<RandomValues>
+					<string>Should I read the reminder?</string>
+					<string>Should I tell you the notification?</string>
+					<string>Do you want to listen to the notification?</string>
+				</RandomValues>
+			</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>qhello</Key>
 			<BaseValue>Hello how are you?</BaseValue>
