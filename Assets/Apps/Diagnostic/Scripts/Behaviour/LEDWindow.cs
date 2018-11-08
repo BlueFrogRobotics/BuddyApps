@@ -8,8 +8,20 @@ using BlueQuark;
 
 namespace BuddyApp.Diagnostic
 {
+    public enum LEDLocalisation
+    {
+        RIGHT_SHOULDER,
+        LEFT_SHOULDER,
+        HEARTH
+    }
+
     public sealed class LEDWindow : MonoBehaviour
     {
+        private LEDLocalisation mLED;
+
+        [SerializeField]
+        private Dropdown mDropDown;
+
         [SerializeField]
         private Text textH;
 
@@ -42,19 +54,16 @@ namespace BuddyApp.Diagnostic
 
         [SerializeField]
         private RawImage rawImage;
-
-        private LEDs mLED;
-
+        
         private float mH;
         private float mS;
         private float mV;
         private float mF;
         private float mA;
-
+        private string mLEDLocalisation;
         void Start()
         {
-            mLED = Buddy.Actuators.LEDs;
-
+            mLEDLocalisation = "HEARTH";
             sliderH.wholeNumbers = true;
             sliderH.minValue = 0;
             sliderH.maxValue = 360;
@@ -78,6 +87,7 @@ namespace BuddyApp.Diagnostic
 
         void Update()
         {
+            //Buddy.Actuators.LEDs.Flash
             mH = sliderH.value;
             mS = sliderS.value;
             mV = sliderV.value;
@@ -96,6 +106,25 @@ namespace BuddyApp.Diagnostic
             //A changer après avec la nouvelle méthode (il n'y a plus d'amplitude a proprement parler)
             //mLED.SetBodyLights((int)mH, (int)mS, (int)mV, mA, mF);
             //rawImage.color = Color.HSVToRGB(mH / 360F, mS / 100F, mV / 100F);
+        }
+        
+        public void ValueChanged()
+        {
+            if (mDropDown.options[mDropDown.value].text =="HEARTH")
+            {
+                mLEDLocalisation = "HEARTH";
+                Debug.Log("HEARTH");
+            }
+            else if (mDropDown.options[mDropDown.value].text == "LEFT_SHOULDER")
+            {
+                mLEDLocalisation = "LEFT_SHOULDER";
+                Debug.Log("LEFT SHOULDER");
+            }
+            else if (mDropDown.options[mDropDown.value].text == "RIGHT_SHOULDER")
+            {
+                mLEDLocalisation = "RIGHT_SHOULDER";
+                Debug.Log("RIGHT SHOULDER");
+            }
         }
     }
 }

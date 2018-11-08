@@ -215,12 +215,12 @@ namespace BuddyApp.TakePhoto
 			mOverlay.gameObject.SetActive(false);
 			//Primitive.RGBCam.Close();
 
-			// save file 
-			string lFileName = "Buddy_" + System.DateTime.Now.Day + "day" +
-				System.DateTime.Now.Month + "month" + System.DateTime.Now.Hour + "h" +
-				System.DateTime.Now.Minute + "min" + System.DateTime.Now.Second + "sec.png";
-			string lFilePath = "";
-			lFilePath = Buddy.Resources.GetRawFullPath(lFileName);
+			//// save file 
+			//string lFileName = "Buddy_" + System.DateTime.Now.Day + "day" +
+			//	System.DateTime.Now.Month + "month" + System.DateTime.Now.Hour + "h" +
+			//	System.DateTime.Now.Minute + "min" + System.DateTime.Now.Second + "sec.png";
+			//string lFilePath = "";
+			//lFilePath = Buddy.Resources.GetRawFullPath(lFileName);
             // Take random Overlay
 
 
@@ -253,9 +253,9 @@ namespace BuddyApp.TakePhoto
                 mPhotoSprite = iMyPhoto.Image;
             }
             
-            Utils.SaveSpriteToFile(mPhotoSprite, lFilePath);
+            //Utils.SaveSpriteToFile(mPhotoSprite, lFilePath);
             iMyPhoto.Save();
-            TakePhotoData.Instance.PhotoPath = lFilePath;
+            //TakePhotoData.Instance.PhotoPath = lFilePath;
             mIsFrameCaptured = false;
             //Action mOnClick;
             //mOnClick = () => DialogerToast();

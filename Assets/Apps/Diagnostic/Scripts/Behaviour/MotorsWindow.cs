@@ -45,9 +45,9 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Slider distanceSetter;
         [SerializeField]
-        private Text speedDisplacementStrategy;
+        private Text AngularVelocityWheelsText;
         [SerializeField]
-        private Slider speedDisplacementStrategySetter;
+        private Slider AngularVelocityWheelsSetter;
 
 
 
@@ -56,13 +56,13 @@ namespace BuddyApp.Diagnostic
         private Text angleBack;
         [SerializeField]
         private Slider anglePosSetter;
-        
+
         [SerializeField]
         private InputField xPosSetter;
 
         [SerializeField]
         private InputField yPosSetter;
-        
+
         //[SerializeField]
         //private Slider toleranceSetter;
 
@@ -94,12 +94,13 @@ namespace BuddyApp.Diagnostic
 
         void Start()
         {
+
             mWheels = Buddy.Actuators.Wheels;
             mYesHinge = Buddy.Actuators.Head.Yes;
             mNoHinge = Buddy.Actuators.Head.No;
             mNavigation = Buddy.Navigation;
 
-            linearVelocitySetter.wholeNumbers = true;
+            linearVelocitySetter.wholeNumbers = false;
             linearVelocitySetter.minValue = -1F;
             linearVelocitySetter.maxValue = 1F;
 
@@ -111,9 +112,9 @@ namespace BuddyApp.Diagnostic
             //timerSetter.minValue = 500F;
             //timerSetter.maxValue = 10000F;
 
-            speedDisplacementStrategySetter.wholeNumbers = true;
-            speedDisplacementStrategySetter.minValue = 0F;
-            speedDisplacementStrategySetter.maxValue = 180F;
+            AngularVelocityWheelsSetter.wholeNumbers = true;
+            AngularVelocityWheelsSetter.minValue = 0F;
+            AngularVelocityWheelsSetter.maxValue = 250F;
 
             anglePosSetter.wholeNumbers = true;
             anglePosSetter.minValue = -180F;
@@ -128,16 +129,16 @@ namespace BuddyApp.Diagnostic
             distanceSetter.maxValue = 10F;
 
             yesHingeAngleSetter.wholeNumbers = true;
-            yesHingeAngleSetter.minValue = -30F;
-            yesHingeAngleSetter.maxValue = 70F;
+            yesHingeAngleSetter.minValue = -60F;
+            yesHingeAngleSetter.maxValue = 30F;
 
             noHingeAngleSetter.wholeNumbers = true;
-            noHingeAngleSetter.minValue = -74F;
-            noHingeAngleSetter.maxValue = 74F;
+            noHingeAngleSetter.minValue = -90F;
+            noHingeAngleSetter.maxValue = 90F;
 
             hingeSpeedSetter.wholeNumbers = true;
             hingeSpeedSetter.minValue = 0F;
-            hingeSpeedSetter.maxValue = 400F;
+            hingeSpeedSetter.maxValue = 96F;
         }
 
         void Update()
@@ -148,11 +149,11 @@ namespace BuddyApp.Diagnostic
             noHingeAngleGetter.text = "No angle : " + mNoHinge.Angle;
             yesHingeAngleGetter.text = "Yes angle : " + mYesHinge.Angle;
 
-            linearVelocity.text = "Linear Velocity: " + linearVelocitySetter.value;
+            linearVelocity.text = "Linear Velocity: " + Math.Round(linearVelocitySetter.value, 2);
             angularVelocity.text = "Angular Velocity : " + angularVelocitySetter.value;
 
-            distanceBack.text = "Dist : " + distanceSetter.value;
-            speedDisplacementStrategy.text = "Timer : " + speedDisplacementStrategySetter.value;
+            distanceBack.text = "Dist : " + Math.Round(distanceSetter.value, 2);
+            AngularVelocityWheelsText.text = "Spd : " + AngularVelocityWheelsSetter.value;
 
             angleBack.text = "Angle Th : " + anglePosSetter.value;
             //toleranceBack.text = "Tol : " + toleranceSetter.value;
@@ -167,8 +168,13 @@ namespace BuddyApp.Diagnostic
             //mWheels.SetWheelsSpeed(leftSpeedSetter.value,
             //                        rightSpeedSetter.value,
             //                        (int)timerSetter.value);
-            
-            mWheels.SetVelocities(mWheels.LinearVelocity, mWheels.AngularVelocity);
+
+            //mWheels.SetVelocities(mWheels.LinearVelocity, mWheels.AngularVelocity);
+            //mWheels.SetVelocities(linearVelocitySetter.value, angularVelocitySetter.value);
+            double mDistance = Math.Round(distanceSetter.value, 4);
+            double mLinearVelocity = Math.Round(linearVelocitySetter.value, 4);
+            Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity);
+
         }
 
         public void MoveDistance()
@@ -177,9 +183,11 @@ namespace BuddyApp.Diagnostic
             //                    rightSpeedSetter.value,
             //                    distanceSetter.value,
             //                    toleranceSetter.value);
-            Debug.Log("NOT IMPLEMENTED YET");
-            mNavigation.Run<DisplacementStrategy>().Move(distanceSetter.value, speedDisplacementStrategySetter.value);
-            
+            //Debug.Log("NOT IMPLEMENTED YET");
+            //mNavigation.Run<DisplacementStrategy>().Move(distanceSetter.value, speedDisplacementStrategySetter.value);
+            double mDistance = Math.Round(distanceSetter.value, 4);
+            double mLinearVelocity = Math.Round(linearVelocitySetter.value, 4);
+            Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity);
         }
 
         public void TurnAbsolute()
@@ -188,7 +196,7 @@ namespace BuddyApp.Diagnostic
             //                    (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
             //                    toleranceSetter.value);
             Debug.Log("NOT IMPLEMENTED YET");
-            mNavigation.Run<DisplacementStrategy>().RotateTo(anglePosSetter.value, speedDisplacementStrategySetter.value);
+            mNavigation.Run<DisplacementStrategy>().RotateTo(anglePosSetter.value, AngularVelocityWheelsSetter.value);
         }
 
         public void TurnRelative()
@@ -197,7 +205,7 @@ namespace BuddyApp.Diagnostic
             //                (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
             //                toleranceSetter.value);
             Debug.Log("NOT IMPLEMENTED YET");
-            mNavigation.Run<DisplacementStrategy>().Rotate(anglePosSetter.value, speedDisplacementStrategySetter.value);
+            mNavigation.Run<DisplacementStrategy>().Rotate(anglePosSetter.value, AngularVelocityWheelsSetter.value);
         }
 
         public void GoTo()
@@ -214,6 +222,7 @@ namespace BuddyApp.Diagnostic
         public void SetYesPos()
         {
             mYesHinge.SetPosition(yesHingeAngleSetter.value, hingeSpeedSetter.value);
+            //mYesHinge.SetPosition(yesHingeAngleSetter.value);
         }
 
         public void SetNoPos()

@@ -60,9 +60,6 @@ namespace BuddyApp.Diagnostic
 				ledRoot, motorsRoot, faceRoot,
 				camerasRoot, thermalRoot, sensorsRoot, connexionRoot
             };
-
-			
-
 			mCurrentWindow = WindowType.FACE;
             //SetWindow((int)WindowType.VOCAL);
             SetWindow((int)WindowType.MOTORS);

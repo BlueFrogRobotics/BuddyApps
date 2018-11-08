@@ -36,7 +36,7 @@ namespace BuddyApp.Tutorial
 			// We parameter the motion detection : regionOfInterest represents where the detection will be done in the current frame
 			// sensibilityThreshold represents the threshold for the detection
 			MotionDetectorParameter mMotionDetectorParameter = new MotionDetectorParameter();
-			mMotionDetectorParameter.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480);
+			mMotionDetectorParameter.RegionOfInterest = new OpenCVUnity.Rect(0, 0, Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
 			mMotionDetectorParameter.SensibilityThreshold = 2.5F;
 
 			// OnDetect opens the camera itself so we don't have to do it. Default resolution is 640*480

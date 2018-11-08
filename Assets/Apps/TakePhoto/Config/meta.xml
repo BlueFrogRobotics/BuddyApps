@@ -5,7 +5,7 @@
     <CommercialName>TakePhoto</CommercialName>
     <MainScene>0</MainScene>
     <Authors>dev@bluefrogrobotics.com</Authors>
-    <Version>1.0.2.20</Version>
+    <Version>1.0.2.29</Version>
     <VersionStatus>NONE</VersionStatus>
     <VersionName>alpha2</VersionName>
     <Category>COMPANION</Category>
@@ -56,6 +56,14 @@
         </AppPermission>
         <AppPermission>
             <Type>DISABLE_LOADING_SCREEN</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_MEDIA_DATA_WRITE</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_DATA_WRITE</Type>
             <IsValid>true</IsValid>
         </AppPermission>
     </Permissions>

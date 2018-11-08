@@ -156,13 +156,13 @@ namespace BuddyApp.Shared
                 //mMotion.OnDetect.AddP(OnMovementDetected, mMotionDetectorParameter);
                 mMotion.OnDetect.AddP(OnMovementDetected, new MotionDetectorParameter()
                 {
-                    RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480),
+                    RegionOfInterest = new OpenCVUnity.Rect(0, 0, Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height),
                     SensibilityThreshold = 2.5F
                 });
             }
             else
             {
-                mRect = new OpenCVUnity.Rect(new Point((int)(320 / 3), 0), new Point((int)(640 * 2 / 3), 480));
+                mRect = new OpenCVUnity.Rect(new Point((int)(320 / 3), 0), new Point((int)(Buddy.Sensors.RGBCamera.Width * 2 / 3), Buddy.Sensors.RGBCamera.Height));
                 mMotionDetectorParameter.SensibilityThreshold = 2.5F;
                 mMotionDetectorParameter.RegionOfInterest = mRect;
                 mMotion.OnDetect.AddP(OnMovementDetected, mMotionDetectorParameter);
