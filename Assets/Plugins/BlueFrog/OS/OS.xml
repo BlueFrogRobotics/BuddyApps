@@ -3877,7 +3877,7 @@
             </summary>
             <param name="iConfidenceThreshold">Confidence threshold for acceptance. From 1 to 9999</param>
         </member>
-        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConEvent},System.Int32)">
+        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConStatus},System.Int32)">
             <summary>
             Start the Vocon recognition engine.
             </summary>
@@ -3892,7 +3892,7 @@
             <param name="iGrammar">The grammar that will be used.</param>
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
         </member>
-        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String,System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConEvent},System.Int32)">
+        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String,System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConStatus},System.Int32)">
             <summary>
             Start the Vocon recognition engine.
             </summary>
@@ -3908,7 +3908,7 @@
             <param name="iGrammars">The grammar that will be used.</param>
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
         </member>
-        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String[],System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConEvent},System.Int32)">
+        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String[],System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConStatus},System.Int32)">
             <summary>
             Start the Vocon recognition engine.
             </summary>
@@ -3960,65 +3960,65 @@
             WIP : fake timer
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.VoConEvent">
+        <member name="T:BlueQuark.Internal.VoConStatus">
             <summary>
             All the possible audio events that can be detected by Vocon.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.VoConEvent.BEGINNING_OF_SPEECH">
+        <member name="F:BlueQuark.Internal.VoConStatus.BEGINNING_OF_SPEECH">
             <summary>
             User started to speak.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.VoConEvent.MAYBE_SPEECH">
+        <member name="F:BlueQuark.Internal.VoConStatus.MAYBE_SPEECH">
             <summary>
             Could be the beginning of speech.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.VoConEvent.NO_SPEECH">
+        <member name="F:BlueQuark.Internal.VoConStatus.NO_SPEECH">
             <summary>
             The previously sent MAYBE_SPEECH event did not lead
             to and actual beginning of speech.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.VoConEvent.TIMEOUT">
+        <member name="F:BlueQuark.Internal.VoConStatus.TIMEOUT">
             <summary>
             A timeout occured.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.VoConEvent.TRAILING_SILENCE">
+        <member name="F:BlueQuark.Internal.VoConStatus.TRAILING_SILENCE">
             <summary>
             A trailing silence was detected.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.VoConEvent.BAD_SIGNAL_NOISE_RATIO">
+        <member name="F:BlueQuark.Internal.VoConStatus.BAD_SIGNAL_NOISE_RATIO">
             <summary>
             The signal to noise ratio is too low.
             This event is generated if at the end of an utterance
             the signal/noise ratio remains below 12dB.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.VoConEvent.OVERLOAD">
+        <member name="F:BlueQuark.Internal.VoConStatus.OVERLOAD">
             <summary>
             The speech level is too loud.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.VoConEvent.TOO_QUIET">
+        <member name="F:BlueQuark.Internal.VoConStatus.TOO_QUIET">
             <summary>
             The speech level is too weak.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.VoConEvent.NO_SIGNAL">
+        <member name="F:BlueQuark.Internal.VoConStatus.NO_SIGNAL">
             <summary>
             No or very low input signal.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.VoConEvent.POOR_MIC">
+        <member name="F:BlueQuark.Internal.VoConStatus.POOR_MIC">
             <summary>
             This could mean that the microphone or the audio hardware is of poor quality. 
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.VoConEvent.NO_LEADING_SILENCE">
+        <member name="F:BlueQuark.Internal.VoConStatus.NO_LEADING_SILENCE">
             <summary>
             The recording apparantly does not start with leading silence.
             Possibly the speaker started speaking too soon,
@@ -14256,7 +14256,7 @@
             The last said (TTS) output
             </summary>
         </member>
-        <member name="P:BlueQuark.Vocal.LastListeningEvent">
+        <member name="P:BlueQuark.Vocal.LastListeningStatus">
             <summary>
             The last listening event
             </summary>
@@ -15310,7 +15310,7 @@
             Returns true if a message is sending.
             </summary>
         </member>
-        <member name="M:BlueQuark.EMailSender.Send(System.String,System.String,BlueQuark.SMTP,BlueQuark.EMail,System.Action)">
+        <member name="M:BlueQuark.EMailSender.Send(System.String,System.String,BlueQuark.SMTP,BlueQuark.EMail,System.Action{System.Boolean})">
             <summary>
             Creates an smtp client with the user's address and sends the mail. This method will do nothing if a previous mail has not been sent yet
             </summary>
@@ -15320,7 +15320,7 @@
             <param name="iEMail">mail that will be send</param>
             <param name="iOnEndSending">Callback called at the end of the sending</param>
         </member>
-        <member name="M:BlueQuark.EMailSender.Send(System.String,System.String,System.String,BlueQuark.EMail,System.Action)">
+        <member name="M:BlueQuark.EMailSender.Send(System.String,System.String,System.String,BlueQuark.EMail,System.Action{System.Boolean})">
             <summary>
             Create an smtp client with the user address and send the mail. This method will do nothing if a previous mail has not yet been sent
             </summary>
@@ -15330,7 +15330,7 @@
             <param name="iEMail">mail that will be send</param>
             <param name="iOnEndSending">Callback called at the end of the sending</param>
         </member>
-        <member name="M:BlueQuark.EMailSender.Send(System.String,System.String,System.String,BlueQuark.EMail[],System.Action)">
+        <member name="M:BlueQuark.EMailSender.Send(System.String,System.String,System.String,BlueQuark.EMail[],System.Action{System.Boolean})">
             <summary>
             Create an smtp client with the user address and send the mail. This method will do nothing if a previous mail has not yet been sent
             </summary>
@@ -15340,7 +15340,7 @@
             <param name="iEMails">mails that will be send</param>
             <param name="iOnEndSending">Callback called at the end of the sending</param>
         </member>
-        <member name="M:BlueQuark.EMailSender.Send(System.String,System.String,BlueQuark.SMTP,BlueQuark.EMail[],System.Action)">
+        <member name="M:BlueQuark.EMailSender.Send(System.String,System.String,BlueQuark.SMTP,BlueQuark.EMail[],System.Action{System.Boolean})">
             <summary>
             Create an smtp client with the user address and send the mail. This method will do nothing if a previous mail has not yet been sent
             </summary>

@@ -92,7 +92,7 @@ namespace BuddyApp.Shared
 
             //Use vocon
             Buddy.Vocal.OnEndListening.Add((iInput) => { VoconBest(iInput); });
-            Buddy.Vocal.OnListeningEvent.Add((iInput) => { EventVocon(iInput); });
+            Buddy.Vocal.OnListeningStatus.Add((iInput) => { EventVocon(iInput); });
             Buddy.Vocal.Listen(NameVoconGrammarFile, SpeechRecognitionMode.GRAMMAR_ONLY);
             //Interaction.VocalManager.AddGrammar(NameVoconGrammarFile, context);
             //Interaction.VocalManager.OnVoconBest = VoconBest;
@@ -108,7 +108,7 @@ namespace BuddyApp.Shared
             mTimer = 0F;
         }
 
-        private void EventVocon(SpeechEvent iEvent)
+        private void EventVocon(SpeechInputStatus iEvent)
         {
             Debug.Log(iEvent);
         }

@@ -110,7 +110,7 @@ namespace BuddyApp.Shared
             //Interaction.VocalManager.EnableDefaultErrorHandling = false;
             //Interaction.VocalManager.OnError = Empty;
             Buddy.Vocal.OnEndListening.Add((iInput) => { VoconBest(iInput); });
-            Buddy.Vocal.OnListeningEvent.Add((iInput) => { EventVocon(iInput); });
+            Buddy.Vocal.OnListeningStatus.Add((iInput) => { EventVocon(iInput); });
 
             if(!string.IsNullOrEmpty(NameVoconGrammarFile))
                 Buddy.Vocal.Listen(NameVoconGrammarFile, SpeechRecognitionMode.GRAMMAR_ONLY);
@@ -118,7 +118,7 @@ namespace BuddyApp.Shared
             mListening = false;
         }
 
-        private void EventVocon(SpeechEvent iEvent)
+        private void EventVocon(SpeechInputStatus iEvent)
         {
             Debug.Log(iEvent);
             if (iEvent.IsError)

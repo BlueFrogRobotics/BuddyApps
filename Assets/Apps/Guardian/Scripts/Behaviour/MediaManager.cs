@@ -264,7 +264,7 @@ namespace BuddyApp.Guardian
         /// <summary>
         /// Function that will be called when the email has beent sent
         /// </summary>
-        private void OnMailSent()
+        private void OnMailSent(bool iSuccess)
         {
             mState = State.DEFAULT;
             //BYOS.Instance.WebService.EMailSender.enabled = false;

@@ -26,8 +26,8 @@ namespace BuddyApp.Weather
             //Interaction.VocalManager.OnVoconEvent = EventVocon;
 
             Buddy.Vocal.OnEndListening.Add((iInput) => { VoconBest(iInput); });
-            Buddy.Vocal.OnListeningEvent.Add((iInput) => { EventVocon(iInput); });
-            Buddy.Vocal.OnListeningEvent.Add((iInput) => { NoAnswer(iInput); });
+            Buddy.Vocal.OnListeningStatus.Add((iInput) => { EventVocon(iInput); });
+            Buddy.Vocal.OnListeningStatus.Add((iInput) => { NoAnswer(iInput); });
 
             //Buddy.Vocal.Listen(NameVoconGrammarFile, SpeechRecognitionMode.OFFLINE_ONLY);
 
@@ -35,7 +35,7 @@ namespace BuddyApp.Weather
             //Interaction.VocalManager.OnError = NoAnswer;
         }
 
-        private void EventVocon(SpeechEvent iEvent)
+        private void EventVocon(SpeechInputStatus iEvent)
         {
             Debug.Log(iEvent);
         }
@@ -78,7 +78,7 @@ namespace BuddyApp.Weather
             }
         }
 
-        private void NoAnswer(SpeechEvent iEvent)
+        private void NoAnswer(SpeechInputStatus iEvent)
         {
             //if (iEvent.IsError)
                 //ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.OUTPUT, "VM error...");
