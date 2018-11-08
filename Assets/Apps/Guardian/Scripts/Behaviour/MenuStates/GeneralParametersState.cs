@@ -99,7 +99,7 @@ namespace BuddyApp.Guardian
         private void OnToggleNotif(bool iNotif)
         {
             mButtonRecipient.SetActive(iNotif);
-            GuardianData.Instance.SendMail = iNotif;
+            //GuardianData.Instance.SendMail = iNotif;
         }
 
     }

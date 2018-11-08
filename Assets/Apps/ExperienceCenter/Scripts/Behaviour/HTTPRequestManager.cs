@@ -29,7 +29,7 @@ namespace BuddyApp.ExperienceCenter
 			RetrieveDevices = false;
 			mCookie = "";
 			IOTLabels = new Dictionary<string, string> () {
-				{ "light", "Led Outdoor" },
+				{ "light", "Office plug" },
 				{ "sound", "Party Time" },
 				{ "store", "Awning" }
 			};
@@ -283,7 +283,7 @@ namespace BuddyApp.ExperienceCenter
 
 			yield return request.Send ();
 
-			if (request.isError)
+			if (request.isNetworkError)
 				Debug.LogErrorFormat ("[EXCENTER] Failed {0} request : {1}", apiEntry, request.error);
 			else {
 				JSONObject response = (JSONObject)JSON.Parse (request.downloadHandler.text);
@@ -303,7 +303,7 @@ namespace BuddyApp.ExperienceCenter
 
 			yield return request.Send ();
 
-			if (request.isError)
+			if (request.isNetworkError)
 				Debug.LogErrorFormat ("Failed {0} request : {1}", apiEntry, request.error);
 			else {
 				// On Login, retrieve authentication cookie
@@ -331,7 +331,7 @@ namespace BuddyApp.ExperienceCenter
 
 			yield return request.Send ();
 
-			if (request.isError)
+			if (request.isNetworkError)
 				Debug.LogErrorFormat ("[EXCENTER] Failed {0} request : {1}", apiEntry, request.error);
 			else {
 				JSONArray response = (JSONArray)JSON.Parse (request.downloadHandler.text);

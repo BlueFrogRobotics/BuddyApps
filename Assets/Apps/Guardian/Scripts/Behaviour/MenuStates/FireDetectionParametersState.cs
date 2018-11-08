@@ -27,7 +27,7 @@ namespace BuddyApp.Guardian
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
 
-            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("heatdetection"));
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("heatdetection")); 
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
             //	() => { Trigger("NextStep"); }, 
             //	null);
@@ -46,7 +46,7 @@ namespace BuddyApp.Guardian
                 //mButtonTestSensibility.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_cog"));
                 mButtonTestSensibility.SetIcon(Buddy.Resources.Get<Sprite>("os_circle_button"));
                 mButtonTestSensibility.SetActive(mToggleFireDetection.ToggleValue);
-                mButtonTestSensibility.OnClick.Add(() => { SaveParam(); Trigger("Test"); Buddy.GUI.Toaster.Hide(); });
+                mButtonTestSensibility.OnClick.Add(() => { /*SaveParam();*/ Trigger("Test"); Buddy.GUI.Toaster.Hide(); });
                 //iBuilder.CreateWidget<TText>().SetLabel("test2");
             },
             () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("cancel"),

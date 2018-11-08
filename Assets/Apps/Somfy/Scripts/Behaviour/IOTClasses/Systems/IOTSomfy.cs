@@ -85,7 +85,7 @@ namespace BuddyApp.Somfy
             {
 
             }
-            if (www.isHttpError)
+            if (www.isNetworkError)
             {
                 Debug.Log(www.error);
             }
@@ -119,7 +119,7 @@ namespace BuddyApp.Somfy
             {
 
             }
-            if (www.isHttpError)
+            if (www.isNetworkError)
             {
                 Debug.Log(www.error);
             }
@@ -139,12 +139,14 @@ namespace BuddyApp.Somfy
 
             lRequest.Send((lResult) =>
             {
-                if (lResult == null)
+                if (lResult == null || lResult.response == null)
                 {
                     Debug.LogError("Somfy not connected");
                     return;
                 }
                 Debug.Log("avant response");
+                Debug.Log("identifiants: "+ SomfyData.Instance.Login+" "+ SomfyData.Instance.Password);
+
                 string response = "{\"devices\" :" + lResult.response.Text + "}";
                 //JSONNode lJsonNode = Buddy.JSON.Parse(response);
                 //Debug.Log("response: " + response);

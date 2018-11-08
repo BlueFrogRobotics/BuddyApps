@@ -1,11 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ExperienceCenterData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<ExperienceCenterData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <API_URL>https://www.tahomalink.com/enduser-mobile-web/enduserAPI/</API_URL>
-    <Password>T@HoMaLiGhT</Password>
     <UserID>lighthouse@mailinator.com</UserID>
+    <Password>T@HoMaLiGhT</Password>
     <ShouldTestIOT>false</ShouldTestIOT>
     <LightState>false</LightState>
     <SonosState>false</SonosState>
     <StoreState>false</StoreState>
+    <IsLightOn>false</IsLightOn>
+    <IsStoreDeployed>false</IsStoreDeployed>
+    <IsMusicOn>false</IsMusicOn>
+    <EnableHeadMovement>true</EnableHeadMovement>
+    <EnableBaseMovement>true</EnableBaseMovement>
+    <StopDistance>0.4</StopDistance>
+    <NoiseTime>0.2</NoiseTime>
+    <TableDistance>0.4</TableDistance>
+    <IOTDistance>1.5</IOTDistance>
+    <HeadPoseTolerance>0.2</HeadPoseTolerance>
+    <WelcomeTimeOut>2</WelcomeTimeOut>
+    <MoveTimeOut>5</MoveTimeOut>
+    <NoHingeAngle>60</NoHingeAngle>
+    <NoHingeSpeed>120</NoHingeSpeed>
+    <VoiceTrigger>true</VoiceTrigger>
+    <RunTrigger>false</RunTrigger>
+    <EnableBML>true</EnableBML>
+    <MaxSpeed>200</MaxSpeed>
+    <MinSpeed>-200</MinSpeed>
+    <MaxDistance>1</MaxDistance>
+    <MinDistance>0.7</MinDistance>
+    <CollisionDebug>false</CollisionDebug>
+    <DanceDuration>30</DanceDuration>
+    <Scenario>Idle</Scenario>
+    <IPAddress>192.168.1.63:3000</IPAddress>
+    <StatusTcp>Waiting for connection</StatusTcp>
     <Language>FRANÇAIS</Language>
+    <ShouldSendCommand>false</ShouldSendCommand>
+    <Command />
 </ExperienceCenterData>

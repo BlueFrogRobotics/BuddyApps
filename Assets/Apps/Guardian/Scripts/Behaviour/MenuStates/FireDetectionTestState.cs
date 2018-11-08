@@ -62,7 +62,7 @@ namespace BuddyApp.Guardian
 
         private void ShowToaster()
         {
-            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("selectsensibility"));
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("heatdetection"));
             Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTexture);
             
             mLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();

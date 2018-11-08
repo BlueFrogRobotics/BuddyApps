@@ -160,7 +160,7 @@ namespace BuddyApp.Guardian
             Debug.Log("link detector events");
             MotionDetectorParameter lMotionParam = new MotionDetectorParameter();
             lMotionParam.SensibilityThreshold = GuardianData.Instance.MovementDetectionThreshold * MAX_MOVEMENT_THRESHOLD / 100;
-            lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 640, 480);
+            lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240);
             HasLinkedDetector = true;
             //if (!IsDetectingMovement)
                 mMotionDetection.OnDetect.AddP(OnMovementDetected, lMotionParam);
