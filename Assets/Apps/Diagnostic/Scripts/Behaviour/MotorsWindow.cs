@@ -173,7 +173,7 @@ namespace BuddyApp.Diagnostic
             //mWheels.SetVelocities(linearVelocitySetter.value, angularVelocitySetter.value);
             double mDistance = Math.Round(distanceSetter.value, 4);
             double mLinearVelocity = Math.Round(linearVelocitySetter.value, 4);
-            Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity);
+            Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity, false);
 
         }
 
@@ -187,7 +187,7 @@ namespace BuddyApp.Diagnostic
             //mNavigation.Run<DisplacementStrategy>().Move(distanceSetter.value, speedDisplacementStrategySetter.value);
             double mDistance = Math.Round(distanceSetter.value, 4);
             double mLinearVelocity = Math.Round(linearVelocitySetter.value, 4);
-            Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity);
+            Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity, false);
         }
 
         public void TurnAbsolute()

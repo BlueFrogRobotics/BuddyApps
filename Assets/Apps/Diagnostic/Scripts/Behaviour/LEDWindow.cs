@@ -8,16 +8,8 @@ using BlueQuark;
 
 namespace BuddyApp.Diagnostic
 {
-    public enum LEDLocalisation
-    {
-        RIGHT_SHOULDER,
-        LEFT_SHOULDER,
-        HEARTH
-    }
-
     public sealed class LEDWindow : MonoBehaviour
     {
-        private LEDLocalisation mLED;
 
         [SerializeField]
         private Dropdown mDropDown;
@@ -63,7 +55,7 @@ namespace BuddyApp.Diagnostic
         private string mLEDLocalisation;
         void Start()
         {
-            mLEDLocalisation = "HEARTH";
+            mLEDLocalisation = "ALL";
             sliderH.wholeNumbers = true;
             sliderH.minValue = 0;
             sliderH.maxValue = 360;
@@ -105,7 +97,30 @@ namespace BuddyApp.Diagnostic
         {
             //A changer après avec la nouvelle méthode (il n'y a plus d'amplitude a proprement parler)
             //mLED.SetBodyLights((int)mH, (int)mS, (int)mV, mA, mF);
-            //rawImage.color = Color.HSVToRGB(mH / 360F, mS / 100F, mV / 100F);
+            
+            if(mLEDLocalisation == "ALL")
+            {
+                Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+                Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+                Buddy.Actuators.LEDs.SetHSVRightShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+            }
+            else if(mLEDLocalisation == "HEARTH")
+            {
+                Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+            }
+            else if (mLEDLocalisation == "LEFT_SHOULDER")
+            {
+                Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+            }
+            else if (mLEDLocalisation == "RIGHT_SHOULDER")
+            {
+                Buddy.Actuators.LEDs.SetHSVRightShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+            }
+        }
+        
+        public void UpdateTexture()
+        {
+            rawImage.color = Color.HSVToRGB(mH / 360F, mS / 100F, mV / 100F);
         }
         
         public void ValueChanged()
@@ -125,6 +140,26 @@ namespace BuddyApp.Diagnostic
                 mLEDLocalisation = "RIGHT_SHOULDER";
                 Debug.Log("RIGHT SHOULDER");
             }
+            else if(mDropDown.options[mDropDown.value].text == "ALL")
+            {
+                mLEDLocalisation = "ALL";
+                Debug.Log("ALL");
+            }
+        }
+
+        public void SetFlash()
+        {
+            Buddy.Actuators.LEDs.Flash = true;
+        }
+
+        private byte FloatToByte(float iFloat)
+        {
+            return System.Convert.ToByte(iFloat);
+        }
+
+        private short FloatToShort(float iFloat)
+        {
+            return System.Convert.ToInt16(iFloat);
         }
     }
 }

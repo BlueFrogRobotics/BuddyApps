@@ -147,11 +147,11 @@ namespace BuddyApp.Shared
                         if (IsKey(BuddySays)) {
                             //Change this line when CORE did the correction about GetRandomString not working if the string is empty
                             if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(BuddySays)))
-                                mTTS.Say(Buddy.Resources.GetRandomString(BuddySays));
+                                mTTS.Say(Buddy.Resources.GetRandomString(BuddySays), false);
                             else
-                                mTTS.Say(Buddy.Resources.GetString(BuddySays));
+                                mTTS.Say(Buddy.Resources.GetString(BuddySays), false);
                         } else {
-                            mTTS.Say(BuddySays);
+                            mTTS.Say(BuddySays, false);
                         }
                     }
                     //Display toaster
@@ -202,11 +202,11 @@ namespace BuddyApp.Shared
                         if (IsKey(BuddySays)) {
                             //Change this line when CORE did the correction about GetRandomString not working if the string is empty
                             if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(BuddySays)))
-                                mTTS.Say(Buddy.Resources.GetRandomString(BuddySays));
+                                mTTS.Say(Buddy.Resources.GetRandomString(BuddySays), false);
                             else
-                                mTTS.Say(Buddy.Resources.GetString(BuddySays));
+                                mTTS.Say(Buddy.Resources.GetString(BuddySays), false);
                         } else {
-                            mTTS.Say(BuddySays);
+                            mTTS.Say(BuddySays, false);
                         }
                     }
                     DisplayQuestion();
@@ -291,11 +291,11 @@ namespace BuddyApp.Shared
                     Debug.Log(BuddySaysWhenQuit);
                     //Change this line when CORE did the correction about GetRandomString not working if the string is empty
                     if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(BuddySaysWhenQuit)))
-                        mTTS.Say(Buddy.Resources.GetRandomString(BuddySaysWhenQuit));
+                        mTTS.Say(Buddy.Resources.GetRandomString(BuddySaysWhenQuit), false);
                     else
-                        mTTS.Say(Buddy.Resources.GetString(BuddySaysWhenQuit));
+                        mTTS.Say(Buddy.Resources.GetString(BuddySaysWhenQuit), false);
                 } else {
-                    mTTS.Say(BuddySaysWhenQuit);
+                    mTTS.Say(BuddySaysWhenQuit, false);
                 }
             }
 

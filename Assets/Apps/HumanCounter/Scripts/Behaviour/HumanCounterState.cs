@@ -50,7 +50,7 @@ namespace BuddyApp.HumanCounter
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             COEFF_X = 1.7F;
-            COEFF_Y = 2.26F;
+            COEFF_Y = 2.45F;
             mHumanDetectEnable = false;
             mFaceDetectEnable = false;
             mSkeletonDetectEnable = false;
@@ -137,7 +137,7 @@ namespace BuddyApp.HumanCounter
             {
                 // Clear all old box, from the last detection
                 mDetectedBox.Clear();
-                mListJoint.Clear();
+                //mListJoint.Clear();
                 mCurrentHumanCount = 0;
                 // If nobody is detect, it's important to continue to take sample, to keep consistency of the average.
                 if (mSampleCount.Count < AVERAGE_FRAME_NUMBER)
@@ -216,7 +216,7 @@ namespace BuddyApp.HumanCounter
                 else if (HumanCounterData.Instance.DetectionOption == DetectionOption.FACE_DETECT)
                     Buddy.Perception.FaceDetector.OnDetect.RemoveP(OnFaceDetect);
                 else if (HumanCounterData.Instance.DetectionOption == DetectionOption.SKELETON_DETECT)
-                    Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetect);
+                    Buddy.Perception.SkeletonDetector.OnDetect.RemoveP(OnSkeletonDetect);
             }
         }
 
@@ -236,115 +236,121 @@ namespace BuddyApp.HumanCounter
             }
             else
             {
-
-                for (int k = 0; k < /*mListJoint.Count*/ 2; ++k)
+                if(Buddy.Sensors.RGBCamera.IsOpen)
                 {
-                    int lWidth = lMatSrc.cols();
-                    int lHeight = lMatSrc.rows();
-                    for (int i = 0; i < mListJoint[k].Length; ++i)
+                    //for (int k = 0; k < Math.Min(mListJoint.Count, 2); ++k)
+                    foreach(var skeleton in mListJoint)
                     {
-                        var lJoint = mListJoint[k][i];
-                        Point lCenter = new Point(lWidth / 2, lHeight / 2);
-                        Point lLocal = new Point(lJoint.WorldPosition.x / lJoint.WorldPosition.z, lJoint.WorldPosition.y / lJoint.WorldPosition.z);
-                        lLocal.x *= COEFF_X * lWidth / 2;
-                        lLocal.y *= COEFF_Y * lHeight / 2;
-
-                        for (int j = 0; j < mListJoint[k].Length; j++)
+                        int lWidth = lMatSrc.cols();
+                        int lHeight = lMatSrc.rows();
+                        //for (int i = 0; i < mListJoint[k].Length; ++i)
+                        foreach (var lJoint in skeleton)
                         {
-                            var lSecondJoint = mListJoint[k][j];
-                            Point lSecondLocal = new Point(lSecondJoint.WorldPosition.x / lSecondJoint.WorldPosition.z, lSecondJoint.WorldPosition.y / lSecondJoint.WorldPosition.z);
-                            lSecondLocal.x *= COEFF_X * lWidth / 2;
-                            lSecondLocal.y *= COEFF_Y * lHeight / 2;
-#region JOINTS_LINKED
+                            //var lJoint = mListJoint[k][i];
+                            Point lCenter = new Point(lWidth / 2, lHeight / 2);
+                            Point lLocal = new Point(lJoint.WorldPosition.x / lJoint.WorldPosition.z, lJoint.WorldPosition.y / lJoint.WorldPosition.z);
+                            lLocal.x *= COEFF_X * lWidth / 2;
+                            lLocal.y *= COEFF_Y * lHeight / 2;
 
-                            if (lJoint.Type != SkeletonJointType.UNKNOWN || lSecondJoint.Type != SkeletonJointType.UNKNOWN)
+                            //for (int j = 0; j < mListJoint[k].Length; j++)
+                            foreach(var lSecondJoint in skeleton)
                             {
-                                if (lJoint.Type == SkeletonJointType.HEAD && lSecondJoint.Type == SkeletonJointType.SHOULDER_SPINE)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
+                                //var lSecondJoint = mListJoint[k][j];
+                                Point lSecondLocal = new Point(lSecondJoint.WorldPosition.x / lSecondJoint.WorldPosition.z, lSecondJoint.WorldPosition.y / lSecondJoint.WorldPosition.z);
+                                lSecondLocal.x *= COEFF_X * lWidth / 2;
+                                lSecondLocal.y *= COEFF_Y * lHeight / 2;
+                                #region JOINTS_LINKED
 
-                                //RIGHT ARM
-                                if (lJoint.Type == SkeletonJointType.SHOULDER_SPINE && lSecondJoint.Type == SkeletonJointType.RIGHT_SHOULDER)
+                                if (lJoint.Type != SkeletonJointType.UNKNOWN || lSecondJoint.Type != SkeletonJointType.UNKNOWN)
                                 {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
-                                if (lJoint.Type == SkeletonJointType.RIGHT_SHOULDER && lSecondJoint.Type == SkeletonJointType.RIGHT_ELBOW)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
-                                if (lJoint.Type == SkeletonJointType.RIGHT_ELBOW && lSecondJoint.Type == SkeletonJointType.RIGHT_WRIST)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
-                                if (lJoint.Type == SkeletonJointType.RIGHT_WRIST && lSecondJoint.Type == SkeletonJointType.RIGHT_HAND)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
+                                    if (lJoint.Type == SkeletonJointType.HEAD && lSecondJoint.Type == SkeletonJointType.SHOULDER_SPINE)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
 
-                                //LEFT ARM
-                                if (lJoint.Type == SkeletonJointType.SHOULDER_SPINE && lSecondJoint.Type == SkeletonJointType.LEFT_SHOULDER)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
-                                if (lJoint.Type == SkeletonJointType.LEFT_SHOULDER && lSecondJoint.Type == SkeletonJointType.LEFT_ELBOW)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
-                                if (lJoint.Type == SkeletonJointType.LEFT_ELBOW && lSecondJoint.Type == SkeletonJointType.LEFT_WRIST)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
-                                if (lJoint.Type == SkeletonJointType.LEFT_WRIST && lSecondJoint.Type == SkeletonJointType.LEFT_HAND)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
+                                    //RIGHT ARM
+                                    if (lJoint.Type == SkeletonJointType.SHOULDER_SPINE && lSecondJoint.Type == SkeletonJointType.RIGHT_SHOULDER)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
+                                    if (lJoint.Type == SkeletonJointType.RIGHT_SHOULDER && lSecondJoint.Type == SkeletonJointType.RIGHT_ELBOW)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
+                                    if (lJoint.Type == SkeletonJointType.RIGHT_ELBOW && lSecondJoint.Type == SkeletonJointType.RIGHT_WRIST)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
+                                    if (lJoint.Type == SkeletonJointType.RIGHT_WRIST && lSecondJoint.Type == SkeletonJointType.RIGHT_HAND)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
+
+                                    //LEFT ARM
+                                    if (lJoint.Type == SkeletonJointType.SHOULDER_SPINE && lSecondJoint.Type == SkeletonJointType.LEFT_SHOULDER)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
+                                    if (lJoint.Type == SkeletonJointType.LEFT_SHOULDER && lSecondJoint.Type == SkeletonJointType.LEFT_ELBOW)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
+                                    if (lJoint.Type == SkeletonJointType.LEFT_ELBOW && lSecondJoint.Type == SkeletonJointType.LEFT_WRIST)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
+                                    if (lJoint.Type == SkeletonJointType.LEFT_WRIST && lSecondJoint.Type == SkeletonJointType.LEFT_HAND)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
 
 
 
-                                if (lJoint.Type == SkeletonJointType.SHOULDER_SPINE && lSecondJoint.Type == SkeletonJointType.MID_SPINE)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
-                                if (lJoint.Type == SkeletonJointType.MID_SPINE && lSecondJoint.Type == SkeletonJointType.BASE_SPINE)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
+                                    if (lJoint.Type == SkeletonJointType.SHOULDER_SPINE && lSecondJoint.Type == SkeletonJointType.MID_SPINE)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
+                                    if (lJoint.Type == SkeletonJointType.MID_SPINE && lSecondJoint.Type == SkeletonJointType.BASE_SPINE)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
 
-                                //RIGHT LEG
-                                if (lJoint.Type == SkeletonJointType.BASE_SPINE && lSecondJoint.Type == SkeletonJointType.RIGHT_HIP)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
-                                if (lJoint.Type == SkeletonJointType.RIGHT_HIP && lSecondJoint.Type == SkeletonJointType.RIGHT_KNEE)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
-                                if (lJoint.Type == SkeletonJointType.RIGHT_KNEE && lSecondJoint.Type == SkeletonJointType.RIGHT_FOOT)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
+                                    //RIGHT LEG
+                                    if (lJoint.Type == SkeletonJointType.BASE_SPINE && lSecondJoint.Type == SkeletonJointType.RIGHT_HIP)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
+                                    if (lJoint.Type == SkeletonJointType.RIGHT_HIP && lSecondJoint.Type == SkeletonJointType.RIGHT_KNEE)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
+                                    if (lJoint.Type == SkeletonJointType.RIGHT_KNEE && lSecondJoint.Type == SkeletonJointType.RIGHT_FOOT)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
 
-                                //LEFT LEG
-                                if (lJoint.Type == SkeletonJointType.BASE_SPINE && lSecondJoint.Type == SkeletonJointType.LEFT_HIP)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    //LEFT LEG
+                                    if (lJoint.Type == SkeletonJointType.BASE_SPINE && lSecondJoint.Type == SkeletonJointType.LEFT_HIP)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
+                                    if (lJoint.Type == SkeletonJointType.LEFT_HIP && lSecondJoint.Type == SkeletonJointType.LEFT_KNEE)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
+                                    if (lJoint.Type == SkeletonJointType.LEFT_KNEE && lSecondJoint.Type == SkeletonJointType.LEFT_FOOT)
+                                    {
+                                        Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                                    }
                                 }
-                                if (lJoint.Type == SkeletonJointType.LEFT_HIP && lSecondJoint.Type == SkeletonJointType.LEFT_KNEE)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
-                                if (lJoint.Type == SkeletonJointType.LEFT_KNEE && lSecondJoint.Type == SkeletonJointType.LEFT_FOOT)
-                                {
-                                    Imgproc.line(lMatSrc, lCenter - lLocal, lCenter - lSecondLocal, mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-                                }
+                                #endregion
                             }
-#endregion
-                        }
 
-                        Imgproc.circle(lMatSrc, lCenter - lLocal, (int)(10 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)), mColor[k], (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                            Imgproc.circle(lMatSrc, lCenter - lLocal, (int)(10 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)), new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
+                        }
                     }
                 }
+
 
             }
             // Flip to avoid mirror effect.
