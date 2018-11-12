@@ -50,23 +50,50 @@ namespace BuddyApp.RemoteControl
                 // On Display
                 // Launch the display animation of the custom toast
                 mCustomCapAnim.SetTrigger("Select");
+                RemoteControlData.Instance.CustomToastIsBusy = true;
             }, () =>
             {
                 // On Hide
+                Debug.Log("----- ON HIDE ----");
+                StartCoroutine(CloseReceivCall());
             });
         }
 
+        public IEnumerator CloseReceivCall()
+        {
+            Debug.Log("----- UNSELECT ... ----");
+            mCustomCapAnim.SetTrigger("Unselect");
+            yield return new WaitUntil(() => { Debug.Log("----- CUSTOM IS NOT HIDE ----"); return mCustomCapAnim.GetCurrentAnimatorStateInfo(0).IsTag("customToastOff"); });
+            RemoteControlData.Instance.CustomToastIsBusy = false;
+            Debug.Log("----- CUSTOM IS HIDE ----");
+            //{
+            //    if (!mCustomCapAnim.GetCurrentAnimatorStateInfo(0).IsName("minder_roundblock_off") ||
+            //        mCustomCapAnim.GetCurrentAnimatorStateInfo(0).IsName("toaster_roundblock_unselect -> minder_roundblock_off")) //IsTag("customToastOff"))
+            //    {
+            //        Debug.Log("----- CUSTOM IS NOT HIDE ----");
+            //        return false;
+            //    }
+            //    else
+            //    {
+            //        RemoteControlData.Instance.CustomToastIsBusy = false;
+            //        Debug.Log("----- CUSTOM IS HIDE ----");
+            //        return true;
+            //    }
+            //});
+        }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (Buddy.Vocal.IsSpeaking || mListening || !mHasInitializedRemote)
                 return;
-            else if (mQuit) {
-               StartCoroutine(mRemoteControlBehaviour.CloseApp());
+            else if (mQuit)
+            {
+                StartCoroutine(mRemoteControlBehaviour.CloseApp());
             }
 
-            if (string.IsNullOrEmpty(mSpeechReco)) {
+            if (string.IsNullOrEmpty(mSpeechReco))
+            {
                 //Buddy.Vocal.Listen();
                 mListening = true;
                 Buddy.Behaviour.SetMood(Mood.LISTENING);
@@ -94,7 +121,7 @@ namespace BuddyApp.RemoteControl
 
             mSpeechReco = iVoiceInput.Utterance;
             mListening = false;
-        } 
+        }
 
         private void RejectCall()
         {
@@ -121,16 +148,21 @@ namespace BuddyApp.RemoteControl
         private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
         {
             iSpeech = iSpeech.ToLower();
-            for (int i = 0; i < iListSpeech.Length; ++i) {
+            for (int i = 0; i < iListSpeech.Length; ++i)
+            {
                 string[] words = iListSpeech[i].Split(' ');
-                if (words.Length < 2) {
+                if (words.Length < 2)
+                {
                     words = iSpeech.Split(' ');
-                    foreach (string word in words) {
-                        if (word == iListSpeech[i].ToLower()) {
+                    foreach (string word in words)
+                    {
+                        if (word == iListSpeech[i].ToLower())
+                        {
                             return true;
                         }
                     }
-                } else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+                }
+                else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
                     return true;
             }
             return false;

@@ -27,13 +27,25 @@ namespace BuddyApp.RemoteControl
 
         public override void OnQuit()
         {
+            Debug.Log("----- TOASTER HIDE ----");
+            Buddy.GUI.Toaster.Hide();
             StartCoroutine(CloseApp());
         }
 
         public IEnumerator CloseApp()
         {
-            Buddy.GUI.Toaster.Hide();
-            yield return new WaitUntil(() => { return Buddy.GUI.Toaster.IsBusy; });
+            yield return new WaitUntil(() => 
+            {
+                return RemoteControlData.Instance.CustomToastIsBusy;
+                //Debug.Log("----- WAITING ... ----");
+                //if (Buddy.GUI.Toaster.IsBusy || RemoteControlData.Instance.CustomToastIsBusy)
+                //{
+                //    Debug.Log("----- TOASTER: " + Buddy.GUI.Toaster.IsBusy  + "CUSTOM: " + RemoteControlData.Instance.CustomToastIsBusy + " ----");
+                //    return true;
+                //}
+                //Debug.Log("----- ! QUIT ! ----");
+                //return false;
+            });
         }
     }
 }

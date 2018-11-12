@@ -5,11 +5,11 @@
     <CommercialName>RemoteControl</CommercialName>
     <MainScene>0</MainScene>
     <Authors>dev@bluefrogrobotics.com</Authors>
-    <Version>2.0.8.6</Version>
+    <Version>2.0.8.14</Version>
     <VersionStatus>NONE</VersionStatus>
     <VersionName>apiv2_update_visual</VersionName>
     <Category>COMPANION</Category>
-   <Permissions>
+    <Permissions>
         <AppPermission>
             <Type>CAMERA_API</Type>
             <IsValid>true</IsValid>
@@ -32,7 +32,7 @@
         </AppPermission>
         <AppPermission>
             <Type>USERS_DATA_READ</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_DATA_WRITE</Type>
@@ -56,6 +56,42 @@
         </AppPermission>
         <AppPermission>
             <Type>DISABLE_LOADING_SCREEN</Type>
+            <IsValid>true</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>CAMERA_API_ACCESS</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>MOVE_API_ACCESS</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>VISUAL_API_ACCESS</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>AUDIO_API_ACCESS</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_DATA_ACCESS</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_MEDIA_DATA_ACCESS</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>PROCEDURAL_MEMORY</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>SEMANTIC_MEMORY</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>DECLARATIVE_MEMORY</Type>
             <IsValid>false</IsValid>
         </AppPermission>
     </Permissions>
