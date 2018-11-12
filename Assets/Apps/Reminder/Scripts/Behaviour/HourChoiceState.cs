@@ -22,11 +22,13 @@ namespace BuddyApp.Reminder
             HOUR,
         }
 
-        private const int TRY_NUMBER = 40;
+        private const int TRY_NUMBER = 3;
+        private const float QUIT_TIMEOUT = 20;
         private const float TITLE_TIMER = 2.500F;
 
         private bool mQuit;
         private int mListen;
+        private float mTimer;
 
         // TMP - Waiting for caroussel
         private TimeSpan mCarousselHour;
@@ -53,11 +55,24 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.HideTitle();
         }
 
+        public IEnumerator QuittingTimeout()
+        {
+            mTimer = 0;
+            while (mTimer < QUIT_TIMEOUT)
+            {
+                yield return null;
+                mTimer += Time.deltaTime;
+            }
+            QuitReminder();
+        }
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mHourModify = HourModify.MINUTE;
             mListen = 0;
+            mQuit = false;
+            mTimer = -1;
 
             // Setting of Header
             Buddy.GUI.Header.DisplayParametersButton(false);
@@ -101,6 +116,7 @@ namespace BuddyApp.Reminder
             mListen++;
             DebugColor("Hour SPEECH" + mListen + ".ToString: " + iSpeechInput.ToString(), "blue");
             DebugColor("Hour SPEECH" + mListen + ".Utterance: " + iSpeechInput.Utterance, "blue");
+            DebugColor("Hour SPEECH RULE: " + iSpeechInput.Rule, "blue");
 
             // Launch hour extraction
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
@@ -115,13 +131,12 @@ namespace BuddyApp.Reminder
             {
                 Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderData.Instance.ReminderDate.ToShortTimeString());
                 StartCoroutine(TitleLifeTime(TITLE_TIMER));
-                DebugColor("HOUR IS: " + ReminderData.Instance.ReminderDate.ToLongTimeString(), "green");
-                //GoToNextState(lHourIsSet);
-                //return;
+                GoToNextState(lHourIsSet);
+                return;
             }
 
             // Hour extraction failed - Relaunch listenning until we make less than 2 listenning
-            if (mListen < TRY_NUMBER)
+            if (mListen < TRY_NUMBER || mTimer >= 0)
                 Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("whours"), new string[] { "reminder", "common" });
             // Listenning count is reached - So display UI & launch the last listenning
             else if (!Buddy.GUI.Toaster.IsBusy)
@@ -136,6 +151,7 @@ namespace BuddyApp.Reminder
         {
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
+            StopCoroutine(QuittingTimeout());
             Buddy.Vocal.OnEndListening.Remove(VoconGetHourResult);
             Buddy.Vocal.Stop();
         }
@@ -143,19 +159,19 @@ namespace BuddyApp.Reminder
         private void QuitReminder()
         {
             mQuit = true;
-            Debug.Log("------- QUIT -------");
+            Buddy.Vocal.SayKey("bye");
+            DebugColor("QUITTING", "red");
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
             Buddy.Vocal.StopListening();
-            Buddy.Vocal.SayKey("bye");
             Buddy.Vocal.OnEndListening.Remove(VoconGetHourResult);
+            StopAllCoroutines();
             QuitApp();
         }
 
         private bool ExtractHourFromFrenchSpeech(string iSpeech)
         {
-            TimeSpan lTs;
             DayMoment lDayMoment = DayMoment.UNKNOW;
             string[] lSpeechWords = iSpeech.Split(' ');
             List<int> lNumbers;
@@ -177,7 +193,7 @@ namespace BuddyApp.Reminder
                     return HourSet(12, 0, lDayMoment);
             }
             // One numbers in the speech
-            else if (lNumbers.Count == 1)
+            else if (lNumbers.Count == 1 && lNumbers[0] >= 0)
             {
                 if (ContainsOneOf(iSpeech, "cancel"))
                 {
@@ -213,13 +229,13 @@ namespace BuddyApp.Reminder
                 }
             }
             // Two numbers in the speech
-            else if (lNumbers.Count >= 2)
+            else if (lNumbers.Count >= 2 && lNumbers[0] >= 0 && lNumbers[1] >= 0)
             {
                 // Ex: in 2 hours and 10 minutes - TODO DONT WORK
-                if (ContainsOneOf(iSpeech, "intime") && ContainsOneOf(iSpeech, "hour") && ContainsOneOf(iSpeech, "minute"))
+                if (ContainsOneOf(iSpeech, "intime") && ContainsOneOf(iSpeech, "hour"))
                 {
                     ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + DateTime.Now.AddHours(lNumbers[0]).TimeOfDay;
-                    ReminderData.Instance.ReminderDate.AddMinutes(lNumbers[1]);
+                    ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + DateTime.Now.AddMinutes(lNumbers[1]).TimeOfDay;
                     return true;
                 }
                 else if (ContainsOneOf(iSpeech, "hour"))
@@ -241,7 +257,6 @@ namespace BuddyApp.Reminder
 
         private bool ExtractHourFromEnglishSpeech(string iSpeech)
         {
-            TimeSpan lTs;
             DayMoment lDayMoment = DayMoment.UNKNOW;
             string[] lSpeechWords = iSpeech.Split(' ');
             List<int> lNumbers;
@@ -308,7 +323,7 @@ namespace BuddyApp.Reminder
                 else if (ContainsOneOf(iSpeech, "intime") && ContainsOneOf(iSpeech, "hour") && ContainsOneOf(iSpeech, "minute"))
                 {
                     ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + DateTime.Now.AddHours(lNumbers[0]).TimeOfDay;
-                    ReminderData.Instance.ReminderDate.AddMinutes(lNumbers[1]);
+                    ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + DateTime.Now.AddMinutes(lNumbers[1]).TimeOfDay;
                     return true;
                 }
             }
@@ -320,7 +335,9 @@ namespace BuddyApp.Reminder
         private void DisplayHourEntry()
         {
             DebugColor("Display HOUR TOASTER", "red");
-            //  The last listenning
+
+            StartCoroutine(QuittingTimeout());
+
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), new string[] { "reminder", "common" });
 
             //Display of the title
@@ -347,9 +364,9 @@ namespace BuddyApp.Reminder
                 TButton lInc = iOnBuild.CreateWidget<TButton>();
                 lInc.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_plus"));
                 lInc.SetLabel(Buddy.Resources.GetString("inc"));
-                lInc.OnClick.Add(() => IncrementHour(1));
+                lInc.OnClick.Add(() => { IncrementHour(1); mListen = 0; });
 
-                // Creating of a text box to display the choosen hour in UI. (save to update it at each click)
+                // Creating of a text to display the choosen hour in UI. (save to update it at each click)
                 string lHour = mCarousselHour.Hours.ToString() + ":" + mCarousselHour.Minutes.ToString() + ":0";
                 mHourText = iOnBuild.CreateWidget<TText>();
                 mHourText.SetLabel(Buddy.Resources.GetString("hoursetto") + lHour);
@@ -358,13 +375,13 @@ namespace BuddyApp.Reminder
                 TButton lDec = iOnBuild.CreateWidget<TButton>();
                 lDec.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_minus"));
                 lDec.SetLabel(Buddy.Resources.GetString("dec"));
-                lDec.OnClick.Add(() => IncrementHour(-1));
+                lDec.OnClick.Add(() => { IncrementHour(-1); mListen = 0; });
 
                 // Switch button - (hour/minute)
                 mSwitch = iOnBuild.CreateWidget<TButton>();
                 mSwitch.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_clock"));
                 mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("minute"));
-                mSwitch.OnClick.Add(() => UpdateTargetIncrement());
+                mSwitch.OnClick.Add(() => { UpdateTargetIncrement(); mListen = 0; });
             },
             () => GoToPreviousState(), Buddy.Resources.GetString("cancel"),
             () => GoToNextState(false), Buddy.Resources.GetString("next"));

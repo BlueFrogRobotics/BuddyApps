@@ -16,13 +16,15 @@ namespace BuddyApp.Reminder
             YEAR,
         }
 
-        private const int TRY_NUMBER = 4;
+        private const int TRY_NUMBER = 3;
+        private const float QUIT_TIMEOUT = 20;
         private const float TITLE_TIMER = 2.500F;
         private const int JANUARY = 1;
         private const int DECEMBER = 12;
 
         private bool mQuit;
         private int mListen;
+        private float mTimer;
 
         // TMP - Waiting for caroussel
         private DateTime mCarousselDate;
@@ -49,12 +51,24 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.HideTitle();
         }
 
+        public IEnumerator QuittingTimeout()
+        {
+            mTimer = 0;
+            while (mTimer < QUIT_TIMEOUT)
+            {
+                yield return null;
+                mTimer += Time.deltaTime;
+            }
+            QuitReminder();
+        }
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mDateModify = DateModify.DAY;
             mListen = 0;
             mQuit = false;
+            mTimer = -1;
 
             // For now, when we go back to that state the date is reset
             ReminderData.Instance.AppState = 0;
@@ -94,7 +108,7 @@ namespace BuddyApp.Reminder
             }
 
             // Extraction date failed - Relaunch listenning until we make less than 2 listenning
-            if (mListen < TRY_NUMBER)
+            if (mListen < TRY_NUMBER || mTimer >= 0)
                 Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), new string[] { "reminder", "common" });
             // Listenning count is reached - So display UI & launch the last listenning
             else if (!Buddy.GUI.Toaster.IsBusy)
@@ -109,6 +123,7 @@ namespace BuddyApp.Reminder
         {
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
+            StopCoroutine(QuittingTimeout());
             Buddy.Vocal.OnEndListening.Remove(VoconGetDateResult);
             Buddy.Vocal.Stop();
         }
@@ -116,13 +131,14 @@ namespace BuddyApp.Reminder
         private void QuitReminder()
         {
             mQuit = true;
+            Buddy.Vocal.SayKey("bye");
             DebugColor("QUITTING", "red");
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
             Buddy.Vocal.StopListening();
-            Buddy.Vocal.SayKey("bye");
             Buddy.Vocal.OnEndListening.Remove(VoconGetDateResult);
+            StopAllCoroutines();
             QuitApp();
         }
 
@@ -145,7 +161,9 @@ namespace BuddyApp.Reminder
         private void DisplayDateEntry()
         {
             DebugColor("Display DATE TOASTER", "red");
-            //  The last listenning
+
+            StartCoroutine(QuittingTimeout());
+
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), new string[] { "reminder", "common" });
 
             //  Display of the title
@@ -167,9 +185,9 @@ namespace BuddyApp.Reminder
                 TButton lInc = iOnBuild.CreateWidget<TButton>();
                 lInc.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_plus"));
                 lInc.SetLabel(Buddy.Resources.GetString("inc"));
-                lInc.OnClick.Add(() => IncrementDate(1));
+                lInc.OnClick.Add(() => { IncrementDate(1); mTimer = 0; });
 
-                // Creating of a text box to display the choosen date in UI. (save to update it at each click)
+                // Creating of a text to display the choosen date in UI. (save to update it at each click)
                 mDateText = iOnBuild.CreateWidget<TText>();
                 mDateText.SetLabel(Buddy.Resources.GetString("datesetto") + mCarousselDate.ToShortDateString());
 
@@ -177,13 +195,13 @@ namespace BuddyApp.Reminder
                 TButton lDec = iOnBuild.CreateWidget<TButton>();
                 lDec.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_minus"));
                 lDec.SetLabel(Buddy.Resources.GetString("dec"));
-                lDec.OnClick.Add(() => IncrementDate(-1));
+                lDec.OnClick.Add(() => { IncrementDate(-1); mTimer = 0; });
 
                 // Switch button - (day/month/year)
                 mSwitch = iOnBuild.CreateWidget<TButton>();
                 mSwitch.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_agenda_check"));
                 mSwitch.SetLabel(Buddy.Resources.GetString("modify") + " " + Buddy.Resources.GetString("day"));
-                mSwitch.OnClick.Add(() => UpdateTargetIncrement());
+                mSwitch.OnClick.Add(() => { UpdateTargetIncrement(); mTimer = 0; });
             },
             // Cancel date
             () => { /* Back to recipient when available */}, Buddy.Resources.GetString("cancel"),
