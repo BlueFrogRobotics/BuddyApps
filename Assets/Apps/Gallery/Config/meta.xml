@@ -5,7 +5,7 @@
     <CommercialName>Gallery</CommercialName>
     <MainScene>0</MainScene>
     <Authors>dev@bluefrogrobotics.com</Authors>
-    <Version>1.0.1.13</Version>
+    <Version>1.0.2.102</Version>
     <VersionStatus>NONE</VersionStatus>
     <VersionName />
     <Category>MULTIMEDIA</Category>
@@ -32,19 +32,19 @@
         </AppPermission>
         <AppPermission>
             <Type>USERS_DATA_READ</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_DATA_WRITE</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_MEDIA_DATA_READ</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_MEDIA_DATA_WRITE</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>LOCKABLE_SCREEN</Type>
@@ -52,10 +52,46 @@
         </AppPermission>
         <AppPermission>
             <Type>ASK_FOR_QUIT</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>DISABLE_LOADING_SCREEN</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>CAMERA_API_ACCESS</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>MOVE_API_ACCESS</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>VISUAL_API_ACCESS</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>AUDIO_API_ACCESS</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_DATA_ACCESS</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>USERS_MEDIA_DATA_ACCESS</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>PROCEDURAL_MEMORY</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>SEMANTIC_MEMORY</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>DECLARATIVE_MEMORY</Type>
             <IsValid>false</IsValid>
         </AppPermission>
     </Permissions>
