@@ -83,18 +83,20 @@ namespace BuddyApp.Reminder
 
             // Callback & Grammar setting & First call to Vocon
             Buddy.Vocal.OnEndListening.Add(VoconGetDateResult);
+            DebugColor("FIRST CALL CALLBACK VOCON DATE", "red");
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), new string[] { "reminder", "common" });
         }
 
         private void VoconGetDateResult(SpeechInput iSpeechInput)
         {
+            DebugColor("CALLBACK VOCON DATE BEGIN", "red");
             if (iSpeechInput.IsInterrupted || mQuit)
                 return;
             mListen++;
             DebugColor("Date SPEECH" + mListen + ".ToString: " + iSpeechInput.ToString(), "blue");
             DebugColor("Date SPEECH" + mListen + ".Utterance: " + iSpeechInput.Utterance, "blue");
 
-            // Launch Extraction date
+            //  Launch Extraction date
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
                 ReminderData.Instance.ReminderDate = ExtractDateFromSpeech(iSpeechInput.Utterance);
 
@@ -109,7 +111,10 @@ namespace BuddyApp.Reminder
 
             // Extraction date failed - Relaunch listenning until we make less than 2 listenning
             if (mListen < TRY_NUMBER || mTimer >= 0)
+            {
+                DebugColor("NEXT CALLBACK VOCON DATE", "red");
                 Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), new string[] { "reminder", "common" });
+            }
             // Listenning count is reached - So display UI & launch the last listenning
             else if (!Buddy.GUI.Toaster.IsBusy)
                 DisplayDateEntry();

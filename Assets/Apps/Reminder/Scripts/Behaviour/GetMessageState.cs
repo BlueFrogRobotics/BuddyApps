@@ -6,17 +6,35 @@ using BlueQuark;
 
 namespace BuddyApp.Reminder
 {
+    /*
+     *  REMAINING BUG:
+     *  
+     *  It's possible that buddy quit before he said "Bye"
+     *  => For now i can't check if the vocal queue is empty before quitting.
+     *  
+     *  When we use tempo in text to speech, ex:[100],
+     *  Buddy.Vocal.IsSpeaking is false during the tempo
+     *  
+     *  
+     *  Sometimes object in the footer are duplicate, in getmessage state
+     *  Maybe: because the app is quit not properly because of a bug and the footer is not clean
+     *  Not seen yet since comment of vocal stop
+     *  
+     *  Impossible to launch vocon inside OnEndListenning callback ? not sure
+     */
     public sealed class GetMessageState : AStateMachineBehaviour
     {
         // TMP - Wait for time out in freespeech function
         private const int TRY_NUMBER = 1;
-        private float FREESPEECH_TIMER = 15F;
         private const float QUIT_TIMEOUT = 20;
+        private const float FREESPEECH_TIMER = 15F;
+        private const int RECOGNITION_SENSIBILITY = 5000;
 
         private string mRecordedMessage;
         private int mListen;
         private float mTimer;
         private bool mQuit;
+        private SpeechInputParameters mRecognitionParam;
 
         // TMP - Debug
         public void DebugColor(string msg, string color)
@@ -34,6 +52,7 @@ namespace BuddyApp.Reminder
         public IEnumerator FreeSpeechLifeTime(float iFreeSpeechTimer)
         {
             yield return new WaitForSeconds(iFreeSpeechTimer);
+            DebugColor("STOPLISTENNING", "red");
             Buddy.Vocal.StopListening();
         }
 
@@ -45,7 +64,18 @@ namespace BuddyApp.Reminder
                 yield return null;
                 mTimer += Time.deltaTime;
             }
+            DebugColor("TIMEOUT", "red");
+            yield return new WaitUntil(() => Buddy.Vocal.IsBusy);
             QuitReminder();
+        }
+
+        // TODO Test without coroutine to check if bug is real
+        public IEnumerator LaunchVocon()
+        {
+            yield return new WaitUntil(() => Buddy.Vocal.IsBusy);
+
+            if (!Buddy.GUI.Toaster.IsBusy)
+                DisplayMessageEntry();
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -55,6 +85,10 @@ namespace BuddyApp.Reminder
             mTimer = -1;
             mQuit = false;
             mRecordedMessage = null;
+
+            mRecognitionParam = new SpeechInputParameters();
+            mRecognitionParam.RecognitionThreshold = RECOGNITION_SENSIBILITY;
+            mRecognitionParam.Grammars = new string[] { "reminder", "common" };
 
             // Setting of Header
             Buddy.GUI.Header.DisplayParametersButton(false);
@@ -66,7 +100,7 @@ namespace BuddyApp.Reminder
             DebugColor("FREESPEECH", "blue");
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("record"),
                 null,
-                (iOnEndListening) => { FreeSpeechResult(iOnEndListening); },
+                FreeSpeechResult,
                 null,
                 SpeechRecognitionMode.FREESPEECH_ONLY);
             StartCoroutine(FreeSpeechLifeTime(FREESPEECH_TIMER));
@@ -74,11 +108,14 @@ namespace BuddyApp.Reminder
 
         private void FreeSpeechResult(SpeechInput iSpeechInput)
         {
+            StopAllCoroutines();
             if (mQuit)
                 return;
-            mListen++;
+
             DebugColor("FreeSpeech Msg SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
             DebugColor("FreeSpeech Msg SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
+
+            mListen++;
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
             {
                 mRecordedMessage = iSpeechInput.Utterance;
@@ -92,31 +129,55 @@ namespace BuddyApp.Reminder
                 DebugColor("FREESPEECH", "blue");
                 Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"),
                     null,
-                    (iOnEndListening) => { FreeSpeechResult(iOnEndListening); },
+                    FreeSpeechResult,
                     null,
                     SpeechRecognitionMode.FREESPEECH_ONLY);
                 StartCoroutine(FreeSpeechLifeTime(FREESPEECH_TIMER));
             }
             else
-                DisplayMessageEntry();
+                StartCoroutine(LaunchVocon());
         }
 
         private void VoconResult(SpeechInput iSpeechInput)
         {
-            if (iSpeechInput.IsInterrupted || mQuit)
+            Debug.LogWarning("CALLBACK IS RUNNNING - timer: " + mTimer.ToString() + "TIMEOUT: " + QUIT_TIMEOUT + "mQuit: " + mQuit);
+
+            if (iSpeechInput.IsInterrupted || mQuit || mTimer >= QUIT_TIMEOUT)
                 return;
+
             DebugColor("Vocon Validate/Modif SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
             DebugColor("Vocon Validate/Modif SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
-            DebugColor("Vocon Validate/Modif SPEECH RULE: " + Utils.GetRealStartRule(iSpeechInput.Rule), "blue");
-            if (string.IsNullOrEmpty(iSpeechInput.Utterance))
+            DebugColor("Vocon Validate/Modif SPEECH RULE: " + iSpeechInput.Rule + " --- " + Utils.GetRealStartRule(iSpeechInput.Rule), "blue");
+
+            // Reset timer if the user say something
+            if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
+                mTimer = 0;
+
+            if (Utils.GetRealStartRule(iSpeechInput.Rule) == "yes")
             {
-                DebugColor("SORRY DONT UNDERSTAND", "red");
-                return;
+                // If the message is empty, warn the user
+                if (string.IsNullOrEmpty(mRecordedMessage))
+                {
+                    Buddy.Vocal.SayAndListen(new SpeechOutput(Buddy.Resources.GetString("sryemptymsg")),
+                        null,
+                        VoconResult,
+                        null,
+                        mRecognitionParam);
+                }
+                else
+                    ValidateMessage();
             }
-            else if (string.Equals(Utils.GetRealStartRule(iSpeechInput.Rule), "yes") && !string.IsNullOrEmpty(mRecordedMessage))
-                ValidateMessage();
-            else if (string.Equals(Utils.GetRealStartRule(iSpeechInput.Rule), "modify"))
+            else if (Utils.GetRealStartRule(iSpeechInput.Rule) == "modify")
                 ModifyMessage();
+            else if (mTimer < QUIT_TIMEOUT)
+            {
+                Buddy.Vocal.SayAndListen(new SpeechOutput(Buddy.Resources.GetString("srynotunderstand")),
+                    null,
+                    VoconResult,
+                    null,
+                    mRecognitionParam);
+                DebugColor("SORRY DONT UNDERSTAND", "red");
+            }
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -146,14 +207,12 @@ namespace BuddyApp.Reminder
         {
             DebugColor("DISPLAY MSG", "blue");
 
-            StartCoroutine(QuittingTimeout());
-
-            // Ask validate or modify and reco with vocon
-            Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify"),
+            // Launch Vocon - Validation/or/Modify
+            Buddy.Vocal.SayAndListen(new SpeechOutput(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify")),
                 null,
-                new string[] { "reminder", "common" },
-                (iOnEndListening) => { VoconResult(iOnEndListening); },
-                null);
+                VoconResult,
+                null,
+                mRecognitionParam);
 
             //  Display of the title
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("message"));
@@ -181,20 +240,13 @@ namespace BuddyApp.Reminder
             // TMP - waiting for caroussel
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
-                // Create Text box to store / modify the reminder msg
-                TText lTmpText = iOnBuild.CreateWidget<TText>();
+                TTextBox lRecordMsg = iOnBuild.CreateWidget<TTextBox>();
                 if (string.IsNullOrEmpty(mRecordedMessage))
-                    lTmpText.SetLabel("You will be able to edit the text soon");
+                    lRecordMsg.SetPlaceHolder(Buddy.Resources.GetString("enteryourmsg"));
                 else
-                    lTmpText.SetLabel(mRecordedMessage);
-
-                //TTextBox lRecordMsg = iOnBuild.CreateWidget<TTextBox>();
-                //if (string.IsNullOrEmpty(mRecordedMessage))
-                //    lRecordMsg.SetPlaceHolder(Buddy.Resources.GetString("enteryourmsg"));
-                //else
-                //    lRecordMsg.SetPlaceHolder(mRecordedMessage);
-                ////lRecordMsg.OnEndEdit.Add((iText) => { mRecordedMessage = iText; mTimer = 0; });
-                //lRecordMsg.OnChangeValue.Add((iText) => { mRecordedMessage = iText; mTimer = 0; });
+                    lRecordMsg.SetPlaceHolder(mRecordedMessage);
+                //lRecordMsg.OnEndEdit.Add((iText) => { mRecordedMessage = iText; mTimer = 0; });
+                lRecordMsg.OnChangeValue.Add((iText) => { mRecordedMessage = iText; mTimer = 0; });
             },
             () =>
             {
@@ -210,11 +262,13 @@ namespace BuddyApp.Reminder
                     ValidateMessage();
             },
             Buddy.Resources.GetString("validate"));
+            StartCoroutine(QuittingTimeout());
         }
 
         private void ModifyMessage()
         {
-            DebugColor("MODIFY !", "blue");
+            StopAllCoroutines();
+
             mRecordedMessage = null;
             mListen = 0;
             mTimer = -1;
@@ -222,35 +276,42 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            Buddy.Vocal.Stop();
+
+            // ? issue  ? Test with Vocal.Stop fix when available
+            //Buddy.Vocal.Stop();
 
             // Call freespeech
             DebugColor("FREESPEECH", "blue");
+
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("record"),
                 null,
-                (iOnEndListening) => { FreeSpeechResult(iOnEndListening); },
+                FreeSpeechResult,
                 null,
                 SpeechRecognitionMode.FREESPEECH_ONLY);
-            StopAllCoroutines();
             StartCoroutine(FreeSpeechLifeTime(FREESPEECH_TIMER));
         }
 
         private void ValidateMessage()
         {
-            DebugColor("YOUR REMINDER :", "blue");
-            DebugColor(mRecordedMessage, "green");
-            DebugColor(ReminderData.Instance.ReminderDate.ToShortDateString() + " at " + ReminderData.Instance.ReminderDate.ToLongTimeString(), "green");
-            DebugColor("REMINDER END", "blue");
+            StopAllCoroutines();
 
+            Buddy.Vocal.SayKey("reminderok");
+
+            //TMP - to test quickly - Reminder is today in 2 minutes
+            ReminderData.Instance.ReminderDate = DateTime.Today;
+            ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + DateTime.Now.AddMinutes(2).TimeOfDay;
+
+            DebugColor("REMINDER SAVED:" + mRecordedMessage, "green");
+            DebugColor("REMINDER SAVED:" + ReminderData.Instance.ReminderDate.ToShortDateString() + " at " + ReminderData.Instance.ReminderDate.ToLongTimeString(), "green");
+
+            // Save the reminder
             PlannedEventReminder mReminderEvent = new PlannedEventReminder(mRecordedMessage, ReminderData.Instance.ReminderDate);
             mReminderEvent.NotifyUser = true;
             Buddy.Platform.Calendar.Add(mReminderEvent);
-            Buddy.Vocal.SayKey("reminderok");
 
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            StopAllCoroutines();
             QuitApp();
         }
 

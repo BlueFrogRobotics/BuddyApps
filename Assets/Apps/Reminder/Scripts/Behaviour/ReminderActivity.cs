@@ -51,7 +51,7 @@ namespace BuddyApp.Reminder
             {
                 if (Buddy.GUI.Toaster.IsBusy || Buddy.Vocal.IsSpeaking)
                 {
-                    Debug.Log("------------ BUSY ------------");
+                    Debug.Log("------------ BUSY -------------");
                     return true;
                 }
                 return false;

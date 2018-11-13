@@ -85,8 +85,8 @@ namespace BuddyApp.Reminder
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("whours"), new string[] { "reminder", "common" });
         }
 
-        /*
-         *   The function set hour variables, with the day moment parameter (AM/PM)
+        /* 
+         *   The function set hour variables, with the day moment parameter (AM/PM).
          *   If an error occured, (Time unconsistent), false is returned.
          */
         private bool HourSet(int iHour, int iMinute, DayMoment iDayMoment)
@@ -116,7 +116,6 @@ namespace BuddyApp.Reminder
             mListen++;
             DebugColor("Hour SPEECH" + mListen + ".ToString: " + iSpeechInput.ToString(), "blue");
             DebugColor("Hour SPEECH" + mListen + ".Utterance: " + iSpeechInput.Utterance, "blue");
-            DebugColor("Hour SPEECH RULE: " + iSpeechInput.Rule, "blue");
 
             // Launch hour extraction
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
@@ -234,8 +233,8 @@ namespace BuddyApp.Reminder
                 // Ex: in 2 hours and 10 minutes - TODO DONT WORK
                 if (ContainsOneOf(iSpeech, "intime") && ContainsOneOf(iSpeech, "hour"))
                 {
-                    ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + DateTime.Now.AddHours(lNumbers[0]).TimeOfDay;
-                    ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + DateTime.Now.AddMinutes(lNumbers[1]).TimeOfDay;
+                    int lMinutesToAdd = (lNumbers[0] * 60) + lNumbers[1];
+                    ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + DateTime.Now.AddMinutes(lMinutesToAdd).TimeOfDay;
                     return true;
                 }
                 else if (ContainsOneOf(iSpeech, "hour"))
@@ -322,8 +321,8 @@ namespace BuddyApp.Reminder
                 // Ex: in 2 hours and 10 minutes - TODO DONT WORK
                 else if (ContainsOneOf(iSpeech, "intime") && ContainsOneOf(iSpeech, "hour") && ContainsOneOf(iSpeech, "minute"))
                 {
-                    ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + DateTime.Now.AddHours(lNumbers[0]).TimeOfDay;
-                    ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + DateTime.Now.AddMinutes(lNumbers[1]).TimeOfDay;
+                    int lMinutesToAdd = (lNumbers[0] * 60) + lNumbers[1];
+                    ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + DateTime.Now.AddMinutes(lMinutesToAdd).TimeOfDay;
                     return true;
                 }
             }
@@ -335,7 +334,7 @@ namespace BuddyApp.Reminder
         private void DisplayHourEntry()
         {
             DebugColor("Display HOUR TOASTER", "red");
-
+            
             StartCoroutine(QuittingTimeout());
 
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), new string[] { "reminder", "common" });
