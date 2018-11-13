@@ -1851,11 +1851,6 @@
             <returns>The new component, null if error</returns>
             <seealso cref="T:BlueQuark.Internal.IRegularComponent"/>
         </member>
-        <member name="M:BlueQuark.Internal.DevConnection.GetPrivateCredInfo">
-            <summary>
-            TODO: TO REWORK ! ! ! ! ! 
-            </summary>
-        </member>
         <member name="T:BlueQuark.Internal.EventBus">
             <summary>
             Event bus system. Allow to store, listen and fire event through all the operating system assembly.
@@ -2274,7 +2269,7 @@
         </member>
         <member name="M:BlueQuark.Internal.AULink.ForwardUnityCallback(System.Object)">
             <summary>
-            Calls a method in the presenter part with the same name of the calling method with the suffix "Impl". Use that method to forward an Unity event in the ULink to the Presenter side.
+            Calls a method in the presenter part with the same name of the calling method with the suffix "Impl". Use that method to forward an Unity event to the Presenter Impl side.
             </summary>
             <param name="iArg">Optional arg that will be forward to the Presenter method</param>
         </member>
@@ -3001,6 +2996,12 @@
             </summary>
             <param name="iText">The text to display</param>
         </member>
+        <member name="M:BlueQuark.Internal.ELabeledPasswordField.SetText(System.String)">
+            <summary>
+            Sets the default input text.
+            </summary>
+            <param name="iText">The text to display</param>
+        </member>
         <member name="T:BlueQuark.Internal.ELabeledSliderToggle">
             <summary>
             Toggable slider sealed widget for Explorer GUI component with a left label.
@@ -3116,6 +3117,12 @@
             Sets the default text displayed when no user text is set.
             </summary>
             <param name="iText">The text to display.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.EPasswordField.SetText(System.String)">
+            <summary>
+            Sets the default input text.
+            </summary>
+            <param name="iText">The text to display</param>
         </member>
         <member name="T:BlueQuark.Internal.ELabeledTextField">
             <summary>
@@ -3861,7 +3868,7 @@
             Called at the end of any request.
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.VoConSpeech.OnListeningEvent">
+        <member name="P:BlueQuark.Internal.VoConSpeech.OnListeningStatus">
             <summary>
             Called on any vocal input event.
             </summary>
@@ -4179,17 +4186,17 @@
         </member>
         <member name="M:BlueQuark.Head.SetPosition(System.Single,System.Single)">
             <summary>
-            Makes the head targets the wished position.
+            Makes the head targets the wished position. 
             </summary>
-            <param name="iX">The x (horizontal) position to target, from -1 to 1</param>
-            <param name="iY">The y (vertical) position to target, from -1 to 1</param>
+            <param name="iYesTargetAngle">Target angle for Yes axis in degrees. + up, - down.</param>
+            <param name="iNoTargetAngle">Target angle for No axis in degrees. + left, - right.</param>
         </member>
         <member name="M:BlueQuark.Head.SetPosition(System.Single,System.Single,System.Single,BlueQuark.AccDecMode)">
             <summary>
             Makes the head targets the wished position.
             </summary>
-            <param name="iX">The x (horizontal) position to target, from -1 to 1</param>
-            <param name="iY">The y (vertical) position to target, from -1 to 1</param>
+            <param name="iYesTargetAngle">Target angle for Yes axis in degrees. + up, - down.</param>
+            <param name="iNoTargetAngle">Target angle for No axis in degrees. + up, - down.</param>
             <param name="iAngularVelocity">The velocity that will be applied to the move. Value in degrees by second</param>
             <param name="iAccDecMode">Accelration mode</param>
         </member>
@@ -5259,9 +5266,6 @@
             Stops the running algorithm and empty the algorithm queue.
             </summary>
         </member>
-        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(System.String)">
-            TMP ==> TO REMOVE
-        </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunSub(System.String,BlueQuark.InputBehaviourAlgorithmVariable[],System.Boolean,System.Action)">
             <summary>
             Runs the behaviour algorithm contained at the specified filepath.
@@ -5271,6 +5275,9 @@
             <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood</param>
             <param name="iOnEndRun">Callback called at the end of the algorithm</param>
             <returns>True if the algorithm is correctly loaded, false otherwise</returns>
+        </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(System.String)">
+            TMP ==> TO REMOVE
         </member>
         <member name="T:BlueQuark.BehaviourCommitment">
             <summary>
@@ -7412,7 +7419,7 @@
             Gets the target frame rate of the engine.
             </summary>
         </member>
-        <member name="P:BlueQuark.Screen.VSyncCout">
+        <member name="P:BlueQuark.Screen.VSyncCount">
             <summary>
             Gets the vertical synchronization count according to Unity system.
             </summary>
@@ -9984,6 +9991,12 @@
             </summary>
             <param name="iCondition">The while condition. Cannot be null</param>
         </member>
+        <member name="M:BlueQuark.RoamStrategy.WithMood(BlueQuark.Mood)">
+            <summary>
+            Start wandering around.
+            </summary>
+            <param name="iMood">The mood that should be expressed through the motion.</param>
+        </member>
         <member name="T:BlueQuark.HumanSearchStrategy">
             <summary>
             Searching human strategy in the known environment.
@@ -12066,6 +12079,11 @@
             Returns true if the notifier is processing/displaying something.
             </summary>
         </member>
+        <member name="P:BlueQuark.Notifier.DisplayedNotificationID">
+            <summary>
+            Returns the ID of current displayed notification
+            </summary>
+        </member>
         <member name="M:BlueQuark.Notifier.Display``1">
             <summary>
             Display the typed notification. After this call, use immediatly the With method to specify notification arguments.
@@ -12082,13 +12100,19 @@
             <summary>
             Display an unread notification given a particular ID. If the notification isn't found, nothing is displayed.
             </summary>
-            <param name="iID"></param>
+            <param name="iID">ID of the notification</param>
         </member>
         <member name="M:BlueQuark.Notifier.RemoveUnread(System.Int32)">
             <summary>
             Remove an unread notification from its id.
             </summary>
-            <param name="iID"></param>
+            <param name="iID">ID of the notification</param>
+        </member>
+        <member name="M:BlueQuark.Notifier.HideOrRemove(System.Int32)">
+            <summary>
+            Remove from unread an unread notification or hide it if currently displayed.
+            </summary>
+            <param name="iID">ID of the notification</param>
         </member>
         <member name="M:BlueQuark.Notifier.Hide">
             <summary>
@@ -12102,6 +12126,11 @@
             <param name="iNotification">Notification to select</param>
         </member>
         <member name="M:BlueQuark.Notifier.CloseCurrentNotification">
+            <summary>
+            Close the current selected notification.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Notifier.CloseAndRemoveCurrentNotification">
             <summary>
             Close and remove the current selected notification.
             </summary>
@@ -12390,6 +12419,12 @@
             Sets the default text displayed when no user text is set.
             </summary>
             <param name="iText">The text to display.</param>
+        </member>
+        <member name="M:BlueQuark.TPasswordField.SetText(System.String)">
+            <summary>
+            Sets the default input text.
+            </summary>
+            <param name="iText">The text to display</param>
         </member>
         <member name="T:BlueQuark.TSlider">
             <summary>
