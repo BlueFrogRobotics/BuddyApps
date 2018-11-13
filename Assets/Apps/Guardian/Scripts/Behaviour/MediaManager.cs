@@ -46,6 +46,8 @@ namespace BuddyApp.Guardian
         private Queue<byte[]> mListFrame;
         private Queue<AudioClip> mListAudio;
 
+        private byte[] mActualFrame;
+
         private bool mNewFrame = true;
         private AndroidJavaObject currentActivity;
         
@@ -136,12 +138,13 @@ namespace BuddyApp.Guardian
         /// </summary>
         private void FillCircularBuffer()
         {
-            //if (mCam.IsOpen)
-            //{
-            //    mListFrame.Enqueue(mCam.TexFrame.EncodeToPNG());
-            //    if (mListFrame.Count > mFPS * mNbSecBefore)
-            //        mListFrame.Dequeue();
-            //}
+            if (mCam.IsOpen)
+            {
+                mActualFrame = mCam.TexFrame.EncodeToPNG();
+                //mListFrame.Enqueue(mCam.TexFrame.EncodeToPNG());
+                //if (mListFrame.Count > mFPS * mNbSecBefore)
+                //    mListFrame.Dequeue();
+            }
             FillAudioBuffer(1);
 
         }
@@ -204,6 +207,7 @@ namespace BuddyApp.Guardian
             //mFPS = mListFrame.Count / (mNbSecAfter + mNbSecBefore);
             //currentActivity.Call("saveVideo", mFPS, Buddy.Resources.GetRawFullPath("monitoring.mp4"), "AIBehaviour", "VideoSaved");
             Utils.Save(Buddy.Resources.GetRawFullPath("audio.wav"), Utils.Combine(mListAudio.ToArray()));
+            File.WriteAllBytes(Buddy.Resources.GetRawFullPath("picture.png"), mActualFrame);
             mState = State.WAIT_SAVE;
         }
 
@@ -231,6 +235,7 @@ namespace BuddyApp.Guardian
             //Buddy.WebServices.EMailSender..enabled = true;
             //mMail.AddFile(Buddy.Resources.GetRawFullPath("monitoring.mp4"));
             mMail.AddFile(Buddy.Resources.GetRawFullPath("audio.wav"));
+            mMail.AddFile(Buddy.Resources.GetRawFullPath("picture.png"));
             Debug.Log("envoi du mail a  l adresse: " + mMail.Addresses[0]);
             //SmtpClient smtp = new SmtpClient
             //{

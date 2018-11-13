@@ -27,7 +27,7 @@ namespace BuddyApp.Guardian
             Debug.Log("on awake activity");
             //Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
             Debug.Log("on loading activity");
-            Buddy.GUI.Header.OnClickParameters.Add(OnClickParameters); 
+            Buddy.GUI.Header.OnClickParameters.Add(OnClickParameters);  
             Buddy.GUI.Screen.OnClickToUnlock.Add(OnClickLockedScreen);
             Buddy.GUI.Screen.OnSuccessUnlock.Add(OnSuccessUnlockScreen);
             Buddy.GUI.Screen.OnFailUnlock.Add(OnFailureUnlockScreen);

@@ -89,8 +89,10 @@ namespace BuddyApp.BuddyLab
         public void FillBehaviourAlgorithm(string iFileName)
         {
             mDirectoryPath = Buddy.Resources.GetRawFullPath("Projects" + "/" + iFileName);
+            //mDirectoryPath = mDirectoryPath.Replace('/', '\\');
+            Debug.Log("le full path: " + mDirectoryPath);
             BehaviourAlgorithm.Instructions.Clear();
-            BehaviourAlgorithm lAlgo = Utils.UnserializeXML<BehaviourAlgorithm>(Buddy.Resources.GetRawFullPath("Projects" + "/" + iFileName));
+            BehaviourAlgorithm lAlgo = Utils.UnserializeXML<BehaviourAlgorithm>(mDirectoryPath);
             if (lAlgo != null)
             {
                 BehaviourAlgorithm = lAlgo;

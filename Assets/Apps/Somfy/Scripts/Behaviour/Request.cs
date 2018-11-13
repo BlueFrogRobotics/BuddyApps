@@ -9,7 +9,7 @@ using System.Globalization;
 using System.Threading;
 using System.Net.Security;
 using System.Security.Authentication;
-using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography.X509Certificates; 
 
 namespace BuddyApp.Somfy
 {
@@ -30,7 +30,7 @@ namespace BuddyApp.Somfy
         public static bool LogAllRequests = false;
         public static bool VerboseLogging = false;
         public static string unityVersion = Application.unityVersion;
-        public static string operatingSystem = SystemInfo.operatingSystem;
+        public static string operatingSystem = SystemInfo.operatingSystem; 
 
         public CookieJar cookieJar = CookieJar.Instance;
         public string method = "GET";

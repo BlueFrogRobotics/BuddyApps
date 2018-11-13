@@ -107,7 +107,7 @@ namespace BuddyApp.ExperienceCenter
             //mSpeechToText.OnErrorEnum.Add(AvoidLock);
             //BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
             //BYOS.Instance.Interaction.VocalManager.OnError = AvoidLock;
-            Buddy.Vocal.OnListeningEvent.Add(AvoidLock);
+            Buddy.Vocal.OnListeningStatus.Add(AvoidLock);
             Buddy.Behaviour.Face.OnTouchMouth.Add(MouthClicked);
 
             StartCoroutine(ForceNeutralMood());
@@ -436,7 +436,7 @@ namespace BuddyApp.ExperienceCenter
         }
 
 
-        private void AvoidLock(SpeechEvent iEvent)
+        private void AvoidLock(SpeechInputStatus iEvent)
         {
             if (iEvent.IsError)
             {

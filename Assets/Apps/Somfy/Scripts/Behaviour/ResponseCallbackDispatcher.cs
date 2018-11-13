@@ -6,7 +6,7 @@ namespace BuddyApp.Somfy
 {
     public class ResponseCallbackDispatcher : MonoBehaviour
     {
-        private static ResponseCallbackDispatcher sInstance;
+        private static ResponseCallbackDispatcher sInstance; 
         private static GameObject sInstanceGO;
         private static object sInstanceLock = new object();
 

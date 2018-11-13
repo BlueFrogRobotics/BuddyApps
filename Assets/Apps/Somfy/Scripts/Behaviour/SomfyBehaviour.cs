@@ -185,7 +185,7 @@ namespace BuddyApp.Somfy
         public void SwitchOnAllPlugs()
         {
             if (mPlug2 != null && mPlug2.HasFinishedCommand())
-                StartCoroutine(SwitchOnAllPlugsCoroutine());
+                StartCoroutine(SwitchOnAllPlugsCoroutine());    
         }
 
         IEnumerator SwitchOnAllPlugsCoroutine()

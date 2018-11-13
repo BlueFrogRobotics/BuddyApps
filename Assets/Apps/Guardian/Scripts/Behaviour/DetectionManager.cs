@@ -139,7 +139,7 @@ namespace BuddyApp.Guardian
             if(IsDetectingFire && mFireDetection.IsHotterThan(MAX_TEMPERATURE_THRESHOLD))
             {
                 Detected = Alert.FIRE;
-                mAnimator.SetTrigger("Alert");
+                mAnimator.SetTrigger("Alert"); 
             }
         }
 

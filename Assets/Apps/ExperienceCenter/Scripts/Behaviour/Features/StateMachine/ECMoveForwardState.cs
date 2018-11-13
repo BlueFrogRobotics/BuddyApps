@@ -45,7 +45,7 @@ namespace BuddyApp.ExperienceCenter
                 //BYOS.Instance.Interaction.VocalManager.AddGrammar("experiencecenter", LoadContext.APP);
                 Buddy.Vocal.OnEndListening.Add(SpeechToTextCallback);
                 Buddy.Vocal.Listen("experiencecenter", SpeechRecognitionMode.GRAMMAR_ONLY);
-                Buddy.Vocal.OnListeningEvent.Add((iInput) => { SpeechToTextError(iInput); });
+                Buddy.Vocal.OnListeningStatus.Add((iInput) => { SpeechToTextError(iInput); });
                 //BYOS.Instance.Interaction.VocalManager.OnEndReco = SpeechToTextCallback;
                 //BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
                 //BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
@@ -85,7 +85,7 @@ namespace BuddyApp.ExperienceCenter
             }
         }
 
-        public void SpeechToTextError(SpeechEvent iEvent)
+        public void SpeechToTextError(SpeechInputStatus iEvent)
         {
             if (iEvent.IsError)
             {

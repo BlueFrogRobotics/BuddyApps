@@ -58,7 +58,7 @@ namespace BuddyApp.ExperienceCenter
 
             //mVocalManager.OnEndReco = SpeechToTextCallback;
             //mVocalManager.OnError = ErrorCallback;
-            Buddy.Vocal.OnListeningEvent.Add(ErrorCallback);
+            Buddy.Vocal.OnListeningStatus.Add(ErrorCallback);
 
             //BYOS.Instance.Interaction.SphinxTrigger.SetThreshold(1E-24f);
             mTimeOutCount = 0;
@@ -229,7 +229,7 @@ namespace BuddyApp.ExperienceCenter
             //mVocalManager.EnableTrigger = true;
         }
 
-        public void ErrorCallback(SpeechEvent iError)
+        public void ErrorCallback(SpeechInputStatus iError)
         {
             if (iError.IsError)
             {

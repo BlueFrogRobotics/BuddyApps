@@ -17,18 +17,31 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private GameObject container;
 
+        [SerializeField]
+        private GameObject blankItem;
+
+        private GameObject mBlankItem;
+
         public GameObject Container { get { return container; } }
 
         // Use this for initialization
         void Start()
         {
-
+            mBlankItem = container.transform.GetChild(0).gameObject;
         }
 
         // Update is called once per frame
         void Update()
         {
-
+            if(container.transform.childCount==0)
+            {
+                mBlankItem = Instantiate(blankItem);
+                mBlankItem.transform.parent = container.transform;
+            }
+            else if(container.transform.childCount>=2)
+            {
+                Destroy(mBlankItem);
+            }
         }
 
         public override void Highlight()

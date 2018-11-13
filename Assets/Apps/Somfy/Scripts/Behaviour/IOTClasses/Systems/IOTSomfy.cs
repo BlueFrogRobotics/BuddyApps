@@ -85,11 +85,11 @@ namespace BuddyApp.Somfy
             {
 
             }
-            if (www.isNetworkError)
-            {
-                Debug.Log(www.error);
-            }
-            else
+            //if (www.isNetworkError)
+            //{
+            //    Debug.Log(www.error);
+            //}
+            //else
             {
                 Debug.Log(www.downloadHandler.text);
                 mHeaders.Clear();
@@ -119,11 +119,11 @@ namespace BuddyApp.Somfy
             {
 
             }
-            if (www.isNetworkError)
-            {
-                Debug.Log(www.error);
-            }
-            else
+            //if (www.isNetworkError)
+            //{
+            //    Debug.Log(www.error);
+            //}
+            //else
             {
                 Debug.Log("Form upload complete!" + www.downloadHandler.text);
             }
@@ -131,7 +131,7 @@ namespace BuddyApp.Somfy
 
         public override void GetDevices()
         {
-            string url = SomfyData.Instance.URL_API + "/setup/devices";   
+            string url = SomfyData.Instance.URL_API + "/setup/devices";
 
             Request lRequest = new Request("GET", url);
             lRequest.cookieJar = null;
@@ -145,9 +145,10 @@ namespace BuddyApp.Somfy
                     return;
                 }
                 Debug.Log("avant response");
-                Debug.Log("identifiants: "+ SomfyData.Instance.Login+" "+ SomfyData.Instance.Password);
+                Debug.Log("identifiants magique: "+ SomfyData.Instance.Login+" "+ SomfyData.Instance.Password);
 
                 string response = "{\"devices\" :" + lResult.response.Text + "}";
+                Debug.Log("reponse: " + response);
                 //JSONNode lJsonNode = Buddy.JSON.Parse(response);
                 //Debug.Log("response: " + response);
                 //IOTSomfyDeviceCollection lDevices = JsonUtility.FromJson<IOTSomfyDeviceCollection>(response.Trim());
