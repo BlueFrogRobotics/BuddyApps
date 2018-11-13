@@ -71,10 +71,10 @@ namespace BuddyApp.Guardian
             if (iAnimator.GetBool("Password"))
                 Buddy.GUI.Toaster.Hide();
 
-            if (mDetectionManager.CurrentTimer > 15f && !mDetectionManager.IsPasswordCorrect && mAlarm && GuardianData.Instance.AlarmActivated) 
+            if (mDetectionManager.CurrentTimer > 10f && !mDetectionManager.IsPasswordCorrect && mAlarm && GuardianData.Instance.AlarmActivated) 
             {
-				mDetectionManager.Volume = (int)(Buddy.Actuators.Speakers.Volume*100F);
-				Buddy.Actuators.Speakers.Volume = 0.15F;
+				mDetectionManager.Volume = (int)(Buddy.Actuators.Speakers.Volume*100F); 
+				Buddy.Actuators.Speakers.Volume = 0.70F;
                 mDetectionManager.Countdown += Time.deltaTime;
                 mAlarm = false;
                 mDetectionManager.IsAlarmWorking = true;
@@ -82,7 +82,7 @@ namespace BuddyApp.Guardian
                 Buddy.Actuators.Speakers.Media.Play(Buddy.Resources.Get<AudioClip>("alarmbeep"));
             }
 
-            if (mDetectionManager.Countdown > 30f)
+            if (mDetectionManager.Countdown > 20f)
             {
 
 				iAnimator.SetBool("Password", false);
