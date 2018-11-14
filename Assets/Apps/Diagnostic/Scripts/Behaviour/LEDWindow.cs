@@ -15,6 +15,9 @@ namespace BuddyApp.Diagnostic
         private Dropdown mDropDown;
 
         [SerializeField]
+        private Toggle mToggle;
+        
+        [SerializeField]
         private Text textH;
 
         [SerializeField]
@@ -24,10 +27,21 @@ namespace BuddyApp.Diagnostic
         private Text textV;
 
         [SerializeField]
-        private Text textF;
+        private Text textLowLevel;
 
         [SerializeField]
-        private Text textA;
+        private Text textOnDuration;
+
+        [SerializeField]
+        private Text textOffDuration;
+
+        [SerializeField]
+        private Text textUpSlope;
+
+        [SerializeField]
+        private Text textDownSlope;
+
+
 
         [SerializeField]
         private Slider sliderH;
@@ -39,10 +53,19 @@ namespace BuddyApp.Diagnostic
         private Slider sliderV;
 
         [SerializeField]
-        private Slider sliderF;
+        private Slider sliderLowLevel;
 
         [SerializeField]
-        private Slider sliderA;
+        private Slider sliderOnDuration;
+
+        [SerializeField]
+        private Slider sliderOffDuration;
+
+        [SerializeField]
+        private Slider sliderUpSlope;
+
+        [SerializeField]
+        private Slider sliderDownSlope;
 
         [SerializeField]
         private RawImage rawImage;
@@ -50,11 +73,20 @@ namespace BuddyApp.Diagnostic
         private float mH;
         private float mS;
         private float mV;
-        private float mF;
-        private float mA;
+        private float mLowLevel;
+        private float mOnDuration;
+        private float mOffDuration;
+        private float mUpSlope;
+        private float mDownSlope;
+
+        private bool mIsOnlyHSV;
+
         private string mLEDLocalisation;
         void Start()
         {
+
+            mIsOnlyHSV = false;
+
             mLEDLocalisation = "ALL";
             sliderH.wholeNumbers = true;
             sliderH.minValue = 0;
@@ -63,18 +95,32 @@ namespace BuddyApp.Diagnostic
             sliderS.wholeNumbers = true;
             sliderS.minValue = 0;
             sliderS.maxValue = 100;
+            sliderS.value = sliderS.maxValue;
 
             sliderV.wholeNumbers = true;
             sliderV.minValue = 0;
             sliderV.maxValue = 100;
+            sliderV.value = sliderV.maxValue;
 
-            sliderF.wholeNumbers = false;
-            sliderF.minValue = 0;
-            sliderF.maxValue = 2;
+            sliderLowLevel.wholeNumbers = true;
+            sliderLowLevel.minValue = 0;
+            sliderLowLevel.maxValue = 100;
 
-            sliderA.wholeNumbers = false;
-            sliderA.minValue = 0;
-            sliderA.maxValue = 2;
+            sliderOnDuration.wholeNumbers = true;
+            sliderOnDuration.minValue = 0;
+            sliderOnDuration.maxValue = 5000;
+
+            sliderOffDuration.wholeNumbers = true;
+            sliderOffDuration.minValue = 0;
+            sliderOffDuration.maxValue = 5000;
+
+            sliderUpSlope.wholeNumbers = true;
+            sliderUpSlope.minValue = 0;
+            sliderUpSlope.maxValue = 255;
+
+            sliderDownSlope.wholeNumbers = true;
+            sliderDownSlope.minValue = 0;
+            sliderDownSlope.maxValue = 255;
         }
 
         void Update()
@@ -83,14 +129,21 @@ namespace BuddyApp.Diagnostic
             mH = sliderH.value;
             mS = sliderS.value;
             mV = sliderV.value;
-            mF = sliderF.value;
-            mA = sliderA.value;
+            mLowLevel = sliderLowLevel.value;
+            mOnDuration = sliderOnDuration.value;
+            mOffDuration = sliderOffDuration.value;
+            mUpSlope = sliderUpSlope.value;
+            mDownSlope = sliderDownSlope.value;
 
             textH.text = "Hue " + mH.ToString();
             textS.text = "Sat " + mS.ToString();
             textV.text = "Val " + mV.ToString();
-            textF.text = "Frq " + mF.ToString();
-            textA.text = "Amp " + mA.ToString();
+            textLowLevel.text = "LowLvl " + mLowLevel.ToString();
+            textOnDuration.text = "OnDur " + mOnDuration.ToString();
+            textOffDuration.text = "OffDur " + mOffDuration.ToString();
+            textUpSlope.text = "UpSlope " + mUpSlope.ToString();
+            textDownSlope.text = "DownSlope " + mDownSlope.ToString();
+
         }
 
         public void SetColor()
@@ -100,21 +153,47 @@ namespace BuddyApp.Diagnostic
             
             if(mLEDLocalisation == "ALL")
             {
-                Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
-                Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
-                Buddy.Actuators.LEDs.SetHSVRightShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+                if(mIsOnlyHSV)
+                {
+                    Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+                    Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+                    Buddy.Actuators.LEDs.SetHSVRightShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+                }
+                else
+                {
+                    
+                    Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV), FloatToByte(mLowLevel), 
+                        FloatToShort(mOnDuration), FloatToShort(mOffDuration), FloatToByte(mUpSlope), FloatToByte(mDownSlope));
+                    Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV), FloatToByte(mLowLevel),
+                        FloatToShort(mOnDuration), FloatToShort(mOffDuration), FloatToByte(mUpSlope), FloatToByte(mDownSlope));
+                    Buddy.Actuators.LEDs.SetHSVRightShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV), FloatToByte(mLowLevel),
+                        FloatToShort(mOnDuration), FloatToShort(mOffDuration), FloatToByte(mUpSlope), FloatToByte(mDownSlope));
+                }
+                
             }
             else if(mLEDLocalisation == "HEARTH")
             {
-                Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+                if(mIsOnlyHSV)
+                    Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+                else
+                    Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV), FloatToByte(mLowLevel),
+                        FloatToShort(mOnDuration), FloatToShort(mOffDuration), FloatToByte(mUpSlope), FloatToByte(mDownSlope));
             }
             else if (mLEDLocalisation == "LEFT_SHOULDER")
             {
-                Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+                if(mIsOnlyHSV)
+                    Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+                else
+                    Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV), FloatToByte(mLowLevel),
+                        FloatToShort(mOnDuration), FloatToShort(mOffDuration), FloatToByte(mUpSlope), FloatToByte(mDownSlope));
             }
             else if (mLEDLocalisation == "RIGHT_SHOULDER")
             {
-                Buddy.Actuators.LEDs.SetHSVRightShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+                if(mIsOnlyHSV)
+                    Buddy.Actuators.LEDs.SetHSVRightShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV));
+                else
+                    Buddy.Actuators.LEDs.SetHSVRightShoulderLight(FloatToShort(mH), FloatToByte(mS), FloatToByte(mV), FloatToByte(mLowLevel),
+                        FloatToShort(mOnDuration), FloatToShort(mOffDuration), FloatToByte(mUpSlope), FloatToByte(mDownSlope));
             }
         }
         
@@ -145,6 +224,11 @@ namespace BuddyApp.Diagnostic
                 mLEDLocalisation = "ALL";
                 Debug.Log("ALL");
             }
+        }
+
+        public void IsChecked()
+        {
+
         }
 
         public void SetFlash()

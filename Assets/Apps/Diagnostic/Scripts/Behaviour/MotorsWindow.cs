@@ -90,7 +90,7 @@ namespace BuddyApp.Diagnostic
         private Wheels mWheels;
         private YesHeadHinge mYesHinge;
         private NoHeadHinge mNoHinge;
-        private BlueQuark.Navigation mNavigation;
+        //private BlueQuark.Navigation mNavigation;
 
         void Start()
         {
@@ -98,7 +98,6 @@ namespace BuddyApp.Diagnostic
             mWheels = Buddy.Actuators.Wheels;
             mYesHinge = Buddy.Actuators.Head.Yes;
             mNoHinge = Buddy.Actuators.Head.No;
-            mNavigation = Buddy.Navigation;
 
             linearVelocitySetter.wholeNumbers = false;
             linearVelocitySetter.minValue = -1F;
@@ -196,7 +195,7 @@ namespace BuddyApp.Diagnostic
             //                    (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
             //                    toleranceSetter.value);
             Debug.Log("NOT IMPLEMENTED YET");
-            mNavigation.Run<DisplacementStrategy>().RotateTo(anglePosSetter.value, AngularVelocityWheelsSetter.value);
+            Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(anglePosSetter.value, AngularVelocityWheelsSetter.value);
         }
 
         public void TurnRelative()
@@ -205,7 +204,7 @@ namespace BuddyApp.Diagnostic
             //                (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
             //                toleranceSetter.value);
             Debug.Log("NOT IMPLEMENTED YET");
-            mNavigation.Run<DisplacementStrategy>().Rotate(anglePosSetter.value, AngularVelocityWheelsSetter.value);
+            Buddy.Navigation.Run<DisplacementStrategy>().Rotate(anglePosSetter.value, AngularVelocityWheelsSetter.value);
         }
 
         public void GoTo()

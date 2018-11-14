@@ -14,11 +14,12 @@ namespace BuddyApp.Diagnostic
         public float MaxExpected { get; set; }
         public string Unite { get; set; }
         public string Form { get; set; }
+        
 
         public ThermalPixel()
         {
-            MinExpected = 20; 
-            MaxExpected = 40; 
+            MinExpected = 10; 
+            MaxExpected = 30; 
             Unite = "°";
             Form = "0.0";
         }
@@ -28,6 +29,9 @@ namespace BuddyApp.Diagnostic
         {
             mImage = GetComponentInChildren<Image>();
             mText = GetComponentInChildren<Text>();
+
+            mText.color = new Color(255, 255, 255);
+            mText.fontStyle = FontStyle.Bold;
         }
 
         public float Value

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using BlueQuark;
+using OpenCVUnity;
 
 namespace BuddyApp.Diagnostic
 {
@@ -9,40 +11,53 @@ namespace BuddyApp.Diagnostic
         //pas besoin pour le pole hardware
         //private ThermalSensor mThermalSensor;
 
-        //[SerializeField]
-        //private List<ThermalPixel> pixels;
+        [SerializeField]
+        private List<ThermalPixel> pixels;
 
-        //private int mNbPixel;
-        //private float mTime;
-        //private int[] mThermalSensorDataArray;
+        [SerializeField]
+        private Text AmbiantTemperature;
 
-        //void Start()
-        //{
-        //    mThermalSensor = BYOS.Instance.Primitive.ThermalSensor;
-        //    mNbPixel = mThermalSensor.MatrixArray.Length;
-        //    mThermalSensorDataArray = new int[mNbPixel];
+        [SerializeField]
+        private Text AverageTemperature;
 
-        //    mTime = 0F;
+        private int mNbPixel;
+        private float mTimeRefresh;
+        private float[] mThermalSensorDataArray;
+        private ThermalCamera mThermalCamera;
 
-        //}
+        private void Start()
+        {
+            mThermalCamera = Buddy.Sensors.ThermalCamera;
+            
+            //64
+            mNbPixel = mThermalCamera.Width * mThermalCamera.Height;
+            mThermalSensorDataArray = new float[mNbPixel];
+            mTimeRefresh = 0F;
+        }
 
-        //void Update()
-        //{
-        //    mTime += Time.deltaTime;
+        private void Update()
+        {
+            
+            mTimeRefresh += Time.deltaTime;
+            if(mTimeRefresh >= 0.2F)
+            {
+                Mat lMat = mThermalCamera.Frame.clone();
+                Core.flip(lMat, lMat, 0);
+                lMat.get(0, 0, mThermalSensorDataArray);
+                for(int i = 0; i < mThermalSensorDataArray.Length; ++i)
+                {
+                    float lValuePixel = mThermalSensorDataArray[i];
+                    if (lValuePixel != 0)
+                        pixels[i].Value = mThermalSensorDataArray[i];
+                }
+                float oAverageTemp = 0;
+                for (int i = 0; i < 64; ++i)
+                    oAverageTemp += mThermalSensorDataArray[i];
 
-        //    // Avoid flashing
-        //    if (mTime >= 0.2F) {
-        //        // get data from thermal sensor 
-        //        mThermalSensorDataArray = mThermalSensor.MatrixArray;
-
-        //        // put the appropriate color to the image raw fo the scene
-        //        for (int i = 0; i < mNbPixel; ++i) {
-        //            int lValue = mThermalSensorDataArray[i];
-        //            if (lValue != 0)
-        //                pixels[i].Value = mThermalSensorDataArray[i];
-        //        }
-        //        mTime = 0F;
-        //    }
-        //}
+                AverageTemperature.text = (oAverageTemp / 64).ToString();
+                AmbiantTemperature.text = mThermalCamera.AmbiantTemperature.ToString();
+                mTimeRefresh = 0F;
+            }
+        }
     }
 }
