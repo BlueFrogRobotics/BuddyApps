@@ -56,7 +56,7 @@ namespace BuddyApp.Gallery
             string strAppName = (null != iArgs && 0 < iArgs.Length && typeof(string) == iArgs[0].GetType()) ? ((string)iArgs[0].ToString()) : null;
 
             // Vocal initialization and welcome
-            //Buddy.GUI.Screen.OnTouch.Add((iTouch) => { Buddy.Vocal.StopListening(); });
+            Buddy.GUI.Screen.OnTouch.Add((iTouch) => { Buddy.Vocal.StopListening(); });
             Buddy.Vocal.OnTrigger.Add((iAction) => Buddy.Vocal.SayKeyAndListen("ilisten"));
 
             if (null == strAppName) // At least 2 parameters
