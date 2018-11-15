@@ -15,15 +15,11 @@ namespace BuddyApp.Gallery
         public static readonly string[] ALLOWED_EXTENSION_LIST = { "*.psd", "*.tiff", "*.jpg", "*.tga", "*.png", "*.gif", "*.bmp", "*.iff", "*.pict"};
         
         // Singleton design pattern
-        [SerializeField]
         private static readonly PhotoManager mPhotoManagerInstance = new PhotoManager();
-       
-        [SerializeField]
-        private static SortedList mPhotoSortedList = null;
-
-
-        [SerializeField]
+        private static string mFirstPhotoPath = null;
+        private static SortedList mPhotoSortedList = new SortedList();
         private static SlideSet mSlideSet = null;
+        private static int mFirstImageIndex;
 
         // Singleton design pattern
         static PhotoManager()
@@ -41,16 +37,44 @@ namespace BuddyApp.Gallery
             return mPhotoManagerInstance;
         }
 
-        public void Initialize()
+        public void Initialize(string strAppName, string strPhotoName)
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Initializing application with image directory...");
 
-            mPhotoSortedList = new SortedList();
-            // TODO: Scan repository to initialize the photo list
+            if (null != mPhotoSortedList)
+            {
+                mPhotoSortedList.Clear();
+            }
 
-            ScanDirectory(Buddy.Resources.GetRawFullPath(STR_GALLERY_DIRECTORY));
+            // Scan repository to initialize the photo list
+            ScanPhotographs();
+            //ScanDirectory(Buddy.Resources.GetRawFullPath(STR_GALLERY_DIRECTORY));
+
+            // Determine first index
+            int firstIndex;
+
+            // First : check if input file exists
+            // Second : check if app has photo
+            firstIndex = GetInitialIndex(strAppName, strPhotoName);
+            if (-1 != firstIndex)
+            {
+                mFirstImageIndex = firstIndex;
+            }
+            else
+            {
+                mFirstImageIndex = mPhotoSortedList.Count - 1; // Last : Set to last if nothing if found
+            }
         }
 
+        public void Free()
+        {
+            mFirstPhotoPath = null;
+            mPhotoSortedList = new SortedList();
+            mSlideSet = null;
+            mFirstImageIndex = -1;
+    }
+        
+        /*
         private void ScanDirectory(string strDirectoryPath)
         {
             
@@ -82,8 +106,62 @@ namespace BuddyApp.Gallery
                 }
             }
         }
+        */
 
-        //public SlideSet SlideSet { get { return mSlideSet; } set { mSlideSet = value; } }
+        private void ScanPhotographs()
+        {
+            Photograph[] lPhotographs = Buddy.Platform.Users.GetUserPhotographs(false);
+
+            if (null == lPhotographs)
+            {
+                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.ACCESSING, "Error: Can't access user photographs!");
+                return;
+            }
+            
+            for (int i = 0; i < lPhotographs.Length; ++i)
+            {
+                ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.LOADING, "File: " + lPhotographs[i].Name);
+
+                Photo photo = new Photo(lPhotographs[i]);
+
+                if (null == photo) {
+                    return;
+                }
+
+                AddPhoto(photo);
+            }
+        }
+        
+        private int GetInitialIndex(string strAppName, string strPhotoName)
+        {
+            if (null == strPhotoName || null == mPhotoSortedList)
+            {
+                return -1;
+            }
+
+            int iApplicationIndex = -1;
+            for (int i = mPhotoSortedList.Count - 1; i < 0; --i)
+            {
+                Photo p = GetPhotoByIndex(i);
+                if (string.Equals(strPhotoName, p.GetPhotoName()))
+                {
+                    return i;
+                }
+
+                if (-1 == iApplicationIndex && string.Equals(strAppName, p.GetApplicationName()))
+                {
+                    iApplicationIndex = i;
+                }
+
+            }
+
+            return iApplicationIndex;
+        }
+
+        public int GetFirstSlideIndex()
+        {
+            return mFirstImageIndex;
+        }
 
         public SlideSet GetSlideSet ()
         {

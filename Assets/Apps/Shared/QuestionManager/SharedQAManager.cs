@@ -322,12 +322,12 @@ namespace BuddyApp.Shared
         {
             if (BmlIsLaunch) {
                 if (RandomBML) {
-                    if (!Buddy.Behaviour.Interpreter.RunRandom(iBMLName))
+                    if (!Buddy.Behaviour.Interpreter.Run(iBMLName))
                         ExtLog.E(ExtLogModule.APP, GetType(),
                          LogStatus.FAILURE, LogInfo.NOT_FOUND,
                          "This category of BML doesn't exist in your app and in the OS");
                 } else {
-                    if (!Buddy.Behaviour.Interpreter.RunRandom(iBMLName))
+                    if (!Buddy.Behaviour.Interpreter.Run(iBMLName))
                         ExtLog.E(ExtLogModule.APP, GetType(),
                          LogStatus.FAILURE, LogInfo.NOT_FOUND, 
                          "This BML doesn't exist in your app and in the OS");

@@ -17,33 +17,42 @@ namespace BuddyApp.Gallery
 
         private readonly string STR_YES = "yes";
         private readonly string STR_NO = "no";
+        
+        private readonly float F_MAX_TIME_LISTENING = 10.0f;
+
+        [SerializeField]
+        private float mTimeListening;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On State Enter...");
+
+            mTimeListening = F_MAX_TIME_LISTENING;
+
             // Stop current vocal process
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.Stop();
 
-            // Start new process
-            Buddy.Vocal.OnEndListening.Add((iSpeechInput) => OnEndListening(iSpeechInput));
-            Buddy.Vocal.SayKey(STR_ASK_FOR_VALIDATION);
+            // Start new listening process
+            Buddy.Vocal.OnEndListening.Add(OnEndListening);
+            Buddy.Vocal.SayKeyAndListen(STR_ASK_FOR_VALIDATION);
 
             // Display graphical interface
             InitializeDialoger();
-
-            Buddy.Vocal.Listen();
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            // TODO: LISTEN ONLY FOR EDITOR VERSION!!!
+            if (Buddy.Vocal.IsListening) {
+                mTimeListening -= Time.deltaTime;
+            }
+
             /*
-            if (!Buddy.Vocal.IsListening)
-            {
-                string[] grammars = { "app_grammar", "gallery" };
-                Buddy.Vocal.Listen(grammars);
+            if (!Buddy.Vocal.IsBusy && !Buddy.Vocal.IsListening && !Buddy.Vocal.IsSpeaking && 0.0f <= mTimeListening) {
+                ExtLog.W(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.ACCESSING, "START NEW LISTEN " + mTimeListening);
+                Buddy.Vocal.Listen();
             }
             */
         }
@@ -51,6 +60,8 @@ namespace BuddyApp.Gallery
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On State Exit...");
+
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.GUI.Dialoger.Hide();
         }
@@ -78,13 +89,17 @@ namespace BuddyApp.Gallery
 
         private void RemoveConfirmed()
         {
+            Buddy.Vocal.Stop();
+
             // Delete photo (slide + disk)
-            if (!PhotoManager.GetInstance().DeleteCurrentPhoto()) {
+            if (!PhotoManager.GetInstance().DeleteCurrentPhoto())
+            {
                 // Error could not erase image
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.DELETING, "Failed to delete current image.");
+                Trigger("TRIGGER_REMOVE_CANCEL");
+                return;
             }
 
-            Buddy.Vocal.Stop();
             Buddy.Vocal.SayKey(STR_CONFIRM_DELETION);
             Trigger("TRIGGER_REMOVE_CONFIRM");
         }
@@ -97,25 +112,35 @@ namespace BuddyApp.Gallery
 
         private void OnEndListening(SpeechInput iSpeechInput)
         {
-            ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.OUT_OF_BOUND, "RULE : " + iSpeechInput.Rule);
-            ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.OUT_OF_BOUND, "UTTERANCE : " + iSpeechInput.Utterance);
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "RULE : " + iSpeechInput.Rule);
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "UTTERANCE : " + iSpeechInput.Utterance);
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "CONFIDENCE : " + iSpeechInput.Confidence);
 
-            if (string.IsNullOrEmpty(iSpeechInput.Rule)) {
+            if (iSpeechInput.Confidence < Buddy.Vocal.DefaultInputParameters.RecognitionThreshold)
+            {
+                if (0.0F <= mTimeListening)
+                {
+                    Buddy.Vocal.Listen();
+                }
+
                 return;
             }
 
-            if (iSpeechInput.Rule.EndsWith(STR_NO))
+            if (Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_NO))
             {
-                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.DELETING, "Cancel");
                 RemoveCanceled();
                 return;
             }
 
-            if (iSpeechInput.Rule.EndsWith(STR_YES))
+            if (Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_YES))
             {
-                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.DELETING, "Confirm");
                 RemoveConfirmed();
                 return;
+            }
+
+            if (0.0F <= mTimeListening)
+            {
+                Buddy.Vocal.Listen();
             }
         }
     }

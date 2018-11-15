@@ -10,27 +10,52 @@ namespace BuddyApp.Gallery
 {
     public class LaunchApplicationState : AStateMachineBehaviour
     {
-        private readonly string STR_DEFAULT_SPRITE = "os_icon_photo";
+        private readonly string STR_DEFAULT_SPRITE = "os_icon_photo";//"os_atlas_ui_photo_big";
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On State Enter...");
+
             // TODO: Check correct initialization when error control is available.
 
             // Define vocal listening
             Buddy.Vocal.EnableTrigger = true; // Active auto Okay Buddy
             Buddy.Vocal.ListenOnTrigger = true; // Active auto listen after Okay Buddy
+
             string[] grammars = { "grammar", "gallery" };
             Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters();
             Buddy.Vocal.DefaultInputParameters.Grammars = grammars;
-            Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 15000; // More accurate recognition for "sure" / "share"
-
+            Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 6000; // More accurate recognition for "sure" / "share", etc
+            
             InitializeHeader();
             InitializeSlides();
             
             Trigger("TRIGGER_GALLERY_UPLOADED");
         }
 
+        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+
+        }
+
+        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On State Exit...");
+        }
+
+        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
+        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        //
+        //}
+
+        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
+        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        //
+        //}
+        
         private void InitializeHeader()
         {
             Buddy.GUI.Header.DisplayParametersButton(false);
@@ -45,23 +70,19 @@ namespace BuddyApp.Gallery
             SlideSet slider = photoManager.GetSlideSet();
 
             //
-            /// Create default sprite
-           /* Texture2D spriteTexture = new Texture2D(980, 512);
-            spriteTexture.LoadImage(File.ReadAllBytes(Buddy.Resources.GetSpritesFullPath(STR_DEFAULT_SPRITE)));
-            spriteTexture.Apply();
-            Sprite defaultSprite = Sprite.Create(spriteTexture, new UnityEngine.Rect(0, 0, spriteTexture.width, spriteTexture.height), new Vector2(0.5F, 0.5F));
-            */
-            //
             /// Set default sprite
             PictureToast defaultSlide = slider.SetDefaultSlide<PictureToast>();
             defaultSlide.With(Buddy.Resources.Get<Sprite>(STR_DEFAULT_SPRITE));
-            
+
+            if (null == Buddy.Resources.Get<Sprite>(STR_DEFAULT_SPRITE))
+                ExtLog.E(ExtLogModule.APP, typeof(GalleryActivity), LogStatus.SUCCESS, LogInfo.LOADING, "DEFAULT SPRITE IS NULL");
+
             //
             /// Initializing slider with image sorted
-            for (int i = 0; i < photoManager.GetCount(); i++)
+            for (int i = 0; i < photoManager.GetCount(); ++i)
             {
                 PictureToast slide;
-                if (photoManager.GetCount() - 1 == i) // Last photo is first displayed
+                if (photoManager.GetFirstSlideIndex() == i) // Last photo is first displayed
                 {
                     slide = slider.AddFirstDisplayedSlide<PictureToast>();
                 }
@@ -72,31 +93,10 @@ namespace BuddyApp.Gallery
 
                 //
                 /// Setup slide with photo
-                slide.With(photoManager.GetPhotoByIndex(i).ToSprite());
+                slide.With(photoManager.GetPhotoByIndex(i).GetPhotoFullpath());// ToSprite());
                 photoManager.GetPhotoByIndex(i).SetSlide(ref slide);
             }
         }
-        
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
 
-        }
-
-        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-        
-        }
-
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
     }
 }

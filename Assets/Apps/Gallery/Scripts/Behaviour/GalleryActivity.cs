@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,24 +16,26 @@ namespace BuddyApp.Gallery
         [SerializeField]
         private readonly string STR_WELCOME = "welcome";
         private readonly string STR_WELCOME_FROM_APP = "welcomefromapp";
+        private readonly string STR_APP_NAME = "app_name";
+
+        [SerializeField]
+        private object[] iArgs = null;
+
         /*
 		* Called before the App scene loading.
 		*/
         public override void OnLoading(object[] iArgs)
 		{ 
 			ExtLog.I(ExtLogModule.APP, typeof(GalleryActivity), LogStatus.START, LogInfo.LOADING, "On loading...");
-            
-            // TODO: Deal with parameters (ie, name of an image, name of an application?)
-            
-            if (1 == iArgs.Length && typeof(string) == iArgs[1].GetType())
-            {
-                // TODO: Initialize with last parameter
-                PhotoManager.GetInstance().Initialize();
-                return;
-            }
 
-            // In case of error or no parameter, use default initialization
-            PhotoManager.GetInstance().Initialize();
+            // TODO: Deal with parameters (ie, name of an image, name of an application?)
+            this.iArgs = iArgs;
+            
+            string strAppName = (null != iArgs && 0 < iArgs.Length && typeof(string) == iArgs[0].GetType()) ? (string)iArgs[0] : null;
+            string strFirstPhotoName = (null != iArgs && 1 < iArgs.Length && typeof(string) == iArgs[1].GetType()) ? (string)iArgs[1] : null;
+
+            // Initialize photo manager (scan directoies)
+            PhotoManager.GetInstance().Initialize(strAppName, strFirstPhotoName);
         }
         
         /*
@@ -50,7 +53,20 @@ namespace BuddyApp.Gallery
         {
             ExtLog.I(ExtLogModule.APP, typeof(GalleryActivity), LogStatus.SUCCESS, LogInfo.LOADING, "On start...");
 
-            Buddy.Vocal.SayKey(STR_WELCOME);
+            string strAppName = (null != iArgs && 0 < iArgs.Length && typeof(string) == iArgs[0].GetType()) ? ((string)iArgs[0].ToString()) : null;
+
+            // Vocal initialization and welcome
+            //Buddy.GUI.Screen.OnTouch.Add((iTouch) => { Buddy.Vocal.StopListening(); });
+            Buddy.Vocal.OnTrigger.Add((iAction) => Buddy.Vocal.SayKeyAndListen("ilisten"));
+
+            if (null == strAppName) // At least 2 parameters
+            {
+                Buddy.Vocal.SayKey(STR_WELCOME);
+            }
+            else
+            {
+                Buddy.Vocal.Say(Buddy.Resources.GetRandomString(STR_WELCOME_FROM_APP).Replace(STR_APP_NAME, strAppName));
+            }
         }
 
 		/*
@@ -62,8 +78,12 @@ namespace BuddyApp.Gallery
 
             Buddy.Vocal.OnEndListening.Clear();
 
-            if (Buddy.Vocal.IsListening || Buddy.Vocal.IsSpeaking)
+            if (Buddy.Vocal.IsBusy)
+            {
                 Buddy.Vocal.Stop();
+            } 
+
+            PhotoManager.GetInstance().Free();
         }
     }
 }

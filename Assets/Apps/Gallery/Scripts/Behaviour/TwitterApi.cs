@@ -246,7 +246,46 @@ namespace BuddyApp.Gallery
 
 				}
 			}
-			public static IEnumerator PostPicture(string text, string consumerKey, string consumerSecret, AccessTokenResponse response, PostTweetCallback callback)
+
+            public static IEnumerator UploadMedia(string fileName, byte[] image, string text, string consumerKey, string consumerSecret, AccessTokenResponse response, PostTweetCallback callback)
+            {
+                if (string.IsNullOrEmpty(text) || text.Length > 140) {
+                    Debug.Log(string.Format("PostTweet - text[{0}] is empty or too long.", text));
+
+                    callback(false);
+                } else {
+                    // Add data to the form to post.
+                    WWWForm form = new WWWForm();
+                    form.AddBinaryData("media[]", image, fileName);
+                    form.AddField("status", text);
+
+                    // HTTP header
+                    Dictionary<string, string> headers = new Dictionary<string, string>();
+                    headers.Add("Authorization", GetHeaderWithAccessToken("POST", UploadURL, consumerKey, consumerSecret, response, new Dictionary<string, string>()));
+                    headers.Add("Content-Type", form.headers["Content-Type"] + "; type=\"image/png\"; start=\"<media[]>\"");
+
+                    WWW web = new WWW(UploadURL, form.data, headers);
+
+                    yield return web;
+
+                    if (!string.IsNullOrEmpty(web.error)) {
+                        Debug.Log(string.Format("PostTweet - failed. {0}\n{1}", web.error, web.text));
+                        callback(false);
+                    } else {
+                        string error = Regex.Match(web.text, @"<error>([^&]+)</error>").Groups[1].Value;
+
+                        if (!string.IsNullOrEmpty(error)) {
+                            Debug.Log(string.Format("PostTweet - failed. {0}", error));
+                            callback(false);
+                        } else {
+                            callback(true);
+                        }
+                    }
+
+                }
+            }
+
+            public static IEnumerator PostPicture(string text, string consumerKey, string consumerSecret, AccessTokenResponse response, PostTweetCallback callback)
 			{
 				if (string.IsNullOrEmpty(text) || text.Length > 140) {
 					Debug.Log(string.Format("PostTweet - text[{0}] is empty or too long.", text));

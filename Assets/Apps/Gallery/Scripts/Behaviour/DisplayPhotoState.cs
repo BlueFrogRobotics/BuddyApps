@@ -11,47 +11,63 @@ namespace BuddyApp.Gallery
 {
     public class DisplayPhotoState : AStateMachineBehaviour
     {
-        private readonly string STR_QUIT_COMMAND = "#quit";
-        private readonly string STR_NEXT_COMMAND = "#next";
-        private readonly string STR_PREVIOUS_COMMAND = "#previous";
-        private readonly string STR_DELETE_COMMAND = "#delete";
-        private readonly string STR_SHARE_COMMAND = "#share";
+        private readonly string STR_QUIT_COMMAND = "quit";
+        private readonly string STR_NEXT_COMMAND = "next";
+        private readonly string STR_PREVIOUS_COMMAND = "previous";
+        private readonly string STR_DELETE_COMMAND = "delete";
+        private readonly string STR_SHARE_COMMAND = "share";
 
         private readonly string STR_REMOVE_SPRITE = "os_icon_trash";
         private readonly string STR_SHARE_SPRITE = "os_icon_share";
-        
+
+        private readonly float F_MAX_TIME_LISTENING = 10.0F;
+
+        [SerializeField]
         private bool mIsFooterSet = false;
+        
+        [SerializeField]
+        private float mTimeListening;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On State Enter...");
+
+            mTimeListening = F_MAX_TIME_LISTENING;
+
             // New listening events
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnEndListening);
+            
+            Buddy.Vocal.OnListeningStatus.Add((SpeechInputStatus t) => ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "MY STATUS : " + t.Type));
 
             // Check if footer is correctly displayed
             UpdateFooter();
-
-            Buddy.Vocal.Listen();
+            
+            if (Buddy.Vocal.IsSpeaking)
+            {
+                Buddy.Vocal.OnEndSpeaking.Clear();
+                Buddy.Vocal.OnEndSpeaking.Add(OnEndSpeaking);
+            }
+            else
+            {
+                Buddy.Vocal.Listen();
+            }
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            // TODO: LISTEN ONLY FOR EDITOR VERSION!!!
-            
-            if (!Buddy.Vocal.IsListening)
-            {
-    //            Buddy.Vocal.Listen();
+            if (Buddy.Vocal.IsListening) {
+                mTimeListening -= Time.deltaTime;
             }
-            
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On State Exit...");
             Buddy.Vocal.OnEndListening.Clear();
-            //Buddy.Vocal.Stop();
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
@@ -64,29 +80,44 @@ namespace BuddyApp.Gallery
         //
         //}
 
+        public void OnEndSpeaking(SpeechOutput iSpeechOutput)
+        {
+            if (0.0F <= mTimeListening)
+            {
+                Buddy.Vocal.Listen();
+            }
+        }
+
         public void OnEndListening (SpeechInput iSpeechInput)
         {
-            ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.OUT_OF_BOUND, "RULE : " + iSpeechInput.Rule);
-            ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.OUT_OF_BOUND, "UTTERANCE : " + iSpeechInput.Utterance);
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "RULE : " + iSpeechInput.Rule);
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "UTTERANCE : " + iSpeechInput.Utterance);
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "CONFIDENCE : " + iSpeechInput.Confidence);
 
-            if (string.IsNullOrEmpty(iSpeechInput.Rule))
+            if (iSpeechInput.Confidence < Buddy.Vocal.DefaultInputParameters.RecognitionThreshold)
             {
+                if (0.0F <= mTimeListening)
+                {
+                    Buddy.Vocal.Listen();
+                }
                 return;
             }
             
-            if (iSpeechInput.Rule.EndsWith(STR_QUIT_COMMAND))
+            if (Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_QUIT_COMMAND))
             {
                 QuitApp();
                 return;
             }
             
-            if (iSpeechInput.Rule.EndsWith(STR_DELETE_COMMAND))
+            if (0 < PhotoManager.GetInstance().GetCount()
+                && Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_DELETE_COMMAND))
             {
                 Trigger("TRIGGER_REMOVE_REQUEST");
                 return;
             }
 
-            if (iSpeechInput.Rule.EndsWith(STR_NEXT_COMMAND)
+            if (0 < PhotoManager.GetInstance().GetCount()
+                && Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_NEXT_COMMAND)
                 && PhotoManager.GetInstance().GetCurrentIndex() < PhotoManager.GetInstance().GetCount() - 1 // Not last index
                 && PhotoManager.GetInstance().GetSlideSet().GoNext())
             {
@@ -94,7 +125,8 @@ namespace BuddyApp.Gallery
                 return;
             }
 
-            if (iSpeechInput.Rule.EndsWith(STR_PREVIOUS_COMMAND)
+            if (0 < PhotoManager.GetInstance().GetCount()
+                && Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_PREVIOUS_COMMAND)
                 && 0 < PhotoManager.GetInstance().GetCurrentIndex() - 1 // Not last index
                 && PhotoManager.GetInstance().GetSlideSet().GoPrevious())
             {
@@ -102,10 +134,16 @@ namespace BuddyApp.Gallery
                 return;
             }
 
-            if (iSpeechInput.Rule.EndsWith(STR_SHARE_COMMAND))
+            if (0 < PhotoManager.GetInstance().GetCount()
+                && Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_SHARE_COMMAND))
             {
                 Trigger("TRIGGER_SHARE_PHOTO");
                 return;
+            }
+
+            if (0.0F <= mTimeListening) {
+                ExtLog.W(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "START LISTENING!!! " + mTimeListening);
+                Buddy.Vocal.Listen();
             }
         }
         
@@ -113,7 +151,6 @@ namespace BuddyApp.Gallery
         {
             if (0 == PhotoManager.GetInstance().GetCount())
             {
-                Buddy.GUI.Footer.Hide();
                 mIsFooterSet = false;
                 return;
             }
@@ -127,6 +164,8 @@ namespace BuddyApp.Gallery
 
         private void InitializeFooter()
         {
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "Changing Footer... ");
+
             //
             /// Create remove button
             FButton lDeleteButton = Buddy.GUI.Footer.CreateOnRight<FButton>();

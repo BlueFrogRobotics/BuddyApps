@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<AppInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<AppInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ID>k261293816951</ID>
     <ShortName>Diagnostic</ShortName>
     <CommercialName>Diagnostic</CommercialName>
     <MainScene>0</MainScene>
-    <Authors>dev@bluefrogrobotics.com</Authors>
-    <Version>1.0.1.1</Version>
+    <Authors>bfr-studio</Authors>
+    <Version>1.0.1.68</Version>
     <VersionStatus>NONE</VersionStatus>
     <VersionName>alpha</VersionName>
     <Category>UTILITY</Category>
@@ -59,36 +59,5 @@
             <IsValid>false</IsValid>
         </AppPermission>
     </Permissions>
-    <LangVocalKeys>
-        <VocalKeys>
-            <Language>EN</Language>
-            <Keys />
-        </VocalKeys>
-        <VocalKeys>
-            <Language>FR</Language>
-            <Keys />
-        </VocalKeys>
-        <VocalKeys>
-            <Language>IT</Language>
-            <Keys />
-        </VocalKeys>
-        <VocalKeys>
-            <Language>JP</Language>
-            <Keys />
-        </VocalKeys>
-        <VocalKeys>
-            <Language>KR</Language>
-            <Keys />
-        </VocalKeys>
-        <VocalKeys>
-            <Language>GER</Language>
-            <Keys />
-        </VocalKeys>
-        <VocalKeys>
-            <Language>NL</Language>
-            <Keys />
-        </VocalKeys>
-    </LangVocalKeys>
-    <OptionsLayoutClassName>Diagnostic.DiagnosticLayout</OptionsLayoutClassName>
     <ActivityClassName>Diagnostic.DiagnosticActivity</ActivityClassName>
 </AppInfo>
