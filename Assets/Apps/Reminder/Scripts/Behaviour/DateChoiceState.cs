@@ -16,7 +16,7 @@ namespace BuddyApp.Reminder
             YEAR,
         }
 
-        private const int TRY_NUMBER = 3;
+        private const int TRY_NUMBER = 2;
         private const float QUIT_TIMEOUT = 20;
         private const float TITLE_TIMER = 2.500F;
         private const int JANUARY = 1;
@@ -25,6 +25,7 @@ namespace BuddyApp.Reminder
         private bool mQuit;
         private int mListen;
         private float mTimer;
+        private IEnumerator mQuitOnTimeout;
 
         // TMP - Waiting for caroussel
         private DateTime mCarousselDate;
@@ -69,11 +70,7 @@ namespace BuddyApp.Reminder
             mListen = 0;
             mQuit = false;
             mTimer = -1;
-
-            // For now, when we go back to that state the date is reset
-            ReminderData.Instance.AppState = 0;
-            ReminderData.Instance.ReminderDate = new DateTime(0001, 01, 01);
-            mCarousselDate = new DateTime(0001, 01, 01);
+            mQuitOnTimeout = QuittingTimeout();
 
             // Header setting
             Buddy.GUI.Header.DisplayParametersButton(false);
@@ -81,15 +78,15 @@ namespace BuddyApp.Reminder
             lHeaderFont.material.color = new Color(0, 0, 0, 1F);
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
 
-            // Callback & Grammar setting & First call to Vocon
-            Buddy.Vocal.OnEndListening.Add(VoconGetDateResult);
-            DebugColor("FIRST CALL CALLBACK VOCON DATE", "red");
-            Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), new string[] { "reminder", "common" });
+            // If a date has been already choose, just display Date entry with this date on caroussel
+            if (ReminderData.Instance.DateSaved)
+                DisplayDateEntry(ReminderData.Instance.ReminderDate);
+            else
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), null, new string[] { "reminder", "common" }, VoconGetDateResult, null);
         }
 
         private void VoconGetDateResult(SpeechInput iSpeechInput)
         {
-            DebugColor("CALLBACK VOCON DATE BEGIN", "red");
             if (iSpeechInput.IsInterrupted || mQuit)
                 return;
             mListen++;
@@ -111,13 +108,11 @@ namespace BuddyApp.Reminder
 
             // Extraction date failed - Relaunch listenning until we make less than 2 listenning
             if (mListen < TRY_NUMBER || mTimer >= 0)
-            {
-                DebugColor("NEXT CALLBACK VOCON DATE", "red");
-                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), new string[] { "reminder", "common" });
-            }
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), null, new string[] { "reminder", "common" }, VoconGetDateResult, null);
+
             // Listenning count is reached - So display UI & launch the last listenning
             else if (!Buddy.GUI.Toaster.IsBusy)
-                DisplayDateEntry();
+                DisplayDateEntry(DateTime.Today);
             // Misunderstood & User didn't click on validate - We request to quit
             else
                 QuitReminder();
@@ -128,8 +123,7 @@ namespace BuddyApp.Reminder
         {
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            StopCoroutine(QuittingTimeout());
-            Buddy.Vocal.OnEndListening.Remove(VoconGetDateResult);
+            StopCoroutine(mQuitOnTimeout);
             Buddy.Vocal.Stop();
         }
 
@@ -137,7 +131,7 @@ namespace BuddyApp.Reminder
         {
             mQuit = true;
             Buddy.Vocal.SayKey("bye");
-            DebugColor("QUITTING", "red");
+            DebugColor("QUITTING DATE CHOICE", "red");
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
@@ -163,13 +157,16 @@ namespace BuddyApp.Reminder
          *  Displaying UI to choose Date
          *  And launch the last listenning
          */
-        private void DisplayDateEntry()
+        private void DisplayDateEntry(DateTime iCarouselStartDate)
         {
             DebugColor("Display DATE TOASTER", "red");
 
-            StartCoroutine(QuittingTimeout());
+            StartCoroutine(mQuitOnTimeout);
 
-            Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), new string[] { "reminder", "common" });
+            if (ReminderData.Instance.DateSaved)
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), null, new string[] { "reminder", "common" }, VoconGetDateResult, null);
+            else
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), null, new string[] { "reminder", "common" }, VoconGetDateResult, null);
 
             //  Display of the title
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("setupdate"));
@@ -184,7 +181,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
                 //  Starting point is the today's date
-                mCarousselDate = DateTime.Today.Date;
+                mCarousselDate = iCarouselStartDate;
 
                 // Increment Button
                 TButton lInc = iOnBuild.CreateWidget<TButton>();
@@ -218,14 +215,15 @@ namespace BuddyApp.Reminder
         {
             if (!Buddy.Vocal.IsSpeaking)
             {
+                // Update the date in data if the toaster is displaying
                 if (Buddy.GUI.Toaster.IsBusy)
                 {
-                    if (DateIsDefault(ReminderData.Instance.ReminderDate))
-                        ReminderData.Instance.ReminderDate = mCarousselDate;
+                    ReminderData.Instance.ReminderDate = mCarousselDate;
                     Buddy.GUI.Header.HideTitle();
                 }
                 DebugColor("DATE IS: " + ReminderData.Instance.ReminderDate.ToShortDateString(), "green");
                 ReminderData.Instance.AppState++;
+                ReminderData.Instance.DateSaved = true;
                 Trigger("HourChoiceState");
             }
         }

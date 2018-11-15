@@ -22,13 +22,14 @@ namespace BuddyApp.Reminder
             HOUR,
         }
 
-        private const int TRY_NUMBER = 3;
+        private const int TRY_NUMBER = 2;
         private const float QUIT_TIMEOUT = 20;
         private const float TITLE_TIMER = 2.500F;
 
         private bool mQuit;
         private int mListen;
         private float mTimer;
+        private IEnumerator mQuitOnTimeout;
 
         // TMP - Waiting for caroussel
         private TimeSpan mCarousselHour;
@@ -73,6 +74,7 @@ namespace BuddyApp.Reminder
             mListen = 0;
             mQuit = false;
             mTimer = -1;
+            mQuitOnTimeout = QuittingTimeout();
 
             // Setting of Header
             Buddy.GUI.Header.DisplayParametersButton(false);
@@ -80,9 +82,16 @@ namespace BuddyApp.Reminder
             lHeaderFont.material.color = new Color(0, 0, 0, 1F);
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
 
+            // If an hour has been already choose, just display hour entry with this date on caroussel
+            if (ReminderData.Instance.HourSaved)
+            {
+                DisplayHourEntry(new TimeSpan(ReminderData.Instance.ReminderDate.Hour,
+                                                    ReminderData.Instance.ReminderDate.Minute,
+                                                    ReminderData.Instance.ReminderDate.Second));
+            }
             // Callback & Grammar setting & First call to Vocon
-            Buddy.Vocal.OnEndListening.Add(VoconGetHourResult);
-            Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("whours"), new string[] { "reminder", "common" });
+            else
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("whours"), null, new string[] { "reminder", "common" }, VoconGetHourResult, null);
         }
 
         /* 
@@ -136,10 +145,10 @@ namespace BuddyApp.Reminder
 
             // Hour extraction failed - Relaunch listenning until we make less than 2 listenning
             if (mListen < TRY_NUMBER || mTimer >= 0)
-                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("whours"), new string[] { "reminder", "common" });
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("whours"), null, new string[] { "reminder", "common" }, VoconGetHourResult, null);
             // Listenning count is reached - So display UI & launch the last listenning
             else if (!Buddy.GUI.Toaster.IsBusy)
-                DisplayHourEntry();
+                DisplayHourEntry(new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
             // Misunderstood & User didn't click on validate - We request to quit
             else
                 QuitReminder();
@@ -150,8 +159,7 @@ namespace BuddyApp.Reminder
         {
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            StopCoroutine(QuittingTimeout());
-            Buddy.Vocal.OnEndListening.Remove(VoconGetHourResult);
+            StopCoroutine(mQuitOnTimeout);
             Buddy.Vocal.Stop();
         }
 
@@ -159,7 +167,7 @@ namespace BuddyApp.Reminder
         {
             mQuit = true;
             Buddy.Vocal.SayKey("bye");
-            DebugColor("QUITTING", "red");
+            DebugColor("QUITTING HOUR CHOICE", "red");
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
@@ -331,13 +339,16 @@ namespace BuddyApp.Reminder
 
         // ----- UI -----
 
-        private void DisplayHourEntry()
+        private void DisplayHourEntry(TimeSpan iCarousselStartHour)
         {
             DebugColor("Display HOUR TOASTER", "red");
             
-            StartCoroutine(QuittingTimeout());
+            StartCoroutine(mQuitOnTimeout);
 
-            Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), new string[] { "reminder", "common" });
+            if (ReminderData.Instance.HourSaved)
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("whours"), null, new string[] { "reminder", "common" }, VoconGetHourResult, null);
+            else
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), null, new string[] { "reminder", "common" }, VoconGetHourResult, null);
 
             //Display of the title
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("setuptime"));
@@ -357,7 +368,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
                 // Starting point is the time from now
-                mCarousselHour = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                mCarousselHour = iCarousselStartHour;
 
                 // Increment Button
                 TButton lInc = iOnBuild.CreateWidget<TButton>();
@@ -404,12 +415,14 @@ namespace BuddyApp.Reminder
                 // If the UI is displayed, we save caroussel hour and Hide the title
                 if (Buddy.GUI.Toaster.IsBusy)
                 {
-                    if (!iHourIsSet)
+                    //// check if necessary
+                    //if (!iHourIsSet)
                         ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + mCarousselHour;
                     Buddy.GUI.Header.HideTitle();
                 }
                 DebugColor("HOUR IS: " + ReminderData.Instance.ReminderDate.ToLongTimeString(), "green");
                 ReminderData.Instance.AppState++;
+                ReminderData.Instance.HourSaved = true;
                 Trigger("GetMessageState");
             }
         }

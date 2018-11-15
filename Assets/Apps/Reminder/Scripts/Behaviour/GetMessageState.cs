@@ -11,14 +11,13 @@ namespace BuddyApp.Reminder
      *  
      *  It's possible that buddy quit before he said "Bye"
      *  => For now i can't check if the vocal queue is empty before quitting.
+     *  Check with yield waitforsecond betweeen two IsSpeaking false ?
      *  
      *  When we use tempo in text to speech, ex:[100],
      *  Buddy.Vocal.IsSpeaking is false during the tempo
      *  
-     *  
      *  Sometimes object in the footer are duplicate, in getmessage state
-     *  Maybe: because the app is quit not properly because of a bug and the footer is not clean
-     *  Not seen yet since comment of vocal stop
+     *  This bugs seems to be fix, waiting for more test to validate that is really fix.
      *  
      *  Impossible to launch vocon inside OnEndListenning callback ? not sure
      */
@@ -51,6 +50,7 @@ namespace BuddyApp.Reminder
          */
         public IEnumerator FreeSpeechLifeTime(float iFreeSpeechTimer)
         {
+            yield return new WaitUntil(() => !Buddy.Vocal.IsListening);
             yield return new WaitForSeconds(iFreeSpeechTimer);
             DebugColor("STOPLISTENNING", "red");
             Buddy.Vocal.StopListening();
@@ -195,7 +195,7 @@ namespace BuddyApp.Reminder
         {
             mQuit = true;
             Buddy.Vocal.SayKey("bye");
-            DebugColor("QUITTING", "red");
+            DebugColor("QUITTING GET MSG", "red");
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
@@ -278,7 +278,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Footer.Hide();
 
             // ? issue  ? Test with Vocal.Stop fix when available
-            //Buddy.Vocal.Stop();
+            Buddy.Vocal.StopListening();
 
             // Call freespeech
             DebugColor("FREESPEECH", "blue");
@@ -296,10 +296,6 @@ namespace BuddyApp.Reminder
             StopAllCoroutines();
 
             Buddy.Vocal.SayKey("reminderok");
-
-            //TMP - to test quickly - Reminder is today in 2 minutes
-            ReminderData.Instance.ReminderDate = DateTime.Today;
-            ReminderData.Instance.ReminderDate = ReminderData.Instance.ReminderDate.Date + DateTime.Now.AddMinutes(2).TimeOfDay;
 
             DebugColor("REMINDER SAVED:" + mRecordedMessage, "green");
             DebugColor("REMINDER SAVED:" + ReminderData.Instance.ReminderDate.ToShortDateString() + " at " + ReminderData.Instance.ReminderDate.ToLongTimeString(), "green");
