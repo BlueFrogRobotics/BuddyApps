@@ -48,13 +48,6 @@ namespace BuddyApp.Gallery
             if (Buddy.Vocal.IsListening) {
                 mTimeListening -= Time.deltaTime;
             }
-
-            /*
-            if (!Buddy.Vocal.IsBusy && !Buddy.Vocal.IsListening && !Buddy.Vocal.IsSpeaking && 0.0f <= mTimeListening) {
-                ExtLog.W(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.ACCESSING, "START NEW LISTEN " + mTimeListening);
-                Buddy.Vocal.Listen();
-            }
-            */
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -65,16 +58,6 @@ namespace BuddyApp.Gallery
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.GUI.Dialoger.Hide();
         }
-
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
 
         private void InitializeDialoger()
         {
