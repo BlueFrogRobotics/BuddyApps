@@ -40,8 +40,6 @@ namespace BuddyApp.Gallery
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnEndListening);
             
-            Buddy.Vocal.OnListeningStatus.Add((SpeechInputStatus t) => ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "MY STATUS : " + t.Type));
-
             // Check if footer is correctly displayed
             UpdateFooter();
             
@@ -133,7 +131,6 @@ namespace BuddyApp.Gallery
             }
 
             if (0.0F <= mTimeListening) {
-                ExtLog.W(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "START LISTENING!!! " + mTimeListening);
                 Buddy.Vocal.Listen();
             }
         }
