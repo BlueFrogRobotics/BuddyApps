@@ -17,8 +17,6 @@ namespace BuddyApp.Gallery
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On State Enter...");
 
-            // TODO: Check correct initialization when error control is available.
-
             // Define vocal listening
             Buddy.Vocal.EnableTrigger = true; // Active auto Okay Buddy
             Buddy.Vocal.ListenOnTrigger = true; // Active auto listen after Okay Buddy
@@ -45,16 +43,6 @@ namespace BuddyApp.Gallery
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On State Exit...");
         }
-
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
         
         private void InitializeHeader()
         {
@@ -97,6 +85,5 @@ namespace BuddyApp.Gallery
                 photoManager.GetPhotoByIndex(i).SetSlide(ref slide);
             }
         }
-
     }
 }
