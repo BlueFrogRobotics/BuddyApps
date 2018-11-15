@@ -461,6 +461,17 @@
             </summary>
             <param name="iVal">The value of the selection</param>
         </member>
+        <member name="T:BlueQuark.Internal.CommandHistory`1">
+            <summary>
+            Records a fixed number of recent commands. Default size is 6.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:BlueQuark.Internal.CommandHistory`1.Size">
+            <summary>
+            Number of commands
+            </summary>
+        </member>
         <member name="T:BlueQuark.Internal.Velocity">
             <summary>
             Linear and angular velocities of the robot
@@ -656,12 +667,6 @@
             <param name="iDist">Distance to be traveled</param>
             <returns></returns>
         </member>
-        <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.AlignBetweenWalls(BlueQuark.Internal.IRDetection)">
-            <summary>
-            Align to center of the corridor
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:BlueQuark.Internal.TopoNavigationSubStrategy.AdvanceWithObstacleDetection(System.Single,System.Single,System.Boolean)">
             <summary>
             Advance a certain distance with obstacle detection 
@@ -749,6 +754,11 @@
             Detection results of walls
             </summary>
         </member>
+        <member name="M:BlueQuark.Internal.ObstacleAvoidance.#ctor">
+            <summary>
+            Create a new obstacle avoidance class
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.ObstacleAvoidance.IRDetectWall">
             <summary>
             Wall detection using infrared sensors
@@ -833,6 +843,11 @@
             Save data
             </summary>
             <param name="iPath">Path to be saved</param>
+        </member>
+        <member name="T:BlueQuark.Internal.Reporter">
+            <summary>
+            Loads, unloads apps and store transited data.
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.MapperULink">
             <summary>
@@ -2297,9 +2312,6 @@
             <summary>
             Loads, unloads apps and store transited data.
             </summary>
-            <summary>
-            Loads, unloads apps and store transited data
-            </summary>
         </member>
         <member name="T:BlueQuark.Internal.AppUpdater">
             <summary>
@@ -3151,6 +3163,12 @@
             </summary>
             <param name="iText">The text to display</param>
         </member>
+        <member name="M:BlueQuark.Internal.ELabeledTextField.SetText(System.String)">
+            <summary>
+            Sets the default input text.
+            </summary>
+            <param name="iText">The text to display</param>
+        </member>
         <member name="M:BlueQuark.Internal.ELabeledTextField.SetIcon(UnityEngine.Sprite)">
             <summary>
             Sets text field image.
@@ -3196,6 +3214,12 @@
         <member name="M:BlueQuark.Internal.ETextField.SetPlaceHolder(System.String)">
             <summary>
             Sets the default text displayed when no user text is set.
+            </summary>
+            <param name="iText">The text to display</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ETextField.SetText(System.String)">
+            <summary>
+            Sets the default input text.
             </summary>
             <param name="iText">The text to display</param>
         </member>
@@ -3798,6 +3822,12 @@
             <param name="iOnEndRecognition"></param>
             <param name="iPath"></param>
         </member>
+        <member name="M:BlueQuark.Internal.GoogleSpeech.SetAPICredentialAndStart(System.String)">
+            <summary>
+            Set the credential api string
+            </summary>
+            <param name="iCredential"></param>
+        </member>
         <member name="T:BlueQuark.Internal.VocalTrigger">
             <summary>
             Trigger used to detect if the sentence "OKAY BUDDY" has been said.
@@ -4169,6 +4199,21 @@
             Head gave control to Yes and No head hinges.
             </summary>
         </member>
+        <member name="F:BlueQuark.Head.HIGH_SPEED">
+            <summary>
+            High speed for head movement in dregrees per second.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Head.NORMAL_SPEED">
+            <summary>
+            Normal speed for head movement in dregrees per second.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Head.LOW_SPEED">
+            <summary>
+            Low speed for head movement in dregrees per second.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Head.IsBusy">
             <summary>
             Returns true if any head hinge is moving.
@@ -4398,9 +4443,9 @@
             Will set the LED in orange
             </summary>
         </member>
-        <member name="F:BlueQuark.LEDColor.BLUE_LISTENING">
+        <member name="F:BlueQuark.LEDColor.WHITE_LISTENING">
             <summary>
-            Will set the LED in hard blue
+            Will set the LED in soft white
             </summary>
         </member>
         <member name="F:BlueQuark.LEDColor.BLUE_NEUTRAL">
@@ -4441,6 +4486,57 @@
         <member name="F:BlueQuark.LEDColor.PINK_LOVE">
             <summary>
             Will set the LED in pink
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.LEDColor.WHITE_HEARING" -->
+        <member name="T:BlueQuark.LEDPulsePattern">
+            <summary>
+            Represents different LED blinking patterns that Buddy can display.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LEDPulsePattern.BASIC_BLINK">
+            <summary>
+            Basic blink
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LEDPulsePattern.HEART_BEAT">
+            <summary>
+            Heart Beat
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LEDPulsePattern.BREATHING">
+            <summary>
+            breathing impression
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LEDPulsePattern.DYNAMIC">
+            <summary>
+            Dynamic behaviour
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LEDPulsePattern.LISTENING">
+            <summary>
+            Listening
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LEDPulsePattern.PEACEFUL">
+            <summary>
+            Peaceful
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LEDPulsePattern.RECHARGE">
+            <summary>
+            battery recharging
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LEDPulsePattern.DEFAULT">
+            <summary>
+            Default light behaviour
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LEDPulsePattern.NOBLINK">
+            <summary>
+            no blinking light behaviour
             </summary>
         </member>
         <member name="T:BlueQuark.MediaChannel">
@@ -6043,6 +6139,11 @@
             Listening
             </summary>
         </member>
+        <member name="F:BlueQuark.Mood.HEARING">
+            <summary>
+            Listening
+            </summary>
+        </member>
         <member name="F:BlueQuark.Mood.SAD">
             <summary>
             Sad
@@ -6157,12 +6258,7 @@
         </member>
         <member name="T:BlueQuark.SensorMode">
             <summary>
-            Sensors to be used for tracking
-            </summary>
-        </member>
-        <member name="F:BlueQuark.SensorMode.THERMAL">
-            <summary>
-            Thermal sensor only
+            Sensors to be used for tracking. The thermal sensor is always used.
             </summary>
         </member>
         <member name="F:BlueQuark.SensorMode.VISION">
@@ -6292,9 +6388,48 @@
             </summary>
             <param name="iPath">List of points' positions in the robot's coordiante system.</param>
         </member>
+        <member name="T:BlueQuark.RoamStrategy">
+            <summary>
+            Local roaming strategy
+            </summary>
+        </member>
+        <member name="M:BlueQuark.RoamStrategy.While(System.Predicate{UnityEngine.Vector3})">
+            <summary>
+            The robot will roam locally while the condition is true.
+            </summary>
+            <param name="iCondition">The while condition. Cannot be null</param>
+        </member>
+        <member name="M:BlueQuark.RoamStrategy.While(System.Predicate{UnityEngine.Vector3},BlueQuark.Mood)">
+            <summary>
+            The robot will roam locally while the condition is true.
+            </summary>
+            <param name="iCondition">The while condition. Cannot be null</param>
+            <param name="iMood">The mood that should be expressed through the motion.</param>
+        </member>
+        <member name="M:BlueQuark.RoamStrategy.WithMood(BlueQuark.Mood)">
+            <summary>
+            Start wandering around in a certain mood.
+            </summary>
+            <param name="iMood">The mood that should be expressed through the motion.</param>
+        </member>
         <member name="T:BlueQuark.SkeletonEntity">
             <summary>
             Human skeleton data structure.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.SkeletonEntity.CenterOfMass">
+            <summary>
+            World coordinate in mm
+            </summary>
+        </member>
+        <member name="P:BlueQuark.SkeletonEntity.Distance">
+            <summary>
+            Distance to human in meter
+            </summary>
+        </member>
+        <member name="P:BlueQuark.SkeletonEntity.Confidence">
+            <summary>
+            Confidence of the detection, from 0 to 1. Depend on the number of joints and distance.
             </summary>
         </member>
         <member name="T:BlueQuark.Map">
@@ -6584,6 +6719,14 @@
             </summary>
             <param name="iPlannedAlarm"></param>
         </member>
+        <member name="M:BlueQuark.CalendarManager.AddNotifFromReminder(BlueQuark.AReminder,System.Action,System.Action)">
+            <summary>
+            Adding a notification linked to the given reminder
+            </summary>
+            <param name="iReminder"></param>
+            <param name="iOnValidate"></param>
+            <param name="iOnRefuse"></param>
+        </member>
         <member name="P:BlueQuark.CalendarManager.PlannedAlarms">
             <summary>
             List of all alarms of the system
@@ -6642,6 +6785,11 @@
         <member name="F:BlueQuark.DiaryEventType.MISSED_CALL">
             <summary>
             Missed Call
+            </summary>
+        </member>
+        <member name="F:BlueQuark.DiaryEventType.MAIL_RECIEVED">
+            <summary>
+            An external media was recived
             </summary>
         </member>
         <member name="F:BlueQuark.DiaryEventType.MEDIA_RECIEVED">
@@ -8442,13 +8590,13 @@
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.MoveWhile(System.Predicate{UnityEngine.Vector3})">
             <summary>
-            Moves forward or backward until the condition is true.
+            Moves forward or backward until the condition is false.
             </summary>
             <param name="iCondition">The movement condition. Must returns true while the user condition is not fulfilled. Cannot be null</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.MoveWhile(System.Predicate{UnityEngine.Vector3},System.Single)">
             <summary>
-            Moves forward or backward until the condition is true.
+            Moves forward or backward until the condition is false.
             </summary>
             <param name="iCondition">The movement condition. Must returns true while the user condition is not fulfilled. Cannot be null</param>
             <param name="iLinearVelocity">Target speed in meters by seconds</param>
@@ -8497,13 +8645,13 @@
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.RotateWhile(System.Predicate{UnityEngine.Vector3})">
             <summary>
-            Makes the robot rotate until the condition is true.
+            Makes the robot rotate until the condition is false.
             </summary>
             <param name="iCondition">The movement condition. Must returns true until the user condition is not fulfilled. Cannot be null</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.RotateWhile(System.Predicate{UnityEngine.Vector3},System.Single)">
             <summary>
-            Makes the robot rotate until the condition is true.
+            Makes the robot rotate until the condition is false.
             </summary>
             <param name="iCondition">The movement condition. Must returns true until the user condition is not fulfilled. Cannot be null</param>
             <param name="iAngularVelocity">Target speed in degrees by seconds</param>
@@ -9046,6 +9194,16 @@
             Signal of the network.
             </summary>
         </member>
+        <member name="P:BlueQuark.WiFiNetwork.MACAddress">
+            <summary>
+            Mac address of the network
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WiFiNetwork.Connected">
+            <summary>
+            True if it is connected
+            </summary>
+        </member>
         <member name="T:BlueQuark.GCVDetectionType">
             <summary>
             Kind of detection request for Google Cloud Vision API
@@ -9152,6 +9310,21 @@
             the right arm base light and the robot heart light.
             </summary>
         </member>
+        <member name="P:BlueQuark.LEDs.HeartColor">
+            <summary>
+            The color of the heart
+            </summary>
+        </member>
+        <member name="P:BlueQuark.LEDs.LeftShoulderColor">
+            <summary>
+            The color of the left shoulder
+            </summary>
+        </member>
+        <member name="P:BlueQuark.LEDs.RightShoulderColor">
+            <summary>
+            The color of the right shoulder
+            </summary>
+        </member>
         <member name="P:BlueQuark.LEDs.Flash">
             <summary>
             Power On/Off the frontal flash light of the robot.
@@ -9176,9 +9349,9 @@
             <param name="iHue">Hue. Range from 0 to 360</param>
             <param name="iSaturation">Saturation. Range from 0 to 100</param>
             <param name="iValue">Value. Range from 0 to 100</param>
-            <param name="iLowLevel"></param>
             <param name="iOnDuration">Duration when the led in on. Value in milliseconds</param>
             <param name="iOffDuration">Duration when the led is off. Value in milliseconds</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light</param>
             <param name="iUpSlope">Speed to on phase</param>
             <param name="iDownSlope">Speed to off phase</param>
         </member>
@@ -9189,9 +9362,9 @@
             <param name="iHue">Hue. Range from 0 to 360</param>
             <param name="iSaturation">Saturation. Range from 0 to 100</param>
             <param name="iValue">Value. Range from 0 to 100</param>
-            <param name="iLowLevel"></param>
             <param name="iOnDuration">Duration when the led in on. Value in milliseconds</param>
             <param name="iOffDuration">Duration when the led is off. Value in milliseconds</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light</param>
             <param name="iUpSlope">Speed to on phase</param>
             <param name="iDownSlope">Speed to off phase</param>
         </member>
@@ -9202,9 +9375,9 @@
             <param name="iHue">Hue. Range from 0 to 360</param>
             <param name="iSaturation">Saturation. Range from 0 to 100</param>
             <param name="iValue">Value. Range from 0 to 100</param>
-            <param name="iLowLevel"></param>
             <param name="iOnDuration">Duration when the led in on. Value in milliseconds</param>
             <param name="iOffDuration">Duration when the led is off. Value in milliseconds</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light</param>
             <param name="iUpSlope">Speed to on phase</param>
             <param name="iDownSlope">Speed to off phase</param>
         </member>
@@ -9221,9 +9394,9 @@
             <param name="iHue">Hue. Range from 0 to 360</param>
             <param name="iSaturation">Saturation. Range from 0 to 100</param>
             <param name="iValue">Value. Range from 0 to 100</param>
-            <param name="iLowLevel"></param>
             <param name="iOnDuration">Duration when the led in on. Value in milliseconds</param>
             <param name="iOffDuration">Duration when the led is off. Value in milliseconds</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light</param>
             <param name="iUpSlope">Speed to on phase</param>
             <param name="iDownSlope">Speed to off phase</param>
         </member>
@@ -9240,11 +9413,73 @@
             <param name="iHue">Hue. Range from 0 to 360</param>
             <param name="iSaturation">Saturation. Range from 0 to 100</param>
             <param name="iValue">Value. Range from 0 to 100</param>
-            <param name="iLowLevel"></param>
             <param name="iOnDuration">Duration when the led in on. Value in milliseconds</param>
             <param name="iOffDuration">Duration when the led is off. Value in milliseconds</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light</param>
             <param name="iUpSlope">Speed to on phase</param>
             <param name="iDownSlope">Speed to off phase</param>
+        </member>
+        <member name="M:BlueQuark.LEDs.SetBodyPulse(System.Byte,System.Int16,System.Int16,System.Byte,System.Byte)">
+            <summary>
+            Set all lights (shoulders + heart) to the wished Pulse.
+            </summary>
+            <param name="iOnDuration">Duration when the led in on. Value in milliseconds</param>
+            <param name="iOffDuration">Duration when the led is off. Value in milliseconds</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light</param>
+            <param name="iUpSlope">Speed to on phase</param>
+            <param name="iDownSlope">Speed to off phase</param>
+        </member>
+        <member name="M:BlueQuark.LEDs.SetHeartPulse(System.Byte,System.Int16,System.Int16,System.Byte,System.Byte)">
+            <summary>
+            Set Heart light to the wished Pulse.
+            </summary>
+            <param name="iOnDuration">Duration when the led in on. Value in milliseconds</param>
+            <param name="iOffDuration">Duration when the led is off. Value in milliseconds</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light</param>
+            <param name="iUpSlope">Speed to on phase</param>
+            <param name="iDownSlope">Speed to off phase</param>
+        </member>
+        <member name="M:BlueQuark.LEDs.SetShouldersPulse(System.Byte,System.Int16,System.Int16,System.Byte,System.Byte)">
+            <summary>
+            Set Shoulders lights to the wished Pulse.
+            </summary>
+            <param name="iOnDuration">Duration when the led in on. Value in milliseconds</param>
+            <param name="iOffDuration">Duration when the led is off. Value in milliseconds</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light</param>
+            <param name="iUpSlope">Speed to on phase</param>
+            <param name="iDownSlope">Speed to off phase</param>
+        </member>
+        <member name="M:BlueQuark.LEDs.SetLeftShoulderPulse(System.Byte,System.Int16,System.Int16,System.Byte,System.Byte)">
+            <summary>
+            Set Left Shoulder light to the wished Pulse.
+            </summary>
+            <param name="iOnDuration">Duration when the led in on. Value in milliseconds</param>
+            <param name="iOffDuration">Duration when the led is off. Value in milliseconds</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light</param>
+            <param name="iUpSlope">Speed to on phase</param>
+            <param name="iDownSlope">Speed to off phase</param>
+        </member>
+        <member name="M:BlueQuark.LEDs.SetRightShoulderPulse(System.Byte,System.Int16,System.Int16,System.Byte,System.Byte)">
+            <summary>
+            Set Right Shoulder light to the wished Pulse.
+            </summary>
+            <param name="iOnDuration">Duration when the led in on. Value in milliseconds</param>
+            <param name="iOffDuration">Duration when the led is off. Value in milliseconds</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light</param>
+            <param name="iUpSlope">Speed to on phase</param>
+            <param name="iDownSlope">Speed to off phase</param>
+        </member>
+        <member name="M:BlueQuark.LEDs.SetBodyPulse(System.Int16)">
+            <summary>
+            Set all lights (shoulders + heart) to the wished blink with given duration.
+            </summary>
+            <param name="iDuration">Duration between on and off. Value in milliseconds</param>
+        </member>
+        <member name="M:BlueQuark.LEDs.SetBodyPattern(BlueQuark.LEDPulsePattern)">
+            <summary>
+            Set all lights (shoulders + heart) to the wished blink with given duration.
+            </summary>
+            <param name="iPattern">Pattern to display on LED</param>
         </member>
         <member name="T:BlueQuark.Speakers">
             <summary>
@@ -9861,6 +10096,11 @@
             The unique identifier for the robot.
             </summary>
         </member>
+        <member name="P:BlueQuark.Platform.RobotSoftwareVersion">
+            <summary>
+            The current software versionning of the robot.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Platform.SendMessageToCore(System.String)">
             <summary>
             Send a messaga to Core.
@@ -9949,6 +10189,21 @@
             Enable/Disable the WiFi system.
             </summary>
         </member>
+        <member name="P:BlueQuark.WiFi.OnLocalNetworksUpdated">
+            <summary>
+            A callback array fired each time the local networks are updated
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WiFi.OnCurrentLocalNetworkUpdated">
+            <summary>
+            A Callback array fired when the local connexion change
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WiFi.ConfiguredNetworks">
+            <summary>
+            List of all favorite networks
+            </summary>
+        </member>
         <member name="P:BlueQuark.WiFi.LocalNetworks">
             <summary>
             Gets all detected local networks.
@@ -9975,25 +10230,41 @@
             <param name="iPassword">Password of the network</param>
             <param name="iOnConnectCallback">Callback called when the connection is established or failed</param>
         </member>
+        <member name="M:BlueQuark.WiFi.ConnectToConfigured(BlueQuark.WiFiNetwork,System.Action{System.Boolean})">
+            <summary>
+            Try to connect to a favorite network
+            </summary>
+            <param name="iNetwork">The known network</param>
+            <param name="iOnConnectCallback">Callback called when the connection is established or failed</param>
+        </member>
+        <member name="M:BlueQuark.WiFi.RemoveFavoriteNetwork(BlueQuark.WiFiNetwork)">
+            <summary>
+            Remove a favorite network
+            </summary>
+            <param name="iNetwtork">The network to remove</param>
+            <returns>Return true if success</returns>
+        </member>
         <member name="M:BlueQuark.WiFi.Disconnect">
             <summary>
             Disconnect from the current network.
             </summary>
         </member>
-        <member name="T:BlueQuark.RoamStrategy">
-            <summary>
-            Local roaming strategy
-            </summary>
-        </member>
-        <member name="M:BlueQuark.RoamStrategy.While(System.Predicate{UnityEngine.Vector3})">
+        <member name="M:BlueQuark.RoamSubStrategy.While(System.Predicate{UnityEngine.Vector3})">
             <summary>
             The robot will roam locally while the condition is true.
             </summary>
             <param name="iCondition">The while condition. Cannot be null</param>
         </member>
-        <member name="M:BlueQuark.RoamStrategy.WithMood(BlueQuark.Mood)">
+        <member name="M:BlueQuark.RoamSubStrategy.While(System.Predicate{UnityEngine.Vector3},BlueQuark.Mood)">
             <summary>
-            Start wandering around.
+            The robot will roam locally while the condition is true.
+            </summary>
+            <param name="iCondition">The while condition. Cannot be null</param>
+            <param name="iMood">The mood that should be expressed through the motion.</param>
+        </member>
+        <member name="M:BlueQuark.RoamSubStrategy.WithMood(BlueQuark.Mood)">
+            <summary>
+            Start wandering around in a certain mood.
             </summary>
             <param name="iMood">The mood that should be expressed through the motion.</param>
         </member>
@@ -10007,6 +10278,20 @@
             Starts a human search inside the known environment while the condition is true.
             </summary>
             <param name="iCondition">The while condition. Cannot be null.</param>
+        </member>
+        <member name="M:BlueQuark.HumanSearchStrategy.While(System.Predicate{UnityEngine.Vector3},System.Action{BlueQuark.HumanEntity})">
+            <summary>
+            Starts a human search inside the known environment while the condition is true.
+            </summary>
+            <param name="iCondition">The while condition. Cannot be null.</param>
+            <param name="iOnFound">Action to do when human is found</param>
+        </member>
+        <member name="M:BlueQuark.HumanSearchStrategy.While(System.Single,System.Action{BlueQuark.HumanEntity})">
+            <summary>
+            Starts a human search inside the known environment while the condition is true.
+            </summary>
+            <param name="iTimeout">Search only for a certain time.</param>
+            <param name="iOnFound">Action to do when human is found</param>
         </member>
         <member name="T:BlueQuark.ObjectSearchStrategy">
             <summary>
@@ -10454,6 +10739,11 @@
         <member name="T:BlueQuark.HumanEntity">
             <summary>
             Human entity detected.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanEntity.Distance">
+            <summary>
+            Distance to human in meters.
             </summary>
         </member>
         <member name="M:BlueQuark.UserManager.GetCurrentUser">
@@ -15158,6 +15448,11 @@
             Stops any speaking or listening process.
             </summary>
         </member>
+        <member name="M:BlueQuark.Vocal.StopAndClear">
+            <summary>
+            Stops any speaking or listening process and clear the queue of waiting requests.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Vocal.StopSpeaking">
             <summary>
             Stops the running speaking process (text to speech). Do nothing if not speaking.
@@ -15170,51 +15465,63 @@
         </member>
         <member name="T:BlueQuark.EMailCrawler">
             <summary>
-            
+            Wrapper that fetch mail box
             </summary>
         </member>
         <member name="P:BlueQuark.EMailCrawler.IsBusy">
             <summary>
-            
+            Is busy if the class is already fetching a box email
             </summary>
         </member>
-        <member name="M:BlueQuark.EMailCrawler.Fetch(System.String,System.String,System.String,BlueQuark.EMailCrawlerMask,System.Action{BlueQuark.EMail[]})">
+        <member name="M:BlueQuark.EMailCrawler.Fetch(System.String,System.String,System.String,BlueQuark.EMailCrawlerFilter,System.Action{BlueQuark.EMail[]})">
             <summary>
-            
+            Fetch a email box with his address, password, imap and mask
             </summary>
-            <param name="iFromAddress"></param>
-            <param name="iFromPassword"></param>
-            <param name="iSMTP"></param>
-            <param name="iMask"></param>
-            <param name="iOnEndFetch"></param>
+            <param name="iFromAddress">Mail address of the mail to fetch</param>
+            <param name="iFromPassword">Password of the mail address to fetch</param>
+            <param name="iIMAP">Imap server of the mail address to fetch</param>
+            <param name="iMask">Mask represent the fetch option</param>
+            <param name="iOnEndFetch">Callback which is called on the end of the fetch</param>
         </member>
         <member name="M:BlueQuark.EMailCrawler.Fetch(System.String,System.String,System.String,System.Action{BlueQuark.EMail[]})">
             <summary>
-            
+            Fetch a email box with his address, password, imap
             </summary>
-            <param name="iFromAddress"></param>
-            <param name="iFromPassword"></param>
-            <param name="iSMTP"></param>
-            <param name="iOnEndFetch"></param>
+            <param name="iFromAddress">Mail address of the mail to fetch</param>
+            <param name="iFromPassword">Password of the mail address to fetch</param>
+            <param name="iIMAP">Imap server of the mail address to fetch</param>
+            <param name="iOnEndFetch">Callback which is called on the end of the fetch</param>
+        </member>
+        <member name="M:BlueQuark.EMailCrawler.Fetch(BlueQuark.EMailFetchParameters,System.Action{BlueQuark.EMail[]})">
+            <summary>
+            Fetch a email box with a EMailFetchParameters which must contain at least adderss, password, and imap server
+            </summary>
+            <param name="iParameters">Represent the parameters of the fetch</param>
+            <param name="iOnEndFetch">Callback which is called on the end of the fetch</param>
+        </member>
+        <member name="T:BlueQuark.EMailAttachement">
+            <summary>
+            Class which represent an email attachment
+            </summary>
         </member>
         <member name="P:BlueQuark.EMailAttachement.Name">
             <summary>
-            
+            Name of the attachment
             </summary>
         </member>
         <member name="P:BlueQuark.EMailAttachement.Size">
             <summary>
-            
+            Size of the attachment in byte
             </summary>
         </member>
         <member name="P:BlueQuark.EMailAttachement.Content">
             <summary>
-            
+            Content of the attachment in byte
             </summary>
         </member>
         <member name="M:BlueQuark.EMailAttachement.#ctor(System.String,System.Int32,System.Byte[])">
             <summary>
-            
+            Default constructor
             </summary>
             <param name="iName"></param>
             <param name="iSize"></param>
@@ -15222,67 +15529,95 @@
         </member>
         <member name="T:BlueQuark.EMailFetchParameters">
             <summary>
-            
+            Class who represent the parameters of the fetch
+            </summary>
+        </member>
+        <member name="F:BlueQuark.EMailFetchParameters.DEFAULT_PORT">
+            <summary>
+            Default port which will use for the imap server
             </summary>
         </member>
         <member name="P:BlueQuark.EMailFetchParameters.EMailMask">
             <summary>
-            
+            Mail crawler mask. You can use it if you want only read, unread mail, or only mail with attachment
             </summary>
         </member>
         <member name="P:BlueQuark.EMailFetchParameters.Address">
             <summary>
-            
+            Mail address to fetch
             </summary>
         </member>
         <member name="P:BlueQuark.EMailFetchParameters.Password">
             <summary>
-            
+            Password of the Mail address to fetch
             </summary>
         </member>
-        <member name="P:BlueQuark.EMailFetchParameters.SMTP">
+        <member name="P:BlueQuark.EMailFetchParameters.IMAP">
             <summary>
-            
+            Imap serveur of the email
+            </summary>
+        </member>
+        <member name="P:BlueQuark.EMailFetchParameters.Port">
+            <summary>
+            Port of the imap server. See also DEFAULT_PORT
             </summary>
         </member>
         <member name="M:BlueQuark.EMailFetchParameters.#ctor">
             <summary>
-            
+            Default constructor
             </summary>
         </member>
-        <member name="M:BlueQuark.EMailFetchParameters.#ctor(BlueQuark.EMailCrawlerMask)">
+        <member name="M:BlueQuark.EMailFetchParameters.#ctor(BlueQuark.EMailCrawlerFilter)">
             <summary>
-            
+            Various constructor
             </summary>
-            <param name="iMask"></param>
+            <param name="iMask">Mask represent the fetch option</param>
         </member>
-        <member name="M:BlueQuark.EMailFetchParameters.#ctor(System.String,System.String,System.String,BlueQuark.EMailCrawlerMask)">
+        <member name="M:BlueQuark.EMailFetchParameters.#ctor(System.String,System.String,System.String,System.Int32,BlueQuark.EMailCrawlerFilter)">
             <summary>
-            
+            Various constructor
             </summary>
-            <param name="iAddress"></param>
-            <param name="iPassword"></param>
-            <param name="iSMTP"></param>
-            <param name="iMask"></param>
+            <param name="iAddress">Mail address of the mail to fetch</param>
+            <param name="iPassword">Password of the mail address to fetch</param>
+            <param name="iIMAP">Imap server of the mail address to fetch</param>
+            <param name="iPort">Port of the imap server</param>
+            <param name="iMask">Mask represent the fetch option</param>
         </member>
-        <member name="F:BlueQuark.EMailCrawlerMask.NO_FILTER">
+        <member name="M:BlueQuark.EMailFetchParameters.#ctor(System.String,System.String,System.String,BlueQuark.EMailCrawlerFilter)">
             <summary>
-            
+            Various constructor
+            </summary>
+            <param name="iAddress">Mail address of the mail to fetch</param>
+            <param name="iPassword">Password of the mail address to fetch</param>
+            <param name="iIMAP">Imap server of the mail address to fetch</param>
+            <param name="iMask">Mask represent the fetch option</param>
+        </member>
+        <member name="M:BlueQuark.EMailFetchParameters.#ctor(System.String,System.String,System.String)">
+            <summary>   
+            Various constructor
+            </summary>
+            <param name="iAddress">Mail address of the mail to fetch</param>
+            <param name="iPassword">Password of the mail address to fetch</param>
+            <param name="iIMAP">Imap server of the mail address to fetch</param>
+        </member>
+        <member name="T:BlueQuark.EMailCrawlerFilter">
+            <summary>
+            Enum which contain the different filter for a fetch
             </summary>
         </member>
-        <member name="F:BlueQuark.EMailCrawlerMask.UNREAD">
+        <member name="F:BlueQuark.EMailCrawlerFilter.UNREAD">
             <summary>
-            
+            Unread mask represent mail which are not read
             </summary>
         </member>
-        <member name="F:BlueQuark.EMailCrawlerMask.READ">
+        <member name="F:BlueQuark.EMailCrawlerFilter.READ">
             <summary>
-            
+            Read mask represent mail which are read
             </summary>
         </member>
-        <member name="F:BlueQuark.EMailCrawlerMask.ATTACHMENT">
+        <member name="F:BlueQuark.EMailCrawlerFilter.ONLY_WITH_ATTACHMENT">
             <summary>
-            
+            Only with attachment will fetch read, unread or both, but only those with attachments.
             </summary>
         </member>
         <member name="T:BlueQuark.SMTP">
@@ -15710,9 +16045,9 @@
             List of adresses to send the mail
             </summary>
         </member>
-        <member name="P:BlueQuark.EMail.Attachment">
+        <member name="P:BlueQuark.EMail.Attachments">
             <summary>
-            
+            Attachments list of the mail
             </summary>
         </member>
         <member name="P:BlueQuark.EMail.Subject">
@@ -15730,20 +16065,38 @@
             Body of the mail
             </summary>
         </member>
+        <member name="M:BlueQuark.EMail.#ctor(System.String,System.String,System.String[],System.String[])">
+            <summary>
+            create a mail with provided parameters
+            </summary>
+            <param name="iSubject">Subject of the mail</param>
+            <param name="iBody">Body of the mail</param>
+            <param name="iToAddresses">Email target addresses</param>
+            <param name="iFilePaths">Attachments path</param>
+        </member>
+        <member name="M:BlueQuark.EMail.#ctor(System.String,System.String,System.String[],BlueQuark.EMailAttachement[])">
+            <summary>
+            create a mail with provided parameters
+            </summary>
+            <param name="iSubject">Subject of the mail</param>
+            <param name="iBody">Body of the mail</param>
+            <param name="iToAddresses">Email target addresses</param>
+            <param name="iAttachments">Attachments path</param>
+        </member>
         <member name="M:BlueQuark.EMail.#ctor(System.String,System.String,System.String[])">
             <summary>
             create a mail with provided parameters
             </summary>
-            <param name="iSubject">subject of the mail</param>
-            <param name="iBody">body of the mail</param>
+            <param name="iSubject">Subject of the mail</param>
+            <param name="iBody">Body of the mail</param>
             <param name="iToAddresses"></param>
         </member>
         <member name="M:BlueQuark.EMail.#ctor(System.String,System.String)">
             <summary>
             create a mail with provided parameters
             </summary>
-            <param name="iSubject">subject of the mail</param>
-            <param name="iBody">body of the mail</param>
+            <param name="iSubject">Subject of the mail</param>
+            <param name="iBody">Body of the mail</param>
         </member>
         <member name="M:BlueQuark.EMail.#ctor">
             <summary>
@@ -15754,20 +16107,20 @@
             <summary>
             Save a texture 2d as a png in the folder then add it to the mail
             </summary>
-            <param name="iTexture">texture to add to save and add to the mail</param>
-            <param name="iFilePath">file path</param>
+            <param name="iTexture">Texture to add to save and add to the mail</param>
+            <param name="iFilePath">File path</param>
         </member>
         <member name="M:BlueQuark.EMail.AddFile(System.String)">
             <summary>
             Add file in the streaming asset folder
             </summary>
-            <param name="iFilePath">file path</param>
+            <param name="iFilePath">File path</param>
         </member>
         <member name="M:BlueQuark.EMail.AddTo(System.String)">
             <summary>
             Add a receiver af the mail
             </summary>
-            <param name="iAddress">adress to send to</param>
+            <param name="iAddress">Adress to send to</param>
         </member>
         <member name="M:BlueQuark.EMail.ClearTo">
             <summary>

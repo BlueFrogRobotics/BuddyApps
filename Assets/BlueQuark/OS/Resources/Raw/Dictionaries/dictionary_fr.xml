@@ -2977,6 +2977,39 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>emailis</Key>
+			<BaseValue>Le mail est</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Le message du mail est [200]</string>
+				<string>Le mail reçu est: [200]</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>readmail</Key>
+			<BaseValue>J'ai reçu un mail, voulez-vous l'entendre?</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>J'ai reçu un mail, voulez-vous l'entendre?</string>
+				<string>J'ai un mail pour vous, voulez-vous que je vous le lise?</string>
+				<string>Un mail a été reçu, puis-je le lire?</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>receivedmedia</Key>
+			<BaseValue>[media] from [mailsender] subject: [subject]</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string />
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>seepicture</Key>
 			<BaseValue>J'ai reçu une photo, Voulez-vous l'afficher?</BaseValue>
 			<ClosePhoneticValues>
