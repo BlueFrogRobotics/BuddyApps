@@ -108,7 +108,13 @@ namespace BuddyApp.Reminder
 
             // Extraction date failed - Relaunch listenning until we make less than 2 listenning
             if (mListen < TRY_NUMBER || mTimer >= 0)
-                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), null, new string[] { "reminder", "common" }, VoconGetDateResult, null);
+            {
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("when"), (iOutput) =>
+                {
+                    if (mQuit)
+                        Buddy.Vocal.Stop(); // StopAndClear();
+                }, new string[] { "reminder", "common" }, VoconGetDateResult, null);
+            }
 
             // Listenning count is reached - So display UI & launch the last listenning
             else if (!Buddy.GUI.Toaster.IsBusy)
@@ -130,14 +136,15 @@ namespace BuddyApp.Reminder
         private void QuitReminder()
         {
             mQuit = true;
-            Buddy.Vocal.SayKey("bye");
             DebugColor("QUITTING DATE CHOICE", "red");
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
             Buddy.Vocal.StopListening();
-            Buddy.Vocal.OnEndListening.Remove(VoconGetDateResult);
             StopAllCoroutines();
+            //Buddy.Vocal.SayKey("bye", (iOutput) => { QuitApp(); });
+            // delete when StopAndClear available
+            Buddy.Vocal.SayKey("bye");
             QuitApp();
         }
 

@@ -140,8 +140,6 @@ namespace BuddyApp.Reminder
 
         private void VoconResult(SpeechInput iSpeechInput)
         {
-            Debug.LogWarning("CALLBACK IS RUNNNING - timer: " + mTimer.ToString() + "TIMEOUT: " + QUIT_TIMEOUT + "mQuit: " + mQuit);
-
             if (iSpeechInput.IsInterrupted || mQuit || mTimer >= QUIT_TIMEOUT)
                 return;
 
@@ -158,11 +156,11 @@ namespace BuddyApp.Reminder
                 // If the message is empty, warn the user
                 if (string.IsNullOrEmpty(mRecordedMessage))
                 {
-                    Buddy.Vocal.SayAndListen(new SpeechOutput(Buddy.Resources.GetString("sryemptymsg")),
-                        null,
-                        VoconResult,
-                        null,
-                        mRecognitionParam);
+                    Buddy.Vocal.SayAndListen(new SpeechOutput(Buddy.Resources.GetString("sryemptymsg")), (iOutput) =>
+                    {
+                        if (mQuit)
+                            Buddy.Vocal.Stop(); // StopAndClear();
+                    }, VoconResult, null, mRecognitionParam);
                 }
                 else
                     ValidateMessage();
@@ -171,11 +169,12 @@ namespace BuddyApp.Reminder
                 ModifyMessage();
             else if (mTimer < QUIT_TIMEOUT)
             {
-                Buddy.Vocal.SayAndListen(new SpeechOutput(Buddy.Resources.GetString("srynotunderstand")),
-                    null,
-                    VoconResult,
-                    null,
-                    mRecognitionParam);
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"), (iOutput) =>
+                {
+                    if (mQuit)
+                        Buddy.Vocal.Stop(); // StopAndClear();
+                }, new string[] { "reminder", "common" }, VoconResult, null);
+
                 DebugColor("SORRY DONT UNDERSTAND", "red");
             }
         }
@@ -194,12 +193,15 @@ namespace BuddyApp.Reminder
         private void QuitReminder()
         {
             mQuit = true;
-            Buddy.Vocal.SayKey("bye");
             DebugColor("QUITTING GET MSG", "red");
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
             Buddy.Vocal.StopListening();
+            StopAllCoroutines();
+            //Buddy.Vocal.SayKey("bye", (iOutput) => { QuitApp(); });
+            // delete when StopAndClear available
+            Buddy.Vocal.SayKey("bye");
             QuitApp();
         }
 
@@ -295,8 +297,6 @@ namespace BuddyApp.Reminder
         {
             StopAllCoroutines();
 
-            Buddy.Vocal.SayKey("reminderok");
-
             DebugColor("REMINDER SAVED:" + mRecordedMessage, "green");
             DebugColor("REMINDER SAVED:" + ReminderData.Instance.ReminderDate.ToShortDateString() + " at " + ReminderData.Instance.ReminderDate.ToLongTimeString(), "green");
 
@@ -308,7 +308,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            QuitApp();
+            Buddy.Vocal.SayKey("reminderok", (iOutput) => { QuitApp(); });
         }
 
         //  TMP - waiting for bug fix in utils

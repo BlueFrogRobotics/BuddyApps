@@ -145,7 +145,13 @@ namespace BuddyApp.Reminder
 
             // Hour extraction failed - Relaunch listenning until we make less than 2 listenning
             if (mListen < TRY_NUMBER || mTimer >= 0)
-                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("whours"), null, new string[] { "reminder", "common" }, VoconGetHourResult, null);
+            {
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("whours"), (iOutput) =>
+                {
+                    if (mQuit)
+                        Buddy.Vocal.Stop(); // StopAndClear();
+                }, new string[] { "reminder", "common" }, VoconGetHourResult, null);
+            }
             // Listenning count is reached - So display UI & launch the last listenning
             else if (!Buddy.GUI.Toaster.IsBusy)
                 DisplayHourEntry(new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
@@ -166,14 +172,14 @@ namespace BuddyApp.Reminder
         private void QuitReminder()
         {
             mQuit = true;
-            Buddy.Vocal.SayKey("bye");
             DebugColor("QUITTING HOUR CHOICE", "red");
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
             Buddy.Vocal.StopListening();
-            Buddy.Vocal.OnEndListening.Remove(VoconGetHourResult);
             StopAllCoroutines();
+            Buddy.Vocal.SayKey("bye", (iOutput) => { QuitApp(); });
+            // delete when StopAndClear available
             QuitApp();
         }
 
