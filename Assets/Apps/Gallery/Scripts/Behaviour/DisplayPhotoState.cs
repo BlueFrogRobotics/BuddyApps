@@ -116,7 +116,7 @@ namespace BuddyApp.Gallery
 
             if (0 < PhotoManager.GetInstance().GetCount()
                 && Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_PREVIOUS_COMMAND)
-                && 0 < PhotoManager.GetInstance().GetCurrentIndex() - 1 // Not last index
+                && 0 < PhotoManager.GetInstance().GetCurrentIndex() // Not first index
                 && PhotoManager.GetInstance().GetSlideSet().GoPrevious())
             {
                 Trigger("TRIGGER_CHANGE_PHOTO");
