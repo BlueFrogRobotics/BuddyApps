@@ -54,15 +54,17 @@ namespace BuddyApp.TakePhoto
 			mOverlaysNames = new List<String>();
 
 			mOverlaysNames.Add("overcrazy640480");
-			mOverlaysNames.Add("overfunny640480");
-			mOverlaysNames.Add("overtrendy640480");
-			mOverlaysNames.Add("overgrumpy640480");
-			mOverlaysNames.Add("overlovely640480");
-			mOverlaysNames.Add("overangry640480");
+			//mOverlaysNames.Add("overfunny640480");
+			//mOverlaysNames.Add("overtrendy640480");
+			//mOverlaysNames.Add("overgrumpy640480");
+			//mOverlaysNames.Add("overlovely640480");
+			//mOverlaysNames.Add("overangry640480");
 
 
-			string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
-			Sprite lOverlaySprite = Buddy.Resources.Get<Sprite>(lRandomSpriteName);
+			//string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
+            string lRandomSpriteName = "overcrazy640480";
+
+            Sprite lOverlaySprite = Buddy.Resources.Get<Sprite>(lRandomSpriteName);
 			mOverlaysTextures[lRandomSpriteName] = lOverlaySprite.texture;
 			//Sprite lOverlaySprite = Resources.Load<Sprite>("overcrazy");
 			//mOverlaysTextures.Add(lOverlaySprite.texture);

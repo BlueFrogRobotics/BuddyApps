@@ -8,9 +8,6 @@ namespace BuddyApp.Diagnostic
 {
     public sealed class ThermalMatrixDrawer : MonoBehaviour
     {
-        //pas besoin pour le pole hardware
-        //private ThermalSensor mThermalSensor;
-
         [SerializeField]
         private List<ThermalPixel> pixels;
 

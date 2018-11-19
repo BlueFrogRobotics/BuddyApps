@@ -175,8 +175,6 @@ namespace BuddyApp.Shared
             mTimer += Time.deltaTime;
             if (Timer == 0F)
                 Timer = 5F;
-            if (mCam.IsOpen)
-                Debug.Log("CAMERA OPEN");
 
             // Astra is open but not sending frames
             if (!mIsInit)
@@ -242,7 +240,7 @@ namespace BuddyApp.Shared
                 mTimer = 0F;
             } 
 
-            if ((mDetectionCount > QuantityMovement || (mDetectionCountTest / 15F) > QuantityMovement) && !mExitTwo)
+            if ((mDetectionCount > QuantityMovement /*|| (mDetectionCountTest / 15F) > QuantityMovement*/) && !mExitTwo)
             {
                 mExitOne = true;
                 if (Buddy.Behaviour.Mood != MoodTypeWhenDetected)
@@ -252,7 +250,11 @@ namespace BuddyApp.Shared
                 if (LookForUser)
                 {
                     if (!mReposeDone)
+                    {
+                        Debug.Log("REPOSITION -----------------------------------------------------------------------------------------------------------" );
                         RePosition();
+
+                    }
                     if (mReposeDone)
                     {
                         if (SoundWhenDetected != SoundSample.NONE && !mSoundPlayedWhenDetected)
@@ -411,18 +413,18 @@ namespace BuddyApp.Shared
                     }
                 }
                 mDetectionCount++;
-                Debug.Log("DETECTION MOTION SHARED COUNT : " + mDetectionCount);
+                Debug.Log("DETECTION MOTION SHARED COUNT : " + mDetectionCount + " DETECTION COUNT TEST : " + mDetectionCountTest + " Quantity movement : " + QuantityMovement);
             }
             return true;
         }
 
         private void RePosition()
         {
-            Debug.Log("DETECTION COUNT : " + mDetectionCount + " TEST DETECTION : " + mDetectionCountTest / 15);
-            mReposeDone = true;
+            Debug.Log("DETECTION COUNT : " + mDetectionCount + " TEST DETECTION : " + (mDetectionCountTest / 15F));
+            
             mPositionX /= mDetectionCountTest;
             mPositionY /= mDetectionCountTest;
-            Debug.Log("POSITION X : " + mPositionX + " POSITION Y : " + mPositionY);
+            Debug.Log("POSITION X : " + mPositionX + " POSITION Y : " + mPositionY + " MCAM WIDTH : " + mCam.Width + " MCAM HEIGHT : " + mCam.Height);
             float lAngle;
             if (!WantToFlip)
                 lAngle = -(mPositionX / mCam.Width - 0.5F) * 120F;
@@ -431,9 +433,9 @@ namespace BuddyApp.Shared
 
             Debug.Log("ANGLE : " + lAngle);
 
-            Buddy.Actuators.Head.No.SetPosition(lAngle, 200F);
-            Buddy.Actuators.Head.Yes.SetPosition((mPositionY / mCam.Height - 0.5F) * 40F, 200F);
-
+            Buddy.Actuators.Head.No.SetPosition(lAngle, 95F);
+            Buddy.Actuators.Head.Yes.SetPosition((mPositionY / mCam.Height - 0.5F) * -40F, 95F);
+            mReposeDone = true;
         }
     }
 }
