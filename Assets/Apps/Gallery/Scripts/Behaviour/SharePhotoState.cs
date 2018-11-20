@@ -28,7 +28,7 @@ namespace BuddyApp.Gallery
             if (null == mXMLData)
             {
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.NULL_VALUE, "Failed to read configuration file.");
-                Buddy.Vocal.SayKey(STR_TWITTER_ERROR);
+                Buddy.Vocal.SayKey(STR_TWITTER_ERROR, false);
                 Trigger("TRIGGER_PHOTO_SHARED");
                 return;
             }
@@ -101,9 +101,9 @@ namespace BuddyApp.Gallery
         void OnPostTweet(bool iSuccess)
         {
             if (!iSuccess) {
-                Buddy.Vocal.SayKey(STR_TWITTER_ERROR);
+                Buddy.Vocal.SayKey(STR_TWITTER_ERROR, false);
             } else {
-                Buddy.Vocal.SayKey(STR_SHARED);
+                Buddy.Vocal.SayKey(STR_SHARED, false);
             }
 
             Trigger("TRIGGER_PHOTO_SHARED");
@@ -112,13 +112,13 @@ namespace BuddyApp.Gallery
         void OnPostEmail(bool iSuccess)
         {
             if (!iSuccess) {
-                Buddy.Vocal.SayKey(STR_TWITTER_ERROR);
+                Buddy.Vocal.SayKey(STR_TWITTER_ERROR, false);
             }
             else
             {
                 if (Publish.MAIL == mXMLData.WhereToPublish)
                 {
-                    Buddy.Vocal.SayKey(STR_SHARED);
+                    Buddy.Vocal.SayKey(STR_SHARED, false);
                     Trigger("TRIGGER_PHOTO_SHARED");
                 }
             }
