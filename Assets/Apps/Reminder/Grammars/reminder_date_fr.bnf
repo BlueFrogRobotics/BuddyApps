@@ -1,0 +1,8 @@
+#BNF+EMV2.0;
+!grammar reminder_date_fr;
+!import <numbers#nb>;
+!start <day>;
+!start <indate>;
+<day> : (aujourd'hui | aujourd hui) | demain | après-demain | (lundi | mardi | mercredi | jeudi | vendredi | samedi | dimanche) [prochain | <numbers#nb> [<month>]] | Le <numbers#nb> [<month>];
+<month> : janvier | février | mars | avril | mai | juin | juillet | août | septembre | octobre | novembre | décembre;
+<indate> : dans <numbers#nb> (jour[s] | mois | année[s]);

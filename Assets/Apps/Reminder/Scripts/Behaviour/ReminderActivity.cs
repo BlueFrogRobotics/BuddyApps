@@ -41,6 +41,7 @@ namespace BuddyApp.Reminder
 		*/
         public override void OnQuit()
         {
+            Debug.Log("----- ON QUIT ... -----");
             StartCoroutine(CloseApp());
             ExtLog.I(ExtLogModule.APP, typeof(ReminderActivity), LogStatus.START, LogInfo.STOPPING, "On quit...");
         }

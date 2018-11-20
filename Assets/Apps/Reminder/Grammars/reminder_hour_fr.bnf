@@ -1,0 +1,7 @@
+#BNF+EMV2.0;
+!grammar reminder_hour_fr;
+!import <numbers#nb>;
+!start <time>;
+!start <intime>;
+<time> : [à | pour] ((<numbers#nb> heure [(du matin | du soir | de l après-midi) | moins <numbers#nb> | <numbers#nb> | et demi | et quart | moins le quart ]) | midi | minuit);
+<intime> : dans <numbers#nb> (heure[s] | minute[s]);
