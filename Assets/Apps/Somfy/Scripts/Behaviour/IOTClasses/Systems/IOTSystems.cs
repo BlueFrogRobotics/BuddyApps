@@ -36,5 +36,10 @@ namespace BuddyApp.Somfy
         {
 
         }
+
+        public virtual IEnumerator GetTheDevices()
+        {
+            yield return null;
+        }
     }
 }

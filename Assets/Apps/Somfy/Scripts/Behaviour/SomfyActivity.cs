@@ -15,34 +15,43 @@ namespace BuddyApp.Somfy
 		/*
 		* Called before the App scene loading.
 		*/
-		//public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
-		//{ 
-		//	Utils.LogI(LogContext.APP, "On loading...");
-  //          if (iStrArgs != null)
-  //          {
-  //              // We have an input sentence
-  //              SomfyData.Instance.VocalRequest = iStrArgs[0];
-  //          }
-  //          else
-  //          {
-  //              SomfyData.Instance.VocalRequest = "";
-  //          }
-  //      }
+		public override void OnLoading(object[] iArgs)
+        {
+            if (iArgs != null)
+            {
+                // We have an input sentence
+                SomfyData.Instance.VocalRequest = (string)iArgs[0];
+            }
+            else
+            {
+                SomfyData.Instance.VocalRequest = "";
+            }
+            //	Utils.LogI(LogContext.APP, "On loading...");
+            //          if (iStrArgs != null)
+            //          {
+            //              // We have an input sentence
+            //              SomfyData.Instance.VocalRequest = iStrArgs[0];
+            //          }
+            //          else
+            //          {
+            //              SomfyData.Instance.VocalRequest = "";
+            //          }
+        }
 
 		/*
 		* Called after every Awake() in your scene
 		*/
         public override void OnAwake()
         {
-            if (Objects != null)
-            {
-                // We have an input sentence
-                SomfyData.Instance.VocalRequest = (string)Objects[0];
-            }
-            else
-            {
-                SomfyData.Instance.VocalRequest = "";
-            }
+            //if (Objects != null)
+            //{
+            //    // We have an input sentence
+            //    SomfyData.Instance.VocalRequest = (string)Objects[0];
+            //}
+            //else
+            //{
+            //    SomfyData.Instance.VocalRequest = "";
+            //}
             //Utils.LogI(LogContext.APP, "On awake...");
         }
 

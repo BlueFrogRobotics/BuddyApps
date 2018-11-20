@@ -140,6 +140,11 @@ namespace BuddyApp.Somfy
             mHeaders[lName].Clear();
             mHeaders[lName].TrimExcess();
             mHeaders[lName].Add(lValue);
+            Debug.Log("name: " + lName);
+            foreach(string s in mHeaders[lName])
+            {
+                Debug.Log("value: "+s);
+            }
         }
 
         private void GetResponse()
@@ -408,11 +413,11 @@ namespace BuddyApp.Somfy
             {
                 try
                 {
-                    SetHeader("User-Agent", "UnityWeb/1.0 (Unity " + Request.unityVersion + "; " + Request.operatingSystem + ")");
+                    //SetHeader("User-Agent", "UnityWeb/1.0 (Unity " + Request.unityVersion + "; " + Request.operatingSystem + ")");
                 }
                 catch (Exception)
                 {
-                    SetHeader("User-Agent", "UnityWeb/1.0");
+                    //SetHeader("User-Agent", "UnityWeb/1.0");
                 }
             }
 
@@ -480,11 +485,11 @@ namespace BuddyApp.Somfy
             {
                 try
                 {
-                    SetHeader("User-Agent", "UnityWeb/1.0 (Unity " + Request.unityVersion + "; " + Request.operatingSystem + ")");
+                    //SetHeader("User-Agent", "UnityWeb/1.0 (Unity " + Request.unityVersion + "; " + Request.operatingSystem + ")");
                 }
                 catch (Exception)
                 {
-                    SetHeader("User-Agent", "UnityWeb/1.0");
+                    //SetHeader("User-Agent", "UnityWeb/1.0");
                 }
             }
 

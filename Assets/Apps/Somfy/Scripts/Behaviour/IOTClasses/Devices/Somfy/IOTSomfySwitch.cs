@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using BlueQuark;
 using System.Text;
+using UnityEngine.Networking;
 
 namespace BuddyApp.Somfy
 {
@@ -35,6 +36,8 @@ namespace BuddyApp.Somfy
         {
             string lUrl = SomfyData.Instance.URL_API + "/exec/apply";
 
+           
+
             IOTSomfyActionCommandsJSON[] lCommands = new IOTSomfyActionCommandsJSON[1];
             if (iOnOff)
                 lCommands[0] = new IOTSomfyActionCommandsJSON(1, "on", null);
@@ -46,6 +49,18 @@ namespace BuddyApp.Somfy
             //lApply[0].deviceURL = deviceURL;
             Debug.Log("l url: " + deviceURL);
             IOTSomfyJSONApply lJson = new IOTSomfyJSONApply(creationTime, lastUpdateTime, "switchAction", lApply);
+
+            /////
+            byte[] bytePostData = Encoding.UTF8.GetBytes(lJson.GetNode().ToString());
+            UnityWebRequest request = UnityWebRequest.Put(lUrl, bytePostData); //use PUT method to send simple stream of bytes
+            request.method = "POST"; //hack to send POST to server instead of PUT
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
+            mHasFinishedCommand = false;
+            request.SendWebRequest().completed += OnEndRequest;
+            /////
+            ///
+
             //lJson.actionList = new List<IOTSomfyActionJSON>();
             //lJson.actionList.Add(lApply[0]);
             //lJson.liste = new IOTSomfyListActions();
@@ -53,24 +68,25 @@ namespace BuddyApp.Somfy
             //Debug.Log("meuporg mdr: " + JsonUtility.ToJson(lJson));
             //Debug.Log("le fameux jsnode: " + lJson.GetNode().ToString());
             //Request lRequest = new Request("POST", lUrl, Encoding.Default.GetBytes(JsonUtility.ToJson(lJson)));
-            Request lRequest = new Request("POST", lUrl, Encoding.Default.GetBytes(lJson.GetNode().ToString()));
-            lRequest.cookieJar = null;
-            lRequest.SetHeader("cookie", mSessionID);
-            lRequest.SetHeader("Content-Type", "application/json");
-            Debug.Log("switch on off");
-            Debug.Log("request switch: " + lRequest.bytes);
-            mHasFinishedCommand = false;
-            lRequest.Send((lResult) => {
-                if (lResult == null)
-                {
-                    mHasFinishedCommand = true;
-                    return;
-                }
-                string s = System.Text.Encoding.UTF8.GetString(lResult.bytes, 0, lResult.bytes.Length);
-                Debug.Log("le result: "+s);
-                mHasFinishedCommand = true;
-            }
-            );
+            //Request lRequest = new Request("POST", lUrl, Encoding.Default.GetBytes(lJson.GetNode().ToString()));
+            //lRequest.cookieJar = null;
+            //lRequest.SetHeader("Cookie", mSessionID);
+            //lRequest.SetHeader("Content-Type", "application/json");
+            //Debug.Log("switch on off");
+            //Debug.Log("request switch: " + lRequest.bytes);
+            //mHasFinishedCommand = false;
+            //lRequest.Send((lResult) =>
+            //{
+            //    if (lResult == null)
+            //    {
+            //        mHasFinishedCommand = true;
+            //        return;
+            //    }
+            //    string s = System.Text.Encoding.UTF8.GetString(lResult.bytes, 0, lResult.bytes.Length);
+            //    Debug.Log("le result: " + s);
+            //    mHasFinishedCommand = true;
+            //}
+            //);
         }
 
         private void postAction(string iUrl, bool iOnOff)
@@ -91,6 +107,11 @@ namespace BuddyApp.Somfy
             {
                 Debug.Log("Login error");
             }
+        }
+
+        private void OnEndRequest(AsyncOperation lOp)
+        {
+            mHasFinishedCommand = true;
         }
     }
 }

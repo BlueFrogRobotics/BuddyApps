@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using BlueQuark;
-
+using UnityEngine.Networking;
 
 namespace BuddyApp.Somfy
 {
@@ -206,25 +206,36 @@ namespace BuddyApp.Somfy
             IOTSomfyJSONApply lJson = new IOTSomfyJSONApply(creationTime, lastUpdateTime, "switchAction", lApply);
             //Debug.Log("url du json: " + lJson.actions[0].deviceURL);
             //Request lRequest = new Request("POST", lUrl, Encoding.Default.GetBytes(JsonUtility.ToJson(lJson)));
-            Debug.Log("avant post");
-            Request lRequest = new Request("POST", lUrl, Encoding.Default.GetBytes(lJson.GetNode().ToString()));
-            Debug.Log("json post: " + lJson.GetNode().ToString());
-            lRequest.cookieJar = null;
-            lRequest.SetHeader("cookie", mSessionID);
-            lRequest.SetHeader("Content-Type", "application/json");
-            Debug.Log("apres post");
+
+            ///
+            byte[] bytePostData = Encoding.UTF8.GetBytes(lJson.GetNode().ToString());
+            UnityWebRequest request = UnityWebRequest.Put(lUrl, bytePostData); //use PUT method to send simple stream of bytes
+            request.method = "POST"; //hack to send POST to server instead of PUT
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
             mHasFinishedCommand = false;
-            lRequest.Send((lResult) => {
-                if (lResult == null)
-                {
-                    Debug.LogError("Couldn't post action");
-                    mHasFinishedCommand = true;
-                    return;
-                }
-                Debug.Log(lResult.response.Text);
-                mHasFinishedCommand = true;
-            }
-            );
+            request.SendWebRequest().completed += OnEndRequest;
+            ///
+
+            //Debug.Log("avant post");
+            //Request lRequest = new Request("POST", lUrl, Encoding.Default.GetBytes(lJson.GetNode().ToString()));
+            //Debug.Log("json post: " + lJson.GetNode().ToString());
+            //lRequest.cookieJar = null;
+            //lRequest.SetHeader("cookie", mSessionID);
+            //lRequest.SetHeader("Content-Type", "application/json");
+            //Debug.Log("apres post");
+            //mHasFinishedCommand = false;
+            //lRequest.Send((lResult) => {
+            //    if (lResult == null)
+            //    {
+            //        Debug.LogError("Couldn't post action");
+            //        mHasFinishedCommand = true;
+            //        return;
+            //    }
+            //    Debug.Log(lResult.response.Text);
+            //    mHasFinishedCommand = true;
+            //}
+            //);
             Debug.Log("encore apres post");
         }
 
@@ -252,6 +263,11 @@ namespace BuddyApp.Somfy
                 }
             }
             );
+        }
+
+        private void OnEndRequest(AsyncOperation lOp)
+        {
+            mHasFinishedCommand = true;
         }
 
         public override void ChangeName(string iName)
@@ -404,6 +420,8 @@ namespace BuddyApp.Somfy
                 }
             }
         }
+
+
     }
 
 }

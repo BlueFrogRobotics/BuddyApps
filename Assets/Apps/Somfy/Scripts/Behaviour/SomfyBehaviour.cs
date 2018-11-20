@@ -51,6 +51,16 @@ namespace BuddyApp.Somfy
             Box.Login();
         }
 
+        public void ConnectDevices()
+        {
+            Box.GetDevices();
+        }
+
+        public IEnumerator ConnectTheDevices()
+        {
+            return Box.GetTheDevices();
+        }
+
         public void GetDevices()
         {
             //box.GetDevices();
@@ -229,14 +239,15 @@ namespace BuddyApp.Somfy
         }
         public void SwitchPlug(bool iVal)
         {
-            if (mPlug != null && mPlug.HasFinishedCommand())
+            Debug.Log("switch plug");
+            if (mPlug2 != null && mPlug2.HasFinishedCommand())
             {
                 Buddy.Vocal.Say("Ok");
                 if (iVal)
                     Buddy.Vocal.SayKey("on");
                 else
                     Buddy.Vocal.SayKey("off");
-                mPlug.OnOff(iVal);
+                mPlug2.OnOff(iVal);
             }
         }
 

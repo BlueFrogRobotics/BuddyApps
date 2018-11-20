@@ -23,9 +23,13 @@ namespace BuddyApp.Somfy
             mInitialized = false;
             mChangeState = false;
             if (string.IsNullOrEmpty(SomfyData.Instance.VocalRequest))
+            {
+                Debug.Log("vocal request est nul!!!!!!");
                 StartCoroutine(InitDevice());
+            }
             else
             {
+                Debug.Log("vocal request n est pas du tout nul!!!!!!");
                 StartCoroutine(FromCompanion());
             }
         }

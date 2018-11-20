@@ -59,7 +59,7 @@ namespace BuddyApp.BuddyLab
             mUIManager.BackButton.onClick.RemoveListener(GoToMenu);
             mUIManager.UndoButton.onClick.RemoveListener(Undo);
             mUIManager.RedoButton.onClick.RemoveListener(Redo);
-            GetGameObject(6).GetComponent<Animator>().SetTrigger("close");
+            GetGameObject(6).GetComponent<Animator>().SetTrigger("close"); 
 
         }
 

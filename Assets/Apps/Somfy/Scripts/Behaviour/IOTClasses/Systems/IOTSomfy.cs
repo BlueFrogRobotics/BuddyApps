@@ -85,23 +85,35 @@ namespace BuddyApp.Somfy
             {
 
             }
-            //if (www.isNetworkError)
-            //{
-            //    Debug.Log(www.error);
-            //}
-            //else
+            if (www.isNetworkError)
             {
-                Debug.Log(www.downloadHandler.text);
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("dowload handler "+www.downloadHandler.text);
                 mHeaders.Clear();
                 mHeaders["SET-COOKIE"] = www.GetResponseHeader("SET-COOKIE");
-                getSessionId();
-                GetDevices();
+                Debug.Log("header received: " + mHeaders["SET-COOKIE"]);
+                string lSessionId = getSessionId();
+                Debug.Log("session id: " + lSessionId);
+                //GetDevices();
             }
 
-            Upload(Credentials[1], Credentials[2]);
-
+            //Upload(Credentials[1], Credentials[2]);
+            
 
         }
+
+        private IEnumerator GetDelayedDevices()
+        {
+            yield return new WaitForSeconds(2);
+            GetDevices();
+            yield return new WaitForSeconds(2);
+            Upload(Credentials[1], Credentials[2]);
+        }
+
+    
 
 
         void Upload(string id, string password)
@@ -119,24 +131,77 @@ namespace BuddyApp.Somfy
             {
 
             }
-            //if (www.isNetworkError)
-            //{
-            //    Debug.Log(www.error);
-            //}
-            //else
+            if (www.isNetworkError)
+            {
+                Debug.Log(www.error);
+            }
+            else
             {
                 Debug.Log("Form upload complete!" + www.downloadHandler.text);
             }
         }
 
+        public override IEnumerator GetTheDevices()
+        {
+            string url = SomfyData.Instance.URL_API + "/setup/devices";
+            UnityWebRequest www = UnityWebRequest.Get(url);
+            www.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
+            yield return www.SendWebRequest();
+            Debug.Log("get devices upload complete!" + www.downloadHandler.text);
+            string response = "{\"devices\" :" + www.downloadHandler.text + "}";
+            IOTSomfyDeviceCollection lDevices = new IOTSomfyDeviceCollection(response);
+            Debug.Log("avant ecriture reponse");
+            File.WriteAllText(Buddy.Resources.GetRawFullPath("response.txt"), response);
+            Debug.Log("apres ecriture reponse");
+            //Debug.Log("{\"devices\" :" + lResult.response.Text + "}");
+            if (lDevices != null)
+            {
+                Debug.Log("nombre somfy devices: " + lDevices.devices.Length);
+                mDevices = lDevices.devices.ToList<IOTDevices>();
+                Debug.Log("apres init mdevice");
+                int j = 0;
+                for (int i = 0; i < mDevices.Count; ++i)
+                {
+                    string iUiClass = ((IOTSomfyDevice)mDevices[i]).uiClass;
+                    Debug.Log("ui class: " + iUiClass);
+                    if (iUiClass == "Pod")
+                    {
+                        mDevices.RemoveAt(i);
+                        i--;
+                        j++;
+                    }
+                    else
+                    {
+                        mDevices[i].Credentials[1] = mCredentials[1];
+                        mDevices[i].Credentials[2] = mCredentials[2];
+                        if (iUiClass == "OnOff")
+                            mDevices[i] = new IOTSomfySwitch(lDevices.devices[i + j], mSessionID);
+                        else if (iUiClass == "Screen")
+                            mDevices[i] = new IOTSomfyStore(lDevices.devices[i + j], mSessionID);
+                        else if (iUiClass == "HeatingSystem")
+                            mDevices[i] = new IOTSomfyThermostat(lDevices.devices[i + j], mSessionID);
+                        else if (iUiClass == "TemperatureSensor")
+                            mDevices[i] = new IOTSomfyThermometer(lDevices.devices[i + j], mSessionID);
+                        else if (iUiClass == "MusicPlayer")
+                            mDevices[i] = new IOTSomfySonos(lDevices.devices[i + j], mSessionID);
+                    }
+                }
+            }
+            Upload(Credentials[1], Credentials[2]);
+        }
+
         public override void GetDevices()
         {
             string url = SomfyData.Instance.URL_API + "/setup/devices";
-
+            Debug.Log("url api: " + url);
             Request lRequest = new Request("GET", url);
             lRequest.cookieJar = null;
-            lRequest.SetHeader("cookie", mSessionID);
+            lRequest.SetHeader("Cookie", "JSESSIONID="+ System.Uri.EscapeDataString(mSessionID));
 
+            //UnityWebRequest www = UnityWebRequest.Get(url);
+            //www.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
+            //www.SendWebRequest();
+            //Debug.Log("get device upload complete!" + www.downloadHandler.text);
             lRequest.Send((lResult) =>
             {
                 if (lResult == null || lResult.response == null)
@@ -145,7 +210,7 @@ namespace BuddyApp.Somfy
                     return;
                 }
                 Debug.Log("avant response");
-                Debug.Log("identifiants magique: "+ SomfyData.Instance.Login+" "+ SomfyData.Instance.Password);
+                Debug.Log("identifiants magique: " + SomfyData.Instance.Login + " " + SomfyData.Instance.Password);
 
                 string response = "{\"devices\" :" + lResult.response.Text + "}";
                 Debug.Log("reponse: " + response);
@@ -209,6 +274,8 @@ namespace BuddyApp.Somfy
                     }
                 }
             });
+
+            Upload(Credentials[1], Credentials[2]);
         }
 
         private string getSessionId()
@@ -221,10 +288,10 @@ namespace BuddyApp.Somfy
                 {
                     if (post_arg.Key.Equals("SET-COOKIE"))
                     {
-                        data = ((string)post_arg.Value).Split(";"[0]);
+                        data = ((string)post_arg.Value).Split(';');
                         if (data.Length > 0)
                         {
-                            res = data[0];
+                            res = data[0].Replace("JSESSIONID=", "");
                             mSessionID = res;
                             Debug.Log("sessionId: " + res);
                         }

@@ -16,7 +16,7 @@ namespace BuddyApp.Somfy
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             //Toaster.Display<ParameterToast>().With(mLayout, () => { Login(); }, null);
-            Login();
+            StartCoroutine(Login());
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -28,10 +28,15 @@ namespace BuddyApp.Somfy
       
         }
 
-        private void Login()
+        private IEnumerator Login()
         {
-            Trigger("NextStep");
             GetComponent<SomfyBehaviour>().Login();
+
+            yield return new WaitForSeconds(1);
+            yield return GetComponent<SomfyBehaviour>().ConnectTheDevices();
+            yield return new WaitForSeconds(1);
+            GetComponent<SomfyBehaviour>().GetDevices();
+            Trigger("NextStep");
         }
     }
 }
