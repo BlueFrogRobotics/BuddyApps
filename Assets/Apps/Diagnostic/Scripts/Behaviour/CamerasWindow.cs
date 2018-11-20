@@ -29,13 +29,13 @@ namespace BuddyApp.Diagnostic
             {
                 case E_CAMERA.HD:
                     if (mHDCam.IsOpen) {
-                        selectedImage.texture = Utils.MatToTexture2D(mHDCam.Frame);
+                        selectedImage.texture = Utils.MatToTexture2D(mHDCam.Frame.Mat);
                     }
                     break;
 
                 case E_CAMERA.RGB:
                     if (mRGBCam.IsOpen) {
-                        selectedImage.texture = Utils.MatToTexture2D(mRGBCam.Frame);
+                        selectedImage.texture = Utils.MatToTexture2D(mRGBCam.Frame.Mat);
                     }
                     break;
             }
