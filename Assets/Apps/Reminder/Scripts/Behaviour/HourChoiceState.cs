@@ -35,8 +35,8 @@ namespace BuddyApp.Reminder
 
         // Type of Extract hour function
         private delegate bool ExtractHourFromSpeech(string iSpeech);
-        // Extraction hour function array. The index is based on the enum: Language
-        private ExtractHourFromSpeech[] mExtractHourFromSpeech = new ExtractHourFromSpeech[Enum.GetValues(typeof(Language)).Length];
+        // List of ExtractHour function
+        private List<ExtractHourFromSpeech> mExtractHourFromSpeech;
 
         // TMP - Waiting for caroussel
         private TimeSpan mCarousselHour;
@@ -84,12 +84,15 @@ namespace BuddyApp.Reminder
             mQuit = false;
             mTimer = -1;
 
-            // Because we need to stop this coroutine independently of others
-            mQuitOnTimeout = QuittingTimeout();
+            // Creation of a ExtractHour list function, based on Available Languages
+            mExtractHourFromSpeech = new List<ExtractHourFromSpeech>(Buddy.Platform.Language.AvailableLanguages.Length);
 
             // Filling the extraction function for each language
-            mExtractHourFromSpeech[(int)Language.EN] = ExtractHourFromEnglishSpeech;
-            mExtractHourFromSpeech[(int)Language.FR] = ExtractHourFromFrenchSpeech;
+            mExtractHourFromSpeech[(int)ISO6391Code.EN] = ExtractHourFromEnglishSpeech;
+            mExtractHourFromSpeech[(int)ISO6391Code.FR] = ExtractHourFromFrenchSpeech;
+
+            // Because we need to stop this coroutine independently of others
+            mQuitOnTimeout = QuittingTimeout();
 
             // Setting of Header
             Buddy.GUI.Header.DisplayParametersButton(false);
@@ -151,7 +154,7 @@ namespace BuddyApp.Reminder
 
             // Launch hour extraction
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
-                lHourIsSet = mExtractHourFromSpeech[(int)Buddy.Platform.Language](iSpeechInput.Utterance);
+                lHourIsSet = mExtractHourFromSpeech[(int)Buddy.Platform.Language.SystemInputLanguage.ISO6391Code](iSpeechInput.Utterance);
 
             // Hour extraction success - Show the heard hour and go to next state
             if (lHourIsSet)

@@ -120,9 +120,9 @@ namespace BuddyApp.Reminder
             // Extraction date success - Show the heard date and go to next state
             if (!DateIsDefault(ReminderData.Instance.ReminderDate))
             {
-                if (Buddy.Platform.Language == Language.EN)
+                if (Buddy.Platform.Language.SystemInputLanguage.ISO6391Code == ISO6391Code.EN)
                     Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderData.Instance.ReminderDate.ToString("MM/dd/yyyy"));
-                else if (Buddy.Platform.Language == Language.FR)
+                else if (Buddy.Platform.Language.SystemInputLanguage.ISO6391Code == ISO6391Code.FR)
                     Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderData.Instance.ReminderDate.ToString("dd/MM/yyyy"));
                 StartCoroutine(TitleLifeTime(TITLE_TIMER));
                 GoToNextState();
@@ -221,9 +221,9 @@ namespace BuddyApp.Reminder
 
                 // Creating of a text to display the choosen date in UI.
                 mDateText = iOnBuild.CreateWidget<TText>();
-                if (Buddy.Platform.Language == Language.EN)
+                if (Buddy.Platform.Language.SystemInputLanguage.ISO6391Code == ISO6391Code.EN)
                     mDateText.SetLabel(Buddy.Resources.GetString("datesetto") + mCarousselDate.ToString("MM/dd/yyyy"));
-                else if (Buddy.Platform.Language == Language.FR)
+                else if (Buddy.Platform.Language.SystemInputLanguage.ISO6391Code == ISO6391Code.FR)
                     mDateText.SetLabel(Buddy.Resources.GetString("datesetto") + mCarousselDate.ToString("dd/MM/yyyy"));
 
                 // Decrement Button
@@ -271,9 +271,9 @@ namespace BuddyApp.Reminder
                 mCarousselDate = mCarousselDate.AddMonths(iIncrement);
             else if (mDateModify == DateModify.YEAR)
                 mCarousselDate = mCarousselDate.AddYears(iIncrement);
-            if (Buddy.Platform.Language == Language.EN)
+            if (Buddy.Platform.Language.SystemInputLanguage.ISO6391Code == ISO6391Code.EN)
                 mDateText.SetLabel(Buddy.Resources.GetString("datesetto") + mCarousselDate.ToString("MM/dd/yyyy"));
-            else if (Buddy.Platform.Language == Language.FR)
+            else if (Buddy.Platform.Language.SystemInputLanguage.ISO6391Code == ISO6391Code.FR)
                 mDateText.SetLabel(Buddy.Resources.GetString("datesetto") + mCarousselDate.ToString("dd/MM/yyyy"));
         }
 
