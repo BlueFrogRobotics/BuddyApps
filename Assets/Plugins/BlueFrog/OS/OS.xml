@@ -2496,31 +2496,6 @@
             </summary>
             <param name="iGPIOIdx">Index of the GPIO</param>
         </member>
-        <member name="T:BlueQuark.Internal.AEntity">
-            <summary>
-            Base class for detected entity.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.AEntity.RectInFrame">
-            <summary>
-            Current position in the current frame.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.AEntity.MatInFrame">
-            <summary>
-            Sub mat containing the detected entity
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.AEntity.Label">
-            <summary>
-            Label, if applicable, of the entity
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.AEntity.Confidence">
-            <summary>
-            Confidence of this entity. From 0 to 1.
-            </summary>
-        </member>
         <member name="T:BlueQuark.Internal.UserManagerMetric">
             <summary>
             This class represents user preferences
@@ -2697,32 +2672,27 @@
             Current value of the sensor.
             </summary>
         </member>
-        <member name="T:BlueQuark.Internal.ICamera">
+        <member name="T:BlueQuark.Internal.ICamera`1">
             <summary>
             Base interface for camera sensor.
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.ICamera.OnNewFrame">
+        <member name="P:BlueQuark.Internal.ICamera`1.OnNewFrame">
             <summary>
             Called when a new well formed frame is captured. 
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.ICamera.Frame">
+        <member name="P:BlueQuark.Internal.ICamera`1.Frame">
             <summary>
             Current frame of the device.
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.ICamera.FrameID">
-            <summary>
-            ID of the current frame.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.ICamera.Width">
+        <member name="P:BlueQuark.Internal.ICamera`1.Width">
             <summary>
             Width of the capture input. Value in pixels.
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.ICamera.Height">
+        <member name="P:BlueQuark.Internal.ICamera`1.Height">
             <summary>
             Height of the capture output. Value in pixels.
             </summary>
@@ -4310,29 +4280,33 @@
         <member name="M:BlueQuark.NoHeadHinge.SetPosition(System.Single)">
             <summary>
             Requests to move the hinge at the wished angle position.
+            Positive angles to move head upwards, negative downwards.
             </summary>
-            <param name="iAngle">Position to target. Value in degrees</param>
+            <param name="iAngle">Position to target, In range of [-100, 100] degrees.</param>
         </member>
         <member name="M:BlueQuark.NoHeadHinge.SetPosition(System.Single,System.Single)">
             <summary>
             Requests to move the hinge at the wished angle position.
+            Positive angles to move head upwards, negative downwards.
             </summary>
-            <param name="iAngle">Position to target. Value in degrees</param>
+            <param name="iAngle">Position to target. In range of [-100, 100] degrees.</param>
             <param name="iAngularVelocity">Speed to target. Value in degrees per second</param>
         </member>
         <member name="M:BlueQuark.NoHeadHinge.SetPosition(System.Single,System.Single,BlueQuark.AccDecMode)">
             <summary>
             Requests to move the hinge at the wished angle position.
+            Positive angles to move head upwards, negative downwards.
             </summary>
-            <param name="iAngle">Position to target. Value in degrees</param>
+            <param name="iAngle">Position to target. In range of [-100, 100] degrees.</param>
             <param name="iAngularVelocity">Speed to target. Value in degrees per second</param>
             <param name="iAccDecMode">Acceleration mode</param>
         </member>
         <member name="M:BlueQuark.NoHeadHinge.SetPosition(System.Single,System.Single,BlueQuark.AccDecMode,System.Single)">
             <summary>
             Requests to move the hinge at the wished angle position.
+            Positive angles to move head upwards, negative downwards.
             </summary>
-            <param name="iAngle">Position to target. Value in degrees</param>
+            <param name="iAngle">Position to target. In range of [-100, 100] degrees.</param>
             <param name="iAngularVelocity">Speed to target. Value in degrees per second</param>
             <param name="iAccDecMode">Acceleration mode</param>
             <param name="iTolerance">Allowed tolerance for this command</param>
@@ -4384,29 +4358,33 @@
         <member name="M:BlueQuark.YesHeadHinge.SetPosition(System.Single)">
             <summary>
             Requests to move the hinge at the wished angle position.
+            Positive angles to turn counterclockwise, negative to turn clockwise.
             </summary>
-            <param name="iAngle">Position to target. Value in degrees</param>
+            <param name="iAngle">Position to target. In range of [-50, 40] degrees.</param>
         </member>
         <member name="M:BlueQuark.YesHeadHinge.SetPosition(System.Single,System.Single)">
             <summary>
             Requests to move the hinge at the wished angle position.
+            Positive angles to turn counterclockwise, negative to turn clockwise.
             </summary>
-            <param name="iAngle">Position to target. Value in degrees</param>
+            <param name="iAngle">Position to target. In range of [-50, 40] degrees.</param>
             <param name="iAngularVelocity">Speed to target. Value in degrees per second</param>
         </member>
         <member name="M:BlueQuark.YesHeadHinge.SetPosition(System.Single,System.Single,BlueQuark.AccDecMode)">
             <summary>
             Requests to move the hinge at the wished angle position.
+            Positive angles to turn counterclockwise, negative to turn clockwise.
             </summary>
-            <param name="iAngle">Position to target. Value in degrees</param>
+            <param name="iAngle">Position to target. In range of [-50, 40] degrees.</param>
             <param name="iAngularVelocity">Speed to target. Value in degrees per second</param>
             <param name="iAccDecMode">Acceleration mode</param>
         </member>
         <member name="M:BlueQuark.YesHeadHinge.SetPosition(System.Single,System.Single,BlueQuark.AccDecMode,System.Single)">
             <summary>
             Requests to move the hinge at the wished angle position.
+            Positive angles to turn counterclockwise, negative to turn clockwise.
             </summary>
-            <param name="iAngle">Position to target. Value in degrees</param>
+            <param name="iAngle">Position to target. Value in degrees in range [-50, 40].</param>
             <param name="iAngularVelocity">Speed to target. Value in degrees per second</param>
             <param name="iAccDecMode">Acceleration mode</param>
             <param name="iTolerance">Allowed tolerance for this command</param>
@@ -6261,14 +6239,19 @@
             Sensors to be used for tracking. The thermal sensor is always used.
             </summary>
         </member>
+        <member name="F:BlueQuark.SensorMode.THERMAL">
+            <summary>
+            Thermal camera.
+            </summary>
+        </member>
         <member name="F:BlueQuark.SensorMode.VISION">
             <summary>
-            RGB camera with human detect
+            RGB camera with thermal.
             </summary>
         </member>
         <member name="F:BlueQuark.SensorMode.SKELETON">
             <summary>
-            Using depth-based skeleton detection by Orbbec 
+            Using depth-based skeleton detection with thermal. 
             </summary>
         </member>
         <member name="T:BlueQuark.AttentionState">
@@ -6393,24 +6376,27 @@
             Local roaming strategy
             </summary>
         </member>
-        <member name="M:BlueQuark.RoamStrategy.While(System.Predicate{UnityEngine.Vector3})">
+        <member name="M:BlueQuark.RoamStrategy.While(System.Predicate{UnityEngine.Vector3},BlueQuark.RoamSpeed)">
             <summary>
             The robot will roam locally while the condition is true.
             </summary>
             <param name="iCondition">The while condition. Cannot be null</param>
+            <param name="iRoamSpeed">Advancing speed during roam.</param>
         </member>
-        <member name="M:BlueQuark.RoamStrategy.While(System.Predicate{UnityEngine.Vector3},BlueQuark.Mood)">
+        <member name="M:BlueQuark.RoamStrategy.While(System.Predicate{UnityEngine.Vector3},BlueQuark.Mood,BlueQuark.RoamSpeed)">
             <summary>
             The robot will roam locally while the condition is true.
             </summary>
             <param name="iCondition">The while condition. Cannot be null</param>
             <param name="iMood">The mood that should be expressed through the motion.</param>
+            <param name="iRoamSpeed">Advancing speed during roam.</param>
         </member>
-        <member name="M:BlueQuark.RoamStrategy.WithMood(BlueQuark.Mood)">
+        <member name="M:BlueQuark.RoamStrategy.WithMood(BlueQuark.Mood,BlueQuark.RoamSpeed)">
             <summary>
             Start wandering around in a certain mood.
             </summary>
             <param name="iMood">The mood that should be expressed through the motion.</param>
+            <param name="iRoamSpeed">Advancing speed during roam.</param>
         </member>
         <member name="T:BlueQuark.SkeletonEntity">
             <summary>
@@ -6430,6 +6416,16 @@
         <member name="P:BlueQuark.SkeletonEntity.Confidence">
             <summary>
             Confidence of the detection, from 0 to 1. Depend on the number of joints and distance.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanDetectorParameter.SensorMode">
+            <summary>
+            Using skeleton or vision. Thermal is always used.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.YOLOParameter">
+            <summary>
+            Parameters for YOLO.
             </summary>
         </member>
         <member name="T:BlueQuark.Map">
@@ -6862,6 +6858,86 @@
             every year
             </summary>
         </member>
+        <member name="T:BlueQuark.ISO6393Code">
+            <summary>
+            Language three-letter codes, the same as 639-2/T for languages, but with distinct codes for each variety of an ISO 639 macrolanguage.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6393Code.ENG">
+            <summary>
+            English language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6393Code.FRA">
+            <summary>
+            French language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6393Code.ITA">
+            <summary>
+            Italian language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6393Code.DEU">
+            <summary>
+            German language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6393Code.JPN">
+            <summary>
+            Japanese language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6393Code.NLD">
+            <summary>
+            Dutch language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6393Code.KOR">
+            <summary>
+            Korean language
+            </summary>
+        </member>
+        <member name="T:BlueQuark.ISO6392Code">
+            <summary>
+            Language three-letter codes, mostly the same as 639-2/T, but with some codes derived from English names rather than native names of languages.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6392Code.ENG">
+            <summary>
+            English language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6392Code.FRA">
+            <summary>
+            French language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6392Code.ITA">
+            <summary>
+            Italian language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6392Code.GER">
+            <summary>
+            German language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6392Code.JPN">
+            <summary>
+            Japanese language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6392Code.NLD">
+            <summary>
+            Dutch language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6392Code.KOR">
+            <summary>
+            Korean language
+            </summary>
+        </member>
         <member name="T:BlueQuark.Photograph">
             <summary>
             This class represents a photo taken during a running app. Can be saved as PNG on the HDD.
@@ -6964,6 +7040,108 @@
             <param name="iData">Byte array of the sprite</param>
             <param name="iFilename">Filename of the sprite to save</param>
             <returns>The fullpath to the saved photograph</returns>
+        </member>
+        <member name="T:BlueQuark.LanguageManager">
+            <summary>
+            Language handler for the system.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.ACameraFrame">
+            <summary>
+            The Generic Image Camera Output Container.
+            It contains a Texture2D and/or a Mat.
+            Each Camera possesses only one CameraFrame;
+            </summary>
+            <summary>
+            The Generic Image Camera Output Container.
+            It contains a Texture2D and/or a Mat.
+            Each Camera possesses only one CameraFrame;
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ACameraFrame.TextureImpl">
+            <summary>
+            Current frame's Texture (can return null)
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ACameraFrame.MatImpl">
+            <summary>
+            Current frame's CVMat (can return null)
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ACameraFrame.Texture">
+            <summary>
+            Current frame's Texture
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ACameraFrame.Mat">
+            <summary>
+            Current frame's CVMat
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ACameraFrame.ID">
+            <summary>
+            ID of the current frame.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ACameraFrame.Width">
+            <summary>
+            Width of the current frame. Value in pixels.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ACameraFrame.Height">
+            <summary>
+            Height of the current frame. Value in pixels.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ACameraFrame.UpdatesTexture">
+            <summary>
+            Tells if CameraFrame updates its Texture.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ACameraFrame.UpdatesMat">
+            <summary>
+            Tells if CameraFrame updates its Mat.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.DepthCameraFrame">
+            <summary>
+            The DepthCamera specialized frame
+            </summary>
+            <summary>
+            The DepthCamera specialized frame
+            </summary>
+        </member>
+        <member name="T:BlueQuark.HDCameraFrame">
+            <summary>
+            The HDCamera specialized frame
+            </summary>
+            <summary>
+            The HDCamera specialized frame
+            </summary>
+        </member>
+        <member name="T:BlueQuark.InfraredCameraFrame">
+            <summary>
+            The InfraredCamera specialized frame
+            </summary>
+            <summary>
+            The InfraredCamera specialized frame
+            </summary>
+        </member>
+        <member name="T:BlueQuark.RGBCameraFrame">
+            <summary>
+            The RGBCamera specialized frame
+            </summary>
+            <summary>
+            The RGBCamera specialized frame
+            </summary>
+        </member>
+        <member name="T:BlueQuark.ThermalCameraFrame">
+            <summary>
+            The ThermalCamera specialized frame
+            </summary>
+            <summary>
+            The ThermalCamera specialized frame
+            </summary>
         </member>
         <member name="T:BlueQuark.SerializableDictionary`2">
             <summary>
@@ -8559,7 +8737,7 @@
             Moves forward or backward to the given distance.
             </summary>
             <param name="iDistance">Target distance in meters</param>
-            <param name="iLinearVelocity">Target speed in meters by seconds</param>
+            <param name="iLinearVelocity">Target speed in meters by seconds. Maximum speed 1m/s.</param>
             <param name="iAvoidingObstacles">If avoid obstacles</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Action{UnityEngine.Vector3})">
@@ -8567,7 +8745,7 @@
             Moves forward or backward to the given distance.
             </summary>
             <param name="iDistance">Target distance in meters</param>
-            <param name="iLinearVelocity">Target speed in meters by seconds</param>
+            <param name="iLinearVelocity">Target speed in meters by seconds. Maximum speed 1m/s.</param>
             <param name="iOnEndMove">Callback called at the end of the course</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Single,System.Boolean)">
@@ -8575,8 +8753,8 @@
             Moves forward or backward to the given distance.
             </summary>
             <param name="iDistance">Target distance in meters</param>
-            <param name="iLinearVelocity">Target speed in meters by seconds</param>
-            <param name="iAngularVelocity">Target right wheel speed in meters by seconds</param>
+            <param name="iLinearVelocity">Target speed in meters by seconds. Maximum speed 1m/s.</param>
+            <param name="iAngularVelocity">Target angular speed in degree by seconds. Maximum 250deg/s.</param>
             <param name="iAvoidingObstacles">If avoid obstacles</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,System.Single,System.Single,System.Action{UnityEngine.Vector3})">
@@ -8584,8 +8762,8 @@
             Moves forward or backward to the given distance.
             </summary>
             <param name="iDistance">Target distance in meters</param>
-            <param name="iLinearVelocity">Target left wheel speed in meters by seconds</param>
-            <param name="iAngularVelocity">Target right wheel speed in meters by seconds</param>
+            <param name="iLinearVelocity">Target linear speed in meters by seconds. Maximum speed 1m/s.</param>
+            <param name="iAngularVelocity">Target angular speed in degree by seconds. Maximum 250deg/s.</param>
             <param name="iOnEndMove">Callback called at the end of the course</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.MoveWhile(System.Predicate{UnityEngine.Vector3})">
@@ -8599,17 +8777,19 @@
             Moves forward or backward until the condition is false.
             </summary>
             <param name="iCondition">The movement condition. Must returns true while the user condition is not fulfilled. Cannot be null</param>
-            <param name="iLinearVelocity">Target speed in meters by seconds</param>
+            <param name="iLinearVelocity">Target speed in meters by seconds. Maximum speed 1m/s.</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.Rotate(System.Single)">
             <summary>
-            Turns relativity the robot body.
+            Turns the robot body by a certain degree.
+            Positive angles to turn counterclockwise, negative to turn clockwise.
             </summary>
-            <param name="iAngle">Target angle in degrees</param>
+            <param name="iAngle">Target angle in degrees. + turn left, - turn right.</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.Rotate(System.Single,System.Single)">
             <summary>
-            Turns relativity the robot body.
+            Turns relativity the robot body. 
+            Positive angles to turn counterclockwise, negative to turn clockwise.
             </summary>
             <param name="iAngle">Target angle in degrees</param>
             <param name="iAngularVelocity">Target speed in degrees by second</param>
@@ -8617,6 +8797,7 @@
         <member name="M:BlueQuark.DisplacementStrategy.Rotate(System.Single,System.Single,System.Action{UnityEngine.Vector3})">
             <summary>
             Turns relativity the robot body.
+            Positive angles to turn counterclockwise, negative to turn clockwise.
             </summary>
             <param name="iAngle">Target angle in degrees</param>
             <param name="iAngularVelocity">Target speed in degrees by second</param>
@@ -9164,19 +9345,44 @@
             The name of the device
             </summary>
         </member>
-        <member name="T:BlueQuark.Language">
+        <member name="T:BlueQuark.ISO6391Code">
             <summary>
-            Language for Speech to text, text to speech and sphinx settings.
+            Language two-letter codes, one per language for ISO 639 macrolanguage.
             </summary>
         </member>
-        <member name="F:BlueQuark.Language.EN">
+        <member name="F:BlueQuark.ISO6391Code.EN">
             <summary>
             English language
             </summary>
         </member>
-        <member name="F:BlueQuark.Language.FR">
+        <member name="F:BlueQuark.ISO6391Code.FR">
             <summary>
             French language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6391Code.IT">
+            <summary>
+            Italian language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6391Code.DE">
+            <summary>
+            German language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6391Code.JA">
+            <summary>
+            Japanese language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6391Code.NL">
+            <summary>
+            Dutch language
+            </summary>
+        </member>
+        <member name="F:BlueQuark.ISO6391Code.KO">
+            <summary>
+            Korean language
             </summary>
         </member>
         <member name="T:BlueQuark.WiFiNetwork">
@@ -9990,7 +10196,6 @@
             Core of the Buddy Operating System.
             Gave access to robot control and tools like UI, sensors, actuators, resources and miscellaneous managers.
             A Unique instance of Buddy is created in the whole program.
-            SDK documentation at <see cref="!:http://bfr-dev.azurewebsites.net/documentation/class_blue_quark_1_1_buddy.html"/>
             </summary>
             <remarks>
             Access to Buddy's modules by using Buddy.[MODULE_NAME] in a static way.
@@ -10081,14 +10286,14 @@
             User management.
             </summary>
         </member>
-        <member name="P:BlueQuark.Platform.StartTime">
-            <summary>
-            Time stamp since the OS boot.
-            </summary>
-        </member>
         <member name="P:BlueQuark.Platform.Language">
             <summary>
             Current language applied in the system.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Platform.StartTime">
+            <summary>
+            Time stamp since the OS boot.
             </summary>
         </member>
         <member name="P:BlueQuark.Platform.RobotUID">
@@ -10249,20 +10454,25 @@
             Disconnect from the current network.
             </summary>
         </member>
-        <member name="M:BlueQuark.RoamSubStrategy.While(System.Predicate{UnityEngine.Vector3})">
+        <member name="T:BlueQuark.RoamSpeed">
+            <summary>
+            Speed for roaming
+            </summary>
+        </member>
+        <member name="M:BlueQuark.RoamSubStrategy.While(System.Predicate{UnityEngine.Vector3},BlueQuark.RoamSpeed)">
             <summary>
             The robot will roam locally while the condition is true.
             </summary>
             <param name="iCondition">The while condition. Cannot be null</param>
         </member>
-        <member name="M:BlueQuark.RoamSubStrategy.While(System.Predicate{UnityEngine.Vector3},BlueQuark.Mood)">
+        <member name="M:BlueQuark.RoamSubStrategy.While(System.Predicate{UnityEngine.Vector3},BlueQuark.Mood,BlueQuark.RoamSpeed)">
             <summary>
             The robot will roam locally while the condition is true.
             </summary>
             <param name="iCondition">The while condition. Cannot be null</param>
             <param name="iMood">The mood that should be expressed through the motion.</param>
         </member>
-        <member name="M:BlueQuark.RoamSubStrategy.WithMood(BlueQuark.Mood)">
+        <member name="M:BlueQuark.RoamSubStrategy.WithMood(BlueQuark.Mood,BlueQuark.RoamSpeed)">
             <summary>
             Start wandering around in a certain mood.
             </summary>
@@ -10286,11 +10496,12 @@
             <param name="iCondition">The while condition. Cannot be null.</param>
             <param name="iOnFound">Action to do when human is found</param>
         </member>
-        <member name="M:BlueQuark.HumanSearchStrategy.While(System.Single,System.Action{BlueQuark.HumanEntity})">
+        <member name="M:BlueQuark.HumanSearchStrategy.While(System.Single,System.Action,System.Action{BlueQuark.HumanEntity})">
             <summary>
             Starts a human search inside the known environment while the condition is true.
             </summary>
             <param name="iTimeout">Search only for a certain time.</param>
+            <param name="iOnEnd">Action when searching ends.</param>
             <param name="iOnFound">Action to do when human is found</param>
         </member>
         <member name="T:BlueQuark.ObjectSearchStrategy">
@@ -10324,18 +10535,28 @@
             <param name="iTargetRelative"></param>
             <param name="iDistance"></param>
         </member>
-        <member name="M:BlueQuark.HumanTrackStrategy.StaticTracking(BlueQuark.MovingParts,BlueQuark.SensorMode,System.Int32)">
+        <member name="P:BlueQuark.HumanTrackStrategy.SensorMode">
+            <summary>
+            Which sensor mode (VISION-yolo dnn or SKELETON-depth camera) is used in the algorithm
+            </summary>
+        </member>
+        <member name="M:BlueQuark.HumanTrackStrategy.StaticTracking(System.Predicate{BlueQuark.HumanEntity},System.Action{BlueQuark.HumanEntity},BlueQuark.MovingParts,BlueQuark.SensorMode,System.Int32)">
             <summary>
             Starts a static human tracking with different options for moving parts. 
             </summary>
+            <param name="iWhileCondition">Continue tracking human while this condition is true</param>
+            <param name="iOnDetect">What to do with the currently tracking human</param>
             <param name="iMovingParts">Which parts of the robot will move</param>
-            <param name="iSensorMode">Using thermal, vision(RGB) or depth camera</param>
+            <param name="iSensorMode">Using vision(RGB) or depth camera</param>
             <param name="iFrameNum">Parameter for SensorMode.VISION. Do one detection every iFrameNum frames</param>
         </member>
-        <member name="M:BlueQuark.HumanTrackStrategy.DynamicTracking(BlueQuark.SensorMode)">
+        <member name="M:BlueQuark.HumanTrackStrategy.DynamicTracking(System.Predicate{BlueQuark.HumanEntity},System.Action{BlueQuark.HumanEntity},BlueQuark.SensorMode)">
             <summary>
             Start a dynamic human tracking. The robot will follow the user.
             </summary>
+            <param name="iWhileCondition">Continue tracking human while this condition is true</param>
+            <param name="iOnDetect">What to do with the currently tracking human</param>
+            <param name="iSensorMode">Using vision(RGB) or depth camera</param>
         </member>
         <member name="M:BlueQuark.HumanTrackStrategy.Facing">
             <summary>
@@ -10741,9 +10962,84 @@
             Human entity detected.
             </summary>
         </member>
+        <member name="P:BlueQuark.HumanEntity.SensorMode">
+            <summary>
+            Human detected by VISION or by SKELETON
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanEntity.BoundingBox">
+            <summary>
+            Available when in SensorMode.VISION.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanEntity.Center">
+            <summary>
+            Available when in SensorMode.VISION.
+            </summary>
+        </member>
         <member name="P:BlueQuark.HumanEntity.Distance">
             <summary>
-            Distance to human in meters.
+            Distance to human in meters. Available in SensorMode.SKELETON.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanEntity.Confidence">
+            <summary>
+            Confidence of this entity. From 0 to 1.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanEntity.Skeleton">
+            <summary>
+            Associated skeleton. Available in SensorMode.SKELETON.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MotionEntity.RectInFrame">
+            <summary>
+            Current position in the current frame.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ObjectEntity.RectInFrame">
+            <summary>
+            Current position in the current frame.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ObjectEntity.Label">
+            <summary>
+            Label, if applicable, of the entity
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ObjectEntity.MatInFrame">
+            <summary>
+            Sub mat containing the detected entity
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ObjectEntity.Confidence">
+            <summary>
+            Confidence of this entity. From 0 to 1.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.QRCodeEntity.MatInFrame">
+            <summary>
+            Sub mat containing the detected entity
+            </summary>
+        </member>
+        <member name="P:BlueQuark.QRCodeEntity.Label">
+            <summary>
+            Label, if applicable, of the entity
+            </summary>
+        </member>
+        <member name="P:BlueQuark.QRCodeEntity.Confidence">
+            <summary>
+            Confidence of this entity. From 0 to 1.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ShadeEntity.MatInFrame">
+            <summary>
+            Sub mat containing the detected entity
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ShadeEntity.RectInFrame">
+            <summary>
+            Current position in the current frame.
             </summary>
         </member>
         <member name="M:BlueQuark.UserManager.GetCurrentUser">
@@ -10788,7 +11084,7 @@
         </member>
         <member name="T:BlueQuark.Gender">
             <summary>
-            Gender of the user
+            Gender type.
             </summary>
         </member>
         <member name="F:BlueQuark.Gender.UNKNOWN">
@@ -11134,17 +11430,6 @@
             Current frame of the device.
             </summary>
         </member>
-        <member name="P:BlueQuark.InfraredCamera.TexFrame">
-            <summary>
-            Texture conversion of the current frame. Very heavy in compute. Use it ONLY for debug.
-            </summary>
-            <seealso cref="P:BlueQuark.InfraredCamera.Frame"/>
-        </member>
-        <member name="P:BlueQuark.InfraredCamera.FrameID">
-            <summary>
-            ID of the current frame.
-            </summary>
-        </member>
         <member name="P:BlueQuark.InfraredCamera.Width">
             <summary>
             Width of the capture input. Value in pixels.
@@ -11217,17 +11502,6 @@
         <member name="P:BlueQuark.RGBCamera.Frame">
             <summary>
             Current frame of the device.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.RGBCamera.TexFrame">
-            <summary>
-            Texture conversion of the current frame. Very heavy in compute. Use it ONLY for debug.
-            </summary>
-            <seealso cref="P:BlueQuark.RGBCamera.Frame"/>
-        </member>
-        <member name="P:BlueQuark.RGBCamera.FrameID">
-            <summary>
-            ID of the current frame.
             </summary>
         </member>
         <member name="P:BlueQuark.RGBCamera.Width">
@@ -11307,17 +11581,6 @@
         <member name="P:BlueQuark.DepthCamera.Frame">
             <summary>
             Current frame of the device.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.DepthCamera.TexFrame">
-            <summary>
-            Texture conversion of the current frame. Very heavy in compute. Use it ONLY for debug.
-            </summary>
-            <seealso cref="P:BlueQuark.DepthCamera.Frame"/>
-        </member>
-        <member name="P:BlueQuark.DepthCamera.FrameID">
-            <summary>
-            ID of the current frame.
             </summary>
         </member>
         <member name="P:BlueQuark.DepthCamera.Width">
@@ -11536,20 +11799,9 @@
             Current frame of the device.
             </summary>
         </member>
-        <member name="P:BlueQuark.HDCamera.TexFrame">
-            <summary>
-            Texture conversion of the current frame. Very heavy in compute. Use it ONLY for debug.
-            </summary>
-            <seealso cref="P:BlueQuark.HDCamera.Frame"/>
-        </member>
-        <member name="P:BlueQuark.HDCamera.FrameID">
-            <summary>
-            ID of the current frame.
-            </summary>
-        </member>
         <member name="P:BlueQuark.HDCamera.Width">
             <summary>
-            Width of the capture input. Value in pixels.
+            Height of the capture output. Value in pixels.
             </summary>
         </member>
         <member name="P:BlueQuark.HDCamera.Height">
@@ -11693,11 +11945,6 @@
         <member name="P:BlueQuark.ThermalCamera.Frame">
             <summary>
             Current frame of the device.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.ThermalCamera.FrameID">
-            <summary>
-            ID of the current frame.
             </summary>
         </member>
         <member name="P:BlueQuark.ThermalCamera.Width">
@@ -14323,9 +14570,14 @@
             The speech input recognition mode.
             </summary>
         </member>
+        <member name="P:BlueQuark.SpeechInputParameters.Credentials">
+            <summary>
+            Credentials used to activate API.
+            </summary>
+        </member>
         <member name="T:BlueQuark.SpeechGrammar">
             <summary>
-            Speech grammar for speech to text recognition request 
+            Speech grammar for speech to text recognition request.
             </summary>
         </member>
         <member name="T:BlueQuark.SpeechOutputParameters">
@@ -16003,6 +16255,16 @@
         <member name="P:BlueQuark.WebServices.Wikipedia">
             <summary>
             Wikipedia data base API.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WebServices.RobotEmail">
+            <summary>
+            Email address of the robot
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WebServices.RobotEmailPassword">
+            <summary>
+            Email password of the robot
             </summary>
         </member>
         <member name="P:BlueQuark.WebServices.Twitter">
