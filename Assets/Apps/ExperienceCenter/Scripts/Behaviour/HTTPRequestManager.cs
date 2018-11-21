@@ -24,20 +24,23 @@ namespace BuddyApp.ExperienceCenter
 
 		public HTTPRequestManager ()
 		{
-			jBuilder = new JSONBuilder ();
-			Connected = false;
-			RetrieveDevices = false;
-			mCookie = "";
-			IOTLabels = new Dictionary<string, string> () {
-				{ "light", "Office plug" },
-				{ "sound", "Party Time" },
-				{ "store", "Awning" }
-			};
+			
 		}
 
 		void Awake ()
 		{
-			ExperienceCenterData.Instance.ShouldTestIOT = false;
+            Debug.Log("awake http request");
+            jBuilder = new JSONBuilder();
+            Connected = false;
+            RetrieveDevices = false;
+            mCookie = "";
+            IOTLabels = new Dictionary<string, string>() {
+                { "light", "Led Outdoor" },
+                { "sound", "Party Time" },
+                { "store", "Awning" }
+            };
+
+            ExperienceCenterData.Instance.ShouldTestIOT = false;
 			StartCoroutine (ShouldTestIOT ());
 			StartCoroutine (RetrieveIOTStates ());
 		}

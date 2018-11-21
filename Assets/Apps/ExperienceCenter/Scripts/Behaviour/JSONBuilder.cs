@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 using BlueQuark;
 
@@ -10,6 +11,7 @@ namespace BuddyApp.ExperienceCenter {
 
 		public JSONBuilder()
 		{
+            Debug.Log("jsonbuilder");
 			mURLDevices = new Dictionary<string,string>();
 		}
 
@@ -20,6 +22,7 @@ namespace BuddyApp.ExperienceCenter {
 
         public string GetDeviceURL(string key)
         {
+            Debug.Log("get device url: " + key);
             return mURLDevices[key];
         }
 
