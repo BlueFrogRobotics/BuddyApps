@@ -11,43 +11,57 @@ namespace BuddyApp.Diagnostic
     public sealed class FaceWindow : MonoBehaviour
     {
         [SerializeField]
-        private Dropdown dropdownMood;
+        private GameObject BackgroundImage;
+
 
         [SerializeField]
-        private Dropdown dropdownEvent;
+        private Dropdown MoodDropdown;
 
-        private Face mFace;
+        [SerializeField]
+        private Dropdown EventDropdown;
 
-		private FacialExpression mMood;
-		private FacialEvent mEvent;
-
-		void Start()
+        [SerializeField]
+        private Dropdown LEDBehaviourDropdown;
+        
+        void OnEnable()
         {
-            mFace = Buddy.Behaviour.Face;
-			mMood = FacialExpression.NEUTRAL;
-			mEvent = FacialEvent.SMILE;
+            BackgroundImage.SetActive(false);
+
+            MoodDropdown.ClearOptions();
+            EventDropdown.ClearOptions();
+            LEDBehaviourDropdown.ClearOptions();
+
+            MoodDropdown.onValueChanged.RemoveAllListeners();
+            EventDropdown.onValueChanged.RemoveAllListeners();
+            LEDBehaviourDropdown.onValueChanged.RemoveAllListeners();
+
+            MoodDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(Mood))));
+            EventDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(FacialEvent))));
+            LEDBehaviourDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(LEDPulsePattern))));
+
+            MoodDropdown.onValueChanged.AddListener((iInput) => OnMoodChanged());
+            EventDropdown.onValueChanged.AddListener((iInput) => OnEventChanged());
+            LEDBehaviourDropdown.onValueChanged.AddListener((iInput) => OnLEDBehaviourChanged());
         }
 
-        public void SetMood(int iMood)
+        void OnDisable()
         {
-			mMood = ((FacialExpression) iMood);
+            BackgroundImage.SetActive(true);
         }
-
-		public void SetMood()
-		{
-			Buddy.Behaviour.Face.SetFacialExpression(mMood);
-		}
-
-		public void SetEvent(int iEvent)
+        
+        public void OnMoodChanged()
         {
-           mEvent = (FacialEvent)iEvent;
+            Buddy.Behaviour.SetMood((Mood)Enum.Parse(typeof(Mood), MoodDropdown.captionText.text));
         }
-
-		public void SetEvent()
-		{
-            mFace.PlayEvent(mEvent);
-			
-		}
-
-	}
+        
+        public void OnEventChanged()
+        {
+            Buddy.Behaviour.Face.PlayEvent((FacialEvent)Enum.Parse(typeof(FacialEvent), EventDropdown.captionText.text));
+        }
+        
+        public void OnLEDBehaviourChanged()
+        {
+            Buddy.Actuators.LEDs.SetBodyPattern((LEDPulsePattern)Enum.Parse(typeof(LEDPulsePattern), LEDBehaviourDropdown.captionText.text));
+        }
+    }
 }

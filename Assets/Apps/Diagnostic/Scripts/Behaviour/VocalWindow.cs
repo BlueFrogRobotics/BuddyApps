@@ -69,10 +69,7 @@ namespace BuddyApp.Diagnostic
         {
             LocalizationText.text = "Localization: " + Buddy.Sensors.Microphones.SoundLocalization + " degrees";
             AmbiantSoundLevelText.text = "Ambiant Sound Level: " + Buddy.Sensors.Microphones.AmbiantSound + " db";
-
-            ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Audio Source : " + mAudioSource);
-            ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "List Audio : " + mListAudio);
-
+            
             if (mIsPlaying) // Playing record
             {
                 if (null == mAudioSource.clip || !mAudioSource.isPlaying)
