@@ -235,6 +235,7 @@ namespace BuddyApp.ExperienceCenter
                 {
                     Debug.Log("[DEVICES] label: " + response[i]["label"]);
                     jBuilder.AddDeviceURL(response[i]["label"], response[i]["deviceURL"]);
+                    Debug.Log("ajout de l url: " + response[i]["deviceURL"] + " fait");
                 }
 
 				RetrieveDevices = true;

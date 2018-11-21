@@ -117,10 +117,12 @@ namespace BuddyApp.ExperienceCenter
 
 		private IEnumerator Scenario ()
 		{
+            Debug.Log("debut scenario");
 			AttitudeBehaviour lAttitudeBehaviour = GameObject.Find ("AIBehaviour").GetComponent<AttitudeBehaviour> ();
 
 			if (ExperienceCenterData.Instance.EnableHeadMovement)
 				lAttitudeBehaviour.MoveHeadWhileSpeaking (-10, 10);
+            Debug.Log("iotbahaviour1");
 			
 			yield return new WaitForSeconds (1);
 			Buddy.Vocal.SayKey ("iotboost", true);
@@ -129,11 +131,12 @@ namespace BuddyApp.ExperienceCenter
             Buddy.Vocal.Say("[2000]", true);
 
             yield return new WaitUntil (() => !mRobotMoving || !ExperienceCenterData.Instance.EnableBaseMovement);
-
+            Debug.Log("iotbahaviour1");
 			Buddy.Vocal.SayKey ("iotdemo", true);
             Buddy.Vocal.Say("[500]", true);
             Buddy.Vocal.SayKey ("iotlance", true);
             Buddy.Vocal.Say("[500]", true);
+            Debug.Log("iotbahaviour1");
 
             yield return new WaitUntil (() => !Buddy.Vocal.IsSpeaking);
 
