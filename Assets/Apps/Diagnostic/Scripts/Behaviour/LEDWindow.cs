@@ -82,47 +82,66 @@ namespace BuddyApp.Diagnostic
         private bool mIsOnlyHSV;
 
         private string mLEDLocalisation;
+
         void Start()
         {
-
             mIsOnlyHSV = false;
-
             mLEDLocalisation = "ALL";
+            
             sliderH.wholeNumbers = true;
             sliderH.minValue = 0;
             sliderH.maxValue = 360;
+            sliderH.onValueChanged.RemoveAllListeners();
+            sliderH.onValueChanged.AddListener((iInput) => OnChangeH());
 
             sliderS.wholeNumbers = true;
             sliderS.minValue = 0;
             sliderS.maxValue = 100;
             sliderS.value = sliderS.maxValue;
+            sliderS.onValueChanged.RemoveAllListeners();
+            sliderS.onValueChanged.AddListener((iInput) => OnChangeS());
 
             sliderV.wholeNumbers = true;
             sliderV.minValue = 0;
             sliderV.maxValue = 100;
             sliderV.value = sliderV.maxValue;
+            sliderV.onValueChanged.RemoveAllListeners();
+            sliderV.onValueChanged.AddListener((iInput) => OnChangeV());
 
             sliderLowLevel.wholeNumbers = true;
             sliderLowLevel.minValue = 0;
             sliderLowLevel.maxValue = 100;
+            sliderLowLevel.onValueChanged.RemoveAllListeners();
+            sliderLowLevel.onValueChanged.AddListener((iInput) => OnChangeLowLevel());
 
             sliderOnDuration.wholeNumbers = true;
             sliderOnDuration.minValue = 0;
             sliderOnDuration.maxValue = 5000;
+            sliderOnDuration.onValueChanged.RemoveAllListeners();
+            sliderOnDuration.onValueChanged.AddListener((iInput) => OnChangeOnDuration());
 
             sliderOffDuration.wholeNumbers = true;
             sliderOffDuration.minValue = 0;
             sliderOffDuration.maxValue = 5000;
+            sliderOffDuration.onValueChanged.RemoveAllListeners();
+            sliderOffDuration.onValueChanged.AddListener((iInput) => OnChangeOffDuration());
 
             sliderUpSlope.wholeNumbers = true;
             sliderUpSlope.minValue = 0;
             sliderUpSlope.maxValue = 255;
+            sliderUpSlope.onValueChanged.RemoveAllListeners();
+            sliderUpSlope.onValueChanged.AddListener((iInput) => OnChangeUpSlope());
 
             sliderDownSlope.wholeNumbers = true;
             sliderDownSlope.minValue = 0;
             sliderDownSlope.maxValue = 255;
-        }
+            sliderDownSlope.onValueChanged.RemoveAllListeners();
+            sliderDownSlope.onValueChanged.AddListener((iInput) => OnChangeDownSlope());
 
+            UpdateTexture();
+            SetColor();
+        }
+        /*
         void Update()
         {
             //Buddy.Actuators.LEDs.Flash
@@ -144,7 +163,7 @@ namespace BuddyApp.Diagnostic
             textUpSlope.text = "UpSlope " + mUpSlope.ToString();
             textDownSlope.text = "DownSlope " + mDownSlope.ToString();
 
-        }
+        }*/
 
         public void SetColor()
         {
@@ -224,11 +243,9 @@ namespace BuddyApp.Diagnostic
                 mLEDLocalisation = "ALL";
                 Debug.Log("ALL");
             }
-        }
 
-        public void IsChecked()
-        {
-
+            UpdateTexture();
+            SetColor();
         }
 
         public void SetFlash()
@@ -245,5 +262,70 @@ namespace BuddyApp.Diagnostic
         {
             return System.Convert.ToInt16(iFloat);
         }
+
+        private void OnChangeH()
+        {
+            mH = sliderH.value;
+            textH.text = "Hue " + mH.ToString();
+            UpdateTexture();
+            SetColor();
+        }
+
+        private void OnChangeS()
+        {
+            mS = sliderS.value;
+            textS.text = "Sat " + mS.ToString();
+            UpdateTexture();
+            SetColor();
+        }
+
+        private void OnChangeV()
+        {
+            mV = sliderV.value;
+            textV.text = "Val " + mV.ToString();
+            UpdateTexture();
+            SetColor();
+        }
+
+        private void OnChangeLowLevel()
+        {
+            mLowLevel = sliderLowLevel.value;
+            textLowLevel.text = "LowLvl " + mLowLevel.ToString();
+            UpdateTexture();
+            SetColor();
+        }
+
+        private void OnChangeOnDuration()
+        {
+            mOnDuration = sliderOnDuration.value;
+            textOnDuration.text = "OnDur " + mOnDuration.ToString();
+            UpdateTexture();
+            SetColor();
+        }
+
+        private void OnChangeOffDuration()
+        {
+            mOffDuration = sliderOffDuration.value;
+            textOffDuration.text = "OffDur " + mOffDuration.ToString();
+            UpdateTexture();
+            SetColor();
+        }
+
+        private void OnChangeUpSlope()
+        {
+            mUpSlope = sliderUpSlope.value;
+            textUpSlope.text = "UpSlope " + mUpSlope.ToString();
+            UpdateTexture();
+            SetColor();
+        }
+
+        private void OnChangeDownSlope()
+        {
+            mDownSlope = sliderDownSlope.value;
+            textDownSlope.text = "DownSlope " + mDownSlope.ToString();
+            UpdateTexture();
+            SetColor();
+        }
+        
     }
 }
