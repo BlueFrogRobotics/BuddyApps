@@ -29,23 +29,19 @@ namespace BuddyApp.RemoteControl
         {
             Debug.Log("----- TOASTER HIDE ----");
             Buddy.GUI.Toaster.Hide();
+            Debug.Log("----- TOASTER HIDE WAS CALLED ----");
             StartCoroutine(CloseApp());
+            Debug.Log("----- END ON QUIT ----");
         }
 
         public IEnumerator CloseApp()
         {
-            yield return new WaitUntil(() => 
-            {
-                return RemoteControlData.Instance.CustomToastIsBusy;
-                //Debug.Log("----- WAITING ... ----");
-                //if (Buddy.GUI.Toaster.IsBusy || RemoteControlData.Instance.CustomToastIsBusy)
-                //{
-                //    Debug.Log("----- TOASTER: " + Buddy.GUI.Toaster.IsBusy  + "CUSTOM: " + RemoteControlData.Instance.CustomToastIsBusy + " ----");
-                //    return true;
-                //}
-                //Debug.Log("----- ! QUIT ! ----");
-                //return false;
-            });
+            Debug.Log("------ DEBUG: " + RemoteControlData.Instance.CustomToastIsBusy + " --------");
+            Debug.Log("----- WAITING ... ----");
+            yield return new WaitForSeconds(5f);
+            Debug.Log("----- WAITING 2 ... ----");
+            yield return new WaitUntil(() => RemoteControlData.Instance.CustomToastIsBusy);
+            Debug.Log("----- END CLOSE APP ... ----");
         }
     }
 }
