@@ -74,6 +74,8 @@ namespace BuddyApp.Diagnostic
 
         void OnEnable()
         {
+            mDropDown.onValueChanged.AddListener((iInput) => SetColor());
+
             sliderH.wholeNumbers = true;
             sliderH.minValue = 0.0F;
             sliderH.maxValue = 360.0F;
@@ -130,7 +132,6 @@ namespace BuddyApp.Diagnostic
             sliderDownSlope.onValueChanged.RemoveAllListeners();
             sliderDownSlope.onValueChanged.AddListener((iInput) => OnChangeDownSlope());
 
-            UpdateTexture();
             SetColor();
         }
 
@@ -141,7 +142,7 @@ namespace BuddyApp.Diagnostic
 
             switch (mDropDown.options[mDropDown.value].text)
             {
-                case "HEARTH":
+                case "HEART":
                     if (mToggle.isOn)
                         Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value));
                     else
@@ -181,16 +182,13 @@ namespace BuddyApp.Diagnostic
                     }
                     break;
             }
-        }
-        
-        public void UpdateTexture()
-        {
+
+            // Update texture color
             rawImage.color = Color.HSVToRGB(sliderH.value / 360.0F, sliderS.value / 100.0F, sliderV.value / 100.0F);
         }
         
         public void ValueChanged()
         {
-            UpdateTexture();
             SetColor();
         }
 
@@ -201,7 +199,6 @@ namespace BuddyApp.Diagnostic
 
         public void IsOnlyHSVChecked()
         {
-            UpdateTexture();
             SetColor();
         }
 
@@ -218,56 +215,48 @@ namespace BuddyApp.Diagnostic
         private void OnChangeH()
         {
             textH.text = "Hue " + sliderH.value.ToString();
-            UpdateTexture();
             SetColor();
         }
 
         private void OnChangeS()
         {
             textS.text = "Sat " + sliderS.value.ToString();
-            UpdateTexture();
             SetColor();
         }
 
         private void OnChangeV()
         {
             textV.text = "Val " + sliderV.value.ToString();
-            UpdateTexture();
             SetColor();
         }
 
         private void OnChangeLowLevel()
         {
             textLowLevel.text = "LowLvl " + sliderLowLevel.value.ToString();
-            UpdateTexture();
             SetColor();
         }
 
         private void OnChangeOnDuration()
         {
             textOnDuration.text = "OnDur " + sliderOnDuration.value.ToString();
-            UpdateTexture();
             SetColor();
         }
 
         private void OnChangeOffDuration()
         {
             textOffDuration.text = "OffDur " + sliderOffDuration.value.ToString();
-            UpdateTexture();
             SetColor();
         }
 
         private void OnChangeUpSlope()
         {
             textUpSlope.text = "UpSlope " + sliderUpSlope.value.ToString();
-            UpdateTexture();
             SetColor();
         }
 
         private void OnChangeDownSlope()
         {
             textDownSlope.text = "DownSlope " + sliderDownSlope.value.ToString();
-            UpdateTexture();
             SetColor();
         }
         
