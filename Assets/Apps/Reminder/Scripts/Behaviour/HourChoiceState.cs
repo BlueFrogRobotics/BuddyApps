@@ -217,7 +217,6 @@ namespace BuddyApp.Reminder
         private bool ExtractHourFromFrenchSpeech(string iSpeech)
         {
             DayMoment lDayMoment = DayMoment.UNKNOW;
-            string[] lSpeechWords = iSpeech.Split(' ');
             List<int> lNumbers;
 
             // Check if the user asked AM or PM
@@ -290,7 +289,6 @@ namespace BuddyApp.Reminder
         private bool ExtractHourFromEnglishSpeech(string iSpeech)
         {
             DayMoment lDayMoment = DayMoment.UNKNOW;
-            string[] lSpeechWords = iSpeech.Split(' ');
             List<int> lNumbers;
 
             // Check if the user asked AM or PM - Check if it's useful or not
