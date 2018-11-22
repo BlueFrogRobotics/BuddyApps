@@ -56,16 +56,16 @@ namespace BuddyApp.Gallery
             string strAppName = (null != iArgs && 0 < iArgs.Length && typeof(string) == iArgs[0].GetType()) ? ((string)iArgs[0].ToString()) : null;
 
             // Vocal initialization and welcome
-            //Buddy.GUI.Screen.OnTouch.Add((iTouch) => { Buddy.Vocal.StopListening(); });
+            Buddy.GUI.Screen.OnTouch.Add((iTouch) => { if(Buddy.Vocal.IsListening) Buddy.Vocal.StopListening(); });
             Buddy.Vocal.OnTrigger.Add((iAction) => Buddy.Vocal.SayKeyAndListen("ilisten"));
 
             if (null == strAppName) // At least 2 parameters
             {
-                Buddy.Vocal.SayKey(STR_WELCOME);
+                Buddy.Vocal.SayKey(STR_WELCOME, false);
             }
             else
             {
-                Buddy.Vocal.Say(Buddy.Resources.GetRandomString(STR_WELCOME_FROM_APP).Replace(STR_APP_NAME, strAppName));
+                Buddy.Vocal.Say(Buddy.Resources.GetRandomString(STR_WELCOME_FROM_APP).Replace(STR_APP_NAME, strAppName), false);
             }
         }
 

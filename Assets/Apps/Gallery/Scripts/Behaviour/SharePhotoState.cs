@@ -28,7 +28,7 @@ namespace BuddyApp.Gallery
             if (null == mXMLData)
             {
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.NULL_VALUE, "Failed to read configuration file.");
-                Buddy.Vocal.SayKey(STR_TWITTER_ERROR);
+                Buddy.Vocal.SayKey(STR_TWITTER_ERROR, false);
                 Trigger("TRIGGER_PHOTO_SHARED");
                 return;
             }
@@ -51,12 +51,6 @@ namespace BuddyApp.Gallery
             
             Trigger("TRIGGER_PHOTO_SHARED");
         }
-        
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            
-        }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -64,16 +58,6 @@ namespace BuddyApp.Gallery
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On State Exit...");
         }
 
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-        
         private void SendTweet()
         {
             Twitter.AccessTokenResponse accessToken = new Twitter.AccessTokenResponse {
@@ -117,9 +101,9 @@ namespace BuddyApp.Gallery
         void OnPostTweet(bool iSuccess)
         {
             if (!iSuccess) {
-                Buddy.Vocal.SayKey(STR_TWITTER_ERROR);
+                Buddy.Vocal.SayKey(STR_TWITTER_ERROR, false);
             } else {
-                Buddy.Vocal.SayKey(STR_SHARED);
+                Buddy.Vocal.SayKey(STR_SHARED, false);
             }
 
             Trigger("TRIGGER_PHOTO_SHARED");
@@ -128,17 +112,16 @@ namespace BuddyApp.Gallery
         void OnPostEmail(bool iSuccess)
         {
             if (!iSuccess) {
-                Buddy.Vocal.SayKey(STR_TWITTER_ERROR);
+                Buddy.Vocal.SayKey(STR_TWITTER_ERROR, false);
             }
             else
             {
                 if (Publish.MAIL == mXMLData.WhereToPublish)
                 {
-                    Buddy.Vocal.SayKey(STR_SHARED);
+                    Buddy.Vocal.SayKey(STR_SHARED, false);
                     Trigger("TRIGGER_PHOTO_SHARED");
                 }
             }
         }
-
     }
 }

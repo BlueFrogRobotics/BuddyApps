@@ -41,7 +41,7 @@ namespace BuddyApp.Diagnostic
             mTimeRefresh += Time.deltaTime;
             if(mTimeRefresh >= 0.2F)
             {
-                Mat lMat = mThermalCamera.Frame.clone();
+                Mat lMat = mThermalCamera.Frame.Mat.clone();
                 Core.flip(lMat, lMat, 0);
                 lMat.get(0, 0, mThermalSensorDataArray);
                 for(int i = 0; i < mThermalSensorDataArray.Length; ++i)

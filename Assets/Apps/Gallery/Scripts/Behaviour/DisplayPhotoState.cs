@@ -13,6 +13,7 @@ namespace BuddyApp.Gallery
     {
         private readonly string STR_QUIT_COMMAND = "quit";
         private readonly string STR_NEXT_COMMAND = "next";
+
         private readonly string STR_PREVIOUS_COMMAND = "previous";
         private readonly string STR_DELETE_COMMAND = "delete";
         private readonly string STR_SHARE_COMMAND = "share";
@@ -39,8 +40,6 @@ namespace BuddyApp.Gallery
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnEndListening);
             
-            Buddy.Vocal.OnListeningStatus.Add((SpeechInputStatus t) => ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "MY STATUS : " + t.Type));
-
             // Check if footer is correctly displayed
             UpdateFooter();
             
@@ -69,17 +68,7 @@ namespace BuddyApp.Gallery
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On State Exit...");
             Buddy.Vocal.OnEndListening.Clear();
         }
-
-        // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-        //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
-        // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-        //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        //
-        //}
-
+		
         public void OnEndSpeaking(SpeechOutput iSpeechOutput)
         {
             if (0.0F <= mTimeListening)
@@ -127,7 +116,7 @@ namespace BuddyApp.Gallery
 
             if (0 < PhotoManager.GetInstance().GetCount()
                 && Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_PREVIOUS_COMMAND)
-                && 0 < PhotoManager.GetInstance().GetCurrentIndex() - 1 // Not last index
+                && 0 < PhotoManager.GetInstance().GetCurrentIndex() // Not first index
                 && PhotoManager.GetInstance().GetSlideSet().GoPrevious())
             {
                 Trigger("TRIGGER_CHANGE_PHOTO");
@@ -142,7 +131,6 @@ namespace BuddyApp.Gallery
             }
 
             if (0.0F <= mTimeListening) {
-                ExtLog.W(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "START LISTENING!!! " + mTimeListening);
                 Buddy.Vocal.Listen();
             }
         }

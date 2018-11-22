@@ -17,35 +17,23 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Dropdown selectedCamera;
 
-        private RGBCamera mRGBCam;
         private HDCamera mHDCam;
+        private RGBCamera mRGBCam;
+        private DepthCamera mDepthCam;
+        private InfraredCamera mInfraredCam;
+        private ThermalCamera mThermalCam;
 
-        private enum E_CAMERA { HD, RGB }; // Use enum instead of strings to maintain performances.
+        private enum E_CAMERA { HD, RGB, DEPTH, INFRARED, THERMAL }; // Use enum instead of strings to maintain performances.
         private E_CAMERA mECamera;
-
-        void Update()
-        {
-            switch(mECamera)
-            {
-                case E_CAMERA.HD:
-                    if (mHDCam.IsOpen) {
-                        selectedImage.texture = Utils.MatToTexture2D(mHDCam.Frame);
-                    }
-                    break;
-
-                case E_CAMERA.RGB:
-                    if (mRGBCam.IsOpen) {
-                        selectedImage.texture = Utils.MatToTexture2D(mRGBCam.Frame);
-                    }
-                    break;
-            }
-        }
-
+        
         void OnEnable()
         {
             mRGBCam = Buddy.Sensors.RGBCamera;
             mHDCam = Buddy.Sensors.HDCamera;
-            
+            mDepthCam = Buddy.Sensors.DepthCamera;
+            mInfraredCam = Buddy.Sensors.InfraredCamera;
+            mThermalCam = Buddy.Sensors.ThermalCamera;
+
             // Initialization
             DropdownValueChanged(selectedCamera);
 
@@ -58,44 +46,84 @@ namespace BuddyApp.Diagnostic
         void OnDisable()
         {
             selectedCamera.onValueChanged.RemoveAllListeners();
-            
-            if (mRGBCam.IsBusy || mRGBCam.IsOpen)
-				mRGBCam.Close();
-            if (mHDCam.IsBusy || mHDCam.IsOpen)
-				mHDCam.Close();
+
+            CloseAllCam();
         }
 
         void DropdownValueChanged(Dropdown change)
         {
-            switch (change.options[change.value].text) {
+            switch (change.options[change.value].text)
+            {
                 case "HD":
                     mECamera = E_CAMERA.HD;
-					
-                    if (mRGBCam.IsBusy || mRGBCam.IsOpen)
-						mRGBCam.Close();
-                    
-                    if (mHDCam.IsBusy)
-                        mHDCam.Close();
+
+                    CloseAllCam();
 
                     if (!mHDCam.IsOpen)
-                        mHDCam.Open(HDCameraMode.COLOR_640x480_30FPS_RGB);
+                        mHDCam.Open(HDCameraMode.COLOR_1408x792_15FPS_RGB);
+
+                    mHDCam.OnNewFrame.Add((iInput) => { selectedImage.texture = iInput.Texture; });
 
                     break;
-                    
+
                 case "RGB":
                     mECamera = E_CAMERA.RGB;
 
-                    if (mRGBCam.IsBusy)
-                        mRGBCam.Close();
+                    CloseAllCam();
 
                     if (!mRGBCam.IsOpen)
                         mRGBCam.Open(RGBCameraMode.COLOR_640x480_30FPS_RGB);
-					
-                    if (mHDCam.IsBusy || mHDCam.IsOpen)
-						mHDCam.Close();
+
+                    mRGBCam.OnNewFrame.Add((iInput) => { selectedImage.texture = iInput.Texture; });
 
                     break;
+
+                case "DEPTH":
+                    mECamera = E_CAMERA.DEPTH;
+
+                    CloseAllCam();
+
+                    if (!mDepthCam.IsOpen)
+                        mDepthCam.Open(DepthCameraMode.DEPTH_640x480_30FPS_1MM);
+
+                    mDepthCam.OnNewFrame.Add((iInput) => { selectedImage.texture = iInput.Texture; });
+
+                    break;
+
+                case "INFRARED":
+                    mECamera = E_CAMERA.INFRARED;
+
+                    CloseAllCam();
+                    
+                    if (!mInfraredCam.IsOpen)
+                        mInfraredCam.Open(InfraredCameraMode.IR_640x480_30FPS_GRAY16);
+
+                    mInfraredCam.OnNewFrame.Add((iInput) => { selectedImage.texture = iInput.Texture; });
+
+                    break;
+
+                case "THERMAL":
+                    mECamera = E_CAMERA.THERMAL;
+
+                    CloseAllCam();
+
+                    mThermalCam.OnNewFrame.Add((iInput) => { selectedImage.texture = iInput.Texture; });
+                    break;
             }
+        }
+
+        private void CloseAllCam()
+        {
+            mHDCam.OnNewFrame.Clear();
+            mRGBCam.OnNewFrame.Clear();
+            mDepthCam.OnNewFrame.Clear();
+            mInfraredCam.OnNewFrame.Clear();
+            mThermalCam.OnNewFrame.Clear();
+
+            mHDCam.Close();
+            mRGBCam.Close();
+            mDepthCam.Close();
+            mInfraredCam.Close();
         }
     }
 }

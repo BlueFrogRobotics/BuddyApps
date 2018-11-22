@@ -6,164 +6,265 @@ using UnityEngine;
 using UnityEngine.UI;
 using BlueQuark;
 using OpenCVUnity;
+using System.Timers;
 
 namespace BuddyApp.Diagnostic
 {
 	public sealed class VocalWindow : MonoBehaviour
-	{
-        //Pas besoin pour le pole hardwware
-		//private SpeechToText mSTT;
-		//private SphinxTrigger mSphinx;
-		//private TextToSpeech mTTS;
-		//private string mSentence;
-  //      private NoiseDetection mNoiseDetection;
+    {
+        [SerializeField]
+        private InputField TextToSpeechInputField;
 
-  //      private float mIntensity = 0.0f;
-  //      private Queue<float> mSoundIntensities;
-  //      private int mNbSoundPics = 50;
-  //      private Mat mMatShow;
-  //      private Texture2D mTexture;
-
-  //      public Text mSttState;
-		//public Text mSttOnBestReco;
-		//public Text mSttSOnError;
-		////public Text mSphinxState;
-		//public Text mSphinxHasTrig;
-  //      public RawImage mRaw;
-
-  //      void Start()
-		//{
-		//	mTTS = BYOS.Instance.Interaction.TextToSpeech;
-		//	mSTT = BYOS.Instance.Interaction.SpeechToText;
-  //          mNoiseDetection = BYOS.Instance.Perception.Noise;
-
-  //          mSTT.OnBestRecognition.Add(OnSpeechRecognition);
-		//	mSTT.OnErrorEnum.Add(ErrorSTT);
-		//	mSphinx = BYOS.Instance.Interaction.SphinxTrigger;
-		//	mSentence = "";
-
-  //          mMatShow = new Mat(480, 640, CvType.CV_8UC3);
-  //          mTexture = new Texture2D(640, 480);
-
-  //          mIntensity = 0.0f;
-  //          mSoundIntensities = new Queue<float>();
-  //          for (int i = 0; i < mNbSoundPics; i++)
-  //          {
-  //              mSoundIntensities.Enqueue(0.0f);
-  //          }
-  //          mNoiseDetection.OnDetect(OnNewSound, 0.0f);
-  //      }
-
-		//void Update()
-		//{
-		//	if (!mSTT.HasFinished && mSttState.text != "Listenning") {
-		//		mSttState.text = "Listenning";
-		//		if (BYOS.Instance.Interaction.Mood.CurrentMood != MoodType.LISTENING) {
-		//			BYOS.Instance.Interaction.Mood.Set(MoodType.LISTENING);
-		//		}
-		//	}
-		//	else if(mSTT.HasFinished && mSttState.text == "Listenning") {
-		//		mSttState.text = "Not Listenning";
-		//		if (BYOS.Instance.Interaction.Mood.CurrentMood != MoodType.NEUTRAL) {
-		//			BYOS.Instance.Interaction.Mood.Set(MoodType.NEUTRAL);
-
-		//		}
-		//	}
+        [SerializeField]
+        private Button TextToSpeechButton;
 
 
-		//	if (BYOS.Instance.Interaction.SphinxTrigger.HasTriggered && mSphinxHasTrig.text != "SphinxTriggered")
-		//		mSphinxHasTrig.text = "SphinxTriggered";
-		//	else if (!BYOS.Instance.Interaction.SphinxTrigger.HasTriggered && mSphinxHasTrig.text == "SphinxTriggered")
-		//		mSphinxHasTrig.text = "SphinxNotTriggered";
+        [SerializeField]
+        private Dropdown GimmickDropdown;
 
-  //          DisplaySound();
-  //      }
+        [SerializeField]
+        private Button GimmickPlayButton;
+        
 
-  //      private void OnDisable()
-  //      {
-  //          mNoiseDetection.StopOnDetect(OnNewSound);
-  //      }
+        [SerializeField]
+        private Text SpeechToTextField;
 
-  //      void OnSpeechRecognition(string iSpeech)
-		//{
-		//	mSttOnBestReco.text = iSpeech;
-  //          mNoiseDetection.OnDetect(OnNewSound, 0.0f);
-  //      }
+        [SerializeField]
+        private Button SpeechToTextFreeSpeechButton;
 
-		//void ErrorSTT(STTError iSpeech)
-		//{
-		//	mSttSOnError.text = iSpeech.ToString();
-  //          mNoiseDetection.OnDetect(OnNewSound, 0.0f);
-  //      }
-
-		//public void UpdateSentence(string iValue)
-		//{
-		//	mSentence = iValue;
-		//}
-
-		//public void Say()
-		//{
-		//	Debug.Log("say tts " + mSentence);
-		//	mTTS.Say(mSentence);
-		//}
-
-		//public void SetEnglish()
-		//{
-		//	//mSTT.SetLanguage(Language.ENG);
-		//	//mSphinx.SetLanguage(Language.ENG);
-		//	//mTTS.SetLanguage(Language.ENG);
-		//}
-
-		//public void SetFrench()
-		//{
-		//	//mSTT.SetLanguage(Language.FRA);
-		//	//mSphinx.SetLanguage(Language.FRA);
-		//	//mTTS.SetLanguage(Language.FRA);
-		//}
-
-		//public void STTRequest()
-		//{
-  //          mNoiseDetection.StopOnDetect(OnNewSound);
-  //          Debug.Log("Start stt request");
-		//	mSTT.Request();
-		//}
+        [SerializeField]
+        private Button SpeechToTextGrammarButton;
 
 
-		//public void StartSphinx()
-		//{
-		//	Debug.Log("StartSphinx");
-		//	BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
-		//}
+        [SerializeField]
+        private Text TriggerText;
 
-		//public void StopSphinx()
-		//{
-		//	Debug.Log("StopSphinx");
-		//	BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
-		//}
 
-  //      private bool OnNewSound(float iNoise)
-  //      {
-  //          mIntensity = iNoise;
-  //          return true;
-  //      }
+        [SerializeField]
+        private Text LocalizationText;
 
-  //      private void DisplaySound()
-  //      {
-  //          mMatShow = new Mat(480, 640, CvType.CV_8UC3, new Scalar(255, 255, 255, 255));
-  //          float lLevelSound = mIntensity * 400.0f / 0.3F;
+        [SerializeField]
+        private Text AmbiantSoundLevelText;
 
-  //          mSoundIntensities.Enqueue(lLevelSound);
-  //          mSoundIntensities.Dequeue();
-  //          float lWidthPic = 640.0f / mNbSoundPics;
-  //          int lIt = 0;
-  //          foreach (float intensity in mSoundIntensities)
-  //          {
-  //              Imgproc.rectangle(mMatShow, new Point(lIt * lWidthPic, 480), new Point((lIt + 1) * lWidthPic, 480.0f - intensity), new Scalar(0, 212, 209, 255), -1);
-  //              lIt++;
-  //          }
+
+        [SerializeField]
+        private Button RecordButton;
+
+        [SerializeField]
+        private Button PlayRecordButton;
+
+        [SerializeField]
+        private AudioSource mAudioSource;
+
+
+        private Timer mTimeTrigger;
+        private NoiseDetector mNoiseDetector;
+
+        private bool mIsPlaying = false;
+        private Queue<AudioClip> mListAudio = new Queue<AudioClip>();
+        private AudioClip mAudioClip;
+        private int mPreviousMicroIndex = 0;
+
+        void Update()
+        {
+            LocalizationText.text = "Localization: " + Buddy.Sensors.Microphones.SoundLocalization + " degrees";
+            AmbiantSoundLevelText.text = "Ambiant Sound Level: " + Buddy.Sensors.Microphones.AmbiantSound + " db";
             
-  //          Utils.MatToTexture2D(mMatShow, mTexture);
-  //          mRaw.texture = mTexture;
-  //      }
+            if (mIsPlaying) // Playing record
+            {
+                if (null == mAudioSource.clip || !mAudioSource.isPlaying)
+                {
+                    ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Record - Should start playing...");
+
+                    if (0 < mListAudio.Count)
+                    {
+                        ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Record - There is " + mListAudio.Count + " clip(s) to play...");
+                        mAudioSource.clip = mListAudio.Dequeue();
+                        mAudioSource.Play();
+                    }
+                    else
+                    {
+                        ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Record - No clip to play...");
+                        OnPlayRecordButtonClick();
+                    }
+                }
+            }
+        }
+
+        void OnEnable()
+        {
+            // Text to speech
+            TextToSpeechButton.onClick.AddListener(delegate {
+                OnTextToSpeechButtonClick();
+            });
+            
+            // Extract & Play Gimmick
+            GimmickDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(SoundSample))));
+            GimmickPlayButton.onClick.AddListener(delegate {
+                OnGimmickPlayButtonClick();
+            });
+
+
+            // Speech to text (Common Grammar)
+            SpeechToTextGrammarButton.onClick.AddListener(delegate {
+                OnSpeechToTextGrammarButtonClick();
+            });
+
+            // Speech to text (Freespeech)
+            SpeechToTextFreeSpeechButton.onClick.AddListener(delegate {
+                OnSpeechToTextFreeSpeechButtonClick();
+            });
+
+
+            // Trigger : Play sound and switch to green for 1 second.
+            TriggerText.color = Color.red;
+            Buddy.Vocal.EnableTrigger = true;
+            Buddy.Vocal.OnTrigger.Clear();
+            Buddy.Vocal.OnTrigger.Add(
+                (iInput) =>
+                {
+                    TriggerText.color = Color.green;
+                    
+                    Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
+
+                    // Display green for one second then switch red.
+                    mTimeTrigger = new Timer(1000);
+                    mTimeTrigger.Elapsed += OnTriggerTimedEvent;
+                    mTimeTrigger.Start();
+                });
+
+
+            // Recording
+            mNoiseDetector = Buddy.Perception.NoiseDetector;
+            RecordButton.GetComponentsInChildren<Text>()[0].text = "Start recording";
+            RecordButton.onClick.AddListener(OnRecordingButtonClick);
+            PlayRecordButton.onClick.AddListener(OnPlayRecordButtonClick);
+            PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "Play";
+            mNoiseDetector.OnDetect.Add(
+                (fFloat) =>
+                {
+                    if (!PlayRecordButton.interactable)
+                    {
+                        if (mNoiseDetector.MicrophoneIdx < mPreviousMicroIndex && null != mAudioClip)
+                            mListAudio.Enqueue(mAudioClip);
+                        
+                        if (mNoiseDetector.MicrophoneData != null)
+                        {
+                            ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Recording : Save new state" + mNoiseDetector.MicrophoneIdx);
+
+                            mAudioClip = AudioClip.Create(mNoiseDetector.RecordClip.name, mNoiseDetector.RecordClip.samples, mNoiseDetector.RecordClip.channels, mNoiseDetector.RecordClip.frequency, false);
+                            float[] samples = new float[mNoiseDetector.RecordClip.samples * mNoiseDetector.RecordClip.channels];
+                            mNoiseDetector.RecordClip.GetData(samples, 0);
+                            mAudioClip.SetData(samples, 0);
+                        }
+
+                        mPreviousMicroIndex = mNoiseDetector.MicrophoneIdx;
+                    }
+                });
+        }
+
+        void OnDisable()
+        {
+            // Text to speech
+            TextToSpeechButton.onClick.RemoveAllListeners();
+
+            // Gimmicks
+            GimmickDropdown.ClearOptions();
+            GimmickPlayButton.onClick.RemoveAllListeners();
+
+            // Speech to text
+            SpeechToTextGrammarButton.onClick.RemoveAllListeners();
+            SpeechToTextFreeSpeechButton.onClick.RemoveAllListeners();
+
+            // Trigger
+            Buddy.Vocal.EnableTrigger = false;
+            Buddy.Vocal.OnTrigger.Clear();
+
+            // Record
+            RecordButton.onClick.RemoveAllListeners();
+            PlayRecordButton.onClick.RemoveAllListeners();
+            mListAudio.Clear();
+            mNoiseDetector.OnDetect.Clear();
+        }
+
+        void OnTextToSpeechButtonClick()
+        {
+            Buddy.Vocal.Stop();
+            Buddy.Vocal.Say(TextToSpeechInputField.text);
+        }
+
+        void OnGimmickPlayButtonClick ()
+        {
+            Buddy.Actuators.Speakers.Media.Stop();
+            Buddy.Actuators.Speakers.Media.Play((SoundSample)Enum.Parse(typeof(SoundSample), GimmickDropdown.options[GimmickDropdown.value].text));
+        }
+
+        void OnSpeechToTextGrammarButtonClick ()
+        {
+            Buddy.Vocal.Stop();
+            Buddy.Vocal.Listen(new string[] { "common" }, OnEndListeningSpeechToText, SpeechRecognitionMode.GRAMMAR_ONLY);
+        }
+
+        void OnSpeechToTextFreeSpeechButtonClick ()
+        {
+            Buddy.Vocal.Stop();
+            Buddy.Vocal.Listen(OnEndListeningSpeechToText, SpeechRecognitionMode.FREESPEECH_ONLY);
+        }
+
+        void OnEndListeningSpeechToText(SpeechInput iInput)
+        {
+            SpeechToTextField.text = iInput.Utterance;
+        }
+        
+        void OnTriggerTimedEvent(System.Object source, System.Timers.ElapsedEventArgs e)
+        {
+            TriggerText.color = Color.red;
+            mTimeTrigger.Stop();
+            mTimeTrigger.Close();
+        }
+
+        void OnRecordingButtonClick()
+        {
+            if (string.Equals("Start recording", RecordButton.GetComponentsInChildren<Text>()[0].text))
+            {
+                PlayRecordButton.interactable = false;
+                RecordButton.GetComponentsInChildren<Text>()[0].text = "Stop recording";
+
+                // Save first AudioClip and callback when new sound detected.
+                mListAudio.Clear();
+
+                return;
+            }
+
+            if (string.Equals("Stop recording", RecordButton.GetComponentsInChildren<Text>()[0].text))
+            {
+                PlayRecordButton.interactable = true;
+                RecordButton.GetComponentsInChildren<Text>()[0].text = "Start recording";
+                
+                if (null != mAudioClip)
+                    mListAudio.Enqueue(mAudioClip);
+
+                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Start new frame? " + mNoiseDetector.MicrophoneIdx);
+                return;
+            }
+        }
+        
+        void OnPlayRecordButtonClick()
+        {
+            if (mIsPlaying)
+            {
+                RecordButton.interactable = true;
+                PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "Play";
+                mAudioSource.Stop();
+                
+                mIsPlaying = false;
+            }
+            else
+            {
+                RecordButton.interactable = false;
+                PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "Stop";
+                mIsPlaying = true;
+            }
+        }
     }
 }
