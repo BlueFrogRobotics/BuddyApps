@@ -120,14 +120,14 @@ namespace BuddyApp.Diagnostic
 
             sliderUpSlope.wholeNumbers = true;
             sliderUpSlope.minValue = 0.0F;
-            sliderUpSlope.maxValue = 255.0F;
+            sliderUpSlope.maxValue = 5000.0F;
             sliderUpSlope.value = sliderOffDuration.minValue;
             sliderUpSlope.onValueChanged.RemoveAllListeners();
             sliderUpSlope.onValueChanged.AddListener((iInput) => OnChangeUpSlope());
 
             sliderDownSlope.wholeNumbers = true;
             sliderDownSlope.minValue = 0.0F;
-            sliderDownSlope.maxValue = 255.0F;
+            sliderDownSlope.maxValue = 5000.0F;
             sliderDownSlope.value = sliderDownSlope.minValue;
             sliderDownSlope.onValueChanged.RemoveAllListeners();
             sliderDownSlope.onValueChanged.AddListener((iInput) => OnChangeDownSlope());
