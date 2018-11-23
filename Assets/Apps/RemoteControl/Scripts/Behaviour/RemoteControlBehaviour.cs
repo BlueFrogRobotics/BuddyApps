@@ -85,8 +85,6 @@ namespace BuddyApp.RemoteControl
         {
             callAnimator.SetTrigger("Open_WCall");
             webRTC.gameObject.SetActive(true);
-            // Launch the hide animation of the prefab toast inside the custom toast
-            mReceiveCallAnim.SetTrigger("Unselect");
             // Hide the custom toast
             Buddy.GUI.Toaster.Hide();
         }
@@ -100,12 +98,19 @@ namespace BuddyApp.RemoteControl
             StartCoroutine(CloseApp());
         }
 
-        // Hide all call object, (Feedback window, buddy face window, ...)
+        // Hide call object, (Feedback window, buddy face window, ...)
         // Wait until the hide animation is finished, (When the animator state is on Window_Call_Off, using a tag)
         public IEnumerator CloseApp()
         {
+            Debug.Log("---------- BEGIN CLOSE APP -----------");
             callAnimator.SetTrigger("Close_WCall");
-            yield return new WaitUntil(() => { return callAnimator.GetCurrentAnimatorStateInfo(0).IsTag("windowCallOff"); });
+            Debug.Log("---------- BEFORE WAITUNTIL -----------");
+            yield return new WaitUntil(() => 
+            {
+                if (callAnimator)
+                    return callAnimator.GetCurrentAnimatorStateInfo(0).IsTag("windowCallOff");
+                return false;
+            });
             AAppActivity.QuitApp();
         }
 
@@ -122,7 +127,9 @@ namespace BuddyApp.RemoteControl
             Debug.Log("RejectCallWithButton");
             Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            StartCoroutine(CloseApp());
+            Debug.Log("----- TOASTER HIDE  PRESS NO----");
+            Buddy.GUI.Toaster.Hide();
+            Debug.Log("----- QUIT APP PRESS NO ----");
         }
 
         public void GetIncomingCall()
@@ -142,6 +149,7 @@ namespace BuddyApp.RemoteControl
 
         public IEnumerator Call()
         {
+            Debug.Log("----- CALL ... ----");
             if (!RemoteControlData.Instance.DiscreteMode)
             {
                 Buddy.Actuators.Speakers.Media.Play(musicCall);

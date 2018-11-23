@@ -13,7 +13,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>srynotunderstand</Key>
-            <BaseValue>Désolé, [100] je n'ai pas compris</BaseValue>
+            <BaseValue>Désolé, je n'ai pas compris</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -33,7 +33,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>record</Key>
-            <BaseValue>Après le bip [100] dis-moi le message à rappeler</BaseValue>
+            <BaseValue>Aprés le bip [100] dit-moi le message a rappeler</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -46,6 +46,7 @@
             <BaseValue>aujourd'hui</BaseValue>
             <ClosePhoneticValues>
                 <string>aujourd'hui</string>
+                <string>aujourd hui</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>aujourd'hui</string>
@@ -184,12 +185,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>bye</Key>
-            <BaseValue>Salut</BaseValue>
+            <BaseValue>A la prochaine</BaseValue>
             <ClosePhoneticValues>
-                <string>Salut</string>
+                <string>A la prochaine</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Salut</string>
+                <string>A la prochaine</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -214,7 +215,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>steps</Key>
-            <BaseValue>ETAPES</BaseValue>
+            <BaseValue>STEPS</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -467,7 +468,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>validateormodify</Key>
-            <BaseValue>Veux-tu le valider [100] ou le modifier ?</BaseValue>
+            <BaseValue>Veux tu le valider [100] ou le modifier ?</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -508,6 +509,16 @@
         <DictionaryEntry>
             <Key>enteryourmsg</Key>
             <BaseValue>Entrez votre message</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sryemptymsg</Key>
+            <BaseValue>Désolé, mais votre message est vide</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>

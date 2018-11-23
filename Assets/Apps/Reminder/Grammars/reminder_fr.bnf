@@ -1,19 +1,12 @@
 #BNF+EMV2.0;
-!grammar reminder;
-!import <numbers#nb>;
-!start <day>;
-!start <month>;
-!start <time>;
+!grammar reminder_fr;
 !start <recurrenceweek>;
 !start <recurrencemonth>;
 !start <recurrenceday>;
 !start <everybody>;
-<day> : aujourd hui | demain | après-demain | (lundi | mardi | mercredi | jeudi | vendredi | samedi | dimanche) [prochain | <numbers#nb> [<month>]] | Le <numbers#nb> [<month>];
-<month> : janvier | février | mars | avril | mai | juin | juillet | août | septembre | octobre | novembre | décembre;
-<time> : [à | pour] ((<numbers#nb> heure [(du matin | du soir | de l après-midi) | <numbers#nb> | et demi | et quart | moins le quart ]) | midi | minuit);
-<indate> : dans <numbers#nb> (jour[s] | mois | année[s])
-<intime> : dans <numbers#nb> (heure[s] | minute[s])
+!start <modify>;
 <recurrenceweek> : toutes les semaines;
 <recurrencemonth> : tous les mois;
 <recurrenceday> : tous les jours ;
 <everybody> : tout le monde | personne ;
+<modify> : modifier;

@@ -41,21 +41,18 @@ namespace BuddyApp.Reminder
 		*/
         public override void OnQuit()
         {
+            Debug.Log("----- ON QUIT ... -----");
             StartCoroutine(CloseApp());
             ExtLog.I(ExtLogModule.APP, typeof(ReminderActivity), LogStatus.START, LogInfo.STOPPING, "On quit...");
         }
 
         public IEnumerator CloseApp()
         {
-            yield return new WaitUntil(() =>
-            {
-                if (Buddy.GUI.Toaster.IsBusy || Buddy.Vocal.IsSpeaking)
-                {
-                    Debug.Log("------------ BUSY ------------");
-                    return true;
-                }
-                return false;
-            });
+            Debug.Log("----- WAITING FOR QUIT ... -----");
+            yield return new WaitUntil(() => Buddy.GUI.Toaster.IsBusy);
+            Debug.Log("----- TOASTER NOT BUSY -----");
+            yield return new WaitUntil(() => Buddy.Vocal.IsSpeaking);
+            Debug.Log("----- NO TTS, OK TO QUIT -----");
         }
     }
 }

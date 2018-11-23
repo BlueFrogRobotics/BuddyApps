@@ -12,6 +12,7 @@ namespace BuddyApp.RemoteControl
 
         public bool IsWizardOfOz { get; set; }
 
+        public bool CustomToastIsBusy { get; set; }
         /*
          * Data singleton access
          */

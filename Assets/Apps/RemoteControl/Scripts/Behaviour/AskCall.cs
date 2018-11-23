@@ -29,6 +29,10 @@ namespace BuddyApp.RemoteControl
             mCustomCapsuleToast = GetGameObject(0);
             // Get the animator of the capsule toast
             mCustomCapAnim = mCustomCapsuleToast.GetComponent<Animator>();
+            if (mCustomCapAnim)
+                Debug.Log("---------- ANIM ----------------");
+            else
+                Debug.Log("---------- ANIM NULL ----------------");
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -42,31 +46,56 @@ namespace BuddyApp.RemoteControl
             mQuit = false;
             mHasInitializedRemote = false;
 
+            Debug.Log("----- COROUTINE ... ----");
+
             StartCoroutine(ActivateDisplay());
+
+            Debug.Log("----- TOASTER ... ----");
 
             Buddy.GUI.Toaster.Display<CustomToast>().With(mCustomCapsuleToast,
             () =>
             {
                 // On Display
                 // Launch the display animation of the custom toast
+                Debug.Log("----- MY SELECT ... ----");
                 mCustomCapAnim.SetTrigger("Select");
+                Debug.Log("----- MY SELECT  2 ... ----");
+                RemoteControlData.Instance.CustomToastIsBusy = true;
             }, () =>
             {
                 // On Hide
+                Debug.Log("----- ON HIDE ----");
+                StartCoroutine(CloseReceivCall());
+                Debug.Log("----- ON HIDE  END----");
             });
         }
 
+        public IEnumerator CloseReceivCall()
+        {
+            Debug.Log("----- COROUTINE BEGIN ----");
+            if (mCustomCapAnim == null)
+                Debug.Log("------- CUSTOM CAP NULL ------");
+            else
+                mCustomCapAnim.SetTrigger("Unselect");
+            Debug.Log("----- UNSELECT OK ----");
+            yield return new WaitForSeconds(mCustomCapAnim.GetCurrentAnimatorStateInfo(0).length + mCustomCapAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            Debug.Log("----- CUSTOM IS HIDE ----");
+            RemoteControlData.Instance.CustomToastIsBusy = false;
+            QuitApp();
+        }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (Buddy.Vocal.IsSpeaking || mListening || !mHasInitializedRemote)
                 return;
-            else if (mQuit) {
-               StartCoroutine(mRemoteControlBehaviour.CloseApp());
+            else if (mQuit)
+            {
+                StartCoroutine(mRemoteControlBehaviour.CloseApp());
             }
 
-            if (string.IsNullOrEmpty(mSpeechReco)) {
+            if (string.IsNullOrEmpty(mSpeechReco))
+            {
                 //Buddy.Vocal.Listen();
                 mListening = true;
                 Buddy.Behaviour.SetMood(Mood.LISTENING);
@@ -94,7 +123,7 @@ namespace BuddyApp.RemoteControl
 
             mSpeechReco = iVoiceInput.Utterance;
             mListening = false;
-        } 
+        }
 
         private void RejectCall()
         {
@@ -112,7 +141,9 @@ namespace BuddyApp.RemoteControl
 
         private IEnumerator ActivateDisplay()
         {
+            Debug.Log("----- ACTIVATE ... ----");
             yield return mRemoteControlBehaviour.Call();
+            Debug.Log("----- ACTIVATE AFTER ... ----");
             mHasInitializedRemote = true;
             //Buddy.Vocal.OnEndListening.Clear();
             //Buddy.Vocal.OnEndListening.Add(OnSpeechReco);
@@ -121,16 +152,21 @@ namespace BuddyApp.RemoteControl
         private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
         {
             iSpeech = iSpeech.ToLower();
-            for (int i = 0; i < iListSpeech.Length; ++i) {
+            for (int i = 0; i < iListSpeech.Length; ++i)
+            {
                 string[] words = iListSpeech[i].Split(' ');
-                if (words.Length < 2) {
+                if (words.Length < 2)
+                {
                     words = iSpeech.Split(' ');
-                    foreach (string word in words) {
-                        if (word == iListSpeech[i].ToLower()) {
+                    foreach (string word in words)
+                    {
+                        if (word == iListSpeech[i].ToLower())
+                        {
                             return true;
                         }
                     }
-                } else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+                }
+                else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
                     return true;
             }
             return false;

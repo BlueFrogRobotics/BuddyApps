@@ -12,7 +12,8 @@ namespace BuddyApp.Reminder
 
         public int AppStepNumbers { get { return 3; } }
         public int AppState { get; set; }
-
+        public bool DateSaved { get; set; }
+        public bool HourSaved { get; set; }
         public DateTime ReminderDate { get; set; }
 
         /*

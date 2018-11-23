@@ -1,0 +1,7 @@
+#BNF+EMV2.0;
+!grammar reminder_hour_en;
+!import <numbers#nb>;
+!start <time>;
+!start <intime>;
+<intime> : in <numbers#nb> (hour[s] | minute[s]);
+<time> : [at] ((quarter to <numbers#nb>) | <numbers#nb> (o'clock | (past <numbers#nb>) | (to <numbers#nb>) | and half | and quarter));
