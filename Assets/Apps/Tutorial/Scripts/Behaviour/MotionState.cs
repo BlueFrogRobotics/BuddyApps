@@ -61,11 +61,11 @@ namespace BuddyApp.Tutorial
 		/// Callback for every frame updated from the camera
 		/// </summary>
 		/// <param name="iInput">The matrix returned by the camera</param>
-		private void OnFrameCaptured(Mat iInput)
+		private void OnFrameCaptured(RGBCameraFrame iInput)
 		{
 			// Always clone the input matrix to avoid working with the matrix when the C++ part wants to modify it. It will crash.
-			mMatDetect = iInput.clone();
-			mMatFlip = iInput.clone();
+			mMatDetect = iInput.Mat.clone();
+			mMatFlip = iInput.Mat.clone();
 
 			// We flip the image to have a "mirror" effect
 			Core.flip(mMatFlip, mMatFlip, 1);

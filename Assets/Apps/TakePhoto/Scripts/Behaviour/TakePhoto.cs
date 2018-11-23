@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using BlueQuark;
 using System.Collections.Generic;
 using OpenCVUnity;
+using System.IO;
 
 namespace BuddyApp.TakePhoto
 {
@@ -42,49 +43,45 @@ namespace BuddyApp.TakePhoto
             mXMLData = new XMLData();
             mNumberListen = 0;
             mIsFrameCaptured = false;
-            //Mettre le mtakePhotoBH = GetcomponentInGameObject<TakePhotoBehaviour>();
-            Debug.Log("Init TakePhoto");
 			mVideo = GetComponentInGameObject<RawImage>(0);
 			mPictureSound = GetComponentInGameObject<AudioSource>(1);
 			mOverlay = GetComponentInGameObject<RawImage>(2);
 
 
 
-			mOverlaysTextures = new Dictionary<string, Texture2D>();
-			mOverlaysNames = new List<String>();
+            //         //mOverlaysTextures = new Dictionary<string, Texture2D>();
+            mOverlaysNames = new List<String>();
 
-			mOverlaysNames.Add("overcrazy640480");
-			//mOverlaysNames.Add("overfunny640480");
-			//mOverlaysNames.Add("overtrendy640480");
-			//mOverlaysNames.Add("overgrumpy640480");
-			//mOverlaysNames.Add("overlovely640480");
-			//mOverlaysNames.Add("overangry640480");
+            mOverlaysNames.Add("overcrazy640480");
+            mOverlaysNames.Add("overfunny640480");
+            mOverlaysNames.Add("overtrendy640480");
+            mOverlaysNames.Add("overgrumpy640480");
+            mOverlaysNames.Add("overlovely640480");
+            mOverlaysNames.Add("overangry640480");
 
 
-			//string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
-            string lRandomSpriteName = "overcrazy640480";
+            //string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
+            //////string lRandomSpriteName = "overcrazy640480";
 
-            Sprite lOverlaySprite = Buddy.Resources.Get<Sprite>(lRandomSpriteName);
-			mOverlaysTextures[lRandomSpriteName] = lOverlaySprite.texture;
-			//Sprite lOverlaySprite = Resources.Load<Sprite>("overcrazy");
-			//mOverlaysTextures.Add(lOverlaySprite.texture);
+            //Sprite lOverlaySprite = Buddy.Resources.Get<Sprite>(lRandomSpriteName);
+            //mOverlaysTextures[lRandomSpriteName] = lOverlaySprite.texture;
+            //Sprite lOverlaySprite = Resources.Load<Sprite>("overcrazy");
+            //mOverlaysTextures.Add(lOverlaySprite.texture);
 
-			//lOverlaySprite = Resources.Load<Sprite>("overfunny");
-			//mOverlaysTextures.Add(lOverlaySprite.texture);
+            //lOverlaySprite = Resources.Load<Sprite>("overfunny");
+            //mOverlaysTextures.Add(lOverlaySprite.texture);
 
-			//lOverlaySprite = Resources.Load<Sprite>("overtrendy");
-			//mOverlaysTextures.Add(lOverlaySprite.texture);
+            //lOverlaySprite = Resources.Load<Sprite>("overtrendy");
+            //mOverlaysTextures.Add(lOverlaySprite.texture);
 
-			//lOverlaySprite = Resources.Load<Sprite>("overgrumpy");
-			//mOverlaysTextures.Add(lOverlaySprite.texture);
+            //lOverlaySprite = Resources.Load<Sprite>("overgrumpy");
+            //mOverlaysTextures.Add(lOverlaySprite.texture);
 
-			//lOverlaySprite = Resources.Load<Sprite>("overlovely");
-			//mOverlaysTextures.Add(lOverlaySprite.texture);
+            //lOverlaySprite = Resources.Load<Sprite>("overlovely");
+            //mOverlaysTextures.Add(lOverlaySprite.texture);
 
-			//lOverlaySprite = Resources.Load<Sprite>("overangry");
-			//mOverlaysTextures.Add(lOverlaySprite.texture);
-
-			Debug.Log("Init TakePhoto done");
+            //lOverlaySprite = Resources.Load<Sprite>("overangry");
+            //mOverlaysTextures.Add(lOverlaySprite.texture);
 
             //Buddy.Sensors.HDCamera.Mode = HDCameraMode.COLOR_640x480_30FPS_RGB;
             mMatSrc = new Mat();
@@ -96,49 +93,66 @@ namespace BuddyApp.TakePhoto
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			//Primitive.RGBCam.Resolution = RGBCamResolution.W_640_H_480;
-			ToastRender = false;
+            //Primitive.RGBCam.Resolution = RGBCamResolution.W_640_H_480;
+            ToastRender = false;
 			mPhotoTaken = false;
 			mTimer = 0;
 			mSpeechId = 0;
+            string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
+            ////string lRandomSpriteName = "overcrazy640480";
+            Texture2D spriteTexture = new Texture2D(1, 1);
+            spriteTexture.hideFlags = HideFlags.HideAndDontSave;
+            spriteTexture.LoadImage(File.ReadAllBytes(Buddy.Resources.GetSpritesFullPath(lRandomSpriteName + ".png") ));
+            spriteTexture.Apply();
+            Sprite.Create(spriteTexture, new UnityEngine.Rect(0, 0, spriteTexture.width, spriteTexture.height), new Vector2(0.5F, 0.5F));
+            Debug.Log("KIKOOOLOLOL : " + Buddy.Resources.GetSpritesFullPath(lRandomSpriteName + ".png"));
+            Sprite lOverlaySprite = Sprite.Create(spriteTexture, new UnityEngine.Rect(0, 0, spriteTexture.width, spriteTexture.height), new Vector2(0.5F, 0.5F));
+            //Sprite lOverlaySprite = Buddy.Resources.Get<Sprite>(lRandomSpriteName+".png");
+            Debug.Log("KIKOO TAKEPHOTO: " +lOverlaySprite);
+
 
             //int lRandomIndice = UnityEngine.Random.Range(0, mOverlaysTextures.Count - 1);
 
             // Random Overlay selection
-			string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
-            Debug.Log("RANDOM SPRITE NAME : " + lRandomSpriteName);
-			if (!mOverlaysTextures.ContainsKey(lRandomSpriteName)) {
-				Sprite lOverlaySprite = Buddy.Resources.Get<Sprite>(lRandomSpriteName);
-                if (lOverlaySprite == null)
-                    Debug.Log("SPRITE NULL");
-				mOverlaysTextures[lRandomSpriteName] = lOverlaySprite.texture;
-                
-			}
-            mOverlayTexture = mOverlaysTextures[lRandomSpriteName];
-            mOverlay.texture = mOverlayTexture;
-            if (Buddy.Sensors.HDCamera.IsBusy)
-            {
-                Buddy.Sensors.HDCamera.Close();
-            }
+            //string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
+            //         Debug.Log("RANDOM SPRITE NAME : " + lRandomSpriteName);
+            //if (!mOverlaysTextures.ContainsKey(lRandomSpriteName)) {
+            //	Sprite lOverlaySprite = Buddy.Resources.Get<Sprite>(lRandomSpriteName);
+            //             if (lOverlaySprite == null)
+            //                 Debug.Log("SPRITE NULL");
+            //	mOverlaysTextures[lRandomSpriteName] = lOverlaySprite.texture;
 
-            if (!Buddy.Sensors.HDCamera.IsOpen)
+            //}
+            //string lRandomSpriteName = "overcrazy640480";
+            ////Sprite lOverlaySprite = Buddy.Resources.Get<Sprite>(lRandomSpriteName);
+            mOverlayTexture = lOverlaySprite.texture;
+            mOverlay.texture = mOverlayTexture;
+            if (Buddy.Sensors.RGBCamera.IsBusy)
             {
-                Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_640x480_30FPS_RGB);
+                Buddy.Sensors.RGBCamera.Close();
+            }
+            Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
+            if (!Buddy.Sensors.RGBCamera.IsOpen)
+            {
+                Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_640x480_30FPS_RGB);
                 
             }
             mVideo.gameObject.SetActive(true);
             if (TakePhotoData.Instance.Overlay)
-				mOverlay.gameObject.SetActive(true);
+                mOverlay.gameObject.SetActive(true);
             Buddy.Vocal.SayKey("takephoto", true);
-            Buddy.Sensors.HDCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
-            mMatSrc = Buddy.Sensors.HDCamera.Frame;
+            
+            //mMatSrc = Buddy.Sensors.HDCamera.Frame.Mat;
 		}
 
-        private void OnFrameCaptured(Mat iInput)
+        private void OnFrameCaptured(RGBCameraFrame iFrame)
         {
-            mMatSrc = iInput;
-            Core.flip(mMatSrc, mMat, 1);
-            mVideo.texture = Utils.MatToTexture2D(mMat);
+            //mMatSrc = iFrame.Mat;
+            //Core.flip(mMatSrc, mMat, 1);
+            //Texture2D lTexture = new Texture2D(iFrame.Width, iFrame.Height, TextureFormat.RGBA32, false);
+            //Graphics.CopyTexture(iFrame.Texture, lTexture);
+            mVideo.texture = iFrame.MirroredTexture;
+            //mVideo.texture = iFrame.Texture;
             mIsFrameCaptured = true;
         }
 
@@ -146,16 +160,16 @@ namespace BuddyApp.TakePhoto
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-            if(mIsFrameCaptured)
+            if (mIsFrameCaptured)
             {
                
                 // update overlay if updated in params
-                if (TakePhotoData.Instance.Overlay != mOverlay.gameObject.activeSelf)
-                    mOverlay.gameObject.SetActive(TakePhotoData.Instance.Overlay);
+                //if (TakePhotoData.Instance.Overlay != mOverlay.gameObject.activeSelf)
+                //    mOverlay.gameObject.SetActive(TakePhotoData.Instance.Overlay);
 
-                Mat mMatSrc = Buddy.Sensors.HDCamera.Frame;
-                Core.flip(mMatSrc, mMat, 1);
-                mVideo.texture = Utils.MatToTexture2D(mMat);
+                //Mat mMatSrc = Buddy.Sensors.HDCamera.Frame.Mat;
+                ////Core.flip(mMatSrc, mMat, 1);
+                //mVideo.texture = Utils.MatToTexture2D(mMat);
 
                 if (!Buddy.Vocal.IsSpeaking)
                 {
@@ -171,90 +185,94 @@ namespace BuddyApp.TakePhoto
                             mTimer = 0F;
 
                         }
-                        else if (!mPhotoTaken)
+                    else if (!mPhotoTaken)
+                    {
+                        if (Buddy.Sensors.RGBCamera.Width > 0)
                         {
-                            if (Buddy.Sensors.HDCamera.Width > 0)
-                            {
-                                //mPictureSound.Play();
-                                Buddy.Sensors.HDCamera.TakePhotograph(OnFinish, false);
-                                Debug.Log("PHOTO TAKEN");
-                                mPhotoTaken = true; 
-                            }
-                            else
-                            {
-                                Debug.Log("RGBCAM with null!");
-                            }
+                            mPictureSound.Play();
+                            Buddy.Sensors.RGBCamera.TakePhotograph(OnFinish, false, true);
+                            mPhotoTaken = true; 
                         }
+                        else
+                        {
+                            Debug.Log("RGBCAM with null!");
+                        }
+                    }
                 }
             }
 			
             
 		}
 
-		Texture2D FlipTexture(Texture2D iOriginal)
+        //Texture2D FlipTexture(Texture2D iOriginal)
+        //{
+        //    Texture2D lFlipped = new Texture2D(iOriginal.width, iOriginal.height);
+
+        //    int xN = iOriginal.width;
+        //    int yN = iOriginal.height;
+
+
+        //    for (int i = 0; i < xN; i++)
+        //    {
+        //        for (int j = 0; j < yN; j++)
+        //        {
+        //            lFlipped.SetPixel(xN - i - 1, j, iOriginal.GetPixel(i, j));
+        //        }
+        //    }
+        //    lFlipped.Apply();
+
+        //    return lFlipped;
+        //}
+
+
+        private void OnFinish(Photograph iMyPhoto)
 		{
-			Texture2D lFlipped = new Texture2D(iOriginal.width, iOriginal.height);
-
-			int xN = iOriginal.width;
-			int yN = iOriginal.height;
-
-
-			for (int i = 0; i < xN; i++) {
-				for (int j = 0; j < yN; j++) {
-					lFlipped.SetPixel(xN - i - 1, j, iOriginal.GetPixel(i, j));
-				}
-			}
-			lFlipped.Apply();
-
-			return lFlipped;
-		}
-
-
-		private void OnFinish(Photograph iMyPhoto)
-		{
-            Buddy.Sensors.HDCamera.Close();
+            Buddy.Sensors.RGBCamera.Close();
 			mVideo.gameObject.SetActive(false);
 			mOverlay.gameObject.SetActive(false);
-			//Primitive.RGBCam.Close();
+            //Primitive.RGBCam.Close();
 
-			//// save file 
-			//string lFileName = "Buddy_" + System.DateTime.Now.Day + "day" +
-			//	System.DateTime.Now.Month + "month" + System.DateTime.Now.Hour + "h" +
-			//	System.DateTime.Now.Minute + "min" + System.DateTime.Now.Second + "sec.png";
-			//string lFilePath = "";
-			//lFilePath = Buddy.Resources.GetRawFullPath(lFileName);
+            //// save file 
+            //string lFileName = "Buddy_" + System.DateTime.Now.Day + "day" +
+            //	System.DateTime.Now.Month + "month" + System.DateTime.Now.Hour + "h" +
+            //	System.DateTime.Now.Minute + "min" + System.DateTime.Now.Second + "sec.png";
+            //string lFilePath = "";
+            //lFilePath = Buddy.Resources.GetRawFullPath(lFileName);
             // Take random Overlay
 
 
             //lOverlay.Resize(lTexture.width, lTexture.height, lOverlay.format, false);
             //lOverlay.Apply();
 
-            if (TakePhotoData.Instance.Overlay) {
-				Texture2D lTexture = FlipTexture(iMyPhoto.Image.texture);
+            if (TakePhotoData.Instance.Overlay)
+            {
+                //Texture2D lTexture = FlipTexture(iMyPhoto.Image.texture);
                 var cols1 = mOverlayTexture.GetPixels();
-				var cols2 = lTexture.GetPixels();
+                var cols2 = iMyPhoto.Image.texture.GetPixels();
                 // We scale the overlay and put it on top of the picture
                 // it's ok if you don't get it ^^
                 int x = 0;
-				int y = 0;
-				int i2 = 0;
-				for (var i = 0; i < cols2.Length; ++i) {
+                int y = 0;
+                int i2 = 0;
+                for (var i = 0; i < cols2.Length; ++i)
+                {
 
-					x = i % lTexture.width;
-					y = i / lTexture.width;
-					i2 = (x * mOverlayTexture.width / lTexture.width) + (y * mOverlayTexture.height / lTexture.height) * mOverlayTexture.width;
-					if (cols1[i2].a != 0) {
-						cols2[i] = (1 - cols1[i2].a) * cols2[i] + cols1[i2].a * cols1[i2];
-					}
-				}
-                lTexture.SetPixels(cols2);
-                lTexture.Apply();
-                mPhotoSprite = Sprite.Create(lTexture, new UnityEngine.Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
-            } else
+                    x = i % iMyPhoto.Image.texture.width;
+                    y = i / iMyPhoto.Image.texture.width;
+                    i2 = (x * mOverlayTexture.width / iMyPhoto.Image.texture.width) + (y * mOverlayTexture.height / iMyPhoto.Image.texture.height) * mOverlayTexture.width;
+                    if (cols1[i2].a != 0)
+                    {
+                        cols2[i] = (1 - cols1[i2].a) * cols2[i] + cols1[i2].a * cols1[i2];
+                    }
+                }
+                iMyPhoto.Image.texture.SetPixels(cols2);
+                iMyPhoto.Image.texture.Apply();
+                mPhotoSprite = Sprite.Create(iMyPhoto.Image.texture, new UnityEngine.Rect(0, 0, iMyPhoto.Image.texture.width, iMyPhoto.Image.texture.height), new Vector2(0.5F, 0.5F));
+            }
+            else
             {
                 mPhotoSprite = iMyPhoto.Image;
             }
-            
             //Utils.SaveSpriteToFile(mPhotoSprite, lFilePath);
             iMyPhoto.Save();
             TakePhotoData.Instance.PhotoPath = iMyPhoto.FullPath;
@@ -263,6 +281,9 @@ namespace BuddyApp.TakePhoto
             //mOnClick = () => DialogerToast();
             //Toaster.Display<PictureToast>().With(Dictionary.GetString("redoorshare"), mPhotoSprite, mShareButton, mRedoButton);
             Buddy.Vocal.Listen("redoorshare", SpeechRecognitionMode.GRAMMAR_ONLY);
+            
+            //Buddy.Vocal.SayAndListen(new SpeechOutput(Buddy.Resources.GetRandomString("redoorshare")), null, OnEndListening, null, new SpeechInputParameters() { RecognitionThreshold = 6000 }, false);
+
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetRandomString("redoorshare"), null, "redoorshare",  OnEndListening, null, false);
             Buddy.GUI.Toaster.Display<PictureToast>().With(mPhotoSprite/*, mOnClick*/);
             FButton lLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
@@ -289,8 +310,7 @@ namespace BuddyApp.TakePhoto
 
         private void OnEndListening(SpeechInput iInput)
         {
-            Debug.Log("INPUT ON END LISTENING : " + iInput.Utterance);
-            if(!iInput.IsInterrupted)
+            if (!iInput.IsInterrupted)
             {
                 if (ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, Buddy.Resources.GetPhoneticStrings("share")))
                 {
@@ -321,7 +341,7 @@ namespace BuddyApp.TakePhoto
                         // we get back to the menu
                         Buddy.GUI.Toaster.Hide();
                         Buddy.GUI.Footer.Hide();
-
+                        QuitApp();
                     }
                 }
             }

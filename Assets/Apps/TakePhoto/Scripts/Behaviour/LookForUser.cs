@@ -53,7 +53,7 @@ namespace BuddyApp.TakePhoto
 					mTimerLimit = 0F;
 					mHasShowWindow = true;
 
-					Mat mMatSrc = mCam.Frame;
+					Mat mMatSrc = mCam.Frame.Mat;
 					Core.flip(mMatSrc, mMat, 1);
 					mTexture = Utils.MatToTexture2D(mMat);
 					//Toaster.Display<PictureToast>().With(Dictionary.GetString("movehands"), Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f)));
@@ -62,7 +62,7 @@ namespace BuddyApp.TakePhoto
 				if (mDetectionCount <= 200 && mHasShowWindow) {
 					if (mMatDetection == null) {
 						
-						Mat mMatSrc = mCam.Frame.clone();
+						Mat mMatSrc = mCam.Frame.Mat.clone();
 						Core.flip(mMatSrc, mMat, 1);
 						Texture2D lTexture = Utils.MatToTexture2D(mMat);
 						mTexture.SetPixels(lTexture.GetPixels());
@@ -104,7 +104,7 @@ namespace BuddyApp.TakePhoto
 			//Debug.Log("detection mouvement");
 			if (iMotions.Length > 5 && !mHasTriggered && mHasShowWindow && mTimerLimit > 3F) {
 			    Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
-				mMatDetection = mCam.Frame.clone();//Utils.Texture2DToMat(mTexture, OpenCVUnity.CvType.CV_8UC3);
+				mMatDetection = mCam.Frame.Mat.clone();//Utils.Texture2DToMat(mTexture, OpenCVUnity.CvType.CV_8UC3);
 													  //Imgproc.rectangle(mMatDetection, new Point((int)(mMatDetection.width() / 3), 0), new Point((int)(mMatDetection.width() * 2 / 3), mMatDetection.height()), new Scalar(255, 0, 0), 3);
 				//MotionBlob[] lBlobs = iMotions.GetBlobs();
                 

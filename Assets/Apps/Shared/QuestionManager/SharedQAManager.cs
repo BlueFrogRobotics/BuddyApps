@@ -88,8 +88,6 @@ namespace BuddyApp.Shared
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("OnStateEnter " + IsBinaryQuestion);
-
             //Use vocon
             Buddy.Vocal.OnEndListening.Add((iInput) => { VoconBest(iInput); });
             Buddy.Vocal.OnListeningStatus.Add((iInput) => { EventVocon(iInput); });
@@ -160,7 +158,6 @@ namespace BuddyApp.Shared
                         if (items.Count == 0) {
                             Debug.Log("items empty : not possible");
                         }
-                        Debug.Log("BNARY QUESTION AVANT TOASTER");
                         DisplayQuestion();
                     }
                     mIsDisplayed = true;
@@ -215,6 +212,7 @@ namespace BuddyApp.Shared
                 if (Buddy.Vocal.IsSpeaking || mListening)
                     return;
                 if (string.IsNullOrEmpty(mSpeechReco)) {
+
                     Buddy.Vocal.Listen();
                     mListening = true;
                     return;
@@ -244,7 +242,6 @@ namespace BuddyApp.Shared
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("ON STATE EXIT QA MANAGER");
             Buddy.Vocal.Stop();
             //Interaction.VocalManager.RemoveGrammar(NameVoconGrammarFile, Context.APP);
             //Interaction.VocalManager.StopListenBehaviour();
@@ -338,7 +335,6 @@ namespace BuddyApp.Shared
 
         private void PressedButton(string iKey)
         {
-            Debug.Log("IKEY : " + iKey);
             Buddy.GUI.Toaster.Hide();
             if (IsSoundForButton && !mSoundPlayed) {
                 if (FxSound == SoundSample.NONE)
@@ -366,7 +362,6 @@ namespace BuddyApp.Shared
 
         private void DisplayQuestion()
         {
-            Debug.Log("DISPLAY QUESTION");
             string lTitle;
             if (!string.IsNullOrEmpty(KeyQuestion)) {
                 if (IsKey(KeyQuestion))

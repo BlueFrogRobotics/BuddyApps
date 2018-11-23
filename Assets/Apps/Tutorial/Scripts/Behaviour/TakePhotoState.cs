@@ -32,7 +32,7 @@ namespace BuddyApp.Tutorial
 
 			// We define the function to be called when a new frame is received
 			// from the camera
-			mCameraTexture = Utils.MatToTexture2D(Buddy.Sensors.HDCamera.Frame);
+			mCameraTexture = Utils.MatToTexture2D(Buddy.Sensors.HDCamera.Frame.Mat);
 			Buddy.Sensors.HDCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
 
 			// We display the camera feedback
@@ -44,10 +44,10 @@ namespace BuddyApp.Tutorial
 		/// Callback for every frame updated to update the texture
 		/// </summary>
 		/// <param name="iInput"></param>
-		private void OnFrameCaptured(Mat iInput)
+		private void OnFrameCaptured(HDCameraFrame iInput)
 		{
 			Debug.Log("on new frame take photo");
-			mMatSrc = iInput;
+			mMatSrc = iInput.Mat;
 
             // We flip the frame from camera to have the "mirror" effect
             //More information from opencv doc for the flipcode : 

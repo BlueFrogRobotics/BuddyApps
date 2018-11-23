@@ -146,7 +146,7 @@ namespace BuddyApp.Shared
 
             mCam.OnNewFrame.Add((iFrame) =>
             {
-                mMat = iFrame.clone();
+                mMat = iFrame.Mat.clone();
                 mIsInit = true;
             });
             if (!AreaToDetect)
@@ -251,9 +251,7 @@ namespace BuddyApp.Shared
                 {
                     if (!mReposeDone)
                     {
-                        Debug.Log("REPOSITION -----------------------------------------------------------------------------------------------------------" );
                         RePosition();
-
                     }
                     if (mReposeDone)
                     {
@@ -321,8 +319,7 @@ namespace BuddyApp.Shared
 
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
-            Debug.Log("ONMOVEMENT DETECTED");
-            mMatDetection = mCam.Frame.clone();
+            mMatDetection = mCam.Frame.Mat.clone();
             mMatDetectionCopy = mMatDetection.clone();
             Texture2D lTexture = new Texture2D(mCam.Width, mCam.Height);
             if (!WantToFlip)
@@ -371,7 +368,6 @@ namespace BuddyApp.Shared
             }
             if (iMotions.Length > 5)
             {
-                Debug.Log("ON MOVEMENT DETECTED SHARED");
                 if (BipSound)
                 {
                     if (FxSound == SoundSample.NONE)
@@ -413,25 +409,19 @@ namespace BuddyApp.Shared
                     }
                 }
                 mDetectionCount++;
-                Debug.Log("DETECTION MOTION SHARED COUNT : " + mDetectionCount + " DETECTION COUNT TEST : " + mDetectionCountTest + " Quantity movement : " + QuantityMovement);
             }
             return true;
         }
 
         private void RePosition()
-        {
-            Debug.Log("DETECTION COUNT : " + mDetectionCount + " TEST DETECTION : " + (mDetectionCountTest / 15F));
-            
+        {            
             mPositionX /= mDetectionCountTest;
             mPositionY /= mDetectionCountTest;
-            Debug.Log("POSITION X : " + mPositionX + " POSITION Y : " + mPositionY + " MCAM WIDTH : " + mCam.Width + " MCAM HEIGHT : " + mCam.Height);
             float lAngle;
             if (!WantToFlip)
                 lAngle = -(mPositionX / mCam.Width - 0.5F) * 120F;
             else
                 lAngle = (mPositionX / mCam.Width - 0.5F) * 120F;
-
-            Debug.Log("ANGLE : " + lAngle);
 
             Buddy.Actuators.Head.No.SetPosition(lAngle, 95F);
             Buddy.Actuators.Head.Yes.SetPosition((mPositionY / mCam.Height - 0.5F) * -40F, 95F);
