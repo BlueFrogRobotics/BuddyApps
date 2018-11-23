@@ -72,7 +72,7 @@ namespace BuddyApp.Guardian
                     mGauge.SlidingValue = GuardianData.Instance.MovementDetectionThreshold;
                     mCurrentThreshold = mGauge.SlidingValue;
                 }
-                Debug.Log("Resolution : " + mCam.Frame.width());
+                Debug.Log("Resolution : " + mCam.Frame.Mat.width());
                 if (mTimer > 0.1f) {
                     mTimer = 0.0f;
                     DisplayMovement();
@@ -120,7 +120,7 @@ namespace BuddyApp.Guardian
                 Debug.Log("threshold de test: " + lNewThreshold);
             }
 			Mat mMat = new Mat();
-			Mat mMatSrc = mCam.Frame;
+			Mat mMatSrc = mCam.Frame.Mat;
 			Core.flip(mMatSrc, mMat, 1);
 			mRaw.texture = Utils.MatToTexture2D(mMat);
         }
@@ -137,7 +137,7 @@ namespace BuddyApp.Guardian
 
             Debug.Log(iMotions.Length + " it's Motion");
 
-            Mat lCurrentFrame = mCam.Frame.clone();
+            Mat lCurrentFrame = mCam.Frame.Mat.clone();
 
             foreach (MotionEntity lEntity in iMotions) {
                 Imgproc.circle(lCurrentFrame, Utils.Center(lEntity.RectInFrame), 3, new Scalar(255, 0, 0), -1);

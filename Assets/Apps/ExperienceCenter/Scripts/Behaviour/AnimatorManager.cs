@@ -401,7 +401,7 @@ namespace BuddyApp.ExperienceCenter
                         return GetTrigger();
                     }
                 case StateReq.Language: {
-                        if (Buddy.Platform.Language==Language.FR)
+                        if (Buddy.Platform.Language.SystemOutputLanguage == Buddy.Platform.Language.GetLanguageFromISOCode(ISO6391Code.FR))
                             return State.French;
                         else
                             return State.English;

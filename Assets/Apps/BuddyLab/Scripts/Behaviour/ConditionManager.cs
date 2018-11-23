@@ -394,7 +394,7 @@ namespace BuddyApp.BuddyLab
         {
             if (mCam.Frame != null)
             {
-                mFrame = mCam.Frame.clone();
+                mFrame = mCam.Frame.Mat.clone();
                 OpenCVUnity.Rect mRec = new OpenCVUnity.Rect(mCam.Width / 4, mCam.Height / 4 , mCam.Width / 2, mCam.Height / 2);
                 //Imgproc.cvtColor(mFrame, lGrayMat, Imgproc.COLOR_RGB2GRAY);
                 //Mat lRoi = new Mat(lGrayMat, mRec);

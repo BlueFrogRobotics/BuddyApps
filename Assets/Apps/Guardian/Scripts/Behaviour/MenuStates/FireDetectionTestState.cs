@@ -32,7 +32,7 @@ namespace BuddyApp.Guardian
                 //        mTexture.filterMode = FilterMode.Trilinear;
                 //    else
             mShowTemp = GetComponent<ShowTemperature>();
-            Buddy.Sensors.ThermalCamera.OnNewFrame.Add(OnNewFrame);
+            Buddy.Sensors.ThermalCamera.OnNewFrame.Add((iInput) => OnNewFrame(iInput.Mat));
             ShowToaster();
             mTexture.filterMode = FilterMode.Trilinear;
             mTexture.wrapMode = TextureWrapMode.Clamp;
@@ -57,7 +57,7 @@ namespace BuddyApp.Guardian
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
             mFireDetection.OnDetect.Remove(OnThermalDetected);
-            Buddy.Sensors.ThermalCamera.OnNewFrame.Remove(OnNewFrame);
+            Buddy.Sensors.ThermalCamera.OnNewFrame.Remove((iInput) => OnNewFrame(iInput.Mat));
         }
 
         private void ShowToaster()

@@ -21,12 +21,12 @@ namespace BuddyApp.Guardian
         public AAlert()
         {
             CultureInfo lCurrentCulture;
-            if (Buddy.Platform.Language == Language.EN)
+            if (Buddy.Platform.Language.SystemOutputLanguage == Buddy.Platform.Language.GetLanguageFromISOCode(ISO6391Code.EN))
             {
                 lCurrentCulture = new CultureInfo("en-US");
                 AlertDate = DateTime.Now.ToString(lCurrentCulture);
             }
-            else if (Buddy.Platform.Language == Language.FR)
+            else if (Buddy.Platform.Language.SystemOutputLanguage == Buddy.Platform.Language.GetLanguageFromISOCode(ISO6391Code.FR))
             {
                 lCurrentCulture = new CultureInfo("fr-FR");
                 AlertDate = DateTime.Now.ToString(lCurrentCulture);

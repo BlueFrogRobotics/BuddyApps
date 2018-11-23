@@ -46,7 +46,7 @@ namespace BuddyApp.Guardian
             {
                 float[] lThermicMatrix = new float[64];
                 OpenCVUnity.Mat lMatConverted = new OpenCVUnity.Mat(8,8, OpenCVUnity.CvType.CV_32SC1);
-                Buddy.Sensors.ThermalCamera.Frame.put(0, 0, lThermicMatrix); 
+                Buddy.Sensors.ThermalCamera.Frame.Mat.put(0, 0, lThermicMatrix); 
                 //.convertTo(lMatConverted, OpenCVUnity.CvType.CV_32SC1);
                 //lMatConverted.put(0,0, lThermicMatrix);
                 mShowTemperature.FillTemperature(lThermicMatrix);

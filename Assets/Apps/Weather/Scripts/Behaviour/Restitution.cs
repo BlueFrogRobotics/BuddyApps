@@ -398,7 +398,7 @@ namespace BuddyApp.Weather
         {
             string lHour;
 
-            if (Buddy.Platform.Language == Language.FR)
+            if (Buddy.Platform.Language.SystemOutputLanguage == Buddy.Platform.Language.GetLanguageFromISOCode(ISO6391Code.FR))
                 lHour = Hour.ToString() + " heure";
             else
             {
@@ -421,7 +421,7 @@ namespace BuddyApp.Weather
         {
             string lDate;
 
-            if (Buddy.Platform.Language == Language.FR)
+            if (Buddy.Platform.Language.SystemOutputLanguage == Buddy.Platform.Language.GetLanguageFromISOCode(ISO6391Code.FR))
             {
                 if (Date == 1)
                     lDate = "premier";

@@ -140,7 +140,7 @@ namespace BuddyApp.Guardian
         {
             if (mCam.IsOpen)
             {
-                mActualFrame = mCam.TexFrame.EncodeToPNG(); 
+                mActualFrame = mCam.Frame.Texture.EncodeToPNG(); 
                 //mListFrame.Enqueue(mCam.TexFrame.EncodeToPNG());
                 //if (mListFrame.Count > mFPS * mNbSecBefore)
                 //    mListFrame.Dequeue();
