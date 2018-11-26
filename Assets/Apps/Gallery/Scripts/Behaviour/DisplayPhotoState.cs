@@ -24,17 +24,17 @@ namespace BuddyApp.Gallery
         private readonly float F_MAX_TIME_LISTENING = 10.0F;
 
         [SerializeField]
-        private bool mIsFooterSet = false;
+        private bool mBIsFooterSet = false;
         
         [SerializeField]
-        private float mTimeListening;
+        private float mFTimeListening;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On State Enter...");
 
-            mTimeListening = F_MAX_TIME_LISTENING;
+            mFTimeListening = F_MAX_TIME_LISTENING;
 
             // New listening events
             Buddy.Vocal.OnEndListening.Clear();
@@ -57,8 +57,9 @@ namespace BuddyApp.Gallery
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (Buddy.Vocal.IsListening) {
-                mTimeListening -= Time.deltaTime;
+            if (Buddy.Vocal.IsListening)
+            {
+                mFTimeListening -= Time.deltaTime;
             }
         }
 
@@ -71,7 +72,7 @@ namespace BuddyApp.Gallery
 		
         public void OnEndSpeaking(SpeechOutput iSpeechOutput)
         {
-            if (0.0F <= mTimeListening)
+            if (0.0F <= mFTimeListening)
             {
                 Buddy.Vocal.Listen();
             }
@@ -82,15 +83,6 @@ namespace BuddyApp.Gallery
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "RULE : " + iSpeechInput.Rule);
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "UTTERANCE : " + iSpeechInput.Utterance);
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "CONFIDENCE : " + iSpeechInput.Confidence);
-
-            if (iSpeechInput.Confidence < Buddy.Vocal.DefaultInputParameters.RecognitionThreshold)
-            {
-                if (0.0F <= mTimeListening)
-                {
-                    Buddy.Vocal.Listen();
-                }
-                return;
-            }
             
             if (Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_QUIT_COMMAND))
             {
@@ -130,7 +122,7 @@ namespace BuddyApp.Gallery
                 return;
             }
 
-            if (0.0F <= mTimeListening) {
+            if (0.0F <= mFTimeListening) {
                 Buddy.Vocal.Listen();
             }
         }
@@ -139,14 +131,14 @@ namespace BuddyApp.Gallery
         {
             if (0 == PhotoManager.GetInstance().GetCount())
             {
-                mIsFooterSet = false;
+                mBIsFooterSet = false;
                 return;
             }
 
-            if (!mIsFooterSet && 0 < PhotoManager.GetInstance().GetCount())
+            if (!mBIsFooterSet && 0 < PhotoManager.GetInstance().GetCount())
             {
                 InitializeFooter();
-                mIsFooterSet = true;
+                mBIsFooterSet = true;
             }
         }
 

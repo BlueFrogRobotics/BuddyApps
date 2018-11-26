@@ -20,7 +20,6 @@ namespace BuddyApp.Gallery
         
         private readonly float F_MAX_TIME_LISTENING = 10.0f;
 
-        [SerializeField]
         private float mTimeListening;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -45,7 +44,8 @@ namespace BuddyApp.Gallery
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (Buddy.Vocal.IsListening) {
+            if (Buddy.Vocal.IsListening)
+            {
                 mTimeListening -= Time.deltaTime;
             }
         }
@@ -98,17 +98,7 @@ namespace BuddyApp.Gallery
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "RULE : " + iSpeechInput.Rule);
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "UTTERANCE : " + iSpeechInput.Utterance);
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "CONFIDENCE : " + iSpeechInput.Confidence);
-
-            if (iSpeechInput.Confidence < Buddy.Vocal.DefaultInputParameters.RecognitionThreshold)
-            {
-                if (0.0F <= mTimeListening)
-                {
-                    Buddy.Vocal.Listen();
-                }
-
-                return;
-            }
-
+            
             if (Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_NO))
             {
                 RemoveCanceled();
