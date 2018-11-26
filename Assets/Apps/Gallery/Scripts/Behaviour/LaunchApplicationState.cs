@@ -10,7 +10,7 @@ namespace BuddyApp.Gallery
 {
     public class LaunchApplicationState : AStateMachineBehaviour
     {
-        private readonly string STR_DEFAULT_SPRITE = "os_icon_photo";//"os_atlas_ui_photo_big";
+        private readonly string STR_DEFAULT_SPRITE = "os_icon_photo_big";
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
