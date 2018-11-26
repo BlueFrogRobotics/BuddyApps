@@ -70,7 +70,6 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private RawImage rawImage;
         
-        private string mLEDLocalisation;
 
         void OnEnable()
         {

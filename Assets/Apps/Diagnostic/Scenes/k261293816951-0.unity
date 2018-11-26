@@ -28759,6 +28759,16 @@ Prefab:
       propertyPath: m_Options.m_Options.Array.data[1].m_Text
       value: RGB
       objectReference: {fileID: 0}
+    - target: {fileID: 114079308772390850, guid: ee915f9d65b2e2b46805777bb37cf671,
+        type: 2}
+      propertyPath: SelectedImage
+      value: 
+      objectReference: {fileID: 1065118896}
+    - target: {fileID: 114079308772390850, guid: ee915f9d65b2e2b46805777bb37cf671,
+        type: 2}
+      propertyPath: SelectedCameraDropdown
+      value: 
+      objectReference: {fileID: 1065118895}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee915f9d65b2e2b46805777bb37cf671, type: 2}
   m_IsPrefabParent: 0
@@ -28772,6 +28782,18 @@ GameObject:
   m_PrefabParentObject: {fileID: 1070658384652616, guid: ee915f9d65b2e2b46805777bb37cf671,
     type: 2}
   m_PrefabInternal: {fileID: 1065118892}
+--- !u!114 &1065118895 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114430784588725696, guid: ee915f9d65b2e2b46805777bb37cf671,
+    type: 2}
+  m_PrefabInternal: {fileID: 1065118892}
+  m_Script: {fileID: 853051423, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+--- !u!114 &1065118896 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114906305950446586, guid: ee915f9d65b2e2b46805777bb37cf671,
+    type: 2}
+  m_PrefabInternal: {fileID: 1065118892}
+  m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1070034407
 GameObject:
   m_ObjectHideFlags: 0

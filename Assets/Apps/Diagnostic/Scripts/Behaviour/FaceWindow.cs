@@ -12,8 +12,7 @@ namespace BuddyApp.Diagnostic
     {
         [SerializeField]
         private GameObject BackgroundImage;
-
-
+        
         [SerializeField]
         private Dropdown MoodDropdown;
 

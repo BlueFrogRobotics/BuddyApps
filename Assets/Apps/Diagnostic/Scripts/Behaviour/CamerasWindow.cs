@@ -12,10 +12,10 @@ namespace BuddyApp.Diagnostic
     public sealed class CamerasWindow : MonoBehaviour
     {
         [SerializeField]
-        private RawImage selectedImage;
+        private RawImage SelectedImage;
 
         [SerializeField]
-        private Dropdown selectedCamera;
+        private Dropdown SelectedCameraDropdown;
 
         private HDCamera mHDCam;
         private RGBCamera mRGBCam;
@@ -35,24 +35,24 @@ namespace BuddyApp.Diagnostic
             mThermalCam = Buddy.Sensors.ThermalCamera;
 
             // Initialization
-            DropdownValueChanged(selectedCamera);
+            DropdownValueChanged(SelectedCameraDropdown);
 
             // Set callback when changing camera
-            selectedCamera.onValueChanged.AddListener(delegate {
-                DropdownValueChanged(selectedCamera);
+            SelectedCameraDropdown.onValueChanged.AddListener(delegate {
+                DropdownValueChanged(SelectedCameraDropdown);
             });
         }
 
         void OnDisable()
         {
-            selectedCamera.onValueChanged.RemoveAllListeners();
+            SelectedCameraDropdown.onValueChanged.RemoveAllListeners();
 
             CloseAllCam();
         }
 
-        void DropdownValueChanged(Dropdown change)
+        void DropdownValueChanged(Dropdown iChange)
         {
-            switch (change.options[change.value].text)
+            switch (iChange.options[iChange.value].text)
             {
                 case "HD":
                     mECamera = E_CAMERA.HD;
@@ -62,7 +62,7 @@ namespace BuddyApp.Diagnostic
                     if (!mHDCam.IsOpen)
                         mHDCam.Open(HDCameraMode.COLOR_1408x792_15FPS_RGB);
 
-                    mHDCam.OnNewFrame.Add((iInput) => { selectedImage.texture = iInput.Texture; });
+                    mHDCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
 
                     break;
 
@@ -74,7 +74,7 @@ namespace BuddyApp.Diagnostic
                     if (!mRGBCam.IsOpen)
                         mRGBCam.Open(RGBCameraMode.COLOR_640x480_30FPS_RGB);
 
-                    mRGBCam.OnNewFrame.Add((iInput) => { selectedImage.texture = iInput.Texture; });
+                    mRGBCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
 
                     break;
 
@@ -86,7 +86,7 @@ namespace BuddyApp.Diagnostic
                     if (!mDepthCam.IsOpen)
                         mDepthCam.Open(DepthCameraMode.DEPTH_640x480_30FPS_1MM);
 
-                    mDepthCam.OnNewFrame.Add((iInput) => { selectedImage.texture = iInput.Texture; });
+                    mDepthCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
 
                     break;
 
@@ -98,7 +98,7 @@ namespace BuddyApp.Diagnostic
                     if (!mInfraredCam.IsOpen)
                         mInfraredCam.Open(InfraredCameraMode.IR_640x480_30FPS_GRAY16);
 
-                    mInfraredCam.OnNewFrame.Add((iInput) => { selectedImage.texture = iInput.Texture; });
+                    mInfraredCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
 
                     break;
 
@@ -107,7 +107,7 @@ namespace BuddyApp.Diagnostic
 
                     CloseAllCam();
 
-                    mThermalCam.OnNewFrame.Add((iInput) => { selectedImage.texture = iInput.Texture; });
+                    mThermalCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
                     break;
             }
         }
