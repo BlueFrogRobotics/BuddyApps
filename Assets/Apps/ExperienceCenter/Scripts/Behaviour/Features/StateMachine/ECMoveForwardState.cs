@@ -16,6 +16,7 @@ namespace BuddyApp.ExperienceCenter
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("on ECMoveForwardState");
             mAnimatorManager = GameObject.Find("AIBehaviour").GetComponent<AnimatorManager>();
             mBehaviour = GameObject.Find("AIBehaviour").GetComponent<MoveForwardBehaviour>();
             //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();

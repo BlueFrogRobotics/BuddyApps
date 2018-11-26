@@ -14,6 +14,7 @@ namespace BuddyApp.ExperienceCenter
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("on ECInitState");
             if (FirstRun)
             {
                 ExperienceCenterData.Instance.StatusTcp = "Offline";

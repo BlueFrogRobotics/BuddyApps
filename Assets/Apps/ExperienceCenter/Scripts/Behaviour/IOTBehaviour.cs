@@ -131,14 +131,15 @@ namespace BuddyApp.ExperienceCenter
             Buddy.Vocal.Say("[2000]", true);
 
             yield return new WaitUntil (() => !mRobotMoving || !ExperienceCenterData.Instance.EnableBaseMovement);
-            Debug.Log("iotbahaviour1");
+            Debug.Log("iotbahaviour2");
 			Buddy.Vocal.SayKey ("iotdemo", true);
             Buddy.Vocal.Say("[500]", true);
             Buddy.Vocal.SayKey ("iotlance", true);
             Buddy.Vocal.Say("[500]", true);
-            Debug.Log("iotbahaviour1");
+            Debug.Log("iotbahaviour3");
 
             yield return new WaitUntil (() => !Buddy.Vocal.IsSpeaking);
+            Debug.Log("iotbahaviour4");
 
 			Buddy.Vocal.SayKey ("iotparti", true);
             Buddy.Vocal.Say("[500]", true);
@@ -146,6 +147,7 @@ namespace BuddyApp.ExperienceCenter
             yield return new WaitForSeconds (2f); 
 			if (!mHttpManager.Connected)
 				mHttpManager.Login ();
+            Debug.Log("iotbahaviour5");
 
 			yield return new WaitForSeconds (2f);
 			if (mHttpManager.RetrieveDevices) {
@@ -158,6 +160,7 @@ namespace BuddyApp.ExperienceCenter
 			} else
 				Debug.LogError ("[EXCENTER] Could not retrieve device list from targeted Tahoma box");
 
+            Debug.Log("iotbahaviour6");
 			yield return new WaitForSeconds (2f);
 
 			// Dance for 30 seconds (default)
@@ -174,6 +177,7 @@ namespace BuddyApp.ExperienceCenter
 				//}
 				yield return new WaitForSeconds(1f);
 			}
+            Debug.Log("iotbahaviour7");
 
 			yield return new WaitForSeconds (2f);
 
@@ -185,6 +189,7 @@ namespace BuddyApp.ExperienceCenter
             Buddy.Vocal.Say("[500]", true);
             Buddy.Vocal.SayKey ("iotcontinuation", true);
 
+            Debug.Log("iotbahaviour8");
 			yield return new WaitUntil (() => !Buddy.Vocal.IsSpeaking);
 
 			if (!mHttpManager.Connected)

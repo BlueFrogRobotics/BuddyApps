@@ -106,7 +106,7 @@ namespace BuddyApp.BuddyLab
 
         public void OnExecuteInstruction(ABehaviourInstruction iInstruction)
         {
-            //Debug.Log("INSTRUCTION");
+            Debug.Log("INSTRUCTION: "+iInstruction.GetType().BaseType.ToString());
             float lPosition = -1*mItemsKeys[iInstruction].transform.localPosition.x;
             foreach (AGraphicElement element in displayDropLine.GetComponentsInChildren<AGraphicElement>())
             {

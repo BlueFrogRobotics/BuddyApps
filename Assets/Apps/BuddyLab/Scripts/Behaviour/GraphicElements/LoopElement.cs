@@ -46,7 +46,7 @@ namespace BuddyApp.BuddyLab
 
         public override void Highlight()
         {
-            throw new System.NotImplementedException();
+            throw new System.NotImplementedException(); 
         }
 
         protected override void SetParameter()

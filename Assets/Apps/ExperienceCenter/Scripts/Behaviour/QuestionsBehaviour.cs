@@ -198,6 +198,7 @@ namespace BuddyApp.ExperienceCenter
             mStartSTTCoroutine = false;
             mRestartSTT = true;
             mLaunchSTTOnce = false;
+            Debug.Log("dans begin enable speech to text");
             while (mRestartSTT)
             {
                 if (!mLaunchSTTOnce)
@@ -205,25 +206,29 @@ namespace BuddyApp.ExperienceCenter
                     if (/*!mSpeechToText.HasFinished*/ Buddy.Vocal.IsListening)
                     {
                         // Recognition not finished yet, waiting until it ends cleanly
+                        Debug.Log("dans vocal is listening");
                         yield return new WaitUntil(() => /*!mSpeechToText.HasFinished*/!Buddy.Vocal.IsListening);
                     }
                     else if (Buddy.Vocal.IsSpeaking)
                     {
                         // Buddy is answering, wait until he ends its sentence
+                        Debug.Log("dans vocal is speaking");
                         yield return new WaitUntil(() => !Buddy.Vocal.IsSpeaking);
                     }
                     else
                     {
                         // Initiating Vocal Manager instance reco
+                        Debug.Log("dans else");
                         yield return new WaitForSeconds(2.0f);
                         mLaunchSTTOnce = true;
                         //mSpeechToText.Request();
-                        Buddy.Vocal.Listen();
+                        Buddy.Vocal.Listen("experiencecenter", SpeechRecognitionMode.GRAMMAR_ONLY);
                     }
                 }
                 yield return new WaitForSeconds(0.5f);
             }
             yield return new WaitForSeconds(1.0f);
+            Debug.Log("dans fin enable");
             mStartSTTCoroutine = true;
             //mSphinxTrigger.LaunchRecognition();
             //mVocalManager.EnableTrigger = true;

@@ -92,12 +92,12 @@ namespace BuddyApp.Guardian
             //Buddy.GUI.Footer.Remove(mInterpolateButton);
         }
 
-        private void OnNewFrame(Mat iMat)
+        private void OnNewFrame(ThermalCameraFrame iFrame)
         {
             //Debug.Log("frame temperature");
             float[] lThermicValues = new float[8 * 8];
 
-            iMat.get(0, 0, lThermicValues);
+            iFrame.Mat.get(0, 0, lThermicValues);
             mShowTemp.FillTemperature(lThermicValues);
             mMatSrc = mShowTemp.TemperatureToColor();
             //mTexture = Utils.ScaleTexture2DFromMat(mMatSrc, mTexture);

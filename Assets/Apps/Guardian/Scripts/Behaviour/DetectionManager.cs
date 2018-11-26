@@ -249,7 +249,7 @@ namespace BuddyApp.Guardian
             //return true;
 		}
 
-        private void OnNewFrame(Mat iMat)
+        private void OnNewFrame(ThermalCameraFrame iFrame)
         {
             if (!IsDetectingFire)
                 return;

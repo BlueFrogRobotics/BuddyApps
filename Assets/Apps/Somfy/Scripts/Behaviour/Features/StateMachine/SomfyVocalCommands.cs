@@ -150,7 +150,7 @@ namespace BuddyApp.Somfy
             {
                 //Interaction.TextToSpeech.Say("The temperature is " + float.Parse(mSomfyBehaviour.GetTemperature()).ToString().Replace(".", " point ") + " degrees");
                 string lTemp = mSomfyBehaviour.GetTemperature();
-                if (Buddy.Platform.Language.SystemOutputLanguage == Buddy.Platform.Language.GetLanguageFromISOCode(ISO6391Code.FR))
+                if (Buddy.Platform.Language.SystemInputLanguage.ISO6391Code == ISO6391Code.FR)
                 {
                     Debug.Log("dans fr");
                     lTemp = lTemp.Replace('.', ',');

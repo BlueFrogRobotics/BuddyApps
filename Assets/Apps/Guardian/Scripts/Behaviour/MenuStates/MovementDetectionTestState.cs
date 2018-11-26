@@ -115,12 +115,12 @@ namespace BuddyApp.Guardian
         //    Utils.MatToTexture2D(mMatSrc, mTexture);
         //}
 
-        private void OnFrameCaptured(Mat iInput)
+        private void OnFrameCaptured(RGBCameraFrame iFrame)
         {
-            Debug.Log("frame: " + iInput.width()+" * "+ iInput.height());
-            if (iInput.width() > 0 && iInput.height() > 0)
+            Debug.Log("frame: " + iFrame.Mat.width()+" * "+ iFrame.Mat.height());
+            if (iFrame.Mat.width() > 0 && iFrame.Mat.height() > 0)
             {
-                Mat lTest = iInput.clone();
+                Mat lTest = iFrame.Mat.clone();
                 if (lTest.empty())
                     Debug.Log("on new frame empty");
                 //Debug.Log("on new frame " + mTexture.width + " x " + mTexture.height);
