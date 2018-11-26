@@ -21,9 +21,8 @@ namespace BuddyApp.Diagnostic
         private RGBCamera mRGBCam;
         private DepthCamera mDepthCam;
         private InfraredCamera mInfraredCam;
-        private ThermalCamera mThermalCam;
 
-        private enum E_CAMERA { HD, RGB, DEPTH, INFRARED, THERMAL }; // Use enum instead of strings to maintain performances.
+        private enum E_CAMERA { HD, RGB, DEPTH, INFRARED }; // Use enum instead of strings to maintain performances.
         private E_CAMERA mECamera;
         
         void OnEnable()
@@ -32,7 +31,6 @@ namespace BuddyApp.Diagnostic
             mHDCam = Buddy.Sensors.HDCamera;
             mDepthCam = Buddy.Sensors.DepthCamera;
             mInfraredCam = Buddy.Sensors.InfraredCamera;
-            mThermalCam = Buddy.Sensors.ThermalCamera;
 
             // Initialization
             DropdownValueChanged(SelectedCameraDropdown);
@@ -101,14 +99,6 @@ namespace BuddyApp.Diagnostic
                     mInfraredCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
 
                     break;
-
-                case "THERMAL":
-                    mECamera = E_CAMERA.THERMAL;
-
-                    CloseAllCam();
-
-                    mThermalCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
-                    break;
             }
         }
 
@@ -118,7 +108,6 @@ namespace BuddyApp.Diagnostic
             mRGBCam.OnNewFrame.Clear();
             mDepthCam.OnNewFrame.Clear();
             mInfraredCam.OnNewFrame.Clear();
-            mThermalCam.OnNewFrame.Clear();
 
             mHDCam.Close();
             mRGBCam.Close();
