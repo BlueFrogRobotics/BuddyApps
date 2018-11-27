@@ -48,7 +48,6 @@ namespace BuddyApp.Gallery
 
             // Scan repository to initialize the photo list
             ScanPhotographs();
-            //ScanDirectory(Buddy.Resources.GetRawFullPath(STR_GALLERY_DIRECTORY));
 
             // Determine first index
             int lIFirstIndex;
