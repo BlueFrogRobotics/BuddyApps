@@ -76,8 +76,6 @@ namespace BuddyApp.RemoteControl
             //// il faut lire la liste des users, l'enregistrer après acceptation de l'appel, si changement des autorisations
             //// Faire une fonction qui confirme et check tout au lieu des trigger toussa toussa
 
-            //mReceiveCallAnim.SetTrigger("Select");
-            ////callAnimator.SetTrigger("Close_WCall");
             mIncomingCallHandled = true;
         }
 
@@ -85,6 +83,9 @@ namespace BuddyApp.RemoteControl
         {
             callAnimator.SetTrigger("Open_WCall");
             webRTC.gameObject.SetActive(true);
+            // Launch the hide animation of the prefab toast inside the custom toast
+            mReceiveCallAnim.SetTrigger("Unselect");
+            RemoteControlData.Instance.CustomToastIsBusy = false;
             // Hide the custom toast
             Buddy.GUI.Toaster.Hide();
         }
@@ -102,18 +103,23 @@ namespace BuddyApp.RemoteControl
         // Wait until the hide animation is finished, (When the animator state is on Window_Call_Off, using a tag)
         public IEnumerator CloseApp()
         {
-            Debug.Log("---------- BEGIN CLOSE APP -----------");
             callAnimator.SetTrigger("Close_WCall");
-            Debug.Log("---------- BEFORE WAITUNTIL -----------");
-            yield return new WaitUntil(() => 
-            {
-                if (callAnimator)
-                    return callAnimator.GetCurrentAnimatorStateInfo(0).IsTag("windowCallOff");
-                return false;
-            });
+            yield return new WaitUntil(() => { return callAnimator.GetCurrentAnimatorStateInfo(0).IsTag("windowCallOff"); });
             AAppActivity.QuitApp();
         }
 
+        // Hide receive call object, (custom toast)
+        // Wait until the hide animation is finished, (When the animator state is on minder_roundblock_off, using a tag)
+        public IEnumerator CloseAppOnReceivCall()
+        {
+            mReceiveCallAnim.SetTrigger("Unselect");
+            yield return new WaitUntil(() => { Debug.Log("----- CUSTOM IS NOT HIDE ----"); return mReceiveCallAnim.GetCurrentAnimatorStateInfo(0).IsTag("customToastOff"); });
+            RemoteControlData.Instance.CustomToastIsBusy = false;
+            Debug.Log("----- CUSTOM IS HIDE ----");
+            AAppActivity.QuitApp();
+        }
+
+        // Button Answer the call of the custom toast
         public void PressedYes()
         {
             Debug.Log("AcceptCallWithButton");
@@ -122,14 +128,13 @@ namespace BuddyApp.RemoteControl
             LaunchCall();
         }
 
+        // Button Reject the call of the custom toast
         public void PressedNo()
         {
             Debug.Log("RejectCallWithButton");
             Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            Debug.Log("----- TOASTER HIDE  PRESS NO----");
-            Buddy.GUI.Toaster.Hide();
-            Debug.Log("----- QUIT APP PRESS NO ----");
+            StartCoroutine(CloseAppOnReceivCall());
         }
 
         public void GetIncomingCall()
@@ -149,7 +154,6 @@ namespace BuddyApp.RemoteControl
 
         public IEnumerator Call()
         {
-            Debug.Log("----- CALL ... ----");
             if (!RemoteControlData.Instance.DiscreteMode)
             {
                 Buddy.Actuators.Speakers.Media.Play(musicCall);

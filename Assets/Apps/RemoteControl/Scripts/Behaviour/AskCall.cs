@@ -29,10 +29,6 @@ namespace BuddyApp.RemoteControl
             mCustomCapsuleToast = GetGameObject(0);
             // Get the animator of the capsule toast
             mCustomCapAnim = mCustomCapsuleToast.GetComponent<Animator>();
-            if (mCustomCapAnim)
-                Debug.Log("---------- ANIM ----------------");
-            else
-                Debug.Log("---------- ANIM NULL ----------------");
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -46,42 +42,51 @@ namespace BuddyApp.RemoteControl
             mQuit = false;
             mHasInitializedRemote = false;
 
-            Debug.Log("----- COROUTINE ... ----");
-
             StartCoroutine(ActivateDisplay());
-
-            Debug.Log("----- TOASTER ... ----");
 
             Buddy.GUI.Toaster.Display<CustomToast>().With(mCustomCapsuleToast,
             () =>
             {
                 // On Display
                 // Launch the display animation of the custom toast
-                Debug.Log("----- MY SELECT ... ----");
                 mCustomCapAnim.SetTrigger("Select");
-                Debug.Log("----- MY SELECT  2 ... ----");
                 RemoteControlData.Instance.CustomToastIsBusy = true;
             }, () =>
             {
                 // On Hide
                 Debug.Log("----- ON HIDE ----");
                 StartCoroutine(CloseReceivCall());
-                Debug.Log("----- ON HIDE  END----");
             });
         }
 
+        // This coroutine purpose is to launch the hide animation of the custom toast
+        // and wait until the animation is not finished, then a boolean is set to unblock the OnQuit coroutine. (RemoteControlActivity.cs)
+        // I thought this were enought to block the code in the OnQuit coroutine (RemoteControlActivity.cs), but it's not.
         public IEnumerator CloseReceivCall()
         {
-            Debug.Log("----- COROUTINE BEGIN ----");
-            if (mCustomCapAnim == null)
-                Debug.Log("------- CUSTOM CAP NULL ------");
-            else
-                mCustomCapAnim.SetTrigger("Unselect");
-            Debug.Log("----- UNSELECT OK ----");
-            yield return new WaitForSeconds(mCustomCapAnim.GetCurrentAnimatorStateInfo(0).length + mCustomCapAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);
-            Debug.Log("----- CUSTOM IS HIDE ----");
+            Debug.Log("----- UNSELECT ... ----");
+            mCustomCapAnim.SetTrigger("Unselect");
+            yield return new WaitUntil(() => { Debug.Log("----- CUSTOM IS NOT HIDE ----"); return mCustomCapAnim.GetCurrentAnimatorStateInfo(0).IsTag("customToastOff"); });
             RemoteControlData.Instance.CustomToastIsBusy = false;
-            QuitApp();
+            Debug.Log("----- CUSTOM IS HIDE ----");
+
+            // This code was a try to avoid black square on quit
+            // I don't delete it, to get your feedback, and to show what i have already test
+            //
+            //{
+            //    if (!mCustomCapAnim.GetCurrentAnimatorStateInfo(0).IsName("minder_roundblock_off") ||
+            //        mCustomCapAnim.GetCurrentAnimatorStateInfo(0).IsName("toaster_roundblock_unselect -> minder_roundblock_off")) //IsTag("customToastOff"))
+            //    {
+            //        Debug.Log("----- CUSTOM IS NOT HIDE ----");
+            //        return false;
+            //    }
+            //    else
+            //    {
+            //        RemoteControlData.Instance.CustomToastIsBusy = false;
+            //        Debug.Log("----- CUSTOM IS HIDE ----");
+            //        return true;
+            //    }
+            //});
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -141,9 +146,7 @@ namespace BuddyApp.RemoteControl
 
         private IEnumerator ActivateDisplay()
         {
-            Debug.Log("----- ACTIVATE ... ----");
             yield return mRemoteControlBehaviour.Call();
-            Debug.Log("----- ACTIVATE AFTER ... ----");
             mHasInitializedRemote = true;
             //Buddy.Vocal.OnEndListening.Clear();
             //Buddy.Vocal.OnEndListening.Add(OnSpeechReco);
