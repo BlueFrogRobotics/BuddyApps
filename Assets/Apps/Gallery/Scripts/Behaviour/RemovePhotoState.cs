@@ -20,18 +20,19 @@ namespace BuddyApp.Gallery
         
         private readonly float F_MAX_TIME_LISTENING = 10.0f;
 
-        private float mTimeListening;
+        private float mFTimeListening;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On State Enter...");
 
-            mTimeListening = F_MAX_TIME_LISTENING;
+            mFTimeListening = F_MAX_TIME_LISTENING;
 
             // Stop current vocal process
             Buddy.Vocal.OnEndListening.Clear();
-            Buddy.Vocal.Stop();
+            Buddy.Vocal.StopAndClear();
+            Buddy.GUI.Screen.OnTouch.Add(OnStopListening);
 
             // Start new listening process
             Buddy.Vocal.OnEndListening.Add(OnEndListening);
@@ -46,7 +47,7 @@ namespace BuddyApp.Gallery
         {
             if (Buddy.Vocal.IsListening)
             {
-                mTimeListening -= Time.deltaTime;
+                mFTimeListening -= Time.deltaTime;
             }
         }
 
@@ -56,6 +57,7 @@ namespace BuddyApp.Gallery
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On State Exit...");
 
             Buddy.Vocal.OnEndListening.Clear();
+            Buddy.GUI.Screen.OnTouch.Remove(OnStopListening);
             Buddy.GUI.Dialoger.Hide();
         }
 
@@ -72,7 +74,8 @@ namespace BuddyApp.Gallery
 
         private void RemoveConfirmed()
         {
-            Buddy.Vocal.Stop();
+            OnStopListening(null);
+            Buddy.Vocal.StopAndClear();
 
             // Delete photo (slide + disk)
             if (!PhotoManager.GetInstance().DeleteCurrentPhoto())
@@ -82,14 +85,15 @@ namespace BuddyApp.Gallery
                 Trigger("TRIGGER_REMOVE_CANCEL");
                 return;
             }
-
+            
             Buddy.Vocal.SayKey(STR_CONFIRM_DELETION);
             Trigger("TRIGGER_REMOVE_CONFIRM");
         }
 
         private void RemoveCanceled()
         {
-            Buddy.Vocal.Stop();
+            OnStopListening(null);
+            Buddy.Vocal.StopAndClear();
             Trigger("TRIGGER_REMOVE_CANCEL");
         }
 
@@ -98,7 +102,12 @@ namespace BuddyApp.Gallery
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "RULE : " + iSpeechInput.Rule);
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "UTTERANCE : " + iSpeechInput.Utterance);
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "CONFIDENCE : " + iSpeechInput.Confidence);
-            
+
+            if (iSpeechInput.IsInterrupted || -1 == iSpeechInput.Confidence) // Error during recognition or forced StopListening
+            {
+                return;
+            }
+
             if (Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_NO))
             {
                 RemoveCanceled();
@@ -111,10 +120,15 @@ namespace BuddyApp.Gallery
                 return;
             }
 
-            if (0.0F <= mTimeListening)
+            if (0.0F <= mFTimeListening)
             {
                 Buddy.Vocal.Listen();
             }
+        }
+
+        private void OnStopListening(Touch[] iTouch)
+        {
+            mFTimeListening = -1.0F;
         }
     }
 }

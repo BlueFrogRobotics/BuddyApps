@@ -39,6 +39,7 @@ namespace BuddyApp.Gallery
             // New listening events
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnEndListening);
+            Buddy.GUI.Screen.OnTouch.Add(OnStopListening);
             
             // Check if footer is correctly displayed
             UpdateFooter();
@@ -50,7 +51,7 @@ namespace BuddyApp.Gallery
             }
             else
             {
-                Buddy.Vocal.Listen();
+                Buddy.Vocal.Listen();// new SpeechInputParameters() { Grammars = new string[] { "grammar", "gallery" }, RecognitionThreshold = 6000 });
             }
         }
 
@@ -68,13 +69,14 @@ namespace BuddyApp.Gallery
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On State Exit...");
             Buddy.Vocal.OnEndListening.Clear();
+            Buddy.GUI.Screen.OnTouch.Remove(OnStopListening);
         }
 		
         public void OnEndSpeaking(SpeechOutput iSpeechOutput)
         {
             if (0.0F <= mFTimeListening)
             {
-                Buddy.Vocal.Listen();
+                Buddy.Vocal.Listen();// new SpeechInputParameters() { Grammars = new string[] { "grammar", "gallery" }, RecognitionThreshold = 6000 });
             }
         }
 
@@ -84,6 +86,11 @@ namespace BuddyApp.Gallery
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "UTTERANCE : " + iSpeechInput.Utterance);
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "CONFIDENCE : " + iSpeechInput.Confidence);
             
+            if (iSpeechInput.IsInterrupted || -1 == iSpeechInput.Confidence) // Error during recognition or forced StopListening
+            {
+                return;
+            }
+
             if (Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_QUIT_COMMAND))
             {
                 QuitApp();
@@ -122,8 +129,9 @@ namespace BuddyApp.Gallery
                 return;
             }
 
-            if (0.0F <= mFTimeListening) {
-                Buddy.Vocal.Listen();
+            if (0.0F <= mFTimeListening)
+            {
+                Buddy.Vocal.Listen();// new SpeechInputParameters() { Grammars = new string[] { "grammar", "gallery" }, RecognitionThreshold = 6000 });
             }
         }
         
@@ -157,6 +165,11 @@ namespace BuddyApp.Gallery
             FButton lShareButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
             lShareButton.SetIcon(Buddy.Resources.Get<Sprite>(STR_SHARE_SPRITE));
             lShareButton.OnClick.Add(() => { Trigger("TRIGGER_SHARE_PHOTO"); });
+        }
+
+        private void OnStopListening(Touch[] iTouch)
+        {
+            mFTimeListening = -1.0F;
         }
     }
 }

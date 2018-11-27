@@ -13,8 +13,7 @@ namespace BuddyApp.Gallery
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On State Enter...");
-
-            // TODO: Check possible errors
+            
             Trigger("TRIGGER_PHOTO_UPLOADED");
         }
 		

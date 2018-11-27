@@ -56,7 +56,7 @@ namespace BuddyApp.Gallery
             string lStrAppName = (null != mArgs && 0 < mArgs.Length && typeof(string) == mArgs[0].GetType()) ? ((string)mArgs[0].ToString()) : null;
 
             // Vocal initialization and welcome
-            Buddy.GUI.Screen.OnTouch.Add((iTouch) => { if(Buddy.Vocal.IsListening) Buddy.Vocal.StopListening(); });
+            Buddy.GUI.Screen.OnTouch.Add((iTouch) => { if (Buddy.Vocal.IsListening) { Buddy.Vocal.StopListening(); } }); // StopAndClear ?
             Buddy.Vocal.OnTrigger.Add((iAction) => Buddy.Vocal.SayKeyAndListen("ilisten"));
 
             if (null == lStrAppName) // At least 2 parameters
@@ -80,7 +80,7 @@ namespace BuddyApp.Gallery
 
             if (Buddy.Vocal.IsBusy)
             {
-                Buddy.Vocal.Stop();
+                Buddy.Vocal.StopAndClear();
             } 
 
             PhotoManager.GetInstance().Free();
