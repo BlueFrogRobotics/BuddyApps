@@ -79,6 +79,7 @@ namespace BuddyApp.Reminder
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            DebugColor("BEGIN HOUR", "blue");
             mHourModify = HourModify.MINUTE;
             mListen = 0;
             mQuit = false;
@@ -88,8 +89,12 @@ namespace BuddyApp.Reminder
             mExtractHourFromSpeech = new List<ExtractHourFromSpeech>(Buddy.Platform.Language.AvailableLanguages.Length);
 
             // Filling the extraction function for each language
-            mExtractHourFromSpeech[(int)ISO6391Code.EN] = ExtractHourFromEnglishSpeech;
-            mExtractHourFromSpeech[(int)ISO6391Code.FR] = ExtractHourFromFrenchSpeech;
+            // Temporary code because this method, force to add function in the same order of the enum language
+            mExtractHourFromSpeech.Add(ExtractHourFromEnglishSpeech);
+            mExtractHourFromSpeech.Add(ExtractHourFromFrenchSpeech);
+            // Following line cause OutOfRange Exception - Not fix yet
+            //mExtractHourFromSpeech[(int)ISO6391Code.EN] = ExtractHourFromEnglishSpeech;
+            //mExtractHourFromSpeech[(int)ISO6391Code.FR] = ExtractHourFromFrenchSpeech;
 
             // Because we need to stop this coroutine independently of others
             mQuitOnTimeout = QuittingTimeout();
@@ -357,6 +362,7 @@ namespace BuddyApp.Reminder
 
         private void DisplayHourEntry(TimeSpan iCarousselStartHour)
         {
+            DebugColor("DISPLAY HOUR", "blue");
             // Launch the quit timeout
             StartCoroutine(mQuitOnTimeout);
 
@@ -414,6 +420,7 @@ namespace BuddyApp.Reminder
 
         private void GoToPreviousState()
         {
+            DebugColor("HOUR BACK TO DATE", "blue");
             if (Buddy.GUI.Toaster.IsBusy)
                 Buddy.GUI.Header.HideTitle();
             ReminderData.Instance.AppState--;
