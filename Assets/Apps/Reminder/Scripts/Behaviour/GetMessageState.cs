@@ -13,7 +13,6 @@ namespace BuddyApp.Reminder
      */
     public sealed class GetMessageState : AStateMachineBehaviour
     {
-        // TMP - Wait for time out in freespeech function
         private const int TRY_NUMBER = 2;
         private const float QUIT_TIMEOUT = 20;
         private const float FREESPEECH_TIMER = 15F;
@@ -58,14 +57,6 @@ namespace BuddyApp.Reminder
             }
             DebugColor("TIMEOUT", "red");
             QuitReminder();
-        }
-
-        public IEnumerator LaunchVocon()
-        {
-            yield return new WaitUntil(() => Buddy.Vocal.IsBusy);
-
-            if (!Buddy.GUI.Toaster.IsBusy)
-                DisplayMessageEntry();
         }
 
         private IEnumerator GetCredentialsAndRunFreeSpeech()
@@ -143,7 +134,6 @@ namespace BuddyApp.Reminder
             }
             else
                 DisplayMessageEntry();
-            //StartCoroutine(LaunchVocon()); // TODO TEST if it works without coroutine
         }
 
         private void VoconResult(SpeechInput iSpeechInput)
@@ -213,6 +203,7 @@ namespace BuddyApp.Reminder
 
         private void DisplayMessageEntry()
         {
+            DebugColor("DISPLAY  MESSAGE", "blue");
             // Launch Vocon - Validation/or/Modify
             Buddy.Vocal.SayAndListen(new SpeechOutput(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify")),
                 null,
@@ -228,6 +219,7 @@ namespace BuddyApp.Reminder
             lViewModeButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
             lViewModeButton.OnClick.Add(() =>
             {
+                DebugColor("MSG BACK TO HOUR", "blue");
                 ReminderData.Instance.AppState--;
                 Trigger("HourChoiceState");
             });
@@ -251,7 +243,7 @@ namespace BuddyApp.Reminder
             },
             () => ModifyMessage(),
             Buddy.Resources.GetString("modify"),
-            () => 
+            () =>
             {
                 if (!string.IsNullOrEmpty(mRecordedMessage))
                     ValidateMessage();

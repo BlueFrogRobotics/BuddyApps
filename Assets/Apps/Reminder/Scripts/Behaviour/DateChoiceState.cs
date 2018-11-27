@@ -189,7 +189,9 @@ namespace BuddyApp.Reminder
          */
         private void DisplayDateEntry(DateTime iCarouselStartDate)
         {
+            DebugColor("DISPLAY DATE", "blue");
             // Launch the quit timeout
+            StopAllCoroutines();
             StartCoroutine(mQuitOnTimeout);
 
             // The message is different if we are back to HourChoiceState
