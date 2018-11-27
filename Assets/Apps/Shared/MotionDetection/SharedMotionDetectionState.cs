@@ -71,7 +71,7 @@ namespace BuddyApp.Shared
         [SerializeField]
         private SoundSample SoundWhenNotDetected;
 
-        private bool mIsDisplay;
+        private bool mIsDisplay; 
         private RGBCamera mCam;
         private Mat mMatDetection;
         private MotionDetector mMotion;
@@ -106,6 +106,7 @@ namespace BuddyApp.Shared
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Debug.Log("<color=red>Fatal error:</color>ON ENTER");
             mTexture = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             mTextureRefresh = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             mIsInit = false;
@@ -141,19 +142,15 @@ namespace BuddyApp.Shared
                     Debug.Log("You didn't create a integer named QuantityMovement in animator's parameter, do it and change its value with animator.SetInteger(\"QuantityMovement\", your value);");
             }
 
-            //mCam.Resolution = RGBCamResolution.W_320_H_240; 
-            mCam.Open();
-
+            mCam.Open(RGBCameraMode.COLOR_320x240_30FPS_RGB);
             mCam.OnNewFrame.Add((iFrame) =>
             {
+                Debug.Log("<color=red>Fatal error:</color>ON NEW FRAME");
                 mMat = iFrame.Mat.clone();
                 mIsInit = true;
             });
             if (!AreaToDetect)
             {
-                //mMotionDetectorParameter.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240);
-                //mMotionDetectorParameter.SensibilityThreshold = 1F;
-                //mMotion.OnDetect.AddP(OnMovementDetected, mMotionDetectorParameter);
                 mMotion.OnDetect.AddP(OnMovementDetected, new MotionDetectorParameter()
                 {
                     RegionOfInterest = new OpenCVUnity.Rect(0, 0, Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height),
@@ -184,8 +181,6 @@ namespace BuddyApp.Shared
             {
                 mTimer = 0F;
                 mIsDisplay = true;
-                //mMat = mCam.Frame.clone();
-                
                 mMatCopy = mMat.clone();
                 if (!WantToFlip)
                     Core.flip(mMatCopy, mMatCopy, 1);
@@ -198,7 +193,6 @@ namespace BuddyApp.Shared
                 }
                 else
                 {
-                    //Buddy.GUI.Toaster.Display<PictureToast>().With(mMotionDetectionSprite);
                     Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTexture);
                 }
             }
@@ -206,7 +200,6 @@ namespace BuddyApp.Shared
             {
                 if (mMatDetectionCopy == null && !AreaToDetect)
                 {
-                    //mMat = mCam.Frame.clone();
                     mMatCopy = mMat.clone();
                     if (!WantToFlip)
                         Core.flip(mMatCopy, mMatCopy, 1);
@@ -215,7 +208,6 @@ namespace BuddyApp.Shared
                 }
                 else if (mMatDetectionCopy == null && AreaToDetect)
                 {
-                    //mMat = mCam.Frame.clone();
                     mMatCopy = mMat.clone();
                     if (!WantToFlip)
                         Core.flip(mMatCopy, mMatCopy, 1);
@@ -303,7 +295,7 @@ namespace BuddyApp.Shared
             {
                 if (!File.Exists(Buddy.Resources.GetRawFullPath(NameOfPictureSaved)))
                 {
-                    Debug.Log("SHARED NO PICTURE");
+                    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.NOT_FOUND, "NO PICTURE");
                 }
             }
             if (Buddy.GUI.Toaster.IsBusy)
@@ -336,34 +328,25 @@ namespace BuddyApp.Shared
                             foreach (MotionEntity lEntity in iMotions)
                             {
                                 Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 3, new Scalar(ColorOfDisplay), 3);
-
-                                //Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 3, new Scalar(ColorOfDisplay), 3);
                                 Core.flip(mMatDetection, mMatDetectionCopy, 1);
                             }
-                            //Core.flip(mMatDetection, mMatDetection, 1);
-
                             Utils.MatToTexture2D(mMatDetectionCopy, Utils.ScaleTexture2DFromMat(mMatDetectionCopy, lTexture));
                             File.WriteAllBytes(Buddy.Resources.GetRawFullPath(NameOfPictureSaved), lTexture.EncodeToJPG());
-                            //mSprite = Sprite.Create(lTexture, new UnityEngine.Rect(0,0,lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
-                            //Utils.SaveSpriteToFile(mSprite, BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved));
                         }
                         else
                         {
                             Core.flip(mMatDetection, mMatDetection, 1);
-
                             Utils.MatToTexture2D(mMatDetection, Utils.ScaleTexture2DFromMat(mMatDetection, lTexture));
                             File.WriteAllBytes(Buddy.Resources.GetRawFullPath(NameOfPictureSaved), lTexture.EncodeToJPG());
-                            //mSprite = Sprite.Create(lTexture, new UnityEngine.Rect(0, 0, lTexture.width, lTexture.height), new Vector2(0.5F, 0.5F));
-                            //Utils.SaveSpriteToFile(mSprite, BYOS.Instance.Resources.GetPathToRaw(NameOfPictureSaved));
                         }
                     }
                     else
-                        Debug.Log("The name of the picture is empty.");
+                        ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.NULL_VALUE, "The name of the picture is empty.");
                 }
                 if (!string.IsNullOrEmpty(TriggerWhenDetected) && mDetectionCount > QuantityBeforeSavingPicture && File.Exists(Buddy.Resources.GetRawFullPath(NameOfPictureSaved)))
                     Trigger(TriggerWhenDetected);
                 else
-                    Debug.Log("your trigger when detected is empty.");
+                    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.NULL_VALUE, "Your trigger when detected is empty");
                 mDetectionCount++;
             }
             if (iMotions.Length > 5)

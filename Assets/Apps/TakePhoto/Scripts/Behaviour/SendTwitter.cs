@@ -61,7 +61,6 @@ namespace BuddyApp.TakePhoto
             string lMessage;
             lMessage = mTweetMsg[Random.Range(0, mTweetMsg.Length)];
             lMessage += " " + mAllHashtag;
-            //Buddy.GUI.Notifier.Display<SimpleNotification>().With(mAllHashtag, Buddy.Resources.Get<Sprite>("Ico_Twitter"));
             if(mWhereToPublish == Publish.MAIL)
             {
                 SendMail();
@@ -75,14 +74,8 @@ namespace BuddyApp.TakePhoto
                 SendMail();
                 SendTweet(lMessage);
             }
-
-            //Buddy.Vocal.SayKey("tweetpublished", true);
-            //Buddy.Vocal.Say(mAllHashtag, true);
-
             Trigger("AskPhotoAgain");
         }
-
-        
 
 		private void SendTweet(string iMsg)
 		{
