@@ -1,7 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BlueQuark;
+
+using OpenCVUnity;
+using UnityEngine.UI;
 
 namespace BuddyApp.HumanCounter
 {
@@ -18,13 +22,37 @@ namespace BuddyApp.HumanCounter
         private string mTimeInfo;
         private string mNameDetectOption;
 
+        private delegate void DrawLine(Mat iMat, Point iFirstPoint, Point iSecondPoint, Scalar iColor, SkeletonJoint iJoint);
+        private Dictionary<Tuple<int, int>, string> mLinksDico = new Dictionary<Tuple<int, int>, string>();
+
         /*
          *  Temporary parameter toaster to set the observation time.
          *  This will be replace by carrousel toast when available.
          */
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            
+            mLinksDico.Add(new Tuple<int, int>(0, 0), "PAIR: 0, 0");
+            mLinksDico.Add(new Tuple<int, int>(0, 1), "PAIR: 0, 1");
+            mLinksDico.Add(new Tuple<int, int>(0, 2), "PAIR: 0, 2");
+            mLinksDico.Add(new Tuple<int, int>(5, 5), "PAIR: 5, 5");
+            try
+            {
+                Debug.Log("TEST 0,0: " + mLinksDico[new Tuple<int, int>(0, 0)]);
+                Debug.Log("TEST 0,1: " + mLinksDico[new Tuple<int, int>(0, 1)]);
+                Debug.Log("TEST 0,2: " + mLinksDico[new Tuple<int, int>(0, 2)]);
+                Debug.Log("TEST 5,5: " + mLinksDico[new Tuple<int, int>(5, 5)]);
+
+                // erreur
+                Debug.Log("TEST 0,3: " + mLinksDico[new Tuple<int, int>(0, 3)]);
+                Debug.Log("TEST 4,0: " + mLinksDico[new Tuple<int, int>(4, 0)]);
+                Debug.Log("TEST -1,0: " + mLinksDico[new Tuple<int, int>(-1, 0)]);
+                Debug.Log("TEST 10,10: " + mLinksDico[new Tuple<int, int>(10, 10)]);
+            }
+            catch (KeyNotFoundException e)
+            {
+                Debug.Log("KEY NOT FOUND: " + e.Message);
+            }
+
             if (HumanCounterData.Instance.DetectionOption == DetectionOption.HUMAN_DETECT)
                 mNameDetectOption = Buddy.Resources.GetString("humandetect");
             else if (HumanCounterData.Instance.DetectionOption == DetectionOption.FACE_DETECT)
@@ -32,18 +60,19 @@ namespace BuddyApp.HumanCounter
             else
                 mNameDetectOption = Buddy.Resources.GetString("skeletondetect");
             Buddy.Behaviour.SetMood(Mood.THINKING, true);
-            // Custom Font (Not working because of a bug - wait for bug fix).
+
+            // Set Title with a custom font
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
             lHeaderFont.material.color = Color.white;
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont); 
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("timertitle"));
 
-            // Create the top left button to switch between count mode and video mode.
+            // Create the top left button to go back to Head settings
             FButton lBackButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
             lBackButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
             lBackButton.OnClick.Add(() => { Trigger("BackToHeadSettings"); });
 
-            // Setup to 30 seconds by default.
+            // Default observation time
             HumanCounterData.Instance.ObservationTime = DEFAULT_OBSERVATION_TIME;
 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
@@ -87,7 +116,7 @@ namespace BuddyApp.HumanCounter
                     UpdateTimeInfo();
                 });
 
-
+                // Create the button to switch between detection mode
                 mButtonEnum = iOnBuild.CreateWidget<TButton>();
                 mButtonEnum.SetLabel(mNameDetectOption);
                 mButtonEnum.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_emoji"));
@@ -110,47 +139,22 @@ namespace BuddyApp.HumanCounter
         {
             Buddy.GUI.Dialoger.Display<VerticalListToast>().With((iOnBuilder) =>
             {
+                // Human detect button 
                 TVerticalListBox lBoxFirst = iOnBuilder.CreateBox();
-
                 lBoxFirst.OnClick.Add(() => { HumanCounterData.Instance.DetectionOption = DetectionOption.HUMAN_DETECT; UpdateOptionDetectText(); Buddy.GUI.Dialoger.Hide(); });
-
                 lBoxFirst.SetLabel(Buddy.Resources.GetString("humandetect"));
 
-
+                // Face detect button
                 TVerticalListBox lBoxSecond = iOnBuilder.CreateBox();
-
                 lBoxSecond.OnClick.Add(() => { HumanCounterData.Instance.DetectionOption = DetectionOption.FACE_DETECT; UpdateOptionDetectText(); Buddy.GUI.Dialoger.Hide(); });
-
                 lBoxSecond.SetLabel(Buddy.Resources.GetString("facedetect"));
                 
-
+                // Skeleton detect button
                 TVerticalListBox lBoxThird = iOnBuilder.CreateBox();
-
                 lBoxThird.OnClick.Add(() => { HumanCounterData.Instance.DetectionOption = DetectionOption.SKELETON_DETECT; UpdateOptionDetectText(); Buddy.GUI.Dialoger.Hide(); });
-
                 lBoxThird.SetLabel(Buddy.Resources.GetString("skeletondetect"));
 
             });
-        }
-
-        public void HeadYesSetPosition(float iAngle)
-        {
-            if (iAngle < 0 || iAngle > 90)
-            {
-                Debug.Log("Choose an angle between 0 and 90 degrees.");
-                return;
-            }
-            try
-            {
-                Buddy.Actuators.Head.Yes.SetPosition(iAngle);
-            }
-            catch
-            {
-                Debug.Log("Enter a new float");
-            }
-        }
-
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         }
 
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -158,11 +162,11 @@ namespace BuddyApp.HumanCounter
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
+            mLinksDico.Clear();
         }
 
         private void UpdateOptionDetectText()
         {
-
             if (HumanCounterData.Instance.DetectionOption == DetectionOption.HUMAN_DETECT)
                 mNameDetectOption = Buddy.Resources.GetString("humandetect");
             else if (HumanCounterData.Instance.DetectionOption == DetectionOption.FACE_DETECT)
