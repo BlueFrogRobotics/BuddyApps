@@ -54,7 +54,8 @@ namespace BuddyApp.Diagnostic
         private Button PlayRecordButton;
 
         [SerializeField]
-        private AudioSource mAudioSource;
+        private AudioSource ReplayAudioSource;
+
 
 
         private Timer mTimeTrigger;
@@ -65,22 +66,22 @@ namespace BuddyApp.Diagnostic
         private AudioClip mAudioClip;
         private int mIPreviousMicroIndex = 0;
 
-        void Update()
+        public void Update()
         {
             LocalizationText.text = "Localization: " + Buddy.Sensors.Microphones.SoundLocalization + " degrees";
             AmbiantSoundLevelText.text = "Ambiant Sound Level: " + Buddy.Sensors.Microphones.AmbiantSound + " db";
             
             if (mBIsPlaying) // Playing record
             {
-                if (null == mAudioSource.clip || !mAudioSource.isPlaying)
+                if (null == ReplayAudioSource.clip || !ReplayAudioSource.isPlaying)
                 {
                     ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Record - Should start playing...");
 
                     if (0 < mListAudio.Count)
                     {
                         ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Record - There is " + mListAudio.Count + " clip(s) to play...");
-                        mAudioSource.clip = mListAudio.Dequeue();
-                        mAudioSource.Play();
+                        ReplayAudioSource.clip = mListAudio.Dequeue();
+                        ReplayAudioSource.Play();
                     }
                     else
                     {
@@ -91,7 +92,7 @@ namespace BuddyApp.Diagnostic
             }
         }
 
-        void OnEnable()
+        public void OnEnable()
         {
             // Text to speech
             TextToSpeechButton.onClick.AddListener(delegate {
@@ -163,7 +164,7 @@ namespace BuddyApp.Diagnostic
                 });
         }
 
-        void OnDisable()
+        public void OnDisable()
         {
             // Text to speech
             TextToSpeechButton.onClick.RemoveAllListeners();
@@ -187,43 +188,52 @@ namespace BuddyApp.Diagnostic
             mNoiseDetector.OnDetect.Clear();
         }
 
-        void OnTextToSpeechButtonClick()
+        private void OnTextToSpeechButtonClick()
         {
-            Buddy.Vocal.Stop();
+            Buddy.Vocal.StopAndClear();
             Buddy.Vocal.Say(TextToSpeechInputField.text);
         }
 
-        void OnGimmickPlayButtonClick ()
+        private void OnGimmickPlayButtonClick ()
         {
             Buddy.Actuators.Speakers.Media.Stop();
             Buddy.Actuators.Speakers.Media.Play((SoundSample)Enum.Parse(typeof(SoundSample), GimmickDropdown.options[GimmickDropdown.value].text));
         }
 
-        void OnSpeechToTextGrammarButtonClick ()
+        private void OnSpeechToTextGrammarButtonClick ()
         {
-            Buddy.Vocal.Stop();
-            Buddy.Vocal.Listen(new string[] { "common" }, OnEndListeningSpeechToText, SpeechRecognitionMode.GRAMMAR_ONLY);
+            Buddy.Vocal.StopAndClear();
+
+            if (!Buddy.Vocal.Listen("common", OnEndListeningSpeechToText, SpeechRecognitionMode.GRAMMAR_ONLY))
+                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "ERROR ON LISTEN !!!! ");
         }
 
-        void OnSpeechToTextFreeSpeechButtonClick ()
+        private void OnSpeechToTextFreeSpeechButtonClick ()
         {
-            Buddy.Vocal.Stop();
-            Buddy.Vocal.Listen(OnEndListeningSpeechToText, SpeechRecognitionMode.FREESPEECH_ONLY);
+            Buddy.Vocal.StopAndClear();
+
+            if (!Buddy.Vocal.Listen(OnEndListeningSpeechToText, SpeechRecognitionMode.FREESPEECH_ONLY))
+                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "ERROR ON LISTEN !!!! ");
         }
 
-        void OnEndListeningSpeechToText(SpeechInput iInput)
+        private void OnEndListeningSpeechToText(SpeechInput iSpeechInput)
         {
-            SpeechToTextField.text = iInput.Utterance;
+            if (iSpeechInput.IsInterrupted || 0 <= iSpeechInput.Confidence) // Error during recognition, forced StopListening or nothing recognized.
+            {
+                return;
+            }
+
+            SpeechToTextField.text = iSpeechInput.Utterance;
         }
-        
-        void OnTriggerTimedEvent(System.Object source, System.Timers.ElapsedEventArgs e)
+
+        private void OnTriggerTimedEvent(System.Object source, System.Timers.ElapsedEventArgs e)
         {
             TriggerText.color = Color.red;
             mTimeTrigger.Stop();
             mTimeTrigger.Close();
         }
 
-        void OnRecordingButtonClick()
+        private void OnRecordingButtonClick()
         {
             if (string.Equals("Start recording", RecordButton.GetComponentsInChildren<Text>()[0].text))
             {
@@ -243,19 +253,18 @@ namespace BuddyApp.Diagnostic
                 
                 if (null != mAudioClip)
                     mListAudio.Enqueue(mAudioClip);
-
-                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Start new frame? " + mNoiseDetector.MicrophoneIdx);
+                
                 return;
             }
         }
-        
-        void OnPlayRecordButtonClick()
+
+        private void OnPlayRecordButtonClick()
         {
             if (mBIsPlaying)
             {
                 RecordButton.interactable = true;
                 PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "Play";
-                mAudioSource.Stop();
+                ReplayAudioSource.Stop();
                 
                 mBIsPlaying = false;
             }

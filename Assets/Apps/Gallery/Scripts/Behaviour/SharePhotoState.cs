@@ -98,7 +98,7 @@ namespace BuddyApp.Gallery
             Buddy.WebServices.EMailSender.Send(mXMLData.AdressMailSender, mXMLData.PasswordMail, SMTP.GMAIL, lMail, OnPostEmail);
         }
 
-        void OnPostTweet(bool iBSuccess)
+        private void OnPostTweet(bool iBSuccess)
         {
             if (!iBSuccess)
             {
@@ -112,7 +112,7 @@ namespace BuddyApp.Gallery
             Trigger("TRIGGER_PHOTO_SHARED");
         }
 
-        void OnPostEmail(bool iBSuccess)
+        private void OnPostEmail(bool iBSuccess)
         {
             if (!iBSuccess) {
                 Buddy.Vocal.SayKey(STR_TWITTER_ERROR, false);

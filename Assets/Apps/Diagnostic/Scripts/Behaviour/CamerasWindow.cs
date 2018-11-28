@@ -24,8 +24,8 @@ namespace BuddyApp.Diagnostic
         private RGBCamera mRGBCam;
         private DepthCamera mDepthCam;
         private InfraredCamera mInfraredCam;
-        
-        void OnEnable()
+
+        public void OnEnable()
         {
             mRGBCam = Buddy.Sensors.RGBCamera;
             mHDCam = Buddy.Sensors.HDCamera;
@@ -40,7 +40,7 @@ namespace BuddyApp.Diagnostic
             });
         }
 
-        void OnDisable()
+        public void OnDisable()
         {
             SelectedCameraDropdown.onValueChanged.RemoveAllListeners();
             SelectedResolutionDropdown.onValueChanged.RemoveAllListeners();

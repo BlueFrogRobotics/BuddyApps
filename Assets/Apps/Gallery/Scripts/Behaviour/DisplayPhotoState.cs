@@ -51,7 +51,7 @@ namespace BuddyApp.Gallery
             }
             else
             {
-                Buddy.Vocal.Listen();// new SpeechInputParameters() { Grammars = new string[] { "grammar", "gallery" }, RecognitionThreshold = 6000 });
+                Buddy.Vocal.Listen();
             }
         }
 
@@ -72,15 +72,15 @@ namespace BuddyApp.Gallery
             Buddy.GUI.Screen.OnTouch.Remove(OnStopListening);
         }
 		
-        public void OnEndSpeaking(SpeechOutput iSpeechOutput)
+        private void OnEndSpeaking(SpeechOutput iSpeechOutput)
         {
             if (0.0F <= mFTimeListening)
             {
-                Buddy.Vocal.Listen();// new SpeechInputParameters() { Grammars = new string[] { "grammar", "gallery" }, RecognitionThreshold = 6000 });
+                Buddy.Vocal.Listen();
             }
         }
 
-        public void OnEndListening (SpeechInput iSpeechInput)
+        private void OnEndListening (SpeechInput iSpeechInput)
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "RULE : " + iSpeechInput.Rule);
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "UTTERANCE : " + iSpeechInput.Utterance);
@@ -131,7 +131,7 @@ namespace BuddyApp.Gallery
 
             if (0.0F <= mFTimeListening)
             {
-                Buddy.Vocal.Listen();// new SpeechInputParameters() { Grammars = new string[] { "grammar", "gallery" }, RecognitionThreshold = 6000 });
+                Buddy.Vocal.Listen();
             }
         }
         
