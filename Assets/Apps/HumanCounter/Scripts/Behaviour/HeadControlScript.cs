@@ -7,7 +7,7 @@ namespace BuddyApp.HumanCounter
 {
     public class HeadControlScript : MonoBehaviour
     {
-        private float HEAD_ANGLE_INCREMENT = 5f;
+        private float HEAD_ANGLE_INCREMENT = 5F;
 
         [SerializeField]
         private Animator mAnimator;
@@ -30,7 +30,7 @@ namespace BuddyApp.HumanCounter
             }
             catch
             {
-                Debug.Log("Enter a new float");
+                Debug.Log("HeadYesSetPosition: Enter a new float");
             }
         }
 
