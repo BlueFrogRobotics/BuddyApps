@@ -63,10 +63,13 @@ namespace BuddyApp.TakePhoto
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+            //Init 
             ToastRender = false;
 			mPhotoTaken = false;
 			mTimer = 0;
 			mSpeechId = 0;
+
+            //Creation of the texture/sprite of the overlay.
             string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
             Texture2D spriteTexture = new Texture2D(1, 1);
             spriteTexture.hideFlags = HideFlags.HideAndDontSave;
@@ -74,9 +77,10 @@ namespace BuddyApp.TakePhoto
             spriteTexture.Apply();
             Sprite.Create(spriteTexture, new UnityEngine.Rect(0, 0, spriteTexture.width, spriteTexture.height), new Vector2(0.5F, 0.5F));
             Sprite lOverlaySprite = Sprite.Create(spriteTexture, new UnityEngine.Rect(0, 0, spriteTexture.width, spriteTexture.height), new Vector2(0.5F, 0.5F));
-
             mOverlayTexture = lOverlaySprite.texture;
             mOverlay.texture = mOverlayTexture;
+
+            //Check if we can open the RGBCamera.
             if (Buddy.Sensors.RGBCamera.IsBusy)
             {
                 Buddy.Sensors.RGBCamera.Close();
@@ -87,12 +91,18 @@ namespace BuddyApp.TakePhoto
                 Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_640x480_30FPS_RGB);
                 
             }
+
+            //We don't use Toaster to display video because we want to display on the full screen and we can't with toaster right now.
             mVideo.gameObject.SetActive(true);
             if (TakePhotoData.Instance.Overlay)
                 mOverlay.gameObject.SetActive(true);
             Buddy.Vocal.SayKey("takephoto", true);
 		}
 
+        /// <summary>
+        /// Callback called at every new valid frame.
+        /// </summary>
+        /// <param name="iFrame">Frame delivered by the RGBCamera</param>
         private void OnFrameCaptured(RGBCameraFrame iFrame)
         {
             mVideo.texture = iFrame.MirroredTexture;
@@ -108,7 +118,7 @@ namespace BuddyApp.TakePhoto
                 if (!Buddy.Vocal.IsSpeaking)
                 {
                     mTimer += Time.deltaTime;
-                    
+                    //TODO : add a timer so even if the vocal bugs we can do the next step.
                     if (mTimer > 0.5F)
                         if (mSpeechId < 3)
                         {
@@ -120,6 +130,7 @@ namespace BuddyApp.TakePhoto
                         }
                     else if (!mPhotoTaken)
                     {
+                        //Take the picture.
                         if (Buddy.Sensors.RGBCamera.Width > 0)
                         {
                             mPictureSound.Play();
@@ -135,12 +146,18 @@ namespace BuddyApp.TakePhoto
             }
 		}
 
+        /// <summary>
+        /// Callback called when we take a picture.
+        /// </summary>
+        /// <param name="iMyPhoto">Photo sent by CORE with takephotograph</param>
         private void OnFinish(Photograph iMyPhoto)
 		{
             Buddy.Sensors.RGBCamera.Close();
+
 			mVideo.gameObject.SetActive(false);
 			mOverlay.gameObject.SetActive(false);
 
+            //Add the overlay to the picture taken.
             if (TakePhotoData.Instance.Overlay)
             {
                 var cols1 = mOverlayTexture.GetPixels();
@@ -172,6 +189,8 @@ namespace BuddyApp.TakePhoto
             TakePhotoData.Instance.PhotoPath = iMyPhoto.FullPath;
             mIsFrameCaptured = false;
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetRandomString("redoorshare"), null, "redoorshare", OnEndListening, null, false);
+
+            //UI : display the photo taken with two buttons on the footer to share or redo a photo.
             Buddy.GUI.Toaster.Display<PictureToast>().With(mPhotoSprite);
             FButton lLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
             FButton LRightButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
@@ -187,6 +206,8 @@ namespace BuddyApp.TakePhoto
             mIsFrameCaptured = false;
         }
 
+
+        //Callback called at the end of the listening.
         private void OnEndListening(SpeechInput iInput)
         {
             if (!iInput.IsInterrupted)
@@ -244,6 +265,7 @@ namespace BuddyApp.TakePhoto
             Buddy.GUI.Footer.Hide();
             Trigger("RedoPhoto");
         }
+
         public static bool ContainsOneOf(string iSpeech, string[] iListSpeech)
         {
             if(!string.IsNullOrEmpty(iSpeech))
@@ -264,6 +286,5 @@ namespace BuddyApp.TakePhoto
             }
             return false;
         }
-
     }
 }

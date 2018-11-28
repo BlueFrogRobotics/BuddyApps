@@ -106,7 +106,6 @@ namespace BuddyApp.Shared
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Debug.Log("<color=red>Fatal error:</color>ON ENTER");
             mTexture = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             mTextureRefresh = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             mIsInit = false;
@@ -145,7 +144,6 @@ namespace BuddyApp.Shared
             mCam.Open(RGBCameraMode.COLOR_320x240_30FPS_RGB);
             mCam.OnNewFrame.Add((iFrame) =>
             {
-                Debug.Log("<color=red>Fatal error:</color>ON NEW FRAME");
                 mMat = iFrame.Mat.clone();
                 mIsInit = true;
             });
@@ -397,7 +395,8 @@ namespace BuddyApp.Shared
         }
 
         private void RePosition()
-        {            
+        {
+            Debug.Log("<color = red> REPOSITION SHARED MOTION DETECT</color>");
             mPositionX /= mDetectionCountTest;
             mPositionY /= mDetectionCountTest;
             float lAngle;
@@ -405,8 +404,9 @@ namespace BuddyApp.Shared
                 lAngle = -(mPositionX / mCam.Width - 0.5F) * 120F;
             else
                 lAngle = (mPositionX / mCam.Width - 0.5F) * 120F;
-
+            Debug.Log("<color = red> REPOSITION SHARED MOTION DETECT : </color>" + lAngle);
             Buddy.Actuators.Head.No.SetPosition(lAngle, 95F);
+            Debug.Log("<color = red> REPOSITION SHARED MOTION DETECT 2 : </color>" + ((mPositionY / mCam.Height - 0.5F) * -40F));
             Buddy.Actuators.Head.Yes.SetPosition((mPositionY / mCam.Height - 0.5F) * -40F, 95F);
             mReposeDone = true;
         }

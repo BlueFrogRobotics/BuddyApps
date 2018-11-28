@@ -35,8 +35,13 @@ namespace BuddyApp.TakePhoto
 
         private XMLData mXMLData;
 
+        private bool mMailOrTweetSent;
+        private bool mIsVocalSaid;
+
         public override void Start()
         {
+            mMailOrTweetSent = false;
+            mIsVocalSaid = false;
             mRandom = 0;
             mXMLData = new XMLData();
             mMail = new EMail();
@@ -76,8 +81,17 @@ namespace BuddyApp.TakePhoto
             }
             Trigger("AskPhotoAgain");
         }
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            if(mMailOrTweetSent && !mIsVocalSaid)
+            {
+                mIsVocalSaid = true;
+                Buddy.Vocal.SayKey("pictureshared");
+            }
+        }
 
-		private void SendTweet(string iMsg)
+
+        private void SendTweet(string iMsg)
 		{
             Twitter.AccessTokenResponse accessToken = new Twitter.AccessTokenResponse
             {
@@ -97,17 +111,21 @@ namespace BuddyApp.TakePhoto
             mMail.Addresses.Add(mXMLData.AdressMailReceiver);
             mMail.Subject = mXMLData.SubjectMail;
             mMail.Body = mXMLData.BodyMail;
-            Buddy.WebServices.EMailSender.Send(lAdress, lPasswordMail, SMTP.GMAIL, mMail/*, OnMailSent*/);
+            Buddy.WebServices.EMailSender.Send(lAdress, lPasswordMail, SMTP.GMAIL, mMail, iInput => OnMailSent(iInput));
         }
 
-        //private bool OnMailSent()
-        //{
-
-        //}
+        private void OnMailSent(bool iInput)
+        {
+            if(iInput)
+            {
+                mMailOrTweetSent = true;
+            }
+        }
 
         private void OnPostTweet(bool success)
 		{
 			Debug.Log("OnPostTweet - " + (success ? "succeeded." : "failed."));
+            mMailOrTweetSent = true;
 		}
 
         private Texture2D LoadTexture(Texture2D iText)

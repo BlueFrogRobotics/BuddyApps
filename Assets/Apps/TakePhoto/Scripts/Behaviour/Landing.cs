@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using BlueQuark;
 
 
@@ -14,6 +12,7 @@ namespace BuddyApp.TakePhoto
         {
             mTimer = 0F;
             Buddy.Vocal.SayKey("movehands");
+            //Set the recognition threshold for the app
             Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters();
             Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 6000;
 
@@ -22,6 +21,7 @@ namespace BuddyApp.TakePhoto
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer += Time.deltaTime;
+            //We also set a timer if we have a bug with the Buddy.Vocal.IsBusy because we still work on the vocal and we want to avoid being blocked here.
             if(!Buddy.Vocal.IsBusy || mTimer > 6F)
                 Trigger("LookForUser");
         }
