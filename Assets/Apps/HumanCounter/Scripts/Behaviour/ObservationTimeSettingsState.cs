@@ -137,7 +137,6 @@ namespace BuddyApp.HumanCounter
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            mLinksDico.Clear();
         }
 
         private void UpdateOptionDetectText()
