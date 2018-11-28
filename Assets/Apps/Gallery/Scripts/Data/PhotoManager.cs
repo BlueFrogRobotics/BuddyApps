@@ -16,10 +16,10 @@ namespace BuddyApp.Gallery
         
         // Singleton design pattern
         private static readonly PhotoManager mPhotoManagerInstance = new PhotoManager();
-        private static string mFirstPhotoPath = null;
-        private static SortedList mPhotoSortedList = new SortedList();
+        private static string mStrFirstPhotoPath = null;
+        private static SortedList mLPhotoSortedList = new SortedList();
         private static SlideSet mSlideSet = null;
-        private static int mFirstImageIndex;
+        private static int mIFirstImageIndex;
 
         // Singleton design pattern
         static PhotoManager()
@@ -37,77 +37,42 @@ namespace BuddyApp.Gallery
             return mPhotoManagerInstance;
         }
 
-        public void Initialize(string strAppName, string strPhotoName)
+        public void Initialize(string iStrAppName, string iStrPhotoName)
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Initializing application with image directory...");
 
-            if (null != mPhotoSortedList)
+            if (null != mLPhotoSortedList)
             {
-                mPhotoSortedList.Clear();
+                mLPhotoSortedList.Clear();
             }
 
             // Scan repository to initialize the photo list
             ScanPhotographs();
-            //ScanDirectory(Buddy.Resources.GetRawFullPath(STR_GALLERY_DIRECTORY));
 
             // Determine first index
-            int firstIndex;
+            int lIFirstIndex;
 
             // First : check if input file exists
             // Second : check if app has photo
-            firstIndex = GetInitialIndex(strAppName, strPhotoName);
-            if (-1 != firstIndex)
+            lIFirstIndex = GetInitialIndex(iStrAppName, iStrPhotoName);
+            if (-1 != lIFirstIndex)
             {
-                mFirstImageIndex = firstIndex;
+                mIFirstImageIndex = lIFirstIndex;
             }
             else
             {
-                mFirstImageIndex = mPhotoSortedList.Count - 1; // Last : Set to last if nothing if found
+                mIFirstImageIndex = mLPhotoSortedList.Count - 1; // Last : Set to last if nothing if found
             }
         }
 
         public void Free()
         {
-            mFirstPhotoPath = null;
-            mPhotoSortedList = new SortedList();
+            mStrFirstPhotoPath = null;
+            mLPhotoSortedList = new SortedList();
             mSlideSet = null;
-            mFirstImageIndex = -1;
-    }
-        
-        /*
-        private void ScanDirectory(string strDirectoryPath)
-        {
-            
-            // Check if directory path exists
-            if (!Directory.Exists(strDirectoryPath))
-            {
-                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.ACCESSING, "Error: Impossible to find image directory!");
-                // TODO: Error when file does not exist
-                return;
-            }
-
-            // For each extension
-            foreach(string strExtension in ALLOWED_EXTENSION_LIST)
-            {
-                IEnumerable<string> lDirectory = Directory.EnumerateFiles(strDirectoryPath, strExtension, SearchOption.AllDirectories);
-            
-                foreach (string strCurrentFile in lDirectory)
-                {
-                    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.LOADING, "File: " + strCurrentFile);
-
-                    Photo photo = new Photo(strCurrentFile);
-
-                    if (null == photo)
-                    {
-                        return;
-                    }
-                
-                    AddPhoto(photo);
-                }
-            }
+            mIFirstImageIndex = -1;
         }
-        */
-
+        
         private void ScanPhotographs()
         {
             Photograph[] lPhotographs = Buddy.Platform.Users.GetUserPhotographs(false);
@@ -132,23 +97,23 @@ namespace BuddyApp.Gallery
             }
         }
         
-        private int GetInitialIndex(string strAppName, string strPhotoName)
+        private int GetInitialIndex(string iStrAppName, string iStrPhotoName)
         {
-            if (null == strPhotoName || null == mPhotoSortedList)
+            if (null == iStrPhotoName || null == mLPhotoSortedList)
             {
                 return -1;
             }
 
             int iApplicationIndex = -1;
-            for (int i = mPhotoSortedList.Count - 1; i < 0; --i)
+            for (int i = mLPhotoSortedList.Count - 1; i < 0; --i)
             {
-                Photo p = GetPhotoByIndex(i);
-                if (string.Equals(strPhotoName, p.GetPhotoName()))
+                Photo lPhoto = GetPhotoByIndex(i);
+                if (string.Equals(iStrPhotoName, lPhoto.GetPhotoName()))
                 {
                     return i;
                 }
 
-                if (-1 == iApplicationIndex && string.Equals(strAppName, p.GetApplicationName()))
+                if (-1 == iApplicationIndex && string.Equals(iStrAppName, lPhoto.GetApplicationName()))
                 {
                     iApplicationIndex = i;
                 }
@@ -160,7 +125,7 @@ namespace BuddyApp.Gallery
 
         public int GetFirstSlideIndex()
         {
-            return mFirstImageIndex;
+            return mIFirstImageIndex;
         }
 
         public SlideSet GetSlideSet ()
@@ -168,19 +133,19 @@ namespace BuddyApp.Gallery
             return mSlideSet;
         }
 
-        public void SetSlideSet (SlideSet slider)
+        public void SetSlideSet (SlideSet iSlider)
         {
-            mSlideSet = slider;
+            mSlideSet = iSlider;
         }
 
         public bool IsEmpty()
         {
-            return (0 == mPhotoSortedList.Count);
+            return (0 == mLPhotoSortedList.Count);
         }
 
         public int GetCount()
         {
-            return mPhotoSortedList.Count;
+            return mLPhotoSortedList.Count;
         }
 
         public int GetCurrentIndex()
@@ -188,69 +153,64 @@ namespace BuddyApp.Gallery
             return mSlideSet.CurrentIndex;
         }
 
-        public void SetCurrentIndex(int index)
+        public void SetCurrentIndex(int iIndex)
         {
-            if (null == mPhotoSortedList) {
+            if (null == mLPhotoSortedList) {
                 // Error, not initialized.
                 return;
             }
             
-            if (index < 0) {
+            if (iIndex < 0) {
                 // Error, index inferior to allowed range of index.
                 return;
             }
 
-            if (mPhotoSortedList.Count <= index) {
+            if (mLPhotoSortedList.Count <= iIndex) {
                 // Error, index superior to allowed range of index.
                 return;
             }
             
-            mSlideSet.GoTo(index);
+            mSlideSet.GoTo(iIndex);
         }
 
-        public void AddPhoto(Photo photo)
+        public void AddPhoto(Photo iPhoto)
         {
-            if (null == mPhotoSortedList) {
+            if (null == mLPhotoSortedList) {
                 // Error, not initialized.
                 return;
             }
 
-            if (null == photo) {
+            if (null == iPhoto) {
                 // Error, not initialized.
                 return;
             }
 
-            mPhotoSortedList.Add(photo.GetKeyValue(), photo);
+            mLPhotoSortedList.Add(iPhoto.GetKeyValue(), iPhoto);
         }
         
-        public Photo GetPhotoByIndex(int index)
+        public Photo GetPhotoByIndex(int iIndex)
         {
-            if (null == mPhotoSortedList) {
+            if (null == mLPhotoSortedList) {
                 // Error, not initialized.
                 return null;
             }
 
-            if (index < 0) {
+            if (iIndex < 0) {
                 // Error, index inferior to allowed range of index.
                 return null;
             }
 
-            if (mPhotoSortedList.Count <= index) {
+            if (mLPhotoSortedList.Count <= iIndex) {
                 // Error, index superior to allowed range of index.
                 return null;
             }
 
-            if (mPhotoSortedList.Count <= index) {
-                // Error, index superior to allowed range of index.
-                return null;
-            }
-
-            return (Photo)mPhotoSortedList.GetByIndex(index);
+            return (Photo)mLPhotoSortedList.GetByIndex(iIndex);
         }
 
         public Photo GetCurrentPhoto()
         {
-            if (null == mPhotoSortedList) {
+            if (null == mLPhotoSortedList) {
                 // Error, not initialized.
                 return null;
             }
@@ -260,35 +220,35 @@ namespace BuddyApp.Gallery
                 return null;
             }
 
-            if (mPhotoSortedList.Count <= mSlideSet.CurrentIndex) {
+            if (mLPhotoSortedList.Count <= mSlideSet.CurrentIndex) {
                 // Error, index superior to allowed range of index.
                 return null;
             }
 
-            return (Photo)mPhotoSortedList.GetByIndex(mSlideSet.CurrentIndex);
+            return (Photo)mLPhotoSortedList.GetByIndex(mSlideSet.CurrentIndex);
         }
 
         public Photo GetNextPhoto()
         {
-            if (null == mPhotoSortedList)
+            if (null == mLPhotoSortedList)
             {
                 // Error, not initialized.
                 return null;
             }
 
-            if (mPhotoSortedList.Count - 1 == mSlideSet.CurrentIndex)
+            if (mLPhotoSortedList.Count - 1 == mSlideSet.CurrentIndex)
             {
                 // Error, cannot get next photo, already last one.
                 return null;
             }
 
             mSlideSet.GoNext();
-            return (Photo)mPhotoSortedList.GetByIndex(mSlideSet.CurrentIndex);
+            return (Photo)mLPhotoSortedList.GetByIndex(mSlideSet.CurrentIndex);
         }
 
         public Photo GetPreviousPhoto()
         {
-            if (null == mPhotoSortedList)
+            if (null == mLPhotoSortedList)
             {
                 // Error, not initialized.
                 return null;
@@ -300,19 +260,20 @@ namespace BuddyApp.Gallery
             }
 
             mSlideSet.GoPrevious();
-            return (Photo)mPhotoSortedList.GetByIndex(mSlideSet.CurrentIndex);
+            return (Photo)mLPhotoSortedList.GetByIndex(mSlideSet.CurrentIndex);
         }
         
         public bool DeleteCurrentPhoto()
         {
-            if (null == mPhotoSortedList || null == mSlideSet)
+            if (null == mLPhotoSortedList || null == mSlideSet)
             {
                 // Error, not initialized.
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.DELETING, "Photo Manager not initialized.");
                 return false;
             }
 
-            if (mSlideSet.CurrentIndex < 0) {
+            if (mSlideSet.CurrentIndex < 0)
+            {
                 // Error, index inferior to allowed range of index.
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.DELETING, "Slide index out of range.");
                 return false;
@@ -325,7 +286,7 @@ namespace BuddyApp.Gallery
             }
 
             // Remove current slide
-            int iCurrent = mSlideSet.CurrentIndex;
+            int lICurrent = mSlideSet.CurrentIndex;
             
             try
             {
@@ -340,14 +301,14 @@ namespace BuddyApp.Gallery
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.DELETING, "Exception caught : " + e);
             }
             
-            if (!((Photo)mPhotoSortedList.GetByIndex(iCurrent)).Delete())
+            if (!((Photo)mLPhotoSortedList.GetByIndex(lICurrent)).Delete())
             {
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.DELETING, "Could not delete photo from disk.");
                 return false;
             }
 
             // Remove photo from list
-            mPhotoSortedList.RemoveAt(iCurrent);
+            mLPhotoSortedList.RemoveAt(lICurrent);
             return true;
         }
     }

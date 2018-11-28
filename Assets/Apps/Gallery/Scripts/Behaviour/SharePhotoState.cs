@@ -66,61 +66,65 @@ namespace BuddyApp.Gallery
             };
 
             string strImageFullPath = PhotoManager.GetInstance().GetCurrentPhoto().GetPhotoFullpath();
-            FileInfo f = new FileInfo(strImageFullPath);
-            string strImageFileName = f.Name + f.Extension;
+            FileInfo lFileInfo = new FileInfo(strImageFullPath);
+            string strImageFileName = lFileInfo.Name + lFileInfo.Extension;
 
             string[] mTweetMsg = null;
             if (!string.IsNullOrEmpty(mXMLData.TwitterText)) {
                 mTweetMsg = mXMLData.TwitterText.Split('/');
             }
 
-            string strTweetMsg = (null == mTweetMsg)
+            string lStrTweetMsg = (null == mTweetMsg)
                 ? Buddy.Resources.GetRandomString(STR_TWEET_TEXT)
                 : mTweetMsg[Random.Range(0, mTweetMsg.Length)];
-            strTweetMsg += " " + mXMLData.TwitterHashtag;
+            lStrTweetMsg += " " + mXMLData.TwitterHashtag;
 
 
-            byte[] image = File.ReadAllBytes(strImageFullPath);
-            ExtLog.W(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.NULL_VALUE, "Size of file to send : " + image.Length);
+            byte[] lImage = File.ReadAllBytes(strImageFullPath);
+            ExtLog.W(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.NULL_VALUE, "Size of file to send : " + lImage.Length);
 
-            StartCoroutine(Twitter.API.UploadMedia(strImageFileName, image, strTweetMsg, mXMLData.ConsumerKey, mXMLData.ConsumerSecret, accessToken,
+            StartCoroutine(Twitter.API.UploadMedia(strImageFileName, lImage, lStrTweetMsg, mXMLData.ConsumerKey, mXMLData.ConsumerSecret, accessToken,
                                                      new Twitter.PostTweetCallback(OnPostTweet)));
         }
 
         private void SendMail()
         {
-            EMail mail = new EMail();
-            mail.Addresses.Clear();
-            mail.Addresses.Add(mXMLData.AdressMailReceiver);
-            mail.Subject = string.IsNullOrEmpty(mXMLData.SubjectMail) ? Buddy.Resources.GetRandomString(STR_MAIL_SUBJECT) : mXMLData.SubjectMail;
-            mail.Body = string.IsNullOrEmpty(mXMLData.BodyMail) ? Buddy.Resources.GetRandomString(STR_MAIL_TEXT) : mXMLData.BodyMail;
-            mail.AddFile(PhotoManager.GetInstance().GetCurrentPhoto().GetPhotoFullpath());
-            Buddy.WebServices.EMailSender.Send(mXMLData.AdressMailSender, mXMLData.PasswordMail, SMTP.GMAIL, mail, OnPostEmail);
+            EMail lMail = new EMail();
+            lMail.Addresses.Clear();
+            lMail.Addresses.Add(mXMLData.AdressMailReceiver);
+            lMail.Subject = string.IsNullOrEmpty(mXMLData.SubjectMail) ? Buddy.Resources.GetRandomString(STR_MAIL_SUBJECT) : mXMLData.SubjectMail;
+            lMail.Body = string.IsNullOrEmpty(mXMLData.BodyMail) ? Buddy.Resources.GetRandomString(STR_MAIL_TEXT) : mXMLData.BodyMail;
+            lMail.AddFile(PhotoManager.GetInstance().GetCurrentPhoto().GetPhotoFullpath());
+            Buddy.WebServices.EMailSender.Send(mXMLData.AdressMailSender, mXMLData.PasswordMail, SMTP.GMAIL, lMail, OnPostEmail);
         }
 
-        void OnPostTweet(bool iSuccess)
+        void OnPostTweet(bool iBSuccess)
         {
-            if (!iSuccess) {
+            if (!iBSuccess)
+            {
                 Buddy.Vocal.SayKey(STR_TWITTER_ERROR, false);
-            } else {
+            }
+            else
+            {
                 Buddy.Vocal.SayKey(STR_SHARED, false);
             }
 
             Trigger("TRIGGER_PHOTO_SHARED");
         }
 
-        void OnPostEmail(bool iSuccess)
+        void OnPostEmail(bool iBSuccess)
         {
-            if (!iSuccess) {
+            if (!iBSuccess) {
                 Buddy.Vocal.SayKey(STR_TWITTER_ERROR, false);
             }
             else
             {
-                if (Publish.MAIL == mXMLData.WhereToPublish)
-                {
-                    Buddy.Vocal.SayKey(STR_SHARED, false);
-                    Trigger("TRIGGER_PHOTO_SHARED");
-                }
+                Buddy.Vocal.SayKey(STR_SHARED, false);
+            }
+
+            if (Publish.MAIL == mXMLData.WhereToPublish)
+            {
+                Trigger("TRIGGER_PHOTO_SHARED");
             }
         }
     }

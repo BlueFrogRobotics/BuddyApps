@@ -19,7 +19,7 @@ namespace BuddyApp.Gallery
         private readonly string STR_APP_NAME = "app_name";
 
         [SerializeField]
-        private object[] iArgs = null;
+        private object[] mArgs = null;
 
         /*
 		* Called before the App scene loading.
@@ -29,10 +29,10 @@ namespace BuddyApp.Gallery
 			ExtLog.I(ExtLogModule.APP, typeof(GalleryActivity), LogStatus.START, LogInfo.LOADING, "On loading...");
 
             // TODO: Deal with parameters (ie, name of an image, name of an application?)
-            this.iArgs = iArgs;
+            this.mArgs = iArgs;
             
-            string strAppName = (null != iArgs && 0 < iArgs.Length && typeof(string) == iArgs[0].GetType()) ? (string)iArgs[0] : null;
-            string strFirstPhotoName = (null != iArgs && 1 < iArgs.Length && typeof(string) == iArgs[1].GetType()) ? (string)iArgs[1] : null;
+            string strAppName = (null != mArgs && 0 < mArgs.Length && typeof(string) == mArgs[0].GetType()) ? (string)mArgs[0] : null;
+            string strFirstPhotoName = (null != mArgs && 1 < mArgs.Length && typeof(string) == mArgs[1].GetType()) ? (string)mArgs[1] : null;
 
             // Initialize photo manager (scan directoies)
             PhotoManager.GetInstance().Initialize(strAppName, strFirstPhotoName);
@@ -53,19 +53,19 @@ namespace BuddyApp.Gallery
         {
             ExtLog.I(ExtLogModule.APP, typeof(GalleryActivity), LogStatus.SUCCESS, LogInfo.LOADING, "On start...");
 
-            string strAppName = (null != iArgs && 0 < iArgs.Length && typeof(string) == iArgs[0].GetType()) ? ((string)iArgs[0].ToString()) : null;
+            string lStrAppName = (null != mArgs && 0 < mArgs.Length && typeof(string) == mArgs[0].GetType()) ? ((string)mArgs[0].ToString()) : null;
 
             // Vocal initialization and welcome
-            Buddy.GUI.Screen.OnTouch.Add((iTouch) => { if(Buddy.Vocal.IsListening) Buddy.Vocal.StopListening(); });
+            Buddy.GUI.Screen.OnTouch.Add((iTouch) => { if (Buddy.Vocal.IsListening) { Buddy.Vocal.StopListening(); } }); // StopAndClear ?
             Buddy.Vocal.OnTrigger.Add((iAction) => Buddy.Vocal.SayKeyAndListen("ilisten"));
 
-            if (null == strAppName) // At least 2 parameters
+            if (null == lStrAppName) // At least 2 parameters
             {
                 Buddy.Vocal.SayKey(STR_WELCOME, false);
             }
             else
             {
-                Buddy.Vocal.Say(Buddy.Resources.GetRandomString(STR_WELCOME_FROM_APP).Replace(STR_APP_NAME, strAppName), false);
+                Buddy.Vocal.Say(Buddy.Resources.GetRandomString(STR_WELCOME_FROM_APP).Replace(STR_APP_NAME, lStrAppName), false);
             }
         }
 
@@ -80,7 +80,7 @@ namespace BuddyApp.Gallery
 
             if (Buddy.Vocal.IsBusy)
             {
-                Buddy.Vocal.Stop();
+                Buddy.Vocal.StopAndClear();
             } 
 
             PhotoManager.GetInstance().Free();

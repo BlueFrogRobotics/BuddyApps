@@ -60,17 +60,17 @@ namespace BuddyApp.Diagnostic
         private Timer mTimeTrigger;
         private NoiseDetector mNoiseDetector;
 
-        private bool mIsPlaying = false;
+        private bool mBIsPlaying = false;
         private Queue<AudioClip> mListAudio = new Queue<AudioClip>();
         private AudioClip mAudioClip;
-        private int mPreviousMicroIndex = 0;
+        private int mIPreviousMicroIndex = 0;
 
         void Update()
         {
             LocalizationText.text = "Localization: " + Buddy.Sensors.Microphones.SoundLocalization + " degrees";
             AmbiantSoundLevelText.text = "Ambiant Sound Level: " + Buddy.Sensors.Microphones.AmbiantSound + " db";
             
-            if (mIsPlaying) // Playing record
+            if (mBIsPlaying) // Playing record
             {
                 if (null == mAudioSource.clip || !mAudioSource.isPlaying)
                 {
@@ -145,7 +145,7 @@ namespace BuddyApp.Diagnostic
                 {
                     if (!PlayRecordButton.interactable)
                     {
-                        if (mNoiseDetector.MicrophoneIdx < mPreviousMicroIndex && null != mAudioClip)
+                        if (mNoiseDetector.MicrophoneIdx < mIPreviousMicroIndex && null != mAudioClip)
                             mListAudio.Enqueue(mAudioClip);
                         
                         if (mNoiseDetector.MicrophoneData != null)
@@ -158,7 +158,7 @@ namespace BuddyApp.Diagnostic
                             mAudioClip.SetData(samples, 0);
                         }
 
-                        mPreviousMicroIndex = mNoiseDetector.MicrophoneIdx;
+                        mIPreviousMicroIndex = mNoiseDetector.MicrophoneIdx;
                     }
                 });
         }
@@ -251,19 +251,19 @@ namespace BuddyApp.Diagnostic
         
         void OnPlayRecordButtonClick()
         {
-            if (mIsPlaying)
+            if (mBIsPlaying)
             {
                 RecordButton.interactable = true;
                 PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "Play";
                 mAudioSource.Stop();
                 
-                mIsPlaying = false;
+                mBIsPlaying = false;
             }
             else
             {
                 RecordButton.interactable = false;
                 PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "Stop";
-                mIsPlaying = true;
+                mBIsPlaying = true;
             }
         }
     }

@@ -10,7 +10,7 @@ namespace BuddyApp.Gallery
 {
     public class LaunchApplicationState : AStateMachineBehaviour
     {
-        private readonly string STR_DEFAULT_SPRITE = "os_icon_photo";//"os_atlas_ui_photo_big";
+        private readonly string STR_DEFAULT_SPRITE = "os_icon_photo_big";
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -22,22 +22,17 @@ namespace BuddyApp.Gallery
             Buddy.Vocal.ListenOnTrigger = true; // Active auto listen after Okay Buddy
 
             string[] grammars = { "grammar", "gallery" };
-            Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters();
-            Buddy.Vocal.DefaultInputParameters.Grammars = grammars;
-            Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 6000; // More accurate recognition for "sure" / "share", etc
-            
+            Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters {
+                Grammars = grammars,
+                RecognitionThreshold = 6000 // More accurate recognition for "sure" / "share", etc
+            };
+
             InitializeHeader();
             InitializeSlides();
             
             Trigger("TRIGGER_GALLERY_UPLOADED");
         }
-
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-
-        }
-
+        
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -53,36 +48,35 @@ namespace BuddyApp.Gallery
         {
             //
             /// Initialize slide set
-            PhotoManager photoManager = PhotoManager.GetInstance();
-            photoManager.SetSlideSet(Buddy.GUI.Toaster.DisplaySlide());
-            SlideSet slider = photoManager.GetSlideSet();
+            PhotoManager lPhotoManager = PhotoManager.GetInstance();
+            lPhotoManager.SetSlideSet(Buddy.GUI.Toaster.DisplaySlide());
+            SlideSet lSlider = lPhotoManager.GetSlideSet();
 
             //
             /// Set default sprite
-            PictureToast defaultSlide = slider.SetDefaultSlide<PictureToast>();
-            defaultSlide.With(Buddy.Resources.Get<Sprite>(STR_DEFAULT_SPRITE));
+            lSlider.SetDefaultSlide<PictureToast>().With(Buddy.Resources.Get<Sprite>(STR_DEFAULT_SPRITE));
 
             if (null == Buddy.Resources.Get<Sprite>(STR_DEFAULT_SPRITE))
                 ExtLog.E(ExtLogModule.APP, typeof(GalleryActivity), LogStatus.SUCCESS, LogInfo.LOADING, "DEFAULT SPRITE IS NULL");
 
             //
             /// Initializing slider with image sorted
-            for (int i = 0; i < photoManager.GetCount(); ++i)
+            for (int i = 0; i < lPhotoManager.GetCount(); ++i)
             {
-                PictureToast slide;
-                if (photoManager.GetFirstSlideIndex() == i) // Last photo is first displayed
+                PictureToast lSlide;
+                if (lPhotoManager.GetFirstSlideIndex() == i) // Last photo is first displayed
                 {
-                    slide = slider.AddFirstDisplayedSlide<PictureToast>();
+                    lSlide = lSlider.AddFirstDisplayedSlide<PictureToast>();
                 }
                 else
                 {
-                    slide = slider.AddSlide<PictureToast>();
+                    lSlide = lSlider.AddSlide<PictureToast>();
                 }
 
                 //
                 /// Setup slide with photo
-                slide.With(photoManager.GetPhotoByIndex(i).GetPhotoFullpath());// ToSprite());
-                photoManager.GetPhotoByIndex(i).SetSlide(ref slide);
+                lSlide.With(lPhotoManager.GetPhotoByIndex(i).GetPhotoFullpath());// ToSprite());
+                lPhotoManager.GetPhotoByIndex(i).SetSlide(ref lSlide);
             }
         }
     }
