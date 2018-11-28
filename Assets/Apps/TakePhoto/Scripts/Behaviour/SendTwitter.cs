@@ -97,10 +97,15 @@ namespace BuddyApp.TakePhoto
             mMail.Addresses.Add(mXMLData.AdressMailReceiver);
             mMail.Subject = mXMLData.SubjectMail;
             mMail.Body = mXMLData.BodyMail;
-            Buddy.WebServices.EMailSender.Send(lAdress, lPasswordMail, SMTP.GMAIL, mMail);
+            Buddy.WebServices.EMailSender.Send(lAdress, lPasswordMail, SMTP.GMAIL, mMail/*, OnMailSent*/);
         }
 
-        void OnPostTweet(bool success)
+        //private bool OnMailSent()
+        //{
+
+        //}
+
+        private void OnPostTweet(bool success)
 		{
 			Debug.Log("OnPostTweet - " + (success ? "succeeded." : "failed."));
 		}

@@ -199,11 +199,17 @@ namespace BuddyApp.Shared
                         if (IsKey(BuddySays)) {
                             //Change this line when CORE did the correction about GetRandomString not working if the string is empty
                             if (!string.IsNullOrEmpty(Buddy.Resources.GetRandomString(BuddySays)))
-                                mTTS.Say(Buddy.Resources.GetRandomString(BuddySays), false);
+                            {
+                                mTTS.Say(Buddy.Resources.GetRandomString(BuddySays), true);
+                            }
                             else
-                                mTTS.Say(Buddy.Resources.GetString(BuddySays), false);
-                        } else {
-                            mTTS.Say(BuddySays, false);
+                            {
+                                mTTS.Say(Buddy.Resources.GetString(BuddySays), true);
+                            } 
+                        }
+                        else
+                        {
+                            mTTS.Say(BuddySays, true);
                         }
                     }
                     DisplayQuestion();

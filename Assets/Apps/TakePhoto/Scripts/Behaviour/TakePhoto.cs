@@ -171,8 +171,7 @@ namespace BuddyApp.TakePhoto
             iMyPhoto.Save();
             TakePhotoData.Instance.PhotoPath = iMyPhoto.FullPath;
             mIsFrameCaptured = false;
-            Buddy.Vocal.Listen("redoorshare", SpeechRecognitionMode.GRAMMAR_ONLY);
-            Buddy.Vocal.SayAndListen(Buddy.Resources.GetRandomString("redoorshare"), null, "redoorshare",  OnEndListening, null, false);
+            Buddy.Vocal.SayAndListen(Buddy.Resources.GetRandomString("redoorshare"), null, "redoorshare", OnEndListening, null, false);
             Buddy.GUI.Toaster.Display<PictureToast>().With(mPhotoSprite);
             FButton lLeftButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
             FButton LRightButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
