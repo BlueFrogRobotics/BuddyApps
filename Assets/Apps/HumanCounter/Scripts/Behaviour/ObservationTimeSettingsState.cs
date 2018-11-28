@@ -22,37 +22,12 @@ namespace BuddyApp.HumanCounter
         private string mTimeInfo;
         private string mNameDetectOption;
 
-        private delegate void DrawLine(Mat iMat, Point iFirstPoint, Point iSecondPoint, Scalar iColor, SkeletonJoint iJoint);
-        private Dictionary<Tuple<int, int>, string> mLinksDico = new Dictionary<Tuple<int, int>, string>();
-
         /*
          *  Temporary parameter toaster to set the observation time.
          *  This will be replace by carrousel toast when available.
          */
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mLinksDico.Add(new Tuple<int, int>(0, 0), "PAIR: 0, 0");
-            mLinksDico.Add(new Tuple<int, int>(0, 1), "PAIR: 0, 1");
-            mLinksDico.Add(new Tuple<int, int>(0, 2), "PAIR: 0, 2");
-            mLinksDico.Add(new Tuple<int, int>(5, 5), "PAIR: 5, 5");
-            try
-            {
-                Debug.Log("TEST 0,0: " + mLinksDico[new Tuple<int, int>(0, 0)]);
-                Debug.Log("TEST 0,1: " + mLinksDico[new Tuple<int, int>(0, 1)]);
-                Debug.Log("TEST 0,2: " + mLinksDico[new Tuple<int, int>(0, 2)]);
-                Debug.Log("TEST 5,5: " + mLinksDico[new Tuple<int, int>(5, 5)]);
-
-                // erreur
-                Debug.Log("TEST 0,3: " + mLinksDico[new Tuple<int, int>(0, 3)]);
-                Debug.Log("TEST 4,0: " + mLinksDico[new Tuple<int, int>(4, 0)]);
-                Debug.Log("TEST -1,0: " + mLinksDico[new Tuple<int, int>(-1, 0)]);
-                Debug.Log("TEST 10,10: " + mLinksDico[new Tuple<int, int>(10, 10)]);
-            }
-            catch (KeyNotFoundException e)
-            {
-                Debug.Log("KEY NOT FOUND: " + e.Message);
-            }
-
             if (HumanCounterData.Instance.DetectionOption == DetectionOption.HUMAN_DETECT)
                 mNameDetectOption = Buddy.Resources.GetString("humandetect");
             else if (HumanCounterData.Instance.DetectionOption == DetectionOption.FACE_DETECT)
