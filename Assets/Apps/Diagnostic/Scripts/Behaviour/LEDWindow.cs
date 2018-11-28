@@ -71,8 +71,9 @@ namespace BuddyApp.Diagnostic
         private RawImage rawImage;
         
 
-        void OnEnable()
+        public void OnEnable()
         {
+            mDropDown.onValueChanged.RemoveAllListeners();
             mDropDown.onValueChanged.AddListener((iInput) => SetColor());
 
             sliderH.wholeNumbers = true;
@@ -134,69 +135,113 @@ namespace BuddyApp.Diagnostic
             SetColor();
         }
 
-        public void SetColor()
+        private void SetColor()
         {
-            //A changer après avec la nouvelle méthode (il n'y a plus d'amplitude a proprement parler)
-            //mLED.SetBodyLights((int)mH, (int)mS, (int)mV, mA, mF);
-
             switch (mDropDown.options[mDropDown.value].text)
             {
                 case "HEART":
-                    if (mToggle.isOn)
-                        Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value));
-                    else
-                        Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value), FloatToByte(sliderLowLevel.value),
-                            FloatToShort(sliderOnDuration.value), FloatToShort(sliderOffDuration.value), FloatToByte(sliderUpSlope.value), FloatToByte(sliderDownSlope.value));
+                    SetColorHeart();
                     break;
 
                 case "LEFT_SHOULDER":
-                    if (mToggle.isOn)
-                        Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value));
-                    else
-                        Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value), FloatToByte(sliderLowLevel.value),
-                            FloatToShort(sliderOnDuration.value), FloatToShort(sliderOffDuration.value), FloatToByte(sliderUpSlope.value), FloatToByte(sliderDownSlope.value));
+                    SetColorLeftShoulder();
                     break;
 
                 case "RIGHT_SHOULDER":
-                    if (mToggle.isOn)
-                        Buddy.Actuators.LEDs.SetHSVRightShoulderLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value));
-                    else
-                        Buddy.Actuators.LEDs.SetHSVRightShoulderLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value), FloatToByte(sliderLowLevel.value),
-                            FloatToShort(sliderOnDuration.value), FloatToShort(sliderOffDuration.value), FloatToByte(sliderUpSlope.value), FloatToByte(sliderDownSlope.value));
+                    SetColorRightShoulder();
                     break;
 
                 case "ALL":
-                    if (mToggle.isOn) {
-                        Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value));
-                        Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value));
-                        Buddy.Actuators.LEDs.SetHSVRightShoulderLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value));
-                    } else {
-
-                        Buddy.Actuators.LEDs.SetHSVHeartLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value), FloatToByte(sliderLowLevel.value),
-                            FloatToShort(sliderOnDuration.value), FloatToShort(sliderOffDuration.value), FloatToByte(sliderUpSlope.value), FloatToByte(sliderDownSlope.value));
-                        Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value), FloatToByte(sliderLowLevel.value),
-                            FloatToShort(sliderOnDuration.value), FloatToShort(sliderOffDuration.value), FloatToByte(sliderUpSlope.value), FloatToByte(sliderDownSlope.value));
-                        Buddy.Actuators.LEDs.SetHSVRightShoulderLight(FloatToShort(sliderH.value), FloatToByte(sliderS.value), FloatToByte(sliderV.value), FloatToByte(sliderLowLevel.value),
-                            FloatToShort(sliderOnDuration.value), FloatToShort(sliderOffDuration.value), FloatToByte(sliderUpSlope.value), FloatToByte(sliderDownSlope.value));
-                    }
+                    SetColorHeart();
+                    SetColorLeftShoulder();
+                    SetColorRightShoulder();
                     break;
             }
 
             // Update texture color
             rawImage.color = Color.HSVToRGB(sliderH.value / 360.0F, sliderS.value / 100.0F, sliderV.value / 100.0F);
         }
+
+        private void SetColorHeart()
+        {
+            if (mToggle.isOn)
+            {
+                Buddy.Actuators.LEDs.SetHSVHeartLight(
+                    FloatToShort(sliderH.value),
+                    FloatToByte(sliderS.value),
+                    FloatToByte(sliderV.value));
+            }
+            else
+            {
+                Buddy.Actuators.LEDs.SetHSVHeartLight(
+                    FloatToShort(sliderH.value),
+                    FloatToByte(sliderS.value),
+                    FloatToByte(sliderV.value),
+                    FloatToByte(sliderLowLevel.value),
+                    FloatToShort(sliderOnDuration.value),
+                    FloatToShort(sliderOffDuration.value),
+                    FloatToByte(sliderUpSlope.value),
+                    FloatToByte(sliderDownSlope.value));
+            }
+        }
+
+        private void SetColorLeftShoulder()
+        {
+            if (mToggle.isOn)
+            {
+                Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(
+                    FloatToShort(sliderH.value),
+                    FloatToByte(sliderS.value),
+                    FloatToByte(sliderV.value));
+            }
+            else
+            {
+                Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(
+                    FloatToShort(sliderH.value),
+                    FloatToByte(sliderS.value),
+                    FloatToByte(sliderV.value),
+                    FloatToByte(sliderLowLevel.value),
+                    FloatToShort(sliderOnDuration.value),
+                    FloatToShort(sliderOffDuration.value),
+                    FloatToByte(sliderUpSlope.value),
+                    FloatToByte(sliderDownSlope.value));
+            }
+        }
+
+        private void SetColorRightShoulder()
+        {
+            if (mToggle.isOn)
+            {
+                Buddy.Actuators.LEDs.SetHSVRightShoulderLight(
+                    FloatToShort(sliderH.value),
+                    FloatToByte(sliderS.value),
+                    FloatToByte(sliderV.value));
+            }
+            else
+            {
+                Buddy.Actuators.LEDs.SetHSVRightShoulderLight(
+                    FloatToShort(sliderH.value),
+                    FloatToByte(sliderS.value),
+                    FloatToByte(sliderV.value),
+                    FloatToByte(sliderLowLevel.value),
+                    FloatToShort(sliderOnDuration.value),
+                    FloatToShort(sliderOffDuration.value),
+                    FloatToByte(sliderUpSlope.value),
+                    FloatToByte(sliderDownSlope.value));
+            }
+        }
         
-        public void ValueChanged()
+        private void ValueChanged()
         {
             SetColor();
         }
 
-        public void SetFlash()
+        private void SetFlash()
         {
             Buddy.Actuators.LEDs.Flash = true;
         }
 
-        public void IsOnlyHSVChecked()
+        private void IsOnlyHSVChecked()
         {
             SetColor();
         }

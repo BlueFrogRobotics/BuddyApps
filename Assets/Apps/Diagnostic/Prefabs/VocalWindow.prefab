@@ -663,8 +663,8 @@ AudioSource:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
-      value: 0
+      time: 0.99783325
+      value: 0.99768066
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1236,7 +1236,7 @@ MonoBehaviour:
   AmbiantSoundLevelText: {fileID: 114927010815277496}
   RecordButton: {fileID: 114842473432212084}
   PlayRecordButton: {fileID: 114577260680607974}
-  mAudioSource: {fileID: 82480867306229226}
+  ReplayAudioSource: {fileID: 82480867306229226}
 --- !u!114 &114333352710569490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2546,8 +2546,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 672, y: -122.098595}
-  m_SizeDelta: {x: 1344, y: 244.19719}
+  m_AnchoredPosition: {x: 531.5, y: -88.314735}
+  m_SizeDelta: {x: 1063, y: 176.62947}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224133007865291268
 RectTransform:
@@ -2588,8 +2588,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 672, y: -366.29578}
-  m_SizeDelta: {x: 1344, y: 244.19719}
+  m_AnchoredPosition: {x: 531.5, y: -264.9442}
+  m_SizeDelta: {x: 1063, y: 176.62947}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224193543986850900
 RectTransform:
@@ -2868,8 +2868,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 672, y: -610.493}
-  m_SizeDelta: {x: 1344, y: 244.19719}
+  m_AnchoredPosition: {x: 531.5, y: -441.57367}
+  m_SizeDelta: {x: 1063, y: 176.62947}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224774602721196888
 RectTransform:
