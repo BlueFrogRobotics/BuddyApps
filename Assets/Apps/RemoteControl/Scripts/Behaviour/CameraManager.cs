@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 using UnityEngine.UI;
 
 namespace BuddyApp.RemoteControl
@@ -6,16 +7,16 @@ namespace BuddyApp.RemoteControl
     public class CameraManager : MonoBehaviour
     {
         [SerializeField]
-        private RawImage localVideo;
+        private RawImage mLocalVideo;
 
         [SerializeField]
-        private GameObject videoOn;
+        private GameObject mVideoOn;
 
         [SerializeField]
-        private GameObject videoOff;
+        private GameObject mVideoOff;
 
         [SerializeField]
-        private GameObject webRTC = null;
+        private GameObject mWebRtc = null;
 
         [SerializeField]
         private bool mPreSelection;
@@ -27,18 +28,17 @@ namespace BuddyApp.RemoteControl
         public void CameraUpdateToggle()
         {
             mActive = !mActive;
-            videoOn.SetActive(mActive);
-            videoOff.SetActive(!mActive);
+            mVideoOn.SetActive(mActive);
+            mVideoOff.SetActive(!mActive);
         }
 
         public void onToggleCamera()
         {
-            if (webRTC.activeSelf || mPreSelection)
-            {
+            if (mWebRtc.activeSelf || mPreSelection) {
                 mActive = !mActive;
-                videoOn.SetActive(mActive);
-                videoOff.SetActive(!mActive);
-                localVideo.gameObject.SetActive(mActive);
+                mVideoOn.SetActive(mActive);
+                mVideoOff.SetActive(!mActive);
+                mLocalVideo.gameObject.SetActive(mActive);
             }
         }
     }

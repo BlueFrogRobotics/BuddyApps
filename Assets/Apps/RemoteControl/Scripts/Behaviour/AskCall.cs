@@ -1,10 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using System.Collections.Generic;
-using UnityEngine.UI;
-using BlueQuark;
+﻿using BlueQuark;
+
 using BlueQuark.Remote;
+
+using UnityEngine;
+
+using UnityEngine.UI;
+
+using System;
+
+using System.Collections;
+
+using System.Collections.Generic;
 
 namespace BuddyApp.RemoteControl
 {
@@ -45,14 +51,12 @@ namespace BuddyApp.RemoteControl
             StartCoroutine(ActivateDisplay());
 
             Buddy.GUI.Toaster.Display<CustomToast>().With(mCustomCapsuleToast,
-            () =>
-            {
+            () => {
                 // On Display
                 // Launch the display animation of the custom toast
                 mCustomCapAnim.SetTrigger("Select");
                 RemoteControlData.Instance.CustomToastIsBusy = true;
-            }, () =>
-            {
+            }, () => {
                 // On Hide
                 Debug.Log("----- ON HIDE ----");
                 StartCoroutine(CloseReceivCall());
@@ -60,13 +64,19 @@ namespace BuddyApp.RemoteControl
         }
 
         // This coroutine purpose is to launch the hide animation of the custom toast
-        // and wait until the animation is not finished, then a boolean is set to unblock the OnQuit coroutine. (RemoteControlActivity.cs)
+        // and wait until the animation is not finished, then a boolean is set, to unblock the OnQuit coroutine. (RemoteControlActivity.cs)
         // I thought this were enought to block the code in the OnQuit coroutine (RemoteControlActivity.cs), but it's not.
         public IEnumerator CloseReceivCall()
         {
             Debug.Log("----- UNSELECT ... ----");
-            mCustomCapAnim.SetTrigger("Unselect");
-            yield return new WaitUntil(() => { Debug.Log("----- CUSTOM IS NOT HIDE ----"); return mCustomCapAnim.GetCurrentAnimatorStateInfo(0).IsTag("customToastOff"); });
+            if (mCustomCapAnim)
+                mCustomCapAnim.SetTrigger("Unselect");
+            yield return new WaitUntil(() => {
+                Debug.Log("----- CUSTOM IS NOT HIDE ----");
+                if (!mCustomCapAnim)
+                    return false;
+                return mCustomCapAnim.GetCurrentAnimatorStateInfo(0).IsTag("customToastOff");
+            });
             RemoteControlData.Instance.CustomToastIsBusy = false;
             Debug.Log("----- CUSTOM IS HIDE ----");
 
@@ -95,12 +105,9 @@ namespace BuddyApp.RemoteControl
             if (Buddy.Vocal.IsSpeaking || mListening || !mHasInitializedRemote)
                 return;
             else if (mQuit)
-            {
                 StartCoroutine(mRemoteControlBehaviour.CloseApp());
-            }
 
-            if (string.IsNullOrEmpty(mSpeechReco))
-            {
+            if (string.IsNullOrEmpty(mSpeechReco)) {
                 //Buddy.Vocal.Listen();
                 mListening = true;
                 Buddy.Behaviour.SetMood(Mood.LISTENING);
@@ -148,28 +155,21 @@ namespace BuddyApp.RemoteControl
         {
             yield return mRemoteControlBehaviour.Call();
             mHasInitializedRemote = true;
-            //Buddy.Vocal.OnEndListening.Clear();
-            //Buddy.Vocal.OnEndListening.Add(OnSpeechReco);
         }
 
         private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
         {
             iSpeech = iSpeech.ToLower();
-            for (int i = 0; i < iListSpeech.Length; ++i)
-            {
+            for (int i = 0; i < iListSpeech.Length; ++i) {
                 string[] words = iListSpeech[i].Split(' ');
-                if (words.Length < 2)
-                {
+                if (words.Length < 2) {
                     words = iSpeech.Split(' ');
-                    foreach (string word in words)
-                    {
-                        if (word == iListSpeech[i].ToLower())
-                        {
+                    foreach (string word in words) {
+                        if (word == iListSpeech[i].ToLower()) {
                             return true;
                         }
                     }
-                }
-                else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
+                } else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
                     return true;
             }
             return false;
