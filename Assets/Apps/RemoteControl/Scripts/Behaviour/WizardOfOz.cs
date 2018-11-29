@@ -1,9 +1,14 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using System.Collections.Generic;
+﻿using BlueQuark;
+
+using UnityEngine;
+
 using UnityEngine.UI;
-using BlueQuark;
+
+using System;
+
+using System.Collections;
+
+using System.Collections.Generic;
 
 namespace BuddyApp.RemoteControl
 {
@@ -33,11 +38,7 @@ namespace BuddyApp.RemoteControl
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            //Toaster.Hide();
-
-            //Interaction.TextToSpeech.Say("ok");
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-
         }
 
         private bool ContainsOneOf(string iSpeech, string[] iListSpeech)

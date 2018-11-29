@@ -8,36 +8,29 @@ namespace BuddyApp.RemoteControl
     public class SoundManager : MonoBehaviour
     {
         [SerializeField]
-        private GameObject microOn;
+        private GameObject mMicroOn;
 
         [SerializeField]
-        private GameObject microOff;
+        private GameObject mMicroOff;
 
         [SerializeField]
-        private GameObject webRTC = null;
+        private GameObject mWebRtc = null;
 
         [SerializeField]
         private bool mPreSelection;
-
-        /*[SerializeField]
-		private PoolManager mPoolManager = null;*/
 
         private bool mActive = true;
 
         void Start()
         {
-            microOn.SetActive(mActive);
-            microOff.SetActive(!mActive);
+            mMicroOn.SetActive(mActive);
+            mMicroOff.SetActive(!mActive);
 
-            try
-            {
-                using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
-                {
+            try {
+                using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc")) {
                     cls.CallStatic("setSoundActive", mActive);
                 }
-            }
-            catch (System.Exception ex)
-            {
+            } catch (System.Exception ex) {
                 Debug.LogWarning("------ EXCEPTION SoundManager.Start: " + ex.Message + " ------");
             }
         }
@@ -45,27 +38,22 @@ namespace BuddyApp.RemoteControl
         public void SoundUpdateToggle()
         {
             mActive = !mActive;
-            microOn.SetActive(mActive);
-            microOff.SetActive(!mActive);
+            mMicroOn.SetActive(mActive);
+            mMicroOff.SetActive(!mActive);
         }
 
         public void onToggleSound()
         {
-            if (webRTC.activeSelf || mPreSelection)
-            {
+            if (mWebRtc.activeSelf || mPreSelection) {
                 mActive = !mActive;
-                microOn.SetActive(mActive);
-                microOff.SetActive(!mActive);
+                mMicroOn.SetActive(mActive);
+                mMicroOff.SetActive(!mActive);
 
-                try
-                {
-                    using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
-                    {
+                try {
+                    using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc")) {
                         cls.CallStatic("setSoundActive", mActive);
                     }
-                }
-                catch (System.Exception ex)
-                {
+                } catch (System.Exception ex) {
                     Debug.LogWarning("------ EXCEPTION onToggleSound: " + ex.Message + " ------");
                 }
             }

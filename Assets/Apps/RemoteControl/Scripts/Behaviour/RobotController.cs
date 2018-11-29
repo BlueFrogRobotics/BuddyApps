@@ -1,22 +1,29 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections.Generic;
-using BlueQuark;
+﻿using BlueQuark;
+
 using BlueQuark.Remote;
+
+using UnityEngine;
+
+using UnityEngine.UI;
+
+using System.Collections.Generic;
 
 namespace BuddyApp.RemoteControl
 {
     public class RobotController : MonoBehaviour
     {
+        // Unused Code - Delete it after the test phase if no regression has occured
 
-        public enum KindOfControl { None = 0, Remote = 1 };
-        public enum ControllerMode { Simplify = 0, Medium = 1, Expert = 2 };
+        //public enum KindOfControl { None = 0, Remote = 1 };
+        //public enum ControllerMode { Simplify = 0, Medium = 1, Expert = 2 };
 
-        public KindOfControl mActualKindOfControl = KindOfControl.Remote;
-        public ControllerMode mControllerMode = ControllerMode.Simplify;
+        //public KindOfControl mActualKindOfControl = KindOfControl.Remote;
+        //public ControllerMode mControllerMode = ControllerMode.Simplify;
+
+        private const int REFRESH_TIMER = 1;
 
         [SerializeField]
-        private Webrtc webrtc;
+        private Webrtc mWebRtc;
 
         private float mTime;
 
@@ -36,10 +43,10 @@ namespace BuddyApp.RemoteControl
         // Update is called once per frame
         void Update()
         {
-            if (webrtc.ConnectionState == Webrtc.CONNECTION.CONNECTING && Time.time - mTime > 1F) {
+            if (mWebRtc.ConnectionState == Webrtc.CONNECTION.CONNECTING && Time.time - mTime > REFRESH_TIMER) {
                 byte[] lData = GetSensorsValue();
                 string lStringData = System.Convert.ToBase64String(lData);
-                webrtc.SendWithDataChannel(lStringData);
+                mWebRtc.SendWithDataChannel(lStringData);
                 mTime = Time.time;
             }
         }

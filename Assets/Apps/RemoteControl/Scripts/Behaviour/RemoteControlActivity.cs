@@ -1,8 +1,11 @@
+using BlueQuark;
+
 using UnityEngine.UI;
+
 using UnityEngine;
 
-using BlueQuark;
 using System;
+
 using System.Collections;
 
 namespace BuddyApp.RemoteControl
@@ -21,10 +24,6 @@ namespace BuddyApp.RemoteControl
                     RemoteControlData.Instance.IsWizardOfOz = false;
         }
 
-        public override void OnStart()
-        {
-        }
-
         public override void OnQuit()
         {
             Debug.Log("----- TOASTER HIDE ----");
@@ -34,8 +33,7 @@ namespace BuddyApp.RemoteControl
 
         public IEnumerator CloseApp()
         {
-            yield return new WaitUntil(() => 
-            {
+            yield return new WaitUntil(() => {
                 return RemoteControlData.Instance.CustomToastIsBusy;
                 // This code was a try to avoid black square on quit
                 // I don't delete it, to get your feedback, and to show what i have already test

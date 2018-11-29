@@ -1,7 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using BlueQuark;
+
 using UnityEngine;
-using BlueQuark;
+
+using System.Collections;
+
+using System.Collections.Generic;
 
 namespace BuddyApp.RemoteControl
 {
@@ -18,7 +21,7 @@ namespace BuddyApp.RemoteControl
         private RobotController mRobotController = null;
 
         private bool mActive = true;
-        
+
         // Use this for initialization
         void Start()
         {
@@ -28,8 +31,7 @@ namespace BuddyApp.RemoteControl
 
         public void onToggleMove()
         {
-            if (mRobotController)
-            {
+            if (mRobotController) {
                 mActive = !mActive;
                 mMoveOn.SetActive(mActive);
                 mMoveOff.SetActive(!mActive);
