@@ -15,7 +15,7 @@ namespace BuddyApp.ExperienceCenter
 
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-            Debug.Log("on ECIdleState");
+            Debug.Log("[EXCENTER] on state ECIdleState");
             mAnimatorManager = GameObject.Find ("AIBehaviour").GetComponent<AnimatorManager> ();
 			mIdleBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IdleBehaviour> ();
 			mQuestionBehaviour = GameObject.Find ("AIBehaviour").GetComponent<QuestionsBehaviour> ();

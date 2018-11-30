@@ -41,7 +41,7 @@ namespace BuddyApp.Guardian
             //Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320x240_30FPS_RGB);
            // }
             //mTexture = Utils.MatToTexture2D(Buddy.Sensors.RGBCamera.Frame);
-            Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput.Mat));
+            Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
             //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
             //	() => { Trigger("NextStep"); }, 
             //	null);
@@ -94,7 +94,7 @@ namespace BuddyApp.Guardian
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Buddy.Sensors.RGBCamera.OnNewFrame.Remove((iInput) => OnFrameCaptured(iInput.Mat));
+            Buddy.Sensors.RGBCamera.OnNewFrame.Remove((iInput) => OnFrameCaptured(iInput));
             mMovementTracker.OnDetect.RemoveP(OnMovementDetected);
             mSlider.OnSlide.Remove(OnSlideChange);
             Buddy.GUI.Header.HideTitle();

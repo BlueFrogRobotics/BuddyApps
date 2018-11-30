@@ -118,7 +118,7 @@ namespace BuddyApp.ExperienceCenter
 
         public void SpeechToTextCallback(SpeechInput iSpeech)
         {
-            if (!string.IsNullOrEmpty(iSpeech.Utterance))
+            if (!string.IsNullOrEmpty(iSpeech.Rule))
             {
                 Debug.LogFormat("VOCON [EXCENTER][QUESTIONBEHAVIOUR] SpeechToText : {0} | Confidence : {1} | StartRule : {2}", iSpeech.Utterance, iSpeech.Confidence, iSpeech.Rule);
                 bool lClauseFound = false;
@@ -128,7 +128,7 @@ namespace BuddyApp.ExperienceCenter
                     string[] lPhonetics = Buddy.Resources.GetPhoneticStrings(lElement);
                     foreach (string lClause in lPhonetics)
                     {
-                        if (iSpeech.Utterance.Contains(lClause))
+                        if (iSpeech.Rule.Contains(lElement))
                         {
                             if (ExperienceCenterData.Instance.EnableHeadMovement)
                                 mAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
@@ -185,6 +185,10 @@ namespace BuddyApp.ExperienceCenter
 
             //mSpeechToText.Stop();
             Buddy.Vocal.Stop();
+            Buddy.Vocal.OnEndListening.Remove(SpeechToTextCallback);
+            Buddy.Vocal.OnListeningStatus.Remove(ErrorCallback);
+            //Buddy.Vocal.OnEndListening.Clear();
+            // Buddy.Vocal.OnListeningStatus.Clear();
             this.StopAllCoroutines();
 
             //mVocalManager.RemoveGrammar("experiencecenter", LoadContext.APP);
@@ -199,6 +203,11 @@ namespace BuddyApp.ExperienceCenter
             mRestartSTT = true;
             mLaunchSTTOnce = false;
             Debug.Log("dans begin enable speech to text");
+            //Buddy.Vocal.Listen("experiencecenter", SpeechRecognitionMode.GRAMMAR_ONLY);
+            //Buddy.Vocal.OnEndListening.Clear();
+            //Buddy.Vocal.OnEndListening.Add(SpeechToTextCallback);
+            //Buddy.Vocal.OnListeningStatus.Clear();
+            //Buddy.Vocal.OnListeningStatus.Add(ErrorCallback);
             while (mRestartSTT)
             {
                 if (!mLaunchSTTOnce)
@@ -223,6 +232,10 @@ namespace BuddyApp.ExperienceCenter
                         mLaunchSTTOnce = true;
                         //mSpeechToText.Request();
                         Buddy.Vocal.Listen("experiencecenter", SpeechRecognitionMode.GRAMMAR_ONLY);
+                        //Buddy.Vocal.OnEndListening.Clear();
+                        //Buddy.Vocal.OnEndListening.Add(SpeechToTextCallback);
+                        //Buddy.Vocal.OnListeningStatus.Clear();
+                        //Buddy.Vocal.OnListeningStatus.Add(ErrorCallback);
                     }
                 }
                 yield return new WaitForSeconds(0.5f);

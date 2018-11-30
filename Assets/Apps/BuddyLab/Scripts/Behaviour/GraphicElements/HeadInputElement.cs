@@ -7,10 +7,6 @@ namespace BuddyApp.BuddyLab
 {
     public class HeadInputElement : AGraphicElement
     {
-        public override void Highlight()
-        {
-            throw new System.NotImplementedException();
-        }
 
         protected override void SetParameter()
         {

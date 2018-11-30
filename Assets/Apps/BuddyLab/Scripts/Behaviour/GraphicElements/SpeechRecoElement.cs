@@ -5,20 +5,20 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
+    /// <summary>
+    /// Condition element that test if a given text has been said
+    /// <para>See <see cref="ListenInputBehaviourInstruction"/>  </para>
+    /// </summary>
     public class SpeechRecoElement : AGraphicElement, IEditableParameter
     {
         private string utterance;
-
-        public override void Highlight()
-        {
-            throw new System.NotImplementedException();
-        }
 
         protected override void SetParameter()
         {
             if (mInstruction == null)
                 mInstruction = new ListenInputBehaviourInstruction();
             ListenInputBehaviourInstruction lListenInstruction = (ListenInputBehaviourInstruction)mInstruction;
+            lListenInstruction.Mode = SpeechRecognitionMode.GRAMMAR_THEN_FREESPEECH;
             lListenInstruction.ConditionalUtterances = new string[1];
             lListenInstruction.ConditionalUtterances.Value[0] = utterance;
         }

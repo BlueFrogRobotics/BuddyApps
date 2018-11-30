@@ -17,7 +17,7 @@ namespace BuddyApp.Somfy
 		*/
 		public override void OnLoading(object[] iArgs)
         {
-            if (iArgs != null)
+            if (iArgs != null && iArgs.Length>0)
             {
                 // We have an input sentence
                 SomfyData.Instance.VocalRequest = (string)iArgs[0];

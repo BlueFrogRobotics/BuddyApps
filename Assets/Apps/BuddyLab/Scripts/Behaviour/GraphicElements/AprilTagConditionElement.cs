@@ -5,15 +5,17 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
+    /// <summary>
+    /// Condition element that test if the corresponding april tag is shown
+    /// <para>See <see cref="AprilTagInputBehaviourInstruction"/>  </para>
+    /// </summary>
     public class AprilTagConditionElement : AGraphicElement
     {
+        /// <summary>
+        /// Id of the april tag
+        /// </summary>
         [SerializeField]
         private int id;
-
-        public override void Highlight()
-        {
-            throw new System.NotImplementedException();
-        }
 
         protected override void SetParameter()
         {

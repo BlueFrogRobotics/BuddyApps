@@ -10,6 +10,14 @@ namespace BuddyApp.BuddyLab
         ItemManager mItemManager;
         Transform mRootLine;
 
+        public enum Category : int
+        {
+            BML = 0,
+            CONDITION = 1,
+            LOOP = 2,
+            SPECIAL = 3
+        }
+
         public OpenProjectVisitor(ItemManager iItemManager, Transform iRootLine)
         {
             mItemManager = iItemManager;

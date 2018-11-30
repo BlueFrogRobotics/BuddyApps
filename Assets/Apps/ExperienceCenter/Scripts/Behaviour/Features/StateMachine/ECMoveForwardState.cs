@@ -16,7 +16,7 @@ namespace BuddyApp.ExperienceCenter
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("on ECMoveForwardState");
+            Debug.Log("[EXCENTER] on state ECMoveForwardState");
             mAnimatorManager = GameObject.Find("AIBehaviour").GetComponent<AnimatorManager>();
             mBehaviour = GameObject.Find("AIBehaviour").GetComponent<MoveForwardBehaviour>();
             //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
@@ -64,7 +64,7 @@ namespace BuddyApp.ExperienceCenter
 
         public void SpeechToTextCallback(SpeechInput iSpeech)
         {
-            if (string.IsNullOrEmpty(iSpeech.Utterance))
+            if (!string.IsNullOrEmpty(iSpeech.Utterance))
             {
                 Debug.LogFormat("[EXCENTER] MoveForward - SpeechToText {0}: ", iSpeech.Utterance);
                 bool lClauseFound = false;
@@ -72,7 +72,7 @@ namespace BuddyApp.ExperienceCenter
 
                 foreach (string lClause in lPhonetics)
                 {
-                    if (iSpeech.Utterance.Contains(lClause))
+                    if (!string.IsNullOrEmpty(iSpeech.Utterance) && iSpeech.Utterance.Contains(lClause))
                     {
                         lClauseFound = true;
                         break;

@@ -13,7 +13,7 @@ namespace BuddyApp.ExperienceCenter
 
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-            Debug.Log("on ECWanderState");
+            Debug.Log("[EXCENTER] on state ECWanderState");
             mWalkBehaviour = GameObject.Find ("AIBehaviour").GetComponent<WanderBehaviour> ();
             //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
             Buddy.Vocal.EnableTrigger = false;

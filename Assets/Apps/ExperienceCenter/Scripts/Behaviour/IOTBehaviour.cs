@@ -155,7 +155,7 @@ namespace BuddyApp.ExperienceCenter
 				yield return new WaitForSeconds (10f);
 				mHttpManager.LightOn (true);
 				yield return new WaitForSeconds (5f);
-				mHttpManager.SonosPlay (true);
+				//mHttpManager.SonosPlay (true);
 				yield return new WaitForSeconds (2f);
 			} else
 				Debug.LogError ("[EXCENTER] Could not retrieve device list from targeted Tahoma box");
@@ -168,7 +168,7 @@ namespace BuddyApp.ExperienceCenter
 			while (true) {
 				TimeSpan lElapsedTime = DateTime.Now - lStartDance;
 				if (lElapsedTime.TotalSeconds > ExperienceCenterData.Instance.DanceDuration) {
-					mHttpManager.SonosPlay (false);
+					//mHttpManager.SonosPlay (false);
 					//BYOS.Instance.Interaction.BMLManager.StopAllBehaviors ();
 					break;
 				}

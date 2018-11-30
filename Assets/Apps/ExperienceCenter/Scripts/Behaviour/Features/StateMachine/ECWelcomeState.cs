@@ -16,7 +16,7 @@ namespace BuddyApp.ExperienceCenter
 
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-            Debug.Log("on ECWelcomeState");
+            Debug.Log("[EXCENTER] on state ECWelcomeState");
             Buddy.Vocal.EnableTrigger = false;
             //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
             mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<WelcomeBehaviour> ();

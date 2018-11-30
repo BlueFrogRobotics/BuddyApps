@@ -12,17 +12,12 @@ namespace BuddyApp.BuddyLab
         private Mood mood;
 
 
-        public override void Highlight()
-        {
-            throw new System.NotImplementedException();
-        }
-
         protected override void SetParameter()
         {
             if (mInstruction == null)
                 mInstruction = new SetMoodBehaviourInstruction();
             SetMoodBehaviourInstruction lMoodInstruction = (SetMoodBehaviourInstruction)mInstruction;
-            //lMoodInstruction.Duration = 1.5F;
+            lMoodInstruction.Duration = 1.5F;
             lMoodInstruction.Mood = mood;
         }
 

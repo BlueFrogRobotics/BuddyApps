@@ -12,7 +12,7 @@ namespace BuddyApp.ExperienceCenter
 
 		override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-            Debug.Log("on ECIOTState");
+            Debug.Log("[EXCENTER] on state ECIOTState");
             mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IOTBehaviour> ();
             //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
             Buddy.Vocal.EnableTrigger = false;

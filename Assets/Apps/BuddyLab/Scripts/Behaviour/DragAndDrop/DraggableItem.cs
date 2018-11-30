@@ -59,7 +59,7 @@ namespace BuddyApp.BuddyLab
             }
             else
             {
-                AssociateItems();
+                //AssociateItems();
                 this.transform.SetParent(this.transform.root);//.parent.parent);
                 mItem = gameObject;
             }
@@ -96,8 +96,8 @@ namespace BuddyApp.BuddyLab
                 if (newSiblingIndex < 1)
                     newSiblingIndex = 1;
 
-                if(GetComponent<LoopItem>()!=null)
-                    newSiblingIndex = MoveIndexOutsideLoop(placeholderParent, newSiblingIndex);
+                //if(GetComponent<LoopItem>()!=null)
+                //    newSiblingIndex = MoveIndexOutsideLoop(placeholderParent, newSiblingIndex);
 
                 placeholder.transform.SetSiblingIndex(newSiblingIndex);
             }
@@ -133,76 +133,76 @@ namespace BuddyApp.BuddyLab
             placeholderParent.GetComponent<ItemsContainer>().EndDrag();
         }
 
-        public void AssociateItems()
-        {
-            if(GetComponent<LoopItem>()!=null)
-            {
-                GetComponent<LoopItem>().DeleteBorder();
-            }
-            if (NbItemsAssociated > 0)
-            {
-                for (int i = 0; i < NbItemsAssociated; i++)
-                {
-                    transform.parent.GetChild(transform.GetSiblingIndex() + 1).SetParent(this.transform);
-                }
-            }
-            else if(NbItemsAssociated<0)
-            {
-                for (int i = 0; i < NbItemsAssociated*-1; i++)
-                {
-                    transform.parent.GetChild(transform.GetSiblingIndex() - 1).SetParent(this.transform);
-                }
-            }
-        }
+        //public void AssociateItems()
+        //{
+        //    if(GetComponent<LoopItem>()!=null)
+        //    {
+        //        GetComponent<LoopItem>().DeleteBorder();
+        //    }
+        //    if (NbItemsAssociated > 0)
+        //    {
+        //        for (int i = 0; i < NbItemsAssociated; i++)
+        //        {
+        //            transform.parent.GetChild(transform.GetSiblingIndex() + 1).SetParent(this.transform);
+        //        }
+        //    }
+        //    else if(NbItemsAssociated<0)
+        //    {
+        //        for (int i = 0; i < NbItemsAssociated*-1; i++)
+        //        {
+        //            transform.parent.GetChild(transform.GetSiblingIndex() - 1).SetParent(this.transform);
+        //        }
+        //    }
+        //}
 
-        public void DissociateItems()
-        {
-            if (mItem.GetComponentsInChildren<DraggableItem>() != null && mItem.GetComponentsInChildren<DraggableItem>().Length > 0)
-            {
-                int lIndex = mItem.transform.GetSiblingIndex();
-                int lNbChildren = mItem.GetComponentsInChildren<DraggableItem>().Length;
-                Debug.Log("nb children: " + lNbChildren);
-                foreach (DraggableItem lItem in mItem.GetComponentsInChildren<DraggableItem>())
-                {
-                    if (NbItemsAssociated > 0)
-                    {
-                        lItem.transform.SetParent(mItem.transform.parent);
-                        lItem.transform.SetSiblingIndex(lIndex + 1);
-                        lIndex++;
-                    }
-                    else
-                    {
-                        lItem.transform.SetParent(mItem.transform.parent);
-                        lItem.transform.SetSiblingIndex(lIndex);
-                    }
-                }
-                if (GetComponent<LoopItem>() != null)
-                {
-                    GetComponent<LoopItem>().InitLoop(mItem.transform.parent, lNbChildren);
-                }
-            }
-        }
+        //public void DissociateItems()
+        //{
+        //    if (mItem.GetComponentsInChildren<DraggableItem>() != null && mItem.GetComponentsInChildren<DraggableItem>().Length > 0)
+        //    {
+        //        int lIndex = mItem.transform.GetSiblingIndex();
+        //        int lNbChildren = mItem.GetComponentsInChildren<DraggableItem>().Length;
+        //        Debug.Log("nb children: " + lNbChildren);
+        //        foreach (DraggableItem lItem in mItem.GetComponentsInChildren<DraggableItem>())
+        //        {
+        //            if (NbItemsAssociated > 0)
+        //            {
+        //                lItem.transform.SetParent(mItem.transform.parent);
+        //                lItem.transform.SetSiblingIndex(lIndex + 1);
+        //                lIndex++;
+        //            }
+        //            else
+        //            {
+        //                lItem.transform.SetParent(mItem.transform.parent);
+        //                lItem.transform.SetSiblingIndex(lIndex);
+        //            }
+        //        }
+        //        if (GetComponent<LoopItem>() != null)
+        //        {
+        //            GetComponent<LoopItem>().InitLoop(mItem.transform.parent, lNbChildren);
+        //        }
+        //    }
+        //}
 
-        private int MoveIndexOutsideLoop(Transform iParent, int iIndex)
-        {
-            if (iParent.GetComponentsInChildren<DraggableItem>() != null && iParent.GetComponentsInChildren<DraggableItem>().Length > 0)
-            {
-                int lIndex = iIndex;
-                for(int i=iIndex; i<iParent.childCount; i++)
-                {
-                    if(iParent.GetChild(i).GetComponent<LoopItem>()!=null && iIndex> i-iParent.GetChild(i).GetComponent<LoopItem>().NbItems-1 && iIndex<=i)
-                    {
-                        if(OnlyDroppable)
-                            lIndex = i + 2;
-                        else
-                            lIndex = i + 1;
-                    }
-                }
-                return lIndex;
-            }
-            else
-                return iIndex;
-        }
+        //private int MoveIndexOutsideLoop(Transform iParent, int iIndex)
+        //{
+        //    if (iParent.GetComponentsInChildren<DraggableItem>() != null && iParent.GetComponentsInChildren<DraggableItem>().Length > 0)
+        //    {
+        //        int lIndex = iIndex;
+        //        for(int i=iIndex; i<iParent.childCount; i++)
+        //        {
+        //            if(iParent.GetChild(i).GetComponent<LoopItem>()!=null && iIndex> i-iParent.GetChild(i).GetComponent<LoopItem>().NbItems-1 && iIndex<=i)
+        //            {
+        //                if(OnlyDroppable)
+        //                    lIndex = i + 2;
+        //                else
+        //                    lIndex = i + 1;
+        //            }
+        //        }
+        //        return lIndex;
+        //    }
+        //    else
+        //        return iIndex;
+        //}
 
     }
 }

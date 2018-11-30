@@ -8,20 +8,6 @@ namespace BuddyApp.Guardian
     {
         private DetectionManager mDetectionManager;
 
-        //public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)  
-        //{
-        //    Resources.LoadAtlas("GuardianAtlas");
-        //    //Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
-        //    Debug.Log("on loading activity");
-        //    BYOS.Instance.Header.OnClickParameters = OnClickParameters;
-        //    BYOS.Instance.Primitive.TouchScreen.OnClickToUnlock(OnClickLockedScreen);
-        //    BYOS.Instance.Primitive.TouchScreen.OnSuccessUnlock(OnSuccessUnlockScreen);
-        //    BYOS.Instance.Primitive.TouchScreen.OnFailUnlock(OnFailureUnlockScreen);
-        //    BYOS.Instance.Primitive.TouchScreen.OnCancelUnlock(OnCancelUnlockScreen);
-        //    BYOS.Instance.Primitive.TouchScreen.OnTimeoutUnlock(OnTimeoutUnlockScreen);
-
-        //}
-
         public override void OnAwake()
         {
             Debug.Log("on awake activity");
