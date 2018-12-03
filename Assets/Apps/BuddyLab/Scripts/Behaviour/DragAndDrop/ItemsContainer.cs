@@ -21,7 +21,7 @@ namespace BuddyApp.BuddyLab
             DraggableItem d = eventData.pointerDrag.GetComponent<DraggableItem>();
             if (d != null && !DropOnly)
             {
-                d.placeholderParent = this.transform;
+                d.PlaceholderParent = this.transform;
             }
         }
 
@@ -31,9 +31,9 @@ namespace BuddyApp.BuddyLab
                 return;
 
             DraggableItem d = eventData.pointerDrag.GetComponent<DraggableItem>();
-            if (d != null && d.placeholderParent == this.transform)
+            if (d != null && d.PlaceholderParent == this.transform)
             {
-                d.placeholderParent = d.parentToReturnTo;
+                d.PlaceholderParent = d.ParentToReturnTo;
             }
         }
 
@@ -41,27 +41,20 @@ namespace BuddyApp.BuddyLab
         {
             Debug.Log(eventData.pointerDrag.name + " was dropped on " + gameObject.name);
 
-            //DraggableItem d = eventData.pointerDrag.GetComponent<DraggableItem>();
-            //if (d != null)
-            //{
-            //    d.parentToReturnTo = this.transform;
-            //    if(d.OnlyDroppable)
-            //    {
-            //        Debug.Log("clone item droppe");
-            //        GameObject lItem = Instantiate(d.gameObject);
-            //        lItem.transform.SetParent(this.transform);
-            //    }
-            //    //if (!DropOnly)
-            //        //d.OnlyDroppable = false;
-            //}
-
         }
 
         public void AddItem(DraggableItem iItem, int iIndex)
         {
-            if (iItem != null)
-            {
-                iItem.parentToReturnTo = this.transform;
+            if (iItem != null) {
+                iItem.ParentToReturnTo = this.transform;
+                if (iItem.OnlyDroppable) {
+                        GameObject lItem = Instantiate(iItem.gameObject);
+                        lItem.transform.SetParent(this.transform);
+                        lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
+                        lItem.transform.SetSiblingIndex(iIndex);
+
+                }
+
             }
         }
 
