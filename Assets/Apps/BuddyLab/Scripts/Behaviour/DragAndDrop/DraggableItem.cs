@@ -41,7 +41,7 @@ namespace BuddyApp.BuddyLab
             ParentToReturnTo = this.transform.parent;
             PlaceholderParent = ParentToReturnTo;
 
-            if (!ParentToReturnTo.GetComponent<ItemsContainer>().DropOnly)
+            if (!ParentToReturnTo.GetComponent<ItemsContainer>().DragOnly)
             {
                 mPlaceholder.transform.SetParent(this.transform.parent);
                 mPlaceholder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
@@ -65,7 +65,7 @@ namespace BuddyApp.BuddyLab
         {
             mItem.transform.position = eventData.position;
 
-            if (PlaceholderParent != null && PlaceholderParent.GetComponent<ItemsContainer>() != null && !PlaceholderParent.GetComponent<ItemsContainer>().DropOnly)
+            if (PlaceholderParent != null && PlaceholderParent.GetComponent<ItemsContainer>() != null && !PlaceholderParent.GetComponent<ItemsContainer>().DragOnly)
             {
                 if (mPlaceholder.transform.parent != PlaceholderParent)
                     mPlaceholder.transform.SetParent(PlaceholderParent);
@@ -102,7 +102,7 @@ namespace BuddyApp.BuddyLab
             if(OnlyDroppable)
             {
                 Destroy(mItem);
-                if(!PlaceholderParent.GetComponent<ItemsContainer>().DropOnly)
+                if(!PlaceholderParent.GetComponent<ItemsContainer>().DragOnly)
                 {
                     PlaceholderParent.GetComponent<ItemsContainer>().AddItem(this, lIndex);
                 }

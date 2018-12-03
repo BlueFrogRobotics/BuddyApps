@@ -5,9 +5,16 @@ using UnityEngine.EventSystems;
 
 namespace BuddyApp.BuddyLab
 {
+    /// <summary>
+    /// Class that manages the DraggableItems that it contains
+    /// </summary>
     public sealed class ItemsContainer : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
     {
-        public bool DropOnly=false;
+        /// <summary>
+        /// If set to true items can't be put in the container
+        /// </summary>
+        public bool DragOnly=false;
+
         public delegate void Modification();
         public event Modification OnModification;
 
@@ -19,7 +26,7 @@ namespace BuddyApp.BuddyLab
                 return;
 
             DraggableItem d = eventData.pointerDrag.GetComponent<DraggableItem>();
-            if (d != null && !DropOnly)
+            if (d != null && !DragOnly)
             {
                 d.PlaceholderParent = this.transform;
             }

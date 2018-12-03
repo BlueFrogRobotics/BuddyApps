@@ -281,7 +281,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 50, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &189818083
@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 1176302372, guid: 20ade69cededc084aba48de6e5523239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DropOnly: 0
+  DragOnly: 0
 --- !u!114 &189818084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1435,7 +1435,7 @@ MonoBehaviour:
   m_Script: {fileID: -1610675596, guid: 20ade69cededc084aba48de6e5523239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onlyDroppable: 1
+  onlyDroppable: 0
 --- !u!114 &731650864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1553,7 +1553,7 @@ MonoBehaviour:
   NumLoop: 0
   textIteration: {fileID: 1854307321}
   container: {fileID: 189818081}
-  blankItem: {fileID: 1702605260086250, guid: 4c7572eb5ffa2714590a1bed5621baa1, type: 2}
+  blankItem: {fileID: 0}
 --- !u!1 &751713580 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1973509102846456, guid: 0a59eaed3c2881241a50053ee7bea99b,
@@ -1747,7 +1747,7 @@ MonoBehaviour:
   m_Script: {fileID: 1176302372, guid: 20ade69cededc084aba48de6e5523239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DropOnly: 0
+  DragOnly: 0
 --- !u!222 &910131288
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2360,7 +2360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 126.5, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1318419978
@@ -2890,7 +2890,7 @@ MonoBehaviour:
   m_Script: {fileID: -1610675596, guid: 20ade69cededc084aba48de6e5523239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onlyDroppable: 1
+  onlyDroppable: 0
 --- !u!114 &1567158672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12608,6 +12608,36 @@ Prefab:
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114484611424987270, guid: 0a59eaed3c2881241a50053ee7bea99b,
+        type: 2}
+      propertyPath: DragOnly
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114295129386731860, guid: 0a59eaed3c2881241a50053ee7bea99b,
+        type: 2}
+      propertyPath: DragOnly
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114118119752063524, guid: 0a59eaed3c2881241a50053ee7bea99b,
+        type: 2}
+      propertyPath: DragOnly
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114843486212566374, guid: 0a59eaed3c2881241a50053ee7bea99b,
+        type: 2}
+      propertyPath: DragOnly
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114187358324575078, guid: 0a59eaed3c2881241a50053ee7bea99b,
+        type: 2}
+      propertyPath: DragOnly
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114941686797572726, guid: 0a59eaed3c2881241a50053ee7bea99b,
+        type: 2}
+      propertyPath: DragOnly
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114898490172305192, guid: 0a59eaed3c2881241a50053ee7bea99b, type: 2}
     - {fileID: 114988994062627694, guid: 0a59eaed3c2881241a50053ee7bea99b, type: 2}
@@ -13797,7 +13827,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 127.5, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1989709776
@@ -13918,7 +13948,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 50, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2002554232
@@ -13965,7 +13995,7 @@ MonoBehaviour:
   m_Script: {fileID: 1176302372, guid: 20ade69cededc084aba48de6e5523239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DropOnly: 0
+  DragOnly: 0
 --- !u!114 &2002554235
 MonoBehaviour:
   m_ObjectHideFlags: 0
