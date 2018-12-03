@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+  <BehaviourAlgorithm xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Instructions>
+      <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Mood>
+          <Value>HAPPY</Value>
+        </Mood>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Position>
+          <Value>TOP</Value>
+        </Position>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <SoundSample>
+          <Value>LAUGH_2</Value>
+        </SoundSample>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FacialEvent>
+          <Value>RELATIVE_EVENT</Value>
+        </FacialEvent>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Position>
+          <Value>CENTER</Value>
+        </Position>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Mood>
+          <Value>NEUTRAL</Value>
+        </Mood>
+      </ABehaviourInstruction>
+    </Instructions>
+  </BehaviourAlgorithm>

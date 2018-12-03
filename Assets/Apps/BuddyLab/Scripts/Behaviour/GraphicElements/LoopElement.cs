@@ -44,11 +44,6 @@ namespace BuddyApp.BuddyLab
             }
         }
 
-        public override void Highlight()
-        {
-            throw new System.NotImplementedException();
-        }
-
         protected override void SetParameter()
         {
             if (mInstruction == null)
@@ -57,15 +52,15 @@ namespace BuddyApp.BuddyLab
             lForLoopInstruction.Iterations = NumLoop;
             textIteration.text = "" + NumLoop;
             Debug.Log("setloop: "+NumLoop);
-            //if (lForLoopInstruction.SubInstructions.Count != container.transform.childCount)
-            //{
+            if (lForLoopInstruction.SubInstructions.Count != container.transform.childCount)
+            {
                 lForLoopInstruction.SubInstructions.Clear();
                 foreach (Transform item in container.transform)
                 {
                     if (item != null && item.GetComponent<AGraphicElement>() != null)
                         lForLoopInstruction.SubInstructions.Add(item.GetComponent<AGraphicElement>().GetInstruction(true));
                 }
-            //}
+            }
 
         }
 

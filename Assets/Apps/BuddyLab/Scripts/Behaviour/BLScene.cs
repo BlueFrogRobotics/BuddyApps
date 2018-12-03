@@ -24,19 +24,6 @@ namespace BuddyApp.BuddyLab
         {
             Debug.Log("on enter de blscene");
             StartCoroutine(InitScene());
-            //Interaction.Mood.Set(Buddy.MoodType.NEUTRAL);
-            //Debug.Log("name project: " + mBLBehaviour.NameOpenProject);
-            //mItemControl.CleanSequence();
-            //mItemControl.ShowSequence(mBLBehaviour.NameOpenProject + ".xml");
-            ////mUIManager.SetBackground(true);
-            //mUIManager.OpenBottomUI();
-            //mUIManager.OpenLineProgram();
-            //mUIManager.OpenTrashArea();
-            
-            //mUIManager.PlayButton.onClick.AddListener(PlaySequence);
-            //mUIManager.SaveButton.onClick.AddListener(SaveSequence);
-            //mUIManager.FolderButton.onClick.AddListener(OpenFolder);
-            //mUIManager.BackButton.onClick.AddListener(GoToMenu);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -48,8 +35,6 @@ namespace BuddyApp.BuddyLab
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //mUIManager.SetBackground(false);
-            
             mUIManager.CloseBottomUI();
             mUIManager.CloseLineProgram();
             mUIManager.CloseTrashArea();
@@ -92,12 +77,12 @@ namespace BuddyApp.BuddyLab
 
         private void Undo()
         {
-            mItemControl.Undo();
+            //mItemControl.Undo();
         }
 
         private void Redo()
         {
-            mItemControl.Redo();
+            //mItemControl.Redo();
         }
 
         private IEnumerator InitScene()
@@ -106,11 +91,7 @@ namespace BuddyApp.BuddyLab
             Debug.Log("name project: " + mBLBehaviour.NameOpenProject);
             mItemControl.CleanSequence();
             yield return null;
-            Debug.Log("avant algo");
             mItemControl.ShowAlgo(mBLBehaviour.NameOpenProject + ".xml");
-            Debug.Log("apres algo");
-            //mItemControl.ShowSequence(mBLBehaviour.NameOpenProject + ".xml");
-            //mUIManager.SetBackground(true);
             mUIManager.OpenBottomUI();
             mUIManager.OpenLineProgram();
             mUIManager.OpenTrashArea();

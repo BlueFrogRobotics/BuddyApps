@@ -32,7 +32,7 @@ namespace BuddyApp.Guardian
                 //        mTexture.filterMode = FilterMode.Trilinear;
                 //    else
             mShowTemp = GetComponent<ShowTemperature>();
-            Buddy.Sensors.ThermalCamera.OnNewFrame.Add((iInput) => OnNewFrame(iInput.Mat));
+            Buddy.Sensors.ThermalCamera.OnNewFrame.Add((iInput) => OnNewFrame(iInput));
             ShowToaster();
             mTexture.filterMode = FilterMode.Trilinear;
             mTexture.wrapMode = TextureWrapMode.Clamp;
@@ -57,7 +57,7 @@ namespace BuddyApp.Guardian
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
             mFireDetection.OnDetect.Remove(OnThermalDetected);
-            Buddy.Sensors.ThermalCamera.OnNewFrame.Remove((iInput) => OnNewFrame(iInput.Mat));
+            Buddy.Sensors.ThermalCamera.OnNewFrame.Remove((iInput) => OnNewFrame(iInput));
         }
 
         private void ShowToaster()
@@ -92,12 +92,12 @@ namespace BuddyApp.Guardian
             //Buddy.GUI.Footer.Remove(mInterpolateButton);
         }
 
-        private void OnNewFrame(Mat iMat)
+        private void OnNewFrame(ThermalCameraFrame iFrame)
         {
             //Debug.Log("frame temperature");
             float[] lThermicValues = new float[8 * 8];
 
-            iMat.get(0, 0, lThermicValues);
+            iFrame.Mat.get(0, 0, lThermicValues);
             mShowTemp.FillTemperature(lThermicValues);
             mMatSrc = mShowTemp.TemperatureToColor();
             //mTexture = Utils.ScaleTexture2DFromMat(mMatSrc, mTexture);

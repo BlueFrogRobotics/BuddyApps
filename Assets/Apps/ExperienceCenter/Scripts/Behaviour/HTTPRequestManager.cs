@@ -187,7 +187,8 @@ namespace BuddyApp.ExperienceCenter
 		 * ***************************************************/
 		public void Login ()
 		{
-			WWWForm form = new WWWForm ();
+            Debug.Log("Login method");
+            WWWForm form = new WWWForm ();
 			form.AddField ("userId", ExperienceCenterData.Instance.UserID);
 			form.AddField ("userPassword", ExperienceCenterData.Instance.Password);
             Debug.Log("userid: " + ExperienceCenterData.Instance.UserID + " psswd: " + ExperienceCenterData.Instance.Password);
@@ -235,6 +236,7 @@ namespace BuddyApp.ExperienceCenter
                 {
                     Debug.Log("[DEVICES] label: " + response[i]["label"]);
                     jBuilder.AddDeviceURL(response[i]["label"], response[i]["deviceURL"]);
+                    Debug.Log("ajout de l url: " + response[i]["deviceURL"] + " fait");
                 }
 
 				RetrieveDevices = true;
@@ -271,7 +273,8 @@ namespace BuddyApp.ExperienceCenter
 		// POST request using json data
 		private IEnumerator Post (string apiEntry, JSONObject json, Action<JSONObject,long>onResponse)
 		{
-			UnityWebRequest request = new UnityWebRequest (ExperienceCenterData.Instance.API_URL + apiEntry, UnityWebRequest.kHttpVerbPOST);
+            Debug.Log("Post1 method with: " + apiEntry);
+            UnityWebRequest request = new UnityWebRequest (ExperienceCenterData.Instance.API_URL + apiEntry, UnityWebRequest.kHttpVerbPOST);
 
 			//Explicitly parse to UTF8 encoding to make it work !
 			byte[] bytes = System.Text.Encoding.UTF8.GetBytes (json.ToString ());
@@ -284,7 +287,7 @@ namespace BuddyApp.ExperienceCenter
 				request.SetRequestHeader ("Content-Type", "application/json");
 			}
 
-			yield return request.Send ();
+			yield return request.SendWebRequest();
 
 			if (request.isNetworkError)
 				Debug.LogErrorFormat ("[EXCENTER] Failed {0} request : {1}", apiEntry, request.error);
@@ -298,13 +301,14 @@ namespace BuddyApp.ExperienceCenter
 		// POST request using form data
 		private IEnumerator Post (string apiEntry, WWWForm form, Action<JSONObject,long> onResponse)
 		{
-			UnityWebRequest request = UnityWebRequest.Post (ExperienceCenterData.Instance.API_URL + apiEntry, form);
+            Debug.Log("Post2 method with: " + apiEntry);
+            UnityWebRequest request = UnityWebRequest.Post (ExperienceCenterData.Instance.API_URL + apiEntry, form);
 
 			// if logged in, put given cookie in header
 			if (Connected)
 				request.SetRequestHeader ("Cookie", mCookie);
 
-			yield return request.Send ();
+			yield return request.SendWebRequest();
 
 			if (request.isNetworkError)
 				Debug.LogErrorFormat ("Failed {0} request : {1}", apiEntry, request.error);
@@ -326,13 +330,14 @@ namespace BuddyApp.ExperienceCenter
 		// GET request retrieving JSONArray
 		private IEnumerator Get (string apiEntry, Action<JSONArray,long> onResponse)
 		{
+            Debug.Log("Get method with: " + apiEntry);
 			UnityWebRequest request = UnityWebRequest.Get (ExperienceCenterData.Instance.API_URL + apiEntry);
 
 			// if logged in, put given cookie in header
 			if (Connected)
 				request.SetRequestHeader ("Cookie", mCookie);
 
-			yield return request.Send ();
+			yield return request.SendWebRequest();
 
 			if (request.isNetworkError)
 				Debug.LogErrorFormat ("[EXCENTER] Failed {0} request : {1}", apiEntry, request.error);

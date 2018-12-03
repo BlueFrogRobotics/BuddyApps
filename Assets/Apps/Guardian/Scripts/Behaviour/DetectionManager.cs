@@ -168,7 +168,7 @@ namespace BuddyApp.Guardian
             //{
                 Debug.Log("on detecte son");
                 mNoiseDetection.OnDetect.AddP(OnSoundDetected, 0.0F);
-            Buddy.Sensors.ThermalCamera.OnNewFrame.Add((iInput) => OnNewFrame(iInput.Mat));
+            Buddy.Sensors.ThermalCamera.OnNewFrame.Add((iInput) => OnNewFrame(iInput));
             //}
             //mFireDetection.OnDetect.AddP(OnThermalDetected, MAX_TEMPERATURE_THRESHOLD);
             //mKidnappingDetection.OnDetect.Add(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
@@ -189,7 +189,7 @@ namespace BuddyApp.Guardian
             //if (!IsDetectingMovement)
                 mMotionDetection.OnDetect.RemoveP(OnMovementDetected);
 
-            Buddy.Sensors.ThermalCamera.OnNewFrame.Remove((iInput) => OnNewFrame(iInput.Mat));
+            Buddy.Sensors.ThermalCamera.OnNewFrame.Remove((iInput) => OnNewFrame(iInput));
         }
 
 		/// <summary>
@@ -249,7 +249,7 @@ namespace BuddyApp.Guardian
             //return true;
 		}
 
-        private void OnNewFrame(Mat iMat)
+        private void OnNewFrame(ThermalCameraFrame iFrame)
         {
             if (!IsDetectingFire)
                 return;

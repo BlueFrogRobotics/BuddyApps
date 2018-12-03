@@ -29,10 +29,6 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private Text textValue;
 
-        public override void Highlight()
-        {
-            throw new System.NotImplementedException();
-        }
 
         protected override void SetParameter()
         {

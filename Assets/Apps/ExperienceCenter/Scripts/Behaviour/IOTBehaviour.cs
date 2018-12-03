@@ -117,10 +117,12 @@ namespace BuddyApp.ExperienceCenter
 
 		private IEnumerator Scenario ()
 		{
+            Debug.Log("debut scenario");
 			AttitudeBehaviour lAttitudeBehaviour = GameObject.Find ("AIBehaviour").GetComponent<AttitudeBehaviour> ();
 
 			if (ExperienceCenterData.Instance.EnableHeadMovement)
 				lAttitudeBehaviour.MoveHeadWhileSpeaking (-10, 10);
+            Debug.Log("iotbahaviour1");
 			
 			yield return new WaitForSeconds (1);
 			Buddy.Vocal.SayKey ("iotboost", true);
@@ -129,13 +131,15 @@ namespace BuddyApp.ExperienceCenter
             Buddy.Vocal.Say("[2000]", true);
 
             yield return new WaitUntil (() => !mRobotMoving || !ExperienceCenterData.Instance.EnableBaseMovement);
-
+            Debug.Log("iotbahaviour2");
 			Buddy.Vocal.SayKey ("iotdemo", true);
             Buddy.Vocal.Say("[500]", true);
             Buddy.Vocal.SayKey ("iotlance", true);
             Buddy.Vocal.Say("[500]", true);
+            Debug.Log("iotbahaviour3");
 
             yield return new WaitUntil (() => !Buddy.Vocal.IsSpeaking);
+            Debug.Log("iotbahaviour4");
 
 			Buddy.Vocal.SayKey ("iotparti", true);
             Buddy.Vocal.Say("[500]", true);
@@ -143,6 +147,7 @@ namespace BuddyApp.ExperienceCenter
             yield return new WaitForSeconds (2f); 
 			if (!mHttpManager.Connected)
 				mHttpManager.Login ();
+            Debug.Log("iotbahaviour5");
 
 			yield return new WaitForSeconds (2f);
 			if (mHttpManager.RetrieveDevices) {
@@ -150,11 +155,12 @@ namespace BuddyApp.ExperienceCenter
 				yield return new WaitForSeconds (10f);
 				mHttpManager.LightOn (true);
 				yield return new WaitForSeconds (5f);
-				mHttpManager.SonosPlay (true);
+				//mHttpManager.SonosPlay (true);
 				yield return new WaitForSeconds (2f);
 			} else
 				Debug.LogError ("[EXCENTER] Could not retrieve device list from targeted Tahoma box");
 
+            Debug.Log("iotbahaviour6");
 			yield return new WaitForSeconds (2f);
 
 			// Dance for 30 seconds (default)
@@ -162,7 +168,7 @@ namespace BuddyApp.ExperienceCenter
 			while (true) {
 				TimeSpan lElapsedTime = DateTime.Now - lStartDance;
 				if (lElapsedTime.TotalSeconds > ExperienceCenterData.Instance.DanceDuration) {
-					mHttpManager.SonosPlay (false);
+					//mHttpManager.SonosPlay (false);
 					//BYOS.Instance.Interaction.BMLManager.StopAllBehaviors ();
 					break;
 				}
@@ -171,6 +177,7 @@ namespace BuddyApp.ExperienceCenter
 				//}
 				yield return new WaitForSeconds(1f);
 			}
+            Debug.Log("iotbahaviour7");
 
 			yield return new WaitForSeconds (2f);
 
@@ -182,6 +189,7 @@ namespace BuddyApp.ExperienceCenter
             Buddy.Vocal.Say("[500]", true);
             Buddy.Vocal.SayKey ("iotcontinuation", true);
 
+            Debug.Log("iotbahaviour8");
 			yield return new WaitUntil (() => !Buddy.Vocal.IsSpeaking);
 
 			if (!mHttpManager.Connected)

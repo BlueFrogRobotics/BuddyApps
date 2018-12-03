@@ -11,26 +11,8 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private string key;
 
-        //[SerializeField]
-        //private string utterance;
+        private string mUtterance;
 
-        public string Utterance { get; set; }
-
-        // Use this for initialization
-        void Start()
-        {
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-        public override void Highlight()
-        {
-            throw new System.NotImplementedException();
-        }
 
         protected override void SetParameter()
         {
@@ -40,8 +22,8 @@ namespace BuddyApp.BuddyLab
 
             if(key!=null)
                 lSayInstruction.Key = key;
-            if (Utterance != null)
-                lSayInstruction.Utterance = Utterance;
+            if (mUtterance != null)
+                lSayInstruction.Utterance = mUtterance;
         }
 
         protected override void SetInternalParameters()
@@ -51,17 +33,17 @@ namespace BuddyApp.BuddyLab
                 mInstruction = new SayBehaviourInstruction();
             SayBehaviourInstruction lSayInstruction = (SayBehaviourInstruction)mInstruction;
             //if(lSayInstruction.Utterance!=null)
-                Utterance = lSayInstruction.Utterance.Value;
+                mUtterance = lSayInstruction.Utterance.Value;
         }
 
         public string GetEditableParameter()
         {
-            return Utterance;
+            return mUtterance;
         }
 
         public void SetEditableParameter(string iParameter)
         {
-            Utterance = iParameter;
+            mUtterance = iParameter;
         }
     }
 }

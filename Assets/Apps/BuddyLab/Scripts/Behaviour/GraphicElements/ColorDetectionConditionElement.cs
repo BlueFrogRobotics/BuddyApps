@@ -5,15 +5,17 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
+    /// <summary>
+    /// Condition element that test if the corresponding color is shown
+    /// <para>See <see cref="ColorInputBehaviourInstruction"/>  </para>
+    /// </summary>
     public class ColorDetectionConditionElement : AGraphicElement
     {
+        /// <summary>
+        /// The color to recognize
+        /// </summary>
         [SerializeField]
         private Color32 color;
-
-        public override void Highlight()
-        {
-            throw new System.NotImplementedException();
-        }
 
         protected override void SetParameter()
         {

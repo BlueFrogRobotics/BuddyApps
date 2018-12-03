@@ -17,8 +17,6 @@ namespace BuddyApp.BuddyLab
         private MotionDetector mMotionDetection;
         private QRCodeDetector mQRcodeDetection;
         private TimelineDisplayer mTimelineDisplayer;
-        private LoopManager mLoopManager;
-        private ConditionManager mConditionManager;
         private BuddyLabBehaviour mBLBehaviour;
         private GameObject mButtonHideUI;
         private GameObject mUIToHide;
@@ -30,16 +28,13 @@ namespace BuddyApp.BuddyLab
 
         private bool mButtonsVisible;
 
+        private float mTime;
+
         public override void Start()
         {
-            //mMotionDetection = Buddy.Perception.MotionDetector;
-            //mFireDetection = Buddy.Perception.ThermalDetector;
-            //mQRcodeDetection = Buddy.Perception.QRCodeDetector;
             mSequenceToHide = GetGameObject(10);
             mButtonHideUI = GetGameObject(8);
             mUIToHide = GetGameObject(9);
-            mConditionManager = GetGameObject(3).GetComponent<ConditionManager>();
-            mLoopManager = GetGameObject(3).GetComponent<LoopManager>();
             mUIManager = GetComponent<LabUIEditorManager>();
             mItemControl = GetComponentInGameObject<ItemControlUnit>(4);
             mTimelineDisplayer = GetComponentInGameObject<TimelineDisplayer>(7);
@@ -49,21 +44,15 @@ namespace BuddyApp.BuddyLab
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            //mUIManager.OpenPlayUI();
-            //mIsPlaying = false;
-            //mUIManager.StopButton.onClick.AddListener(Stop);
-            //mUIManager.ReplayButton.onClick.AddListener(Replay);
-            //mTimelineDisplayer.DisplaySequence(mBLBehaviour.NameOpenProject + ".xml");
-            //ItemControlUnit.OnNextAction += ChangeItemHighlight;
-            //StartCoroutine(Play());
             mTimelineDisplayer.DisplayAlgo();
             StartCoroutine(PlayTestInterpreter());
+            mTime = 0.0F;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
+            mTime += Time.deltaTime;
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -73,7 +62,6 @@ namespace BuddyApp.BuddyLab
             mTimelineDisplayer.HideSequence();
             mUIManager.StopButton.onClick.RemoveListener(Stop);
             mButtonHideUI.GetComponent<Button>().onClick.RemoveListener(HideUi);
-            mUIManager.ReplayButton.onClick.RemoveListener(Replay);
             mUIManager.ClosePlayUI();
         }
 
@@ -82,17 +70,10 @@ namespace BuddyApp.BuddyLab
             mButtonHideUI.SetActive(false);
             ResetPosition();
             mItemControl.IsRunning = false;
-            mLoopManager.ResetParam();
-            mLoopManager.NeedChangeIndex();
-            mConditionManager.ConditionType = "";
             mIsPlaying = false;
-            mLoopManager.ChangeIndex = false;
+
             if (Buddy.Sensors.HDCamera.IsOpen)
             {
-                Debug.Log("CAMERA OPEN");
-                //mMotionDetection.StopAllOnDetect();
-                //mQRcodeDetection.StopAllOnDetect();
-                //mFireDetection.StopAllOnDetect();
                Buddy.Sensors.HDCamera.Close();
             }
             GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
@@ -115,46 +96,8 @@ namespace BuddyApp.BuddyLab
             Buddy.Behaviour.Interpreter.Run(mItemControl.BehaviourAlgorithm, mTimelineDisplayer.OnExecuteInstruction);
         }
 
-        private void Replay()
-        {
-            Debug.Log("REPLAY ");
-            ResetPosition();
-            mItemControl.IsRunning = false;
-            mLoopManager.ResetParam();
-            mLoopManager.NeedChangeIndex();
-            mConditionManager.ConditionType = "";
-            mIsPlaying = false;
-            mLoopManager.ChangeIndex = false;
-            if(!mIsPlaying)
-            {
-                Debug.Log("STARTCOROUTINE REPLAY ");
-                //mItemControl.IsRunning = true;
-                //mIsPlaying = true;
-                //mTimelineDisplayer.HideSequence();
-                //mTimelineDisplayer.DisplayAlgo();
-                StartCoroutine(Play());
-            } 
-        }
-
-        private IEnumerator Play()
-        {
-            if (!mUIToHide.activeSelf)
-                mUIToHide.SetActive(true);
-            mButtonHideUI.SetActive(true);
-            mButtonHideUI.GetComponent<Button>().onClick.AddListener(HideUi);
-            yield return new WaitForSeconds(0.5F);
-            mItemControl.IsRunning = true;
-            mIsPlaying = true;
-            Debug.Log("PLAY : AVANT YIELD RETURN : ISRUNNING " + mItemControl.IsRunning + " MISPLAYING : " + mIsPlaying);
-            yield return mItemControl.PlaySequence();
-            Debug.Log("PLAY : APRES YIELD RETURN : ISRUNNING " + mItemControl.IsRunning + " MISPLAYING : " + mIsPlaying);
-            mIsPlaying = false;
-        }
-
         private void ResetPosition()
         {
-            //Primitive.Motors.Wheels.Locked = false;
-            //Primitive.Motors.Wheels.Stop();
             Buddy.Actuators.Head.Yes.Locked = false;
             Buddy.Actuators.Head.Yes.SetPosition(0F, 100F);
             Buddy.Actuators.Head.No.Locked = false;
@@ -168,51 +111,27 @@ namespace BuddyApp.BuddyLab
 
         private void HideUi()
         {
-           
-            if (mButtonsVisible)
-            {
-                mTimelineDisplayer.EnableTimeline(false);
-                CloseFooter();
-                mButtonsVisible = false;
-                //mUIToHide.SetActive(false);
-                //mSequenceToHide.SetActive(false);
-                //Header.DisplayParametersButton = false;
-            }
-            else
-            {
-                mTimelineDisplayer.EnableTimeline(true);
-                ShowFooter();
-                mButtonsVisible = true;
-                //mUIToHide.SetActive(true);
-                //mSequenceToHide.SetActive(true);
-                //Header.DisplayParametersButton = true;
+            if (mTime > 2.0F) {
+                mTime = 0.0F;
+                if (mButtonsVisible) {
+                    mTimelineDisplayer.EnableTimeline(false);
+                    CloseFooter();
+                    mButtonsVisible = false;
+                } else {
+                    mTimelineDisplayer.EnableTimeline(true);
+                    ShowFooter();
+                    mButtonsVisible = true;
 
+                }
             }
         }
         IEnumerator DelayForTimeline (int iNum, float iDelay)
         {
             yield return new WaitForSeconds(iDelay);
-            mTimelineDisplayer.HighlightElement(iNum);
         }
 
         IEnumerator PlayTestInterpreter()
         {
-            //BehaviourAlgorithm lBeAlgo = new BehaviourAlgorithm();
-            //lBeAlgo.Instructions.Add(new WaitBehaviourInstruction()
-            //{
-            //    Duration = 5F,
-            //});
-            //lBeAlgo.Instructions.Add(new SetMoodBehaviourInstruction()
-            //{
-            //    Duration = 4F,
-            //    Mood = Mood.HAPPY
-            //});
-            //lBeAlgo.Instructions.Add(new SetMoodBehaviourInstruction()
-            //{
-            //    Duration = 4F,
-            //    Mood = Mood.ANGRY
-            //});
-            //mItemControl.SaveAlgorithm();
             mButtonsVisible = true;
             mButtonHideUI.SetActive(true);
             mButtonHideUI.GetComponent<Button>().onClick.AddListener(HideUi);

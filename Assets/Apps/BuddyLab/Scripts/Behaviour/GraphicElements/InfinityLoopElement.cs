@@ -15,11 +15,6 @@ namespace BuddyApp.BuddyLab
         public GameObject Container { get { return container; } }
 
 
-        public override void Highlight()
-        {
-            throw new System.NotImplementedException();
-        }
-
         protected override void SetParameter()
         {
             if (mInstruction == null)

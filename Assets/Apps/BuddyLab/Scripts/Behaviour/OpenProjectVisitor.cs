@@ -10,6 +10,14 @@ namespace BuddyApp.BuddyLab
         ItemManager mItemManager;
         Transform mRootLine;
 
+        public enum Category : int
+        {
+            BML = 0,
+            CONDITION = 1,
+            LOOP = 2,
+            SPECIAL = 3
+        }
+
         public OpenProjectVisitor(ItemManager iItemManager, Transform iRootLine)
         {
             mItemManager = iItemManager;
@@ -415,13 +423,9 @@ namespace BuddyApp.BuddyLab
                     lItem = MonoBehaviour.Instantiate(mItemManager.GetBMLItem(iIndex));
                     break;
             }
-            Debug.Log("1");
             lItem.GetComponent<AGraphicElement>().SetInstruction(iStructure);
-            Debug.Log("2");
             lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
-            Debug.Log("3");
             lItem.transform.SetParent(mRootLine, false);
-            Debug.Log("4");
             return lItem;
         }
 

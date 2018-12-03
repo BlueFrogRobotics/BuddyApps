@@ -33,17 +33,6 @@ namespace BuddyApp.BuddyLab
             return loopItems[iIndex];
         }
 
-        public GameObject GetConditionItemFromName(string iName)
-        {
-            GameObject lConditionItem = null;
-            foreach(GameObject item in conditionItems)
-            {
-                if (item.GetComponent<ConditionItem>() != null && item.GetComponent<ConditionItem>().GetItem().ConditionName == iName)
-                    lConditionItem = item;
-            }
-
-            return lConditionItem;
-        }
 
         public GameObject GetSpecialItem(int iIndex)
         {

@@ -13,12 +13,6 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private bool allParts;
 
-
-        public override void Highlight()
-        {
-            throw new System.NotImplementedException();
-        }
-
         protected override void SetParameter()
         {
 

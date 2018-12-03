@@ -53,10 +53,14 @@ namespace BuddyApp.ExperienceCenter
 		private IEnumerator Listening ()
 		{
 			yield return new WaitUntil (() => !mStop);
+            Debug.Log("listen 1");
 			IPAddress[] ipArray = Dns.GetHostAddresses (GetIPAddress ());
+            Debug.Log("listen 2");
 			IPEndPoint localEndPoint = new IPEndPoint (ipArray [0], 3000);
+            Debug.Log("listen 3");
 
 			Debug.Log ("[EXCENTER] [TCP SERVER] Server address and port : " + localEndPoint.ToString ());
+            Debug.Log("listen 4");
 			ExperienceCenterData.Instance.IPAddress = localEndPoint.ToString ();
 
 			// Create a TCP/IP socket if the port is released

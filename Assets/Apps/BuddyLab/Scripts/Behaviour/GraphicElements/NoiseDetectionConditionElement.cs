@@ -10,10 +10,6 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private float threshold;
 
-        public override void Highlight()
-        {
-            throw new System.NotImplementedException();
-        }
 
         protected override void SetParameter()
         {

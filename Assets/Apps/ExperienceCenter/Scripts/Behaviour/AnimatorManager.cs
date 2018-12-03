@@ -124,7 +124,7 @@ namespace BuddyApp.ExperienceCenter
 
             if (ExperienceCenterData.Instance.RunTrigger) {
                 //mSpeechToText.Request();
-                Buddy.Vocal.Listen();
+                Buddy.Vocal.Listen("experiencecenter", SpeechRecognitionMode.GRAMMAR_ONLY);
                 Debug.Log("[EXCENTER][ANIMMANAGER] Run Trigger ");
                 ExperienceCenterData.Instance.RunTrigger = false;
             }
@@ -401,7 +401,7 @@ namespace BuddyApp.ExperienceCenter
                         return GetTrigger();
                     }
                 case StateReq.Language: {
-                        if (Buddy.Platform.Language.SystemOutputLanguage == Buddy.Platform.Language.GetLanguageFromISOCode(ISO6391Code.FR))
+                        if (Buddy.Platform.Language.SystemInputLanguage.ISO6391Code==ISO6391Code.FR)
                             return State.French;
                         else
                             return State.English;

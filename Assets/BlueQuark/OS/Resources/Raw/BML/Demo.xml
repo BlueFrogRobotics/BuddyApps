@@ -1,0 +1,385 @@
+<?xml version="1.0" ?>
+  <BehaviourAlgorithm xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Instructions>
+      <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Mood>
+          <Value>NEUTRAL</Value>
+        </Mood>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FileName>
+          <Value>focus_01.wav</Value>
+        </FileName>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+        <Delay>
+          <Value>2</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FacialEvent>
+          <Value>BLINK_EYES</Value>
+        </FacialEvent>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Mood>
+          <Value>HAPPY</Value>
+        </Mood>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Position>
+          <Value>TOP_LEFT</Value>
+        </Position>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+        <Delay>
+          <Value>1.5</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Position>
+          <Value>CENTER</Value>
+        </Position>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Position>
+          <Value>TOP_RIGHT</Value>
+        </Position>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+        <Delay>
+          <Value>2.5</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Position>
+          <Value>CENTER</Value>
+        </Position>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Utterance>
+          <Value>Bonjour,[300] je suis content d'être avec vous,[300] je m'appelle Buddy, je suis le premier robot compagnon pour touter la famille.[500] Je suis là pour vous aider au quotidien. </Value>
+        </Utterance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+        <Delay>
+          <Value>4</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Position>
+          <Value>TOP_RIGHT</Value>
+        </Position>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+        <Delay>
+          <Value>6.5</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Position>
+          <Value>CENTER</Value>
+        </Position>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+        <Delay>
+          <Value>1</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FacialEvent>
+          <Value>BLINK_EYES</Value>
+        </FacialEvent>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Utterance>
+          <Value>J'ai une passion pour le théatre, je me suis entrainé comme un acteur,[300]j'exprime clairement mes émotions. </Value>
+        </Utterance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Mood>
+          <Value>NEUTRAL</Value>
+        </Mood>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
+        <Delay>
+          <Value>1</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FileName>
+          <Value>yawn.wav</Value>
+        </FileName>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+        <Delay>
+          <Value>1</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FacialEvent>
+          <Value>YAWN</Value>
+        </FacialEvent>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="RunScriptBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FileName>
+          <Value>happy02</Value>
+        </FileName>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Utterance>
+          <Value>Regardez, comme je peux être heureux.</Value>
+        </Utterance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="RunScriptBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FileName>
+          <Value>sad02</Value>
+        </FileName>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Utterance>
+          <Value>Parfois je suis triste si tu ne t'occupes pas de moi...</Value>
+        </Utterance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="RunScriptBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FileName>
+          <Value>neutral05</Value>
+        </FileName>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Utterance>
+          <Value>Ah au fait,[300] vous connaissez cette blague ?[300]</Value>
+        </Utterance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+        <Delay>
+          <Value>5</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Utterance>
+          <Value>Quel est l'animal le plus à la mode? [1000] La taupe modèle</Value>
+        </Utterance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="RunScriptBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FileName>
+          <Value>thinking03</Value>
+        </FileName>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Utterance>
+          <Value>Arretons les blagues pour une minutes.[500]</Value>
+        </Utterance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+        <Delay>
+          <Value>5</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Utterance>
+          <Value>Avez-vous remarqué que mes épaules et mon coeur change de couleurs?</Value>
+        </Utterance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Utterance>
+          <Value>Je peux avancer.[500] faite un peu de place devant</Value>
+        </Utterance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+        <Delay>
+          <Value>2</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FacialEvent>
+          <Value>BLINK_LEFT_EYE</Value>
+        </FacialEvent>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Utterance>
+          <Value>Vous voyez je suis une vrai bête de scène!</Value>
+        </Utterance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="DisplayImageBehaviourInstruction">
+        <Delay>
+          <Value>3</Value>
+        </Delay>
+        <Duration>
+          <Value>2.0</Value>
+        </Duration>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FileName>
+          <Value>boeufcarottes.jpg</Value>
+        </FileName>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Utterance>
+          <Value>Je ne sais pas faire a manger, mais je peut vous aidez à suivre une recette!</Value>
+        </Utterance>
+      </ABehaviourInstruction>
+    </Instructions>
+  </BehaviourAlgorithm>

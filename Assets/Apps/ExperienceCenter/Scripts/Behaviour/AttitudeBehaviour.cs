@@ -28,7 +28,7 @@ namespace BuddyApp.ExperienceCenter
 		{
 			IsWaiting = true;
 			if (ExperienceCenterData.Instance.EnableBML) {
-				Debug.Log ("[EXCENTER] Start Waiting BML");
+				Debug.Log ("[EXCENTER] Start Waiting BML"); 
 				//StartCoroutine (Waiting ());
 			}
 		}
