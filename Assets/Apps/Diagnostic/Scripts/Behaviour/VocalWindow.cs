@@ -37,7 +37,7 @@ namespace BuddyApp.Diagnostic
 
 
         [SerializeField]
-        private Text TriggerText;
+        private Animator TriggerText;
 
 
         [SerializeField]
@@ -68,8 +68,8 @@ namespace BuddyApp.Diagnostic
 
         public void Update()
         {
-            LocalizationText.text = "Localization: " + Buddy.Sensors.Microphones.SoundLocalization + " degrees";
-            AmbiantSoundLevelText.text = "Ambiant Sound Level: " + Buddy.Sensors.Microphones.AmbiantSound + " db";
+            LocalizationText.text = Buddy.Sensors.Microphones.SoundLocalization + " °";
+            AmbiantSoundLevelText.text = Buddy.Sensors.Microphones.AmbiantSound + " db";
             
             if (mBIsPlaying) // Playing record
             {
@@ -118,14 +118,14 @@ namespace BuddyApp.Diagnostic
 
 
             // Trigger : Play sound and switch to green for 1 second.
-            TriggerText.color = Color.red;
+            //TriggerText.color = Color.red;
             Buddy.Vocal.EnableTrigger = true;
             Buddy.Vocal.OnTrigger.Clear();
             Buddy.Vocal.OnTrigger.Add(
                 (iInput) =>
                 {
-                    TriggerText.color = Color.green;
-                    
+                    //TriggerText.color = Color.green;
+                    TriggerText.SetTrigger("ON");
                     Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
 
                     // Display green for one second then switch red.
@@ -228,7 +228,7 @@ namespace BuddyApp.Diagnostic
 
         private void OnTriggerTimedEvent(System.Object source, System.Timers.ElapsedEventArgs e)
         {
-            TriggerText.color = Color.red;
+            //TriggerText.color = Color.red;
             mTimeTrigger.Stop();
             mTimeTrigger.Close();
         }

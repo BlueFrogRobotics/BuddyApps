@@ -1,4 +1,5 @@
 using UnityEngine.UI;
+
 using UnityEngine;
 
 using BlueQuark;
@@ -24,31 +25,41 @@ namespace BuddyApp.Diagnostic
 
 		[SerializeField]
 		private GameObject vocalRoot;
-
 		[SerializeField]
 		private GameObject ledRoot;
-
 		[SerializeField]
 		private GameObject motorsRoot;
-
 		[SerializeField]
 		private GameObject faceRoot;
-
 		[SerializeField]
 		private GameObject camerasRoot;
-
 		[SerializeField]
 		private GameObject thermalRoot;
-
 		[SerializeField]
 		private GameObject sensorsRoot;
-
         [SerializeField]
         private GameObject connexionRoot;
 
+        [SerializeField]
+        private GameObject vocalBT;
+        [SerializeField]
+        private GameObject ledBT;
+        [SerializeField]
+        private GameObject motorsBT;
+        [SerializeField]
+        private GameObject faceBT;
+        [SerializeField]
+        private GameObject camerasBT;
+        [SerializeField]
+        private GameObject thermalBT;
+        [SerializeField]
+        private GameObject sensorsBT;
+        [SerializeField]
+        private GameObject connexionBT;
+
         private List<GameObject> mRoots;
 
-		private WindowType mCurrentWindow;
+        private WindowType mCurrentWindow;
 
 		/*
          * Init refs to API and your app data
@@ -60,7 +71,7 @@ namespace BuddyApp.Diagnostic
 				ledRoot, motorsRoot, faceRoot,
 				camerasRoot, thermalRoot, sensorsRoot, connexionRoot
             };
-			mCurrentWindow = WindowType.FACE;
+            mCurrentWindow = WindowType.FACE;
             //SetWindow((int)WindowType.VOCAL);
             SetWindow((int)WindowType.MOTORS);
         }
@@ -103,7 +114,8 @@ namespace BuddyApp.Diagnostic
 		{
 			foreach (GameObject lRoot in mRoots)
 				lRoot.SetActive(lRoot == iGOToKeep);
-		}
+        }
+
 
 		public void Quit()
 		{

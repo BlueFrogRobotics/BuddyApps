@@ -31,9 +31,13 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Text linearVelocity;
         [SerializeField]
+        private Text linearVelocity2;
+        [SerializeField]
         private Slider linearVelocitySetter;
         [SerializeField]
         private Text angularVelocity;
+        [SerializeField]
+        private Text angularVelocity2;
         [SerializeField]
         private Slider angularVelocitySetter;
 
@@ -43,17 +47,21 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Text distanceBack;
         [SerializeField]
+        private Text distanceBack2;
+        [SerializeField]
         private Slider distanceSetter;
         [SerializeField]
         private Text AngularVelocityWheelsText;
         [SerializeField]
+        private Text AngularVelocityWheelsText2;
+        [SerializeField]
         private Slider AngularVelocityWheelsSetter;
-
-
 
 
         [SerializeField]
         private Text angleBack;
+        [SerializeField]
+        private Text angleBack2;
         [SerializeField]
         private Slider anglePosSetter;
 
@@ -68,21 +76,23 @@ namespace BuddyApp.Diagnostic
 
         [SerializeField]
         private Slider yesHingeAngleSetter;
-
         [SerializeField]
         private Slider noHingeAngleSetter;
-
         [SerializeField]
         private Slider hingeSpeedSetter;
 
         [SerializeField]
         private Text yesAngleBack;
-
+        [SerializeField]
+        private Text yesAngleBack2;
         [SerializeField]
         private Text noAngleBack;
-
+        [SerializeField]
+        private Text noAngleBack2;
         [SerializeField]
         private Text hingeSpeedBack;
+        [SerializeField]
+        private Text hingeSpeedBack2;
 
         [SerializeField]
         private Text toleranceBack;
@@ -142,24 +152,33 @@ namespace BuddyApp.Diagnostic
 
         void Update()
         {
-            positionGetter.text = "Position : " + mWheels.Odometry;
-            leftSpeedGetter.text = "Left speed : " + mWheels.LeftRotationalSpeed;
-            rightSpeedGetter.text = "Right speed : " + mWheels.RightRotationalSpeed;
-            noHingeAngleGetter.text = "No angle : " + mNoHinge.Angle;
-            yesHingeAngleGetter.text = "Yes angle : " + mYesHinge.Angle;
+            positionGetter.text = "" + mWheels.Odometry;
+            leftSpeedGetter.text = "" + mWheels.LeftRotationalSpeed;
+            rightSpeedGetter.text = "" + mWheels.RightRotationalSpeed;
+            noHingeAngleGetter.text = mNoHinge.Angle + " °";
+            yesHingeAngleGetter.text = mYesHinge.Angle + " °";
 
-            linearVelocity.text = "Linear Velocity: " + Math.Round(linearVelocitySetter.value, 2);
-            angularVelocity.text = "Angular Velocity : " + angularVelocitySetter.value;
+            linearVelocity.text = Math.Round(linearVelocitySetter.value, 2) + " M/s";
+            linearVelocity2.text = Math.Round(linearVelocitySetter.value, 2) + " M/s";
 
-            distanceBack.text = "Dist : " + Math.Round(distanceSetter.value, 2);
-            AngularVelocityWheelsText.text = "Spd : " + AngularVelocityWheelsSetter.value;
+            angularVelocity.text = "" + angularVelocitySetter.value;
 
-            angleBack.text = "Angle Th : " + anglePosSetter.value;
+            distanceBack.text = Math.Round(distanceSetter.value, 2) + " M";
+            distanceBack2.text = Math.Round(distanceSetter.value, 2) + " M";
+
+            AngularVelocityWheelsText.text = AngularVelocityWheelsSetter.value + " M/s";
+            AngularVelocityWheelsText2.text = AngularVelocityWheelsSetter.value + " M/s";
+
+            angleBack.text = anglePosSetter.value + " °";
+            angleBack2.text = anglePosSetter.value + " °";
             //toleranceBack.text = "Tol : " + toleranceSetter.value;
 
-            noAngleBack.text = "No ang : " + noHingeAngleSetter.value;
-            yesAngleBack.text = "Yes ang : " + yesHingeAngleSetter.value;
-            hingeSpeedBack.text = "Spd : " + hingeSpeedSetter.value;
+            noAngleBack.text = noHingeAngleSetter.value + " °";
+            noAngleBack2.text = noHingeAngleSetter.value + " °";
+            yesAngleBack.text = yesHingeAngleSetter.value + " °";
+            yesAngleBack2.text = yesHingeAngleSetter.value + " °";
+            hingeSpeedBack.text = "" + hingeSpeedSetter.value;
+            hingeSpeedBack2.text = "" + hingeSpeedSetter.value;
         }
 
         public void SetWheelsSpeed()
