@@ -21,10 +21,6 @@ namespace BuddyApp.Guardian
         public override void Start()
         {
             mDetectionManager = GetComponent<DetectionManager>();
-
-            //Buddy.Actuators.Speakers.Media.Play(
-            //       Buddy.Resources.Get<AudioClip>("alarmbeep")
-            //   );
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -49,13 +45,13 @@ namespace BuddyApp.Guardian
             Buddy.Behaviour.SetMood(Mood.SCARED);
             Buddy.Vocal.Say(mAlert.GetSpeechText());
 
-            mAction = DisplayAlert();
+            mAction = DisplayAlertAsync();
             StartCoroutine(mAction);
 
             // Send notification to mybuddyapp
             //WebRTCListener.SendNotification(mAlert.GetMail().Subject, mAlert.GetMail().Body);
-
-            string lMailAddress = mContacts.Recipients[GuardianData.Instance.ContactId].Mail;//GuardianData.Instance.Contact.Email;
+            
+            string lMailAddress = mContacts.Recipients[GuardianData.Instance.ContactId].Mail;
             if (!string.IsNullOrEmpty(lMailAddress) && GuardianData.Instance.SendMail)
                 SendMail(lMailAddress);
 
@@ -104,10 +100,8 @@ namespace BuddyApp.Guardian
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
         }
 
-        private IEnumerator DisplayAlert()
+        private IEnumerator DisplayAlertAsync()
         {
-            Debug.Log("display alert");
-            //Buddy.GUI.Toaster.Display<IconToast>().With(mAlert.GetDisplayText(), mAlert.GetIcon(), new Color32(212, 0, 22, 255), true);
             Buddy.GUI.Header.DisplayLightTitle(mAlert.GetDisplayText());
             Buddy.GUI.Toaster.Display<IconToast>().With(mAlert.GetIcon(), Color.white, new Color32(212, 0, 22, 255), () => {
 

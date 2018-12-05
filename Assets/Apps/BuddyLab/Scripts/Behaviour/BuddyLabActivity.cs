@@ -14,13 +14,6 @@ namespace BuddyApp.BuddyLab
     {
         private ItemControlUnit mItemControl;
 
-		/*
-		* Called before the App scene loading.
-		*/
-		//public override void OnLoading(string[] iStrArgs, int[] iIntArgs, float[] iSingleArgs)
-		//{ 
-		//	Utils.LogI(LogContext.APP, "On loading...");
-		//}
 
 		/*
 		* Called after every Awake() in your scene
@@ -46,9 +39,6 @@ namespace BuddyApp.BuddyLab
 		*/
         public override void OnQuit()
         {
-            //ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LEAVING, "On quit...");
-            ItemControlUnit.OnNextAction = null;
-            mItemControl.IsRunning = false;
         }
     }
 }

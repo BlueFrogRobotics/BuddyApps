@@ -1,10 +1,15 @@
-using UnityEngine;
-using System.Collections;
 using BlueQuark;
-using UnityEngine.UI;
+
+using UnityEngine;
+
+using System.Collections;
+
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// Detects fire and sound while doing a roomba walk
+    /// </summary>
     public sealed class WalkState : AStateMachineBehaviour
     {
         private DetectionManager mDetectionManager;
@@ -24,11 +29,21 @@ namespace BuddyApp.Guardian
             Buddy.Actuators.Head.No.SetPosition(0);
             Buddy.Actuators.Head.Yes.SetPosition(20, 80);
 
-            mAction = RoombaPatrol();
+            mAction = RoombaPatrolAsync();
             StartCoroutine(mAction);
         }
 
-        private IEnumerator RoombaPatrol()
+        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+        }
+
+        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
+        {
+            Buddy.Actuators.Wheels.Stop();
+            Buddy.Actuators.Head.No.SetPosition(0);
+        }
+
+        private IEnumerator RoombaPatrolAsync()
         {
             //OLD VERSION
             //BYOS.Instance.Navigation.RandomWalk.StartWander(MoodType.NEUTRAL);
@@ -50,14 +65,6 @@ namespace BuddyApp.Guardian
                 StopCoroutine(mAction);
         }
 
-        public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-        {
-        }
-
-        public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-        {
-            Buddy.Actuators.Wheels.Stop();
-            Buddy.Actuators.Head.No.SetPosition(0);
-        }
+        
     }
 }

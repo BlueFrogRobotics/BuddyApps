@@ -1,5 +1,7 @@
-using UnityEngine;
 using BlueQuark;
+
+using UnityEngine;
+
 using System.Collections;
 
 namespace BuddyApp.Guardian
@@ -21,25 +23,23 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-            //mDetectionManager.NoiseStimulus.Threshold = (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * 0.3f;
             mDetectionManager.IsDetectingMovement = GuardianData.Instance.MovementDetection;
             mDetectionManager.IsDetectingSound = GuardianData.Instance.SoundDetection;
             mDetectionManager.IsDetectingFire = GuardianData.Instance.FireDetection;
             mDetectionManager.IsDetectingKidnapping = GuardianData.Instance.KidnappingDetection;
-            //BYOS.Instance.WebService.EMailSender.enabled = true;
-            Debug.Log("detecting sound set a " + mDetectionManager.IsDetectingSound);
+
+            
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Screen.Locked = true;
 
             if (!mDetectionManager.HasLinkedDetector)
             {
-                Debug.Log("on link detectors");
                 mDetectionManager.LinkDetectorsEvents();
             }
             if (!mMediamanager.enabled)
                 mMediamanager.enabled = true;
 
-            IEnumerator lAction = DelayAlert();
+            IEnumerator lAction = DelayAlertAsync();
             StartCoroutine(lAction);
 		}
 
@@ -51,7 +51,7 @@ namespace BuddyApp.Guardian
 		{
 		}
 
-        private IEnumerator DelayAlert()
+        private IEnumerator DelayAlertAsync()
         {
             yield return new WaitForSeconds(4F);
             if (GuardianData.Instance.MobileDetection)

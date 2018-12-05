@@ -1,18 +1,19 @@
 ﻿using BlueQuark;
-using System.Collections;
+
 using UnityEngine;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// Activity of the guardian application.
+    /// Manages the password disabler lockscreen
+    /// </summary>
     public sealed class GuardianActivity : AAppActivity
     {
         private DetectionManager mDetectionManager;
 
         public override void OnAwake()
         {
-            Debug.Log("on awake activity");
-            //Primitive.RGBCam.Resolution = RGBCamResolution.W_176_H_144;
-            Debug.Log("on loading activity");
             Buddy.GUI.Header.OnClickParameters.Add(OnClickParameters);  
             Buddy.GUI.Screen.OnClickToUnlock.Add(OnClickLockedScreen);
             Buddy.GUI.Screen.OnSuccessUnlock.Add(OnSuccessUnlockScreen);
@@ -27,7 +28,6 @@ namespace BuddyApp.Guardian
         {
             Animator.Play("Parameters");
             Buddy.GUI.Header.DisplayParametersButton(false);
-			//return false;
         }
 
         private void OnCancelUnlockScreen()
@@ -56,19 +56,16 @@ namespace BuddyApp.Guardian
 
         public override void OnStart()
         {
-            Debug.Log("on start activity");
+           
         }
 
         public override void OnQuit()
         {
-            //mDetectionManager.UnlinkDetectorsEvents();
-
             string lMailAddress = GuardianData.Instance.Contact.Email;
-            Debug.Log(lMailAddress);
             if (string.IsNullOrEmpty(lMailAddress) || string.IsNullOrEmpty(mDetectionManager.Logs))
                 return;
 
-            // Send log by mail
+            ///TODO: Send log by mail
             //if (GuardianData.Instance.SendMail)
             //{
             //    EMail lMail = new EMail("Guardian logs", mDetectionManager.Logs);
@@ -92,7 +89,6 @@ namespace BuddyApp.Guardian
                 Animator.GetBehaviour<WalkState>().StopWalkCoroutines();
                 Animator.GetBehaviour<TurnState>().StopTurnCoroutines();
 
-                //mDetectionManager.Roomba.enabled = false;
                 Buddy.Actuators.Wheels.Stop();
 
                 Animator.SetBool("Password", true);
@@ -101,17 +97,13 @@ namespace BuddyApp.Guardian
 
 		private void OnSuccessUnlockScreen()
 		{
-            Debug.Log("on success unlock screen");
 			Buddy.Actuators.Speakers.Volume = mDetectionManager.Volume;
-            Debug.Log("unlock 1");
-			mDetectionManager.CurrentTimer = 0f;
-            mDetectionManager.Countdown = 0f;
-            Debug.Log("unlock 2");
+			mDetectionManager.CurrentTimer = 0F;
+            mDetectionManager.Countdown = 0F;
 
             mDetectionManager.IsPasswordCorrect = true;
             mDetectionManager.IsAlarmWorking = false;
 
-            Debug.Log("unlock 3");
             Buddy.Actuators.Speakers.Media.Repeat = false;
 
             Animator.ResetTrigger("InitDetection");
@@ -120,14 +112,10 @@ namespace BuddyApp.Guardian
 			Animator.ResetTrigger("Turn");
 			Animator.ResetTrigger("Walk");
 			Animator.ResetTrigger("Alert");
-            Debug.Log("unlock 4");
             mDetectionManager.UnlinkDetectorsEvents();
-            Debug.Log("unlock 5");
 
             Animator.SetBool("Password", false);
             QuitApp();
-			//Animator.Play("EnterMenu");
-            Debug.Log("unlock 6");
 		}
 
         private void OnFailureUnlockScreen()
@@ -146,22 +134,11 @@ namespace BuddyApp.Guardian
                 Buddy.Actuators.Speakers.Media.Play(0);
                 Animator.Play("Alert");
 
-            } else if (mDetectionManager.CurrentTimer > 0.0f && mDetectionManager.CurrentTimer < 15f) {
+            } else if (mDetectionManager.CurrentTimer > 0.0f && mDetectionManager.CurrentTimer < 15F) {
                 Animator.Play("Alert");
             }
         }
 
-        public static void StartManager()
-		{
-			//GuardianActivity lActivity = (GuardianActivity)BYOS.Instance.AppManager.CurrentApp.AppActivity;
-		}
-
-		//private void InitManager()
-		//{
-		//	sDetectionManager = (DetectionManager)Objects[0];
-		//	sDetectionManager.Init();
-		//	sDetectionManager.LinkDetectorsEvents();
-		//}
 
 		private void OnMailSent()
 		{

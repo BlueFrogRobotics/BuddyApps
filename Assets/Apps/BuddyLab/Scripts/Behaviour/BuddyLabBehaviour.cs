@@ -23,6 +23,8 @@ namespace BuddyApp.BuddyLab
         [SerializeField]
         private ItemControlUnit itemControlUnit;
 
+        public string FreeSpeechCredentials { get; private set; }
+
         void Awake()
         {
 			/*
@@ -34,6 +36,15 @@ namespace BuddyApp.BuddyLab
 			* Init your app data
 			*/
             mAppData = BuddyLabData.Instance;
+            StartCoroutine(GetCredentialsAndRunFreeSpeech());
+        }
+
+        private IEnumerator GetCredentialsAndRunFreeSpeech()
+        {
+            WWW lWWW = new WWW("http://bfr-dev.azurewebsites.net/dev/BuddyDev-fdec0a04c070.txt");
+            yield return lWWW;
+
+            FreeSpeechCredentials = lWWW.text;
         }
 
     }

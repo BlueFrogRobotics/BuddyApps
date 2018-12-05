@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace BuddyApp.BuddyLab
@@ -18,35 +16,35 @@ namespace BuddyApp.BuddyLab
         public delegate void Modification();
         public event Modification OnModification;
 
-        public void OnPointerEnter(PointerEventData eventData)
+        public void OnPointerEnter(PointerEventData iEventData)
         {
-            eventData.useDragThreshold = false;
+            iEventData.useDragThreshold = false;
 
-            if (eventData.pointerDrag == null)
+            if (iEventData.pointerDrag == null)
                 return;
 
-            DraggableItem d = eventData.pointerDrag.GetComponent<DraggableItem>();
-            if (d != null && !DragOnly)
+            DraggableItem lItem = iEventData.pointerDrag.GetComponent<DraggableItem>();
+            if (lItem != null && !DragOnly)
             {
-                d.PlaceholderParent = this.transform;
+                lItem.PlaceholderParent = this.transform;
             }
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        public void OnPointerExit(PointerEventData iEventData)
         {
-            if (eventData.pointerDrag == null)
+            if (iEventData.pointerDrag == null)
                 return;
 
-            DraggableItem d = eventData.pointerDrag.GetComponent<DraggableItem>();
-            if (d != null && d.PlaceholderParent == this.transform)
+            DraggableItem lItem = iEventData.pointerDrag.GetComponent<DraggableItem>();
+            if (lItem != null && lItem.PlaceholderParent == this.transform)
             {
-                d.PlaceholderParent = d.ParentToReturnTo;
+                lItem.PlaceholderParent = lItem.ParentToReturnTo;
             }
         }
 
-        public void OnDrop(PointerEventData eventData)
+        public void OnDrop(PointerEventData iEventData)
         {
-            Debug.Log(eventData.pointerDrag.name + " was dropped on " + gameObject.name);
+            Debug.Log(iEventData.pointerDrag.name + " was dropped on " + gameObject.name);
 
         }
 

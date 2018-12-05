@@ -1,9 +1,14 @@
-using UnityEngine;
 using BlueQuark;
+
+using UnityEngine;
+
 using System.Collections;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// State where the robot turn and scan until it did a complete turn
+    /// </summary>
     public sealed class TurnState : AStateMachineBehaviour
     {
         private GuardianData mData;
@@ -19,37 +24,8 @@ namespace BuddyApp.Guardian
         {
             Buddy.Behaviour.SetMood(Mood.LISTENING);
 
-            mAction = WatchAtAngle();
+            mAction = WatchAtAngleAsync();
             StartCoroutine(mAction);
-        }
-
-        private IEnumerator WatchAtAngle()
-        {
-            mDetectionManager.IsDetectingMovement = GuardianData.Instance.MovementDetection;
-            mDetectionManager.IsDetectingKidnapping = GuardianData.Instance.KidnappingDetection;
-
-            yield return new WaitForSeconds(2F);
-
-            mDetectionManager.IsDetectingMovement = false;
-            mDetectionManager.IsDetectingKidnapping = false;
-
-            //Buddy.Actuators.Wheels..TurnAngle(30.0f, 70.0F, 0.02F);
-            Buddy.Navigation.Run<DisplacementStrategy>().Rotate(30.0f, 70.0F);
-
-            if (Buddy.Actuators.Wheels.IsBusy)
-                yield return null;
-
-            yield return new WaitForSeconds(1F);
-
-            mData.Angle += 30;
-            //CommonIntegers["Angle"] += 30;
-            Trigger("MobileDetection");
-        }
-
-        public void StopTurnCoroutines()
-        {
-            if (mAction != null)
-                StopCoroutine(mAction);
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -60,5 +36,34 @@ namespace BuddyApp.Guardian
         {
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
         }
+
+        private IEnumerator WatchAtAngleAsync()
+        {
+            mDetectionManager.IsDetectingMovement = GuardianData.Instance.MovementDetection;
+            mDetectionManager.IsDetectingKidnapping = GuardianData.Instance.KidnappingDetection;
+
+            yield return new WaitForSeconds(2F);
+
+            mDetectionManager.IsDetectingMovement = false;
+            mDetectionManager.IsDetectingKidnapping = false;
+            
+            Buddy.Navigation.Run<DisplacementStrategy>().Rotate(30.0f, 70.0F);
+
+            if (Buddy.Actuators.Wheels.IsBusy)
+                yield return null;
+
+            yield return new WaitForSeconds(1F);
+
+            mData.Angle += 30;
+            Trigger("MobileDetection");
+        }
+
+        public void StopTurnCoroutines()
+        {
+            if (mAction != null)
+                StopCoroutine(mAction);
+        }
+
+        
     }
 }

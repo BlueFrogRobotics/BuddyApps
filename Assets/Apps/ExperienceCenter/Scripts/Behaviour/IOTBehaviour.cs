@@ -155,7 +155,7 @@ namespace BuddyApp.ExperienceCenter
 				yield return new WaitForSeconds (10f);
 				mHttpManager.LightOn (true);
 				yield return new WaitForSeconds (5f);
-				//mHttpManager.SonosPlay (true);
+				mHttpManager.SonosPlay (true);
 				yield return new WaitForSeconds (2f);
 			} else
 				Debug.LogError ("[EXCENTER] Could not retrieve device list from targeted Tahoma box");
@@ -210,7 +210,7 @@ namespace BuddyApp.ExperienceCenter
 			Debug.LogWarning ("[EXCENTER] Stop IOT Behaviour");
 			StopAllCoroutines ();
 			if (Buddy.Vocal.IsSpeaking)
-                Buddy.Vocal.Stop ();
+                Buddy.Vocal.StopListening ();
 			if (ExperienceCenterData.Instance.EnableBaseMovement)
 				Buddy.Actuators.Wheels.Stop();
 		}

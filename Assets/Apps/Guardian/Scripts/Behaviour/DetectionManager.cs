@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using OpenCVUnity;
-using System.Net;
-using System.Net.Mail;
+﻿using BlueQuark;
 
-using BlueQuark;
+using UnityEngine;
 
 namespace BuddyApp.Guardian
 {
 	/// <summary>
-	/// Manager class that have reference to the differents stimuli and subscribes to their callbacks
+	/// Manager class that have reference to the differents detectors and subscribes to their callbacks
 	/// </summary>
 	[RequireComponent(typeof(Navigation))]
 	public sealed class DetectionManager : MonoBehaviour
@@ -38,8 +33,6 @@ namespace BuddyApp.Guardian
         public string Logs { get; private set; }
 
 		public bool PreviousScanLeft { get; set; }
-        //public Navigation Roomba { get; set; }
-		//public RoombaNavigation Roomba { get; private set; }
 
 		public bool IsDetectingFire { get; set; }
 		public bool IsDetectingMovement { get; set; }
@@ -54,13 +47,6 @@ namespace BuddyApp.Guardian
         /// True if the detectors callbacks have been set
         /// </summary>
         public bool HasLinkedDetector { get; private set; }
-
-        
-        //public MailAddress fromAddress = new MailAddress("notif.buddy@gmail.com", "notif");
-        //MailAddress toAddress = new MailAddress("wa@bluefrogrobotics.com", "walid");
-        //const string fromPassword = "autruchemagiquebuddy";
-        //const string subject = "Subject";
-        //const string body = "Body";
 
         
 		/// <summary>
@@ -86,34 +72,6 @@ namespace BuddyApp.Guardian
 		{
 			Volume = (int)(Buddy.Actuators.Speakers.Volume * 100F);
             Init();
-            //EMail mMail = new EMail("sujet", "truc");
-            //mMail.AddTo("wa@bluefrogrobotics.com");
-            //Debug.Log("envoi du mail");
-            //Buddy.WebServices.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, mMail);
-            //SmtpClient smtp = new SmtpClient
-            //{
-            //    Host = "smtp.gmail.com",
-            //    Port = 587,
-            //    EnableSsl = true,
-            //    DeliveryMethod = SmtpDeliveryMethod.Network,
-            //    UseDefaultCredentials = false,
-            //    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-            //};
-            //using (var message = new MailMessage(fromAddress, toAddress)
-            //{
-            //    Subject = subject,
-            //    Body = body
-            //})
-            //{
-            //    smtp.SendAsync(message, null);
-            //}
-            //RecipientData recipient = new RecipientData();
-            //recipient.Name = "rodolphe";
-            //recipient.Mail = "rh@bluefrogrobotics.com";
-            //RecipientsData contacts = new RecipientsData();
-            //contacts.Recipients = new List<RecipientData>();
-            //contacts.Recipients.Add(recipient);
-            //Utils.SerializeXML<RecipientsData>(contacts, Buddy.Resources.GetRawFullPath("contacts.xml"));
         }
 
 
@@ -128,14 +86,10 @@ namespace BuddyApp.Guardian
             mNoiseDetection = Buddy.Perception.NoiseDetector;
             mFireDetection = Buddy.Perception.ThermalDetector;
             mKidnappingDetection = Buddy.Perception.KidnappingDetector;
-
-            //Roomba = BYOS.Instance.Navigation.Roomba;
-            //Roomba.enabled = false;
         }
 
         private void Update()
         {
-            //Debug.Log("mail busy: " + Buddy.WebServices.EMailSender.IsBusy);
             if(IsDetectingFire && mFireDetection.IsHotterThan(MAX_TEMPERATURE_THRESHOLD))
             {
                 Detected = Alert.FIRE;
@@ -157,22 +111,14 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public void LinkDetectorsEvents()
 		{
-            Debug.Log("link detector events");
             MotionDetectorParameter lMotionParam = new MotionDetectorParameter(); 
-            lMotionParam.SensibilityThreshold = GuardianData.Instance.MovementDetectionThreshold * MAX_MOVEMENT_THRESHOLD / 100;
+            lMotionParam.SensibilityThreshold = GuardianData.Instance.MovementDetectionThreshold * MAX_MOVEMENT_THRESHOLD / 100.0F;
             lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240);
             HasLinkedDetector = true;
-            //if (!IsDetectingMovement)
-                mMotionDetection.OnDetect.AddP(OnMovementDetected, lMotionParam);
-            //if (!IsDetectingSound)
-            //{
-                Debug.Log("on detecte son");
-                mNoiseDetection.OnDetect.AddP(OnSoundDetected, 0.0F);
+            mMotionDetection.OnDetect.AddP(OnMovementDetected, lMotionParam);
+            mNoiseDetection.OnDetect.AddP(OnSoundDetected, 0.0F);
             Buddy.Sensors.ThermalCamera.OnNewFrame.Add((iInput) => OnNewFrame(iInput));
-            //}
-            //mFireDetection.OnDetect.AddP(OnThermalDetected, MAX_TEMPERATURE_THRESHOLD);
-            //mKidnappingDetection.OnDetect.Add(OnKidnappingDetected, KIDNAPPING_THRESHOLD);
-            //Buddy.Sensors.RGBCamera.Mode = RGBCameraMode.COLOR_320x240_30FPS_RGB;
+            ///TODO: subscribe to kidnapping detector
         }
 
 		/// <summary>
@@ -180,22 +126,17 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public void UnlinkDetectorsEvents()
 		{
-            Debug.Log("unlink detector events");
             HasLinkedDetector = false;
-            //mKidnappingDetection.OnDetect.Remove(OnKidnappingDetected);
-            //mFireDetection.OnDetect.RemoveP(OnThermalDetected);
-            //if (!IsDetectingSound)
-                mNoiseDetection.OnDetect.RemoveP(OnSoundDetected);
-            //if (!IsDetectingMovement)
-                mMotionDetection.OnDetect.RemoveP(OnMovementDetected);
-
+            mNoiseDetection.OnDetect.RemoveP(OnSoundDetected);
+            mMotionDetection.OnDetect.RemoveP(OnMovementDetected);
             Buddy.Sensors.ThermalCamera.OnNewFrame.Remove((iInput) => OnNewFrame(iInput));
+            ///TODO: unsubscribe to kidnapping detector
         }
 
-		/// <summary>
-		/// Called when fire has been detected
-		/// </summary>
-		private bool OnThermalDetected(ObjectEntity[] iObject)
+        /// <summary>
+        /// Called when fire has been detected
+        /// </summary>
+        private bool OnThermalDetected(ObjectEntity[] iObject)
 		{
 			if (!IsDetectingFire)
 				return true;
@@ -210,12 +151,9 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		private bool OnSoundDetected(float iSound)
 		{
-			Debug.Log("============== Sound detected! detector");
 			if (!IsDetectingSound)
 				return true;
-            //Debug.Log("iSound: " + iSound + " thresh: " + (1 - ((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * MAX_SOUND_THRESHOLD);
-			if (iSound > (((float)GuardianData.Instance.SoundDetectionThreshold / 100.0f)) * MAX_SOUND_THRESHOLD) {
-				Debug.Log("============== Threshold passed!");
+			if (iSound > (((float)GuardianData.Instance.SoundDetectionThreshold / 100.0F)) * MAX_SOUND_THRESHOLD) {
 				Detected = Alert.SOUND;
 				mAnimator.SetTrigger("Alert");
 			}
@@ -246,7 +184,6 @@ namespace BuddyApp.Guardian
 
 			Detected = Alert.KIDNAPPING;
 			mAnimator.SetTrigger("Alert");
-            //return true;
 		}
 
         private void OnNewFrame(ThermalCameraFrame iFrame)
@@ -268,7 +205,7 @@ namespace BuddyApp.Guardian
 
         public void OnMailSent()
         {
-            Debug.Log("le mail a ete fabuleusement envoye");
+            
         }
     }
 }

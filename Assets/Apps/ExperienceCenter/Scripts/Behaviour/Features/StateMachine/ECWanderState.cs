@@ -17,7 +17,7 @@ namespace BuddyApp.ExperienceCenter
             mWalkBehaviour = GameObject.Find ("AIBehaviour").GetComponent<WanderBehaviour> ();
             //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
             Buddy.Vocal.EnableTrigger = false;
-            Buddy.Vocal.Stop();
+            Buddy.Vocal.StopListening();
             mWalkBehaviour.InitBehaviour ();
 		}
 

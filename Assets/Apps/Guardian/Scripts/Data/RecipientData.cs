@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BuddyApp.Guardian
 {
-
+    /// <summary>
+    /// Contains all the informations of a recipient
+    /// </summary>
     [SerializeField]
     public sealed class RecipientData
     {

@@ -9,7 +9,7 @@ namespace BuddyApp.BuddyLab
     /// Condition element that test if the corresponding color is shown
     /// <para>See <see cref="ColorInputBehaviourInstruction"/>  </para>
     /// </summary>
-    public class ColorDetectionConditionElement : AGraphicElement
+    public sealed class ColorDetectionConditionElement : AGraphicElement
     {
         /// <summary>
         /// The color to recognize

@@ -36,7 +36,7 @@ namespace BuddyApp.ExperienceCenter
             mCookie = "";
             IOTLabels = new Dictionary<string, string>() {
                 { "light", "Led Outdoor" },
-                { "sound", "Party Time" },
+                { "sound", "Living room" },
                 { "store", "Awning" }
             };
 

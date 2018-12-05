@@ -1,14 +1,15 @@
-﻿using UnityEngine.UI;
-using UnityEngine;
+﻿using BlueQuark;
+
 using OpenCVUnity;
-using BlueQuark;
-using System;
+
+using UnityEngine;
+
 using System.Collections.Generic;
 
 namespace BuddyApp.Guardian
 {
     /// <summary>
-    /// State where the user can set the detection sensibility, test them and set the head orientation
+    /// State where the user can test the sound detection sensibility and set it
     /// </summary>
     public sealed class SoundDetectionTestState : AStateMachineBehaviour
     {
@@ -36,16 +37,12 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
-            //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
-            //	() => { Trigger("NextStep"); }, 
-            //	null);
             mNoiseDetection = Buddy.Perception.NoiseDetector;
             mNoiseDetection.OnDetect.AddP(OnNewSound, 0.0F);
             mTimer = 0.0F;
             mTimerToast = 0.0F;
             mToasterVisible = false;
-            //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
+            
             mIntensity = 0.0F;
             mTexture = new Texture2D(640, 480);
             mSoundIntensities = new Queue<float>();
@@ -53,9 +50,7 @@ namespace BuddyApp.Guardian
             {
                 mSoundIntensities.Enqueue(0.0F);
             }
-
-            
-            
+          
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -100,11 +95,6 @@ namespace BuddyApp.Guardian
         {
             Debug.Log("noise: " + iNoise);
             mIntensity = iNoise;
-            //float lThreshold = (1.0f - mGauge.SlidingValue / 100F) * DetectionManager.MAX_SOUND_THRESHOLD;
-            //if (iNoise > lThreshold)
-            //{
-            //    mHasDetectedSound = true;
-            //}
 
             return true;
         }
@@ -138,7 +128,6 @@ namespace BuddyApp.Guardian
             mMatSrc = new Mat(480, 640, CvType.CV_8UC3, new Scalar(255, 255, 255, 255));
 
             float lMaxThreshold = DetectionManager.MAX_SOUND_THRESHOLD;
-            //float lThreshold = (1.0f - mSlider.SlidingValue / 100F) * lMaxThreshold;
             float lThreshold = (mSlider.SlidingValue / 100F) * lMaxThreshold;
             float lLevelSound = mIntensity * 400.0F / lMaxThreshold;
 

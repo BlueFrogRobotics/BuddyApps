@@ -5,14 +5,13 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
-    public class HeatDetectionElement : AGraphicElement
+    public sealed class HeatDetectionElement : AGraphicElement
     {
 
         protected override void SetParameter()
         {
             if (mInstruction == null)
                 mInstruction = new ThermalInputBehaviourInstruction();
-            //ThermalInputBehaviourInstruction lThermalInstruction = (ThermalInputBehaviourInstruction)mInstruction;
         }
     }
 }

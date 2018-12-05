@@ -54,7 +54,7 @@ namespace BuddyApp.ExperienceCenter
         public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
             Debug.Log("[EXCENTER] exit bye state");
-            Buddy.Vocal.Stop();
+            Buddy.Vocal.StopListening();
             Buddy.Vocal.OnEndListening.Remove(SpeechToTextCallback);
             Buddy.Vocal.OnListeningStatus.Remove(SpeechToTextError);
             //BYOS.Instance.Interaction.VocalManager.RemoveGrammar("experiencecenter", LoadContext.APP);  

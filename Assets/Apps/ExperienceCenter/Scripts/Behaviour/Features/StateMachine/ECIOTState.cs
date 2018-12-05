@@ -16,7 +16,7 @@ namespace BuddyApp.ExperienceCenter
             mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IOTBehaviour> ();
             //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
             Buddy.Vocal.EnableTrigger = false;
-            Buddy.Vocal.Stop();
+            Buddy.Vocal.StopListening();
             mBehaviour.InitBehaviour ();
 		}
 

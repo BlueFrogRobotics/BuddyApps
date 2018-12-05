@@ -1,17 +1,13 @@
-﻿using UnityEngine.UI;
+﻿using BlueQuark;
 using UnityEngine;
-using BlueQuark;
-using System;
-using System.Collections.Generic;
 
 namespace BuddyApp.Guardian
 {
     /// <summary>
-    /// State where the user can set the detection sensibility, test them and set the head orientation
+    /// State where the user can set the genaral parameters
     /// </summary>
     public sealed class GeneralParametersState : AStateMachineBehaviour
     {
-        //private GuardianLayout mDetectionLayout;
         private bool mHasSwitchState = false;
 
         private TToggle mToggleMobileGuard;
@@ -25,7 +21,6 @@ namespace BuddyApp.Guardian
 
         public override void Start()
         {
-            //mDetectionLayout = new GuardianLayout();
             mHasSwitchState = false;
         }
 
@@ -33,15 +28,10 @@ namespace BuddyApp.Guardian
         {
             mContacts = Utils.UnserializeXML<RecipientsData>(Buddy.Resources.GetRawFullPath("contacts.xml"));
 
-            //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
-            //	() => { Trigger("NextStep"); }, 
-            //	null);
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("generalsettings"));
-            //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
+            
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
-                //iBuilder.CreateWidget<TText>().SetLabel("setup sound detection");
-                //iBuilder.CreateWidget<TText>().SetLabel("test");
                 mToggleMobileGuard = iBuilder.CreateWidget<TToggle>();
                 mToggleMobileGuard.SetLabel(Buddy.Resources.GetString("mobile"));
                 mToggleMobileGuard.ToggleValue = GuardianData.Instance.MobileDetection;
@@ -68,7 +58,6 @@ namespace BuddyApp.Guardian
 
                 mButtonRecipient.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_sort_down"));
                 mButtonRecipient.OnClick.Add(() => { Trigger("RecipientChoice"); Buddy.GUI.Toaster.Hide(); });
-                //iBuilder.CreateWidget<TText>().SetLabel("test2");
                 OnToggleNotif(mToggleMailNotif.ToggleValue);
             },
             () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("cancel"),
@@ -99,7 +88,6 @@ namespace BuddyApp.Guardian
         private void OnToggleNotif(bool iNotif)
         {
             mButtonRecipient.SetActive(iNotif);
-            //GuardianData.Instance.SendMail = iNotif;
         }
 
     }

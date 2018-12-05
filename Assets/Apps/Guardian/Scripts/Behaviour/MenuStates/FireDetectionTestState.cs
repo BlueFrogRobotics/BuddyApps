@@ -5,18 +5,19 @@ using System.Collections;
 
 namespace BuddyApp.Guardian
 {
+    /// <summary>
+    /// State where the user can test the heat detection
+    /// By default it interpolate the values
+    /// </summary>
 	public sealed class FireDetectionTestState : AStateMachineBehaviour {
 
         private Texture2D mTexture;
         private Mat mMatSrc;
 
         private FButton mLeftButton;
-        //private FButton mValidateButton;
-        //private FButton mInterpolateButton;
-
         private ThermalDetector mFireDetection;
 
-        private ShowTemperature mShowTemp;
+        private HeatMatrixGenerator mShowTemp;
 
         private float mTimer;
         private bool mInterpolate = true;
@@ -28,18 +29,13 @@ namespace BuddyApp.Guardian
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
             mTexture = new Texture2D(8, 8);
-            //if (Interpolation)
-                //        mTexture.filterMode = FilterMode.Trilinear;
-                //    else
-            mShowTemp = GetComponent<ShowTemperature>();
+            mShowTemp = GetComponent<HeatMatrixGenerator>();
             Buddy.Sensors.ThermalCamera.OnNewFrame.Add((iInput) => OnNewFrame(iInput));
             ShowToaster();
             mTexture.filterMode = FilterMode.Trilinear;
             mTexture.wrapMode = TextureWrapMode.Clamp;
             mFireDetection = Buddy.Perception.ThermalDetector;
             mFireDetection.OnDetect.Add(OnThermalDetected, DetectionManager.MAX_TEMPERATURE_THRESHOLD);
-            //ChangeInterpolateMode();
-            //TestPrintTemperature(65.0F);
             mTimer = 0.0F;
 		}
 			
@@ -50,7 +46,6 @@ namespace BuddyApp.Guardian
             {
                 mTimer = 0.0F;
                 Debug.Log("temp max: " + mFireDetection.GetHottestTemp());
-                //TestPrintTemperature(45.0F);
             }
         }
 
@@ -72,35 +67,20 @@ namespace BuddyApp.Guardian
             mLeftButton.SetBackgroundColor(Color.white);
             mLeftButton.SetIconColor(Color.black);
             mLeftButton.OnClick.Add(() => { Buddy.GUI.Toaster.Hide(); CloseFooter(); Trigger("FireDetection"); });
-            //mValidateButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
-
-            //mValidateButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
-
-            //mValidateButton.SetBackgroundColor(Utils.BUDDY_COLOR);
-            //mValidateButton.SetIconColor(Color.white);
-            //mValidateButton.OnClick.Add(() => { Buddy.GUI.Toaster.Hide(); CloseFooter(); Trigger("FireDetection"); });
-
-            //mInterpolateButton = Buddy.GUI.Footer.CreateOnMiddle<FButton>();
-            //mInterpolateButton.OnClick.Add(ChangeInterpolateMode);
-
         }
 
         private void CloseFooter()
         {
             Buddy.GUI.Footer.Remove(mLeftButton);
-            //Buddy.GUI.Footer.Remove(mValidateButton);
-            //Buddy.GUI.Footer.Remove(mInterpolateButton);
         }
 
         private void OnNewFrame(ThermalCameraFrame iFrame)
         {
-            //Debug.Log("frame temperature");
             float[] lThermicValues = new float[8 * 8];
 
             iFrame.Mat.get(0, 0, lThermicValues);
             mShowTemp.FillTemperature(lThermicValues);
-            mMatSrc = mShowTemp.TemperatureToColor();
-            //mTexture = Utils.ScaleTexture2DFromMat(mMatSrc, mTexture);
+            mMatSrc = mShowTemp.TemperatureToColorMat();
             Core.flip(mMatSrc, mMatSrc, 0);
             Utils.MatToTexture2D(mMatSrc, mTexture);
             if(mFireDetection.GetHottestTemp()> DetectionManager.MAX_TEMPERATURE_THRESHOLD)
@@ -109,6 +89,17 @@ namespace BuddyApp.Guardian
             }
         }
 
+        private void OnThermalDetected(ObjectEntity[] iObject)
+        {
+            if (iObject.Length > 0)
+                Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
+        }
+
+        /// <summary>
+        /// Fills the array with different temperature values.
+        /// To test on the editor
+        /// </summary>
+        /// <param name="iTemperature"></param>
         private void TestPrintTemperature(float iTemperature)
         {
             float[] lThermicValues = new float[8 * 8];
@@ -122,20 +113,15 @@ namespace BuddyApp.Guardian
                     lThermicValues[i] = iTemperature / 3;
             }
             mShowTemp.FillTemperature(lThermicValues);
-            mMatSrc = mShowTemp.TemperatureToColor();
-            //if (mMatSrc == null)
-            //    Debug.Log("c est nul 2!!!");
-            //else
-            //    Debug.Log("c est PAS nul 2!!!");
-            //mTexture = Utils.ScaleTexture2DFromMat(mMatSrc, mTexture);
-            //Core.flip(mMatSrc, mMatSrc, -1);
-            //Core.flip(mMatSrc, mMatSrc, 0);
+            mMatSrc = mShowTemp.TemperatureToColorMat();
             Utils.MatToTexture2D(mMatSrc, mTexture);
         }
 
+        /// <summary>
+        /// Enable or disable interpolation
+        /// </summary>
         private void ChangeInterpolateMode()
         {
-            Debug.Log("change interpolate");
             mInterpolate = !mInterpolate;
             if(mInterpolate)
                 mTexture.filterMode = FilterMode.Trilinear;
@@ -143,12 +129,6 @@ namespace BuddyApp.Guardian
                 mTexture.filterMode = FilterMode.Point;
         }
 
-        private void OnThermalDetected(ObjectEntity[] iObject)
-        {
-            Debug.Log("thermal de la detection");
-            if (iObject.Length > 0)
-                Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
-
-        }
+        
     }
 }

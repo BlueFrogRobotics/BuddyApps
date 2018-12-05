@@ -9,8 +9,11 @@ namespace BuddyApp.BuddyLab
     /// Condition element that test if a given text has been said
     /// <para>See <see cref="ListenInputBehaviourInstruction"/>  </para>
     /// </summary>
-    public class SpeechRecoElement : AGraphicElement, IEditableParameter
+    public sealed class SpeechRecoElement : AGraphicElement, IEditableParameter
     {
+        [SerializeField]
+        private BuddyLabBehaviour buddyLabBehaviour;
+
         private string utterance;
 
         protected override void SetParameter()
@@ -18,7 +21,9 @@ namespace BuddyApp.BuddyLab
             if (mInstruction == null)
                 mInstruction = new ListenInputBehaviourInstruction();
             ListenInputBehaviourInstruction lListenInstruction = (ListenInputBehaviourInstruction)mInstruction;
-            lListenInstruction.Mode = SpeechRecognitionMode.GRAMMAR_THEN_FREESPEECH;
+            lListenInstruction.Mode = SpeechRecognitionMode.FREESPEECH_ONLY;
+            lListenInstruction.Credentials = buddyLabBehaviour.FreeSpeechCredentials;
+            Debug.Log("credentials: " + buddyLabBehaviour.FreeSpeechCredentials);
             lListenInstruction.ConditionalUtterances = new string[1];
             lListenInstruction.ConditionalUtterances.Value[0] = utterance;
         }
@@ -29,8 +34,8 @@ namespace BuddyApp.BuddyLab
             if (mInstruction == null)
                 mInstruction = new ListenInputBehaviourInstruction();
             ListenInputBehaviourInstruction lListenInstruction = (ListenInputBehaviourInstruction)mInstruction;
-            //if(lSayInstruction.Utterance!=null)
             utterance = lListenInstruction.ConditionalUtterances.Value[0];
+            lListenInstruction.Credentials = buddyLabBehaviour.FreeSpeechCredentials;
         }
 
         public string GetEditableParameter()

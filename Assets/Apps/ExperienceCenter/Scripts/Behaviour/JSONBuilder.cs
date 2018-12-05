@@ -17,19 +17,20 @@ namespace BuddyApp.ExperienceCenter {
 
 		public void AddDeviceURL(string name, string deviceURL)
 		{
+            Debug.Log("[JSON] add device " + name + " with url " + deviceURL);
 			mURLDevices.Add(name,deviceURL);
 		}
 
         public string GetDeviceURL(string key)
         {
-            Debug.Log("get device url: " + key);
+            Debug.Log("[JSON] get device url: " + key);
             return mURLDevices[key];
         }
 
 		public JSONObject CreateAction(string deviceName, string commandName, List<string> parameters)
 		{
 			JSONObject json = new JSONObject();
-
+            Debug.Log("[JSON] create action with device name " + deviceName + " and command " + commandName);
 			// Fill first fields with empty data
 			json.Add("label", deviceName + "_" + commandName);
 			json.Add("metadata", "");

@@ -128,7 +128,7 @@ namespace BuddyApp.ExperienceCenter
 		{
 			Debug.LogWarning ("[EXCENTER] Stop Welcome Behaviour");
 			if (Buddy.Vocal.IsSpeaking)
-                Buddy.Vocal.Stop ();
+                Buddy.Vocal.StopListening ();
 			StopAllCoroutines ();
 		}
 

@@ -6,7 +6,7 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
-    public class InfinityLoopElement : AGraphicElement
+    public sealed class InfinityLoopElement : AGraphicElement
     {
 
         [SerializeField]
@@ -20,15 +20,13 @@ namespace BuddyApp.BuddyLab
             if (mInstruction == null)
                 mInstruction = new InfinitLoopBehaviourInstruction();
             InfinitLoopBehaviourInstruction lInfinityLoopInstruction = (InfinitLoopBehaviourInstruction)mInstruction;
-            //if (lForLoopInstruction.SubInstructions.Count != container.transform.childCount)
-            //{
+
             lInfinityLoopInstruction.SubInstructions.Clear();
             foreach (Transform item in container.transform)
             {
                 if (item != null && item.GetComponent<AGraphicElement>() != null)
                     lInfinityLoopInstruction.SubInstructions.Add(item.GetComponent<AGraphicElement>().GetInstruction(true));
             }
-            //}
 
         }
 

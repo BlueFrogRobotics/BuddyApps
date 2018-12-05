@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using BlueQuark;
+
 using UnityEngine;
 using UnityEngine.UI;
-using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
-    public class LoopElement : AGraphicElement, IEditableParameter
+    public sealed class LoopElement : AGraphicElement, IEditableParameter
     {
         //[SerializeField]
         public int NumLoop;

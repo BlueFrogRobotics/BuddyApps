@@ -1,9 +1,7 @@
-using UnityEngine.UI;
-using UnityEngine;
 using BlueQuark;
 
-using System;
-using System.Collections.Generic;
+using UnityEngine;
+
 
 namespace BuddyApp.Guardian
 {
@@ -23,23 +21,20 @@ namespace BuddyApp.Guardian
 			Buddy.GUI.Header.DisplayParametersButton(true);
 
 			if (GuardianData.Instance.FirstRun) {
-                Debug.Log("[TTS] Has TTS been setup: ");
 				Buddy.Vocal.SayKey("firststartdetectiontimer");
 				GuardianData.Instance.FirstRun = false;
 				mTimer = 10;
             } else {
-                Debug.Log("[TTS] Has TTS been setup: ");
                 Buddy.Vocal.SayKey("startdetectiontimer");
 				mTimer = 5;
 			}
 
 			mStartTimer = false;
-			//Detection.SoundDetector.StartMic();
 		}
 
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			if (/*Buddy.Vocal.IsSpeaking|| */mStartTimer)
+			if (Buddy.Vocal.IsSpeaking || mStartTimer)
 				return;
 
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("startdetectiontimer"));
@@ -58,16 +53,14 @@ namespace BuddyApp.Guardian
                 }
             }
             );
-    //            mTimer,
-				//InitDetection, InitDetection, Cancel);
 
 			mStartTimer = true;
 		}
 
 		private void InitDetection()
 		{
-				Buddy.GUI.Header.DisplayParametersButton(false);
-				Trigger("InitDetection");
+			Buddy.GUI.Header.DisplayParametersButton(false);
+			Trigger("InitDetection");
 		}
 
 		private void Cancel()
@@ -81,7 +74,6 @@ namespace BuddyApp.Guardian
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Header.HideTitle();
             mStartTimer = false;
-            //BYOS.Instance.WebService.EMailSender.enabled = true;
 		}
 	}
 }

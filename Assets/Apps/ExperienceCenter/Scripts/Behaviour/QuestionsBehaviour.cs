@@ -180,11 +180,11 @@ namespace BuddyApp.ExperienceCenter
             Debug.LogWarning("[EXCENTER][QUESTIONBEHAVIOUR] Stop Question Behaviour");
 
             if (Buddy.Vocal.IsSpeaking)
-                Buddy.Vocal.Stop();
+                Buddy.Vocal.StopListening();
             behaviourEnd = true;
 
             //mSpeechToText.Stop();
-            Buddy.Vocal.Stop();
+            Buddy.Vocal.StopListening();
             Buddy.Vocal.OnEndListening.Remove(SpeechToTextCallback);
             Buddy.Vocal.OnListeningStatus.Remove(ErrorCallback);
             //Buddy.Vocal.OnEndListening.Clear();

@@ -1,17 +1,16 @@
-﻿using UnityEngine.UI;
+﻿using BlueQuark;
+
 using UnityEngine;
-using BlueQuark;
-using System;
+
 using System.Collections.Generic;
 
 namespace BuddyApp.Guardian
 {
     /// <summary>
-    /// State where the user can set the detection sensibility, test them and set the head orientation
+    /// State where the user can set the sound sensibility
     /// </summary>
     public sealed class SoundDetectionParametersState : AStateMachineBehaviour
     {
-        //private GuardianLayout mDetectionLayout;
         private bool mHasSwitchState = false;
 
         private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
@@ -25,7 +24,6 @@ namespace BuddyApp.Guardian
 
         public override void Start()
         {
-            //mDetectionLayout = new GuardianLayout();
             mHasSwitchState = false;
         }
 
@@ -33,12 +31,6 @@ namespace BuddyApp.Guardian
         {
             mToasterVisible = false;
             mTimer = 0.0F;
-            //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
-            //	() => { Trigger("NextStep"); }, 
-            //	null);
-            
-
-
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -59,16 +51,13 @@ namespace BuddyApp.Guardian
         private void ShowToaster()
         {
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("noisedetection"));
-            //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
+            
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
-                //iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("setupsound"));
-                //iBuilder.CreateWidget<TText>().SetLabel("test");
                 mSliderToggle = iBuilder.CreateWidget<TSliderToggle>();
                 mSliderToggle.OnSlide.Add((iVal) => Debug.Log(iVal));
                 mSliderToggle.ToggleValue = GuardianData.Instance.SoundDetection;
                 mSliderToggle.SlidingValue = GuardianData.Instance.SoundDetectionThreshold;
-                //iBuilder.CreateWidget<TToggle>();
                 mButton = iBuilder.CreateWidget<TButton>();
                 mButton.SetLabel(Buddy.Resources.GetString("setnoisesensitivity"));
                 mButton.SetActive(mSliderToggle.ToggleValue);

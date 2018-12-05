@@ -5,7 +5,7 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
-    public class HeadInputElement : AGraphicElement
+    public sealed class HeadInputElement : AGraphicElement
     {
 
         protected override void SetParameter()

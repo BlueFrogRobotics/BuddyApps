@@ -1,20 +1,16 @@
-﻿using UnityEngine.UI;
+﻿using BlueQuark;
+
 using UnityEngine;
-using BlueQuark;
-using System;
-using System.Collections.Generic;
+
 
 namespace BuddyApp.Guardian
 {
     /// <summary>
-    /// State where the user can set the detection sensibility, test them and set the head orientation
+    /// State where the user can set the movement detection sensibility
     /// </summary>
     public sealed class MovementDetectionParametersState : AStateMachineBehaviour
     {
-        //private GuardianLayout mDetectionLayout;
         private bool mHasSwitchState = false;
-
-        private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
 
         private TSliderToggle mSliderToggle;
         private TButton mButton;
@@ -23,29 +19,21 @@ namespace BuddyApp.Guardian
 
         public override void Start()
         {
-            //mDetectionLayout = new GuardianLayout();
             mHasSwitchState = false;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
-
-            //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
-            //	() => { Trigger("NextStep"); }, 
-            //	null);
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("motiondetection"));
-            //PARAMETER OF GUARDIAN : need to wait for the discussion between Antoine Marc and Delphine 
+            
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
-                //iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString("setupmovement"));
-                //iBuilder.CreateWidget<TText>().SetLabel("test");
                 mSliderToggle = iBuilder.CreateWidget<TSliderToggle>();
                 mSliderToggle.OnSlide.Add((iVal) => Debug.Log(iVal));
                 mSliderToggle.ToggleValue = GuardianData.Instance.MovementDetection;
                 mSliderToggle.SlidingValue = GuardianData.Instance.MovementDetectionThreshold;
                 mSliderToggle.OnToggle.Add(OnToggleKidnapping);
-                //iBuilder.CreateWidget<TToggle>();
+                
                 mButton = iBuilder.CreateWidget<TButton>();
                 mButton.SetLabel(Buddy.Resources.GetString("setmotionsensitivity"));
                 mButton.SetActive(mSliderToggle.ToggleValue);
@@ -56,7 +44,7 @@ namespace BuddyApp.Guardian
                 mToggleKidnapping.OnToggle.Add((iVal) => Debug.Log(iVal));
                 mToggleKidnapping.SetLabel(Buddy.Resources.GetString("kidnappingdetection"));
                 mToggleKidnapping.ToggleValue = GuardianData.Instance.KidnappingDetection;
-                //iBuilder.CreateWidget<TText>().SetLabel("test2");
+                
             },
             () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("cancel"),
             () => { SaveParam(); Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("save")

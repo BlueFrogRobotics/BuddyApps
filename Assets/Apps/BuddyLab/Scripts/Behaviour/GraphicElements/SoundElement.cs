@@ -5,7 +5,7 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
-    public class SoundElement : AGraphicElement
+    public sealed class SoundElement : AGraphicElement
     {
         [SerializeField]
         private SoundSample sound;

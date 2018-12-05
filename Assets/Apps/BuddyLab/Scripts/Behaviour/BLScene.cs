@@ -77,12 +77,12 @@ namespace BuddyApp.BuddyLab
 
         private void Undo()
         {
-            //mItemControl.Undo();
+            mItemControl.Undo();
         }
 
         private void Redo()
         {
-            //mItemControl.Redo();
+            mItemControl.Redo();
         }
 
         private IEnumerator InitScene()

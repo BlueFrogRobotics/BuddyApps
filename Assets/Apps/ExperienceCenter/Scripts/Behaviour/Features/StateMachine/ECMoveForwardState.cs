@@ -21,7 +21,7 @@ namespace BuddyApp.ExperienceCenter
             mBehaviour = GameObject.Find("AIBehaviour").GetComponent<MoveForwardBehaviour>();
             //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
             Buddy.Vocal.EnableTrigger = false;
-            Buddy.Vocal.Stop();
+            Buddy.Vocal.StopListening();
             mBehaviour.InitBehaviour();
             mAddReco = false;
 
@@ -57,7 +57,7 @@ namespace BuddyApp.ExperienceCenter
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mBehaviour.StopBehaviour();
-            Buddy.Vocal.Stop();
+            Buddy.Vocal.StopListening();
             //BYOS.Instance.Interaction.VocalManager.UseVocon = false;
             //BYOS.Instance.Interaction.VocalManager.RemoveGrammar("experiencecenter", LoadContext.APP);
         }

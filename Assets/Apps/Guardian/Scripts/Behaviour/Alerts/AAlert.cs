@@ -1,10 +1,10 @@
 ﻿using BlueQuark;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
+
 using UnityEngine;
+
+using System;
+using System.Globalization;
+
 
 namespace BuddyApp.Guardian
 {

@@ -9,7 +9,7 @@ namespace BuddyApp.BuddyLab
     /// Condition element that test if the corresponding april tag is shown
     /// <para>See <see cref="AprilTagInputBehaviourInstruction"/>  </para>
     /// </summary>
-    public class AprilTagConditionElement : AGraphicElement
+    public sealed class AprilTagConditionElement : AGraphicElement
     {
         /// <summary>
         /// Id of the april tag

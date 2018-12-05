@@ -58,7 +58,6 @@ namespace BuddyApp.BuddyLab
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            ItemControlUnit.OnNextAction -= ChangeItemHighlight;
             mTimelineDisplayer.HideSequence();
             mUIManager.StopButton.onClick.RemoveListener(Stop);
             mButtonHideUI.GetComponent<Button>().onClick.RemoveListener(HideUi);
@@ -69,7 +68,6 @@ namespace BuddyApp.BuddyLab
         {
             mButtonHideUI.SetActive(false);
             ResetPosition();
-            mItemControl.IsRunning = false;
             mIsPlaying = false;
 
             if (Buddy.Sensors.HDCamera.IsOpen)

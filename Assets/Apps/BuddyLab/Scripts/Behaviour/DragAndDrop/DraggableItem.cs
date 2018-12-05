@@ -1,27 +1,43 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace BuddyApp.BuddyLab
 {
+    /// <summary>
+    /// Represents a draggable item
+    /// </summary>
     public sealed class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        public bool IsDragged { get; private set; }
-        public Transform ParentToReturnTo { get; set; }
-        public Transform PlaceholderParent { get; set; }
-
-        public bool OnlyDroppable { get { return onlyDroppable; } set { onlyDroppable = value; } }
-
         [SerializeField]
         private bool onlyDroppable = false;
 
         private GameObject mPlaceholder = null;
-
         private GameObject mItem = null;
 
-        public void OnBeginDrag(PointerEventData eventData)
+        /// <summary>
+        /// True if the item is being dragged
+        /// </summary>
+        public bool IsDragged { get; private set; }
+
+        /// <summary>
+        /// The initial item container
+        /// </summary>
+        public Transform ParentToReturnTo { get; set; }
+
+        /// <summary>
+        /// The target container. If the container is not DragOnly the item will be put there
+        /// </summary>
+        public Transform PlaceholderParent { get; set; }
+
+        /// <summary>
+        /// If set to true the dragged item will be cloned and put in the target container.
+        /// Otherwise it will be removed from previous container
+        /// </summary>
+        public bool OnlyDroppable { get { return onlyDroppable; } set { onlyDroppable = value; } }
+   
+
+        public void OnBeginDrag(PointerEventData iEventData)
         {
             IsDragged = true;
             GetComponent<CanvasGroup>().blocksRaycasts = false;
@@ -61,9 +77,9 @@ namespace BuddyApp.BuddyLab
 
         }
 
-        public void OnDrag(PointerEventData eventData)
+        public void OnDrag(PointerEventData iEventData)
         {
-            mItem.transform.position = eventData.position;
+            mItem.transform.position = iEventData.position;
 
             if (PlaceholderParent != null && PlaceholderParent.GetComponent<ItemsContainer>() != null && !PlaceholderParent.GetComponent<ItemsContainer>().DragOnly)
             {
@@ -94,7 +110,7 @@ namespace BuddyApp.BuddyLab
 
         }
 
-        public void OnEndDrag(PointerEventData eventData)
+        public void OnEndDrag(PointerEventData iEventData)
         {
             int lIndex = mPlaceholder.transform.GetSiblingIndex();
 

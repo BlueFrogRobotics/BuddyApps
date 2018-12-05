@@ -62,7 +62,6 @@ namespace BuddyApp.Guardian
         // Use this for initialization
         void Start()
         {
-            //mNoiseDetection = BYOS.Instance.Perception.Noise;
             mState = State.DEFAULT;
             mListFrame = new Queue<byte[]>();
             mListAudio = new Queue<AudioClip>();
@@ -125,7 +124,6 @@ namespace BuddyApp.Guardian
         /// <param name="message">the message sent from android plugin</param>
         public void VideoSaved(string message)
         {
-            Debug.Log("message: "+message);
             mListFrame.Clear();
             mListAudio.Clear();
             mState = State.FILES_SAVED;
@@ -141,9 +139,9 @@ namespace BuddyApp.Guardian
             if (mCam.IsOpen)
             {
                 mActualFrame = mCam.Frame.Texture.EncodeToPNG(); 
-                //mListFrame.Enqueue(mCam.TexFrame.EncodeToPNG());
-                //if (mListFrame.Count > mFPS * mNbSecBefore)
-                //    mListFrame.Dequeue();
+                mListFrame.Enqueue(mCam.Frame.Texture.EncodeToPNG());
+                if (mListFrame.Count > mFPS * mNbSecBefore)
+                    mListFrame.Dequeue();
             }
             FillAudioBuffer(1);
 
@@ -154,10 +152,9 @@ namespace BuddyApp.Guardian
         /// </summary>
         private void FillNextBuffer()
         {
-            //if (mCam.IsOpen)
-            //{
-            //    mListFrame.Enqueue(mCam.TexFrame.EncodeToPNG());
-            //}
+            if (mCam.IsOpen) {
+                mListFrame.Enqueue(mCam.Frame.Texture.EncodeToPNG());
+            }
 
             mTime += Time.deltaTime;
             FillAudioBuffer(4);
@@ -172,22 +169,19 @@ namespace BuddyApp.Guardian
         /// <param name="iNbOfClipToKeep">the number of audioclip to add to the queue</param>
         private void FillAudioBuffer(int iNbOfClipToKeep)
         {
-            //if (mNoiseDetection.enabled)
-            //{
-                if (mNoiseDetection.MicrophoneIdx < 122000)
-                    mNewFrame = true;
-                if (mNewFrame && mNoiseDetection.MicrophoneIdx > 122000 && mNoiseDetection.RecordClip.length > 2 && mNoiseDetection.MicrophoneData != null)
-                {
-                    mNewFrame = false;
-                    AudioClip lAudioClip = AudioClip.Create(mNoiseDetection.RecordClip.name, mNoiseDetection.RecordClip.samples, mNoiseDetection.RecordClip.channels, mNoiseDetection.RecordClip.frequency, false);
-                    float[] samples = new float[mNoiseDetection.RecordClip.samples * mNoiseDetection.RecordClip.channels];
-                    mNoiseDetection.RecordClip.GetData(samples, 0);
-                    lAudioClip.SetData(samples, 0);
-                    mListAudio.Enqueue(lAudioClip);
-                    if (mListAudio.Count > iNbOfClipToKeep)
-                        mListAudio.Dequeue();
-                }
-            //}
+            if (mNoiseDetection.MicrophoneIdx < 122000)
+                mNewFrame = true;
+            if (mNewFrame && mNoiseDetection.MicrophoneIdx > 122000 && mNoiseDetection.RecordClip.length > 2 && mNoiseDetection.MicrophoneData != null)
+            {
+                mNewFrame = false;
+                AudioClip lAudioClip = AudioClip.Create(mNoiseDetection.RecordClip.name, mNoiseDetection.RecordClip.samples, mNoiseDetection.RecordClip.channels, mNoiseDetection.RecordClip.frequency, false);
+                float[] samples = new float[mNoiseDetection.RecordClip.samples * mNoiseDetection.RecordClip.channels];
+                mNoiseDetection.RecordClip.GetData(samples, 0);
+                lAudioClip.SetData(samples, 0);
+                mListAudio.Enqueue(lAudioClip);
+                if (mListAudio.Count > iNbOfClipToKeep)
+                    mListAudio.Dequeue();
+            }
         }
 
         /// <summary>
@@ -195,19 +189,17 @@ namespace BuddyApp.Guardian
         /// </summary>
         private void SaveFiles()
         {
-            //byte[][] lArrayFrames = mListFrame.ToArray();
+            byte[][] lArrayFrames = mListFrame.ToArray();
 
             //string lDirectoryPath = Path.GetDirectoryName(Buddy.Resources.GetRawFullPath("monitoring.mp4"));
             //Directory.CreateDirectory(lDirectoryPath);
 
-            //for (int i = 0; i < lArrayFrames.Length; i++)
-            //{
-            //    currentActivity.Call("addPicture", lArrayFrames[i]);
-            //}
-            //mFPS = mListFrame.Count / (mNbSecAfter + mNbSecBefore);
+            mFPS = mListFrame.Count / (mNbSecAfter + mNbSecBefore);
+
+            ///TODO: save the video
             //currentActivity.Call("saveVideo", mFPS, Buddy.Resources.GetRawFullPath("monitoring.mp4"), "AIBehaviour", "VideoSaved");
             Utils.Save(Buddy.Resources.GetRawFullPath("audio.wav"), Utils.Combine(mListAudio.ToArray()));
-            File.WriteAllBytes(Buddy.Resources.GetRawFullPath("picture.png"), mActualFrame);
+            File.WriteAllBytes(Buddy.Resources.GetRawFullPath("picture.png"), mActualFrame);///will be replaced by video once jcodec is integrated
             mState = State.WAIT_SAVE;
         }
 
@@ -232,35 +224,14 @@ namespace BuddyApp.Guardian
         /// </summary>
         private void StartSendmail()
         {
-            //Buddy.WebServices.EMailSender..enabled = true;
-            //mMail.AddFile(Buddy.Resources.GetRawFullPath("monitoring.mp4"));
+            
+            /// TODO: add the video file
+            // mMail.AddFile(Buddy.Resources.GetRawFullPath("monitoring.mp4"));
             mMail.AddFile(Buddy.Resources.GetRawFullPath("audio.wav"));
             mMail.AddFile(Buddy.Resources.GetRawFullPath("picture.png"));
-            Debug.Log("envoi du mail a  l adresse: " + mMail.Addresses[0]);
-            //SmtpClient smtp = new SmtpClient
-            //{
-            //    Host = "smtp.gmail.com",
-            //    Port = 587,
-            //    EnableSsl = true,
-            //    DeliveryMethod = SmtpDeliveryMethod.Network,
-            //    UseDefaultCredentials = false,
-            //    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-            //};
-            //using (var message = new MailMessage(fromAddress, new MailAddress(mMail.Addresses[0], "truc") )
-            //{
-            //    Subject = mMail.Subject,
-            //    Body = mMail.Body
-            //})
-            //{
-            //    for (int i = 0; i < mMail.FilePaths.Count; ++i)
-            //    {
-            //        string lFilePath = mMail.FilePaths[i];
-            //        message.Attachments.Add(new Attachment(@lFilePath));
-            //    }
-            //    smtp.SendAsync(message, null);
-            //}
+            
             Buddy.WebServices.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, mMail, OnMailSent);
-            //BYOS.Instance.WebService.EMailSender.enabled = true;
+            
             if (OnFilesSaved != null)
                 OnFilesSaved.Invoke();
             mState = State.MAIL_SENDING;

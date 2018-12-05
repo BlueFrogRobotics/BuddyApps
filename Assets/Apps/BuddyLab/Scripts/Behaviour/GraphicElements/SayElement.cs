@@ -6,7 +6,7 @@ using BlueQuark;
 
 namespace BuddyApp.BuddyLab
 {
-    public class SayElement : AGraphicElement, IEditableParameter
+    public sealed class SayElement : AGraphicElement, IEditableParameter
     {
         [SerializeField]
         private string key;
@@ -32,8 +32,7 @@ namespace BuddyApp.BuddyLab
             if (mInstruction == null)
                 mInstruction = new SayBehaviourInstruction();
             SayBehaviourInstruction lSayInstruction = (SayBehaviourInstruction)mInstruction;
-            //if(lSayInstruction.Utterance!=null)
-                mUtterance = lSayInstruction.Utterance.Value;
+            mUtterance = lSayInstruction.Utterance.Value;
         }
 
         public string GetEditableParameter()

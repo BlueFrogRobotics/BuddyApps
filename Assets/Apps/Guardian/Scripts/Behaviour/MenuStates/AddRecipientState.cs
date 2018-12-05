@@ -11,10 +11,7 @@ namespace BuddyApp.Guardian
     /// </summary>
     public sealed class AddRecipientState : AStateMachineBehaviour
     {
-        //private GuardianLayout mDetectionLayout;
         private bool mHasSwitchState = false;
-
-        private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
 
         private RecipientsData mContacts;
         private TTextField mFirstNameField;
@@ -28,7 +25,6 @@ namespace BuddyApp.Guardian
 
         public override void Start()
         {
-            //mDetectionLayout = new GuardianLayout();
             mHasSwitchState = false;
         }
 
@@ -37,14 +33,8 @@ namespace BuddyApp.Guardian
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("addcontact"));
 
             mContacts = Utils.UnserializeXML<RecipientsData>(Buddy.Resources.GetRawFullPath("contacts.xml"));
-            //Buddy.GUI.Toaster.Display<ParameterToast>().With(mDetectionLayout,
-            //	() => { Trigger("NextStep"); }, 
-            //	null);
-
 
             ShowToaster(false);
-
-
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -59,7 +49,7 @@ namespace BuddyApp.Guardian
 
         private void AddAndQuit()
         {
-            if (string.IsNullOrEmpty(mMail) || !mMail.Contains("@"))
+            if (string.IsNullOrEmpty(mMail) || !mMail.Contains("@"))//if the mail is valid
             {
                 Buddy.GUI.Toaster.Hide();
                 ShowToaster(true);
@@ -83,7 +73,6 @@ namespace BuddyApp.Guardian
         {
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
-                //iBuilder.CreateWidget<TText>().SetLabel("test");
                 mFirstNameField = iBuilder.CreateWidget<TTextField>();
                 mFirstNameField.SetPlaceHolder(Buddy.Resources.GetString("firstname"));
                 mFirstNameField.OnChangeValue.Add((iName) => { mFirstName = iName; });
@@ -101,24 +90,11 @@ namespace BuddyApp.Guardian
                 mMailField.SetPlaceHolder(Buddy.Resources.GetString("email"));
                 mMailField.OnChangeValue.Add((iMail) => { mMail = iMail; });
                 mMailField.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_mail"));
-                //iBuilder.CreateWidget<TText>().SetLabel("test2");
             },
             () => { Trigger("RecipientChoice"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("cancel"),
             () => { AddAndQuit(); }, Buddy.Resources.GetString("add")
             );
         }
 
-        //bool IsValidEmail(string iEmail)
-        //{
-        //    try
-        //    {
-        //        System.Net.Mail.MailAddress lAddr = new System.Net.Mail.MailAddress(iEmail);
-        //        return lAddr.Address == iEmail;
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
     }
 }

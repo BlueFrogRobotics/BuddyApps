@@ -2,12 +2,9 @@ using BlueQuark;
 
 namespace BuddyApp.Guardian
 {
-	//public enum GuardianMode : int
-	//{
-	//    FIXED,
-	//    MOBILE
-	//}
-
+    /// <summary>
+    /// Data of the guardian application
+    /// </summary>
 	public sealed class GuardianData : AAppData
 	{
 
@@ -28,11 +25,6 @@ namespace BuddyApp.Guardian
 			Contact.FirstName = "NONE";
             ContactId = -1;
         }
-
-        /// <summary>
-        /// Actual monitoring mode
-        /// </summary>
-        //public GuardianMode Mode { get; set; }
 
         public int Angle { get; set; }
 
@@ -123,8 +115,14 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public UserAccount Contact { get; set; }
 
+        /// <summary>
+        /// Id of the selected contact that will receive the alert
+        /// </summary>
         public int ContactId { get; set; }
 
+        /// <summary>
+        /// Is true if the alarm is activated
+        /// </summary>
         public bool AlarmActivated { get; set; }
 
 		public static GuardianData Instance

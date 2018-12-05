@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-using BlueQuark;
-using System.Net.Mail;
-using System.Net;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
+﻿using BlueQuark;
+
+using UnityEngine;
+
 
 namespace BuddyApp.Guardian
 {
@@ -23,7 +21,6 @@ namespace BuddyApp.Guardian
         {
             if (GuardianData.Instance.FirstRun)
             {
-                Debug.Log("first run " + GuardianData.Instance.FirstRun);
                 Trigger("Parameter");
             }
             else
