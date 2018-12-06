@@ -26,13 +26,16 @@ namespace BuddyApp.RemoteControl
 
         public override void OnQuit()
         {
+            Debug.LogError("------------- INSIDE ON QUIT ----------------");
             Debug.Log("----- TOASTER HIDE ----");
             Buddy.GUI.Toaster.Hide();
-            StartCoroutine(CloseApp());
+            Debug.LogError("----- INST:" + RemoteControlData.Instance);
+//            StartCoroutine(CloseApp());
         }
 
         public IEnumerator CloseApp()
         {
+            Debug.LogError("------------- INSIDE CLOSE APP CO ROUTINE ----------------");
             yield return new WaitUntil(() => {
                 return RemoteControlData.Instance.CustomToastIsBusy;
                 // This code was a try to avoid black square on quit
