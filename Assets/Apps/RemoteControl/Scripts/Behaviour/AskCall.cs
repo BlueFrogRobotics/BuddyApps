@@ -59,7 +59,7 @@ namespace BuddyApp.RemoteControl
             }, () => {
                 // On Hide
                 Debug.Log("----- ON HIDE ----");
-                StartCoroutine(CloseReceivCall());
+                //StartCoroutine(CloseReceivCall());
             });
         }
 
@@ -104,8 +104,12 @@ namespace BuddyApp.RemoteControl
         {
             if (Buddy.Vocal.IsSpeaking || mListening || !mHasInitializedRemote)
                 return;
-            else if (mQuit)
+            else if (mQuit) {
+                Debug.LogError("------------- CLOSE APP ----------------");
                 StartCoroutine(mRemoteControlBehaviour.CloseApp());
+
+                Debug.LogError("------------- AFTER CLOSE APP ----------------");
+            }
 
             if (string.IsNullOrEmpty(mSpeechReco)) {
                 //Buddy.Vocal.Listen();
@@ -114,11 +118,15 @@ namespace BuddyApp.RemoteControl
                 return;
             }
             // On accept call reco
-            if (ContainsOneOf(mSpeechReco, Buddy.Resources.GetPhoneticStrings("yes")))
+            if (ContainsOneOf(mSpeechReco, Buddy.Resources.GetPhoneticStrings("yes"))) {
+                Debug.LogError("------------- RECO: no ----------------");
                 AcceptCall();
+            }
             // On reject call reco
-            else if (ContainsOneOf(mSpeechReco, Buddy.Resources.GetPhoneticStrings("no")))
+            else if (ContainsOneOf(mSpeechReco, Buddy.Resources.GetPhoneticStrings("no"))) {
+                Debug.LogError("------------- RECO: no ----------------");
                 RejectCall();
+            }
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -139,6 +147,7 @@ namespace BuddyApp.RemoteControl
 
         private void RejectCall()
         {
+            Debug.LogError("------------- REJECT CALL ----------------");
             Debug.Log("RejectCall");
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             mQuit = true;
