@@ -17,7 +17,7 @@ namespace BuddyApp.Reminder
         private const float QUIT_TIMEOUT = 20;
         private const float FREESPEECH_TIMER = 15F;
         private const int RECOGNITION_SENSIBILITY = 5000;
-        private const string CREDENTIAL_DEFAULT_URL = "http://bfr-dev.azurewebsites.net/dev/BuddyDev-fdec0a04c070.txt";
+        private const string CREDENTIAL_DEFAULT_URL = "http://bfr-dev.azurewebsites.net/dev/BuddyDev-cmfc3b05c071.txt";
 
         private string mRecordedMessage;
         private int mListen;
@@ -61,7 +61,7 @@ namespace BuddyApp.Reminder
 
         private IEnumerator GetCredentialsAndRunFreeSpeech()
         {
-            WWW lWWW = new WWW("http://bfr-dev.azurewebsites.net/dev/BuddyDev-fdec0a04c070.txt");
+            WWW lWWW = new WWW(CREDENTIAL_DEFAULT_URL);
             yield return lWWW;
 
             mFreeSpeechCredentials = lWWW.text;
