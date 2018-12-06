@@ -10,119 +10,163 @@ namespace BuddyApp.Diagnostic
 {
     public sealed class SensorsWindow : MonoBehaviour
     {
+        /// <summary>
+        /// MENU & WINDOWS LINKS
+        /// </summary>
+        //GET GAMEOBJECT WINDOW
         [SerializeField]
-        private Dropdown mDropDown;
+        private GameObject Window_TOF;
+        [SerializeField]
+        private GameObject Window_IR;
+        [SerializeField]
+        private GameObject Window_US;
+        [SerializeField]
+        private GameObject Window_CARESS;
+        [SerializeField]
+        private GameObject Window_PINCH;
+        [SerializeField]
+        private GameObject Window_CLIFF;
+        [SerializeField]
+        private GameObject Window_IMU;
+        //GET TOGGLES NAV BUTTON
+        [SerializeField]
+        private Toggle BT_TOF;
+        [SerializeField]
+        private Toggle BT_IR;
+        [SerializeField]
+        private Toggle BT_US;
+        [SerializeField]
+        private Toggle BT_CARESS;
+        [SerializeField]
+        private Toggle BT_PINCH;
+        [SerializeField]
+        private Toggle BT_CLIFF;
+        [SerializeField]
+        private Toggle BT_IMU;
 
+        /// <summary>
+        /// ALL TOFF BUBBLES LINKS
+        /// </summary>
+        //GET TOF BUBBLES TEXT
         [SerializeField]
-        private GameObject FirstPart;
-
+        private Text TOF_Text_00;
         [SerializeField]
-        private GameObject SecondPart;
-
+        private Text TOF_Text_01;
         [SerializeField]
-        private GameObject ThirdPart;
-
+        private Text TOF_Text_02;
         [SerializeField]
-        private GameObject FourthPart;
-
-        //US SENSORS
+        private Text TOF_Text_03;
         [SerializeField]
-        private Text LeftUSError;
+        private Text TOF_Text_04;
         [SerializeField]
-        private Text LeftUSValue;
-
+        private Text TOF_Text_05;
+        //GET TOF BUBBLES STATE
         [SerializeField]
-        private Text RightUSError;
+        private Image TOF_OK_00;
         [SerializeField]
-        private Text RightUSValue;
-
-
-        //TOF SENSORS
+        private Image TOF_OK_01;
         [SerializeField]
-        private Text ForeHeadTOFError;
+        private Image TOF_OK_02;
         [SerializeField]
-        private Text ForeHeadTOFValue;
-
+        private Image TOF_OK_03;
         [SerializeField]
-        private Text ChinTOFError;
+        private Image TOF_OK_04;
         [SerializeField]
-        private Text ChinTOFValue;
-
+        private Image TOF_OK_05;
+        //GET TOF BUBBLES STATE
         [SerializeField]
-        private Text FrontRightTOFError;
+        private Text TOF_Error_00;
         [SerializeField]
-        private Text FrontRightTOFValue;
-
+        private Text TOF_Error_01;
         [SerializeField]
-        private Text FrontMiddleTOFError;
+        private Text TOF_Error_02;
         [SerializeField]
-        private Text FrontMiddleTOFValue;
-
+        private Text TOF_Error_03;
         [SerializeField]
-        private Text FrontLeftTOFError;
+        private Text TOF_Error_04;
         [SerializeField]
-        private Text FrontLeftTOFValue;
-
-        [SerializeField]
-        private Text BackTOFError;
-        [SerializeField]
-        private Text BackTOFValue;
+        private Text TOF_Error_05;
 
         //LED IR RECEPTRICE
         [SerializeField]
-        private Text BackIRError;
+        private Text IR_Text_00;
         [SerializeField]
-        private Text BackIRValue;
+        private Image IR_OK_00;
+        [SerializeField]
+        private Text IR_Error_00;
+
+        //US SENSORS
+        [SerializeField]
+        private Text US_Text_00;
+        [SerializeField]
+        private Image US_OK_00;
+        [SerializeField]
+        private Text US_Error_00;
+        [SerializeField]
+        private Text US_Text_01;
+        [SerializeField]
+        private Image US_OK_01;
+        [SerializeField]
+        private Text US_Error_01;
+
 
         //CLIFF SENSORS
         [SerializeField]
-        private Text Cliff_1Error;
+        private Text CLIFF_Text_00;
         [SerializeField]
-        private Text Cliff_1Value;
+        private Image CLIFF_OK_00;
         [SerializeField]
-        private Text Cliff_1EmergencyStop;
-
+        private Text CLIFF_Error_00;
         [SerializeField]
-        private Text Cliff_2Error;
+        private Image CLIFF_Icon_00;
         [SerializeField]
-        private Text Cliff_2Value;
+        private Text CLIFF_Text_01;
         [SerializeField]
-        private Text Cliff_2EmergencyStop;
-
+        private Image CLIFF_OK_01;
         [SerializeField]
-        private Text Cliff_3Error;
+        private Text CLIFF_Error_01;
         [SerializeField]
-        private Text Cliff_3Value;
+        private Image CLIFF_Icon_01;
         [SerializeField]
-        private Text Cliff_3EmergencyStop;
-
+        private Text CLIFF_Text_02;
         [SerializeField]
-        private Text Cliff_4Error;
+        private Image CLIFF_OK_02;
         [SerializeField]
-        private Text Cliff_4Value;
+        private Text CLIFF_Error_02;
         [SerializeField]
-        private Text Cliff_4EmergencyStop;
-
+        private Image CLIFF_Icon_02;
         [SerializeField]
-        private Text Cliff_5Error;
+        private Text CLIFF_Text_03;
         [SerializeField]
-        private Text Cliff_5Value;
+        private Image CLIFF_OK_03;
         [SerializeField]
-        private Text Cliff_5EmergencyStop;
-
+        private Text CLIFF_Error_03;
         [SerializeField]
-        private Text Cliff_6Error;
+        private Image CLIFF_Icon_03;
         [SerializeField]
-        private Text Cliff_6Value;
+        private Text CLIFF_Text_04;
         [SerializeField]
-        private Text Cliff_6EmergencyStop;
-
+        private Image CLIFF_OK_04;
         [SerializeField]
-        private Text Cliff_7Error;
+        private Text CLIFF_Error_04;
         [SerializeField]
-        private Text Cliff_7Value;
+        private Image CLIFF_Icon_04;
         [SerializeField]
-        private Text Cliff_7EmergencyStop;
+        private Text CLIFF_Text_05;
+        [SerializeField]
+        private Image CLIFF_OK_05;
+        [SerializeField]
+        private Text CLIFF_Error_05;
+        [SerializeField]
+        private Image CLIFF_Icon_05;
+        [SerializeField]
+        private Text CLIFF_Text_06;
+        [SerializeField]
+        private Image CLIFF_OK_06;
+        [SerializeField]
+        private Text CLIFF_Error_06;
+        [SerializeField]
+        private Image CLIFF_Icon_06;   
 
         //IMU
         [SerializeField]
@@ -131,239 +175,319 @@ namespace BuddyApp.Diagnostic
         private Text Gyro_Y;
         [SerializeField]
         private Text Gyro_Z;
-
         [SerializeField]
         private Text Acc_X;
         [SerializeField]
         private Text Acc_Y;
         [SerializeField]
         private Text Acc_Z;
-
         [SerializeField]
-        private Text IMU_Error;
-
-        //PINCH / CARESS
+        private Image IMU_OK_00;
         [SerializeField]
-        private Text HeartValue;
-        [SerializeField]
-        private Text HeartError;
-        [SerializeField]
-        private Text LeftShoulderValue;
-        [SerializeField]
-        private Text LeftShoulderError;
-        [SerializeField]
-        private Text RightShoulderValue;
-        [SerializeField]
-        private Text RightShoulderError;
-
-        [SerializeField]
-        private Text BackHeadValue;
-        [SerializeField]
-        private Text BackHeadError;
-        [SerializeField]
-        private Text LeftHeadValue;
-        [SerializeField]
-        private Text LeftHeadError;
-        [SerializeField]
-        private Text RightHeadValue;
-        [SerializeField]
-        private Text RightHeadError;
+        private Text IMU_Error_00;
 
 
+        //PINCH 
+        [SerializeField]
+        private Text PINCH_Text_00;
+        [SerializeField]
+        private Image PINCH_OK_00;
+        [SerializeField]
+        private Text PINCH_Error_00;
+        [SerializeField]
+        private Text PINCH_Text_01;
+        [SerializeField]
+        private Image PINCH_OK_01;
+        [SerializeField]
+        private Text PINCH_Error_01;
+        [SerializeField]
+        private Text PINCH_Text_02;
+        [SerializeField]
+        private Image PINCH_OK_02;
+        [SerializeField]
+        private Text PINCH_Error_02;
+        //CARESS
+        [SerializeField]
+        private Text CARESS_Text_00;
+        [SerializeField]
+        private Image CARESS_OK_00;
+        [SerializeField]
+        private Text CARESS_Error_00;
+        [SerializeField]
+        private Text CARESS_Text_01;
+        [SerializeField]
+        private Image CARESS_OK_01;
+        [SerializeField]
+        private Text CARESS_Error_01;
+        [SerializeField]
+        private Text CARESS_Text_02;
+        [SerializeField]
+        private Image CARESS_OK_02;
+        [SerializeField]
+        private Text CARESS_Error_02;
+
+        //Retrive All Sensors
         private UltrasonicSensor mLeftUSSensor;
         private UltrasonicSensor mRightUSSensor;
-
         private TimeOfFlightSensor mForeHeadTOFSensor;
         private TimeOfFlightSensor mChinTOFSensor;
         private TimeOfFlightSensor mFrontRightTOFSensor;
         private TimeOfFlightSensor mFrontMiddleTOFSensor;
         private TimeOfFlightSensor mFrontLeftTOFSensor;
         private TimeOfFlightSensor mBackTOFSensor;   
-        
         private InfraredSensor mBackIRSensor;
-
-        private CliffSensor mCliff_1;
-        private CliffSensor mCliff_2;
-        private CliffSensor mCliff_3;
-        private CliffSensor mCliff_4;
-        private CliffSensor mCliff_5;
-        private CliffSensor mCliff_6;
-        private CliffSensor mCliff_7;
-
+        private CliffSensor mCliff_00;
+        private CliffSensor mCliff_01;
+        private CliffSensor mCliff_02;
+        private CliffSensor mCliff_03;
+        private CliffSensor mCliff_04;
+        private CliffSensor mCliff_05;
+        private CliffSensor mCliff_06;
         private IMU mIMU;
-
         private TouchSensors mTouchSensor;
 
-        private List<GameObject> mAllGO;
-        
+        // Set Colors
+        private Color BuddyBlue = new Color(0.0f, 0.831f, 0.819f);
+        private Color Red = new Color(1f, 0f, 0f);
+        // List Objects Windows and Toggles
+        private List<Toggle> mAllToggle;
+        private List<GameObject> mAllWindow;
+
         void Start()
         {
-            
-            mAllGO = new List<GameObject>();
-            mAllGO.Add(FirstPart);
-            mAllGO.Add(SecondPart);
-            mAllGO.Add(ThirdPart);
-            mAllGO.Add(FourthPart);
-
-            foreach (GameObject go in mAllGO)
-                go.SetActive(false);
-            mAllGO[0].SetActive(true);
-
-            //US / IR / TOF
+            // Create Toggle Button list
+            mAllToggle = new List<Toggle>();
+            mAllToggle.Add(BT_TOF);
+            mAllToggle.Add(BT_IR);
+            mAllToggle.Add(BT_US);
+            mAllToggle.Add(BT_CARESS);
+            mAllToggle.Add(BT_PINCH);
+            mAllToggle.Add(BT_CLIFF);
+            mAllToggle.Add(BT_IMU);
+            //Display all Toggle ON
+            foreach (Toggle Tog in mAllToggle)
+            {
+                Tog.isOn = true;
+            }
+            // Create Window list
+            mAllWindow = new List<GameObject>();
+            mAllWindow.Add(Window_TOF);
+            mAllWindow.Add(Window_IR);
+            mAllWindow.Add(Window_US);
+            mAllWindow.Add(Window_CARESS);
+            mAllWindow.Add(Window_PINCH);
+            mAllWindow.Add(Window_CLIFF);
+            mAllWindow.Add(Window_IMU);
+            //Display all window
+            foreach (GameObject Window in mAllWindow){
+                Window.SetActive(true);
+            }
+            // US
             mLeftUSSensor = Buddy.Sensors.UltrasonicSensors.Left;
             mRightUSSensor = Buddy.Sensors.UltrasonicSensors.Right;
-
+            // TOF
             mForeHeadTOFSensor = Buddy.Sensors.TimeOfFlightSensors.Forehead;
             mChinTOFSensor = Buddy.Sensors.TimeOfFlightSensors.Chin;
             mFrontRightTOFSensor = Buddy.Sensors.TimeOfFlightSensors.Right;
             mFrontMiddleTOFSensor = Buddy.Sensors.TimeOfFlightSensors.Front;
             mFrontLeftTOFSensor = Buddy.Sensors.TimeOfFlightSensors.Left;
             mBackTOFSensor = Buddy.Sensors.TimeOfFlightSensors.Back;
-
+            // IR
             mBackIRSensor = Buddy.Sensors.InfraredSensor;
-
-            //Cliff Sensors
-            mCliff_1 = Buddy.Sensors.CliffSensors.FrontLeftWheel;
-            mCliff_2 = Buddy.Sensors.CliffSensors.BackLeftWheel;
-            mCliff_3 = Buddy.Sensors.CliffSensors.BackLeftFreeWheel;
-            mCliff_4 = Buddy.Sensors.CliffSensors.FrontFreeWheel;
-            mCliff_5 = Buddy.Sensors.CliffSensors.BackRightFreeWheel;
-            mCliff_6 = Buddy.Sensors.CliffSensors.BackRightWheel;
-            mCliff_7 = Buddy.Sensors.CliffSensors.FrontRightWheel;
-
-            //IMU
+            // CLIFF
+            mCliff_00 = Buddy.Sensors.CliffSensors.FrontFreeWheel;
+            mCliff_01 = Buddy.Sensors.CliffSensors.FrontRightWheel;
+            mCliff_02 = Buddy.Sensors.CliffSensors.BackRightWheel;
+            mCliff_03 = Buddy.Sensors.CliffSensors.BackRightFreeWheel;
+            mCliff_04 = Buddy.Sensors.CliffSensors.FrontLeftWheel;
+            mCliff_05 = Buddy.Sensors.CliffSensors.BackLeftWheel;
+            mCliff_06 = Buddy.Sensors.CliffSensors.BackLeftFreeWheel;
+            // IMU
             mIMU = Buddy.Sensors.IMU;
-
             //TouchSensor
-            mTouchSensor = Buddy.Sensors.TouchSensors;
-            
+            mTouchSensor = Buddy.Sensors.TouchSensors; 
         }
 
         void Update()
         {
-            if(mDropDown.options[mDropDown.value].text == "TOF/IR/US")
+            if (BT_TOF.isOn == true)
             {
-                //US
-                LeftUSError.text = "" + mLeftUSSensor.Error;
-                LeftUSValue.text = "" + mLeftUSSensor.Value;
-
-                RightUSError.text = "" + mRightUSSensor.Error;
-                RightUSValue.text = "" + mRightUSSensor.Value;
-
-
-                //TOF
-                ForeHeadTOFError.text = "" + mForeHeadTOFSensor.Error;
-                ForeHeadTOFValue.text = "" + mForeHeadTOFSensor.Value;
-
-                ChinTOFError.text = "" + mChinTOFSensor.Error;
-                ChinTOFValue.text = "" + mChinTOFSensor.Value;
-
-                FrontLeftTOFError.text = "" + mFrontLeftTOFSensor.Error;
-                FrontLeftTOFValue.text = "" + mFrontLeftTOFSensor.Value;
-
-                FrontMiddleTOFError.text = "" + mFrontMiddleTOFSensor.Error;
-                FrontMiddleTOFValue.text = "" + mFrontMiddleTOFSensor.Value;
-
-                FrontRightTOFError.text = "" + mFrontRightTOFSensor.Error;
-                FrontRightTOFValue.text = "" + mFrontRightTOFSensor.Value;
-
-                BackTOFError.text = "" + mBackTOFSensor.Error;
-                BackTOFValue.text = "" + mBackTOFSensor.Value;
-
+                //TOF SENSOR FORE HEAD
+                TOF_Error_00.text = "" + mForeHeadTOFSensor.Error;
+                TOF_Text_00.text = mForeHeadTOFSensor.Value + "m";
+                if (mForeHeadTOFSensor.Error == 0) { TOF_OK_00.color = BuddyBlue; }
+                if (mForeHeadTOFSensor.Error != 0) { TOF_OK_00.color = Red; }
+                //TOF SENSOR CHIN
+                TOF_Error_01.text = "" + mChinTOFSensor.Error;
+                TOF_Text_01.text = mChinTOFSensor.Value + "m";
+                if (mChinTOFSensor.Error == 0) { TOF_OK_01.color = BuddyBlue; }
+                if (mChinTOFSensor.Error != 0) { TOF_OK_01.color = Red; }
+                //TOF SENSOR FRONT RIGHT
+                TOF_Error_02.text = "" + mFrontRightTOFSensor.Error;
+                TOF_Text_02.text = mFrontRightTOFSensor.Value + "m";
+                if (mFrontRightTOFSensor.Error == 0) { TOF_OK_02.color = BuddyBlue; }
+                if (mFrontRightTOFSensor.Error != 0) { TOF_OK_02.color = Red; }
+                //TOF SENSOR FRONT MIDDLE
+                TOF_Error_03.text = "" + mFrontMiddleTOFSensor.Error;
+                TOF_Text_03.text = mFrontMiddleTOFSensor.Value + "m";
+                if (mFrontMiddleTOFSensor.Error == 0) { TOF_OK_03.color = BuddyBlue; }
+                if (mFrontMiddleTOFSensor.Error != 0) { TOF_OK_03.color = Red; }
+                //TOF SENSOR FRONT LEFT
+                TOF_Error_04.text = "" + mFrontLeftTOFSensor.Error;
+                TOF_Text_04.text = mFrontLeftTOFSensor.Value + "m";
+                if (mFrontLeftTOFSensor.Error == 0) { TOF_OK_04.color = BuddyBlue; }
+                if (mFrontLeftTOFSensor.Error != 0) { TOF_OK_04.color = Red; }
+                //TOF SENSOR BACK
+                TOF_Error_05.text = "" + mBackTOFSensor.Error;
+                TOF_Text_05.text = mBackTOFSensor.Value + "m";
+                if (mBackTOFSensor.Error == 0) { TOF_OK_05.color = BuddyBlue; }
+                if (mBackTOFSensor.Error != 0) { TOF_OK_05.color = Red; }
+            }
+            if (BT_IR.isOn == true)
+            {
                 //IR RECEPTEUR
-                //BackIRError.text = "" + mBackIRSensor.Error;
-                BackIRValue.text = "" + mBackIRSensor.Value;
+                IR_Text_00.text = "#" + mBackIRSensor.Value;
+                IR_OK_00.color = BuddyBlue;
+                //IR_Error_00.text = "" + mBackIRSensor.Error;
             }
-            else if (mDropDown.options[mDropDown.value].text == "CARESS/PINCH")
+            if (BT_US.isOn == true)
             {
-                //CARESS
-                BackHeadValue.text = "" + mTouchSensor.BackHead.Value;
-                BackHeadError.text = "" + mTouchSensor.BackHead.Error;
-
-                LeftHeadValue.text = "" + mTouchSensor.LeftHead.Value;
-                LeftHeadError.text = "" + mTouchSensor.LeftHead.Value;
-
-                RightHeadValue.text = "" + mTouchSensor.RightHead.Value;
-                RightHeadError.text = "" + mTouchSensor.RightHead.Value;
-
-                //PINCH
-                HeartValue.text = "" + mTouchSensor.Heart.Value;
-                HeartError.text = "" + mTouchSensor.Heart.Error;
-
-                LeftShoulderValue.text = "" + mTouchSensor.LeftShoulder.Value;
-                LeftShoulderError.text = "" + mTouchSensor.LeftShoulder.Error;
-
-                RightShoulderValue.text = "" + mTouchSensor.RightShoulder.Value;
-                RightShoulderError.text = "" + mTouchSensor.RightShoulder.Error;
+                //US RECEPTEUR RIGHT
+                US_Text_00.text = mRightUSSensor.Value + "m";
+                US_OK_00.color = BuddyBlue;
+                US_Error_00.text = "" + mRightUSSensor.Error;
+                //US RECEPTEUR LEFT
+                US_Text_01.text = mLeftUSSensor.Value + "m";
+                US_OK_01.color = BuddyBlue;
+                US_Error_01.text = "" + mLeftUSSensor.Error;
             }
-            else if (mDropDown.options[mDropDown.value].text == "CLIFF")
+            if (BT_CARESS.isOn == true)
             {
-                Cliff_1Value.text = "" + mCliff_1.Value;
-                Cliff_1Error.text = "" + mCliff_1.Error;
-                //Cliff_1EmergencyStop.text = "" + mCliff_1.
-
-                Cliff_2Value.text = "" + mCliff_2.Value;
-                Cliff_2Error.text = "" + mCliff_2.Error;
-                //Cliff_2EmergencyStop.text = "" + mCliff_2.
-
-                Cliff_3Value.text = "" + mCliff_3.Value;
-                Cliff_3Error.text = "" + mCliff_3.Error;
-                //Cliff_3EmergencyStop.text = "" + mCliff_3.
-
-                Cliff_4Value.text = "" + mCliff_4.Value;
-                Cliff_4Error.text = "" + mCliff_4.Error;
-                //Cliff_4EmergencyStop.text = "" + mCliff_4.
-
-                Cliff_5Value.text = "" + mCliff_5.Value;
-                Cliff_5Error.text = "" + mCliff_5.Error;
-                //Cliff_5EmergencyStop.text = "" + mCliff_5.
-
-                Cliff_6Value.text = "" + mCliff_6.Value;
-                Cliff_6Error.text = "" + mCliff_6.Error;
-                //Cliff_6EmergencyStop.text = "" + mCliff_6.
-
-                Cliff_7Value.text = "" + mCliff_7.Value;
-                Cliff_7Error.text = "" + mCliff_7.Error;
-                //Cliff_7EmergencyStop.text = "" + mCliff_7.
+                //CARESS RIGHT
+                CARESS_Text_00.text = "" + mTouchSensor.RightHead.Value;
+                if (mTouchSensor.RightHead.Value == true) { CARESS_Text_00.color = BuddyBlue; }
+                if (mTouchSensor.RightHead.Value == false) { CARESS_Text_00.color = Red; }
+                CARESS_Error_00.text = "" + mTouchSensor.RightHead.Error;
+                if (mTouchSensor.RightHead.Error == 0) { CARESS_OK_00.color = BuddyBlue; }
+                if (mTouchSensor.RightHead.Error != 0) { CARESS_OK_00.color = Red; }
+                //CARESS BACK
+                CARESS_Text_01.text = "" + mTouchSensor.BackHead.Value;
+                if (mTouchSensor.BackHead.Value == true) { CARESS_Text_01.color = BuddyBlue; }
+                if (mTouchSensor.BackHead.Value == false) { CARESS_Text_01.color = Red; }
+                CARESS_Error_01.text = "" + mTouchSensor.BackHead.Error;
+                if (mTouchSensor.BackHead.Error == 0) { CARESS_OK_01.color = BuddyBlue; }
+                if (mTouchSensor.BackHead.Error != 0) { CARESS_OK_01.color = Red; }
+                //CARESS LEFT
+                CARESS_Text_02.text = "" + mTouchSensor.LeftHead.Value;
+                if(mTouchSensor.LeftHead.Value == true) { CARESS_Text_02.color = BuddyBlue; }
+                if (mTouchSensor.LeftHead.Value == false) { CARESS_Text_02.color = Red; }
+                CARESS_Error_02.text = "" + mTouchSensor.LeftHead.Error;
+                if (mTouchSensor.LeftHead.Error == 0) { CARESS_OK_02.color = BuddyBlue; }
+                if (mTouchSensor.LeftHead.Error != 0) { CARESS_OK_02.color = Red; }
             }
-            else if(mDropDown.options[mDropDown.value].text == "IMU")
+            if (BT_PINCH.isOn == true)
             {
-                Gyro_X.text = "" + mIMU.Gyroscope.x;
-                Gyro_Y.text = "" + mIMU.Gyroscope.y;
-                Gyro_Z.text = "" + mIMU.Gyroscope.z;
-                Acc_X.text = "" + mIMU.Accelerometer.x;
-                Acc_Y.text = "" + mIMU.Accelerometer.y;
-                Acc_Z.text = "" + mIMU.Accelerometer.z;
+                //PINCH HEART
+                PINCH_Text_02.text = "" + mTouchSensor.Heart.Value;
+                if (mTouchSensor.Heart.Error == 0) { PINCH_OK_02.color = BuddyBlue; }
+                if (mTouchSensor.Heart.Error != 0) { PINCH_OK_02.color = Red; }
+                PINCH_Error_02.text = "" + mTouchSensor.Heart.Error;
+                //PINCH LEFT
+                PINCH_Text_01.text = "" + mTouchSensor.LeftShoulder.Value;
+                if (mTouchSensor.LeftShoulder.Error == 0) { PINCH_OK_01.color = BuddyBlue; }
+                if (mTouchSensor.LeftShoulder.Error != 0) { PINCH_OK_01.color = Red; }
+                PINCH_Error_01.text = "" + mTouchSensor.LeftShoulder.Error;
+                //PINCH RIGHT
+                PINCH_Text_00.text = "" + mTouchSensor.RightShoulder.Value;
+                if (mTouchSensor.RightShoulder.Error == 0) { PINCH_OK_00.color = BuddyBlue; }
+                if (mTouchSensor.RightShoulder.Error != 0) { PINCH_OK_00.color = Red; }
+                PINCH_Error_00.text = "" + mTouchSensor.RightShoulder.Error;
+            }
+            if (BT_CLIFF.isOn == true)
+            {
+                // 00 Cliff Front Free Wheel
+                CLIFF_Text_00.text = mCliff_00.Value + "cm";
+                CLIFF_Error_00.text = "" + mCliff_00.Error;
+                if (mCliff_00.Error == 0) { CLIFF_OK_00.color = BuddyBlue; }
+                if (mCliff_00.Error != 0) { CLIFF_OK_00.color = Red; }
+                //if (mCliff_00.OnVoid == 0) { CLIFF_Icon_00.color = BuddyBlue; }
+                //if (mCliff_00.OnVoid == 1) { CLIFF_Icon_00.color = Red; }
 
-                IMU_Error.text = "" + mIMU.Error;
+                // 01 Cliff Front Right Wheel
+                CLIFF_Text_01.text = mCliff_01.Value + "cm";
+                CLIFF_Error_01.text = "" + mCliff_01.Error;
+                if (mCliff_01.Error == 0) { CLIFF_OK_01.color = BuddyBlue; }
+                if (mCliff_01.Error != 0) { CLIFF_OK_01.color = Red; }
+                //if (mCliff_01.OnVoid == 0) { CLIFF_Icon_01.color = BuddyBlue; }
+                //if (mCliff_01.OnVoid == 1) { CLIFF_Icon_01.color = Red; }
+
+                // 02 Cliff Front Right Wheel
+                CLIFF_Text_02.text = mCliff_02.Value + "cm";
+                CLIFF_Error_02.text = "" + mCliff_02.Error;
+                if (mCliff_02.Error == 0) { CLIFF_OK_02.color = BuddyBlue; }
+                if (mCliff_02.Error != 0) { CLIFF_OK_02.color = Red; }
+                //if (mCliff_00.OnVoid == 0) { CLIFF_Icon_02.color = BuddyBlue; }
+                //if (mCliff_00.OnVoid == 1) { CLIFF_Icon_02.color = Red; }
+
+                // 03 Cliff Front Free Wheel
+                CLIFF_Text_03.text = mCliff_03.Value + "cm";
+                CLIFF_Error_03.text = "" + mCliff_03.Error;
+                if (mCliff_03.Error == 0) { CLIFF_OK_03.color = BuddyBlue; }
+                if (mCliff_03.Error != 0) { CLIFF_OK_03.color = Red; }
+                //if (mCliff_03.OnVoid == 0) { CLIFF_Icon_03.color = BuddyBlue; }
+                //if (mCliff_03.OnVoid == 1) { CLIFF_Icon_03.color = Red; }
+
+                // 04 Cliff Front Left Wheel
+                CLIFF_Text_04.text = mCliff_04.Value + "cm";
+                CLIFF_Error_04.text = "" + mCliff_04.Error;
+                if (mCliff_04.Error == 0) { CLIFF_OK_04.color = BuddyBlue; }
+                if (mCliff_04.Error != 0) { CLIFF_OK_04.color = Red; }
+                //if (mCliff_04.OnVoid == 0) { CLIFF_Icon_04.color = BuddyBlue; }
+                //if (mCliff_04.OnVoid == 1) { CLIFF_Icon_04.color = Red; }
+
+                // 05 Cliff Back Left Wheel
+                CLIFF_Text_05.text = mCliff_05.Value + "cm";
+                CLIFF_Error_05.text = "" + mCliff_05.Error;
+                if (mCliff_05.Error == 0) { CLIFF_OK_05.color = BuddyBlue; }
+                if (mCliff_05.Error != 0) { CLIFF_OK_05.color = Red; }
+                //if (mCliff_05.OnVoid == 0) { CLIFF_Icon_05.color = BuddyBlue; }
+                //if (mCliff_05.OnVoid == 1) { CLIFF_Icon_05.color = Red; }
+
+                // 06 Cliff Back Left Free Wheel
+                CLIFF_Text_06.text = mCliff_06.Value + "cm";
+                CLIFF_Error_06.text = "" + mCliff_06.Error;
+                if (mCliff_06.Error == 0) { CLIFF_OK_06.color = BuddyBlue; }
+                if (mCliff_06.Error != 0) { CLIFF_OK_06.color = Red; }
+                //if (mCliff_06.OnVoid == 0) { CLIFF_Icon_06.color = BuddyBlue; }
+                //if (mCliff_06.OnVoid == 1) { CLIFF_Icon_06.color = Red; }
+            }
+            if (BT_IMU.isOn == true)
+            {
+                Gyro_X.text = "X: " + mIMU.Gyroscope.x;
+                Gyro_Y.text = "Y: " + mIMU.Gyroscope.y;
+                Gyro_Z.text = "Z: " + mIMU.Gyroscope.z;
+                Acc_X.text = "X: " + mIMU.Accelerometer.x;
+                Acc_Y.text = "Y: " + mIMU.Accelerometer.y;
+                Acc_Z.text = "Z: " + mIMU.Accelerometer.z;
+
+                if (mIMU.Error == 0) { IMU_OK_00.color = BuddyBlue; }
+                if (mIMU.Error != 0) { IMU_OK_00.color = Red; }
+                IMU_Error_00.text = "" + mIMU.Error;
             }
         }
 
-        public void OnValueChanged()
+        public void ToggleValueChanged(int iIndex)
         {
-            if (mDropDown.options[mDropDown.value].text == "TOF/IR/US")
-            {
-                DisableAndEnableRightWindow(0);
+            Toggle mToggle = mAllToggle[iIndex];
+            GameObject mWindow = mAllWindow[iIndex];
+            bool mStatus = mToggle.isOn;
+            if (mStatus == true){
+                mWindow.SetActive(true);
             }
-            else if (mDropDown.options[mDropDown.value].text == "CARESS/PINCH")
+            else
             {
-                DisableAndEnableRightWindow(1);
+                mWindow.SetActive(false);
             }
-            else if(mDropDown.options[mDropDown.value].text == "CLIFF")
-            {
-                DisableAndEnableRightWindow(2);
-            }
-            else if (mDropDown.options[mDropDown.value].text == "IMU")
-            {
-                DisableAndEnableRightWindow(3);
-            }
-        }
-
-        private void DisableAndEnableRightWindow(int iInput)
-        {
-            foreach (GameObject go in mAllGO)
-                go.SetActive(false);
-            mAllGO[iInput].SetActive(true);
         }
     }
 }

@@ -42,21 +42,27 @@ namespace BuddyApp.Diagnostic
 
         [SerializeField]
         private Text LocalizationText;
-
+        [SerializeField]
+        private Image LocalizationRad;
         [SerializeField]
         private Text AmbiantSoundLevelText;
+        [SerializeField]
+        private Slider AmbiantSoundLevelSlider;
 
 
         [SerializeField]
         private Button RecordButton;
-
         [SerializeField]
         private Button PlayRecordButton;
 
         [SerializeField]
         private AudioSource ReplayAudioSource;
 
-
+        private Sprite mRecord = Buddy.Resources.Get<Sprite>("os_icon_micro_on");
+        private Sprite mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
+        private Sprite mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
+        private Color mBuddyBlue = new Color(0.0f, 0.831f, 0.819f);
+        private Color mWhite = new Color(1f, 1f, 1f);
 
         private Timer mTimeTrigger;
         private NoiseDetector mNoiseDetector;
@@ -69,8 +75,11 @@ namespace BuddyApp.Diagnostic
         public void Update()
         {
             LocalizationText.text = Buddy.Sensors.Microphones.SoundLocalization + " °";
+            LocalizationRad.rectTransform.Rotate(0, 0, Buddy.Sensors.Microphones.SoundLocalization); 
             AmbiantSoundLevelText.text = Buddy.Sensors.Microphones.AmbiantSound + " db";
-            
+            AmbiantSoundLevelSlider.value = Buddy.Sensors.Microphones.AmbiantSound;
+
+
             if (mBIsPlaying) // Playing record
             {
                 if (null == ReplayAudioSource.clip || !ReplayAudioSource.isPlaying)
@@ -137,10 +146,10 @@ namespace BuddyApp.Diagnostic
 
             // Recording
             mNoiseDetector = Buddy.Perception.NoiseDetector;
-            RecordButton.GetComponentsInChildren<Text>()[0].text = "Start recording";
+            RecordButton.GetComponentsInChildren<Text>()[0].text = "START RECORDING";
             RecordButton.onClick.AddListener(OnRecordingButtonClick);
             PlayRecordButton.onClick.AddListener(OnPlayRecordButtonClick);
-            PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "Play";
+            PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY";
             mNoiseDetector.OnDetect.Add(
                 (fFloat) =>
                 {
@@ -203,7 +212,8 @@ namespace BuddyApp.Diagnostic
         private void OnSpeechToTextGrammarButtonClick ()
         {
             Buddy.Vocal.StopAndClear();
-
+            SpeechToTextGrammarButton.GetComponent<Image>().color = mBuddyBlue;
+            SpeechToTextFreeSpeechButton.GetComponent<Image>().color = mWhite;
             if (!Buddy.Vocal.Listen("common", OnEndListeningSpeechToText, SpeechRecognitionMode.GRAMMAR_ONLY))
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "ERROR ON LISTEN !!!! ");
         }
@@ -211,13 +221,16 @@ namespace BuddyApp.Diagnostic
         private void OnSpeechToTextFreeSpeechButtonClick ()
         {
             Buddy.Vocal.StopAndClear();
-
+            SpeechToTextGrammarButton.GetComponent<Image>().color = mWhite;
+            SpeechToTextFreeSpeechButton.GetComponent<Image>().color = mBuddyBlue;
             if (!Buddy.Vocal.Listen(OnEndListeningSpeechToText, SpeechRecognitionMode.FREESPEECH_ONLY))
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "ERROR ON LISTEN !!!! ");
         }
 
         private void OnEndListeningSpeechToText(SpeechInput iSpeechInput)
         {
+            SpeechToTextGrammarButton.GetComponent<Image>().color = mWhite;
+            SpeechToTextFreeSpeechButton.GetComponent<Image>().color = mWhite;
             if (iSpeechInput.IsInterrupted || 0 <= iSpeechInput.Confidence) // Error during recognition, forced StopListening or nothing recognized.
             {
                 return;
@@ -235,10 +248,11 @@ namespace BuddyApp.Diagnostic
 
         private void OnRecordingButtonClick()
         {
-            if (string.Equals("Start recording", RecordButton.GetComponentsInChildren<Text>()[0].text))
+            if (string.Equals("START RECORDING", RecordButton.GetComponentsInChildren<Text>()[0].text))
             {
                 PlayRecordButton.interactable = false;
-                RecordButton.GetComponentsInChildren<Text>()[0].text = "Stop recording";
+                RecordButton.GetComponentsInChildren<Text>()[0].text = "STOP RECORDING";
+                RecordButton.GetComponentsInChildren<Image>()[0].sprite = mStop;
 
                 // Save first AudioClip and callback when new sound detected.
                 mListAudio.Clear();
@@ -246,11 +260,11 @@ namespace BuddyApp.Diagnostic
                 return;
             }
 
-            if (string.Equals("Stop recording", RecordButton.GetComponentsInChildren<Text>()[0].text))
+            if (string.Equals("STOP RECORDING", RecordButton.GetComponentsInChildren<Text>()[0].text))
             {
                 PlayRecordButton.interactable = true;
-                RecordButton.GetComponentsInChildren<Text>()[0].text = "Start recording";
-                
+                RecordButton.GetComponentsInChildren<Text>()[0].text = "START RECORDING";
+                RecordButton.GetComponentsInChildren<Image>()[0].sprite = mRecord;
                 if (null != mAudioClip)
                     mListAudio.Enqueue(mAudioClip);
                 
@@ -263,7 +277,8 @@ namespace BuddyApp.Diagnostic
             if (mBIsPlaying)
             {
                 RecordButton.interactable = true;
-                PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "Play";
+                PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY";
+                PlayRecordButton.GetComponentsInChildren<Image>()[0].sprite = mPlay;
                 ReplayAudioSource.Stop();
                 
                 mBIsPlaying = false;
@@ -271,7 +286,8 @@ namespace BuddyApp.Diagnostic
             else
             {
                 RecordButton.interactable = false;
-                PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "Stop";
+                PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "STOP";
+                PlayRecordButton.GetComponentsInChildren<Image>()[0].sprite = mStop;
                 mBIsPlaying = true;
             }
         }

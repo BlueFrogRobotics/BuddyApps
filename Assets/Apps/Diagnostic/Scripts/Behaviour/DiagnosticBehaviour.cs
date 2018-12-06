@@ -40,40 +40,50 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private GameObject connexionRoot;
 
+       /*[SerializeField]
+        private Button motorsBT;*/
+
         [SerializeField]
-        private GameObject vocalBT;
+        private Image vocalBT;
         [SerializeField]
-        private GameObject ledBT;
+        private Image ledBT;
         [SerializeField]
-        private GameObject motorsBT;
+        private Image motorsBT;
         [SerializeField]
-        private GameObject faceBT;
+        private Image faceBT;
         [SerializeField]
-        private GameObject camerasBT;
+        private Image camerasBT;
         [SerializeField]
-        private GameObject thermalBT;
+        private Image thermalBT;
         [SerializeField]
-        private GameObject sensorsBT;
+        private Image sensorsBT;
         [SerializeField]
-        private GameObject connexionBT;
+        private Image connexionBT;
 
         private List<GameObject> mRoots;
+        private List<Image> mBTs;
 
         private WindowType mCurrentWindow;
-
-		/*
+        private Color BuddyBlue = new Color(0.0f, 0.831f, 0.819f);
+        private Color White = new Color(1f, 1f, 1f);
+        /*
          * Init refs to API and your app data
          */
-		void Start()
+        void Start()
         {
-
 			mRoots = new List<GameObject>() { vocalRoot,
 				ledRoot, motorsRoot, faceRoot,
 				camerasRoot, thermalRoot, sensorsRoot, connexionRoot
             };
+            mBTs = new List<Image>() { vocalBT,
+                ledBT, motorsBT, faceBT,
+                camerasBT, thermalBT, sensorsBT, connexionBT
+            };
+
             mCurrentWindow = WindowType.FACE;
             //SetWindow((int)WindowType.VOCAL);
             SetWindow((int)WindowType.MOTORS);
+            motorsBT.color = BuddyBlue;         
         }
 
 		public void SetWindow(int iIndex)
@@ -84,27 +94,35 @@ namespace BuddyApp.Diagnostic
 				switch (mCurrentWindow) {
 					case WindowType.VOCAL:
 						DisableAllExcept(vocalRoot);
+                        vocalBT.color = BuddyBlue;
 						break;
 					case WindowType.LED:
 						DisableAllExcept(ledRoot);
-						break;
+                        ledBT.color = BuddyBlue;
+                        break;
 					case WindowType.MOTORS:
 						DisableAllExcept(motorsRoot);
-						break;
+                        motorsBT.color = BuddyBlue;
+                        break;
 					case WindowType.FACE:
 						DisableAllExcept(faceRoot);
-						break;
+                        faceBT.color = BuddyBlue;
+                        break;
 					case WindowType.CAMERAS:
 						DisableAllExcept(camerasRoot);
-						break;
+                        camerasBT.color = BuddyBlue;
+                        break;
 					case WindowType.THERMAL:
 						DisableAllExcept(thermalRoot);
-						break;
+                        thermalBT.color = BuddyBlue;
+                        break;
 					case WindowType.SENSORS:
 						DisableAllExcept(sensorsRoot);
-						break;
+                        sensorsBT.color = BuddyBlue;
+                        break;
                     case WindowType.CONNEXION:
                         DisableAllExcept(connexionRoot);
+                        connexionBT.color = BuddyBlue;
                         break;
                 }
 			}
@@ -114,6 +132,8 @@ namespace BuddyApp.Diagnostic
 		{
 			foreach (GameObject lRoot in mRoots)
 				lRoot.SetActive(lRoot == iGOToKeep);
+            foreach (Image lBT in mBTs)
+                lBT.color = White;
         }
 
 

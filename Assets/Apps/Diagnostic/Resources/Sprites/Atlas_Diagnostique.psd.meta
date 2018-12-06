@@ -6,6 +6,7 @@ TextureImporter:
     21300002: Atlas_Diagnostique_0
     21300004: Atlas_Diagnostique_Head
     21300006: Atlas_Diagnostique_Schema
+    21300008: Atlas_Diagnostique_CamPos
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -176,13 +177,33 @@ TextureImporter:
         width: 860
         height: 440
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 311eecd19cbf5954bbe4806a55a28a79
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_Diagnostique_CamPos
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 559
+        width: 210
+        height: 210
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81831b04a70c0fe4c8f8534c58815184
       vertices: []
       indices: 
       edges: []
