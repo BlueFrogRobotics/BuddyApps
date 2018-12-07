@@ -69,7 +69,8 @@ namespace BuddyApp.Diagnostic
 
         [SerializeField]
         private RawImage rawImage;
-        
+
+        private bool mStatus = false;
 
         public void OnEnable()
         {
@@ -238,7 +239,16 @@ namespace BuddyApp.Diagnostic
 
         private void SetFlash()
         {
-            Buddy.Actuators.LEDs.Flash = true;
+            if (mStatus == false)
+            {
+                Buddy.Actuators.LEDs.Flash = true;
+                mStatus = true;
+            }
+            else
+            {
+                Buddy.Actuators.LEDs.Flash = false;
+                mStatus = false;
+            }
         }
 
         private void IsOnlyHSVChecked()

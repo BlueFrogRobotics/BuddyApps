@@ -149,25 +149,29 @@ namespace BuddyApp.Diagnostic
             // Draw Head No Angle Feedback
             noHingeAngleGetter.text = mNoHinge.Angle + " °";
             if(mNoHinge.Angle >= 0) {
-                noHingeAngleGetterFeedbackL.fillAmount =  mNoHinge.Angle;
+                noHingeAngleGetterFeedbackL.fillAmount = 0;
+                noHingeAngleGetterFeedbackL.fillAmount = mNoHinge.Angle / 180;
                 noHingeAngleGetterFeedbackR.fillAmount = 0;
             }
             if (mNoHinge.Angle <= 0)
             {
                 noHingeAngleGetterFeedbackL.fillAmount = 0;
-                noHingeAngleGetterFeedbackR.fillAmount = mNoHinge.Angle;
+                noHingeAngleGetterFeedbackR.fillAmount = 0;
+                noHingeAngleGetterFeedbackR.fillAmount = mNoHinge.Angle / 180;
             }
             // Draw Head Yes Angle Feedback
             yesHingeAngleGetter.text = mYesHinge.Angle + " °";
             if (mYesHinge.Angle >= 0)
             {
-                yesHingeAngleGetterFeedbackT.fillAmount = mYesHinge.Angle;
+                yesHingeAngleGetterFeedbackT.fillAmount = 0;
+                yesHingeAngleGetterFeedbackT.fillAmount = mYesHinge.Angle / 140;
                 yesHingeAngleGetterFeedbackB.fillAmount = 0;
             }
             if (mNoHinge.Angle <= 0)
             {
                 yesHingeAngleGetterFeedbackT.fillAmount = 0;
-                yesHingeAngleGetterFeedbackB.fillAmount = mYesHinge.Angle;
+                yesHingeAngleGetterFeedbackB.fillAmount = 0;
+                yesHingeAngleGetterFeedbackB.fillAmount = mYesHinge.Angle / 140;
             }
 
             linearVelocity.text = Math.Round(linearVelocitySetter.value, 2) + " M/s";

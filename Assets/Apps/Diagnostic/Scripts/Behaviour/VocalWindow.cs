@@ -72,13 +72,14 @@ namespace BuddyApp.Diagnostic
         private AudioClip mAudioClip;
         private int mIPreviousMicroIndex = 0;
 
+        private int lprevious = Buddy.Sensors.Microphones.SoundLocalization;
+
         public void Update()
         {
             LocalizationText.text = Buddy.Sensors.Microphones.SoundLocalization + " °";
-            LocalizationRad.rectTransform.Rotate(0, 0, Buddy.Sensors.Microphones.SoundLocalization); 
+            LocalizationRad.rectTransform.Rotate(0, 0, Buddy.Sensors.Microphones.SoundLocalization - lprevious); 
             AmbiantSoundLevelText.text = Buddy.Sensors.Microphones.AmbiantSound + " db";
             AmbiantSoundLevelSlider.value = Buddy.Sensors.Microphones.AmbiantSound;
-
 
             if (mBIsPlaying) // Playing record
             {
