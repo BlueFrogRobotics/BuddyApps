@@ -91,38 +91,64 @@ namespace BuddyApp.Diagnostic
 			WindowType lType = (WindowType)iIndex;
 			if (mCurrentWindow != lType) {
 				mCurrentWindow = lType;
-				switch (mCurrentWindow) {
+                Rect lrect_Vocal = vocalBT.GetComponent<RectTransform>().rect;
+                lrect_Vocal.height = 100;
+                Rect lrect_Led = ledBT.GetComponent<RectTransform>().rect;
+                lrect_Led.height = 100;
+                Rect lrect_Motors = motorsBT.GetComponent<RectTransform>().rect;
+                lrect_Motors.height = 100;
+                Rect lrect_Face = faceBT.GetComponent<RectTransform>().rect;
+                lrect_Face.height = 100;
+                Rect lrect_Cameras = camerasBT.GetComponent<RectTransform>().rect;
+                lrect_Cameras.height = 100;
+                Rect lrect_Thermal = thermalBT.GetComponent<RectTransform>().rect;
+                lrect_Thermal.height = 100;
+                Rect lrect_Sensors = sensorsBT.GetComponent<RectTransform>().rect;
+                lrect_Sensors.height = 100;
+                Rect lrect_Connexion = connexionBT.GetComponent<RectTransform>().rect;
+                lrect_Connexion.height = 100;
+                Debug.Log("Vocal rect Before: " + lrect_Vocal);
+                switch (mCurrentWindow) {
 					case WindowType.VOCAL:
 						DisableAllExcept(vocalRoot);
                         vocalBT.color = BuddyBlue;
-						break;
+                        lrect_Vocal.height = 120;
+                        Debug.Log("Vocal rect After: " + lrect_Vocal);
+                        break;
 					case WindowType.LED:
 						DisableAllExcept(ledRoot);
                         ledBT.color = BuddyBlue;
+                        lrect_Led.height = 120;
                         break;
 					case WindowType.MOTORS:
 						DisableAllExcept(motorsRoot);
                         motorsBT.color = BuddyBlue;
+                        lrect_Motors.height = 120;
                         break;
 					case WindowType.FACE:
 						DisableAllExcept(faceRoot);
                         faceBT.color = BuddyBlue;
+                        lrect_Face.height = 120;
                         break;
 					case WindowType.CAMERAS:
 						DisableAllExcept(camerasRoot);
                         camerasBT.color = BuddyBlue;
+                        lrect_Cameras.height = 120;
                         break;
 					case WindowType.THERMAL:
 						DisableAllExcept(thermalRoot);
                         thermalBT.color = BuddyBlue;
+                        lrect_Thermal.height = 120;
                         break;
 					case WindowType.SENSORS:
 						DisableAllExcept(sensorsRoot);
                         sensorsBT.color = BuddyBlue;
+                        lrect_Sensors.height = 120;
                         break;
                     case WindowType.CONNEXION:
                         DisableAllExcept(connexionRoot);
                         connexionBT.color = BuddyBlue;
+                        lrect_Connexion.height = 120;
                         break;
                 }
 			}
@@ -135,7 +161,6 @@ namespace BuddyApp.Diagnostic
             foreach (Image lBT in mBTs)
                 lBT.color = White;
         }
-
 
 		public void Quit()
 		{

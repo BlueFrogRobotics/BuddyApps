@@ -17,6 +17,15 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Text AverageTemperature;
 
+        [SerializeField]
+        private Text mCPUTemperature;
+        [SerializeField]
+        private Text mHEADTemperature;
+        [SerializeField]
+        private Text mBODDYTemperature;
+        [SerializeField]
+        private Button mToggleFan;
+
         private int mNbPixel;
         private float mTimeRefresh;
         private float[] mThermalSensorDataArray;
@@ -34,7 +43,12 @@ namespace BuddyApp.Diagnostic
 
         private void Update()
         {
-            
+            // UPDATE HEAT INFORMATIONS / COMING SOON :) ...
+            //mCPUTemperature.text = Buddy.Sencors + " °";
+            //mHEADTemperature.text = Buddy.Sencors + " °";
+            //mBODDYTemperature.text = Buddy.Sencors + " °";
+
+
             mTimeRefresh += Time.deltaTime;
             if(mTimeRefresh >= 0.2F)
             {
@@ -51,8 +65,8 @@ namespace BuddyApp.Diagnostic
                 for (int i = 0; i < 64; ++i)
                     oAverageTemp += mThermalSensorDataArray[i];
 
-                AverageTemperature.text = (oAverageTemp / 64).ToString();
-                AmbiantTemperature.text = mThermalCamera.AmbiantTemperature.ToString();
+                AverageTemperature.text = "Average Temp:" + (oAverageTemp / 64).ToString() + " °";
+                AmbiantTemperature.text = "Ambiant Temp:" +  mThermalCamera.AmbiantTemperature + " °";
                 mTimeRefresh = 0F;
             }
         }

@@ -19,43 +19,27 @@ namespace BuddyApp.Diagnostic
         
         [SerializeField]
         private Text textH;
-        [SerializeField]
-        private Text textH2;
 
         [SerializeField]
         private Text textS;
-        [SerializeField]
-        private Text textS2;
 
         [SerializeField]
         private Text textV;
-        [SerializeField]
-        private Text textV2;
 
         [SerializeField]
         private Text textLowLevel;
-        [SerializeField]
-        private Text textLowLevel2;
 
         [SerializeField]
         private Text textOnDuration;
-        [SerializeField]
-        private Text textOnDuration2;
 
         [SerializeField]
         private Text textOffDuration;
-        [SerializeField]
-        private Text textOffDuration2;
 
         [SerializeField]
         private Text textUpSlope;
-        [SerializeField]
-        private Text textUpSlope2;
 
         [SerializeField]
         private Text textDownSlope;
-        [SerializeField]
-        private Text textDownSlope2;
 
 
 
@@ -275,56 +259,48 @@ namespace BuddyApp.Diagnostic
         private void OnChangeH()
         {
             textH.text = sliderH.value.ToString();
-            textH2.text = sliderH.value.ToString();
             SetColor();
         }
 
         private void OnChangeS()
         {
             textS.text = sliderS.value.ToString();
-            textS2.text = sliderS.value.ToString();
             SetColor();
         }
 
         private void OnChangeV()
         {
             textV.text = sliderV.value.ToString();
-            textV2.text = sliderV.value.ToString();
             SetColor();
         }
 
         private void OnChangeLowLevel()
         {
             textLowLevel.text = sliderLowLevel.value.ToString();
-            textLowLevel2.text = sliderLowLevel.value.ToString();
             SetColor();
         }
 
         private void OnChangeOnDuration()
         {
             textOnDuration.text = sliderOnDuration.value.ToString();
-            textOnDuration2.text = sliderOnDuration.value.ToString();
             SetColor();
         }
 
         private void OnChangeOffDuration()
         {
             textOffDuration.text = sliderOffDuration.value.ToString();
-            textOffDuration2.text = sliderOffDuration.value.ToString();
             SetColor();
         }
 
         private void OnChangeUpSlope()
         {
             textUpSlope.text = sliderUpSlope.value.ToString();
-            textUpSlope2.text = sliderUpSlope.value.ToString();
             SetColor();
         }
 
         private void OnChangeDownSlope()
         {
             textDownSlope.text = sliderDownSlope.value.ToString();
-            textDownSlope2.text = sliderDownSlope.value.ToString();
             SetColor();
         }
         

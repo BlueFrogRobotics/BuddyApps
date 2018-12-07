@@ -22,8 +22,15 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Text yesHingeAngleGetter;
         [SerializeField]
+        private Image yesHingeAngleGetterFeedbackT;
+        [SerializeField]
+        private Image yesHingeAngleGetterFeedbackB;
+        [SerializeField]
         private Text noHingeAngleGetter;
-
+        [SerializeField]
+        private Image noHingeAngleGetterFeedbackL;
+        [SerializeField]
+        private Image noHingeAngleGetterFeedbackR;
 
         /// <summary>
         /// Parameters for setwheelspeed
@@ -31,13 +38,9 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Text linearVelocity;
         [SerializeField]
-        private Text linearVelocity2;
-        [SerializeField]
         private Slider linearVelocitySetter;
         [SerializeField]
         private Text angularVelocity;
-        [SerializeField]
-        private Text angularVelocity2;
         [SerializeField]
         private Slider angularVelocitySetter;
 
@@ -45,23 +48,17 @@ namespace BuddyApp.Diagnostic
         /// Old MoveDistance
         /// </summary>
         [SerializeField]
-        private Text distanceBack;
-        [SerializeField]
-        private Text distanceBack2;
+        private Text distance;
         [SerializeField]
         private Slider distanceSetter;
         [SerializeField]
         private Text AngularVelocityWheelsText;
-        [SerializeField]
-        private Text AngularVelocityWheelsText2;
         [SerializeField]
         private Slider AngularVelocityWheelsSetter;
 
 
         [SerializeField]
         private Text angleBack;
-        [SerializeField]
-        private Text angleBack2;
         [SerializeField]
         private Slider anglePosSetter;
 
@@ -84,15 +81,9 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Text yesAngleBack;
         [SerializeField]
-        private Text yesAngleBack2;
-        [SerializeField]
         private Text noAngleBack;
         [SerializeField]
-        private Text noAngleBack2;
-        [SerializeField]
         private Text hingeSpeedBack;
-        [SerializeField]
-        private Text hingeSpeedBack2;
 
         [SerializeField]
         private Text toleranceBack;
@@ -155,30 +146,44 @@ namespace BuddyApp.Diagnostic
             positionGetter.text = "" + mWheels.Odometry;
             leftSpeedGetter.text = "" + mWheels.LeftRotationalSpeed;
             rightSpeedGetter.text = "" + mWheels.RightRotationalSpeed;
+            // Draw Head No Angle Feedback
             noHingeAngleGetter.text = mNoHinge.Angle + " °";
+            if(mNoHinge.Angle >= 0) {
+                noHingeAngleGetterFeedbackL.fillAmount =  mNoHinge.Angle;
+                noHingeAngleGetterFeedbackR.fillAmount = 0;
+            }
+            if (mNoHinge.Angle <= 0)
+            {
+                noHingeAngleGetterFeedbackL.fillAmount = 0;
+                noHingeAngleGetterFeedbackR.fillAmount = mNoHinge.Angle;
+            }
+            // Draw Head Yes Angle Feedback
             yesHingeAngleGetter.text = mYesHinge.Angle + " °";
+            if (mYesHinge.Angle >= 0)
+            {
+                yesHingeAngleGetterFeedbackT.fillAmount = mYesHinge.Angle;
+                yesHingeAngleGetterFeedbackB.fillAmount = 0;
+            }
+            if (mNoHinge.Angle <= 0)
+            {
+                yesHingeAngleGetterFeedbackT.fillAmount = 0;
+                yesHingeAngleGetterFeedbackB.fillAmount = mYesHinge.Angle;
+            }
 
             linearVelocity.text = Math.Round(linearVelocitySetter.value, 2) + " M/s";
-            linearVelocity2.text = Math.Round(linearVelocitySetter.value, 2) + " M/s";
 
             angularVelocity.text = "" + angularVelocitySetter.value;
 
-            distanceBack.text = Math.Round(distanceSetter.value, 2) + " M";
-            distanceBack2.text = Math.Round(distanceSetter.value, 2) + " M";
+            distance.text = Math.Round(distanceSetter.value, 2) + " M";
 
-            AngularVelocityWheelsText.text = AngularVelocityWheelsSetter.value + " M/s";
-            AngularVelocityWheelsText2.text = AngularVelocityWheelsSetter.value + " M/s";
+            AngularVelocityWheelsText.text = AngularVelocityWheelsSetter.value + " °/s";
 
             angleBack.text = anglePosSetter.value + " °";
-            angleBack2.text = anglePosSetter.value + " °";
             //toleranceBack.text = "Tol : " + toleranceSetter.value;
 
             noAngleBack.text = noHingeAngleSetter.value + " °";
-            noAngleBack2.text = noHingeAngleSetter.value + " °";
             yesAngleBack.text = yesHingeAngleSetter.value + " °";
-            yesAngleBack2.text = yesHingeAngleSetter.value + " °";
             hingeSpeedBack.text = "" + hingeSpeedSetter.value;
-            hingeSpeedBack2.text = "" + hingeSpeedSetter.value;
         }
 
         public void SetWheelsSpeed()
