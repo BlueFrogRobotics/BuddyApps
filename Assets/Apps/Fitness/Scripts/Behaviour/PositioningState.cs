@@ -42,14 +42,10 @@ namespace BuddyApp.Fitness
 
 			mSkeletonList = new List<SkeletonJoint[]>();
 
-			// Setting of the detection, depending of what object the user want to detect
+			// Skeleton detection doesn't open the camera by default
+			Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320x240_30FPS_RGB);
+			Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetectPos);
 
-			if ((Buddy.Perception.SkeletonDetector.OnDetect.Count == 0)) {
-				// Skeleton detection doesn't open the camera by default
-				Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320x240_30FPS_RGB);
-				Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetect);
-
-			}
 			// Initialize texture.
 			mCamView = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
 			// Setting of the callback to use camera data
@@ -61,8 +57,8 @@ namespace BuddyApp.Fitness
 			Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
 			lHeaderFont.material.color = Color.black;
 			Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
-			Buddy.GUI.Header.DisplayLightTitle("Position yourself in front of me");
-
+			Buddy.GUI.Header.DisplayLightTitle("position");
+			Buddy.Vocal.SayKey("position");
 		}
 
 		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -85,7 +81,8 @@ namespace BuddyApp.Fitness
 			mSkeletonList.Clear();
 			Buddy.GUI.Header.HideTitle();
 			Buddy.GUI.Toaster.Hide();
-			Buddy.Perception.SkeletonDetector.OnDetect.RemoveP(OnSkeletonDetect);
+			Buddy.Sensors.RGBCamera.Close();
+			Buddy.Perception.SkeletonDetector.OnDetect.Clear();
 		}
 
 		//  -----CALLBACK------  //
@@ -236,7 +233,7 @@ namespace BuddyApp.Fitness
 		/*
 		*   On a skeleton detection this function is called.
 		*/
-		private bool OnSkeletonDetect(SkeletonEntity[] iSkeleton)
+		private bool OnSkeletonDetectPos(SkeletonEntity[] iSkeleton)
 		{
 			if (mDetectTimeStamp == -1F) {
 				// TODO, say that Buddy detect skeleton

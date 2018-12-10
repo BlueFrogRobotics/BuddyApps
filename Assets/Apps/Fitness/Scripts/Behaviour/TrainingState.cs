@@ -11,6 +11,7 @@ namespace BuddyApp.Fitness
 		private SlideSet mSlider;
 		private int mCurrentIndex;
 		private float mSliderTime;
+		private bool mQuit;
 
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -20,18 +21,20 @@ namespace BuddyApp.Fitness
 
 			mSliderTime = 0.0F;
 			mCurrentIndex = 0;
+			mQuit = false;
 
-			if ((Buddy.Perception.SkeletonDetector.OnDetect.Count == 0)) {
-				// Skeleton detection doesn't open the camera by default
-				Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320x240_30FPS_RGB);
-				Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetect);
-
-			}
+			Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetect);
 
 			Buddy.GUI.Screen.OnTouch.Add(OnStopListening);
 
 			mSlider = Buddy.GUI.Toaster.DisplaySlide();
 
+			while (mSlider.Count != 0) {
+				Debug.LogError("training RemovingSlide!");
+				mSlider.RemoveSlide(0);
+			}
+
+			Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + "a");
 			/// Initializing slider with image sorted
 			mSlider.AddFirstDisplayedSlide<PictureToast>().With(Buddy.Resources.Get<Sprite>(FitnessData.Instance.Exercise + "a"));
 			mSlider.AddSlide<PictureToast>().With(Buddy.Resources.Get<Sprite>(FitnessData.Instance.Exercise + "b"));
@@ -41,13 +44,14 @@ namespace BuddyApp.Fitness
 
 
 		/*
-				*   On a skeleton detection this function is called.
-				*   mSkeletonDetectEnable: Enable or disable the code when WINDOWS is true.
-				*   Because the removeP function is in WIP on windows, we juste disable the code, for now.
-				*/
+		 *   On a skeleton detection this function is called.
+		 *   mSkeletonDetectEnable: Enable or disable the code when WINDOWS is true.
+		 *   Because the removeP function is in WIP on windows, we juste disable the code, for now.
+		 */
 		private bool OnSkeletonDetect(SkeletonEntity[] iSkeleton)
 		{
 			// We add each skeleton to a list, to display them later in OnNewFrame
+			if(!mQuit)
 			foreach (SkeletonEntity lSkeleton in iSkeleton) {
 				// Look if one of the user is in correct position
 
@@ -57,8 +61,6 @@ namespace BuddyApp.Fitness
 					NextSlide();
 				}
 			}
-
-
 			return true;
 		}
 
@@ -77,17 +79,7 @@ namespace BuddyApp.Fitness
 				if (lNameToJoint.ContainsKey(SkeletonJointType.RIGHT_ELBOW) && lNameToJoint.ContainsKey(SkeletonJointType.LEFT_ELBOW) && lNameToJoint.ContainsKey(SkeletonJointType.RIGHT_WRIST) &&
 					lNameToJoint.ContainsKey(SkeletonJointType.LEFT_WRIST)) {
 
-					Debug.Log("lNameToJoint[SkeletonJointType.RIGHT_WRIST].WorldPosition.y " + lNameToJoint[SkeletonJointType.RIGHT_WRIST].WorldPosition.y);
-					Debug.Log("lNameToJoint[SkeletonJointType.RIGHT_ELBOW].WorldPosition.y " + lNameToJoint[SkeletonJointType.RIGHT_ELBOW].WorldPosition.y);
-					Debug.Log("lNameToJoint[SkeletonJointType.RIGHT_WRIST].WorldPosition.y " + lNameToJoint[SkeletonJointType.LEFT_WRIST].WorldPosition.y);
-					Debug.Log("lNameToJoint[SkeletonJointType.RIGHT_ELBOW].WorldPosition.y " + lNameToJoint[SkeletonJointType.LEFT_ELBOW].WorldPosition.y);
-
-					Debug.Log("---- right ok ? " + Math.Abs(lNameToJoint[SkeletonJointType.RIGHT_ELBOW].WorldPosition.y - lNameToJoint[SkeletonJointType.RIGHT_WRIST].WorldPosition.y));
-					Debug.Log("++ ok ? " + (lNameToJoint[SkeletonJointType.RIGHT_WRIST].WorldPosition.y - lNameToJoint[SkeletonJointType.RIGHT_ELBOW].WorldPosition.y));
-
-
 					if (mCurrentIndex == 1) {
-						Debug.LogError("CurrentIndex 1 and ");
 						// if right arm above elbow + 20cm
 						if (lNameToJoint[SkeletonJointType.RIGHT_WRIST].WorldPosition.y - lNameToJoint[SkeletonJointType.RIGHT_ELBOW].WorldPosition.y > 200F)
 							// if left arm above elbow
@@ -98,26 +90,17 @@ namespace BuddyApp.Fitness
 					} else if (Math.Abs(lNameToJoint[SkeletonJointType.RIGHT_ELBOW].WorldPosition.y - lNameToJoint[SkeletonJointType.RIGHT_WRIST].WorldPosition.y) < 90F) {
 						// if left arm above elbow
 
-						Debug.Log("CurrentIndex not 1 and right ok " + Math.Abs(lNameToJoint[SkeletonJointType.RIGHT_ELBOW].WorldPosition.y - lNameToJoint[SkeletonJointType.RIGHT_WRIST].WorldPosition.y));
 
 						if (Math.Abs(lNameToJoint[SkeletonJointType.LEFT_ELBOW].WorldPosition.y - lNameToJoint[SkeletonJointType.LEFT_WRIST].WorldPosition.y) < 90F) {
-
-							Debug.Log("CurrentIndex not 1 and left ok " + Math.Abs(lNameToJoint[SkeletonJointType.LEFT_ELBOW].WorldPosition.y - lNameToJoint[SkeletonJointType.LEFT_WRIST].WorldPosition.y));
 							return true;
 						}
 					}
 				}
-
-
 				return false;
-
-
 			} else {
 				// TODO
 				return true;
 			}
-
-
 		}
 
 
@@ -133,7 +116,8 @@ namespace BuddyApp.Fitness
 		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On State Exit...");
-			Buddy.GUI.Toaster.Hide();
+			Buddy.GUI.Screen.OnTouch.Remove(OnStopListening);
+			Buddy.Perception.SkeletonDetector.OnDetect.Clear();
 		}
 
 		private void OnEndListening(SpeechInput iSpeechInput)
@@ -152,11 +136,13 @@ namespace BuddyApp.Fitness
 		{
 			Debug.Log("NextSlide!!!");
 			// Last photo
+			if(!mQuit)
 			if (mSlider.CurrentIndex + 1 == mSlider.Count) {
+				mQuit = true;
 				Debug.Log("finished!!!");
+				Buddy.Vocal.SayKey("welldone");
 				Buddy.GUI.Toaster.Hide();
 				Buddy.Behaviour.SetMood(Mood.HAPPY);
-				// TODO CONGRATS! Finished!!
 				Trigger("MENU");
 
 			} else {

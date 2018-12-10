@@ -42,6 +42,9 @@ namespace BuddyApp.Fitness
         public override void OnQuit()
         {
             ExtLog.I(ExtLogModule.APP, typeof(FitnessActivity), LogStatus.START, LogInfo.STOPPING, "On quit...");
-        }
+			Buddy.GUI.Toaster.Hide();
+			Buddy.Sensors.RGBCamera.Close();
+			Buddy.Perception.SkeletonDetector.OnDetect.Clear();
+		}
     }
 }

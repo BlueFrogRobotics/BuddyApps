@@ -26,19 +26,27 @@ namespace BuddyApp.Fitness
 			mFTimeListening = F_MAX_TIME_LISTENING;
 
 			// New listening events
-			Buddy.Vocal.OnEndListening.Add(OnEndListening);
-			Buddy.GUI.Screen.OnTouch.Add(OnStopListening);
+			//Buddy.Vocal.OnEndListening.Add(OnEndListening);
+			//Buddy.GUI.Screen.OnTouch.Add(OnStopListening);
 			Buddy.Vocal.OnEndSpeaking.Add(OnEndSpeaking);
 
-			mSliderTime = 0.0F;
+			mSliderTime = -3.0F;
 			mCurrentIndex = 0;
+			Buddy.Vocal.SayKey("tuto");
+			Buddy.Vocal.Say("[400]");
 			Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + "a");
 
 
 			mSlider = Buddy.GUI.Toaster.DisplaySlide();
 
+
+			while (mSlider.Count != 0) {
+				Debug.LogError("tuto RemovingSlide!");
+				mSlider.RemoveSlide(0);
+			}
+
 			/// Initializing slider with image sorted
-			
+
 			mSlider.AddFirstDisplayedSlide<PictureToast>().With(Buddy.Resources.Get<Sprite>(FitnessData.Instance.Exercise + "a"));
 			mSlider.AddSlide<PictureToast>().With(Buddy.Resources.Get<Sprite>(FitnessData.Instance.Exercise + "b"));
 			mSlider.AddSlide<PictureToast>().With(Buddy.Resources.Get<Sprite>(FitnessData.Instance.Exercise + "c"));
@@ -51,8 +59,8 @@ namespace BuddyApp.Fitness
 
 			mSliderTime += Time.deltaTime;
 
-			// Go to next slide after 10 seconds
-			if (mSliderTime > 10F)
+			// Go to next slide after 6 seconds
+			if (mSliderTime > 5F)
 				NextSlide();
 
 			if (Buddy.Vocal.IsListening) {
@@ -64,7 +72,7 @@ namespace BuddyApp.Fitness
 		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On State Exit...");
-			Buddy.Vocal.OnEndListening.Clear();
+			//Buddy.Vocal.OnEndListening.Clear();
 			Buddy.GUI.Screen.OnTouch.Remove(OnStopListening);
 			Buddy.Vocal.OnEndSpeaking.Clear();
 			Buddy.GUI.Toaster.Hide();
@@ -73,8 +81,8 @@ namespace BuddyApp.Fitness
 		private void OnEndSpeaking(SpeechOutput iSpeechOutput)
 		{
 			// We listen if timeout is not reached yet
-			if (0.0F <= mFTimeListening)
-				Buddy.Vocal.Listen();
+			///if (0.0F <= mFTimeListening)
+				//Buddy.Vocal.Listen();
 		}
 
 		private void OnEndListening(SpeechInput iSpeechInput)
@@ -111,9 +119,9 @@ namespace BuddyApp.Fitness
 				return;
 			}
 
-			if (0.0F <= mFTimeListening) {
-				Buddy.Vocal.Listen();
-			}
+			//if (0.0F <= mFTimeListening) {
+				//Buddy.Vocal.Listen();
+			//}
 		}
 
 		private void NextSlide()
